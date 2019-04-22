@@ -1,0 +1,50 @@
+.MCU .MatcHeader{
+	
+		
+}
+
+
+.MCUChip{
+	display: inline-block;
+	padding: 3px 10px;
+	
+	background:#56A9FC;
+	border-radius:30px;
+	color:#fff;
+	transition: all 0.25s;
+	text-align: left;
+	font-size: 14px;
+	font-weight: 300;
+}
+
+.MCUChipHint{
+	margin-left: 10px;
+}
+
+.MCUUser, .MCUApp{
+	font-size: 16px;
+	position: relative;
+}
+
+.MCUUserCurrent .MatcCommentPic .MatcUserImageNone {
+	background: orange;	
+}
+
+.MCUApp .MatcCommentText{
+	height: 60px;
+}
+
+.MatcBatch{
+	background: rgba(0, 153, 204, 1);
+	color : #fff;
+	padding: 3px 10px;
+	border-radius:15px;
+	margin-left: 5px;
+	font-size: 10px;
+}
+
+.MatcUserRolestaff .MatcStaffHidden{
+	display:none;
+}
+
+

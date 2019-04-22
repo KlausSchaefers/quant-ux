@@ -1,0 +1,40 @@
+[
+ {
+		"id" : "FioriRadioBox",
+		 "type" : "RadioBox2",
+		 "name" : "Radio Box",
+		 "category" : "OpenUI",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 16,
+	     "h" : 16,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : true
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+ 	        "data" : true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 200,
+	         "borderTopLeftRadius" : 200,
+	         "borderBottomRightRadius" : 200,
+	         "borderBottomLeftRadius" : 200,
+	         "borderTopWidth" : 2,
+	         "borderBottomWidth" : 2,
+	         "borderRightWidth" : 2,
+	         "borderLeftWidth" : 2,
+	         "borderTopColor" : "#bfbfbf",
+	         "borderBottomColor" : "#bfbfbf",
+	         "borderRightColor" : "#bfbfbf",
+	         "borderLeftColor" : "#bfbfbf",
+	         "background" : "#ffffff",
+	         "color" : "#346187",
+	         "colorButton" : "#346187"
+	     }
+	}
+]

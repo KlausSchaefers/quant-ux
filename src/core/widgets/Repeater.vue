@@ -1,0 +1,369 @@
+
+<template>
+  <div :class="['MatcWidgetTypeRepeater', {'MatcWidgetTypeRepeaterHasBorder': hasBorder}, {'MatcWidgetTypeRepeaterGridSpaceBetween': hasSpaceBetween}]">
+
+  </div>
+</template>
+<script>
+import DojoWidget from "dojo/DojoWidget";
+import UIWidget from "core/widgets/UIWidget";
+import DomBuilder from 'common/DomBuilder'
+import Core from 'core/Core'
+import lang from 'dojo/_base/lang'
+
+export default {
+  name: "Repeater",
+  mixins: [UIWidget, DojoWidget],
+  data: function() {
+    return {
+        model: {
+            props:{}
+        },
+        hasXOverFlow: false
+    };
+  },
+  computed: {
+      hasSpaceBetween () {
+          return this.model.props.auto
+      },
+      hasBorder () {
+          if (this.model && this.model.style) {
+              let s = this.model.style
+              return s.borderTopWidth > 0 || s.borderBottomWidth > 0 || s.borderRightWidth > 0 || s.borderLeftWidth > 0
+          }
+          return false
+      }
+  },
+  methods: {
+
+    setSymbol (s) {
+        this.isSymbol = s
+    },
+
+    setZoomedModel (m) {
+        this.app = m;
+    },
+
+    postCreate () {
+      this._borderNodes = [this.domNode];
+      this._backgroundNodes = [this.domNode];
+      this._shadowNodes = [this.domNode];
+    },
+
+    wireEvents () {
+      //this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
+      //this.own(topic.subscribe(this.topic, lang.hitch(this, "onOtherChecked")));
+    },
+
+    getHandlers () {
+        // do not show if auto!
+        if (this.boundingBox) {
+            let handlers =  []
+            handlers.push({
+                y: this.boundingBox.h + this.distanceY,
+                distanceY: this.distanceY,
+                distanceX: this.distanceX,
+                x: -10,
+                hasY: true,
+                hasX: false,
+                icon: 'MatcCutsomerHandlerY',
+                cursor: 'MatchResizeNorth',
+                id: 'DistanceY'
+            })
+            if (this.model.props.layout !== 'rows') {
+                handlers.push({
+                    y: -10,
+                    distanceY: this.distanceY,
+                    distanceX: this.distanceX,
+                    x: this.boundingBox.w + this.distanceX,
+                    hasY: true,
+                    hasX: false,
+                    icon: 'MatcCutsomerHandlerX',
+                    cursor: 'MatchResizeWest',
+                    id: 'DistanceX'
+                })
+            }
+            return handlers
+        }
+    },
+
+    onHandlerChange (change) {
+        if (this.boundingBox) {
+            if (change.id === 'DistanceY') {
+                this.model.props.distanceY = (change.distanceY + change.difY) / this._scaleY
+                this.model.props.auto = false
+                requestAnimationFrame( () => {
+                    this.render(this.model, this.style, this._scaleX, this._scaleY)
+                })
+                return {
+                      y: this.boundingBox.h + change.distanceY + change.difY,
+                      x: -10
+                }
+            }
+
+            if (change.id === 'DistanceX') {
+                this.model.props.distanceX = (change.distanceX + change.difX) / this._scaleX
+                this.model.props.auto = false
+                requestAnimationFrame( () => {
+                    this.render(this.model, this.style, this._scaleX, this._scaleY)
+                })
+                return {
+                      x: this.boundingBox.w + change.distanceX + change.difX,
+                      y: -10
+                }
+            }
+        }
+    },
+
+    getHandlerCommand (change, handler) {
+        if (this.boundingBox) {
+            if (change.id === 'DistanceY') {
+                this.model.props.distanceY = (change.distanceY + change.difY) / this._scaleY
+                this.model.props.auto = false
+                // also update the handler state, in case we click again..!
+                handler.distanceY =  this.distanceY
+                return {
+                    change:{
+                        distanceY: Math.floor((change.distanceY + change.difY) / this._scaleY),
+                        auto: false
+                    },
+                    type: 'props'
+                }
+            }
+            if (change.id === 'DistanceX') {
+                 this.model.props.distanceX = (change.distanceX + change.difX) / this._scaleX
+                this.model.props.auto = false
+                // also update the handler state, in case we click again..!
+                handler.distanceX =  this.distanceX
+                return {
+                    change:{
+                        distanceX: Math.floor((change.distanceX + change.difX) / this._scaleX),
+                        auto: false
+                    },
+                    type: 'props'
+                }
+            }
+        }
+    },
+
+    getChildren() {
+       return this._childWidgets
+    },
+
+    update (widget) {
+        this.render(widget, this.style, this._scaleX, this._scaleY)
+    },
+
+    render (widget, style, scaleX, scaleY) {
+      this.model = widget;
+      /**
+       * Property changes will not send children.
+       * FIXME: in BaseController.setWidget also add children?
+       */
+      if (widget.children) {
+        this.children = widget.children
+      } else {
+          widget.children = this.children
+      }
+
+      this.style = style;
+      this._scaleX = scaleX;
+      this._scaleY = scaleY;
+      this.setStyle(style, widget);
+
+      this.domNode.innerHTML = ""
+      this._childWidgets = []
+      let db = new DomBuilder()
+
+      if (!this.isSymbol && this.app && widget.children && widget.children.length > 0) {
+        let core = new Core()
+        core.model = this.app
+        let boundingBox = core.getBoundingBox(widget.children)
+        let offsetTop = boundingBox.y - widget.y - widget.style.borderTopWidth * scaleX
+        let offsetLeft = boundingBox.x - widget.x - widget.style.borderLeftWidth * scaleX
+
+        let cntrBox = {
+            x: boundingBox.x,
+            y: boundingBox.y,
+            w: offsetLeft + boundingBox.w,
+            h: offsetTop + boundingBox.h
+        }
+
+        if (widget.props.layout === 'rows') {
+            cntrBox.w = widget.w
+        }
+
+        let rows = this.getRows(widget, cntrBox)
+        let distanceY = this.getDistanceY(widget, rows, cntrBox)
+        let columns = this.getColumns(widget, cntrBox)
+        let distanceX = this.getDistanceX(widget, columns, cntrBox)
+        // console.debug('Repeater.render(Y) h:', widget.h,  ' > bb: ', cntrBox.h, ' > r ', rows, ' > dis ', distanceY, "=", cntrBox.h * rows + (rows-1) * distanceY)
+        // console.debug('Repeater.render(X)', widget.id, widget.w, cntrBox.w, columns, distanceX, "=", cntrBox.w * columns + (columns-1) * distanceX)
+
+
+        let cntrDiv = db.div('MatcWidgetTypeRepeaterGrid ' + widget.props.layout).build()
+
+        if (widget.props.layout !== 'rows') {
+            let cntrWith = (columns * cntrBox.w  + (columns-1) * distanceX)
+            cntrDiv.style.width = cntrWith + 'px'
+            this.hasXOverFlow = cntrWith > widget.w
+        }
+
+        let childWidgets = this.getChildWidgets(widget)
+        let count = rows * columns
+
+        for (let i = 0; i < count; i++) {
+               let marginRight = distanceX
+               if (i % columns === columns -1) {
+                   marginRight = 0;
+               }
+               let marginBottom = distanceY
+               if (i % rows === rows -1) {
+                   marginBottom = 0;
+               }
+               let cellDiv = db.div('MatcWidgetTypeRepeaterElement')
+                    .w(cntrBox.w).h(cntrBox.h)
+                    .marginBottom(marginBottom).marginRight(marginRight)
+                    .build(cntrDiv)
+
+                if (this.isSimulator || i > 0) {
+                    childWidgets.forEach(childWidget => {
+                        let copy = lang.clone(childWidget)
+                        copy.inherited = childWidget.id
+                        copy.id = childWidget.id + '-' + i
+                        this.addDataBinding(i, copy, widget)
+                        let top = (childWidget.y - cntrBox.y) + offsetTop
+                        let left = (childWidget.x - cntrBox.x) + offsetLeft
+
+                        let div = db.div('MatcWidget')
+                            .w(childWidget.w).h(childWidget.h)
+                            .top(top).left(left)
+                            .build(cellDiv)
+
+                        this._childWidgets.push({
+                            parent: childWidget.id,
+                            widget: copy,
+                            div: div
+                        })
+
+                        this.factory.createWidgetHTML(div, copy);
+                    })
+                }
+        }
+        this.domNode.appendChild(cntrDiv)
+        this.boundingBox = cntrBox
+        this.distanceY = distanceY
+        this.distanceX = distanceX
+      } else {
+        db.div('MatcWidgetTypeRepeaterHint', 'Place widgets above').build(this.domNode)
+      }
+    },
+
+    addDataBinding (i, child, widget) {
+        if (widget.props.data && child.props.databinding && child.props.databinding.default){
+            let header = widget.props.data[0]
+            let row = widget.props.data[i + 1]
+            let colName = child.props.databinding.default
+            let col = header.indexOf(colName)
+            let value = row[col]
+            if (value != undefined) {
+                let label = child.props.label
+                if (label.indexOf("{0}") >= 0) {
+                    label = label.replace("{0}", value);
+                } else {
+                    label = value
+                }
+                child.props.label = label
+            }
+
+        }
+    },
+
+    getChildWidgets (container) {
+        return container.children.map(id => {
+            let childWidget = this.app.widgets[id];
+            if (childWidget){
+                return childWidget
+            }
+        })
+    },
+
+    getDistanceY (widget, rows, cntrBox) {
+        let distance = widget.props.distanceY
+        distance = Math.round(distance * this._scaleY)
+        if (widget.props.distanceY < 0 || widget.props.auto) {
+            let rest = widget.h - (rows * cntrBox.h)
+            distance = Math.max(0, ( rest / Math.max(1,(rows - 1)))) // Math.floor gives some times spaces
+        }
+        return distance
+    },
+
+    getDistanceX (widget, columns, cntrBox) {
+        let distance = widget.props.distanceX
+        distance = Math.round(distance * this._scaleX)
+        if (widget.props.distanceX < 0 || widget.props.auto) {
+            let rest = widget.w - (columns * cntrBox.w)
+            distance = Math.max(0,( rest / Math.max(1,(columns - 1))))
+        }
+        return distance
+    },
+
+
+    getColumns (widget, cntrBox) {
+        if (widget.props.layout === 'rows') {
+            return 1;
+        }
+        let columns = widget.props.columns
+
+        if (!columns || columns <= 0 || widget.props.auto) {
+            let w = cntrBox.w
+            if (widget.props.distanceX > 0 && !widget.props.auto) {
+                let distance = Math.round(widget.props.distanceX * this._scaleX)
+                columns = Math.ceil((widget.w - distance) / (w + distance))
+            } else {
+                columns = Math.floor(widget.w / w)
+            }
+        }
+        // console.debug('Repeater.columns', columns)
+        return columns
+    },
+
+    getRows (widget, cntrBox) {
+        let rows = widget.props.rows
+        if (!rows || rows <= 0 || widget.props.auto) {
+
+            let h = cntrBox.h
+            /**
+             * This takes too the distance on the last element into account!
+             * widget.h = rows * h + (rows - 1) * distanceY
+             * widget.h = rows * h + rows * distanceY - distanceY
+             * widget.h - distanceY = rows * h + rows * distanceY
+             * widget.h - distanceY = rows * (h + distanceY)
+             * (widget.h - distanceY) / (h + distanceY) = rows
+             */
+            if (widget.props.distanceY > 0 && !widget.props.auto) {
+                let distance = Math.round(widget.props.distanceY * this._scaleY)
+                rows = Math.ceil((widget.h - distance) / (h + distance))
+            } else {
+                rows = Math.floor(widget.h / h)
+            }
+        }
+        if (!this.isSimulator){
+            rows = Math.min(rows,  Math.ceil(widget.h / cntrBox.h))
+        }
+        return rows
+    },
+
+    getValue () {},
+
+    setValue () {},
+
+    getState () {
+      return {};
+    },
+
+    setState () {}
+  },
+  mounted() {}
+};
+</script>

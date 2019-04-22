@@ -1,0 +1,89 @@
+[ {
+	"id" : "PieChart",
+	"type" : "PieChart",
+	"name" : "Pie Chart",
+	"_type" : "Widget",
+	"category" : "Charts",
+	"subcategory" : "Pie",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 200,
+	"z" : 0,
+	"props" : {
+		"data" : [[20, 40, 40]]
+	},
+	"has" : {
+		
+	},
+	"style" : {
+		"background0" : "#333333",
+		"background1" : "#999999",
+		"background2" : "#d9d9d9",
+		"background3" : "#fefefe"
+	}
+},
+{
+	"id" : "PieChart2",
+	"type" : "PieChart",
+	"name" : "Pie Chart",
+	"_type" : "Widget",
+	"category" : "Charts",
+	"_extends" : "PieChart",
+	"subcategory" : "Pie",
+	"props" : {
+		"data" : [[20, 40]]
+	}
+},
+{
+	"id" : "MultiRingChart",
+	"type" : "MultiRingChart",
+	"name" : "Multi Ring Chart",
+	"_type" : "Widget",
+	"category" : "Charts",
+	"subcategory" : "Ring",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 200,
+	"z" : 0,
+	"props" : {
+		"data" : [[20, 40, 40]]
+	},
+	"has" : {
+		
+	},
+	"style" : {
+		"background0" : "#333333",
+		"background1" : "#999999",
+		"background2" : "#d9d9d9",
+		"background3" : "#fefefe",
+		"lineWidth" : 30
+	}
+},
+
+{
+	"id" : "MultiRingChart2",
+	"type" : "MultiRingChart",
+	"name" : "Multi Ring Chart",
+	"_type" : "Widget",
+	"category" : "Charts",
+	"_extends" : "MultiRingChart",
+	"subcategory" : "Ring",
+	"style" : {
+		"lineWidth" : 20
+	}
+},
+{
+	"id" : "MultiRingChart3",
+	"type" : "MultiRingChart",
+	"name" : "Multi Ring Chart",
+	"_type" : "Widget",
+	"category" : "Charts",
+	"_extends" : "MultiRingChart",
+	"subcategory" : "Ring",
+	"style" : {
+		"lineWidth" : 10
+	}
+}
+]

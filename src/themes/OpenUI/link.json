@@ -1,0 +1,70 @@
+[ {
+	"id" : "FioriLink",
+	"type" : "Button",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "FormLink",
+	"name" : "Link",
+	"x" : 0,
+	"y" : 0,
+	"w" : 100,
+	"h" : 24,
+	"z" : 0,
+	"props" : {
+		"label" : "Link"
+	},
+	"has" : {
+		"onclick" : true,
+		"label" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "left",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"color" : "#0070b1",
+		"textDecoration" : "none",
+		"background" : "transparent",
+		"paddingTop" : 0,
+		"paddingBottom" : 0,
+		"paddingLeft" : 0,
+		"paddingRight" : 0,
+		"verticalAlign" : "middle"
+	},
+	"hover" : {
+		"textDecoration" : "underline"
+	}
+}, {
+	"id" : "FioriLinkPassive",
+	"type" : "Button",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "FormLink",
+	"name" : "Link Passive",
+	"x" : 0,
+	"y" : 0,
+	"w" : 100,
+	"h" : 24,
+	"z" : 0,
+	"props" : {
+		"label" : "Link"
+	},
+	"has" : {
+		"onclick" : true,
+		"label" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "center",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"color" : "#0070b1",
+		"textDecoration" : "none",
+		"background" : "transparent",
+		"valign": "middle"
+	}
+}
+
+]

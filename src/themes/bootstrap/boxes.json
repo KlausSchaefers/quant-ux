@@ -1,0 +1,73 @@
+[ {
+	"id" : "BootstrapCalloutBox",
+	"type" : "Box",
+	"category" : "Bootstrap",
+	"subcategory" : "XBoxes",
+	"_type" : "Widget",
+	"name" : "Callout Info",
+	"x" : 0,
+	"y" : 0,
+    "w" : "$75%",
+	"h" : 200,
+	"z" : 0,
+	"props" : {},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 3,
+		"borderTopLeftRadius" : 3,
+		"borderBottomRightRadius" : 3,
+		"borderBottomLeftRadius" : 3,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 5,
+		"borderTopColor" : "#eeeeee",
+		"borderBottomColor" : "#eeeeee",
+		"borderRightColor" : "#eeeeee",
+		"borderLeftColor" : "#1b809e",
+		"background" : "#ffffff"
+	}
+	}, {
+		"id" : "BootstrapCalloutBoxWarning",
+		"type" : "Box",
+		"category" : "Bootstrap",
+		"subcategory" : "XBoxes",
+		"_extends" : "BootstrapCalloutBox",
+		"_type" : "Widget",
+		"name" : "Callout Warning",
+		"style" : {
+			"borderLeftColor" : "#aa6708"
+		}
+	},
+	{
+		"id" : "BootstrapNavBar",
+		"type" : "Box",
+		"category" : "Bootstrap",
+		"subcategory" : "XBoxes",
+		"_extends" : "BootstrapCalloutBox",
+		"_type" : "Widget",
+		"name" : "Navbar",
+		"w" : "$75%",
+		"h" : 50,
+		"style" : {
+			 "borderTopRightRadius" : 6,
+		     "borderTopLeftRadius" : 6,
+		     "borderBottomRightRadius" : 6,
+		     "borderBottomLeftRadius" : 6,
+		     "borderTopWidth" : 1,
+		     "borderBottomWidth": 1,
+		     "borderRightWidth" : 1,
+		     "borderLeftWidth" : 1,
+		     "borderTopColor" : "#e7e7e7",
+		     "borderBottomColor" : "#e7e7e7",
+		     "borderRightColor" : "#e7e7e7",
+		     "borderLeftColor" : "#e7e7e7",
+		     "background" : "#f8f8f8",	
+		     "color":"#777777"   
+		}
+	}
+
+]

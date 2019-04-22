@@ -1,0 +1,76 @@
+[
+ 
+{
+	"id" : "IOSNavBar",
+	"type" : "Box",
+	"category" : "IOS",
+	"subcategory" : "XBoxes",
+	"_type" : "Widget",
+	"name" : "Navbar",
+	"w" : "$100%",
+	"h" : 50,
+	"x" : 0,
+	"y" : 0,
+	"z": 0,
+	"props" : {},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true
+	},
+	"style" : {
+		 "borderTopRightRadius" : 0,
+	     "borderTopLeftRadius" : 0,
+	     "borderBottomRightRadius" : 0,
+	     "borderBottomLeftRadius" : 0,
+	     "borderTopWidth" : 0,
+	     "borderBottomWidth": 1,
+	     "borderRightWidth" : 0,
+	     "borderLeftWidth" : 0,
+	     "borderTopColor" : "#c4c4c4",
+	     "borderBottomColor" : "#c4c4c4",
+	     "borderRightColor" : "#c4c4c4",
+	     "borderLeftColor" : "#c4c4c4",
+	     "background" : "#F7F7F8",	
+	     "color":"#777777"   
+	}
+},
+{
+	"id" : "IOSNavBar2",
+	"type" : "Box",
+	"category" : "IOS",
+	"subcategory" : "XBoxes",
+	"_type" : "Widget",
+	"name" : "Navbar",
+	"w" : "$100%",
+	"h" : 50,
+	"x" : 0,
+	"y" : 0,
+	"z": 0,
+	"props" : {},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true
+	},
+	"style" : {
+		 "borderTopRightRadius" : 0,
+	     "borderTopLeftRadius" : 0,
+	     "borderBottomRightRadius" : 0,
+	     "borderBottomLeftRadius" : 0,
+	     "borderTopWidth" : 0,
+	     "borderBottomWidth": 0,
+	     "borderRightWidth" : 0,
+	     "borderLeftWidth" : 0,
+	     "borderTopColor" : "#C9C9CE",
+	     "borderBottomColor" : "#C9C9CE",
+	     "borderRightColor" : "#C9C9CE",
+	     "borderLeftColor" : "#C9C9CE",
+	     "background" : "#C9C9CE",	
+	     "color":"#777777"   
+	}
+}
+
+
+ 
+ 
+
+]

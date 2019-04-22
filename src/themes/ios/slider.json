@@ -1,0 +1,45 @@
+[ {
+	"id" : "IOSHSlider",
+	"type" : "HSlider",
+	"_type" : "Widget",
+	"category" : "IOS",
+	"subcategory" : "Form",
+	"name" : "Slider",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 30,
+	"z" : 0,
+	"props" : {
+		"value" : 50,
+		"max" : 100,
+		"min" : 0
+	},
+	"has" : {
+		"data":true,
+	    "backgroundColor" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "background" : "#cecece",
+        "handleColor" : "#ffffff",
+        "handleShadow" : {
+			"v" : 2,
+			"h" : 0,
+			"b" : 1,
+			"s" : 1,
+			"c" : "rgba(0, 0, 0,0.176)"
+		},
+        "handleBorderColor" : "#c4c4c4",
+        "handleBorderWidth" : 0,
+        "handleBorderStyle" : "solid",
+        "barColor" : "#007aff",
+        "handleWidth" : 30,
+        "handleHeight" : 1,
+        "barHeight": 0.1,
+        "handleRadius" : 50
+	}
+} ]

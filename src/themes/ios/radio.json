@@ -1,0 +1,61 @@
+[
+ {
+		"id" : "IOSRadioBox",
+		 "type" : "RadioBox2",
+		 "category" : "IOS",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "name" : "Radio",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 22,
+	     "h" : 22,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+ 	        "data" : true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 500,
+	         "borderTopLeftRadius" : 500,
+	         "borderBottomRightRadius" : 500,
+	         "borderBottomLeftRadius" : 500,
+	         "borderTopWidth" : 2,
+	         "borderBottomWidth" : 2,
+	         "borderRightWidth" : 2,
+	         "borderLeftWidth" : 2,
+	         "borderTopColor" : "#c7c7cc",
+	         "borderBottomColor" : "#c7c7cc",
+	         "borderRightColor" : "#c7c7cc",
+	         "borderLeftColor" : "#c7c7cc",
+	         "background" : "#ffffff",
+	         "color" : "#ffffff",
+	         "colorButton" : "#007aff"
+	     },
+	     "checked" : {
+	         "background" : "#fffff",
+	         "borderTopColor" : "#007aff",
+	 	     "borderBottomColor" : "#007aff",
+	 	     "borderRightColor" : "#007aff",
+	 	     "borderLeftColor" : "#007aff"
+	     }
+	},
+	
+	 {
+ 		"id" : "IOSRadioBox2",
+ 		 "type" : "RadioBox2",
+ 		 "_extends" : "IOSRadioBox",
+ 		 "category" : "IOS",
+ 		 "subcategory" : "Form",
+ 		 "name": "Radio",
+ 		 "_type" : "Widget",
+ 	     "props" : {
+ 	        "checked" : true
+ 	     }
+     
+     }
+]

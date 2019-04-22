@@ -1,0 +1,36 @@
+[ {
+	"id" : "MaterialHSlider",
+	"type" : "HSlider",
+	"_type" : "Widget",
+	"category" : "Material",
+	"subcategory" : "Form",
+	"name" : "Slider",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 20,
+	"z" : 0,
+	"props" : {
+		"value" : 50,
+		"max" : 100,
+		"min" : 0
+	},
+	"has" : {
+		"data":true,
+	    "backgroundColor" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 50,
+        "borderTopLeftRadius" : 50,
+        "borderBottomRightRadius" : 60,
+        "borderBottomLeftRadius" : 50,
+        "background" : "#cecece",
+        "handleColor" : "#ac59d6",
+        "barColor" : "#ac59d6",
+        "handleWidth" : 20,
+        "handleHeight" : 1,
+        "barHeight": 0.2,
+        "cntrHeight":0.3,
+        "handleRadius" : 50
+	}
+} ]

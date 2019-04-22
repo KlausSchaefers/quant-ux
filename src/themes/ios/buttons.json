@@ -1,0 +1,227 @@
+[ {
+	"id" : "IOSButton",
+	"type" : "Button",
+	"_type" : "Widget",
+	"category" : "IOS",
+	"subcategory" : "AFormButton",
+	"name" : "Button",
+	"x" : 0,
+	"y" : 0,
+	"w" : 120,
+	"h" : 30,
+	"z" : 0,
+	"props" : {
+		"label" : "Click Me"
+	},
+	"has" : {
+		"onclick" : true,
+		"label" : true,
+		"padding" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "center",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"color" : "#007aff",
+		"paddingTop" : 6,
+		"paddingBottom" : 6,
+		"paddingLeft" : 6,
+		"paddingRight" : 6,
+		"borderTopRightRadius" : 5,
+		"borderTopLeftRadius" : 5,
+		"borderBottomRightRadius" : 5,
+		"borderBottomLeftRadius" : 5,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#007aff",
+		"borderBottomColor" : "#007aff",
+		"borderRightColor" : "#007aff",
+		"borderLeftColor" : "#007aff",
+		"valign" : "top"
+	}
+}, {
+	"id" : "IOSButtonActive",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "AFormButton",
+	"style" : {
+		"color" : "#ffffff",
+		"background" : "#007aff"
+	}
+}, {
+	"id" : "IOSButtonRounded",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "AFormButton",
+	"style" : {
+		"borderTopRightRadius" : 500,
+		"borderTopLeftRadius" : 500,
+		"borderBottomRightRadius" : 500,
+		"borderBottomLeftRadius" : 500
+	}
+},
+{
+	"id" : "IOSButtonActiveRounded",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "AFormButton",
+	"style" : {
+		"borderTopRightRadius" : 500,
+		"borderTopLeftRadius" : 500,
+		"borderBottomRightRadius" : 500,
+		"borderBottomLeftRadius" : 500,
+		"color" : "#ffffff",
+		"background" : "#007aff"
+	}
+},
+{
+	"id" : "IOSButtonRed",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "XFormButton",
+	"props" : {
+		"label" : "Cancel"
+	},
+	"style" : {
+		"color" : "#ffffff",
+		"background" : "#ff3b30",
+		"borderTopColor" : "#ff3b30",
+		"borderBottomColor" : "#ff3b30",
+		"borderRightColor" : "#ff3b30",
+		"borderLeftColor" : "#ff3b30"
+	}
+},
+{
+	"id" : "IOSButtonGreen",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "XFormButton",
+	"props" : {
+		"label" : "Save"
+	},
+	"style" : {
+		"color": "#ffffff",
+		"background" : "#4cd964",
+		"borderTopColor" : "#4cd964",
+		"borderBottomColor" : "#4cd964",
+		"borderRightColor" : "#4cd964",
+		"borderLeftColor" : "#4cd964"
+	}
+},
+
+{
+	"id" : "IOSButtonBlack",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "XFormButton",
+	"props" : {
+		"label" : "Click Me"
+	},
+	"style" : {
+		"color": "#ffffff",
+		"background" : "#000000",
+		"borderTopColor" : "#000000",
+		"borderBottomColor" : "#000000",
+		"borderRightColor" : "#000000",
+		"borderLeftColor" : "#000000"
+	}
+},
+{
+	"id" : "IOSButtonGray",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "XFormButton",
+	"props" : {
+		"label" : "Click Me"
+	},
+	"style" : {
+		"color": "#ffffff",
+		"background" : "#8e8e93",
+		"borderTopColor" : "#8e8e93",
+		"borderBottomColor" : "#8e8e93",
+		"borderRightColor" : "#8e8e93",
+		"borderLeftColor" : "#8e8e93"
+	}
+},
+{
+	"id" : "IOSButtonLightBlue",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "XFormButton",
+	"props" : {
+		"label" : "Click Me"
+	},
+	"style" : {
+		"color": "#ffffff",
+		"background" : "#5ac8fa",
+		"borderTopColor" : "#5ac8fa",
+		"borderBottomColor" : "#5ac8fa",
+		"borderRightColor" : "#5ac8fa",
+		"borderLeftColor" : "#5ac8fa"
+	}
+},
+{
+	"id" : "IOSButtonYellow",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "XFormButton",
+	"props" : {
+		"label" : "Click Me"
+	},
+	"style" : {
+		"color": "#ffffff",
+		"background" : "#ffcc00",
+		"borderTopColor" : "#ffcc00",
+		"borderBottomColor" : "#ffcc00",
+		"borderRightColor" : "#ffcc00",
+		"borderLeftColor" : "#ffcc00"
+	}
+},
+{
+	"id" : "IOSButtonOrange",
+	"type" : "Button",
+	"_type" : "Widget",
+	"_extends" : "IOSButton",
+	"category" : "IOS",
+	"subcategory" : "XFormButton",
+	"props" : {
+		"label" : "Click Me"
+	},
+	"style" : {
+		"color": "#ffffff",
+		"background" : "#ff9500",
+		"borderTopColor" : "#ff9500",
+		"borderBottomColor" : "#ff9500",
+		"borderRightColor" : "#ff9500",
+		"borderLeftColor" : "#ff9500"
+	}
+}
+
+
+
+
+
+
+]

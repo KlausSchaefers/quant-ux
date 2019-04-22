@@ -1,0 +1,156 @@
+{
+    "_id" : "5ca4f95ee2fb53724feae585",
+    "name" : "Code Export 3",
+    "description" : "",
+    "screenSize" : {
+      "w" : 375,
+      "h" : 667
+    },
+    "type" : "smartphone",
+    "screens" : {
+      "s10000" : {
+        "x" : 1922,
+        "y" : 2160,
+        "h" : 667,
+        "w" : 375,
+        "name" : "Screen 1",
+        "type" : "Screen",
+        "style" : {
+          "background" : "#ffffff"
+        },
+        "min" : {
+          "w" : 375,
+          "h" : 667
+        },
+        "has" : {
+          "image" : true
+        },
+        "props" : {
+          "start" : true
+        },
+        "children" : [ "w10036", "w10037" ],
+        "id" : "s10000"
+      }
+    },
+    "widgets" : {
+      "w10036" : {
+        "type" : "Button",
+        "name" : "Box",
+        "x" : 1978,
+        "y" : 2296,
+        "w" : 132,
+        "h" : 142,
+        "z" : 27,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "background" : "#333333",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0
+        },
+        "id" : "w10036"
+      },
+      "w10037" : {
+        "type" : "Button",
+        "name" : "Box 1",
+        "x" : 2034,
+        "y" : 2376,
+        "w" : 148,
+        "h" : 160,
+        "z" : 28,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "background" : "#333333",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0
+        },
+        "id" : "w10037"
+      }
+    },
+    "lines" : { },
+    "lastUUID" : 10039,
+    "lastUpdate" : 1554663657474,
+    "created" : 1554315614329,
+    "startScreen" : "",
+    "grid" : {
+      "w" : 8,
+      "h" : 8,
+      "style" : "line",
+      "color" : "#cecece",
+      "visible" : false,
+      "enabled" : false
+    },
+    "domain" : "Quant-UX.com",
+    "size" : 2323,
+    "isPublic" : false,
+    "parent" : "5ca124cce2fb53724fe838a8",
+    "lastCategory" : "WireFrame",
+    "id" : "5ca4f95ee2fb53724feae585",
+    "isDirty" : true,
+    "groups" : {
+      "g10038" : {
+        "id" : "g10038",
+        "children" : [ "w10037", "w10036" ],
+        "name" : "Group"
+      }
+    }
+  }

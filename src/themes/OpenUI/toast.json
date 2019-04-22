@@ -1,0 +1,58 @@
+[ {
+	"id" : "FioriToast",
+	"type" : "Button",
+	"category" : "OpenUI",
+	"subcategory" : "XBoxes",
+	"_type" : "Widget",
+	"name" : "Toast",
+	"w" : 200,
+	"h" : 100,
+	"props" : {
+		"label": "This is a toast"
+	},
+	"has" : {
+		"onclick": true,
+        "label": true,
+        "padding": false,
+        "backgroundColor" : true,
+        "border" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "center",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"paddingBottom" : 10,
+		"paddingLeft" : 10,
+		"paddingRight" : 10,
+		"paddingTop" : 10,
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 0,
+		"borderBottomWidth" : 0,
+		"borderRightWidth" : 0,
+		"borderLeftWidth" : 0,
+		"borderTopColor" : "#363E43",
+		"borderBottomColor" : "#363E43",
+		"borderRightColor" : "#363E43",
+		"borderLeftColor" : "#363E43",
+		"background" : "#3F5161",
+		"textAlign" : "center",
+		"color" : "#ffffff",
+		"verticalAlign" : "middle",
+		"boxShadow" : {
+			"v" : 9,
+			"h" : 0,
+			"b" : 46,
+			"s" : 8,
+			"c" : "rgba(0,0,0,0.24)",
+			"i" : false
+		}
+
+	}
+}
+
+]

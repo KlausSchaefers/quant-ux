@@ -1,0 +1,112 @@
+[
+{
+	"id" : "WireFrameHamburger",
+	"type" : "DropDown",
+	"name" : "Hamburger Menu",
+	 "subcategory" : "Menu",
+	"category" : "WireFrame",
+	"_type" : "Widget",
+	"x" : 0,
+    "y" : 0,
+    "w" : 48,
+    "h" : 48,
+    "z" : 0,
+    "props" : {
+        "options" : ["Option 1", "Option 2", "Option 3"],
+	     "hidetext" : true,
+	     "icon" : "mdi mdi-menu"
+     },
+     "has" : {
+    	 "onclick" : true,
+	     "border" : false,
+	     "backgroundColor" : true,
+	     "data" : true,
+	     "padding":true,
+	     "label":true
+     },
+     "style" : { 
+    	 "borderTopRightRadius" : 0,
+         "borderTopLeftRadius" : 0,
+         "borderBottomRightRadius" : 0,
+         "borderBottomLeftRadius" : 0,
+         "borderTopWidth" : 0,
+         "borderBottomWidth": 0,
+         "borderRightWidth" : 0,
+         "borderLeftWidth" : 0,
+         "borderTopColor" : "#adadad",
+         "borderBottomColor" : "#adadad",
+         "borderRightColor" : "#adadad",
+         "borderLeftColor" : "#adadad",
+         "background" : "#ffffff",	
+         "color":"#333333",
+         "fontSize" : 24,
+         "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	     "textAlign" : "left",
+	     "paddingTop": 8,
+	     "paddingBottom": 8,
+	     "paddingLeft": 15,
+	     "paddingRight": 15,
+         "popupBackground" : "#ffffff",
+	     "popupColor" : "#333333",
+	     "popupBorderColor" : "#333333",
+	     "popupBorderWidth" : 1
+  
+     }
+	},
+	{
+		"id" : "WireFrameVerticalButtons",
+		"type" : "DropDown",
+		"name" : "Button Menu",
+		 "subcategory" : "Menu",
+		"category" : "WireFrame",
+		"_type" : "Widget",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : 48,
+	    "h" : 48,
+	    "z" : 0,
+	    "props" : {
+	        "options" : ["Option 1", "Option 2", "Option 3"],
+	        "popupPosition" : "MatcWidgetTypeDropDownPositionBottomRight",
+		     "icon" : "mdi mdi-dots-vertical",
+		     "hidetext" : true		    	 
+	     },
+	     "has" : {
+	    	 "onclick" : true,
+		     "border" : false,
+		     "backgroundColor" : true,
+		     "data" : true,
+		     "padding":true,
+		     "label":true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 0,
+	         "borderTopLeftRadius" :0,
+	         "borderBottomRightRadius" : 0,
+	         "borderBottomLeftRadius" : 0,
+	         "borderTopWidth" : 0,
+	         "borderBottomWidth": 0,
+	         "borderRightWidth" : 0,
+	         "borderLeftWidth" : 0,
+	         "borderTopColor" : "#adadad",
+	         "borderBottomColor" : "#adadad",
+	         "borderRightColor" : "#adadad",
+	         "borderLeftColor" : "#adadad",
+	         "background" : "#ffffff",	
+	         "color":"#333333",
+	         "fontSize" : 24,
+	         "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		     "textAlign" : "left",
+		     "paddingTop": 8,
+		     "paddingBottom": 8,
+		     "paddingLeft": 15,
+		     "paddingRight": 15,
+	         "popupBackground" : "#ffffff",
+		     "popupColor" : "#333333",
+		     "popupBorderColor" : "#333333",
+		     "popupBorderWidth" : 1
+	
+	     }
+		}
+	
+]

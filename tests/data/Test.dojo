@@ -1,0 +1,45 @@
+/**
+ * 
+ */
+var gloablVar1 = []
+
+var gloablVar2  = "ABC"
+
+// var gloablVar3 = ""
+
+define([ "dojo/_base/declare",
+        "dojo/json",
+        "dojo/dom-class"
+        "dojo/request"
+], function(declare, json,  request) {
+       return declare("test", [json, request], {
+
+        templateString : '<div class="VommondDropDownButton">'+
+                            '<ul class="" role="menu" data-dojo-attach-point="ul">'+
+                            '</ul>' + 
+                    '</div>',
+
+       // this is a comment
+       privateVar1 :-1,
+
+       privateVar3 : true,
+
+       /* 
+        * another comment
+        */
+       privateVar2 : "ABC",
+
+       method1:function () {
+           console.debug('method1')
+           if (1 === 1) {
+               console.debug("Papa")
+           } else {
+               this.a++
+           }
+       },
+
+       method2:function () {
+        console.debug('method1')
+       }
+    });
+});

@@ -1,0 +1,87 @@
+[ {
+	"id" : "FioriToggleButton",
+	"type" : "ToggleButton",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "FormButton",
+	"name" : "Toggle Button",
+	 "x":0,
+     "w":100,
+     "h":24,
+     "y":0,
+	"props" : {
+		"label" : "Toggle"
+	},
+   "has" : {
+        "onclick" : true,
+        "label" : true,
+        "padding" : true,
+        "border":true,
+        "backgroundColor" : true
+     },
+	"style" : {
+		  "fontSize" : 14,
+	      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	      "textAlign" : "center",
+	      "letterSpacing" : 0,
+	      "lineHeight" : 1,
+    	  "color" : "#346187",
+    	  "paddingTop" : 4,
+		  "paddingBottom" : 4,
+		  "paddingLeft" : 7,
+		  "paddingRight" : 7,
+		  "borderTopRightRadius" : 2,
+	      "borderTopLeftRadius" : 2,
+	      "borderBottomRightRadius" : 2,
+	      "borderBottomLeftRadius" : 2,
+	      "borderTopWidth" : 1,
+	      "borderBottomWidth" : 1,
+	      "borderRightWidth" : 1,
+	      "borderLeftWidth" : 1,
+		  "background": "#f7f7f7",
+		  "borderTopColor" : "#ababab",
+          "borderBottomColor" : "#ababab",
+          "borderRightColor" : "#ababab",
+          "borderLeftColor" : "#ababab"
+	},
+	"active" : {
+		"color" : "#ffffff",
+		"background" : "#427cac",
+		"borderTopColor" : "#2d5475",
+		"borderBottomColor" : "#2d5475",
+		"borderRightColor" : "#2d5475",
+		"borderLeftColor" : "#2d5475"
+	}
+
+},
+{
+	"id" : "FioriToggleButton2",
+	"type" : "ToggleButton",
+	"_type" : "Widget",
+	"_extends" : "OpenUI5Button",
+	"category" : "Fiori",
+	"subcategory" : "FormButton",
+	"name" : "Toggle Button",
+	"props" : {
+		"label" : "Toggle",
+		"active" : true
+	},
+	"has" : {
+		"onclick" : true,
+		"label" : true,
+		"padding" : true
+	},
+	"style" : {
+
+	},
+	"active" : {
+		"color" : "#ffffff",
+		"background" : "#427cac",
+		"borderTopColor" : "#2d5475",
+		"borderBottomColor" : "#2d5475",
+		"borderRightColor" : "#2d5475",
+		"borderLeftColor" : "#2d5475"
+	}
+
+}
+]

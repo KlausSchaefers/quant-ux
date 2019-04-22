@@ -1,0 +1,43 @@
+[ {
+	"id" : "Bootstrap4DateDropDown",
+	"type" : "DateDropDown",
+	"name" : "Date Picker",
+	"category" : "Bootstrap4",
+	"subcategory" : "FormInput",
+	"_extends" : "Bootstrap4TextBox",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 38,
+	"z" : 0,
+	"props" : {
+		"label" : "Select a date"
+	},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true,
+		"data" : true,
+		"padding" : true
+	},
+	"style" : {
+		"popupShadow" : {
+			"v" : 6,
+			"h" : 0,
+			"b" : 12,
+			"s" : 0,
+			"c" : "rgba(0, 0, 0,0.176)"
+		},
+		"selectedBackground" : "#555555",
+		"selectedColor" : "#ffffff",
+		"headerBackground" : "#ffffff",
+		"headerColor" : "#555555",
+		"tableHeaderColor" : "#fff",
+		"tableHeaderBackground" : "#555555",
+		"popupBorderColor" : "#cccccc",
+		"popupBorderWidth" : 1,
+		"popupColor" : "#333",
+		"popupBackground" : "#fff"
+	}
+} ]

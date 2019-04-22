@@ -1,0 +1,110 @@
+[ {
+	"id" : "FioriLabel",
+	"type" : "Label",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "Label",
+	"name" : "Label",
+	"x" : 0,
+	"y" : 0,
+	"w" : 100,
+	"h" : 38,
+	"z" : 0,
+	"props" : {
+		"label" : "Label"
+	},
+	"has" : {
+		"label" : true,
+		"padding" : true,
+		"advancedText" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "left",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"font-weight" : 300,
+		"paddingTop" : 12,
+		"paddingBottom" : 12,
+		"paddingLeft" : 12,
+		"paddingRight" : 12,
+		"color" : "#666666"
+	}
+}, {
+	"id" : "FioriLabelHeadline1",
+	"type" : "Label",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "Label",
+	"name" : "Message Label",
+	"_extends" : "FioriLabel",
+	"x" : 0,
+	"y" : 0,
+	"w" : 100,
+	"h" : 38,
+	"z" : 0,
+	"props" : {
+		"label" : "Message"
+	},
+	"has" : {
+		"label" : true,
+		"padding" : true,
+		"advancedText" : true
+	},
+	"style" : {
+		"fontSize" : 20,
+		"color" : "#333333"
+	}
+}, {
+	"id" : "FioriLabelSuccess",
+	"type" : "Label",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "Label2",
+	"_extends" : "FioriLabel",
+	"name" : "Success Label",
+
+	"props" : {
+		"label" : "Success"
+	},
+
+	"style" : {
+		"color" : "#007833"
+	}
+}, {
+	"id" : "FioriLabelWarning",
+	"type" : "Label",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "Label2",
+	"name" : "Warning Label",
+	"_extends" : "FioriLabel",
+
+	"props" : {
+		"label" : "Warning"
+	},
+
+	"style" : {
+
+		"color" : "#d14900"
+	}
+}, {
+	"id" : "FioriLabelError",
+	"type" : "Label",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "Label2",
+	"name" : "Error Label",
+	"_extends" : "FioriLabel",
+
+	"props" : {
+		"label" : "Error"
+	},
+
+	"style" : {
+		"color" : "#cc1919"
+	}
+}
+
+]

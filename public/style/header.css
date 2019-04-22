@@ -1,0 +1,214 @@
+ /****************************************************
+ * Header 
+ ****************************************************/
+ 
+
+.MatcHeader{
+    padding-bottom: 0px;
+    padding-top: 60px;
+    text-align: left;
+	color:rgba(255,255,255,0.7);
+	overflow: hidden;
+	background: #1c78d3;
+	font-weight:300;
+	background: linear-gradient(30deg, #0E5CAD 0%,#79F1A4 100%); 
+	background: linear-gradient(30deg, #0E5CAD 0%,#62D0A6 100%);
+}
+
+.MatcHeader .MatcButton{
+	font-weight:300;
+	font-size:18px;
+}
+
+/**
+ * Header for overview
+ */
+.MatcHeaderDark.MatcHeader{
+	
+}
+
+.MatcHeader.MatcHeaderTabdesign{
+
+}
+
+.MatcHeader.MatcHeaderTabtest{
+
+}
+
+.MatcHeader.MatcHeaderTabanalyze{
+
+}
+
+.MatcHeader.MatcHeaderTabsettings{
+
+}
+
+
+.MatcFeatureHeader.MatcHeader{
+
+}
+
+.MatcHeaderPublic.MatcHeader{
+
+}
+
+
+
+.MatcHeaderPublic .MatcButton{
+	background: rgba(255,255,255,0.1);
+	color: #fff;
+	border:1px solid #fff;
+}
+
+.MatcHeaderPublic .MatcButton:hover{
+	background: rgba(255,255,255,0.3);
+	color:#fff;
+}
+
+.MatcHeaderPublic .MatcButtonSignUp{
+	background: rgba(255,255,255,0.95);
+	border-color: #fff;
+	text-decoration: none;
+	color:#256987;	
+}
+
+.MatcHeaderPublic .MatcButtonSignUp:hover{
+	background: rgba(255,255,255,1);
+	color:#256987;
+}
+
+.MatcAboutDesktopHeader{
+	height: 600px;	
+	margin-top: 150px;
+}
+
+.MatcAboutDesktopHeader .MatcLead{
+	color: #f2f2f2;
+}
+
+.MatcHeaderSmall{
+	padding-bottom: 30px;
+    padding-top: 50px;
+}
+
+.MatcHeaderTopRow{
+	height: 50px;
+}
+
+.MatcHeaderBottomRow{
+	margin-top: 20px;
+	height: 40px;
+}
+
+.MatcHeaderBottomRow .MatcRight{
+	padding-top:0px;
+}
+
+.MatcHeader p{
+	font-size: 24px;
+	font-weight: 300;
+    line-height: 1.4;
+	margin-bottom: 0;
+	opacity: .8;
+}
+
+.MatcHeader h1{
+	text-shadow: none;
+    margin-top: 40px;
+    color:#fff;
+	margin-bottom: 24px;
+	margin-top: 3px;
+	height: auto;
+	font-weight: 100;
+	font-size: 48px;
+}
+
+.MatcHeader h2{
+	text-shadow: none;
+    line-height: 1;
+    margin-bottom: 20px;
+	color:rgba(255,255,255,0.8);
+	height:18px;
+	font-weight:300;
+	margin-top: 3px;
+}
+
+.MatcHeaderSmall h1, .MatcHeaderSmall H2{
+	font-size: 40px;
+	font-weight:300;
+}
+
+
+
+.MatcHeaderActionContainer{
+	position: relative;
+	top:-250px;
+}
+
+.MatcHeaderActionContainer .MatcButton{
+	box-shadow:0 0  50px #006CBF;
+}
+
+
+/****************************************************
+ * Laning Page
+ ****************************************************/
+ 
+.MatcHeaderSection{
+	position:relative;
+	overflow:hidden; 
+}
+
+.MatcLandingImageCntr{
+	width: 800px;
+    height: 600px;
+    background: url(img/Landing5c.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+ @media (max-width: 500px){
+ 
+	.MatcLandingImageCntr{
+		width:600px;
+		height:500px;
+	}
+ }
+ /****************************************************
+ * Header Tab
+ ****************************************************/
+ 
+
+
+.MatcHeaderItem{
+	color: #fff;
+	border-bottom: 2px solid transparent;
+	padding:10px 25px;
+	display: inline-block;
+	text-align: center;
+	font-size: 18px;
+	vertical-align: bottom;
+	width: 120px;
+	text-align: center;
+	color:#fff;
+	border-top-left-radius:0px;
+	border-top-right-radius:0px;
+}
+
+.MatcHeaderItem:HOVER{
+	border-bottom: 2px solid #fff;
+	text-decoration: none;
+	color:#fff;
+	outline: none;
+}
+
+.MatcHeaderItem.MatcHeaderItemSelected, 
+.MatcHeaderItemSelected.MatcHeaderItem:HOVER, 
+.MatcHeaderItemSelected.MatcHeaderItem:FOCUS{
+	border-bottom: 2px solid rgb(250,250,250);
+	background: rgb(250,250,250);	
+	color:#031a29;
+}
+
+
+

@@ -1,0 +1,61 @@
+[ {
+	"id" : "WireFrameTypeAhead",
+	"type" : "TypeAheadTextBox",
+	"_type" : "Widget",
+	"category" : "WireFrame",
+	"subcategory" : "FormInput",
+	"name" : "ComboBox",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 40,
+	"z" : 0,
+	"props" : {
+		"label" : "Enter a value",
+		"placeholder" : true,
+		"options" : [ "Hint 1", "Hint 2", "Hint 3", "Hint 4" ]
+	},
+	"has" : {
+		"label" : true,
+		"backgroundColor" : true,
+		"border" : true,
+		"editable" : true,
+		"onclick" : true,
+		"padding" : true
+	},
+	"error" : {
+		"borderTopColor" : "#cc0000",
+		"borderBottomColor" : "#cc0000",
+		"borderRightColor" : "#cc0000",
+		"borderLeftColor" : "#cc0000",
+		"background" : "#ffcaca"
+	},
+	"focus" : {
+		"background" : "#f2f2f2"
+	},
+	"style" : {
+		"color" : "#333333",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"borderTopRightRadius" : 3,
+		"borderTopLeftRadius" : 3,
+		"borderBottomRightRadius" : 3,
+		"borderBottomLeftRadius" : 3,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"fontSize" : 18,
+		"borderTopColor" : "#333333",
+		"borderBottomColor" : "#333333",
+		"borderRightColor" : "#333333",
+		"borderLeftColor" : "#333333",
+		"background" : "#ffffff",
+		"paddingTop" : 5,
+		"paddingBottom" : 5,
+		"paddingLeft" : 5,
+		"paddingRight" : 5,
+		"textAlign" : "left",
+		"selectedOptionColor" : "#333",
+		"selectedOptionBackground" : "#f2f2f2"
+	}
+} ]

@@ -1,0 +1,256 @@
+.MatcTestLogoCntr{
+    position: fixed;
+    left:50%;
+    top:50%;
+    width:400px;
+    height: 200px;
+	text-align: center;
+    padding:20px;
+    transform: translate(-50%, -50%)
+}
+
+
+.MatcTestProgressCntr {
+    display: inline-block;
+    width: 100px;
+    height: 5px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 3px;
+    transition: all 1s;
+    transition-delay: 1s;
+    overflow: hidden;
+    position: absolute;
+    top:0px;
+    left:0px;
+    transform: translate(140px, 180px);
+    z-index: 999;
+}
+
+.MatcTestLogoCntrMax .MatcTestProgressCntr {
+    transition-delay: 1s;
+    height: 500px;
+    width: 400px;
+    background: #fefefe;
+    border: 1px solid rgba(255,255,255,1);
+	color:#333;
+	border-radius:5px;
+    box-shadow:0px 0px 10px rgba(0,0,0, 0.15);
+    transform: translateY(-200px);
+}
+
+.MatcTestContent{
+	padding:15px 40px;
+    line-height: 2;
+    width:400px;
+    height:500px;
+    text-align: left;
+}
+
+.MatcTestContentCntr{
+    height: 380px;
+    overflow: auto;
+}
+
+.MatcTestProgressCntr .MatcTestProgressBar{
+    width: 0%;
+    height: 5px;
+    background: rgba(255,255,255,0.5);
+    animation: sk-load 2s  ease-in-out normal forwards ;
+    animation-iteration-count: 1;
+    transition: all 0.2s;
+}
+
+.MatcTestLogoCntrMax .MatcTestProgressBar{
+
+}
+
+
+@keyframes sk-load {
+    0% { 
+      width:0%;
+    } 100% { 
+        width:100%;
+    }
+}
+
+
+
+.MatcTestMenu{
+	position: fixed;
+	top:0px;
+	left:0px;
+	height:100%;
+	width:100%;		
+	color:#fff;
+	transition: all 0.5s;
+	left:0px;
+	opacity:0;
+    background: linear-gradient(30deg, #0E5CAD 0%,#62D0A6 100%);
+}
+
+
+.MatcTestMenu.MatcTestMenuMax{
+	opacity:1;
+	left:0px;
+	width:100%;		
+	overflow: scroll;
+	z-index: 999;
+}
+
+.MatcTestMenuMax .MatcLogo{
+	margin-top: 0px;
+}
+
+.MatcTestMenu .MatcTestMenuSectionHeader{
+	font-size: 14px;
+    text-align: center;
+}
+
+.MatcTestLogoCntr H1{
+	text-shadow: none;
+}
+
+.MatcTestLogoCntr .MatcInfoBox {
+	background: none;
+    border: none;
+    padding-top:20px;
+    font-size: 16px;
+    font-weight:300;
+}
+
+.MatchTestQRDialog{
+	width:340px;
+	height:400px;	
+}
+
+.MatchTestQRDialogHint{
+	margin: 15px;
+    margin-top: 0px;
+    width: 280px;
+}
+
+
+
+
+
+.MatcTestContent p{
+	font-weight:300;
+	margin-bottom: 20px;
+}
+
+
+.MatcTestContent h2{
+	font-size:20px;
+}
+
+.MatcTestContent h3{
+    font-size:16px;
+    margin:0px;
+}
+
+.MatcTestTaskDescription{
+    font-size:16px;
+    font-weight: 300;
+    margin-bottom: 15px;
+}
+
+.MatcTestStartButton{
+	width:100%;
+	text-align: center;
+}
+
+.MatcTest .MatcSimulatorPrivacy{
+	max-width: 600px;
+	display: inline-block;
+	position: static;
+	width:100%;
+	line-height: 2;
+	border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background: #eee;
+}
+
+.MatcTestTask{
+	margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.MatcTestTask h3{
+	font-weight: 400;
+	font-size:16px;
+	display: inline;
+}
+
+.MatcTestTask span{
+	font-weight: 300;
+	font-size:16px;
+}
+
+.MatcTestDesktopCntr{
+	display: inline-block;
+}
+
+.MatcTest .MatchSimulatorWrapper{
+   background: #fff;
+   border: none;
+   border-radius: 3px;
+   display: inline-block;
+   padding: 0px;
+   box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+}
+
+
+.MatcSimulatorSection{
+	overflow: visible;	
+	position: relative;
+}
+
+.MatcTestBtnCntr{
+	position: fixed;
+	height: 100%;
+	width:100px;
+	top:0px;
+	right:0px;
+	background: organge;
+}
+
+.MatcTestQRButton{
+ 	color:#333;
+ 	transition:all 0.3s;
+    border-radius: 50%;
+    
+    font-size: 24px;
+    height: 50px;
+    right: 20px;
+    position: fixed;
+    text-align: center;
+    bottom: 20px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.MatcTestQRButton:hover{
+	color: #fff;
+	background: #333 none repeat scroll 0 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s;
+    transition-delay: 1s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transition-delay: 1s;
+}
+
+.logoFade-enter-active, .logoFade-leave-active {
+    transition: opacity 0.25s;
+}
+
+.logoFade-enter, .logoFade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}

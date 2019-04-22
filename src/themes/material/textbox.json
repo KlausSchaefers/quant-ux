@@ -1,0 +1,58 @@
+[
+ {
+  "id": "MaterialTextBox",
+  "type": "TextBox",
+  "category": "Material",
+  "_type": "Widget",
+  "name": "Text Box",
+  "subcategory": "Form",
+  "x": 0,
+  "y": 0,
+  "w": 200,
+  "h": 26,
+  "style": {
+	  "fontFamily": "Roboto, sans-serif",
+	    "background": "transparent",
+	    "borderBottomColor": "#757575",
+	    "borderTopColor": "#757575",
+	    "borderLeftColor": "#757575",
+	    "borderRightColor": "#757575",
+	    "borderBottomLeftRadius": 0,
+	    "borderTopLeftRadius": 0,
+	    "borderBottomRightRadius": 0,
+	    "borderTopRightRadius": 0,
+	    "borderBottomWidth": 1,
+	    "borderTopWidth": 0,
+	    "paddingBottom": 4,
+	    "paddingLeft": 0,
+	    "paddingRight": 0,
+	    "paddingTop": 6,
+	    "textAlign": "left",
+	    "fontSize": 16,
+	    "fontStyle": "normal",
+	    "fontWeight": "400",
+	    "letterSpacing": "normal",
+	    "lineHeight": 1,
+	    "color": "#757575",
+	    "textDecoration": "none",
+	    "boxShadow": "none",
+	    "testShadow": "none",
+	    "borderTopStyle": "solid",
+	    "borderBottomStyle": "solid",
+	    "borderRightStyle": "solid",
+	    "borderLeftStyle": "solid",
+	    "borderLeftWidth": 0,
+	    "borderRightWidth": 0
+  },
+  "props": {
+    "label": "Enter your text"
+  },
+  "action": {},
+  "has": {
+    "onclick": true,
+    "label": true,
+    "padding": true,
+    "backgroundColor": true,
+    "border": true
+  }
+}]

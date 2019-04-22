@@ -1,0 +1,161 @@
+[
+	{
+		"id" : "Switch",
+		 "type" : "Switch",
+		 "name" : "Switch",
+		 "category" : "WireFrame",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 80,
+	     "h" : 40,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	        "data" : true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 100,
+	         "borderTopLeftRadius" : 100,
+	         "borderBottomRightRadius" : 100,
+	         "borderBottomLeftRadius" : 100,
+	         "borderTopWidth" : 1,
+	         "borderBottomWidth" : 1,
+	         "borderRightWidth" : 1,
+	         "borderLeftWidth" : 1,
+	         "borderTopColor" : "#333333",
+	         "borderBottomColor" : "#333333",
+	         "borderRightColor" : "#333333",
+	         "borderLeftColor" : "#333333",
+	         "background" : "#ffffff",
+	         "colorForeGround" : "#cecece",
+		     "colorButton" : "#333333"
+	     }
+	},
+	{
+		"id" : "Switch2",
+		 "type" : "Switch",
+		 "name" : "Switch ",
+		 "category" : "WireFrame",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 60,
+	     "h" : 30,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	        "data" : true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 3,
+	         "borderTopLeftRadius" : 3,
+	         "borderBottomRightRadius" : 3,
+	         "borderBottomLeftRadius" : 3,
+	         "borderTopWidth" : 1,
+	         "borderBottomWidth" : 1,
+	         "borderRightWidth" : 1,
+	         "borderLeftWidth" : 1,
+	         "borderTopColor" : "#333333",
+	         "borderBottomColor" : "#333333",
+	         "borderRightColor" : "#333333",
+	         "borderLeftColor" : "#333333",
+	         "background" : "#ffffff",
+	         "colorForeGround" : "#cecece",
+		     "colorButton" : "#333333"
+	     }
+	},
+	{
+		"id" : "Switch3",
+		 "type" : "Switch",
+		 "name" : "Switch ",
+		 "category" : "WireFrame",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 80,
+	     "h" : 40,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	        "data" : true
+	     },
+	     "style" : { 
+	    	 "cssClass" : "MatcWidgetTypeSwitchThin",
+	    	 "borderTopRightRadius" : 500,
+	         "borderTopLeftRadius" : 500,
+	         "borderBottomRightRadius" : 500,
+	         "borderBottomLeftRadius" : 500,
+	         "borderTopWidth" : 0,
+	         "borderBottomWidth" : 0,
+	         "borderRightWidth" : 0,
+	         "borderLeftWidth" : 0,
+	         "borderTopColor" : "#333333",
+	         "borderBottomColor" : "#333333",
+	         "borderRightColor" : "#333333",
+	         "borderLeftColor" : "#333333",
+	         "background" : "#333333",
+	         "colorForeGround" : "#cecece",
+		     "colorButton" : "#333333"
+	     }
+	},
+	
+	{
+		"id" : "Switch4 ",
+		 "type" : "Switch",
+		 "name" : "Switch ",
+		 "category" : "WireFrame",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 80,
+	     "h" : 40,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	        "data" : true
+	     },
+	     "style" : { 
+	    	 "cssClass" : "MatcWidgetTypeSwitchThin",
+	    	 "borderTopRightRadius" : 500,
+	         "borderTopLeftRadius" : 500,
+	         "borderBottomRightRadius" : 500,
+	         "borderBottomLeftRadius" : 500,
+	         "borderTopWidth" : 0,
+	         "borderBottomWidth" : 0,
+	         "borderRightWidth" : 0,
+	         "borderLeftWidth" : 0,
+	         "borderTopColor" : "#333333",
+	         "borderBottomColor" : "#333333",
+	         "borderRightColor" : "#333333",
+	         "borderLeftColor" : "#333333",
+	         "background" : "#333333",
+	         "colorForeGround" : "#cecece",
+		     "colorButton" : "#ffffff",
+		     "borderColorButton" : "#cecece",
+		     "borderWidthButton" : 1
+	     }
+	}
+	    
+	
+]

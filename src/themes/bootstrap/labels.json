@@ -1,0 +1,192 @@
+[
+	{
+		"id" : "BootstrapLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "Label",
+		"name" : "Label",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 30,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "Lore Ipsum"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 14,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1.42857,
+	       "color": "#333333"
+	    }
+	},
+	{
+		"id" : "BootstrapMutedLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "Label",
+		 "_extends" : "BootstrapLabel",
+		"name" : "Muted Label",
+	    "style" : {
+	       "color": "#777777"
+	    }
+	},
+	{
+		"id" : "BootstrapPrimaryLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "Label",
+		 "_extends" : "BootstrapLabel",
+		"name" : "Primary Label",
+	    "style" : {
+	       "color": "#337ab7"
+	    }
+	},
+	{
+		"id" : "BootstrapSuccessLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "Label",
+		 "_extends" : "BootstrapLabel",
+		"name" : "Success Label",
+	    "style" : {
+	       "color": "#3c763d"
+	    }
+	},
+	{
+		"id" : "BootstrapInfoLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "Label",
+		 "_extends" : "BootstrapLabel",
+		"name" : "Info Label",
+	    "style" : {
+	       "color": "#31708f"
+	    }
+	},
+	{
+		"id" : "BootstrapWarningLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "Label",
+		 "_extends" : "BootstrapLabel",
+		"name" : "Warning Label",
+	    "style" : {
+	       "color": "#8a6d3b"
+	    }
+	},
+	{
+		"id" : "BootstrapDangerLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "Label",
+		 "_extends" : "BootstrapLabel",
+		"name" : "Danger Label",
+	    "style" : {
+	       "color": "#a94442"
+	    }
+	},
+	{
+		"id" : "BootstrapContextual",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "XBlock",
+		"name" : "Contextual",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : "$75%",
+	    "h" : 60,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "Lore Ipsum"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 18,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1.42857,
+	       "background":"#337ab7",
+	       "color": "#ffffff",
+	       "paddingTop" : 15,
+		   "paddingBottom" : 15,
+		   "paddingLeft" : 15,
+		   "paddingRight" : 15
+	    }
+	},
+	{
+		"id" : "BootstrapContextual2",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "XBlock",
+		 "_extends" : "BootstrapContextual",
+		"name" : "Contextual",
+	    "style" : {
+	    	"background":"#dff0d8",
+	    	"color": "#333333"
+	    }
+	},
+	{
+		"id" : "BootstrapContextual3",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "XBlock",
+		 "_extends" : "BootstrapContextual",
+		"name" : "Contextual",
+	    "style" : {
+	    	"background":"#d9edf7",
+	    	"color": "#333333"
+	    }
+	},
+	{
+		"id" : "BootstrapContextual4",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "XBlock",
+		 "_extends" : "BootstrapContextual",
+		"name" : "Contextual",
+	    "style" : {
+	    	"background":"#fcf8e3",
+	    	"color": "#333333"
+	    }
+	},
+	{
+		"id" : "BootstrapContextual5",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap",
+		"subcategory" : "XBlock",
+		 "_extends" : "BootstrapContextual",
+		"name" : "Contextual",
+	    "style" : {
+	    	"background":"#f2dede",
+	    	"color": "#333333"
+	    }
+	}
+
+
+	
+]

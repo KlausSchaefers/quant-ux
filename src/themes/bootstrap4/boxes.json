@@ -1,0 +1,44 @@
+[ 
+	{
+		"id" : "Bootstrap4NavBar",
+		"type" : "Box",
+		"category" : "Bootstrap4",
+		"subcategory" : "XBoxes",
+		"_type" : "Widget",
+		"name" : "Navbar",
+		"w" : "$75%",
+		"h" : 50,
+		"x" : 0,
+	    "y" : 0,
+	    "w" : 150,
+	    "h" : 58,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "Lore Ipsum"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true,
+			"backgroundColor" : true,
+			"border" : true
+	    },
+		"style" : {
+			 "borderTopRightRadius" : 6,
+		     "borderTopLeftRadius" : 6,
+		     "borderBottomRightRadius" : 6,
+		     "borderBottomLeftRadius" : 6,
+		     "borderTopWidth" : 1,
+		     "borderBottomWidth": 1,
+		     "borderRightWidth" : 1,
+		     "borderLeftWidth" : 1,
+		     "borderTopColor" : "#e7e7e7",
+		     "borderBottomColor" : "#e7e7e7",
+		     "borderRightColor" : "#e7e7e7",
+		     "borderLeftColor" : "#e7e7e7",
+		     "background" : "#f8f8f8",	
+		     "color":"#777777"   
+		}
+	}
+
+]

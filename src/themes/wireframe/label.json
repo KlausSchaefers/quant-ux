@@ -1,0 +1,150 @@
+[
+	{
+		 "id" : "Label",
+		 "type" : "Label",
+		 "_type" : "Widget",
+		 "category" : "WireFrame",
+		 "subcategory" : "AForm",
+		 "name" : "Label",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 30,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "Lore Ipsum"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 14,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1.4,
+	       "color": "#333333"
+	    }
+	},
+	{
+		"id" : "Headline1",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "WireFrame",
+		 "subcategory" : "Label",
+		"name" : "Headline 1",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 40,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H1"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 40,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "color": "#333333"
+	    }
+	},
+	{
+		"id" : "Headline2",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "WireFrame",
+		 "subcategory" : "Label",
+		"name" : "Headline 2",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 32,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H2"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 32,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "color": "#333333"
+	    }
+	},
+	{
+		"id" : "Headline3",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "WireFrame",
+		 "subcategory" : "Label",
+		"name" : "Headline 3",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 24,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H3"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 24,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "color": "#333333"
+	    }
+	},
+	{
+		 "id" : "Paragraph",
+		 "type" : "Label",
+		 "_type" : "Widget",
+		 "category" : "WireFrame",
+		 "subcategory" : "Label",
+		 "name" : "Paragraph",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 300,
+	    "h" : 200,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 14,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1.4,
+	       "textAlign":"justify",
+	       "color": "#333333"
+	    }
+	}
+	
+	
+]

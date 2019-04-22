@@ -1,0 +1,49 @@
+[ {
+	"id" : "MaterialDate",
+	"type" : "Date",
+	"name" : "Calendar",
+	"category" : "Material",
+	"subcategory" : "FormInputDate",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 300,
+	"h" : 320,
+	"z" : 0,
+	"props" : {
+		"day_names": ["S", "M", "T", "W", "T", "F", "S"]
+	},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true,
+		"data" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 0,
+		"borderBottomWidth" : 0,
+		"borderRightWidth" : 0,
+		"borderLeftWidth" : 0,
+		"borderTopColor" : "#333333",
+		"borderBottomColor" : "#333333",
+		"borderRightColor" : "#333333",
+		"borderLeftColor" : "#333333",
+		"color" : "#757575",
+		"background" : "#ffffff",
+		"selectedBackground" : "#00a59a",
+		"selectedColor" : "#ffffff",
+		"headerColor" : "#bee5e2",
+		"headerBackground" : "#00a59a",
+		"tableHeaderColor" : "#cecece",
+		"tableHeaderBackground" : "#ffffff",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"fontSize" : 14,
+		"itemBorderRadius" : 50
+	}
+}
+
+]

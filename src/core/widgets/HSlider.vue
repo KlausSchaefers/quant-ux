@@ -1,0 +1,203 @@
+
+<template>
+  <div class="MatcWidgetTypeHSlider"></div>
+</template>
+<script>
+import DojoWidget from "dojo/DojoWidget";
+import lang from "dojo/_base/lang";
+import HSlider from "common/HSlider";
+import UIWidget from "core/widgets/UIWidget";
+
+export default {
+  name: "HSlider",
+  mixins: [UIWidget, DojoWidget],
+  data: function() {
+    return {
+      value: null,
+       sliderPressed: false
+    };
+  },
+  components: {},
+  methods: {
+    postCreate: function() {
+      this.slider = this.$new(HSlider)
+      this.slider.wire = false;
+      this.slider.placeAt(this.domNode);
+
+      this._borderNodes = [this.slider.cntr, this.slider.bar];
+      this._backgroundNodes = [this.slider.cntr];
+      this._shadowNodes = [this.slider.cntr];
+    },
+
+    wireEvents: function() {
+      this.slider.wireEvents();
+      this.own(this.slider.on("change", lang.hitch(this, "onSliderChange")));
+      this.own(this.slider.on("press", lang.hitch(this, "onSliderPress")));
+      this.own(this.slider.on("release", lang.hitch(this, "onSliderRelease")));
+    },
+
+    onSliderChange: function(w, e) {
+      if (!this. sliderPressed) {
+        this.emitStateChange("select", this.slider.getValue(), e);
+      } else {
+        this.addCompositeSubState(this.slider.getValue());
+      }
+
+      var v = this.slider.getValue();
+      this.emitDataBinding(v);
+      this.setValueLabel(v);
+    },
+
+    onSliderPress: function(e) {
+      this. sliderPressed = true;
+      this.initCompositeState(this.slider.getValue(), e);
+    },
+
+    onSliderRelease: function() {
+      //console.debug("onSliderRelease", w);
+      this. sliderPressed = false;
+      this.emitCompositeState("select", this.slider.getValue());
+    },
+
+    cleanUp: function() {
+      this.slider.cleanup();
+      this. sliderPressed = false;
+    },
+
+    render: function(model, style, scaleX, scaleY) {
+      this.model = model;
+      this.style = style;
+      this._scaleX = scaleX;
+      this._scaleY = scaleY;
+
+      if (style.barColor) {
+        this.slider.bar.style.backgroundColor = style.barColor;
+      }
+
+      if (style.handleColor) {
+        this.slider.hndl.style.backgroundColor = style.handleColor;
+      }
+
+      if (style.handleShadow) {
+        this._setShadow(this.slider.hndl, style.handleShadow);
+      }
+
+      this.setStyle(style, model);
+
+      this.resize(model);
+    },
+
+    resize: function(model) {
+      var barHeight = Math.round(model.h / 3);
+
+      if (this.style.barHeight) {
+        barHeight = Math.round(model.h * this.style.barHeight);
+      }
+
+      /**
+       * Update dom
+       */
+      var hPos = { w: 0, h: model.h };
+      var bPos = { w: model.w, h: barHeight };
+
+      /**
+       * update handle
+       */
+      this.slider.hndl.style.height = model.h + "px";
+      if (this.style.handleWidth) {
+        let w = this.getZoomed(this.style.handleWidth, this._scaleX);
+        this.slider.hndl.style.width = w + "px";
+        hPos.w = w;
+      } else {
+        this.slider.hndl.style.width = Math.round(model.w / 10) + "px";
+        hPos.w = Math.round(model.w / 10);
+      }
+
+      if (this.style.handleRadius) {
+        let w = this.getZoomed(this.style.handleRadius, this._scaleX);
+        this.slider.hndl.style.borderRadius = w + "px";
+      }
+
+      //this.setScalledNodeStyle(this.slider.hndl, this.style, ["borderTopLeftRadius", "borderTopRightRadius", "borderBottomLeftRadius", "borderBottomRightRadius"])
+
+      this.slider.bar.style.height = bPos.h + "px";
+      this.slider.cntr.style.height = bPos.h + "px";
+
+      this.slider.render(model, bPos, hPos);
+
+      /**
+       * Now reforce rendering
+       */
+      if (this.model.props) {
+        var p = this.model.props;
+        if (p.max != null && p.max != undefined) {
+          this.slider.setMax(p.max);
+        }
+        if (p.min != null && p.min != undefined) {
+          this.slider.setMin(p.min);
+        }
+        if (p.value != null && p.value != undefined) {
+          this.slider.setValue(p.value);
+        }
+      }
+    },
+
+    _setDataBindingValue: function(v) {
+      v = v * 1;
+      if (!isNaN(v)) {
+        this.setValue(v);
+      } else {
+        console.debug("_setDataBindingValue() > not int value" + v);
+      }
+    },
+
+    setValue: function(value) {
+      this.slider.setValue(value);
+      this.setValueLabel(value);
+    },
+
+    getValue: function() {
+      return this.slider.getValue();
+    },
+
+    getState: function() {
+      return {
+        type: "select",
+        value: this.getValue()
+      };
+    },
+
+    setState: function(state, t) {
+      if (state && state.type == "select") {
+        var child = this.getLastSubState(state, t);
+        if (child) {
+          this.setValue(child.value);
+        } else {
+          this.setValue(state.value);
+        }
+      }
+    },
+
+    _set_handleBorderColor: function(parent, style) {
+      this.slider.hndl.style.borderColor = style.handleBorderColor;
+    },
+
+    _set_handleBorderWidth: function(parent, style) {
+      this.slider.hndl.style.borderWidth =
+        this._getBorderWidth(style.handleBorderWidth) + "px";
+    },
+
+    _set_handleBorderStyle: function(parent, style) {
+      this.slider.hndl.style.borderStyle = style.handleBorderStyle;
+    },
+
+    beforeDestroy: function() {
+      if (this._compositeState) {
+        this.emitCompositeState();
+      }
+      this.cleanUp();
+    }
+  },
+  mounted() {}
+};
+</script>

@@ -1,0 +1,90 @@
+ [
+  {
+		 "id" : "BootstrapDialog",
+		 "type" : "Group",
+		 "_type" : "Group",
+		 "category" : "Bootstrap",
+		 "subcategory" : "XBoxes",
+		 "name" : "Dialog",
+	     "children":[
+	         {
+	        	 "x" : 0,
+	    	     "y" : 0,
+	    	     "w" : 300,
+	    	     "h" : 200,
+	    	     "z" : 0,
+	    	     "id" : "BootstrapDialog1",
+	    	     "name" : "Dialog Brackground",
+	    	     "type" : "Box",
+	    	     "props" : {
+	    	    	
+	    	     },
+	    	     "has" : {
+	    	    	 "backgroundColor" : true,
+	    		     "border" : true
+	    	     },
+	    	     "style" : {
+	    	    	 "background" : "#ffffff",
+	    	    	 "borderTopRightRadius" : 6,
+		   		     "borderTopLeftRadius" : 6,
+		   		     "borderBottomRightRadius" : 6,
+		   		     "borderBottomLeftRadius" : 6,
+		   		     "borderTopWidth" : 0,
+		   		     "borderBottomWidth" : 0,
+		   		     "borderRightWidth" : 0,
+		   		     "borderLeftWidth" : 0,
+		   		     "borderTopColor" : "#cecece",
+		   		     "borderBottomColor" : "#cecece",
+		   		     "borderRightColor" : "#cecece",
+		   		     "borderLeftColor" : "#cecece",
+			         "boxShadow": { "v":4, "h":0, "b":15,"s":0, "c":"#808080","i":false}
+	    	     }
+	         }, 
+	         {
+	        	 "x" : 280,
+	    	     "y" : 0,
+	    	     "id" : "BootstrapDialog2",
+	    	     "name" : "Dialog Close Button",
+	    	     "type":"Button",
+	    	     "w" : 20,
+	    	     "h" : 20,
+	    	     "z" : 0,
+	    	     "props" : {
+	    	    	"label" : "X"
+	    	     },
+	    	     "has" : {
+    	    		"backgroundColor" : true,
+    		        "border" : true,
+    		        "onclick" : true,
+    		        "label" : true,
+    		        "padding" : true
+	    	     },
+	    	     "style" : {
+	    	    	 "fontSize" : 12,
+		   		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		   		      "textAlign" : "center",
+		   		      "letterSpacing" : 1,
+		   		      "lineHeight" : 1.42857,
+		   	    	  "background": null,
+		   	    	  "borderTopColor" : "#333333",
+		   	          "borderBottomColor" : "#333333",
+		   	          "borderRightColor" : "#333333",
+		   	          "borderLeftColor" : "#333333",
+		   	          "borderTopRightRadius" : 0,
+		   	          "borderTopLeftRadius" : 0,
+		   	          "borderBottomRightRadius" : 0,
+		   	          "borderBottomLeftRadius" : 0,
+		   	          "borderTopWidth" : 0,
+		   	          "borderBottomWidth" : 0,
+		   	          "borderRightWidth" : 0,
+		   	          "borderLeftWidth" : 0,
+		   	          "color" : "#ccc",
+		   		      "paddingTop" : 3,
+		   		      "paddingBottom" : 3,
+		   		      "paddingLeft" : 3,
+		   		      "paddingRight" : 3
+	    	     }
+	         }
+	     ]
+	 }
+ ]

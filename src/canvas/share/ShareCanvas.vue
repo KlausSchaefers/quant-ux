@@ -1,0 +1,909 @@
+
+<template>
+	 <div class="MatcCanvas MatcAnalyticCanvas">
+		<div class="MatcCanvasFrame" data-dojo-attach-point="frame">
+			<div class="MatcCanvasContainer MatcCanvasZoomable " data-dojo-attach-point="container">
+				<div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div> 
+				<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div> 
+			</div> 
+		</div> 
+		<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight"> 
+			<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr"> 
+				<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div> 
+			</div> 
+		</div> 
+		<div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom"> 
+			<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr"> 
+				<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div> 
+			</div> 
+		</div> 
+		<div class="MatcStatus MatcHidden" data-dojo-attach-point="status">' +
+		
+			<div class="MatcStatusItem">' +	
+				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus"> 			
+				</span> 
+				<span class="MatcStatusItemLabel" data-dojo-attach-point="zoomLabel"> 			
+				</span> 
+				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus"> 			
+				</span> 
+			</div> 
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="bwCntr"></div>
+		</div> 
+	
+		<div class="MatcMessage" data-dojo-attach-point="message"> 			
+		</div> 
+	</div>
+
+</template>
+<script>
+import DojoWidget from 'dojo/DojoWidget'
+import css from 'dojo/css'
+
+import Logger from 'common/Logger'
+import on from 'dojo/on'
+import touch from 'dojo/touch'
+import lang from 'dojo/_base/lang'
+
+import win from 'dojo/_base/win'
+import topic from 'dojo/topic'
+import domGeom from 'dojo/domGeom'
+
+import DomBuilder from 'common/DomBuilder'
+import CheckBox from 'common/CheckBox'
+import Dialog from 'common/Dialog'
+import ScrollContainer from 'common/ScrollContainer'
+import _DragNDrop from 'common/_DragNDrop'
+
+import Heat from 'dash/Heat'
+import Render from 'canvas/Render'
+import Lines from 'canvas/Lines'
+import DnD from 'canvas/DnD'
+import Add from 'canvas/Add'
+import Select from 'canvas/Select'
+import Tools from 'canvas/Tools'
+import Zoom from 'canvas/Zoom'
+import InlineEdit from 'canvas/InlineEdit'
+import Scroll from 'canvas/Scroll'
+import Upload from 'canvas/Upload'
+import Comment from 'canvas/Comment'
+
+import Simulator from 'core/Simulator'
+import Util from 'core/Util'
+import QR from 'core/QR'
+
+export default {
+    name: 'ShareCanvas',
+    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Heat],
+    data: function () {
+        return {
+            mode: "view", 
+            zoom: 0.4, 
+            zoomLevelPos: 3, 
+            analyticMode: "HeatmapClick", 
+            resizeEnabled: false, 
+            renderDND: false, 
+            dragNDropMinTimeSpan: 0, 
+            wireInheritedWidgets: true, 
+            taskLineOpacity: 1
+        }
+    },
+    components: {},
+    methods: {
+	
+		postCreate (){
+			this.logger = new Logger("ShareCanvas");
+			this.logger.log(2,"postCreate", "entry");
+			
+			
+			this.logger.log(2,"constructor", "entry");	
+
+			this.initSize()
+
+			this.cache = {};
+			this.moveMode ="classic";
+			/**
+			 * init container size and position
+			 */
+			this.canvasPos = {
+				x : this.canvasStartX, 
+				y: this.canvasStartY, 
+				w: this.canvasFlowWidth, 
+				h : this.canvasFlowHeight
+			};	
+			this.setContainerSize();
+			this.setContainerPos();
+			
+			this.db = new DomBuilder();
+
+			
+			/**
+			 * Init remaining sub components
+			 */
+			this.initRender();
+			this.initZoom();
+			this.initScrollBars();
+			this.initComment();
+			this.initSettings();
+			this.initBW();
+			this.initMouseTracker();
+			this.initButtons()
+			
+			/**
+			 * Init Listeners
+			 */
+			this.own(topic.subscribe("matc/toolbar/click", lang.hitch(this,"onToolbarClick")));
+			this.own(on(win.body(), "keydown", lang.hitch(this,"onKeyPress")));
+			this.own(on(win.body(), "keyup", lang.hitch(this,"onKeyUp")));
+			
+			this.logger.log(2,"postCreate", "exit!!!");
+		},
+
+		setModelService (s) {
+			this.modelService = s
+		},
+
+		setCommentService (s) {
+			this.commentService = s
+		},
+		
+		setPublic (isPublic){
+			this.isPublic = isPublic;
+		},
+		
+		
+		inlineEditInit (){
+			this.logger.log(2,"inlineEditInit", "enter");		
+		},
+		
+		
+		setBW (isBW){
+			this.logger.log(-1,"setBW", "enter > " + isBW);	
+			if (isBW){
+				css.add(this.container, "MatcCanvasBW");
+			} else {
+				css.remove(this.container, "MatcCanvasBW");
+			}
+		},
+		
+		setHash (h){
+			this.hash = h;
+		},
+		
+		/**********************************************************************
+		 * Button render
+		 **********************************************************************/
+		renderLayerList (){
+			this.logger.log(-1,"renderLayerList", "entry > ");
+		},
+		
+		
+		/**********************************************************************
+		 * Button render
+		 **********************************************************************/
+
+		initBW (){
+			this.bwCheckbox = this.$new(CheckBox);
+			this.bwCheckbox.setLabel("Gray Scale");
+			this.bwCheckbox.setValue(false);
+			this.bwCheckbox.placeAt(this.bwCntr);
+			this.own(on(this.bwCheckbox, "change", lang.hitch(this, "setBW")));
+			
+		},
+		
+		initButtons (){
+			
+			
+			var btn = this.db.div("MatcTestCommentButton MatcAnimated MatcFadeOut").build(this.domNode); // 
+			this.db.span("mdi mdi-comment MatcMiddle").build(btn);
+			this.own(on(btn, "click", lang.hitch(this, "onNewComment")));
+			
+			setTimeout(function(){
+				css.remove(btn, "MatcFadeOut")
+			}, 1250);
+			
+			
+			var btnSim = this.db.div("MatcTestQRButton  MatcAnimated MatcFadeOut").build(this.domNode);
+			this.db.span("mdi mdi-play MatcMiddle").build(btnSim);
+			this.own(on(btnSim, "click", lang.hitch(this, "onSimulator")));
+			
+			setTimeout(function(){
+				css.remove(btnSim, "MatcFadeOut")
+			}, 1500);
+		
+			
+			var btnZoomIn = this.db.div("MatcTestQRButton  MatcShareZoomIn MatcAnimated MatcFadeOut").build(this.domNode);
+			this.db.span("mdi mdi-magnify-plus-outline MatcMiddle").build(btnZoomIn);
+			this.own(on(btnZoomIn, "click", lang.hitch(this, "onClickPlus")));
+			
+			setTimeout(function(){
+				css.remove(btnZoomIn, "MatcFadeOut")
+			}, 2000);
+		
+			var btnZoomOut = this.db.div("MatcTestQRButton MatcShareZoomOut MatcAnimated MatcFadeOut").build(this.domNode);
+			this.db.span("mdi mdi-magnify-minus-outline MatcMiddle").build(btnZoomOut);
+			this.own(on(btnZoomOut, "click", lang.hitch(this, "onClickMinus")));
+			
+			setTimeout(function(){
+				css.remove(btnZoomOut, "MatcFadeOut")
+			}, 1750);
+			
+		},
+		
+		/**********************************************************************
+		 * Comment Overwirtes
+		 **********************************************************************/
+
+		loadComments (){
+			this.logger.log(0,"loadComments", "enter > " + this.hash);
+			this.showComments = true;
+			if (this.model) {
+				this._doGet("/rest/comments/hash/" + this.hash + "/" + this.model.id +"/ScreenComment.json", lang.hitch(this, "onCommentsLoaded"));		
+			} else {
+				this.logger.error("loadComments", "ERROR > No model");
+			}
+		},
+		
+		onNewComment (e) {
+			this.logger.log(1,"onNewComment", "enter > " );
+			this.addComment({event:e, type: "comment"});
+		},
+		
+		/**
+		 * Overrides some behaviour from Canvas.Share.
+		 * 
+		 * 1) We set mode to view
+		 * 
+		 * 2) we use other public api
+		 */
+		onCommentAdded (pos, model, e){
+			this._onAddDone();
+			this.setState(0);
+			this.setMode("view");
+			this.logger.log(0,"onCommentAdded", "enter");
+			if (this.model) {
+				if(this.model.isTryOut){
+					this.showHint("Register to add comments...");
+					this._onCommentAdded(pos,e, [] );
+				} else {	
+					// use hashed URL here
+					this._doGet("/rest/comments/hash/" + this.hash + "/" + this.model.id +"/ScreenComment.json", lang.hitch(this, "_onCommentAdded", pos, e));		
+				}
+			}
+		},
+		
+		saveDNDChange (comment){
+			/**
+			 * send to server!
+			 */
+			if (this.model) {
+				if(this.model.isTryOut){
+					this.showSuccess("Register to comment...");
+				} else {
+					this._doPost("/rest/comments/hash/" + this.hash + "/" + this.model.id +"/" + comment.id+ ".json", comment, "onCommentSaved");
+				}
+			}
+		},
+		
+		
+		onSaveComment (txt,comment, e){
+			this.stopEvent(e);
+			comment.message = txt.value;
+			if(this.model.isTryOut){
+				this.showSuccess("Register to comment...");
+			} else {
+				if(comment.id){
+					this._doPost("/rest/comments/hash/" + this.hash + "/" + this.model.id +"/" + comment.id+ ".json", comment, "onCommentSaved");
+				} else {
+					this._doPost("/rest/comments/hash/" + this.hash + "/" + this.model.id, comment, "onCommentSaved");
+				}
+			}
+			this.stopEvent(e);
+			this.onCloseCommentPopup();
+		},
+
+		
+		/**********************************************************************
+		 * Simulator stuff
+		 **********************************************************************/
+
+		
+		onSimulator (e) {
+			// make sure we use an un-zoomed model like 
+			// the toolbar would do
+			this.startSimulator(e, this.controller.model)
+		},
+		
+		startSimulator (e, model){
+			this.logger.log(1,"startSimulator", "enter > " );
+			if(model.type == "desktop"){
+				this._showDesktopSimulator(model);
+			} else if(this.model.type=="tablet"){
+				if(model.screenSize.w > model.screenSize.h){
+					this._showMobileTest(model,{w:800, h: 600}, "MatchSimulatorWrapperTablet");
+				} else {
+					this._showMobileTest(model,{w:400, h: 480}, "MatchSimulatorWrapperTablet");
+				}
+			} else{
+				this._showMobileTest(model, {w:250, h: 400}, "MatchSimulatorWrapperMobile");
+			}
+		},
+		
+		
+		_showDesktopSimulator (model){
+			
+
+			var dialog = document.createElement("div");
+			css.add(dialog, "MatchSimulatorDialog");
+			
+			
+			var container = document.createElement("div");
+			css.add(container, "MatchSimulatorContainer");
+			dialog.appendChild(container);
+			
+			var pos = domGeom.position(win.body());
+			pos.w = pos.w * 0.75;
+			pos.h = pos.h * 0.75;
+			pos = this.getScaledSize(pos, "width", model);
+			container.style.width = Math.round(pos.w) + "px";
+			container.style.height = Math.round(pos.h) + "px";
+		
+			var s = this.$new(Simulator,{mode : "debug", logData: false, hash: this.hash});
+			s.scrollListenTarget = "parent";
+			
+			var scroller = this.$new(ScrollContainer,{canDestroy:false});
+			scroller.placeAt(container);
+			s.setScrollContainer(scroller);
+
+			
+			var d = new Dialog();
+			d.popup(dialog, this.simulatorButton);
+			
+			d.own(d.on("close", lang.hitch(this, "stopSimulator",s, scroller)));
+			
+			var screen = this._getSimulatorScreen();
+			s.setStartScreen(screen);
+			setTimeout(function(){
+				scroller.wrap(s.domNode);		
+				s.setModel(model);
+			},500);
+		
+			/**
+			 * otherwise the mouse wheel listener will prevent
+			 * scrolling in the simulator!
+			 */
+			this.enableMouseZoom(false);
+			this.setState("simulate");
+			
+		},
+		
+		
+		
+		_showMobileTest (model, pos, clazz){
+			var dialog = document.createElement("div");
+			css.add(dialog, "MatchSimulatorDialog");
+			
+			var wrapper = document.createElement("div");
+			css.add(wrapper, "MatchSimulatorWrapper ");
+			if(clazz){
+				css.add(wrapper, clazz);
+			}
+			dialog.appendChild(wrapper);
+			
+			var container = document.createElement("div");
+			css.add(container, "MatchSimulatorContainer");
+					
+			pos = this.getScaledSize(pos, "width", model);
+			container.style.width = Math.ceil(pos.w) + "px";
+			container.style.height = Math.ceil(pos.h) + "px";
+			wrapper.appendChild(container);
+			
+			var scroller = this.$new(ScrollContainer, {canDestroy:false});
+			scroller.placeAt(container);
+
+			var s = this.$new(Simulator, {mode : "debug", logData : false, hash: this.hash});
+			s.scrollListenTarget = "parent";
+			s.setScrollContainer(scroller);
+							
+			var img = document.createElement("img");
+			QR.getQRCode(this.hash, false, false).then(url => {
+				img.src = url
+			})	
+			//img.src = "rest/invitation/hash/" + this.hash+ "/debug.jpg";
+			
+			css.add(img, "MatcSimulatorQR");
+			dialog.appendChild(img);
+			
+			var d = new Dialog();
+			d.popup(dialog, this.simulatorButton);		
+			d.on("close", lang.hitch(this, "stopSimulator", s, scroller));
+			
+			var screen = this._getSimulatorScreen();
+			s.setStartScreen(screen);
+			setTimeout(function(){
+				scroller.wrap(s.domNode);			
+				s.setModel(model);
+			},500);
+			
+			/**
+			 * otherwise the mouse wheel listener will prevent
+			 * scrolling in the simulator!
+			 */
+			this.enableMouseZoom(false);
+			this.setState("simulate");
+		
+		},
+		
+
+		stopSimulator (s, scroller){
+			this.enableMouseZoom(true);
+			this.setState(0);
+			if(s){
+				s.destroy();
+			}
+			if(scroller){
+				scroller.destroy();
+			}
+		},
+		
+		_getSimulatorScreen (){
+			if(this._selectedScreen){
+				return this._selectedScreen;
+			}
+			if(this._selectedWidget){
+				return this.getParentScreen(this._selectedWidget);
+			}
+
+		},
+			
+		
+		/**********************************************************************
+		 * DnD.js overwrites 
+		 **********************************************************************/
+
+		
+		onWidgetDndClick (id, div, pos ,e ){
+			this.stopEvent(e);
+			this.logger.log(-1,"onWidgetDndClick", "enter > " + id);
+			this.setState(0);
+			var widget = this.model.widgets[id];
+			if(widget){
+				var lines = this.getLinesForWidget(widget);
+				if (lines) {
+					var clickLine = this.getLineForGesture(lines, "click")
+					if (!clickLine){
+						clickLine = lines[0]
+					}
+					if (clickLine){
+						this.animateToScreen(clickLine.to, this.container);
+					}
+				}
+			} else {
+				this.highlightActionWidgets();
+			}
+		},
+		
+		highlightActionWidgets (){
+			this.logger.log(2,"highlightActionWidgets", "entry > ");
+			var divs = [];
+			for (var id in this.model.widgets){
+				var widget = this.model.widgets[id];
+				if (widget){
+					var lines = this.getLinesForWidget(widget);
+					if (lines) {
+						var div = this.analyticsDivs[widget.id];
+						if (div) {
+							divs.push(div);
+							css.add(div, "MatcSimulatorWidgetHightlight")
+						}
+					}
+				}
+			}
+			setTimeout(function(){
+				for(var i=0; i< divs.length; i++){
+					css.remove(divs[i], "MatcSimulatorWidgetHightlight")
+				}
+			}, 500)
+		},
+		
+		
+		onScreenDndClick (id, div, pos,e){
+			this.logger.log(-1,"onScreenDndClick", "entry > " + id);
+			this.stopEvent(e);
+			this.highlightActionWidgets();
+			// TODO: Check for lines
+			this.setState(0);
+			// call canvas click to make sure comment popups close
+			this.onCanvasSelected();
+		},
+		
+		onCanvasSelected (){
+			this.logger.log(2,"onCanvasSelected", "entry > ");
+			//this.inherited(arguments) ;
+		},
+		
+		/**********************************************************************
+		 * Rendering
+		 **********************************************************************/
+
+		
+		animateToScreen (screenID, container){
+			css.add(container, "MatcShareCanvasAnimatedContainer");
+			this.moveToScreen(screenID);
+		
+			setTimeout(function(){
+				css.remove(container, "MatcShareCanvasAnimatedContainer");
+			}, 500);
+		},
+		
+
+		/**********************************************************************
+		 * Rendering
+		 **********************************************************************/
+
+
+		afterRender (){
+			this.logger.log(-1,"afterRender", "entry > " + this.analyticMode);
+			this.cleanUpAnalytics();
+			try{
+				// add hover widgets for all widgets with lines
+				var widgets = this.getOrderedWidgets(this.model.widgets);
+				for(var i=0; i< widgets.length; i++){
+					var widget = widgets[i];
+					if(widget){
+						var lines = this.getLinesForWidget(widget);
+						if (lines) {
+							var div = this.createBox(widget);
+							css.add(div, "MatcHeapMapWidget MatcWidget");
+							this.widgetContainer.appendChild(div);				
+							if(this.hasSelect()){
+								this.tempOwn(on(div, touch.press, lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
+							}
+							this.analyticsDivs[widget.id] = div;
+						}
+					}
+				}
+				
+			} catch(e){
+				this.logger.error("afterRender", "Could not render heatmaps ", e);
+				this.logger.sendError(e);
+			}
+			
+		},
+		
+		
+		wireEvents (){
+			this.logger.log(-1,"wireEvents", "enter");
+			if(this.moveMode == "classic" && (this._mode == "edit" || this._mode == "view") ){
+				/**
+				 * In the classic mode the
+				 */
+				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
+			
+				for(var id in this.model.screens){
+					var dndDiv = this.screenDivs[id];
+					var screen = this.model.screens[id];
+					if (dndDiv) {
+						this.tempOwn(on(dndDiv, touch.press, lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
+					}
+				}
+			
+			}		
+			this.logger.log(4,"wireEvents", "exit");
+		},
+		
+
+		hasSelect (){
+			return this._mode!= "addComment";
+		},
+		
+		
+		/**********************************************************************
+		 * Gesture
+		 **********************************************************************/
+
+		cleanUpAnalytics (){
+			this.analyticsDivs = {};
+		},
+		
+		
+		/**********************************************************************
+		 * DI
+		 **********************************************************************/
+
+
+		setController (c){
+			this.logger.log(2,"setController", "enter");
+			this.controller = c;
+			c.setCanvas(this);
+		},
+		
+		getController (){
+			if(this._controllerCallback){
+				this[this._controllerCallback]();
+			}
+			return this.controller;
+		},
+		
+		setControllerCallback (c){
+			this._controllerCallback = c;
+		},
+		
+		
+		setModelFactory (f){
+			this.logger.log(3,"setModelFactory", "enter");
+			this.factory = f;
+		},
+		
+		setRenderFactory (f){
+			this.logger.log(3,"setRenderFactory", "enter");
+			this.renderFactory = f;
+		},
+		
+		setModel (model){
+			this.logger.log(3,"setModel", "enter");
+			this.model = model;
+			this.grid = this.model.grid;
+			this.loadComments()
+		},
+		
+		
+		setTest (t){
+			this.logger.log(2,"setTest", "enter > # " );
+			this.testSettings = t;
+		},
+
+		
+		setUser (u){
+			this.user = u;
+		},
+		
+		setMode (mode, forceRender){
+			this.logger.log(2,"setMode", "enter > " + mode +" != " + this._mode + " > " + forceRender);
+			if(mode != this._mode){
+				this._mode = mode;
+				if(this.toolbar){
+					this.toolbar.setMode(mode);
+				}
+				this.rerender();
+			} else if(forceRender){
+				this.rerender();
+			}
+		},
+		
+
+		getMode (){
+			return this._mode;
+		},
+		
+		
+
+
+		/***************************************************************************
+		 * Keyboard handling
+		 ***************************************************************************/
+		
+		onKeyPress (e){
+			
+			this._currentKeyEvent = e;
+			
+			if(this.state == "simulate" || this.state == "dialog"){
+				return;
+			}
+			
+			var target = e.target;
+			if(css.contains(target, "MatcIgnoreOnKeyPress")){
+				return
+			}
+
+			/**
+			 * The keycode is differently in every browser!
+			 */
+			var k = e.keyCode ? e.keyCode : e.which;
+
+			if (k==32){ // space
+				if(!this._inlineEditStarted ){
+					this.stopEvent(e);
+					if(this.getMode() != "move"){	
+						this.showHint("Move the mouse to move canvas...");
+						this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, this._lastMouseMoveEvent, true);
+						this.setMode("move"); 
+					}
+				}
+			/**
+			 * Zoom 
+			 */
+			} else if (k== 171 || k ==187){ // +
+				if(!this._inlineEditStarted){
+					this.onClickPlus();
+					this.stopEvent(e);
+				}
+			} else if (k== 173 || k ==189){ //-
+				
+				if(!this._inlineEditStarted){
+					this.onClickMinus();
+					this.stopEvent(e);
+				}
+			}
+			
+		},
+		
+		onKeyUp (e){
+			var k = e.keyCode ? e.keyCode : e.which;
+			if (k==32){
+				this.onDragEnd(this._lastMouseMoveEvent);
+				this.setMode("view");
+			}
+			
+			delete  this._currentKeyEvent;
+		},
+		
+		
+		/***************************************************************************
+		 * Settings
+		 ***************************************************************************/
+
+		
+		initSettings (){
+			this.logger.log(1,"initSettings", "enter > " );
+			/**
+			 * default settings
+			 */
+			this.settings = {
+				canvasTheme : "MatcLight",
+				lineColor : "#999",
+				lineWidth : 1,
+				storePropView : true,
+				moveMode : "ps",
+				mouseWheelMode : "scroll"
+			};
+		
+			
+			var s = this._getStatus("matcSettings");
+			if(s){
+				if(s.canvasTheme){
+					//this.settings.canvasTheme = s.canvasTheme;
+				}
+				if(s.lineColor){
+					this.settings.lineColor = s.lineColor;
+				}
+				if(s.lineWidth){
+					this.settings.lineWidth = s.lineWidth;
+				}
+			} else {
+				this.logger.log(2,"initSettings", "exit>  no saved settings" );
+			}
+			
+			
+			this.applySettings(this.settings);
+		},
+		
+		getSettings (){
+			return this.settings;
+		},
+		
+		setSettings (s){
+		
+			/**
+			 * Mixin values
+			 */
+			if(s.canvasTheme){
+				this.settings.canvasTheme = s.canvasTheme;
+			}
+			if(s.lineColor){
+				//this.settings.lineColor = s.lineColor;
+			}
+			if(s.lineWidth){
+				this.settings.lineWidth = s.lineWidth;
+			}
+			if(s.storePropView!=null){
+				this.settings.storePropView = s.storePropView;
+			}
+			
+			if(s.mouseWheelMode!=null){
+				this.settings.mouseWheelMode = s.mouseWheelMode;
+			}
+			
+			this._setStatus("matcSettings",this.settings );
+			
+			this.applySettings(this.settings);
+			this.rerender();
+		},
+		
+		
+		applySettings (s){
+			
+			this.logger.log(2,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
+			
+			if(s.lineWidth){
+				this.defaultLineWidth = s.lineWidth;
+			}
+			if(s.canvasTheme){
+				if(this._lastCanvasTheme){
+					css.remove(win.body(), this._lastCanvasTheme);
+				}
+				css.add(win.body(), s.canvasTheme)
+				this._lastCanvasTheme = s.canvasTheme;
+			}
+			
+			if(s.mouseWheelMode){
+				this._mouseWheelMode = s.mouseWheelMode;
+			}
+			
+			this.settings = s;
+			
+		},
+
+
+		/***************************************************************************
+		 * Helper Functons
+		 ***************************************************************************/
+		
+
+		/**
+		 * Returns all lines for a widget or its parent group. 
+		 * 
+		 * 1) If there is one or more lines for the widget, this will be
+		 * returned
+		 * 
+		 * 2) Else, if there is a group and the group has one or more line,
+		 * the group lines will be returned!
+		 */
+		getLinesForWidget (widget){
+
+			/**
+			 * In case of an inherited widget, use the lines of the master
+			 */
+			if(widget.inherited && this.model.widgets[widget.inherited]){
+				widget = this.model.widgets[widget.inherited];
+			}
+			
+			var widgetID = widget.id;
+			var lines = this.getFromLines(widget);
+			if(lines && lines.length > 0){
+				return lines;
+			}
+			
+			var group = this.getParentGroup(widgetID);
+			if(group){
+				var groupLine = this.getFromLines(group);
+				if(groupLine && groupLine.length > 0){
+					return groupLine;
+				}
+			}
+		},
+		
+
+		/**
+		 * Return the line with a given type (lines[i].event === type).
+		 * Handles also old school where there was not event
+		 */
+		getLineForGesture (lines,type ){
+			for(var i=0; i< lines.length; i++){
+				if(lines[i].event === type || ("click" === type && !lines[i].event)){
+					return lines[i];
+				}
+			}
+		},
+
+		initMouseTracker (){
+			this.own(on(win.body(),"mousemove", lang.hitch(this,"onMouseMove")));
+		},
+
+		onMouseMove (e){
+			var pos2 = this.getCanvasMousePosition(e, true);
+			this._lastMousePos = pos2;
+			this._lastMouseMoveEvent = e;
+		},
+		
+
+		destroy (){
+			this.cleanUp();
+		}
+    }, 
+    mounted () {
+		
+    }
+}
+</script>

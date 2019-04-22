@@ -1,0 +1,47 @@
+[ {
+	"id" : "IOSStepper",
+	"type" : "Stepper",
+	"name" : "Stepper",
+	"_type" : "Widget",
+	"category" : "IOS",
+	"subcategory" : "AFormButton",
+	"x" : 0,
+	"y" : 0,
+	"w" : 60,
+	"h" : 30,
+	"z" : 0,
+	"props" : {
+		"refs" : {
+			"valueLabel" : [  ]
+		}
+	},
+	"has" : {
+	    "backgroundColor" : true,
+        "border" : true,
+		"label" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "center",
+		"letterSpacing" : 1,
+		"lineHeight" : 1,
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#007aff",
+		"borderBottomColor" : "#007aff",
+		"borderRightColor" : "#007aff",
+		"borderLeftColor" : "#007aff",
+		"color" : "#007aff",
+		"borderTopRightRadius" : 5,
+		"borderTopLeftRadius" : 5,
+		"borderBottomRightRadius" : 5,
+		"borderBottomLeftRadius" : 5
+	}
+} ]

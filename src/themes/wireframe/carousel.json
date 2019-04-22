@@ -1,0 +1,23 @@
+[{
+	"id" : "WireFrameImageCarousel",
+	"type" : "ImageCarousel",
+	"name" : "Image Carousel",
+	"_type" : "Widget",
+	"category" : "WireFrame",
+	"subcategory" : "ImageCarousel",
+	"x" : 0,
+    "y" : 0,
+    "w" : 300,
+    "h" : 200,
+    "z" : 0,
+    "props" : {
+       "images" : [],
+       "vertical" : false
+    },
+    "has" : {
+       "onclick" : true
+    },
+    "style" : { 
+   	 	
+    }
+}]

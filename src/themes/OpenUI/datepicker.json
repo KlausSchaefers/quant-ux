@@ -1,0 +1,76 @@
+[ {
+	"id" : "FioriDatePicker",
+	"type" : "DateDropDown",
+	"name" : "Date Picker",
+	"category" : "OpenUI",
+	"subcategory" : "FormInputDate",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 150,
+	"h" : 24,
+	"z" : 0,
+	"props" : {
+		"label" : "Select Date",
+		"icon" : "mdi mdi-calendar"
+	},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true,
+		"data" : true,
+		"padding" : true
+	},
+	"style" : {
+		"color" : "#333333",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"fontSize" : 14,
+		"borderTopColor" : "#bfbfbf",
+		"borderBottomColor" : "#bfbfbf",
+		"borderRightColor" : "#bfbfbf",
+		"borderLeftColor" : "#bfbfbf",
+		"background" : "#ffffff",
+		"paddingTop" : 0,
+		"paddingBottom" : 0,
+		"paddingLeft" : 7,
+		"paddingRight" : 7,
+		"textAlign" : "left",
+		"selectedBackground" : "#346187",
+		"selectedColor" : "#ffffff",
+		"headerBackground" : "#ffffff",
+		"headerColor" : "#333333",
+		"tableHeaderColor" : "#666666",
+		"tableHeaderBackground" : "#fefefe",
+		"weekdayBackground" : "#f2f2f2",
+        "weekendBackground" : "#e5e5e5",
+        "weekdayColor" : "#666666",
+    	"weekendColor" :"#666666",
+        "tableBorderWidth" : 2,
+		"popupColor" : "#00679e",
+		"popupBackground" : "#ffffff",
+		"popupBorderColor" : "#ffffff",
+		"popupBorderWidth" : 1,
+		"popupShadow" : {
+			"v" : 2,
+			"h" : 0,
+			"b" : 1,
+			"s" : 1,
+			"c" : "rgba(0, 0, 0,0.176)"
+		}
+	},
+	"hover" : {
+		"borderTopColor" : "#006ca7",
+		"borderBottomColor" : "#006ca7",
+		"borderRightColor" : "#006ca7",
+		"borderLeftColor" : "#006ca7"
+	}
+
+} ]

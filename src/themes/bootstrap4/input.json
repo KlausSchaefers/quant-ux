@@ -1,0 +1,96 @@
+[ {
+	"id" : "Bootstrap4TextBox",
+	"type" : "TextBox",
+	"_type" : "Widget",
+	"category" : "Bootstrap4",
+	"subcategory" : "FormInput",
+	"name" : "Text Box",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 38,
+	"z" : 0,
+	"props" : {
+		"label" : "Enter a value"
+	},
+	"has" : {
+		"label" : true,
+		"backgroundColor" : true,
+		"border" : true,
+		"editable" : true,
+		"onclick" : true,
+		"padding" : true
+	},
+	"style" : {
+		"color" : "#55595c",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"borderTopRightRadius" : 4,
+		"borderTopLeftRadius" : 4,
+		"borderBottomRightRadius" : 4,
+		"borderBottomLeftRadius" : 4,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"fontSize" : 16,
+		"borderTopColor" : "#cccccc",
+		"borderBottomColor" : "#cccccc",
+		"borderRightColor" : "#cccccc",
+		"borderLeftColor" : "#cccccc",
+		"background" : "#ffffff",
+		"paddingTop" : 6,
+		"paddingBottom" : 6,
+		"paddingLeft" : 12,
+		"paddingRight" : 12,
+		"textAlign" : "left"
+	},
+	"error" : {
+		"borderTopColor" : "#d9534f",
+		"borderBottomColor" : "#d9534f",
+		"borderRightColor" : "#d9534f",
+		"borderLeftColor" : "#d9534f"
+	},
+	"focus" : {
+		"borderTopColor" : "#66afe9",
+		"borderBottomColor" : "#66afe9",
+		"borderRightColor" : "#66afe9",
+		"borderLeftColor" : "#66afe9"
+	}
+}, {
+	"id" : "Bootstrap4TextArea",
+	"type" : "TextArea",
+	"_type" : "Widget",
+	"category" : "Bootstrap4",
+	"_extends" : "Bootstrap4TextBox",
+	"subcategory" : "FormInput2",
+	"name" : "Text Area",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 200,
+	"z" : 0,
+	"props" : {
+		"label" : "Enter a value"
+	},
+	"has" : {
+		"label" : true,
+		"backgroundColor" : true,
+		"border" : true,
+		"editable" : true,
+		"onclick" : true,
+		"padding" : true
+	},	
+	"error" : {
+		"borderTopColor" : "#d9534f",
+		"borderBottomColor" : "#d9534f",
+		"borderRightColor" : "#d9534f",
+		"borderLeftColor" : "#d9534f"
+	},
+	"focus" : {
+		"borderTopColor" : "#66afe9",
+		"borderBottomColor" : "#66afe9",
+		"borderRightColor" : "#66afe9",
+		"borderLeftColor" : "#66afe9"
+	}
+
+} ]

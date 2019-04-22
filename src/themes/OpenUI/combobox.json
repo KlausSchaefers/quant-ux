@@ -1,0 +1,80 @@
+[ {
+	"id" : "FioriComboBox",
+	"type" : "DropDown",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "FormInput",
+	"name" : "Combo",
+	"x" : 0,
+	"y" : 0,
+	"w" : 150,
+	"h" : 24,
+	"z" : 0,
+	"props" : {
+		"options" : [ "Option 1", "Option 2", "Option 3" ],
+        "caretBorderColor" : true,
+        "icon" : "mdi mdi-chevron-down"
+	},
+	"has" : {
+		"label" : true,
+		"backgroundColor" : true,
+		"border" : true,
+		"editable" : true,
+		"onclick" : true,
+		"padding" : true
+	},
+	"style" : {
+		"color" : "#333333",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"fontSize" : 14,
+		"borderTopColor" : "#bfbfbf",
+		"borderBottomColor" : "#bfbfbf",
+		"borderRightColor" : "#bfbfbf",
+		"borderLeftColor" : "#bfbfbf",
+		"background" : "#ffffff",
+		"paddingTop" : 2,
+		"paddingBottom" : 2,
+		"paddingLeft" : 7,
+		"paddingRight" : 7,
+		"lineHeight" : 1,
+		"textAlign" : "left",
+		"popupColor" : "#333333",
+		"popupBackground" : "#ffffff",
+		"popupBorderColor" : "#ffffff",
+		"popupBorderWidth" : 1,
+		"popupShadow" : {
+			"v" : 2,
+			"h" : 0,
+			"b" : 1,
+			"s" : 1,
+			"c" : "rgba(0, 0, 0,0.176)"
+		},
+		"caretBackground" : "#ffffff",
+		"caretColor" : "#333333",
+	     "iconSize" : 24
+	},
+	"focus" : {
+		"borderTopColor" : "#346187",
+		"borderBottomColor" : "#346187",
+		"borderRightColor" : "#346187",
+		"borderLeftColor" : "#346187",
+		"caretBackground" : "#346187",
+		"caretColor" : "#ffffff"
+	},
+	"hover" : {
+		"borderTopColor" : "#346187",
+		"borderBottomColor" : "#346187",
+		"borderRightColor" : "#346187",
+		"borderLeftColor" : "#346187",
+		"caretBackground" : "#f0f0f0"
+	}
+
+} ]

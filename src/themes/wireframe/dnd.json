@@ -1,0 +1,49 @@
+[ {
+	"id" : "WireFrame",
+	"type" : "DragNDrop",
+	"name" : "DragNDrop",
+	"category" : "WireFrame",
+	"subcategory" : "FormSpecial",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 60,
+	"h" : 60,
+	"z" : 0,
+	"props" : {
+		"label" : "Drag Me",
+		"dndY" : true,
+		"dndX" : true
+	},
+	"has" : {
+		"padding" : true,
+		"border" : true,
+		"backgroundColor" : true,
+		"backgroundImage" : true,
+		"data" : true,
+		"label" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 3,
+		"borderTopLeftRadius" : 3,
+		"borderBottomRightRadius" : 3,
+		"borderBottomLeftRadius" : 3,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#333333",
+		"borderBottomColor" : "#333333",
+		"borderRightColor" : "#333333",
+		"borderLeftColor" : "#333333",
+		"background" : "#ffffff",
+		"color" : "#333333",
+		"paddingTop" : 3,
+		"paddingBottom" : 3,
+		"paddingLeft" : 3,
+		"paddingRight" : 3,
+		"fontSize" : 14,
+	    "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	    "textAlign" : "center"
+	}
+} ]

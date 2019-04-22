@@ -1,0 +1,128 @@
+[
+	{
+		 "id" : "IOSTextBox",
+		 "type" : "TextBox",
+		 "_type" : "Widget",
+		 "category" : "IOS",
+		 "subcategory" : "FormInput",
+		 "name" : "Text Box",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 200,
+	     "h" : 30,
+	     "z" : 0,
+	     "props" : {
+		     "label" : "Enter a value",
+		     "placeholder" : true
+	     },
+	     "has" : {
+	        "label" : true,
+	        "backgroundColor" : true,
+	        "border" : true,
+	        "editable" : true,
+	        "onclick" : true,
+	        "padding" : true
+	     },
+	     "style" : { 
+	    	  "color" : "#000000",
+		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		      "borderTopRightRadius" : 5,
+		      "borderTopLeftRadius" : 5,
+		      "borderBottomRightRadius" : 5,
+		      "borderBottomLeftRadius" : 5,
+		      "borderTopWidth" : 1,
+		      "borderBottomWidth" : 1,
+		      "borderRightWidth" : 1,
+		      "borderLeftWidth" : 1,
+		      "fontSize" : 14,
+		      "borderTopColor" : "#ffffff",
+		      "borderBottomColor" : "#ffffff",
+		      "borderRightColor" : "#ffffff",
+		      "borderLeftColor" : "#ffffff",
+		      "background" : "#ffffff",
+		      "paddingTop" : 5,
+		      "paddingBottom" : 5,
+		      "paddingLeft" : 12,
+		      "paddingRight" : 12,
+		      "textAlign":"left"
+	     },
+	     "error" : {
+	    	 "borderTopColor" : "#ff3b30",
+		     "borderBottomColor" : "#ff3b30",
+		     "borderRightColor" : "#ff3b30",
+		     "borderLeftColor" : "#ff3b30",
+		     "background" : "#ffffff"
+	     },
+	     "focus" : {
+		     "background" : "#ffffff",
+	    	 "borderTopColor" : "#ffffff",
+		     "borderBottomColor" : "#ffffff",
+		     "borderRightColor" : "#ffffff",
+		     "borderLeftColor" : "#ffffff"
+	     }
+	     
+	 },
+	 {
+		 "id" : "IOSTextArea",
+		 "type" : "TextArea",
+		 "_type" : "Widget",
+		 "category" : "IOS",
+		 "subcategory" : "FormInput",
+		 "name" : "Text Area",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 200,
+	     "h" : 200,
+	     "z" : 0,
+	     "props" : {
+		     "label" : "Enter a value",
+		     "placeholder" : true
+	     },
+	     "has" : {
+	        "label" : true,
+	        "backgroundColor" : true,
+	        "border" : true,
+	        "editable" : true,
+	        "onclick" : true,
+	        "padding" : true
+	     },
+	     "style" : { 
+	    	  "color" : "#000000",
+		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		      "borderTopRightRadius" : 5,
+		      "borderTopLeftRadius" : 5,
+		      "borderBottomRightRadius" : 5,
+		      "borderBottomLeftRadius" : 5,
+		      "borderTopWidth" : 1,
+		      "borderBottomWidth" : 1,
+		      "borderRightWidth" : 1,
+		      "borderLeftWidth" : 1,
+		      "fontSize" : 14,
+		      "borderTopColor" : "#ffffff",
+		      "borderBottomColor" : "#ffffff",
+		      "borderRightColor" : "#ffffff",
+		      "borderLeftColor" : "#ffffff",
+		      "background" : "#ffffff",
+		      "paddingTop" : 5,
+		      "paddingBottom" : 5,
+		      "paddingLeft" : 12,
+		      "paddingRight" : 12,
+		      "textAlign":"left"
+	     },
+	     "error" : {
+	    	 "borderTopColor" : "#ff3b30",
+		     "borderBottomColor" : "#ff3b30",
+		     "borderRightColor" : "#ff3b30",
+		     "borderLeftColor" : "#ff3b30",
+		     "background" : "#ffffff"
+	     },
+	     "focus" : {
+		     "background" : "#ffffff",
+	    	 "borderTopColor" : "#ffffff",
+		     "borderBottomColor" : "#ffffff",
+		     "borderRightColor" : "#ffffff",
+		     "borderLeftColor" : "#ffffff"
+	     }
+	     
+	 }
+]

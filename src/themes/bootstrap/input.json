@@ -1,0 +1,134 @@
+[ {
+	"id" : "BootstrapTextBox",
+	"type" : "TextBox",
+	"_type" : "Widget",
+	"category" : "Bootstrap",
+	"subcategory" : "FormInput",
+	"name" : "Text Box",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 32,
+	"z" : 0,
+	"props" : {
+		"label" : "Enter a value"
+	},
+	"has" : {
+		"label" : true,
+		"backgroundColor" : true,
+		"border" : true,
+		"editable" : true,
+		"onclick" : true,
+		"padding" : true
+	},
+	"style" : {
+		"color" : "#555555",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"borderTopRightRadius" : 4,
+		"borderTopLeftRadius" : 4,
+		"borderBottomRightRadius" : 4,
+		"borderBottomLeftRadius" : 4,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"fontSize" : 14,
+		"borderTopColor" : "#cccccc",
+		"borderBottomColor" : "#cccccc",
+		"borderRightColor" : "#cccccc",
+		"borderLeftColor" : "#cccccc",
+		"background" : "#ffffff",
+		"paddingTop" : 6,
+		"paddingBottom" : 6,
+		"paddingLeft" : 12,
+		"paddingRight" : 12,
+		"textAlign" : "left",
+		"boxShadow" : {
+			"v" : 1,
+			"h" : 1,
+			"b" : 1,
+			"s" : 0,
+			"c" : "rgba(0, 0, 0, 0.075)",
+			"i" : true
+		}
+	},
+	"error" : {
+		"borderTopColor" : "#a94442",
+		"borderBottomColor" : "#a94442",
+		"borderRightColor" : "#a94442",
+		"borderLeftColor" : "#a94442"
+	},
+	"focus" : {
+		"borderTopColor" : "#337ab7",
+		"borderBottomColor" : "#337ab7",
+		"borderRightColor" : "#337ab7",
+		"borderLeftColor" : "#337ab7"
+	}
+}, {
+	"id" : "BootstrapTextArea",
+	"type" : "TextArea",
+	"_type" : "Widget",
+	"category" : "Bootstrap",
+	"subcategory" : "FormInput2",
+	"name" : "Text Area",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 72,
+	"z" : 0,
+	"props" : {
+		"label" : "Enter a value"
+	},
+	"has" : {
+		"label" : true,
+		"backgroundColor" : true,
+		"border" : true,
+		"editable" : true,
+		"onclick" : true,
+		"padding" : true
+	},
+	"style" : {
+		"color" : "#555555",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"borderTopRightRadius" : 4,
+		"borderTopLeftRadius" : 4,
+		"borderBottomRightRadius" : 4,
+		"borderBottomLeftRadius" : 4,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"fontSize" : 14,
+		"borderTopColor" : "#cccccc",
+		"borderBottomColor" : "#cccccc",
+		"borderRightColor" : "#cccccc",
+		"borderLeftColor" : "#cccccc",
+		"background" : "#ffffff",
+		"paddingTop" : 6,
+		"paddingBottom" : 6,
+		"paddingLeft" : 12,
+		"paddingRight" : 12,
+		"textAlign" : "left",
+		"boxShadow" : {
+			"v" : 1,
+			"h" : 1,
+			"b" : 1,
+			"s" : 0,
+			"c" : "rgba(0, 0, 0, 0.075)",
+			"i" : true
+		}
+	},
+	"error" : {
+		"borderTopColor" : "#a94442",
+		"borderBottomColor" : "#a94442",
+		"borderRightColor" : "#a94442",
+		"borderLeftColor" : "#a94442"
+	},
+	"focus" : {
+		"borderTopColor" : "#337ab7",
+		"borderBottomColor" : "#337ab7",
+		"borderRightColor" : "#337ab7",
+		"borderLeftColor" : "#337ab7"
+	}
+
+} ]

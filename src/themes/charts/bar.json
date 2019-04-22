@@ -1,0 +1,256 @@
+[
+		{
+			"id" : "BarChart",
+			"type" : "BarChart",
+			"name" : "Bar Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"data" : [ [ "1" ], [ "2" ], [ "3" ], [ "4" ], [ "5" ],
+						[ "6" ], [ "7" ] ]
+			},
+			"has" : {
+				"onclick" : true,
+				"border" : true
+			},
+			"style" : {
+				"borderTopRightRadius" : 0,
+				"borderTopLeftRadius" : 0,
+				"borderBottomRightRadius" : 0,
+				"borderBottomLeftRadius" : 0,
+				"borderTopWidth" : 0,
+				"borderBottomWidth" : 1,
+				"borderRightWidth" : 0,
+				"borderLeftWidth" : 1,
+				"borderTopColor" : "#333333",
+				"borderBottomColor" : "#333333",
+				"borderRightColor" : "#333333",
+				"borderLeftColor" : "#333333",
+				"borderTopRightRadius" : 0,
+				"borderTopLeftRadius" : 0,
+				"borderBottomRightRadius" : 0,
+				"borderBottomLeftRadius" : 0,
+				"background0" : "#333333",
+				"background1" : "#999999",
+				"background2" : "#d9d9d9",
+				"background3" : "#fefefe"
+			}
+		},
+		{
+
+			"id" : "BarChart2",
+			"type" : "BarChart",
+			"name" : "Bar Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"data" : [ [ "1", "1" ], [ "2", "1" ], [ "3", "2" ],
+						[ "4", "4" ], [ "5", "5" ], [ "6", "7" ], [ "7", "10" ] ]
+			}
+		},
+		{
+
+			"id" : "BarChartHor",
+			"type" : "BarChart",
+			"name" : "Bar Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isHorizontal" : true
+			}
+		},
+		{
+
+			"id" : "BarChartHor2",
+			"type" : "BarChart",
+			"name" : "Bar Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isHorizontal" : true,
+				"data" : [ [ "1", "1" ], [ "2", "1" ], [ "3", "2" ],
+						[ "4", "4" ], [ "5", "5" ], [ "6", "7" ], [ "7", "10" ] ]
+			}
+		},
+
+		{
+
+			"id" : "BarChartLine",
+			"type" : "BarChart",
+			"name" : "Line Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isLine" : true,
+				"data" : [ [ "3" ], [ "2" ], [ "5"],
+							[ "6" ], [ "7"], [ "10" ], [ "7"] ]
+			},			
+			"style" : {
+		        "lineWidth" : 3
+			}
+		},
+		{
+
+			"id" : "BarChartLine2",
+			"type" : "BarChart",
+			"name" : "Line Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isLine" : true,
+				"data" : [ [ "1", "1" ], [ "2", "1" ], [ "3", "2" ],
+						[ "4", "5" ], [ "5", "4" ], [ "6", "7" ], [ "7", "10" ] ]
+			},
+			"style" : {
+		        "lineWidth" : 3
+			}
+		},
+		{
+
+			"id" : "BarChartLine3",
+			"type" : "BarChart",
+			"name" : "Line Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isLine" : true,
+				"data" : [ [ "3" ], [ "2" ], [ "5"],
+							[ "6" ], [ "7"], [ "10" ], [ "7"] ]
+			},
+			"has" : {
+				"circle" : true
+			},
+			"style" : {
+		        "lineWidth" : 3
+			}
+		},
+		{
+
+			"id" : "BarChartLine24",
+			"type" : "BarChart",
+			"name" : "Line Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isLine" : true,
+				"data" : [ [ "1", "1" ], [ "2", "1" ], [ "3", "2" ],
+						[ "4", "5" ], [ "5", "4" ], [ "6", "7" ], [ "7", "10" ] ]
+			},
+			"has" : {
+				"circle" : true
+			},
+			"style" : {
+		        "lineWidth" : 3
+			}
+			
+		},
+		{
+
+			"id" : "BarChartLine5",
+			"type" : "BarChart",
+			"name" : "Line Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isLine" : true,
+				"data" : [ [ "3" ], [ "2" ], [ "5"],
+							[ "6" ], [ "7"], [ "10" ], [ "7"] ]
+			},
+			"has" : {
+				"fill" : true
+			},
+			"style" : {
+		        "lineWidth" : 3
+			}
+		},
+		{
+
+			"id" : "BarChartLine6",
+			"type" : "BarChart",
+			"name" : "Line Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isLine" : true,
+				"data" : [ [ "4", "1" ], [ "6", "1" ], [ "5", "2" ],
+						[ "7", "5" ], [ "8", "4" ], [ "10", "7" ], [ "14", "10" ] ]
+			},
+			"has" : {
+				"fill" : true
+			},
+			"style" : {
+		        "lineWidth" : 3
+			}
+			
+		}
+
+]

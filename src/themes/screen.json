@@ -1,0 +1,57 @@
+[
+ {
+		"id" : "Screen",
+		"type" : "Screen",
+		"category" : "Screen",
+		"name" : "Dark Screen",
+		"_type" : "Screen",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : "$screenwidth",
+	    "h" : "$screenheight",
+	    "z" : 0,
+	    "min" : {
+		    "w" : "$screenwidth",
+		    "h" : "$screenheight"
+	    },
+	    "style" : {
+	        "background" : "#333333"
+	    },
+	   
+	    "props" : {
+	    	"start":false
+	    },
+	    "has" : {
+	        "image" : true
+	    },
+	    "children" : []
+	 },
+	 {
+		"id" : "Screen2",
+		"type" : "Screen",
+		"category" : "Screen",
+		"name" : "Light Screen",
+		"_type" : "Screen",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : "$screenwidth",
+	    "h" : "$screenheight",
+	    "z" : 0,
+	    "min" : {
+		    "w" : "$screenwidth",
+		    "h" : "$screenheight"
+	    },
+	    "style" : {
+	        "background" : "#ffffff",
+	        "overlay": false,
+	        "fixed" : false
+	    },
+	    "props" : {
+	    	"start":false
+	    },
+	    "has" : {
+	        "image" : true
+	    },
+	    "children" : []
+	 }
+]

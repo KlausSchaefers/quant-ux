@@ -1,0 +1,117 @@
+[
+ 	{
+		"id" : "Bootstrap4DropDown",
+		"type" : "DropDown",
+		"name" : "DropDown",
+		 "subcategory" : "Form",
+		"category" : "Bootstrap4",
+		"_type" : "Widget",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : 150,
+	    "h" : 53,
+	    "z" : 0,
+	    "props" : {
+	        "options" : ["Option 1", "Option 2", "Option 3"],
+	        "selected" : "Option 1"
+	     },
+	     "has" : {
+	    	 "onclick" : true,
+		     "border" : true,
+		     "backgroundColor" : true,
+		     "data" : true,
+		     "padding":true,
+		     "label":true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 4,
+	         "borderTopLeftRadius" : 4,
+	         "borderBottomRightRadius" : 4,
+	         "borderBottomLeftRadius" : 4,
+	         "borderTopWidth" : 1,
+	         "borderBottomWidth": 1,
+	         "borderRightWidth" : 1,
+	         "borderLeftWidth" : 1,
+	         "borderTopColor" : "#007fff",
+	         "borderBottomColor" : "#007fff",
+	         "borderRightColor" : "#007fff",
+	         "borderLeftColor" : "#007fff",
+	         "background" : "#007fff",	
+	         "color":"#ffffff",
+	         "fontSize" : 20,
+		     "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		     "textAlign" : "left",
+		     "paddingTop": 10,
+		     "paddingBottom": 10,
+		     "paddingLeft": 30,
+		     "paddingRight": 30,
+	         "popupBackground" : "#ffffff",
+		     "popupColor" : "#333333",
+		     "popupBorderColor" : "#fff",
+		     "popupBorderWidth" : 1,
+	         "popupShadow" : {"v":6, "h":0, "b":12, "s":0,"c":"rgba(0, 0, 0,0.176)"},
+			 "selectedOptionColor" : "#333333",
+		     "selectedOptionBackground": "#e6e6e6"		
+	     },
+	     "hover":{
+	 		"background" : "#25aa5",
+	 		"borderTopColor" : "#1549b",
+	 		"borderBottomColor" : "#1549b",
+	 		"borderRightColor" : "#1549b",
+	 		"borderLeftColor" : "#1549b"
+	 	}
+ 	},
+ 	{
+ 		"id" : "Bootstrap4DropDownOutline",
+		"type" : "DropDown",
+		"name" : "DropDown",
+		"_extends": "Bootstrap4DropDown",
+		 "subcategory" : "Form",
+		"category" : "Bootstrap4",
+		"_type" : "Widget",
+		"style" : {
+	         "background" : null,	
+	         "color":"#007fff"
+		},
+		"hover" : {
+			"borderTopColor" : "#007fff",
+	         "borderBottomColor" : "#007fff",
+	         "borderRightColor" : "#007fff",
+	         "borderLeftColor" : "#007fff",
+	         "background" : "#007fff",	
+	         "color":"#ffffff"
+		}
+ 	},
+
+	{
+		"id" : "Bootstrap4DropDown2",
+		"type" : "DropDown",
+		"name" : "DropDown",
+		"_extends" : "Bootstrap4DropDown",
+		 "subcategory" : "Form",
+		"category" : "Bootstrap4",
+		"_type" : "Widget",
+		"style" : { 
+			"borderTopRightRadius" : 0,
+		     "borderTopLeftRadius" : 0,
+		     "borderBottomRightRadius" : 0,
+		     "borderBottomLeftRadius" : 0,
+		     "borderTopWidth" : 0,
+		     "borderBottomWidth": 0,
+		     "borderRightWidth" : 0,
+		     "borderLeftWidth" : 0,
+		     "borderTopColor" : "#e7e7e7",
+		     "borderBottomColor" : "#e7e7e7",
+		     "borderRightColor" : "#e7e7e7",
+		     "borderLeftColor" : "#e7e7e7",
+		     "background" : "#f8f8f8",	
+		     "color":"#777777",		    
+		     "popupBackground" : "#ffffff",
+		     "popupColor" : "#333333",
+		     "popupBorderWidth": 1,
+		     "popupBorderColor" : "#fff",
+		     "popupShadow" : {"v":6, "h":0, "b":12, "s":0,"c":"rgba(0, 0, 0,0.176)"}
+		 }
+	}	
+ 
+]

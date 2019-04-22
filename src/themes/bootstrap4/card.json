@@ -1,0 +1,350 @@
+[ {
+	"id" : "Bootstrap4Card",
+	"type" : "Box",
+	"category" : "Bootstrap4",
+	"subcategory" : "XBoxesCard",
+	"_type" : "Widget",
+	"name" : "Empty Card",
+	"x" : 0,
+	"y" : 0,
+	"w" : 300,
+	"h" : 300,
+	"z" : 0,
+	"props" : {
+
+	},
+	"has" : {
+		"label" : true,
+		"padding" : true,
+		"advancedText" : true,
+		"backgroundColor" : true,
+		"border" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 4,
+		"borderTopLeftRadius" : 4,
+		"borderBottomRightRadius" : 4,
+		"borderBottomLeftRadius" : 4,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#e5e5e5",
+		"borderBottomColor" : "#e5e5e5",
+		"borderRightColor" : "#e5e5e5",
+		"borderLeftColor" : "#e5e5e5",
+		"background" : "#ffffff",
+		"color" : "#3c763d",
+		"fontSize" : 16,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "left",
+		"letterSpacing" : 1,
+		"lineHeight" : 1.42857,
+		"paddingTop" : 10,
+		"paddingBottom" : 10,
+		"paddingLeft" : 10,
+		"paddingRight" : 10
+	}
+}, {
+	"id" : "Bootstrap4Card2",
+	"type" : "Group",
+	"_type" : "Group",
+	"name" : "Card with Image",
+	"category" : "Bootstrap4",
+	"subcategory" : "XBoxesCard",
+	"children" : [ {
+		"id" : "Bootstrap4Card2",
+		"type" : "Box",
+		"name" : "Card Background",
+		"w" : 300,
+		"h" : 300,
+		"x" : 0,
+		"y" : 0,
+		"props" : {},
+		"has" : {
+			"label" : true,
+			"padding" : true,
+			"advancedText" : true,
+			"backgroundColor" : true,
+			"backgroundImage" : true,
+			"border" : true
+		},
+		"style" : {
+			"borderTopRightRadius" : 4,
+			"borderTopLeftRadius" : 4,
+			"borderBottomRightRadius" : 4,
+			"borderBottomLeftRadius" : 4,
+			"borderTopWidth" : 1,
+			"borderBottomWidth" : 1,
+			"borderRightWidth" : 1,
+			"borderLeftWidth" : 1,
+			"borderTopColor" : "#e5e5e5",
+			"borderBottomColor" : "#e5e5e5",
+			"borderRightColor" : "#e5e5e5",
+			"borderLeftColor" : "#e5e5e5",
+			"background" : "#ffffff",
+			"color" : "#3c763d",
+			"fontSize" : 16,
+			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign" : "left",
+			"letterSpacing" : 1,
+			"lineHeight" : 1.42857,
+			"paddingTop" : 10,
+			"paddingBottom" : 10,
+			"paddingLeft" : 10,
+			"paddingRight" : 10
+		}
+	}, {
+		"id" : "Bootstrap4Card2",
+		"type" : "Button",
+		"name" : "Card Header",
+		"x" : 0,
+		"y" : 0,
+		"w" : 300,
+		"h" : 140,
+		"props" : {
+			"label" : "Lore Ipsum"
+		},
+		"has" : {
+			"label" : true,
+			"padding" : true,
+			"advancedText" : true,
+			"backgroundColor" : true,
+			"border" : true
+		},
+		"actions" : {},
+		"style" : {
+			"borderTopRightRadius" : 3,
+			"borderTopLeftRadius" : 3,
+			"borderBottomRightRadius" : 0,
+			"borderBottomLeftRadius" : 0,
+			"borderTopWidth" : 0,
+			"borderBottomWidth" : 0,
+			"borderRightWidth" : 0,
+			"borderLeftWidth" : 0,
+			"borderTopColor" : "#333333",
+			"borderBottomColor" : "#333333",
+			"borderRightColor" : "#333333",
+			"borderLeftColor" : "#333333",
+			"backgroundImage" : null,
+			"borderTopStyle" : "solid",
+			"borderBottomStyle" : "solid",
+			"borderRightStyle" : "solid",
+			"borderLeftStyle" : "solid",
+			"background" : "#777777",
+			"color" : "#ffffff",
+			"fontSize" : 32,
+			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign" : "center",
+			"letterSpacing" : 1,
+			"lineHeight" : 1.42857,
+			"paddingTop" : 40,
+			"paddingBottom" : 40,
+			"paddingLeft" : 40,
+			"paddingRight" : 40
+		}
+	} ]
+},
+{
+	  "id": "Bootstrap4Card3",
+	  "type": "Group",
+	  "_type": "Group",
+	  "name": "Card with Header",
+	  "category": "Bootstrap4",
+	  "subcategory": "XBoxesCard",
+	  "children": [
+	    {
+	      "id": "Group 20",
+	      "type": "Box",
+	      "name": "Empty Card",
+	      "x": 0,
+	      "y": 0,
+	      "w": 300,
+	      "h": 300,
+	      "props": {},
+	      "has": {
+	        "label": true,
+	        "padding": true,
+	        "advancedText": true,
+	        "backgroundColor": true,
+	        "border": true
+	      },
+	      "style": {
+	        "borderTopRightRadius": 4,
+	        "borderTopLeftRadius": 4,
+	        "borderBottomRightRadius": 4,
+	        "borderBottomLeftRadius": 4,
+	        "borderTopWidth": 1,
+	        "borderBottomWidth": 1,
+	        "borderRightWidth": 1,
+	        "borderLeftWidth": 1,
+	        "borderTopColor": "#e5e5e5",
+	        "borderBottomColor": "#e5e5e5",
+	        "borderRightColor": "#e5e5e5",
+	        "borderLeftColor": "#e5e5e5",
+	        "background": "#ffffff",
+	        "color": "#3c763d",
+	        "fontSize": 16,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 1,
+	        "lineHeight": 1.42857,
+	        "paddingTop": 10,
+	        "paddingBottom": 10,
+	        "paddingLeft": 10,
+	        "paddingRight": 10
+	      }
+	    },
+	    {
+	      "type": "Button",
+	      "name": "Box",
+	      "x": 0,
+	      "y": 0,
+	      "w": 300,
+	      "h": 50,
+	      "props": {
+	        "label": ""
+	      },
+	      "has": {
+	        "backgroundColor": true,
+	        "border": true,
+	        "label": true,
+	        "padding": true,
+	        "onclick": true
+	      },
+	      "actions": {},
+	      "style": {
+	        "fontSize": 16,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 1,
+	        "lineHeight": 1.4,
+	        "color": "#3c763d",
+	        "borderTopRightRadius": 4,
+	        "borderTopLeftRadius": 4,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 1,
+	        "borderBottomWidth": 1,
+	        "borderRightWidth": 1,
+	        "borderLeftWidth": 1,
+	        "borderTopColor": "#e5e5e5",
+	        "borderBottomColor": "#e5e5e5",
+	        "borderRightColor": "#e5e5e5",
+	        "borderLeftColor": "#e5e5e5",
+	        "background": "#f5f5f5",
+	        "paddingTop": 10,
+	        "paddingBottom": 10,
+	        "paddingRight": 10,
+	        "paddingLeft": 10,
+	        "borderTopStyle": "solid",
+	        "borderBottomStyle": "solid",
+	        "borderRightStyle": "solid",
+	        "borderLeftStyle": "solid"
+	      },
+	      "id": "Group 21"
+	    },
+	    {
+	      "type": "Label",
+	      "name": "Label",
+	      "x": 40,
+	      "y": 80,
+	      "w": 220,
+	      "h": 40,
+	      "props": {
+	        "label": " Lore Ipsum\n"
+	      },
+	      "has": {
+	        "label": true,
+	        "padding": true,
+	        "advancedText": true
+	      },
+	      "style": {
+	        "fontSize": 32,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 1,
+	        "lineHeight": 1,
+	        "color": "#333333"
+	      },
+	      "id": "Group 22"
+	    },
+	    {
+	      "id": "Group 23",
+	      "type": "Label",
+	      "name": "Paragraph",
+	      "x": 40,
+	      "y": 120,
+	      "w": 220,
+	      "h": 100,
+	      "props": {
+	        "label": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+	      },
+	      "has": {
+	        "label": true,
+	        "padding": true,
+	        "advancedText": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "justify",
+	        "letterSpacing": 1,
+	        "lineHeight": 1.4,
+	        "color": "#333333"
+	      }
+	    },
+	    {
+	      "id": "Group 24",
+	      "type": "Button",
+	      "name": "Primary Button",
+	      "x": 40,
+	      "y": 240,
+	      "w": 140,
+	      "h": 40,
+	      "props": {
+	        "label": "Click Me\n"
+	      },
+	      "has": {
+	        "backgroundColor": true,
+	        "border": true,
+	        "onclick": true,
+	        "label": true,
+	        "padding": true
+	      },
+	      "style": {
+	        "fontSize": "16",
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "center",
+	        "letterSpacing": 1,
+	        "lineHeight": 1.42857,
+	        "background": "#007fff",
+	        "borderTopColor": "#0275d8",
+	        "borderBottomColor": "#0275d8",
+	        "borderRightColor": "#0275d8",
+	        "borderLeftColor": "#0275d8",
+	        "borderTopRightRadius": 4,
+	        "borderTopLeftRadius": 4,
+	        "borderBottomRightRadius": 4,
+	        "borderBottomLeftRadius": 4,
+	        "borderTopWidth": 1,
+	        "borderBottomWidth": 1,
+	        "borderRightWidth": 1,
+	        "borderLeftWidth": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 6,
+	        "paddingBottom": 6,
+	        "paddingLeft": 10,
+	        "paddingRight": 10,
+	        "valign": "top"
+	      },
+	      "hover": {
+	        "background": "#25aa5",
+	        "borderTopColor": "#1549b",
+	        "borderBottomColor": "#1549b",
+	        "borderRightColor": "#1549b",
+	        "borderLeftColor": "#1549b"
+	      }
+	    }
+	  ]
+	}]

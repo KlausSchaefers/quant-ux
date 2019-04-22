@@ -1,0 +1,49 @@
+[ {
+	"id" : "Spinner",
+	"type" : "Spinner",
+	"_type" : "Widget",
+	"category" : "WireFrame",
+	"subcategory" : "Form",
+	"name" : "Spinner",
+	"x" : 0,
+	"y" : 0,
+	"w" : 100,
+	"h" : 100,
+	"z" : 0,
+	"props" : {
+		"options" : [ "Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6" ],
+		"selected" : "Option 1"
+	},
+	"has" : {
+		"onclick" : true,
+		"border" : true,
+	    "data" : true,
+	    "backgroundColor" : true,
+	    "label":true
+	},
+	"style" : {
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 0,
+		"borderBottomWidth" : 0,
+		"borderRightWidth" : 0,
+		"borderLeftWidth" : 0,
+		"borderTopColor" : "#333333",
+		"borderBottomColor" : "#333333",
+		"borderRightColor" : "#333333",
+		"borderLeftColor" : "#333333",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	    "textAlign" : "center",
+	    "letterSpacing" : 1,
+	    "lineHeight" : 1,
+		"color" : "#333333",
+		"borderBoxColor" : "#333333",
+		"borderBoxWidth" : 1,
+		"fontSize" : 18
+	}
+}
+
+
+]

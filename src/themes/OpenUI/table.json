@@ -1,0 +1,54 @@
+[ {
+	"id" : "FioriTable",
+	"type" : "Table",
+	"name" : "Table",
+	 "_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 300,
+	"h" : 150,
+	"category" : "OpenUI",
+	"subcategory" : "Table",
+	"z" : 0,
+	"props" : {
+		"data" : [
+		          ["col1","col2","col3", "col4"], 
+		          ["val1","val2","val3", "val4"], 
+		          ["val5","val6","val7", "val8"], 
+		          ["val9","val10","val11", "val12"]
+		         ],
+		"widths" : [100, 100,100, 100],
+		"borderStyle" : "HLines"
+	},
+	"has" : {
+		"onclick" : true,
+	     "label" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "left",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#e5e5e5",
+		"borderBottomColor" : "#e5e5e5",
+		"borderRightColor" : "#e5e5e5",
+		"borderLeftColor" : "#e5e5e5",
+		"background" : "#fff",
+		"headerBackground" : "#f7f7f7",
+		"headerColor" : "#000000",
+		"color" : "#333333",
+		"paddingTop" : 10,
+		"paddingBottom": 10,
+		"paddingLeft" : 5,
+		"paddingRight" : 5
+	}
+} ]

@@ -1,0 +1,378 @@
+[ {
+	"id" : "MaterialListItem1",
+	"type" : "Group",
+	"_type" : "Group",
+	"name" : "List Item",
+	"category" : "Material",
+	"subcategory" : "List",
+	"children" : [ {
+		"type" : "Label",
+		"name" : "Label",
+		"x" : 40,
+		"y" : 3,
+		"w" : 150,
+		"h" : 18,
+		"props" : {
+			"label" : "List Item"
+		},
+		"has" : {
+			"label" : true,
+			"padding" : true,
+			"advancedText" : true
+		},
+		"style" : {
+			"fontSize" : 18,
+			"fontFamily" : "Roboto, sans-serif",
+			"textAlign" : "left",
+			"letterSpacing" : 1,
+			"lineHeight" : 1,
+			"color" : "#333333"
+		},
+		"id" : "Group 00"
+	}, {
+		"id" : "Group 01",
+		"type" : "Icon",
+		"name" : "Icon",
+		"x" : 0,
+		"y" : 0,
+		"w" : 24,
+		"h" : 24,
+		"props" : {},
+		"has" : {
+			"onclick" : true,
+			"data" : true
+		},
+		"actions" : {},
+		"style" : {
+			"borderTopRightRadius" : 0,
+			"borderTopLeftRadius" : 0,
+			"borderBottomRightRadius" : 0,
+			"borderBottomLeftRadius" : 0,
+			"borderTopWidth" : 0,
+			"borderBottomWidth" : 0,
+			"borderRightWidth" : 0,
+			"borderLeftWidth" : 0,
+			"borderTopColor" : "#333333",
+			"borderBottomColor" : "#333333",
+			"borderRightColor" : "#333333",
+			"borderLeftColor" : "#333333",
+			"color" : "#757575",
+			"icon" : "mdi mdi-account"
+		}
+	} ]
+},
+
+
+{
+	  "id": "MaterialListItem2",
+	  "type": "Group",
+	  "_type": "Group",
+	  "name": "List Item",
+	  "category": "Material",
+	  "subcategory": "List",
+	  "children": [
+	    {
+	      "type": "Button",
+	      "name": "Box",
+	      "x": 0,
+	      "y": 0,
+	      "w": 40,
+	      "h": 40,
+	      "props": {
+	        "label": ""
+	      },
+	      "has": {
+	        "backgroundColor": true,
+	        "border": true,
+	        "label": true,
+	        "padding": true,
+	        "onclick": true
+	      },
+	      "actions": {},
+	      "style": {
+	        "fontSize": 120,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 1,
+	        "lineHeight": 1.4,
+	        "color": "#333333",
+	        "borderTopRightRadius": 200,
+	        "borderTopLeftRadius": 200,
+	        "borderBottomRightRadius": 200,
+	        "borderBottomLeftRadius": 200,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "borderTopColor": "#333333",
+	        "borderBottomColor": "#333333",
+	        "borderRightColor": "#333333",
+	        "borderLeftColor": "#333333",
+	        "background": "#757575",
+	        "borderTopStyle": "solid",
+	        "borderBottomStyle": "solid",
+	        "borderRightStyle": "solid",
+	        "borderLeftStyle": "solid"
+	      },
+	      "id": "Group 10"
+	    },
+	    {
+	      "type": "Label",
+	      "name": "Label",
+	      "x": 59,
+	      "y": 11,
+	      "w": 150,
+	      "h": 18,
+	      "props": {
+	        "label": "List Item"
+	      },
+	      "has": {
+	        "label": true,
+	        "padding": true,
+	        "advancedText": true
+	      },
+	      "style": {
+	        "fontSize": 18,
+	        "fontFamily": "Roboto, sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 1,
+	        "lineHeight": 1,
+	        "color": "#333333"
+	      },
+	      "id": "Group 11"
+	    },
+	    {
+	      "id": "Group 12",
+	      "type": "Icon",
+	      "name": "Icon",
+	      "x": 0,
+	      "y": 0,
+	      "w": 40,
+	      "h": 40,
+	      "props": {},
+	      "has": {
+	        "onclick": true,
+	        "data": true
+	      },
+	      "actions": {},
+	      "style": {
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "borderTopColor": "#333333",
+	        "borderBottomColor": "#333333",
+	        "borderRightColor": "#333333",
+	        "borderLeftColor": "#333333",
+	        "color": "#ffffff",
+	        "icon": "mdi mdi-account"
+	      }
+	    },
+	    {
+	      "id": "Group 13",
+	      "type": "Icon",
+	      "name": "Icon",
+	      "x": 213,
+	      "y": 8,
+	      "w": 24,
+	      "h": 24,
+	      "props": {},
+	      "has": {
+	        "onclick": true,
+	        "data": true
+	      },
+	      "actions": {},
+	      "style": {
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "borderTopColor": "#333333",
+	        "borderBottomColor": "#333333",
+	        "borderRightColor": "#333333",
+	        "borderLeftColor": "#333333",
+	        "color": "#ff4081",
+	        "icon": "mdi mdi-star"
+	      }
+	    }
+	  ]
+	},
+	
+	
+	{
+		  "id": "MaterialListItem3",
+		  "type": "Group",
+		  "_type": "Group",
+		  "name": "List Item 3",
+		  "category": "Material",
+		  "subcategory": "List",
+		  "children": [
+		    {
+		      "type": "Button",
+		      "name": "Box",
+		      "x": 0,
+		      "y": 0,
+		      "w": 40,
+		      "h": 40,
+		      "props": {
+		        "label": ""
+		      },
+		      "has": {
+		        "backgroundColor": true,
+		        "border": true,
+		        "label": true,
+		        "padding": true,
+		        "onclick": true
+		      },
+		      "actions": {},
+		      "style": {
+		        "fontSize": 120,
+		        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+		        "textAlign": "left",
+		        "letterSpacing": 1,
+		        "lineHeight": 1.4,
+		        "color": "#333333",
+		        "borderTopRightRadius": 200,
+		        "borderTopLeftRadius": 200,
+		        "borderBottomRightRadius": 200,
+		        "borderBottomLeftRadius": 200,
+		        "borderTopWidth": 0,
+		        "borderBottomWidth": 0,
+		        "borderRightWidth": 0,
+		        "borderLeftWidth": 0,
+		        "borderTopColor": "#333333",
+		        "borderBottomColor": "#333333",
+		        "borderRightColor": "#333333",
+		        "borderLeftColor": "#333333",
+		        "background": "#757575",
+		        "borderTopStyle": "solid",
+		        "borderBottomStyle": "solid",
+		        "borderRightStyle": "solid",
+		        "borderLeftStyle": "solid"
+		      },
+		      "id": "Group 20"
+		    },
+		    {
+		      "type": "Label",
+		      "name": "Label",
+		      "x": 58,
+		      "y": 0,
+		      "w": 150,
+		      "h": 21,
+		      "props": {
+		        "label": "List Item 2"
+		      },
+		      "has": {
+		        "label": true,
+		        "padding": true,
+		        "advancedText": true
+		      },
+		      "style": {
+		        "fontSize": 18,
+		        "fontFamily": "Roboto, sans-serif",
+		        "textAlign": "left",
+		        "letterSpacing": 1,
+		        "lineHeight": 1,
+		        "color": "#333333"
+		      },
+		      "id": "Group 21"
+		    },
+		    {
+		      "id": "Group 22",
+		      "type": "Icon",
+		      "name": "Icon",
+		      "x": 0,
+		      "y": 0,
+		      "w": 40,
+		      "h": 40,
+		      "props": {},
+		      "has": {
+		        "onclick": true,
+		        "data": true
+		      },
+		      "actions": {},
+		      "style": {
+		        "borderTopRightRadius": 0,
+		        "borderTopLeftRadius": 0,
+		        "borderBottomRightRadius": 0,
+		        "borderBottomLeftRadius": 0,
+		        "borderTopWidth": 0,
+		        "borderBottomWidth": 0,
+		        "borderRightWidth": 0,
+		        "borderLeftWidth": 0,
+		        "borderTopColor": "#333333",
+		        "borderBottomColor": "#333333",
+		        "borderRightColor": "#333333",
+		        "borderLeftColor": "#333333",
+		        "color": "#ffffff",
+		        "icon": "mdi mdi-account"
+		      }
+		    },
+		    {
+		      "id": "Group 23",
+		      "type": "Icon",
+		      "name": "Icon",
+		      "x": 213,
+		      "y": 8,
+		      "w": 24,
+		      "h": 24,
+		      "props": {},
+		      "has": {
+		        "onclick": true,
+		        "data": true
+		      },
+		      "actions": {},
+		      "style": {
+		        "borderTopRightRadius": 0,
+		        "borderTopLeftRadius": 0,
+		        "borderBottomRightRadius": 0,
+		        "borderBottomLeftRadius": 0,
+		        "borderTopWidth": 0,
+		        "borderBottomWidth": 0,
+		        "borderRightWidth": 0,
+		        "borderLeftWidth": 0,
+		        "borderTopColor": "#333333",
+		        "borderBottomColor": "#333333",
+		        "borderRightColor": "#333333",
+		        "borderLeftColor": "#333333",
+		        "color": "#ff4081",
+		        "icon": "mdi mdi-star"
+		      }
+		    },
+		    {
+		      "type": "Label",
+		      "name": "Label",
+		      "x": 58,
+		      "y": 26,
+		      "w": 150,
+		      "h": 12,
+		      "props": {
+		        "label": "More information"
+		      },
+		      "has": {
+		        "label": true,
+		        "padding": true,
+		        "advancedText": true
+		      },
+		      "style": {
+		        "fontSize": 14,
+		        "fontFamily": "Roboto, sans-serif",
+		        "textAlign": "left",
+		        "letterSpacing": 1,
+		        "lineHeight": 1,
+		        "color": "#808080"
+		      },
+		      "id": "Group 24",
+		      "copyOf": "w19"
+		    }
+		  ]
+		}
+]

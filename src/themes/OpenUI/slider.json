@@ -1,0 +1,38 @@
+[ {
+	"id" : "FioriHSlider",
+	"type" : "HSlider",
+	"_type" : "Widget",
+	"category" : "OpenUI",
+	"subcategory" : "Form",
+	"name" : "Slider",
+	"x" : 0,
+	"y" : 0,
+	"w" : 150,
+	"h" : 32,
+	"z" : 0,
+	"props" : {
+		"value" : 50,
+		"max" : 100,
+		"min" : 0
+	},
+	"has" : {
+		"data":true,
+	    "backgroundColor" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "background" : "#dddddd",
+        "handleColor" : "rgba(255, 255, 255, 0.1)",
+        "handleBorderColor" : "#999999",
+        "handleBorderWidth" : 2,
+        "handleBorderStyle" : "solid",
+        "barColor" : "#346187",
+        "handleWidth" : 32,
+        "handleHeight" : 1,
+        "barHeight": 0.1,
+        "handleRadius" : 50
+	}
+} ]

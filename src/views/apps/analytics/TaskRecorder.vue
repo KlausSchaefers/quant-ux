@@ -1,0 +1,320 @@
+
+<template>
+  <div class="MatcTaskRecorder">
+    <div class="MatcMarginBottom" data-dojo-attach-point="wrapper">
+      <div data-dojo-attach-point="container">
+        <div class="MatcLeft MatcTaskRecorderInfoBox">
+          <h2>Record a Task flow</h2>
+          <p class="MatcLead">
+            {{nls.taskRecorder1}}
+          </p>
+
+          <ol class="MatcLead">
+            <li v-html="nls.taskRecorderStep1"></li>
+            <li v-html="nls.taskRecorderStep3"></li>
+            <li v-html="nls.taskRecorderStep4"></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding-top:10px; height:50px">
+      <div class="MatcButtonBar" data-dojo-attach-point="btnBar">
+        <a class="MatcButton" data-dojo-attach-point="startBtn">Begin</a>
+        <a class="MactLinkButton" data-dojo-attach-point="cancelBTN">Cancel</a>
+      </div>
+
+      <div class="MatcButtonBar MatcHidden" data-dojo-attach-point="recordBar">
+        <div class>
+          <a class="MatcButton MatcButtonPassive" data-dojo-attach-point="stopBtn">Done</a>
+        </div>
+      </div>
+
+      <div class="MatcButtonBar MatcMarginTop MatcHidden" data-dojo-attach-point="flowBar">
+        <a class="MatcButton" data-dojo-attach-point="saveBTN">Save</a>
+        <a class="MatcButton" data-dojo-attach-point="startBtn2">Record Again</a>
+        <a class="MatcLinkButton" data-dojo-attach-point="cancelBTN2">Cancel</a>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import DojoWidget from "dojo/DojoWidget";
+import css from "dojo/css";
+import lang from "dojo/_base/lang";
+import on from "dojo/on";
+import touch from "dojo/touch";
+import Logger from "common/Logger";
+import DomBuilder from "common/DomBuilder";
+import CheckBox from "common/CheckBox";
+import Simulator from "core/Simulator";
+import Util from "core/Util";
+
+export default {
+  name: "TaskRecorder",
+  mixins: [Util, DojoWidget],
+  data: function() {
+    return {
+      ignoredEvents: [
+        "SessionStart",
+        "ScreenAnimation",
+        "Animation",
+        "OverlayRemoveAnimation",
+        "OverlayShowAnimation",
+        "MouseOut",
+        "MouseOver",
+        "WidgetInit",
+        "ValidationOK"
+      ]
+    };
+  },
+  components: {},
+  methods: {
+    postCreate: function() {
+      this.logger = new Logger("TaskRecorder");
+      this.logger.log(0, "postCreate", "enter > " + this.appID);
+      this.db = new DomBuilder();
+      this.own(on(this.cancelBTN, touch.press, lang.hitch(this, "_close")));
+      this.own(on(this.cancelBTN2, touch.press, lang.hitch(this, "_close")));
+      this.own(on(this.startBtn, touch.press, lang.hitch(this, "start")));
+      this.own(on(this.startBtn2, touch.press, lang.hitch(this, "start")));
+      this.own(on(this.stopBtn, touch.press, lang.hitch(this, "stop")));
+      this.own(on(this.saveBTN, touch.press, lang.hitch(this, "_save")));
+      this._task = lang.clone(this.task);
+      if (this.task.flow && this.task.flow.length > 0) {
+        this._flow = lang.clone(this.task.flow);
+        this.renderFlow(this._flow, true);
+      }
+    },
+
+    start: function() {
+      this.container.innerHTML = "";
+
+      this._flow = [];
+      this._notRecorded = 0;
+
+      var cntr = this.db.div("MactCenter").build(this.container);
+      var pos = this.resizeSimulatorContainer(this.model, cntr, 0.7);
+      /**
+       * hack because somehow the overflow is hidden
+       */
+      pos.w += 40;
+      pos.h += 120;
+
+      // var scroller = new ScrollContainer();
+      // scroller.placeAt(cntr);
+
+      this.dialog.resize(pos);
+
+      /**
+       * Because of the fixed positions we have to wait a little
+       * to render the simulator
+       */
+      var me = this;
+      setTimeout(function() {
+        me.showButtonBar(me.recordBar);
+        me.simulator = me.$new(Simulator,{ mode: "recordFlow", logData: false });
+        me.tempOwn(on(me.simulator, "event", lang.hitch(me, "onEvent")));
+        me.simulator.placeAt(cntr)
+        me.simulator.scrollListenTarget = "parent";
+        me.simulator.startup();
+        me.record();
+        me.simulator.setModel(me.model);
+      }, 400);
+    },
+
+    onEvent: function(e) {
+      if (this.isRecording) {
+        if (this.ignoredEvents.indexOf(e.type) < 0) {
+          this._flow.push(e);
+          css.remove(this.stopBtn, "MatcButtonPassive");
+        } else {
+          //console.debug("onEvent > ignore", e.type)
+        }
+      } else {
+        /**
+         * TODO: Show somehow a warning message to the user if he does not record anything?
+         */
+      }
+    },
+
+    record: function() {
+      this.isRecording = true;
+      if (!this.isRecording) {
+        //this.recordBtn.innerHTML = this.getNLS("taskRecorderPauseBtn");
+        //this.recordHint.innerHTML= this.getNLS("taskRecorderPauseDes");
+        //this.isRecording = true;
+      } else {
+        //this.recordBtn.innerHTML = this.getNLS("taskRecorderRecordBtn");
+        //this.recordHint.innerHTML=this.getNLS("taskRecorderRecordDes");
+        //this.isRecording = false;
+      }
+    },
+
+    stop: function() {
+      this.simulator.destroy();
+
+      /**
+       * Here we have to order the events by time and
+       * then remove unwanted attributes...
+       */
+      this._flow.sort(function(a, b) {
+        return a.time - b.time;
+      });
+      for (var i = 0; i < this._flow.length; i++) {
+        var e = this._flow[i];
+        delete e["session"];
+        delete e["user"];
+        delete e["time"];
+        if (e.state) {
+          delete e.state.children;
+        }
+      }
+
+      this.renderFlow(this._flow, false);
+
+      if (this.domNode.parentNode) {
+        /**
+         * hacky shit...
+         */
+        this.dialog.resize({ w: 650, h: 550 });
+      }
+    },
+
+    renderFlow: function(flow, existingFlow) {
+      this.cleanUpTempListener();
+
+      this.showButtonBar(this.flowBar);
+
+      this.container.innerHTML = "";
+
+      var cntr = this.db.div("MatcTaskRecorderFlowList").build(this.container);
+
+      this.db.h2("", "Recorded Task Flow").build(cntr);
+      this.checkBoxList = [];
+      if (flow.length > 0) {
+        var tblCntr = this.db.div("MatcTaskRecorderFlowListTable").build(cntr);
+        var tbl = this.db.table().build(tblCntr);
+        this.db
+          .thead([
+            this.getNLS("taskRecorderEvent"),
+            this.getNLS("taskRecorderScreen"),
+            this.getNLS("taskRecorderWidget"),
+            this.getNLS("taskRecorderAction")
+          ])
+          .build(tbl);
+        var tbody = this.db.tbody().build(tbl);
+        for (let i = 0; i < flow.length; i++) {
+          let event = flow[i];
+          let row;
+          if (event.widget) {
+            if (event.type == "WidgetGesture" && event.gesture) {
+              let gesture = event.gesture;
+              row = [
+                this.getGestureLabel(gesture.type),
+                this.getScreenName(event.screen),
+                this.getWidgetName(event.widget)
+              ];
+            } else if (
+              event.state &&
+              (event.type == "WidgetClick" || event.type == "WidgetChange")
+            ) {
+              row = [
+                this.getEventStateLabel(event.state),
+                this.getScreenName(event.screen),
+                this.getWidgetName(event.widget)
+              ];
+            } else {
+              row = [
+                this.getEventLabel(event.type),
+                this.getScreenName(event.screen),
+                this.getWidgetName(event.widget)
+              ];
+            }
+          } else if (event.type == "ScreenGesture" && event.gesture) {
+            let gesture = event.gesture;
+            row = [
+              "Screen " + this.getGestureLabel(gesture.type),
+              this.getScreenName(event.screen),
+              "-"
+            ];
+          } else {
+            row = [
+              this.getEventLabel(event.type),
+              this.getScreenName(event.screen),
+              "-"
+            ];
+          }
+          var tr = this.db.tr(row).build(tbody);
+
+          var chkCntr = this.db.td("MatcTaskRecorderFlowListCheckCntr").build(tr);
+          let chkBx = this.$new(CheckBox);
+          chkBx.placeAt(chkCntr);
+          if (i === 0 || i === flow.length - 1 || existingFlow) {
+            chkBx.setValue(true);
+          }
+          this.checkBoxList.push(chkBx);
+        }
+
+        var chkBx = this.$new(CheckBox);
+        chkBx.setLabel(this.getNLS("taskRecorderDoNotAllow"));
+        chkBx.placeAt(this.db.div("MatcLead").build(cntr));
+        chkBx.setValue(this._task.strict == true);
+        this.own(on(chkBx, "change", lang.hitch(this, "setStrict")));
+      } else {
+        this.db.div("MatcLead", this.getNLS("taskRecorderError1")).build(cntr);
+        //this.db.div("MatcLead MatcMarginTop", this.getNLS("taskRecorderError2")).build(cntr);
+      }
+    },
+
+    removeEvent: function(i) {
+      this._flow.splice(i, 1);
+      this.renderFlow(this._flow);
+    },
+
+    setStrict: function(value) {
+      this._task.strict = value;
+    },
+
+    _close: function() {
+      this.emit("close", {});
+    },
+
+    _save: function() {
+      var selected = this._flow;
+      if (this.checkBoxList) {
+        selected = [];
+        for (var i = 0; i < this._flow.length; i++) {
+          var event = this._flow[i];
+          if (this.checkBoxList[i].getValue()) {
+            selected.push(event);
+          }
+        }
+      } else {
+        console.warn("_save, no checkBoxList");
+      }
+      this.emit("save", selected, this._task.strict);
+    },
+
+    showButtonBar: function(node) {
+      this._toggerBar(node, this.btnBar);
+      this._toggerBar(node, this.flowBar);
+      this._toggerBar(node, this.recordBar);
+    },
+
+    _toggerBar: function(node, bar) {
+      if (node == bar) {
+        css.remove(bar, "MatcHidden");
+      } else {
+        css.add(bar, "MatcHidden");
+      }
+    },
+
+    cleanUp: function() {
+      this.cleanUpTempListener();
+      //this.cntr.innerHTML="";
+    }
+  },
+  mounted() {}
+};
+</script>

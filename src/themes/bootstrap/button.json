@@ -1,0 +1,211 @@
+[
+	 {
+		 "id" : "BootstrapButton",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "subcategory" : "Button",
+		 "name" : "Button",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 100,
+	     "h" : 40,
+	     "z" : 0,
+	     "props" : {
+	        "label" : "Default"
+	     },
+	     "has" : {
+	    	"backgroundColor" : true,
+	        "border" : true,
+	        "onclick" : true,
+	        "label" : true,
+	        "padding" : true
+	     },
+	     "style" : { 
+	    	  "fontSize" : 14,
+		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		      "textAlign" : "center",
+		      "letterSpacing" : 0,
+		      "lineHeight" : 1.42857,
+	    	  "background": "#ffffff",
+	    	  "borderTopColor" : "#333333",
+	          "borderBottomColor" : "#333333",
+	          "borderRightColor" : "#333333",
+	          "borderLeftColor" : "#333333",
+	          "borderTopRightRadius" : 4,
+	          "borderTopLeftRadius" : 4,
+	          "borderBottomRightRadius" : 4,
+	          "borderBottomLeftRadius" : 4,
+	          "borderTopWidth" : 1,
+	          "borderBottomWidth" : 1,
+	          "borderRightWidth" : 1,
+	          "borderLeftWidth" : 1,
+	          "color" : "#333333",
+	 	      "paddingTop": 8,
+		      "paddingBottom": 8,
+		      "paddingLeft": 15,
+		      "paddingRight": 15,
+			  "valign": "top"
+	     }
+	 },
+	 
+	 {
+		 "id" : "BootstrapButtonActive",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "name" : "Button Active",
+		 "_extends" : "BootstrapButton",
+		 "props" : {
+			 "label" : "Primary"
+		 },
+	     "style" : { 
+	    	  "background": "#e6e6e6",
+	    	  "borderTopColor" : "#adadad",
+	          "borderBottomColor" : "#adadad",
+	          "borderRightColor" : "#adadad",
+	          "borderLeftColor" : "#adadad",
+	          "color" : "#333333",
+	          "boxShadow": { "v":3, "h":3, "b":14,"s":-8, "c":"#333333","i":true}
+	     }
+	 },
+	 {
+		 "id" : "BootstrapButtonPrimary",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "name" : "Primary Button",
+		 "_extends" : "BootstrapButton",
+		 "props" : {
+			 "label" : "Primary"
+		 },
+	     "style" : { 
+	    	  "background": "#337ab7",
+	    	  "borderTopColor" : "#2e6da4",
+	          "borderBottomColor" : "#2e6da4",
+	          "borderRightColor" : "#2e6da4",
+	          "borderLeftColor" : "#2e6da4",
+	          "color" : "#ffffff"
+	     }
+	 },
+	 {
+		 "id" : "BootstrapButtonPrimaryActive",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "name" : "Primary Button Active",
+		 "_extends" : "BootstrapButton",
+		 "props" : {
+			 "label" : "Primary"
+		 },
+	     "style" : { 
+	    	  "background": "#286090",
+	    	  "borderTopColor" : "#204d74",
+	          "borderBottomColor" : "#204d74",
+	          "borderRightColor" : "#204d74",
+	          "borderLeftColor" : "#204d74",
+	          "color" : "#ffffff",
+	          "boxShadow": { "v":3, "h":3, "b":14,"s":-8, "c":"#333333","i":true}
+	     }
+	 }, 	
+	 {
+		 "id" : "BootstrapButtonSuccess",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "name" : "Success Button",
+		 "_extends" : "BootstrapButton",
+		 "props" : {
+			 "label" : "Success"
+		 },
+	     "style" : { 
+	    	  "background": "#5cb85c",
+	    	  "borderTopColor" : "#4cae4c",
+	          "borderBottomColor" : "#4cae4c",
+	          "borderRightColor" : "#4cae4c",
+	          "borderLeftColor" : "#4cae4c",
+	          "color" : "#ffffff"
+	     }
+	 },
+	 {
+		 "id" : "BootstrapButtonInfo",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "name" : "Info Button",
+		 "_extends" : "BootstrapButton",
+		 "props" : {
+			 "label" : "Info"
+		 },
+	     "style" : { 
+	    	  "background": "#5bc0de",
+	    	  "borderTopColor" : "#46b8da",
+	          "borderBottomColor" : "#46b8da",
+	          "borderRightColor" : "#46b8da",
+	          "borderLeftColor" : "#46b8da",
+	          "color" : "#ffffff"
+	     }
+	 },
+	 {
+		 "id" : "BootstrapButtonWarning",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "name" : "Warning Button",
+		 "_extends" : "BootstrapButton",
+		 "props" : {
+			 "label" : "Warning"
+		 },
+	     "style" : { 
+	    	  "background": "#f0ad4e",
+	    	  "borderTopColor" : "#eea236",
+	          "borderBottomColor" : "#eea236",
+	          "borderRightColor" : "#eea236",
+	          "borderLeftColor" : "#eea236",
+	          "color" : "#ffffff"
+	     }
+	 },
+	 {
+		 "id" : "BootstrapButtonDanger",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "name" : "Danger Button",
+		 "_extends" : "BootstrapButton",
+		 "props" : {
+			 "label" : "Danger"
+		 },
+	     "style" : { 
+	    	  "background": "#d9534f",
+	    	  "borderTopColor" : "#d43f3a",
+	          "borderBottomColor" : "#d43f3a",
+	          "borderRightColor" : "#d43f3a",
+	          "borderLeftColor" : "#d43f3a",
+	          "color" : "#ffffff"
+	     }
+	 },
+	 {
+		 "id" : "BootstrapButtonLink",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "Bootstrap",
+		 "name" : "Link",
+		 "_extends" : "BootstrapButton",
+		 "props" : {
+			 "label" : "Link"
+		 },
+	     "style" : { 
+	    	  "background": "none",
+	    	  "borderTopColor" : "#ffffff",
+	          "borderBottomColor" : "#ffffff",
+	          "borderRightColor" : "#ffffff",
+	          "borderLeftColor" : "#ffffff",
+	          "borderTopWidth" : 0,
+	          "borderBottomWidth" : 0,
+	          "borderRightWidth" : 0,
+	          "borderLeftWidth" : 0,
+	          "color" : "#337ab7"
+	     }
+	 } 
+]
+

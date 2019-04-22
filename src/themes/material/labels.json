@@ -1,0 +1,213 @@
+[
+	{
+		 "id" : "MaterialLabel",
+		 "type" : "Label",
+		 "_type" : "Widget",
+		 "category" : "Material",
+		 "subcategory" : "Label",
+		 "name" : "Label",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 30,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "Lore Ipsum"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 14,
+	       "fontFamily": "Roboto, sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1.4,
+	       "font-weight": 300,
+	       "color": "#757575"
+	    }
+	},
+	{
+		"id" : "MaterialLabelHeadline1",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Material",
+		 "subcategory" : "Label",
+		"name" : "Headline 1",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 120,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H1"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 112,
+	       "fontFamily": "Roboto, sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "font-weight": 300,
+	       "color": "#757575"
+	    }
+	},
+	{
+		"id" : "MaterialLabelHeadline2",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Material",
+		 "subcategory" : "Label",
+		"name" : "Headline 2",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 60,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H2"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 56,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "font-weight": 400,
+	       "color": "#757575"
+	    }
+	},
+	{
+		"id" : "MaterialLabelHeadline3",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Material",
+		 "subcategory" : "Label",
+		"name" : "Headline 3",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 50,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H3"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 45,
+	       "fontFamily": "Roboto, sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "font-weight": 400,
+	       "color": "#757575"
+	    }
+	},
+	{
+		"id" : "MaterialLabelHeadline4",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Material",
+		 "subcategory" : "Label",
+		"name" : "Headline 4",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 50,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H4"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 34,
+	       "fontFamily": "Roboto, sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "font-weight": 400,
+	       "color": "#757575"
+	    }
+	},
+	{
+		"id" : "MaterialLabelHeadline5",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Material",
+		 "subcategory" : "Label",
+		"name" : "Headline 5",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 50,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H5"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 24,
+	       "fontFamily": "Roboto, sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "font-weight": 400,
+	       "color": "#757575"
+	    }
+	},
+	{
+		"id" : "MaterialLabelHeadline6",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Material",
+		 "subcategory" : "Label",
+		"name" : "Headline 6",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 50,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "H6"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 20,
+	       "fontFamily": "Roboto, sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1,
+	       "font-weight": 500,
+	       "color": "#757575"
+	    }
+	}
+	
+]

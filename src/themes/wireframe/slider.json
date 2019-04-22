@@ -1,0 +1,36 @@
+[ {
+	"id" : "HSlider",
+	"type" : "HSlider",
+	"_type" : "Widget",
+	"category" : "WireFrame",
+	"subcategory" : "Form",
+	"name" : "Slider",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 40,
+	"z" : 0,
+	"props" : {
+		"value" : 50,
+		"max" : 100,
+		"min" : 0
+	},
+	"has" : {
+		"data":true,
+	    "backgroundColor" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 15,
+        "borderTopLeftRadius" : 15,
+        "borderBottomRightRadius" : 15,
+        "borderBottomLeftRadius" : 15,
+        "background" : "#cecece",
+        "handleColor" : "#333",
+        "barColor" : "#333",
+        "handleWidth" : 40,
+        "handleHeight" : 1,
+        "barHeight": 0.3,
+        "cntrHeight":0.3,
+        "handleRadius" : 50
+	}
+} ]

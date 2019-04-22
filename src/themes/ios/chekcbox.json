@@ -1,0 +1,62 @@
+[
+ {
+		"id" : "IOSCheckBox",
+		 "type" : "CheckBox",
+		 "name" : "CheckBox",
+		 "category" : "IOS",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 22,
+	     "h" : 22,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	    	"backgroundColor" : true,
+ 	        "data" : true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 500,
+	         "borderTopLeftRadius" : 500,
+	         "borderBottomRightRadius" : 500,
+	         "borderBottomLeftRadius" : 500,
+	         "borderTopWidth" : 1,
+	         "borderBottomWidth" : 1,
+	         "borderRightWidth" : 1,
+	         "borderLeftWidth" : 1,
+	         "borderTopColor" : "#c7c7cc",
+	         "borderBottomColor" : "#c7c7cc",
+	         "borderRightColor" : "#c7c7cc",
+	         "borderLeftColor" : "#c7c7cc",
+	         "background" : "#ffffff",
+	         "color" : "#ffffff",
+	         "colorButton" : "#ffffff"
+	     },
+	     "checked" : {
+	         "background" : "#007aff",
+	         "borderTopColor" : "#007aff",
+	 	     "borderBottomColor" : "#007aff",
+	 	     "borderRightColor" : "#007aff",
+	 	     "borderLeftColor" : "#007aff"
+	     }
+	},
+	
+	 {
+ 		"id" : "IOSCheckBox2",
+ 		 "type" : "CheckBox",
+ 		 "name" : "CheckBox",
+ 		 "_extends" : "IOSCheckBox",
+ 		 "category" : "IOS",
+ 		 "subcategory" : "Form",
+ 		 "_type" : "Widget",
+ 	     "props" : {
+ 	        "checked" : true
+ 	     }
+     
+     }
+]

@@ -1,0 +1,102 @@
+[ {
+	"id" : "Bootstrap4AlertGreen",
+	"type" : "Button",
+	"category" : "Bootstrap4",
+	"subcategory" : "XBoxes",
+	"_type" : "Widget",
+	"name" : "Alarm",
+	"w" : "$75%",
+	"h" : 50,
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 50,
+	"z" : 0,
+	"props" : {
+		"label" : "Lore Ipsum"
+	},
+	"has" : {
+		"label" : true,
+		"padding" : true,
+		"advancedText" : true,
+		"backgroundColor" : true,
+		"border" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 6,
+		"borderTopLeftRadius" : 6,
+		"borderBottomRightRadius" : 6,
+		"borderBottomLeftRadius" : 6,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#d0e9c6",
+		"borderBottomColor" : "#d0e9c6",
+		"borderRightColor" : "#d0e9c6",
+		"borderLeftColor" : "#d0e9c6",
+		"background" : "#dff0d8",
+		"color" : "#3c763d",
+		"fontSize" : 16,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "left",
+		"letterSpacing" : 0,
+		"lineHeight" : 1.42857,
+		"paddingTop" : 10,
+		"paddingBottom" : 10,
+		"paddingLeft" : 10,
+		"paddingRight" : 10
+	}
+},{
+	
+	"id" : "Bootstrap4AlertBlue",
+	"type" : "Button",
+	"category" : "Bootstrap4",
+	"subcategory" : "XBoxes",
+	"_extends" : "Bootstrap4AlertGreen", 
+	"_type" : "Widget",
+	"name" : "Alarm",	
+	"style" : {		
+		"borderTopColor" : "#bcdff1",
+		"borderBottomColor" : "#bcdff1",
+		"borderRightColor" : "#bcdff1",
+		"borderLeftColor" : "#bcdff1",
+		"background" : "#d9edf7",
+		"color" : "#31708f"		
+	}
+},{
+	
+	"id" : "Bootstrap4AlertRed",
+	"type" : "Button",
+	"category" : "Bootstrap4",
+	"subcategory" : "XBoxes",
+	"_extends" : "Bootstrap4AlertGreen", 
+	"_type" : "Widget",
+	"name" : "Alarm",	
+	"style" : {		
+		"borderTopColor" : "#ebcccc",
+		"borderBottomColor" : "#ebcccc",
+		"borderRightColor" : "#ebcccc",
+		"borderLeftColor" : "#ebcccc",
+		"background" : "#f2dede",
+		"color" : "#a94442"		
+	}
+},{
+	
+	"id" : "Bootstrap4AlertYellow",
+	"type" : "Button",
+	"category" : "Bootstrap4",
+	"subcategory" : "XBoxes",
+	"_extends" : "Bootstrap4AlertGreen", 
+	"_type" : "Widget",
+	"name" : "Alarm",	
+	"style" : {		
+		"borderTopColor" : "#faf2cc",
+		"borderBottomColor" : "#faf2cc",
+		"borderRightColor" : "#faf2cc",
+		"borderLeftColor" : "#faf2cc",
+		"background" : "#fcf8e3",
+		"color" : "#8a6d3b"		
+	}
+}
+]

@@ -1,0 +1,81 @@
+[
+	{
+		"id" : "Bootstrap4Label",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap4",
+		"subcategory" : "Label",
+		"name" : "Label",
+	    "x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 30,
+	    "z" : 0,
+	    "props" : {
+	       "label" : "Lore Ipsum"
+	    },
+	    "has" : {
+	       "label" : true,
+	       "padding" : true,
+	       "advancedText" : true
+	    },
+	    "style" : {
+	       "fontSize" : 16,
+	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	       "textAlign" : "left",
+	       "letterSpacing" : 0,
+	       "lineHeight" : 1.42857,
+	       "color": "#333333"
+	    }
+	},	
+	{
+		"id" : "Bootstrap4PrimaryLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap4",
+		"subcategory" : "Label",
+		 "_extends" : "Bootstrap4Label",
+		"name" : "Primary Label",
+	    "style" : {
+	       "color": "#007fff"
+	    }
+	},
+	{
+		"id" : "Bootstrap4SuccessLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap4",
+		"subcategory" : "Label",
+		 "_extends" : "Bootstrap4Label",
+		"name" : "Success Label",
+	    "style" : {
+	       "color": "#5cb85c"
+	    }
+	},
+	{
+		"id" : "Bootstrap4WarningLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap4",
+		"subcategory" : "Label",
+		 "_extends" : "Bootstrap4Label",
+		"name" : "Warning Label",
+	    "style" : {
+	       "color": "#f0ad4e"
+	    }
+	},
+	{
+		"id" : "Bootstrap4DangerLabel",
+		"type" : "Label",
+		"_type" : "Widget",
+		"category" : "Bootstrap4",
+		"subcategory" : "Label",
+		 "_extends" : "Bootstrap4Label",
+		"name" : "Danger Label",
+	    "style" : {
+	       "color": "#d9534f"
+	    }
+	}
+
+	
+]

@@ -1,0 +1,510 @@
+<template>
+  <div class="MatcWidgetTypeTextBox"></div>
+</template>
+<script>
+import DojoWidget from "dojo/DojoWidget";
+import css from "dojo/css";
+import lang from "dojo/_base/lang";
+import on from "dojo/on";
+import topic from "dojo/topic";
+import Color from "dojo/_base/Color";
+import Logger from "common/Logger";
+import UIWidget from "core/widgets/UIWidget";
+
+export default {
+  name: "TextBox",
+  mixins: [UIWidget, DojoWidget],
+  data: function() {
+    return {
+      value: null,
+      mode: "edit",
+      hasFocus: false
+    };
+  },
+  components: {},
+  methods: {
+    postCreate: function() {
+      this.log = new Logger("TextBox");
+      if (this.mode == "simulator") {
+        this.input = document.createElement("input");
+        this.input.type = "text";
+      } else {
+        this.input = document.createElement("div");
+      }
+      css.add(this.input, "MatcWidgetTypeTextBoxInput");
+      this.domNode.appendChild(this.input);
+      this._borderNodes = [this.input];
+      this._backgroundNodes = [this.input];
+      this._paddingNodes = [this.input];
+      this._shadowNodes = [this.input];
+    },
+
+    getAnimationNode: function() {
+      return this.domNode.parentNode;
+    },
+
+    onSimulatorEvent: function(type, screenID, widgetID) {
+      this.log.log(5, "onSimulatorEvent", this.model.id, type, "@" , screenID, widgetID)
+      if (type != "ScreenScroll" && type != "Animation" && type != "ScreenGesture" && widgetID != this.model.id) {
+        if (this.hasFocus) {
+          this.input.blur();
+        }
+      }
+    },
+
+    wireEvents: function() {
+      if (!this.wired) {
+        this.own(
+          this.addClickListener(this.domNode, lang.hitch(this, "onInputClick"))
+        );
+        this.own(on(this.input, "focus", lang.hitch(this, "onFocus")));
+        if (this.mode == "simulator") {
+          this.own(on(this.input, "blur", lang.hitch(this, "onBlur")));
+          this.own(topic.subscribe("MatcSimulatorEvent",lang.hitch(this, "onSimulatorEvent")));
+        }
+      }
+      this.afterWiredEvents();
+      this.wired = true;
+      this.setAutoFocus(this.input);
+    },
+
+    /**
+     * For child classes to hook in
+     */
+    afterWiredEvents: function() {},
+
+    getLabelNode: function() {
+      return this.input;
+    },
+
+    onInputClick: function(e) {
+      this.log.log(0, "onInputClick", "enter");
+      this.stopPropagation(e);
+      this.emitClick(e);
+    },
+
+    onFocus: function(e) {
+      this.log.log(0, "onFocus", "enter >" + this.lastValidation);
+      this.stopPropagation(e);
+
+      this.keyListener = on(this.input,"keyup", lang.hitch(this, "onKeyPress"));
+      if (this.model.focus && this.lastValidation) {
+        this.emitAnimation(this.model.id, 0, this.model.focus);
+      }
+      this.hasFocus = true;
+      this.emit("focus", {});
+      this.afterFocus();
+    },
+
+    afterFocus: function() {
+      this.initCompositeState(this._readValue());
+    },
+
+    onKeyPress: function(e) {
+      this.log.log(3, "onKeyPress", "enter > ");
+      this.addCompositeSubState(this._readValue());
+      this.value = this._readValue();
+
+      /**
+       * Make sure the keyboard is closed in
+       *
+       */
+      var key = e.which || e.keyCode;
+      if (13 == key) {
+        this.onEnterPressed();
+      } else {
+        this.emit("keyUp", this._readValue());
+      }
+    },
+
+    onEnterPressed: function() {
+      this.input.blur();
+      var gesture = {
+        type: "KeyboardEnter"
+      };
+      this.emit("gesture", gesture);
+    },
+
+    onBlur: function(e) {
+      this.log.log(3, "onBlur", "enter");
+      this.stopPropagation(e);
+
+      var v = this._readValue();
+
+      this.emitCompositeState("text", v);
+      this.emitDataBinding(v);
+
+      var valid = this.validate(this._readValue(), true);
+      if (valid) {
+        if (this.model.focus) {
+          this.emitAnimation(this.model.id, 0, this.style);
+        }
+      }
+      this.value = this._readValue();
+      this.cleanUp();
+      this.hasFocus = false;
+      this.emit("blur", {});
+    },
+
+    getStateOptions: function() {
+      return {
+        valid: this.lastValidation,
+        focus: this.hasFocus
+      };
+    },
+
+    getState: function() {
+      return {
+        type: "text",
+        value: this._readValue(),
+        options: {
+          valid: this.lastValidation,
+          focus: this.hasFocus
+        }
+      };
+    },
+
+    /**
+     * Subclasses my overwrite this...
+     */
+    _readValue: function() {
+      if (this.mode == "simulator") {
+        return this.input.value;
+      } else {
+        return this.input.innerHTML;
+      }
+    },
+
+    setState: function(state, t) {
+      if (state && state.type == "text") {
+        /**
+         * If we have children its an animation...
+         */
+        if (state.children) {
+          let substate = this.getLastSubState(state, t);
+          if (substate) {
+            let value = substate.value;
+            this.setValue(value);
+          }
+        } else {
+          this.setValue(state.value);
+        }
+      }
+      if (state && state.type == "typing") {
+        /**
+         * DEPRECTAED:
+         */
+        let substate = this.getLastSubState(state, t);
+        if (substate) {
+          let value = substate.value;
+          this.setValue(value);
+        }
+      }
+
+      this.afterSetState(state, t);
+    },
+
+    /**
+     * child classes can overwrite
+     */
+    afterSetState: function() {},
+
+    cleanUp: function() {
+      if (this.keyListener) {
+        this.keyListener.remove();
+      }
+      delete this.keyListener;
+    },
+
+    render: function(model, style, scaleX, scaleY) {
+      this.model = model;
+      this.style = style;
+      this._validStyle = lang.clone(style);
+      this._scaleX = scaleX;
+      this._scaleY = scaleY;
+
+      if (model.props.options) {
+        this.hasTypeahead = true;
+        this.hints = model.props.options;
+      } else {
+        this.hints = [];
+      }
+
+      if (model.props.stringCase) {
+        css.add(this.domNode, "MatcWidgetTypeTextBox" + model.props.stringCase);
+      } else {
+        css.remove(this.domNode, "MatcWidgetTypeTextBoxUpperCase");
+        css.remove(this.domNode, "MatcWidgetTypeTextBoxLowerCase");
+      }
+
+      if (model.props.label) {
+        if (model.props.placeholder) {
+          this.setPlaceholder(model.props.label);
+        } else {
+          this.setValue(model.props.label, true);
+        }
+      }
+
+      if (model.props.validation && this.mode == "simulator") {
+        var validation = model.props.validation;
+        var type = validation.type;
+        if (type == "custom") {
+          type = validation.subtype;
+        }
+        switch (type) {
+          case "int":
+            this.input.type = "number";
+            break;
+          case "double":
+            this.input.type = "number";
+            break;
+          case "email":
+            this.input.type = "email";
+            break;
+          case "phone":
+            this.input.type = "tel";
+            break;
+          default:
+            break;
+        }
+      }
+
+      /**
+       * WbeKit cannot show the placeholder in the right color.. fucker. So
+       * we have to set a pseudo class...
+       */
+      if (this.mode == "simulator") {
+        /**
+         * Create a unique class for this run of the simulator to avoid overwriting or some other
+         * stuff
+         *
+         */
+        var selector = model.id + "" + new Date().getTime();
+
+        var placeholderStyle = {
+          color: this.getPlaceHolderColor(style)
+        };
+
+        /**
+         * FIXME: Add other browsers as well
+         */
+        this.addCssClass(selector + "::-webkit-input-placeholder", placeholderStyle);
+
+        /**
+         * Add the pseudo class
+         */
+        css.add(this.input, selector);
+      }
+
+      this.beforeSetStyle(style, model);
+
+      this.setStyle(style, model);
+    },
+
+    /**
+     * Child classes can do something in here
+     */
+    beforeSetStyle: function() {},
+
+    getPlaceHolderColor: function(style) {
+      var c = new Color(style.color);
+      c.a = 0.5;
+      return c.toString();
+    },
+
+    addCssClass: function(selector, styles) {
+      if (!this._styleNode) {
+        this._styleNode = [];
+      }
+      var style = document.createElement("style");
+      style.type = "text/css";
+      style.setAttribute("matc", "true");
+      var s = "." + selector + "{";
+      for (var key in styles) {
+        s += key + " :" + styles[key] + ";";
+      }
+      s += "}";
+      style.innerHTML = s;
+      document.getElementsByTagName("head")[0].appendChild(style);
+      this._styleNode.push(style);
+    },
+
+    getValue: function() {
+      return this.value;
+    },
+
+    setValue: function(value, ignoreValidation) {
+      if (value != null && value != undefined && this.value != value) {
+        this.value = value;
+        css.remove(this.input, "MatcWidgetTypeTextBoxInputPlaceholder");
+        if (this.mode == "simulator") {
+          this.input.value = value;
+        } else {
+          this.input.innerHTML = value;
+
+          if (this.model.props.placeholder) {
+            if (this.model.props.label != value) {
+              this.input.style.color = this.style.color;
+            } else {
+              this.input.style.color = this.getPlaceHolderColor(this.style);
+            }
+          }
+        }
+
+        if (!ignoreValidation) {
+          this.validate(this.value, true);
+        }
+      }
+    },
+
+    _validateValue: function(value) {
+      var validation = this.model.props.validation;
+      if (validation) {
+        var type = validation.type;
+        if (type == "custom") {
+          type = validation.subtype;
+        }
+
+        /**
+         * Now come the rules
+         */
+        if (validation.required && value == "") {
+          return false;
+        }
+
+        if (!value) {
+          return true;
+        }
+
+        if (type == "int") {
+          let re = /^-?[0-9]+$/;
+          if (re.test(value)) {
+            let inRange = true;
+            if (validation.min != null && validation.min != undefined) {
+              inRange = inRange && value >= validation.min;
+            }
+
+            if (validation.max != null && validation.max != undefined) {
+              inRange = inRange && value <= validation.max;
+            }
+
+            return inRange;
+          } else {
+            return false;
+          }
+        }
+
+        if (type == "email") {
+          let re = /\S+@\S+\.\S+/;
+          return re.test(value);
+        }
+
+        if (type == "phone") {
+          let re = /^[\+]?([0-9]|[-\s\.])*$/;
+          return re.test(value);
+        }
+
+        if (type == "date") {
+          let re = /^[0-9]{1,2}(\/|-|\.)[0-9]{1,2}(\/|-|\.)[0-9]{2,4}$/;
+          return re.test(value);
+        }
+        if (type == "time") {
+          let re = /^[0-9]{2}(\/|-|\.|\:)[0-9]{1,2}$/;
+          return re.test(value);
+        }
+
+        if (type == "double") {
+          var re = /^-?[0-9]+((\.|,)[0-9]+)?$/;
+          if (re.test(value)) {
+            let inRange = true;
+            if (validation.min != null && validation.min != undefined) {
+              inRange = inRange && value >= validation.min;
+            }
+
+            if (validation.max != null && validation.max != undefined) {
+              inRange = inRange && value <= validation.max;
+            }
+
+            return inRange;
+          } else {
+            return false;
+          }
+        }
+
+        if (type == "string") {
+          var operator = validation.operator;
+
+          /**
+           * if the value is undefined that is fine for me
+           */
+          if (value) {
+            if (operator == "contains" && validation.text) {
+              return value.indexOf(validation.text) >= 0;
+            }
+
+            if (operator == "equals" && validation.text) {
+              return value == validation.text;
+            }
+
+            if (operator == "pattern" && validation.pattern) {
+              // eslint-disable-next-line no-undef
+              var reg = new Regex(validation.pattern);
+              return reg.test(value);
+            }
+
+            if (operator == "length") {
+              var validString = true;
+              if (validation.min != null && validation.min != undefined) {
+                validString = validString && value.length >= validation.min;
+              }
+              if (validation.max != null && validation.max != undefined) {
+                validString = validString && value.length <= validation.max;
+              }
+              return validString;
+            }
+          }
+        }
+      }
+
+      return true;
+    },
+
+    isValid: function(showError) {
+      return this.validate(this._readValue(), showError);
+    },
+
+    setPlaceholder: function(msg) {
+      if (this.mode == "simulator") {
+        this.input.placeholder = msg;
+      } else {
+        css.add(this.input, "MatcWidgetTypeTextBoxInputPlaceholder");
+        this.input.innerHTML = msg;
+        this.input.style.color = this.getPlaceHolderColor(this.style);
+      }
+    },
+
+    beforeDestroy: function() {
+      if (this._compositeState) {
+        this.emitCompositeState("text", this.input.value);
+      }
+
+      this.cleanUpTempListener();
+
+      try {
+        if (this._styleNode) {
+          for (var i = 0; i < this._styleNode.length; i++) {
+            var node = this._styleNode[i];
+            node.parentNode.removeChild(node);
+          }
+          delete this._styleNode;
+        }
+      } catch (e) {
+        console.warn("TextBox.destroy()", e);
+      }
+
+      this.cleanUp();
+    }
+  },
+  mounted() {}
+};
+</script>

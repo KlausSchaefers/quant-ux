@@ -1,0 +1,61 @@
+.MatcWidgetTypeRepeater{
+    position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+    text-align: left;
+    outline: 1px dashed #777;
+    border: solid;
+}
+
+.MatcWidgetTypeRepeaterHasBorder.MatcWidgetTypeRepeater{
+    outline: none;
+}
+
+
+
+.MatcSimulator .MatcWidgetTypeRepeater{
+    outline: none;
+    overflow: auto;
+}
+
+.MatcSimulator .MatcWidgetTypeRepeaterGridSpaceBetween{
+    overflow: hidden;
+}
+
+.MatcWidgetTypeRepeaterGrid{
+
+}
+
+.MatcWidgetTypeRepeaterElement{
+    outline: 1px dashed #ccc;
+    position: relative;
+    vertical-align: top;
+}
+
+.MatcWidgetTypeRepeaterGrid .MatcWidgetTypeRepeaterElement{
+   
+}
+
+.MatcWidgetTypeRepeaterGrid.grid .MatcWidgetTypeRepeaterElement{
+    display: inline-block;
+}
+
+.MatcSimulator .MatcWidgetTypeRepeaterElement, 
+.MatcSimulator .MatcWidgetTypeRepeaterGrid .MatcWidgetTypeRepeaterElement{
+    outline: none;
+}
+
+.MatcWidgetTypeRepeaterHint{
+    position: absolute;
+    top:40%;
+    width:100%;
+    text-align: center;
+    font-size: 200%;
+    color:#ccc;
+}
+
+.MatcCreateBtnElementPreview .MatcWidgetTypeRepeaterHint{
+    top:5px;
+    font-size: 12px;
+}

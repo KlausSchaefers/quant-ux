@@ -1,0 +1,69 @@
+[ {
+	"id" : "IOSSwitch",
+	"type" : "Switch",
+	"name" : "Switch",
+	"category" : "IOS",
+	"subcategory" : "Form",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 60,
+	"h" : 30,
+	"z" : 0,
+	"props" : {
+		"checked" : false
+	},
+	"has" : {
+		"onclick" : true,
+		"border" : true,
+		"data" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 50,
+		"borderTopLeftRadius" : 50,
+		"borderBottomRightRadius" : 50,
+		"borderBottomLeftRadius" : 50,
+		"borderTopWidth" : 2,
+		"borderBottomWidth" : 2,
+		"borderRightWidth" : 2,
+		"borderLeftWidth" : 2,
+		"borderTopColor" : "#E5E5E5",
+		"borderBottomColor" : "#E5E5E5",
+		"borderRightColor" : "#E5E5E5",
+		"borderLeftColor" : "#E5E5E5",
+		"background" : "#4cd964",
+		"colorForeGround" : "#ffffff",
+		"colorButton" : "#ffffff",
+		"boxShadowButton" : {
+			"v" : 2,
+			"h" : 0,
+			"b" : 4,
+			"s" : 1,
+			"c" : "rgba(0, 0, 0,0.176)"
+		},
+		"borderColorButton" : "#ffffff",
+		"borderWidthButton" : 0,
+		"paddingButton" : 2
+	},
+	"active" : {
+		"colorButton" : "#ffffff",
+		"borderColorButton" : "#4cd964",
+		"borderTopColor" : "#4cd964",
+		"borderBottomColor" : "#4cd964",
+		"borderRightColor" : "#4cd964",
+		"borderLeftColor" : "#4cd964"
+	}
+}, {
+	"id" : "IOSSwitchActive",
+	"type" : "Switch",
+	"name" : "Switch",
+	"category" : "IOS",
+	"subcategory" : "Form",
+	"_type" : "Widget",
+	"_extends" : "IOSSwitch",
+	"props" : {
+		"checked" : true
+	}
+}
+
+]

@@ -1,0 +1,125 @@
+[ {
+	"id" : "BootstrapTextBoxDollar",
+	"type" : "Group",
+	"_type" : "Group",
+	"name" : "Text Box",
+	"category" : "Bootstrap",
+	"subcategory" : "FormInput",
+	"children" : [ 
+	 {
+		"id" : "BootstrapTextBoxDollar1",
+		"type" : "TextBox",
+		"name" : "Text Box",
+		"x" : 0,
+		"y" : 0,
+		"w" : 247,
+		"h" : 30,
+		"props" : {
+			"label" : "Enter a number",
+			"placeholder" : true,
+			"validation" : {
+				"type" : "double",
+				"required" : false
+			}
+		},
+		"has" : {
+			"label" : true,
+			"backgroundColor" : true,
+			"border" : true,
+			"editable" : true,
+			"onclick" : true,
+			"padding" : true
+		},
+		"style" : {
+			"color" : "#555555",
+			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"borderTopRightRadius" : 4,
+			"borderTopLeftRadius" : 4,
+			"borderBottomRightRadius" : 4,
+			"borderBottomLeftRadius" : 4,
+			"borderTopWidth" : 1,
+			"borderBottomWidth" : 1,
+			"borderRightWidth" : 1,
+			"borderLeftWidth" : 1,
+			"fontSize" : 14,
+			"borderTopColor" : "#cccccc",
+			"borderBottomColor" : "#cccccc",
+			"borderRightColor" : "#cccccc",
+			"borderLeftColor" : "#cccccc",
+			"background" : "#ffffff",
+			"paddingTop" : 4,
+			"paddingBottom" : 4,
+			"paddingLeft" : 32,
+			"paddingRight" : 12,
+			"textAlign" : "left",
+			"boxShadow" : {
+				"v" : 1,
+				"h" : 1,
+				"b" : 1,
+				"s" : 0,
+				"c" : "rgba(0, 0, 0, 0.075)",
+				"i" : true
+			},
+			"borderTopStyle" : "solid",
+			"borderBottomStyle" : "solid",
+			"borderRightStyle" : "solid",
+			"borderLeftStyle" : "solid"
+		},
+		"error" : {
+			"borderTopColor" : "#a94442",
+			"borderBottomColor" : "#a94442",
+			"borderRightColor" : "#a94442",
+			"borderLeftColor" : "#a94442"
+		}
+	}, {
+		"id" : "BootstrapTextBoxDollar2",
+		"type" : "Button",
+		"name" : "Dollor",
+		"x" : 2,
+		"y" : 1,
+		"w" : 28,
+		"h" : 28,
+		"props" : {
+			"label" : "$"
+		},
+		"has" : {
+			"backgroundColor" : true,
+			"border" : true,
+			"label" : true,
+			"padding" : true,
+			"onclick" : true
+		},
+		"actions" : {},
+		"style" : {
+			"fontSize" : 14,
+			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign" : "center",
+			"letterSpacing" : 1,
+			"lineHeight" : 1.4,
+			"color" : "#B2B2B2",
+			"borderTopRightRadius" : 0,
+			"borderTopLeftRadius" : 4,
+			"borderBottomRightRadius" : 0,
+			"borderBottomLeftRadius" : 4,
+			"borderTopWidth" : 0,
+			"borderBottomWidth" : 0,
+			"borderRightWidth" : 1,
+			"borderLeftWidth" : 0,
+			"borderTopColor" : "#CCCCCC",
+			"borderBottomColor" : "#CCCCCC",
+			"borderRightColor" : "#CCCCCC",
+			"borderLeftColor" : "#CCCCCC",
+			"background" : "#f8f8f8",
+			"borderTopStyle" : "solid",
+			"borderBottomStyle" : "solid",
+			"borderRightStyle" : "solid",
+			"borderLeftStyle" : "solid",
+			"paddingTop" : 4,
+			"paddingBottom" : 4,
+			"paddingLeft" : 4,
+			"paddingRight" : 4
+		}
+	} ]
+}
+
+]

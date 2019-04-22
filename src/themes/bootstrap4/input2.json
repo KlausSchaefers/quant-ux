@@ -1,0 +1,121 @@
+[ {
+	"id" : "Bootstrap4TextBoxDollar",
+	"type" : "Group",
+	"_type" : "Group",
+	"name" : "Text Box",
+	"category" : "Bootstrap4",
+	"subcategory" : "FormInput",
+	"children" : [ {
+		"id" : "Bootstrap4TextBoxDollar1",
+		"type" : "TextBox",
+		"name" : "Text Box",
+		"_extends" : "Bootstrap4TextBox",
+		"x" : 38,
+		"y" : 0,
+		"w" : 162,
+		"h" : 38,
+		"props" : {
+			"label" : "Enter a number",
+			"placeholder" : true,
+			"validation" : {
+				"type" : "double",
+				"required" : false
+			}
+		},
+		"has" : {
+			"label" : true,
+			"backgroundColor" : true,
+			"border" : true,
+			"editable" : true,
+			"onclick" : true,
+			"padding" : true
+		},
+		"style" : {
+			"color" : "#55595c",
+			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"borderTopRightRadius" : 4,
+			"borderTopLeftRadius" : 0,
+			"borderBottomRightRadius" : 4,
+			"borderBottomLeftRadius" : 0,
+			"borderTopWidth" : 1,
+			"borderBottomWidth" : 1,
+			"borderRightWidth" : 1,
+			"borderLeftWidth" : 0,
+			"fontSize" : 16,
+			"borderTopColor" : "#cccccc",
+			"borderBottomColor" : "#cccccc",
+			"borderRightColor" : "#cccccc",
+			"borderLeftColor" : "#cccccc",
+			"background" : "#ffffff",
+			"paddingTop" : 6,
+			"paddingBottom" : 6,
+			"paddingLeft" : 12,
+			"paddingRight" : 12,
+			"textAlign" : "left"
+		},
+		"error" : {
+			"borderTopColor" : "#d9534f",
+			"borderBottomColor" : "#d9534f",
+			"borderRightColor" : "#d9534f",
+			"borderLeftColor" : "#d9534f"
+		},
+		"focus" : {
+			"borderTopColor" : "#66afe9",
+			"borderBottomColor" : "#66afe9",
+			"borderRightColor" : "#66afe9",
+			"borderLeftColor" : "#66afe9"
+		}
+	}, {
+		"id" : "Bootstrap4TextBoxDollar2",
+		"type" : "Button",
+		"name" : "Dollor",
+		"x" : 0,
+		"y" : 0,
+		"w" : 38,
+		"h" : 38,
+		"props" : {
+			"label" : "$"
+		},
+		"has" : {
+			"backgroundColor" : true,
+			"border" : true,
+			"label" : true,
+			"padding" : true,
+			"onclick" : true
+		},
+		"actions" : {},
+		"style" : {
+			"fontSize" : 16,
+			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign" : "center",
+			"letterSpacing" : 1,
+			"lineHeight" : 1.4,
+			"color" : "#B2B2B2",
+
+			"borderTopRightRadius" : 0,
+			"borderTopLeftRadius" : 4,
+			"borderBottomRightRadius" : 0,
+			"borderBottomLeftRadius" : 4,
+			"borderTopWidth" : 1,
+			"borderBottomWidth" : 1,
+			"borderRightWidth" : 1,
+			"borderLeftWidth" : 1,
+
+			"borderTopColor" : "#CCCCCC",
+			"borderBottomColor" : "#CCCCCC",
+			"borderRightColor" : "#CCCCCC",
+			"borderLeftColor" : "#CCCCCC",
+			"background" : "#eceeef",
+			"borderTopStyle" : "solid",
+			"borderBottomStyle" : "solid",
+			"borderRightStyle" : "solid",
+			"borderLeftStyle" : "solid",
+			"paddingTop" : 6,
+			"paddingBottom" : 6,
+			"paddingLeft" : 6,
+			"paddingRight" : 6
+		}
+	} ]
+}
+
+]

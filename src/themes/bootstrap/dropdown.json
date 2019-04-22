@@ -1,0 +1,87 @@
+[
+ 	{
+		"id" : "BootstrapDropDown",
+		"type" : "DropDown",
+		"name" : "DropDown",
+		 "subcategory" : "Form",
+		"category" : "Bootstrap",
+		"_type" : "Widget",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : 100,
+	    "h" : 40,
+	    "z" : 0,
+	    "props" : {
+	        "options" : ["Option 1", "Option 2", "Option 3"],
+	        "selected" : "Option 1"
+	     },
+	     "has" : {
+	    	 "onclick" : true,
+		     "border" : true,
+		     "backgroundColor" : true,
+		     "data" : true,
+		     "padding":true,
+		     "label":true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 4,
+	         "borderTopLeftRadius" : 4,
+	         "borderBottomRightRadius" : 4,
+	         "borderBottomLeftRadius" : 4,
+	         "borderTopWidth" : 0,
+	         "borderBottomWidth": 0,
+	         "borderRightWidth" : 0,
+	         "borderLeftWidth" : 0,
+	         "borderTopColor" : "#adadad",
+	         "borderBottomColor" : "#adadad",
+	         "borderRightColor" : "#adadad",
+	         "borderLeftColor" : "#adadad",
+	         "background" : "#337ab7",	
+	         "color":"#ffffff",
+	         "fontSize" : 14,
+		     "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		     "textAlign" : "left",
+		     "paddingTop": 8,
+		     "paddingBottom": 8,
+		     "paddingLeft": 15,
+		     "paddingRight": 15,
+	         "popupBackground" : "#ffffff",
+		     "popupColor" : "#333333",
+		     "popupBorderColor" : "#fff",
+		     "popupBorderWidth" : 1,
+	         "popupShadow" : {"v":6, "h":0, "b":12, "s":0,"c":"rgba(0, 0, 0,0.176)"}
+	     }
+ 	},
+
+	{
+		"id" : "BootstrapDropDown2",
+		"type" : "DropDown",
+		"name" : "DropDown",
+		"_extends" : "BootstrapDropDown",
+		 "subcategory" : "Form",
+		"category" : "Bootstrap",
+		"_type" : "Widget",
+		"style" : { 
+			"borderTopRightRadius" : 0,
+		     "borderTopLeftRadius" : 0,
+		     "borderBottomRightRadius" : 0,
+		     "borderBottomLeftRadius" : 0,
+		     "borderTopWidth" : 0,
+		     "borderBottomWidth": 0,
+		     "borderRightWidth" : 0,
+		     "borderLeftWidth" : 0,
+		     "borderTopColor" : "#e7e7e7",
+		     "borderBottomColor" : "#e7e7e7",
+		     "borderRightColor" : "#e7e7e7",
+		     "borderLeftColor" : "#e7e7e7",
+		     "background" : "#f8f8f8",	
+		     "color":"#777777",		    
+		     "popupBackground" : "#ffffff",
+		     "popupColor" : "#333333",
+		     "popupBorderWidth": 1,
+		     "popupBorderColor" : "#fff",
+		     "popupShadow" : {"v":6, "h":0, "b":12, "s":0,"c":"rgba(0, 0, 0,0.176)"}
+		 }
+	}	
+ 
+]

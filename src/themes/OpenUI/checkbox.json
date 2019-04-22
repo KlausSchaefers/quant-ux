@@ -1,0 +1,41 @@
+[
+ {
+		"id" : "FioriCheckBox",
+		 "type" : "CheckBox",
+		 "name" : "CheckBox",
+		 "category" : "OpenUI",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 16,
+	     "h" : 16,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : true
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	    	"backgroundColor" : true,
+ 	        "data" : true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 0,
+	         "borderTopLeftRadius" : 0,
+	         "borderBottomRightRadius" : 0,
+	         "borderBottomLeftRadius" : 0,
+	         "borderTopWidth" : 2,
+	         "borderBottomWidth" : 2,
+	         "borderRightWidth" : 2,
+	         "borderLeftWidth" : 2,
+	         "borderTopColor" : "#bfbfbf",
+	         "borderBottomColor" : "#bfbfbf",
+	         "borderRightColor" : "#bfbfbf",
+	         "borderLeftColor" : "#bfbfbf",
+	         "background" : "#ffffff",
+	         "color" : "#346187",
+	         "colorButton" : "#346187"
+	     }
+	}
+]

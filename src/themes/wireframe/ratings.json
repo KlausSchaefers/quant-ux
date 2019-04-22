@@ -1,0 +1,23 @@
+[ {
+	"id" : "WireFrameRating",
+	"type" : "Rating",
+	"name" : "Star Rating",
+	"category" : "WireFrame",
+	"subcategory" : "FormSpecial",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 100,
+	"h" : 20,
+	"z" : 0,
+	"props" : {
+		"elementCount" : 5,
+		"selected" : 2
+	},
+	"has" : {
+		"onclick" : true
+	},
+	"style" : {
+		"color" : "#333333"
+	}
+} ]

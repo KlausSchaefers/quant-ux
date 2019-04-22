@@ -1,0 +1,52 @@
+[
+ {
+	"id" : "FioriFrameDate",
+	"type" : "Date",
+	"name" : "Calendar",
+	 "category" : "OpenUI",
+	 "subcategory" : "FormInputDate",
+	 "_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 300,
+	"h" : 300,
+	"z" : 0,
+	"props" : {
+		"nextButtonLbl": "&gt;",
+		"lastButtonLbl": "&lt;"
+	},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true,
+		"data" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 0,
+		"borderBottomWidth" : 0,
+		"borderRightWidth" : 0,
+		"borderLeftWidth" : 0,
+		"borderTopColor" : "#cecece",
+		"borderBottomColor" : "#cecece",
+		"borderRightColor" : "#cecece",
+		"borderLeftColor" : "#cecece",
+		"background" :"#ffffff",
+		"color" : "#00679e",
+		"selectedBackground" : "#427cac",
+		"selectedColor" : "#ffffff",
+		"tableHeaderColor" : "#666666",
+		"tableHeaderBackground" : "#ffffff",
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"fontSize" : 14,
+		"weekdayBackground" : "#e5e5e5",
+        "weekendBackground" : "#f2f2f2",
+        "weekdayColor" : "#666666",
+    	"weekendColor" :"#666666",
+        "tableBorderWidth" : 2
+	}
+}
+ ]

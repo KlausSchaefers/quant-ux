@@ -1,0 +1,52 @@
+[
+	{
+		"id" : "RadioBox",
+		 "type" : "RadioBox2",
+		 "name" : "RadioBox",
+		 "category" : "WireFrame",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 40,
+	     "h" : 40,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : true
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	        "data" : true	   
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 100,
+	         "borderTopLeftRadius" : 100,
+	         "borderBottomRightRadius" : 100,
+	         "borderBottomLeftRadius" : 100,
+	         "borderTopWidth" : 1,
+	         "borderBottomWidth" : 1,
+	         "borderRightWidth" : 1,
+	         "borderLeftWidth" : 1,
+	         "borderTopColor" : "#333333",
+	         "borderBottomColor" : "#333333",
+	         "borderRightColor" : "#333333",
+	         "borderLeftColor" : "#333333",
+	         "background" : "#ffffff",
+	         "color" : "#333333",
+	         "colorButton" : "#333333"
+	     }
+	},
+	{
+		"id" : "RadioBoxOff",
+		"type" : "RadioBox2",
+		"name" : "RadioBox",
+		"_extends" : "RadioBox",
+		"category" : "WireFrame",
+		"subcategory" : "Form",
+		"_type" : "Widget",
+		"props" : {
+			"checked" : false
+		}
+	}
+]

@@ -1,0 +1,228 @@
+
+<template>
+     <div class="VommondInputList">
+							
+						 </div>
+</template>
+<script>
+import DojoWidget from 'dojo/DojoWidget'
+import css from 'dojo/css'
+import lang from 'dojo/_base/lang'
+import on from 'dojo/on'
+import touch from 'dojo/touch'
+import Logger from 'common/Logger'
+import CheckBox from 'common/CheckBox'
+import DomBuilder from 'common/DomBuilder'
+
+export default {
+    name: 'InputList',
+    mixins:[DojoWidget],
+    data: function () {
+        return {
+            inline: true, 
+            placeholder: "Enter a new value", 
+            removeIcon: "glyphicon glyphicon-remove-circle", 
+            remove: true, 
+            check: "none", 
+            add: true, 
+            newValueMessage: "Enter a value", 
+            checkNewOption: false, 
+            edit: true
+        }
+    },
+    components: {},
+    methods: {
+        postCreate: function(){
+			this.log = new Logger({className : "de.vommond.InputList"});
+			this.db = new DomBuilder();
+	
+		},
+		
+		setSelected:function(checked){
+			this.selected = checked;
+		},
+		
+		blur:function(){
+			if(this.newInput){
+				this.newInput.blur();
+			}
+			if(this._inputs){
+				for(var i=0; i< this._inputs.length; i++){
+					this._inputs[i].blur();
+				}
+			}
+		},
+		
+		getSelected:function(){
+			this.blur();
+			return this.selected;
+		},
+		
+		setOptions:function(o){
+			this.options = lang.clone(o);
+			this.render();
+		},
+		
+		getOptions:function(){
+			if(this.newInput){
+				if(this.newInput.value){
+					this.options.push(this.stripHTML(this.newInput.value));
+				}
+			}
+			return this.options;
+		},
+		
+		render:function(focusNewElement){
+			this.log.log(0,"render", "enter > " + this.inline);
+			
+			this.cleanUpTempListener();
+			this.cleanUp();
+			this.domNode.innerHTML="";
+			this._inputs = [];
+			this._checks = [];
+			
+			var tbl = this.db.table("").build();
+			this.db.tbody().build(tbl);
+			
+		
+			for(let i=0; i < this.options.length; i++){
+				let option = this.options[i];		
+				let row = this.db.tr().build(tbl);			
+				if(this.check =="single"){
+					let checkTd= this.db.td("VommondInputListCheckCntr").build(row);
+					let chkBox = this.$new(CheckBox);
+					chkBox.setValue(this.isSelected(option));
+					chkBox.placeAt(checkTd);
+					this.tempOwn(chkBox.on("change", lang.hitch(this, "onCheckBoxChange", i, option)));
+					this._checks.push(chkBox);
+				}
+				
+				if(this.edit){
+					let input = this.db.td("VommondInputListInputCntr")
+						.input("MatcIgnoreOnKeyPress form-control", this.getLabel(option), this.newValueMessage)
+						.build(row);
+					this.tempOwn(on(input,"keyup", lang.hitch(this, "onInputChanged", i, input)));
+					this.tempOwn(on(input,"change", lang.hitch(this, "onOptionChanged", input,this.isSelected(option) )));
+					if(this.inline){
+						css.add(input, "vommondInlineEdit");
+					}
+					this._inputs.push(input);	
+				} else {
+					this.db.td("VommondInputListInputCntr")
+						.div("MatcIgnoreOnKeyPress", this.getLabel(option), this.newValueMessage)
+						.build(row);
+					// this._inputs.push(input);	
+				}
+							
+				if(this.remove){
+					var remove = this.db.td().div("VommondInputListRemove")
+						.span("glyphicon glyphicon-remove","")
+						.build(row);
+					this.tempOwn(on(remove,touch.press, lang.hitch(this, "onInputRemove", i, option)));
+				}						
+			}
+					
+			if(this.add){
+				let row = this.db.tr().build(tbl);
+				if(this.check =="single"){
+					this.db.td("VommondInputListCheckCntr").build(row);
+				}
+				let input = this.db.td().input("MatcIgnoreOnKeyPress form-control", "", this.placeholder).build(row);
+				if(this.inline){
+					css.add(input, "vommondInlineEdit");
+				}
+				if(this.remove){
+					this.db.td().build(row);
+				}
+				this.tempOwn(on(input,"change", lang.hitch(this, "onNewOption", input)));
+				this.newInput = input;
+				
+				if(focusNewElement || this.options.length == 0){
+					setTimeout(function(){
+						input.focus();
+					},100);
+				}
+			}
+			
+			
+			this.domNode.appendChild(tbl);
+		},
+		
+		isSelected:function(option){
+			return this.selected == option;
+		},
+		
+		getLabel:function(option){
+			var result = option;
+			if(this.labelFCT){
+				result = this.labelFCT(option);
+			}
+			return this.unStripHTML(result);
+		},
+		
+		setLabelFct:function(fct){
+			this.labelFCT = fct;
+		},
+		
+		onInputChanged:function(i, input){
+			this.options[i] = this.stripHTML(input.value);
+		},
+		
+		onCheckBoxChange:function(j, option){
+
+			if(this.isSelected(option)){
+				this._checks[j].setValue(false);
+				this.selected = null;
+			} else {
+				for(var i=0; i < this._checks.length; i++){
+					this._checks[i].setValue(i == j);
+				}
+				if(this.edit){
+					this.selected = this._inputs[j].value;
+				} else {
+					this.selected = option;
+				}
+			
+			}
+		},
+		
+		cleanUp:function(){
+			if(this._checks){
+				for(var i=0; i < this._checks.length; i++){
+					this._checks[i].destroy();
+				}
+			}
+		},
+		
+		onOptionChanged:function(input, isSelected){
+			if(isSelected){
+				this.selected = input.value;
+			}
+			this.render();
+		},
+		
+		onNewOption:function(input){
+			if(this.checkNewOption){
+				this.selected = input.value;
+			}
+			this.options.push(this.stripHTML(input.value));
+			this.render(true);
+		},
+		
+		onInputRemove:function(i, option){
+			if(this.isSelected(option)){
+				this.selected = null;
+			}
+			this.options.splice(i, 1);
+			this.render();
+		},
+			
+		destroy:function(){
+			this.cleanUpTempListener();		
+			delete this._inputs;
+		}
+    }, 
+    mounted () {
+    }
+}
+</script>

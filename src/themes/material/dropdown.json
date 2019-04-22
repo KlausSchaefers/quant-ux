@@ -1,0 +1,90 @@
+[ {
+	"id" : "MaterialDropDown",
+	"type" : "DropDown",
+	"name" : "DropDown",
+	"subcategory" : "FormDropDown",
+	"category" : "Material",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 100,
+	"h" : 36,
+	"z" : 0,
+	"props" : {
+		"options" : [ "Option 1", "Option 2", "Option 3" ],
+		"selected" : "Option 1"
+	},
+	"has" : {
+		"onclick" : true,
+		"border" : true,
+		"backgroundColor" : true,
+		"data" : true,
+		"padding" : true,
+		"label" : true
+	},
+	"style" : {
+		"borderBottomLeftRadius" : 2,
+		"borderTopLeftRadius" : 2,
+		"borderBottomRightRadius" : 2,
+		"borderTopRightRadius" : 2,
+		"borderTopWidth" : 0,
+		"borderBottomWidth" : 0,
+		"borderRightWidth" : 0,
+		"borderLeftWidth" : 0,
+		"borderTopColor" : "#adadad",
+		"borderBottomColor" : "#adadad",
+		"borderRightColor" : "#adadad",
+		"borderLeftColor" : "#adadad",
+		"background" : "#3f51b5",
+		"color" : "#ffffff",
+		"fontSize" : 14,
+		"fontFamily" : "Roboto, sans-serif",
+		"textAlign" : "left",
+		"paddingTop" : 8,
+		"paddingBottom" : 8,
+		"paddingLeft" : 15,
+		"paddingRight" : 15,
+		"popupBackground" : "#ffffff",
+		"popupColor" : "#333333",
+		"popupBorderColor" : "#fff",
+		"popupBorderWidth" : 1,
+		"popupShadow" : {
+			"v" : 6,
+			"h" : 0,
+			"b" : 12,
+			"s" : 0,
+			"c" : "rgba(0, 0, 0,0.176)"
+		},
+		"boxShadow" : {
+			"v" : 2,
+			"h" : 0,
+			"b" : 2,
+			"s" : 0,
+			"c" : "rgba(0,0,0,0.24)",
+			"i" : false
+		}
+	}
+}, {
+	"id" : "MaterialDropDown2",
+	"type" : "DropDown",
+	"category" : "Material",
+	"_type" : "Widget",
+	"name" : "DropDown",
+	"subcategory" : "FormDropDown",
+	"_extends" : "MaterialDropDown",
+	"style" : {
+		"background" : "#ff4081"
+	}
+}, {
+	"id" : "MaterialDropDown3",
+	"type" : "DropDown",
+	"category" : "Material",
+	"_type" : "Widget",
+	"name" : "DropDown",
+	"subcategory" : "FormDropDown",
+	"_extends" : "MaterialDropDown",
+	"style" : {
+		"background" : "#e8e8e8",
+		"color": "#333333"
+	}
+}]

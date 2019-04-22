@@ -1,0 +1,147 @@
+[
+ {
+	 "id" : "OpenUI5Button",
+	 "type" : "Button",
+	 "_type" : "Widget",
+	 "category" : "OpenUI",
+	 "subcategory" : "AAFormButton",
+	 "name" : "Button",
+     "props" : {
+        "label" : "Button"
+     },
+     "x":0,
+     "w":100,
+     "h":26,
+     "y":0,
+     "has" : {
+        "onclick" : true,
+        "label" : true,
+        "padding" : true,
+        "border":true,
+        "backgroundColor" : true
+     },
+     "style" : { 
+    	  "fontSize" : 14,
+	      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	      "textAlign" : "center",
+	      "letterSpacing" : 0,
+	      "lineHeight" : 1,
+    	  "color" : "#346187",
+    	  "paddingTop" : 4,
+		  "paddingBottom" : 4,
+		  "paddingLeft" : 7,
+		  "paddingRight" : 7,
+		  "borderTopRightRadius" : 3,
+	      "borderTopLeftRadius" : 3,
+	      "borderBottomRightRadius" : 3,
+	      "borderBottomLeftRadius" : 3,
+	      "borderTopWidth" : 1,
+	      "borderBottomWidth" : 1,
+	      "borderRightWidth" : 1,
+	      "borderLeftWidth" : 1,
+		  "background": "#f7f7f7",
+		  "borderTopColor" : "#ababab",
+          "borderBottomColor" : "#ababab",
+          "borderRightColor" : "#ababab",
+          "borderLeftColor" : "#ababab",
+      	  "verticalAlign" : "middle"
+     },
+     "hover":{
+    	 "background" : "#ebebeb",
+    	 "color" : "#333333"
+     }
+ },
+ {
+	 "id" : "OpenUI5ButtonRed",
+	 "type" : "Button",
+	 "_type" : "Widget",
+	 "_extends": "OpenUI5Button",
+	 "category" : "OpenUI",
+	 "subcategory" : "ABFormButton",
+	 "name" : "Reject Button",
+	 "props" : {
+		 "label" : "Reject"
+	 },
+	 "style" : { 
+	   	  "fontSize" : 14,
+		  "borderTopColor" : "#bb0000",
+	      "borderBottomColor" : "#bb0000",
+	      "borderRightColor" : "#bb0000",
+	      "borderLeftColor" : "#bb0000",
+	      "color" : "#bb0000"
+	 },
+	 "hover":{
+    	 "background" : "#ebebeb",
+    	 "color" : "#bb0000"
+     }
+},
+{
+	 "id" : "OpenUI5ButtonGreen",
+	 "type" : "Button",
+	 "_type" : "Widget",
+	 "_extends": "OpenUI5Button",
+	 "category" : "OpenUI",
+	 "subcategory" : "ABFormButton",
+	 "name" : "Accept Button",
+	 "props" : {
+		 "label" : "Accept"
+	 },
+	 "style" : { 
+	   	  "fontSize" : 14,
+		  "borderTopColor" : "#2b7d2b",
+	      "borderBottomColor" : "#2b7d2b",
+	      "borderRightColor" : "#2b7d2b",
+	      "borderLeftColor" : "#2b7d2b",
+	      "color" : "#2b7d2b"
+	 },
+	 "hover":{
+    	 "background" : "#ebebeb",
+    	 "color" : "#2b7d2b"
+     }
+},
+{
+	 "id" : "OpenUI5ButtonPassive",
+	 "type" : "Button",
+	 "_type" : "Widget",
+	 "_extends": "OpenUI5Button",
+	 "category" : "OpenUI",
+	 "subcategory" : "ACFormButton",
+	 "name" : "Passive Button",
+	 "props" : {
+		 "label" : "Passive"
+	 },
+	 "style" : { 
+	   	  "fontSize" : 14,
+	   	  "color" : "#98AEC0"
+	 },
+	 "hover":{
+    	 "background" : "#f7f7f7",
+    	 "color" : "#98AEC0"
+     }
+},
+{
+	 "id" : "OpenUI5ButtonEmph",
+	 "type" : "Button",
+	 "_type" : "Widget",
+	 "_extends": "OpenUI5Button",
+	 "category" : "OpenUI",
+	 "subcategory" : "ADFormButton",
+	 "name" : "Emphasized Button",
+	 "props" : {
+		 "label" : "Emphasized"
+	 },
+	 "style" : { 
+	   	  "fontSize" : 14,
+	   	  "color" : "#fff",
+	   	  "background": "#418ac7",
+		  "borderTopColor" : "#418ac7",
+          "borderBottomColor" : "#418ac7",
+          "borderRightColor" : "#418ac7",
+          "borderLeftColor" : "#418ac7"
+	 },
+	 "hover":{
+	   	 "background" : "#5496cd",
+	   	 "color" : "#fff"
+	 }
+}
+]

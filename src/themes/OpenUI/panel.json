@@ -1,0 +1,157 @@
+[
+	{
+		 "id" : "FioriPanel",
+		 "type" : "Box",
+		 "category" : "OpenUI",
+		 "subcategory" : "XBox",
+		 "_type" : "Widget",
+		 "name" : "Panel",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : "$100%",
+	     "h" : "$25%",
+	     "z" : 0,
+	     "props" : {},
+	     "has" : {
+	        "backgroundColor" : true,
+	        "border" : true
+	     },
+	     "actions":{},
+	     "style" : { 
+	    	 "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	    	 "borderTopRightRadius" : 0,
+	         "borderTopLeftRadius" : 0,
+	         "borderBottomRightRadius" : 0,
+	         "borderBottomLeftRadius" : 0,
+	         "borderTopWidth" : 0,
+	         "borderBottomWidth" : 0,
+	         "borderRightWidth" : 0,
+	         "borderLeftWidth" : 0,
+	         "borderTopColor" : "#ffffff",
+	         "borderBottomColor" : "#ffffff",
+	         "borderRightColor" : "#ffffff",
+	         "borderLeftColor" : "#ffffff",
+	         "background" : "#DDF2F5"
+	     }
+	 },
+	 { 
+		 "id" : "FioriPanel2",
+		 "type" : "Box",
+		 "category" : "OpenUI",
+		 "subcategory" : "XBox",
+		 "_type" : "Widget",
+		 "_extends" : "FioriPanel",
+		 "name" : "Panel",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : "$100%",
+	     "h" : "$25%",
+	     "z" : 0,
+	     "props" : {},
+	     "has" : {
+	        "backgroundColor" : true,
+	        "border" : true
+	     },
+	     "actions":{},
+	     "style" : { 
+	         "background" : "#F4FAFB"
+	     }
+	 },
+	 
+	 { 
+		 "id" : "FioriPanel3",
+		 "type" : "Box",
+		 "category" : "OpenUI",
+		 "subcategory" : "XBox",
+		 "_type" : "Widget",
+		 "_extends" : "FioriPanel",
+		 "name" : "Panel",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : "$100%",
+	     "h" : "$25%",
+	     "z" : 0,
+	     "props" : {},
+	     "has" : {
+	        "backgroundColor" : true,
+	        "border" : true
+	     },
+	     "actions":{},
+	     "style" : { 
+	         "background" : "#E6F5FA"
+	     }
+		 
+	 },
+	 { 
+		 "id" : "FioriPanel4",
+		 "type" : "Box",
+		 "category" : "OpenUI",
+		 "subcategory" : "XBox",
+		 "_type" : "Widget",
+		 "_extends" : "FioriPanel",
+		 "name" : "Panel",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : "$100%",
+	     "h" : "$25%",
+	     "z" : 0,
+	     "props" : {},
+	     "has" : {
+	        "backgroundColor" : true,
+	        "border" : true
+	     },
+	     "actions":{},
+	     "style" : { 
+	         "background" : "#eff4f9"
+	     }
+	 },
+	 { 
+		 "id" : "FioriPanel5",
+		 "type" : "Box",
+		 "category" : "OpenUI",
+		 "subcategory" : "XBox",
+		 "_type" : "Widget",
+		 "_extends" : "FioriPanel",
+		 "name" : "Panel",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : "$100%",
+	     "h" : "$25%",
+	     "z" : 0,
+	     "props" : {},
+	     "has" : {
+	        "backgroundColor" : true,
+	        "border" : true
+	     },
+	     "actions":{},
+	     "style" : { 
+	         "background" : "#435667"
+	     }
+	 },
+	 { 
+		 "id" : "FioriPanel6",
+		 "type" : "Box",
+		 "category" : "OpenUI",
+		 "subcategory" : "XBox",
+		 "_type" : "Widget",
+		 "_extends" : "FioriPanel",
+		 "name" : "Panel",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : "$100%",
+	     "h" : "$25%",
+	     "z" : 0,
+	     "props" : {},
+	     "has" : {
+	        "backgroundColor" : true,
+	        "border" : true
+	     },
+	     "actions":{},
+	     "style" : { 
+	         "background" : "#FAFAFA"
+	     }
+	 }
+	 
+	 
+	 
+]

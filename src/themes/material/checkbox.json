@@ -1,0 +1,62 @@
+[
+ {
+		"id" : "MaterialCheckBox",
+		 "type" : "CheckBox",
+		 "name" : "CheckBox",
+		 "category" : "Material",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 16,
+	     "h" : 16,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	    	"backgroundColor" : true,
+ 	        "data" : true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 3,
+	         "borderTopLeftRadius" : 3,
+	         "borderBottomRightRadius" : 3,
+	         "borderBottomLeftRadius" : 3,
+	         "borderTopWidth" : 2,
+	         "borderBottomWidth" : 2,
+	         "borderRightWidth" : 2,
+	         "borderLeftWidth" : 2,
+	         "borderTopColor" : "#757575",
+	         "borderBottomColor" : "#757575",
+	         "borderRightColor" : "#757575",
+	         "borderLeftColor" : "#757575",
+	         "background" : "#ffffff",
+	         "color" : "#333333",
+	         "colorButton" : "#ffffff"
+	     },
+	     "checked" : {
+	         "background" : "#3f51b5",
+	         "borderTopColor" : "#3f51b5",
+	 	     "borderBottomColor" : "#3f51b5",
+	 	     "borderRightColor" : "#3f51b5",
+	 	     "borderLeftColor" : "#3f51b5"
+	     }
+	},
+	
+	 {
+ 		"id" : "MaterialCheckBox2",
+ 		 "type" : "CheckBox",
+ 		 "name" : "CheckBox",
+ 		 "_extends" : "MaterialCheckBox",
+ 		 "category" : "Material",
+ 		 "subcategory" : "Form",
+ 		 "_type" : "Widget",
+ 	     "props" : {
+ 	        "checked" : true
+ 	     }
+     
+     }
+]

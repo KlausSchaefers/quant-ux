@@ -1,0 +1,160 @@
+[
+	{
+		 "id" : "FioriTextBox",
+		 "type" : "TextBox",
+		 "_type" : "Widget",
+		 "category" : "OpenUI",
+		 "subcategory" : "FormInput",
+		 "name" : "Text Box",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 150,
+	     "h" : 24,
+	     "z" : 0,
+	     "props" : {
+		     "label" : "Enter a value",
+		     "placeholder" : true
+	     },
+	     "has" : {
+	        "label" : true,
+	        "backgroundColor" : true,
+	        "border" : true,
+	        "editable" : true,
+	        "onclick" : true,
+	        "padding" : true
+	     },
+	     "style" : { 
+	    	  "color" : "#333333",
+		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		      "borderTopRightRadius" : 0,
+		      "borderTopLeftRadius" : 0,
+		      "borderBottomRightRadius" : 0,
+		      "borderBottomLeftRadius" : 0,
+		      "borderTopWidth" : 1,
+		      "borderBottomWidth" : 1,
+		      "borderRightWidth" : 1,
+		      "borderLeftWidth" : 1,
+		      "fontSize" : 14,
+		      "borderTopColor" : "#bfbfbf",
+		      "borderBottomColor" : "#bfbfbf",
+		      "borderRightColor" : "#bfbfbf",
+		      "borderLeftColor" : "#bfbfbf",
+		      "background" : "#ffffff",
+		      "paddingTop" : 1,
+		      "paddingBottom" : 1,
+		      "paddingLeft" : 7,
+		      "paddingRight" : 7,
+		      "textAlign":"left"
+	     },
+	     "error" : {
+	    	 "borderTopColor" : "#cc0000",
+		     "borderBottomColor" : "#cc0000",
+		     "borderRightColor" : "#cc0000",
+		     "borderLeftColor" : "#cc0000",
+		     "background" : "#ffffff"
+	     },
+	     "focus" : {
+		     "background" : "#ffffff",
+	    	 "borderTopColor" : "#007cc0",
+		     "borderBottomColor" : "#007cc0",
+		     "borderRightColor" : "007cc0",
+		     "borderLeftColor" : "#007cc0"
+	     }
+	     
+	 },
+	 {
+		 "id" : "FioriTextBoxInt",
+		 "type" : "TextBox",
+		 "_type" : "Widget",
+		 "category" : "OpenUI",
+		 "subcategory" : "FormInput",
+		 "name" : "Text Box (Number)",
+		 "_extends" : "FioriTextBox",
+		
+	     "props" : {
+		     "label" : "Enter a number",
+		     "placeholder" : true,
+		     "validation" :{
+		    	 "type" : "int"
+		     }
+	     }
+	 },
+	 {
+		 "id" : "FioriTextBoxEmail",
+		 "type" : "TextBox",
+		 "_type" : "Widget",
+		 "category" : "OpenUI",
+		 "subcategory" : "FormInput",
+		 "name" : "Text Box (Email)",
+		 "_extends" : "FioriTextBox",
+		 
+	     "props" : {
+		     "label" : "Enter an email",
+		     "placeholder" : true,
+		     "validation" :{
+		    	 "type" : "email"
+		     }
+	     }
+	 },
+	 {
+		 "id" : "FioriTextArea",
+		 "type" : "TextArea",
+		 "_type" : "Widget",
+		 "category" : "OpenUI",
+		 "subcategory" : "FormInput2",
+		 "name" : "Text Area",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 200,
+	     "h" : 100,
+	     "z" : 0,
+	     "props" : {
+		     "label" : "Enter a value"
+	     },
+	     "has" : {
+	        "label" : true,
+	        "backgroundColor" : true,
+	        "border" : true,
+	        "editable" : true,
+	        "onclick" : true,
+	        "padding" : true
+	     },
+	     "style" : { 
+	    	  "color" : "#333333",
+		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		      "borderTopRightRadius" : 3,
+		      "borderTopLeftRadius" : 3,
+		      "borderBottomRightRadius" : 3,
+		      "borderBottomLeftRadius" : 3,
+		      "borderTopWidth" : 1,
+		      "borderBottomWidth" : 1,
+		      "borderRightWidth" : 1,
+		      "borderLeftWidth" : 1,
+		      "fontSize" : 18,
+		      "borderTopColor" : "#bfbfbf",
+		      "borderBottomColor" : "#bfbfbf",
+		      "borderRightColor" : "#bfbfbf",
+		      "borderLeftColor" : "#bfbfbf",
+		      "background" : "#ffffff",
+		      "paddingTop" : 3,
+		      "paddingBottom" : 3,
+		      "paddingLeft" : 3,
+		      "paddingRight" : 3,
+		      "textAlign":"left"
+	     },
+	     "error" : {
+	    	 "borderTopColor" : "#cc0000",
+		     "borderBottomColor" : "#cc0000",
+		     "borderRightColor" : "#cc0000",
+		     "borderLeftColor" : "#cc0000",
+		     "background" : "#ffffff"
+	     },
+	     "focus" : {
+		     "background" : "#ffffff",
+	    	 "borderTopColor" : "#007cc0",
+		     "borderBottomColor" : "#007cc0",
+		     "borderRightColor" : "007cc0",
+		     "borderLeftColor" : "#007cc0"
+	     }
+	 }
+]

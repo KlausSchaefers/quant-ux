@@ -1,0 +1,60 @@
+[ {
+	"id" : "FioriDropDown",
+	"type" : "DropDown",
+	"name" : "DropDown",
+	"subcategory" : "FormDropDown",
+	"category" : "OpenUI",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 150,
+	"h" : 24,
+	"z" : 0,
+	"props" : {
+		"options" : [ "Menu 1", "Menu 2", "Menu 3" ]
+	},
+	"has" : {
+		"onclick" : true,
+		"border" : true,
+		"backgroundColor" : true,
+		"data" : true,
+		"padding" : true,
+		"label" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "center",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"color" : "#333333",
+		"paddingTop" : 4,
+		"paddingBottom" : 4,
+		"paddingLeft" : 12,
+		"paddingRight" : 12,
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"background" : "#f7f7f7",
+		"borderTopColor" : "#bfbfbf",
+		"borderBottomColor" : "#bfbfbf",
+		"borderRightColor" : "#bfbfbf",
+		"borderLeftColor" : "#bfbfbf",
+		"popupBackground" : "#ffffff",
+		"popupColor" : "#333333",
+		"popupBorderColor" : "#bfbfbf",
+		"popupBorderWidth" : 1,
+		"popupShadow" : {
+			"v" : 2,
+			"h" : 0,
+			"b" : 1,
+			"s" : 1,
+			"c" : "rgba(0, 0, 0,0.176)"
+		}
+	}
+} ]

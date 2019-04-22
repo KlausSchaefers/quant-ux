@@ -1,0 +1,66 @@
+[ {
+	"id" : "SegmentButton",
+	"type" : "SegmentButton",
+	"name" : "SegmentButton",
+	"category" : "WireFrame",
+	"subcategory" : "AFormButton",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 300,
+	"h" : 40,
+	"z" : 0,
+	"props" : {
+		"options" : [ "Option 1", "Option 2", "Option 3" ],
+		"selected" : ["Option 1"]
+	},
+	"has" : {
+		"onclick" : true,
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#333333",
+		"borderBottomColor" : "#333333",
+		"borderRightColor" : "#333333",
+		"borderLeftColor" : "#333333",
+		"background" : "#ffffff",
+		"color" : "#333333",
+		"paddingTop" : 10,
+		"paddingBottom" : 10,
+		"paddingLeft" : 10,
+		"paddingRight" : 10,
+		"textAlign" : "center",
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "center",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		 "borderTopRightRadius" : 3,
+         "borderTopLeftRadius" : 3,
+         "borderBottomRightRadius" : 3,
+         "borderBottomLeftRadius" : 3
+	},
+	"active" : {
+		"color" : "#ffffff",
+		"background" : "#333333",
+		"borderTopColor" : "#333333",
+		"borderBottomColor" : "#333333",
+		"borderRightColor" : "#333333",
+		"borderLeftColor" : "#333333",
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1
+	
+	}
+} ]

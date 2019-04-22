@@ -1,0 +1,814 @@
+
+.form-control{
+	box-shadow:none;
+	border-radius:3px;
+}
+
+.form-control{
+	box-shadow:none;
+	border-radius:3px;
+}
+
+.form-control:FOCUS {
+	box-shadow:none;
+	border-radius:3px;
+	box-shadow:none;
+}
+
+input:focus{
+	outline:none;
+}
+
+
+ /****************************************************
+ * Forms
+ ****************************************************/
+ 
+ .MatcFormRow{
+ 	text-align: left;
+ 	margin-bottom: 20px;
+ }
+ 
+.MatcFormRow label{
+ 	display: block;
+}
+
+.MatcFormRow input{
+ 	width: 300px;
+}
+
+.MatcErrorLabel{
+	color: #f83a3a;
+	height:20px;
+	padding:5px;
+	transition-duration: 0.2s;
+}
+
+.MatcHintLabel{
+	
+}
+
+.MatcHintLabelHidden{
+	opacity:0,
+}
+
+.VommondFormErrorLabel {
+    font-style: italic;
+    color: #f83a3a;
+    font-size:14px;
+}
+
+.VommondDialogContent .VommondFormErrorLabelBottom{
+	margin-top:-25px;
+	padding-bottom:10px;
+}
+
+.VommondFormInputError{
+	border-color: #f83a3a;
+}
+.MatcErrorLabel.MatcErrorLabelEmpty{
+	opacity:0;
+}
+
+.MatcSuccessLabel{
+	color: #92c500;
+}
+
+.MatcFormRow textarea{
+ 	width: 300px;
+}
+
+.MatcTableLabel{
+	padding: 20px;
+}
+
+.MatcInlineEdit{
+	border: 1px transparent solid;
+	width: 100%;
+	resize: none;
+	padding: 10px 16px;
+	background: none;
+}
+
+.MatcInlineEdit.MatcBold{
+	font-weight: bold;
+}
+
+.MatcInlineEdit:hover{
+	border: 1px #cecece dashed;
+}
+
+.MatcInlineEdit:focus{
+	border: 1px #56A9FC dashed;
+}
+
+
+/****************************************************
+ * Buttons
+ ****************************************************/
+
+
+.MatcLinkButton{
+	padding: 3px 5px;
+	display: inline-block;
+	cursor: pointer;
+	color:#56A9FC;
+	font-size: 18px;
+}
+
+
+.MatcLinkBox{
+    color: #333;
+    display: inline-block;
+}
+
+.MatcLinkBox:hover{
+	color:#333;	
+		text-decoration: none;
+}
+
+.MatcLinkBoxMessage{
+	text-align: center;
+	opacity:0;
+	transition-duration:0.5s;
+	color:#999;
+	font-weight: 300;
+		text-decoration: none;
+}
+.MatcLinkBox:hover .MatcLinkBoxMessage{
+	opacity:1;
+	text-decoration: none;
+}
+
+.MatcLinkButton:hover{
+	color:#337ab7;
+	text-decoration: underline;
+}
+
+
+.MatcButton{
+	display: inline-block;
+	padding: 3px 20px;
+	border:1px solid #56A9FC;
+	border-radius:3px;
+
+	color:#56A9FC;
+	cursor: pointer;
+	transition: all 0.25s;
+	text-align: left;
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.MatcButton:HOVER{
+ 	background: #56A9FC;
+	text-decoration: none;
+	color:#fff;
+}
+
+
+.MatcButtonSignUp{
+	background: #56A9FC;
+	text-decoration: none;
+	color:#fff;	
+}
+
+.MatcButtonSignUp:hover{
+	background: #1c78d3;
+	border-color:#1c78d3;
+}
+
+
+
+.MatcButtonFullWidth{
+	width: 100%;
+	text-align:center;
+}
+
+
+.MatcButtonIcon{
+	
+}
+
+.MatcButtonIconLabel{
+	margin-left: 3px;
+}
+.MatcButtonActive{
+ 	background: #56A9FC;
+	text-decoration: none;
+	color:#fff;
+}
+
+.MatcButtonActive:HOVER{
+}
+
+.MatcButtonPassive, .MatcButtonPassive:HOVER{
+    border: 1px solid #999999;
+	cursor: pointer;
+	color: #999;
+	background: none;
+}
+
+
+.MatcButtonAnimated{
+	transition: all 0.2s;
+}
+
+.MatcButtonClosed{
+	width:0px;
+	opacity:0;
+	padding: 3px 0px;
+	overflow: hidden;
+}
+
+
+.MatcButton .glyphicon{
+
+
+}
+
+.MatcButtonRed{
+	border: 1px solid #f83a3a;
+	color:#f83a3a
+}
+
+.MatcButtonRed:HOVER{
+	background: #f83a3a;
+	color:#fff;
+}
+
+
+.MatcButtonBlack{
+	background:#3e4149;
+	color: #fff;
+}
+
+.MatcButtonBlack:HOVER{
+	background: #333;
+
+}
+
+.MatcButtonTrans{
+	background:none;
+	border:1px solid #fff; 
+	color:#fff;
+}
+
+
+
+.MatcButtonTrans:HOVER{
+	background:rgba(255,255,255,0.2);
+	border:1px solid #fff; 
+}
+
+.MatcButtonRed.MatcButtonTrans{
+	color:#cc0000;
+}
+ 
+.MatcButtonGreen{
+ 	background: #92c500;
+ 	border:1px solid #92c500;
+	color:#fff;
+}
+ 
+.MatcButtonGreen:HOVER{
+ 	background: #6da000;
+ 	border:1px solid #6da000;
+	color:#fff;
+}
+
+.MatcButtonLarge{
+	padding: 8px 40px;
+	font-size: 21px;
+}
+
+.MatcButtonXXL{
+	padding: 10px 20px;
+	font-size: 30px;
+}
+
+
+
+.MatcPlus, .MatcCirleButton{
+	background: none repeat scroll 0 0 rgba(0, 153, 204, 1);
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    font-size: 50px;
+    height: 80px;
+    overflow: hidden;
+    padding-top: 7px;
+    position: relative;
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+    transition-duration: 0.2s;
+}
+
+.MatcPlus{
+	padding-left: 5px;
+}
+
+.MatcCirleButton.MatcCirlePassive{
+	background: #cecece;
+}
+
+.MatcCirleButton .glyphicons::before {
+	font-size: 40px;
+}
+
+.MatcPlus:hover, .MatcCirleButton:hover, .MatcCirleButton.MatcCirlePassive:hover{
+	 background: #6da000;
+}
+
+.MatcRemove{
+	width:24px;
+	width:24px;
+	background: #333;
+	text-align: center;
+	color:#fff;
+	border-radius:50%;
+}
+
+.MatcRemove:hover{
+	background: red;
+}
+
+
+.MatcButtonGroup .MatcButton{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.MatcSegmentButtonCntr{
+	 display: flex;
+	 flex-wrap: nowrap;
+	 justify-content: flex-start;
+	  align-content: stretch;
+	  border-radius:3px;
+	  overflow:hidden;
+}
+
+
+.MatcSegmentButton .MatcButton{
+	margin: 0px;
+	border-left:0px;
+	border-radius:0px;
+	padding:3px 5px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.MatcSegmentButton .MatcButton:first-child {
+	border-left:1px solid #56A9FC
+}
+
+.MatcSegmentButton .MatcButton.MatcDropDownButtonSelected{
+	background: #56A9FC;
+	color:#FFF;
+}
+
+/****************************************************
+ * App Selector
+ ****************************************************/
+
+.MatcAppSelector{
+	display: inline-block;
+}
+
+
+/****************************************************
+ * DialogTable
+ ****************************************************/
+ 
+ .MatcDialogTable{
+ 	overflow: hidden;
+ 	padding: 0px;
+ 	background: rgb(242, 242, 242) none repeat scroll 0 0;
+    border: 1px solid #cecece;
+    border-radius:3px;
+    height: 450px;
+ }
+ 
+ .MatcDialogTransTable{
+    border: 1px solid #cecece;
+    border-radius:3px;
+    height: 350px;
+    overflow:hidden;
+ }
+ 
+ .MatcDialogTable table{
+ 	width: 100%;
+ 	min-width: 250px;
+ }
+ 
+ .MatcDialogTableXL table{
+ 
+  	min-width: 450px;
+ }
+ 
+.MatcDialogTable thead{
+	font-weight: bold;
+	background: rgb(230, 230, 230);
+	border-bottom: 1px solid #cecece;
+}
+
+.MatcDialogTable td.MatcDialogTableCheckBoxCntr{
+	padding: 10px 0 10px 10px;
+    width: 40px;
+}
+
+.MatcDialogTable td.MatcDialogTableCheckBoxLabel{
+	padding:10px;
+}
+ 
+.MatcDialogTable tr{
+ 	border-bottom: 1px solid #cecece;
+
+}
+
+.MatcDialogTable tr:HOVER{
+	background: rgb(230, 230, 230)
+}
+
+.MatcDialogTable td{
+	padding: 10px 20px;
+}
+
+.MatcDialogTable td.MatcDialogTableAction {
+
+	cursor: pointer;
+}
+
+.MatcDialogTableInvalidRow{
+	text-decoration: line-through;
+}
+
+
+ 
+/****************************************************
+ * Popover Bar
+ ****************************************************/
+ 
+.MatcPopoverCntr{
+	position: relative;
+	overflow: hidden;
+	box-sizing: padding-box;
+}
+
+.MatcPopoverCntr .MatcPopover{
+	position:absolute;
+	width:100%;
+	height:100%;
+	bottom:-100%;
+	transition-duration: 0.1s;
+	background: rgba(0,0,0,0.8);
+	display: block;
+	
+	border-radius:3px;
+	
+	z-index: 11000;
+}
+
+.MatcPopoverCntr:HOVER .MatcPopover{
+	bottom:0px;
+}
+
+.MatcPopoverCntr .MatcButton{
+	width: 80%;
+	text-align: center;
+	border: 0px;
+}
+
+.MatcPopoverBtn{
+	color:#fff;
+	font-size: 40px;
+	text-decoration: none;
+	display: inline-block;
+}
+ 
+/****************************************************
+ * Button Bar
+ ****************************************************/
+
+.MatcButtonBar{
+	text-align: left;
+}
+
+.MatcButtonBarRelative{
+	position: relative;
+}
+
+.MatcButtonBarRelative .MatcButtonRight{
+	float:right;
+	font-size: 16px;
+}
+
+ 
+.MatcButtonBar a{
+	padding-top: 3px;
+	display: inline-block;
+}
+
+.MatcButtonBar .MatcButton{
+  margin-right: 20px;	
+  vertical-align: top;
+}
+
+.MatcButtonBar .MatcButtonLeft{
+	position: absolute;
+	left:0px;
+}
+
+.MatcButtonBar .MatcButtonRight{
+	position: absolute;
+	right:0px;
+}
+
+.MatcButtonBar.MatcButtonBarCenter{
+	text-align: center;
+}
+
+.VommondDataBindingPassive.MatcButton{
+	cursor:auto;
+	border: 1px solid #999999;
+	cursor: pointer;
+	color: #999;
+	background: none;
+}
+
+.VommondDataBindingPassive.MatcButton:HOVER{
+	cursor:auto;
+	border: 1px solid #999999;
+	cursor: pointer;
+	color: #999;
+	background: none;
+}
+
+
+
+/****************************************************
+ * Vertical Button Group
+ ****************************************************/
+
+
+.MatcVerticalButtonGroup{
+	display: inline-block;
+}
+
+.MatcVerticalButtonGroup .MatcButton{
+	display:block;
+	margin: 0px;
+	padding:3px 10px;
+	border-radius:0px;
+	border-bottom:1px solid #56A9FC;
+}
+
+.MatcVerticalButtonGroup .MatcButton:HOVER{
+	border-bottom-color: #6da000;
+}
+
+.MatcVerticalButtonGroup .MatcButton:FIRST-CHILD{
+	border-top-left-radius:3px;
+	border-top-right-radius:3px;
+}
+
+.MatcVerticalButtonGroup .MatcButton:last-child{
+	border-bottom-right-radius:3px;
+	border-bottom-left-radius:3px;
+	border-bottom: 2px solid #56A9FC; 
+}
+
+.MatcVerticalButtonGroup .MatcButton:last-child:HOVER{
+	border-bottom: 2px solid #6da000; 
+}
+
+
+
+.MatcActionBar{
+	font-size: 14px;
+	text-align: center;
+}
+
+
+/****************************************************
+ * table
+ ****************************************************/
+ 
+ .vommondTable .action .MatcButton{
+ 	margin-left: 10px;
+ }
+ 
+.vommondTable .vommondInlineEdit{
+  margin-left:-16px; 
+}	
+/****************************************************
+ * DropDown
+ ****************************************************/
+ 
+.MatcDropDownButton{
+	display: inline-block;
+	position: relative;
+}
+
+.MatcDropDownButton .caret{
+	position: absolute;
+	right:10px;
+	top:45%;
+}
+
+.MatcDropDownButtonWidth{
+	min-width:200px;	
+}
+
+.MatcDropDownIcon{
+	vertical-align: middle;
+	margin-right: 10px;	
+}
+
+.MatcDropDownLabel{
+	font-weight: 400;
+	margin-right: 5px;
+	margin-bottom: 0px;
+}
+
+.MatcDropDownPopUp{
+	display: none;
+	position: absolute;
+	top: 100%;
+	left:0px;
+	text-align:left;
+	z-index: 900000;
+	padding: 0px;
+	background: white;
+	box-shadow: 0px 3px 10px rgba(0,0,0,0.25);
+	border-radius:3px;
+}
+
+
+.MatcDropDownUp .MatcDropDownPopUp{
+	top:auto;
+	bottom:100%;	
+}
+
+.MatcDropDownButtonOpen .MatcDropDownPopUp, .MatcDropDownButtonOpen.MatcDropDownPopUp{
+	display: block;	
+}
+
+
+.MatcDropDownButton ul{
+	padding-left: 0px;
+	min-width: 60px;
+	margin-bottom: 0px;
+	max-height:400px;
+	overflow:scroll;
+}
+
+.MatcDropDownLabel{
+	cursor: pointer;
+}
+.MatcDropDownButton li{
+	list-style: none;
+	cursor: pointer;
+	color:#333;
+	padding: 3px 10px;
+	cursor: pointer;
+}
+
+.MatcDropDownButton li:HOVER{
+	background: #cecece;
+}
+
+.MatcDropDownPopUp li.MatcDropDownButtonSelected{
+	background: #56A9FC;
+	color: #fff;
+}
+
+
+/****************************************************
+ * Slider & Co
+ ****************************************************/
+ 
+ .MatcForm .VommondSlider {
+ 	width:75%;
+ }
+
+.MatcForm .VommondSliderPos{
+	height: 30px;
+}
+
+.MatcForm .VommondSliderContainer{
+	height: 10px;
+	background: #cecece;
+}
+
+.MatcForm .VommondSliderBar{
+	background: #56A9FC;	
+}
+
+.MatcForm .VommondSliderHandle{
+	background: #56A9FC;	
+	border-radius: 2px;
+    height: 21px;
+    border-color:#56A9FC;
+}
+
+.MatcForm .VommondSliderHandle:hover{
+	background: #56A9FC;	
+    border-color:#56A9FC;
+}
+
+.MatcForm .vommondLegendBarItem{
+	border-right: 1px solid #cecece;	
+}
+
+.MatcForm .vommondLegendBarItemLabel{
+	color:#999;
+}
+
+
+.MatcForm  .VommondRadioBoxMark{
+	background:#56A9FC;
+}
+
+
+.MatcSliderLabel{
+	color:#999;
+	width:150px;	
+	
+	display: inline-block;
+	vertical-align: top;
+	padding-left: 50px;
+}
+/****************************************************
+ * CheckBoxes & Co
+ ****************************************************/
+
+.MatcCheckBoxContainer{
+	
+}
+
+.MatcCheckBoxLabel{
+	vertical-align: top;
+}
+
+.MatcFormCheckBox,  .form-group .VommondCheckBox, .MatcFormCheckBox .VommondCheckBox{
+	height: 24px;
+	width: 24px;
+	border-radius: 3px;
+
+	background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+}
+
+.VommondRadioBox{
+	height: 24px;
+	width: 24px;
+
+	background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+}
+
+ .MatcFormGroup{
+ 	background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+
+ 	border-radius: 6px;
+    font-size: 18px;
+    line-height: 1.33;
+    padding: 10px 16px;
+ }
+ 
+
+textarea.form-control {
+	
+}
+
+textarea.form-control.MatcTextAreaSmall{
+	height: 30px;
+	overflow: hidden;
+}
+
+.form-group .MatcDropDownButton{
+	display:block;
+	width: 100%;
+	font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    color:#555;
+}
+
+.form-group .MatcDropDownButton .caret{
+	color: #ccc;
+}
+
+.form-group .MatcDropDownButton:HOVER{
+ 	border: 1px solid #66afe9;
+ 	background:none;
+}
+

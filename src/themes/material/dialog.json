@@ -1,0 +1,44 @@
+[ {
+	"id" : "MaterialDialog",
+	"type" : "Box",
+	"category" : "Material",
+	"subcategory" : "XBoxes",
+	"_type" : "Widget",
+	"name" : "Dialog",
+	"x" : 0,
+	"y" : 0,
+	"w" : "$75%",
+	"h" : "$25%",
+	"z" : 0,
+	"props" : {},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 0,
+		"borderBottomWidth" : 0,
+		"borderRightWidth" : 0,
+		"borderLeftWidth" : 0,
+		"textAlign": "center",
+        "fontFamily" : "Roboto, sans-serif",
+        "fontSize": 24,
+        "fontStyle": "normal",
+        "fontWeight": "500",
+        "letterSpacing": 0,
+        "lineHeight": 1.5,
+		"borderTopColor" : "#eeeeee",
+		"borderBottomColor" : "#eeeeee",
+		"borderRightColor" : "#eeeeee",
+		"borderLeftColor" : "#1b809e",
+		"background" : "#ffffff",
+	    "boxShadow": { "v":9, "h":0, "b":46,"s":8, "c":"rgba(0,0,0,0.24)","i":false}
+	
+		
+	}
+}
+]

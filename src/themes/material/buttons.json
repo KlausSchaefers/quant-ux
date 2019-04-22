@@ -1,0 +1,78 @@
+[
+    {
+      "id": "MaterialButton",
+      "type": "Button",
+      "category": "Material",
+      "_type": "Widget",
+      "name": "Button",
+      "subcategory": "FormButton",
+      "x": 0,
+      "y": 0,
+      "w": 56,
+      "h": 56,
+      "style": {
+        "background": "#ff4081",
+        "borderBottomColor": "#ffffff",
+        "borderTopColor": "#ffffff",
+        "borderLeftColor": "#ffffff",
+        "borderRightColor": "#ffffff",
+        "borderBottomLeftRadius": 500,
+        "borderTopLeftRadius": 500,
+        "borderBottomRightRadius": 500,
+        "borderTopRightRadius": 500,
+        "borderBottomWidth": 0,
+        "borderTopWidth": 0,
+        "paddingBottom": 10,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+        "paddingTop": 10,
+        "textAlign": "center",
+        "fontFamily" : "Roboto, sans-serif",
+        "fontSize": 28,
+        "fontStyle": "normal",
+        "fontWeight": "500",
+        "letterSpacing": 0,
+        "lineHeight": 1,
+        "color": "#ffffff",
+        "textDecoration": "none",
+        "boxShadow": { "v":2, "h":0, "b":2,"s":0, "c":"rgba(0,0,0,0.24)","i":false},
+        "valign" : "middle"
+      },
+      "props": {
+    	  "label" :"+"
+      },
+      "has": {
+        "onclick": true,
+        "label": true,
+        "padding": false,
+        "backgroundColor" : true,
+        "border" : true
+      }
+    },
+    {
+   	 "id": "MaterialButton2",
+        "type": "Button",
+        "category": "Material",
+        "_type": "Widget",
+        "name": "Button",
+        "subcategory": "FormButton",
+   	    "_extends" : "MaterialButton",
+        "style": {
+           "background": "#e8e8e8",
+           "color" : "#333333"
+        }
+    },
+     {
+   	 "id": "MaterialButton2Dis",
+        "type": "Button",
+        "category": "Material",
+        "_type": "Widget",
+        "name": "Button (Disabled)",
+        "subcategory": "FormButton",
+   	    "_extends" : "MaterialButton",
+        "style": {
+           "background": "#dbdbdb",
+           "color" : "#a4a4a4"
+        }
+    }
+]

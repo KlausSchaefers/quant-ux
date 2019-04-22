@@ -1,0 +1,45 @@
+.MatcWidgetTypeChatBot{
+	border: 1px dashed orange;
+	overflow: scroll;
+	height: 100%;
+	width:100%;	
+}
+
+.MatcWidgetTypeChatBotCntr{
+
+}
+
+
+.MatcWidgetTypeChatBotRow{
+	position: relative;
+	transition: opacity 0.5s;
+}
+
+.MatcWidgetTypeChatArrow{
+ 	position: absolute;
+ 	bottom:10px;
+ 	transform:rotate(45deg);	
+}
+
+.MatcWidgetTypeChatAnswer{
+
+}
+
+.MatcWidgetTypeChatBotBubble{
+	position: relative;
+}
+
+.MatcWidgetTypeChatAnswer .MatcWidgetTypeChatTextArea{
+	background: none;
+	border:none;
+	width: 100%;
+	min-height:50px;
+	resize:none;
+	outline: none;
+	padding: 0px;
+}
+
+.MatcWidgetTypeChatHidden{
+	opacity:0;
+	transition: opacity 0.5s;
+}

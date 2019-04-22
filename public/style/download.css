@@ -1,0 +1,32 @@
+
+
+.MatcDownloadDialog{
+	width: 1200px;
+	height: 640px;
+}
+
+.MatcDownloadDialogCntr{
+	height: 520px;
+	overflow: auto;
+	margin-bottom:20px;
+}
+
+.MatcDownloadDialogPreview{
+	width:100px;
+	height:200px;
+	overflow: hidden;
+	display: inline-block;
+	text-align: center;
+	position: relative;
+}
+
+.MatcDownloadDialogPreview img{
+	width:100%;
+}
+
+.MatcDownloadDialogPreview span{
+	color: #999;
+    display: inline-block;
+    margin-top: 100px;
+    font-size: 20px;
+}

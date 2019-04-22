@@ -1,0 +1,523 @@
+[
+{
+	 "id" : "FioriListSideNavigation",
+	 "type": "Group",
+	 "_type": "Group",
+	 "category" : "OpenUI",
+	 "subcategory" : "Navigation",
+	 "name" : "Side Navigation",
+	  "children": [
+	    {
+	      "type": "Button",
+	      "name": "Side Navigation",
+	      "props": {
+	        "label": "Top Item"
+	      },
+	      "x": 0,
+	      "w": 200,
+	      "h": 32,
+	      "y": 0,
+	      "has": {
+	        "onclick": true,
+	        "label": true,
+	        "padding": true,
+	        "border": true,
+	        "backgroundColor": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 0,
+	        "lineHeight": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 0,
+	        "paddingBottom": 0,
+	        "paddingLeft": 48,
+	        "paddingRight": 0,
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 1,
+	        "borderBottomWidth": 1,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "background": "#45596a",
+	        "borderTopColor": "#4d6377",
+	        "borderBottomColor": "#4d6377",
+	        "borderRightColor": "#4d6377",
+	        "borderLeftColor": "#4d6377",
+	        "verticalAlign": "middle",
+	        "fontWeight": 400
+	      },
+	      "hover": {
+	    	  "background": "#587187"
+	      }
+	    },
+	    {
+	      "type": "Button",
+	      "name": "Side Navigation",
+	      "props": {
+	        "label": "Top Item"
+	      },
+	      "x": 0,
+	      "w": 200,
+	      "h": 32,
+	      "y": 122,
+	      "has": {
+	        "onclick": true,
+	        "label": true,
+	        "padding": true,
+	        "border": true,
+	        "backgroundColor": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 0,
+	        "lineHeight": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 0,
+	        "paddingBottom": 0,
+	        "paddingLeft": 48,
+	        "paddingRight": 0,
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 1,
+	        "borderBottomWidth": 1,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "background": "#45596a",
+	        "borderTopColor": "#4d6377",
+	        "borderBottomColor": "#4d6377",
+	        "borderRightColor": "#4d6377",
+	        "borderLeftColor": "#4d6377",
+	        "verticalAlign": "middle",
+	        "fontWeight": 400
+	      },
+	      "hover": {
+	    	 "background": "#587187"
+	      }
+	    },
+	    {
+	    
+	      "type": "Button",
+	      "name": "Side Navigation",
+	      "props": {
+	        "label": "Sub Item"
+	      },
+	      "x": 0,
+	      "w": 200,
+	      "h": 32,
+	      "y": 32,
+	      "has": {
+	        "onclick": true,
+	        "label": true,
+	        "padding": true,
+	        "border": true,
+	        "backgroundColor": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 0,
+	        "lineHeight": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 0,
+	        "paddingBottom": 0,
+	        "paddingLeft": 48,
+	        "paddingRight": 0,
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "background": "#394958",
+	        "borderTopColor": "#4d6377",
+	        "borderBottomColor": "#4d6377",
+	        "borderRightColor": "#4d6377",
+	        "borderLeftColor": "#4d6377",
+	        "verticalAlign": "middle",
+	        "fontWeight": 400
+	      },
+	      "hover": {
+	    	  "background": "#45596a"
+	      }
+	    },
+	    {
+	     
+	      "type": "Button",
+	      "name": "Side Navigation 5",
+	      "props": {
+	        "label": "Sub Item"
+	      },
+	      "x": 0,
+	      "w": 200,
+	      "h": 32,
+	      "y": 154,
+	      "has": {
+	        "onclick": true,
+	        "label": true,
+	        "padding": true,
+	        "border": true,
+	        "backgroundColor": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 0,
+	        "lineHeight": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 0,
+	        "paddingBottom": 0,
+	        "paddingLeft": 48,
+	        "paddingRight": 0,
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "background": "#394958",
+	        "borderTopColor": "#4d6377",
+	        "borderBottomColor": "#4d6377",
+	        "borderRightColor": "#4d6377",
+	        "borderLeftColor": "#4d6377",
+	        "verticalAlign": "middle",
+	        "fontWeight": 400
+	      },
+	      "hover": {
+	    	  "background": "#45596a"
+	      }
+	    },
+	    {
+	     
+	      "type": "Button",
+	      "name": "Side Navigation 2",
+	      "props": {
+	        "label": "Sub Item"
+	      },
+	      "x": 0,
+	      "w": 200,
+	      "h": 32,
+	      "y": 64,
+	      "has": {
+	        "onclick": true,
+	        "label": true,
+	        "padding": true,
+	        "border": true,
+	        "backgroundColor": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 0,
+	        "lineHeight": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 0,
+	        "paddingBottom": 0,
+	        "paddingLeft": 48,
+	        "paddingRight": 0,
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "background": "#394958",
+	        "borderTopColor": "#4d6377",
+	        "borderBottomColor": "#4d6377",
+	        "borderRightColor": "#4d6377",
+	        "borderLeftColor": "#4d6377",
+	        "verticalAlign": "middle",
+	        "fontWeight": 400
+	      },
+	      "hover": {
+	    	  "background": "#45596a"
+	      }
+	    },
+	    {
+	      
+	      "type": "Button",
+	      "name": "Side Navigation 6",
+	      "props": {
+	        "label": "Sub Item"
+	      },
+	      "x": 0,
+	      "w": 200,
+	      "h": 32,
+	      "y": 186,
+	      "has": {
+	        "onclick": true,
+	        "label": true,
+	        "padding": true,
+	        "border": true,
+	        "backgroundColor": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 0,
+	        "lineHeight": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 0,
+	        "paddingBottom": 0,
+	        "paddingLeft": 48,
+	        "paddingRight": 0,
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "background": "#394958",
+	        "borderTopColor": "#4d6377",
+	        "borderBottomColor": "#4d6377",
+	        "borderRightColor": "#4d6377",
+	        "borderLeftColor": "#4d6377",
+	        "verticalAlign": "middle",
+	        "fontWeight": 400
+	      },
+	      "hover": {
+	    	  "background": "#45596a"
+	      }
+	    },
+	    {
+	    
+	      "type": "Button",
+	      "name": "Side Navigation 3",
+	      "props": {
+	        "label": "Sub Item"
+	      },
+	      "x": 0,
+	      "w": 200,
+	      "h": 32,
+	      "y": 90,
+	      "has": {
+	        "onclick": true,
+	        "label": true,
+	        "padding": true,
+	        "border": true,
+	        "backgroundColor": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 0,
+	        "lineHeight": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 0,
+	        "paddingBottom": 0,
+	        "paddingLeft": 48,
+	        "paddingRight": 0,
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "background": "#394958",
+	        "borderTopColor": "#4d6377",
+	        "borderBottomColor": "#4d6377",
+	        "borderRightColor": "#4d6377",
+	        "borderLeftColor": "#4d6377",
+	        "verticalAlign": "middle",
+	        "fontWeight": 400
+	      },
+	      "hover": {
+	    	  "background": "#45596a"
+	      }
+	    },
+	    {
+	     
+	      "type": "Button",
+	      "name": "Side Navigation 7",
+	      "props": {
+	        "label": "Sub Item"
+	      },
+	      "x": 0,
+	      "w": 200,
+	      "h": 32,
+	      "y": 212,
+	      "has": {
+	        "onclick": true,
+	        "label": true,
+	        "padding": true,
+	        "border": true,
+	        "backgroundColor": true
+	      },
+	      "style": {
+	        "fontSize": 14,
+	        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+	        "textAlign": "left",
+	        "letterSpacing": 0,
+	        "lineHeight": 1,
+	        "color": "#ffffff",
+	        "paddingTop": 0,
+	        "paddingBottom": 0,
+	        "paddingLeft": 48,
+	        "paddingRight": 0,
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "background": "#394958",
+	        "borderTopColor": "#4d6377",
+	        "borderBottomColor": "#4d6377",
+	        "borderRightColor": "#4d6377",
+	        "borderLeftColor": "#4d6377",
+	        "verticalAlign": "middle",
+	        "fontWeight": 400
+	      },
+	      "hover": {
+	    	  "background": "#45596a"
+	      }
+	    },
+	    {
+	      "type": "Icon",
+	      "name": "Icon",
+	      "x": 10,
+	      "y": 8,
+	      "w": 20,
+	      "h": 17,
+	      "props": {},
+	      "has": {
+	        "onclick": true,
+	        "data": true
+	      },
+	      "actions": {},
+	      "style": {
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "borderTopColor": "#333333",
+	        "borderBottomColor": "#333333",
+	        "borderRightColor": "#333333",
+	        "borderLeftColor": "#333333",
+	        "color": "#cae4fb",
+	        "icon": "mdi mdi-account"
+	      }
+	    },
+	    {
+	      "type": "Icon",
+	      "name": "Icon 1",
+	      "x": 10,
+	      "y": 130,
+	      "w": 20,
+	      "h": 17,
+	      "props": {},
+	      "has": {
+	        "onclick": true,
+	        "data": true
+	      },
+	      "actions": {},
+	      "style": {
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "borderTopColor": "#333333",
+	        "borderBottomColor": "#333333",
+	        "borderRightColor": "#333333",
+	        "borderLeftColor": "#333333",
+	        "color": "#cae4fb",
+	        "icon": "mdi mdi-cash"
+	      }
+	    },
+	    {
+	      "type": "Icon",
+	      "name": "Icon 2",
+	      "x": 180,
+	      "y": 8,
+	      "w": 20,
+	      "h": 17,
+	      "props": {},
+	      "has": {
+	        "onclick": true,
+	        "data": true
+	      },
+	      "actions": {},
+	      "style": {
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "borderTopColor": "#333333",
+	        "borderBottomColor": "#333333",
+	        "borderRightColor": "#333333",
+	        "borderLeftColor": "#333333",
+	        "color": "#cae4fb",
+	        "icon": "mdi mdi-chevron-down"
+	      }
+	    },
+	    {
+	      "type": "Icon",
+	      "name": "Icon 3",
+	      "x": 180,
+	      "y": 130,
+	      "w": 20,
+	      "h": 17,
+	      "props": {},
+	      "has": {
+	        "onclick": true,
+	        "data": true
+	      },
+	      "actions": {},
+	      "style": {
+	        "borderTopRightRadius": 0,
+	        "borderTopLeftRadius": 0,
+	        "borderBottomRightRadius": 0,
+	        "borderBottomLeftRadius": 0,
+	        "borderTopWidth": 0,
+	        "borderBottomWidth": 0,
+	        "borderRightWidth": 0,
+	        "borderLeftWidth": 0,
+	        "borderTopColor": "#333333",
+	        "borderBottomColor": "#333333",
+	        "borderRightColor": "#333333",
+	        "borderLeftColor": "#333333",
+	        "color": "#cae4fb",
+	        "icon": "mdi mdi-chevron-down"
+	      }
+	    }
+	  ]
+	}
+ 
+]

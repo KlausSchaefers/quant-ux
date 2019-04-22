@@ -1,0 +1,111 @@
+.flowalytics .MatcHeader{
+	background: #1c78d3;
+}
+
+
+
+
+.flowalytics .MatcMainMenu{
+	border:none;
+}
+
+/**
+ * The main menu in dark
+ */ 
+.flowalytics .MatcMainMenuPublic.MatcMainMenu{
+	background: #1c78d3;
+	border-bottom: 0px solid transparent;
+}
+
+.flowalytics .MatcMainMenuPublic .MatcMainMenuItem,
+.flowalytics .MatcMainMenuFeatures .MatcMainMenuItem {
+	font-size: 13px;
+	color:#fff;
+	transition:all 0.25s;
+}
+
+.flowalytics .MatcMainMenuPublic .MatcMainMenuItem:HOVER,
+.flowalytics .MatcMainMenuPublic .MatcMainMenuItem:FOCUS, 
+.flowalytics .MatcMainMenuPublic .MatcMainMenuItemSelected,
+.flowalytics .MatcMainMenuFeatures .MatcMainMenuItem:HOVER,
+.flowalytics .MatcMainMenuFeatures .MatcMainMenuItem:FOCUS, 
+.flowalytics .MatcMainMenuFeatures .MatcMainMenuItemSelected{
+	text-decoration: none;
+	color:#fff;
+	border-bottom: 2px solid #fff;	
+	background: none;
+}
+
+
+
+.flowalytics .MatcMainMenuItem:HOVER{
+	color:#1c78d3;
+	background: none;
+}
+.flowalytics .MatcMainMenuItem:FOCUS, 
+.flowalytics .MatcMainMenuItemSelected,
+.flowalytics .MatcMainMenuItemSelected:hover{
+	text-decoration: none;
+	color:#fff;
+	border-bottom: 2px solid #1c78d3;	
+	background: #1c78d3;
+}
+
+
+.flowalytics .MatcAboutDesktopHeader .MatcButton.MatcButtonSignUp{
+	background: #fff;
+	color:#56a9fc;
+	border-color:#fff;
+}
+
+
+.flowalytics  .MatcAboutDesktopHeader .MatcButton.MatcButtonSignUp:HOVER{
+	color:#1c78d3;
+}
+
+
+
+.flowalytics .MatcAboutDesktopHeader .MatcButton{
+	border-color:#fff;
+	color:#fff;
+}
+
+.flowalytics .MatcAboutDesktopHeader .MatcButton:hover{
+	background: #fff;
+	color:#1c78d3;
+	border-color:#fff;
+}
+
+
+.flowalytics .MatcAbout .MatcSection.MatcAboutFirstSection{
+	background: none;
+}
+
+.flowalytics .MatcAbout .MatcSection.MatcAboutFirstSection .MatcLeadBox {
+    color: #4a5c68;
+}
+
+
+.flowalytics .MatcHeaderItem {
+	background: none;
+}
+
+.flowalytics .MatcHeaderItem.MatcHeaderItemSelected, 
+.flowalytics .MatcHeaderItemSelected.MatcHeaderItem:HOVER, 
+.flowalytics .MatcHeaderItemSelected.MatcHeaderItem:FOCUS{
+	border-bottom: 2px solid rgb(250,250,250);
+	background: rgb(250,250,250);	
+	color:#031a29;
+}
+
+
+
+
+.flowalytics .MatcAboutProcess{
+	background-image: url("img/Process_Flowalytics4.png");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    height: 500px;
+    width: 100%;
+    display: inline-block;
+}

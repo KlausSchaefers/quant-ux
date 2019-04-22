@@ -1,0 +1,335 @@
+
+.MatcLight .MatcDialogThemed{
+	background: #f2f2f2;
+}
+
+.MatcLight .MatcCanvas{
+ 	background: #bbb;
+}
+
+.MatcLight .MatcCanvas.MatcCanvasImageUploadDND .MatcCanvasContainer{
+ 	background: #ddd;
+ 	transition: background 0.3s;
+}
+ 
+ 
+.MatcLight .MatcCanvas.MatcCanvasImageUploadDND .MatcScreenDnD{
+	background: rgba(255,255,255,0.5);
+ 	transition: background 0.3s;
+}
+
+.MatcLight .MatcCanvasImageUploadDND .MatcScreenDnD.MatcScreenDragOver{
+	background: none;
+}
+
+.MatcLight .MatcCanvasContainer {
+    background: #cccccc;
+    box-shadow: none;
+    transition: background 0.3s;
+}
+
+
+.MatcLight .MatcCanvasFrame {
+	 background: #bbb;
+}
+
+
+
+.MatcLight .MatcScreen {
+	box-shadow: 0 0 20px rgba(0,0,0,0.25);
+}
+
+.MatcLight .MatcCanvasWelcome{
+	color:#999;
+}
+
+.MatcLight .MatcToolbar, 
+.MatcLight .MatcStatus, 
+.MatcLight .MatcStatusItem, 
+.MatcLight .MatcToolbarTop{
+	background: #f2f2f2;
+	font-size: 12px;
+	color:#555;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcDashLabel,
+.MatcLight .MatcToobarPropertiesSection .MatcDashRingValue{
+	color:#555;
+}
+
+.MatcLight .MatcToobarPropertiesSection{
+	background: #f2f2f2;
+	font-size: 12px;
+	color:#555;
+}
+
+
+
+.MatcLight .MatcToobarLeft{
+	background: #f2f2f2;
+}
+
+.MatcLight .MatcScreenLabel{
+	color:#555;
+}
+	
+.MatcLight .MatcToolbarBigLabel{
+	color:#777;
+}
+
+	
+.MatcLight .MatcToolbarTop{
+	#border-bottom: 1px solid #777;	
+}
+
+.MatcLight .MatcBorderStyleDashed, 
+.MatcLight .MatcBorderStyleDotted, 
+.MatcLight .MatcBorderStyleSolid {
+	border-color: #555;
+}
+
+.MatcLight .MatcToolbarItem {
+	color:#555;
+}
+
+.MatcLight .MatcToolbarItem:HOVER {
+	color:#333;
+}
+
+.MatcLight .MatcToolbarItemDisbaled,
+.MatcLight .MatcToolbarItem.MatcToolbarItemDisbaled:HOVER{
+	color:#ddd;
+	cursor: auto;
+}
+
+.MatcLight .MatcToolbar .glyphicons::before, 
+.MatcLight .MatcToolbar .glyphicon {
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.MatcLight .MatcToobarItemBig .glyphicons::before, 
+.MatcLight .MatcToobarItemBig .glyphicon {
+	font-size: 18px;
+	cursor: pointer;
+}
+
+
+.MatcLight .MatcToobarPropertiesSection .glyphicons::before, 
+.MatcLight .MatcToobarPropertiesSection .glyphicon {
+	font-size: 14px;
+}
+
+.MatcLight .MatcToolbarAddSection{
+	background-color: #555;	
+}
+
+.MatcLight .MatcToolbar .MatcToolbarAddSection:HOVER{
+	background-color: #333;
+	color:#fff;	
+}
+
+.MatcLight .MatcToobarItemBig .MatcToolbarItem:HOVER {
+	color:#fff;
+}
+
+.MatcLight .MatcToolbarSection, 
+.MatcLight .MatcToolbarSeperator { 
+    border-right: 1px solid #ccc;
+}
+
+.MatcLight .MatcStatusItem {
+	 border-left: 1px solid #ccc;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionLabel{
+	background: none;
+	color:#999;
+	border-top:1px solid #ccc;
+	text-align:left;
+	padding-left:16px;
+}
+
+.MatcLight .MatcAction .MatcToolbarSeparator {
+	border-bottom:1px solid #ccc;
+}
+
+.MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel, 
+.MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel:hover,
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionLabel:HOVER,
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarSection:HOVER .MatcToolbarSectionLabel{
+	background:#f2f2f2;
+	color:#999;
+}
+
+.MatcLight .MatcToolbarSectionCollabsed  .MatcToolbarSectionLabel{
+	border-bottom: none;
+}
+ 
+ .MatcLight .MatcLineSupportPointTouch{
+ 	background: #777;
+ 	border-color: #ccc;
+ }
+
+.MatcLight .MatcToolbarSectionContent{
+
+}
+
+.MatcLight .MatcToobarPropertiesSection .VommondCheckBoxLabel, 
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarItemLabel,
+.MatcLight .MatcToobarPropertiesSection .VommondRadioBoxLabel {
+	color:#555;
+}
+
+.MatcLight .MatcToolbarTabs a {
+	color:#555;
+}
+
+.MatcLight .MatcToolbarTabs a:HOVER {
+	color:#333;
+}
+
+
+/****************************************************
+ * Forms and Borders 
+ ****************************************************/
+ 
+ 
+ 
+ .MatcLight .MatcToolbarPopUp {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);  
+ }
+ 
+ .MatcLight .MatcToobarRemoveBtn {
+ 	color: #f83a3a;
+ }
+ 
+  .MatcLight .MatcToobarRemoveBtn:HOVER {
+ 	color: #cc0000;
+ }
+ 
+ .MatcLight .MatcBoxShadowIcon {
+ 	background: #777;
+ }
+ 
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarDropDownButton:hover{
+	border: 1px solid #777;
+}
+
+.MatcLight .MatcToobarPropertiesSection input {
+	border: 1px solid #ccc;
+	border-top:1px solid transparent;
+	border-left:1px solid transparent;
+	border-right:1px solid transparent;
+	color:#555;
+}
+
+.MatcLight .MatcToobarPropertiesSection input:FOCUS{
+	color:#333;
+}
+
+.MatcLight .MatcBoxBorder .MatcToolbarColor, 
+.MatcLight .MatcBoxBorder .MatcToolbarInputDropDownButton,
+.MatcLight .MatcBoxBorder .MatcToolbarDropDownButton {
+	background: #f2f2f2;
+	color:#555;
+	border: 1px solid #777;
+}
+
+.MatcLight .MatcToolbar .MatcToolbarInputDropDownButton input{
+	color:#555;
+}
+
+.MatcLight .MatcToolbarItemActive {
+    background: #777 none repeat scroll 0 0;
+    color:#ddd;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarItemActive {
+    background: #777 none repeat scroll 0 0;
+        color:#ddd;
+}
+
+
+.MatcLight .MatcToolbarItemActive:HOVER {
+    color:#fff;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarToggleButton.MatcToolbarItemActive:hover{
+	color:#fff;
+}
+
+.MatcLight .MatcToolbarDropDownButtonItem{
+	background-color: #f2f2f2;
+}
+
+.MatcLight .MatcToolbar .MatcToolbarDropDownButton li:HOVER,
+.MatcLight .MatcToolbarDropDownButtonPopup li:hover{
+	background: #555;
+	color:#fff;
+}
+
+.MatcLight .MatchCanvasScrollHandle {
+	background: #777;
+}
+
+.MatcLight .MatcCanvasScrollBarCntr:hover .MatchCanvasScrollHandle, 
+.MatcLight .MatcCanvasScrollBarHandlerActive .MatchCanvasScrollHandle {
+	background: #555;
+}
+
+.MatcLight .MatcBoxBorder .MatcToolbarColor.MatcToolbarItem, 
+.MatcLight .MatcBoxBorder .MatcToolbarInputDropDownButton.MatcToolbarItem {
+	border: 1px solid #777;
+}
+
+.MatcLight .MatcBoxBorderContainer {
+	border: 1px solid #777;
+}
+
+.MatcLight .MatcBoxBorder:HOVER .MatcBoxBorderContainer, 
+.MatcLight .MatcBoxBorder:HOVER .MatcToolbarColor.MatcToolbarItem,
+.MatcLight .MatcBoxBorder:HOVER .MatcToolbarInputDropDownButton.MatcToolbarItem,
+.MatcLight .MatcBoxBorder:HOVER .MatcToolbarDropDownButton{
+	border: 1px solid #777;
+}
+
+/****************************************************
+ * VAlign  
+ ****************************************************/
+ 
+.MatcToolbarValign{
+	border-width: 1px solid transparent;
+	width: 18px;
+	overflow: hidden;
+}
+
+.MatcLight .MatcToolbarValignTop{
+	border-top:1px solid #777;
+}
+
+.MatcLight .MatcToolbarValignMiddle{
+	border-left:1px solid #777;
+}
+
+.MatcLight .MatcToolbarValignBottom{
+	border-bottom:1px solid #777;
+}
+
+.MatcLight .MatcToolbarIcon-vertical{
+	border-top: 1px solid #555;
+	border-bottom: 1px solid #555;
+}
+
+.MatcLight .MatcToolbarIcon-vertical-bar{
+	background-color: #555 ;
+}
+
+.MatcLight .MatcToolbarIcon-horizontal{
+	border-left: 1px solid #555;
+	border-right: 1px solid #555;
+}
+
+.MatcLight .MatcToolbarIcon-horizontal-bar{
+	background-color: #555 ;
+}

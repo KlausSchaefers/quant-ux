@@ -1,0 +1,150 @@
+.MatcCode{
+
+}
+
+.MatcCSSDialog{
+	width:1080px;
+	height:700px;
+	padding: 40px 40px 50px;
+}
+
+
+.MatcCSSDialogCntr pre{
+	border:none;
+	background: none;
+}
+
+
+.MatcCodeContainer{
+  position: relative;
+  width:1000px;
+  height:500px;
+  overflow: auto;
+  background: #2b2b2b;
+  margin-top: 10px;
+}
+
+.MatcCSSDialogCheckRow{
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+.MatcCode pre{
+    padding: 0px;
+    background: none;
+    width:800px;
+    overflow: auto;
+    border:0px;
+    font-size: 10px;
+}
+
+.MatcCodePreview{
+  height: 500px;
+  margin-top: 10px;
+  font-size: 20px;
+  text-align: center;
+  padding:50px;
+  color:#ccc;
+}
+
+.MatcCode.MatcToolbarTabContainer{
+  padding: 0px;
+  padding-bottom: 5px; 
+}
+
+.MatcCodeIframe{
+  height: 500px;
+  width: 375px;
+  background: #ccc;
+  border: 0px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  resize: both;
+  overflow: auto;
+  padding: 0px;
+}
+
+.MatcCodeIframe iframe {
+  width: 100%;
+  height: 100%;
+  border: 0px;
+}
+
+.MatcCode code{
+    font-size: 10px;
+}
+/*
+Darcula color scheme from the JetBrains family of IDEs
+*/
+
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #2b2b2b;
+  }
+  
+  .hljs {
+    color: #bababa;
+  }
+  
+  .hljs-strong,
+  .hljs-emphasis {
+    color: #a8a8a2;
+  }
+  
+  .hljs-bullet,
+  .hljs-quote,
+  .hljs-link,
+  .hljs-number,
+  .hljs-regexp,
+  .hljs-literal {
+    color: #6896ba;
+  }
+  
+  .hljs-code,
+  .hljs-selector-class {
+    color: #a6e22e;
+  }
+  
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-section,
+  .hljs-attribute,
+  .hljs-name,
+  .hljs-variable {
+    color: #cb7832;
+  }
+  
+  .hljs-params {
+    color: #b9b9b9;
+  }
+  
+  .hljs-string {
+    color: #6a8759;
+  }
+  
+  .hljs-subst,
+  .hljs-type,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-symbol,
+  .hljs-selector-id,
+  .hljs-selector-attr,
+  .hljs-selector-pseudo,
+  .hljs-template-tag,
+  .hljs-template-variable,
+  .hljs-addition {
+    color: #e0c46c;
+  }
+  
+  .hljs-comment,
+  .hljs-deletion,
+  .hljs-meta {
+    color: #7f7f7f;
+  }
+  

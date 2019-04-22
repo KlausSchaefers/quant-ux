@@ -1,0 +1,167 @@
+[ {
+	"id" : "FioriSwitch",
+	"type" : "Switch",
+	"name" : "Switch 1",
+	"category" : "OpenUI",
+	"subcategory" : "FormAA",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 56,
+	"h" : 28,
+	"z" : 0,
+	"props" : {
+		"checked" : false,
+		"roundButton": true
+	},
+	"has" : {
+		"onclick" : true,
+		"border" : true,
+		"data" : true
+	},
+	"style" : {
+		"cssClass" : "MatcWidgetTypeSwitchFiori",
+		"borderTopRightRadius" : 50,
+		"borderTopLeftRadius" : 50,
+		"borderBottomRightRadius" : 50,
+		"borderBottomLeftRadius" : 50,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#bfbfbf",
+		"borderBottomColor" : "#bfbfbf",
+		"borderRightColor" : "#bfbfbf",
+		"borderLeftColor" : "#bfbfbf",
+		"background" : "#007cc0",
+		"colorForeGround" : "#ffffff",
+		"colorButton" : "#fff",
+		"borderColorButton" : "#bfbfbf",
+		"borderWidthButton" : 2,
+		"paddingButton" : 4
+	},
+	"active" : {
+		"colorButton" : "#ffffff",
+		"background": "#346187",
+		"colorButton" : "#346187",
+		"borderColorButton" : "#fff",
+		"borderTopColor" : "#2d5475",
+		"borderBottomColor" : "#2d5475",
+		"borderRightColor" : "#2d5475",
+		"borderLeftColor" : "#2d5475"
+	}
+}, {
+	"id" : "FioriSwitchActive",
+	"type" : "Switch",
+	"name" : "Switch 2",
+	"category" : "OpenUI",
+	"subcategory" : "FormAA",
+	"_type" : "Widget",
+	"_extends" : "FioriSwitch",
+	"props" : {
+		"checked" : true,
+		"roundButton": true
+	},
+	"has" : {
+		"onclick" : true,
+		"border" : true,
+		"data" : true
+	}
+}, {
+	"id" : "FioriSwitch2",
+	"type" : "Switch",
+	"name" : "Switch",
+	"category" : "OpenUI",
+	"subcategory" : "FormAB",
+	"_type" : "Widget",
+	"_extends" : "FioriSwitch",
+	"props" : {
+		"checked" : false,
+		"roundButton": true
+	},
+	"has" : {
+		"onclick" : true,
+		"border" : true,
+		"data" : true
+	},
+	"style" : {
+		"cssClass" : "MatcWidgetTypeSwitchFiori",
+		"borderTopRightRadius" : 50,
+		"borderTopLeftRadius" : 50,
+		"borderBottomRightRadius" : 50,
+		"borderBottomLeftRadius" : 50,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+
+		"background" : "#ffffff",
+		"colorForeGround" : "#ffffff",
+		"colorButton" : "#fff",
+		"borderColorButton" : "#cc1919",
+		"borderTopColor" : "#cc1919",
+		"borderBottomColor" : "#cc1919",
+		"borderRightColor" : "#cc1919",
+		"borderLeftColor" : "#cc1919",
+		"borderWidthButton" : 2,
+		"paddingButton" : 4
+	},
+	"active" : {
+		"colorButton" : "#ffffff",
+		"borderTopColor" : "#007833",
+		"borderBottomColor" : "#007833",
+		"borderRightColor" : "#007833",
+		"borderLeftColor" : "#007833",
+		"borderColorButton" : "#007833"
+	}
+},
+{
+	"id" : "FioriSwitch2Active",
+	"type" : "Switch",
+	"name" : "Switch",
+	"category" : "OpenUI",
+	"subcategory" : "FormAB",
+	"_type" : "Widget",
+	"_extends" : "FioriSwitch",
+	"props" : {
+		"checked" : true,
+		"roundButton": true
+	},
+	"has" : {
+		"onclick" : true,
+		"border" : true,
+		"data" : true
+	},
+	"style" : {
+		"cssClass" : "MatcWidgetTypeSwitchFiori",
+		"borderTopRightRadius" : 50,
+		"borderTopLeftRadius" : 50,
+		"borderBottomRightRadius" : 50,
+		"borderBottomLeftRadius" : 50,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+
+		"background" : "#ffffff",
+		"colorForeGround" : "#ffffff",
+		"colorButton" : "#fff",
+		"borderColorButton" : "#cc1919",
+		"borderTopColor" : "#cc1919",
+		"borderBottomColor" : "#cc1919",
+		"borderRightColor" : "#cc1919",
+		"borderLeftColor" : "#cc1919",
+		"borderWidthButton" : 2,
+		"paddingButton" : 4
+	},
+	"active" : {
+		"colorButton" : "#ffffff",
+		"borderTopColor" : "#007833",
+		"borderBottomColor" : "#007833",
+		"borderRightColor" : "#007833",
+		"borderLeftColor" : "#007833",
+		"borderColorButton" : "#007833"
+	}
+}
+
+]

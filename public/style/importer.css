@@ -1,0 +1,20 @@
+.MactThemeImporter{
+	background: 
+}
+
+
+.MactThemeImporterTextArea{
+	width: 100%;
+	height: 100px;
+	font-family: Courier New,Courier,monospace;
+	font-size: 14px;
+}
+
+.MactThemeImporterDialog{
+	width: 600px;
+	height: 500px;
+}
+
+.MactThemeImporterDialog .MactThemeImporterTextArea{
+	height: 400px;
+}

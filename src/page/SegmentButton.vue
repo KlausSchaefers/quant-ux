@@ -1,0 +1,68 @@
+
+<template>
+	<div class="MatcSegmentButton">
+		<div type="button" class="MatcSegmentButtonCntr" data-dojo-attach-point="button"> 
+		</div>
+	</div>
+</template>
+<script>
+import DojoWidget from 'dojo/DojoWidget'
+import css from 'dojo/css'
+import lang from 'dojo/_base/lang'
+import on from 'dojo/on'
+import touch from 'dojo/touch'
+
+export default {
+    name: 'SegmentButton',
+    mixins:[DojoWidget],
+    data: function () {
+        return {            
+        }
+    },
+    components: {},
+    methods: {  
+		setOptions:function(list){
+			this._lis = {};			
+			var first = list.slice(0, 6);			
+			for(var i=0; i < first.length; i++){
+				var o = list[i];
+				var li = document.createElement("span");	
+				css.add(li, "MatcButton");
+				if (o.label){
+					li.innerHTML = o.label;
+				}
+				if (o.icon){
+					var icon = document.createElement("span");
+					css.add(icon, o.icon);
+					li.appendChild(icon);
+				}
+				this.button.appendChild(li);
+				this._lis[o.value] = li;
+				this.own(on(li, touch.press, lang.hitch(this, "onChange", o)));
+			}		
+		},
+		
+		setValue:function(v){
+			this.value = v;
+			for (var id in this._lis){
+				var li = this._lis[id];
+				css.remove(li, "MatcButtonActive");
+			}
+			if (this._lis[v]){
+				css.add(this._lis[v], "MatcButtonActive");
+			}
+		},
+		
+		getValue:function(){
+			return this.value;
+		},
+		
+		onChange:function(o){
+			this.setValue(o.value);
+			this.emit("change", this.value );
+		}
+    }, 
+    mounted () {
+    }
+}
+</script>

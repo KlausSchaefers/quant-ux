@@ -1,0 +1,57 @@
+[
+ 	{
+		"id" : "BootstrapCheckBox",
+		 "type" : "CheckBox",
+		 "name" : "CheckBox",
+		 "category" : "Bootstrap",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+	     "w" : 11,
+	     "h" : 11,
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	    	"backgroundColor" : true,
+ 	        "data" : true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 2,
+	         "borderTopLeftRadius" : 2,
+	         "borderBottomRightRadius" : 2,
+	         "borderBottomLeftRadius" : 2,
+	         "borderTopWidth" : 1,
+	         "borderBottomWidth" : 1,
+	         "borderRightWidth" : 1,
+	         "borderLeftWidth" : 1,
+	         "borderTopColor" : "#cccccc",
+	         "borderBottomColor" : "#cccccc",
+	         "borderRightColor" : "#cccccc",
+	         "borderLeftColor" : "#cccccc",
+	         "background" : "#ffffff",
+	         "color" : "#ffffff",
+	         "colorButton" : "#ffffff",
+	 	     "backgroundCheck" : "#c1c1c1",
+	         "boxShadow": {"v":1, "h":1, "b": 1, "s":0, "c":"rgba(0, 0, 0, 0.075)", "i":true }
+	    
+	     }
+     },
+     {
+ 		"id" : "BootstrapCheckBox2",
+ 		 "type" : "CheckBox",
+ 		 "name" : "CheckBox",
+ 		 "_extends" : "BootstrapCheckBox",
+ 		 "category" : "Bootstrap",
+ 		 "subcategory" : "Form",
+ 		 "_type" : "Widget",
+ 	     "props" : {
+ 	        "checked" : true
+ 	     }
+     
+     }
+]

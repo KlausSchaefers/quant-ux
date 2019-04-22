@@ -1,0 +1,110 @@
+[
+ 	{
+		"id" : "DropDown",
+		"type" : "DropDown",
+		"name" : "DropDown",
+		 "subcategory" : "FormDropDown",
+		"category" : "WireFrame",
+		"_type" : "Widget",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : 200,
+	    "h" : 40,
+	    "z" : 0,
+	    "props" : {
+	        "options" : ["Option 1", "Option 2", "Option 3"]
+	     },
+	     "has" : {
+	    	 "onclick" : true,
+		     "border" : true,
+		     "backgroundColor" : true,
+		     "data" : true,
+		     "padding":true,
+		     "label":true
+	     },
+	     "style" : { 
+	    	 "borderTopRightRadius" : 3,
+	         "borderTopLeftRadius" : 3,
+	         "borderBottomRightRadius" : 3,
+	         "borderBottomLeftRadius" : 3,
+	         "borderTopWidth" : 1,
+	         "borderBottomWidth": 1,
+	         "borderRightWidth" : 1,
+	         "borderLeftWidth" : 1,
+	         "borderTopColor" : "#333333",
+	         "borderBottomColor" : "#333333",
+	         "borderRightColor" : "#333333",
+	         "borderLeftColor" : "#333333",
+	         "background" : "#ffffff",
+	         "popupBackground" : "#ffffff",
+		     "popupColor" : "#333333",
+	         "color":"#333333",
+	         "fontSize" : 18,
+		     "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		     "textAlign" : "left",
+		     "paddingTop" : 5,
+			 "paddingBottom" : 5,
+			 "paddingLeft" : 6,
+			 "paddingRight" : 6,
+			 "selectedOptionColor" : "#333333",
+		     "selectedOptionBackground": "#f2f2f2"		   
+	     }
+	},
+	
+	{
+		"id" : "DropDownBorderColor",
+		"type" : "DropDown",
+		"name" : "DropDown 2",
+		"subcategory" : "FormDropDown",
+		"category" : "WireFrame",
+		"_type" : "Widget",
+		 "_extends" : "DropDown",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : 200,
+	    "h" : 40,
+	    "z" : 0,
+	    "props" : {
+	        "options" : ["Option 1", "Option 2", "Option 3"],
+	        "caretBorderColor" : true
+	     }
+	},
+	{
+		"id" : "HoverDropDown",
+		"type" : "HoverDropDown",
+		"name" : "Hover DropDown",
+		"subcategory" : "XFormDropDown",
+		"category" : "WireFrame",
+		"_type" : "Widget",
+		 "_extends" : "DropDown",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : 200,
+	    "h" : 40,
+	    "z" : 0,
+	    "props" : {
+	        "options" : ["Option 1", "Option 2", "Option 3"],
+	        "event" : "hover"
+	     }
+	},
+	{
+		"id" : "HoverDropDown2",
+		"type" : "HoverDropDown",
+		"name" : "Hover DropDown",
+		"subcategory" : "XFormDropDown",
+		"category" : "WireFrame",
+		"_type" : "Widget",
+		 "_extends" : "DropDown",
+		"x" : 0,
+	    "y" : 0,
+	    "w" : 200,
+	    "h" : 40,
+	    "z" : 0,
+	    "props" : {
+	        "options" : ["Option 1", "Option 2", "Option 3"],
+	        "event" : "hover",
+	        "caretBorderColor" : true
+	     }
+	}
+ 
+]

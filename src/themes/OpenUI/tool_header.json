@@ -1,0 +1,54 @@
+[
+	{
+		"id" : "FioriToolHeader2",
+		"type" : "Box",
+		"category" : "OpenUI",
+		"subcategory" : "XBoxesHeader",
+		"_type" : "Widget",
+		"name" : "Tool Header",
+		"w" : "$100%",
+		"h" : 50,
+		  "props": {
+		    "label": ""
+		  },
+		  "has": {
+		    "backgroundColor": true,
+		    "border": true,
+		    "label": true,
+		    "padding": true,
+		    "onclick": true
+		  },
+		  "actions": {},
+		  "style": {
+		    "fontSize": 14,
+		    "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+		    "textAlign": "left",
+		    "letterSpacing": 0,
+		    "lineHeight": 1.4,
+		    "color": "#666666",
+		    "borderTopRightRadius": 0,
+		    "borderTopLeftRadius": 0,
+		    "borderBottomRightRadius": 0,
+		    "borderBottomLeftRadius": 0,
+		    "borderTopWidth": 0,
+		    "borderBottomWidth": 1,
+		    "borderRightWidth": 0,
+		    "borderLeftWidth": 0,
+		    "borderTopColor": "#d1e0ee",
+		    "borderBottomColor": "#d1e0ee",
+		    "borderRightColor": "#d1e0ee",
+		    "borderLeftColor": "#d1e0ee",
+		    "background": "#303C47",
+		    "paddingTop": 0,
+		    "paddingBottom": 0,
+		    "paddingLeft": 0,
+		    "paddingRight": 0,
+		    "borderTopStyle": "solid",
+		    "borderBottomStyle": "solid",
+		    "borderRightStyle": "solid",
+		    "borderLeftStyle": "solid"
+		  }
+	}
+
+ 
+ ]

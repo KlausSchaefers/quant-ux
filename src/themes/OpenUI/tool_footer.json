@@ -1,0 +1,110 @@
+[
+ {
+		"id" : "FioriToolFooter",
+		"type" : "Box",
+		"category" : "OpenUI",
+		"subcategory" : "XBoxesFooter",
+		"_type" : "Widget",
+		"name" : "Tool Footer",
+		"w" : "$100%",
+		"h" : 40,
+		"props" : {},
+		"has" : {
+			"backgroundColor" : true,
+			"border" : true
+		},
+		"style" : {
+			 "borderTopRightRadius" : 0,
+		     "borderTopLeftRadius" : 0,
+		     "borderBottomRightRadius" : 0,
+		     "borderBottomLeftRadius" : 0,
+		     "borderTopWidth" : 0,
+		     "borderBottomWidth": 0,
+		     "borderRightWidth" : 0,
+		     "borderLeftWidth" : 0,
+		     "borderTopColor" : "#e7e7e7",
+		     "borderBottomColor" : "#cccccc",
+		     "borderRightColor" : "#e7e7e7",
+		     "borderLeftColor" : "#e7e7e7",
+		     "background" : "#303C47",	
+		     "color":"#ffffff"   
+		}
+	},
+	 {
+		 "id" : "FioriToolFooterButton",
+		 "type" : "Button",
+		 "_type" : "Widget",
+		 "category" : "OpenUI",
+		 "subcategory" : "XBoxesFooter",
+		 "name" : "Tool Button",
+	     "props" : {
+	        "label" : "Save"
+	     },
+	     "x":0,
+	     "w":100,
+	     "h":26,
+	     "y":0,
+	     "has" : {
+	        "onclick" : true,
+	        "label" : true,
+	        "padding" : true,
+	        "border":true,
+	        "backgroundColor" : true
+	     },
+	     "style" : { 
+	    	  "fontSize" : 14,
+		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		      "textAlign" : "center",
+		      "letterSpacing" : 0,
+		      "lineHeight" : 1,
+	    	  "color" : "#abe2ab",
+	    	  "paddingTop" : 4,
+			  "paddingBottom" : 4,
+			  "paddingLeft" : 7,
+			  "paddingRight" : 7,
+			  "borderTopRightRadius" : 3,
+		      "borderTopLeftRadius" : 3,
+		      "borderBottomRightRadius" : 3,
+		      "borderBottomLeftRadius" : 3,
+		      "borderTopWidth" : 1,
+		      "borderBottomWidth" : 1,
+		      "borderRightWidth" : 1,
+		      "borderLeftWidth" : 1,
+			  "background": "#4f667a",
+			  "borderTopColor" : "#abe2ab",
+	          "borderBottomColor" : "#abe2ab",
+	          "borderRightColor" : "#abe2ab",
+	          "borderLeftColor" : "#abe2ab",
+	      	  "verticalAlign" : "middle"
+	     },
+	     "hover":{
+	    	 "background" : "#506679",
+	    	 "color" : "#abe2ab"
+	     }
+}, 
+{
+	 "id" : "FioriToolFooterButtonRed",
+	 "type" : "Button",
+	 "_type" : "Widget",
+	 "_extends": "FioriToolFooterButton",
+	 "category" : "OpenUI",
+	 "subcategory" : "XBoxesFooter",
+	 "name" : "Tool Button",
+	 "props" : {
+		 "label" : "Reject"
+	 },
+	 "style" : { 
+	   	  "fontSize" : 14,
+		  "borderTopColor" : "#ff8888",
+	      "borderBottomColor" : "#ff8888",
+	      "borderRightColor" : "#ff8888",
+	      "borderLeftColor" : "#ff8888",
+	      "color" : "#ff8888"
+	 },
+	 "hover":{
+    	 "background" : "#506679",
+    	 "color" : "#bb0000"
+     }
+}
+
+ ]
