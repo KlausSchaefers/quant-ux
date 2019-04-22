@@ -1318,19 +1318,16 @@ export default {
 		_showSession(sessionID, cntr, dialog, data) {
 			
 			try {
-				var annotation = this._getSessionAnnotation(data[0],this.model.id, sessionID);
 				var mouse = data[1];
 		
 				var df = new DataFrame(this.events);
 				df.sortBy("time");
 				var sessionGroup = df.groupBy("session");
 				var events = sessionGroup.get(sessionID);
-					
+				
 				var player = this.$new(VideoPlayer);
 				player.setModel(this.model);
 				player.placeAt(cntr);
-				player.setTestSettings(this.testSettings);
-				player.setAnnotation(annotation);
 				player.setMouse(mouse);
 				player.setSession(events, sessionID);
 			
@@ -1340,7 +1337,6 @@ export default {
 			} catch (e) {
 				console.error(e);
 			}
-			
 		},
 		
 		_getSessionAnnotation(annotations, appID){			

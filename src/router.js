@@ -19,13 +19,6 @@ matcRoutes.push({path:'apps/:id.html', component: () => import(/* webpackChunkNa
 matcRoutes.push({path:'apps/:id/:tab.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})
 matcRoutes.push({path:'apps/:id/replay/:session.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})
 
-// Apps
-matcRoutes.push({path:'examples.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Examples.vue'), meta: {isPublic:true} })
-matcRoutes.push({path:'examples/:id.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue'), meta: {isPublic:true}})
-matcRoutes.push({path:'examples/:id/:tab.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue'), meta: {isPublic:true}})
-matcRoutes.push({path:'examples/:id/replay/:session.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue'), meta: {isPublic:true}})
-
-
 export default new Router({
   routes: [
     {

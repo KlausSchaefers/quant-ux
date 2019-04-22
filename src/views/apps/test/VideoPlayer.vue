@@ -74,13 +74,19 @@ export default {
 			},
 
 		init () {
-			this.setModel(this.app)
-			let events = this.analytics.nornalizeContainerChildEvents(this.eventsWithAnnimations)
-			var df = new DataFrame(events);
-			var sessionGroup = df.groupBy("session");
-			var session = sessionGroup.get(this.sessionID);
-			this.mouseData = this.mouse
-			this.setSession(session, this.sessionID)
+			if (this.app) {
+				this.setModel(this.app)
+				let events = this.analytics.nornalizeContainerChildEvents(this.eventsWithAnnimations)
+				var df = new DataFrame(events);
+				var sessionGroup = df.groupBy("session");
+				var session = sessionGroup.get(this.sessionID);
+				this.mouseData = this.mouse
+				this.setSession(session, this.sessionID)
+			}
+		},
+
+		setMouse (m) {
+			this.mouseData = m
 		},
 		
 		setModel(model){
