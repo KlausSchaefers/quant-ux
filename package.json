@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "dev": "node server/start-server.js",
+    "dev": "node server/start-server-dev.js",
     "build": "node --max_old_space_size=8192 server/build.js"
   },
   "dependencies": {

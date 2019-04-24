@@ -59,6 +59,11 @@
                     <span>Share and Comment</span>
                     <input type="text" class="form-control" :value="`${base}/#/share.html?h=${hashes[1]}`" >
               </div>
+
+              <div class="form-group">
+                    <span>Code Generation</span>
+                    <input type="text" class="form-control" :value="`${hashes[1]}`" >
+              </div>
               <!--
               <div class="form-group">
                     <span>Embedded</span>

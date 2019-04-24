@@ -43,7 +43,7 @@ export default {
 			}
 						
 			var db = new DomBuilder();
-			var popup = db.div("MatcInfitationDialog MatcPadding").build();
+			var popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
 			var cntr = db.div("container").build(popup);
 			var row = db.div("row").build(cntr);
 			var right = db.div("col-md-12").build(row);
@@ -62,8 +62,17 @@ export default {
 				.input("form-control MatcIgnoreOnKeyPress", base +"#/share.html?h=" + temp[1])
 				.build(right);
 			
+			  
+      		var codeRow = db
+				.div("MatcMarginTop MatcShareRow")
+				.span("", this.getNLS("share.Code"))
+				.parent().build(right);
 			
-			row = db.div("row MatcMarginTopXXL").build(cntr);
+			var codeInput = db.input("form-control", this.hash)
+				.build(codeRow);			
+	
+			
+			row = db.div("row MatcMarginTop").build(cntr);
 			right = db.div("col-md-12 MatcButtonBar").build(row);
 
 			var write = db.div("MatcButton", "Close").build(right);
@@ -75,6 +84,9 @@ export default {
 			}));
 			d.own(on(commentInput, "focus", function(){
 				commentInput.select();
+			}));
+			d.own(on(codeInput, "focus", function(){
+				codeInput.select();
 			}));
 			
 			d.popup(popup, e.target);

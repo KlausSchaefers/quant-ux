@@ -203,7 +203,7 @@ export default {
     },
     showShareDialog () {	
 			var db = new DomBuilder();
-			var popup = db.div("MatcInfitationDialog MatcPadding").build();			
+			var popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();			
 			var cntr = db.div("container").build(popup);
 			var row = db.div("row").build(cntr);			
 			var right = db.div("col-md-12").build(row);
@@ -246,7 +246,16 @@ export default {
 				.parent().build(commentRow);
 			
 			commentLink.href = base +"#/share.html?h=" + this.hash;
-			commentLink.target = "NewCommentPage"
+      commentLink.target = "NewCommentPage"
+      
+      var codeRow = db
+				.div("MatcMarginTop MatcShareRow")
+				.span("", this.getNLS("share.Code"))
+				.parent().build(right);
+			
+			var codeInput = db.input("form-control", this.hash)
+				.build(codeRow);			
+	
           
       /*
       var w = this.app.screenSize.w + "px";
@@ -260,7 +269,7 @@ export default {
       */				
       css.add(popup, "")		
 	
-			row = db.div("row MatcMarginTopXXL").build(cntr);
+			row = db.div("row MatcMarginTop").build(cntr);
 			right = db.div("col-md-12 MatcButtonBar").build(row);
 			var write = db.div("MatcButton", "Close").build(right);
 			
@@ -271,7 +280,11 @@ export default {
 			}));
 			d.own(on(commentInput, "focus", function(){
 				commentInput.select();
-			}));
+      }));
+      d.own(on(codeInput, "focus", function(){
+				codeInput.select();
+      }));
+      
 			d.popup(popup, this.$refs.shareButton);
     },
     initRoute () {
