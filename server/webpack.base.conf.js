@@ -43,7 +43,8 @@ module.exports = {
       'public': path.resolve(__dirname, '../src/public'),
       'services': path.resolve(__dirname, '../src/services'),
       'themes': path.resolve(__dirname, '../src/themes'),
-      'export': path.resolve(__dirname, '../src/export')
+      'export': path.resolve(__dirname, '../src/export'),
+      'examples': path.resolve(__dirname, '../src/examples')
     }
   },
   module: {

@@ -1,6 +1,7 @@
 import AbstractService from 'services/AbstractService'
 import Logger from 'common/Logger'
 import Vue from "vue";
+import HelloWorld from 'examples/HelloWorld'
 
 /**
  * Add here imports
@@ -11,7 +12,20 @@ class SymbolService extends AbstractService{
     constructor () {
         super()
         this.logger = new Logger('SymbolService')
-        this.widgets = []
+        this.widgets = {
+          'HelloWorld': HelloWorld
+        }
+
+    }
+
+    getWidgetClass (name) {
+      return this.widgets[name]
+    }
+
+    getWidgetDataProps (name) {
+      if (this.widgetDataProps){
+        return this.widgetDataProps[name]
+      }
     }
 
     getIcons () {
@@ -20,20 +34,27 @@ class SymbolService extends AbstractService{
 
     hookInWidgets (themes) {
       this.logger.log(1, 'hookInWidgets', 'enter > ' +  this.widgets.length  + " + " + themes.length)
-      this.widgets.forEach(w => {
+      this.widgetDataProps = {}
+      for (let name in this.widgets){
         try {
+          let w = this.widgets[name]
           let temp = this.$new(w)
           let templates = temp.getCreateTemplates()
           if (templates) {
             templates.forEach(t => {
               themes.push(t)
             })
+          } else {
+            this.logger.error('hookInWidgets', `Error >  ${name}.getCreateTemplates() returns null`)
           }
-          console.debug(w, templates)
+          let props = temp.getDataProperties()
+          if (props) {
+            this.widgetDataProps[name] = props
+          }
         } catch (e) {
-          this.logger.error('hookInWidgets', 'Error >  Could not create' +  w, e)
+          this.logger.error('hookInWidgets', 'Error >  Could not create' +  name, e)
         }
-      })
+      }
     }
 
 
@@ -132,7 +153,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/charts/legend.json'),
             import(/* webpackChunkName: "themes" */ 'themes/charts/pie.json'),
             import(/* webpackChunkName: "themes" */ 'themes/charts/ring.json'),
-      
+
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap/boxes.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap/button.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap/checkbox.json'),
@@ -159,7 +180,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/input2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/labels.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/tab.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/table.json')  
+            import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/table.json')
           ]).then(values => {
             this.themes = []
             values.forEach(v => {
@@ -173,7 +194,7 @@ class SymbolService extends AbstractService{
           this.logger.info('getCore', 'exit > Cache')
           resolve(this.themes)
         }
-      }) 
+      })
     }
 
 	$new (cls) {

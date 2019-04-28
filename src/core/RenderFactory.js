@@ -42,6 +42,7 @@ import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
 import Animation from 'core/Animation'
 import Core from 'core/Core'
+import SymbolService from 'services/SymbolService'
 
 export default class RenderFactory extends Core {
 
@@ -200,8 +201,8 @@ export default class RenderFactory extends Core {
 
 	/**
 	 * Resizes a widget
-	 * @param {String} id 
-	 * @param {Position} pos 
+	 * @param {String} id
+	 * @param {Position} pos
 	 */
 	resize(id, pos) {
 		var uiWidget = this.getUIWidgetByID(id);
@@ -232,10 +233,10 @@ export default class RenderFactory extends Core {
 	}
 
 	/**
-	 * Method which will update all container 
+	 * Method which will update all container
 	 * widgets with the latest version. The createInheretidMethod()
 	 * has before updated the children[] list.
-	 * @param {inheritedModel} model 
+	 * @param {inheritedModel} model
 	 */
 	updatePositions (model) {
 		for (let id in this._containerWidgets){
@@ -290,7 +291,12 @@ export default class RenderFactory extends Core {
 			this._widgetNodes[model.id] = parent;
 			this._widgetModels[model.id] = model;
 		} else {
-			console.warn("No render method for", model.type);
+			let cls = SymbolService.getWidgetClass(model.type)
+			if (cls) {
+				this.createWidgetByClass(parent, model, cls)
+			} else {
+				console.warn("No render method for", model.type);
+			}
 		}
 
 		/**
@@ -300,7 +306,7 @@ export default class RenderFactory extends Core {
 
 		if (this._uiWidgets[model.id]) {
 			var w = this._uiWidgets[model.id];
-			
+
 			if (this.mode == "simulator") {
 				w.wireEvents();
 			}
@@ -334,12 +340,18 @@ export default class RenderFactory extends Core {
 		}
 	}
 
+	createWidgetByClass (parent,model, cls) {
+		var checkBox = this.$new(cls);
+		checkBox.placeAt(parent);
+		this._uiWidgets[model.id] = checkBox;
+	}
+
 	_createRepeater (parent, model) {
 		var repeater = this.$new(Repeater);
 		repeater.placeAt(parent);
 		/**
 		 * In the simulator the zoomedModel is not set,
-		 * but the modle will do too 
+		 * but the modle will do too
 		 */
 		if (this.zoomedModel){
 			repeater.setZoomedModel(this.zoomedModel)
@@ -683,7 +695,7 @@ export default class RenderFactory extends Core {
 				if (style) {
 					for (var p in style) {
 						/**
-						 * check if we have a special function for 
+						 * check if we have a special function for
 						 * the property
 						 */
 						if (this["_set_" + p]) {

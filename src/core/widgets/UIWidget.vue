@@ -35,12 +35,32 @@ export default {
   },
   components: {},
   methods: {
-    wireEvents: function() {},
+    /**
+     * Is called when in simulator to wire only when needed.
+     */
+    wireEvents () {},
 
-    /** 
-     * Widgets can here expose the templates for creation 
+    /**
+     * Nmae to be shown in property sections
+     */
+    getName() {},
+
+    /**
+     * Widgets can here expose the templates for creation
     */
     getCreateTemplates () {
+    },
+
+    /**
+     * Widget can expose here some properties
+     */
+    getDataProperties () {
+    },
+
+    /**
+     * Widget can expose here some properties
+     */
+    getValidationProperties () {
     },
 
     /**
@@ -876,7 +896,7 @@ export default {
 
     /**
      * Style
-     */    
+     */
     _set_borderTopStyle: function(parent, style) {
       this._setBorderStyle("borderTopStyle", parent, style);
     },
@@ -1122,7 +1142,7 @@ export default {
           result.y = e.pageY;
         }
         return result;
-      } 
+      }
       return {x: 0, y: 0};
     },
 
