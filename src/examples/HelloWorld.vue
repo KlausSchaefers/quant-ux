@@ -1,7 +1,7 @@
 
 <template>
   <div class="HelloWorldWidget ">
-    Hello <span ref="lblNode" class="MatcInlineEditable">{{value}}</span>
+    Hello <span ref="lblNode" :style="{'margin-left': getScaledValue(style.space) + 'px'}" class="MatcInlineEditable">{{value}}</span> 
   </div>
 </template>
 <style>
@@ -27,10 +27,17 @@ export default {
   mixins: [UIWidget, DojoWidget],
   data: function () {
     return {
-      value: ""
+      value: "",
+      style: {},
+      model: {}
     };
   },
   components: {},
+  computed: {
+    options () {
+      return this.style.options
+    }
+  },
   methods: {
 
     getName () {
@@ -104,18 +111,45 @@ export default {
         {
           label: "Space",
           type: "Number",
-          key: "Space"
+          key: "space",
+          isProp:false,
+        },
+        {
+          label: "Another Number",
+          type: "Number",
+          options: [10, 20, 30],
+          key: "foo",
+          isProp:false,
+        },
+        {
+          label: "Checkbox",
+          type: "Boolean",
+          key: "bool",
+          isProp:false,
+        },
+        {
+          label: " Color",
+          type: "Color",
+          icon: 'mdi-table-large',
+          key: "anotherColor",
+          isProp:false
+        },
+        {
+          label: "Options",
+          type: "Options",
+          options: [
+            {label: 'A', value: 'A'},
+            {label: 'B', value: 'B'},
+          ],
+          key: "options",
+          isProp:false
         }
       ]
     },
 
     wireEvents () {
-      this.own(
-        this.addClickListener(this.domNode, lang.hitch(this, 'onClick'))
-      );
-      this.own(
-        on(this.domNode, touch.over, lang.hitch(this, 'onDomMouseOver'))
-      );
+      this.own(this.addClickListener(this.domNode, lang.hitch(this, 'onClick')));
+      this.own(on(this.domNode, touch.over, lang.hitch(this, 'onDomMouseOver')));
       this.own(on(this.domNode, touch.out, lang.hitch(this, 'onDomMouseOut')));
     },
 
@@ -163,6 +197,11 @@ export default {
     },
 
     resize () {
+    },
+
+    onClick: function(e) {
+      this.stopEvent(e);
+      this.emitClick(e);
     }
   }
 };

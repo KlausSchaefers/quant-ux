@@ -474,6 +474,7 @@ export default {
 
 				this.checkEndScreen(screen);
 			} catch (err) {
+				console.error(err)
 			   console.warn("Simualtor.render() >", err.message);
 			   console.warn(err.stack);
 			   this.logger.sendError(err);

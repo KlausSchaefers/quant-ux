@@ -107,6 +107,44 @@ export default {
 		showWidgetByProps (widget, props) {
 			console.debug("showWidgetByProps", props)
 			this._setSectionLabel(widget.type);
+
+			props.forEach(p => {
+				switch (p.type) {
+					case 'Number':
+						var options = p.options ? p.options : [10,20,30,40,50,60, 70, 80, 90, 100]
+						this._renderInputDropDown(p.label, widget, options, p.key, p.isProp);
+						break;
+
+					case 'Color':
+						var icon = `<span class="mdi ${p.icon}"></span>`
+						if (p.isProp) {
+							this._renderColor(p.label, icon, widget.props[p.key], p.key ,"onProperyChanged", true);
+						} else {
+							this._renderColor(p.label, icon, widget.style[p.key], p.key ,"onStyleChanged", true);
+						}
+						
+						break;
+
+					case 'Boolean':
+						if (p.isProp) {
+							this._renderCheck(p.label, widget.props[p.key], p.key, '', 'onProperyChanged');
+						} else {
+							this._renderCheck(p.label, widget.style[p.key], p.key, '', 'onStyleChanged');
+						}
+						break;
+
+					case 'Options':
+						if (p.isProp) {
+							this._renderLabelDropDown(p.label, widget, p.key, p.options, false);
+						} else {
+							this._renderLabelDropDown(p.label, widget, p.key, p.options, true);
+						}
+						break;
+
+					default:
+						console.error('DataSection.showWidgetByProps() not supported prop', p)
+				}
+			})
 		},
 
 		_showRepeater (model){
@@ -958,7 +996,7 @@ export default {
 		},
 
 
-		_renderCheck (lbl, value, property, tt){
+		_renderCheck (lbl, value, property, tt, callback = 'onProperyChanged'){
 
 			var row = this.db.div("MatcToobarRow").build(this.cntr);
 			//this.db.span("MatcToolbarItemLabel", lbl).build(row);
@@ -968,15 +1006,17 @@ export default {
 			chkBox.placeAt(row);
 			chkBox.setLabel(lbl)
 			chkBox.setValue(value);
-			this.tempOwn(on(chkBox, "change", lang.hitch(this, "onProperyChanged", property)));
+			this.tempOwn(on(chkBox, "change", lang.hitch(this, callback, property)));
 			this._addChildWidget(chkBox);
-
 
 			if(tt){
 				this.addTooltip(row, tt);
 			}
 		},
 
+
+	
+		
 		_renderButton (lbl, icon, callback){
 
 
@@ -1016,19 +1056,27 @@ export default {
 			this._addChildWidget(drpDwn);
 		},
 
-		_renderLabelDropDown (label, model, prop, options){
+		_renderLabelDropDown (label, model, prop, options, isStyle){
 
 			var row = this.db.div("MatcToobarRow").build(this.cntr);
-
-
 			var drpDwn = this.$new(ToolbarDropDownButton, {maxLabelLength:15});
 			css.add(drpDwn.domNode, "")
 			drpDwn.reposition = true;
 			drpDwn.setOptions(options);
 			drpDwn.setLabelPostfix(label);
-			drpDwn.setValue(model.props[prop])
+			if (isStyle) {
+				drpDwn.setValue(model.style[prop])
+			} else {
+				drpDwn.setValue(model.props[prop])
+			}
+			
 			drpDwn.setPopupCss("MatcActionAnimProperties");
-   			this.own(on(drpDwn, "change", lang.hitch(this, "onProperyChanged", prop)));
+			if (isStyle) {
+				this.own(on(drpDwn, "change", lang.hitch(this, 'onStyleChanged', prop)));
+			} else {
+				this.own(on(drpDwn, "change", lang.hitch(this, 'onProperyChanged', prop)));
+			}
+   			
 
    			drpDwn.placeAt(row);
 

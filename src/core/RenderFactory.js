@@ -340,7 +340,8 @@ export default class RenderFactory extends Core {
 		}
 	}
 
-	createWidgetByClass (parent,model, cls) {
+	createWidgetByClass (parent, model, cls) {
+		console.debug('createWidgetByClass', model.type)
 		var checkBox = this.$new(cls);
 		checkBox.placeAt(parent);
 		this._uiWidgets[model.id] = checkBox;

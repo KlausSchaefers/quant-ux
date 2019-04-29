@@ -74,6 +74,10 @@ export default {
       this.setStyle(style, model);
     },
 
+    getScaledValue (v ) {
+      return this._scaleX * v
+    },
+
     /**
      * Gets called after resizing in canvas
      */
