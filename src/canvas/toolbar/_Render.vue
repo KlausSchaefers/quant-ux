@@ -2194,7 +2194,7 @@ export default {
 			content.appendChild(div);
 
 			let input = document.createElement("input");
-			css.add(input, "MatcIgnoreOnKeyPress MatcToobarInlineEdit ");
+			css.add(input, "MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput");
 			div.appendChild(input);
 
 			if(placeholder){

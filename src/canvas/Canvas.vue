@@ -16,25 +16,27 @@
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div> 
 		</div> 
 	</div> 
-	<div class="MatcStatus" data-dojo-attach-point="status">	
-		<div class="MatcStatusItem">	
-			<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus"> 			
-			</span> 
-			<span class="MatcStatusItemLabel" > 	
-				<span data-dojo-attach-point="zoomLabel"></span> 
-			</span> 
-			<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus"> 			
-			</span> 
-		</div> 
-		<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>	
-		<div class="MatcStatusItem" data-dojo-attach-point="gridBtn">
-			<span class="MatcStatusButtom glyphicon glyphicon-th"></span> 
-			<span class="MatcStatusItemLabel MatcStatusButtom" >Grid & Columns</span> 
-		</div>	
-		<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
-		<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
-		<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="distanceCntr"></div>
-		<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="animCntr"></div>
+	<div class="MatcStatus" data-dojo-attach-point="status">
+		<div class="MatcStatusCntr">
+			<div class="MatcStatusItem">	
+				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus"> 			
+				</span> 
+				<span class="MatcStatusItemLabel" > 	
+					<span data-dojo-attach-point="zoomLabel"></span> 
+				</span> 
+				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus"> 			
+				</span> 
+			</div> 
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>	
+			<div class="MatcStatusItem" data-dojo-attach-point="gridBtn">
+				<span class="MatcStatusButtom glyphicon glyphicon-th"></span> 
+				<span class="MatcStatusItemLabel MatcStatusButtom" >Grid & Columns</span> 
+			</div>	
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="distanceCntr"></div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="animCntr"></div>
+		</div>
 	</div> <!-- Status -->
 
 	<div class="MatcMessage" data-dojo-attach-point="message"> 			
@@ -250,7 +252,7 @@ export default {
 				 * default settings
 				 */
 				this.settings = {
-					canvasTheme : "MatcDark",
+					canvasTheme : "MatcLight",
 					lineColor : "#333",
 					lineWidth : 1,
 					storePropView : true,
@@ -258,7 +260,7 @@ export default {
 					startToolsOnKeyDown : true,
 					mouseWheelMode : "scroll",
 					renderLines : true,
-					keepColorWidgetOpen: false,
+					keepColorWidgetOpen: true,
 					layerListVisible: false,
 				};
 			

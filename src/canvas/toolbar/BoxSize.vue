@@ -2,25 +2,25 @@
 <template>
      <div class="MatcBoxSize">
 		
-		<div data-dojo-attach-point="layerX" >
+		<div data-dojo-attach-point="layerX" class="MatcToolbarFlexCntr">
 			<div class="MatcToolbarItem " >
 				<span class="MatcBoxSizeLabel">X :</span>
-				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit" data-dojo-attach-point="inputX"/>
+				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputX"/>
 			</div>			
 			<div class="MatcToolbarItem " >
 				<span class="MatcBoxSizeLabel">Y :</span>
-				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit" data-dojo-attach-point="inputY"/>
+				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputY"/>
 			</div>		
 		</div>
 		
-		<div class="" >
+		<div class="MatcToolbarFlexCntr" >
 			<div class="MatcToolbarItem " >
 				<span class="MatcBoxSizeLabel">W :</span>
-				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit" data-dojo-attach-point="inputW"/>
+				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputW"/>
 			</div>		
 			<div class="MatcToolbarItem " >
 				<span class="MatcBoxSizeLabel">H :</span>
-				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit" data-dojo-attach-point="inputH"/>
+				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputH"/>
 			</div>			
 		</div>
 		

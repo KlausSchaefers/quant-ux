@@ -597,7 +597,10 @@
 	height: 25px;
 	width: 100%;
 	background:#242a30;
-	padding-left: 40px;
+
+}
+.MatcStatusCntr{
+	margin-left: 39px;
 }
 
 .MatcStatusItem{

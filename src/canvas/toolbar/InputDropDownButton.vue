@@ -2,7 +2,7 @@
 <template>
     <div class=" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarInputDropDownButton">
 		<div data-dojo-attach-point="button"> 
-			<input type="test" data-dojo-attach-point="inputBox" class="MatcIgnoreOnKeyPress" /> 
+			<input type="test" data-dojo-attach-point="inputBox" class="MatcIgnoreOnKeyPress " /> 
 			<span class="caret"></span> 
 		</div>
 		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">

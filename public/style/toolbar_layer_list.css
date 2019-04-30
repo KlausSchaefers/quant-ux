@@ -1,6 +1,6 @@
 .MatcToolbarLayerList{
 	position: fixed;
-	width:200px;
+	width:250px;
 	height:100%;
 	padding-top:40px;
 	padding-bottom:25px;
@@ -9,6 +9,10 @@
 	left: 40px;
 	display: none;
 }
+
+.MatcToolbarLayerListScreenCntr{
+}
+
 
 .MatcLayerListVisible .MatcToolbarLayerList{
 	display: block
@@ -34,7 +38,7 @@
 
 .MatcToolbarLayerList .MatcToolbarSection {
     width: 100%;
-    cursor: auto;
+	cursor: auto;
 }
 
 .MatcToolbarLayerListCntr{
@@ -59,7 +63,7 @@
 	font-size: 12px;
    	height:30px;
    	padding-top:6px;
-    padding-left: 5px;
+    padding-left: 10px;
     padding-right: 30px;
     color: #ddd;
     overflow: hidden;
@@ -70,7 +74,7 @@
 	height:30px;
 	font-size: 12px;
    	padding-top:6px;
-    padding-left: 5px;
+    padding-left: 10px;
     padding-right: 30px;
     overflow: hidden;
     color: #ddd;
@@ -118,22 +122,16 @@
 	vertical-align: center;
 }
 
-.MatcLayerListWidget:hover{
-	background: rgba(0,0,0,0.2);
-}
 
-.MatcLayerListNodeSelected{
-	background: rgba(0,0,0,0.4);
-	color:#eee;
-}
+
 
 .MatcLayerListDragOver{
 	border-top:3px solid #56A9FC; 
 }
 
 .MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection{
-	background:#ddd;
-	border-top: 1px solid #ccc;
+	background:#f2f2f2;
+	border-top: 0px solid #ccc;
 }
 
 
@@ -149,8 +147,34 @@
 	color:#555;
 }
 
-.MatcLight .MatcLayerListNodeSelected{
+
+.MatcLayerListWidget:hover{
 	background: rgba(0,0,0,0.2);
 }
-	
 
+.MatcLight .MatcLayerListWidget:hover{
+	background: #fff;
+
+}
+
+ .MatcLayerListNodeSelected,
+ .MatcLayerListNodeSelected .MatcLayerListWidget,
+ .MatcLayerListNodeSelected .MatcLayerListGroup,
+ .MatcLayerListNodeSelected:hover,
+ .MatcLayerListNodeSelected,
+ .MatcLight .MatcLayerListNodeSelected.MatcLayerListWidget,
+ .MatcLight .MatcLayerListNodeSelected.MatcLayerListGroup,
+ .MatcLight .MatcLayerListNodeSelected:hover,
+ .MatcLight .MatcLayerListNodeSelected:hover{
+	background: #56A9FC;
+	color:#fff;
+}
+
+.MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel{
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+}
+
+.MatcLight .MatcToolbarSection.MatcToolbarSectionCollabsed .MatcToolbarSectionLabel{
+	border-bottom: 0px;
+}

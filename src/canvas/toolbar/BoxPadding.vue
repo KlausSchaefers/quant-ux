@@ -108,7 +108,7 @@ export default {
 		},
 		
 		renderIntBox:function(parent, options){
-			var input =  this.$new(InputDropDownButton);
+			var input = this.$new(InputDropDownButton);
 			input.setOptions(options);
 			input.placeAt(parent);
 			input.reposition = true;

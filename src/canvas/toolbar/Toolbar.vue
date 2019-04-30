@@ -13,19 +13,14 @@
 		<div class="MatcToobarLeft" data-dojo-attach-point="toolsSection">
 			
 			<div class="hidden" data-dojo-attach-point="importSection"></div>
-		
 
-			
 			<div class="MatcToolbarItem MatcToolbarItemActive" data-dojo-attach-point="editTool">
 				<span class="mdi mdi-cursor-default"></span>
 			</div>
 			
-		
 			<div class="" data-dojo-attach-point="addScreenSection"></div>
-			
-
+		
 			<div class="" data-dojo-attach-point="addSection"></div>
-
 
 			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="rectangleTool" >
 				<span class="mdi mdi-square-outline" ></span>
@@ -37,7 +32,6 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
 			</div>
 	
-
 			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="hotspotTool" >
 				<span class="mdi mdi-select" ></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
@@ -70,64 +64,66 @@
 		<div class="MatcToolbarTop">
 				<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div> 				
 				
-				<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">					
-					<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
-						<span class="mdi mdi-play-circle" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span> 
-						<span class="MatcToolbarLabel">Simulate</span>
-					</a>
-				</div> 		
-				<div class="MatcToolbarSection" data-dojo-attach-point="undoSection">				
-					<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
-						<span class="mdi mdi-undo"></span>
-					</a>
-					<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="redo">
-						<span class="mdi mdi-redo"></span>
-					</a>
-				</div>
-						
-
-				<div class="MatcToolbarSection" data-dojo-attach-point="copyPasteDiv">
-					<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
-						<span class="mdi mdi-content-copy"></span>
-					</a>
-					<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="pasteBtn">
-						<span class="mdi mdi-content-paste"></span>
-					</a>
-					<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="copyStyleBtn">
-						<span class="mdi mdi-format-paint"></span>
-					</a>
-					<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
-						<span class="mdi mdi-close-circle"></span>
-					</a>						
-				</div>
+				<div class="MatcToolbarTopCntr">
+						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">					
+							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
+								<span class="mdi mdi-play-circle" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span> 
+								<span class="MatcToolbarLabel">Simulate</span>
+							</a>
+						</div> 		
+						<div class="MatcToolbarSection" data-dojo-attach-point="undoSection">				
+							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
+								<span class="mdi mdi-undo"></span>
+							</a>
+							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="redo">
+								<span class="mdi mdi-redo"></span>
+							</a>
+						</div>
 								
-				<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
-					
-					<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">			
-					</div>
-					
-					<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">						
-					</div>
-					
-					<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">						
-					</div>
-				
-					<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">					
-						<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
-							<span class="glyphicons glyphicons-hotspot"></span><label class="MatcToolbarLabel">Group</label>
-						</a>
-					</div>					
-				</div>				
 
-				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">					
-				</div> 				
+						<div class="MatcToolbarSection" data-dojo-attach-point="copyPasteDiv">
+							<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
+								<span class="mdi mdi-content-copy"></span>
+							</a>
+							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="pasteBtn">
+								<span class="mdi mdi-content-paste"></span>
+							</a>
+							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="copyStyleBtn">
+								<span class="mdi mdi-format-paint"></span>
+							</a>
+							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
+								<span class="mdi mdi-close-circle"></span>
+							</a>						
+						</div>
+										
+						<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
+							
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">			
+							</div>
+							
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">						
+							</div>
+							
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">						
+							</div>
+						
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">					
+								<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
+									<span class="glyphicons glyphicons-hotspot"></span><label class="MatcToolbarLabel">Group</label>
+								</a>
+							</div>					
+						</div>				
+
+						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">					
+						</div> 				
+					
+						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
+							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
+							<span class="MatcToolbarLabel">Sign Up to Save</span>
+							</a>
+						</div> 						
 			
-				<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
-					<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
-					<span class="MatcToolbarLabel">Sign Up to Save</span>
-					</a>
-				</div> 						
-			
+				</div> 	
 			</div>
 		
 		</div> 

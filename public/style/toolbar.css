@@ -128,6 +128,11 @@
 	font-size: 12px;
 }
 
+.MatcToolbarFlexCntr{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
 
 .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarGridFull{
 	text-align: left;
@@ -169,7 +174,7 @@
 
 .MatcToobarLeft .MatcToolbarItem:hover,
 .MatcToolbarTop .MatcToolbarItem:hover{
-	background:rgba(0,0,0,0.2);
+	color:#56A9FC;
 }
 
 .MatcIconBox{
@@ -260,7 +265,16 @@
     position: fixed;
     top: 0;
     background: #242a30;
-    width: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: row;
+ }
+
+ .MatcToolbarTopCntr{
+	display: inline-block;
+	height: 40px;
+	width: calc(100% - 40px);
  }
  
  
@@ -270,7 +284,7 @@
  	width:230px;
  	top:0px;
  	right:0px;
- 	padding-top: 40px;
+ 	padding-top: 39px;
  	padding-bottom: 30px;
  	transition-duration: 0.2s;
  	opacity:1;
@@ -286,7 +300,8 @@
     position: fixed;
     width: 40px;
     z-index: 11001;
-    padding-top: 40px;
+	margin-top: 40px;
+	margin-bottom: 40px;
     text-align: center;
 }
 
@@ -795,7 +810,7 @@
 	background: #242a30;
 	border-top: 1px solid #333;
     background: none;
-	color: #555;
+	color: #777;
 	text-align: left;
 	padding-left: 16px;
 }
