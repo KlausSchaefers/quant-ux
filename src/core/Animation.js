@@ -264,7 +264,6 @@ export default class Animation extends Core{
 					console.error("WidgetAnimation.render() >  ", e.stack);
 				}
 			}
-
 		});
 
 		return anim;
@@ -1205,7 +1204,6 @@ export default class Animation extends Core{
 			},
 
 			setDuration: function (t) {
-				console.debug("setDuration", t)
 				this.duration = t;
 			},
 

@@ -3,6 +3,13 @@ import Animation from 'core/Animation'
 
 export default class extends Animation {
 
+	// enbale this method to have CSS widget animation!
+	// we would have to somehow set all the transition
+	// propertz on all the 
+	//createAnimation (a, b) {
+	//	
+	//}
+
 	/**
 	 * Change to createAnimation to also make widgets run smooth.
 	 * 

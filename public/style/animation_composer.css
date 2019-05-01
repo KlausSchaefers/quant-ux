@@ -50,6 +50,13 @@
  .MatchAnimationDialog .MatchSimulatorContainer{
  	border-radius:0px;
  }
+
+ .MatchAnimationDialog .MatchSimulatorContainer .MatcSimulator{
+	flex: 1;
+    display: flex;
+    overflow: hidden;
+ }
+
  
  .MatchAnimationDialogCntr{
  	height: 100%;

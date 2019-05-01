@@ -32,7 +32,6 @@ import Css3Animation from 'core/Css3Animation'
 import RenderFactory from 'core/RenderFactory'
 import Services from 'services/Services'
 import io from 'dojo/io'
-import { setTimeout } from 'timers';
 import Core from 'core/Core'
 
 export default {
