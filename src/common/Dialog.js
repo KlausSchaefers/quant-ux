@@ -16,9 +16,12 @@ export default class Dialog extends Evented{
 		this.autoClose = true
 		this.wrapperClass = ""
 		this.overflow = false
-		this.isCSS = true
+		this.hasCSSAnimation = true
 		if (params && params.overflow) {
 			this.overflow = params.overflow
+		}
+		if (params && params.hasCSSAnimation){
+			this.hasCSSAnimation = params.hasCSSAnimation;
 		}
 		this.log = new Logger("Dialog");
 	}
@@ -85,12 +88,18 @@ export default class Dialog extends Evented{
 		wrapper.style.width = startPos.w + "px";
 		wrapper.style.left = startPos.x + "px";
 
-		// var ratioW = startPos.w / endPos.w;
-		// var ratioH = startPos.h / endPos.h;
+		if (this.hasCSSAnimation) {
+			var ratioW = startPos.w / endPos.w;
+			var ratioH = startPos.h / endPos.h;
+			var transform = " scale(" + ratioW + "," + ratioH + ")"
+			wrapper.style.transform = transform;
+		} else {
+			console.warn('Dialog.popup() > Do not use CSS')
+		}
+		
 
 		// add here a css transform to make the calling smoother
-		// var transform = " scale(" + ratioW + "," + ratioH + ")"
-		//wrapper.style.transform = transform;
+		// 
 		/**
 		 * fade in
 		 */
@@ -105,9 +114,11 @@ export default class Dialog extends Evented{
 			css.remove(background, "VommondDialogContentHidden");
 		}, 350);
 
-		setTimeout(function () {
+		setTimeout(() => {
 			// reset scale
-			//wrapper.style.transform = "scale(1,1)";
+			if (this.hasCSSAnimation) {
+				wrapper.style.transform = "scale(1,1)";
+			}
 			wrapper.style.top = Math.round((backPos.h - endPos.h) / 2) + "px";
 			wrapper.style.height = endPos.h + "px";
 			wrapper.style.width = endPos.w + "px";

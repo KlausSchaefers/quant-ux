@@ -354,13 +354,13 @@ export default {
 				pos = this.getScaledSize(cntrPos, "height", this.model);
 			}
 
-			var parent = this.db.div("MatcCenter ").build(cntr);
+			var parent = this.db.div("MatcCenter").build(cntr);
 								
 			var wrapper = this.db.div("MatchSimulatorWrapper MatcMarginTop").build(parent);
 			wrapper.style.width = Math.round(pos.w) + "px";
 			wrapper.style.height = Math.round(pos.h) + "px";
 			
-			var container = this.db.div("MatchSimulatorContainer ").build(wrapper)			
+			var container = this.db.div("MatchSimulatorContainer").build(wrapper)			
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
 		
@@ -414,7 +414,7 @@ export default {
 					
 			var parent = this.db.div("MatcCenter").build(cntr);
 						
-			var container = this.db.div("MatcTestDesktopCntr").build(parent)			
+			var container = this.db.div("MatcTestDesktopCntr").build(parent)	
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.minHeight = Math.round(cntrPos.h) + "px";
 			container.style.display="inline-block";

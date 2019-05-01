@@ -384,7 +384,7 @@ export default {
 			} else {
 				this.screenPos = domGeom.position(this.domNode);
 			}
-			this._scaleX = this.screenPos.w / this.model.screenSize.w;
+			this._scaleX = (this.screenPos.w / this.model.screenSize.w );
 			//this._scaleY = this.screenPos.h / this.model.screenSize.h;
 			//console.debug('initScale', this._scaleX, this._scaleY)
 			this._scaleY = this._scaleX;
@@ -470,11 +470,9 @@ export default {
 					console.debug("Simualtor.render() > No old screen" );
 				}
 
-				
-
 				this.checkEndScreen(screen);
 			} catch (err) {
-				console.error(err)
+			   console.error(err)
 			   console.warn("Simualtor.render() >", err.message);
 			   console.warn(err.stack);
 			   this.logger.sendError(err);

@@ -718,6 +718,7 @@ export default {
 
 			
 			var d = new Dialog();
+			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 			
 			d.own(d.on("close", lang.hitch(this, "stopSimulator",s, scroller)));
@@ -791,6 +792,7 @@ export default {
 
 				
 			var d = new Dialog();
+			d.hasCSSAnimation = true;
 			d.popup(dialog, this.simulatorButton);
 			
 			d.on("close", lang.hitch(this, "stopSimulator", s, scroller));
@@ -806,7 +808,7 @@ export default {
 			setTimeout(function(){
 				scroller.wrap(s.domNode);			
 				s.setModel(model);
-			},500);
+			},10);
 			
 			/**
 			 * otherwise the mouse wheel listener will prevent

@@ -1,7 +1,7 @@
 import AbstractService from 'services/AbstractService'
 import Logger from 'common/Logger'
 import Vue from "vue";
-import HelloWorld from 'examples/HelloWorld'
+// import HelloWorld from 'examples/HelloWorld'
 
 /**
  * Add here imports
@@ -13,7 +13,7 @@ class SymbolService extends AbstractService{
         super()
         this.logger = new Logger('SymbolService')
         this.widgets = {
-          'HelloWorld': HelloWorld
+          // 'HelloWorld': HelloWorld
         }
 
     }
