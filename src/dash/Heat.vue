@@ -200,6 +200,7 @@ export default {
 		 ***************************************************************************************/
 		
 		draw: function (ctx, data, max, width, height, minOpacity) {
+
 	        if (!this._circle) {
 	            this.radius(this.defaultRadius, this.defaultBlur);
 	        }

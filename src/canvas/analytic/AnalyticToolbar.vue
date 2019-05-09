@@ -1290,6 +1290,7 @@ export default {
 			
 			
 			var d = new Dialog();
+			d.hasCSSAnimation = false;
 			
 			var db = new DomBuilder();
 			

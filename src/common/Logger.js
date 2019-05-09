@@ -1,8 +1,7 @@
 
 import request from 'dojo/request'
+import Services from 'services/Services'
 
-
-var vommondLoggerUser = null
 var vommonLoggingQueue = []
 var vommonLoggingQueuePos = 0
 var vommonLoggingQueueMax = 200
@@ -22,8 +21,7 @@ export default class Logger {
 		this.className = className;		
 	}
 
-	setUser (u){
-		vommondLoggerUser = u;
+	setUser (){
 	}
 	
 	writeQueue (){
@@ -52,6 +50,7 @@ export default class Logger {
 
 		if(vommondLoggingErros < 10){
 			var q = this.writeQueue();
+			let u = Services.getUserService().getUser();
 
 			var msg = {
 				level : 0,
@@ -62,7 +61,7 @@ export default class Logger {
 				appCodeName : navigator.appCodeName,
 				appName : navigator.appName,
 				platform : navigator.platform,
-				user : vommondLoggerUser,
+				user : u,
 				plugins : plugins,
 				queue : q
 			};

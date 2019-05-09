@@ -2764,12 +2764,15 @@ export default {
 			
 			if(this.currentScreen){
 				var lines = this.getFromLines(this.currentScreen);
+				console.debug('onScreenClickFromWidget', lines, this.currentScreen, this.model.lines)
 				if(lines){
 					var line = this.getLineForGesture(lines, "click");
 					if(line){	
 						this.executeLine(this.currentScreen.id, "", line);			
 					} 
 				}
+			} else {
+				console.debug('No current')
 			}
 		},
 		

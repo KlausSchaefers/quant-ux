@@ -1057,14 +1057,8 @@
  	width:302px;
  	overflow: auto;
 	display: inline-block;
-	border-radius: 0px;
+	border-radius: 3px;
 	
-	flex-direction:column;
-	justify-content: flex-start;
- }
-
- .MatchSimulatorContainer .MatcSimulator{
-
  }
  
  .MatchSimulatorWrapper{

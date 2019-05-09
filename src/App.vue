@@ -63,8 +63,7 @@ export default {
       this.showHint(msg)
 		})
 		this.$root.$on('UserLogin', (user) => {
-				console.debug('App.onUserLogin', user)
-      	Services.getUserService().setUser(user)
+				Services.getUserService().setUser(user)
     })
 		css.remove(win.body(), 'MatcPublic')
   }

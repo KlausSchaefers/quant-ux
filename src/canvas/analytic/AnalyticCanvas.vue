@@ -154,8 +154,9 @@ export default {
 	},
 	
 	setMouseData (data){
-		this.logger.log(3,"setMouseData", "enter > " + data.length);
-		this.mouseData = this.computeMouseDistribution(data, this.model);
+		this.logger.log(0,"setMouseData", "enter > " + data.length);
+		// this.mouseData = this.computeMouseDistribution(data, this.model);
+		this.mouseData = data
 		if(data.length ==0){
 			this.showError("No Mouse data was recorded");
 		}
@@ -382,14 +383,14 @@ export default {
 		/**
 		 * FIXME: Make this customisable
 		 */
-		if(this.model.type =="smartphone" || this.model.type =="tablet"){
+		if(this.model.type == "smartphone" || this.model.type == "tablet"){
 			this.defaultRadius = this.model.screenSize.w / 20;
 			this.defaultBlur = this.model.screenSize.w / 15;
 		} else {			
 			this.defaultRadius = this.model.screenSize.w / 120;
 			this.defaultBlur = this.model.screenSize.w / 100;
 		}
-		this.logger.log(2,"onScreenRendered","adjust radios to " +this.defaultRadius);
+		this.logger.log(0,"onScreenRendered","adjust radios to " +this.defaultRadius);
 		
 		
 
@@ -462,14 +463,16 @@ export default {
 	},
 	
 	_render_HeatmapMouse(screenEvents, screen, ctx){
-		this.logger.log(2,"_render_HeatmapMouse", "entry > " +screen.name);
-		
-		
-		var data = this.mouseData[screen.id];
-		if(data){
-			this.draw(ctx, data.values, data.max, screen.w, screen.h);
-		} else {
-			console.debug("_render_HeatmapMouse() > No mouse data for ", screen.name)
+		this.logger.log(0,"_render_HeatmapMouse", "entry > " +screen.name);
+		/**
+		 * FIXME: we could make this fastter by caching some stuff, 
+		 * or at least soft the events by screen
+		 */
+		let mouseData = this.mouseData.filter(m => m.screen === screen.id)
+		let data = this.computeMouseDistribution(mouseData, this.model);
+		if (data[screen.id]) {
+			let d = data[screen.id]
+			this.draw(ctx, d.values, d.max, screen.w, screen.h);
 		}
 	},
 	
