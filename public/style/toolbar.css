@@ -807,12 +807,12 @@
 .MatcToobarPropertiesSection .MatcToolbarSectionLabel{
 	position: relative;
 	border-top:1px solid #1a1f23;
-	background: #242a30;
-	border-top: 1px solid #333;
+	border-top: 1px solid #242a30;
     background: none;
 	color: #777;
 	text-align: left;
 	padding-left: 16px;
+	background: #242a30
 }
 
 .MatcToolbarSectionChevron{
