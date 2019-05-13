@@ -10,7 +10,7 @@ class Services {
         return UserService
     }
 
-     getSymbolService () {
+    getSymbolService () {
         return SymbolService
     }
 

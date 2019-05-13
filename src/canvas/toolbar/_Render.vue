@@ -39,6 +39,7 @@ import CSSExporter from 'canvas/toolbar/CSSExporter'
 import Resize from 'canvas/toolbar/Resize'
 import Notification from 'page/Notification'
 import Services from 'services/Services'
+import ContactButton from 'canvas/toolbar/ContactButton'
 
 export default {
     name: '_Render',
@@ -260,6 +261,10 @@ export default {
 			/**
 			 * Notification
 			 */
+
+			this.contactBtn = this.$new(ContactButton);
+			this.contactBtn.placeAt(this.notificationSection);
+			
 			this.notificationBTN = this.$new(Notification);
 			this.notificationBTN.placeAt(this.notificationSection);
 
