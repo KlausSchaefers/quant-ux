@@ -44,7 +44,10 @@ export default {
 				var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
 				if(div){
 					var txt = div.innerHTML;	
+					txt = txt.replace(/<div><br>/g, "\n");
+					txt = txt.replace(/<div>/g, "\n");
 					txt =txt.replace(/<br>/g, "\n");
+					txt = txt.replace(/<\/?[^>]+(>|$)/g, "");
 					txt =txt.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
 					if(txt != this._inlineInnerHTML){
 						return txt;
@@ -58,9 +61,17 @@ export default {
 			if(this._inlineEditWidget && this._inlineEditStarted){
 				var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
 				if(div){
-					var txt = div.innerHTML;	
+					var txt = div.innerHTML;
+					/**
+					 * This is some weird shit with inline editing. Sometimes
+					 * chrome adds div's, sometimes br's
+					 */
+					txt = txt.replace(/<div><br>/g, "\n");
+					txt = txt.replace(/<div>/g, "\n");
 					txt =txt.replace(/<br>/g, "\n");
+					txt = txt.replace(/<\/?[^>]+(>|$)/g, "");
 					txt =txt.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
+				
 					if(txt != this._inlineInnerHTML){
 						var id  = this._inlineEditWidget.id;
 						

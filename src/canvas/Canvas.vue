@@ -801,6 +801,7 @@ export default {
 					/**
 					 * Do nothing...
 					 */
+					 return;
 				} else if(k==16){
 					/**
 					 * End selection
