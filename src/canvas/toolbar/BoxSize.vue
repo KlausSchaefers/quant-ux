@@ -70,8 +70,7 @@ export default {
 		},
 		
 		update:function(e){
-			
-			
+						
 			this.stopEvent(e);
 			
 			this._dirty = true;

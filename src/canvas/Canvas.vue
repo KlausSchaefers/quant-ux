@@ -490,25 +490,17 @@ export default {
 				var isMeta = e.altKey || e.ctrlKey || e.metaKey;
 				var isCntrl = e.ctrlKey || e.metaKey;
 
-				//console.debug("onKeyPress", k, isMeta)
+				//console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
 			
 				if(this.state == "simulate" || this.state == "dialog"){
 					if(k == keys.DELETE || k == keys.BACKSPACE){
-						// FIXME: Why the fuck did we had this in here?
-		//				 if(!css.contains(target, "MatcIgnoreOnKeyPress")){
-		//					 this.stopEvent(e);
-		//				 }
 					}
 					return;
 				}
 				
-				
 				if(css.contains(target, "MatcIgnoreOnKeyPress")){
 					return;
 				}
-				
-				
-				
 				
 				this._currentKeyPressed = k;
 				if(k == keys.ESCAPE){

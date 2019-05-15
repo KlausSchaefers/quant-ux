@@ -32,7 +32,7 @@ class css {
 
     contains (node, cls) {
         let classes = node.className.split(' ')  
-        return classes.indexOf(cls) > 0
+        return classes.indexOf(cls) >= 0
     }
 
     remove (node, cls) {
