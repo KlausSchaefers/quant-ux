@@ -493,8 +493,6 @@ export default {
 				//console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
 			
 				if(this.state == "simulate" || this.state == "dialog"){
-					if(k == keys.DELETE || k == keys.BACKSPACE){
-					}
 					return;
 				}
 				
