@@ -4,6 +4,8 @@ import lang from "dojo/_base/lang";
 import css from "dojo/css";
 import CoreUtil from 'core/CoreUtil'
 
+const _mactImportedFonts = {}
+
 export default {
   name: "Layout",
   mixins: [DojoWidget],
@@ -16,6 +18,38 @@ export default {
   },
   components: {},
   methods: {
+    attachFontsToDom (fonts) {
+      if (fonts) {
+        let head = document.head || document.getElementsByTagName('head')[0];
+        fonts.forEach(f => {        
+          if (f) { 
+            if (!_mactImportedFonts[f.url]){
+              let css = this.getFontImportStatement(f)
+              let style = document.createElement('style');
+              style.type = 'text/css';
+              style.appendChild(document.createTextNode(css));   
+              head.appendChild(style);
+              console.debug('Layout.attachFontsToDom() ', f.name, f.type, f.url)
+              _mactImportedFonts[f.url] = true
+            }
+          }
+        })
+      }
+    },
+
+    getFontImportStatement(f) {
+      if (f.type !== 'import') {
+        return `
+          @font-face {
+            font-family: "${f.name}";
+            src: url("${f.url}") format("${f.type}")
+          }`;  
+      } else {
+        return `@import url('${f.url}');`
+      }
+    },
+
+
     getParentScreen: function(widget) {
       for (var id in this.model.screens) {
         var screen = this.model.screens[id];

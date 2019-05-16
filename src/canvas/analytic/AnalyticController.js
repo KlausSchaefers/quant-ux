@@ -45,6 +45,10 @@ export default class AnalyticController extends Core{
 		} else {
 			console.debug("No toolbar in controller!");
 		}
+
+		if (this._canvas) {
+			this._canvas.setFonts(m.fonts)
+		}
 		
 		this.logger.log(3,"setModel", "entry > " + screenID);
 	}

@@ -2321,7 +2321,7 @@ export default {
 		},
 
 		_getFontFamilies:function(){
-			return [
+			let fonts = [
 					{ value: 'Helvetica Neue,Helvetica,Arial,sans-serif', label: "Helvetica Neue",  css:"MatchFont MatchFontHelvetica"},
 					{ value:"Arial, sans-serif", label:"Arial", css:"MatchFont MatchFontArial"},
 					{ value: 'Arial Black, Gadget, sans-serif', label : "Arial Black", css:"MatchFont MatchFontArialBlack"},
@@ -2341,8 +2341,32 @@ export default {
 
 					{ css:"MatcToolbarPopUpLine"},
 					{ value:"Courier New, Courier, monospace", label:"Courier New", css:"MatchFont MatchFontCourier"}
-
 			];
+
+			if (this.model.fonts) {
+				fonts.push({ css:"MatcToolbarPopUpLine"});
+				this.model.fonts.forEach(f => {
+					if (f){
+						fonts.push({
+							value: f.name,
+							label: f.name,
+							font: f.name,
+							css: 'MatchFont'
+						})
+					}					
+				})
+			}
+
+			fonts.push({ css:"MatcToolbarPopUpLine"})
+			fonts.push({ value:"", label:"More...", css:"MatchFont", callback: lang.hitch(this, 'showFontDialog')})
+
+			return fonts
+		},
+
+		updateFontFamilies () {
+			if (this.family){
+				this.family.setOptions(this._getFontFamilies());
+			}
 		},
 
 

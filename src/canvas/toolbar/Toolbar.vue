@@ -187,6 +187,7 @@ export default {
 			btn.setOptions(this.getMainMenu());
 			btn.placeAt(this.home);
 			css.add(btn.domNode, "MatcToolbarItem");		
+
 		},
 		
 

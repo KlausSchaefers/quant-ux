@@ -104,6 +104,10 @@ export default {
 							lbl.appendChild(marker);
 						}
 					}
+
+					if (o.font) {			
+						li.style.fontFamily = o.font
+					}
 					if(o.css){
 						css.add(li, o.css);
 					}

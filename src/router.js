@@ -12,6 +12,7 @@ matcRoutes.push({path:'404.html', component: () => import(/* webpackChunkName: "
 
 // Apps
 matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
+matcRoutes.push({path:'my-apps.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
 matcRoutes.push({path:'logged_in.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
 matcRoutes.push({path:'create-app.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue')})
 matcRoutes.push({path:'tryout.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {isTryout:true}})

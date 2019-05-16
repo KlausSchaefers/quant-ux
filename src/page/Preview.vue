@@ -58,6 +58,9 @@ export default {
 
       this.selectedWidgetID = widgetID;
 
+      if (this.model.fonts) {
+				this.attachFontsToDom(this.model.fonts)				
+      }
       this.initScale();
 
       this.model = this.createZoomedModel(this._scaleX, this._scaleY, true);

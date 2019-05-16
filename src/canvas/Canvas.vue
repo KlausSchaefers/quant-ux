@@ -189,6 +189,7 @@ export default {
 			setModel (model){
 				this.model = model;
 				this.grid = this.model.grid;
+				this.setFonts(model.fonts)
 				/**
 				 * FIXME: Why did I do this?
 				 */
@@ -239,8 +240,6 @@ export default {
 				this.logger.log(-1,"onExit", "enter > " );
 				this.active = false;
 			}, 
-
-
 			
 			/***************************************************************************
 			 * Settings
@@ -490,13 +489,14 @@ export default {
 				var isMeta = e.altKey || e.ctrlKey || e.metaKey;
 				var isCntrl = e.ctrlKey || e.metaKey;
 
-				//console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
+				// console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
 			
 				if(this.state == "simulate" || this.state == "dialog"){
 					return;
 				}
 				
 				if(css.contains(target, "MatcIgnoreOnKeyPress")){
+					console.debug('onKeyPress, do nothing')
 					return;
 				}
 				

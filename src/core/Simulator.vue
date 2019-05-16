@@ -265,9 +265,12 @@ export default {
 		onPopState (){
 			var hash = location.hash;
 			if(hash && hash.length > 1){
-				var screenId = hash.substring(1, hash.length);
+				var uri = location.hash;
+				var query = uri.substring(uri.indexOf("?") + 1, uri.length);
+				var params = io.queryToObject(query);				
+				var screenId = params.s
 				if(this.currentScreen &&  this.currentScreen.id != screenId){
-					this.logger.log(0,"onPopState","back detected!");
+					this.logger.log(0,"onPopState","back detected! >> " + screenId);
 					this.setScreenId(screenId);
 				}
 			}
@@ -326,10 +329,12 @@ export default {
 				
 				this.logMouse = true;
 			} else{
-				this.logMouse = false;
-				
+				this.logMouse = false;				
 			}
 		
+			if (this.model.fonts) {
+				this.attachFontsToDom(this.model.fonts)
+			}
 			this.own(on(window,"resize", lang.hitch(this,"onResize")));
 		},
 		

@@ -1,0 +1,27 @@
+.MatcCustomFonts{
+    height: 360px;
+    width: 600px;
+}
+
+.MatcFontDialog{
+    height: 460px;
+}
+
+.MatcCustomFontsRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.MatcCustomFontsName{
+    width: 20%;
+}
+
+.MatcCustomFontsURL{
+    width: 75%;
+}
+
+.MatcCustomFontsType{
+    width: 5%;
+}

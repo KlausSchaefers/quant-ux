@@ -75,6 +75,10 @@ export default class BaseController extends Core{
 			} else {
 				this.logger.log(2,"setModel", "No toolbar");
 			}
+
+			if (this._canvas) {
+				this._canvas.setFonts(m.fonts)
+			}
 		}
 		
 		setMode (mode, forceRender){
@@ -746,6 +750,25 @@ export default class BaseController extends Core{
 			hash("#/apps/" + app.id + ".html");
 			
 			this.logger.log(0, "onSaveAsAfterSignUp", "New app" + app.id);
+		}
+
+
+		async setFonts (fonts) {
+			this.logger.log(0, "setFonts", "enter > ", fonts);
+			this.model.fonts = fonts;
+			/**
+			 * We have to do a hard save here, because the delta somehow produces
+			 * on the server null elements
+			 */
+			let res = await this.modelService.saveApp(this.model)
+			if (res) {
+				if (this._canvas){
+					this._canvas.setFonts(fonts);
+				}
+				if (this.toolbar){
+					this.toolbar.updateFontFamilies()
+				}
+			}
 		}
 		
 		/**********************************************************************
@@ -1753,7 +1776,8 @@ export default class BaseController extends Core{
 					"widgets" : true, 
 					"lines" : true, 
 					"templates" : true, 
-					"groups" : true
+					"groups" : true,
+					"fonts": true
 			};
 			
 	

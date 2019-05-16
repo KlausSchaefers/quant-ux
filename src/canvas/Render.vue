@@ -65,10 +65,11 @@ export default {
     },
     components: {},
     methods: {
-				initSize () {
-					let height = win.getBox().h
-					this.domNode.style.height = `${height}px`
-				},
+		initSize () {
+			let height = win.getBox().h
+			this.domNode.style.height = `${height}px`
+		},
+
         initRender (){
 					this.logger.log(2,"initRender", "enter");				
 					this.domPos = domGeom.position(this.domNode);
@@ -305,7 +306,18 @@ export default {
 					}
 				},400);
 			},
+
+			/**********************************************************************
+			 * Fonts
+			 **********************************************************************/		
 			
+			setFonts (fonts) {
+				this.logger.log(-1,"setFonts", "enter > ", fonts);
+				if (fonts) {
+					this.attachFontsToDom(fonts)
+				}
+			},
+
 			/**********************************************************************
 			 * Container Size
 			 **********************************************************************/

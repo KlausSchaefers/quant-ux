@@ -43,6 +43,7 @@ export default {
   },
   components: {},
   methods: {
+
     getIcons: function() {
       return this._matcIcons;
     },
