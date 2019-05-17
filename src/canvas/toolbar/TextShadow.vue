@@ -16,7 +16,6 @@
 		</div>
 </template>
 <script>
-import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
@@ -26,7 +25,7 @@ import BoxShadow from 'canvas/toolbar/BoxShadow'
 
 export default {
     name: 'TextShadow',
-    mixins:[BoxShadow, DojoWidget],
+    mixins:[BoxShadow],
     data: function () {
         return {
             value: false, 
@@ -41,6 +40,7 @@ export default {
     components: {},
     methods: {
         renderSliders:function(parent){
+			console.debug('TextShadow.')
 			
 			/**
 			 * hack to make sure everything is rendered correctly
