@@ -97,6 +97,31 @@ export default class GridAndRuler extends Core {
 
 		this.cleanupDistanceLines();
 
+		/**
+		 * No determine the direction of move... We buffer
+		 * the last directions to make the thing less jumpy...
+		 */
+		this.updateMovements(absPos);
+		var left = this.getMovementDir(this.xMovements);
+		var top = this.getMovementDir(this.yMovements);
+
+		/**
+		 * When the user presses CTRL during dnd or resize 
+		 * we ignore the snapping
+		 */
+		if (e.ctrlKey) {
+			this.hideLines();
+			this.hideBoxes();
+
+			if (this.showDndDistance && this.selectedType != "Xboundingbox") {
+				try {
+					this.renderNNDistance(absPos, top, left);
+				} catch (e) {
+					console.debug(e)
+				}
+			}
+			return absPos;
+		}
 
 		/**
 		 * For bounding boxes we might get in case of dnd the pos is the
@@ -127,14 +152,7 @@ export default class GridAndRuler extends Core {
 			return absPos;
 		}
 
-		/**
-		 * No determine the direction of move... We buffer
-		 * the last directions to make the thing less jumpy...
-		 */
-		this.updateMovements(absPos);
-		var left = this.getMovementDir(this.xMovements);
-		var top = this.getMovementDir(this.yMovements);
-
+		
 		/**
 		 * now compare all lines in the direction of and the middle
 		 * 

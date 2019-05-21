@@ -201,14 +201,15 @@ export default {
 			
 			let tbl = db.table().build(left);
 			
+			this._renderShortCut(db, tbl,"CTRL", " Disable Snapping");
 			this._renderShortCut(db, tbl,"CTRL C", "Copy");
 			this._renderShortCut(db, tbl,"CTRL V", "Paste");
 			this._renderShortCut(db, tbl,"CTRL D", "Duplicate");
 			this._renderShortCut(db, tbl,"CTRL G", "Group / Ungroup");
 			this._renderShortCut(db, tbl,"CTRL &uarr;", "Bring to Front ");
 			this._renderShortCut(db, tbl,"CTRL &darr;", "Send Back");
-			this._renderShortCut(db, tbl,"CTRL CLICK", "Multi Selection");
-			this._renderShortCut(db, tbl,"SHIFT", "Selection Tool");
+			this._renderShortCut(db, tbl,"SHIFT CLICK", "Multi Selection");
+			// this._renderShortCut(db, tbl,"SHIFT", "Selection Tool");
 			this._renderShortCut(db, tbl,"ALT", "Measure Tool");
 			this._renderShortCut(db, tbl,"L", "Create Line");
 			
@@ -230,7 +231,7 @@ export default {
 			scroller.wrap(row);			
 			
 			var bar = db.div("MatcButtonBar MatcMarginTop").build(div);			
-			var cancel = db.a("MatcLinkButton", "Close").build(bar);			
+			var cancel = db.a("MatcButton", "Close").build(bar);			
 			
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.popup(div, e.target);
