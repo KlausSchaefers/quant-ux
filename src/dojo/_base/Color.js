@@ -25,7 +25,7 @@ export default class Color {
         //	|	});
         if(lang.isString(color)){
             this.fromString(color);
-        }else if(lang.isArray(color)){
+        } else if(lang.isArray(color)){
             this.fromArray(color);
         }else{
             this._set(color.r, color.g, color.b, color.a);
@@ -166,8 +166,12 @@ export default class Color {
         }	
     }
     
-    fromString (str) {    
-		return this.fromRgb(str) || this.fromHex(str);	
+    fromString (str) {   
+        if (str === 'transparent') {
+            this._set(0, 0, 0, 0);
+        } else {
+            return this.fromRgb(str) || this.fromHex(str);	
+        }
     }
 }
 

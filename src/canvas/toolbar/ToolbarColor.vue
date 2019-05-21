@@ -127,7 +127,7 @@ export default {
 			
 
 				this.popup.appendChild(cntr);	
-				this.renderRemovePopupFooter("No Color", lang.hitch(this, "onChange", "transparent"));
+				this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"));
 			},
 			
 			
@@ -194,6 +194,11 @@ export default {
 					this.stopEvent(e);
 					this.hideDropDown();
 				}
+			},
+
+			setTransparent () {
+				this.onTempColorSelected('transparent')
+				//this.onChange('transparent');
 			},
 			
 			
