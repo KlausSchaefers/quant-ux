@@ -42,7 +42,7 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
 			</div>
 				
-			<div class="MatcToolbarItem MatcToolbarMove MatcMarginTopXS" data-dojo-attach-point="moveTool" >
+			<div class="MatcToolbarItem MatcToolbarMove" data-dojo-attach-point="moveTool" >
 				<span class="mdi mdi-cursor-move" ></span>
 			</div>
 			
