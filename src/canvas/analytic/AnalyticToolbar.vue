@@ -1169,8 +1169,8 @@ export default {
 		 ********************************************************/
 		
 		onExit(){
-			this.logger.log(0,"onExit", "entry");
-			if(this.mode == "public"){
+			this.logger.log(0,"onExit", "entry", this.isPublic);
+			if(this.isPublic){
 				hash("#/examples/"+ this.model.id + "/design.html");
 			} else {
 				hash("#/apps/"+ this.model.id + "/design.html");
@@ -1181,10 +1181,6 @@ export default {
 		onShare(){
 			this.logger.log(0,"onShare", "entry");
 		},
-		
-		
-		
-	
 		
 		/********************************************************
 		 * Selection handlers!

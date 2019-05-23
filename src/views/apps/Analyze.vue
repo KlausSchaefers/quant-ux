@@ -37,6 +37,11 @@ export default {
       'AnalyticToolbar': AnalyticToolbar,
       'AnalyticCanvas': AnalyticCanvas
   },
+  computed: {
+    isPublic () {
+      return this.$route.meta && this.$route.meta.isPublic
+    }
+  },
   methods: {
     loadData () {
       let id = this.$route.params.id
@@ -87,6 +92,7 @@ export default {
       toolbar.setEvents(events);
       toolbar.setAnnotation(annotation);
       toolbar.setTest(test);
+      toolbar.setPublic(this.isPublic)
 
       canvas.setController(controller);
       canvas.setToolbar(toolbar);

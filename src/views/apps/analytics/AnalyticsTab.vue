@@ -11,7 +11,7 @@
                     </h2>
                 </div>
                 <div class="col-md-6 MatcRight">
-                    <a class="MatcButton MatcButtonSignUp" :href="`#/apps/${app.id}/analyze/workspace.html`">Analytic Canvas</a>
+                    <a class="MatcButton MatcButtonSignUp" :href="`#/${urlPrefix}/${app.id}/analyze/workspace.html`">Analytic Canvas</a>
                 </div>                    
             </div>       
             <AnalyticsHeader class="MatcMarginTopXXL" :value="summary"/>   
@@ -57,6 +57,17 @@ export default {
     Comment: Comment,
     AnalyticsHeader: AnalyticsHeader,
     AnalyticTaskList: AnalyticTaskList
+  },
+  computed: {
+    isPublic () {
+      return this.$route.meta && this.$route.meta.isPublic
+    },
+    urlPrefix () {
+      if (this.isPublic) {
+        return 'examples'
+      }
+      return 'apps'
+    }
   },
   methods: {
     onTaskChange(test) {
