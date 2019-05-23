@@ -384,7 +384,7 @@
 }
 
 .MatcAppListBox:hover .MatcPreview{
-	transform:scale(1.01, 1.01);
+	
 }
 
 .MatcAppList .MatcAppListBox .MatcPreviewWrapper{

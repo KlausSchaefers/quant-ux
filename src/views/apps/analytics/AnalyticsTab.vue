@@ -11,7 +11,7 @@
                     </h2>
                 </div>
                 <div class="col-md-6 MatcRight">
-                    <a class="MatcButton" :href="`#/apps/${app.id}/analyze/workspace.html`">Analytic Canvas</a>
+                    <a class="MatcButton MatcButtonSignUp" :href="`#/apps/${app.id}/analyze/workspace.html`">Analytic Canvas</a>
                 </div>                    
             </div>       
             <AnalyticsHeader class="MatcMarginTopXXL" :value="summary"/>   
