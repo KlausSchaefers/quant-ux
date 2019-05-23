@@ -42,10 +42,10 @@ export default {
       let id = this.$route.params.id
       this.logger.log(0, 'loadData', 'enter', id)
       Promise.all([
-            Services.getModelService().findApp(id),
-            Services.getModelService().findTest(id),
-            Services.getModelService().findEvents(id),
-            Services.getModelService().findSessionAnnotations(id)
+        this.modelService.findApp(id),
+        this.modelService.findTest(id),
+        this.modelService.findEvents(id),
+        this.modelService.findSessionAnnotations(id)
       ]).then(values => {
          this.buildCanvas(values[0], values[1], values[2], values[3])
       })
@@ -70,7 +70,7 @@ export default {
        */
       var renderFactory = new RenderFactory();
       renderFactory.setModel(model);
-      
+
       /**
        * Dependency injection
        */
@@ -87,7 +87,7 @@ export default {
       toolbar.setEvents(events);
       toolbar.setAnnotation(annotation);
       toolbar.setTest(test);
-    
+
       canvas.setController(controller);
       canvas.setToolbar(toolbar);
       canvas.setRenderFactory(renderFactory);
@@ -97,10 +97,10 @@ export default {
       canvas.setEvents(events);
       canvas.setAnnotation(annotation);
       canvas.setTest(test);
-    
+
       // wire shit together
       this.tempOwn(on(toolbar, "newComment", lang.hitch(canvas, "addComment")));
-              
+
       var startScreen = null;
       for(var screenID in model.screens){
         var screen = model.screens[screenID];
@@ -120,6 +120,7 @@ export default {
     this.logger = new Logger("Analyze");
     css.add(win.body(), 'MatcVisualEditor')
     this.user = await Services.getUserService().load()
+    this.modelService = Services.getModelService(this.$route)
     this.loadData()
     this.logger.log(3, 'mounted', 'exit')
   }

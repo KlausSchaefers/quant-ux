@@ -70,6 +70,12 @@ export default new Router({
       component: () => import(/* webpackChunkName: "design" */ 'views/apps/Analyze.vue')
     },
     {
+      path: '/examples/:id/analyze/workspace.html',
+      name: 'AnalyticCanvasPage',
+      meta: {isPublic:true},
+      component: () => import(/* webpackChunkName: "design" */ 'views/apps/Analyze.vue')
+    },
+    {
       path: '/',
       name: '',
       children: matcRoutes,
