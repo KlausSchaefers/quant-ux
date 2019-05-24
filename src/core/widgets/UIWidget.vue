@@ -962,9 +962,6 @@ export default {
           }
         }
       }
-      //			} else {
-      //				console.warn("UIWidget._set_background() > Cannot apply " + key);
-      //			}
     },
 
     /**

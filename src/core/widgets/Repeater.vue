@@ -261,21 +261,24 @@ export default {
 
     addDataBinding (i, child, widget) {
         if (widget.props.data && child.props.databinding && child.props.databinding.default){
-            let header = widget.props.data[0]
-            let row = widget.props.data[i + 1]
-            let colName = child.props.databinding.default
-            let col = header.indexOf(colName)
-            let value = row[col]
-            if (value != undefined) {
-                let label = child.props.label
-                if (label.indexOf("{0}") >= 0) {
-                    label = label.replace("{0}", value);
-                } else {
-                    label = value
+            if (widget.props.data && widget.props.data.length > 1) {
+                let header = widget.props.data[0]
+                let row = widget.props.data[i + 1]
+                if (row) {
+                    let colName = child.props.databinding.default
+                    let col = header.indexOf(colName)
+                    let value = row[col]
+                    if (value != undefined) {
+                        let label = child.props.label
+                        if (label.indexOf("{0}") >= 0) {
+                            label = label.replace("{0}", value);
+                        } else {
+                            label = value
+                        }
+                        child.props.label = label
+                    }
                 }
-                child.props.label = label
             }
-
         }
     },
 

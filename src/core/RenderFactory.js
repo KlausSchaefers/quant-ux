@@ -341,7 +341,6 @@ export default class RenderFactory extends Core {
 	}
 
 	createWidgetByClass (parent, model, cls) {
-		console.debug('createWidgetByClass', model.type)
 		var checkBox = this.$new(cls);
 		checkBox.placeAt(parent);
 		this._uiWidgets[model.id] = checkBox;
@@ -1083,6 +1082,7 @@ export default class RenderFactory extends Core {
 	 * background image
 	 */
 	_set_background(parent, style, model) {
+
 		var node = this._borderNodes[model.id];
 		if (node) {
 			parent = node;
@@ -1098,7 +1098,15 @@ export default class RenderFactory extends Core {
 			parent.style.background = "linear-gradient" + value;
 			parent.style.background = "-webkit-linear-gradient" + value;
 		} else {
-			parent.style.backgroundColor = style.background;
+			/**
+			 * For gradient bug: If we have an image, we just set the color,
+			 * otherwise the complete background to also overwrite gradients.
+			 */
+			if (style.backgroundImage){
+				parent.style.backgroundColor = style.background;
+			} else {
+				parent.style.background = style.background;
+			}
 		}
 	}
 
