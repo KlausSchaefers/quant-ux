@@ -3,7 +3,7 @@
  ****************************************************/
  
 
-.MatcHeader{
+ .MatcHeader{
     padding-bottom: 0px;
     padding-top: 60px;
     text-align: left;
@@ -14,43 +14,12 @@
 	background: linear-gradient(30deg, #0E5CAD 0%,#79F1A4 100%); 
 	background: linear-gradient(30deg, #0E5CAD 0%,#62D0A6 100%);
 	background: #56A9FC;
+	background: linear-gradient(30deg, #0E5CAD 0%,#56A9FC 100%);
 }
 
 .MatcHeader .MatcButton{
 	font-weight:300;
 	font-size:18px;
-}
-
-/**
- * Header for overview
- */
-.MatcHeaderDark.MatcHeader{
-	
-}
-
-.MatcHeader.MatcHeaderTabdesign{
-
-}
-
-.MatcHeader.MatcHeaderTabtest{
-
-}
-
-.MatcHeader.MatcHeaderTabanalyze{
-
-}
-
-.MatcHeader.MatcHeaderTabsettings{
-
-}
-
-
-.MatcFeatureHeader.MatcHeader{
-
-}
-
-.MatcHeaderPublic.MatcHeader{
-
 }
 
 
@@ -83,9 +52,7 @@
 	margin-top: 150px;
 }
 
-.MatcAboutDesktopHeader .MatcLead{
-	color: #f2f2f2;
-}
+
 
 .MatcHeaderSmall{
 	padding-bottom: 30px;
