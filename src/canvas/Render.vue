@@ -716,7 +716,11 @@ export default {
 				this.cleanUpLines();		
 				this.cleanUpDebugLines();		
 				delete this._canvasWelcomeMessage;		
-				window.scrollTo(0, 0);		
+				window.scrollTo(0, 0);	
+
+				if (this.cleanUpDistributionHandlers) {
+					this.cleanUpDistributionHandlers()
+				}
 			},
 			
 			
@@ -1142,8 +1146,8 @@ export default {
 			
 			
 			/***************************************************************************
-				 * Align
-				***************************************************************************/
+			 * Align
+			***************************************************************************/
 
 			alignmentShowDistribution (distances){
 				
@@ -1152,8 +1156,6 @@ export default {
 				}
 			},
 				
-			
-
 			alignmentStart (selectedType, selectedModel, activePoint, ignoreIds, showDimensions){
 				this.logger.log(-1,"alignmentStart","enter > " + selectedType);
 				

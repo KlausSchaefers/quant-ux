@@ -66,6 +66,7 @@ import Lines from 'canvas/Lines'
 import DnD from 'canvas/DnD'
 import Add from 'canvas/Add'
 import Select from 'canvas/Select'
+import Distribute from 'canvas/Distribute'
 import Tools from 'canvas/Tools'
 import Zoom from 'canvas/Zoom'
 import Util from 'core/Util'
@@ -80,7 +81,7 @@ import CustomHandler from 'canvas/CustomHandler'
 
 export default {
   name: 'Canvas',
-	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler],
+	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler],
     data: function () {
         return {
          		mode: "edit", 

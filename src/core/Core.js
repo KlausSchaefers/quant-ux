@@ -398,20 +398,20 @@ export default class Core extends Evented{
             var widgetID = ids[i];
             var widget = this.model.widgets[widgetID];
             if (widget) {
-            /**
-             * Attention: This seems counter intuitive. But for vertical,
-             * we have to find columns (x axis) and for horizontal we need
-             * rows (z - axis).
-             */
-            if (type == "vertical") {
-                let start = widget.x;
-                let end = widget.x + widget.w;
-                this._addToDisSet(sets, widget, start, end);
-            } else {
-                let start = widget.y;
-                let end = widget.y + widget.h;
-                this._addToDisSet(sets, widget, start, end);
-            }
+                /**
+                 * Attention: This seems counter intuitive. But for vertical,
+                 * we have to find columns (x axis) and for horizontal we need
+                 * rows (z - axis).
+                 */
+                if (type == "vertical") {
+                    let start = widget.x;
+                    let end = widget.x + widget.w;
+                    this._addToDisSet(sets, widget, start, end);
+                } else {
+                    let start = widget.y;
+                    let end = widget.y + widget.h;
+                    this._addToDisSet(sets, widget, start, end);
+                }
             }
         }
 

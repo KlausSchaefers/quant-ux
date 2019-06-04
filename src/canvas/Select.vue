@@ -635,7 +635,7 @@ export default {
 			this.alignmentStart(modelType, this._resizeModel, type, null, true);
 				
 			/**
-			 * register mouse move and release listener, mazbe also esc listener
+			 * register mouse move and release listener, maybe also esc listener
 			 */
 			this._resizeHandleMove = on(win.body(),"mousemove", lang.hitch(this,"onResizeDnDMove", modelType));
 			this._resizeHandleUp = on(win.body(),"mouseup", lang.hitch(this,"onResizeDnDEnd", modelType));
@@ -660,7 +660,6 @@ export default {
 			var pos = this._getSizePos(e);
 			
 			if(modelType!= "group" && modelType!= "multi"){
-				
 				/**
 				 * Normal screen or widgedt. Now build the job
 				 */
@@ -669,8 +668,6 @@ export default {
 					"div" : this._resizeParentDiv 
 				};
 			} else {
-				
-				
 				if (modelType == "multi" && this._distributeEnabled) {
 					/**
 					 * Distribute
@@ -711,7 +708,6 @@ export default {
 					}
 				}
 						
-				
 				/**
 				 * in case of group we also set the bounding box,
 				 * to make sure all lines are correctly updated
@@ -739,12 +735,8 @@ export default {
 		    	var callback = lang.hitch(this, "_resizeDndUpDateUI");
 	        	requestAnimationFrame(callback);
 		    }
-			
-			
 			return false;
-			
 		},
-		
 		
 		onResizeDnDEnd (modelType, e){
 			this.logger.log(1,"onResizeDnDEnd", "enter");
@@ -841,31 +833,6 @@ export default {
 			}
 			
 			this.onResizeDnDCleanUp();
-		},
-		
-		
-		/**********************************************************************
-		 * Distribute Tool
-		 **********************************************************************/
-		
-		onDistribute (){
-			if (this._distributeEnabled){
-				this.onDistributeEnd()
-			} else {
-				this.onDistributeStart();
-			}
-		},
-	
-		onDistributeStart () {
-			this.logger.log(3,"onDistributeStart", "enter");
-			css.add(this.container, "MatcCanvasModeAlign");
-			this._distributeEnabled = true;
-		},
-		
-		onDistributeEnd (){
-			this.logger.log(3,"onDistributeEnd", "enter");
-			css.remove(this.container, "MatcCanvasModeAlign");
-			this._distributeEnabled = false;
 		},
 		
 		/**********************************************************************
@@ -1268,13 +1235,20 @@ export default {
 			delete this._resizeRenderJobsHandlerPos;
 			delete this._resizeDnDMoveHandler;
 			delete this._resizeDnDEndHandler
-			delete this._distributeEnabled;
 			delete this._selectCloneIds;
 			delete this._resizeCopyJobs;
 			this.cleanUpAlignment();
 			this.cleanUpReplicate();
+			this.cleanupDistribute();
 			css.remove(this.container, "MatcCanvasModeReplicate");
 		},
+
+		/**
+		 * Keep this method here, so the analztic canvas won#t crash
+		 */
+		cleanupDistribute () {
+			
+        },
 		
 		isHorinzontalDistribution () {
 			if (this._resizeType === "East" || this._resizeType === "West"){
