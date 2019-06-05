@@ -2,7 +2,7 @@
   <div class="MatcApps">
     <div class="MatcAppHeader" id="header">
       <div class="VommondHeaderContainer">
-        <div :class="['MatcHeader MatcHeaderDark bs-docs-header', 'MatcHeaderTab' + tab]">
+        <div :class="['MatcHeader MactMainGradient MatcHeaderDark bs-docs-header', 'MatcHeaderTab' + tab]">
           <div class="container-fluid">
             <div class="row MatcHeaderTopRow">
               <div class="col-md-8">

@@ -195,7 +195,7 @@ export default {
 		
 		showSplashScreen (){
 			this.logger.log(2,"showSplashScreen","enter >");
-			css.add(this.domNode, "MatcSimulatorSplash");
+			css.add(this.domNode, "MatcSimulatorSplash MactMainGradient");
 			this._splashTime = new Date().getTime();		
 		},
 		
@@ -410,7 +410,7 @@ export default {
 		render (){
 			this.logger.log(2,"render","enter >" + this._scaleX + " > " + this._scaleY);
 			
-			css.remove(this.domNode, "MatcSimulatorSplash");
+			css.remove(this.domNode, "MatcSimulatorSplash MactMainGradient");
 			
 			if(this.startScreenID ){
 				let start = this.model.screens[this.startScreenID];	

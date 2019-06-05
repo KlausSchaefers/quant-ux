@@ -1,6 +1,6 @@
 <template>
   <div class="MatcApps">
-    <div class="MatcHeader MatcHeaderTab bs-docs-header">
+    <div class="MatcHeader MactMainGradient MatcHeaderTab bs-docs-header">
       <div class="container-fluid">
         <div class="row MatcHeaderTopRow">
           <div class="col-md-12">

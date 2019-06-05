@@ -317,6 +317,7 @@ export default {
 		
 		startSimulator (e, model){
 			this.logger.log(1,"startSimulator", "enter > " );
+			css.add(win.body(), 'MatcCanvasSimulatorVisible')
 			if(model.type == "desktop"){
 				this._showDesktopSimulator(model);
 			} else if(this.model.type=="tablet"){
@@ -437,6 +438,7 @@ export default {
 		
 
 		stopSimulator (s, scroller){
+			css.remove(win.body(), 'MatcCanvasSimulatorVisible')
 			this.enableMouseZoom(true);
 			this.setState(0);
 			if(s){

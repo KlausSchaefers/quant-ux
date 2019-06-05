@@ -91,15 +91,12 @@ body{
 	text-align: center;
 	width:100%;
 	height:100%;
-	background: linear-gradient(30deg, #0E5CAD 0%,#62D0A6 100%);
-	background: linear-gradient(30deg, #0E5CAD 0%,#56A9FC 100%);
 }
 
 .MatcSimulatorSplashBlue{
 	background: -moz-linear-gradient(45deg, #3597EA 0%, #3699EB 100%); /* FF3.6-15 */
 	background: -webkit-linear-gradient(45deg, #3597EA 0%,#3699EB 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(45deg, #3597EA 0%, #3699EB 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	
 }
 
 .MatcSimulatorStartBtn{

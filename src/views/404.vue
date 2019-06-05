@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="VommondContentContainer">
-      <div class="MatcHeader MatcHeaderTab bs-docs-header">
+      <div class="MatcHeader MactMainGradient MatcHeaderTab bs-docs-header">
         <div class="container">
           <div class="row MatcHeaderTopRow">
             <div class="col-md-12">

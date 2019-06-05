@@ -3,7 +3,7 @@
 <div class="MatcPublic">
 	<div class="MatcTest" v-if="step < 10">
 	
-		<div class="MatcTestMenu MatcTestMenuMax" data-dojo-attach-point="overlay">
+		<div class="MatcTestMenu MatcTestMenuMax MactMainGradient" data-dojo-attach-point="overlay">
 		
 			<div :class="['MatcTestLogoCntr', {'MatcTestLogoCntrMax': step > 1}]">
 				

@@ -1,5 +1,5 @@
 <template>
-    <div class="MatcLoginPage MatcSimulatorSplash">
+    <div class="MatcLoginPage MatcSimulatorSplash MactMainGradient">
         <div class="MatcLoginPageContainer">
             <div>
                 <div class=" form-group">
