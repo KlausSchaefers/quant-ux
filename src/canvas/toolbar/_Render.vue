@@ -606,16 +606,13 @@ export default {
 			/**
 			 * Radius
 			 */
-			content = document.createElement("div");
-			css.add(content, "MatcToolbarSectionContent");
-			parent.appendChild(content);
-
+		
 			this.radiusBox = this.$new(Radius);
 			this.own(on(this.radiusBox, "change", lang.hitch(this, "setWidgetMultiStyle")));
 			this.own(on(this.radiusBox, "changing", lang.hitch(this, "setTempMultiWidgetStyle")));
 			this.radiusBox.placeAt(content)
 
-		
+
 //			this.lockedCheckBox = new CheckBox();
 //			this.lockedCheckBox.setLabel("Lock at position");
 //			this.addTooltip(this.lockedCheckBox.domNode, "Lock the element. No DnD is possible")
@@ -638,13 +635,13 @@ export default {
 			this.responsiveWidget.placeAt(content);
 			this.own(on(this.responsiveWidget, "change", lang.hitch(this, "setWidgetProps", "resize")));
 
+		
 			this.positionCheckBox = this.$new(CheckBox);
 			this.positionCheckBox.setLabel("Fixed In Simulator");
 			this.addTooltip(this.positionCheckBox.domNode, "The element will not scroll in the simualtor.")
 			css.add(this.positionCheckBox.domNode, "MatcToolbarItem");
 			this.own(on(this.positionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.positionCheckBox.placeAt(content)
-
 
 			this.responsiveDiv = parent;
 			this.properties.appendChild(parent);

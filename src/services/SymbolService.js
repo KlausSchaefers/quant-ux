@@ -80,7 +80,6 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/label.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/link.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/menu.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/wireframe/dropbox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/mobile_drop_down.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/radiobox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/radiogroup.json'),

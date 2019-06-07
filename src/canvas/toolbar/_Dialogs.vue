@@ -824,6 +824,15 @@ export default {
 			css.add(img, "MatcSimulatorQR");
 			dialog.appendChild(img);
 			
+			/**
+			 * FIXME: We have here some flickering. Because of the fixed 
+			 * positions widgets we cannot use cssAniamtion because the scale(1,1)
+			 * set in Dialog.js will mess up the the fixed attribute.
+			 * 
+			 * Solutions:
+			 * 
+			 * 1) Do not add screen pos whne flag is set?
+			 */
 			var d = new Dialog();
 			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);

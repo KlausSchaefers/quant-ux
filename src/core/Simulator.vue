@@ -375,19 +375,32 @@ export default {
 				this.logger.log(0,"initScroll","enter >" + this.scrollListenerInited + " @ " +this.scrollListenTarget);
 			}
 		},
+
+		setScreenPosition (pos) {
+			this._externScreenPos = pos
+		},
 		
 		initScale (){
 			
-			if(this.isDesktopTest){
-				/**
-				 * FIXME: For some reason this method does not 
-				 * return the correct size of the node in case of the
-				 * simulator is launched in the dektop test.html.
-				 */
-				this.screenPos = domGeom.position(this.domNode.parentNode);
+			/**
+			 * FIXME: We should have here a way to inject the screensize from outside!
+			 */
+			if (!this._externScreenPos) {
+				if(this.isDesktopTest){
+					/**
+					 * FIXME: For some reason this method does not 
+					 * return the correct size of the node in case of the
+					 * simulator is launched in the dektop test.html.
+					 */
+					this.screenPos = domGeom.position(this.domNode.parentNode);
+				} else {
+					this.screenPos = domGeom.position(this.domNode);
+				}
 			} else {
-				this.screenPos = domGeom.position(this.domNode);
+				this.screenPos = this._externScreenPos
+				console.warn('Simulator.initSclae() > Use external screenPOS', this.screenPos)
 			}
+			
 			this._scaleX = (this.screenPos.w / this.model.screenSize.w );
 			//this._scaleY = this.screenPos.h / this.model.screenSize.h;
 			//console.debug('initScale', this._scaleX, this._scaleY)

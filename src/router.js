@@ -71,7 +71,7 @@ export default new Router({
     },
     {
       path: '/examples/:id/analyze/workspace.html',
-      name: 'AnalyticCanvasPage',
+      name: 'ExampleAnalyticCanvasPage',
       meta: {isPublic:true},
       component: () => import(/* webpackChunkName: "design" */ 'views/apps/Analyze.vue')
     },
@@ -92,6 +92,10 @@ export default new Router({
     {
       path: '/test/code/:id.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/CodeGenTest.vue')
-    }
+    },
+    {
+      path: '/test/Resize.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/ResizeTest.vue')
+    },
   ]
 })

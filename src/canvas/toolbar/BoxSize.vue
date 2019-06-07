@@ -3,22 +3,22 @@
      <div class="MatcBoxSize">
 		
 		<div data-dojo-attach-point="layerX" class="MatcToolbarFlexCntr">
-			<div class="MatcToolbarItem " >
+			<div class="MatcToolbarItem MatcToolbarItemSmall " >
 				<span class="MatcBoxSizeLabel">X :</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputX"/>
 			</div>			
-			<div class="MatcToolbarItem " >
+			<div class="MatcToolbarItem MatcToolbarItemSmall" >
 				<span class="MatcBoxSizeLabel">Y :</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputY"/>
 			</div>		
 		</div>
 		
 		<div class="MatcToolbarFlexCntr" >
-			<div class="MatcToolbarItem " >
+			<div class="MatcToolbarItem MatcToolbarItemSmall" >
 				<span class="MatcBoxSizeLabel">W :</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputW"/>
 			</div>		
-			<div class="MatcToolbarItem " >
+			<div class="MatcToolbarItem MatcToolbarItemSmall" >
 				<span class="MatcBoxSizeLabel">H :</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputH"/>
 			</div>			

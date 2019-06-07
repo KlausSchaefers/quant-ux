@@ -197,7 +197,7 @@ export default {
 						this.setDefaultValues(theme);
 						this.setDefaultValues(theme.min);
 					} else {
-						console.warn("We have already a theme with the id", theme.id);
+						console.warn("We have already a theme with the id", theme.id, theme);
 					}				
 				} else {
 					console.warn("Theme has no id!");
