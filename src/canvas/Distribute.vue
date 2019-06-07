@@ -3,9 +3,7 @@
 // import lang from 'dojo/_base/lang'
 // import domStyle from 'dojo/domStyle'
 import css from 'dojo/css'
-// import win from 'dojo/_base/win'
-// import topic from 'dojo/topic'
-import * as DistributionUtil from 'core/DistributionUtil'
+// import * as DistributionUtil from 'core/DistributionUtil'
 
 export default {
     name: 'Distribute',
@@ -36,15 +34,15 @@ export default {
 			this.logger.log(3,"onDistributeStart", "enter");
 			css.add(this.container, "MatcCanvasModeAlign");
             this._distributeEnabled = true;
-            if (this._selectMulti){
-                let lines = DistributionUtil.getLines(this.model, this._selectMulti)
-                this.distibutionHandlers = []
-                let xLines = lines.xLines
-                for (let x in xLines) {
-                    console.debug('x', x)
-                    this.renderDistrubutionHandler()
-                }
-            }
+            // if (this._selectMulti){
+            //    let lines = DistributionUtil.getLines(this.model, this._selectMulti)
+            //    this.distibutionHandlers = []
+            //    let xLines = lines.xLines
+            //    for (let x in xLines) {
+            //        console.debug('x', x)
+            //        this.renderDistrubutionHandler()
+            //    }
+            // }
         },
         
         renderDistrubutionHandler (icon) {

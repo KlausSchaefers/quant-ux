@@ -29,6 +29,11 @@ body{
 	text-align: center;
 }
 
+.MatcSimulatorFadeOut{
+	transition: opacity 0.2s;
+	opacity: 0;
+}
+
 
 .MatcSimulatorImagePreloader{
 	height: 1px;

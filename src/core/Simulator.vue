@@ -392,6 +392,7 @@ export default {
 			//this._scaleY = this.screenPos.h / this.model.screenSize.h;
 			//console.debug('initScale', this._scaleX, this._scaleY)
 			this._scaleY = this._scaleX;
+			// console.warn('screenPOS', this.screenPos)
 			this.logger.log(0,"initScale","exit > h:" + this.screenPos.h + " x w:" + this.screenPos.w + " * " + this._scaleX + " > desk : " + this.isDesktopTest);
 		},
 		
@@ -3046,7 +3047,6 @@ export default {
 		isFixedPosition (widgetID){
 			var widget = this.model.widgets[widgetID];
 			if(widget && widget.style.fixed){
-				console.debug("isFixedPosition", widget, widget.style.fixed)
 				return true;
 			}
 			return false;
@@ -3133,6 +3133,11 @@ export default {
 				style = box.style;
 			}
 			if(style.fixed){
+				/**
+				 * Read the screen position a every time, because
+				 * the animation...
+				 */
+				let screen = domGeom.position(this.domNode);
 				
 				/**
 				 * A hacky method to allow fixed elements!!!
@@ -3145,12 +3150,11 @@ export default {
 				 * No does not work in mobile...
 				 */
 				if(this.screenPos && parentBox){
-					div.style.top = (box.y -parentBox.y) + this.screenPos.y + "px";
-					div.style.left = (box.x -parentBox.x) + this.screenPos.x + "px";
+					div.style.top = (box.y - parentBox.y) + screen.y + "px";
+					div.style.left = (box.x - parentBox.x) + screen.x + "px";
 				} else {
 					console.warn("createBox() > no screenPos or parentBox for fixed box!")
 				}
-				
 			} else {
 				if(parentBox){
 					div.style.top = (box.y -parentBox.y) + "px";

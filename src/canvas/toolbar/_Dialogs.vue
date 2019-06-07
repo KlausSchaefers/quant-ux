@@ -96,7 +96,7 @@ export default {
 					.build(right);
 				
 					
-						var codeRow = db
+				var codeRow = db
 					.div("MatcMarginTop MatcShareRow")
 					.span("", this.getNLS("share.Code"))
 					.parent().build(right);
@@ -766,7 +766,7 @@ export default {
 			setTimeout(function(){
 				scroller.wrap(s.domNode);		
 				s.setModel(model);
-			},500);
+			}, 500);
 		
 			/**
 			 * otherwise the mouse wheel listener will prevent
@@ -806,7 +806,7 @@ export default {
 
 			wrapper.style.width = Math.ceil(pos.w) + "px";
 			wrapper.style.height = Math.ceil(pos.h) + "px";
-			
+			css.add(wrapper, 'MatcSimulatorFadeOut')
 			wrapper.appendChild(container);
 			
 			var scroller = this.$new(ScrollContainer,{canDestroy:true});
@@ -815,6 +815,7 @@ export default {
 			var s = this.$new(Simulator,{mode : "debug", logData : false});
 			s.scrollListenTarget = "parent";
 			s.setScrollContainer(scroller);
+		
 							
 			var img = document.createElement("img");
 			QR.getQRCode(this.hash, false, true).then(url => {
@@ -823,10 +824,8 @@ export default {
 			css.add(img, "MatcSimulatorQR");
 			dialog.appendChild(img);
 			
-
-				
 			var d = new Dialog();
-			d.hasCSSAnimation = true;
+			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 			
 			d.on("close", lang.hitch(this, "stopSimulator", s, scroller));
@@ -842,7 +841,8 @@ export default {
 			setTimeout(function(){
 				scroller.wrap(s.domNode);			
 				s.setModel(model);
-			},10);
+				css.remove(wrapper, 'MatcSimulatorFadeOut')
+			}, 600);
 			
 			/**
 			 * otherwise the mouse wheel listener will prevent
