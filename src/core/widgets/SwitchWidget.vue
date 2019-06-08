@@ -20,7 +20,7 @@ import lang from "dojo/_base/lang";
 import UIWidget from "core/widgets/UIWidget";
 
 export default {
-  name: "Switch",
+  name: "SwitchWidget",
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
