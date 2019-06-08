@@ -624,7 +624,7 @@ export default {
 
 		_renderWidgetResponsive:function(){
 
-			var parent = this.createSection( "Position", true);
+			var parent = this.createSection("Reponsive Resizing", true);
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");

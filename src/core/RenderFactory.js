@@ -74,6 +74,11 @@ export default class RenderFactory extends Core {
 		this._scaleY = y;
 	}
 
+	setHash (h) {
+		this.logger.log(0, "setHash", "enter >", h);
+		this.hash = h
+	}
+
 	setMode(m) {
 		this.logger.log(3, "setMode", "entry >" + m);
 		this.mode = m;

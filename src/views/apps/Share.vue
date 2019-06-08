@@ -70,6 +70,7 @@ export default {
        */
       var renderFactory = new RenderFactory();
       renderFactory.setModel(model);
+      renderFactory.setHash(this.$route.query.h)
       
       /**
        * Dependency injection

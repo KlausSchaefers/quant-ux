@@ -1,23 +1,10 @@
-import ModelGeom from './ModelGeom'
-
 class ModelResizer {
-
-
-    resize(model, ids, pos) { 
-
-        let oldPos = ModelGeom.getBoundingBox(ids, model)
-        let difW = pos.w - oldPos.w
-        console.debug(difW)
-    }
 
     /**
     * Gets the new position for a group child
     */
     getGroupChildResizePosition (widget, oldBoundingBox, newBoundingBox, dif) {
-        
-        if (widget.props && widget.props.resize && this.oneIsTrue(widget.props.resize)) {
-            console.debug('getGroupChildResizePosition', widget.name, widget.props.resize)
-           
+        if (widget.props && widget.props.resize && this.oneIsTrue(widget.props.resize)) {       
             return this.getResponsiveChildPosition(widget, oldBoundingBox, newBoundingBox, dif)
         } else {
             return this.getRelativeChildPosition(widget, oldBoundingBox, newBoundingBox, dif)

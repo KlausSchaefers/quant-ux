@@ -95,9 +95,6 @@ export default {
 		postCreate (){
 			this.logger = new Logger("ShareCanvas");
 			this.logger.log(2,"postCreate", "entry");
-			
-			
-			this.logger.log(2,"constructor", "entry");	
 
 			this.initSize()
 
@@ -168,6 +165,7 @@ export default {
 		},
 		
 		setHash (h){
+			this.logger.log(-1,"setHash", "entry > ", h);
 			this.hash = h;
 		},
 		
@@ -639,7 +637,7 @@ export default {
 		},
 		
 		setRenderFactory (f){
-			this.logger.log(3,"setRenderFactory", "enter");
+			this.logger.log(0,"setRenderFactory", "enter");
 			this.renderFactory = f;
 		},
 		
