@@ -160,7 +160,7 @@ export default {
     methods: {
         postCreate: function(){
 			this.logger = new Logger("Toolbar");
-			this.logger.log(1,"constructor", "entry > " + this.pub);	
+			this.logger.log(3, "constructor", "entry > " + this.pub);	
 			
 			this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
 			this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
@@ -242,7 +242,7 @@ export default {
 		},
 		
 		setMode (mode){
-			this.logger.log(1,"setMode", "entry > '" + mode + "'");
+			this.logger.log(3,"setMode", "entry > '" + mode + "'");
 			this.mode = mode;
 			this.onModeChange();
 		},

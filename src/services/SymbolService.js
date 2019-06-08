@@ -33,7 +33,7 @@ class SymbolService extends AbstractService{
     }
 
     hookInWidgets (themes) {
-      this.logger.log(1, 'hookInWidgets', 'enter > ' +  this.widgets.length  + " + " + themes.length)
+      this.logger.log(2, 'hookInWidgets', 'enter > ' +  this.widgets.length  + " + " + themes.length)
       this.widgetDataProps = {}
       for (let name in this.widgets){
         try {
@@ -61,7 +61,7 @@ class SymbolService extends AbstractService{
     getCore() {
       return new Promise( (resolve) => {
         if (!this.themes) {
-          this.logger.info('getCore', 'exit > Load')
+          this.logger.log(3, 'getCore', 'exit > Load')
           Promise.all([
             import(/* webpackChunkName: "themes" */ 'themes/screen.json'),
 
@@ -186,11 +186,11 @@ class SymbolService extends AbstractService{
               this.themes = this.themes.concat(v.default)
             })
             this.hookInWidgets(this.themes)
-            this.logger.info('getCore', 'exit > loaded', this.themes.length)
+            this.logger.log(3, 'getCore', 'exit > loaded', this.themes.length)
             resolve(this.themes)
           })
         } else {
-          this.logger.info('getCore', 'exit > Cache')
+          this.logger.log(3, 'getCore', 'exit > Cache')
           resolve(this.themes)
         }
       })

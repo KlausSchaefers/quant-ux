@@ -20,16 +20,7 @@ import Code from 'common/Code'
 import CheckBox from 'common/CheckBox'
 import Util from 'core/Util'
 
-
 const cli = require('quant-ux-cli')
-
-// import CSSFactory from 'export/CSSFactory'
-// import Generator from 'export/Generator'
-// import HTMLFactory from 'export/html/HTMLFactory'
-// import * as ExportUtil from 'export/ExportUtil'
-// import SinglePageWriter from 'export/html/SinglePageWriter'
-// import VueFactory from 'export/vue/VueFactory'
-// import VueSinglePageWriter from 'export/vue/VueSinglePageWriter'
 
 export default {
     name: 'CSSExporter',
@@ -49,7 +40,7 @@ export default {
 		},
 
 		setModel:function(model) {
-			this.logger.log(0, "setModel", "enter > ")
+			this.logger.log(3, "setModel", "enter > ")
 			this.model = model;
 		},
 

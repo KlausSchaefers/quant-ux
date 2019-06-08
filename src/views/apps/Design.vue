@@ -48,7 +48,7 @@ export default {
   methods: {
     loadData () {
       let id = this.$route.params.id
-      this.logger.log(0, 'loadData', 'enter', id)
+      this.logger.log(3, 'loadData', 'enter', id)
       Promise.all([
           this.modelService.findApp(id),
           this.modelService.getCommands(id),
@@ -64,7 +64,7 @@ export default {
       })
     },
     buildCanvas (model, stack, hash) {
-      this.logger.log(0, 'buildCanvas', 'enter')
+      this.logger.log(3, 'buildCanvas', 'enter')
       let canvas = this.$refs.canvas
       let toolbar = this.$refs.toolbar
       let controller = new Controller()

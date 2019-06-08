@@ -408,8 +408,8 @@ export default {
 			this._onIconsLoaded(icons)
 		},
 
-		_onIconsLoaded:function(icons){
-			this.logger.log(-1,"_onIconsLoaded", "enter > " + icons.length);
+		_onIconsLoaded (icons){
+			this.logger.log(2, "_onIconsLoaded", "enter > " + icons.length);
 			this._matcIcons;
 
 			if (this.createBTN){

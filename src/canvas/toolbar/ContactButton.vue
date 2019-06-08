@@ -111,7 +111,7 @@ export default {
         css.remove(this.$el, "MatcHidden")
     }, 2000)
     this.user = await Services.getUserService().getUser()
-    this.logger.info('mounted', 'User', this.user.email)
+    this.logger.log(4, 'mounted', 'User', this.user.email)
   }
 };
 </script>

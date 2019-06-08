@@ -9,7 +9,7 @@ export default {
     name: 'Layer',
     methods: {
       initLayer (){
-				this.logger.log(-1,"initLayer", "entry");			
+				this.logger.log(2,"initLayer", "entry");			
 				try{	
 					if(this.layerCheckCntr){
 						this.layerCheckBox = this.$new(CheckBox);

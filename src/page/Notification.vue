@@ -56,7 +56,7 @@ export default {
 			},
 			
 			renderNotifications  (notifications){
-				this.logger.log(1, "renderNotifications", "enter");
+				this.logger.log(3, "renderNotifications", "enter");
 				var db = new DomBuilder()
 				
 				notifications.sort(function(a,b) {

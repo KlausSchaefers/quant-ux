@@ -296,7 +296,7 @@ export default class BaseController extends Core {
 	
 		fixModelCount (m){
 			var errors = [];
-			this.logger.log(-1,"fixModelCount", "enter");
+			this.logger.log(4,"fixModelCount", "enter");
 			try {
 				var max = 0;
 				for(let id in m.screens){
@@ -325,7 +325,7 @@ export default class BaseController extends Core {
 						max = Math.max(max, i)
 					}
 				}
-				this.logger.log(-1,"fixModelCount", "exit > " + max + " ?= " +m.lastUUID + " == " + (max > m.lastUUID));
+				this.logger.log(4,"fixModelCount", "exit > " + max + " ?= " +m.lastUUID + " == " + (max > m.lastUUID));
 				if (max > m.lastUUID){
 					errors.push({msg: "lastUUID to small!"})
 					this.logger.error("fixModelCount", "fix > " + max + " ?= " +m.lastUUID);
@@ -340,7 +340,7 @@ export default class BaseController extends Core {
 		}
 		
 		fixWidgetsNotInScreen (m){
-			this.logger.log(1,"fixWidgetsNotInScreen", "enter");
+			this.logger.log(2,"fixWidgetsNotInScreen", "enter");
 			var errors = [];
 			
 			var widgets2Screen = {};

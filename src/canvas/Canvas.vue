@@ -199,7 +199,7 @@ export default {
 			
 			
 			setMode (mode, forceRender){
-				this.logger.log(0,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
+				this.logger.log(3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
 				if(mode != this.mode ){
 					
 					/**

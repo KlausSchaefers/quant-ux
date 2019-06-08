@@ -40,7 +40,7 @@ export default {
 		},
 		
 		setModel (model, screenID) {
-			this.logger.log(0, "setModel", "enter > " + screenID)
+			this.logger.log(3, "setModel", "enter > " + screenID)
 			this.model = model;
 			this.screenID = screenID;
 		},

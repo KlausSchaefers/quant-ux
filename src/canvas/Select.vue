@@ -700,7 +700,8 @@ export default {
 						let id = children[i];
 						let widget = this.model.widgets[id];
 						let div = this.widgetDivs[id];
-						let newPos = this._getGroupChildResizePosition(widget,this._resizeModel,pos, dif)				
+						let newPos = this._getGroupChildResizePosition(widget,this._resizeModel,pos, dif)	
+						console.debug(newPos)			
 						this._resizeRenderJobs[id] = {
 							"pos" : newPos,
 							"div" : div 
@@ -824,6 +825,7 @@ export default {
 						hasCopies = hasCopies || this.isMasterWidget(widget);
 						// let div = this.widgetDivs[id];						
 						let newPos = this._getGroupChildResizePosition(widget, this._resizeModel, pos, dif)
+						console.debug(newPos)
 						positions[id] = newPos;
 					}
 					// FIXME: Add here new API to to do the multi position calculation again in 

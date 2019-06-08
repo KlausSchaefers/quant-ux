@@ -312,7 +312,7 @@ export default {
 			 **********************************************************************/		
 			
 			setFonts (fonts) {
-				this.logger.log(-1,"setFonts", "enter > ", fonts);
+				this.logger.log(3,"setFonts", "enter > ", fonts);
 				if (fonts) {
 					this.attachFontsToDom(fonts)
 				}
