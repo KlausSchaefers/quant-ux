@@ -1,10 +1,10 @@
 <script>
 import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
-// import domStyle from 'dojo/domStyle'
 import css from 'dojo/css'
 import win from 'dojo/_base/win'
 import topic from 'dojo/topic'
+import ModelResizer from 'core/ModelResizer'
 
 export default {
     name: 'Select',
@@ -758,7 +758,8 @@ export default {
 			this._resizeNewPosition.y -= this._resizeStartPos.y;
 			
 			/**
-			 * calculate new position
+			 * calculate new position of widget (or bounding box) and 
+			 * align it with snapping.
 			 */
 			var pos = this._getResizePosition(this._resizeNewPosition, this._resizeModel, this._resizeType);
 			pos = this.allignPosition(pos, e);
@@ -827,7 +828,7 @@ export default {
 					}
 					// FIXME: Add here new API to to do the multi position calculation again in 
 					// to avoid rounding issues.
-					//this.getController().updateBoundingBox(this._resizeModel.children, pos)
+					// Basically we have to move this entire method to the controller!!
 					this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
 				}
 			}
@@ -1056,122 +1057,7 @@ export default {
 		 * Returns a complete box with x,y,w,h and *id* !!
 		 */
 		_getResizePosition (pos, model, type){
-			
-			var newModel = {
-				x:model.x, 
-				y: model.y, 
-				h: model.h, 
-				w: model.w,
-				id : model.id
-			};
-		
-			/**
-			 * get min height for screens
-			 */
-			var minH = (this._resizeModel.min) ? this._resizeModel.min.h : -1;
-			var minW = (this._resizeModel.min) ? this._resizeModel.min.w : -1;
-			
-			// FIXME: Do something like if (leftUp || leftDown).. else...
-	
-			if(type=="LeftUp"){
-				if(minH < 0 || minH < (newModel.h - pos.y)){
-					newModel.h -= pos.y;
-					newModel.y += pos.y;
-				} else {
-					newModel.y += newModel.h - minH;
-					newModel.h = minH;
-				}
-				
-				if(minW < 0 || minW < (newModel.w - pos.x)){
-					newModel.w -= pos.x;
-					newModel.x += pos.x;
-				} else {
-					newModel.w += newModel.w - minW;
-					newModel.w = minW;
-				}
-			} else if(type=="RightUp"){
-				// up
-				if(minH < 0 || minH < (newModel.h - pos.y)){
-					newModel.h -= pos.y;
-					newModel.y += pos.y;
-				} else {
-					newModel.y += newModel.h - minH;
-					newModel.h = minH;
-				}
-				
-				// right
-				if(minW > 0){
-					newModel.w = Math.max(minW, newModel.w + pos.x);
-				} else {
-					newModel.w += pos.x;
-				}
-			} else if(type=="RightDown"){
-				// down
-				if(minH > 0){
-					newModel.h = Math.max(minH, newModel.h + pos.y);
-				} else {
-					newModel.h += pos.y;
-				}
-				
-				// right
-				if(minW > 0){
-					newModel.w = Math.max(minW, newModel.w + pos.x);
-				} else {
-					newModel.w += pos.x;
-				}
-			} else if(type=="LeftDown"){
-				// down
-				if(minH > 0){
-					newModel.h = Math.max(minH, newModel.h + pos.y);
-				} else {
-					newModel.h += pos.y;
-				}
-				
-				// left
-				if(minW < 0 || minW < (newModel.w - pos.x)){
-					newModel.w -= pos.x;
-					newModel.x += pos.x;
-				} else {
-					newModel.w += newModel.w - minW;
-					newModel.w = minW;
-				}
-			} else if(type=="South"){
-				// down
-				if(minH > 0){
-					// TODO: add here some logic for screen snapping...
-					newModel.h = Math.max(minH, newModel.h + pos.y);
-				} else {
-					newModel.h += pos.y;
-				}
-			} else if(type=="North"){
-				// up
-				if(minH < 0 || minH < (newModel.h - pos.y)){
-					newModel.h -= pos.y;
-					newModel.y += pos.y;
-				} else {
-					newModel.y += newModel.h - minH;
-					newModel.h = minH;
-				}
-			} else if(type=="West"){
-				// left
-				if(minW < 0 || minW < (newModel.w - pos.x)){
-					newModel.w -= pos.x;
-					newModel.x += pos.x;
-				} else {
-					newModel.w += newModel.w - minW;
-					newModel.w = minW;
-				}
-			} else if(type=="East"){
-				// right
-				if(minW > 0){
-					newModel.w = Math.max(minW, newModel.w + pos.x);
-				} else {
-					newModel.w += pos.x;
-				}
-			} else {
-				console.warn(type, "Not supported");
-			}
-			return newModel;
+			return ModelResizer.getResizePosition(pos, model, type, this._resizeModel)
 		},
 		
 		

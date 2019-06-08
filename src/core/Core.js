@@ -2,6 +2,7 @@ import lang from 'dojo/_base/lang'
 import Logger from 'common/Logger'
 import Evented from 'dojo/Evented'
 import ModelGeom from 'core/ModelGeom'
+import ModelResizer from 'core/ModelResizer'
 
 export default class Core extends Evented{
 
@@ -219,29 +220,7 @@ export default class Core extends Evented{
      * Gets the new position for a group child
      */
     _getGroupChildResizePosition (widget, oldGroup, newGroup, dif) {
-        /**
-         * get relative position of the widget in group
-         */
-        var relPos = {
-            x: ((widget.x - oldGroup.x) / oldGroup.w) * 1.0,
-            y: ((widget.y - oldGroup.y) / oldGroup.h) * 1.0
-        };
-
-        /**
-         * Resize rules are:
-         *
-         * 1) For x and y : if child box is 10 % away from border.
-         *    So new x must be also that amount away.
-         *
-         * 2) For w and h: just multiply with new width
-         */
-        var newPos = {
-            x: newGroup.x + newGroup.w * relPos.x,
-            y: newGroup.y + newGroup.h * relPos.y,
-            w: widget.w * dif.w,
-            h: widget.h * dif.h
-        };
-        return newPos;
+        return ModelResizer.getGroupChildResizePosition(widget, oldGroup, newGroup, dif)
     }
   
     getObjectFromArray (list, key) {
@@ -1276,7 +1255,6 @@ export default class Core extends Evented{
     }
 
     _isBoxChild (obj, parent) {
-        // http://stackoverflow.com/questions/13390333/two-rectangles-intersection
         if (
             obj.x + obj.w < parent.x ||
             parent.x + parent.w < obj.x ||
