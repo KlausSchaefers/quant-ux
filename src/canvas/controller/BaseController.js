@@ -236,16 +236,9 @@ export default class BaseController extends Core {
 						var changes = this.getModelDelta(this.oldModel, this.model);
 						this.logger.log(4,"saveModelChanges", "Save changes " + changes.length);
 						if(changes.length > 0){
-							let res = await this.modelService.updateApp(this.model, changes)
-							this.onModelUpdated(res);
-							// var updateURL = "/rest/apps/" + this.model.id +"/update";
-							// if(this.debug){
-							// 	this._doPost(updateURL, changes);
-							// 	this.onModelUpdated();
-							// } else {
-							// 	this._doPost(updateURL, changes, lang.hitch(this, "onModelUpdated"));
-							// }	
-							
+							this.modelService.updateApp(this.model, changes).then(res => {
+								this.onModelUpdated(res);
+							})
 						} else {
 							console.warn("saveModelChanges() > triggered without getting change! We send entire model!");
 							this.logger.error("saveModelChanges", "Triggered without getting change! We send entire model");
@@ -746,9 +739,7 @@ export default class BaseController extends Core {
 			delete oldModel.id;
 			delete oldModel._id;		
 			var app = await this.modelService.createApp(oldModel)
-			// this._doPost("rest/apps/", oldModel);
 			hash("#/apps/" + app.id + ".html");
-			
 			this.logger.log(0, "onSaveAsAfterSignUp", "New app" + app.id);
 		}
 
@@ -1337,16 +1328,10 @@ export default class BaseController extends Core {
 					this.onCommandDeleted(command);
 				} else {
 					var count = (this.commandStack.stack.length - this.commandStack.pos);
-					let res = await this.modelService.deleteCommand(this.model, count)
-					this.logger.log(0,"addCommand", "cut off future! > " + count + " >> "  + res.pos);
-					this.onCommandDeleted(command)
-					// var deleteURL = "/rest/commands/" + this.model.id +"/pop/"+count;
-					// if(this.debug){
-					// 	this._doDelete(deleteURL);
-					// 	this.onCommandDeleted(command);
-					// } else {
-					// 	this._doDelete(deleteURL, null, lang.hitch(this, "onCommandDeleted", command));
-					// }	
+					this.modelService.deleteCommand(this.model, count).then(res => {
+						this.logger.log(0,"addCommand", "cut off future! > " + count + " >> "  + res.pos);
+						this.onCommandDeleted(command)
+					})
 				}				
 			} else {
 				this.postCommand(command);
@@ -1383,15 +1368,9 @@ export default class BaseController extends Core {
 			
 				this.onCommandAdded(result);
 			} else {
-				// var postURL = "/rest/commands/" + this.model.id +"/add";
-				let pos = await this.modelService.addCommand(this.model, command)
-				this.onCommandAdded(pos);
-				// if(this.debug){
-				// 	var pos = this._doPost(postURL, command);
-				// 	this.onCommandAdded(pos);
-				// } else {
-				// 	this._doPost(postURL, command, lang.hitch(this, "onCommandAdded"));
-				// }
+				this.modelService.addCommand(this.model, command).then(pos => {
+					this.onCommandAdded(pos);
+				})
 			}		
 		}
 		
@@ -1424,24 +1403,25 @@ export default class BaseController extends Core {
 		async undo (){
 			this.logger.log(2,"undo", "enter > " + (this.commandStack.pos > 0));
 			this.logPageEvent("undo", "")
-			if(this.mode=="public"){
-				var result = {
-					pos : this.commandStack.pos-1
+			if(this.commandStack.pos > 0){
+				/**
+				 * Do do things faster for large requests, 
+				 * we do not wait for the rest response.
+				 */
+
+				if(this.mode !== "public"){
+						this.modelService.undoCommand(this.model, {}).then(res => {
+							if (res.pos != this.commandStack.pos) {
+								this.logger.log(1, 'undo', "server is behind")
+							}
+							this.logger.log(2,"undo", "saved", res.pos + '==' + this.commandStack.pos);
+						})			
 				}
-				this.onUndoCompleted(result);
-			} else {				
-				if(this.commandStack.pos > 0){		
-					let pos = await this.modelService.undoCommand(this.model, {})
-					this.onUndoCompleted(pos)
-					// var postURL = "/rest/commands/" + this.model.id +"/undo";
-					// if(this.debug){
-					// 	var pos = this._doPost(postURL, {});
-					// 	this.onUndoCompleted(pos);
-					// } else {
-					// 	this._doPost(postURL,{}, lang.hitch(this, "onUndoCompleted"));
-					// }					
-				}				
-			}			
+				var result = {
+					pos : this.commandStack.pos - 1
+				}
+				this.onUndoCompleted(result);			
+			}		
 			if(this.commandStack.pos <= 0){
 				if(this.toolbar){
 					this.toolbar.disableUndo();
@@ -1455,7 +1435,7 @@ export default class BaseController extends Core {
 			this.commandStack.pos = result.pos;
 			var command = this.commandStack.stack[this.commandStack.pos];
 			if(command){
-				this.logger.log(0,"onUndoCompleted", "enter > "+ command.id);			
+				this.logger.log(0,"onUndoCompleted", "enter > "+ command.id);		
 				if(this["undo" + command.type]){
 					try{
 						this["undo"+ command.type](command);
@@ -1477,24 +1457,23 @@ export default class BaseController extends Core {
 			this.logger.log(2,"redo", "enter > "+ (this.commandStack.pos >= this.commandStack.stack.length));
 			this.logPageEvent("redo", "")
 			if(this.commandStack.pos >= 0 && this.commandStack.pos < this.commandStack.stack.length){
-				
-				if(this.mode=="public"){
-					var result = {
-						pos : this.commandStack.pos+1
-					}
-					this.unRedoCompleted(result);
-					
-				} else {
-					let pos = await this.modelService.redoCommand(this.model, {})
-					this.unRedoCompleted(pos)
-					// var postURL = "/rest/commands/" + this.model.id +"/redo";
-					// if(this.debug){
-					// 	var pos = this._doPost(postURL, {});
-					// 	this.unRedoCompleted(pos);
-					// } else {
-					// 	this._doPost(postURL, {}, lang.hitch(this, "unRedoCompleted"));
-					// }
-				} 
+				/**
+				 * Do do things faster for large requests, 
+				 * we do not wait for the rest response.
+				 */
+				if(this.mode !=="public"){
+					this.modelService.redoCommand(this.model, {}).then(res => {
+						if (res.pos !== this.commandStack.pos) {
+							this.logger.log(1, 'redo', "server is behind")
+						}
+						this.logger.log(2,"redo", "saved",  res.pos + '==' + this.commandStack.pos);
+					})
+				}
+
+				var result = {
+					pos : this.commandStack.pos+1
+				}
+				this.unRedoCompleted(result);
 			} else {
 				this.logger.log(0,"redo", "No redo > ");
 			}

@@ -700,8 +700,7 @@ export default {
 						let id = children[i];
 						let widget = this.model.widgets[id];
 						let div = this.widgetDivs[id];
-						let newPos = this._getGroupChildResizePosition(widget,this._resizeModel,pos, dif)	
-						console.debug(newPos)			
+						let newPos = this._getGroupChildResizePosition(widget,this._resizeModel,pos, dif)			
 						this._resizeRenderJobs[id] = {
 							"pos" : newPos,
 							"div" : div 
@@ -825,7 +824,6 @@ export default {
 						hasCopies = hasCopies || this.isMasterWidget(widget);
 						// let div = this.widgetDivs[id];						
 						let newPos = this._getGroupChildResizePosition(widget, this._resizeModel, pos, dif)
-						console.debug(newPos)
 						positions[id] = newPos;
 					}
 					// FIXME: Add here new API to to do the multi position calculation again in 
@@ -871,22 +869,32 @@ export default {
 		},
 		
 		onReplicateDnDMove (modelType, e){	
+			console.debug('onReplicateDnDMove() enter')
+			
 			/**
 			 * get the position of the placeholder
 			 */
-			var pos = this._getSizePos(e);
-			this._resizeCopyJobs = this.getClones(this._selectCloneIds, pos).previews;
-			this._resizeRenderJobsHandlerPos = pos;
-			/**
-			 * now request rendering
-			 */
-			if(!window.requestAnimationFrame){
-				console.warn("No requestAnimationFrame()");
-		    	this._replicateDndUpDateUI();
-		    } else {
-		    	var callback = lang.hitch(this, "_replicateDndUpDateUI");
-	        	requestAnimationFrame(callback);
-		    }
+			try {
+				var pos = this._getSizePos(e);
+				this._resizeCopyJobs = this.getClones(this._selectCloneIds, pos).previews;
+				this._resizeRenderJobsHandlerPos = pos;
+
+				console.debug('onReplicateDnDMove', e, this._resizeCopyJobs)
+				/**
+				 * now request rendering
+				 */
+				if(!window.requestAnimationFrame){
+					console.warn("No requestAnimationFrame()");
+					this._replicateDndUpDateUI();
+				} else {
+					requestAnimationFrame(() => {
+						this._replicateDndUpDateUI()
+					});
+				}
+			} catch (e){
+				console.error(e)
+			}
+			//console.debug('onReplicateDnDMove() exit')
 		},
 		
 		onReplicateDnDEnd (modelType, e){
@@ -908,10 +916,15 @@ export default {
 		},
 		
 		
-		_replicateDndUpDateUI: function(){
+		_replicateDndUpDateUI () {
+			console.debug('_replicateDndUpDateUI() > enter', this._resizeCopyJobs)
 			
 			if(!this._resizeCopyJobs){
-				this.onResizeDnDCleanUp();
+				/**
+				 * Because of some weird reason this is since the introduction
+				 * of the some times null. Dunno why this did not happen earlier.
+				 */
+				// this.onResizeDnDCleanUp();
 				return;
 			}
 			
@@ -935,6 +948,8 @@ export default {
 			if(this._resizeRenderJobsHandlerPos){
 				this._updateResizeHandlers(this._resizeRenderJobsHandlerPos);
 			}
+
+			console.debug('_replicateDndUpDateUI() > exit')
 		},
 		
 		cleanUpReplicate (){

@@ -39,7 +39,7 @@ export default {
 			this.own(on(this.donwloadBtn, touch.press, lang.hitch(this, "download")));
 		},
 
-		setModel:function(model) {
+		setModel (model) {
 			this.logger.log(3, "setModel", "enter > ")
 			this.model = model;
 		},
@@ -49,13 +49,13 @@ export default {
 			delete this.selectedWidgetIDs
 		},
 
-		setWidgets:function(widgetIDs) {
-			this.logger.log(-1, "setWidgets", "enter > " + widgetIDs)
+		setWidgets (widgetIDs) {
+			this.logger.log(3, "setWidgets", "enter > " + widgetIDs)
 			this.selectedWidgetIDs = widgetIDs;
 			delete this.screen
 		},
 
-		download:function() {
+		download () {
 			this.logger.log(-1, "download", "enter > " + this.screen);
 
 			var db = new DomBuilder();

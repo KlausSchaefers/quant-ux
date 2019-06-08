@@ -78,6 +78,7 @@ export default class Core extends Evented{
      * Clone Tool
      **********************************************************************/
     getClones (ids, target) {
+        console.debug('getClones enter')
         var result = [];
         var previews = [];
   
@@ -148,6 +149,7 @@ export default class Core extends Evented{
             }
           }
         }
+        console.debug('getClones exit')
         return {
           previews: previews,
           clones: result
