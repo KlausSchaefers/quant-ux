@@ -7,10 +7,8 @@ import on from "dojo/on";
 import win from "dojo/_base/win";
 import DomBuilder from "common/DomBuilder";
 import Layout from "core/Layout";
-// import Ring from 'dash/Ring'
-// import ProgressBar from 'common/ProgressBar'
+import ModelGeom from 'core/ModelGeom'
 import SlideLeftButton from 'common/SlideLeftButton'
-// import BulletGraph from 'common/BulletGraph'
 
 var Ring = {};
 var ProgressBar = {};
@@ -1482,70 +1480,25 @@ export default {
      ***************************************************************************/
 
     getBoundingBox (ids) {
-      var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
-     
-      for (var i = 0; i < ids.length; i++) {
-        var id = ids[i];
-        var box = this.getBoxById(id);
-        if (box) {
-          result.x = Math.min(result.x, box.x);
-          result.y = Math.min(result.y, box.y);
-          result.w = Math.max(result.w, box.x + box.w);
-          result.h = Math.max(result.h, box.y + box.h);
-        } else {
-          console.warn("getBoundingBox() > No box with id", id);
-        }
-      }
-
-      result.h -= result.y;
-      result.w -= result.x;
-
-      return result;
+      return ModelGeom.getBoundingBox(ids, this.model)
     },
 
-    getBoundingBoxByBoxes: function(boxes) {
-      var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
-
-      for (var i = 0; i < boxes.length; i++) {
-        var box = boxes[i];
-        result.x = Math.min(result.x, box.x);
-        result.y = Math.min(result.y, box.y);
-        result.w = Math.max(result.w, box.x + box.w);
-        result.h = Math.max(result.h, box.y + box.h);
-      }
-
-      result.h -= result.y;
-      result.w -= result.x;
-
-      return result;
+    getBoundingBoxByBoxes (boxes) {
+       return ModelGeom.getBoundingBoxByBoxes(boxes)
     },
 
     /**
      * Returns for a box if it is on any of the screens
      */
-    getHoverScreen: function(box) {
-      return this._getHoverScreen(box, this.model);
+    getHoverScreen (box) {
+      return ModelGeom.getHoverScreen(box, this.model);
     },
 
-    _getHoverScreen: function(box, model) {
-      if (!box.w) {
-        box.w = 0;
-      }
-      if (!box.h) {
-        box.h = 0;
-      }
-
-      for (var id in model.screens) {
-        var screen = model.screens[id];
-        if (this._isBoxChild(box, screen)) {
-          return screen;
-        }
-      }
-
-      return null;
+    _getHoverScreen (box, model) {
+      return ModelGeom.getHoverScreen(box, model);
     },
 
-    _isBoxChild: function(obj, parent) {
+    _isBoxChild (obj, parent) {
       // http://stackoverflow.com/questions/13390333/two-rectangles-intersection
       if (
         obj.x + obj.w < parent.x ||

@@ -1,6 +1,7 @@
 import lang from 'dojo/_base/lang'
 import Logger from 'common/Logger'
 import Evented from 'dojo/Evented'
+import ModelGeom from 'core/ModelGeom'
 
 export default class Core extends Evented{
 
@@ -157,104 +158,15 @@ export default class Core extends Evented{
      ***************************************************************************/
 
     getBoundingBox (ids) {
-        var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
-  
-        for (var i = 0; i < ids.length; i++) {
-          var id = ids[i];
-          var box = this.getBoxById(id);
-          if (box) {
-            result.x = Math.min(result.x, box.x);
-            result.y = Math.min(result.y, box.y);
-            result.w = Math.max(result.w, box.x + box.w);
-            result.h = Math.max(result.h, box.y + box.h);
-          } else {
-            console.warn("getBoundingBox() > No box with id", id);
-          }
-        }
-  
-        result.h -= result.y;
-        result.w -= result.x;
-  
-        return result;
+        return ModelGeom.getBoundingBox(ids, this.model);
     }
   
     getBoundingBoxByBoxes (boxes) {
-        var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
-
-        for (var i = 0; i < boxes.length; i++) {
-            var box = boxes[i];
-            result.x = Math.min(result.x, box.x);
-            result.y = Math.min(result.y, box.y);
-            result.w = Math.max(result.w, box.x + box.w);
-            result.h = Math.max(result.h, box.y + box.h);
-        }
-
-        result.h -= result.y;
-        result.w -= result.x;
-
-        return result;
+        return ModelGeom.getBoundingBoxByBoxes(boxes);
     }
 
     getBoxById (id) {
-        if (this.model.widgets[id]) {
-            return this.model.widgets[id];
-        }
-
-        if (this.model.screens[id]) {
-            return this.model.screens[id];
-        }
-
-        if (this.model.templates && this.model.templates[id]) {
-            return this.model.templates[id];
-        }
-
-        /**
-         * Ok, there seems to be an inherited model id???
-         *
-         *
-         */
-        if (!id || !id.split) {
-            console.debug("getBoxById() > ID is wrong: " + id);
-            return null;
-        }
-        var parts = id.split("@");
-        if (parts.length == 2) {
-            var widgetID = parts[0];
-            var screenID = parts[1];
-
-            var screen = this.model.screens[screenID];
-            var parentWidget = this.model.widgets[widgetID];
-            if (screen && parentWidget) {
-            var parentScreen = this.getHoverScreen(parentWidget);
-
-            var difX = parentScreen.x - screen.x;
-            var difY = parentScreen.y - screen.y;
-
-            var copiedParentWidget = lang.clone(parentWidget);
-
-            /**
-             * Super important the ID mapping!!
-             */
-            copiedParentWidget.id = id;
-            copiedParentWidget.inherited = parentWidget.id;
-            copiedParentWidget.inheritedOrder = 1;
-
-            /**
-             * Now lets also put it at the right position!
-             */
-            copiedParentWidget.x -= difX;
-            copiedParentWidget.y -= difY;
-
-            return copiedParentWidget;
-            } else {
-            console.warn(
-                "getBoxById() > No screen or widget for inherited id ",
-                id
-            );
-            }
-        }
-
-        return null;
+        return ModelGeom.getBoxById(id, this.model)
     }
 
     getParentScreen (widget, model) {
@@ -268,7 +180,6 @@ export default class Core extends Evented{
             return screen;
             }
         }
-
         return null;
     }
 
@@ -292,16 +203,16 @@ export default class Core extends Evented{
     }
 
     _correctBoundindBox (boundingbox, modelBoundingBox) {
-    if (Math.abs(boundingbox.x - modelBoundingBox.x) <= 2) {
-        this.logger.log(2, "_correctBoundindBox", "Correct X");
-        boundingbox.x = modelBoundingBox.x;
-    }
+        if (Math.abs(boundingbox.x - modelBoundingBox.x) <= 2) {
+            this.logger.log(2, "_correctBoundindBox", "Correct X");
+            boundingbox.x = modelBoundingBox.x;
+        }
 
-    if (Math.abs(boundingbox.y - modelBoundingBox.y) <= 2) {
-        this.logger.log(2, "_correctBoundindBox", "Correct Y");
-        boundingbox.y = modelBoundingBox.y;
-    }
-    return boundingbox;
+        if (Math.abs(boundingbox.y - modelBoundingBox.y) <= 2) {
+            this.logger.log(2, "_correctBoundindBox", "Correct Y");
+            boundingbox.y = modelBoundingBox.y;
+        }
+        return boundingbox;
     }
 
     /**
@@ -1361,22 +1272,8 @@ export default class Core extends Evented{
     }
 
     _getHoverScreen (box, model) {
-        if (!box.w) {
-            box.w = 0;
-        }
-        if (!box.h) {
-            box.h = 0;
-        }
-
-        for (var id in model.screens) {
-            var screen = model.screens[id];
-            if (this._isBoxChild(box, screen)) {
-            return screen;
-            }
-        }
-
-        return null;
-    } 
+        return ModelGeom.getHoverScreen(box, model);
+    }
 
     _isBoxChild (obj, parent) {
         // http://stackoverflow.com/questions/13390333/two-rectangles-intersection

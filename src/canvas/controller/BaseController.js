@@ -5,7 +5,7 @@ import Core from 'core/Core'
 import Logger from 'common/Logger'
 import win from 'dojo/win'
 
-export default class BaseController extends Core{
+export default class BaseController extends Core {
 
     constructor (params){
 			super()
