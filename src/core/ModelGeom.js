@@ -25,7 +25,7 @@ class ModelGeom {
         result.w -= result.x;
         return result;
     }
-    
+
     getBoundingBoxByBoxes (boxes) {
         var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
 
@@ -73,27 +73,35 @@ class ModelGeom {
             var screen = model.screens[screenID];
             var parentWidget = model.widgets[widgetID];
             if (screen && parentWidget) {
+                /**
+                 * Would getParentScreen() also work???
+                 */
                 var parentScreen = this.getHoverScreen(parentWidget, model);
 
-                var difX = parentScreen.x - screen.x;
-                var difY = parentScreen.y - screen.y;
+                if (parentScreen) {
 
-                var copiedParentWidget = this.clone(parentWidget);
+                    var difX = parentScreen.x - screen.x;
+                    var difY = parentScreen.y - screen.y;
 
-                /**
-                 * Super important the ID mapping!!
-                 */
-                copiedParentWidget.id = id;
-                copiedParentWidget.inherited = parentWidget.id;
-                copiedParentWidget.inheritedOrder = 1;
+                    var copiedParentWidget = this.clone(parentWidget);
 
-                /**
-                 * Now lets also put it at the right position!
-                 */
-                copiedParentWidget.x -= difX;
-                copiedParentWidget.y -= difY;
+                    /**
+                     * Super important the ID mapping!!
+                     */
+                    copiedParentWidget.id = id;
+                    copiedParentWidget.inherited = parentWidget.id;
+                    copiedParentWidget.inheritedOrder = 1;
 
-                return copiedParentWidget;
+                    /**
+                     * Now lets also put it at the right position!
+                     */
+                    copiedParentWidget.x -= difX;
+                    copiedParentWidget.y -= difY;
+
+                    return copiedParentWidget;
+                } else {
+                    console.warn('ModelGeom.getBoxById() > No parent Screen', id)
+                }
             } else {
                 console.warn("getBoxById() > No screen or widget for inherited id ",id);
             }
@@ -126,7 +134,7 @@ class ModelGeom {
             }
         }
         return null;
-    } 
+    }
 
     _isBoxChild (obj, parent) {
         if (
