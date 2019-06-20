@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "d3": "5.9.1",
-    "dom-to-image-more": "^2.7.5",
+    "dom-to-image-more": "^2.8.0",
     "eventsource-polyfill": "^0.9.6",
     "file-saver": "^2.0.1",
     "handlebars": "^4.1.2",

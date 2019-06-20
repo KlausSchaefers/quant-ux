@@ -14,7 +14,8 @@ import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
 import Preview from 'page/Preview'
 
-import domtoimage from 'dom-to-image-more'
+// import domtoimage from 'dom-to-image-more'
+import domtoimage from '../../util/dom-to-image';
 import { saveAs } from 'file-saver'
 
 export default {

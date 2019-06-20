@@ -16,7 +16,9 @@ import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
 import _Tooltip from 'common/_Tooltip'
 import Preview from 'page/Preview'
-import domtoimage from 'dom-to-image-more';
+
+// import domtoimage from 'dom-to-image-more'
+import domtoimage from '../../util/dom-to-image';
 
 export default {
     name: 'Downloader',
