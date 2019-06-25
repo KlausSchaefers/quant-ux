@@ -62,6 +62,7 @@ import Lines from 'canvas/Lines'
 import DnD from 'canvas/DnD'
 import Add from 'canvas/Add'
 import Select from 'canvas/Select'
+import Distribute from 'canvas/Distribute'
 import Tools from 'canvas/Tools'
 import Zoom from 'canvas/Zoom'
 import InlineEdit from 'canvas/InlineEdit'
@@ -75,7 +76,7 @@ import QR from 'core/QR'
 
 export default {
     name: 'ShareCanvas',
-    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Heat],
+    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Heat],
     data: function () {
         return {
             mode: "view", 

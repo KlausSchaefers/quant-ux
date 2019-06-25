@@ -59,6 +59,7 @@ import Lines from 'canvas/Lines'
 import DnD from 'canvas/DnD'
 import Add from 'canvas/Add'
 import Select from 'canvas/Select'
+import Distribute from 'canvas/Distribute'
 import Tools from 'canvas/Tools'
 import Zoom from 'canvas/Zoom'
 import Util from 'core/Util'
@@ -70,7 +71,7 @@ import Analytics from 'dash/Analytics'
 
 export default {
     name: 'AnalyticCanvas',
-    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Heat],
+    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Heat],
     data: function () {
         return {
             mode: "view", 
