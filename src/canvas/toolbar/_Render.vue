@@ -61,9 +61,9 @@ export default {
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider"],
-			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop"],
+			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
-			hasValign: ["Box", "Button", "Label"],
+			hasValign: ["Box", "Button", "Label", "Upload"],
 			colorWidgets: [],
         }
     },

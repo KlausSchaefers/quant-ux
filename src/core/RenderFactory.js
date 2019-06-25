@@ -40,6 +40,7 @@ import LabeledIconToggle from 'core/widgets/LabeledIconToggle'
 import SVG from 'core/widgets/SVG'
 import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
+import Upload from 'core/widgets/Upload'
 import Animation from 'core/Animation'
 import Core from 'core/Core'
 import SymbolService from 'services/SymbolService'
@@ -366,6 +367,12 @@ export default class RenderFactory extends Core {
 		repeater.setSymbol(this.isSymbol)
 		this._uiWidgets[model.id] = repeater;
 		this._containerWidgets[model.id] = repeater;
+	}
+
+	_createUpload (parent, model) {
+		var upload = this.$new(Upload);
+		upload.placeAt(parent);
+		this._uiWidgets[model.id] = upload;
 	}
 
 	_createCheckBox (parent, model) {
