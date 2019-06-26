@@ -333,15 +333,13 @@ export default {
 		
 		_showDesktopSimulator (model){
 			
-
 			var dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
-			
 			
 			var container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 			dialog.appendChild(container);
-			
+	
 			var pos = domGeom.position(win.body());
 			pos.w = pos.w * 0.75;
 			pos.h = pos.h * 0.75;
@@ -359,15 +357,14 @@ export default {
 			
 			var d = new Dialog();
 			d.popup(dialog, this.simulatorButton);
-			
 			d.own(d.on("close", lang.hitch(this, "stopSimulator",s, scroller)));
 			
 			var screen = this._getSimulatorScreen();
-			s.setStartScreen(screen);
 			setTimeout(function(){
-				scroller.wrap(s.domNode);		
+				scroller.wrap(s.domNode);
+				s.setStartScreen(screen);
 				s.setModel(model);
-			},500);
+			}, 500);
 		
 			/**
 			 * otherwise the mouse wheel listener will prevent
@@ -376,6 +373,30 @@ export default {
 			this.enableMouseZoom(false);
 			this.setState("simulate");
 			
+		},
+
+		resizeSimualtor (container, model, factor, dialog) {
+			container.innerHTML = ""
+
+			var screen = this._getSimulatorScreen();
+			var pos = domGeom.position(win.body());
+			pos.w = pos.w * factor;
+			pos.h = pos.h * factor;
+			pos = this.getScaledSize(pos, "width", model);
+			container.style.width = Math.round(pos.w) + "px";
+			container.style.height = Math.round(pos.h) + "px";
+		
+			var s = this.$new(Simulator,{mode : "debug", logData: false, hash: this.hash});
+			s.scrollListenTarget = "parent";
+			s.setStartScreen(screen);
+			
+			var scroller = this.$new(ScrollContainer,{canDestroy:false});
+			scroller.placeAt(container);
+			s.setScrollContainer(scroller);
+			scroller.wrap(s.domNode);		
+			s.setModel(model);
+
+			dialog.resize(container)
 		},
 		
 		

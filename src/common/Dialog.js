@@ -16,6 +16,7 @@ export default class Dialog extends Evented{
 		this.autoClose = true
 		this.wrapperClass = ""
 		this.overflow = false
+		this.isFullScreen = false
 		this.hasCSSAnimation = true
 		if (params && params.overflow) {
 			this.overflow = params.overflow
@@ -31,6 +32,11 @@ export default class Dialog extends Evented{
 		this.cleanUpEvented()
 	}
 
+	setFullScreen (callback) {
+		this.hasFullScreen = true
+		this.fullScreenListener = callback
+	}
+
 	popup(node, parent, clazz) {
 		this.log.log(1, "popup", "enter");
 
@@ -41,6 +47,14 @@ export default class Dialog extends Evented{
 		 */
 		var background = document.createElement("div");
 		css.add(background, "VommondDialogBackground VommondDialogHidden VommondDialogContentHidden");
+
+		if (this.hasFullScreen) {
+			let fullscreen = document.createElement("span");
+			css.add(fullscreen, "VommondDialogFullScreen mdi mdi-fullscreen");
+			background.appendChild(fullscreen);
+			this.own(on(fullscreen, touch.press, lang.hitch(this, "toggleFullScreen", fullscreen)))
+			console.debug(fullscreen)
+		}
 
 		var container = document.createElement("div");
 		css.add(container, "VommondDialogContainer");
@@ -208,6 +222,21 @@ export default class Dialog extends Evented{
 			css.remove(wrapper, "VommondDialogWrapperShake");
 		}, 201);
 
+	}
+
+	toggleFullScreen (node) {
+		console.debug('toggleFullScreen', node)
+		this.isFullScreen = !this.isFullScreen
+		if (this.fullScreenListener) {
+			this.fullScreenListener(this.isFullScreen)
+		}
+		if (this.isFullScreen) {
+			css.remove(node, 'mdi-fullscreen')
+			css.add(node, 'mdi-fullscreen-exit')
+		} else {
+			css.add(node, 'mdi-fullscreen')
+			css.remove(node, 'mdi-fullscreen-exit')
+		}
 	}
 
 	hide() {
