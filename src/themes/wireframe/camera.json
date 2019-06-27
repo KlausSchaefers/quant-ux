@@ -1,27 +1,28 @@
 [
     {
-        "id" : "UploadFile",
-        "type" : "Upload",
+        "id" : "UploadCamera",
+        "type" : "Camera",
         "category" : "WireFrame",
         "subcategory" : "XBox",
         "_type" : "Widget",
-        "name" : "Upload",
+        "name" : "Camera",
         "x" : 0,
         "y" : 0,
-        "w" : 200,
-        "h" : 40,
+        "w" : 100,
+        "h" : 100,
         "z" : 0,
         "props" : {
-        	"label" : "Choose File"
+            "label" : ""
         },
         "has" : {
+           "hasIcon": true,
            "backgroundColor" : true,
            "border" : true,
-           "label" : true,
            "padding" : true
         },
         "actions":{},
         "style" : { 
+            "icon": "mdi-camera",
             "fontSize" : 20,
             "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
             "textAlign" : "center",
@@ -32,10 +33,10 @@
             "paddingBottom" : 0,
             "paddingLeft" : 0,
             "paddingRight" : 0,
-            "borderTopRightRadius" : 3,
-            "borderTopLeftRadius" : 3,
-            "borderBottomRightRadius" : 3,
-            "borderBottomLeftRadius" : 3,
+            "borderTopRightRadius" : 100,
+            "borderTopLeftRadius" : 100,
+            "borderBottomRightRadius" : 100,
+            "borderBottomLeftRadius" : 100,
             "borderTopWidth" : 1,
             "borderBottomWidth" : 1,
             "borderRightWidth" : 1,

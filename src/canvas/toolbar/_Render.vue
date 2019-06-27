@@ -51,11 +51,11 @@ export default {
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
-						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater"],
+						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera"],
 			hasActiveData: ["DateDropDown"],
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
 							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
-							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup", "RadioBox2"],
+							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup", "RadioBox2", "Upload", "Camera", "UploadPreview"],
 			hasLogic2: ["LogicOr"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
@@ -571,14 +571,11 @@ export default {
 				css.add(icon, 'glyphicon glyphicon-object-align-' + value);
 				a.appendChild(icon);
 
-
 				this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolAlignElements", value)));
 				this.alignButtons[value] = a;
 
 				this.addTooltip(a, "Align <b>" + value + "</b>. After click select element to align to");
 			}
-
-
 			this.properties.appendChild(content);
 			this.widgetAlignDiv = content;
 		},

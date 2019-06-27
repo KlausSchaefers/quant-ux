@@ -4,7 +4,7 @@
 		<div class="MatcUploaderCanvas " data-dojo-attach-point="canvasCntr"></div>
 		<span class="MatcUploaderIcon MatcMiddle mdi mdi-cloud-upload"> 
 		</span>
-		<input type="file" data-dojo-attach-point="file" class="MatcImageUploadFile" />
+		<input type="file" data-dojo-attach-point="file" class="MatcImageUploadFile"   />
 	</div>
 </template>
 <script>

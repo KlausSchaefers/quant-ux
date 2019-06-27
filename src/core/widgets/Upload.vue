@@ -1,10 +1,11 @@
 
 <template>
   <div class="MatcWidgetTypeUpload ">
-      <div class="MatcWidgetTypeUploadLabel" ref="labelNode">
+      <div class="MatcWidgetTypeUploadLabel" ref="labelNode" v-if="!icon">
           {{label}}
       </div>
-    
+      <span v-else :class="[icon, 'MatcWidgetTypeUploadIcon']" :style="{'font-size': size }"/>
+      <input type="file" class="MatcWidgetTypeUploadFile" ref="input" accept="image/*" capture="user" @change="onFileChange" v-if="isWired"/>
   </div>
 </template>
 <style>
@@ -25,7 +26,9 @@ export default {
     return {
       value: "",
       style: {},
-      model: {}
+      model: {},
+      bbox: {w: 20, h:20},
+      isWired: false
     };
   },
   components: {},
@@ -35,13 +38,47 @@ export default {
     },
     label () {
         if (this.model && this.model.props){
-            console.debug('this.model.props.label', this.model.props.label)
             return this.model.props.label
         }
         return ''
+    },
+    icon () {
+        if (this.model && this.model.style && this.model.style.icon){
+            return 'mdi ' + this.model.style.icon
+        }
+        return ''
+    },
+    size () {
+      if (this.bbox) {
+        return Math.round(Math.min(this.bbox.h, this.bbox.w) * 0.6) + 'px'
+      }
+      return '20px'
     }
   },
   methods: {
+
+    onFileChange (e) {
+      console.debug('onChange', e)
+      if (this.$refs.input) {
+        let files = this.$refs.input.files;
+        if (files.length === 1) {
+          let reader = new FileReader()
+          if (reader.readAsDataURL) {
+            reader.onload = () => {
+              this.setImage(reader.result, e)
+            }
+            reader.readAsDataURL(files[0])
+          }
+        }
+      }
+    },
+
+    setImage (image, e) {
+      console.debug('setImage', image)
+      this.value = image
+      this.emitDataBinding(this.value);
+      this.emitClick(e);
+    },
 
     postCreate () {
       this._borderNodes = [this.domNode];
@@ -51,10 +88,9 @@ export default {
       this._labelNodes = [this.$refs.labelNode];
     },
 
-   
-
     wireEvents () {
-      this.own(this.addClickListener(this.domNode, lang.hitch(this, 'onClick')));
+      this.isWired = true
+      // this.own(this.addClickListener(this.domNode, lang.hitch(this, 'onClick')));
       this.own(on(this.domNode, touch.over, lang.hitch(this, 'onDomMouseOver')));
       this.own(on(this.domNode, touch.out, lang.hitch(this, 'onDomMouseOut')));
     },
@@ -65,6 +101,8 @@ export default {
 
     render (model, style, scaleX, scaleY) {
       this.model = model;
+      this.bbox.w = model.w
+      this.bbox.h = model.h
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
@@ -86,7 +124,7 @@ export default {
     getState () {
       return {
         type: 'value',
-        value: this.value
+        value: ''
       };
     },
 
@@ -102,10 +140,14 @@ export default {
       }
     },
 
-    resize () {
+    resize (pos) {
+      console.debug('resize', pos.w, pos.h)
+      this.bbox.w = pos.w
+      this.bbox.h = pos.h
     },
 
-    onClick: function(e) {
+    onClick (e) {
+      console.debug('onClick')
       this.stopEvent(e);
       this.emitClick(e);
     }

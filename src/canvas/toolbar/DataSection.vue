@@ -105,7 +105,6 @@ export default {
 		},
 
 		showWidgetByProps (widget, props) {
-			console.debug("showWidgetByProps", props)
 			this._setSectionLabel(widget.type);
 
 			props.forEach(p => {
@@ -526,6 +525,12 @@ export default {
 
 		_showIcon (model){
 			this._setSectionLabel("Icon");
+			this._renderButton("Icon", "mdi mdi-settings", "_renderIconDialog");
+			this._renderColor('Color','<span class="mdi mdi-format-color-fill"></span>',model.style.color, "color", "onStyleChanged", true );
+		},
+
+		_showCamera (model){
+			this._setSectionLabel("Camera");
 			this._renderButton("Icon", "mdi mdi-settings", "_renderIconDialog");
 			this._renderColor('Color','<span class="mdi mdi-format-color-fill"></span>',model.style.color, "color", "onStyleChanged", true );
 		},

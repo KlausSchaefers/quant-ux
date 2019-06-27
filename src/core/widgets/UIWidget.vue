@@ -151,6 +151,7 @@ export default {
      *
      */
     setDataBinding: function(variable, value) {
+      
       var databinding = this.getDataBinding(this.model);
       if (databinding && databinding["default"]) {
         var widgetVarialbe = databinding["default"];

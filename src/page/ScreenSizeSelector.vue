@@ -127,7 +127,7 @@ export default {
       this._checks["custom"].setValue(true);
       css.add(this._divs["custom"], "MatcScreenSizeItemSelected");
       let type = 'smartphone'
-      if (this.inputW.value > 1200) {
+      if (this.inputW.value > 1000) {
         type = 'desktop'
       }
       this.value = {
@@ -175,8 +175,9 @@ export default {
 
     getValue: function() {
       if (this._isCustom) {
+        // Fix for Jessica
         let type = 'smartphone'
-        if (this.inputW.value > 1200) {
+        if (this.inputW.value > 1000) {
           type = 'desktop'
         }
         this.value = {

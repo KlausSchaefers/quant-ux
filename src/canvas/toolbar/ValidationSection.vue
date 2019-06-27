@@ -77,7 +77,18 @@ export default {
 			this._renderDataBinding(model);
 		},
 		
-		
+		_showCamera (model){
+			this._renderDataBinding(model);
+		},
+
+		_showUpload (model){
+			this._renderDataBinding(model);
+		},
+
+		_showUploadPreview (model){
+			this._renderDataBinding(model);
+		},
+
 		_showIconToggle (model){
 			this._renderDataBinding(model);
 		},

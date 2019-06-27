@@ -964,7 +964,7 @@ export default {
 
 			
 			setWidgetPosition (id, pos){
-				//console.debug("setWidgetPosition", id, pos);
+				console.debug("Render.setWidgetPosition", id, pos);
 				
 				var widget = this.model.widgets[id];
 				if(widget){

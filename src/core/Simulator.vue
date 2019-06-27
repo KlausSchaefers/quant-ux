@@ -1221,7 +1221,6 @@ export default {
 			 * - log state for player this.log("WidgetInit", screenID, e.id, null, state);
 			 */
 			var widgets = this.renderFactory.getAllUIWidgets();
-			
 			for(var id in widgets){
 				var uiWidget = widgets[id];
 				var changed = uiWidget.setDataBinding(variable, value);
@@ -1230,8 +1229,6 @@ export default {
 					this.log("WidgetInit", screenID, id, null, state);
 				}
 			}
-			
-			
 		},
 		
 		initDataBinding (uiWidget, screen){

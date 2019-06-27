@@ -41,6 +41,7 @@ import SVG from 'core/widgets/SVG'
 import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
 import Upload from 'core/widgets/Upload'
+import UploadPreview from 'core/widgets/UploadPreview'
 import Animation from 'core/Animation'
 import Core from 'core/Core'
 import SymbolService from 'services/SymbolService'
@@ -370,6 +371,18 @@ export default class RenderFactory extends Core {
 	}
 
 	_createUpload (parent, model) {
+		var upload = this.$new(Upload);
+		upload.placeAt(parent);
+		this._uiWidgets[model.id] = upload;
+	}
+
+	_createUploadPreview(parent, model) {
+		var upload = this.$new(UploadPreview);
+		upload.placeAt(parent);
+		this._uiWidgets[model.id] = upload;
+	}
+
+	_createCamera (parent, model) {
 		var upload = this.$new(Upload);
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
