@@ -364,3 +364,19 @@
 	padding: 3px;
 	border:1px solid #ddd;
 }
+
+.MatcLight .MatcScreenGridHandlex{
+	border-color: #555 transparent transparent transparent;
+}
+
+.MatcLight .MatcScreenGridHandley{
+	border-color: transparent transparent transparent #555;
+}
+
+.MatcLight .MatcScreenGridHandleDel.MatcScreenGridHandlex{
+	border-color: red transparent transparent transparent;
+}
+.MatcLight .MatcScreenGridHandleDel.MatcScreenGridHandley{
+	border-color: transparent transparent transparent red;
+}
+

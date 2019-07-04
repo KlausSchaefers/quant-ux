@@ -1134,7 +1134,6 @@
  ****************************************************/
 .MatcCanvasPopupBackground{
 	position: absolute;
-	background: red;
 	top:0px;
 	height:0px;
 	width:100%;
@@ -1150,6 +1149,96 @@
 	 -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
     opacity:0.6;
+}
+
+/****************************************************
+ * ScreenGrid
+ ****************************************************/
+.MatcScreenGridButtonTop{
+	height: 5px;
+	background: #49C0F0;
+	position: absolute;
+	bottom:100%;
+	left:0px;
+	width:100%;
+	cursor: s-resize;
+	opacity: 0;
+	transition: opacity 0.1s;
+	transition-delay: 0.2s;
+}
+
+.MatcScreenGridButtonTopLine{
+	position: absolute;
+	height: 1px;
+	background: #49C0F0;
+	width:100%;
+	left:0px;
+}
+
+.MatcScreenGridButtonLeftLine{
+	position: absolute;
+	width: 1px;
+	background: #49C0F0;
+	height: 100%;
+	top:0px;
+}
+
+.MatcScreenGridHandle{
+	width: 8px;
+	height: 8px;
+	position: absolute;
+	border-style: solid;
+	opacity: 1;
+	transition: opacity 0.2s;
+}
+
+.MatcScreenDnD:hover .MatcScreenGridHandle{
+	opacity: 1
+}
+
+.MatcScreenGridHandlex{
+	top: -8px;
+	border-radius: 0px;
+	border-width: 5px 5px 0px 5px;
+	border-color: #49C0F0 transparent transparent transparent;
+	background: none;
+	cursor:ew-resize;
+	transform: translateX(-5px);
+}
+
+.MatcScreenGridHandley{
+	left: -8px;
+	border-radius: 0px;
+	border-width: 5px 0 5px 5px;
+	border-color: transparent transparent transparent #49C0F0;
+	background: none;
+	cursor:ns-resize;
+	transform: translateY(-5px);
+}
+
+.MatcScreenGridHandleDel.MatcScreenGridHandlex{
+	border-color: red transparent transparent transparent;
+}
+.MatcScreenGridHandleDel.MatcScreenGridHandley{
+	border-color: transparent transparent transparent red;
+}
+
+.MatcScreenGridButtonLeft{
+	height: 100%;
+	background: #49C0F0;
+	position: absolute;
+	right:100%;
+	top:0px;
+	width:5px;
+	cursor: e-resize;
+	opacity: 0;
+	transition: opacity 0.1s;
+	transition-delay: 0.2s;
+}
+
+.MatcScreenGridButtonTop:hover,
+.MatcScreenGridButtonLeft:hover{
+	opacity: 0.5;
 }
 
  

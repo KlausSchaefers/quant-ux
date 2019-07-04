@@ -2,7 +2,172 @@ import CopyPaste from 'canvas/controller/CopyPaste'
 import lang from 'dojo/_base/lang'
 
 export default class Screen extends CopyPaste {
-   
+
+	/**********************************************************************
+	 * Screen Grid
+	 **********************************************************************/	
+
+	updateScreenRuler (screenID, pos, ruler) {
+		this.logger.log(0,"updateScreenRuler", "enter > screen : " + screenID + " > " + pos.type);
+		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
+		var screen = this.model.screens[screenID];
+		
+		if(screen && screen.rulers) {
+			let oldRuler = screen.rulers.find(r => r.id === ruler.id)
+			if (oldRuler){
+				let v = 0
+				if (ruler.type === 'y') {
+					v = pos.y - screen.y
+				} else {
+					v = pos.x - screen.x
+				}
+				
+				var command = {
+					timestamp : new Date().getTime(),
+					type : "ScreenRulerUpdate",
+					o: oldRuler.v,
+					n: v,
+					rulerID : ruler.id,
+					screen : screenID
+				};			
+				this.addCommand(command);
+				this.modelScreenRulerUpdate(screenID, ruler.id, v);
+				return screen.rulers
+			}
+		}
+	}
+
+	modelScreenRulerUpdate (screenID, rulerID, v) {
+		var screen = this.model.screens[screenID];
+		if (screen && screen.rulers) {
+			let oldRuler = screen.rulers.find(r => r.id === rulerID)
+			if (oldRuler) {
+				oldRuler.v = v
+				this.onModelChanged();
+			} else {
+				console.warn('con')
+			}
+		}
+	}
+
+	undoScreenRulerUpdate(command) {
+		this.modelScreenRulerUpdate(command.screen, command.rulerID, command.o);
+		this.render();
+	}
+
+	redoScreenRulerUpdate (command) {
+		this.modelScreenRulerUpdate(command.screen, command.rulerID, command.n);
+		this.render();
+	}
+
+	/**********************************************************************
+	 * Remove Ruler 
+	 **********************************************************************/	
+
+	removeScreenRuler (screenID, ruler) {
+		this.logger.log(0,"removeScreenRuler", "enter > screen : " + screenID + " > " + ruler.type);
+		var screen = this.model.screens[screenID];
+		if(screen && screen.rulers) {
+			var command = {
+				timestamp : new Date().getTime(),
+				type : "ScreenRulerRemove",
+				ruler: ruler,
+				screen : screenID
+			};			
+			this.addCommand(command);
+			this.modelScreenRulerRemove(screenID, ruler);
+			return screen.rulers
+		} else {
+			this.logger.error("removeScreenRuler", "enter > No screen : " + screenID + " > " + ruler.type);
+		}
+	}
+
+	undoScreenRulerRemove (command) {
+		this.modelScreenRulerAdd(command.screen, command.ruler);
+		this.render();
+	}
+
+	redoScreenRulerRemove (command) {
+		this.modelScreenRulerRemove(command.screen, command.ruler);
+		this.render();
+	}
+
+ 	/**********************************************************************
+	 * Add Ruler 
+	 **********************************************************************/	
+
+	addScreenRuler (screenID, pos, type) {
+		this.logger.log(0,"addScreenRuler", "enter > screen : " + screenID + " > " + pos.y);
+
+		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
+		var screen = this.model.screens[screenID];
+		
+		if(screen){
+			let v = 0
+			if (type === 'y') {
+				v = pos.y - screen.y
+			} else {
+				v = pos.x - screen.x
+			}
+			let ruler = {
+				id: 'sg' + this.getUUID(),
+				type: type,
+				v: v
+			}
+			var command = {
+				timestamp : new Date().getTime(),
+				type : "ScreenRulerAdd",
+				ruler : ruler,
+				screen : screenID
+			};			
+			this.addCommand(command);
+			this.modelScreenRulerAdd(screenID, ruler);
+			return screen.rulers
+		}
+	}
+
+	modelScreenRulerAdd (screenID, ruler) {
+		var screen = this.model.screens[screenID];
+		if (screen) {
+			if (!screen.rulers) {
+				screen.rulers = []
+			}
+			screen.rulers.push(ruler)
+			this.onModelChanged();
+		}
+	}
+
+	modelScreenRulerRemove(screenID, ruler) {
+		var screen = this.model.screens[screenID];
+		if (screen) {
+			if (screen.rulers) {
+				screen.rulers = screen.rulers
+					.map(r =>  {
+						if (r.id !== ruler.id) {
+							return r
+						}
+						return null
+					})
+					.filter(r => r !== null)
+			}
+			this.onModelChanged();
+		}
+	}
+
+	undoScreenRulerAdd (command){
+		this.modelScreenRulerRemove(command.screen, command.ruler);
+		this.render();
+	}
+	
+	redoScreenRulerAdd (command){
+		this.modelScreenRulerAdd(command.screen, command.ruler);
+		this.render();
+	}	
+
+   	/**********************************************************************
+	 * Screen Animation
+	 **********************************************************************/	
+
 	setScreenAnimation (screenID, eventType, animation){
 		this.logger.log(0,"setScreenAnimation", "enter > screen : " +screenID + " >" +eventType);
 		var screen = this.model.screens[screenID];
@@ -19,7 +184,6 @@ export default class Screen extends CopyPaste {
 			};			
 			this.addCommand(command);
 			this.modelScreenAnimation(screenID, eventType, animation);
-				
 		}			
 	}	
 	modelScreenAnimation (screenID, eventType, animation){

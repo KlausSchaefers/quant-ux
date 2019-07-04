@@ -1171,11 +1171,10 @@ export default {
 		onExit(){
 			this.logger.log(0,"onExit", "entry", this.isPublic);
 			if(this.isPublic){
-				hash("#/examples/"+ this.model.id + "/design.html");
+				hash("#/examples/"+ this.model.id + "/analyze.html");
 			} else {
-				hash("#/apps/"+ this.model.id + "/design.html");
+				hash("#/apps/"+ this.model.id + "/analyze.html");
 			}
-			
 		},
 		
 		onShare(){

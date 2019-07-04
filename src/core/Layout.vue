@@ -529,7 +529,6 @@ export default {
       if (model.screenSize) {
         return model.screenSize;
       }
-      console.debug("getBoxToScale() > box", model);
       return model;
     },
 

@@ -279,32 +279,23 @@ export default {
 		showQRDialog:function(e){
 			this.stopEvent(e);
 			
-
 			var dialog = this.db
 				.div("MatchTestQRDialog MatcPadding")
 				.build(dialog);
 		
 			var img = this.db.img().build(dialog)
 			css.add(img, "MatcSimulatorQR");
-			QR.getQRCode(this.hash, this.debug || !this.logging, false).then(url => {
+			QR.getQRCode(this.hash, true, false).then(url => {
 				img.src = url
 			})		
-			//if(this.debug || !this.logging){
-			//	img.src = "rest/invitation/hash/" + this.hash+ "/debug.jpg";
-			//} else {
-			//	img.src = "rest/invitation/hash/" + this.hash + "/test.jpg";
-			//}
 			
-			this.db
-				.div("MatcHint MatchTestQRDialogHint", this.getNLS("test.qr.headline"))
+			this.db.div("MatcHint MatchTestQRDialogHint", this.getNLS("test.qr.headline"))
 				.build(dialog);
 			
 			var d = new Dialog();
 			d.popup(dialog, e.target);
-			
 		},
 
-		
 		renderSimulator:function(){
 
 	

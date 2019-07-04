@@ -584,8 +584,6 @@ export default {
 					this.container.appendChild(this.widgetContainer);
 				}
 				
-				
-				
 				if(this._afterRenderCallBack ){
 					/**
 					 * Call the callback to make sure it is not running in request animationframe
@@ -601,9 +599,6 @@ export default {
 			addAfterRenderCallBack (fct){
 				this._afterRenderCallBack = fct;
 			},
-			
-
-			
 			
 			renderScreen (screen){
 				this.logger.log(4,"renderScreen", "enter");
@@ -641,6 +636,7 @@ export default {
 				 */
 				this.renderFactory.setStyle(backgroundDiv, screen);
 				this.renderGrid(dndDiv, screen);
+				this.renderScreenButtons(dndDiv, screen)
 			
 				return dndDiv;
 			},
@@ -678,6 +674,11 @@ export default {
 				return div;
 			},
 			
+			renderScreenButtons () {
+				/**
+				 * Methdod to be implemented by mixins
+				 */
+			},
 			
 			/**************************************************
 			 * CleanUp Code
@@ -753,10 +754,16 @@ export default {
 				this.cleanUpResizeHandles();
 				
 				this.cleanUpAddNDrop();
+
+				this.cleanUpScreenButtons();
 			},
 			
-
-			
+			cleanUpScreenButtons () {
+				// console.warn('cleanUpScreenButtons() > Not Implemented')
+				/**
+				 * Methdod to be implemented by mixins
+				 */
+			},
 			
 			/**********************************************************************
 			 * Create methods that assemble box stuff

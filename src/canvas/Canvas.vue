@@ -75,13 +75,14 @@ import Scroll from 'canvas/Scroll'
 import Upload from 'canvas/Upload'
 import Comment from 'canvas/Comment'
 import Layer from 'canvas/Layer'
+import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 
 // var _matcIcons = []
 
 export default {
   name: 'Canvas',
-	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler],
+	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler],
     data: function () {
         return {
          		mode: "edit", 
@@ -229,15 +230,15 @@ export default {
 				}
 			},
 
-			getMode:function(){
+			getMode (){
 				return this.mode;
 			},
 			
-			getStatusBar:function(){
+			getStatusBar (){
 				return this.status;
 			},
 			
-			onExit:function(){
+			onExit (){
 				this.logger.log(-1,"onExit", "enter > " );
 				this.active = false;
 			}, 
@@ -246,8 +247,8 @@ export default {
 			 * Settings
 			 ***************************************************************************/
 
-			initSettings:function(){
-				this.logger.log(1,"initSettings", "enter > " );
+			initSettings (){
+				this.logger.log(2, "initSettings", "enter > " );
 				/**
 				 * default settings
 				 */
@@ -312,14 +313,14 @@ export default {
 				this.applySettings(this.settings);
 			},
 			
-			getSettings:function(){
+			getSettings (){
 				return this.settings;
 			},
 			
 			/**
 			 * Called from the dialog
 			 */
-			setSettings:function(s){
+			setSettings (s){
 				/**
 				 * Mixin values
 				 */
@@ -355,8 +356,8 @@ export default {
 				this.rerender();
 			},
 			
-			applySettings:function(s){
-				this.logger.log(0,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
+			applySettings (s){
+				this.logger.log(2,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
 				
 				if(s.moveMode){
 					this.moveMode = s.moveMode;
@@ -414,7 +415,7 @@ export default {
 			 ***************************************************************************/
 
 
-			showGrid:function(){
+			showGrid (){
 				
 				var db = new DomBuilder();
 				var popup = db.div("MatcGridSelectorDialogContent MatcPadding").build();
@@ -433,7 +434,7 @@ export default {
 				dialog.popup(popup, this.gridBtn);
 			},
 			
-			setGrid2:function(selector){
+			setGrid2 (selector){
 			
 				if(selector.isValid()){
 					var grid = selector.getValue();
@@ -449,7 +450,7 @@ export default {
 				}
 			},
 
-			isInt:function(value){
+			isInt (value){
 				var er = /^-?[0-9]+$/;
 				return er.test(value);
 			},
@@ -458,14 +459,14 @@ export default {
 			 * Dialog Handling
 			 ***************************************************************************/
 			
-			createDialog:function(){
+			createDialog (){
 				this.dialog = new Dialog();
 				//this.dialog.wrapperClass =  "MatcCanvasDialogWrapper";
 				this.state = "dialog";
 				return this.dialog;
 			},
 			
-			closeDialog:function(){
+			closeDialog (){
 				this.state =0;
 				
 				if(this.dialog){
@@ -474,7 +475,7 @@ export default {
 				this.dialog = null;
 			},
 			
-			setState:function(s){
+			setState (s){
 				this.state = s;
 			},
 			
@@ -482,7 +483,7 @@ export default {
 			 * Keyboard handling
 			 ***************************************************************************/
 			
-			onKeyPress:function(e){
+			onKeyPress (e){
 				
 				this._currentKeyEvent = e;
 				var k = e.keyCode ? e.keyCode : e.which;
@@ -767,14 +768,14 @@ export default {
 				
 			},
 			
-			getCurrentKeyCode :function() {
+			getCurrentKeyCode  () {
 				if(this._currentKeyEvent){
 					return this._currentKeyEvent.keyCode ? this._currentKeyEvent.keyCode : this._currentKeyEvent.which
 				}
 				return -1;
 			},
 			
-			onKeyUp:function(e){
+			onKeyUp (e){
 				
 				if(this.state == "simulate" || this.state == "dialog"){
 					return;
@@ -848,11 +849,11 @@ export default {
 			 * Helper Functons
 			 ***************************************************************************/
 
-			initMouseTracker:function(){
+			initMouseTracker (){
 				this.own(on(win.body(),"mousemove", lang.hitch(this,"onMouseMove")));
 			},
 
-			onMouseMove:function(e){
+			onMouseMove (e){
 				var pos2 = this.getCanvasMousePosition(e, true);
 				/**
 				 * if we show, only with in screen position... dunno if this gets to slow...
@@ -860,7 +861,7 @@ export default {
 				this._lastMousePos = pos2;
 				this._lastMouseMoveEvent = e;
 			},
-			destroy:function(){
+			destroy (){
 				this.cleanUp();
 				this._dojoCleanUpOwn();
 				this._dojoCleanUpEvent();
