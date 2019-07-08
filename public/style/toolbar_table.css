@@ -30,8 +30,6 @@
 	cursor: col-resize;
 }
 
-
-
 .MatcToolbarTableBody{
 	height: 400px;
 	overflow: hidden;
@@ -69,13 +67,10 @@
 	overflow: hidden;	
 }
 
-
-
 .MatcToolbarTable thead td{
 	text-align: center;
 	background: #eee;
 	color:#cecece;
-	
 }
 
 .MatcToolbarTable tr td:FIRST-CHILD, .MatcToolbarTable tr td:FIRST-CHILD{

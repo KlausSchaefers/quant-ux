@@ -225,16 +225,10 @@
  /****************************************************
  * App List
  ****************************************************/
-	
-.MatcAppList{
-	
-}
 
 .MatcAppList .MatcListItem{
 	margin-bottom: 50px;
 }
-
-
 
 .MatcAppList .MatcListItem:HOVER{
 	margin-bottom: 50px;
@@ -244,23 +238,10 @@
 	text-decoration: none;
 }
 
-
-.XMatcAppList .MatcListItem .MatcSimulator{
-	transition: all 0.2s;
-}
-
-
-.XMatcAppList .MatcListItem:HOVER .MatcSimulator{
-	transform: scale(1.01);
-}
-
-
 .MatcAppListItem{
 	position: relative;
 	display: inline-block;
 }
-
-
 
 .MatcAppListItem:LAST-CHILD{
 	margin-right: 0px;

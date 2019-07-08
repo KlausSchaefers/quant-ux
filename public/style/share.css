@@ -145,12 +145,6 @@
 	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15);
 }
 
-
-.MatcTestScreenPreviewSelected{
-
-}
-  
-
 .MatcShareMenu .MatcTestScreenPreview .MatcPreviewWrapper{
 	width:170px;
 	height:160px;
@@ -161,7 +155,6 @@
 	font-size: 14px;
 	padding-top: 10px;
 }
-
 
 .MatcShareRow{
 	position: relative;

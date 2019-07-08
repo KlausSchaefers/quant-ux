@@ -1,13 +1,7 @@
-.MCU .MatcHeader{
-	
-		
-}
-
 
 .MCUChip{
 	display: inline-block;
 	padding: 3px 10px;
-	
 	background:#1973e8;
 	border-radius:30px;
 	color:#fff;

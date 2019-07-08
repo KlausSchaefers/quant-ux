@@ -484,8 +484,6 @@
 }
 
 
-
-
 .VommondProgressContainer,
 .vommondBulletGraphContainer{
 	background: #ccc;
@@ -1263,10 +1261,10 @@
 
 }
  
- .MatcDashBarAxisLabel{
+.MatcDashBarAxisLabel{
  	height: 20px;
  	bottom:-20px;
  	position: absolute;
  	text-align: center;
  	color: #cecece;
- }
+}

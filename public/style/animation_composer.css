@@ -165,8 +165,6 @@
 	position:relative;
 }
 
-
-
 .MatcAnimationComposerTimeBar{
 	position:absolute;
 	top:20px;
@@ -337,4 +335,3 @@
 	background:rgba(73,192,240,0.3);
 	outline:1px solid #49C0F0;
 }
-

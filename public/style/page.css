@@ -314,12 +314,6 @@ body{
     border-color: #fff;
 }
 
-
-
-.MatcAbout .MatcSection:nth-child(odd){
-
-}
-
 .MatcAbout .MatcSection:nth-child(odd) h2, 
 .MatcAbout .MatcSection:nth-child(odd) h1{
 	color:#1c78d3;

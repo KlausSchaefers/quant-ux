@@ -173,11 +173,9 @@
 	transition-duration:0.2s;
 }
 
-
 .MatcActionSettingsPlay:HOVER, .MatcActionSettingsAnimCntr:hover .MatcActionSettingsPlay {
 	text-shadow: 0 0 2px #fff;
 }
-
 
 .MatcActionSettingsScreenOld{
 	background: #fff;
@@ -199,7 +197,6 @@
 .MatcAction{
 	width: 100%;  
 }
-
 
 .MatcAction .MatcMultiActionDropDown.MatcToolbarDropDownButton{
 	text-align: center;

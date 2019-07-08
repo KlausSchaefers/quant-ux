@@ -102,11 +102,9 @@ input:focus{
 	border: 1px #1973e8 dashed;
 }
 
-
 /****************************************************
  * Buttons
  ****************************************************/
-
 
 .MatcLinkButton{
 	padding: 3px 5px;
@@ -116,7 +114,6 @@ input:focus{
 	font-size: 18px;
 }
 
-
 .MatcLinkBox{
     color: #333;
     display: inline-block;
@@ -124,7 +121,7 @@ input:focus{
 
 .MatcLinkBox:hover{
 	color:#333;	
-		text-decoration: none;
+	text-decoration: none;
 }
 
 .MatcLinkBoxMessage{
@@ -133,7 +130,7 @@ input:focus{
 	transition-duration:0.5s;
 	color:#999;
 	font-weight: 300;
-		text-decoration: none;
+	text-decoration: none;
 }
 .MatcLinkBox:hover .MatcLinkBoxMessage{
 	opacity:1;
@@ -141,7 +138,7 @@ input:focus{
 }
 
 .MatcLinkButton:hover{
-	color:#337ab7;
+	color:#1973e8;
 	text-decoration: underline;
 }
 
@@ -494,6 +491,10 @@ input:focus{
 	text-align: left;
 }
 
+.MatcDialog .MatcButtonBar{
+	margin-top: 20px;
+}
+
 .MatcButtonBarRelative{
 	position: relative;
 }
@@ -764,7 +765,6 @@ input:focus{
 .VommondRadioBox{
 	height: 24px;
 	width: 24px;
-
 	background-color: #fff;
     background-image: none;
     border: 1px solid #ccc;
@@ -774,18 +774,12 @@ input:focus{
  	background-color: #fff;
     background-image: none;
     border: 1px solid #ccc;
-
  	border-radius: 6px;
     font-size: 18px;
     line-height: 1.33;
     padding: 10px 16px;
- }
- 
-
-textarea.form-control {
-	
 }
-
+ 
 textarea.form-control.MatcTextAreaSmall{
 	height: 30px;
 	overflow: hidden;

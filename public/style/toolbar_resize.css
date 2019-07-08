@@ -35,8 +35,6 @@
     background: #242a30;
 }
 
-
-
 .MatcToolbarResizePin > div{
     color:#555;
     cursor: pointer;
@@ -55,7 +53,6 @@
 .MatcToolbarResizeActive .MatcToolbarResizePinLine {
     background: #1973e8;
 }
-
 
 .MatcToolbarResizePinUp{
     position: absolute;

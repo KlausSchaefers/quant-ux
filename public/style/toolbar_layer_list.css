@@ -122,9 +122,6 @@
 	vertical-align: center;
 }
 
-
-
-
 .MatcLayerListDragOver{
 	border-top:3px solid #1973e8; 
 }
@@ -157,18 +154,26 @@
 
 }
 
- .MatcLayerListNodeSelected,
- .MatcLayerListNodeSelected .MatcLayerListWidget,
- .MatcLayerListNodeSelected .MatcLayerListGroup,
- .MatcLayerListNodeSelected:hover,
- .MatcLayerListNodeSelected,
- .MatcLight .MatcLayerListNodeSelected.MatcLayerListWidget,
- .MatcLight .MatcLayerListNodeSelected.MatcLayerListGroup,
- .MatcLight .MatcLayerListNodeSelected:hover,
- .MatcLight .MatcLayerListNodeSelected:hover{
+.MatcLayerListNodeSelected,
+.MatcLayerListNodeSelected .MatcLayerListWidget,
+.MatcLayerListNodeSelected .MatcLayerListGroup,
+.MatcLayerListNodeSelected:hover,
+.MatcLayerListNodeSelected,
+.MatcLight .MatcLayerListNodeSelected.MatcLayerListWidget,
+.MatcLight .MatcLayerListNodeSelected.MatcLayerListGroup,
+.MatcLight .MatcLayerListNodeSelected:hover,
+.MatcLight .MatcLayerListNodeSelected:hover{
 	background: #1973e8;
 	color:#fff;
 }
+
+.MatcLayerListNodeSelected .MatcLayerListRowIcon,
+.MatcLayerListNodeSelected:hover .MatcLayerListRowIcon,
+.MatcLight .MatcLayerListNodeSelected .MatcLayerListRowIcon,
+.MatcLight .MatcLayerListNodeSelected:hover .MatcLayerListRowIcon{
+   color:#fff;
+}
+
 
 .MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel{
 	border-top:1px solid #ddd;
