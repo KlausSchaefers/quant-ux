@@ -254,7 +254,7 @@
 }
 
 .MatcAnimationComposer .VommondSliderHandleIcon{
-	background: #56A9FC none repeat scroll 0 0;
+	background: #1973e8 none repeat scroll 0 0;
     border-radius: 0;
     display: inline-block;
     height: 10px;
@@ -284,7 +284,7 @@
 
 .MatcAnimationComposer .VommondSliderBar,
 .MatcAnimationComposer .VommondSliderHandleIcon{
-	background:#56A9FC;
+	background:#1973e8;
 }
 
 .MatcIconBorderLeft{

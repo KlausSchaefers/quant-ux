@@ -99,7 +99,7 @@ input:focus{
 }
 
 .MatcInlineEdit:focus{
-	border: 1px #56A9FC dashed;
+	border: 1px #1973e8 dashed;
 }
 
 
@@ -112,7 +112,7 @@ input:focus{
 	padding: 3px 5px;
 	display: inline-block;
 	cursor: pointer;
-	color:#56A9FC;
+	color:#1973e8;
 	font-size: 18px;
 }
 
@@ -149,10 +149,9 @@ input:focus{
 .MatcButton{
 	display: inline-block;
 	padding: 3px 20px;
-	border:1px solid #56A9FC;
+	border:1px solid #1973e8;
 	border-radius:3px;
-
-	color:#56A9FC;
+	color:#1973e8;
 	cursor: pointer;
 	transition: all 0.25s;
 	text-align: left;
@@ -161,14 +160,14 @@ input:focus{
 }
 
 .MatcButton:HOVER{
- 	background: #56A9FC;
+ 	background: #1973e8;
 	text-decoration: none;
 	color:#fff;
 }
 
 
 .MatcButtonSignUp{
-	background: #56A9FC;
+	background: #1973e8;
 	text-decoration: none;
 	color:#fff;	
 }
@@ -194,7 +193,7 @@ input:focus{
 	margin-left: 3px;
 }
 .MatcButtonActive{
- 	background: #56A9FC;
+ 	background: #1973e8;
 	text-decoration: none;
 	color:#fff;
 }
@@ -360,11 +359,11 @@ input:focus{
 }
 
 .MatcSegmentButton .MatcButton:first-child {
-	border-left:1px solid #56A9FC
+	border-left:1px solid #1973e8
 }
 
 .MatcSegmentButton .MatcButton.MatcDropDownButtonSelected{
-	background: #56A9FC;
+	background: #1973e8;
 	color:#FFF;
 }
 
@@ -561,7 +560,7 @@ input:focus{
 	margin: 0px;
 	padding:3px 10px;
 	border-radius:0px;
-	border-bottom:1px solid #56A9FC;
+	border-bottom:1px solid #1973e8;
 }
 
 .MatcVerticalButtonGroup .MatcButton:HOVER{
@@ -576,7 +575,7 @@ input:focus{
 .MatcVerticalButtonGroup .MatcButton:last-child{
 	border-bottom-right-radius:3px;
 	border-bottom-left-radius:3px;
-	border-bottom: 2px solid #56A9FC; 
+	border-bottom: 2px solid #1973e8; 
 }
 
 .MatcVerticalButtonGroup .MatcButton:last-child:HOVER{
@@ -680,7 +679,7 @@ input:focus{
 }
 
 .MatcDropDownPopUp li.MatcDropDownButtonSelected{
-	background: #56A9FC;
+	background: #1973e8;
 	color: #fff;
 }
 
@@ -703,19 +702,19 @@ input:focus{
 }
 
 .MatcForm .VommondSliderBar{
-	background: #56A9FC;	
+	background: #1973e8;	
 }
 
 .MatcForm .VommondSliderHandle{
-	background: #56A9FC;	
+	background: #1973e8;	
 	border-radius: 2px;
     height: 21px;
-    border-color:#56A9FC;
+    border-color:#1973e8;
 }
 
 .MatcForm .VommondSliderHandle:hover{
-	background: #56A9FC;	
-    border-color:#56A9FC;
+	background: #1973e8;	
+    border-color:#1973e8;
 }
 
 .MatcForm .vommondLegendBarItem{
@@ -728,7 +727,7 @@ input:focus{
 
 
 .MatcForm  .VommondRadioBoxMark{
-	background:#56A9FC;
+	background:#1973e8;
 }
 
 
@@ -808,7 +807,10 @@ textarea.form-control.MatcTextAreaSmall{
 }
 
 .form-group .MatcDropDownButton:HOVER{
- 	border: 1px solid #66afe9;
+ 	border: 1px solid #1973e8;
  	background:none;
 }
 
+.form-control:focus {
+	border-color: #1973e8;
+}

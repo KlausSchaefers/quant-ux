@@ -114,7 +114,7 @@
 	cursor: pointer;
 }
 .MatcLayerListExpandIcon:hover{
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 
@@ -126,7 +126,7 @@
 
 
 .MatcLayerListDragOver{
-	border-top:3px solid #56A9FC; 
+	border-top:3px solid #1973e8; 
 }
 
 .MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection{
@@ -166,7 +166,7 @@
  .MatcLight .MatcLayerListNodeSelected.MatcLayerListGroup,
  .MatcLight .MatcLayerListNodeSelected:hover,
  .MatcLight .MatcLayerListNodeSelected:hover{
-	background: #56A9FC;
+	background: #1973e8;
 	color:#fff;
 }
 

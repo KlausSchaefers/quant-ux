@@ -35,7 +35,7 @@
 }
 
 .MatcDashTaskPerfGram .MatcToolbarTabs a:hover{
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 
@@ -187,7 +187,7 @@
 
 .MatcDashTaskPerfGramBar{
 	position: absolute;
-	background-color: #56A9FC;
+	background-color: #1973e8;
 	border-top-right-radius:3px;
 	border-bottom-right-radius:3px;
 	transition: all 0.2s;
@@ -492,7 +492,7 @@
 }
 
 .VommondProgressBar{
-	background:#56A9FC;
+	background:#1973e8;
 }
 
 
@@ -550,7 +550,7 @@
 }
 
 .DashTaskListChartBtn:hover{
-	color: #56a9fc;
+	color: #1973e8;
 }
 
 

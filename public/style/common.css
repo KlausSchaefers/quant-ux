@@ -23,7 +23,7 @@ textarea{
 a{
 	outline: none;
 	cursor: pointer;
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 a:FOCUS{
@@ -256,7 +256,7 @@ a:FOCUS{
 }
 
 .MatcHelpIcon:hover{
-	color:#56a9fc
+	color:#1973e8
 }
 
  /****************************************************
@@ -290,7 +290,7 @@ a:FOCUS{
 	font-weight: bold;
 	margin-top: 0px;
 	margin-bottom: 20px; 
-	color:#56A9FC; 
+	color:#1973e8; 
 }
 
 
@@ -343,7 +343,7 @@ a:FOCUS{
 
 
 .MatcDialogLogo{
-	background: none repeat scroll 0 0 #56A9FC;
+	background: none repeat scroll 0 0 #1973e8;
     color: #fff;
     font-size: 70px;
     height: 100px;

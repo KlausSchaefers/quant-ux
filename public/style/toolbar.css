@@ -62,7 +62,7 @@
 	width:100%;
 	text-align: center;
 	font-size: 14px;
-	background: #56A9FC;
+	background: #1973e8;
 	text-decoration: none;
 	color:#fff;
 }
@@ -92,7 +92,7 @@
 }
 
 .MatcToolbar .vommondToolTipLabel,  .MatcToolbar .vommondToolTipArrow{
-	background:#56A9FC;
+	background:#1973e8;
 }
 
 .MatcToolbarHintCntr{
@@ -175,7 +175,7 @@
 
 .MatcToobarLeft .MatcToolbarItem:hover,
 .MatcToolbarTop .MatcToolbarItem:hover{
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 .MatcIconBox{
@@ -411,7 +411,7 @@
 }
 
 .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive{
-	color:#56a9fc;
+	color:#1973e8;
 }
 
 .MatcToolbarIcon-vertical{
@@ -666,16 +666,16 @@
 	background: none;
 }
 .MatcToolbar .MatcToolbarDropDownButton .MatcCreateBtnCntr li:HOVER a{
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 .MatcToolbarDropDownButton .MatcCreateBtnCntr li.MatcSelected a{
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 .MatcToolbarDropDownButton .MatcCreateBtnCntr li.MatcSelected{
-	border-bottom:1px solid #56A9FC;
-	color:#56A9FC;
+	border-bottom:1px solid #1973e8;
+	color:#1973e8;
 }
 
 .MatcToolbarDropDownButton .MatcCreateBtnCntr li:HOVER a,
@@ -715,7 +715,7 @@
 
 .MatcToolbarDropDownButtonItem:HOVER,
 .MatcCreateBtnElementSelected.MatcToolbarDropDownButtonItem{	
-	border:1px solid #56A9FC;
+	border:1px solid #1973e8;
 }
 
 
@@ -748,7 +748,7 @@
  ****************************************************/
  
  .MatcToobarHomeSection{
- 	background: #56A9FC;
+ 	background: #1973e8;
  	transition-duration: 0.25s;
  }
  
@@ -943,7 +943,7 @@
 }
 
 .MatcToobarRowRightIcon:HOVER{
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 .MatcToolBarNumberCntr{
@@ -1077,7 +1077,7 @@
 }
 
 .MatcToolbarTabs a.MatcToolbarTabActive{
-	border-bottom: 1px solid #56A9FC;
+	border-bottom: 1px solid #1973e8;
 }
 
 
@@ -1103,11 +1103,11 @@
 }
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a:HOVER{
-	border-bottom: 2px solid #56A9FC;
+	border-bottom: 2px solid #1973e8;
 }
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a:HOVER{
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 

@@ -156,7 +156,7 @@
 .MatcActionSettingsAnimCntr{
 	width:150px;
 	height: 130px;
-	border:1px solid #56a9fc;
+	border:1px solid #1973e8;
 	overflow: hidden;
     position: relative;
     border-radius:3px;
@@ -164,7 +164,7 @@
 }
 
 .MatcActionSettingsAnimCntrPlaying, .MatcActionSettingsAnimCntr:hover{
-	border:1px solid #56a9fc;
+	border:1px solid #1973e8;
 }
 
 .MatcActionSettingsPlay{
@@ -187,7 +187,7 @@
 }
 
 .MatcActionSettingsScreenNew{
-	background: #56a9fc;
+	background: #1973e8;
 	height: 100%;
 	width: 100%;
 	position: absolute;
@@ -211,12 +211,12 @@
 
 .MatcMultiActionDropDownPopup.MatcToolbarPopUp {
 	width:200px;
-	background: #56a9fc;	
+	background: #1973e8;	
 	color:#fff;
 }
 
 .MatcMultiActionDropDownPopup.MatcToolbarPopUp .MatcToolbarPopUpArrow{
-	background: #56a9fc;	
+	background: #1973e8;	
 }
 
 .MatcToolbarDropDownButtonPopup.MatcMultiActionDropDownPopup li:hover {
@@ -655,14 +655,14 @@
 .MatcSliderTable .VommondSliderBar{
 	height: 3px;
 	top:-1px;
-	background: #56A9FC;
+	background: #1973e8;
 }
 
 
 
 
 .MatcSliderTable .VommondSliderMoving .VommondSliderBar{
-	background: #56A9FC;
+	background: #1973e8;
 }
 
 .MatcSliderTable .VommondCheckBox{
@@ -672,7 +672,7 @@
 
 .MatcSliderTable .VommondSliderHandle{
 	background: #fff none repeat scroll 0 0;
-    border: 1px solid #56A9FC;
+    border: 1px solid #1973e8;
     border-radius: 50%;
     height: 19px;
     width: 19px;
@@ -681,8 +681,8 @@
 
 
 .MatcSliderTable .VommondSliderMoving .VommondSliderHandle{
-	background: #56A9FC;
-	border:1px solid #56A9FC;
+	background: #1973e8;
+	border:1px solid #1973e8;
 }
 
 
@@ -1044,7 +1044,7 @@ input.MatcToobarInlineEditDisabled:focus{
 
 
 .MatcToolbarPopupSelected{
-	background: #56A9FC;
+	background: #1973e8;
 	color:#fff;
 }
 
@@ -1502,11 +1502,11 @@ td.MatcGradientBox.MatcColorBox span{
 .MatcToolbarSlider .VommondSliderBar{
 	height: 3px;
 	top:-1px;
-	background: #56A9FC;
+	background: #1973e8;
 }
 
 .MatcToolbarSlider .VommondSliderMoving .VommondSliderBar{
-	background: #56A9FC;
+	background: #1973e8;
 }
 
 .MatcToolbarSlider .VommondSliderMarkContainer{
@@ -1527,7 +1527,7 @@ td.MatcGradientBox.MatcColorBox span{
 }
 
 .MatcToolbarSlider .VommondSliderMoving .VommondSliderHandle{
-	background: #56A9FC;
-	border:1px solid #56A9FC;
+	background: #1973e8;
+	border:1px solid #1973e8;
 }
 

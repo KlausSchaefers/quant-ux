@@ -301,12 +301,12 @@ body{
 }
 
 .MatcHeaderActionContainer .MatcButton {
-    border-color: #56A9FC;
+    border-color: #1973e8;
     box-shadow: none;
     background:none;
     color: #fff;
     font-size: 30px;
-    color:#56A9FC;
+    color:#1973e8;
 }
 
 .MatcHeaderActionContainer .MatcButton:HOVER {
@@ -957,22 +957,6 @@ textarea.MatcContentWidgetAbs{
 	height:100%;
 }
 
-
-/****************************************************
- * DropBox
- ****************************************************/
-
-.MatcDropBox{
-	
-}
-
-.MatcDropBox.MatcUploaderLoading  .MatcUploaderIcon.mdi{
-	color:#49c0f0;
-}
-.MatcDropBox:HOVER, .MatcDropBox.MatcUploaderDnD {
-	background-color: #49c0f0;
-}
- 
 /****************************************************
  * Team
  ****************************************************/
@@ -1010,7 +994,7 @@ textarea.MatcContentWidgetAbs{
 	font-size: 30px;
 	overflow: hidden;
 	text-align: center;
-	color:#56A9FC;
+	color:#1973e8;
 }
 
 .MatcUserAdd{
@@ -1072,7 +1056,7 @@ textarea.MatcContentWidgetAbs{
 	overflow: hidden;
 	color:#fff;
 	font-size: 70px;
-	background: #56A9FC;
+	background: #1973e8;
 }
 
 .MatcTeamDialog .MatcTeamItem{
@@ -1105,7 +1089,7 @@ textarea.MatcContentWidgetAbs{
  
  .MatcSettings .MatcUserImageNone, .MatcSettings .MatcUserAdd{
  	font-size: 55px;
- 	background: #56A9FC;
+ 	background: #1973e8;
  	color:#fff;
  }
  
@@ -1345,7 +1329,7 @@ textarea.MatcContentWidgetAbs{
 }
 
 .MatcCommentPic .MatcUserImageNone{
-	background: none repeat scroll 0 0 #56A9FC;
+	background: none repeat scroll 0 0 #1973e8;
     color: #fff;
     font-size: 45px;
 }
