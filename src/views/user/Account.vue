@@ -1,80 +1,71 @@
 <template>
-  <div class="MatcAccount">
-    <div class="MatcHeader MactMainGradient bs-docs-header">
-      <div class="container">
-        <div class="row MatcHeaderTopRow">
-          <div class="col-md-12">
-            <div>
-                <h2>My Account</h2>
-                <p>
-                    Manage your account!
-                </p>
-            </div>
-          </div>
-        </div>
+  <div class="VommondContentContainer">
+    
 
-        <div class="row MatcHeaderBottomRow">
-          <div class="col-md-12 MatcRight"></div>
-        </div>
+    <div class="MatcContent MatcAbout ">
+      <div class="MatcSection">
+        <div class="container" v-if="user">
+          <h2>My Account</h2>
+    
+          <p class="MatcLead MatcMarginBottomXL">
+            Change your personal settings here!
+          <p>
+          <div class="row">
+            
+            <div class="col-md-6">
+              <div data-dojo-type="de/vommond/Form">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="email" class="form-control input-lg" v-model="user.name" placeholder="Enter your name"  data-binding-required="true">
+                </div>
+
+                <div class="form-group">
+                  <label>Lastname</label>
+                  <input type="email" class="form-control input-lg" v-model="user.lastname"  placeholder="Enter your lastname" data-binding-required="true" >
+                </div>
+
+                <div class="form-group">
+                  <label>Homepage</label>
+                  <input type="text"  class="form-control input-lg" v-model="user.homepage" placeholder="http://www.yourpage.com">
+              </div>
+
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" class="form-control  input-lg" v-model="password" placeholder="To change, enter new password">
+                </div>
+
+                <div class="form-group">
+                  <label>Homepage</label>
+                  <input type="text"  class="form-control input-lg" v-model="user.homepage" placeholder="http://www.yourpage.com">
+                  </div>
+
+                <div class="form-group">
+                  <label>Newsletter</label>
+                  <div>
+                  <CheckBox v-model="user.newsletter" label="I want to receive the newsletter"/>
+                  </div>
+                </div>
+                
+                <div class="VommondFormErrorLabel">
+                    {{error}}
+                </div>
+
+                <div class="MatcButtonBar">
+                  <a class="MatcButton" @click="save">Save</a>
+                  <a class href="#/myApps.html">Cancel</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-md-offset-1 visible-md-block visible-lg-block">
+              <Label>Image</Label>
+              <UserImage :user="user" />
+            </div>
+              <div class="col-md-1 col-md-offset-1">
+                  <a class="MatcButton MatcButtonRed" @click="retire">Delete</a>
+              </div>
+    
+          </div>
       </div>
-    </div>
-
-    <div class="MatcContent MatcMarginTop ">
-      <div class="container" v-if="user">
-        <div class="row">
-          <div class="col-md-6">
-            <div data-dojo-type="de/vommond/Form">
-              <div class="form-group">
-                <label>Name</label>
-                <input type="email" class="form-control input-lg" v-model="user.name" placeholder="Enter your name"  data-binding-required="true">
-              </div>
-
-              <div class="form-group">
-                <label>Lastname</label>
-                <input type="email" class="form-control input-lg" v-model="user.lastname"  placeholder="Enter your lastname" data-binding-required="true" >
-              </div>
-
-              <div class="form-group">
-                <label>Homepage</label>
-                <input type="text"  class="form-control input-lg" v-model="user.homepage" placeholder="http://www.yourpage.com">
-             </div>
-
-              <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control  input-lg" v-model="password" placeholder="To change, enter new password">
-              </div>
-
-              <div class="form-group">
-                <label>Homepage</label>
-                <input type="text"  class="form-control input-lg" v-model="user.homepage" placeholder="http://www.yourpage.com">
-                </div>
-
-              <div class="form-group">
-                <label>Newsletter</label>
-                <div>
-                 <CheckBox v-model="user.newsletter" label="I want to receive the newsletter"/>
-                </div>
-              </div>
-              
-              <div class="VommondFormErrorLabel">
-                  {{error}}
-              </div>
-
-              <div class="MatcButtonBar">
-                <a class="MatcButton" @click="save">Save</a>
-                <a class href="#/myApps.html">Cancel</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-2 col-md-offset-1 visible-md-block visible-lg-block">
-            <Label>Image</Label>
-            <UserImage :user="user" />
-          </div>
-            <div class="col-md-1 col-md-offset-1">
-                <a class="MatcButton MatcButtonRed" @click="retire">Delete</a>
-            </div>
-	
-        </div>
       </div>
     </div>
   </div>

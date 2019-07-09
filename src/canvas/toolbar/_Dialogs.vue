@@ -166,8 +166,7 @@ export default {
 			
 			var bar = db.div(" MatcMarginTop row").build(div);			
 		
-			var left = db.div("col-md-6").build(bar);
-			db.div("col-md-6 MatcButtonBar").build(bar );
+			var left = db.div("col-md-6 MatcButtonBar").build(bar);
 			
 			var change = db.a("MatcButton", "Change").build(left);
 			var cancel = db.a("MatcLinkButton", "Close").build(left);

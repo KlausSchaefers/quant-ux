@@ -1,20 +1,6 @@
 <template>
   <div class="MatcApps">
-    <div class="MatcHeader MactMainGradient MatcHeaderTab bs-docs-header">
-      <div class="container-fluid">
-        <div class="row MatcHeaderTopRow">
-          <div class="col-md-12">
-              <br>
-               Discover the capabilities of Quant-UX
-          </div>
-        </div>
-
-        <div class="row MatcHeaderBottomRow">
-          <div class="col-md-12 MatcRight" id></div>
-        </div>
-      </div>
-    </div>
-
+    
     <div class="MatcContent">
       <div class="MatcSection">
         <div class="container" id="">

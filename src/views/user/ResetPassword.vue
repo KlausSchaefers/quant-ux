@@ -1,81 +1,75 @@
 <template>
-  <div class="MatcAccount">
-    <div class="MatcHeader MactMainGradient bs-docs-header">
-      <div class="container">
-        <div class="row MatcHeaderTopRow">
-          <div class="col-md-12">
-            <h2>Reset Password</h2>You can request a new password here.
-          </div>
-        </div>
 
-        <div class="row MatcHeaderBottomRow">
-          <div class="col-md-12 MatcRight"></div>
-        </div>
-      </div>
-    </div>
+  <div class="VommondContentContainer">
+   
 
-    <div class="MatcContent MatcSection">
+     <div class="MatcContent MatcAbout">
+		<div class="MatcSection">
       <div class="container">
         <div class="row">
           <div class="col-md-6">
 
-			<div v-if="page === 1">
-				<p class="MatcLead MatcMarginBottomXXL">
-					Forgot your password? To reset your password, enter your email and click on &quot;Reset&quot;.
-				</p>
+					<h2>Password Reset</h2>
+					
 
-				<input type="email"  class="form-control input-lg" v-model="email" placeholder="Enter your email">
+					<div v-if="page === 1">
+						<p class="MatcLead MatcMarginBottomXXL">
+							Forgot your password? To reset your password, enter your email and click on &quot;Reset&quot;.
+						</p>
 
-				<div class="MatcErrorLabel" v-html="error"></div>
+						<input type="email"  class="form-control input-lg" v-model="email" placeholder="Enter your email">
 
-				<div class="MatcButtonBar">
-					<a class="MatcButton" @click="reset">Reset</a>
-					<a class href="#/">Cancel</a>
+						<div class="MatcErrorLabel" v-html="error"></div>
+
+						<div class="MatcButtonBar">
+							<a class="MatcButton" @click="reset">Reset</a>
+							<a class href="#/">Cancel</a>
+						</div>
+					</div> <!-- End page 1 -->
+
+					<div v-if="page === 2">
+						<p class="MatcLead MatcMarginBottomXXL">
+							We have send you an email with a reset-link. Please open the mail and visit the link.
+						</p>
+					</div> <!-- End page 2 -->
+
+					<div v-if="page === 3">
+						<p class="MatcLead MatcMarginBottomXXL">
+							Please enter your email and your new password here
+						</p>
+
+						<div class="form-group">
+							<label>Email</label>
+							<input type="email"  class="form-control input-lg" v-model="email" placeholder="Enter your email">
+						</div>
+
+						<div class="form-group">
+							<label>Password</label>
+							<input type="password" class="form-control  input-lg" v-model="password1" placeholder="" data-binding-required="true">
+						</div>
+						
+						<div class="form-group">
+							<label>Password (Repetition)</label>
+							<input type="password" class="form-control  input-lg" v-model="password2" placeholder="" >
+							<div v-if="error">{{error}}</div>
+						</div>
+
+						<div class="MatcButtonBar">
+							<a class="MatcButton" @click="send">Send</a>
+							<a class href="#/">Cancel</a>
+						</div>
+					</div> <!-- End page 3 -->
+
+					<div v-if="page === 4">
+						<p class="MatcLead MatcMarginBottomXXL">
+							Your password was reset. You can login now!
+						</p>
+					</div> <!-- End page 4 -->
 				</div>
-			</div> <!-- End page 1 -->
 
-			<div v-if="page === 2">
-				<p class="MatcLead MatcMarginBottomXXL">
-					We have send you an email with a reset-link. Please open the mail and visit the link.
-				</p>
-			</div> <!-- End page 2 -->
-
-			<div v-if="page === 3">
-				<p class="MatcLead MatcMarginBottomXXL">
-					Please enter your email and your new password here
-				</p>
-
-				<div class="form-group">
-					<label>Email</label>
-					<input type="email"  class="form-control input-lg" v-model="email" placeholder="Enter your email">
-				</div>
-
-				<div class="form-group">
-					<label>Password</label>
-					<input type="password" class="form-control  input-lg" v-model="password1" placeholder="" data-binding-required="true">
-				</div>
-				
-				<div class="form-group">
-					<label>Password (Repetition)</label>
-					<input type="password" class="form-control  input-lg" v-model="password2" placeholder="" >
-					<div v-if="error">{{error}}</div>
-				</div>
-
-				<div class="MatcButtonBar">
-					<a class="MatcButton" @click="send">Send</a>
-					<a class href="#/">Cancel</a>
-				</div>
-			</div> <!-- End page 3 -->
-
-			<div v-if="page === 4">
-				<p class="MatcLead MatcMarginBottomXXL">
-					Your password was reset. You can login now!
-				</p>
-			</div> <!-- End page 4 -->
-          </div>
-
-          <div class="col-md-6"></div>
-        </div>
+		
+			</div>
+		</div>
       </div>
     </div>
   </div>

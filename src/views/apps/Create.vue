@@ -1,21 +1,14 @@
 <template>
   <div>
-    <div class="MatcHeader MactMainGradient bs-docs-header">
-      <div class="container-fluid">
-        <div class="row MatcHeaderTopRow">
-          <div class="col-md-12">
-            <h2>New Prototype</h2>Enter the name for your new project and select the screen type
-          </div>
-        </div>
-        <div class="row MatcHeaderBottomRow">
-          <div class="col-md-12"></div>
-        </div>
-      </div>
-    </div>
+    
 
-    <div class="MatcContent">
+    <div class="MatcContent MatcAbout">
       <div class="MatcSection">
         <div class="container">
+          <h2>Create a new Prototype</h2>
+          <p class="MatcHint MatcMarginBottomXL">
+            Enter a name and the screen size.
+          </p>
           <div class="row">
             <div class="col-md-6">
               <form>
@@ -76,7 +69,6 @@ export default {
     async create() {
         if (this.$route.meta && this.$route.meta.isTryout){
           this.logger.info("create", "enter > tryout");
-          console.debug(this.type)
           location.href = `#/tryout2.html?w=${this.type.screenSize.w}&h=${this.type.screenSize.h}&t=${this.type.type}`
         } else {
           this.logger.info("create", "enter > user");

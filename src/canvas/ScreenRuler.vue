@@ -103,18 +103,22 @@ export default {
 
             if (type === 'x') {
                 if (pos.x > screen.x && pos.x < (screen.x + screen.w)) {
-                    this._screenButtonsMoveLabel.innerHTML = `left: ${pos.x - screen.x} <br> right: ${screen.x + screen.w - pos.x} `
+                    this._screenButtonsMoveLabel.innerHTML = `left: ${this._getRulerLabel(pos.x - screen.x)} <br> right: ${this._getRulerLabel(screen.x + screen.w - pos.x)} `
                 } else {
                     this._screenButtonsMoveLabel.innerHTML = 'Remove'
                 }
             } else {
                 if (pos.y > screen.y && pos.y < (screen.y + screen.h)) {
-                    this._screenButtonsMoveLabel.innerHTML = `top: ${pos.y - screen.y} <br> bottom: ${screen.y + screen.h - pos.y} `
+                    this._screenButtonsMoveLabel.innerHTML = `top: ${this._getRulerLabel(pos.y - screen.y)} <br> bottom: ${this._getRulerLabel(screen.y + screen.h - pos.y)} `
                 } else {
                      this._screenButtonsMoveLabel.innerHTML = 'Remove'
                 }
             }
         },
+
+        _getRulerLabel(v) {
+		    return Math.ceil(v / this.getZoomFactor());
+	    },
 
         _onScreenRulerHandleUp (screen, ruler, dndDiv, handle, e) {
             this.stopEvent(e)

@@ -1,19 +1,6 @@
 <template>
   <div class="MatcApps">
-    <div class="MatcHeader MactMainGradient MatcHeaderTab bs-docs-header">
-      <div class="container-fluid">
-        <div class="row MatcHeaderTopRow">
-          <div class="col-md-12">
-              <br>
-                Create a new project or edit an exiting one
-          </div>
-        </div>
-
-        <div class="row MatcHeaderBottomRow">
-          <div class="col-md-12 MatcRight" id></div>
-        </div>
-      </div>
-    </div>
+    
 
     <div class="MatcContent">
       <div class="MatcSection">
