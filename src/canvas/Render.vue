@@ -691,6 +691,7 @@ export default {
 				 */
 				this.inlineEditStop();		
 				this.cleanUpComments();
+				this.cleanUpScreenButtons();
 				
 				/**
 				 * Cleanup any stuff from the zoom
@@ -755,7 +756,7 @@ export default {
 				
 				this.cleanUpAddNDrop();
 
-				this.cleanUpScreenButtons();
+			
 			},
 			
 			cleanUpScreenButtons () {

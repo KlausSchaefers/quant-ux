@@ -1694,8 +1694,10 @@ export default class GridAndRuler extends Core {
 
 		for (var id in lines) {
 			var line = lines[id];
+		
 			if (!ignoreType || ignoreType != line.type) {
 				line.dist = 1000;
+				// console.debug('getCloseLines', line, ignoreType)
 				for (var i = 0; i < vales.length; i++) {
 					var v = vales[i];
 
@@ -1747,11 +1749,12 @@ export default class GridAndRuler extends Core {
 				this.logger.log(-1, "initLines", "ignore widget lines");
 			}
 
-
 			/**
 			 * Last add grid as fallback
 			 */
 			this.initGrid(screen);
+
+			this.initRulers(screen)
 
 
 			/**
@@ -1761,6 +1764,33 @@ export default class GridAndRuler extends Core {
 		}
 		this._lastScreen = screen;
 		this._initLinesCalled += 1
+	}
+
+	initRulers (screen) {
+		if (screen.rulers){
+			screen.rulers.forEach(ruler => {
+				let v = ruler.v * this.zoom
+				/**
+				 * TODO: We should not use the type screen here,
+				 * but instead introduce a new type "Ruler" and
+				 * give this the highest priority in the correct()
+				 * method. Work for now also fine!
+				 */
+				if (ruler.type === 'x') {
+					this.addXLine(screen.x +  v, {
+						id: ruler.id,
+						type: "Ruler",
+						pos: "x"
+					}, "Screen")
+				} else {
+					this.addYLine(screen.y +  v, {
+						id: ruler.id,
+						type: "Ruler",
+						pos: "y"
+					}, "Screen")
+				}
+			})
+		}
 	}
 
 	initScreen(screen, onlyX, onlyY) {
@@ -1811,7 +1841,6 @@ export default class GridAndRuler extends Core {
 		for (let i = 0; i < screen.children.length; i++) {
 			let id = screen.children[i];
 			if (!this.ignoreIds || this.ignoreIds.indexOf(id) < 0) {
-
 				if (!ignore[id]) {
 					var box = this.model.widgets[id];
 					if (box) {

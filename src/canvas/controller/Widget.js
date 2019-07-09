@@ -627,16 +627,20 @@ export default class Widget extends Screen {
 			pos.w = widget.w;
 			let line = snapp.x;
 			let x = this.getSnappXValue(line, screen);
-			if(snapp.x.middle){
-				/**
-				 * Should not happen for grid lines and groups!
-				 * We filter before so no problem...
-				 */
-				pos.x = x - Math.floor(pos.w/2);
-			} else if(snapp.left){
-				pos.x = x;	
+			if (x > 0) {
+				if(snapp.x.middle){
+					/**
+					 * Should not happen for grid lines and groups!
+					 * We filter before so no problem...
+					 */
+					pos.x = x - Math.floor(pos.w/2);
+				} else if(snapp.left){
+					pos.x = x;	
+				} else {
+					pos.x = x - pos.w;
+				}
 			} else {
-				pos.x = x - pos.w;
+				this.logger.error("snappAll", " getSnappXValue return 0");
 			}
 		}		
 		
@@ -645,15 +649,19 @@ export default class Widget extends Screen {
 			pos.y = widget.y;
 			pos.h = widget.h;
 			let y = this.getSnappYValue(line, screen);
-			if(snapp.y.middle){
-				/**
-				 * Should not happen for grid lines and groups!
-				 */
-				pos.y = y - Math.floor(pos.h/2);
-			} else if(snapp.top){
-				pos.y = y;
+			if (y > 0) {
+				if(snapp.y.middle){
+					/**
+					 * Should not happen for grid lines and groups!
+					 */
+					pos.y = y - Math.floor(pos.h/2);
+				} else if(snapp.top){
+					pos.y = y;
+				} else {
+					pos.y = y - pos.h;
+				}
 			} else {
-				pos.y = y - pos.h;
+				this.logger.error("snappAll", " getSnappYValue return 0");
 			}
 		}
 	} 
@@ -697,6 +705,16 @@ export default class Widget extends Screen {
 			let box = this.getBoxById(line.id);
 			let difX = box.x - screen.x;
 			return (screen.x + screen.w) - difX
+		} else if ("Ruler" == line.type) { 
+			if (screen.rulers) {
+				let ruler = screen.rulers.find(r => r.id === line.id)
+				if (ruler) {
+					return screen.x + ruler.v
+				} else {
+					this.logger.error("getSnappXValue", "No ruler with id " + line.id);
+					this.logger.sendError(new Error('Could not snapp to X ruler'));
+				}
+			}
 		} else {
 			console.warn("getSnappXValue() >Unsupported snapp type for x", line.type);
 		}
@@ -705,7 +723,6 @@ export default class Widget extends Screen {
 	
 	getSnappYValue (line, screen){
 		if("Grid" == line.type){
-			//console.debug("snappYGrid",this.model.grid.h,screen.y, "+", this.model.grid.h * line.line, "=", screen.y + this.model.grid.h * line.line)
 			return (screen.y + (this.model.grid.h * line.line));
 		}else if("Screen" == line.type || "Widget" == line.type){
 			let box = this.getBoxById(line.id);
@@ -714,6 +731,16 @@ export default class Widget extends Screen {
 			let box = this.getBoxById(line.id);
 			let difY = box.y - screen.y;
 			return (screen.y + screen.h) - difY
+		} else if ("Ruler" == line.type) { 
+			if (screen.rulers) {
+				let ruler = screen.rulers.find(r => r.id === line.id)
+				if (ruler) {
+					return screen.y + ruler.v
+				} else {
+					this.logger.error("getSnappYValue", "No ruler with id " + line.id);
+					this.logger.sendError(new Error('Could not snapp to Y ruler'));
+				}
+			}
 		} else {
 			console.warn("getSnappYValue() > Unsupported snapp type for ", line.type);
 		}

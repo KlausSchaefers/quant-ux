@@ -99,6 +99,7 @@ export default {
                 if (pos.y > screen.y && pos.y < (screen.y + screen.h)) {
                     rulers = this.controller.updateScreenRuler(screen.id, pos, ruler)
                 } else {
+                    this.showError('Ruler removed')
                     rulers = this.controller.removeScreenRuler(screen.id, ruler)
                 }
             } else {
@@ -106,10 +107,10 @@ export default {
                 if (pos.x > screen.x && pos.x < (screen.x + screen.w)) {
                     rulers = this.controller.updateScreenRuler(screen.id, pos, ruler)
                 } else {
-                   rulers = this.controller.removeScreenRuler(screen.id, ruler)
+                    this.showError('Ruler removed')
+                    rulers = this.controller.removeScreenRuler(screen.id, ruler)
                 }
             }
-            console.debug('_onScreenRulerHandleUp', rulers)
             if (rulers) {
                 /**
                  * Make a temp update here
@@ -165,7 +166,6 @@ export default {
         },
 
         _onScreenLeftMouseDown (screen, dndDiv, e) {
-            console.debug('_onScreenLeftMouseDown')
             this.stopEvent(e)
             this._screenButtonsListenerMove = on(win.body(),"mousemove", lang.hitch(this,"onScreenLeftMove", screen, dndDiv));
 			this._screenButtonsListenerUp = on(win.body(),"mouseup", lang.hitch(this,"onScreenLeftUp", screen, dndDiv));
