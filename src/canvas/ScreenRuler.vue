@@ -35,7 +35,6 @@ export default {
         },
 
         _renderScreenRulers(screen, rulers, dndDiv) {
-            console.debug('_renderScreenRulers', rulers)
             /**
              * Rulers come unzoomed...
              */
@@ -79,12 +78,40 @@ export default {
                 } else {
                     css.add(handle, 'MatcScreenGridHandleDel')
                 }
+                this._renderRulerLabel(screen, 'y', pos)
             } else {
                 handle.style.left = (pos.x - screen.x) + 'px';
                 if (pos.x > screen.x && pos.x < (screen.x + screen.w)) {
                     css.remove(handle, 'MatcScreenGridHandleDel')
                 } else {
                     css.add(handle, 'MatcScreenGridHandleDel')
+                }
+                this._renderRulerLabel(screen, 'x', pos)
+            }
+        },
+
+        _renderRulerLabel (screen, type, pos) {
+            if (!this._screenButtonsMoveLabel) {
+                var div = document.createElement("div");
+                css.add(div, "MatcRulerDimensionLabel");
+                this.widgetContainer.appendChild(div);
+                this._screenButtonsMoveLabel = div;
+            }
+
+            this._screenButtonsMoveLabel.style.left = (pos.x + 10) + "px";
+            this._screenButtonsMoveLabel.style.top = (pos.y + 10) + "px";
+
+            if (type === 'x') {
+                if (pos.x > screen.x && pos.x < (screen.x + screen.w)) {
+                    this._screenButtonsMoveLabel.innerHTML = `left: ${pos.x - screen.x} <br> right: ${screen.x + screen.w - pos.x} `
+                } else {
+                    this._screenButtonsMoveLabel.innerHTML = 'Remove'
+                }
+            } else {
+                if (pos.y > screen.y && pos.y < (screen.y + screen.h)) {
+                    this._screenButtonsMoveLabel.innerHTML = `top: ${pos.y - screen.y} <br> bottom: ${screen.y + screen.h - pos.y} `
+                } else {
+                     this._screenButtonsMoveLabel.innerHTML = 'Remove'
                 }
             }
         },
@@ -137,7 +164,7 @@ export default {
 			this._screenButtonsListenerUp = on(win.body(),"mouseup", lang.hitch(this,"onScreenTopUp", screen, dndDiv));
         },
 
-        onScreenTopMove (sceen, dndDiv, e) {
+        onScreenTopMove (screen, dndDiv, e) {
             if (!this._screenButtonMoveLine) {
                 this._screenButtonMoveLine = document.createElement('div')
                 css.add(this._screenButtonMoveLine, 'MatcScreenGridButtonTopLine')
@@ -146,6 +173,7 @@ export default {
             this.stopEvent(e);
             let pos = this.getCanvasMousePosition(e);
             this._screenButtonMoveLine.style.top = pos.y + 'px';
+            this._renderRulerLabel(screen, 'y', pos)
         },
 
         onScreenTopUp (screen, dndDiv, e) {
@@ -171,7 +199,7 @@ export default {
 			this._screenButtonsListenerUp = on(win.body(),"mouseup", lang.hitch(this,"onScreenLeftUp", screen, dndDiv));
         },
 
-        onScreenLeftMove (sceen, dndDiv, e) {
+        onScreenLeftMove (screen, dndDiv, e) {
             
             if (!this._screenButtonMoveLine) {
                 this._screenButtonMoveLine = document.createElement('div')
@@ -182,6 +210,7 @@ export default {
             
             let pos = this.getCanvasMousePosition(e);
             this._screenButtonMoveLine.style.left = pos.x + 'px';
+            this._renderRulerLabel(screen, 'x', pos)
         },
 
         onScreenLeftUp (screen, dndDiv, e) {
@@ -213,9 +242,13 @@ export default {
             if (this._screenButtonsListenerUp) {
                 this._screenButtonsListenerUp.remove()
             }
+            if (this._screenButtonsMoveLabel) {
+                this._screenButtonsMoveLabel.parentNode.removeChild(this._screenButtonsMoveLabel)
+            }
             delete this._screenButtonsListenerUp
             delete this._screenButtonsListenerMove
             delete this._screenButtonMoveLine
+            delete this._screenButtonsMoveLabel
         },
 
         cleanUpScreenButtons () {
