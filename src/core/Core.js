@@ -149,7 +149,6 @@ export default class Core extends Evented{
             }
           }
         }
-        console.debug('getClones exit')
         return {
           previews: previews,
           clones: result
@@ -1143,7 +1142,6 @@ export default class Core extends Evented{
                 screen.rulers.push(copy)
             })
         }
-        console.debug('addRuler', screen)
     }
 
     createContaineredModel(inModel) {
@@ -1166,28 +1164,6 @@ export default class Core extends Evented{
             }
         }
     }
-
-    getAllRulers (screen) {
-        let result = []
-        if (screen.rulers) {
-            result = result.concat(screen.rulers)
-        }
-        if (screen.parents) {
-            for (let i = 0; i < screen.parents.length; i++) {
-                let parentID = screen.parents[i];
-                if (parentID != screen.id) {
-                    if (this.model.screens[parentID]) {
-                        let parentScreen = this.model.screens[parentID];
-                        if (parentScreen.rulers) {
-                            result = result.concat(parentScreen.rulers)
-                        }
-                    }
-                }
-            }
-        }
-        return result
-	}
-
 
     static addContainerChildrenToModel (model) {
         /**
@@ -1636,5 +1612,36 @@ export default class Core extends Evented{
             return null
         }).filter(s => s !== null)
     }
+
+    static getParentScreens (model, screen) {
+        let result = []
+        if (screen.parents) {
+            for (let i = 0; i < screen.parents.length; i++) {
+                let parentID = screen.parents[i];
+                if (parentID != screen.id) {
+                    let parentScreen = model.screens[parentID];
+                    if (parentScreen) {
+                        result.push(parentScreen)
+                    }
+                }
+            }
+        }
+        return result
+    }
+
+    getAllRulers (screen) {
+        let result = []
+        if (screen.rulers) {
+            result = result.concat(screen.rulers)
+        }
+        let parents = Core.getParentScreens(this.model, screen)
+        parents.forEach(parentScreen => {
+            if (parentScreen.rulers) {
+                result = result.concat(parentScreen.rulers)
+            }
+        })
+        return result
+	}
+
 
 }

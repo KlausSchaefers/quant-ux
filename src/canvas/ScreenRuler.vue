@@ -177,50 +177,20 @@ export default {
         },
 
         _updateInheritedScreenHandlers (screen) {
-            
+            /**
+             * This method will update all child screens. 
+             * ATTENTION: This method depends on the fact, that the
+             * controller will inject before a new updated inherited model!
+             */
             let childScreens = Core.getChildScreens(this.model, screen)
             if (childScreens) {
                 childScreens.forEach(child => {
                       let dndDiv = this.screenDivs[child.id]
                       if (dndDiv) {
-                          console.debug('_updateInheritedScreenHandlers', child.name, child.rulers)
                           this._renderScreenRulers(child, child.rulers, dndDiv)
                       }
                 })
             }
-        },
-
-        uxpdateInheritedScreenHandlers (screen, rulers) {
-            let childScreens = Core.getChildScreens(this.model, screen)
-            if (childScreens) {
-                childScreens.forEach(child => {
-                    console.debug('_updateInheritedScreenHandlers', child.name)
-                    if (child.rulers) {
-                        child.rulers.forEach(childRuler => {
-                            if (childRuler.inherited){
-                                console.debug('   found: ', child.name, childRuler)
-                                let parentRuler = rulers.find(r => r.id === childRuler.inherited)
-                                if (parentRuler) {
-                                    childRuler.v = parentRuler.v
-                                
-                                    if (this._screenRulerHandles && this._screenRulerHandles[child.id]){
-                                        let handles = this._screenRulerHandles[child.id]
-                                        let handle = handles.find(h => h.rulerId === childRuler.id)
-                                        if (handle) {
-                                            if (childRuler.type === 'y') {
-                                                handle.div.style.top = (childRuler.v * this.getZoomFactor()) + 'px';
-                                            } else {
-                                                handle.div.style.left = (childRuler.v * this.getZoomFactor()) + 'px';
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                    }
-                })
-            }
-            // console.debug('_updateInheritedScreenHandlers', childScreens, rulers);
         },
 
         _cleanUpScreenRulerHandlers (screenId) {
