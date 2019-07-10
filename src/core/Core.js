@@ -1613,7 +1613,7 @@ export default class Core extends Evented{
         }).filter(s => s !== null)
     }
 
-    static getParentScreens (model, screen) {
+    static getMasterScreens (model, screen) {
         let result = []
         if (screen.parents) {
             for (let i = 0; i < screen.parents.length; i++) {
@@ -1634,7 +1634,7 @@ export default class Core extends Evented{
         if (screen.rulers) {
             result = result.concat(screen.rulers)
         }
-        let parents = Core.getParentScreens(this.model, screen)
+        let parents = Core.getMasterScreens(this.model, screen)
         parents.forEach(parentScreen => {
             if (parentScreen.rulers) {
                 result = result.concat(parentScreen.rulers)
