@@ -89,11 +89,13 @@ export default {
 					}
 					
 					if(this.animCntr){
+						/*
 						this.animChkBox = this.$new(CheckBox);
 						this.animChkBox.setLabel("Show Animations");
 						this.animChkBox.setValue(this.showAnimation);
 						this.animChkBox.placeAt(this.animCntr);
 						this.own(on(this.animChkBox, "change", lang.hitch(this, "setShowAnimation")));
+						*/
 					}
 
 					this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));

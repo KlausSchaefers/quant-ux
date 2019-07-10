@@ -21,36 +21,36 @@ export default {
 				css.remove(this.$refs.message, "vommondMessageError vommondMessageHint");
 				this.$refs.message.innerHTML = msg;				
 				setTimeout( () => {
-          this.hideMessage()
-        },2000);
+					this.hideMessage()
+				},2000);
 			}			
 		},
 		
-		showError:function(msg){
-			if(this.message){
+	showError:function(msg){
+		if(this.message){
 				css.add(this.$refs.message, "vommondMessageError");
 				css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageHint");
 				this.$refs.message.innerHTML = msg;				
 				setTimeout( () => {
-          this.hideMessage()
-        },4000);
-			}
-		},
-		
-		showHint:function(msg){
-			if(this.$refs.message){
-				css.add(this.$refs.message, "vommondMessageHint");
-				css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageSuccess");
-				this.$refs.message.innerHTML = msg;
-				setTimeout( () => {
-          this.hideMessage()
-        },4000);
-			}
-		},
-		
-		hideMessage:function(){
-			css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageError vommondMessageHint");
+					this.hideMessage()
+				},4000);
 		}
+	},
+	
+	showHint:function(msg){
+		if(this.$refs.message){
+			css.add(this.$refs.message, "vommondMessageHint");
+			css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageSuccess");
+			this.$refs.message.innerHTML = msg;
+			setTimeout( () => {
+				this.hideMessage()
+			},4000);
+		}
+	},
+	
+	hideMessage:function(){
+		css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageError vommondMessageHint");
+	}
   },
   mounted () {    
     this.$root.$on('Success', (msg) => {
@@ -61,11 +61,11 @@ export default {
     })
     this.$root.$on('Hint', (msg) => {
       this.showHint(msg)
-		})
-		this.$root.$on('UserLogin', (user) => {
-				Services.getUserService().setUser(user)
+	})
+	this.$root.$on('UserLogin', (user) => {
+		Services.getUserService().setUser(user)
     })
-		css.remove(win.body(), 'MatcPublic')
+	css.remove(win.body(), 'MatcPublic')
   }
 }
 </script>

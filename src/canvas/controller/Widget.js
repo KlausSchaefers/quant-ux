@@ -705,9 +705,10 @@ export default class Widget extends Screen {
 			let box = this.getBoxById(line.id);
 			let difX = box.x - screen.x;
 			return (screen.x + screen.w) - difX
-		} else if ("Ruler" == line.type) { 
-			if (screen.rulers) {
-				let ruler = screen.rulers.find(r => r.id === line.id)
+		} else if ("Ruler" == line.type) {
+			let rulers = this.getAllRulers(screen)
+			if (rulers) {
+				let ruler = rulers.find(r => r.id === line.id)
 				if (ruler) {
 					return screen.x + ruler.v
 				} else {
@@ -732,8 +733,9 @@ export default class Widget extends Screen {
 			let difY = box.y - screen.y;
 			return (screen.y + screen.h) - difY
 		} else if ("Ruler" == line.type) { 
-			if (screen.rulers) {
-				let ruler = screen.rulers.find(r => r.id === line.id)
+			let rulers = this.getAllRulers(screen)
+			if (rulers) {
+				let ruler = rulers.find(r => r.id === line.id)
 				if (ruler) {
 					return screen.y + ruler.v
 				} else {
@@ -745,7 +747,7 @@ export default class Widget extends Screen {
 			console.warn("getSnappYValue() > Unsupported snapp type for ", line.type);
 		}
 		return 0;
-	} 
+	}
 	
 	getSnappValue(box, line){
 		var pos = line.pos;

@@ -3,7 +3,7 @@ import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import win from 'dojo/_base/win'
-// import domStyle from 'dojo/domStyle'
+import Core from 'core/Core'
 
 export default {
     name: 'ScreenGrid',
@@ -15,7 +15,7 @@ export default {
     components: {},
     methods: {
         renderScreenButtons (dndDiv, screen) {
-            this.logger.log(0,"renderScreenButtons", "enter", screen);
+            this.logger.log(2,"renderScreenButtons", "enter " +  screen.name, screen.rulers );
 
             this._screenButtonsListeners = []
            
@@ -35,25 +35,46 @@ export default {
         },
 
         _renderScreenRulers(screen, rulers, dndDiv) {
+            if (!this._screenRulerHandles) {
+                this._screenRulerHandles = {}
+            }
             /**
              * Rulers come unzoomed...
              */
             let z = this.getZoomFactor();
             if (rulers){
-                this._cleanUpScreenRulerHandlers()
-                this._screenRulerHandles = rulers.map(ruler => {
+                this._cleanUpScreenRulerHandlers(screen.id)
+                this._screenRulerHandles[screen.id] = rulers.map(ruler => {
 
                     let handle = document.createElement("div");		
                     css.add(handle, " MatcScreenGridHandle MatcScreenGridHandle" + ruler.type);
                     dndDiv.appendChild(handle)
 
+                    if (this.model.grid && !this.model.grid.hideRuler) {
+                        let line = document.createElement('div')
+                        line.style.backgroundColor = this.model.grid.color
+                        css.add(line, "MatcScreenGridLine" + ruler.type);
+                        handle.appendChild(line)
+
+                         if (ruler.type === 'y') {
+                            line.style.width = screen.w + 'px'
+                        } else {
+                            line.style.height = screen.h + 'px'
+                        }
+                    }
+                   
                     if (ruler.type === 'y') {
                         handle.style.top = ruler.v * z + 'px'
                     } else {
                         handle.style.left = ruler.v * z + 'px'
                     }
-                     let listener = on(handle, 'mousedown', lang.hitch(this, '_onScreenRulerHandleDown', screen, ruler, dndDiv, handle))
+                    if (ruler.inherited) {
+                        css.add(handle, "MatcScreenGridHandleDisbaled")
+                    } 
+                    let listener = on(handle, 'mousedown', lang.hitch(this, '_onScreenRulerHandleDown', screen, ruler, dndDiv, handle))
                     return {
+                        rulerId: ruler.id,
+                        screenId: screen.id,
                         div: handle,
                         listener: listener
                     }
@@ -63,6 +84,9 @@ export default {
 
         _onScreenRulerHandleDown (screen, ruler, dndDiv, handle, e) {
             this.stopEvent(e)
+            if (ruler.inherited){
+                return;
+            }
             this._screenButtonsListenerMove = on(win.body(),"mousemove", lang.hitch(this,"_onScreenRulerHandleMove", screen, ruler, dndDiv, handle));
 			this._screenButtonsListenerUp = on(win.body(),"mouseup", lang.hitch(this,"_onScreenRulerHandleUp", screen, ruler, dndDiv, handle));
         },
@@ -148,17 +172,82 @@ export default {
                  */
                 screen.rulers = rulers
                 this._renderScreenRulers(screen, rulers, dndDiv)
+                this._updateInheritedScreenHandlers(screen)
             }
         },
 
-        _cleanUpScreenRulerHandlers () {
-            if (this._screenRulerHandles) {
-                this._screenRulerHandles.forEach(h => {
-                    h.listener.remove()
-                    if (h.div.parentNode) {
-                        h.div.parentNode.removeChild(h.div)
+        _updateInheritedScreenHandlers (screen) {
+            
+            let childScreens = Core.getChildScreens(this.model, screen)
+            if (childScreens) {
+                childScreens.forEach(child => {
+                      let dndDiv = this.screenDivs[child.id]
+                      if (dndDiv) {
+                          console.debug('_updateInheritedScreenHandlers', child.name, child.rulers)
+                          this._renderScreenRulers(child, child.rulers, dndDiv)
+                      }
+                })
+            }
+        },
+
+        uxpdateInheritedScreenHandlers (screen, rulers) {
+            let childScreens = Core.getChildScreens(this.model, screen)
+            if (childScreens) {
+                childScreens.forEach(child => {
+                    console.debug('_updateInheritedScreenHandlers', child.name)
+                    if (child.rulers) {
+                        child.rulers.forEach(childRuler => {
+                            if (childRuler.inherited){
+                                console.debug('   found: ', child.name, childRuler)
+                                let parentRuler = rulers.find(r => r.id === childRuler.inherited)
+                                if (parentRuler) {
+                                    childRuler.v = parentRuler.v
+                                
+                                    if (this._screenRulerHandles && this._screenRulerHandles[child.id]){
+                                        let handles = this._screenRulerHandles[child.id]
+                                        let handle = handles.find(h => h.rulerId === childRuler.id)
+                                        if (handle) {
+                                            if (childRuler.type === 'y') {
+                                                handle.div.style.top = (childRuler.v * this.getZoomFactor()) + 'px';
+                                            } else {
+                                                handle.div.style.left = (childRuler.v * this.getZoomFactor()) + 'px';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        })
                     }
                 })
+            }
+            // console.debug('_updateInheritedScreenHandlers', childScreens, rulers);
+        },
+
+        _cleanUpScreenRulerHandlers (screenId) {
+        
+            if (this._screenRulerHandles) {
+                if (screenId) {
+                    let handlers = this._screenRulerHandles[screenId]
+                    if (handlers) {
+                        handlers.forEach(h => {
+                            h.listener.remove()
+                            if (h.div.parentNode) {
+                                h.div.parentNode.removeChild(h.div)
+                            } else {
+                                console.warn('_cleanUpScreenRulerHandlers() > No div', h)
+                            }  
+                        })
+                        delete this._screenRulerHandles[screenId]
+                    }
+                } else {
+                    /**
+                     * If we do not have a screen passed, we clean up all keys
+                     */
+                    Object.keys(this._renderScreenRulers).forEach(key => {
+                        this._cleanUpScreenRulerHandlers(key)
+                    })
+                    this._screenRulerHandles = {}
+                }
             }
         },
 
@@ -191,6 +280,7 @@ export default {
                      */
                     screen.rulers = rulers
                     this._renderScreenRulers(screen, rulers, dndDiv)
+                    this._updateInheritedScreenHandlers(screen)
                 }
             } else {
                 this.showError('Rulers must be placed on a screen')
@@ -228,6 +318,7 @@ export default {
                      */
                     screen.rulers = rulers
                     this._renderScreenRulers(screen, rulers, dndDiv)
+                    this._updateInheritedScreenHandlers(screen)
                 }
             } else {
                 this.showError('Rulers must be placed on a screen')

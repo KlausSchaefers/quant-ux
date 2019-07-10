@@ -1009,6 +1009,7 @@ export default class Core extends Evented{
              * *ATTENTION* We read from the org model, otherwise we have
              * issues in the loop as we change the screen.
              */
+            let inScreen = inModel.screens[screenID]
             let screen = model.screens[screenID];
             if (screen.parents && screen.parents.length > 0) {
                 /**
@@ -1024,6 +1025,11 @@ export default class Core extends Evented{
                              */
                             let parentScreen = model.screens[parentID];
 
+                            /**
+                             * Also copy rulers
+                             */
+                            this._addRulersFromParent(inScreen, parentScreen)
+                           
                             let difX = parentScreen.x - screen.x;
                             let difY = parentScreen.y - screen.y;
 
@@ -1126,6 +1132,20 @@ export default class Core extends Evented{
         return inModel;
     }
 
+    _addRulersFromParent (screen, parent) {
+        if (parent.rulers) {
+            if (!screen.rulers) {
+                screen.rulers = []
+            }
+            parent.rulers.forEach(ruler => {
+                let copy = lang.clone(ruler);
+                copy.inherited = ruler.id
+                screen.rulers.push(copy)
+            })
+        }
+        console.debug('addRuler', screen)
+    }
+
     createContaineredModel(inModel) {
         for (let screenID in inModel.screens) {
             let screen = inModel.screens[screenID];
@@ -1146,6 +1166,27 @@ export default class Core extends Evented{
             }
         }
     }
+
+    getAllRulers (screen) {
+        let result = []
+        if (screen.rulers) {
+            result = result.concat(screen.rulers)
+        }
+        if (screen.parents) {
+            for (let i = 0; i < screen.parents.length; i++) {
+                let parentID = screen.parents[i];
+                if (parentID != screen.id) {
+                    if (this.model.screens[parentID]) {
+                        let parentScreen = this.model.screens[parentID];
+                        if (parentScreen.rulers) {
+                            result = result.concat(parentScreen.rulers)
+                        }
+                    }
+                }
+            }
+        }
+        return result
+	}
 
 
     static addContainerChildrenToModel (model) {
@@ -1585,5 +1626,15 @@ export default class Core extends Evented{
         return to;
     }
   
+    static getChildScreens (model, screen) {
+        return Object.values(model.screens).map(s => {
+            if (s.parents) {
+                if (s.parents.indexOf(screen.id) >= 0) {
+                    return s
+                }
+            }
+            return null
+        }).filter(s => s !== null)
+    }
 
 }

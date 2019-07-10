@@ -1223,6 +1223,10 @@
 	border-color: transparent transparent transparent red;
 }
 
+.MatcScreenGridHandleDisbaled{
+	cursor: not-allowed;
+}
+
 .MatcScreenGridButtonLeft{
 	height: 100%;
 	background: #49C0F0;
@@ -1239,6 +1243,22 @@
 .MatcScreenGridButtonTop:hover,
 .MatcScreenGridButtonLeft:hover{
 	opacity: 0.5;
+}
+
+.MatcScreenGridLinex {
+	position: absolute;
+	width: 1px;
+	top:3px;
+	background: #49C0F0;
+	z-index: 10009;
+}
+
+.MatcScreenGridLiney {
+	position: absolute;
+	height: 1px;
+	left:3px;
+	background: #49C0F0;
+	z-index: 10009;
 }
 
  

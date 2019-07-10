@@ -66,6 +66,11 @@ export default {
 			this.gridVisible.placeAt(cntr);
 			
 			cntr = db.div("MatcMarginTop form-group").build(row);
+			this.rulerVisisble = this.$new(CheckBox);
+			this.rulerVisisble.setLabel("Show Ruler");
+			this.rulerVisisble.placeAt(cntr);
+
+			cntr = db.div("MatcMarginTop form-group").build(row);
 			this.gridSnap = this.$new(CheckBox);
 			this.gridSnap.setLabel("Snapp to Grid");
 			this.gridSnap.placeAt(cntr);
@@ -98,6 +103,7 @@ export default {
 			this.gridWidth.value = grid.w;
 			this.gridVisible.setValue(grid.visible);
 			this.gridSnap.setValue(grid.enabled);
+			this.rulerVisisble.setValue(!grid.hideRuler)
 			
 			/**
 			 * Set default values for old models:
@@ -148,7 +154,8 @@ export default {
 				columnWidth:this.columnWidth.value,
 				type: this.type.getValue(),
 				visible: this.gridVisible.getValue(),
-				enabled: this.gridSnap.getValue()
+				enabled: this.gridSnap.getValue(),
+				hideRuler: !this.rulerVisisble.getValue()
 			};
 		},
 		
