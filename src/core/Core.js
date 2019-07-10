@@ -1629,12 +1629,12 @@ export default class Core extends Evented{
         return result
     }
 
-    getAllRulers (screen) {
+    getAllRulers (model, screen) {
         let result = []
         if (screen.rulers) {
             result = result.concat(screen.rulers)
         }
-        let parents = Core.getMasterScreens(this.model, screen)
+        let parents = Core.getMasterScreens(model, screen)
         parents.forEach(parentScreen => {
             if (parentScreen.rulers) {
                 result = result.concat(parentScreen.rulers)

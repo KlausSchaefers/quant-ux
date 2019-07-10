@@ -172,7 +172,7 @@ export default {
                  */
                 screen.rulers = rulers
                 this._renderScreenRulers(screen, rulers, dndDiv)
-                this._updateInheritedScreenHandlers(screen)
+                this._updateInheritedScreenHandlers(screen, ruler)
             }
         },
 

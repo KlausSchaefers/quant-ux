@@ -706,7 +706,7 @@ export default class Widget extends Screen {
 			let difX = box.x - screen.x;
 			return (screen.x + screen.w) - difX
 		} else if ("Ruler" == line.type) {
-			let rulers = this.getAllRulers(screen)
+			let rulers = this.getAllRulers(this.model, screen)
 			if (rulers) {
 				let ruler = rulers.find(r => r.id === line.id)
 				if (ruler) {
@@ -733,7 +733,7 @@ export default class Widget extends Screen {
 			let difY = box.y - screen.y;
 			return (screen.y + screen.h) - difY
 		} else if ("Ruler" == line.type) { 
-			let rulers = this.getAllRulers(screen)
+			let rulers = this.getAllRulers(this.model, screen)
 			if (rulers) {
 				let ruler = rulers.find(r => r.id === line.id)
 				if (ruler) {

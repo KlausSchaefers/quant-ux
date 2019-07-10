@@ -1,5 +1,6 @@
 import CopyPaste from 'canvas/controller/CopyPaste'
 import lang from 'dojo/_base/lang'
+import Core from 'core/Core'
 
 export default class Screen extends CopyPaste {
 
@@ -32,7 +33,7 @@ export default class Screen extends CopyPaste {
 				};			
 				this.addCommand(command);
 				this.modelScreenRulerUpdate(screenID, ruler.id, v);
-				return screen.rulers
+				return this.getInheredRulers(screen)
 			}
 		}
 	}
@@ -76,7 +77,7 @@ export default class Screen extends CopyPaste {
 			};			
 			this.addCommand(command);
 			this.modelScreenRulerRemove(screenID, ruler);
-			return screen.rulers
+			return this.getInheredRulers(screen)
 		} else {
 			this.logger.error("removeScreenRuler", "enter > No screen : " + screenID + " > " + ruler.type);
 		}
@@ -122,7 +123,7 @@ export default class Screen extends CopyPaste {
 			};			
 			this.addCommand(command);
 			this.modelScreenRulerAdd(screenID, ruler);
-			return screen.rulers
+			return this.getInheredRulers(screen)
 		}
 	}
 
@@ -162,7 +163,25 @@ export default class Screen extends CopyPaste {
 	redoScreenRulerAdd (command){
 		this.modelScreenRulerAdd(command.screen, command.ruler);
 		this.render();
-	}	
+	}
+
+	getInheredRulers (screen) {
+		let result = []
+        if (screen.rulers) {
+            result = result.concat(screen.rulers)
+        }
+        let parents = Core.getMasterScreens(this.model, screen)
+        parents.forEach(parent => {
+			if (parent.rulers) {
+				parent.rulers.forEach(ruler => {
+					let copy = lang.clone(ruler);
+					copy.inherited = ruler.id
+					result.push(copy)
+				})
+			}
+		})
+		return result
+	}
 
    	/**********************************************************************
 	 * Screen Animation
