@@ -776,6 +776,7 @@ export default class Widget extends Screen {
 		
 	
 		var widget = this.model.widgets[id];
+		widget.modified = new Date().getTime()
 
 		/**
 		 * update position
@@ -783,10 +784,10 @@ export default class Widget extends Screen {
 		this.updateBox(pos, widget);
 	
 		/**
-			* IF we have in inherited widget moved,
-			* we use its position in rendering and remove 
-			* the parentWidgetPos flag.
-			*/
+		 * IF we have in inherited widget moved,
+		 * we use its position in rendering and remove 
+		 * the parentWidgetPos flag.
+		 */
 		if (widget.parentWidgetPos) {
 			this.logger.log(-1,"modelWidgetUpdate", "remove parentWidgetPos");
 			delete widget.parentWidgetPos;
@@ -911,27 +912,11 @@ export default class Widget extends Screen {
 		
 		
 		var widget = this.model.widgets[id];
-		if(widget && widget[type]){		
-			// we could have here a switch to enable this behavoir...
-			// if(type == "style" && widget.template){
-			//	this.logger.log(1,"modelWidgetPropertiesUpdate", "overwrite temp > " + id+ " > " + type);
-			// }
-//					
-//					if(this.model.templates && this.model.templates[widget.template]){
-//						var template = this.model.templates[widget.template];
-//						for(var p in props){
-//							template[type][p] = props[p];
-//						}
-//					} else {
-//						console.warn("No template with id ", widget.template);
-//					}
-			//} else { 
-				for(var p in props){
-					widget[type][p] = props[p];
-				}
-			//}
-			
-			
+		if(widget && widget[type]){
+			widget.modified = new Date().getTime()
+			for(var p in props){
+				widget[type][p] = props[p];
+			}
 		}else {
 			console.warn("Could not update widget properties for type", type);
 		}

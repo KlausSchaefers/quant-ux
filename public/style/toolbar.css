@@ -598,13 +598,13 @@
 }
 
 .MatcCreateCatCntr{
-	height: 400px;
-	overflow: hidden;
+	height: 450px;
+	overflow: scroll;
 }
 
 .MatcCreateBtnRight{
 	border-right: 0px solid #cecece;
-	height: 500px;
+	height: 550px;
 }
 
 .MatcCreateBtnCntr .container{
@@ -670,7 +670,6 @@
 }
 
 .MatcToolbarDropDownButton .MatcCreateBtnCntr li.MatcSelected{
-	border-bottom:1px solid #1973e8;
 	color:#1973e8;
 }
 

@@ -1,38 +1,39 @@
 
 <template>
-     <div class="MatcToolbarItem MatcCreateBtn MatcMultiIcon MatcToolbarDropDownButton">
-							<div type="button" data-dojo-attach-point="button"> 
-								<label data-dojo-attach-point="label" class="">
-								     <span class="mdi mdi-puzzle"></span> 
-							
-									<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
-								
-								</label> 
-							   
-							 </div>
-							 <div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
-							 	<div class="MatcCreateBtnCntr MatcPadding">
-									<div class="container-fluid">
-										<div class="row">
-											<div class="col-md-10 MatcCreateBtnElementList MatcCreateBtnRight" data-dojo-attach-point="rightCntr">
-												<div class="MatcHint">Loading Widgets...</div> 
-											</div>
-											<div class="col-md-2 MatcCreateBtnLeft"> 
-												<div class="form-group has-feedback"> 
-													<input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" data-dojo-attach-point="searchBox"/>
-													<span class="mdi mdi-magnify  form-control-feedback MatcCreateSearchBtn " aria-hidden="true" data-dojo-attach-point="searchRemoveBtn"></span>
-												</div>
-												<div class="MatcCreateCatCntr" data-dojo-attach-point="leftCntr"></div>
-											</div>
-									  	</div>
-								  	</div>
-							  	</div>
-							  	<div class="MatcToolbarPopUpArrowCntr">
-								  	<div class="MatcToolbarPopUpArrow">
-								  	</div>
-							  	</div>
-							  </div>
-						  </div>
+    <div class="MatcToolbarItem MatcCreateBtn MatcMultiIcon MatcToolbarDropDownButton">
+		<div type="button" data-dojo-attach-point="button"> 
+			<label data-dojo-attach-point="label" class="">
+				<span class="mdi mdi-puzzle"></span> 
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
+			</label> 
+			
+			</div>
+			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
+				<div class="MatcCreateBtnCntr MatcPadding">
+					<div class="container-fluid">
+						<div class="row">
+							<div v-show="tab === 'widgets'" class="col-md-10 MatcCreateBtnElementList MatcCreateBtnRight" data-dojo-attach-point="rightCntr">
+								<div class="MatcHint">Loading Widgets...</div> 
+							</div>
+							<div v-show="tab === 'import'" class="col-md-10 MatcCreateBtnElementList MatcCreateBtnRight" data-dojo-attach-point="importCntr">
+								<div class="MatcHint">Loading Widgets...</div> 
+							</div>
+							<div class="col-md-2 MatcCreateBtnLeft"> 
+								<div class="form-group has-feedback"> 
+									<input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" data-dojo-attach-point="searchBox"/>
+									<span class="mdi mdi-magnify  form-control-feedback MatcCreateSearchBtn " aria-hidden="true" data-dojo-attach-point="searchRemoveBtn"></span>
+								</div>
+								<div class="MatcCreateCatCntr" data-dojo-attach-point="leftCntr"></div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div class="MatcToolbarPopUpArrowCntr">
+				<div class="MatcToolbarPopUpArrow">
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -74,7 +75,8 @@ export default {
 					w : 160,
 					h : 200
 				}
-			}
+			},
+			tab: 'widgets'
         }
     },
     components: {},
@@ -101,7 +103,7 @@ export default {
 		},
 		
 		onVisible (){
-			
+			this.showWidgets()
 			if(this.selectedCategory == 'Template'){
 				this.renderTemplates();
 			}
@@ -116,7 +118,7 @@ export default {
 		},
 		
 		async init (){
-		
+			console.debug('init', this.categories)
 			if (!this.categories){
 			
 				/**
@@ -145,9 +147,6 @@ export default {
 		
 		onSearch (e){	
 			e.stopPropagation();
-			/**
-			 * TODOL If enter and onlz one selection, add
-			 */
 			var k = e.keyCode ? e.keyCode : e.which
 			if (k === 13) {
 				if (this._visibleElements && this._visibleElements.length === 1) {
@@ -345,6 +344,14 @@ export default {
 			db.a("", "My Symbols").build(li);
 			this._lis["Template"] = li;
 			this.own(on(li, touch.press, lang.hitch(this, "showTemplates", true) ));
+
+			/**
+			 * 5th Imports
+			 */
+			li = db.span().build(ul);
+			db.a("MatcButton MatcButtonFullWidth MatcButtonSignUp", "Import").build(li);
+			this._lis["Import"] = li;
+			this.own(on(li, touch.press, lang.hitch(this, "showImportSection") ));
 			
 			this.leftCntr.appendChild(ul);
 			
@@ -356,14 +363,21 @@ export default {
 	
 			this.categories = categories;
 			this.showCategory(this.selectedCategory);
-			
-
 		},
 		
-		
-		
-		
+		showImportSection (e){
+			console.debug('showImportSection', e)
+			this.stopEvent(e)
+			this.tab = 'import'
+		},
+
+		showWidgets () {
+			console.debug('showWidgets')
+			this.tab = 'widgets'
+		},
+
 		showCategory (category, resetSearch){
+			this.showWidgets()
 			if(resetSearch){
 				this.resetSearch();
 			}
@@ -373,6 +387,7 @@ export default {
 		},
 		
 		showIcons (resetSearch){
+			this.showWidgets()
 			if(resetSearch){
 				this.resetSearch();
 			}
@@ -382,6 +397,7 @@ export default {
 		},
 		
 		showTemplates (resetSearch){
+			this.showWidgets()
 			if(resetSearch){
 				this.resetSearch();
 			}
@@ -392,14 +408,12 @@ export default {
 		
 		
 		renderSelectedTab (category){
-
 			for(var cat in this._lis){
 				css.remove(	this._lis[cat], "MatcSelected");
 			}
 			if(this._lis[category]){
 				css.add(this._lis[category], "MatcSelected");
 			}
-		
 		},
 		
 		renderIcons (){			
@@ -547,9 +561,9 @@ export default {
 					/**
 					 * This case should only happen for templates. Therefore we will have specific message here
 					 */
-					db.label("","No templates defined. To create an template, select a widget and click 'Make Template' in the toolbar!").build(cntr);
+					db.span("MatcHint","No symbols defined. To create a symbol, select a widget and click 'Make Symbol' in the toolbar!").build(cntr);
 				} else if(this.searchQuery){
-					db.label("","No elements match the search query").build(cntr);
+					db.span("MatcHint","No elements match the search query").build(cntr);
 				}
 				
 			} else {

@@ -515,7 +515,7 @@ export default class Screen extends CopyPaste {
 		this.logger.log(0,"modelScreenUpdate", "enter > " +id+ " > " + updateChildren);
 		
 		var screen = this.model.screens[id];
-		
+		screen.modified = new Date().getTime()
 		
 		/**
 		 * update all widgets too if there was 
@@ -639,6 +639,7 @@ export default class Screen extends CopyPaste {
 			for(var p in props){
 				screen[type][p] = props[p];
 			}
+			screen.modified = new Date().getTime()
 		}else {
 			console.debug("Could not update screen properties");
 		}

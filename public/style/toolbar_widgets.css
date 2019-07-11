@@ -1379,7 +1379,6 @@ td.MatcGradientBox.MatcColorBox span{
 .MatcImageUploadContainer .MatcHint,
 .MatcCreateBtnRight .MatcHint{
 	display: inline-block;
-	width: 300px;
 	font-size: 24px;
 	color:#ccc;
 	padding-top: 20px;	
