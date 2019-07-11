@@ -4,6 +4,7 @@ import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import win from 'dojo/_base/win'
 import Core from 'core/Core'
+import CheckBox from 'common/CheckBox'
 
 export default {
     name: 'ScreenGrid',
@@ -14,6 +15,23 @@ export default {
     },
     components: {},
     methods: {
+
+        initScreenRuler () {
+            if(this.rulerCntr){
+                this.rulerChkBox = this.$new(CheckBox);
+                this.rulerChkBox.setLabel("Show Ruler");
+                this.rulerChkBox.setValue(this.settings.showRuler);
+                this.rulerChkBox.placeAt(this.rulerCntr);
+                this.own(on(this.rulerChkBox, "change", lang.hitch(this, "setShowScreenRuler")));
+            }
+        },
+
+        setShowScreenRuler (value) {
+			this.settings.showRuler = value;
+            this._setStatus("matcSettings",this.settings);
+            this.rerender();
+		},
+
         renderScreenButtons (dndDiv, screen) {
             this.logger.log(2,"renderScreenButtons", "enter " +  screen.name, screen.rulers );
 
@@ -50,7 +68,7 @@ export default {
                     css.add(handle, " MatcScreenGridHandle MatcScreenGridHandle" + ruler.type);
                     dndDiv.appendChild(handle)
 
-                    if (this.model.grid && !this.model.grid.hideRuler) {
+                    if (this.settings.showRuler) {
                         let line = document.createElement('div')
                         line.style.backgroundColor = this.model.grid.color
                         css.add(line, "MatcScreenGridLine" + ruler.type);

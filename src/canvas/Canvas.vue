@@ -35,7 +35,7 @@
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="distanceCntr"></div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="animCntr"></div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="rulerCntr"></div>
 		</div>
 	</div> <!-- Status -->
 
@@ -122,7 +122,8 @@ export default {
 				this.initZoom();
 				this.initScrollBars();
 				this.initUpload();
-				this.initComment();			
+				this.initComment();		
+				this.initScreenRuler()	
 				
 				/**
 				 * Init Listeners
@@ -263,6 +264,7 @@ export default {
 					renderLines : true,
 					keepColorWidgetOpen: true,
 					layerListVisible: false,
+					showRuler: true
 				};
 			
 				
@@ -274,6 +276,11 @@ export default {
 					if(s.canvasTheme){
 						this.settings.canvasTheme = s.canvasTheme;
 					}
+
+					if(s.showRuler != null){
+						this.settings.showRuler = s.showRuler;
+					}
+
 					if(s.lineColor){
 						this.settings.lineColor = s.lineColor;
 					}
@@ -358,6 +365,7 @@ export default {
 			
 			applySettings (s){
 				this.logger.log(2,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
+				console.debug('applySettings', s)
 				
 				if(s.moveMode){
 					this.moveMode = s.moveMode;
@@ -369,6 +377,10 @@ export default {
 				
 				if(s.showDistance!=null){
 					this.showDistance = s.showDistance;
+				}
+
+				if(s.showRuler!=null){
+					this.showRuler = s.showRuler;
 				}
 				
 				if(s.showAnimation!=null){
