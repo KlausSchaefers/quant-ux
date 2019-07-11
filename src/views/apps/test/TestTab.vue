@@ -6,9 +6,11 @@
           <div class="col-md-2">
             <h2>
               Users
+              <!--
               <a href="#help/how_many_users.html" class="MatcHelpIcon">
                 <span class="mdi mdi-help-circle"></span>
               </a>
+              -->
             </h2>
           </div>
           <div class="col-md-10 MatcForm" id="testUserCountCntr">
@@ -26,8 +28,7 @@
           v-model="test.description"
           data-gramm_editor="false"
           @change="onDescriptionChange"
-          placeholder
-        ></textarea>
+          placeholder="Enter here a description that will be shown to your testers."></textarea>
       </div>
     </div>
 

@@ -6,13 +6,17 @@
             <div class="row">
                 <div class="col-md-6 " id="">
                     <h2>
-                        Overview 
+                        Dashboard 
+                        <!-- 
                         <a href="#help/analyze/dash.html" class="MatcHelpIcon"><span class="mdi mdi-help-circle"></span></a>
+                        -->
                     </h2>
                 </div>
+                <!--
                 <div class="col-md-6 MatcRight">
                     <a class="MatcButton MatcButtonSignUp MatcButtonGreen" :href="`#/${urlPrefix}/${app.id}/analyze/workspace.html`">Analytic Canvas</a>
-                </div>                    
+                </div>             
+                -->       
             </div>       
             <AnalyticsHeader class="MatcMarginTopXXL" :value="summary"/>   
         </div>

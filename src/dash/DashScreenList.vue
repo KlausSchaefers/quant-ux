@@ -1,27 +1,24 @@
-
 <template>
      <div class="MatcList MatcAppList">
-							<div class="row MatcMarginBottom"> 
-								<div class="col-md-8 ">
-									<h2>Screen Statistics
-									<a href="#help/analyze/screens.html" class="MatcHelpIcon"><span class="mdi mdi-help-circle"></span></a>
-									
-								 	</h2>
-								</div>
-								<div class="col-md-4 MatcRight">
-									<a class="MatcButton" data-dojo-attach-point="downloadBTN">
-									Download
-									</a> 
-									<a class="MatcButton MatcButtonToggle" data-dojo-attach-point="detailsBtn">
-									Details
-									</a>
-								</div>
-							</div>
-							<div class="MatcListContainer" data-dojo-attach-point="container"> Loading...
-							
-							</div>
-						
-						</div>
+		<div class="row MatcMarginBottom"> 
+			<div class="col-md-8 ">
+				<h2>Screen Statistics
+				<a href="#help/analyze/screens.html" class="MatcHelpIcon"><span class="mdi mdi-help-circle"></span></a>
+				
+				</h2>
+			</div>
+			<div class="col-md-4 MatcRight">
+				<a class="MatcButton" data-dojo-attach-point="downloadBTN">
+				Download
+				</a> 
+				<a class="MatcButton MatcButtonToggle" data-dojo-attach-point="detailsBtn">
+				Details
+				</a>
+			</div>
+		</div>
+		<div class="MatcListContainer" data-dojo-attach-point="container"> Loading...
+		</div>
+	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -29,17 +26,13 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import touch from 'dojo/touch'
-import dom-geometry from 'dojo/dom-geometry'
-import _Widget from 'common/_Widget'
 import Logger from 'common/Logger'
 import ProgressBar from 'common/ProgressBar'
 import Table from 'common/Table'
 import Util from 'core/Util'
 import AppList from 'page/AppList'
-import Firemap from 'dash/Firemap'
+import Heat from 'dash/Heat'
 import DataFrame from 'common/DataFrame'
-
-
 
 
 export default {

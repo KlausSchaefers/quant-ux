@@ -24,7 +24,10 @@
                   :href="`#/${urlPrefix}/${appID}/test.html`">Test</a>
 
                 <a :class="['MatcHeaderItem', {'MatcHeaderItemSelected': tab == 'analyze'}]" 
-                  :href="`#/${urlPrefix}/${appID}/analyze.html`">Analyze</a>
+                  :href="`#/${urlPrefix}/${appID}/analyze.html`">Dashboard</a>
+
+                <a :class="['MatcHeaderItem', {'MatcHeaderItemSelected': tab == 'heat'}]" 
+                  :href="`#/${urlPrefix}/${appID}/heat.html`" v-if="!isPublic">Heat Maps</a>
 
                 <a :class="['MatcHeaderItem', {'MatcHeaderItemSelected': tab == 'settings'}]" 
                   :href="`#/${urlPrefix}/${appID}/settings.html`" v-if="!isPublic">Settings</a>
@@ -75,6 +78,15 @@
             @change="onTestChange"/>     
         </div>
 
+        <div v-if="tab == 'heat'">
+           <HeatTab 
+            :app="app" 
+            :test="testSettings" 
+            :annotation="sessionAnnotations" 
+            :events="events" 
+            v-if="restLoaded"/>      
+        </div>
+
         <div v-if="tab == 'video'">
           <VideoTab 
             :app="app" 
@@ -109,8 +121,10 @@ import DomBuilder from 'common/DomBuilder'
 import ScreenList from "page/ScreenList";
 import TestTab from 'views/apps/test/TestTab'
 import AnalyticsTab from 'views/apps/analytics/AnalyticsTab'
+import HeatTab from 'views/apps/analytics/HeatTab'
 import VideoTab from 'views/apps/test/VideoTab'
 import SettingsTab from 'views/apps/SettingsTab'
+
 import Team from 'page/Team'
 import Comment from 'page/Comment'
 import Services from "services/Services";
@@ -143,6 +157,7 @@ export default {
       'VideoTab': VideoTab,
       'SettingsTab': SettingsTab,
       'Team': Team,
+      'HeatTab': HeatTab,
       'Comment': Comment
   },
   computed: {
