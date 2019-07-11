@@ -2,7 +2,7 @@
   <div class="MatcApps">
     
 
-    <div class="MatcContent">
+    <div class="MatcContent MatcAbout">
       <div class="MatcSection">
         <div class="container" id="">
             <AppList :pub="false" :canAdd="true"/>

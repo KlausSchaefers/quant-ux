@@ -34,11 +34,7 @@
                   <input type="password" class="form-control  input-lg" v-model="password" placeholder="To change, enter new password">
                 </div>
 
-                <div class="form-group">
-                  <label>Homepage</label>
-                  <input type="text"  class="form-control input-lg" v-model="user.homepage" placeholder="http://www.yourpage.com">
-                  </div>
-
+               
                 <div class="form-group">
                   <label>Newsletter</label>
                   <div>

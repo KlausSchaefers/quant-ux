@@ -27,7 +27,7 @@
                   :href="`#/${urlPrefix}/${appID}/analyze.html`">Dashboard</a>
 
                 <a :class="['MatcHeaderItem', {'MatcHeaderItemSelected': tab == 'heat'}]" 
-                  :href="`#/${urlPrefix}/${appID}/heat.html`" v-if="!isPublic">Heat Maps</a>
+                  :href="`#/${urlPrefix}/${appID}/heat.html`">Heat Maps</a>
 
                 <a :class="['MatcHeaderItem', {'MatcHeaderItemSelected': tab == 'settings'}]" 
                   :href="`#/${urlPrefix}/${appID}/settings.html`" v-if="!isPublic">Settings</a>
@@ -35,7 +35,7 @@
               </div>
 
               <div class="col-md-4 MatcRight">
-                <a  class="MatcButton MatcButtonTrans" target="test" :href="'#/test.html?h=' + hash" id="overviewHeaderRunTest">Test</a>
+                <a  class="MatcButton MatcButtonTrans" target="test" :href="'#/test.html?h=' + hash + '&log=' + !isPublic" id="overviewHeaderRunTest">Test</a>
                 <a class="MatcButton MatcButtonTrans"  @click="showShareDialog" ref="shareButton">Share</a>
               </div>
             </div>
