@@ -592,8 +592,7 @@ export default {
 				Object.values(app.groups).map(group => {
 					let result = {}
 					let bbbox = ModelGeom.getBoundingBox(group.children, app)
-					
-					
+					console.debug(bbbox)
 					return result
 				})
 			}
