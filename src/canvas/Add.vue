@@ -229,8 +229,7 @@ export default {
 		
 		
 		addScreen (params){
-			console.warn("addScreen() > DEPRECATED");
-			this.logger.log(1,"addScreen", "enter");
+			this.logger.warn("addScreen", "DEPRECATED");
 			
 			var screen = this.factory.createScreenModel(params);
 			screen.id = "_tempScreen";

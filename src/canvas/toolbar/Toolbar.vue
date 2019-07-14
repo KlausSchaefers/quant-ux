@@ -593,13 +593,19 @@ export default {
 		
 		onThemedMultiScreen (screens,e ){
 			this.logger.log(0,"onThemedMultiScreen", "entry > ");
-			
 			this.emit("newMultiThemedScreen", {"obj" : screens, "event":e});
+		},
+
+		onImportChange (imports) {
+			this.logger.log(-1,"onImportChange", "entry > ", imports);
+			if (this.controller) {
+				this.controller.setImports(imports)
+			}
 		},
 		
 		onNewThemeObject (obj, e){
 			this.logger.log(1,"onNewThemeObject", "entry > " + obj._type + " > " + obj.type+ " > " +obj._isTemplate);
-			
+			console.debug(obj)
 			var type = obj._type;
 			
 			/**
@@ -625,9 +631,7 @@ export default {
 				this.emit("newThemedGroup", {"obj" : obj, "event" : e});
 			} else if (type == "Widget"){
 				this.emit("newThemedWidget",{"obj" : obj, "event" : e} );
-			} 
-		
-		
+			}
 		},
 		
 		
@@ -982,7 +986,6 @@ export default {
 		},
 		
 		onToolBox (e){
-			console.debug('onToolbox', e, this)
 			this.logger.log(1,"onToolHotspot", "entry >");
 			this.stopEvent(e);
 			

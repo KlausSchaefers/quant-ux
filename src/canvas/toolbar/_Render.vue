@@ -205,6 +205,7 @@ export default {
 			this.createBTN = this.$new(CreateButton);
 			this.createBTN.setModel(this.model);
 			this.tempOwn(on(this.createBTN, "change", lang.hitch(this, "onNewThemeObject")));
+			this.tempOwn(on(this.createBTN, "importsChange", lang.hitch(this, "onImportChange")));
 			css.add(this.createBTN.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
 			this.createBTN.placeAt(this.addSection);
 
@@ -2364,6 +2365,11 @@ export default {
 			}
 		},
 
+		updateImports () {
+			if (this.createBTN) {
+				this.createBTN.updateImports()
+			}
+		},
 
 		_getCreateList:function(){
 

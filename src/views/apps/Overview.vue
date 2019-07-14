@@ -127,7 +127,7 @@ import SettingsTab from 'views/apps/SettingsTab'
 
 import Team from 'page/Team'
 import Comment from 'page/Comment'
-import Services from "services/Services";
+import Services from "services/Services"
 
 export default {
   name: "Overview",

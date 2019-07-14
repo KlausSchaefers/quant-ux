@@ -11,11 +11,8 @@
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 				<div class="MatcCreateBtnCntr MatcPadding">
 					<div class="container-fluid">
-						<div class="row">
-							<div v-show="tab === 'widgets'" class="col-md-10 MatcCreateBtnElementList MatcCreateBtnRight" data-dojo-attach-point="rightCntr">
-								<div class="MatcHint">Loading Widgets...</div> 
-							</div>
-							<div v-show="tab === 'import'" class="col-md-10 MatcCreateBtnElementList MatcCreateBtnRight" data-dojo-attach-point="importCntr">
+						<div class="row"  v-show="tab === 'widgets'">
+							<div class="col-md-10 MatcCreateBtnElementList MatcCreateBtnRight" data-dojo-attach-point="rightCntr">
 								<div class="MatcHint">Loading Widgets...</div> 
 							</div>
 							<div class="col-md-2 MatcCreateBtnLeft"> 
@@ -25,6 +22,17 @@
 								</div>
 								<div class="MatcCreateCatCntr" data-dojo-attach-point="leftCntr"></div>
 							</div>
+						</div>
+						<div class="row" v-show="tab === 'import'">
+							<div @mousedown.stop="" class="col-md-12 MatcCreateBtnElementList MatcCreateBtnRight" >
+								<div data-dojo-attach-point="importCntr">
+									<div class="MatcHint">Loading Apps...</div>
+								</div>
+								<div class="MatcButtonBar">
+									<a class="MatcButton" @click="onSaveImports">Save</a> <a class="MatcLinkButton" @click="showWidgets()">Back</a>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 			</div>
@@ -39,7 +47,6 @@
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
-// import win from 'dojo/win'
 import on from 'dojo/on'
 import domStyle from 'dojo/domStyle'
 import touch from 'dojo/touch'
@@ -49,7 +56,8 @@ import Util from 'core/Util'
 import RenderFactory from 'core/RenderFactory'
 import _DropDown from 'canvas/toolbar/_DropDown'
 import Services from 'services/Services'
-import { setTimeout } from 'timers';
+import CheckBox from 'common/CheckBox'
+import ModelGeom from 'core/ModelGeom'
 
 export default {
     name: 'CreateButton2',
@@ -92,7 +100,8 @@ export default {
 			this.renderFactory = new RenderFactory();
 			this.renderFactory.setModel(m);	
 			this.renderFactory.setSymbol(true);			
-			this.categoriesList = ["WireFrame", "Material", "IOS", "OpenUI", "Bootstrap", "Bootstrap4", "Charts"];
+			this.categoriesList = ["WireFrame", "Material", "IOS", "OpenUI", "Bootstrap4", "Charts"];
+			this._importedApps = {}
 			/**
 			 * set to last added category...
 			 */
@@ -118,7 +127,6 @@ export default {
 		},
 		
 		async init (){
-			console.debug('init', this.categories)
 			if (!this.categories){
 			
 				/**
@@ -136,7 +144,10 @@ export default {
 					e.stopPropagation(); 
 					return false
 				}));
-				
+
+				Services.getModelService().findMyAppSummaries().then(apps => {
+					this._importableApps = apps
+				})
 				
 				this.own(on(this.searchBox, "keypress", function(e){e.stopPropagation()}));
 				this.own(on(this.searchBox, "keydown", function(e){e.stopPropagation()}));
@@ -348,11 +359,27 @@ export default {
 			/**
 			 * 5th Imports
 			 */
+			if (this.model.imports) {
+				this.model.imports.forEach(appID => {
+					li = db.li().build(ul);
+					let a = db.a("", "importing...").build(li);
+					this._lis[appID] = li;
+					this.own(on(li, touch.press, lang.hitch(this, "showImportedApp", appID, true) ));
+					Services.getModelService().findApp(appID).then(app => {
+						this.onImportedLoaded(app, a)
+					}).then (err => {
+						console.debug('Cannot import app', appID, err)
+					})
+				})
+			}
+		
+
 			li = db.span().build(ul);
 			db.a("MatcButton MatcButtonFullWidth MatcButtonSignUp", "Import").build(li);
 			this._lis["Import"] = li;
 			this.own(on(li, touch.press, lang.hitch(this, "showImportSection") ));
 			
+			this.leftCntr.innerHTML = ""
 			this.leftCntr.appendChild(ul);
 			
 			this.scroller = this.$new(ScrollContainer);
@@ -365,14 +392,71 @@ export default {
 			this.showCategory(this.selectedCategory);
 		},
 		
-		showImportSection (e){
-			console.debug('showImportSection', e)
+		async showImportSection (e){
 			this.stopEvent(e)
 			this.tab = 'import'
+
+			this._tempImports = {}
+		
+			let apps = this._importableApps.filter(app => app.name).sort((a,b) => {
+				if (a.name && b.name) {
+					return a.name.localeCompare(b.name)
+				}
+			})
+
+			var db = new DomBuilder();
+			let cntr = db.div('MatcCreateImportCntr').build()
+		
+			apps.forEach(app => {
+				let row = db.div().build(cntr)
+				let chkBox = this.$new(CheckBox)
+				chkBox.setLabel(app.name)
+				chkBox.placeAt(row)
+				chkBox.on('change', selected => {
+					this._tempImports[app.id] = selected
+				});
+				if (this.model.imports) {
+					if (this.model.imports.indexOf(app.id) >= 0) {
+						chkBox.setValue(true)
+						this._tempImports[app.id] = true
+					}
+				}
+			})
+
+			this.importCntr.innerHTML = ''
+			this.importCntr.appendChild(cntr)
 		},
 
-		showWidgets () {
-			console.debug('showWidgets')
+		onImportedLoaded (app, li) {
+			this.setInnerHTML(li, app.name)
+			this._importedApps[app.id] = app
+		},
+
+		onSaveImports () {
+			let imports = []
+			for (let appID in this._tempImports){
+				if (this._tempImports[appID]) {
+					imports.push(appID)
+				}
+			}
+			this.emit('importsChange', imports)
+		},
+
+		updateImports () {
+			this.showWidgets()
+			this.render(this.categories)
+		},
+
+		showImportedApp (appID) {
+			if (this._importedApps[appID]) {
+				this.showWidgets()
+				this.selectedCategory = appID;
+				this.renderSelectedTab(this.selectedCategory);
+				this.renderImportedApp(this._importedApps[appID]);
+			}
+		},
+
+		async showWidgets () {
 			this.tab = 'widgets'
 		},
 
@@ -478,6 +562,47 @@ export default {
 			
 		
 		},
+
+		renderImportedApp (app) {
+			console.debug('renderImportedApp', app)
+			let elements = Object.values(app.widgets).map(widget => {
+				let element = lang.clone(widget)
+				if (element.template && app.templates) {
+					let template = app.templates[element.template]
+					if (template) {
+						var merged = lang.clone(template.style)
+						if (element.style) {
+							for (var key in element.style) {
+								merged[key] = element.style[key]
+							}
+						}
+						element.style = merged
+						delete element.template
+					}
+				}
+				element._type = 'Widget'
+				let group = this.getElementGroup(element.id, app)
+				if (group) {
+					element._group = group.id
+				}
+				return element
+			})
+
+			if (app.groups) {
+				Object.values(app.groups).map(group => {
+					let result = {}
+					let bbbox = ModelGeom.getBoundingBox(group.children, app)
+					
+					
+					return result
+				})
+			}
+
+			elements = elements.filter(element => !element._group);
+			this.renderElements(elements, app.id, false);
+		},
+
+
 		
 		renderTemplates (){
 
@@ -766,19 +891,14 @@ export default {
 		
 		onCreate (child,e){
 			this.stopEvent(e);
-	
 			var value = lang.clone(child);
-			
 			if(child.category){
 				this.model.lastCategory = child.category;
 			}  else {
 				this.model.lastCategory = "WireFrame"
 			}
-		
 			this.hideDropDown();	
-	
 			this.emit("change", value ,e);
-		
 		},
 		
 		_getPreviewSize (category){
@@ -816,7 +936,20 @@ export default {
 				},2000);
 			}
 		
-		}
+		},
+
+		getElementGroup (widgetID, model) {
+			if (model.groups) {
+				for (var id in model.groups) {
+					var group = model.groups[id];
+					var i = group.children.indexOf(widgetID);
+					if (i > -1) {
+						return group;
+					}
+				}
+			}
+			return null;
+		},
     }, 
     mounted () {
     }

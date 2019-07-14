@@ -89,7 +89,6 @@ export default {
 			 * Hide and show methods
 			 ***************************************************/
 			showDropDown (e){	
-				console.debug('showDropDown', e)			
 				this._ignoreHide = false;					
 				/**
 				 * Lazy init only when first time clicked!

@@ -826,8 +826,6 @@ export default class Core extends Evented{
         return null;
     }
 
-
-
     getZoomed(v, zoom) {
         return Math.round(v * zoom);
     }

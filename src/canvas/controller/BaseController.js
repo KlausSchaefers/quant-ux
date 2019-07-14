@@ -743,7 +743,9 @@ export default class BaseController extends Core {
 			this.logger.log(0, "onSaveAsAfterSignUp", "New app" + app.id);
 		}
 
-
+		/**********************************************************************
+		 * Fonts 
+		 **********************************************************************/
 		async setFonts (fonts) {
 			this.logger.log(0, "setFonts", "enter > ", fonts);
 			this.model.fonts = fonts;
@@ -758,6 +760,25 @@ export default class BaseController extends Core {
 				}
 				if (this.toolbar){
 					this.toolbar.updateFontFamilies()
+				}
+			}
+		}
+
+		/**********************************************************************
+		 * Imports 
+		 **********************************************************************/
+	
+		async setImports (imports) {
+			this.logger.log(0, "setFonts", "enter > ", imports);
+			this.model.imports = imports;
+			/**
+			 * We have to do a hard save here, because the delta somehow produces
+			 * on the server null elements
+			 */
+			let res = await this.modelService.saveApp(this.model)
+			if (res) {
+				if (this.toolbar){
+					this.toolbar.updateImports()
 				}
 			}
 		}
@@ -1756,7 +1777,8 @@ export default class BaseController extends Core {
 					"lines" : true, 
 					"templates" : true, 
 					"groups" : true,
-					"fonts": true
+					"fonts": true,
+					"imports": true
 			};
 			
 	
