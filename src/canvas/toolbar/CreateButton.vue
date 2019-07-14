@@ -428,7 +428,7 @@ export default {
 		},
 
 		onImportedLoaded (app, li) {
-			this.setInnerHTML(li, app.name)
+			this.setInnerHTML(li, app.name + ' *')
 			this._importedApps[app.id] = app
 		},
 
@@ -444,6 +444,8 @@ export default {
 
 		updateImports () {
 			this.showWidgets()
+			// here is something wrong!! We have to remove the icon thing or so
+			this.rightCntr.innerHTML="";
 			this.render(this.categories)
 		},
 
