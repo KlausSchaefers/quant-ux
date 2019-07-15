@@ -605,7 +605,6 @@ export default {
 		
 		onNewThemeObject (obj, e){
 			this.logger.log(1,"onNewThemeObject", "entry > " + obj._type + " > " + obj.type+ " > " +obj._isTemplate);
-			console.debug(obj)
 			var type = obj._type;
 			
 			/**
@@ -613,10 +612,9 @@ export default {
 			 */
 			delete obj._extends;
 			delete obj._type;
+			delete obj._group;
 			delete obj.category;
 			delete obj.subcategory;
-		
-
 			/**
 			 * Now dispatch the the right listener
 			 */

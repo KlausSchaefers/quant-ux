@@ -1023,6 +1023,7 @@ export default class Widget extends Screen {
 	
 	modelAddWidget (widget, ignoreModelChange){
 		if(!this.model.widgets[widget.id]){
+			widget.created = new Date().getTime()
 			this.model.widgets[widget.id] = widget;
 		} else {
 			console.warn("Could not add widget because id wxists", widget);

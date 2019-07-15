@@ -57,7 +57,6 @@ import RenderFactory from 'core/RenderFactory'
 import _DropDown from 'canvas/toolbar/_DropDown'
 import Services from 'services/Services'
 import CheckBox from 'common/CheckBox'
-import ModelGeom from 'core/ModelGeom'
 
 export default {
     name: 'CreateButton2',
@@ -84,7 +83,8 @@ export default {
 					h : 200
 				}
 			},
-			tab: 'widgets'
+			tab: 'widgets',
+			importableApps: []
         }
     },
     components: {},
@@ -93,7 +93,7 @@ export default {
 			this.icons = icons
 		},
 		
-		setModel (m){
+		async setModel (m){
 			this.model = m;
 			this.screenWidth = m.screenSize.w;
 			this.screenHeight = m.screenSize.h;
@@ -108,7 +108,8 @@ export default {
 			if(	this.model.lastCategory){
 				this.selectedCategory = this.model.lastCategory;
 			}			
-			setTimeout(lang.hitch(this, "init"), 2000);
+			this.importableApps = await Services.getModelService().findMyAppSummaries()
+			setTimeout(lang.hitch(this, "init"), 2000);	
 		},
 		
 		onVisible (){
@@ -128,7 +129,7 @@ export default {
 		
 		async init (){
 			if (!this.categories){
-			
+				
 				/**
 				 * load themes
 				 */
@@ -145,10 +146,6 @@ export default {
 					return false
 				}));
 
-				Services.getModelService().findMyAppSummaries().then(apps => {
-					this._importableApps = apps
-				})
-				
 				this.own(on(this.searchBox, "keypress", function(e){e.stopPropagation()}));
 				this.own(on(this.searchBox, "keydown", function(e){e.stopPropagation()}));
 				this.own(on(this.searchBox, "keyup", lang.hitch(this,"onSearch")));
@@ -307,7 +304,6 @@ export default {
 					box.h = Math.round(this.screenHeight);
 				}
 				
-				
 				if(box.children){
 					for(var i=0; i< box.children.length; i++){
 						this.setDefaultValues(box.children[i]);
@@ -318,7 +314,7 @@ export default {
 		},
 		
 		render (categories){
-			
+			this.categories = categories;
 			/**
 			 * first sort and pr
 			 */
@@ -361,15 +357,23 @@ export default {
 			 */
 			if (this.model.imports) {
 				this.model.imports.forEach(appID => {
-					li = db.li().build(ul);
-					let a = db.a("", "importing...").build(li);
-					this._lis[appID] = li;
-					this.own(on(li, touch.press, lang.hitch(this, "showImportedApp", appID, true) ));
-					Services.getModelService().findApp(appID).then(app => {
-						this.onImportedLoaded(app, a)
-					}).then (err => {
-						console.debug('Cannot import app', appID, err)
-					})
+					/**
+					 * It could happen that the user does not have access
+					 */
+					let importedApp = this.importableApps.find(a => a.id === appID)
+					if (importedApp) {
+						li = db.li().build(ul);
+						let a = db.a("", "importing...").build(li);
+						this._lis[appID] = li;
+						this.own(on(li, touch.press, lang.hitch(this, "showImportedApp", appID, true) ));
+						Services.getModelService().findApp(appID).then(app => {
+							this.onImportedLoaded(app, a)
+						}).then (err => {
+							console.debug('Cannot import app', appID, err)
+						})
+					} else {
+						console.warn('render() No access to ', appID)
+					}
 				})
 			}
 		
@@ -388,7 +392,7 @@ export default {
 			this.iconCntr = db.div("").build();
 			this.scroller.wrap(this.iconCntr);
 	
-			this.categories = categories;
+			
 			this.showCategory(this.selectedCategory);
 		},
 		
@@ -398,7 +402,7 @@ export default {
 
 			this._tempImports = {}
 		
-			let apps = this._importableApps.filter(app => app.name).sort((a,b) => {
+			let apps = this.importableApps.filter(app => app.name).sort((a,b) => {
 				if (a.name && b.name) {
 					return a.name.localeCompare(b.name)
 				}
@@ -408,17 +412,19 @@ export default {
 			let cntr = db.div('MatcCreateImportCntr').build()
 		
 			apps.forEach(app => {
-				let row = db.div().build(cntr)
-				let chkBox = this.$new(CheckBox)
-				chkBox.setLabel(app.name)
-				chkBox.placeAt(row)
-				chkBox.on('change', selected => {
-					this._tempImports[app.id] = selected
-				});
-				if (this.model.imports) {
-					if (this.model.imports.indexOf(app.id) >= 0) {
-						chkBox.setValue(true)
-						this._tempImports[app.id] = true
+				if (app.id != this.model.id) {
+					let row = db.div().build(cntr)
+					let chkBox = this.$new(CheckBox)
+					chkBox.setLabel(app.name)
+					chkBox.placeAt(row)
+					chkBox.on('change', selected => {
+						this._tempImports[app.id] = selected
+					});
+					if (this.model.imports) {
+						if (this.model.imports.indexOf(app.id) >= 0) {
+							chkBox.setValue(true)
+							this._tempImports[app.id] = true
+						}
 					}
 				}
 			})
@@ -430,6 +436,16 @@ export default {
 		onImportedLoaded (app, li) {
 			this.setInnerHTML(li, app.name + ' *')
 			this._importedApps[app.id] = app
+			let elements = Services.getSymbolService().convertAppToSymbols(app)
+			if (this.categories){
+				let dict = {}
+				elements.forEach(e => {
+					dict[e.id] = e
+				})
+				this.categories[app.id] = dict
+			} else {
+				console.warn('onImportedLoaded() No Categories')
+			}
 		},
 
 		onSaveImports () {
@@ -443,18 +459,18 @@ export default {
 		},
 
 		updateImports () {
+			// ToDo: If we unimport something, this might leave some
+			// of the old categories in. We should cleap that up...
 			this.showWidgets()
-			// here is something wrong!! We have to remove the icon thing or so
 			this.rightCntr.innerHTML="";
 			this.render(this.categories)
 		},
 
 		showImportedApp (appID) {
 			if (this._importedApps[appID]) {
-				this.showWidgets()
-				this.selectedCategory = appID;
-				this.renderSelectedTab(this.selectedCategory);
-				this.renderImportedApp(this._importedApps[appID]);
+				this.showCategory(appID, true)
+			} else {
+				console.warn('showImportedApp() App not loaded')
 			}
 		},
 
@@ -567,43 +583,9 @@ export default {
 
 		renderImportedApp (app) {
 			console.debug('renderImportedApp', app)
-			let elements = Object.values(app.widgets).map(widget => {
-				let element = lang.clone(widget)
-				if (element.template && app.templates) {
-					let template = app.templates[element.template]
-					if (template) {
-						var merged = lang.clone(template.style)
-						if (element.style) {
-							for (var key in element.style) {
-								merged[key] = element.style[key]
-							}
-						}
-						element.style = merged
-						delete element.template
-					}
-				}
-				element._type = 'Widget'
-				let group = this.getElementGroup(element.id, app)
-				if (group) {
-					element._group = group.id
-				}
-				return element
-			})
-
-			if (app.groups) {
-				Object.values(app.groups).map(group => {
-					let result = {}
-					let bbbox = ModelGeom.getBoundingBox(group.children, app)
-					console.debug(bbbox)
-					return result
-				})
-			}
-
-			elements = elements.filter(element => !element._group);
+			let elements = Services.getSymbolService().convertAppToSymbols(app)
 			this.renderElements(elements, app.id, false);
 		},
-
-
 		
 		renderTemplates (){
 
@@ -937,20 +919,7 @@ export default {
 				},2000);
 			}
 		
-		},
-
-		getElementGroup (widgetID, model) {
-			if (model.groups) {
-				for (var id in model.groups) {
-					var group = model.groups[id];
-					var i = group.children.indexOf(widgetID);
-					if (i > -1) {
-						return group;
-					}
-				}
-			}
-			return null;
-		},
+		}
     }, 
     mounted () {
     }

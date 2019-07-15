@@ -1,6 +1,8 @@
 import AbstractService from 'services/AbstractService'
 import Logger from 'common/Logger'
-import Vue from "vue";
+import Vue from "vue"
+import ModelGeom from 'core/ModelGeom'
+import lang from 'dojo/_base/lang'
 // import HelloWorld from 'examples/HelloWorld'
 
 /**
@@ -199,13 +201,85 @@ class SymbolService extends AbstractService{
       })
     }
 
-	$new (cls) {
-		var ComponentClass = Vue.extend(cls);
-		var instance = new ComponentClass();
-		instance.mode = this.mode
-		instance.$mount(); // pass nothing
-		return instance;
-	}
+    convertAppToSymbols (app) {
+        let elements = Object.values(app.widgets).map(widget => {
+				let element = lang.clone(widget)
+				if (element.template && app.templates) {
+					let template = app.templates[element.template]
+					if (template) {
+						var merged = lang.clone(template.style)
+						if (element.style) {
+							for (var key in element.style) {
+								merged[key] = element.style[key]
+							}
+						}
+						element.style = merged
+						delete element.template
+					}
+				}
+				element._type = 'Widget'
+				element.imported = app.id + '@' + element.id
+				let group = this.getElementGroup(element.id, app)
+				if (group) {
+					element._group = group.id
+				}
+				return element
+			})
+
+			if (app.groups) {
+				let groups = Object.values(app.groups).map(group => {
+				
+          let bbbox = ModelGeom.getBoundingBox(group.children, app)
+          let result = {
+            w: bbbox.w,
+            h: bbbox.h,
+            id: group.id,
+            name: group.name,
+            children: [],
+            type: 'Group',
+            _type: 'Group'
+          }
+          group.children.forEach(childID => {
+            let element = elements.find(e => e.id === childID);
+            if (element) {
+              element = lang.clone(element)
+              delete element._type
+              delete element._group
+              element.x = element.x - bbbox.x
+              element.y = element.y - bbbox.y
+              result.children.push(element)
+            }
+            
+          })
+					return result
+        })
+        elements = elements.concat(groups)
+			}
+
+      elements = elements.filter(element => !element._group);
+      return elements
+    }
+
+    getElementGroup (widgetID, model) {
+			if (model.groups) {
+				for (var id in model.groups) {
+					var group = model.groups[id];
+					var i = group.children.indexOf(widgetID);
+					if (i > -1) {
+						return group;
+					}
+				}
+			}
+			return null;
+		}
+
+    $new (cls) {
+      var ComponentClass = Vue.extend(cls);
+      var instance = new ComponentClass();
+      instance.mode = this.mode
+      instance.$mount(); // pass nothing
+      return instance;
+    }
 
 }
 export default new SymbolService()
