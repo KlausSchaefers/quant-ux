@@ -17,7 +17,7 @@ import DomBuilder from 'common/DomBuilder'
 import _Tooltip from 'common/_Tooltip'
 import Dialog from 'common/Dialog'
 import Code from 'common/Code'
-import CheckBox from 'common/CheckBox'
+// import CheckBox from 'common/CheckBox'
 import Util from 'core/Util'
 
 const cli = require('quant-ux-cli')
@@ -89,32 +89,35 @@ export default {
 
 				this.generateScreen(fakedModel, "SelectedScreen", code, true)
 
+				/**
 				let conf = db.div('MatcCSSDialogCheckRow').build(popup)
 				let checkBox = this.$new(CheckBox)
-				checkBox.setLabel('Generate responsive code')
+				checkBox.setLabel('Use CSS Grid')
 				checkBox.setValue(this.isResponsive)
 				checkBox.placeAt(conf)
 				checkBox.on('change', value => {
 					this.generateScreen(fakedModel, "SelectedScreen", code, value)
 				})
+				*/
 
 			} else if(this.screen) {
 
 				this.generateScreen(this.model, this.screen.id, code, true)
 
+				/**
 				let conf = db.div('MatcCSSDialogCheckRow').build(popup)
 				let checkBox = this.$new(CheckBox)
-				checkBox.setLabel('Generate responsive code')
+				checkBox.setLabel('Use CSS Grid')
 				checkBox.setValue(this.isResponsive)
 				checkBox.placeAt(conf)
 				checkBox.on('change', value => {
 					this.generateScreen(this.model, this.screen.id, code, value)
 				})
+				*/
 
 			} else {
 				code.setCSS(this.getWidgetCSS())
 			}
-
 
 			var write = db.div("MatcButtonBar")
 				.div("MatcButton", "Close")
@@ -126,32 +129,23 @@ export default {
 		},
 
 		generateScreen (model, screenID, code, isResponsive) {
-			let htmlGenerator = new cli.Generator(new cli.HTMLFactory(), new cli.CSSFactory(isResponsive))
+		
+
+			/**
+			 * Create HTML
+			 */
+			let htmlGenerator = new cli.Generator(new cli.HTMLFactory(), new cli.CSSFactory(isResponsive, "", true))
 			let result = htmlGenerator.run(model)
 			let screen = result.screens.find(s => s.id === screenID)
-
 			if (screen) {
 				let html = screen.template
-
-				let css = ''
-				let normalize = result.styles['$NORMALIZE']
-				if (normalize) {
-					css += normalize.map(s => s.code).join('\n')
-				}
-				css += screen.styles.map(s => s.code).join('\n')
-				let elements = cli.ExportUtil.getAllChildrenForScreen(screen)
-				elements.forEach(element => {
-					let styles = result.styles[element.id]
-					css += styles.map(s => s.code).join('\n')
-				})
-
 				let writer = new cli.SinglePageWriter()
 				let files = writer.getFiles(result)
 				let selectedFile = files.find(f => f.id === screenID)
 				if (selectedFile) {
 					let previewCode = selectedFile.content
 					code.setHTMLTemplate(html)
-					code.setCSS(css)
+					//code.setCSS(css)
 					code.setPreview(previewCode)
 				} else {
 					console.warn('CssExporter.downloadScreen() > no file for screen', screenID)
@@ -160,22 +154,34 @@ export default {
 				console.warn('CssExporter.downloadScreen() > no sceeen')
 			}
 
-
-			let vueGenerator = new cli.Generator(new cli.VueFactory(), new cli.CSSFactory(isResponsive))
-			let vueResult = vueGenerator.run(model)
+			/**
+			 * Generate CSS and Vue
+			 */
+			let vueGenerator = new cli.Generator(
+				new cli.VueFactory(), 
+				new cli.CSSFactory(isResponsive, false, true)
+			)
+			let vueResult = vueGenerator.run(model, isResponsive)
 			let vueScreen = vueResult.screens.find(s => s.id === screenID)
 			if (vueScreen) {
-
-				let writer = new cli.VueSinglePageWriter()
+				let writer = new cli.VueExportWriter()
 				let files = writer.getFiles(vueResult)
+
 				let selectedFile = files.find(f => f.id === screenID && f.type === 'vue')
 				if (selectedFile) {
 					let previewCode = selectedFile.content
 					code.setVue(previewCode)
 				} else {
-					console.warn('CssExporter.downloadScreen() > no file for screen', screenID)
+					console.warn('CssExporter.downloadScreen() > no vue for screen', screenID)
 				}
 
+				let selectedCSS = files.find(f => f.id === screenID && f.type === 'css')
+				if (selectedCSS) {
+					let previewCSS = selectedCSS.content
+					code.setCSS(previewCSS)
+				} else {
+					console.warn('CssExporter.downloadScreen() > no css for screen', screenID)
+				}
 			}
 			code.setModel(model)
 		},

@@ -4,14 +4,12 @@
       <a @click="tab='css'" :class="{'MatcToolbarTabActive': tab === 'css'}">CSS</a>
       <a @click="tab='html'" :class="{'MatcToolbarTabActive': tab === 'html'}" v-if="hasHTML">HTML</a>
       <a @click="tab='vue'" :class="{'MatcToolbarTabActive': tab === 'vue'}" v-if="hasVue">VUE</a>
-      <a @click="showPreview()" :class="{'MatcToolbarTabActive': tab === 'preview'}" v-if="hasPreview">Preview</a>
+     <!-- <a @click="showPreview()" :class="{'MatcToolbarTabActive': tab === 'preview'}" v-if="hasPreview">Preview</a> -->
     </div>
     <div class="MatcCodeContainer" v-show="tab!== 'preview'">
-      <pre>
-          <code ref="codeHTML" class="html" v-show="tab=='html'">{{htmlTemplate}}</code>
-          <code ref="codeCSS" class="css" v-show="tab=='css'">{{cssTemplate}}</code>
-          <code ref="codeVue" class="html" v-show="tab=='vue'">{{vueTemplate}}</code>
-      </pre>
+      <pre v-show="tab=='html'"><code ref="codeHTML" class="html" >{{htmlTemplate}}</code></pre>
+      <pre v-show="tab=='css'"><code ref="codeCSS" class="css" >{{cssTemplate}}</code></pre>
+      <pre v-show="tab=='vue'"><code ref="codeVue" class="html" >{{vueTemplate}}</code></pre>
      </div>
      <div v-show="tab === 'preview'" class="MatcCodePreview">
        You can try out the HTML code in the popup window.
@@ -68,6 +66,7 @@ export default {
       this.model = m
     },
     setCSS (v) {
+      v = v.trim()
       if (this.cssTemplate) {
         this.$refs.codeCSS.innerHTML = v
       }
@@ -77,6 +76,7 @@ export default {
       })
     },
     setVue (v) {
+      v = v.trim()
       if (this.vueTemplate) {
         this.$refs.codeVue.innerHTML = v
       }
@@ -87,7 +87,7 @@ export default {
       })
     },
     setHTMLTemplate (v) {
-      
+      v = v.trim()
       this.hasHTML = true
       this.htmlTemplate = v
       Vue.nextTick(() => {

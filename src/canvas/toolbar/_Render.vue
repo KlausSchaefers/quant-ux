@@ -252,7 +252,7 @@ export default {
 
 			this.replicateBtn = this.createToolBarItem('<span class="MatcIconMirror mdi mdi-tab-unselected"></span> <label class="MatcToolbarLabel">Clone</label>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
 
-			this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span> <label class="MatcToolbarLabel">Distribute</label>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);
+			this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span> <label class="MatcToolbarLabel">Responsive Resize</label>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);
 
 			if(this.user.role=="admin"){
 				this.createSpacer(this.templateDiv);
