@@ -2,7 +2,7 @@
   <div class="MatcTest">
     <div class="MatcSection">
       <div class="container">
-          <div class="row">
+          <div class="row MatcMarginBottom">
                 <div class="col-md-6 " id="">
                     <h2>
                         Heat Maps 

@@ -78,6 +78,7 @@ export default {
     setVue (v) {
       v = v.trim()
       if (this.vueTemplate) {
+        // this causes some stupid errors because the browser parses the code
         this.$refs.codeVue.innerHTML = v
       }
       this.hasVue = true

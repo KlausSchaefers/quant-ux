@@ -349,6 +349,11 @@
 .MatcToobarItemBig .MatcToolbarItem{
 	color: #fff;
 }
+
+.MatcToobarItemBig .MatcToolbarItem:hover{
+	color: #fff;
+}
+
 .MatcToobarItemBig .caret{
 	display: none;
 }
