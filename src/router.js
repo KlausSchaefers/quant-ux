@@ -92,10 +92,10 @@ export default new Router({
     {
       path: '/test/code/:id.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/CodeGenTest.vue')
-    },
-    {
-      path: '/test/paper.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/Paper.vue')
     }
+    //{
+    //  path: '/test/paper.html',
+    //  component: () => import(/* webpackChunkName: "unit" */ './unit/Paper.vue')
+    //}
   ]
 })

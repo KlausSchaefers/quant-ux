@@ -388,7 +388,6 @@ export default {
 				pos.w = 1;
 				pos.h = 1;
 				this._selectionToolInit = this.allignPosition(pos, e);
-				
 			}
 		
 			return false;

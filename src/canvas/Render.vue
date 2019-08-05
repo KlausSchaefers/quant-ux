@@ -130,10 +130,8 @@ export default {
 				css.add(this.message, "MatcMessageHint");
 				css.remove(this.message, "MatcMessageSuccess MatcMessageSuccess");
 				this.message.innerHTML = msg;
-				
 				setTimeout(lang.hitch(this,"hideMessage"), 3000);
 			}
-		
 		},
 		
 		hideMessage (){
@@ -207,7 +205,6 @@ export default {
 			this.showDistance = value;
 			this.settings.showDistance = value;
 			this._setStatus("matcSettings",this.settings);
-			
 		},
 		
 		setShowAnimation (value){
@@ -315,6 +312,10 @@ export default {
 			this.container.style.height = this.getZoomed(this.canvasPos.h, this.zoom) +"px";
 			this.container.style.width = this.getZoomed(this.canvasPos.w, this.zoom) +"px";
 			this.frame.style.fontSize = this.getZoomed(this.defaultFontSize, this.zoom)  + "px";
+			this.containerSize = {
+				h: this.getZoomed(this.canvasPos.h, this.zoom),
+				w: this.getZoomed(this.canvasPos.w, this.zoom)
+			}
 		},
 		
 		setContainerPos (ignoreScollUpdate){
@@ -382,7 +383,6 @@ export default {
 				this.logger.error("render", "ups", e);
 				this.logger.sendError(e);
 			}
-			
 		},
 		
 
@@ -393,6 +393,20 @@ export default {
 			this.model = model;
 			this.cleanUp();	
 			this.renderCanvas();
+
+			/**
+			 * FIXME: Make this incremental:
+			 *  - clean up all wiring for now 
+			 *  - Check new elements and create if needed
+			 *  - update exiting ones 
+			 *     - update boxes
+			 *     - update styles
+			 *     - call setStyle() and resize() and all UI widgets
+			 * 
+			 *  - remove not existing ones
+			 *    - destroz widget and remove dnd nodes
+			 * 
+			 */
 					
 			/**
 			 * start real rendering
@@ -448,11 +462,82 @@ export default {
 		wireEvents (){
 			this.logger.log(5,"wireEvents", "enter > " + this.mode);
 			
+			this.wireCanvas()
+	
+			for(let id in this.model.screens){
+				this.wireScreen(id)
+			}
+		
+		
+			for(let id in this.model.widgets){
+				this.wireWidget(id);
+			}
+
+			// wire comments;
+			this.wireComments();
+			/**
+			 * FIXME: Wire lines too. Then we can call this in setMode();
+			 */
+			this.logger.log(4,"wireEvents", "exit");
+		},
+
+		/**
+		 * wire all widgets that are *NOT* inherited
+		 */
+		wireWidget (id) {
+			let widget = this.model.widgets[id];
+			let div = this.widgetDivs[widget.id];
+			if (!widget.inherited || this.wireInheritedWidgets){
+				if(this.mode == "edit" || this.mode == "addLine"){
+					let locked = widget.style.locked;
+					if(locked){
+						this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
+					} else {
+						this.registerDragOnDrop(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick");						
+					}
+					this.tempOwn(on(div, touch.over, lang.hitch(this, "setHoverWidget", widget)));			
+				} else if(this.mode == "view" ){
+					this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
+				} else if (this.mode == "distance"){
+					this.tempOwn(on(div, touch.over, lang.hitch(this, "renderWidgetDistance", widget)));
+					this.tempOwn(on(div, touch.out, lang.hitch(this, "renderWidgetDistance", null)));					
+					/**
+					 * TODO: Make addCloneWork. Really use dull
+					 */
+					this.tempOwn(on(div, touch.press, lang.hitch(this, "addClonedWidget", widget))); // ALT + DND					
+				}
+			} else {
+				this.tempOwn(on(div, "click", lang.hitch(this, "onInheritedWidgetSelected", widget)));			
+			}
+		},
+
+		wireScreen (id) {
+			let dndDiv = this.screenDivs[id];
+			let screen = this.model.screens[id];
+			/**
+			 * register dnd
+			 */
+			if (this.mode == "addLine") {
+				this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
+			} else if(this.mode == "edit" && !this.isSinglePage){				
+				if (this.hasSelectOnScreen) {
+					let lbl = this.screenLabels[id]
+					if (lbl) {
+						this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", lbl);
+					} 
+				} else {
+					this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
+				}
+			} else if(this.mode == "view"){
+				this.tempOwn(on(dndDiv, "mousedown", lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
+			}
+		},
+		
+		wireCanvas () {
 			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view") ){
 				/**
 				 * In the classic mode the
 				 */
-			
 				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
 			} else if (this.mode == "edit" || this.mode == "view"){
 				/**
@@ -475,74 +560,10 @@ export default {
 				this.onToolBoxInit();
 				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolBoxStart"));
 			}
-			
-			
-			/**
-			 * wire all screens
-			 */
-			for(let id in this.model.screens){
-				let dndDiv = this.screenDivs[id];
-				let screen = this.model.screens[id];
-				/**
-				 * register dnd
-				 */
-				if (this.mode == "addLine") {
-					this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
-				} else if(this.mode == "edit" && !this.isSinglePage){				
-					if (this.hasSelectOnScreen) {
-						let lbl = this.screenLabels[id]
-						if (lbl) {
-							this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", lbl);
-						} 
-					} else {
-						this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
-					}
-				} else if(this.mode == "view"){
-					this.tempOwn(on(dndDiv, "mousedown", lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
-				}
-			}
-		
-			/**
-			 * wire all widgets that are *NOT* inherited
-			 */
-			for(let id in this.model.widgets){
-				
-				let widget = this.model.widgets[id];
-				let div = this.widgetDivs[widget.id];
-				if(!widget.inherited || this.wireInheritedWidgets){
-					if(this.mode == "edit" || this.mode == "addLine"){
-						let locked = widget.style.locked;
-						if(locked){
-							this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
-						} else {
-							this.registerDragOnDrop(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick");						
-						}
-						this.tempOwn(on(div, touch.over, lang.hitch(this, "setHoverWidget", widget)));			
-					} else if(this.mode == "view" ){
-						this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
-					} else if (this.mode == "distance"){
-						this.tempOwn(on(div, touch.over, lang.hitch(this, "renderWidgetDistance", widget)));
-						this.tempOwn(on(div, touch.out, lang.hitch(this, "renderWidgetDistance", null)));					
-						/**
-							* TODO: Make addCloneWork. Really use dull
-							*/
-						this.tempOwn(on(div, touch.press, lang.hitch(this, "addClonedWidget", widget))); // ALT + DND					
-					}
-				} else {
-					this.tempOwn(on(div, "click", lang.hitch(this, "onInheritedWidgetSelected", widget)));			
-				}
-			}
-
-			// wire comments;
-			this.wireComments();
-			
-			/**
-				* FIXME: Wire lines too. Then we can call this in setMode();
-				*/
-			
-			this.logger.log(4,"wireEvents", "exit");
 		},
-		
+
+	
+
 		renderCanvas (){
 			
 			this.initSVG();
@@ -555,23 +576,23 @@ export default {
 		},
 		
 		/**
-			* remove container to speed up rendering
-			*/
+		 * remove container to speed up rendering
+		 */
 		beforeRender (){
-			if(this._renderHidden){
-				this.container.removeChild(this.screenContainer);
-				this.container.removeChild(this.widgetContainer);
-			}
+			// if(this._renderHidden){
+			// 	this.container.removeChild(this.screenContainer);
+			// 	this.container.removeChild(this.widgetContainer);
+			//}
 		},
 		
 		/**
-			* add divs back to dom!
-			*/
+		 * add divs back to dom!
+		 */
 		afterRender (){
-			if(this._renderHidden){
-				this.container.appendChild(this.screenContainer);
-				this.container.appendChild(this.widgetContainer);
-			}
+			// if(this._renderHidden){
+			// 	this.container.appendChild(this.screenContainer);
+			//		this.container.appendChild(this.widgetContainer);
+			//}
 			
 			if(this._afterRenderCallBack ){
 				/**
@@ -621,8 +642,8 @@ export default {
 			}
 			
 			/**
-				* set style and grid
-				*/
+			 * set style and grid
+			 */
 			this.renderFactory.setStyle(backgroundDiv, screen);
 			this.renderGrid(dndDiv, screen);
 			this.renderScreenButtons(dndDiv, screen)
@@ -665,26 +686,26 @@ export default {
 		
 		renderScreenButtons () {
 			/**
-				* Methdod to be implemented by mixins
-				*/
+			 * Methdod to be implemented by mixins
+			 */
 		},
 		
 		/**************************************************
-			* CleanUp Code
-			**************************************************/	
+		 * CleanUp Code
+		 **************************************************/	
 		cleanUp (){
 			this.logger.log(3,"cleanUp", "enter");
 			
 			/**
-				* Make sure inline edit is flushed
-				*/
+			 * Make sure inline edit is flushed
+			 */
 			this.inlineEditStop();		
 			this.cleanUpComments();
 			this.cleanUpScreenButtons();
 			
 			/**
-				* Cleanup any stuff from the zoom
-				*/
+			 * Cleanup any stuff from the zoom
+			 */
 			this.cleanUpZoom();		
 			this.cleanUpAllListeners();		
 			this.cleanUpAlignment();		
@@ -717,8 +738,8 @@ export default {
 		
 		cleanUpAllListeners (){
 			/**
-				* cleanup all listeners
-				*/
+			 * cleanup all listeners
+			 */
 			this.cleanUpDragNDropListenerListener();
 			
 			this.cleanUpTempListener();
@@ -755,52 +776,43 @@ export default {
 				*/
 		},
 		
-		/**********************************************************************
-			* Create methods that assemble box stuff
-			**********************************************************************/
-		
-		renderGridSlow (backgroundDiv, screen){
-			if(this.model.grid && this.model.grid.visible){
-				
-				let c= document.createElement("canvas");
-				c.width=screen.w;
-				c.height=screen.h;
-				let context = c.getContext("2d");
-				
-				let h = this.zoom * this.model.grid.h;
-				let w = this.zoom * this.model.grid.w;
-				
-				if(w > 0){
-					let columns = Math.ceil(screen.w / w);
-					for(let i=0; i< columns; i++){
-						let x = Math.round(i* w)+ 0.5;
-						
-						context.moveTo(x, 0.5);
-						context.lineTo(x, screen.h +0.5);
-						context.lineWidth = 1;
-						context.strokeStyle = this.model.grid.color;
-						context.stroke();
-					}
-				}
-				
-				if(h > 0){
-					let rows = Math.ceil(screen.h / h);
-					for(let i=0; i< rows; i++){
-						let y = Math.round(i* h)+ 0.5;					
-						context.moveTo(0, y);
-						context.lineTo(screen.w, y);
-						context.lineWidth = 1;
-						context.strokeStyle = this.model.grid.color;
-						context.stroke();
-					}
-				}
-				
-				let div  =document.createElement("div");
-				css.add(div, "MatcCanvasGrid");
-				div.style.backgroundImage = "url(" + c.toDataURL("image/png")  + ")";
-				backgroundDiv.appendChild(div);
+			/**************************************************
+		 * New wiring methods?
+		 **************************************************/	
+	
+		addCanvasEventHandler (id, handler) {
+			if (!id) {
+				console.error('addCanvasEventHandler() > no id passed', id, new Error().stack)
+			}
+			if (!this._canvasEventHandlers) {
+				this._canvasEventHandlers = {}
+			}
+			if (!this._canvasEventHandlers[id]) {
+				this._canvasEventHandlers[id] = []
+			}
+			this._canvasEventHandlers[id].push(handler)
+		},
+
+		removeCanvasEventHandler (id) {
+			if (this._canvasEventHandlers && this._canvasEventHandlers[id]) {
+				let handlers = this._canvasEventHandlers[id];
+				handlers.forEach(handler => {
+					handler.remove()
+				})
+				this._canvasEventHandlers[id] = []
 			}
 		},
+
+		cleanCanvasEventHandler () {
+			for (let id in this._canvasEventHandlers) {
+				this.removeCanvasEventHandler(id)
+			}
+		},
+
+		/**********************************************************************
+		 * Create methods that assemble box stuff
+		 **********************************************************************/
+		
 		
 		renderGrid (backgroundDiv){
 			if(this.model.grid && this.model.grid.visible){
