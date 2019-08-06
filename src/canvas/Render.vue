@@ -74,7 +74,7 @@ export default {
         initRender (){
 			this.logger.log(2,"initRender", "enter");				
 			this.domPos = domGeom.position(this.domNode);
-
+				
 			this.lineChkBox = this.$new(CheckBox);
 			this.lineChkBox.setLabel("Show Lines");
 			this.lineChkBox.setValue(this.renderLines);
@@ -227,72 +227,6 @@ export default {
 			}		
 		},
 		
-		
-		showAll (screens, callback){
-		
-			if(this.zoomOnLineAdd){
-				/**
-				 * Determine the zoom level required to fit everything in the
-				 * screen
-				 */
-				var zoomLevel = 0;
-				var zoom = this.zoomLevels[0];
-				
-				var box = this.getBoundingBoxByBoxes(screens);		
-				var margin = 30;
-				var domPos = domGeom.position(this.domNode);
-				for(var i=this.zoomLevels.length-1; i >=0 ; i--){
-					var z = this.zoomLevels[i];
-					var zoomedBox = this.getZoomedBox(lang.clone(box), z, z);
-					if(zoomedBox.w < domPos.w - margin && zoomedBox.h < domPos.h - margin){
-						zoomLevel = i;
-						zoom = z;
-						break;
-					}
-				}
-				
-				
-				/**
-				 * just fire when needed!
-				 */
-				if(zoom!= this.zoom){
-					/**
-					 * we will zoom out from the selected widget / or center of the screen! Then
-					 * we will still move everything until all screens are vivible! 
-					 * TODO: Merge these two animations to one!
-					 */
-					this._setCenterPos();
-					this.setZoomFactor(zoomLevel, true);
-					this.addAfterRenderCallBack(lang.hitch(this, "afterShowAll",box, callback ))
-				} else {
-					this.logger.log(2,"showAll", "exit without change!");
-					if(callback){
-						callback();
-					}
-				}
-			} else {
-				if(callback){
-					callback();
-				}
-			}
-			
-		},
-		
-		afterShowAll (box, callback){
-			var zoomedBox = this.getZoomedBox(lang.clone(box),this.zoom, this.zoom)
-			var cntr = this.container;
-			css.add(cntr, "MatcCanvasContainerAnimatePos");
-			this.canvasPos.x = zoomedBox.x *-1 + 50;
-			this.canvasPos.y = zoomedBox.y *-1 + 50;
-			this.setContainerPos();
-			setTimeout(function(){
-				css.remove(cntr, "MatcCanvasContainerAnimatePos");
-				if(callback){
-					callback();
-				}
-			},400);
-		},
-
 		/**********************************************************************
 		 * Fonts
 		 **********************************************************************/		
@@ -385,7 +319,6 @@ export default {
 			}
 		},
 		
-
 		renderFlowView (model){
 			this.logger.log(2,"renderFlowView", "enter");
 				
@@ -616,8 +549,8 @@ export default {
 			var dndDiv = null;
 			var backgroundDiv = null;
 			/**
-				* We need these div also to check if the screen was rendered!
-				*/
+			* We need these div also to check if the screen was rendered!
+			*/
 			if(!this.screenDivs[screen.id]){
 				/**
 					* create dnd
@@ -693,6 +626,7 @@ export default {
 		/**************************************************
 		 * CleanUp Code
 		 **************************************************/	
+
 		cleanUp (){
 			this.logger.log(3,"cleanUp", "enter");
 			
@@ -727,7 +661,6 @@ export default {
 			this.renderFactory.cleanUp();		
 			this.cleanUpLines();		
 			this.cleanUpDebugLines();		
-			delete this._canvasWelcomeMessage;		
 			window.scrollTo(0, 0);	
 
 			if (this.cleanUpDistributionHandlers) {
@@ -735,38 +668,26 @@ export default {
 			}
 		},
 		
+
 		
 		cleanUpAllListeners (){
-			/**
-			 * cleanup all listeners
-			 */
 			this.cleanUpDragNDropListenerListener();
-			
 			this.cleanUpTempListener();
-			
 			if(this._canvasClickListener){
 				this._canvasClickListener.remove();
 				delete this._canvasClickListener;
 			}
-		
-			
 			this.cleanUpSelectionListener();
-			
 			if(this._selectionToolPressListener){
 				this._selectionToolPressListener.remove();
 				delete this._selectionToolPressListener;
 			}
-			
 			if(this._hotspotToolPressListener){
 				this._hotspotToolPressListener.remove();
 				delete this._hotspotToolPressListener;
 			}
-			
 			this.cleanUpResizeHandles();
-			
 			this.cleanUpAddNDrop();
-
-		
 		},
 		
 		cleanUpScreenButtons () {
@@ -860,11 +781,7 @@ export default {
 						let url = "url(" + c.toDataURL("image/png")  + ")";
 						this.gridBackground[z] = url;
 					}
-								
-					let div = document.createElement("div");
-					css.add(div, "MatcCanvasGrid");
-					div.style.backgroundImage = this.gridBackground[z]
-					backgroundDiv.appendChild(div);
+					backgroundDiv.style.backgroundImage = this.gridBackground[z]
 				} else {								
 					/**
 						* FIXME: We should render the background image for the x times so it is even.
@@ -899,15 +816,11 @@ export default {
 							}
 							this.gridBackground[z] = "url(" + c.toDataURL("image/png")  + ")";
 						}
-						
-						let div  =document.createElement("div");
-						css.add(div, "MatcCanvasGrid");
-						div.style.backgroundImage = this.gridBackground[z]
-						backgroundDiv.appendChild(div);
+						backgroundDiv.style.backgroundImage = this.gridBackground[z]
 					}
 				}
 			}
-		},
+        },
 		
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");
@@ -973,8 +886,6 @@ export default {
 
 		
 		setWidgetPosition (id, pos){
-			console.debug("Render.setWidgetPosition", id, pos);
-			
 			var widget = this.model.widgets[id];
 			if(widget){
 				widget.x = pos.x;

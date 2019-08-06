@@ -35,7 +35,9 @@ export default {
         renderScreenButtons (dndDiv, screen) {
             this.logger.log(2,"renderScreenButtons", "enter " +  screen.name, screen.rulers );
 
-            this._screenButtonsListeners = []
+            if (!this._screenButtonsListeners) {
+                this._screenButtonsListeners = []
+            }
            
            	let top = document.createElement("div");		
             css.add(top, "MatcScreenGridButtonTop");
@@ -315,7 +317,7 @@ export default {
 
 
         cleanUpScreenButtonMove () {
-            this.logger.log(0,"cleanUpScreenButtonMove", "enter");
+            this.logger.log(3, "cleanUpScreenButtonMove", "enter");
             if (this._screenButtonMoveLine && this._screenButtonMoveLine.parentNode){
                 this._screenButtonMoveLine.parentNode.removeChild(this._screenButtonMoveLine)
             }
@@ -335,7 +337,7 @@ export default {
         },
 
         cleanUpScreenButtons () {
-            this.logger.log(0,"cleanUpScreenButtons", "enter");
+            this.logger.log(3,"cleanUpScreenButtons", "enter");
             this.cleanUpScreenButtonMove()
             this._cleanUpScreenRulerHandlers()
             if (this._screenButtonsListeners){

@@ -267,6 +267,10 @@ export default class RenderFactory extends Core {
 		}
 	}
 
+	updateWidgetHTML (parent, model) {
+		this.setStyle(parent, model);
+	}
+
 	/**********************************************************************
 	 * Create Method -  The creation of the dom elements
 	 **********************************************************************/
@@ -305,7 +309,7 @@ export default class RenderFactory extends Core {
 				console.warn("No render method for", model.type);
 			}
 		}
-
+ 
 		/**
 		 * now add style for non ui widgets
 		 */

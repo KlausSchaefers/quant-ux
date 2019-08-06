@@ -22,8 +22,8 @@ export default {
     components: {},
     methods: {
 	    initSVG (){
-	    	this.logger.log(3,"initSVG", "entry");	    	
-	    	var pos={
+	    	this.logger.log(0,"initSVG", "entry");	    	
+	    	var pos = {
 	    		h : this.getZoomed(this.canvasPos.h, this.zoom),
 	    		w: this.getZoomed(this.canvasPos.w, this.zoom)
 	    	};	    	
@@ -33,7 +33,7 @@ export default {
 	      
 		
 		renderLine (line){
-			this.logger.log(2,"renderLine", "entry > " + this.mode);
+			// this.logger.log(6,"renderLine", "entry > " + this.mode);
 			
 			var fromPos = this.getFromBox(line);
 			var toPos = this.getToBox(line);			
@@ -46,12 +46,12 @@ export default {
 					 */
 					
 					if(!this.lineSVGs[line.id]){
+					
 						/**
 						 * create new line
 						 */
 						let svg = this.drawLine(line.id, layoutedLine);
 						this.lineSVGs[line.id] = svg;
-						
 						/**
 						 * render listener line
 						 */
@@ -629,9 +629,19 @@ export default {
 			this.lineSVGs = {};
 			this.touchLineSVGs = {};
 		},
-		
-		
 
+		cleanUpSVG () {
+			let nodes = this.widgetContainer.querySelectorAll('svg')
+			nodes.forEach(n => {
+				this.widgetContainer.removeChild(n)
+			})
+
+			let points = this.widgetContainer.querySelectorAll('.MatcLineSupportPoint')
+			points.forEach(n => {
+				this.widgetContainer.removeChild(n)
+			})
+		},
+		
 
 		/**********************************************************************
 		 * Debug Stuff

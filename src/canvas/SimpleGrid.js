@@ -35,7 +35,7 @@ export default class SimpleGrid extends Core{
 		this._lines = {};
 		this._linesDivs = {};
 		
-		this.logger.log(0,"start", "exit > type :" +  this.selectedType +">  id :"+ this.selectedID + " > activePoint : " + activePoint);
+		this.logger.log(4,"start", "exit > type :" +  this.selectedType +">  id :"+ this.selectedID + " > activePoint : " + activePoint);
 	}
 	
 	correct (absPos, e, mouse){
@@ -59,9 +59,8 @@ export default class SimpleGrid extends Core{
 			 * 
 			 * FIXME: Check for lastScreen, if has changed search in all other screens
 			 */
-			var screen =this.getHoverScreen(absPos); 
-	
-			if(screen){
+			var screen = this.getHoverScreen(absPos); 
+			if (screen){
 			
 				var relPos = {
 					x : absPos.x -screen.x,
@@ -69,17 +68,8 @@ export default class SimpleGrid extends Core{
 					w : absPos.w,
 					h : absPos.h
 				};
-				
-				
 				this.correctMove(absPos, relPos);
-	
-			} else {
-				/**
-				 * Should ot happen
-				 */
-				console.debug("No hover screen",absPos, this.selectedModel);
 			}
-		
 		}
 		
 		if (this.showDimensions){

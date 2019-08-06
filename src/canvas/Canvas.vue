@@ -52,16 +52,13 @@ import Logger from 'common/Logger'
 import on from 'dojo/on'
 import touch from 'dojo/touch'
 import lang from 'dojo/_base/lang'
-// import cookie from 'dojo/cookie'
 import win from 'dojo/win'
 import topic from 'dojo/topic'
-// import _Color from 'common/_Color'
-// import domGeom from 'dojo/domGeom'
 import _DragNDrop from 'common/_DragNDrop'
 import Dialog from 'common/Dialog'
 import DomBuilder from 'common/DomBuilder'
 import GridSelector from 'canvas/GridSelector'
-import Render from 'canvas/Render'
+import Render from 'canvas/RenderFast'
 import Lines from 'canvas/Lines'
 import DnD from 'canvas/DnD'
 import Add from 'canvas/Add'
@@ -449,6 +446,7 @@ export default {
 		
 			if(selector.isValid()){
 				var grid = selector.getValue();
+				this.gridBackground = {}
 				if (grid.type === "columns"){
 					this.controller.setGrid2(grid, "rgba(0,0,0,0.25)", "line");
 				} else {
