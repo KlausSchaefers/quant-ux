@@ -66,7 +66,7 @@ export default {
         },
 		
 		onDistributeEnd (){
-			this.logger.log(0,"onDistributeEnd", "enter");
+			this.logger.log(4, "onDistributeEnd", "enter");
 			css.remove(this.container, "MatcCanvasModeAlign");
             this._distributeEnabled = false;
             this.cleanUpDistributionHandlers()

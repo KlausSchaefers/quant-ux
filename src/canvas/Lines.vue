@@ -22,7 +22,7 @@ export default {
     components: {},
     methods: {
 	    initSVG (){
-	    	this.logger.log(0,"initSVG", "entry");	    	
+	    	this.logger.log(3, "initSVG", "entry");	    	
 	    	var pos = {
 	    		h : this.getZoomed(this.canvasPos.h, this.zoom),
 	    		w: this.getZoomed(this.canvasPos.w, this.zoom)
@@ -31,7 +31,6 @@ export default {
 			this.svg = bodySelection.append("svg").attr("width", pos.w).attr("height",pos.h );			
 	    },
 	      
-		
 		renderLine (line){
 			// this.logger.log(6,"renderLine", "entry > " + this.mode);
 			

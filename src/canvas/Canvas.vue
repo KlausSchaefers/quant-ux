@@ -58,7 +58,7 @@ import _DragNDrop from 'common/_DragNDrop'
 import Dialog from 'common/Dialog'
 import DomBuilder from 'common/DomBuilder'
 import GridSelector from 'canvas/GridSelector'
-import Render from 'canvas/RenderFast'
+import Render from 'canvas/Render'
 import Lines from 'canvas/Lines'
 import DnD from 'canvas/DnD'
 import Add from 'canvas/Add'
@@ -246,7 +246,7 @@ export default {
 		 ***************************************************************************/
 
 		initSettings (){
-			this.logger.log(2, "initSettings", "enter > " );
+			this.logger.log(0, "initSettings", "enter > " );
 			/**
 			 * default settings
 			 */
@@ -261,9 +261,9 @@ export default {
 				renderLines : true,
 				keepColorWidgetOpen: true,
 				layerListVisible: false,
-				showRuler: true
+				showRuler: true,
+				fastRender: false
 			};
-		
 			
 			var s = this._getStatus("matcSettings");
 			if(s){
@@ -287,29 +287,32 @@ export default {
 				if(s.moveMode){
 					this.settings.moveMode = s.moveMode;
 				}
-				if(s.renderLines!=null){
+				if(s.renderLines != null){
 					this.settings.renderLines = s.renderLines;
 				}
-				if(s.showDistance!=null){
+				if(s.showDistance != null){
 					this.settings.showDistance = s.showDistance;
 				}
-				if(s.showAnimation!=null){
+				if(s.showAnimation != null){
 					this.settings.showAnimation = s.showAnimation;
 				}
 				if(s.keepColorWidgetOpen === true || s.keepColorWidgetOpen === false){
 					this.settings.keepColorWidgetOpen = s.keepColorWidgetOpen;
 				}
-				if(s.storePropView!=null){
+				if(s.storePropView != null){
 					this.settings.storePropView = s.storePropView;
 				}
-				if(s.startToolsOnKeyDown!=null){
+				if(s.startToolsOnKeyDown != null){
 					this.settings.startToolsOnKeyDown = s.startToolsOnKeyDown;
 				}
-				if(s.mouseWheelMode!=null){
+				if(s.mouseWheelMode != null){
 					this.settings.mouseWheelMode = s.mouseWheelMode;
 				}
 				if (s.layerListVisible === true || s.layerListVisible === false){
 					this.settings.layerListVisible = s.layerListVisible;
+				}
+				if (s.fastRender != null) {
+					this.settings.fastRender = s.fastRender
 				}
 			} else {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
@@ -355,16 +358,23 @@ export default {
 			if (s.layerListVisible === true || s.layerListVisible === false){
 				this.settings.layerListVisible = s.layerListVisible;
 			}
+			if (s.fastRender != null) {
+				this.settings.fastRender = s.fastRender
+			}
 			this._setStatus("matcSettings",this.settings );
 			this.applySettings(this.settings);
 			this.rerender();
 		},
 		
 		applySettings (s){
-			this.logger.log(2,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
+			this.logger.log(0,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
 			
 			if(s.moveMode){
 				this.moveMode = s.moveMode;
+			}
+
+			if (s.fastRender) {
+				this.fastRender = true
 			}
 			
 			if(s.renderLines!=null){
@@ -445,6 +455,7 @@ export default {
 		setGrid2 (selector){
 		
 			if(selector.isValid()){
+				this.forceRenderUpdates();
 				var grid = selector.getValue();
 				this.gridBackground = {}
 				if (grid.type === "columns"){

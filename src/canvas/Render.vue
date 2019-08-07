@@ -12,10 +12,11 @@ import CheckBox from 'common/CheckBox'
 import Ruler from 'canvas/Ruler'
 import GridAndRuler from 'canvas/GridAndRuler'
 import SimpleGrid from 'canvas/SimpleGrid'
+import RenderFast from 'canvas/RenderFast'
 
 export default {
     name: 'Render',
-    mixins:[_Color],
+    mixins:[_Color, RenderFast],
     data: function () {
 		/**
 		 * The canvas has the following states:
@@ -74,7 +75,16 @@ export default {
         initRender (){
 			this.logger.log(2,"initRender", "enter");				
 			this.domPos = domGeom.position(this.domNode);
-				
+
+			this.widgetDivs = {};		
+			this.widgetBackgroundDivs = {};		
+			this.screenDivs = {};		
+			this.screenLabels = {};		
+			this.screenBackgroundDivs = {};		
+			this.lineSVGs = {};		
+			this.gridBackground = {};
+			this.renderedModels = {};
+			
 			this.lineChkBox = this.$new(CheckBox);
 			this.lineChkBox.setLabel("Show Lines");
 			this.lineChkBox.setValue(this.renderLines);
@@ -192,14 +202,12 @@ export default {
 			this.domNode.style.height = h +"px";
 		},
 		
-		
 		setViewLines (renderLines){
 			this.renderLines = renderLines;
 			this.settings.renderLines = renderLines;
 			this._setStatus("matcSettings",this.settings );
 			this.rerender();
 		},
-		
 		
 		setShowDistance (value){
 			this.showDistance = value;
@@ -295,10 +303,13 @@ export default {
 
 		render (model){
 			this.logger.log(0,"render", "enter");
-			
 			try{
 			
-				this.renderFlowView(model);
+				if (this.settings.fastRender) {
+					this.renderFlowViewFast(model);
+				} else {
+					this.renderFlowView(model);
+				}
 				
 				this.afterRender();
 				
@@ -326,20 +337,6 @@ export default {
 			this.model = model;
 			this.cleanUp();	
 			this.renderCanvas();
-
-			/**
-			 * FIXME: Make this incremental:
-			 *  - clean up all wiring for now 
-			 *  - Check new elements and create if needed
-			 *  - update exiting ones 
-			 *     - update boxes
-			 *     - update styles
-			 *     - call setStyle() and resize() and all UI widgets
-			 * 
-			 *  - remove not existing ones
-			 *    - destroz widget and remove dnd nodes
-			 * 
-			 */
 					
 			/**
 			 * start real rendering
@@ -400,7 +397,6 @@ export default {
 			for(let id in this.model.screens){
 				this.wireScreen(id)
 			}
-		
 		
 			for(let id in this.model.widgets){
 				this.wireWidget(id);
@@ -495,44 +491,28 @@ export default {
 			}
 		},
 
-	
-
 		renderCanvas (){
-			
 			this.initSVG();
 			this.setContainerSize();
 			this.setContainerPos();
-			
 			this.setZoomedContainerPosition();	
 			this.renderFactory.setScaleFactor(this.zoom, this.zoom);
 			this.renderFactory.setZoomedModel(this.model);
 		},
 		
-		/**
-		 * remove container to speed up rendering
-		 */
-		beforeRender (){
-			// if(this._renderHidden){
-			// 	this.container.removeChild(this.screenContainer);
-			// 	this.container.removeChild(this.widgetContainer);
-			//}
+		beforeRender () {
 		},
 		
 		/**
 		 * add divs back to dom!
 		 */
-		afterRender (){
-			// if(this._renderHidden){
-			// 	this.container.appendChild(this.screenContainer);
-			//		this.container.appendChild(this.widgetContainer);
-			//}
-			
+		afterRender (){	
 			if(this._afterRenderCallBack ){
 				/**
-					* Call the callback to make sure it is not running in request animationframe
-					* FIXME: I had now once the issue that the callback was null or so beucase the
-					* edit was closed....
-					*/
+				 * Call the callback to make sure it is not running in request animationframe
+				 * FIXME: I had now once the issue that the callback was null or so beucase the
+				 * edit was closed....
+				 */
 				setTimeout(this._afterRenderCallBack, 50);
 			}
 			delete this._afterRenderCallBack ;
@@ -553,22 +533,21 @@ export default {
 			*/
 			if(!this.screenDivs[screen.id]){
 				/**
-					* create dnd
-					*/
-				
+				 * create dnd
+				 */
 				dndDiv = this.createScreenDnD(screen);
 				this.screenDivs[screen.id] = dndDiv;
 				this.widgetContainer.appendChild(dndDiv);
 				
 				var lbl = document.createElement("div");
 				css.add(lbl, "MatcScreenLabel");
-				dndDiv.appendChild(lbl);
 				this.setInnerHTML(lbl, screen.name);
 				this.screenLabels[screen.id] = lbl;
+				dndDiv.appendChild(lbl);
 				
 				/**
-					* Create a background box
-					*/
+				 * Create a background box
+				 */
 				backgroundDiv = this.createScreen(screen);
 				this.screenContainer.appendChild(backgroundDiv);
 				this.screenBackgroundDivs[screen.id] = backgroundDiv;
@@ -629,6 +608,10 @@ export default {
 
 		cleanUp (){
 			this.logger.log(3,"cleanUp", "enter");
+
+			if (this.settings && this.settings.fastRender) {
+				return this.cleanUpFast();
+			}
 			
 			/**
 			 * Make sure inline edit is flushed
@@ -819,6 +802,8 @@ export default {
 						backgroundDiv.style.backgroundImage = this.gridBackground[z]
 					}
 				}
+			} else {
+				backgroundDiv.style.backgroundImage = 'none'
 			}
         },
 		
@@ -1194,7 +1179,74 @@ export default {
 		
 		setHoverWidget (w){
 			this._lastHoverWidget = w;
-		}
+		},
+
+			
+		showAll (screens, callback){
+		
+			if(this.zoomOnLineAdd){
+				/**
+				 * Determine the zoom level required to fit everything in the
+				 * screen
+				 */
+				var zoomLevel = 0;
+				var zoom = this.zoomLevels[0];
+				
+				var box = this.getBoundingBoxByBoxes(screens);		
+				var margin = 30;
+				var domPos = domGeom.position(this.domNode);
+				for(var i=this.zoomLevels.length-1; i >=0 ; i--){
+					var z = this.zoomLevels[i];
+					var zoomedBox = this.getZoomedBox(lang.clone(box), z, z);
+					if(zoomedBox.w < domPos.w - margin && zoomedBox.h < domPos.h - margin){
+						zoomLevel = i;
+						zoom = z;
+						break;
+					}
+				}
+				
+				
+				/**
+				 * just fire when needed!
+				 */
+				if(zoom!= this.zoom){
+					/**
+					 * we will zoom out from the selected widget / or center of the screen! Then
+					 * we will still move everything until all screens are vivible! 
+					 * TODO: Merge these two animations to one!
+					 */
+					this._setCenterPos();
+					this.setZoomFactor(zoomLevel, true);
+					this.addAfterRenderCallBack(lang.hitch(this, "afterShowAll",box, callback ))
+				} else {
+					this.logger.log(2,"showAll", "exit without change!");
+					if(callback){
+						callback();
+					}
+				}
+			} else {
+				if(callback){
+					callback();
+				}
+			}
+			
+		},
+		
+		afterShowAll (box, callback){
+			var zoomedBox = this.getZoomedBox(lang.clone(box),this.zoom, this.zoom)
+			var cntr = this.container;
+			css.add(cntr, "MatcCanvasContainerAnimatePos");
+			this.canvasPos.x = zoomedBox.x *-1 + 50;
+			this.canvasPos.y = zoomedBox.y *-1 + 50;
+			this.setContainerPos();
+			setTimeout(function(){
+				css.remove(cntr, "MatcCanvasContainerAnimatePos");
+				if(callback){
+					callback();
+				}
+			},400);
+		},
+
     }, 
     mounted () {
     }

@@ -1,151 +1,60 @@
 <script>
 import css from 'dojo/css'
-import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
-import domGeom from 'dojo/domGeom'
-import topic from 'dojo/topic'
-import CheckBox from 'common/CheckBox'
-import Render from 'canvas/Render'
 
 export default {
     name: 'RenderFast',
-    mixins:[Render],
-    data: function () {
-		/**
-		 * The canvas has the following states:
-		 * 
-		 * 0 = Default
-		 * 
-		 * 1 = Screen DragNDrop
-		 * 
-		 * 2 = Widget DragNDrop
-		 * 
-		 * 3 = Adding new box
-		 * 
-		 * 4 = Resizing entity 
-		 * 
-		 * 5 = Container DragNDrop
-		 * 
-		 * 6 = Add Line
-		 * 
-		 * 7 = Add Line 2
-		 * 
-		 * 8 = Copy Style
-		 * 
-		 * 9 = Selection
-		 * 
-		 * 10 = Align
-		 * 
-		 * 11 = StandAlone
-		 */
-        return {
-            state: 0, 
-            isSinglePage: false, 
-            defaultFontSize: 12, 
-            canvasFlowWidth: 15000, 
-            canvasFlowHeight: 8000, 
-            canvasStartX: -1000, 
-            canvasStartY: -1000, 
-            canvasMargin: 0.6, 
-            moveMode: "ps", 
-            renderDND: true, 
-            renderLines: true, 
-            showDistance: true, 
-            wireInheritedWidgets: false, 
-			showAnimation: false, 
-			showRuler: true,
-            hasSelectOnScreen: false, 
-            gridBackground: {}
-        }
-    },
+    mixins:[],
     components: {},
     methods: {
-        initRender (){
-			this.logger.log(2,"initRender", "enter");				
-			this.domPos = domGeom.position(this.domNode);
-				
-			this.widgetDivs = {};		
-			this.widgetBackgroundDivs = {};		
-			this.screenDivs = {};		
-			this.screenLabels = {};		
-			this.screenBackgroundDivs = {};		
-			this.lineSVGs = {};		
-			this.gridBackground = {};
-
-			this.lineChkBox = this.$new(CheckBox);
-			this.lineChkBox.setLabel("Show Lines");
-			this.lineChkBox.setValue(this.renderLines);
-			this.lineChkBox.placeAt(this.lineCntr);
-			this.own(on(this.lineChkBox, "change", lang.hitch(this, "setViewLines")));		
-			
-			if(this.distanceCntr){
-				this.distanceChkBox = this.$new(CheckBox);
-				this.distanceChkBox.setLabel("Show Distance");
-				this.distanceChkBox.setValue(this.showDistance);
-				this.distanceChkBox.placeAt(this.distanceCntr);
-				this.own(on(this.distanceChkBox, "change", lang.hitch(this, "setShowDistance")));
-			}
-			
-			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
-			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));		
-			this.own(on(window, "contextmenu", lang.hitch(this, "onContextMenu")));		
-			this.logger.log(2,"initRender", "exit");
-		},
-		
-		
+  
 		/**********************************************************************
 		 * Rendering pipeline
 		 **********************************************************************/
 			
-		renderFlowView (model){
-			this.logger.log(0,"renderFlowView (FAST)", "enter");
+		renderFlowViewFast (model){
+			this.logger.log(0,"renderFlowViewFast", "enter");
 				
 			this.beforeRender();
 			this.model = model;
-            this.cleanUp();	
-            /**
-             * FIXME: This could be better by resizing the SVG
-             */
-            this.cleanUpLines()
-            this.cleanUpSVG()
+            this.cleanUpFast();	
 			this.renderCanvas();
 
 			/**
-			 * FIXME: Make this incremental:
-			 *  - clean up all wiring for now 
-			 *  - Check new elements and create if needed
-			 *  - update exiting ones 
-			 *     - update boxes
-			 *     - update styles
-			 *     - call setStyle() and resize() and all UI widgets
-			 * 
-			 *  - remove not existing ones
-			 *    - destroz widget and remove dnd nodes
-			 * 
+			 * Check somehow if we have here and issue 
 			 */
-					
+			var widgets = this.getOrderedWidgets(model.widgets);
+			// let widgetIds = widgets.map(w => w.id).join(',')
+			// if (this.renderedModelsOrder && this.renderedModelsOrder != widgetIds) {
+			// 	this.forceCompleteRender()
+			// }
+			
 			/**
-			 * start real rendering
+			 * start adding or updating stuff
 			 */
 			for (let id in model.screens){
                 let screen = model.screens[id]
                 if (!this.screenDivs[id]) {
-	                this.renderScreen(screen);
+					this.renderScreen(screen);
+					this.renderedModels[screen.id] = screen
                 } else {
                     this.updateScreen(screen)
                 }
 			}
 		
-			var widgets = this.getOrderedWidgets(model.widgets);
 			for (let i=0; i< widgets.length; i++){
-                let widget = widgets[i];
+				let widget = widgets[i];
+				/**
+				 * We assume that for the first rendering we do not need to
+				 * set the zIndex. For the updates we need, thus we pass i.
+				 */
                 if (!this.widgetDivs[widget.id]) {
-                    this.renderWidget(widget);
+					this.renderWidget(widget);
+					this.renderedModels[widget.id] = widget
                 } else {
-                    this.updateWidget(widget);
+                    this.updateWidget(widget, i);
                 }
 			}
-        
 
 			if (this.renderLines){
 				for (let id in model.lines){
@@ -154,8 +63,26 @@ export default {
 						this.renderLine(model.lines[id]);
 					}
 				}
-			}	
-		
+			}
+
+			/**
+			 * Remove not needed stuff
+			 */
+			for (let id in this.screenDivs) {
+				if (!model.screens[id]) {
+					this.deleteScreen(id)
+				}
+			}
+
+			for (let id in this.widgetDivs) {
+				if (!model.widgets[id]) {
+					this.deleteWidget(id)
+				}
+			}
+
+			/**
+			 * FIXME: We could still try to avoid wireing everzthing from scrath
+			 */
 			this.wireEvents();		
 			this.renderSelection();		
 			this.renderDistance();		
@@ -166,41 +93,103 @@ export default {
 		},
         
         updateScreen (screen) {
-            let dnd = this.screenDivs[screen.id]
-            if (dnd) {
-                this.cleanUpNode(dnd)
-                this.updateBox(screen, dnd)
-                this.renderGrid(dnd, screen);
-                this.renderScreenButtons(dnd, screen)
-            }
-            
-            let background = this.screenBackgroundDivs[screen.id]
-            if (background) {
-                this.updateBox(screen, background)
-                this.renderFactory.setStyle(background, screen);
-            }
-        },
+			if (this.elementHasChanged(screen)) {
+				let dnd = this.screenDivs[screen.id]
+				if (dnd) {
+					
+					this.cleanUpNode(dnd)
+					this.updateBox(screen, dnd)
+					
+					/**
+					 * TODO: cleanUpNode() also removes the name. We should keep it :D
+					 * Is there a better waz to remove all the other screen buttons?
+					 */
+					var lbl = document.createElement("div");
+					css.add(lbl, "MatcScreenLabel");
+					this.setInnerHTML(lbl, screen.name);
+					this.screenLabels[screen.id] = lbl;
+					dnd.appendChild(lbl);
 
+					this.renderGrid(dnd, screen);
+					this.renderScreenButtons(dnd, screen)
 
-        updateWidget (widget) {
-            let dnd = this.widgetDivs[widget.id]
-            if (dnd) {
-                this.updateBox(widget, dnd)
-            }
+				}
+				
+				let background = this.screenBackgroundDivs[screen.id]
+				if (background) {
+					this.updateBox(screen, background)
+					this.renderFactory.setStyle(background, screen);
+				}
+				this.renderedModels[screen.id] = screen
+			}
+		},
+		
+		deleteScreen (id) {
+			let dnd = this.screenDivs[id]
+			if (dnd && dnd.parentNode) {
+				dnd.parentNode.removeChild(dnd);
+			}
+			let background = this.screenBackgroundDivs[id]
+			if (background && background.parentNode) {
+				background.parentNode.removeChild(background);
+			}
+			delete this.screenDivs[id]
+			delete this.screenBackgroundDivs[id]
+			delete this.renderedModels[id]
+		},
 
-            let background = this.widgetBackgroundDivs[widget.id]
-            if (background) {
-                this.updateBox(widget, background)
-                this.renderFactory.updateWidgetHTML(background, widget);
-            }
-        },
+        updateWidget (widget, i) {
+			if (this.elementHasChanged(widget)) {
+				let dnd = this.widgetDivs[widget.id]
+				if (dnd) {
+					this.updateBox(widget, dnd)
+				}
+				let background = this.widgetBackgroundDivs[widget.id]
+				if (background) {
+					this.updateBox(widget, background)
+					this.renderFactory.updateWidgetHTML(background, widget);
+					background.style.zIndex = i
+				}
+				this.renderedModels[widget.id] = widget
+			}
+		},
+
+		elementHasChanged (element) {
+			/**
+			 * TODO: we could check just for modified, but in this case we would have
+			 * to make sure the renderedModels gets flushed on zooming.
+			 */
+			if (this.renderedModels[element.id]){
+				let old = this.renderedModels[element.id]
+				return !this.objectEquals(old, element)
+			}
+			return true
+		},
+
+		
+		deleteWidget (id) {
+			let dnd = this.widgetDivs[id]
+            if (dnd && dnd.parentNode) {
+				dnd.parentNode.removeChild(dnd);
+			}
+            let background = this.widgetBackgroundDivs[id]
+            if (background && background.parentNode) {
+				background.parentNode.removeChild(background);
+			}
+			delete this.widgetDivs[id]
+			delete this.widgetBackgroundDivs[id]
+			delete this.renderedModels[id]
+		},
         
 		/**************************************************
 		 * CleanUp Code
 		 **************************************************/	
 
-		cleanUp (){
-			this.logger.log(3,"cleanUp", "enter");
+		cleanUpFast (){
+			this.logger.log(3,"cleanUpFast", "enter");
+			
+			this.cleanUpLines()
+			this.cleanUpSVG()
 			
 			/**
 			 * Make sure inline edit is flushed
@@ -208,9 +197,7 @@ export default {
 			this.inlineEditStop();		
 			this.cleanUpComments();
 			this.cleanUpScreenButtons();
-            
-            // this.resetCanvas();
-
+       
 			/**
 			 * Cleanup any stuff from the zoom
 			 */
@@ -225,7 +212,6 @@ export default {
 			css.remove(this.container, "MatcCanvasModeAlign");
 			css.remove(this.container, "MatcCanvasModeReplicate");
 			
-					
 			this.cleanUpLines();		
 			this.cleanUpDebugLines();		
 			window.scrollTo(0, 0);	
@@ -233,10 +219,16 @@ export default {
 			if (this.cleanUpDistributionHandlers) {
 				this.cleanUpDistributionHandlers()
 			}
-        },
+		},
+		
+		forceRenderUpdates () {
+			this.logger.warn("forceCompleteRender", "enter");
+			this.renderedModels = {}
+		},
         
-        resetCanvas () {
-            console.warn('RenderFast.resetCanvas()')
+        forceCompleteRender () {
+			this.logger.warn("forceCompleteRender", "enter");
+
             this.screenContainer.innerHTML = "";		
 			this.widgetContainer.innerHTML = "";		
             this.renderFactory.cleanUp();
@@ -248,18 +240,16 @@ export default {
 			this.screenBackgroundDivs = {};		
 			this.lineSVGs = {};		
 			this.gridBackground = {};
-        },
-
-
-        
-        
+			this.renderedModels = {}
+		},
+		
         cleanUpNode (node) {
             // var cNode = node.cloneNode(false);
             // node.parentNode.replaceChild(cNode, node);
-            var fc = node.firstChild;
+			var fc = node.firstChild;
             while( fc ) {
-                node.removeChild(fc);
-                fc = node.firstChild;
+				node.removeChild(fc);
+				fc = node.firstChild;
             }
         }
     }, 

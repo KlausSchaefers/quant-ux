@@ -22,7 +22,6 @@ import CustomFonts from 'canvas/toolbar/CustomFonts'
 import Plan from 'page/Plan'
 import Services from 'services/Services'
 import QR from 'core/QR'
-import { setTimeout } from 'timers';
 
 export default {
     name: '_Dialogs',
@@ -422,7 +421,7 @@ export default {
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.popup(div, this.domNode);	
 		
-			this.logger.log(0,"onShowSettings", "exit > ");
+			this.logger.log(0,"showThemeCreateDialog", "exit > ");
 		},
 		
 		/**********************************************************************
@@ -477,12 +476,18 @@ export default {
 			 * Keep color boxes open
 			 */
 			db.label("MatcMarginTop","Other:").build(cntr);
+
 			var colorCntr = db.div("form-group").build(cntr);
 			var colorPicker = this.$new(CheckBox);
 			colorPicker.setLabel("Keep colorpicker open");
 			colorPicker.setValue(settings.keepColorWidgetOpen);
 			colorPicker.placeAt(colorCntr);
 			
+			var renderCntr = db.div("form-group").build(cntr);
+			var renderCheckBox = this.$new(CheckBox);
+			renderCheckBox.setLabel("Use fast rendering (BETA)");
+			renderCheckBox.setValue(settings.fastRender);
+			renderCheckBox.placeAt(renderCntr);
 		
 			
 			var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
@@ -493,7 +498,7 @@ export default {
 			var dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
-			dialog.own(on(save, touch.press, lang.hitch(this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker)));
+			dialog.own(on(save, touch.press, lang.hitch(this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox)));
 			
 			dialog.popup(popup, this.template);
 			
@@ -503,12 +508,13 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 		
-		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker){
+		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
 				moveMode : moveList.getValue(),
 				mouseWheelMode: mouseWheelList.getValue(),
-				keepColorWidgetOpen: colorPicker.getValue()
+				keepColorWidgetOpen: colorPicker.getValue(),
+				fastRender: renderCheckBox.getValue()
 			};
 	
 			this.canvas.setSettings(settings);

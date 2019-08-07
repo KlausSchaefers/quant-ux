@@ -773,8 +773,6 @@ export default class Widget extends Screen {
 
 	
 	modelWidgetUpdate (id, pos){
-		
-	
 		var widget = this.model.widgets[id];
 		widget.modified = new Date().getTime()
 
