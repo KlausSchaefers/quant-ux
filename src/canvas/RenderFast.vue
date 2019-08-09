@@ -21,6 +21,7 @@ export default {
             this.cleanUpFast();	
 			this.renderCanvas();
 			this.renderChangeCounter = 0
+
 		
 			/**
 			 * start adding or updating stuff
@@ -32,6 +33,10 @@ export default {
 					this.renderedModels[screen.id] = screen
 					this.renderChangeCounter++;
                 } else {
+					/**
+					 * FIXME: we still have issues with the screen buttons!
+					 * Sometiems there are double and not correctly removed!
+					 */
                     this.updateScreen(screen)
                 }
 			}

@@ -155,6 +155,11 @@ export default {
     },
 
     render (widget, style, scaleX, scaleY) {
+      /**
+       * This is super slow for fast rendering, as we will redraw everzthing. We must
+       * therefore reuse the items or have some kind of rerender() method if the 
+       * isUpdate parameter is set
+       */
       this.model = widget;
       /**
        * Property changes will not send children.

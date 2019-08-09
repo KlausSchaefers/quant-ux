@@ -268,7 +268,7 @@ export default class RenderFactory extends Core {
 	}
 
 	updateWidgetHTML (parent, model) {
-		this.setStyle(parent, model);
+		this.setStyle(parent, model, true);
 	}
 
 	/**********************************************************************
@@ -313,7 +313,7 @@ export default class RenderFactory extends Core {
 		/**
 		 * now add style for non ui widgets
 		 */
-		this.setStyle(parent, model);
+		this.setStyle(parent, model, false);
 
 		if (this._uiWidgets[model.id]) {
 			var w = this._uiWidgets[model.id];
@@ -716,7 +716,7 @@ export default class RenderFactory extends Core {
 	 **********************************************************************/
 
 
-	setStyle(parent, model) {
+	setStyle(parent, model, isUpdate = false) {
 		var style = this.getStyle(model, parent);
 		if (style) {
 			if (!this._uiWidgets[model.id]) {
@@ -743,7 +743,7 @@ export default class RenderFactory extends Core {
 					var w = this._uiWidgets[model.id];
 					w.isSimulator = this.mode == "simulator"
 					w.setFactory(this);
-					w.render(model, style, this._scaleX, this._scaleY);
+					w.render(model, style, this._scaleX, this._scaleY, isUpdate);
 				} catch (e) {
 					this.logger.error("setStyle", "Error", e);
 				}
