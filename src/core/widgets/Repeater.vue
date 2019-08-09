@@ -245,7 +245,6 @@ export default {
                             widget: copy,
                             div: div
                         })
-
                         this.factory.createWidgetHTML(div, copy);
                     })
                 }
@@ -332,8 +331,8 @@ export default {
     },
 
     getRows (widget, cntrBox) {
-        let rows = widget.props.rows
-        if (!rows || rows <= 0 || widget.props.auto) {
+        let rows = widget.props.rows * 1
+        if (!rows || rows <= 0 || widget.props.auto === true) {
 
             let h = cntrBox.h
             /**
@@ -352,7 +351,7 @@ export default {
             }
         }
         if (!this.isSimulator){
-            rows = Math.min(rows,  Math.ceil(widget.h / cntrBox.h))
+            //rows = Math.min(rows,  Math.ceil(widget.h / cntrBox.h))
         }
         return rows
     },

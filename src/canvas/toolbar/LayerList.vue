@@ -187,11 +187,11 @@ export default {
 				if (box.type == "Label") {
 					return "mdi mdi-format-title";
 				}
-	//			if (box.type == "Icon") {
-	//				if (box.style.icon){
-	//					return box.style.icon;
-	//				}
-	//			}
+				if (box.type == "Icon") {
+					if (box.style.icon){
+						return box.style.icon;
+					}
+				}
 	//			if (box.type == "RadioBox2" || box.type == "RadioGroup") {
 	//				return "mdi mdi-radiobox-marked"
 	//			}
@@ -202,6 +202,9 @@ export default {
 			},
 			
 			getNodeLabel (box){
+				if (box.props && box.props.label) {
+					return  box.props.label
+				}
 				return box.name; // + " (" + box.id + " - " + box.z + ")";
 			},
 			

@@ -1297,6 +1297,7 @@ export default {
 					var section = this.sections[i];
 					state.sections[i] = css.contains(section, "MatcToolbarSectionCollabsed");
 				}
+				// TODO: This forces a reflow :(
 				state.scrollTop = this.propertiesCntr.scrollTop;
 				state.view = this.widgetViewModeBtn.getValue();
 				this.propertiesStates[this._selectionID] = state;

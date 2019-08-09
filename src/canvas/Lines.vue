@@ -288,8 +288,8 @@ export default {
 			var top = this.isTop(from, to);			
 			var fromIsLogic = this.hasLogic(from);
 			var toIsLogic = this.hasLogic(to);		
-			var yOverlap = ((to.y < from.y) && ((to.y + to.h) > from.y)) || ( (from.y < to.y) && ( (from.y + from.h) > to.y));
-			var xOverlap = ((to.x < from.x) && ((to.x + to.w) > from.x)) || ( (from.x < to.x) && ( (from.x + from.w) > to.x));
+			var yOverlap = ((to.y <= from.y) && ((to.y + to.h) >= from.y)) || ( (from.y <= to.y) && ( (from.y + from.h) >= to.y));
+			var xOverlap = ((to.x <= from.x) && ((to.x + to.w) > from.x)) || ( (from.x <= to.x) && ( (from.x + from.w) > to.x));
 			
 			if(yOverlap){
 				if(!left){
@@ -362,9 +362,6 @@ export default {
 		
 		getAnchorLineOld (from, to){
 			
-			//console.debug("getAnchorLine",from.h, to.h);
-			
-			
 			var f = null;
 			var t = null;
 			
@@ -373,9 +370,6 @@ export default {
 			
 			var yOverlap = (to.y >= from.y && to.y <= from.y + from.h ) || (from.y+from.h >= to.y && (from.y + from.y) <= (to.y + to.h));
 			var xOverlap = (to.x >= from.x && to.x <= (from.x + from.w)) || ((from.x+ from.w) >= to.x && (from.x + from.w) <= (to.x + to.w));
-			
-			
-			
 			
 			if(yOverlap){
 				if(!left){

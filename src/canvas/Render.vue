@@ -303,6 +303,7 @@ export default {
 
 		render (model){
 			this.logger.log(0,"render", "enter");
+			let renderStart = new Date().getTime();
 			try{
 			
 				if (this.settings.fastRender) {
@@ -328,6 +329,7 @@ export default {
 				this.logger.error("render", "ups", e);
 				this.logger.sendError(e);
 			}
+			this.logger.log(0,"render", "exit > " + (new Date().getTime() - renderStart) + 'ms');
 		},
 		
 		renderFlowView (model){

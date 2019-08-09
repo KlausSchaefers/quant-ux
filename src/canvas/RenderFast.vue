@@ -14,21 +14,14 @@ export default {
 			
 		renderFlowViewFast (model){
 			this.logger.log(0,"renderFlowViewFast", "enter");
+			// console.debug(new Error().stack)
 				
 			this.beforeRender();
 			this.model = model;
             this.cleanUpFast();	
 			this.renderCanvas();
-
-			/**
-			 * Check somehow if we have here and issue 
-			 */
-			var widgets = this.getOrderedWidgets(model.widgets);
-			// let widgetIds = widgets.map(w => w.id).join(',')
-			// if (this.renderedModelsOrder && this.renderedModelsOrder != widgetIds) {
-			// 	this.forceCompleteRender()
-			// }
-			
+			this.renderChangeCounter = 0
+		
 			/**
 			 * start adding or updating stuff
 			 */
@@ -37,20 +30,33 @@ export default {
                 if (!this.screenDivs[id]) {
 					this.renderScreen(screen);
 					this.renderedModels[screen.id] = screen
+					this.renderChangeCounter++;
                 } else {
                     this.updateScreen(screen)
                 }
 			}
 		
+			/**
+			 * Make sure the container widgets (grid) get 
+			 * the latest zoomed model.
+			 */
+			this.renderFactory.setZoomedModel(model)
+			this.renderFactory.updatePositions(model)
+			var widgets = this.getOrderedWidgets(model.widgets);
 			for (let i=0; i< widgets.length; i++){
 				let widget = widgets[i];
 				/**
 				 * We assume that for the first rendering we do not need to
 				 * set the zIndex. For the updates we need, thus we pass i.
+				 * 
+				 * FIXME: This messes with the resize handlers. We have to update all
+				 * z-indexes...
 				 */
                 if (!this.widgetDivs[widget.id]) {
 					this.renderWidget(widget);
+					this.updateWidgetZ(widget, i)
 					this.renderedModels[widget.id] = widget
+					this.renderChangeCounter++;
                 } else {
                     this.updateWidget(widget, i);
                 }
@@ -88,8 +94,9 @@ export default {
 			this.renderDistance();		
 			if(this.animate){
 				setTimeout(lang.hitch(this,"renderAnimation"),1);
-			}		
-			this.logger.log(3,"renderFlowView", "exit");
+			}
+		
+			this.logger.log(0,"renderFlowView", "exit > " + this.renderChangeCounter);
 		},
         
         updateScreen (screen) {
@@ -121,6 +128,7 @@ export default {
 					this.renderFactory.setStyle(background, screen);
 				}
 				this.renderedModels[screen.id] = screen
+				this.renderChangeCounter++;
 			}
 		},
 		
@@ -143,6 +151,7 @@ export default {
 				let dnd = this.widgetDivs[widget.id]
 				if (dnd) {
 					this.updateBox(widget, dnd)
+					dnd.style.zIndex = 10009 + i
 				}
 				let background = this.widgetBackgroundDivs[widget.id]
 				if (background) {
@@ -151,7 +160,20 @@ export default {
 					background.style.zIndex = i
 				}
 				this.renderedModels[widget.id] = widget
+				this.renderChangeCounter++;
 			}
+		},
+
+		updateWidgetZ (widget, i) {
+			let dnd = this.widgetDivs[widget.id]
+			if (dnd) {
+				dnd.style.zIndex = 10009 + i
+			}
+			let background = this.widgetBackgroundDivs[widget.id]
+			if (background) {
+				background.style.zIndex = i
+			}
+			this.renderChangeCounter++;
 		},
 
 		elementHasChanged (element) {
