@@ -6,7 +6,11 @@ export default class Screen extends CopyPaste {
 
 	/**********************************************************************
 	 * Screen Grid
-	 **********************************************************************/	
+	 **********************************************************************/
+	
+	updateScreenRulerProps (screenID, rulerID, ruler) {
+		this.logger.log(0,"updateScreenRulerProps", "enter > screen : " + rulerID + "@" + screenID + " > " + ruler.sticky);
+	}
 
 	updateScreenRuler (screenID, pos, ruler) {
 		this.logger.log(0,"updateScreenRuler", "enter > screen : " + screenID + " > " + pos.type);
@@ -32,7 +36,7 @@ export default class Screen extends CopyPaste {
 					screen : screenID
 				};			
 				this.addCommand(command);
-				this.modelScreenRulerUpdate(screenID, ruler.id, v);
+				this.modelScreenRulerUpdate(screenID, ruler.id, v, ruler.sticky);
 				return this.getInheredRulers(screen)
 			}
 		}
@@ -46,7 +50,7 @@ export default class Screen extends CopyPaste {
 				oldRuler.v = v
 				this.onModelChanged();
 			} else {
-				console.warn('con')
+				console.warn('No ruler with id', rulerID)
 			}
 		}
 	}

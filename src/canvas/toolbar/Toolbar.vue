@@ -306,6 +306,29 @@ export default {
 		/********************************************************
 		 * Selection handlers!
 		 ********************************************************/
+
+		onRulerSelected (screen, ruler) {
+			this.logger.log("onRulerSelected", "entry : active:" + this.active);
+
+				
+			if (this.active){
+				try {
+					this.cleanUp();
+					this._selection = "ruler";
+					this._selectedRuler = {
+						screen: screen,
+						ruler: ruler
+					};
+					this.showRulerProperties(screen, ruler);
+					
+				} catch(e){
+					console.error(e.stack);
+					this.logger.sendError(e);
+				}
+			} else {
+				this.logger.log(0,"onRulerSelected", "exit > Not Active");	
+			}
+		},
 		
 		onWidgetSelected (widget){
 			this.logger.log("onWidgetSelected", "entry : active:" + this.active);	
@@ -332,7 +355,7 @@ export default {
 					this.showTemplate(widget);
 	
 					this.logger.log(3,"onWidgetSelected", "exit");	
-				}catch(e){
+				} catch(e){
 					console.error(e.stack);
 					this.logger.sendError(e);
 				}
@@ -510,6 +533,7 @@ export default {
 			
 			this._selectionID = null
 			
+			this._selectedRuler = null
 			
 			/**
 			 * UGLY: Make sure the widget drop down is closed. We should have a loop for all
@@ -1326,6 +1350,13 @@ export default {
 			return false;
 		},
 		
+		setRulerProperties (props) {
+			if (this._selectedRuler) {
+				console.debug('setRulerProperties', props)
+				this.controller.updateScreenRulerProps(this._selectedRuler.screen.id, this._selectedRuler.ruler.id, props)
+			}
+			return false
+		},
 		
 		/***************************************************************************************************************
 		 *  Temp Styles without model updates. Just update the rendering!

@@ -40,6 +40,7 @@ import Resize from 'canvas/toolbar/Resize'
 import Notification from 'page/Notification'
 import Services from 'services/Services'
 import ContactButton from 'canvas/toolbar/ContactButton'
+import RulerSection from 'canvas/toolbar/RulerSection'
 
 export default {
     name: '_Render',
@@ -346,6 +347,11 @@ export default {
 			this._renderScreenDownload();
 
 			/**
+			 * Ruler
+			 */
+			this._renderRuler();
+
+			/**
 			 * Hide everything
 			 */
 			this.hideAllSections();
@@ -420,6 +426,27 @@ export default {
 			if (this.dataWidget){
 				this.dataWidget.setIcons(icons);
 			}
+		},
+
+		/*****************************************************************************************************
+		 * Ruler Settings
+		 ****************************************************************************************************/
+
+		_renderRuler () {
+
+			var parent = this.createSection("Ruler");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.rulerSection = this.$new(RulerSection);
+			this.rulerSection.placeAt(content)
+			this.own(on(this.rulerSection, "change", lang.hitch(this, "setRulerProperties")));
+		
+
+			this.properties.appendChild(parent);
+			this.rulerSectionDIV = parent;
 		},
 
 		/*****************************************************************************************************
@@ -1536,6 +1563,18 @@ export default {
 		},
 
 		/*****************************************************************************************************
+		 * ruler properties
+		 ****************************************************************************************************/
+
+		showRulerProperties (screen, ruler) {
+			this.logger.log(0,"showRulerProperties", "entry > ");
+			this.restorePropertiesState();
+			this.showProperties();
+			css.remove(this.rulerSectionDIV, "MatcToolbarSectionHidden");
+			this.rulerSection.setValue(screen, ruler)
+		},
+
+		/*****************************************************************************************************
 		 * widget properties
 		 ****************************************************************************************************/
 
@@ -2123,6 +2162,10 @@ export default {
 			}
 			if(this.screenAnimationDiv){
 				css.add(this.screenAnimationDiv,"MatcToolbarSectionHidden" );
+			}
+
+			if (this.rulerSectionDIV) {
+				css.add(this.rulerSectionDIV, "MatcToolbarSectionHidden");
 			}
 
 

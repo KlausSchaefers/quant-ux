@@ -64,6 +64,11 @@ export default {
 			this.emit("input", this.checked );
 		}
   },
+  watch: {
+	  value (v) {
+		  this.setValue(v)
+	  }
+  },
   mounted () {
       this.log.log(10, 'mounted', 'enter')
   }

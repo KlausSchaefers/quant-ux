@@ -104,6 +104,7 @@ export default {
 
         _onScreenRulerHandleDown (screen, ruler, dndDiv, handle, e) {
             this.stopEvent(e)
+            this._screenButtonsListenerMoveStart = new Date().getTime()
             if (ruler.inherited){
                 return;
             }
@@ -166,8 +167,20 @@ export default {
 
         _onScreenRulerHandleUp (screen, ruler, dndDiv, handle, e) {
             this.stopEvent(e)
+          
+            let now = new Date().getTime()
+            let dif = (now - this._screenButtonsListenerMoveStart)
             this.cleanUpScreenButtonMove()
-
+            /**
+             * Check if we had a click
+             */
+            if (dif < 300) {
+                if (this.controller) {
+                    this.controller.onRulerSelected(screen, ruler)
+                }
+                return;
+            }
+          
             let rulers = null
             let pos = this.getCanvasMousePosition(e);
             if (ruler.type === 'y') {
@@ -193,6 +206,9 @@ export default {
                 screen.rulers = rulers
                 this._renderScreenRulers(screen, rulers, dndDiv)
                 this._updateInheritedScreenHandlers(screen, ruler)
+                if (this.controller) {
+                    this.controller.onRulerSelected(screen, ruler)
+                }
             }
         },
 
@@ -334,6 +350,7 @@ export default {
             delete this._screenButtonsListenerMove
             delete this._screenButtonMoveLine
             delete this._screenButtonsMoveLabel
+            delete this._screenButtonsListenerMoveStart
         },
 
         cleanUpScreenButtons () {

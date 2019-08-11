@@ -107,6 +107,13 @@ export default class BaseController extends Core {
 		/**********************************************************************
 		 * Selection methods
 		 **********************************************************************/
+
+		onRulerSelected (screen, ruler) {
+			this.logger.log(0 ,"onRulerSelected", "enter > ");
+			if(this.toolbar){
+				this.toolbar.onRulerSelected(screen, ruler);
+			}
+		}
 		
 		onWidgetSelected (id){
 			this.logger.log(3,"onWidgetSelected", "enter > "+ id);
