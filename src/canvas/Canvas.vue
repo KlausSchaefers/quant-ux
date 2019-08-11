@@ -372,10 +372,6 @@ export default {
 			if(s.moveMode){
 				this.moveMode = s.moveMode;
 			}
-
-			if (s.fastRender) {
-				this.fastRender = true
-			}
 			
 			if(s.renderLines!=null){
 				this.renderLines = s.renderLines;

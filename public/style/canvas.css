@@ -169,7 +169,7 @@
 }
 
 .MatcInlineEditableStarted{
-	z-index:10010;
+	z-index:90010;
 }
 
 
@@ -227,7 +227,7 @@
 .MatcLineSupportPoint{
 	color:orange;
 	position :absolute;
-	z-index: 10007;
+	z-index: 90007;
 }
 
 .MatcLineSupportPoint:hover{
@@ -240,7 +240,7 @@
 	width:11px;
 	top : -6px;
 	left : -6px;
-	z-index: 10008;
+	z-index: 90008;
 	display: block;
 	border-radius:5px;
 	border:3px solid #fff;
@@ -306,7 +306,7 @@
 .MatcCutsomerHandler{
 	position: absolute;
 	border: 1px solid #49C0F0;
-	z-index: 10012;
+	z-index: 90012;
 	background: #fff;
 	border-radius: 50%;
 }
@@ -419,21 +419,21 @@
 	position: absolute;
 	border:1px solid #ff353a;
 	background:rgba(255,53,58,0.3);
-	z-index: 10010;
+	z-index: 90010;
 }
 
 .MatcAddTool{
 	position: absolute;
 	border:1px solid #8abd00;
 	background:rgba(100,212,61,0.3);
-	z-index: 10010;
+	z-index: 90010;
 }
 
 .MatcSelectionTool{
 	position: absolute;
 	border:1px solid #49C0F0;
 	background:rgba(73,192,240,0.3);
-	z-index: 10010;
+	z-index: 90010;
 }
 
 /****************************************************
@@ -509,7 +509,7 @@
 .MatcCanvasScrollBar{
  	transition-duration: 0.3s;
 	transition-property: opacity;
-	z-index: 11000;
+	z-index: 91000;
 }
  
 .MatcCanvasScrollBar:HOVER{
@@ -593,7 +593,7 @@
 	bottom: 0px;
 	left:0px;
 	font-size: 12px;
-	z-index:12000;
+	z-index:92000;
 	height: 25px;
 	width: 100%;
 	background:#242a30;
@@ -658,7 +658,7 @@
  
 .MatcResizeContainer{
 	position: absolute;
-	z-index: 10009;
+	z-index: 90009;
 	border: 1px solid orange;
 }
 
@@ -666,7 +666,7 @@
 .MatcResizeHandle{
 	position: absolute;
 	background: #fff;
-	z-index: 10012;
+	z-index: 90012;
 	border: 1px solid #49C0F0;
 	cursor: pointer;
 	border-radius: 50%;
@@ -682,7 +682,7 @@
 
 .MatcResizeBorder{
 	position: absolute;
-	z-index: 10010;	
+	z-index: 90010;	
 }
 
 .MatcResizeBorderLeft{
@@ -882,7 +882,7 @@
  .MatcRulerLine{
  	position: absolute;
  	background: red;
- 	z-index: 10020;
+ 	z-index: 90020;
  	width: 100px;
  	height:100px;
  	opacity:0.5;
@@ -892,7 +892,7 @@
  .MatcRulerDistanceLine{
  	position: absolute;
  	background: red;
- 	z-index: 10020;
+ 	z-index: 90020;
  	width: 100px;
  	height:100px;
 
@@ -911,7 +911,7 @@
  .MatcRulerDistanceLabelY{
  	color:red;
  	font-size: 14px;
- 	z-index: 10020;
+ 	z-index: 90020;
  	position: absolute;
  	top:50%;
 	transform: translateY(-50%);
@@ -922,7 +922,7 @@
 .MatcRulerDistanceLabelX{
 	color:red;
  	font-size: 14px;
- 	z-index: 10020;
+ 	z-index: 90020;
  	position: absolute;
  	top:-21px;
 	transform: translateX(-50%);
@@ -1105,7 +1105,7 @@
 	font-size: 14px;
 	opacity:0;
 	color:white;	
-	z-index:12000;
+	z-index:92000;
 	display: none;
 }
 
@@ -1250,7 +1250,7 @@
 	width: 1px;
 	top:3px;
 	background: #49C0F0;
-	z-index: 10009;
+	z-index: 90009;
 }
 
 .MatcScreenGridLiney {
@@ -1258,7 +1258,7 @@
 	height: 1px;
 	left:3px;
 	background: #49C0F0;
-	z-index: 10009;
+	z-index: 90009;
 }
 
  

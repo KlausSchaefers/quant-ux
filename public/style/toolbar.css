@@ -88,7 +88,7 @@
 
 
 .MatcToolbar .vommondToolTip{
-	z-index: 10010;
+	z-index: 90010;
 }
 
 .MatcToolbar .vommondToolTipLabel,  .MatcToolbar .vommondToolTipArrow{
@@ -257,7 +257,7 @@
 
 
  .MatcToolbarTop{
- 	z-index: 11002;
+ 	z-index: 91002;
  	left: 0px;
     position: fixed;
     top: 0;
@@ -285,7 +285,7 @@
  	padding-bottom: 30px;
  	transition-duration: 0.2s;
  	opacity:1;
- 	z-index: 11001;
+ 	z-index: 91001;
  	background: #242a30;
  	background:#1a1f23;
  }
@@ -296,7 +296,7 @@
     height: 100%;
     position: fixed;
     width: 40px;
-    z-index: 11001;
+    z-index: 91001;
 	margin-top: 40px;
 	margin-bottom: 40px;
     text-align: center;
@@ -396,7 +396,7 @@
 	bottom:0px;
 	right:-230px;
 	width: 230px;
-	z-index: 12001;
+	z-index: 92001;
 	transition-duration: 0.2s;
 	overflow: hidden;
 }

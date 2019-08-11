@@ -53,9 +53,6 @@ export default {
 				/**
 				 * We assume that for the first rendering we do not need to
 				 * set the zIndex. For the updates we need, thus we pass i.
-				 * 
-				 * FIXME: This messes with the resize handlers. We have to update all
-				 * z-indexes...
 				 */
                 if (!this.widgetDivs[widget.id]) {
 					this.renderWidget(widget);
@@ -101,7 +98,7 @@ export default {
 				setTimeout(lang.hitch(this,"renderAnimation"),1);
 			}
 		
-			this.logger.log(0,"renderFlowView", "exit > " + this.renderChangeCounter);
+			this.logger.log(0,"renderFlowViewFast", "exit > " + this.renderChangeCounter);
 		},
         
         updateScreen (screen) {
