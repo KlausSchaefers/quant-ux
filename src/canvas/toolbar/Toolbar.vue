@@ -1351,11 +1351,18 @@ export default {
 		},
 		
 		setRulerProperties (props) {
+			this.logger.log(2,"setRulerProperties", "entry ");	
 			if (this._selectedRuler) {
-				console.debug('setRulerProperties', props)
 				this.controller.updateScreenRulerProps(this._selectedRuler.screen.id, this._selectedRuler.ruler.id, props)
 			}
 			return false
+		},
+
+		setRulerPosition (v) {
+			this.logger.log(0,"setRulerPosition", "entry > " + v);
+			if (this._selectedRuler) {
+				this.controller.updateScreenRulerValue(this._selectedRuler.screen.id, this._selectedRuler.ruler.id, v)
+			}
 		},
 		
 		/***************************************************************************************************************

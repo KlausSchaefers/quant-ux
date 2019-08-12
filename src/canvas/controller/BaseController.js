@@ -108,10 +108,16 @@ export default class BaseController extends Core {
 		 * Selection methods
 		 **********************************************************************/
 
-		onRulerSelected (screen, ruler) {
+		onRulerSelected (screenID, rulerID) {
 			this.logger.log(0 ,"onRulerSelected", "enter > ");
 			if(this.toolbar){
-				this.toolbar.onRulerSelected(screen, ruler);
+				var screen = this.model.screens[screenID];
+				if (screen) {
+					let ruler = screen.rulers.find(r => r.id === rulerID)
+					if (ruler) {
+						this.toolbar.onRulerSelected(screen, ruler);
+					}
+				}
 			}
 		}
 		

@@ -5,6 +5,7 @@ import css from 'dojo/css'
 import win from 'dojo/_base/win'
 import Core from 'core/Core'
 import CheckBox from 'common/CheckBox'
+import ModelResizer from 'core/ModelResizer'
 
 export default {
     name: 'ScreenGrid',
@@ -133,6 +134,33 @@ export default {
                 }
                 this._renderRulerLabel(screen, 'x', pos)
             }
+            if (ruler.props && ruler.props.sticky) {
+                let z = this.getZoomFactor();
+                let oldV = ruler.v * z
+                let positions = ModelResizer.getRulerMoveUpdates(this.model, screen, ruler, oldV, this._getRulerValue(screen, ruler, pos))
+                // console.debug('_onScreenRulerHandleMove', positions)
+                this._resizeRenderJobs = {}
+                for (let id in positions) {
+                    let newPos = positions[id]
+                    let div = this.widgetDivs[id];
+                    if (div) {
+                        this._resizeRenderJobs[id] = {
+                            "pos" : newPos,
+                            "div" : div 
+                        };
+                    }
+                }
+                var callback = lang.hitch(this, "_resizeDndUpDateUI");
+                requestAnimationFrame(callback);
+            }
+        },
+
+        _getRulerValue (screen, ruler, pos) {
+            if (ruler.type === 'y') {
+                return pos.y - screen.y
+            } else {
+                return pos.x - screen.x
+            }
         },
 
         _renderRulerLabel (screen, type, pos) {
@@ -176,7 +204,7 @@ export default {
              */
             if (dif < 300) {
                 if (this.controller) {
-                    this.controller.onRulerSelected(screen, ruler)
+                    this.controller.onRulerSelected(screen.id, ruler.id)
                 }
                 return;
             }
@@ -207,7 +235,7 @@ export default {
                 this._renderScreenRulers(screen, rulers, dndDiv)
                 this._updateInheritedScreenHandlers(screen, ruler)
                 if (this.controller) {
-                    this.controller.onRulerSelected(screen, ruler)
+                    this.controller.onRulerSelected(screen.id, ruler.id)
                 }
             }
         },

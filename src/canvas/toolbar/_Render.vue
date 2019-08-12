@@ -442,9 +442,9 @@ export default {
 
 			this.rulerSection = this.$new(RulerSection);
 			this.rulerSection.placeAt(content)
-			this.own(on(this.rulerSection, "change", lang.hitch(this, "setRulerProperties")));
-		
-
+			this.own(on(this.rulerSection, "changeProps", lang.hitch(this, "setRulerProperties")));
+			this.own(on(this.rulerSection, "changeV", lang.hitch(this, "setRulerPosition")));
+			
 			this.properties.appendChild(parent);
 			this.rulerSectionDIV = parent;
 		},

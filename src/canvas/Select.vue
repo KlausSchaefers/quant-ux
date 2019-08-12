@@ -869,7 +869,6 @@ export default {
 		},
 		
 		onReplicateDnDMove (modelType, e){	
-			console.debug('onReplicateDnDMove() enter')
 			
 			/**
 			 * get the position of the placeholder
@@ -879,7 +878,6 @@ export default {
 				this._resizeCopyJobs = this.getClones(this._selectCloneIds, pos).previews;
 				this._resizeRenderJobsHandlerPos = pos;
 
-				console.debug('onReplicateDnDMove', e, this._resizeCopyJobs)
 				/**
 				 * now request rendering
 				 */
@@ -917,8 +915,6 @@ export default {
 		
 		
 		_replicateDndUpDateUI () {
-			console.debug('_replicateDndUpDateUI() > enter', this._resizeCopyJobs)
-			
 			if(!this._resizeCopyJobs){
 				/**
 				 * Because of some weird reason this is since the introduction

@@ -45,7 +45,6 @@ export default {
 		
 		onChange:function(){
 			this.setValue(!this.value);
-			
 			this.emit("change", this.value );
 		}
     }, 

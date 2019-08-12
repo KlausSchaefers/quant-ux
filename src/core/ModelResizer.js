@@ -1,5 +1,103 @@
 class ModelResizer {
 
+    getRulerMoveUpdates (model, screen, ruler, oldV, newV) {
+        // console.debug('getRulerMoveUpdates', oldV, newV)
+        let result = {}
+        let resize = false
+        if (ruler.props && ruler.props.resize) {
+            resize = ruler.props.resize
+        }
+        try {
+            /**
+             * find all attached widgets
+             */
+            let children = screen.children;
+            for(let i=0; i< children.length; i++){
+                let id = children[i];
+                let widget = model.widgets[id];
+                if (widget) {
+                    if (ruler.type === 'y') {
+                        if (Math.abs(widget.y - (screen.y + oldV)) < 1) {
+                            if (resize) {
+                                result[id] = {
+                                    w: widget.w,
+                                    h: widget.h + (oldV - newV),
+                                    x: widget.x,
+                                    y: screen.y + newV
+                                }
+                            } else {
+                                result[id] = {
+                                    w: widget.w,
+                                    h: widget.h,
+                                    x: widget.x,
+                                    y: screen.y + newV
+                                }
+                            }
+                            
+                        }
+                        if (Math.abs((widget.y + widget.h) - (screen.y + oldV)) < 1) {
+                            if (resize) {
+                                result[id] = {
+                                    w: widget.w,
+                                    h: widget.h - (oldV - newV),
+                                    x: widget.x,
+                                    y: widget.y
+                                }
+                            } else {
+                                result[id] = {
+                                    w: widget.w,
+                                    h: widget.h,
+                                    x: widget.x,
+                                    y: screen.y + newV - widget.h
+                                }
+                            } 
+                        }
+                    }
+                    if (ruler.type === 'x') {
+                        if (Math.abs(widget.x - (screen.x + oldV)) < 1) {
+                            if (resize) {
+                                result[id] = {
+                                    w: widget.w + (oldV - newV),
+                                    h: widget.h,
+                                    x: screen.x + newV,
+                                    y: widget.y
+                                }
+                            } else {
+                                result[id] = {
+                                    w: widget.w,
+                                    h: widget.h,
+                                    x: screen.x + newV,
+                                    y: widget.y
+                                }
+                            }
+                        }
+                        if (Math.abs((widget.x + widget.w) - (screen.x + oldV)) < 1) {
+                            if (resize) {
+                                result[id] = {
+                                    w: widget.w - (oldV - newV),
+                                    h: widget.h,
+                                    x: widget.x,
+                                    y: widget.y
+                                }
+                            } else {
+                                result[id] = {
+                                    w: widget.w,
+                                    h: widget.h,
+                                    x: screen.x + newV - widget.w,
+                                    y: widget.y
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (e){
+            console.error('ModelResizer.getRulerMoveUpdates()', e)
+        }
+       
+        return result
+    }
+
     /**
     * Gets the new position for a group child
     */

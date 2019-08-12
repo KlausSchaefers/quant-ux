@@ -1,15 +1,86 @@
 import CopyPaste from 'canvas/controller/CopyPaste'
 import lang from 'dojo/_base/lang'
 import Core from 'core/Core'
+import ModelResizer from 'core/ModelResizer'
 
 export default class Screen extends CopyPaste {
 
 	/**********************************************************************
-	 * Screen Grid
+	 * Ruler Props 
 	 **********************************************************************/
 	
-	updateScreenRulerProps (screenID, rulerID, ruler) {
-		this.logger.log(0,"updateScreenRulerProps", "enter > screen : " + rulerID + "@" + screenID + " > " + ruler.sticky);
+	updateScreenRulerProps (screenID, rulerID, props) {
+		this.logger.log(0,"updateScreenRulerProps", "enter > screen : " + rulerID + "@" + screenID + " > " + props.sticky);
+
+		var screen = this.model.screens[screenID];
+		
+		if(screen && screen.rulers) {
+			let oldRuler = screen.rulers.find(r => r.id === rulerID)
+			if (oldRuler){
+				
+				var command = {
+					timestamp : new Date().getTime(),
+					type : "ScreenRulerPropertyUpdate",
+					o: oldRuler.props,
+					n: props,
+					rulerID : rulerID,
+					screen : screenID
+				};			
+				this.addCommand(command);
+				this.modelScreenRulerPropsUpdate(screenID, rulerID, props);
+				this.render();
+			}
+		}
+	}
+
+	modelScreenRulerPropsUpdate (screenID, rulerID, props) {
+		var screen = this.model.screens[screenID];
+		if (screen && screen.rulers) {
+			let oldRuler = screen.rulers.find(r => r.id === rulerID)
+			if (oldRuler) {
+				oldRuler.props = props
+				this.onModelChanged();
+			} else {
+				console.warn('No ruler with id', rulerID)
+			}
+		}
+	}
+
+	undoScreenRulerPropertyUpdate(command) {
+		this.modelScreenRulerPropsUpdate(command.screen, command.rulerID, command.o);
+		this.render();
+	}
+
+	redoScreenRulerPropertyUpdate(command) {
+		this.modelScreenRulerPropsUpdate(command.screen, command.rulerID, command.n);
+		this.render();
+	}
+
+	/**********************************************************************
+	 * Ruler Pos 
+	 **********************************************************************/
+
+	updateScreenRulerValue (screenID, rulerID, v) {
+		this.logger.log(0,"updateScreenRulerValue", "enter > screen : " + screenID + " > " + rulerID.type);
+	
+		var screen = this.model.screens[screenID];
+		
+		if(screen && screen.rulers) {
+			let oldRuler = screen.rulers.find(r => r.id === rulerID)
+			if (oldRuler){
+				var command = {
+					timestamp : new Date().getTime(),
+					type : "ScreenRulerUpdate",
+					o: oldRuler.v,
+					n: v,
+					rulerID : rulerID,
+					screen : screenID
+				};			
+				this.addCommand(command);
+				this.modelScreenRulerUpdate(screenID, rulerID, v);
+				this.render();
+			}
+		}
 	}
 
 	updateScreenRuler (screenID, pos, ruler) {
@@ -36,7 +107,7 @@ export default class Screen extends CopyPaste {
 					screen : screenID
 				};			
 				this.addCommand(command);
-				this.modelScreenRulerUpdate(screenID, ruler.id, v, ruler.sticky);
+				this.modelScreenRulerUpdate(screenID, ruler.id, v);
 				return this.getInheredRulers(screen)
 			}
 		}
@@ -47,7 +118,26 @@ export default class Screen extends CopyPaste {
 		if (screen && screen.rulers) {
 			let oldRuler = screen.rulers.find(r => r.id === rulerID)
 			if (oldRuler) {
+				let oldV = oldRuler.v
 				oldRuler.v = v
+
+				/**
+				 * Also update teh sticky children
+				 */
+				if (oldRuler.props && oldRuler.props.sticky) {
+					let positions = ModelResizer.getRulerMoveUpdates(this.model, screen, oldRuler, oldV, v)
+					for (let id in positions) {
+						let position = positions[id]
+						let widget = this.model.widgets[id];
+						if (widget) {
+							widget.x = position.x
+							widget.y = position.y
+							widget.w = position.w
+							widget.h = position.h
+						}
+					}
+				}
+
 				this.onModelChanged();
 			} else {
 				console.warn('No ruler with id', rulerID)
