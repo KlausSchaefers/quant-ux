@@ -26,7 +26,7 @@
 		    <CheckBox label="Sticky ruler (Beta)" :value="sticky" @change="onStickyChange"/>
         </div>
         <div class="MatcToolbarItem">
-		    <CheckBox label="Resize Components" :value="resize" @change="onResizeChange"/>
+		    <CheckBox label="Resize Components" :value="resize" @change="onResizeChange" v-show="sticky"/>
         </div>
 	</div>
 </template>

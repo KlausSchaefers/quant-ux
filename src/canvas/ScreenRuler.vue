@@ -115,7 +115,7 @@ export default {
 
         _onScreenRulerHandleMove (screen, ruler, dndDiv, handle, e) {
             this.stopEvent(e)
-
+            this.unSelect()
             let pos = this.getCanvasMousePosition(e);
             if (ruler.type === 'y') {
                 handle.style.top = (pos.y - screen.y) + 'px';
@@ -204,6 +204,7 @@ export default {
              */
             if (dif < 300) {
                 if (this.controller) {
+                    this.unSelect()
                     this.controller.onRulerSelected(screen.id, ruler.id)
                 }
                 return;
@@ -235,6 +236,7 @@ export default {
                 this._renderScreenRulers(screen, rulers, dndDiv)
                 this._updateInheritedScreenHandlers(screen, ruler)
                 if (this.controller) {
+                    this.unSelect()
                     this.controller.onRulerSelected(screen.id, ruler.id)
                 }
             }
