@@ -1,6 +1,6 @@
 # Quant-UX
 
-This is the qant-ux front end.
+This is the quant-ux front end. You can find a working demo at https://v2.quant-ux.com/#/
 
 ## Project setup
 ```
