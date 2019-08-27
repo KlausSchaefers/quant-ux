@@ -14,7 +14,7 @@ export default {
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
-      value: {},
+      value: [],
       options: []
     };
   },
@@ -219,6 +219,15 @@ export default {
 
     onChange: function(option, i, e) {
       this.stopEvent(e);
+
+      if (!this.value) {
+        this.value = []
+      }
+      if (!this.value.push) {
+          // this can happen because the config sets strings not array.
+          // FIXME: make option toolbox mutliselct and return array
+         this.value = [this.value]
+      }
 
       var pos = this.value.indexOf(option);
       if (pos < 0) {
