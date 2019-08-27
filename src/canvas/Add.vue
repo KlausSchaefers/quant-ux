@@ -33,14 +33,9 @@ export default {
 				clonedScreens.push(clonedScreen);
 				clonedScreen.x = pos.x + (this.model.screenSize.w + this.getZoomed(100,this.zoom)) * i;
 				clonedScreen.y = pos.y;
-			}
-			
+			}	
 			this.controller.addMultiScreens(clonedScreens, true);
-	
-		
-			
 		},
-	
 		
 		addLogicGroup (params){
 			this.logger.log(0,"addLogicGroup", "enter");
@@ -103,7 +98,8 @@ export default {
 			boundingBox = this.getZoomedBox(boundingBox,z,z);
 			
 			var div = this.createBox(boundingBox);
-			
+			css.add(div, "MatcAddBox")
+
 			var children = group.children;
 			for(var i=0; i< children.length; i++){
 				var child = children[i];
@@ -113,7 +109,8 @@ export default {
 				 */
 				var widget = this.getZoomedBox(lang.clone(child),z,z);
 				var widgetDIV = this.createWidget(widget);
-				div.appendChild(widgetDIV);		
+				div.appendChild(widgetDIV);	
+		
 			}
 			
 			if(!this._alignmentToolInited){
@@ -192,6 +189,7 @@ export default {
 			var boundingBox = this.getBoundingBox(group.children);
 			boundingBox = this.getZoomedBox(boundingBox,z,z);
 			var div = this.createBox(boundingBox);
+			css.add(div, "MatcAddBox")
 			
 			var children = this.getTemplateGroupOrderChildren(group);
 			for(var i=0; i< children.length; i++){
@@ -250,6 +248,8 @@ export default {
 			var clonedScreen = this.getZoomedBox(lang.clone(screen),z,z);
 		
 			var div = this.createScreen(clonedScreen);
+			css.add(div, "MatcAddBox")
+
 			this.renderFactory.setStyle(div, clonedScreen);
 
 			
@@ -316,6 +316,7 @@ export default {
 			 * add addNDrop div
 			 */
 			var div = this.createWidget(zoomedWidget);
+			css.add(div, "MatcAddBox")
 			
 			/**
 			 * add stop listener

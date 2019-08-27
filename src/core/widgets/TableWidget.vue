@@ -43,6 +43,10 @@ export default {
       this.domNode.innerHTML = "";
       this.model = model;
       this.style = style;
+
+      this._scaleX = scaleX;
+      this._scaleY = scaleY;
+     
       let data = this.parseData(model.props.data);
       let widths = this.getWidths(data, model.props.widths);
       let borderStyle = this.getBorderStyle(model);
@@ -51,8 +55,7 @@ export default {
 
       if ("Out" == borderStyle || "Cell" == borderStyle) {
         table.style.borderColor = style.borderBottomColor;
-        table.style.borderWidth =
-          this._getBorderWidth(style.borderBottomWidth) + "px";
+        table.style.borderWidth = this._getBorderWidth(style.borderBottomWidth) + "px";
         table.style.borderStyle = "solid";
       }
 
@@ -115,11 +118,8 @@ export default {
 
       this.domNode.appendChild(table);
 
-      this.model = model;
-      this.style = style;
-      this._scaleX = scaleX;
-      this._scaleY = scaleY;
       this.setStyle(style, model);
+
 
       if (style.evenRowBackground || style.evenRowColor) {
         for (let i = 2; i < data.length; i += 2) {
