@@ -22,6 +22,7 @@ import CustomFonts from 'canvas/toolbar/CustomFonts'
 import Plan from 'page/Plan'
 import Services from 'services/Services'
 import QR from 'core/QR'
+import Help from 'help/Help'
 
 export default {
     name: '_Dialogs',
@@ -33,39 +34,52 @@ export default {
     },
     components: {},
     methods: {
-			showFontDialog (e) {
-				this.logger.log(0,"showFontDialog", "entry > ");
+		showFontDialog (e) {
+			this.logger.log(0,"showFontDialog", "entry > ");
 
-				var db = new DomBuilder();
-				var popup = db.div("MatcFontDialog  MatcPadding").build();
+			var db = new DomBuilder();
+			var popup = db.div("MatcFontDialog  MatcPadding").build();
 
 
-				let customFonts = this.$new(CustomFonts);
-				customFonts.placeAt(popup);
-				customFonts.setModel(this.model)
+			let customFonts = this.$new(CustomFonts);
+			customFonts.placeAt(popup);
+			customFonts.setModel(this.model)
 
-				let row = db.div("row MatcMarginTop").build(popup);
-				let right = db.div("col-md-12 MatcButtonBar").build(row);
-				var save = db.div("MatcButton", "Save").build(right);
-				var close = db.div("MatcLinkButton", "Close").build(right);
-				
-				var d = new Dialog();
-				d.own(on(close, touch.press, lang.hitch(d,"close")));
-				d.own(on(save, touch.press, lang.hitch(this,"saveFonts", d, customFonts)));
-				
+			let row = db.div("row MatcMarginTop").build(popup);
+			let right = db.div("col-md-12 MatcButtonBar").build(row);
+			var save = db.div("MatcButton", "Save").build(right);
+			var close = db.div("MatcLinkButton", "Close").build(right);
 			
-				d.popup(popup, e.target);
-			},
+			var d = new Dialog();
+			d.own(on(close, touch.press, lang.hitch(d,"close")));
+			d.own(on(save, touch.press, lang.hitch(this,"saveFonts", d, customFonts)));
+			
+		
+			d.popup(popup, e.target);
+		},
 
-			saveFonts (dialog, customFonts) {
-					this.logger.log(0,"saveFonts", "entry > ");
+		saveFonts (dialog, customFonts) {
+				this.logger.log(0,"saveFonts", "entry > ");
 
-					this.controller.setFonts(customFonts.getFonts());
+				this.controller.setFonts(customFonts.getFonts());
 
-					dialog.close()
-			},
+				dialog.close()
+		},
 
-      showSharing (e){
+		showHelp (e) {
+			let dialog = new Dialog()
+
+            var db = new DomBuilder();
+			var popup = db.div("MatcDialog MatcHelpDialog MatcPadding").build();
+            	
+            dialog.popup(popup, e.target);
+            
+            let help = this.$new(Help)
+            help.placeAt(popup)
+        
+		},
+
+     	showSharing (e){
 				this.logger.log(0,"showSharing", "entry > ");
 				
 				var invitation = this._doGet("/rest/invitation/"+this.model.id+ ".json");

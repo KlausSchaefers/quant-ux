@@ -1,0 +1,74 @@
+.MatcHelpDialog {
+    width: 1000px;
+    height: 700px;
+}
+
+.MatcHelp{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+
+.MatcHelp a {
+    display: inline-block;
+    width: 100%;
+    color:#777;
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.MatcHelp a.MatcHelpSubTopic{
+    padding-left: 10px;
+}
+
+.MatcHelp a:hover {
+    color:#333;
+    text-decoration: none;
+}
+
+.MatcHelp a.selected {
+    color:#1973e8;
+    text-decoration: none;
+}
+
+.MatcHelpTopics{
+    width: 200px;
+    overflow: auto;
+    display: inline-block;
+}
+
+.MatcHelpContent{
+    display: inline-block;
+    width: 800px;
+    padding-right: 20px;
+    margin-right: 20px;
+    height: 100%;
+
+}
+
+.MatcHelpDialog .MatcHelpContentCntr{
+    height: 600px;
+    overflow: auto;
+    padding-right: 20px;
+}
+
+.MatcHelpContentCntr iframe {
+    margin-top: 30px;
+}
+
+.MatcHelpContent h2{
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.MatcHelpContent h3{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.MatcHelpContentParagraph {
+    margin-top: 30px;
+    line-height: 2;
+    font-size: 18px;
+}

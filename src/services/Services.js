@@ -3,6 +3,7 @@ import ModelService from 'services/ModelService'
 import PublicModelService from 'services/PublicModelService'
 import CommentService from 'services/CommentService'
 import SymbolService from 'services/SymbolService'
+import HelpService from 'services/HelpService'
 
 class Services {
 
@@ -12,6 +13,10 @@ class Services {
 
     getSymbolService () {
         return SymbolService
+    }
+
+    getHelpService () {
+        return HelpService
     }
 
     getModelService (route) {

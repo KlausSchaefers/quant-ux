@@ -9,6 +9,7 @@ matcRoutes.push({path:'my-account.html', component: () => import(/* webpackChunk
 matcRoutes.push({path:'reset_password.html', component: () => import(/* webpackChunkName: "about" */ 'views/user/ResetPassword.vue')})
 matcRoutes.push({path:'reset_password3.html', component: () => import(/* webpackChunkName: "about" */ 'views/user/ResetPassword.vue')})
 matcRoutes.push({path:'404.html', component: () => import(/* webpackChunkName: "about" */ 'views/404.vue')})
+matcRoutes.push({path:'help.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue')})
 
 // Apps
 matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
@@ -19,6 +20,7 @@ matcRoutes.push({path:'tryout.html', component: () => import(/* webpackChunkName
 matcRoutes.push({path:'apps/:id.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})
 matcRoutes.push({path:'apps/:id/:tab.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})
 matcRoutes.push({path:'apps/:id/replay/:session.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})
+
 
 export default new Router({
   routes: [

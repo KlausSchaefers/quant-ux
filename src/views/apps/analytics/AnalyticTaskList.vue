@@ -6,7 +6,7 @@
 				<div class="col-md-9"> 
 					<h2 class=""> 
 						<span data-nls="testSettingsTasks">Tasks</span> 
-						<a href="#help/task.html" class="MatcHelpIcon"><span class="mdi mdi-help-circle"></span></a>
+						<HelpButton topic="tasks" subtopic="tasks.analytics"/>
 					</h2> 
 				</div>
 				<div class="col-md-3 MatcRight"> 
@@ -39,6 +39,7 @@ import TaskRecorder from 'views/apps/analytics/TaskRecorder'
 import TaskPerfGram from 'views/apps/analytics/TaskPerfGram'
 import TestSettings from 'views/apps/test/TestSettings'
 import Analytics from 'dash/Analytics'
+import HelpButton from 'help/HelpButton'
 
 export default {
     name: 'AnalyticsTaskList',
@@ -54,7 +55,9 @@ export default {
             BINS: 10
         }
     },
-	components: {},
+	components: {
+		'HelpButton': HelpButton
+	},
 	computed: {
 		df () {
 			let events = this.filterEvents(this.events, this.annotation);

@@ -199,6 +199,7 @@ export default {
  			  {label :"Start Simulator", callback:lang.hitch(this, "startSimilator") },
 			  {label :"Settings", callback:lang.hitch(this, "onShowSettings")},
 			  {label :"Keyboard Shortcuts", callback:lang.hitch(this, "showShortCuts")},
+			  // {label :"Help", callback:lang.hitch(this, "showHelp")},
 			  {label :"Share", callback:lang.hitch(this, "showSharing")},
 			  {label :"Export", callback:lang.hitch(this, "showDownloadDialog")},
 			  {css:"MatcToolbarPopUpLine"},
