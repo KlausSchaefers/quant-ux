@@ -578,12 +578,12 @@ export default class Core extends Evented{
             var id = ids[i];
             var box = this.model.widgets[id];
             if (box) {
-            result.x = Math.min(result.x, box.x);
-            result.y = Math.min(result.y, box.y);
-            result.w = Math.max(result.w, box.x + box.w);
-            result.h = Math.max(result.h, box.y + box.h);
+                result.x = Math.min(result.x, box.x);
+                result.y = Math.min(result.y, box.y);
+                result.w = Math.max(result.w, box.x + box.w);
+                result.h = Math.max(result.h, box.y + box.h);
             } else {
-            console.warn("getGroupBoundingBox() > No box with id", id);
+                console.warn("getGroupBoundingBox() > No box with id", id);
             }
         }
 
@@ -799,10 +799,13 @@ export default class Core extends Evented{
      *
      * The lines are ordered by id, which might be wrong...
      */
-    getFromLines (box) {
+    getFromLines (box, model) {
+        if (!model) {
+            model = this.model
+        }
         var result = [];
-        for (var id in this.model.lines) {
-            var line = this.model.lines[id];
+        for (var id in model.lines) {
+            var line = model.lines[id];
             if (line.from == box.id) {
                 result.push(line);
             }
@@ -1400,20 +1403,20 @@ export default class Core extends Evented{
      *
      * Pass the children as parameter
      */
-    sortChildren (children) {
+    sortChildren (children, model) {
+        if (!model) {
+            model = this.model
+        }
         var result = [];
         for (var i = 0; i < children.length; i++) {
             var widgetID = children[i];
-            var widget = this.model.widgets[widgetID];
+            var widget = model.widgets[widgetID];
             if (widget) {
-            this.fixMissingZValue(widget);
-            result.push(widget);
+                this.fixMissingZValue(widget);
+                result.push(widget);
             }
         }
-
         this.sortWidgetList(result);
-
-        //console.debug("sortChildren > ", result);
         return result;
     }
 

@@ -29,7 +29,6 @@ export default {
               style.type = 'text/css';
               style.appendChild(document.createTextNode(css));   
               head.appendChild(style);
-              console.debug('Layout.attachFontsToDom() ', f.name, f.type, f.url)
               _mactImportedFonts[f.url] = true
             }
           }

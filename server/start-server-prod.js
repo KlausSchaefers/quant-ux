@@ -10,11 +10,11 @@ var host = '0.0.0.0'
 var port = 8081
 var registry = {
   "rest": {
-    "endpoint":"https://quant-ux.com",
+    "endpoint":"https://v1.quant-ux.com",
     "proxy": "/rest/"
   },
   "examples": {
-    "endpoint":"https://quant-ux.com",
+    "endpoint":"https://v1.quant-ux.com",
     "proxy": "/examples/"
   }
 }

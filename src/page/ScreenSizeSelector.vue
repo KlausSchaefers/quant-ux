@@ -107,9 +107,12 @@ export default {
       var inputCntr = db.div("MatcHint MatcFontSmall").build(custom);
       this.inputW = db.input("MatcIgnoreOnKeyPress").build(inputCntr);
       this.inputW.placeholder = "w";
+      this.own(on(this.inputW, 'keyup', lang.hitch(this, "onCustomSelected")));
+
       db.span("", " x ").build(inputCntr);
       this.inputH = db.input("MatcIgnoreOnKeyPress").build(inputCntr);
       this.inputH.placeholder = "h";
+      this.own(on(this.inputH, 'keyup', lang.hitch(this, "onCustomSelected")));
 
       let c = this.$new(CheckBox);
       css.add(c.domNode, "MatcVerticalMiddle");

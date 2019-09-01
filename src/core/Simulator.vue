@@ -1567,6 +1567,10 @@ export default {
 		},
 		
 		executeLine (screenID, widgetID, line){
+			// prevent looping animation to run 4ever
+			if (this.isDestroyed) {
+				return;
+			}
 			if(this.canPerformTransition(line, screenID)){
 				var screen = this.model.screens[line.to];
 				if(screen){				
@@ -1972,10 +1976,15 @@ export default {
 		
 		onAnimation (screenID, widgetID, e){
 			this.logger.log(2,"onAnimation","enter >  sreen:" + screenID + " > widget:" + widgetID + " > taget : " + e.id);
-									
+							
 			if(this._animations[e.id]){
 				this._animations[e.id].stop();
 			}	
+
+			if (this.isDestroyed) {
+				return;
+			}
+
 			var anim = this.renderFactory.createWidgetAnimation(e);	
 			if(anim){
 				anim.run()
@@ -2043,8 +2052,8 @@ export default {
 		
 		runOnLoadedScreenAnimation (screenID,line, endCallback){
 			this.logger.log(1,"runOnLoadedScreenAnimation","enter >  sreen:" + screenID);
-			if (this.doNotRunOnLoadAnimation){
-				this.logger.log(0,"runOnLoadedScreenAnimation","exit because do not run!");
+			if (this.doNotRunOnLoadAnimation || this.isDestroyed){
+				this.logger.warn("runOnLoadedScreenAnimation","exit because do not run!");
 				return;
 			}
 			var screen = this.model.screens[screenID];
@@ -2083,6 +2092,10 @@ export default {
 		runScreenAnimation (screenID, animation, triggerType, endCallBack, progressCallback){
 			this.logger.log(1,"runScreenAnimation","enter >  sreen:" + screenID);
 			
+			if (this.isDestroyed) {
+				console.warn('Simulator.runScreenAnimation() > Destroyed')
+				return;
+			}
 	
 			
 			var animFactory = new Css3Animation();
@@ -3378,7 +3391,9 @@ export default {
 
 		  
 	    destroy (){
-	    	this.logger.log(0,"destroy","enter");
+			this.logger.log(-1,"destroy","enter");
+			
+			this.isDestroyed = true;
 	    	
 	    	this.sendMouse();
 	    	
