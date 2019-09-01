@@ -385,19 +385,20 @@ export default {
 					defaultRotate = anim.rotate;
 				}
 				types = [
-								{value:null, label:"No Animation", icon:"mdi mdi-close"},
-								{value:"fadeIn", label: "Fade In", icon:"mdi mdi-blur"},
-								{value:"fadeOut", label: "Fade Out", icon:"mdi mdi-blur-off"},
-								{value:"zoomIn", label: "Zoom In", icon:"mdi mdi-arrow-all "},
-								{value:"slideLeft", label:"Left Slide", icon:"mdi mdi-arrow-left"},
-								{value:"slideRight", label: "Right Slide", icon:"mdi mdi-arrow-right"},
-								{value:"slideUp", label: "Up Slide", icon:"mdi mdi-arrow-up"},
-								{value:"slideDown", label: "Down Slide", icon:"mdi mdi-arrow-down"}, 
-				        {value:"growRight", label: "Grow Right", icon:"mdi mdi-chevron-right "},  
-				        {value:"growLeft", label: "Grow Left", icon:"mdi mdi-chevron-left "},  
-				        {value:"growUp", label: "Grow Up", icon:"mdi mdi-chevron-up "},  
-				        {value:"growDown", label: "Grow Down", icon:"mdi mdi-chevron-down "},
-				        {value:"rotate", label: "Rotate", icon:"mdi mdi-autorenew ", dialog: {value:defaultRotate, label:"Rotate by", unit:"deg"}}
+					{value:null, label:"No Animation", icon:"mdi mdi-close"},
+					{value:"transformFromParent", label: "Transform", icon:"mdi mdi-auto-fix"},
+					{value:"fadeIn", label: "Fade In", icon:"mdi mdi-blur"},
+					{value:"fadeOut", label: "Fade Out", icon:"mdi mdi-blur-off"},
+					{value:"zoomIn", label: "Zoom In", icon:"mdi mdi-arrow-all "},
+					{value:"slideLeft", label:"Left Slide", icon:"mdi mdi-arrow-left"},
+					{value:"slideRight", label: "Right Slide", icon:"mdi mdi-arrow-right"},
+					{value:"slideUp", label: "Up Slide", icon:"mdi mdi-arrow-up"},
+					{value:"slideDown", label: "Down Slide", icon:"mdi mdi-arrow-down"}, 
+					{value:"growRight", label: "Grow Right", icon:"mdi mdi-chevron-right "},  
+					{value:"growLeft", label: "Grow Left", icon:"mdi mdi-chevron-left "},  
+					{value:"growUp", label: "Grow Up", icon:"mdi mdi-chevron-up "},  
+					{value:"growDown", label: "Grow Down", icon:"mdi mdi-chevron-down "},
+					{value:"rotate", label: "Rotate", icon:"mdi mdi-autorenew ", dialog: {value:defaultRotate, label:"Rotate by", unit:"deg"}}
 				];
 				
 			}

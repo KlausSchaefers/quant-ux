@@ -318,6 +318,7 @@ export default class AnimationPlayer{
          * make sure the mouse events are flushed and correctly associated with an screen!
          */
         var oldScreenDiv = this.currentScreenDiv
+        this.lastScreen = this.currentScreen
         this.currentScreen = screen;
         this.currentScreenDiv = div;
         var me = this
@@ -429,7 +430,7 @@ export default class AnimationPlayer{
                     animation.onEnd(function() {
                     
                         me.removeOverlay(overlay.div);
-                        me.logHideOverlay(overlay.screen);							
+                       						
                         me.onOverlayPoped();
                     });
                     
@@ -821,7 +822,6 @@ export default class AnimationPlayer{
                     var animation = this.animationFactory["createScreen_"+ line.animation](screen, oldScreenDiv, newScreenDiv);
                     animation.onEnd(function() {
                         me.logger.log(-1,"renderTransition","exit > from " + screenID + " to " + line.to);
-                        me.log("ScreenLoaded",screen.id, null, null);
                         me.removeScreen(oldScreenDiv);
                         me.destroyUiWidgets();
                     });
@@ -849,18 +849,16 @@ export default class AnimationPlayer{
                          * the other animations! Also log the screen load here!
                          */
                         var anim = this.createScreenTransformAnimation(screen, line);
-                        screen._transAnim = anim;             
+                        screen._transAnim = anim; 
+                        this.removeScreen(oldScreenDiv);       
                     } else {
                         console.warn("renderTransition() > No animation function for : createScreen_"+line.animation);
                     }
                 }
-                
                 /**
                  * Now hook into dom...
                  */
                 this.addScreen(screen, newScreenDiv, line);
-                
-                
             } else {
                 /**
                  * default behavior. We remove the screen and render the new one
@@ -977,7 +975,7 @@ export default class AnimationPlayer{
      * and the call the default runScreenAnimation;
      */
     createScreenTransformAnimation (screen, line) {
-        // FIXME: Merge with exiting one!
+        // 
         var animations = {widgets : {}, groups:{}};
         var duration = 250;
         if (line.duration){
@@ -1120,7 +1118,7 @@ export default class AnimationPlayer{
              * Check if we have an factory method
              */
             if(animFactory["createAnimationEvent_" + widgetAnimation.type]){					
-                let animationEvent = animFactory["createAnimationEvent_" + widgetAnimation.type](widgetID, widgetAnimation, this.model);
+                let animationEvent = animFactory["createAnimationEvent_" + widgetAnimation.type](widgetID, widgetAnimation, this.model, this.lastScreen);
                 if(animationEvent){						
                     /**
                      * Like this.renderFactory.createWidgetAnimation(e)

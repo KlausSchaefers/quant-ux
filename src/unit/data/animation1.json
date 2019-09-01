@@ -66,6 +66,30 @@
           "groups" : { }
         }
       }
+    },
+    "s10009" : {
+      "x" : 3472,
+      "y" : 2188,
+      "h" : 400,
+      "w" : 400,
+      "name" : "Screen 2",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#6e8e40"
+      },
+      "min" : {
+        "w" : 400,
+        "h" : 400
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : false
+      },
+      "children" : [ "w10012" ],
+      "id" : "s10009",
+      "modified" : 1567348978988
     }
   },
   "widgets" : {
@@ -308,6 +332,44 @@
       },
       "id" : "w10008",
       "created" : 1567347725275
+    },
+    "w10012" : {
+      "id" : "w10012",
+      "type" : "Image",
+      "name" : "Image",
+      "x" : 3524,
+      "y" : 2240,
+      "w" : 296,
+      "h" : 100,
+      "z" : 4,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "backgroundImage" : true,
+        "border" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "backgroundImage" : {
+          "url" : "5d6bbc85e2fb5308c5e12578/a2aa10aFeZXKdr9cUAojIzkFKkylOsoFeEDsYlHim6ey548eQuHVj130jOnu.jpg",
+          "w" : 800,
+          "h" : 531
+        }
+      },
+      "created" : 1567348985435,
+      "modified" : 1567349001349
     }
   },
   "lines" : {
@@ -320,18 +382,56 @@
       "timer" : "1.5",
       "animation" : "transform"
     },
-    "l10007" : {
-      "id" : "l10007",
+    "l10010" : {
+      "id" : "l10010",
       "from" : "s10003",
-      "to" : "s10000",
+      "to" : "s10009",
       "points" : [ ],
       "event" : "timer",
       "timer" : "1.5",
-      "animation" : "transform"
+      "animation" : "slideLeft"
+    },
+    "l10013" : {
+      "id" : "l10013",
+      "from" : "s10009",
+      "to" : "s10000",
+      "points" : [ {
+        "x" : 3665,
+        "y" : 2712,
+        "w" : 2,
+        "h" : 2
+      }, {
+        "x" : 2512,
+        "y" : 2712,
+        "w" : 4,
+        "h" : 6,
+        "box" : {
+          "x" : {
+            "x" : 1256,
+            "y" : 1297,
+            "d" : "bottom",
+            "h" : 0,
+            "w" : 0,
+            "corrected" : true
+          },
+          "y" : {
+            "x" : 1256,
+            "y" : 1297,
+            "d" : "bottom",
+            "h" : 0,
+            "w" : 0,
+            "corrected" : true
+          }
+        },
+        "r" : false,
+        "d" : false
+      } ],
+      "event" : "timer",
+      "timer" : "1.5"
     }
   },
-  "lastUUID" : 10009,
-  "lastUpdate" : 1567347802931,
+  "lastUUID" : 10014,
+  "lastUpdate" : 1567349038083,
   "created" : 1567341701903,
   "startScreen" : "",
   "grid" : {
@@ -343,9 +443,10 @@
     "enabled" : false
   },
   "domain" : "Quant-UX.com",
-  "size" : 5348,
+  "size" : 6609,
   "isDirty" : true,
-  "sizeBackup" : 4820,
-  "lastBackup" : 1567347777608,
-  "id" : "5d6bbc85e2fb5308c5e12578"
+  "sizeBackup" : 84000,
+  "lastBackup" : 1567349037928,
+  "id" : "5d6bbc85e2fb5308c5e12578",
+  "lastCategory" : "WireFrame"
 }

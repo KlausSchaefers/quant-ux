@@ -914,6 +914,7 @@ export default {
 			 */
 			var oldScreenDiv = this.currentScreenDiv
 			this.sendMouse();
+			this.lastScreen = this.currentScreen;
 			this.currentScreen = screen;
 			this.currentScreenDiv = div;
 			var me = this
@@ -1863,6 +1864,7 @@ export default {
 							 */
 							var anim = this.createScreenTransformAnimation(screen, line);
 							screen._transAnim = anim;
+							this.removeScreen(oldScreenDiv);     
 							this.log("ScreenLoaded",screen.id, null, null); // ultra important. Otherwise player are fucked uppp
 							
 						} else {
@@ -2157,7 +2159,7 @@ export default {
 				 * Check if we have an factory method
 				 */
 				if(animFactory["createAnimationEvent_" + widgetAnimation.type]){					
-					let animationEvent = animFactory["createAnimationEvent_" + widgetAnimation.type](widgetID, widgetAnimation, this.model);
+					let animationEvent = animFactory["createAnimationEvent_" + widgetAnimation.type](widgetID, widgetAnimation, this.model, this.lastScreen);
 					if(animationEvent){						
 						/**
 						 * Like this.renderFactory.createWidgetAnimation(e)
@@ -2176,7 +2178,7 @@ export default {
 						}						
 					}
 				} else {
-					console.warn("runScreenAnimation > Not supported type " + widgetAnimation);
+					console.warn("runScreenAnimation > Not supported type " + widgetAnimation.type);
 				}
 			}
 			

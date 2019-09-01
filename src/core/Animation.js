@@ -271,7 +271,7 @@ export default class Animation extends Core{
 	}
 
 
-	createAnimationEvent_transformFromParent(widgetID, anim, model) {
+	createAnimationEvent_transformFromParent(widgetID, anim, model, lastScreen) {
 
 		/**
 		 * Create BaseEvent
@@ -285,10 +285,12 @@ export default class Animation extends Core{
 			 */
 			var oldWidget = model.widgets[newWidget.animFrom];
 			if (!oldWidget) {
-				/**
-				 * Else we take the copyOf
-				 */
-				oldWidget = model.widgets[newWidget.copyOf];
+				let widget =  model.widgets[widgetID];
+				if (lastScreen && widget) {
+					oldWidget = this.getCopyOfLastScreen(model, widget, lastScreen)
+				} else {
+					console.warn("createAnimationEvent_transformFromParent() > No lastScreen");
+				}
 			}
 			if (oldWidget) {
 				/**
@@ -312,6 +314,16 @@ export default class Animation extends Core{
 				return event;
 			} else {
 				console.warn("createAnimationEvent_transformFromParent() > Old widget does not exits", newWidget);
+			}
+		}
+	}
+
+	getCopyOfLastScreen (model, widget, lastScreen){
+		var children = lastScreen.children;
+		for(var i=0; i< children.length; i++){
+			var fromWidget = model.widgets[children[i]];
+			if (fromWidget.name === widget.name) {
+				return fromWidget
 			}
 		}
 	}

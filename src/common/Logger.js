@@ -5,7 +5,7 @@ import Services from 'services/Services'
 var vommonLoggingQueue = []
 var vommonLoggingQueuePos = 0
 var vommonLoggingQueueMax = 200
-var vommonLoggingDebugLevel = 1
+var vommonLoggingDebugLevel = 0
 var vommondLoggingErros = 0
 
 export default class Logger {

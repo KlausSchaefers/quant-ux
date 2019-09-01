@@ -3,10 +3,8 @@ import Logger from 'common/Logger'
 
 import Vue from "vue";
 
-import UIWidget from 'core/widgets/UIWidget'
+import AnimationWrapper from 'player/AnimationWrapper'
 import Label from 'core/widgets/Label'
-import SVG from 'core/widgets/SVG'
-import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -110,7 +108,7 @@ export default class PlayerFactory extends Core {
 			var model = this._widgetModels[id];
 
 			if (model) {
-				widget = this.$new(UIWidget);
+				widget = new AnimationWrapper()
 				widget.model = model;
 				widget.hash = this.hash
 				widget.style = model.style;
@@ -260,21 +258,7 @@ export default class PlayerFactory extends Core {
 		this._containerWidgets[model.id] = repeater;
 	}
 
-	_createSketch(parent, model) {
-		var widget = this.$new(Sketch);
-		widget.placeAt(parent);
-		this._uiWidgets[model.id] = widget;
-	}
-
-	_createSVG(parent, model) {
-		var widget = this.$new(SVG);
-		widget.placeAt(parent);
-		this._uiWidgets[model.id] = widget;
-	}
-
-
-
-
+	
 	_createButton(parent, model) {
 		css.add(parent, "MatcEventedWidget");
 		var border = this._createBorder(parent, model);
