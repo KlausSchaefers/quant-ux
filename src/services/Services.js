@@ -7,6 +7,12 @@ import HelpService from 'services/HelpService'
 
 class Services {
 
+    setErrorHandler (handler) {
+        this.errorHandler = handler
+        ModelService.setErrorHandler(handler)
+        PublicModelService.setErrorHandler(handler)
+    }
+
     getUserService () {
         return UserService
     }

@@ -70,6 +70,9 @@ export default {
     this.logger = new Logger('MATC')
     this.user = await Services.getUserService().load()
     this.logger.info('mounted', 'exit >> ' + this.user.email)
+    this.$root.$on('MatcLogout', (user) => {
+				this.onLogout(user)
+		})
   }
 };
 </script>

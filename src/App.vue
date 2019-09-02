@@ -50,9 +50,22 @@ export default {
 	
 	hideMessage:function(){
 		css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageError vommondMessageHint");
+	},
+
+	handler4xx (url, res) {
+		console.error(url, res)
+		if (res.status === 401) {
+			alert('Something is wrong. Please login again!')
+			Services.getUserService().logout()
+			this.$router.push('/')
+			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)
+		}
 	}
   },
-  mounted () {    
+  mounted () {
+	Services.setErrorHandler((url, res) => {
+		this.handler4xx(url, res)
+	})
     this.$root.$on('Success', (msg) => {
       this.showSuccess(msg)
     })

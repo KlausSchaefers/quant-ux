@@ -74,7 +74,6 @@ export default {
   },
   methods: {
     setType(t) {
-      console.debug('setType', t.screenSize)
         this.type = t;
     },
     async create() {

@@ -50,6 +50,7 @@ export default class AbstractService {
                         }
                     })
                 } else {
+                    this.onError(url, res)
                     if (errorCallback) {
                         errorCallback(new Error('Could not load ...'))
                     }
@@ -81,6 +82,7 @@ export default class AbstractService {
                         }
                     })
                 } else {
+                    this.onError(url, res)
                     if (errorCallback) {
                         errorCallback(new Error('Could not load ...'))
                     }
@@ -105,7 +107,6 @@ export default class AbstractService {
                 headers: this._createDefaultHeader()
             }).then((res) => {
                 if (res.status === 200) {
-
                     res.json().then(j => {
                         this.logger.log(6, '_post', 'exit ')
                         if (successCallback) {
@@ -113,8 +114,8 @@ export default class AbstractService {
                         }
                         resolve(j)
                     })
-
                 } else {
+                    this.onError(url, res)
                     if (errorCallback) {
                         errorCallback(new Error('Could not _post ...'))
                     }
@@ -153,6 +154,7 @@ export default class AbstractService {
                     reject(new Error('Could not put'))
                 }
             }).catch((err) => {
+                this.onError(url)
                 if (errorCallback) {
                     errorCallback(err)
                 }
@@ -176,6 +178,7 @@ export default class AbstractService {
                         resolve(j)
                     })
                 } else {
+                    this.onError(url, res)
                     if (errorCallback) {
                         errorCallback(new Error('Could not delete ...'))
                     }
@@ -188,6 +191,16 @@ export default class AbstractService {
                 reject(new Error('Could not delete'))
             })
         })
+    }
+
+    setErrorHandler (handler) {
+        this.errorHandler = handler
+    }
+
+    onError (url, res) {
+        if (this.errorHandler) {
+            this.errorHandler(url, res)
+        }
     }
 
 }
