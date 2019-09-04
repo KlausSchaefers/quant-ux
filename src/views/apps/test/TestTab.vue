@@ -119,7 +119,6 @@ export default {
   },
   methods: {
     onTaskChange(test) {
-      console.debug("onTaskChange", test);
       this.$emit("change", lang.clone(test));
     },
     async onDescriptionChange() {
@@ -248,8 +247,7 @@ export default {
       let sessions = sessionGroup.data;
 
       var annoSession = new DataFrame(annotatation).groupBy("reference");
-      console.debug('anno', annoSession)
-
+     
       var actionDF = this.getActionEvents(new DataFrame(events));
 
       var analytics = new Analytics();

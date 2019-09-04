@@ -195,25 +195,33 @@ export default {
         this.app = await this.modelService.findApp(id)
         this.appLoaded = true
         this.loadRest()
+        this.loadEvents()
+    },
+    loadEvents () {
+      let id = this.$route.params.id
+      this.modelService.findEvents(id).then(events => {
+        this.events = events
+        this.logger.log(-1, 'loadEvents', 'Found ' + events.length + ' events')
+      })
     },
     loadRest () {
         let id = this.$route.params.id
         Promise.all([
             this.modelService.findTest(id),
-            this.modelService.findEvents(id),
             this.modelService.findSessionAnnotations(id),
             this.modelService.findInvitation(id)
         ]).then(values => {
             this.testSettings = values[0]
-            this.events = values[1]
-            this.sessionAnnotations = values[2]
+            this.sessionAnnotations = values[1]
             this.restLoaded = true
-            this.invitations = values[3]
+            this.invitations = values[2]
             var temp = {};
 			      for(var key in this.invitations){
 				      temp[this.invitations[key]] = key;
             }
             this.hash = temp[1]
+        }).catch(e => {
+          console.error(e)
         })
     },
     showShareDialog () {	
