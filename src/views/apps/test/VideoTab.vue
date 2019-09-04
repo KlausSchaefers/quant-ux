@@ -14,7 +14,13 @@
                     :mouse="mouseEvents"
                     @change="onAnnotationChange"/>
                   <div v-else>
-                    Loadingg...
+                    <span class="MatcError" v-if="hasToManyEvents">
+                      The Screen Recording is too big!
+                    </span>
+                    <span v-else>
+                      Loading...
+                    </span>
+                    
                   </div>
             </div>
           </div>
@@ -62,6 +68,7 @@ export default {
   data: function() {
     return {
       sessionID:'',
+      hasToManyEvents: false,
       eventsWithAnnimations: [],
       mouseEvents: []
     };
@@ -123,9 +130,13 @@ export default {
     },
     onLoaded (events, mouse) {
       console.debug('onLoaded', events.length, mouse.length)
-
-      this.eventsWithAnnimations = events
-      this.mouseEvents = mouse
+      if (events.length < 2000) {
+        this.eventsWithAnnimations = events
+        this.mouseEvents = mouse
+      } else {
+        this.hasToManyEvents = true
+        this.$emit('Error', 'This video is too big!')
+      }
 		},
 	
 		/**
