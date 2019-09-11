@@ -1,6 +1,6 @@
 <template>
   <div class="MatcCode MatcToolbarTabContainer">
-    <div class="MatcToolbarTabs">
+    <div class="MatcToolbarTabs MatcToolbarTabsBig">
       <a @click="tab='css'" :class="{'MatcToolbarTabActive': tab === 'css'}">CSS</a>
       <a @click="tab='html'" :class="{'MatcToolbarTabActive': tab === 'html'}" v-if="hasHTML">HTML</a>
       <a @click="tab='vue'" :class="{'MatcToolbarTabActive': tab === 'vue'}" v-if="hasVue">VUE</a>

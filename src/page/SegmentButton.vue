@@ -14,9 +14,10 @@ import touch from 'dojo/touch'
 
 export default {
     name: 'SegmentButton',
-    mixins:[DojoWidget],
+	mixins:[DojoWidget],
+	props: ["options", "value"],
     data: function () {
-        return {            
+        return {    
         }
     },
     components: {},
@@ -43,7 +44,7 @@ export default {
 		},
 		
 		setValue:function(v){
-			this.value = v;
+			this.selected = v;
 			for (var id in this._lis){
 				var li = this._lis[id];
 				css.remove(li, "MatcButtonActive");
@@ -54,15 +55,27 @@ export default {
 		},
 		
 		getValue:function(){
-			return this.value;
+			return this.selected;
 		},
 		
 		onChange:function(o){
 			this.setValue(o.value);
-			this.emit("change", this.value );
+			this.emit("change", this.selected );
+			this.emit("input", this.selected );
 		}
-    }, 
+	},
+	watch: {
+		value (v) {
+			this.setValue(v)
+		}
+	},
     mounted () {
+		if (this.options) {
+			this.setOptions(this.options)
+		}
+		if (this.value) {
+			this.setValue(this.value)
+		}
     }
 }
 </script>

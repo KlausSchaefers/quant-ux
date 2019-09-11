@@ -52,12 +52,12 @@ export default {
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
-						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera"],
+						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest"],
 			hasActiveData: ["DateDropDown"],
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
 							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
 							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup", "RadioBox2", "Upload", "Camera", "UploadPreview"],
-			hasLogic2: ["LogicOr"],
+			hasLogic2: ["LogicOr", "Rest"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox"],
@@ -82,6 +82,8 @@ export default {
 				css.remove(this.textTool, "MatcToolbarItemActive");
 				css.remove(this.rectangleTool, "MatcToolbarItemActive" );
 				css.remove(this.addLogicSection, "MatcToolbarItemActive" );
+				css.remove(this.addRestSection, "MatcToolbarItemActive" );
+				
 
 				if(this.mode == "select"){
 					css.add(this.selectBtn, "MatcToolbarItemActive");
@@ -109,6 +111,9 @@ export default {
 				}
 				if(this.mode == "addLogic"){
 					css.add(this.addLogicSection, "MatcToolbarItemActive" );
+				}
+				if(this.mode == "addRest"){
+					css.add(this.addRestSection, "MatcToolbarItemActive" );
 				}
 			} else {
 				console.error("Toolvar_Render.onModeChange() > View Destoyed...")
@@ -220,7 +225,7 @@ export default {
 			this.screenCreateBtn.placeAt(this.addScreenSection);
 
 			this.own(on(this.addLogicSection, touch.release, lang.hitch(this, "onNewLogicObject")));
-
+			this.own(on(this.addRestSection, touch.release, lang.hitch(this, "onNewRestObject")));
 
 			/**
 			 * set model
@@ -387,7 +392,8 @@ export default {
 			this.addTooltip(this.hotspotTool, "Create Hotspot (H) over uploaded images", "vommondToolTipLeft");
 			this.addTooltip(this.textTool, "Create Text (T)", "vommondToolTipLeft");
 			this.addTooltip(this.rectangleTool, "Create Rectangle (R)", "vommondToolTipLeft");
-			this.addTooltip(this.addLogicSection, "Create Logic Element to split links");
+			this.addTooltip(this.addLogicSection, "Create Logic Element to split links", "vommondToolTipLeft");
+			this.addTooltip(this.addRestSection, "Invoke some web service", "vommondToolTipLeft");
 			this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
 
 			this.addTooltip(this.undo, "Undo (CTRL+Z)");
@@ -1591,18 +1597,19 @@ export default {
 
 			// var props = this.getInheritedStyle(model, "props"); // model.props;
 
-			var isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
+			
 			this.showProperties();
 			this.showWidgetTools();
 
-
+			var isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
 			if(isLogicWidget){
 				css.add(this.positionCheckBox.domNode, "hidden");
 				css.add(this.widgetSize.domNode, "hidden");
-
+				css.add(this.responsiveDiv, "hidden");
 			} else {
 				css.remove(this.positionCheckBox.domNode, "hidden");
 				css.remove(this.widgetSize.domNode, "hidden");
+				css.remove(this.responsiveDiv, "hidden");
 			}
 
 			this.widgetSize.setModel(this.model);
@@ -2012,7 +2019,7 @@ export default {
 					this._removeCss(this.rectangleTool, "MatcToolbarSectionHidden");
 					this._removeCss(this.textTool, "MatcToolbarSectionHidden");
 					this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
-
+					this._removeCss(this.addRestSection, "MatcToolbarSectionHidden");
 
 				} else {
 					this._addCss(this.simulatorSection, "MatcToolbarSectionHidden");
@@ -2027,6 +2034,7 @@ export default {
 					this._addCss(this.rectangleTool, "MatcToolbarSectionHidden");
 					this._addCss(this.textTool, "MatcToolbarSectionHidden");
 					this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");
+					this._addCss(this.addRestSection, "MatcToolbarSectionHidden");
 
 					if(!this.controller.canUndo()){
 						this._addCss(this.undoSection, "MatcToolbarSectionHidden");

@@ -20,7 +20,7 @@ export default {
   components: {},
   methods: {
     postCreate: function() {
-      this.slider = this.$new(HSlider)
+      this.slider = this.$new(HSlider, {wire: false})
       this.slider.wire = false;
       this.slider.placeAt(this.domNode);
 
@@ -30,6 +30,7 @@ export default {
     },
 
     wireEvents: function() {
+      console.warn("WIRE")
       this.slider.wireEvents();
       this.own(this.slider.on("change", lang.hitch(this, "onSliderChange")));
       this.own(this.slider.on("press", lang.hitch(this, "onSliderPress")));

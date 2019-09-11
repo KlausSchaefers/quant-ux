@@ -299,27 +299,6 @@ export default {
 			d.close();			
 		},
 		
-		getAllAppVariables (){
-			var variables = [];
-			for(var id in this.model.widgets){
-				var widget = this.model.widgets[id];
-				if(widget.props && widget.props.databinding){
-					var databinding = widget.props.databinding;
-					for(var key in databinding){
-						var variable = databinding[key];
-						if(variables.indexOf(variable)<0){
-							variables.push(variable);
-						}
-						
-					}
-				}
-			}
-			return variables;
-		},
-		
-		
-
-		
 		/**********************************************************************
 		 * Validation
 		 **********************************************************************/

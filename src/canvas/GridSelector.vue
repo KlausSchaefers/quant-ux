@@ -34,15 +34,18 @@ export default {
 			var db = new DomBuilder();
 			
 			var row = db.div("container").div("row").div("col-md-12").build(this.domNode);
+
+			let segmentCntr = db.div("form-group").w(200).build(row)
+			db.label("", "Type").build(segmentCntr)
 			this.type = this.$new(SegmentButton);
 			this.type.setOptions([
               {value: "grid", label: "Grid"},
               {value: "columns", label: "Columns"}
             ]);
-			this.type.placeAt(row);
+			this.type.placeAt(segmentCntr);
 			this.own(this.type.on("change", lang.hitch(this, "setType")));			
 			
-			this.gridCntr = db.div("MatcMarginTop container").build(this.domNode);
+			this.gridCntr = db.div(" container").build(this.domNode);
 			row = db.div("row").build(this.gridCntr)
 			var left = db.div("col-md-6").build(row);
 			this.gridHeight = db.formGroup("", "Height", 0).build(left);

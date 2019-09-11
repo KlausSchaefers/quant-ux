@@ -130,6 +130,14 @@ export class ModelService extends AbstractService{
     findEvents (id) {
         return this._get(`rest/events/${id}.json?exclude=Animation`)
     }
+   
+    findEventsBatch (id) {
+        return this._get(`rest/events/${id}.json?exclude=Animation&batch=true`)
+    }
+
+    countEvents (id) {
+        return this._get(`/rest/events/${id}/all/count.json`)
+    }
 
     findEventsBySession (id, session) {
         return this._get(`rest/events/${id}/${session}.json`)

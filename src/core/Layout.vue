@@ -118,6 +118,28 @@ export default {
       }
     },
 
+    getAllAppVariables (){
+ 
+      var variables = [];
+      if (this.model) {
+        for(var id in this.model.widgets){
+          var widget = this.model.widgets[id];
+          if(widget.props && widget.props.databinding){
+            var databinding = widget.props.databinding;
+            for(var key in databinding){
+              var variable = databinding[key];
+              if(variables.indexOf(variable)<0){
+                variables.push(variable);
+              }
+              
+            }
+          }
+        }
+      }
+      console.debug("getAllAppVariables() >", variables)
+			return variables;
+		},
+
     /**
      * Returns a fixed index for a timestamp, so we can use
      * a map for lookup. It just round by 30 (30 ms for good framerate)
@@ -548,6 +570,13 @@ export default {
     hasLogic: function(box) {
       if (box) {
         return box.type == "LogicOr";
+      }
+      return false;
+    },
+
+    hasRest: function(box) {
+      if (box) {
+        return box.type == "Rest";
       }
       return false;
     },

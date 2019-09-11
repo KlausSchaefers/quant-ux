@@ -36,6 +36,15 @@ export default {
 			}	
 			this.controller.addMultiScreens(clonedScreens, true);
 		},
+
+		addRestObject (params){
+			this.logger.log(-1,"addRestObject", "enter");
+			
+			this._createAddCommand("addRestObject", params);
+			
+			this._addWidget(params, params.obj, "addRest");
+		},
+	
 		
 		addLogicGroup (params){
 			this.logger.log(0,"addLogicGroup", "enter");
@@ -367,12 +376,22 @@ export default {
 			
 			this._createAddCommand("addLine", params);
 		
-		
 			this.cleanUpAddLine();
 			
 			this.setCanvasCancelCallback("cancelAddLine");
 			
 			this._addLineParams = params;
+
+			this._addLineActionTargets = []
+			for (let id in this.model.widgets) {
+				let widget = this.model.widgets[id]
+				if (widget.type === "Rest") {
+					this._addLineActionTargets.push(widget)
+				}
+				if (widget.type === "LogicOr") {
+					this._addLineActionTargets.push(widget)
+				}
+			}
 			
 			if(params.from){
 				
@@ -500,10 +519,15 @@ export default {
 						this.controller.addLine(model, e);
 						this._onAddDone();
 					} else {
-						this.showError("You cannot connect to logic nodes!");
+						this.showError("You cannot connect two logic nodes!");
 					}		
+				} else if (this.hasRest(widget)) {
+					let model = this._addLineModel;
+					model.to = widget.id;
+					this.controller.addLine(model, e);
+					this._onAddDone();
 				} else {
-					this.showError("You have to select a screen or an logic element!");
+					this.showError("You have to select a screen, logic or cloud element!");
 				}			
 			}
 			
@@ -540,7 +564,18 @@ export default {
 			var screen = this.getHoverScreen(to);
 			if(screen){
 				to = screen;
+			} else {
+				if (this._addLineActionTargets) {
+					for (let i=0; i < this._addLineActionTargets.length; i++) {
+						let action = this._addLineActionTargets[i]
+						if (this._isContainedInBox(to, action)) {
+							to = action
+							break;
+						}
+					}
+				}
 			}
+
 			var layoutedLine = this.layoutLine(from, to, this._addLineModel);
 			
 			if(!this._addLineSVG){
@@ -567,6 +602,7 @@ export default {
 			this._addLinePoints = null;
 			this._addLineModel = null;
 			this._addLineIsPaused = false;
+			this._addLineActionTargets = null;
 			if(this._addLineSVG){
 				this._addLineSVG.remove();
 			}

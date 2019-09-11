@@ -30,7 +30,12 @@
 	bottom: 8px;
     font-size: 12px;
     position: absolute;
-    right: 4px;
+	right: 4px;
+	opacity: 0;
+}
+
+.MatcToolbar .MatcMultiIcon:hover .MatcTinyIcon.mdi{
+	opacity: 1;
 }
 
 .MatcIconMirror:before{
@@ -938,6 +943,16 @@
 	border-bottom: 1px solid transparent;
 }
 
+.MatcToolbarTabsBig.MatcToolbarTabs{
+	text-align: left;
+}
+
+.MatcToolbarTabsBig a{
+	margin-right: 5px;	
+	font-size: 18px;
+	padding: 5px;
+}
+
 .MatcToolbarTabs a:HOVER{
 	color: #fff;
 }
@@ -962,7 +977,6 @@
 .MatcCode.MatcToolbarTabContainer a{
 	color:#777;
 	margin:0px;
-	font-size: 14px;
 	border-bottom: 2px solid transparent;
 	margin-bottom: -1px;
 	padding: 5px 15px;

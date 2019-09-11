@@ -153,11 +153,9 @@ export default {
             }
             this.isDirty = true
             this.emit('change', resize)
-            console.debug('Responsive.onChange', resize)
         },
 		
 		setValue  (v){
-            console.debug('Responsive.setValue', v.id)
             if (this.lastWidgetID != v.id) {
                 this.isDirty = false;
             }

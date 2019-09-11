@@ -22,6 +22,7 @@ import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
 import ToolbarSlider from 'canvas/toolbar/ToolbarSlider'
 import ToolbarImage from 'canvas/toolbar/ToolbarImage'
 import Table from 'canvas/toolbar/Table'
+import RestSettings from 'canvas/toolbar/RestSettings'
 import SymbolService from 'services/SymbolService'
 
 export default {
@@ -216,7 +217,10 @@ export default {
 
 		},
 
-
+		_showRest (){
+			this._setSectionLabel("Rest");
+			this._renderButton("Configuration", "mdi mdi-settings", "_renderRestDialog");
+		},
 
 		_showLogicOr (model){
 			this._setSectionLabel("Logic");
@@ -578,8 +582,37 @@ export default {
 			this._renderColor('Border Color','<span class="mdi mdi-border-color"></span>',model.style.borderBottomColor, "borderBottomColor" , null, true);
 		},
 
+		/**********************************************************************
+		 * Table
+		 **********************************************************************/
 
 
+		_renderRestDialog (e) {
+
+			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			var cntr = this.db.div("").build(popup);
+			var settings = this.$new(RestSettings);
+			settings.setWidget(this.widget);
+			settings.setModel(this.model);
+			settings.placeAt(cntr);
+			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			var write = this.db.div("MatcButton", "Ok").build(bar);
+			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+
+			var d = this.canvas.createDialog();
+			d.own(on(write, touch.press, lang.hitch(this,"setRest", d, settings)));
+			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, settings)));
+			d.own(on(d, "close", () => {
+				settings.destroy();
+				this.canvas.setState(0);
+			}));
+			d.popup(popup, e.target);
+		},
+
+		setRest (d, settings) {
+			console.debug(settings.getValue())
+			d.close()
+		},
 
 		/**********************************************************************
 		 * Table

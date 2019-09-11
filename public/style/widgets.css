@@ -1,3 +1,15 @@
+.MatcWidgetTypeRest {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+}
+
+.MatcWidgetTypeRest .mdi {
+	color:#777;
+}
+
 .MatcWidgetTypeUploadPreview{
 	position: absolute;
 	width:100%;

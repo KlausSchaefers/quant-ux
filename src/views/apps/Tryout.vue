@@ -129,7 +129,7 @@ export default {
     this.tempOwn(on(toolbar, "newMultiThemedScreen", lang.hitch(canvas, "addMultiThemedScreens")));
     
     this.tempOwn(on(toolbar, "onNewLogicObject", lang.hitch(canvas, "addLogicGroup")));
-    
+    this.tempOwn(on(toolbar, "onNewRestObject", lang.hitch(canvas, "addRestObject")));
     
     /**
      * last set the model

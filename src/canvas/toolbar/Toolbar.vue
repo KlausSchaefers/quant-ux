@@ -42,6 +42,11 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
 			</div>
 				
+			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addRestSection" >
+				<span class="mdi mdi-cloud-outline" ></span>
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
+			</div>
+
 			<div class="MatcToolbarItem MatcToolbarMove" data-dojo-attach-point="moveTool" >
 				<span class="mdi mdi-cursor-move" ></span>
 			</div>
@@ -587,11 +592,33 @@ export default {
 		/**********************************************************************
 		 * Add & Remove Events
 		 **********************************************************************/
+
+		onNewRestObject (e) {
+			this.logger.log(-1,"onNewLogicObject", "entry > ");
+			
+			var obj = {
+				"id" : "Rest",
+				"name" : "Rest",
+				"type":"Rest",
+				"x": 0,
+				"y": 0,
+				"w": 80,
+				"h": 80,
+				"props" : {
+					"label" : "Rest"
+				},
+				"has" :{
+					"rest" : true
+				},
+				"style" : {
+			        "background": "#777"
+				}
+			};
+			this.emit("onNewRestObject", {"obj" : obj, "event":e});
+		},
 		
 		onNewLogicObject (e){
 			this.logger.log(0,"onNewLogicObject", "entry > ");
-			
-			
 			
 			var obj = {
 				"id" : "Or",

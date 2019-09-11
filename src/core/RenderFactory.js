@@ -37,6 +37,7 @@ import CheckBoxGroup from 'core/widgets/CheckBoxGroup'
 import RadioGroup from 'core/widgets/RadioGroup'
 import ChatBot from 'core/widgets/ChatBot'
 import LabeledIconToggle from 'core/widgets/LabeledIconToggle'
+import Rest from 'core/widgets/Rest'
 import SVG from 'core/widgets/SVG'
 import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
@@ -402,6 +403,12 @@ export default class RenderFactory extends Core {
 		var checkBox = this.$new(CheckBoxGroup);
 		checkBox.placeAt(parent);
 		this._uiWidgets[model.id] = checkBox;
+	}
+
+	_createRest(parent, model) {
+		var widget = this.$new(Rest);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
 	}
 
 	_createRadioBox(parent, model) {

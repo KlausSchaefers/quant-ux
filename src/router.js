@@ -98,6 +98,10 @@ export default new Router({
     {
       path: '/test/Player.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/PlayerTest.vue')
+    },
+    {
+      path: '/test/Rest.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/RestSettingsTest.vue')
     }
     //{
     //  path: '/test/paper.html',
