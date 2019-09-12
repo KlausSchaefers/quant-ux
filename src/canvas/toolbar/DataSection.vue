@@ -610,7 +610,12 @@ export default {
 		},
 
 		setRest (d, settings) {
-			console.debug(settings.getValue())
+			if (!settings.validate()) {
+				d.shake()
+				return;
+			}
+			let value = settings.getValue()
+			this.onProperyChanged('rest', value)
 			d.close()
 		},
 

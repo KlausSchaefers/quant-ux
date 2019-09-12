@@ -11,6 +11,7 @@ import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import touch from 'dojo/touch'
 import Logger from 'common/Logger'
+import Input from 'common/Input'
 import CheckBox from 'common/CheckBox'
 import DomBuilder from 'common/DomBuilder'
 
@@ -27,15 +28,20 @@ export default {
             add: true, 
             newValueMessage: "Enter a value", 
             checkNewOption: false, 
-            edit: true
+			edit: true,
+			hints: []
         }
     },
     components: {},
     methods: {
         postCreate: function(){
-			this.log = new Logger({className : "de.vommond.InputList"});
+			this.log = new Logger("InputList");
 			this.db = new DomBuilder();
-	
+		},
+
+		setHints (h) {
+			this.log.log(-1, "setHints()", "enter", h)
+			this.hints = h
 		},
 		
 		setSelected:function(checked){
@@ -127,14 +133,23 @@ export default {
 				if(this.check =="single"){
 					this.db.td("VommondInputListCheckCntr").build(row);
 				}
-				let input = this.db.td().input("MatcIgnoreOnKeyPress form-control", "", this.placeholder).build(row);
-				if(this.inline){
-					css.add(input, "vommondInlineEdit");
-				}
+				
+				let td = this.db.td().build(row)
+				let input = this.$new(Input, {
+					fireOnBlur: true, 
+					top:true, 
+					placeholder: "Enter a value", 
+					inline: this.inline, 
+					formControl: true
+				}) // this.db.td().input("MatcIgnoreOnKeyPress form-control", "", this.placeholder).build(row);
+				input.placeAt(td)
+				input.setHints(this.hints);
+				css.add(input.input, "MatcIgnoreOnKeyPress ");
+				
 				if(this.remove){
 					this.db.td().build(row);
 				}
-				this.tempOwn(on(input,"change", lang.hitch(this, "onNewOption", input)));
+				this.tempOwn(input.on("change", lang.hitch(this, "onNewOption", input)));
 				this.newInput = input;
 				
 				if(focusNewElement || this.options.length == 0){
@@ -201,11 +216,12 @@ export default {
 			this.render();
 		},
 		
-		onNewOption:function(input){
+		onNewOption:function(input, value){
+			console.debug('onNewOption', value)
 			if(this.checkNewOption){
-				this.selected = input.value;
+				this.selected = value;
 			}
-			this.options.push(this.stripHTML(input.value));
+			this.options.push(this.stripHTML(value));
 			this.render(true);
 		},
 		

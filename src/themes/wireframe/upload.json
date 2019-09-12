@@ -3,7 +3,7 @@
         "id" : "UploadFile",
         "type" : "Upload",
         "category" : "WireFrame",
-        "subcategory" : "XBox",
+        "subcategory" : "XBoxCamera",
         "_type" : "Widget",
         "name" : "Upload",
         "x" : 0,

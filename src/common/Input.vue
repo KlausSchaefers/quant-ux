@@ -1,8 +1,8 @@
 
 <template>
-     <div class="VommondInput">
+     <div :class="['VommondInput', {'VommondInputOpenTop': top}]">
 		<form autocomplete="off">
-			<input type="text" data-dojo-attach-point="input" autocomplete="false" >
+			<input type="text" :class="['MatcIgnoreOnKeyPress', {'form-control': formControl}, {'vommondInlineEdit': inline}]"  data-dojo-attach-point="input" :placeholder="placeholder" autocomplete="false" >
 			<ul class="" role="menu" data-dojo-attach-point="ul">		
 			</ul>
 		</form>
@@ -22,18 +22,35 @@ export default {
     name: 'Input',
     mixins:[DojoWidget],
     data: function () {
-        return {            
+        return {
+			fireOnBlur: false,
+			top: false,
+			placeholder: '',
+			inline: false,
+			formControl: false
         }
     },
     components: {},
     methods: {
         postCreate: function(){
-			this.log = new Logger({className : "de.vommond.Input"});
+			this.log = new Logger("Input");
 			this.own(on(this.input, "keyup", lang.hitch(this, "onKey")));
-		},	
+			if (this.fireOnBlur) {
+				this.own(on(this.input, "blur", lang.hitch(this, "onBlur")));
+			}
+		},
+
+		onBlur () {
+			if (this.input.value) {
+				this.emit('change', this.input.value)
+			}
+		},
+
+		blur () {
+			this.input.blur()
+		},
 		
 		onKey:function(e){
-			
 			if(!this.hints){
 				return;
 			}	
@@ -56,6 +73,7 @@ export default {
 				}
 				
 				if(13 == key){
+					
 					if(this.selected >=0 && this.selected < this.suggestions.length){
 						this.stopEvent(e);
 						this.onSelect(this.suggestions[this.selected]);
@@ -65,6 +83,13 @@ export default {
 						this.stopEvent(e);
 						this.onSelect(this.suggestions[0]);
 						return;
+					}
+				
+					if (this.fireOnBlur) {
+						this.emit('change', this.input.value)
+						return
+					} else {
+						console.debug("onKey() Ignore empty ENTER", )
 					}
 				}
 			}
@@ -124,6 +149,7 @@ export default {
 				for(var i=0; i< this.lis.length; i++){
 					if(i== pos){
 						css.add(this.lis[i], "VommonInputSelected");
+						this.lis[i].scrollIntoView()
 					} else {
 						css.remove(this.lis[i], "VommonInputSelected");
 					}
@@ -135,6 +161,7 @@ export default {
 		
 		onSelect:function(s){
 			this.input.value = s.value;
+			this.emit('change', s.value)
 			this.hideSuggestion();
 		},
 		

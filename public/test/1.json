@@ -1,0 +1,17 @@
+{
+    "value": "a",
+    "one": 1,
+    "user": {
+        "name": "Klaus",
+        "last": "Schaefers",
+        "kids": [
+            {
+                "name": "Bernardo",
+                "last": "Schaefers"
+            }
+        ]
+    },
+    "tags": [
+        "a", "b"
+    ]
+}

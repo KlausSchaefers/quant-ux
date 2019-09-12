@@ -55,7 +55,9 @@ export default {
             hoverAnimationDuration: 150, 
             runTimerLinesOnScreenLoad: true, 
 			embedded: false,
-			live: false
+			live: false,
+			eventCount: 0,
+			maxEventCount: 1000
         }
     },
     components: {},
@@ -3104,6 +3106,11 @@ export default {
 		},
 		
 		async sendEvent (event){
+			this.eventCount++;
+			if (this.eventCount > this.maxEventCount) {
+				console.warn('sendMouse() Too many events')
+				//return;
+			}
 			/**
 			 * depending on the mode, we have to use different REST end points :-(
 			 */
@@ -3126,6 +3133,10 @@ export default {
 		async sendMouse (){
 			this.logger.log(3,"sendMouse","enter");
 			if(this._mouseMoveEvent){
+				this.eventCount++;
+				if (this.eventCount > this.maxEventCount) {
+					console.warn('sendMouse() Too many events')
+				}
 				if(this.logData && this.hash && this._mouseMoveEvent){
 					let res = await Services.getModelService().saveMouse(this.model.id, this.hash, this._mouseMoveEvent)
 					this.onMouseSaved(res)

@@ -3,7 +3,7 @@
         "id" : "UploadPreview",
         "type" : "UploadPreview",
         "category" : "WireFrame",
-        "subcategory" : "AFormImage",
+        "subcategory" : "XBoxCamera",
         "_type" : "Widget",
         "name" : "Camerea Image",
         "x" : 0,

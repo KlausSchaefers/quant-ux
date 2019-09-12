@@ -39,18 +39,19 @@ export default class GridAndRuler extends Core {
 		/**
 		 * FIXME: For total snapping we need to take the full grid...
 		 */
+		this.zoom = canvas.getZoomFactor();
 		if (grid.h > 0 && grid.enabled) {
 			/**
 			 * Fixed 5.5.2019 to make grid be more strict!
 			 */
-			this.snappDistance = Math.ceil(grid.h / 2);
+			this.snappDistance = Math.ceil(grid.h ) * this.zoom ;
 			this.showDistance = this.snappDistance + 5;
 			this.logger.log(-1, "start", "snappDistance " + this.snappDistance);
 		}
 
 		this.grid = grid;
 		this.model = canvas.model;
-		this.zoom = canvas.getZoomFactor();
+		
 		this.container = canvas.widgetContainer;
 		this.selectedModel = selectedModel;
 		this.selectedID = selectedModel.id;

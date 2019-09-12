@@ -605,7 +605,22 @@ export default {
 				"w": 80,
 				"h": 80,
 				"props" : {
-					"label" : "Rest"
+					"label" : "Rest",
+					"rest": {
+						"method": "GET",
+						"url": "",
+						"token": "",
+						"input": {
+							"type": "JSON",
+							"template": ''
+						},
+						"output": {
+							"databinding": '',
+							"template": '',
+							"type": 'JSON',
+							"hints": {}
+						}
+					}
 				},
 				"has" :{
 					"rest" : true

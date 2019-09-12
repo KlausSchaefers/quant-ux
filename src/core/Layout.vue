@@ -131,12 +131,34 @@ export default {
               if(variables.indexOf(variable)<0){
                 variables.push(variable);
               }
-              
+            }
+          }
+          // the rest widget save at some oher place
+          if(widget.props && widget.props.rest && widget.props.rest.output){
+            variables.push(widget.props.rest.output.databinding)
+          }
+        }
+      }
+			return variables;
+    },
+    
+    getHintsAppVariables (){
+ 
+      var variables = [];
+      if (this.model) {
+        for(var id in this.model.widgets){
+          var widget = this.model.widgets[id];
+          // the rest widget save at some oher place
+          if(widget.props && widget.props.rest && widget.props.rest.output){
+            let hints = widget.props.rest.output.hints;
+            if (hints) {
+              for (let key in hints) {
+                variables.push(key.replace(/_/g, '.'))
+              }
             }
           }
         }
       }
-      console.debug("getAllAppVariables() >", variables)
 			return variables;
 		},
 

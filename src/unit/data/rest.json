@@ -113,7 +113,22 @@
         "w" : 92,
         "h" : 90,
         "props" : {
-          "label" : "Rest"
+          "label" : "Rest",
+          "rest": {
+						"method": "GET",
+						"url": "http://localhost:8081/public/test/${slider}.json",
+						"token": "",
+						"input": {
+							"type": "JSON",
+							"template": "{\n\"a\": ${test}\n}"
+						},
+						"output": {
+							"var": "rest",
+							"template": "",
+							"type": "JSON",
+							"hints": []
+						}
+					}
         },
         "has" : {
           "rest" : true

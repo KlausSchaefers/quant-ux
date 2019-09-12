@@ -35,16 +35,7 @@ class lang {
 
     isObject (it) {
         return it !== undefined &&
-            (it === null || typeof it == "object" || lang.isArray(it) || lang.isFunction(it)); // Boolean
-    }
-
-    isArrayLike (it) {
-        return it && it !== undefined && // Boolean
-            // keep out built-in constructors (Number, String, ...) which have length
-            // properties
-            !lang.isString(it) && !lang.isFunction(it) &&
-            !(it.tagName && it.tagName.toLowerCase() == 'form') &&
-            (lang.isArray(it) || isFinite(it.length));
+            (it === null || typeof it == "object" || this.isArray(it)); // Boolean
     }
 
     clone (obj) {

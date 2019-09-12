@@ -256,6 +256,13 @@ export default {
 			
 			
 			var variables = this.getAllAppVariables();
+			var hints = this.getHintsAppVariables();
+			hints = hints.map(h => {
+				return {
+					label: h,
+					value: h
+				}
+			})
 	
 
 			var popup = this.db.div("MatcOptionDialog MatcPadding").build();		
@@ -263,11 +270,12 @@ export default {
 			var scroller = this.$new(ScrollContainer);
 			scroller.placeAt(cntr);
 			
-			var list = this.$new(InputList, {"check" : "single", "remove" : false, checkNewOption: true});
+			var list = this.$new(InputList, {"check" : "single", "remove" : false, checkNewOption: true, hints: hints});
 			if(dataBinding && dataBinding["default"]){
 				list.setSelected(dataBinding["default"]);
 			}
 			list.setOptions(variables);
+			
 			scroller.wrap(list.domNode);
 			
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);		

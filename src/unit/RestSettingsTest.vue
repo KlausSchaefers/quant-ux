@@ -1,10 +1,12 @@
 <template>
   <div class="MatcLight">
     <h1>Resize Test</h1>
-    <div class="MatcDialog">
-        <RestSettings :app="app"/>
+    <div class="" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px;">
+        <RestSettings :app="app" @change="onChange" :value="widget"/>
     </div>
-   
+   <code style="display: inline-block; width: 300px; height:300px; vertical-align: top;"> 
+        {{settings}}
+   </code>
 
   </div>
 </template>
@@ -15,6 +17,7 @@
       background: white;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
       padding:20px;
+      display: inline-block;
   }
 </style>
 
@@ -28,14 +31,50 @@ export default {
   mixins: [],
   data: function() {
     return {
-      app: rest
+      app: rest,
+      settings: {},
+      widget: {
+            "id" : "Rest",
+            "name" : "Rest",
+            "type":"Rest",
+            "x": 0,
+            "y": 0,
+            "w": 80,
+            "h": 80,
+            "props" : {
+                "label" : "Rest",
+                "rest": {
+                   	"method": "GET",
+                    "url": "http://localhost:8081/public/test/1.json",
+                    "token": "",
+                    "input": {
+                        "type": "JSON",
+                        "template": "{\n\"a\": ${test}\n}"
+                    },
+                    "output": {
+                        "databinding": "abc",
+                        "template": "",
+                        "type": "JSON",
+                        "hints": []
+                    }
+                }
+            },
+            "has" :{
+                "rest" : true
+            },
+            "style" : {
+                "background": "#777"
+            }
+        } 
     };
   },
   components: {
     RestSettings: RestSettings
   },
   methods: {
-  
+      onChange (d) {
+          this.settings = d
+      }
   },
   mounted() {
     
