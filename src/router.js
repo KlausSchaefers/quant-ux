@@ -102,6 +102,14 @@ export default new Router({
     {
       path: '/test/Rest.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/RestSettingsTest.vue')
+    },
+    {
+      path: '/test/Sim.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/SimulatorTest.vue')
+    },
+    {
+      path: '/test/Rule.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/RuleTest.vue')
     }
     //{
     //  path: '/test/paper.html',

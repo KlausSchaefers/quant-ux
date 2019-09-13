@@ -52,8 +52,6 @@ export default {
 			} else {
 				this.render(this.value);
 			}
-			
-
 		},
 		
 		getValue:function(){

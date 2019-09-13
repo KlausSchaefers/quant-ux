@@ -243,7 +243,6 @@ export default {
             this.$emit('change', this.getValue())
         },
         hasRun () {
-            console.debug("hasRun", this.isDirty, this.runSuccess)
             if (this.isDirty) {
                 if (!this.runSuccess) {
                     this.testError = 'Please test before saving!'
@@ -303,8 +302,8 @@ export default {
             if (prefix.length > 300) {
                 return
             }
-            if (lang.isArray(object)) {
-                let path = prefix + '[]'
+            if (Array.isArray(object)) {
+                let path = prefix + '[0]'
                 result[path] = "Array"
                 object.forEach(o => {
                     this.visitResult(o, result, path)

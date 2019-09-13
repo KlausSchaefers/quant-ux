@@ -587,13 +587,21 @@ export default {
 		
 		getRuleLabel:function(rule){
 			
-			var lbl ="";
+			var lbl ="???";
 			var widget = this.model.widgets[rule.widget];
 			if(widget){
-				lbl += widget.name +" ";
+				lbl = widget.name +" ";
 			} else {
-				lbl += "??? ";
-				console.warn("getRuleLabel() No widget with id", rule.widget);
+				if (rule.databinding) {
+					lbl = '${' + rule.databinding + '}'
+				} else {
+					if (rule.restResponseStatus === '200') {
+						lbl = 'Request OK'
+					}
+					if (rule.restResponseStatus === '4xx') {
+						lbl = 'Request ERROR'
+					} 
+				}
 			}
 			
 		
@@ -733,23 +741,7 @@ export default {
 				 */
 				d.shake();
 			}
-			
 		}
-//		onDropDownChange:function(value, e){
-//			
-//			if(value=="hideLink"){
-//				this.emit("toggleLine", true);
-//			}
-//			
-//			if(value=="showLink"){
-//				this.emit("toggleLine", false);
-//			}
-//			
-//			if(value=="onRemoveLine"){
-//				this.emit("removeLine", e);
-//			}
-//		}
-//
     }, 
     mounted () {
     }

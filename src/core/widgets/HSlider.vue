@@ -30,7 +30,6 @@ export default {
     },
 
     wireEvents: function() {
-      console.warn("WIRE")
       this.slider.wireEvents();
       this.own(this.slider.on("change", lang.hitch(this, "onSliderChange")));
       this.own(this.slider.on("press", lang.hitch(this, "onSliderPress")));

@@ -1,11 +1,10 @@
 
 <template>
      <div :class="['VommondInput', {'VommondInputOpenTop': top}]">
-		<form autocomplete="off">
-			<input type="text" :class="['MatcIgnoreOnKeyPress', {'form-control': formControl}, {'vommondInlineEdit': inline}]"  data-dojo-attach-point="input" :placeholder="placeholder" autocomplete="false" >
-			<ul class="" role="menu" data-dojo-attach-point="ul">		
-			</ul>
-		</form>
+		<!-- removed form because entremight trigger reloead -->
+		<input type="text" :class="['MatcIgnoreOnKeyPress', {'form-control': formControl}, {'vommondInlineEdit': inline}]"  data-dojo-attach-point="input" :placeholder="placeholder" autocomplete="false" >
+		<ul class="" role="menu" data-dojo-attach-point="ul">		
+		</ul>
 	</div>
 </template>
 <script>
@@ -164,7 +163,10 @@ export default {
 			this.emit('change', s.value)
 			this.hideSuggestion();
 		},
-		
+
+		setValue (value) {
+			this.input.value = value;
+		},
 		
 		hideSuggestion:function(){
 			css.remove(this.domNode, "VommondInputOpen");
@@ -177,8 +179,6 @@ export default {
 			this.cleanUpTempListener();
 		},
 		
-	
-	
 		setCss:function(clazz){
 			css.add(this.input, clazz);
 		},
