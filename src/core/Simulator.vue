@@ -602,14 +602,16 @@ export default {
 				}
 			}
 	
+			this.excuteMatchedLine(matchedLine, screenID, orginalLine)
+		},
+
+		excuteMatchedLine (matchedLine, screenID, orginalLine) {
 			if(matchedLine){
 				var screen = this.model.screens[matchedLine.to];
 				if(screen){
-					
 					var newLine = lang.clone(matchedLine);
 					newLine.animation = orginalLine.animation;
 					newLine.duration = orginalLine.duration;
-				
 					/**
 					 * Store the screen because of onWidgetInit
 					 */
@@ -619,7 +621,6 @@ export default {
 					} else {
 						this.renderTransition(newLine,screenID);		
 					}							
-					
 				}
 			} else {
 				console.warn("executeLogic() > Could not match any line");
