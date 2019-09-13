@@ -551,58 +551,82 @@ export default {
 		 * 3) If no line with a rule matches the *FIRST* line will be executed
 		 */
 		async executeLogic (screenID, widgetID, widget, orginalLine){
-			this.logger.log(-1,"executeLogic","enter >  " + widget.id + ' '+ widget.type );
+			this.logger.log(1,"executeLogic","enter >  " + widget.id + ' '+ widget.type );
 		
 			/**
 			 * Get all line sin the correct order
 			 */
 			var lines = this.getFromLines(widget);
 			var matchedLine = null;
+			let restSuccess = false
 			if (widget.props && widget.props.rest) {
-				this.logger.log(-1,"executeLogic","enter >  rest:" + widget.id );
-				this.executeRest(screenID, widgetID, widget, line)
-				return;
+				restSuccess = await this.executeRest(screenID, widgetID, widget, orginalLine)
 			}
 
 			if (widget.props && widget.props.isRandom){
 				var random = Math.random()
 				var pos = Math.floor(random * lines.length);
-				this.logger.log(-1,"executeLogic","enter >  do AB:" + widget.id + " >> " + random + " >> " + pos);
+				this.logger.log(1,"executeLogic","enter >  do AB:" + widget.id + " >> " + random + " >> " + pos);
 				matchedLine = lines[pos]
 			} else {
-				
-				for(var i=0; i< lines.length; i++){
-					var line = lines[i];
-					if(line.rule){
-						var rule = line.rule;
-						var uiWidget = this.renderFactory.getUIWidgetByID(rule.widget);
-						if(!uiWidget){						
-							var copyId = rule.widget + "@" + screenID;
-							uiWidget = this.renderFactory.getUIWidgetByID(copyId);
-						}		
-						if(uiWidget){	
-							/**
-							 * If we have a mathcing rule, we break the loop
-							 */
-							if(this.isRuleMatching(rule, uiWidget)){
-								matchedLine = line;
-								break;
-							}						
-						} else {
-							console.warn("executeLogic() > No rule widget with id", line, rule.widget);
-						}
-					} else {
-						/**
-						 * The *FIRST* line without a condition will be 
-						 */
-						if(!matchedLine){
-							matchedLine = line;
-						}
-					}
-				}
+				matchedLine = this.getRuleMatchingLine(lines, screenID, restSuccess)
 			}
 	
 			this.excuteMatchedLine(matchedLine, screenID, orginalLine)
+		},
+
+		getRuleMatchingLine (lines, screenID, restSuccess) {
+			let matchedLine;
+			for(var i=0; i< lines.length; i++){
+				var line = lines[i];
+				if(line.rule){
+					if (line.rule.type === 'widget') {
+						matchedLine = this.checkWidgetRule(line, screenID)
+					}
+					if (line.rule.type === 'databinding') {
+						matchedLine = this.checkDataBindingRule(line, screenID)
+					}
+					if (line.rule.type === 'rest') {
+						console.warn('getRuleMatchingLine() implement rest success', restSuccess)
+					}
+					if (matchedLine) {
+						break;
+					}
+				} else {
+					/**
+					 * The *FIRST* line without a condition will be 
+					 */
+					if(!matchedLine){
+						matchedLine = line;
+					}
+				}
+			}
+			return matchedLine;
+		},
+
+		checkDataBindingRule (line) {	
+			let rule = line.rule
+			let value = this.getDataBindingByPath(rule.databinding)
+			var result = this.isValueMatchingRule(value, true, rule);
+			if (result) {
+				return line
+			}
+		},
+
+		checkWidgetRule (line, screenID) {
+			var rule = line.rule;
+			var uiWidget = this.renderFactory.getUIWidgetByID(rule.widget);
+			if(!uiWidget){						
+				var copyId = rule.widget + "@" + screenID;
+				uiWidget = this.renderFactory.getUIWidgetByID(copyId);
+			}		
+			if(uiWidget){	
+				if(this.isRuleMatching(rule, uiWidget)){
+					return line;
+				}						
+			} else {
+				console.warn("executeLogic() > No rule widget with id", line, rule.widget);
+			}
 		},
 
 		excuteMatchedLine (matchedLine, screenID, orginalLine) {
@@ -630,10 +654,10 @@ export default {
 		
 		isRuleMatching (rule, uiWidget){
 			var value = uiWidget.getValue()
-			console.debug('isRuleMatching', value, rule.value)
 			var valid = uiWidget.isValid(false);
 			var result = this.isValueMatchingRule(value, valid, rule);
-			this.logger.log(0,"isRuleMatching","enter > " + rule.value + " " + rule.operator + " " + value + " / " + valid + " => " + result);
+			this.logger.log(0,"isRuleMatching","enter > " , 
+				rule.value + " " + rule.operator + " " + value + " / " + valid + " =>" + result);
 			return result;
 		},
 

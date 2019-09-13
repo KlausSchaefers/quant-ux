@@ -22,20 +22,24 @@ class RestEngine {
     }
 
     buildURL (request, values) {
-        let url = request.url;
-        for (let key in values) {
-            url = url.replace("${" + key + "}", values[key])
-        }
-        if (url.indexOf('${') >= 0){
-            this.logger.error("buildURL", "exit" ,url)
-            throw new Error("buildURL() > Not all parameters replaced!" + url)
-        }
+        let url = this.fillString(request.url, values);
         this.logger.log(-1, "buildURL", "exit" ,url)
         return url;
     }
 
+    fillString (s, values) {
+        for (let key in values) {
+            s = s.replace("${" + key + "}", values[key])
+        }
+        if (s.indexOf('${') >= 0){
+            this.logger.error("buildURL", "exit" ,s)
+            throw new Error("buildURL() > Not all parameters replaced!" + s)
+        }
+        return s
+    }
+
     handleOutput (resolve, request, response) {
-        this.logger.log(-1, "handleOutput", "enter" ,response)
+        this.logger.log(2, "handleOutput", "enter" ,response)
         if (response.status == 200) {
             if (request.output.type === "JSON") {
                 try {
@@ -157,6 +161,25 @@ class RestEngine {
         new Headers({
             'Authorization': `Bearer ${request.token}`
         })
+    }
+
+    getNeededDataBings (rest) {
+        let result = []
+        this.parseString(rest.url, result)
+        this.parseString(rest.token, result)
+        if ((rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'JSON') {
+            this.parseString(rest.input.template, result)
+        }
+        return result;
+    }
+
+    parseString (s, result) {
+        let matches = s.match(/\$\{(\w*)\}/g)
+        if (matches) {
+            matches.forEach(m => {
+                result.push(m.substring(2, m.length -1))
+            })
+        }
     }
 }
 export default new RestEngine()

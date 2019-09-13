@@ -148,10 +148,8 @@ export default {
      * The method has to check if it is bound the the variable.
      * If so, it should return true, else false
      *
-     *
      */
-    setDataBinding: function(variable, value) {
-      
+    setDataBinding (variable, value) {
       var databinding = this.getDataBinding(this.model);
       if (databinding && databinding["default"]) {
         var widgetVarialbe = databinding["default"];
@@ -160,7 +158,6 @@ export default {
           return true;
         }
       }
-
       return false;
     },
 
@@ -168,6 +165,7 @@ export default {
      * Can be overwritten by children to have proper type conversion
      */
     _setDataBindingValue: function(v) {
+      
       this.setValue(v);
     },
 
