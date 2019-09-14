@@ -408,19 +408,23 @@ export default {
       }
     },
     _getMousePosition: function(e){
+      // updated and synced with simulator
+      var result = {x: 0, y: 0};
       if (e) {
-        var result = {};
-        if (e.touches) {
+		    if (e.touches && e.touches.length > 0) {
           e = e.touches[0]
+          result.x = e.clientX;
+          result.y = e.clientY;
+        } else if (e.changedTouches && e.changedTouches.length > 0 ) {
+          e = e.changedTouches[0]
           result.x = e.clientX;
           result.y = e.clientY;
         } else {
           result.x = e.pageX;
           result.y = e.pageY;
         }
-        return result;
       } 
-      return {x: 0, y: 0};
+      return result;
     },
     destroy () {
       this._dojoCleanUpOwn();

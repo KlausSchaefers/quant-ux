@@ -118,7 +118,7 @@ export default {
 			if(e){
 				
 				var domPos = domGeom.position(this.domNode);
-				var pos = this._getMousePosition(e);
+				var pos = this._getMousePosition(e); // use form dojo widget
 								
 				/**
 				 * Somehow compensate of scrolling. If we have fixed position
@@ -152,25 +152,7 @@ export default {
 			} else {
 				return {"x":-1, "y":-1};
 			}
-		},
-		
-
-		 _getMousePosition (e){	 
-		    var result = {};
-		    if (e.touches && e.touches.length > 0) {
-				e = e.touches[0]
-				result.x = e.clientX;
-				result.y = e.clientY;
-			} else if (e.changedTouches && e.changedTouches.length > 0 ) {
-				e = e.changedTouches[0]
-				result.x = e.clientX;
-				result.y = e.clientY;
-			} else {
-				result.x = e.pageX;
-				result.y = e.pageY;
-			}
-		     return result;
-		 },
+		}
     }
 }
 </script>
