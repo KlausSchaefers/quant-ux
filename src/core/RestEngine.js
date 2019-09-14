@@ -23,7 +23,7 @@ class RestEngine {
 
     buildURL (request, values) {
         let url = this.fillString(request.url, values);
-        this.logger.log(-1, "buildURL", "exit" ,url)
+        this.logger.log(1, "buildURL", "exit" ,url)
         return url;
     }
 

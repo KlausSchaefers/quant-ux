@@ -27,13 +27,13 @@ export default {
       try {
         let result = await RestEngine.run(rest, data)
         if (rest.output.databinding) {
-          this.setDataBindingByPath(rest.output.databinding, result)
+          this.setDataBindingByKey(rest.output.databinding, result)
           this.logger.log(-1, "executeRest","set data " + rest.output.databinding, this.dataBindingValues);
         }
         return true
       } catch (e) {
         if (rest.output.databinding) {
-          this.setDataBindingByPath(rest.output.databinding, "ERROR")
+          this.setDataBindingByKey(rest.output.databinding, "ERROR")
         }
         this.logger.error("executeRest","error", e);
         this.emit('onRestError', e, rest, data)

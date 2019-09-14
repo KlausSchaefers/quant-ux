@@ -4,9 +4,14 @@
     <div class="" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px;">
         <RestSettings :app="app" @change="onChange" :value="widget"/>
     </div>
-   <code style="display: inline-block; width: 300px; height:300px; vertical-align: top;"> 
-        {{settings}}
-   </code>
+  <code style="
+        display: inline-block;
+        width: 300px; 
+        height:300px; 
+        vertical-align: top; 
+        word-break: break-all; 
+        white-space: pre;
+        word-wrap: break-word;">{{settings}}</code>
 
   </div>
 </template>
@@ -73,7 +78,7 @@ export default {
   },
   methods: {
       onChange (d) {
-          this.settings = d
+          this.settings = JSON.stringify(d, null, 2)
       }
   },
   mounted() {

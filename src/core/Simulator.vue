@@ -587,7 +587,12 @@ export default {
 						matchedLine = this.checkDataBindingRule(line, screenID)
 					}
 					if (line.rule.type === 'rest') {
-						console.warn('getRuleMatchingLine() implement rest success', restSuccess)
+						if (line.rule.restResponseStatus === '4xx' && !restSuccess) {
+							matchedLine = line
+						}
+						if (line.rule.restResponseStatus === '200' && restSuccess) {
+							matchedLine = line
+						}
 					}
 					if (matchedLine) {
 						break;
@@ -607,6 +612,9 @@ export default {
 		checkDataBindingRule (line) {	
 			let rule = line.rule
 			let value = this.getDataBindingByPath(rule.databinding)
+			if (!value) {
+				value = this.getDefaultDatabinding(rule.databinding)
+			}
 			var result = this.isValueMatchingRule(value, true, rule);
 			if (result) {
 				return line

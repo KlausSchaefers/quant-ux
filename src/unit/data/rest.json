@@ -65,7 +65,7 @@
       "props" : {
         "start" : false
       },
-      "children" : [ "w10056", "w10037" ],
+      "children" : [ "w10056", "w10067", "w10068", "w10069", "w10070", "w10072" ],
       "id" : "s10008",
       "modified" : 1568408024321
     },
@@ -256,7 +256,16 @@
             "type" : "JSON",
             "hints" : {
               "content_value" : "Object",
-              "content_one" : "Object"
+              "content_one" : "Object",
+              "content_user" : "Object",
+              "content_user_name" : "Object",
+              "content_user_last" : "Object",
+              "content_user_kids" : "Object",
+              "content_user_kids[0]" : "Array",
+              "content_user_kids[0]_name" : "Object",
+              "content_user_kids[0]_last" : "Object",
+              "content_tags" : "Object",
+              "content_tags[0]" : "Array"
             }
           }
         }
@@ -269,7 +278,7 @@
       },
       "z" : 10,
       "created" : 1568320416741,
-      "modified" : 1568408084798
+      "modified" : 1568452883240
     },
     "w10032" : {
       "id" : "w10032",
@@ -346,69 +355,6 @@
       },
       "z" : 15,
       "created" : 1568406503785
-    },
-    "w10037" : {
-      "id" : "w10037",
-      "type" : "TextArea",
-      "name" : "Text Area",
-      "x" : 3640,
-      "y" : 2412,
-      "w" : 316,
-      "h" : 522,
-      "z" : 16,
-      "props" : {
-        "label" : "Enter a value",
-        "databinding" : {
-          "default" : "content"
-        }
-      },
-      "has" : {
-        "label" : true,
-        "backgroundColor" : true,
-        "border" : true,
-        "editable" : true,
-        "onclick" : true,
-        "padding" : true
-      },
-      "style" : {
-        "color" : "#333333",
-        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-        "borderTopRightRadius" : 3,
-        "borderTopLeftRadius" : 3,
-        "borderBottomRightRadius" : 3,
-        "borderBottomLeftRadius" : 3,
-        "borderTopWidth" : 1,
-        "borderBottomWidth" : 1,
-        "borderRightWidth" : 1,
-        "borderLeftWidth" : 1,
-        "fontSize" : 18,
-        "borderTopColor" : "#333333",
-        "borderBottomColor" : "#333333",
-        "borderRightColor" : "#333333",
-        "borderLeftColor" : "#333333",
-        "background" : "#ffffff",
-        "paddingTop" : 3,
-        "paddingBottom" : 3,
-        "paddingLeft" : 3,
-        "paddingRight" : 3,
-        "textAlign" : "left"
-      },
-      "error" : {
-        "borderTopColor" : "#cc0000",
-        "borderBottomColor" : "#cc0000",
-        "borderRightColor" : "#cc0000",
-        "borderLeftColor" : "#cc0000",
-        "background" : "#ffffff"
-      },
-      "focus" : {
-        "background" : "#ffffff",
-        "borderTopColor" : "#007cc0",
-        "borderBottomColor" : "#007cc0",
-        "borderRightColor" : "007cc0",
-        "borderLeftColor" : "#007cc0"
-      },
-      "created" : 1568406534512,
-      "modified" : 1568408101807
     },
     "w10038" : {
       "id" : "w10038",
@@ -1048,6 +994,318 @@
       "created" : 1568413275528,
       "modified" : 1568410364106,
       "copyOf" : "w10064"
+    },
+    "w10067" : {
+      "id" : "w10067",
+      "type" : "TextBox",
+      "name" : "Text Box",
+      "x" : 3640,
+      "y" : 2416,
+      "w" : 316,
+      "h" : 40,
+      "z" : 31,
+      "props" : {
+        "label" : "Enter a value",
+        "placeholder" : true,
+        "databinding" : {
+          "default" : "content.value"
+        },
+        "ignoreStateOnPageLoad" : true
+      },
+      "has" : {
+        "label" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "editable" : true,
+        "onclick" : true,
+        "padding" : true
+      },
+      "style" : {
+        "color" : "#333333",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "fontSize" : 18,
+        "borderTopColor" : "#ffffff",
+        "borderBottomColor" : "#ffffff",
+        "borderRightColor" : "#ffffff",
+        "borderLeftColor" : "#ffffff",
+        "background" : "#ffffff",
+        "paddingTop" : 5,
+        "paddingBottom" : 5,
+        "paddingLeft" : 5,
+        "paddingRight" : 5,
+        "textAlign" : "left"
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "background" : "#ffcaca"
+      },
+      "focus" : {
+        "background" : "#f2f2f2"
+      },
+      "created" : 1568452829327,
+      "modified" : 1568455638932,
+      "hover" : {
+        "background" : null,
+        "borderTopColor" : null,
+        "borderBottomColor" : null,
+        "borderRightColor" : null,
+        "borderLeftColor" : null,
+        "color" : null
+      },
+      "copyOf" : "w10013"
+    },
+    "w10068" : {
+      "id" : "w10068",
+      "type" : "TextBox",
+      "name" : "Text Box 1",
+      "x" : 3640,
+      "y" : 2504,
+      "w" : 316,
+      "h" : 40,
+      "z" : 32,
+      "props" : {
+        "label" : "Enter a value",
+        "placeholder" : true,
+        "databinding" : {
+          "default" : "content.user.name"
+        },
+        "ignoreStateOnPageLoad" : true
+      },
+      "has" : {
+        "label" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "editable" : true,
+        "onclick" : true,
+        "padding" : true
+      },
+      "style" : {
+        "color" : "#333333",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "fontSize" : 18,
+        "borderTopColor" : "#ffffff",
+        "borderBottomColor" : "#ffffff",
+        "borderRightColor" : "#ffffff",
+        "borderLeftColor" : "#ffffff",
+        "background" : "#ffffff",
+        "paddingTop" : 5,
+        "paddingBottom" : 5,
+        "paddingLeft" : 5,
+        "paddingRight" : 5,
+        "textAlign" : "left"
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "background" : "#ffcaca"
+      },
+      "focus" : {
+        "background" : "#f2f2f2"
+      },
+      "created" : 1568452833151,
+      "modified" : 1568455634513,
+      "hover" : {
+        "background" : null,
+        "borderTopColor" : null,
+        "borderBottomColor" : null,
+        "borderRightColor" : null,
+        "borderLeftColor" : null,
+        "color" : null
+      },
+      "copyOf" : "w10067"
+    },
+    "w10069" : {
+      "id" : "w10069",
+      "type" : "TextBox",
+      "name" : "Text Box 2",
+      "x" : 3640,
+      "y" : 2602,
+      "w" : 316,
+      "h" : 40,
+      "z" : 33,
+      "props" : {
+        "label" : "Enter a value",
+        "placeholder" : true,
+        "databinding" : {
+          "default" : "content.user.kids[0].name"
+        },
+        "ignoreStateOnPageLoad" : true
+      },
+      "has" : {
+        "label" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "editable" : true,
+        "onclick" : true,
+        "padding" : true
+      },
+      "style" : {
+        "color" : "#333333",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "fontSize" : 18,
+        "borderTopColor" : "#ffffff",
+        "borderBottomColor" : "#ffffff",
+        "borderRightColor" : "#ffffff",
+        "borderLeftColor" : "#ffffff",
+        "background" : "#ffffff",
+        "paddingTop" : 5,
+        "paddingBottom" : 5,
+        "paddingLeft" : 5,
+        "paddingRight" : 5,
+        "textAlign" : "left"
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "background" : "#ffcaca"
+      },
+      "focus" : {
+        "background" : "#f2f2f2"
+      },
+      "created" : 1568452895893,
+      "modified" : 1568455636821,
+      "hover" : {
+        "background" : null,
+        "borderTopColor" : null,
+        "borderBottomColor" : null,
+        "borderRightColor" : null,
+        "borderLeftColor" : null,
+        "color" : null
+      },
+      "copyOf" : "w10068"
+    },
+    "w10070" : {
+      "id" : "w10070",
+      "type" : "TextBox",
+      "name" : "Text Box 3",
+      "x" : 3640,
+      "y" : 2700,
+      "w" : 316,
+      "h" : 40,
+      "z" : 34,
+      "props" : {
+        "label" : "Enter a value",
+        "placeholder" : true,
+        "databinding" : {
+          "default" : "content.user.kids[1].name"
+        },
+        "ignoreStateOnPageLoad" : true
+      },
+      "has" : {
+        "label" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "editable" : true,
+        "onclick" : true,
+        "padding" : true
+      },
+      "style" : {
+        "color" : "#333333",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "fontSize" : 18,
+        "borderTopColor" : "#ffffff",
+        "borderBottomColor" : "#ffffff",
+        "borderRightColor" : "#ffffff",
+        "borderLeftColor" : "#ffffff",
+        "background" : "#ffffff",
+        "paddingTop" : 5,
+        "paddingBottom" : 5,
+        "paddingLeft" : 5,
+        "paddingRight" : 5,
+        "textAlign" : "left"
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "background" : "#ffcaca"
+      },
+      "focus" : {
+        "background" : "#f2f2f2"
+      },
+      "created" : 1568454744810,
+      "modified" : 1568455643895,
+      "hover" : {
+        "background" : null,
+        "borderTopColor" : null,
+        "borderBottomColor" : null,
+        "borderRightColor" : null,
+        "borderLeftColor" : null,
+        "color" : null
+      },
+      "copyOf" : "w10069"
+    },
+    "w10072" : {
+      "type" : "Label",
+      "name" : "Label",
+      "x" : 3640,
+      "y" : 2802,
+      "w" : 314,
+      "h" : 44,
+      "z" : 35,
+      "props" : {
+        "label" : " ",
+        "databinding" : {
+          "default" : "content.user.kids[1].name"
+        },
+        "ignoreStateOnPageLoad" : true
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : "Auto",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333"
+      },
+      "id" : "w10072",
+      "created" : 1568454870457,
+      "modified" : 1568455684282
     }
   },
   "lines" : {
@@ -1228,8 +1486,8 @@
       "event" : "click"
     }
   },
-  "lastUUID" : 10067,
-  "lastUpdate" : 1568413275541,
+  "lastUUID" : 10073,
+  "lastUpdate" : 1568455684291,
   "created" : 1568230013638,
   "startScreen" : "",
   "grid" : {
@@ -1246,10 +1504,10 @@
     "style" : "line"
   },
   "domain" : "Quant-UX.com",
-  "size" : 18991,
+  "size" : 23528,
   "isDirty" : true,
-  "sizeBackup" : 19095,
-  "lastBackup" : 1568413298355,
+  "sizeBackup" : 23893,
+  "lastBackup" : 1568454938342,
   "lastCategory" : "WireFrame",
   "id" : "5d794a7de2fb5316a2ccf51f"
 }

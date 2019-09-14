@@ -7,12 +7,13 @@
 export default {
 	name: 'ScrollMixin',
     methods: {
-		setDataBindingByPath (path, value) {
+		setDataBindingByKey (path, value) {
 			this.dataBindingValues[path] = value;
+			this.emit('onDataBindingChange', this.dataBindingValues)
 		},
 
 		getDataBindingByPath (path) {
-			this.logger.log(-1, "getDataBindingByPath","enter " + path);					
+			this.logger.log(3, "getDataBindingByPath","enter ", path);					
 			if (this.dataBindingValues) {
 				// check if we have some match. For now widgets could emit
 				// values with a dot! The 
@@ -20,36 +21,59 @@ export default {
 					return this.dataBindingValues[path]
 				}
 				if (path.indexOf('.') >=0 ){
-					console.warn('getDataBindingByPath() not implemented yet');
+					let elements = this.getJsonPath(path)
+					let current = elements.shift()
+					let value = this.dataBindingValues[current]
+					while (current != null && current != undefined && value !==null && value != undefined && elements.length > 0) {
+						current = elements.shift()
+						value = value[current]
+					}
+					return value
 				}
+			}
+		},
 
-				/**
-				 * we might not have matched anything, because the no databinding event was emitted.
-				 * This makes sense, because several widgets might be bound to the same value.
-				 * To make, navigation work, we get the getValue(). This is error prone,
-				 * if we have several widgets!
-				 * As the facory cleans up before every rendering, this should be ok
-				 */
-				for(var id in this.model.widgets){
-					var widget = this.model.widgets[id];
-					if (widget && widget.props) {
-					var databinding = widget.props.databinding;
-						for(var key in databinding){
-							var variable = databinding[key];
-							if (variable === path) {
-								let uiWidget = this.renderFactory.getUIWidgetByID(id);
-								if (uiWidget) {
-									this.logger.log(-1, "getDataBindingByPath"," return default " + path);
-									let value = uiWidget.getValue()
-									if (value) {
-										return value
-									}
+		getJsonPath (path) {
+			return path.split('.').flatMap(p => {
+				if (p.indexOf('[') >=0) {
+					let parts = p.split('[')
+					if (parts.length == 2) {
+						let key = parts[0]
+						let index = parts[1].substring(0, parts[1].length-1) * 1
+						return [key, index]
+					}
+					return p.substring(1, p.length -1) * 1
+				}
+				return p
+			})
+		},
+
+		getDefaultDatabinding (path) {
+			/**
+			 * we might not have matched anything, because the no databinding event was emitted.
+			 * This makes sense, because several widgets might be bound to the same value.
+			 * To make, navigation work, we get the getValue(). This is error prone,
+			 * if we have several widgets!
+			 * As the facory cleans up before every rendering, this should be ok
+			 */
+			for(var id in this.model.widgets){
+				var widget = this.model.widgets[id];
+				if (widget && widget.props) {
+				var databinding = widget.props.databinding;
+					for(var key in databinding){
+						var variable = databinding[key];
+						if (variable === path) {
+							let uiWidget = this.renderFactory.getUIWidgetByID(id);
+							if (uiWidget) {
+								this.logger.log(-1, "getDataBindingByPath"," return default " + path);
+								let value = uiWidget.getValue()
+								if (value) {
+									return value
 								}
 							}
 						}
 					}
 				}
-
 			}
 		},
 
@@ -57,7 +81,29 @@ export default {
 			/**
 			 * FIXME: Add here support for paths!
 			 */
-			this.dataBindingValues[variable] = value;
+			let elements = this.getJsonPath(variable)
+			let current = elements.shift()
+			let node = this.dataBindingValues
+			let i = 0
+			while (current && i < 100) {
+				i++
+				if (elements.length > 0) {
+					if (!node[current]) {
+						if (elements[0].toLowerCase) {
+						
+							node[current] = {}
+						} else {
+							node[current] = []
+						}
+					}
+					node = node[current]
+					current = elements.shift()
+				} else {
+					node[current] = value;
+				}
+			}
+			this.emit('onDataBindingChange', this.dataBindingValues)
+			
 			/**
 			 * Find all widgets that are bound to this variable then
 			 * 
@@ -81,13 +127,12 @@ export default {
 		},
 		
 		initDataBinding (uiWidget, screen){
-			console.debug("initDataBinding")
 			var databinding = this.getDataBinding(uiWidget.model);
 			if(databinding ){
 				for(var key in databinding){
 					var variable = databinding[key];
-					if(this.dataBindingValues[variable]){
-						var value = this.dataBindingValues[variable];
+					var value = this.getDataBindingByPath(variable);
+					if(value !== null && value !== undefined){
 						var changed = uiWidget.setDataBinding(variable, value);
 						if(changed){
 							var state = uiWidget.getState();
