@@ -261,6 +261,7 @@ export default {
 			this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span> <label class="MatcToolbarLabel">Responsive Resize</label>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);
 
 			if(this.user.role=="admin"){
+				this.showRestTool = true
 				this.createSpacer(this.templateDiv);
 				this.createThemeBtn = this.createToolBarItem('<span class="glyphicon glyphicon-cloud-download"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.templateDiv);
 			}

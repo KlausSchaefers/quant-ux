@@ -42,7 +42,7 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
 			</div>
 				
-			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addRestSection" >
+			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addRestSection" v-show="showRestTool">
 				<span class="mdi mdi-cloud-outline" ></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
 			</div>
@@ -156,7 +156,8 @@ export default {
         return {
             value: false, 
             active: true, 
-            redirectAfterExit: true
+			redirectAfterExit: true,
+			showRestTool: false
         }
     },
 	components: {},
