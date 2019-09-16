@@ -219,7 +219,7 @@ export default {
 
 		_showRest (){
 			this._setSectionLabel("Rest");
-			this._renderButton("Configuration", "mdi mdi-settings", "_renderRestDialog");
+			this._renderPrimaryButton("Configuration", "mdi mdi-settings", "_renderRestDialog");
 		},
 
 		_showLogicOr (model){
@@ -1056,23 +1056,25 @@ export default {
 				this.addTooltip(row, tt);
 			}
 		},
-
-
 	
-		
 		_renderButton (lbl, icon, callback){
-
-
 			var row = this.db.div("MatcToobarRow ").build(this.cntr);
 			var item = this.db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
 			var btn = this.db.span("MatcToolbarItemIcon").build(item);
 			this.db.span(icon).build(btn)
 			this.db.span("MatcToolbarItemLabel", lbl).build(btn);
-
 			this.tempOwn(on(row, touch.press, lang.hitch(this, callback)));
-
-
 		},
+
+		_renderPrimaryButton (lbl, icon, callback){
+			var row = this.db.div("MatcToobarRow ").build(this.cntr);
+			var item = this.db.div("MatcToolbarItem MatcToolbarGridFull").build(row);
+			var btn = this.db.span("MatcToolbarButton MatcButton").build(item);
+			this.db.span(icon + ' MatcButtonIcon').build(btn)
+			this.db.span("MatcButtonIconLabel", lbl).build(btn);
+			this.tempOwn(on(row, touch.press, lang.hitch(this, callback)));
+		},
+
 
 		_renderInfo(lbl, icon){
 			var row = this.db.div("MatcToobarRow ").build(this.cntr);

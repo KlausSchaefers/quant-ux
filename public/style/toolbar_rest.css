@@ -1,12 +1,14 @@
 .MatcToolbarRestSettings {
     width: 800px;
-    height: 400px;
+    height: 500px;
     overflow: auto;
 }
 
+.MatcToolbarRestSettings .MatcButton span{
+    font-size: 18px;
+}
+
 .MatcToolbarRestSettingsInputArea{
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
     border-radius: 4px;
     padding: 9.5px;
 }
@@ -21,17 +23,26 @@
 }
 
 .MatcToolbarRestDataBindingCntr{
-    height: 280px;
+    height: 300px;
+    margin-bottom: 20px;
     overflow: auto;
 }
 
-.MatcToolbarRestDataBindingRow span {
-    width: 200px;
-    display: inline-block;
+.MatcToolbarRestDataBindingCntr img {
+    width: 100%;
+    border:1px solid #555;
 }
 
-.MatcToolbarRestDataBindingRow input {
-    width: 200px;
+.MatcToolbarRestDataBindingRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.MatcToolbarRestDataBindingRow input,
+.MatcToolbarRestDataBindingRow span  {
+    width: 530px;
     display: inline-block;
     box-shadow: none;
     border-radius: 3px;
@@ -45,6 +56,55 @@
     border: 1px solid #ccc;
 }
 
+.MatcToolbarRestDataBindingRow span {
+    width: 200px;
+    display: inline-block;
+}
+
+
 .MatcToolbarRestSettings .MatcError {
    
 }
+
+.MatcToolbarRestSettingsHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+}
+
+.MatcToolbarRestSettingsHeader input{
+    flex-grow: 1;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 0px;
+}
+
+.MatcToolbarRestSettingsHeader .MatcButton{
+    margin-left: 10px;
+}
+
+.MatcToolbarRestSettingsHeader .MatcDropDownButton{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background: #1973e8;
+    color:#fff;
+}
+
+.MatcToolbarRestSettingsHeader .MatcDropDownButtonWidth{
+    margin: 0px;
+    min-width: 110px;
+}
+
+.MatcToolbarRestSettings .MatcToolbarTabs{
+    margin-top: 24px;
+    border-bottom: 1px solid #ccc;
+}
+
+.MatcToolbarRestSettings .MatcToolbarTabs a{
+    margin-bottom: -1px;
+    color:#999;
+}
+.MatcToolbarRestSettings a.MatcToolbarTabActive{
+    color:#333;
+}
+

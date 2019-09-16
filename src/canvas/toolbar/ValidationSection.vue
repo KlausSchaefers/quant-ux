@@ -264,7 +264,6 @@ export default {
 				}
 			})
 	
-
 			var popup = this.db.div("MatcOptionDialog MatcPadding").build();		
 			var cntr = this.db.div("MatcDialogTable MatcDialogTableXL").build(popup);
 			var scroller = this.$new(ScrollContainer);

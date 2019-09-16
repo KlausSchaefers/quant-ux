@@ -82,11 +82,26 @@ export default {
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
-        if (v.indexOf && v.indexOf('ata:image/png;base64' === 0)) {
+    _setDataBindingValue: function(v) {        
+        if (v.substring && v.indexOf('data:image/png;base64') === 0) {
             this.setValue(v);
-        } else {
-            console.error('Only data urls supported', v)
+            return;
+        } 
+        if (v.name && v.size) {
+          let reader = new FileReader()
+          if (reader.readAsDataURL) {
+            reader.onload = () => {
+              this.setValue(reader.result)
+            }
+            reader.readAsDataURL(v)
+          }
+          return;
+        } 
+        try {
+          let imgUrl = this.bufferToImage(v)
+          this.setValue(imgUrl)
+        } catch (e) {
+          console.error('UploadPreview._setDataBindingValue() Cannot handle data. Not ArrayBuffer',e)
         }
     },
 
@@ -96,6 +111,19 @@ export default {
 
     setValue: function(value) {
       this.value = value;
+    },
+
+    bufferToImage (buffer) {
+      var base64Flag = 'data:image/jpeg;base64,';
+      var imageStr = this.arrayBufferToBase64(buffer);
+      return base64Flag + imageStr
+    },
+
+    arrayBufferToBase64 (buffer) {
+        var binary = '';
+        var bytes = [].slice.call(new Uint8Array(buffer));      
+        bytes.forEach((b) => binary += String.fromCharCode(b));
+        return window.btoa(binary);
     },
 
     getState: function() {

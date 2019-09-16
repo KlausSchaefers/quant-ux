@@ -1,27 +1,26 @@
 
 <template>
      <div class="MatcToolbarRestSettings">
+
+      <div class="MatcToolbarRestSettingsHeader">
+            <DropDownButton :options="methods" v-model="rest.method" style="width:50px" @change="onChange"/>
+              
+            <input v-model="rest.url" class="form-control" @change="onChange" placeholder="https://server.com/${databinding}.json"/>
+           
+            <a @click="run" class="MatcButton">Test</a>
+      </div>
    
       <div class="MatcToolbarTabs MatcToolbarTabsBig">
-            <a @click="tab='endpoint'" :class="{'MatcToolbarTabActive': tab === 'endpoint'}">Endpoint</a>
-            <a @click="tab='input'" :class="{'MatcToolbarTabActive': tab === 'input'}">Input</a>
-            <a @click="tab='output'" :class="{'MatcToolbarTabActive': tab === 'output'}">Output</a>
-            <a @click="tab='preview'" :class="{'MatcToolbarTabActive': tab === 'preview'}">Test</a>
+            <a @click="tab='auth'" :class="{'MatcToolbarTabActive': tab === 'auth'}">Authorization</a>
+            <a @click="tab='output'" :class="{'MatcToolbarTabActive': tab === 'output'}">Response</a>
+            <a @click="tab='input'" :class="{'MatcToolbarTabActive': tab === 'input'}">Body</a>
+            <a @click="tab='params'" :class="{'MatcToolbarTabActive': tab === 'params'}" style="margin-left:10px;">Test Parameter</a>
+            <a @click="tab='preview'" :class="{'MatcToolbarTabActive': tab === 'preview'}">Test Result</a>
         </div>
      
         <div class="MatcMarginTop">
-            <div v-show="tab === 'endpoint'">
-               
-                <div class="form-group">
-                    <label>URL</label>
-                    <input v-model="rest.url" class="form-control" @change="onChange" placeholder="https://server.com/${databinding}.json"/>
-                </div>
-
-                <div class="form-group">
-                    <label>Method</label>
-                    <SegmentButton :options="methods" v-model="rest.method" style="width:300px" @change="onChange"/>
-                </div>
-
+            <div v-show="tab === 'auth'">
+            
                 <div class="form-group">
                     <label>Auth Token</label>
                     <input v-model="rest.token" class="form-control" @change="onChange" placeholder="Enter auth token if needed"/>
@@ -68,53 +67,72 @@
                     </div>
 
                     <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'IMAGE' " >
+                        <div class="form-group"  v-if="rest.method === 'POST' || rest.method === 'PUT'" >
+                            <label>Input DataBinding</label>
+                            <input v-model="rest.input.fileDataBinding" class="form-control" @change="onChange" placeholder=""/>
+                        </div>
                         <p class="MatcHint">
                             Image will be send as mutlipart
                         </p>
                     </div>
 
+                     <div class="MatcError">
+                        {{testError}}
+                    </div>
+
              </div>
               <div v-show="tab === 'output'">
-                <div class="form-group"  >
-                    <label>Output DataBinging</label>
-                    <input v-model="rest.output.databinding" @change="onChange" class="form-control"/>
-                </div>
-            
+               
                 <div class="form-group"  >
                     <label>Output Type</label>
                     <SegmentButton :options="outputTypes" v-model="rest.output.type" style="width:300px" @change="onChange"/>
+                </div>
+
+                 <div class="form-group"  >
+                    <label>Output DataBinding</label>
+                    <input v-model="rest.output.databinding" @change="onChange" class="form-control"/>
                 </div>
 
                 <div class="MatcError">
                     {{testError}}
                 </div>
              </div>
-            <div v-show="tab === 'preview'">
-                <div v-if="!testResult">
-                    <div class="MatcToolbarRestDataBindingCntr MatcMarginBottom MatcToolbarRestSettingsInputArea" >
+            <div v-show="tab === 'params'">
+                <div class="MatcMarginBottom" >
                         <div class="MatcToolbarRestDataBindingRow" v-for="(key) in dataBindingKeys" :key="key">  
                             <span>{{key}}</span>
-                            <input v-model="databingValues[key]" />
+                            <input v-model="databingValues[key]" ref="dbInputs" v-if="rest.input.type === 'JSON'" />
+                            <input
+                                v-if="rest.input.type === 'IMAGE'" 
+                                class="MatcToolbarRestDataBindingFile"
+                                type="file" 
+                                ref="fileUpload" 
+                                accept="image/*" 
+                                capture="user" 
+                                @change="onFileChange"
+                                />
                         </div>
-                        <span v-if="dataBindingKeys.length == 0">
+                        <span v-if="dataBindingKeys.length == 0 && rest.input.type === 'JSON'">
                             You are not using databings. No need to specify any data.
                         </span>
                     </div>
                     <div class="MatcError">
                         {{testError}}
                     </div>
-                    <a @click="run" class="MatcButton">Run</a>
+            </div>
+             
+            <div v-show="tab === 'preview'">
+                    
+                <pre v-if="rest.output.type != 'IMAGE'"  
+                    :class="['MatcToolbarRestDataBindingCntr MatcMarginBottom', {'MatcError': testError}]">{{testResult}}</pre>
+                <div class="MatcToolbarRestDataBindingCntr" v-else >
+                    <img :src="testResultImage">
                 </div>
-                <div v-if="testResult">
-                 
-                    <pre :class="['MatcToolbarRestDataBindingCntr MatcMarginBottom', {'MatcError': testError}]">{{testResult}}</pre>
-               
-                    <div class="MatcError">
-                        {{testError}}
-                    </div>
-                    <a @click="testResult = ''; testError= ''" class="MatcButton">Run Again</a>
+                
+                <div class="MatcError">
+                    {{testError}}
                 </div>
-
+         
                 
              </div>
         </div>
@@ -129,6 +147,7 @@ import lang from 'dojo/_base/lang'
 import RestEngine from 'core/RestEngine'
 import Logger from 'common/Logger'
 import SegmentButton from 'page/SegmentButton'
+import DropDownButton from 'page/DropDownButton'
 
 export default {
     name: 'RestSettings',
@@ -136,7 +155,7 @@ export default {
     props:["app", "value"],
     data: function () {
         return {
-            tab: "endpoint",
+            tab: "auth",
             checkBoxChecked: false,
             methods: [
                 {
@@ -163,7 +182,7 @@ export default {
                 },
                 {
                     label: "Image",
-                    value: "Image"
+                    value: "IMAGE"
                 }
             ],
             outputTypes: [
@@ -177,7 +196,7 @@ export default {
                 },
                 {
                     label: "Image",
-                    value: "Image"
+                    value: "IMAGE"
                 }
             ],
             model: {
@@ -203,28 +222,42 @@ export default {
             testResult: '',
             testError: '',
             runSuccess: false,
-            isDirty: false
+            isDirty: false,
+            uploadedFile: null
         }
     },
     components: {
-        SegmentButton: SegmentButton
-        // CheckBox: CheckBox
+        'SegmentButton': SegmentButton,
+        'DropDownButton': DropDownButton
     },
     computed: {
         dataBindingKeys () {
-            let values =  this.getAllAppVariables()
-            return values.filter(v => {
-                if (this.rest.url.indexOf(v) >= 0) {
-                    return true;
-                }
-                if (this.rest.input.template.indexOf(v) >= 0) {
-                    return true;
-                }
-                return false;
-            })
+            let values =  RestEngine.getNeededDataBings(this.rest)
+            return values
+        },
+        testResultImage () {
+            var base64Flag = 'data:image/jpeg;base64,';
+            var imageStr = this.arrayBufferToBase64(this.testResult);
+            return base64Flag + imageStr
         }
     },
     methods: {
+        onFileChange () {
+            if (this.$refs.fileUpload) {
+                let files = this.$refs.fileUpload[0].files;
+                if (files.length === 1) {
+                    this.uploadedFile = files[0]
+                    this.databingValues = {}
+                    this.databingValues[this.rest.input.fileDataBinding] = files[0]
+                }
+            }
+        },
+        arrayBufferToBase64 (buffer) {
+            var binary = '';
+            var bytes = [].slice.call(new Uint8Array(buffer));      
+            bytes.forEach((b) => binary += String.fromCharCode(b));
+            return window.btoa(binary);
+        },
         setWidget (w) {
             this.widget = w
             if (w.props && w.props.rest) {
@@ -239,8 +272,10 @@ export default {
             return this.rest
         },
         onChange () {
-            this.isDirty = true
-            this.$emit('change', this.getValue())
+            this.$nextTick( () => {
+                this.isDirty = true
+                this.$emit('change', this.getValue())
+            })
         },
         hasRun () {
             if (this.isDirty) {
@@ -286,9 +321,38 @@ export default {
             if (this.rest.method === 'POST' && matches){
                 this.testResult = template
                 this.testError = `The input data contains variables '${matches}' without data binding`
-                this.tab = 'output'
+                this.tab = 'input'
                 return false;
             }
+
+            if (this.$refs.dbInputs) {
+                let oneIsEmpty = false
+                this.$refs.dbInputs.forEach(i => {
+                    if (!i.value) {
+                        oneIsEmpty = true
+                    }
+                })
+                if (oneIsEmpty) {
+                    this.testError = `Please provide some input data`
+                    this.tab = 'params'
+                    return false
+                }
+            }
+
+            if (this.rest.input.type === 'IMAGE') {
+                console.debug('this.rest.input.fileDataBinding', this.rest.input.fileDataBinding)
+                if (!this.rest.input.fileDataBinding) {
+                    this.testError = `Please  provide a input data binding`
+                    this.tab = 'input'
+                    return false
+                }
+                 if (!this.uploadedFile) {
+                    this.testError = `Please select a file`
+                    this.tab = 'params'
+                    return false
+                }
+            }
+
             return true;
         },
         buildHints (object) {
@@ -323,8 +387,8 @@ export default {
         async run () {
             this.testResult = ''
             this.testError = ''
+            this.tab = 'preview'
             if (!this.validate()) {
-              
                 return;
             }
             try {
@@ -341,12 +405,16 @@ export default {
                 }
             } catch (e) {
                 this.runSuccess = false
-                console.debug(e.stack)
                 this.testResult = 'Error: ' + e.message
                 this.testError = 'Something went wrong. Is the url ok? Are all databings set? Is the out type correct? '
             }
         }
-    }, 
+    },
+    watch: {
+        value (v) {
+            this.setWidget(v)
+        }
+    },
     mounted () {
         this.logger = new Logger("RestSettings")
         if (this.app) {

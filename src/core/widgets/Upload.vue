@@ -57,24 +57,16 @@ export default {
   },
   methods: {
 
-    onFileChange (e) {
-      console.debug('onChange', e)
+    onFileChange () {
       if (this.$refs.input) {
         let files = this.$refs.input.files;
         if (files.length === 1) {
-          let reader = new FileReader()
-          if (reader.readAsDataURL) {
-            reader.onload = () => {
-              this.setImage(reader.result, e)
-            }
-            reader.readAsDataURL(files[0])
-          }
+          this.setImage(files[0])
         }
       }
     },
 
     setImage (image, e) {
-      console.debug('setImage', image)
       this.value = image
       this.emitDataBinding(this.value);
       this.emitClick(e);
@@ -141,13 +133,11 @@ export default {
     },
 
     resize (pos) {
-      console.debug('resize', pos.w, pos.h)
       this.bbox.w = pos.w
       this.bbox.h = pos.h
     },
 
     onClick (e) {
-      console.debug('onClick')
       this.stopEvent(e);
       this.emitClick(e);
     }

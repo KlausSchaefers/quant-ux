@@ -122,12 +122,12 @@ export default {
  
       var variables = [];
       if (this.model) {
-        for(var id in this.model.widgets){
-          var widget = this.model.widgets[id];
+        for(let id in this.model.widgets){
+          let widget = this.model.widgets[id];
           if(widget.props && widget.props.databinding){
-            var databinding = widget.props.databinding;
-            for(var key in databinding){
-              var variable = databinding[key];
+            let databinding = widget.props.databinding;
+            for(let key in databinding){
+              let variable = databinding[key];
               if(variables.indexOf(variable)<0){
                 variables.push(variable);
               }
@@ -135,7 +135,10 @@ export default {
           }
           // the rest widget save at some oher place
           if(widget.props && widget.props.rest && widget.props.rest.output){
-            variables.push(widget.props.rest.output.databinding)
+            let variable = widget.props.rest.output.databinding
+            if(variables.indexOf(variable)<0){
+                variables.push(variable);
+            }
           }
         }
       }

@@ -603,7 +603,7 @@ export default {
 				"x": 0,
 				"y": 0,
 				"w": 80,
-				"h": 80,
+				"h": 90,
 				"props" : {
 					"label" : "Rest",
 					"rest": {
@@ -612,6 +612,7 @@ export default {
 						"token": "",
 						"input": {
 							"type": "JSON",
+							"fileDataBinding": '',
 							"template": ''
 						},
 						"output": {

@@ -7,14 +7,20 @@ class RestEngine {
     }
     
     run (request, data) {
-        if (request.method === "POST") {
-            return this.post(request, data)
+        if (request.method === "POST" && request.input.type === 'JSON') {
+            return this.postOrPut(request, data)
+        }
+        if (request.method === "POST" && request.input.type === 'IMAGE') {
+            return this.postOrPostImage(request, data)
         }
         if (request.method === "GET") {
             return this.get(request, data)
         }
-        if (request.method === "PUT") {
-            return this.put(request, data)
+        if (request.method === "PUT" && request.input.type === 'JSON') {
+            return this.postOrPut(request, data)
+        }
+        if (request.method === "PUT" && request.input.type === 'IMAGE') {
+            return this.postOrPostImage(request, data)
         }
         if (request.method === "DELETE") {
             return this.delete(request, data)
@@ -25,6 +31,12 @@ class RestEngine {
         let url = this.fillString(request.url, values);
         this.logger.log(1, "buildURL", "exit" ,url)
         return url;
+    }
+
+    buildData (request, values) {
+        let data = this.fillString(request.input.template, values);
+        this.logger.log(1, "buildData", "exit" ,data)
+        return data;
     }
 
     fillString (s, values) {
@@ -50,6 +62,11 @@ class RestEngine {
             }
             if (request.output.type === "TEXT") {
                 resolve(response.text())
+            }
+            if (request.output.type === "IMAGE") {
+                response.arrayBuffer().then((buffer) => {
+                    resolve(buffer)
+                });
             }
             return;
         }
@@ -77,11 +94,14 @@ class RestEngine {
         })
     }
 
-    post (request, values) {
+    postOrPostImage (request, values) {
         let url = this.buildURL(request, values)
-        let data = {}
         let header = this.createDefaultHeader(request)
 
+        const formData = new FormData()
+        for (let key in values) {
+            formData.append(key, values[key])
+        }
         return new Promise( (resolve, reject) => {
             fetch(url, {
                 method: request.method,
@@ -90,7 +110,7 @@ class RestEngine {
                 headers: header,
                 redirect: 'follow',
                 referrer: 'no-referrer',
-                body: data
+                body: formData
             })
             .then(response => {
                 this.handleOutput(resolve, request, response)
@@ -101,14 +121,14 @@ class RestEngine {
         })
     }
 
-    put (request, values) {
+    postOrPut (request, values) {
         let url = this.buildURL(request, values)
-        let data = {}
+        let data = this.buildData(request, values)
         let header = this.createDefaultHeader(request)
 
         return new Promise( (resolve, reject) => {
             fetch(url, {
-                method: "PUT",
+                method: request.method,
                 mode: 'cors',
                 cache: 'no-cache', 
                 headers: header,
@@ -150,7 +170,7 @@ class RestEngine {
     createDefaultHeader(request) {
         if (request.input.type === 'JSON') {
             let headers = new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             }, {
                 'Accept': 'application/json'
             }, {
@@ -169,6 +189,11 @@ class RestEngine {
         this.parseString(rest.token, result)
         if ((rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'JSON') {
             this.parseString(rest.input.template, result)
+        }
+        if ((rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'IMAGE') {
+            if (rest.input.fileDataBinding) {
+                result.push(rest.input.fileDataBinding)
+            }
         }
         return result;
     }

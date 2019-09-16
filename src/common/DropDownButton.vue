@@ -24,10 +24,10 @@ var _openVommondDropDownButton = null;
 export default {
   name: "DropDownButton",
   mixins: [DojoWidget],
-  props:['l', 'options'],
+  props:['l', 'options', 'value'],
   data: function() {
     return {
-      value: false,
+      selected: false,
       hasObjects: false,
       updateLabel: true,
       maxLabelLength: -1,
@@ -47,10 +47,13 @@ export default {
       if (this.options) {
         this.setOptions(this.options)
       }
+      console.debug('postCreate', this.value)
+      if (this.value) {
+        this.setValue(this.value)
+      }
     },
 
     showDropDown: function(e) {
-      console.debug('showDropDown')
       this.stopEvent(e);
 
       if (this._dropDownOpen) {
@@ -191,8 +194,7 @@ export default {
       if (this.updateLabel) {
         this.setLabel(value);
       }
-
-      this.value = value;
+      this.selected = value;
     },
 
     onChange: function(value, e) {
@@ -203,6 +205,12 @@ export default {
       }
       this.setValue(value);
       this.emit("change", value, e);
+      this.emit("input", this.selected);
+    }
+  },
+  watch: {
+    value (v) {
+      this.setValue(v)
     }
   },
   mounted() {

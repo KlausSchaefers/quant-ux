@@ -1,17 +1,21 @@
 <template>
   <div class="MatcLight">
-    <h1>Resize Test</h1>
+    <h1 style="display:inline-block;margin-left:20px; margin-bottom:20px;">REST Test</h1>
+  
+      <SegmentButton :options="options" v-model="selectedTest" style="width:600px; display: inline-block"/>
+
+  
     <div class="" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px;">
-        <RestSettings :app="app" @change="onChange" :value="widget"/>
+        <RestSettings :app="app" @change="onChange" :value="selectedWidget"/>
     </div>
-  <code style="
-        display: inline-block;
-        width: 300px; 
-        height:300px; 
-        vertical-align: top; 
-        word-break: break-all; 
-        white-space: pre;
-        word-wrap: break-word;">{{settings}}</code>
+    <code style="
+          display: inline-block;
+          width: 300px; 
+          height:300px; 
+          vertical-align: top; 
+          word-break: break-all; 
+          white-space: pre;
+          word-wrap: break-word;">{{settings}}</code>
 
   </div>
 </template>
@@ -30,6 +34,7 @@
 
 import RestSettings from 'canvas/toolbar/RestSettings'
 import rest from './data/rest.json'
+import SegmentButton from 'page/SegmentButton'
 
 export default {
   name: "ResizeTest",
@@ -38,7 +43,85 @@ export default {
     return {
       app: rest,
       settings: {},
-      widget: {
+      tests: [
+          {
+            "method": "GET",
+            "url": "http://localhost:8081/public/test/1.json",
+            "token": "",
+            "input": {
+                "type": "JSON",
+                "template": "{\n\"a\": ${test}\n}"
+            },
+            "output": {
+                "databinding": "abc",
+                "template": "",
+                "type": "JSON",
+                "hints": []
+            }
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:3000/test/post/json",
+          "token": "",
+          "input": {
+              "type": "JSON",
+              "template": "{\n\"a\": ${radio}\n, \n\"b\": ${text}\n}"
+          },
+          "output": {
+              "databinding": "abc",
+              "template": "",
+              "type": "JSON",
+              "hints": []
+          }       
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8081/public/style/img/AB1.png",
+          "token": "",
+          "input": {
+              "type": "JSON",
+              "template": "{\n\"a\": ${radio}\n, \n\"b\": ${text}\n}"
+          },
+          "output": {
+              "databinding": "abc",
+              "template": "",
+              "type": "IMAGE",
+              "hints": []
+          }
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:3000/test/post/image",
+          "token": "",
+          "input": {
+              "type": "IMAGE",
+              "fileDataBinding": "selfie",
+              "template": "{\n\"a\": ${radio}\n, \n\"b\": ${text}\n}"
+          },
+          "output": {
+              "databinding": "abc",
+              "template": "",
+              "type": "JSON",
+              "hints": []
+          }
+        }
+      ],
+      options : [
+        {label: "JSON Get", value: 0},
+        {label: "JSON Post", value: 1},
+        {label: "Image Get", value: 2},
+        {label: "Image Post", value: 3},
+      ],
+      selectedTest: 3
+    };
+  },
+  components: {
+    RestSettings: RestSettings,
+    SegmentButton: SegmentButton
+  },
+  computed: {
+    selectedWidget () {
+      return  {
             "id" : "Rest",
             "name" : "Rest",
             "type":"Rest",
@@ -48,33 +131,10 @@ export default {
             "h": 80,
             "props" : {
                 "label" : "Rest",
-                "rest": {
-                   	"method": "GET",
-                    "url": "http://localhost:8081/public/test/1.json",
-                    "token": "",
-                    "input": {
-                        "type": "JSON",
-                        "template": "{\n\"a\": ${test}\n}"
-                    },
-                    "output": {
-                        "databinding": "abc",
-                        "template": "",
-                        "type": "JSON",
-                        "hints": []
-                    }
-                }
-            },
-            "has" :{
-                "rest" : true
-            },
-            "style" : {
-                "background": "#777"
+                "rest": this.tests[this.selectedTest]
             }
-        } 
-    };
-  },
-  components: {
-    RestSettings: RestSettings
+      }
+    }
   },
   methods: {
       onChange (d) {

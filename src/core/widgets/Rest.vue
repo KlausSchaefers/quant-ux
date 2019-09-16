@@ -2,6 +2,7 @@
 <template>
   <div class="MatcWidgetTypeRest">
     <span class="MatcWidgetTypeIconToggleIcon mdi mdi-cloud-sync" data-dojo-attach-point="icon"></span>
+    <span class="MatcScreenLabel" data-dojo-attach-point="labelNode">{{label}}</span>
   </div>
 </template>
 <script>
@@ -17,6 +18,14 @@ export default {
     };
   },
   components: {},
+  computed: {
+    label () {
+      if (this.model && this.model.props) {
+        return this.model.props.label
+      }
+      return 'Rest'
+    }
+  },
   methods: {
     postCreate: function() {
       this._borderNodes = [];
@@ -26,12 +35,12 @@ export default {
     },
 
     getLabelNode: function() {
-      return this.domNode;
+      return this.labelNode;
     },
 
     resize: function(box) {
       var h = Math.min(box.h, box.w);
-      this.icon.style.fontSize = h + "px";
+      this.icon.style.fontSize = (h * 0.8) + "px";
     },
 
     render: function(model, style, scaleX, scaleY) {

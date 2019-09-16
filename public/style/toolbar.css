@@ -959,9 +959,8 @@
 
 .MatcToolbarTabs a.MatcToolbarTabActive{
 	border-bottom: 1px solid #1973e8;
+	color: #333;
 }
-
-
 
 
 /****************************************************

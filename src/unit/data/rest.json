@@ -28,7 +28,7 @@
       "props" : {
         "start" : true
       },
-      "children" : [ "w10013", "w10032", "w10043", "w10049", "w10058", "w10063" ],
+      "children" : [ "w10013", "w10058", "w10063", "w10043", "w10032", "w10049", "w10073" ],
       "id" : "s10000",
       "rulers" : [ ],
       "animation" : {
@@ -160,6 +160,54 @@
       "children" : [ "w10060", "w10066" ],
       "id" : "s10059",
       "modified" : 1568410412218
+    },
+    "s10074" : {
+      "x" : 1676,
+      "y" : 2268,
+      "h" : 667,
+      "w" : 375,
+      "name" : "Screen 6",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#e6e6e6"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 667
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : false
+      },
+      "children" : [ "w10075", "w10076", "w10081" ],
+      "id" : "s10074",
+      "modified" : 1568462440431
+    },
+    "s10082" : {
+      "x" : 830,
+      "y" : 2268,
+      "h" : 668,
+      "w" : 376,
+      "name" : "Screen 7",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#777"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 667
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : false
+      },
+      "children" : [ "w10099", "w10100", "w10101" ],
+      "id" : "s10082",
+      "modified" : 1568660204623
     }
   },
   "widgets" : {
@@ -236,8 +284,8 @@
       "id" : "w10019",
       "name" : "Rest",
       "type" : "Rest",
-      "x" : 3112,
-      "y" : 2584,
+      "x" : 3114,
+      "y" : 2658,
       "w" : 80,
       "h" : 80,
       "props" : {
@@ -278,14 +326,14 @@
       },
       "z" : 10,
       "created" : 1568320416741,
-      "modified" : 1568452883240
+      "modified" : 1568462471570
     },
     "w10032" : {
       "id" : "w10032",
       "type" : "Button",
       "name" : "Primary Button",
       "x" : 2544,
-      "y" : 2858,
+      "y" : 2870,
       "w" : 263,
       "h" : 54,
       "z" : 14,
@@ -334,7 +382,7 @@
         "color" : "#ffffff"
       },
       "created" : 1568406483939,
-      "modified" : 1568410287452
+      "modified" : 1568462419567
     },
     "w10033" : {
       "id" : "w10033",
@@ -457,7 +505,7 @@
       "type" : "Button",
       "name" : "Primary Button 1",
       "x" : 2544,
-      "y" : 2762,
+      "y" : 2778,
       "w" : 263,
       "h" : 54,
       "z" : 19,
@@ -506,7 +554,7 @@
         "color" : "#ffffff"
       },
       "created" : 1568406701487,
-      "modified" : 1568410289176,
+      "modified" : 1568462418110,
       "copyOf" : "w10032"
     },
     "w10044" : {
@@ -533,10 +581,10 @@
       "id" : "w10049",
       "type" : "Button",
       "name" : "Primary Button 2",
-      "x" : 2544,
-      "y" : 2662,
-      "w" : 263,
-      "h" : 54,
+      "x" : 2693,
+      "y" : 2654,
+      "w" : 114,
+      "h" : 84,
       "z" : 22,
       "props" : {
         "label" : "Rest"
@@ -583,7 +631,7 @@
         "color" : "#ffffff"
       },
       "created" : 1568407124664,
-      "modified" : 1568410291194,
+      "modified" : 1568462692520,
       "copyOf" : "w10043"
     },
     "w10053" : {
@@ -1306,6 +1354,433 @@
       "id" : "w10072",
       "created" : 1568454870457,
       "modified" : 1568455684282
+    },
+    "w10073" : {
+      "id" : "w10073",
+      "type" : "Button",
+      "name" : "Primary Button 3",
+      "x" : 2544,
+      "y" : 2654,
+      "w" : 114,
+      "h" : 84,
+      "z" : 36,
+      "props" : {
+        "label" : "Rest Image"
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "onclick" : true,
+        "label" : true,
+        "padding" : true
+      },
+      "style" : {
+        "fontSize" : 20,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.42857,
+        "background" : null,
+        "borderTopColor" : "#007fff",
+        "borderBottomColor" : "#007fff",
+        "borderRightColor" : "#007fff",
+        "borderLeftColor" : "#007fff",
+        "borderTopRightRadius" : 4,
+        "borderTopLeftRadius" : 4,
+        "borderBottomRightRadius" : 4,
+        "borderBottomLeftRadius" : 4,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "color" : "#007fff",
+        "paddingTop" : 10,
+        "paddingBottom" : 10,
+        "paddingLeft" : 30,
+        "paddingRight" : 30,
+        "valign" : "top"
+      },
+      "hover" : {
+        "background" : "#007fff",
+        "borderTopColor" : "#0275d8",
+        "borderBottomColor" : "#0275d8",
+        "borderRightColor" : "#0275d8",
+        "borderLeftColor" : "#0275d8",
+        "color" : "#ffffff"
+      },
+      "created" : 1568462424080,
+      "modified" : 1568462696086,
+      "copyOf" : "w10049"
+    },
+    "w10075" : {
+      "id" : "w10075",
+      "type" : "Button",
+      "name" : "Button",
+      "x" : 1718,
+      "y" : 2290,
+      "w" : 120,
+      "h" : 44,
+      "z" : 37,
+      "props" : {
+        "label" : "Back"
+      },
+      "has" : {
+        "onclick" : true,
+        "label" : true,
+        "padding" : true
+      },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#ffffff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#ffffff",
+        "borderBottomColor" : "#ffffff",
+        "borderRightColor" : "#ffffff",
+        "borderLeftColor" : "#ffffff",
+        "valign" : "top",
+        "background" : "transparent",
+        "verticalAlign" : "middle"
+      },
+      "created" : 1568462447443,
+      "modified" : 1568406688774,
+      "copyOf" : "w10060",
+      "action" : {
+        "type" : "back"
+      }
+    },
+    "w10076" : {
+      "id" : "w10076",
+      "type" : "UploadPreview",
+      "name" : "Camerea Image",
+      "x" : 1718,
+      "y" : 2402,
+      "w" : 291,
+      "h" : 316,
+      "z" : 38,
+      "props" : {
+        "databinding" : {
+          "default" : "image"
+        }
+      },
+      "has" : {
+        "onclick" : true,
+        "border" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "backgroundImage" : null
+      },
+      "created" : 1568462458798,
+      "modified" : 1568462543631
+    },
+    "w10077" : {
+      "id" : "w10077",
+      "name" : "Rest",
+      "type" : "Rest",
+      "x" : 2242,
+      "y" : 2636,
+      "w" : 80,
+      "h" : 80,
+      "props" : {
+        "label" : " \n",
+        "rest" : {
+          "method" : "GET",
+          "url" : "http://localhost:8081/public/style/img/AB1.png",
+          "token" : "",
+          "input" : {
+            "type" : "JSON",
+            "template" : ""
+          },
+          "output" : {
+            "databinding" : "image",
+            "template" : "",
+            "type" : "IMAGE",
+            "hints" : { }
+          }
+        }
+      },
+      "has" : {
+        "rest" : true
+      },
+      "style" : {
+        "background" : "#777"
+      },
+      "z" : 39,
+      "created" : 1568462475973,
+      "modified" : 1568659716831
+    },
+    "w10081" : {
+      "id" : "w10081",
+      "type" : "Camera",
+      "name" : "Camera",
+      "x" : 1814,
+      "y" : 2786,
+      "w" : 100,
+      "h" : 100,
+      "z" : 40,
+      "props" : {
+        "label" : "",
+        "databinding" : {
+          "default" : "selfie"
+        }
+      },
+      "has" : {
+        "hasIcon" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "padding" : true
+      },
+      "actions" : { },
+      "style" : {
+        "icon" : "mdi-camera",
+        "fontSize" : 20,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "borderTopRightRadius" : 100,
+        "borderTopLeftRadius" : 100,
+        "borderBottomRightRadius" : 100,
+        "borderBottomLeftRadius" : 100,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "borderTopStyle" : "solid",
+        "borderBottomStyle" : "solid",
+        "borderRightStyle" : "solid",
+        "borderLeftStyle" : "solid",
+        "background" : "#cecece",
+        "verticalAlign" : "middle"
+      },
+      "created" : 1568653511082,
+      "modified" : 1568653525121
+    },
+    "w10096" : {
+      "id" : "w10096",
+      "name" : "Rest",
+      "type" : "Rest",
+      "x" : 1414,
+      "y" : 2824,
+      "w" : 80,
+      "h" : 90,
+      "props" : {
+        "label" : "Rest",
+        "rest" : {
+          "method" : "POST",
+          "url" : "http://localhost:3000/test/post/image",
+          "token" : "",
+          "input" : {
+            "type" : "IMAGE",
+            "fileDataBinding" : "selfie",
+            "template" : ""
+          },
+          "output" : {
+            "databinding" : "selfieData",
+            "template" : "",
+            "type" : "JSON",
+            "hints" : {
+              "selfieData_selfie" : "Object",
+              "selfieData_selfie_name" : "Object",
+              "selfieData_selfie_size" : "Object"
+            }
+          }
+        }
+      },
+      "has" : {
+        "rest" : true
+      },
+      "style" : {
+        "background" : "#777"
+      },
+      "z" : 42,
+      "created" : 1568659932044,
+      "modified" : 1568660025695
+    },
+    "w10099" : {
+      "id" : "w10099",
+      "type" : "TextBox",
+      "name" : "Text Box",
+      "x" : 876,
+      "y" : 2802,
+      "w" : 284,
+      "h" : 40,
+      "z" : 43,
+      "props" : {
+        "label" : "Enter a value",
+        "placeholder" : true,
+        "databinding" : {
+          "default" : "selfieData.selfie.name"
+        }
+      },
+      "has" : {
+        "label" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "editable" : true,
+        "onclick" : true,
+        "padding" : true
+      },
+      "style" : {
+        "color" : "#333333",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "fontSize" : 18,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ffffff",
+        "paddingTop" : 5,
+        "paddingBottom" : 5,
+        "paddingLeft" : 5,
+        "paddingRight" : 5,
+        "textAlign" : "left"
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "background" : "#ffcaca"
+      },
+      "focus" : {
+        "background" : "#f2f2f2"
+      },
+      "created" : 1568660051670,
+      "modified" : 1568660188106
+    },
+    "w10100" : {
+      "id" : "w10100",
+      "type" : "Button",
+      "name" : "Button",
+      "x" : 872,
+      "y" : 2290,
+      "w" : 120,
+      "h" : 44,
+      "z" : 44,
+      "props" : {
+        "label" : "Back"
+      },
+      "has" : {
+        "onclick" : true,
+        "label" : true,
+        "padding" : true
+      },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#ffffff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#ffffff",
+        "borderBottomColor" : "#ffffff",
+        "borderRightColor" : "#ffffff",
+        "borderLeftColor" : "#ffffff",
+        "valign" : "top",
+        "background" : "transparent",
+        "verticalAlign" : "middle"
+      },
+      "created" : 1568660208695,
+      "modified" : 1568406688774,
+      "copyOf" : "w10075",
+      "action" : {
+        "type" : "back"
+      }
+    },
+    "w10101" : {
+      "id" : "w10101",
+      "type" : "UploadPreview",
+      "name" : "Camerea Image",
+      "x" : 872,
+      "y" : 2402,
+      "w" : 291,
+      "h" : 316,
+      "z" : 45,
+      "props" : {
+        "databinding" : {
+          "default" : "selfie"
+        }
+      },
+      "has" : {
+        "onclick" : true,
+        "border" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "backgroundImage" : null
+      },
+      "created" : 1568660214689,
+      "modified" : 1568660223914,
+      "copyOf" : "w10076"
     }
   },
   "lines" : {
@@ -1484,10 +1959,59 @@
       "to" : "s10059",
       "points" : [ ],
       "event" : "click"
+    },
+    "l10078" : {
+      "id" : "l10078",
+      "from" : "w10073",
+      "to" : "w10077",
+      "points" : [ ],
+      "event" : "click"
+    },
+    "l10079" : {
+      "id" : "l10079",
+      "from" : "w10077",
+      "to" : "s10074",
+      "points" : [ ],
+      "event" : "click"
+    },
+    "l10080" : {
+      "id" : "l10080",
+      "from" : "w10077",
+      "to" : "s10051",
+      "points" : [ {
+        "x" : 2272,
+        "y" : 2008,
+        "w" : 2,
+        "h" : 2
+      } ],
+      "event" : "click",
+      "rule" : {
+        "restResponseStatus" : "4xx",
+        "databinding" : null,
+        "widget" : null,
+        "operation" : null,
+        "value" : null,
+        "type" : "rest",
+        "operator" : null
+      }
+    },
+    "l10097" : {
+      "id" : "l10097",
+      "from" : "w10081",
+      "to" : "w10096",
+      "points" : [ ],
+      "event" : "click"
+    },
+    "l10098" : {
+      "id" : "l10098",
+      "from" : "w10096",
+      "to" : "s10082",
+      "points" : [ ],
+      "event" : "click"
     }
   },
-  "lastUUID" : 10073,
-  "lastUpdate" : 1568455684291,
+  "lastUUID" : 10102,
+  "lastUpdate" : 1568660223920,
   "created" : 1568230013638,
   "startScreen" : "",
   "grid" : {
@@ -1504,10 +2028,10 @@
     "style" : "line"
   },
   "domain" : "Quant-UX.com",
-  "size" : 23528,
-  "isDirty" : true,
-  "sizeBackup" : 23893,
-  "lastBackup" : 1568454938342,
+  "size" : 31531,
+  "isDirty" : false,
+  "sizeBackup" : 29528,
+  "lastBackup" : 1568660258464,
   "lastCategory" : "WireFrame",
   "id" : "5d794a7de2fb5316a2ccf51f"
 }

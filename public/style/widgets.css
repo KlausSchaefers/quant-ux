@@ -8,6 +8,16 @@
 
 .MatcWidgetTypeRest .mdi {
 	color:#777;
+	position: absolute;
+	top:-20%;
+	left:10%;
+}
+
+.MatcWidgetTypeRest .MatcScreenLabel{
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom:0%
 }
 
 .MatcWidgetTypeUploadPreview{
