@@ -1,8 +1,8 @@
 <template>
   <div class="MatcLight">
-    <h1>Resize Test</h1>
+    <h1>Simulator Test</h1>
     <div class="MatcToolbarRestSettings" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px; width:300px; height:500px">
-        <Simulator :app="app" @onDataBindingChange="onChange"/>
+        <Simulator :app="app2" @onDataBindingChange="onChange"/>
     </div>
   
  
@@ -10,6 +10,7 @@
         display: inline-block;
         width: 300px; 
         height:300px; 
+        font-size:12px;
         vertical-align: top; 
         word-break: break-all; 
         white-space: pre;
@@ -32,6 +33,7 @@
 
 import Simulator from 'core/Simulator'
 import rest from './data/rest.json'
+import rest2 from './data/rest2.json'
 
 export default {
   name: "SimilatorTest",
@@ -39,6 +41,7 @@ export default {
   data: function() {
     return {
       app: rest,
+      app2: rest2,
       dataBindings: ''
     };
   },

@@ -1508,6 +1508,30 @@ export default class Core extends Evented{
      * Line helpers
      ***************************************************************************/
 
+    getLinesForWidget (widget){
+	
+        /**
+         * In case of an inherited widget, use the lines of the master
+         */
+        if(widget.inherited && this.model.widgets[widget.inherited]){
+            widget = this.model.widgets[widget.inherited];
+        }
+        
+        var widgetID = widget.id;
+        var lines = this.getFromLines(widget);
+        if(lines && lines.length > 0){
+            return lines;
+        }
+        
+        var group = this.getParentGroup(widgetID);
+        if(group){
+            var groupLine = this.getFromLines(group);
+            if(groupLine && groupLine.length > 0){
+                return groupLine;
+            }
+        }
+    }  
+
     getToLines (box) {
         var result = [];
 

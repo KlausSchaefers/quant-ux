@@ -43,6 +43,8 @@ import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
 import Upload from 'core/widgets/Upload'
 import UploadPreview from 'core/widgets/UploadPreview'
+import Button from 'core/widgets/Button'
+
 import Animation from 'core/Animation'
 import Core from 'core/Core'
 import SymbolService from 'services/SymbolService'
@@ -326,7 +328,6 @@ export default class RenderFactory extends Core {
 			 * In case of player or simulator set previews status
 			 */
 			if (this.mode == "simulator" || this.mode == "view") {
-
 				if (model.inherited) {
 					var orgModel = this.model.widgets[model.inherited];
 					if (orgModel) {
@@ -338,7 +339,6 @@ export default class RenderFactory extends Core {
 							});
 						}
 					}
-
 				} else {
 					if (this._uiWidgetsStates[model.id] != null && this._uiWidgetsStates[model.id] != undefined) {
 						if (model.props && model.props.ignoreStateOnPageLoad) {
@@ -644,6 +644,16 @@ export default class RenderFactory extends Core {
 	}
 
 	_createButton(parent, model) {
+		var widget = this.$new(Button)
+		widget.mode = this.mode
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	/**
+	 * Old version of button
+	 */
+	_createButtonX(parent, model) {
 		css.add(parent, "MatcEventedWidget");
 		var border = this._createBorder(parent, model);
 		this._createInlineEdit(border, model);
@@ -663,7 +673,6 @@ export default class RenderFactory extends Core {
 		var widget = this.$new(Label);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
-		//this._createInlineEdit(parent, model);
 	}
 
 	_createImage(parent, model) {
@@ -675,7 +684,6 @@ export default class RenderFactory extends Core {
 			css.add(span, "glyphicon glyphicon-picture");
 		}
 	}
-
 
 	_createIcon(parent, model) {
 		//css.add(parent, "MatcEventedWidget");

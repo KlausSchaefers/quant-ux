@@ -244,6 +244,15 @@ export default {
 			this.tempOwn(on(chkBox, "change", lang.hitch(this, "onLineHideByID", line.id)));
 			
 			
+			/**
+			 * Add here databinding dialog
+			 * 
+			 * 1) if the line is executed, we as the uiWidgte for getValue()
+			 * 
+			 * 2) the value is written to line.dataBinding
+			 * 
+			 * 3) buttons need data binding! Should only work with ${} to replace text!
+			 */
 		
 		},
 		

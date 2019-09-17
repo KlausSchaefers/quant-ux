@@ -4,8 +4,10 @@
 </template>
 <script>
 
+import JSONPath from 'core/JSONPath'
+
 export default {
-	name: 'ScrollMixin',
+	name: 'DataBindingMixin',
     methods: {
 		setDataBindingByKey (path, value) {
 			this.dataBindingValues[path] = value;
@@ -15,37 +17,8 @@ export default {
 		getDataBindingByPath (path) {
 			this.logger.log(3, "getDataBindingByPath","enter ", path);					
 			if (this.dataBindingValues) {
-				// check if we have some match. For now widgets could emit
-				// values with a dot! The 
-				if (this.dataBindingValues[path]) {
-					return this.dataBindingValues[path]
-				}
-				if (path.indexOf('.') >=0 ){
-					let elements = this.getJsonPath(path)
-					let current = elements.shift()
-					let value = this.dataBindingValues[current]
-					while (current != null && current != undefined && value !==null && value != undefined && elements.length > 0) {
-						current = elements.shift()
-						value = value[current]
-					}
-					return value
-				}
+				return JSONPath.get(this.dataBindingValues, path)
 			}
-		},
-
-		getJsonPath (path) {
-			return path.split('.').flatMap(p => {
-				if (p.indexOf('[') >=0) {
-					let parts = p.split('[')
-					if (parts.length == 2) {
-						let key = parts[0]
-						let index = parts[1].substring(0, parts[1].length-1) * 1
-						return [key, index]
-					}
-					return p.substring(1, p.length -1) * 1
-				}
-				return p
-			})
 		},
 
 		getDefaultDatabinding (path) {
@@ -78,10 +51,10 @@ export default {
 		},
 
         onUIWidgetDataBinding (screenID, widgetID, variable, value){
-			/**
-			 * FIXME: Add here support for paths!
-			 */
-			let elements = this.getJsonPath(variable)
+			
+			this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
+			/*
+			let elements = JSONPath.getJsonPath(variable)
 			let current = elements.shift()
 			let node = this.dataBindingValues
 			let i = 0
@@ -102,6 +75,7 @@ export default {
 					node[current] = value;
 				}
 			}
+			*/
 			this.emit('onDataBindingChange', this.dataBindingValues)
 			
 			/**
@@ -118,7 +92,7 @@ export default {
 			var widgets = this.renderFactory.getAllUIWidgets();
 			for(var id in widgets){
 				var uiWidget = widgets[id];
-				var changed = uiWidget.setDataBinding(variable, value);
+				var changed = uiWidget.setDataBinding(variable, value, this);
 				if(changed){
 					var state = uiWidget.getState();
 					this.log("WidgetInit", screenID, id, null, state);
@@ -133,10 +107,12 @@ export default {
 					var variable = databinding[key];
 					var value = this.getDataBindingByPath(variable);
 					if(value !== null && value !== undefined){
-						var changed = uiWidget.setDataBinding(variable, value);
+						var changed = uiWidget.setDataBinding(variable, value, this);
 						if(changed){
 							var state = uiWidget.getState();
-							this.log("WidgetInit", screen.id, uiWidget.model.id, null, state);
+							if (state) {
+								this.log("WidgetInit", screen.id, uiWidget.model.id, null, state);
+							}
 						}
 					}
 				}

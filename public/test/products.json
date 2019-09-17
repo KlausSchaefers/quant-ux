@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "name": "Shaver",
+        "description": "Best in class for low budgte",
+        "price": "100.0",
+        "img": "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimages-na.ssl-images-amazon.com%2Fimages%2FI%2F61JJ1%252BygJfL._SY450_.jpg&imgrefurl=https%3A%2F%2Fwww.amazon.com%2FPhilips-Norelco-Electric-S1560-81%2Fdp%2FB01859QHJU&docid=JaUbYNLsIgfPLM&tbnid=zuUcG-LsNRYEBM%3A&vet=10ahUKEwiQnv65xNjkAhWC6qYKHT1xDkIQMwihAigAMAA..i&w=366&h=450&safe=off&bih=798&biw=1388&q=philips%20shaver&ved=0ahUKEwiQnv65xNjkAhWC6qYKHT1xDkIQMwihAigAMAA&iact=mrc&uact=8"
+    },
+    {
+        "id": "2",
+        "name": "Toothbrush",
+        "description": "Best in class for low budgte",
+        "price": "100.0",
+        "img": "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimages-na.ssl-images-amazon.com%2Fimages%2FI%2F61JJ1%252BygJfL._SY450_.jpg&imgrefurl=https%3A%2F%2Fwww.amazon.com%2FPhilips-Norelco-Electric-S1560-81%2Fdp%2FB01859QHJU&docid=JaUbYNLsIgfPLM&tbnid=zuUcG-LsNRYEBM%3A&vet=10ahUKEwiQnv65xNjkAhWC6qYKHT1xDkIQMwihAigAMAA..i&w=366&h=450&safe=off&bih=798&biw=1388&q=philips%20shaver&ved=0ahUKEwiQnv65xNjkAhWC6qYKHT1xDkIQMwihAigAMAA&iact=mrc&uact=8"
+    },
+    {
+        "id": "3",
+        "name": "Airfryer",
+        "description": "Best in class for low budgte",
+        "price": "100.0",
+        "img": "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimages-na.ssl-images-amazon.com%2Fimages%2FI%2F61JJ1%252BygJfL._SY450_.jpg&imgrefurl=https%3A%2F%2Fwww.amazon.com%2FPhilips-Norelco-Electric-S1560-81%2Fdp%2FB01859QHJU&docid=JaUbYNLsIgfPLM&tbnid=zuUcG-LsNRYEBM%3A&vet=10ahUKEwiQnv65xNjkAhWC6qYKHT1xDkIQMwihAigAMAA..i&w=366&h=450&safe=off&bih=798&biw=1388&q=philips%20shaver&ved=0ahUKEwiQnv65xNjkAhWC6qYKHT1xDkIQMwihAigAMAA&iact=mrc&uact=8"
+    },
+    {
+        "id": "4",
+        "name": "MRI",
+        "description": "Best in class for low budgte",
+        "price": "100.0",
+        "img": "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimages-na.ssl-images-amazon.com%2Fimages%2FI%2F61JJ1%252BygJfL._SY450_.jpg&imgrefurl=https%3A%2F%2Fwww.amazon.com%2FPhilips-Norelco-Electric-S1560-81%2Fdp%2FB01859QHJU&docid=JaUbYNLsIgfPLM&tbnid=zuUcG-LsNRYEBM%3A&vet=10ahUKEwiQnv65xNjkAhWC6qYKHT1xDkIQMwihAigAMAA..i&w=366&h=450&safe=off&bih=798&biw=1388&q=philips%20shaver&ved=0ahUKEwiQnv65xNjkAhWC6qYKHT1xDkIQMwihAigAMAA&iact=mrc&uact=8"
+    }
+]

@@ -418,7 +418,6 @@ export default {
 				 */
 				this.tempOwn(uiWidget.on("databinding", lang.hitch(this, "onUIWidgetDataBinding", screen.id, widget.id)));
 				
-				
 				/**
 				 * Mouse Move
 				 */

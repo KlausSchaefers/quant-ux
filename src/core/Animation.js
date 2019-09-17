@@ -70,7 +70,8 @@ export default class Animation extends Core{
 			"borderLeftStyle": true,
 			"textDecoration": true,
 			"fontWeight": true,
-			"backgroundImage": true
+			"backgroundImage": true,
+			"verticalAlign": true
 		}
 
 		this._shadowAttribs = {

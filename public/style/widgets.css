@@ -1133,11 +1133,16 @@
 
 
 .MatchWidgetTypeBox{
-
+	height: 100%;
+    width: 100%;
 }
 
 .MatchWidgetTypeButton{
 	text-align: center;
+	height: 100%;
+	width: 100%;
+	border-style: solid;
+	border-width: 0px;
 }
 
 .MatcSimulator .MatchWidgetTypeButton{

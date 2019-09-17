@@ -13,7 +13,6 @@ import Logger from 'common/Logger'
 import Dialog from 'common/Dialog'
 import DomBuilder from 'common/DomBuilder'
 import CheckBox from 'common/CheckBox'
-import InputList from 'common/InputList'
 import ScrollContainer from 'common/ScrollContainer'
 import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
 import DataSection from 'canvas/toolbar/DataSection'
@@ -37,6 +36,7 @@ export default {
 		setSectionHeader (header){
 			this.header = header;
 		},
+
 		
 		setModel (model){
 			this.model = model;
@@ -55,6 +55,11 @@ export default {
 			var validation = this.getValidationModel(model);	
 			this._renderRequired(validation);
 			this._renderValidationLabels(validation, model);
+		},
+
+		_showRepeater (model){
+			this._renderButton("Data", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderDataBinding(model);
 		},
 		
 		_showStepper (model){
@@ -209,102 +214,10 @@ export default {
 		
 		
 		/**********************************************************************
-		 * data bining
+		 * data bining => moved to DataSection.vue
 		 **********************************************************************/
 		
-		_renderDataBinding (widget){
-			
-			var icon = "mdi mdi-database-plus";
-			var txt = "Add Data Binding";
-			
-			var dataBinding = this.getDataBinding(widget);
-			if(dataBinding && dataBinding["default"]){
-				icon = "mdi mdi-database";
-				txt = dataBinding["default"];
-			}
-			
-			var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);		
-			
-			var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull").build(row);
-			var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
-			this.db.span(icon).build(lbl);
-			this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
-			
 		
-			this.db.span("caret").build(cntr);	
-			this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showDataBindingDialog", widget, dataBinding)));
-
-			
-			this._renderIgnoreState(widget);
-		},
-		
-		_renderIgnoreState (widget){
-			var row = this.db.div("MatcToobarRow").build(this.cntr);			
-			
-			var chkBox = this.$new(CheckBox);
-			css.add(chkBox.domNode, "MatcToolbarItem");
-			chkBox.placeAt(row);
-			chkBox.setLabel("Forget State")
-			chkBox.setValue(widget.props.ignoreStateOnPageLoad);
-			this.tempOwn(on(chkBox, "change", lang.hitch(this, "setIgnoreState")));
-			this._addChildWidget(chkBox);
-			this.addTooltip(row, "Do not load previous state when showing the widget again.");
-		},
-		
-		
-		_showDataBindingDialog (widget, dataBinding){
-			
-			
-			var variables = this.getAllAppVariables();
-			var hints = this.getHintsAppVariables();
-			hints = hints.map(h => {
-				return {
-					label: h,
-					value: h
-				}
-			})
-	
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();		
-			var cntr = this.db.div("MatcDialogTable MatcDialogTableXL").build(popup);
-			var scroller = this.$new(ScrollContainer);
-			scroller.placeAt(cntr);
-			
-			var list = this.$new(InputList, {"check" : "single", "remove" : false, checkNewOption: true, hints: hints});
-			if(dataBinding && dataBinding["default"]){
-				list.setSelected(dataBinding["default"]);
-			}
-			list.setOptions(variables);
-			
-			scroller.wrap(list.domNode);
-			
-			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);		
-			var write = this.db.div("MatcButton", "Ok").build(bar);
-			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
-		
-			
-			var d = new Dialog({overflow:true});
-			
-			d.own(on(write, touch.press, lang.hitch(this,"setDataBinding", d, list, widget)));
-			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
-			d.own(on(d, "close", function(){
-				list.destroy();
-			}));
-			d.popup(popup, this.cntr);
-			
-			
-		},
-		
-		setDataBinding (d,list){		
-			var databinding = null;
-			var variable = list.getSelected();
-			if(variable){
-				databinding = {
-					"default" : variable
-				};
-			} 
-			this.emit("propertyChange", "databinding", databinding);			
-			d.close();			
-		},
 		
 		/**********************************************************************
 		 * Validation
@@ -647,19 +560,6 @@ export default {
 			} else {
 				d.shake();
 			}
-		},
-		
-	
-		
-		closeDialog (d, scroller, list){
-			d.close();
-			if(scroller){
-				scroller.destroy();
-			}
-			if(list){
-				list.destroy();	
-			}
-			delete this._optionInputs;
 		}
     }, 
     mounted () {

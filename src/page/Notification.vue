@@ -44,7 +44,6 @@ export default {
 			
 			async loadNotifications (){
 				let result = await Services.getUserService().getNotications()
-				console.debug(result)
 				this.setNotifications(result)
 			},
 			

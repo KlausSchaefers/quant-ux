@@ -60,18 +60,14 @@ export default {
 		
 		
 		render:function(line){
-			
-	
 		
 			this.cntr.innerHTML="";
 			this.cleanUpTempListener();
 			
 			var parent = this.db.div("").build();
 
-			
 			var row = this.db.div("form-group").build(parent);
-	
-			
+				
 			var btn = this.$new(DropDownButton, {maxLabelLength:20});
 			btn.setOptions([
                 {value:null, label:"No Animation", icon:"mdi mdi-close"},
@@ -192,7 +188,6 @@ export default {
 			this.dirty = true;
 			this.value.hidden = value;
 			this.render(this.value);
-		
 		},
 		
 		onLineAnimation:function(value){
@@ -205,7 +200,6 @@ export default {
 			this.dirty = true;
 			this.value.overlay = value;
 			this.render(this.value);
-			
 		},
 		
 		onLineDuation:function(value){

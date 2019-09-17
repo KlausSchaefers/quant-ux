@@ -56,7 +56,8 @@ export default {
 			hasActiveData: ["DateDropDown"],
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
 							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
-							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup", "RadioBox2", "Upload", "Camera", "UploadPreview"],
+							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
+							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater'],
 			hasLogic2: ["LogicOr", "Rest"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
@@ -721,6 +722,7 @@ export default {
 
 			this.validationWidget = this.$new(ValidationSection);
 			this.validationWidget.setModel(this.model);
+			this.validationWidget.setCanvas(this.canvas);
 			this.validationWidget.placeAt(dataDiv);
 			this.validationWidget.setSectionHeader(parent);
 			this.own(on(this.validationWidget, "propertyChange", lang.hitch(this, "setWidgetProps")));

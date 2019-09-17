@@ -19,7 +19,8 @@ export default {
         model: {
             props:{}
         },
-        hasXOverFlow: false
+        hasXOverFlow: false,
+        dataBindingValues: null
     };
   },
   computed: {
@@ -161,6 +162,7 @@ export default {
        * isUpdate parameter is set
        */
       this.model = widget;
+      this.setDataBindingFromTable(widget)
       /**
        * Property changes will not send children.
        * FIXME: in BaseController.setWidget also add children?
@@ -217,6 +219,13 @@ export default {
         let childWidgets = this.getChildWidgets(widget)
         let count = rows * columns
 
+        /**
+         * If we have a data binding, this gets priority
+         */
+        if (this.dataBindingValues && Array.isArray(this.dataBindingValues)) {
+            count = this.dataBindingValues.length
+        }
+
         for (let i = 0; i < count; i++) {
                let marginRight = distanceX
                if (i % columns === columns -1) {
@@ -236,7 +245,6 @@ export default {
                         let copy = lang.clone(childWidget)
                         copy.inherited = childWidget.id
                         copy.id = childWidget.id + '-' + i
-                        this.addDataBinding(i, copy, widget)
                         let top = (childWidget.y - cntrBox.y) + offsetTop
                         let left = (childWidget.x - cntrBox.x) + offsetLeft
 
@@ -251,6 +259,17 @@ export default {
                             div: div
                         })
                         this.factory.createWidgetHTML(div, copy);
+
+                        /**
+                         * We also set the databinging value here!
+                         */
+                        let uiWidget =  this.factory.getUIWidgetByID(copy.id)
+                        if (uiWidget) {
+                            let dbValue = this.getDataBindingValue(i, copy, widget)
+                            if (dbValue) {
+                                uiWidget.setDataBinding(dbValue.variable, dbValue.value)
+                            }
+                        }
                     })
                 }
         }
@@ -263,26 +282,21 @@ export default {
       }
     },
 
-    addDataBinding (i, child, widget) {
+    getDataBindingValue (i, child, widget) {
         if (widget.props.data && child.props.databinding && child.props.databinding.default){
-            if (widget.props.data && widget.props.data.length > 1) {
-                let header = widget.props.data[0]
-                let row = widget.props.data[i + 1]
-                if (row) {
-                    let colName = child.props.databinding.default
-                    let col = header.indexOf(colName)
-                    let value = row[col]
-                    if (value != undefined) {
-                        let label = child.props.label
-                        if (label.indexOf("{0}") >= 0) {
-                            label = label.replace("{0}", value);
-                        } else {
-                            label = value
-                        }
-                        child.props.label = label
-                    }
+            let key = child.props.databinding.default
+            /**
+             * Data Binding has priority
+             */
+            if (this.dataBindingValues && this.dataBindingValues.length > i) {            
+                let row = this.dataBindingValues[i]
+                // we should do here some xpath...
+                let value = row[key]
+                return {
+                    variable: key,
+                    value: value
                 }
-            }
+            } 
         }
     },
 
@@ -366,10 +380,47 @@ export default {
     setValue () {},
 
     getState () {
-      return {};
+      if (this.dataBindingFromExternal) {
+        return {
+            'dataBindingValues': this.dataBindingValues
+        };
+      }
     },
 
-    setState () {}
+    setState (state) {
+        if (state && state.dataBindingValues) {
+            this.dataBindingValues = state.dataBindingValues
+            if (this.model) {
+                this.render(this.model, this.style, this._scaleX, this._scaleY)
+            }
+        }
+    },
+
+    _setDataBindingValue (v) {
+      this.dataBindingValues = v
+      this.dataBindingFromExternal = true
+      this.render(this.model, this.style, this._scaleX, this._scaleY)
+    },
+
+    setDataBindingFromTable (widget) {
+        if (!this.dataBindingValues && !this.databindingInitedFromTable) {
+             if (widget.props.data && widget.props.data.length > 1) {
+                let data = widget.props.data
+                this.dataBindingValues = []
+                let header = widget.props.data[0]
+                for (let r=1; r < data.length; r++) {
+                    let row = {}
+                    for (let c=0; c < header.length; c++) {
+                        let col = header[c]
+                        row[col] = data[r][c]
+                    }
+                    this.dataBindingValues.push(row)
+                }
+                this.databindingInitedFromTable = true
+             }
+        }
+    }
+
   },
   mounted() {}
 };
