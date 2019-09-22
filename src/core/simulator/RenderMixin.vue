@@ -270,7 +270,11 @@ export default {
 				var uiWidget = this.renderFactory.getUIWidget(widget);
 				if(uiWidget){
 					uiWidget.onScreenRendered();
-					this.initDataBinding(uiWidget, screen);
+					/**
+					 * Since 2.1.1 we render we do the databinding directly in
+					 * createWidget()
+					 */
+					//this.initDataBinding(uiWidget, screen);
 				}
 			}
 		},
@@ -340,6 +344,15 @@ export default {
 			div.appendChild(w);
 
 			/**
+			 * 2.1.1 Do the data binding here, so that the repeater will
+			 * return the correct children
+			 */
+			let uiWidget = this.renderFactory.getUIWidget(widget);
+			if (uiWidget){
+				this.initDataBinding(uiWidget, screen);
+			}
+
+			/**
 			 * Wire shit together
 			 */
 			this.wireWidget(widget, screen, screenId, w)
@@ -348,10 +361,15 @@ export default {
 			 * For container widgets we wire all the children and add
 			 * them to the model.
 			 */
+
 			if (widget.isContainer){
-				var uiWidget = this.renderFactory.getUIWidget(widget);
-				if (uiWidget){
-					let children = uiWidget.getChildren()
+				let cntrWidget = this.renderFactory.getUIWidget(widget);
+				if (cntrWidget){
+					/**
+					 * Get list of 'virtual' elements, plus the div so 
+					 * we can wire stuff together
+					 */
+					let children = cntrWidget.getChildren()
 					children.forEach(child => {
 						this.wireWidget(child.widget, screen, screenId, child.div)
 
@@ -374,7 +392,7 @@ export default {
 			var action = this.getActionsForWidget(widget);
 			var uiWidget = this.renderFactory.getUIWidget(widget);
 			var hasGestures = this.hasGestures(lines);
-		
+
 			if(action || lines){
 				css.add(w, "MatcSimulatorClickable");	
 				//css.add(w, "MatcWidgetNoTouch");
@@ -451,7 +469,6 @@ export default {
 				this.tempOwn(uiWidget.on("mouseout", lang.hitch(this, "onWidgetMouseOut", screenId, widget.id)));
 				
 			} else {
-				
 				/**
 				 * Wire normal widget as *CLICK* so that scrolling still works
 				 * 
@@ -468,7 +485,6 @@ export default {
 				} else {
 					this.tempOwn(on(w, touch.click, lang.hitch(this, "onWidgetClick", screenId, widget.id)));
 				}
-				
 				/**
 				 * Hover Effects for DOM nodes
 				 */
@@ -484,11 +500,9 @@ export default {
 			}
 			
 			var lines = this.getFromLines(widget);
-			//console.debug('wireScrollWidget', widget, lines)
 			if (lines && lines.length > 0){
 				let line = this.getLineForGesture(lines, "scroll");
 				if (line){
-					console.debug('wireScrollWidget() > wire ', line, widget.name)
 					this._scrollWidgets.push({
 						w:widget,
 						l:line

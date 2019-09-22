@@ -185,6 +185,10 @@ export default {
 			this.log("WidgetClick",screenID, widgetID, e);
 			
 			/**
+			 * Add here also a call to flushOutputDataBinding()???
+			 */
+			
+			/**
 			 * Dispatch Screen Line?
 			 */
 			this.onScreenClickFromWidget(screenID, widgetID, e);

@@ -11,7 +11,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v2.1.0</div>
+      <div class="MatcSimulatorVersion">v2.1.1</div>
     </div>
   </div>
 </template>
@@ -492,9 +492,6 @@ export default {
 					}
 					
 				}
-				
-				
-				
 			}
 		},
 		
@@ -506,6 +503,8 @@ export default {
 		},
 		
 		executeLine (screenID, widgetID, line){
+			this.flushOutputDataBinding(screenID, widgetID)
+	
 			// prevent looping animation to run 4ever
 			if (this.isDestroyed) {
 				return;
@@ -528,7 +527,7 @@ export default {
 					/**
 					 * We might have a logic widget in here
 					 */
-					var widget= this.model.widgets[line.to];
+					let widget = this.model.widgets[line.to];
 					if(widget){
 						this.logLine(line, screenID);
 						this.executeLogic(screenID, widgetID, widget, line);						

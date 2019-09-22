@@ -59,7 +59,12 @@ export default {
 
 		_showRepeater (model){
 			this._renderButton("Data", "mdi mdi-table-large", "_renderTableDialog");
-			this._renderDataBinding(model);
+			this._renderDataBinding(model, false, 'default');
+			this._renderDataBinding(model, false, 'output');
+		},
+
+		_showButton (model){
+			this._renderDataBinding(model, false);
 		},
 		
 		_showStepper (model){

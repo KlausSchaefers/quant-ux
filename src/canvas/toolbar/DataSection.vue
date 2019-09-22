@@ -581,8 +581,7 @@ export default {
 			this._renderColor('Border Color','<span class="mdi mdi-border-color"></span>',model.style.borderBottomColor, "borderBottomColor" , null, true);
 		},
 
-		_renderDataBinding (widget){
-			
+		_renderDataBinding (widget, hasIgnoreState = true, key = 'default'){
 			var icon = "mdi mdi-database-plus";
 			var txt = "Add Data Binding";
 			
@@ -590,6 +589,21 @@ export default {
 			if(dataBinding && dataBinding["default"]){
 				icon = "mdi mdi-database";
 				txt = dataBinding["default"];
+			}
+
+			if(dataBinding && dataBinding["input"]){
+				icon = "mdi mdi-database";
+				txt = dataBinding["input"];
+			}
+
+			if(key === 'output'){
+				if (dataBinding && dataBinding["output"]) {
+					icon = "mdi mdi-note-outline";
+					txt = dataBinding["output"];
+				} else {
+					icon = "mdi mdi-note-plus-outline";
+					txt = "Add Output";
+				}
 			}
 			
 			var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);		
@@ -601,10 +615,11 @@ export default {
 			
 		
 			this.db.span("caret").build(cntr);	
-			this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showDataBindingDialog", widget, dataBinding)));
+			this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showDataBindingDialog", widget, dataBinding, key)));
 
-			
-			this._renderIgnoreState(widget);
+			if (hasIgnoreState) {
+				this._renderIgnoreState(widget);
+			}
 		},
 		
 		_renderIgnoreState (widget){
@@ -661,7 +676,7 @@ export default {
 		 * Table
 		 **********************************************************************/
 
-		_showDataBindingDialog (widget, dataBinding){		
+		_showDataBindingDialog (widget, dataBinding, key){		
 			
 			var variables = this.getAllAppVariables();
 			var hints = this.getHintsAppVariables();
@@ -678,8 +693,8 @@ export default {
 			scroller.placeAt(cntr);
 			
 			var list = this.$new(InputList, {"check" : "single", "remove" : false, checkNewOption: true, hints: hints});
-			if(dataBinding && dataBinding["default"]){
-				list.setSelected(dataBinding["default"]);
+			if(dataBinding && dataBinding[key]){
+				list.setSelected(dataBinding[key]);
 			}
 			list.setOptions(variables);
 			
@@ -692,24 +707,29 @@ export default {
 			
 			var d = new Dialog({overflow:true});
 			
-			d.own(on(write, touch.press, lang.hitch(this,"setDataBinding", d, list, widget)));
+			d.own(on(write, touch.press, lang.hitch(this,"setDataBinding", d, list, widget, key)));
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			d.own(on(d, "close", function(){
 				list.destroy();
 			}));
 			d.popup(popup, this.cntr);
-			
-			
 		},
 		
-		setDataBinding (d,list){		
-			var databinding = null;
+		setDataBinding (d, list, widget, key){
+			/**
+			 * Since 2.1.1 we have here also mutliple values. So we have to update
+			 * the databinding object and not simplz create a new one.
+			 */
+			let databinding = this.getDataBinding(widget)
+			if (!databinding) {
+				databinding = {}
+			}
 			var variable = list.getSelected();
-			if(variable){
-				databinding = {
-					"default" : variable
-				};
-			} 
+			if (variable){
+				databinding[key] = variable
+			} else {
+				delete databinding[key]
+			}
 			this.emit("propertyChange", "databinding", databinding);			
 			d.close();			
 		},
@@ -1004,7 +1024,7 @@ export default {
 		_renderIconDialog (e){
 			this.stopEvent(e);
 
-			var popup = this.db.div("MatcDialogXL MatcPadding").build();
+			var popup = this.db.div("MatcDialogXXL MatcPadding").build();
 
 
 			var bar = this.db.div("MatcRight").build(popup);

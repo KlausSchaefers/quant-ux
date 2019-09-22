@@ -164,7 +164,8 @@ export default {
       this.model = widget;
       this.setDataBindingFromTable(widget)
       /**
-       * Property changes will not send children.
+       * The widgets come from the getInhereitedMethod... 
+       * Property changes will not always send children.
        * FIXME: in BaseController.setWidget also add children?
        */
       if (widget.children) {
@@ -227,6 +228,11 @@ export default {
         }
 
         for (let i = 0; i < count; i++) {
+                /**
+                 * We should have here something like smart rendering because in
+                 * this approach redraws all the widget for each rendering, also in the 
+                 * fast rendering in canvas.
+                 */
                let marginRight = distanceX
                if (i % columns === columns -1) {
                    marginRight = 0;
@@ -245,6 +251,7 @@ export default {
                         let copy = lang.clone(childWidget)
                         copy.inherited = childWidget.id
                         copy.id = childWidget.id + '-' + i
+                        copy.dataBingingIndex = i
                         let top = (childWidget.y - cntrBox.y) + offsetTop
                         let left = (childWidget.x - cntrBox.x) + offsetLeft
 
@@ -400,6 +407,12 @@ export default {
       this.dataBindingValues = v
       this.dataBindingFromExternal = true
       this.render(this.model, this.style, this._scaleX, this._scaleY)
+    },
+
+    getOutputDataBindingValue (index) {
+        if (this.dataBindingValues) {
+            return this.dataBindingValues[index]
+        }
     },
 
     setDataBindingFromTable (widget) {

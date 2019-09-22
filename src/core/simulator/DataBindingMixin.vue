@@ -117,6 +117,35 @@ export default {
 					}
 				}
 			}
+		},
+
+		flushOutputDataBinding (screenID, widgetID) {
+			/**
+			 * This is needed for clicks in containers. As containers can have 
+			 * an output databinding, we want to set here the correct value,
+			 * for all subsequent requests.
+			 * This methid is onlz triggered of there are lines. If we want some
+			 * clikc update we have to also onWidgetClicked() method
+			 */
+			let widget = this.model.widgets[widgetID]
+			if (widget && widget.container) {
+				let cntrWidget = this.model.widgets[widget.container]
+				if (cntrWidget) {
+					/**
+					 * If there is a container and it has an output defined,
+					 * we will read the value of the n-th child and update
+					 * the data binding. 
+					 */
+					let uiWidget = this.renderFactory.getUIWidgetByID(widget.container)
+					let databindingSettings = this.getDataBinding(cntrWidget)
+					if (uiWidget && databindingSettings && databindingSettings.output) {
+						let value = uiWidget.getOutputDataBindingValue(widget.dataBingingIndex)
+						if (value != null && value !== undefined) {
+							this.onUIWidgetDataBinding(screenID, widgetID, databindingSettings.output, value)
+						}
+					}
+				}
+			}
 		}
     }
 }

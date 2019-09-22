@@ -162,6 +162,12 @@ export default {
     },
 
     /**
+     * Widgets can have some kind of output value!
+     */
+    getOutputDataBindingValue () {
+    },
+
+    /**
      * Can be overwritten by children to have proper type conversion
      */
     _setDataBindingValue: function(v) {
@@ -1062,7 +1068,7 @@ export default {
     },
 
     isQDate: function(d) {
-      return d.d != null && d.m != null && d.y != null;
+      return d && d.d != null && d.m != null && d.y != null;
     },
 
     createNow: function() {
