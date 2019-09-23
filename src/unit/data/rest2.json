@@ -28,8 +28,9 @@
       "props" : {
         "start" : true
       },
-      "children" : [ "w10034", "w10001", "w10023" ],
-      "id" : "s10000"
+      "children" : [ "w10001", "w10023", "w10034" ],
+      "id" : "s10000",
+      "modified" : 1569262132553
     },
     "s10002" : {
       "x" : 3145,
@@ -56,8 +57,8 @@
       "modified" : 1568746866507
     },
     "s10014" : {
-      "x" : 3714,
-      "y" : 2264,
+      "x" : 3736,
+      "y" : 3022,
       "h" : 668,
       "w" : 376,
       "name" : "Screen 2",
@@ -75,9 +76,9 @@
       "props" : {
         "start" : false
       },
-      "children" : [ "w10045", "w10015", "w10018", "w10017" ],
+      "children" : [ "w10045", "w10018", "w10017", "w10048" ],
       "id" : "s10014",
-      "modified" : 1568747366270
+      "modified" : 1569262047053
     },
     "s10021" : {
       "x" : 3146,
@@ -124,6 +125,52 @@
       "children" : [ "w10036", "w10040", "w10041", "w10042" ],
       "id" : "s10035",
       "modified" : 1568755598490
+    },
+    "s10052" : {
+      "x" : 4200,
+      "y" : 2264,
+      "h" : 668,
+      "w" : 376,
+      "name" : "Screen 5",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#ffffff"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 667
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : { },
+      "children" : [ "w10053", "w10055", "w10056", "w10054" ],
+      "id" : "s10052",
+      "modified" : 1569262050423
+    },
+    "s10058" : {
+      "x" : 3746,
+      "y" : 1448,
+      "h" : 667,
+      "w" : 375,
+      "name" : "404",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#de4b4b"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 667
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : false
+      },
+      "children" : [ "w10059", "w10062" ],
+      "id" : "s10058",
+      "modified" : 1569262137197
     }
   },
   "widgets" : {
@@ -273,7 +320,7 @@
         "background" : null
       },
       "created" : 1568746759885,
-      "modified" : 1569181157542
+      "modified" : 1569185512030
     },
     "w10008" : {
       "type" : "Label",
@@ -452,46 +499,11 @@
       "created" : 1568746881356,
       "modified" : 1568749303865
     },
-    "w10015" : {
-      "id" : "w10015",
-      "type" : "Image",
-      "name" : "Image",
-      "x" : 3750,
-      "y" : 2358,
-      "w" : 284,
-      "h" : 192,
-      "z" : 9,
-      "props" : { },
-      "has" : {
-        "onclick" : true,
-        "backgroundImage" : true,
-        "border" : true
-      },
-      "actions" : { },
-      "style" : {
-        "borderTopRightRadius" : 0,
-        "borderTopLeftRadius" : 0,
-        "borderBottomRightRadius" : 0,
-        "borderBottomLeftRadius" : 0,
-        "borderTopWidth" : 0,
-        "borderBottomWidth" : 0,
-        "borderRightWidth" : 0,
-        "borderLeftWidth" : 0,
-        "borderTopColor" : "#333333",
-        "borderBottomColor" : "#333333",
-        "borderRightColor" : "#333333",
-        "borderLeftColor" : "#333333",
-        "backgroundImage" : null
-      },
-      "created" : 1568747368335,
-      "copyOf" : "w10012",
-      "modified" : 1569183015170
-    },
     "w10017" : {
       "type" : "Label",
       "name" : "Label",
-      "x" : 3750,
-      "y" : 2568,
+      "x" : 3772,
+      "y" : 3326,
       "w" : 155,
       "h" : 26,
       "z" : 4,
@@ -522,8 +534,8 @@
     "w10018" : {
       "type" : "Label",
       "name" : "Label 1",
-      "x" : 3760,
-      "y" : 2648,
+      "x" : 3782,
+      "y" : 3406,
       "w" : 169,
       "h" : 26,
       "z" : 5,
@@ -771,7 +783,7 @@
       "h" : 564,
       "z" : 0,
       "props" : {
-        "data" : [ [ "name", "description", "price" ], [ "A", "aaaa  aaa", "1" ], [ "B", "bbb bbb", "2" ], [ "C", "cccc ccc", "3" ], [ "D", "dddd ", "4" ] ],
+        "data" : [ [ "name", "description", "price", "img" ], [ "A", "aaaa  aaa", "1", "https://s.s-bol.com/imgbase0/imagebase3/large/FC/8/6/0/4/9000000011634068.jpg\"" ], [ "B", "bbb bbb", "2", "https://s.s-bol.com/imgbase0/imagebase3/large/FC/8/6/0/4/9000000011634068.jpg\"" ], [ "C", "cccc ccc", "3", "https://s.s-bol.com/imgbase0/imagebase3/large/FC/8/6/0/4/9000000011634068.jpg\"" ], [ "D", "dddd ", "4", "https://s.s-bol.com/imgbase0/imagebase3/large/FC/8/6/0/4/9000000011634068.jpg\"" ] ],
         "auto" : false,
         "rows" : 10,
         "columns" : 2,
@@ -781,7 +793,8 @@
         "ignoreStateOnPageLoad" : false,
         "databinding" : {
           "output" : "repeaterOutput"
-        }
+        },
+        "widths" : [ 100, 100, 100, 436 ]
       },
       "isContainer" : true,
       "has" : {
@@ -805,7 +818,7 @@
         "background" : null
       },
       "created" : 1568749329394,
-      "modified" : 1569184923465,
+      "modified" : 1569262378045,
       "copyOf" : "w10007"
     },
     "w10028" : {
@@ -1044,9 +1057,9 @@
     "w10034" : {
       "type" : "Button",
       "name" : "Box",
-      "x" : 2595,
+      "x" : 2518,
       "y" : 2350,
-      "w" : 200,
+      "w" : 331,
       "h" : 88,
       "z" : 14,
       "props" : {
@@ -1087,7 +1100,7 @@
       },
       "id" : "w10034",
       "created" : 1568755578793,
-      "modified" : 1568757007998,
+      "modified" : 1569186089601,
       "hover" : {
         "color" : "#d83131",
         "background" : "#d72121",
@@ -1311,17 +1324,17 @@
         "borderRightColor" : "#333333",
         "borderLeftColor" : "#333333",
         "color" : "#333333",
-        "icon" : "mdi mdi-arrow-right"
+        "icon" : "mdi mdi-note-plus-outline"
       },
       "created" : 1569180042339,
-      "modified" : 1569180150156
+      "modified" : 1569185426149
     },
     "w10045" : {
       "id" : "w10045",
       "type" : "Button",
       "name" : "Border Button",
-      "x" : 3750,
-      "y" : 2286,
+      "x" : 3772,
+      "y" : 3044,
       "w" : 100,
       "h" : 40,
       "z" : 22,
@@ -1368,6 +1381,323 @@
       "action" : {
         "type" : "back"
       }
+    },
+    "w10048" : {
+      "id" : "w10048",
+      "type" : "UploadPreview",
+      "name" : "Camerea Image",
+      "x" : 3772,
+      "y" : 3118,
+      "w" : 179,
+      "h" : 180,
+      "z" : 23,
+      "props" : {
+        "databinding" : {
+          "default" : "repeaterOutput.img"
+        }
+      },
+      "has" : {
+        "onclick" : true,
+        "border" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "backgroundImage" : null
+      },
+      "created" : 1569261555664,
+      "modified" : 1569261591552
+    },
+    "w10049" : {
+      "id" : "w10049",
+      "name" : "Rest",
+      "type" : "Rest",
+      "x" : 3764,
+      "y" : 2400,
+      "w" : 80,
+      "h" : 90,
+      "props" : {
+        "label" : "Rest",
+        "rest" : {
+          "method" : "GET",
+          "url" : "http://localhost:8081/public/test/products_${repeaterOutput.id}.json",
+          "token" : "",
+          "input" : {
+            "type" : "JSON",
+            "fileDataBinding" : "",
+            "template" : ""
+          },
+          "output" : {
+            "databinding" : "selectedProduct",
+            "template" : "",
+            "type" : "JSON",
+            "hints" : {
+              "selectedProduct_id" : "Object",
+              "selectedProduct_name" : "Object",
+              "selectedProduct_description" : "Object",
+              "selectedProduct_price" : "Object",
+              "selectedProduct_img" : "Object"
+            }
+          }
+        }
+      },
+      "has" : {
+        "rest" : true
+      },
+      "style" : {
+        "background" : "#777"
+      },
+      "z" : 24,
+      "created" : 1569261829324,
+      "modified" : 1569262024831,
+      "copyOf" : "w10003"
+    },
+    "w10053" : {
+      "id" : "w10053",
+      "type" : "Button",
+      "name" : "Border Button",
+      "x" : 4236,
+      "y" : 2286,
+      "w" : 100,
+      "h" : 40,
+      "z" : 22,
+      "props" : {
+        "label" : "Back"
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "onclick" : true,
+        "label" : true,
+        "padding" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ffffff",
+        "fontSize" : 14,
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "verticalAlign" : "middle"
+      },
+      "created" : 1569183013134,
+      "modified" : 1568749271298,
+      "copyOf" : "w10045",
+      "action" : {
+        "type" : "back"
+      }
+    },
+    "w10054" : {
+      "type" : "Label",
+      "name" : "Label 1",
+      "x" : 4236,
+      "y" : 2622,
+      "w" : 169,
+      "h" : 26,
+      "z" : 5,
+      "props" : {
+        "label" : "Description",
+        "databinding" : {
+          "default" : "selectedProduct.description"
+        }
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 20,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333"
+      },
+      "id" : "w10054",
+      "created" : 1568747382986,
+      "modified" : 1569262105789,
+      "copyOf" : "w10018"
+    },
+    "w10055" : {
+      "type" : "Label",
+      "name" : "Label",
+      "x" : 4236,
+      "y" : 2568,
+      "w" : 155,
+      "h" : 26,
+      "z" : 4,
+      "props" : {
+        "label" : "Name",
+        "databinding" : {
+          "default" : "selectedProduct.name"
+        }
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : "Auto",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333"
+      },
+      "id" : "w10055",
+      "created" : 1568747382984,
+      "modified" : 1569262092423,
+      "copyOf" : "w10017"
+    },
+    "w10056" : {
+      "id" : "w10056",
+      "type" : "UploadPreview",
+      "name" : "Camerea Image",
+      "x" : 4236,
+      "y" : 2360,
+      "w" : 179,
+      "h" : 180,
+      "z" : 23,
+      "props" : {
+        "databinding" : {
+          "default" : "selectedProduct.img"
+        }
+      },
+      "has" : {
+        "onclick" : true,
+        "border" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "backgroundImage" : null
+      },
+      "created" : 1569261555664,
+      "modified" : 1569262075967,
+      "copyOf" : "w10048"
+    },
+    "w10059" : {
+      "type" : "Label",
+      "name" : "Label",
+      "x" : 3802,
+      "y" : 1714,
+      "w" : 280,
+      "h" : 126,
+      "z" : 25,
+      "props" : {
+        "label" : "404"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : "Auto",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#ffffff"
+      },
+      "id" : "w10059",
+      "created" : 1569262139885,
+      "modified" : 1569262145621
+    },
+    "w10062" : {
+      "id" : "w10062",
+      "type" : "Button",
+      "name" : "Border Button",
+      "x" : 3782,
+      "y" : 1470,
+      "w" : 100,
+      "h" : 40,
+      "z" : 26,
+      "props" : {
+        "label" : "Back"
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "onclick" : true,
+        "label" : true,
+        "padding" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#ffffff",
+        "borderBottomColor" : "#ffffff",
+        "borderRightColor" : "#ffffff",
+        "borderLeftColor" : "#ffffff",
+        "background" : "#de4b4b",
+        "fontSize" : 14,
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#ffffff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "verticalAlign" : "middle"
+      },
+      "created" : 1569262195235,
+      "modified" : 1569262203433,
+      "copyOf" : "w10053",
+      "action" : {
+        "type" : "back"
+      }
     }
   },
   "lines" : {
@@ -1384,14 +1714,6 @@
       "to" : "s10002",
       "points" : [ ],
       "event" : "click"
-    },
-    "l10020" : {
-      "id" : "l10020",
-      "from" : "w10019",
-      "to" : "s10014",
-      "points" : [ ],
-      "event" : "click",
-      "hidden" : false
     },
     "l10024" : {
       "id" : "l10024",
@@ -1414,16 +1736,74 @@
       "from" : "w10033",
       "to" : "s10014",
       "points" : [ {
-        "x" : 3906,
+        "x" : 3606,
         "y" : 3156,
         "w" : 2,
-        "h" : 2
+        "h" : -2,
+        "box" : {
+          "y" : {
+            "x" : 1741,
+            "y" : 1578,
+            "d" : "right",
+            "h" : 0,
+            "w" : 0
+          }
+        },
+        "d" : false
       } ],
       "event" : "click"
+    },
+    "l10047" : {
+      "id" : "l10047",
+      "from" : "s10000",
+      "to" : "s10035",
+      "points" : [ ],
+      "event" : "swipeRight",
+      "animation" : "slideRight",
+      "duration" : 250
+    },
+    "l10050" : {
+      "id" : "l10050",
+      "from" : "w10019",
+      "to" : "w10049",
+      "points" : [ ],
+      "event" : "click"
+    },
+    "l10060" : {
+      "id" : "l10060",
+      "from" : "w10049",
+      "to" : "s10058",
+      "points" : [ ],
+      "event" : "click",
+      "rule" : {
+        "restResponseStatus" : "4xx",
+        "databinding" : null,
+        "widget" : null,
+        "operation" : null,
+        "value" : null,
+        "type" : "rest",
+        "operator" : null
+      }
+    },
+    "l10061" : {
+      "id" : "l10061",
+      "from" : "w10049",
+      "to" : "s10052",
+      "points" : [ ],
+      "event" : "click",
+      "rule" : {
+        "restResponseStatus" : "200",
+        "databinding" : null,
+        "widget" : null,
+        "operation" : null,
+        "value" : null,
+        "type" : "rest",
+        "operator" : null
+      }
     }
   },
-  "lastUUID" : 10047,
-  "lastUpdate" : 1569184923483,
+  "lastUUID" : 10064,
+  "lastUpdate" : 1569262378062,
   "created" : 1568746481249,
   "startScreen" : "",
   "grid" : {
@@ -1435,10 +1815,10 @@
     "enabled" : false
   },
   "domain" : "Quant-UX.com",
-  "size" : 22551,
-  "isDirty" : true,
+  "size" : 28404,
+  "isDirty" : false,
   "lastCategory" : "WireFrame",
-  "sizeBackup" : 16239,
-  "lastBackup" : 1569184918715,
+  "sizeBackup" : 20145,
+  "lastBackup" : 1569262438896,
   "id" : "5d812bf1e2fb537e4c066e18"
 }

@@ -199,7 +199,7 @@ class RestEngine {
     }
 
     parseString (s, result) {
-        let matches = s.match(/\$\{(\w*)\}/g)
+        let matches = s.match(/\$\{(.*)\}/g)
         if (matches) {
             matches.forEach(m => {
                 result.push(m.substring(2, m.length -1))

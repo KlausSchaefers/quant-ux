@@ -96,7 +96,7 @@ export default {
 		},
 
 		_showUploadPreview (model){
-			this._renderDataBinding(model);
+			this._renderDataBinding(model, false);
 		},
 
 		_showIconToggle (model){
