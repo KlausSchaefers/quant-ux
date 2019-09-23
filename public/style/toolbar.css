@@ -73,8 +73,8 @@
 }
 
 .MatcToolbarButton:HOVER{
-	background: #1c78d3;
-	border-color:#1c78d3;
+	background: #1251a3;
+	border-color:#1251a3;
 }
 
 
@@ -624,19 +624,16 @@
  }
  
 .MatcToobarHomeSection:HOVER{
- 	background: #1c78d3;
+ 	background: #1251a3;
 }
-
 
 .MatcToobarHomeSection .MatcToolbarPopUp{
  	width: 200px;
 } 
 
-
 /****************************************************
  * Preview Section
  ****************************************************/
- 
  
 .MatcToobarPreviewSection{
 	position: fixed;
