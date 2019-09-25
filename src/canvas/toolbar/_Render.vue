@@ -63,9 +63,9 @@ export default {
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider"],
-			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload"],
+			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
-			hasValign: ["Box", "Button", "Label", "Upload"],
+			hasValign: ["Box", "Button", "Label", "Upload", "WebLink"],
 			colorWidgets: [],
         }
     },
@@ -262,7 +262,6 @@ export default {
 			this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span> <label class="MatcToolbarLabel">Responsive Resize</label>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);
 
 			if(this.user.role=="admin"){
-				this.showRestTool = true
 				this.createSpacer(this.templateDiv);
 				this.createThemeBtn = this.createToolBarItem('<span class="glyphicon glyphicon-cloud-download"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.templateDiv);
 			}
@@ -395,7 +394,7 @@ export default {
 			this.addTooltip(this.textTool, "Create Text (T)", "vommondToolTipLeft");
 			this.addTooltip(this.rectangleTool, "Create Rectangle (R)", "vommondToolTipLeft");
 			this.addTooltip(this.addLogicSection, "Create Logic Element to split links", "vommondToolTipLeft");
-			this.addTooltip(this.addRestSection, "Invoke some web service", "vommondToolTipLeft");
+			this.addTooltip(this.addRestSection, "Web Service (BETA)", "vommondToolTipLeft");
 			this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
 
 			this.addTooltip(this.undo, "Undo (CTRL+Z)");

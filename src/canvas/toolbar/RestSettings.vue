@@ -363,25 +363,30 @@ export default {
             this.onChange()
         },
         visitResult (object, result, prefix) {
-            if (prefix.length > 300) {
-                return
-            }
-            if (Array.isArray(object)) {
-                let path = prefix + '[0]'
-                result[path] = "Array"
-                object.forEach(o => {
-                    this.visitResult(o, result, path)
-                })
-                return
-            } 
-            if (lang.isObject(object)) {
-                for (let key in object) {
-                    let o = object[key]
-                    let path = prefix + '_' + key
-                    result[path] = "Object"                   
-                    this.visitResult(o, result, path)
+            try {
+                if (prefix.length > 300) {
+                    return
                 }
-                return
+                if (Array.isArray(object)) {
+                    let path = prefix + '[0]'
+                    result[path] = "Array"
+                    object.forEach(o => {
+                        this.visitResult(o, result, path)
+                    })
+                    return
+                } 
+                if (lang.isObject(object)) {
+                    for (let key in object) {
+                        let o = object[key]
+                        let path = prefix + '_' + key
+                        result[path] = "Object"                   
+                        this.visitResult(o, result, path)
+                    }
+                    return
+                }
+            } catch (e) {
+                console.error(e)
+                console.error(e.stack)
             }
         },
         async run () {

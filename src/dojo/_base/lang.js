@@ -35,7 +35,7 @@ class lang {
 
     isObject (it) {
         return it !== undefined &&
-            (it === null || typeof it == "object" || this.isArray(it)); // Boolean
+            (it === null || typeof it == "object" || Array.isArray(it)); // Boolean
     }
 
     clone (obj) {

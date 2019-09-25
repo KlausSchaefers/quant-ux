@@ -157,7 +157,7 @@ export default {
             value: false, 
             active: true, 
 			redirectAfterExit: true,
-			showRestTool: false
+			showRestTool: true
         }
     },
 	components: {},

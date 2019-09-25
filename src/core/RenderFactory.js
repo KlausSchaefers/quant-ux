@@ -43,6 +43,7 @@ import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
 import Upload from 'core/widgets/Upload'
 import UploadPreview from 'core/widgets/UploadPreview'
+import WebLink from 'core/widgets/WebLink'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -372,6 +373,12 @@ export default class RenderFactory extends Core {
 		repeater.setSymbol(this.isSymbol)
 		this._uiWidgets[model.id] = repeater;
 		this._containerWidgets[model.id] = repeater;
+	}
+
+	_createWebLink (parent, model) {
+		var upload = this.$new(WebLink);
+		upload.placeAt(parent);
+		this._uiWidgets[model.id] = upload;
 	}
 
 	_createUpload (parent, model) {

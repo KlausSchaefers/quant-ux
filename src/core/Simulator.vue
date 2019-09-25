@@ -2,16 +2,63 @@
   <div class="MatcSimulator">
     <div class="MatcSimulatorLoading" data-dojo-attach-point="splashNode">
       <div class="MatcSimulatorLoadingCntr">
-        <div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation" data-dojo-attach-point="splashLogo" ></div>
-        <div data-dojo-attach-point="loadNode"></div>
-
-        <div class="MatcSimulatorStartBtn hidden" data-dojo-attach-point="startNode">Test Prototype</div>
+        	<div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation" data-dojo-attach-point="splashLogo" v-show="step == 0" ></div>
+	
+     		<transition name="fade">
+				<div class="MatcSimulatorContent" v-if="step === 2">
+					<div class="MatcSimulatorContentCntr">
+						<h2>Welcome!</h2>
+						<p v-if="settings.description">
+							{{settings.description}}
+						</p>
+						<p v-else>
+							You were invited for a usability test of the "{{model.name}}" application. 
+							You can try out the prototype by clicking on the <b>Start Prototype</b> button. 
+						</p>
+						<p>
+							This is a usability test and your interaction will be stored to make the design better.
+        					We <u>do not store</u> any personal information about you.
+						</p>
+					</div>
+					<div class="MatcMarginTop">
+						<div  class="MatcButton MatcSimulatorStartBtn" @click="onStart()" v-if="getUserTasks().length === 0">
+							Start Prototype
+						</div>
+						<div class="MatcButton MatcSimulatorStartBtn" @click="step = 3" v-else>
+							Show Tasks
+						</div>	
+					</div>		
+				</div>
+				<div class="MatcSimulatorContent" v-if="step === 3">
+					<div class="MatcSimulatorContentCntr">
+					<h2>Tasks!</h2>
+					<p>
+						Please perfrom the following steps! 
+					</p>
+					<div v-for="t in getUserTasks()" :key="t.id">
+						<h3>{{t.name}}</h3>
+						<div class="MatcTestTaskDescription">
+							{{t.description}}
+						</div>
+					</div>
+					</div>
+					
+					<div class="MatcMarginTop">
+					<div class="MatcButton MatcSimulatorStartBtn" @click="onStart()">
+						Start Prototype
+					</div>
+				</div>
+			</div>
+     		</transition>
+		
+        	<div class="MatcSimulatorStartBtn" data-dojo-attach-point="startNode" v-show="step === 4">Test Prototype</div>
+	
       </div>
-      <div class="MatcSimulatorPrivacy hidden" data-dojo-attach-point="privacyNode">
+      <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4">
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v2.1.1</div>
+      <div class="MatcSimulatorVersion">v2.1.2</div>
     </div>
   </div>
 </template>
@@ -39,6 +86,7 @@ import AnimationMixin from 'core/simulator/AnimationMixin'
 import MouseMixin from 'core/simulator/MouseMixin'
 import DataBindingMixin from 'core/simulator/DataBindingMixin'
 import EventMixin from 'core/simulator/EventMixin'
+// import TaskMixin from 'core/simulator/TaskMixin'
 
 import Gestures from 'core/Gestures'
 
@@ -68,7 +116,10 @@ export default {
 			embedded: false,
 			live: false,
 			eventCount: 0,
-			maxEventCount: 1000
+			settings: null,
+			step: 0,
+			maxEventCount: 1000,
+			model: {}
         }
     },
     components: {},
@@ -111,8 +162,7 @@ export default {
 				
 				if(params.h){
 					this.setInvitation(params.h);
-					Services.getModelService().findAppByHash(params.h).then(app => this.setModel(app))
-					// this._doGet("rest/invitation/"+ params.h + "/app.json", lang.hitch(this, "setModel"));
+					Services.getModelService().findAppByHash(params.h).then(app => this.loadSettings(app))
 				}
 				if(params.log &&  params.log != undefined){
 					if(params.log== "false"){
@@ -212,10 +262,18 @@ export default {
 			this._splashTime = new Date().getTime();		
 		},
 		
+		async loadSettings (model) {
+			if (this.hash && this.qr) {
+				let settings = await Services.getModelService().findTestByHash(model, this.hash)
+				this.settings = settings;
+				this.logger.log(-1,"loadSettings","enter >", this.settings);
+			}
+			this.setModel(model)
+		},
+
 		setModel (model){	
 			if (model == null) {
 				this.logger.error("setModel","exit > No model");
-				this.loadNode.innerHTML = "Sorry, invitation is not valid..."
 				location.href = location.protocol + "//" + location.host + "/404.html";
 			} else {
 				this.logger.log(1,"setModel","enter >" + model.id + " > splash : "+ this._splashTime);
@@ -224,22 +282,31 @@ export default {
 					this.preloadImages();
 				}
 				if(	this._splashTime > 0){
-					this.logger.log(2,"setModel","show splash");
+					
+					this.logger.log(-1,"setModel","show splash");
 					/**
 					 * If we can by splash screen make sure we show it long enough...
 					 */
-					var t = Math.max(4000 - (new Date().getTime() - this._splashTime),0);
-					var me = this;
-					setTimeout(function(){
-						css.add(me.loadNode, "hidden");
-						css.remove(me.startNode, "hidden");
-						css.remove(me.privacyNode, "hidden");
-						css.add(me.splashLogo, "hidden");
-					},t);
+					var t = Math.max(3000 - (new Date().getTime() - this._splashTime),0);
+					setTimeout(() => {
+						this.afterSplash()
+					}, t);
 					this.fullSreenListener = on(this.startNode, "click", lang.hitch(this, "onStartClick", model));	
 				} else {
 					this.startSimilator(model);
 				}
+			}
+		},
+
+		afterSplash () {
+			this.logger.log(-1,"afterSplash","enter", this.settings);
+			/**
+			 * 4 should not happen normally. Just o make sure ...
+			 */
+			this.step = 4
+			if (this.settings) {
+				this.step = 2
+				return
 			}
 		},
 		
@@ -283,6 +350,10 @@ export default {
 					this.setScreenId(screenId);
 				}
 			}
+		},
+
+		onStart (e) {
+			this.onStartClick(this.model, e)
 		},
 		
 		onStartClick (model, e){
@@ -869,6 +940,18 @@ export default {
 			}
 		},
 		
+		getUserTasks:function(){
+			var tasks = [];
+			if (this.settings.tasks && this.settings.tasks){
+				for(var i=0; i< this.settings.tasks.length; i++){
+					var task = this.settings.tasks[i];
+					if(task.description && task.description != "Enter a description here"){	
+						tasks.push(task);
+					}
+				}
+			}
+			return tasks;
+		},
 		  
 	    destroy (){
 			this.logger.log(-1,"destroy","enter");

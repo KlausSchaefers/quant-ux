@@ -663,10 +663,6 @@ export default {
 		},
 
 		setRest (d, settings) {
-			if (!settings.validate()) {
-				d.shake()
-				return;
-			}
 			let value = settings.getValue()
 			this.onProperyChanged('rest', value)
 			d.close()

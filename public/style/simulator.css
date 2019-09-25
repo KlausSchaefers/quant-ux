@@ -183,3 +183,38 @@ body{
  	left:10%;
  	text-align: left;
  }
+
+ .MatcSimulatorContent {
+	padding: 15px 20px;
+    line-height: 2;
+    width: 100%;
+    height: 500px;
+	text-align: left;
+	background: #fefefe;
+    border: 1px solid rgba(255,255,255,1);
+    color: #333;
+	border-radius: 5px;
+	position: relative;
+	top: -150px;
+	font-weight: 300;
+	font-size: 16px;
+	box-shadow: 0px 0px 10px rgba(0,0,0, 0.15);
+ }
+
+ .MatcSimulatorContentCntr {
+	height: calc(100% - 70px);
+	overflow: auto;
+ }
+
+
+ .MatcSimulatorContent .MatcSimulatorStartBtn{
+	width: 100%;
+	border: 1px solid #1c78d3;
+	font-size: 18px;
+	cursor: pointer;
+	transition: all 0.2s;
+ }
+
+ .MatcSimulatorContent .MatcSimulatorContentCntr h2 {
+	color: #333;
+ }

@@ -3,7 +3,6 @@
 
 export function getLines(model, selection) {
     let boundingBox = getBoundingBox(model, selection)
-    console.debug('Dis', model, selection, boundingBox)
     let xLines = {}
     let yLines = {}
     selection.forEach(id => {

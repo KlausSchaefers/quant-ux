@@ -170,7 +170,7 @@ class RestEngine {
     createDefaultHeader(request) {
         if (request.input.type === 'JSON') {
             let headers = new Headers({
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             }, {
                 'Accept': 'application/json'
             }, {
