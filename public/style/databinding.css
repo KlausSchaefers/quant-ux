@@ -1,0 +1,35 @@
+.MatcDataBinding{
+    width: 800px;
+}
+
+.MatcDataBindingCheckCntr{
+    width: 30px;
+}
+
+.MatcDataBinding .MatcDialogTable {
+    overflow: auto;
+    height: 500px;
+}
+
+.MatcDataBinding .MatcDialogTable td {
+    height: 55px;
+}
+
+.MatcDataBindingVariableName {
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.MatcDataBindingNameCntr{
+    width: 600px;
+}
+
+.MatcDataBindingCheckCntr .mdi {
+    font-size: 24px;
+    color: #777
+}
+
+.MatcDialogTable tr:hover .MatcDataBindingCheckCntr .mdi {
+    color: #1973e8;
+}

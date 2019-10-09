@@ -574,6 +574,10 @@ export default {
 		},
 		
 		executeLine (screenID, widgetID, line){
+			/**
+			 * Make sure we flush the output binding in case
+			 * the widget is in a container
+			 */
 			this.flushOutputDataBinding(screenID, widgetID)
 	
 			// prevent looping animation to run 4ever

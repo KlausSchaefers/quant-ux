@@ -2,7 +2,12 @@
 <template>
      <div :class="['VommondInput', {'VommondInputOpenTop': top}]">
 		<!-- removed form because entremight trigger reloead -->
-		<input type="text" :class="['MatcIgnoreOnKeyPress', {'form-control': formControl}, {'vommondInlineEdit': inline}]"  data-dojo-attach-point="input" :placeholder="placeholder" autocomplete="false" >
+		<input 
+			type="text" 
+			:class="['MatcIgnoreOnKeyPress', {'form-control': formControl}, {'vommondInlineEdit': inline}]"  
+			data-dojo-attach-point="input" 
+			:placeholder="placeholder"
+			autocomplete="false" >
 		<ul class="" role="menu" data-dojo-attach-point="ul">		
 		</ul>
 	</div>
@@ -19,20 +24,16 @@ import Logger from 'common/Logger'
 
 export default {
     name: 'Input',
-    mixins:[DojoWidget],
+	mixins:[DojoWidget],
+	props:['fireOnBlur', 'top', 'placeholder', 'inline', 'formControl', 'hints'],
     data: function () {
         return {
-			fireOnBlur: false,
-			top: false,
-			placeholder: '',
-			inline: false,
-			formControl: false
+		
         }
     },
     components: {},
     methods: {
         postCreate: function(){
-			this.log = new Logger("Input");
 			this.own(on(this.input, "keyup", lang.hitch(this, "onKey")));
 			if (this.fireOnBlur) {
 				this.own(on(this.input, "blur", lang.hitch(this, "onBlur")));
@@ -99,6 +100,7 @@ export default {
 			var value = this.input.value;
 			if(value.length >=1){
 				value = value.toLowerCase();
+				
 				for(var i=0; i< this.hints.length; i++){
 					var hint = this.hints[i];
 					if(hint._label.indexOf(value)>=0){
@@ -115,10 +117,8 @@ export default {
 		},
 		
 		showSuggestion:function(suggestions){
-			
-			
 			if(!this.visible){
-				var pos =domGeom.position(this.input);
+				var pos = domGeom.position(this.input);
 				this.ul.style.width = pos.w + "px";
 				css.add(this.domNode, "VommondInputOpen");
 				this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this,"hideSuggestion"));
@@ -162,6 +162,10 @@ export default {
 			this.input.value = s.value;
 			this.emit('change', s.value)
 			this.hideSuggestion();
+		},
+
+		clear () {
+			this.setValue('')
 		},
 
 		setValue (value) {
@@ -209,8 +213,39 @@ export default {
 			this.hideSuggestion();
 			this.cleanUpTempListener();
 		}
-    }, 
+	},
+	watch: {
+		fireOnBlur (v) {
+			this.log.log(2, 'watch(fireOnBlur)', 'enter', v)
+			this.fireOnBlur = v
+		},
+		top (v) {
+			this.log.log(2, 'watch(top)', 'enter', v)
+			this.top = v
+		},
+		placeholder (v) {
+			this.log.log(2, 'watch(placeholder)', 'enter', v)
+			this.placeholder = v
+		},
+		inline (v) {
+			this.log.log(2, 'watch(inline)', 'enter', v)
+			this.inline = v
+		},
+		hints (v) {
+			this.log.log(2, 'watch(hints)', 'enter', v)
+			this.setHints(v)
+		},
+		formControl (v) {
+			this.log.log(2, 'watch(formControl)', 'enter', v)
+			this.formControl = v
+		}
+	},
     mounted () {
+		this.log = new Logger("Input");
+		if (this.hints) {
+			this.setHints(this.hints)
+		}
+		this.log.log(0, 'mounted', 'enter ')
     }
 }
 </script>

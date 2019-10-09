@@ -1,8 +1,7 @@
 
 <template>
      <div class="VommondInputList">
-							
-						 </div>
+	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'

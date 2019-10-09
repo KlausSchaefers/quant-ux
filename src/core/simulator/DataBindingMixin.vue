@@ -124,8 +124,8 @@ export default {
 			 * This is needed for clicks in containers. As containers can have 
 			 * an output databinding, we want to set here the correct value,
 			 * for all subsequent requests.
-			 * This methid is onlz triggered of there are lines. If we want some
-			 * clikc update we have to also onWidgetClicked() method
+			 * This methid is only triggered of there are lines. If we want some
+			 * click update we have to also onWidgetClicked() method
 			 */
 			let widget = this.model.widgets[widgetID]
 			if (widget && widget.container) {
