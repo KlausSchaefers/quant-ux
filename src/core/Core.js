@@ -1530,6 +1530,17 @@ export default class Core extends Evented{
                 return groupLine;
             }
         }
+
+        /**
+         * Since 2.1.3 we use might have sub groups.
+         */
+        var topGroup = this.getTopParentGroup(widgetID);
+        if(topGroup){
+            let groupLine = this.getFromLines(topGroup);
+            if(groupLine && groupLine.length > 0){
+                return groupLine;
+            }
+        }
     }  
 
     getToLines (box) {

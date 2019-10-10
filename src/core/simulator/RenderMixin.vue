@@ -306,7 +306,17 @@ export default {
 			
 			var group = this.getParentGroup(widgetID);
 			if(group){
-				var groupLine = this.getFromLines(group);
+				let groupLine = this.getFromLines(group);
+				if(groupLine && groupLine.length > 0){
+					return groupLine;
+				}
+			}
+			/**
+			 * Since 2.1.3 we use might have sub groups.
+			 */
+			var topGroup = this.getTopParentGroup(widgetID);
+			if(topGroup){
+				let groupLine = this.getFromLines(topGroup);
 				if(groupLine && groupLine.length > 0){
 					return groupLine;
 				}

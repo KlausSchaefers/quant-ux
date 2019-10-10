@@ -444,12 +444,7 @@ export default {
           );
           return style;
         } else {
-          console.warn(
-            "Layout.getInheritedStyle() > No template found for widget",
-            model.id,
-            " with widgetViewMode ",
-            widgetViewMode
-          );
+          console.warn( "Layout.getInheritedStyle() > No template found for widget", model.id, " with widgetViewMode ",widgetViewMode);
         }
       }
       return model.style;
@@ -496,7 +491,6 @@ export default {
    
 
     getTopParentGroup (id) {
-      console.debug('getTopParentGroup', id)
       let group = this.getParentGroup(id)
       if (group) {
         while (group) {
@@ -504,13 +498,13 @@ export default {
           if (parent) {
             group = parent
           } else {
+            
             /**
-             * Return here a virtual group
+             * Return here a virtual group. This is used in the DND._addDnDChildren()
              */
             let result = lang.clone(group)
             result.children = this.getAllGroupChildren(group)
             result._isTopParentGroup = true
-            console.debug('getTopParentGroup() > return', result)
             return result
           }
         }
@@ -519,7 +513,6 @@ export default {
     },
 
     getAllGroupChildren (group) {
-      console.debug('getAllGroupChildren')
       if (!group.children) {
         return []
       }

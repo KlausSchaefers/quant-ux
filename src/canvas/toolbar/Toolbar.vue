@@ -889,7 +889,6 @@ export default {
 				} else {
 					this.controller.removeGroupAndWidgets(group.id);
 				}
-			
 				this.cleanUp();
 			}
 			return false;

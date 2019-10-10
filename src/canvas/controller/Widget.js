@@ -194,7 +194,6 @@ export default class Widget extends Screen {
 	 **********************************************************************/
 
 	updateBoundingBox (ids, pos) {
-		
 		if(pos.snapp) {
 			
 			/** 

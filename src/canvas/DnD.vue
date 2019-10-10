@@ -313,7 +313,7 @@ export default {
       /**
        * make sure lines are also updated for groups!
        */
-      var group = this.getParentGroup(id);
+      var group = this.getTopParentGroup(id);
       if (group) {
         // widget has no line??
         this._dragNDropLineFromBox = group;
@@ -702,18 +702,21 @@ export default {
       if (this._dragNDropIgnoreGroup) {
         return;
       }
-
+      
       /**
        * 1) check if there is a group we have to drag
        */
       if (!this._selectGroup) {
-        let group = this.getParentGroup(id);
+        let group = this.getTopParentGroup(id);
         if (group) {
           this._dragNDropChildren = group.children;
           this._addDNDChildrenCopies();
         }
       } else {
-        let group = this.getParentGroup(id);
+        /**
+         * Since 2.1.3 we need also things
+         */
+        let group = this.getTopParentGroup(id);
         if (group) {
           /**
            * Prevent that if there is a group selection,
@@ -742,25 +745,6 @@ export default {
         }
         //this._addDNDChildrenCopies();
       }
-
-      /**
-       * 3 check for copies of master screen widgets
-       */
-      //			if (id){
-      //				var widget = this.model.widgets[id];
-      //				if(widget){
-      //					var children = []
-      //					if (widget.copies){
-      //						children = children.concat(widget.copies)
-      //					}
-      //					if (widget.inheritedCopies){
-      //						children = children.concat(widget.inheritedCopies)
-      //					}
-      //					if (children.length > 0 && children.length < 20){ // do not overload thread
-      //						this._dragNDropChildren = children;
-      //					}
-      //				}
-      //			}
     },
 
     _addDNDChildrenCopies () {
