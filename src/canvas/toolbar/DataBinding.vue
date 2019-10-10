@@ -50,8 +50,8 @@
          </div>
 	</div>
 </template>
-<style scoped>
-    @import url("../../../public/style/databinding.css");
+<style>
+
 </style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -147,7 +147,6 @@ export default {
             this.onChange()
         },
         setType (newKey, name) {
-            console.debug('setType', newKey, name)
             let oldKey = null
             for (oldKey in this.databinding) {
                 let value = this.databinding[oldKey]
@@ -169,6 +168,7 @@ export default {
         },
         setModel (v) {
             this.model = v
+            console.debug(this.model)
         },
         setWidget (v) {
             this.widget = v

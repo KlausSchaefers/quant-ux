@@ -22,6 +22,7 @@ import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
 import ToolbarSlider from 'canvas/toolbar/ToolbarSlider'
 import ToolbarImage from 'canvas/toolbar/ToolbarImage'
 import Table from 'canvas/toolbar/Table'
+import DataBinding from 'canvas/toolbar/DataBinding'
 import RestSettings from 'canvas/toolbar/RestSettings'
 import SymbolService from 'services/SymbolService'
 
@@ -581,46 +582,7 @@ export default {
 			this._renderColor('Border Color','<span class="mdi mdi-border-color"></span>',model.style.borderBottomColor, "borderBottomColor" , null, true);
 		},
 
-		_renderDataBinding (widget, hasIgnoreState = true, key = 'default'){
-			var icon = "mdi mdi-database-plus";
-			var txt = "Add Data Binding";
-			
-			var dataBinding = this.getDataBinding(widget);
-			if(dataBinding && dataBinding["default"]){
-				icon = "mdi mdi-database";
-				txt = dataBinding["default"];
-			}
-
-			if(dataBinding && dataBinding["input"]){
-				icon = "mdi mdi-database";
-				txt = dataBinding["input"];
-			}
-
-			if(key === 'output'){
-				if (dataBinding && dataBinding["output"]) {
-					icon = "mdi mdi-note-outline";
-					txt = dataBinding["output"];
-				} else {
-					icon = "mdi mdi-note-plus-outline";
-					txt = "Add Output";
-				}
-			}
-			
-			var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);		
-			
-			var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull").build(row);
-			var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
-			this.db.span(icon).build(lbl);
-			this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
-			
 		
-			this.db.span("caret").build(cntr);	
-			this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showDataBindingDialog", widget, dataBinding, key)));
-
-			if (hasIgnoreState) {
-				this._renderIgnoreState(widget);
-			}
-		},
 		
 		_renderIgnoreState (widget){
 			var row = this.db.div("MatcToobarRow").build(this.cntr);			
@@ -669,32 +631,43 @@ export default {
 		},
 
 		/**********************************************************************
-		 * Table
+		 * DataBinding
 		 **********************************************************************/
 
-		_showDataBindingDialog (widget, dataBinding, key){		
+		_renderDataBinding (widget, hasIgnoreState = true){
+			var icon = "mdi mdi-database-plus";
+			var txt = "Add Data Binding";
 			
-			var variables = this.getAllAppVariables();
-			var hints = this.getHintsAppVariables();
-			hints = hints.map(h => {
-				return {
-					label: h,
-					value: h
-				}
-			})
-	
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();		
-			var cntr = this.db.div("MatcDialogTable MatcDialogTableXL").build(popup);
-			var scroller = this.$new(ScrollContainer);
-			scroller.placeAt(cntr);
-			
-			var list = this.$new(InputList, {"check" : "single", "remove" : false, checkNewOption: true, hints: hints});
-			if(dataBinding && dataBinding[key]){
-				list.setSelected(dataBinding[key]);
+			var dataBinding = this.getDataBinding(widget);
+			if(dataBinding && Object.keys(dataBinding).length > 0){
+				icon = "mdi mdi-database";
+				txt = Object.values(dataBinding).join(', ')
 			}
-			list.setOptions(variables);
+
+			var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);		
 			
-			scroller.wrap(list.domNode);
+			var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull").build(row);
+			var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
+			this.db.span(icon).build(lbl);
+			this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
+			
+			this.db.span("caret").build(cntr);	
+			this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showDataBindingDialog", widget)));
+
+			if (hasIgnoreState) {
+				this._renderIgnoreState(widget);
+			}
+		},
+
+		_showDataBindingDialog (widget){		
+			
+			var popup = this.db.div("MatcDialogXXL MatcPadding").build();		
+			var cntr = this.db.div("").build(popup);
+			
+			let dataBinding = this.$new(DataBinding)
+			dataBinding.setModel(this.model)
+			dataBinding.setWidget(widget)
+			dataBinding.placeAt(cntr)
 			
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);		
 			var write = this.db.div("MatcButton", "Ok").build(bar);
@@ -703,30 +676,20 @@ export default {
 			
 			var d = new Dialog({overflow:true});
 			
-			d.own(on(write, touch.press, lang.hitch(this,"setDataBinding", d, list, widget, key)));
+			d.own(on(write, touch.press, lang.hitch(this,"setDataBinding", d, dataBinding, widget)));
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			d.own(on(d, "close", function(){
-				list.destroy();
+				dataBinding.destroy();
 			}));
 			d.popup(popup, this.cntr);
 		},
 		
-		setDataBinding (d, list, widget, key){
+		setDataBinding (d, dataBindingWidget){
 			/**
-			 * Since 2.1.1 we have here also mutliple values. So we have to update
-			 * the databinding object and not simplz create a new one.
+			 * Since 2.1.2 We get a dict form the dataBinding Widgt
 			 */
-			let databinding = this.getDataBinding(widget)
-			if (!databinding) {
-				databinding = {}
-			}
-			var variable = list.getSelected();
-			if (variable){
-				databinding[key] = variable
-			} else {
-				delete databinding[key]
-			}
-			this.emit("propertyChange", "databinding", databinding);			
+			let value = dataBindingWidget.getValue()
+			this.emit("propertyChange", "databinding", value);			
 			d.close();			
 		},
 		
