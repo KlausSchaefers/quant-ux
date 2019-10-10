@@ -493,13 +493,73 @@ export default {
       return result;
     },
 
-    getParentGroup: function(widgetID) {
+   
+
+    getTopParentGroup (id) {
+      console.debug('getTopParentGroup', id)
+      let group = this.getParentGroup(id)
+      if (group) {
+        while (group) {
+          let parent = this.getParentGroup(group.id)
+          if (parent) {
+            group = parent
+          } else {
+            /**
+             * Return here a virtual group
+             */
+            let result = lang.clone(group)
+            result.children = this.getAllGroupChildren(group)
+            result._isTopParentGroup = true
+            console.debug('getTopParentGroup() > return', result)
+            return result
+          }
+        }
+      }
+      return null
+    },
+
+    getAllGroupChildren (group) {
+      console.debug('getAllGroupChildren')
+      if (!group.children) {
+        return []
+      }
+      let result = group.children.slice(0)
+      /**
+       * Check all sub groups
+       */
+      if (group.groups) {
+        group.groups.forEach(subId => {
+          let sub = this.model.groups[subId]
+          if (sub) {
+            let children = this.getAllGroupChildren(sub)
+            result = result.concat(children)
+          } else {
+            console.warn('getAllGroupChildren() No sub group', subId)
+          }
+        })
+      }
+      /**
+       * check if we have a parent group
+       */
+      return result
+    },
+
+    getParentGroup (widgetID) {
       if (this.model.groups) {
         for (var id in this.model.groups) {
           var group = this.model.groups[id];
-          var i = group.children.indexOf(widgetID);
+          let i = group.children.indexOf(widgetID);
           if (i > -1) {
             return group;
+          }
+          /**
+           * Since 2.13 we have subgroups and check this too
+           */
+          if (group.groups) {
+            let i = group.groups.indexOf(widgetID);
+            if (i > -1) {
+              return group;
+            }
           }
         }
       }

@@ -30,7 +30,6 @@ export default {
 			if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
 				topic.publish("matc/canvas/click", "", "");
 				this.inlineEditInit(this._selectWidget);
-				
 			} else {
 				this.onSelectionChanged(id, "widget");
 				if(this.model.widgets[id]){
@@ -51,7 +50,6 @@ export default {
 				}
 			}
 			css.add(this.domNode, "MatcCanvasSelection");
-			
 			try{
 				if (this.selectionListener) {
 					this.selectionListener.selectWidget(id);
@@ -111,22 +109,29 @@ export default {
 			this.showHint("Press <b>D</b> to distribute selected objects...");
 		},
 		
-		onGroupSelected (groupID){
+		onGroupSelected (groupID) {
 			this.logger.log(2,"onGroupSelected", "enter > " + groupID);
 			this.onSelectionChanged(null, "group");
 		
-			if(this.model.groups ){
+			if (this.model.groups) {
+				this._selectGroup = this.model.groups[groupID];
 				
-				this._selectGroup =this.model.groups[groupID];
 				if(this._selectGroup){
+					/**
+					 * Since 2.1.3 we can have subgroups. To make everzthing work here
+					 * we merge all sub children. 
+					 * 
+					 * TODO: This should work, because we are writing the children method.
+					 * What about the controller?
+					 */
+					let allChildren =  this.getAllGroupChildren(this._selectGroup)
+					this._selectGroup.children = allChildren
 					this.showGroupResizeHandlers(this._selectGroup.children, groupID, "group", true);
 					this.controller.onGroupSelected(groupID);
 				}
-				
 			}
 			css.add(this.domNode, "MatcCanvasSelection");
-			
-			try{
+			try {
 				if (this.selectionListener) {
 					this.selectionListener.selectGroup(groupID);
 				}
@@ -272,11 +277,9 @@ export default {
 			
 		},
 		
-		
 		selectBox (div){
 			this._selectedDiv = div;
 			css.add(div, "MatcBoxSelected");
-			
 		},
 		
 		selectDnDBox (id){
@@ -1155,6 +1158,21 @@ export default {
 			} else {
 				return "vertical";
 			}
+		},
+
+
+    	extendSelectionToGroup (widgetId, selection) {
+			let group = this.getParentGroup(widgetId);
+			if (group) {
+				this.logger.log(-1,"extendSelectionToGroup", "extend group for widget : " + widgetId, group);
+				let children = group.children
+				children.forEach(childId => {
+					if (selection.indexOf(childId) < 0) {
+						selection.push(childId)
+					}
+				})
+			}
+			return selection
 		}
     }, 
     mounted () {

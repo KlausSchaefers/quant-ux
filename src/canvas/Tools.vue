@@ -523,24 +523,16 @@ export default {
 				}
 				
 			}
-		
-		
 			this.onAlignCancel();
-			
 		},
 		
 		onAlignCancel (){
 			this.logger.log(0,"onAlignCancel", "enter");
-			
 			this._alignSource = null;
 			this.alignDirection = null;
-			
 			this.cleanUpClickCallbacks();
-			this.cleanUpCancelCallbacks();
-		
-			
+			this.cleanUpCancelCallbacks();	
 			this.controller.renderAlignEnd();
-			
 			this.setState(0);
 		},
 		
@@ -559,22 +551,15 @@ export default {
 			 */
 			if(this.state != 3){
 				this.controller.setMode("select");
-				
 				this.stopEvent(e);
 				if(!this._selectionToolStart){
-					
 					this.unSelect();
-					
 					this._selectionToolStart = this.getCanvasMousePosition(e);
-					
 					this._selectionToolMoveListener = on(win.body(),"mousemove", lang.hitch(this,"onSelectionMove"));
 					this._selectionToolUpListener = on(win.body(),"mouseup", lang.hitch(this,"onSelectionEnd"));
-				
 				}
 			}
-			
 			topic.publish("matc/canvas/click", "");
-		
 			return false;
 		},
 		
@@ -604,18 +589,13 @@ export default {
 				css.add(this._selectionToolDiv, "MatcSelectionTool");
 				this.widgetContainer.appendChild(this._selectionToolDiv);
 			}
-			
 			var pos = this._getSelectionToolBox();
-			
 			if(pos){
 				this._selectionToolDiv.style.top = pos.y + "px";
 				this._selectionToolDiv.style.left = pos.x + "px";
-				
 				this._selectionToolDiv.style.width = pos.w + "px";
 				this._selectionToolDiv.style.height = pos.h + "px";
 			}
-			
-			
 		},
 		
 		_getSelectionToolBox (){
@@ -644,11 +624,8 @@ export default {
 			}
 			
 			pos.w = Math.abs(this._selectionToolStart.x - this._selectionToolEnd.x);
-			pos.h = Math.abs(this._selectionToolStart.y - this._selectionToolEnd.y);
-			
-			
+			pos.h = Math.abs(this._selectionToolStart.y - this._selectionToolEnd.y);		
 			return pos;
-			
 		},
 		
 		onSelectionEnd (e){
@@ -678,6 +655,10 @@ export default {
 					if(!widget.inherited){
 						if(this._isContainedInBox(widget, pos)){
 							selection.push(widget.id);
+							/**
+							 * Sincen 2.1.3 we also extand groups
+							 */
+							selection = this.extendSelectionToGroup(widget.id, selection)
 						}
 					}
 				}
@@ -744,14 +725,10 @@ export default {
 			
 		},
 		
-		
-		
-		
 		/**********************************************************************
 		 * Copy Style
 		 **********************************************************************/
-	
-		
+
 		onCopyStyle (){
 			this.logger.log(0,"onCopyStyle", "enter > " + this._selectWidget);
 			
@@ -787,14 +764,10 @@ export default {
 		
 		cleanUpCopyPasteStyle (){
 			this.logger.log(0,"cleanUpCopyPasteStyle", "enter");
-			
 			this._copiedStyle = null;
-			
 			this.cleanUpClickCallbacks();
 			this.cleanUpCancelCallbacks();
-			
 			this.controller.renderCopyPasteStyleEnd();
-			
 			this.setState(0);
 		},
 

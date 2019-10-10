@@ -1413,7 +1413,11 @@ export default {
 
 			this.groupActionBTN.setValue(model);
 
-			this.childWidget.setGroup(model);
+			/**
+			 * Since 2.1.3 we have sub groups
+			 */
+			let children = this.getAllGroupChildren(model);
+			this.childWidget.setGroupChildren(children);
 
 			if(model.name){
 				this.groupName.value = model.name;

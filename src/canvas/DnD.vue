@@ -612,7 +612,7 @@ export default {
           this._selectMulti.push(this._selectWidget.id);
         }
 
-        let group = this.getParentGroup(id);
+        let group = this.getTopParentGroup(id);
         if (group) {
           this._selectMulti = this._selectMulti.concat(group.children);
         } else {
@@ -629,7 +629,8 @@ export default {
 
         this.onMutliSelected(this._selectMulti);
       } else {
-        let group = this.getParentGroup(id);
+        let group = this.getTopParentGroup(id);
+        console.debug('DND.onWidgetDndClick()', id, group)
         /**
          * If we have a group, we have to dispatch the clicks like follows
          */
@@ -647,6 +648,9 @@ export default {
                * group selected. This means the selectedGroup is null.
                * If we are in the same group select the new widget, other wise
                * the new group.
+               * 
+               * Since 2.1.3 we have sub group and we want the top group, but here
+               * we stull want to allow sub selection
                */
               var widgetGroup = this.getParentGroup(this._selectWidget.id);
               if (widgetGroup && widgetGroup.id == group.id) {

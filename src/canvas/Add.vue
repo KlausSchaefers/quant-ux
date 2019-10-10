@@ -212,20 +212,13 @@ export default {
 			if(!this._alignmentToolInited){
 				this.alignmentStart("boundingbox", boundingBox, "All");
 			}
-			
 			this._onAddNDropStart(div, group, params.event, callback);
-			
 			this.setState(3);
-		
-			
 		},
 		
 		_onTemplateGroupAdd (pos, group){
-		
 			this.controller.addGroupByTemplate(group, pos);
-			
 			this._onAddDone();
-			
 			this.setState(0);
 		},
 		
@@ -253,27 +246,17 @@ export default {
 			this.setMode("add");
 			
 			var z = this.getZoomFactor();
-			
 			var clonedScreen = this.getZoomedBox(lang.clone(screen),z,z);
-		
 			var div = this.createScreen(clonedScreen);
 			css.add(div, "MatcAddBox")
-
 			this.renderFactory.setStyle(div, clonedScreen);
-
-			
 			this._onAddNDropStart(div, screen, params.event, "onScreenAdded");
-				
-		
 			this.setState(3);
 		},
 		
 		onScreenAdded (pos, model){
-			
 			this.controller.addScreen(model, pos);		
-			
 			this._onAddDone();
-			
 			this.setState(0);
 		},
 		
@@ -331,10 +314,7 @@ export default {
 			 * add stop listener
 			 */
 			this._onAddNDropStart(div, widget, params.event, "onWidgetAdded", params.mouseup);
-			
 			this.setState(3);
-		
-			
 			this.logger.log(2,"_addWidget", "exit");
 		},
 		
@@ -486,9 +466,6 @@ export default {
 			
 			this._addLineModel.points.push(pos);
 		},
-		
-	
-		
 		
 		onLineEndSelected (id, div, pos,e){
 			this.logger.log(0,"onLineEndSelected", "enter > "+ id);

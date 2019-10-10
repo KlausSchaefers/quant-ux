@@ -39,7 +39,13 @@ export default {
 			};
 			this.render(temp);
 		},
-		
+
+		setGroupChildren (children) {
+			var temp = {
+				children : children
+			};
+			this.render(temp);
+		},
 		
 		setGroup:function(group){		
 			this.render(group);
@@ -49,14 +55,12 @@ export default {
 			this.render(screen);
 		},
 		
-		
-		
-		render:function(model){
+		render (group){
 		
 			this.cleanUp();
 			var cntr = this.db.div("MatcToolbarGridFull").build();
 			
-			var children = model.children;
+			var children = group.children
 			for(var i=0; i< children.length; i++){
 				var widgetID = children[i];
 				if(this.model.widgets[widgetID]){
@@ -73,10 +77,7 @@ export default {
 				} else {
 					console.warn("render() > No widget with id "+ widgetID);
 				}
-			
 			}
-
-			
 			this.domNode.appendChild(cntr);
 		},
 		

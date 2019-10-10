@@ -296,22 +296,34 @@ export default class Group extends Layer {
 		 * check that we do not have group of group!
 		 */
 		// var targetScreen = null;
-		for(let i=0; i < selection.length;i++){
+		let subGroups = []
+		let children = []
+		for (let i = 0; i < selection.length; i++) {
 			let widgetID = selection[i];
 			let group = this.getParentGroup(widgetID);
-			if(group){
-				this.showError("Some of the widgets are already part of another group! We do not support nested groups yet!");
-				return;
+			if (group) {
+				if (subGroups.indexOf(group.id) < 0) {
+					subGroups.push(group.id)
+				}
+			} else {
+				children.push(widgetID)
 			}
+			// since 2.1.3 we allow subgroups
+			//if(group){
+			//	this.showError("Some of the widgets are already part of another group! We do not support nested groups yet!");
+			//	return;
+			//}
 		}
 		var length = this.getObjectLength(this.model.groups);
 		var name = "Group"
 		if (length) {
-			name += length;
+			name += ' ' + length;
 		}
+		this.logger.log(-1,"addGroup", "add subgroups", subGroups);
 		let group ={
 			id : "g"+this.getUUID(),
-			children : selection,
+			children : children,
+			groups: subGroups, 
 			name : name
 		};
 
@@ -351,8 +363,6 @@ export default class Group extends Layer {
 		if(!ignoreModelUpdate){
 			this.onModelChanged();
 		}
-	
-		
 	}
 	
 	undoAddGroup (command){
@@ -373,25 +383,17 @@ export default class Group extends Layer {
 	removeGroup (id){
 		this.logger.log(0,"removeGroup", "enter >> " + id);
 		
-		if(this.model.groups && this.model.groups[id]){
-
+		if(this.model.groups && this.model.groups[id]) {
 			var group = this.model.groups[id];
-			
 			var command = this.createRemoveGroupCommand(group);
-			
 			this.addCommand(command);
-			
-			this.modelRemoveGroup(group, command.line);
-			
+			this.modelRemoveGroup(group, command.line);	
 			this.unSelect();
 			this.render();
-		
-			
 		} else {
 			console.debug(this.model.groups);
 			console.warn("Could not remove group with " , id);
 		}
-		
 	}
 	
 	createRemoveGroupCommand (group){
