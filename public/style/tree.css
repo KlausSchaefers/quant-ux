@@ -1,0 +1,27 @@
+.MatcTree{
+  margin: 0px;
+  padding:0px;
+}
+
+.MatcTree ul {
+  list-style: none;
+  margin: 0px;
+  padding:0px;
+}
+
+.MatcTree ul li{
+  margin-left: 10px;
+  width: calc(100% - 10px);
+  margin-bottom: 5px;
+}
+
+.MatcTree .MatcTreeIcon {
+  display: inline-block;
+  width: 16px;
+}
+
+.MatcTree .MatcTreeIcon.MatcTreeIconClosed {
+  transform:rotate(-90deg);
+  transform-origin: 50% 50%;
+  color:red;
+}
