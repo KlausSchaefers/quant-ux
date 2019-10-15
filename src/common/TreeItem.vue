@@ -23,7 +23,8 @@
           </label>
           <input class="MatcTreeItemLabel" 
             v-if="isEditable" 
-            @blur="onBlur" 
+            @blur="onBlur"
+            :focus="focus()"
             ref="lblNode" 
             @keydown.enter="onBlur" :value="value.label"/>
         </div>
@@ -112,10 +113,10 @@ export default {
     onDrop (e) {
       let id = e.dataTransfer.getData('text')
       this.isDragOver = false
-      this.$emit('dnd', id, this.value.id)
+      this.$emit('dnd', id, this.value.id, 'top')
     },
-    onChildDnd (from, to) {
-      this.$emit('dnd', from, to)
+    onChildDnd (from, to, position) {
+      this.$emit('dnd', from, to, position)
     },
     onChildSelect (id, expand) {
       this.$emit('select', id, expand)
@@ -139,26 +140,25 @@ export default {
       }
     },
     focus () {
+      // somehow not called
       if (this.value.editable) {
-        this.$nextTick(() => {
+        setTimeout(() => {
           this.$refs.lblNode.select()
           this.$refs.lblNode.focus()
-        })
+        }, 100)
       }
     }
   },
   watch: {
     value (v) {
-      console.debug('watch(value)', v)
       this.value = v
       this.isOpen = this.value.open
-      this.focus()
+     
     }
   },
   mounted() {
     if (this.value) {
       this.isOpen = this.value.open
-      this.focus()
     }
   }
 };

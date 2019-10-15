@@ -31,9 +31,9 @@ export default {
     'TreeItem': TreeItem
   },
   methods: {
-    onDnd (from, to) {
-      console.debug('onDnd', from, '->', to)
-      this.$emit('dnd', from, to)
+    onDnd (from, to, position) {
+      console.debug('onDnd', from, '->', to, '@', position)
+      this.$emit('dnd', from, to, position)
     },
     onChildEndEdit (id, txt) {
       this.clearEdit()
