@@ -3,6 +3,40 @@
   padding:0px;
 }
 
+.MatcTreeItem {
+  border-top: 2px solid transparent;
+  color: #555;
+}
+
+.MatcTreeItem.MatcTreeItemDragOver {
+  border-top: 2px solid #1973e8;
+}
+
+.MatcTreeItemRow:hover{
+  color: #333;
+}
+
+.MatcTreeItem.MatcTreeItemSelected,
+.MatcTreeItemSelected .MatcTreeItem{
+  background: #1973e8;
+  color: #fff;
+}
+
+.MatcTreeItemSelected .MatcTreeItemRow:hover{
+  color: #fff;
+}
+
+.MatcTreeItemLabel {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+input.MatcTreeItemLabel {
+  width: calc(100% - 30px);
+}
+
+
+
 .MatcTree ul {
   list-style: none;
   margin: 0px;
@@ -10,14 +44,14 @@
 }
 
 .MatcTree ul li{
-  margin-left: 10px;
   width: calc(100% - 10px);
+  margin-left: 10px;
   margin-bottom: 5px;
 }
 
 .MatcTree .MatcTreeIcon {
   display: inline-block;
-  width: 16px;
+  width: 20px;
 }
 
 .MatcTree .MatcTreeIcon.MatcTreeIconClosed {
@@ -25,3 +59,4 @@
   transform-origin: 50% 50%;
   color:red;
 }
+

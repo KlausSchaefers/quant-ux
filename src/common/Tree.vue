@@ -2,7 +2,15 @@
 <template>
 	<ul class="MatcTree">
     {{value.label}}
-    <TreeItem v-for="child in value.children" :key="child.id" class="MatcTreeRootNode" :value="child">
+    <TreeItem v-for="child in value.children"
+      :level="0"
+      :key="child.id" 
+      class="MatcTreeRootNode" 
+      :value="child" 
+      @endEdit="onChildEndEdit"
+      @startEdit="onStartEdit"
+      @select="onSelect"
+      @dnd="onDnd">
     </TreeItem>
 	</ul>
 </template>
@@ -12,24 +20,108 @@ import TreeItem from 'common/TreeItem'
 
 export default {
   name: "Tree",
-  props:['value'],
+  props:['value', 'selection'],
   mixins: [],
   data: function() {
     return {
+      nodes: {}
     };
   },
   components: {
     'TreeItem': TreeItem
   },
   methods: {
-    destroy: function() {
+    onDnd (from, to) {
+      console.debug('onDnd', from, '->', to)
+      this.$emit('dnd', from, to)
+    },
+    onChildEndEdit (id, txt) {
+      this.clearEdit()
+      if (this.nodes[id]) {
+        let node = this.nodes[id]
+        this.$set(node, 'label', txt)
+      } else {
+        console.debug('cannot find ', id)
+      }
+      this.$emit('changeLabel', id, txt)
+    },
+    onStartEdit (id) {
+      this.clearEdit()
+      if (this.nodes[id]) {
+        let node = this.nodes[id]
+        this.$set(node, 'editable', true)
+        this.emitSelection()
+      }
+    },
+    clearEdit () {
+       for (let id in this.nodes){
+        let node = this.nodes[id]
+        this.$set(node, 'editable', false)
+      }
+    },
+    onSelect (id, expand) {
+      if (!expand) {
+        this.clearSelection()
+      }
+      if (this.nodes[id]) {
+        let node = this.nodes[id]
+        this.$set(node, 'selected', true)
+        this.emitSelection()
+      }
+    },
+    emitSelection () {
+      let selection = Object.values(this.nodes)
+        .filter(n => n.selected)
+        .map(n => n.id)
+      this.$emit('select', selection)
+    },
+    clearSelection () {
+      for (let id in this.nodes){
+        let node = this.nodes[id]
+        this.$set(node, 'selected', false)
+      }
+    },
+    setSelection (ids) {
+      this.clearSelection()
+      for (let id in ids) {
+        if (this.nodes[id]) {
+          let node = this.nodes[id]
+          this.$set(node, 'selected', true)
+        } else {
+          console.warn('setSelection(), No node with id', id)
+        }
+      }
+    },
+    initTree () {
+      let nodes = this.getNodes(this.value, {})
+      this.nodes = nodes
+    },
+    getNodes (node, result) {
+      result[node.id] = node
+      if (node.children) {
+        node.children.forEach(child => {
+          this.getNodes(child, result)
+        })
+      }
+      return result
     }
   },
   watch: {
     value (v) {
       this.value = v
+      this.initTree()
+    },
+    selection (v) {
+      this.setSelection(v)
     }
   },
-  mounted() {}
+  mounted() {
+    if (this.value) {
+      this.initTree()
+    }
+    if (this.selection) {
+      this.setSelection(this.selection)
+    }
+  }
 };
 </script>

@@ -118,6 +118,10 @@ export default new Router({
     {
       path: '/test/Tree.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/TreeTest.vue')
+    },
+    {
+      path: '/test/Layer.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/LayerTest.vue')
     }
     //{
     //  path: '/test/paper.html',
