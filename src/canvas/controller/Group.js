@@ -327,6 +327,8 @@ export default class Group extends Layer {
 			name : name
 		};
 
+		console.debug('create group', group)
+
 		/**
 		 * create the command
 		 */
@@ -338,6 +340,8 @@ export default class Group extends Layer {
 		this.addCommand(command);
 		
 		this.modelAddGroup(group);
+
+		// console.debug("Group.add() ", JSON.stringify(this.model.groups, null, 2))
 		
 		this.render();
 		

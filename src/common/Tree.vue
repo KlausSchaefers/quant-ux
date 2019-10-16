@@ -10,6 +10,7 @@
       @endEdit="onChildEndEdit"
       @startEdit="onStartEdit"
       @select="onSelect"
+      @open="onOpen"
       @dnd="onDnd">
     </TreeItem>
 	</ul>
@@ -31,6 +32,10 @@ export default {
     'TreeItem': TreeItem
   },
   methods: {
+    onOpen (id, open) {
+      console.debug('onOpen', id, '->', open)
+      this.$emit('open', id, open)
+    },
     onDnd (from, to, position) {
       console.debug('onDnd', from, '->', to, '@', position)
       this.$emit('dnd', from, to, position)
@@ -43,6 +48,7 @@ export default {
       } else {
         console.debug('cannot find ', id)
       }
+      console.debug('onChildEndEdit', id, '->', txt)
       this.$emit('changeLabel', id, txt)
     },
     onStartEdit (id) {

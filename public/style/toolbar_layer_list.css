@@ -43,6 +43,7 @@
 
 .MatcToolbarLayerListCntr{
 	height: 100%;
+	overflow: auto;
 }
 
 .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionContent {

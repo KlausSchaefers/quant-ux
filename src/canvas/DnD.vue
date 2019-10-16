@@ -630,7 +630,6 @@ export default {
         this.onMutliSelected(this._selectMulti);
       } else {
         let group = this.getTopParentGroup(id);
-        console.debug('DND.onWidgetDndClick()', id, group)
         /**
          * If we have a group, we have to dispatch the clicks like follows
          */

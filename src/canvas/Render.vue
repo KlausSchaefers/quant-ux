@@ -304,7 +304,8 @@ export default {
 		render (model){
 			this.logger.log(0,"render", "enter");
 			let renderStart = new Date().getTime();
-			try{
+			try {
+			
 			
 				if (this.settings.fastRender) {
 					this.renderFlowViewFast(model);
@@ -317,9 +318,11 @@ export default {
 				this.renderComments();
 				
 				/**
-				 * Also update layer list
+				 * Also update layer list. The renderFlow might call
+				 * select which extends the group with additonal children!
 				 */
 				this.renderLayerList(model);
+
 				
 				/**
 				 * Make sure we continue the add mode

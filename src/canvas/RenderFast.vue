@@ -14,6 +14,7 @@ export default {
 			
 		renderFlowViewFast (model){
 			this.logger.log(0,"renderFlowViewFast", "enter");
+			
 			// console.debug(new Error().stack)
 				
 			this.beforeRender();

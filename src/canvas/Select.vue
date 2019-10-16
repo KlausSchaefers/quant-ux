@@ -55,7 +55,8 @@ export default {
 					this.selectionListener.selectWidget(id);
 				}
 			} catch (e){
-				this.logger.error("onWidgetSelected", "could not call selectionListener > ");
+				console.debug(e)
+				this.logger.error("onWidgetSelected", "could not call selectionListener > ", e);
 			}
 		},
 		
@@ -120,11 +121,9 @@ export default {
 					/**
 					 * Since 2.1.3 we can have subgroups. To make everzthing work here
 					 * we merge all sub children. 
-					 * 
-					 * TODO: This should work, because we are writing the children method.
-					 * What about the controller?
 					 */
-					let allChildren =  this.getAllGroupChildren(this._selectGroup)
+					let allChildren = this.getAllGroupChildren(this._selectGroup)
+					this._selectGroup = lang.clone(this._selectGroup)
 					this._selectGroup.children = allChildren
 					this.showGroupResizeHandlers(this._selectGroup.children, groupID, "group", true);
 					this.controller.onGroupSelected(groupID);
@@ -136,7 +135,7 @@ export default {
 					this.selectionListener.selectGroup(groupID);
 				}
 			} catch (e){
-				this.logger.error("onGroupSelected", "could not call selectionListener > ");
+				this.logger.error("onGroupSelected", "could not call selectionListener > ", e);
 			}
 		},
 		
@@ -144,6 +143,14 @@ export default {
 			this.logger.log(3,"onCanvasSelected", "enter ");
 			this.onSelectionChanged(null);
 			this.controller.onCanvasSelected();
+
+			try {
+				if (this.selectionListener) {
+					this.selectionListener.unSelect();
+				}
+			} catch (e){
+				this.logger.error("onCanvasSelected", "could not call selectionListener > ", e);
+			}
 		},
 		
 		onSelectionMoved (pos, dif, id){

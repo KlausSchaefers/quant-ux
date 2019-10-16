@@ -13,7 +13,7 @@
             :draggable="!isEditable"
           >
           <template v-if="hasChildren">
-            <span :class="expandIcon" @click="toggleOpen"></span>
+            <span :class="expandIcon" @click.stop="toggleOpen"></span>
           </template>
           <template v-else>
             <span v-if="nodeIcon" :class="nodeIcon"></span>
@@ -21,7 +21,7 @@
          <label class="MatcTreeItemLabel" v-if="!isEditable" ref="lblNode" >
             {{value.label}}
           </label>
-          <input class="MatcTreeItemLabel" 
+          <input class="MatcTreeItemLabel MatcIgnoreOnKeyPress" 
             v-if="isEditable" 
             @blur="onBlur"
             :focus="focus()"
@@ -32,6 +32,7 @@
           <TreeItem v-for="child in value.children" :key="child.id" 
             :value="child" 
             @dnd="onChildDnd" 
+            @open="onChildOpen"
             @select="onChildSelect" 
             @startEdit="onChildStartEdit"
             @endEdit="onChildEndEdit"
@@ -94,6 +95,7 @@ export default {
     },
     toggleOpen () {
       this.isOpen = !this.isOpen
+      this.$emit('open', this.value.id, this.isOpen )
     },
     onClick (e) {
       let expand = e.ctrlKey || e.metaKey || e.shiftKey
@@ -126,6 +128,9 @@ export default {
     },
     onChildEndEdit (id, txt) {
       this.$emit('endEdit', id, txt)
+    },
+    onChildOpen (id, open) {
+      this.$emit('open', id, open)
     },
     destroy () {
     },
