@@ -121,6 +121,7 @@ export default {
 					/**
 					 * Since 2.1.3 we can have subgroups. To make everzthing work here
 					 * we merge all sub children. 
+					 * We make a copy to not mess up the model.
 					 */
 					let allChildren = this.getAllGroupChildren(this._selectGroup)
 					this._selectGroup = lang.clone(this._selectGroup)

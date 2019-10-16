@@ -37,6 +37,9 @@ export default class GridAndRuler extends Core {
 	 */
 	start(canvas, selectedType, selectedModel, activePoint, grid, zoom) {
 		/**
+		 * FIXME: Here os something wrong when having nest groups
+		 */
+		/**
 		 * FIXME: For total snapping we need to take the full grid...
 		 */
 		this.zoom = canvas.getZoomFactor();
@@ -46,8 +49,8 @@ export default class GridAndRuler extends Core {
 			 */
 			this.snappDistance = Math.ceil(grid.h ) * this.zoom ;
 			this.showDistance = this.snappDistance + 5;
-			this.logger.log(-1, "start", "snappDistance " + this.snappDistance);
 		}
+		this.logger.log(1, "start", "snappDistance " + this.snappDistance);
 
 		this.grid = grid;
 		this.model = canvas.model;
@@ -80,7 +83,7 @@ export default class GridAndRuler extends Core {
 		this._lines = {};
 		this._linesDivs = {};
 
-		this.logger.log(-1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
+		this.logger.log(1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
 	}
 
 	correct(absPos, e, mouse) {

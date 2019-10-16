@@ -485,7 +485,8 @@ export default {
       if (this._dragNDropChildren) {
         // multi move
         let positions = {};
-        positions[id] = pos;
+        // Whz is this here???
+        // positions[id] = pos;
         let hasCopies = false;
         for (let i = 0; i < this._dragNDropChildren.length; i++) {
           let widgetID = this._dragNDropChildren[i];

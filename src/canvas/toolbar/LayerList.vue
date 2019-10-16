@@ -159,7 +159,6 @@ export default {
 			let parentGroups = {}
 			for(let id in model.groups){
 				let group = model.groups[id]
-				console.debug('render', group.name, group._isTopParentGroup, group.children)
 				for (let i=0; i < group.children.length; i++) {
 					let widgetID = group.children[i]
 					parentGroups[widgetID] = group
@@ -167,13 +166,10 @@ export default {
 				if (group.groups) {
 					for (let i=0; i < group.groups.length; i++){
 						let groupID = group.groups[i]
-						let parent =  model.groups[groupID]
-						console.debug('render', group.name, parent.name)
 						parentGroups[groupID] = group
 					}
 				}
 			}
-			// console.debug(JSON.stringify(parentGroups, null, 2))
 		
 			for(let id in model.screens){
 				let screen = model.screens[id];
