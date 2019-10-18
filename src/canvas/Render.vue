@@ -1067,13 +1067,13 @@ export default {
 		},
 			
 		alignmentStart (selectedType, selectedModel, activePoint, ignoreIds, showDimensions){
-			this.logger.log(-1,"alignmentStart","enter > " + selectedType);
+			this.logger.log(1,"alignmentStart","enter > " + selectedType);
 			
 			/**
-				* Use the grid only when widget is selected and grid is specified
-				*/
-			if(this.model.grid){
-				if("widget" == selectedType || "boundingbox" == selectedType || "group" == selectedType ||  "multi" == selectedType) {
+			 * Use the grid only when widget is selected and grid is specified
+			 */
+			if (this.model.grid) {
+				if ("widget" == selectedType || "boundingbox" == selectedType || "group" == selectedType ||  "multi" == selectedType) {
 					this._alignmentTool = new GridAndRuler();
 					this._alignmentTool.ignoreGroup = this._dragNDropIgnoreGroup;
 					this._alignmentTool.showDndDistance = this.showDistance;
@@ -1126,12 +1126,9 @@ export default {
 		},
 
 		
-		
 		/***************************************************************************
-			* Cancel stuff
-			***************************************************************************/
-		
-		
+		 * Cancel stuff
+		 ***************************************************************************/
 		/**
 			* Register a call back that will be called in case
 			* an cancel action is executed. The name of the

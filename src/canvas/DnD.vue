@@ -254,20 +254,12 @@ export default {
     },
 
     onScreenDndEnd (id, div, pos, dif) {
-      this.logger.log(
-        3,
-        "onScreenDndEnd",
-        "enter > x:" + pos.x + " y:" + pos.y
-      );
+      this.logger.log(3, "onScreenDndEnd", "enter > x:" + pos.x + " y:" + pos.y);
 
       this.cleanUpAlignment();
-
       this.getController().updateScreenPosition(id, pos, true);
-
       this._dragNDropBoxPositions = null;
-
       this.onSelectionMoved(pos, dif, id);
-
       this.setState(0);
     },
 
@@ -361,10 +353,16 @@ export default {
             let boundingBox = this.getBoundingBox(this._selectMulti);
             boundingBox.id = id;
             this.alignmentStart("boundingbox", boundingBox, "All", this._selectMulti);
-          } else if (group && !this._dragNDropIgnoreGroup) {
-            let boundingBox = this.getBoundingBox(group.children);
+          } else if (group && !this._dragNDropIgnoreGroup && this._dragNDropChildren) {
+             /**
+             * Since 2.1.3 we have nested groups. The bounding box
+             * is alreadz determined bz the _dragNDropChildren children
+             * which were initlized before!
+             */
+            let children = this._dragNDropChildren
+            let boundingBox = this.getBoundingBox(children);
             boundingBox.id = id;
-            this.alignmentStart("boundingbox", boundingBox, "All", group.children);
+            this.alignmentStart("boundingbox", boundingBox, "All", children);
           } else {
             this.alignmentStart("widget", widget, "All");
           }
@@ -379,11 +377,11 @@ export default {
       let widget = this.model.widgets[id];
       if (widget) {
         let temp = {
-          x: pos.x,
-          y: pos.y,
-          h: widget.h,
-          w: widget.w,
-          type: widget.type
+            x: pos.x,
+            y: pos.y,
+            h: widget.h,
+            w: widget.w,
+            type: widget.type
         };
         if (this.isInContainer(temp)) {
           this._dragNDropBoxPositions[id] = temp;
@@ -535,7 +533,6 @@ export default {
         this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, id);
       } else {
         // single widgte move
-        console.debug('setWidgetPosition')
         let widget = this.model.widgets[id];
         if (widget) {
           var modelPos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
@@ -568,11 +565,11 @@ export default {
 
     /**
      * One of the most important methods! It handles the clicks
-     * and the convas depending on the current state / selection!
+     * and the canvas depending on the current state / selection!
      *
      */
     onWidgetDndClick (id, div, pos, e) {
-      this.logger.log(2, "onWidgetDndClick", "entry > " + id);
+      this.logger.log(-1, "onWidgetDndClick", "entry > " + id);
 
       this.stopEvent(e);
 
@@ -613,6 +610,9 @@ export default {
           this._selectMulti.push(this._selectWidget.id);
         }
 
+        /**
+         * Since 2.1.3 we have sub groups
+         */
         let group = this.getTopParentGroup(id);
         if (group) {
           this._selectMulti = this._selectMulti.concat(group.children);
@@ -630,6 +630,9 @@ export default {
 
         this.onMutliSelected(this._selectMulti);
       } else {
+        /**
+         * Since 2.1.3
+         */
         let group = this.getTopParentGroup(id);
         /**
          * If we have a group, we have to dispatch the clicks like follows
@@ -699,14 +702,30 @@ export default {
     },
 
     _addDnDChildren (id) {
+      console.debug('_addDnDChildren', id, this._dragNDropIgnoreGroup, this._dragNDropGroupChildren)
       if (this._dragNDropIgnoreGroup) {
         return;
+      }
+
+      /**
+       * Since 2.1.3 we have sub groups. If the seletion is from the laylerList,
+       * we just take the _dragNDropGroupChildren which must be passed the the 
+       * Select.seltGroup() method,
+       */
+      if (this._dragNDropGroupChildren) {
+        if (this._dragNDropGroupChildren.indexOf(id) > -1) {
+          this._dragNDropChildren = this._dragNDropGroupChildren;
+        }
+        return
       }
       
       /**
        * 1) check if there is a group we have to drag
        */
       if (!this._selectGroup) {
+        /**
+         * Since 2.1.3 we have subgroups!
+         */
         let group = this.getTopParentGroup(id);
         if (group) {
           this._dragNDropChildren = group.children;
@@ -714,7 +733,7 @@ export default {
         }
       } else {
         /**
-         * Since 2.1.3 we need also things
+         * Since 2.1.3 we need also subgroups
          */
         let group = this.getTopParentGroup(id);
         if (group) {

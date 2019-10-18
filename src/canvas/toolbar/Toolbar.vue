@@ -1185,7 +1185,10 @@ export default {
 			if(this._selectedWidget){
 				selection.push(this._selectedWidget.id);
 			} else if(this._selectedGroup){
-				selection = this._selectedGroup.children;
+				/**
+				 * Since 2.1.3 we have sub groups
+				 */
+				selection = this.getAllGroupChildren(this._selectedGroup)
 			} else if(this._selectedMulti){
 				selection = this._selectedMulti;
 			} else {

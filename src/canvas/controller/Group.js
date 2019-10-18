@@ -299,6 +299,9 @@ export default class Group extends Layer {
 		let subGroups = []
 		let children = []
 		for (let i = 0; i < selection.length; i++) {
+			/**
+			 * FIXME: Here is some bug with mutli level groups
+			 */
 			let widgetID = selection[i];
 			let group = this.getParentGroup(widgetID);
 			if (group) {

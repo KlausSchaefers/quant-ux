@@ -33,11 +33,9 @@ export default {
   },
   methods: {
     onOpen (id, open) {
-      console.debug('onOpen', id, '->', open)
       this.$emit('open', id, open)
     },
     onDnd (from, to, position) {
-      console.debug('onDnd', from, '->', to, '@', position)
       this.$emit('dnd', from, to, position)
     },
     onChildEndEdit (id, txt) {
@@ -48,7 +46,6 @@ export default {
       } else {
         console.debug('cannot find ', id)
       }
-      console.debug('onChildEndEdit', id, '->', txt)
       this.$emit('changeLabel', id, txt)
     },
     onStartEdit (id) {

@@ -93,7 +93,7 @@ export default {
 					if (this.canvas) {
 						let type = node.type
 						if (type === 'widget') {
-							this.canvas.onWidgetSelected(node.id, true);
+							this.canvas.onWidgetSelected(node.id, true, true);
 						}
 						if (type === 'group') {
 							this.canvas.onGroupSelected(node.id, true);
@@ -102,11 +102,15 @@ export default {
 				} else {
 					this.logger.log(-1, "onSelect", "No node > ", ids);
 				}
-			}
+			} else {
+				if (this.canvas) {
+					this.canvas.onMutliSelected(ids, true);
+				}
+			} 
 		},
 
 		onChangeLabel (id, txt) {
-			this.logger.log(-1, "onChangeLabel", "entry > ", id + ': ' + txt);	
+			this.logger.log(1, "onChangeLabel", "entry > ", id + ': ' + txt);	
 			if (this.toolbar && this.controller) {
 				let node = this.nodes[id]
 				if (node) {
@@ -145,7 +149,7 @@ export default {
 		},
 		
 		render (model){
-			this.logger.log(-1,"render", "render > ", model);
+			this.logger.log(2,"render", "render > ", model);
 			this.model = model;
 			this.createNestedModel(model);
 		},
@@ -277,6 +281,10 @@ export default {
 
 		selectWidget (widgetID) {
 			this.selectNode([widgetID])
+		},
+
+		selectMulti (ids) {
+			this.selectNode(ids)
 		},
 
 		selectNode (ids) {

@@ -18,9 +18,8 @@ export default {
     },
     components: {},
     methods: {
-        onWidgetSelected (id, forceSelection){
-			this.logger.log(2,"onWidgetSelected", "enter > "+ id + " > forceSelection : "+ forceSelection);
-		
+        onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
+			this.logger.log(-1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 			/**
 			 * Check here if the widget was select a second time. In this case
 			 * trigger the inline edit unless the forceSelection flag is set. This happens
@@ -34,7 +33,11 @@ export default {
 				this.onSelectionChanged(id, "widget");
 				if(this.model.widgets[id]){
 					this._selectWidget = this.model.widgets[id];
-		
+
+					if (ignoreParentGroups === true) {
+						this._dragNDropIgnoreGroup = true
+					}
+					
 					var parent  = this.widgetDivs[id];
 					if(parent){
 						if (this.showCustomHandlers) {
@@ -86,7 +89,15 @@ export default {
 				
 				this.controller.onScreenSelected(id);
 				css.add(this.domNode, "MatcCanvasSelection");
-			} 
+			}
+
+			try {
+				if (this.selectionListener) {
+					this.selectionListener.unSelect();
+				}
+			} catch (e){
+				this.logger.error("onGroupSelected", "could not call selectionListener > ", e);
+			}
 			
 		},
 		
@@ -101,19 +112,35 @@ export default {
 		},
 		
 		onMutliSelected (selection){
-			this.logger.log(3,"onMutliSelected", "enter ");
+			this.logger.log(-1,"onMutliSelected", "enter ", selection);
+			
 			this.onSelectionChanged(null, "multi");
-			this._selectMulti=selection;
+			this._dragNDropIgnoreGroup = false;
+
+			this._selectMulti = selection;
 			this.showGroupResizeHandlers(selection, null, "multi", true);
 			this.controller.onMultiSelect(selection);
 			css.add(this.domNode, "MatcCanvasSelection");
 			this.showHint("Press <b>D</b> to distribute selected objects...");
+
+			try {
+				if (this.selectionListener) {
+					this.selectionListener.selectMulti(selection);
+				}
+			} catch (e){
+				this.logger.error("onGroupSelected", "could not call selectionListener > ", e);
+			}
 		},
 		
-		onGroupSelected (groupID) {
+		onGroupSelected (groupID, fromLayerList) {
 			this.logger.log(2,"onGroupSelected", "enter > " + groupID);
 			this.onSelectionChanged(null, "group");
-		
+			/**
+			 * This can be triggered from the LayerList. If a widget was before
+			 * selectd we migh tbe weird stuff
+			 */
+			this._dragNDropIgnoreGroup = false
+
 			if (this.model.groups) {
 				this._selectGroup = this.model.groups[groupID];
 				
@@ -128,6 +155,14 @@ export default {
 					this._selectGroup.children = allChildren
 					this.showGroupResizeHandlers(this._selectGroup.children, groupID, "group", true);
 					this.controller.onGroupSelected(groupID);
+
+					/**
+					 * Make sure the DND._addDnDChildren() method does not select
+					 * the parent group
+					 */
+					if (fromLayerList) {
+						this._dragNDropGroupChildren = allChildren
+					}
 				}
 			}
 			css.add(this.domNode, "MatcCanvasSelection");
@@ -166,7 +201,7 @@ export default {
 		
 
 		onSelectionChanged (id, type){
-			this.logger.log(2,"onSelectionChanged", "enter > "+ id + " >" +   type);
+			this.logger.log(1,"onSelectionChanged", "enter > "+ id + " >" +   type);
 			try{
 				if(this._selectWidget && this._selectWidget.id!= id){
 					this.inlineEditStop();
@@ -176,6 +211,10 @@ export default {
 				}
 			} catch( e){
 				this.logger.sendError(e);
+			}
+			if (type !== 'group') {
+				this.logger.log(-1,"onSelectionChanged", "clear group children > ");
+				delete this._dragNDropGroupChildren;
 			}
 			try{	
 				/**
@@ -195,7 +234,6 @@ export default {
 			this._selectWidget = null;
 			this._selectMulti = null;
 			this._selectGroup = null;
-			
 			
 			css.remove(this.domNode, "MatcCanvasSelection");
 			

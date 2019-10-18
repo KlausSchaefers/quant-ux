@@ -488,8 +488,6 @@ export default {
       return result;
     },
 
-   
-
     getTopParentGroup (id) {
       let group = this.getParentGroup(id)
       if (group) {
