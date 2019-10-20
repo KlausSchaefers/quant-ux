@@ -325,7 +325,7 @@
     },
     "w10030" : {
       "type" : "Button",
-      "name" : "Black 2",
+      "name" : "Black 1",
       "x" : 2660,
       "y" : 2564,
       "w" : 112,
@@ -554,18 +554,6 @@
       "id" : "g10004",
       "children" : [ "w10002", "w10003" ],
       "name" : "Inner"
-    },
-    "g10027" : {
-      "id" : "g10027",
-      "children" : [ "w10025", "w10026" ],
-      "groups" : [ ],
-      "name" : "Inner"
-    },
-    "g10028" : {
-      "id" : "g10028",
-      "children" : [ "w10024" ],
-      "groups" : [ "g10027" ],
-      "name" : "Outer"
     },
     "g10032" : {
       "id" : "g10032",

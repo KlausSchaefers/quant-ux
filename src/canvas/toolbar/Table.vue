@@ -220,7 +220,6 @@ export default {
 		
 		
 		onBodyKeyDown (e){
-			console.debug("onBodyKeyDown", this.mode, this.selection.r, this.selection.c);
 			
 			 var isCntrl = e.altKey || e.ctrlKey || e.metaKey;
 			 var k = e.keyCode ? e.keyCode : e.which;

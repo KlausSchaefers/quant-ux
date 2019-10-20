@@ -816,6 +816,47 @@ export default class Core extends Evented{
         return result;
     }
 
+    getTopParentGroup (id) {
+        let group = this.getParentGroup(id)
+        if (group) {
+            while (group) {
+                let parent = this.getParentGroup(group.id)
+                if (parent) {
+                    group = parent
+                } else {
+                    /**
+                     * In contrast the the Layout copz of this, we do not add
+                     * all children... not sure it this is needed
+                     */
+                    return group
+                }
+            }
+        }
+        return null
+    }
+
+    getAllGroupChildren (group) {
+        if (!group.children) {
+          return []
+        }
+        let result = group.children.slice(0)
+        /**
+         * Check all sub groups
+         */
+        if (group.groups) {
+            group.groups.forEach(subId => {
+                let sub = this.model.groups[subId]
+                if (sub) {
+                    let children = this.getAllGroupChildren(sub)
+                    result = result.concat(children)
+                } else {
+                    console.warn('getAllGroupChildren() No sub group', subId)
+                }
+            })
+        }
+        return result
+    }
+
     getParentGroup (widgetID) {
         if (this.model.groups) {
             for (var id in this.model.groups) {
@@ -823,6 +864,15 @@ export default class Core extends Evented{
                 var i = group.children.indexOf(widgetID);
                 if (i > -1) {
                     return group;
+                }
+                /**
+                 * Since 2.13 we have subgroups and check this too
+                 */
+                if (group.groups) {
+                    let i = group.groups.indexOf(widgetID);
+                    if (i > -1) {
+                        return group;
+                    }
                 }
             }
         }

@@ -4,7 +4,7 @@
 			<div class="MatcToolbarLayerListScreenCntr">
 				<div class="MatcLayerListScreens">
 					<div :class="['MatcToolbarSection', {'MatcToolbarSectionCollabsed': isTreeCollapsed(tree)}]" v-for="tree in trees" :key="tree.id">
-						<div class="MatcToolbarSectionLabel" @click="toggleTreeCollapsed(tree)">
+						<div class="MatcToolbarLayerListScreenLabel" @click="toggleTreeCollapsed(tree)">
 							{{tree.name}}
 							<span class="MatcToolbarSectionChevron MatcLayerListExpandIcon mdi mdi-chevron-down">
 							</span>
@@ -136,14 +136,21 @@ export default {
 			let toNode = this.nodes[to]
 			if (fromNode && toNode) {
 				if (this.controller) {
-					this.controller.changeLayer(
-						fromNode.screen, 
-						fromNode.id, 
-						fromNode.group,
-						toNode.screen, 
-						toNode.id, 
-						toNode.group
-					);
+					this.controller.changeLayer({
+						source: fromNode.id,
+						widgetID: fromNode.widgetID,
+						screenID: fromNode.screenID,
+						groupID: fromNode.groupID,
+						type: fromNode.type
+					}, {
+						source: toNode.id,
+						widgetID: toNode.widgetID,
+						screenID: toNode.screenID,
+						groupID: toNode.groupID,
+						type: toNode.type
+					});
+				} else {
+					console.warn('No controller')
 				}
 			}
 		},
@@ -175,23 +182,17 @@ export default {
 				}
 			}
 		
+			// build a tree for each screen
 			for(let id in model.screens){
 				let screen = model.screens[id];
-				let widgets = {}
-				for (let i=0; i < screen.children.length; i++){
-					let widgetID = screen.children[i];
-					let widget = model.widgets[widgetID];
-					if (widget) {
-						widgets[widget.id] = widget
-					}
-				}
-				let sorted = this.getOrderedWidgets(widgets).reverse();			
+					
 				let tree = {
 					name: screen.name,
 					id: screen.id,
 					children: []
 				};
 				let groupNodes = {};
+				let sorted = this.getSortedScreenChildren(model, screen)
 				for(let i=0; i< sorted.length; i++){
 					let widget = sorted[i];
 					/**
@@ -199,20 +200,36 @@ export default {
 					 */
 					if (parentGroups[widget.id]){
 						let group = parentGroups[widget.id]
-						let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree)
-						groupNode.children.push(this.createNode(widget, screen.id, group.id))
+						let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
+						let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
+						groupNode.children.push(node)
 					} else {
-						let node = this.createNode(widget, screen.id, null)
+						let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
 						tree.children.push(node)
 					}					
 				}
 				result.push(tree)				
 			}
+
+			/**
+			 * Now still add before and after listeners
+			 */
 			this.trees = result
-	
 		},
 
-		getOrCreateGroup (group, screenId, groupNodes, parentGroups, tree) {
+		getSortedScreenChildren (model, screen) {
+			let widgets = {}
+			for (let i=0; i < screen.children.length; i++){
+				let widgetID = screen.children[i];
+				let widget = model.widgets[widgetID];
+				if (widget) {
+					widgets[widget.id] = widget
+				}
+			}
+			return this.getOrderedWidgets(widgets).reverse();	
+		},
+
+		getOrCreateGroup (group, screenId, groupNodes, parentGroups, tree, widget) {
 			/**
 			 * Check if we have to create a group node, or can recycle one
 			 */
@@ -225,13 +242,13 @@ export default {
 				if (parentGroups[group.id]) {
 					let parentGroup = parentGroups[group.id]
 
-					let newGroupNode = this.createNode(group, screenId, parentGroup.id, 'group');
+					let newGroupNode = this.createNode(group, widget.id, screenId, parentGroup.id, 'group');
 					groupNodes[group.id] = newGroupNode;
 
-					let parentNode = this.getOrCreateGroup(parentGroup, screenId, groupNodes, parentGroups, tree)
+					let parentNode = this.getOrCreateGroup(parentGroup, screenId, groupNodes, parentGroups, tree, widget)
 					parentNode.children.push(newGroupNode)
 				} else {
-					let newGroupNode = this.createNode(group, screenId, null, 'group');
+					let newGroupNode = this.createNode(group, widget.id, screenId, null, 'group');
 					groupNodes[group.id] = newGroupNode;
 
 					tree.children.push(newGroupNode);
@@ -240,21 +257,23 @@ export default {
 			return groupNodes[group.id]
 		},
 
-		createNode (box, screenId, groupId, type = 'widget') {
+		createNode (box, widgetID, screenID, groupId, type = 'widget') {
 			if (this.openNodes[box.id] === undefined) {
 				this.openNodes[box.id] = true
 			}
 			let node = {
 				id: box.id,
-				screen: screenId,
-				group: groupId,
-				label: box.name,
+				widgetID: widgetID,
+				screenID: screenID,
+				groupID: groupId,
+				label: box.name + ' (' + box.id + ') ' + box.z,
 				icon: this.getNodeIcon(box),
 				children:[],
 				type: type,
 				open: this.openNodes[box.id]
 			}
 			this.nodes[node.id] = node
+			this.lastNode = node
 			return node;
 		},
 	
@@ -310,25 +329,13 @@ export default {
 		
 		setSelectedGroup (){
 			console.warn('setSelectedGroup() DEPRCATED', new Error().stack)
-		},
-		
-		endDND (e){
-			this.stopEvent(e);
-			// the end node is the dragged node, so we use the ids from the canDND
-			// var div = e.target;
-			if (this._dndScreenID){
-				//console.debug("endDND", this._dndWidgetID, this._dndScreenID, this._dndGroupID);
-				if (this.controller){
-					this.controller.changeLayer(this._dndStartScreenID, this._dndStartWidgetID, this._dndStartGroupID, this._dndScreenID, this._dndWidgetID, this._dndGroupID);
-				} else {
-					console.debug("changeLayer(", this._dndStartWidgetID, this._dndStartGroupID, this._dndWidgetID, this._dndGroupID);
-				}
-			}
-			this.cleanDND();
 		}
-
-	
-    }, 
+	}, 
+	watch: {
+		value (v) {
+			this.render(v)
+		}
+	},
     mounted () {
 		if (this.value) {
 			this.render(this.value)

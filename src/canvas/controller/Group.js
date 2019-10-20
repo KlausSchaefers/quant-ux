@@ -295,15 +295,14 @@ export default class Group extends Layer {
 		/**
 		 * check that we do not have group of group!
 		 */
-		// var targetScreen = null;
 		let subGroups = []
 		let children = []
 		for (let i = 0; i < selection.length; i++) {
-			/**
-			 * FIXME: Here is some bug with mutli level groups
-			 */
 			let widgetID = selection[i];
-			let group = this.getParentGroup(widgetID);
+			/**
+			 * We always take the top group!
+			 */
+			let group = this.getTopParentGroup(widgetID);
 			if (group) {
 				if (subGroups.indexOf(group.id) < 0) {
 					subGroups.push(group.id)
@@ -311,11 +310,6 @@ export default class Group extends Layer {
 			} else {
 				children.push(widgetID)
 			}
-			// since 2.1.3 we allow subgroups
-			//if(group){
-			//	this.showError("Some of the widgets are already part of another group! We do not support nested groups yet!");
-			//	return;
-			//}
 		}
 		var length = this.getObjectLength(this.model.groups);
 		var name = "Group"
@@ -323,15 +317,12 @@ export default class Group extends Layer {
 			name += ' ' + length;
 		}
 		this.logger.log(-1,"addGroup", "add subgroups", subGroups);
-		let group ={
+		let group = {
 			id : "g"+this.getUUID(),
 			children : children,
 			groups: subGroups, 
 			name : name
 		};
-
-		console.debug('create group', group)
-
 		/**
 		 * create the command
 		 */
@@ -352,8 +343,7 @@ export default class Group extends Layer {
 		
 		return group;
 	}
-	
-	
+
 	
 	modelAddGroup (group, ignoreModelUpdate, line){
 	

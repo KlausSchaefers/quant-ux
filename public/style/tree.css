@@ -29,13 +29,13 @@
 .MatcTreeItemLabel {
   font-weight: 400;
   font-size: 12px;
+  padding: 5px 0;
+  cursor: pointer;
 }
 
 input.MatcTreeItemLabel {
   width: calc(100% - 30px);
 }
-
-
 
 .MatcTree ul {
   list-style: none;
@@ -46,7 +46,6 @@ input.MatcTreeItemLabel {
 .MatcTree ul li{
   width: calc(100% - 10px);
   margin-left: 10px;
-  margin-bottom: 5px;
 }
 
 .MatcTree .MatcTreeIcon {
@@ -60,3 +59,18 @@ input.MatcTreeItemLabel {
   color:red;
 }
 
+.MatcDark .MatcTreeItem {
+  color:#ddd;
+}
+
+.MatcDark .MatcTreeItemRow:hover{
+  color: #ddd;
+}
+
+.MatcDark .MatcTreeItem .mdi {
+  color: #999;
+}
+
+.MatcDark .MatcTreeItem.MatcTreeItemSelected .mdi {
+  color: #fff;
+}
