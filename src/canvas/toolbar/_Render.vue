@@ -468,6 +468,8 @@ export default {
 			parent.appendChild(content);
 
 			this.groupName = this.createInput(content, "Group Name");
+			this.own(on(this.groupName, "change", lang.hitch(this, "onGroupNameChange")));
+
 
 			this.groupPositionCheckBox = this.$new(CheckBox);
 			this.groupPositionCheckBox.setLabel("Fixed In Simulator");

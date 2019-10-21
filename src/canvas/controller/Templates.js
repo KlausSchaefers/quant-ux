@@ -143,9 +143,10 @@ export default class Templates extends BaseController{
 			/**
 			 * make templates for all children
 			 */
-			var boundingBox = this.getBoundingBox(group.children);
-			for(var i=0; i < group.children.length; i++){
-				var widgetID = group.children[i];
+			let allChildren = this.getAllGroupChildren(group)
+			var boundingBox = this.getBoundingBox(allChildren);
+			for(var i=0; i < allChildren.length; i++){
+				var widgetID = allChildren[i];
 				var widget = this.model.widgets[widgetID];
 				
 				var t = this._createWidgetTemplate(widget, false, name+"_"+i, "");

@@ -584,6 +584,24 @@ export default class BaseController extends Core {
 	/**********************************************************************
 	 * Canvas Delegates 
 	 **********************************************************************/
+
+	onWidgetNameChange (widget) {
+		if (this._canvas) {
+			this._canvas.setWidgetName(widget)
+		}
+	}
+
+	onScreenNameChange (widget) {
+		if (this._canvas) {
+			this._canvas.setScreenName(widget)
+		}
+	}
+
+	onGroupNameChange (group) {
+		if (this._canvas) {
+			this._canvas.setGroupName(group)
+		}
+	}
 	
 	render (screenID){
 		this.logger.log(2,"render", "enter > screenID : " + screenID);
@@ -688,7 +706,6 @@ export default class BaseController extends Core {
 	}
 	
 	renderScreen (screen){
-		
 		/**
 		 * Suppose the model was already updated
 		 */
@@ -1631,7 +1648,7 @@ export default class BaseController extends Core {
 					var widget = this.model.widgets[widgetID];
 					if (widget) {
 						var parentScreen = this.getParentScreen(widget);
-						if (parentScreen.id === screenID) {
+						if (parentScreen && parentScreen.id === screenID) {
 							names[group.name] = group.id;
 						}
 					}
@@ -1639,7 +1656,8 @@ export default class BaseController extends Core {
 			} else {
 				console.debug("getGroupName() > No group", id);
 			}
-		}	
+		}
+	
 		return this.getUniqueName(name, names);
 	}
 
@@ -1648,7 +1666,6 @@ export default class BaseController extends Core {
 	 * we have to remove it
 	 */
 	getUniqueName  (name, names) {
-		
 		// if the name is unique simply return
 		if (!names[name]){
 			return name;
@@ -1661,7 +1678,6 @@ export default class BaseController extends Core {
 			var isInt =  er.test(end);
 			if (isInt){
 				name = name.substring(0, pos);
-				//console.debug("Reduced", ">"+ name+ "<");
 			}
 		}
 		if (!names[name]){
@@ -1673,6 +1689,7 @@ export default class BaseController extends Core {
 			newName = name + " " + count;
 			count++;
 		}
+		console.debug('getUniqueName', name, '=>', newName)
 		return newName;
 	}
 	

@@ -177,7 +177,7 @@ export default {
 		},
 		
 		addTemplatedGroup (params){
-			this.logger.log(0,"addTemplatedGroup", "enter > XXX");
+			this.logger.log(-1,"addTemplatedGroup", "enter > XXX");
 			
 			this._createAddCommand("addTemplatedGroup", params);
 			
@@ -597,7 +597,7 @@ export default {
 		 * AddNDropMethods
 		 **********************************************************************/
 		_onAddNDropStart (div, model, e, onEndCallback , mouseup){
-			
+						
 			this.setCanvasCancelCallback("_onAddCancel");
 			
 			/**
@@ -630,15 +630,12 @@ export default {
 			 */
 			this._addNDropMove = on(win.body(),"mousemove", lang.hitch(this,"_onAddNDropMove"));
 			
-			
 			this.setDragNDropActive(false);
 			if(mouseup === true){
 				this._addNDropUp = on(win.body(),"mouseup", lang.hitch(this,"_onAddNDropUp"));
 			} else {
 				this._addNDropUp = on(win.body(),"mousedown", lang.hitch(this,"_onAddNDropUp"));
 			}
-			
-			
 		},
 		
 		
@@ -701,7 +698,6 @@ export default {
 		
 		
 		_onAddNDropUp (e){
-			//console.debug("_onAddNDropUp" , this._addNDropEndCallback);
 			this.stopEvent(e);
 			
 			var pos = this._addNDropNodePos;

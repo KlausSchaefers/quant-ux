@@ -1554,6 +1554,10 @@ export default {
 			this.setWidgetName(this.widgetName.value);
 		},
 		
+		onGroupNameChange (){
+			this.setGroupName(this.groupName.value);
+		},
+		
 		
 		setWidgetName (value){
 			this.logger.log(3,"setWidgetName", "entry > " + value);
@@ -1567,8 +1571,8 @@ export default {
 		},
 		
 		setGroupName (value){
-			this.logger.log(3,"setGroupName", "entry > " + value);
-			if(this._selectedGroup){
+			if(this._selectedGroup && this._selectedGroup.name !== value){
+				this.logger.log(-1,"setGroupName", "entry > " + value);
 				this.controller.setGroupName(this._selectedGroup.id, value);
 			}
 		},

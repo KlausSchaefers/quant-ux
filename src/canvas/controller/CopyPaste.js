@@ -374,7 +374,7 @@ export default class CopyPaste extends Group{
 
 	
 	onCopyGroup (group, pos){
-		this.logger.log(2,"onCopyGroup", "enter > "+pos);
+		this.logger.log(-1,"onCopyGroup", "enter > ", pos);
 		
 		// FIXME: check if (pos.newScreen)
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
@@ -399,15 +399,21 @@ export default class CopyPaste extends Group{
 		 * create already the grou
 		 */
 		var selection = [];
-		
+		var copyIds = {}
 		/**
 		 * 3) copy children and add off set to top children
+		 * 
+		 * - Since 2.1.3 We have subgroup. The copy works 
+		 *   here because the Select class sets allChildren()!
+		 * 
+		 * - Make sure we add in the correct Z order
 		 */
-		for(let i=0; i < group.children.length; i++){
-			let id = group.children[i];
-			let widget = this.model.widgets[id];			
+		let allChildren = this.sortChildren(group.children)	
+
+		allChildren.forEach(widget => {
+			let id = widget.id
 			let newWidget = this._copyWidget(widget, targetScreen);
-			newWidget.id = "w"+this.getUUID();
+			newWidget.id = "w" + this.getUUID();
 			newWidget.x =  pos.x + (newWidget.x - parentPos.x);
 			newWidget.y =  pos.y + (newWidget.y - parentPos.y);			
 			if (pos.newScreen){
@@ -418,6 +424,7 @@ export default class CopyPaste extends Group{
 			}			
 			newWidget.z = this.getMaxZValue(this.model.widgets) + 1;
 			selection.push(newWidget.id);
+			copyIds[id] = newWidget.id
 		
 			/**
 			 * create the command
@@ -433,28 +440,12 @@ export default class CopyPaste extends Group{
 			 * update model
 			 */
 			this.modelAddWidget(newWidget);			
-		}
+		})
 	
 		/**
 		 * 4) copy group
 		 */
-		let name = group.name;
-		if (targetScreen){
-			this.getGroupName(targetScreen.id, group.name)
-		}
-		let newGroup ={
-			id : "g"+this.getUUID(),
-			children : selection,
-			copyOf : group.id,
-			name : name
-		};
-		let child = {
-			timestamp : new Date().getTime(),
-			type : "AddGroup",
-			model : newGroup
-		};
-		command.children.push(child);
-		this.modelAddGroup(newGroup);
+		let newGroup = this.createGroupCommands(group, copyIds, command, targetScreen)
 		
 		/**
 		 * finally add command
@@ -467,6 +458,62 @@ export default class CopyPaste extends Group{
 		this.onGroupSelected(newGroup.id);
 		this.render();		
 		return newGroup;
+	}
+
+
+	createGroupCommands (group, copyIds, command, targetScreen) {
+
+		/**
+		 * First copy recursive down
+		 */
+		let subGroups= []
+		if (group.groups) {
+			group.groups.forEach(subGroupId => {
+				let subGroup = this.model.groups[subGroupId]
+				if (subGroup) {
+					let subGroupCopy = this.createGroupCommands(subGroup, copyIds, command, targetScreen)
+					subGroups.push(subGroupCopy.id)
+				} else {
+					this.logger.error("createGroupCommands", "could not find subgroup > " + subGroupId);
+				}
+			})
+		}
+
+		/**
+		 * Now create real group
+		 */
+		let name = group.name;
+		if (targetScreen){
+			name = this.getGroupName(targetScreen.id, group.name)
+		}
+		let newGroup = {
+			id : "g" + this.getUUID(),
+			children : this.getGroupCopyChildren(group.id, copyIds),
+			groups: subGroups,
+			copyOf : group.id,
+			name : name
+		};
+
+		let child = {
+			timestamp : new Date().getTime(),
+			type : "AddGroup",
+			model : newGroup
+		};
+		command.children.push(child);
+		this.modelAddGroup(newGroup);
+
+		return newGroup;
+	}
+
+	getGroupCopyChildren (groupId, copyIds) {
+		let group = this.model.groups[groupId]
+		if (group) {
+			return group.children.map(id => {
+				return copyIds[id]
+			}).filter(id => id !== undefined && id !== null)
+		}
+		console.error('CopyPaste.getGroupCopyChildren() > cannot find group', groupId) 
+		return []
 	}
 	
 	/**********************************************************************
@@ -643,18 +690,7 @@ export default class CopyPaste extends Group{
 			 */
 			for(let parentGroupID in parentGroups){
 				let parentGroup = parentGroups[parentGroupID];				
-				let group = lang.clone(parentGroup);
-				group.id = "g" + this.getUUID();
-				group.copyOf = parentGroup.id;
-				group.children = [];
-				for(var c=0; c < parentGroup.children.length; c++){
-					var parentChildID = parentGroup.children[c];
-					if(widgetIDMapping[parentChildID]){
-						group.children.push(widgetIDMapping[parentChildID]);
-					}
-				}
-				groups.push(group);
-				console.debug("Copy group ", parentGroup, group);
+				this.copyScreenGroup(parentGroup, groups, widgetIDMapping)
 			}
 			
 			
@@ -675,7 +711,6 @@ export default class CopyPaste extends Group{
 			 */
 			this.modelAddScreenAndWidgetsAndLines(newScreen, children, null, groups);
 			
-			
 			this.render();
 			
 			return newScreen;
@@ -683,6 +718,38 @@ export default class CopyPaste extends Group{
 			console.warn("No screen with id", id);
 		}			
 	}		
+
+	copyScreenGroup (parentGroup, groups, widgetIDMapping) {
+
+		let subGroupIds = []
+		if (parentGroup.groups) {
+			parentGroup.groups.forEach(subGroupId => {
+				let subGroup = this.model.groups[subGroupId]
+				if (subGroup) {
+					let newSubGroup = this.copyScreenGroup(subGroup, groups, widgetIDMapping)
+					subGroupIds.push(newSubGroup.id)
+				} else {
+					this.logger.error("copyScreenGroup", "could not find subgroup > " + subGroupId);
+				}
+			})
+		}
+
+		let newGroup = lang.clone(parentGroup);
+		newGroup.id = "g" + this.getUUID();
+		newGroup.copyOf = parentGroup.id;
+		newGroup.children = [];
+		newGroup.groups = subGroupIds
+		for (var c=0; c < parentGroup.children.length; c++) {
+			var parentChildID = parentGroup.children[c];
+			if (widgetIDMapping[parentChildID]){
+				newGroup.children.push(widgetIDMapping[parentChildID]);
+			}
+		}
+		groups.push(newGroup);
+		this.logger.log(3,"copyScreenGroup", "enter > ", newGroup);
+		return newGroup
+	}
+
 	undoCopyScreen (command){
 		this.logger.log(3,"undoCopyScreen", "enter > " + command.id);
 		var model = command.model;

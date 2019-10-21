@@ -426,6 +426,7 @@ export default class Widget extends Screen {
 		if(widget){
 			widget.name = value;
 			this.onModelChanged();
+			this.onWidgetNameChange(widget)
 		}
 	
 	} 

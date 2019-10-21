@@ -266,11 +266,16 @@ export default {
 				widgetID: widgetID,
 				screenID: screenID,
 				groupID: groupId,
-				label: box.name + ' (' + box.id + ') ' + box.z,
+				label: box.name, // + ' (' + box.id + ') ' + box.z,
 				icon: this.getNodeIcon(box),
 				children:[],
 				type: type,
-				open: this.openNodes[box.id]
+				open: this.openNodes[box.id],
+				inherited: box.inherited
+			}
+			if (box.inherited) {
+				node.css = "MatcLayerListWidgetInherited"
+				node.disabled = true
 			}
 			this.nodes[node.id] = node
 			this.lastNode = node
@@ -288,6 +293,15 @@ export default {
 				}
 			}
 			return "mdi mdi-crop-portrait";
+		},
+
+		changeName (box) {
+			let node = this.nodes[box.id]
+			if (node) {
+				this.$set(node, 'label', box.name)
+			} else {
+				this.logger.error('changeName', 'No node with id', box.id)
+			}
 		},
 
 		unSelect () {
@@ -312,6 +326,7 @@ export default {
 				let node = this.nodes[id]
 				if (node) {
 					this.$set(node, 'selected', true)
+					this.$set(node, 'scroll', true)
 				}
 			})
 		},
@@ -320,6 +335,7 @@ export default {
 			for (let id in this.nodes) {
 				let node = this.nodes[id]
 				this.$set(node, 'selected', false)
+				this.$set(node, 'scroll', false)
 			}
 		},
 

@@ -52,74 +52,6 @@
     width: 100%;
 }
 
-.MatcToolbarLayerList .MatcToolbarSectionChevron {
-    position: absolute;
-    left: 5px;
-    right:auto;
-    top: 2px;
-    width: 18px;
-    
-}
-
-.MatcLayerListWidget{
-	font-size: 12px;
-   	height:30px;
-   	padding-top:6px;
-    padding-left: 10px;
-    padding-right: 30px;
-    color: #ddd;
-    overflow: hidden;
-    border-top:1px solid transparent; 
-}
-
-.MatcLayerListGroup{
-	height:30px;
-	font-size: 12px;
-   	padding-top:6px;
-    padding-left: 10px;
-    padding-right: 30px;
-    overflow: hidden;
-    color: #ddd;
-    border-top:1px solid transparent; 
-}
-
-.MatcLayerListGroupCntr .MatcLayerListWidget{
-	 padding-left: 28px;
-}
-
-.MatcLayerListGroupCntr.MatcToolbarSectionCollabsed .MatcLayerListWidget{
-	display: none;
-}
-
-.MatcLayerListGroupCntr.MatcToolbarSectionCollabsed .MatcLayerListGroupIcon{
-	transform:rotate(-90deg);
-	transform-origin: 50% 50%;
-}
-
-.MatcLayerListRowIcon{
-	display: inline-block;
-	width:20px;
-	height:20px;
-	color:#777;
-	text-align: center;
-	margin-right: 5px;
-}
-
-
-.MatcLayerListRowIcon.MatcLayerListGroupIcon{
-	color:#ddd;
-	transition:all 0.2s;
-	cursor: pointer;
-}
-
-.MatcLayerListExpandIcon{
-	cursor: pointer;
-}
-.MatcLayerListExpandIcon:hover{
-	color:#1973e8;
-}
-
-
 .MatcLayerListRowLabel{
 	vertical-align: center;
 }
@@ -181,4 +113,13 @@
 .MatcDark .MatcToolbarLayerListScreenLabel{
 	background: #242a30;
 	border: none;
+}
+
+.MatcLayerListWidgetInherited{
+	opacity: 0.7;
+
+}
+
+.MatcLayerListWidgetInherited .MatcTreeItemLabel{
+	cursor: auto;
 }

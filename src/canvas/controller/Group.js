@@ -1,4 +1,3 @@
-import lang from 'dojo/_base/lang'
 import Layer from 'canvas/controller/Layer'
 
 export default class Group extends Layer {
@@ -166,6 +165,11 @@ export default class Group extends Layer {
 			
 			group = this.factory.createTemplatedModel(groupTemplate);
 			group.id = "tg"+this.getUUID();
+
+			var targetScreen = this.getHoverScreen(pos);
+			if (targetScreen) {
+				group.name = this.getGroupName(targetScreen.id, group.name)
+			}
 			
 			/**
 			 * 1) create mutli command
@@ -270,6 +274,7 @@ export default class Group extends Layer {
 			var group = this.model.groups[id];
 			group.name = value;		
 			this.onModelChanged();
+			this.onGroupNameChange(group)
 		} else {
 			console.warn("modelGroupName() > No group with id", id)
 		}
@@ -293,7 +298,8 @@ export default class Group extends Layer {
 		this.logger.log(0,"addGroup", "enter ");
 		
 		/**
-		 * check that we do not have group of group!
+		 * Since 2.1.3 we have sub groups:
+		 * Check that we do not have group of group!
 		 */
 		let subGroups = []
 		let children = []
@@ -378,7 +384,7 @@ export default class Group extends Layer {
 	
 
 	removeGroup (id){
-		this.logger.log(0,"removeGroup", "enter >> " + id);
+		this.logger.log(1, "removeGroup", "enter >> " + id);
 		
 		if(this.model.groups && this.model.groups[id]) {
 			var group = this.model.groups[id];
@@ -394,11 +400,13 @@ export default class Group extends Layer {
 	}
 	
 	createRemoveGroupCommand (group){
+		
 		var command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveGroup",
 			model : group
 		};
+
 		/**
 		 * if group has line, also remove it
 		 */
@@ -409,12 +417,12 @@ export default class Group extends Layer {
 		return command;
 	}
 	
+
 	
 	modelRemoveGroup (group, line, doNotCallModelChanged){
 		var id = group.id;
 		if(this.model.groups && this.model.groups[id]){
 			delete this.model.groups[id];
-		
 			
 			/**
 			 * also update lines
@@ -443,13 +451,25 @@ export default class Group extends Layer {
 		this.render();
 	}
 	
-	
-
 	/**********************************************************************
 	 * Delete Group and Widgets 
 	 **********************************************************************/
-	removeGroupAndWidgets (id){
-		this.logger.log(0,"removeGroupAndWidget", "enter > " + id);
+
+	getAllSubGroups (group, result = []) {
+		if (group.groups) {
+			group.groups.forEach(id => {
+				let subGroup = this.model.groups[id]
+				if (subGroup) {
+					result.push(subGroup)
+					this.getAllSubGroups(subGroup, result)
+				}
+			})
+		}
+		return result
+	}
+
+	removeGroupAndWidgets (id) {
+		this.logger.log(-1, "removeGroupAndWidget", "enter > " + id);
 		
 		
 		if(this.model.groups && this.model.groups[id]){
@@ -461,6 +481,12 @@ export default class Group extends Layer {
 				label : "RemoveGroupAndWidget",
 				children :[]
 			};
+
+			/**
+			 * Since 2.1.3 we have subgroups. 
+			 * Get all the children before we execute the group removal
+			 */
+			var children = this.getAllGroupChildren(group)
 			
 			/**
 			 * 1st) remove group se we have also the children list saved!
@@ -468,12 +494,21 @@ export default class Group extends Layer {
 			var child = this.createRemoveGroupCommand(group);
 			command.children.push(child);
 			this.modelRemoveGroup(group, null, true);
+
+			/**
+			 * Since 2.1.3 we have subgroups. Delete them as well
+			 */
+			let subGroups = this.getAllSubGroups(group)
+			subGroups.forEach(subGroup => {
+				var subGroupChild = this.createRemoveGroupCommand(subGroup);
+				command.children.push(subGroupChild);
+				this.modelRemoveGroup(subGroup, null, true);
+			})
 					
 			/**
 			 * 2) remove widgets. Clone children list as it might 
 			 * be modified in the modelRemoveWidgetAndLines() method.
 			 */
-			var children = lang.clone(group.children);
 			for(let i=0; i < children.length; i++){
 				let id = children[i];				
 				let child = this.createWidgetRemoveCommand(id);

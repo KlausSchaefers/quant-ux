@@ -183,7 +183,39 @@ export default {
 			if (this.settings){
 				this.toolbar.setSettings(this.settings);
 			}
-			
+		},
+
+		setScreenName (screen) {
+			this.logger.log(-1, "setScreenName", "enter > " + screen.name);
+			if (this.layerList){
+				this.layerList.changeName(screen);
+			}
+		},
+
+		setWidgetName (widget) {
+			this.logger.log(-1, "setWidgetName", "enter > " + widget.name);
+			if (this.layerList){
+				this.layerList.changeName(widget);
+				/**
+				 * Also update inherited
+				 */
+				let viewWidget = this.model.widgets[widget.id]
+				if (viewWidget && viewWidget.copies) {
+					viewWidget.copies.forEach(copyId => {
+						let copyWidget = this.model.widgets[copyId]
+						if (copyWidget) {
+							this.layerList.changeName(copyWidget);
+						}
+					})
+				}
+			}
+		},
+
+		setGroupName (group) {
+			this.logger.log(-1, "setGroupName", "enter > " + group.name);
+			if (this.layerList){
+				this.layerList.changeName(group);
+			}
 		},
 		
 		setModel (model){

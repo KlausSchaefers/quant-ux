@@ -650,18 +650,31 @@ export default {
 				/**
 				 * Check widgets
 				 */
+				let topGroups = {}
+				let elementsWidthGroup = []
 				for(let id in this.model.widgets){
 					let widget = this.model.widgets[id];
 					if(!widget.inherited){
 						if(this._isContainedInBox(widget, pos)){
-							selection.push(widget.id);
+							if (selection.indexOf(widget.id) < 0) {
+								selection.push(widget.id);
+							}
+
 							/**
 							 * Sincen 2.1.3 we also extand groups
 							 */
 							selection = this.extendSelectionToGroup(widget.id, selection)
+
+							let topGroup = this.getTopParentGroup(id)
+							if (topGroup) {
+								topGroups[topGroup.id] = topGroup
+							} else {
+								elementsWidthGroup.push(id)
+							}
 						}
 					}
 				}
+
 			
 				/**
 				 * If there is a multi selection, save at and 
@@ -669,8 +682,15 @@ export default {
 				 * set at selected Widget.
 				 * 
 				 * FIXME: Call renderSelection instead passing forceRender=true!
+				 * 
+				 * Since 2.1.3 we have subgroups. If all elements have the save top group
+				 * we select the group instead
 				 */
-				if(selectedScreens.length >= 1){
+				topGroups = Object.values(topGroups)
+				if (topGroups.length === 1 && elementsWidthGroup.length === 0) {
+					this._selectGroup = topGroups[0];
+					this.controller.setMode("edit", false);
+				} else if(selectedScreens.length >= 1){
 					this._selectedScreen = selectedScreens[0];
 					this.controller.setMode("edit", false);
 				} else if(selection.length > 1){
@@ -776,7 +796,7 @@ export default {
 		 **********************************************************************/
 		
 		onCopy (isDuplicate){
-			this.logger.log(1,"onCopy", "enter > " + isDuplicate);
+			this.logger.log(-1,"onCopy", "enter > " + isDuplicate);
 			
 			if(this._selectWidget || this._selectedScreen || this._selectMulti || this._selectGroup){
 				this._copied ={
@@ -864,7 +884,7 @@ export default {
 		},
 		
 		onPaste (fromToolBar, e){
-			this.logger.log(1,"onPaste", "enter > " + fromToolBar);
+			this.logger.log(-1,"onPaste", "enter > " + fromToolBar);
 			// var clipBoard = this._getClipBoard();			
 			if(this._copied){				
 				var pos = this.getLastMousePos();				
@@ -982,7 +1002,7 @@ export default {
 						}
 						
 						this._onAddNDropStart(div, this._copied.multi, e, "onMultiPaste");
-						
+						this.setState(3);
 					}
 					
 					if(this._copied.group){
@@ -1015,8 +1035,7 @@ export default {
 						}
 						
 						this._onAddNDropStart(div, group, e, "onGroupPaste");
-						
-						
+						this.setState(3);
 					}
 				}
 				

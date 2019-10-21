@@ -702,7 +702,7 @@ export default {
     },
 
     _addDnDChildren (id) {
-      console.debug('_addDnDChildren', id, this._dragNDropIgnoreGroup, this._dragNDropGroupChildren)
+      // console.debug('_addDnDChildren', id, this._dragNDropIgnoreGroup, this._dragNDropGroupChildren)
       if (this._dragNDropIgnoreGroup) {
         return;
       }

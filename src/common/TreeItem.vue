@@ -1,15 +1,16 @@
 
 <template>
-	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem']"  >
+	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem']"  :xScroll="scrollToItem()" >
     <li :class="'MatcTreeItemLevel' + level">
         <div 
-            class="MatcTreeItemRow"
+            :class="'MatcTreeItemRow ' + rowStyle"
             @click.stop="onClick($event)"
             @dragstart="onDragStart" 
             @dragover="onDragOver" 
             @dragleave="onDragLeave"
             @dblclick.stop="onDoubleClick"
             @drop="onDrop"
+            ref="row"
             :draggable="!isEditable"
           >
           <template v-if="hasChildren">
@@ -55,6 +56,12 @@ export default {
     };
   },
   computed: {
+    rowStyle () {
+      if (this.value && this.value.css) {
+        return this.value.css
+      }
+      return ''
+    },
     hasChildren () {
       return this.value.children && this.value.children.length > 0
     },
@@ -99,7 +106,9 @@ export default {
     },
     onClick (e) {
       let expand = e.ctrlKey || e.metaKey || e.shiftKey
-      this.$emit('select', this.value.id, expand)
+      if (this.value && !this.value.disabled) {
+        this.$emit('select', this.value.id, expand)
+      }
     },
     onDragStart (e) {
       e.dataTransfer.setData("text", this.value.id)
@@ -152,13 +161,20 @@ export default {
           this.$refs.lblNode.focus()
         }, 100)
       }
+    },
+    scrollToItem () {
+      if (this.value && this.value.scroll) {
+        console.debug('scrollToItem', this.value)
+        setTimeout(() => {
+          this.$el.scrollIntoView(false)
+        })
+      }
     }
   },
   watch: {
     value (v) {
       this.value = v
       this.isOpen = this.value.open
-     
     }
   },
   mounted() {

@@ -60,7 +60,7 @@ export default class ModelFactory {
 	createTemplatedGroup(t) {
 		var model = {
 			id: t.id,
-			name: "",
+			name: t.name,
 			template: t.id,
 			children: lang.clone(t.children)
 		};
@@ -83,6 +83,7 @@ export default class ModelFactory {
 	
 		var grid = 8;
 		var model = {
+			version: 2,
 			name: name,
 			description: des,
 			screenSize: type.screenSize,
