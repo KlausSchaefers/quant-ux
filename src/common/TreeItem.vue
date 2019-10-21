@@ -98,7 +98,9 @@ export default {
       }
     },
     onDoubleClick () {
-      this.$emit('startEdit', this.value.id)
+      if (this.value && !this.value.disabled) {
+        this.$emit('startEdit', this.value.id)
+      }
     },
     toggleOpen () {
       this.isOpen = !this.isOpen
@@ -111,7 +113,11 @@ export default {
       }
     },
     onDragStart (e) {
-      e.dataTransfer.setData("text", this.value.id)
+      if (this.value && !this.value.disabled) {
+        e.dataTransfer.setData("text", this.value.id)
+      } else {
+        e.preventDefault()
+      }
     },
     onDragOver (e) {
       e.preventDefault() 
@@ -124,7 +130,7 @@ export default {
     onDrop (e) {
       let id = e.dataTransfer.getData('text')
       this.isDragOver = false
-      this.$emit('dnd', id, this.value.id, 'top')
+      this.$emit('dnd', id, this.value.id, 'top')    
     },
     onChildDnd (from, to, position) {
       this.$emit('dnd', from, to, position)

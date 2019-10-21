@@ -195,6 +195,11 @@ export default {
 				let sorted = this.getSortedScreenChildren(model, screen)
 				for(let i=0; i< sorted.length; i++){
 					let widget = sorted[i];
+
+					/**
+					 * FIMXE: Make here a extra group for the master widgets
+					 */
+
 					/**
 					 * Check if we have a group
 					 */
