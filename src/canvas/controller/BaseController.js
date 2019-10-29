@@ -1370,7 +1370,7 @@ export default class BaseController extends Core {
 	async addCommand (command){
 		
 		if(!this.commandStack.lastUUID){
-			this.commandStack.lastUUID =0;
+			this.commandStack.lastUUID = 0;
 		}
 		command.id = "c" + this.commandStack.lastUUID++;
 		
@@ -1379,7 +1379,6 @@ export default class BaseController extends Core {
 		 * if a new command comes, we throw away all newer commands.
 		 */
 		if(this.commandStack.pos < this.commandStack.stack.length){
-			
 			if(this.mode=="public"){
 				this.onCommandDeleted(command);
 			} else {
@@ -1413,20 +1412,37 @@ export default class BaseController extends Core {
 	
 	
 	async postCommand (command){
-		this.logger.log(0,"postCommand", "enter > " + this.mode);
 		this.logPageEvent("addCommand", command.type)
-		if(this.mode=="public"){
-			var result = {
-				pos : this.commandStack.pos+1,
-				command : command,
-				lastUUID : new Date().getTime()+ "command"
-			}
-		
+		var result = {
+			pos : this.commandStack.pos + 1,
+			command : command,
+			lastUUID : this.commandStack.lastUUID + 1
+		}
+		this.logger.log(1,"postCommand", "enter > " + this.mode);
+		if (this.mode == "public"){
+			/**
+			 * In public mode, we do not call network, and just add
+			 */
 			this.onCommandAdded(result);
 		} else {
-			this.modelService.addCommand(this.model, command).then(pos => {
-				this.onCommandAdded(pos);
-			})
+			
+			try {
+				this.modelService.addCommand(this.model, command).then(pos => {
+					this.onCommandAdded(pos);
+				})
+
+				/**
+				 * Since 2.1.3 we put stuff and the stack, without waiting 
+				 * for the backend.
+				 */
+				this.commandStack.stack.push(result.command);
+				this.commandStack.pos = result.pos;
+				this.commandStack.lastUUID = result.lastUUID;
+
+				this.logger.log(-1,"postCommand", "exit > lastUUID: " + this.commandStack.lastUUID  + ' > pos: ' + this.commandStack.pos);
+			} catch (err) {
+				this.logger.sendError("postCommand", err);
+			}
 		}		
 	}
 	
@@ -1437,18 +1453,19 @@ export default class BaseController extends Core {
 		}
 		
 		/**
-		 * FIXME: I guess we have here a bug. In case we did undo, we should remove some elements before from
-		 * the stack, or?
+		 * Since 2.1.3 we put stuff and the stack. here we just update the
+		 * lastUUID ans pos with the server one, in case we would have
+		 * concurrant editing
 		 */
 					
-		this.commandStack.stack.push(result.command);
+		// this.commandStack.stack.push(result.command);
 		this.commandStack.pos = result.pos;
 		this.commandStack.lastUUID = result.lastUUID;
 		
 		if(this.toolbar){
 			this.toolbar.enbaleUndo();
 		}							
-		this.logger.log(3,"addCommand", "exit > id : "+ result.command.id +  " > pos : " + this.commandStack.pos);
+		this.logger.log(-1,"onCommandAdded", "exit > id: "+ result.command.id + " > lastUUID: " + this.commandStack.lastUUID + " > pos: " + this.commandStack.pos);
 	}
 	
 	
@@ -1464,11 +1481,10 @@ export default class BaseController extends Core {
 			 * Do do things faster for large requests, 
 			 * we do not wait for the rest response.
 			 */
-
 			if(this.mode !== "public"){
 					this.modelService.undoCommand(this.model, {}).then(res => {
 						if (res.pos != this.commandStack.pos) {
-							this.logger.log(1, 'undo', "server is behind")
+							this.logger.error('undo', "server is behind")
 						}
 						this.logger.log(2,"undo", "saved", res.pos + '==' + this.commandStack.pos);
 					})			
@@ -1689,7 +1705,6 @@ export default class BaseController extends Core {
 			newName = name + " " + count;
 			count++;
 		}
-		console.debug('getUniqueName', name, '=>', newName)
 		return newName;
 	}
 	

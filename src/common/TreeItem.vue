@@ -170,7 +170,6 @@ export default {
     },
     scrollToItem () {
       if (this.value && this.value.scroll) {
-        console.debug('scrollToItem', this.value)
         setTimeout(() => {
           this.$el.scrollIntoView(false)
         })
