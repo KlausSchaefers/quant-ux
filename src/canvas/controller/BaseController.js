@@ -1456,6 +1456,10 @@ export default class BaseController extends Core {
 		 * Since 2.1.3 we put stuff and the stack. here we just update the
 		 * lastUUID ans pos with the server one, in case we would have
 		 * concurrant editing
+		 * 
+		 * FIXME: for some reason the last UUID on the server lacks 
+		 * the one we have in browser. Question: Do we need the last UUID on the stack?
+		 * Can`t we use the normal lastUUID? Or just created with Date()
 		 */
 					
 		// this.commandStack.stack.push(result.command);

@@ -181,6 +181,8 @@ export default {
 					}
 				}
 			}
+
+			// 
 		
 			// build a tree for each screen
 			for(let id in model.screens){
@@ -192,6 +194,7 @@ export default {
 					children: []
 				};
 				let groupNodes = {};
+				let masterNodes = {}
 				let sorted = this.getSortedScreenChildren(model, screen)
 				for(let i=0; i< sorted.length; i++){
 					let widget = sorted[i];
@@ -199,19 +202,32 @@ export default {
 					/**
 					 * FIMXE: Make here a extra group for the master widgets
 					 */
-
-					/**
-					 * Check if we have a group
-					 */
-					if (parentGroups[widget.id]){
-						let group = parentGroups[widget.id]
-						let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
-						let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
-						groupNode.children.push(node)
-					} else {
+					if (widget.inherited) {
+						let masterScreen = model.screens[widget.masterScreen]
+						let master = {
+							id: masterScreen.id,
+							name: masterScreen.name,
+							inherited: true,
+							type: 'Master'
+						}
 						let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
-						tree.children.push(node)
-					}					
+						let masterNode = this.getOrCreateMaster(master, screen.id, masterNodes, tree, widget)
+						masterNode.children.push(node)
+					} else {
+
+						/**
+						 * Check if we have a group
+						 */
+						if (parentGroups[widget.id]){
+							let group = parentGroups[widget.id]
+							let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
+							let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
+							groupNode.children.push(node)
+						} else {
+							let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
+							tree.children.push(node)
+						}	
+					}				
 				}
 				result.push(tree)				
 			}
@@ -232,6 +248,15 @@ export default {
 				}
 			}
 			return this.getOrderedWidgets(widgets).reverse();	
+		},
+
+		getOrCreateMaster (masterScreen, screenId, masterNodes, tree, widget) {
+			if (!masterNodes[masterScreen.id]) {
+				let newMasterNode = this.createNode(masterScreen, widget.id, screenId, null, 'master', false);
+				masterNodes[masterScreen.id] = newMasterNode;
+				tree.children.push(newMasterNode);
+			}
+			return masterNodes[masterScreen.id]
 		},
 
 		getOrCreateGroup (group, screenId, groupNodes, parentGroups, tree, widget) {
@@ -262,9 +287,9 @@ export default {
 			return groupNodes[group.id]
 		},
 
-		createNode (box, widgetID, screenID, groupId, type = 'widget') {
+		createNode (box, widgetID, screenID, groupId, type = 'widget', defaultIsOpen = true) {
 			if (this.openNodes[box.id] === undefined) {
-				this.openNodes[box.id] = true
+				this.openNodes[box.id] = defaultIsOpen
 			}
 			let node = {
 				id: box.id,
@@ -273,6 +298,8 @@ export default {
 				groupID: groupId,
 				label: box.name, // + ' (' + box.id + ') ' + box.z,
 				icon: this.getNodeIcon(box),
+				closeIcon : this.getCloseIcon(box),
+				openIcon: this.getOpenIcon(box),
 				children:[],
 				type: type,
 				open: this.openNodes[box.id],
@@ -287,8 +314,24 @@ export default {
 			return node;
 		},
 	
+		getCloseIcon (box) {
+			if (box.type == "Master") {
+				return "mdi mdi-content-duplicate";
+			}
+			return false
+		},
+
+		getOpenIcon (box) {
+			if (box.type == "Master") {
+				return "mdi mdi-content-duplicate";
+			}
+			return false
+		},
 		
 		getNodeIcon (box){
+			if (box.type == "Master") {
+				return "mdi mdi-content-duplicate";
+			}
 			if (box.type == "Label") {
 				return "mdi mdi-format-title";
 			}
@@ -305,7 +348,12 @@ export default {
 			if (node) {
 				this.$set(node, 'label', box.name)
 			} else {
-				this.logger.error('changeName', 'No node with id', box.id)
+				let tree = this.trees.find(t => t.id === box.id)
+				if (tree) {
+					this.$set(tree, 'name', box.name)
+				} else {
+					this.logger.error('changeName', 'No node with id', box.id)
+				}
 			}
 		},
 

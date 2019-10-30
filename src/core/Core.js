@@ -1103,6 +1103,7 @@ export default class Core extends Evented{
                                         copy.id = parentWidget.id + "@" + screenID;
                                         copy.inherited = parentWidget.id;
                                         copy.inheritedScreen = screenID;
+                                        copy.masterScreen = parentID
                                         copy.inheritedOrder = i + 1;
 
                                         /**
