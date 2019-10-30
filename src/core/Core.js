@@ -1079,6 +1079,11 @@ export default class Core extends Evented{
                              * Also copy rulers
                              */
                             this._addRulersFromParent(inScreen, parentScreen)
+
+                            /**
+                             * Since 2.1.3 we also copy the color
+                             */
+                            this._addBackgroundFromParent(inScreen, parentScreen, model)
                            
                             let difX = parentScreen.x - screen.x;
                             let difY = parentScreen.y - screen.y;
@@ -1193,6 +1198,15 @@ export default class Core extends Evented{
                 copy.inherited = ruler.id
                 screen.rulers.push(copy)
             })
+        }
+    }
+
+    _addBackgroundFromParent (screen, parent, model) {
+        if (model.version >= 2) {
+            // FIXME: we need a flag to decide if we overwrite the color or not?
+            // if (parent.style && screen.style) {
+            //    screen.style.background = parent.style.background
+            // }
         }
     }
 
