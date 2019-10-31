@@ -1060,6 +1060,21 @@ input.VommondHasError{
 
 }
 
+.VommondInputDropButton {
+	position: absolute;
+	top:0px;
+	right:0px;
+	height: 100%;
+	width: 30px;
+	text-align: center;
+	border-radius: 0px 3px 3px 0px;
+	cursor: pointer;
+}
+
+.VommondInputDropButton .caret{
+	color: #ccc;
+}
+
 
 
 .VommondInput ul{

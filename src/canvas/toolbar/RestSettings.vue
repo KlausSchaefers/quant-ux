@@ -1,7 +1,8 @@
 
 <template>
      <div class="MatcToolbarRestSettings">
-
+      
+      <label>Endpoint</label>
       <div class="MatcToolbarRestSettingsHeader">
             <DropDownButton :options="methods" v-model="rest.method" style="width:50px" @change="onChange"/>
               
@@ -9,12 +10,31 @@
            
             <a @click="run" class="MatcButton">Test</a>
       </div>
+
+      <div class="MatcToolbarRestOutputHeader">
+            <div class="form-group MatcToolbarRestOutputHeaderVar">
+                <label>Output Variable</label>
+                <Combo 
+                    :value="rest.output.databinding" 
+                    @change="onChangeOutputVar" 
+                    :hints="hints"
+                    :fireOnBlur="true" 
+                    :formControl="true"
+                    :isDropDown="true"
+                    placeholder="Name of output variable"/>
+            </div>
+
+            <div class="form-group MatcToolbarRestOutputHeaderType"  >
+                <label>Output Type</label>
+                <SegmentButton :options="outputTypes" v-model="rest.output.type" style="width:300px" @change="onChange"/>
+            </div>
+          
+      </div>
    
       <div class="MatcToolbarTabs MatcToolbarTabsBig">
-            <a @click="tab='auth'" :class="{'MatcToolbarTabActive': tab === 'auth'}">Authorization</a>
-            <a @click="tab='output'" :class="{'MatcToolbarTabActive': tab === 'output'}">Response</a>
-            <a @click="tab='input'" :class="{'MatcToolbarTabActive': tab === 'input'}">Body</a>
-            <a @click="tab='params'" :class="{'MatcToolbarTabActive': tab === 'params'}" style="margin-left:10px;">Test Parameter</a>
+            <a @click="tab='input'" :class="{'MatcToolbarTabActive': tab === 'input'}">Request</a>
+            <a @click="tab='auth'" :class="{'MatcToolbarTabActive': tab === 'auth'}">Header</a>
+            <a @click="tab='params'" :class="{'MatcToolbarTabActive': tab === 'params'}" style="margin-left:20px;">Test Parameter</a>
             <a @click="tab='preview'" :class="{'MatcToolbarTabActive': tab === 'preview'}">Test Result</a>
         </div>
      
@@ -26,9 +46,6 @@
                     <input v-model="rest.token" class="form-control" @change="onChange" placeholder="Enter auth token if needed"/>
                 </div>
 
-                <div class="MatcError">
-                    {{testError}}
-                </div>
             </div>
              <div v-show="tab === 'input'">
 
@@ -46,6 +63,15 @@
                     <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'JSON' " >
                        
                         <label>{{ rest.method }} JSON</label>
+                        <Ace 
+                            ref="aceEditor"
+                            v-model="rest.input.template" 
+                            @init="editorInit" 
+                            lang="json" 
+                            theme="chrome" 
+                            width="740" 
+                            height="180"></Ace>
+                        <!--
                         <textarea 
                             class="form-control MatcToolbarRestSettingsInputArea" 
                             spellcheck="false" 
@@ -53,10 +79,10 @@
                             v-model="rest.input.template" 
                             @change="onChange">
                         </textarea>
+                        -->
 
                         <p class="MatcHint">
-                            Specify the JSON that will be send to the server. Use the <b>${databing}</b> notation to 
-                            send data from the prototype.
+                            Use the ${databinding} notation to send data from the prototype.
                         </p>
                     </div>
 
@@ -68,7 +94,7 @@
 
                     <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'IMAGE' " >
                         <div class="form-group"  v-if="rest.method === 'POST' || rest.method === 'PUT'" >
-                            <label>Input DataBinding</label>
+                            <label>File DataBinding</label>
                             <input v-model="rest.input.fileDataBinding" class="form-control" @change="onChange" placeholder=""/>
                         </div>
                         <p class="MatcHint">
@@ -76,26 +102,6 @@
                         </p>
                     </div>
 
-                     <div class="MatcError">
-                        {{testError}}
-                    </div>
-
-             </div>
-              <div v-show="tab === 'output'">
-               
-                <div class="form-group"  >
-                    <label>Output Type</label>
-                    <SegmentButton :options="outputTypes" v-model="rest.output.type" style="width:300px" @change="onChange"/>
-                </div>
-
-                 <div class="form-group"  >
-                    <label>Output DataBinding</label>
-                    <input v-model="rest.output.databinding" @change="onChange" class="form-control"/>
-                </div>
-
-                <div class="MatcError">
-                    {{testError}}
-                </div>
              </div>
             <div v-show="tab === 'params'">
                 <div class="MatcMarginBottom" >
@@ -116,9 +122,7 @@
                             You are not using databings. No need to specify any data.
                         </span>
                     </div>
-                    <div class="MatcError">
-                        {{testError}}
-                    </div>
+                   
             </div>
              
             <div v-show="tab === 'preview'">
@@ -129,13 +133,15 @@
                     <img :src="testResultImage">
                 </div>
                 
-                <div class="MatcError">
-                    {{testError}}
-                </div>
+             
          
                 
              </div>
         </div>
+
+        <div class="MatcError">
+                {{testError}}
+            </div>
 
 	</div>
 </template>
@@ -148,6 +154,7 @@ import RestEngine from 'core/RestEngine'
 import Logger from 'common/Logger'
 import SegmentButton from 'page/SegmentButton'
 import DropDownButton from 'page/DropDownButton'
+import Input from 'common/Input'
 
 export default {
     name: 'RestSettings',
@@ -155,7 +162,7 @@ export default {
     props:["app", "value"],
     data: function () {
         return {
-            tab: "auth",
+            tab: "input",
             checkBoxChecked: false,
             methods: [
                 {
@@ -228,17 +235,28 @@ export default {
     },
     components: {
         'SegmentButton': SegmentButton,
-        'DropDownButton': DropDownButton
+        'DropDownButton': DropDownButton,
+        'Combo': Input,
+        'Ace': () => import(/* webpackChunkName: "ace" */ 'vue2-ace-editor')
     },
     computed: {
         dataBindingKeys () {
-            let values =  RestEngine.getNeededDataBings(this.rest)
+            let values = RestEngine.getNeededDataBings(this.rest)
             return values
         },
         testResultImage () {
             var base64Flag = 'data:image/jpeg;base64,';
             var imageStr = this.arrayBufferToBase64(this.testResult);
             return base64Flag + imageStr
+        },
+        hints () {
+            let hints = this.getAllAppVariables()
+            return hints.map(h => {
+				return {
+					label: h,
+					value: h
+				}
+            })
         }
     },
     methods: {
@@ -271,6 +289,10 @@ export default {
         getValue () {
             return this.rest
         },
+        onChangeOutputVar (value) {
+            this.rest.output.databinding = value
+            this.onChange()
+        },
         onChange () {
             this.$nextTick( () => {
                 this.isDirty = true
@@ -291,31 +313,32 @@ export default {
             let template = this.rest.input.template;
             let prefix = this.rest.output.databinding
             if (!prefix) {
-                this.testResult ='The databinding is empty'
-                this.testError = `The databinding is empty`
+                // this.testResult ='The output databinding is empty'
+                this.testError = `The output data binding is empty`
                 this.tab = 'output'
                 return false
             }
 
              if (prefix.indexOf('.') >= 0) {
-                this.testResult ='The databinding must not contain dots (.)'
-                this.testError = `The databinding must not contain dots (.)`
+                // this.testResult ='The databinding must not contain dots (.)'
+                this.testError = `The output data binding must not contain dots (.)`
                 this.tab = 'output'
                 return false
             }
 
             let values = this.getAllAppVariables()
             values.forEach(key => {
-                url = url.replace("${" + key + "}", '')
-                template = template.replace("${" + key + "}", '')
+                url = this.replaceAll(url, key, '"v:' + key + '"')
+                template = this.replaceAll(template, key, '"v:' + key + '"')
             })
+            console.debug(template)
 
             let matches = url.match(/\$\{(\w*)\}/g)
             if (matches){
-                this.testResult = url
-                this.testError = `The url contains variables '${matches}' without data binding`
-                this.tab = 'endpoint'
-                return false;
+                // this.testResult = url
+                // this.testError = `The url contains variables '${matches}' without data binding`
+                // this.tab = 'endpoint'
+                // return false;
             }
             matches = template.match(/\$\{(\w*)\}/g)
             if (this.rest.method === 'POST' && matches){
@@ -355,6 +378,17 @@ export default {
 
             return true;
         },
+
+        replaceAll (s, key, value) {
+            let pattern = "${" + key + "}"
+            let i = 0 
+            while (s.indexOf(pattern) >= 0 && i < 100) {
+                s = s.replace(pattern, value)
+                i++
+            }
+            return s
+        },
+
         buildHints (object) {
             this.rest.output.hints = {}
             let prefix = this.rest.output.databinding
@@ -390,6 +424,7 @@ export default {
             }
         },
         async run () {
+            console.debug('run')
             this.testResult = ''
             this.testError = ''
             this.tab = 'preview'
@@ -413,6 +448,30 @@ export default {
                 this.testResult = 'Error: ' + e.message
                 this.testError = 'Something went wrong. Is the url ok? Are all databings set? Is the out type correct? '
             }
+        },
+        editorInit  () {
+            require(/* webpackChunkName: "ace" */ 'brace/ext/language_tools') //language extension prerequsite...
+            require(/* webpackChunkName: "ace" */ 'brace/mode/json')
+            require(/* webpackChunkName: "ace" */ 'brace/theme/chrome')
+      
+            let editor = this.$refs.aceEditor.editor
+            editor.setOptions({
+                enableBasicAutocompletion: false,
+                enableSnippets: false,
+                enableLiveAutocompletion: true
+            });
+    
+            let vars = this.getAllAppVariables()
+            editor.completers.push({
+                getCompletions (editor, session, pos, prefix, callback) {
+                    if (prefix.indexOf('$') === 0) {
+                        let result = vars.map(v => {
+                            return {name: v, value: '${' + v + '}', score: 1, meta: "databinding"}
+                        })
+                        callback(null, result)
+                    }
+                }
+            });
         }
     },
     watch: {

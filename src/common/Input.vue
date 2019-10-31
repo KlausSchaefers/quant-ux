@@ -8,6 +8,9 @@
 			data-dojo-attach-point="input" 
 			:placeholder="placeholder"
 			autocomplete="false" >
+			<div v-if="isDropDown === true" class="VommondInputDropButton" @click="showAll">
+				<span class="caret"></span>
+			</div>
 		<ul class="" role="menu" data-dojo-attach-point="ul">		
 		</ul>
 	</div>
@@ -25,7 +28,7 @@ import Logger from 'common/Logger'
 export default {
     name: 'Input',
 	mixins:[DojoWidget],
-	props:['fireOnBlur', 'top', 'placeholder', 'inline', 'formControl', 'hints'],
+	props:['fireOnBlur', 'top', 'placeholder', 'inline', 'formControl', 'hints', 'value', 'isDropDown'],
     data: function () {
         return {
 		
@@ -49,8 +52,21 @@ export default {
 		blur () {
 			this.input.blur()
 		},
+
+		showAll () {
+			var suggestions = [];
+			for(var i=0; i< this.hints.length; i++){
+				var hint = this.hints[i];
+				suggestions.push(hint);
+			}
+			if (suggestions.length > 0) {
+				this.showSuggestion(suggestions);
+			} else {
+				this.showSuggestion([]);
+			}
+		},
 		
-		onKey:function(e){
+		onKey (e){
 			if(!this.hints){
 				return;
 			}	
@@ -238,12 +254,21 @@ export default {
 		formControl (v) {
 			this.log.log(2, 'watch(formControl)', 'enter', v)
 			this.formControl = v
+		},
+		value (v) {
+			this.setValue(v)
+		},
+		isDropDown (v) {
+			this.isDropDown = v
 		}
 	},
     mounted () {
 		this.log = new Logger("Input");
 		if (this.hints) {
 			this.setHints(this.hints)
+		}
+		if (this.value) {
+			this.setValue(this.value)
 		}
 		this.log.log(0, 'mounted', 'enter ')
     }

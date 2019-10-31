@@ -1,11 +1,14 @@
 .MatcToolbarRestSettings {
     width: 800px;
-    height: 500px;
-    overflow: auto;
+    height: 600px;
 }
 
 .MatcToolbarRestSettings .MatcButton span{
     font-size: 18px;
+}
+
+.MatcToolbarRestSettings label {
+    font-size: 14px;
 }
 
 .MatcToolbarRestSettingsInputArea{
@@ -80,7 +83,7 @@
 }
 
 .MatcToolbarRestSettingsHeader .MatcButton{
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .MatcToolbarRestSettingsHeader .MatcDropDownButton{
@@ -95,6 +98,24 @@
     min-width: 110px;
 }
 
+
+.MatcToolbarRestOutputHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.MatcToolbarRestOutputHeader .MatcToolbarRestOutputHeaderVar{
+    flex-grow: 1;
+}
+
+
+.MatcToolbarRestOutputHeader .MatcToolbarRestOutputHeaderType{
+    margin-left: 20px;
+}
+
 .MatcToolbarRestSettings .MatcToolbarTabs{
     margin-top: 24px;
     border-bottom: 1px solid #ccc;
@@ -106,5 +127,17 @@
 }
 .MatcToolbarRestSettings a.MatcToolbarTabActive{
     color:#333;
+}
+
+.MatcToolbarRestSettings .ace_editor {
+    border:1px solid #ccc;
+}
+
+.MatcToolbarRestSettings .ace_editor .ace_gutter-cell.ace_error{
+    background: none;
+}
+
+.MatcVisualEditor .ace_editor.ace_autocomplete {
+    z-index: 90000000;
 }
 

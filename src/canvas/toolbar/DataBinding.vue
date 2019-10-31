@@ -168,7 +168,6 @@ export default {
         },
         setModel (v) {
             this.model = v
-            console.debug(this.model)
         },
         setWidget (v) {
             this.widget = v
@@ -185,6 +184,13 @@ export default {
                 })
             }
             this.variables = variables
+            if (this.variables.length === 0) {
+                setTimeout(() => {
+                    if (this.$refs.combo) {
+                        this.$refs.combo.focus()
+                    }
+                }, 200)
+            }
         }
     }, 
     watch: {

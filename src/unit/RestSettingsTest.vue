@@ -50,7 +50,7 @@ export default {
             "token": "",
             "input": {
                 "type": "JSON",
-                "template": "{\n\"a\": ${test}\n}"
+            "template": "{\n  \"a\": ${radio},\n  \"b\": ${text}\n}"
             },
             "output": {
                 "databinding": "abc",
@@ -65,10 +65,10 @@ export default {
           "token": "",
           "input": {
               "type": "JSON",
-              "template": "{\n\"a\": ${radio}\n, \n\"b\": ${text}\n}"
+             "template": "{\n  \"a\": ${radio},\n  \"b\": ${text}\n, \"c\": ${text}\n}"
           },
           "output": {
-              "databinding": "abc",
+              "databinding": "def",
               "template": "",
               "type": "JSON",
               "hints": []
@@ -80,10 +80,10 @@ export default {
           "token": "",
           "input": {
               "type": "JSON",
-              "template": "{\n\"a\": ${radio}\n, \n\"b\": ${text}\n}"
+              "template": "{\n  \"a\": ${radio},\n  \"b\": ${text}\n}"
           },
           "output": {
-              "databinding": "abc",
+              "databinding": "xyz",
               "template": "",
               "type": "IMAGE",
               "hints": []
@@ -96,10 +96,10 @@ export default {
           "input": {
               "type": "IMAGE",
               "fileDataBinding": "selfie",
-              "template": "{\n\"a\": ${radio}\n, \n\"b\": ${text}\n}"
+             "template": "{\n  \"a\": ${radio},\n  \"b\": ${text}\n}"
           },
           "output": {
-              "databinding": "abc",
+              "databinding": "lala",
               "template": "",
               "type": "JSON",
               "hints": []
@@ -112,7 +112,7 @@ export default {
         {label: "Image Get", value: 2},
         {label: "Image Post", value: 3},
       ],
-      selectedTest: 3
+      selectedTest: 1
     };
   },
   components: {

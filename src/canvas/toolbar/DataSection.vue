@@ -661,14 +661,14 @@ export default {
 
 		_showDataBindingDialog (widget){		
 			
-			var popup = this.db.div("MatcDialogXXL MatcPadding").build();		
+			var popup = this.db.div("MatcDialogXLLong MatcPadding").build();		
 			var cntr = this.db.div("").build(popup);
-			
+
 			let dataBinding = this.$new(DataBinding)
 			dataBinding.setModel(this.model)
 			dataBinding.setWidget(widget)
 			dataBinding.placeAt(cntr)
-			
+	
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);		
 			var write = this.db.div("MatcButton", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);

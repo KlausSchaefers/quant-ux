@@ -808,3 +808,17 @@ textarea.form-control.MatcTextAreaSmall{
 .form-control:focus {
 	border-color: #1973e8;
 }
+
+
+/****************************************************
+ * Combo
+ ****************************************************/
+
+.VommondInput:hover .VommondInputDropButton {
+	width: 30px;
+	background: #1973e8;
+}
+
+.VommondInput:hover .VommondInputDropButton .caret{
+	color: #fff;
+}

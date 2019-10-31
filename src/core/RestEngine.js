@@ -41,7 +41,12 @@ class RestEngine {
 
     fillString (s, values) {
         for (let key in values) {
-            s = s.replace("${" + key + "}", values[key])
+            let pattern = "${" + key + "}"
+            let i = 0 
+            while(s.indexOf(pattern) >= 0 && i < 100) {
+                s = s.replace(pattern, values[key])
+                i++
+            }
         }
         if (s.indexOf('${') >= 0){
             this.logger.error("buildURL", "exit" ,s)
@@ -202,7 +207,10 @@ class RestEngine {
         let matches = s.match(/\$\{(.*)\}/g)
         if (matches) {
             matches.forEach(m => {
-                result.push(m.substring(2, m.length -1))
+                let variable = m.substring(2, m.length -1)
+                if (result.indexOf(variable) < 0) {
+                    result.push(variable)
+                }
             })
         }
     }

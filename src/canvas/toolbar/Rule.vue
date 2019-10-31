@@ -133,7 +133,8 @@ export default {
 				let input = this.$new(Input, {
 					fireOnBlur: true, 
 					placeholder: "Select Variable",
-					formControl: true
+					formControl: true,
+					isDropDown: true
 				})
 				input.placeAt(row)
 				input.setValue(rule.databinding)
@@ -220,7 +221,7 @@ export default {
 					console.debug("renderValue() > No widget with id", rule.widget);
 				}
 			}
-			if (rule.databinding && rule.operator) {
+			else if (rule.databinding && rule.operator) {
 				let row = this.db.div("form-group").build(this.domNode);
 				let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(row);
 				this.tempOwn(on(text, "keyup", lang.hitch(this, "setRuleValueText", text)));

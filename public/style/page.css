@@ -1143,7 +1143,10 @@ textarea.MatcContentWidgetAbs{
 	min-height: 600px;	
 }
 
-
+.MatcDialogXLLong {
+	width: 850px;
+	min-height: 600px;	
+}
  
 .MatcTestDialog{
 	width: 800px;
