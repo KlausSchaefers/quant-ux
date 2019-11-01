@@ -92,10 +92,18 @@
                         </p>
                     </div>
 
-                    <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'IMAGE' " >
+                    <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'FILE' " >
                         <div class="form-group"  v-if="rest.method === 'POST' || rest.method === 'PUT'" >
                             <label>File DataBinding</label>
-                            <input v-model="rest.input.fileDataBinding" class="form-control" @change="onChange" placeholder=""/>
+                            <Combo 
+                                :value="rest.input.fileDataBinding" 
+                                @change="onChangeFileDataBinging" 
+                                :hints="hints"
+                                :fireOnBlur="true" 
+                                :formControl="true"
+                                :isDropDown="true"
+                                placeholder="Name of output variable"/>
+                          
                         </div>
                         <p class="MatcHint">
                             Image will be send as mutlipart
@@ -106,17 +114,24 @@
             <div v-show="tab === 'params'">
                 <div class="MatcMarginBottom" >
                         <div class="MatcToolbarRestDataBindingRow" v-for="(key) in dataBindingKeys" :key="key">  
-                            <span>{{key}}</span>
-                            <input v-model="databingValues[key]" ref="dbInputs" v-if="rest.input.type === 'JSON'" />
-                            <input
-                                v-if="rest.input.type === 'IMAGE'" 
+                            <span class="MatcToolbarRestDataBindingRowLabel">{{key}}</span>
+                            <input 
+                                v-model="databingValues[key]" 
+                                class="form-control" 
+                                ref="dbInputs" 
+                                v-if="rest.input.type === 'JSON'" />
+                            <FileButton 
+                                v-if="rest.input.type === 'JSON'"
+                                class="MatcToolbarRestDataBindingIcon"
+                                @change="onDataBingingFileChange(key, $event)" 
+                                icon="mdi mdi-cloud-upload"/>
+
+                            <FileButton 
+                                v-if="rest.input.type === 'FILE'"
                                 class="MatcToolbarRestDataBindingFile"
-                                type="file" 
-                                ref="fileUpload" 
-                                accept="image/*" 
-                                capture="user" 
-                                @change="onFileChange"
-                                />
+                                @change="onFileChange" 
+                                label="Select a file"/>
+
                         </div>
                         <span v-if="dataBindingKeys.length == 0 && rest.input.type === 'JSON'">
                             You are not using databings. No need to specify any data.
@@ -155,6 +170,7 @@ import Logger from 'common/Logger'
 import SegmentButton from 'page/SegmentButton'
 import DropDownButton from 'page/DropDownButton'
 import Input from 'common/Input'
+import FileButton from 'common/FileButton'
 
 export default {
     name: 'RestSettings',
@@ -188,8 +204,8 @@ export default {
                     value: "JSON"
                 },
                 {
-                    label: "Image",
-                    value: "IMAGE"
+                    label: "File",
+                    value: "FILE"
                 }
             ],
             outputTypes: [
@@ -237,6 +253,7 @@ export default {
         'SegmentButton': SegmentButton,
         'DropDownButton': DropDownButton,
         'Combo': Input,
+        'FileButton': FileButton,
         'Ace': () => import(/* webpackChunkName: "ace" */ 'vue2-ace-editor')
     },
     computed: {
@@ -260,15 +277,13 @@ export default {
         }
     },
     methods: {
-        onFileChange () {
-            if (this.$refs.fileUpload) {
-                let files = this.$refs.fileUpload[0].files;
-                if (files.length === 1) {
-                    this.uploadedFile = files[0]
-                    this.databingValues = {}
-                    this.databingValues[this.rest.input.fileDataBinding] = files[0]
-                }
-            }
+        onDataBingingFileChange (key, file) {
+            this.$set(this.databingValues, key, file)
+        },
+        onFileChange (file) {
+            this.uploadedFile = file
+            this.databingValues = {}
+            this.databingValues[this.rest.input.fileDataBinding] = file
         },
         arrayBufferToBase64 (buffer) {
             var binary = '';
@@ -288,6 +303,10 @@ export default {
         },
         getValue () {
             return this.rest
+        },
+        onChangeFileDataBinging (value) {
+            this.$set(this.rest.input, 'fileDataBinding', value)
+            this.onChange()
         },
         onChangeOutputVar (value) {
             this.rest.output.databinding = value
@@ -331,8 +350,7 @@ export default {
                 url = this.replaceAll(url, key, '"v:' + key + '"')
                 template = this.replaceAll(template, key, '"v:' + key + '"')
             })
-            console.debug(template)
-
+         
             let matches = url.match(/\$\{(\w*)\}/g)
             if (matches){
                 // this.testResult = url

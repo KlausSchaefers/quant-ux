@@ -1387,4 +1387,38 @@ input.VommondHasError{
 	padding-top:100px;
 }
 
+
+/****************************************************
+ * FileUpload
+ ****************************************************/
  
+.VommondFileButton {
+	display: inline-block;
+	padding: 3px 20px;
+	border: 1px solid #1973e8;
+	border-radius: 3px;
+	color: #1973e8;
+	cursor: pointer;
+	transition: all 0.25s;
+	text-align: left;
+	font-size: 18px;
+	font-weight: 400;
+	position: relative;
+}
+
+.VommondFileButton:hover,
+.VommondFileButtonSelected{
+	background: #1973e8;
+	color: #fff;
+}
+
+.VommondFileButton input {
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 100%;
+	height: 100%;
+	border:1px solid orange;
+    opacity: 0;
+    cursor: pointer;
+}

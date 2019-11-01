@@ -7,10 +7,11 @@ class RestEngine {
     }
     
     run (request, data) {
+
         if (request.method === "POST" && request.input.type === 'JSON') {
             return this.postOrPut(request, data)
         }
-        if (request.method === "POST" && request.input.type === 'IMAGE') {
+        if (request.method === "POST" && (request.input.type === 'IMAGE' || request.input.type === 'FILE')) {
             return this.postOrPostImage(request, data)
         }
         if (request.method === "GET") {
@@ -19,7 +20,7 @@ class RestEngine {
         if (request.method === "PUT" && request.input.type === 'JSON') {
             return this.postOrPut(request, data)
         }
-        if (request.method === "PUT" && request.input.type === 'IMAGE') {
+        if (request.method === "PUT" && (request.input.type === 'IMAGE' || request.input.type === 'FILE')) {
             return this.postOrPostImage(request, data)
         }
         if (request.method === "DELETE") {
@@ -27,24 +28,25 @@ class RestEngine {
         }
     }
 
-    buildURL (request, values) {
-        let url = this.fillString(request.url, values);
+    async buildURL (request, values) {
+        let url = await this.fillString(request.url, values, false);
         this.logger.log(1, "buildURL", "exit" ,url)
         return url;
     }
 
-    buildData (request, values) {
-        let data = this.fillString(request.input.template, values);
-        this.logger.log(1, "buildData", "exit" ,data)
+    async buildData (request, values) {
+        let data = await this.fillString(request.input.template, values, true);
+        this.logger.log(1, "buildData", "exit", data)
         return data;
     }
 
-    fillString (s, values) {
+    async fillString (s, values, encodeFiles = true) {
         for (let key in values) {
+            let value = await this.getStringFilelValue(values[key], encodeFiles)
             let pattern = "${" + key + "}"
             let i = 0 
             while(s.indexOf(pattern) >= 0 && i < 100) {
-                s = s.replace(pattern, values[key])
+                s = s.replace(pattern, value)
                 i++
             }
         }
@@ -53,6 +55,27 @@ class RestEngine {
             throw new Error("buildURL() > Not all parameters replaced!" + s)
         }
         return s
+    }
+
+    getStringFilelValue (value, encodeFiles) {
+        if (value.name && value.size && encodeFiles) {
+            value = this.readFileAsBase64(value)
+        }
+        return value
+    }
+
+    async readFileAsBase64 (file) {
+        let result = await this.base64(file)
+        return result
+    }
+
+    base64 (file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
     }
 
     handleOutput (resolve, request, response) {
@@ -79,10 +102,10 @@ class RestEngine {
     }
 
     get (request, values) {
-        let url = this.buildURL(request, values)
-        let header = this.createDefaultHeader(request)
+        return new Promise( async (resolve, reject) => {
+            let url = await this.buildURL(request, values)
+            let header = this.createDefaultHeader(request)
 
-        return new Promise( (resolve, reject) => {
             fetch(url, {
                 method: "GET",
                 mode: 'cors',
@@ -100,14 +123,15 @@ class RestEngine {
     }
 
     postOrPostImage (request, values) {
-        let url = this.buildURL(request, values)
-        let header = this.createDefaultHeader(request)
+        return new Promise( async (resolve, reject) => {
+            let url = await this.buildURL(request, values)
+            let header = this.createDefaultHeader(request)
 
-        const formData = new FormData()
-        for (let key in values) {
-            formData.append(key, values[key])
-        }
-        return new Promise( (resolve, reject) => {
+            const formData = new FormData()
+            for (let key in values) {
+                formData.append(key, values[key])
+            }
+   
             fetch(url, {
                 method: request.method,
                 mode: 'cors',
@@ -127,11 +151,12 @@ class RestEngine {
     }
 
     postOrPut (request, values) {
-        let url = this.buildURL(request, values)
-        let data = this.buildData(request, values)
-        let header = this.createDefaultHeader(request)
+        return new Promise( async (resolve, reject) => {
 
-        return new Promise( (resolve, reject) => {
+            let url = await this.buildURL(request, values)
+            let data = await this.buildData(request, values)
+            let header = this.createDefaultHeader(request)
+     
             fetch(url, {
                 method: request.method,
                 mode: 'cors',
@@ -151,10 +176,10 @@ class RestEngine {
     }
 
     delete (request, values) {
-        let url = this.buildURL(request, values)
-        let header = this.createDefaultHeader(request)
+        return new Promise( async (resolve, reject) => {
+            let url = await this.buildURL(request, values)
+            let header = this.createDefaultHeader(request)
 
-        return new Promise( (resolve, reject) => {
             fetch(url, {
                 method: "DELETE",
                 mode: 'cors',
@@ -195,11 +220,12 @@ class RestEngine {
         if ((rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'JSON') {
             this.parseString(rest.input.template, result)
         }
-        if ((rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'IMAGE') {
+        if ((rest.method === 'POST' || rest.method === 'PUT') && (rest.input.type === 'FILE' || rest.input.type === 'IMAGE')) {
             if (rest.input.fileDataBinding) {
                 result.push(rest.input.fileDataBinding)
             }
         }
+        console.debug('rest', result, rest.input)
         return result;
     }
 

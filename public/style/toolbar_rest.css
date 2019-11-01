@@ -42,10 +42,24 @@
     justify-content: space-between;
 }
 
+.MatcToolbarRestDataBindingRow .MatcToolbarRestDataBindingRowLabel  {
+    width: 200px;
+    display: inline-block;
+    box-shadow: none;
+    border-radius: 3px;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    margin-right: 20px;
+}
 
-.MatcToolbarRestDataBindingRow input,
-.MatcToolbarRestDataBindingRow span  {
-    width: 530px;
+.MatcToolbarRestDataBindingRow .MatcToolbarRestDataBindingFile {
+    flex-grow: 1;
     display: inline-block;
     box-shadow: none;
     border-radius: 3px;
@@ -59,11 +73,9 @@
     border: 1px solid #ccc;
 }
 
-.MatcToolbarRestDataBindingRow span {
-    width: 200px;
-    display: inline-block;
+.MatcToolbarRestDataBindingRow .MatcToolbarRestDataBindingIcon{
+    margin-left: 10px;
 }
-
 
 .MatcToolbarRestSettings .MatcError {
    

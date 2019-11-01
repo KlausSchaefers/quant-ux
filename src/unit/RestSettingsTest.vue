@@ -8,6 +8,7 @@
     <div class="" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px;">
         <RestSettings :app="app" @change="onChange" :value="selectedWidget"/>
     </div>
+  
     <code style="
           display: inline-block;
           width: 300px; 
@@ -65,7 +66,7 @@ export default {
           "token": "",
           "input": {
               "type": "JSON",
-             "template": "{\n  \"a\": ${radio},\n  \"b\": ${text}\n, \"c\": ${text}\n}"
+             "template": '{\n  "a": "${radio}",\n  "b": "${text}"\n}'
           },
           "output": {
               "databinding": "def",
@@ -94,9 +95,9 @@ export default {
           "url": "http://localhost:3000/test/post/image",
           "token": "",
           "input": {
-              "type": "IMAGE",
-              "fileDataBinding": "selfie",
-             "template": "{\n  \"a\": ${radio},\n  \"b\": ${text}\n}"
+            "type": "FILE",
+            "fileDataBinding": "selfie",
+            "template": "{}"
           },
           "output": {
               "databinding": "lala",
@@ -137,6 +138,9 @@ export default {
     }
   },
   methods: {
+      onFileChange (f) {
+        console.debug(f)
+      },
       onChange (d) {
           this.settings = JSON.stringify(d, null, 2)
       }
