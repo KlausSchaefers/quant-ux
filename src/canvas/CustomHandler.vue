@@ -16,20 +16,29 @@ export default {
     methods: {
         showCustomHandlers (widget) {
 			if (this.renderFactory) {
-				let uiWidget = this.renderFactory.getUIWidget(widget)
+                let uiWidget = this.renderFactory.getUIWidget(widget)
 				if (uiWidget && uiWidget.getHandlers) {
                     let handlers = uiWidget.getHandlers()
+                 
                   	if (handlers) {
                         this.logger.log(1,"showCustomHandlers", "enter > " +  widget.id + " > #: " + handlers.length);
 						this.customHandlers = []
-						var l = (this.resizeButtonSize *2) +1;	
+						var l = (this.resizeButtonSize *2) + 1;	
 						handlers.forEach(handler => {
-							var div = document.createElement("div");
-							div.style.width = l + "px";
-                            div.style.height = l + "px";
+                            var div = document.createElement("div");
+                            if (handler.size) {
+                                div.style.width = handler.size.width * this.getZoomFactor() + "px";
+                                div.style.height = handler.size.height * this.getZoomFactor()  + "px";
+                            } else {
+                                div.style.width = l + "px";
+                                div.style.height = l + "px";
+                            }
+                           
                             this._addSizeHandlerTouch(div)
-							css.add(div, "MatcCutsomerHandler " + handler.icon);
-							var listener = on(div,"mousedown", lang.hitch(this,"onCustomHandlerStart", widget, uiWidget, div, handler));
+
+                            css.add(div, "MatcCutsomerHandler " + handler.icon);
+                            
+							var listener = this.createCustomerHandlerListener(div, widget, uiWidget, handler)
 
 							this.widgetContainer.appendChild(div);
 							this.customHandlers.push({
@@ -38,11 +47,31 @@ export default {
                                 listener: listener,
                                 widget: widget
 							})
-							
+						
 						})
 					}
 				}
 			}
+        },
+
+        createCustomerHandlerListener (div, widget, uiWidget, handler) {
+            if (handler.onClick) {
+                return on(div,"mousedown", lang.hitch(this,"onCustomHandlerClick", widget, uiWidget, div, handler));
+            }
+            return on(div,"mousedown", lang.hitch(this,"onCustomHandlerStart", widget, uiWidget, div, handler));
+        },
+
+        onCustomHandlerClick (widget, uiWidget, div, handler, e) {
+            this.logger.log(-1,"onCustomHandlerClick", "enter > " +  widget.id);
+            this.stopEvent(e);
+           
+
+            let command = uiWidget.getHandlerCommand(null, handler)
+            if (command) {
+                if (command.type === 'props') {
+                    this.controller.updateWidgetProperties(widget.id, command.change, command.type)
+                }
+            }
         },
 
         onCustomHandlerStart (widget, uiWidget, div, handler, e) {

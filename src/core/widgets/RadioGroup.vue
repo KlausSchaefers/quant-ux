@@ -11,7 +11,7 @@ import DomBuilder from "common/DomBuilder";
 export default {
   name: "RadioGroup",
   mixins: [CheckBoxGroup, DojoWidget],
-  data: function() {
+  data() {
     return {
       value: {},
       options: []
@@ -19,7 +19,8 @@ export default {
   },
   components: {},
   methods: {
-    renderChildren: function(options) {
+     
+    renderChildren (options) {
       if (this._borderNodes.length === 0) {
         var db = new DomBuilder();
         var cntr = db.div().build();
@@ -31,7 +32,7 @@ export default {
       }
     },
 
-    setChildStyles: function(model) {
+    setChildStyles (model) {
       for (var i = 0; i < this._hookNodes.length; i++) {
         var hook = this._hookNodes[i];
         if (model.style.colorButton) {
@@ -40,7 +41,7 @@ export default {
       }
     },
 
-    renderChild: function(option, i, cntr, db) {
+    renderChild (option, i, cntr, db) {
       var row = db.div("MatcWidgetTypeCheckBoxRow").build(cntr);
       var back = db
         .div("MatcWidgetTypeRadioBox MatcWidgetTypeRadioBox2")
@@ -58,21 +59,21 @@ export default {
       this._labelNodes.push(label);
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       if (v !== true && v !== false && v >= 1) {
         v = true;
       }
       this.setValue(v);
     },
 
-    setValue: function(value, ignoreValidation) {
+    setValue (value, ignoreValidation) {
       this.value = value;
       var valid = true;
       if (!ignoreValidation) {
@@ -95,20 +96,20 @@ export default {
       }
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "select",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       if (state && state.type == "select") {
         this.setValue(state.value);
       }
     },
 
-    _validateValue: function(value) {
+    _validateValue (value) {
       var validation = this.model.props.validation;
       if (validation) {
         if (validation.required && this.options) {
@@ -119,11 +120,11 @@ export default {
       return true;
     },
 
-    isValid: function(showError) {
+    isValid (showError) {
       return this.validate(this.value, showError);
     },
 
-    onChange: function(option, i, e) {
+    onChange (option, i, e) {
       this.stopEvent(e);
       this.setValue(option);
       this.emitDataBinding(this.value);

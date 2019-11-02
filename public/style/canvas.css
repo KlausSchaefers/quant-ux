@@ -326,6 +326,15 @@
 
 }
 
+.MatcCutsomerHandler.MatcCutsomerHandlerAdd {
+	border:none;
+	text-align: center;
+	color: #49C0F0;
+	font-size: 250%;
+	cursor: pointer;
+	background: none;
+}
+
 /****************************************************
  * Inline Edit
  ****************************************************/

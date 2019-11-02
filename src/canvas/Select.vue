@@ -19,7 +19,7 @@ export default {
     components: {},
     methods: {
         onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
-			this.logger.log(-1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
+			this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 			/**
 			 * Check here if the widget was select a second time. In this case
 			 * trigger the inline edit unless the forceSelection flag is set. This happens
@@ -112,7 +112,7 @@ export default {
 		},
 		
 		onMutliSelected (selection){
-			this.logger.log(-1,"onMutliSelected", "enter ", selection);
+			this.logger.log(1,"onMutliSelected", "enter ", selection);
 			
 			this.onSelectionChanged(null, "multi");
 			this._dragNDropIgnoreGroup = false;
@@ -1210,7 +1210,7 @@ export default {
     	extendSelectionToGroup (widgetId, selection) {
 			let group = this.getParentGroup(widgetId);
 			if (group) {
-				this.logger.log(-1,"extendSelectionToGroup", "extend group for widget : " + widgetId, group);
+				this.logger.log(1,"extendSelectionToGroup", "extend group for widget : " + widgetId, group);
 				let children = group.children
 				children.forEach(childId => {
 					if (selection.indexOf(childId) < 0) {

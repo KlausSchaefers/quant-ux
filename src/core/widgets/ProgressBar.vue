@@ -25,7 +25,6 @@ export default {
   components: {},
   computed: {
       width () {
-        console.debug(this.value)
         if (this.value < 1) {
             return this.value * 100 + '%'
         }
@@ -73,7 +72,7 @@ export default {
     },
 
     setValue (value) {
-        this.value = value
+        this.value = value * 1
     },
 
     getValue () {
