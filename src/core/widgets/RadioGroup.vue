@@ -67,9 +67,6 @@ export default {
      * Can be overwritten by children to have proper type conversion
      */
     _setDataBindingValue (v) {
-      if (v !== true && v !== false && v >= 1) {
-        v = true;
-      }
       this.setValue(v);
     },
 

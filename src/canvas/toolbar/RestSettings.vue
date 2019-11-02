@@ -298,6 +298,10 @@ export default {
             this.widget = w
             if (w.props && w.props.rest) {
                 this.rest = lang.clone(w.props.rest)
+                if (!this.rest.output.databinding) {
+                    this.logger.log(-1, 'setWidget', 'Set name as output')
+                    this.rest.output.databinding = this.widget.name
+                }
             }
 		},
 		
@@ -341,12 +345,6 @@ export default {
                 return false
             }
 
-             if (prefix.indexOf('.') >= 0) {
-                // this.testResult ='The databinding must not contain dots (.)'
-                this.testError = `The output data binding must not contain dots (.)`
-                this.tab = 'output'
-                return false
-            }
 
             let values = this.getAllAppVariables()
             values.forEach(key => {
@@ -384,7 +382,6 @@ export default {
             }
 
             if (this.rest.input.type === 'IMAGE') {
-                console.debug('this.rest.input.fileDataBinding', this.rest.input.fileDataBinding)
                 if (!this.rest.input.fileDataBinding) {
                     this.testError = `Please  provide a input data binding`
                     this.tab = 'input'

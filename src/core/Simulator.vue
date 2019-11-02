@@ -58,7 +58,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v2.1.3</div>
+      <div class="MatcSimulatorVersion">v2.1.4</div>
     </div>
   </div>
 </template>
@@ -712,12 +712,15 @@ export default {
 		},
 
 		excuteMatchedLine (matchedLine, screenID, orginalLine) {
+	
+			
 			if(matchedLine){
 				var screen = this.model.screens[matchedLine.to];
 				if(screen){
 					var newLine = lang.clone(matchedLine);
 					newLine.animation = orginalLine.animation;
 					newLine.duration = orginalLine.duration;
+		
 					/**
 					 * Store the screen because of onWidgetInit
 					 */
@@ -727,6 +730,17 @@ export default {
 					} else {
 						this.renderTransition(newLine,screenID);		
 					}							
+				} else {
+					/**
+					 * Since 2.1.4 we support chaining of logic widgets
+					 */
+					let widget = this.model.widgets[matchedLine.to];
+					if(widget){
+						this.logLine(matchedLine, screenID);
+						this.executeLogic(screenID, matchedLine.from, widget, matchedLine);						
+					} else {
+						console.warn("excuteMatchedLine() > No screen or logic widget with id "+ matchedLine.to)
+					}	
 				}
 			} else {
 				console.warn("executeLogic() > Could not match any line");

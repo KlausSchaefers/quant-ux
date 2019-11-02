@@ -59,7 +59,7 @@ class RestEngine {
 
     getStringFilelValue (value, encodeFiles) {
         // FIXME: check if we contain ${} to avoid messz stuff
-        if (value.name && value.size && encodeFiles) {
+        if (value && value.name && value.size && encodeFiles) {
             value = this.readFileAsBase64(value)
         }
         return value
