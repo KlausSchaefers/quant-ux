@@ -27,11 +27,18 @@
 	left:10%;
 }
 
-.MatcWidgetTypeRest .MatcScreenLabel{
+.MatcWidgetTypeRest .MatcWidgetTypeRestLabel{
 	position: absolute;
 	width: 100%;
 	text-align: center;
-	bottom:0%
+	bottom:0%;
+	outline: none;
+	color:#cecece;
+	font-size: 200%;;
+}
+
+.MatcLight .MatcWidgetTypeRest .MatcWidgetTypeRestLabel{
+	color:#555;
 }
 
 .MatcWidgetTypeUploadPreview{

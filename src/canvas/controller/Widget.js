@@ -402,7 +402,7 @@ export default class Widget extends Screen {
 		var widget = this.model.widgets[id];
 		if(widget && widget.name!= value){
 			
-			this.logger.log(1,"setWidgetName", "enter > " + id + " > " + value);
+			this.logger.log(-1,"setWidgetName", "enter > " + id + " > " + value);
 			
 			var command = {
 				timestamp : new Date().getTime(),

@@ -58,6 +58,7 @@ class RestEngine {
     }
 
     getStringFilelValue (value, encodeFiles) {
+        // FIXME: check if we contain ${} to avoid messz stuff
         if (value.name && value.size && encodeFiles) {
             value = this.readFileAsBase64(value)
         }
@@ -69,12 +70,26 @@ class RestEngine {
         return result
     }
 
+    dataUrl (file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            //reader.readAsDataURL(file);
+            reader.onerror = error => reject(error);
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(file);
+        });
+    }
+
     base64 (file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
             reader.onerror = error => reject(error);
+            reader.onload = () => {
+                let bytes = Array.from(new Uint8Array(reader.result));
+                let base64StringFile = btoa(bytes.map((item) => String.fromCharCode(item)).join(""));
+                resolve(base64StringFile);
+            }
+            reader.readAsArrayBuffer(file);
         });
     }
 
@@ -156,6 +171,7 @@ class RestEngine {
             let url = await this.buildURL(request, values)
             let data = await this.buildData(request, values)
             let header = this.createDefaultHeader(request)
+            console.debug("postOrPut", header)
      
             fetch(url, {
                 method: request.method,
@@ -198,17 +214,17 @@ class RestEngine {
     }
     
     createDefaultHeader(request) {
+        console.debug('request', request)
         if (request.input.type === 'JSON') {
-            let headers = new Headers({
-                'Content-Type': 'application/json'
-            }, {
-                'Accept': 'application/json'
-            }, {
+            let headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
                 'Authorization': `Bearer ${request.token}`
-            })
+            }
+            console.debug('request >  >', headers)
             return headers
         }
-        new Headers({
+        return new Headers({
             'Authorization': `Bearer ${request.token}`
         })
     }

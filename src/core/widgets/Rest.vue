@@ -2,7 +2,7 @@
 <template>
   <div class="MatcWidgetTypeRest">
     <span class="MatcWidgetTypeIconToggleIcon mdi mdi-cloud-sync" data-dojo-attach-point="icon"></span>
-    <span class="MatcScreenLabel" data-dojo-attach-point="labelNode">{{label}}</span>
+    <span class="MatcWidgetTypeRestLabel" data-dojo-attach-point="labelNode">{{label}}</span>
   </div>
 </template>
 <script>
@@ -14,12 +14,14 @@ export default {
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
-      value: false
+      value: false,
+      model: null
     };
   },
   components: {},
   computed: {
     label () {
+      console.debug('label', this.model)
       if (this.model && this.model.props) {
         return this.model.props.label
       }

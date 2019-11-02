@@ -105,6 +105,39 @@ export default {
               "type": "JSON",
               "hints": []
           }
+        },
+        // https://cloud.google.com/vision/docs/labels
+        {
+          "method": "POST",
+          "url": "https://vision.googleapis.com/v1/images:annotate?key=${key}",
+          "token": "",
+          "input": {
+            "type": "JSON",
+            "fileDataBinding": "",
+            "template": `
+{
+  "requests": [
+    {
+      "image": {
+        "content": ""
+      },
+      "features": [
+        {
+          "maxResults": 5,
+          "type": "LABEL_DETECTION"
+        }
+      ]
+    }
+  ]
+}
+          `
+          },
+          "output": {
+              "databinding": "lala",
+              "template": "",
+              "type": "JSON",
+              "hints": []
+          }
         }
       ],
       options : [
@@ -112,8 +145,9 @@ export default {
         {label: "JSON Post", value: 1},
         {label: "Image Get", value: 2},
         {label: "Image Post", value: 3},
+        {label: "Goolge Vision", value: 4}
       ],
-      selectedTest: 1
+      selectedTest: 4
     };
   },
   components: {
