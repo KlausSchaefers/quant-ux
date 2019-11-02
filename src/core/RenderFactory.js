@@ -44,6 +44,7 @@ import Repeater from 'core/widgets/Repeater'
 import Upload from 'core/widgets/Upload'
 import UploadPreview from 'core/widgets/UploadPreview'
 import WebLink from 'core/widgets/WebLink'
+import ProgressBar from 'core/widgets/ProgressBar'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -381,6 +382,12 @@ export default class RenderFactory extends Core {
 		this._uiWidgets[model.id] = upload;
 	}
 
+	_createProgressBar(parent, model) {
+		var upload = this.$new(ProgressBar);
+		upload.placeAt(parent);
+		this._uiWidgets[model.id] = upload;
+	}
+	
 	_createUpload (parent, model) {
 		var upload = this.$new(Upload);
 		upload.placeAt(parent);

@@ -21,7 +21,6 @@ export default {
   components: {},
   computed: {
     label () {
-      console.debug('label', this.model)
       if (this.model && this.model.props) {
         return this.model.props.label
       }

@@ -207,6 +207,14 @@ export default {
 
 		},
 
+		_showProgressBar (model) {
+			this._setSectionLabel("ProgressBar");
+	
+			this._renderColor('Foreground','<span class="mdi mdi-format-color-fill"></span>',model.style.foreground, "foreground" ,"onStyleChanged", true);
+			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+			this._renderInputDropDown("Progress", model, [10,20,30,40,50,60, 70, 80, 90, 100], "value", true);
+		},
+
 		_showRadioGroup (model){
 			this._setSectionLabel("Radio Group");
 

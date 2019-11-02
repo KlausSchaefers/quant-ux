@@ -41,6 +41,10 @@ export default {
 		setModel (model){
 			this.model = model;
 		},
+
+		_showProgressBar (model){
+			this._renderDataBinding(model, false);
+		},
 		
 		_showRadioGroup (model){
 			this._renderDataBinding(model);

@@ -73,7 +73,6 @@ class RestEngine {
     dataUrl (file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            //reader.readAsDataURL(file);
             reader.onerror = error => reject(error);
             reader.onload = () => resolve(reader.result);
             reader.readAsDataURL(file);
@@ -171,8 +170,7 @@ class RestEngine {
             let url = await this.buildURL(request, values)
             let data = await this.buildData(request, values)
             let header = this.createDefaultHeader(request)
-            console.debug("postOrPut", header)
-     
+      
             fetch(url, {
                 method: request.method,
                 mode: 'cors',
@@ -214,14 +212,12 @@ class RestEngine {
     }
     
     createDefaultHeader(request) {
-        console.debug('request', request)
         if (request.input.type === 'JSON') {
             let headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${request.token}`
             }
-            console.debug('request >  >', headers)
             return headers
         }
         return new Headers({
@@ -241,7 +237,6 @@ class RestEngine {
                 result.push(rest.input.fileDataBinding)
             }
         }
-        console.debug('rest', result, rest.input)
         return result;
     }
 

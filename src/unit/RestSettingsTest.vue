@@ -119,7 +119,7 @@ export default {
   "requests": [
     {
       "image": {
-        "content": ""
+        "content": "\${image}"
       },
       "features": [
         {
