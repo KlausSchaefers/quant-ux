@@ -11,27 +11,9 @@
             <a @click="run" class="MatcButton">Test</a>
       </div>
 
-      <div class="MatcToolbarRestOutputHeader">
-            <div class="form-group MatcToolbarRestOutputHeaderVar">
-                <label>Output Variable</label>
-                <Combo 
-                    :value="rest.output.databinding" 
-                    @change="onChangeOutputVar" 
-                    :hints="hints"
-                    :fireOnBlur="true" 
-                    :formControl="true"
-                    :isDropDown="true"
-                    placeholder="Name of output variable"/>
-            </div>
-
-            <div class="form-group MatcToolbarRestOutputHeaderType"  >
-                <label>Output Type</label>
-                <SegmentButton :options="outputTypes" v-model="rest.output.type" style="width:300px" @change="onChange"/>
-            </div>
-          
-      </div>
-   
+    
       <div class="MatcToolbarTabs MatcToolbarTabsBig">
+            <a @click="tab='output'" :class="{'MatcToolbarTabActive': tab === 'output'}">Response</a>
             <a @click="tab='input'" :class="{'MatcToolbarTabActive': tab === 'input'}">Request</a>
             <a @click="tab='auth'" :class="{'MatcToolbarTabActive': tab === 'auth'}">Header</a>
             <a @click="tab='params'" :class="{'MatcToolbarTabActive': tab === 'params'}" style="margin-left:20px;">Test Parameter</a>
@@ -39,6 +21,26 @@
         </div>
      
         <div class="MatcMarginTop">
+            <div v-show="tab === 'output'">
+            
+                <div class="form-group">
+                    <label>Output Variable</label>
+                    <Combo 
+                        :value="rest.output.databinding" 
+                        @change="onChangeOutputVar" 
+                        :hints="hints"
+                        :fireOnBlur="true" 
+                        :formControl="true"
+                        :isDropDown="true"
+                        placeholder="Name of output variable"/>
+                </div>
+
+                <div class="form-group MatcToolbarRestOutputHeaderType"  >
+                    <label>Output Type</label>
+                    <SegmentButton :options="outputTypes" v-model="rest.output.type" style="width:300px" @change="onChange"/>
+                </div>
+            </div>
+
             <div v-show="tab === 'auth'">
             
                 <div class="form-group">
@@ -47,6 +49,7 @@
                 </div>
 
             </div>
+
              <div v-show="tab === 'input'">
 
                     <div class="form-group" v-if="(rest.method == 'GET' || rest.method === 'DELETE')" >
@@ -178,7 +181,7 @@ export default {
     props:["app", "value"],
     data: function () {
         return {
-            tab: "input",
+            tab: "output",
             checkBoxChecked: false,
             methods: [
                 {
