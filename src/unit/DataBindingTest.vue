@@ -1,18 +1,18 @@
 <template>
   <div class="MatcLight">
     <h1 style="margin-left:20px; margin-bottom:20px;">DataBinding Test</h1>
-  
-  
+
+
    <div class="MatcDialogBack" style="display:inline-block; width:auto; vertical-align: top; margin-left:30px;">
-        <DataBinding :app="app" @change="onChange" :value="selectedWidget"/>
+        <DataBinding :app="app" @change="onChange" :value="selectedWidget" :canChangeVars="false"/>
     </div>
 
      <code style="
           display: inline-block;
-          width: 300px; 
-          height:300px; 
-          vertical-align: top; 
-          word-break: break-all; 
+          width: 300px;
+          height:300px;
+          vertical-align: top;
+          word-break: break-all;
           white-space: pre;
           word-wrap: break-word;">{{settings}}</code>
 
@@ -40,7 +40,7 @@ export default {
   data: function() {
     return {
       app: rest,
-      settings: {},         
+      settings: {},
       selectedTest: 3,
       selectedWidget: {
             "id" : "Rest",
@@ -72,7 +72,7 @@ export default {
       }
   },
   mounted() {
-    
+
   }
 };
 </script>

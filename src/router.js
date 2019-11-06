@@ -116,6 +116,10 @@ export default new Router({
       component: () => import(/* webpackChunkName: "unit" */ './unit/DataBindingTest.vue')
     },
     {
+      path: '/test/DataBindingTree.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/DataBindingTreeTest.vue')
+    },
+    {
       path: '/test/Tree.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/TreeTest.vue')
     },

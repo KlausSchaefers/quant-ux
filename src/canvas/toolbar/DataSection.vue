@@ -123,7 +123,7 @@ export default {
 						} else {
 							this._renderColor(p.label, icon, widget.style[p.key], p.key ,"onStyleChanged", true);
 						}
-						
+
 						break;
 
 					case 'Boolean':
@@ -209,7 +209,7 @@ export default {
 
 		_showProgressBar (model) {
 			this._setSectionLabel("ProgressBar");
-	
+
 			this._renderColor('Foreground','<span class="mdi mdi-format-color-fill"></span>',model.style.foreground, "foreground" ,"onStyleChanged", true);
 			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
 			this._renderInputDropDown("Progress", model, [10,20,30,40,50,60, 70, 80, 90, 100], "value", true);
@@ -590,11 +590,11 @@ export default {
 			this._renderColor('Border Color','<span class="mdi mdi-border-color"></span>',model.style.borderBottomColor, "borderBottomColor" , null, true);
 		},
 
-		
-		
+
+
 		_renderIgnoreState (widget){
-			var row = this.db.div("MatcToobarRow").build(this.cntr);			
-			
+			var row = this.db.div("MatcToobarRow").build(this.cntr);
+
 			var chkBox = this.$new(CheckBox);
 			css.add(chkBox.domNode, "MatcToolbarItem");
 			chkBox.placeAt(row);
@@ -645,21 +645,21 @@ export default {
 		_renderDataBinding (widget, hasIgnoreState = true){
 			var icon = "mdi mdi-database-plus";
 			var txt = "Add Data Binding";
-			
+
 			var dataBinding = this.getDataBinding(widget);
 			if(dataBinding && Object.keys(dataBinding).length > 0){
 				icon = "mdi mdi-database";
 				txt = Object.values(dataBinding).join(', ')
 			}
 
-			var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);		
-			
+			var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);
+
 			var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull").build(row);
 			var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
 			this.db.span(icon).build(lbl);
 			this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
-			
-			this.db.span("caret").build(cntr);	
+
+			this.db.span("caret").build(cntr);
 			this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showDataBindingDialog", widget)));
 
 			if (hasIgnoreState) {
@@ -667,23 +667,23 @@ export default {
 			}
 		},
 
-		_showDataBindingDialog (widget){		
-			
-			var popup = this.db.div("MatcDialogXLLong MatcPadding").build();		
+		_showDataBindingDialog (widget){
+
+			var popup = this.db.div("MatcDataBindingDialogXXL MatcPadding").build();
 			var cntr = this.db.div("").build(popup);
 
 			let dataBinding = this.$new(DataBinding)
 			dataBinding.setModel(this.model)
 			dataBinding.setWidget(widget)
 			dataBinding.placeAt(cntr)
-	
-			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);		
+
+			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
 			var write = this.db.div("MatcButton", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
-		
-			
+
+
 			var d = new Dialog({overflow:true});
-			
+
 			d.own(on(write, touch.press, lang.hitch(this,"setDataBinding", d, dataBinding, widget)));
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			d.own(on(d, "close", function(){
@@ -691,16 +691,20 @@ export default {
 			}));
 			d.popup(popup, this.cntr);
 		},
-		
+
 		setDataBinding (d, dataBindingWidget){
 			/**
 			 * Since 2.1.2 We get a dict form the dataBinding Widgt
 			 */
 			let value = dataBindingWidget.getValue()
-			this.emit("propertyChange", "databinding", value);			
-			d.close();			
+
+			/**
+			 * FIXME: Since 2.1.5 we should add here some other call
+			 */
+			this.emit("propertyChange", "databinding", value);
+			d.close();
 		},
-		
+
 		/**********************************************************************
 		 * Table
 		 **********************************************************************/
@@ -1138,7 +1142,7 @@ export default {
 				this.addTooltip(row, tt);
 			}
 		},
-	
+
 		_renderButton (lbl, icon, callback){
 			var row = this.db.div("MatcToobarRow ").build(this.cntr);
 			var item = this.db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
@@ -1196,14 +1200,14 @@ export default {
 			} else {
 				drpDwn.setValue(model.props[prop])
 			}
-			
+
 			drpDwn.setPopupCss("MatcActionAnimProperties");
 			if (isStyle) {
 				this.own(on(drpDwn, "change", lang.hitch(this, 'onStyleChanged', prop)));
 			} else {
 				this.own(on(drpDwn, "change", lang.hitch(this, 'onProperyChanged', prop)));
 			}
-   			
+
 
    			drpDwn.placeAt(row);
 

@@ -1,6 +1,6 @@
 
 <template>
-     <div class="MatcDataBinding">
+     <div class="MatcDataSettings">
          <div v-if="model" class="MatcDialogTable">
              <table>
                   <tr >
@@ -20,38 +20,12 @@
 					        :formControl="true"/>
                     </td>
                      <td>
-                         <SegmentButton
-                            v-if="hasNewTypeSelector"
-                            :options="variableKeys"
-                            v-model="newType"
-                            style="width:100px" @change="setNewType($event)"/>
+                         <span class="MatcButton" v-if="hasNewTypeSelector">Add</span>
                     </td>
                  </tr>
-                 <tr v-for="variable in selectedVaribales" :key="variable.name">
-                    <td class="MatcDataBindingCheckCntr">
-                         <CheckBox :value="variable.selected" @change="onCheckBox($event, variable.name, variable.type)"/>
-                    </td>
-                     <td>
-                        <input
-                            v-if="canChangeVars"
-                            :value="variable.name"
-                            class="vommondInlineEdit MatcIgnoreOnKeyPress form-control"
-                            @keydown.stop=""
-                            keyup.stop=""/>
-                        <span v-else class="MatcDataBindingVariableName">
-                            {{variable.name}}
-                        </span>
-                    </td>
-                     <td>
-                        <SegmentButton
-                            v-if="variable.selected"
-                            :options="variableKeys"
-                            v-model="variable.type"
-                            style="width:100px" @change="setType($event, variable.name)"/>
-                    </td>
-                 </tr>
-
              </table>
+
+             {{dataModel}}
          </div>
 	</div>
 </template>
@@ -60,12 +34,13 @@
 </style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
+import lang from 'dojo/_base/lang'
 import Util from 'core/Util'
 import Logger from 'common/Logger'
 // import DropDownButton from 'page/DropDownButton'
-import CheckBox from 'common/CheckBox'
+//import CheckBox from 'common/CheckBox'
 import Input from 'common/Input'
-import SegmentButton from 'page/SegmentButton'
+//import SegmentButton from 'page/SegmentButton'
 
 export default {
     name: 'DataBinding',
@@ -78,13 +53,14 @@ export default {
             hasNewTypeSelector: false,
             newType: "default",
             variables: [],
-            databinding: {}
+            databinding: {},
+            dataModel: {}
         }
     },
     components: {
-        'CheckBox': CheckBox,
+        //'CheckBox': CheckBox,
         'Combo': Input,
-        'SegmentButton': SegmentButton
+        //'SegmentButton': SegmentButton
         // 'DropDownButton': DropDownButton
     },
     computed: {
@@ -165,6 +141,7 @@ export default {
             }
         },
         onSelectVariable (v, key = "default") {
+            console.debug('onSelectVariable()', v, key)
             this.$set(this.databinding, key, v)
             this.onChange()
         },
@@ -193,6 +170,9 @@ export default {
         },
         setModel (v) {
             this.model = v
+            if (v.dataModel) {
+                this.dataModel = lang.clone(v.dataModel)
+            }
         },
         setWidget (v) {
             this.widget = v
@@ -224,7 +204,7 @@ export default {
         }
     },
     mounted () {
-        this.logger = new Logger("RestSettings")
+        this.logger = new Logger("DataSetting")
         if (this.app) {
             this.setModel(this.app)
         }

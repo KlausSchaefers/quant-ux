@@ -1,6 +1,6 @@
-.MatcDialogXXL{
+.MatcDataBindingDialogXXL{
 	width: 840px;
-	min-height: 600px;	
+	min-height: 600px;
 }
 
 .MatcDataBinding{
@@ -37,4 +37,8 @@
 
 .MatcDialogTable tr:hover .MatcDataBindingCheckCntr .mdi {
     color: #1973e8;
+}
+
+.MatcDataBinding .MatcDropDownButtonWidth{
+    min-width: 120px;
 }

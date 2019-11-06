@@ -40,14 +40,13 @@ export default {
   components: {},
   methods: {
     postCreate: function() {
-      this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));      
+      this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
       if (this.l) {
         this.setLabel(this.l);
       }
       if (this.options) {
         this.setOptions(this.options)
       }
-      console.debug('postCreate', this.value)
       if (this.value) {
         this.setValue(this.value)
       }
