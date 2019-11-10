@@ -2,11 +2,11 @@
 <template>
 	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem']"  :xScroll="scrollToItem()" >
     <li :class="'MatcTreeItemLevel' + level">
-        <div 
+        <div
             :class="'MatcTreeItemRow ' + rowStyle"
             @click.stop="onClick($event)"
-            @dragstart="onDragStart" 
-            @dragover="onDragOver" 
+            @dragstart="onDragStart"
+            @dragover="onDragOver"
             @dragleave="onDragLeave"
             @dblclick.stop="onDoubleClick"
             @drop="onDrop"
@@ -22,19 +22,19 @@
          <label class="MatcTreeItemLabel" v-if="!isEditable" ref="lblNode" >
             {{value.label}}
           </label>
-          <input class="MatcTreeItemLabel MatcIgnoreOnKeyPress" 
-            v-if="isEditable" 
+          <input class="MatcTreeItemLabel MatcIgnoreOnKeyPress"
+            v-if="isEditable"
             @blur="onBlur"
             :focus="focus()"
-            ref="lblNode" 
+            ref="lblNode"
             @keydown.enter="onBlur" :value="value.label"/>
         </div>
         <ul v-if="isOpen">
-          <TreeItem v-for="child in value.children" :key="child.id" 
-            :value="child" 
-            @dnd="onChildDnd" 
+          <TreeItem v-for="child in value.children" :key="child.id"
+            :value="child"
+            @dnd="onChildDnd"
             @open="onChildOpen"
-            @select="onChildSelect" 
+            @select="onChildSelect"
             @startEdit="onChildStartEdit"
             @endEdit="onChildEndEdit"
             :level="level + 1"/>
@@ -120,17 +120,18 @@ export default {
       }
     },
     onDragOver (e) {
-      e.preventDefault() 
+      e.preventDefault()
       this.isDragOver = true
     },
     onDragLeave (e) {
-      e.preventDefault() 
+      e.preventDefault()
       this.isDragOver = false
     },
     onDrop (e) {
+      e.preventDefault()
       let id = e.dataTransfer.getData('text')
       this.isDragOver = false
-      this.$emit('dnd', id, this.value.id, 'top')    
+      this.$emit('dnd', id, this.value.id, 'top')
     },
     onChildDnd (from, to, position) {
       this.$emit('dnd', from, to, position)
@@ -151,11 +152,11 @@ export default {
     },
     getInlineTxt (){
       if (this.$refs.lblNode){
-        var txt = this.$refs.lblNode.value;	
+        var txt = this.$refs.lblNode.value;
         txt = txt.replace(/(\r\n|\n|\r)/gm, '')
         txt = txt.replace(/<br>/g, "");
         txt = txt.replace(/&nbsp;/g, " ");
-        txt = txt.replace(/%/g, "$perc;"); 
+        txt = txt.replace(/%/g, "$perc;");
         return txt;
       }
     },
