@@ -48,6 +48,10 @@
 	outline: none;
 }
 
+.MatcToolbarTable .MatcToolbarTableLabelRow input {
+	font-weight: 700;
+}
+
 .MatcToolbarTable input:focus {
     border: medium none;
     height: 100%;

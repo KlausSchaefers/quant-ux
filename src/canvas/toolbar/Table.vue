@@ -39,13 +39,15 @@ export default {
             dataDirty: false, 
             inputClicked: false, 
             actionKeys: [37], 
-            mode: "blur"
+			mode: "blur",
+			hasHeader: false,
+			widgetsWithHeader: ['Repeater', 'Table']
         }
     },
     components: {},
     methods: {
         postCreate: function(){
-			this.render();
+		
 			this.own(on(this.file, "change", lang.hitch(this,"_onFileChange")));	
 			this.own(on(win.body(), "keydown", lang.hitch(this,"onBodyKeyDown")));
 			//this.own(on(win.body(), "keyup", lang.hitch(this,"onBodyKeyUp")));
@@ -62,9 +64,12 @@ export default {
 		},
 		
 		setWidget (widget){
-			this.widget = widget;
-			
-			if(widget.props.widths){
+			this.widget = widget;	
+			this.hasHeader = this.widgetsWithHeader.indexOf(widget.type) >= 0
+		
+			this.render();
+
+			if (widget.props.widths){
 				var widths = widget.props.widths;
 				var sum =0;
 				for(let i = 0; i < widths.length; i++){
@@ -195,12 +200,20 @@ export default {
 			}
 			
 			
-			for(let r=0; r < this.rows; r++){
+			for(let r = 0; r < this.rows; r++){
 				let tr = db.element("tr").build(tbody);
 				let td = db.element("td").build(tr);
 				td.style.height = this.rowHeight + "px";
-				td.innerHTML = r;
-				td.style.width = "30px";
+			
+				if (r === 0 && this.hasHeader) {
+					td.innerHTML = 'Label'
+					td.style.width = "50px";
+					css.add(tr, 'MatcToolbarTableLabelRow')
+				} else {
+					td.innerHTML = r;
+					td.style.width = "30px";
+				}
+
 				this.inputs.push([]);
 				for(let c =0; c < this.columns; c++){
 					td = db.element("td").build(tr);					
