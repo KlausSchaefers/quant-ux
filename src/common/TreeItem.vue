@@ -128,6 +128,7 @@ export default {
       this.isDragOver = false
     },
     onDrop (e) {
+      e.preventDefault()
       let id = e.dataTransfer.getData('text')
       this.isDragOver = false
       this.$emit('dnd', id, this.value.id, 'top')    
