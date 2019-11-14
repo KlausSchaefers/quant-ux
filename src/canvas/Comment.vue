@@ -22,7 +22,7 @@ export default {
 			this.logger.log(2,"initComment", "enter");
 			
 			this.commentCheckBox = this.$new(CheckBox);
-			this.commentCheckBox.setLabel("Show Comments");
+			this.commentCheckBox.setLabel("Comments");
 			this.commentCheckBox.setValue(this.showComments);
 			this.commentCheckBox.placeAt(this.commentCntr);
 			this.own(on(this.commentCheckBox, "change", lang.hitch(this, "setCommentView")));

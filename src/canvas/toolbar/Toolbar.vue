@@ -196,9 +196,6 @@ export default {
 
 		},
 		
-
-		
-	
 		
 		getMainMenu   () {
 			var options = [
@@ -252,6 +249,11 @@ export default {
 			this.logger.log(3,"setMode", "entry > '" + mode + "'");
 			this.mode = mode;
 			this.onModeChange();
+		},
+
+		setDataView (isDataView) {
+			this.logger.log(-1,"setDataView", "entry ", isDataView);
+			this.isDataView = isDataView
 		},
 		
 		setLayerList (layerlist){
@@ -351,8 +353,6 @@ export default {
 					}
 					
 					this.cleanUp();
-					
-					
 					this._selection = "widget";
 					this._selectedWidget = widget;
 					this._selectionID = widget.id;
@@ -362,7 +362,7 @@ export default {
 					this.showTemplate(widget);
 	
 					this.logger.log(3,"onWidgetSelected", "exit");	
-				} catch(e){
+				} catch (e){
 					console.error(e.stack);
 					this.logger.sendError(e);
 				}
@@ -1016,14 +1016,10 @@ export default {
 			} 
 		},
 		
-		
 		onToolSelect (mode, e){
 			this.logger.log(1,"onModeClick", "entry > '" + mode + "'");
 			this.stopEvent(e);
-			
 			topic.publish("matc/canvas/click", "");
-			
-			
 			/**
 			 * toggle between modes!
 			 */
@@ -1033,7 +1029,6 @@ export default {
 				this.controller.setMode("select");
 			}
 		},
-		
 		
 		onToolText (e){
 			this.logger.log(1,"onToolHotspot", "entry >");
@@ -1307,7 +1302,6 @@ export default {
 			}			
 			return false;
 		},
-		
 		
 		
 		toggleStyle (key, value){

@@ -58,7 +58,8 @@ export default {
 			this.label = l
 		},
 		
-		onChange:function(){
+		onChange:function(e){
+			this.stopEvent(e)
 			this.setValue(!this.checked);
 			this.emit("change", this.checked );
 			this.emit("input", this.checked );

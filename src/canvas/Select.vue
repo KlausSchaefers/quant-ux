@@ -213,7 +213,7 @@ export default {
 				this.logger.sendError(e);
 			}
 			if (type !== 'group') {
-				this.logger.log(-1,"onSelectionChanged", "clear group children > ");
+				this.logger.log(1,"onSelectionChanged", "clear group children > ");
 				delete this._dragNDropGroupChildren;
 			}
 			try{	

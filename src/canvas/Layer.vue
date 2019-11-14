@@ -13,7 +13,7 @@ export default {
 			try{	
 				if(this.layerCheckCntr){
 					this.layerCheckBox = this.$new(CheckBox);
-					this.layerCheckBox.setLabel("Show Layers");
+					this.layerCheckBox.setLabel("Layers");
 					this.layerCheckBox.setValue(this.showLayerList);
 					this.layerCheckBox.placeAt(this.layerCheckCntr);
 					this.own(on(this.layerCheckBox, "change", lang.hitch(this, "setLayerVisibility")));

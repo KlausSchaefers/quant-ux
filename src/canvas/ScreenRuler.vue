@@ -20,7 +20,7 @@ export default {
         initScreenRuler () {
             if(this.rulerCntr){
                 this.rulerChkBox = this.$new(CheckBox);
-                this.rulerChkBox.setLabel("Show Ruler");
+                this.rulerChkBox.setLabel("Rulers");
                 this.rulerChkBox.setValue(this.settings.showRuler);
                 this.rulerChkBox.placeAt(this.rulerCntr);
                 this.own(on(this.rulerChkBox, "change", lang.hitch(this, "setShowScreenRuler")));

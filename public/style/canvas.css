@@ -1153,6 +1153,32 @@
     opacity:0.6;
 }
 
+ /****************************************************
+ * DataView
+ ****************************************************/
+
+.MatcCanvasDataView .MatcScreen,
+.MatcCanvasDataView .MatcWidget{
+	 -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    opacity:0.6;
+}
+
+.MatcCanvasDataView .MatcResizeHandle{
+	 display: none;
+}
+
+.MatcCanvasDataViewLabel {
+	position: absolute;
+	top:-5px;
+	left: -5px;
+	background: #49C0F0;
+	color:#fff;
+	padding: 3px 5px;
+	font-size: 200%;
+	border-radius:5px;
+}
+
 /****************************************************
  * ScreenGrid
  ****************************************************/

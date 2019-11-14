@@ -58,7 +58,7 @@ export default {
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
 							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
 							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
-							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar'],
+							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel'],
 			hasLogic2: ["LogicOr", "Rest"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
@@ -68,6 +68,7 @@ export default {
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink"],
 			colorWidgets: [],
+			isDataView: false
         }
     },
     components: {},
@@ -1594,7 +1595,14 @@ export default {
 		 ****************************************************************************************************/
 
 		showWidgetProperties:function(model){
-			this.logger.log(0,"showWidgetProperties", "entry > ");
+			this.logger.log(-1,"showWidgetProperties", "entry > ", this.isDataView);
+
+			/**
+			 * Since 2.1.6 we have a dedicated data view
+			 */
+			if (this.isDataView) {
+				return this.showWidgetDataProperties(model)
+			}
 
 			this.setWidgetViewModes(model);
 
@@ -1667,14 +1675,11 @@ export default {
 				this.color.setValue(style.color);
 				this.textAlign.setValue(style.textAlign);
 
-
 				css.remove(this.textAdvancedDiv,  "MatcToolbarSectionHidden");
 				this.textShadow.setValue(style.textShadow);
 				this.lineHeight.setValue(style.lineHeight);
 				this.letterSpacing.setValue(style.letterSpacing);
 				this.strikeThrough.setValue(style.textDecoration == "line-through");
-
-
 			}
 
 			if(this.hasValign.indexOf(model.type) >=0){
@@ -1686,21 +1691,17 @@ export default {
 				}
 			}
 
-
-			if(this.hasPadding.indexOf(model.type) >=0){
+			if (this.hasPadding.indexOf(model.type) >=0) {
 				css.remove(this.boxDiv, "MatcToolbarSectionHidden");
 				this.paddingWidget.setValue(style);
 			}
 
-
-
-			if(widgetViewMode == "style"){
+			if (widgetViewMode == "style") {
 
 				if (this.responsiveDiv) {
 					css.remove(this.responsiveDiv, "MatcToolbarSectionHidden")
 					this.responsiveWidget.setValue(model)
 				}
-
 
 				if(this.widgetAlignDiv){
 					css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
@@ -1769,6 +1770,27 @@ export default {
 				css.remove(this.screenDownloadDiv, "MatcToolbarSectionHidden");
 				this.screenExport.setWidgets([model.id]);
 			}
+		},
+
+		/**
+		 * Since 2.1.6 we have the dataview
+		 */
+		showWidgetDataProperties (model) {
+			this.logger.log(-1,"showWidgetDataProperties", "enter");
+	
+			if (this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
+				this.showProperties();
+				/**
+				 * Show the name or so?
+				 */
+				css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
+				this.validationWidget.setValue(model);
+			} else {
+				if (this.canvas) {
+					this.canvas.showError('The widget does not support data')
+				}
+			}
+
 		},
 
 		reopenColorWidget:function(){

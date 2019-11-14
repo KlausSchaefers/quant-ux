@@ -86,14 +86,14 @@ export default {
 			this.renderedModels = {};
 			
 			this.lineChkBox = this.$new(CheckBox);
-			this.lineChkBox.setLabel("Show Lines");
+			this.lineChkBox.setLabel("Lines");
 			this.lineChkBox.setValue(this.renderLines);
 			this.lineChkBox.placeAt(this.lineCntr);
 			this.own(on(this.lineChkBox, "change", lang.hitch(this, "setViewLines")));		
 			
 			if(this.distanceCntr){
 				this.distanceChkBox = this.$new(CheckBox);
-				this.distanceChkBox.setLabel("Show Distance");
+				this.distanceChkBox.setLabel("Distance");
 				this.distanceChkBox.setValue(this.showDistance);
 				this.distanceChkBox.placeAt(this.distanceCntr);
 				this.own(on(this.distanceChkBox, "change", lang.hitch(this, "setShowDistance")));
@@ -302,10 +302,9 @@ export default {
 		
 
 		render (model){
-			this.logger.log(0,"render", "enter");
+			this.logger.log(-1,"render", "enter");
 			let renderStart = new Date().getTime();
 			try {
-			
 			
 				if (this.settings.fastRender) {
 					this.renderFlowViewFast(model);
@@ -395,7 +394,7 @@ export default {
 		},
 		
 		wireEvents (){
-			this.logger.log(5,"wireEvents", "enter > " + this.mode);
+			this.logger.log(-1,"wireEvents", "enter > " + this.mode);
 			
 			this.wireCanvas()
 	
@@ -468,12 +467,12 @@ export default {
 		},
 		
 		wireCanvas () {
-			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view") ){
+			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view" || this.mode === "data") ){
 				/**
 				 * In the classic mode the
 				 */
 				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
-			} else if (this.mode == "edit" || this.mode == "view"){
+			} else if (this.mode === "edit" || this.mode === "view" || this.mode === "data"){
 				/**
 				 * The must be mousedown, because in chrome the touch press is fired after mousedown and fucks up some how our state maschine
 				 */
@@ -831,10 +830,18 @@ export default {
 			this.logger.log(4,"createWidgetDnD", "enter");
 			var div = this.createBox(widget);
 			css.add(div, "MatcWidgetDND");
-			if(this.hasLogic(widget)){
+			if (this.hasLogic(widget)){
 				css.add(div, "MatcLogicWidgetDnD");
 			}
+			/**
+			 * Since 2.1.6 we have the data view and need a callback
+			 */
+			this.createWidgetDataView(widget, div)
 			return div;
+		},
+
+		createWidgetDataView () {
+			// child classes can implement
 		},
 		
 		createWidget (widget){

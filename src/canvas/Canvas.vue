@@ -27,15 +27,16 @@
 				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus"> 			
 				</span> 
 			</div> 
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>	
 			<div class="MatcStatusItem" data-dojo-attach-point="gridBtn">
 				<span class="MatcStatusButtom glyphicon glyphicon-th"></span> 
 				<span class="MatcStatusItemLabel MatcStatusButtom" >Grid &amp; Columns</span> 
 			</div>	
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>	
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="distanceCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="rulerCntr"></div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="dataViewCntr"></div>
 		</div>
 	</div> <!-- Status -->
 
@@ -72,6 +73,7 @@ import Scroll from 'canvas/Scroll'
 import Upload from 'canvas/Upload'
 import Comment from 'canvas/Comment'
 import Layer from 'canvas/Layer'
+import DataView from 'canvas/DataView'
 import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 
@@ -79,7 +81,8 @@ import CustomHandler from 'canvas/CustomHandler'
 
 export default {
   name: 'Canvas',
-	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler],
+	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, 
+			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView],
     data: function () {
         return {
          		mode: "edit", 
@@ -121,6 +124,7 @@ export default {
 			this.initUpload();
 			this.initComment();		
 			this.initScreenRuler()	
+			this.initDataView()
 			
 			/**
 			 * Init Listeners
