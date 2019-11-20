@@ -291,20 +291,12 @@ export default {
 		
 		
 		showSignUpDialog:function(e){
-			
-			
 			var d = new Dialog();
-			
 			var db = new DomBuilder();
-			
 			var div = db.div("MatcDialog ").build();
-			
-			
 			this._createSignUpForm(d, div);
-		
 			d.popup(div, e.target);
 		},
-		
 		
 		_createSignUpForm:function(d, div){
 			let f = this.$new(Form);
@@ -653,10 +645,6 @@ export default {
 			if(this._selectedGroup){
 				this.controller.addTemplateGroup(this._selectedGroup, input.value);
 			}
-		
-		
-			
-	
 		},
 		
 		
@@ -664,8 +652,6 @@ export default {
 		 * Save As
 		 **********************************************************************/
 		
-	
-
 		onSaveAs:function(){
 			this.logger.log(0,"onSaveAs", "entry");
 			
@@ -726,25 +712,40 @@ export default {
 		
 	
 		
-		startSimilator:function(){
+		startSimilator (){
 			this.logger.log(0,"startSimilator", "entry");	
-			
+			var pos = domGeom.position(win.body());
+			let maxHeight = pos.h - 100
+			/**
+			 * Since 2.1.7 we have better scalling. 
+			 * Keep in sync with the ShareCanvas.startSimulator() method
+			 * 
+			 * FIXME: This could be still a litte bit better. We could max the height and with factors
+			 */
 			css.add(win.body(), 'MatcCanvasSimulatorVisible')
 			if(this.model.type == "desktop"){
-				this._showDesktopSimulator(this.model);
+				pos.w = pos.w * 0.75;
+				pos.h = pos.h * 0.75;
+				this._showDesktopSimulator(this.model, pos);
 			} else if(this.model.type=="tablet"){
 				if(this.model.screenSize.w > this.model.screenSize.h){
-					this._showMobileTest(this.model,{w:800, h: 600}, "MatchSimulatorWrapperTablet");
+					pos.w = pos.w * 0.65;
+					pos.h = pos.h * 0.65;
+					this._showMobileTest(this.model, pos, "MatchSimulatorWrapperTablet", maxHeight);
 				} else {
-					this._showMobileTest(this.model,{w:400, h: 480}, "MatchSimulatorWrapperTablet");
+					pos.w = pos.w * 0.35;
+					pos.h = pos.h * 0.35;
+					this._showMobileTest(this.model, pos, "MatchSimulatorWrapperTablet", maxHeight);
 				}
-			} else{
-				this._showMobileTest(this.model, {w:300, h: 800}, "MatchSimulatorWrapperMobile");
+			} else { 
+				pos.w = pos.w * 0.25;
+				pos.h = pos.h * 0.25;
+				this._showMobileTest(this.model, pos , "MatchSimulatorWrapperMobile", maxHeight);
 			}
 		},
 		
 		
-		_showDesktopSimulator:function(model){
+		_showDesktopSimulator (model, pos){
 			
 
 			var dialog = document.createElement("div");
@@ -755,9 +756,6 @@ export default {
 			css.add(container, "MatchSimulatorContainer");
 			dialog.appendChild(container);
 			
-			var pos = domGeom.position(win.body());
-			pos.w = pos.w * 0.75;
-			pos.h = pos.h * 0.75;
 			pos = this.getScaledSize(pos, "width", this.model);
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
@@ -798,8 +796,8 @@ export default {
 		
 		
 		
-		_showMobileTest:function(model, pos, clazz){
-			
+		_showMobileTest (model, pos, clazz, maxHeight){
+
 			var dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
 		
@@ -814,12 +812,12 @@ export default {
 			var container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 		
-
-					
-			/**
-			 * FIXME: make this somehow grow to the max if the screen height
-			 */
 			pos = this.getScaledSize(pos, "width", this.model);
+			if (pos.h > maxHeight) {
+				let factor = pos.h / maxHeight
+				pos.h = pos.h / factor
+				pos.w = pos.w / factor
+			}
 			container.style.width = Math.ceil(pos.w) + "px";
 			container.style.height = Math.ceil(pos.h) + "px";
 

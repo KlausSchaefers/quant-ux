@@ -316,22 +316,37 @@ export default {
 		
 		startSimulator (e, model){
 			this.logger.log(1,"startSimulator", "enter > " );
+			
+			/**
+			 * Since 2.1.7 we have better scalling. Keep in 
+			 * sync with _Dialogs.startSimilator()
+			 */
+			var pos = domGeom.position(win.body());
+			let maxHeight = pos.h - 100
 			css.add(win.body(), 'MatcCanvasSimulatorVisible')
-			if(model.type == "desktop"){
-				this._showDesktopSimulator(model);
-			} else if(this.model.type=="tablet"){
-				if(model.screenSize.w > model.screenSize.h){
-					this._showMobileTest(model,{w:800, h: 600}, "MatchSimulatorWrapperTablet");
+			if( model.type == "desktop"){
+				pos.w = pos.w * 0.75;
+				pos.h = pos.h * 0.75;
+				this._showDesktopSimulator(model, pos);
+			} else if( model.type=="tablet"){
+				if(this.model.screenSize.w > this.model.screenSize.h){
+					pos.w = pos.w * 0.65;
+					pos.h = pos.h * 0.65;
+					this._showMobileTest(model, pos, "MatchSimulatorWrapperTablet", maxHeight);
 				} else {
-					this._showMobileTest(model,{w:400, h: 480}, "MatchSimulatorWrapperTablet");
+					pos.w = pos.w * 0.35;
+					pos.h = pos.h * 0.35;
+					this._showMobileTest(model, pos, "MatchSimulatorWrapperTablet", maxHeight);
 				}
-			} else{
-				this._showMobileTest(model, {w:250, h: 400}, "MatchSimulatorWrapperMobile");
+			} else{ 
+				pos.w = pos.w * 0.25;
+				pos.h = pos.h * 0.25;
+				this._showMobileTest(model, pos , "MatchSimulatorWrapperMobile", maxHeight);
 			}
 		},
 		
 		
-		_showDesktopSimulator (model){
+		_showDesktopSimulator (model, pos){
 			
 			var dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
@@ -340,9 +355,6 @@ export default {
 			css.add(container, "MatchSimulatorContainer");
 			dialog.appendChild(container);
 	
-			var pos = domGeom.position(win.body());
-			pos.w = pos.w * 0.75;
-			pos.h = pos.h * 0.75;
 			pos = this.getScaledSize(pos, "width", model);
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
@@ -401,7 +413,8 @@ export default {
 		
 		
 		
-		_showMobileTest (model, pos, clazz){
+		_showMobileTest (model, pos, clazz, maxHeight){
+			console.debug('_showMobileTest', maxHeight)
 			var dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
 			
@@ -416,6 +429,12 @@ export default {
 			css.add(container, "MatchSimulatorContainer");
 					
 			pos = this.getScaledSize(pos, "width", model);
+			if (pos.h > maxHeight) {
+				let factor = pos.h / maxHeight
+				pos.h = pos.h / factor
+				pos.w = pos.w / factor
+			}
+
 			container.style.width = Math.ceil(pos.w) + "px";
 			container.style.height = Math.ceil(pos.h) + "px";
 			wrapper.appendChild(container);
