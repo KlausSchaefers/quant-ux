@@ -984,9 +984,10 @@ export default {
 		},
 		
 		
-		onToolAlignElements (value,e){
+		onToolAlignElements (value, e){
 			this.logger.log(1,"onAlignElements", "entry : " + this._selection);
 			this.stopEvent(e);
+	
 	
 			if(this._selectedMulti){
 				/**
@@ -994,13 +995,33 @@ export default {
 				 */
 				this.controller.alignWidgets(value, this._selectedMulti, this._selectedMulti);
 
-			} else if(this._selectedGroup || this._selectedWidget){
+			} else if (this._selectedWidget) {
 				/**
-				 * in case we have no multi selection, the user has first to 
-				 * select an element to which he want to align
+				 * Since 2.1.7 we allign on canvas
 				 */
-				this.toolAlignStart(value);
-				this.canvas.onAlignStart(value);
+
+				// this.toolAlignStart(value);
+				// this.canvas.onAlignStart(value);
+				const parentScreen = this.getParentScreen(this._selectedWidget);
+				if (parentScreen) {
+					this.controller.alignWidgets(value, [this._selectedWidget.id], [parentScreen.id]);
+				} else {
+					this.logger.log(1,"onAlignElements", "exit not parent : ", this._selectedWidget);
+				}
+			} else if (this._selectedGroup) {
+				/**
+				 * Since 2.1.7 we allign on canvas
+				 */
+				const widgetID = this._selectedGroup.children[0]
+				const widget = this.model.widgets[widgetID]
+				if (widget) {
+					var parentScreen = this.getParentScreen(widget);
+					if (parentScreen) {
+						this.controller.alignWidgets(value, this._selectedGroup.children, [parentScreen.id]);
+					} else {
+						this.logger.log(1,"onAlignElements", "exit not parent : ", this._selectedGroup);
+					}
+				}
 			}
 		
 	

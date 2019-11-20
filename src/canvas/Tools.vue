@@ -429,7 +429,6 @@ export default {
 		onArrowLeft (e){
 			this.logger.log(0,"onArrowLeft", "enter > "+ e.altKey);
 			this.controller.incMultiWidgetPosition(this.getSelectedIds(), -1, 0);
-			
 		},
 		
 		onArrowRight (e){

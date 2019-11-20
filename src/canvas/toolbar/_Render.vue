@@ -1411,6 +1411,10 @@ export default {
 
 			this.showProperties();
 
+			if(this.widgetAlignDiv){
+				css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
+			}
+
 			css.remove(	this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.remove(	this.groupActionDiv, "MatcToolbarSectionHidden");
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
