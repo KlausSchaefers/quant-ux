@@ -548,13 +548,12 @@ export default {
 				return;
 			}
 			
-			if(css.contains(target, "MatcIgnoreOnKeyPress")){
-				console.debug('onKeyPress, do nothing')
+			if (css.contains(target, "MatcIgnoreOnKeyPress")){
 				return;
 			}
 			
 			this._currentKeyPressed = k;
-			if(k == keys.ESCAPE){
+			if (k == keys.ESCAPE){
 				this.onCancelAction();
 				topic.publish("matc/canvas/esc");
 				this.stopEvent(e);

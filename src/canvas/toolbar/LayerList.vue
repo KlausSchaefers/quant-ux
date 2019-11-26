@@ -152,6 +152,12 @@ export default {
 				} else {
 					console.warn('No controller')
 				}
+
+				if (fromNode.fixed === true && this.canvas) {
+					setTimeout (() => {
+						this.canvas.showHint('Fixed widgets are always rendered on top.')
+					}, 1000)
+				}
 			}
 		},
 		
@@ -303,8 +309,15 @@ export default {
 				children:[],
 				type: type,
 				open: this.openNodes[box.id],
-				inherited: box.inherited
+				inherited: box.inherited,
+				fixed: false
 			}
+
+			if (box.style && box.style.fixed) {
+				node.label += ' (fixed)'
+				node.fixed = true
+			}
+
 			if (box.inherited) {
 				node.css = "MatcLayerListWidgetInherited"
 				node.disabled = true
