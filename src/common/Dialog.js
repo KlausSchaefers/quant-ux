@@ -53,7 +53,6 @@ export default class Dialog extends Evented{
 			css.add(fullscreen, "VommondDialogFullScreen mdi mdi-fullscreen");
 			background.appendChild(fullscreen);
 			this.own(on(fullscreen, touch.press, lang.hitch(this, "toggleFullScreen", fullscreen)))
-			console.debug(fullscreen)
 		}
 
 		var container = document.createElement("div");
@@ -138,6 +137,15 @@ export default class Dialog extends Evented{
 			wrapper.style.width = endPos.w + "px";
 			wrapper.style.left = Math.round((backPos.w - endPos.w) / 2) + "px";
 		}, 100);
+
+		/**
+		 * 2.1.9 Fix to allow fixed elements in simulator
+		 */
+		if (this.hasCSSAnimation) {
+			setTimeout(() => {
+				wrapper.style.transform = "";
+			}, 500);
+		}
 
 
 		this._dialogBackground = background;

@@ -494,6 +494,12 @@ export default {
 			renderCheckBox.setLabel("Use fast rendering (BETA)");
 			renderCheckBox.setValue(settings.fastRender);
 			renderCheckBox.placeAt(renderCntr);
+
+			var protoMotoCntr = db.div("form-group").build(cntr);
+			var protoMotoCheckBox = this.$new(CheckBox);
+			protoMotoCheckBox.setLabel("Allow JavaScript Actions (BETA)");
+			protoMotoCheckBox.setValue(settings.hasProtoMoto);
+			protoMotoCheckBox.placeAt(protoMotoCntr);
 		
 			
 			var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
@@ -504,7 +510,9 @@ export default {
 			var dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
-			dialog.own(on(save, touch.press, lang.hitch(this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox)));
+			dialog.own(on(save, touch.press, lang.hitch(
+				this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox
+			)));
 			
 			dialog.popup(popup, this.template);
 			
@@ -514,13 +522,14 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 		
-		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox){
+		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
 				moveMode : moveList.getValue(),
 				mouseWheelMode: mouseWheelList.getValue(),
 				keepColorWidgetOpen: colorPicker.getValue(),
-				fastRender: renderCheckBox.getValue()
+				fastRender: renderCheckBox.getValue(),
+				hasProtoMoto: protoMotoCheckBox.getValue()
 			};
 	
 			this.canvas.setSettings(settings);

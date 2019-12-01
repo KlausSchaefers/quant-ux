@@ -494,8 +494,12 @@ export default {
 			parent.appendChild(content);
 
 			this.groupActionBTN = this.$new(ActionButton);
+			if (this.settings && this.settings.hasProtoMoto){
+				this.groupActionBTN.hasActions(true);
+			}
 			this.groupActionBTN.placeAt(content);
 			this.groupActionBTN.setModel(this.model);
+
 			this.own(on(this.groupActionBTN, "toggleLine", lang.hitch(this, "toggleLineHide")));
 			this.own(on(this.groupActionBTN, "newLine", lang.hitch(this, "toolNewLine")));
 			this.own(on(this.groupActionBTN, "newTransformLine", lang.hitch(this, "toolNewTransformLine")));
@@ -746,6 +750,9 @@ export default {
 			parent.appendChild(content);
 
 			this.actionBTN = this.$new(ActionButton);
+			if (this.settings && this.settings.hasProtoMoto){
+				this.actionBTN.hasActions(true);
+			}
 			this.actionBTN.placeAt(content);
 			this.actionBTN.setModel(this.model);
 			this.own(on(this.actionBTN, "toggleLine", lang.hitch(this, "toggleLineHide")));
@@ -1138,6 +1145,10 @@ export default {
 			parent.appendChild(content);
 
 			this.screenActionBTN = this.$new(ActionButton);
+			if (this.settings && this.settings.hasProtoMoto){
+				this.screenActionBTN.hasActions(true);
+			}
+			
 			this.screenActionBTN.placeAt(content);
 			this.screenActionBTN.setModel(this.model);
 			this.own(on(this.screenActionBTN, "toggleLine", lang.hitch(this, "toggleLineHide")));

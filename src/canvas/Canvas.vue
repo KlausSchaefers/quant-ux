@@ -298,7 +298,8 @@ export default {
 				keepColorWidgetOpen: true,
 				layerListVisible: false,
 				showRuler: true,
-				fastRender: false
+				fastRender: false,
+				hasProtoMoto: false
 			};
 			
 			var s = this._getStatus("matcSettings");
@@ -350,6 +351,9 @@ export default {
 				if (s.fastRender != null) {
 					this.settings.fastRender = s.fastRender
 				}
+				if (s.hasProtoMoto != null) {
+					this.settings.hasProtoMoto = s.hasProtoMoto
+				}
 			} else {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
 			}	
@@ -364,6 +368,7 @@ export default {
 		 * Called from the dialog
 		 */
 		setSettings (s){
+			console.debug('setSettings', s)
 			/**
 			 * Mixin values
 			 */
@@ -397,6 +402,10 @@ export default {
 			if (s.fastRender != null) {
 				this.settings.fastRender = s.fastRender
 			}
+			if (s.hasProtoMoto != null) {
+				this.settings.hasProtoMoto = s.hasProtoMoto
+			}
+			console.debug('exit', this.settings)
 			this._setStatus("matcSettings",this.settings );
 			this.applySettings(this.settings);
 			this.rerender();

@@ -1,8 +1,7 @@
 
 <template>
      <div class="MatcAction">
-							
-						  </div>
+	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -41,7 +40,10 @@ export default {
 		setModel:function(m){
 			this.model = m;
 		},
-		
+
+		hasActions (value) {
+			this._hasAction = value
+		},
 		
 		setScreen:function(screen){
 			
@@ -58,7 +60,12 @@ export default {
 				db.div("MatcToolbarSeparator").build(parent);
 			}		
 			
-			var btn = db.div("MatcToolbarItem MatcToolbarGridFull").div(" MatcToolbarButton MatcButton").tooltip("Add Link to other screen").build(parent);
+			var btn = db
+				.div("MatcToolbarItem MatcToolbarGridFull")
+				.div(" MatcToolbarButton MatcButton")
+				.tooltip("Add Link to other screen")
+				.build(parent);
+
 			db.span("mdi mdi-link-variant MatcButtonIcon").build(btn);
 			db.span("MatcButtonIconLabel", "Add Link").build(btn);
 			this.tempOwn(on(btn, touch.press, lang.hitch(this, "onNewLine")));
@@ -128,16 +135,14 @@ export default {
 				let line = this.getLineFrom(widget);
 				let action = widget.action;			
 				if(!line && !action){
-
+					/**
+					 * Thing set, show drop down
+					 */
 					let row = db.div("MatcToolbarItem MatcToolbarGridFull").build(parent);				
 					let btn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
 					btn.setLabel('<span class="mdi mdi-plus-circle-outline"></span><span class="MatcButtonIconLabel">Add Action</span>');
 					btn.updateLabel = false;
-					btn.setOptions([
-		                {value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
-		                {value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
-		                {value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")}
-		            ]);
+					btn.setOptions(this.getLineTypes());
 					btn.setPopupCss("MatcMultiActionDropDownPopup");
 					btn.reposition = true;
 					css.add(btn.domNode, "MatcMultiActionDropDown MatcToolbarButton MatcButton");
@@ -149,10 +154,16 @@ export default {
 						topic.publish("matc/canvas/fadein", {});
 					});
 					
-				} else if(action){				
+				} else if (action) {				
 					let item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr").build(parent);
-					db.span("mdi mdi-ray-end-arrow MatcToolbarSmallIcon").build(item);
-					db.span("MatcToolbarItemLabel", "Navigate Back").build(item);
+				
+					if (action.type === 'back') {
+						db.span("mdi mdi-ray-end-arrow MatcToolbarSmallIcon").build(item);
+						db.span("MatcToolbarItemLabel", "Navigate Back").build(item);
+					} else {
+						db.span("mdi mdi-xml MatcToolbarSmallIcon").build(item);
+						db.span("MatcToolbarItemLabel", "JavaScript").build(item);
+					}
 					let btn = db.span("MatcToobarRemoveBtn ").tooltip("Remove Action", "vommondToolTipRightBottom").span("mdi mdi-close-circle").build(item);
 					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveAction", action)));
 				} else {
@@ -220,7 +231,6 @@ export default {
 				btn.placeAt(parent);
 				this.tempOwn(on(btn, "change", lang.hitch(this, "onLineValidation")));
 				this.addTooltip(btn.domNode, "Select an animation for the screen transition");
-				
 			}
 		
 			/**
@@ -256,6 +266,19 @@ export default {
 		
 		},
 		
+		getLineTypes () {
+			let result = [
+				{value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
+				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
+				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")}
+			]
+			if (this._hasAction) {
+				result.push(
+					{value:true, label:"Action", icon:"mdi mdi-xml", callback:lang.hitch(this, "onActionJS")}
+				)
+			}
+			return result;
+		},
 		
 		getEventTypes:function(line, isWidget, btn){
 		
@@ -275,8 +298,8 @@ export default {
                 {value:"swipeUp", label:"Up Swipe",icon:"mdi mdi-arrow-up-bold-circle"},
 				{value:"swipeDown", label:"Down Swipe", icon:"mdi mdi-arrow-down-bold-circle"},
 				{value:"scroll", label:"Scrolled in view", icon:"mdi mdi-unfold-more-horizontal"}
-           ];
-			
+		   ];
+		   
 			/**
 			 * Screens have also a timer...
 			 */
@@ -491,6 +514,13 @@ export default {
 
 		onActionBack:function(){
 			this.emit("newAction",{type:"back"});
+		},
+
+		onActionJS() {
+			/**
+			 * Show Popup
+			 */
+			this.emit("newAction",{type:"js"});
 		},
 		
 		onRemoveAction:function(action,e){
