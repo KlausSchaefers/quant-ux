@@ -64,6 +64,12 @@ export default {
 				css.add(this.inputW, "MatcToobarInlineEditDisabled");
 			}
 		},
+
+		setCanvasSettings (settings) {
+			if (settings) {
+				this.hasProtoMoto = settings.hasProtoMoto
+			}
+		},
 	
 		isDirty:function(){
 			return this._dirty;

@@ -405,9 +405,9 @@ export default {
 			if (s.hasProtoMoto != null) {
 				this.settings.hasProtoMoto = s.hasProtoMoto
 			}
-			console.debug('exit', this.settings)
 			this._setStatus("matcSettings",this.settings );
 			this.applySettings(this.settings);
+
 			this.rerender();
 		},
 		
@@ -463,6 +463,10 @@ export default {
 			
 			}
 			this.settings = s;
+
+			if (this.toolbar) {
+				this.toolbar.setSettings(this.settings);
+			}
 			
 			//console.debug("applySetztings() > exit > renderlines: ", this.renderLines, " > showSettings: ", this.showComments);
 		},

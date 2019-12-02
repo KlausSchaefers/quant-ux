@@ -41,8 +41,10 @@ export default {
 			this.model = m;
 		},
 
-		hasActions (value) {
-			this._hasAction = value
+		setCanvasSettings (settings) {
+			if (settings) {
+				this.hasProtoMoto = settings.hasProtoMoto
+			}
 		},
 		
 		setScreen:function(screen){
@@ -163,9 +165,31 @@ export default {
 					} else {
 						db.span("mdi mdi-xml MatcToolbarSmallIcon").build(item);
 						db.span("MatcToolbarItemLabel", "JavaScript").build(item);
+				
+						/**
+						 * We should loop through all the callbacks in theorz, if we want
+						 * to allow multiple events
+						 */
+						let method = ''
+						if (action.callbacks && action.callbacks.length > 0) {
+							method = action.callbacks[0].method
+						}
+						
+						let callBackInput = db.div('MatcToolbarItem MatcToolbarGridFull')
+						  .input('MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput', method, 'Enter callback name...')
+						  .build(parent)
+
+						this.tempOwn(on(callBackInput, 'blur', lang.hitch(this, "onSetActionCallback", widget, action, 'click', callBackInput)));
 					}
-					let btn = db.span("MatcToobarRemoveBtn ").tooltip("Remove Action", "vommondToolTipRightBottom").span("mdi mdi-close-circle").build(item);
-					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveAction", action)));
+
+					let removeBtn = db.span("MatcToobarRemoveBtn ")
+						.tooltip("Remove Action", "vommondToolTipRightBottom")
+						.span("mdi mdi-close-circle")
+						.build(item);
+
+					this.tempOwn(on(removeBtn, touch.press, lang.hitch(this, "onRemoveAction", action)));
+
+					
 				} else {
 					this.renderNewSchool(db, parent, line, true);				
 				}
@@ -267,12 +291,13 @@ export default {
 		},
 		
 		getLineTypes () {
+			console.debug('getLineTypes', this.hasProtoMoto)
 			let result = [
 				{value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
 				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
 				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")}
 			]
-			if (this._hasAction) {
+			if (this.hasProtoMoto) {
 				result.push(
 					{value:true, label:"Action", icon:"mdi mdi-xml", callback:lang.hitch(this, "onActionJS")}
 				)
@@ -314,6 +339,25 @@ export default {
 			}
 			
 			return triggers;
+		},
+
+		onSetActionCallback (widget, action, event, input, e) {
+			this.stopEvent(e)
+			let newAction = lang.clone(action)
+			newAction.callbacks = [
+				{
+					method: input.value,
+					event: event
+				}
+			]
+			this.emit("updateAction", newAction);
+		},
+
+		setActionCallback (dialog, input, action, widget, e) {
+			action.callback = input.value
+			this.stopEvent(e);
+			dialog.close();
+			this.emit("updateAction", widget.id, {'callback': input.value});
 		},
 		
 		onTimerSelected:function(btn, line){

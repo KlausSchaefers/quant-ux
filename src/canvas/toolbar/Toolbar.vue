@@ -786,6 +786,18 @@ export default {
 				this.controller.removeAction(this._selectedGroup.id, action, true);
 			}
 		},
+
+		updateAction (action) {
+			this.logger.log(-1,"updateAction", "enter > ", action);
+
+			if (this._selectedWidget){
+				this.controller.updateAction(this._selectedWidget.id, action, false);
+			}
+
+			if(this._selectedGroup){
+				this.controller.updateAction(this._selectedGroup.id, action, true);
+			}
+		},
 		
 		/**********************************************************************
 		 * Modes
@@ -1634,7 +1646,7 @@ export default {
 		},
 		
 		setSettings (v){
-			this.logger.log(2,"setSettings", "entry > " + v);
+			this.logger.log(-1,"setSettings", "entry > ", v);
 			this.settings = v;
 		},
 		

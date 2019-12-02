@@ -494,9 +494,6 @@ export default {
 			parent.appendChild(content);
 
 			this.groupActionBTN = this.$new(ActionButton);
-			if (this.settings && this.settings.hasProtoMoto){
-				this.groupActionBTN.hasActions(true);
-			}
 			this.groupActionBTN.placeAt(content);
 			this.groupActionBTN.setModel(this.model);
 
@@ -511,6 +508,7 @@ export default {
 			this.own(on(this.groupActionBTN, "updateLineByID", lang.hitch(this, "updateLineByID")));
 			this.own(on(this.groupActionBTN, "newAction", lang.hitch(this, "newAction")));
 			this.own(on(this.groupActionBTN, "removeAction", lang.hitch(this, "removeAction")));
+			this.own(on(this.groupActionBTN, "updateAction", lang.hitch(this, "updateAction")));
 
 			this.properties.appendChild(parent);
 			this.groupActionDiv = parent;
@@ -750,9 +748,6 @@ export default {
 			parent.appendChild(content);
 
 			this.actionBTN = this.$new(ActionButton);
-			if (this.settings && this.settings.hasProtoMoto){
-				this.actionBTN.hasActions(true);
-			}
 			this.actionBTN.placeAt(content);
 			this.actionBTN.setModel(this.model);
 			this.own(on(this.actionBTN, "toggleLine", lang.hitch(this, "toggleLineHide")));
@@ -765,6 +760,7 @@ export default {
 			this.own(on(this.actionBTN, "updateLineByID", lang.hitch(this, "updateLineByID")));
 			this.own(on(this.actionBTN, "newAction", lang.hitch(this, "newAction")));
 			this.own(on(this.actionBTN, "removeAction", lang.hitch(this, "removeAction")));
+			this.own(on(this.actionBTN, "updateAction", lang.hitch(this, "updateAction")));
 			this.own(on(this.actionBTN, "showScreenAnimation", lang.hitch(this, "showAdvancedAnimationDialog")));
 
 
@@ -1145,10 +1141,6 @@ export default {
 			parent.appendChild(content);
 
 			this.screenActionBTN = this.$new(ActionButton);
-			if (this.settings && this.settings.hasProtoMoto){
-				this.screenActionBTN.hasActions(true);
-			}
-			
 			this.screenActionBTN.placeAt(content);
 			this.screenActionBTN.setModel(this.model);
 			this.own(on(this.screenActionBTN, "toggleLine", lang.hitch(this, "toggleLineHide")));
@@ -1161,6 +1153,7 @@ export default {
 			this.own(on(this.screenActionBTN, "updateLineByID", lang.hitch(this, "updateLineByID")));
 			this.own(on(this.screenActionBTN, "newAction", lang.hitch(this, "newAction")));
 			this.own(on(this.screenActionBTN, "removeAction", lang.hitch(this, "removeAction")));
+			this.own(on(this.screenActionBTN, "updateAction", lang.hitch(this, "updateAction")));
 
 			this.properties.appendChild(parent);
 			this.screenActionDiv = parent;
@@ -1430,7 +1423,9 @@ export default {
 			css.remove(	this.groupActionDiv, "MatcToolbarSectionHidden");
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 
+			this.groupActionBTN.setCanvasSettings(this.settings)
 			this.groupActionBTN.setValue(model);
+		
 
 			/**
 			 * Since 2.1.3 we have sub groups
@@ -1644,9 +1639,12 @@ export default {
 				css.remove(this.responsiveDiv, "hidden");
 			}
 
+			this.widgetSize.setCanvasSettings(this.settings)
 			this.widgetSize.setModel(this.model);
 			this.widgetSize.setValue(model);
+			
 			this.positionCheckBox.setValue(style.fixed);
+
 			//this.lockedCheckBox.setValue(style.locked);
 
 
@@ -1742,7 +1740,10 @@ export default {
 					this.widgetName.blur();
 				}
 				css.remove(this.lineDiv, "MatcToolbarSectionHidden");
+
+				this.actionBTN.setCanvasSettings(this.settings)
 				this.actionBTN.setValue(model, isLogicWidget);
+				
 			} else if (widgetViewMode == "hover"){
 				this.showTemplateMarkers(" (Hover)")
 			} else if (widgetViewMode == "error"){
@@ -2051,7 +2052,7 @@ export default {
 
 			try{
 				var screenCount = this.getObjectLength(this.model.screens);
-				if(screenCount >0){
+				if(screenCount > 0) {
 					this._removeCss(this.simulatorSection, "MatcToolbarSectionHidden");
 					this._removeCss(this.undoSection, "MatcToolbarSectionHidden");
 					this._removeCss(this.commentSection, "MatcToolbarSectionHidden");
@@ -2136,6 +2137,7 @@ export default {
 
 			if(this.screenActionDiv){
 				css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
+				this.screenActionBTN.setCanvasSettings(this.settings)
 				this.screenActionBTN.setScreen(model);
 			}
 			if(this.screenAnimationDiv){

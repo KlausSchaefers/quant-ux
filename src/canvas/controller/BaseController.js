@@ -946,8 +946,6 @@ export default class BaseController extends Core {
 				console.warn("modelRemoveAction() > No widgte with ID", widgetID)
 			}
 		}
-	
-		
 		this.onModelChanged();
 	}
 
@@ -975,6 +973,7 @@ export default class BaseController extends Core {
 			timestamp : new Date().getTime(),
 			type : "RemoveAction",
 			model : action,
+			modelID: widgetID,
 			isGroup: isGroup
 		};
 		this.addCommand(command);
@@ -1017,6 +1016,68 @@ export default class BaseController extends Core {
 		this.modelRemoveAction(id, action, command.isGroup);
 		this.render();
 	}
+
+	/**********************************************************************
+	 * update Action 
+	 **********************************************************************/
+	updateAction (widgetID, action, isGroup) {
+		var command = {
+			timestamp : new Date().getTime(),
+			type : "ActionAction",
+			modelID: widgetID,
+			n: action,
+			o: this.getActionById(widgetID, isGroup),
+			isGroup: isGroup
+		};
+		this.addCommand(command);
+		
+		this.modelUpdateAction(widgetID, action, isGroup);
+	}
+
+	getActionById (id, isGroup) {
+		if (isGroup){
+			var group = this.model.groups[id];
+			return group.action;
+		} else {
+			var widget = this.model.widgets[id];
+			return widget.action;
+		}
+	}
+
+	modelUpdateAction (widgetID, action, isGroup) {
+		if(isGroup){
+			var group = this.model.groups[widgetID];
+			if(group){
+				group.action = action;
+			} else {
+				console.warn("modelUpdateAction() > No group with ID", widgetID)
+			}
+		} else {
+			var widget = this.model.widgets[widgetID];
+			if(widget){
+				widget.action = action;
+			} else {
+				console.warn("modelUpdateAction() > No widgte with ID", widgetID)
+			}
+		}
+
+		this.onModelChanged();
+	}
+
+	undoActionAction (command){
+		var action = command.o;
+		var id = command.modelID;
+		this.modelUpdateAction(id, action, command.isGroup);
+		this.render();
+	}
+	
+	redoActionAction (command){
+		var action = command.n;
+		var id = command.modelID;
+		this.modelUpdateAction(id, action, command.isGroup);
+		this.render();
+	}
+
 
 	/**********************************************************************
 	 * Add Line
