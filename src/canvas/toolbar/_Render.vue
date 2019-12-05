@@ -681,6 +681,15 @@ export default {
 			this.own(on(this.positionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.positionCheckBox.placeAt(content)
 
+
+			this.wrapChildrenCheckBox = this.$new(CheckBox);
+			this.wrapChildrenCheckBox.setLabel("Wrap Children");
+			this.addTooltip(this.wrapChildrenCheckBox.domNode, "In the Quant-UX-Server the children will be wraped")
+			css.add(this.wrapChildrenCheckBox.domNode, "MatcToolbarItem");
+			this.own(on(this.wrapChildrenCheckBox, "change", lang.hitch(this, "setWidgetStyle", "wrap")));
+			this.wrapChildrenCheckBox.placeAt(content)
+
+
 			this.responsiveDiv = parent;
 			this.properties.appendChild(parent);
 		},
@@ -1070,6 +1079,13 @@ export default {
 			css.add(this.multiPositionCheckBox.domNode, "MatcToolbarItem");
 			this.own(on(this.multiPositionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.multiPositionCheckBox.placeAt(content)
+
+			this.multiWrapChildrenCheckBox = this.$new(CheckBox);
+			this.multiWrapChildrenCheckBox.setLabel("Wrap Children");
+			this.addTooltip(this.multiWrapChildrenCheckBox.domNode, "In the Quant-UX-Server the children will be wraped")
+			css.add(this.multiWrapChildrenCheckBox.domNode, "MatcToolbarItem");
+			this.own(on(this.multiWrapChildrenCheckBox, "change", lang.hitch(this, "setWidgetStyle", "wrap")));
+			this.multiWrapChildrenCheckBox.placeAt(content)
 
 
 			this.properties.appendChild(parent);
@@ -1473,17 +1489,26 @@ export default {
 
 
 			var fixed = true;
+			var wrap = true;
 			for(var i=0; i< model.length;i++){
 				var id = model[i];
 				var widget = this.model.widgets[id];
 				if(widget){
 					fixed = fixed && widget.style.fixed === true;
+					wrap = wrap && widget.style.wrap === true;
 				} else {
 					console.warn("showMultiProperties() > No widget with id" , id)
 				}
 
 			}
 			this.multiPositionCheckBox.setValue(fixed);
+
+			if (this.settings && this.settings.hasProtoMoto) {
+				css.remove(this.multiWrapChildrenCheckBox.domNode, 'hidden')
+			} else {
+				css.add(this.multiWrapChildrenCheckBox.domNode, 'hidden')
+			}
+			this.multiWrapChildrenCheckBox.setValue(wrap)
 
 			this.childWidget.setMulti(model);
 
@@ -1639,11 +1664,18 @@ export default {
 				css.remove(this.responsiveDiv, "hidden");
 			}
 
+			if (this.settings && this.settings.hasProtoMoto) {
+				css.remove(this.wrapChildrenCheckBox.domNode, 'hidden')
+			} else {
+				css.add(this.wrapChildrenCheckBox.domNode, 'hidden')
+			}
+
 			this.widgetSize.setCanvasSettings(this.settings)
 			this.widgetSize.setModel(this.model);
 			this.widgetSize.setValue(model);
 			
 			this.positionCheckBox.setValue(style.fixed);
+			this.wrapChildrenCheckBox.setValue(style.wrap)
 
 			//this.lockedCheckBox.setValue(style.locked);
 

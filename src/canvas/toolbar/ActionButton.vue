@@ -291,7 +291,6 @@ export default {
 		},
 		
 		getLineTypes () {
-			console.debug('getLineTypes', this.hasProtoMoto)
 			let result = [
 				{value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
 				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},

@@ -497,11 +497,10 @@ export default {
 
 			var protoMotoCntr = db.div("form-group").build(cntr);
 			var protoMotoCheckBox = this.$new(CheckBox);
-			protoMotoCheckBox.setLabel("Allow JavaScript Actions (BETA)");
+			protoMotoCheckBox.setLabel("Enable Quant-UX Server Settings (BETA)");
 			protoMotoCheckBox.setValue(settings.hasProtoMoto);
 			protoMotoCheckBox.placeAt(protoMotoCntr);
 		
-			
 			var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
 		
 			var save = db.a("MatcButton ", "Save").build(bar);
