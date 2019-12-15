@@ -85,12 +85,12 @@ export default {
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView],
     data: function () {
         return {
-         		mode: "edit", 
+			mode: "edit", 
             debug: false, 
             grid: null, 
             isPublic: false, 
-						active: true,
-						name: 'XCanvas'
+			active: true,
+			name: 'XCanvas'
         }
     },
     components: {},

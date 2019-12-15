@@ -23,6 +23,7 @@ import Plan from 'page/Plan'
 import Services from 'services/Services'
 import QR from 'core/QR'
 import Help from 'help/Help'
+import Share from 'page/Share'
 
 export default {
     name: '_Dialogs',
@@ -80,62 +81,34 @@ export default {
 		},
 
      	showSharing (e){
-				this.logger.log(0,"showSharing", "entry > ");
-				
-				var invitation = this._doGet("/rest/invitation/"+this.model.id+ ".json");
-				var temp = {};
-				for(var key in invitation){
-					temp[invitation[key]] = key;
-				}
-							
-				var db = new DomBuilder();
-				var popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
-				var cntr = db.div("container").build(popup);
-				var row = db.div("row").build(cntr);
-				var right = db.div("col-md-12").build(row);
-				db.h3("",this.getNLS("share.Headline")).build(right);
-				var base = location.protocol + "//" + location.host;
-				
-				var testInput = db
-					.div("MatcMarginTop")
-					.span("", this.getNLS("share.Test"))
-					.input("form-control MatcIgnoreOnKeyPress", base +"#/test.html?h=" + temp[1])
-					.build(right);
-					
-				var commentInput = db
-					.div("MatcMarginTop")
-					.span("", this.getNLS("share.Comment"))
-					.input("form-control MatcIgnoreOnKeyPress", base +"#/share.html?h=" + temp[1])
-					.build(right);
-				
-					
-				var codeRow = db
-					.div("MatcMarginTop MatcShareRow")
-					.span("", this.getNLS("share.Code"))
-					.parent().build(right);
-				
-				var codeInput = db.input("form-control", this.hash)
-					.build(codeRow);			
-		
-				
-				row = db.div("row MatcMarginTop").build(cntr);
-				right = db.div("col-md-12 MatcButtonBar").build(row);
+			this.logger.log(-1,"showSharing", "entry > ", this.isPublic);
+			
+			var invitation = this._doGet("/rest/invitation/"+this.model.id+ ".json");
+			var temp = {};
+			for(var key in invitation){
+				temp[invitation[key]] = key;
+			}
+						
+			var db = new DomBuilder();
+			var popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
+			var cntr = db.div("container").build(popup);
+			var row = db.div("row").build(cntr);
+			var right = db.div("col-md-12").build(row);
+			db.h3("",this.getNLS("share.Headline")).build(right);
+			
+			let share = this.$new(Share)
+			share.placeAt(right)
+			share.setInvitation(temp[1])
+			share.setPublic(this.isPublic)
+			
+			row = db.div("row MatcMarginTop").build(cntr);
+			right = db.div("col-md-12 MatcButtonBar").build(row);
 
-				var write = db.div("MatcButton", "Close").build(right);
-				
-				var d = new Dialog();
-				d.own(on(write, touch.press, lang.hitch(d,"close")));
-				d.own(on(testInput, "focus", function(){
-					testInput.select();
-				}));
-				d.own(on(commentInput, "focus", function(){
-					commentInput.select();
-				}));
-				d.own(on(codeInput, "focus", function(){
-					codeInput.select();
-				}));
-				
-				d.popup(popup, e.target);
+			var write = db.div("MatcButton", "Close").build(right);
+			
+			var d = new Dialog();
+			d.own(on(write, touch.press, lang.hitch(d,"close")));	
+			d.popup(popup, e.target);
 		},
 		
 		

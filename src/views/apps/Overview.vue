@@ -112,7 +112,6 @@
 import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import Dialog from 'common/Dialog'
-import css from 'dojo/css'
 import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import touch from 'dojo/touch'
@@ -126,6 +125,7 @@ import VideoTab from 'views/apps/test/VideoTab'
 import SettingsTab from 'views/apps/SettingsTab'
 
 import Team from 'page/Team'
+import Share from 'page/Share'
 import Comment from 'page/Comment'
 import Services from "services/Services"
 
@@ -232,65 +232,12 @@ export default {
 			var right = db.div("col-md-12").build(row);
 						
 			db.h3("",this.getNLS("share.Headline")).build(right);
-			
-			var base = location.protocol + "//" + location.host;
-			
-			var testRow = db
-				.div("MatcMarginTop MatcShareRow")
-				.span("", this.getNLS("share.Test"))
-        .parent().build(right)
-        
-      let testURL = base +"/#/test.html?h=" + this.hash
-      if (this.isPublic) {
-        testURL += "&log=false"
-      }
-			var testInput =	db.input("form-control", testURL)
-				.build(testRow);
-				
-			var testLink = db
-				.a("MatcShareIcon")
-				.span("mdi mdi-share ")
-				.parent().build(testRow);
       
-      testLink.href = testURL
-			testLink.target = "NewTestPage"			
-				
-			var commentRow = db
-				.div("MatcMarginTop MatcShareRow")
-				.span("", this.getNLS("share.Comment"))
-				.parent().build(right);
-			
-			var commentInput = db.input("form-control", base +"/#/share.html?h=" + this.hash)
-				.build(commentRow);
-			
-			var commentLink = db
-				.a("MatcShareIcon")
-				.span("mdi mdi-share ")
-				.parent().build(commentRow);
-			
-			commentLink.href = base +"#/share.html?h=" + this.hash;
-      commentLink.target = "NewCommentPage"
-      
-      var codeRow = db
-				.div("MatcMarginTop MatcShareRow")
-				.span("", this.getNLS("share.Code"))
-				.parent().build(right);
-			
-			var codeInput = db.input("form-control", this.hash)
-				.build(codeRow);			
-	
-          
-      /*
-      var w = this.app.screenSize.w + "px";
-      var h = this.app.screenSize.h + "px";
-      var code = '<iframe src="' + base + "#/em.html?h=" + this.hash +'" width="' + w + '" height="' + h + '" allowTransparency="true" frameborder="0"></iframe>'
-      var embeddedInput = db
-        .div("MatcMarginTop MatcShareRow")
-        .span("", this.getNLS("share.Embed")).parent()
-        .input("form-control", code)
-        .build(right);
-      */				
-      css.add(popup, "")		
+      			
+	    let share = this.$new(Share)
+      share.placeAt(right)
+      share.setInvitation(this.hash)
+      share.setPublic(this.isPublic)
 	
 			row = db.div("row MatcMarginTop").build(cntr);
 			right = db.div("col-md-12 MatcButtonBar").build(row);
@@ -298,15 +245,7 @@ export default {
 			
 			var d = new Dialog();
 			d.own(on(write, touch.press, lang.hitch(d,"close")));
-			d.own(on(testInput, "focus", function(){
-				testInput.select();
-			}));
-			d.own(on(commentInput, "focus", function(){
-				commentInput.select();
-      }));
-      d.own(on(codeInput, "focus", function(){
-				codeInput.select();
-      }));
+	
       
 			d.popup(popup, this.$refs.shareButton);
     },
