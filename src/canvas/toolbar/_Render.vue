@@ -1853,7 +1853,6 @@ export default {
 					this.canvas.showError('The widget does not support data')
 				}
 			}
-
 		},
 
 		reopenColorWidget:function(){

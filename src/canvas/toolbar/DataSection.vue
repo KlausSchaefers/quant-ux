@@ -25,6 +25,7 @@ import Table from 'canvas/toolbar/Table'
 import DataBinding from 'canvas/toolbar/DataBinding'
 import RestSettings from 'canvas/toolbar/RestSettings'
 import SymbolService from 'services/SymbolService'
+import Preview from 'page/Preview'
 
 export default {
     name: 'DataSection',
@@ -32,7 +33,8 @@ export default {
     data: function () {
         return {
             mode: "private",
-            icons: []
+			icons: [],
+			previewWidth: 150
         }
     },
     components: {},
@@ -148,10 +150,32 @@ export default {
 			})
 		},
 
-		_showScreenSegment  (model) {
+		_showScreenSegment  (widget) {
 			this._setSectionLabel("Screen Section");
-			this._renderCheck("Show Scroll",model.props.scroll, "scroll" );
-			this._renderButton("Screen", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderCheck("Show Scroll",widget.props.scroll, "scroll" );
+			
+		
+			if (widget.props.screenID) {
+				let screen = this.model.screens[widget.props.screenID]
+				if (screen) {			
+					var div = this.db.div("MatcToolbarGridFull MatcToolbarItem MatcToobarActionCntr" ).build(this.cntr);					
+					this.db.span("MatcToolbarSmallIcon mdi mdi-content-duplicate").build(div);
+					this.db.span("MatcToolbarItemLabel",  screen.name).build(div);					
+					var btn = this.db.span("MatcToobarRemoveBtn ")
+						.tooltip("Remove Segment", "vommondToolTipRightBottom")
+						.span("mdi mdi-close-circle-outline")
+						.build(div);
+					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onSegmentScreenSelected", '')));		
+				}
+			} else {
+				var add = this.db.div("MatcToolbarGridFull MatcPointer  MatcToolbarItem").build(this.cntr);
+				this.db.span("MatcToolbarSmallIcon mdi mdi-plus-circle").build(add);
+				this.db.span("MatcToolbarItemLabel", "Select Segment Screen").build(add);
+				this.tempOwn(on(add, touch.press, lang.hitch(this, "_renderSegmentScreen")));
+			}
+
+		
+			//this._renderButton(lbl, icon, "_renderSegmentScreen");
 		},
 
 		_showRepeater (model){
@@ -645,6 +669,67 @@ export default {
 		},
 
 		/**********************************************************************
+		 * Segment
+		 **********************************************************************/
+
+		_renderSegmentScreen (e) {
+			
+			var d = new Dialog({overflow:true});
+
+			var div = this.db.div("MatcToolbarScreenListDialog MatcPadding").build();
+			this.db.label("", "Select Screen Segment").build(div);
+			var cntr = this.db.div("MatcToolbarScreenListDialogCntr").build(div);			
+			var list = this.db.div().build();			
+			
+			var height = Math.min(this.model.screenSize.h / (this.model.screenSize.w / this.previewWidth), 250) ;
+		
+			this.previews = [];
+	
+			for(var screenID in this.model.screens){
+				/**
+				 * Do not show the selected screen or any parents
+				 */
+				var screen = this.model.screens[screenID];
+				if (screen.segment) {
+					var wrapper = this.db.div("MatcToolbarScreenListPreviewWrapper MatcCreateBtnElement MatcToolbarDropDownButtonItem").build(list);
+					var screenCntr = this.db.div("MatcToolbarScreenListPreview").build(wrapper);
+					screenCntr.style.width = this.previewWidth + "px";
+					screenCntr.style.height = height + "px";
+					var preview = this.$new(Preview);
+					preview.setScreenPos({w:this.previewWidth, h:height});
+					preview.setModel(this.model);
+					preview.setScreen(screenID);
+					preview.placeAt(screenCntr);
+					this.previews.push(preview);					
+					var lbl = this.db.div("MatcCreateBtnElementLabel", screen.name).build(wrapper);
+					lbl.style.width = this.previewWidth + "px";					
+					d.own(on(wrapper, touch.press, lang.hitch(this, "onSegmentScreenSelected", screenID, d)));
+				}
+			}		
+			
+			var scroll = this.$new(ScrollContainer);
+			scroll.placeAt(cntr);
+			scroll.wrap(list);			
+			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(div);					
+			var cancel = this.db.a("MatcButton", "Cancel").build(bar);			
+		
+			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
+			d.own(on(d, "close", function () {
+				scroll.destroy()
+			}))
+			d.popup(div, e.target);			
+		
+		},
+
+		onSegmentScreenSelected (screenID, d) {
+			if (d && d.close) {
+				d.close()
+			}
+		
+			this.onProperyChanged("screenID", screenID);
+		},
+
+		/**********************************************************************
 		 * DataBinding
 		 **********************************************************************/
 
@@ -1091,7 +1176,7 @@ export default {
 
 		closeDialog (d, scroller, list){
 			d.close();
-			if(scroller){
+			if(scroller && scroller.destroy){
 				scroller.destroy();
 			}
 			if(list && list.destroy){

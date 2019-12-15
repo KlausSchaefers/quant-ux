@@ -153,6 +153,9 @@ export default {
     },
 
     update (widget) {
+        /**
+         * We should have here some kind of fast rendering!
+         */
         this.render(widget, this.style, this._scaleX, this._scaleY)
     },
 

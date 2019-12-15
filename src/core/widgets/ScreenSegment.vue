@@ -8,8 +8,9 @@
 import DojoWidget from "dojo/DojoWidget";
 import UIWidget from "core/widgets/UIWidget";
 import DomBuilder from 'common/DomBuilder'
-// import Core from 'core/Core'
-// import lang from 'dojo/_base/lang'
+import Core from 'core/Core'
+import Logger from 'common/Logger'
+import lang from 'dojo/_base/lang'
 
 export default {
   name: "ScreenSegment",
@@ -47,12 +48,26 @@ export default {
     getChildren() {
        return this._childWidgets
     },
-
+    
     update (widget) {
+        /**
+         * FIXME: we shoukd have here some kind of fast rendering!
+         */
         this.render(widget, this.style, this._scaleX, this._scaleY)
     },
 
-    render (widget, style, scaleX, scaleY) {
+    updateChild (widget) {
+       if (this._childWidgets) {
+           let childWidget = this._childWidgets.find(c => c.parent === widget.id)
+           if (childWidget) {
+               	childWidget.widget.style = widget.style;
+				childWidget.widget.props = widget.props;
+                this.factory.setStyle(childWidget.div, childWidget.widget);
+           }
+       }
+    },
+
+    render (widget, style, scaleX, scaleY, isUpdate = false) {
       /**
        * This is super slow for fast rendering, as we will redraw everzthing. We must
        * therefore reuse the items or have some kind of rerender() method if the 
@@ -64,23 +79,77 @@ export default {
       this._scaleY = scaleY;
       this.setStyle(style, widget);
 
+      /**
+       * Try to avoid rerenders if not needed
+       */
+      if (isUpdate) {
+        this.logger.log(-1, 'render', 'enter > ' +  isUpdate)
+        return
+      }
+
       this.domNode.innerHTML = ""
       this._childWidgets = []
       let db = new DomBuilder()
 
-      if (!this.isSymbol && this.app && widget.children && widget.children.length > 0) {
-    
-        //let childWidgets = this.getChildWidgets(widget)
-   
-        // this.domNode.appendChild(cntrDiv)
+      if (!this.isSymbol && this.app && widget.props.screenID) {
+          this.logger.log(-1, 'render', 'enter > full render')
+          let screen = this.app.screens[widget.props.screenID]
+          if (screen) {
+          
+            let core = new Core()
+            core.model = this.app
+
+            let parentScreen = core.getParentScreen(widget, this.app)
+        
+            let cntr = db
+                .div('MatcWidgetTypeScreenSegementCntr')
+                .w(screen.w)
+                .h(screen.h)
+                .build()
+
+            var widgets = core.getSortedScreenChildren(this.app, screen)
+			for(let i=0; i< widgets.length; i++){
+                let childWidget = widgets[i];
+                let copy = lang.clone(childWidget)
+                copy.inherited = childWidget.id
+                copy.id = childWidget.id + '@' + parentScreen.name
+                let div = this.renderWidget(copy, screen, db)
+                cntr.appendChild(div)
+
+                let child = {
+                    parent: childWidget.id,
+                    widget: copy,
+                    div: div
+                }
+
+                this._childWidgets.push(child)
+            }
+            this.cntr = cntr
+            this.domNode.appendChild(cntr)
+          } else {
+               db.div('MatcWidgetTypeScreenSegementHint', 'Screen segment does not exist').build(this.domNode)
+          }
+       
       } else {
         db.div('MatcWidgetTypeScreenSegementHint', 'Select a screen segment').build(this.domNode)
       }
     },
-
-
-
+    renderWidget (widget, screen, db) {
+     
+	    let div = db.div('MatcBox MatcWidget')
+                .w(widget.w)
+                .h(widget.h)
+                .top(widget.y - screen.y)
+                .left(widget.x - screen.x)
+                .build()
+   
+		this.factory.createWidgetHTML(div, widget);
+		return div
+    }
   },
-  mounted() {}
+  mounted() {
+      this.logger = new Logger('ScreenSegment')
+
+  }
 };
 </script>

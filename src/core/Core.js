@@ -78,7 +78,7 @@ export default class Core extends Evented{
      * Clone Tool
      **********************************************************************/
     getClones (ids, target) {
-        console.debug('getClones enter')
+
         var result = [];
         var previews = [];
   
@@ -1052,6 +1052,11 @@ export default class Core extends Evented{
         this.createContaineredModel(inModel)
 
         /**
+         * add screen segments
+         */
+        this.createScreenSegmentModel(inModel)
+
+        /**
          * add widgets from parent (master) screens
          */
         for (let screenID in inModel.screens) {
@@ -1207,6 +1212,33 @@ export default class Core extends Evented{
             // if (parent.style && screen.style) {
             //    screen.style.background = parent.style.background
             // }
+        }
+    }
+
+    createScreenSegmentModel (inModel) {
+        let screenSegments = []
+        for (let widgetID in inModel.widgets) {
+            let widget = inModel.widgets[widgetID]
+            if (widget.type === 'ScreenSegment'){
+                screenSegments.push(widget)
+            }
+        }
+        for (let screenID in inModel.screens) {
+            let screen = inModel.screens[screenID];
+            if (screen.segment) {
+                screenSegments.forEach(parent => {
+                    if (parent.props && parent.props.screenID && screen.id === parent.props.screenID) {
+                        for (let i = 0; i < screen.children.length; i++) {
+                            let widgetID = screen.children[i];
+                            let widget = inModel.widgets[widgetID];
+                            if (!widget.segmentParent) {
+                                widget.segmentParent = []
+                            }
+                            widget.segmentParent.push(parent.id)
+                        }
+                    }
+                })
+            }
         }
     }
 
@@ -1744,5 +1776,15 @@ export default class Core extends Evented{
         return result
 	}
 
-
+	getSortedScreenChildren (model, screen) {
+        let widgets = {}
+        for (let i=0; i < screen.children.length; i++){
+            let widgetID = screen.children[i];
+            let widget = model.widgets[widgetID];
+            if (widget) {
+                widgets[widget.id] = widget
+            }
+        }
+        return this.getOrderedWidgets(widgets).reverse();	
+    }
 }

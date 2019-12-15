@@ -638,7 +638,6 @@ export default {
 						console.warn("popOverlay() wrong ids between overlay and line??");
 					}
 					
-								
 					var inverse = this.animationFactory.getInverseAnimation(line.animation);
 					if(inverse && this.animationFactory["createScreen_"+inverse]){
 						var me = this;

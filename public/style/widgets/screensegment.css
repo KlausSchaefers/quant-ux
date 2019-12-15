@@ -6,10 +6,21 @@
     text-align: left;
     outline: 1px dashed #777;
     border: solid;
+    overflow: none;
+}
+
+.MatcWidgetTypeScreenSegement.MatcWidgetTypeScreenSegementOverFlow {
+    overflow: auto;
 }
 
 .MatcWidgetTypeRepeaterHasBorder.MatcWidgetTypeScreenSegement{
     outline: none;
+}
+
+.MatcWidgetTypeScreenSegementCntr {
+    position: absolute;
+    top:0px;
+    left:0px;
 }
 
 .MatcSimulator .MatcWidgetTypeScreenSegement{

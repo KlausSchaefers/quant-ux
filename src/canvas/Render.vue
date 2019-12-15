@@ -294,7 +294,7 @@ export default {
 		 * for instance when widgets are moved.
 		 */
 		onWidgetPositionChange (zoomedModel) {
-			this.logger.log(0,"onWidgetPositionChange", "enter", zoomedModel);
+			this.logger.log(-1,"onWidgetPositionChange", "enter", zoomedModel);
 			this.model = zoomedModel;
 			this.renderFactory.setZoomedModel(zoomedModel);
 			this.renderFactory.updatePositions(zoomedModel)
@@ -909,12 +909,12 @@ export default {
 			var div = this.widgetBackgroundDivs[id];
 			if(widget && widget.style && div){
 				/**
-					* We merge the new style into the current style
-					*/
+				 * We merge the new style into the current style
+				 */
 				for (var k in style) {
 					widget.style[k] = style[k];
 				}
-				this.renderFactory.setStyle(div, widget);
+				this.renderFactory.setStyle(div, widget, true);
 				this.setCopyStyle(widget, true);
 			} else {
 				console.warn("setTempWidgetStyle() > Cannot set widget style", id, style);
@@ -922,10 +922,10 @@ export default {
 		},
 		
 		setWidgetStyle (id, style, model){
-			this.logger.log(3,"setWidgetStyle", "enter");
+			this.logger.log(-1,"setWidgetStyle", "enter > ", id);
 			var widget = this.model.widgets[id];
 			var div = this.widgetBackgroundDivs[id];
-			if(widget && div){
+			if (widget && div){
 				/**
 					* Flush inlineEdit if needed
 					*/
@@ -938,7 +938,7 @@ export default {
 					//console.debug("overwrite inline", newLabel)
 					//model.props.label = newLabel;
 				}
-				this.renderFactory.setStyle(div, model);
+				this.renderFactory.setStyle(div, model, true);
 				this.setCopyStyle(widget, false);
 			} else {
 				console.warn("setWidgetStyle() > Cannot set widget style", id, style);
@@ -949,21 +949,28 @@ export default {
 			* copy style to copies (from master screen)
 			*/
 		setCopyStyle (widget, isTempUpdate) {
-			if(widget.copies){
+			if (widget.copies){
 				for(let i=0; i< widget.copies.length; i++){
 					let copyID = widget.copies[i];
 					let copyWidget = this.model.widgets[copyID];
-					copyWidget.style = widget.style;
-					copyWidget.props = widget.props;
 					let copyDiv = this.widgetBackgroundDivs[copyID];					
 					if(copyWidget && copyDiv){
+						copyWidget.style = widget.style;
+						copyWidget.props = widget.props;
 						this.renderFactory.setStyle(copyDiv, copyWidget);
 					}				
 				}
 			}
 
+			/**
+			 * Since 2.2.0 we have screen segments
+			 */
+			if (widget.segmentParent) {
+				this.renderFactory.updateSegementChild(widget, this.model);	
+			}
+
 			if (widget.container) {
-					this.renderFactory.updateContainerChild(widget, this.model);
+				this.renderFactory.updateContainerChild(widget, this.model);
 			}
 		
 			

@@ -261,13 +261,27 @@ export default class RenderFactory extends Core {
 		}
 	}
 
-	updateContainerChild (child, model) {
+	/**
+	 * Repeater can rerender its childnre
+	 */
+	updateContainerChild (child, model) {		
 		if (this._containerWidgets[child.container]) {
 			let uiWidget = this._containerWidgets[child.container]
 			let widget = model.widgets[child.container];
 			if (uiWidget && widget) {
 				uiWidget.setZoomedModel(model);
 				uiWidget.update(widget)
+			}
+		}
+	}
+
+	updateSegementChild (widget, model) {
+		for (let i=0; i< widget.segmentParent.length; i++){
+			let parentID = widget.segmentParent[i]
+			let uiWidget = this.getUIWidgetByID(parentID)
+			if (uiWidget) {
+				uiWidget.setZoomedModel(model);
+				uiWidget.updateChild(widget)
 			}
 		}
 	}
