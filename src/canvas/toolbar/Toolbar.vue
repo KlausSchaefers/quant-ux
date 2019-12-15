@@ -1500,6 +1500,14 @@ export default {
 			}
 			return false;
 		},
+
+		setScreenSegement (key, value) {
+			this.logger.log(0,"setScreenSegement", "entry > " + key + " - "+ value);	
+			if (this._selectedScreen){
+				this.controller.setScreenSegment(this._selectedScreen.id, value);
+			}
+			return false;
+		},
 		
 		setScreenProps (key, value){
 			this.logger.log(2,"setScreenProps", "entry > " + key + " - "+ value);	

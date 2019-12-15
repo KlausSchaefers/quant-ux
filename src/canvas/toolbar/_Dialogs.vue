@@ -464,13 +464,13 @@ export default {
 			
 			var renderCntr = db.div("form-group").build(cntr);
 			var renderCheckBox = this.$new(CheckBox);
-			renderCheckBox.setLabel("Use fast rendering (BETA)");
+			renderCheckBox.setLabel("Enable fast rendering");
 			renderCheckBox.setValue(settings.fastRender);
 			renderCheckBox.placeAt(renderCntr);
 
 			var protoMotoCntr = db.div("form-group").build(cntr);
 			var protoMotoCheckBox = this.$new(CheckBox);
-			protoMotoCheckBox.setLabel("Enable Quant-UX Server Settings (BETA)");
+			protoMotoCheckBox.setLabel("Enable Beta Features");
 			protoMotoCheckBox.setValue(settings.hasProtoMoto);
 			protoMotoCheckBox.placeAt(protoMotoCntr);
 		

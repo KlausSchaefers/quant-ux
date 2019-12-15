@@ -148,6 +148,12 @@ export default {
 			})
 		},
 
+		_showScreenSegment  (model) {
+			this._setSectionLabel("Screen Section");
+			this._renderCheck("Show Scroll",model.props.scroll, "scroll" );
+			this._renderButton("Screen", "mdi mdi-table-large", "_renderTableDialog");
+		},
+
 		_showRepeater (model){
 			this._setSectionLabel("Grid");
 

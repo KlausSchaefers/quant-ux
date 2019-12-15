@@ -52,13 +52,15 @@ export default {
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
-						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'ProgressBar'],
+						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 
+						'ProgressBar', 'ScreenSegment'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
 							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
 							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
-							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel'],
+							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel', 
+							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart'],
 			hasLogic2: ["LogicOr", "Rest"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
@@ -67,6 +69,7 @@ export default {
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink"],
+			hideAction: ['ScreenSegment'],
 			colorWidgets: [],
 			isDataView: false
         }
@@ -1257,6 +1260,18 @@ export default {
 			css.add(item, " MatcToolbarGridFull");
 			content.appendChild(item);
 
+			
+			this.screenSegmentCheckbox = this.$new(CheckBox);
+			this.screenSegmentCheckbox.setLabel("Segment");
+			this.addTooltip(this.screenSegmentCheckbox.domNode, "The screen can be imcluded in others")
+			css.add(this.screenSegmentCheckbox.domNode, "MatcToolbarItem");
+			this.own(on(this.screenSegmentCheckbox, "change", lang.hitch(this, "setScreenSegement", "segment")));
+			this.screenSegmentCheckbox.placeAt(item)
+			
+			item = document.createElement("div");
+			css.add(item, " MatcToolbarGridFull");
+			content.appendChild(item);
+
 			this.screenOverlayCheckBox = this.$new(CheckBox);
 			this.screenOverlayCheckBox.setLabel("Overlay");
 			this.addTooltip(this.screenOverlayCheckBox.domNode, "The screen will be shown as an overlay")
@@ -2185,6 +2200,18 @@ export default {
 				this.screenBackgroundColor.setValue(style.background);
 
 				this.screenOverlayCheckBox.setValue(style.overlay);
+
+				if (this.screenSegmentCheckbox) {
+					this.screenSegmentCheckbox.setValue(model.segment)
+
+					if (this.settings.hasProtoMoto) {
+						css.remove(this.screenSegmentCheckbox.domNode, "hidden");
+					} else {
+						css.add(this.screenSegmentCheckbox.domNode, "hidden");
+					}
+				}
+
+				
 
 				if(style.overlay){
 					css.remove(this.screenFixedOverlayCheckBox.domNode, "hidden");

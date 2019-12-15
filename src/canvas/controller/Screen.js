@@ -359,7 +359,6 @@ export default class Screen extends CopyPaste {
 				this.modelScreenSizeWidgets(screen, value.screenSize.w, value.screenSize.h, oldMinHeight)
 			}
 			screen.w = value.screenSize.w;
-			console.debug(value.screenSize.h / oldMinHeight)
 			screen.h = screen.h * (value.screenSize.h / oldMinHeight);
 		}
 		this.model.screenSize.w = value.screenSize.w;
@@ -525,15 +524,20 @@ export default class Screen extends CopyPaste {
 		
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
 		
+		var screen = this.model.screens[id];
 		/**
 		 * zooming can make width or height to small. 
 		 * we correct that here
 		 */
-		if(pos.w){
-			pos.w = Math.max(pos.w,this.model.screenSize.w);
-		}
-		if(pos.h){
-			pos.h = Math.max(pos.h,this.model.screenSize.h);
+		if (!screen.segment) {
+			if(pos.w){
+				pos.w = Math.max(pos.w,this.model.screenSize.w);
+			}
+			if(pos.h){
+				pos.h = Math.max(pos.h,this.model.screenSize.h);
+			}
+		} else {
+			this.logger.log(0,"updateScreenPosition", "segement > screen.id : " + id + " > do not enforce min: ");
 		}
 		
 		if(pos.x < 0){
@@ -549,7 +553,6 @@ export default class Screen extends CopyPaste {
 		/**
 		 * create the command
 		 */
-		var screen = this.model.screens[id];
 		var delta = this.getDeltaBox(screen, pos);
 		var command = {
 			timestamp : new Date().getTime(),
@@ -569,23 +572,28 @@ export default class Screen extends CopyPaste {
 	updateScreenWidthAndHeight (id, pos){
 		this.logger.log(0,"updateScreenWidthAndHeight", "enter > screen.id : " + id + " > " +pos.w + "/"+pos.h);
 		
-		
+		var screen = this.model.screens[id];
+
 		/**
 		 * zooming can make width or height to small. 
 		 * we correct that here
 		 */
-		if(pos.w){
-			pos.w = Math.max(pos.w,this.model.screenSize.w);
-		}
-		if(pos.h){
-			pos.h = Math.max(pos.h,this.model.screenSize.h);
+		if (!screen.segment) {
+			if(pos.w){
+				pos.w = Math.max(pos.w,this.model.screenSize.w);
+			}
+			if(pos.h){
+				pos.h = Math.max(pos.h,this.model.screenSize.h);
+			}
+		}  else {
+			this.logger.log(0,"updateScreenWidthAndHeight", "segement > screen.id : " + id + " > do not enforce min: ");
 		}
 		
 		
 		/**
 		 * create the command
 		 */
-		var screen = this.model.screens[id];
+
 		var delta = this.getDeltaBox(screen, pos);
 		var command = {
 			timestamp : new Date().getTime(),
@@ -652,6 +660,58 @@ export default class Screen extends CopyPaste {
 		this.render();
 	}
 	
+	/**********************************************************************
+	 * Screen setScreenSegemnt
+	 **********************************************************************/
+
+
+	setScreenSegment (id, isSegment) {
+		this.logger.log(-1, "setScreenSegment", "enter > " + id + " > " +  isSegment);
+	
+		var screen = this.model.screens[id];
+		var command = {
+			timestamp : new Date().getTime(),
+			type : "ScreenSegement",
+			delta : {
+				o : screen.segment,
+				n : isSegment
+			},
+			modelId : id
+		};			
+		this.addCommand(command);
+		this.modelScreenSegement(id, isSegment);
+		this.onModelChanged();
+		this.render();
+	}
+
+	modelScreenSegement (id, isSegment) {
+
+		var screen = this.model.screens[id];
+		if (screen) {
+			screen.segment = isSegment
+			if (isSegment) {
+				screen.min.w = -1
+				screen.min.h = -1
+			} else {
+				screen.min.w = this.model.screenSize.w
+				screen.min.h = this.model.screenSize.h
+			}
+		}
+
+	}
+
+	undoScreenSegement (command){
+		this.logger.log(3,"undoScreenSegement", "enter > " + command.id);					
+		this.modelScreenSegement(command.modelId, command.o);		
+		this.render();
+	}
+	
+	redoScreenSegement (command){
+		this.logger.log(3,"undoScreenSegement", "enter > " + command.id);		
+		this.modelScreenSegement(command.modelId, command.n);		
+		this.render();
+	}
+
 	
 	/**********************************************************************
 	 * Screen Parent
