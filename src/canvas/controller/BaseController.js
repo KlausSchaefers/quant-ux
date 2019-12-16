@@ -698,6 +698,10 @@ export default class BaseController extends Core {
 				zoomedModel.isZoomed = true;
 				this.getZoomedBox(zoomedModel, zoom, zoom)
 				this._canvas.setWidgetStyle(zoomedModel.id, zoomedModel.style, zoomedModel);
+				
+				if (type === 'props') {
+					this._canvas.updateWidgetDataView(zoomedModel);
+				}
 			}
 		} else {
 			this.logger.error("renderWidget", "No widget passed for type" + type);

@@ -50,7 +50,9 @@ export default {
                 }
 
                 if (widget.props && widget.props.callbacks) {
-                    label += `${widget.props.callbacks.click}()`
+                    if (widget.props.callbacks.click) {
+                        label += ` ${widget.props.callbacks.click}`
+                    }
                 }
 
                 if (label) {
@@ -115,6 +117,7 @@ export default {
                 }    
             }
         },
+
         cleanDataView () {
             this.logger.log(-1,"cleanDataView", "enter", this._dataViewDivs);
             for (let id in this._dataViewDivs) {
