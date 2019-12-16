@@ -927,8 +927,8 @@ export default {
 			var div = this.widgetBackgroundDivs[id];
 			if (widget && div){
 				/**
-					* Flush inlineEdit if needed
-					*/
+				 * Flush inlineEdit if needed
+				 */
 				var newLabel = this.inlineEditStop();
 				if (newLabel && model.props) {
 					/**
@@ -946,8 +946,8 @@ export default {
 		},
 		
 		/**
-			* copy style to copies (from master screen)
-			*/
+		 * copy style to copies (from master screen)
+		 */
 		setCopyStyle (widget, isTempUpdate) {
 			if (widget.copies){
 				for(let i=0; i< widget.copies.length; i++){

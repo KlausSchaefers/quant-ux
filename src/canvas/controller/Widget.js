@@ -87,7 +87,6 @@ export default class Widget extends Screen {
 	
 	alignWidgets (direction, source, target) {
 		this.logger.log(-1, "alignWidgets", "enter > " + direction, target);
-		console.debug('align', source)	
 		
 		var targetBox = this.getBoundingBox(target);
 		var positions = {};
@@ -158,13 +157,10 @@ export default class Widget extends Screen {
 		this.renderAlignEnd();
 	} 
 	
-	
-	
 	incMultiWidgetPosition (ids, x, y){
 		this.logger.log(3,"incMultiWidgetPosition", "enter > " + x + "  : " + y);
 		
-		if(ids && ids.length > 0){
-		
+		if (ids && ids.length > 0) {
 			var positions = {};
 			for(var i=0; i< ids.length; i++){
 				var id = ids[i];
@@ -178,7 +174,6 @@ export default class Widget extends Screen {
 					};
 				}
 			}
-			
 			this.updateMultiWidgetPosition(positions, true);
 			
 			/**
