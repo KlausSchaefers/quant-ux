@@ -40,28 +40,34 @@ export default {
             // if we set mode, render will be called!
             this.rerender()
         },
+
         createWidgetDataView (widget, div) {
             if (this.hasDataView && widget) {
+                let label = ''
                 var dataBindings = this.getAllDataBinding(widget);
                 if (dataBindings && dataBindings.length > 0) {
-                    // console.debug('createWidgetDataView', widget.id, dataBinding)
+                    label = dataBindings.join(', ') + ' '
+                }
+
+                if (widget.props && widget.props.callbacks) {
+                    label += `${widget.props.callbacks.click}()`
+                }
+
+                if (label) {
                     if (!this._dataViewDivs) {
                         this._dataViewDivs = {}
                     }
-                    /**
-                     * Remove existing
-                     */
                     if (this._dataViewDivs[widget.id]) {
                         let div = this._dataViewDivs[widget.id]
                         if (div.parentNode) {
                             div.parentNode.removeChild(div)
                         } 
                     }
+
                     css.add(div, 'MatcCanvasDataViewLabelCntr')
                     let dataDiv = document.createElement('div')
                     css.add(dataDiv, 'MatcCanvasDataViewLabel')
-                    let txt = dataBindings.join(', ')
-                    dataDiv.innerHTML = txt
+                    dataDiv.innerHTML = label
                     div.appendChild(dataDiv)
                     this._dataViewDivs[widget.id] = dataDiv
                 }
@@ -102,6 +108,7 @@ export default {
 
         updateWidgetDataView (widget) {
             if (this.hasDataView && widget) {
+                this.logger.log(-1,"updateWidgetDataView", "enter", widget.name);
                 let div = this.widgetDivs[widget.id]
                 if (div) {
                     this.createWidgetDataView(widget, div, true)

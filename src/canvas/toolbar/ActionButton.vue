@@ -296,11 +296,6 @@ export default {
 				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
 				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")}
 			]
-			if (this.hasProtoMoto) {
-				result.push(
-					{value:true, label:"Action", icon:"mdi mdi-xml", callback:lang.hitch(this, "onActionJS")}
-				)
-			}
 			return result;
 		},
 		

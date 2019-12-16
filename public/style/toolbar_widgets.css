@@ -2,6 +2,14 @@
 /****************************************************
  * Notification
  ****************************************************/
+.MatcToolbarLowCode{
+	margin-bottom: 10px;
+}
+
+
+/****************************************************
+ * Notification
+ ****************************************************/
 .MatcToolbarPopUpOpen.MatcToolbarPopUp.MatcNotificationPopup{
 	width:300px;
 	left:auto;

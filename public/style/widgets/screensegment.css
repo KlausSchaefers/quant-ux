@@ -6,7 +6,7 @@
     text-align: left;
     outline: 1px dashed #777;
     border: solid;
-    overflow: none;
+    overflow: auto;
 }
 
 .MatcWidgetTypeScreenSegement.MatcWidgetTypeScreenSegementOverFlow {
@@ -41,4 +41,9 @@
 .MatcCreateBtnElementPreview .MatcWidgetTypeScreenSegement{
     top:5px;
     font-size: 12px;
+}
+
+.MatcCreateBtnElementPreview .MatcWidgetTypeScreenSegementHint{
+    top:10px;
+    font-size: 14px;
 }

@@ -41,6 +41,7 @@ import Notification from 'page/Notification'
 import Services from 'services/Services'
 import ContactButton from 'canvas/toolbar/ContactButton'
 import RulerSection from 'canvas/toolbar/RulerSection'
+import LowCodeSection from 'canvas/toolbar/LowCodeSection'
 
 export default {
     name: '_Render',
@@ -328,6 +329,8 @@ export default {
 
 			this._renderWidgetLine();
 
+			this._renderLowCode();
+
 			this._renderData();
 
 			this._renderValidation();
@@ -341,6 +344,8 @@ export default {
 			this._renderWidgetText();
 
 			this._renderWidgetBox();
+
+	
 
 			/**
 			 * render screen properties
@@ -684,16 +689,23 @@ export default {
 			this.own(on(this.positionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.positionCheckBox.placeAt(content)
 
-
-			this.wrapChildrenCheckBox = this.$new(CheckBox);
-			this.wrapChildrenCheckBox.setLabel("Wrap Children");
-			this.addTooltip(this.wrapChildrenCheckBox.domNode, "In the Quant-UX-Server the children will be wraped")
-			css.add(this.wrapChildrenCheckBox.domNode, "MatcToolbarItem");
-			this.own(on(this.wrapChildrenCheckBox, "change", lang.hitch(this, "setWidgetStyle", "wrap")));
-			this.wrapChildrenCheckBox.placeAt(content)
-
-
 			this.responsiveDiv = parent;
+			this.properties.appendChild(parent);
+		},
+
+		_renderLowCode () {
+			var parent = this.createSection("Low Code", true);
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.lowCodeSection = this.$new(LowCodeSection);
+			this.own(on(this.lowCodeSection, "changeStyle", lang.hitch(this, "setWidgetStyle")));
+			this.own(on(this.lowCodeSection, "changeProps", lang.hitch(this, "setWidgetProps")));
+			this.lowCodeSection.placeAt(content)
+
+			this.lowCodeDiv = parent;
 			this.properties.appendChild(parent);
 		},
 
@@ -1083,13 +1095,6 @@ export default {
 			this.own(on(this.multiPositionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.multiPositionCheckBox.placeAt(content)
 
-			this.multiWrapChildrenCheckBox = this.$new(CheckBox);
-			this.multiWrapChildrenCheckBox.setLabel("Wrap Children");
-			this.addTooltip(this.multiWrapChildrenCheckBox.domNode, "In the Quant-UX-Server the children will be wraped")
-			css.add(this.multiWrapChildrenCheckBox.domNode, "MatcToolbarItem");
-			this.own(on(this.multiWrapChildrenCheckBox, "change", lang.hitch(this, "setWidgetStyle", "wrap")));
-			this.multiWrapChildrenCheckBox.placeAt(content)
-
 
 			this.properties.appendChild(parent);
 			this.multiPositionDiv = parent;
@@ -1454,7 +1459,6 @@ export default {
 			css.remove(	this.groupActionDiv, "MatcToolbarSectionHidden");
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 
-			this.groupActionBTN.setCanvasSettings(this.settings)
 			this.groupActionBTN.setValue(model);
 		
 
@@ -1517,13 +1521,7 @@ export default {
 
 			}
 			this.multiPositionCheckBox.setValue(fixed);
-
-			if (this.settings && this.settings.hasProtoMoto) {
-				css.remove(this.multiWrapChildrenCheckBox.domNode, 'hidden')
-			} else {
-				css.add(this.multiWrapChildrenCheckBox.domNode, 'hidden')
-			}
-			this.multiWrapChildrenCheckBox.setValue(wrap)
+		
 
 			this.childWidget.setMulti(model);
 
@@ -1679,19 +1677,13 @@ export default {
 				css.remove(this.responsiveDiv, "hidden");
 			}
 
-			if (this.settings && this.settings.hasProtoMoto) {
-				css.remove(this.wrapChildrenCheckBox.domNode, 'hidden')
-			} else {
-				css.add(this.wrapChildrenCheckBox.domNode, 'hidden')
-			}
 
-			this.widgetSize.setCanvasSettings(this.settings)
+			// this.widgetSize.setCanvasSettings(this.settings)
 			this.widgetSize.setModel(this.model);
 			this.widgetSize.setValue(model);
 			
 			this.positionCheckBox.setValue(style.fixed);
-			this.wrapChildrenCheckBox.setValue(style.wrap)
-
+			
 			//this.lockedCheckBox.setValue(style.locked);
 
 
@@ -1788,7 +1780,6 @@ export default {
 				}
 				css.remove(this.lineDiv, "MatcToolbarSectionHidden");
 
-				this.actionBTN.setCanvasSettings(this.settings)
 				this.actionBTN.setValue(model, isLogicWidget);
 				
 			} else if (widgetViewMode == "hover"){
@@ -1804,7 +1795,7 @@ export default {
 			/**
 			 * Must come at last so radius container is visible...
 			 */
-			if(model.has.border){
+			if (model.has.border){
 				css.remove(this.borderDiv, "MatcToolbarSectionHidden");
 				css.remove(this.radiusBox.domNode, "hidden");
 				this.boxBorder.setValue(style);
@@ -1829,10 +1820,12 @@ export default {
 				this.reopenColorWidget(model);
 			}
 
-			if(this.screenExport && this.screenDownloadDiv) {
+			if (this.screenExport && this.screenDownloadDiv) {
 				css.remove(this.screenDownloadDiv, "MatcToolbarSectionHidden");
 				this.screenExport.setWidgets([model.id]);
 			}
+
+
 		},
 
 		/**
@@ -1841,18 +1834,17 @@ export default {
 		showWidgetDataProperties (model) {
 			this.logger.log(-1,"showWidgetDataProperties", "enter");
 	
+			this.showProperties();
 			if (this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
-				this.showProperties();
+			
 				/**
 				 * Show the name or so?
 				 */
 				css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
 				this.validationWidget.setValue(model);
-			} else {
-				if (this.canvas) {
-					this.canvas.showError('The widget does not support data')
-				}
-			}
+			} 
+			this.lowCodeSection.setValue(model)
+			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
 		},
 
 		reopenColorWidget:function(){
@@ -2183,7 +2175,6 @@ export default {
 
 			if(this.screenActionDiv){
 				css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
-				this.screenActionBTN.setCanvasSettings(this.settings)
 				this.screenActionBTN.setScreen(model);
 			}
 			if(this.screenAnimationDiv){
@@ -2203,14 +2194,15 @@ export default {
 				if (this.screenSegmentCheckbox) {
 					this.screenSegmentCheckbox.setValue(model.segment)
 
+					/**
+					 * Since 2.2.0 we show optionally the segemnt box
+					 */
 					if (this.settings.hasProtoMoto) {
 						css.remove(this.screenSegmentCheckbox.domNode, "hidden");
 					} else {
 						css.add(this.screenSegmentCheckbox.domNode, "hidden");
 					}
 				}
-
-				
 
 				if(style.overlay){
 					css.remove(this.screenFixedOverlayCheckBox.domNode, "hidden");
@@ -2295,6 +2287,7 @@ export default {
 			css.add(this.dataDiv,"MatcToolbarSectionHidden" );
 			css.add(this.validationDiv, "MatcToolbarSectionHidden");
 			css.add(this.backgroundColorDiv, "MatcToolbarSectionHidden");
+			css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")
 
 			if (this.responsiveDiv){
 				css.add(this.responsiveDiv, "MatcToolbarSectionHidden")

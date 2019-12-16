@@ -1366,7 +1366,7 @@ export default {
 		
 		
 		setWidgetStyle (key, value){
-			this.logger.log(2,"setWidgetStyle", "entry > " + key + " - "+ value);	
+			this.logger.log(-1,"setWidgetStyle", "entry > " + key + " - "+ value);	
 			
 			var newSytle = {};
 			newSytle[key] = value;

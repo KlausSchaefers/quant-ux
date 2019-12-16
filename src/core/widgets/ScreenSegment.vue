@@ -61,7 +61,7 @@ export default {
            let childWidget = this._childWidgets.find(c => c.parent === widget.id)
            if (childWidget) {
                	childWidget.widget.style = widget.style;
-				childWidget.widget.props = widget.props;
+				        childWidget.widget.props = widget.props;
                 this.factory.setStyle(childWidget.div, childWidget.widget);
            }
        }
@@ -82,8 +82,8 @@ export default {
       /**
        * Try to avoid rerenders if not needed
        */
-      if (isUpdate) {
-        this.logger.log(-1, 'render', 'enter > ' +  isUpdate)
+      if (isUpdate && widget.props.screenID === this._screenID) {
+        this.logger.log(-1, 'render', 'exit update > ', widget.props)
         return
       }
 
@@ -93,6 +93,7 @@ export default {
 
       if (!this.isSymbol && this.app && widget.props.screenID) {
           this.logger.log(-1, 'render', 'enter > full render')
+          this._screenID = widget.props.screenID
           let screen = this.app.screens[widget.props.screenID]
           if (screen) {
           
@@ -131,9 +132,11 @@ export default {
           }
        
       } else {
+        this._screenID = ''
         db.div('MatcWidgetTypeScreenSegementHint', 'Select a screen segment').build(this.domNode)
       }
     },
+
     renderWidget (widget, screen, db) {
      
 	    let div = db.div('MatcBox MatcWidget')
@@ -143,8 +146,8 @@ export default {
                 .left(widget.x - screen.x)
                 .build()
    
-		this.factory.createWidgetHTML(div, widget);
-		return div
+      this.factory.createWidgetHTML(div, widget);
+      return div
     }
   },
   mounted() {

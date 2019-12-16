@@ -152,9 +152,8 @@ export default {
 
 		_showScreenSegment  (widget) {
 			this._setSectionLabel("Screen Section");
-			this._renderCheck("Show Scroll",widget.props.scroll, "scroll" );
+			// this._renderCheck("Show Scroll",widget.props.scroll, "scroll" );
 			
-		
 			if (widget.props.screenID) {
 				let screen = this.model.screens[widget.props.screenID]
 				if (screen) {			
