@@ -341,7 +341,7 @@ export default {
 		 **********************************************************************/
 		
 		onContextMenu (e){
-			this.logger.log(0,"onContextMenu", "enter");
+			this.logger.log(-1,"onContextMenu", "enter", e.target);
 			this.stopEvent(e);
 			return false;
 		},

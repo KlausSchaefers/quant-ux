@@ -9,7 +9,13 @@ import topic from 'dojo/topic'
 import Logger from 'common/Logger'
 import Evented from 'dojo/Evented'
 
-export default class Dialog extends Evented{
+var _vommondCurrentDialog = null
+
+export default class Dialog extends Evented {
+
+	static getCurrentDialog () {
+		return _vommondCurrentDialog
+	}
 
 	constructor(params) {
 		super()
@@ -29,6 +35,7 @@ export default class Dialog extends Evented{
 
 	destroy () {
 		this.log.info('destroy', 'enter')
+		_vommondCurrentDialog = null
 		this.cleanUpEvented()
 	}
 
@@ -37,8 +44,10 @@ export default class Dialog extends Evented{
 		this.fullScreenListener = callback
 	}
 
-	popup(node, parent, clazz) {
+	popup (node, parent, clazz) {
 		this.log.log(1, "popup", "enter");
+
+		_vommondCurrentDialog = this
 
 		topic.publish("vommond/dialog/open", {});
 

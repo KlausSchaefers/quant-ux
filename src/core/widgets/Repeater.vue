@@ -72,7 +72,7 @@ export default {
                 cursor: 'MatchResizeNorth',
                 id: 'DistanceY'
             })
-            if (this.model.props.layout !== 'rows') {
+            if (this.model.props.layout !== 'rows' && this.model.props.auto === false) {
                 handlers.push({
                     y: -10,
                     distanceY: this.distanceY,

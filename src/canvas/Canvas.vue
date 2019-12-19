@@ -548,7 +548,7 @@ export default {
 		 ***************************************************************************/
 		
 		onKeyPress (e){
-			
+	
 			this._currentKeyEvent = e;
 			var k = e.keyCode ? e.keyCode : e.which;
 			var target = e.target;
@@ -557,7 +557,8 @@ export default {
 
 			// console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
 		
-			if(this.state == "simulate" || this.state == "dialog"){
+			if(this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()) {
+				this.logger.log(-1 ,"onKeyPress", "exit because of dialog");
 				return;
 			}
 			
@@ -840,10 +841,10 @@ export default {
 		
 		onKeyUp (e){
 			
-			if(this.state == "simulate" || this.state == "dialog"){
+			if(this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()){
+				this.logger.log(-1 ,"onKeyUp", "exit because of dialog");
 				return;
 			}
-			
 			
 			var target = e.target;
 			if(css.contains(target, "MatcIgnoreOnKeyPress")){

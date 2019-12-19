@@ -101,7 +101,7 @@ export default {
 			
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));		
-			this.own(on(window, "contextmenu", lang.hitch(this, "onContextMenu")));		
+			this.own(on(this.domNode, "contextmenu", lang.hitch(this, "onContextMenu")));		
 			this.logger.log(2,"initRender", "exit");
 		},
 		
@@ -1189,7 +1189,8 @@ export default {
 		},
 		
 			
-		getLastMousePos (){
+		getLastMousePos () {
+			console.debug('getLastMousePos', this._lastMousePos)
 			return this._lastMousePos;
 		},
 		

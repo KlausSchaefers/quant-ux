@@ -215,7 +215,7 @@ export default class BaseController extends Core {
 
 			this.emit('change', this.model)
 		} else {
-			this.logger.log(-1,"onModelChanged", "Exit because not active");
+			this.logger.log(1,"onModelChanged", "Exit because not active");
 		}
 	}
 	
@@ -373,7 +373,7 @@ export default class BaseController extends Core {
 		}
 		
 		if (errors.length > 0){
-			this.logger.log(-1,"fixWidgetsNotInScreen", "exit > " + errors.length);
+			this.logger.log(1,"fixWidgetsNotInScreen", "exit > " + errors.length);
 			//this.printStackToLog();
 			//this.logger.sendError(new Error("Controller.fixWidgetsNotInScreen() > Some fuckup"));
 		}
@@ -1504,7 +1504,7 @@ export default class BaseController extends Core {
 				this.commandStack.pos = result.pos;
 				this.commandStack.lastUUID = result.lastUUID;
 
-				this.logger.log(-1,"postCommand", "exit > lastUUID: " + this.commandStack.lastUUID  + ' > pos: ' + this.commandStack.pos);
+				this.logger.log(1,"postCommand", "exit > lastUUID: " + this.commandStack.lastUUID  + ' > pos: ' + this.commandStack.pos);
 			} catch (err) {
 				this.logger.sendError("postCommand", err);
 			}
@@ -1534,7 +1534,7 @@ export default class BaseController extends Core {
 		if(this.toolbar){
 			this.toolbar.enbaleUndo();
 		}							
-		this.logger.log(-1,"onCommandAdded", "exit > id: "+ result.command.id + " > lastUUID: " + this.commandStack.lastUUID + " > pos: " + this.commandStack.pos);
+		this.logger.log(1,"onCommandAdded", "exit > id: "+ result.command.id + " > lastUUID: " + this.commandStack.lastUUID + " > pos: " + this.commandStack.pos);
 	}
 	
 	

@@ -591,7 +591,7 @@ export default class CopyPaste extends Group{
 	_copyWidget (w, targetScreen){
 		this.logger.log(3,"_copyWidget", "enter > ", targetScreen);
 		if (!targetScreen){
-			console.error("_copyWidget() > No screen", new Error().stack);
+			console.debug("_copyWidget() > No screen");
 			targetScreen = this.getHoverScreen(w);
 		}
 		var copy = lang.clone(w);

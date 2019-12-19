@@ -48,8 +48,7 @@ export default class Widget extends Screen {
 		newWidget.style = {}
 		newWidget.hover = {}
 		newWidget.props = {}
-		
-		
+
 		var command = {
 			timestamp : new Date().getTime(),
 			type : "CopyWidget",
