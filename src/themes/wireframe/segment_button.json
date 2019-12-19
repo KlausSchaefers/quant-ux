@@ -1,7 +1,7 @@
 [ {
 	"id" : "SegmentButton",
 	"type" : "SegmentButton",
-	"name" : "SegmentButton",
+	"name" : "Segment Button",
 	"category" : "WireFrame",
 	"subcategory" : "AFormButton",
 	"_type" : "Widget",
@@ -21,10 +21,6 @@
 		"label" : true
 	},
 	"style" : {
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
 		"borderTopWidth" : 1,
 		"borderBottomWidth" : 1,
 		"borderRightWidth" : 1,
@@ -39,16 +35,15 @@
 		"paddingBottom" : 10,
 		"paddingLeft" : 10,
 		"paddingRight" : 10,
-		"textAlign" : "center",
 		"fontSize" : 14,
 		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
 		"textAlign" : "center",
 		"letterSpacing" : 0,
 		"lineHeight" : 1,
-		 "borderTopRightRadius" : 3,
-         "borderTopLeftRadius" : 3,
-         "borderBottomRightRadius" : 3,
-         "borderBottomLeftRadius" : 3
+		"borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3
 	},
 	"active" : {
 		"color" : "#ffffff",

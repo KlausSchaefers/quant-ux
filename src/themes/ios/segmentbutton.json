@@ -16,6 +16,12 @@
 		"options" : [ "1", "2", "3" ],
 		"selected" : ["1"]
 	},
+	"has" : {
+		"onclick" : true,
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true
+	},
 	"style" : {
 		"borderTopRightRadius" : 500,
 		"borderTopLeftRadius" : 500,

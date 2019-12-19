@@ -90,6 +90,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/spinner.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/stepper.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/switch.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/segment_button.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/tab.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/table.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/textbox.json'),

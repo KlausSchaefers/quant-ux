@@ -251,6 +251,21 @@ export default {
 					this._countColor(box.style.background, result);
 					this._countColor(box.style.color, result);	
 					this._countColor(box.style.borderTopColor, result);	
+					if (box.active) {
+						this._countColor(box.active.background, result);
+						this._countColor(box.active.color, result);	
+						this._countColor(box.active.borderTopColor, result);	
+					}
+					if (box.hover) {
+						this._countColor(box.hover.background, result);
+						this._countColor(box.hover.color, result);	
+						this._countColor(box.hover.borderTopColor, result);	
+					}
+					if (box.error) {
+						this._countColor(box.error.background, result);
+						this._countColor(box.error.color, result);	
+						this._countColor(box.error.borderTopColor, result);	
+					}
 	//				this._countColor(box.style.borderBottomColor, result);	
 	//				this._countColor(box.style.borderRightColor, result);	
 	//				this._countColor(box.style.borderLeftColor, result);	
@@ -417,15 +432,14 @@ export default {
 					var gradient = {
 						colors : 
 						[
-									{c:gradientColors[0], p:0},
-									{c:gradientColors[1], p:100},
-								],
-								gradient:true,
-								direction : gradientColors[2]
+							{c:gradientColors[0], p:0},
+							{c:gradientColors[1], p:100},
+						],
+						gradient:true,
+						direction : gradientColors[2]
 					};
 				
-					
-					
+	
 					var td = document.createElement("td");
 					css.add(td,"MatcGradientBox MatcColorBox MatcColorBox"+i % columns);
 					var span = document.createElement("span");			
