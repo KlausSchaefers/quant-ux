@@ -1,7 +1,7 @@
 <script>
-import CheckBox from 'common/CheckBox'
-import lang from 'dojo/_base/lang'
-import on from 'dojo/on'
+// import CheckBox from 'common/CheckBox'
+// import lang from 'dojo/_base/lang'
+// import on from 'dojo/on'
 import css from 'dojo/css'
 import RestEngine from 'core/RestEngine'
 
@@ -18,11 +18,13 @@ export default {
         initDataView (){
             this.logger.log(0,"initDataView", "enter");
             
+            /*
             this.dataViewCheckBox = this.$new(CheckBox);
 			this.dataViewCheckBox.setLabel("Data");
 			this.dataViewCheckBox.setValue(this.hasDataView);
 			this.dataViewCheckBox.placeAt(this.dataViewCntr);
-			this.own(on(this.dataViewCheckBox, "change", lang.hitch(this, "setDataView")));
+            this.own(on(this.dataViewCheckBox, "change", lang.hitch(this, "setDataView")));
+            */
         },
         setDataView (value) {
             this.logger.log(-1,"setDataView", "enter", value);

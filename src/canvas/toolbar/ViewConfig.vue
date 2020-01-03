@@ -3,7 +3,7 @@
      <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarViewConfig" 
         @mousedown.stop="showPopup" @mouseup.stop="">
          <div>
-            <span class="mdi mdi-magnify"></span>
+            <span class="mdi mdi-magnify" v-if="hasIcon"></span>
             <label class="MatcToolbarLabel"> {{zoomFactor}} %</label>
             <span class="caret" data-dojo-attach-point="caret"></span> 
          </div>
@@ -17,37 +17,45 @@
             </div>
             -->
              <div class="MatcToolbarViewConfigCntr">
-                <div class=" MatcToolbarViewConfigCntrSpace">
-                    <span class=" mdi mdi-minus" @mousedown.stop="onZoomMinus" @mouseup.stop="" @click.stop=""> 			
-                    </span> 
-                    <span class="MatcToolbarViewConfigZoomLabel" > 	
-                        {{zoomFactor}} %
-                    </span> 
-                    <span class="mdi mdi-plus" @mousedown.stop="onZoomPlus" @mouseup.stop="" @click.stop=""> 			
-                    </span> 
+                <div class="MatcToolbarViewConfigCntrSpace">
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn" @mouseup.stop="" @click.stop="" @mousedown.stop="onZoomMinus">
+                            Zoom out (-)
+                    </div>
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoomPlus" @mouseup.stop="" @click.stop="">
+                            Zoom in (+)
+                    </div>
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(3)" @mouseup.stop="" @click.stop="">
+                            Zoom to 50%
+                    </div>
+                     <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(5)" @mouseup.stop="" @click.stop="">
+                            Zoom to 100%
+                    </div>
                 </div>
-                <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace">
-                    <span class="MatcStatusButtom glyphicon glyphicon-th" style="vertical-align: middle;"></span> 
+               
+
+                <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
+                 
                     <span class="MatcStatusItemLabel" >Grid &amp; Columns</span> 
                 </div>
-                <div class="">
+
+                <div class="MatcToolbarViewConfigCntrRow">
                     <CheckBox label="Layers" :value="hasLayers"  @change="onChangeLayer"/>
                 </div>
 
-                <div>
+                <div class="MatcToolbarViewConfigCntrRow">
                     <CheckBox label="Lines" :value="hasLines"  @change="onChangeLines"/>
                 </div>
-                <div>
+                <div class="MatcToolbarViewConfigCntrRow">
                     <CheckBox label="Distance" :value="hasDistance"  @change="onChangeDistance"/>
                 </div>
-                <div>
+                <div class="MatcToolbarViewConfigCntrRow">
                     <CheckBox label="Ruler" :value="hasRuler"  @change="onChangeRuler"/>
                 </div>
-                <div>
+                <div class="MatcToolbarViewConfigCntrRow">
                     <CheckBox label="Comments" :value="hasComments"  @change="onChangeComments"/>
                 </div>
                 
-                <div>
+                <div class="MatcToolbarViewConfigCntrRow">
                     <CheckBox label="Data" :value="hasData"  @change="onChangeData"/>
                 </div>
             </div>
@@ -71,7 +79,8 @@ export default {
         return {
             hasPopup: false,
             zoomLevels: [0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 2], 
-            zoomLevelPos: 3, 
+            zoomLevelPos: 3,
+            hasIcon: false
         }
     },
     computed: {
@@ -128,32 +137,51 @@ export default {
 
         onChangeLayer (value) {
             this.log.log(-1, 'onChangeLayer', 'enter', value)
+            this.value.layerListVisible = value
+            this.hideMaybe()
             this.$emit('change', 'layerListVisible', value)
         },
 
         onChangeLines (value) {
             this.log.log(-1, 'onChangeLines', 'enter', value)
+            this.value.renderLines = value
+             this.hideMaybe()
             this.$emit('change', 'renderLines', value)
         },
 
         onChangeDistance (value) {
             this.log.log(-1, 'onChangeDistance', 'enter', value)
+            this.value.showDistance = value
+             this.hideMaybe()
             this.$emit('change', 'showDistance', value)
         },
 
         onChangeRuler (value) {
             this.log.log(-1, 'onChangeRuler', 'enter', value)
+            this.value.showRuler = value
+             this.hideMaybe()
             this.$emit('change', 'showRuler', value)
         },
 
         onChangeComments (value) {
             this.log.log(-1, 'onChangeRuler', 'enter', value)
+            this.value.showComments = value
+             this.hideMaybe()
             this.$emit('change', 'showComments', value)
         },
 
         onChangeData (value) {
             this.log.log(-1, 'onChangeData', 'enter', value)
+            this.value.hasDataView = value
+            this.hideMaybe()
             this.$emit('change', 'hasDataView', value)
+        },
+
+        onZoom (pos) {
+             this.hideMaybe()
+            this.zoomLevelPos = pos
+            this.value.zoom = this.zoomLevels[this.zoomLevelPos];
+            this.$emit('change', 'zoom', this.value.zoom)
         },
 
         onZoomMinus () {
@@ -163,6 +191,7 @@ export default {
                 this.value.zoom = this.zoomLevels[this.zoomLevelPos];
                 this.$emit('change', 'zoom', this.value.zoom)
             }
+             this.hideMaybe()
             return false
 		},
 		
@@ -173,9 +202,11 @@ export default {
                 this.value.zoom = this.zoomLevels[this.zoomLevelPos];
                 this.$emit('change', 'zoom', this.value.zoom)
             }
+             this.hideMaybe()
             return false
         },
 
+       
         showPopup () {
             this.hasPopup = true
             /**
@@ -190,12 +221,25 @@ export default {
             this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this,"hidePopup"));
         	this._topicListener = topic.subscribe("matc/canvas/click", lang.hitch(this,"onCanvasClick"));
 			this._escListener = topic.subscribe("matc/canvas/esc", lang.hitch(this,"hidePopup"));
-			this._dialogListner = topic.subscribe("vommond/dialog/open", lang.hitch(this,"hidePopup"));	
+            this._dialogListner = topic.subscribe("vommond/dialog/open", lang.hitch(this,"hidePopup"));	
+            
+            this.ignoreHide = false
         },
 
         onCanvasClick () {
-            // FIXME: This causes the popup to close if we have a selection or rerender ()
-            //  console.debug('Hide', new Error().stack)
+            /**
+             * A lot if the changes we trigger a rerender, which will as a result also
+             * trigger a 'matc/canvas/click'. We want to be able to ignore this once!
+             */
+            if (this.ignoreHide) {
+                this.ignoreHide = false
+                return
+            }
+            this.hidePopup()
+        },
+
+        hideMaybe () {
+            // this.ignoreHide = true
             this.hidePopup()
         },
 

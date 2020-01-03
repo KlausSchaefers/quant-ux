@@ -277,11 +277,13 @@
 	color:#fff;
 }
 
-.MatcLight .MatcToobarViewSection .MatcToolbarItemActive{
-	background: #f2f2f2;
-    border-left: 1px solid rgba(0,0,0,0.25);
-    border-right: 1px solid rgba(0,0,0,0.25);
+
+.MatcLight .MatcToobarViewSection {
+	background: #fff;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid rgba(0, 0, 0, 0.25);
 }
+
 
 .MatcLight .MatcToolbarDropDownButtonItem{
 	background-color: #f2f2f2;

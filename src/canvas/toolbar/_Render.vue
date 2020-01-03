@@ -548,7 +548,10 @@ export default {
 
 		_renderWidgetView() {
 
-			var statusBar = this.canvas.getStatusBar();
+			//let cntr = document.createElement("div");
+			// css.add(cntr, '')
+
+			//var statusBar = this.canvas.getStatusBar();
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToobarViewSection")
@@ -564,7 +567,8 @@ export default {
 			this.widgetViewModeBtn.placeAt(content);
 			this.widgetViewModeBtn.setValue("style");
 			this.own(on(this.widgetViewModeBtn, "change", lang.hitch(this, "setWidgetViewModel")));
-			statusBar.appendChild(content);
+
+			this.propertiesCntr.appendChild(content);
 
 			this.widgetViewSection = content;
 

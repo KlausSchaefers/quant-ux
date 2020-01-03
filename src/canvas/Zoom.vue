@@ -2,7 +2,7 @@
 <script>
 import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
-import touch from 'dojo/touch'
+// import touch from 'dojo/touch'
 import win from 'dojo/win'
 import has from 'dojo/has'
 
@@ -29,8 +29,8 @@ export default {
 	},
     methods: {
 		initZoom (){
-			this.own(on(this.zoomMinus, touch.press, lang.hitch(this, "onClickMinus")));
-			this.own(on(this.zoomPlus, touch.press, lang.hitch(this, "onClickPlus")));
+			//this.own(on(this.zoomMinus, touch.press, lang.hitch(this, "onClickMinus")));
+			//this.own(on(this.zoomPlus, touch.press, lang.hitch(this, "onClickPlus")));
 			var eventType = this.getEventType();
 			this.own(on(this.domNode, eventType, lang.hitch(this,"onMouseWheel")));	
 			this.onZoomChange();
@@ -302,8 +302,10 @@ export default {
 		
 			if(this.zoom != this._lastZoom || forceRender){
 				this.logger.log(2,"onZoomChange", "entry >" + this.zoom + "00% > animate : " + animate);	
-				this.zoomLabel.innerHTML = "Zoom (" + Math.round(this.zoom * 100) + "%)";
-
+				if (this.zoomLabel) {
+					this.zoomLabel.innerHTML = "Zoom (" + Math.round(this.zoom * 100) + "%)";
+				}
+				
 				this.onChangeCanvasViewConfig()
 				
 				if(this.controller){

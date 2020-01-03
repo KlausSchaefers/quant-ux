@@ -5,7 +5,7 @@ import on from 'dojo/on'
 import topic from 'dojo/topic'
 import win from 'dojo/_base/win'
 import DomBuilder from 'common/DomBuilder'
-import CheckBox from 'common/CheckBox'
+// import CheckBox from 'common/CheckBox'
 
 export default {
     name: 'Comment',
@@ -21,11 +21,13 @@ export default {
         initComment (){
 			this.logger.log(2,"initComment", "enter");
 			
+			/*
 			this.commentCheckBox = this.$new(CheckBox);
 			this.commentCheckBox.setLabel("Comments");
 			this.commentCheckBox.setValue(this.showComments);
 			this.commentCheckBox.placeAt(this.commentCntr);
 			this.own(on(this.commentCheckBox, "change", lang.hitch(this, "setCommentView")));
+			*/
 		},
 		
 		/**********************************************************************

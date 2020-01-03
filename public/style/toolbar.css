@@ -400,23 +400,43 @@
 	bottom:0px;
 	right:-230px;
 	width: 230px;
+	height:24px;
 	z-index: 92001;
 	transition-duration: 0.2s;
 	overflow: hidden;
+	background: #242a30;
+	border-top: 1px solid #1a1f23;
 }
+
+
+.MatcToobarPropertiesSection .MatcToobarViewSection .MatcToolbarToggleButton,
+.MatcToobarPropertiesSection .MatcToobarViewSection .MatcToolbarToggleButton:hover{
+	border:none
+}
+
 
 .MatcToobarViewSectionVisible.MatcToobarViewSection{
 	right: 0px;
 }
 
-.MatcToobarViewSection .MatcToolbarItem{
+.MatcToobarPropertiesSection .MatcToobarViewSection .MatcToolbarItem{
 	margin:0px;
-	height: 25px;
-	padding:4px 20px;
+	height: 24px;
+	padding: 2px 15px;
+}
+
+.MatcToobarViewSection .MatcToolbarItem:hover{
+	color:#ccc;
 }
 
 .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive{
-	color:#1973e8;
+	background:#1973e8;
+	color: #fff;
+}
+
+.MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive:hover{
+	background:#1973e8;
+	color: #fff;
 }
 
 .MatcToolbarIcon-vertical{
@@ -1053,8 +1073,8 @@
  * View Config Section
  ****************************************************/
  .MatcToolbarViewConfig {
-	 min-width: 100px;
-	 margin-right: 50px;
+	 min-width: 50px;
+	 
  }
 
 .MatcToolbarViewConfig .MatcToolbarLabel{
@@ -1077,19 +1097,34 @@
 	min-height: 100px;
 	left: -35px;
 	top:calc(100% + 0px);
-	padding: 10px 20px;
+	padding: 10px 0px;
 
 	-moz-user-select: -moz-none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
+
+	font-size: 14px;
+    font-weight: 400;
  }
 
- .MatcToolbarViewConfigCntr > div {
+ .MatcToolbarViewConfigBtn:hover{
+	color:#1973e8;
+	cursor: pointer;
+ }
+
+ .MatcToolbarViewConfigCntrRow {
 	 margin-bottom: 10px;
+	 padding: 0px 20px;
+ }
+
+ .MatcToolbarViewConfigCntrRow:last-child{
+	 margin-bottom: 0px;
  }
 
  div.MatcToolbarViewConfigCntrSpace {
-	margin-bottom: 20px;
+	padding-bottom: 15px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
  }
 
  .MatcToolbarViewConfigZoomLabel {

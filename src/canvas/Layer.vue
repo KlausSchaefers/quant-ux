@@ -1,8 +1,8 @@
 <script>
-import lang from 'dojo/_base/lang'
+//import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
-import on from 'dojo/on'
-import CheckBox from 'common/CheckBox'
+//import on from 'dojo/on'
+//import CheckBox from 'common/CheckBox'
 import LayerList from 'canvas/toolbar/LayerList'
 
 export default {
@@ -10,7 +10,8 @@ export default {
     methods: {
       initLayer (){
 			this.logger.log(2,"initLayer", "entry");			
-			try{	
+			try{
+				/*
 				if(this.layerCheckCntr){
 					this.layerCheckBox = this.$new(CheckBox);
 					this.layerCheckBox.setLabel("Layers");
@@ -18,9 +19,9 @@ export default {
 					this.layerCheckBox.placeAt(this.layerCheckCntr);
 					this.own(on(this.layerCheckBox, "change", lang.hitch(this, "setLayerVisibility")));
 					css.remove("appNode", "MatcLayerListVisible");
-				}				
+				}	
+				*/			
 				if (this.getSettings().layerListVisible){
-					this.layerCheckBox.setValue(true);
 					this.buildLayerList()
 				}
 			} catch (e){

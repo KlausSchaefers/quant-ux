@@ -72,7 +72,7 @@
 				<div class="MatcToolbarTopCntr">
 						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">					
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
-								<span class="mdi mdi-play-circle" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span> 
+								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span> 
 								<span class="MatcToolbarLabel">Simulate</span>
 							</a>
 						</div> 		
@@ -100,6 +100,10 @@
 								<span class="mdi mdi-close-circle"></span>
 							</a>						
 						</div>
+
+						<div class="MatcToolbarSection">
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
+						</div>
 										
 						<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 							
@@ -120,7 +124,6 @@
 						</div>				
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
-							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="false"/>
 						</div> 				
 					
 						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
@@ -160,6 +163,7 @@ export default {
             active: true, 
 			redirectAfterExit: true,
 			showRestTool: true,
+			hasViewConfigVtn: true,
 			canvasViewConfig: {}
         }
     },
@@ -297,7 +301,6 @@ export default {
 			this.logger.log(-1,"onExit", "entry > " + this.pub);
 			this.active = false;
 			if(this.pub){
-				console.debug('onExit', this.model.id)
 				if(this.model.id){
 					hash("#/examples/"+ this.model.id + ".html");
 				} else {

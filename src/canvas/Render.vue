@@ -8,7 +8,7 @@ import win from 'dojo/win'
 import topic from 'dojo/topic'
 import domStyle from 'dojo/domStyle'
 import _Color from 'common/_Color'
-import CheckBox from 'common/CheckBox'
+// import CheckBox from 'common/CheckBox'
 import Ruler from 'canvas/Ruler'
 import GridAndRuler from 'canvas/GridAndRuler'
 import SimpleGrid from 'canvas/SimpleGrid'
@@ -85,6 +85,7 @@ export default {
 			this.gridBackground = {};
 			this.renderedModels = {};
 			
+			/** 
 			this.lineChkBox = this.$new(CheckBox);
 			this.lineChkBox.setLabel("Lines");
 			this.lineChkBox.setValue(this.renderLines);
@@ -98,6 +99,7 @@ export default {
 				this.distanceChkBox.placeAt(this.distanceCntr);
 				this.own(on(this.distanceChkBox, "change", lang.hitch(this, "setShowDistance")));
 			}
+			*/
 			
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));		
@@ -394,7 +396,7 @@ export default {
 		},
 		
 		wireEvents (){
-			this.logger.log(-1,"wireEvents", "enter > " + this.mode);
+			this.logger.log(1,"wireEvents", "enter > " + this.mode);
 			
 			this.wireCanvas()
 	

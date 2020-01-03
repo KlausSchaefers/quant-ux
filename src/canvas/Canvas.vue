@@ -16,6 +16,7 @@
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div> 
 		</div> 
 	</div> 
+	<!--
 	<div class="MatcStatus" data-dojo-attach-point="status">
 		<div class="MatcStatusCntr">
 			<div class="MatcStatusItem">	
@@ -38,7 +39,8 @@
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="rulerCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="dataViewCntr"></div>
 		</div>
-	</div> <!-- Status -->
+	</div> 
+	--> <!-- Status -->
 
 	<div class="MatcMessage" data-dojo-attach-point="message"> 			
 	</div> 
@@ -130,7 +132,7 @@ export default {
 			 * Init Listeners
 			 */
 			this.own(topic.subscribe("matc/toolbar/click", lang.hitch(this,"onToolbarClick")));
-			this.own(on(this.gridBtn, touch.press, lang.hitch(this, "showGrid")));
+			//this.own(on(this.gridBtn, touch.press, lang.hitch(this, "showGrid")));
 			this.own(on(win.body(), "keydown", lang.hitch(this,"onKeyPress")));
 			this.own(on(win.body(), "keyup", lang.hitch(this,"onKeyUp")));
 
@@ -531,7 +533,6 @@ export default {
 
 
 		showGrid (target){
-			console.debug(target)
 			
 			var db = new DomBuilder();
 			var popup = db.div("MatcGridSelectorDialogContent MatcPadding").build();
