@@ -1,23 +1,29 @@
 
 <template>
-     <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarViewConfig" @click.stop="showPopup">
+     <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarViewConfig" 
+        @mousedown.stop="showPopup" @mouseup.stop="">
          <div>
             <span class="mdi mdi-magnify"></span>
             <label class="MatcToolbarLabel"> {{zoomFactor}} %</label>
             <span class="caret" data-dojo-attach-point="caret"></span> 
          </div>
-         <div class="MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarViewConfigPopup" role="menu" v-if="hasPopup">
+         <div class="MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarViewConfigPopup" role="menu" v-if="hasPopup"  
+            @mouseup.stop=""
+            @mousedown.stop=""
+            >
+             <!--
              <div class="MatcToolbarPopUpArrowCntr">
                  <div class="MatcToolbarPopUpArrow"></div>
             </div>
+            -->
              <div class="MatcToolbarViewConfigCntr">
                 <div class=" MatcToolbarViewConfigCntrSpace">
-                    <span class=" mdi mdi-minus" @mousedown.stop="onZoomMinus"> 			
+                    <span class=" mdi mdi-minus" @mousedown.stop="onZoomMinus" @mouseup.stop="" @click.stop=""> 			
                     </span> 
                     <span class="MatcToolbarViewConfigZoomLabel" > 	
                         {{zoomFactor}} %
                     </span> 
-                    <span class="mdi mdi-plus" @mousedown.stop="onZoomPlus"> 			
+                    <span class="mdi mdi-plus" @mousedown.stop="onZoomPlus" @mouseup.stop="" @click.stop=""> 			
                     </span> 
                 </div>
                 <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace">
@@ -172,14 +178,28 @@ export default {
 
         showPopup () {
             this.hasPopup = true
+            /**
+             * this will force all other popups to close
+             */
+            topic.publish("matc/canvas/click", "", "");
+            /**
+             * the canvas can register to this to flush stuff
+             */
+            topic.publish("matc/toolbar/click", "");
+                
             this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this,"hidePopup"));
-			this._topicListener = topic.subscribe("matc/canvas/click", lang.hitch(this,"hidePopup"));
+        	this._topicListener = topic.subscribe("matc/canvas/click", lang.hitch(this,"onCanvasClick"));
 			this._escListener = topic.subscribe("matc/canvas/esc", lang.hitch(this,"hidePopup"));
 			this._dialogListner = topic.subscribe("vommond/dialog/open", lang.hitch(this,"hidePopup"));	
         },
 
+        onCanvasClick () {
+            // FIXME: This causes the popup to close if we have a selection or rerender ()
+            //  console.debug('Hide', new Error().stack)
+            this.hidePopup()
+        },
+
         hidePopup () {
-           
             this.hasPopup = false
             if(this._mouseDownListener){
                 this._mouseDownListener.remove();

@@ -201,7 +201,7 @@ export default {
 		
 
 		onSelectionChanged (id, type){
-			this.logger.log(1,"onSelectionChanged", "enter > "+ id + " >" +   type);
+			this.logger.log(1,"onSelectionChanged", "enter > " + id + " >" + type);
 			try{
 				if(this._selectWidget && this._selectWidget.id!= id){
 					this.inlineEditStop();

@@ -120,7 +120,7 @@
 						</div>				
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
-							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig"/>		
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="false"/>
 						</div> 				
 					
 						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
