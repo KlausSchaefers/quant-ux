@@ -37,11 +37,12 @@ import ToolbarImagePosition from 'canvas/toolbar/ToolbarImagePosition'
 import Radius from 'canvas/toolbar/Radius'
 import CSSExporter from 'canvas/toolbar/CSSExporter'
 import Resize from 'canvas/toolbar/Resize'
-import Notification from 'page/Notification'
 import Services from 'services/Services'
-import ContactButton from 'canvas/toolbar/ContactButton'
 import RulerSection from 'canvas/toolbar/RulerSection'
 import LowCodeSection from 'canvas/toolbar/LowCodeSection'
+
+// import ContactButton from 'canvas/toolbar/ContactButton'
+import Notification from 'page/Notification'
 
 export default {
     name: '_Render',
@@ -276,8 +277,8 @@ export default {
 			 * Notification
 			 */
 
-			this.contactBtn = this.$new(ContactButton);
-			this.contactBtn.placeAt(this.notificationSection);
+			// this.contactBtn = this.$new(ContactButton);
+			/// this.contactBtn.placeAt(this.notificationSection);
 			
 			this.notificationBTN = this.$new(Notification);
 			this.notificationBTN.placeAt(this.notificationSection);
@@ -545,8 +546,7 @@ export default {
 		 ****************************************************************************************************/
 
 
-		_renderWidgetView:function(){
-
+		_renderWidgetView() {
 
 			var statusBar = this.canvas.getStatusBar();
 
@@ -1909,7 +1909,6 @@ export default {
 		setWidgetViewModes:function(model){
 
 			css.remove(this.widgetViewSection, "MatcToolbarSectionHidden");
-
 
 			var type = model.type
 			if(this.hasErrorViewMode.indexOf(type) >= 0){

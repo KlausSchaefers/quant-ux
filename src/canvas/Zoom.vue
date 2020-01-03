@@ -42,10 +42,11 @@ export default {
 			return this.zoom;
 		},
 
-		setZoomFactor (level, animate){
-			this.zoomLevelPos = level;
-			this.zoom = this.zoomLevels[this.zoomLevelPos];
-			this.onZoomChange(true, animate);
+		setZoomFactor (zoom){
+			this.zoomLevelPos = this.zoomLevels.findIndex(x => x === zoom)
+			this._setCenterPos();
+			this.zoom = zoom
+			this.onZoomChange();
 		},
 		
 		zoomOut (animate){
@@ -302,6 +303,8 @@ export default {
 			if(this.zoom != this._lastZoom || forceRender){
 				this.logger.log(2,"onZoomChange", "entry >" + this.zoom + "00% > animate : " + animate);	
 				this.zoomLabel.innerHTML = "Zoom (" + Math.round(this.zoom * 100) + "%)";
+
+				this.onChangeCanvasViewConfig()
 				
 				if(this.controller){
 					this.controller.render();

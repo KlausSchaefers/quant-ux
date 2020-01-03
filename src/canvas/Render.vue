@@ -199,13 +199,13 @@ export default {
 		 * reason this is needed as all div will have just size ==0.
 		 */
 		setHeight (h){
-			this.domNode.style.height = h +"px";
+			this.domNode.style.height = h + "px";
 		},
 		
 		setViewLines (renderLines){
 			this.renderLines = renderLines;
 			this.settings.renderLines = renderLines;
-			this._setStatus("matcSettings",this.settings );
+			this._setStatus("matcSettings", this.settings );
 			this.rerender();
 		},
 		
@@ -1196,74 +1196,7 @@ export default {
 		
 		setHoverWidget (w){
 			this._lastHoverWidget = w;
-		},
-
-			
-		showAll (screens, callback){
-		
-			if(this.zoomOnLineAdd){
-				/**
-				 * Determine the zoom level required to fit everything in the
-				 * screen
-				 */
-				var zoomLevel = 0;
-				var zoom = this.zoomLevels[0];
-				
-				var box = this.getBoundingBoxByBoxes(screens);		
-				var margin = 30;
-				var domPos = domGeom.position(this.domNode);
-				for(var i=this.zoomLevels.length-1; i >=0 ; i--){
-					var z = this.zoomLevels[i];
-					var zoomedBox = this.getZoomedBox(lang.clone(box), z, z);
-					if(zoomedBox.w < domPos.w - margin && zoomedBox.h < domPos.h - margin){
-						zoomLevel = i;
-						zoom = z;
-						break;
-					}
-				}
-				
-				
-				/**
-				 * just fire when needed!
-				 */
-				if(zoom!= this.zoom){
-					/**
-					 * we will zoom out from the selected widget / or center of the screen! Then
-					 * we will still move everything until all screens are vivible! 
-					 * TODO: Merge these two animations to one!
-					 */
-					this._setCenterPos();
-					this.setZoomFactor(zoomLevel, true);
-					this.addAfterRenderCallBack(lang.hitch(this, "afterShowAll",box, callback ))
-				} else {
-					this.logger.log(2,"showAll", "exit without change!");
-					if(callback){
-						callback();
-					}
-				}
-			} else {
-				if(callback){
-					callback();
-				}
-			}
-			
-		},
-		
-		afterShowAll (box, callback){
-			var zoomedBox = this.getZoomedBox(lang.clone(box),this.zoom, this.zoom)
-			var cntr = this.container;
-			css.add(cntr, "MatcCanvasContainerAnimatePos");
-			this.canvasPos.x = zoomedBox.x *-1 + 50;
-			this.canvasPos.y = zoomedBox.y *-1 + 50;
-			this.setContainerPos();
-			setTimeout(function(){
-				css.remove(cntr, "MatcCanvasContainerAnimatePos");
-				if(callback){
-					callback();
-				}
-			},400);
-		},
-
+		}
     }, 
     mounted () {
     }

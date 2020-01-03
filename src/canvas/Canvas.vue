@@ -187,6 +187,56 @@ export default {
 			if (this.settings){
 				this.toolbar.setSettings(this.settings);
 			}
+			this.onChangeCanvasViewConfig()
+		},
+
+		onChangeCanvasViewConfig () {
+			if (this.toolbar) {
+				this.toolbar.setCanvasViewConfig({
+					zoom: this.zoom,
+					renderLines: this.renderLines,
+					showDistance: this.showDistance,
+					showComments:  this.showComments,
+					showRuler: this.showRuler,
+					hasDataView: this.hasDataView,
+					layerListVisible: this.settings.layerListVisible 
+				})
+			}
+		},
+
+		setCanvasViewConfig (key, value) {
+			this.logger.log(-1, "setCanvasViewConfig", "enter > " + key, value);
+			if (key === 'zoom') {
+				this.setZoomFactor(value)
+			}
+
+			if (key === 'renderLines') {
+				this.setViewLines(value)
+			}
+
+			if (key === 'showDistance') {
+				this.setShowDistance(value)
+			}
+
+			if (key === 'showComments') {
+				this.setCommentView(value)
+			}
+
+			if (key === 'showRuler') {
+				this.setShowScreenRuler(value)
+			}
+
+			if (key === 'showGrid') {
+				this.showGrid(value)
+			}
+
+			if (key === 'layerListVisible') {
+				this.setLayerVisibility(value)
+			}
+
+			if (key === 'hasDataView') {
+				this.setDataView(value)
+			}
 		},
 
 		setScreenName (screen) {
@@ -276,6 +326,8 @@ export default {
 			this.logger.log(-1,"onExit", "enter > " );
 			this.active = false;
 		}, 
+
+		
 		
 		/***************************************************************************
 		 * Settings
@@ -303,7 +355,7 @@ export default {
 			};
 			
 			var s = this._getStatus("matcSettings");
-			if(s){
+			if (s){
 				/**
 				 * Cant we use setSetiings her??
 				 */
@@ -358,6 +410,7 @@ export default {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
 			}	
 			this.applySettings(this.settings);
+		
 		},
 		
 		getSettings (){
@@ -368,7 +421,6 @@ export default {
 		 * Called from the dialog
 		 */
 		setSettings (s){
-			console.debug('setSettings', s)
 			/**
 			 * Mixin values
 			 */
@@ -467,7 +519,7 @@ export default {
 			if (this.toolbar) {
 				this.toolbar.setSettings(this.settings);
 			}
-			
+			this.onChangeCanvasViewConfig()
 			//console.debug("applySetztings() > exit > renderlines: ", this.renderLines, " > showSettings: ", this.showComments);
 		},
 		
@@ -478,7 +530,8 @@ export default {
 		 ***************************************************************************/
 
 
-		showGrid (){
+		showGrid (target){
+			console.debug(target)
 			
 			var db = new DomBuilder();
 			var popup = db.div("MatcGridSelectorDialogContent MatcPadding").build();
@@ -494,7 +547,10 @@ export default {
 			
 			dialog.own(on(cancel, touch.press, lang.hitch(this, "closeDialog")));
 			dialog.own(on(write, touch.press, lang.hitch(this, "setGrid2", selector)));
-			dialog.popup(popup, this.gridBtn);
+			if (target.screenX) {
+				target = this.gridBtn
+			}
+			dialog.popup(popup, target);
 		},
 		
 		setGrid2 (selector){

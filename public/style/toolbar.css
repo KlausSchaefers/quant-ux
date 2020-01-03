@@ -1043,10 +1043,59 @@
 	position: fixed;
     top: 0px;
     right: 0px;
-    width: 100px;
+    width: 200px;
     padding: 0px;
     border: none;
 	text-align: right;
+ }
+
+/****************************************************
+ * View Config Section
+ ****************************************************/
+ .MatcToolbarViewConfig {
+	 min-width: 100px;
+	 margin-right: 50px;
+ }
+
+.MatcToolbarViewConfig .MatcToolbarLabel{
+	width: 40px;
+}
+
+.MatcToolbarViewConfig .MatcToolbarPopUpArrowCntr{
+	top:-10px;
+	left: calc(50% - 10px);
+	width:20px;
+}
+
+.MatcToolbarViewConfig .MatcToolbarPopUpArrow{
+	left: 0px;
+	top:5px
+}
+
+ .MatcToolbarViewConfig .MatcToolbarViewConfigPopup{
+	width: 170px;
+	min-height: 100px;
+	left: -35px;
+	top:calc(100% + 10px);
+	padding: 10px 20px;
+
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+ }
+
+ .MatcToolbarViewConfigCntr > div {
+	 margin-bottom: 10px;
+ }
+
+ div.MatcToolbarViewConfigCntrSpace {
+	margin-bottom: 20px;
+ }
+
+ .MatcToolbarViewConfigZoomLabel {
+	width: 80px;
+	display: inline-block;
+	text-align: center;
  }
 
  

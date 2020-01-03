@@ -119,7 +119,8 @@
 							</div>					
 						</div>				
 
-						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">					
+						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig"/>		
 						</div> 				
 					
 						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
@@ -146,6 +147,7 @@ import Logger from 'common/Logger'
 import _Render from 'canvas/toolbar/_Render'
 import _Dialogs from 'canvas/toolbar/_Dialogs'
 import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
+import ViewConfig from 'canvas/toolbar/ViewConfig'
 import topic from 'dojo/topic'
 
 export default {
@@ -157,10 +159,13 @@ export default {
             value: false, 
             active: true, 
 			redirectAfterExit: true,
-			showRestTool: true
+			showRestTool: true,
+			canvasViewConfig: {}
         }
     },
-	components: {},
+	components: {
+		'ViewConfig': ViewConfig
+	},
 	computed: {
 	},
     methods: {
@@ -263,14 +268,24 @@ export default {
 		
 		setUser (user){
 			this.user = user;
-			
 		},
 		
 		getSettings (){
-			if(this.canvas){
+			if (this.canvas){
 				return this.canvas.getSettings();
 			}
 			return {};
+		},
+
+		setCanvasViewConfig (viewConfig) {
+			console.debug('Toolbar.setCnavasView', viewConfig)
+			this.canvasViewConfig = viewConfig
+		},
+
+		onChangeCanvasViewConfig (key, value) {
+			if (this.canvas) {
+				this.canvas.setCanvasViewConfig(key, value)
+			}
 		},
 		
 		
