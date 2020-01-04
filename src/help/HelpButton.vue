@@ -1,6 +1,6 @@
 
 <template>
-    <a class="MatcHelpIcon" @click="open">
+    <a :class="[{'MatcHelpIcon': !isToolbar}, {'MatcToolbarItem': isToolbar}]" @click="open">
         <span class="mdi mdi-help-circle"></span>
     </a>
 </template>
@@ -16,7 +16,7 @@ export default {
     props: ['topic', 'subtopic'],
     data: function () {
         return {
-            
+            isToolbar: false
         }
     },
     components: {},
@@ -28,11 +28,15 @@ export default {
 			var popup = db.div("MatcDialog MatcHelpDialog MatcPadding").build();
             	
             dialog.popup(popup, this.$el);
+            setTimeout(() => {
+                let help = this.$new(Help)
+                help.placeAt(popup)
+                if (this.topic) {
+                    help.setTopic(this.topic)
+                    help.setSupTopic(this.subtopic)
+                }
+            }, 300)
             
-            let help = this.$new(Help)
-            help.placeAt(popup)
-            help.setTopic(this.topic)
-            help.setSupTopic(this.subtopic)
         }
     }, 
     mounted () {

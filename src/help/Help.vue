@@ -6,9 +6,8 @@
                 Loading...
             </span>
             <div v-else class="MatcHelpContentCntr">
-            
                 <h2>{{current.title}}</h2>
-                <p v-html="current.body"></p>
+                <p v-html="current.body" class="MatcHelpContentParagraph"></p>
                 
                 
                 <iframe
@@ -85,7 +84,11 @@ export default {
             return this.texts.length === 0
         },
         current () {
-            return this.texts.find(t => t.id === this.selected)
+            let text = this.texts.find(t => t.id === this.selected)
+            if (!text) {
+                text = this.texts[0]
+            }
+            return text
         },
         topics () {
             let query = this.search.toLowerCase()

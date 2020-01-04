@@ -44,7 +44,7 @@
     padding-right: 20px;
     margin-right: 20px;
     height: 100%;
-
+    font-weight: 300;
 }
 
 .MatcHelpDialog .MatcHelpContentCntr{
@@ -71,4 +71,11 @@
     margin-top: 30px;
     line-height: 2;
     font-size: 18px;
+}
+
+.MatcHelpContent .MatcButton{
+    background: #1973e8;
+    color: #fff;
+    padding:2px 4px;
+    font-size: 14px;
 }

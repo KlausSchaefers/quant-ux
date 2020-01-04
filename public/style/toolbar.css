@@ -1096,7 +1096,7 @@
 	width: 170px;
 	min-height: 100px;
 	left: -35px;
-	top:calc(100% + 0px);
+	top:calc(100% - 0px);
 	padding: 10px 0px;
 
 	-moz-user-select: -moz-none;

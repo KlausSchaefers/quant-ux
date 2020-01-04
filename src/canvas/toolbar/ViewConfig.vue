@@ -265,7 +265,7 @@ export default {
     },
     watch: {
         value (v) {
-            this.log.log(-1, 'watch(value)', 'enter', v)
+            this.log.log(2, 'watch(value)', 'enter', v)
             this.value = v
         }
     },
