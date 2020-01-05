@@ -17,6 +17,7 @@
 				<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
 			</div>
 		</div>
+		<!--
 		<div class="MatcStatus" data-dojo-attach-point="status">    		    				
 			<div class="MatcStatusItem">
 				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus">			
@@ -30,6 +31,7 @@
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>    							
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="bwCntr"></div>
 		</div>
+		-->
 		
 		<div class="MatcMessage" data-dojo-attach-point="message">			
 		</div>
@@ -49,7 +51,6 @@ import win from 'dojo/_base/win'
 import topic from 'dojo/topic'
 
 import DomBuilder from 'common/DomBuilder'
-import CheckBox from 'common/CheckBox'
 import DataFrame from 'common/DataFrame'
 import _DragNDrop from 'common/_DragNDrop'
 
@@ -82,7 +83,8 @@ export default {
             renderDND: false, 
             dragNDropMinTimeSpan: 0, 
             wireInheritedWidgets: true, 
-            taskLineOpacity: 1
+			taskLineOpacity: 1,
+			isBlackAndWhite: false
         }
     },
     components: {},
@@ -118,9 +120,7 @@ export default {
 		this.initScrollBars();
 		this.initComment();
 		this.initSettings();
-		this.initBW();
-		
-
+	
 		this.db = new DomBuilder();
 
 		/**
@@ -148,6 +148,7 @@ export default {
 
 	setToolbar (t) {
 		this.toolbar = t
+		this.onChangeCanvasViewConfig()
 	},	
 	
 	inlineEditInit (){
@@ -172,17 +173,41 @@ export default {
 		}
 	},
 	
+	onChangeCanvasViewConfig () {
+		if (this.toolbar) {
+			this.toolbar.setCanvasViewConfig({
+				zoom: this.zoom,
+				renderLines: this.renderLines,
+				showComments:  this.showComments,
+				isBlackAndWhite: this.isBlackAndWhite
+			})
+		}
+	},
+
+	setCanvasViewConfig (key, value) {
+		this.logger.log(-1, "setCanvasViewConfig", "enter > " + key, value);
+		if (key === 'zoom') {
+			this.setZoomFactor(value)
+		}
+
+		if (key === 'renderLines') {
+			this.setViewLines(value)
+		}
+
+		if (key === 'showComments') {
+			this.setCommentView(value)
+		}
+
+		if (key === 'isBlackAndWhite') {
+			this.isBlackAndWhite = value
+			this.setBW(value)
+		}
+	},
+
 	/**********************************************************************
 	 * DnD.js overwrites 
 	 **********************************************************************/
 
-	initBW(){
-		this.bwCheckbox = this.$new(CheckBox);
-		this.bwCheckbox.setLabel("Gray Scale");
-		this.bwCheckbox.setValue(false);
-		this.bwCheckbox.placeAt(this.bwCntr);
-		this.own(on(this.bwCheckbox, "change", lang.hitch(this, "setBW")));		
-	},
 	
 	initSettings (){
 		this.logger.log(1,"initSettings", "enter > " );
@@ -373,7 +398,7 @@ export default {
 	_renderHeatMap(){
 		this.logPageView("/analytics/workspace/" + this.analyticMode + ".html")
 		
-		this.setBW(this.bwCheckbox.getValue());
+		this.setBW(this.isBlackAndWhite);
 		
 		
 		/**

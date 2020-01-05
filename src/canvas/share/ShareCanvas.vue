@@ -51,7 +51,6 @@ import topic from 'dojo/topic'
 import domGeom from 'dojo/domGeom'
 
 import DomBuilder from 'common/DomBuilder'
-import CheckBox from 'common/CheckBox'
 import Dialog from 'common/Dialog'
 import ScrollContainer from 'common/ScrollContainer'
 import _DragNDrop from 'common/_DragNDrop'
@@ -124,7 +123,6 @@ export default {
 			this.initScrollBars();
 			this.initComment();
 			this.initSettings();
-			this.initBW();
 			this.initMouseTracker();
 			this.initButtons()
 			
@@ -164,6 +162,13 @@ export default {
 				css.remove(this.container, "MatcCanvasBW");
 			}
 		},
+
+		onChangeCanvasViewConfig () {
+		},
+
+		setCanvasViewConfig (key, value) {
+			this.logger.log(-1, "setCanvasViewConfig", "enter > " + key, value);
+		},
 		
 		setHash (h){
 			this.logger.log(-1,"setHash", "entry > ", h);
@@ -181,15 +186,6 @@ export default {
 		/**********************************************************************
 		 * Button render
 		 **********************************************************************/
-
-		initBW (){
-			this.bwCheckbox = this.$new(CheckBox);
-			this.bwCheckbox.setLabel("Gray Scale");
-			this.bwCheckbox.setValue(false);
-			this.bwCheckbox.placeAt(this.bwCntr);
-			this.own(on(this.bwCheckbox, "change", lang.hitch(this, "setBW")));
-			
-		},
 		
 		initButtons (){
 			

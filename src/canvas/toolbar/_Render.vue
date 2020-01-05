@@ -42,8 +42,8 @@ import RulerSection from 'canvas/toolbar/RulerSection'
 import LowCodeSection from 'canvas/toolbar/LowCodeSection'
 
 // import ContactButton from 'canvas/toolbar/ContactButton'
-import Notification from 'page/Notification'
-import HelpButton from 'help/HelpButton'
+// import Notification from 'page/Notification'
+// import HelpButton from 'help/HelpButton'
 
 export default {
     name: '_Render',
@@ -281,11 +281,11 @@ export default {
 			// this.contactBtn = this.$new(ContactButton);
 			/// this.contactBtn.placeAt(this.notificationSection);
 			
-			this.helpBtn = this.$new(HelpButton, {isToolbar:true})
-			this.helpBtn.placeAt(this.notificationSection);
+			// this.helpBtn = this.$new(HelpButton, {isToolbar:true})
+			// this.helpBtn.placeAt(this.notificationSection);
 
-			this.notificationBTN = this.$new(Notification);
-			this.notificationBTN.placeAt(this.notificationSection);
+			// this.notificationBTN = this.$new(Notification);
+			// this.notificationBTN.placeAt(this.notificationSection);
 
 			this.logger.log(3,"renderToolbar", "exit");
 

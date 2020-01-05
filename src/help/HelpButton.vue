@@ -1,27 +1,38 @@
 
 <template>
-    <a :class="[{'MatcHelpIcon': !isToolbar}, {'MatcToolbarItem': isToolbar}]" @click="open">
-        <span class="mdi mdi-help-circle"></span>
-    </a>
+    <span :class="[{'MatcHelpIcon': !hasToolbar}, {'MatcToolbarItem MatcNotification': hasToolbar}]" @click="open">
+        <div type="button" data-dojo-attach-point="button"> 
+            <span class="mdi mdi-help-circle">
+            </span>
+            <span v-if="newNotifications" class="MatcNotificationBubble">{{newNotifications}}</span>
+        </div>
+        
+    </span>
 </template>
 <script>
 import Dialog from 'common/Dialog'
 import DomBuilder from 'common/DomBuilder'
 import Help from 'help/Help'
 import DojoWidget from 'dojo/DojoWidget'
+import Services from 'services/Services'
 
 export default {
     name: 'HelpButton',
     mixins:[DojoWidget],
-    props: ['topic', 'subtopic'],
+    props: ['topic', 'subtopic', 'hasNotifications', 'hasToolbar'],
     data: function () {
         return {
-            isToolbar: false
+            newNotifications: 0,
+            isToolbar: false,
         }
     },
     components: {},
     methods: {
         open () {
+            if (this.isToolbar) {
+                Services.getUserService().setLastNotication()
+                this.newNotifications = 0
+            }
             let dialog = new Dialog()
 
             var db = new DomBuilder();
@@ -37,9 +48,27 @@ export default {
                 }
             }, 300)
             
+        },
+        async initNotification () {
+            let result = await Services.getUserService().getLastNotication()
+            if (result) {
+                let lastNoticationView = result.lastNotification
+                let newNotifications = 0
+                let notifications = await Services.getUserService().getNotications()
+                for (var i=0; i < notifications.length; i++ ){
+                    var notification = notifications[i];
+                    if (notification.lastUpdate > lastNoticationView){
+                        newNotifications++;
+                    }
+                }
+                this.newNotifications = newNotifications
+            }
         }
     }, 
     mounted () {
+        if (this.hasNotifications) {
+            this.initNotification()
+        }
     }
 }
 </script>

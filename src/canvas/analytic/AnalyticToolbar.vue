@@ -2,26 +2,33 @@
 <template>
      <div class="MatcToolbar">
 
-		<div class="MatcToolbarTop"> 
-	
+		<div class="MatcToolbarTop "> 
 			<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div> 			
-			<div class="MatcToolbarSection" data-dojo-attach-point="screenSection" style="padding-left:0px">
-			</div> 
 			
-			<div class="MatcToolbarSection" data-dojo-attach-point="journeySection">
-			</div> 
-			
-			<div class="MatcToolbarSection" data-dojo-attach-point="scrollSection">
-			</div> 
-			
-			<div class="MatcToolbarSection" data-dojo-attach-point="globalSection">
-			</div> 
-			
-			<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
-				<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
-					<span class="MatcToolbarLabel">Sign Up For Free</span>
-				</a>
-			</div> 
+			<div class="MatcToolbarTopCntr">
+				<div class="MatcToolbarSection" data-dojo-attach-point="screenSection" style="padding-left:0px">
+				</div> 
+				
+				<div class="MatcToolbarSection" data-dojo-attach-point="journeySection">
+				</div> 
+				
+				<div class="MatcToolbarSection" data-dojo-attach-point="scrollSection">
+				</div> 
+				
+				<div class="MatcToolbarSection" data-dojo-attach-point="globalSection">
+				</div> 
+
+				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
+					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
+					<HelpButton :hasNotifications="true" :hasToolbar="true"/>
+				</div> 	
+				
+				<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
+					<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
+						<span class="MatcToolbarLabel">Sign Up For Free</span>
+					</a>
+				</div> 
+			</div>
 		</div>	
 
 		<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
@@ -61,6 +68,8 @@ import Histogram from 'dash/Histogram'
 import Analytics from 'dash/Analytics'
 import VideoPlayer from 'views/apps/test/VideoPlayer'
 import DataFrame from 'common/DataFrame'
+import ViewConfig from 'canvas/toolbar/ViewConfig'
+import HelpButton from 'help/HelpButton'
 
 export default {
     name: 'AnalyticToolbar',
@@ -69,10 +78,14 @@ export default {
         return {
             value: false, 
             analyticMode: "HeatmapClick", 
-            analyticHeatMapClicks: -1
+			analyticHeatMapClicks: -1,
+			canvasViewConfig: {}
         }
     },
-    components: {},
+    components: {
+		'ViewConfig': ViewConfig,
+		'HelpButton': HelpButton
+	},
     methods: {
         postCreate(){
 			this.logger = new Logger("AnalyticToolbar");
@@ -124,6 +137,15 @@ export default {
 			}
 		},
 
+		setCanvasViewConfig (viewConfig) {
+			this.canvasViewConfig = viewConfig
+		},
+
+		onChangeCanvasViewConfig (key, value) {
+			if (this.canvas) {
+				this.canvas.setCanvasViewConfig(key, value)
+			}
+		},
 
 		setUser(u) {
 			this.user = u

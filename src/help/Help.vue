@@ -45,7 +45,7 @@
             <span v-if="loading" class="MatchHint">
                 Loading...
             </span>
-            <div>
+            <div class="MatcHelpTopicsCntr">
                 <template v-for="topic in topics" > 
                     <a @click="setTopic(topic.id)" :class="{'selected': topic.id === selected && !selectedParagraph}" :key="topic.id">
                         {{topic.name}}
@@ -75,7 +75,8 @@ export default {
             selected: "default",
             selectedParagraph: "",
             search: "",
-            hasSideBar: true
+            hasSideBar: true,
+            hasNotifications: true
         }
     },
     components: {},
@@ -123,11 +124,47 @@ export default {
                }
            
             }
+        },
+        convertNotification (n) {
+            let news = {
+                "id": "notifications." + n.id,
+                "title": n.title,
+                "body": n.more
+            } 
+            if (n.video) {
+                let url = n.video
+                if (url.indexOf('src="') > 0 ){
+                    url = url.substring(url.indexOf('src="') + 5)
+                    url = url.substring(0, url.indexOf('"'))
+                }
+                news.video = {
+                    "src": url
+                }
+            }
+            return news
         }
     }, 
     async mounted () {
-        let service = Services.getHelpService()
-        this.texts = await service.getAll()
+        let texts = await Services.getHelpService().getAll()
+        if (this.hasNotifications) {
+            let notifications = await Services.getUserService().getNotications()
+            if (notifications) {
+                notifications.sort(function(a,b) {
+					return b.lastUpdate - a.lastUpdate;
+                });
+                
+                texts = [{
+                    "id": "notifications",
+                    "name":"News",
+                    "title": "News",
+                    "body": `
+                    `,
+                    "paragraphs": notifications.map(n => this.convertNotification(n))
+                }].concat(texts)
+                this.selected = 'notifications'
+            }
+        }
+        this.texts = texts
         if (this.selectedParagraph) {
             Vue.nextTick( () => {
                 this.focus(this.selectedParagraph)

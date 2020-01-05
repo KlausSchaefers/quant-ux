@@ -33,30 +33,49 @@
                 </div>
                
 
-                <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
-                 
-                    <span class="MatcStatusItemLabel" >Grid &amp; Columns</span> 
-                </div>
+                <div v-if="analytic == true">
 
-                <div class="MatcToolbarViewConfigCntrRow">
-                    <CheckBox label="Layers" :value="hasLayers"  @change="onChangeLayer"/>
-                </div>
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Lines" :value="hasLines"  @change="onChangeLines"/>
+                    </div>
 
-                <div class="MatcToolbarViewConfigCntrRow">
-                    <CheckBox label="Lines" :value="hasLines"  @change="onChangeLines"/>
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Comments" :value="hasComments"  @change="onChangeComments"/>
+                    </div>
+
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Gray Scale" :value="hasBW"  @change="onChangeBW"/>
+                    </div>
+
                 </div>
-                <div class="MatcToolbarViewConfigCntrRow">
-                    <CheckBox label="Distance" :value="hasDistance"  @change="onChangeDistance"/>
-                </div>
-                <div class="MatcToolbarViewConfigCntrRow">
-                    <CheckBox label="Ruler" :value="hasRuler"  @change="onChangeRuler"/>
-                </div>
-                <div class="MatcToolbarViewConfigCntrRow">
-                    <CheckBox label="Comments" :value="hasComments"  @change="onChangeComments"/>
-                </div>
-                
-                <div class="MatcToolbarViewConfigCntrRow">
-                    <CheckBox label="Data" :value="hasData"  @change="onChangeData"/>
+                <div v-else>
+                    <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
+                        <span class="MatcStatusItemLabel" >Grid &amp; Columns</span> 
+                    </div>
+
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Layers" :value="hasLayers"  @change="onChangeLayer"/>
+                    </div>
+
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Lines" :value="hasLines"  @change="onChangeLines"/>
+                    </div>
+
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Distance" :value="hasDistance"  @change="onChangeDistance"/>
+                    </div>
+
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Ruler" :value="hasRuler"  @change="onChangeRuler"/>
+                    </div>
+
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Comments" :value="hasComments"  @change="onChangeComments"/>
+                    </div>
+                    
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Data" :value="hasData"  @change="onChangeData"/>
+                    </div>
                 </div>
             </div>
 		</div>
@@ -74,7 +93,7 @@ import CheckBox from 'common/CheckBox'
 export default {
     name: 'ViewConfig',
     mixins:[],
-    props: ['value'],
+    props: ['value', 'analytic'],
     data: function () {
         return {
             hasPopup: false,
@@ -125,6 +144,12 @@ export default {
                 return this.value.layerListVisible
             }
             return false
+        },
+        hasBW () {
+            if (this.value) {
+                return this.value.isBlackAndWhite
+            }
+            return false
         }
     },
     components: {
@@ -133,6 +158,13 @@ export default {
     methods: {
         showGrid () {
             this.$emit('change', 'showGrid', this.$el)
+        },
+
+        onChangeBW (value) {
+            this.log.log(-1, 'onChangeBW', 'enter', value)
+            this.value.isBlackAndWhite = value
+            this.hideMaybe()
+            this.$emit('change', 'isBlackAndWhite', value)
         },
 
         onChangeLayer (value) {

@@ -101,9 +101,11 @@
 							</a>						
 						</div>
 
+						<!--
 						<div class="MatcToolbarSection">
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 						</div>
+						-->
 										
 						<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 							
@@ -124,6 +126,8 @@
 						</div>				
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
+							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
 						</div> 				
 					
 						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
@@ -151,6 +155,7 @@ import _Render from 'canvas/toolbar/_Render'
 import _Dialogs from 'canvas/toolbar/_Dialogs'
 import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
 import ViewConfig from 'canvas/toolbar/ViewConfig'
+import HelpButton from 'help/HelpButton'
 import topic from 'dojo/topic'
 
 export default {
@@ -168,7 +173,8 @@ export default {
         }
     },
 	components: {
-		'ViewConfig': ViewConfig
+		'ViewConfig': ViewConfig,
+		'HelpButton': HelpButton
 	},
 	computed: {
 	},
@@ -282,7 +288,6 @@ export default {
 		},
 
 		setCanvasViewConfig (viewConfig) {
-			console.debug('Toolbar.setCnavasView', viewConfig)
 			this.canvasViewConfig = viewConfig
 		},
 

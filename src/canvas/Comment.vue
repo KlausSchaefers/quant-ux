@@ -143,7 +143,8 @@ export default {
 		
 		
 		_onCommentAdded2 (){			
-			this.commentCheckBox.setValue(true);
+			//this.commentCheckBox.setValue(true);
+			this.onChangeCanvasViewConfig()
 			this.setCommentView(true);
 		},
 		

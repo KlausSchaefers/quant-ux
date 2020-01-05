@@ -19,7 +19,7 @@
 }
 
 .MatcHelp a.MatcHelpSubTopic{
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .MatcHelp a:hover {
@@ -36,6 +36,10 @@
     width: 200px;
     overflow: auto;
     display: inline-block;
+}
+
+.MatcHelpTopicsCntr {
+    overflow: auto;
 }
 
 .MatcHelpContent{
