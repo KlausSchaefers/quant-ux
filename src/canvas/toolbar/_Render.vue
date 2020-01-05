@@ -177,27 +177,11 @@ export default {
 		},
 
 		toolNewLine:function(e){
-			var callback = lang.hitch(this, "onNewLine", e);
 			var screens = [];
 			for(var id in this.model.screens){
 				screens.push(this.model.screens[id]);
 			}
-
-			if(this.canvas.isSinglePage){
-				/**
-				 * First disable single screen mode.
-				 */
-				this.canvas.disableSingleScreenMode(callback,screens);
-			} else {
-
-
-				this.canvas.showAll(screens, callback);
-			}
-
-			/**
-			 * Wait for zoom shit to be done! Than render...
-			 */
-
+			this.onNewLine(e)
 		},
 
 		toolNewTransformLine:function(e){

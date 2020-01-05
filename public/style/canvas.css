@@ -1100,7 +1100,7 @@
 
 .MatcMessage{
 	position:absolute;
-	bottom: 25px;
+	bottom: 0px;
 	left:40px;
 	transition-duration: 0.5s;
 	transition-property: all;
