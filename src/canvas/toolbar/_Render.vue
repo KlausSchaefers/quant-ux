@@ -1311,7 +1311,7 @@ export default {
 
 		showSaveButton:function(){
 			if(this.user.role=="guest"){
-				css.remove(this.signupSection,"MatcToolbarSectionHidden" );
+				// css.remove(this.signupSection,"MatcToolbarSectionHidden" );
 			}
 		},
 

@@ -16,7 +16,7 @@ export let texts = [
                     To create design system follow these steps:
                     <ol>
                         <li>
-                            Create a new prototype and build you design system in here. Define all the buttons and elements you 
+                            Create a new prototype and build you design system in here. Define all elements you 
                             want to reuse.
                         </li>
                         <li>
@@ -30,10 +30,10 @@ export let texts = [
                             Click on the <span class="MatcButton">Import</span> button. A list of prototypes will show up.
                         </li>
                         <li>
-                            Select the design system prototype and press save.
+                            Select the design system prototype and press <span class="MatcButton">Save</span>.
                         </li>
                         <li>
-                           A new category will show up on the left side. Select it.
+                           A new category will show up on the right side. Select it.
                         </li>
                         <li>
                            You can find here all the widgets you have defined on your design system.

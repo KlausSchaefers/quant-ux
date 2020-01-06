@@ -133,7 +133,7 @@ export default {
 		setPublic(p){
 			this.isPublic = p;
 			if(p){
-				css.remove(this.signupSection, "MatcToolbarSectionHidden");
+				// css.remove(this.signupSection, "MatcToolbarSectionHidden");
 			}
 		},
 
