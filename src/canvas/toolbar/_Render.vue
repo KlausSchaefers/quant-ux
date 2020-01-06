@@ -27,7 +27,7 @@ import CreateButton from 'canvas/toolbar/CreateButton'
 import ActionButton from 'canvas/toolbar/ActionButton'
 import DataSection from 'canvas/toolbar/DataSection'
 // import TabContainer from 'canvas/toolbar/TabContainer'
-import ChildSection from 'canvas/toolbar/ChildSection'
+// import ChildSection from 'canvas/toolbar/ChildSection'
 import ScreenImportAdd from 'canvas/toolbar/ScreenImportAdd'
 import ScreenList from 'canvas/toolbar/ScreenList'
 import ValidationSection from 'canvas/toolbar/ValidationSection'
@@ -301,7 +301,7 @@ export default {
 
 			this._renderGroupAction();
 
-			this._renderChildSection();
+			// this._renderChildSection();
 
 
 			/**
@@ -511,23 +511,6 @@ export default {
 			this.groupActionDiv = parent;
 		},
 
-		_renderChildSection:function(){
-
-			var parent = this.createSection("Elements");
-
-			var content = document.createElement("div");
-			css.add(content, "MatcToolbarSectionContent");
-			parent.appendChild(content);
-
-			this.childWidget = this.$new(ChildSection);
-			this.childWidget.placeAt(content);
-			this.childWidget.setModel(this.model);
-			this.own(on(this.childWidget, "select", lang.hitch(this, "onChildWidgetSelected")));
-
-
-			this.properties.appendChild(parent);
-			this.childDiv = parent;
-		},
 
 		/*****************************************************************************************************
 		 * Render widgets
@@ -1457,8 +1440,8 @@ export default {
 			/**
 			 * Since 2.1.3 we have sub groups
 			 */
-			let children = this.getAllGroupChildren(model);
-			this.childWidget.setGroupChildren(children);
+			// let children = this.getAllGroupChildren(model);
+			// this.childWidget.setGroupChildren(children);
 
 			if(model.name){
 				this.groupName.value = model.name;
@@ -1515,7 +1498,7 @@ export default {
 			this.multiPositionCheckBox.setValue(fixed);
 		
 
-			this.childWidget.setMulti(model);
+			// this.childWidget.setMulti(model);
 
 			this._showMultiVisualProperties(model);
 		},
