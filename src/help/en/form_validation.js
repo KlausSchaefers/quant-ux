@@ -21,7 +21,7 @@ export let texts = [
                 "title": "When to use",
                 "body": `
                     When you are designing a complex workflow, data validation is mandatory to
-                    prevent the users from entering wrong data into the system. Thus, validation is also 
+                    prevent the users from entering wrong data. Thus, validation is also 
                     crucial during prototyping, if you want to create a realistic prototype.
                 `
             },
@@ -54,8 +54,8 @@ export let texts = [
                 "title": "Block Navidation",
                 "body": `
                     In most scenarios you don’t want the user to progress in the workflow 
-                    when the input is wrong. For instance, the user should be only able 
-                    to move on in the signup process, when he has entered a valid 
+                    when the input is wrong. For example, the user should be only able 
+                    to move on in the sign-up process, when he has entered a valid 
                     email address. Therefore, you can also <strong>enforce data validation on links</strong>. 
                     The linked screen will only be loaded when all fields 
                     in the current screen are valid. 

@@ -295,21 +295,15 @@ export default {
 
 
 			/**
-			 * render screen properties
+			 * render group and multi properties
 			 */
 			this._renderGroupName();
 
 			this._renderGroupAction();
 
-			// this._renderChildSection();
-
-
 			/**
 			 * render widget properties;
 			 */
-
-
-
 			this._renderWidgetName();
 
 			this._renderWidgetResponsive();
@@ -333,8 +327,6 @@ export default {
 			this._renderWidgetText();
 
 			this._renderWidgetBox();
-
-	
 
 			/**
 			 * render screen properties

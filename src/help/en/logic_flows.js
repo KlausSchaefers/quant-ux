@@ -4,7 +4,7 @@ export let texts = [
         "name":"Logic Flows",
         "title": "Logic Flows",
         "body": `
-            Logic Flows allow you to create conditional navigations that allow you to model real world
+            Logic Flows enbale you to create conditional navigations that allow you to model real world
             workflows in your prototypes.
         `,
         "video": {

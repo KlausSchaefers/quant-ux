@@ -16,7 +16,7 @@ export let texts = [
                 "id": "logic.intro",
                 "title": "When to use",
                 "body": `
-                    Screen designs often share the same design elements across multiple screens. Examples are for 
+                    Prototypes often share the same design elements across multiple screens. Examples are for 
                     instance navigation bars or visual styles for text and buttons. The simplest way to 
                     share the elements is to copy them from one screen to another. This approach has 
                     a significant drawback. Once you want to change the style of the elements, you 
