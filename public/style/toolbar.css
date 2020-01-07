@@ -1134,4 +1134,28 @@
 	text-align: center;
  }
 
- 
+ /****************************************************
+ * View Config Section
+ ****************************************************/
+ .MatcToolbarEditMode{
+	padding-top: 6px;
+ }
+
+.MatcToolbarEditMode a.MatcToolbarItem{
+	font-size: 14px;
+	display: inline-block;
+	padding: 4px 8px;
+	border-radius: 3px;
+	height: auto;
+	transition: all 0.2s;
+}
+
+.MatcToolbarEditMode a.MatcToolbarEditModeActive{
+	background-color: #1973e8;
+	color: #fff;
+}
+
+.MatcToolbarEditMode a.MatcToolbarEditModeActive:hover{
+	background-color: #1251a3;
+	color: #fff;
+}

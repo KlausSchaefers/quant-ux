@@ -101,11 +101,11 @@
 							</a>						
 						</div>
 
-						<!--
-						<div class="MatcToolbarSection">
-							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
+						
+						<div class="MatcToolbarSection" v-if="hasProtoMoto">
+							<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig" />
 						</div>
-						-->
+					
 										
 						<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 							
@@ -156,6 +156,7 @@ import _Dialogs from 'canvas/toolbar/_Dialogs'
 import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
 import ViewConfig from 'canvas/toolbar/ViewConfig'
 import HelpButton from 'help/HelpButton'
+import EditModeButton from "canvas/toolbar/EditModeButton"
 import topic from 'dojo/topic'
 
 export default {
@@ -169,14 +170,19 @@ export default {
 			redirectAfterExit: true,
 			showRestTool: true,
 			hasViewConfigVtn: true,
-			canvasViewConfig: {}
+			canvasViewConfig: {},
+			settings: {}
         }
     },
 	components: {
 		'ViewConfig': ViewConfig,
-		'HelpButton': HelpButton
+		'HelpButton': HelpButton,
+		'EditModeButton': EditModeButton
 	},
 	computed: {
+		hasProtoMoto () {
+			return this.settings && this.settings.hasProtoMoto
+		}
 	},
     methods: {
         postCreate: function(){

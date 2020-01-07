@@ -8,9 +8,11 @@ export let texts = [
             user interactions. For instance you can define a hover color of a button, or an error color for a text box.
             In addtion, you can also create screen animations, that are shown once a screen is loaded. These include entrance
             animations, such as slide in effects, and more complex animations that are defined for every widget.
+
+            
         `,
         "video": {
-            "src": "https://www.youtube.com/embed/RXxzpK7hFck"
+            "src": "https://www.youtube.com/embed/_47HCDPKa4g"
         },
         "paragraphs": [
             {

@@ -22,14 +22,13 @@ export default {
     props: ['topic', 'subtopic', 'hasNotifications', 'hasToolbar'],
     data: function () {
         return {
-            newNotifications: 0,
-            isToolbar: false,
+            newNotifications: 0
         }
     },
     components: {},
     methods: {
         open () {
-            if (this.isToolbar) {
+            if (this.hasToolbar) {
                 Services.getUserService().setLastNotication()
                 this.newNotifications = 0
             }

@@ -40,6 +40,7 @@ import Resize from 'canvas/toolbar/Resize'
 import Services from 'services/Services'
 import RulerSection from 'canvas/toolbar/RulerSection'
 import LowCodeSection from 'canvas/toolbar/LowCodeSection'
+import CallBackSection from 'canvas/toolbar/CallBackSection'
 
 // import ContactButton from 'canvas/toolbar/ContactButton'
 // import Notification from 'page/Notification'
@@ -76,7 +77,7 @@ export default {
 			colorWidgets: [],
 			isDataView: false
         }
-    },
+	},
     components: {},
     methods: {
         onModeChange:function(){
@@ -607,32 +608,24 @@ export default {
 			this.widgetName = this.createInput(content, "Widget Name");
 			this.own(on(this.widgetName, "change", lang.hitch(this, "onWidgetNameChange")));
 
-
-			this.properties.appendChild(parent);
-			this.widgetNameDiv = parent;
+			let widgetSizeDiv = document.createElement("div");
+			content.appendChild(widgetSizeDiv)
 
 			this.widgetSize = this.$new(BoxSize);
 			this.own(on(this.widgetSize, "change", lang.hitch(this, "setWidgetSize")));
-			this.widgetSize.placeAt(content);
-
+			this.widgetSize.placeAt(widgetSizeDiv);
 
 			/**
 			 * Radius
 			 */
-		
 			this.radiusBox = this.$new(Radius);
 			this.own(on(this.radiusBox, "change", lang.hitch(this, "setWidgetMultiStyle")));
 			this.own(on(this.radiusBox, "changing", lang.hitch(this, "setTempMultiWidgetStyle")));
-			this.radiusBox.placeAt(content)
+			this.radiusBox.placeAt(widgetSizeDiv)
 
-
-//			this.lockedCheckBox = new CheckBox();
-//			this.lockedCheckBox.setLabel("Lock at position");
-//			this.addTooltip(this.lockedCheckBox.domNode, "Lock the element. No DnD is possible")
-//			css.add(this.lockedCheckBox.domNode, "MatcToolbarItem");
-//			this.own(on(this.lockedCheckBox, "change", lang.hitch(this, "setWidgetStyle", "locked")));
-//			this.lockedCheckBox.placeAt(content)
-
+			this.properties.appendChild(parent);
+			this.widgetNameDiv = parent;
+			this.widgetSizeDiv = widgetSizeDiv
 		},
 
 		_renderWidgetResponsive:function(){
@@ -661,8 +654,8 @@ export default {
 		},
 
 		_renderLowCode () {
-			var parent = this.createSection("Low Code", true);
 
+			var parent = this.createSection("Rendering", true);
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
@@ -674,6 +667,20 @@ export default {
 
 			this.lowCodeDiv = parent;
 			this.properties.appendChild(parent);
+
+
+			parent = this.createSection("Callbacks", true);
+			content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.callbackSection = this.$new(CallBackSection);
+			this.own(on(this.callbackSection, "changeStyle", lang.hitch(this, "setWidgetStyle")));
+			this.own(on(this.callbackSection, "changeProps", lang.hitch(this, "setWidgetProps")));
+			this.callbackSection.placeAt(content)
+
+			this.callBackDiv = parent;
+			this.properties.appendChild(parent);		
 		},
 
 
@@ -1612,6 +1619,7 @@ export default {
 		showWidgetProperties:function(model){
 			this.logger.log(1,"showWidgetProperties", "entry > ", this.isDataView);
 
+			this.restorePropertiesState();
 			/**
 			 * Since 2.1.6 we have a dedicated data view
 			 */
@@ -1738,6 +1746,7 @@ export default {
 
 				if(this.widgetName){
 					css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+					css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")
 					if(model.name){
 						this.widgetName.value = model.name;
 					} else {
@@ -1802,16 +1811,31 @@ export default {
 			this.logger.log(-1,"showWidgetDataProperties", "enter");
 	
 			this.showProperties();
+
+			/**
+			 * Make sure the widget name is set, so
+			 * the flushing will work!
+			 */
+			if (this.widgetName){
+				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+				css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+				if(model.name){
+					this.widgetName.value = model.name;
+				} else {
+					this.widgetName.value = "";
+				}
+				this.widgetName.blur();
+			}
+
 			if (this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
-			
-				/**
-				 * Show the name or so?
-				 */
 				css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
 				this.validationWidget.setValue(model);
 			} 
 			this.lowCodeSection.setValue(model)
+			this.callbackSection.setValue(model)
+
 			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
+			css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
 		},
 
 		reopenColorWidget:function(){
@@ -2161,13 +2185,9 @@ export default {
 					this.screenSegmentCheckbox.setValue(model.segment)
 
 					/**
-					 * Since 2.2.0 we show optionally the segemnt box
+					 * Since 2.2.2 we show the segemnt box
 					 */
-					if (this.settings.hasProtoMoto) {
-						css.remove(this.screenSegmentCheckbox.domNode, "hidden");
-					} else {
-						css.add(this.screenSegmentCheckbox.domNode, "hidden");
-					}
+					css.remove(this.screenSegmentCheckbox.domNode, "hidden");
 				}
 
 				if(style.overlay){
@@ -2254,6 +2274,7 @@ export default {
 			css.add(this.validationDiv, "MatcToolbarSectionHidden");
 			css.add(this.backgroundColorDiv, "MatcToolbarSectionHidden");
 			css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")
+			css.add(this.callBackDiv, "MatcToolbarSectionHidden")
 
 			if (this.responsiveDiv){
 				css.add(this.responsiveDiv, "MatcToolbarSectionHidden")

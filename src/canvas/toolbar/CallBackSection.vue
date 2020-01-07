@@ -1,15 +1,21 @@
 
 <template>
      <div class="MatcToolbarLowCode">
-		 <div class="MatcToolbarItem">
-             <CheckBox label="Wrap Children" :value="isWraped" @change="onWrapChange"/>
+         <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr">
+             <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" 
+                placeholder="Enter method name"
+                :value="callbacks.click" 
+                @change="onClickChange"/>
+             <div class="MatcToolbarHint">Click Callback</div>
+             <!--
+            <span class="mdi mdi-cursor-default" />
+            -->
          </div>
 	</div>
 </template>
 <script>
 
 import DojoWidget from 'dojo/DojoWidget'
-import CheckBox from 'common/CheckBox'
 
 export default {
     name: 'LowCodeSection',
@@ -23,7 +29,6 @@ export default {
         }
     },
     components: {
-        'CheckBox': CheckBox
     },
     methods: {
         onWrapChange (value){		

@@ -72,10 +72,11 @@
                     <div class="MatcToolbarViewConfigCntrRow">
                         <CheckBox label="Comments" :value="hasComments"  @change="onChangeComments"/>
                     </div>
-                    
+                    <!--
                     <div class="MatcToolbarViewConfigCntrRow">
                         <CheckBox label="Data" :value="hasData"  @change="onChangeData"/>
                     </div>
+                    -->
                 </div>
             </div>
 		</div>
