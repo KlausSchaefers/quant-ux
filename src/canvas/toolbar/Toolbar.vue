@@ -102,9 +102,7 @@
 						</div>
 
 						
-						<div class="MatcToolbarSection" v-if="hasProtoMoto">
-							<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig" />
-						</div>
+					
 					
 										
 						<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
@@ -126,6 +124,9 @@
 						</div>				
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
+							<div class="MatcToolbarSection" v-if="hasProtoMoto">
+								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig" />
+							</div>
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
 						</div> 				
