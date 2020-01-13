@@ -58,7 +58,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v2.2.2</div>
+      <div class="MatcSimulatorVersion">v2.2.4</div>
     </div>
   </div>
 </template>
@@ -242,6 +242,7 @@ export default {
 				this.model = app;
 				this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 				this.model = Core.addContainerChildrenToModel(this.model);
+				this.model = Core.inlineTemplateStyles(this.model)
 				if (this.currentScreen && this.currentScreen.id){
 					this.setScreenId(this.currentScreen.id)
 				}
@@ -389,7 +390,8 @@ export default {
 			
 			this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 			this.model = Core.addContainerChildrenToModel(this.model);
-
+			this.model = Core.inlineTemplateStyles(this.model)
+		
 			this.initParent();
 			
 			this.renderFactory.setModel(this.model);

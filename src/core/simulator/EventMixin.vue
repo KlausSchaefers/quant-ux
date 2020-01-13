@@ -7,6 +7,7 @@ import has from 'dojo/has'
 import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
+import Core from 'core/Core'
 
 export default {
 	name: 'EventMixin',
@@ -16,11 +17,10 @@ export default {
 			this.logger.log(2,"onDomMouseOver","enter >  sreen:" + screenID + " > widget:" + widgetID);
 			
 			var widget = this.model.widgets[widgetID];
-			
+	
 			if (widget){
-
-				if (widget.hover) {
-					var hover  = widget.hover;
+				var hover  = Core.getTemplatedStyle(widget, this.model, 'hover');
+				if (hover) {
 					var aninEvent = {
 						id : widgetID,
 						to:{
@@ -52,26 +52,26 @@ export default {
 			this.logger.log(2,"onDomMouseOut","enter >  sreen:" + screenID + " > widget:" + widgetID);
 			var widget = this.model.widgets[widgetID];
 			
-			if(widget && widget.hover){
-				var style  = widget.style;
-				var hover  = widget.hover;
-				
-				var toStyle = {};
-				for(var key in hover){
-					toStyle[key] = style[key];
+			if (widget) {
+				var hover  = Core.getTemplatedStyle(widget, this.model, 'hover');
+				if (hover) {
+					var style  = Core.getTemplatedStyle(widget, this.model, 'style');
+					var toStyle = {};
+					for(var key in hover){
+						toStyle[key] = style[key];
+					}
+					
+					var aninEvent = {
+						id : widgetID,
+						to:{
+							style:toStyle
+						},
+						from :{},
+						delay: 0,
+						duration : this.hoverAnimationDuration
+					};
+					this.onAnimation(screenID, widgetID, aninEvent);
 				}
-				
-				var aninEvent = {
-					id : widgetID,
-					to:{
-						style:toStyle
-					},
-					from :{},
-					delay: 0,
-					duration : this.hoverAnimationDuration
-				};
-				
-				this.onAnimation(screenID, widgetID, aninEvent);
 			}
 			
 			this.onMouseMove(e);
