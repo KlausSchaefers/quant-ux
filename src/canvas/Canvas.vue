@@ -135,6 +135,7 @@ export default {
 			//this.own(on(this.gridBtn, touch.press, lang.hitch(this, "showGrid")));
 			this.own(on(win.body(), "keydown", lang.hitch(this,"onKeyPress")));
 			this.own(on(win.body(), "keyup", lang.hitch(this,"onKeyUp")));
+			
 
 			/**
 			 * Set correct mode

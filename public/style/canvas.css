@@ -521,7 +521,7 @@
 }
 
 .MatcCanvasScrollBarBottom{
-	position: absolute;
+	position: fixed;
 	width:100%;
 	height: 10px;
 	bottom:0px;
