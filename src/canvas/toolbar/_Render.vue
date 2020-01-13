@@ -1992,7 +1992,11 @@ export default {
 		showTemplate:function(model){
 			css.remove(this.templateDiv, "MatcToolbarSectionHidden");
 			if(model.template){
-				var count =  this.countProps(model.style);
+				/**
+				 * FIXME: we should also check for hover, error and such... This should
+				 * however be well tested.
+				 */
+				var count = this.countProps(model.style);
 				if (count > 0) {
 					css.remove(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
 				} else {

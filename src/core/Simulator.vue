@@ -2,9 +2,31 @@
   <div class="MatcSimulator">
     <div class="MatcSimulatorLoading" data-dojo-attach-point="splashNode">
       <div class="MatcSimulatorLoadingCntr">
-        	<div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation" data-dojo-attach-point="splashLogo" v-show="step == 0" ></div>
+        	<div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation" data-dojo-attach-point="splashLogo" v-show="step == 0" >
+
+			</div>
 	
      		<transition name="fade">
+				<div class="MatcSimulatorContent" v-if="step === 6">
+					<div class="MatcSimulatorContentCntr">
+						<h2>Password</h2>
+						<p>
+							To test this prototype you need a password. Please enter
+							the password and press 	&quot;Next	&quot;
+						</p>
+						<input v-model="password" class="form-control MatcMarginTop" @keypress.enter="setPassword"/>
+									
+						<div class="MatcMarginTop">
+							<div  class="MatcButton MatcSimulatorStartBtn" @click="setPassword()">
+								Next
+							</div>
+							<span class="MatcError" style="margin-left:20px">
+								{{passwordError}}
+							</span>
+								
+						</div>	
+					</div>	
+				</div>
 				<div class="MatcSimulatorContent" v-if="step === 2">
 					<div class="MatcSimulatorContentCntr">
 						<h2>Welcome!</h2>
@@ -119,7 +141,9 @@ export default {
 			settings: null,
 			step: 0,
 			maxEventCount: 1000,
-			model: {}
+			model: {},
+			password: '',
+			passwordError: ''
         }
     },
     components: {},
@@ -160,10 +184,6 @@ export default {
 					this.own(on(window, "popstate", lang.hitch(this, "onPopState")));
 				}
 				
-				if(params.h){
-					this.setInvitation(params.h);
-					Services.getModelService().findAppByHash(params.h).then(app => this.loadSettings(app))
-				}
 				if(params.log &&  params.log != undefined){
 					if(params.log== "false"){
 						this.logData = false;
@@ -175,6 +195,17 @@ export default {
 				if (this.embedded) {
 					this.logData = false;
 					this.qr = true;
+				}
+
+				if(params.h){
+					let hash = params.h
+					if (hash.length < 60) {
+						this.showPassword(hash)
+					} else {
+						this.setInvitation(params.h);
+						Services.getModelService().findAppByHash(params.h).then(app => this.loadSettings(app))
+					}
+				
 				}
 		
 			} else {
@@ -195,6 +226,34 @@ export default {
 		
 		setDebug (d){
 			this.debug = d;
+		},
+
+		showPassword (hash) {
+			this.logger.log(-1,"showPassword","enter");
+			this.step = 6
+			this.tempHash = hash
+		},
+
+		showPasswordError () {
+			this.passwordError = 'The password is wrong'
+		},
+
+		async setPassword () {
+			this.logger.log(-1,"setPassword","enter", this.password);
+
+			let newHash = this.tempHash + this.password
+
+			try {
+				let app = await Services.getModelService().findAppByHash(newHash)
+				if (app) {
+					this.setInvitation(newHash);
+					this.loadSettings(app)
+				} else {
+					this.showPasswordError()
+				}
+			} catch (e) {
+				this.showPasswordError()
+			}
 		},
 		
 		setInvitation (h){
