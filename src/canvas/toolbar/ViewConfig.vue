@@ -49,8 +49,17 @@
 
                 </div>
                 <div v-else>
-                    <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
-                        <span class="MatcStatusItemLabel" >Grid &amp; Columns</span> 
+                    <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Snapp to Grid" :value="hasGrid"  @change="onChangeGrid"/>
+                    </div>
+
+                    <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Show Grid" :value="hasVisibleGrid"  @change="onChangeVisibleGrid"/>
+                    </div>
+
+                     <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
+                        <span class="mdi mdi-settings" style="margin-right:4px"/>
+                        <span class="MatcStatusItemLabel" >Configure Grid</span> 
                     </div>
 
                     <div class="MatcToolbarViewConfigCntrRow">
@@ -104,6 +113,16 @@ export default {
         }
     },
     computed: {
+        gridLabel () {
+            if (this.value && this.value.grid) {
+                console.debug('grid', this.value.grid)
+                if (this.value.grid.type === 'grid') {
+                    return `${this.value.grid.w} x ${this.value.grid.h}`
+                }
+                
+            }
+            return ''
+        },
         zoomFactor () {
             if (this.value && this.value.zoom) {
                 return Math.round(this.value.zoom * 100)
@@ -151,6 +170,18 @@ export default {
                 return this.value.isBlackAndWhite
             }
             return false
+        },
+        hasGrid () {
+            if (this.value) {
+                return this.value.hasGrid
+            }
+            return false
+        },
+        hasVisibleGrid () {
+            if (this.value) {
+                return this.value.hasVisibleGrid
+            }
+            return false
         }
     },
     components: {
@@ -159,6 +190,20 @@ export default {
     methods: {
         showGrid () {
             this.$emit('change', 'showGrid', this.$el)
+        },
+
+        onChangeVisibleGrid (value) {
+            this.log.log(-1, 'onChangeVisibleGrid', 'enter', value)
+            this.value.hasVisibleGrid = value
+            this.hideMaybe()
+            this.$emit('change', 'hasVisibleGrid', value)
+        },
+
+        onChangeGrid (value) {
+            this.log.log(-1, 'onChangeGrid', 'enter', value)
+            this.value.hasGrid = value
+            this.hideMaybe()
+            this.$emit('change', 'hasGrid', value)
         },
 
         onChangeBW (value) {

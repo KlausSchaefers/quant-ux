@@ -57,8 +57,11 @@ export default class BaseController extends Core {
 		this.factory = f;			
 	}
 	
+	/**
+	 * Method is called on first load. Inits the 
+	 */
 	setModel (m, screenID){
-		this.logger.log(2,"setModel", "entry > " + screenID);
+		this.logger.log(-1,"setModel", "entry > " + screenID);
 		
 		this.fixNegativeCoords(m);
 		
@@ -78,6 +81,7 @@ export default class BaseController extends Core {
 
 		if (this._canvas) {
 			this._canvas.setFonts(m.fonts)
+			this._canvas.setModel(this.model)
 		}
 	}
 	
@@ -345,6 +349,9 @@ export default class BaseController extends Core {
 		return errors;
 	}
 	
+	/**
+	 * Deprecated... Is not called...
+	 */
 	fixWidgetsNotInScreen (m){
 		this.logger.log(2,"fixWidgetsNotInScreen", "enter");
 		var errors = [];

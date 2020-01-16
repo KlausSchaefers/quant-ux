@@ -195,6 +195,14 @@ export default {
 
 		onChangeCanvasViewConfig () {
 			if (this.toolbar) {
+				let hasGrid = false
+				let hasShowGrid = false
+				let grid = null
+				if (this.model) {
+					hasGrid = this.model.grid.enabled
+					hasShowGrid = this.model.grid.visible
+					grid = this.model.grid
+				}
 				this.toolbar.setCanvasViewConfig({
 					zoom: this.zoom,
 					renderLines: this.renderLines,
@@ -202,7 +210,10 @@ export default {
 					showComments:  this.showComments,
 					showRuler: this.showRuler,
 					hasDataView: this.hasDataView,
-					layerListVisible: this.settings.layerListVisible 
+					layerListVisible: this.settings.layerListVisible,
+					hasGrid: hasGrid,
+					hasVisibleGrid: hasShowGrid,
+					grid: grid
 				})
 			}
 		},
@@ -227,6 +238,14 @@ export default {
 
 			if (key === 'showRuler') {
 				this.setShowScreenRuler(value)
+			}
+
+			if (key === 'hasGrid') {
+				this.setEnableGrid(value)
+			}
+
+			if (key === 'hasVisibleGrid') {
+				this.setVisibleGrid(value)
 			}
 
 			if (key === 'showGrid') {
@@ -277,12 +296,7 @@ export default {
 		
 		setModel (model){
 			this.model = model;
-			this.grid = this.model.grid;
-			this.setFonts(model.fonts)
-			/**
-			 * FIXME: Why did I do this?
-			 */
-			//this.loadComments()
+			this.onChangeCanvasViewConfig()
 		},
 		
 		
@@ -553,6 +567,27 @@ export default {
 				target = this.gridBtn
 			}
 			dialog.popup(popup, target);
+		},
+
+		setEnableGrid (value) {
+			let grid = lang.clone(this.model.grid)
+			grid.enabled = value
+			if (grid.type === "columns"){
+				this.controller.setGrid2(grid, "rgba(0,0,0,0.25)", "line");
+			} else {
+				this.controller.setGrid2(grid, "#cecece", "line");
+			}
+		},
+
+		setVisibleGrid (value) {
+			this.forceRenderUpdates();
+			let grid = lang.clone(this.model.grid)
+			grid.visible = value
+			if (grid.type === "columns"){
+				this.controller.setGrid2(grid, "rgba(0,0,0,0.25)", "line");
+			} else {
+				this.controller.setGrid2(grid, "#cecece", "line");
+			}
 		},
 		
 		setGrid2 (selector){
