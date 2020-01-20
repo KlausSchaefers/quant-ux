@@ -9,6 +9,7 @@
 </template>
 <style>
   @import url("../../public/style/matc.css");
+  @import url("../../public/style/qux.css");
 </style>
 <script>
 import LoginPage from 'views/LoginPage'
@@ -68,7 +69,7 @@ export default {
   },
   async mounted() {
     this.logger = new Logger('MATC')
-    this.user = await Services.getUserService().load()
+    this.user = Services.getUserService().load()
     this.logger.info('mounted', 'exit >> ' + this.user.email)
     this.$root.$on('MatcLogout', (user) => {
 				this.onLogout(user)

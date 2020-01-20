@@ -1,13 +1,30 @@
 export default class AbstractService {
 
+    constructor () {
+        this.token = null
+    }
+
+    setToken (token) {
+        this.token = token
+    }
+
     _createDefaultHeader() {
-        let headers = new Headers({
-            'Content-Type': 'application/json'
-        }, {
-            'Accept': 'application/json'
-        })
-        this.addHeaders(headers)
-        return headers
+        if (this.token) {
+            let headers = new Headers({
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + this.token
+            })
+            this.addHeaders(headers)
+            return headers
+        } else {
+            let headers = new Headers({
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            })
+            this.addHeaders(headers)
+            return headers
+        }
     }
 
     /**

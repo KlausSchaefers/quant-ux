@@ -1,0 +1,7 @@
+.MatcMainMenu .MatcMainMenuItem {
+    color: #555;
+}
+
+.MatcMainMenu .MatcMainMenuItem:hover {
+    color: #1c78d3;
+}

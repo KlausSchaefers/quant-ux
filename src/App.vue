@@ -60,6 +60,12 @@ export default {
 			this.$router.push('/')
 			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)
 		}
+		if (res.tokenTimedOut) {
+			alert('Your session has expired. Please login again')
+			Services.getUserService().logout()
+			this.$router.push('/')
+			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)
+		}
 	}
   },
   mounted () {
