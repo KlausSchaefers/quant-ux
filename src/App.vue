@@ -53,7 +53,6 @@ export default {
 	},
 
 	handler4xx (url, res) {
-		console.error(url, res)
 		if (res.status === 401) {
 			alert('Something is wrong. Please login again!')
 			Services.getUserService().logout()

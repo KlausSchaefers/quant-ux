@@ -6,13 +6,13 @@
 			<span class="caret"></span> 
 			</div>
 			<div class="MatcToolbarPopUp MatcBoxShadow MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
-			<div class="MatcToolbarPopUpContainer" role="menu" data-dojo-attach-point="ctnr">
-						
-			</div>
-			<div data-dojo-attach-point="removeBTN" class="MatcToolbarPopupFooter">
-				<span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span> 
-				<span class="MatcToolbarPopupFooterLabel">No Shadow</span>
-			</div>
+				<div class="MatcToolbarPopUpContainer" role="menu" data-dojo-attach-point="ctnr">
+							
+				</div>
+				<div data-dojo-attach-point="removeBTN" class="MatcToolbarPopupFooter">
+					<span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span> 
+					<span class="MatcToolbarPopupFooterLabel">No Shadow</span>
+				</div>
 			</div>		
 	</div>
 </template>
@@ -42,7 +42,7 @@ export default {
             reposition: true, 
             columns: 6, 
             dialogClass: "MatcBoxShadowDialog", 
-            arrowPosition: "right"
+			arrowPosition: "right"
         }
     },
     components: {},
@@ -68,7 +68,8 @@ export default {
 			 * the auto scaling does work... Afterwards we have to detach it and render 
 			 * in in the dialog
 			 */
-			var popup = db.div(this.dialogClass + " MatcPadding").build(this.ctnr);			
+			var popup = db.div(this.dialogClass + " MatcPadding").build(this.ctnr);		
+				
 			this.renderSliders(popup);			
 			this.ctnr.removeChild(popup);						
 			var bar = db.div("MatcButtonBar MatcMarginTop").build(popup);				

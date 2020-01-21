@@ -275,11 +275,13 @@ export default {
 			
 			setValue (hex){
 				if (hex && hex.toLowerCase) {
-					var c = new Color(hex);
-					if(c){
-						this.setColor(c);
-					} else {
-						console.warn("Error while setting value", hex);
+					if (hex !== 'transparent') {
+						var c = new Color(hex);
+						if (c){
+							this.setColor(c);
+						} else {
+							console.warn("Error while setting value", hex);
+						}
 					}
 				} else {
 					console.debug("ColorPickerSketch.setValue() > No String", hex);
