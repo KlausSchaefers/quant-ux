@@ -65,6 +65,11 @@ export default {
       css.remove(win.body(), 'MatcVisualEditor')
       css.remove(win.body(), 'MatcLight')
       this.scrollTop()
+      if (this.$route.meta.isDarkHeader) {
+				css.add(win.body(), 'MatcDarkHeaderPage')
+			} else {
+				css.remove(win.body(), 'MatcDarkHeaderPage')
+			}
     }
   },
   async mounted() {

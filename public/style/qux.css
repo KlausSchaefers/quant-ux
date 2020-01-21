@@ -1,7 +1,7 @@
-.MatcMainMenu .MatcMainMenuItem {
+.MatcDarkHeaderPage .MatcMainMenu.MatcMainMenuPublic .MatcMainMenuItem {
     color: #555;
 }
 
-.MatcMainMenu .MatcMainMenuItem:hover {
+.MatcDarkHeaderPage .MatcMainMenu.MatcMainMenuPublic .MatcMainMenuItem:hover {
     color: #1c78d3;
 }
