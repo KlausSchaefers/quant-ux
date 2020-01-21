@@ -50,10 +50,13 @@ export default {
 							"#ffffff", "#E6E6E6", "#D9D9D9", "#BFBFBF", "#B2B2B2", "#999999",  "#666666", "#4D4D4D", "#333333", "#000000"
 						],		
 						gradientsColors: [
-							["#fff", "#ccc",0],
+							['#09203F', '#537895'],
+							['#662D8C', '#ED1E79'],
+							["#d54222", "#d460c5"],
+							['#FF5F6D', '#FFC371'],
+							['#009245', '#FCEE21'], // yellow green
 							["#22a5d5", "#23df96"],
-							["#b122d5", "#6092d4"],
-							["#d54222", "#d460c5"]
+							['#4E65FF', '#92EFFD']
 						],
             gradients: []
         }
@@ -375,7 +378,9 @@ export default {
 					console.warn("setValue() > Widget disposed");
 				}
 
-
+				/**
+				 * Gradients will open the right tab...
+				 */
 				if (this.hasGradient && this.isGradient(v)) {
 					this.onSelectTab(2)
 				} else {
