@@ -67,7 +67,7 @@ export default {
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart'],
 			hasLogic2: ["LogicOr", "Rest"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown"],
-			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
+			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider"],
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink"],
