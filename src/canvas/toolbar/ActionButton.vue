@@ -323,7 +323,7 @@ export default {
 			 * Screens have also a timer...
 			 */
 			if(!isWidget){
-				var timerLbl = "Timer (Beta)";
+				var timerLbl = "Timer";
 				if(line.timer){
 					timerLbl ="Timer ( " + line.timer + "s )";
 				}

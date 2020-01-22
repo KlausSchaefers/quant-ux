@@ -901,7 +901,7 @@ export default {
 
 			var enable = db
 				.div("MatcToolbarGridFull MatcToolbarItem")
-				.div("MatcToolbarButton MatcButton", "Enable Editing (Beta)")
+				.div("MatcToolbarButton MatcButton", "Enable Editing")
 				.build(content);
 
 			this.own(on(enable, "click", lang.hitch(this, "enableInheritedWidget")));
