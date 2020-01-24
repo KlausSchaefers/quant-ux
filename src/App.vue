@@ -53,9 +53,14 @@ export default {
 	},
 
 	handler4xx (url, res) {
-		console.error(url, res)
 		if (res.status === 401) {
 			alert('Something is wrong. Please login again!')
+			Services.getUserService().logout()
+			this.$router.push('/')
+			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)
+		}
+		if (res.tokenTimedOut) {
+			alert('Your session has expired. Please login again')
 			Services.getUserService().logout()
 			this.$router.push('/')
 			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)

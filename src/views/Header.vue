@@ -1,7 +1,7 @@
 <template>
       <div class="MatcMainMenu MatcMainMenuPublic" id="mainMenu">
       <div class="MatcMainMenuHeader">
-        <div id="menuBar" class="MatcmenuBar">
+        <div id="menuBar" class="MatcMenuBar">
           <div class="container visible-md-block visible-lg-block">
 
             <div class="row" v-if="user && user.role !== 'guest'">
@@ -25,6 +25,7 @@
       </div>
     </div>
 </template>
+
 <script>
 
 import Services from 'services/Services'

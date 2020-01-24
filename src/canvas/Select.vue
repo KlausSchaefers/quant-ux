@@ -84,7 +84,7 @@ export default {
 				this._selectedScreen = this.model.screens[id];
 			
 				var parent = this.screenDivs[id];
-				this.showResizeHandles(this._selectedScreen,id, parent, "screen", true);
+				this.showResizeHandles(this._selectedScreen, id, parent, "screen", true);
 				this.selectBox(parent);
 				
 				this.controller.onScreenSelected(id);
@@ -201,7 +201,7 @@ export default {
 		
 
 		onSelectionChanged (id, type){
-			this.logger.log(1,"onSelectionChanged", "enter > "+ id + " >" +   type);
+			this.logger.log(1,"onSelectionChanged", "enter > " + id + " >" + type);
 			try{
 				if(this._selectWidget && this._selectWidget.id!= id){
 					this.inlineEditStop();
@@ -213,7 +213,7 @@ export default {
 				this.logger.sendError(e);
 			}
 			if (type !== 'group') {
-				this.logger.log(-1,"onSelectionChanged", "clear group children > ");
+				this.logger.log(1,"onSelectionChanged", "clear group children > ");
 				delete this._dragNDropGroupChildren;
 			}
 			try{	
@@ -341,7 +341,7 @@ export default {
 		 **********************************************************************/
 		
 		onContextMenu (e){
-			this.logger.log(0,"onContextMenu", "enter");
+			this.logger.log(-1,"onContextMenu", "enter", e.target);
 			this.stopEvent(e);
 			return false;
 		},
@@ -402,9 +402,15 @@ export default {
 			 * add corners. For screen we have only the south handler...
 			 */
 			if (modelType != "inheritedWidget") {
-				var l = (this.resizeButtonSize *2) +1;			
-				if(modelType=="screen"){
+				var l = (this.resizeButtonSize * 2) +1;			
+				if (modelType == "screen"){
 					this._renderResizeHandler('South', l, parent, id, modelType);
+				
+					if (box.style && box.segment) {
+						console.debug('showResizeHandles() >  Show segment', box)
+						this._renderResizeHandler('East', l, parent, id, modelType);
+					}
+
 				} else {
 					var locked = box.style && box.style.locked;
 					var noResize = box.has && box.has.noresize;
@@ -463,8 +469,8 @@ export default {
 		_updateResizeHandlers (box){
 			
 			
-			if(this.handlers && box && this.resizeEnabled){
-				if(this.handlers['LeftUp']){
+			if (this.handlers && box && this.resizeEnabled) {
+				if (this.handlers['LeftUp']) {
 					this.handlers['LeftUp'].style.top = box.y  + (-1* this.resizeButtonSize) + "px";
 					this.handlers['LeftUp'].style.left = box.x  + (-1* this.resizeButtonSize)+ "px";
 					
@@ -478,7 +484,7 @@ export default {
 					this.handlers['LeftDown'].style.left = (box.x) - this.resizeButtonSize+ "px";
 				}
 				
-				if(this.handlers['Left']){
+				if (this.handlers['Left']) {
 					this.handlers['Left'].style.height= box.h +"px"
 					this.handlers['Left'].style.top = box.y + "px";
 					this.handlers['Left'].style.left = box.x -1 +"px";
@@ -496,19 +502,23 @@ export default {
 					this.handlers['Down'].style.left = (box.x) +"px";
 				}
 				
-				if(this.handlers['North']){
+				if (this.handlers['North']) {
 					this.handlers['North'].style.top = box.y  + (-1* this.resizeButtonSize) + "px";
 					this.handlers['North'].style.left = (box.x + box.w/2)+ (-1* this.resizeButtonSize)+ "px";
 					
 					this.handlers['West'].style.top = box.y +(box.h/2) + (-1* this.resizeButtonSize) + "px";
 					this.handlers['West'].style.left = (box.x) + (-1* this.resizeButtonSize)+ "px";
-					
+				}
+				
+				/**
+				 * Since 2.2.0 we have screen segements
+				 */
+				if (this.handlers['East']) {
 					this.handlers['East'].style.top = box.y +(box.h/2) + (-1* this.resizeButtonSize) + "px";
 					this.handlers['East'].style.left = (box.x + box.w)+ (-1* this.resizeButtonSize)+ "px";
 				}
 				
-				
-				if(this.handlers['South']){
+				if (this.handlers['South']) {
 					this.handlers['South'].style.top = box.y +box.h + (-1* this.resizeButtonSize) + "px";
 					this.handlers['South'].style.left = (box.x + box.w/2)+ (-1* this.resizeButtonSize)+ "px";
 				}
@@ -692,6 +702,7 @@ export default {
 		
 		onResizeDnDMove (modelType, e){
 		
+		
 			this.stopEvent(e);
 			if(!this._resizeHandleDiv || !this._resizeModel){
 				this.logger.warning(0,"onResizeDnDMove", "No model or handler");
@@ -707,7 +718,8 @@ export default {
 			
 			// get snapped position
 			var pos = this._getSizePos(e);
-			
+		
+
 			if(modelType!= "group" && modelType!= "multi"){
 				/**
 				 * Normal screen or widgedt. Now build the job

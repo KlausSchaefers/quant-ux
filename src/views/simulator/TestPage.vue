@@ -12,6 +12,23 @@
 					</div>
 					<transition name="fade">
 						<div v-if="step > 2">
+							<div class="MatcTestContent" v-if="step === 6">
+								<div class="MatcTestContentCntr">
+									<h2>Password</h2>
+									<p>
+										Please enter the password
+									</p>
+									<input v-model="password" class="form-control" @keypress.enter="setPassword"/>
+									<div class="MatcButton MatcMarginTop" @click="setPassword()">
+											Next
+									</div>
+									<span class="MatcError" style="margin-left:20px">
+										{{passwordError}}
+									</span>
+								</div>
+								
+							
+							</div>
 							<div class="MatcTestContent" v-if="step === 3">
 								<div class="MatcTestContentCntr">
 									<h2>Welcome!</h2>
@@ -109,6 +126,8 @@ export default {
 			logging: true,
 			model: null,
 			step: 0,
+			password: '',
+			passwordError: ''
         }
     },
     components: {},
@@ -154,6 +173,42 @@ export default {
 		async loadModel (){
 			this.logger.log(2,"loadModel","enter");
 			var hash = this.getHashFromUri();
+			if (hash && hash.length < 60) {
+				this.showPassword()
+			} else {
+				this.loadModelFromHash(hash)
+			}
+		},
+
+		showPassword () {
+			this.logger.log(2,"showPassword","enter");
+			this.step = 6
+		},
+
+		async setPassword () {
+			this.logger.log(-1,"setPassword","enter", this.password);
+
+			var hash = this.getHashFromUri();
+			let newHash = hash + this.password
+
+			try {
+				let app = await Services.getModelService().findAppByHash(newHash)
+				if (app) {
+					this.passwordError = ''
+					this.loadModelFromHash(newHash)
+				} else {
+					this.showPasswordError()
+				}
+			} catch (e) {
+				this.showPasswordError()
+			}
+		},
+
+		showPasswordError () {
+			this.passwordError = 'The password is wrong.'
+		},
+
+		async loadModelFromHash (hash) {
 			this.hash = hash;
 			if(hash){
 				let app = await Services.getModelService().findAppByHash(hash)

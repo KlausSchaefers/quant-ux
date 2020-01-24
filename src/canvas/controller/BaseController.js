@@ -57,8 +57,11 @@ export default class BaseController extends Core {
 		this.factory = f;			
 	}
 	
+	/**
+	 * Method is called on first load. Inits the 
+	 */
 	setModel (m, screenID){
-		this.logger.log(2,"setModel", "entry > " + screenID);
+		this.logger.log(-1,"setModel", "entry > " + screenID);
 		
 		this.fixNegativeCoords(m);
 		
@@ -78,6 +81,7 @@ export default class BaseController extends Core {
 
 		if (this._canvas) {
 			this._canvas.setFonts(m.fonts)
+			this._canvas.setModel(this.model)
 		}
 	}
 	
@@ -215,7 +219,7 @@ export default class BaseController extends Core {
 
 			this.emit('change', this.model)
 		} else {
-			this.logger.log(-1,"onModelChanged", "Exit because not active");
+			this.logger.log(1,"onModelChanged", "Exit because not active");
 		}
 	}
 	
@@ -345,6 +349,9 @@ export default class BaseController extends Core {
 		return errors;
 	}
 	
+	/**
+	 * Deprecated... Is not called...
+	 */
 	fixWidgetsNotInScreen (m){
 		this.logger.log(2,"fixWidgetsNotInScreen", "enter");
 		var errors = [];
@@ -373,7 +380,7 @@ export default class BaseController extends Core {
 		}
 		
 		if (errors.length > 0){
-			this.logger.log(-1,"fixWidgetsNotInScreen", "exit > " + errors.length);
+			this.logger.log(1,"fixWidgetsNotInScreen", "exit > " + errors.length);
 			//this.printStackToLog();
 			//this.logger.sendError(new Error("Controller.fixWidgetsNotInScreen() > Some fuckup"));
 		}
@@ -698,6 +705,10 @@ export default class BaseController extends Core {
 				zoomedModel.isZoomed = true;
 				this.getZoomedBox(zoomedModel, zoom, zoom)
 				this._canvas.setWidgetStyle(zoomedModel.id, zoomedModel.style, zoomedModel);
+				
+				if (type === 'props') {
+					this._canvas.updateWidgetDataView(zoomedModel);
+				}
 			}
 		} else {
 			this.logger.error("renderWidget", "No widget passed for type" + type);
@@ -946,8 +957,6 @@ export default class BaseController extends Core {
 				console.warn("modelRemoveAction() > No widgte with ID", widgetID)
 			}
 		}
-	
-		
 		this.onModelChanged();
 	}
 
@@ -975,6 +984,7 @@ export default class BaseController extends Core {
 			timestamp : new Date().getTime(),
 			type : "RemoveAction",
 			model : action,
+			modelID: widgetID,
 			isGroup: isGroup
 		};
 		this.addCommand(command);
@@ -1017,6 +1027,68 @@ export default class BaseController extends Core {
 		this.modelRemoveAction(id, action, command.isGroup);
 		this.render();
 	}
+
+	/**********************************************************************
+	 * update Action 
+	 **********************************************************************/
+	updateAction (widgetID, action, isGroup) {
+		var command = {
+			timestamp : new Date().getTime(),
+			type : "ActionAction",
+			modelID: widgetID,
+			n: action,
+			o: this.getActionById(widgetID, isGroup),
+			isGroup: isGroup
+		};
+		this.addCommand(command);
+		
+		this.modelUpdateAction(widgetID, action, isGroup);
+	}
+
+	getActionById (id, isGroup) {
+		if (isGroup){
+			var group = this.model.groups[id];
+			return group.action;
+		} else {
+			var widget = this.model.widgets[id];
+			return widget.action;
+		}
+	}
+
+	modelUpdateAction (widgetID, action, isGroup) {
+		if(isGroup){
+			var group = this.model.groups[widgetID];
+			if(group){
+				group.action = action;
+			} else {
+				console.warn("modelUpdateAction() > No group with ID", widgetID)
+			}
+		} else {
+			var widget = this.model.widgets[widgetID];
+			if(widget){
+				widget.action = action;
+			} else {
+				console.warn("modelUpdateAction() > No widgte with ID", widgetID)
+			}
+		}
+
+		this.onModelChanged();
+	}
+
+	undoActionAction (command){
+		var action = command.o;
+		var id = command.modelID;
+		this.modelUpdateAction(id, action, command.isGroup);
+		this.render();
+	}
+	
+	redoActionAction (command){
+		var action = command.n;
+		var id = command.modelID;
+		this.modelUpdateAction(id, action, command.isGroup);
+		this.render();
+	}
+
 
 	/**********************************************************************
 	 * Add Line
@@ -1439,7 +1511,7 @@ export default class BaseController extends Core {
 				this.commandStack.pos = result.pos;
 				this.commandStack.lastUUID = result.lastUUID;
 
-				this.logger.log(-1,"postCommand", "exit > lastUUID: " + this.commandStack.lastUUID  + ' > pos: ' + this.commandStack.pos);
+				this.logger.log(1,"postCommand", "exit > lastUUID: " + this.commandStack.lastUUID  + ' > pos: ' + this.commandStack.pos);
 			} catch (err) {
 				this.logger.sendError("postCommand", err);
 			}
@@ -1469,7 +1541,7 @@ export default class BaseController extends Core {
 		if(this.toolbar){
 			this.toolbar.enbaleUndo();
 		}							
-		this.logger.log(-1,"onCommandAdded", "exit > id: "+ result.command.id + " > lastUUID: " + this.commandStack.lastUUID + " > pos: " + this.commandStack.pos);
+		this.logger.log(1,"onCommandAdded", "exit > id: "+ result.command.id + " > lastUUID: " + this.commandStack.lastUUID + " > pos: " + this.commandStack.pos);
 	}
 	
 	

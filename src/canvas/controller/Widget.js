@@ -48,8 +48,7 @@ export default class Widget extends Screen {
 		newWidget.style = {}
 		newWidget.hover = {}
 		newWidget.props = {}
-		
-		
+
 		var command = {
 			timestamp : new Date().getTime(),
 			type : "CopyWidget",
@@ -85,32 +84,37 @@ export default class Widget extends Screen {
 	 * Alignment
 	 **********************************************************************/
 	
-	alignWidgets (direction, source, target){
-		this.logger.log(0,"alignWidgets", "enter > " +direction);	
+	alignWidgets (direction, source, target) {
+		this.logger.log(-1, "alignWidgets", "enter > " + direction, target);
 		
 		var targetBox = this.getBoundingBox(target);
-			
 		var positions = {};
 	
-		for(var i=0; i < source.length; i++){
+		for (var i=0; i < source.length; i++){
 			var widgetID = source[i];
 			var widget = this.model.widgets[widgetID];
 	
-		
-			if(widget){
-				
+			if (widget){
+				/**
+				 * We copy the old position
+				 */
 				var widgetPos = { x: widget.x, y : widget.y, h: widget.h, w: widget.w};
+				var sourceBox = widgetPos
 				positions[widgetID] = widgetPos;
 				var offset = {x:0,y:0};
 				/**
 				 * In case there is a group, we set an offset!
-				 * TODO: Make this faster!
+				 * 
 				 */
 				var group = this.getParentGroup(widgetID);
-				if(group){
+				if (group){
 					var boundingBox = this.getBoundingBox(group.children);
 					offset.x = widgetPos.x - boundingBox.x;
 					offset.y = widgetPos.y - boundingBox.y;
+					/**
+					 * 2.1.7: We use the bounding box as source box
+					 */
+					sourceBox = boundingBox
 				}
 			
 				switch(direction) {
@@ -118,22 +122,22 @@ export default class Widget extends Screen {
 						widgetPos.y = (targetBox.y + offset.y);
 						break;
 					case "bottom":
-						widgetPos.y = ((targetBox.y + targetBox.h) -widgetPos.h) + offset.y;
+						widgetPos.y = ((targetBox.y + targetBox.h) -sourceBox.h) + offset.y;
 						break;
 					case "left":
 						widgetPos.x = targetBox.x + + offset.x;
 						break;
 					case "right":
-						widgetPos.x = ((targetBox.x + targetBox.w) -widgetPos.w) +  offset.x;
+						widgetPos.x = ((targetBox.x + targetBox.w) -sourceBox.w) +  offset.x;
 						break;
 					case "horizontal": {
-						let m = (targetBox.y + targetBox.h /2);
-						widgetPos.y = Math.round(m -widgetPos.h/2) +  offset.y;	    	
+						let m = (targetBox.y + targetBox.h / 2);   
+						widgetPos.y = Math.round(m - sourceBox.h / 2) +  offset.y; 
 						break;
 					}
 					case "vertical": {
-						let m = (targetBox.x + targetBox.w /2);
-						widgetPos.x= Math.round(m -widgetPos.w/2) + offset.x;
+						let m = (targetBox.x + targetBox.w / 2);
+						widgetPos.x = Math.round(m -sourceBox.w / 2) + offset.x;
 						break;
 					}
 					default:
@@ -152,13 +156,10 @@ export default class Widget extends Screen {
 		this.renderAlignEnd();
 	} 
 	
-	
-	
 	incMultiWidgetPosition (ids, x, y){
 		this.logger.log(3,"incMultiWidgetPosition", "enter > " + x + "  : " + y);
 		
-		if(ids && ids.length > 0){
-		
+		if (ids && ids.length > 0) {
 			var positions = {};
 			for(var i=0; i< ids.length; i++){
 				var id = ids[i];
@@ -172,7 +173,6 @@ export default class Widget extends Screen {
 					};
 				}
 			}
-			
 			this.updateMultiWidgetPosition(positions, true);
 			
 			/**

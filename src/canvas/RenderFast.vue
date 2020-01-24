@@ -163,8 +163,16 @@ export default {
 					background.style.zIndex = i
 				}
 				this.renderedModels[widget.id] = widget
-				this.renderChangeCounter++;
+				this.renderChangeCounter++;	
 			}
+			/**
+			 * Since 2.1.6 we have the data view and need a callback
+			 */
+			this.updateWidgetDataView(widget)
+		},
+
+		updateWidgetDataView () {
+			// child classes can implement
 		},
 
 		updateWidgetZ (widget, i) {

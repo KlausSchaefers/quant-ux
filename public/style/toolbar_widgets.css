@@ -2,6 +2,14 @@
 /****************************************************
  * Notification
  ****************************************************/
+.MatcToolbarLowCode{
+	
+}
+
+
+/****************************************************
+ * Notification
+ ****************************************************/
 .MatcToolbarPopUpOpen.MatcToolbarPopUp.MatcNotificationPopup{
 	width:300px;
 	left:auto;
@@ -14,7 +22,6 @@
 	padding:20px;
 	padding-bottom:10px;
 	width:100%;
-	border-bottom: 1px solid #cecece;
 }
 
 .MatcNotificationItemClickable:HOVER {
@@ -1153,7 +1160,8 @@ input.MatcToobarInlineEditDisabled:focus{
     height: 18px;
     margin-top:2px;
     border-radius: 2px;
-    background: red;
+	background: red;
+	background: linear-gradient(145deg, rgba(255,255,255,1) 47%, rgba(237,0,0,1) 48%, rgba(237,0,0,1) 52%, rgba(255,255,255,1) 53%);
 }
 
 
@@ -1162,7 +1170,7 @@ td.MatcColorBox{
 	cursor: pointer;
 }
 td.MatcGradientBox.MatcColorBox span{
-	height:40px;
+	height:30px;
 	width:40px;
 	margin-right: 4px;
 	margin-bottom: 4px;

@@ -1,8 +1,7 @@
 
 <template>
      <div class="MatcAction">
-							
-						  </div>
+	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -41,7 +40,12 @@ export default {
 		setModel:function(m){
 			this.model = m;
 		},
-		
+
+		setCanvasSettings (settings) {
+			if (settings) {
+				this.hasProtoMoto = settings.hasProtoMoto
+			}
+		},
 		
 		setScreen:function(screen){
 			
@@ -58,7 +62,12 @@ export default {
 				db.div("MatcToolbarSeparator").build(parent);
 			}		
 			
-			var btn = db.div("MatcToolbarItem MatcToolbarGridFull").div(" MatcToolbarButton MatcButton").tooltip("Add Link to other screen").build(parent);
+			var btn = db
+				.div("MatcToolbarItem MatcToolbarGridFull")
+				.div(" MatcToolbarButton MatcButton")
+				.tooltip("Add Link to other screen")
+				.build(parent);
+
 			db.span("mdi mdi-link-variant MatcButtonIcon").build(btn);
 			db.span("MatcButtonIconLabel", "Add Link").build(btn);
 			this.tempOwn(on(btn, touch.press, lang.hitch(this, "onNewLine")));
@@ -128,16 +137,14 @@ export default {
 				let line = this.getLineFrom(widget);
 				let action = widget.action;			
 				if(!line && !action){
-
+					/**
+					 * Thing set, show drop down
+					 */
 					let row = db.div("MatcToolbarItem MatcToolbarGridFull").build(parent);				
 					let btn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
 					btn.setLabel('<span class="mdi mdi-plus-circle-outline"></span><span class="MatcButtonIconLabel">Add Action</span>');
 					btn.updateLabel = false;
-					btn.setOptions([
-		                {value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
-		                {value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
-		                {value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")}
-		            ]);
+					btn.setOptions(this.getLineTypes());
 					btn.setPopupCss("MatcMultiActionDropDownPopup");
 					btn.reposition = true;
 					css.add(btn.domNode, "MatcMultiActionDropDown MatcToolbarButton MatcButton");
@@ -149,12 +156,40 @@ export default {
 						topic.publish("matc/canvas/fadein", {});
 					});
 					
-				} else if(action){				
+				} else if (action) {				
 					let item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr").build(parent);
-					db.span("mdi mdi-ray-end-arrow MatcToolbarSmallIcon").build(item);
-					db.span("MatcToolbarItemLabel", "Navigate Back").build(item);
-					let btn = db.span("MatcToobarRemoveBtn ").tooltip("Remove Action", "vommondToolTipRightBottom").span("mdi mdi-close-circle").build(item);
-					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveAction", action)));
+				
+					if (action.type === 'back') {
+						db.span("mdi mdi-ray-end-arrow MatcToolbarSmallIcon").build(item);
+						db.span("MatcToolbarItemLabel", "Navigate Back").build(item);
+					} else {
+						db.span("mdi mdi-xml MatcToolbarSmallIcon").build(item);
+						db.span("MatcToolbarItemLabel", "JavaScript").build(item);
+				
+						/**
+						 * We should loop through all the callbacks in theorz, if we want
+						 * to allow multiple events
+						 */
+						let method = ''
+						if (action.callbacks && action.callbacks.length > 0) {
+							method = action.callbacks[0].method
+						}
+						
+						let callBackInput = db.div('MatcToolbarItem MatcToolbarGridFull')
+						  .input('MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput', method, 'Enter callback name...')
+						  .build(parent)
+
+						this.tempOwn(on(callBackInput, 'blur', lang.hitch(this, "onSetActionCallback", widget, action, 'click', callBackInput)));
+					}
+
+					let removeBtn = db.span("MatcToobarRemoveBtn ")
+						.tooltip("Remove Action", "vommondToolTipRightBottom")
+						.span("mdi mdi-close-circle")
+						.build(item);
+
+					this.tempOwn(on(removeBtn, touch.press, lang.hitch(this, "onRemoveAction", action)));
+
+					
 				} else {
 					this.renderNewSchool(db, parent, line, true);				
 				}
@@ -220,7 +255,6 @@ export default {
 				btn.placeAt(parent);
 				this.tempOwn(on(btn, "change", lang.hitch(this, "onLineValidation")));
 				this.addTooltip(btn.domNode, "Select an animation for the screen transition");
-				
 			}
 		
 			/**
@@ -256,6 +290,14 @@ export default {
 		
 		},
 		
+		getLineTypes () {
+			let result = [
+				{value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
+				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
+				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")}
+			]
+			return result;
+		},
 		
 		getEventTypes:function(line, isWidget, btn){
 		
@@ -275,13 +317,13 @@ export default {
                 {value:"swipeUp", label:"Up Swipe",icon:"mdi mdi-arrow-up-bold-circle"},
 				{value:"swipeDown", label:"Down Swipe", icon:"mdi mdi-arrow-down-bold-circle"},
 				{value:"scroll", label:"Scrolled in view", icon:"mdi mdi-unfold-more-horizontal"}
-           ];
-			
+		   ];
+		   
 			/**
 			 * Screens have also a timer...
 			 */
 			if(!isWidget){
-				var timerLbl = "Timer (Beta)";
+				var timerLbl = "Timer";
 				if(line.timer){
 					timerLbl ="Timer ( " + line.timer + "s )";
 				}
@@ -291,6 +333,25 @@ export default {
 			}
 			
 			return triggers;
+		},
+
+		onSetActionCallback (widget, action, event, input, e) {
+			this.stopEvent(e)
+			let newAction = lang.clone(action)
+			newAction.callbacks = [
+				{
+					method: input.value,
+					event: event
+				}
+			]
+			this.emit("updateAction", newAction);
+		},
+
+		setActionCallback (dialog, input, action, widget, e) {
+			action.callback = input.value
+			this.stopEvent(e);
+			dialog.close();
+			this.emit("updateAction", widget.id, {'callback': input.value});
 		},
 		
 		onTimerSelected:function(btn, line){
@@ -491,6 +552,13 @@ export default {
 
 		onActionBack:function(){
 			this.emit("newAction",{type:"back"});
+		},
+
+		onActionJS() {
+			/**
+			 * Show Popup
+			 */
+			this.emit("newAction",{type:"js"});
 		},
 		
 		onRemoveAction:function(action,e){

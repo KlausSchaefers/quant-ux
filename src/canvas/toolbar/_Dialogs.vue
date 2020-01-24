@@ -23,6 +23,7 @@ import Plan from 'page/Plan'
 import Services from 'services/Services'
 import QR from 'core/QR'
 import Help from 'help/Help'
+import Share from 'page/Share'
 
 export default {
     name: '_Dialogs',
@@ -80,62 +81,34 @@ export default {
 		},
 
      	showSharing (e){
-				this.logger.log(0,"showSharing", "entry > ");
-				
-				var invitation = this._doGet("/rest/invitation/"+this.model.id+ ".json");
-				var temp = {};
-				for(var key in invitation){
-					temp[invitation[key]] = key;
-				}
-							
-				var db = new DomBuilder();
-				var popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
-				var cntr = db.div("container").build(popup);
-				var row = db.div("row").build(cntr);
-				var right = db.div("col-md-12").build(row);
-				db.h3("",this.getNLS("share.Headline")).build(right);
-				var base = location.protocol + "//" + location.host;
-				
-				var testInput = db
-					.div("MatcMarginTop")
-					.span("", this.getNLS("share.Test"))
-					.input("form-control MatcIgnoreOnKeyPress", base +"#/test.html?h=" + temp[1])
-					.build(right);
-					
-				var commentInput = db
-					.div("MatcMarginTop")
-					.span("", this.getNLS("share.Comment"))
-					.input("form-control MatcIgnoreOnKeyPress", base +"#/share.html?h=" + temp[1])
-					.build(right);
-				
-					
-				var codeRow = db
-					.div("MatcMarginTop MatcShareRow")
-					.span("", this.getNLS("share.Code"))
-					.parent().build(right);
-				
-				var codeInput = db.input("form-control", this.hash)
-					.build(codeRow);			
-		
-				
-				row = db.div("row MatcMarginTop").build(cntr);
-				right = db.div("col-md-12 MatcButtonBar").build(row);
+			this.logger.log(-1,"showSharing", "entry > ", this.isPublic);
+			
+			var invitation = this._doGet("/rest/invitation/"+this.model.id+ ".json");
+			var temp = {};
+			for(var key in invitation){
+				temp[invitation[key]] = key;
+			}
+						
+			var db = new DomBuilder();
+			var popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
+			var cntr = db.div("container").build(popup);
+			var row = db.div("row").build(cntr);
+			var right = db.div("col-md-12").build(row);
+			db.h3("",this.getNLS("share.Headline")).build(right);
+			
+			let share = this.$new(Share)
+			share.placeAt(right)
+			share.setInvitation(temp[1])
+			share.setPublic(this.isPublic)
+			
+			row = db.div("row MatcMarginTop").build(cntr);
+			right = db.div("col-md-12 MatcButtonBar").build(row);
 
-				var write = db.div("MatcButton", "Close").build(right);
-				
-				var d = new Dialog();
-				d.own(on(write, touch.press, lang.hitch(d,"close")));
-				d.own(on(testInput, "focus", function(){
-					testInput.select();
-				}));
-				d.own(on(commentInput, "focus", function(){
-					commentInput.select();
-				}));
-				d.own(on(codeInput, "focus", function(){
-					codeInput.select();
-				}));
-				
-				d.popup(popup, e.target);
+			var write = db.div("MatcButton", "Close").build(right);
+			
+			var d = new Dialog();
+			d.own(on(write, touch.press, lang.hitch(d,"close")));	
+			d.popup(popup, e.target);
 		},
 		
 		
@@ -291,20 +264,12 @@ export default {
 		
 		
 		showSignUpDialog:function(e){
-			
-			
 			var d = new Dialog();
-			
 			var db = new DomBuilder();
-			
 			var div = db.div("MatcDialog ").build();
-			
-			
 			this._createSignUpForm(d, div);
-		
 			d.popup(div, e.target);
 		},
-		
 		
 		_createSignUpForm:function(d, div){
 			let f = this.$new(Form);
@@ -499,11 +464,16 @@ export default {
 			
 			var renderCntr = db.div("form-group").build(cntr);
 			var renderCheckBox = this.$new(CheckBox);
-			renderCheckBox.setLabel("Use fast rendering (BETA)");
+			renderCheckBox.setLabel("Enable fast rendering");
 			renderCheckBox.setValue(settings.fastRender);
 			renderCheckBox.placeAt(renderCntr);
+
+			var protoMotoCntr = db.div("form-group").build(cntr);
+			var protoMotoCheckBox = this.$new(CheckBox);
+			protoMotoCheckBox.setLabel("Enable Beta Features");
+			protoMotoCheckBox.setValue(settings.hasProtoMoto);
+			protoMotoCheckBox.placeAt(protoMotoCntr);
 		
-			
 			var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
 		
 			var save = db.a("MatcButton ", "Save").build(bar);
@@ -512,7 +482,9 @@ export default {
 			var dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
-			dialog.own(on(save, touch.press, lang.hitch(this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox)));
+			dialog.own(on(save, touch.press, lang.hitch(
+				this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox
+			)));
 			
 			dialog.popup(popup, this.template);
 			
@@ -522,13 +494,14 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 		
-		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox){
+		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
 				moveMode : moveList.getValue(),
 				mouseWheelMode: mouseWheelList.getValue(),
 				keepColorWidgetOpen: colorPicker.getValue(),
-				fastRender: renderCheckBox.getValue()
+				fastRender: renderCheckBox.getValue(),
+				hasProtoMoto: protoMotoCheckBox.getValue()
 			};
 	
 			this.canvas.setSettings(settings);
@@ -653,10 +626,6 @@ export default {
 			if(this._selectedGroup){
 				this.controller.addTemplateGroup(this._selectedGroup, input.value);
 			}
-		
-		
-			
-	
 		},
 		
 		
@@ -664,8 +633,6 @@ export default {
 		 * Save As
 		 **********************************************************************/
 		
-	
-
 		onSaveAs:function(){
 			this.logger.log(0,"onSaveAs", "entry");
 			
@@ -726,25 +693,40 @@ export default {
 		
 	
 		
-		startSimilator:function(){
+		startSimilator (){
 			this.logger.log(0,"startSimilator", "entry");	
-			
+			var pos = domGeom.position(win.body());
+			let maxHeight = pos.h - 100
+			/**
+			 * Since 2.1.7 we have better scalling. 
+			 * Keep in sync with the ShareCanvas.startSimulator() method
+			 * 
+			 * FIXME: This could be still a litte bit better. We could max the height and with factors
+			 */
 			css.add(win.body(), 'MatcCanvasSimulatorVisible')
 			if(this.model.type == "desktop"){
-				this._showDesktopSimulator(this.model);
+				pos.w = pos.w * 0.75;
+				pos.h = pos.h * 0.75;
+				this._showDesktopSimulator(this.model, pos);
 			} else if(this.model.type=="tablet"){
 				if(this.model.screenSize.w > this.model.screenSize.h){
-					this._showMobileTest(this.model,{w:800, h: 600}, "MatchSimulatorWrapperTablet");
+					pos.w = pos.w * 0.65;
+					pos.h = pos.h * 0.65;
+					this._showMobileTest(this.model, pos, "MatchSimulatorWrapperTablet", maxHeight);
 				} else {
-					this._showMobileTest(this.model,{w:400, h: 480}, "MatchSimulatorWrapperTablet");
+					pos.w = pos.w * 0.35;
+					pos.h = pos.h * 0.35;
+					this._showMobileTest(this.model, pos, "MatchSimulatorWrapperTablet", maxHeight);
 				}
-			} else{
-				this._showMobileTest(this.model, {w:300, h: 800}, "MatchSimulatorWrapperMobile");
+			} else { 
+				pos.w = pos.w * 0.25;
+				pos.h = pos.h * 0.25;
+				this._showMobileTest(this.model, pos , "MatchSimulatorWrapperMobile", maxHeight);
 			}
 		},
 		
 		
-		_showDesktopSimulator:function(model){
+		_showDesktopSimulator (model, pos){
 			
 
 			var dialog = document.createElement("div");
@@ -755,9 +737,6 @@ export default {
 			css.add(container, "MatchSimulatorContainer");
 			dialog.appendChild(container);
 			
-			var pos = domGeom.position(win.body());
-			pos.w = pos.w * 0.75;
-			pos.h = pos.h * 0.75;
 			pos = this.getScaledSize(pos, "width", this.model);
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
@@ -798,8 +777,8 @@ export default {
 		
 		
 		
-		_showMobileTest:function(model, pos, clazz){
-			
+		_showMobileTest (model, pos, clazz, maxHeight){
+
 			var dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
 		
@@ -814,12 +793,12 @@ export default {
 			var container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 		
-
-					
-			/**
-			 * FIXME: make this somehow grow to the max if the screen height
-			 */
 			pos = this.getScaledSize(pos, "width", this.model);
+			if (pos.h > maxHeight) {
+				let factor = pos.h / maxHeight
+				pos.h = pos.h / factor
+				pos.w = pos.w / factor
+			}
 			container.style.width = Math.ceil(pos.w) + "px";
 			container.style.height = Math.ceil(pos.h) + "px";
 

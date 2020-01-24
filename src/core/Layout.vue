@@ -259,6 +259,8 @@ export default {
       return CoreUtil.createZoomedModel(zoomX, zoomY, isPreview, this.model)
     },
 
+
+
     getZoomed: function(v, zoom) {
       //			if(this.doNotRoundForPreview){
       //				return v * zoom;
@@ -418,18 +420,14 @@ export default {
             }
             return merged;
           } else {
-            console.warn(
-              "Layout.getStyle() > No template found for widget",
-              model.id,
-              " with template ",
-              model.template
-            );
+            console.warn("Layout.getStyle() > No template found for widget",model.id, " with template ",  model.template);
           }
         }
       }
       return model.style;
     },
 
+  
     /**
      * Returns the inherited style. Mixing in the properties of the
      * parent widget.

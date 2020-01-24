@@ -12,9 +12,9 @@ matcRoutes.push({path:'404.html', component: () => import(/* webpackChunkName: "
 matcRoutes.push({path:'help.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue')})
 
 // Apps
-matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
-matcRoutes.push({path:'my-apps.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
-matcRoutes.push({path:'logged_in.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
+matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue'),  meta: {isDarkHeader: true}})
+matcRoutes.push({path:'my-apps.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue'), meta: {isDarkHeader: true}})
+matcRoutes.push({path:'logged_in.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue'),  meta: {isDarkHeader: true}})
 matcRoutes.push({path:'create-app.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue')})
 matcRoutes.push({path:'tryout.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {isTryout:true}})
 matcRoutes.push({path:'apps/:id.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})

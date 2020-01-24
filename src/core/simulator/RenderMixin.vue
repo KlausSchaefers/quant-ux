@@ -9,6 +9,7 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import domGeom from 'dojo/domGeom'
+import win from 'dojo/win'
 
 export default {
 	name: 'RenderMixin',
@@ -67,6 +68,8 @@ export default {
 				 * append to DOM without any animation..
 				 */
 				this.addScreen(screen, div, line);
+
+				this.setScreenBackground(screen);
 				
 				if(this.qr){
 					hash(`#/simulate.html?qr=${this.qr}&h=${this.hash}&s=${screen.id}&log=${this.logData}&live=${this.live}`);
@@ -210,6 +213,22 @@ export default {
 			
 			
 			return div;
+		},
+
+		/**
+		 * Since 2.2.1 we also set the background color of the body
+		 * for QR codes to avoid white space
+		 */
+		setScreenBackground (screen) {
+			if (this.qr) {
+				if (screen && screen.style && screen.style.background) {
+					this.logger.log(-1,"setScreenBackground","enter", screen.style.background);
+					let body = win.body()
+					if (body) {
+						body.style.backgroundColor = screen.style.background
+					}
+				}
+			}
 		},
 		
 		beforeScreenCreated (){
@@ -638,7 +657,6 @@ export default {
 						console.warn("popOverlay() wrong ids between overlay and line??");
 					}
 					
-								
 					var inverse = this.animationFactory.getInverseAnimation(line.animation);
 					if(inverse && this.animationFactory["createScreen_"+inverse]){
 						var me = this;

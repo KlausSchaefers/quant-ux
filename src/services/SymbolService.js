@@ -90,6 +90,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/spinner.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/stepper.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/switch.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/segment_button.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/tab.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/table.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/textbox.json'),
@@ -102,6 +103,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/uploadpreview.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/weblink.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/progressbar.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/screensegment.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/button2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/calender.json'),

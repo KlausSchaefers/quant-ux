@@ -127,7 +127,7 @@ export default class Logger {
 					}	
 				}
 			}else{
-				if (obj){
+				if (obj !== undefined){
 					console.debug(m + " >> " + message, obj);
 				} else {
 					console.debug(m + " >> " + message);

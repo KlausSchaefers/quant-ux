@@ -1,0 +1,49 @@
+.MatcWidgetTypeScreenSegement{
+    position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+    text-align: left;
+    outline: 1px dashed #777;
+    border: solid;
+    overflow: auto;
+}
+
+.MatcWidgetTypeScreenSegement.MatcWidgetTypeScreenSegementOverFlow {
+    overflow: auto;
+}
+
+.MatcWidgetTypeRepeaterHasBorder.MatcWidgetTypeScreenSegement{
+    outline: none;
+}
+
+.MatcWidgetTypeScreenSegementCntr {
+    position: absolute;
+    top:0px;
+    left:0px;
+}
+
+.MatcSimulator .MatcWidgetTypeScreenSegement{
+    outline: none;
+    overflow: auto;
+}
+
+
+.MatcWidgetTypeScreenSegementHint{
+    position: absolute;
+    top:40%;
+    width:100%;
+    text-align: center;
+    font-size: 200%;
+    color:#ccc;
+}
+
+.MatcCreateBtnElementPreview .MatcWidgetTypeScreenSegement{
+    top:5px;
+    font-size: 12px;
+}
+
+.MatcCreateBtnElementPreview .MatcWidgetTypeScreenSegementHint{
+    top:10px;
+    font-size: 14px;
+}

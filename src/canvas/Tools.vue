@@ -429,7 +429,6 @@ export default {
 		onArrowLeft (e){
 			this.logger.log(0,"onArrowLeft", "enter > "+ e.altKey);
 			this.controller.incMultiWidgetPosition(this.getSelectedIds(), -1, 0);
-			
 		},
 		
 		onArrowRight (e){
@@ -1042,9 +1041,13 @@ export default {
 			}
 		},
 		
-		getPastePostion (pos){
-			
+		getPastePostion (mousePos){
+			/**
+			 * If we do not clone here, the controller might zoom the mousePosition...
+			 */
+			let pos = lang.clone(mousePos)
 			var newScreen = this.getHoverScreen(pos);
+		
 			var oldScreen;
 			var boundingBox;
 			if(this._copied.widget){
@@ -1059,7 +1062,7 @@ export default {
 				oldScreen = this.getHoverScreen(boundingBox);
 			}
 			
-			if(oldScreen && newScreen && oldScreen.id != newScreen.id){
+			if (oldScreen && newScreen && oldScreen.id != newScreen.id){
 				/**
 				 * Paste on new screen on same relative position
 				 */
@@ -1083,7 +1086,7 @@ export default {
 				 */
 				if (this._lastPaste ){
 					var now = new Date().getTime()
-					if (now-this._lastPaste.ts < 20000) {
+					if (now - this._lastPaste.ts < 20000) {
 		
 							var targetBBX = this.getPasteBoundingBox(this._lastPaste.target);
 							var sourceBBX = this.getPasteBoundingBox(this._lastPaste.source);
@@ -1120,7 +1123,7 @@ export default {
 				}
 			}
 			
-			
+			console.debug('pasteWithPattern', pos)
 			return pos;
 		},
 		

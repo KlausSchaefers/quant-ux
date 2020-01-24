@@ -27,57 +27,75 @@ export default {
 			this._shadowNodes = [];
 		},
 		
-		wireEvents:function(){
+		wireEvents (){
 			//this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));	
 			this.own(this.addClickListener(this.domNode, lang.hitch(this, "_onClick")));
 		},
 		
-		_onClick:function(e){
+		_onClick (e){
 			this.emitClick(e);
 		},
 		
-		render:function(model, style, scaleX, scaleY){
+		render (model, style, scaleX, scaleY){
 	
-			this.domNode.innerHTML="";
-			
 			this.model = model;
 			this.style = style;
 			this._scaleX = scaleX;
 			this._scaleY = scaleY;
-			
-			
-			if(this.type == "bar"){
+
+			let data = model.props.data
+			let value = model.props.value
+
+			this.renderChart(model, style, data, value)
+			this.setStyle(style, model);
+		},
+
+		renderChart (model, style, data, value) {
+			this.domNode.innerHTML="";
+
+			if (this.type == "bar") {
+
 				css.add(this.domNode, "MatcWidgetTypeBarChart");
-				if(model.props.isHorizontal){
-					this.renderHorizontal(model, style);
+				if (model.props.isHorizontal){
+					this.renderHorizontal(model, style, data, value);
 				} else if(model.props.isLine){
-					this.renderLine(model, style);
+					this.renderLine(model, style, data, value);
 				} else {
-					this.renderVertical(model, style);
+					this.renderVertical(model, style, data, value);
 				}
-			} else if(this.type == "ring"){
-				this.renderRing(model, style, model.props.value);
-			} else if(this.type == "multiring"){
-				var x = Math.round(Math.min(model.w,model.h) / 2) ;
-				var width = Math.min(x, this.getZoomed(style.lineWidth *2, this._scaleY));
-				this.renderPie(model, style, width);
-			} else if(this.type == "pie"){
-				this.renderPie(model, style,Math.min(model.w,model.h));
+
+			} else if (this.type == "ring") {
+
+				this.renderRing(model, style, data, value);
+
+			} else if (this.type == "multiring") {
+
+				var r = Math.round(Math.min(model.w, model.h) / 2) ;
+				var width = Math.min(r, this.getZoomed(style.lineWidth * 2, this._scaleY));
+				this.renderPie(model, style, data, width);
+
+			} else if(this.type == "pie") {
+
+				let width = Math.min(model.w,model.h)
+				this.renderPie(model, style, data, width);
+
 			} else {
 				console.warn("render() > Not supported type : " + this.type);
 			}
-			this.setStyle(style, model);
 		},
 		
 		
-		renderRing:function(model, style, p){
-		
+		renderRing (model, style, data, p){
+
+			if (p > 1) {
+				p = p / 100
+			}
 				
 			var db = new DomBuilder();
 			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
 	
 			var w = model.w * 2;
-			var h = model.h *2;
+			var h = model.h * 2;
 			var canvas= document.createElement("canvas");	
 			canvas.width=w;
 			canvas.height=h;
@@ -95,7 +113,6 @@ export default {
 			ctx.lineWidth=width;
 			ctx.stroke();
 			
-			
 			ctx.beginPath();
 			s = this.degreesToRadians(0);
 			e = this.degreesToRadians(360 * p);
@@ -104,9 +121,7 @@ export default {
 			ctx.lineWidth = width;
 			ctx.stroke();
 				
-	
 			cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
-			
 			
 			this.domNode.innerHTML="";
 			this.domNode.appendChild(cntr);
@@ -114,29 +129,27 @@ export default {
 		
 		
 		
-		renderPie:function(model, style, width){
-		
-			//if(p > 1){
-			//	p /= 100;
-			// }
+		renderPie (model, style, data, width){
+	
 			var db = new DomBuilder();
 			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
 			var w = model.w * 2;
-			var h = model.h *2;
+			var h = model.h * 2;
 			var canvas= document.createElement("canvas");	
 			canvas.width=w;
 			canvas.height=h;
 			var x = Math.round(Math.min(w,h) / 2) ;
-			var data = model.props.data;
+			
+			/**
+			 * ToDo: Check if array of arrays or simple array
+			 */
 			var row = data[0];
-			var sum  =0;
-			for(let i=0; i< row.length; i++){
+			var sum = 0;
+			for (let i=0; i< row.length; i++){
 				sum += row[i]*1;
 			}
 			
-			
 			var ctx = canvas.getContext("2d");
-			
 			var lastP = 0;
 			for(let i=0; i< row.length; i++){
 				let v = row[i];
@@ -155,31 +168,21 @@ export default {
 				ctx.stroke();
 				lastP += (v/ sum);
 			}
-			
-			
-			
-			
-			
-
-				
-	
 			cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
-			
-			
 			this.domNode.innerHTML="";
 			this.domNode.appendChild(cntr);
 		},
 		
 		
-		degreesToRadians:function (degrees) {
+		degreesToRadians  (degrees) {
 			return (degrees * (Math.PI/180)) - Math.PI / 2;     
 		},
 		
 		
-		renderLine:function(model, style){
-			
+		renderLine (model, style, data){
+			data = this.flip(data);	
+
 			var db = new DomBuilder();
-			var data = this.flip(model.props.data);	
 			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
 	
 			var w = model.w * 2;
@@ -252,25 +255,18 @@ export default {
 					
 				}
 			}
-		
-			
-	
-			
-		
 				
 			cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
-			
-			
 			this.domNode.appendChild(cntr);
 		},
 		
 		
 		
-		renderVertical:function(model, style){
+		renderVertical (model, style, data){
 			
 			var db = new DomBuilder();
 								
-			var data = this.prepareData(model.props.data);	
+			data = this.prepareData(data);	
 			
 			var groupWidth = 100/(this.groups);
 			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
@@ -305,11 +301,11 @@ export default {
 			
 		},
 		
-		renderHorizontal:function(model, style){
+		renderHorizontal (model, style, data){
 			
 			var db = new DomBuilder();
 			
-			var data = this.prepareData(model.props.data);	
+			data = this.prepareData(data);	
 			
 			var groupHeight = 100/(this.groups);
 			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
@@ -345,7 +341,7 @@ export default {
 			
 		},
 		
-		prepareData:function(data){
+		prepareData (data){
 			this.max = -10000000;
 			this.groups = 0;
 			this.groups = data.length;
@@ -358,7 +354,7 @@ export default {
 			return data;
 		},
 		
-		flip:function(data){
+		flip (data){
 			this.max = -10000000;
 			this.groups = 0;
 			this.count = 0;
@@ -382,7 +378,7 @@ export default {
 		
 
 								
-		getValue:function(){
+		getValue (){
 			return this.value;
 		},
 		
@@ -390,22 +386,63 @@ export default {
 		/**
 		 * Can be overwritten by children to have proper type conversion
 		 */
-		_setDataBindingValue:function(v){
-			if(v !== true && v !== false && v >= 1){
-				v = true;
-			}
+		_setDataBindingValue (v) {
+		
+			let data = this.model.props.data
+			let value = this.model.props.value
+
+			if (this.type == "ring") {
+				let v2 = v * 1
+				if (!isNaN (v2)) {
+					value = v2
+				} else {
+					console.warn('Chart._setDataBindingValue() > Wrong value for ring', v)
+					return
+				}
+			} else if (this.type === 'pie') {
+				/**
+				 * Expects array with one element of array
+				 */
+				data = [this.objectToArray(v)]
+			} else {
+				/**
+				 * Expect columns wise array of arrays
+				 * [ [1,2], [11, 22]...]
+				 */
+				data = []
+				let temp = this.objectToArray(v)
+				for (let r in temp) {
+					let row = this.objectToArray(temp[r])
+					for (let c in row){
+						if (!data[c]) {
+							data[c] = []
+						}
+						data[c].push(row[c])
+					}
+				}		}
+	
+			this.renderChart(this.model, this.style, data, value)
 			this.setValue(v);
 		},
+
+		objectToArray (v) {
+			let result = []
+			for (let key in v) {
+				result.push(v[key])
+			}
+			return result
+		},
 						
-		setValue:function(){			
+		setValue (){	
+
 		},
 		
-		getState:function(){
+		getState (){
 			return {				
 			};
 		},
 		
-		setState:function(){			
+		setState (){			
 		}
     }, 
     mounted () {

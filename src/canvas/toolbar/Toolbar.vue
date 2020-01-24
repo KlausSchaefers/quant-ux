@@ -72,7 +72,7 @@
 				<div class="MatcToolbarTopCntr">
 						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">					
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
-								<span class="mdi mdi-play-circle" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span> 
+								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span> 
 								<span class="MatcToolbarLabel">Simulate</span>
 							</a>
 						</div> 		
@@ -100,6 +100,10 @@
 								<span class="mdi mdi-close-circle"></span>
 							</a>						
 						</div>
+
+						
+					
+					
 										
 						<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 							
@@ -119,7 +123,12 @@
 							</div>					
 						</div>				
 
-						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">					
+						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
+							<div class="MatcToolbarSection" v-if="hasProtoMoto">
+								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig" />
+							</div>
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
+							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
 						</div> 				
 					
 						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
@@ -146,6 +155,9 @@ import Logger from 'common/Logger'
 import _Render from 'canvas/toolbar/_Render'
 import _Dialogs from 'canvas/toolbar/_Dialogs'
 import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
+import ViewConfig from 'canvas/toolbar/ViewConfig'
+import HelpButton from 'help/HelpButton'
+import EditModeButton from "canvas/toolbar/EditModeButton"
 import topic from 'dojo/topic'
 
 export default {
@@ -157,11 +169,21 @@ export default {
             value: false, 
             active: true, 
 			redirectAfterExit: true,
-			showRestTool: true
+			showRestTool: true,
+			hasViewConfigVtn: true,
+			canvasViewConfig: {},
+			settings: {}
         }
     },
-	components: {},
+	components: {
+		'ViewConfig': ViewConfig,
+		'HelpButton': HelpButton,
+		'EditModeButton': EditModeButton
+	},
 	computed: {
+		hasProtoMoto () {
+			return this.settings && this.settings.hasProtoMoto
+		}
 	},
     methods: {
         postCreate: function(){
@@ -196,9 +218,6 @@ export default {
 
 		},
 		
-
-		
-	
 		
 		getMainMenu   () {
 			var options = [
@@ -253,6 +272,11 @@ export default {
 			this.mode = mode;
 			this.onModeChange();
 		},
+
+		setDataView (isDataView) {
+			this.logger.log(-1,"setDataView", "entry ", isDataView);
+			this.isDataView = isDataView
+		},
 		
 		setLayerList (layerlist){
 			this.logger.log(-1,"setLayerList", "entry ");
@@ -261,14 +285,23 @@ export default {
 		
 		setUser (user){
 			this.user = user;
-			
 		},
 		
 		getSettings (){
-			if(this.canvas){
+			if (this.canvas){
 				return this.canvas.getSettings();
 			}
 			return {};
+		},
+
+		setCanvasViewConfig (viewConfig) {
+			this.canvasViewConfig = viewConfig
+		},
+
+		onChangeCanvasViewConfig (key, value) {
+			if (this.canvas) {
+				this.canvas.setCanvasViewConfig(key, value)
+			}
 		},
 		
 		
@@ -280,7 +313,6 @@ export default {
 			this.logger.log(-1,"onExit", "entry > " + this.pub);
 			this.active = false;
 			if(this.pub){
-				console.debug('onExit', this.model.id)
 				if(this.model.id){
 					hash("#/examples/"+ this.model.id + ".html");
 				} else {
@@ -351,8 +383,6 @@ export default {
 					}
 					
 					this.cleanUp();
-					
-					
 					this._selection = "widget";
 					this._selectedWidget = widget;
 					this._selectionID = widget.id;
@@ -362,7 +392,7 @@ export default {
 					this.showTemplate(widget);
 	
 					this.logger.log(3,"onWidgetSelected", "exit");	
-				} catch(e){
+				} catch (e){
 					console.error(e.stack);
 					this.logger.sendError(e);
 				}
@@ -786,6 +816,18 @@ export default {
 				this.controller.removeAction(this._selectedGroup.id, action, true);
 			}
 		},
+
+		updateAction (action) {
+			this.logger.log(-1,"updateAction", "enter > ", action);
+
+			if (this._selectedWidget){
+				this.controller.updateAction(this._selectedWidget.id, action, false);
+			}
+
+			if(this._selectedGroup){
+				this.controller.updateAction(this._selectedGroup.id, action, true);
+			}
+		},
 		
 		/**********************************************************************
 		 * Modes
@@ -984,9 +1026,10 @@ export default {
 		},
 		
 		
-		onToolAlignElements (value,e){
+		onToolAlignElements (value, e){
 			this.logger.log(1,"onAlignElements", "entry : " + this._selection);
 			this.stopEvent(e);
+	
 	
 			if(this._selectedMulti){
 				/**
@@ -994,13 +1037,33 @@ export default {
 				 */
 				this.controller.alignWidgets(value, this._selectedMulti, this._selectedMulti);
 
-			} else if(this._selectedGroup || this._selectedWidget){
+			} else if (this._selectedWidget) {
 				/**
-				 * in case we have no multi selection, the user has first to 
-				 * select an element to which he want to align
+				 * Since 2.1.7 we allign on canvas
 				 */
-				this.toolAlignStart(value);
-				this.canvas.onAlignStart(value);
+
+				// this.toolAlignStart(value);
+				// this.canvas.onAlignStart(value);
+				const parentScreen = this.getParentScreen(this._selectedWidget);
+				if (parentScreen) {
+					this.controller.alignWidgets(value, [this._selectedWidget.id], [parentScreen.id]);
+				} else {
+					this.logger.log(1,"onAlignElements", "exit not parent : ", this._selectedWidget);
+				}
+			} else if (this._selectedGroup) {
+				/**
+				 * Since 2.1.7 we allign on canvas
+				 */
+				const widgetID = this._selectedGroup.children[0]
+				const widget = this.model.widgets[widgetID]
+				if (widget) {
+					var parentScreen = this.getParentScreen(widget);
+					if (parentScreen) {
+						this.controller.alignWidgets(value, this._selectedGroup.children, [parentScreen.id]);
+					} else {
+						this.logger.log(1,"onAlignElements", "exit not parent : ", this._selectedGroup);
+					}
+				}
 			}
 		
 	
@@ -1016,14 +1079,10 @@ export default {
 			} 
 		},
 		
-		
 		onToolSelect (mode, e){
 			this.logger.log(1,"onModeClick", "entry > '" + mode + "'");
 			this.stopEvent(e);
-			
 			topic.publish("matc/canvas/click", "");
-			
-			
 			/**
 			 * toggle between modes!
 			 */
@@ -1033,7 +1092,6 @@ export default {
 				this.controller.setMode("select");
 			}
 		},
-		
 		
 		onToolText (e){
 			this.logger.log(1,"onToolHotspot", "entry >");
@@ -1309,7 +1367,6 @@ export default {
 		},
 		
 		
-		
 		toggleStyle (key, value){
 			this.logger.log(0,"toggleStyle", "entry > " + key + " - "+ value);			
 			var modelKey = this._getViewStyleModelKey();
@@ -1339,7 +1396,7 @@ export default {
 		
 		
 		setWidgetStyle (key, value){
-			this.logger.log(2,"setWidgetStyle", "entry > " + key + " - "+ value);	
+			this.logger.log(-1,"setWidgetStyle", "entry > " + key + " - "+ value);	
 			
 			var newSytle = {};
 			newSytle[key] = value;
@@ -1470,6 +1527,14 @@ export default {
 					newProps[key] = value;
 					this.controller.updateScreenStart(this._selectedScreen.id, newProps, "props");
 				} 	
+			}
+			return false;
+		},
+
+		setScreenSegement (key, value) {
+			this.logger.log(0,"setScreenSegement", "entry > " + key + " - "+ value);	
+			if (this._selectedScreen){
+				this.controller.setScreenSegment(this._selectedScreen.id, value);
 			}
 			return false;
 		},
@@ -1619,7 +1684,7 @@ export default {
 		},
 		
 		setSettings (v){
-			this.logger.log(2,"setSettings", "entry > " + v);
+			this.logger.log(-1,"setSettings", "entry > ", v);
 			this.settings = v;
 		},
 		

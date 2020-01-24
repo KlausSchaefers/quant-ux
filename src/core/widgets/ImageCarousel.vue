@@ -124,6 +124,18 @@ export default {
       }
     },
 
+    _setDataBindingValue: function(v) {
+
+      let value = v * 1;
+      console.debug('_setDataBindingValue', v, value)
+      if (!isNaN(value) && this.model && this.model.props && this.model.props.images) {
+        this.setValue(value);
+      } else {
+        console.debug("_setDataBindingValue() > not int value" + v);
+      }
+    },
+
+
     cleanUp: function() {
       if (this.moveListener) {
         this.moveListener.remove();
@@ -313,7 +325,6 @@ export default {
       if (p < 0) {
         p += length;
       }
-
       return images[p];
     },
 

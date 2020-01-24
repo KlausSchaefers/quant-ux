@@ -990,8 +990,7 @@ export default {
             css.add(parent, "MatcScreenImageVertical");
           }
           if (this.hash) {
-            parent.style.backgroundImage =
-              "url(/rest/images/" + this.hash + "/" + img.url + ")";
+            parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + ")";
           } else {
             var url = "url(/rest/images/" + img.url + ")";
             parent.style.backgroundImage = url;
@@ -1005,16 +1004,8 @@ export default {
 
           if (style.backgroundPosition && this.model) {
             var pos = style.backgroundPosition;
-            parent.style.backgroundPosition =
-              Math.round(pos.left * this.model.w) +
-              "px " +
-              Math.round(pos.top * this.model.h) +
-              "px";
-            parent.style.webkitBackgroundPosition =
-              Math.round(pos.left * this.model.w) +
-              "px " +
-              Math.round(pos.top * this.model.h) +
-              "px";
+            parent.style.backgroundPosition = Math.round(pos.left * this.model.w) + "px " + Math.round(pos.top * this.model.h) + "px";
+            parent.style.webkitBackgroundPosition = Math.round(pos.left * this.model.w) + "px " + Math.round(pos.top * this.model.h) + "px";
           } else {
             parent.style.backgroundPosition = "0 0"; // 100%
           }

@@ -8,7 +8,7 @@ import win from 'dojo/win'
 import topic from 'dojo/topic'
 import domStyle from 'dojo/domStyle'
 import _Color from 'common/_Color'
-import CheckBox from 'common/CheckBox'
+// import CheckBox from 'common/CheckBox'
 import Ruler from 'canvas/Ruler'
 import GridAndRuler from 'canvas/GridAndRuler'
 import SimpleGrid from 'canvas/SimpleGrid'
@@ -85,23 +85,25 @@ export default {
 			this.gridBackground = {};
 			this.renderedModels = {};
 			
+			/** 
 			this.lineChkBox = this.$new(CheckBox);
-			this.lineChkBox.setLabel("Show Lines");
+			this.lineChkBox.setLabel("Lines");
 			this.lineChkBox.setValue(this.renderLines);
 			this.lineChkBox.placeAt(this.lineCntr);
 			this.own(on(this.lineChkBox, "change", lang.hitch(this, "setViewLines")));		
 			
 			if(this.distanceCntr){
 				this.distanceChkBox = this.$new(CheckBox);
-				this.distanceChkBox.setLabel("Show Distance");
+				this.distanceChkBox.setLabel("Distance");
 				this.distanceChkBox.setValue(this.showDistance);
 				this.distanceChkBox.placeAt(this.distanceCntr);
 				this.own(on(this.distanceChkBox, "change", lang.hitch(this, "setShowDistance")));
 			}
+			*/
 			
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));		
-			this.own(on(window, "contextmenu", lang.hitch(this, "onContextMenu")));		
+			this.own(on(this.domNode, "contextmenu", lang.hitch(this, "onContextMenu")));		
 			this.logger.log(2,"initRender", "exit");
 		},
 		
@@ -199,13 +201,13 @@ export default {
 		 * reason this is needed as all div will have just size ==0.
 		 */
 		setHeight (h){
-			this.domNode.style.height = h +"px";
+			this.domNode.style.height = h + "px";
 		},
 		
 		setViewLines (renderLines){
 			this.renderLines = renderLines;
 			this.settings.renderLines = renderLines;
-			this._setStatus("matcSettings",this.settings );
+			this._setStatus("matcSettings", this.settings );
 			this.rerender();
 		},
 		
@@ -294,7 +296,7 @@ export default {
 		 * for instance when widgets are moved.
 		 */
 		onWidgetPositionChange (zoomedModel) {
-			this.logger.log(0,"onWidgetPositionChange", "enter", zoomedModel);
+			this.logger.log(-1,"onWidgetPositionChange", "enter", zoomedModel);
 			this.model = zoomedModel;
 			this.renderFactory.setZoomedModel(zoomedModel);
 			this.renderFactory.updatePositions(zoomedModel)
@@ -302,10 +304,9 @@ export default {
 		
 
 		render (model){
-			this.logger.log(0,"render", "enter");
+			this.logger.log(-1,"render", "enter");
 			let renderStart = new Date().getTime();
 			try {
-			
 			
 				if (this.settings.fastRender) {
 					this.renderFlowViewFast(model);
@@ -395,7 +396,7 @@ export default {
 		},
 		
 		wireEvents (){
-			this.logger.log(5,"wireEvents", "enter > " + this.mode);
+			this.logger.log(1,"wireEvents", "enter > " + this.mode);
 			
 			this.wireCanvas()
 	
@@ -468,12 +469,12 @@ export default {
 		},
 		
 		wireCanvas () {
-			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view") ){
+			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view" || this.mode === "data") ){
 				/**
 				 * In the classic mode the
 				 */
 				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
-			} else if (this.mode == "edit" || this.mode == "view"){
+			} else if (this.mode === "edit" || this.mode === "view" || this.mode === "data"){
 				/**
 				 * The must be mousedown, because in chrome the touch press is fired after mousedown and fucks up some how our state maschine
 				 */
@@ -606,6 +607,7 @@ export default {
 			 * Methdod to be implemented by mixins
 			 */
 		},
+		
 		
 		/**************************************************
 		 * CleanUp Code
@@ -831,10 +833,18 @@ export default {
 			this.logger.log(4,"createWidgetDnD", "enter");
 			var div = this.createBox(widget);
 			css.add(div, "MatcWidgetDND");
-			if(this.hasLogic(widget)){
+			if (this.hasLogic(widget)){
 				css.add(div, "MatcLogicWidgetDnD");
 			}
+			/**
+			 * Since 2.1.6 we have the data view and need a callback
+			 */
+			this.createWidgetDataView(widget, div)
 			return div;
+		},
+
+		createWidgetDataView () {
+			// child classes can implement
 		},
 		
 		createWidget (widget){
@@ -902,12 +912,12 @@ export default {
 			var div = this.widgetBackgroundDivs[id];
 			if(widget && widget.style && div){
 				/**
-					* We merge the new style into the current style
-					*/
+				 * We merge the new style into the current style
+				 */
 				for (var k in style) {
 					widget.style[k] = style[k];
 				}
-				this.renderFactory.setStyle(div, widget);
+				this.renderFactory.setStyle(div, widget, true);
 				this.setCopyStyle(widget, true);
 			} else {
 				console.warn("setTempWidgetStyle() > Cannot set widget style", id, style);
@@ -915,13 +925,13 @@ export default {
 		},
 		
 		setWidgetStyle (id, style, model){
-			this.logger.log(3,"setWidgetStyle", "enter");
+			this.logger.log(-1,"setWidgetStyle", "enter > ", id);
 			var widget = this.model.widgets[id];
 			var div = this.widgetBackgroundDivs[id];
-			if(widget && div){
+			if (widget && div){
 				/**
-					* Flush inlineEdit if needed
-					*/
+				 * Flush inlineEdit if needed
+				 */
 				var newLabel = this.inlineEditStop();
 				if (newLabel && model.props) {
 					/**
@@ -931,7 +941,7 @@ export default {
 					//console.debug("overwrite inline", newLabel)
 					//model.props.label = newLabel;
 				}
-				this.renderFactory.setStyle(div, model);
+				this.renderFactory.setStyle(div, model, true);
 				this.setCopyStyle(widget, false);
 			} else {
 				console.warn("setWidgetStyle() > Cannot set widget style", id, style);
@@ -939,24 +949,31 @@ export default {
 		},
 		
 		/**
-			* copy style to copies (from master screen)
-			*/
+		 * copy style to copies (from master screen)
+		 */
 		setCopyStyle (widget, isTempUpdate) {
-			if(widget.copies){
+			if (widget.copies){
 				for(let i=0; i< widget.copies.length; i++){
 					let copyID = widget.copies[i];
 					let copyWidget = this.model.widgets[copyID];
-					copyWidget.style = widget.style;
-					copyWidget.props = widget.props;
 					let copyDiv = this.widgetBackgroundDivs[copyID];					
 					if(copyWidget && copyDiv){
+						copyWidget.style = widget.style;
+						copyWidget.props = widget.props;
 						this.renderFactory.setStyle(copyDiv, copyWidget);
 					}				
 				}
 			}
 
+			/**
+			 * Since 2.2.0 we have screen segments
+			 */
+			if (widget.segmentParent) {
+				this.renderFactory.updateSegementChild(widget, this.model);	
+			}
+
 			if (widget.container) {
-					this.renderFactory.updateContainerChild(widget, this.model);
+				this.renderFactory.updateContainerChild(widget, this.model);
 			}
 		
 			
@@ -1175,80 +1192,14 @@ export default {
 		},
 		
 			
-		getLastMousePos (){
+		getLastMousePos () {
+			console.debug('getLastMousePos', this._lastMousePos)
 			return this._lastMousePos;
 		},
 		
 		setHoverWidget (w){
 			this._lastHoverWidget = w;
-		},
-
-			
-		showAll (screens, callback){
-		
-			if(this.zoomOnLineAdd){
-				/**
-				 * Determine the zoom level required to fit everything in the
-				 * screen
-				 */
-				var zoomLevel = 0;
-				var zoom = this.zoomLevels[0];
-				
-				var box = this.getBoundingBoxByBoxes(screens);		
-				var margin = 30;
-				var domPos = domGeom.position(this.domNode);
-				for(var i=this.zoomLevels.length-1; i >=0 ; i--){
-					var z = this.zoomLevels[i];
-					var zoomedBox = this.getZoomedBox(lang.clone(box), z, z);
-					if(zoomedBox.w < domPos.w - margin && zoomedBox.h < domPos.h - margin){
-						zoomLevel = i;
-						zoom = z;
-						break;
-					}
-				}
-				
-				
-				/**
-				 * just fire when needed!
-				 */
-				if(zoom!= this.zoom){
-					/**
-					 * we will zoom out from the selected widget / or center of the screen! Then
-					 * we will still move everything until all screens are vivible! 
-					 * TODO: Merge these two animations to one!
-					 */
-					this._setCenterPos();
-					this.setZoomFactor(zoomLevel, true);
-					this.addAfterRenderCallBack(lang.hitch(this, "afterShowAll",box, callback ))
-				} else {
-					this.logger.log(2,"showAll", "exit without change!");
-					if(callback){
-						callback();
-					}
-				}
-			} else {
-				if(callback){
-					callback();
-				}
-			}
-			
-		},
-		
-		afterShowAll (box, callback){
-			var zoomedBox = this.getZoomedBox(lang.clone(box),this.zoom, this.zoom)
-			var cntr = this.container;
-			css.add(cntr, "MatcCanvasContainerAnimatePos");
-			this.canvasPos.x = zoomedBox.x *-1 + 50;
-			this.canvasPos.y = zoomedBox.y *-1 + 50;
-			this.setContainerPos();
-			setTimeout(function(){
-				css.remove(cntr, "MatcCanvasContainerAnimatePos");
-				if(callback){
-					callback();
-				}
-			},400);
-		},
-
+		}
     }, 
     mounted () {
     }

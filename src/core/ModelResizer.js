@@ -214,7 +214,6 @@ class ModelResizer {
     }
 
     getResizePosition (pos, model, type, resizeModel){
-			
         var newModel = {
             x:model.x, 
             y: model.y, 
@@ -228,7 +227,7 @@ class ModelResizer {
          */
         var minH = (resizeModel.min) ? resizeModel.min.h : -1;
         var minW = (resizeModel.min) ? resizeModel.min.w : -1;
-        
+   
         // FIXME: Do something like if (leftUp || leftDown).. else...
 
         if(type=="LeftUp"){

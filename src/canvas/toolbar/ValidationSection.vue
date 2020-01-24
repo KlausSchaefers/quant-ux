@@ -66,6 +66,11 @@ export default {
 			this._renderDataBinding(model, false);
 		},
 
+		_showImageCarousel(model){
+			this._renderDataBinding(model, false);
+		},
+
+
 		_showButton (model){
 			this._renderDataBinding(model, false);
 		},
@@ -118,6 +123,23 @@ export default {
 			this._renderIgnoreState(model);
 		},
 		
+
+		_showBarChart (model){
+			this._renderDataBinding(model);
+		},
+
+		_showRingChart (model){
+			this._renderDataBinding(model);
+		},
+
+		_showPieChart (model){
+			this._renderDataBinding(model);
+		},
+
+		_showMultiRingChart(model){
+			this._renderDataBinding(model);
+		},
+
 		_showTypeAheadTextBox (model){
 			this._renderDataBinding(model);
 			
@@ -125,12 +147,8 @@ export default {
 			this._renderRequired(validation);
 			this._renderTextBoxValidation(validation);
 			this._renderValidationLabels(validation, model);
-
 		},
 		
-		
-		
-
 		
 		_showTextBox (model){
 		

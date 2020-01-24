@@ -19,7 +19,7 @@
 }
 
 .MatcHelp a.MatcHelpSubTopic{
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .MatcHelp a:hover {
@@ -38,13 +38,17 @@
     display: inline-block;
 }
 
+.MatcHelpTopicsCntr {
+    overflow: auto;
+}
+
 .MatcHelpContent{
     display: inline-block;
     width: 800px;
     padding-right: 20px;
     margin-right: 20px;
     height: 100%;
-
+    font-weight: 300;
 }
 
 .MatcHelpDialog .MatcHelpContentCntr{
@@ -59,16 +63,23 @@
 
 .MatcHelpContent h2{
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .MatcHelpContent h3{
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .MatcHelpContentParagraph {
-    margin-top: 30px;
+    margin-top: 50px;
     line-height: 2;
     font-size: 18px;
+}
+
+.MatcHelpContent .MatcButton{
+    background: #1973e8;
+    color: #fff;
+    padding:2px 4px;
+    font-size: 14px;
 }

@@ -93,19 +93,24 @@ export default {
 				 */
 				if(this.screen.id != screenID && (parents.indexOf(screenID) <0)){
 					var screen = this.model.screens[screenID];
-					var wrapper = this.db.div("MatcToolbarScreenListPreviewWrapper MatcCreateBtnElement MatcToolbarDropDownButtonItem").build(list);
-					var screenCntr = this.db.div("MatcToolbarScreenListPreview").build(wrapper);
-					screenCntr.style.width = this.previewWidth + "px";
-					screenCntr.style.height = height + "px";
-					var preview = this.$new(Preview);
-					preview.setScreenPos({w:this.previewWidth, h:height});
-					preview.setModel(this.model);
-					preview.setScreen(screenID);
-					preview.placeAt(screenCntr);
-					this.previews.push(preview);					
-					var lbl = this.db.div("MatcCreateBtnElementLabel", screen.name).build(wrapper);
-					lbl.style.width = this.previewWidth + "px";					
-					d.own(on(wrapper, touch.press, lang.hitch(this, "onScreenSelected", screenID)));
+					/**
+					 * Since 2.2.0 we have ScreenSegment
+					 */
+					if (!screen.segment) {
+						var wrapper = this.db.div("MatcToolbarScreenListPreviewWrapper MatcCreateBtnElement MatcToolbarDropDownButtonItem").build(list);
+						var screenCntr = this.db.div("MatcToolbarScreenListPreview").build(wrapper);
+						screenCntr.style.width = this.previewWidth + "px";
+						screenCntr.style.height = height + "px";
+						var preview = this.$new(Preview);
+						preview.setScreenPos({w:this.previewWidth, h:height});
+						preview.setModel(this.model);
+						preview.setScreen(screenID);
+						preview.placeAt(screenCntr);
+						this.previews.push(preview);					
+						var lbl = this.db.div("MatcCreateBtnElementLabel", screen.name).build(wrapper);
+						lbl.style.width = this.previewWidth + "px";					
+						d.own(on(wrapper, touch.press, lang.hitch(this, "onScreenSelected", screenID)));
+					}
 				}
 			}		
 			

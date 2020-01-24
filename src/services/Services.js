@@ -11,6 +11,7 @@ class Services {
         this.errorHandler = handler
         ModelService.setErrorHandler(handler)
         PublicModelService.setErrorHandler(handler)
+        UserService.setErrorHandler(handler)
     }
 
     getUserService () {
@@ -27,16 +28,20 @@ class Services {
 
     getModelService (route) {
         if (route && route.meta && route.meta.isPublic) {
+            PublicModelService.setToken(UserService.getToken())
             return PublicModelService
         }
+        ModelService.setToken(UserService.getToken())
         return ModelService
     }
 
     getPublicModelService () {
+        PublicModelService.setToken(UserService.getToken())
         return PublicModelService
     }
     
     getCommentService () {
+        CommentService.setToken(UserService.getToken())
         return CommentService
     }
 

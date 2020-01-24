@@ -10,6 +10,7 @@ import UIWidget from "core/widgets/UIWidget";
 import DomBuilder from 'common/DomBuilder'
 import Core from 'core/Core'
 import lang from 'dojo/_base/lang'
+import JSONPath from 'core/JSONPath'
 
 export default {
   name: "Repeater",
@@ -71,7 +72,7 @@ export default {
                 cursor: 'MatchResizeNorth',
                 id: 'DistanceY'
             })
-            if (this.model.props.layout !== 'rows') {
+            if (this.model.props.layout !== 'rows' && this.model.props.auto === false) {
                 handlers.push({
                     y: -10,
                     distanceY: this.distanceY,
@@ -152,6 +153,9 @@ export default {
     },
 
     update (widget) {
+        /**
+         * We should have here some kind of fast rendering!
+         */
         this.render(widget, this.style, this._scaleX, this._scaleY)
     },
 
@@ -289,21 +293,35 @@ export default {
       }
     },
 
-    getDataBindingValue (i, child, widget) {
-        if (widget.props.data && child.props.databinding && child.props.databinding.default){
-            let key = child.props.databinding.default
-            /**
-             * Data Binding has priority
-             */
-            if (this.dataBindingValues && this.dataBindingValues.length > i) {            
-                let row = this.dataBindingValues[i]
-                // we should do here some xpath...
-                let value = row[key]
-                return {
-                    variable: key,
-                    value: value
+    getDataBindingValue (i, child) {
+        if (this.dataBindingValues) {
+            if (child.props.databinding && child.props.databinding.default){
+                let key = child.props.databinding.default
+                let path = key
+                /**
+                 * We remove the parent path here if needed. The varibale must stay
+                 * the same, otherwise the UIWidget.setDataBining() will not work
+                 */
+                if (this.model.props.databinding.default && key.indexOf('[0].') > 0) {
+                    let parentKey = this.model.props.databinding.default
+                    if (key.indexOf(parentKey) === 0) {
+                        path = key.substring(key.indexOf('.') + 1)
+                    }
                 }
-            } 
+                /**
+                 * Data Binding has priority
+                 */
+                if (this.dataBindingValues && this.dataBindingValues.length > i) {            
+                    let row = this.dataBindingValues[i]
+                    let value = JSONPath.get(row, path)
+                    if (value !== null && value != undefined) {
+                        return {
+                            variable: key,
+                            value: value
+                        }
+                    }
+                } 
+            }
         }
     },
 

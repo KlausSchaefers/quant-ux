@@ -45,6 +45,7 @@ import Upload from 'core/widgets/Upload'
 import UploadPreview from 'core/widgets/UploadPreview'
 import WebLink from 'core/widgets/WebLink'
 import ProgressBar from 'core/widgets/ProgressBar'
+import ScreenSegment from 'core/widgets/ScreenSegment'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -260,13 +261,27 @@ export default class RenderFactory extends Core {
 		}
 	}
 
-	updateContainerChild (child, model) {
+	/**
+	 * Repeater can rerender its childnre
+	 */
+	updateContainerChild (child, model) {		
 		if (this._containerWidgets[child.container]) {
 			let uiWidget = this._containerWidgets[child.container]
 			let widget = model.widgets[child.container];
 			if (uiWidget && widget) {
 				uiWidget.setZoomedModel(model);
 				uiWidget.update(widget)
+			}
+		}
+	}
+
+	updateSegementChild (widget, model) {
+		for (let i=0; i< widget.segmentParent.length; i++){
+			let parentID = widget.segmentParent[i]
+			let uiWidget = this.getUIWidgetByID(parentID)
+			if (uiWidget) {
+				uiWidget.setZoomedModel(model);
+				uiWidget.updateChild(widget)
 			}
 		}
 	}
@@ -357,6 +372,24 @@ export default class RenderFactory extends Core {
 		var checkBox = this.$new(cls);
 		checkBox.placeAt(parent);
 		this._uiWidgets[model.id] = checkBox;
+	}
+
+	_createScreenSegment (parent, model) {
+		let segement = this.$new(ScreenSegment)
+		segement.placeAt(parent);
+		/**
+		 * In the simulator the zoomedModel is not set,
+		 * but the modle will do too
+		 */
+		if (this.zoomedModel){
+			segement.setZoomedModel(this.zoomedModel)
+		} else {
+			segement.setZoomedModel(this.model)
+		}
+		segement.setSymbol(this.isSymbol)
+
+		this._uiWidgets[model.id] = segement;
+		this._containerWidgets[model.id] = segement;
 	}
 
 	_createRepeater (parent, model) {

@@ -52,7 +52,7 @@ export default {
 			this.gridWidth = db.formGroup("", "Width", 0).build(left);
 			
 			
-			this.columnCntr = db.div("MatcMarginTop container").build(this.domNode);
+			this.columnCntr = db.div(" container").build(this.domNode);
 			row = db.div("row").build(this.columnCntr)
 			left = db.div("col-md-6").build(row);
 			var right = db.div("col-md-6  ").build(row);

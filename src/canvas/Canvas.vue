@@ -16,6 +16,7 @@
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div> 
 		</div> 
 	</div> 
+	<!--
 	<div class="MatcStatus" data-dojo-attach-point="status">
 		<div class="MatcStatusCntr">
 			<div class="MatcStatusItem">	
@@ -27,17 +28,19 @@
 				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus"> 			
 				</span> 
 			</div> 
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>	
 			<div class="MatcStatusItem" data-dojo-attach-point="gridBtn">
 				<span class="MatcStatusButtom glyphicon glyphicon-th"></span> 
 				<span class="MatcStatusItemLabel MatcStatusButtom" >Grid &amp; Columns</span> 
 			</div>	
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>	
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="distanceCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="rulerCntr"></div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="dataViewCntr"></div>
 		</div>
-	</div> <!-- Status -->
+	</div> 
+	--> <!-- Status -->
 
 	<div class="MatcMessage" data-dojo-attach-point="message"> 			
 	</div> 
@@ -72,6 +75,7 @@ import Scroll from 'canvas/Scroll'
 import Upload from 'canvas/Upload'
 import Comment from 'canvas/Comment'
 import Layer from 'canvas/Layer'
+import DataView from 'canvas/DataView'
 import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 
@@ -79,15 +83,16 @@ import CustomHandler from 'canvas/CustomHandler'
 
 export default {
   name: 'Canvas',
-	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler],
+	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, 
+			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView],
     data: function () {
         return {
-         		mode: "edit", 
+			mode: "edit", 
             debug: false, 
             grid: null, 
             isPublic: false, 
-						active: true,
-						name: 'XCanvas'
+			active: true,
+			name: 'XCanvas'
         }
     },
     components: {},
@@ -121,14 +126,16 @@ export default {
 			this.initUpload();
 			this.initComment();		
 			this.initScreenRuler()	
+			this.initDataView()
 			
 			/**
 			 * Init Listeners
 			 */
 			this.own(topic.subscribe("matc/toolbar/click", lang.hitch(this,"onToolbarClick")));
-			this.own(on(this.gridBtn, touch.press, lang.hitch(this, "showGrid")));
+			//this.own(on(this.gridBtn, touch.press, lang.hitch(this, "showGrid")));
 			this.own(on(win.body(), "keydown", lang.hitch(this,"onKeyPress")));
 			this.own(on(win.body(), "keyup", lang.hitch(this,"onKeyUp")));
+			
 
 			/**
 			 * Set correct mode
@@ -183,6 +190,75 @@ export default {
 			if (this.settings){
 				this.toolbar.setSettings(this.settings);
 			}
+			this.onChangeCanvasViewConfig()
+		},
+
+		onChangeCanvasViewConfig () {
+			if (this.toolbar) {
+				let hasGrid = false
+				let hasShowGrid = false
+				let grid = null
+				if (this.model) {
+					hasGrid = this.model.grid.enabled
+					hasShowGrid = this.model.grid.visible
+					grid = this.model.grid
+				}
+				this.toolbar.setCanvasViewConfig({
+					zoom: this.zoom,
+					renderLines: this.renderLines,
+					showDistance: this.showDistance,
+					showComments:  this.showComments,
+					showRuler: this.showRuler,
+					hasDataView: this.hasDataView,
+					layerListVisible: this.settings.layerListVisible,
+					hasGrid: hasGrid,
+					hasVisibleGrid: hasShowGrid,
+					grid: grid
+				})
+			}
+		},
+
+		setCanvasViewConfig (key, value) {
+			this.logger.log(-1, "setCanvasViewConfig", "enter > " + key, value);
+			if (key === 'zoom') {
+				this.setZoomFactor(value)
+			}
+
+			if (key === 'renderLines') {
+				this.setViewLines(value)
+			}
+
+			if (key === 'showDistance') {
+				this.setShowDistance(value)
+			}
+
+			if (key === 'showComments') {
+				this.setCommentView(value)
+			}
+
+			if (key === 'showRuler') {
+				this.setShowScreenRuler(value)
+			}
+
+			if (key === 'hasGrid') {
+				this.setEnableGrid(value)
+			}
+
+			if (key === 'hasVisibleGrid') {
+				this.setVisibleGrid(value)
+			}
+
+			if (key === 'showGrid') {
+				this.showGrid(value)
+			}
+
+			if (key === 'layerListVisible') {
+				this.setLayerVisibility(value)
+			}
+
+			if (key === 'hasDataView') {
+				this.setDataView(value)
+			}
 		},
 
 		setScreenName (screen) {
@@ -220,12 +296,7 @@ export default {
 		
 		setModel (model){
 			this.model = model;
-			this.grid = this.model.grid;
-			this.setFonts(model.fonts)
-			/**
-			 * FIXME: Why did I do this?
-			 */
-			//this.loadComments()
+			this.onChangeCanvasViewConfig()
 		},
 		
 		
@@ -272,6 +343,8 @@ export default {
 			this.logger.log(-1,"onExit", "enter > " );
 			this.active = false;
 		}, 
+
+		
 		
 		/***************************************************************************
 		 * Settings
@@ -294,11 +367,12 @@ export default {
 				keepColorWidgetOpen: true,
 				layerListVisible: false,
 				showRuler: true,
-				fastRender: false
+				fastRender: false,
+				hasProtoMoto: false
 			};
 			
 			var s = this._getStatus("matcSettings");
-			if(s){
+			if (s){
 				/**
 				 * Cant we use setSetiings her??
 				 */
@@ -346,10 +420,14 @@ export default {
 				if (s.fastRender != null) {
 					this.settings.fastRender = s.fastRender
 				}
+				if (s.hasProtoMoto != null) {
+					this.settings.hasProtoMoto = s.hasProtoMoto
+				}
 			} else {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
 			}	
 			this.applySettings(this.settings);
+		
 		},
 		
 		getSettings (){
@@ -393,8 +471,12 @@ export default {
 			if (s.fastRender != null) {
 				this.settings.fastRender = s.fastRender
 			}
+			if (s.hasProtoMoto != null) {
+				this.settings.hasProtoMoto = s.hasProtoMoto
+			}
 			this._setStatus("matcSettings",this.settings );
 			this.applySettings(this.settings);
+
 			this.rerender();
 		},
 		
@@ -450,7 +532,11 @@ export default {
 			
 			}
 			this.settings = s;
-			
+
+			if (this.toolbar) {
+				this.toolbar.setSettings(this.settings);
+			}
+			this.onChangeCanvasViewConfig()
 			//console.debug("applySetztings() > exit > renderlines: ", this.renderLines, " > showSettings: ", this.showComments);
 		},
 		
@@ -461,7 +547,7 @@ export default {
 		 ***************************************************************************/
 
 
-		showGrid (){
+		showGrid (target){
 			
 			var db = new DomBuilder();
 			var popup = db.div("MatcGridSelectorDialogContent MatcPadding").build();
@@ -477,7 +563,31 @@ export default {
 			
 			dialog.own(on(cancel, touch.press, lang.hitch(this, "closeDialog")));
 			dialog.own(on(write, touch.press, lang.hitch(this, "setGrid2", selector)));
-			dialog.popup(popup, this.gridBtn);
+			if (target.screenX) {
+				target = this.gridBtn
+			}
+			dialog.popup(popup, target);
+		},
+
+		setEnableGrid (value) {
+			let grid = lang.clone(this.model.grid)
+			grid.enabled = value
+			if (grid.type === "columns"){
+				this.controller.setGrid2(grid, "rgba(0,0,0,0.25)", "line");
+			} else {
+				this.controller.setGrid2(grid, "#cecece", "line");
+			}
+		},
+
+		setVisibleGrid (value) {
+			this.forceRenderUpdates();
+			let grid = lang.clone(this.model.grid)
+			grid.visible = value
+			if (grid.type === "columns"){
+				this.controller.setGrid2(grid, "rgba(0,0,0,0.25)", "line");
+			} else {
+				this.controller.setGrid2(grid, "#cecece", "line");
+			}
 		},
 		
 		setGrid2 (selector){
@@ -531,7 +641,7 @@ export default {
 		 ***************************************************************************/
 		
 		onKeyPress (e){
-			
+	
 			this._currentKeyEvent = e;
 			var k = e.keyCode ? e.keyCode : e.which;
 			var target = e.target;
@@ -540,17 +650,17 @@ export default {
 
 			// console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
 		
-			if(this.state == "simulate" || this.state == "dialog"){
+			if(this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()) {
+				this.logger.log(-1 ,"onKeyPress", "exit because of dialog");
 				return;
 			}
 			
-			if(css.contains(target, "MatcIgnoreOnKeyPress")){
-				console.debug('onKeyPress, do nothing')
+			if (css.contains(target, "MatcIgnoreOnKeyPress")){
 				return;
 			}
 			
 			this._currentKeyPressed = k;
-			if(k == keys.ESCAPE){
+			if (k == keys.ESCAPE){
 				this.onCancelAction();
 				topic.publish("matc/canvas/esc");
 				this.stopEvent(e);
@@ -824,10 +934,10 @@ export default {
 		
 		onKeyUp (e){
 			
-			if(this.state == "simulate" || this.state == "dialog"){
+			if(this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()){
+				this.logger.log(-1 ,"onKeyUp", "exit because of dialog");
 				return;
 			}
-			
 			
 			var target = e.target;
 			if(css.contains(target, "MatcIgnoreOnKeyPress")){

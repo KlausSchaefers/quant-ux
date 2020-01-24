@@ -48,8 +48,6 @@
         </div>
 
        
-      
-       
 	</div>
 </template>
 
