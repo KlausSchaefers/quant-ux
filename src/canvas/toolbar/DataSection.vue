@@ -477,6 +477,15 @@ export default {
 			}
 		},
 
+		_showCountingStepper (model){
+			this._setSectionLabel("Counting Stepper");
+			this._renderInputDropDown("Start Value",model, [0,1,5,10,20,30,40,50,100], "value", true);
+		
+			this._renderColor('Button Color','<span class="mdi mdi-format-text"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
+			this._renderColor('Button Background','<span class="mdi mdi-format-color-fill"></span>',model.style.backgroundButton, "backgroundButton", "onStyleChanged",true );
+
+		},
+
 		_showSpinner (model){
 			this._setSectionLabel("Spinner");
 			this._renderButton("Options", "mdi mdi-settings", "_renderOptionDialog");

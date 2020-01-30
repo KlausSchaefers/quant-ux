@@ -3,7 +3,7 @@
 	"type" : "ScreenSegment",
 	"name" : "Screen Segment",
 	"category" : "WireFrame",
-	"subcategory" : "FormSpecial",
+	"subcategory" : "FormSpecialContainer",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,

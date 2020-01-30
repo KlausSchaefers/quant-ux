@@ -78,6 +78,10 @@ export default {
 		_showStepper (model){
 			this._renderDataBinding(model);
 		},
+
+		_showCountingStepper (model){
+			this._renderDataBinding(model);
+		},
 		
 		_showLabel (model){
 			this._renderDataBinding(model);

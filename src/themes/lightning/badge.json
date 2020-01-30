@@ -1,0 +1,58 @@
+[
+    {
+        "id" : "LightningButtonBadge",
+        "type" : "Button",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "AAFormButton",
+        "name" : "Badge Label",
+        "props" : {
+           "label" : "Badge Label"
+        },
+        "x":0,
+        "w":100,
+        "h":23,
+        "y":0,
+        "has" : {
+           "onclick" : true,
+           "label" : true,
+           "padding" : true,
+           "border":true,
+           "backgroundColor" : true
+        },
+        "style" : { 
+             "fontSize" : 12,
+             "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+             "textAlign" : "center",
+             "letterSpacing" : 0,
+             "lineHeight" : 1,
+             "fontWeight": "bold",
+             "paddingTop" : 4,
+             "paddingBottom" : 4,
+             "paddingLeft" : 8,
+             "paddingRight" : 8,
+             "borderTopRightRadius" : 20,
+             "borderTopLeftRadius" : 20,
+             "borderBottomRightRadius" : 20,
+             "borderBottomLeftRadius" : 20,
+             "borderTopWidth" : 0,
+             "borderBottomWidth" : 0,
+             "borderRightWidth" : 0,
+             "borderLeftWidth" : 0,
+             "background": "#ecebea",
+             "borderTopColor" : "#0070d2",
+             "borderBottomColor" : "#0070d2",
+             "borderRightColor" : "#0070d2",
+             "borderLeftColor" : "#0070d2",
+             "color" : "#080707",
+             "verticalAlign" : "middle"
+        },
+        "hover":{
+            "background" : "#005fb2",
+            "borderTopColor" : "#005fb2",
+            "borderBottomColor" : "#005fb2",
+            "borderRightColor" : "#005fb2",
+            "borderLeftColor" : "#005fb2"
+        }
+    }
+]

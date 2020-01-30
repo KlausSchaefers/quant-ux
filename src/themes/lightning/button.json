@@ -1,0 +1,223 @@
+[
+    {
+        "id" : "LightningButtonBlue",
+        "type" : "Button",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "AAFormButton",
+        "name" : "Base Button",
+        "props" : {
+           "label" : "Base Button"
+        },
+        "x":0,
+        "w":160,
+        "h":32,
+        "y":0,
+        "has" : {
+           "onclick" : true,
+           "label" : true,
+           "padding" : true,
+           "border":true,
+           "backgroundColor" : true
+        },
+        "style" : { 
+             "fontSize" : 13,
+             "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+             "textAlign" : "center",
+             "letterSpacing" : 0,
+             "lineHeight" : 1,
+             "color" : "#ffffff",
+             "paddingTop" : 0,
+             "paddingBottom" : 0,
+             "paddingLeft" : 16,
+             "paddingRight" : 16,
+             "borderTopRightRadius" : 4,
+             "borderTopLeftRadius" : 4,
+             "borderBottomRightRadius" : 4,
+             "borderBottomLeftRadius" : 4,
+             "borderTopWidth" : 1,
+             "borderBottomWidth" : 1,
+             "borderRightWidth" : 1,
+             "borderLeftWidth" : 1,
+             "background": "#0070d2",
+             "borderTopColor" : "#0070d2",
+             "borderBottomColor" : "#0070d2",
+             "borderRightColor" : "#0070d2",
+             "borderLeftColor" : "#0070d2",
+             "verticalAlign" : "middle"
+        },
+        "hover":{
+            "background" : "#005fb2",
+            "borderTopColor" : "#005fb2",
+            "borderBottomColor" : "#005fb2",
+            "borderRightColor" : "#005fb2",
+            "borderLeftColor" : "#005fb2"
+        }
+    },
+    {
+        "id" : "LightningButtonRed",
+        "type" : "Button",
+        "_type" : "Widget",
+        "_extends": "LightningButtonBlue",
+        "category" : "Lightning",
+        "subcategory" : "ABFormButton",
+        "name" : "Destructive Button",
+        "props" : {
+            "label" : "Destructive Button"
+        },
+        "style" : { 
+             "borderTopColor" : "#c23934",
+             "borderBottomColor" : "#c23934",
+             "borderRightColor" : "#c23934",
+             "borderLeftColor" : "#c23934",
+             "background" : "#bb0000"
+        },
+        "hover":{
+            "background" : "#a61a14",
+            "borderTopColor" : "#a61a14",
+            "borderBottomColor" : "#a61a14",
+            "borderRightColor" : "#a61a14",
+            "borderLeftColor" : "#a61a14"
+        }
+   },
+   {
+        "id" : "LightningButtonNeutral",
+        "type" : "Button",
+        "_type" : "Widget",
+        "_extends": "LightningButtonBlue",
+        "category" : "Lightning",
+        "subcategory" : "ABFormButton",
+        "name" : "Neutral Button",
+        "props" : {
+            "label" : "Neutral Button"
+        },
+        "style" : { 
+            "color": "#0070d2",
+            "borderTopColor" : "#dddbda",
+            "borderBottomColor" : "#dddbda",
+            "borderRightColor" : "#dddbda",
+            "borderLeftColor" : "#dddbda",
+            "background" : "#ffffff"
+        },
+        "hover":{
+            "background" : "#f4f6f9",
+            "borderTopColor" : "#dddbda",
+            "borderBottomColor" : "#dddbda",
+            "borderRightColor" : "#dddbda",
+            "borderLeftColor" : "#dddbda",
+            "color": "#005fb2"
+        }
+    },
+    {
+        "id" : "LightningButtonOutlineBrand",
+        "type" : "Button",
+        "_type" : "Widget",
+        "_extends": "LightningButtonBlue",
+        "category" : "Lightning",
+        "subcategory" : "ABFormButton",
+        "name" : "Outline Button",
+        "props" : {
+            "label" : "Outline Button"
+        },
+        "style" : { 
+            "color": "#0070d2",
+            "borderTopColor" : "#0070d2",
+            "borderBottomColor" : "#0070d2",
+            "borderRightColor" : "#0070d2",
+            "borderLeftColor" : "#0070d2",
+            "background" : "#ffffff"
+        },
+        "hover":{
+            "background" : "#f4f6f9",
+            "borderTopColor" : "#0070d2",
+            "borderBottomColor" : "#0070d2",
+            "borderRightColor" : "#0070d2",
+            "borderLeftColor" : "#0070d2",
+            "color": "#005fb2"
+        }
+    },
+    {
+        "id" : "LightningButtonTextDetructive",
+        "type" : "Button",
+        "_type" : "Widget",
+        "_extends": "LightningButtonBlue",
+        "category" : "Lightning",
+        "subcategory" : "ABFormButton",
+        "name" : "Destructive Text",
+        "props" : {
+            "label" : "Destructive Text"
+        },
+        "style" : { 
+            "color": "#c23934",
+            "borderTopColor" : "#dddbda",
+            "borderBottomColor" : "#dddbda",
+            "borderRightColor" : "#dddbda",
+            "borderLeftColor" : "#dddbda",
+            "background" : "#ffffff"
+        },
+        "hover":{
+            "background" : "#f4f6f9",
+            "borderTopColor" : "#dddbda",
+            "borderBottomColor" : "#dddbda",
+            "borderRightColor" : "#dddbda",
+            "borderLeftColor" : "#dddbda",
+            "color": "#a12b2b"
+        }
+    },
+    {
+        "id" : "LightningButtonSuccess",
+        "type" : "Button",
+        "_type" : "Widget",
+        "_extends": "LightningButtonBlue",
+        "category" : "Lightning",
+        "subcategory" : "ABFormButton",
+        "name" : "Success Link",
+        "props" : {
+            "label" : "Success Link"
+        },
+        "style" : { 
+            "color": "#080707",
+            "borderTopColor" : "#4bca81",
+            "borderBottomColor" : "#4bca81",
+            "borderRightColor" : "#4bca81",
+            "borderLeftColor" : "#4bca81",
+            "background" : "#4bca81"
+        },
+        "hover":{
+            "background" : "#04844b",
+            "borderTopColor" : "#04844b",
+            "borderBottomColor" : "#04844b",
+            "borderRightColor" : "#04844b",
+            "borderLeftColor" : "#04844b",
+            "color": "#ffffff"
+        }
+    },
+    {
+        "id" : "LightningButtonLink",
+        "type" : "Button",
+        "_type" : "Widget",
+        "_extends": "LightningButtonBlue",
+        "category" : "Lightning",
+        "subcategory" : "ABFormButton",
+        "name" : "Base Link",
+        "props" : {
+            "label" : "Base Link"
+        },
+        "style" : { 
+            "color": "#0070d2",
+            "borderTopColor" : "transparent",
+            "borderBottomColor" : "transparent",
+            "borderRightColor" : "transparent",
+            "borderLeftColor" : "transparent",
+            "background" : "transparent"
+        },
+        "hover":{
+            "borderTopColor" : "transparent",
+            "borderBottomColor" : "transparent",
+            "borderRightColor" : "transparent",
+            "borderLeftColor" : "transparent",
+            "background" : "transparent",
+            "color": "#005fb2"
+        }
+    }
+]

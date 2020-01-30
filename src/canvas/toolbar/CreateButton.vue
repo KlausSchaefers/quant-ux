@@ -71,6 +71,7 @@ export default {
 			categoryNames : {
 				"Bootstrap" : "Bootstrap 3",
 				"Bootstrap4" : "Bootstrap 4",
+				"Lightning": "Lightning",
 				"OpenUI": "OpenUI5"
 			},			
 			previewSizes : {
@@ -100,7 +101,7 @@ export default {
 			this.renderFactory = new RenderFactory();
 			this.renderFactory.setModel(m);	
 			this.renderFactory.setSymbol(true);			
-			this.categoriesList = ["WireFrame", "Material", "IOS", "OpenUI", "Bootstrap4", "Charts"];
+			this.categoriesList = ["WireFrame", "Material", "IOS", "Lightning", "OpenUI", "Bootstrap4", "Charts"];
 			this._importedApps = {}
 			/**
 			 * set to last added category...

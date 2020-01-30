@@ -3,7 +3,7 @@
 	"type" : "Repeater",
 	"name" : "Grid",
 	"category" : "WireFrame",
-	"subcategory" : "FormSpecial",
+	"subcategory" : "FormSpecialContainer",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,

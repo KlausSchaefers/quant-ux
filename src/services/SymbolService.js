@@ -104,6 +104,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/weblink.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/progressbar.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/screensegment.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/countingstepper.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/button2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/calender.json'),
@@ -188,7 +189,13 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/input2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/labels.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/tab.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/table.json')
+            import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/table.json'),
+
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/button.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/badge.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/alert.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/breadcrumbs.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/card.json')
           ]).then(values => {
             this.themes = []
             values.forEach(v => {
