@@ -126,6 +126,10 @@ export default new Router({
     {
       path: '/test/Layer.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/LayerTest.vue')
+    },
+    {
+      path: '/test/Sketch.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/SketchTest.vue')
     }
     //{
     //  path: '/test/paper.html',

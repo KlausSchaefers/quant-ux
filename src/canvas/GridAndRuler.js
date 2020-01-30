@@ -10,7 +10,7 @@ export default class GridAndRuler extends Core {
 		super()
 		this.logger = new Logger('GridAndRuler');
 		this.logger.log(2, "constructor", "entry");
-		this.snappDistance = 5
+		this.snappDistance = 8
 		this.showDistance = 15
 		this.patternNeibhourhood = 10
 		this._initLinesCalled = 0
@@ -50,7 +50,7 @@ export default class GridAndRuler extends Core {
 			this.snappDistance = Math.ceil(grid.h ) * this.zoom ;
 			this.showDistance = this.snappDistance + 5;
 		}
-		this.logger.log(1, "start", "snappDistance " + this.snappDistance);
+		this.logger.log(-1, "start", "snappDistance " + this.snappDistance);
 
 		this.grid = grid;
 		this.model = canvas.model;
