@@ -432,7 +432,7 @@ export default {
      * Returns the inherited style. Mixing in the properties of the
      * parent widget.
      */
-    getInheritedStyle: function(model, widgetViewMode) {
+    getInheritedStyle (model, widgetViewMode) {
       if (model && model.parentWidget) {
         var parent = this.model.widgets[model.parentWidget];
         if (parent) {
@@ -452,7 +452,7 @@ export default {
      * Gets the right line for a box. In case of
      * inherited widgets it takes the line of the parent
      */
-    getLineFrom: function(box) {
+    getLineFrom (box) {
       var boxID = box.id;
       if (box.inherited) {
         boxID = box.inherited;
@@ -472,7 +472,7 @@ export default {
      *
      * The lines are ordered by id, which might be wrong...
      */
-    getFromLines: function(box) {
+    getFromLines (box) {
       var result = [];
       for (var id in this.model.lines) {
         var line = this.model.lines[id];
@@ -680,24 +680,8 @@ export default {
      * Layout Functions
      ***************************************************************************/
 
-    getOrderedWidgets: function(widgets) {
-      var result = [];
-      for (var id in widgets) {
-        var widget = widgets[id];
-        if (widget) {
-          this.fixMissingZValue(widget);
-          result.push(widget);
-        } else {
-          var e = new Error("getOrderedWidgets() > no widget with id " + id);
-          if (this.logger) {
-            this.logger.sendError(e);
-          }
-        }
-      }
-
-      this.sortWidgetList(result);
-
-      return result;
+    getOrderedWidgets (widgets) {
+      return CoreUtil.getOrderedWidgets(widgets)
     },
 
     /**
@@ -705,21 +689,8 @@ export default {
      *
      * Pass the children as parameter
      */
-    sortChildren: function(children) {
-      var result = [];
-      for (var i = 0; i < children.length; i++) {
-        var widgetID = children[i];
-        var widget = this.model.widgets[widgetID];
-        if (widget) {
-          this.fixMissingZValue(widget);
-          result.push(widget);
-        }
-      }
-
-      this.sortWidgetList(result);
-
-      //console.debug("sortChildren > ", result);
-      return result;
+    sortChildren (children) {
+        return CoreUtil.sortChildren(children, this.model)
     },
 
     /**
@@ -738,60 +709,11 @@ export default {
      *  4) id: if the z value is the same, sort by id, which means the order the widgets have been
      *  added to the screen.
      */
-    sortWidgetList: function(result) {
-      /**
-       * Inline function to determine if a widget is fixed.
-       * we have to check if style exists, because the Toolbar.onToolWidgetLayer()
-       * call the method without styles.
-       */
-      var isFixed = function(w) {
-        if (w.style && w.style.fixed) {
-          return true;
-        }
-        return false;
-      };
-
-      result.sort(function(a, b) {
-        var aFix = isFixed(a);
-        var bFix = isFixed(b);
-
-        /**
-         * 1) Sort by fixed. If both are fixed or not fixed,
-         * continue sorting by inherited.
-         */
-        if (aFix == bFix) {
-          /**
-           * If both a inherited or not inherited,
-           * continue sorting by z & id
-           */
-          if ((a.inherited && b.inherited) || (!a.inherited && !b.inherited)) {
-            /**
-             * 4) if the have the same z, sot by id
-             */
-            if (a.z == b.z && (a.id && b.id)) {
-              return a.id.localeCompare(b.id);
-            }
-
-            /**
-             * 3) Sort by z. Attention, Chrome
-             * needs -1, 0, 1 or one. > does not work
-             */
-            return a.z - b.z;
-          }
-          if (a.inherited) {
-            return -1;
-          }
-
-          return 1;
-        }
-        if (aFix) {
-          return 1;
-        }
-        return -1;
-      });
+    sortWidgetList (result) {
+      return CoreUtil.sortWidgetList(result)
     },
 
-    isFixedWidget: function(w) {
+    isFixedWidget (w) {
       if (w.style && w.style.fixed) {
         return true;
       }

@@ -27,8 +27,8 @@ export default {
     return {
       value: null,
       month_names: [
-        "Januar",
-        "Februar",
+        "January",
+        "February",
         "March",
         "April",
         "May",

@@ -4,24 +4,24 @@ import Evented from 'dojo/Evented'
 import ModelGeom from 'core/ModelGeom'
 import ModelResizer from 'core/ModelResizer'
 
-export default class Core extends Evented{
+export default class Core extends Evented {
 
-    constructor () {
+    constructor() {
         super()
         this.logger = new Logger("Core");
     }
 
-    getContainedChildWidgets (container, model) {
+    getContainedChildWidgets(container, model) {
         let result = []
         /*
          * Loop over sorted list
          */
         let sortedWidgets = this.getOrderedWidgets(model.widgets)
         let found = false
-        for (let i = 0; i < sortedWidgets.length; i++){
+        for (let i = 0; i < sortedWidgets.length; i++) {
             let widget = sortedWidgets[i]
-             if (container.id != widget.id) {
-                if (found && this._isContainedInBox(widget, container)){
+            if (container.id != widget.id) {
+                if (found && this._isContainedInBox(widget, container)) {
                     widget.container = container.id
                     result.push(widget)
                 }
@@ -32,19 +32,19 @@ export default class Core extends Evented{
         return result;
     }
 
-     /**
+    /**
      * Gets all teh widgets that are in the container! The method
      * takes the order into account
      * @param {} widgets 
      * @param {*} container 
      */
-    getParentWidgets (widget, model) {
+    getParentWidgets(widget, model) {
         let result = []
         /*
          * Loop over sorted list
          */
         let sortedWidgets = this.getOrderedWidgets(model.widgets)
-        for (let i = 0; i < sortedWidgets.length; i++){
+        for (let i = 0; i < sortedWidgets.length; i++) {
             let container = sortedWidgets[i]
             //console.debug('Repeater.core', container.name, container.isContainer, container.id, widget.id)
             /**
@@ -54,7 +54,7 @@ export default class Core extends Evented{
             if (container.id != widget.id) {
                 if (container.isContainer) {
                     //console.debug('  Repeater.core', widget.x, container.x)
-                    if (this._isContainedInBox(widget, container)){
+                    if (this._isContainedInBox(widget, container)) {
                         result.push(container)
                     }
                 }
@@ -66,7 +66,7 @@ export default class Core extends Evented{
         return result;
     }
 
-    getObjectLength (o) {
+    getObjectLength(o) {
         if (o) {
             return Object.keys(o).length;
         } else {
@@ -74,104 +74,104 @@ export default class Core extends Evented{
         }
     }
 
-     /**********************************************************************
+    /**********************************************************************
      * Clone Tool
      **********************************************************************/
-    getClones (ids, target) {
+    getClones(ids, target) {
 
         var result = [];
         var previews = [];
-  
+
         // 1) get bounding box
         var boudingBox = this.getBoundingBox(ids);
-  
+
         var xFactor = 1;
         if (boudingBox.x > target.x) {
-          xFactor = -1;
+            xFactor = -1;
         }
-  
+
         var yFactor = 1;
         if (boudingBox.y > target.y) {
-          yFactor = -1;
+            yFactor = -1;
         }
-  
+
         var xCount = Math.floor(target.w / boudingBox.w);
         var yCount = Math.floor(target.h / boudingBox.h);
         var xSpace = Math.round((target.w - xCount * boudingBox.w) / Math.max(1, xCount - 1));
         var ySpace = Math.round((target.h - yCount * boudingBox.h) / Math.max(1, yCount - 1));
         //console.debug("getClones > x: ", xCount,xSpace, " y:", yCount, ySpace, " >> bb: ", boudingBox.w, boudingBox.h, boudingBox.y)
-  
+
         var offSets = {};
         for (let i = 0; i < ids.length; i++) {
-          let id = ids[i];
-          var box = this.getBoxById(id);
-          offSets[id] = {
-            x: box.x - boudingBox.x,
-            y: box.y - boudingBox.y,
-            box: box
-          };
+            let id = ids[i];
+            var box = this.getBoxById(id);
+            offSets[id] = {
+                x: box.x - boudingBox.x,
+                y: box.y - boudingBox.y,
+                box: box
+            };
         }
-  
+
         // now create grid but not at 0,0
         var count = 0;
         for (let x = 0; x < xCount; x++) {
-          for (let y = 0; y < yCount; y++) {
-            if (x != 0 || y != 0) {
-              let id;
-              for (let i = 0; i < ids.length; i++) {
-                id = ids[i];
-                var offset = offSets[id];
-                //console.debug(id,offset.x, offset.y , offset.box.h + ySpace + offset.y)
-                var clone = {
-                  w: boudingBox.w,
-                  h: boudingBox.h,
-                  x: boudingBox.x + (x * (boudingBox.w + xSpace) + offset.x) * xFactor,
-                  y: boudingBox.y + (y * (boudingBox.h + ySpace) + offset.y) * yFactor,
-                  z: offset.box.z,
-                  group: count,
-                  cloneOff: id
-                };
-                result.push(clone);
-              }
-              /**
-               * FIXME: Should this be in the loop?
-               */
-              var preview = {
-                w: boudingBox.w,
-                h: boudingBox.h,
-                x: boudingBox.x + x * (boudingBox.w + xSpace) * xFactor,
-                y: boudingBox.y + y * (boudingBox.h + ySpace) * yFactor,
-                z: 0,
-                cloneOff: id
-              };
-              previews.push(preview);
-              count++;
+            for (let y = 0; y < yCount; y++) {
+                if (x != 0 || y != 0) {
+                    let id;
+                    for (let i = 0; i < ids.length; i++) {
+                        id = ids[i];
+                        var offset = offSets[id];
+                        //console.debug(id,offset.x, offset.y , offset.box.h + ySpace + offset.y)
+                        var clone = {
+                            w: boudingBox.w,
+                            h: boudingBox.h,
+                            x: boudingBox.x + (x * (boudingBox.w + xSpace) + offset.x) * xFactor,
+                            y: boudingBox.y + (y * (boudingBox.h + ySpace) + offset.y) * yFactor,
+                            z: offset.box.z,
+                            group: count,
+                            cloneOff: id
+                        };
+                        result.push(clone);
+                    }
+                    /**
+                     * FIXME: Should this be in the loop?
+                     */
+                    var preview = {
+                        w: boudingBox.w,
+                        h: boudingBox.h,
+                        x: boudingBox.x + x * (boudingBox.w + xSpace) * xFactor,
+                        y: boudingBox.y + y * (boudingBox.h + ySpace) * yFactor,
+                        z: 0,
+                        cloneOff: id
+                    };
+                    previews.push(preview);
+                    count++;
+                }
             }
-          }
         }
         return {
-          previews: previews,
-          clones: result
+            previews: previews,
+            clones: result
         };
     }
-  
-     /***************************************************************************
+
+    /***************************************************************************
      * UI Geometrix helpers
      ***************************************************************************/
 
-    getBoundingBox (ids) {
+    getBoundingBox(ids) {
         return ModelGeom.getBoundingBox(ids, this.model);
     }
-  
-    getBoundingBoxByBoxes (boxes) {
+
+    getBoundingBoxByBoxes(boxes) {
         return ModelGeom.getBoundingBoxByBoxes(boxes);
     }
 
-    getBoxById (id) {
+    getBoxById(id) {
         return ModelGeom.getBoxById(id, this.model)
     }
 
-    getParentScreen (widget, model) {
+    getParentScreen(widget, model) {
         if (!model) {
             model = this.model
         }
@@ -179,32 +179,32 @@ export default class Core extends Evented{
             var screen = model.screens[id];
             var i = screen.children.indexOf(widget.id);
             if (i > -1) {
-            return screen;
+                return screen;
             }
         }
         return null;
     }
 
-    getWidgetPostionInScreen (widget, model) {
+    getWidgetPostionInScreen(widget, model) {
         var screen = this.getParentScreen(widget, model);
         if (screen) {
             return {
-            x: widget.x - screen.x,
-            y: widget.y - screen.y,
-            w: widget.w,
-            h: widget.h
+                x: widget.x - screen.x,
+                y: widget.y - screen.y,
+                w: widget.w,
+                h: widget.h
             };
         } else {
             return {
-            x: widget.x,
-            y: widget.y,
-            w: widget.w,
-            h: widget.h
+                x: widget.x,
+                y: widget.y,
+                w: widget.w,
+                h: widget.h
             };
         }
     }
 
-    _correctBoundindBox (boundingbox, modelBoundingBox) {
+    _correctBoundindBox(boundingbox, modelBoundingBox) {
         if (Math.abs(boundingbox.x - modelBoundingBox.x) <= 2) {
             this.logger.log(2, "_correctBoundindBox", "Correct X");
             boundingbox.x = modelBoundingBox.x;
@@ -220,11 +220,11 @@ export default class Core extends Evented{
     /**
      * Gets the new position for a group child
      */
-    _getGroupChildResizePosition (widget, oldGroup, newGroup, dif) {
+    _getGroupChildResizePosition(widget, oldGroup, newGroup, dif) {
         return ModelResizer.getGroupChildResizePosition(widget, oldGroup, newGroup, dif)
     }
-  
-    getObjectFromArray (list, key) {
+
+    getObjectFromArray(list, key) {
         var result = {};
         for (var i = 0; i < list.length; i++) {
             var item = list[i];
@@ -233,20 +233,20 @@ export default class Core extends Evented{
         }
         return result;
     }
-  
-    getArrayFromObject (obj, key) {
+
+    getArrayFromObject(obj, key) {
         var result = [];
         for (var i in obj) {
             var item = obj[i];
             if (key) {
-            item[key] = i;
+                item[key] = i;
             }
             result.push(item);
         }
         return result;
     }
-  
-    getWidgetsByDistanceAndType (widget, types) {
+
+    getWidgetsByDistanceAndType(widget, types) {
         var result = [];
 
         if (this.model) {
@@ -254,22 +254,22 @@ export default class Core extends Evented{
             let children = screen.children;
 
             for (let i = 0; i < children.length; i++) {
-            let widgetID = children[i];
+                let widgetID = children[i];
 
-            if (widgetID != widget.id) {
-                let childWidget = this.model.widgets[widgetID];
-                var type = childWidget.type;
-                if (types.indexOf(type) >= 0) {
-                result.push({
-                    d: 0,
-                    y: childWidget.y,
-                    w: childWidget
-                });
+                if (widgetID != widget.id) {
+                    let childWidget = this.model.widgets[widgetID];
+                    var type = childWidget.type;
+                    if (types.indexOf(type) >= 0) {
+                        result.push({
+                            d: 0,
+                            y: childWidget.y,
+                            w: childWidget
+                        });
+                    }
                 }
             }
-            }
-            result.sort(function(a, b) {
-            return a.y - b.y;
+            result.sort(function (a, b) {
+                return a.y - b.y;
             });
         }
 
@@ -280,7 +280,7 @@ export default class Core extends Evented{
     /**********************************************************************
      * Distribute Tool
      **********************************************************************/
-    _distributedPositions (type, ids, boundingBox) {
+    _distributedPositions(type, ids, boundingBox) {
         /**
          * 1) get all subsets (rows or columns) depending on type
          */
@@ -314,25 +314,25 @@ export default class Core extends Evented{
         for (let i = 0; i < sets.length; i++) {
             var set = sets[i];
             var temp = this._distributedPositionsInSubSet(
-            type,
-            set.children,
-            boundingBox
+                type,
+                set.children,
+                boundingBox
             );
             var tempPositions = temp.positions;
             for (var id in tempPositions) {
-            if (!result[id]) {
-                result[id] = tempPositions[id];
-            } else {
-                if (this.logger) {
-                this.logger.error(
-                    "_distributedPositions()",
-                    "Widget with id is in two sets: " + id
-                );
-                this.logger.sendError(
-                    new Error("_distributedPositions() > Sets not ok")
-                );
+                if (!result[id]) {
+                    result[id] = tempPositions[id];
+                } else {
+                    if (this.logger) {
+                        this.logger.error(
+                            "_distributedPositions()",
+                            "Widget with id is in two sets: " + id
+                        );
+                        this.logger.sendError(
+                            new Error("_distributedPositions() > Sets not ok")
+                        );
+                    }
                 }
-            }
             }
             distances = distances.concat(temp.distances);
         }
@@ -342,29 +342,29 @@ export default class Core extends Evented{
             distances: distances
         };
     }
-  
-    _addToDisSet (sets, widget, start, end) {
+
+    _addToDisSet(sets, widget, start, end) {
         var overlapps = [];
-  
+
         for (let i = 0; i < sets.length; i++) {
-          var set = sets[i];
-          var overlap = this._getDisOverlap(start, end, set.start, set.end);
-          if (overlap > 0) {     
-            set.start = Math.min(set.start, start);
-            set.end = Math.max(set.end, end);
-            set.children.push(widget.id);
-            set.pos = i;
-            overlapps.push(set);
-          }
+            var set = sets[i];
+            var overlap = this._getDisOverlap(start, end, set.start, set.end);
+            if (overlap > 0) {
+                set.start = Math.min(set.start, start);
+                set.end = Math.max(set.end, end);
+                set.children.push(widget.id);
+                set.pos = i;
+                overlapps.push(set);
+            }
         }
         if (overlapps.length == 0) {
-          sets.push({
-            start: start,
-            end: end,
-            children: [widget.id]
-          });
+            sets.push({
+                start: start,
+                end: end,
+                children: [widget.id]
+            });
         }
-  
+
         /**
          * If an element is in two sets, the sets should be merged!
          * This is not super important, as we would have in worst
@@ -372,33 +372,33 @@ export default class Core extends Evented{
          * Actually this should not happen often (or at all)
          */
         if (overlapps.length > 1) {
-          if (this.logger) {
-            this.logger.warn("_addToDisSet()", "Merging of sets needed");
-          }
-          var merged = {
-            start: start,
-            end: end,
-            children: []
-          };
-          for (let i = 0; i < overlapps.length; i++) {
-            let temp = overlapps[i];
-            merged.start = Math.min(merged.start, temp.start);
-            merged.end = Math.max(merged.end, temp.end);
-            merged.children = merged.children.concat(temp.children);
-            sets.splice(temp.pos, 1);
-          }
+            if (this.logger) {
+                this.logger.warn("_addToDisSet()", "Merging of sets needed");
+            }
+            var merged = {
+                start: start,
+                end: end,
+                children: []
+            };
+            for (let i = 0; i < overlapps.length; i++) {
+                let temp = overlapps[i];
+                merged.start = Math.min(merged.start, temp.start);
+                merged.end = Math.max(merged.end, temp.end);
+                merged.children = merged.children.concat(temp.children);
+                sets.splice(temp.pos, 1);
+            }
         }
-      }
-  
-    _getDisOverlap (a, b, c, d) {
+    }
+
+    _getDisOverlap(a, b, c, d) {
         //return Math.max(0, Math.min(max1, max2) - Math.max(min1, min2))
         return (
-          Math.min(Math.max(a, b), Math.max(c, d)) -
-          Math.max(Math.min(c, d), Math.min(a, b))
+            Math.min(Math.max(a, b), Math.max(c, d)) -
+            Math.max(Math.min(c, d), Math.min(a, b))
         );
     }
-  
-    _distributedPositionsInSubSet (type, ids, boundingBox) {
+
+    _distributedPositionsInSubSet(type, ids, boundingBox) {
         var result = {};
 
         /**
@@ -417,21 +417,21 @@ export default class Core extends Evented{
         for (var id in positions) {
             var newPos = positions[id];
             if (newPos.children) {
-            for (var widgetID in newPos.children) {
-                var widgetPos = newPos.children[widgetID];
-                widgetPos.x = newPos.x + widgetPos.offSetX;
-                widgetPos.y = newPos.y + widgetPos.offSetY;
-                result[widgetID] = widgetPos;
-            }
+                for (var widgetID in newPos.children) {
+                    var widgetPos = newPos.children[widgetID];
+                    widgetPos.x = newPos.x + widgetPos.offSetX;
+                    widgetPos.y = newPos.y + widgetPos.offSetY;
+                    result[widgetID] = widgetPos;
+                }
             } else {
-            result[id] = newPos;
+                result[id] = newPos;
             }
 
             if (newPos.distanceX || newPos.distanceY) {
-            distances.push({
-                x: newPos.distanceX,
-                y: newPos.distanceY
-            });
+                distances.push({
+                    x: newPos.distanceX,
+                    y: newPos.distanceY
+                });
             }
         }
 
@@ -441,23 +441,23 @@ export default class Core extends Evented{
         };
     }
 
-    _getDistributedPositions (type, boxes, boundingBox) {
+    _getDistributedPositions(type, boxes, boundingBox) {
         var positions = {};
 
-        boxes.sort(function(a, b) {
+        boxes.sort(function (a, b) {
             if (type == "vertical") {
-            return a.y - b.y;
+                return a.y - b.y;
             } else {
-            return a.x - b.x;
+                return a.x - b.x;
             }
         });
         var sum = 0;
         for (let i = 0; i < boxes.length; i++) {
             var box = boxes[i];
             if (type == "vertical") {
-            sum += box.h;
+                sum += box.h;
             } else {
-            sum += box.w;
+                sum += box.w;
             }
         }
         var last = boxes[boxes.length - 1];
@@ -474,54 +474,54 @@ export default class Core extends Evented{
             let widget = boxes[i];
 
             let widgetPos = {
-            x: widget.x,
-            y: widget.y,
-            h: widget.h,
-            w: widget.w,
-            children: widget.children
+                x: widget.x,
+                y: widget.y,
+                h: widget.h,
+                w: widget.w,
+                children: widget.children
             };
             if (i == 0) {
-            if (type == "vertical") {
-                widgetPos.y = boundingBox.y;
-                last = widgetPos.y + widgetPos.h;
-            } else {
-                widgetPos.x = boundingBox.x;
-                last = widgetPos.x + widgetPos.w;
-            }
+                if (type == "vertical") {
+                    widgetPos.y = boundingBox.y;
+                    last = widgetPos.y + widgetPos.h;
+                } else {
+                    widgetPos.x = boundingBox.x;
+                    last = widgetPos.x + widgetPos.w;
+                }
             } else if (i == boxes.length - 1) {
-            if (type == "vertical") {
-                widgetPos.y = Math.round(boundingBox.y + boundingBox.h - widget.h);
+                if (type == "vertical") {
+                    widgetPos.y = Math.round(boundingBox.y + boundingBox.h - widget.h);
+                } else {
+                    widgetPos.x = Math.round(boundingBox.x + boundingBox.w - widget.w);
+                }
             } else {
-                widgetPos.x = Math.round(boundingBox.x + boundingBox.w - widget.w);
-            }
-            } else {
-            if (type == "vertical") {
-                widgetPos.y = Math.round(last + space);
-                last = Math.round(widgetPos.y + widgetPos.h);
-            } else {
-                widgetPos.x = Math.round(last + space);
-                last = Math.round(widgetPos.x + widgetPos.w);
-            }
+                if (type == "vertical") {
+                    widgetPos.y = Math.round(last + space);
+                    last = Math.round(widgetPos.y + widgetPos.h);
+                } else {
+                    widgetPos.x = Math.round(last + space);
+                    last = Math.round(widgetPos.x + widgetPos.w);
+                }
             }
 
             /**
              * Also store distance so we can show later!
              */
             if (lastBox) {
-            if (type == "vertical") {
-                widgetPos.distanceY = {
-                y: lastBox.y + lastBox.h,
-                h: widgetPos.y - (lastBox.y + lastBox.h),
-                x: Math.round(widgetPos.x + widgetPos.w / 2)
-                };
-            } else {
-                //console.debug("distHor", widgetPos.x - (lastBox.x +lastBox.w))
-                widgetPos.distanceX = {
-                x: lastBox.x + lastBox.w,
-                w: widgetPos.x - (lastBox.x + lastBox.w),
-                y: Math.round(widgetPos.y + widgetPos.h / 2)
-                };
-            }
+                if (type == "vertical") {
+                    widgetPos.distanceY = {
+                        y: lastBox.y + lastBox.h,
+                        h: widgetPos.y - (lastBox.y + lastBox.h),
+                        x: Math.round(widgetPos.x + widgetPos.w / 2)
+                    };
+                } else {
+                    //console.debug("distHor", widgetPos.x - (lastBox.x +lastBox.w))
+                    widgetPos.distanceX = {
+                        x: lastBox.x + lastBox.w,
+                        w: widgetPos.x - (lastBox.x + lastBox.w),
+                        y: Math.round(widgetPos.y + widgetPos.h / 2)
+                    };
+                }
             }
 
             positions[widget.id] = widgetPos;
@@ -531,48 +531,53 @@ export default class Core extends Evented{
     }
 
 
-      /**
+    /**
      * Get widget positions and bounding boxes for groups...
      */
-    _getSelectionGroupPositions (ids) {
+    _getSelectionGroupPositions(ids) {
         var groups = {};
         for (var i = 0; i < ids.length; i++) {
             var widgetID = ids[i];
             var widget = this.model.widgets[widgetID];
             var group = this.getParentGroup(widgetID);
             if (group) {
-            if (!groups[group.id]) {
-                var bbx = this.getBoundingBox(group.children);
-                bbx.children = {};
-                groups[group.id] = bbx;
-            }
-            groups[group.id].children[widgetID] = {
-                x: widget.x,
-                y: widget.y,
-                h: widget.h,
-                w: widget.w,
-                offSetX: widget.x - bbx.x,
-                offSetY: widget.y - bbx.y
-            };
+                if (!groups[group.id]) {
+                    var bbx = this.getBoundingBox(group.children);
+                    bbx.children = {};
+                    groups[group.id] = bbx;
+                }
+                groups[group.id].children[widgetID] = {
+                    x: widget.x,
+                    y: widget.y,
+                    h: widget.h,
+                    w: widget.w,
+                    offSetX: widget.x - bbx.x,
+                    offSetY: widget.y - bbx.y
+                };
             } else {
-            groups[widgetID] = {
-                x: widget.x,
-                y: widget.y,
-                h: widget.h,
-                w: widget.w
-            };
+                groups[widgetID] = {
+                    x: widget.x,
+                    y: widget.y,
+                    h: widget.h,
+                    w: widget.w
+                };
             }
         }
         return this.getArrayFromObject(groups, "id");
     }
-  
-  
+
+
     /**********************************************************************
      * Bounding Box
      **********************************************************************/
-  
-    getGroupBoundingBox (ids) {
-        var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
+
+    getGroupBoundingBox(ids) {
+        var result = {
+            x: 100000000,
+            y: 100000000,
+            w: 0,
+            h: 0
+        };
 
         for (var i = 0; i < ids.length; i++) {
             var id = ids[i];
@@ -593,20 +598,20 @@ export default class Core extends Evented{
         return result;
     }
 
-    getScreenAnimation (screen, eventType) {
+    getScreenAnimation(screen, eventType) {
         if (screen.animation && screen.animation[eventType]) {
             return screen.animation[eventType];
         }
     }
 
-    getDataBinding (widget) {
+    getDataBinding(widget) {
         if (widget && widget.props && widget.props.databinding) {
             return widget.props.databinding;
         }
     }
 
-    getChanges (objOld, objNew, parentPath) {
-    
+    getChanges(objOld, objNew, parentPath) {
+
         var changes = [];
 
         /**
@@ -618,8 +623,8 @@ export default class Core extends Evented{
 
             let change = this.getChange(key, vOld, vNew);
             if (change) {
-            change.parent = parentPath;
-            changes.push(change);
+                change.parent = parentPath;
+                changes.push(change);
             }
         }
 
@@ -631,89 +636,89 @@ export default class Core extends Evented{
             let vNew = objNew[key];
 
             if (vOld === undefined || vOld === null) {
-            let change = {
-                name: key,
-                type: "add",
-                object: vNew,
-                parent: parentPath
-            };
-            changes.push(change);
+                let change = {
+                    name: key,
+                    type: "add",
+                    object: vNew,
+                    parent: parentPath
+                };
+                changes.push(change);
             }
         }
         return changes;
     }
 
-    getChange (key, vOld, vNew) {
+    getChange(key, vOld, vNew) {
         if (vNew === undefined || vNew === null) {
             return {
-            name: key,
-            type: "delete",
-            oldValue: vOld
+                name: key,
+                type: "delete",
+                oldValue: vOld
             };
         } else if (typeof vOld !== typeof vNew) {
-            return {
-            name: key,
-            type: "update",
-            object: vNew,
-            oldValue: vOld
-            };
-        } else if (vOld instanceof Object && vNew instanceof Object) {
-            if (!this.objectEquals(vOld, vNew)) {
             return {
                 name: key,
                 type: "update",
                 object: vNew,
                 oldValue: vOld
             };
+        } else if (vOld instanceof Object && vNew instanceof Object) {
+            if (!this.objectEquals(vOld, vNew)) {
+                return {
+                    name: key,
+                    type: "update",
+                    object: vNew,
+                    oldValue: vOld
+                };
             }
         } else if (vNew !== vOld) {
             return {
-            name: key,
-            type: "update",
-            object: vNew,
-            oldValue: vOld
+                name: key,
+                type: "update",
+                object: vNew,
+                oldValue: vOld
             };
         }
     }
 
-    countProps (obj) {
+    countProps(obj) {
         // FIXME: Porto to ES6
         var count = 0;
         for (let k in obj) {
             if (obj.hasOwnProperty(k)) {
-            count++;
+                count++;
             }
         }
         return count;
     }
-  
-    objectEquals (v1, v2) {
+
+    objectEquals(v1, v2) {
         if (typeof v1 !== typeof v2) {
-          return false;
+            return false;
         }
-  
+
         if (typeof v1 === "function") {
-          return v1.toString() === v2.toString();
+            return v1.toString() === v2.toString();
         }
-  
+
         if (v1 instanceof Object && v2 instanceof Object) {
-          if (this.countProps(v1) !== this.countProps(v2)) {
-            return false;
-          }
-          var r = true;
-          for (let k in v1) {
-            r = this.objectEquals(v1[k], v2[k]);
-            if (!r) {
-              return false;
+            if (this.countProps(v1) !== this.countProps(v2)) {
+                return false;
             }
-          }
-          return true;
-        } else {
-          if (v1 === v2) {
+            var r = true;
+            for (let k in v1) {
+                r = this.objectEquals(v1[k], v2[k]);
+                if (!r) {
+                    return false;
+                }
+            }
             return true;
-          } else {
-            return false;
-          }
+        } else {
+            if (v1 === v2) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -751,7 +756,7 @@ export default class Core extends Evented{
                 );
                 return style;
             } else {
-                console.warn("Layout.getInheritedStyle() > No template found for widget", model.id," with widgetViewMode ", widgetViewMode);
+                console.warn("Layout.getInheritedStyle() > No template found for widget", model.id, " with widgetViewMode ", widgetViewMode);
             }
         }
         return model.style;
@@ -778,7 +783,7 @@ export default class Core extends Evented{
      * Gets the right line for a box. In case of
      * inherited widgets it takes the line of the parent
      */
-    getLineFrom (box) {
+    getLineFrom(box) {
         var boxID = box.id;
         if (box.inherited) {
             boxID = box.inherited;
@@ -798,7 +803,7 @@ export default class Core extends Evented{
      *
      * The lines are ordered by id, which might be wrong...
      */
-    getFromLines (box, model) {
+    getFromLines(box, model) {
         if (!model) {
             model = this.model
         }
@@ -815,7 +820,7 @@ export default class Core extends Evented{
         return result;
     }
 
-    getTopParentGroup (id) {
+    getTopParentGroup(id) {
         let group = this.getParentGroup(id)
         if (group) {
             while (group) {
@@ -834,9 +839,9 @@ export default class Core extends Evented{
         return null
     }
 
-    getAllGroupChildren (group) {
+    getAllGroupChildren(group) {
         if (!group.children) {
-          return []
+            return []
         }
         let result = group.children.slice(0)
         /**
@@ -856,7 +861,7 @@ export default class Core extends Evented{
         return result
     }
 
-    getParentGroup (widgetID) {
+    getParentGroup(widgetID) {
         if (this.model.groups) {
             for (var id in this.model.groups) {
                 var group = this.model.groups[id];
@@ -882,6 +887,10 @@ export default class Core extends Evented{
         return Math.round(v * zoom);
     }
 
+    getZoomedCeil(v, zoom) {
+        return Math.ceil(v * zoom);
+    }
+
     getUnZoomed(v, zoom) {
         return Math.round(v / zoom);
     }
@@ -895,12 +904,15 @@ export default class Core extends Evented{
             box.y = this.getZoomed(box.y, zoomY);
         }
 
+        /**
+         * Since 2.2.5 we use ceil for w and h
+         */
         if (box.w) {
-            box.w = this.getZoomed(box.w, zoomX);
+            box.w = this.getZoomedCeil(box.w, zoomX);
         }
 
         if (box.h) {
-            box.h = this.getZoomed(box.h, zoomY);
+            box.h = this.getZoomedCeil(box.h, zoomY);
         }
 
         if (box.min) {
@@ -940,15 +952,15 @@ export default class Core extends Evented{
         return box;
     }
 
-     /**
+    /**
      * Creates scalled down model and also adds inheritance.
      *
      * FIXME: Change name to createViewModel();
      */
-    createZoomedModel (zoomX, zoomY, isPreview, model) {
+    createZoomedModel(zoomX, zoomY, isPreview, model) {
         this.logger.log(3, "Core.createZoomedModel", "enter > " + zoomX + " > " + zoomY + " > " + isPreview);
-  
-        if (!model){
+
+        if (!model) {
             //console.warn('createZoomedModel without model', new Error.stack)
             model = this.model;
         }
@@ -956,73 +968,73 @@ export default class Core extends Evented{
          * Fall back
          */
         if (!zoomY) {
-          zoomY = zoomX;
+            zoomY = zoomX;
         }
         var zoomedModel = lang.clone(model);
         zoomedModel.isZoomed = true;
-  
+
         this.getZoomedBox(zoomedModel.screenSize, zoomX, zoomY);
-  
+
         for (let id in zoomedModel.widgets) {
-          this.getZoomedBox(zoomedModel.widgets[id], zoomX, zoomY);
+            this.getZoomedBox(zoomedModel.widgets[id], zoomX, zoomY);
         }
-  
+
         for (let id in zoomedModel.screens) {
-          var zoomedScreen = this.getZoomedBox(
-            zoomedModel.screens[id],
-            zoomX,
-            zoomY
-          );
-  
-          /**
-           * This has a tiny tiny bug that makes copy of the same screen jump as x and y and rounded()
-           * To fix this, we should take the relative and x and y in the parent and round that...
-           *
-           * scalledWidget.x = scalledScreen.x + (orgWidget.x - orgScreen.x)*zoomX
-           *
-           * As an alternative we could stop using Math.round() ...
-           */
-          for (let i = 0; i < zoomedScreen.children.length; i++) {
-            let wid = zoomedScreen.children[i];
-            let zoomWidget = zoomedModel.widgets[wid];
-            let orgWidget = model.widgets[wid];
-            if (orgWidget) {
-              /**
-               * When we copy a screen we might not have the org widget yet
-               */
-              var orgScreen = model.screens[zoomedScreen.id];
-              var difX = this.getZoomed(orgWidget.x - orgScreen.x, zoomX);
-              var difY = this.getZoomed(orgWidget.y - orgScreen.y, zoomY);
-              if (orgWidget.parentWidget) {
-                if (zoomWidget.x >= 0) {
-                  zoomWidget.x = zoomedScreen.x + difX;
+            var zoomedScreen = this.getZoomedBox(
+                zoomedModel.screens[id],
+                zoomX,
+                zoomY
+            );
+
+            /**
+             * This has a tiny tiny bug that makes copy of the same screen jump as x and y and rounded()
+             * To fix this, we should take the relative and x and y in the parent and round that...
+             *
+             * scalledWidget.x = scalledScreen.x + (orgWidget.x - orgScreen.x)*zoomX
+             *
+             * As an alternative we could stop using Math.round() ...
+             */
+            for (let i = 0; i < zoomedScreen.children.length; i++) {
+                let wid = zoomedScreen.children[i];
+                let zoomWidget = zoomedModel.widgets[wid];
+                let orgWidget = model.widgets[wid];
+                if (orgWidget) {
+                    /**
+                     * When we copy a screen we might not have the org widget yet
+                     */
+                    var orgScreen = model.screens[zoomedScreen.id];
+                    var difX = this.getZoomed(orgWidget.x - orgScreen.x, zoomX);
+                    var difY = this.getZoomed(orgWidget.y - orgScreen.y, zoomY);
+                    if (orgWidget.parentWidget) {
+                        if (zoomWidget.x >= 0) {
+                            zoomWidget.x = zoomedScreen.x + difX;
+                        }
+                        if (zoomWidget.y >= 0) {
+                            zoomWidget.y = zoomedScreen.y + difY;
+                        }
+                    } else {
+                        zoomWidget.x = zoomedScreen.x + difX;
+                        zoomWidget.y = zoomedScreen.y + difY;
+                    }
                 }
-                if (zoomWidget.y >= 0) {
-                  zoomWidget.y = zoomedScreen.y + difY;
-                }
-              } else {
-                zoomWidget.x = zoomedScreen.x + difX;
-                zoomWidget.y = zoomedScreen.y + difY;
-              }
             }
-          }
         }
-  
+
         for (let id in zoomedModel.lines) {
-          let line = zoomedModel.lines[id];
-          for (let i = 0; i < line.points.length; i++) {
-            this.getZoomedBox(line.points[i], zoomX, zoomY);
-          }
+            let line = zoomedModel.lines[id];
+            for (let i = 0; i < line.points.length; i++) {
+                this.getZoomedBox(line.points[i], zoomX, zoomY);
+            }
         }
-  
+
         /**
          * Now do inheritance here
          */
         var inheritedModel = this.createInheritedModel(zoomedModel);
-  
+
         return inheritedModel;
     }
-  
+
 
     createInheritedModel(model) {
         /**
@@ -1041,7 +1053,7 @@ export default class Core extends Evented{
             }
         }
 
-     
+
         var inModel = lang.clone(model);
         inModel.inherited = true;
 
@@ -1088,7 +1100,7 @@ export default class Core extends Evented{
                              * Since 2.1.3 we also copy the color
                              */
                             this._addBackgroundFromParent(inScreen, parentScreen, model)
-                           
+
                             let difX = parentScreen.x - screen.x;
                             let difY = parentScreen.y - screen.y;
 
@@ -1142,11 +1154,11 @@ export default class Core extends Evented{
 
                                         if (overwritenWidget) {
                                             //console.debug("inheried() ",overwritenWidgetID,  overwritenWidget.style.background)
-                                            overwritenWidget.props = this.mixin(lang.clone(parentWidget.props),overwritenWidget.props,true);
-                                            overwritenWidget.style = this.mixin(lang.clone(parentWidget.style),overwritenWidget.style,true);
+                                            overwritenWidget.props = this.mixin(lang.clone(parentWidget.props), overwritenWidget.props, true);
+                                            overwritenWidget.style = this.mixin(lang.clone(parentWidget.style), overwritenWidget.style, true);
                                             //console.debug("   ->", overwritenWidget.style.background, overwritenWidget.style._mixed.background)
                                             if (overwritenWidget.hover) {
-                                                overwritenWidget.hover = this.mixin(lang.clone(parentWidget.hover),overwritenWidget.hover,true);
+                                                overwritenWidget.hover = this.mixin(lang.clone(parentWidget.hover), overwritenWidget.hover, true);
                                             }
                                             if (overwritenWidget.error) {
                                                 overwritenWidget.error = this.mixin(lang.clone(parentWidget.error), overwritenWidget.error, true);
@@ -1192,8 +1204,8 @@ export default class Core extends Evented{
         return inModel;
     }
 
-    static inlineTemplateStyles (model) {
-        for (let widgetID in model.widgets){
+    static inlineTemplateStyles(model) {
+        for (let widgetID in model.widgets) {
             let widget = model.widgets[widgetID]
             if (widget.template) {
                 let hover = this.getTemplatedStyle(widget, model, 'hover')
@@ -1213,7 +1225,7 @@ export default class Core extends Evented{
                     widget.active = active
                 }
             }
-            
+
         }
         return model
     }
@@ -1241,7 +1253,7 @@ export default class Core extends Evented{
     }
 
 
-    _addRulersFromParent (screen, parent) {
+    _addRulersFromParent(screen, parent) {
         if (parent.rulers) {
             if (!screen.rulers) {
                 screen.rulers = []
@@ -1254,7 +1266,7 @@ export default class Core extends Evented{
         }
     }
 
-    _addBackgroundFromParent (screen, parent, model) {
+    _addBackgroundFromParent(screen, parent, model) {
         if (model.version >= 2) {
             // FIXME: we need a flag to decide if we overwrite the color or not?
             // if (parent.style && screen.style) {
@@ -1263,11 +1275,11 @@ export default class Core extends Evented{
         }
     }
 
-    createScreenSegmentModel (inModel) {
+    createScreenSegmentModel(inModel) {
         let screenSegments = []
         for (let widgetID in inModel.widgets) {
             let widget = inModel.widgets[widgetID]
-            if (widget.type === 'ScreenSegment'){
+            if (widget.type === 'ScreenSegment') {
                 screenSegments.push(widget)
             }
         }
@@ -1297,9 +1309,9 @@ export default class Core extends Evented{
                 let widgetID = screen.children[i];
                 let widget = inModel.widgets[widgetID];
                 if (widget) {
-                    if (widget.isContainer){
+                    if (widget.isContainer) {
                         let children = this.getContainedChildWidgets(widget, inModel)
-                        widget.children = children.map(w => w.id)             
+                        widget.children = children.map(w => w.id)
                     }
                 } else {
                     /**
@@ -1311,7 +1323,7 @@ export default class Core extends Evented{
         }
     }
 
-    static addContainerChildrenToModel (model) {
+    static addContainerChildrenToModel(model) {
         /**
          * Add here some function to add the virtual children, so that stuff
          * works also in the analytic canvas. This would mean we would have to 
@@ -1370,40 +1382,40 @@ export default class Core extends Evented{
     }
 
 
-    stripHTML (s){
-        if(!s)
-            s="";
+    stripHTML(s) {
+        if (!s)
+            s = "";
         s = s.replace(/<\/?[^>]+(>|$)/g, "");
         s = s.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
         return s;
     }
-    
-    unStripHTML (s) {
-        if(!s){
-            s="";
+
+    unStripHTML(s) {
+        if (!s) {
+            s = "";
         }
-        s = s.replace(/\$perc;/g, "%"); 
+        s = s.replace(/\$perc;/g, "%");
         return s;
     }
-    
-    setInnerHTML (e, txt){
-        if(e){
-            txt =  this.stripHTML(txt);
-            txt =txt.replace(/\n/g, "<br>");
-            txt =txt.replace(/\$perc;/g, "%"); // Mongo cannot deal with % on undo
+
+    setInnerHTML(e, txt) {
+        if (e) {
+            txt = this.stripHTML(txt);
+            txt = txt.replace(/\n/g, "<br>");
+            txt = txt.replace(/\$perc;/g, "%"); // Mongo cannot deal with % on undo
             e.innerHTML = txt;
         } else {
             console.warn("setInnerHTML() > No node to set test > ", txt);
         }
     }
 
-    _isContainedInBox (obj, parent) {
+    _isContainedInBox(obj, parent) {
         if (parent) {
             if (
                 obj.x >= parent.x &&
                 obj.x + obj.w <= parent.w + parent.x &&
                 (obj.y >= parent.y && obj.y + obj.h <= parent.y + parent.h)
-                ) {
+            ) {
                 return true;
             }
         }
@@ -1411,15 +1423,15 @@ export default class Core extends Evented{
     }
 
 
-    getHoverScreen (box) {
+    getHoverScreen(box) {
         return this._getHoverScreen(box, this.model);
     }
 
-    _getHoverScreen (box, model) {
+    _getHoverScreen(box, model) {
         return ModelGeom.getHoverScreen(box, model);
     }
 
-    _isBoxChild (obj, parent) {
+    _isBoxChild(obj, parent) {
         if (
             obj.x + obj.w < parent.x ||
             parent.x + parent.w < obj.x ||
@@ -1436,35 +1448,35 @@ export default class Core extends Evented{
      * Zvalue
      */
 
-    getNormalizeWidgetZValues (values) {
+    getNormalizeWidgetZValues(values) {
         /**
          * convert values to a sorted list!
          */
         var list = [];
         for (var id in values) {
-          list.push({
-            id: id,
-            z: values[id]
-          });
+            list.push({
+                id: id,
+                z: values[id]
+            });
         }
         this.sortWidgetList(list);
-  
+
         var z = -1;
         var lastZ = null;
         var result = {};
         for (var i = 0; i < list.length; i++) {
-          var w = list[i];
-          if (lastZ === null || lastZ != w.z) {
-            z++;
-            lastZ = w.z;
-          }
-          result[w.id] = z;
+            var w = list[i];
+            if (lastZ === null || lastZ != w.z) {
+                z++;
+                lastZ = w.z;
+            }
+            result[w.id] = z;
         }
-  
+
         return result;
     }
-  
-    getMinZValue (widgets) {
+
+    getMinZValue(widgets) {
         var min = 100000;
         var l = 0;
         for (var id in widgets) {
@@ -1479,7 +1491,7 @@ export default class Core extends Evented{
         }
     }
 
-    getMaxZValue (widgets) {
+    getMaxZValue(widgets) {
         var max = -10000;
         var l = 0;
         for (var id in widgets) {
@@ -1492,9 +1504,9 @@ export default class Core extends Evented{
         } else {
             return 0;
         }
-    } 
+    }
 
-    getZValues (widgets) {
+    getZValues(widgets) {
         var values = {};
         for (var id in widgets) {
             var widget = widgets[id];
@@ -1504,7 +1516,7 @@ export default class Core extends Evented{
         return values;
     }
 
-    isFixedWidget (w) {
+    isFixedWidget(w) {
         if (w.style && w.style.fixed) {
             return true;
         }
@@ -1514,18 +1526,18 @@ export default class Core extends Evented{
     /**
      * FIX for old models without z-value
      */
-    fixMissingZValue (box) {
+    fixMissingZValue(box) {
         if (box.z === null || box.z === undefined) {
             box.z = 0;
         }
     }
 
 
-      /**
-       * Get children
-       */
+    /**
+     * Get children
+     */
 
-    getOrderedWidgets (widgets) {
+    getOrderedWidgets(widgets) {
         var result = [];
         for (var id in widgets) {
             var widget = widgets[id];
@@ -1548,7 +1560,7 @@ export default class Core extends Evented{
      *
      * Pass the children as parameter
      */
-    sortChildren (children, model) {
+    sortChildren(children, model) {
         if (!model) {
             model = this.model
         }
@@ -1581,20 +1593,20 @@ export default class Core extends Evented{
      *  4) id: if the z value is the same, sort by id, which means the order the widgets have been
      *  added to the screen.
      */
-    sortWidgetList (result) {
+    sortWidgetList(result) {
         /**
          * Inline function to determine if a widget is fixed.
          * we have to check if style exists, because the Toolbar.onToolWidgetLayer()
          * call the method without styles.
          */
-        var isFixed = function(w) {
+        var isFixed = function (w) {
             if (w.style && w.style.fixed) {
-            return true;
+                return true;
             }
             return false;
         };
 
-        result.sort(function(a, b) {
+        result.sort(function (a, b) {
             var aFix = isFixed(a);
             var bFix = isFixed(b);
 
@@ -1603,45 +1615,45 @@ export default class Core extends Evented{
              * continue sorting by inherited.
              */
             if (aFix == bFix) {
-            /**
-             * If both a inherited or not inherited,
-             * continue sorting by z & id
-             */
-            if ((a.inherited && b.inherited) || (!a.inherited && !b.inherited)) {
                 /**
-                 * 4) if the have the same z, sot by id
+                 * 2) If both a inherited or not inherited,
+                 * continue sorting by z & id
                  */
-                if (a.z == b.z && (a.id && b.id)) {
-                return a.id.localeCompare(b.id);
+                if ((a.inherited && b.inherited) || (!a.inherited && !b.inherited)) {
+                    /**
+                     * 4) if the have the same z, sot by id
+                     */
+                    if (a.z == b.z && (a.id && b.id)) {
+                        return a.id.localeCompare(b.id);
+                    }
+
+                    /**
+                     * 3) Sort by z. Attention, Chrome
+                     * needs -1, 0, 1 or one. > does not work
+                     */
+                    return a.z - b.z;
+                }
+                if (a.inherited) {
+                    return -1;
                 }
 
-                /**
-                 * 3) Sort by z. Attention, Chrome
-                 * needs -1, 0, 1 or one. > does not work
-                 */
-                return a.z - b.z;
-            }
-            if (a.inherited) {
-                return -1;
-            }
-
-            return 1;
+                return 1;
             }
             if (aFix) {
-            return 1;
+                return 1;
             }
             return -1;
         });
     }
 
 
-    getModelChildren (screen) {
+    getModelChildren(screen) {
         var result = [];
 
         for (let id in this.model.widgets) {
             let pos = screen.children.indexOf(id);
             if (pos >= 0) {
-            result.push(this.model.widgets[id]);
+                result.push(this.model.widgets[id]);
             }
         }
 
@@ -1649,29 +1661,29 @@ export default class Core extends Evented{
     }
 
 
-     /***************************************************************************
+    /***************************************************************************
      * Line helpers
      ***************************************************************************/
 
-    getLinesForWidget (widget){
-	
+    getLinesForWidget(widget) {
+
         /**
          * In case of an inherited widget, use the lines of the master
          */
-        if(widget.inherited && this.model.widgets[widget.inherited]){
+        if (widget.inherited && this.model.widgets[widget.inherited]) {
             widget = this.model.widgets[widget.inherited];
         }
-        
+
         var widgetID = widget.id;
         var lines = this.getFromLines(widget);
-        if(lines && lines.length > 0){
+        if (lines && lines.length > 0) {
             return lines;
         }
-        
+
         var group = this.getParentGroup(widgetID);
-        if(group){
+        if (group) {
             var groupLine = this.getFromLines(group);
-            if(groupLine && groupLine.length > 0){
+            if (groupLine && groupLine.length > 0) {
                 return groupLine;
             }
         }
@@ -1680,28 +1692,28 @@ export default class Core extends Evented{
          * Since 2.1.3 we use might have sub groups.
          */
         var topGroup = this.getTopParentGroup(widgetID);
-        if(topGroup){
+        if (topGroup) {
             let groupLine = this.getFromLines(topGroup);
-            if(groupLine && groupLine.length > 0){
+            if (groupLine && groupLine.length > 0) {
                 return groupLine;
             }
         }
-    }  
+    }
 
-    getToLines (box) {
+    getToLines(box) {
         var result = [];
 
         for (var id in this.model.lines) {
             var line = this.model.lines[id];
             if (line.to == box.id) {
-            result.push(line);
+                result.push(line);
             }
         }
 
         return result;
     }
 
-    getLines (box, deep) {
+    getLines(box, deep) {
         var result = [];
 
         var _ids = {};
@@ -1709,43 +1721,43 @@ export default class Core extends Evented{
         for (let id in this.model.lines) {
             let line = this.model.lines[id];
             if (line.to == box.id || line.from == box.id) {
-            result.push(line);
-            _ids[line.id] = true;
+                result.push(line);
+                _ids[line.id] = true;
             }
         }
 
         if (box.children && deep) {
             for (let i = 0; i < box.children.length; i++) {
-            let childID = box.children[i];
-            for (let id in this.model.lines) {
-                let line = this.model.lines[id];
-                if (!_ids[line.id]) {
-                if (line.from == childID || line.to == childID) {
-                    result.push(line);
+                let childID = box.children[i];
+                for (let id in this.model.lines) {
+                    let line = this.model.lines[id];
+                    if (!_ids[line.id]) {
+                        if (line.from == childID || line.to == childID) {
+                            result.push(line);
+                        }
+                    }
                 }
-                }
-            }
             }
         }
 
         return result;
     }
 
-    hasLine (widget) {
+    hasLine(widget) {
         for (let id in this.model.lines) {
             let line = this.model.lines[id];
             if (line.from == widget.id) {
-            return true;
+                return true;
             }
         }
         return false;
     }
 
-    getLine (widget) {
+    getLine(widget) {
         for (let id in this.model.lines) {
             let line = this.model.lines[id];
             if (line.from == widget.id) {
-            return line;
+                return line;
             }
         }
         return null;
@@ -1755,7 +1767,7 @@ export default class Core extends Evented{
      * For all line drawing this function returns the widget, or in case of an
      * group the bounding box!
      */
-    getFromBox (line) {
+    getFromBox(line) {
         var fromPos = this.model.widgets[line.from];
 
         if (!fromPos) {
@@ -1768,22 +1780,22 @@ export default class Core extends Evented{
              */
             var group = this.model.groups[line.from];
             if (group) {
-            fromPos = this.getBoundingBox(group.children);
+                fromPos = this.getBoundingBox(group.children);
             }
         }
 
         return fromPos;
     }
 
-    getToBox (line) {
+    getToBox(line) {
         var to = this.model.screens[line.to];
         if (!to) {
             to = this.model.widgets[line.to];
         }
         return to;
     }
-  
-    static getChildScreens (model, screen) {
+
+    static getChildScreens(model, screen) {
         return Object.values(model.screens).map(s => {
             if (s.parents) {
                 if (s.parents.indexOf(screen.id) >= 0) {
@@ -1794,7 +1806,7 @@ export default class Core extends Evented{
         }).filter(s => s !== null)
     }
 
-    static getMasterScreens (model, screen) {
+    static getMasterScreens(model, screen) {
         let result = []
         if (screen.parents) {
             for (let i = 0; i < screen.parents.length; i++) {
@@ -1810,7 +1822,7 @@ export default class Core extends Evented{
         return result
     }
 
-    getAllRulers (model, screen) {
+    getAllRulers(model, screen) {
         let result = []
         if (screen.rulers) {
             result = result.concat(screen.rulers)
@@ -1822,17 +1834,17 @@ export default class Core extends Evented{
             }
         })
         return result
-	}
+    }
 
-	getSortedScreenChildren (model, screen) {
+    getSortedScreenChildren(model, screen) {
         let widgets = {}
-        for (let i=0; i < screen.children.length; i++){
+        for (let i = 0; i < screen.children.length; i++) {
             let widgetID = screen.children[i];
             let widget = model.widgets[widgetID];
             if (widget) {
                 widgets[widget.id] = widget
             }
         }
-        return this.getOrderedWidgets(widgets).reverse();	
+        return this.getOrderedWidgets(widgets).reverse();
     }
 }

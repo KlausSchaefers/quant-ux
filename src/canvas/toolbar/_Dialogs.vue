@@ -754,7 +754,10 @@ export default {
 			d.popup(dialog, this.simulatorButton);
 			
 			d.own(d.on("close", lang.hitch(this, "stopSimulator",s, scroller)));
-			
+			d.own(on(dialog, 'click', () => {
+				d.close()
+			}));
+
 			/**
 			 * Isn#t the model passed
 			 */
@@ -836,6 +839,9 @@ export default {
 			d.popup(dialog, this.simulatorButton);
 			
 			d.on("close", lang.hitch(this, "stopSimulator", s, scroller));
+			d.own(on(dialog, 'click', () => {
+				d.close()
+			}));
 			
 			/**
 			 * Isnt the model passed???
