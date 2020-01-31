@@ -90,8 +90,8 @@ export default class Logger {
 		}
 	}
 	
-	warn (method, message){
-		this.warning(0, method, message);
+	warn (method, message, obj){
+		this.warning(0, method, message, obj);
 	}	
 
 	info (method, message, data1){
@@ -102,15 +102,23 @@ export default class Logger {
 		this.log(4, method, message, data1);
 	}	
 	
-	warning (level,method, message){
+	warning (level,method, message, obj){
 		var m = this.className + "."+method;
 		if(vommonLoggingDebugLevel >= level){
 			if(this.prefix){
 				if(m.indexOf(this.prefix) == 0){
+					if (obj) {
+						console.warn(m + " >> " + message, obj);
+					} else {
+						console.warn(m + " >> " + message);
+					}
+				}
+			} else{
+				if (obj) {
+					console.warn(m + " >> " + message, obj);
+				} else {
 					console.warn(m + " >> " + message);
 				}
-			}else{
-				console.warn(m + " >> " + message);
 			}
 		}	
 	}	

@@ -16,6 +16,7 @@ import Animation from 'core/Animation'
 export default {
   name: "Preview",
   mixins: [Layout, DojoWidget],
+  props: ['app', 'screen'],
   data: function() {
     return {
       debug: false,
@@ -212,19 +213,11 @@ export default {
         console.warn("initScale() > DEPRECTAED : ", this.scale);
       }
 
-      this.logger.log(
-        5,
-        "initScale",
-        "enter > " + this.scale + " > " + this._scaleX + " > " + this._scaleY
-      );
+      this.logger.log(5, "initScale", "enter > " + this.scale + " > " + this._scaleX + " > " + this._scaleY);
     },
 
     render: function(screen) {
-      this.logger.log(
-        2,
-        "render",
-        "enter >" + this._scaleX + " > " + this._scaleY
-      );
+      this.logger.log(2, "render", "enter >" + this._scaleX + " > " + this._scaleY);
 
       if (!screen) {
         screen = this.getStartScreen();
@@ -316,7 +309,6 @@ export default {
       if (this._fixedWidgets) {
         for (var i = 0; i < this._fixedWidgets.length; i++) {
           var w = this._fixedWidgets[i];
-          console.debug("remove", w);
           if (w.parentNode) {
             try {
               w.parentNode.removeChild(w);
@@ -800,6 +792,11 @@ export default {
       this._lastWidgetAnimationState = {};
     }
   },
-  mounted() {}
+  mounted() {
+    if (this.app) {
+      this.postCreate()
+      this.setModel(this.app, this.screen)
+    }
+  }
 };
 </script>

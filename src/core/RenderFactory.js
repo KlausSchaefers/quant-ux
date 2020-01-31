@@ -38,7 +38,7 @@ import RadioGroup from 'core/widgets/RadioGroup'
 import ChatBot from 'core/widgets/ChatBot'
 import LabeledIconToggle from 'core/widgets/LabeledIconToggle'
 import Rest from 'core/widgets/Rest'
-import SVG from 'core/widgets/SVG'
+import Vector from 'core/widgets/Vector'
 import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
 import Upload from 'core/widgets/Upload'
@@ -495,8 +495,8 @@ export default class RenderFactory extends Core {
 		this._uiWidgets[model.id] = widget;
 	}
 
-	_createSVG(parent, model) {
-		var widget = this.$new(SVG);
+	_createVector(parent, model) {
+		var widget = this.$new(Vector);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
