@@ -839,6 +839,23 @@ export default class Core extends Evented {
         return null
     }
 
+    getAllChildGroups (group) {
+        let result = []
+        if (group.groups) {
+            group.groups.forEach(subId => {
+            let sub = this.model.groups[subId]
+            if (sub) {
+                result.push(sub)
+                let children = this.getAllChildGroups(sub)
+                result = result.concat(children)
+            } else {
+                console.warn('getAllGroupChildren() No sub group', subId)
+            }
+          })
+        }
+        return result
+    }
+
     getAllGroupChildren(group) {
         if (!group.children) {
             return []

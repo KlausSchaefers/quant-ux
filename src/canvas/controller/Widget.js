@@ -1078,8 +1078,6 @@ export default class Widget extends Screen {
 	removeWidget (id){
 		this.logger.log(3,"removeWidget", "enter > " +id);
 		
-	
-		
 		var command = this.createWidgetRemoveCommand(id);
 		this.addCommand(command);
 		

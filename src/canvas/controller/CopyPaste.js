@@ -182,27 +182,41 @@ export default class CopyPaste extends Group{
 			groups: []
 		};
 		if (selectWidget){
-			clipBoard.widgets = [this.model.widgets[selectWidget.id]];
-		} else if(selectedScreen){
+
+			clipBoard.widgets = [this.model.widgets[selectWidget.id]]
+
+		} else if(selectedScreen) {
+
 			clipBoard.screens = [this.model.screens[selectedScreen.id]];
 			for(let i = 0; i < selectedScreen.children.length; i++){
 				let id = selectedScreen.children[i];
 				clipBoard.widgets.push(this.model.widgets[id]);
 			}
-			// TODO: copy also groups
-		} else if(selectMulti) {
+
+		} else if (selectMulti) {
+
 			for(let i = 0; i < selectMulti.length; i++){
 				let id = selectMulti[i];
 				clipBoard.widgets.push(this.model.widgets[id]);
 			}
+
 		} else if (selectGroup) {
-			// FIXME: copy also all child groups
-			for(let i=0; i< selectGroup.children.length; i++){
-				let id = selectGroup.children[i];
-				clipBoard.widgets.push(this.model.widgets[id]);
-			}
+			let groups = this.getAllChildGroups(selectGroup)
+			groups.push(selectGroup)
+			groups.forEach(group => {
+				group = this.model.groups[group.id]
+				clipBoard.groups.push(group)
+				for(let i=0; i< group.children.length; i++){
+					let id = group.children[i];
+					clipBoard.widgets.push(this.model.widgets[id]);
+				}
+			})
 		}
 
+		/**
+		 * Clone before we change the offset! Otherwise
+		 * we fuckup the model!
+		 */
 		clipBoard = lang.clone(clipBoard)
 		
 		/**
@@ -258,6 +272,9 @@ export default class CopyPaste extends Group{
 					console.error('onPasteClipBoard() > No id for screen child!')
 				}
 			})
+			/**
+			 * FIXME: Copy als screen groups
+			 */
 		})
 		clipBoard.groups.forEach(group => {
 			let id = "g" + this.getUUID()
@@ -270,6 +287,15 @@ export default class CopyPaste extends Group{
 					console.error('onPasteClipBoard() > No id for group child!')
 				}
 			})
+			if (group.groups) {
+				group.groups = group.groups.map(id => {
+					if (idMapping[id]) {
+						return idMapping[id]
+					} else {
+						console.error('onPasteClipBoard() > No id for group sub group!')
+					}
+				})
+			}
 		})
 
 		var command = {

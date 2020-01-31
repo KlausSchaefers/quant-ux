@@ -847,25 +847,36 @@ export default {
 		
 		onPaste (fromToolBar, e){
 			
-
+			/**
+			 * Since 2.2.6 we support the clipboard
+			 * To ensure this works also with the patterns,
+			 * we just use this for the if the clipboard comes
+			 * from another app. 
+			 * 
+			 * TODO: We could unify this...
+			 */
 			let clipBoard = this._getClipBoard();
+			let pos = this.getLastMousePos();
 			if (clipBoard && clipBoard.id !== this.model.id) {
+
 				this.logger.log(-1,"onPaste", "enter > OTHER APP");
-				
 				if (!fromToolBar) {
-					let pos = this.getLastMousePos();
+					this.unSelect();	
+				
 					this.controller.onPasteClipBoard(clipBoard, pos);	
 					this.showSuccess("Clipboard was pasted!");
 				} else {
+					/**
+					 * TODO: Use the bounding nbox to also have DND
+					 */
 					this.showError("Copies from other apps work only with CTRL-V");
 				}
-							
-			
-					
+		
 			} else if (this._copied){	
 				this.logger.log(-1,"onPaste", "enter > SAME APP");			
-				let pos = this.getLastMousePos();				
-				if(!fromToolBar){
+							
+				if (!fromToolBar){
+
 					/**
 					 * If paste was not triggered by toolbar, simply add.
 					 * Otherwise render preview and wait for click!
@@ -890,9 +901,8 @@ export default {
 					if(this._lastPaste && this._lastPaste.target){
 						lastPaste.source = this._lastPaste.target;
 					}
-
 					
-					if(this._copied.widget){
+					if (this._copied.widget){
 						// TODO: Add a pasteClipBoardMethod, which would somehow to return a copy...
 						var copy = this.controller.onCopyWidget(this._copied.widget.id, pos);	
 						if(copy){
@@ -922,6 +932,7 @@ export default {
 					}
 					
 				} else {
+
 					/**
 					 * We were triggered from toolbar, and the user might want to still
 					 * move the stuff around...
