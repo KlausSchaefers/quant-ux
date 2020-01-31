@@ -62,11 +62,34 @@ export default class SketchService {
             }
         })
 
+        await this.loadPreviews(result, zip)
+
+    
+
         /**
          * Set screen size to min of all board
          */
         result.files = files
         this.parse(result, resolve)   
+    }
+
+    async loadPreviews (result, zip) {
+        let promisses = []
+        let names = []
+        Object.values(zip.files).forEach(file => {
+            if (file.name.indexOf('previews') >= 0 ) {
+                names.push(file.name)
+                promisses.push(file.async("arraybuffer"))
+            }
+        });
+        let files = await Promise.all(promisses)
+        files = files.map((file, i) => {
+            return {
+                name: names[i],
+                bytes: files[i]
+            }
+        })
+        result.previews = files
     }
 
     parse (result, resolve) {

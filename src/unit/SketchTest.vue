@@ -10,6 +10,7 @@
         {{model}}
     </div>
 
+    <img :src="getPreview(preview)" v-for="preview in previews" :key="preview.name">
 
   </div>
 </template>
@@ -39,12 +40,19 @@ export default {
   data: function() {
     return {
         files: [],
+        previews: [],
         model: {}
     };
   },
   components: {
   },
   methods: {
+      getPreview(preview) {
+        var blob = new Blob( [ preview.bytes ], { type: "image/jpeg" } );
+        var urlCreator = window.URL || window.webkitURL;
+        var imageUrl = urlCreator.createObjectURL( blob );
+        return imageUrl
+      },
       onSelect (d) {
           this.selection = d
       },
@@ -55,6 +63,8 @@ export default {
                 let result = await service.run(bytes)
                 // this.files = result.files
                 this.model = result.model
+                // this.previews = result.previews
+                console.debug(this.previews)
             }) 
         })
    
