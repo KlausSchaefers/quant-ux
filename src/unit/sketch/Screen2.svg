@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="250px" height="330px" viewBox="0 0 250 330" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Screen2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="45" y="47" width="96" height="45" rx="12"></rect>
+        <filter x="-7.3%" y="-11.1%" width="114.6%" height="131.1%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter2" in2="SourceAlpha" operator="out" result="shadowBlurOuter2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Screen2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#F8E71C" x="0" y="0" width="250" height="330"></rect>
+        <g id="RoundRectangle">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <rect stroke="#979797" stroke-width="1" stroke-linejoin="square" fill="#D8D8D8" fill-rule="evenodd" x="45.5" y="47.5" width="95" height="44" rx="12"></rect>
+        </g>
+        <rect id="Rectangle" fill="#D8D8D8" x="12" y="145" width="70" height="65"></rect>
+        <circle id="Oval" stroke="#979797" fill="#A67A7A" cx="172" cy="284" r="31"></circle>
+        <rect id="BorderRectangle_Inside" stroke="#979797" stroke-width="2" fill="#D8D8D8" x="90" y="146" width="37" height="63"></rect>
+        <rect id="BorderRectangle_Center" stroke="#979797" stroke-width="2" fill="#D8D8D8" x="139" y="145" width="39" height="65"></rect>
+        <rect id="BorderRectangle_Outside" stroke="#979797" stroke-width="2" fill="#D8D8D8" x="183" y="144" width="41" height="67"></rect>
+        <text id="Hello-Word" font-family="HelveticaNeue-Light, Helvetica Neue" font-size="28" font-weight="300" fill="#333333">
+            <tspan x="47" y="27">Hello Word</tspan>
+        </text>
+    </g>
+</svg>
