@@ -52,6 +52,13 @@
 	color:#555;
 }
 
+
+.MatcLight .MatcToobarLeft .MatcToolbarItem:hover,
+.MatcLight .MatcToolbarTop .MatcToolbarItem:hover{
+	color:#1973e8;
+}
+
+
 .MatcLight .MatcToobarPropertiesSection .MatcDashLabel,
 .MatcLight .MatcToobarPropertiesSection .MatcDashRingValue{
 	color:#555;

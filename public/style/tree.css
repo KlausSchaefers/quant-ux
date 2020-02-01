@@ -1,6 +1,7 @@
 .MatcTree{
   margin: 0px;
   padding:0px;
+
 }
 
 .MatcTreeItem {
@@ -45,7 +46,7 @@ input.MatcTreeItemLabel {
 
 .MatcTree ul li{
   width: calc(100% - 10px);
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 .MatcTree .MatcTreeIcon {

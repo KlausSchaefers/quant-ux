@@ -863,10 +863,6 @@ export default {
 
 			this._placeAt(this.boxBorder, content);
 
-
-			/**
-			 * Add new style
-			 */
 			content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent MatcToolbarBoxBorderNoDetails");
 			parent.appendChild(content);

@@ -75,7 +75,7 @@
 .MatcLight .MatcLayerListWidget,
 .MatcLight .MatcLayerListGroup,
 .MatcLight .MatcLayerListRowIcon.MatcLayerListGroupIcon{
-	color:#555;
+	color:#777;
 }
 
 
@@ -91,19 +91,20 @@
 .MatcToolbarLayerListScreenLabel {
 	border-bottom: 0px;
 	background: none;
-	color: #999;
-	background: #fff;
-	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ccc;
 	text-align: left;
-	padding: 3px 30px;
+	padding: 3px 10px;
 	display: block;
-	text-align: center;
 	font-weight: 400;
 	font-size: 12px;
 	position: relative;
 	display: block;
 	cursor: pointer;
+	color:#555;
+}
+
+.MatcToolbarSection:first-child .MatcToolbarLayerListScreenLabel{
+	border:none;
 }
 
 .MatcToolbarSectionCollabsed .MatcToolbarLayerListScreenLabel{
@@ -111,9 +112,11 @@
 }
 
 .MatcDark .MatcToolbarLayerListScreenLabel{
-	background: #242a30;
-	border: none;
+	border-top: 1px solid #555;
+	color: #ddd;
 }
+
+
 
 .MatcLayerListWidgetInherited{
 	opacity: 0.7;
