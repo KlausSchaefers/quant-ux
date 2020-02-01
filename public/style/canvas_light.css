@@ -23,7 +23,7 @@
 }
 
 .MatcLight .MatcCanvasContainer {
-    background: #cccccc;
+    background: rgb(230, 230, 230);
     box-shadow: none;
     transition: background 0.3s;
 }
@@ -39,63 +39,53 @@
 	box-shadow: 0 0 20px rgba(0,0,0,0.25);
 }
 
-.MatcLight .MatcCanvasWelcome{
-	color:#999;
-}
-
 .MatcLight .MatcToolbar, 
 .MatcLight .MatcStatus, 
 .MatcLight .MatcStatusItem, 
 .MatcLight .MatcToolbarTop{
 	background: #fff;
 	font-size: 12px;
-	color:#555;
+	color:#777;
 }
-
 
 .MatcLight .MatcToobarLeft .MatcToolbarItem:hover,
 .MatcLight .MatcToolbarTop .MatcToolbarItem:hover{
 	color:#1973e8;
 }
 
-
 .MatcLight .MatcToobarPropertiesSection .MatcDashLabel,
 .MatcLight .MatcToobarPropertiesSection .MatcDashRingValue{
-	color:#555;
+	color:#777;
 }
 
 .MatcLight .MatcToobarPropertiesSection{
-	background: #f2f2f2;
-	font-size: 12px;
-	color:#555;
-
+	background: rgb(245, 245, 245);
+	color:#777;
 }
 
 .MatcLight .MatcToobarLeft{
 	background: #fff;
-	border-right: 1px solid rgba(0, 0, 0, 0.25)
+	border-right: 1px solid rgba(0, 0, 0, 0.15)
 }
 
 .MatcLight .MatcStatusCntr{
-	border-top: 1px solid rgba(0, 0, 0, 0.25)
+	border-top: 1px solid rgba(0, 0, 0, 0.15)
 }
 
 
 .MatcLight .MatcToobarPropertiesSection{
-	border-left: 1px solid rgba(0, 0, 0, 0.25)
+	border-left: 1px solid rgba(0, 0, 0, 0.15)
 }
 
 .MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection{
 	border-left: none;
-	border-right: 1px solid rgba(0, 0, 0, 0.25);
+	border-right: 1px solid rgba(0, 0, 0, 0.15);
 	padding-top:39px;
 }
 
 .MatcLight .MatcToolbarTopCntr{
-	border-bottom: 1px solid  rgba(0, 0, 0, 0.25);
+	border-bottom: 1px solid  rgba(0, 0, 0, 0.15);
 }
-
-
 
 .MatcLight .MatcScreenLabel{
 	color:#555;
@@ -109,7 +99,7 @@
 .MatcLight .MatcBorderStyleDashed, 
 .MatcLight .MatcBorderStyleDotted, 
 .MatcLight .MatcBorderStyleSolid {
-	border-color: #555;
+	border-color: #777;
 }
 
 .MatcLight .MatcToolbarItem {
@@ -142,6 +132,12 @@
 .MatcLight .MatcToobarPropertiesSection .glyphicons::before, 
 .MatcLight .MatcToobarPropertiesSection .glyphicon {
 	font-size: 14px;
+	color: #777;
+}
+
+.MatcLight .MatcToobarPropertiesSection .glyphicons:hover::before, 
+.MatcLight .MatcToobarPropertiesSection .glyphicon:hover{
+	color: #333;
 }
 
 .MatcLight .MatcToolbarAddSection{
@@ -167,49 +163,57 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionLabel{
-	background: #fff;
-	color:#999;
-	border-top:1px solid #ddd;
-	border-bottom:1px solid #ddd;
+	background: none;
+	color:#555;
+	border-top:1px solid rgba(0,0,0, 0.15);
+	border-bottom:1px solid transparent;
 	text-align:left;
 	padding-left:16px;
-}
-
-.MatcLight .MatcAction .MatcToolbarSeparator {
-	border-bottom:1px solid #ccc;
+	font-weight: 700;
 }
 
 .MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel, 
 .MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel:hover,
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionLabel:HOVER,
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarSection:HOVER .MatcToolbarSectionLabel{
-	background:#fff;
-	color:#999;
+	background:none;
+	color:#555;
 }
 
 .MatcLight .MatcToolbarSectionCollabsed  .MatcToolbarSectionLabel{
 	border-bottom: none;
 }
- 
- .MatcLight .MatcLineSupportPointTouch{
+
+.MatcLight .MatcAction .MatcToolbarSeparator {
+	border-bottom:1px solid #ccc;
+}
+
+.MatcLight .MatcLineSupportPointTouch{
  	background: #777;
  	border-color: #ccc;
  }
 
+ .MatcLight .MatcToobarPropertiesSection .MatcToolbarSection {
+	margin-bottom: 20px;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionCollabsed.MatcToolbarSection{
+	margin-bottom: 0px;
+}
 
 
 .MatcLight .MatcToobarPropertiesSection .VommondCheckBoxLabel, 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarItemLabel,
 .MatcLight .MatcToobarPropertiesSection .VommondRadioBoxLabel {
-	color:#555;
+	color:#777;
 }
 
 .MatcLight .MatcToolbarTabs a {
-	color:#555;
+	color:#777;
 }
 
 .MatcLight .MatcToolbarTabs a:HOVER {
-	color:#333;
+	color:#555;
 }
 
 
@@ -245,18 +249,18 @@
 	border-top:1px solid transparent;
 	border-left:1px solid transparent;
 	border-right:1px solid transparent;
-	color:#555;
+	color:#777;
 }
 
 .MatcLight .MatcToobarPropertiesSection input:FOCUS{
-	color:#333;
+	color:#555;
 }
 
 .MatcLight .MatcBoxBorder .MatcToolbarColor, 
 .MatcLight .MatcBoxBorder .MatcToolbarInputDropDownButton,
 .MatcLight .MatcBoxBorder .MatcToolbarDropDownButton {
-	background: #f2f2f2;
-	color:#555;
+	background: #FDFDFD;
+	color:#777;
 	border: 1px solid #777;
 	background: #fff;
 }
@@ -388,3 +392,57 @@
 	border-color: transparent transparent transparent red;
 }
 
+
+
+.MatcLight .MatcToolbarResizeElement,
+.MatcLight .MatcToolbarResizePreview{
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.MatcLight .MatcToolbarResizePinLine{
+    background: #999;
+}
+
+.MatcLight .MatcToolbarResizeActive .MatcToolbarResizePinLine{
+    background: #1973e8;
+}
+
+.MatcLight .MatcToolbarResizePinCenter,
+.MatcLight .MatcToolbarResizePinLeft,
+.MatcLight .MatcToolbarResizePinRight,
+.MatcLight .MatcToolbarResizePinUp,
+.MatcLight .MatcToolbarResizePinDown{
+    border-color: #999;
+}
+
+.MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinCenter,
+.MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinLeft,
+.MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinRight,
+.MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinUp,
+.MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinDown{
+    border-color: #1973e8;
+}
+
+.MatcLight .MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
+.MatcLight .MatcToolbarResizeGrowHorizontal .MatcToolbarResizeGrowLine{
+    background: #999;
+}
+
+.MatcLight .MatcToolbarResizeActive.MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
+.MatcLight .MatcToolbarResizeActive.MatcToolbarResizeGrowHorizontal .MatcToolbarResizeGrowLine{
+    background: #1973e8;
+}
+
+
+.MatcLight .MatcToolbarLayerListScreenLabel{
+	font-weight: 700;
+}
+
+.MatcLight .MatcTreeItem{
+	color:#777;
+}
+
+.MatcLight .MatcToolbarColorIndicator{
+	border:1px solid rgba(0,0,0, 0.15)
+}

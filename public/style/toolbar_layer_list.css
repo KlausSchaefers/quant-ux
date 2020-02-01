@@ -60,32 +60,13 @@
 	border-top:3px solid #1973e8; 
 }
 
-.MatcLight .MatcToolbarLayerList.MatcToobarPropertiesSection{
-	background:#f2f2f2;
-	border-top: 0px solid #ccc;
-}
-
 
 .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel{
 	background: #242a30;
 }
 
-
-
-.MatcLight .MatcLayerListWidget,
-.MatcLight .MatcLayerListGroup,
-.MatcLight .MatcLayerListRowIcon.MatcLayerListGroupIcon{
-	color:#777;
-}
-
-
 .MatcLayerListWidget:hover{
 	background: rgba(0,0,0,0.2);
-}
-
-.MatcLight .MatcLayerListWidget:hover{
-	background: #fff;
-
 }
 
 .MatcToolbarLayerListScreenLabel {
