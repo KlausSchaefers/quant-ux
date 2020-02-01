@@ -41,7 +41,8 @@
 		"borderBottomRightRadius" : 2,
 		"borderBottomLeftRadius" : 2,
 		"colorButton": "#333333",
-		"backgroundButton": "#ffffff"
+		"backgroundButton": "#ffffff",
+		"sizeButton": 1
 	}
 },
 {
@@ -69,7 +70,8 @@
 		"borderBottomLeftRadius" : 0,
 		"colorButton": "#ffffff",
 		"backgroundButton": "#333333",
-		"radiusButton" : 500
+		"radiusButton" : 500,
+		"sizeButton": 1
 	}
 }  
 ]

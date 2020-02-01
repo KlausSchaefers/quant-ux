@@ -162,6 +162,14 @@
 	 border-left: 1px solid #ccc;
 }
 
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarSection {
+	margin-bottom: 10px;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionCollabsed.MatcToolbarSection{
+	margin-bottom: 0px;
+}
+
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionLabel{
 	background: none;
 	color:#555;
@@ -193,13 +201,7 @@
  	border-color: #ccc;
  }
 
- .MatcLight .MatcToobarPropertiesSection .MatcToolbarSection {
-	margin-bottom: 20px;
-}
 
-.MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionCollabsed.MatcToolbarSection{
-	margin-bottom: 0px;
-}
 
 
 .MatcLight .MatcToobarPropertiesSection .VommondCheckBoxLabel, 
@@ -441,6 +443,7 @@
 
 .MatcLight .MatcToolbarLayerListScreenLabel{
 	font-weight: 700;
+	border-top: none;
 }
 
 .MatcLight .MatcTreeItem{

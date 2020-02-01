@@ -4,7 +4,7 @@
     "_type": "Widget",
     "name": "CheckBox",
     "category" : "Lightning",
-    "subcategory" : "Form",
+    "subcategory" : "FormA",
     "w": 18,
     "h": 18,
     "props": {

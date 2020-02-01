@@ -247,6 +247,9 @@
 
 .MatcWidgetTypeCountingStepper .MatcWidgetTypeStepperBtn{
 	width: 30%;
+	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
 }
 
 .MatcWidgetTypeStepperLblCntr{
@@ -287,10 +290,10 @@
 
 .MatcWidgetTypeStepperLabel{
 	position: absolute;
-	 top:50%;
-	 transform: translateY(-50%);
-	 -webkit-transform: translateY(-50%);
-	 width: 100%;
+	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	width: 100%;
 }
 
 

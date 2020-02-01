@@ -24,7 +24,7 @@ export default {
       this._borderNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
-      this._paddingNodes = [];
+      this._paddingNodes = [this.domNode];
     },
 
     wireEvents: function() {
@@ -64,11 +64,7 @@ export default {
       this.plusBtn = db.div("MatcWidgetTypeStepperBtn").build(this.domNode);
       this.plusLbl = db.div("MatcWidgetTypeStepperLabel", "+").build(this.plusBtn);
  
-      this._paddingNodes.push(this.lblBtn);
-      this._paddingNodes.push(this.plusBtn);
-      this._paddingNodes.push(this.minusBtn);
-
-  
+      
       this.resize(model)
       if (model.props.value !== undefined && model.props.value !== null) {
         this.setValue(model.props.value * 1, true);
@@ -78,8 +74,16 @@ export default {
     },
 
     resize (box) {
-        this.minusBtn.style.width = box.h + 'px'
-        this.plusBtn.style.width = box.h + 'px'
+        let h = box.h
+        if (this.model.style.sizeButton < 1) {
+          h = h * this.model.style.sizeButton
+
+          this.minusBtn.style.height = h + 'px'
+          this.plusBtn.style.height = h + 'px'
+        }
+
+        this.minusBtn.style.width = h + 'px'
+        this.plusBtn.style.width = h + 'px'
     },
 
     _set_colorButton (parent, style) {

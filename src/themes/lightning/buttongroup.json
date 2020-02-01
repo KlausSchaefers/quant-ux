@@ -5,7 +5,7 @@
         "_type": "Group",
         "name": "Button Group",
         "category": "Lightning",
-        "subcategory": "ABFormButtonX",
+        "subcategory": "FormC",
         "children": [
           {
             "id": "Group0",

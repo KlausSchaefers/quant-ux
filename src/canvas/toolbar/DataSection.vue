@@ -326,7 +326,6 @@ export default {
 			this._setSectionLabel("Label");
 		},
 
-
 		_showToggleButton (model) {
 			this._setSectionLabel("Toggle Button");
 			this._renderCheck("Active",model.props.active, "active" );
@@ -350,12 +349,9 @@ export default {
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
 		},
 
-
-
 		_showRating (model){
 			this._setSectionLabel("Rating");
 			this._renderColor('Color','<span class="mdi mdi-star"></span>',model.style.color, "color", "onStyleChanged" , true);
-
 		},
 
 		_showImageCarousel (model){
@@ -371,9 +367,6 @@ export default {
 
 		},
 
-
-
-
 		_showIconToggle (model){
 			this._setSectionLabel("Icon Toggle");
 			this._renderCheck("Active",model.props.active, "active" );
@@ -387,7 +380,6 @@ export default {
 			this._renderColor('Active Color','<span class="' + model.props.activeIcon + '"></span>',model.style.activeColor, "activeColor", "onStyleChanged" , true);
 			this._renderColor('Passive Color','<span class="' + model.props.passiveIcon + '"></span>',model.style.passiveColor, "passiveColor", "onStyleChanged" , true);
 		},
-
 
 		_showPassword (model){
 			this._setSectionLabel("Password");
@@ -403,9 +395,6 @@ export default {
 			this._renderCheck("Focus on load",model.props.focus, "focus" );
 
 		},
-
-
-
 
 		_showTextArea (model){
 			this._setSectionLabel("Text Area");

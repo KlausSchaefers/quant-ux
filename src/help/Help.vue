@@ -87,7 +87,7 @@
 </template>
 <style scoped>
 textarea {
- height: 200px;
+    height: 200px;
 }
 </style>
 <script>

@@ -5,7 +5,7 @@
         "name": "Checkbox Toggle",
         "_type": "Widget",
         "category": "Lightning",
-        "subcategory": "Form",
+        "subcategory": "FormB",
         "w": 48,
         "h": 24,
         "props": {

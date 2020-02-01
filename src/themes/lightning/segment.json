@@ -5,7 +5,7 @@
         "name": "Segment Button",
         "_type": "Widget",
         "category": "Lightning",
-        "subcategory": "BFormButton",
+        "subcategory": "FormB",
         "w": 300,
         "h": 32,
         "props": {
@@ -72,7 +72,7 @@
         "name": "Checkbox Button Group",
         "_type": "Widget",
         "category": "Lightning",
-        "subcategory": "BFormButton",
+        "subcategory": "FormB",
         "w": 300,
         "h": 32,
         "props": {
