@@ -1,0 +1,106 @@
+[
+    {
+        "id" : "LightningLabel1",
+        "type" : "Label",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "Label",
+        "name" : "Tiny Label",
+       "x" : 0,
+       "y" : 0,
+       "w" : 100,
+       "h" : 10,
+       "z" : 0,
+       "props" : {
+          "label" : "Tiny"
+       },
+       "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+       },
+       "style" : {
+          "fontSize" : 10,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color": "#3e3e3c"
+       }
+   },
+   {
+        "id" : "LightningLabel2",
+        "_extends": "LightningLabel1",
+        "type" : "Label",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "Label",
+        "name" : "Small Label",
+        "props" : {
+            "label" : "Small Label"
+         },
+        "style" : {
+            "fontSize" : 12
+        }
+    },
+    {
+        "id" : "LightningLabel4",
+        "_extends": "LightningLabel1",
+        "type" : "Label",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "Label",
+        "name" : "Default Label",
+        "props" : {
+            "label" : "Default Label"
+        },
+        "style" : {
+            "fontSize" : 13
+        }
+    },
+    {
+        "id" : "LightningLabel5",
+        "_extends": "LightningLabel1",
+        "type" : "Label",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "Label",
+        "name" : "Headline 3",
+        "props" : {
+            "label" : "Headline"
+        },
+        "style" : {
+            "fontSize" : 18
+        }
+    },
+    {
+        "id" : "LightningLabel6",
+        "_extends": "LightningLabel1",
+        "type" : "Label",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "Label",
+        "name" : "Headline 2",
+        "props" : {
+            "label" : "Headline"
+         },
+        "style" : {
+            "fontSize" : 20
+        }
+    },
+    {
+        "id" : "LightningLabel7",
+        "_extends": "LightningLabel1",
+        "type" : "Label",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "Label",
+        "name" : "Headline 1",
+        "props" : {
+            "label" : "Headline"
+         },
+        "style" : {
+            "fontSize" : 28
+        }
+    }
+]

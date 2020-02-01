@@ -449,9 +449,10 @@ export default {
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
 		},
 
-		_showSegmentButton (){
+		_showSegmentButton (model){
 			this._setSectionLabel("Segment Button");
 			this._renderButton("Options", "mdi mdi-settings", "_renderOptionDialog");
+			this._renderCheck("Multi Selection", model.props.multi, "multi" );
 		},
 
 

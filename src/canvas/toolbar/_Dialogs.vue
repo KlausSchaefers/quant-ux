@@ -363,7 +363,10 @@ export default {
 			
 			var db = new DomBuilder();			
 			var div = db.div("MatcDialogXL MatcPadding").build();			
-			var txt = db.textarea("form-control MatcContentWidgetEditor").build(div);			
+			var txt = db.textarea("form-control MatcContentWidgetEditor").build(div);	
+
+			let category = this.model.lastCategory ? this.model.lastCategory : 'XXX'
+
 			if(this._selectedGroup){
 			
 				var boundingBox = this.getBoundingBox(this._selectedGroup.children);				
@@ -372,7 +375,7 @@ export default {
 					 "type" : "Group",
 					 "_type" : "Group",
 					 "name" : this._selectedGroup.name,
-					 "category" : "XXX",
+					 "category" : category,
 					 "subcategory" : "XXX",
 					 "children":[]
 				}				
@@ -380,9 +383,15 @@ export default {
 				for(var i=0; i< children.length; i++){
 					var org = children[i];
 					var widget = lang.clone(org);
+					delete widget.created
+					delete widget.modified
+					delete widget.z
+					delete widget.template
+					delete widget.copyOf
+					widget._type = "Widget"
 					widget.style = this.getStyle(org);
-					widget.x = widget.x -boundingBox.x;
-					widget.y = widget.y -boundingBox.y;
+					widget.x = widget.x - boundingBox.x;
+					widget.y = widget.y - boundingBox.y;
 					widget.id =this._selectedGroup.name+i;
 					widget.z = null;
 					widget.template = null;
@@ -392,7 +401,18 @@ export default {
 				txt.value = JSON.stringify(group,null, '  ');
 			} 
 			if(this._selectedWidget){
-				txt.value = JSON.stringify(this._selectedWidget,null, '  ');
+				let widget = lang.clone(this._selectedWidget)
+				widget._type = "Widget"
+				widget.category = category
+				widget.subcategory = "XXX"
+				delete widget.created
+				delete widget.modified
+				delete widget.x
+				delete widget.y
+				delete widget.z
+				delete widget.template
+				delete widget.copyOf
+				txt.value = JSON.stringify(widget,null, '  ');
 			}
 			var bar = db.div("MatcButtonBar MatcMarginTop").build(div);			
 			var cancel = db.a("MatcLinkButton", "Cancel").build(bar);			

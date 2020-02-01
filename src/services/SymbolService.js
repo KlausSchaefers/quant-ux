@@ -163,19 +163,6 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/charts/pie.json'),
             import(/* webpackChunkName: "themes" */ 'themes/charts/ring.json'),
 
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/boxes.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/button.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/checkbox.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/date.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/dialog.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/dropdown.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/image.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/input.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/input2.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/labels.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/tab.json'),
-            // import(/* webpackChunkName: "themes" */ 'themes/bootstrap/table.json'),
-
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/alerts.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/boxes.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/button.json'),
@@ -195,7 +182,14 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/lightning/badge.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/alert.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/breadcrumbs.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/lightning/card.json')
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/card.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/builder.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/buttongroup.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/labels.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/checkbox.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/segment.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/toggle.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/switch.json')
           ]).then(values => {
             this.themes = []
             values.forEach(v => {

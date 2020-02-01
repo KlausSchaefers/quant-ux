@@ -4,7 +4,7 @@
         "type" : "Button",
         "_type" : "Widget",
         "category" : "Lightning",
-        "subcategory" : "AAFormButton",
+        "subcategory" : "XBadge",
         "name" : "Badge Label",
         "props" : {
            "label" : "Badge Label"

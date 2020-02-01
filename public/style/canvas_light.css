@@ -377,6 +377,10 @@
 	border:1px solid #ddd;
 }
 
+.MatcLight .MatcToobarPropertiesSection .MatcToobarInput:disabled {
+	background: none;
+}
+
 .MatcLight .MatcScreenGridHandlex{
 	border-color: #555 transparent transparent transparent;
 }

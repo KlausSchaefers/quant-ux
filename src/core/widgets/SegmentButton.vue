@@ -17,6 +17,14 @@ export default {
     };
   },
   components: {},
+  computed: {
+    isMulti () {
+      if (this.model && this.model.props && this.model.props.multi) {
+        return true
+      }
+      return false
+    }
+  },
   methods: {
     postCreate: function() {
       this._borderNodes = [];
@@ -70,9 +78,15 @@ export default {
 
       this.setStyle(style, model);
       if (this.model.props.selected) {
-        this.setValue(this.model.props.selected, true);
-      } else {
-        //this.setValue(options[0], true);
+        /**
+         * Since 2.2.6 we can have optionally multi select. In this
+         * case we must pass and array to setValue
+         */
+        if (this.isMulti) {
+          this.setValue([this.model.props.selected], true);
+        } else {
+          this.setValue(this.model.props.selected, true);
+        }
       }
     },
 
@@ -130,8 +144,23 @@ export default {
       btn.style.color = style.color;
     },
 
-    onSelect: function(value, e) {
+    onSelect: function(option, e) {
       this.stopEvent(e);
+
+      /**
+       * Since 2.2.6 we can have optionally multi select
+       */
+      let value = option
+      if (this.isMulti) {
+        let pos = this.value.indexOf(value)
+        if (pos < 0) {
+          value = [option].concat(this.value)
+        } else {
+          this.value.splice(pos, 1);
+          value = this.value
+        }
+      }
+  
       this.value = value;
       this.emitDataBinding(value);
       this.setValue(value);
@@ -146,16 +175,30 @@ export default {
       var active = this.model.active;
       var style = this.style;
 
-      for (var i = 0; i < this.btns.length; i++) {
-        var option = this.btns[i].o;
-        var btn = this.btns[i].b;
-        if (option == value && active) {
-          this.setDomStyle(btn, active, 0);
-        } else {
-          this.setDomStyle(btn, style, i);
+      if (this.isMulti) {
+        /**
+         * Since 2.2.6 we can have optionally multi select. We expect an array here
+         */
+        for (let i = 0; i < this.btns.length; i++) {
+          let option = this.btns[i].o;
+          let btn = this.btns[i].b;
+          if (value.indexOf(option) >= 0 && active) {
+            this.setDomStyle(btn, active, 0);
+          } else {
+            this.setDomStyle(btn, style, i);
+          }
+        }
+      } else {
+        for (let i = 0; i < this.btns.length; i++) {
+          var option = this.btns[i].o;
+          var btn = this.btns[i].b;
+          if (option == value && active) {
+            this.setDomStyle(btn, active, 0);
+          } else {
+            this.setDomStyle(btn, style, i);
+          }
         }
       }
-
       this.value = value;
     },
 
