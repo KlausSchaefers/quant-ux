@@ -19,6 +19,31 @@
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>
 
+                <div v-if="current.hasContact">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input class="form-control input-lg MatcIgnoreOnKeyPress"  v-model="contactName"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input class="form-control input-lg MatcIgnoreOnKeyPress" v-model="contactEmail"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea class="form-control input-lg MatcIgnoreOnKeyPress" v-model="contactMessage"/>
+                    </div>
+                 
+                    <div class=" MatcButtonBar MatcMarginTopXXL">
+                        <div class="MatcButton" @click="sendContact">Send</div>
+                        <span class="MatcError"> 
+                            {{contactError}}
+                        </span>
+                        <span class="MatcSuccess"> 
+                            {{concatSucess}}
+                        </span>
+                    </div>
+                </div>
+
                 <div v-for="p in current.paragraphs" :key="p.id" :pid="p.id" ref="paragraph" class="MatcHelpContentParagraph">
                     <h3 v-if="p.title">
                         {{p.title}}
@@ -60,6 +85,11 @@
         </div>
     </div>
 </template>
+<style scoped>
+textarea {
+ height: 200px;
+}
+</style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import Services from 'services/Services'
@@ -76,7 +106,12 @@ export default {
             selectedParagraph: "",
             search: "",
             hasSideBar: true,
-            hasNotifications: true
+            hasNotifications: true,
+            contactName: '',
+            contactEmail: '',
+            contactMessage:'',
+            contactError: '',
+            concatSucess: ''
         }
     },
     components: {},
@@ -142,6 +177,24 @@ export default {
                 }
             }
             return news
+        },
+        async sendContact () {
+      
+            if (this.contactEmail && this.contactMessage) {
+                let res = await Services.getUserService().contact(this.contactName, this.contactEmail, this.contactMessage)
+                if (res) {
+                    this.$root.$emit('Success', 'Thanks for contacting us! The dialog will close automatically')
+                    this.concatSucess = 'Thanks for contacting us! The dialog will close automatically'
+                    this.contactError = ''
+
+                    setTimeout(() => {
+                        this.selected = 'default'
+                    }, 2000)
+                }
+            } else {
+                this.contactError = 'Please fill out the form'
+                this.concatSucess = ''
+            }   
         }
     }, 
     async mounted () {
