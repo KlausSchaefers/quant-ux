@@ -278,6 +278,9 @@ export default {
 				if(box.w === "$75%"){
 					box.w = Math.round(this.screenWidth * 0.75);
 				}
+				if(box.w === "$90%"){
+					box.w = Math.round(this.screenWidth * 0.9);
+				}
 				
 				if(box.w === "$100%"){
 					box.w = Math.round(this.screenWidth);
@@ -300,6 +303,9 @@ export default {
 				}
 				if(box.h === "$75%"){
 					box.h = Math.round(this.screenHeight * 0.75);
+				}
+				if(box.h === "$90%"){
+					box.h = Math.round(this.screenHeight * 0.9);
 				}
 				if(box.h === "$100%"){
 					box.h = Math.round(this.screenHeight);

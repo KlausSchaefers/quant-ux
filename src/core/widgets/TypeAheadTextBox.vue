@@ -24,7 +24,7 @@ export default {
   components: {},
   methods: {
     onKeyPress: function(e) {
-      this.log.log(3, "onKeyPress", "enter > ");
+      this.log.log(2, "onKeyPress", "enter > ");
 
       /**
        * Check for key codes and update selection if needed
@@ -32,6 +32,9 @@ export default {
 
       if (this.suggestions) {
         var key = e.which || e.keyCode;
+
+
+        this.log.log(-1, "onKeyPress", "enter > ", key);
 
         if (40 == key) {
           let selected = Math.min(this.suggestions.length - 1,this.selected + 1);

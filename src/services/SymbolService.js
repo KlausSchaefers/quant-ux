@@ -194,7 +194,11 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/lightning/counter.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/date.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/boxes.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/lightning/textbox.json')
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/textbox.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/section.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/expression.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/modal.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/notification.json'),
           ]).then(values => {
             this.themes = []
             values.forEach(v => {

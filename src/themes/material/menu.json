@@ -22,7 +22,8 @@
 	     "backgroundColor" : true,
 	     "data" : true,
 	     "padding":true,
-	     "label":true
+		 "label":true,
+		 "hasIcon": true
      },
      "style" : { 
     	 "borderTopRightRadius" : 4,
@@ -77,7 +78,8 @@
 		     "backgroundColor" : true,
 		     "data" : true,
 		     "padding":true,
-		     "label":true
+			 "label":true,
+			 "hasIcon": true
 	     },
 	     "style" : { 
 	    	 "borderTopRightRadius" : 4,
