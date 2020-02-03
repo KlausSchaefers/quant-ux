@@ -1,8 +1,8 @@
 [{
-    "id": "LightningCheckBox",
-    "type": "CheckBox",
+    "id": "LightningRadio",
+    "type": "RadioBox2",
     "_type": "Widget",
-    "name": "CheckBox",
+    "name": "Radio",
     "category" : "Lightning",
     "subcategory" : "FormA",
     "w": 16,
@@ -17,10 +17,10 @@
       "data": true
     },
     "style": {
-      "borderTopRightRadius": 2,
-      "borderTopLeftRadius": 2,
-      "borderBottomRightRadius": 2,
-      "borderBottomLeftRadius": 2,
+        "borderTopRightRadius" : 100,
+        "borderTopLeftRadius" : 100,
+        "borderBottomRightRadius" : 100,
+        "borderBottomLeftRadius" : 100,
       "borderTopWidth": 1,
       "borderBottomWidth": 1,
       "borderRightWidth": 1,
@@ -39,10 +39,10 @@
       "borderRightColor": "#c23934",
       "borderLeftColor": "#c23934"
     }
-  },{
-    "id" : "LightningCheckBoxGroup",
-     "type" : "CheckBoxGroup",
-     "name" : "CheckBox Group",
+  }, {
+    "id" : "LightningRadioGroup",
+     "type" : "RadioGroup",
+     "name" : "Radio Group",
      "category" : "Lightning",
      "subcategory" : "FormA",
      "_type" : "Widget",
@@ -68,10 +68,10 @@
          "letterSpacing" : 0,
          "lineHeight" : 1,
          "color" : "#3e3e3c",
-         "borderTopRightRadius" : 2,
-         "borderTopLeftRadius" : 2,
-         "borderBottomRightRadius" : 2,
-         "borderBottomLeftRadius" : 2,
+         "borderTopRightRadius" : 100,
+         "borderTopLeftRadius" : 100,
+         "borderBottomRightRadius" : 100,
+         "borderBottomLeftRadius" : 100,
          "borderTopWidth" : 1,
          "borderBottomWidth" : 1,
          "borderRightWidth" : 1,

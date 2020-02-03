@@ -4,7 +4,7 @@
         "type" : "Button",
         "_type" : "Widget",
         "category" : "Lightning",
-        "subcategory" : "XOther",
+        "subcategory" : "LabelX",
         "name" : "Breadcrumbs",
         "props" : {
            "label" : "Parent > Child"

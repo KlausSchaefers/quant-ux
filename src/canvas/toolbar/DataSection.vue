@@ -414,7 +414,7 @@ export default {
        			    { value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
 			]);
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
-
+		
 		},
 
 		_showHoverDropDown (model){

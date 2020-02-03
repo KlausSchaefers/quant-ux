@@ -196,9 +196,18 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/lightning/boxes.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/textbox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/section.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/lightning/expression.json'),
+            // import(/* webpackChunkName: "themes" */ 'themes/lightning/expression.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/modal.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/notification.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/panel.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/pill.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/popover.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/progress.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/prompt.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/radio.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/slider.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/tabs.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/tiles.json')
           ]).then(values => {
             this.themes = []
             values.forEach(v => {

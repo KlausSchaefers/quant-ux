@@ -4,7 +4,7 @@
   "_type": "Group",
   "name": "Modal",
   "category": "Lightning",
-  "subcategory": "XSpecial",
+  "subcategory": "XModal",
   "children": [
     {
       "type": "Button",
@@ -59,9 +59,7 @@
         }
       },
       "id": "Group0",
-      "_type": "Widget",
-      "z": null,
-      "template": null
+      "_type": "Widget"
     },
     {
       "type": "Button",
@@ -120,9 +118,7 @@
         "verticalAlign": "middle"
       },
       "id": "Group1",
-      "_type": "Widget",
-      "z": null,
-      "template": null
+      "_type": "Widget"
     },
     {
       "type": "Button",
@@ -192,7 +188,7 @@
       "props": {
         "label": "Cancel",
         "resize": {
-          "right": false,
+          "right": true,
           "up": false,
           "left": false,
           "down": true,
@@ -256,7 +252,7 @@
       "props": {
         "label": "Save",
         "resize": {
-          "right": false,
+          "right": true,
           "up": false,
           "left": false,
           "down": true,

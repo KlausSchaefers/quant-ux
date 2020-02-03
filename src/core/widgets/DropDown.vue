@@ -162,7 +162,7 @@ export default {
           css.add(this.icon, "MatcWidgetTypeDropDownIcon " + model.props.icon);
           this.labelCntr.appendChild(this.icon);
 
-          css.add(this.domNode, "MatcWidgetTypeDropDownWithIcon");
+          css.add(this.domNode, "MatcWidgetTypeDropDownWithIcon MatcWidgetTypeDropDownNoText");
           this.button.style.padding = "0px";
           this.button.style.borderRadius = "0px";
 

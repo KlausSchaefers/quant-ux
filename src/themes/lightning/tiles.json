@@ -1,0 +1,98 @@
+[
+    {
+        "id": "LightningTileWarning",
+        "type": "Group",
+        "_type": "Group",
+        "name": "Tile",
+        "category": "Lightning",
+        "subcategory": "XSpecial",
+        "children": [
+          {
+            "type": "Button",
+            "name": "Tile Container",
+            "x": 1,
+            "y": 0,
+            "w": "$75%",
+            "h": 140,
+            "props": {
+              "label": "Tiles can have different groupings of information based on its context. Pay close attention to the markup, as each tile layout is constructed differently."
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 12,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#080707",
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 1,
+              "borderBottomWidth": 1,
+              "borderRightWidth": 1,
+              "borderLeftWidth": 3,
+              "borderTopColor": "#dddbda",
+              "borderBottomColor": "#dddbda",
+              "borderRightColor": "#dddbda",
+              "borderLeftColor": "#ffb75d",
+              "background": "#ecebea",
+              "paddingTop": 48,
+              "paddingBottom": 12,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderLeftStyle": "solid"
+            },
+            "id": "Tile0",
+            "_type": "Widget"
+          },
+          {
+            "type": "Label",
+            "name": "Tile Headline",
+            "x": 0,
+            "y": 20,
+            "w": "$75%",
+            "h": 26,
+            "props": {
+              "label": "Tile",
+              "resize": {
+                "right": true,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "label": true,
+              "padding": true,
+              "advancedText": true
+            },
+            "style": {
+              "fontSize": "16",
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1,
+              "color": "#d47500",
+              "fontWeight": "bold",
+              "paddingLeft": 12
+            },
+            "id": "Tile1",
+            "_type": "Widget"
+          }
+        ]
+      }
+]

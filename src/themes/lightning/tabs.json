@@ -1,0 +1,83 @@
+[
+    {
+        "id": "LightningTab",
+        "type": "Button",
+        "name": "Tab Active",
+        "_type": "Widget",
+        "category": "Lightning",
+        "subcategory": "YSpecial",
+        "w": 100,
+        "h": 40,
+        "props": {
+          "label": "Tab"
+        },
+        "has": {
+          "backgroundColor": true,
+          "border": true,
+          "label": true,
+          "padding": true,
+          "onclick": true
+        },
+        "actions": {},
+        "style": {
+          "fontSize": 18,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "center",
+          "letterSpacing": 0,
+          "lineHeight": 1.4,
+          "color": "#080707",
+          "borderTopRightRadius": 0,
+          "borderTopLeftRadius": 0,
+          "borderBottomRightRadius": 0,
+          "borderBottomLeftRadius": 0,
+          "borderTopWidth": 0,
+          "borderBottomWidth": 2,
+          "borderRightWidth": 0,
+          "borderLeftWidth": 0,
+          "borderTopColor": "#0070d2",
+          "borderBottomColor": "#0070d2",
+          "borderRightColor": "#0070d2",
+          "borderLeftColor": "#0070d2",
+          "background": "#ffffff",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "borderTopStyle": "solid",
+          "borderBottomStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderLeftStyle": "solid",
+          "verticalAlign": "middle",
+          "fontWeight": "bold"
+        }
+      },  {
+        "id": "LightningTabPassive",
+        "type": "Button",
+        "name": "Tab Passive",
+        "_type": "Widget",
+        "_extends": "LightningTab",
+        "category": "Lightning",
+        "subcategory": "YSpecial",
+        "w": 100,
+        "h": 40,
+        "props": {
+          "label": "Tab"
+        },
+        "has": {
+          "backgroundColor": true,
+          "border": true,
+          "label": true,
+          "padding": true,
+          "onclick": true
+        },
+        "actions": {},
+        "style": {
+          "fontWeight": "normal",
+          "borderTopColor": "#dddbda",
+          "borderBottomColor": "#dddbda",
+          "borderRightColor": "#dddbda",
+          "borderLeftColor": "#dddbda",
+          "borderBottomWidth": 1
+        }
+      }
+]

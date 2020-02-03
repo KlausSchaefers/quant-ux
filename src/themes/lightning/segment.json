@@ -2,7 +2,7 @@
     {
         "id": "LightningSegmentButton",
         "type": "SegmentButton",
-        "name": "Segment Button",
+        "name": "Radio Button Group",
         "_type": "Widget",
         "category": "Lightning",
         "subcategory": "FormB",

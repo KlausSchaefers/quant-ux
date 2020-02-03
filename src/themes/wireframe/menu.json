@@ -24,7 +24,7 @@
 	     "data" : true,
 	     "padding":true,
 		 "label":true,
-		 "hasIcon": true
+		 "icon": true
      },
      "style" : { 
     	 "borderTopRightRadius" : 0,
@@ -80,7 +80,7 @@
 		     "data" : true,
 		     "padding":true,
 			 "label":true,
-			 "hasIcon": true
+			 "icon": true
 	     },
 	     "style" : { 
 	    	 "borderTopRightRadius" : 0,

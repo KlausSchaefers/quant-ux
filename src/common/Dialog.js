@@ -96,6 +96,12 @@ export default class Dialog extends Evented {
 		this.own(on(background, "onmousewheel", lang.hitch(this, "stopScroll")));
 		this.own(on(background, "mousewheel", lang.hitch(this, "stopScroll")));
 		this.own(on(background, "DOMMouseScroll", lang.hitch(this, "stopScroll")));
+		
+		/**
+		 * Close on ESC
+		 */
+		this.own(topic.subscribe("matc/canvas/esc", lang.hitch(this,"close")));
+			
 
 		var startPos = this.getStartPos(parent);
 		var endPos = domGeom.position(wrapper);
