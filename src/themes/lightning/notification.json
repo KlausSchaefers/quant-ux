@@ -1,4 +1,4 @@
-{
+[{
     "id": "LightningNotification",
     "type": "Group",
     "_type": "Group",
@@ -214,3 +214,4 @@
       }
     ]
   }
+]

@@ -1,0 +1,556 @@
+[
+    {
+        "id": "LightningWelcomeMat",
+        "type": "Group",
+        "_type": "Group",
+        "name": "Welcome Mat",
+        "category": "Lightning",
+        "subcategory": "XWelcome",
+        "children": [
+          {
+            "type": "Button",
+            "name": "Box",
+            "x": 0,
+            "y": 0,
+            "w": 284,
+            "h": 115,
+            "props": {
+              "label": ""
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#ffffff",
+              "borderTopRightRadius": 4,
+              "borderTopLeftRadius": 4,
+              "borderBottomRightRadius": 4,
+              "borderBottomLeftRadius": 4,
+              "borderTopWidth": 1,
+              "borderBottomWidth": 1,
+              "borderRightWidth": 1,
+              "borderLeftWidth": 1,
+              "borderTopColor": "#dddbda",
+              "borderBottomColor": "#dddbda",
+              "borderRightColor": "#dddbda",
+              "borderLeftColor": "#dddbda",
+              "background": "#ffffff",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "boxShadow": {
+                "v": 1,
+                "h": 0,
+                "b": 2,
+                "s": 0,
+                "i": false,
+                "c": "rgba(0,0,0,0.25)",
+                "custom": true
+              }
+            },
+            "id": "Welcome Mat0",
+            "hover": {
+              "borderTopColor": "#1589ee",
+              "borderBottomColor": "#1589ee",
+              "borderRightColor": "#1589ee",
+              "borderLeftColor": "#1589ee"
+            },
+            "_type": "Widget"
+          },
+          {
+            "type": "Button",
+            "name": "Welcome Container",
+            "x": 66,
+            "y": 8,
+            "w": 210,
+            "h": 99,
+            "props": {
+              "label": "",
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#ffffff",
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 1,
+              "borderTopColor": "#dddbda",
+              "borderBottomColor": "#dddbda",
+              "borderRightColor": "#dddbda",
+              "borderLeftColor": "#dddbda",
+              "background": "#ffffff",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "boxShadow": null,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderLeftStyle": "solid"
+            },
+            "id": "Welcome Mat1",
+            "_type": "Widget"
+          },
+          {
+            "id": "Welcome Mat2",
+            "type": "Icon",
+            "name": "Welcome Icon",
+            "x": 16,
+            "y": 42,
+            "w": 32,
+            "h": 32,
+            "props": {
+              "resize": {
+                "right": false,
+                "up": false,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#dddbda",
+              "icon": "mdi mdi-bookmark-plus"
+            },
+            "_type": "Widget"
+          },
+          {
+            "type": "Button",
+            "name": "Welcome Headline",
+            "x": 74,
+            "y": 16,
+            "w": 202,
+            "h": 18,
+            "props": {
+              "label": "Headline",
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": "13",
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#080707",
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "background": "#ffffff",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "fontWeight": "bold"
+            },
+            "id": "Welcome Mat3",
+            "_type": "Widget"
+          },
+          {
+            "type": "Button",
+            "name": "Welcome Text",
+            "x": 74,
+            "y": 34,
+            "w": 202,
+            "h": 73,
+            "props": {
+              "label": "Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet.",
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": "12",
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#080707",
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "background": "#ffffff",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "fontWeight": ""
+            },
+            "id": "Welcome Mat4",
+            "_type": "Widget"
+          }
+        ]
+      },
+      {
+        "id": "LightningWelcomeMatPassive",
+        "type": "Group",
+        "_type": "Group",
+        "name": "Welcome Mat",
+        "category": "Lightning",
+        "subcategory": "XXX",
+        "children": [
+          {
+            "type": "Button",
+            "name": "Welcome Background",
+            "x": 0,
+            "y": 0,
+            "w": 280,
+            "h": 116,
+            "props": {
+              "label": ""
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#ffffff",
+              "borderTopRightRadius": 4,
+              "borderTopLeftRadius": 4,
+              "borderBottomRightRadius": 4,
+              "borderBottomLeftRadius": 4,
+              "borderTopWidth": 1,
+              "borderBottomWidth": 1,
+              "borderRightWidth": 1,
+              "borderLeftWidth": 1,
+              "borderTopColor": "#dddbda",
+              "borderBottomColor": "#dddbda",
+              "borderRightColor": "#dddbda",
+              "borderLeftColor": "#dddbda",
+              "background": "#f3f2f2",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "boxShadow": null
+            },
+            "id": "Welcome Mat0",
+            "hover": {
+              "borderTopColor": "#1589ee",
+              "borderBottomColor": "#1589ee",
+              "borderRightColor": "#1589ee",
+              "borderLeftColor": "#1589ee"
+            },
+            "_type": "Widget"
+          },
+          {
+            "type": "Button",
+            "name": "Welcome Container",
+            "x": 66,
+            "y": 8,
+            "w": 208,
+            "h": 100,
+            "props": {
+              "label": "",
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#ffffff",
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 1,
+              "borderTopColor": "#dddbda",
+              "borderBottomColor": "#dddbda",
+              "borderRightColor": "#dddbda",
+              "borderLeftColor": "#dddbda",
+              "background": "transparent",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "boxShadow": null,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderLeftStyle": "solid"
+            },
+            "id": "Welcome Mat1",
+            "_type": "Widget"
+          },
+          {
+            "id": "Welcome Mat2",
+            "type": "Icon",
+            "name": "Welcome Icon",
+            "x": 16,
+            "y": 42,
+            "w": 32,
+            "h": 32,
+            "props": {
+              "resize": {
+                "right": false,
+                "up": false,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#dddbda",
+              "icon": "mdi mdi-bookmark-plus"
+            },
+            "_type": "Widget"
+          },
+          {
+            "type": "Button",
+            "name": "Welcome Headline",
+            "x": 74,
+            "y": 16,
+            "w": 200,
+            "h": 18,
+            "props": {
+              "label": "Headline",
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": "13",
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#080707",
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "background": "transparent",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "fontWeight": "bold"
+            },
+            "id": "Welcome Mat3",
+            "_type": "Widget"
+          },
+          {
+            "type": "Button",
+            "name": "Welcome Text",
+            "x": 74,
+            "y": 34,
+            "w": 200,
+            "h": 74,
+            "props": {
+              "label": "Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet.",
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": "12",
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#080707",
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "background": "transparent",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "fontWeight": ""
+            },
+            "id": "Welcome Mat4",
+            "_type": "Widget"
+          }
+        ]
+      }
+]
