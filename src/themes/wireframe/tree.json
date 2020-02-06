@@ -18,7 +18,8 @@
                   ["Category 2","",""],
                   ["","Item 3",""],
                   ["","Item 4",""]
-		         ]
+				 ],
+		"selectOnlyLeaves": false
 	},
 	"has" : {
 		"onclick" : true,
@@ -52,7 +53,9 @@
         "paddingRight" : 0,
         "icon": "mdi mdi-chevron-down",
 		"iconMarginRight": 5,
-		"selectedBackground": "transparent",
-        "selectedColor": "#333333"
+		"selectedBackground": "#f1f1f1",
+		"selectedColor": "#333333",
+		"selectedBorderWidth": 0,
+        "selectedBorderColor": "#ffffff"
 	}
 } ]

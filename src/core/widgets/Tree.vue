@@ -45,6 +45,16 @@ export default {
               this.stopEvent(e)
               this.select(o.node, e)
           }));
+
+          this.own(on(o.div, touch.over, (e) => {
+              this.stopEvent(e)
+              this.setHover(o, true)
+          }));
+
+          this.own(on(o.div, touch.out, (e) => {
+              this.stopEvent(e)
+              this.setHover(o, false)
+          }));
       })
 
       this.icons.forEach(o => {
@@ -71,6 +81,8 @@ export default {
       let values = {
         fontSize: Math.round(style.fontSize * this._scaleY),
         marginRight: Math.round(style.iconMarginRight * this._scaleY),
+        selectedBorderWidth: Math.round(style.selectedBorderWidth * this._scaleY),
+        selectedBorderColor: style.selectedBorderColor,
         icon: style.icon,
         paddingRight:  Math.round(style.paddingRight * this._scaleY),
         paddingTop:  Math.round(style.paddingTop * this._scaleY),
@@ -99,6 +111,12 @@ export default {
             .paddingRight(style.paddingRight)
             .build(parentDiv)
 
+        if (style.selectedBorderWidth) {
+            cntr.style.borderLeftWidth = style.selectedBorderWidth + 'px'
+            cntr.style.borderLeftColor = 'transparent'
+        }
+     
+
         this.nodes.push({
             div: cntr,
             node: node
@@ -106,12 +124,16 @@ export default {
 
         if (node.children.length > 0) {
 
-            let icon = db.span('MatcWidgetTypeTreeNodeIcon ' + style.icon)
+            let icon = null;
+            if (style.icon) {
+              icon = db.span('MatcWidgetTypeTreeNodeIcon ' + style.icon)
                 .w(style.fontSize)
                 .h(style.fontSize)
                 .fontSize(style.fontSize)
                 .marginRight(style.iconMarginRight)
                 .build(cntr)
+            }
+        
 
             db.span('MatcWidgetTypeTreeNodeLabel', node.label).build(cntr)
          
@@ -120,11 +142,13 @@ export default {
                 this._renderNode(child, children, db, style, paddingLeft)
             })
             
-            this.icons.push({
-                icon: icon,
-                children: children,
-                node: node 
-            })
+            if (icon) {
+              this.icons.push({
+                  icon: icon,
+                  children: children,
+                  node: node 
+              })
+            }
         } else {
             db.span('MatcWidgetTypeTreeNodeLabel', node.label).build(cntr)
         }
@@ -177,6 +201,9 @@ export default {
 
 
     select (node, e) {
+        if (this.model.props && this.model.props.selectOnlyLeaves && node.children.length){
+          return;
+        }
         this.setValue(node.value)
         this.emitDataBinding(this.value);
         this.onChange(e)
@@ -191,6 +218,30 @@ export default {
         }
         this.setCollapsed(this.collapsed)
         this.onChange(e)
+    },
+
+    setHover (o, isHover) {
+      try {
+        if (o.node.value !== this.value) {
+          let div = o.div
+          if (this.style.hoverBackground) {
+            if (isHover) {
+                div.style.background = this.style.hoverBackground
+            } else {
+                div.style.background = "transparent"
+            }
+          }
+          if (this.style.hoverColor) {
+            if (isHover) {
+                div.style.color = this.style.hoverColor
+            } else {
+                div.style.color = this.style.color
+            }
+          }
+        }
+      } catch (e) {
+        console.error(e)
+      }
     },
 
     setCollapsed (collapsed) {
@@ -227,9 +278,14 @@ export default {
             if (node.node.label === this.value) {
                 div.style.color = this.style.selectedColor
                 div.style.background  = this.style.selectedBackground
+               
+                if (this.style.selectedBorderColor) {
+                    div.style.borderLeftColor  = this.style.selectedBorderColor
+                }
             } else {
                 div.style.color = this.style.color
                 div.style.background = "transparent"
+                div.style.borderLeftColor = "transparent"
             }
         })
       }

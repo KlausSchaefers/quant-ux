@@ -10,9 +10,15 @@
 	border-style: solid;
 }
 
+.MatcWidgetTypeTreeNode{
+	border: 0px solid rgba(0,0,0,0);
+	cursor: pointer;
+}
+
 .MatcWidgetTypeTreeNodeIcon{
 	display: inline-block;
 	margin-right: 5px;
+	cursor: pointer;
 }
 
 .MatcSimulator .MatcWidgetTypeTreeCntr{

@@ -18,7 +18,8 @@
                   ["Category 2","",""],
                   ["","Item 3",""],
                   ["","Item 4",""]
-		         ]
+                 ],
+        "selectOnlyLeaves": true
 	},
 	"has" : {
 		"onclick" : true,
@@ -53,6 +54,10 @@
         "icon": "mdi mdi-chevron-down",
         "iconMarginRight": 5,
         "selectedBackground": "#e6f3fd",
-        "selectedColor": "#080707"
+        "selectedColor": "#080707",
+        "selectedBorderWidth": 4,
+        "selectedBorderColor": "#1589ee",
+        "hoverBackground": "#f3f2f2",
+        "hoverColor": "#080707"
 	}
 } ]

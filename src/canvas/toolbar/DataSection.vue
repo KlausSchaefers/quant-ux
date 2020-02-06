@@ -229,7 +229,19 @@ export default {
 		_showTree (model){
 			this._setSectionLabel("Tree");
 			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+
+			this._renderBoxColor("Hover", model, "hoverBackground", "hoverColor");
 			this._renderBoxColor("Selected", model, "selectedBackground", "selectedColor");
+			
+			this._renderInputDropDown("Indicator Width",model, [0,1,2,3,4,5, 10], "selectedBorderWidth", false);
+			this._renderColor('Indicator Color','<span class="mdi mdi-format-color-fill"></span>',model.style.selectedBorderColor, "selectedBorderColor", "onStyleChanged",true );
+
+			this._renderLabelDropDown("Icon", model, "icon",[
+       			    { value:"mdi mdi-chevron-down", icon:"mdi mdi-chevron-down", label : "Chevron"},
+					{ value:"mdi mdi-menu-down", icon:"mdi mdi-menu-down", label : "Arrow"},
+					{ value:"mdi mdi-menu-down-outline", icon:"mdi mdi-menu-down-outline", label : "Arrow Outline"},
+					{ value:"nulll", icon:"mdi mdi-close", label : "No Icon"}
+			], true);
 		},
 
 		_showCheckBoxGroup (model){
