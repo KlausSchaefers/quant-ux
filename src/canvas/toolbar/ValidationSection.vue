@@ -45,6 +45,10 @@ export default {
 		_showProgressBar (model){
 			this._renderDataBinding(model, false);
 		},
+
+		_showTree (model){
+			this._renderDataBinding(model, false);
+		},
 		
 		_showRadioGroup (model){
 			this._renderDataBinding(model);

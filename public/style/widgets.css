@@ -1,4 +1,34 @@
+/*******************************
+ * Tree
+ *******************************/
+.MatcWidgetTypeTree{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border-style: solid;
+}
 
+.MatcWidgetTypeTreeNodeIcon{
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.MatcSimulator .MatcWidgetTypeTreeCntr{
+	overflow: auto;
+	height: 100%;
+}
+
+.MatcWidgetTypeTreeNodeCollapsed.MatcWidgetTypeTreeNodeIcon{
+	transform: rotate(270deg);
+	transition: all 0.2s
+}
+
+.MatcWidgetTypeTreeNodeCollapsed.MatcWidgetTypeTreeChildren{
+	display: none;
+}
+ 
  /*******************************
  * Link
  *******************************/

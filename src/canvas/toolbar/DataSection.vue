@@ -226,6 +226,12 @@ export default {
 			}
 		},
 
+		_showTree (model){
+			this._setSectionLabel("Tree");
+			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderBoxColor("Selected", model, "selectedBackground", "selectedColor");
+		},
+
 		_showCheckBoxGroup (model){
 			this._setSectionLabel("CheckBox Group");
 
