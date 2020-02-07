@@ -1193,7 +1193,6 @@ export default {
 		
 			
 		getLastMousePos () {
-			console.debug('getLastMousePos', this._lastMousePos)
 			return this._lastMousePos;
 		},
 		

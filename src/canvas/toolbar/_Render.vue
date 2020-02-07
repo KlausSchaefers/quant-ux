@@ -52,24 +52,24 @@ export default {
     data: function () {
         return {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox",
-						"TextArea", "Password", "SegmentButton", "ToggleButton", "Table"],
+						"TextArea", "Password", "SegmentButton", "ToggleButton", "Table", 'Tree'],
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 
-						'ProgressBar', 'ScreenSegment'],
+						'ProgressBar', 'ScreenSegment', 'CountingStepper', 'Tree'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
 							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
 							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
 							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel', 
-							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart'],
+							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree'],
 			hasLogic2: ["LogicOr", "Rest"],
-			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown"],
-			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown"],
+			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
+			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox"],
-			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider"],
+			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree"],
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink"],
@@ -863,10 +863,6 @@ export default {
 
 			this._placeAt(this.boxBorder, content);
 
-
-			/**
-			 * Add new style
-			 */
 			content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent MatcToolbarBoxBorderNoDetails");
 			parent.appendChild(content);

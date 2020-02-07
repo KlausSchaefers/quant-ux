@@ -226,6 +226,24 @@ export default {
 			}
 		},
 
+		_showTree (model){
+			this._setSectionLabel("Tree");
+			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+
+			this._renderBoxColor("Hover", model, "hoverBackground", "hoverColor");
+			this._renderBoxColor("Selected", model, "selectedBackground", "selectedColor");
+			
+			this._renderInputDropDown("Indicator Width",model, [0,1,2,3,4,5, 10], "selectedBorderWidth", false);
+			this._renderColor('Indicator Color','<span class="mdi mdi-format-color-fill"></span>',model.style.selectedBorderColor, "selectedBorderColor", "onStyleChanged",true );
+
+			this._renderLabelDropDown("Icon", model, "icon",[
+       			    { value:"mdi mdi-chevron-down", icon:"mdi mdi-chevron-down", label : "Chevron"},
+					{ value:"mdi mdi-menu-down", icon:"mdi mdi-menu-down", label : "Arrow"},
+					{ value:"mdi mdi-menu-down-outline", icon:"mdi mdi-menu-down-outline", label : "Arrow Outline"},
+					{ value:"nulll", icon:"mdi mdi-close", label : "No Icon"}
+			], true);
+		},
+
 		_showCheckBoxGroup (model){
 			this._setSectionLabel("CheckBox Group");
 
@@ -326,7 +344,6 @@ export default {
 			this._setSectionLabel("Label");
 		},
 
-
 		_showToggleButton (model) {
 			this._setSectionLabel("Toggle Button");
 			this._renderCheck("Active",model.props.active, "active" );
@@ -350,12 +367,9 @@ export default {
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
 		},
 
-
-
 		_showRating (model){
 			this._setSectionLabel("Rating");
 			this._renderColor('Color','<span class="mdi mdi-star"></span>',model.style.color, "color", "onStyleChanged" , true);
-
 		},
 
 		_showImageCarousel (model){
@@ -371,9 +385,6 @@ export default {
 
 		},
 
-
-
-
 		_showIconToggle (model){
 			this._setSectionLabel("Icon Toggle");
 			this._renderCheck("Active",model.props.active, "active" );
@@ -387,7 +398,6 @@ export default {
 			this._renderColor('Active Color','<span class="' + model.props.activeIcon + '"></span>',model.style.activeColor, "activeColor", "onStyleChanged" , true);
 			this._renderColor('Passive Color','<span class="' + model.props.passiveIcon + '"></span>',model.style.passiveColor, "passiveColor", "onStyleChanged" , true);
 		},
-
 
 		_showPassword (model){
 			this._setSectionLabel("Password");
@@ -403,9 +413,6 @@ export default {
 			this._renderCheck("Focus on load",model.props.focus, "focus" );
 
 		},
-
-
-
 
 		_showTextArea (model){
 			this._setSectionLabel("Text Area");
@@ -425,7 +432,7 @@ export default {
        			    { value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
 			]);
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
-
+		
 		},
 
 		_showHoverDropDown (model){
@@ -449,9 +456,10 @@ export default {
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
 		},
 
-		_showSegmentButton (){
+		_showSegmentButton (model){
 			this._setSectionLabel("Segment Button");
 			this._renderButton("Options", "mdi mdi-settings", "_renderOptionDialog");
+			this._renderCheck("Multi Selection", model.props.multi, "multi" );
 		},
 
 
@@ -475,6 +483,15 @@ export default {
 			if(refs && refs.length > 0){
 				this._renderReferenceButton(model,"valueLabel", "No Label", "mdi mdi-label");
 			}
+		},
+
+		_showCountingStepper (model){
+			this._setSectionLabel("Counting Stepper");
+			this._renderInputDropDown("Start Value",model, [0,1,5,10,20,30,40,50,100], "value", true);
+		
+			this._renderColor('Button Color','<span class="mdi mdi-format-text"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
+			this._renderColor('Button Background','<span class="mdi mdi-format-color-fill"></span>',model.style.backgroundButton, "backgroundButton", "onStyleChanged",true );
+
 		},
 
 		_showSpinner (model){

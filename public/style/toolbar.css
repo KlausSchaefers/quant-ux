@@ -175,8 +175,9 @@
 
 .MatcToobarLeft .MatcToolbarItem:hover,
 .MatcToolbarTop .MatcToolbarItem:hover{
-	color:#1973e8;
+	color:#fff;
 }
+
 
 .MatcIconBox{
 	height: 20px;

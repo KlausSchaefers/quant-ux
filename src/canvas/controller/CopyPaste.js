@@ -160,14 +160,212 @@ export default class CopyPaste extends Group{
 		this.render();
 	}
 	
+	/**********************************************************************
+	 * Clip Board
+	 **********************************************************************/
+
+
+	getClipBoard (){
+		this.logger.log(5,"getClipBoard", "enter > ");
+		if (typeof(Storage) !== "undefined") {
+			var str = localStorage.getItem("mactCanvasClipBoard");
+			return JSON.parse(str);
+		}
+		return null;
+	}
+
+	setClipBoard (selectWidget, selectedScreen, selectMulti, selectGroup) {
+		var clipBoard = {
+			id: this.model.id,
+			widgets: [],
+			screens: [],
+			groups: []
+		};
+		if (selectWidget){
+
+			clipBoard.widgets = [this.model.widgets[selectWidget.id]]
+
+		} else if(selectedScreen) {
+
+			clipBoard.screens = [this.model.screens[selectedScreen.id]];
+			for(let i = 0; i < selectedScreen.children.length; i++){
+				let id = selectedScreen.children[i];
+				clipBoard.widgets.push(this.model.widgets[id]);
+			}
+
+		} else if (selectMulti) {
+
+			for(let i = 0; i < selectMulti.length; i++){
+				let id = selectMulti[i];
+				clipBoard.widgets.push(this.model.widgets[id]);
+			}
+
+		} else if (selectGroup) {
+			let groups = this.getAllChildGroups(selectGroup)
+			groups.push(selectGroup)
+			groups.forEach(group => {
+				group = this.model.groups[group.id]
+				clipBoard.groups.push(group)
+				for(let i=0; i< group.children.length; i++){
+					let id = group.children[i];
+					clipBoard.widgets.push(this.model.widgets[id]);
+				}
+			})
+		}
+
+		/**
+		 * Clone before we change the offset! Otherwise
+		 * we fuckup the model!
+		 */
+		clipBoard = lang.clone(clipBoard)
+		
+		/**
+		 * Also normalize the position in respect to the bounding box?
+		 */
+		let boxes = clipBoard.widgets.concat(clipBoard.screens)
+		let boundingBox = this.getBoundingBoxByBoxes(boxes)
+
+		clipBoard.widgets.forEach(widget => {
+			widget.x = widget.x - boundingBox.x
+			widget.y = widget.y - boundingBox.y
+		})
+		clipBoard.screens.forEach(screen => {
+			screen.x = screen.x - boundingBox.x
+			screen.y = screen.y - boundingBox.y
+		})
+		clipBoard.boundingBox = boundingBox
+
+
+		if (typeof(Storage) !== "undefined") {
+			localStorage.setItem("mactCanvasClipBoard", JSON.stringify(clipBoard));
+		} else {
+			this.logger.error("_setCligBoard", "No local storage");
+		}		
+	}
+
+	onPasteClipBoard (clipBoard, pos) {
+		this.logger.log(2,"onPasteClipBoard", "enter > "+ pos);
+		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
+
+		/**
+		 * create new ids
+		 */
+		let idMapping = {}
+		clipBoard.widgets.forEach(widget => {
+			let id = "w" + this.getUUID()
+			idMapping[widget.id] = id
+			widget.id = id
+			widget.x += pos.x
+			widget.y += pos.y
+		})
+		clipBoard.screens.forEach(screen => {
+			let id = "s" + this.getUUID()
+			idMapping[screen.id] = id
+			screen.id = id
+			screen.name = this.getSceenName(screen.name)
+			screen.x += pos.x
+			screen.y += pos.y
+			screen.children = screen.children.map(id => {
+				if (idMapping[id]) {
+					return idMapping[id]
+				} else {
+					console.error('onPasteClipBoard() > No id for screen child!')
+				}
+			})
+			/**
+			 * FIXME: Copy als screen groups
+			 */
+		})
+		clipBoard.groups.forEach(group => {
+			let id = "g" + this.getUUID()
+			idMapping[group.id] = id
+			group.id = id
+			group.children = group.children.map(id => {
+				if (idMapping[id]) {
+					return idMapping[id]
+				} else {
+					console.error('onPasteClipBoard() > No id for group child!')
+				}
+			})
+			if (group.groups) {
+				group.groups = group.groups.map(id => {
+					if (idMapping[id]) {
+						return idMapping[id]
+					} else {
+						console.error('onPasteClipBoard() > No id for group sub group!')
+					}
+				})
+			}
+		})
+
+		var command = {
+			timestamp : new Date().getTime(),
+			type : "PasteClipBoard",
+			clipBoard: clipBoard
+		};
+		this.addCommand(command);
+		this.modelPasteClipBoard(clipBoard)
+	
+	}
+
+	modelPasteClipBoard (clipBoard) {
+		let hasScreen = clipBoard.screens.length > 0
+		clipBoard.widgets.forEach(widget => {
+			this.model.widgets[widget.id] = widget
+			if (!hasScreen) {
+				let parent = this.getHoverScreen(widget);
+				if (parent) {
+					parent.children.push(widget.id)
+				}
+			}
+		})
+		clipBoard.screens.forEach(screen => {
+			this.model.screens[screen.id] = screen
+		})
+		clipBoard.groups.forEach(group => {
+			if (!this.model.groups) {
+				this.model.groups = {}
+			}
+			this.model.groups[group.id] = group
+		})
+		this.onModelChanged();
+		this.render();
+	}
+
+	modelRemoveClipBoard (clipBoard) {
+		clipBoard.widgets.forEach(widget => {
+			delete this.model.widgets[widget.id]
+			this.cleanUpParent(widget)
+		})
+		clipBoard.screens.forEach(screen => {
+			delete this.model.screens[screen.id]
+		})
+		clipBoard.groups.forEach(group => {
+			if (this.model.groups) {
+				delete this.model.groups[group.id]
+			}
+		})
+		this.onModelChanged();
+		this.render();
+	}
+
+
+	undoPasteClipBoard (command) {
+		this.logger.log(0,"undoPasteClipBoard", "enter > " + command.id);
+		this.modelRemoveClipBoard(command.clipBoard)
+	}
+
+	redoPasteClipBoard (command) {
+		this.logger.log(0,"redoPasteClipBoard", "enter > " + command.id);
+		this.modelPasteClipBoard(command.clipBoard)
+	}
 
 	/**********************************************************************
 	 * Copy Style
 	 **********************************************************************/
 
 	onCopyWidgetStyle (source, target){
-		this.logger.log(0,"onCopyWidgetStyle", "enter > " +source + " > " + target);
-		
+		this.logger.log(0,"onCopyWidgetStyle", "enter > " + source + " > " + target);
 		
 		var from = this.getBoxById(source);
 		var to = this.getBoxById(target);

@@ -24,7 +24,7 @@
 	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
 	       "textAlign" : "left",
 	       "letterSpacing" : 0,
-	       "lineHeight" : 1.4,
+	       "lineHeight" : 1,
 	       "color": "#333333"
 	    }
 	},
@@ -138,7 +138,6 @@
 	    "style" : {
 	       "fontSize" : 14,
 	       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-	       "textAlign" : "left",
 	       "letterSpacing" : 0,
 	       "lineHeight" : 1.4,
 	       "textAlign":"justify",

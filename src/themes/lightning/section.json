@@ -1,0 +1,51 @@
+[
+    {
+        "id": "LightningSectionTitle",
+        "type": "Button",
+        "name": "Section",
+        "_type": "Widget",
+        "category": "Lightning",
+        "subcategory" : "XBoxSection",
+        "w": "$90%",
+        "h": 32,
+        "props": {
+          "label": "> This is a section"
+        },
+        "has": {
+          "backgroundColor": true,
+          "border": true,
+          "label": true,
+          "padding": true,
+          "onclick": true
+        },
+        "actions": {},
+        "style": {
+          "fontSize": 14,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing": 0,
+          "lineHeight": 1,
+          "color": "#080707",
+          "borderTopRightRadius": 0,
+          "borderTopLeftRadius": 0,
+          "borderBottomRightRadius": 0,
+          "borderBottomLeftRadius": 0,
+          "borderTopWidth": 0,
+          "borderBottomWidth": 0,
+          "borderRightWidth": 0,
+          "borderLeftWidth": 0,
+          "borderTopColor": "#dddbda",
+          "borderBottomColor": "#dddbda",
+          "borderRightColor": "#dddbda",
+          "borderLeftColor": "#dddbda",
+          "background": "#f3f2f2",
+          "paddingTop": 8,
+          "paddingBottom": 8,
+          "paddingLeft": 8,
+          "paddingRight": 8
+      },
+      "hover": {
+          "background": "#eef1f6"
+      }
+    }
+]

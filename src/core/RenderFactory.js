@@ -38,7 +38,7 @@ import RadioGroup from 'core/widgets/RadioGroup'
 import ChatBot from 'core/widgets/ChatBot'
 import LabeledIconToggle from 'core/widgets/LabeledIconToggle'
 import Rest from 'core/widgets/Rest'
-import SVG from 'core/widgets/SVG'
+import Vector from 'core/widgets/Vector'
 import Sketch from 'core/widgets/Sketch'
 import Repeater from 'core/widgets/Repeater'
 import Upload from 'core/widgets/Upload'
@@ -46,6 +46,8 @@ import UploadPreview from 'core/widgets/UploadPreview'
 import WebLink from 'core/widgets/WebLink'
 import ProgressBar from 'core/widgets/ProgressBar'
 import ScreenSegment from 'core/widgets/ScreenSegment'
+import CountingStepper from 'core/widgets/CountingStepper'
+import Tree from 'core/widgets/Tree'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -392,6 +394,18 @@ export default class RenderFactory extends Core {
 		this._containerWidgets[model.id] = segement;
 	}
 
+	_createTree(parent, model) {
+		var widget = this.$new(Tree);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createCountingStepper (parent, model) {
+		let stepper = this.$new(CountingStepper)
+		stepper.placeAt(parent);
+		this._uiWidgets[model.id] = stepper;
+	}
+
 	_createRepeater (parent, model) {
 		var repeater = this.$new(Repeater);
 		repeater.placeAt(parent);
@@ -488,8 +502,8 @@ export default class RenderFactory extends Core {
 		this._uiWidgets[model.id] = widget;
 	}
 
-	_createSVG(parent, model) {
-		var widget = this.$new(SVG);
+	_createVector(parent, model) {
+		var widget = this.$new(Vector);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

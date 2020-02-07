@@ -1,0 +1,204 @@
+[
+        {
+            "id" : "LightningTextBox",
+            "type" : "TextBox",
+            "_type" : "Widget",
+            "category" : "Lightning",
+            "subcategory" : "Form",
+            "name" : "Text Box",
+            "props" : {
+                "label" : "Enter a value",
+                "placeholder" : true
+            },
+            "x":0,
+            "w":160,
+            "h":32,
+            "y":0,
+            "has" : {
+                "onclick" : true,
+                "border" : true,
+                "backgroundColor" : true,
+                "data" : true,
+                "padding":true,
+                "label":true
+            },
+            "style" : { 
+                 "fontSize" : 13,
+                 "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+                 "textAlign" : "left",
+                 "letterSpacing" : 0,
+                 "lineHeight" : 1,
+                 "paddingTop" : 8,
+                 "paddingBottom" : 8,
+                 "paddingLeft" : 12,
+                 "paddingRight" : 16,
+                 "borderTopRightRadius" : 4,
+                 "borderTopLeftRadius" : 4,
+                 "borderBottomRightRadius" : 4,
+                 "borderBottomLeftRadius" : 4,
+                 "borderTopWidth" : 1,
+                 "borderBottomWidth" : 1,
+                 "borderRightWidth" : 1,
+                 "borderLeftWidth" : 1,
+                 "color" : "#080707",
+                 "background": "#ffffff",
+                 "borderTopColor" : "#dddbda",
+                 "borderBottomColor" : "#dddbda",
+                 "borderRightColor" : "#dddbda",
+                 "borderLeftColor" : "#dddbda",
+                 "boxShadow": {
+                    "v" : 0,
+                    "h" : 0,
+                    "b" : 0,
+                    "s" : 0,
+                    "c" : "rgba(0,0,0,0)",
+                    "i" : false
+                 }
+            },
+            "focus":{
+                "background" : "#ffffff",
+                "borderTopColor" : "#0070d2",
+                "borderBottomColor" : "#0070d2",
+                "borderRightColor" : "#0070d2",
+                "borderLeftColor" : "#0070d2",
+                "boxShadow": {
+                    "v" : 0,
+                    "h" : 0,
+                    "b" : 4,
+                    "s" : 0,
+                    "c" : "#0070d2",
+                    "i" : false
+                 }
+            },
+            "error":{
+                "color": "c23934",
+                "background" : "#ffffff",
+                "borderTopColor" : "#c23934",
+                "borderBottomColor" : "#c23934",
+                "borderRightColor" : "#c23934",
+                "borderLeftColor" : "#c23934"
+            }
+        }, {
+            "id" : "LightningLookup",
+            "type" : "TypeAheadTextBox",
+            "_type" : "Widget",
+            "category" : "Lightning",
+            "subcategory" : "FormB",
+            "_extends": "LightningTextBox",
+            "name" : "Lookup (Typeahead)",
+            "props" : {
+                "label" : "Enter a value",
+                "placeholder" : true,
+                "options" : [ "Hint 1", "Hint 2", "Hint 3", "Hint 4" ]
+            },
+            "x":0,
+            "w":160,
+            "h":32,
+            "y":0,
+            "style": {
+                "selectedOptionColor" : "#080707",
+                "selectedOptionBackground" : "#F3F2F2"
+            }
+        },
+        {
+            "id" : "LightningTextArea",
+            "type" : "TextArea",
+            "_type" : "Widget",
+            "category" : "Lightning",
+            "subcategory" : "Form",
+            "name" : "Text Area",
+            "props" : {
+                "label" : "Enter a value",
+                "placeholder" : true
+            },
+            "x":0,
+            "w":320,
+            "h":200,
+            "y":0,
+            "has" : {
+                "onclick" : true,
+                "border" : true,
+                "backgroundColor" : true,
+                "data" : true,
+                "padding":true,
+                "label":true
+            },
+            "style" : { 
+                 "fontSize" : 13,
+                 "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+                 "textAlign" : "left",
+                 "letterSpacing" : 0,
+                 "lineHeight" : 1,
+                 "paddingTop" : 8,
+                 "paddingBottom" : 8,
+                 "paddingLeft" : 12,
+                 "paddingRight" : 16,
+                 "borderTopRightRadius" : 4,
+                 "borderTopLeftRadius" : 4,
+                 "borderBottomRightRadius" : 4,
+                 "borderBottomLeftRadius" : 4,
+                 "borderTopWidth" : 1,
+                 "borderBottomWidth" : 1,
+                 "borderRightWidth" : 1,
+                 "borderLeftWidth" : 1,
+                 "color" : "#080707",
+                 "background": "#ffffff",
+                 "borderTopColor" : "#dddbda",
+                 "borderBottomColor" : "#dddbda",
+                 "borderRightColor" : "#dddbda",
+                 "borderLeftColor" : "#dddbda",
+                 "boxShadow": {
+                    "v" : 0,
+                    "h" : 0,
+                    "b" : 0,
+                    "s" : 0,
+                    "c" : "rgba(0,0,0,0)",
+                    "i" : false
+                 }
+            },
+            "focus":{
+                "background" : "#ffffff",
+                "borderTopColor" : "#0070d2",
+                "borderBottomColor" : "#0070d2",
+                "borderRightColor" : "#0070d2",
+                "borderLeftColor" : "#0070d2",
+                "boxShadow": {
+                    "v" : 0,
+                    "h" : 0,
+                    "b" : 4,
+                    "s" : 0,
+                    "c" : "#0070d2",
+                    "i" : false
+                 }
+            },
+            "error":{
+                "color": "c23934",
+                "background" : "#ffffff",
+                "borderTopColor" : "#c23934",
+                "borderBottomColor" : "#c23934",
+                "borderRightColor" : "#c23934",
+                "borderLeftColor" : "#c23934"
+            }
+        }, {
+            "id" : "LightningLookup",
+            "type" : "TypeAheadTextBox",
+            "_type" : "Widget",
+            "category" : "Lightning",
+            "subcategory" : "FormB",
+            "_extends": "LightningTextBox",
+            "name" : "Lookup (Typeahead)",
+            "props" : {
+                "label" : "Enter a value",
+                "placeholder" : true,
+                "options" : [ "Hint 1", "Hint 2", "Hint 3", "Hint 4" ]
+            },
+            "x":0,
+            "w":160,
+            "h":32,
+            "y":0,
+            "style": {
+                "selectedOptionColor" : "#080707",
+                "selectedOptionBackground" : "#F3F2F2"
+            }
+        }
+]

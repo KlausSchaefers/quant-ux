@@ -807,7 +807,7 @@ export default {
 				
 				this.toolbar.showCopyPaste();
 				// TODO: Store in cookie / local db or so!
-				//this._setClipBoard();
+				this._setClipBoard();
 			}
 		
 			if(this._selectWidget){
@@ -832,50 +832,13 @@ export default {
 		
 		_setClipBoard (){
 			this.logger.log(-1,"_setClipBoard", "enter > ");
-			
-			var clipBoard = {};
-			if(this._selectWidget){
-				clipBoard.isWidget = true;
-				clipBoard.widgets = [this.model.widgets[this._selectWidget.id]];
-			} else if(this._selectedScreen){
-				clipBoard.isScreen = true;
-				clipBoard.screens = [this.model.screens[this._selectedScreen.id]];
-				clipBoard.widgets = [];
-				for(let i=0; i< this._selectedScreen.children.length; i++){
-					let id = this._selectedScreen.children[i];
-					clipBoard.widgets.push(this.model.widgets[id]);
-				}
-				// TODO: copy also groups
-			} else if(this._selectMulti) {
-				clipBoard.widgets = [];
-				for(let i=0; i< this._selectMulti.length; i++){
-					let id = this._selectMulti[i];
-					clipBoard.widgets.push(this.model.widgets[id]);
-				}
-			} else if (this._selectGroup){
-				clipBoard.isGroup = true;
-				clipBoard.name = this._selectGroup.name;
-				clipBoard.widgets = [];
-				for(let i=0; i< this._selectGroup.children.length; i++){
-					let id = this._selectGroup.children[i];
-					clipBoard.widgets.push(this.model.widgets[id]);
-				}
-			}			
-			if (typeof(Storage) !== "undefined") {
-				localStorage.setItem("mactCanvasClipBoard", JSON.stringify(clipBoard));
-			} else {
-				this.logger.error("_setCligBoard", "No local storage");
-			}			
+			this.controller.setClipBoard (this._selectWidget, this._selectedScreen, this._selectMulti, this._selectGroup)	
 		},
 		
 		
 		_getClipBoard (){
 			this.logger.log(-1,"_setCligBoard", "enter > ");
-			if (typeof(Storage) !== "undefined") {
-				var str = localStorage.getItem("mactCanvasClipBoard");
-				return JSON.parse(str);
-			}
-			return null;
+			return this.controller.getClipBoard ()	
 		},
 		
 		hasCopy (){
@@ -883,11 +846,37 @@ export default {
 		},
 		
 		onPaste (fromToolBar, e){
-			this.logger.log(-1,"onPaste", "enter > " + fromToolBar);
-			// var clipBoard = this._getClipBoard();			
-			if(this._copied){				
-				var pos = this.getLastMousePos();				
-				if(!fromToolBar){
+			
+			/**
+			 * Since 2.2.6 we support the clipboard
+			 * To ensure this works also with the patterns,
+			 * we just use this for the if the clipboard comes
+			 * from another app. 
+			 * 
+			 * TODO: We could unify this...
+			 */
+			let clipBoard = this._getClipBoard();
+			let pos = this.getLastMousePos();
+			if (clipBoard && clipBoard.id !== this.model.id) {
+
+				this.logger.log(-1,"onPaste", "enter > OTHER APP");
+				if (!fromToolBar) {
+					this.unSelect();	
+				
+					this.controller.onPasteClipBoard(clipBoard, pos);	
+					this.showSuccess("Clipboard was pasted!");
+				} else {
+					/**
+					 * TODO: Use the bounding nbox to also have DND
+					 */
+					this.showError("Copies from other apps work only with CTRL-V");
+				}
+		
+			} else if (this._copied){	
+				this.logger.log(-1,"onPaste", "enter > SAME APP");			
+							
+				if (!fromToolBar){
+
 					/**
 					 * If paste was not triggered by toolbar, simply add.
 					 * Otherwise render preview and wait for click!
@@ -913,7 +902,7 @@ export default {
 						lastPaste.source = this._lastPaste.target;
 					}
 					
-					if(this._copied.widget){
+					if (this._copied.widget){
 						// TODO: Add a pasteClipBoardMethod, which would somehow to return a copy...
 						var copy = this.controller.onCopyWidget(this._copied.widget.id, pos);	
 						if(copy){
@@ -943,6 +932,7 @@ export default {
 					}
 					
 				} else {
+
 					/**
 					 * We were triggered from toolbar, and the user might want to still
 					 * move the stuff around...
@@ -1122,8 +1112,6 @@ export default {
 					}
 				}
 			}
-			
-			console.debug('pasteWithPattern', pos)
 			return pos;
 		},
 		

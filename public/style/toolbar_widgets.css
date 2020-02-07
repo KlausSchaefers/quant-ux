@@ -1470,6 +1470,10 @@ td.MatcGradientBox.MatcColorBox span{
 	display: block;
 }
 
+.MatcToolbarSectionCollabsed.MatcToolbarBoxBorderSimple .MatcToolbarBoxBorderNoDetails{
+	display: none;
+}
+
 
 
 

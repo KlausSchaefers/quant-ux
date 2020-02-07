@@ -10,17 +10,19 @@ export default class GridAndRuler extends Core {
 		super()
 		this.logger = new Logger('GridAndRuler');
 		this.logger.log(2, "constructor", "entry");
-		this.snappDistance = 5
+		this.snappDistance = 8
 		this.showDistance = 15
 		this.patternNeibhourhood = 10
 		this._initLinesCalled = 0
 		this._gridType = "Grid"
 		this.ignoreGroup = false,
-		this.showDndDistance = true,
-		this.highlightBoxes = true,
+		this.showDndDistance = true
+		this.highlightBoxes = true
 		this.showDimensions = false
+		this.adjustSnappDistanceToMouseSpeed =  true
 		this.xMovements = [];
 		this.yMovements = [];
+		this.mousePositions = []
 		this.selectedIDs = {};
 	}
 
@@ -49,8 +51,9 @@ export default class GridAndRuler extends Core {
 			 */
 			this.snappDistance = Math.ceil(grid.h ) * this.zoom ;
 			this.showDistance = this.snappDistance + 5;
+			this.adjustSnappDistanceToMouseSpeed = false
 		}
-		this.logger.log(1, "start", "snappDistance " + this.snappDistance);
+		this.logger.log(-1, "start", "snappDistance " + this.snappDistance);
 
 		this.grid = grid;
 		this.model = canvas.model;
@@ -1444,18 +1447,39 @@ export default class GridAndRuler extends Core {
 	 * Snapping
 	 ***********************************************************************/
 
-	correctX(absPos, diff, closeXLine) {
+	getSnappDictance () {
+		let result = this.snappDistance
+		if (this.adjustSnappDistanceToMouseSpeed) {
+			if (this.mousePositions.length > 2) {
+				/**
+				 * We calculate the manhatten distance of the last movements.
+				 * if this is below a certain threshold, we return only
+				 * the fraction of the snapp distance
+				 */
+				let start = this.mousePositions[0]
+				let end = this.mousePositions[this.mousePositions.length - 1]
+				let distance = Math.abs(start.x - end.x) + Math.abs(start.y - end.y)
+				if (distance < 3) {
+					result = this.snappDistance / 2
+				}
+			}
+		}
+		return result
+	}
 
+	correctX(absPos, diff, closeXLine) {
+		let snappDistance = this.getSnappDictance()
 		this.showLine(closeXLine, "x");
-		if (Math.abs(closeXLine.dist) < this.snappDistance) {
+		if (Math.abs(closeXLine.dist) < snappDistance) {
 			diff.x = closeXLine.dist;
 			absPos.snapp.x = closeXLine.snapp;
 		}
 	}
 
 	correctY(absPos, diff, closeYLine) {
+		let snappDistance = this.getSnappDictance()
 		this.showLine(closeYLine, "y");
-		if (Math.abs(closeYLine.dist) < this.snappDistance) {
+		if (Math.abs(closeYLine.dist) < snappDistance) {
 			diff.y = closeYLine.dist;
 			absPos.snapp.y = closeYLine.snapp;
 		}
@@ -1463,11 +1487,16 @@ export default class GridAndRuler extends Core {
 
 	updateMovements(absPos) {
 
+		if (this.mousePositions.length > 3) {
+			this.mousePositions.shift()
+		}
+		this.mousePositions.push(absPos)
+
 		if (this.xMovements.length > 4) {
-			this.xMovements.splice(0, 1);
+			this.xMovements.shift()
 		}
 		if (this.yMovements.length > 4) {
-			this.yMovements.splice(0, 1);
+			this.yMovements.shift()
 		}
 
 		if (this._lastPos) {
@@ -2171,7 +2200,8 @@ export default class GridAndRuler extends Core {
 		if (this._gridType != line.type) {
 			if (this._linesDivs[line.id]) {
 				css.remove(this._linesDivs[line.id], "MatcRulerLineHidden");
-				if (Math.abs(line.dist) < this.snappDistance) {
+				let snappDistance = this.getSnappDictance()
+				if (Math.abs(line.dist) < snappDistance) {
 					css.add(this._linesDivs[line.id], "MatcRulerLineSelected");
 
 					if (this.highlightBoxes) {

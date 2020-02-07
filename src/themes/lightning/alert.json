@@ -1,0 +1,141 @@
+[
+    {
+        "id": "LightningButtonAlert",
+        "type": "Group",
+        "_type": "Group",
+        "name": "Alert",
+        "category": "Lightning",
+        "subcategory": "XAlert",
+        "children": [
+          {
+            "id": "LightningButtonAlert_Background",
+            "type": "Button",
+            "name": "Alert Background",
+            "x": 0,
+            "y": 0,
+            "w": 322,
+            "h": 35,
+            "z": null,
+            "props": {
+              "label": "This is an alarm"
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "center",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#ffffff",
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "background": "#706e6b",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "verticalAlign": "middle"
+            }
+          },
+          {
+            "id": "LightningButtonAlert_Icon",
+            "type": "Icon",
+            "name": "Alert Icon",
+            "x": 20,
+            "y": 7,
+            "w": 32,
+            "h": 23,
+            "z": null,
+            "props": {
+              "resize": {
+                "right": false,
+                "up": false,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#ffffff",
+              "icon": "mdi mdi-account"
+            }
+          },
+          {
+            "id": "LightningButtonAlert_Close",
+            "type": "Icon",
+            "name": "Alert Close",
+            "x": 290,
+            "y": 7,
+            "w": 32,
+            "h": 23,
+            "z": null,
+            "props": {
+              "resize": {
+                "right": true,
+                "up": false,
+                "left": false,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#ffffff",
+              "icon": "mdi mdi-close"
+            }
+          }
+        ]
+      }
+]

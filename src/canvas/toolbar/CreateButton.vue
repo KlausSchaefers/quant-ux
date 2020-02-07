@@ -71,6 +71,7 @@ export default {
 			categoryNames : {
 				"Bootstrap" : "Bootstrap 3",
 				"Bootstrap4" : "Bootstrap 4",
+				"Lightning": "Lightning",
 				"OpenUI": "OpenUI5"
 			},			
 			previewSizes : {
@@ -100,7 +101,7 @@ export default {
 			this.renderFactory = new RenderFactory();
 			this.renderFactory.setModel(m);	
 			this.renderFactory.setSymbol(true);			
-			this.categoriesList = ["WireFrame", "Material", "IOS", "OpenUI", "Bootstrap4", "Charts"];
+			this.categoriesList = ["WireFrame", "Material", "IOS", "Lightning", "OpenUI", "Bootstrap4", "Charts"];
 			this._importedApps = {}
 			/**
 			 * set to last added category...
@@ -277,6 +278,9 @@ export default {
 				if(box.w === "$75%"){
 					box.w = Math.round(this.screenWidth * 0.75);
 				}
+				if(box.w === "$90%"){
+					box.w = Math.round(this.screenWidth * 0.9);
+				}
 				
 				if(box.w === "$100%"){
 					box.w = Math.round(this.screenWidth);
@@ -299,6 +303,9 @@ export default {
 				}
 				if(box.h === "$75%"){
 					box.h = Math.round(this.screenHeight * 0.75);
+				}
+				if(box.h === "$90%"){
+					box.h = Math.round(this.screenHeight * 0.9);
 				}
 				if(box.h === "$100%"){
 					box.h = Math.round(this.screenHeight);

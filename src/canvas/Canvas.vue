@@ -650,24 +650,38 @@ export default {
 
 			// console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
 		
-			if(this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()) {
+			/**
+			 * Cancel listeners must be always fired.
+			 */
+			if (k == keys.ESCAPE){
+				this.onCancelAction();
+				topic.publish("matc/canvas/esc");
+				this.stopEvent(e);
+				return
+			} 
+
+			/**
+			 * IF we have a dialog open, we return
+			 */
+			if (this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()) {
 				this.logger.log(-1 ,"onKeyPress", "exit because of dialog");
 				return;
 			}
 			
+			/**
+			 * Inputs from the toolbar should be also ignored
+			 */
 			if (css.contains(target, "MatcIgnoreOnKeyPress")){
 				return;
 			}
 			
 			this._currentKeyPressed = k;
-			if (k == keys.ESCAPE){
-				this.onCancelAction();
-				topic.publish("matc/canvas/esc");
-				this.stopEvent(e);
-			} else if(this._inlineEditStarted ){
-				
+
+			/**
+			 * Do nothing if we are in inline edit
+			 */
+			if (this._inlineEditStarted ){
 				this.onSelectionKeyPress(e);
-				
 			/**
 			 * Arrow dispatch if cntrl is not pressed
 			 */

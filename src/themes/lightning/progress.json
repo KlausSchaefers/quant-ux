@@ -1,0 +1,64 @@
+[ {
+	"id" : "LightningProgressBar",
+	"type" : "ProgressBar",
+	"name" : "Progress",
+	"category" : "Lightning",
+	"subcategory" : "FormC",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 8,
+	"z" : 0,
+	"props" : {
+		"value" : 50
+	},
+	"has" : {
+        "onclick" : true,
+        "border" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "center",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"color" : "#080707",
+		"paddingTop" : 0,
+		"paddingBottom" : 0,
+		"paddingLeft" : 0,
+		"paddingRight" : 0,
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#dddbda",
+        "borderBottomColor" : "#dddbda",
+        "borderRightColor" : "#dddbda",
+        "borderLeftColor" : "#dddbda",
+        "background" : "#dddbda",
+        "foreground": "#5eb4ff"
+	}
+},{
+    "id": "LightningProgessRing",
+    "type": "RingChart",
+    "name": "Progress Ring",
+    "_type": "Widget",
+    "category": "Lightning",
+    "subcategory": "FormC",
+    "w": 24,
+    "h": 24,
+    "props": {
+      "value": 40
+    },
+    "has": {},
+    "style": {
+      "background": "#dddbda",
+      "color": "#4bca81",
+      "lineWidth": "3"
+    }
+  } ]

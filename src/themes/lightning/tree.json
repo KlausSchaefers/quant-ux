@@ -1,0 +1,63 @@
+[ {
+	"id" : "LightningTRee",
+	"type" : "Tree",
+	"name" : "Tree",
+	 "_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 180,
+	"h" : 180,
+	"category" : "Lightning",
+	"subcategory" : "Tree",
+	"z" : 0,
+	"props" : {
+		"data" : [
+		          ["Category 1","",""], 
+		          ["","Item 1",""], 
+		          ["","Item 2",""], 
+                  ["Category 2","",""],
+                  ["","Item 3",""],
+                  ["","Item 4",""]
+                 ],
+        "selectOnlyLeaves": true
+	},
+	"has" : {
+		"onclick" : true,
+		"label" : true,
+        "padding" : true,
+        "border": true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "left",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 0,
+		"borderBottomWidth" : 0,
+		"borderRightWidth" : 0,
+		"borderLeftWidth" : 0,
+		"borderTopColor" : "#333333",
+		"borderBottomColor" : "#333333",
+		"borderRightColor" : "#333333",
+		"borderLeftColor" : "#333333",
+		"background" : "transparent",
+		"color" : "#080707",
+		"paddingTop" : 8,
+		"paddingBottom": 8,
+		"paddingLeft" : 24,
+        "paddingRight" : 0,
+        "icon": "mdi mdi-chevron-down",
+        "iconMarginRight": 5,
+        "selectedBackground": "#e6f3fd",
+        "selectedColor": "#080707",
+        "selectedBorderWidth": 4,
+        "selectedBorderColor": "#1589ee",
+        "hoverBackground": "#f3f2f2",
+        "hoverColor": "#080707"
+	}
+} ]

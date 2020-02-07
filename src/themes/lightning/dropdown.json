@@ -1,0 +1,152 @@
+[
+    {
+        "id" : "LightningDropDown",
+        "type" : "DropDown",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "FormA",
+        "name" : "Base Combobox",
+        "props" : {
+            "options" : ["Option 1", "Option 2", "Option 3"]
+        },
+        "x":0,
+        "w":160,
+        "h":32,
+        "y":0,
+        "has" : {
+            "onclick" : true,
+            "border" : true,
+            "backgroundColor" : true,
+            "data" : true,
+            "padding":true,
+            "label":true
+        },
+        "style" : { 
+             "fontSize" : 13,
+             "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+             "textAlign" : "left",
+             "letterSpacing" : 0,
+             "lineHeight" : 1,
+             "color" : "#080707",
+             "paddingTop" : 8,
+             "paddingBottom" : 12,
+             "paddingLeft" : 16,
+             "paddingRight" : 16,
+             "borderTopRightRadius" : 4,
+             "borderTopLeftRadius" : 4,
+             "borderBottomRightRadius" : 4,
+             "borderBottomLeftRadius" : 4,
+             "borderTopWidth" : 1,
+             "borderBottomWidth" : 1,
+             "borderRightWidth" : 1,
+             "borderLeftWidth" : 1,
+             "background": "#ffffff",
+             "borderTopColor" : "#dddbda",
+             "borderBottomColor" : "#dddbda",
+             "borderRightColor" : "#dddbda",
+             "borderLeftColor" : "#dddbda",
+             "selectedOptionColor" : "#080707",
+             "selectedOptionBackground": "#F3F2F2",
+             "caretBorderColor": "#080707",
+             "popupColor" : "#080707",
+             "popupBackground" : "#ffffff",
+             "popupBorderColor" : "#dddbda",
+             "popupBorderWidth" : 1,
+             "popupShadow" : {
+                 "v" : 2,
+                 "h" : 0,
+                 "b" : 3,
+                 "s" : 0,
+                 "c" : "rgba(0,0,0,.16)"
+             },
+             "boxShadow": {
+                "v" : 0,
+                "h" : 0,
+                "b" : 0,
+                "s" : 0,
+                "c" : "#0070d2",
+                "i" : false
+             }
+        },
+        "focus":{
+            "background" : "#ffffff",
+            "borderTopColor" : "#0070d2",
+            "borderBottomColor" : "#0070d2",
+            "borderRightColor" : "#0070d2",
+            "borderLeftColor" : "#0070d2",
+            "boxShadow": {
+                "v" : 0,
+                "h" : 0,
+                "b" : 4,
+                "s" : 0,
+                "c" : "#0070d2",
+                "i" : false
+             }
+        }
+    },
+    {
+        "id" : "LightningDropDownMenu",
+        "type" : "DropDown",
+        "_type" : "Widget",
+        "category" : "Lightning",
+        "subcategory" : "FormC",
+        "name" : "Menu Combobox",
+        "props" : {
+            "options" : ["Menu 1", "Menu 2", "Menu 3"],
+            "hidetext" : true,
+            "icon" : "mdi mdi-menu-down"
+        },
+        "x":0,
+        "w":32,
+        "h":32,
+        "y":0,
+        "has" : {
+            "onclick" : true,
+            "border" : true,
+            "backgroundColor" : true,
+            "data" : true,
+            "padding":true,
+            "label":true,
+            "icon": true
+        },
+        "style" : { 
+             "fontSize" : 13,
+             "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+             "textAlign" : "left",
+             "letterSpacing" : 0,
+             "lineHeight" : 1,
+             "color" : "#706e6b",
+             "paddingTop" : 8,
+             "paddingBottom" : 12,
+             "paddingLeft" : 16,
+             "paddingRight" : 16,
+             "borderTopRightRadius" : 4,
+             "borderTopLeftRadius" : 4,
+             "borderBottomRightRadius" : 4,
+             "borderBottomLeftRadius" : 4,
+             "borderTopWidth" : 1,
+             "borderBottomWidth" : 1,
+             "borderRightWidth" : 1,
+             "borderLeftWidth" : 1,
+             "background": "#ffffff",
+             "borderTopColor" : "#dddbda",
+             "borderBottomColor" : "#dddbda",
+             "borderRightColor" : "#dddbda",
+             "borderLeftColor" : "#dddbda",
+             "selectedOptionColor" : "#080707",
+             "selectedOptionBackground": "#F3F2F2",
+             "caretBorderColor": "#080707",
+             "popupColor" : "#080707",
+             "popupBackground" : "#ffffff",
+             "popupBorderColor" : "#dddbda",
+             "popupBorderWidth" : 1,
+             "popupShadow" : {
+                 "v" : 2,
+                 "h" : 0,
+                 "b" : 3,
+                 "s" : 0,
+                 "c" : "rgba(0,0,0,.16)"
+             }
+        }
+    }
+]

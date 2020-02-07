@@ -1,0 +1,151 @@
+[
+    {
+        "id": "LightningPill",
+        "type": "Group",
+        "_type": "Group",
+        "name": "Pill",
+        "category": "Lightning",
+        "subcategory": "XSpecial",
+        "children": [
+          {
+            "id": "Pill0",
+            "type": "Button",
+            "name": "Pill",
+            "props": {
+              "label": "Pill"
+            },
+            "x": 0,
+            "w": 100,
+            "h": 26,
+            "y": 0,
+            "has": {
+              "onclick": true,
+              "label": true,
+              "padding": true,
+              "border": true,
+              "backgroundColor": true
+            },
+            "style": {
+              "fontSize": 13,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "center",
+              "letterSpacing": 0,
+              "lineHeight": 1,
+              "color": "#0070d2",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "borderTopRightRadius": 4,
+              "borderTopLeftRadius": 4,
+              "borderBottomRightRadius": 4,
+              "borderBottomLeftRadius": 4,
+              "borderTopWidth": 1,
+              "borderBottomWidth": 1,
+              "borderRightWidth": 1,
+              "borderLeftWidth": 1,
+              "background": "#ffffff",
+              "borderTopColor": "#dddbda",
+              "borderBottomColor": "#dddbda",
+              "borderRightColor": "#dddbda",
+              "borderLeftColor": "#dddbda",
+              "verticalAlign": "middle"
+            },
+            "hover": {
+              "background": "#f4f6f9",
+              "borderTopColor": "#dddbda",
+              "borderBottomColor": "#dddbda",
+              "borderRightColor": "#dddbda",
+              "borderLeftColor": "#dddbda",
+              "color": "#005fb2"
+            },
+            "_type": "Widget"
+          },
+          {
+            "id": "Pill1",
+            "type": "Icon",
+            "name": "Pill Close",
+            "x": 86,
+            "y": 6,
+            "w": 14,
+            "h": 14,
+            "props": {
+              "resize": {
+                "right": true,
+                "up": true,
+                "left": false,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#706e6b",
+              "icon": "mdi mdi-close"
+            },
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "id": "Pill2",
+            "type": "Icon",
+            "name": "Pill Icon",
+            "x": 0,
+            "y": 3,
+            "w": 20,
+            "h": 20,
+            "props": {
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#4bca81",
+              "icon": "mdi mdi-clipboard-account"
+            },
+            "_type": "Widget"
+          }
+        ]
+      }
+]
+

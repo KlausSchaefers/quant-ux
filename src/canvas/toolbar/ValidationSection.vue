@@ -45,6 +45,10 @@ export default {
 		_showProgressBar (model){
 			this._renderDataBinding(model, false);
 		},
+
+		_showTree (model){
+			this._renderDataBinding(model, false);
+		},
 		
 		_showRadioGroup (model){
 			this._renderDataBinding(model);
@@ -76,6 +80,10 @@ export default {
 		},
 		
 		_showStepper (model){
+			this._renderDataBinding(model);
+		},
+
+		_showCountingStepper (model){
 			this._renderDataBinding(model);
 		},
 		
