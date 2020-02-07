@@ -9,7 +9,7 @@
 	color:#333;
 }
 
-.MatcToolbar .MatcCreateSearchBtn, 
+.MatcToolbar .MatcCreateSearchBtn,
 .MatcCreateSearchBtn{
 	color:#ccc;
 	font-size: 24px;
@@ -23,7 +23,7 @@
 }
 
 .MatcCreateSubCategory{
-	
+
 }
 
 .MatcCreateImportCntr {
@@ -51,7 +51,7 @@
 .MatcCreateBtnCntr .container{
 	padding-left: 0px;
     padding-right: 0px;
-}    
+}
 
 .MatcCreateBtnElementList {
 	overflow: scroll;
@@ -60,7 +60,7 @@
 .MatcCreateBtnElementList .MatcCreateBtnElement{
 	display: inline-block;
 	padding:10px;
-	text-align: center;	
+	text-align: center;
 	margin-bottom:10px;
 	margin-right: 10px;
 	vertical-align: top;
@@ -87,7 +87,7 @@
 .MatcCreateBtnElementPreview{
 	width: 160px;
 	height: 100px;
-
+	overflow: hidden;
 	position: relative;
 }
 

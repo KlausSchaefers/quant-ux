@@ -1,5 +1,5 @@
 [ {
-	"id" : "LightningTRee",
+	"id" : "LightningTree",
 	"type" : "Tree",
 	"name" : "Tree",
 	 "_type" : "Widget",
@@ -12,20 +12,22 @@
 	"z" : 0,
 	"props" : {
 		"data" : [
-		          ["Category 1","",""], 
-		          ["","Item 1",""], 
-		          ["","Item 2",""], 
-                  ["Category 2","",""],
-                  ["","Item 3",""],
-                  ["","Item 4",""]
-                 ],
-        "selectOnlyLeaves": true
+			["Tree Branch","",""],
+			["","Tree Item 1",""],
+			["","Tree Item 2",""],
+			["Tree Branch","",""],
+			["","Tree Item 3",""],
+			["","Tree Item 4",""]
+    ],
+		"selectOnlyLeaves": true,
+		"canCollapse": true
 	},
 	"has" : {
 		"onclick" : true,
 		"label" : true,
-        "padding" : true,
-        "border": true
+		"backgroundColor" : true,
+    "padding" : true,
+    "border": true
 	},
 	"style" : {
 		"fontSize" : 14,
@@ -40,24 +42,27 @@
 		"borderTopWidth" : 0,
 		"borderBottomWidth" : 0,
 		"borderRightWidth" : 0,
-		"borderLeftWidth" : 0,
-		"borderTopColor" : "#333333",
-		"borderBottomColor" : "#333333",
-		"borderRightColor" : "#333333",
-		"borderLeftColor" : "#333333",
+		"borderLeftWidth" : 4,
+		"borderTopColor" : "transparent",
+		"borderBottomColor" : "transparent",
+		"borderRightColor" : "transparent",
+		"borderLeftColor" : "transparent",
 		"background" : "transparent",
 		"color" : "#080707",
 		"paddingTop" : 8,
 		"paddingBottom": 8,
 		"paddingLeft" : 24,
-        "paddingRight" : 0,
-        "icon": "mdi mdi-chevron-down",
-        "iconMarginRight": 5,
-        "selectedBackground": "#e6f3fd",
-        "selectedColor": "#080707",
-        "selectedBorderWidth": 4,
-        "selectedBorderColor": "#1589ee",
-        "hoverBackground": "#f3f2f2",
-        "hoverColor": "#080707"
+		"paddingRight" : 0,
+		"icon": "mdi mdi-chevron-down",
+		"iconMarginRight": 5
+	},
+	"active": {
+		"background": "#e6f3fd",
+		"color": "#080707",
+		"borderLeftColor" : "#1589ee"
+	},
+	"hover": {
+		"background": "#f3f2f2",
+		"color": "#080707"
 	}
 } ]

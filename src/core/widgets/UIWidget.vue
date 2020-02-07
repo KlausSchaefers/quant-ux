@@ -171,7 +171,7 @@ export default {
      * Can be overwritten by children to have proper type conversion
      */
     _setDataBindingValue: function(v) {
-      
+
       this.setValue(v);
     },
 
@@ -665,30 +665,10 @@ export default {
     },
 
     setBorderColor: function() {
-      this._setBorderStyle(
-        "borderTopColor",
-        this.domNode,
-        this.style,
-        this.model
-      );
-      this._setBorderStyle(
-        "borderBottomColor",
-        this.domNode,
-        this.style,
-        this.model
-      );
-      this._setBorderStyle(
-        "borderRightColor",
-        this.domNode,
-        this.style,
-        this.model
-      );
-      this._setBorderStyle(
-        "borderLeftColor",
-        this.domNode,
-        this.style,
-        this.model
-      );
+      this._setBorderStyle("borderTopColor", this.domNode, this.style, this.model);
+      this._setBorderStyle( "borderBottomColor", this.domNode, this.style, this.model);
+      this._setBorderStyle( "borderRightColor", this.domNode, this.style, this.model);
+      this._setBorderStyle( "borderLeftColor", this.domNode, this.style, this.model);
     },
 
     _setBorderRadius: function(node, style) {
@@ -751,19 +731,7 @@ export default {
         var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
         var s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
         var inset = shadow.i ? "inset" : "";
-
-        var value =
-          h +
-          "px " +
-          v +
-          "px " +
-          b +
-          "px " +
-          s +
-          "px " +
-          shadow.c +
-          " " +
-          inset;
+        var value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
         if (this._shadowNodes) {
           for (var i = 0; i < this._shadowNodes.length; i++) {
             var node = this._shadowNodes[i];

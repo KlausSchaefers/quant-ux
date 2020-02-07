@@ -12,20 +12,22 @@
 	"z" : 0,
 	"props" : {
 		"data" : [
-		          ["Category 1","",""], 
-		          ["","Item 1",""], 
-		          ["","Item 2",""], 
+		          ["Category 1","",""],
+		          ["","Item 1",""],
+		          ["","Item 2",""],
                   ["Category 2","",""],
                   ["","Item 3",""],
                   ["","Item 4",""]
 				 ],
-		"selectOnlyLeaves": false
+		"selectOnlyLeaves": false,
+		"canCollapse": true
 	},
 	"has" : {
 		"onclick" : true,
 		"label" : true,
 		"padding" : true,
-		"border": true
+		"border": true,
+		"backgroundColor" : true
 	},
 	"style" : {
 		"fontSize" : 14,
@@ -50,12 +52,16 @@
 		"paddingTop" : 8,
 		"paddingBottom": 8,
 		"paddingLeft" : 24,
-        "paddingRight" : 0,
-        "icon": "mdi mdi-chevron-down",
-		"iconMarginRight": 5,
-		"selectedBackground": "#f1f1f1",
-		"selectedColor": "#333333",
-		"selectedBorderWidth": 0,
-        "selectedBorderColor": "#ffffff"
+    "paddingRight" : 0,
+    "icon": "mdi mdi-chevron-down",
+		"iconMarginRight": 5
+	},
+	"active": {
+		"background": "#f1f1f1",
+		"color": "#333333"
+	},
+	"hover": {
+		"background": "#f3f2f2",
+		"color": "#080707"
 	}
 } ]

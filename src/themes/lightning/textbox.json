@@ -22,7 +22,7 @@
                 "padding":true,
                 "label":true
             },
-            "style" : { 
+            "style" : {
                  "fontSize" : 13,
                  "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
                  "textAlign" : "left",
@@ -123,7 +123,7 @@
                 "padding":true,
                 "label":true
             },
-            "style" : { 
+            "style" : {
                  "fontSize" : 13,
                  "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
                  "textAlign" : "left",
@@ -178,27 +178,6 @@
                 "borderBottomColor" : "#c23934",
                 "borderRightColor" : "#c23934",
                 "borderLeftColor" : "#c23934"
-            }
-        }, {
-            "id" : "LightningLookup",
-            "type" : "TypeAheadTextBox",
-            "_type" : "Widget",
-            "category" : "Lightning",
-            "subcategory" : "FormB",
-            "_extends": "LightningTextBox",
-            "name" : "Lookup (Typeahead)",
-            "props" : {
-                "label" : "Enter a value",
-                "placeholder" : true,
-                "options" : [ "Hint 1", "Hint 2", "Hint 3", "Hint 4" ]
-            },
-            "x":0,
-            "w":160,
-            "h":32,
-            "y":0,
-            "style": {
-                "selectedOptionColor" : "#080707",
-                "selectedOptionBackground" : "#F3F2F2"
             }
         }
 ]

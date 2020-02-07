@@ -266,7 +266,7 @@ export default class RenderFactory extends Core {
 	/**
 	 * Repeater can rerender its childnre
 	 */
-	updateContainerChild (child, model) {		
+	updateContainerChild (child, model) {
 		if (this._containerWidgets[child.container]) {
 			let uiWidget = this._containerWidgets[child.container]
 			let widget = model.widgets[child.container];
@@ -330,7 +330,7 @@ export default class RenderFactory extends Core {
 				console.warn("No render method for", model.type);
 			}
 		}
- 
+
 		/**
 		 * now add style for non ui widgets
 		 */
@@ -400,6 +400,12 @@ export default class RenderFactory extends Core {
 		this._uiWidgets[model.id] = widget;
 	}
 
+	_createVerticalNavigation(parent, model) {
+		var widget = this.$new(Tree);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
 	_createCountingStepper (parent, model) {
 		let stepper = this.$new(CountingStepper)
 		stepper.placeAt(parent);
@@ -434,7 +440,7 @@ export default class RenderFactory extends Core {
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
 	}
-	
+
 	_createUpload (parent, model) {
 		var upload = this.$new(Upload);
 		upload.placeAt(parent);

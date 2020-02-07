@@ -26,9 +26,9 @@ export default {
   components: {},
   methods: {
     postCreate() {
-      this._borderNodes = [this.domNode]
-      this._backgroundNodes = [this.domNode]
-      this._shadowNodes = [this.domNode]
+      this._borderNodes = []
+      this._backgroundNodes = []
+      this._shadowNodes = []
       this._paddingNodes = []
       this._labelNodes = []
       this.nodes = []
@@ -37,8 +37,6 @@ export default {
 
     wireEvents() {
       this.own(this.addClickListener(this.domNode, lang.hitch(this, "onChange")));
-      this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));
-      this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
 
       this.nodes.forEach(o => {
           this.own(on(o.div, touch.click, (e) => {
@@ -77,6 +75,10 @@ export default {
 
       this.nodes = []
       this.icons = []
+      this._borderNodes = []
+      this._backgroundNodes = []
+      this._shadowNodes = []
+
       let tree = this.getTree()
       let values = {
         fontSize: Math.round(style.fontSize * this._scaleY),
@@ -111,11 +113,9 @@ export default {
             .paddingRight(style.paddingRight)
             .build(parentDiv)
 
-        if (style.selectedBorderWidth) {
-            cntr.style.borderLeftWidth = style.selectedBorderWidth + 'px'
-            cntr.style.borderLeftColor = 'transparent'
-        }
-     
+        this._borderNodes.push(cntr)
+        this._backgroundNodes.push(cntr)
+        this._shadowNodes.push(cntr)
 
         this.nodes.push({
             div: cntr,
@@ -133,27 +133,27 @@ export default {
                 .marginRight(style.iconMarginRight)
                 .build(cntr)
             }
-        
+
 
             db.span('MatcWidgetTypeTreeNodeLabel', node.label).build(cntr)
-         
+
             let children = db.span('MatcWidgetTypeTreeChildren').build(parentDiv)
             node.children.forEach(child => {
                 this._renderNode(child, children, db, style, paddingLeft)
             })
-            
+
             if (icon) {
               this.icons.push({
                   icon: icon,
                   children: children,
-                  node: node 
+                  node: node
               })
             }
         } else {
             db.span('MatcWidgetTypeTreeNodeLabel', node.label).build(cntr)
         }
 
-     
+
     },
 
     getTree () {
@@ -183,7 +183,7 @@ export default {
                 } else {
                     this.root.children.push(node)
                 }
-                lastByLevel[level] = node              
+                lastByLevel[level] = node
             });
         }
         return root
@@ -222,26 +222,63 @@ export default {
 
     setHover (o, isHover) {
       try {
-        if (o.node.value !== this.value) {
-          let div = o.div
-          if (this.style.hoverBackground) {
+        if (this.model.hover) {
+          /**
+           * Trigger only when not selected
+           */
+          if (o.node.value !== this.value) {
+            let div = o.div
             if (isHover) {
-                div.style.background = this.style.hoverBackground
+              this.setTreeNodeStyle(div, this.model.hover)
             } else {
-                div.style.background = "transparent"
-            }
-          }
-          if (this.style.hoverColor) {
-            if (isHover) {
-                div.style.color = this.style.hoverColor
-            } else {
-                div.style.color = this.style.color
+              this.setTreeNodeStyle(div, this.model.style)
             }
           }
         }
       } catch (e) {
         console.error(e)
       }
+    },
+
+    setTreeNodeStyle (div, style) {
+      if (style.background) {
+        div.style.background = style.background
+      }
+      if (style.color) {
+        div.style.color = style.color
+      }
+      // width
+      if (style.borderTopWidth) {
+        let w = this._getBorderWidth(style.borderTopWidth);
+        div.style.borderTopWidth = w + 'px'
+      }
+      if (style.borderBottomWidth) {
+        let w = this._getBorderWidth(style.borderBottomWidth);
+        div.style.borderBottomWidth = w + 'px'
+      }
+      if (style.borderRightWidth) {
+        let w = this._getBorderWidth(style.borderRightWidth);
+        div.style.borderRightWidth = w + 'px'
+      }
+      if (style.borderLeftWidth) {
+        let w = this._getBorderWidth(style.borderLeftWidth);
+        div.style.borderLeftWidth = w + 'px'
+      }
+
+      // color
+      if (style.borderTopColor) {
+        div.style.borderTopColor = style.borderTopColor
+      }
+      if (style.borderBottomColor) {
+        div.style.borderBottomColor = style.borderBottomColor
+      }
+      if (style.borderRightColor) {
+        div.style.borderRightColor = style.borderRightColor
+      }
+      if (style.borderLeftColor) {
+        div.style.borderLeftColor = style.borderLeftColor
+      }
+
     },
 
     setCollapsed (collapsed) {
@@ -272,20 +309,13 @@ export default {
     setValue(value) {
       this.value = value
 
-      if (this.style) {
+      if (this.model.active) {
         this.nodes.forEach(node => {
             let div = node.div
             if (node.node.label === this.value) {
-                div.style.color = this.style.selectedColor
-                div.style.background  = this.style.selectedBackground
-               
-                if (this.style.selectedBorderColor) {
-                    div.style.borderLeftColor  = this.style.selectedBorderColor
-                }
+                this.setTreeNodeStyle(div, this.model.active)
             } else {
-                div.style.color = this.style.color
-                div.style.background = "transparent"
-                div.style.borderLeftColor = "transparent"
+                this.setTreeNodeStyle(div, this.model.style)
             }
         })
       }

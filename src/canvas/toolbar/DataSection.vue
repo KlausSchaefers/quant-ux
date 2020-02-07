@@ -153,18 +153,18 @@ export default {
 		_showScreenSegment  (widget) {
 			this._setSectionLabel("Screen Section");
 			// this._renderCheck("Show Scroll",widget.props.scroll, "scroll" );
-			
+
 			if (widget.props.screenID) {
 				let screen = this.model.screens[widget.props.screenID]
-				if (screen) {			
-					var div = this.db.div("MatcToolbarGridFull MatcToolbarItem MatcToobarActionCntr" ).build(this.cntr);					
+				if (screen) {
+					var div = this.db.div("MatcToolbarGridFull MatcToolbarItem MatcToobarActionCntr" ).build(this.cntr);
 					this.db.span("MatcToolbarSmallIcon mdi mdi-content-duplicate").build(div);
-					this.db.span("MatcToolbarItemLabel",  screen.name).build(div);					
+					this.db.span("MatcToolbarItemLabel",  screen.name).build(div);
 					var btn = this.db.span("MatcToobarRemoveBtn ")
 						.tooltip("Remove Segment", "vommondToolTipRightBottom")
 						.span("mdi mdi-close-circle-outline")
 						.build(div);
-					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onSegmentScreenSelected", '')));		
+					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onSegmentScreenSelected", '')));
 				}
 			} else {
 				var add = this.db.div("MatcToolbarGridFull MatcPointer  MatcToolbarItem").build(this.cntr);
@@ -173,7 +173,7 @@ export default {
 				this.tempOwn(on(add, touch.press, lang.hitch(this, "_renderSegmentScreen")));
 			}
 
-		
+
 			//this._renderButton(lbl, icon, "_renderSegmentScreen");
 		},
 
@@ -226,18 +226,23 @@ export default {
 			}
 		},
 
+		_showVerticalNavigation() {
+			this._setSectionLabel("Vertical Naigation");
+			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+		},
+
 		_showTree (model){
 			this._setSectionLabel("Tree");
 			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
 
-			this._renderBoxColor("Hover", model, "hoverBackground", "hoverColor");
-			this._renderBoxColor("Selected", model, "selectedBackground", "selectedColor");
-			
-			this._renderInputDropDown("Indicator Width",model, [0,1,2,3,4,5, 10], "selectedBorderWidth", false);
-			this._renderColor('Indicator Color','<span class="mdi mdi-format-color-fill"></span>',model.style.selectedBorderColor, "selectedBorderColor", "onStyleChanged",true );
+			//this._renderBoxColor("Hover", model, "hoverBackground", "hoverColor");
+			//this._renderBoxColor("Selected", model, "selectedBackground", "selectedColor");
+
+			//this._renderInputDropDown("Indicator Width",model, [0,1,2,3,4,5, 10], "selectedBorderWidth", false);
+			//this._renderColor('Indicator Color','<span class="mdi mdi-format-color-fill"></span>',model.style.selectedBorderColor, "selectedBorderColor", "onStyleChanged",true );
 
 			this._renderLabelDropDown("Icon", model, "icon",[
-       			    { value:"mdi mdi-chevron-down", icon:"mdi mdi-chevron-down", label : "Chevron"},
+       		{ value:"mdi mdi-chevron-down", icon:"mdi mdi-chevron-down", label : "Chevron"},
 					{ value:"mdi mdi-menu-down", icon:"mdi mdi-menu-down", label : "Arrow"},
 					{ value:"mdi mdi-menu-down-outline", icon:"mdi mdi-menu-down-outline", label : "Arrow Outline"},
 					{ value:"nulll", icon:"mdi mdi-close", label : "No Icon"}
@@ -432,7 +437,7 @@ export default {
        			    { value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
 			]);
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
-		
+
 		},
 
 		_showHoverDropDown (model){
@@ -488,7 +493,7 @@ export default {
 		_showCountingStepper (model){
 			this._setSectionLabel("Counting Stepper");
 			this._renderInputDropDown("Start Value",model, [0,1,5,10,20,30,40,50,100], "value", true);
-		
+
 			this._renderColor('Button Color','<span class="mdi mdi-format-text"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
 			this._renderColor('Button Background','<span class="mdi mdi-format-color-fill"></span>',model.style.backgroundButton, "backgroundButton", "onStyleChanged",true );
 
@@ -689,18 +694,18 @@ export default {
 		 **********************************************************************/
 
 		_renderSegmentScreen (e) {
-			
+
 			var d = new Dialog({overflow:true});
 
 			var div = this.db.div("MatcToolbarScreenListDialog MatcPadding").build();
 			this.db.label("", "Select Screen Segment").build(div);
-			var cntr = this.db.div("MatcToolbarScreenListDialogCntr").build(div);			
-			var list = this.db.div().build();			
-			
+			var cntr = this.db.div("MatcToolbarScreenListDialogCntr").build(div);
+			var list = this.db.div().build();
+
 			var height = Math.min(this.model.screenSize.h / (this.model.screenSize.w / this.previewWidth), 250) ;
-		
+
 			this.previews = [];
-	
+
 			for(var screenID in this.model.screens){
 				/**
 				 * Do not show the selected screen or any parents
@@ -716,32 +721,32 @@ export default {
 					preview.setModel(this.model);
 					preview.setScreen(screenID);
 					preview.placeAt(screenCntr);
-					this.previews.push(preview);					
+					this.previews.push(preview);
 					var lbl = this.db.div("MatcCreateBtnElementLabel", screen.name).build(wrapper);
-					lbl.style.width = this.previewWidth + "px";					
+					lbl.style.width = this.previewWidth + "px";
 					d.own(on(wrapper, touch.press, lang.hitch(this, "onSegmentScreenSelected", screenID, d)));
 				}
-			}		
-			
+			}
+
 			var scroll = this.$new(ScrollContainer);
 			scroll.placeAt(cntr);
-			scroll.wrap(list);			
-			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(div);					
-			var cancel = this.db.a("MatcButton", "Cancel").build(bar);			
-		
+			scroll.wrap(list);
+			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(div);
+			var cancel = this.db.a("MatcButton", "Cancel").build(bar);
+
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			d.own(on(d, "close", function () {
 				scroll.destroy()
 			}))
-			d.popup(div, e.target);			
-		
+			d.popup(div, e.target);
+
 		},
 
 		onSegmentScreenSelected (screenID, d) {
 			if (d && d.close) {
 				d.close()
 			}
-		
+
 			this.onProperyChanged("screenID", screenID);
 		},
 

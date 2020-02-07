@@ -52,31 +52,31 @@ export default {
     data: function () {
         return {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox",
-						"TextArea", "Password", "SegmentButton", "ToggleButton", "Table", 'Tree'],
+						"TextArea", "Password", "SegmentButton", "ToggleButton", "Table", 'Tree', 'VerticalNavigation'],
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
-						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 
-						'ProgressBar', 'ScreenSegment', 'CountingStepper', 'Tree'],
+						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest",
+						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation"],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
 							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
 							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
-							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel', 
-							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree'],
+							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
+							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation'],
 			hasLogic2: ["LogicOr", "Rest"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox"],
-			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree"],
-			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink"],
+			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation"],
+			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink"],
 			hideAction: ['ScreenSegment'],
 			colorWidgets: [],
 			isDataView: false
-        }
+      }
 	},
     components: {},
     methods: {
@@ -93,7 +93,7 @@ export default {
 				css.remove(this.rectangleTool, "MatcToolbarItemActive" );
 				css.remove(this.addLogicSection, "MatcToolbarItemActive" );
 				css.remove(this.addRestSection, "MatcToolbarItemActive" );
-				
+
 
 				if(this.mode == "select"){
 					css.add(this.selectBtn, "MatcToolbarItemActive");
@@ -265,7 +265,7 @@ export default {
 
 			// this.contactBtn = this.$new(ContactButton);
 			/// this.contactBtn.placeAt(this.notificationSection);
-			
+
 			// this.helpBtn = this.$new(HelpButton, {isToolbar:true})
 			// this.helpBtn.placeAt(this.notificationSection);
 
@@ -443,7 +443,7 @@ export default {
 			this.rulerSection.placeAt(content)
 			this.own(on(this.rulerSection, "changeProps", lang.hitch(this, "setRulerProperties")));
 			this.own(on(this.rulerSection, "changeV", lang.hitch(this, "setRulerPosition")));
-			
+
 			this.properties.appendChild(parent);
 			this.rulerSectionDIV = parent;
 		},
@@ -641,7 +641,7 @@ export default {
 			this.responsiveWidget.placeAt(content);
 			this.own(on(this.responsiveWidget, "change", lang.hitch(this, "setWidgetProps", "resize")));
 
-		
+
 			this.positionCheckBox = this.$new(CheckBox);
 			this.positionCheckBox.setLabel("Fixed In Simulator");
 			this.addTooltip(this.positionCheckBox.domNode, "The element will not scroll in the simualtor.")
@@ -680,7 +680,7 @@ export default {
 			this.callbackSection.placeAt(content)
 
 			this.callBackDiv = parent;
-			this.properties.appendChild(parent);		
+			this.properties.appendChild(parent);
 		},
 
 
@@ -1235,14 +1235,14 @@ export default {
 			css.add(item, " MatcToolbarGridFull");
 			content.appendChild(item);
 
-			
+
 			this.screenSegmentCheckbox = this.$new(CheckBox);
 			this.screenSegmentCheckbox.setLabel("Segment");
 			this.addTooltip(this.screenSegmentCheckbox.domNode, "The screen can be imcluded in others")
 			css.add(this.screenSegmentCheckbox.domNode, "MatcToolbarItem");
 			this.own(on(this.screenSegmentCheckbox, "change", lang.hitch(this, "setScreenSegement", "segment")));
 			this.screenSegmentCheckbox.placeAt(item)
-			
+
 			item = document.createElement("div");
 			css.add(item, " MatcToolbarGridFull");
 			content.appendChild(item);
@@ -1430,7 +1430,7 @@ export default {
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 
 			this.groupActionBTN.setValue(model);
-		
+
 
 			/**
 			 * Since 2.1.3 we have sub groups
@@ -1491,7 +1491,7 @@ export default {
 
 			}
 			this.multiPositionCheckBox.setValue(fixed);
-		
+
 
 			// this.childWidget.setMulti(model);
 
@@ -1633,7 +1633,7 @@ export default {
 
 			// var props = this.getInheritedStyle(model, "props"); // model.props;
 
-			
+
 			this.showProperties();
 			this.showWidgetTools();
 
@@ -1652,9 +1652,9 @@ export default {
 			// this.widgetSize.setCanvasSettings(this.settings)
 			this.widgetSize.setModel(this.model);
 			this.widgetSize.setValue(model);
-			
+
 			this.positionCheckBox.setValue(style.fixed);
-			
+
 			//this.lockedCheckBox.setValue(style.locked);
 
 
@@ -1753,7 +1753,7 @@ export default {
 				css.remove(this.lineDiv, "MatcToolbarSectionHidden");
 
 				this.actionBTN.setValue(model, isLogicWidget);
-				
+
 			} else if (widgetViewMode == "hover"){
 				this.showTemplateMarkers(" (Hover)")
 			} else if (widgetViewMode == "error"){
@@ -1805,7 +1805,7 @@ export default {
 		 */
 		showWidgetDataProperties (model) {
 			this.logger.log(-1,"showWidgetDataProperties", "enter");
-	
+
 			this.showProperties();
 
 			/**
@@ -1826,7 +1826,7 @@ export default {
 			if (this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
 				css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
 				this.validationWidget.setValue(model);
-			} 
+			}
 			this.lowCodeSection.setValue(model)
 			this.callbackSection.setValue(model)
 
@@ -2487,7 +2487,7 @@ export default {
 							font: f.name,
 							css: 'MatchFont'
 						})
-					}					
+					}
 				})
 			}
 
