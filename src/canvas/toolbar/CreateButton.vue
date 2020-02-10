@@ -789,10 +789,13 @@ export default {
 				this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", group)));
 				
 				let child = this.getBoundingBoxByBoxes(group.children);
-				let scale = this.getScale(size, "auto", child)		
+				let scale = this.getScale(size, "auto", child)
+				scale.x = Math.min(1, scale.x)
+				scale.y = Math.min(1, scale.y)	
+			
 				child = this._getScalledChild(child, size);
 				let box = this._createCenteredBox(db, preview, child, size);
-				
+	
 				var children = group.children;
 				for(let i=0; i< children.length; i++){
 					// FIXME: call clone
@@ -802,10 +805,10 @@ export default {
 					child.h *= scale.y;
 					child.y *= scale.y;				
 					try{
-						if(!child.id){
-							console.warn("Theme without child id");
-							child.id =group.id+""+i;
-						}				
+						//if(!child.id){
+						//	console.warn("Theme without child id");
+						child.id = group.id +"_" + i;
+						//}				
 						var widgetBox = db.div("MatcBox").build(box);
 						domStyle.set(widgetBox, {
 							"width" :  (child.w) + "px",

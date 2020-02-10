@@ -88,13 +88,11 @@
           "lineHeight": 1,
           "color": "#333333"
         },
-        "id": "Group1",
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "id": "AccordionOpen1",
+        "_type": "Widget"
       },
       {
-        "id": "Group2",
+        "id": "AccordionOpen2",
         "type": "Icon",
         "name": "Icon",
         "x": 12,
@@ -165,7 +163,7 @@
           "lineHeight": 1,
           "color": "#333333"
         },
-        "id": "Group3",
+        "id": "AccordionOpen3",
         "_type": "Widget"
       }
     ]
@@ -225,7 +223,7 @@
           "borderRightStyle": "solid",
           "borderLeftStyle": "solid"
         },
-        "id": "Group 10",
+        "id": "AccordionClose1",
         "_type": "Widget",
         "z": null,
         "template": null
@@ -267,7 +265,7 @@
         "template": null
       },
       {
-        "id": "Group 12",
+        "id": "AccordionClose2",
         "type": "Icon",
         "name": "Icon",
         "x": 12,

@@ -5,12 +5,12 @@
     "_type": "Group",
     "name": "Dock",
     "category": "Lightning",
-    "subcategory": "XXX",
+    "subcategory": "XSpecialX",
     "children": [
       {
         "id": "Group0",
         "type": "Button",
-        "name": "Card (Empty)",
+        "name": "Docker Container",
         "props": {
           "label": ""
         },
@@ -50,27 +50,33 @@
           "borderRightColor": "#dddbda",
           "borderLeftColor": "#dddbda",
           "boxShadow": {
-            "v": 2,
+            "v": -2,
             "h": 0,
             "b": 2,
             "s": 0,
-            "c": "rgba(0,0,0,0.1)",
+            "c": "rgba(0,0,0,0.16)",
             "i": false
           }
         },
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "type": "Button",
-        "name": "Box",
+        "name": "Docker Footer",
         "x": 0,
         "y": 464,
         "w": 460,
         "h": 58,
         "props": {
-          "label": ""
+          "label": "",
+          "resize": {
+            "right": false,
+            "up": false,
+            "left": false,
+            "down": true,
+            "fixedHorizontal": false,
+            "fixedVertical": true
+          }
         },
         "has": {
           "backgroundColor": true,
@@ -110,9 +116,7 @@
           "borderLeftStyle": "solid"
         },
         "id": "Group1",
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "type": "Button",
@@ -122,7 +126,15 @@
         "w": 460,
         "h": 34,
         "props": {
-          "label": ""
+          "label": "",
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": false,
+            "down": false,
+            "fixedHorizontal": false,
+            "fixedVertical": true
+          }
         },
         "has": {
           "backgroundColor": true,
@@ -158,19 +170,25 @@
           "paddingRight": 0
         },
         "id": "Group2",
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "type": "Button",
-        "name": "Box 2",
+        "name": "Dock Header",
         "x": 0,
         "y": 0,
         "w": 460,
         "h": 42,
         "props": {
-          "label": "Marcel J. - Call in Progress"
+          "label": "John Doe - Call in Progress",
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": false,
+            "down": false,
+            "fixedHorizontal": false,
+            "fixedVertical": true
+          }
         },
         "has": {
           "backgroundColor": true,
@@ -207,20 +225,25 @@
           "borderTopStyle": "solid",
           "borderBottomStyle": "solid",
           "borderRightStyle": "solid",
-          "borderLeftStyle": "solid",
-          "verticalAlign": "middle"
+          "borderLeftStyle": "solid"
         },
         "id": "Group3",
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "id": "Group4",
         "type": "Button",
-        "name": "Destructive Button",
+        "name": "Docker Footer Button",
         "props": {
-          "label": "End Call"
+          "label": "End Call",
+          "resize": {
+            "right": true,
+            "up": false,
+            "left": false,
+            "down": true,
+            "fixedHorizontal": true,
+            "fixedVertical": true
+          }
         },
         "x": 368,
         "w": 80,
@@ -266,9 +289,7 @@
           "borderRightColor": "#a61a14",
           "borderLeftColor": "#a61a14"
         },
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "id": "Group5",
@@ -278,7 +299,16 @@
         "y": 15,
         "w": 14,
         "h": 14,
-        "props": {},
+        "props": {
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": true,
+            "down": false,
+            "fixedHorizontal": true,
+            "fixedVertical": true
+          }
+        },
         "has": {
           "onclick": true,
           "data": true
@@ -300,19 +330,26 @@
           "color": "#706e6b",
           "icon": "mdi mdi-phone"
         },
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "id": "Group6",
         "type": "Icon",
-        "name": "Icon 1",
+        "name": "Dock Close Icon",
         "x": 436,
         "y": 15,
         "w": 13,
         "h": 14,
-        "props": {},
+        "props": {
+          "resize": {
+            "right": true,
+            "up": true,
+            "left": false,
+            "down": false,
+            "fixedHorizontal": true,
+            "fixedVertical": true
+          }
+        },
         "has": {
           "onclick": true,
           "data": true
@@ -334,77 +371,7 @@
           "color": "#706e6b",
           "icon": "mdi mdi-close"
         },
-        "_type": "Widget",
-        "z": null,
-        "template": null
-      },
-      {
-        "id": "Group7",
-        "type": "Icon",
-        "name": "Icon 2",
-        "x": 420,
-        "y": 15,
-        "w": 16,
-        "h": 14,
-        "props": {},
-        "has": {
-          "onclick": true,
-          "data": true
-        },
-        "actions": {},
-        "style": {
-          "borderTopRightRadius": 0,
-          "borderTopLeftRadius": 0,
-          "borderBottomRightRadius": 0,
-          "borderBottomLeftRadius": 0,
-          "borderTopWidth": 0,
-          "borderBottomWidth": 0,
-          "borderRightWidth": 0,
-          "borderLeftWidth": 0,
-          "borderTopColor": "#333333",
-          "borderBottomColor": "#333333",
-          "borderRightColor": "#333333",
-          "borderLeftColor": "#333333",
-          "color": "#706e6b",
-          "icon": "mdi mdi-arrow-expand"
-        },
-        "_type": "Widget",
-        "z": null,
-        "template": null
-      },
-      {
-        "id": "Group8",
-        "type": "Icon",
-        "name": "Icon 3",
-        "x": 408,
-        "y": 15,
-        "w": 12,
-        "h": 14,
-        "props": {},
-        "has": {
-          "onclick": true,
-          "data": true
-        },
-        "actions": {},
-        "style": {
-          "borderTopRightRadius": 0,
-          "borderTopLeftRadius": 0,
-          "borderBottomRightRadius": 0,
-          "borderBottomLeftRadius": 0,
-          "borderTopWidth": 0,
-          "borderBottomWidth": 0,
-          "borderRightWidth": 0,
-          "borderLeftWidth": 0,
-          "borderTopColor": "#333333",
-          "borderBottomColor": "#333333",
-          "borderRightColor": "#333333",
-          "borderLeftColor": "#333333",
-          "color": "#706e6b",
-          "icon": "mdi mdi-color-helper"
-        },
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "id": "Group9",
@@ -412,10 +379,18 @@
         "name": "Headline",
         "x": 51,
         "y": 55,
-        "w": 100,
+        "w": 307,
         "h": 26,
         "props": {
-          "label": "Marcel J."
+          "label": "John Doe",
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": true,
+            "down": false,
+            "fixedHorizontal": false,
+            "fixedVertical": true
+          }
         },
         "has": {
           "label": true,
@@ -428,12 +403,9 @@
           "textAlign": "left",
           "letterSpacing": 0,
           "lineHeight": 1,
-          "color": "#3e3e3c",
-          "verticalAlign": "top"
+          "color": "#3e3e3c"
         },
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "id": "Group10",
@@ -443,7 +415,16 @@
         "y": 49,
         "w": 32,
         "h": 32,
-        "props": {},
+        "props": {
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": true,
+            "down": false,
+            "fixedHorizontal": true,
+            "fixedVertical": true
+          }
+        },
         "has": {
           "onclick": true,
           "data": true
@@ -465,9 +446,7 @@
           "color": "#006dcc",
           "icon": "mdi mdi-account-box"
         },
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
       },
       {
         "type": "Label",
@@ -477,7 +456,15 @@
         "w": 88,
         "h": 32,
         "props": {
-          "label": "15:20"
+          "label": "15:20",
+          "resize": {
+            "right": true,
+            "up": true,
+            "left": false,
+            "down": false,
+            "fixedHorizontal": false,
+            "fixedVertical": true
+          }
         },
         "has": {
           "label": true,
@@ -493,9 +480,223 @@
           "color": "#3e3e3c"
         },
         "id": "Group11",
-        "_type": "Widget",
-        "z": null,
-        "template": null
+        "_type": "Widget"
+      },
+      {
+        "id": "Group12",
+        "type": "Label",
+        "name": "Headline 1",
+        "x": 51,
+        "y": 81,
+        "w": 306,
+        "h": 26,
+        "props": {
+          "label": "VP Salesforce Consulting",
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": true,
+            "down": false,
+            "fixedHorizontal": false,
+            "fixedVertical": true
+          }
+        },
+        "has": {
+          "label": true,
+          "padding": true,
+          "advancedText": true
+        },
+        "style": {
+          "fontSize": "13",
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "left",
+          "letterSpacing": 0,
+          "lineHeight": 1,
+          "color": "#3e3e3c",
+          "verticalAlign": "top"
+        },
+        "_type": "Widget"
+      },
+      {
+        "type": "Button",
+        "name": "Box 3",
+        "x": 12,
+        "y": 122,
+        "w": 24,
+        "h": 24,
+        "props": {
+          "label": "",
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": true,
+            "down": false,
+            "fixedHorizontal": true,
+            "fixedVertical": true
+          }
+        },
+        "has": {
+          "backgroundColor": true,
+          "border": true,
+          "label": true,
+          "padding": true,
+          "onclick": true
+        },
+        "actions": {},
+        "style": {
+          "fontSize": 14,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "left",
+          "letterSpacing": 0,
+          "lineHeight": 1.4,
+          "color": "#ffffff",
+          "borderTopRightRadius": 4,
+          "borderTopLeftRadius": 4,
+          "borderBottomRightRadius": 4,
+          "borderBottomLeftRadius": 4,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1,
+          "borderRightWidth": 1,
+          "borderLeftWidth": 1,
+          "borderTopColor": "#dddbda",
+          "borderBottomColor": "#dddbda",
+          "borderRightColor": "#dddbda",
+          "borderLeftColor": "#dddbda",
+          "background": "#ffffff",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "id": "Group13",
+        "_type": "Widget"
+      },
+      {
+        "id": "Group14",
+        "type": "Icon",
+        "name": "Icon 5",
+        "x": 17,
+        "y": 127,
+        "w": 14,
+        "h": 14,
+        "props": {
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": true,
+            "down": false,
+            "fixedHorizontal": true,
+            "fixedVertical": true
+          }
+        },
+        "has": {
+          "onclick": true,
+          "data": true
+        },
+        "actions": {},
+        "style": {
+          "borderTopRightRadius": 0,
+          "borderTopLeftRadius": 0,
+          "borderBottomRightRadius": 0,
+          "borderBottomLeftRadius": 0,
+          "borderTopWidth": 0,
+          "borderBottomWidth": 0,
+          "borderRightWidth": 0,
+          "borderLeftWidth": 0,
+          "borderTopColor": "#333333",
+          "borderBottomColor": "#333333",
+          "borderRightColor": "#333333",
+          "borderLeftColor": "#333333",
+          "color": "#706e6b",
+          "icon": "mdi mdi-microphone"
+        },
+        "_type": "Widget"
+      },
+      {
+        "id": "Group15",
+        "type": "TextArea",
+        "name": "Dock Text Area",
+        "props": {
+          "label": "Enter a value",
+          "placeholder": true,
+          "resize": {
+            "right": true,
+            "up": true,
+            "left": true,
+            "down": true,
+            "fixedHorizontal": false,
+            "fixedVertical": false
+          }
+        },
+        "x": 13,
+        "w": 435,
+        "h": 278,
+        "y": 168,
+        "has": {
+          "onclick": true,
+          "border": true,
+          "backgroundColor": true,
+          "data": true,
+          "padding": true,
+          "label": true
+        },
+        "style": {
+          "fontSize": 13,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "left",
+          "letterSpacing": 0,
+          "lineHeight": 1,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "borderTopRightRadius": 4,
+          "borderTopLeftRadius": 4,
+          "borderBottomRightRadius": 4,
+          "borderBottomLeftRadius": 4,
+          "borderTopWidth": 0,
+          "borderBottomWidth": 0,
+          "borderRightWidth": 0,
+          "borderLeftWidth": 0,
+          "color": "#080707",
+          "background": "#ffffff",
+          "borderTopColor": "#dddbda",
+          "borderBottomColor": "#dddbda",
+          "borderRightColor": "#dddbda",
+          "borderLeftColor": "#dddbda",
+          "boxShadow": {
+            "v": 0,
+            "h": 0,
+            "b": 0,
+            "s": 0,
+            "c": "rgba(0,0,0,0)",
+            "i": false
+          }
+        },
+        "focus": {
+          "background": "#ffffff",
+          "borderTopColor": "#0070d2",
+          "borderBottomColor": "#0070d2",
+          "borderRightColor": "#0070d2",
+          "borderLeftColor": "#0070d2",
+          "boxShadow": {
+            "v": 0,
+            "h": 0,
+            "b": 4,
+            "s": 0,
+            "c": "#0070d2",
+            "i": false
+          }
+        },
+        "error": {
+          "color": "c23934",
+          "background": "#ffffff",
+          "borderTopColor": "#c23934",
+          "borderBottomColor": "#c23934",
+          "borderRightColor": "#c23934",
+          "borderLeftColor": "#c23934"
+        },
+        "_type": "Widget"
       }
     ]
   }

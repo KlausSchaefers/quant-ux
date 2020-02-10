@@ -847,6 +847,10 @@ export default class RenderFactory extends Core {
 				height -= this.getZoomed(style.borderBottomWidth, this._scaleY);
 			}
 
+			if (style.iconSizeFactor) {
+				height = Math.round(style.iconSizeFactor * height)
+			}
+
 			/**
 			 * Reset icon???
 			 */
