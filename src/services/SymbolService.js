@@ -179,6 +179,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/tab.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/table.json'),
 
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/accordion.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/button.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/badge.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/alert.json'),
@@ -256,7 +257,7 @@ class SymbolService extends AbstractService{
 
 			if (app.groups) {
 				let groups = Object.values(app.groups).map(group => {
-				
+
           let bbbox = ModelGeom.getBoundingBox(group.children, app)
           let result = {
             w: bbbox.w,
@@ -277,7 +278,7 @@ class SymbolService extends AbstractService{
               element.y = element.y - bbbox.y
               result.children.push(element)
             }
-            
+
           })
 					return result
         })
