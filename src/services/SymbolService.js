@@ -187,6 +187,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/lightning/card.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/builder.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/buttongroup.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/dock.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/labels.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/checkbox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/segment.json'),
