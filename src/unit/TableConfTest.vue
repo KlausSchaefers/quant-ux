@@ -2,7 +2,7 @@
   <div class="MatcLight">
     <h1>TabelConf Test</h1>
 
-    <TableSettings />
+    <TableSettings :app="app" :value="widget"/>
   
 
   </div>
@@ -14,6 +14,7 @@
 
 <script>
 
+import app from './data/tableapp.json'
 import TableSettings from 'canvas/toolbar/TableSettings'
 
 export default {
@@ -21,8 +22,8 @@ export default {
   mixins: [],
   data: function() {
     return {
-        files: [],
-        previews: [],
+        app: app,
+        widget: app.widgets.w10868,
         model: null
     };
   },

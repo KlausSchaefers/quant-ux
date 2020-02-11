@@ -26,6 +26,7 @@ import DataBinding from 'canvas/toolbar/DataBinding'
 import RestSettings from 'canvas/toolbar/RestSettings'
 import SymbolService from 'services/SymbolService'
 import Preview from 'page/Preview'
+import TableSettings from 'canvas/toolbar/TableSettings'
 
 export default {
     name: 'DataSection',
@@ -614,11 +615,12 @@ export default {
 		},
 
 
-
 		_showTable (model){
 			this._setSectionLabel("Table");
 
 			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			// this._renderButton("Settings", "mdi mdi-settings", "_renderTableSettings");
+
 
 			this._renderBoxColor("Header", model, "headerBackground", "headerColor");
 			this._renderBoxColor("Odd Row", model, "background", "color");
@@ -827,6 +829,26 @@ export default {
 		 * Table
 		 **********************************************************************/
 
+		_renderTableSettings (e) {
+			var me = this;
+			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			var cntr = this.db.div("").build(popup);
+			var table = this.$new(TableSettings);
+			table.setWidget(this.widget);
+			table.placeAt(cntr);
+			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			var write = this.db.div("MatcButton", "Ok").build(bar);
+			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+
+			var d = this.canvas.createDialog();
+			d.own(on(write, touch.press, lang.hitch(this,"setTableData", d, table)));
+			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, table)));
+			d.own(on(d, "close", function(){
+				table.destroy();
+				me.canvas.setState(0);
+			}));
+			d.popup(popup, e.target);
+		},
 
 		_renderTableDialog (e){
 

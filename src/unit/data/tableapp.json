@@ -1,0 +1,218 @@
+{
+  "_id" : "5e3321cce2fb5351b8dd5884",
+  "version" : 2,
+  "name" : "OpenUI5 - Demo",
+  "description" : "",
+  "screenSize" : {
+    "w" : 1024,
+    "h" : 768
+  },
+  "type" : "tablet",
+  "screens" : {
+    "s10000" : {
+      "x" : 2696,
+      "y" : 2517,
+      "h" : 768,
+      "w" : 1024,
+      "name" : "Screen",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#f5f5f5"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 667
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : true
+      },
+      "children" : [ "w10868", "w10869", "w10870" ],
+      "id" : "s10000",
+      "modified" : 1581356643597
+    }
+  },
+  "widgets" : {
+    "w10868" : {
+      "id" : "w10868",
+      "type" : "Table",
+      "name" : "Table",
+      "x" : 2798,
+      "y" : 2578,
+      "w" : 300,
+      "h" : 160,
+      "z" : 1,
+      "props" : {
+        "data" : [ [ "col1", "col2", "col2" ], [ "val1", "val2", "val3" ], [ "val4", "val5", "val6" ], [ "val7", "val8", "val9" ] ],
+        "widths" : [ 100, 100, 100 ],
+        "borderStyle" : "Cell"
+      },
+      "has" : {
+        "onclick" : true,
+        "label" : true
+      },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#fff",
+        "headerBackground" : "#de5ebe",
+        "headerColor" : "#fff",
+        "color" : "#333333",
+        "paddingTop" : 10,
+        "paddingBottom" : 10,
+        "paddingLeft" : 5,
+        "paddingRight" : 5,
+        "headerFontWeight" : "800"
+      },
+      "created" : 1581453791844,
+      "modified" : 1581455141084
+    },
+    "w10869" : {
+      "id" : "w10869",
+      "type" : "Button",
+      "name" : "Destructive Button",
+      "props" : {
+        "label" : "Destructive Button"
+      },
+      "x" : 2868,
+      "w" : 160,
+      "h" : 32,
+      "y" : 2886,
+      "has" : {
+        "onclick" : true,
+        "label" : true,
+        "padding" : true,
+        "border" : true,
+        "backgroundColor" : true
+      },
+      "style" : {
+        "fontSize" : 13,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#ffffff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 16,
+        "paddingRight" : 16,
+        "borderTopRightRadius" : 4,
+        "borderTopLeftRadius" : 4,
+        "borderBottomRightRadius" : 4,
+        "borderBottomLeftRadius" : 4,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "background" : "#bb0000",
+        "borderTopColor" : "#c23934",
+        "borderBottomColor" : "#c23934",
+        "borderRightColor" : "#c23934",
+        "borderLeftColor" : "#c23934",
+        "verticalAlign" : "middle"
+      },
+      "hover" : {
+        "background" : "#a61a14",
+        "borderTopColor" : "#a61a14",
+        "borderBottomColor" : "#a61a14",
+        "borderRightColor" : "#a61a14",
+        "borderLeftColor" : "#a61a14"
+      },
+      "z" : 2,
+      "created" : 1581455425848
+    },
+    "w10870" : {
+      "id" : "w10870",
+      "type" : "Button",
+      "name" : "Success Link",
+      "props" : {
+        "label" : "Success Link"
+      },
+      "x" : 3070,
+      "w" : 160,
+      "h" : 32,
+      "y" : 2886,
+      "has" : {
+        "onclick" : true,
+        "label" : true,
+        "padding" : true,
+        "border" : true,
+        "backgroundColor" : true
+      },
+      "style" : {
+        "fontSize" : 13,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#080707",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 16,
+        "paddingRight" : 16,
+        "borderTopRightRadius" : 4,
+        "borderTopLeftRadius" : 4,
+        "borderBottomRightRadius" : 4,
+        "borderBottomLeftRadius" : 4,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "background" : "#4bca81",
+        "borderTopColor" : "#4bca81",
+        "borderBottomColor" : "#4bca81",
+        "borderRightColor" : "#4bca81",
+        "borderLeftColor" : "#4bca81",
+        "verticalAlign" : "middle"
+      },
+      "hover" : {
+        "background" : "#04844b",
+        "borderTopColor" : "#04844b",
+        "borderBottomColor" : "#04844b",
+        "borderRightColor" : "#04844b",
+        "borderLeftColor" : "#04844b",
+        "color" : "#ffffff"
+      },
+      "z" : 3,
+      "created" : 1581455428322
+    }
+  },
+  "lines" : { },
+  "lastUUID" : 10871,
+  "lastUpdate" : 1581455428325,
+  "created" : 1580409292479,
+  "startScreen" : "",
+  "grid" : {
+    "w" : 8,
+    "h" : 8,
+    "style" : "line",
+    "color" : "#cecece",
+    "visible" : false,
+    "enabled" : false
+  },
+  "domain" : "Quant-UX.com",
+  "isDirty" : true,
+  "size" : 3676,
+  "lastCategory" : "Lightning",
+  "sizeBackup" : 171830,
+  "lastBackup" : 1581455251524,
+  "groups" : { },
+  "id" : "5e3321cce2fb5351b8dd5884"
+}

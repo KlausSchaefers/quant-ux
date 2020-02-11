@@ -1,6 +1,6 @@
 
 <template>
-     <div class="MatcToolbarRestSettings">
+     <div class="MatcToolbarTableSettings">
      
     
       <div class="MatcToolbarTabs MatcToolbarTabsBig">
@@ -12,6 +12,18 @@
             <a @click="tab='preview'" :class="{'MatcToolbarTabActive': tab === 'preview'}"></a>
         </div>
 
+        <div>
+            {{style.headerBackground}}
+            <ToolbarColor 
+                :isDialog="true" 
+                icon="mdi mdi-border-color" 
+                :app="model" 
+                :color="style.headerBackground" 
+                @change="onChange"/>
+
+            <ToolbarColor :isDialog="true" icon="mdi mdi-format-color-fill" :app="model" @change="onChange"/>
+            
+        </div>
 
 	</div>
 </template>
@@ -19,6 +31,8 @@
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import Logger from 'common/Logger'
+import lang from 'dojo/_base/lang'
+import ToolbarColor from 'canvas/toolbar/ToolbarColor'
 // import SegmentButton from 'page/SegmentButton'
 // import DropDownButton from 'page/DropDownButton'
 
@@ -29,16 +43,33 @@ export default {
     props:["app", "value"],
     data: function () {
         return {
-            tab: ''
+            tab: '',
+            widget: '',
+            model: '',
+            settings: {},
+            style: ''
         }
     },
     components: {
+        'ToolbarColor': ToolbarColor
        // 'SegmentButton': SegmentButton
     },
     computed: {
         
     },
     methods: {
+        setWidget (w) {
+            this.widget = w
+            this.settings = lang.clone(this.widget.settings)
+            this.style = lang.clone(this.widget.style)
+		},
+		
+		setModel  (m){
+            this.model = m;
+        },
+        onChange (c) {
+            console.debug('onChange', c)
+        }
     },
     watch: {
         value (v) {
@@ -47,6 +78,14 @@ export default {
     },
     mounted () {
         this.logger = new Logger("TableSettings")
+         if (this.app) {
+            this.setModel(this.app)
+            console.debug(this.model)
+        }
+        if (this.value) {
+            this.setWidget(this.value)
+            console.debug(this.value)
+        }
     }
 }
 </script>
