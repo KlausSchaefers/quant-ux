@@ -1,109 +1,50 @@
 [
-    {
-        "id": "LightningIconButton",
-        "type": "Group",
-        "_type": "Group",
-        "name": "Icon Button",
-        "category": "Lightning",
-        "subcategory": "FormC",
-        "children": [
-          {
-            "id": "Icon Button0",
-            "type": "Button",
-            "name": "Icon Button Container",
-            "props": {
-              "label": ""
-            },
-            "x": 0,
-            "w": 40,
-            "h": 32,
-            "y": 0,
-            "has": {
-              "onclick": true,
-              "label": true,
-              "padding": true,
-              "border": true,
-              "backgroundColor": true
-            },
-            "style": {
-              "fontSize": 13,
-              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
-              "textAlign": "center",
-              "letterSpacing": 0,
-              "lineHeight": 1,
-              "color": "#0070d2",
-              "paddingTop": 0,
-              "paddingBottom": 0,
-              "paddingLeft": 16,
-              "paddingRight": 16,
-              "borderTopRightRadius": 4,
-              "borderTopLeftRadius": 4,
-              "borderBottomRightRadius": 4,
-              "borderBottomLeftRadius": 4,
-              "borderTopWidth": 1,
-              "borderBottomWidth": 1,
-              "borderRightWidth": 1,
-              "borderLeftWidth": 1,
-              "background": "#ffffff",
-              "borderTopColor": "#dddbda",
-              "borderBottomColor": "#dddbda",
-              "borderRightColor": "#dddbda",
-              "borderLeftColor": "#dddbda",
-              "verticalAlign": "middle"
-            },
-            "hover": {
-              "background": "#f4f6f9",
-              "borderTopColor": "#dddbda",
-              "borderBottomColor": "#dddbda",
-              "borderRightColor": "#dddbda",
-              "borderLeftColor": "#dddbda",
-              "color": "#005fb2"
-            },
-            "_type": "Widget",
-            "z": null,
-            "template": null
-          },
-          {
-            "id": "Icon Button1",
-            "type": "Icon",
-            "name": "Icon",
-            "x": 13,
-            "y": 9,
-            "w": 14,
-            "h": 14,
-            "props": {
-              "resize": {
-                "right": false,
-                "up": true,
-                "left": false,
-                "down": true,
-                "fixedHorizontal": false,
-                "fixedVertical": false
-              }
-            },
-            "has": {
-              "onclick": true,
-              "data": true
-            },
-            "actions": {},
-            "style": {
-              "borderTopRightRadius": 0,
-              "borderTopLeftRadius": 0,
-              "borderBottomRightRadius": 0,
-              "borderBottomLeftRadius": 0,
-              "borderTopWidth": 0,
-              "borderBottomWidth": 0,
-              "borderRightWidth": 0,
-              "borderLeftWidth": 0,
-              "borderTopColor": "#333333",
-              "borderBottomColor": "#333333",
-              "borderRightColor": "#333333",
-              "borderLeftColor": "#333333",
-              "color": "#706e6b",
-              "icon": "mdi mdi-book-minus"
-            },
-            "_type": "Widget"
-          }
-        ]
-      }
+  {
+    "id": "LightningIconButton2",
+    "type": "IconButton",
+    "_type": "Widget",
+    "category": "Lightning",
+    "subcategory": "FormC",
+    "name": "Icon Button",
+    "x": 0,
+    "w": 40,
+    "h": 32,
+    "y": 0,
+    "props": {
+      "label": ""
+    },
+    "has": {
+      "onclick": true,
+      "label": true,
+      "padding": true
+    },
+    "style": {
+      "fontSize": 16,
+      "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+      "textAlign": "center",
+      "letterSpacing": 0,
+      "lineHeight": 1,
+      "color": "#080707",
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "borderTopRightRadius": 4,
+      "borderTopLeftRadius": 4,
+      "borderBottomRightRadius": 4,
+      "borderBottomLeftRadius": 4,
+      "borderTopWidth": 1,
+      "borderBottomWidth": 1,
+      "borderRightWidth": 1,
+      "borderLeftWidth": 1,
+      "background": "#ffffff",
+      "borderTopColor": "#dddbda",
+      "borderBottomColor": "#dddbda",
+      "borderRightColor": "#dddbda",
+      "borderLeftColor": "#dddbda",
+      "verticalAlign": "middle",
+      "icon": "mdi mdi-account-card-details",
+      "iconColor": "#706e6b"
+    }
+  }
 ]

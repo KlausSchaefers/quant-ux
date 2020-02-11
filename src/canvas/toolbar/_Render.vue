@@ -57,7 +57,7 @@ export default {
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest",
-						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation"],
+						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
@@ -72,7 +72,7 @@ export default {
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation"],
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
-			hasValign: ["Box", "Button", "Label", "Upload", "WebLink"],
+			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton"],
 			hideAction: ['ScreenSegment'],
 			colorWidgets: [],
 			isDataView: false

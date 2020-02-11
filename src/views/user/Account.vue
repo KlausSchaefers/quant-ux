@@ -159,11 +159,10 @@ export default {
   },
   async mounted() {
     this.logger = new Logger("Finish");
-    Services.getUserService().load().then(user => {
-        Services.getUserService().loadById(user.id).then(full => {
-            this.user = full
-            this.logger.info("mounted", "exit >> " + this.user.email);
-        })
+    let user = Services.getUserService().load()
+    Services.getUserService().loadById(user.id).then(full => {
+      this.user = full
+      this.logger.info("mounted", "exit >> " + this.user.email);
     })
   }
 };

@@ -249,6 +249,12 @@ export default {
 			], true);
 		},
 
+		_showIconButton(model) {
+			this._setSectionLabel("Icon Button");
+			this._renderButton("Icon", "mdi mdi-settings", "_renderIconDialog");
+			this._renderColor('Color','<span class="mdi mdi-format-color-fill"></span>',model.style.iconColor, "iconColor", "onStyleChanged", true );
+		},
+
 		_showCheckBoxGroup (model){
 			this._setSectionLabel("CheckBox Group");
 

@@ -1,0 +1,41 @@
+[ {
+	"id" : "IconButton",
+	"type" : "IconButton",
+	"_type" : "Widget",
+	"category" : "WireFrame",
+	"subcategory" : "XFormButton",
+	"name" : "Icon Button",
+	"_extends" : "Box",
+	"w" : 100,
+	"props" : {
+		"label" : "Click Me"
+	},
+	"has" : {
+		"onclick" : true,
+		"label" : true,
+		"padding" : true
+	},
+	"style" : {
+		"fontSize" : 14,
+		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"textAlign" : "center",
+		"letterSpacing" : 0,
+		"lineHeight" : 1,
+		"color" : "#333333",
+		"paddingTop" : 0,
+		"paddingBottom" : 0,
+		"paddingLeft" : 0,
+		"paddingRight" : 0,
+		"borderTopRightRadius" : 3,
+		"borderTopLeftRadius" : 3,
+		"borderBottomRightRadius" : 3,
+		"borderBottomLeftRadius" : 3,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+        "verticalAlign" : "middle",
+        "icon": "mdi mdi-heart",
+        "iconColor": "#333333"
+	}
+} ]

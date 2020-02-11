@@ -48,6 +48,7 @@ import ProgressBar from 'core/widgets/ProgressBar'
 import ScreenSegment from 'core/widgets/ScreenSegment'
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
+import IconButton from 'core/widgets/IconButton'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -392,6 +393,12 @@ export default class RenderFactory extends Core {
 
 		this._uiWidgets[model.id] = segement;
 		this._containerWidgets[model.id] = segement;
+	}
+
+	_createIconButton(parent, model) {
+		var widget = this.$new(IconButton);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
 	}
 
 	_createTree(parent, model) {
