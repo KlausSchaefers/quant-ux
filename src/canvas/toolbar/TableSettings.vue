@@ -145,7 +145,7 @@ export default {
         },
         setBorderStyle (value) {
             console.debug('setBorderStyle', value)
-            this.style.
+            this.style.borderStyle = value
         }
     },
     watch: {
