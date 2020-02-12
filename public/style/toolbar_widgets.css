@@ -226,7 +226,18 @@
 .MatcToolbarDropDownButtonPopup.MatcMultiActionDropDownPopup li:hover {
 	background: #104488;
 }
-	
+
+.MatcToolbarDropDownButtonPopup .MatcToolbarPopUpBackBtn{
+	position: absolute;
+	top: 10px;
+    left: 10px;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.MatcToolbarDropDownButtonPopup .MatcToolbarPopUpBackBtn:hover{
+	color: #1973e8;	
+}
 
 .MatcMultiActionDropDown .MatcButtonIconLabel{
 	vertical-align: middle;
@@ -1075,6 +1086,10 @@ input.MatcToobarInlineEditDisabled:focus{
 .MatcToolbarPopUpIcon{
 	font-size: 14px;
 	margin-right: 10px;
+}
+
+.MatcToolbarPopUpIconTextShadow{
+	text-shadow: 0 0 1px rgba(0,0,0,0.2);
 }
 
 .MatcToolbarPopUpIconSmall{

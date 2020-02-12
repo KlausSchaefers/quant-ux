@@ -27,6 +27,7 @@ import RestSettings from 'canvas/toolbar/RestSettings'
 import SymbolService from 'services/SymbolService'
 import Preview from 'page/Preview'
 import TableSettings from 'canvas/toolbar/TableSettings'
+import DropDownTree from 'canvas/toolbar/DropDownTree'
 
 export default {
     name: 'DataSection',
@@ -619,8 +620,45 @@ export default {
 			this._setSectionLabel("Table");
 
 			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
-			// this._renderButton("Settings", "mdi mdi-settings", "_renderTableSettings");
+			//this._renderButton("Settings", "mdi mdi-settings", "_renderTableSettings");
 
+			let style = model.style
+			this._renderDropDownTree("Header", "", [
+				{
+					label: "Background", 
+					type: "color", 
+					value: style.headerBackground, 
+					key:'headerBackground', 
+					icon: 'mdi mdi-format-color-fill',
+					isStyle: true
+				},
+				{
+					label: "Color", 
+					type: "color", 
+					value: style.headerColor, 
+					key:'headerColor', 
+					icon: 'mdi mdi-format-text',
+					isStyle: true
+				},
+				{
+					label: "Bold", 
+					type: "check", 
+					key:"headerFontWeight", 
+					value: style.headerFontWeight === 700, 
+					valueTrue: 700, 
+					valueFalse: 400,
+					isStyle: true
+				},
+				{
+					label: "Italic", 
+					type: "check", 
+					key:"headerFontStyle", 
+					value: style.headerFontStyle === 'italic', 
+					valueTrue: 'italic', 
+					valueFalse: 'normal',
+					isStyle: true
+				}
+			])
 
 			this._renderBoxColor("Header", model, "headerBackground", "headerColor");
 			this._renderBoxColor("Odd Row", model, "background", "color");
@@ -834,6 +872,7 @@ export default {
 			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
 			var cntr = this.db.div("").build(popup);
 			var table = this.$new(TableSettings);
+			table.setModel(this.model)
 			table.setWidget(this.widget);
 			table.placeAt(cntr);
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
@@ -841,7 +880,8 @@ export default {
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 			var d = this.canvas.createDialog();
-			d.own(on(write, touch.press, lang.hitch(this,"setTableData", d, table)));
+			d.overflow = true
+			d.own(on(write, touch.press, lang.hitch(this,"setTableSettings", d, table)));
 			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, table)));
 			d.own(on(d, "close", function(){
 				table.destroy();
@@ -1290,6 +1330,36 @@ export default {
 			this.db.span(icon).build(btn)
 			this.db.span("MatcToolbarItemLabel", lbl).build(btn);
 			this.tempOwn(on(row, touch.press, lang.hitch(this, callback)));
+		},
+
+		_renderDropDownTree (lbl, icon, options) {
+			var row = this.db.div("MatcToobarRow").build(this.cntr);
+
+			var drpDwn = this.$new(DropDownTree, {hasPicker:true});
+			css.add(drpDwn.domNode, "MatcToolbarGridFull")
+			drpDwn.reposition = true;
+			drpDwn.setOptions(options);
+			drpDwn.setModel(this.model)
+			drpDwn.setLabel(lbl)
+			drpDwn.setPopupCss("MatcActionAnimProperties");
+	
+			this.tempOwn(on(drpDwn, "change", (option, value) => {
+				console.debug('tree change', option.key, value)
+				if (option.isStyle) {
+					this.onStyleChanged(option.key, value)
+				} else {
+					this.onProperyChanged(option.key, value)
+				}
+			}))
+			this.tempOwn(on(drpDwn, "changing", (option, value) => {
+				if (option.isStyle) {
+					this.onTempStyleChanged(option.key, value)
+				}
+			}))
+			
+   			drpDwn.placeAt(row);
+
+			this._addChildWidget(drpDwn);
 		},
 
 		_renderPrimaryButton (lbl, icon, callback){

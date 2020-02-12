@@ -64,7 +64,14 @@ export default {
     },
     components: {},
     methods: {
-	init (){
+		init (){
+			this._renderColorWidgets(this.popup)
+			this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"));
+		},
+
+		_renderColorWidgets (popup) {
+
+			this.tabs = null
 			/**
 			 * Init gradients
 			 */
@@ -87,7 +94,7 @@ export default {
 
 			if(this.hasGradient || this.hasPicker){
 
-				let tabHeader = db.div("MatcToolbarTabContainer").div("MatcToolbarTabs").build(this.popup);
+				let tabHeader = db.div("MatcToolbarTabContainer").div("MatcToolbarTabs").build(popup);
 
 				/**
 				 * Picker Tab
@@ -122,7 +129,7 @@ export default {
 				}
 
 			} else {
-				let tabHeader = db.div("MatcToolbarTabContainer").div("MatcToolbarTabs").build(this.popup);
+				let tabHeader = db.div("MatcToolbarTabContainer").div("MatcToolbarTabs").build(popup);
 				/**
 				 * Solid color tab
 				 */
@@ -132,17 +139,16 @@ export default {
 
 			this.customColorDivLabel = db.div("MatcToolbarColorLabel", "Global Colors").build(cntr);
 			this.customColorDiv =  db.div("MatcToolbarColorCustomCntr").build(cntr);
-
-
-			this.popup.appendChild(cntr);
-			this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"));
+			popup.appendChild(cntr)
+			return cntr
 		},
-
-
 
 		onVisible (){
 			this.reOpenTab();
+			this.setColorValues()
+		},
 
+		setColorValues () {
 			this.cleanUpTempListener();
 
 			/**
@@ -177,7 +183,6 @@ export default {
 			}
 
 			this.lastOpen = new Date().getTime();
-
 		},
 
 		_renderCustomColors  (customColors,labelDiv, div){
@@ -205,15 +210,12 @@ export default {
 			}
 		},
 
-		setTransparent () {
-			this.onTempColorSelected('transparent')
-			//this.onChange('transparent');
-		},
-
-
-		onHide  (){
-			this.flush();
-			this.lastClose = new Date().getTime();
+		onTempColorSelected (value){
+			if (this.value != value) {
+				this.tempValue = value;
+				this.emit("changing", value);
+				this.setLabelColor(value);
+			}
 		},
 
 		flush  (){
@@ -223,12 +225,14 @@ export default {
 			}
 		},
 
-		onTempColorSelected (value){
-			if (this.value != value) {
-				this.tempValue = value;
-				this.emit("changing", value);
-				this.setLabelColor(value);
-			}
+		setTransparent () {
+			this.onTempColorSelected('transparent')
+		},
+
+
+		onHide  (){
+			this.flush();
+			this.lastClose = new Date().getTime();
 		},
 
 		getCustomColors () {
@@ -574,7 +578,6 @@ export default {
 		},
 
 		onSelectTab  (i, showDefaultColor, e){
-
 			this.stopEvent(e);
 
 			if(this.tabs){

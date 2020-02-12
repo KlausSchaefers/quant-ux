@@ -80,6 +80,18 @@ export default {
 				div.innerHTML = '<span class="MatcToolbarPopupFooterIcon mdi mdi-close-circle"></span><span class="MatcToolbarPopupFooterLabel">' + msg + '</span>';
 				this.own(on(div, touch.press, callback));
 				this.popup.appendChild(div)
+				this.popupFooter = div
+			},
+
+			removePopupFooter () {
+				try {
+					if (this.popupFooter && this.popupFooter.parentNode) {
+						this.popupFooter.parentNode.removeChild(this.popupFooter)
+					}
+					delete this.popupFooter
+				} catch (e) {
+					console.error(e)
+				}
 			},
 
 			setHint (hint){
@@ -151,7 +163,7 @@ export default {
 							this.popup.style.top = pos.y + "px"
 						}
 						this.popup.style.bottom = "auto";
-						this.popup.style.left = pos.x - this.popupPos.w -this.arrowSize+ "px";
+						this.popup.style.left = pos.x - this.popupPos.w - this.arrowSize+ "px";
 						win.body().appendChild(this.popup);
 					} catch(e){
 						console.error(e);
@@ -164,12 +176,12 @@ export default {
 				this.isOpen = true;
 			},
 
-			updatePosition (){
+			updatePosition (doNotUpdatePosition = true){
 				if (this.arrow){
 					this.popup.removeChild(this.arrow);
 					delete this.arrow;
 				}
-				this._reposition(true);
+				this._reposition(doNotUpdatePosition);
 			},
 
 			_reposition (doNotUpdatePosition){
