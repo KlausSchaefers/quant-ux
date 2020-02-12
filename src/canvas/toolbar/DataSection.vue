@@ -40,7 +40,7 @@ export default {
     },
     components: {},
     methods: {
-        postCreate: function(){
+    postCreate: function(){
 			this.logger = new Logger("DataSection");
 			this.db = new DomBuilder();
 		},

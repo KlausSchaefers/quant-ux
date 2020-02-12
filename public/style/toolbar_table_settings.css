@@ -3,6 +3,11 @@
     height: 500px;
 }
 
+.MatcToolbarTableSettingsCntr {
+    height: 400px;
+    overflow: auto;
+}
+
 .MatcToolbarTableSettings > .MatcToolbarTabs{
     margin-top: 24px;
     border-bottom: 1px solid #ccc;
@@ -12,19 +17,31 @@
     margin-bottom: -1px;
     color:#999;
 }
+
 .MatcToolbarTableSettings a.MatcToolbarTabActive{
     color:#333;
 }
 
-.MatcToolbarTableSettings .ace_editor {
-    border:1px solid #ccc;
+.MatcToolbarTableSettings .MatcToolbarItem.MatcToolbarColor{
+    padding: 0px;
+    height: 30px;
+    min-height: 30px;
+    margin-left: 10px;
 }
 
-.MatcToolbarTableSettings .ace_editor .ace_gutter-cell.ace_error{
-    background: none;
+.MatcToolbarTableSettings .MatcFormRow{
+    margin-top:10px;
+    margin-bottom: 10px;
 }
 
-.MatcVisualEditor .ace_editor.ace_autocomplete {
-    z-index: 90000000;
+.MatcToolbarTableSettings label {
+    font-size: 14px;
+    font-weight: 400;
+    display: inline;
+    vertical-align: middle;
 }
 
+.MatcToolbarTableSettings h4{
+    font-size: 14px;
+    font-weight: 700;
+}
