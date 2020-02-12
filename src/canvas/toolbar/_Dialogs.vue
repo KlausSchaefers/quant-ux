@@ -608,7 +608,7 @@ export default {
 			
 			var cntr = db.div().build(popup);
 			
-			db.h3("MatcDialogHeader", "Make Template").build(cntr);
+			db.h3("MatcDialogHeader", "Make Symbol").build(cntr);
 			
 			
 			var inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", name, "Name of the template").build(cntr);

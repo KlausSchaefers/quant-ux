@@ -18,36 +18,124 @@
                     <label>{{field.label}}</label>
                     <ToolbarColor
                         :isDialog="true"
-                        :icon="icon.text"
+                        icon="MatcToolbarColorIndicator"
                         :app="model"
                         :color="style[field.value]"
                         @change="onChangeStyle(field.value, $event)"/>
                 </div>
 
-            </div> <!-- End style -->
-
-             <div v-if="tab === 'border'" class="">
-
-
                 <div class="MatcFormRow">
-                     <label>Border Type </label> Style: {{style.borderStyle}}
-                     <div v-for="option in borderOptions" :key="option.value">
-                         <CheckBox :label="option.label" :value="style.borderStyle == option.value" @change="setBorderStyle(option.label)"/>
-                     </div>
-
+                    <label>Header Style</label>
+                    <div :class="['MatcFormRow MatcToolbarTableSettingsCheckRow', {'MatcToolbarTableSettingsCheckRowActive': style.headerFontWeight === 700}] " >
+                        <CheckBox :value="style.headerFontWeight === 700" label="Bold" @change="onChangeHeaderWeight($event)" />             
+                    </div>
+                    <div :class="['MatcFormRow MatcToolbarTableSettingsCheckRow', {'MatcToolbarTableSettingsCheckRowActive': style.headerFontStyle === 'italic'}] " >
+                        <CheckBox :value="style.headerFontStyle === 'italic'" label="Italic" @change="onChangeHeaderStyle($event)" />             
+                    </div>
                 </div>
 
+            </div> <!-- End style -->
+
+            <div v-if="tab === 'border'" class="">
 
                 <div class="MatcFormRow">
+                     <label>Border Type </label>
+                     <div 
+                        v-for="option in borderOptions" 
+                        :key="option.value" 
+                        :class="['MatcFormRow MatcToolbarTableSettingsCheckRow', {'MatcToolbarTableSettingsCheckRowActive': style.borderStyle === option.value}] " 
+                        @click="setBorderStyle(option.value)"> 
+                        <CheckBox :value="style.borderStyle === option.value"/>
+                        <label> {{option.label}}</label>
+                        <span :class="option.icon"/>
+                     </div>
+                </div>
+
+                <div class="MatcFormRow" v-if="style.borderStyle !== 'None'">
                     <label>Border Color </label>
                     <ToolbarColor
                         :isDialog="true"
-                        :icon="icon.text"
+                        icon="MatcToolbarColorIndicator"
                         :app="model"
                         :color="style.borderBottomColor"
                         @change="onChangeStyle('borderBottomColor', $event)"/>
                 </div>
+
+                <div class="MatcFormRow" v-if="style.borderStyle !== 'None'">
+                    <label>Border Width </label>
+                    <input class="form-control form-control-xs" v-model="style.borderBottomWidth"/>
+                </div>
             </div> <!-- End Border -->
+
+            <div v-if="tab === 'checkbox'" class="">
+
+                <div class="MatcFormRow">
+                    <CheckBox :value="style.checkBox" label="Show Checkbox" @change="onChangeStyle('checkBox', $event)"/>      
+                </div>
+
+                <div v-if="style.checkBox">
+                    <div class="MatcFormRow">
+                        <label>Size </label>
+                        <input class="form-control form-control-xs" v-model="style.checkBoxSize"/>
+                    </div>
+
+                    <div class="MatcFormRow">
+                        <label>Hook Color</label>
+                        <ToolbarColor
+                            :isDialog="true"
+                            icon="MatcToolbarColorIndicator"
+                            :app="model"
+                            :color="style.checkBoxHookColor"
+                            @change="onChangeStyle('checkBoxHookColor', $event)"/>
+                    </div>
+
+                    <div class="MatcFormRow">
+                        <label>Background</label>
+                        <ToolbarColor
+                            :isDialog="true"
+                            icon="MatcToolbarColorIndicator"
+                            :app="model"
+                            :color="style.checkBoxBackground"
+                            @change="onChangeStyle('checkBoxBackground', $event)"/>
+                    </div>
+
+                    <div class="MatcFormRow">
+                        <label>Border Color </label>
+                        <ToolbarColor
+                            :isDialog="true"
+                            icon="MatcToolbarColorIndicator"
+                            :app="model"
+                            :color="style.checkBoxBorderColor"
+                            @change="onChangeStyle('checkBoxBorderColor', $event)"/>
+                    </div>
+
+                    <div class="MatcFormRow">
+                        <label>Border Radius </label>
+                        <input class="form-control form-control-xs" v-model="style.checkBoxBorderRadius"/>
+                    </div>
+                </div>
+         
+
+            </div> <!-- End Check -->
+
+            <div v-if="tab === 'actions'" class="">
+                    <div class="MatcFormRow" v-for="(action, i) in props.actions" :key="i">
+                        <input class="form-control" v-model="action.label"/>
+                        <ToolbarColor
+                            :isDialog="true"
+                            icon="MatcToolbarColorIndicator"
+                            :app="model"
+                            :color="action.color"
+                            @change="onChangeActionColor(action, $event)"/>
+                        
+                        <a class="MatcFormRowHoverAction" @click="removeAction(i)"> Remove</a>
+                    </div>
+
+                    <div class="MatcFormRow">
+                        <input class="form-control" placeholder="Enter action name" @change="addAction"/>
+                    </div>
+
+            </div> <!-- End Actions -->
         </div>
 
 	</div>
@@ -58,33 +146,25 @@ import DojoWidget from 'dojo/DojoWidget'
 import Logger from 'common/Logger'
 import lang from 'dojo/_base/lang'
 import ToolbarColor from 'canvas/toolbar/ToolbarColor'
-// import SegmentButton from 'page/SegmentButton'
 import CheckBox from 'common/CheckBox'
-// import DropDownButton from 'page/DropDownButton'
-
 
 export default {
     name: 'TableSettings',
     mixins:[DojoWidget],
-    props:["app", "value"],
+    props:["app", "value", "hasDataBinding"],
     data: function () {
         return {
             tab: 'style',
             widget: '',
             model: '',
             settings: {},
-            style: '',
-            hasDataBinding: true,
-            icon: {
-                fill: 'MatcToolbarColorIndicator',
-                text: 'MatcToolbarColorIndicator',
-                border: 'mdi mdi-border-color'
-            },
+            style: {},
+            props: {},
             borderOptions: [
+                { value:"None", icon:"mdi mdi-border-none", label : "No Border"},
 			    { value:"Cell", icon:"mdi mdi-border-all", label : "Full Border"},
    			    { value:"HLines", icon:"mdi mdi-border-horizontal", label : "Horizontal Border"},
 	   			{ value:"VLines", icon:"mdi mdi-border-vertical", label : "Vertical Border"},
-	   			{ value:"None", icon:"mdi mdi-border-none", label : "No Border"},
 	   			{ value:"Out", icon:"mdi mdi-border-outside", label : "Outside Border"}
    			],
             fields: {
@@ -124,7 +204,6 @@ export default {
     },
     components: {
         'ToolbarColor': ToolbarColor,
-        // 'SegmentButton': SegmentButton,
         'CheckBox': CheckBox
     },
     computed: {
@@ -135,17 +214,77 @@ export default {
             this.widget = w
             this.settings = lang.clone(this.widget.settings)
             this.style = lang.clone(this.widget.style)
+            this.props = lang.clone(this.widget.props)
+            if (!this.style.borderStyle) {
+               this.$set(this.style, 'borderStyle', 'None') 
+            }
+            if (!this.style.checkBoxSize) {
+               this.$set(this.style, 'checkBoxSize', 20)
+            }
+            if (this.style.checkBox === undefined) {
+               this.$set(this.style, 'checkBox', false)
+            }
+            if (!this.style.checkBoxBorderColor) {
+                this.$set(this.style, 'checkBoxBorderColor', '#333333')
+            }
+            if (!this.style.checkBoxHookColor) {
+               this.$set(this.style, 'checkBoxHookColor', '#333333')
+            }
+            if (!this.style.checkBoxBackground) {
+               this.$set(this.style, 'checkBoxBackground', '#ffffff')
+            }
+            if (!this.style.checkBoxBorderRadius) {
+               this.$set(this.style, 'checkBoxBorderRadius', 2)
+            }
+            if (!this.props.actions) {
+                this.$set(this.props, 'actions', [])
+            }
+
 		},
 
 		setModel  (m){
             this.model = m;
         },
         onChangeStyle (key, value) {
-            console.debug('onChangeStyle', key, value)
+            this.logger.log(0, 'onChangeStyle', key, value)
+            this.$set(this.style, key, value)
+        },
+        onChangeProps (key, value) {
+            this.logger.log(0, 'onChangeProps', key, value)
+            this.$set(this.props, key, value)
         },
         setBorderStyle (value) {
-            console.debug('setBorderStyle', value)
-            this.style.borderStyle = value
+            this.onChangeStyle('borderStyle', value)
+        },
+        addAction (e) {
+            let input = e.target
+            let color = this.props.actions.length > 0 ? this.props.actions[0].color : '#333333'
+            this.props.actions.push({
+                label: input.value,
+                callback: '',
+                color: color
+            })
+            input.value = ''
+        },
+        removeAction (i) {
+            this.$delete(this.props.actions, i)
+        },
+        onChangeActionColor (action, color) {
+            action.color = color
+        },
+        onChangeHeaderWeight (value) {
+            if (value) {
+                this.onChangeStyle('headerFontWeight', 700)
+            } else {
+                this.onChangeStyle('headerFontWeight', 400)
+            }
+        },
+        onChangeHeaderStyle (value) {
+            if (value) {
+                this.onChangeStyle('headerFontStyle', 'italic')
+            } else {
+                this.onChangeStyle('headerFontStyle', null)
+            }
         }
     },
     watch: {
@@ -157,11 +296,9 @@ export default {
         this.logger = new Logger("TableSettings")
          if (this.app) {
             this.setModel(this.app)
-            console.debug(this.model)
         }
         if (this.value) {
             this.setWidget(this.value)
-            console.debug(this.value)
         }
     }
 }

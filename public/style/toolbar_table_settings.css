@@ -5,11 +5,9 @@
 
 .MatcToolbarTableSettingsCntr {
     height: 400px;
-    overflow: auto;
 }
 
 .MatcToolbarTableSettings > .MatcToolbarTabs{
-    margin-top: 24px;
     border-bottom: 1px solid #ccc;
 }
 
@@ -26,12 +24,23 @@
     padding: 0px;
     height: 30px;
     min-height: 30px;
-    margin-left: 10px;
+    margin-left: 5px;
+    vertical-align: middle;
 }
 
 .MatcToolbarTableSettings .MatcFormRow{
     margin-top:10px;
     margin-bottom: 10px;
+}
+
+.MatcToolbarTableSettings .MatcFormRow .MatcFormRowHoverAction{
+    font-weight: 300;
+    display: none;
+}
+
+.MatcToolbarTableSettings .MatcFormRow:hover .MatcFormRowHoverAction{
+    font-weight: 300;
+    display: inline;
 }
 
 .MatcToolbarTableSettings label {
@@ -44,4 +53,48 @@
 .MatcToolbarTableSettings h4{
     font-size: 14px;
     font-weight: 700;
+}
+
+.MatcToolbarTableSettingsCheckRow {
+    cursor: pointer;
+    padding-left: 20px;
+    color:#777;
+    width: 200px;
+}
+
+.MatcToolbarTableSettingsCheckRowActive{
+    color:#1973e8
+}
+
+.MatcToolbarTableSettingsCheckRow label{
+    cursor: pointer;
+}
+
+.MatcToolbarTableSettingsCheckRow label{
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.MatcToolbarTableSettingsCheckRow .mdi{
+    vertical-align: middle;
+}
+
+.MatcToolbarTableSettings input.form-control{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.MatcToolbarTableSettings input.form-control.form-control-xs{
+    width: 40px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    padding: 2px;
+    height: 24px;
+}
+
+.MatcToolbarTableSettings .VommondCheckBoxLabel{
+    font-size: 14px;
 }
