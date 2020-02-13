@@ -5,25 +5,57 @@
 			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
 			<span data-dojo-attach-point="caret" class="caret"></span>
 		</div>
-		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
-            <ul @click.stop="" @mousedown.stop="" @mouseup.stop="" v-show="!hasColors" ref="optionCntr" style="width:200px">
+		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="">
+            <ul v-show="view === 'options'" ref="optionCntr" style="width:200px">
                 <li v-for="(option,i) in options" :key="i" @click="selectOption(option)">
+                    
                     <label v-if="option.type === 'color'" class="MatcToolbarPopUpLabel" >
                         <span :class="'MatcToolbarPopUpIcon MatcToolbarPopUpIconTextShadow ' + option.icon" :style="{'color': option.value}"/>
                         {{option.label}}
                     </label>
+
                     <CheckBox v-if="option.type === 'check'" :value="option.value" :label="option.label"/>
-                    <input v-if="option.type === 'int'" class=""/>
+
+                    <label v-if="option.type === 'list'" class="MatcToolbarPopUpLabel" >
+                        <span :class="'MatcToolbarPopUpIcon ' + option.icon"/>
+                        {{option.label}}
+                    </label>
+
+                    <label v-if="option.type === 'int'" class="MatcToolbarPopUpLabel" >
+                        <span :class="'MatcToolbarPopUpIcon ' + option.icon"/>
+                        {{option.label}}
+                    </label>
                 </li>
             </ul>
-            <div v-show="hasColors" ref="colorCntr">
+            <div v-show="view === 'color'" ref="colorCntr">
             </div>
-            <span 
-                class="mdi mdi-chevron-left MatcToolbarPopUpBackBtn" 
-                v-show="hasColors" 
-                @mousedown.stop="" 
-                @mouseup.stop="" 
-                @click.stop="showOptions"/>
+            <ul v-show="view === 'list'" ref="listCntr" style="width:200px">
+                <template v-if="view === 'list'">
+             
+                    <li v-for="(option,i) in selectedOption.options" 
+                        :key="i" 
+                        @click="selectListOption(option)" 
+                        :class="{'MatcToolbarPopupSelected': option.value === value}">
+                        <label class="MatcToolbarPopUpLabel" >
+                                <span :class="'MatcToolbarPopUpIcon ' + option.icon" v-if="option.icon"/>
+                                {{option.label}}
+                        </label>
+                    </li>
+                </template>
+            </ul>
+            <ul v-show="view === 'int'" ref="intCntr" style="width:50px">
+               <template v-if="view === 'int'">
+                 <li v-for="option in selectedOption.options" 
+                        :key="option" 
+                        @click="selectIntOption(option)" 
+                        :class="{'MatcToolbarPopupSelected': option === value}">
+                        <label class="MatcToolbarPopUpLabel" >
+                                {{option}}
+                        </label>
+                </li>
+               </template>
+            </ul>
+           
 		</div>
 	</div>
 </template>
@@ -52,7 +84,8 @@ export default {
             arrowPosition: "right",
             options: [],
             model: null,
-            hasColors: false
+            view: 'options',
+            selectedOption: null
         }
     },
     components: {
@@ -63,17 +96,43 @@ export default {
 		
         },
 
+        closeColors () {
+            this.flush()
+            this.showOptions()
+        },
+
         selectOption (option) {
-            this.logger.log(-1, 'showColors', 'selectOption', option.label)
+            this.logger.log(-1, 'showColors', 'selectOption > ' + option.label, option.type)
             this.selectedOption = option
             if (option.type === 'color') {
                 this.showColors(option)
-            }
-            if (option.type === 'check') {
+            } else if (option.type === 'check') {
                 this.toggleOption(option)
+            } else if (option.type === 'list') {
+                this.showList(option)
+            } else if (option.type === 'int') {
+                this.showInt(option)
+            } else {
+                this.logger.warn('showColors', 'Not supported type', option.type)
             }
         },
 
+        selectListOption (listOption) {
+            this.logger.log(-1, 'showList', 'selectListOption', listOption.value)
+            this.value = listOption.value
+            setTimeout( () => {
+                this.onChange(listOption.value)
+            }, 150)
+        },
+
+        selectIntOption (value) {
+            this.logger.log(-1, 'showList', 'selectListOption', value)
+            this.value = value
+            setTimeout( () => {
+                this.onChange(value)
+            }, 150)
+        },
+        
         toggleOption (option) {
             option.value = !option.value
             let value = option.value ? option.valueTrue : option.valueFalse
@@ -82,10 +141,25 @@ export default {
                 this.onChange(value)
             }, 150)
         },
+
+        showInt (option) {
+            this.removePopupFooter()
+            this.view = 'int'
+            this.value = option.value
+            this.resizeAndRepositon(this.$refs.intCntr)
+        },
+
+        showList (option) {
+            this.logger.log(-1, 'showList', 'enter', option.key)
+            this.removePopupFooter()
+            this.view = 'list'
+            this.value = option.value
+            this.resizeAndRepositon(this.$refs.listCntr)
+        },
         
         showColors (option) {
             this.logger.log(-1, 'showColors', 'enter', option.key)
-            this.hasColors = true
+            this.view = 'color'
             this.value = option.value
             
             this.$refs.colorCntr.innerHTML = ''
@@ -97,9 +171,8 @@ export default {
         },
 
         showOptions () {
-            console.debug('showOption')
             this.removePopupFooter()
-            this.hasColors = false
+            this.view = 'options'
             this.resizeAndRepositon(this.$refs.optionCntr)
         },
 

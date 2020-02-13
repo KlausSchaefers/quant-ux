@@ -36,12 +36,19 @@ export default {
         return {
             mode: "private",
 			icons: [],
-			previewWidth: 150
+			previewWidth: 150,
+			borderStyles: [
+				{ value:"Cell", icon:"mdi mdi-border-all", label : "Full Border"},
+				{ value:"HLines", icon:"mdi mdi-border-horizontal", label : "Horizontal Border"},
+				{ value:"VLines", icon:"mdi mdi-border-vertical", label : "Vertical Border"},
+				{ value:"None", icon:"mdi mdi-border-none", label : "No Border"},
+				{ value:"Out", icon:"mdi mdi-border-outside", label : "Outside Border"}
+			]
         }
     },
     components: {},
     methods: {
-    postCreate: function(){
+   		postCreate: function(){
 			this.logger = new Logger("DataSection");
 			this.db = new DomBuilder();
 		},
@@ -623,9 +630,11 @@ export default {
 			//this._renderButton("Settings", "mdi mdi-settings", "_renderTableSettings");
 
 			let style = model.style
-			this._renderDropDownTree("Header", "", [
+			let props = model.props
+
+				this._renderDropDownTree("Colors", "mdi mdi-format-color-fill", [
 				{
-					label: "Background", 
+					label: "Header Background", 
 					type: "color", 
 					value: style.headerBackground, 
 					key:'headerBackground', 
@@ -633,13 +642,48 @@ export default {
 					isStyle: true
 				},
 				{
-					label: "Color", 
+					label: "Header Color", 
 					type: "color", 
 					value: style.headerColor, 
 					key:'headerColor', 
 					icon: 'mdi mdi-format-text',
 					isStyle: true
 				},
+				{
+					label: "Odd Background", 
+					type: "color", 
+					value: style.background, 
+					key:'background', 
+					icon: 'mdi mdi-format-color-fill',
+					isStyle: true
+				},
+				{
+					label: "Odd Color", 
+					type: "color", 
+					value: style.color, 
+					key:'color', 
+					icon: 'mdi mdi-format-text',
+					isStyle: true
+				},
+				{
+					label: "Even Background", 
+					type: "color", 
+					value: style.evenRowBackground, 
+					key:'evenRowBackground', 
+					icon: 'mdi mdi-format-color-fill',
+					isStyle: true
+				},
+				{
+					label: "Even Color", 
+					type: "color", 
+					value: style.evenRowColor, 
+					key:'evenRowColor', 
+					icon: 'mdi mdi-format-text',
+					isStyle: true
+				}
+			])
+
+			this._renderDropDownTree("Header Style", "mdi mdi-format-text", [
 				{
 					label: "Bold", 
 					type: "check", 
@@ -657,34 +701,49 @@ export default {
 					valueTrue: 'italic', 
 					valueFalse: 'normal',
 					isStyle: true
+				},
+				{
+					label: "Underline", 
+					type: "check", 
+					key:"headerTextDecoration", 
+					value: style.headerTextDecoration === 'underline', 
+					valueTrue: 'underline', 
+					valueFalse: 'none',
+					isStyle: true
 				}
 			])
 
-			this._renderBoxColor("Header", model, "headerBackground", "headerColor");
-			this._renderBoxColor("Odd Row", model, "background", "color");
-			this._renderBoxColor("Even Row", model, "evenRowBackground", "evenRowColor");
+			let selectedBorderStyle = this.borderStyles.find(s => s.value === props.borderStyle)
+			let borderStyleIcon = selectedBorderStyle ? selectedBorderStyle.icon : 'mdi mdi-border-color'
+			this._renderDropDownTree("Border", borderStyleIcon, [
+				{
+					label: "Border Style", 
+					type: "list", 
+					value: props.borderStyle, 
+					key:'borderStyle', 
+					icon: 'mdi mdi-border-all',
+					options: this.borderStyles,
+					isStyle: false
+				},
+				{
+					label: "Border Color", 
+					type: "color", 
+					value: style.borderBottomColor, 
+					key:'borderBottomColor', 
+					icon: 'mdi mdi-border-color',
+					isStyle: true
+				},
+				{
+					label: "Border Width", 
+					type: "int", 
+					value: style.borderBottomWidth, 
+					key:'borderBottomWidth', 
+					icon: 'mdi mdi-pound',
+					options: [1, 2, 3, 4, 5, 8, 10, 20],
+					isStyle: true
+				},
+			])
 
-
-			var row = this.db.div("MatcToobarRow").build(this.cntr);
-			//this.db.span("MatcToolbarItemLabel", "Border Style").build(row);
-			var border = this.$new(ToolbarDropDownButton, {maxLabelLength: 20});
-			border.reposition = true;
-
-			border.setOptions([
-			    { value:"Cell", icon:"mdi mdi-border-all", label : "Full Border"},
-   			    { value:"HLines", icon:"mdi mdi-border-horizontal", label : "Horizontal Border"},
-	   			{ value:"VLines", icon:"mdi mdi-border-vertical", label : "Vertical Border"},
-	   			{ value:"None", icon:"mdi mdi-border-none", label : "No Border"},
-	   			{ value:"Out", icon:"mdi mdi-border-outside", label : "Outside Border"}
-   			]);
-
-			border.setValue(model.props.borderStyle)
-			border.setPopupCss("MatcActionAnimProperties");
-   			this.own(on(border, "change", lang.hitch(this, "onProperyChanged", "borderStyle")));
-			border.placeAt(row);
-
-
-			this._renderColor('Border Color','<span class="mdi mdi-border-color"></span>',model.style.borderBottomColor, "borderBottomColor" , null, true);
 		},
 
 
@@ -1340,7 +1399,7 @@ export default {
 			drpDwn.reposition = true;
 			drpDwn.setOptions(options);
 			drpDwn.setModel(this.model)
-			drpDwn.setLabel(lbl)
+			drpDwn.setLabel(`<span class="${icon}"/><span class="MatcToolbarItemLabel">${lbl}</span>`)
 			drpDwn.setPopupCss("MatcActionAnimProperties");
 	
 			this.tempOwn(on(drpDwn, "change", (option, value) => {

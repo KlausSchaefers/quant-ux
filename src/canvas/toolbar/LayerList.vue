@@ -353,6 +353,9 @@ export default {
 					return box.style.icon;
 				}
 			}
+			if (box.type == "Table") {
+				return "mdi mdi-table-large"
+			}
 			return "mdi mdi-crop-portrait";
 		},
 

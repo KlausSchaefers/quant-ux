@@ -76,6 +76,9 @@ export default {
         if (style.headerFontWeight) {
           tr.style.fontWeight = style.headerFontWeight;
         }
+        if (style.headerTextDecoration) {
+          tr.style.textDecoration = style.headerTextDecoration;
+        }
 
         this.renderRowBorder(tr, 0, style, borderStyle, data.length);
 
