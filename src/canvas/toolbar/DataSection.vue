@@ -744,6 +744,61 @@ export default {
 				},
 			])
 
+			this._renderDropDownTree("Selectable", "mdi mdi-checkbox-multiple-marked-outline", [
+				{
+					label: "Show Checkbox", 
+					type: "check", 
+					value: style.checkBox, 
+					key:'checkBox', 
+					icon: '',
+					valueTrue: true, 
+					valueFalse: false,
+					isStyle: true
+				},
+				{
+					label: "Hook Color", 
+					type: "color", 
+					value: style.checkBoxHookColor, 
+					key:'checkBoxHookColor', 
+					icon: 'mdi mdi-check',
+					isStyle: true
+				},
+				{
+					label: "Background", 
+					type: "color", 
+					value: style.checkBoxBackground, 
+					key:'checkBoxBackground', 
+					icon: 'mdi mdi-format-color-fill',
+					isStyle: true
+				},
+				{
+					label: "Border Color", 
+					type: "color", 
+					value: style.checkBoxBorderColor, 
+					key:'checkBoxBorderColor', 
+					icon: 'mdi mdi-border-color',
+					isStyle: true
+				},
+				{
+					label: "Border Radius", 
+					type: "int", 
+					value: style.checkBoxBorderRadius, 
+					key:'checkBoxBorderRadius', 
+					icon: 'mdi mdi-vector-radius',
+					options: [1, 2, 3, 4, 5, 8, 10, 20, 30, 50],
+					isStyle: true
+				},
+				{
+					label: "Border Radius", 
+					type: "int", 
+					value: style.checkBoxBorderWidth, 
+					key:'checkBoxBorderWidth', 
+					icon: 'mdi mdi-pound',
+					options: [1, 2, 3, 4, 5, 8, 10, 20, 30, 50],
+					isStyle: true
+				}
+			])
+
 		},
 
 

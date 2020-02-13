@@ -298,6 +298,10 @@ export default {
 				this._countColor(box.style.background, result);
 				this._countColor(box.style.color, result);
 				this._countColor(box.style.borderTopColor, result);
+				this._countColor(box.style.evenRowBackground, result);
+				this._countColor(box.style.evenRowColor, result);
+				this._countColor(box.style.headerBackground, result);
+				this._countColor(box.style.headerColor, result);
 				if (box.active) {
 					this._countColor(box.active.background, result);
 					this._countColor(box.active.color, result);
@@ -320,7 +324,7 @@ export default {
 		},
 
 		_countColor  (color, result){
-			if(color && color!="transparent" && color!="none"){
+			if (color && color!="transparent" && color!="none"){
 				if (!result[color]){
 					result[color] = 0
 				}
