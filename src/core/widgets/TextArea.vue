@@ -37,6 +37,9 @@ export default {
 
     setValue: function(value) {
       if (value != null && value != undefined && this.value != value) {
+        if (Array.isArray(value)) {
+          value = value.join(',')
+        }
         this.value = value;
         css.remove(this.input, "MatcWidgetTypeTextBoxInputPlaceholder");
         if (this.mode == "simulator") {

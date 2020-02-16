@@ -127,6 +127,9 @@ export default {
       return null;
     },
 
+    getValue () {
+    },
+
     setFactory: function(m) {
       this.factory = m;
     },

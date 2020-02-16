@@ -610,7 +610,6 @@ export default {
 			
 			db.h3("MatcDialogHeader", "Make Symbol").build(cntr);
 			
-			
 			var inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", name, "Name of the template").build(cntr);
 				
 			var dialog = new Dialog();
@@ -775,9 +774,11 @@ export default {
 			d.popup(dialog, this.simulatorButton);
 			
 			d.own(d.on("close", lang.hitch(this, "stopSimulator",s, scroller)));
-			// d.own(on(dialog, 'click', () => {
-			//	d.close()
-			// }));
+			d.own(on(dialog, 'click', (e) => {
+				if (e.target === dialog) {
+					d.close()
+				}
+			}));
 
 			/**
 			 * Isn#t the model passed
@@ -860,9 +861,11 @@ export default {
 			d.popup(dialog, this.simulatorButton);
 			
 			d.on("close", lang.hitch(this, "stopSimulator", s, scroller));
-			// d.own(on(dialog, 'click', () => {
-			//	d.close()
-			// }));
+			d.own(on(dialog, 'click', (e) => {
+				if (e.target === dialog) {
+					d.close()
+				}
+			}));
 			
 			/**
 			 * Isnt the model passed???

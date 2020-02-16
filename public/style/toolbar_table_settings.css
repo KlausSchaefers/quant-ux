@@ -5,6 +5,7 @@
 
 .MatcToolbarTableSettingsCntr {
     height: 400px;
+    margin-top: 10px;
 }
 
 .MatcToolbarTableSettings > .MatcToolbarTabs{
@@ -81,6 +82,7 @@
 
 .MatcToolbarTableSettings .MatcToolbarTableSettingsTable{
     width: 100%;
+    font-size: 14px;
 }
 
 .MatcToolbarTableSettings .MatcToolbarTableSettingsTable th{

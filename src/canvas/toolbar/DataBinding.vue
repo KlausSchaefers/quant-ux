@@ -24,7 +24,8 @@
                             v-if="hasNewTypeSelector"
                             :options="variableKeys"
                             v-model="newType"
-                            style="width:100px" @change="setNewType($event)"/>
+                            style="width:350px"
+                             @change="setNewType($event)"/>
                     </td>
                  </tr>
                  <tr v-for="variable in selectedVaribales" :key="variable.name">
@@ -47,7 +48,8 @@
                             v-if="variable.selected"
                             :options="variableKeys"
                             v-model="variable.type"
-                            style="width:100px" @change="setType($event, variable.name)"/>
+                            style="width:350px"
+                            @change="setType($event, variable.name)"/>
                     </td>
                  </tr>
 
@@ -97,26 +99,24 @@ export default {
             })
         },
         variableKeys () {
-            if (this.widget.type === 'Repeater') {
+            if (this.widget.type === 'Table') {
                 return [
-                    {
-                        label: "In",
-                        value: "default"
-                    },
-                    {
-                        label: "Out",
-                        value: "output"
-                    }
-                ]
-            } else {
-                return [
-                    {
-                        label: "In & out",
-                        value: "default"
-                    }
+                    { label: "Input", value: "default" },
+                    { label: "Selected", value: "output" },
+                    { label: "Action", value: "action" },
+                    { label: "Pagination", value: "pagination" }
                 ]
             }
+            if (this.widget.type === 'Repeater') {
+                return [
+                    { label: "In", value: "default" },
+                    { label: "Selected", value: "output" }
+                ]
+            } 
 
+            return [
+                { label: "In & out", value: "default" }
+            ]
         },
         hints () {
            	var hints = this.getHintsAppVariables();

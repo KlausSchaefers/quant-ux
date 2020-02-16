@@ -10,26 +10,35 @@
         <div class="MatcToolbarTableSettingsCntr">
          
 
-            <div v-if="tab === 'actions'" class="">
-                    <table v-if="props.tableActions.length > 0" class="MatcToolbarTableSettingsTable">
-                        <thead>
-                            <tr>
-                                <th style="width:320px;">Name</th>
-                                <th style="width:70px;">Color</th>
+            <div v-if="tab === 'actions'" class="MatcDialogTable">
+                    <table  class="MatcToolbarTableSettingsTable">
+                       <tbody>
+                            <tr class="MatcFormRow">
+                                <td style="width:320px;">Name</td>
+                                <td style="width:70px;">Color</td>
+                                <td style="width:70px;">Hover</td>
                                 <!--
                                 <th style="width:70px; text-align=center;"><span class="mdi mdi-format-color-fill"/></th>
                                 <th style="width:70px; text-align=center;"><span class="mdi mdi-border-color"/></th>
                                 <th style="width:70px; text-align=center;"><span class="mdi mdi-vector-radius"/></th>
                                 <th style="width:70px; text-align=center;"><span class="mdi mdi-arrow-all"/></th>
                                 -->
-                                <th style="width:70px"></th>
-                                <th></th>
+                                <td style="width:120px"></td>
+                           
                             </tr>
-                        </thead>
-                        <tbody>
+                      
+                     
+                            <tr class="MatcFormRow">
+                                <td>
+                                    <input class="form-control vommondInlineEdit" placeholder="Enter action name" @change="addAction"/>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             <tr class="MatcFormRow" v-for="(action, i) in props.tableActions" :key="i">
                                 <td>
-                                    <input class="form-control" v-model="action.label"/>
+                                    <input class="form-control vommondInlineEdit" v-model="action.label"/>
                                 </td>
                                 <td>
                                     <ToolbarColor
@@ -38,6 +47,12 @@
                                         :app="model"
                                         :color="action.color"
                                         @change="onChangeActionColor(action, 'color', $event)"/>
+                                </td>
+                                <td>
+                                    <CheckBox 
+                                        v-model="action.isHover" 
+                                        label="" />
+
                                 </td>
                                 <!--
                                 <td>
@@ -70,30 +85,33 @@
                         </tbody>
                     </table>
 
-                    <div class="MatcFormRow">
-                        <input class="form-control" placeholder="Enter action name" @change="addAction"/>
-                    </div>
-
+         
             </div> <!-- End Actions -->
 
 
-            <div v-if="tab === 'columns'" class="">
-                   <table v-if="props.columns.length > 0" class="MatcToolbarTableSettingsTable">
-                        <thead>
-                            <tr>
-                                <th style="width:320px;">Name</th>
-                                <th style="width:320px;">Data Binding</th>
-                                <th style="width:70px"></th>
-                                <th></th>
-                            </tr>
-                        </thead>
+            <div v-if="tab === 'columns'" class="MatcDialogTable">
+                   <table  class="MatcToolbarTableSettingsTable">
                         <tbody>
+                            <tr>
+                                <td style="width:320px;">Name</td>
+                                <td style="width:320px;">Data Binding</td>
+                                <td style="width:120px"></td>
+                            </tr>
+                    
+                            <tr>
+                                <td>
+                                    <input class="form-control vommondInlineEdit" placeholder="Enter column data binding" @change="addColumn"/>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                     
                             <tr class="MatcFormRow" v-for="(column, i) in props.columns" :key="i">
                                 <td>
-                                    <input class="form-control" v-model="column.label"/>
+                                    <input class="form-control vommondInlineEdit" v-model="column.label"/>
                                 </td>
                                 <td>
-                                    <input class="form-control" placeholder="Databinding Variable" v-model="column.databinding"/>
+                                    <input class="form-control vommondInlineEdit" placeholder="Databinding Variable" v-model="column.databinding"/>
                                 </td>
                               
                                 <td>
@@ -102,11 +120,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    
-
-                    <div class="MatcFormRow">
-                        <input class="form-control" placeholder="Enter column data binding" @change="addColumn"/>
-                    </div>
 
             </div> <!-- End Actions -->
         </div>
@@ -119,6 +132,7 @@ import DojoWidget from 'dojo/DojoWidget'
 import Logger from 'common/Logger'
 import lang from 'dojo/_base/lang'
 import ToolbarColor from 'canvas/toolbar/ToolbarColor'
+import CheckBox from 'common/CheckBox'
 
 export default {
     name: 'TableSettings',
@@ -138,7 +152,8 @@ export default {
         }
     },
     components: {
-        'ToolbarColor': ToolbarColor
+        'ToolbarColor': ToolbarColor,
+        'CheckBox': CheckBox
     },
     computed: {
 
@@ -183,7 +198,8 @@ export default {
                 borderColor: borderColor,
                 borderRadius: 2,
                 borderWidth: 1,
-                color: color
+                color: color,
+                isHover: false
             })
             input.value = ''
         },

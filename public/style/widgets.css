@@ -557,6 +557,19 @@
 	border-style:solid;
 }
 
+.MatcWidgetTypeTableAction {
+	text-decoration: none;
+	display: inline-block;
+}
+
+.MatcWidgetTypeTableAction.MatcWidgetTypeTableActionOnlyHover{
+	opacity: 0;
+}
+
+.MatcWidgetTypeTableRowHover .MatcWidgetTypeTableAction.MatcWidgetTypeTableActionOnlyHover{
+	opacity: 1;
+}
+
 /*******************************
  * Icon
  *******************************/

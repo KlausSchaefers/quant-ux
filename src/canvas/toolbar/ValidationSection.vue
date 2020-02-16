@@ -50,6 +50,10 @@ export default {
 			this._renderDataBinding(model, false);
 		},
 
+		_showTable (model){
+			this._renderDataBinding(model, false);
+		},
+
 		_showVerticalNavigation (model){
 			this._renderDataBinding(model, false);
 		},

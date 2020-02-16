@@ -39,10 +39,20 @@ export default {
           }))
         })
       }
-      if (this.style.hoverBackground || this.style.hoverColor) {
-        this.trs.forEach((tr, i) => {
-          this.own(on(tr, touch.over, () => this.onHoverStart(tr,i)))
-          this.own(on(tr, touch.out, () => this.onHoverEnd(tr,i)))
+      
+      this.trs.forEach((tr, i) => {
+        this.own(on(tr, touch.over, () => this.onHoverStart(tr,i)))
+        this.own(on(tr, touch.out, () => this.onHoverEnd(tr,i)))
+      })
+
+      this.trs.forEach((tr, i) => {
+        this.own(on(tr, touch.over, () => this.onHoverStart(tr,i)))
+        this.own(on(tr, touch.out, () => this.onHoverEnd(tr,i)))
+      })
+
+      if (this.model.props && this.model.props.databinding && this.model.props.databinding.action) {
+        this.actions.forEach(action => {
+          this.own(this.addClickListener(action.div, (e) => this.onActionClick(e, action)))
         })
       }
     },
@@ -52,17 +62,30 @@ export default {
       this.emitClick(e);
     },
 
+    onActionClick (e, action) {
+      this.stopEvent(e);
+      if (this.model.props.databinding && this.model.props.databinding.action) {
+        this.emitDataBinding(action.action.label, 'action')
+      }
+      this.emitClick(e);
+    },
+
     toggleCheckBox (e, box) {
       this.stopEvent(e);
-      this.emitClick(e);
-      
+
       var pos = this.selected.indexOf(box.id);
       if (pos < 0) {
         this.selected.push(box.id);
       } else {
         this.selected.splice(pos, 1);
       }
+
+      if (this.model.props.databinding && this.model.props.databinding.output) {
+        this.emitDataBinding(this.selected, 'output')
+      }
+
       this.setSelected(this.selected)
+      this.emitClick(e);
     },
 
     onHoverStart (tr) {
@@ -72,6 +95,8 @@ export default {
       if (this.style.hoverColor) {
         tr.style.color = this.style.hoverColor
       }
+      css.add(tr, 'MatcWidgetTypeTableRowHover')
+      //FIXME: emit some state
     },
 
     onHoverEnd (tr, i) {
@@ -87,6 +112,8 @@ export default {
       } else {
         tr.style.color = this.style.color
       }
+      css.remove(tr, 'MatcWidgetTypeTableRowHover')
+      //FIXME: emit some state
     },
 
     setSelected (selected) {
@@ -105,6 +132,7 @@ export default {
     render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
+      this.props = model.props;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
 
@@ -112,6 +140,7 @@ export default {
       this.checkBoxes = [] 
       this.cells = []
       this.trs = []
+      this.actions = []
      
       let data = this.getTable()
       let columns = data.columns
@@ -133,13 +162,22 @@ export default {
       // an empty row and also some adjustments to the table
       if (style.checkBox) {
         columns = [''].concat(columns)
-        widths = [0.15].concat(widths)
-        widths = widths.map(w => w / 1.15)
+        // FIXME: we should only do this if we miss widths. Later we could add this 
+        // with some handlers
+        widths = [0.10].concat(widths)
+        widths = widths.map(w => w / 1.10)
+      }
+
+      if (this.props.tableActions && this.props.tableActions.length > 0) {
+        columns = columns.concat([''])
+        let w = 0.2 * this.props.tableActions.length
+        widths = widths.concat([w])
+        widths = widths.map(w => w / (1 + w))
       }
 
       this.renderHeader(rows, columns, table, style, borderStyle, widths, db)
 
-      this.renderRows(rows, columns, table, style, borderStyle, db)
+      this.renderRows(rows, columns, table, style, borderStyle, this.props.tableActions, db)
 
       this.domNode.appendChild(table);
       this.setStyle(style, model);
@@ -194,12 +232,12 @@ export default {
       }
     },
 
-    renderRows (rows, columns, table, style, borderStyle, db) {
+    renderRows (rows, columns, table, style, borderStyle, actions, db) {
       let tbody = db.tbody().build(table);
       for (let i = 0; i < rows.length; i++) {
         let row = rows[i];
         this.cells[i] = [];
-        let tr = db.element("tr").build(tbody);
+        let tr = db.element("tr", "MatcWidgetTypeTableRow").build(tbody);
         this.trs.push(tr)
         this.renderRowBorder(tr, i, style, borderStyle, columns.length);
 
@@ -217,6 +255,32 @@ export default {
           this._paddingNodes.push(td);
           this.renderCellBorder(td, i, j,style, borderStyle, rows.length, columns.length);
           this.cells[i].push(td);
+
+        }
+
+  
+        if (actions && actions.length > 0) {
+          let td = document.createElement("td");  
+          tr.appendChild(td);
+          this.renderCellBorder(td, i, columns.length ,style, borderStyle, rows.length, columns.length);
+
+          actions.forEach(action => {
+            let a = db.a('MatcWidgetTypeTableAction', action.label).build(td)
+            this._paddingNodes.push(a);
+            if (action.color) {
+              a.style.color = action.color
+            }
+            if (action.isHover) {
+              css.add(a, 'MatcWidgetTypeTableActionOnlyHover')
+            }
+
+            this.actions.push({
+              div: a,
+              row: row,
+              id: i,
+              action: action
+            })
+          })
         }
       }
     },

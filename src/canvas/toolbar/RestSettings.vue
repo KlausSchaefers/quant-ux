@@ -150,10 +150,7 @@
                 <div class="MatcToolbarRestDataBindingCntr" v-else >
                     <img :src="testResultImage">
                 </div>
-                
-             
-         
-                
+                   
              </div>
         </div>
 

@@ -824,8 +824,7 @@ export default {
 				}
 			])
 
-			// this._renderButton("Actions", "mdi mdi-settings", "_renderTableSettings");
-
+			this._renderButton("Actions", "mdi mdi-settings", "_renderTableSettings");
 		},
 
 
@@ -1032,7 +1031,6 @@ export default {
 
 		setTableSettings (dialog, settings) {
 			let value = settings.getValue()
-			console.debug('setTableSettings', value)
 
 			this.onProperyChanged("tableActions", value.tableActions);
 			this.onProperyChanged("columns", value.columns);
@@ -1065,24 +1063,17 @@ export default {
 		},
 
 		setTableData (d, table){
-
 			if(table.dataDirty){
 				var data = table.getData();
 				this.onProperyChanged("data", data);
 			}
-
 			if(table.widthDirty){
 				var widths = table.getWidths();
 				this.onProperyChanged("widths", widths);
 			}
-
-
 			table.destroy();
-
-
 			d.close();
 		},
-
 
 		/**********************************************************************
 		 * Form Group
