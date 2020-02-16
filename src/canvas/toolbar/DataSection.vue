@@ -824,10 +824,9 @@ export default {
 				}
 			])
 
-			this._renderButton("Actions", "mdi mdi-settings", "_renderTableSettings");
+			// this._renderButton("Actions", "mdi mdi-settings", "_renderTableSettings");
 
 		},
-
 
 
 		_renderIgnoreState (widget){

@@ -12,11 +12,11 @@
                         -->
                     </h2>
                 </div>
-                <!--
+               
                 <div class="col-md-6 MatcRight">
-                    <a class="MatcButton MatcButtonSignUp MatcButtonGreen" :href="`#/${urlPrefix}/${app.id}/analyze/workspace.html`">Analytic Canvas</a>
+                    <a class="MatcButton" @click="downloadCSV">Download Test Data</a>
                 </div>             
-                -->       
+                   
             </div>       
             <AnalyticsHeader class="MatcMarginTopXXL" :value="summary"/>   
         </div>
@@ -76,6 +76,45 @@ export default {
   methods: {
     onTaskChange(test) {
       this.$emit("change", lang.clone(test));
+    },
+    downloadCSV () {
+      try {
+        let events = this.filterEvents(this.events, this.annotation);
+        var actionEvents = this.getActionEvents(new DataFrame(events));
+        let csv = 'Session,User,Screen,Widget,EventType,X,Y,Time\n'
+        let screenSize = this.app.screenSize
+        csv += actionEvents.data.map(event => {
+          let screen = this.app.screens[event.screen] ? this.app.screens[event.screen].name : event.screen
+          let widget = this.app.widgets[event.widget] ? this.app.widgets[event.widget].name : event.widget
+          let x = event.x >=0 ? Math.round(event.x * screenSize.w): -1
+          let y = event.y >=0 ? Math.round(event.y * screenSize.h): -1
+          return event.session + ',' + 
+                 event.user + ',' + 
+                 screen + ',' + 
+                 widget + ',' + 
+                 event.type + ',' + 
+                 x + ',' + 
+                 y + ',' + 
+                 event.time
+        }).join('\n')
+      
+        var blob = new Blob([csv],{
+            type: "text/csv;charset=utf-8;"
+        });
+        if(window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveBlob(blob, this.downloadFileName);
+        } else {
+          var elem = window.document.createElement('a');
+          elem.href = window.URL.createObjectURL(blob);
+          elem.download = this.app.name + '.csv';        
+          document.body.appendChild(elem)
+          elem.click();        
+          document.body.removeChild(elem);
+        }
+       
+      } catch (e) {
+        console.error(e)
+      }
     },
     show () {
         /**

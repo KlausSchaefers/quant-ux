@@ -93,7 +93,7 @@
                                     <input class="form-control" v-model="column.label"/>
                                 </td>
                                 <td>
-                                    <input class="form-control" placeholder="Databding variable" v-model="column.databinding"/>
+                                    <input class="form-control" placeholder="Databinding Variable" v-model="column.databinding"/>
                                 </td>
                               
                                 <td>
