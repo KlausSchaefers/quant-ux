@@ -772,6 +772,15 @@ export default {
 					isStyle: true
 				},
 				{
+					label: "Size", 
+					type: "int", 
+					value: style.checkBoxSize, 
+					key:'checkBoxSize', 
+					icon: 'mdi mdi-swap-vertical',
+					options: [style.fontSize, 10, 12, 16, 20, 24, 32],
+					isStyle: true
+				},
+				{
 					label: "Border Color", 
 					type: "color", 
 					value: style.checkBoxBorderColor, 
@@ -789,7 +798,7 @@ export default {
 					isStyle: true
 				},
 				{
-					label: "Border Radius", 
+					label: "Border Width", 
 					type: "int", 
 					value: style.checkBoxBorderWidth, 
 					key:'checkBoxBorderWidth', 

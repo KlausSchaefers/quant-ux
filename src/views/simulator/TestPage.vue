@@ -159,7 +159,7 @@ export default {
 				return;
 			}
 			this.db = new DomBuilder();		
-			if(this.$route.query.s === "true"){
+			if(this.$route.query.debug === "true"){
 				this.logger.log(0,"postCreate","skipSplash");
 				this.skipSplash = true;
 			}		
@@ -258,7 +258,7 @@ export default {
 			this.logger.log(1,"setTestsettings","enter > " + settings);
 			this.settings = settings;
 			if(this.debug || this.skipSplash){
-				setTimeout(lang.hitch(this,"renderTest"),500);
+				setTimeout(lang.hitch(this,"renderTest"),0);
 			} else{
 				setTimeout(lang.hitch(this,"hideLogo"),500);
 			}	

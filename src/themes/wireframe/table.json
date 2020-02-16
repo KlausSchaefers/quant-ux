@@ -43,14 +43,20 @@
 		"borderRightColor" : "#333333",
 		"borderLeftColor" : "#333333",
 		"background" : "#fff",
-		"headerBackground" : "#333333",
-		"headerColor" : "#fff",
 		"color" : "#333333",
 		"paddingTop" : 10,
 		"paddingBottom": 10,
 		"paddingLeft" : 5,
 		"paddingRight" : 5,
-		"headerFontWeight" : "800"
+		"headerFontWeight" : "800",
+		"headerBackground" : "#333333",
+		"headerColor" : "#fff",
+		"checkBox": false,
+		"checkBoxHookColor": "#333333",
+		"checkBoxBackground": "#ffffff",
+		"checkBoxBorderColor": "#333333",
+		"checkBoxBorderRadius": 2,
+		"checkBoxBorderWidth": 1
 	}
 },{
 	"id" : "LineTable",
