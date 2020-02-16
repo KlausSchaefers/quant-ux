@@ -48,9 +48,7 @@ export default {
         this.addClickListener(this.domNode, lang.hitch(this, "onOpenPopup"))
       );
       //this.own(on(this.domNode, touch.press, lang.hitch(this, "onOpenPopup")));
-      this.own(
-        on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver"))
-      );
+      this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));
       this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
       this.wired = true;
     },

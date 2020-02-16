@@ -8,6 +8,8 @@ import lang from "dojo/_base/lang";
 import DomBuilder from "common/DomBuilder";
 import UIWidget from "core/widgets/UIWidget";
 import css from "dojo/css";
+import touch from "dojo/touch";
+import on from "dojo/on";
 
 export default {
   name: "TableWidget",
@@ -37,6 +39,12 @@ export default {
           }))
         })
       }
+      if (this.style.hoverBackground || this.style.hoverColor) {
+        this.trs.forEach((tr, i) => {
+          this.own(on(tr, touch.over, () => this.onHoverStart(tr,i)))
+          this.own(on(tr, touch.out, () => this.onHoverEnd(tr,i)))
+        })
+      }
     },
 
     onClick (e) {
@@ -55,6 +63,30 @@ export default {
         this.selected.splice(pos, 1);
       }
       this.setSelected(this.selected)
+    },
+
+    onHoverStart (tr) {
+      if (this.style.hoverBackground) {
+        tr.style.background = this.style.hoverBackground
+      }
+      if (this.style.hoverColor) {
+        tr.style.color = this.style.hoverColor
+      }
+    },
+
+    onHoverEnd (tr, i) {
+      let isEven = i % 2 !== 0
+      if (this.style.evenRowBackground && isEven) {
+        tr.style.background = this.style.evenRowBackground;
+      } else {
+        tr.style.background = this.style.background
+      }
+
+      if (this.style.evenRowColor && isEven) {
+        tr.style.color = this.style.evenRowColor;
+      } else {
+        tr.style.color = this.style.color
+      }
     },
 
     setSelected (selected) {
@@ -79,6 +111,7 @@ export default {
       this.domNode.innerHTML = "";
       this.checkBoxes = [] 
       this.cells = []
+      this.trs = []
      
       let data = this.getTable()
       let columns = data.columns
@@ -153,13 +186,10 @@ export default {
 
     renderOddRows (rows, style) {
       if (style.evenRowBackground || style.evenRowColor) {
-        for (let i = 1; i < rows.length; i += 2) {
-          let tds = this.cells[i];
-          for (let j = 0; j < tds.length; j++) {
-            let td = tds[j];
-            td.style.background = style.evenRowBackground;
-            td.style.color = style.evenRowColor;
-          }
+        for (let i = 1; i < this.trs.length; i += 2) {
+          let tr = this.trs[i];
+          tr.style.background = style.evenRowBackground;
+          tr.style.color = style.evenRowColor;
         }
       }
     },
@@ -170,6 +200,7 @@ export default {
         let row = rows[i];
         this.cells[i] = [];
         let tr = db.element("tr").build(tbody);
+        this.trs.push(tr)
         this.renderRowBorder(tr, i, style, borderStyle, columns.length);
 
         let start = style.checkBox ? -1 : 0

@@ -627,7 +627,7 @@ export default {
 			this._setSectionLabel("Table");
 
 			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
-			//this._renderButton("Settings", "mdi mdi-settings", "_renderTableSettings");
+			
 
 			let style = model.style
 			let props = model.props
@@ -678,6 +678,22 @@ export default {
 					type: "color", 
 					value: style.evenRowColor, 
 					key:'evenRowColor', 
+					icon: 'mdi mdi-format-text',
+					isStyle: true
+				},
+				{
+					label: "Hover Background", 
+					type: "color", 
+					value: style.hoverBackground, 
+					key:'hoverBackground', 
+					icon: 'mdi mdi-format-color-fill',
+					isStyle: true
+				},
+				{
+					label: "Hover Color", 
+					type: "color", 
+					value: style.hoverColor, 
+					key:'hoverColor', 
 					icon: 'mdi mdi-format-text',
 					isStyle: true
 				}
@@ -807,6 +823,8 @@ export default {
 					isStyle: true
 				}
 			])
+
+			this._renderButton("Actions", "mdi mdi-settings", "_renderTableSettings");
 
 		},
 
@@ -1011,6 +1029,17 @@ export default {
 				me.canvas.setState(0);
 			}));
 			d.popup(popup, e.target);
+		},
+
+		setTableSettings (dialog, settings) {
+			let value = settings.getValue()
+			console.debug('setTableSettings', value)
+
+			this.onProperyChanged("tableActions", value.tableActions);
+			this.onProperyChanged("columns", value.columns);
+
+			settings.destroy();
+			dialog.close();
 		},
 
 		_renderTableDialog (e){
