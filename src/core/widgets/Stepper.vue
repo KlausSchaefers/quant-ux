@@ -7,6 +7,8 @@ import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import DomBuilder from "common/DomBuilder";
 import UIWidget from "core/widgets/UIWidget";
+import touch from "dojo/touch";
+import on from "dojo/on";
 
 export default {
   name: "Stepper",
@@ -30,9 +32,33 @@ export default {
     wireEvents: function() {
       this.wired = true;
       this.own(this.addClickListener(this.plusBtn, lang.hitch(this, "onPlus")));
-      this.own(
-        this.addClickListener(this.minusBtn, lang.hitch(this, "onMinus"))
-      );
+      this.own(this.addClickListener(this.minusBtn, lang.hitch(this, "onMinus")));
+      if (this.model.hover) {
+         this.own(on(this.plusBtn, touch.over, () => {
+            this.onBtnOver(this.plusBtn)
+         }));
+         this.own(on(this.plusBtn, touch.out, () => {
+            this.onBtnOut(this.plusBtn)
+         }));
+         this.own(on(this.minusBtn, touch.over, () => {
+            this.onBtnOver(this.minusBtn)
+         }));
+         this.own(on(this.minusBtn, touch.out, () => {
+            this.onBtnOut(this.minusBtn)
+         }));
+      }
+    },
+
+    onBtnOut (btn) {
+      btn.style.background = this.style.background,
+      btn.style.color = this.style.color
+    },
+
+    onBtnOver (btn) {
+      if (this.model.hover) {
+        btn.style.background = this.model.hover.background
+        btn.style.color = this.model.hover.color
+      }
     },
 
     render: function(model, style, scaleX, scaleY) {

@@ -562,6 +562,10 @@
 	display: inline-block;
 }
 
+.MatcWidgetTypeTableActionCntr{
+	text-align: right;
+}
+
 .MatcWidgetTypeTableAction.MatcWidgetTypeTableActionOnlyHover{
 	opacity: 0;
 }

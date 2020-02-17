@@ -40,8 +40,10 @@
 }
 
 .MatcToolbarTableSettings .MatcFormRow:hover .MatcFormRowHoverAction{
-    font-weight: 300;
+    font-weight: 700;
     display: inline;
+    font-size: 20px;
+    color:red;
 }
 
 .MatcToolbarTableSettings label {
@@ -55,6 +57,7 @@
 .MatcToolbarTableSettings input.form-control{
     display: inline-block;
     vertical-align: middle;
+    width: 250px;
 }
 
 

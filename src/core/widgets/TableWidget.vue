@@ -260,8 +260,10 @@ export default {
 
   
         if (actions && actions.length > 0) {
-          let td = document.createElement("td");  
+          let td = document.createElement("td"); 
+          css.add(td, 'MatcWidgetTypeTableActionCntr')
           tr.appendChild(td);
+
           this.renderCellBorder(td, i, columns.length ,style, borderStyle, rows.length, columns.length);
 
           actions.forEach(action => {

@@ -70,7 +70,7 @@ export default {
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation"],
-			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation"],
+			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation", "Stepper"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton"],
 			hideAction: ['ScreenSegment'],

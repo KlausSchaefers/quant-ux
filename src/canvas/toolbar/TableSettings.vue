@@ -14,9 +14,10 @@
                     <table  class="MatcToolbarTableSettingsTable">
                        <tbody>
                             <tr class="MatcFormRow">
-                                <td style="width:320px;">Name</td>
+                                <td style="width:270px;">Name</td>
                                 <td style="width:70px;">Color</td>
                                 <td style="width:70px;">Hover</td>
+                                <td style="width:270px;">Action</td>
                                 <!--
                                 <th style="width:70px; text-align=center;"><span class="mdi mdi-format-color-fill"/></th>
                                 <th style="width:70px; text-align=center;"><span class="mdi mdi-border-color"/></th>
@@ -32,6 +33,7 @@
                                 <td>
                                     <input class="form-control vommondInlineEdit" placeholder="Enter action name" @change="addAction"/>
                                 </td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -53,6 +55,9 @@
                                         v-model="action.isHover" 
                                         label="" />
 
+                                </td>
+                                <td>
+                                    <input class="form-control vommondInlineEdit" v-model="action.callback"/>
                                 </td>
                                 <!--
                                 <td>
@@ -79,7 +84,9 @@
                                 </td>
                                 -->
                                 <td>
-                                    <a class="MatcFormRowHoverAction" @click="removeAction(i)"> Remove</a>
+                                    <a class="MatcFormRowHoverAction" @click="removeAction(i)">
+                                        <span class="mdi mdi-close"/>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
@@ -93,8 +100,8 @@
                    <table  class="MatcToolbarTableSettingsTable">
                         <tbody>
                             <tr>
-                                <td style="width:320px;">Name</td>
-                                <td style="width:320px;">Data Binding</td>
+                                <td style="width:270px;">Name</td>
+                                <td style="width:270px;">Data Binding</td>
                                 <td style="width:120px"></td>
                             </tr>
                     
@@ -115,7 +122,7 @@
                                 </td>
                               
                                 <td>
-                                    <a class="MatcFormRowHoverAction" @click="removeColumn(i)"> Remove</a>
+                                    <a class="MatcFormRowHoverAction" @click="removeColumn(i)">  <span class="mdi mdi-close"/></a>
                                 </td>
                             </tr>
                         </tbody>
