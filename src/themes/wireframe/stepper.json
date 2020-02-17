@@ -28,10 +28,6 @@
 		"textAlign" : "center",
 		"letterSpacing" : 1,
 		"lineHeight" : 1,
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
 		"borderTopWidth" : 1,
 		"borderBottomWidth" : 1,
 		"borderRightWidth" : 1,
@@ -46,5 +42,9 @@
 		"borderTopLeftRadius" : 2,
 		"borderBottomRightRadius" : 2,
 		"borderBottomLeftRadius" : 2
+	},
+	"hover" : {
+		"background" : "#333333",
+		"color" : "#ffffff"
 	}
 } ]
