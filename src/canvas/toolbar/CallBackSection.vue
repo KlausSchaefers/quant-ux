@@ -3,13 +3,20 @@
      <div class="MatcToolbarLowCode">
          <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr">
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" 
-                placeholder="Enter method name"
+                placeholder="Enter OnClick callback name"
                 :value="callbacks.click" 
                 @change="onClickChange"/>
-             <div class="MatcToolbarHint">Click Callback</div>
+             <!--<div class="MatcToolbarHint">Click Callback</div>-->
              <!--
             <span class="mdi mdi-cursor-default" />
             -->
+         </div>
+        <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr">
+             <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" 
+                placeholder="Enter OnChange callback name"
+                :value="callbacks.change" 
+                @change="onChangeChange"/>
+          
          </div>
 	</div>
 </template>
@@ -24,7 +31,8 @@ export default {
         return {
             isWraped: false,
             callbacks: {
-                click: ''
+                click: '',
+                change: ''
             }
         }
     },
@@ -39,6 +47,11 @@ export default {
             this.callbacks.click = e.target.value
             this.emit('changeProps', 'callbacks', this.callbacks)
         },
+
+        onChangeChange (e) {
+            this.callbacks.change = e.target.value
+            this.emit('changeProps', 'callbacks', this.callbacks)
+        },
 		
 		setValue (widget){
       		if (widget.style && widget.style.wrap) {
@@ -48,9 +61,11 @@ export default {
             }
             if (widget.props && widget.props.callbacks){
                 this.callbacks.click = widget.props.callbacks.click
+                this.callbacks.change = widget.props.callbacks.change
             } else {
                 this.callbacks = {
-                    click: ''
+                    click: '',
+                    change:''
                 }
             }
 		}

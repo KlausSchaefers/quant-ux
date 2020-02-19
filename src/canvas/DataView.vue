@@ -55,6 +55,9 @@ export default {
                     if (widget.props.callbacks.click) {
                         label += ` ${widget.props.callbacks.click}`
                     }
+                    if (widget.props.callbacks.change) {
+                        label += ` ${widget.props.callbacks.change}`
+                    }
                 }
 
                 if (label) {

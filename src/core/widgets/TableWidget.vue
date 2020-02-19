@@ -146,7 +146,7 @@ export default {
       let columns = data.columns
       let rows = data.rows
 
-      let widths = this.getWidths(data, model.props.widths);
+      let widths = this.getWidths(model.props.widths, this.style, this.props );
       let borderStyle = this.getBorderStyle(model);
       
       let db = new DomBuilder();
@@ -164,15 +164,15 @@ export default {
         columns = [''].concat(columns)
         // FIXME: we should only do this if we miss widths. Later we could add this 
         // with some handlers
-        widths = [0.10].concat(widths)
-        widths = widths.map(w => w / 1.10)
+        //widths = [0.10].concat(widths)
+        //widths = widths.map(w => w / 1.10)
       }
 
       if (this.props.tableActions && this.props.tableActions.length > 0) {
         columns = columns.concat([''])
-        let w = 0.2 * this.props.tableActions.length
-        widths = widths.concat([w])
-        widths = widths.map(w => w / (1 + w))
+        //let w = 0.2 * this.props.tableActions.length
+        //widths = widths.concat([w])
+        //widths = widths.map(w => w / (1 + w))
       }
 
       this.renderHeader(rows, columns, table, style, borderStyle, widths, db)
@@ -185,6 +185,30 @@ export default {
       this.renderOddRows(rows, style)     
     },
 
+    getWidths (widths,style, props, fontFactor = 0.6) {
+      var result = [];
+      if (widths) {
+        var sum = 0;
+        let padding = this._getBorderWidth(style.paddingLeft) + this._getBorderWidth(style.paddingRight)
+      
+        if (style.checkBox) {
+          let w = style.checkBoxSize ? style.checkBoxSize : style.fontSize 
+          widths = [w + padding].concat(widths);
+        }
+        if (props.tableActions && props.tableActions.length > 0) {
+          let text = props.tableActions.map(a => a.label).join()
+          let w = text.length * style.fontSize * fontFactor + padding * props.tableActions.length
+          widths = widths.concat(w)
+        }
+        for (let i = 0; i < widths.length; i++) {
+          sum += widths[i];
+        } 
+        for (let i = 0; i < widths.length; i++) {
+          result[i] = widths[i] / sum;
+        }
+      }
+      return result;
+    },
 
     renderHeader (rows, columns, table, style, borderStyle, widths, db) {
       let tr = db
@@ -389,20 +413,6 @@ export default {
       } else {
         return data;
       }
-    },
-
-    getWidths (data, widths) {
-      var result = [];
-      if (widths) {
-        var sum = 0;
-        for (let i = 0; i < widths.length; i++) {
-          sum += widths[i];
-        }
-        for (let i = 0; i < widths.length; i++) {
-          result[i] = widths[i] / sum;
-        }
-      }
-      return result;
     }
   },
   mounted() {}
