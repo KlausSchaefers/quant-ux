@@ -192,10 +192,16 @@ export default {
     },
     async loadApp() {
         let id = this.$route.params.id
-        this.app = await this.modelService.findApp(id)
-        this.appLoaded = true
-        this.loadRest()
-        this.loadEvents()
+        if (id) {
+          this.app = await this.modelService.findApp(id)
+          this.appLoaded = true
+          this.loadRest()
+          this.loadEvents()
+        } else {
+          this.logger.error('loadApp', 'No id ')
+          this.logger.sendError(new Error())
+        }
+   
     },
     loadEvents () {
       let id = this.$route.params.id

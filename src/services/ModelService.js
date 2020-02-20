@@ -171,6 +171,10 @@ export class ModelService extends AbstractService{
      * Annotations 
      */
     findSessionAnnotations (id) {
+        if (!id) {
+            this.logger.error('findSessionAnnotations', 'error', 'no id passed')
+            this.logger.sendError(new Error())
+        }
         return this._get(`rest/annotations/apps/${id}/session.json`)
     }
 

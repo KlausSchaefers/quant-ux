@@ -31,15 +31,15 @@ export default {
 				this.inlineEditInit(this._selectWidget);
 			} else {
 				this.onSelectionChanged(id, "widget");
-				if(this.model.widgets[id]){
+				if (this.model.widgets[id]){
 					this._selectWidget = this.model.widgets[id];
 
 					if (ignoreParentGroups === true) {
 						this._dragNDropIgnoreGroup = true
 					}
 					
-					var parent  = this.widgetDivs[id];
-					if(parent){
+					var parent = this.widgetDivs[id];
+					if (parent){
 						if (this.showCustomHandlers) {
 							this.showCustomHandlers(this._selectWidget, parent)	
 						}
@@ -53,7 +53,7 @@ export default {
 				}
 			}
 			css.add(this.domNode, "MatcCanvasSelection");
-			try{
+			try {
 				if (this.selectionListener) {
 					this.selectionListener.selectWidget(id);
 				}

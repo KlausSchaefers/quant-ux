@@ -1,5 +1,6 @@
 import lang from 'dojo/_base/lang'
 import Screen from 'canvas/controller/Screen'
+import * as TextUtil from 'core/TextUtil'
 
 export default class Widget extends Screen {
 
@@ -439,6 +440,63 @@ export default class Widget extends Screen {
 	redoWidgetName (command){
 		this.modelWidgetName(command.modelId, command.n);
 	} 
+
+	/**********************************************************************
+	 * Widget text
+	 **********************************************************************/
+	updateWidgetLabel(id, label){
+		this.logger.log(5,"updateWidgetLabel", "enter > " + id);
+
+		/**
+		 * make command 
+		 */
+		var widget = this.model.widgets[id];
+		if (widget) {
+			let width = TextUtil.getTextWidth(label, widget)
+			this.logger.log(-1,"updateWidgetLabel", "enter > " + label + ' == ' + width);
+			var command = {
+				timestamp : new Date().getTime(),
+				type : "WidgetLabel",
+				o: {
+					label: widget.props.label,
+					w: widget.w
+				},
+				n: {
+					label: label,
+					w: width
+				},
+				modelId : id
+			};
+
+			this.modelUpdateWidgetText(id, label, width)
+			this.render();
+		}
+		return command;
+	}
+
+	modelUpdateWidgetText(id, label, width) {
+		var widget = this.model.widgets[id];
+		if (widget) {
+			widget.props.label = label
+			widget.w = width
+
+			this.onModelChanged();
+		}
+		
+	}
+
+	undoWidgetLabel (command){
+		this.logger.log(3,"undoWidgetLabel", "enter > " + command.id);
+		this.modelRemoveWidget(command.modelId, command.o.label, command.o.w);
+		this.render();
+	} 
+	
+	redoWidgetLabel (command){
+		this.logger.log(3,"redoWidgetLabel", "enter > " + command.id);
+		this.modelRemoveWidget(command.modelId, command.n.label, command.n.w);
+		this.render();
+	} 
+
 	
 	/**********************************************************************
 	 * Widget position

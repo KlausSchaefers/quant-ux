@@ -71,7 +71,23 @@ export default {
 			this.stopEvent(e);
 			
 			var pos = this._getSelectionToolBox();
-			this._addText(pos);
+			let noBox = false
+			if (!pos) {
+				/**
+				 * If we did not draw a box, we create a default one
+				 */
+				this.logger.log(0,"onToolTextEnd", "new mode > ");
+				pos = this.getCanvasMousePosition(e);
+				pos.w = this.getZoomed(1000, this.zoom);
+				pos.h = this.getZoomed(20, this.zoom);
+				var lastText = this.controller.getLastChangedWidget("Label");
+				if (lastText) {
+					pos.h = this.getZoomed(lastText.h, this.zoom);
+				}
+				noBox = true
+			}
+			
+			this._addText(pos, noBox);
 				
 			return false;
 		},
@@ -89,61 +105,66 @@ export default {
 		},
 		
 		
-		_addText (pos){
+		_addText (pos, noBox = false){
 			this.cleanUpSelectionListener();
 			this.controller.setMode("edit", true);
 			
-			if(pos){
-				
+			if (pos){
 				var widget = {
-						 "type" : "Label",
-						 "name" : "Label",
-						 "x" : pos.x,
-					     "y" : pos.y,
-					     "w" : pos.w,
-					     "h" : pos.h,
-					     "z" : 0,
-					     "props" : {
-						       "label" : " "
-					     },
-					     "has" : {
-					       "label" : true,
-					       "padding" : true,
-					       "advancedText" : true
-					     },
-					     "style" : {
-					       "fontSize" : "Auto",
-					       "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-					       "textAlign" : "left",
-					       "letterSpacing" : 0,
-					       "lineHeight" : 1,
-					       "color": "#333333"
-					    }
-					};
-				
-					if (this.controller){
-						var lastText = this.controller.getLastChangedWidget("Label");
-						if (lastText && lastText.style){
-							if (lastText.style.color){
-								widget.style.color = lastText.style.color;
-							}
-							if (lastText.style.fontFamily){
-								widget.style.fontFamily = lastText.style.fontFamily;
-							}
+					"type" : "Label",
+					"name" : "Label",
+					"x" : pos.x,
+					"y" : pos.y,
+					"w" : pos.w,
+					"h" : pos.h,
+					"z" : 0,
+					"props" : {
+						"label" : '', // noBox ? "Type something" : ''
+					},
+					"has" : {
+						"label" : true,
+						"padding" : true,
+						"advancedText" : true
+					},
+					"style" : {
+						"fontSize" : "Auto",
+						"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+						"textAlign" : "left",
+						"letterSpacing" : 0,
+						"lineHeight" : 1,
+						"color": "#333333"
+					}
+				};
+			
+				if (this.controller){
+					var lastText = this.controller.getLastChangedWidget("Label");
+					if (lastText && lastText.style){
+						if (lastText.style.color){
+							widget.style.color = lastText.style.color;
+						}
+						if (lastText.style.fontFamily){
+							widget.style.fontFamily = lastText.style.fontFamily;
 						}
 					}
-					
-					
-					var newWidget = this.controller.addWidget(widget, pos, true);
-					if(newWidget){
+				}
+				
+				
+				var newWidget = this.controller.addWidget(widget, pos, true);
+				if (newWidget) {
+					// TODO: we still have to somehow disable the hover dnd. 
+					// 1) in the inlineEdit
+					// 2) or make a sepcial selectedMethod in Select.js which calls selectBox()
+					if (noBox !== true) {
 						this.onWidgetSelected(newWidget.id, true);
-						var me = this;
-						setTimeout(function(){
-							me.inlineEditInit(newWidget);
-						},150);
-					}
+					} 
+					// else select box. 
+					var me = this;
+					setTimeout(function(){
+						me.inlineEditInit(newWidget, noBox);
+					},150);
+				}
 			
-			}else {
+			} else {
 				this.logger.warn("_addText", "no pos passed");
 			}
 		},

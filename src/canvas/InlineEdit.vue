@@ -12,15 +12,16 @@ export default {
     },
     components: {},
     methods: {
-        inlineEditInit (widget){
-			this.logger.log(0,"inlineEditInit", "enter");
+        inlineEditInit (widget, resizeToWidth = false){
+			this.logger.log(-1,"inlineEditInit", "enter", resizeToWidth);
 			this.cleanUpInlineEdit();
 			
 			var div = this.renderFactory.getLabelNode(widget);
 			if(div){
 				this._inlineEditWidget = widget;
 				this._inlineEditDiv = div;
-				this._inlineFocus(null, false);
+				this._inlineEditResizeToWidth = resizeToWidth
+				this._inlineFocus(null, false, resizeToWidth);
 
 				// this._inlineEditWidgetDiv = this.widgetDivs[widget.id]
 				// console.debug('iniline', this._inlineEditWidgetDiv)
@@ -68,17 +69,18 @@ export default {
 				var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
 				if(div){
 					var txt = div.innerHTML;
+				
 					/**
 					 * This is some weird shit with inline editing. Sometimes
 					 * chrome adds div's, sometimes br's
 					 */
 					txt = txt.replace(/<div><br>/g, "\n");
 					txt = txt.replace(/<div>/g, "\n");
-					txt =txt.replace(/<br>/g, "\n");
+					txt = txt.replace(/<br>/g, "\n");
 					txt = txt.replace(/<\/?[^>]+(>|$)/g, "");
-					txt =txt.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
-				
-					if(txt != this._inlineInnerHTML){
+					txt = txt.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
+
+					if (txt != this._inlineInnerHTML){
 						var id  = this._inlineEditWidget.id;
 						
 						/**
@@ -96,10 +98,17 @@ export default {
 						 * trigger an rerender > onChangedSelection > etc recursive 
 						 * loop!
 						 */
+						let resizeToWidth = this._inlineEditResizeToWidth
+						let noWrap = this._inlineEditWidget.style.nowrap
 						this.cleanUpInlineEdit();
+
 						this.logger.log(1,"inlineEditStop", "exit > FLUSH > " + txt);
-					
-						this.controller.updateWidgetProperties(id, {label : txt}, "props", true);
+						if (resizeToWidth || noWrap === true) {
+							this.controller.updateWidgetLabel(id, txt);
+						} else {
+							this.controller.updateWidgetProperties(id, {label : txt}, "props", true);
+						}
+						
 						return txt;
 					} else {
 						this.logger.log(3,"inlineEditStop", "exit > no chnage!");
@@ -116,14 +125,14 @@ export default {
 		},
 		
 		
-		_inlineFocus (e, doNotEmptyOnNull){
-			
+		_inlineFocus (e, doNotEmptyOnNull, select){
+			this.logger.log(4,"_inlineFocus", "enter", select);
 			/**
 			 * FIXME. We have to somehow stop this event from doing something false.
 			 * If there is no label, the first time stopProgationFails. Therefore 
 			 * we set no all labels to all value! In that case stopEvent() works better...
 			 */
-			if(e){
+			if (e){
 				e.stopPropagation();
 			}
 				
@@ -190,6 +199,7 @@ export default {
 			this._inlineEditWidget = null;
 			this._inlineInnerHTML = null;
 			this._inlineEditStarted = false;
+			this._inlineEditResizeToWidth = false
 			
 			if(this._inlinebBlurListener){
 				this._inlinebBlurListener.remove();
