@@ -641,13 +641,14 @@ export default {
 		 ***************************************************************************/
 		
 		onKeyPress (e){
-	
+		
 			this._currentKeyEvent = e;
 			var k = e.keyCode ? e.keyCode : e.which;
 			var target = e.target;
 			var isMeta = e.altKey || e.ctrlKey || e.metaKey;
 			var isCntrl = e.ctrlKey || e.metaKey;
 
+	
 			// console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
 		
 			/**
@@ -705,21 +706,18 @@ export default {
 					this.onArrowUp(e);
 					this.stopEvent(e);
 				}
-			} else if (k==16){ // shift
-				
-				//if(!this._inlineEditStarted && !this._resizeStartPos){
-					//this.setMode("select");
-						
+			} else if (k == 65) { // a for select
+	
+				if(!this._inlineEditStarted && !this._resizeStartPos && !this._selectionToolStart){
+					this.setMode("select");
 					/**
 					 * Start selection tool
 					 */
-					//this.unSelect();
-					//this._selectionToolStart = this._lastMousePos;
-					//this._selectionToolMoveListener = on(win.body(),"mousemove", lang.hitch(this,"onSelectionMove"));
-					
-					//this.showHint("Move mouse to start selecting...");
-					
-				//}
+					this.unSelect();
+					this._selectionToolStart = this._lastMousePos;
+					this._selectionToolMoveListener = on(win.body(),"mousemove", lang.hitch(this,"onSelectionMove"));
+					this.showHint("Move mouse to start selecting...");
+				}
 			} else if (k==18){ // alt
 				if(!this._inlineEditStarted && !this._resizeStartPos && !this._dragNDropBoxWidgetStart){
 					if(this.mode == "edit"){
@@ -965,12 +963,12 @@ export default {
 				 * Do nothing...
 				 */
 					return;
-			} else if(k==16){
+			} else if(k==65){
 				/**
 				 * End selection
 				 */
-				//this.onSelectionEnd();
-				//this.setMode("edit");
+				this.onSelectionEnd();
+				this.setMode("edit");
 			} else if (k==18){ // alt
 				this.cleanUpAlignment();
 				this.setMode("edit");

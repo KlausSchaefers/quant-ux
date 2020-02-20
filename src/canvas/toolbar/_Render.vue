@@ -381,7 +381,7 @@ export default {
 			this.addTooltip(this.editTool, "Edit mode", "vommondToolTipLeft");
 			this.addTooltip(this.moveTool, "Move Canvas (SPACE)", "vommondToolTipLeft");
 			this.addTooltip(this.commentBtn, "Add Comment", "vommondToolTipLeft");
-			this.addTooltip(this.selectBtn, "Start Selection Tool", "vommondToolTipLeft");
+			this.addTooltip(this.selectBtn, "Start Selection Tool (A)", "vommondToolTipLeft");
 			this.addTooltip(this.hotspotTool, "Create Hotspot (H) over uploaded images", "vommondToolTipLeft");
 			this.addTooltip(this.textTool, "Create Text (T)", "vommondToolTipLeft");
 			this.addTooltip(this.rectangleTool, "Create Rectangle (R)", "vommondToolTipLeft");

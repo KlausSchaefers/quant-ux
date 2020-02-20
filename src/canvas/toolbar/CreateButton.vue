@@ -163,6 +163,7 @@ export default {
 					return;
 				}
 			}
+		
 			var query = this.searchBox.value;
 			if(query.length > 1 && this.categories){
 				this.searchQuery = query.toLowerCase();
@@ -525,19 +526,32 @@ export default {
 			}
 		},
 		
-		renderIcons (){			
+		renderIcons (query){			
 			this.renderFactory.cleanUp();
 			this.cleanUpTempListener();		
 			var db = new DomBuilder();
 			var cntr = db.div("MatcDateSectionIconCntr", "").build();		
-			var icons = this.icons;			
-			for (var j = 0; j < icons.length; j++) {
-				var icon = icons[j];
-				var span = db.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j]).build(cntr);
+			var icons = this.icons;	
+		
+			if (query && query.length > 1) {
+				let temp = []
+				for (let j = 0; j < icons.length; j++) {
+					let icon = icons[j];
+					if (icon.indexOf(query) >=0) {
+						temp.push(icon)
+					}
+				}
+				icons = temp
+			}	
+			for (let j = 0; j < icons.length; j++) {
+				let icon = icons[j];
+				let span = db.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j]).build(cntr);
 				span.setAttribute("data-matc-icon", icons[j]);
 				this.tempOwn(on(span, touch.press, lang.hitch(this, "onCreateIcon", icon)));
-			}			
-			this.iconCntr.innerHTML="";	
+			}
+			if (!query) {	
+				this.iconCntr.innerHTML="";	
+			}
 			this.iconCntr.appendChild(cntr);	
 		},
 		
@@ -645,6 +659,7 @@ export default {
 			}
 			this.renderSelectedTab();
 			this.renderElements(elements, "search", false);
+			this.renderIcons(query)
 		},
 	
 
