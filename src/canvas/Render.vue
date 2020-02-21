@@ -20,48 +20,48 @@ export default {
     data: function () {
 		/**
 		 * The canvas has the following states:
-		 * 
+		 *
 		 * 0 = Default
-		 * 
+		 *
 		 * 1 = Screen DragNDrop
-		 * 
+		 *
 		 * 2 = Widget DragNDrop
-		 * 
+		 *
 		 * 3 = Adding new box
-		 * 
-		 * 4 = Resizing entity 
-		 * 
+		 *
+		 * 4 = Resizing entity
+		 *
 		 * 5 = Container DragNDrop
-		 * 
+		 *
 		 * 6 = Add Line
-		 * 
+		 *
 		 * 7 = Add Line 2
-		 * 
+		 *
 		 * 8 = Copy Style
-		 * 
+		 *
 		 * 9 = Selection
-		 * 
+		 *
 		 * 10 = Align
-		 * 
+		 *
 		 * 11 = StandAlone
 		 */
         return {
-            state: 0, 
-            isSinglePage: false, 
-            defaultFontSize: 12, 
-            canvasFlowWidth: 15000, 
-            canvasFlowHeight: 8000, 
-            canvasStartX: -1000, 
-            canvasStartY: -1000, 
-            canvasMargin: 0.6, 
-            moveMode: "ps", 
-            renderDND: true, 
-            renderLines: true, 
-            showDistance: true, 
-            wireInheritedWidgets: false, 
-			showAnimation: false, 
+            state: 0,
+            isSinglePage: false,
+            defaultFontSize: 12,
+            canvasFlowWidth: 15000,
+            canvasFlowHeight: 8000,
+            canvasStartX: -1000,
+            canvasStartY: -1000,
+            canvasMargin: 0.6,
+            moveMode: "ps",
+            renderDND: true,
+            renderLines: true,
+            showDistance: true,
+            wireInheritedWidgets: false,
+			showAnimation: false,
 			showRuler: true,
-            hasSelectOnScreen: false, 
+            hasSelectOnScreen: false,
             gridBackground: {}
         }
     },
@@ -72,71 +72,55 @@ export default {
 			this.domNode.style.height = `${height}px`
 		},
 
-        initRender (){
-			this.logger.log(2,"initRender", "enter");				
+    initRender (){
+			this.logger.log(2,"initRender", "enter");
 			this.domPos = domGeom.position(this.domNode);
 
-			this.widgetDivs = {};		
-			this.widgetBackgroundDivs = {};		
-			this.screenDivs = {};		
-			this.screenLabels = {};		
-			this.screenBackgroundDivs = {};		
-			this.lineSVGs = {};		
+			this.widgetDivs = {};
+			this.widgetBackgroundDivs = {};
+			this.screenDivs = {};
+			this.screenLabels = {};
+			this.screenBackgroundDivs = {};
+			this.lineSVGs = {};
 			this.gridBackground = {};
 			this.renderedModels = {};
-			
-			/** 
-			this.lineChkBox = this.$new(CheckBox);
-			this.lineChkBox.setLabel("Lines");
-			this.lineChkBox.setValue(this.renderLines);
-			this.lineChkBox.placeAt(this.lineCntr);
-			this.own(on(this.lineChkBox, "change", lang.hitch(this, "setViewLines")));		
-			
-			if(this.distanceCntr){
-				this.distanceChkBox = this.$new(CheckBox);
-				this.distanceChkBox.setLabel("Distance");
-				this.distanceChkBox.setValue(this.showDistance);
-				this.distanceChkBox.placeAt(this.distanceCntr);
-				this.own(on(this.distanceChkBox, "change", lang.hitch(this, "setShowDistance")));
-			}
-			*/
-			
+
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
-			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));		
-			this.own(on(this.domNode, "contextmenu", lang.hitch(this, "onContextMenu")));		
+			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));
+			this.own(on(this.domNode, "contextmenu", lang.hitch(this, "onContextMenu")));
 			this.logger.log(2,"initRender", "exit");
 		},
-		
+
 		onFadeOut (){
 			css.add(this.container, "MatcCanvasFadeOut");
 		},
-		
+
 		onFadeIn (){
 			css.remove(this.container, "MatcCanvasFadeOut");
 		},
-			
+
 		/**********************************************************************
 		 * Messages
 		 **********************************************************************/
-		
+
 		showSuccess (msg){
 			if(this.message){
 				css.add(this.message, "MatcMessageSuccess");
 				css.remove(this.message, "MatcMessageError MatcMessageHint");
-				this.message.innerHTML = msg;			
+				this.message.innerHTML = msg;
 				setTimeout(lang.hitch(this,"hideMessage"),3000);
 			}
 		},
-		
+
 		showError (msg){
 			if(this.message){
 				css.add(this.message, "MatcMessageError");
 				css.remove(this.message, "MatcMessageSuccess MatcMessageHint");
-				this.message.innerHTML = msg;			
+				this.message.innerHTML = msg;
 				setTimeout(lang.hitch(this,"hideMessage"), 3000);
 			}
 		},
-		
+
 		showHint (msg){
 			if(this.message){
 				css.add(this.message, "MatcMessageHint");
@@ -145,57 +129,57 @@ export default {
 				setTimeout(lang.hitch(this,"hideMessage"), 3000);
 			}
 		},
-		
+
 		hideMessage (){
 			if(this.message){
 				css.remove(this.message, "MatcMessageSuccess MatcMessageError MatcMessageHint");
 			}
 		},
-		
-		
+
+
 		setState (state){
 			if(state != this.state){
-				
+
 				this.logger.log(2,"setState", "enter > " + state);
-				
+
 				this.state = state;
-				
+
 				/**
 				 * cleanup
 				 */
 				if(this.domNode){
 					css.remove(this.domNode, "MatcCanvasStateAdd MatcCanvasStateDnD MatcCanvasStateBeginLine MatcCanvasStateEndLine MatcCanvasStateCopyStyle");
 					//this.onDragCleanup();
-					
+
 					if(state == 1 || state == 2){
 						css.add(this.domNode, "MatcCanvasStateDnD");
 					}
-				
+
 					if(state == 3){
 						css.add(this.domNode, "MatcCanvasStateAdd");
 					}
-					
+
 					if(state == 6){
 						css.add(this.domNode, "MatcCanvasStateBeginLine");
 					}
-					
+
 					if(state == 7){
 						css.add(this.domNode, "MatcCanvasStateEndLine");
 					}
-					
+
 					if(state == 8){
 						css.add(this.domNode, "MatcCanvasStateCopyStyle");
 					}
 				}
-				
+
 			}
 		},
-		
-		
+
+
 		/**********************************************************************
 		 * Container Size
 		 **********************************************************************/
-		
+
 		/**
 		 * Ugly method to set the height from outside. for some shity
 		 * reason this is needed as all div will have just size ==0.
@@ -203,44 +187,44 @@ export default {
 		setHeight (h){
 			this.domNode.style.height = h + "px";
 		},
-		
+
 		setViewLines (renderLines){
 			this.renderLines = renderLines;
 			this.settings.renderLines = renderLines;
 			this._setStatus("matcSettings", this.settings );
 			this.rerender();
 		},
-		
+
 		setShowDistance (value){
 			this.showDistance = value;
 			this.settings.showDistance = value;
 			this._setStatus("matcSettings",this.settings);
 		},
-		
+
 		setShowAnimation (value){
 			this.showAnimation = value;
 			this.settings.showAnimation = value;
 			this._setStatus("matcSettings",this.settings);
 		},
-		
-		moveToScreen (screenID){	
+
+		moveToScreen (screenID){
 			if(this.model && this.model.screens[screenID]){
-				var screen = this.model.screens[screenID];				
-				var winBox = win.getBox();			
+				var screen = this.model.screens[screenID];
+				var winBox = win.getBox();
 				var xOffSetScreen = (screen.x+ screen.w/2);
 				var xOffSetWindow = (winBox.w/2)+ Math.abs(this.canvasPos.x);
-				this.canvasPos.x = this.canvasPos.x + (xOffSetWindow - xOffSetScreen) -100;			
+				this.canvasPos.x = this.canvasPos.x + (xOffSetWindow - xOffSetScreen) -100;
 				var yOffSetScreen = (screen.y);
 				var yOffSetWindow = Math.min(winBox.h/2,200)+ Math.abs(this.canvasPos.y);
-				this.canvasPos.y = this.canvasPos.y + (yOffSetWindow - yOffSetScreen) -100;			
+				this.canvasPos.y = this.canvasPos.y + (yOffSetWindow - yOffSetScreen) -100;
 				this.setContainerPos();
-			}		
+			}
 		},
-		
+
 		/**********************************************************************
 		 * Fonts
-		 **********************************************************************/		
-		
+		 **********************************************************************/
+
 		setFonts (fonts) {
 			this.logger.log(3,"setFonts", "enter > ", fonts);
 			if (fonts) {
@@ -251,7 +235,7 @@ export default {
 		/**********************************************************************
 		 * Container Size
 		 **********************************************************************/
-		
+
 		setContainerSize (){
 			this.container.style.height = this.getZoomed(this.canvasPos.h, this.zoom) +"px";
 			this.container.style.width = this.getZoomed(this.canvasPos.w, this.zoom) +"px";
@@ -261,18 +245,18 @@ export default {
 				w: this.getZoomed(this.canvasPos.w, this.zoom)
 			}
 		},
-		
+
 		setContainerPos (ignoreScollUpdate){
 			this.container.style.left = Math.round(this.canvasPos.x) +"px";
 			this.container.style.top = Math.round(this.canvasPos.y) +"px";
 			if(!ignoreScollUpdate){
 				this.updateScrollHandlers();
-			}		
+			}
 		},
-		
+
 		isInContainer (obj){
 			if(
-				(obj.x > 0 && (obj.x + obj.w) < this.getZoomed(this.canvasPos.w, this.zoom)) && 
+				(obj.x > 0 && (obj.x + obj.w) < this.getZoomed(this.canvasPos.w, this.zoom)) &&
 				(obj.y > 0 && (obj.y + obj.h) < this.getZoomed(this.canvasPos.h, this.zoom))
 				){
 				return true;
@@ -280,16 +264,16 @@ export default {
 			return false;
 		},
 
-		
+
 
 		/**********************************************************************
 		 * Rendering pipeline
 		 **********************************************************************/
-		
+
 		rerender (){
 			this.render(this.model);
 		},
-		
+
 		/**
 		 * Method should be called if the positions of widgets have been
 		 * changed, but we did not do an complete rerender. This happens
@@ -301,30 +285,30 @@ export default {
 			this.renderFactory.setZoomedModel(zoomedModel);
 			this.renderFactory.updatePositions(zoomedModel)
 		},
-		
+
 
 		render (model){
 			this.logger.log(-1,"render", "enter");
 			let renderStart = new Date().getTime();
 			try {
-			
+
 				if (this.settings.fastRender) {
 					this.renderFlowViewFast(model);
 				} else {
 					this.renderFlowView(model);
 				}
-				
+
 				this.afterRender();
-				
+
 				this.renderComments();
-				
+
 				/**
 				 * Also update layer list. The renderFlow might call
 				 * select which extends the group with additonal children!
 				 */
 				this.renderLayerList(model);
 
-				
+
 				/**
 				 * Make sure we continue the add mode
 				 */
@@ -335,28 +319,28 @@ export default {
 			}
 			this.logger.log(0,"render", "exit > " + (new Date().getTime() - renderStart) + 'ms');
 		},
-		
+
 		renderFlowView (model){
 			this.logger.log(2,"renderFlowView", "enter");
-				
+
 			this.beforeRender();
 			this.model = model;
-			this.cleanUp();	
+			this.cleanUp();
 			this.renderCanvas();
-					
+
 			/**
 			 * start real rendering
 			 */
 			for(let id in model.screens){
 				this.renderScreen(model.screens[id]);
 			}
-		
+
 			var widgets = this.getOrderedWidgets(model.widgets);
 			for(let i=0; i< widgets.length; i++){
 				let widget = widgets[i];
 				this.renderWidget(widget);
 			}
-		
+
 			if(this.renderLines){
 				for(let id in model.lines){
 					let line = model.lines[id];
@@ -366,44 +350,44 @@ export default {
 						this.logger.log(4,"renderFlowView", "Do not render hidden line > " + id);
 					}
 				}
-			}	
-		
-			this.wireEvents();		
-			this.renderSelection();		
-			this.renderDistance();		
+			}
+
+			this.wireEvents();
+			this.renderSelection();
+			this.renderDistance();
 			if(this.animate){
 				setTimeout(lang.hitch(this,"renderAnimation"),1);
-			}		
+			}
 			this.logger.log(3,"renderFlowView", "exit");
 		},
-		
+
 
 		renderDistance (){
 			if(this.mode == "distance"){
 				if(this._selectWidget){
 					this.renderScreenDistance();
-				}	
+				}
 			}
 		},
-		
+
 		/**********************************************************************
 		 * Wiring
-		 **********************************************************************/	
+		 **********************************************************************/
 		reWireEvents (){
-			this.logger.log(3,"reWireEvents", "enter");		
-			this.cleanUpAllListeners();		
-			this.wireEvents();	
+			this.logger.log(3,"reWireEvents", "enter");
+			this.cleanUpAllListeners();
+			this.wireEvents();
 		},
-		
+
 		wireEvents (){
 			this.logger.log(1,"wireEvents", "enter > " + this.mode);
-			
+
 			this.wireCanvas()
-	
+
 			for(let id in this.model.screens){
 				this.wireScreen(id)
 			}
-		
+
 			for(let id in this.model.widgets){
 				this.wireWidget(id);
 			}
@@ -428,21 +412,21 @@ export default {
 					if(locked){
 						this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
 					} else {
-						this.registerDragOnDrop(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick");						
+						this.registerDragOnDrop(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick");
 					}
-					this.tempOwn(on(div, touch.over, lang.hitch(this, "setHoverWidget", widget)));			
+					this.tempOwn(on(div, touch.over, lang.hitch(this, "setHoverWidget", widget)));
 				} else if(this.mode == "view" ){
 					this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
 				} else if (this.mode == "distance"){
 					this.tempOwn(on(div, touch.over, lang.hitch(this, "renderWidgetDistance", widget)));
-					this.tempOwn(on(div, touch.out, lang.hitch(this, "renderWidgetDistance", null)));					
+					this.tempOwn(on(div, touch.out, lang.hitch(this, "renderWidgetDistance", null)));
 					/**
 					 * TODO: Make addCloneWork. Really use dull
 					 */
-					this.tempOwn(on(div, touch.press, lang.hitch(this, "addClonedWidget", widget))); // ALT + DND					
+					this.tempOwn(on(div, touch.press, lang.hitch(this, "addClonedWidget", widget))); // ALT + DND
 				}
 			} else {
-				this.tempOwn(on(div, "click", lang.hitch(this, "onInheritedWidgetSelected", widget)));			
+				this.tempOwn(on(div, "click", lang.hitch(this, "onInheritedWidgetSelected", widget)));
 			}
 		},
 
@@ -454,12 +438,12 @@ export default {
 			 */
 			if (this.mode == "addLine") {
 				this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
-			} else if(this.mode == "edit" && !this.isSinglePage){				
+			} else if(this.mode == "edit" && !this.isSinglePage){
 				if (this.hasSelectOnScreen) {
 					let lbl = this.screenLabels[id]
 					if (lbl) {
 						this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", lbl);
-					} 
+					}
 				} else {
 					this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
 				}
@@ -467,7 +451,7 @@ export default {
 				this.tempOwn(on(dndDiv, "mousedown", lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
 			}
 		},
-		
+
 		wireCanvas () {
 			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view" || this.mode === "data") ){
 				/**
@@ -478,9 +462,9 @@ export default {
 				/**
 				 * The must be mousedown, because in chrome the touch press is fired after mousedown and fucks up some how our state maschine
 				 */
-				
+
 				this.tempOwn(on(this.container, "mousedown", lang.hitch(this, "onSelectionStarted") ));
-				
+
 			} else if(this.mode == "move"){
 				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null);
 			} else if(this.mode == "select"){
@@ -488,7 +472,7 @@ export default {
 			} else if(this.mode == "hotspot"){
 				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolHotspotStart"));
 			} else if(this.mode == "addLine") {
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");	
+				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
 			} else if(this.mode == "addText") {
 				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolTextStart"));
 			} else if(this.mode == "addBox") {
@@ -501,18 +485,18 @@ export default {
 			this.initSVG();
 			this.setContainerSize();
 			this.setContainerPos();
-			this.setZoomedContainerPosition();	
+			this.setZoomedContainerPosition();
 			this.renderFactory.setScaleFactor(this.zoom, this.zoom);
 			this.renderFactory.setZoomedModel(this.model);
 		},
-		
+
 		beforeRender () {
 		},
-		
+
 		/**
 		 * add divs back to dom!
 		 */
-		afterRender (){	
+		afterRender (){
 			if(this._afterRenderCallBack ){
 				/**
 				 * Call the callback to make sure it is not running in request animationframe
@@ -521,17 +505,26 @@ export default {
 				 */
 				setTimeout(this._afterRenderCallBack, 50);
 			}
+
+			if(this._afterRenderCallBackSync){
+				this._afterRenderCallBackSync()
+			}
 			delete this._afterRenderCallBack ;
+			delete this._afterRenderCallBackSync
 		},
-		
-		
-		addAfterRenderCallBack (fct){
-			this._afterRenderCallBack = fct;
+
+
+		addAfterRenderCallBack (fct, isSync = false){
+			if (!isSync) {
+				this._afterRenderCallBack = fct;
+			} else {
+				this._afterRenderCallBackSync = fct
+			}
 		},
-		
+
 		renderScreen (screen){
 			this.logger.log(4,"renderScreen", "enter");
-			
+
 			var dndDiv = null;
 			var backgroundDiv = null;
 			/**
@@ -544,13 +537,13 @@ export default {
 				dndDiv = this.createScreenDnD(screen);
 				this.screenDivs[screen.id] = dndDiv;
 				this.widgetContainer.appendChild(dndDiv);
-				
+
 				var lbl = document.createElement("div");
 				css.add(lbl, "MatcScreenLabel");
 				this.setInnerHTML(lbl, screen.name);
 				this.screenLabels[screen.id] = lbl;
 				dndDiv.appendChild(lbl);
-				
+
 				/**
 				 * Create a background box
 				 */
@@ -558,28 +551,28 @@ export default {
 				this.screenContainer.appendChild(backgroundDiv);
 				this.screenBackgroundDivs[screen.id] = backgroundDiv;
 			}
-			
+
 			/**
 			 * set style and grid
 			 */
 			this.renderFactory.setStyle(backgroundDiv, screen);
 			this.renderGrid(dndDiv, screen);
 			this.renderScreenButtons(dndDiv, screen)
-		
+
 			return dndDiv;
 		},
-		
-		
+
+
 		renderWidget (widget){
 			this.logger.log(4,"renderWidget", "enter");
-			
+
 			/**
 				* check if we have to create div again.. Also used as indicator
 				* if the widget was rendered!
 				*/
 			var div = null;
 			if(!this.widgetDivs[widget.id]){
-				
+
 				/**
 					* create dnd
 					*/
@@ -589,29 +582,29 @@ export default {
 						css.add(div, "MatcWidgetDNDInherited");
 					}
 					this.widgetDivs[widget.id] = div;
-					this.widgetContainer.appendChild(div);				
+					this.widgetContainer.appendChild(div);
 				}
-				
+
 				/**
 					* Create background
 					*/
 				let divBack = this.createWidget(widget);
 				this.screenContainer.appendChild(divBack);
 				this.widgetBackgroundDivs[widget.id] = divBack;
-			} 
+			}
 			return div;
 		},
-		
+
 		renderScreenButtons () {
 			/**
 			 * Methdod to be implemented by mixins
 			 */
 		},
-		
-		
+
+
 		/**************************************************
 		 * CleanUp Code
-		 **************************************************/	
+		 **************************************************/
 
 		cleanUp (){
 			this.logger.log(3,"cleanUp", "enter");
@@ -619,47 +612,47 @@ export default {
 			if (this.settings && this.settings.fastRender) {
 				return this.cleanUpFast();
 			}
-			
+
 			/**
 			 * Make sure inline edit is flushed
 			 */
-			this.inlineEditStop();		
+			this.inlineEditStop();
 			this.cleanUpComments();
 			this.cleanUpScreenButtons();
-			
+
 			/**
 			 * Cleanup any stuff from the zoom
 			 */
-			this.cleanUpZoom();		
-			this.cleanUpAllListeners();		
-			this.cleanUpAlignment();		
-			
-			this.widgetDivs = {};		
-			this.widgetBackgroundDivs = {};		
-			this.screenDivs = {};		
-			this.screenLabels = {};		
-			this.screenBackgroundDivs = {};		
-			this.lineSVGs = {};		
+			this.cleanUpZoom();
+			this.cleanUpAllListeners();
+			this.cleanUpAlignment();
+
+			this.widgetDivs = {};
+			this.widgetBackgroundDivs = {};
+			this.screenDivs = {};
+			this.screenLabels = {};
+			this.screenBackgroundDivs = {};
+			this.lineSVGs = {};
 			this.gridBackground = {};
-			
+
 			css.remove(this.container, "MatcCanvasFadeOut");
 			css.remove(this.container, "MatcCanvasModeAlign");
 			css.remove(this.container, "MatcCanvasModeReplicate");
-			
-			this.screenContainer.innerHTML = "";		
-			this.widgetContainer.innerHTML = "";		
-			this.renderFactory.cleanUp();		
-			this.cleanUpLines();		
-			this.cleanUpDebugLines();		
-			window.scrollTo(0, 0);	
+
+			this.screenContainer.innerHTML = "";
+			this.widgetContainer.innerHTML = "";
+			this.renderFactory.cleanUp();
+			this.cleanUpLines();
+			this.cleanUpDebugLines();
+			window.scrollTo(0, 0);
 
 			if (this.cleanUpDistributionHandlers) {
 				this.cleanUpDistributionHandlers()
 			}
 		},
-		
 
-		
+
+
 		cleanUpAllListeners (){
 			this.cleanUpDragNDropListenerListener();
 			this.cleanUpTempListener();
@@ -679,18 +672,18 @@ export default {
 			this.cleanUpResizeHandles();
 			this.cleanUpAddNDrop();
 		},
-		
+
 		cleanUpScreenButtons () {
 			// console.warn('cleanUpScreenButtons() > Not Implemented')
 			/**
 				* Methdod to be implemented by mixins
 				*/
 		},
-		
+
 			/**************************************************
 		 * New wiring methods?
-		 **************************************************/	
-	
+		 **************************************************/
+
 		addCanvasEventHandler (id, handler) {
 			if (!id) {
 				console.error('addCanvasEventHandler() > no id passed', id, new Error().stack)
@@ -723,11 +716,11 @@ export default {
 		/**********************************************************************
 		 * Create methods that assemble box stuff
 		 **********************************************************************/
-		
-		
+
+
 		renderGrid (backgroundDiv){
 			if(this.model.grid && this.model.grid.visible){
-				
+
 				if (this.model.grid.type === "columns"){
 					let z = this.zoom + "";
 					let h = this.getZoomed(this.zoom,this.model.grid.h);
@@ -738,12 +731,12 @@ export default {
 						let columnOffset = (this.zoom * this.model.grid.columnOffset);
 						let columnGutter = (this.zoom * this.model.grid.columnGutter);
 						let columnWidth = (this.zoom * this.model.grid.columnWidth);
-					
+
 						let c = document.createElement("canvas");
 						c.width = this.model.screenSize.w;
 						c.height = 1;
-						let context = c.getContext("2d");				
-						
+						let context = c.getContext("2d");
+
 						var lastX = columnOffset;
 						for (let i=0; i< columnCount; i++){
 							let x = lastX + columnWidth;
@@ -772,18 +765,18 @@ export default {
 						this.gridBackground[z] = url;
 					}
 					backgroundDiv.style.backgroundImage = this.gridBackground[z]
-				} else {								
+				} else {
 					/**
 						* FIXME: We should render the background image for the x times so it is even.
 						* e.g. h= 2.5 so we would have to render for 5. Also we should store the image and do
 						* the rendering only once...
-						* 
+						*
 						* Check drigRuler how we calculate the grid in there
 						* ..
 						*/
 					let h = this.getZoomed(this.zoom,this.model.grid.h);
 					let w = this.getZoomed(this.zoom,this.model.grid.w);
-					
+
 					if(w > 0 && h > 0 && w < this.model.screenSize.w && h < this.model.screenSize.h ){
 						let z = this.zoom + "";
 						if (!this.gridBackground[z]){
@@ -813,22 +806,22 @@ export default {
 				backgroundDiv.style.backgroundImage = 'none'
 			}
         },
-		
+
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");
 			var div = this.createBox(screen);
 			css.add(div, "MatcScreenDnD");
 			return div;
 		},
-		
+
 		createScreen (screen){
 			this.logger.log(4,"createScreen", "enter");
 			var div = this.createBox(screen);
 			css.add(div, "MatcScreen");
 			return div;
 		},
-		
-		
+
+
 		createWidgetDnD (widget){
 			this.logger.log(4,"createWidgetDnD", "enter");
 			var div = this.createBox(widget);
@@ -846,66 +839,66 @@ export default {
 		createWidgetDataView () {
 			// child classes can implement
 		},
-		
+
 		createWidget (widget){
 			this.logger.log(4,"createWidget", "enter");
 			var div = this.createBox(widget);
 			css.add(div, "MatcWidget");
-			
+
 			this.renderFactory.createWidgetHTML(div, widget);
-			
+
 			if(this.hasLine(widget)){
 				css.add(div, "MatcWidgetWithTransition");
 			}
-			
+
 			return div;
 		},
-		
+
 		createBox (box){
-			this.logger.log(6,"createBox", "enter");		
-			var div = document.createElement("div");		
+			this.logger.log(6,"createBox", "enter");
+			var div = document.createElement("div");
 			domStyle.set(div, {
 				"width" :  box.w + "px",
 				"height" : box.h + "px",
 				"top" : box.y + "px",
 				"left" : box.x + "px",
 			});
-			css.add(div, "MatcBox");			
+			css.add(div, "MatcBox");
 			return div;
 		},
-		
-		updateBox (box, div){				
+
+		updateBox (box, div){
 			domStyle.set(div, {
 				"width" :  box.w + "px",
 				"height" : box.h + "px",
 				"top" : box.y + "px",
 				"left" : box.x + "px",
-			});		
+			});
 			return div;
 		},
 
-		
+
 		setWidgetPosition (id, pos){
 			var widget = this.model.widgets[id];
 			if(widget){
 				widget.x = pos.x;
 				widget.y = pos.y;
 				widget.w = pos.w;
-				widget.h = pos.h;			
+				widget.h = pos.h;
 				var div = this.widgetBackgroundDivs[id];
 				if(div){
 					this.updateBox(widget, div);
-				}			
+				}
 				div = this.widgetDivs[id];
 				if(div){
 					this.updateBox(widget, div);
 				}
-			}	
+			}
 		},
-		
-		setScreenPosition (){		
+
+		setScreenPosition (){
 		},
-			
+
 		setTempWidgetStyle (id, style){
 			//this.logger.log(4,"setTempWidgetStyle", "enter");
 			var widget = this.model.widgets[id];
@@ -923,7 +916,7 @@ export default {
 				console.warn("setTempWidgetStyle() > Cannot set widget style", id, style);
 			}
 		},
-		
+
 		setWidgetStyle (id, style, model){
 			this.logger.log(-1,"setWidgetStyle", "enter > ", id);
 			var widget = this.model.widgets[id];
@@ -947,7 +940,7 @@ export default {
 				console.warn("setWidgetStyle() > Cannot set widget style", id, style);
 			}
 		},
-		
+
 		/**
 		 * copy style to copies (from master screen)
 		 */
@@ -956,12 +949,12 @@ export default {
 				for(let i=0; i< widget.copies.length; i++){
 					let copyID = widget.copies[i];
 					let copyWidget = this.model.widgets[copyID];
-					let copyDiv = this.widgetBackgroundDivs[copyID];					
+					let copyDiv = this.widgetBackgroundDivs[copyID];
 					if(copyWidget && copyDiv){
 						copyWidget.style = widget.style;
 						copyWidget.props = widget.props;
 						this.renderFactory.setStyle(copyDiv, copyWidget);
-					}				
+					}
 				}
 			}
 
@@ -969,14 +962,14 @@ export default {
 			 * Since 2.2.0 we have screen segments
 			 */
 			if (widget.segmentParent) {
-				this.renderFactory.updateSegementChild(widget, this.model);	
+				this.renderFactory.updateSegementChild(widget, this.model);
 			}
 
 			if (widget.container) {
 				this.renderFactory.updateContainerChild(widget, this.model);
 			}
-		
-			
+
+
 			if(widget.inheritedCopies){
 				for(let i=0; i< widget.inheritedCopies.length; i++){
 					/**
@@ -989,11 +982,11 @@ export default {
 							* Attention: If this code is called
 							* from the setTempWidgetStyle() method, the copyWidget
 							* has off course already a style, because it was set
-							* in the Layout.createInheritedModel() method. 
-							* 
-							* Thus the Layout.mixin() method will not detect the 
+							* in the Layout.createInheritedModel() method.
+							*
+							* Thus the Layout.mixin() method will not detect the
 							* that for instance the background is inherited...
-							* 
+							*
 							* Thereefore we have a special update methid here
 							*/
 						copyWidget.style = this.mixinNotOverwriten(widget.style, copyWidget.style)
@@ -1007,40 +1000,40 @@ export default {
 						copyWidget.style = this.mixin(widget.style, copyWidget.style, false)
 						copyWidget.props = this.mixin(widget.props, copyWidget.props, false)
 					}
-					
-					let copyDiv = this.widgetBackgroundDivs[copyID];					
+
+					let copyDiv = this.widgetBackgroundDivs[copyID];
 					if(copyWidget && copyDiv){
 						this.renderFactory.setStyle(copyDiv, copyWidget);
-					}				
+					}
 				}
 
-				
+
 			}
 		},
-		
+
 		setScreenStyle (id){
 			var screen = this.model.screens[id];
 			var div = this.screenBackgroundDivs[id];
 			if(screen && div){
-				this.renderFactory.setStyle(div, screen);			
+				this.renderFactory.setStyle(div, screen);
 				/**
 					* Update label as well
 					*/
 				if(this.screenLabels[id]){
 					this.setInnerHTML(this.screenLabels[id], screen.name);
-				}				
+				}
 			} else {
 				this.logger.error("setScreenStyle","No screen div for " + id);
 				this.logger.sendError(new Error("No Screen Div in setScreenStyle"))
 			}
 		},
-		
+
 		setTempScreenStyle (id, style){
 			var screen = this.model.screens[id];
 			var div = this.screenBackgroundDivs[id];
 			if(screen && div){
 				for (var k in style) {
-					screen.style[k] = style[k]; 
+					screen.style[k] = style[k];
 				}
 				this.renderFactory.setStyle(div, screen);
 			} else {
@@ -1048,14 +1041,14 @@ export default {
 				this.logger.sendError(new Error("No Screen Div in setScreenStyle"))
 			}
 		},
-		
-		
+
+
 		/***************************************************************************
 			* Mouse Functons
 			***************************************************************************/
 
-		
-		
+
+
 		getCanvasMousePosition (e){
 			var pos = this._getMousePosition(e);
 
@@ -1063,29 +1056,29 @@ export default {
 			pos.y-= (this.domPos.y + this.canvasPos.y);
 			return pos;
 		},
-		
+
 		getRelCanvasMousePosition (e){
 			var pos = this.getCanvasMousePosition(e);
 			pos.x = pos.x / this.getZoomed(this.canvasPos.w, this.zoom);
 			pos.y = pos.y / this.getZoomed(this.canvasPos.h, this.zoom);
 			return pos;
 		},
-		
-		
+
+
 		/***************************************************************************
 			* Align
 		***************************************************************************/
 
 		alignmentShowDistribution (distances){
-			
+
 			if (this._alignmentTool && this._alignmentTool.showDistribution){
 				this._alignmentTool.showDistribution(distances)
 			}
 		},
-			
+
 		alignmentStart (selectedType, selectedModel, activePoint, ignoreIds, showDimensions){
 			this.logger.log(1,"alignmentStart","enter > " + selectedType);
-			
+
 			/**
 			 * Use the grid only when widget is selected and grid is specified
 			 */
@@ -1098,26 +1091,26 @@ export default {
 					if(ignoreIds){
 						this._alignmentTool.ignoreIds = ignoreIds;
 						this._alignmentTool.setSelectedIDs(ignoreIds);
-					} 
+					}
 					this._alignmentTool.start(this, selectedType, selectedModel, activePoint, this.model.grid, this.zoom);
 				} else if("grid" == selectedType ) {
-					
+
 					this._alignmentTool = new SimpleGrid();
 					this._alignmentTool.start(this, this.model.grid, this.zoom, "RightDown");
 					this._alignmentTool.showDimensions = showDimensions;
 				} else {
 					this._alignmentTool = new Ruler();
 					this._alignmentTool.start(this,selectedType, selectedModel,activePoint);
-				}				
+				}
 			} else  {
-				
+
 				this._alignmentTool = new Ruler();
 				this._alignmentTool.start(this,selectedType, selectedModel,activePoint);
 			}
 			this._alignmentToolInited = true;
 		},
-		
-		
+
+
 		allignPosition (pos, e){
 			if(this._alignmentTool){
 				var mouse = this.getCanvasMousePosition(e);
@@ -1125,24 +1118,24 @@ export default {
 			}
 			return pos;
 		},
-		
+
 		cleanUpAlignment (){
 			this.logger.log(4,"cleanUpAlignment","enter");
-			
+
 			if(this._alignmentTool){
 				this._alignmentTool.cleanUp();
 				delete this._alignmentTool;
 			}
-			
+
 			this._alignmentToolInited = false;
-			
+
 		},
 
 		getModelPosition (){
-			
+
 		},
 
-		
+
 		/***************************************************************************
 		 * Cancel stuff
 		 ***************************************************************************/
@@ -1155,17 +1148,17 @@ export default {
 		setCanvasCancelCallback (l){
 			this._cancelCallback = l;
 		},
-		
+
 		cleanUpCancelCallbacks (){
 			this._cancelCallback = null;
 		},
-		
+
 		onCancelAction (){
 
 			this.logger.log(0,"onCancelAction", "enter > " + this._cancelCallback);
 
 			if(this._cancelCallback && this[this._cancelCallback]){
-				
+
 				var rerender = this[this._cancelCallback]();
 				if(rerender){
 					this.rerender();
@@ -1173,33 +1166,33 @@ export default {
 			} else {
 				this.rerender();
 			}
-			
+
 			this._cancelCallback = null;
 		},
-		
-		
-		
+
+
+
 		/***************************************************************************
 			* Helper
 			***************************************************************************/
 		getColor: function(value){
-				
+
 			if(value == 0){
 				return this.defaultLineColor;
 			}
-			
+
 			return this.mixColor(value);
 		},
-		
-			
+
+
 		getLastMousePos () {
 			return this._lastMousePos;
 		},
-		
+
 		setHoverWidget (w){
 			this._lastHoverWidget = w;
 		}
-    }, 
+    },
     mounted () {
     }
 }
