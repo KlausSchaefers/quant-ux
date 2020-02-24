@@ -18,6 +18,7 @@ class HelpService  {
                     import(/* webpackChunkName: "help" */ 'help/en/heatmaps.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/rest.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/other.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/support.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/contact.js')
                     // import(/* webpackChunkName: "help" */ 'help/en/task.js')
                 ]).then(all => {

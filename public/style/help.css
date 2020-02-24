@@ -18,6 +18,13 @@
     margin-top: 5px;
 }
 
+.MatcHelp a.MatcHelpLink {
+    display: inline;
+    color:#1973e8;
+    font-size: 18px;
+    text-decoration: underline;
+}
+
 .MatcHelp a.MatcHelpSubTopic{
     padding-left: 20px;
 }
@@ -40,6 +47,7 @@
 
 .MatcHelpTopicsCntr {
     overflow: auto;
+    height: 600px;
 }
 
 .MatcHelpContent{
