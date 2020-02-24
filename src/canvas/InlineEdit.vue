@@ -146,10 +146,13 @@ export default {
 				this._inlineEditDiv.setAttribute("contentEditable", true);
 				this._inlineEditDiv.focus();
 				css.add(this._inlineEditDiv,"MatcInlineEditableStarted");
-				this.setEndOfContenteditable(this._inlineEditDiv);
 
+				if (this._inlineEditResizeToWidth) {
+					this.setAllOfContenteditbale(this._inlineEditDiv)
+				} else {
+					this.setEndOfContenteditable(this._inlineEditDiv);
+				}
 				css.add(this.domNode, "MatcCanvasModeInlineEdit");
-
 			}
 
 			this._inlineEditStarted = true;
@@ -250,6 +253,21 @@ export default {
 		        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
 		        range.select();//Select the range (make it the visible selection
 		    }
+		},
+
+		setAllOfContenteditbale (contentEditableElement) {
+			var sel, range;
+			if (window.getSelection && document.createRange) {
+				range = document.createRange();
+				range.selectNodeContents(contentEditableElement);
+				sel = window.getSelection();
+				sel.removeAllRanges();
+				sel.addRange(range);
+			} else if (document.body.createTextRange) {
+				range = document.body.createTextRange();
+				range.moveToElementText(contentEditableElement);
+				range.select();
+			}
 		}
     },
     mounted () {

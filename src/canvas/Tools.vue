@@ -119,7 +119,7 @@ export default {
 					"h" : pos.h,
 					"z" : 0,
 					"props" : {
-						"label" : '', // noBox ? "Type something" : ''
+						"label" : noBox ? "Type something" : ''
 					},
 					"has" : {
 						"label" : true,
