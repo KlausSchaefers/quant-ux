@@ -1,7 +1,7 @@
 
 <template>
      <div class="MatcToolbarRadius">
-		 <span class="MatcToolbarItemLabel">Radius</span>
+		 <span class="MatcToolbarItemLabel" style="vertical-align: middle;">Radius</span>
 	</div>
 </template>
 <script>

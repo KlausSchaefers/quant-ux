@@ -302,7 +302,7 @@ export default {
                  * We remove the parent path here if needed. The varibale must stay
                  * the same, otherwise the UIWidget.setDataBining() will not work
                  */
-                if (this.model.props.databinding.default && key.indexOf('[0].') > 0) {
+                if (this.model.props.databinding && this.model.props.databinding.default && key.indexOf('[0].') > 0) {
                     let parentKey = this.model.props.databinding.default
                     if (key.indexOf(parentKey) === 0) {
                         path = key.substring(key.indexOf('.') + 1)
