@@ -34,7 +34,6 @@ export default {
     },
 
     render: function(model, style, scaleX, scaleY) {
-      console.debug('render', model)
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -60,7 +59,6 @@ export default {
 
       this.setStyle(style, model);
       this.resize(model);
-      console.debug('renderEnd', model.props.selected)
       this.setValue(model.props.selected)
     },
 
@@ -70,17 +68,24 @@ export default {
     onSelect: function(pos, e) {
       this.stopPropagation(e);
       this.setValue(pos);
-      this.emitDataBinding(pos);
+      this.emitDataBinding(pos, 'output');
       this.emitStateChange("select", pos, e);
     },
 
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
-      this.setValue(v);
+    setDataBinding (variable, value) {
+      var databinding = this.getDataBinding(this.model);
+      if (databinding && databinding["output"]) {
+        var widgetVarialbe = databinding["output"];
+        if (widgetVarialbe === variable) {
+          this.setValue(value)
+          return true;
+        }
+      }
+      return false;
     },
-
 
     setValue: function(value) {
         if (this.model.active) {
