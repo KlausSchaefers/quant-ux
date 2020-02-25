@@ -49,6 +49,7 @@ import ScreenSegment from 'core/widgets/ScreenSegment'
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
 import IconButton from 'core/widgets/IconButton'
+import Paging from 'core/widgets/Paging'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -517,6 +518,12 @@ export default class RenderFactory extends Core {
 
 	_createVector(parent, model) {
 		var widget = this.$new(Vector);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createPaging(parent, model) {
+		var widget = this.$new(Paging);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

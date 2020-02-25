@@ -528,7 +528,10 @@ export default {
 		
 		renderIcons (query){			
 			this.renderFactory.cleanUp();
-			this.cleanUpTempListener();		
+	
+			if (!query) {
+				this.cleanUpTempListener();	
+			}
 			var db = new DomBuilder();
 			var cntr = db.div("MatcDateSectionIconCntr", "").build();		
 			var icons = this.icons;	

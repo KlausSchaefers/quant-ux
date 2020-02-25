@@ -1,4 +1,30 @@
 /*******************************
+ * Paging
+ *******************************/
+.MatcWidgetTypePaging{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid rgba(0,0,0,0);
+}
+
+.MatcWidgetTypePagingCntr{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	display: flex;
+    justify-content: space-between;
+
+}
+
+.MatcWidgetTypePagingElement {
+	border: 0px solid rgba(0,0,0,0);
+	position: relative;
+}
+
+/*******************************
  * Icon Button
  *******************************/
 .MatchWidgetTypeIconButton{

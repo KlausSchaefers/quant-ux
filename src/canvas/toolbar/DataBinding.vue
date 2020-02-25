@@ -113,6 +113,12 @@ export default {
                     { label: "Selected", value: "output" }
                 ]
             } 
+            if (this.widget.type === 'Paging') {
+                return [
+                    { label: "# Elements", value: "default" },
+                    { label: "Selected", value: "output" }
+                ]
+            } 
 
             return [
                 { label: "In & out", value: "default" }

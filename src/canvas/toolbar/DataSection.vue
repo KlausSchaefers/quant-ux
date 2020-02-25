@@ -392,6 +392,8 @@ export default {
 			this._renderColor('Color','<span class="mdi mdi-star"></span>',model.style.color, "color", "onStyleChanged" , true);
 		},
 
+		
+
 		_showImageCarousel (model){
 			this._setSectionLabel("Image Carousel");
 
@@ -482,6 +484,11 @@ export default {
 			this._renderCheck("Multi Selection", model.props.multi, "multi" );
 		},
 
+		_showPaging (model){
+			this._setSectionLabel("Paging");
+			this._renderInputDropDown("Max",model, [1,5,15,20], "max", true);
+			this._renderInputDropDown("Value",model, [1,2,3,4,5,10,15,20], "selected", true);
+		},
 
 		_showHSlider (model){
 			this._setSectionLabel("Slider");

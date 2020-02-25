@@ -54,6 +54,10 @@ export default {
 			this._renderDataBinding(model, false);
 		},
 
+		_showPaging (model){
+			this._renderDataBinding(model, false);
+		},
+
 		_showVerticalNavigation (model){
 			this._renderDataBinding(model, false);
 		},
