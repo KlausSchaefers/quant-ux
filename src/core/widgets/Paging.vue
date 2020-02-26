@@ -50,7 +50,6 @@ export default {
 
     onElementOut (i, element) {
         let div = element.div
-        console.debug('out', element.value, this.selected)
         if (element.value !== this.value) {
           div.style.color = this.model.style.color
           div.style.background = this.model.style.background
@@ -177,17 +176,30 @@ export default {
     setDataBinding (variable, value) {
       var databinding = this.getDataBinding(this.model);
       if (databinding && databinding["output"]) {
-        var widgetVarialbe = databinding["output"];
+        let widgetVarialbe = databinding["output"];
         if (widgetVarialbe === variable) {
           this.setValue(value)
+          return true;
+        }
+      }
+      if (databinding && databinding["elements"]) {
+        let widgetVarialbe = databinding["elements"];
+        if (widgetVarialbe === variable) {
+          this.setMax(value)
           return true;
         }
       }
       return false;
     },
 
+    setMax (max) {
+      console.debug('setMax', max)
+      this.model.props.max = max
+      this.renderElements(this.model, this.style, this.model.w, this._scaleX)
+      this.wireEvents()
+    },
+
     setValue (value) {
-        console.debug('setValue', value)
         if (this.model.active) {
             let active = this.model.active
             let style = this.model.style

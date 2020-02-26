@@ -115,8 +115,14 @@ export default {
             } 
             if (this.widget.type === 'Paging') {
                 return [
-                    { label: "# Elements", value: "default" },
+                    { label: "# Elements", value: "elements" },
                     { label: "Selected", value: "output" }
+                ]
+            }
+            if (['TypeAheadTextBox', 'DropDown', 'MobileDropDown', 'CheckBoxGroup', 'RadioGroup'].indexOf(this.widget.type) >= 0) {
+                return [
+                    { label: "In & out", value: "default" },
+                    { label: "Options", value: "options" }
                 ]
             } 
 

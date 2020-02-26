@@ -333,6 +333,11 @@
 	border: 1px solid #777;
 }
 
+.MatcLight .MatcToobarPropertiesSection .MatcToobarInput::placeholder{
+	font-style: italic;
+	color: rgba(0, 0, 0, 0.35)
+}
+
 /****************************************************
  * VAlign  
  ****************************************************/
