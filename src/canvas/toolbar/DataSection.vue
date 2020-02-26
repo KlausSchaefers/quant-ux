@@ -488,6 +488,7 @@ export default {
 			this._setSectionLabel("Paging");
 			this._renderInputDropDown("Max",model, [1,5,15,20], "max", true);
 			this._renderInputDropDown("Value",model, [1,2,3,4,5,10,15,20], "selected", true);
+			this._renderInputDropDown("Visible Elements",model, [0,1,2,3,4,5,10,15,20], "maxVisisble", true);
 		},
 
 		_showHSlider (model){

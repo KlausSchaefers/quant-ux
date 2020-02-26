@@ -7,13 +7,16 @@ import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import DomBuilder from "common/DomBuilder";
 import UIWidget from "core/widgets/UIWidget";
+import touch from "dojo/touch";
+import on from "dojo/on";
 
 export default {
   name: "Paging",
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
-      value: 0
+      value: 0,
+      offset: 0
     };
   },
   components: {},
@@ -29,8 +32,56 @@ export default {
     wireEvents: function() {
       this.wired = true;
       for (var i = 0; i < this.elements.length; i++) {
-        this.own(this.addClickListener(this.elements[i],lang.hitch(this, "onSelect", i + 1)) );
+        let element = this.elements[i]
+        this.own(this.addClickListener(element.div ,lang.hitch(this, element.callback, element.value)) );
+
+        this.own(on(element.div, touch.over,lang.hitch(this, "onElementOver", i, element)));
+        this.own(on(element.div, touch.out,lang.hitch(this, "onElementOut", i, element)));
       }
+    },
+
+    onElementOver (i, element) {
+      if (this.model.hover) {
+        let div = element.div
+        div.style.color = this.model.hover.color
+        div.style.background = this.model.hover.background
+      }
+    },
+
+    onElementOut (i, element) {
+        let div = element.div
+        console.debug('out', element.value, this.selected)
+        if (element.value !== this.value) {
+          div.style.color = this.model.style.color
+          div.style.background = this.model.style.background
+        } else {
+          if (this.model.active) {
+            div.style.color = this.model.active.color
+            div.style.background = this.model.active.background
+          }
+        }
+    },
+
+    onNext (pos, e) {
+      this.stopPropagation(e);
+      this.emitClick(e)
+      this.offset += this.currentElementCount
+      if (this.offset > this.model.props.max - this.currentElementCount) {
+        this.offset = this.model.props.max - this.currentElementCount
+      }
+      this.renderElements(this.model, this.style, this.model.w, this._scaleX)
+      this.wireEvents()
+    },
+
+    onBack (pos, e) {
+      this.stopPropagation(e);
+      this.emitClick(e)
+      this.offset -= this.currentElementCount
+      if (this.offset < 2) {
+        this.offset = 0
+      }
+      this.renderElements(this.model, this.style, this.model.w, this._scaleX)
+      this.wireEvents()
     },
 
     render: function(model, style, scaleX, scaleY) {
@@ -39,34 +90,82 @@ export default {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
 
+      this.renderElements(model, style, model.w, scaleX)
+    },
+
+    renderElements(model, style, width, scale) {
       var db = new DomBuilder();
       this.elements = [];
-      var elementCount = this.model.props.max;
+ 
       var cntr = db.div("MatcWidgetTypePagingCntr").build();
 
+      let elementWidth = this.getZoomed(style.fontSize, scale) * 2
+      var elementCount = this.getNumberOfVisibleElements(model, style, width)
+
+      if (this.offset > 0) {
+        this.renderElement(db, elementWidth, cntr, '...', 'onBack', model.props.iconBack)
+      }
+
       for (var i = 0; i < elementCount; i++) {
-        var element = db.div("MatcWidgetTypePagingElement").build(cntr);
-        let label = db.span("MatcWidgetTypePagingElementLabel", i + 1).build(element)
-        this.elements.push(element);
-        this._borderNodes.push(element)
-        this._backgroundNodes.push(element)
-        this._paddingNodes.push(element)
-        this._labelNodes.push(label)
+        this.renderElement(db, elementWidth, cntr, this.offset + i + 1, 'onSelect')
+      }
+
+      if (elementCount + this.offset < model.props.max) {
+        this.renderElement(db, elementWidth, cntr, '...', 'onNext', model.props.iconNext)
       }
 
       this.domNode.innerHTML = ""
       this.domNode.appendChild(cntr);
 
+      this.currentElementCount = elementCount
       this.setStyle(style, model);
-      this.resize(model);
       this.setValue(model.props.selected)
     },
 
-    resize () {
+    renderElement(db, width, cntr, value, callback, icon) {
+        var element = db.div("MatcWidgetTypePagingElement").w(width).build(cntr);
+        this._borderNodes.push(element)
+        this._backgroundNodes.push(element)
+        this._paddingNodes.push(element)
+        this.elements.push({
+          div: element,
+          callback: callback,
+          value: value
+        });
+        if (icon) {
+          let label = db.span("MatcWidgetTypePagingElementLabel").build(element)
+          db.span(icon).build(label)
+          this._labelNodes.push(label)
+        } else {
+          let label = db.span("MatcWidgetTypePagingElementLabel", value).build(element)
+          this._labelNodes.push(label)
+        }
+       
+    },
+
+    resize (box) {
+      var elementCount =  this.getNumberOfVisibleElements(this.model, this.style, box.w)
+      if (elementCount != this.currentElementCount) {
+        this.renderElements(this.model, this.style, box.w, this._scaleX)
+      }
+    },
+
+    getNumberOfVisibleElements (model, style, width) {
+      let elementWidth = this.getZoomed(style.fontSize, this._scaleX) * 2
+      let numberofVisibleElements = Math.round((width * 0.9) / elementWidth) - 1
+      numberofVisibleElements = Math.min(numberofVisibleElements, model.props.max);
+      if (model.props.maxVisisble > 1) {
+        numberofVisibleElements = Math.min(numberofVisibleElements, model.props.maxVisisble);
+      }
+      if (this.offset > 0 ) {
+        numberofVisibleElements--
+      }
+      return numberofVisibleElements
     },
 
     onSelect: function(pos, e) {
       this.stopPropagation(e);
+      this.emitClick(e);
       this.setValue(pos);
       this.emitDataBinding(pos, 'output');
       this.emitStateChange("select", pos, e);
@@ -87,28 +186,30 @@ export default {
       return false;
     },
 
-    setValue: function(value) {
+    setValue (value) {
+        console.debug('setValue', value)
         if (this.model.active) {
             let active = this.model.active
             let style = this.model.style
-            this.elements.forEach((element, i) => {
-                if (i + 1 == value) {
-                    element.style.background = active.background
-                    element.style.color = active.color
+            this.elements.forEach((element) => {
+                let div = element.div
+                if (element.value == value) {
+                    div.style.background = active.background
+                    div.style.color = active.color
                 } else {
-                    element.style.background = style.background
-                    element.style.color = style.color
+                    div.style.background = style.background
+                    div.style.color = style.color
                 }
             })
         }
         this.value = value;
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "select",
         value: this.value
