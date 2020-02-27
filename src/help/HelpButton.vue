@@ -27,6 +27,21 @@ export default {
     },
     components: {},
     methods: {
+        show(topic, subtopic) {
+           
+            let dialog = new Dialog()
+
+            var db = new DomBuilder();
+			var popup = db.div("MatcDialog MatcHelpDialog MatcPadding").build();
+            	
+            dialog.popup(popup, this.$el);
+            setTimeout(() => {
+                let help = this.$new(Help, {hasNotifications: false})
+                help.placeAt(popup)
+                help.setTopic(topic)
+                help.setSupTopic(subtopic)
+            }, 300)
+        },
         open () {
             if (this.hasToolbar) {
                 Services.getUserService().setLastNotication()
@@ -39,7 +54,7 @@ export default {
             	
             dialog.popup(popup, this.$el);
             setTimeout(() => {
-                let help = this.$new(Help)
+                let help = this.$new(Help, {hasNotifications: this.hasNotifications})
                 help.placeAt(popup)
                 if (this.topic) {
                     help.setTopic(this.topic)

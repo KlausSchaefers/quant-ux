@@ -20,7 +20,7 @@
 
 				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
-					<HelpButton :hasNotifications="true" :hasToolbar="true"/>
+					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn"/>
 				</div> 	
 				
 				<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
@@ -107,9 +107,15 @@ export default {
 			btn.placeAt(this.home);
 		
 			css.add(btn.domNode, "MatcToolbarItem");				
-		
+			this.renderToolbar()
 		},
-		  
+		
+		showHelpDialog(helpID){
+			if (this.$refs.helpBtn) {
+				this.$refs.helpBtn.show('analytics.canvas', helpID)
+			}	
+		},
+
 		onNewComment(e){
 			this.logger.log(2,"onNewComment", "entry");
 			this.stopEvent(e);			
@@ -152,7 +158,6 @@ export default {
 		},		
 		
 		async initMouseData(){
-			console.debug(this.model)
 			this.logger.log(2,"initMouseData", "entry");
 			if(this.isPublic){
 				//this._doGet("/examples/mouse/" + this.model.id + ".json", lang.hitch(this,"setMouseData"));
@@ -182,15 +187,18 @@ export default {
 			this.setAnalyticMode("HeatmapClick", {numberOfClicks : this.analyticHeatMapClicks} );			
 			this.showHeatMapProperties();
 		},
-		
+
+		reShowClickHeatMap () {
+			this.logger.log(0,"reShowClickHeatMap", "entry > " + this.analyticHeatMapClicks);
+			this.hideAllSections()
+			this.showHeatMapProperties();
+		},
+
 		showFirstClickHeatMap(i){
 			this.logger.log(0,"showFirstClickHeatMap", "entry > "+ i);
 			this.analyticHeatMapClicks = i;					
 			this.setAnalyticMode("HeatmapClick",{numberOfClicks : this.analyticHeatMapClicks} );
-		},
-		
-		
-	
+		},	
 		
 		showMouseHeatMap(){
 			this.logger.log(2,"showMouseHeatMap", "entry");
@@ -293,7 +301,11 @@ export default {
 		renderToolbar(){			
 			this.logger.log(3,"renderToolbar", "enter");
 			
+			if (this.isRendered) {
+				return
+			}
 			this.viewBtns = [];
+			this.isRendered = true
 			
 			/**
 			 * Views per screens
@@ -306,9 +318,9 @@ export default {
 			this.viewBtns.push(this.viewBtnMouseMap);
 			this.addTooltip(this.viewBtnMouseMap, "Howlong was cursor at some place?");
 				
-			this.viewBtnGesture = this.createToolBarItem('Gestures', "showGestureMap", "mdi mdi-cursor-pointer",this.screenSection);
-			this.viewBtns.push(this.viewBtnGesture);
-			this.addTooltip(this.viewBtnGesture, "Which gestures were done?");
+			//this.viewBtnGesture = this.createToolBarItem('Gestures', "showGestureMap", "mdi mdi-cursor-pointer",this.screenSection);
+			//this.viewBtns.push(this.viewBtnGesture);
+			//this.addTooltip(this.viewBtnGesture, "Which gestures were done?");
 			
 			this.viewBtnClickStream = this.createToolBarItem("User Journey", "showUserJourney", "mdi mdi-vector-polyline",this.journeySection);
 			this.viewBtns.push(this.viewBtnClickStream);
@@ -333,15 +345,9 @@ export default {
 			this.viewBtnDwellTime = this.createToolBarItem("Dwell Time", "showDwelTimeMap", "mdi mdi-timelapse",this.globalSection);
 			this.viewBtns.push(this.viewBtnDwellTime);
 			this.addTooltip(this.viewBtnDwellTime, "How much time have the users spend on this page in average");
-			
-	
-			
-			
-		//	this.addTooltip(this.commentBtn, "Add Comment");	
-			
+					
 			this.setSelectedViewButton(this.viewBtnClickMap);
 		
-
 			this.logger.log(3,"renderToolbar", "exit");
 		},
 		
@@ -404,21 +410,21 @@ export default {
 			 * Views total
 			 */
 			var cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenTestRing = this.createRing("Test Coverage", "helpDashScreensSessionViews");
+			this.screenTestRing = this.createRing("Test Coverage", "analytics.canvas.kpi.coverage");
 			this.screenTestRing.placeAt(cntr);
 					
 			/**
 			 * Dwell
 			 */		
 			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenDwellRing = this.createRing("Dwell Time", "helpDashScreensDwell", "showDwellDistribution");
+			this.screenDwellRing = this.createRing("Dwell Time", "analytics.canvas.kpi.dwell");
 			this.screenDwellRing.placeAt(cntr);
 			
 			/**
 			 * Views total
 			 */
 			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenTotalViewRing = this.createRing("Screen Views", "helpDashScreensViews");
+			this.screenTotalViewRing = this.createRing("Screen Views", "analytics.canvas.kpi.screen-views");
 			this.screenTotalViewRing.placeAt(cntr);
 			
 		
@@ -426,7 +432,7 @@ export default {
 			 * CLicks
 			 */		
 			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenClickRing = this.createRing("Screen Clicks", "helpDashScreensBGCLicks");
+			this.screenClickRing = this.createRing("Screen Clicks", "analytics.canvas.kpi.screen-clicks");
 			this.screenClickRing.placeAt(cntr);
 			
 			
@@ -434,7 +440,7 @@ export default {
 			 * CLicks
 			 */		
 			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenWidgetClickRing = this.createRing("Widget Clicks", "helpDashScreensWidgetCLicks");
+			this.screenWidgetClickRing = this.createRing("Widget Clicks", "analytics.canvas.kpi.screen-widget-clicks");
 			this.screenWidgetClickRing.placeAt(cntr);
 			
 		},
@@ -461,7 +467,7 @@ export default {
 			 * CLicks
 			 */		
 			let cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.widgetClickRing = this.createRing("Widget Clicks", "helpDashWidgetClick");
+			this.widgetClickRing = this.createRing("Widget Clicks", "analytics.canvas.kpi.clicks");
 			this.widgetClickRing.placeAt(cntr);
 		
 			
@@ -469,14 +475,14 @@ export default {
 			 * First Clicks
 			 */
 			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.widgetFirstClickRing = this.createRing("First Clicks", "helpDashWidgetFirstClick");
+			this.widgetFirstClickRing = this.createRing("First Clicks", "analytics.canvas.kpi.first-clicks");
 			this.widgetFirstClickRing.placeAt(cntr);
 			
 			/**
 			 * Discovery
 			 */		
 			cntr = db.div("MatcMarginBottom").build(ringCntr);			
-			var nodes =  this.createBigNumber(db, cntr, "Time before Click", "helpDashWidgetDiscovery");
+			var nodes =  this.createBigNumber(db, cntr, "Time before Click", "analytics.canvas.kpi.before-click");
 			this.widgetDiscoverLabel =nodes[0];
 			this.widgetDiscoverSTDLabel =nodes[1];
 			
@@ -951,9 +957,7 @@ export default {
 		},
 	
 		hideProperties(){
-			
-			
-			if(this.analyticMode == "UserJourney"){
+			if (this.analyticMode == "UserJourney"){
 				this.hideAllSections();
 				this.showSessionProperties();
 			} else if (this.analyticMode == "HeatmapClick"){
@@ -966,8 +970,6 @@ export default {
 				}				
 				this.hideAllSections();
 			}
-			
-			
 		},
 		
 
@@ -1193,9 +1195,9 @@ export default {
 		onExit(){
 			this.logger.log(0,"onExit", "entry", this.isPublic);
 			if(this.isPublic){
-				hash("#/examples/"+ this.model.id + "/analyze.html");
+				hash("#/examples/"+ this.model.id + "/heat.html");
 			} else {
-				hash("#/apps/"+ this.model.id + "/analyze.html");
+				hash("#/apps/"+ this.model.id + "/heat.html");
 			}
 		},
 		
@@ -1232,7 +1234,7 @@ export default {
 		
 		
 		onScreenSelected(screen){
-			this.logger.log(3,"onScreenSelected", "entry");	
+			this.logger.log(-1, "onScreenSelected", "entry", this._selectedScreen);	
 			
 			/**
 			 * We don not want to rerender on scroll
@@ -1553,33 +1555,7 @@ export default {
 			
 		},
 		
-		
-		/********************************************************
-		 * Help
-		 ********************************************************/
-		
-		showHelpDialog(helpID, e){
-			
-			this._doGet("/rest/help/" + helpID + ".json", function(data){
-				
-			
-				var d = new Dialog();
-				var db = new DomBuilder();
-				var div = db.div("MatcDialog MatcHelpDialog ").build();
-				if(data.length > 0){			
-					var help = data[0];
-					div.innerHTML = help.txt;
-							
-				} else {
-					div.innerHTML ="<h1>Oooops</h1> <p>No help....</p>";
-				}
-				
-				d.popup(div,e.target);
-			});
-			
-			
-			
-		},
+	
 		
 		/********************************************************
 		 * CleanUp
@@ -1587,23 +1563,18 @@ export default {
 		
 		
 		cleanUp(){
-		
 			this.hideAllSections();
-			
-			this._selectedWidget = null;
-			
-			this._selectedLine  = null;
-			
-			this._selectedScreen = null; 
-			
-			this._selectedMulti = null;
-			
-			this._selectedGroup = null;
-			
-			this._selection = null;
-			
+			this.unselect()
 		},
-		
+
+		unselect() {
+			this._selectedWidget = null;
+			this._selectedLine  = null;
+			this._selectedScreen = null; 
+			this._selectedMulti = null;
+			this._selectedGroup = null;
+			this._selection = null;
+		},
 		
 		blurWidgetProperties(){
 			

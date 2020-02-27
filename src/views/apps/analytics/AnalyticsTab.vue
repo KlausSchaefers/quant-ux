@@ -7,9 +7,7 @@
                 <div class="col-md-6 " id="">
                     <h2>
                         Dashboard 
-                        <!-- 
-                        <a href="#help/analyze/dash.html" class="MatcHelpIcon"><span class="mdi mdi-help-circle"></span></a>
-                        -->
+                        <HelpButton topic="analytics" subtopic="analytics.dash.users" :hasNotifications="false"/>
                     </h2>
                 </div>
                
@@ -46,6 +44,7 @@ import Util from 'core/Util'
 import AnalyticsHeader from 'views/apps/analytics/AnalyticsHeader'
 import AnalyticTaskList from 'views/apps/analytics/AnalyticTaskList'
 import Comment from 'page/Comment'
+import HelpButton from 'help/HelpButton'
 
 export default {
   name: "Test",
@@ -60,7 +59,8 @@ export default {
   components: {
     Comment: Comment,
     AnalyticsHeader: AnalyticsHeader,
-    AnalyticTaskList: AnalyticTaskList
+    AnalyticTaskList: AnalyticTaskList,
+    HelpButton: HelpButton
   },
   computed: {
     isPublic () {

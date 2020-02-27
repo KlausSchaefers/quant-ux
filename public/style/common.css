@@ -265,6 +265,10 @@ html{
   .MatcHelpIcon:hover{
 	  color:#1973e8
   }
+
+  .MatcHelpIcon > div {
+	  display: inline-block;
+  }
   
    /****************************************************
    * Animation

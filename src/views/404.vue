@@ -32,7 +32,7 @@
 <script>
 import Service from 'services/Services'
 export default {
-  name: "404",
+  name: "Page404",
   mixins: [],
    data: function() {
     return {   

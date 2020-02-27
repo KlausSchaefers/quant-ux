@@ -340,6 +340,12 @@ export default {
 	onCanvasSelected(){
 		this.logger.log(2,"onCanvasSelected", "entry > ");
 		this.selectAnalyticDiv(null);
+		if (this.toolbar) {
+			this.toolbar.unselect();
+			if (this.analyticMode === 'HeatmapClick') {
+				this.toolbar.reShowClickHeatMap()
+			}
+		}
 	},
 	
 	selectAnalyticDiv(id){

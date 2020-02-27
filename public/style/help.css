@@ -39,16 +39,22 @@
     text-decoration: none;
 }
 
+.MatcHelp a.MatcHelpTopicSpacer {
+    margin-top: 16px;
+}
+
 .MatcHelpTopics{
     width: 200px;
     overflow: auto;
     display: inline-block;
 }
 
-.MatcHelpTopicsCntr {
+.MatcHelpDialog .MatcHelpTopicsCntr {
     overflow: auto;
     height: 600px;
 }
+
+
 
 .MatcHelpContent{
     display: inline-block;
@@ -80,9 +86,15 @@
 }
 
 .MatcHelpContentParagraph {
-    margin-top: 50px;
+    margin-top: 32px;
     line-height: 2;
     font-size: 18px;
+}
+
+.MatcHelpContentParagraphSpacer {
+    border-top: 1px solid #ccc;
+    margin-top: 48px;
+    padding-top: 48px;
 }
 
 .MatcHelpContent .MatcButton{

@@ -2,6 +2,7 @@ export let texts = [
     {
         "id": "default",
         "name":"Getting Started",
+        "css": "MatcHelpTopicSpacer",
         "title": "Quant-UX",
         "body": `
             Quant-UX is a prototyping tool to design, test and analyse your visual designs. 

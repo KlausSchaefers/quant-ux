@@ -15,9 +15,11 @@ class HelpService  {
                     import(/* webpackChunkName: "help" */ 'help/en/data_binding.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/design_system.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/screen_segments.js'),
-                    import(/* webpackChunkName: "help" */ 'help/en/heatmaps.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/rest.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/other.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/analytic_intro.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/analytic_tasks.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/analytic_canvas.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/support.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/contact.js')
                     // import(/* webpackChunkName: "help" */ 'help/en/task.js')

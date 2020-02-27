@@ -6,7 +6,7 @@
 				<div class="col-md-9"> 
 					<h2 class=""> 
 						<span data-nls="testSettingsTasks">Tasks</span> 
-						<HelpButton topic="tasks" subtopic="tasks.analytics"/>
+						<HelpButton topic="analytics.tasks" subtopic="analytics.tasks.create" :hasNotifications="false"/>
 					</h2> 
 				</div>
 				<div class="col-md-3 MatcRight"> 

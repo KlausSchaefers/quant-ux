@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-                <div v-for="p in current.paragraphs" :key="p.id" :pid="p.id" ref="paragraph" class="MatcHelpContentParagraph">
+                <div v-for="p in current.paragraphs" :key="p.id" :pid="p.id" ref="paragraph" :class="'MatcHelpContentParagraph ' + p.css">
                     <h3 v-if="p.title">
                         {{p.title}}
                     </h3>
@@ -72,7 +72,7 @@
             </span>
             <div class="MatcHelpTopicsCntr">
                 <template v-for="topic in topics" > 
-                    <a @click="setTopic(topic.id)" :class="{'selected': topic.id === selected && !selectedParagraph}" :key="topic.id">
+                    <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id">
                         {{topic.name}}
                     </a>
                     <template v-if="topic.id === selected">
@@ -130,7 +130,7 @@ export default {
             let query = this.search.toLowerCase()
             if (query.length > 2) {
                 return this.texts.filter(t => {
-                    if (t._all.indexOf(query) >= 0) {
+                    if (t._all && t._all.indexOf(query) >= 0) {
                         return true
                     }
                 })
@@ -157,7 +157,6 @@ export default {
                if (p) {
                    p.scrollIntoView()
                }
-           
             }
         },
         convertNotification (n) {

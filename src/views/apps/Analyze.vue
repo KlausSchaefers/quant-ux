@@ -115,7 +115,6 @@ export default {
             break;
         }
       }
-      console.debug('asdas', startScreen)
       /**
        * controller will render screen
        */
