@@ -131,6 +131,10 @@ export default new Router({
       path: '/test/Table.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/TableConfTest.vue')
     },
+    {
+      path: '/test/SVG.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/SVGEditorTest.vue')
+    },
     //{
     //  path: '/test/Sketch.html',
     //  component: () => import(/* webpackChunkName: "unit" */ './unit/SketchTest.vue')
