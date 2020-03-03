@@ -7,12 +7,32 @@
         <g id="main" fill="none">
 
             <path v-for="p in paths" 
-                @click.stop="onPathClick(p, $event)"
                 :key="p.id" 
                 :d="p.d" 
                 :stroke="p.stroke" 
-                :fill="p.fill" 
-                :strokeWidth="p.strokeWidth"/>
+                :fill="p.fill"
+                @mouseover="onPathHover(p, $event)"
+                @mouseout="onPathBlur(p, $event)"
+                :stroke-width="p.strokeWidth"/>
+
+            <!-- 
+                Add here a transparent click layer. 
+                FIXME: Just show for the thing lines?
+            -->
+            <template v-if="mode === 'select'">
+                <path v-for="p in paths" 
+                    :key="p.id + 's'" 
+                    :d="p.d" 
+                    stroke="rgba(0,0,0,0)"
+                    @mouseover="onPathHover(p, $event)"
+                    @mouseout="onPathBlur(p, $event)"
+                    @click.stop="onPathClick(p, $event)"
+                    fill="" 
+                    :stroke-width="p.strokeWidth + 2"/>
+
+            </template>
+
+
         </g>
     </svg>
   </div>
@@ -23,7 +43,8 @@
 
 <script>
 
-import AddPathTool from './AddPathTool'
+import PathTool from './PathTool'
+import SelectTool from './SelectTool'
 import SVGRuler from './SVGRuler'
 import Logger from 'common/Logger'
 
@@ -34,7 +55,11 @@ export default {
   data: function() {
     return {
         value: [],
-        selectedTool: 'AddPath',
+        mode: 'add',
+        hover: null,
+        selection: [],
+        colorHover: 'red',
+        colorSelect: 'blue'
     };
   },
   computed: {
@@ -52,6 +77,12 @@ export default {
                       return `${point.t}${point.x},${point.y}`
                   }).join(' ')
               }
+              if (this.hover === path.id) {
+                  svg.stroke = this.colorHover
+              }
+              if (this.selection.indexOf(path.id) >=0 ) {
+                  svg.stroke = this.colorSelect
+              }
               // console.debug(svg.d)
               return svg
           })
@@ -61,8 +92,21 @@ export default {
   components: {
   },
   methods: {
-    onPathClick (path, e) {
-        console.debug('onPathClick', path, e)
+
+    onPathBlur () {
+        if (this.currentTool) {
+            this.currentTool.onBlur()
+        }
+    },
+
+    onPathHover (path) {
+        if (this.currentTool) {
+            this.currentTool.onHover(path)
+        }
+    },
+
+    onPathClick (path) {
+        this.select(path.id)
     },
 
     onMouseClick (e) {
@@ -70,8 +114,6 @@ export default {
         this.logger.log(-1, 'onMouseClick ', 'enter', pos)
         if (this.currentTool) {
             this.currentTool.onClick(pos)
-        } else {
-            //this.startTool(pos)
         }
     },
 
@@ -86,46 +128,51 @@ export default {
     onDoubleClick (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onEnd(pos)
+            this.currentTool.onDoubleClick(pos)
             // check if we added something. If see,
             // do the skecth kind of vector editing
             // https://bl.ocks.org/mbostock/8027637
+            // https://stackoverflow.com/questions/2742610/closest-point-on-a-cubic-bezier-curve/44993719#44993719
             delete this.currentTool
+            this.startSelectTool()
         }
-        this.$emit('qmouse', pos)
     },
 
     onEsc () {
         if (this.currentTool) {
-            this.currentTool.onEnd()
+            this.currentTool.onEsc()
         }
     },
 
-    startTool (pos) {
-        if (this.selectedTool === 'AddPath'){
-            this.startAddTool(pos)
-        }
+    startSelectTool () {
+        this.logger.log(-1, 'startPathTool ', 'enter')
+        this.mode = 'select'
+        this.currentTool = new SelectTool(this)
     },
 
-    startAddTool (pos) {
-        this.logger.log(-1, 'startAddTool ', 'enter', pos)
-        let path = {
-            id: new Date().getTime(),
-            name: 'Path',
-            type: 'Path',
-            stroke: '#333333',
-            strokeWidth: 1,
-            fill:'',
-            d: []
-        }
-        this.value.push(path)
-        this.selection = [path]
-        this.currentTool = new AddPathTool(path)
+    startPathTool (pos) {
+        this.logger.log(-1, 'startPathTool ', 'enter', pos)
+        this.mode = 'add'
+        this.currentTool = new PathTool(this)
         if (pos) {
             this.currentTool.onClick(pos)
         }
         this.initRuler(this.selection)
     },
+
+    setHover (id) {
+        this.hover = id
+    },
+
+    select (id) {
+        this.logger.log(-1, 'select ', id)
+        this.selection= [id]
+    },
+
+    unSelect () {
+        this.selection = []
+    },
+
     initRuler (selection) {
         this.ruler = new SVGRuler(this.value, selection)
     },
@@ -166,7 +213,7 @@ export default {
   },
   mounted() {
     this.logger = new Logger('SVGEditor')
-    this.startTool()
+    this.startPathTool()
   }
 };
 </script>

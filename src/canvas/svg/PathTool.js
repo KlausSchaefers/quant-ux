@@ -1,8 +1,20 @@
+import Tool from './Tool'
 
+export default class AddPathTool extends Tool{
 
-export default class AddPathTool {
-
-    constructor (path) {
+    constructor (editor) {
+        super()
+        this.editor = editor
+        let path = {
+            id: 'p' + new Date().getTime(),
+            name: 'Path',
+            type: 'Path',
+            stroke: '#333333',
+            strokeWidth: 1,
+            fill:'',
+            d: []
+        }
+        this.editor.value.push(path)
         this.path = path
     }
 
@@ -26,7 +38,7 @@ export default class AddPathTool {
        }
     }
 
-    onEnd () {
+    onDoubleClick () {
         // check here if we snapp to end?
     }
 
