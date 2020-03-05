@@ -1,10 +1,9 @@
 import Tool from './Tool'
-
+import Logger from 'common/Logger'
 export default class AddPathTool extends Tool{
 
     constructor (editor) {
-        super()
-        this.editor = editor
+        super(editor)
         let path = {
             id: 'p' + new Date().getTime(),
             name: 'Path',
@@ -16,9 +15,11 @@ export default class AddPathTool extends Tool{
         }
         this.editor.value.push(path)
         this.path = path
+        this.logger = new Logger('AddPathTool')
     }
 
     onClick(point) {
+        this.logger.log(5, 'onClick', point.x + ' ' + point.y)
         let t = this.path.d.length === 0 ? 'M' : 'L'
         this.path.d.push({
             t: t,
@@ -39,7 +40,8 @@ export default class AddPathTool extends Tool{
     }
 
     onDoubleClick () {
-        // check here if we snapp to end?
+        this.logger.log(5, 'onDoubleClick')
+        this.editor.setState('addEnd')
     }
 
 }

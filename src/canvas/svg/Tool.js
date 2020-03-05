@@ -1,20 +1,33 @@
 export default class Tool {
 
-    onClick() {
+    constructor (editor) {
+        if (!editor) {
+            console.error('Tool.constrcutor() > No editor passed')
+        }
+        this.editor = editor
     }
 
-    onMove () {
-    }
+    onClick() {}
+
+    onMove () {}
 
     onDoubleClick () {
+        // should we some how go back to select?
     }
 
     onEsc () {
+        // should we somehow end editor?
     }
 
-    onHover () {
-    }
+    onElementHover () {}
 
-    onBlur () {
-    }
+    onElementBlur () {}
+
+    onElementClick (){}
+
+    onJointMouseDown(){}
+
+    onJointMouseUp(){}
+
+    onJointClick (){}
 }

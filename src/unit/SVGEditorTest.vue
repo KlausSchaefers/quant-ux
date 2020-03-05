@@ -1,16 +1,53 @@
 <template>
   <div class="MatcLight">
     <h1>SVg Editor Test</h1>
-    <div class="MatcTReeCntr" ref="editor">
-        <SVGEditor :value="paths" @select="onSelect" :width="400" :height="400" :pos="pos" @qmouse="onMouseMove"/>
+    <div class="toolbar">
+      <a @click="createLine">Add Line </a>
+      <a @click="clear">Clear </a>
+    </div>
+    <div class="MatcTReeCntr" ref="cntr">
+        <SVGEditor 
+          :value="paths" 
+          @select="onSelect" 
+          :width="400" 
+          :height="400" 
+          :pos="pos"
+          ref="editor"
+          @qmouse="onMouseMove"/>
     </div>
     {{mouse}}
+
+    <div class="tests">
+      <a @click="test_createLine" class="MatcButton"> Test Create Line </a>
+      <a @click="test_createLineAndSelect" class="MatcButton"> Test Select Line </a>
+    </div>
 
   </div>
 </template>
 
 <style>
   @import url("../../public/style/matc.css");
+  @import url("../../public/style/qux-svg-editor.css");
+  .toolbar {
+    margin-left: 30px;
+    background: #eee;
+    width: 400px;
+  }
+
+  .tests {
+    position: fixed;
+    right: 0px;
+    top:0px;
+    width: 400px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .toolbar a {
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px;
+  }
+
   .MatcTReeCntr {
       background: #f2f2f2;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -47,11 +84,67 @@ export default {
       },
       onSelect (d) {
           this.selection = d
+      },
+      createLine () {
+        this.$refs.editor.startPathTool()
+      },
+      clear () {
+        this.$refs.editor.clear()
+      },
+      test_createLine () {
+        this.clear()
+        let e = this.$refs.editor
+        e.startPathTool(this.p(30, 30))
+        e.onMouseClick(this.e(60, 200))
+        e.onMouseClick(this.e(200, 200))
+        e.onMouseClick(this.e(300, 200))
+        e.onMouseClick(this.e(350, 350))
+        e.onMouseDoubleClick(this.e(300, 200))
+        this.assertEquals(1, e.value.length)
+      },
+      test_createLineAndSelect () {
+        this.test_createLine()
+        let e = this.$refs.editor
+        let path = e.value[0]
+        // TODO: test oclick as well
+        // test here the hover thingy. Test async
+        setTimeout( () => {
+          e.onElementHover(path)
+          e.onMouseClick(this.e(350, 350))
+          this.assertEquals(1, e.selection.length)
+          this.assertEquals(path.id, e.selection[0])
+        }, 100)
+    
+      },
+      // helper methods
+      e (x,y) {
+        return {
+          pageX: x + this.pos.x,
+          pageY: y + this.pos.y
+        }
+      },
+      p (x,y) {
+        return {
+          x: x +this.pos.x,
+          y: y +this.pos.y
+        }
+      },
+      assertEquals (expected, observed) {
+        if (expected != observed) {
+          console.error('assertEquals() > ', expected, " NOT ", observed, new Error().stack)
+        }
+      },
+      assertTrue (value) {
+        if (!value) {
+          console.error('assertTrue() > Wrong', new Error().stack)
+        }
       }
   },
   mounted() {
-      this.pos = domGeom.position(this.$refs.editor)
-      console.debug(this.pos)
+      this.pos = domGeom.position(this.$refs.cntr)
+      setTimeout(() => {
+        this.test_createLineAndSelect()
+      }, 300)
   }
 };
 </script>

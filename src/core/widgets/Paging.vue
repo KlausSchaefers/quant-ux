@@ -193,7 +193,6 @@ export default {
     },
 
     setMax (max) {
-      console.debug('setMax', max)
       this.model.props.max = max
       this.renderElements(this.model, this.style, this.model.w, this._scaleX)
       this.wireEvents()

@@ -1,8 +1,8 @@
 <template>
-  <div class="MatcCanvasVector" :style="{'width': width + 'px', 'height': height + 'px'}" 
+  <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor" :style="{'width': width + 'px', 'height': height + 'px'}" 
     @click="onMouseClick" 
     @mousemove="onMouseMove"
-    @dblclick="onDoubleClick">
+    @dblclick="onMouseDoubleClick">
     <svg id="svg" xmlns="http://www.w3.org/2000/svg" :width="width" :height="height">
         <g id="main" fill="none">
 
@@ -11,26 +11,48 @@
                 :d="p.d" 
                 :stroke="p.stroke" 
                 :fill="p.fill"
-                @mouseover="onPathHover(p, $event)"
-                @mouseout="onPathBlur(p, $event)"
+                :id="p.id"
+                ref="paths"
+                @mouseover="onElementHover(p, $event)"
+                @mouseout="onElementBlur(p, $event)"
                 :stroke-width="p.strokeWidth"/>
 
             <!-- 
-                Add here a transparent click layer. 
-                FIXME: Just show for the thing lines?
+                Add here a transparent click layer to easy clicks
             -->
             <template v-if="mode === 'select'">
                 <path v-for="p in paths" 
                     :key="p.id + 's'" 
                     :d="p.d" 
                     stroke="rgba(0,0,0,0)"
-                    @mouseover="onPathHover(p, $event)"
-                    @mouseout="onPathBlur(p, $event)"
-                    @click.stop="onPathClick(p, $event)"
+                    @mouseover="onElementHover(p, $event)"
+                    @mouseout="onElementBlur(p, $event)"
+                    @click.stop="onElementClick(p, $event)"
                     fill="" 
                     :stroke-width="p.strokeWidth + 2"/>
 
             </template>
+
+            <!-- in morph mode we show all the points -->
+
+              <circle v-if="splitPoint"
+                    :cx="splitPoint.x" 
+                    :cy="splitPoint.y"
+                    class="qux-svg-editor-splitpoint"
+                    :r="splitPoint.r" />
+
+            <template v-if="mode === 'morph'">
+                <circle v-for="joint in joints" :key="joint.id" 
+                    :cx="joint.x" 
+                    :cy="joint.y"
+                    @mousedown.stop="onJointMouseDown(joint, $event)"
+                    @mouseup.stop="onJointMouseUp(joint, $event)"
+                    @click.stop="onJointClick(joint, $event)"
+                    class="qux-svg-editor-joint"
+                    :r="joint.r" />
+            </template>
+
+           
 
 
         </g>
@@ -45,6 +67,7 @@
 
 import PathTool from './PathTool'
 import SelectTool from './SelectTool'
+import MorphTool from './MorphTool'
 import SVGRuler from './SVGRuler'
 import Logger from 'common/Logger'
 
@@ -55,15 +78,38 @@ export default {
   data: function() {
     return {
         value: [],
-        mode: 'add',
+        mode: 'select',
+        cursor: 'default',
         hover: null,
         selection: [],
         colorHover: 'red',
-        colorSelect: 'blue'
+        colorSelect: '#49C0F0',
+        pointRadius: 5,
+        splitPoint: null
     };
   },
   computed: {
+      joints () {
+        let paths = this.selectedPaths
+        let points = paths.flatMap(path => {
+            return path.d.map((point, i) => {
+                return {
+                    parent: path.id,
+                    x: point.x,
+                    y: point.y,
+                    id:i,
+                    r: this.pointRadius
+                }
+            })
+        })
+        return points
+      },
+      selectedPaths () {
+        return this.value.filter(p => this.isSelected(p))  
+      },
       paths () {
+          // this should move into a destinct component once we 
+          // have groupings and masks
           let result = this.value.map(path => {
               let svg = {
                   id: path.id,
@@ -80,7 +126,7 @@ export default {
               if (this.hover === path.id) {
                   svg.stroke = this.colorHover
               }
-              if (this.selection.indexOf(path.id) >=0 ) {
+              if (this.isSelected(path)) {
                   svg.stroke = this.colorSelect
               }
               // console.debug(svg.d)
@@ -93,25 +139,52 @@ export default {
   },
   methods: {
 
-    onPathBlur () {
+    /******************************************
+     * Event handler
+     *****************************************/
+
+    onJointMouseDown (joint, e) {
+        let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onBlur()
+            this.currentTool.onJointMouseDown(joint, pos)
         }
     },
 
-    onPathHover (path) {
+    onJointMouseUp (joint, e) {
+        let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onHover(path)
+            this.currentTool.onJointMouseUp(joint, pos)
         }
     },
 
-    onPathClick (path) {
-        this.select(path.id)
+    onJointClick (joint, e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onJointClick(joint, pos)
+        }
+    },
+
+    onElementBlur () {
+        if (this.currentTool) {
+            this.currentTool.onElementBlur()
+        }
+    },
+
+    onElementHover (path) {
+        if (this.currentTool) {
+            this.currentTool.onElementHover(path)
+        }
+    },
+
+    onElementClick (path, e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onElementClick(path, pos)
+        }
     },
 
     onMouseClick (e) {
         let pos = this.getCanvasMousePosition(e)
-        this.logger.log(-1, 'onMouseClick ', 'enter', pos)
         if (this.currentTool) {
             this.currentTool.onClick(pos)
         }
@@ -125,16 +198,10 @@ export default {
         this.$emit('qmouse', pos)
     },
 
-    onDoubleClick (e) {
+    onMouseDoubleClick (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onDoubleClick(pos)
-            // check if we added something. If see,
-            // do the skecth kind of vector editing
-            // https://bl.ocks.org/mbostock/8027637
-            // https://stackoverflow.com/questions/2742610/closest-point-on-a-cubic-bezier-curve/44993719#44993719
-            delete this.currentTool
-            this.startSelectTool()
         }
     },
 
@@ -144,20 +211,90 @@ export default {
         }
     },
 
+    /******************************************
+     * State maschine
+     *   Implement here a simple state machine
+     *   to transition from tool to tool. This
+     *   method is usualy called from the tools 
+     *   after they finished
+     *****************************************/
+    setState (state) {
+        this.logger.log(-1, 'setState ', 'enter', state)
+        delete this.currentTool
+        this.cursor = 'default'
+
+        switch (state) {
+            case 'addEnd': 
+                this.startSelectTool()
+                break
+            case 'selectEnd':
+                // start first move tool?
+                // on double click move tool
+                // switch to AppendPath or Morpth depending
+                // on closed path or not?
+                this.startMorphTool()
+                break
+            case 'morphEnd':
+                this.startSelectTool()
+                break
+            default:
+                this.startSelectTool()
+        }
+    },
+
+    /******************************************
+     * Tools
+     *****************************************/
+
+    startMorphTool () {
+        this.logger.log(-1, 'startPathTool ', 'enter')
+        this.mode = 'morph'
+        this.currentTool = new MorphTool(this, this.pointRadius)
+    },
+
     startSelectTool () {
         this.logger.log(-1, 'startPathTool ', 'enter')
         this.mode = 'select'
+        this.reset()
         this.currentTool = new SelectTool(this)
     },
 
     startPathTool (pos) {
         this.logger.log(-1, 'startPathTool ', 'enter', pos)
         this.mode = 'add'
+        this.reset()
+        this.cursor = "crosshair"
         this.currentTool = new PathTool(this)
         if (pos) {
             this.currentTool.onClick(pos)
         }
         this.initRuler(this.selection)
+    },
+
+    initRuler (selection) {
+        this.ruler = new SVGRuler(this.value, selection)
+    },
+
+    /******************************************
+     * getters
+     *****************************************/
+
+    reset () {
+        this.setSplitPoint()
+        this.unSelect()
+    },
+
+    setSplitPoint (pos) {
+        if (pos) {
+            this.splitPoint = {
+                x: pos.x,
+                y: pos.y,
+                r: this.pointRadius
+            }
+        } else {
+            this.splitPoint = null
+        }
+        
     },
 
     setHover (id) {
@@ -166,15 +303,59 @@ export default {
 
     select (id) {
         this.logger.log(-1, 'select ', id)
-        this.selection= [id]
+        this.selection = [id]
     },
 
     unSelect () {
+        this.logger.log(-1, 'unSelect ')
         this.selection = []
     },
+   
+    getSVGElement (element) {
+        if (this.$refs.paths) {
+            let result = this.$refs.paths.find(p => {
+                return p.id === element.id
+            })
+            return result
+        } else {
+            this.logger.warn('getSVGElement', 'paths not there')
+        }
+    },
 
-    initRuler (selection) {
-        this.ruler = new SVGRuler(this.value, selection)
+    getSelectedElements () {
+        return this.value.filter(value => this.isSelected(value))
+    },
+
+    getElementById (id) {
+        // this should be recursive... getFaltList()...
+        return this.value.find(value => value.id === id)
+    },
+
+    onChange () {
+        this.logger.log(-1, 'onChange', 'enter')
+        this.$emit('change', this.value)
+    },
+
+    setValue () {
+        // convert from relative to absolute
+        // position. 
+    },
+
+    getValue () {
+        // convert from relative to absolute
+        // position
+    },
+
+    clear () {
+        this.logger.log(0, 'clear', 'enter')
+        this.value = []
+    },
+
+    /*****************************************
+     *  Helper
+     *****************************************/
+    isSelected (element) {
+        return this.selection.indexOf(element.id) >=0 
     },
 
     getCanvasMousePosition (e){
@@ -187,7 +368,7 @@ export default {
         return pos;
     },
     
-    _getMousePosition: function(e){
+    _getMousePosition (e){
         var result = {x: 0, y: 0};
         if (e) {
             if (e.touches && e.touches.length > 0) {
@@ -199,6 +380,7 @@ export default {
                 result.x = e.clientX;
                 result.y = e.clientY;
             } else {
+                
                 result.x = e.pageX;
                 result.y = e.pageY;
             }
@@ -213,7 +395,6 @@ export default {
   },
   mounted() {
     this.logger = new Logger('SVGEditor')
-    this.startPathTool()
   }
 };
 </script>

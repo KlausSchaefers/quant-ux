@@ -4,23 +4,33 @@ import Logger from 'common/Logger'
 export default class SelectTool extends Tool {
 
     constructor (editor) {
-        super()
-        this.editor = editor
+        super(editor)
         this.logger = new Logger('SelectTool')
     }
 
+    onElementClick (path) {
+        this.logger.log(5, 'onElementClick', path.id)
+        this.select(path.id)
+    }
+
     onClick() {
-        this.logger.log(-1, 'onClick', this.editor.hover)
+        this.logger.log(5, 'onClick', this.editor.hover)
         if (this.editor.hover) {
-            this.editor.select(this.editor.hover)
+          this.select(this.editor.hover)
         }
     }
 
-    onHover(path) {
+    select (id) {
+        this.editor.setHover(null)
+        this.editor.select(id)
+        this.editor.setState('selectEnd')
+    }
+
+    onElementHover(path) {
         this.editor.setHover(path.id)
     }
 
-    onBlur() {
+    onElementBlur() {
         this.editor.setHover(null)
     }
 }
