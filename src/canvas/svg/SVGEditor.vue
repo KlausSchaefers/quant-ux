@@ -1,15 +1,15 @@
 <template>
-  <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor" :style="{'width': width + 'px', 'height': height + 'px'}" 
-    @click="onMouseClick" 
+  <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor" :style="{'width': width + 'px', 'height': height + 'px'}"
+    @click="onMouseClick"
     @mousemove="onMouseMove"
     @dblclick="onMouseDoubleClick">
     <svg id="svg" xmlns="http://www.w3.org/2000/svg" :width="width" :height="height">
         <g id="main" fill="none">
 
-            <path v-for="p in paths" 
-                :key="p.id" 
-                :d="p.d" 
-                :stroke="p.stroke" 
+            <path v-for="p in paths"
+                :key="p.id"
+                :d="p.d"
+                :stroke="p.stroke"
                 :fill="p.fill"
                 :id="p.id"
                 ref="paths"
@@ -17,18 +17,18 @@
                 @mouseout="onElementBlur(p, $event)"
                 :stroke-width="p.strokeWidth"/>
 
-            <!-- 
+            <!--
                 Add here a transparent click layer to easy clicks
             -->
             <template v-if="mode === 'select'">
-                <path v-for="p in paths" 
-                    :key="p.id + 's'" 
-                    :d="p.d" 
+                <path v-for="p in paths"
+                    :key="p.id + 's'"
+                    :d="p.d"
                     stroke="rgba(0,0,0,0)"
                     @mouseover="onElementHover(p, $event)"
                     @mouseout="onElementBlur(p, $event)"
                     @click.stop="onElementClick(p, $event)"
-                    fill="" 
+                    fill=""
                     :stroke-width="p.strokeWidth + 2"/>
 
             </template>
@@ -36,14 +36,14 @@
             <!-- in morph mode we show all the points -->
 
               <circle v-if="splitPoint"
-                    :cx="splitPoint.x" 
+                    :cx="splitPoint.x"
                     :cy="splitPoint.y"
                     class="qux-svg-editor-splitpoint"
                     :r="splitPoint.r" />
 
             <template v-if="mode === 'morph'">
-                <circle v-for="joint in joints" :key="joint.id" 
-                    :cx="joint.x" 
+                <circle v-for="joint in joints" :key="joint.id"
+                    :cx="joint.x"
                     :cy="joint.y"
                     @mousedown.stop="onJointMouseDown(joint, $event)"
                     @mouseup.stop="onJointMouseUp(joint, $event)"
@@ -52,7 +52,7 @@
                     :r="joint.r" />
             </template>
 
-           
+
 
 
         </g>
@@ -105,10 +105,10 @@ export default {
         return points
       },
       selectedPaths () {
-        return this.value.filter(p => this.isSelected(p))  
+        return this.value.filter(p => this.isSelected(p))
       },
       paths () {
-          // this should move into a destinct component once we 
+          // this should move into a destinct component once we
           // have groupings and masks
           let result = this.value.map(path => {
               let svg = {
@@ -129,7 +129,7 @@ export default {
               if (this.isSelected(path)) {
                   svg.stroke = this.colorSelect
               }
-              // console.debug(svg.d)
+              // console.debug(path.d.length, svg.d)
               return svg
           })
           return result
@@ -215,7 +215,7 @@ export default {
      * State maschine
      *   Implement here a simple state machine
      *   to transition from tool to tool. This
-     *   method is usualy called from the tools 
+     *   method is usualy called from the tools
      *   after they finished
      *****************************************/
     setState (state) {
@@ -224,7 +224,7 @@ export default {
         this.cursor = 'default'
 
         switch (state) {
-            case 'addEnd': 
+            case 'addEnd':
                 this.startSelectTool()
                 break
             case 'selectEnd':
@@ -294,7 +294,7 @@ export default {
         } else {
             this.splitPoint = null
         }
-        
+
     },
 
     setHover (id) {
@@ -310,7 +310,7 @@ export default {
         this.logger.log(-1, 'unSelect ')
         this.selection = []
     },
-   
+
     getSVGElement (element) {
         if (this.$refs.paths) {
             let result = this.$refs.paths.find(p => {
@@ -338,7 +338,7 @@ export default {
 
     setValue () {
         // convert from relative to absolute
-        // position. 
+        // position.
     },
 
     getValue () {
@@ -355,7 +355,7 @@ export default {
      *  Helper
      *****************************************/
     isSelected (element) {
-        return this.selection.indexOf(element.id) >=0 
+        return this.selection.indexOf(element.id) >=0
     },
 
     getCanvasMousePosition (e){
@@ -367,7 +367,7 @@ export default {
         }
         return pos;
     },
-    
+
     _getMousePosition (e){
         var result = {x: 0, y: 0};
         if (e) {
@@ -380,11 +380,11 @@ export default {
                 result.x = e.clientX;
                 result.y = e.clientY;
             } else {
-                
+
                 result.x = e.pageX;
                 result.y = e.pageY;
             }
-        } 
+        }
         return result;
     }
   },

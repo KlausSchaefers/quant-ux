@@ -26,17 +26,26 @@ export default class AddPathTool extends Tool{
             x: point.x,
             y: point.y
         })
-        if (this.path.d.length === 1){
-            this.onClick(point)
-        }
+
+        // this.logger.log(5, 'onClick', 'exit', this.path.d.map(p => p.x + '.' + p.y).join(' '))
     }
 
     onMove (point) {
+        if (this.path.d.length === 1){
+            this.path.d.push({
+                t: 'L',
+                x: point.x,
+                y: point.y,
+                _temp: true
+            })
+        }
+
        if (this.path.d.length >= 1){
            let last = this.path.d[this.path.d.length-1]
            last.x = point.x
            last.y = point.y
        }
+       this.logger.log(5, 'onMove', 'exit', this.path.d.map(p => p.x + '.' + p.y).join(' '))
     }
 
     onDoubleClick () {

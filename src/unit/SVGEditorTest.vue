@@ -6,11 +6,11 @@
       <a @click="clear">Clear </a>
     </div>
     <div class="MatcTReeCntr" ref="cntr">
-        <SVGEditor 
-          :value="paths" 
-          @select="onSelect" 
-          :width="400" 
-          :height="400" 
+        <SVGEditor
+          :value="paths"
+          @select="onSelect"
+          :width="400"
+          :height="400"
           :pos="pos"
           ref="editor"
           @qmouse="onMouseMove"/>
@@ -96,7 +96,7 @@ export default {
         let e = this.$refs.editor
         e.startPathTool(this.p(30, 30))
         e.onMouseClick(this.e(60, 200))
-        e.onMouseClick(this.e(200, 200))
+        e.onMouseClick(this.e(200, 250))
         e.onMouseClick(this.e(300, 200))
         e.onMouseClick(this.e(350, 350))
         e.onMouseDoubleClick(this.e(300, 200))
@@ -114,7 +114,7 @@ export default {
           this.assertEquals(1, e.selection.length)
           this.assertEquals(path.id, e.selection[0])
         }, 100)
-    
+
       },
       // helper methods
       e (x,y) {
@@ -125,8 +125,8 @@ export default {
       },
       p (x,y) {
         return {
-          x: x +this.pos.x,
-          y: y +this.pos.y
+          x: x,
+          y: y
         }
       },
       assertEquals (expected, observed) {
@@ -142,6 +142,7 @@ export default {
   },
   mounted() {
       this.pos = domGeom.position(this.$refs.cntr)
+      console.debug('TEst', this.pos.x, this.pos.y)
       setTimeout(() => {
         this.test_createLineAndSelect()
       }, 300)
