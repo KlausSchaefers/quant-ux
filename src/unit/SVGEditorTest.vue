@@ -61,7 +61,7 @@
 </style>
 
 <script>
-import SVGEditor from 'canvas/svg/SVGEditor'
+import SVGEditor from '../svg/SVGEditor'
 import domGeom from 'dojo/domGeom'
 
 

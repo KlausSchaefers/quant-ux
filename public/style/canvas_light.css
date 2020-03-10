@@ -54,6 +54,7 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcDashLabel,
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarItem,
 .MatcLight .MatcToobarPropertiesSection .MatcDashRingValue{
 	color:#777;
 }

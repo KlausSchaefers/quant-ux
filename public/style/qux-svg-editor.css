@@ -2,6 +2,10 @@
     cursor: crosshair;
 }
 
+.qux-svg-editor_cursor_move{
+    cursor: move;
+}
+
 .qux-svg-editor-joint{
     stroke-width: 1;
     stroke: #49C0F0;
@@ -9,9 +13,25 @@
     cursor: pointer;
 }
 
+.qux-svg-editor-joint-selected{
+    fill: #49C0F0;
+}
+
+.qux-svg-editor_cursor_move .qux-svg-editor-joint{
+    cursor: move;
+}
+
 .qux-svg-editor-splitpoint{
     stroke-width: 1;
-    stroke: #49C0F0;
-    fill: #49C0F0;
+    stroke: #ccc;
+    fill: #ccc;
     cursor: pointer;
+}
+
+
+
+.qux-svg-editor-bounding {
+    stroke-width: 1;
+    stroke: #49C0F0;
+    fill: rgba(0, 0, 0, 0);
 }

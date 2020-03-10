@@ -48,10 +48,20 @@
                     @mousedown.stop="onJointMouseDown(joint, $event)"
                     @mouseup.stop="onJointMouseUp(joint, $event)"
                     @click.stop="onJointClick(joint, $event)"
-                    class="qux-svg-editor-joint"
+                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
                     :r="joint.r" />
             </template>
 
+            <rect 
+                :x="boundingBox.x" 
+                :y="boundingBox.y" 
+                :width="boundingBox.w" 
+                :height="boundingBox.h" 
+                v-if="boundingBox"
+                @mousedown.stop="onBBoxMouseDown($event)"
+                @mouseup.stop="onBBoxMouseUp($event)"
+                @click.stop="onBBoxMouseClick($event)"
+                class="qux-svg-editor-bounding" />
 
 
 
@@ -68,8 +78,9 @@
 import PathTool from './PathTool'
 import SelectTool from './SelectTool'
 import MorphTool from './MorphTool'
+import MoveTool from './MoveTool'
 import SVGRuler from './SVGRuler'
-import Logger from 'common/Logger'
+import Logger from '../common/Logger'
 
 export default {
   name: "SVgEditor",
@@ -85,7 +96,9 @@ export default {
         colorHover: 'red',
         colorSelect: '#49C0F0',
         pointRadius: 5,
-        splitPoint: null
+        splitPoint: null,
+        selectedJoint: null,
+        boundingBox: null
     };
   },
   computed: {
@@ -98,6 +111,7 @@ export default {
                     x: point.x,
                     y: point.y,
                     id:i,
+                    selected: this.selectedJoint ? this.selectedJoint.id === i : false,
                     r: this.pointRadius
                 }
             })
@@ -142,6 +156,27 @@ export default {
     /******************************************
      * Event handler
      *****************************************/
+
+    onBBoxMouseDown (e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onBBoxMouseDown(this.boundingBox, pos)
+        }
+    },
+
+    onBBoxMouseUp (e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onBBoxMouseUp(this.boundingBox, pos)
+        }
+    },
+
+    onBBoxMouseClick (e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onBBoxMouseClick(this.boundingBox, pos)
+        }
+    },
 
     onJointMouseDown (joint, e) {
         let pos = this.getCanvasMousePosition(e)
@@ -221,17 +256,17 @@ export default {
     setState (state) {
         this.logger.log(-1, 'setState ', 'enter', state)
         delete this.currentTool
-        this.cursor = 'default'
+        this.setCursor('default')
+        this.setBoundingBox()
 
         switch (state) {
             case 'addEnd':
                 this.startSelectTool()
                 break
             case 'selectEnd':
-                // start first move tool?
-                // on double click move tool
-                // switch to AppendPath or Morpth depending
-                // on closed path or not?
+                this.startMoveTool()
+                break
+            case 'moveDoubleClick':
                 this.startMorphTool()
                 break
             case 'morphEnd':
@@ -245,6 +280,12 @@ export default {
     /******************************************
      * Tools
      *****************************************/
+
+    startMoveTool () {
+        this.logger.log(-1, 'startMoveTool ', 'enter')
+        this.mode = 'move'
+        this.currentTool = new MoveTool(this, this.selection)
+    },
 
     startMorphTool () {
         this.logger.log(-1, 'startPathTool ', 'enter')
@@ -263,7 +304,7 @@ export default {
         this.logger.log(-1, 'startPathTool ', 'enter', pos)
         this.mode = 'add'
         this.reset()
-        this.cursor = "crosshair"
+        this.setCursor('crosshair')
         this.currentTool = new PathTool(this)
         if (pos) {
             this.currentTool.onClick(pos)
@@ -276,12 +317,25 @@ export default {
     },
 
     /******************************************
-     * getters
+     * getters & setters
      *****************************************/
+
+    setCursor (c = 'default') {
+         this.logger.log(-1, 'setCursor ', 'enter', c)
+        this.cursor = c
+    },
 
     reset () {
         this.setSplitPoint()
         this.unSelect()
+    },
+
+    setSelectedJoint (joint) {
+        this.selectedJoint = joint
+    },
+
+    setBoundingBox (bbox) {
+        this.boundingBox = bbox
     },
 
     setSplitPoint (pos) {
@@ -294,7 +348,6 @@ export default {
         } else {
             this.splitPoint = null
         }
-
     },
 
     setHover (id) {
@@ -309,6 +362,7 @@ export default {
     unSelect () {
         this.logger.log(-1, 'unSelect ')
         this.selection = []
+        this.setBoundingBox()
     },
 
     getSVGElement (element) {

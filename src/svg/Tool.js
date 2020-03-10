@@ -23,11 +23,17 @@ export default class Tool {
 
     onElementBlur () {}
 
-    onElementClick (){}
+    onElementClick () {}
 
-    onJointMouseDown(){}
+    onJointMouseDown() {}
 
-    onJointMouseUp(){}
+    onJointMouseUp() {}
 
-    onJointClick (){}
+    onJointClick () {}
+
+    onBBoxMouseDown () {}
+
+    onBBoxMouseUp () {}
+
+    onBBoxMouseClick () {}
 }

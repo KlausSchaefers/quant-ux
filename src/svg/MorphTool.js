@@ -21,15 +21,30 @@ export default class MorphTool extends Tool{
         }
     }
 
+    /**
+     * Implement some state machine:
+     * 
+     * 1) If we have a split point, split
+     * 
+     * 2) If we have a selected joint, remove selection
+     * 
+     * 3) If we have no movePoint, end the tool
+     * 
+     */
     onClick() {
         this.logger.log(-1, 'onClick', 'enter', this.splitPoint)
         if (this.splitPoint) {
             this.split(this.splitPoint, this.selected, this.svgPath)
+        } else if (this.selectedJoint) {
+            delete this.selectedJoint
+            this.editor.setSelectedJoint()
         } else if (!this.movePoint) {
             this.editor.setState('morphEnd')
-        } else {
-            this.editor.onChange()
         }
+    }
+
+    onDoubleClick () {
+        this.editor.setState('morphEnd')
     }
 
     split (pos, path, svg) {
@@ -56,6 +71,7 @@ export default class MorphTool extends Tool{
             })
             this.editor.setSplitPoint()
         }
+        this.editor.onChange()
     }
 
 
@@ -155,43 +171,6 @@ export default class MorphTool extends Tool{
         return start
     }
 
-    getSplitEnd (points, pos, svg) {
-        var length = svg.getTotalLength()
-        let end = -1
-        for (let i = pos.index; i < length; i++) {
-            let p = svg.getPointAtLength(i)
-            let xf = Math.floor(p.x)
-            let yf = Math.floor(p.y)
-            let xc = Math.ceil(p.x)
-            let yc = Math.ceil(p.y)
-            if (points[xf] && points[xf][yf] >= 0 ){
-                end = points[xf][yf]
-                break
-            }
-            if (points[xc] && points[xc][yc] >= 0) {
-                end = points[xc][yc]
-                break
-            }
-            if (points[xc] && points[xc][yf] >= 0) {
-                end = points[xc][yf]
-                break
-            }
-            if (points[xf] && points[xf][yc] >= 0) {
-                end = points[xf][yc]
-                break
-            }
-        }
-        return end
-    }
-
-
-
-
-
-    onDoubleClick () {
-        this.editor.setState('addEnd')
-    }
-
     onJointMouseDown(joint){
         this.logger.log(-1, 'onJointMouseDown', 'enter',joint)
         let path = this.editor.getElementById(joint.parent)
@@ -199,6 +178,7 @@ export default class MorphTool extends Tool{
             let point = path.d[joint.id]
             if (point) {
                 this.movePoint = point
+                this.editor.setCursor('move')
             } else {
                 this.logger.error('onJointMouseDown', 'not point',joint)
             }
@@ -208,8 +188,16 @@ export default class MorphTool extends Tool{
     }
 
     onJointMouseUp(joint){
-        this.logger.log(-1, 'onJointMouseUp', joint)
+        this.logger.log(5, 'onJointMouseUp', 'enter', joint)
         delete this.movePoint
+        this.editor.onChange()
+        this.editor.setCursor('default')
+    }
+
+    onJointClick (joint) {
+        this.logger.log(-1, 'onJointClick', 'enter', joint)
+        this.selectedJoint = joint
+        this.editor.setSelectedJoint(joint)
     }
 
 }

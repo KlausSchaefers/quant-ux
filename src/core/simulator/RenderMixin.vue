@@ -796,15 +796,8 @@ export default {
 					this.logger.log(2,"renderTransition","animate > " + line.animation);
 					
 					var oldScreenDiv = this.currentScreenDiv;
-					
-//					if(!isGestureAnimation){
-//						this.cleanUpGestureScreenAnim();
-//					}
 					this.cleanUp();
-				
-					
 					this.setDomSize(screen);
-					
 					var newScreenDiv = this.createScreen(screen, false);
 					
 					/**
@@ -896,7 +889,7 @@ export default {
 					this.setDomSize(this.currentScreen, overlay);
 					
 					var newScreenDiv = this.createScreen(overlay, true);
-					
+				
 					/**
 					 * If there is an animation init it
 					 */
@@ -922,7 +915,14 @@ export default {
 						this.log("OverlayShowAnimation", screenID, null, null, {animation: {type:line.animation, to:line.to, duration: animation.duration, overlay:true, easing:line.easing}});
 						
 					} else {
-						console.warn("renderOverlay() > No animation function for : createScreen_"+line.animation);
+
+						if (line.animation === "transform") {
+							var anim = this.createScreenTransformAnimation(overlay, line);
+							screen._transAnim = anim;
+						} else {
+							console.warn("renderOverlay() > No animation function for : createScreen_"+line.animation);
+						}
+
 					}
 					/**
 					 * Now hook into dom...
