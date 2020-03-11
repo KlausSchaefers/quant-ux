@@ -36,4 +36,10 @@ export default class Tool {
     onBBoxMouseUp () {}
 
     onBBoxMouseClick () {}
+
+    onResizeMouseDown () {}
+
+    onResizeMouseUp () {}
+
+    onResizeMouseClick () {}
 }

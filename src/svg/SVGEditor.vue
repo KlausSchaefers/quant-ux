@@ -24,12 +24,13 @@
                 <path v-for="p in paths"
                     :key="p.id + 's'"
                     :d="p.d"
-                    stroke="rgba(0,0,0,0)"
+                    stroke="rgba(0,0,0,0.0)"
+                    class="qux-svg-editor-click-line"
                     @mouseover="onElementHover(p, $event)"
                     @mouseout="onElementBlur(p, $event)"
                     @click.stop="onElementClick(p, $event)"
                     fill=""
-                    :stroke-width="p.strokeWidth + 2"/>
+                    :stroke-width="p.strokeWidth + 5"/>
 
             </template>
 
@@ -63,6 +64,20 @@
                 @click.stop="onBBoxMouseClick($event)"
                 class="qux-svg-editor-bounding" />
 
+            <template v-if="boundingBox">
+                <rect 
+                    v-for="handler in resizeHandles"
+                    :key="handler.id"
+                    :x="handler.x" 
+                    :y="handler.y" 
+                    :width="handler.w" 
+                    :height="handler.h" 
+                    @mousedown.stop="onResizeMouseDown(handler, $event)"
+                    @mouseup.stop="onResizeMouseUp(handler, $event)"
+                    @click.stop="onResizeMouseClick(handler, $event)"
+                    class="qux-svg-editor-resize-handler" />
+            </template>
+
 
 
         </g>
@@ -93,15 +108,91 @@ export default {
         cursor: 'default',
         hover: null,
         selection: [],
-        colorHover: 'red',
-        colorSelect: '#49C0F0',
-        pointRadius: 5,
         splitPoint: null,
         selectedJoint: null,
-        boundingBox: null
+        boundingBox: null,
+        config: {
+            pointRadius: 5,
+            colorHover: 'red',
+            colorSelect: '#49C0F0',
+            handlerSize: 7
+        }
     };
   },
   computed: {
+      resizeHandles () {
+          let result = []
+          if (this.boundingBox) {
+              let size = this.config.handlerSize
+              let offset = Math.floor(size / 2)
+              let bbox = this.boundingBox
+              let wHalf = Math.round(bbox.w / 2)
+              let hHalf = Math.round(bbox.h / 2)
+              result.push({
+                  x: bbox.x - offset,
+                  y: bbox.y - offset,
+                  w: size,
+                  h: size,
+                  type: 'LeftUp',
+                  vertical: true,
+                  horizontal: true
+              })
+              result.push({
+                  x: bbox.x - offset,
+                  y: bbox.y + bbox.h - offset,
+                  w: size,
+                  h: size,
+                  type: 'LeftDown'
+              })
+              result.push({
+                  x: bbox.x + bbox.w - offset,
+                  y: bbox.y - offset,
+                  w: size,
+                  h: size,
+                  type: 'RightUp'
+              })
+              result.push({
+                  x: bbox.x + bbox.w - offset,
+                  y: bbox.y + bbox.h - offset,
+                  w: size,
+                  h: size,
+                  type: 'RighDown'
+              })
+
+              result.push({
+                  x: bbox.x + bbox.w - offset,
+                  y: bbox.y + hHalf - offset,
+                  w: size,
+                  h: size,
+                  type: 'East'
+              })
+
+              result.push({
+                  x: bbox.x - offset,
+                  y: bbox.y + hHalf - offset,
+                  w: size,
+                  h: size,
+                  type: 'West'
+              })
+
+              result.push({
+                  x: bbox.x + wHalf - offset,
+                  y: bbox.y - offset,
+                  w: size,
+                  h: size,
+                  type: 'North'
+              })
+
+              result.push({
+                  x: bbox.x + wHalf - offset,
+                  y: bbox.y + bbox.h - offset,
+                  w: size,
+                  h: size,
+                  type: 'South'
+              })
+          }
+          return result
+      },
       joints () {
         let paths = this.selectedPaths
         let points = paths.flatMap(path => {
@@ -112,7 +203,7 @@ export default {
                     y: point.y,
                     id:i,
                     selected: this.selectedJoint ? this.selectedJoint.id === i : false,
-                    r: this.pointRadius
+                    r: this.config.pointRadius
                 }
             })
         })
@@ -138,11 +229,11 @@ export default {
                   }).join(' ')
               }
               if (this.hover === path.id) {
-                  svg.stroke = this.colorHover
+                  svg.stroke = this.config.colorHover
               }
-              if (this.isSelected(path)) {
-                  svg.stroke = this.colorSelect
-              }
+              // if (this.isSelected(path)) {
+              //    svg.stroke = this.config.colorSelect
+              //}
               // console.debug(path.d.length, svg.d)
               return svg
           })
@@ -157,6 +248,28 @@ export default {
      * Event handler
      *****************************************/
 
+    onResizeMouseDown (handler, e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onResizeMouseDown(handler, this.boundingBox, pos)
+        }
+    },
+
+    onResizeMouseUp (handler, e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onResizeMouseUp(handler,this.boundingBox, pos)
+        }
+    },
+
+    onResizeMouseClick (handler, e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onResizeMouseClick(handler, this.boundingBox, pos)
+        }
+    },
+
+    // bounding box
     onBBoxMouseDown (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -178,6 +291,7 @@ export default {
         }
     },
 
+    // joints
     onJointMouseDown (joint, e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -199,6 +313,7 @@ export default {
         }
     },
 
+    // element
     onElementBlur () {
         if (this.currentTool) {
             this.currentTool.onElementBlur()
@@ -218,6 +333,7 @@ export default {
         }
     },
 
+    // canvas
     onMouseClick (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -240,6 +356,7 @@ export default {
         }
     },
 
+    // keyboard
     onEsc () {
         if (this.currentTool) {
             this.currentTool.onEsc()
@@ -290,7 +407,7 @@ export default {
     startMorphTool () {
         this.logger.log(-1, 'startPathTool ', 'enter')
         this.mode = 'morph'
-        this.currentTool = new MorphTool(this, this.pointRadius)
+        this.currentTool = new MorphTool(this, this.config.pointRadius)
     },
 
     startSelectTool () {
@@ -343,7 +460,7 @@ export default {
             this.splitPoint = {
                 x: pos.x,
                 y: pos.y,
-                r: this.pointRadius
+                r: this.config.pointRadius
             }
         } else {
             this.splitPoint = null

@@ -50,17 +50,8 @@ export default class MorphTool extends Tool{
     split (pos, path, svg) {
         this.logger.log(5, 'split', 'enter' , pos, path)
 
-        // look for end, from index to end,
-        let points = {}
-        path.d.forEach((p,i) => {
-            if (!points[p.x]) {
-                points[p.x] = {}
-            }
-            points[p.x][p.y] = i
-        })
-
         // now scan once backwards to find point before.
-        let start =  this.getSplitStart(points, pos, svg)
+        let start =  this.getSplitStart(path, pos, svg)
         if (start >= 0) {
             // add *after* the start
             this.logger.log(-1, 'split', 'exit > add at' , start + 1)
@@ -70,6 +61,9 @@ export default class MorphTool extends Tool{
                 y: Math.round(pos.y)
             })
             this.editor.setSplitPoint()
+            this.editor.setSelectedJoint({
+                id: start + 1 
+            })
         }
         this.editor.onChange()
     }
@@ -143,7 +137,15 @@ export default class MorphTool extends Tool{
         return result
     }
 
-    getSplitStart (points, pos, svg) {
+    getSplitStart (path, pos, svg) {
+        let points = {}
+        path.d.forEach((p,i) => {
+            if (!points[p.x]) {
+                points[p.x] = {}
+            }
+            points[p.x][p.y] = i
+        })
+
         let start = -1
         for (let i = pos.index; i >= 0; i--) {
             let p = svg.getPointAtLength(i)
@@ -151,8 +153,14 @@ export default class MorphTool extends Tool{
             let yf = Math.floor(p.y)
             let xc = Math.ceil(p.x)
             let yc = Math.ceil(p.y)
+            // here is some times a bug...
+            // can we calculate the distance?
             if (points[xf] && points[xf][yf] >= 0 ){
                 start = points[xf][yf]
+                break
+            }
+            if (points[xf] && points[xf][yc] >= 0) {
+                start = points[xf][yc]
                 break
             }
             if (points[xc] && points[xc][yc] >= 0) {
@@ -163,10 +171,7 @@ export default class MorphTool extends Tool{
                 start = points[xc][yf]
                 break
             }
-            if (points[xf] && points[xf][yc] >= 0) {
-                start = points[xf][yc]
-                break
-            }
+            
         }
         return start
     }
@@ -176,6 +181,7 @@ export default class MorphTool extends Tool{
         let path = this.editor.getElementById(joint.parent)
         if (path) {
             let point = path.d[joint.id]
+            this.editor.setSelectedJoint(joint)
             if (point) {
                 this.movePoint = point
                 this.editor.setCursor('move')

@@ -28,10 +28,19 @@
     cursor: pointer;
 }
 
-
+.qux-svg-editor-resize-handler {
+    stroke-width: 1;
+    stroke: #49C0F0;
+    fill: #fff;
+    cursor: pointer;
+}
 
 .qux-svg-editor-bounding {
     stroke-width: 1;
     stroke: #49C0F0;
-    fill: rgba(0, 0, 0, 0);
+    fill: rgba(0, 0, 0, 0.0);
+}
+
+.qux-svg-editor-click-line{
+    cursor: pointer;
 }

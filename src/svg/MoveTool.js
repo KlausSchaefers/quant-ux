@@ -49,7 +49,11 @@ export default class MoveTool extends Tool{
      * 
      */
     onClick() {
-        this.logger.log(-1, 'onClick', 'enter', this.splitPoint)
+        this.logger.log(-1, 'onClick', 'enter')
+        // FIXME: Click might be called if we release
+        // on canvas an not the handler. Do we have to have some kind
+        // of timeout?
+        this.editor.setState('moveEnd')
     }
 
     onDoubleClick () {
@@ -58,38 +62,118 @@ export default class MoveTool extends Tool{
 
 
     onMove (pos) {
-        if (this.bbox && this.positions && this.selected) {
-            let difX = this.startPos.x - pos.x
-            let difY = this.startPos.y - pos.y 
-            // this.logger.log(-1, 'onBBoxMouseDown', 'enter', difX + ' ' + difY)
-
-            // update paths
-            this.selected.forEach((element,i) => {
-                let positions = this.positions[i]
-                if (element.type === 'Path') {
-                    element.d.forEach((point,j) => {
-                        let start = positions[j]
-                        point.x = start.x - difX
-                        point.y = start.y - difY
-                    })
-                }
-            })
-
-            // update bounding box
-            let newBoundingBox = {
-                x: this.bbox.x - difX,
-                y: this.bbox.y - difY,
-                w: this.bbox.w,
-                h: this.bbox.h
+        if (this.bbox) {
+            if (this.handler) {
+               this.resizeBoundingBox(this.bbox, pos)
+            } else {
+                this.moveBoundingBox(pos)
             }
-            this.editor.setBoundingBox(newBoundingBox)
         }
+    }
+
+    resizeBoundingBox (bbox, pos) {
+        // update bounding box
+        let newBoundingBox = this.getResizedBundingBox(bbox, this.handler.type, pos)
+      
+        // scale paths
+        this.selected.forEach((element,i) => {
+            let positions = this.positions[i]
+            if (element.type === 'Path') {
+                element.d.forEach((point,j) => {
+                    let rel = positions[j]
+                    point.x = newBoundingBox.x + newBoundingBox.w * rel.x
+                    point.y = newBoundingBox.y + newBoundingBox.h * rel.y
+                })
+            }
+        })
+
+        this.editor.setBoundingBox(newBoundingBox)
+    }
+
+    getResizedBundingBox (box, type, pos) {
+        let difX = pos.x - this.startPos.x
+        let difY = pos.y - this.startPos.y
+
+        let result = Object. assign({}, box)
+        switch (type) {
+            case 'LeftUp':
+                result.x = result.x + difX
+                result.y = result.y + difY
+                result.w = result.w - difX
+                result.h = result.h - difY
+                break;
+
+            case 'LeftDown':
+                result.x = result.x + difX
+                result.w = result.w - difX
+                result.h = result.h + difY
+                break;
+
+            case 'RightUp':
+                result.y = result.y + difY
+                result.w = result.w + difX
+                result.h = result.h - difY
+                break;
+
+            case 'RighDown':
+                result.w = result.w + difX
+                result.h = result.h + difY
+                break;
+
+            case 'South':
+                result.h = result.h + difY
+                break;
+
+            case 'North':
+                result.y = result.y + difY
+                result.h = result.h - difY
+                break;
+
+            case 'West':
+                result.x = result.x + difX
+                result.w = result.w - difX
+                break;
+
+            case 'East':
+                result.w = result.w + difX
+                break;
+            
+            default:
+                break
+        }
+        return result
+    }
+
+    moveBoundingBox (pos) {
+        let difX = pos.x - this.startPos.x
+        let difY = pos.y - this.startPos.y
+        //this.logger.log(-1, 'moveBoundingBox', 'enter', difX + ' ' + difY)
+     
+        // update paths
+        this.selected.forEach((element,i) => {
+            let positions = this.positions[i]
+            if (element.type === 'Path') {
+                element.d.forEach((point,j) => {
+                    let start = positions[j]
+                    point.x = start.x + difX
+                    point.y = start.y + difY
+                })
+            }
+        })
+
+        // update bounding box
+        let newBoundingBox = {
+            x: this.bbox.x + difX,
+            y: this.bbox.y + difY,
+            w: this.bbox.w,
+            h: this.bbox.h
+        }
+        this.editor.setBoundingBox(newBoundingBox)
     }
 
     onBBoxMouseDown (bbox, pos) {
         this.logger.log(-1, 'onBBoxMouseDown', 'enter')
-        this.bbox = Object. assign({}, bbox)
-        this.startPos = pos
+        this.initMove(bbox, pos)
         this.positions = this.selected.map(element => {
             if (element.type === 'Path') {
                 return element.d.map(point => {
@@ -106,13 +190,47 @@ export default class MoveTool extends Tool{
 
     onBBoxMouseUp () {
         this.logger.log(-1, 'onBBoxMouseUp', 'enter')
-        delete this.bbox
-        delete this.startPos
-        delete this.positions
+        this.cleanMove()
         this.editor.setCursor('default')
     }
 
     onBBoxMouseClick () {
+    }
+
+    onResizeMouseDown (handler, bbox, pos) {
+        this.logger.log(-1, 'onResizeMouseDown', 'enter', handler.type)
+        this.initMove(bbox, pos)
+        this.positions = this.selected.map(element => {
+            if (element.type === 'Path') {
+                return element.d.map(point => {
+                    return {
+                        x: (point.x - bbox.x) / bbox.w,
+                        y: (point.y - bbox.y) / bbox.h
+                    }
+                })
+            }
+            return []
+        })
+        this.handler = handler
+    }
+
+    onResizeMouseUp(handler, bbox, pos) {
+        this.logger.log(-1, 'onResizeMouseUp', 'enter', handler)
+        this.cleanMove(bbox, pos)
+    }
+
+
+    initMove (bbox, pos) {
+        this.bbox = Object. assign({}, bbox)
+        this.startPos = pos
+       
+    }
+
+    cleanMove () {
+        delete this.bbox
+        delete this.startPos
+        delete this.positions
+        delete this.handler
     }
 
    
