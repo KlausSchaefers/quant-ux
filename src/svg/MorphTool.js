@@ -140,6 +140,7 @@ export default class MorphTool extends Tool{
     getSplitStart (path, pos, svg) {
         let points = {}
         path.d.forEach((p,i) => {
+            // FIXME: to increase precision add here +-1
             if (!points[p.x]) {
                 points[p.x] = {}
             }
