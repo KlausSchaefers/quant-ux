@@ -2,13 +2,64 @@ import Layer from 'canvas/controller/Layer'
 
 export default class Group extends Layer {
 
-	updateGroupProperties (ids, props, type){
-		this.logger.log(0,"updateGroupProperties", "enter > " +type);	
-		
+	updateGroup (id, type, key, value) {
+		this.logger.log(-1,"updateGroup", "enter > " + id, type);
+
 		/**
-		 * FIXME:we could also make our own command here to save some storage in the CommandStack 
+		 * 1) create multi command
 		 */
-		
+		let group = this.model.groups[id]
+		if (group) {
+			let old = group[type] ? group[type][key] : null
+
+			var command = {
+				timestamp : new Date().getTime(),
+				type : "UpdateGroup",
+				groupId: id,
+				t: type,
+				k: key,
+				n: value,
+				o: old
+			};
+
+			this.modelUpdateGroup(id, type, key, value)
+		} else {
+			this.logger.warn("updateGroup", "could not find group > " + id);
+		}
+
+		this.addCommand(command);
+
+	}
+
+	modelUpdateGroup (id, type, key, value) {
+		let group = this.model.groups[id]
+		if (group) {
+			if (!group[type]) {
+				group[type] = {}
+			}
+			group[type][key] = value
+		}
+		this.onModelChanged()
+	}
+
+	undoUpdateGroup(command) {
+		this.logger.log(0,"undoUpdateGroup", "enter > " + command.id);
+		this.modelUpdateGroup(command.groupId, command.t, command.k, command.o)
+	}
+
+	redoUpdateGroup (command) {
+		this.logger.log(0,"undoUpdateGroup", "enter > " +command.id);
+		this.modelUpdateGroup(command.groupId, command.t, command.k, command.n)
+	}
+
+	/**********************************************************************
+	 * Multi Styles
+	 **********************************************************************/
+
+	updateMultiProperties (ids, props, type){
+		this.logger.log(-1,"updateMultiProperties", "enter > " + type, props);
+
+
 		/**
 		 * 1) create multi command
 		 */
@@ -18,14 +69,14 @@ export default class Group extends Layer {
 			label : "UpdateGroupProps",
 			children :[]
 		};
-		
+
 		/**
-		 * Hack because some styles are by 
+		 * Hack because some styles are by
 		 * default null (which is rendered as solid)
 		 */
-		var ignoreStyles = ["borderTopStyle", "borderBottomStyle", "borderRightStyle", "borderLeftStyle", "fontWeight", 
+		var ignoreStyles = ["borderTopStyle", "borderBottomStyle", "borderRightStyle", "borderLeftStyle", "fontWeight",
 							"fontStyle", "textDecoration", "boxShadow", "textShadow", "opacity", "fixed"];
-		
+
 		for(var i=0; i< ids.length; i++){
 			/**
 			 * we just assume the object was already cloned.
@@ -54,32 +105,27 @@ export default class Group extends Layer {
 				}
 			}
 		}
-		
-	
-		
 		this.addCommand(command);
-		
+
 		this.onModelChanged();
 		this.render();
-		
-		
 	}
-	
+
 	alignGroup (direction){
-		this.logger.log(0,"alignGroup", "enter > " +direction);	
+		this.logger.log(0,"alignGroup", "enter > " +direction);
 		this.showError("Group Alignment not supported yet");
 	}
-	
+
 	/**********************************************************************
 	 * Theme Group add
 	 **********************************************************************/
-	
+
 	addGroupByTheme (themedGroup, pos){
 		this.logger.log(0,"addGroupByTheme", "enter > "+ themedGroup.id);
 
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
-		
-			
+
+
 		/**
 		 * 1) create multi command
 		 */
@@ -89,7 +135,7 @@ export default class Group extends Layer {
 			label : "AddGroupByTheme",
 			children :[]
 		};
-	
+
 		/**
 		 * create new group
 		 */
@@ -98,7 +144,7 @@ export default class Group extends Layer {
 			children : [],
 			name : themedGroup.name
 		};
-		
+
 		/**
 		 * 2) create child widgets
 		 */
@@ -110,25 +156,25 @@ export default class Group extends Layer {
 			 * we just give new id and set position
 			 */
 			let widget = children[i];
-	
+
 			widget.id = "w"+this.getUUID();
 			widget.x +=  pos.x;
 			widget.y +=  pos.y;
 			widget.z = z+1+i;
-			
+
 			/**
 			 * do not forget to add to group
 			 */
 			group.children.push(widget.id);
-			
+
 			let child = this._createAddWidgetCommand(widget);
 			command.children.push(child);
-		
+
 			this.modelAddWidget(widget, true);
 		}
-		
-		
-		
+
+
+
 		/**
 		 * 3) add group
 		 */
@@ -139,30 +185,30 @@ export default class Group extends Layer {
 		};
 		command.children.push(child);
 		this.modelAddGroup(group, true);
-		
+
 		this.addCommand(command);
-		
+
 		this.onModelChanged();
 		this.render();
-		
-			
+
+
 	}
-	
+
 	/**********************************************************************
 	 * Template Group add
 	 **********************************************************************/
-	
+
 
 	addGroupByTemplate (group, pos){
 		this.logger.log(0,"addGroupByTemplate", "enter > "+ group.template);
-		
+
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
-		
+
 		var groupTemplate = this.model.templates[group.template];
-		
+
 
 		if(groupTemplate){
-			
+
 			group = this.factory.createTemplatedModel(groupTemplate);
 			group.id = "tg"+this.getUUID();
 
@@ -170,7 +216,7 @@ export default class Group extends Layer {
 			if (targetScreen) {
 				group.name = this.getGroupName(targetScreen.id, group.name)
 			}
-			
+
 			/**
 			 * 1) create mutli command
 			 */
@@ -180,7 +226,7 @@ export default class Group extends Layer {
 				label : "AddGroupByTemplate",
 				children :[]
 			};
-			
+
 			/**
 			 * order by z
 			 */
@@ -191,7 +237,7 @@ export default class Group extends Layer {
 				children.push(child);
 			}
 			children = this.getOrderedWidgets(children);
-		
+
 			group.children=[];
 			/**
 			 * 2) create child widgets
@@ -200,7 +246,7 @@ export default class Group extends Layer {
 			for(let i=0; i< children.length; i++){
 				let widgetTemplate = children[i];
 				let widget = this.factory.createTemplatedModel(widgetTemplate);
-				
+
 				widget.id = "w"+this.getUUID();
 				widget.x +=  pos.x;
 				widget.y +=  pos.y;
@@ -210,12 +256,12 @@ export default class Group extends Layer {
 				let child = this._createAddWidgetCommand(widget);
 				command.children.push(child);
 				group.children.push(widget.id);
-				
+
 				this.modelAddWidget(widget, true);
 			}
-			
-			
-			
+
+
+
 			/**
 			 * 3) add group
 			 */
@@ -226,25 +272,25 @@ export default class Group extends Layer {
 			};
 			command.children.push(child);
 			this.modelAddGroup(group, true);
-			
+
 			this.addCommand(command);
-			
+
 			this.onModelChanged();
 			this.render();
 		}
 	}
-	
-	
+
+
 	/**********************************************************************
 	 * Group name
 	 **********************************************************************/
-	
-	
+
+
 	setGroupName (id, value){
 		this.logger.log(2,"setGroupName", "enter ");
-		
+
 		if(this.model.groups && this.model.groups[id]){
-		
+
 			var group = this.model.groups[id];
 			if(group.name != value){
 				this.logger.log(4,"setGroupName", "enter " + id+ " " + value);
@@ -256,23 +302,23 @@ export default class Group extends Layer {
 					modelId : id
 				};
 				this.addCommand(command);
-				
+
 				/**
 				 * do the model update
 				 */
-				this.modelGroupName(id, value);					
-			} 				
-			
+				this.modelGroupName(id, value);
+			}
+
 		} else {
 			console.warn("setGroupName() > No group with id", id)
 		}
 
 	}
-	
+
 	modelGroupName (id, value){
-		if(this.model.groups && this.model.groups[id]){				
+		if(this.model.groups && this.model.groups[id]){
 			var group = this.model.groups[id];
-			group.name = value;		
+			group.name = value;
 			this.onModelChanged();
 			this.onGroupNameChange(group)
 		} else {
@@ -280,23 +326,23 @@ export default class Group extends Layer {
 		}
 	}
 
-	
+
 	undoGroupName (command){
 		this.modelGroupName(command.modelId, command.o);
 	}
-	
-	
+
+
 	redoGroupName (command){
 		this.modelGroupName(command.modelId, command.n);
 	}
-	
+
 	/**********************************************************************
 	 * Group add
 	 **********************************************************************/
 
 	addGroup (selection){
 		this.logger.log(0,"addGroup", "enter ");
-		
+
 		/**
 		 * Since 2.1.3 we have sub groups:
 		 * Check that we do not have group of group!
@@ -326,7 +372,7 @@ export default class Group extends Layer {
 		let group = {
 			id : "g"+this.getUUID(),
 			children : children,
-			groups: subGroups, 
+			groups: subGroups,
 			name : name
 		};
 		/**
@@ -338,41 +384,41 @@ export default class Group extends Layer {
 			model : group
 		};
 		this.addCommand(command);
-		
+
 		this.modelAddGroup(group);
 
 		// console.debug("Group.add() ", JSON.stringify(this.model.groups, null, 2))
-		
+
 		this.render();
-		
+
 		this.showSuccess("Group was created!");
-		
+
 		return group;
 	}
 
-	
+
 	modelAddGroup (group, ignoreModelUpdate, line){
-	
+
 		if(!this.model.groups){
 			this.model.groups = {};
 		}
-		
+
 		this.model.groups[group.id] = group;
-		
+
 		if(line){
 			this.model.lines[line.id] = line;
 		}
-		
+
 		if(!ignoreModelUpdate){
 			this.onModelChanged();
 		}
 	}
-	
+
 	undoAddGroup (command){
 		this.modelRemoveGroup(command.model);
 		this.render();
 	}
-	
+
 	redoAddGroup (command){
 		this.modelAddGroup(command.model);
 		this.render();
@@ -381,16 +427,16 @@ export default class Group extends Layer {
 	/**********************************************************************
 	 * Group Remove
 	 **********************************************************************/
-	
+
 
 	removeGroup (id){
 		this.logger.log(1, "removeGroup", "enter >> " + id);
-		
+
 		if(this.model.groups && this.model.groups[id]) {
 			var group = this.model.groups[id];
 			var command = this.createRemoveGroupCommand(group);
 			this.addCommand(command);
-			this.modelRemoveGroup(group, command.line);	
+			this.modelRemoveGroup(group, command.line);
 			this.unSelect();
 			this.render();
 		} else {
@@ -398,9 +444,9 @@ export default class Group extends Layer {
 			console.warn("Could not remove group with " , id);
 		}
 	}
-	
+
 	createRemoveGroupCommand (group){
-		
+
 		var command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveGroup",
@@ -416,43 +462,43 @@ export default class Group extends Layer {
 		}
 		return command;
 	}
-	
 
-	
+
+
 	modelRemoveGroup (group, line, doNotCallModelChanged){
 		var id = group.id;
 		if(this.model.groups && this.model.groups[id]){
 			delete this.model.groups[id];
-			
+
 			/**
 			 * also update lines
 			 */
 			if(line){
 				delete this.model.lines[line.id];
 			}
-			
+
 			if(!doNotCallModelChanged){
 				this.onModelChanged();
 			}
-			
+
 		} else {
 			console.debug(this.model.groups);
 			console.warn("Could not delete group", group);
 		}
 	}
-	
+
 	undoRemoveGroup (command){
 		this.modelAddGroup(command.model, false, command.line);
 		this.render();
 	}
-	
+
 	redoRemoveGroup (command){
 		this.modelRemoveGroup(command.model);
 		this.render();
 	}
-	
+
 	/**********************************************************************
-	 * Delete Group and Widgets 
+	 * Delete Group and Widgets
 	 **********************************************************************/
 
 	getAllSubGroups (group, result = []) {
@@ -470,8 +516,8 @@ export default class Group extends Layer {
 
 	removeGroupAndWidgets (id) {
 		this.logger.log(-1, "removeGroupAndWidget", "enter > " + id);
-		
-		
+
+
 		if(this.model.groups && this.model.groups[id]){
 			var group = this.model.groups[id];
 
@@ -483,11 +529,11 @@ export default class Group extends Layer {
 			};
 
 			/**
-			 * Since 2.1.3 we have subgroups. 
+			 * Since 2.1.3 we have subgroups.
 			 * Get all the children before we execute the group removal
 			 */
 			var children = this.getAllGroupChildren(group)
-			
+
 			/**
 			 * 1st) remove group se we have also the children list saved!
 			 */
@@ -504,20 +550,20 @@ export default class Group extends Layer {
 				command.children.push(subGroupChild);
 				this.modelRemoveGroup(subGroup, null, true);
 			})
-					
+
 			/**
-			 * 2) remove widgets. Clone children list as it might 
+			 * 2) remove widgets. Clone children list as it might
 			 * be modified in the modelRemoveWidgetAndLines() method.
 			 */
 			for(let i=0; i < children.length; i++){
-				let id = children[i];				
+				let id = children[i];
 				let child = this.createWidgetRemoveCommand(id);
-				command.children.push(child);					
+				command.children.push(child);
 				var widget = this.model.widgets[id];
-				var lines = this.getLines(widget);		
-				var refs = this.getReferences(widget);				
+				var lines = this.getLines(widget);
+				var refs = this.getReferences(widget);
 				this.modelRemoveWidgetAndLines(widget, lines, refs, true);
-			}			
+			}
 			this.addCommand(command);
 			this.onModelChanged();
 			this.unSelect();

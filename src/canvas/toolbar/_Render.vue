@@ -64,7 +64,7 @@ export default {
 							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
 							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
 							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
-							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation', 
+							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging'],
 			hasLogic2: ["LogicOr", "Rest"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
@@ -301,6 +301,8 @@ export default {
 			 */
 			this._renderGroupName();
 
+			this._renderGroupResponsive();
+
 			this._renderGroupAction();
 
 			/**
@@ -463,6 +465,22 @@ export default {
 			this.groupName = this.createInput(content, "Group Name");
 			this.own(on(this.groupName, "change", lang.hitch(this, "onGroupNameChange")));
 
+			this.properties.appendChild(parent);
+			this.groupNameDiv = parent;
+		},
+
+		_renderGroupResponsive (){
+
+			var parent = this.createSection("Reponsive Resizing", true);
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.responsiveGroupWidget = this.$new(Resize);
+			this.responsiveGroupWidget.setModel(this.model);
+			this.responsiveGroupWidget.placeAt(content);
+			this.own(on(this.responsiveGroupWidget, "change", lang.hitch(this, "setGroupProperties", "resize")));
 
 			this.groupPositionCheckBox = this.$new(CheckBox);
 			this.groupPositionCheckBox.setLabel("Fixed In Simulator");
@@ -471,12 +489,12 @@ export default {
 			this.own(on(this.groupPositionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.groupPositionCheckBox.placeAt(content)
 
+			this.responsiveGroupDiv = parent;
 			this.properties.appendChild(parent);
-			this.groupNameDiv = parent;
 		},
 
 
-		_renderGroupAction:function(){
+		_renderGroupAction (){
 
 			var parent = this.createSection("Action");
 
@@ -664,6 +682,8 @@ export default {
 			this.lowCodeSection = this.$new(LowCodeSection);
 			this.own(on(this.lowCodeSection, "changeStyle", lang.hitch(this, "setWidgetStyle")));
 			this.own(on(this.lowCodeSection, "changeProps", lang.hitch(this, "setWidgetProps")));
+			this.own(on(this.lowCodeSection, "changeGroupProps", lang.hitch(this, "setGroupProperties")));
+			this.own(on(this.lowCodeSection, "changeGroupStyle", lang.hitch(this, "setGroupStyle")));
 			this.lowCodeSection.placeAt(content)
 
 			this.lowCodeDiv = parent;
@@ -785,11 +805,6 @@ export default {
 			this.boxDiv = parent;
 			this.properties.appendChild(parent);
 		},
-
-
-
-
-
 
 		_renderWidgetBackground:function(){
 
@@ -1420,25 +1435,30 @@ export default {
 		showGroupProperties:function(model){
 			this.logger.log(2,"showGroupProperties", "entry > ");
 
+			if (this.isDataView) {
+				return this.showGroupDataProperties(model)
+			}
+
 			this.showProperties();
 
 			if(this.widgetAlignDiv){
 				css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
 			}
 
-			css.remove(	this.groupNameDiv, "MatcToolbarSectionHidden");
-			css.remove(	this.groupActionDiv, "MatcToolbarSectionHidden");
+			if (this.responsiveGroupDiv) {
+				css.remove(this.responsiveGroupDiv, "MatcToolbarSectionHidden")
+			}
+
+			css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
+			css.remove(this.groupActionDiv, "MatcToolbarSectionHidden");
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 
 			this.groupActionBTN.setValue(model);
-
+			this.responsiveGroupWidget.setValue(model)
 
 			/**
 			 * Since 2.1.3 we have sub groups
 			 */
-			// let children = this.getAllGroupChildren(model);
-			// this.childWidget.setGroupChildren(children);
-
 			if(model.name){
 				this.groupName.value = model.name;
 			} else {
@@ -1457,9 +1477,24 @@ export default {
 				css.remove(this.screenDownloadDiv, "MatcToolbarSectionHidden");
 				this.screenExport.setWidgets(model.children);
 			}
-
-
 			this.groupPositionCheckBox.setValue(fixed);
+		},
+
+		showGroupDataProperties (model) {
+			this.showProperties();
+
+			css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
+			css.remove(this.groupActionDiv, "MatcToolbarSectionHidden");
+			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
+			//css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
+
+			this.groupActionBTN.setValue(model);
+			this.groupName.value = model.name ? model.name : "";
+			this.groupName.blur();
+			this.lowCodeSection.setValue(model, true)
+
+			//this.callbackSection.setValue(model)
+
 		},
 
 		showMultiProperties:function(model){
@@ -2279,6 +2314,9 @@ export default {
 
 			if (this.responsiveDiv){
 				css.add(this.responsiveDiv, "MatcToolbarSectionHidden")
+			}
+			if (this.responsiveGroupDiv) {
+				css.add(this.responsiveGroupDiv, "MatcToolbarSectionHidden")
 			}
 			if(this.widgetAlignDiv){
 				css.add(this.widgetAlignDiv, "MatcToolbarSectionHidden");

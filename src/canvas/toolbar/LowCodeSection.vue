@@ -30,20 +30,33 @@ export default {
         'CheckBox': CheckBox
     },
     methods: {
-        onWrapChange (value){		
-            this.emit('changeStyle', 'wrap', value)
+        onWrapChange (value){
+            if (this.isGroup) {
+                this.emit('changeGroupStyle', 'wrap', value)
+            } else {
+                this.emit('changeStyle', 'wrap', value)
+            }
         },
 
         onGridChange (value) {
-            this.emit('changeStyle', 'grid', value)
+            if (this.isGroup) {
+                this.emit('changeGroupStyle', 'grid', value)
+            } else {
+                this.emit('changeStyle', 'grid', value)
+            }
         },
-        
+
         onClickChange (e) {
             this.callbacks.click = e.target.value
-            this.emit('changeProps', 'callbacks', this.callbacks)
+            if (this.isGroup) {
+                this.emit('changeGroupProps', 'callbacks', this.callbacks)
+            } else {
+                this.emit('changeProps', 'callbacks', this.callbacks)
+            }
         },
-		
-		setValue (widget){
+
+		setValue (widget, isGroup = false){
+            this.isGroup = isGroup
       		if (widget.style && widget.style.wrap) {
                 this.isWraped = widget.style.wrap
             } else {
@@ -62,7 +75,7 @@ export default {
                 }
             }
 		}
-    }, 
+    },
     mounted () {
     }
 }

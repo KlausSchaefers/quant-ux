@@ -1,82 +1,82 @@
 
 <template>
      <div class="MatcToolbar">
-		
-								
+
+
 		<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
 		</div>
-		
+
 		<div class="" data-dojo-attach-point="layerListCntr">
 		</div>
-		
-		
+
+
 		<div class="MatcToobarLeft" data-dojo-attach-point="toolsSection">
-			
+
 			<div class="hidden" data-dojo-attach-point="importSection"></div>
 
 			<div class="MatcToolbarItem MatcToolbarItemActive" data-dojo-attach-point="editTool">
 				<span class="mdi mdi-cursor-default"></span>
 			</div>
-			
+
 			<div class="" data-dojo-attach-point="addScreenSection"></div>
-		
+
 			<div class="" data-dojo-attach-point="addSection"></div>
 
 			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="rectangleTool" >
 				<span class="mdi mdi-square-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
-		
+
 			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="textTool" >
 				<span class="mdi mdi-format-text" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
-	
+
 			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="hotspotTool" >
 				<span class="mdi mdi-select" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
-			
+
 			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addLogicSection" >
 				<span class="mdi mdi-rhombus-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
-				
+
 			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addRestSection" v-show="showRestTool">
 				<span class="mdi mdi-cloud-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
 			<div class="MatcToolbarItem MatcToolbarMove" data-dojo-attach-point="moveTool" >
 				<span class="mdi mdi-cursor-move" ></span>
 			</div>
-			
-			
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="selectBtn"> 
+
+
+			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="selectBtn">
 				<span class="mdi mdi-selection"></span>
-				<span class="mdi mdi-cursor-default MatcTinyIcon"></span> 
+				<span class="mdi mdi-cursor-default MatcTinyIcon"></span>
 			</div>
-			
+
 			<div class="" data-dojo-attach-point="commentSection">
-				<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="commentBtn"> 
+				<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="commentBtn">
 					<span class="mdi mdi-comment"></span>
-					
+
 				</div>
 			</div>
-								
+
 		</div>
 
 		<div class="MatcToolbarTop">
-				<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div> 				
-				
+				<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
+
 				<div class="MatcToolbarTopCntr">
-						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">					
+						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
-								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span> 
+								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span>
 								<span class="MatcToolbarLabel">Simulate</span>
 							</a>
-						</div> 		
-						<div class="MatcToolbarSection" data-dojo-attach-point="undoSection">				
+						</div>
+						<div class="MatcToolbarSection" data-dojo-attach-point="undoSection">
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
 								<span class="mdi mdi-undo"></span>
 							</a>
@@ -84,7 +84,7 @@
 								<span class="mdi mdi-redo"></span>
 							</a>
 						</div>
-								
+
 
 						<div class="MatcToolbarSection" data-dojo-attach-point="copyPasteDiv">
 							<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
@@ -98,30 +98,30 @@
 							</a>
 							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
 								<span class="mdi mdi-close-circle"></span>
-							</a>						
+							</a>
 						</div>
 
-						
-					
-					
-										
+
+
+
+
 						<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
-							
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">			
+
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
 							</div>
-							
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">						
+
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
 							</div>
-							
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">						
+
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
 							</div>
-						
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">					
+
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
 								<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
 									<span class="glyphicons glyphicons-hotspot"></span><label class="MatcToolbarLabel">Group</label>
 								</a>
-							</div>					
-						</div>				
+							</div>
+						</div>
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection" v-if="hasProtoMoto">
@@ -129,18 +129,18 @@
 							</div>
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
-						</div> 				
-					
+						</div>
+
 						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
 							<span class="MatcToolbarLabel">Sign Up to Save</span>
 							</a>
-						</div> 						
-			
-				</div> 	
+						</div>
+
+				</div>
 			</div>
-		
-		</div> 
+
+		</div>
 
 </template>
 <script>
@@ -166,8 +166,8 @@ export default {
 	props:['pub'],
     data: function () {
         return {
-            value: false, 
-            active: true, 
+            value: false,
+            active: true,
 			redirectAfterExit: true,
 			showRestTool: true,
 			hasViewConfigVtn: true,
@@ -188,37 +188,37 @@ export default {
     methods: {
         postCreate: function(){
 			this.logger = new Logger("Toolbar");
-			this.logger.log(3, "constructor", "entry > " + this.pub);	
-			
+			this.logger.log(3, "constructor", "entry > " + this.pub);
+
 			this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
 			this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
-			
+
 			this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
 			this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
 			this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
 			this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
 			this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
-			
+
 			this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
 			this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
 			this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
-			
-			this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));	
-			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));	
+
+			this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
+			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
 			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
 			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
 			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
-					
+
 			var btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
 			btn.updateLabel = false;
 			btn.setLabel('<span class="mdi mdi-menu"></span>');
 			btn.setOptions(this.getMainMenu());
 			btn.placeAt(this.home);
-			css.add(btn.domNode, "MatcToolbarItem");		
+			css.add(btn.domNode, "MatcToolbarItem");
 
 		},
-		
-		
+
+
 		getMainMenu   () {
 			var options = [
  			  {label :"Start Simulator", callback:lang.hitch(this, "startSimilator") },
@@ -232,41 +232,41 @@ export default {
 			  {label :"Save As", callback:lang.hitch(this, "onSaveAs")},
 			  {css:"MatcToolbarPopUpLine"},
 			  {label :"Exit", callback:lang.hitch(this, "onExit")},
-			]	
+			]
 			return options
 		},
-		
+
 		setController (c){
-			this.logger.log(3,"setController", "entry");	
-			this.controller = c;	
+			this.logger.log(3,"setController", "entry");
+			this.controller = c;
 			this.own(this.controller.on("notSavedWarningShow", lang.hitch(this,"showSaveButton")));
 			this.own(this.controller.on("commandAdded", lang.hitch(this,"onCommandAdded")));
 		},
-		
+
 		setCanvas (c){
-			this.logger.log(3,"setCanvas", "entry");	
+			this.logger.log(3,"setCanvas", "entry");
 			this.canvas = c;
 		},
 
 		setHash (h){
 			this.hash = h
 		},
-		
+
 		setContext (context){
 			this.context = context;
 		},
-		
+
 		setModelFactory (f){
 			this.logger.log(3,"setModelFactory", "entry");
 			this.factory = f;
 		},
-			
+
 		setModel (m){
 			this.model = m;
 			this.renderToolbar();
 			this.render();
 		},
-		
+
 		setMode (mode){
 			this.logger.log(3,"setMode", "entry > '" + mode + "'");
 			this.mode = mode;
@@ -277,16 +277,16 @@ export default {
 			this.logger.log(-1,"setDataView", "entry ", isDataView);
 			this.isDataView = isDataView
 		},
-		
+
 		setLayerList (layerlist){
 			this.logger.log(-1,"setLayerList", "entry ");
 			layerlist.placeAt(this.layerListCntr)
 		},
-		
+
 		setUser (user){
 			this.user = user;
 		},
-		
+
 		getSettings (){
 			if (this.canvas){
 				return this.canvas.getSettings();
@@ -303,12 +303,12 @@ export default {
 				this.canvas.setCanvasViewConfig(key, value)
 			}
 		},
-		
-		
+
+
 		/********************************************************
 		 * Mian menu handlers
 		 ********************************************************/
-		
+
 		onExit (){
 			this.logger.log(-1,"onExit", "entry > " + this.pub);
 			this.active = false;
@@ -326,22 +326,22 @@ export default {
 				}
 			}
 		},
-		
+
 		onShare (){
 			this.logger.log(0,"onShare", "entry");
 		},
-		
-		
-		
+
+
+
 		onCommandAdded (count){
 			if(this.mode=="public" && count == 50 && !this.reminderShown){
 				this.showSignUpReminderDialog(this.saveButton);
 				this.reminderShown = true;
 			}
 		},
-		
-	
-		
+
+
+
 		/********************************************************
 		 * Selection handlers!
 		 ********************************************************/
@@ -349,7 +349,7 @@ export default {
 		onRulerSelected (screen, ruler) {
 			this.logger.log("onRulerSelected", "entry : active:" + this.active);
 
-				
+
 			if (this.active){
 				try {
 					this.cleanUp();
@@ -359,29 +359,29 @@ export default {
 						ruler: ruler
 					};
 					this.showRulerProperties(screen, ruler);
-					
+
 				} catch(e){
 					console.error(e.stack);
 					this.logger.sendError(e);
 				}
 			} else {
-				this.logger.log(0,"onRulerSelected", "exit > Not Active");	
+				this.logger.log(0,"onRulerSelected", "exit > Not Active");
 			}
 		},
-		
+
 		onWidgetSelected (widget){
-			this.logger.log("onWidgetSelected", "entry : active:" + this.active);	
-			
+			this.logger.log("onWidgetSelected", "entry : active:" + this.active);
+
 			if (this.active){
 				try{
 					/**
 					 * We might want to blur some stuff
 					 */
 					if(this._selectedWidget && this._selectedWidget.id != widget.id){
-						this.logger.log(3,"onWidgetSelected", "exit > no new selection!");	
+						this.logger.log(3,"onWidgetSelected", "exit > no new selection!");
 						this.blurWidgetProperties();
 					}
-					
+
 					this.cleanUp();
 					this._selection = "widget";
 					this._selectedWidget = widget;
@@ -390,47 +390,47 @@ export default {
 					this.showCopyPaste();
 					this.showTools();
 					this.showTemplate(widget);
-	
-					this.logger.log(3,"onWidgetSelected", "exit");	
+
+					this.logger.log(3,"onWidgetSelected", "exit");
 				} catch (e){
 					console.error(e.stack);
 					this.logger.sendError(e);
 				}
 			} else {
-				this.logger.log(0,"onWidgetSelected", "exit > Not Active");	
+				this.logger.log(0,"onWidgetSelected", "exit > Not Active");
 			}
-			
+
 		},
-		
+
 		onInheritedWidgetSelected (widget) {
-			this.logger.log(-1,"onInheritedWidgetSelected", "entry:" + widget.id);	
-			
+			this.logger.log(-1,"onInheritedWidgetSelected", "entry:" + widget.id);
+
 			if (this.active){
 				/**
 				 * We might want to blur some stuff
 				 */
 				if(this._selectedWidget && this._selectedWidget.id != widget.id){
-					this.logger.log(3,"onWidgetSelected", "exit > no new selection!");	
+					this.logger.log(3,"onWidgetSelected", "exit > no new selection!");
 					this.blurWidgetProperties();
 				}
-				
+
 				this.cleanUp();
-				
+
 				this.showInheritedWidgetProperties(widget);
 				this._selection = "inheritedWidget";
 				this._selectedWidget = widget;
 				this._selectionID = widget.id;
 			}
 		},
-		
-		
+
+
 		onScreenSelected (screen){
-			this.logger.log(3,"onScreenSelected", "entry > active: " + this.active);	
-			
+			this.logger.log(3,"onScreenSelected", "entry > active: " + this.active);
+
 			if (this.active){
-				try{				
+				try{
 					this.cleanUp();
-					
+
 					if (screen) {
 						this._selection = "screen";
 						this._selectionID = screen.id;
@@ -438,25 +438,25 @@ export default {
 						this.showScreenProperties(screen);
 						this.showCopyPaste();
 					} else {
-						this.logger.error("onScreenSelected", "exit > no screen passed");	
+						this.logger.error("onScreenSelected", "exit > no screen passed");
 					}
 				}catch(e){
 					console.error(e.stack);
 					this.logger.sendError(e);
 				}
-				this.logger.log(4,"onScreenSelected", "exit");	
+				this.logger.log(4,"onScreenSelected", "exit");
 			} else {
-				this.logger.log(0,"onScreenSelected", "exit > Not active!");	
+				this.logger.log(0,"onScreenSelected", "exit > Not active!");
 			}
 		},
-		
+
 		onLineSelected (line){
 			this.cleanUp();
 			this._selection = "line";
 			this._selectedLine = line;
 			this.showCopyPaste();
 		},
-		
+
 		onMultiSelect (selection){
 			if (this.active){
 				try{
@@ -469,12 +469,12 @@ export default {
 				}catch(e){
 					console.error(e);
 					this.logger.sendError(e);
-				} 
+				}
 			} else {
-				this.logger.log(0,"onMultiSelect", "exit > Not active!");	
+				this.logger.log(0,"onMultiSelect", "exit > Not active!");
 			}
 		},
-		
+
 		onGroupSelect (group){
 			if (this.active){
 				try{
@@ -490,38 +490,38 @@ export default {
 					this.logger.sendError(e);
 				}
 			} else {
-				this.logger.log(0,"onGroupSelect", "exit > Not active!");	
+				this.logger.log(0,"onGroupSelect", "exit > Not active!");
 			}
 		},
-		
-		
-		
+
+
+
 		onCanvasSelected (){
 			this.cleanUp();
 		},
-		
-		
+
+
 		/**
 		 * method which will update all properties. method is called from controller!
 		 */
 		updatePropertiesView (){
-		
+
 			if (this.active){
 				try{
-	
+
 					/**
 					 * 1) check if we have to hide general stuff
 					 */
 					this.hideNotNeededButtons();
-					
-					
+
+
 					/**
 					 * 2) update stuff
 					 */
 					if(this._selectedWidget){
 						this.onWidgetSelected(this._selectedWidget);
 					}
-					
+
 					if(this._selectedScreen){
 						this.onScreenSelected(this._selectedScreen);
 					}
@@ -531,85 +531,85 @@ export default {
 					this.logger.sendError(e);
 				}
 			} else {
-				this.logger.log(0,"updatePropertiesView", "exit > Not active!");	
+				this.logger.log(0,"updatePropertiesView", "exit > Not active!");
 			}
-			
+
 		},
-		
+
 		onChildWidgetSelected (widgetID){
 			if(this.canvas){
 				this.canvas.onWidgetSelected(widgetID);
 			}
 		},
-		
+
 		/********************************************************
 		 * CleanUp
 		 ********************************************************/
-		
-		
+
+
 		cleanUp (){
 			this.storePropertiesState();
-			
+
 			this._flushInputFields();
-			
+
 			this._blurInputFields();
-			
+
 			this.cleanUpUI();
-			
+
 			this._selectedWidget = null;
-			
+
 			this._selectedLine  = null;
-			
-			this._selectedScreen = null; 
-			
+
+			this._selectedScreen = null;
+
 			this._selectedMulti = null;
-			
+
 			this._selectedGroup = null;
-			
+
 			this._selection = null;
-			
+
 			this._selectionID = null
-			
+
 			this._selectedRuler = null
-			
+
 			/**
 			 * UGLY: Make sure the widget drop down is closed. We should have a loop for all
 			 * drop downs!
 			 */
 			this.createBTN.hideDropDown();
 		},
-		
+
 		_blurInputFields (){
-			
+
 			var nodes = document.getElementsByTagName("input");
 			for(var x = 0; x < nodes.length; x++){
 				nodes[x].blur();
 			}
-			
+
 		},
-		
+
 		_flushInputFields (){
 			/**
 			 * a little bit hacky. we flush the screen name now!
 			 * FIXME; This can cause errors in case of undo and redo!
 			 */
-			this.setScreenName(this.stripHTML(this.screenName.value));			
-			
-			this.setWidgetName(this.stripHTML(this.widgetName.value));			
-			
+			this.setScreenName(this.stripHTML(this.screenName.value));
+
+			this.setWidgetName(this.stripHTML(this.widgetName.value));
+
 			this.setGroupName(this.stripHTML(this.groupName.value));
-	
+
 			if(this.widgetSize.isDirty()){
 				this.widgetSize.update();
 			}
 		},
-		
+
 		/**
 		 * The layer list needs to be able to set the name, otherwise the _flushInputFields
 		 * method will be called after and write the old value!
 		 */
 		onModelNameChange (id, type, txt){
-			if (type == "widget"){				
+			if (type == "widget"){
 				this.widgetName.value = txt
 			} else if (type == "screen"){
 				this.screenName.value = txt
@@ -617,16 +617,16 @@ export default {
 				this.groupName.value = txt
 			}
 		},
-		
-		
-		
+
+
+
 		/**********************************************************************
 		 * Add & Remove Events
 		 **********************************************************************/
 
 		onNewRestObject (e) {
 			this.logger.log(-1,"onNewLogicObject", "entry > ");
-			
+
 			var obj = {
 				"id" : "Rest",
 				"name" : "Rest",
@@ -663,10 +663,10 @@ export default {
 			};
 			this.emit("onNewRestObject", {"obj" : obj, "event":e});
 		},
-		
+
 		onNewLogicObject (e){
 			this.logger.log(0,"onNewLogicObject", "entry > ");
-			
+
 			var obj = {
 				"id" : "Or",
 				"name" : "Or",
@@ -689,7 +689,7 @@ export default {
 			this.emit("onNewLogicObject", {"obj" : obj, "event":e});
 		},
 
-		
+
 		onThemedMultiScreen (screens,e ){
 			this.logger.log(0,"onThemedMultiScreen", "entry > ");
 			this.emit("newMultiThemedScreen", {"obj" : screens, "event":e});
@@ -701,11 +701,11 @@ export default {
 				this.controller.setImports(imports)
 			}
 		},
-		
+
 		onNewThemeObject (obj, e){
 			this.logger.log(1,"onNewThemeObject", "entry > " + obj._type + " > " + obj.type+ " > " +obj._isTemplate);
 			var type = obj._type;
-			
+
 			/**
 			 * remove here some of the shit not needed
 			 */
@@ -730,88 +730,88 @@ export default {
 				this.emit("newThemedWidget",{"obj" : obj, "event" : e} );
 			}
 		},
-		
-		
+
+
 		onNewLine (e){
-		
+
 			this.stopEvent(e);
-		
+
 			if(this._selectedWidget){
-			
+
 				this.emit("newLine", {"type" : "line", "event" : e, "from" : this._selectedWidget.id});
-			
+
 			} else if(this._selectedGroup){
-		
+
 				this.emit("newLine", {"type" : "line", "event" : e, "from" : this._selectedGroup.id});
-				
+
 			} else if(this._selectedScreen){
-			
+
 				this.emit("newLine", {"type" : "line", "event" : e, "from" : this._selectedScreen.id});
-				
+
 			}
-		
+
 			return false;
 		},
-		
+
 		onNewTransformLine (e){
 			this.stopEvent(e);
-			
+
 			if(this._selectedWidget){
-			
+
 				this.emit("newLine", {"type" : "line", "event" : e, "from" : this._selectedWidget.id, "duration":500, "animation":"transform"});
-			
+
 			} else if(this._selectedGroup){
-		
+
 				this.emit("newLine", {"type" : "line", "event" : e, "from" : this._selectedGroup.id, "duration":500, "animation":"transform"});
-				
+
 			} else if(this._selectedScreen){
-			
+
 				this.emit("newLine", {"type" : "line", "event" : e, "from" : this._selectedScreen.id, "duration":500, "animation":"transform"});
-				
+
 			}
-		
+
 			return false;
 		},
-		
+
 		onNewComment (e){
 			this.logger.log(0,"onNewComment", "entry");
 			this.stopEvent(e);
-			
+
 			this.emit("newComment", {"type" : "comment", "event" : e});
 		},
-		
 
-		
+
+
 		createOnClick (e){
 			this.emit("newLine", {"type" : "line", "event" : e, "from" : this._selectedWidget.id});
 			return false;
-		},	
-		
-		
+		},
+
+
 
 		/**********************************************************************
 		 * Action
 		 **********************************************************************/
-	
-		
+
+
 		newAction (action){
-		
+
 			if(this._selectedWidget){
 				this.controller.addAction(this._selectedWidget.id, action, false);
 			}
-			
+
 			if(this._selectedGroup){
 				this.controller.addAction(this._selectedGroup.id, action, true);
 			}
-			
+
 		},
-		
+
 		removeAction (action){
-		
+
 			if(this._selectedWidget){
 				this.controller.removeAction(this._selectedWidget.id, action, false);
 			}
-			
+
 			if(this._selectedGroup){
 				this.controller.removeAction(this._selectedGroup.id, action, true);
 			}
@@ -828,69 +828,69 @@ export default {
 				this.controller.updateAction(this._selectedGroup.id, action, true);
 			}
 		},
-		
+
 		/**********************************************************************
 		 * Modes
 		 **********************************************************************/
-	
-		
+
+
 		onMove (e){
 			this.stopEvent(e);
 			this.canvas.setMode("move");
 		},
-		
+
 		onEdit (e){
 			this.stopEvent(e);
 			this.canvas.setMode("edit");
 		},
-		
-		
+
+
 
 		/**********************************************************************
 		 * Copy, Paste, Delete
 		 **********************************************************************/
-	
-		
+
+
 		onCopy (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onCopy", "entry : " + this._selection);
-			
+
 			this.canvas.onCopy();
 		},
-		
+
 		onPaste (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onPaste", "entry : " + this._selection);
-			
+
 			this.canvas.onPaste(true,e);
 		},
-		
-	
+
+
 		onDelete (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onDelete", "entry : " + this._selection);
-			
+
 			if(this._selection == "line"){
 				this.removeLine();
-			} 
-			
+			}
+
 			if(this._selection == "widget"){
 				this.removeWidget();
 			}
-			
+
 			if(this._selection == "screen"){
 				this.removeScreen();
 			}
-			
+
 			if(this._selection == "multi"){
 				this.removeMulti();
 			}
-			
+
 			if(this._selection == "group"){
 				this.removeGroup();
 			}
 		},
-			
+
 		removeLine (){
 			if(this._selectedLine){
 				this.controller.removeLine(this._selectedLine);
@@ -912,7 +912,7 @@ export default {
 			}
 			return false;
 		},
-		
+
 		removeLineById (id){
 			var line = this.model.lines[id];
 			if(line){
@@ -922,7 +922,7 @@ export default {
 				console.debug("removeLineById() > No Line with id", id)
 			}
 		},
-		
+
 		removeWidget (){
 			if(this._selectedWidget){
 				var group = this.getParentGroup(this._selectedWidget.id);
@@ -935,7 +935,7 @@ export default {
 			}
 			return false;
 		},
-		
+
 		removeScreen (){
 			if(this._selectedScreen){
 				this.controller.removeScreen(this._selectedScreen.id);
@@ -943,7 +943,7 @@ export default {
 			}
 			return false;
 		},
-		
+
 		removeMulti (){
 			if(this._selectedMulti){
 				this.controller.removeMultiWidget(this._selectedMulti);
@@ -951,7 +951,7 @@ export default {
 			}
 			return false;
 		},
-		
+
 		removeGroup (){
 			if(this._selectedGroup){
 				this.controller.removeGroupAndWidgets(this._selectedGroup.id);
@@ -959,42 +959,42 @@ export default {
 			}
 			return false;
 		},
-		
+
 		/**********************************************************************
 		 * Tools which get activated and change how the canvas responds to clicks
 		 **********************************************************************/
-	
+
 		onToolCreateTheme (e){
 			this.stopEvent(e);
 			this.showThemeCreateDialog();
 		},
-		
+
 		onToolUpdateTemplate (e) {
 			this.stopEvent(e);
 			this.logger.log(1,"onToolUpdateTemplate", "entry : " + this._selectedWidget);
 			this.controller.updateTemplateStyle(this._selectedWidget.id);
 		},
-		
+
 		onToolCreateTemplate (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onToolCreateTemplate", "entry : " + this._selectedWidget);
-		
+
 			var name="New Template";
 			if(this._selectedWidget && this._selectedWidget.name){
 				name = this._selectedWidget.name;
 			}
-			
+
 			if(this._selectedScreen && this._selectedScreen.name){
 				name = this._selectedScreen.name;
 			}
-			
+
 			if(this._selectedGroup && this._selectedGroup.name){
 				name = this._selectedGroup.name;
 			}
-				
+
 			this.showTemplateCreateDialog(name);
 		},
-		
+
 		onToolbarReplicate (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onToolbarReplicate", "entry : " + this._selectedWidget);
@@ -1003,7 +1003,7 @@ export default {
 				css.toggle(this.replicateBtn, "MatcToolbarItemActive");
 			}
 		},
-		
+
 		onToolbarDistribute (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onToolbarDistribute", "entry : " + this._selectedWidget);
@@ -1013,24 +1013,24 @@ export default {
 			}
 		},
 
-		
+
 		onToolCopyStyle (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onCopyStyle", "entry : " + this._selection);
-			
+
 			if(this._selection != "screen"){
 				this.canvas.onCopyStyle();
 				this.toolCopyPasteStyleStart();
 			}
-			
+
 		},
-		
-		
+
+
 		onToolAlignElements (value, e){
 			this.logger.log(1,"onAlignElements", "entry : " + this._selection);
 			this.stopEvent(e);
-	
-	
+
+
 			if(this._selectedMulti){
 				/**
 				 * in case we are in a selction we will align to the selection!
@@ -1065,20 +1065,20 @@ export default {
 					}
 				}
 			}
-		
-	
+
+
 		},
-		
-		
+
+
 		onToolDistributeElements (value, e){
 			this.logger.log(0,"onToolDistributeElements", "entry : " + this._selection);
 			this.stopEvent(e);
-			
+
 			if(this._selectedMulti){
 				this.controller.distributeWidgets(value, this._selectedMulti);
-			} 
+			}
 		},
-		
+
 		onToolSelect (mode, e){
 			this.logger.log(1,"onModeClick", "entry > '" + mode + "'");
 			this.stopEvent(e);
@@ -1092,13 +1092,13 @@ export default {
 				this.controller.setMode("select");
 			}
 		},
-		
+
 		onToolText (e){
 			this.logger.log(1,"onToolHotspot", "entry >");
 			this.stopEvent(e);
-			
+
 			topic.publish("matc/canvas/click", "");
-			
+
 			/**
 			 * toggle between modes!
 			 */
@@ -1108,13 +1108,13 @@ export default {
 				this.controller.setMode("addText");
 			}
 		},
-		
+
 		onToolBox (e){
 			this.logger.log(1,"onToolHotspot", "entry >");
 			this.stopEvent(e);
-			
+
 			topic.publish("matc/canvas/click", "");
-			
+
 			/**
 			 * toggle between modes!
 			 */
@@ -1124,13 +1124,13 @@ export default {
 				this.controller.setMode("addBox");
 			}
 		},
-	
+
 		onToolHotspot (e){
 			this.logger.log(1,"onToolHotspot", "entry >");
 			this.stopEvent(e);
-			
+
 			topic.publish("matc/canvas/click", "");
-			
+
 			/**
 			 * toggle between modes!
 			 */
@@ -1140,18 +1140,18 @@ export default {
 				this.controller.setMode("hotspot");
 			}
 		},
-		
+
 		onToolGroup (e){
 			this.logger.log(1,"onToolGroup", "entry");
 			this.stopEvent(e);
-			
+
 			if(this._selectedGroup){
 				/**
 				 * Ungroup
 				 */
 				this.controller.removeGroup(this._selectedGroup.id);
 			}
-			
+
 			if(this._selectedMulti){
 				/**
 				 * Create a group and let the canvas select it!
@@ -1160,22 +1160,22 @@ export default {
 				if(group){
 					this.canvas.onGroupSelected(group.id);
 				}
-			
+
 			}
 		},
-		
-		
+
+
 		onToolWidgetLayer (value){
 
 			this.logger.log(1,"onToolWidgetLayer", "entry > "+ value);
-			
-	
+
+
 			var selection = this._getSelectedWidgets();
 
-			if(selection.length > 0){				
+			if(selection.length > 0){
 				var widgets = this.model.widgets;
-				var oldValues = this.getZValues(widgets);				
-				var offset = this._getZOffset(selection, oldValues);			
+				var oldValues = this.getZValues(widgets);
+				var offset = this._getZOffset(selection, oldValues);
 				switch(value) {
 				    case "front":
 				    	var max = this.getMaxZValue(widgets);
@@ -1204,40 +1204,40 @@ export default {
 				    		oldValues[id] = min - l + offset[id];
 				    	}
 				        break;
-				} 
-				
+				}
+
 				/**
 				 * normalize z-values to have the model a little bit better. Lowest value should be
 				 * zero, not more than one step between layers
 				 */
 				var newValues = this.getNormalizeWidgetZValues(oldValues);
-				
-				
+
+
 				this.controller.setWidgetLayers(newValues);
-				
+
 			}
-			
-			
+
+
 		},
-		
+
 		_getZOffset (selection, values){
 			var offsets = {};
-			
+
 			var min = 100000;
-			
+
 			for(let i=0;i< selection.length; i++){
 		    	let id =selection[i];
 		    	min = Math.min(min, values[id]);
 			}
-			 
+
 			for(let i=0;i< selection.length; i++){
 			    let id =selection[i];
 			    offsets[id] = values[id] - min;
 			}
-			
+
 			return offsets;
 		},
-		
+
 		_getSelectedWidgets (){
 			var selection = [];
 			if(this._selectedWidget){
@@ -1254,72 +1254,72 @@ export default {
 			}
 			return selection;
 		},
-		
+
 		/**********************************************************************
 		 * UI Callback to update style & props
 		 **********************************************************************/
-	
+
 		toggleLineHide (value){
-			this.logger.log(3,"toggleLineHide", "entry >" + value);	
-			
-			
-			if(this._selectedWidget){				
+			this.logger.log(3,"toggleLineHide", "entry >" + value);
+
+
+			if(this._selectedWidget){
 				let line = this.getLineFrom(this._selectedWidget);
 				if(line){
-					this.controller.updateLineProperties(line.id, "hidden", value);					
+					this.controller.updateLineProperties(line.id, "hidden", value);
 				} else {
 					console.warn("toggleLineHide() > No line for widget. Check should no be visible!");
 				}
 			}
-			
-			if(this._selectedGroup){				
+
+			if(this._selectedGroup){
 				let line = this.getLineFrom(this._selectedGroup);
 				if(line){
-					this.controller.updateLineProperties(line.id, "hidden", value);					
+					this.controller.updateLineProperties(line.id, "hidden", value);
 				} else {
 					console.warn("toggleLineHide() > No line for Group. Check should no be visible!");
 				}
 			}
 		},
-		
+
 		setLineProperty (key, value){
-			this.logger.log(2,"setLineProperty", "entry >" + key + " : " + value);	
-						
-			if(this._selectedWidget){				
+			this.logger.log(2,"setLineProperty", "entry >" + key + " : " + value);
+
+			if(this._selectedWidget){
 				let line = this.getLineFrom(this._selectedWidget);
 				if(line){
-					this.controller.updateLineProperties(line.id, key, value);					
+					this.controller.updateLineProperties(line.id, key, value);
 				} else {
 					console.warn("setLineProperty() > No line for widget. Check should no be visible!");
 				}
 			}
-			
-			if(this._selectedGroup){				
+
+			if(this._selectedGroup){
 				let line = this.getLineFrom(this._selectedGroup);
 				if(line){
-					this.controller.updateLineProperties(line.id, key, value);					
+					this.controller.updateLineProperties(line.id, key, value);
 				} else {
 					console.warn("setLineProperty() > No line for Group. Check should no be visible!");
 				}
 			}
 		},
-		
-		
+
+
 		setLinePropertyByID (id, key, value){
-			this.logger.log(0,"setLinePropertyByID", "entry >" + id + " > "+  key + " : " + value);	
-			
+			this.logger.log(0,"setLinePropertyByID", "entry >" + id + " > "+  key + " : " + value);
+
 			var line = this.model.lines[id];
 			if(line){
 				this.controller.updateLineProperties(line.id, key, value);
-				
+
 			} else {
 				console.warn("setLinePropertyByID() > No line with id " + id + ". Check should no be visible!");
 			}
 		},
-		
+
 		updateLineByID (id, newLine){
-			this.logger.log(0,"updateLineByID", "entry >" + id );	
-			
+			this.logger.log(0,"updateLineByID", "entry >" + id );
+
 			var line = this.model.lines[id];
 			if(line){
 				this.controller.updateLineAllProperties(line.id, newLine);
@@ -1327,22 +1327,22 @@ export default {
 				console.warn("updateLineByID() > No line with id " + id + ". Check should no be visible!");
 			}
 		},
-		
+
 		setWidgetSize (pos){
-			this.logger.log(1,"setWidgetSize", "entry > ");	
-			
+			this.logger.log(1,"setWidgetSize", "entry > ");
+
 			if(this._selectedWidget){
-				
-				this.controller.updateWidgetPosition(this._selectedWidget.id, pos, true);	
+
+				this.controller.updateWidgetPosition(this._selectedWidget.id, pos, true);
 			}
-			
+
 			return false;
 		},
-		
+
 		enableInheritedWidget () {
-			this.logger.log(1,"enableInheritedWidget", "entry > ");	
+			this.logger.log(1,"enableInheritedWidget", "entry > ");
 			if(this._selectedWidget){
-				var newWidget = this.controller.enableInheritedWidget(this._selectedWidget);	
+				var newWidget = this.controller.enableInheritedWidget(this._selectedWidget);
 				if(newWidget){
 					/**
 					 * Trigger Selecion in Canvas which will also trigger back the selection
@@ -1355,107 +1355,126 @@ export default {
 			}
 			return false;
 		},
-		
+
 		setScreenSize (pos){
-			this.logger.log(0,"setScreenSize", "entry > "+ pos.w + "/" + pos.h);	
-			
+			this.logger.log(0,"setScreenSize", "entry > "+ pos.w + "/" + pos.h);
+
 			if(this._selectedScreen){
-				
-				this.controller.updateScreenWidthAndHeight(this._selectedScreen.id, pos);	
-			}			
+
+				this.controller.updateScreenWidthAndHeight(this._selectedScreen.id, pos);
+			}
 			return false;
 		},
-		
-		
+
+
 		toggleStyle (key, value){
-			this.logger.log(0,"toggleStyle", "entry > " + key + " - "+ value);			
+			this.logger.log(0,"toggleStyle", "entry > " + key + " - "+ value);
 			var modelKey = this._getViewStyleModelKey();
-			var newStyle = {};			
-			if(this._selectedWidget && this._selectedWidget.style){			
+			var newStyle = {};
+			if(this._selectedWidget && this._selectedWidget.style){
 				let style = this._selectedWidget[modelKey];
 				if(style && (style[key] == null || style[key] != value)){
 					newStyle[key] = value;
 				} else {
 					newStyle[key] = "";
-				}				
+				}
 				this.controller.updateWidgetProperties(this._selectedWidget.id, newStyle, modelKey);
-			} else if(this._selectedMulti && this._selectedMulti[0]){		
+			} else if(this._selectedMulti && this._selectedMulti[0]){
 				var widget = this.model.widgets[this._selectedMulti[0]];
 				if(widget){
-					let style = widget[modelKey];			
+					let style = widget[modelKey];
 					if(style && (style[key] == null || style[key] != value)){
 						newStyle[key] = value;
 					} else {
 						newStyle[key] = "";
 					}
-					this.controller.updateGroupProperties(this._selectedMulti, newStyle, modelKey);	
-				}				
-			}			
+					this.controller.updateMultiProperties(this._selectedMulti, newStyle, modelKey);
+				}
+			}
 			return false;
 		},
-		
-		
+
+
 		setWidgetStyle (key, value){
-			this.logger.log(-1,"setWidgetStyle", "entry > " + key + " - "+ value);	
-			
+			this.logger.log(2,"setWidgetStyle", "entry > " + key + " - "+ value);
+
 			var newSytle = {};
 			newSytle[key] = value;
 			var modelKey = this._getViewStyleModelKey();
-			
-			if(this._selectedWidget && this._selectedWidget.style){							
-				this.controller.updateWidgetProperties(this._selectedWidget.id, newSytle, modelKey);					
-			} else if(this._selectedMulti){				
-				this.controller.updateGroupProperties(this._selectedMulti, newSytle, modelKey);					
-			}else if(this._selectedGroup){
-				this.controller.updateGroupProperties(this._selectedGroup.children, newSytle, modelKey);					
-			}
-			return false;
-		},
-		
-		
-		setWidgetMultiStyle (newStyle){
-			this.logger.log(0,"setWidgetMultiStyle", "entry");	
-			var modelKey = this._getViewStyleModelKey();
-			if(this._selectedWidget && this._selectedWidget.style){	
-				this.controller.updateWidgetProperties(this._selectedWidget.id, newStyle, modelKey);	
+
+			if(this._selectedWidget && this._selectedWidget.style){
+				this.controller.updateWidgetProperties(this._selectedWidget.id, newSytle, modelKey);
 			} else if(this._selectedMulti){
-				this.controller.updateGroupProperties(this._selectedMulti, newStyle, modelKey);	
+				this.controller.updateMultiProperties(this._selectedMulti, newSytle, modelKey);
+			}else if(this._selectedGroup){
+				this.controller.updateMultiProperties(this._selectedGroup.children, newSytle, modelKey);
 			}
 			return false;
 		},
-		
+
+
+		setWidgetMultiStyle (newStyle){
+			this.logger.log(2,"setWidgetMultiStyle", "entry");
+			var modelKey = this._getViewStyleModelKey();
+			if(this._selectedWidget && this._selectedWidget.style){
+				this.controller.updateWidgetProperties(this._selectedWidget.id, newStyle, modelKey);
+			} else if(this._selectedMulti){
+				this.controller.updateMultiProperties(this._selectedMulti, newStyle, modelKey);
+			}
+			return false;
+		},
+
 		_getViewStyleModelKey (){
 			return this.widgetViewModeBtn.getValue();
 		},
-						
-		
+
+
 		setWidgetProps (key, value){
-			this.logger.log(2,"setWidgetProps", "entry > " + key + " - "+ value);	
+			this.logger.log(2,"setWidgetProps", "entry > " + key + " - "+ value);
 			if(this._selectedWidget){
 				if(this._selectedWidget.props){
 					var newProps = {};
 					newProps[key] = value;
 					this.controller.updateWidgetProperties(this._selectedWidget.id, newProps, "props");
-				} 
+				}
 			}
 			return false;
 		},
-		
-		
+
+		setGroupProperties (key, value) {
+			this.logger.log(2,"setGroupProperties", "entry > " + key + " - "+ value);
+			if (this._selectedGroup) {
+				var newProps = {};
+				newProps[key] = value;
+				this.controller.updateGroup(this._selectedGroup.id, 'props', key, value)
+			}
+			return false
+		},
+
+		setGroupStyle (key, value) {
+			this.logger.log(2,"setGroupStyle", "entry > " + key + " - "+ value);
+			if (this._selectedGroup) {
+				var newProps = {};
+				newProps[key] = value;
+				this.controller.updateGroup(this._selectedGroup.id, 'style', key, value)
+			}
+			return false
+		},
+
 		setScreenStyle (key, value){
-			this.logger.log(2,"setScreenStyle", "entry > " + key + " - "+ value);	
+			this.logger.log(2,"setScreenStyle", "entry > " + key + " - "+ value);
 			if(this._selectedScreen){
 				if(this._selectedScreen.style){
 					var newSytle = {};
 					newSytle[key] = value;
 					this.controller.updateScreenProperties(this._selectedScreen.id, newSytle, "style");
-				} 
+				}
 			}
 			return false;
 		},
-		
+
 		setRulerProperties (props) {
-			this.logger.log(2,"setRulerProperties", "entry ");	
+			this.logger.log(2,"setRulerProperties", "entry ");
 			if (this._selectedRuler) {
 				this.controller.updateScreenRulerProps(this._selectedRuler.screen.id, this._selectedRuler.ruler.id, props)
 			}
@@ -1468,24 +1487,24 @@ export default {
 				this.controller.updateScreenRulerValue(this._selectedRuler.screen.id, this._selectedRuler.ruler.id, v)
 			}
 		},
-		
+
 		/***************************************************************************************************************
 		 *  Temp Styles without model updates. Just update the rendering!
 		 ***************************************************************************************************************/
 		setTempScreenStyle (key, value){
-			this.logger.log(0,"setTempScreenStyle", "entry > " + key + " - "+ value);	
+			this.logger.log(0,"setTempScreenStyle", "entry > " + key + " - "+ value);
 			if(this._selectedScreen){
 				if(this._selectedScreen.style){
 					var newSytle = {};
 					newSytle[key] = value;
 					this.canvas.setTempScreenStyle(this._selectedScreen.id, newSytle);
-				} 
+				}
 			}
 			return false;
 		},
-		
+
 		setTempWidgetStyle (key, value){
-			this.logger.log(2,"setTempWidgetStyle", "entry > " + key + " - "+ value);	
+			this.logger.log(2,"setTempWidgetStyle", "entry > " + key + " - "+ value);
 			var modelKey = this._getViewStyleModelKey();
 			if ("style" == modelKey) {
 				var newStyle = {};
@@ -1493,92 +1512,92 @@ export default {
 				/**
 				 * FIXME: What does this do?
 				 */
-				modelKey = this._getViewStyleModelKey();				
-				if(this._selectedWidget && this._selectedWidget.style){							
-					this.canvas.setTempWidgetStyle(this._selectedWidget.id, newStyle);					
-				} else if(this._selectedMulti){	
+				modelKey = this._getViewStyleModelKey();
+				if(this._selectedWidget && this._selectedWidget.style){
+					this.canvas.setTempWidgetStyle(this._selectedWidget.id, newStyle);
+				} else if(this._selectedMulti){
 					for (var i=0; i < this._selectedMulti.length; i++){
 						this.canvas.setTempWidgetStyle(this._selectedMulti[i], newStyle);
-					}			
+					}
 				}
 			}
 			return false;
 		},
-	
+
 		setTempMultiWidgetStyle (newStyle){
-			this.logger.log(0,"setTempMultiWidgetStyle", "entry > " + newStyle);	
-			
-			if(this._selectedWidget && this._selectedWidget.style){							
-				this.canvas.setTempWidgetStyle(this._selectedWidget.id, newStyle);					
-			} else if(this._selectedMulti){	
+			this.logger.log(0,"setTempMultiWidgetStyle", "entry > " + newStyle);
+
+			if(this._selectedWidget && this._selectedWidget.style){
+				this.canvas.setTempWidgetStyle(this._selectedWidget.id, newStyle);
+			} else if(this._selectedMulti){
 				for (var i=0; i < this._selectedMulti.length; i++){
 					this.canvas.setTempWidgetStyle(this._selectedMulti[i], newStyle);
-				}			
+				}
 			}
 			return false;
 		},
-		
-		
+
+
 		setScreenStart (key, value){
-			this.logger.log(2,"setScreenStart", "entry > " + key + " - "+ value);	
+			this.logger.log(2,"setScreenStart", "entry > " + key + " - "+ value);
 			if(this._selectedScreen){
 				if(this._selectedScreen.props){
 					var newProps = {};
 					newProps[key] = value;
 					this.controller.updateScreenStart(this._selectedScreen.id, newProps, "props");
-				} 	
+				}
 			}
 			return false;
 		},
 
 		setScreenSegement (key, value) {
-			this.logger.log(0,"setScreenSegement", "entry > " + key + " - "+ value);	
+			this.logger.log(0,"setScreenSegement", "entry > " + key + " - "+ value);
 			if (this._selectedScreen){
 				this.controller.setScreenSegment(this._selectedScreen.id, value);
 			}
 			return false;
 		},
-		
+
 		setScreenProps (key, value){
-			this.logger.log(2,"setScreenProps", "entry > " + key + " - "+ value);	
+			this.logger.log(2,"setScreenProps", "entry > " + key + " - "+ value);
 			if(this._selectedScreen){
 				if(this._selectedScreen.props){
 					var newProps = {};
 					newProps[key] = value;
 					this.controller.updateScreenProperties(this._selectedScreen.id, newProps, "props");
-				} 
+				}
 			}
 			return false;
 		},
-		
-		
+
+
 		setScreenParent (parentScreens){
-			
-			this.logger.log(0,"setScreenParent", "entry > " + parentScreens.length);	
+
+			this.logger.log(0,"setScreenParent", "entry > " + parentScreens.length);
 			if(this._selectedScreen){
-		
+
 				this.controller.setScreenParent(this._selectedScreen.id, parentScreens);
-				
+
 			}
 			return false;
 		},
-	
-		
-		
+
+
+
 		showImageSelector (){
 			this.logger.log(3,"showImageSelector", "entry > ");
 		},
-		
+
 		showLineAction (line){
 			this.logger.log(3,"showLineAction", "entry > " + line.id);
-			
+
 			if(this._selectedWidget){
 				if(this.actionBTN){
 					let actionBTN = this.actionBTN;
 					setTimeout(function(){
 						actionBTN.showActionSettings(line);
 					},50);
-				
+
 				}
 			} else if(this._selectedGroup){
 				if(this.groupActionBTN){
@@ -1589,41 +1608,41 @@ export default {
 				}
 			}
 		},
-		
-		
+
+
 		showWidgetSelector (){
 			if(this.createBTN){
 				this.createBTN.showDropDown();
 			}
 		},
-		
+
 		showScreenSelector (){
 			if(this.screenCreateBtn){
 				this.screenCreateBtn.showDropDown();
 			}
 		},
-		
+
 		onScreenNameChange (){
 			this.setScreenName(this.screenName.value);
 		},
-		
+
 		setScreenName (value){
 			this.logger.log(3,"setScreenName", "entry > " + value);
 			if(this._selectedScreen){
 				this.controller.setScreenName(this._selectedScreen.id, value);
 			}
 		},
-		
-		
+
+
 		onWidgetNameChange (){
 			this.setWidgetName(this.widgetName.value);
 		},
-		
+
 		onGroupNameChange (){
 			this.setGroupName(this.groupName.value);
 		},
-		
-		
+
+
 		setWidgetName (value){
 			this.logger.log(3,"setWidgetName", "entry > " + value);
 			if(this._selectedWidget){
@@ -1634,72 +1653,72 @@ export default {
 				this.controller.setWidgetName(this._selectedWidget.id, value);
 			}
 		},
-		
+
 		setGroupName (value){
 			if(this._selectedGroup && this._selectedGroup.name !== value){
 				this.logger.log(-1,"setGroupName", "entry > " + value);
 				this.controller.setGroupName(this._selectedGroup.id, value);
 			}
 		},
-			
+
 
 		/**********************************************************************
 		 * Undo  & Redo
 		 **********************************************************************/
-		
+
 		hideUndoSection (){
 			css.add(this.undoSection, "MatcToolbarSectionHidden");
 		},
-		
+
 		showUndoSection (){
 			css.remove(this.undoSection, "MatcToolbarSectionHidden");
 		},
-		
+
 		onUndo (){
 			this.logger.log(1,"onUndo", "entry");
 			this.controller.undo();
 			return false;
 		},
-		
+
 		disableUndo (){
 			css.add(this.undo, "MatcToolbarItemDisbaled");
 		},
-		
+
 		enbaleUndo (){
 			css.remove(this.undo, "MatcToolbarItemDisbaled");
 		},
-		
+
 		onRedo (){
 			this.logger.log(1,"onRedo", "entry");
 			this.controller.redo();
 			return false;
 		},
-		
+
 		disableRedo (){
 			css.add(this.redo, "MatcToolbarItemDisbaled");
 		},
-		
+
 		enbaleRedo (){
 			css.remove(this.redo, "MatcToolbarItemDisbaled");
 		},
-		
+
 		setSettings (v){
 			this.logger.log(-1,"setSettings", "entry > ", v);
 			this.settings = v;
 		},
-		
-		
+
+
 		/**********************************************************************
 		 * Helper
 		 **********************************************************************/
-		
+
 		stopEvent (e){
-			if(e){  
+			if(e){
 				e.preventDefault();
 				e.stopPropagation();
 			}
 		}
-    }, 
+    },
     mounted () {
     }
 }
