@@ -101,7 +101,7 @@ export default {
 				var red = this.getInt(this.inputR);
 				var green = this.getInt(this.inputG);
 				var blue = this.getInt(this.inputB);
-				var alpha = this.getInt(this.inputA);
+				var alpha = this.getFloat(this.inputA);
 				var c = new Color([red, green, blue, alpha]);
 				this.setColor(c);
 			},
@@ -121,6 +121,18 @@ export default {
 				var er = /^[0-9]+$/;
 				var valid =  er.test(value);
 				if(!valid || value > 255){
+					css.add(input, "VommondFormInputError");
+					return 0;
+				}
+				css.remove(input, "VommondFormInputError");
+				return value;
+			},
+
+			getFloat (input) {
+				var value = input.value;
+				var er = /^[+-]?\d+(\.\d+)?$/
+				var valid =  er.test(value);
+				if(!valid || value > 1){
 					css.add(input, "VommondFormInputError");
 					return 0;
 				}
@@ -175,7 +187,7 @@ export default {
 			onAlphaMove (rbga, e) {
 				var pos = this.getMousePos(e,this.alphaCntr)
 				var left = pos.left
-				rbga.a = left
+				rbga.a = Math.round(left * 100) / 100
 				this.setAlpha(rbga)
 				this.setControls(rbga);
 			},
