@@ -3,7 +3,7 @@
  * Notification
  ****************************************************/
 .MatcToolbarLowCode{
-	
+
 }
 
 
@@ -65,7 +65,7 @@
 .MatcDialogNotificationVideo{
 	text-align:center;
 	margin-top:20px;
-	
+
 }
 
 .MatcDialogNotificationContent{
@@ -77,31 +77,31 @@
 /****************************************************
  * Image Postion
  ****************************************************/
- 
+
  .MatcToolbarImagePositionCntr{
  	width:800px;
  	height:400px;
  	position:relative;
  	overflow: hidden;
  }
- 
+
  .MatcSliderTable div{
  	height:30px;
  }
- 
+
  .MatcToolbarImagePositionCanvas{
  	position:absolute;
  	display: inline-block;
  	width:100%;
  	height:100%;
  }
- 
+
  .MatcToolbarImagePositionCrop{
  	position:absolute;
  	border:1px solid #999;
  	box-shadow: 0px 0px 0px 980px rgba(255,255,255,0.5);
  }
- 
+
  .MatcToolbarImagePositionImg{
  	position:absolute;
  	background-position: 0 0;
@@ -176,7 +176,7 @@
 
 .MatcActionSettingsPlay{
 	font-size: 50px;
-	color:#fff;	
+	color:#fff;
 	transition-duration:0.2s;
 }
 
@@ -200,9 +200,9 @@
 /****************************************************
  * Action Button
  ****************************************************/
- 
+
 .MatcAction{
-	width: 100%;  
+	width: 100%;
 }
 
 .MatcAction .MatcMultiActionDropDown.MatcToolbarDropDownButton{
@@ -215,12 +215,12 @@
 
 .MatcMultiActionDropDownPopup.MatcToolbarPopUp {
 	width:200px;
-	background: #1973e8;	
+	background: #1973e8;
 	color:#fff;
 }
 
 .MatcMultiActionDropDownPopup.MatcToolbarPopUp .MatcToolbarPopUpArrow{
-	background: #1973e8;	
+	background: #1973e8;
 }
 
 .MatcToolbarDropDownButtonPopup.MatcMultiActionDropDownPopup li:hover {
@@ -236,7 +236,7 @@
 }
 
 .MatcToolbarDropDownButtonPopup .MatcToolbarPopUpBackBtn:hover{
-	color: #1973e8;	
+	color: #1973e8;
 }
 
 .MatcMultiActionDropDown .MatcButtonIconLabel{
@@ -256,17 +256,17 @@
 	display: none;
 }
 
- 
-.MatcAction .MatcToolbarDropDownButton .MatcToolbarItemIcon, 
+
+.MatcAction .MatcToolbarDropDownButton .MatcToolbarItemIcon,
 .MatcToolbarDropDownButton.MatcToolbarGridFull .MatcToolbarItemIcon{
  	width: 167px;
  	text-align: left;
 }
- 
+
 .MatcAction .MatcToolbarItem{
  	height: auto;
 }
- 
+
 .MatcActionDropDownType{
 	margin-right: 5px;
 }
@@ -305,11 +305,11 @@
   	width:20px;
   	height:20px;
   	text-align:center;
-  
+
 }
 
-.MatcToobarRemoveBtn:Hover{	
-	color:red;	
+.MatcToobarRemoveBtn:Hover{
+	color:red;
 }
 .MatcToobarActionCntr:hover .MatcToobarRemoveBtn{
 	opacity:1;
@@ -334,7 +334,7 @@
 
 
 /****************************************************
- * Validation & Rule 
+ * Validation & Rule
  ****************************************************/
 .MatcValidation, .MatcRule {
 	width: 300px;
@@ -342,7 +342,7 @@
 }
 
 
-.MatcRule .MatcDropDownPopUp, 
+.MatcRule .MatcDropDownPopUp,
 .MatcValidation .MatcDropDownPopUp,
 .MatcActionSettings .MatcDropDownPopUp{
 	width: 100%;
@@ -354,7 +354,7 @@
 }
 
 /****************************************************
- * input 
+ * input
  ****************************************************/
 
 .MatcToobarPropertiesSection input{
@@ -400,7 +400,7 @@
  	width:16px;
  	vertical-align: middle;
  	background: none;
- 	
+
 }
 
 .MatcToolbar .VommondRadioBox{
@@ -410,14 +410,14 @@
 
 
 .MatcToolbar .VommondRadioBoxListItem{
-	text-align: left;	
+	text-align: left;
 }
 
 
 
 
 /****************************************************
-* Screen List 
+* Screen List
 ****************************************************/
 .MatcToolbarScreenListDialog{
 	height: 640px;
@@ -441,21 +441,21 @@
 }
 
 .MatcToolbarScreenListItem{
-	
+
 }
 
 
 
 /****************************************************
-* Padding 
+* Padding
 ****************************************************/
 .MatcBoxPadding{
-	padding: 8px;	
+	padding: 8px;
 }
 /****************************************************
-* Border 
+* Border
 ****************************************************/
- 
+
 .MatcBoxBorder{
     display: block;
 }
@@ -488,7 +488,7 @@
 	cursor: pointer;
 }
 
-.MatcBoxBorder .MatcToolbarColor, 
+.MatcBoxBorder .MatcToolbarColor,
 .MatcBoxBorder .MatcToolbarInputDropDownButton{
 	position: absolute;
 	width: 40px;
@@ -508,15 +508,15 @@
 }
 
 
-.MatcBoxBorder .MatcToolbarColor.MatcToolbarItem, 
+.MatcBoxBorder .MatcToolbarColor.MatcToolbarItem,
 .MatcBoxBorder .MatcToolbarInputDropDownButton.MatcToolbarItem{
  	width: 40px;
  	padding: 0px;
  	border: 1px solid #555;
 }
 
-.MatcBoxBorder .MatcToolbarColor .caret, 
-.MatcBoxBorder .MatcToolbarInputDropDownButton .caret, 
+.MatcBoxBorder .MatcToolbarColor .caret,
+.MatcBoxBorder .MatcToolbarInputDropDownButton .caret,
 .MatcBoxBorder .MatcToolbarDropDownButton .caret{
 	display: none;
 }
@@ -542,19 +542,19 @@
 .MatcBorderStyleSolid{
 	border-top:3px solid #ddd;
 	width: 100;
-	height: 1px;	
+	height: 1px;
 }
 
 .MatcBorderStyleDashed{
 	border-top:3px dashed #ddd;
 	width: 100;
-	height: 1px;	
+	height: 1px;
 }
 
 .MatcBorderStyleDotted{
 	border-top:3px dotted #ddd;
 	width: 100;
-	height: 1px;	
+	height: 1px;
 }
 
 .MatcToolbarPopUp .MatcBorderStyle div{
@@ -562,9 +562,9 @@
 }
 
 /****************************************************
- * Fonts 
+ * Fonts
  ****************************************************/
- 
+
 .MatcToolbarBold{
 	font-weight: bold;
 	width: 40px;
@@ -572,7 +572,7 @@
 }
 
 .MatcToolbarItalic{
-	font-style: italic;	
+	font-style: italic;
 	width: 40px;
 	text-align: center;
 }
@@ -594,9 +594,9 @@
 }
 
 /****************************************************
- * BoxShadow 
+ * BoxShadow
  ****************************************************/
- 
+
 .MatcBoxShadowIcon{
 	background: #ddd none repeat scroll 0 0;
     box-shadow: 2px 2px 2px #888;
@@ -626,7 +626,7 @@
 
 
 /****************************************************
- * Shadow Dialog 
+ * Shadow Dialog
  ****************************************************/
 
 .MatcBoxShadowDialog{
@@ -681,7 +681,7 @@
 }
 
 .MatcSliderTable .VommondCheckBox{
-	border-color:#ccc;	
+	border-color:#ccc;
 }
 
 
@@ -703,7 +703,7 @@
 
 .MatcSliderTable .MatcColorBox span{
 	width: 20px;
-	height: 20px;	
+	height: 20px;
 	margin-bottom: 5px;
 	margin-right: 10px;
 }
@@ -721,7 +721,7 @@
 }
 
 /****************************************************
- * TextShadow 
+ * TextShadow
  ****************************************************/
 .MatcTexShadowIcon{
 	text-shadow: 4px 4px #cecece;
@@ -755,9 +755,9 @@
 
 
 /****************************************************
- * VAlign  
+ * VAlign
  ****************************************************/
- 
+
 .MatcToolbarValign{
 	border-width: 1px solid transparent;
 	width: 18px;
@@ -777,9 +777,9 @@
 }
 
 /****************************************************
- * Popup  
+ * Popup
  ****************************************************/
- 
+
 
 
 .MatcToolbarPopUp{
@@ -791,12 +791,12 @@
 	z-index: 900000;
 	padding: 0px;
 	background: white;
-	 box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25); 
+	 box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
 	color:#333;
 }
 
 .MatcToolbarPopUpWide .MatcToolbarPopUp{
-	
+
 }
 
 .MatcToolbarPopUpOpen.MatcToolbarPopUp{
@@ -837,7 +837,7 @@
 	transform:rotate(45deg);
 }
 /****************************************************
- * Popup footer 
+ * Popup footer
  ****************************************************/
  .MatcToolbarPopupFooterMetal{
  	border-top: 1px solid  #aaa;
@@ -854,9 +854,9 @@
 	background: linear-gradient(to bottom,  #cccccc 0%,#dbdbdb 53%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#dbdbdb',GradientType=0 ); /* IE6-9 */
  }
- 
+
 .MatcToolbarPopupFooter{
-		
+
 	background:none;
 	margin: 10px;
     padding-top: 10px;
@@ -885,7 +885,7 @@
 }
 
 .MatcToolbarPopupFooter .glyphicon.glyphicon-remove-sign {
-	font-size: 14px;	
+	font-size: 14px;
 }
 
 .MatcToolbarPopupFooterLabel{
@@ -914,7 +914,7 @@
 
 
 /****************************************************
- * Toggle Button 
+ * Toggle Button
  ****************************************************/
 .MatcToobarPropertiesSection .MatcToolbarToggleButton{
 	border: 1px solid transparent;
@@ -956,14 +956,14 @@ input.MatcToobarInlineEditDisabled:focus{
 
 
 /****************************************************
- * DropDown 
+ * DropDown
  ****************************************************/
 
 .MatcToolbarDropDownButton{
 	display: inline-block;
 	position: relative;
 	padding-left: 5px;
-	
+
 }
 
 .MatcToolbarDropDownButtonPopup{
@@ -1002,7 +1002,7 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 .MatcToolbarDropDownButton .MatcToolbarItemIcon .glyphicon{
-	
+
 }
 
 .MatcToolbarDropDownButton ul, .MatcToolbarDropDownButtonPopup ul{
@@ -1047,11 +1047,11 @@ input.MatcToobarInlineEditDisabled:focus{
 	border-top: 1px solid  #ccc;
 	height: 1px;
 	padding: 0px;
-	border-left: none; 
+	border-left: none;
 }
 
 
-.MatcToolbar .MatcToolbarDropDownButton li:HOVER, 
+.MatcToolbar .MatcToolbarDropDownButton li:HOVER,
 .MatcToolbarDropDownButtonPopup li:hover{
 	background: #cecece;
 }
@@ -1138,9 +1138,9 @@ input.MatcToobarInlineEditDisabled:focus{
 /****************************************************
  * Color Picker
  ****************************************************/
- 
+
 .MatcToolbarColor{
-	
+
 }
 
 .MatcToolbarColorContainer{
@@ -1228,7 +1228,7 @@ td.MatcGradientBox.MatcColorBox span{
 }
 
 .MatcToolbarColorSketch.MatcToolbarColorContainer{
-	width:300px;
+	width:320px;
 }
 
 
@@ -1236,12 +1236,12 @@ td.MatcGradientBox.MatcColorBox span{
 /****************************************************
  * Font Selector
  ****************************************************/
- 
+
  .MatcToolbarPopUp .MatchFont{
  	width: 250px;
  	font-size: 16px;
  }
- 
+
 .MatchFontArial{
 	font-family: Arial;
 }
@@ -1298,13 +1298,13 @@ td.MatcGradientBox.MatcColorBox span{
  *  BoxSize
  ****************************************************/
  .MatcBoxSize{
- 
+
  }
- 
+
  .MatcBoxSize input{
 	width: 60px;
  }
- 
+
 .MatcBoxSize span{
  		display: inline-block;
     font-size: 12px;
@@ -1315,7 +1315,7 @@ td.MatcGradientBox.MatcColorBox span{
 /****************************************************
  * Image upload
  ****************************************************/
- 
+
 
 .MatcImageUploadContainer{
 	min-height: 300px;
@@ -1330,7 +1330,7 @@ td.MatcGradientBox.MatcColorBox span{
 }
 
 
-.MatcImageUpload .MatcUploader{ 
+.MatcImageUpload .MatcUploader{
  	height: 70px;
 	width: 70px;
 	margin-top: 10px;
@@ -1354,7 +1354,7 @@ td.MatcGradientBox.MatcColorBox span{
     background-repeat: no-repeat;
     background-position: center center;
     position: relative;
-    
+
     border:1px solid transparent;
     border-radius:3px;
     cursor: pointer;
@@ -1404,7 +1404,7 @@ td.MatcGradientBox.MatcColorBox span{
 	display: inline-block;
 	font-size: 24px;
 	color:#ccc;
-	padding-top: 20px;	
+	padding-top: 20px;
 }
 
 
@@ -1449,7 +1449,7 @@ td.MatcGradientBox.MatcColorBox span{
 .MatcImageUploadLabel .VommondProgressContainer{
 	height: 30px;
 	border-radius:3px;
-	overflow: hidden;	
+	overflow: hidden;
 }
 
 .MatcImageUploadError{
@@ -1459,7 +1459,7 @@ td.MatcGradientBox.MatcColorBox span{
 /****************************************************
  * Border 2
  ****************************************************/
- 
+
 .MatcBoxBorder2 .MatcToolbarInputDropDownButton input{
 	text-align: center;
 }
@@ -1496,7 +1496,7 @@ td.MatcGradientBox.MatcColorBox span{
 /****************************************************
  * MatcToolbarSlider
  ****************************************************/
- 
+
 .MatcToolbarSlider{
 	width: 150px;
 	display: inline-block;

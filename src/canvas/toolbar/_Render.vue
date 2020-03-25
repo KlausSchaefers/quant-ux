@@ -1484,7 +1484,7 @@ export default {
 			this.showProperties();
 
 			css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
-			css.remove(this.groupActionDiv, "MatcToolbarSectionHidden");
+			// css.remove(this.groupActionDiv, "MatcToolbarSectionHidden");
 			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
 			//css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
 
