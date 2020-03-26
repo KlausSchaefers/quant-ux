@@ -1289,6 +1289,16 @@ export default {
 			this.own(on(this.screenBlurOverlayCheckBox, "change", lang.hitch(this, "setScreenStyle", "blur")));
 			this.screenBlurOverlayCheckBox.placeAt(item)
 
+			/**
+			 * Since 2.4 we allow to show the background
+			 */
+			this.screenBackgroundOverlayCheckBox = this.$new(CheckBox);
+			this.screenBackgroundOverlayCheckBox.setLabel("Show Background");
+			this.addTooltip(this.screenBackgroundOverlayCheckBox.domNode, "The background color will be shown")
+			css.add(this.screenBackgroundOverlayCheckBox.domNode, "MatcToolbarItem");
+			this.own(on(this.screenBackgroundOverlayCheckBox, "change", lang.hitch(this, "setScreenStyle", "hasBackground")));
+			this.screenBackgroundOverlayCheckBox.placeAt(item)
+
 
 			var db = new DomBuilder();
 			var add = db.div("MatcToolbarGridFull MatcPointer MatcToolbarItem ").build(content);
@@ -2217,25 +2227,26 @@ export default {
 
 				this.screenOverlayCheckBox.setValue(style.overlay);
 
+				/**
+					* Since 2.2.2 we show the segemnt box
+					*/
 				if (this.screenSegmentCheckbox) {
 					this.screenSegmentCheckbox.setValue(model.segment)
-
-					/**
-					 * Since 2.2.2 we show the segemnt box
-					 */
 					css.remove(this.screenSegmentCheckbox.domNode, "hidden");
 				}
 
 				if(style.overlay){
 					css.remove(this.screenFixedOverlayCheckBox.domNode, "hidden");
 					css.remove(this.screenBlurOverlayCheckBox.domNode, "hidden");
+					css.remove(this.screenBackgroundOverlayCheckBox.domNode, "hidden")
 				} else {
 					css.add(this.screenFixedOverlayCheckBox.domNode, "hidden");
 					css.add(this.screenBlurOverlayCheckBox.domNode, "hidden");
+					css.add(this.screenBackgroundOverlayCheckBox.domNode, "hidden")
 				}
 				this.screenFixedOverlayCheckBox.setValue(style.fixed);
 				this.screenBlurOverlayCheckBox.setValue(style.blur);
-
+				this.screenBackgroundOverlayCheckBox.setValue(style.hasBackground);
 			} else {
 				console.warn("_Render.showScreenProperties() > No Style", model)
 			}

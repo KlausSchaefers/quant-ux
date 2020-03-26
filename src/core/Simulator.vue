@@ -5,82 +5,82 @@
         	<div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation" data-dojo-attach-point="splashLogo" v-show="step == 0" >
 
 			</div>
-	
+
      		<transition name="fade">
-				<div class="MatcSimulatorContent" v-if="step === 6">
-					<div class="MatcSimulatorContentCntr">
-						<h2>Password</h2>
-						<p>
-							To test this prototype you need a password. Please enter
-							the password and press 	&quot;Next	&quot;
-						</p>
-						<input v-model="password" class="form-control MatcMarginTop" @keypress.enter="setPassword"/>
-									
-						<div class="MatcMarginTop">
-							<div  class="MatcButton MatcSimulatorStartBtn" @click="setPassword()">
-								Next
+						<div class="MatcSimulatorContent" v-if="step === 6">
+							<div class="MatcSimulatorContentCntr">
+								<h2>Password</h2>
+								<p>
+									To test this prototype you need a password. Please enter
+									the password and press 	&quot;Next	&quot;
+								</p>
+								<input v-model="password" class="form-control MatcMarginTop" @keypress.enter="setPassword"/>
+
+								<div class="MatcMarginTop">
+									<div  class="MatcButton MatcSimulatorStartBtn" @click="setPassword()">
+										Next
+									</div>
+									<span class="MatcError" style="margin-left:20px">
+										{{passwordError}}
+									</span>
+
+								</div>
 							</div>
-							<span class="MatcError" style="margin-left:20px">
-								{{passwordError}}
-							</span>
-								
-						</div>	
-					</div>	
-				</div>
-				<div class="MatcSimulatorContent" v-if="step === 2">
-					<div class="MatcSimulatorContentCntr">
-						<h2>Welcome!</h2>
-						<p v-if="settings.description">
-							{{settings.description}}
-						</p>
-						<p v-else>
-							You were invited for a usability test of the "{{model.name}}" application. 
-							You can try out the prototype by clicking on the <b>Start Prototype</b> button. 
-						</p>
-						<p>
-							This is a usability test and your interaction will be stored to make the design better.
-        					We <u>do not store</u> any personal information about you.
-						</p>
-					</div>
-					<div class="MatcMarginTop">
-						<div  class="MatcButton MatcSimulatorStartBtn" @click="onStart()" v-if="getUserTasks().length === 0">
-							Start Prototype
 						</div>
-						<div class="MatcButton MatcSimulatorStartBtn" @click="step = 3" v-else>
-							Show Tasks
-						</div>	
-					</div>		
-				</div>
-				<div class="MatcSimulatorContent" v-if="step === 3">
-					<div class="MatcSimulatorContentCntr">
-					<h2>Tasks!</h2>
-					<p>
-						Please perfrom the following steps! 
-					</p>
-					<div v-for="t in getUserTasks()" :key="t.id">
-						<h3>{{t.name}}</h3>
-						<div class="MatcTestTaskDescription">
-							{{t.description}}
+						<div class="MatcSimulatorContent" v-if="step === 2">
+							<div class="MatcSimulatorContentCntr">
+								<h2>Welcome!</h2>
+								<p v-if="settings.description">
+									{{settings.description}}
+								</p>
+								<p v-else>
+									You were invited for a usability test of the "{{model.name}}" application.
+									You can try out the prototype by clicking on the <b>Start Prototype</b> button.
+								</p>
+								<p>
+									This is a usability test and your interaction will be stored to make the design better.
+											We <u>do not store</u> any personal information about you.
+								</p>
+							</div>
+							<div class="MatcMarginTop">
+								<div  class="MatcButton MatcSimulatorStartBtn" @click="onStart()" v-if="getUserTasks().length === 0">
+									Start Prototype
+								</div>
+								<div class="MatcButton MatcSimulatorStartBtn" @click="step = 3" v-else>
+									Show Tasks
+								</div>
+							</div>
+						</div>
+						<div class="MatcSimulatorContent" v-if="step === 3">
+							<div class="MatcSimulatorContentCntr">
+							<h2>Tasks!</h2>
+							<p>
+								Please perfrom the following steps!
+							</p>
+							<div v-for="t in getUserTasks()" :key="t.id">
+								<h3>{{t.name}}</h3>
+								<div class="MatcTestTaskDescription">
+									{{t.description}}
+								</div>
+							</div>
+							</div>
+
+							<div class="MatcMarginTop">
+							<div class="MatcButton MatcSimulatorStartBtn" @click="onStart()">
+								Start Prototype
+							</div>
 						</div>
 					</div>
-					</div>
-					
-					<div class="MatcMarginTop">
-					<div class="MatcButton MatcSimulatorStartBtn" @click="onStart()">
-						Start Prototype
-					</div>
-				</div>
-			</div>
      		</transition>
-		
-        	<div class="MatcSimulatorStartBtn" data-dojo-attach-point="startNode" v-show="step === 4">Test Prototype</div>
-	
+
+        <div class="MatcSimulatorStartBtn" data-dojo-attach-point="startNode" v-show="step === 4">Test Prototype</div>
+
       </div>
       <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4">
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v2.3.1</div>
+      <div class="MatcSimulatorVersion">v2.4.0</div>
     </div>
   </div>
 </template>
@@ -121,20 +121,20 @@ export default {
 	],
     data: function () {
         return {
-            debug: false, 
-            logData: true, 
-            qr: false, 
-            hash: null, 
-            remoteDebug: false, 
-            skipSplash: false, 
-            lastScroll: 0, 
-            lastMouse: 0, 
-            isGesture: false, 
-            scrollListenTarget: "window", 
-            mouseSampleRate: 50, 
-            currentScrollTop: 0, 
-            hoverAnimationDuration: 150, 
-            runTimerLinesOnScreenLoad: true, 
+            debug: false,
+            logData: true,
+            qr: false,
+            hash: null,
+            remoteDebug: false,
+            skipSplash: false,
+            lastScroll: 0,
+            lastMouse: 0,
+            isGesture: false,
+            scrollListenTarget: "window",
+            mouseSampleRate: 50,
+            currentScrollTop: 0,
+            hoverAnimationDuration: 150,
+            runTimerLinesOnScreenLoad: true,
 			embedded: false,
 			live: false,
 			eventCount: 0,
@@ -151,47 +151,47 @@ export default {
         async postCreate (){
 			this.logger = new Logger("Simulator");
 			this.logger.debugLevel = 1;
-			
+
 			this.screenHistory = [];
 			this.dataBindingValues = {};
-			
+
 			this.renderFactory = new RenderFactory();
 			this.renderFactory.setMode("simulator");
 			this.own(this.renderFactory.on("uiWidgetInit", lang.hitch(this, "onWidgetInit")));
-		
+
 			this._animations = {};
 			this.animationFactory = new Css3Animation();
 
 			var uri = location.hash;
 			var query = uri.substring(uri.indexOf("?") + 1, uri.length);
 			var params = io.queryToObject(query);
-				
-			if(this.mode == "standalone"){		
+
+			if(this.mode == "standalone"){
 				// FIXME: On reloads this may cause issues because we get several screens
 				this.baseURI = uri
-				
+
 				if(params.s == "true"){
 					this.skipSplash = true;
 				}
-				
+
 				if(params.live == "true"){
 					this.live = true;
 				}
-				
+
 				if(params.qr == "true"){
 					this.qr = true;
 					this.showSplashScreen();
 					this.own(on(window, "popstate", lang.hitch(this, "onPopState")));
 				}
-				
+
 				if(params.log &&  params.log != undefined){
 					if(params.log== "false"){
 						this.logData = false;
 					} else {
 						this.logData = params.log;
-					}		
-				}			
-				
+					}
+				}
+
 				if (this.embedded) {
 					this.logData = false;
 					this.qr = true;
@@ -205,25 +205,25 @@ export default {
 						this.setInvitation(params.h);
 						Services.getModelService().findAppByHash(params.h).then(app => this.loadSettings(app))
 					}
-				
+
 				}
-		
+
 			} else {
 				if(this.hash) {
 					this.renderFactory.hash = this.hash;
 				}
 			}
-			
+
 			this.own(this.addTouchStart(this.domNode,lang.hitch(this, "onScreenPress")));
 			this.own(this.addTouchRelease(this.domNode, lang.hitch(this, "onScreenRelease")));
 			this.own(topic.subscribe("MatcSimulatorRenderFixedPopup", lang.hitch(this, "addFixedPopup")));
-			
-			
+
+
 			this.logger.log(0,"postCreate","exit > mode : " + this.mode + " > logData : " + this.logData + " > qr : " + this.qr  + " > embedded:" + this.embedded);
-		
+
 		},
-		
-		
+
+
 		setDebug (d){
 			this.debug = d;
 		},
@@ -255,7 +255,7 @@ export default {
 				this.showPasswordError()
 			}
 		},
-		
+
 		setInvitation (h){
 			this.logger.log(2,"setInvitation","enter");
 			this.hash = h;
@@ -266,25 +266,25 @@ export default {
 				this.renderFactory.hash = h;
 			}
 		},
-		
+
 		setStartScreen (s){
 			if(s){
 				this.startScreenID = s.id;
-			}		
+			}
 		},
-		
+
 		initLiveUpdate (){
 			if (this.live){
 				setTimeout(lang.hitch(this,"checkLiveUpdate"), 1000);
 			}
 		},
-		
+
 		async checkLiveUpdate (){
 			let app = await Services.getModelService().checkAppUpdateByHash(this.hash)
 			this.setLiveUpdate(app)
 			// this._doGet("rest/invitation/"+ this.hash + "/update.json", lang.hitch(this, "setLiveUpdate"));
 		},
-		
+
 		async setLiveUpdate (app){
 			if (app && app.lastUpdate && this.model && this.model.lastUpdate < app.lastUpdate){
 				let app = await Services.getModelService().findAppByHash(this.hash)
@@ -294,7 +294,7 @@ export default {
 				setTimeout(lang.hitch(this,"checkLiveUpdate"), 5000);
 			}
 		},
-		
+
 		doLiveUpdate (app){
 			this.logger.log(0,"doLiveUpdate","enter");
 			try {
@@ -310,18 +310,18 @@ export default {
 				console.error(e);
 			}
 		},
-	
+
 		getScreenDiv (){
 			return this.currentScreenDiv;
 		},
-		
-		
+
+
 		showSplashScreen (){
 			this.logger.log(2,"showSplashScreen","enter >");
 			css.add(this.domNode, "MatcSimulatorSplash MactMainGradient");
-			this._splashTime = new Date().getTime();		
+			this._splashTime = new Date().getTime();
 		},
-		
+
 		async loadSettings (model) {
 			if (this.hash && this.qr) {
 				let settings = await Services.getModelService().findTestByHash(model, this.hash)
@@ -331,7 +331,7 @@ export default {
 			this.setModel(model)
 		},
 
-		setModel (model){	
+		setModel (model){
 			if (model == null) {
 				this.logger.error("setModel","exit > No model");
 				location.href = location.protocol + "//" + location.host + "/404.html";
@@ -342,7 +342,7 @@ export default {
 					this.preloadImages();
 				}
 				if(	this._splashTime > 0){
-					
+
 					this.logger.log(-1,"setModel","show splash");
 					/**
 					 * If we can by splash screen make sure we show it long enough...
@@ -351,7 +351,7 @@ export default {
 					setTimeout(() => {
 						this.afterSplash()
 					}, t);
-					this.fullSreenListener = on(this.startNode, "click", lang.hitch(this, "onStartClick", model));	
+					this.fullSreenListener = on(this.startNode, "click", lang.hitch(this, "onStartClick", model));
 				} else {
 					this.startSimilator(model);
 				}
@@ -369,14 +369,14 @@ export default {
 				return
 			}
 		},
-		
+
 		preloadImages (){
 			this.logger.log(2,"preloadImages","enter");
-			
+
 			var div = document.createElement("div");
 			css.add(div, "MatcSimulatorImagePreloader");
 			this.domNode.appendChild(div);
-			
+
 			for(let id in this.model.screens){
 				let box = this.model.screens[id];
 				if(box.style && box.style.backgroundImage){
@@ -385,7 +385,7 @@ export default {
 					div.appendChild(img);
 				}
 			}
-			
+
 			for(let id in this.model.widgets){
 				let box = this.model.widgets[id];
 				if(box.style && box.style.backgroundImage){
@@ -396,14 +396,14 @@ export default {
 			}
 			this.logger.log(3,"preloadImages","exit");
 		},
-		
-		
+
+
 		onPopState (){
 			var hash = location.hash;
 			if(hash && hash.length > 1){
 				var uri = location.hash;
 				var query = uri.substring(uri.indexOf("?") + 1, uri.length);
-				var params = io.queryToObject(query);				
+				var params = io.queryToObject(query);
 				var screenId = params.s
 				if(this.currentScreen &&  this.currentScreen.id != screenId){
 					this.logger.log(0,"onPopState","back detected! >> " + screenId);
@@ -415,7 +415,7 @@ export default {
 		onStart (e) {
 			this.onStartClick(this.model, e)
 		},
-		
+
 		onStartClick (model, e){
 			this.logger.log(2,"onStartClick","enter");
 			this.stopEvent(e);
@@ -423,7 +423,7 @@ export default {
 			if(this.fullSreenListener){
 				this.fullSreenListener.remove();
 			}
-			
+
 			this.toggleFullScreen();
 			if (this.qr) {
 				this.logger.log(2,"onStartClick","delay start");
@@ -439,26 +439,26 @@ export default {
 				this.startSimilator(model);
 			}
 		},
-		
+
 		startSimilator (model){
 			this.logger.log(2,"startSimilator","enter >" + model.id);
-			
+
 			this.initScale();
 			this.initLiveUpdate();
 			this.initScroll();
-			
+
 			this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 			this.model = Core.addContainerChildrenToModel(this.model);
 			this.model = Core.inlineTemplateStyles(this.model)
-		
+
 			this.initParent();
-			
+
 			this.renderFactory.setModel(this.model);
-				
+
 			this.renderFactory.setScaleFactor(this._scaleX, this._scaleY);
-			
+
 			this.render();
-			
+
 			if((!has("android") && !has("ios"))){
 				this.logger.log(0,"postCreate","Desktop detected -> log mouse!");
 				this.own(on(this.domNode, "mousemove", lang.hitch(this, "onMouseMove")));
@@ -467,18 +467,18 @@ export default {
 				this.own(on(this.domNode,"DOMMouseScroll", lang.hitch(this,"onMouseWheel")));
 				this.logMouse = true;
 			} else{
-				this.logMouse = false;				
+				this.logMouse = false;
 			}
-		
+
 			if (this.model.fonts) {
 				this.attachFontsToDom(this.model.fonts)
 			}
 			this.own(on(window,"resize", lang.hitch(this,"onResize")));
 		},
-		
-		
+
+
 		/**
-		 * When running the simulator not 
+		 * When running the simulator not
 		 */
 		initParent (){
 			if(!this.qr && this.domNode.parentNode){
@@ -486,11 +486,11 @@ export default {
 				this.domNode.parentNode.style.height = this.model.screenSize.h + "px";
 			}
 		},
-	
+
 		setScreenPosition (pos) {
 			this._externScreenPos = pos
 		},
-		
+
 		initScale (){
 			/**
 			 * FIXME: We should have here a way to inject the screensize from outside!
@@ -498,7 +498,7 @@ export default {
 			if (!this._externScreenPos) {
 				if(this.isDesktopTest){
 					/**
-					 * FIXME: For some reason this method does not 
+					 * FIXME: For some reason this method does not
 					 * return the correct size of the node in case of the
 					 * simulator is launched in the dektop test.html.
 					 */
@@ -510,16 +510,16 @@ export default {
 				this.screenPos = this._externScreenPos
 				console.warn('Simulator.initSclae() > Use external screenPOS', this.screenPos)
 			}
-			
+
 			this._scaleX = (this.screenPos.w / this.model.screenSize.w );
 			this._scaleY = this._scaleX;
 			this.logger.log(0,"initScale","exit > h:" + this.screenPos.h + " x w:" + this.screenPos.w + " * " + this._scaleX + " > desk : " + this.isDesktopTest);
 		},
-		
-		
+
+
 		setScreenId (screenID){
 			this.logger.log(3,"setScreen","enter >" + screenID);
-			
+
 			var screen = this.model.screens[screenID];
 			if(screen){
 				this.renderScreen(screen, null);
@@ -527,7 +527,7 @@ export default {
 				console.error("No screen with ", screenID);
 			}
 		},
-		
+
 		cleanUp (){
 			this.logger.log(2,"cleanUp","enter");
 			this.renderFactory.cleanUp();
@@ -539,23 +539,23 @@ export default {
 			delete this.currentOverlayDiv;
 			delete this._scrollWidgets;
 		},
-			
+
 		/**********************************************************
 		 * Navigation
 		 **********************************************************/
-		
+
 		getMatchingLine (screenID, widgetID, line, value) {
 			var logic = this.model.widgets[line.to];
 			if (logic) {
 				var matchedLine = null;
-				var lines = this.getFromLines(logic);				
+				var lines = this.getFromLines(logic);
 				for(var i=0; i< lines.length; i++){
 					line = lines[i];
 					if(line.rule){
 						if(this.isValueMatchingRule(value, true, line.rule)){
-							matchedLine = line;		
+							matchedLine = line;
 							break;
-						}	
+						}
 					} else if(!matchedLine){
 						matchedLine = line;
 					}
@@ -565,7 +565,7 @@ export default {
 				return line;
 			}
 		},
-	
+
 		/**
 		 * Return the line with a given type (lines[i].event === type).
 		 * Handles also old school where there was not event
@@ -577,22 +577,22 @@ export default {
 				}
 			}
 		},
-		
+
 		onTransitionBack (screenID, widgetID, action, e){
 			this.logger.log(0,"onTransitionBack","enter >  sreen:" + screenID + " > widget:" + widgetID);
 			this.stopEvent(e);
 			this.log("WidgetClick",screenID, widgetID, e);
 			var lastScreenLine = this.screenHistory.pop();
 			if(lastScreenLine){
-				
+
 				if(this.currentOverlay){
 					this.popOverlay();
 				} else {
-					
+
 					var lastScreenID  = lastScreenLine.screenID;
 					var screen = this.model.screens[lastScreenID];
 					if(screen){
-						
+
 						/**
 						 * We create here a virtual line...
 						 */
@@ -601,7 +601,7 @@ export default {
 							from : screenID,
 							to : lastScreenID
 						};
-						
+
 						/**
 						 * We copy and inverse the animation if there is
 						 */
@@ -612,82 +612,82 @@ export default {
 							backLine.duration = lastLine.duration;
 							backLine.easing = lastLine.easing;
 						}
-					
+
 						/**
 						 * New we fire the line
 						 */
 						if(screen.style.overlay){
 							this.renderOverlay(backLine, lastScreenID); // FIXME: was line before
 						} else {
-							this.renderTransition(backLine,lastScreenID);		
-						}						
+							this.renderTransition(backLine,lastScreenID);
+						}
 					}
-					
+
 				}
 			}
 		},
-		
+
 		onTransition (screenID, widgetID, line, e){
-			this.logger.log(0,"onTransition","enter >  sreen:" + screenID + " > widget:" + widgetID);			
+			this.logger.log(0,"onTransition","enter >  sreen:" + screenID + " > widget:" + widgetID);
 			this.stopEvent(e);
-			this.log("WidgetClick",screenID, widgetID, e);		
-			this.executeLine(screenID, widgetID, line);				
+			this.log("WidgetClick",screenID, widgetID, e);
+			this.executeLine(screenID, widgetID, line);
 		},
-		
+
 		executeLine (screenID, widgetID, line){
 			/**
 			 * Make sure we flush the output binding in case
 			 * the widget is in a container
 			 */
 			this.flushOutputDataBinding(screenID, widgetID)
-	
+
 			// prevent looping animation to run 4ever
 			if (this.isDestroyed) {
 				return;
 			}
 			if(this.canPerformTransition(line, screenID)){
 				var screen = this.model.screens[line.to];
-				if(screen){				
+				if(screen){
 					/**
 					 * Store the screen because of onWidgetInit
 					 */
 					this.loadingScreen = screen;
 					if(screen.style.overlay){
-						this.logLine(line, screenID);		
+						this.logLine(line, screenID);
 						this.renderOverlay(line, screenID);
 					} else {
-						this.logLine(line, screenID);			
-						this.renderTransition(line,screenID);		
-					}								
-				} else {					
+						this.logLine(line, screenID);
+						this.renderTransition(line,screenID);
+					}
+				} else {
 					/**
 					 * We might have a logic widget in here
 					 */
 					let widget = this.model.widgets[line.to];
 					if(widget){
 						this.logLine(line, screenID);
-						this.executeLogic(screenID, widgetID, widget, line);						
+						this.executeLogic(screenID, widgetID, widget, line);
 					} else {
 						console.warn("onTransition() > No screen or logic widget with id "+ line.to)
-					}					
+					}
 				}
 			} else {
 				this.log("ValidationErrorLine",screenID, widgetID);
 			}
 		},
-		
+
 		/**
 		 * Execute the logic flow. The semantics are the following:
-		 * 
+		 *
 		 * 1) Get all lines in the right order (like they were added)
-		 * 
+		 *
 		 * 2) The *FIRST* line with a rule that matches will be executed
-		 * 
+		 *
 		 * 3) If no line with a rule matches the *FIRST* line will be executed
 		 */
 		async executeLogic (screenID, widgetID, widget, orginalLine){
 			this.logger.log(1,"executeLogic","enter >  " + widget.id + ' '+ widget.type );
-		
+
 			/**
 			 * Get all line sin the correct order
 			 */
@@ -706,7 +706,7 @@ export default {
 			} else {
 				matchedLine = this.getRuleMatchingLine(lines, screenID, restSuccess)
 			}
-	
+
 			this.excuteMatchedLine(matchedLine, screenID, orginalLine)
 		},
 
@@ -734,7 +734,7 @@ export default {
 					}
 				} else {
 					/**
-					 * The *FIRST* line without a condition will be 
+					 * The *FIRST* line without a condition will be
 					 */
 					if(!matchedLine){
 						matchedLine = line;
@@ -744,7 +744,7 @@ export default {
 			return matchedLine;
 		},
 
-		checkDataBindingRule (line) {	
+		checkDataBindingRule (line) {
 			let rule = line.rule
 			let value = this.getDataBindingByPath(rule.databinding)
 			if (!value) {
@@ -759,29 +759,29 @@ export default {
 		checkWidgetRule (line, screenID) {
 			var rule = line.rule;
 			var uiWidget = this.renderFactory.getUIWidgetByID(rule.widget);
-			if(!uiWidget){						
+			if(!uiWidget){
 				var copyId = rule.widget + "@" + screenID;
 				uiWidget = this.renderFactory.getUIWidgetByID(copyId);
-			}		
-			if(uiWidget){	
+			}
+			if(uiWidget){
 				if(this.isRuleMatching(rule, uiWidget)){
 					return line;
-				}						
+				}
 			} else {
 				console.warn("executeLogic() > No rule widget with id", line, rule.widget);
 			}
 		},
 
 		excuteMatchedLine (matchedLine, screenID, orginalLine) {
-	
-			
+
+
 			if(matchedLine){
 				var screen = this.model.screens[matchedLine.to];
 				if(screen){
 					var newLine = lang.clone(matchedLine);
 					newLine.animation = orginalLine.animation;
 					newLine.duration = orginalLine.duration;
-		
+
 					/**
 					 * Store the screen because of onWidgetInit
 					 */
@@ -789,8 +789,8 @@ export default {
 					if(screen.style.overlay){
 						this.renderOverlay(newLine, screenID);
 					} else {
-						this.renderTransition(newLine,screenID);		
-					}							
+						this.renderTransition(newLine,screenID);
+					}
 				} else {
 					/**
 					 * Since 2.1.4 we support chaining of logic widgets
@@ -798,29 +798,29 @@ export default {
 					let widget = this.model.widgets[matchedLine.to];
 					if(widget){
 						this.logLine(matchedLine, screenID);
-						this.executeLogic(screenID, matchedLine.from, widget, matchedLine);						
+						this.executeLogic(screenID, matchedLine.from, widget, matchedLine);
 					} else {
 						console.warn("excuteMatchedLine() > No screen or logic widget with id "+ matchedLine.to)
-					}	
+					}
 				}
 			} else {
 				console.warn("executeLogic() > Could not match any line");
 			}
 		},
-		
-		
+
+
 		isRuleMatching (rule, uiWidget){
 			var value = uiWidget.getValue()
 			var valid = uiWidget.isValid(false);
 			var result = this.isValueMatchingRule(value, valid, rule);
-			this.logger.log(0,"isRuleMatching","enter > " , 
+			this.logger.log(0,"isRuleMatching","enter > " ,
 				rule.value + " " + rule.operator + " " + value + " / " + valid + " =>" + result);
 			return result;
 		},
 
 		isValueMatchingRule (value, valid, rule) {
 			this.logger.log(2,"isValueMatchingRule","enter > " + rule.value + " " + rule.operator + " " + value + " / " + valid);
-			
+
 			var operator = rule.operator;
 			/**
 			 * Special handling for checkbox group.
@@ -830,7 +830,7 @@ export default {
 				console.debug("Simualtor.isRuleMatching.isArray", value)
 				value = value[0]
 			}
-			
+
 			var result = false;
 			switch(operator){
 				case "contains":
@@ -840,7 +840,7 @@ export default {
 						result = lowerValue.indexOf(lowerRule) >= 0;
 					} else {
 						result = false;
-					}				
+					}
 				    break;
 				case "isValid":
 					result = valid;
@@ -851,7 +851,7 @@ export default {
 				case "notchecked":
 					result = (value === false);
 			        break;
-			        
+
 			    case "active":
 			    	result = (value === true);
 			        break;
@@ -890,15 +890,15 @@ export default {
 			        break;
 			    default:
 			    	console.warn("getRuleLabel() > not supported operator", rule.operator)
-			}	
+			}
 			return result;
 		},
-		
+
 		canPerformTransition (line, screenID){
 			this.logger.log(2,"canPerformTransition","enter > " + line.to);
-			
+
 			if(line.validation && line.validation.all){
-				
+
 				var screen = this.model.screens[screenID];
 				if(screen){
 					var isValid = true;
@@ -910,17 +910,17 @@ export default {
 							var uiWidgetValid = uiWidget.isValid(true);
 							isValid = isValid && uiWidgetValid;
 							if(!uiWidgetValid){
-								this.logger.log(2,"canPerformTransition","validate error > " + uiWidget.model.name);								
+								this.logger.log(2,"canPerformTransition","validate error > " + uiWidget.model.name);
 							}
 						}
 					}
-					
+
 					return isValid;
-				}		
+				}
 			}
 			return true;
 		},
-		
+
 		getSession (){
 			if(!this._session){
 				this._session = this.getUUID("S");
@@ -928,7 +928,7 @@ export default {
 			}
 			return this._session;
 		},
-		
+
 		getUser (){
 			if(!this._user){
 				var user = this._getStatus("user");
@@ -941,15 +941,15 @@ export default {
 				}
 				this._user = user;
 			}
-			
+
 			return this._user;
 		},
-		
-		
+
+
 		getUUID (prefix){
 			return prefix + (new Date().getTime()) + "_"+ Math.round(Math.random() * 10000);
 		},
-		
+
 		/**
 		 * http://www.html5rocks.com/en/mobile/fullscreen/
 		 */
@@ -960,10 +960,10 @@ export default {
 				if((has("android") || !has("ios"))){
 					var doc = window.document;
 					var docEl = doc.documentElement;
-	
+
 					var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
 					var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-	
+
 					if(requestFullScreen){
 						if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
 							/**
@@ -985,10 +985,10 @@ export default {
 				this.logger.error("toggleFullScreen","error", e);
 				this.logger.sendError(e)
 			}
-			
+
 		},
-		
-		
+
+
 		highlight (ids){
 			if(this._highlights){
 				for(let i=0; i< this._highlights.length; i++){
@@ -996,12 +996,12 @@ export default {
 					if(this._highlightsInner[i]){
 						this._highlights[i].removeChild(this._highlightsInner[i]);
 					}
-					
+
 				}
 				delete this._highlights;
 				delete this._highlightsInner;
 			}
-			
+
 			if(ids){
 				this._highlights = [];
 				this._highlightsInner = [];
@@ -1018,38 +1018,38 @@ export default {
 				}
 			}
 		},
-		
+
 		getUserTasks:function(){
 			var tasks = [];
 			if (this.settings.tasks && this.settings.tasks){
 				for(var i=0; i< this.settings.tasks.length; i++){
 					var task = this.settings.tasks[i];
-					if(task.description && task.description != "Enter a description here"){	
+					if(task.description && task.description != "Enter a description here"){
 						tasks.push(task);
 					}
 				}
 			}
 			return tasks;
 		},
-		  
+
 	    destroy (){
 			this.logger.log(-1,"destroy","enter");
-			
+
 			this.isDestroyed = true;
-	    	
+
 	    	this.sendMouse();
-	    	
+
 	    	this.cleanUpTempListener();
-	    	
+
 	    	this.cleanUpGestureScreenAnim();
-	    	
+
 	    	this.cleanUpAnimations();
 			/**
 			 * Do not to allow scrolling again!!!
 			 */
 			window.onscroll =null;
 		}
-    }, 
+    },
     mounted () {
 		if (this.app) {
 			this.setModel(this.app)

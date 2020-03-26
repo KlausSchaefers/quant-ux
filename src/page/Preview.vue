@@ -60,7 +60,7 @@ export default {
       this.selectedWidgetID = widgetID;
 
       if (this.model.fonts) {
-				this.attachFontsToDom(this.model.fonts)				
+				this.attachFontsToDom(this.model.fonts)
       }
       this.initScale();
 
@@ -472,7 +472,12 @@ export default {
       }
 
       if (isOverlay) {
-        div.style.backgroundColor = "transparent";
+        /**
+         * Since 2.4 we can have overlays with background
+         */
+        if (!screen.style.hasBackground) {
+          div.style.backgroundColor = "transparent";
+        }
       }
       return div;
     },
