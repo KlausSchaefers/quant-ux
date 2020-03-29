@@ -16,15 +16,15 @@ import css from "dojo/css";
 import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import touch from "dojo/touch";
-import win from 'dojo/_base/win'
-import Logger from 'common/Logger'
+import win from "dojo/_base/win";
+import Logger from "common/Logger";
 
 var _openVommondDropDownButton = null;
 
 export default {
   name: "DropDownButton",
   mixins: [DojoWidget],
-  props:['l', 'options', 'value'],
+  props: ["l", "options", "value"],
   data: function() {
     return {
       selected: false,
@@ -45,10 +45,10 @@ export default {
         this.setLabel(this.l);
       }
       if (this.options) {
-        this.setOptions(this.options)
+        this.setOptions(this.options);
       }
       if (this.value) {
-        this.setValue(this.value)
+        this.setValue(this.value);
       }
     },
 
@@ -63,12 +63,19 @@ export default {
           if (_openVommondDropDownButton.hideDropDown) {
             _openVommondDropDownButton.hideDropDown();
           } else {
-            console.debug( "showDropDown() Strange Open", _openVommondDropDownButton);
+            console.debug(
+              "showDropDown() Strange Open",
+              _openVommondDropDownButton
+            );
           }
         }
 
         css.add(this.domNode, this.openCSS);
-        this._mouseDownListener = on(win.body(), "mousedown", lang.hitch(this, "hideDropDown") );
+        this._mouseDownListener = on(
+          win.body(),
+          "mousedown",
+          lang.hitch(this, "hideDropDown")
+        );
         _openVommondDropDownButton = this;
         this._dropDownOpen = true;
       }
@@ -208,13 +215,13 @@ export default {
     }
   },
   watch: {
-    value (v) {
-      this.setValue(v)
+    value(v) {
+      this.setValue(v);
     }
   },
   mounted() {
-    this.logger = new Logger('DropDownButton')
-    this.logger.log(10, 'mounted', 'enter')
+    this.logger = new Logger("DropDownButton");
+    this.logger.log(10, "mounted", "enter");
   }
 };
 </script>

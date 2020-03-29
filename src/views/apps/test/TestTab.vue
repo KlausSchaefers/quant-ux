@@ -44,7 +44,7 @@
         <h2>Screen Recordings</h2>
         <div class="row">
           <div class="col-md-12" ref="sessionCntr"></div>
-        </div>       
+        </div>
       </div>
     </div>
 
@@ -165,7 +165,9 @@ export default {
           t.canShow = false;
         }
       }
-      
+
+      console.debug(list)
+
       var tbl = this.$new(Table);
       tbl.setColumns([
         {
@@ -175,6 +177,10 @@ export default {
         {
           query: "status",
           label: this.getNLS("videoTableStatus")
+        },
+        {
+          query: "user",
+          label: this.getNLS("videoTableUser")
         },
         {
           query: "taskPerformance",
@@ -221,14 +227,14 @@ export default {
               play.href = "#/" + urlPrefix + "/" + app.id + "/replay/" + row.session + ".html";
               css.add(play, "MatcDashBoardPlay MatcButton");
               play.innerHTML = '<span class="mdi mdi-play"></span>';
-              group.appendChild(play);            
+              group.appendChild(play);
           }
         }
       ]);
 
       tbl.placeAt(this.$refs.sessionCntr);
       tbl.setValue(list);
-    
+
     },
 
     _getTestList: function(events, annotatation, testSettings) {
@@ -238,7 +244,7 @@ export default {
        * Legacy
        */
       if (!testSettings.tasks) {
-        testSettings.tasks = [];    
+        testSettings.tasks = [];
       }
 
       var df = new DataFrame(events);
@@ -247,7 +253,7 @@ export default {
       let sessions = sessionGroup.data;
 
       var annoSession = new DataFrame(annotatation).groupBy("reference");
-     
+
       var actionDF = this.getActionEvents(new DataFrame(events));
 
       var analytics = new Analytics();
@@ -267,6 +273,7 @@ export default {
       var id = 1;
       for (let sessionID in sessions) {
         var session = sessions[sessionID];
+        console.debug(session)
         var date = this.formatDate(session.min("time"));
 
         var anno = annoSession.get(sessionID);
@@ -284,8 +291,15 @@ export default {
           taskSuccess = 0;
         }
 
+        /** Since 2.4 we show also the user */
+        let user = session.data && session.data.length > 0 ? session.data[0].user : '-'
+        if (user.name) {
+          user = user.name
+        }
+
         var item = {
           session: sessionID,
+          user: user,
           taskPerformance: taskSuccess + " / " + taskCount,
           taskNames: sessionTaskNames[sessionID],
           duration: Math.ceil(

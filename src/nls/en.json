@@ -87,6 +87,7 @@
     "taskRecorderAction": "Important",
 
     "videoTableStatus": "Status",
+    "videoTableUser": "User",
     "videoTableDuration": "Duration (sec)",
     "videoTableScreens": "Visited Screens",
     "videoTableEvents": "Events",

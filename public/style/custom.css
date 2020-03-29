@@ -1,0 +1,36 @@
+.MatcMainMenuPublic {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+}
+
+.MatcHome .MatcMainMenuPublic {
+  background: none;
+}
+
+.MatcHeaderTopRow {
+  margin-top: 16px;
+}
+
+a {
+  transition: 150ms ease-in;
+}
+
+.MatcHeaderItem {
+  border-radius: 3px 3px 0 0;
+}
+
+.MatcHeaderItem:hover {
+  border-bottom: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.MatcAbout .MatcSection h2,
+.MatcFeatures .MatcSection h2 {
+  font-size: 32px;
+}
+
+.MatcSection .container,
+.MatcSection .container-fluid {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}

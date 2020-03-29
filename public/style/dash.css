@@ -1,7 +1,7 @@
  /****************************************************
  * TaskPerfGram
  ****************************************************/
- 
+
 .MatcDashTaskPerfGramDialog{
 	width:900px;
 	height:600px;
@@ -9,7 +9,7 @@
 }
 
 .MatcDashTaskPerfGram{
-	
+
 }
 
 
@@ -24,7 +24,7 @@
 	overflow: hidden;
 	top:0px;
 	left:0px;
-	
+
 }
 
 
@@ -205,7 +205,7 @@
 	width: 200px;
 	text-align: right;
 	padding-right: 5px;
-	
+
 	transition: all 0.2s;
 	overflow: hidden;
 }
@@ -286,12 +286,12 @@
 */
 
 .MatcDashTaskPerfGramTaskList{
-	
+
 }
 
 
 .MatcDashTaskPerBottom{
-	
+
 }
 .MatcDashTaskPerHintBar{
 	text-align: right;
@@ -358,15 +358,15 @@
  /****************************************************
  * BIIG Canvas
  ****************************************************/
- 
+
 .MatcDashBigTable div.row > div{
 	padding: 20px;
 	height: 70px;
 	padding-right: 15px;
 }
- 
+
 .MatcDashBigTableHeader{
-	font-size: 18px; 
+	font-size: 18px;
     font-weight: 700;
 }
 
@@ -406,14 +406,14 @@
 
 .MatcDashLabel{
 	font-size: 20px;
-	margin-bottom: 20px;	
+	margin-bottom: 20px;
 	text-align: center;
 	height: 30px;
 }
 
 .MatcDashLabelHint{
 	font-size: 20px;
-	margin-bottom: 20px;	
+	margin-bottom: 20px;
 	text-align: center;
 	height: 30px;
 	 color: #777;
@@ -440,7 +440,7 @@
 }
 
 .MatcDashTableTaskNameCntr{
-	width:300px;
+	width:150px;
 }
 
 .MatcDashTableTaskName{
@@ -499,7 +499,7 @@
  ****************************************************/
 
 .MatcAnalyticCanvas{
-	
+
 }
 
 .MatcAnalyticCanvas .MatcResizeHandle{
@@ -525,7 +525,7 @@
 	overflow: hidden;
 }
 .MatcTask{
-	
+
 }
 
 .MatcTask:HOVER .MatcPlus{
@@ -593,7 +593,7 @@
 .DashTaskListDetailsLabel{
 	color: #999;
     font-weight: 300;
-  
+
 }
 
 .DashTaskListDetailsHeader h2{
@@ -616,12 +616,12 @@
  ****************************************************/
 
 .MatcDashCompareTable{
-	
+
 	width: 100%;
 }
 
 .MatcDashCompareTable td{
-	vertical-align: top;	
+	vertical-align: top;
 }
 
 .MatcDashCompareTableGraph{
@@ -650,18 +650,18 @@
  /****************************************************
  * TaskRecorder
  ****************************************************/
- 
+
  .MatcTaskRecorder{
- 
+
  }
- 
- 
+
+
 .MatcTaskRecorderFlowList, .MatcTaskRecorderInfoBox{
  	width: 610px;
  	height: 400px;
 }
 
- 
+
 .MatcTaskRecorderFlowList ul, .MatcTaskRecorderFlowListTable{
  	list-style: none;
  	overflow: auto;
@@ -683,7 +683,7 @@
 	background: rgb(230, 230, 230);
 	border-bottom: 1px solid #cecece;
 }
- 
+
 .MatcTaskRecorderFlowList li, .MatcTaskRecorderFlowList tr{
  	border-bottom: 1px solid #cecece;
 }
@@ -723,11 +723,11 @@
 	opacity:100;
 	color:#f83a3a;
 }
- 
+
  /****************************************************
  * HeatMap
  ****************************************************/
- 
+
 .MatcHeapMapContainer{
 	position: absolute;
 	z-index: 10010;
@@ -776,7 +776,7 @@
 }
 
 .MatcAnalyticsScreenHeatMapPreview .MatcContentBox{
-	display: inline-block;	
+	display: inline-block;
 }
 
 .MatcAnalyticsScreenLarge .MatcPreviewWrapper{
@@ -824,7 +824,7 @@
 
 .vommondTable .tableHeader a{
 	color: #333;
-} 
+}
 .vommondTable .MatcIgnoreTest{
 	color:#777;
 	text-decoration: line-through;
@@ -868,8 +868,8 @@
 	display: inline-block;
     text-align: center;
     width: 200px;
-} 
- 
+}
+
 .MatcDashNumber{
 	font-size: 80px;
 	padding-top: 20px;
@@ -939,8 +939,8 @@
 .MatcPlayerProgress .VommondSliderBar{
  	background: #49C0F0;
 }
- 
- 
+
+
 .MatcPlayerProgress .VommondSliderHandle{
  	height: 16px;
  	width: 16px;
@@ -1073,12 +1073,12 @@
 }
 
 .MatcFunnelGramCntr{
-	
+
 }
 
 
 .MatcFunnelGramTable{
-	width: 100%;	
+	width: 100%;
 }
 
 .MatcFunnelGramTable tr{
@@ -1092,7 +1092,7 @@
  	text-align: right;
  	padding: 3px;
  	padding-right: 10px;
- 	
+
 }
 
 .MatcFunnelGramTableLabel{
@@ -1220,29 +1220,29 @@
  /****************************************************
  * Bar Chart
  ****************************************************/
- 
+
 
  .MatcDashBarLabel{
  	font-size: 18px;
  	text-align: center;
  }
- 
+
  .MatcDashBarContainer{
  	vertical-align: bottom;
  	position: relative;
  }
- 
+
  .MatcDashBarBar{
  	vertical-align: bottom;
  	position: absolute;
  	bottom: 0px;
  	background: rgb(73,192,240);
  }
- 
+
  .MatcDashBarBarPopup{
  	display: none;
  }
- 
+
  .MatcDashBarBar:hover .MatcDashBarBarPopup{
  	display: block;
  	width:100;
@@ -1254,13 +1254,13 @@
  	color:#fff;
  	padding:5px;
  }
- 
+
 
  .MatcDashBarAxis{
   	position: relative;
 
 }
- 
+
 .MatcDashBarAxisLabel{
  	height: 20px;
  	bottom:-20px;

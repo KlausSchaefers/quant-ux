@@ -1103,7 +1103,7 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 .MatcToolbarDropDownButtonLabel{
-	width: 90px;
+	width: 100px;
 	display: inline-block;
 	line-height: 1;
 	vertical-align: middle;

@@ -1,0 +1,164 @@
+@charset "utf-8"
+
+$fullhd-enabled: false
+$navbar-height: 4rem
+$tabs-border-bottom-color:  transparent
+$tabs-border-bottom-width: 2px
+$tabs-link-padding: 1rem 2rem
+$primary: #0336FF
+$info: #0336FF
+$light: #F3F5F6
+$red: #e53935
+$green: #7cb342
+$link: $info
+$navbar-item-hover-background-color: transparent
+$textarea-min-height: 6em
+$footer-padding: 3rem 1.5rem
+$black: darken($primary, 45%)
+$input-focus-box-shadow-size: 0
+
+
+
+@import "bulma"
+
+header
+    background: $white
+    border-bottom: 1px solid $grey-lighter
+body
+    background: $light
+
+.box.is-shadowless
+    box-shadow: $box-shadow!important
+
+
+.container
+    padding-left: 0
+    padding-right: 0
+
+.navbar
+    margin-bottom: 0
+    border: none
+    border-radius: 0
+    & > .container .navbar-brand
+        margin-left: 0
+    .navbar-brand
+        float: none
+        height: unset
+        padding: unset
+
+.MatcContent section:not(:last-child)
+    padding-bottom: 0
+
+.is-video
+    margin-top: -18%
+    box-shadow: $box-shadow
+    video
+        border-radius: $radius
+    +touch
+        margin-top: 0%
+
+.box.is-image
+    margin-top: -22%
+    padding: 8px
+    img
+        border-radius: $radius
+    +touch
+        margin-top: 0%
+
+.navbar-link:not(.is-arrowless)::after
+    border-color: $dark
+
+.navbar-item,
+.button,
+.tabs a
+    font-size: 0.875rem
+    font-weight: 600
+
+a:hover
+    text-decoration: none
+
+.project-nav
+    border-bottom: 1px solid $grey-lighter
+    padding-bottom: 0
+
+.MatcApps
+    min-height: 100vh
+.MatcSection .container, .MatcSection .container-fluid
+    padding: 0!important
+.navbar-item.is-last
+    margin-left: -1.25rem
+    +touch
+        margin-left: 0
+
+.MatcDialog
+    padding: 2.5rem
+    .form-group
+        margin-bottom: 0
+.VommondDialogBackground
+    background: rgba($dark,.8)
+.VommondDialogWrapper
+    box-shadow: $box-shadow
+    border-radius: $box-radius
+
+.MatcTeamItem
+    width: 24px
+    height: 24px
+    .MatcUserImageCntr
+        width: 24px
+        height: 24px
+        &:hover
+            box-shadow: $box-shadow
+.MatcButtonGreen
+    background-color: $green
+.team-settings
+    .MatcTeamItem
+        width: 64px
+        height: 64px
+        .MatcUserImageCntr
+            width: 64px
+            height: 64px
+
+
+
+.MatcListItemDescription
+    font-style: normal
+    font-size: 0.875rem
+    color: $grey
+    font-weight: 400
+
+.MatcContent h2
+    margin: unset
+
+.MatcAppListBox .MatcPreviewWrapper
+    box-shadow: $box-shadow
+.mt-16
+    margin-top: 16px
+
+.teaser-text
+    padding: 0 10vw
+    +touch
+        padding: 16px
+.footer
+    background: $black
+    a
+        font-size: 0.875rem
+        color: $white
+        &:hover
+            color: $grey
+    .title
+        margin-bottom: 8px
+
+td.action .button
+    margin-right: 8px
+.vommondTable .vommondInlineEdit
+    margin-left: -8px
+    padding: 8px
+.table td, .table th, .MatcUserAdd
+    border: none
+.MatcUserAdd:hover
+    box-shadow: none
+.MatcToolbar .MatcCreateSearchBtn, .MatcCreateSearchBtn
+    color: $dark
+
+.input, .textarea
+    box-shadow: none
