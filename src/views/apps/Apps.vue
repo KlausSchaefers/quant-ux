@@ -1,21 +1,17 @@
 <template>
   <div class="MatcApps">
-    
-
-    <div class="MatcContent MatcAbout">
-      <div class="MatcSection">
-        <div class="container" id="">
-            <AppList :pub="false" :canAdd="true"/>
-        </div>
+    <section class="section">
+      <div class="container" id>
+        <AppList :pub="false" :canAdd="true" />
       </div>
-    </div>
+    </section>
   </div>
 </template>
 <script>
 import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import Services from "services/Services";
-import AppList from 'page/AppList'
+import AppList from "page/AppList";
 
 export default {
   name: "Apps",
@@ -24,22 +20,20 @@ export default {
     return {
       apps: [],
       user: null
-    }
+    };
   },
   watch: {},
   components: {
-      'AppList': AppList
+    AppList: AppList
   },
   methods: {
-      load () {
-
-      }
+    load() {}
   },
   async mounted() {
     this.logger = new Logger("Apps");
-    this.user = Services.getUserService().getUser()
-    this.load()
-    this.logger.info('mounted', 'exit > ', this.user)
+    this.user = Services.getUserService().getUser();
+    this.load();
+    this.logger.info("mounted", "exit > ", this.user);
   }
 };
 </script>

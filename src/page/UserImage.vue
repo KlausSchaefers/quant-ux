@@ -19,7 +19,7 @@ import Logger from "common/Logger";
 export default {
   name: "UserImage",
   mixins: [DojoWidget],
-  props:['user'],
+  props: ["user"],
   data: function() {
     return {
       value: {}
@@ -33,9 +33,9 @@ export default {
     },
 
     postCreate: function() {
-		this._initFileDnD(document.documentElement);
-		this.value = this.user
-		this.render(this.value);
+      this._initFileDnD(document.documentElement);
+      this.value = this.user;
+      this.render(this.value);
     },
 
     render: function(user) {
@@ -43,18 +43,36 @@ export default {
 
       var db = new DomBuilder();
       if (user.image) {
-        db.img("rest/user/" +  user.id + "/images/" +  user.name +  "_" + user.lastname + "/" + user.image, "MatcUserImage").build(this.imageCntr);
+        db.img(
+          "rest/user/" +
+            user.id +
+            "/images/" +
+            user.name +
+            "_" +
+            user.lastname +
+            "/" +
+            user.image,
+          "MatcUserImage"
+        ).build(this.imageCntr);
 
-        var upload = db.div("MactLinkButton MatcUploadButton", "Change").build(this.imageActions);
+        var upload = db
+          .div("MactLinkButton MatcUploadButton", "Change")
+          .build(this.imageActions);
         this.file = db.file("MatcImageUploadFile").build(upload);
-        this.tempOwn(on(this.file, "change", lang.hitch(this, "_onFileChange")));
+        this.tempOwn(
+          on(this.file, "change", lang.hitch(this, "_onFileChange"))
+        );
 
-        var del = db.a("MactLinkButton", "Delete").build(this.imageActions);
+        var del = db.a("MactLinkButton", "Remove").build(this.imageActions);
         this.tempOwn(on(del, touch.press, lang.hitch(this, "_deleteImage")));
       } else {
-        var plus = db.span("glyphicon glyphicon-plus-sign", "").build(this.imageCntr);
+        var plus = db
+          .span("glyphicon glyphicon-plus-sign", "")
+          .build(this.imageCntr);
         this.file = db.file("MatcImageUploadFile").build(plus);
-        this.tempOwn(on(this.file, "change", lang.hitch(this, "_onFileChange")));
+        this.tempOwn(
+          on(this.file, "change", lang.hitch(this, "_onFileChange"))
+        );
         css.add(this.imageCntr, "MatcImageUploadAdd");
 
         db.span("MatcHint", "Click or Drop file to upload an image").build(
@@ -72,7 +90,7 @@ export default {
       this.cleanUpTempListener();
     },
 
-     /***************************************************
+    /***************************************************
      * File Upload Handling
      ***************************************************/
 
@@ -88,65 +106,67 @@ export default {
     },
 
     onFileDropped: function(e) {
-		e.preventDefault;
-		e.preventDefault();
-		this.stopEvent(e);
-		var dt = e.dataTransfer;
-		this._files = dt.files;
-		css.remove(this.domNode, "MatcImageUploadDND");
-		this._sendFiles();
-		return false;
+      e.preventDefault;
+      e.preventDefault();
+      this.stopEvent(e);
+      var dt = e.dataTransfer;
+      this._files = dt.files;
+      css.remove(this.domNode, "MatcImageUploadDND");
+      this._sendFiles();
+      return false;
     },
 
     _onFileChange: function(e) {
-		console.debug('onFileChange')
-		this.stopEvent(e);
+      console.debug("onFileChange");
+      this.stopEvent(e);
 
-		this._files = this.file.files;
-		css.remove(this.domNode, "MatcImageUploadDND");
-		this._sendFiles();
+      this._files = this.file.files;
+      css.remove(this.domNode, "MatcImageUploadDND");
+      this._sendFiles();
     },
 
     _sendFiles: function() {
-		// here is some kind of stupid bug.
+      // here is some kind of stupid bug.
 
-		var me = this;
-		var formData = new FormData();
-		for (var i = 0; i < this._files.length; i++) {
-			formData.append("file", this._files[i]);
-		}
+      var me = this;
+      var formData = new FormData();
+      for (var i = 0; i < this._files.length; i++) {
+        formData.append("file", this._files[i]);
+      }
 
-		// now post a new XHR request
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "rest/user/" + this.user.id + "/images/");
-		xhr.onload = function() {
-			if (xhr.status === 200) {
-				me.onUploadDone();
-			} else {
-				me.onUploadError();
-			}
-		};
-		xhr.send(formData);
+      // now post a new XHR request
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "rest/user/" + this.user.id + "/images/");
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          me.onUploadDone();
+        } else {
+          me.onUploadError();
+        }
+      };
+      xhr.send(formData);
     },
 
     _deleteImage: function(e) {
       this.stopEvent(e);
-      this._doDelete("/rest/user/" + this.user.id + "/images/" + this.user.image );
+      this._doDelete(
+        "/rest/user/" + this.user.id + "/images/" + this.user.image
+      );
       this.load();
     },
 
     onUploadDone: function() {
       this.load();
-	},
-	
-	load:function(){
-		this._doGet("rest/user", lang.hitch(this, "setUser"));
-	},
-	
-	setUser:function(u){
-		this.value = u;
-		this.render(u);
-	},
+    },
+
+    load: function() {
+      this._doGet("rest/user", lang.hitch(this, "setUser"));
+    },
+
+    setUser: function(u) {
+      this.value = u;
+      this.render(u);
+    },
 
     onUploadError: function() {},
 

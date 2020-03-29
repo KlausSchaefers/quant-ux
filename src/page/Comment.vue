@@ -20,23 +20,23 @@ import Services from "services/Services";
 export default {
   name: "Comment",
   mixins: [Util, DojoWidget],
-  props: ['type', 'reference', 'appID', 'contentID', 'insertPosition'], 
+  props: ["type", "reference", "appID", "contentID", "insertPosition"],
   data: function() {
     return {
-	  collapsed: false,
+      collapsed: false
     };
   },
   components: {},
   methods: {
-    async postCreate () {
-      this.logger = new Logger('Comment');  
-      let user = await Services.getUserService().load()
-      this.userID = user.id
-      this.setUserAndLoad(user)
+    async postCreate() {
+      this.logger = new Logger("Comment");
+      let user = await Services.getUserService().load();
+      this.userID = user.id;
+      this.setUserAndLoad(user);
       if (this.collapsed == "true") {
-          this.setCollapsed(true);
+        this.setCollapsed(true);
       }
-      this.logger.log(4, 'postCreate', 'exit', this.user)
+      this.logger.log(4, "postCreate", "exit", this.user);
     },
 
     setUserAndLoad: function(u) {
@@ -57,7 +57,13 @@ export default {
       if (this.collapsed) {
         css.remove(this.btnBar, "hidden");
         css.add(this.cntr, "MatcHidden");
-        this.own(on(this.collapseBtn, touch.press, lang.hitch(this, "onToggleCollapse")));
+        this.own(
+          on(
+            this.collapseBtn,
+            touch.press,
+            lang.hitch(this, "onToggleCollapse")
+          )
+        );
       }
     },
 
@@ -87,10 +93,18 @@ export default {
       this.hash = hash;
     },
 
-    async load () {	  
-      this.logger.log(5, "load","enter >" + this.appID + " > " + this.reference);  
-	    let comments = await Services.getCommentService().find(this.appID, this.type, this.reference)
-	    this.setValue(comments)
+    async load() {
+      this.logger.log(
+        5,
+        "load",
+        "enter >" + this.appID + " > " + this.reference
+      );
+      let comments = await Services.getCommentService().find(
+        this.appID,
+        this.type,
+        this.reference
+      );
+      this.setValue(comments);
     },
 
     setValue: function(comments) {
@@ -152,7 +166,7 @@ export default {
           meta.appendChild(cntr);
 
           var edit = document.createElement("a");
-          css.add(edit, "MatcLinkButton");
+          css.add(edit, "button is-text");
           edit.innerHTML = this.getNLS("btn.edit");
           cntr.appendChild(edit);
           this.tempOwn(
@@ -160,7 +174,7 @@ export default {
           );
 
           var del = document.createElement("a");
-          css.add(del, "MatcLinkButton");
+          css.add(del, "button is-text");
           del.innerHTML = this.getNLS("btn.delete");
           cntr.appendChild(del);
           this.tempOwn(
@@ -176,20 +190,20 @@ export default {
       this.cntr.appendChild(ul);
     },
 
-    async onDelete (comment) {
+    async onDelete(comment) {
       var pos = this.comments.indexOf(comment);
       if (pos > -1) {
         this.comments.splice(pos, 1);
       }
-      this.render(this.comments);     
-	  await Services.getCommentService().delete(this.appID, comment)      
+      this.render(this.comments);
+      await Services.getCommentService().delete(this.appID, comment);
     },
 
-    onEdit (comment, txt) {
+    onEdit(comment, txt) {
       txt.innerHTML = "";
 
       var input = document.createElement("textarea");
-      css.add(input, "form-control");
+      css.add(input, "textarea");
       input.placeHolder = "Leave a comment";
       input.value = comment.message;
       txt.appendChild(input);
@@ -199,28 +213,32 @@ export default {
       txt.appendChild(bar);
 
       var btn = document.createElement("div");
-      css.add(btn, "MatcButton");
+      css.add(btn, "button is-primary");
       btn.innerHTML = this.getNLS("btn.post");
       bar.appendChild(btn);
 
-      this.tempOwn(on(btn, touch.press, lang.hitch(this, "update", comment, txt, input)));
+      this.tempOwn(
+        on(btn, touch.press, lang.hitch(this, "update", comment, txt, input))
+      );
     },
 
     createInput: function(ul) {
       if (this.user.role != "guest") {
         let txt = this.createItem(ul, this.user);
         let input = document.createElement("textarea");
-        css.add(input, "form-control MatcTextAreaSmall");
+        css.add(input, "textarea");
         input.placeHolder = "Leave a comment";
         txt.appendChild(input);
         this.input = input;
-        this.tempOwn( on(input, "focus", lang.hitch(this, "showButtons", txt, input)));
+        this.tempOwn(
+          on(input, "focus", lang.hitch(this, "showButtons", txt, input))
+        );
         return input;
       } else {
         let txt = this.createItem(ul, this.user);
-        let input = document.createElement("div");
+        let input = document.createElement("p");
         css.add(input, "MatcCommentRow MatcMarginBottom MatcHint");
-        input.innerHTML = 'Please <a href="#/signup.html">register</a> to leave a comment.';
+        input.innerHTML = "Please sign up to leave a comment.";
         txt.appendChild(input);
       }
     },
@@ -228,12 +246,12 @@ export default {
     showButtons: function(txt, input) {
       if (!this.buttonVisible) {
         var bar = document.createElement("div");
-        css.add(bar, "MatcButtonBar MatcMarginTop ");
+        css.add(bar, "MatcButtonBar ");
         txt.appendChild(bar);
 
         var btn = document.createElement("div");
-        css.add(btn, "MatcButton");
-        btn.innerHTML = "Post";
+        css.add(btn, "button is-primary mt-16");
+        btn.innerHTML = "Post Comment";
         bar.appendChild(btn);
 
         css.remove(input, "MatcTextAreaSmall");
@@ -265,29 +283,29 @@ export default {
       return txt;
     },
 
-    async submit (e) {
+    async submit(e) {
       this.stopEvent(e);
       var comment = {
         message: this.input.value,
         type: this.type,
         reference: this.reference
       };
-	  let res = await Services.getCommentService().create(this.appID, comment)
-	  this.onCommentAdded(res)     
+      let res = await Services.getCommentService().create(this.appID, comment);
+      this.onCommentAdded(res);
       this.buttonVisible = false;
     },
 
-    async update (comment, txt, input) {
+    async update(comment, txt, input) {
       comment.message = input.value;
-	  await Services.getCommentService().update(this.appID, comment)
+      await Services.getCommentService().update(this.appID, comment);
       this.render(this.comments);
     },
 
-    onCommentAdded () {
+    onCommentAdded() {
       this.load();
     },
 
-    cleanUp () {
+    cleanUp() {
       this.cleanUpTempListener();
       this.cntr.innerHTML = "";
       this.input = null;

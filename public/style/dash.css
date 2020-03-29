@@ -2,7 +2,7 @@
  * TaskPerfGram
  ****************************************************/
 
-.MatcDashTaskPerfGramDialog{
+ .MatcDashTaskPerfGramDialog{
 	width:900px;
 	height:600px;
 	padding:20px;
@@ -608,6 +608,11 @@
 .DashTaskListDetailsHeader .VommondProgress{
 	height: 40px;
 	width: 100%;
+}
+
+.MatcTestSettings table thead a{
+	color:#363636;
+	font-weight:700;
 }
 
 

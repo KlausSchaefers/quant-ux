@@ -1,42 +1,48 @@
 <template>
   <div class="MatcTest">
-    <div class="MatcSection">
+    <section class="section">
       <div class="container">
-          <div class="row MatcMarginBottom">
-                <div class="col-md-6 " id="">
-                    <h2>
-                        Heat Maps 
-                    </h2>
-                </div>
-             
-                <div class="col-md-6 MatcRight">
-                    <a class="MatcButton MatcButtonSignUp MatcButtonGreen" :href="`#/${urlPrefix}/${app.id}/analyze/workspace.html`">Analytic Canvas</a>
-                </div>             
-                     
-        </div>       
+        <div class="level">
+          <div class="level-left"></div>
+          <div class="level-right">
+            <a
+              class="button is-success level-item"
+              :href="`#/${urlPrefix}/${app.id}/analyze/workspace.html`"
+            >Open Analytic Canvas</a>
+          </div>
+        </div>
 
-         <HeatList :app="app" :pub="isPublic" :events="events" v-if="events && events.length > 0"/>
-         <p class="MatcHint" v-else>
-           You have not performed any test and we could not collect any data yet. Once you start testing,
-           you can will see here the heat maps.
-         </p>
+        <HeatList :app="app" :pub="isPublic" :events="events" v-if="events && events.length > 0" />
+        <div class="MatcLoading@" v-else>
+          You have not performed any test and we could not collect any data yet. Once you start testing,
+          you can will see here the heat maps.
+        </div>
       </div>
-    </div>
-    <div class="MatcSection">
+    </section>
+    <section class="section">
       <div class="container">
-        <h2>Comments</h2>
-        <Comment v-if="app" :appID="app.id" type="overview_heat" reference="" contentID="" insertPosition="top"/>
+        <div class="box is-shadowless">
+          <h2 class="title">Comments</h2>
+          <Comment
+            v-if="app"
+            :appID="app.id"
+            type="overview_heat"
+            reference
+            contentID
+            insertPosition="top"
+          />
+        </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 <script>
 import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
-import Plan from 'page/Plan'
-import Util from 'core/Util'
-import Comment from 'page/Comment'
-import HeatList from 'dash/HeatList'
+import Plan from "page/Plan";
+import Util from "core/Util";
+import Comment from "page/Comment";
+import HeatList from "dash/HeatList";
 
 export default {
   name: "Test",
@@ -45,7 +51,7 @@ export default {
   data: function() {
     return {
       MIN_REQUIERED_USERS: 40,
-      summary: {}      
+      summary: {}
     };
   },
   components: {
@@ -53,19 +59,17 @@ export default {
     HeatList: HeatList
   },
   computed: {
-    isPublic () {
-      return this.$route.meta && this.$route.meta.isPublic
+    isPublic() {
+      return this.$route.meta && this.$route.meta.isPublic;
     },
-    urlPrefix () {
+    urlPrefix() {
       if (this.isPublic) {
-        return 'examples'
+        return "examples";
       }
-      return 'apps'
+      return "apps";
     }
   },
-  methods: {
-   
-  },
+  methods: {},
   watch: {
     test(v) {
       this.logger.info("watch", "test >", v);

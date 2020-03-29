@@ -2,8 +2,16 @@
   <div class="MatcAppList">
     <div class="MatcListSearchCntr" data-dojo-attach-point="searchCntr">
       <div class="MatcSearchForm">
-        <input  id="MatcAppListSearchField" placeholder="Search"  data-dojo-attach-point="searchInput" >
-        <span class="mdi mdi-magnify MatcCreateSearchBtn"  aria-hidden="true"  data-dojo-attach-point="searchBtn" ></span>
+        <input
+          id="MatcAppListSearchField"
+          placeholder="Search"
+          data-dojo-attach-point="searchInput"
+        />
+        <span
+          class="mdi mdi-magnify MatcCreateSearchBtn"
+          aria-hidden="true"
+          data-dojo-attach-point="searchBtn"
+        ></span>
       </div>
     </div>
     <div class="MatcAppListContainer" data-dojo-attach-point="container"></div>
@@ -25,7 +33,7 @@ import Services from "services/Services";
 export default {
   name: "AppList",
   mixins: [DojoWidget, List, Plan],
-  props: ['small', 'big', 'pub', 'canAdd', 'size'],
+  props: ["small", "big", "pub", "canAdd", "size"],
   data: function() {
     return {
       columns: -1,
@@ -46,9 +54,8 @@ export default {
   components: {},
   methods: {
     postCreate: function() {
+      this.isMobile = has("mobile");
 
-      this.isMobile = has('mobile')
-      
       if (this.big) {
         this.colWidth = 352;
         css.add(this.domNode, "MatcAppListBig");
@@ -76,7 +83,7 @@ export default {
       try {
         this.container.innerHTML = "";
         var parent = document.createElement("div");
-        
+
         if (this.canAdd && this.isMobile) {
           var item = document.createElement("div");
           item.style.width = this.colWidth + "px";
@@ -86,7 +93,7 @@ export default {
         }
 
         var loading = document.createElement("div");
-        css.add(loading, "MatcListLoading");
+        css.add(loading, "MatcLoading");
         loading.innerHTML = "Loading...";
         parent.appendChild(loading);
 
@@ -96,24 +103,30 @@ export default {
         this.log.sendError(e);
       }
       this.cleanUp();
-	},
+    },
 
-	initSearch: function() {
-		this.searchInput.value = "";
-		if (!this.hasSearch) {
-		  css.add(this.searchCntr, "hidden");
-		} else {
-      css.remove(this.searchCntr, "hidden");
-      this.own(on(this.searchBtn, touch.press, lang.hitch(this, "showSearch")));
-      this.own(on(this.searchInput, "keypress", function(e) {
-        e.stopPropagation();
-      }));
-      this.own(on(this.searchInput, "keydown", function(e) {
-        e.stopPropagation();
-      }));
-      this.own(on(this.searchInput, "keyup", lang.hitch(this, "onSearch")));
-    }
-  },
+    initSearch: function() {
+      this.searchInput.value = "";
+      if (!this.hasSearch) {
+        css.add(this.searchCntr, "hidden");
+      } else {
+        css.remove(this.searchCntr, "hidden");
+        this.own(
+          on(this.searchBtn, touch.press, lang.hitch(this, "showSearch"))
+        );
+        this.own(
+          on(this.searchInput, "keypress", function(e) {
+            e.stopPropagation();
+          })
+        );
+        this.own(
+          on(this.searchInput, "keydown", function(e) {
+            e.stopPropagation();
+          })
+        );
+        this.own(on(this.searchInput, "keyup", lang.hitch(this, "onSearch")));
+      }
+    },
 
     showSearch: function() {
       css.add(this.searchCntr, "MatcListSearchVisible");
@@ -162,7 +175,7 @@ export default {
       }
     },
 
-    initListeners () {},
+    initListeners() {},
 
     async load() {
       /**
@@ -173,15 +186,15 @@ export default {
        * 2) Then we load the real apps and set the values
        */
       if (this.pub) {
-        let summaries = await Services.getModelService().findPublicSummaries()
-        this.setLoadingPreview(summaries)
+        let summaries = await Services.getModelService().findPublicSummaries();
+        this.setLoadingPreview(summaries);
       } else {
-        let summaries = await Services.getModelService().findMyAppSummaries()
-        this.setLoadingPreview(summaries)
+        let summaries = await Services.getModelService().findMyAppSummaries();
+        this.setLoadingPreview(summaries);
       }
     },
 
-    async setLoadingPreview (value) {
+    async setLoadingPreview(value) {
       this.log.log(0, "setLoadingPreview", "enter > " + value.length);
       value.sort(function(a, b) {
         return b.lastUpdate - a.lastUpdate;
@@ -192,12 +205,12 @@ export default {
       css.add(this.domNode, "MatcAppListLoading");
 
       if (this.pub) {
-        let apps = await Services.getModelService().findPublic()
-        this.setApps(apps)
+        let apps = await Services.getModelService().findPublic();
+        this.setApps(apps);
       } else {
-        let apps = await Services.getModelService().findMyApps()
-        this.setApps(apps)
-      }     
+        let apps = await Services.getModelService().findMyApps();
+        this.setApps(apps);
+      }
     },
 
     setApps: function(value) {
@@ -240,7 +253,10 @@ export default {
     },
 
     onRenderAdd: function(item) {
-      css.add(item, " MatcContentBox MatcShadowBox MatcAppListBox MatcAppListAddBox");
+      css.add(
+        item,
+        " MatcContentBox MatcShadowBox MatcAppListBox MatcAppListAddBox"
+      );
 
       var phone = document.createElement("a");
 
@@ -287,7 +303,10 @@ export default {
       item.appendChild(temp);
       item = temp;
 
-      css.add(item, "MatcAppListItem MatcContentBox MatcShadowBox MatcAppListBox");
+      css.add(
+        item,
+        "MatcAppListItem MatcContentBox MatcShadowBox MatcAppListBox"
+      );
 
       var widget = this.createScreenWidget(app);
       if (widget) {
@@ -368,9 +387,9 @@ export default {
     },
 
     createScreenWidget: function() {
-      let preview = this.$new(Preview)
-      preview.mode = preview
-      return preview
+      let preview = this.$new(Preview);
+      preview.mode = preview;
+      return preview;
     },
 
     setMethod: function(phone, app) {
@@ -404,8 +423,8 @@ export default {
   },
   mounted() {
     this.log = new Logger("AppList");
-    this.log.log(2, 'mounted', 'enter')
-    this.load()
+    this.log.log(2, "mounted", "enter");
+    this.load();
   }
 };
 </script>

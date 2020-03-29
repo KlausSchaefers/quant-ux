@@ -40,3 +40,5 @@
 @import 'databinding.css';
 @import 'databindingtree.css';
 @import 'tree.css';
+@import "bulma.css";
+@import "custom.css";

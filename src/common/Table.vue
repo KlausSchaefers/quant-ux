@@ -1,8 +1,8 @@
 
 <template>
-	<div class="vommondTable">
-		<span class="loader">Loading...</span>
-	</div>
+  <div class="vommondTable">
+    <div class="MatcLoading">Loading...</div>
+  </div>
 </template>
 <script>
 import DojoWidget from "dojo/DojoWidget";
@@ -15,25 +15,25 @@ import DomBuilder from "common/DomBuilder";
 
 export default {
   name: "Table",
-  mixins: [DojoWidget], 
+  mixins: [DojoWidget],
   data: function() {
     return {
-		itemsPerPage: 100,
-		itemPointer: 0,
-		isSortable: true,
-		order: true,
-		hasPaging: false,
-		totalCount: 0,
-		columns: null,
-		actions: null,
-		rows: [],
-		actionLabel: "Action"
+      itemsPerPage: 100,
+      itemPointer: 0,
+      isSortable: true,
+      order: true,
+      hasPaging: false,
+      totalCount: 0,
+      columns: null,
+      actions: null,
+      rows: [],
+      actionLabel: "Action"
     };
   },
   components: {},
   methods: {
     postCreate: function() {
-      this.logger = new Logger('Table');
+      this.logger = new Logger("Table");
       this.logger.log(2, "constructor", "entry");
       this.actionLabel = this.getNLS("tableAction");
     },
@@ -55,14 +55,18 @@ export default {
     },
 
     setValue: function(data) {
-      this.logger.log(8, "setValue", "entry"); 
-      this.rows = data
+      this.logger.log(8, "setValue", "entry");
+      this.rows = data;
       this.render();
       this.logger.log(10, "setValue", "exit");
     },
 
     render: function() {
-      this.logger.log(2,"_refresh", "entry > pos : " + this.itemPointer + " _sortBy : " + this.sortBy);
+      this.logger.log(
+        2,
+        "_refresh",
+        "entry > pos : " + this.itemPointer + " _sortBy : " + this.sortBy
+      );
 
       /**
        * clean up
@@ -72,7 +76,7 @@ export default {
 
       var db = new DomBuilder();
 
-      var table = db.table("table").build();
+      var table = db.table("table is-hoverable").build();
 
       this.renderHeader(table, db);
 
@@ -89,7 +93,7 @@ export default {
     renderHeader: function(table, db) {
       var thead = db.element("thead").build(table);
 
-      var header = db.element("tr", "tableHeader").build(thead);
+      var header = db.element("tr").build(thead);
 
       for (var i = 0; i < this.columns.length; i++) {
         var column = this.columns[i];
@@ -110,9 +114,11 @@ export default {
           var span = db.span("vommondTableSortSymbol").build(td);
           if (this.sortBy == column.query) {
             if (this.order) {
-              span.innerHTML ='<span class="glyphicon glyphicon-chevron-up"></span>';
+              span.innerHTML =
+                '<span class="glyphicon glyphicon-chevron-up"></span>';
             } else {
-              span.innerHTML ='<span class="glyphicon glyphicon-chevron-down"></span';
+              span.innerHTML =
+                '<span class="glyphicon glyphicon-chevron-down"></span';
             }
           } else {
             span.innerHTML = " ";
@@ -178,7 +184,9 @@ export default {
               db.span(action.icon, "").build(a);
             }
             if (action.callback) {
-              this.tempOwn(on(a, touch.press, lang.hitch(action, "callback", row, j, td)));
+              this.tempOwn(
+                on(a, touch.press, lang.hitch(action, "callback", row, j, td))
+              );
             }
           }
         }
@@ -209,7 +217,16 @@ export default {
     },
 
     createPagging: function() {
-      this.logger.log(3,"createPagging", "entry > total : " +  this.totalCount + " >  page : " +  this.itemsPerPage + " > current:  " + this.itemPointer);
+      this.logger.log(
+        3,
+        "createPagging",
+        "entry > total : " +
+          this.totalCount +
+          " >  page : " +
+          this.itemsPerPage +
+          " > current:  " +
+          this.itemPointer
+      );
 
       if (this.totalCount > this.itemsPerPage) {
         var div = document.createElement("div");
@@ -225,7 +242,11 @@ export default {
           if (i * this.itemsPerPage == this.itemPointer) {
             css.add(li, "active");
           } else {
-            var connection = on(li, "click", lang.hitch(this, "setPos", i * this.itemsPerPage));
+            var connection = on(
+              li,
+              "click",
+              lang.hitch(this, "setPos", i * this.itemsPerPage)
+            );
             this.tempOwn(connection);
           }
         }
@@ -252,7 +273,14 @@ export default {
     },
 
     onForward: function(event) {
-      this.logger.log(3, "onForward", "entry > currentPos : " + this.itemPointer + ">  newPos : " +(this.itemPointer + this.itemsPerPage) );
+      this.logger.log(
+        3,
+        "onForward",
+        "entry > currentPos : " +
+          this.itemPointer +
+          ">  newPos : " +
+          (this.itemPointer + this.itemsPerPage)
+      );
       this.stopEvent(event);
       this.itemPointer = this.itemPointer + this.itemsPerPage;
       this._updateRows();
@@ -269,16 +297,16 @@ export default {
     },
 
     _updateRows: function() {
-      let key = this.sortBy
-      let order = this.order ? 1 : -1
-      this.rows = this.rows.sort((a,b) => {
-        let valueA = a[key]
-        let valueB = b[key]
-        if (valueA.localeCompare && valueB.localeCompare){
-          return order * valueA.localeCompare(valueB)
+      let key = this.sortBy;
+      let order = this.order ? 1 : -1;
+      this.rows = this.rows.sort((a, b) => {
+        let valueA = a[key];
+        let valueB = b[key];
+        if (valueA.localeCompare && valueB.localeCompare) {
+          return order * valueA.localeCompare(valueB);
         }
-        return order * (valueA - valueB)        
-      })
+        return order * (valueA - valueB);
+      });
     },
 
     _refresh: function() {
@@ -289,8 +317,7 @@ export default {
       this._updateRows();
     },
 
-    destroy: function() {
-    }
+    destroy: function() {}
   },
   mounted() {}
 };

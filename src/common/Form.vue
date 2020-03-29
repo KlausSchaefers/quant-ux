@@ -1,4 +1,3 @@
-
 <template>
   <div ref="containerNode"></div>
 </template>
@@ -12,16 +11,16 @@ import domAttr from "dojo/domAttr";
 import touch from "dojo/touch";
 import DomBuilder from "common/DomBuilder";
 import CheckBox from "common/CheckBox";
-import registry from 'dojo/registry'
-import DataBinding from 'common/DataBinding'
-import Logger from 'common/Logger'
+import registry from "dojo/registry";
+import DataBinding from "common/DataBinding";
+import Logger from "common/Logger";
 
 export default {
   name: "Form",
   mixins: [DojoWidget],
   data: function() {
     return {
-		model: null
+      model: null
     };
   },
   components: {},
@@ -63,7 +62,13 @@ export default {
         }
 
         if (element.onEnter) {
-          this.own(on(input, "keypress",lang.hitch(this, "_onKeyPress", element.onEnter)));
+          this.own(
+            on(
+              input,
+              "keypress",
+              lang.hitch(this, "_onKeyPress", element.onEnter)
+            )
+          );
         }
 
         if (element.focus) {
@@ -83,12 +88,17 @@ export default {
       /**
        * A general error label!
        */
-      this.errorLabel = db.div("VommondFormErrorLabel VommondFormErrorLabelBottom VommondFormErrorLabelHidden", "")
+      this.errorLabel = db
+        .div(
+          "VommondFormErrorLabel VommondFormErrorLabelBottom VommondFormErrorLabelHidden",
+          ""
+        )
         .build(cntr);
-      this.hintLabel = db.div("VommondFormHintLabel VommondFormErrorLabelHidden")
+      this.hintLabel = db
+        .div("VommondFormHintLabel VommondFormErrorLabelHidden")
         .build(cntr);
 
-      var bar = db.div("MatcButtonBar").build(cntr);
+      var bar = db.div("buttons mt-16").build(cntr);
       this.actionNodes = [];
       for (let i = 0; i < actions.length; i++) {
         var action = actions[i];
@@ -111,17 +121,33 @@ export default {
       if (element.type != "check") {
         db.label("", element.label).build(grp);
 
-        let input = db.input("form-control " + element.css, element.value,element.placeholder, element.type).build(grp);
+        let input = db
+          .input(
+            "form-control " + element.css,
+            element.value,
+            element.placeholder,
+            element.type
+          )
+          .build(grp);
 
         if (element.feedback) {
           css.add(grp, "has-feedback");
-          var link = db.a("form-control-feedback VommondFormFeedback hidden", element.feedback.label).build(grp);
-          this.own(on(link, touch.press, function() {
-            element.feedback.callback();
-          }));
-          this.own(on(input, "focus", function() {
-             css.remove(link, "hidden");
-          }));
+          var link = db
+            .a(
+              "form-control-feedback VommondFormFeedback hidden",
+              element.feedback.label
+            )
+            .build(grp);
+          this.own(
+            on(link, touch.press, function() {
+              element.feedback.callback();
+            })
+          );
+          this.own(
+            on(input, "focus", function() {
+              css.remove(link, "hidden");
+            })
+          );
         }
 
         return input;
@@ -187,7 +213,7 @@ export default {
     },
 
     startup: function() {
-      this.log = new Logger('Form')
+      this.log = new Logger("Form");
       this.log.log(0, "startup", "enter");
       this._registerListeners();
     },
@@ -212,16 +238,20 @@ export default {
       /**
        * Get error bindings
        */
-      query("*[data-binding-error]", this.$refs.containerNode).forEach(function(n) {
+      query("*[data-binding-error]", this.$refs.containerNode).forEach(function(
+        n
+      ) {
         me._registerErrorLabel(n);
       });
 
       /**
        * Get method bindings
        */
-      query("*[data-binding-method]", this.$refs.containerNode).forEach(function(n) {
-        me._registerMethodListener(n);
-      });
+      query("*[data-binding-method]", this.$refs.containerNode).forEach(
+        function(n) {
+          me._registerMethodListener(n);
+        }
+      );
     },
 
     _registerChangeListeners: function(n) {
@@ -238,7 +268,13 @@ export default {
         var widget = registry.byNode(n);
 
         if (widget) {
-          this.own(on(widget,"change",lang.hitch(this, "validateForm", widget, false)));
+          this.own(
+            on(
+              widget,
+              "change",
+              lang.hitch(this, "validateForm", widget, false)
+            )
+          );
           this.widgetElements[key] = widget;
         } else if (type == "checkbox") {
           this.own(on(n, "change", lang.hitch(this, "validateForm", n)));
@@ -270,7 +306,10 @@ export default {
         this.errorElements[key] = n;
         css.add(n, "VommondFormErrorLabel VommondFormErrorLabelHidden");
       } else {
-        this.log.error("_registerErrorLabel","Key " + key + " no supported for data-binding-active" );
+        this.log.error(
+          "_registerErrorLabel",
+          "Key " + key + " no supported for data-binding-active"
+        );
       }
     },
 
@@ -373,7 +412,11 @@ export default {
         //this.log.log(0,"validateInput","The field >" + name  + "< is " + required);
 
         if (required == "true" && !value) {
-          this.log.log(0, "validateInput", "The field >" + name + "< is required!"   );
+          this.log.log(
+            0,
+            "validateInput",
+            "The field >" + name + "< is required!"
+          );
           return false;
         }
 
@@ -400,12 +443,10 @@ export default {
 
       return true;
     },
-    destroy () {
-      this.cleanUpTempListener()
+    destroy() {
+      this.cleanUpTempListener();
     }
   },
-  mounted() {
-
-  }
+  mounted() {}
 };
 </script>

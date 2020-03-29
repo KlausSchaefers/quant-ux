@@ -1,19 +1,18 @@
 
 
  /****************************************************
- * Menu 
+ * Menu
  ****************************************************/
- 
+
 
 .MatcMainMenu{
 	border:none;
 	width:100%;
-	position: absolute;
-	z-index: 12000;
 	top:0;
 	background: none;
 	border-bottom: none;
 	padding-top: 8px;
+
 }
 
 .MatcMainMenuToolbar.MatcMainMenu{
@@ -33,20 +32,20 @@ a.is-logo{
 	display: inline-block;
 	font-size: 14px;
 	letter-spacing: .5px;
-	color:rgba(255,255,255,0.8);
-	
+	color:#363636
+
 }
 
- 
+
  .MatcMainMenuItem:FIRST-CHILD{
  	margin-left:-15px;
  }
 
-.MatcMainMenuItem:HOVER, 
+.MatcMainMenuItem:HOVER,
 .MatcMainMenuItem:FOCUS{
 	text-decoration: none;
 	color:#fff;
-	
+
 }
 
 #mainMenuSignUpButton{
@@ -65,27 +64,25 @@ a.is-logo{
 }
 
 .MatcMainMenuItemSelected{
-		
+
 	color:#fff;
 }
 
 
 /********************************************
  * The main menu in dark
- ********************************************/ 
+ ********************************************/
 .MatcMainMenuPublic.MatcMainMenu{
 	border-bottom: 0px solid transparent;
+	background: #fff;
 }
 
-.MatcMainMenuPublic .MatcMainMenuItem {
-	color:rgba(255,255,255,0.8);
-}
 
-.MatcMainMenuPublic .MatcMainMenuItem:HOVER, 
-.MatcMainMenuPublic .MatcMainMenuItem:FOCUS, 
+.MatcMainMenuPublic .MatcMainMenuItem:HOVER,
+.MatcMainMenuPublic .MatcMainMenuItem:FOCUS,
 .MatcMainMenuPublic .MatcMainMenuItemSelected{
 	text-decoration: none;
-	color:#fff;
+	color:#3787f2;
 	background: none;
 }
 
@@ -93,7 +90,7 @@ a.is-logo{
 
 /********************************************
  * Menu small
- ********************************************/ 
+ ********************************************/
 
 .MatcMainMenuSmall .MatcMainMenuItem {
 	font-size: 11px;
@@ -105,8 +102,8 @@ a.is-logo{
 	color:rgba(255,255,255,1);
 }
 
-.MatcMainMenuSmall .MatcMainMenuItem:HOVER, 
-.MatcMainMenuSmall .MatcMainMenuItem:FOCUS, 
+.MatcMainMenuSmall .MatcMainMenuItem:HOVER,
+.MatcMainMenuSmall .MatcMainMenuItem:FOCUS,
 .MatcMainMenuSmall .MatcMainMenuItemSelected{
 	text-decoration: none;
 	color:rgba(255,255,255,0.6);
@@ -116,7 +113,7 @@ a.is-logo{
 
 /********************************************
  * Light Blue small
- ********************************************/ 
+ ********************************************/
 .MatcMainMenuFeatures.MatcMainMenu{
 }
 
