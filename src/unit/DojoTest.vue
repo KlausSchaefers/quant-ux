@@ -44,7 +44,7 @@
 
      <!-- Color -->
     <div class="TestBox">ColorPixcker
-     
+
        <div style="height:30px" id="testColorPicker" />
     </div>
 
@@ -52,7 +52,7 @@
 </template>
 
 <style lang="css">
-@import url("../../public/style/matc.css");
+@import url("../style/matc.css");
 .TestBox {
   display: inline-block;
   width: 300px;
@@ -213,14 +213,14 @@ export default {
     },
     testSlider () {
       console.debug('testSlider() > enter')
-      var d = this.$new(HSlider);    
+      var d = this.$new(HSlider);
       d.placeAt("testSlider");
       on(d, "change", function(value, e) {
         console.debug("testSlider() >> onChange", value, e);
       });
     },
     onSliderChange (v) {
-      console.debug('onSliderChange', v)      
+      console.debug('onSliderChange', v)
     },
     testScrollContainer() {
       console.debug('testScrollContainer() enter')

@@ -5,12 +5,12 @@
 
      <code style="
           display: inline-block;
-          width: 300px; 
+          width: 300px;
           height:300px;
           margin-left:350px;
           font-size:8px;
-          vertical-align: top; 
-          word-break: break-all; 
+          vertical-align: top;
+          word-break: break-all;
           white-space: pre;
           word-wrap: break-word;">{{this.app.groups}}</code>
 
@@ -18,7 +18,7 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
 
   .Wrapper{
     display: inline-block;
@@ -49,7 +49,7 @@ export default {
     'LayerList': LayerList
   },
   methods: {
-   
+
   },
   mounted() {
 
@@ -62,7 +62,7 @@ export default {
     }
     this.controller.addCommand = () => {}
     this.$refs.layerList.setController(this.controller)
-    
+
   }
 };
 </script>

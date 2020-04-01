@@ -17,7 +17,7 @@
   </div>
 </template>
 <style lang="css">
-@import url("../../public/style/code.css");
+@import url("../style/code.css");
 </style>
 
 <script>
@@ -133,7 +133,7 @@ export default {
       hljs.highlightBlock(this.$refs.codeHTML);
       hljs.highlightBlock(this.$refs.codeVue);
     })
-   
+
   }
 };
 </script>

@@ -1,6 +1,6 @@
 
 <template>
-     <div class="MatcCustomFonts" @keydown.stop="" @keyup.stop="">        
+     <div class="MatcCustomFonts" @keydown.stop="" @keyup.stop="">
         <div class="MatcCustomFontsRow">
             <label class="MatcCustomFontsName">Name</label>
             <label class="MatcCustomFontsURL">URL</label>
@@ -14,7 +14,7 @@
 	</div>
 </template>
 <style>
- @import url('../../../public/style/CustomFonts.css');   
+ @import url('../../style/CustomFonts.css');
 </style>
 
 <script>
@@ -47,7 +47,7 @@ export default {
         removeFont (font) {
             this.fonts = this.fonts.filter(f => f && f.name != font.name)
         },
-        setModel (m) {       
+        setModel (m) {
             if (m.fonts) {
                 this.fonts = lang.clone(m.fonts).filter(f=> f !== null)
             }
@@ -58,7 +58,7 @@ export default {
                 // parse something like <link href="https://fonts.googleapis.com/css?family=Stylish" rel="stylesheet">
                 if (f.url.indexOf('<link') === 0 ){
                     let start = f.url.indexOf('href="')
-                    let end = f.url.indexOf('"', start+6)    
+                    let end = f.url.indexOf('"', start+6)
                     f.url = f.url.substring(start+6, end)
                     f.type = 'import'
                     /**

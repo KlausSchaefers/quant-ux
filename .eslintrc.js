@@ -7,13 +7,26 @@ module.exports = {
     'plugin:vue/essential',
     'eslint:recommended'
   ],
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
   rules: {
     'no-console': 'off',
     'no-debugger': 'off',
     'no-useless-escape': 'off',
-    'no-mixed-spaces-and-tabs': 'off'
+    'no-mixed-spaces-and-tabs': 'off',
+    'no-async-promise-executor': 'off',
+    'no-prototype-builtins': 'off'
   },
-  parserOptions: {
-    parser: 'babel-eslint'
-  }
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+      ],
+      env: {
+        jest: true
+      }
+    }
+  ]
 }

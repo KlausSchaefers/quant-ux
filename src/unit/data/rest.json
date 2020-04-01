@@ -1512,7 +1512,7 @@
         "label" : " \n",
         "rest" : {
           "method" : "GET",
-          "url" : "http://localhost:8081/public/style/img/AB1.png",
+          "url" : "http://localhost:8081/public/../style/img/AB1.png",
           "token" : "",
           "input" : {
             "type" : "JSON",

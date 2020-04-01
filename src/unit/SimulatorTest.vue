@@ -4,24 +4,24 @@
     <div class="MatcToolbarRestSettings" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px; width:300px; height:500px">
         <Simulator :app="app2" @onDataBindingChange="onChange"/>
     </div>
-  
- 
+
+
       <code style="
         display: inline-block;
-        width: 300px; 
-        height:300px; 
+        width: 300px;
+        height:300px;
         font-size:12px;
-        vertical-align: top; 
-        word-break: break-all; 
+        vertical-align: top;
+        word-break: break-all;
         white-space: pre;
         word-wrap: break-word;">{{dataBindings}}</code>
- 
+
 
   </div>
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
   .MatcToolbarRestSettings {
       background: white;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -55,7 +55,7 @@ export default {
       }
   },
   mounted() {
-    
+
   }
 };
 </script>

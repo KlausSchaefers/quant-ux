@@ -5,8 +5,8 @@ $navbar-height: 4rem
 $tabs-border-bottom-color:  transparent
 $tabs-border-bottom-width: 2px
 $tabs-link-padding: 1rem 2rem
-$primary: #0336FF
-$info: #0336FF
+$primary: #3787f2
+$info: $primary
 $light: #F3F5F6
 $red: #e53935
 $green: #7cb342
@@ -17,15 +17,23 @@ $footer-padding: 3rem 1.5rem
 $black: darken($primary, 45%)
 $input-focus-box-shadow-size: 0
 
+@import "~bulma/sass/utilities/_all"
+@import "~bulma/sass/base/_all"
+@import "~bulma/sass/elements/_all"
+@import "~bulma/sass/form/_all"
+@import "~bulma/sass/components/_all"
+@import "~bulma/sass/grid/_all"
+@import "~bulma/sass/layout/_all"
 
-
-@import "bulma"
 
 header
     background: $white
     border-bottom: 1px solid $grey-lighter
 body
     background: $light
+
+.hero .title
+    margin-bottom: 2rem!important
 
 .box.is-shadowless
     box-shadow: $box-shadow!important
@@ -93,7 +101,7 @@ a:hover
 .MatcDialog
     padding: 2.5rem
     .form-group
-        margin-bottom: 0
+        margin-bottom: 1em
 .VommondDialogBackground
     background: rgba($dark,.8)
 .VommondDialogWrapper
@@ -134,6 +142,10 @@ a:hover
 .mt-16
     margin-top: 16px
 
+.is-teaser
+    min-height: 100vh
+    background-size: cover
+
 .teaser-text
     padding: 0 10vw
     +touch
@@ -143,10 +155,13 @@ a:hover
     a
         font-size: 0.875rem
         color: $white
+        opacity: .7
         &:hover
             color: $grey
+            opacity: 1
     .title
         margin-bottom: 8px
+        color: $light!important
 
 td.action .button
     margin-right: 8px
@@ -162,3 +177,6 @@ td.action .button
 
 .input, .textarea
     box-shadow: none
+
+.MatcShareDialog .input
+    width: 97%

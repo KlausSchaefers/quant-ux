@@ -1,7 +1,8 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 
-Vue.use(Router)
+Vue.use(VueRouter)
+
 
 let matcRoutes = []
 
@@ -22,7 +23,7 @@ matcRoutes.push({path:'apps/:id/:tab.html', component: () => import(/* webpackCh
 matcRoutes.push({path:'apps/:id/replay/:session.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})
 
 
-export default new Router({
+export default new VueRouter({
   routes: [
     {
       path: '/simulate.html',

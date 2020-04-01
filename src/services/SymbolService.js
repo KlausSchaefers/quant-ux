@@ -31,7 +31,7 @@ class SymbolService extends AbstractService{
     }
 
     getIcons () {
-      return this._getChached('/public/icons.json')
+      return this._getChached('/icons.json')
     }
 
     hookInWidgets (themes) {

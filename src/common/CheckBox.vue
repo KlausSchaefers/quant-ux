@@ -1,8 +1,8 @@
-// eslint-disable-next-line 
+// eslint-disable-next-line
 <template>
 	<div class="VommondCheckBoxWrapper">
 		<div class="VommondCheckBox">
-			<span class="VommondCheckBoxHook" data-dojo-attach-point="hook">	
+			<span class="VommondCheckBoxHook" data-dojo-attach-point="hook">
 			</span>
 		</div>
 		<span class="VommondCheckBoxLabel" v-if="label">{{label}}</span>
@@ -10,7 +10,7 @@
 </template>
 
 <style>
- @import '../../public/style/vommond.css';
+ @import '../style/vommond.css';
 </style>
 
 <script>
@@ -32,19 +32,19 @@ export default {
   props: ['label', 'value'],
   components: {
   },
-  methods: {	
+  methods: {
 		postCreate: function(){
 			this.log = new Logger('CheckBox')
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
 			if(this.value || this.value === "true"){
 				this.setValue(true);
-			}			
+			}
 		},
-		
+
 		getValue:function(){
 			return this.checked;
 		},
-		
+
 		setValue:function(value){
 			this.checked = value;
 			if(value){
@@ -53,11 +53,11 @@ export default {
 				css.remove(this.domNode,"VommondCheckBoxChecked") ;
 			}
 		},
-		
+
 		setLabel:function(l){
 			this.label = l
 		},
-		
+
 		onChange:function(e){
 			this.stopEvent(e)
 			this.setValue(!this.checked);
@@ -66,9 +66,9 @@ export default {
 		}
   },
   watch: {
-	  value (v) {
-		  this.setValue(v)
-	  }
+		value (v) {
+			this.setValue(v)
+		}
   },
   mounted () {
       this.log.log(10, 'mounted', 'enter')

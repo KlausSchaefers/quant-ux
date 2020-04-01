@@ -21,7 +21,7 @@
 </template>
 
 <style lang="css">
-@import url("../../public/style/matc.css");
+@import url("../style/matc.css");
 
 .CodeWrapper, .CodeDebugCanvas{
    margin: 20px;

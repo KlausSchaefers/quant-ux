@@ -1,20 +1,20 @@
 <template>
   <div class="MatcLight">
     <h1 style="display:inline-block;margin-left:20px; margin-bottom:20px;">REST Test</h1>
-  
+
       <SegmentButton :options="options" v-model="selectedTest" style="width:600px; display: inline-block"/>
 
-  
+
     <div class="" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px;">
         <RestSettings :app="app" @change="onChange" :value="selectedWidget"/>
     </div>
-  
+
     <code style="
           display: inline-block;
-          width: 300px; 
-          height:300px; 
-          vertical-align: top; 
-          word-break: break-all; 
+          width: 300px;
+          height:300px;
+          vertical-align: top;
+          word-break: break-all;
           white-space: pre;
           word-wrap: break-word;">{{settings}}</code>
 
@@ -22,7 +22,7 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
   .MatcToolbarRestSettings {
       background: white;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -73,11 +73,11 @@ export default {
               "template": "",
               "type": "JSON",
               "hints": []
-          }       
+          }
         },
         {
           "method": "GET",
-          "url": "http://localhost:8081/public/style/img/AB1.png",
+          "url": "http://localhost:8081/public/../style/img/AB1.png",
           "token": "",
           "input": {
               "type": "JSON",
@@ -180,7 +180,7 @@ export default {
       }
   },
   mounted() {
-    
+
   }
 };
 </script>

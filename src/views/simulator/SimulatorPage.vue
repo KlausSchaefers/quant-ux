@@ -4,7 +4,7 @@
   </div>
 </template>
 <style>
-  @import url("../../../public/style/sim.css");
+  @import url("../../style/sim.css");
 </style>
 <script>
 import Logger from 'common/Logger'
@@ -14,7 +14,7 @@ export default {
   name: "SimulatorPage",
   mixins: [],
   data: function() {
-    return {     
+    return {
       user: {
         id: -1,
         name: "Guest",

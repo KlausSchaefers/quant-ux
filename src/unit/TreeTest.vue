@@ -11,7 +11,7 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
   .MatcTReeCntr {
       background: #f2f2f2;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);

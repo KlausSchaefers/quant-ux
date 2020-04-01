@@ -26,8 +26,8 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
-  @import url("../../public/style/qux-svg-editor.css");
+  @import url("../style/matc.css");
+  @import url("../style/qux-svg-editor.css");
   .toolbar {
     margin-left: 30px;
     background: #eee;

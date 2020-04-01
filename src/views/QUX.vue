@@ -8,8 +8,11 @@
   </div>
 </template>
 <style>
-  @import url("../../public/style/matc.css");
-  @import url("../../public/style/qux.css");
+  @import url("../style/matc.css");
+  @import url("../style/qux.css");
+</style>
+<style lang="sass">
+  @import "../style/bulma.sass";
 </style>
 <script>
 import LoginPage from 'views/LoginPage'
@@ -23,7 +26,7 @@ export default {
   name: "home",
   mixins: [],
  data: function() {
-    return {     
+    return {
       user: {
         id: -1,
         name: "Guest",

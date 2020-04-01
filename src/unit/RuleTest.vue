@@ -4,13 +4,13 @@
     <div class="MatcToolbarRestSettings" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px; width:340px; height:500px">
         <Rule :app="app" :l="line"/>
     </div>
-  
+
 
   </div>
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
   .MatcToolbarRestSettings {
       background: white;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -48,7 +48,7 @@ export default {
       }
   },
   mounted() {
-    
+
   }
 };
 </script>

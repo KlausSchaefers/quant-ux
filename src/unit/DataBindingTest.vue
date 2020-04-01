@@ -21,7 +21,7 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
   .MatcDataBinding {
       background: white;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);

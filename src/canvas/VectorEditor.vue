@@ -5,7 +5,7 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
 </style>
 
 <script>
@@ -25,7 +25,7 @@ export default {
   components: {
   },
   methods: {
-  
+
   },
   mounted() {
     console.debug(paper)

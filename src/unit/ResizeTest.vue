@@ -4,13 +4,13 @@
     <div class="MatcToobarPropertiesSection">
         <Resize />
     </div>
-   
+
 
   </div>
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
 </style>
 
 <script>
@@ -32,10 +32,10 @@ export default {
     Resize: Resize
   },
   methods: {
-  
+
   },
   mounted() {
-    
+
   }
 };
 </script>

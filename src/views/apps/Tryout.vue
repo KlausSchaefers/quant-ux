@@ -6,13 +6,17 @@
 </template>
 
 <style lang="css">
-  @import url("../../../public/style/matc.css");
+  @import url("../../style/matc.css");
 
   .MatcCanvasPage{
     background: red;
     width:100%;
     height:100%;
   }
+</style>
+
+<style lang="sass">
+  @import "../../style/bulma.sass";
 </style>
 
 <script>
@@ -49,13 +53,13 @@ export default {
       if (!model || this.$route.query.new === 'true') {
         let type = {
           type: this.$route.query.t,
-          screenSize: { 
-              w: this.$route.query.w, 
-              h: this.$route.query.h 
+          screenSize: {
+              w: this.$route.query.w,
+              h: this.$route.query.h
             }
         }
         let factory = new ModelFactory();
-        model = factory.createAppModel('Test', 'Test Des', type);	
+        model = factory.createAppModel('Test', 'Test Des', type);
         model.isPublic = true;
         model.id = 0;
         model.isTryOut = true;
@@ -68,7 +72,7 @@ export default {
 
     this.modelService = Services.getModelService(this.$route)
     this.user = await Services.getUserService().load()
-  
+
     let canvas = this.$refs.canvas
     let toolbar = this.$refs.toolbar
     let controller = new Controller({mode: 'public'})
@@ -76,18 +80,18 @@ export default {
     /**
      * model factory
      */
-  
+
     let model = this.getModel()
     var factory = new ModelFactory();
     var stack = {stack:[], pos:0, lastUUID:0,appID:0};
-    
+
     factory.setModel(model);
     /**
      * render factory
      */
     var renderFactory = new RenderFactory();
     renderFactory.setModel(model);
-    
+
     /**
      * Dependency injection
      */
@@ -95,7 +99,7 @@ export default {
     controller.setToolbar(toolbar);
     controller.setModelFactory(factory);
     controller.setPublic(true)
-   
+
     toolbar.setController(controller);
     toolbar.setCanvas(canvas);
     toolbar.setUser(this.user);
@@ -111,36 +115,36 @@ export default {
     canvas.setCommentService(Services.getCommentService())
     canvas.setUser(this.user)
     canvas.setPublic(true)
-  
+
     // wire shit together
     this.tempOwn(on(toolbar, "newScreen", lang.hitch(canvas, "addScreen"))); // deprecated
     this.tempOwn(on(toolbar, "newWidget", lang.hitch(canvas, "addWidget")));// deprecated
 
     this.tempOwn(on(toolbar, "newLine", lang.hitch(canvas, "addLine")));
     this.tempOwn(on(toolbar, "newComment", lang.hitch(canvas, "addComment")));
-    
+
     this.tempOwn(on(toolbar, "newTemplatedWidget", lang.hitch(canvas, "addTemplatedWidget")));
     this.tempOwn(on(toolbar, "newTemplatedScreen", lang.hitch(canvas, "addTemplatedScreen")));
     this.tempOwn(on(toolbar, "newTemplatedGroup", lang.hitch(canvas, "addTemplatedGroup")));
-    
+
     this.tempOwn(on(toolbar, "newThemedScreen", lang.hitch(canvas, "addThemedScreen")));
     this.tempOwn(on(toolbar, "newThemedGroup", lang.hitch(canvas, "addThemedGroup")));
     this.tempOwn(on(toolbar, "newThemedWidget", lang.hitch(canvas, "addThemedWidget")));
     this.tempOwn(on(toolbar, "newMultiThemedScreen", lang.hitch(canvas, "addMultiThemedScreens")));
-    
+
     this.tempOwn(on(toolbar, "onNewLogicObject", lang.hitch(canvas, "addLogicGroup")));
     this.tempOwn(on(toolbar, "onNewRestObject", lang.hitch(canvas, "addRestObject")));
-    
+
     /**
      * last set the model
      */
     controller.setCommandStack(stack);
-    
+
     /**
      * controller will render screen
      */
     controller.setModel(model, "");
-    
+
     /**
      * Init layer list
      */

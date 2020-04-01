@@ -10,7 +10,7 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
 
   .MatcAnimtationPlayer{
     display: inline-block;
@@ -39,10 +39,10 @@ export default {
     'Player': Player
   },
   methods: {
-  
+
   },
   mounted() {
-    
+
   }
 };
 </script>

@@ -10,10 +10,10 @@
         {{model}}
     </div>
 
-    <div 
-        class="MatcPreviewCntr" 
-        v-for="screen in screens" 
-        :key="screen.id" 
+    <div
+        class="MatcPreviewCntr"
+        v-for="screen in screens"
+        :key="screen.id"
         :style="{'width:': width, 'height':height}">
         <Preview :app="model" :screen="screen.id" />
     </div>
@@ -24,7 +24,7 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
   .MatcTReeCntr {
       background: #f2f2f2;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -108,9 +108,9 @@ export default {
                 this.model = result.model
                 // this.previews = result.previews
                 console.debug(this.previews)
-            }) 
+            })
         })
-   
+
       }
   },
   mounted() {

@@ -11,7 +11,7 @@
 </template>
 
 <style>
-  @import url("../../public/style/matc.css");
+  @import url("../style/matc.css");
 
   .dialog {
     padding: 20px;

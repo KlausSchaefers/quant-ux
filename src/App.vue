@@ -19,24 +19,24 @@ export default {
 			if(this.$refs.message){
 				css.add(this.$refs.message, "vommondMessageSuccess");
 				css.remove(this.$refs.message, "vommondMessageError vommondMessageHint");
-				this.$refs.message.innerHTML = msg;				
+				this.$refs.message.innerHTML = msg;
 				setTimeout( () => {
 					this.hideMessage()
 				},2000);
-			}			
+			}
 		},
-		
+
 	showError:function(msg){
 		if(this.message){
 				css.add(this.$refs.message, "vommondMessageError");
 				css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageHint");
-				this.$refs.message.innerHTML = msg;				
+				this.$refs.message.innerHTML = msg;
 				setTimeout( () => {
 					this.hideMessage()
 				},4000);
 		}
 	},
-	
+
 	showHint:function(msg){
 		if(this.$refs.message){
 			css.add(this.$refs.message, "vommondMessageHint");
@@ -47,7 +47,7 @@ export default {
 			},4000);
 		}
 	},
-	
+
 	hideMessage:function(){
 		css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageError vommondMessageHint");
 	},

@@ -5,8 +5,11 @@
 </template>
 
 <style lang="css">
-  @import url("../../../public/style/matc.css");
-  @import url("../../../public/style/test.css");
+  @import url("../../style/matc.css");
+  @import url("../../style/test.css");
+</style>
+<style lang="sass">
+  @import "../../style/bulma.sass";
 </style>
 
 <script>
@@ -71,7 +74,7 @@ export default {
       var renderFactory = new RenderFactory();
       renderFactory.setModel(model);
       renderFactory.setHash(this.$route.query.h)
-      
+
       /**
        * Dependency injection
        */
@@ -80,7 +83,7 @@ export default {
       if (this.pub) {
         controller.setPublic(true)
       }
-  
+
       canvas.setController(controller);
       canvas.setRenderFactory(renderFactory);
       canvas.setModelFactory(factory);
@@ -88,10 +91,10 @@ export default {
       canvas.setCommentService(Services.getCommentService())
       canvas.setUser(this.user)
       canvas.setHash(this.$route.query.h);
-    
+
       // wire shit together
       this.tempOwn(on(toolbar, "newComment", lang.hitch(canvas, "addComment")));
-     
+
       var startScreen = null;
       for(var screenID in model.screens){
         var screen = model.screens[screenID];
@@ -104,7 +107,7 @@ export default {
        * controller will render screen
        */
       controller.setModel(model, startScreen);
-      
+
     }
   },
   async mounted() {
