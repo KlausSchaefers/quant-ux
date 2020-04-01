@@ -1,25 +1,24 @@
 <template>
-  <div>
+  <main>
     <section class="section">
       <div class="container">
         <h2 class="title">Create a new prototype</h2>
-      </div>
-    </section>
+        <div class="columns">
+          <div class="column is-6">
+            <form>
+              <div class="field">
+                <label>Name</label>
+                <input type="text" class="input" v-model="name" placeholder="Enter App name" />
+                <div data-binding-error="name"></div>
+              </div>
 
-    <section class="section" style="padding-top: 0">
-      <div class="container">
-        <form>
-          <div class="field">
-            <label>Name</label>
-            <input type="text" class="input" v-model="name" placeholder="Enter App name" />
-            <div data-binding-error="name"></div>
+              <div class="form-group">
+                <label>ScreenSize *</label>
+                <ScreenSizeSelector @change="setType" />
+              </div>
+            </form>
           </div>
-
-          <div class="form-group">
-            <label>ScreenSize *</label>
-            <ScreenSizeSelector @change="setType" />
-          </div>
-        </form>
+        </div>
 
         <div class="buttons mt-16">
           <a class="button is-primary" @click="create">Create</a>
@@ -29,7 +28,7 @@
         <p class="has-text-grey is-size-6">* The screen size is measured in points and not pixel!</p>
       </div>
     </section>
-  </div>
+  </main>
 </template>
 <script>
 import Logger from "common/Logger";
