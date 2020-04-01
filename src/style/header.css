@@ -1,14 +1,14 @@
  /****************************************************
- * Header 
+ * Header
  ****************************************************/
- 
+
 
  .MatcHeader{
     padding-bottom: 0px;
     padding-top: 60px;
     text-align: left;
 	color:rgba(255,255,255,0.7);
-	overflow: hidden; 
+	overflow: hidden;
 	font-weight:300;
 }
 
@@ -34,7 +34,7 @@
 	background: rgba(255,255,255,0.95);
 	border-color: #fff;
 	text-decoration: none;
-	color:#256987;	
+	color:#256987;
 }
 
 .MatcHeaderPublic .MatcButtonSignUp:hover{
@@ -43,7 +43,7 @@
 }
 
 .MatcAboutDesktopHeader{
-	height: 600px;	
+	height: 600px;
 	margin-top: 150px;
 }
 
@@ -117,22 +117,22 @@
 /****************************************************
  * Laning Page
  ****************************************************/
- 
+
 .MatcHeaderSection{
 	position:relative;
-	overflow:hidden; 
+	overflow:hidden;
 }
 
 .MatcLandingImageCntr{
 	width: 800px;
     height: 600px;
-    background: url(img/Landing5c.png);
+    background: url(/img/Landing5c.png);
     background-size: 100%;
     background-repeat: no-repeat;
 }
 
  @media (max-width: 500px){
- 
+
 	.MatcLandingImageCntr{
 		width:600px;
 		height:500px;
@@ -141,7 +141,7 @@
  /****************************************************
  * Header Tab
  ****************************************************/
- 
+
 
 
 .MatcHeaderItem{
@@ -166,11 +166,11 @@
 	outline: none;
 }
 
-.MatcHeaderItem.MatcHeaderItemSelected, 
-.MatcHeaderItemSelected.MatcHeaderItem:HOVER, 
+.MatcHeaderItem.MatcHeaderItemSelected,
+.MatcHeaderItemSelected.MatcHeaderItem:HOVER,
 .MatcHeaderItemSelected.MatcHeaderItem:FOCUS{
 	border-bottom: 2px solid rgb(250,250,250);
-	background: rgb(250,250,250);	
+	background: rgb(250,250,250);
 	color:#031a29;
 }
 

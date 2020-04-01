@@ -838,6 +838,7 @@ export default {
 
 
 			this.boxShadow = this.$new(BoxShadow);
+			this.boxShadow.setModel(this.model)
 			this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
 			this._placeAt(this.boxShadow,content);
 			this.addTooltip(this.boxShadow.domNode, "Box Shadow");
@@ -1018,6 +1019,7 @@ export default {
 
 
 			this.textShadow = this.$new(TextShadow);
+			this.textShadow.setModel(this.model)
 			this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
 			this._placeAt(this.textShadow, advanced);
 			this.addTooltip(this.textShadow.domNode, "Text Shadow");

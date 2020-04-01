@@ -197,25 +197,6 @@ export default {
 			this._renderCheck("Auto Fill",model.props.auto, "auto" );
 
 			if (model.props.auto === false) {
-				//this._renderSlider('Count', model, 'count', 0, 30)
-				//this._renderSlider('Vertical Spacing', model, 'distanceY', 0, 100)
-				//this._renderSlider('Horizontal Spacing', model, 'distanceX', 0, 100)
-
-				let count = [
-					{label: 'Auto', value: -1},
-					{label: '1', value: 1},
-					{label: '2', value: 2},
-					{label: '3', value: 3},
-					{label: '4', value: 4},
-					{label: '5', value: 5},
-					{label: '10', value: 10},
-					{label: '20', value: 20},
-					{label: '30', value: 30}
-				];
-				this._renderInputDropDown("Rows",model, count, "rows", true);
-				if (model.props.layout === "grid") {
-					this._renderInputDropDown("Columns",model, count, "columns", true);
-				}
 
 				let margin = [
 					{label: 'Auto', value: -1},
@@ -392,7 +373,7 @@ export default {
 			this._renderColor('Color','<span class="mdi mdi-star"></span>',model.style.color, "color", "onStyleChanged" , true);
 		},
 
-		
+
 
 		_showImageCarousel (model){
 			this._setSectionLabel("Image Carousel");
@@ -635,73 +616,73 @@ export default {
 			this._setSectionLabel("Table");
 
 			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
-			
+
 
 			let style = model.style
 			let props = model.props
 
 				this._renderDropDownTree("Colors", "mdi mdi-format-color-fill", [
 				{
-					label: "Header Background", 
-					type: "color", 
-					value: style.headerBackground, 
-					key:'headerBackground', 
+					label: "Header Background",
+					type: "color",
+					value: style.headerBackground,
+					key:'headerBackground',
 					icon: 'mdi mdi-format-color-fill',
 					isStyle: true
 				},
 				{
-					label: "Header Color", 
-					type: "color", 
-					value: style.headerColor, 
-					key:'headerColor', 
+					label: "Header Color",
+					type: "color",
+					value: style.headerColor,
+					key:'headerColor',
 					icon: 'mdi mdi-format-text',
 					isStyle: true
 				},
 				{
-					label: "Odd Background", 
-					type: "color", 
-					value: style.background, 
-					key:'background', 
+					label: "Odd Background",
+					type: "color",
+					value: style.background,
+					key:'background',
 					icon: 'mdi mdi-format-color-fill',
 					isStyle: true
 				},
 				{
-					label: "Odd Color", 
-					type: "color", 
-					value: style.color, 
-					key:'color', 
+					label: "Odd Color",
+					type: "color",
+					value: style.color,
+					key:'color',
 					icon: 'mdi mdi-format-text',
 					isStyle: true
 				},
 				{
-					label: "Even Background", 
-					type: "color", 
-					value: style.evenRowBackground, 
-					key:'evenRowBackground', 
+					label: "Even Background",
+					type: "color",
+					value: style.evenRowBackground,
+					key:'evenRowBackground',
 					icon: 'mdi mdi-format-color-fill',
 					isStyle: true
 				},
 				{
-					label: "Even Color", 
-					type: "color", 
-					value: style.evenRowColor, 
-					key:'evenRowColor', 
+					label: "Even Color",
+					type: "color",
+					value: style.evenRowColor,
+					key:'evenRowColor',
 					icon: 'mdi mdi-format-text',
 					isStyle: true
 				},
 				{
-					label: "Hover Background", 
-					type: "color", 
-					value: style.hoverBackground, 
-					key:'hoverBackground', 
+					label: "Hover Background",
+					type: "color",
+					value: style.hoverBackground,
+					key:'hoverBackground',
 					icon: 'mdi mdi-format-color-fill',
 					isStyle: true
 				},
 				{
-					label: "Hover Color", 
-					type: "color", 
-					value: style.hoverColor, 
-					key:'hoverColor', 
+					label: "Hover Color",
+					type: "color",
+					value: style.hoverColor,
+					key:'hoverColor',
 					icon: 'mdi mdi-format-text',
 					isStyle: true
 				}
@@ -709,29 +690,29 @@ export default {
 
 			this._renderDropDownTree("Header Style", "mdi mdi-format-text", [
 				{
-					label: "Bold", 
-					type: "check", 
-					key:"headerFontWeight", 
-					value: style.headerFontWeight === 700, 
-					valueTrue: 700, 
+					label: "Bold",
+					type: "check",
+					key:"headerFontWeight",
+					value: style.headerFontWeight === 700,
+					valueTrue: 700,
 					valueFalse: 400,
 					isStyle: true
 				},
 				{
-					label: "Italic", 
-					type: "check", 
-					key:"headerFontStyle", 
-					value: style.headerFontStyle === 'italic', 
-					valueTrue: 'italic', 
+					label: "Italic",
+					type: "check",
+					key:"headerFontStyle",
+					value: style.headerFontStyle === 'italic',
+					valueTrue: 'italic',
 					valueFalse: 'normal',
 					isStyle: true
 				},
 				{
-					label: "Underline", 
-					type: "check", 
-					key:"headerTextDecoration", 
-					value: style.headerTextDecoration === 'underline', 
-					valueTrue: 'underline', 
+					label: "Underline",
+					type: "check",
+					key:"headerTextDecoration",
+					value: style.headerTextDecoration === 'underline',
+					valueTrue: 'underline',
 					valueFalse: 'none',
 					isStyle: true
 				}
@@ -741,27 +722,27 @@ export default {
 			let borderStyleIcon = selectedBorderStyle ? selectedBorderStyle.icon : 'mdi mdi-border-color'
 			this._renderDropDownTree("Border", borderStyleIcon, [
 				{
-					label: "Border Style", 
-					type: "list", 
-					value: props.borderStyle, 
-					key:'borderStyle', 
+					label: "Border Style",
+					type: "list",
+					value: props.borderStyle,
+					key:'borderStyle',
 					icon: 'mdi mdi-border-all',
 					options: this.borderStyles,
 					isStyle: false
 				},
 				{
-					label: "Border Color", 
-					type: "color", 
-					value: style.borderBottomColor, 
-					key:'borderBottomColor', 
+					label: "Border Color",
+					type: "color",
+					value: style.borderBottomColor,
+					key:'borderBottomColor',
 					icon: 'mdi mdi-border-color',
 					isStyle: true
 				},
 				{
-					label: "Border Width", 
-					type: "int", 
-					value: style.borderBottomWidth, 
-					key:'borderBottomWidth', 
+					label: "Border Width",
+					type: "int",
+					value: style.borderBottomWidth,
+					key:'borderBottomWidth',
 					icon: 'mdi mdi-pound',
 					options: [1, 2, 3, 4, 5, 8, 10, 20],
 					isStyle: true
@@ -770,62 +751,62 @@ export default {
 
 			this._renderDropDownTree("Selectable", "mdi mdi-checkbox-multiple-marked-outline", [
 				{
-					label: "Show Checkbox", 
-					type: "check", 
-					value: style.checkBox, 
-					key:'checkBox', 
+					label: "Show Checkbox",
+					type: "check",
+					value: style.checkBox,
+					key:'checkBox',
 					icon: '',
-					valueTrue: true, 
+					valueTrue: true,
 					valueFalse: false,
 					isStyle: true
 				},
 				{
-					label: "Hook Color", 
-					type: "color", 
-					value: style.checkBoxHookColor, 
-					key:'checkBoxHookColor', 
+					label: "Hook Color",
+					type: "color",
+					value: style.checkBoxHookColor,
+					key:'checkBoxHookColor',
 					icon: 'mdi mdi-check',
 					isStyle: true
 				},
 				{
-					label: "Background", 
-					type: "color", 
-					value: style.checkBoxBackground, 
-					key:'checkBoxBackground', 
+					label: "Background",
+					type: "color",
+					value: style.checkBoxBackground,
+					key:'checkBoxBackground',
 					icon: 'mdi mdi-format-color-fill',
 					isStyle: true
 				},
 				{
-					label: "Size", 
-					type: "int", 
-					value: style.checkBoxSize, 
-					key:'checkBoxSize', 
+					label: "Size",
+					type: "int",
+					value: style.checkBoxSize,
+					key:'checkBoxSize',
 					icon: 'mdi mdi-swap-vertical',
 					options: [style.fontSize, 10, 12, 16, 20, 24, 32],
 					isStyle: true
 				},
 				{
-					label: "Border Color", 
-					type: "color", 
-					value: style.checkBoxBorderColor, 
-					key:'checkBoxBorderColor', 
+					label: "Border Color",
+					type: "color",
+					value: style.checkBoxBorderColor,
+					key:'checkBoxBorderColor',
 					icon: 'mdi mdi-border-color',
 					isStyle: true
 				},
 				{
-					label: "Border Radius", 
-					type: "int", 
-					value: style.checkBoxBorderRadius, 
-					key:'checkBoxBorderRadius', 
+					label: "Border Radius",
+					type: "int",
+					value: style.checkBoxBorderRadius,
+					key:'checkBoxBorderRadius',
 					icon: 'mdi mdi-vector-radius',
 					options: [1, 2, 3, 4, 5, 8, 10, 20, 30, 50],
 					isStyle: true
 				},
 				{
-					label: "Border Width", 
-					type: "int", 
-					value: style.checkBoxBorderWidth, 
-					key:'checkBoxBorderWidth', 
+					label: "Border Width",
+					type: "int",
+					value: style.checkBoxBorderWidth,
+					key:'checkBoxBorderWidth',
 					icon: 'mdi mdi-pound',
 					options: [1, 2, 3, 4, 5, 8, 10, 20, 30, 50],
 					isStyle: true
@@ -1492,7 +1473,7 @@ export default {
 			drpDwn.setModel(this.model)
 			drpDwn.setLabel(`<span class="${icon}"/><span class="MatcToolbarItemLabel">${lbl}</span>`)
 			drpDwn.setPopupCss("MatcActionAnimProperties");
-	
+
 			this.tempOwn(on(drpDwn, "change", (option, value) => {
 				console.debug('tree change', option.key, value)
 				if (option.isStyle) {
@@ -1506,7 +1487,7 @@ export default {
 					this.onTempStyleChanged(option.key, value)
 				}
 			}))
-			
+
    			drpDwn.placeAt(row);
 
 			this._addChildWidget(drpDwn);

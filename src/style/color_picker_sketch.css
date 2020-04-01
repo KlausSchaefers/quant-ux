@@ -49,12 +49,14 @@
 	width:35px;
 	border:1px solid #cecece;
 	margin: 0px;
+	font-size: 14px;
 }
 
 .VommondColorPickerSketch .VommondColorPickerHexInput{
 	width:70px;
 	border:1px solid #cecece;
 	margin: 0px;
+	font-size: 14px;
 }
 
 .VommondColorPickerSketchControlCntr{

@@ -65,10 +65,8 @@ export default {
     },
     components: {},
     methods: {
-      postCreate: function(){
-
-				this.color = new Color({ r:0, g:0, b:0});
-
+      postCreate (){
+				this.color = new Color({ r:0, g:0, b:0, a:0});
 
 				this.own(on(this.inputR, "keyup", lang.hitch(this, "onRGBChange")));
 				this.own(on(this.inputG, "keyup", lang.hitch(this, "onRGBChange")));
@@ -172,7 +170,7 @@ export default {
 				this.satPointer.style.left = saturation * 100 + '%'
 
 				// update controls and
-				var c = this.hsvToRgb(hsv.h, saturation, bright);
+				var c = this.hsvToRgb(hsv.h, saturation, bright, hsv.a);
 				this.setControls(c);
 			},
 
