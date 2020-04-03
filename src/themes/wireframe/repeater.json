@@ -13,8 +13,8 @@
 	"props" : {
 		"data": [],
 		"auto": true,
-		"rows": 10,
-		"columns": 2,
+		"rows": -1,
+		"columns": -1,
 		"layout": "rows",
 		"distanceX": 8,
 		"distanceY": 8

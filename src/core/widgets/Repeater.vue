@@ -11,6 +11,7 @@ import DomBuilder from 'common/DomBuilder'
 import Core from 'core/Core'
 import lang from 'dojo/_base/lang'
 import JSONPath from 'core/JSONPath'
+import Logger from "common/Logger";
 
 export default {
   name: "Repeater",
@@ -50,6 +51,7 @@ export default {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
+      this.logger = new Logger('Repeater')
     },
 
     wireEvents () {
@@ -162,13 +164,13 @@ export default {
     render (widget, style, scaleX, scaleY) {
       /**
        * This is super slow for fast rendering, as we will redraw everzthing. We must
-       * therefore reuse the items or have some kind of rerender() method if the 
+       * therefore reuse the items or have some kind of rerender() method if the
        * isUpdate parameter is set
        */
       this.model = widget;
       this.setDataBindingFromTable(widget)
       /**
-       * The widgets come from the getInhereitedMethod... 
+       * The widgets come from the getInhereitedMethod...
        * Property changes will not always send children.
        * FIXME: in BaseController.setWidget also add children?
        */
@@ -210,7 +212,7 @@ export default {
         let columns = this.getColumns(widget, cntrBox)
         let distanceX = this.getDistanceX(widget, columns, cntrBox)
         // console.debug('Repeater.render(Y) h:', widget.h,  ' > bb: ', cntrBox.h, ' > r ', rows, ' > dis ', distanceY, "=", cntrBox.h * rows + (rows-1) * distanceY)
-        // console.debug('Repeater.render(X)', widget.id, widget.w, cntrBox.w, columns, distanceX, "=", cntrBox.w * columns + (columns-1) * distanceX)
+        // console.debug('Repeater.render(X)', widget.id, widget.w, cntrBox.w, columns, distanceX, "=", cntrBox.w * columns + (columns-1) * distanceX, widget)
 
 
         let cntrDiv = db.div('MatcWidgetTypeRepeaterGrid ' + widget.props.layout).build()
@@ -234,7 +236,7 @@ export default {
         for (let i = 0; i < count; i++) {
                 /**
                  * We should have here something like smart rendering because in
-                 * this approach redraws all the widget for each rendering, also in the 
+                 * this approach redraws all the widget for each rendering, also in the
                  * fast rendering in canvas.
                  */
                let marginRight = distanceX
@@ -311,7 +313,7 @@ export default {
                 /**
                  * Data Binding has priority
                  */
-                if (this.dataBindingValues && this.dataBindingValues.length > i) {            
+                if (this.dataBindingValues && this.dataBindingValues.length > i) {
                     let row = this.dataBindingValues[i]
                     let value = JSONPath.get(row, path)
                     if (value !== null && value != undefined) {
@@ -320,7 +322,7 @@ export default {
                             value: value
                         }
                     }
-                } 
+                }
             }
         }
     },
@@ -354,31 +356,35 @@ export default {
         return distance
     },
 
-
     getColumns (widget, cntrBox) {
         if (widget.props.layout === 'rows') {
             return 1;
         }
         let columns = widget.props.columns
-
-        if (!columns || columns <= 0 || widget.props.auto) {
-            let w = cntrBox.w
-            if (widget.props.distanceX > 0 && !widget.props.auto) {
-                let distance = Math.round(widget.props.distanceX * this._scaleX)
-                columns = Math.ceil((widget.w - distance) / (w + distance))
-            } else {
-                columns = Math.floor(widget.w / w)
-            }
+        if (columns >= 0) {
+            this.logger.warn('getColumns()', 'Row > not supported!')
         }
-        // console.debug('Repeater.columns', columns)
+
+        let w = cntrBox.w
+        if (widget.props.distanceX > 0 && !widget.props.auto) {
+            let distance = Math.round(widget.props.distanceX * this._scaleX)
+            columns = Math.ceil((widget.w - distance) / (w + distance))
+        } else {
+            columns = Math.floor(widget.w / w)
+        }
+
+        this.logger.log(3, 'getColumns()', 'exit', columns)
         return columns
     },
 
     getRows (widget, cntrBox) {
         let rows = widget.props.rows * 1
-        if (!rows || rows <= 0 || widget.props.auto === true) {
-
-            let h = cntrBox.h
+        /** Since 2.4.0 we do not consider the row statement */
+        if (rows >= 0) {
+            this.logger.warn('getRows()', 'Row > not supported!')
+        }
+        let h = cntrBox.h
+        if (widget.props.distanceY > 0 && !widget.props.auto) {
             /**
              * This takes too the distance on the last element into account!
              * widget.h = rows * h + (rows - 1) * distanceY
@@ -387,16 +393,12 @@ export default {
              * widget.h - distanceY = rows * (h + distanceY)
              * (widget.h - distanceY) / (h + distanceY) = rows
              */
-            if (widget.props.distanceY > 0 && !widget.props.auto) {
-                let distance = Math.round(widget.props.distanceY * this._scaleY)
-                rows = Math.ceil((widget.h - distance) / (h + distance))
-            } else {
-                rows = Math.floor(widget.h / h)
-            }
+            let distance = Math.round(widget.props.distanceY * this._scaleY)
+            rows = Math.ceil((widget.h - distance) / (h + distance))
+        } else {
+            rows = Math.floor(widget.h / h)
         }
-        if (!this.isSimulator){
-            //rows = Math.min(rows,  Math.ceil(widget.h / cntrBox.h))
-        }
+        this.logger.log(3, 'getRows()', 'exit', rows)
         return rows
     },
 
