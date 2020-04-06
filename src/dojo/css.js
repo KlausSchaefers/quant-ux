@@ -31,8 +31,12 @@ class css {
     }
 
     contains (node, cls) {
-        let classes = node.className.split(' ')  
-        return classes.indexOf(cls) >= 0
+        /** SVG nodes have no string... */
+        if (node.className && node.className.split) {
+            let classes = node.className.split(' ')
+            return classes.indexOf(cls) >= 0
+        }
+        return false
     }
 
     remove (node, cls) {
@@ -42,11 +46,11 @@ class css {
         if (node && node.toLowerCase) {
             node = document.getElementById(node)
         }
-        if (node) {           
+        if (node) {
             let remove = cls.split(' ')
             let classes = node.className.split(' ')
             let result = classes.filter(c => remove.indexOf(c) < 0)
-            node.className = result.join(' ')          
+            node.className = result.join(' ')
         }
     }
 }

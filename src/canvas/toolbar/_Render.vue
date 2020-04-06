@@ -316,7 +316,7 @@ export default {
 
 			this._renderWidgetLine();
 
-			this._renderLowCode();
+
 
 			this._renderData();
 
@@ -346,6 +346,11 @@ export default {
 			this._renderScreenInheritance();
 
 			this._renderScreenDownload();
+
+			/**
+			 *
+			 */
+			this._renderLowCode();
 
 			/**
 			 * Ruler
@@ -698,6 +703,7 @@ export default {
 			this.callbackSection = this.$new(CallBackSection);
 			this.own(on(this.callbackSection, "changeStyle", lang.hitch(this, "setWidgetStyle")));
 			this.own(on(this.callbackSection, "changeProps", lang.hitch(this, "setWidgetProps")));
+			this.own(on(this.callbackSection, "changeScreenProps", lang.hitch(this, "setScreenProps")));
 			this.callbackSection.placeAt(content)
 
 			this.callBackDiv = parent;
@@ -1016,14 +1022,11 @@ export default {
 			css.add(advanced, "MatcToolbarSectionContent");
 			parent.appendChild(advanced);
 
-
-
 			this.textShadow = this.$new(TextShadow);
 			this.textShadow.setModel(this.model)
 			this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
 			this._placeAt(this.textShadow, advanced);
 			this.addTooltip(this.textShadow.domNode, "Text Shadow");
-
 
 			this.lineHeight = this.$new(ToolbarDropDownButton);
 			this.lineHeight.setOptions([1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
@@ -2201,6 +2204,9 @@ export default {
 
 			this.showProperties();
 
+			if (this.isDataView) {
+				return this.showScreenDataProperties(model)
+			}
 
 			if(this.screenDIV){
 				css.remove(this.screenDIV, "MatcToolbarSectionHidden");
@@ -2272,6 +2278,7 @@ export default {
 			}
 
 			if(this.screenSize){
+				css.remove(this.screenSize.domNode, 'MatcHidden')
 				this.screenSize.setModel(this.model);
 				this.screenSize.setValue(model);
 			}
@@ -2281,6 +2288,22 @@ export default {
 			this.logger.log(2,"showWidgetProperties", "exit");
 		},
 
+
+		showScreenDataProperties (model) {
+			this.showProperties();
+
+			if(model.name){
+				this.screenName.value = model.name;
+			} else {
+				this.screenName.value = "";
+			}
+			this.screenName.blur();
+
+			css.add(this.screenSize.domNode, 'MatcHidden')
+			css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
+			css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
+			this.callbackSection.setValue(model, 'screen')
+		},
 
 
 		hideAllSections:function(){

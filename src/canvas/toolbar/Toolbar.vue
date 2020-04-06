@@ -1559,7 +1559,7 @@ export default {
 		},
 
 		setScreenProps (key, value){
-			this.logger.log(2,"setScreenProps", "entry > " + key + " - "+ value);
+			this.logger.log(0,"setScreenProps", "entry > " + key + " - "+ value);
 			if(this._selectedScreen){
 				if(this._selectedScreen.props){
 					var newProps = {};
