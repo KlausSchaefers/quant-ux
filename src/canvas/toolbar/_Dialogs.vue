@@ -90,7 +90,7 @@ export default {
 			var cntr = db.div("container").build(popup);
 			var row = db.div("row").build(cntr);
 			var right = db.div("col-md-12").build(row);
-			// db.h3("",this.getNLS("share.Headline")).build(right);
+			db.h3("",this.getNLS("share.Headline")).build(right);
 
 			let share = this.$new(Share)
 			share.placeAt(right)
