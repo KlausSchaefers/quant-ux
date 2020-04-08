@@ -1,17 +1,17 @@
 
 /****************************************************
- * Share 
+ * Share
  ****************************************************/
- 
+
  .MatcShare{
  	height: 100%;
  	width: 100%;
  	background: red;
  }
- 
+
  .MatcShare{
  }
-  
+
 
 .MatcLight .MatcShare .MatcCanvasFrame,
 .MatcLight .MatcShare .MatcCanvasContainer{
@@ -36,7 +36,7 @@
 	bottom:160px;
 }
 
-.MatcTestCommentButton, 
+.MatcTestCommentButton,
 .MatcTestQRButton {
 	z-index:10010;
 }
@@ -46,14 +46,14 @@
 }
 
 @keyframes flipContainer {
-   0%, 100% { 
+   0%, 100% {
 
     transform:scale(1,1);
 
-  } 50% { 
-   
+  } 50% {
+
     transform:scale(0.8,0.8);
-   
+
   }
 }
 
@@ -62,11 +62,11 @@
 	top:0px;
 	left:0px;
 	height:100%;
-	width:100%;		
+	width:100%;
 	color:#fff;
 	transition: all 0.5s;
 	left:0px;
-	opacity:1;	
+	opacity:1;
 	overflow: visible;
 
 }
@@ -86,7 +86,7 @@
 	border-radius: 0px 10px 10px 0px;
 	color: white;
 	cursor: pointer;
-	
+
 }
 
 .MatcShareMenuCloseBtn span{
@@ -98,7 +98,7 @@
  	transform: rotate(180deg);
     transform-origin: 50% 50% 0;
 }
- 
+
 
 
 .MatcShareMenu.MatcShareMenuCollababsed{
@@ -133,7 +133,7 @@
 	padding-top: 30px;
 	padding-bottom: 30px;
 	border-top:1px solid transparent;
-	border-bottom:1px solid transparent;	
+	border-bottom:1px solid transparent;
 	cursor: pointer;
 }
 
@@ -162,8 +162,8 @@
 
 .MatcShareRow .MatcShareIcon{
 	position: absolute;
-	bottom:4px;
-	right:10px;
+	bottom:6px;
+	right:5px;
 	color:#333;
 }
 

@@ -1,7 +1,7 @@
 
 <template>
   <div class="MatcShareDialog" @keydown.stop @keyup.stop @keypress.stop>
-    <div class="field">
+    <div class="field MatcShareRow">
       <label>Test</label>
       <input type="text" class="input" :value="testLink" @focus="select" />
       <a class="MatcShareIcon" :href="testLink" target="_QuantUXTest">
@@ -9,7 +9,7 @@
       </a>
     </div>
 
-    <div class="field">
+    <div class="field MatcShareRow">
       <label>Share and Comment</label>
       <input type="text" class="input" :value="shareLink" @focus="select" />
       <a class="MatcShareIcon" :href="shareLink" target="_QuantUXShare">
@@ -17,7 +17,7 @@
       </a>
     </div>
 
-    <div class="field">
+    <div class="field MatcShareRow">
       <label>Code Generation</label>
       <input type="text" class="input" :value="`${hash}`" @focus="select" ref="hashInput" />
       <a class="MatcShareIcon" @click="copy" target="_QuantUXShare">
