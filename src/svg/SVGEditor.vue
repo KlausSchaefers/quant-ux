@@ -36,42 +36,80 @@
 
             <!-- in morph mode we show all the points -->
 
-              <circle v-if="splitPoint"
-                    :cx="splitPoint.x"
-                    :cy="splitPoint.y"
-                    class="qux-svg-editor-splitpoint"
-                    :r="splitPoint.r" />
+            <circle v-if="splitPoint"
+                :cx="splitPoint.x + offSetTools"
+                :cy="splitPoint.y + offSetTools"
+                class="qux-svg-editor-splitpoint"
+                :r="splitPoint.r" />
+
+            <template v-if="showBezierPoints">
+                   <circle v-for="bezierpoint in allBezierPoints" :key="bezierpoint.id"
+                    :cx="bezierpoint.x"
+                    :cy="bezierpoint.y"
+                    :r="bezierpoint.r"
+                    @mousedown.stop="onBezierMouseDown(bezierpoint, $event)"
+                    @mouseup.stop="onBezierMouseUp(bezierpoint, $event)"
+                    @click.stop="onBezierClick(bezierpoint, $event)"
+                    :class="['qux-svg-editor-bezier-debug', { 'qux-svg-editor-bezier-debug-x1' : bezierpoint.isX1}]"
+                    />
+            </template>
+
 
             <template v-if="mode === 'morph'">
+                <!-- Bezier lines-->
+                <path v-for="p in selectedBezierElements.lines"
+                    :key="p.id"
+                    :d="p.d"
+                    stroke="rgba(0,0,0,0.4)"
+                    class="qux-svg-editor-beziee-line"
+                    fill=""
+                    :stroke-width="1"/>
+
+                <!-- Bezier points-->
+                <circle v-for="bezierpoint in selectedBezierElements.points"
+                    :key="bezierpoint.id"
+                    :cx="bezierpoint.x"
+                    :cy="bezierpoint.y"
+                    :r="bezierpoint.r"
+                    @mousedown.stop="onBezierMouseDown(bezierpoint, $event)"
+                    @mouseup.stop="onBezierMouseUp(bezierpoint, $event)"
+                    @click.stop="onBezierClick(bezierpoint, $event)"
+                    :class="['qux-svg-editor-bezier', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
+                    />
+
+                <!-- joints-->
                 <circle v-for="joint in joints" :key="joint.id"
-                    :cx="joint.x"
-                    :cy="joint.y"
+                    :cx="joint.x + offSetTools"
+                    :cy="joint.y + offSetTools"
                     @mousedown.stop="onJointMouseDown(joint, $event)"
                     @mouseup.stop="onJointMouseUp(joint, $event)"
                     @click.stop="onJointClick(joint, $event)"
                     :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
                     :r="joint.r" />
+
             </template>
 
-            <rect 
-                :x="boundingBox.x" 
-                :y="boundingBox.y" 
-                :width="boundingBox.w" 
-                :height="boundingBox.h" 
-                v-if="boundingBox"
-                @mousedown.stop="onBBoxMouseDown($event)"
-                @mouseup.stop="onBBoxMouseUp($event)"
-                @click.stop="onBBoxMouseClick($event)"
-                class="qux-svg-editor-bounding" />
+
 
             <template v-if="boundingBox">
-                <rect 
+                <!-- Bounding box rectangle-->
+                <rect
+                    :x="boundingBox.x + offSetTools"
+                    :y="boundingBox.y + offSetTools"
+                    :width="boundingBox.w"
+                    :height="boundingBox.h"
+                    @mousedown.stop="onBBoxMouseDown($event)"
+                    @mouseup.stop="onBBoxMouseUp($event)"
+                    @click.stop="onBBoxMouseClick($event)"
+                    class="qux-svg-editor-bounding" />
+                <!-- handlers rectangle-->
+                <rect
                     v-for="handler in resizeHandles"
                     :key="handler.id"
-                    :x="handler.x" 
-                    :y="handler.y" 
-                    :width="handler.w" 
-                    :height="handler.h" 
+                    :x="handler.x + offSetTools"
+                    :y="handler.y + offSetTools"
+                    :width="handler.w"
+                    :height="handler.h"
                     @mousedown.stop="onResizeMouseDown(handler, $event)"
                     @mouseup.stop="onResizeMouseUp(handler, $event)"
                     @click.stop="onResizeMouseClick(handler, $event)"
@@ -90,11 +128,13 @@
 
 <script>
 
-import PathTool from './PathTool'
-import SelectTool from './SelectTool'
-import MorphTool from './MorphTool'
-import MoveTool from './MoveTool'
+import PathTool from './tools/PathTool'
+import SelectTool from './tools/SelectTool'
+import MorphTool from './tools/MorphTool'
+import MoveTool from './tools/MoveTool'
 import SVGRuler from './SVGRuler'
+import BezierTool from './tools/BezierTool'
+import * as SVGUtil from './SVGUtil'
 import Logger from '../common/Logger'
 
 export default {
@@ -110,7 +150,11 @@ export default {
         selection: [],
         splitPoint: null,
         selectedJoint: null,
+        selectedBezier: null,
         boundingBox: null,
+        offSetTools: 0,
+        offSetValue: 0.5,
+        showBezierPoints: true,
         config: {
             pointRadius: 5,
             colorHover: 'red',
@@ -123,73 +167,7 @@ export default {
       resizeHandles () {
           let result = []
           if (this.boundingBox) {
-              let size = this.config.handlerSize
-              let offset = Math.floor(size / 2)
-              let bbox = this.boundingBox
-              let wHalf = Math.round(bbox.w / 2)
-              let hHalf = Math.round(bbox.h / 2)
-              result.push({
-                  x: bbox.x - offset,
-                  y: bbox.y - offset,
-                  w: size,
-                  h: size,
-                  type: 'LeftUp',
-                  vertical: true,
-                  horizontal: true
-              })
-              result.push({
-                  x: bbox.x - offset,
-                  y: bbox.y + bbox.h - offset,
-                  w: size,
-                  h: size,
-                  type: 'LeftDown'
-              })
-              result.push({
-                  x: bbox.x + bbox.w - offset,
-                  y: bbox.y - offset,
-                  w: size,
-                  h: size,
-                  type: 'RightUp'
-              })
-              result.push({
-                  x: bbox.x + bbox.w - offset,
-                  y: bbox.y + bbox.h - offset,
-                  w: size,
-                  h: size,
-                  type: 'RighDown'
-              })
-
-              result.push({
-                  x: bbox.x + bbox.w - offset,
-                  y: bbox.y + hHalf - offset,
-                  w: size,
-                  h: size,
-                  type: 'East'
-              })
-
-              result.push({
-                  x: bbox.x - offset,
-                  y: bbox.y + hHalf - offset,
-                  w: size,
-                  h: size,
-                  type: 'West'
-              })
-
-              result.push({
-                  x: bbox.x + wHalf - offset,
-                  y: bbox.y - offset,
-                  w: size,
-                  h: size,
-                  type: 'North'
-              })
-
-              result.push({
-                  x: bbox.x + wHalf - offset,
-                  y: bbox.y + bbox.h - offset,
-                  w: size,
-                  h: size,
-                  type: 'South'
-              })
+             return SVGUtil.getResizeHandles(this.boundingBox, this.config.handlerSize)
           }
           return result
       },
@@ -209,6 +187,73 @@ export default {
         })
         return points
       },
+      allBezierPoints () {
+        let result = this.value.flatMap(path => {
+            return path.d.flatMap((point,j) => {
+                if (point.t === 'C') {
+                    return [{
+                        id: path.id + '_' + j + 'x1',
+                        r: this.config.pointRadius - 2,
+                        x: point.x1,
+                        y: point.y1,
+                        isX1: true
+                    }, {
+                        id: path.id + '_' + j + 'x2',
+                        r: this.config.pointRadius - 2,
+                        x: point.x2,
+                        y: point.y2
+                    }]
+                }
+                return []
+            })
+        })
+        return result
+      },
+      selectedBezierElements () {
+          /** Or should this be done by the morpg tool, and we just have here a property? */
+          let points = []
+          let lines = []
+          if (this.selectedJoint && this.selectedPaths && this.selectedPaths.length === 1) {
+                let path = this.selectedPaths[0]
+                let pos = this.selectedJoint.id
+                let current = path.d[pos]
+                if (current && current.t === 'C') {
+                    points.push({
+                            id: 'x2',
+                            parent: pos,
+                            isX2: true,
+                            x: current.x2,
+                            y: current.y2,
+                            r: this.config.pointRadius
+                    })
+                }
+                let next = path.d[pos + 1]
+                    if (next && next.t === 'C') {
+                    points.push({
+                        id: 'x1',
+                        parent: pos + 1,
+                        isX1: true,
+                        x: next.x1,
+                        y: next.y1,
+                        r: this.config.pointRadius
+                    })
+                }
+
+                /** add lines */
+                points.forEach(point => {
+                    lines.push({
+                        id: point.id + '_line',
+                        d: `M ${current.x} ${current.y} L ${point.x} ${point.y}`
+                    })
+                })
+
+                console.debug(points, lines)
+          }
+          return {
+              points: points,
+              lines: lines
+          }
+      },
       selectedPaths () {
         return this.value.filter(p => this.isSelected(p))
       },
@@ -224,9 +269,7 @@ export default {
                   d: ''
               }
               if (path.d) {
-                  svg.d = path.d.map(point => {
-                      return `${point.t}${point.x},${point.y}`
-                  }).join(' ')
+                  svg.d = SVGUtil.pathToSVG(path, this.offSetValue)
               }
               if (this.hover === path.id) {
                   svg.stroke = this.config.colorHover
@@ -254,14 +297,13 @@ export default {
             this.currentTool.onResizeMouseDown(handler, this.boundingBox, pos)
         }
     },
-
     onResizeMouseUp (handler, e) {
         let pos = this.getCanvasMousePosition(e)
+        e.pre
         if (this.currentTool) {
             this.currentTool.onResizeMouseUp(handler,this.boundingBox, pos)
         }
     },
-
     onResizeMouseClick (handler, e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -276,14 +318,12 @@ export default {
             this.currentTool.onBBoxMouseDown(this.boundingBox, pos)
         }
     },
-
     onBBoxMouseUp (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onBBoxMouseUp(this.boundingBox, pos)
         }
     },
-
     onBBoxMouseClick (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -298,18 +338,36 @@ export default {
             this.currentTool.onJointMouseDown(joint, pos)
         }
     },
-
     onJointMouseUp (joint, e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onJointMouseUp(joint, pos)
         }
     },
-
     onJointClick (joint, e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onJointClick(joint, pos)
+        }
+    },
+
+    // bezier
+    onBezierMouseDown (joint, e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onBezierMouseDown(joint, pos)
+        }
+    },
+    onBezierMouseUp (joint, e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onBezierMouseUp(joint, pos)
+        }
+    },
+    onBezierClick (joint, e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onBezierClick(joint, pos)
         }
     },
 
@@ -429,6 +487,18 @@ export default {
         this.initRuler(this.selection)
     },
 
+    startBezierTool (pos) {
+        this.logger.log(-1, 'startBezierTool ', 'enter', pos)
+        this.mode = 'add'
+        this.reset()
+        this.setCursor('crosshair')
+        this.currentTool = new BezierTool(this)
+        if (pos) {
+            this.currentTool.onClick(pos)
+        }
+        this.initRuler(this.selection)
+    },
+
     initRuler (selection) {
         this.ruler = new SVGRuler(this.value, selection)
     },
@@ -449,6 +519,10 @@ export default {
 
     setSelectedJoint (joint) {
         this.selectedJoint = joint
+    },
+
+    setSelectedBezier (bezier) {
+        this.selectedBezier = bezier
     },
 
     setBoundingBox (bbox) {
@@ -507,7 +581,8 @@ export default {
         this.$emit('change', this.value)
     },
 
-    setValue () {
+    setValue (v) {
+        this.value = v
         // convert from relative to absolute
         // position.
     },
@@ -520,6 +595,9 @@ export default {
     clear () {
         this.logger.log(0, 'clear', 'enter')
         this.value = []
+        this.setSelectedJoint()
+        this.reset()
+        this.setBoundingBox()
     },
 
     /*****************************************
@@ -527,6 +605,13 @@ export default {
      *****************************************/
     isSelected (element) {
         return this.selection.indexOf(element.id) >=0
+    },
+
+    stopEvent(e) {
+        if (e && e.stopPropagation) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
     },
 
     getCanvasMousePosition (e){

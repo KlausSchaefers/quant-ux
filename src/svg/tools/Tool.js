@@ -42,4 +42,10 @@ export default class Tool {
     onResizeMouseUp () {}
 
     onResizeMouseClick () {}
+
+    onBezierMouseDown () {}
+
+    onBezierMouseUp () {}
+
+    onBezierClick () {}
 }

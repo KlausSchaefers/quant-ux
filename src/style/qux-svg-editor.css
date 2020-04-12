@@ -28,6 +28,26 @@
     cursor: pointer;
 }
 
+.qux-svg-editor-bezier{
+    stroke-width: 1;
+    stroke: red;
+    fill: red;
+    cursor: pointer;
+}
+
+.qux-svg-editor-bezier-selected{
+    stroke-width: 1;
+    stroke: green;
+    fill: green;
+    cursor: move;
+}
+
+.qux-svg-editor-bezier-debug{
+    stroke-width: 1;
+    stroke: #888;
+    fill: #888;
+}
+
 .qux-svg-editor-resize-handler {
     stroke-width: 1;
     stroke: #49C0F0;

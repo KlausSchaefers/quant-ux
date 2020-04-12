@@ -1,6 +1,6 @@
 import Tool from './Tool'
 import Logger from 'common/Logger'
-export default class AddPathTool extends Tool{
+export default class PathTool extends Tool{
 
     constructor (editor) {
         super(editor)
@@ -15,7 +15,7 @@ export default class AddPathTool extends Tool{
         }
         this.editor.value.push(path)
         this.path = path
-        this.logger = new Logger('AddPathTool')
+        this.logger = new Logger('PathTool')
     }
 
     onClick(point) {

@@ -3,13 +3,14 @@
     <h1>SVg Editor Test</h1>
     <div class="toolbar">
       <a @click="createLine">Add Line </a>
+      <a @click="createBezier">Add Curve </a>
       <a @click="clear">Clear </a>
     </div>
     <div class="MatcTReeCntr" ref="cntr">
         <SVGEditor
           :value="paths"
           @select="onSelect"
-          :width="400"
+          :width="800"
           :height="400"
           :pos="pos"
           ref="editor"
@@ -20,6 +21,7 @@
     <div class="tests">
       <a @click="test_createLine" class="MatcButton"> Test Create Line </a>
       <a @click="test_createLineAndSelect" class="MatcButton"> Test Select Line </a>
+      <a @click="test_showBezier" class="MatcButton"> Test Curved Line </a>
     </div>
 
   </div>
@@ -31,15 +33,19 @@
   .toolbar {
     margin-left: 30px;
     background: #eee;
-    width: 400px;
+    width: 800px;
   }
 
   .tests {
     position: fixed;
     right: 0px;
     top:0px;
-    width: 400px;
+    width: 800px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .MatcButton {
+    margin: 10px;
   }
 
   .toolbar a {
@@ -52,7 +58,7 @@
       background: #f2f2f2;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
       display: inline-block;
-      width: 400px;
+      width: 800px;
       height: 400px;
       overflow: scroll;
       margin-left: 30px;
@@ -85,6 +91,9 @@ export default {
       onSelect (d) {
           this.selection = d
       },
+      createBezier () {
+        this.$refs.editor.startBezierTool()
+      },
       createLine () {
         this.$refs.editor.startPathTool()
       },
@@ -116,6 +125,43 @@ export default {
         }, 100)
 
       },
+      test_showBezier () {
+        let e = this.$refs.editor
+        e.setValue([{
+            id: 'pbezier',
+            name: 'Path',
+            type: 'Path',
+            stroke: '#333333',
+            strokeWidth: 1,
+            fill:'',
+            d: [{
+              t: 'M',
+              x: 100,
+              y: 100
+            }, {
+              t: 'C',
+              x: 500,
+              y: 100,
+              x1: 200,
+              y1: 200,
+              x2: 400,
+              y2: 200
+            }, {
+              t: 'C',
+              x: 700,
+              y: 100,
+              x1: 550,
+              y1: 200,
+              x2: 650,
+              y2: 200
+            }]
+        }])
+        setTimeout( () => {
+          e.startSelectTool()
+          e.select('pbezier')
+          e.setState('moveDoubleClick')
+        }, 300)
+      },
       // helper methods
       e (x,y) {
         return {
@@ -142,9 +188,8 @@ export default {
   },
   mounted() {
       this.pos = domGeom.position(this.$refs.cntr)
-      console.debug('TEst', this.pos.x, this.pos.y)
       setTimeout(() => {
-        this.test_createLineAndSelect()
+        // this.test_showBezier()
       }, 300)
   }
 };

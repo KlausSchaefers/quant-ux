@@ -8,10 +8,10 @@ export default class MorphTool extends Tool{
         this.minSplitDistance = minSplitDistance
         this.minShowSplitDistance = minShowSplitDistance
         this.logger = new Logger('MorphTool')
-        let selected = this.editor.getSelectedElements()
-        if (selected.length === 1) {
-            this.selected = selected[0]
-            this.svgPath = this.editor.getSVGElement(this.selected)
+        let selectedElements = this.editor.getSelectedElements()
+        if (selectedElements.length === 1) {
+            this.selectedElement = selectedElements[0]
+            this.svgPath = this.editor.getSVGElement(this.selectedElement)
             if (!this.svgPath) {
                 this.logger.log(-1, 'constructor', 'No SVG path')
             }
@@ -23,22 +23,22 @@ export default class MorphTool extends Tool{
 
     /**
      * Implement some state machine:
-     * 
+     *
      * 1) If we have a split point, split
-     * 
+     *
      * 2) If we have a selected joint, remove selection
-     * 
-     * 3) If we have no movePoint, end the tool
-     * 
+     *
+     * 3) If we have no selectedJoint, end the tool
+     *
      */
     onClick() {
         this.logger.log(-1, 'onClick', 'enter', this.splitPoint)
         if (this.splitPoint) {
-            this.split(this.splitPoint, this.selected, this.svgPath)
+            this.split(this.splitPoint, this.selectedElement, this.svgPath)
         } else if (this.selectedJoint) {
             delete this.selectedJoint
             this.editor.setSelectedJoint()
-        } else if (!this.movePoint) {
+        } else if (!this.selectedJoint) {
             this.editor.setState('morphEnd')
         }
     }
@@ -55,6 +55,7 @@ export default class MorphTool extends Tool{
         if (start >= 0) {
             // add *after* the start
             this.logger.log(-1, 'split', 'exit > add at' , start + 1)
+            /** FIXME: If we have a curve we should to other splitting */
             path.d.splice(start + 1, 0, {
                 t: 'L',
                 x: Math.round(pos.x),
@@ -62,7 +63,7 @@ export default class MorphTool extends Tool{
             })
             this.editor.setSplitPoint()
             this.editor.setSelectedJoint({
-                id: start + 1 
+                id: start + 1
             })
         }
         this.editor.onChange()
@@ -70,16 +71,30 @@ export default class MorphTool extends Tool{
 
 
     onMove (pos) {
-        if (this.movePoint) {
-            this.movePoint.x = pos.x
-            this.movePoint.y = pos.y
+        if (this.selectedBezier) {
+            let point = this.selectedElement.d[this.selectedBezier.parent]
+            console.debug('onMove', pos, this.selectedBezier.isX1, point)
+            if (point) {
+                if (this.selectedBezier.isX1) {
+                    point.x1 = pos.x
+                    point.y1 = pos.y
+                } else {
+                    point.x2 = pos.x
+                    point.y2 = pos.y
+                }
+            } else {
+                this.logger.log(-1, 'onMove', 'No point in selected path', this.selectedBezier)
+            }
+
+        } else if (this.selectedJoint) {
+            this.selectedJoint.x = pos.x
+            this.selectedJoint.y = pos.y
             this.canAdd = false
         } else {
-            let distanceToOherPoints = this.getDistanceToOtherPoints(pos, this.selected)
-            if (this.svgPath ) {
-                let splitPoint = this.getClosesetPoint(pos, this.svgPath, this.selected)
+            let distanceToOherPoints = this.getDistanceToOtherPoints(pos, this.selectedElement)
+            if (this.svgPath) {
+                let splitPoint = this.getClosesetPoint(pos, this.svgPath, this.selectedElement)
                 if (splitPoint && splitPoint.distance < this.minShowSplitDistance) {
-
                     let minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
                     if (minDistance > this.minSplitDistance) {
                         this.editor.setSplitPoint(splitPoint)
@@ -87,7 +102,6 @@ export default class MorphTool extends Tool{
                         this.canAdd = false
                         return
                     }
-
                 }
                 this.editor.setSplitPoint()
                 this.splitPoint = null
@@ -138,15 +152,38 @@ export default class MorphTool extends Tool{
     }
 
     getSplitStart (path, pos, svg) {
+        /**
+         * Build lookup map to check fast for all points
+         * which was the split start
+         */
         let points = {}
         path.d.forEach((p,i) => {
-            // FIXME: to increase precision add here +-1
             if (!points[p.x]) {
                 points[p.x] = {}
             }
+            if (!points[p.x-1]) {
+                points[p.x-1] = {}
+            }
+            if (!points[p.x+1]) {
+                points[p.x+1] = {}
+            }
             points[p.x][p.y] = i
+            points[p.x][p.y-1] = i
+            points[p.x][p.y+1] = i
+
+            points[p.x-1][p.y] = i
+            points[p.x-1][p.y-1] = i
+            points[p.x-1][p.y+1] = i
+
+            points[p.x+1][p.y] = i
+            points[p.x+1][p.y-1] = i
+            points[p.x+1][p.y+1] = i
         })
 
+        /**
+         * Check for all points before which is the closest
+         * path point.
+         */
         let start = -1
         for (let i = pos.index; i >= 0; i--) {
             let p = svg.getPointAtLength(i)
@@ -154,8 +191,6 @@ export default class MorphTool extends Tool{
             let yf = Math.floor(p.y)
             let xc = Math.ceil(p.x)
             let yc = Math.ceil(p.y)
-            // here is some times a bug...
-            // can we calculate the distance?
             if (points[xf] && points[xf][yf] >= 0 ){
                 start = points[xf][yf]
                 break
@@ -172,7 +207,6 @@ export default class MorphTool extends Tool{
                 start = points[xc][yf]
                 break
             }
-            
         }
         return start
     }
@@ -184,7 +218,7 @@ export default class MorphTool extends Tool{
             let point = path.d[joint.id]
             this.editor.setSelectedJoint(joint)
             if (point) {
-                this.movePoint = point
+                this.selectedJoint = point
                 this.editor.setCursor('move')
             } else {
                 this.logger.error('onJointMouseDown', 'not point',joint)
@@ -196,7 +230,7 @@ export default class MorphTool extends Tool{
 
     onJointMouseUp(joint){
         this.logger.log(5, 'onJointMouseUp', 'enter', joint)
-        delete this.movePoint
+        delete this.selectedJoint
         this.editor.onChange()
         this.editor.setCursor('default')
     }
@@ -206,6 +240,25 @@ export default class MorphTool extends Tool{
         this.selectedJoint = joint
         this.editor.setSelectedJoint(joint)
     }
+
+
+    onBezierMouseDown (bezierPoint) {
+        this.logger.log(-1, 'onBezierMouseDown', 'enter', bezierPoint)
+        this.selectedBezier = bezierPoint
+        this.editor.setSelectedBezier(bezierPoint)
+        this.editor.setCursor('move')
+    }
+
+    onBezierMouseUp () {
+        this.logger.log(-1, 'onBezierMouseUp', 'enter')
+        delete this.selectedBezier
+        this.editor.onChange()
+        this.editor.setSelectedBezier()
+        this.editor.setCursor('default')
+    }
+
+    onBezierClick () {}
+
 
 }
 
