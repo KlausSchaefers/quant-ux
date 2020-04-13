@@ -7,6 +7,16 @@ export function pathToSVG (path, offset) {
   }).join(' ')
 }
 
+export function filterDouble(d) {
+    return d.filter((p, i) => {
+        let next = d[i+1]
+        if (next) {
+            return next.x !== p.x && next.y !== p.y
+        }
+        return true
+    })
+}
+
 
 export function getResizeHandles (bbox, size) {
   let result = []

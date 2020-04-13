@@ -1,6 +1,6 @@
 import Tool from './Tool'
 import Logger from 'common/Logger'
-
+import * as Util from '../SVGUtil'
 /**
  * Flow of tool is
  *
@@ -28,20 +28,28 @@ export default class BezierTool extends Tool{
             d: []
         }
         this.editor.value.push(path)
+        this.editor.select(path.id)
         this.path = path
         this.isMouseDown = false
         this.logger = new Logger('BezierTool')
     }
 
-    onMouseDown(pos) {
-        this.logger.log(-1, 'onMouseDown', 'start', pos)
-        this.isMouseDown = true
+    onJointMouseDown (pos) {
+        this.onMouseDown(pos)
+    }
 
+    onMouseDown(pos) {
+        this.logger.log(-1, 'onMouseDown', 'enter', pos)
+        this.isMouseDown = true
+    }
+
+    onJointMouseUp (pos) {
+        this.onMouseUp(pos)
     }
 
     onMouseUp(pos) {
         /** Should be mouse down */
-        this.logger.log(-1, 'onMouseUp', 'start')
+        this.logger.log(-1, 'onMouseUp', 'enter')
         if (this.path.d.length === 0) {
           this.path.d.push({
             t: 'M',
@@ -63,8 +71,6 @@ export default class BezierTool extends Tool{
             if (this.isMouseDown) {
                 this.logger.log(-1, 'onMove', 'mouse down', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(' '))
                 this.editor.setSelectedJoint(this.path.d.length-1)
-
-
             } else {
                 current.x = pos.x
                 current.y = pos.y
@@ -78,8 +84,8 @@ export default class BezierTool extends Tool{
     }
 
     createPoint (pos, temp = false) {
+        this.logger.log(-1, 'createPoint', pos.x + ' ' + pos.y)
         let last = this.getLast()
-
         let current = {
             t: 'C',
             x: pos.x,
@@ -104,8 +110,10 @@ export default class BezierTool extends Tool{
 
 
     onDoubleClick () {
-        this.logger.log(5, 'onDoubleClick')
+        this.logger.log(-1, 'onDoubleClick')
         this.path.d = this.path.d.filter(p => !p._temp)
+        /** The double click might create double entries */
+        this.path.d = Util.filterDouble(this.path.d)
         this.editor.setState('addEnd')
     }
 

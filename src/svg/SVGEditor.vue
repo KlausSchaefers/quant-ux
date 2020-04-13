@@ -57,7 +57,7 @@
             </template>
 
 
-            <template v-if="mode === 'morph'">
+            <template v-if="mode === 'morph' || mode === 'add'">
                 <!-- Bezier lines-->
                 <path v-for="p in selectedBezierElements.lines"
                     :key="p.id"
@@ -248,8 +248,6 @@ export default {
                         d: `M ${current.x} ${current.y} L ${point.x} ${point.y}`
                     })
                 })
-
-                console.debug(points, lines)
           }
           return {
               points: points,

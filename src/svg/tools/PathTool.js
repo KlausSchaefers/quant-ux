@@ -1,5 +1,6 @@
 import Tool from './Tool'
 import Logger from 'common/Logger'
+import * as Util from '../SVGUtil'
 export default class PathTool extends Tool{
 
     constructor (editor) {
@@ -13,35 +14,56 @@ export default class PathTool extends Tool{
             fill:'',
             d: []
         }
-        this.editor.value.push(path)
         this.path = path
+        this.editor.value.push(path)
+        this.editor.select(path.id)
+        this.isMouseDown = false
         this.logger = new Logger('PathTool')
     }
 
-    onClick(point) {
-        this.logger.log(5, 'onClick', point.x + ' ' + point.y)
-        let t = this.path.d.length === 0 ? 'M' : 'L'
-        this.path.d.push({
-            t: t,
-            x: point.x,
-            y: point.y
-        })
+    onJointMouseUp (pos) {
+        this.onMouseUp(pos)
+    }
 
+    onMouseDown(pos) {
+        this.logger.log(-1, 'onMouseDown', 'enter', pos)
+        this.isMouseDown = true
+    }
+
+    onMouseUp(pos) {
+        this.logger.log(-1, 'onMouseUp', pos)
+        if (this.path.d.length === 0) {
+            this.path.d.push({
+                t: 'M',
+                x: pos.x,
+                y: pos.y
+            })
+            this.path.d.push(this.createPoint(pos, true))
+        } else {
+            let last = this.getLast()
+            delete last._temp
+            this.path.d.push(this.createPoint(pos, true))
+        }
+        this.isMouseDown = false
         // this.logger.log(5, 'onClick', 'exit', this.path.d.map(p => p.x + '.' + p.y).join(' '))
     }
 
-    onMove (point) {
-        if (this.path.d.length === 1){
-            this.path.d.push({
-                t: 'L',
-                x: point.x,
-                y: point.y,
-                _temp: true
-            })
+    createPoint (pos, temp) {
+        this.logger.log(-1, 'createPoint', pos.x + ' ' + pos.y)
+        let point = {
+            t: 'L',
+            x: pos.x,
+            y: pos.y
         }
+        if (temp) {
+            point._temp = true
+        }
+        return point
+    }
 
+    onMove (point) {
        if (this.path.d.length >= 1){
-           let last = this.path.d[this.path.d.length-1]
+           let last = this.getLast()
            last.x = point.x
            last.y = point.y
        }
@@ -49,8 +71,16 @@ export default class PathTool extends Tool{
     }
 
     onDoubleClick () {
-        this.logger.log(5, 'onDoubleClick')
+        this.logger.log(-1, 'onDoubleClick')
+        this.path.d = this.path.d.filter(p => !p._temp)
+        /** FIXME: the mouseup is called here two times, but not in the bezier. dunno why */
+        this.path.d = Util.filterDouble(this.path.d)
         this.editor.setState('addEnd')
     }
+
+    getLast () {
+        return this.path.d[this.path.d.length-1]
+    }
+
 
 }
