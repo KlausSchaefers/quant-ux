@@ -1,6 +1,8 @@
 <template>
   <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor" :style="{'width': width + 'px', 'height': height + 'px'}"
     @click="onMouseClick"
+    @mousedown="onMouseDown"
+    @mouseup="onMouseUp"
     @mousemove="onMouseMove"
     @dblclick="onMouseDoubleClick">
     <svg id="svg" xmlns="http://www.w3.org/2000/svg" :width="width" :height="height">
@@ -405,6 +407,20 @@ export default {
             this.currentTool.onMove(pos)
         }
         this.$emit('qmouse', pos)
+    },
+
+    onMouseDown (e) {
+         let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onMouseDown(pos)
+        }
+    },
+
+    onMouseUp (e) {
+        let pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onMouseUp(pos)
+        }
     },
 
     onMouseDoubleClick (e) {

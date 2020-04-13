@@ -11,6 +11,10 @@ export default class Tool {
 
     onMove () {}
 
+    onMouseDown () {}
+
+    onMouseUp () {}
+
     onDoubleClick () {
         // should we some how go back to select?
     }

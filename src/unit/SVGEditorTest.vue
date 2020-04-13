@@ -189,8 +189,8 @@ export default {
   mounted() {
       this.pos = domGeom.position(this.$refs.cntr)
       setTimeout(() => {
-        // this.test_showBezier()
-      }, 300)
+        this.test_showBezier()
+      }, 100)
   }
 };
 </script>

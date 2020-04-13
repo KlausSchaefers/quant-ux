@@ -29,12 +29,19 @@ export default class BezierTool extends Tool{
         }
         this.editor.value.push(path)
         this.path = path
+        this.isMouseDown = false
         this.logger = new Logger('BezierTool')
     }
 
-    onClick(pos) {
+    onMouseDown(pos) {
+        this.logger.log(-1, 'onMouseDown', 'start', pos)
+        this.isMouseDown = true
+
+    }
+
+    onMouseUp(pos) {
         /** Should be mouse down */
-        this.logger.log(-1, 'onClick', 'start', this.path.d.map(p => p.t + '' + p.x + ', ' + p.y).join('  >>  '))
+        this.logger.log(-1, 'onMouseUp', 'start')
         if (this.path.d.length === 0) {
           this.path.d.push({
             t: 'M',
@@ -43,42 +50,41 @@ export default class BezierTool extends Tool{
           })
           this.path.d.push(this.createPoint(pos, true))
         } else {
-            let last = this.path.d[this.path.d.length-1]
+            let last = this.getLast()
             delete last._temp
             this.path.d.push(this.createPoint(pos, true))
         }
-        this.logger.log(-1, 'onClick', 'exit', this.path.d.map(p => p.t + '' + p.x + ', ' + p.y).join('  >>  '))
+        this.isMouseDown = false
     }
 
     onMove (pos) {
-        if (this.path.d.length >= 1){
+        if (this.path.d.length >= 1) {
             let current = this.path.d[this.path.d.length-1]
-            current.x = pos.x
-            current.y = pos.y
+            if (this.isMouseDown) {
+                this.logger.log(-1, 'onMove', 'mouse down', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(' '))
+                this.editor.setSelectedJoint(this.path.d.length-1)
 
-            if (current.t === 'C') {
+
+            } else {
+                current.x = pos.x
+                current.y = pos.y
                 let last = this.path.d[this.path.d.length-2]
                 if (last) {
                     this.updateCurvePoint(pos, last, current)
                 }
-           }
+            }
        }
-       this.logger.log(-1, 'onMove', 'exit', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(' '))
+       // this.logger.log(-1, 'onMove', 'exit', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(' '))
     }
 
     createPoint (pos, temp = false) {
-        console.debug('createPoint', this.path.d)
-        let last = this.path.d[this.path.d.length-1]
+        let last = this.getLast()
 
-        let difX = pos.x - last.x
-        let difY = pos.y - last.y
-        console.debug('create', pos.x, last.t, last.x, difX, difY)
-         let current = {
+        let current = {
             t: 'C',
             x: pos.x,
             y: pos.y
         }
-
         this.updateCurvePoint(pos, last, current)
         if (temp) {
             current._temp = true
@@ -90,16 +96,21 @@ export default class BezierTool extends Tool{
         let difX = pos.x - last.x
         let difY = pos.y - last.y
 
-        current.x1 = Math.round(pos.x + difX * 0.33),
-        current.y1 =  Math.round(pos.y + difY * 0.33),
-        current.x2 = Math.round(pos.x + difX * 0.66),
-        current.y2 = Math.round(pos.y + difY * 0.66)
+        current.x1 = Math.round(last.x + difX * 0.33),
+        current.y1 =  Math.round(last.y + difY * 0.33),
+        current.x2 = Math.round(last.x + difX * 0.66),
+        current.y2 = Math.round(last.y + difY * 0.66)
     }
 
 
     onDoubleClick () {
         this.logger.log(5, 'onDoubleClick')
+        this.path.d = this.path.d.filter(p => !p._temp)
         this.editor.setState('addEnd')
+    }
+
+    getLast () {
+        return this.path.d[this.path.d.length-1]
     }
 
 }
