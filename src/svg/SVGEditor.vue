@@ -175,6 +175,9 @@ export default {
           return result
       },
       joints () {
+        /**
+         * FIXME: Potentially also to slow!
+         */
         let paths = this.selectedPaths
         let points = paths.flatMap(path => {
             return path.d.map((point, i) => {
@@ -213,7 +216,8 @@ export default {
         return result
       },
       selectedBezierElements () {
-          /** Or should this be done by the morpg tool, and we just have here a property? */
+          console.debug('FIXME: To slow')
+          /** FIXME: thi sis somehopw top slow!! should this be done by the morp tool, and we just have here a property? */
           let points = []
           let lines = []
           if (this.selectedJoint && this.selectedPaths && this.selectedPaths.length === 1) {
@@ -396,7 +400,7 @@ export default {
 
     // canvas mouse
     onMouseClick (e) {
-        this.logger.log(-1, 'onMouseClick ', 'enter')
+        this.logger.log(5, 'onMouseClick ', 'enter')
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onClick(pos)
@@ -410,14 +414,14 @@ export default {
         this.$emit('qmouse', pos)
     },
     onMouseDown (e) {
-        this.logger.log(-1, 'onMouseUp ', 'enter')
+        this.logger.log(5, 'onMouseUp ', 'enter')
          let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onMouseDown(pos)
         }
     },
     onMouseUp (e) {
-        this.logger.log(-1, 'onMouseUp ', 'enter')
+        this.logger.log(5, 'onMouseUp ', 'enter')
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onMouseUp(pos)

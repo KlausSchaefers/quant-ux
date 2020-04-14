@@ -105,7 +105,11 @@ export default {
         this.clear()
         let e = this.$refs.editor
         e.startPathTool(this.p(30, 30))
+        /** we need move */
+        e.onMouseMove(this.e(60, 200))
         e.onMouseClick(this.e(60, 200))
+
+        e.onMouseMove(this.e(200, 250))
         e.onMouseClick(this.e(200, 250))
         e.onMouseClick(this.e(300, 200))
         e.onMouseClick(this.e(350, 350))
@@ -187,7 +191,6 @@ export default {
         }
       },
       onKey (event) {
-        console.debug('onKey', event)
         let e = this.$refs.editor
         if (e) {
           e.onKeyUp(event)

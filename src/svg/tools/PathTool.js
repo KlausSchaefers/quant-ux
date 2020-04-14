@@ -22,7 +22,7 @@ export default class PathTool extends Tool{
     }
 
     onJointMouseUp (pos) {
-        this.onMouseUp(pos)
+        this.onClick(pos)
     }
 
     onMouseDown(pos) {
@@ -30,8 +30,8 @@ export default class PathTool extends Tool{
         this.isMouseDown = true
     }
 
-    onMouseUp(pos) {
-        this.logger.log(-1, 'onMouseUp', pos)
+    onClick(pos) {
+        this.logger.log(-1, 'onClick', pos)
         if (this.path.d.length === 0) {
             this.path.d.push({
                 t: 'M',
@@ -45,7 +45,7 @@ export default class PathTool extends Tool{
             this.path.d.push(this.createPoint(pos, true))
         }
         this.isMouseDown = false
-        // this.logger.log(5, 'onClick', 'exit', this.path.d.map(p => p.x + '.' + p.y).join(' '))
+        this.logger.log(-1, 'onClick', 'exit', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(', '))
     }
 
     createPoint (pos, temp) {

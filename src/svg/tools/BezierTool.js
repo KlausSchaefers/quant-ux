@@ -10,9 +10,10 @@ import * as Util from '../SVGUtil'
  *
  * 2) mouse down: stop updating end of point
  *
- * 3) move move: if we move (drag n drop),  make point a C and update x1 and x2 somehow
+ * 3) move move: if we move (drag n drop),  make point a C and update x1 and x2 somehow, or if it is curved update x2 some how
  *
- * 4) mouse up: create now point. If last point was C, makle another C and match slope, otherwise line
+ * 4) mouse click (not up): create now point. If last point was C, makle another C
+ * and match slope, otherwise line.
  */
 export default class BezierTool extends Tool{
 
@@ -44,13 +45,11 @@ export default class BezierTool extends Tool{
         this.isMouseDown = true
     }
 
-    onJointMouseUp (pos) {
-        this.logger.log(-1, 'onJointMouseUp', 'enter')
-        this.onClick(pos)
-    }
 
     onClick(pos) {
-        /** Should be mouse down */
+        /**
+         * Must be click. MouseUp triggers for some reason very often, which is not nice.
+         */
         this.logger.log(-1, 'onClick', 'enter')
         if (this.path.d.length === 0) {
           this.path.d.push({
@@ -79,7 +78,6 @@ export default class BezierTool extends Tool{
         if (this.path.d.length >= 1) {
             let current = this.path.d[this.path.d.length-1]
             if (this.isMouseDown) {
-                console.debug('---------------------------')
                 this.editor.setSelectedJointId(this.path.d.length-1)
 
                 /** update X2 */
@@ -125,7 +123,7 @@ export default class BezierTool extends Tool{
             current.y1 =  Math.round(last.y + difY * 0.33)
         }
 
-        /** What do we do here  is _isCurved*/
+        /** FIXME: What do we do here  is _isCurved*/
         current.x2 = Math.round(last.x + difX * 0.66)
         current.y2 = Math.round(last.y + difY * 0.66)
     }
@@ -139,6 +137,9 @@ export default class BezierTool extends Tool{
         this.path.d = this.path.d.filter(p => !p._temp)
         /** The double click might create double entries */
         this.path.d = Util.filterDouble(this.path.d)
+        /**
+         * FIXME: remove all _ props
+         */
         this.editor.setState('addEnd')
     }
 
