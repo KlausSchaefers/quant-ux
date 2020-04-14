@@ -9,6 +9,7 @@ export default class MorphTool extends Tool{
         this.minShowSplitDistance = minShowSplitDistance
         this.logger = new Logger('MorphTool')
         let selectedElements = this.editor.getSelectedElements()
+        this.showSplitPoint = false
         if (selectedElements.length === 1) {
             this.selectedElement = selectedElements[0]
             this.svgPath = this.editor.getSVGElement(this.selectedElement)
@@ -90,21 +91,24 @@ export default class MorphTool extends Tool{
             this.selectedJoint.x = pos.x
             this.selectedJoint.y = pos.y
             this.canAdd = false
+            /** FIXME: update the bezier points */
         } else {
-            let distanceToOherPoints = this.getDistanceToOtherPoints(pos, this.selectedElement)
-            if (this.svgPath) {
-                let splitPoint = this.getClosesetPoint(pos, this.svgPath, this.selectedElement)
-                if (splitPoint && splitPoint.distance < this.minShowSplitDistance) {
-                    let minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
-                    if (minDistance > this.minSplitDistance) {
-                        this.editor.setSplitPoint(splitPoint)
-                        this.splitPoint = splitPoint
-                        this.canAdd = false
-                        return
+            if (this.showSplitPoint) {
+                let distanceToOherPoints = this.getDistanceToOtherPoints(pos, this.selectedElement)
+                if (this.svgPath) {
+                    let splitPoint = this.getClosesetPoint(pos, this.svgPath, this.selectedElement)
+                    if (splitPoint && splitPoint.distance < this.minShowSplitDistance) {
+                        let minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
+                        if (minDistance > this.minSplitDistance) {
+                            this.editor.setSplitPoint(splitPoint)
+                            this.splitPoint = splitPoint
+                            this.canAdd = false
+                            return
+                        }
                     }
+                    this.editor.setSplitPoint()
+                    this.splitPoint = null
                 }
-                this.editor.setSplitPoint()
-                this.splitPoint = null
             }
 
             if (this.canAdd) {

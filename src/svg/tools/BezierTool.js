@@ -35,6 +35,7 @@ export default class BezierTool extends Tool{
     }
 
     onJointMouseDown (pos) {
+        this.logger.log(-1, 'onJointMouseDown', 'enter', pos)
         this.onMouseDown(pos)
     }
 
@@ -44,12 +45,13 @@ export default class BezierTool extends Tool{
     }
 
     onJointMouseUp (pos) {
-        this.onMouseUp(pos)
+        this.logger.log(-1, 'onJointMouseUp', 'enter')
+        this.onClick(pos)
     }
 
-    onMouseUp(pos) {
+    onClick(pos) {
         /** Should be mouse down */
-        this.logger.log(-1, 'onMouseUp', 'enter')
+        this.logger.log(-1, 'onClick', 'enter')
         if (this.path.d.length === 0) {
           this.path.d.push({
             t: 'M',
@@ -60,17 +62,33 @@ export default class BezierTool extends Tool{
         } else {
             let last = this.getLast()
             delete last._temp
-            this.path.d.push(this.createPoint(pos, true))
+            let newPoint = this.createPoint(pos, true)
+            if (last._moved) {
+                newPoint.x1 = last.x + (last.x - last.x2)
+                newPoint.y1 = last.y + (last.y - last.y2)
+                delete last._moved
+                newPoint._isCurved = true
+            }
+            this.path.d.push(newPoint)
         }
         this.isMouseDown = false
+        this.editor.setSelectedJoint()
     }
 
     onMove (pos) {
         if (this.path.d.length >= 1) {
             let current = this.path.d[this.path.d.length-1]
             if (this.isMouseDown) {
-                this.logger.log(-1, 'onMove', 'mouse down', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(' '))
-                this.editor.setSelectedJoint(this.path.d.length-1)
+                console.debug('---------------------------')
+                this.editor.setSelectedJointId(this.path.d.length-1)
+
+                /** update X2 */
+                let difX = current.x - pos.x
+                let difY = current.y - pos.y
+                current.x2 = current.x + difX
+                current.y2 = current.y + difY
+                current._moved = true
+
             } else {
                 current.x = pos.x
                 current.y = pos.y
@@ -102,12 +120,19 @@ export default class BezierTool extends Tool{
         let difX = pos.x - last.x
         let difY = pos.y - last.y
 
-        current.x1 = Math.round(last.x + difX * 0.33),
-        current.y1 =  Math.round(last.y + difY * 0.33),
-        current.x2 = Math.round(last.x + difX * 0.66),
+        if (!current._isCurved) {
+            current.x1 = Math.round(last.x + difX * 0.33)
+            current.y1 =  Math.round(last.y + difY * 0.33)
+        }
+
+        /** What do we do here  is _isCurved*/
+        current.x2 = Math.round(last.x + difX * 0.66)
         current.y2 = Math.round(last.y + difY * 0.66)
     }
 
+    onEsc () {
+        this.onDoubleClick()
+    }
 
     onDoubleClick () {
         this.logger.log(-1, 'onDoubleClick')

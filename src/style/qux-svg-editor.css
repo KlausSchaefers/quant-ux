@@ -48,6 +48,12 @@
     fill: #888;
 }
 
+.qux-svg-editor-bezier-debug-x1{
+    stroke-width: 1;
+    stroke: orange;
+    fill: orange;
+}
+
 .qux-svg-editor-resize-handler {
     stroke-width: 1;
     stroke: #49C0F0;

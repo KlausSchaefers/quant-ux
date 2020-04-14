@@ -69,7 +69,8 @@
 <script>
 import SVGEditor from '../svg/SVGEditor'
 import domGeom from 'dojo/domGeom'
-
+import on from 'dojo/on'
+import win from 'dojo/win'
 
 export default {
   name: "SVFEditorTest",
@@ -184,13 +185,22 @@ export default {
         if (!value) {
           console.error('assertTrue() > Wrong', new Error().stack)
         }
+      },
+      onKey (event) {
+        console.debug('onKey', event)
+        let e = this.$refs.editor
+        if (e) {
+          e.onKeyUp(event)
+        }
       }
   },
   mounted() {
       this.pos = domGeom.position(this.$refs.cntr)
       setTimeout(() => {
-        this.test_showBezier()
+        // this.test_showBezier()
       }, 100)
+
+      this.keyBoardListener = on(win.body(), "keyup", this.onKey);
   }
 };
 </script>

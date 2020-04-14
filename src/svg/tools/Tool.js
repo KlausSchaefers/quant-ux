@@ -23,6 +23,10 @@ export default class Tool {
         // should we somehow end editor?
     }
 
+    onEnter () {}
+
+    onDelete () {}
+
     onElementHover () {}
 
     onElementBlur () {}

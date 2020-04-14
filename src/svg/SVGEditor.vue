@@ -58,6 +58,17 @@
 
 
             <template v-if="mode === 'morph' || mode === 'add'">
+
+                <!-- joints-->
+                <circle v-for="joint in joints" :key="joint.id"
+                    :cx="joint.x + offSetTools"
+                    :cy="joint.y + offSetTools"
+                    @mousedown.stop="onJointMouseDown(joint, $event)"
+                    @mouseup.stop="onJointMouseUp(joint, $event)"
+                    @click.stop="onJointClick(joint, $event)"
+                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
+                    :r="joint.r" />
+
                 <!-- Bezier lines-->
                 <path v-for="p in selectedBezierElements.lines"
                     :key="p.id"
@@ -79,18 +90,8 @@
                     :class="['qux-svg-editor-bezier', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
                     />
 
-                <!-- joints-->
-                <circle v-for="joint in joints" :key="joint.id"
-                    :cx="joint.x + offSetTools"
-                    :cy="joint.y + offSetTools"
-                    @mousedown.stop="onJointMouseDown(joint, $event)"
-                    @mouseup.stop="onJointMouseUp(joint, $event)"
-                    @click.stop="onJointClick(joint, $event)"
-                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
-                    :r="joint.r" />
 
             </template>
-
 
 
             <template v-if="boundingBox">
@@ -156,7 +157,7 @@ export default {
         boundingBox: null,
         offSetTools: 0,
         offSetValue: 0.5,
-        showBezierPoints: true,
+        showBezierPoints: false,
         config: {
             pointRadius: 5,
             colorHover: 'red',
@@ -333,12 +334,14 @@ export default {
 
     // joints
     onJointMouseDown (joint, e) {
+        this.logger.log(6, 'onJointMouseDown ', 'enter')
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onJointMouseDown(joint, pos)
         }
     },
     onJointMouseUp (joint, e) {
+        this.logger.log(6, 'onJointMouseUp ', 'enter')
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onJointMouseUp(joint, pos)
@@ -391,14 +394,14 @@ export default {
         }
     },
 
-    // canvas
+    // canvas mouse
     onMouseClick (e) {
+        this.logger.log(-1, 'onMouseClick ', 'enter')
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onClick(pos)
         }
     },
-
     onMouseMove (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -406,21 +409,20 @@ export default {
         }
         this.$emit('qmouse', pos)
     },
-
     onMouseDown (e) {
+        this.logger.log(-1, 'onMouseUp ', 'enter')
          let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onMouseDown(pos)
         }
     },
-
     onMouseUp (e) {
+        this.logger.log(-1, 'onMouseUp ', 'enter')
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onMouseUp(pos)
         }
     },
-
     onMouseDoubleClick (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -429,9 +431,33 @@ export default {
     },
 
     // keyboard
+    onKeyUp (e) {
+        if (e.key === 'Escape') {
+            this.onEsc()
+        }
+        if (e.key === 'Enter') {
+            this.onEnter()
+        }
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            this.onDelete()
+        }
+    },
     onEsc () {
+        this.logger.log(-1, 'onEsc ', 'enter')
         if (this.currentTool) {
             this.currentTool.onEsc()
+        }
+    },
+    onEnter () {
+        this.logger.log(-1, 'onEnter ', 'enter')
+        if (this.currentTool) {
+            this.currentTool.onEnter()
+        }
+    },
+    onDelete () {
+        this.logger.log(-1, 'onDelete ', 'enter')
+        if (this.currentTool) {
+            this.currentTool.onDelete()
         }
     },
 
@@ -533,6 +559,12 @@ export default {
 
     setSelectedJoint (joint) {
         this.selectedJoint = joint
+    },
+
+    setSelectedJointId (id) {
+        if (!this.selectedJoint || this.selectedJoint.id !== id) {
+            this.selectedJoint = {id: id}
+        }
     },
 
     setSelectedBezier (bezier) {
