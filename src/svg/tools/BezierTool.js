@@ -45,6 +45,10 @@ export default class BezierTool extends Tool{
         this.isMouseDown = true
     }
 
+    onJointClick (pos) {
+        this.logger.log(-1, 'onJointClick', 'enter', pos)
+        this.onClick(pos)
+    }
 
     onClick(pos) {
         /**
