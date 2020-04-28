@@ -69,7 +69,6 @@ export default {
 				if(this.enabled && this.url){
 					this.emit("uploadStart", []);
 
-					var me = this;
 					var formData = new FormData();
 					var names = {};
 					for(var i = 0; i < this._files.length; i++) {
@@ -80,21 +79,13 @@ export default {
 						names[name] = true;
 					}
 
-					// now post a new XHR request
-					var xhr = new XMLHttpRequest();
-					xhr.open('POST', this.url);
-					let token = Services.getUserService().getToken()
-					if (token) {
-						xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-					}
-					xhr.onload = function () {
-							if (xhr.status === 200) {
-								me.onUploadDone(this.response);
-							} else {
-								me.onUploadError(this.response);
-							}
-					};
-					xhr.send(formData);
+					let imageService = Services.getImageService()
+					imageService.upload(this.url, formData).then(response => {
+						this.onUploadDone(response);
+					}, err => {
+						this.onUploadError(err);
+					})
+
 					this.startUploadAnimation();
 
 				} else {

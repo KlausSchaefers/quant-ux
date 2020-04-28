@@ -165,8 +165,6 @@ export default {
 
 			_sendSingleFile (i, file, screens, completed, pos, hoverScreen){
 
-				var me = this;
-
 				var formData = new FormData();
 				formData.append('file', file);
 
@@ -183,24 +181,12 @@ export default {
 					url = '/rest/import/sketch2/' + this.model.id + "?x="+pos2.x + "&y=" + pos2.y;
 				}
 
-				// now post a new XHR request
-				var xhr = new XMLHttpRequest();
-				xhr.open('POST', url);
-				let token = Services.getUserService().getToken()
-				if (token) {
-					xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-				} else {
-					this.logger.error("_sendSingleFile", "No token");
-					this.logger.sendError(new Error('Could not upload because no token'))
-				}
-				xhr.onload = function () {
-						if (xhr.status === 200) {
-							me._onUploadDone(this.response, screens, completed, file.name, pos, hoverScreen);
-						} else {
-							me._onUploadError(this.response, screens, completed, file.name);
-						}
-				};
-				xhr.send(formData);
+				let imageService = Services.getImageService()
+				imageService.upload(url, formData).then(response => {
+					this._onUploadDone(response, screens, completed, file.name, pos, hoverScreen);
+				}, err => {
+					this._onUploadError(err, screens, completed, file.name, pos, hoverScreen);
+				})
 			},
 
 			_onUploadDone (result, screens, completed, fileName, pos, hoverScreen){

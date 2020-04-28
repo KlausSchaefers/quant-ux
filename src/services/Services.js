@@ -4,6 +4,7 @@ import PublicModelService from 'services/PublicModelService'
 import CommentService from 'services/CommentService'
 import SymbolService from 'services/SymbolService'
 import HelpService from 'services/HelpService'
+import ImageService from 'services/ImageService'
 
 class Services {
 
@@ -12,6 +13,12 @@ class Services {
         ModelService.setErrorHandler(handler)
         PublicModelService.setErrorHandler(handler)
         UserService.setErrorHandler(handler)
+        ImageService.setErrorHandler(handler)
+    }
+
+    getImageService () {
+        ImageService.setToken(UserService.getToken())
+        return ImageService
     }
 
     getUserService () {
@@ -39,7 +46,7 @@ class Services {
         PublicModelService.setToken(UserService.getToken())
         return PublicModelService
     }
-    
+
     getCommentService () {
         CommentService.setToken(UserService.getToken())
         return CommentService
