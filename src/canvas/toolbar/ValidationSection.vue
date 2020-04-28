@@ -211,10 +211,13 @@ export default {
 
 
 		_showPassword (model){
+			this._renderDataBinding(model);
+
 			var validation = this.getValidationModel(model);
 			this._renderRequired(validation);
 			this._renderTextBoxValidation(validation);
 			this._renderValidationLabels(validation, model);
+
 		},
 
 
