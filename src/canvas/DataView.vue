@@ -17,7 +17,7 @@ export default {
     methods: {
         initDataView (){
             this.logger.log(0,"initDataView", "enter");
-            
+
             /*
             this.dataViewCheckBox = this.$new(CheckBox);
 			this.dataViewCheckBox.setLabel("Data");
@@ -60,16 +60,17 @@ export default {
                     }
                 }
 
+                if (!this._dataViewDivs) {
+                    this._dataViewDivs = {}
+                }
+                if (this._dataViewDivs[widget.id]) {
+                    let div = this._dataViewDivs[widget.id]
+                    if (div.parentNode) {
+                        div.parentNode.removeChild(div)
+                    }
+                }
+
                 if (label) {
-                    if (!this._dataViewDivs) {
-                        this._dataViewDivs = {}
-                    }
-                    if (this._dataViewDivs[widget.id]) {
-                        let div = this._dataViewDivs[widget.id]
-                        if (div.parentNode) {
-                            div.parentNode.removeChild(div)
-                        } 
-                    }
 
                     css.add(div, 'MatcCanvasDataViewLabelCntr')
                     let dataDiv = document.createElement('div')
@@ -78,7 +79,7 @@ export default {
                     div.appendChild(dataDiv)
                     this._dataViewDivs[widget.id] = dataDiv
                 }
-                
+
             }
         },
 
@@ -119,7 +120,7 @@ export default {
                 let div = this.widgetDivs[widget.id]
                 if (div) {
                     this.createWidgetDataView(widget, div, true)
-                }    
+                }
             }
         },
 
@@ -134,7 +135,7 @@ export default {
             }
             delete this._dataViewDivs
         }
-    }, 
+    },
     mounted () {
     }
 }
