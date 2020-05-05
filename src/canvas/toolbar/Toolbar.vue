@@ -349,7 +349,6 @@ export default {
 		onRulerSelected (screen, ruler) {
 			this.logger.log("onRulerSelected", "entry : active:" + this.active);
 
-
 			if (this.active){
 				try {
 					this.cleanUp();
@@ -440,7 +439,7 @@ export default {
 					} else {
 						this.logger.error("onScreenSelected", "exit > no screen passed");
 					}
-				}catch(e){
+				} catch(e){
 					console.error(e.stack);
 					this.logger.sendError(e);
 				}
