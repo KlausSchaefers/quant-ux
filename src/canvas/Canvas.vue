@@ -2,48 +2,48 @@
 <div class="MatcCanvas">
 	<div class="MatcCanvasFrame" data-dojo-attach-point="frame">
 		<div class="MatcCanvasContainer MatcCanvasZoomable " data-dojo-attach-point="container">
-			<div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div> 
-			<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div> 
-		</div> 
-	</div> 
-	<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight"> 
-		<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr"> 
-			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div> 
-		</div> 
-	</div> 
-	<div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom"> 
-		<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr"> 
-			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div> 
-		</div> 
-	</div> 
+			<div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div>
+			<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div>
+		</div>
+	</div>
+	<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
+		<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr">
+			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div>
+		</div>
+	</div>
+	<div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom">
+		<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr">
+			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
+		</div>
+	</div>
 	<!--
 	<div class="MatcStatus" data-dojo-attach-point="status">
 		<div class="MatcStatusCntr">
-			<div class="MatcStatusItem">	
-				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus"> 			
-				</span> 
-				<span class="MatcStatusItemLabel" > 	
-					<span data-dojo-attach-point="zoomLabel"></span> 
-				</span> 
-				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus"> 			
-				</span> 
-			</div> 
+			<div class="MatcStatusItem">
+				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus">
+				</span>
+				<span class="MatcStatusItemLabel" >
+					<span data-dojo-attach-point="zoomLabel"></span>
+				</span>
+				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus">
+				</span>
+			</div>
 			<div class="MatcStatusItem" data-dojo-attach-point="gridBtn">
-				<span class="MatcStatusButtom glyphicon glyphicon-th"></span> 
-				<span class="MatcStatusItemLabel MatcStatusButtom" >Grid &amp; Columns</span> 
-			</div>	
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>	
+				<span class="MatcStatusButtom glyphicon glyphicon-th"></span>
+				<span class="MatcStatusItemLabel MatcStatusButtom" >Grid &amp; Columns</span>
+			</div>
+			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="distanceCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="rulerCntr"></div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="dataViewCntr"></div>
 		</div>
-	</div> 
+	</div>
 	--> <!-- Status -->
 
-	<div class="MatcMessage" data-dojo-attach-point="message"> 			
-	</div> 
+	<div class="MatcMessage" data-dojo-attach-point="message">
+	</div>
 </div>
 
 </template>
@@ -83,20 +83,20 @@ import CustomHandler from 'canvas/CustomHandler'
 
 export default {
   name: 'Canvas',
-	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, 
+	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView],
     data: function () {
         return {
-			mode: "edit", 
-            debug: false, 
-            grid: null, 
-            isPublic: false, 
+			mode: "edit",
+            debug: false,
+            grid: null,
+            isPublic: false,
 			active: true,
 			name: 'XCanvas'
         }
     },
     components: {},
-    methods: {       
+    methods: {
 		postCreate (){
 
 			this.logger = new Logger("Canvas")
@@ -107,14 +107,14 @@ export default {
 			 * init container size and position
 			 */
 			this.canvasPos = {
-				x : this.canvasStartX, 
-				y: this.canvasStartY, 
-				w: this.canvasFlowWidth, 
+				x : this.canvasStartX,
+				y: this.canvasStartY,
+				w: this.canvasFlowWidth,
 				h: this.canvasFlowHeight
-			};	
+			};
 			this.setContainerSize();
-			this.setContainerPos();			
-			
+			this.setContainerPos();
+
 			/**
 			 * Init remaining sub components
 			 */
@@ -124,10 +124,10 @@ export default {
 			this.initZoom();
 			this.initScrollBars();
 			this.initUpload();
-			this.initComment();		
-			this.initScreenRuler()	
+			this.initComment();
+			this.initScreenRuler()
 			this.initDataView()
-			
+
 			/**
 			 * Init Listeners
 			 */
@@ -135,19 +135,19 @@ export default {
 			//this.own(on(this.gridBtn, touch.press, lang.hitch(this, "showGrid")));
 			this.own(on(win.body(), "keydown", lang.hitch(this,"onKeyPress")));
 			this.own(on(win.body(), "keyup", lang.hitch(this,"onKeyUp")));
-			
+
 
 			/**
 			 * Set correct mode
 			 */
-			css.add(this.domNode, "MatcCanvasMode"+ this.mode);			
+			css.add(this.domNode, "MatcCanvasMode"+ this.mode);
 			this.logger.log(-1,"postCreate", "exit > " + this.mode);
-		},		
-		
+		},
+
 		setUser (u){
 			this.user = u;
 		},
-		
+
 		setPublic (isPublic){
 			this.isPublic = isPublic;
 		},
@@ -159,32 +159,32 @@ export default {
 		setCommentService (s) {
 			this.commentService = s
 		},
-		
+
 		setController (c){
 			this.controller = c;
 			c.setCanvas(this);
 		},
-		
+
 		getController (){
 			if(this._controllerCallback){
 				this[this._controllerCallback]();
 			}
 			return this.controller;
 		},
-		
+
 		setControllerCallback (c){
 			this._controllerCallback = c;
 		},
-		
-		
+
+
 		setModelFactory (f){
 			this.factory = f;
 		},
-		
+
 		setRenderFactory (f){
 			this.renderFactory = f;
 		},
-		
+
 		setToolbar (t){
 			this.toolbar = t;
 			if (this.settings){
@@ -293,23 +293,23 @@ export default {
 				this.layerList.changeName(group);
 			}
 		},
-		
+
 		setModel (model){
 			this.model = model;
 			this.onChangeCanvasViewConfig()
 		},
-		
-		
+
+
 		setMode (mode, forceRender){
 			this.logger.log(3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
 			if(mode != this.mode ){
-				
+
 				/**
 				 * Toggle mode specify css class
 				 */
 				css.remove(this.domNode, "MatcCanvasMode"+this.mode);
 				css.add(this.domNode, "MatcCanvasMode"+mode);
-			
+
 				this.mode = mode;
 				if(this.toolbar){
 					this.toolbar.setMode(mode);
@@ -334,18 +334,18 @@ export default {
 		getMode (){
 			return this.mode;
 		},
-		
+
 		getStatusBar (){
 			return this.status;
 		},
-		
+
 		onExit (){
 			this.logger.log(-1,"onExit", "enter > " );
 			this.active = false;
-		}, 
+		},
 
-		
-		
+
+
 		/***************************************************************************
 		 * Settings
 		 ***************************************************************************/
@@ -370,7 +370,7 @@ export default {
 				fastRender: false,
 				hasProtoMoto: false
 			};
-			
+
 			var s = this._getStatus("matcSettings");
 			if (s){
 				/**
@@ -425,15 +425,15 @@ export default {
 				}
 			} else {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
-			}	
+			}
 			this.applySettings(this.settings);
-		
+
 		},
-		
+
 		getSettings (){
 			return this.settings;
 		},
-		
+
 		/**
 		 * Called from the dialog
 		 */
@@ -479,18 +479,18 @@ export default {
 
 			this.rerender();
 		},
-		
+
 		applySettings (s){
 			this.logger.log(0,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
-			
+
 			if(s.moveMode){
 				this.moveMode = s.moveMode;
 			}
-			
+
 			if(s.renderLines!=null){
 				this.renderLines = s.renderLines;
 			}
-			
+
 			if(s.showDistance!=null){
 				this.showDistance = s.showDistance;
 			}
@@ -498,19 +498,19 @@ export default {
 			if(s.showRuler!=null){
 				this.showRuler = s.showRuler;
 			}
-			
+
 			if(s.showAnimation!=null){
 				this.showAnimation = s.showAnimation;
 			}
-			
+
 			if(s.lineColor){
 				this.defaultLineColor = s.lineColor;
 			}
-			
+
 			if(s.lineWidth){
 				this.defaultLineWidth = s.lineWidth;
 			}
-			
+
 			if(s.mouseWheelMode){
 				this._mouseWheelMode = s.mouseWheelMode;
 			}
@@ -520,7 +520,7 @@ export default {
 				}
 				css.add(win.body(), s.canvasTheme)
 				this._lastCanvasTheme = s.canvasTheme;
-				
+
 				/**
 				 * FIXME: Kind of hack
 				 */
@@ -529,7 +529,7 @@ export default {
 				} else {
 					this.defaultLineColor = "#777";
 				}
-			
+
 			}
 			this.settings = s;
 
@@ -539,28 +539,28 @@ export default {
 			this.onChangeCanvasViewConfig()
 			//console.debug("applySetztings() > exit > renderlines: ", this.renderLines, " > showSettings: ", this.showComments);
 		},
-		
-		
-		
+
+
+
 		/***************************************************************************
 		 * Grid
 		 ***************************************************************************/
 
 
 		showGrid (target){
-			
+
 			var db = new DomBuilder();
 			var popup = db.div("MatcGridSelectorDialogContent MatcPadding").build();
-					
+
 			var selector = this.$new(GridSelector);
 			selector.setValue(this.controller.model);
 			selector.placeAt(popup)
-			
+
 			var dialog = this.createDialog();
 			var bar = db.div("container").div("row").div("col-md-12").div("MatcButtonBar MatcMarginTop").build(popup);
 			var write = db.div("MatcButton", "Save").build(bar);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
-			
+
 			dialog.own(on(cancel, touch.press, lang.hitch(this, "closeDialog")));
 			dialog.own(on(write, touch.press, lang.hitch(this, "setGrid2", selector)));
 			if (target.screenX) {
@@ -589,9 +589,9 @@ export default {
 				this.controller.setGrid2(grid, "#cecece", "line");
 			}
 		},
-		
+
 		setGrid2 (selector){
-		
+
 			if(selector.isValid()){
 				this.forceRenderUpdates();
 				var grid = selector.getValue();
@@ -611,46 +611,46 @@ export default {
 			var er = /^-?[0-9]+$/;
 			return er.test(value);
 		},
-		
+
 		/***************************************************************************
 		 * Dialog Handling
 		 ***************************************************************************/
-		
+
 		createDialog (){
 			this.dialog = new Dialog();
 			//this.dialog.wrapperClass =  "MatcCanvasDialogWrapper";
 			this.state = "dialog";
 			return this.dialog;
 		},
-		
+
 		closeDialog (){
 			this.state =0;
-			
+
 			if(this.dialog){
 				this.dialog.close();
 			}
 			this.dialog = null;
 		},
-		
+
 		setState (s){
 			this.state = s;
 		},
-		
+
 		/***************************************************************************
 		 * Keyboard handling
 		 ***************************************************************************/
-		
+
 		onKeyPress (e){
-		
+
 			this._currentKeyEvent = e;
 			var k = e.keyCode ? e.keyCode : e.which;
 			var target = e.target;
 			var isMeta = e.altKey || e.ctrlKey || e.metaKey;
 			var isCntrl = e.ctrlKey || e.metaKey;
 
-	
+
 			// console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
-		
+
 			/**
 			 * Cancel listeners must be always fired.
 			 */
@@ -659,7 +659,7 @@ export default {
 				topic.publish("matc/canvas/esc");
 				this.stopEvent(e);
 				return
-			} 
+			}
 
 			/**
 			 * IF we have a dialog open, we return
@@ -668,14 +668,14 @@ export default {
 				this.logger.log(-1 ,"onKeyPress", "exit because of dialog");
 				return;
 			}
-			
+
 			/**
 			 * Inputs from the toolbar should be also ignored
 			 */
 			if (css.contains(target, "MatcIgnoreOnKeyPress")){
 				return;
 			}
-			
+
 			this._currentKeyPressed = k;
 
 			/**
@@ -707,7 +707,7 @@ export default {
 					this.stopEvent(e);
 				}
 			} else if (k == 65) { // a for select
-	
+
 				if(!this._inlineEditStarted && !this._resizeStartPos && !this._selectionToolStart){
 					this.setMode("select");
 					/**
@@ -734,7 +734,7 @@ export default {
 					}
 				}
 			} else if (k==32){ // space
-			
+
 				if(!this._inlineEditStarted ){
 					this.stopEvent(e);
 					if(this.getMode() != "move"){
@@ -745,14 +745,14 @@ export default {
 						 * Instead we block the Add._updateAddLineMove() method by setting the pause flag.
 						 */
 						if (this.getMode() != "addLine") {
-							this.setMode("move"); 
+							this.setMode("move");
 							this.setDnDMinTime(0);
 						} else {
 							this._addLineIsPaused = true;
 						}
 					}
 				}
-				
+
 			/**
 			 * H dispatch...
 			 */
@@ -794,19 +794,19 @@ export default {
 				if(!this._inlineEditStarted  && !this._selectionToolStart){
 					if (this._selectWidget && this._lastMouseMoveEvent) {
 						this.addLine({
-							from : this._selectWidget.id, 
+							from : this._selectWidget.id,
 							event:this._lastMouseMoveEvent
 						})
 					}
 					if (this._selectedScreen && this._lastMouseMoveEvent) {
 						this.addLine({
-							from : this._selectedScreen.id, 
+							from : this._selectedScreen.id,
 							event:this._lastMouseMoveEvent
 						})
 					}
 					if (this._selectGroup && this._lastMouseMoveEvent) {
 						this.addLine({
-							from : this._selectGroup.id, 
+							from : this._selectGroup.id,
 							event:this._lastMouseMoveEvent
 						})
 					}
@@ -851,18 +851,18 @@ export default {
 						this.toolbar.showScreenSelector();
 					}
 				}
-				
+
 			/**
 			 * Zoom
 			 */
 			} else if (k== 171 || k ==187){ // +
-				
+
 				if(!this._inlineEditStarted){
 					this.onClickPlus();
 					this.stopEvent(e);
 				}
 			} else if (k== 173 || k ==189){ //-
-				
+
 				if(!this._inlineEditStarted){
 					this.onClickMinus();
 					this.stopEvent(e);
@@ -875,7 +875,7 @@ export default {
 			} else if (e.altKey || e.ctrlKey || e.metaKey){
 
 				this.logger.log(0,"onKeyPress", "enter > " + k + " > ctrl : " +e.ctrlKey + " > meta :" +(e.ctrlKey || e.metaKey));
-					
+
 				/**
 				 * Copy only when no inline edit
 				 */
@@ -900,64 +900,64 @@ export default {
 						this.controller.redo();
 						this.stopEvent(e);
 					}
-					
+
 					if(k == 68){ // ctrl-d
 						this.onDuplicate();
 						this.stopEvent(e);
 					}
-					
-					
+
+
 					if(k == 40){ // ctrl & down
 						if(this.toolbar){
 							this.stopEvent(e);
 							this.toolbar.onToolWidgetLayer("back");
 						}
 					}
-						
+
 					if(k == 38){ // ctrl + up
 						if(this.toolbar){
 							this.stopEvent(e);
 							this.toolbar.onToolWidgetLayer("front");
 						}
 					}
-							
-						
+
+
 					if(k == 71){ // ctrl-g
-						this.onGroup();	
+						this.onGroup();
 						this.stopEvent(e);
 					}
 				}
-		
+
 			} else {
 				/**
 				 * Default like inline edit
 				 */
 				this.onSelectionKeyPress(e);
 			}
-			
+
 		},
-		
+
 		getCurrentKeyCode  () {
 			if(this._currentKeyEvent){
 				return this._currentKeyEvent.keyCode ? this._currentKeyEvent.keyCode : this._currentKeyEvent.which
 			}
 			return -1;
 		},
-		
+
 		onKeyUp (e){
-			
+
 			if(this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()){
 				this.logger.log(-1 ,"onKeyUp", "exit because of dialog");
 				return;
 			}
-			
+
 			var target = e.target;
 			if(css.contains(target, "MatcIgnoreOnKeyPress")){
 				return
 			}
-			
+
 			var k = e.keyCode ? e.keyCode : e.which;
-			
+
 			if(this._inlineEditStarted ){
 				/**
 				 * Do nothing...
@@ -997,7 +997,7 @@ export default {
 				this._addLineIsPaused = false;
 				if (this.getMode() != "addLine") {
 					this.setMode("edit");
-				} 
+				}
 				this.stopEvent(e);
 			} else if (k==84){ // t
 	//			 if(this.settings.startToolsOnKeyDown){
@@ -1009,11 +1009,11 @@ export default {
 				this.stopEvent(e);
 				this.setMode("edit");
 			}
-			
+
 			delete this._currentKeyPressed;
 			delete this._currentKeyEvent;
 		},
-	
+
 		/***************************************************************************
 		 * Helper Functons
 		 ***************************************************************************/

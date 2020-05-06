@@ -118,7 +118,7 @@ export default {
 
       let screen = this.model.screens[id];
       let temp = { x: pos.x, y: pos.y, h: screen.h, w: screen.w };
- 
+
 
       if (this.isInContainer(temp)) {
         this._dragNDropBoxPositions[id] = temp;
@@ -177,11 +177,11 @@ export default {
     updateChildren (box, pos, dif) {
       /**
        * Update contained elements, e.g widgets in screen
-       * 
-       * FIXME: For containers this does not seem to work 
+       *
+       * FIXME: For containers this does not seem to work
        * properly! Because the children property is only in
-       * the inhreited model in here 
-       * but not in the controller! 
+       * the inhreited model in here
+       * but not in the controller!
        */
       if (box.children && !box.isContainer) {
         for (let i = 0; i < box.children.length; i++) {
@@ -651,7 +651,7 @@ export default {
                * group selected. This means the selectedGroup is null.
                * If we are in the same group select the new widget, other wise
                * the new group.
-               * 
+               *
                * Since 2.1.3 we have sub group and we want the top group, but here
                * we stull want to allow sub selection
                */
@@ -709,7 +709,7 @@ export default {
 
       /**
        * Since 2.1.3 we have sub groups. If the seletion is from the laylerList,
-       * we just take the _dragNDropGroupChildren which must be passed the the 
+       * we just take the _dragNDropGroupChildren which must be passed the the
        * Select.seltGroup() method,
        */
       if (this._dragNDropGroupChildren) {
@@ -718,7 +718,7 @@ export default {
         }
         return
       }
-      
+
       /**
        * 1) check if there is a group we have to drag
        */

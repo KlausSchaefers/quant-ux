@@ -249,7 +249,7 @@ export default {
 		setContainerPos (ignoreScollUpdate){
 			this.container.style.left = Math.round(this.canvasPos.x) +"px";
 			this.container.style.top = Math.round(this.canvasPos.y) +"px";
-			if(!ignoreScollUpdate){
+			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
 			}
 		},
@@ -307,7 +307,6 @@ export default {
 				 * select which extends the group with additonal children!
 				 */
 				this.renderLayerList(model);
-
 
 				/**
 				 * Make sure we continue the add mode
@@ -1047,11 +1046,8 @@ export default {
 			* Mouse Functons
 			***************************************************************************/
 
-
-
 		getCanvasMousePosition (e){
 			var pos = this._getMousePosition(e);
-
 			pos.x -= (this.domPos.x + this.canvasPos.x);
 			pos.y-= (this.domPos.y + this.canvasPos.y);
 			return pos;
