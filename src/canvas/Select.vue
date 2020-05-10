@@ -6,7 +6,7 @@ import win from 'dojo/_base/win'
 import topic from 'dojo/topic'
 import ModelResizer from 'core/ModelResizer'
 
-export default {
+ export default {
     name: 'Select',
     mixins:[],
     data: function () {
@@ -1075,8 +1075,7 @@ export default {
 					/**
 					 * render parent (widget / screendnd)
 					 */
-					div.style.left = pos.x + "px";
-					div.style.top = pos.y + "px";
+					this.domUtil.setPos(div, pos)
 					div.style.width = pos.w + "px";
 					div.style.height = pos.h + "px";
 
@@ -1085,15 +1084,13 @@ export default {
 					 */
 					if(this._resizeModelType == "screen"){
 						div = this.screenBackgroundDivs[id];
-						div.style.left = pos.x + "px";
-						div.style.top = pos.y + "px";
+						this.domUtil.setPos(div, pos)
 						div.style.width = pos.w + "px";
 						div.style.height = pos.h + "px";
 					} else {
 						div = this.widgetBackgroundDivs[id];
 						if(div){
-							div.style.left = pos.x + "px";
-							div.style.top = pos.y + "px";
+							this.domUtil.setPos(div, pos)
 							div.style.width = pos.w + "px";
 							div.style.height = pos.h + "px";
 						}

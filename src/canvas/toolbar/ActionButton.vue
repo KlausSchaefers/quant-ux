@@ -47,7 +47,7 @@ export default {
 
 		setScreen (screen){
 
-			DomUtil.removeAllChildNodes(this.domNode)
+			this.domUtil.removeAllChildNodes(this.domNode)
 			this.cleanUpTempListener();
 
 			var db = new DomBuilder();
@@ -77,7 +77,7 @@ export default {
 
 			this.widget = widget;
 
-			DomUtil.removeAllChildNodes(this.domNode)
+			this.domUtil.removeAllChildNodes(this.domNode)
 			this.cleanUpTempListener();
 
 			var db = new DomBuilder();
@@ -819,6 +819,7 @@ export default {
 		}
     },
     mounted () {
+			this.domUtil = new DomUtil()
     }
 }
 </script>

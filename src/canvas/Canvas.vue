@@ -78,8 +78,8 @@ import Layer from 'canvas/Layer'
 import DataView from 'canvas/DataView'
 import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
-
-// var _matcIcons = []
+import DomUtil from 'core/DomUtil'
+import FastDomUtil from 'core/FastDomUtil'
 
 export default {
   name: 'Canvas',
@@ -101,6 +101,7 @@ export default {
 
 			this.logger = new Logger("Canvas")
 			this.logger.log(2,"postCreate", "entry");
+			this.domUtil = new DomUtil()
 			this.initSize()
 
 			/**
@@ -419,6 +420,14 @@ export default {
 				}
 				if (s.fastRender != null) {
 					this.settings.fastRender = s.fastRender
+					if (s.fastRender) {
+						/**
+						 * Since 3.0.6 we support fast rendering which uses translate.
+						 */
+						this.domUtil = new FastDomUtil()
+					}
+				} else {
+					this.domUtil = new DomUtil()
 				}
 				if (s.hasProtoMoto != null) {
 					this.settings.hasProtoMoto = s.hasProtoMoto

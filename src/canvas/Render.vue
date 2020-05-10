@@ -19,32 +19,32 @@ export default {
     mixins:[_Color, RenderFast],
     data: function () {
 		/**
-		 * The canvas has the following states:
-		 *
-		 * 0 = Default
-		 *
-		 * 1 = Screen DragNDrop
-		 *
-		 * 2 = Widget DragNDrop
-		 *
-		 * 3 = Adding new box
-		 *
-		 * 4 = Resizing entity
-		 *
-		 * 5 = Container DragNDrop
-		 *
-		 * 6 = Add Line
-		 *
-		 * 7 = Add Line 2
-		 *
-		 * 8 = Copy Style
-		 *
-		 * 9 = Selection
-		 *
-		 * 10 = Align
-		 *
-		 * 11 = StandAlone
-		 */
+			 * The canvas has the following states:
+			 *
+			 * 0 = Default
+			 *
+			 * 1 = Screen DragNDrop
+			 *
+			 * 2 = Widget DragNDrop
+			 *
+			 * 3 = Adding new box
+			 *
+			 * 4 = Resizing entity
+			 *
+			 * 5 = Container DragNDrop
+			 *
+			 * 6 = Add Line
+			 *
+			 * 7 = Add Line 2
+			 *
+			 * 8 = Copy Style
+			 *
+			 * 9 = Selection
+			 *
+			 * 10 = Align
+			 *
+			 * 11 = StandAlone
+		 	 */
         return {
             state: 0,
             isSinglePage: false,
@@ -59,8 +59,8 @@ export default {
             renderLines: true,
             showDistance: true,
             wireInheritedWidgets: false,
-			showAnimation: false,
-			showRuler: true,
+						showAnimation: false,
+						showRuler: true,
             hasSelectOnScreen: false,
             gridBackground: {}
         }
@@ -84,6 +84,7 @@ export default {
 			this.lineSVGs = {};
 			this.gridBackground = {};
 			this.renderedModels = {};
+
 
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));
@@ -247,8 +248,7 @@ export default {
 		},
 
 		setContainerPos (ignoreScollUpdate){
-			this.container.style.left = Math.round(this.canvasPos.x) +"px";
-			this.container.style.top = Math.round(this.canvasPos.y) +"px";
+			this.domUtil.setXY(this.container, Math.round(this.canvasPos.x), Math.round(this.canvasPos.y))
 			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
 			}
@@ -859,9 +859,8 @@ export default {
 			domStyle.set(div, {
 				"width" :  box.w + "px",
 				"height" : box.h + "px",
-				"top" : box.y + "px",
-				"left" : box.x + "px",
 			});
+			this.domUtil.setPos(div, box)
 			css.add(div, "MatcBox");
 			return div;
 		},
@@ -869,10 +868,9 @@ export default {
 		updateBox (box, div){
 			domStyle.set(div, {
 				"width" :  box.w + "px",
-				"height" : box.h + "px",
-				"top" : box.y + "px",
-				"left" : box.x + "px",
+				"height" : box.h + "px"
 			});
+			this.domUtil.setPos(div, box)
 			return div;
 		},
 
