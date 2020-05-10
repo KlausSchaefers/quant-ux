@@ -6,7 +6,6 @@ import lang from 'dojo/_base/lang'
 import domGeom from 'dojo/domGeom'
 import win from 'dojo/win'
 import topic from 'dojo/topic'
-import domStyle from 'dojo/domStyle'
 import _Color from 'common/_Color'
 // import CheckBox from 'common/CheckBox'
 import Ruler from 'canvas/Ruler'
@@ -856,21 +855,13 @@ export default {
 		createBox (box){
 			this.logger.log(6,"createBox", "enter");
 			var div = document.createElement("div");
-			domStyle.set(div, {
-				"width" :  box.w + "px",
-				"height" : box.h + "px",
-			});
-			this.domUtil.setPos(div, box)
+			this.domUtil.setBox(div, box)
 			css.add(div, "MatcBox");
 			return div;
 		},
 
 		updateBox (box, div){
-			domStyle.set(div, {
-				"width" :  box.w + "px",
-				"height" : box.h + "px"
-			});
-			this.domUtil.setPos(div, box)
+			this.domUtil.setBox(div, box)
 			return div;
 		},
 

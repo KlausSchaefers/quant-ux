@@ -12,6 +12,10 @@ export default class DomUtil {
     }
   }
 
+  setBox (div, box) {
+    div.style.cssText = `width: ${box.w}px; height: ${box.h}px; top: ${box.y}px; left: ${box.x}px`;
+  }
+
   setPos (div, pos) {
     div.style.left = pos.x + "px";
     div.style.top = pos.y + "px";

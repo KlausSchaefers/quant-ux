@@ -13,6 +13,16 @@ export default class FastDomUtil {
     }
   }
 
+  setBox (div, box) {
+    div.style.width = box.w + "px",
+    div.style.height = box.h + "px",
+    div.style.left = "0px";
+    div.style.top = "0px";
+    div.style.transform = `translate(${box.x}px, ${box.y}px)`;
+    div.pos_x = box.x;
+    div.pos_y = box.y
+  }
+
   setPos (div, pos) {
     div.style.left = "0px";
     div.style.top = "0px";
