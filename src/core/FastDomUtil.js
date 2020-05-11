@@ -4,7 +4,7 @@ export default class FastDomUtil {
 
   constructor () {
     this.logger = new Logger('FastDomUtil')
-    this.logger.log(-1, 'constructor', 'enter')
+    this.logger.log(1, 'constructor', 'enter')
   }
 
   removeAllChildNodes(node) {

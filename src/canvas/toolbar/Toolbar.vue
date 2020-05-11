@@ -166,13 +166,13 @@ export default {
 	props:['pub'],
     data: function () {
         return {
-            value: false,
-            active: true,
-			redirectAfterExit: true,
-			showRestTool: true,
-			hasViewConfigVtn: true,
-			canvasViewConfig: {},
-			settings: {}
+					value: false,
+					active: true,
+					redirectAfterExit: true,
+					showRestTool: true,
+					hasViewConfigVtn: true,
+					canvasViewConfig: {},
+					settings: {}
         }
     },
 	components: {
@@ -186,35 +186,35 @@ export default {
 		}
 	},
     methods: {
-        postCreate: function(){
-			this.logger = new Logger("Toolbar");
-			this.logger.log(3, "constructor", "entry > " + this.pub);
+      postCreate: function(){
+				this.logger = new Logger("Toolbar");
+				this.logger.log(3, "constructor", "entry > " + this.pub);
 
-			this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
-			this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
+				this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
+				this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
 
-			this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
-			this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
-			this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
-			this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
-			this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
+				this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
+				this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
+				this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
+				this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
+				this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
 
-			this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
-			this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
-			this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
+				this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
+				this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
+				this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
 
-			this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
-			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
-			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
-			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
+				this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
+				this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
+				this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
+				this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
+				this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
 
-			var btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
-			btn.updateLabel = false;
-			btn.setLabel('<span class="mdi mdi-menu"></span>');
-			btn.setOptions(this.getMainMenu());
-			btn.placeAt(this.home);
-			css.add(btn.domNode, "MatcToolbarItem");
+				var btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
+				btn.updateLabel = false;
+				btn.setLabel('<span class="mdi mdi-menu"></span>');
+				btn.setOptions(this.getMainMenu());
+				btn.placeAt(this.home);
+				css.add(btn.domNode, "MatcToolbarItem");
 
 		},
 

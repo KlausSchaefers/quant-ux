@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcAppList">    
+  <div class="MatcAppList">
     <div class="MatcAppListContainer" data-dojo-attach-point="container"></div>
   </div>
 </template>
@@ -10,6 +10,7 @@ import css from "dojo/css";
 import Util from "core/Util";
 import AppList from "page/AppList";
 import HeatPreview from "dash/HeatPreview";
+import Services from "services/Services";
 
 export default {
   name: "HeatList",
@@ -17,13 +18,13 @@ export default {
   props:['app', 'pub', "annotation", "events"],
   data: function() {
     return {
-		add: false,
-		hasSearch:false,
-		popoverButtonLabel: "Design",
-		maxElementsToRender: 20,
-		resizePreview: false,
-		isPublic: false,
-		hasStackView: false
+      add: false,
+      hasSearch:false,
+      popoverButtonLabel: "Design",
+      maxElementsToRender: 20,
+      resizePreview: false,
+      isPublic: false,
+      hasStackView: false
     };
   },
   components: {},
@@ -32,6 +33,7 @@ export default {
      * Is called from parent mounted
      */
     load () {
+      this.jwtToken = Services.getUserService().getToken()
       if (this.app) {
         this.setValue(this.app)
       } else {
@@ -68,13 +70,14 @@ export default {
 
     createScreenWidget(screen) {
       var heatmap = this.$new(HeatPreview);
+      heatmap.setJwtToken(this.jwtToken);
       if (this.hash) {
         heatmap.setInvitation(this.hash);
       }
       if (this.events) {
         heatmap.setEvents(this.events.filter(e => e.screen === screen.id))
       }
-  
+
       return heatmap;
     },
 

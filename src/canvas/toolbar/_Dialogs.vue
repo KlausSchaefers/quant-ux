@@ -117,6 +117,7 @@ export default {
 			var div = db.div("MatcPadding MatcDownloadDialog").build();
 
 			var downloader = this.$new(DownloadDialog);
+			downloader.setJwtToken(this.jwtToken);
 			downloader.placeAt(div);
 			var model = this.model;
 			// rendering of png does not work if scale is set, so we wait
@@ -709,7 +710,7 @@ export default {
 
 
 
-		startSimilator (){
+		startSimilator () {
 			this.logger.log(0,"startSimilator", "entry");
 			var pos = domGeom.position(win.body());
 			let maxHeight = pos.h - 100
@@ -759,6 +760,7 @@ export default {
 
 			var s = this.$new(Simulator,{mode : "debug", logData : false});
 			s.scrollListenTarget = "parent";
+			s.setHash(this.hash)
 
 			var scroller = this.$new(ScrollContainer,{canDestroy:true});
 			scroller.placeAt(container);
@@ -834,6 +836,7 @@ export default {
 			var s = this.$new(Simulator,{mode : "debug", logData : false});
 			s.scrollListenTarget = "parent";
 			s.setScrollContainer(scroller);
+			s.setHash(this.hash)
 
 
 			var img = document.createElement("img");

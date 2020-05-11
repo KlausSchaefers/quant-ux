@@ -23,28 +23,32 @@ export default {
     mixins:[DojoWidget],
     data: function () {
         return {
-            width: 150, 
+            width: 150,
             height: 150
         }
     },
     components: {},
     methods: {
-  
+
 			postCreate: function(){
 				this.logger = new Logger("DownloadDialog");
-				if (!window.saveAs) {		
+				if (!window.saveAs) {
 					this.cntr.innerHTML = '<span class="MatcToolbarItemLabel">Not supported browser</span>';
 					this.logger.log(0, "onImageReady", "No saveAs");
 				}
 				this.db = new DomBuilder();
 			},
-			
+
 			setModel:function(m){
 				this.model = m;
 				this.height = (m.screenSize.h /  m.screenSize.w) * this.width;
 				this.render(m);
 			},
-			
+
+			setJwtToken(t) {
+				this.jwtToken = t
+			},
+
 			render:function(model) {
 				this.wrapper = {};
 				this.blobs = {};
@@ -59,11 +63,11 @@ export default {
 						.build(this.cntr);
 					this.wrapper[id] = wrapper;
 					this.db.span("", "Loading...").build(wrapper);
-				
+
 					this.renderScreen(model, screen);
 				}
 			},
-			
+
 			renderScreen:function (model, screen) {
 				this.logger.log(0, "download", "enter > " + screen.id + " > f:" + f);
 				var f = 2;
@@ -73,26 +77,27 @@ export default {
 					var wrapper = db.div("MatcDownloaderWrapper")
 							.w(screen.w * f).h(screen.h * f)
 							.build(cntrNode);
-					
+
 					this.previews[screen.id] = cntrNode;
-				
+
 					var s = this.$new(Preview);
 					s.placeAt(wrapper);
+					s.setJwtToken(this.jwtToken);
 					s.setModel(model, screen.id);
-					
+
 					domtoimage.toBlob(s.domNode)
 							.then(lang.hitch(this, "onBlobReady", screen))
 							.catch(lang.hitch(this, "onImageError", screen));
-				
-					
+
+
 				} catch (e) {
 					this.logger.error("download", "Something went wrong", e);
 					console.debug(e.stack)
 					this.logger.sendError(e);
-				}	
-				
+				}
+
 			},
-			
+
 			onBlobReady:function(screen, blob){
 				this.blobs[screen.id] = blob;
 				try {
@@ -105,17 +110,17 @@ export default {
 					this.onImageError(screen);
 				}
 			},
-			
+
 			onPngReady:function(screen, url) {
 				var wrapper = this.wrapper[screen.id];
 				if (wrapper) {
 					wrapper.innerHTML = "";
 					var img = this.db.img().build(wrapper);
 					img.src = url;
-					
+
 					this.db.div("MatcDownloadDialogPreviewMSG")
 						.span("", "Download").build(wrapper);
-					
+
 					this.tempOwn(on(wrapper, "click", lang.hitch(this, "download", screen)));
 				}
 				var preview = this.previews[screen.id];
@@ -123,16 +128,16 @@ export default {
 					this.renderCntr.removeChild(preview)
 				}
 			},
-			
-			onDataUrl:function(screen, e) {		
+
+			onDataUrl:function(screen, e) {
 				var wrapper = this.wrapper[screen.id];
 				if (wrapper) {
 					wrapper.innerHTML = "";
 					var img = this.db.img().build(wrapper);
 					img.src = e.target.result;
-					
+
 					this.db.span("", screen.name).build(wrapper);
-	//				
+	//
 					this.tempOwn(on(wrapper, "click", lang.hitch(this, "download", screen)));
 				}
 				var preview = this.previews[screen.id];
@@ -140,8 +145,8 @@ export default {
 					this.renderCntr.removeChild(preview)
 				}
 			},
-			
-			
+
+
 			onImageError:function(screen, e) {
 				this.logger.error("download", "Something went wrong", e);
 				var wrapper = this.wrapper[screen.id];
@@ -150,7 +155,7 @@ export default {
 					this.db.span("", "Error").build(wrapper);
 				}
 			},
-			
+
 			download:function(screen){
 				this.logger.log(-1, "download", "enter > " + screen.id);
 				var blob = this.blobs[screen.id];
@@ -160,7 +165,7 @@ export default {
 					this.logger.log(0, "download", "No BLOB >" + screen.id);
 				}
 			}
-    }, 
+    },
     mounted () {
     }
 }

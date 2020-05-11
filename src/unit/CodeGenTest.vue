@@ -224,6 +224,7 @@ export default {
             app = await Services.getModelService().findApp(this.$route.params.id)
         }
         let preview = this.$new(Preview)
+        preview.setJwtToken(Services.getUserService().getToken());
         preview.placeAt('previewContainer')
         preview.setModel(app)
         this.render(app)

@@ -16,32 +16,7 @@
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
 		</div>
 	</div>
-	<!--
-	<div class="MatcStatus" data-dojo-attach-point="status">
-		<div class="MatcStatusCntr">
-			<div class="MatcStatusItem">
-				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus">
-				</span>
-				<span class="MatcStatusItemLabel" >
-					<span data-dojo-attach-point="zoomLabel"></span>
-				</span>
-				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus">
-				</span>
-			</div>
-			<div class="MatcStatusItem" data-dojo-attach-point="gridBtn">
-				<span class="MatcStatusButtom glyphicon glyphicon-th"></span>
-				<span class="MatcStatusItemLabel MatcStatusButtom" >Grid &amp; Columns</span>
-			</div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="layerCheckCntr"></div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="distanceCntr"></div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="rulerCntr"></div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="dataViewCntr"></div>
-		</div>
-	</div>
-	--> <!-- Status -->
-
+	<!-- Status -->
 	<div class="MatcMessage" data-dojo-attach-point="message">
 	</div>
 </div>
@@ -87,12 +62,12 @@ export default {
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView],
     data: function () {
         return {
-			mode: "edit",
-            debug: false,
-            grid: null,
-            isPublic: false,
-			active: true,
-			name: 'XCanvas'
+					mode: "edit",
+          debug: false,
+          grid: null,
+          isPublic: false,
+					active: true,
+					name: 'XCanvas'
         }
     },
     components: {},

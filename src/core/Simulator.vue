@@ -219,16 +219,16 @@ export default {
 							this.renderFactory.hash = this.hash;
 						}
 					}
-
 					this.own(this.addTouchStart(this.domNode,lang.hitch(this, "onScreenPress")));
 					this.own(this.addTouchRelease(this.domNode, lang.hitch(this, "onScreenRelease")));
 					this.own(topic.subscribe("MatcSimulatorRenderFixedPopup", lang.hitch(this, "addFixedPopup")));
-
-
 					this.logger.log(0,"postCreate","exit > mode : " + this.mode + " > logData : " + this.logData + " > qr : " + this.qr  + " > embedded:" + this.embedded);
-
 				},
 
+				setHash (h) {
+					this.logger.log(-1,"setHash","enter");
+					this.setInvitation(h)
+				},
 
 				setDebug (d){
 					this.debug = d;
@@ -263,13 +263,10 @@ export default {
 				},
 
 				setInvitation (h){
-					this.logger.log(2,"setInvitation","enter");
+					this.logger.log(-1,"setInvitation","enter");
 					this.hash = h;
-					if(this.renderFactory){
-						/**
-						 * set hash so images are corretly rendered
-						 */
-						this.renderFactory.hash = h;
+					if (this.renderFactory) {
+						this.renderFactory.setHash(h);
 					}
 				},
 

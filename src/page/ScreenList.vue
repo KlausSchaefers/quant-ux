@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcAppList">    
+  <div class="MatcAppList">
     <div class="MatcAppListContainer" data-dojo-attach-point="container"></div>
   </div>
 </template>
@@ -10,6 +10,7 @@ import css from "dojo/css";
 import Util from "core/Util";
 import AppList from "page/AppList";
 import Preview from "page/Preview";
+import Services from "services/Services";
 
 export default {
   name: "AppScreenList",
@@ -17,27 +18,28 @@ export default {
   props:['app', 'pub'],
   data: function() {
     return {
-		add: false,
-		hasSearch:false,
-		popoverButtonLabel: "Design",
-		maxElementsToRender: 20,
-		resizePreview: false,
-		isPublic: false,
-		hasStackView: false
+      add: false,
+      hasSearch:false,
+      popoverButtonLabel: "Design",
+      maxElementsToRender: 20,
+      resizePreview: false,
+      isPublic: false,
+      hasStackView: false
     };
   },
   components: {},
   methods: {
-	/**
-	 * Is called from parent mounted
-	 */
-	load () {
-		if (this.app) {
-			this.setValue(this.app)
-		} else {
-			console.warn('ScreenList.load() > No app')
-		}
-	},
+    /**
+     * Is called from parent mounted
+     */
+    load () {
+      this.jwtToken = Services.getUserService().getToken()
+      if (this.app) {
+        this.setValue(this.app)
+      } else {
+        console.warn('ScreenList.load() > No app')
+      }
+    },
     setValue: function(value) {
       this.model = value;
       this.value = this.getScreens();
@@ -95,6 +97,7 @@ export default {
 
     createScreenWidget: function() {
       var heatmap = this.$new(Preview);
+      heatmap.setJwtToken(this.jwtToken);
       if (this.hash) {
         heatmap.setInvitation(this.hash);
       }

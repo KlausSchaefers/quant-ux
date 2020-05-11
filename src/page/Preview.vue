@@ -44,6 +44,11 @@ export default {
       this.debug = d;
     },
 
+    setJwtToken (t) {
+      this.jwtToken = t
+      this.renderFactory.setJwtToken(t)
+    },
+
     setInvitation: function(h) {
       this.logger.log(2, "setInvitation", "Set hash to render factory");
       this.hash = h;

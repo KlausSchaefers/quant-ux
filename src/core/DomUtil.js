@@ -3,7 +3,7 @@ export default class DomUtil {
 
   constructor () {
     this.logger = new Logger('DomUtils')
-    this.logger.log(-1, 'constructor', 'enter')
+    this.logger.log(1, 'constructor', 'enter')
   }
 
   removeAllChildNodes(node) {
@@ -13,7 +13,11 @@ export default class DomUtil {
   }
 
   setBox (div, box) {
-    div.style.cssText = `width: ${box.w}px; height: ${box.h}px; top: ${box.y}px; left: ${box.x}px`;
+    // div.style.cssText = `width: ${box.w}px; height: ${box.h}px; top: ${box.y}px; left: ${box.x}px`;
+    div.style.width = box.w + "px",
+    div.style.height = box.h + "px",
+    div.style.left = box.x + "px";
+    div.style.top = box.y + "px";
   }
 
   setPos (div, pos) {

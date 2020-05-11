@@ -68,9 +68,9 @@ export default {
 	}
   },
   mounted () {
-	Services.setErrorHandler((url, res) => {
-		this.handler4xx(url, res)
-	})
+		Services.setErrorHandler((url, res) => {
+			this.handler4xx(url, res)
+		})
     this.$root.$on('Success', (msg) => {
       this.showSuccess(msg)
     })
@@ -79,11 +79,11 @@ export default {
     })
     this.$root.$on('Hint', (msg) => {
       this.showHint(msg)
-	})
-	this.$root.$on('UserLogin', (user) => {
-		Services.getUserService().setUser(user)
-    })
-	css.remove(win.body(), 'MatcPublic')
+		})
+		this.$root.$on('UserLogin', (user) => {
+			Services.getUserService().setUser(user)
+		})
+		css.remove(win.body(), 'MatcPublic')
   }
 }
 </script>

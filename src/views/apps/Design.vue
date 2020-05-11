@@ -83,6 +83,7 @@ export default {
        */
       var renderFactory = new RenderFactory();
       renderFactory.setModel(model);
+      renderFactory.setHash(hash);
 
       /**
        * Dependency injection
@@ -117,51 +118,17 @@ export default {
       this.tempOwn(on(toolbar, "newLine", lang.hitch(canvas, "addLine")));
       this.tempOwn(on(toolbar, "newComment", lang.hitch(canvas, "addComment")));
 
-      this.tempOwn(
-        on(
-          toolbar,
-          "newTemplatedWidget",
-          lang.hitch(canvas, "addTemplatedWidget")
-        )
-      );
-      this.tempOwn(
-        on(
-          toolbar,
-          "newTemplatedScreen",
-          lang.hitch(canvas, "addTemplatedScreen")
-        )
-      );
-      this.tempOwn(
-        on(
-          toolbar,
-          "newTemplatedGroup",
-          lang.hitch(canvas, "addTemplatedGroup")
-        )
-      );
+      this.tempOwn(on(toolbar, "newTemplatedWidget", lang.hitch(canvas, "addTemplatedWidget")));
+      this.tempOwn(on(toolbar, "newTemplatedScreen", lang.hitch(canvas, "addTemplatedScreen")));
+      this.tempOwn(on(toolbar, "newTemplatedGroup", lang.hitch(canvas, "addTemplatedGroup")));
 
-      this.tempOwn(
-        on(toolbar, "newThemedScreen", lang.hitch(canvas, "addThemedScreen"))
-      );
-      this.tempOwn(
-        on(toolbar, "newThemedGroup", lang.hitch(canvas, "addThemedGroup"))
-      );
-      this.tempOwn(
-        on(toolbar, "newThemedWidget", lang.hitch(canvas, "addThemedWidget"))
-      );
-      this.tempOwn(
-        on(
-          toolbar,
-          "newMultiThemedScreen",
-          lang.hitch(canvas, "addMultiThemedScreens")
-        )
-      );
+      this.tempOwn(on(toolbar, "newThemedScreen", lang.hitch(canvas, "addThemedScreen")));
+      this.tempOwn(on(toolbar, "newThemedGroup", lang.hitch(canvas, "addThemedGroup")));
+      this.tempOwn(on(toolbar, "newThemedWidget", lang.hitch(canvas, "addThemedWidget")));
+      this.tempOwn(on(toolbar, "newMultiThemedScreen", lang.hitch(canvas, "addMultiThemedScreens")));
 
-      this.tempOwn(
-        on(toolbar, "onNewLogicObject", lang.hitch(canvas, "addLogicGroup"))
-      );
-      this.tempOwn(
-        on(toolbar, "onNewRestObject", lang.hitch(canvas, "addRestObject"))
-      );
+      this.tempOwn(on(toolbar, "onNewLogicObject", lang.hitch(canvas, "addLogicGroup")));
+      this.tempOwn(on(toolbar, "onNewRestObject", lang.hitch(canvas, "addRestObject")));
 
       /**
        * last set the model
@@ -177,17 +144,6 @@ export default {
        * Init layer list
        */
       canvas.initLayer();
-
-      /**
-       * add route listener
-       */
-      // if (this.addRouteChangeListener){
-      //   this.addRouteChangeListener(function() {
-      //     controller.onExit();
-      //     toolbar.onExit();
-      //     canvas.onExit();
-      //   });
-      // }
     }
   },
   async mounted() {

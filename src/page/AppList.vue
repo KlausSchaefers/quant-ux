@@ -53,7 +53,9 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate() {
+      this.jwtToken = Services.getUserService().getToken()
+
       this.isMobile = has("mobile");
 
       if (this.big) {
@@ -111,19 +113,13 @@ export default {
         css.add(this.searchCntr, "hidden");
       } else {
         css.remove(this.searchCntr, "hidden");
-        this.own(
-          on(this.searchBtn, touch.press, lang.hitch(this, "showSearch"))
-        );
-        this.own(
-          on(this.searchInput, "keypress", function(e) {
+        this.own(on(this.searchBtn, touch.press, lang.hitch(this, "showSearch")));
+        this.own(on(this.searchInput, "keypress", function(e) {
+              e.stopPropagation();
+        }));
+        this.own(on(this.searchInput, "keydown", function(e) {
             e.stopPropagation();
-          })
-        );
-        this.own(
-          on(this.searchInput, "keydown", function(e) {
-            e.stopPropagation();
-          })
-        );
+        }));
         this.own(on(this.searchInput, "keyup", lang.hitch(this, "onSearch")));
       }
     },
@@ -303,10 +299,7 @@ export default {
       item.appendChild(temp);
       item = temp;
 
-      css.add(
-        item,
-        "MatcAppListItem MatcContentBox MatcShadowBox MatcAppListBox"
-      );
+      css.add(item, "MatcAppListItem MatcContentBox MatcShadowBox MatcAppListBox");
 
       var widget = this.createScreenWidget(app);
       if (widget) {
@@ -389,6 +382,7 @@ export default {
     createScreenWidget: function() {
       let preview = this.$new(Preview);
       preview.mode = preview;
+      preview.setJwtToken(this.jwtToken);
       return preview;
     },
 

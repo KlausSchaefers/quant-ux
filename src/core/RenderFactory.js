@@ -86,8 +86,13 @@ export default class RenderFactory extends Core {
 	}
 
 	setHash (h) {
-		this.logger.log(0, "setHash", "enter >", h);
+		this.logger.log(-1, "setHash", "enter");
 		this.hash = h
+	}
+
+	setJwtToken (t) {
+		this.logger.log(-1, "setJwtToken", "enter");
+		this.jwtToken = t
 	}
 
 	setMode(m) {
@@ -1260,9 +1265,11 @@ export default class RenderFactory extends Core {
 			}
 			if (this.hash) {
 				parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + ")";
+			} else if (this.jwtToken) {
+				parent.style.backgroundImage = "url(/rest/images/" + img.url + "?token=" + this.jwtToken+ ")";
 			} else {
-				var url = "url(/rest/images/" + img.url + ")";
-				parent.style.backgroundImage = url;
+				console.error('RenderFactory._set_backgroundImage() > No Hash!', this, new Error().stack)
+				parent.style.backgroundImage = "url(/rest/images/" + img.url + ")";
 			}
 
 			if (style.backgroundSize) {

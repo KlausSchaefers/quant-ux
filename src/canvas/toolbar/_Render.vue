@@ -51,32 +51,33 @@ export default {
     mixins:[_Tooltip, DojoWidget],
     data: function () {
         return {
-			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox",
-						"TextArea", "Password", "SegmentButton", "ToggleButton", "Table", 'Tree', 'VerticalNavigation', 'Paging'],
-			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
-						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
-						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
-						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest",
-						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton'],
-			hasActiveData: ["DateDropDown"],
-			// validation == databining
-			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
-							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
-							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
-							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
-							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
-							'Table', 'Paging'],
-			hasLogic2: ["LogicOr", "Rest"],
-			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
-			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
-			hasCheckedViewMode : ["CheckBox", "RadioBox"],
-			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging'],
-			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation", "Stepper", "Paging"],
-			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
-			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging"],
-			hideAction: ['ScreenSegment'],
-			colorWidgets: [],
-			isDataView: false
+					hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox",
+								"TextArea", "Password", "SegmentButton", "ToggleButton", "Table", 'Tree', 'VerticalNavigation', 'Paging'],
+					hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
+								"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
+								"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
+								"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest",
+								'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton'],
+					hasActiveData: ["DateDropDown"],
+					// validation == databining
+					hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
+									"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
+									"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
+									"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
+									'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
+									'Table', 'Paging'],
+					hasLogic2: ["LogicOr", "Rest"],
+					hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
+					hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
+					hasCheckedViewMode : ["CheckBox", "RadioBox"],
+					hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging'],
+					hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation", "Stepper", "Paging"],
+					hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
+					hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging"],
+					hideAction: ['ScreenSegment'],
+					colorWidgets: [],
+					isDataView: false,
+
       }
 	},
     components: {},
@@ -198,6 +199,8 @@ export default {
 
 		renderToolbar:function(){
 			this.logger.log(2,"renderToolbar", "enter");
+
+			this.jwtToken = Services.getUserService().getToken()
 
 			/**
 			 * now we have to factory and create a menu
@@ -726,6 +729,7 @@ export default {
 			this.dataWidget.setModel(this.model);
 			this.dataWidget.setMode(this.mode);
 			this.dataWidget.setUser(this.user);
+			this.dataWidget.setJwtToken(this.jwtToken);
 			this.dataWidget.setCanvas(this.canvas);
 			this.dataWidget.placeAt(dataDiv);
 			this.dataWidget.setSectionHeader(parent);
@@ -1205,6 +1209,7 @@ export default {
 			parent.appendChild(content);
 
 			this.screenParentList = this.$new(ScreenList);
+			this.screenParentList.setJwtToken(this.jwtToken);
 			this.screenParentList.setModel(this.model);
 			this.screenParentList.placeAt(content);
 			this.own(on(this.screenParentList, "change", lang.hitch(this, "setScreenParent")));
@@ -1223,6 +1228,7 @@ export default {
 
 			this.screenDownLoad = this.$new(Downloader);
 			this.screenDownLoad.setModel(this.model);
+			this.screenDownLoad.setJwtToken(this.jwtToken);
 			this.screenDownLoad.placeAt(content);
 
 
