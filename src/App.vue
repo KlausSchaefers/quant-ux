@@ -68,6 +68,7 @@ export default {
 	}
   },
   mounted () {
+		Services.getUserService().load()
 		Services.setErrorHandler((url, res) => {
 			this.handler4xx(url, res)
 		})

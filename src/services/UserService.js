@@ -32,12 +32,12 @@ class UserService extends AbstractService{
     }
 
     save (userID, data) {
-        return this._post('rest/user/' + userID + ".json", data) 
+        return this._post('rest/user/' + userID + ".json", data)
     }
 
     logout () {
         localStorage.removeItem('quxUser');
-        return this._delete('rest/login/') 
+        return this._delete('rest/login/')
     }
 
     reset (email) {
@@ -68,6 +68,7 @@ class UserService extends AbstractService{
                     this.setTTL(user)
                     if (this.isValidUser(user)) {
                         this.user = user
+                        this.setToken(this.getToken())
                     } else {
                         this.user = this.GUEST
                     }
@@ -109,7 +110,7 @@ class UserService extends AbstractService{
             } else {
                 if (this.errorHandler) {
                     this.errorHandler('', {
-                        tokenTimedOut: true 
+                        tokenTimedOut: true
                     })
                 }
             }
@@ -128,7 +129,7 @@ class UserService extends AbstractService{
         }
         return false
     }
-    
+
     setTTL (u) {
         if (u.token) {
             let jwt = this.parseJwt(u.token)
@@ -162,10 +163,14 @@ class UserService extends AbstractService{
 
     contact (name, email, message) {
         return this._post("/rest/contact", {
-            name: name, 
+            name: name,
             email: email,
             message: message
         })
+    }
+
+    deleteImage (user) {
+        return this._delete( "/rest/user/" + user.id + "/images/" + user.image);
     }
 
 }

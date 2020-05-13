@@ -124,7 +124,7 @@
 						</div>
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
-							<div class="MatcToolbarSection" v-if="hasProtoMoto">
+							<div class="MatcToolbarSection">
 								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig" />
 							</div>
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>

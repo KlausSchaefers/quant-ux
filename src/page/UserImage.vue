@@ -15,6 +15,7 @@ import on from "dojo/on";
 import touch from "dojo/touch";
 import DomBuilder from "common/DomBuilder";
 import Logger from "common/Logger";
+import Services from 'services/Services'
 
 export default {
   name: "UserImage",
@@ -43,25 +44,13 @@ export default {
 
       var db = new DomBuilder();
       if (user.image) {
-        db.img(
-          "rest/user/" +
-            user.id +
-            "/images/" +
-            user.name +
-            "_" +
-            user.lastname +
-            "/" +
-            user.image,
-          "MatcUserImage"
-        ).build(this.imageCntr);
+        db.img("rest/user/" + user.id + "/images/" + user.name + "_" + user.lastname + "/" + user.image, "MatcUserImage").build(this.imageCntr);
 
         var upload = db
           .div("MactLinkButton MatcUploadButton", "Change")
           .build(this.imageActions);
         this.file = db.file("MatcImageUploadFile").build(upload);
-        this.tempOwn(
-          on(this.file, "change", lang.hitch(this, "_onFileChange"))
-        );
+        this.tempOwn(on(this.file, "change", lang.hitch(this, "_onFileChange")));
 
         var del = db.a("MactLinkButton", "Remove").build(this.imageActions);
         this.tempOwn(on(del, touch.press, lang.hitch(this, "_deleteImage")));
@@ -70,14 +59,10 @@ export default {
           .span("glyphicon glyphicon-plus-sign", "")
           .build(this.imageCntr);
         this.file = db.file("MatcImageUploadFile").build(plus);
-        this.tempOwn(
-          on(this.file, "change", lang.hitch(this, "_onFileChange"))
-        );
+        this.tempOwn(on(this.file, "change", lang.hitch(this, "_onFileChange")));
         css.add(this.imageCntr, "MatcImageUploadAdd");
-
-        db.span("MatcHint", "Click or Drop file to upload an image").build(
-          this.imageActions
-        );
+        db.span("MatcHint", "Click or Drop file to upload an image")
+          .build(this.imageActions);
       }
     },
 
@@ -117,9 +102,7 @@ export default {
     },
 
     _onFileChange: function(e) {
-      console.debug("onFileChange");
       this.stopEvent(e);
-
       this._files = this.file.files;
       css.remove(this.domNode, "MatcImageUploadDND");
       this._sendFiles();
@@ -129,6 +112,7 @@ export default {
       // here is some kind of stupid bug.
 
       var me = this;
+      let token = Services.getUserService().getToken()
       var formData = new FormData();
       for (var i = 0; i < this._files.length; i++) {
         formData.append("file", this._files[i]);
@@ -137,6 +121,7 @@ export default {
       // now post a new XHR request
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "rest/user/" + this.user.id + "/images/");
+      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
       xhr.onload = function() {
         if (xhr.status === 200) {
           me.onUploadDone();
@@ -147,20 +132,19 @@ export default {
       xhr.send(formData);
     },
 
-    _deleteImage: function(e) {
+    async _deleteImage (e) {
       this.stopEvent(e);
-      this._doDelete(
-        "/rest/user/" + this.user.id + "/images/" + this.user.image
-      );
+      await Services.getUserService().deleteImage(this.value)
       this.load();
     },
 
-    onUploadDone: function() {
+    onUploadDone () {
       this.load();
     },
 
-    load: function() {
-      this._doGet("rest/user", lang.hitch(this, "setUser"));
+    async load () {
+      let u = await Services.getUserService().loadById(this.value.id)
+      this.setUser(u)
     },
 
     setUser: function(u) {
