@@ -91,7 +91,7 @@ export default class RenderFactory extends Core {
 	}
 
 	setJwtToken (t) {
-		this.logger.log(-1, "setJwtToken", "enter");
+		this.logger.log(1, "setJwtToken", "enter");
 		this.jwtToken = t
 	}
 

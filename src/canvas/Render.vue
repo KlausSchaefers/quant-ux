@@ -637,10 +637,10 @@ export default {
 			css.remove(this.container, "MatcCanvasModeAlign");
 			css.remove(this.container, "MatcCanvasModeReplicate");
 
-			console.debug(this.domUtil)
-
-			this.screenContainer.innerHTML = "";
-			this.widgetContainer.innerHTML = "";
+			//this.screenContainer.innerHTML = "";
+			//this.widgetContainer.innerHTML = "";
+			this.domUtil.removeAllChildNodes(this.screenContainer)
+			this.domUtil.removeAllChildNodes(this.widgetContainer)
 			this.renderFactory.cleanUp();
 			this.cleanUpLines();
 			this.cleanUpDebugLines();
