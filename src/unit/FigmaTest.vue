@@ -1,0 +1,106 @@
+<template>
+  <div class="MatcLight">
+    <h1>Figma Test</h1>
+
+    <div class="MatcTReeCntr" v-for="file in files" :key="file.name">
+        {{file.json}}
+    </div>
+
+    <div class="MatcTReeCntr" v-if="false">
+        {{model}}
+    </div>
+
+    <div
+        class="MatcPreviewCntr"
+        v-for="screen in screens"
+        :key="screen.id"
+        :style="{'width:': width, 'height':height}">
+        <Preview :app="model" :screen="screen.id" />
+    </div>
+
+    <img :src="getPreview(preview)" v-for="preview in previews" :key="preview.name">
+
+  </div>
+</template>
+
+<style>
+  @import url("../style/matc.css");
+  .MatcTReeCntr {
+      background: #f2f2f2;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      display: inline-block;
+      padding: 5px;
+      width: 250px;
+      height: 400px;
+      overflow: scroll;
+      margin-left: 30px;
+      font-size: 14px;
+  }
+  .MatcPreviewCntr {
+      background: #f2f2f2;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2), 0px 0px 2px rgba(0, 0, 0, 0.2);
+      display: inline-block;
+      width: 250px;
+      height: 400px;
+      overflow: scroll;
+      margin-left: 30px;
+      font-size: 14px;
+      vertical-align: top;
+      overflow: auto;
+      border-radius: 10px;
+  }
+</style>
+
+<script>
+
+import FigmaService from 'services/FigmaService'
+import Preview from 'page/Preview'
+
+export default {
+  name: "FigmaTest",
+  mixins: [],
+  data: function() {
+    return {
+        files: [],
+        previews: [],
+        model: null
+    };
+  },
+  components: {
+    'Preview': Preview
+  },
+  computed: {
+    screens () {
+      if (this.model) {
+        return Object.values(this.model.screens)
+      }
+      return null
+    },
+    width () {
+      if (this.model) {
+        return this.model.screenSize.w + 'px'
+      }
+      return 0
+    },
+    height () {
+      if (this.model) {
+        return this.model.screenSize.h + 'px'
+      }
+      return 0
+    }
+  },
+  methods: {
+      getPreview() {
+      },
+      onSelect (d) {
+          this.selection = d
+      },
+      async run() {
+        FigmaService.get('https://www.figma.com/file/vABDxPscPKnF2qV4yTroUB/Export-Test?node-id=0%3A1')
+      }
+  },
+  mounted() {
+      this.run()
+  }
+};
+</script>
