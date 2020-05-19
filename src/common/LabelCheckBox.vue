@@ -26,15 +26,15 @@ export default {
     },
     components: {},
     methods: {
-        postCreate(){			
+        postCreate(){
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
 			this.own(on(this.label, touch.press, lang.hitch(this, "onChange")));
 		},
-		
+
 		getValue(){
 			return this.value;
 		},
-				
+
 		setValue(value){
 			this.value = value;
 			if(value){
@@ -43,21 +43,21 @@ export default {
 				css.remove(this.domNode,"VommondCheckBoxChecked") ;
 			}
 		},
-		
+
 		setLabel(label){
-			this.setInnerHTML(this.label, label);	
+			this.setTextContent(this.label, label);
 		},
-		
+
 		setLabelRaw(label){
-			this.label.innerHTML= label;	
+			this.label.innerHTML= label;
 		},
-		
+
 		onChange(e){
 			this.stopEvent(e);
-			this.setValue(!this.value);			
+			this.setValue(!this.value);
 			this.emit("change", this.value );
 		}
-    }, 
+    },
     mounted () {
     }
 }

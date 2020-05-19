@@ -61,7 +61,7 @@ export default {
       this._scaleY = scaleY;
 
       if (model.props.label) {
-        this.setInnerHTML(this.label, model.props.label);
+        this.setTextContent(this.label, model.props.label);
       }
 
       this.setValue(model.props.active, true);

@@ -28,6 +28,7 @@ import SymbolService from 'services/SymbolService'
 import Preview from 'page/Preview'
 import TableSettings from 'canvas/toolbar/TableSettings'
 import DropDownTree from 'canvas/toolbar/DropDownTree'
+import DomUtil from 'core/DomUtil'
 
 export default {
     name: 'DataSection',
@@ -95,7 +96,8 @@ export default {
 
 				this._cleanUpChildWidgets();
 				this.cleanUpTempListener();
-				this.domNode.innerHTML="";
+				this.domUtil.removeAllChildNodes(this.domNode)
+				// this.domNode.innerHTML="";
 				this.cntr = this.db.div("MatcToolbarSectionContent").build(this.domNode);
 
 				var type = widget.type;
@@ -1730,6 +1732,7 @@ export default {
 			}
     },
     mounted () {
+			this.domUtil = new DomUtil()
     }
 }
 </script>

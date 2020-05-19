@@ -142,7 +142,7 @@ export default {
 
         var message = document.createElement("div");
         css.add(message, "MatcCommentMessage");
-        this.setInnerHTML(message, comment.message);
+        this.setTextContent(message, comment.message);
         txt.appendChild(message);
 
         var name = document.createElement("span");
@@ -150,9 +150,9 @@ export default {
         meta.appendChild(name);
 
         if (comment.user && (comment.user.name || comment.user.lastname)) {
-          this.setInnerHTML(name, this.getUserName(comment.user));
+          this.setTextContent(name, this.getUserName(comment.user));
         } else {
-          this.setInnerHTML(name, this.getNLS("common.guest"));
+          this.setTextContent(name, this.getNLS("common.guest"));
         }
 
         var time = document.createElement("span");

@@ -205,7 +205,7 @@ export default {
       this.log.log(5, "showError", "enter > " + msg + " > ");
 
       if (msg) {
-        this.hintLabel.innerHTML = msg;
+        this.hintLabel.textContent = msg;
         css.remove(this.hintLabel, "VommondFormErrorLabelHidden");
       } else {
         css.add(this.hintLabel, "VommondFormErrorLabelHidden");

@@ -107,7 +107,7 @@ export default {
 			if(this.message){
 				css.add(this.message, "MatcMessageSuccess");
 				css.remove(this.message, "MatcMessageError MatcMessageHint");
-				this.message.innerHTML = msg;
+				this.message.textContent = msg;
 				setTimeout(lang.hitch(this,"hideMessage"),3000);
 			}
 		},
@@ -116,7 +116,7 @@ export default {
 			if(this.message){
 				css.add(this.message, "MatcMessageError");
 				css.remove(this.message, "MatcMessageSuccess MatcMessageHint");
-				this.message.innerHTML = msg;
+				this.message.textContent = msg;
 				setTimeout(lang.hitch(this,"hideMessage"), 3000);
 			}
 		},
@@ -125,7 +125,7 @@ export default {
 			if(this.message){
 				css.add(this.message, "MatcMessageHint");
 				css.remove(this.message, "MatcMessageSuccess MatcMessageSuccess");
-				this.message.innerHTML = msg;
+				this.message.textContent = msg;
 				setTimeout(lang.hitch(this,"hideMessage"), 3000);
 			}
 		},
@@ -538,7 +538,7 @@ export default {
 
 				var lbl = document.createElement("div");
 				css.add(lbl, "MatcScreenLabel");
-				this.setInnerHTML(lbl, screen.name);
+				this.setTextContent(lbl, screen.name);
 				this.screenLabels[screen.id] = lbl;
 				dndDiv.appendChild(lbl);
 
@@ -636,6 +636,8 @@ export default {
 			css.remove(this.container, "MatcCanvasFadeOut");
 			css.remove(this.container, "MatcCanvasModeAlign");
 			css.remove(this.container, "MatcCanvasModeReplicate");
+
+			console.debug(this.domUtil)
 
 			this.screenContainer.innerHTML = "";
 			this.widgetContainer.innerHTML = "";
@@ -1008,7 +1010,7 @@ export default {
 					* Update label as well
 					*/
 				if(this.screenLabels[id]){
-					this.setInnerHTML(this.screenLabels[id], screen.name);
+					this.setTextContent(this.screenLabels[id], screen.name);
 				}
 			} else {
 				this.logger.error("setScreenStyle","No screen div for " + id);

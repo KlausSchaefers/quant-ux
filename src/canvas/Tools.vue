@@ -288,7 +288,9 @@ export default {
 
 					var newWidget = this.controller.addWidget(widget, pos, true);
 					if(newWidget){
-						this.onWidgetSelected(newWidget.id, true);
+						requestAnimationFrame( ()=> {
+							this.onWidgetSelected(newWidget.id, true);
+						})
 					}
 				}else {
 					this.logger.warn("onToolBoxEnd", "no pos passed");
@@ -346,7 +348,9 @@ export default {
 					};
 					var newWidget = this.controller.addWidget(widget, pos, true);
 					if(newWidget){
-						this.onWidgetSelected(newWidget.id, true);
+						requestAnimationFrame( () => {
+							this.onWidgetSelected(newWidget.id, true);
+						})
 					}
 				} else {
 					this.logger.warn("onToolHotspotEnd", "no pos passed");
@@ -924,7 +928,9 @@ export default {
 							// TODO: Add a pasteClipBoardMethod, which would somehow to return a copy...
 							var copy = this.controller.onCopyWidget(this._copied.widget.id, pos);
 							if(copy){
-								this.onWidgetSelected(copy.id, true);
+								requestAnimationFrame( () => {
+									this.onWidgetSelected(copy.id, true);
+								})
 								lastPaste.target.widget = copy
 							}
 							this.showSuccess("Widget was pasted!");

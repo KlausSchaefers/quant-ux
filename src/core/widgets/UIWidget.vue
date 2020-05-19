@@ -659,6 +659,23 @@ export default {
       }
     },
 
+    setTextContent (e, txt) {
+      if (e) {
+        txt = this.stripHTML(txt);
+        txt = txt.replace(/\n/g, "<br>");
+        txt = txt.replace(/\$perc;/g, "%");
+        e.textContent = txt;
+      } else {
+        console.warn("setTextContent() > No node to set test > ", txt);
+      }
+    },
+
+    removeAllChildren (node) {
+       while (node.lastChild) {
+        node.removeChild(node.lastChild);
+      }
+    },
+
     setScalledNodeStyle: function(node, style, list) {
       for (var i = 0; i < list.length; i++) {
         var p = list[i];

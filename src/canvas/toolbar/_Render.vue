@@ -2449,12 +2449,12 @@ export default {
 			css.add(div,"MatcToolbarSectionLabel");
 			parent.appendChild(div);
 
-			div.innerHTML=lbl;
+			div.textContent = lbl;
 
 			if(hasTemplateMarker){
 				var span = document.createElement("span");
 				css.add(span, "MatcToolbarSectionMarker");
-				span.innerHTML=" *";
+				span.textContent=" *";
 				div.appendChild(span);
 
 				if(!this.templateMarkers){

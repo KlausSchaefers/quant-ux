@@ -40,7 +40,7 @@ export default {
       this._drawRaute(this.domNode, model, style);
 
       if (model.props.label) {
-        this.setInnerHTML(this.label, model.props.label);
+        this.setTextContent(this.label, model.props.label);
       }
     },
 

@@ -72,7 +72,7 @@ export default {
 
     showDefaultValue: function() {
       if (this.model.props.label) {
-        this.setInnerHTML(this.label, this.model.props.label);
+        this.setTextContent(this.label, this.model.props.label);
         css.add(this.label, "MatcWidgetTypeDateDropDownDefaultLabel");
 
         if (this.isRange) {
@@ -331,7 +331,7 @@ export default {
             if (!value.defaultValue) {
               var from = this.convertQDateToString(value.from);
               var to = this.convertQDateToString(value.to);
-              this.setInnerHTML(this.label, from + " - " + to);
+              this.setTextContent(this.label, from + " - " + to);
             } else {
               this.showDefaultValue();
             }
@@ -341,7 +341,7 @@ export default {
             }
 
             if (!value.defaultValue) {
-              this.setInnerHTML(this.label, this.convertQDateToString(value));
+              this.setTextContent(this.label, this.convertQDateToString(value));
             } else {
               this.showDefaultValue();
             }

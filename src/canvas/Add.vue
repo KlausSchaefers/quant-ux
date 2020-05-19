@@ -323,7 +323,9 @@ export default {
 
 				var newWidget = this.controller.addWidget(model, pos);
 				if(newWidget){
-					this.onWidgetSelected(newWidget.id, true);
+					requestAnimationFrame( () => {
+						this.onWidgetSelected(newWidget.id, true);
+					})
 				}
 
 				this._onAddDone();

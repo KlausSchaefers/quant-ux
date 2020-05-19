@@ -35,8 +35,8 @@ export default class Core extends Evented {
     /**
      * Gets all teh widgets that are in the container! The method
      * takes the order into account
-     * @param {} widgets 
-     * @param {*} container 
+     * @param {} widgets
+     * @param {*} container
      */
     getParentWidgets(widget, model) {
         let result = []
@@ -1332,7 +1332,7 @@ export default class Core extends Evented {
                     }
                 } else {
                     /**
-                     * FIXME: This can happen for screen copies... 
+                     * FIXME: This can happen for screen copies...
                      */
                     // console.warn('Core.createContaineredModel() > cannot find widgte', widgetID)
                 }
@@ -1343,7 +1343,7 @@ export default class Core extends Evented {
     static addContainerChildrenToModel(model) {
         /**
          * Add here some function to add the virtual children, so that stuff
-         * works also in the analytic canvas. This would mean we would have to 
+         * works also in the analytic canvas. This would mean we would have to
          * copy all the code from the Repeater to here...
          */
         return model
@@ -1423,6 +1423,17 @@ export default class Core extends Evented {
             e.innerHTML = txt;
         } else {
             console.warn("setInnerHTML() > No node to set test > ", txt);
+        }
+    }
+
+    setTextContent(e, txt) {
+        if (e) {
+            txt = this.stripHTML(txt);
+            txt = txt.replace(/\n/g, "<br>");
+            txt = txt.replace(/\$perc;/g, "%"); // Mongo cannot deal with % on undo
+            e.textContent = txt;
+        } else {
+            console.warn("setTextContent() > No node to set test > ", txt);
         }
     }
 

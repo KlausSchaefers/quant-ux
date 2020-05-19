@@ -78,7 +78,8 @@ export default {
 
       var db = new DomBuilder();
 
-      this.domNode.innerHTML = "";
+      this.removeAllChildren(this.domNode)
+      //this.domNode.innerHTML = "";
 
       if (!this.withLabel) {
         this.minusBtn = db.div("MatcWidgetTypeStepperBtn").build(this.domNode);

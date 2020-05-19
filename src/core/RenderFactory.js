@@ -786,7 +786,7 @@ export default class RenderFactory extends Core {
 			 * Show default label in edit mode!
 			 */
 			if (this.mode == "edit") {
-				this.setInnerHTML(inlineEdit, "");
+				this.setTextContent(inlineEdit, "");
 			}
 		} else {
 			this.setInnerHTML(inlineEdit, model.props.label);

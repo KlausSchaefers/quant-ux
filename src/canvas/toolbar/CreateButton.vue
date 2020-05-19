@@ -1,22 +1,22 @@
 
 <template>
     <div class="MatcToolbarItem MatcCreateBtn MatcMultiIcon MatcToolbarDropDownButton">
-		<div type="button" data-dojo-attach-point="button"> 
+		<div type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="">
-				<span class="mdi mdi-puzzle"></span> 
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> 
-			</label> 
-			
+				<span class="mdi mdi-puzzle"></span>
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
+			</label>
+
 			</div>
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 				<div class="MatcCreateBtnCntr MatcPadding">
 					<div class="container-fluid">
 						<div class="row"  v-show="tab === 'widgets'">
 							<div class="col-md-10 MatcCreateBtnElementList MatcCreateBtnRight" data-dojo-attach-point="rightCntr">
-								<div class="MatcHint">Loading Widgets...</div> 
+								<div class="MatcHint">Loading Widgets...</div>
 							</div>
-							<div class="col-md-2 MatcCreateBtnLeft"> 
-								<div class="form-group has-feedback"> 
+							<div class="col-md-2 MatcCreateBtnLeft">
+								<div class="form-group has-feedback">
 									<input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" data-dojo-attach-point="searchBox"/>
 									<span class="mdi mdi-magnify  form-control-feedback MatcCreateSearchBtn " aria-hidden="true" data-dojo-attach-point="searchRemoveBtn"></span>
 								</div>
@@ -32,7 +32,7 @@
 									<a class="MatcButton" @click="onSaveImports">Save</a> <a class="MatcLinkButton" @click="showWidgets()">Back</a>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 			</div>
@@ -63,17 +63,17 @@ export default {
     mixins:[Util, DojoWidget, _DropDown],
     data: function () {
         return {
-           screenWidth : 300,		
-			screenHeight : 600,			
-			selectedCategory : "WireFrame",			
-			showSubCatgeoryLabels : false,			
-			icons: [],			
+           screenWidth : 300,
+			screenHeight : 600,
+			selectedCategory : "WireFrame",
+			showSubCatgeoryLabels : false,
+			icons: [],
 			categoryNames : {
 				"Bootstrap" : "Bootstrap 3",
 				"Bootstrap4" : "Bootstrap 4",
 				"Lightning": "Lightning",
 				"OpenUI": "OpenUI5"
-			},			
+			},
 			previewSizes : {
 				"default" : {
 					w : 120,
@@ -93,14 +93,14 @@ export default {
         setIcons (icons) {
 			this.icons = icons
 		},
-		
+
 		async setModel (m){
 			this.model = m;
 			this.screenWidth = m.screenSize.w;
 			this.screenHeight = m.screenSize.h;
 			this.renderFactory = new RenderFactory();
-			this.renderFactory.setModel(m);	
-			this.renderFactory.setSymbol(true);			
+			this.renderFactory.setModel(m);
+			this.renderFactory.setSymbol(true);
 			this.categoriesList = ["WireFrame", "Material", "IOS", "Lightning", "OpenUI", "Bootstrap4", "Charts"];
 			this._importedApps = {}
 			/**
@@ -108,11 +108,11 @@ export default {
 			 */
 			if(	this.model.lastCategory){
 				this.selectedCategory = this.model.lastCategory;
-			}			
+			}
 			this.importableApps = await Services.getModelService().findMyAppSummaries()
-			setTimeout(lang.hitch(this, "init"), 2000);	
+			setTimeout(lang.hitch(this, "init"), 2000);
 		},
-		
+
 		onVisible (){
 			this.showWidgets()
 			if(this.selectedCategory == 'Template'){
@@ -123,27 +123,27 @@ export default {
 			}, 250)
 			css.add(this.domNode,"MatcToolbarItemActive");
 		},
-		
+
 		onHide (){
 			css.remove(this.domNode,"MatcToolbarItemActive");
 		},
-		
+
 		async init (){
 			if (!this.categories){
-				
+
 				/**
 				 * load themes
 				 */
 				let coreThemes = await Services.getSymbolService().getCore()
 				this.onThemesLoaded(coreThemes)
-				
+
 				this.own(on(this.searchBox, "mousedown", function(e){
-					e.stopPropagation(); 
+					e.stopPropagation();
 					return false
 				}));
 				// chrome messes with this now! We have new pointer events!
 				this.own(on(this.searchBox, "pointerdown", function(e){
-					e.stopPropagation(); 
+					e.stopPropagation();
 					return false
 				}));
 
@@ -153,8 +153,8 @@ export default {
 				this.own(on(this.searchRemoveBtn, touch.press, lang.hitch(this,"resetSearch")));
 			}
 		},
-		
-		onSearch (e){	
+
+		onSearch (e){
 			e.stopPropagation();
 			var k = e.keyCode ? e.keyCode : e.which
 			if (k === 13) {
@@ -163,7 +163,7 @@ export default {
 					return;
 				}
 			}
-		
+
 			var query = this.searchBox.value;
 			if(query.length > 1 && this.categories){
 				this.searchQuery = query.toLowerCase();
@@ -174,7 +174,7 @@ export default {
 				this.searchQuery = null;
 			}
 		},
-		
+
 		resetSearch (e){
 			this.stopEvent(e);
 			this.searchBox.value="";
@@ -182,14 +182,14 @@ export default {
 			if(this.searchQuery ){
 				this.searchQuery = null;
 				this.showCategory(this.selectedCategory);
-			}			
+			}
 		},
-		
+
 		onThemesLoaded (themes){
 			this.rightCntr.innerHTML="";
 			var categories = {};
 			var temp = {};
-			
+
 			/**
 			 * sort into categories
 			 */
@@ -207,7 +207,7 @@ export default {
 						this.setDefaultValues(theme.min);
 					} else {
 						console.warn("We have already a theme with the id", theme.id, theme);
-					}				
+					}
 				} else {
 					console.warn("Theme has no id!");
 				}
@@ -217,7 +217,7 @@ export default {
 			 * now do the mixin stuff
 			 */
 			for(let id in temp){
-				let theme = temp[id];			
+				let theme = temp[id];
 				let category = theme.category;
 				if(theme._extends){
 					var parent = temp[theme._extends];
@@ -245,31 +245,31 @@ export default {
 						if(theme.checked){
 							theme.checked = lang.mixin(lang.clone(parent.checked), theme.checked);
 						}
-						
+
 						categories[category][id] = theme
-						
+
 					} else {
 						console.warn("Theme " + id +" extends not exiting theme "+ theme._extends);
 					}
 				}
 			}
-			
-			
+
+
 			this.render(categories)
 		},
-		
+
 		setDefaultValues (box){
 			if(box){
-				
+
 				if(box.w === "$screenwidth"){
 					box.w = this.screenWidth;
-				}	
+				}
 				if(box.w === "$25%"){
 					box.w = Math.round(this.screenWidth * 0.25);
-				}	
+				}
 				if(box.w === "$33%"){
 					box.w = Math.round(this.screenWidth * 0.33);
-				}				
+				}
 				if(box.w === "$50%"){
 					box.w = Math.round(this.screenWidth * 0.5);
 				}
@@ -282,11 +282,11 @@ export default {
 				if(box.w === "$90%"){
 					box.w = Math.round(this.screenWidth * 0.9);
 				}
-				
+
 				if(box.w === "$100%"){
 					box.w = Math.round(this.screenWidth);
 				}
-				
+
 				if(box.h === "$screenheight"){
 					box.h = this.screenHeight;
 				}
@@ -311,16 +311,16 @@ export default {
 				if(box.h === "$100%"){
 					box.h = Math.round(this.screenHeight);
 				}
-				
+
 				if(box.children){
 					for(var i=0; i< box.children.length; i++){
 						this.setDefaultValues(box.children[i]);
 					}
 				}
 			}
-			
+
 		},
-		
+
 		render (categories){
 			this.categories = categories;
 			/**
@@ -329,9 +329,9 @@ export default {
 			var db = new DomBuilder();
 			this._lis = {};
 			var ul = db.ul("").build();
-			
+
 			var cats = this.categoriesList;
-			
+
 			for(var i=0; i< cats.length; i++){
 				let category = cats[i];
 				let li = db.li().build(ul);
@@ -343,7 +343,7 @@ export default {
 				this._lis[category] = li;
 				this.own(on(li, touch.press, lang.hitch(this, "showCategory", category, true) ));
 			}
-			
+
 			/**
 			 * 3rd icons
 			 */
@@ -351,7 +351,7 @@ export default {
 			db.a("", "Icons").build(li);
 			this._lis["Icons"] = li;
 			this.own(on(li, touch.press, lang.hitch(this, "showIcons", true) ));
-			
+
 			/**
 			 * 4rd templates
 			 */
@@ -384,32 +384,32 @@ export default {
 					}
 				})
 			}
-		
+
 
 			li = db.span().build(ul);
 			db.a("MatcButton MatcButtonFullWidth MatcButtonSignUp", "Import").build(li);
 			this._lis["Import"] = li;
 			this.own(on(li, touch.press, lang.hitch(this, "showImportSection") ));
-			
+
 			this.leftCntr.innerHTML = ""
 			this.leftCntr.appendChild(ul);
-			
+
 			this.scroller = this.$new(ScrollContainer);
 			this.scroller.placeAt(this.rightCntr);
-			
+
 			this.iconCntr = db.div("").build();
 			this.scroller.wrap(this.iconCntr);
-	
-			
+
+
 			this.showCategory(this.selectedCategory);
 		},
-		
+
 		async showImportSection (e){
 			this.stopEvent(e)
 			this.tab = 'import'
 
 			this._tempImports = {}
-		
+
 			let apps = this.importableApps.filter(app => app.name).sort((a,b) => {
 				if (a.name && b.name) {
 					return a.name.localeCompare(b.name)
@@ -418,7 +418,7 @@ export default {
 
 			var db = new DomBuilder();
 			let cntr = db.div('MatcCreateImportCntr').build()
-		
+
 			apps.forEach(app => {
 				if (app.id != this.model.id) {
 					let row = db.div().build(cntr)
@@ -442,7 +442,7 @@ export default {
 		},
 
 		onImportedLoaded (app, li) {
-			this.setInnerHTML(li, app.name + ' *')
+			this.setTextContent(li, app.name + ' *')
 			this._importedApps[app.id] = app
 			let elements = Services.getSymbolService().convertAppToSymbols(app)
 			if (this.categories){
@@ -495,7 +495,7 @@ export default {
 			this.renderSelectedTab(this.selectedCategory);
 			this.renderCategory(this.selectedCategory);
 		},
-		
+
 		showIcons (resetSearch){
 			this.showWidgets()
 			if(resetSearch){
@@ -505,7 +505,7 @@ export default {
 			this.renderSelectedTab(this.selectedCategory);
 			this.renderIcons();
 		},
-		
+
 		showTemplates (resetSearch){
 			this.showWidgets()
 			if(resetSearch){
@@ -515,8 +515,8 @@ export default {
 			this.renderSelectedTab(this.selectedCategory);
 			this.renderTemplates();
 		},
-		
-		
+
+
 		renderSelectedTab (category){
 			for(var cat in this._lis){
 				css.remove(	this._lis[cat], "MatcSelected");
@@ -525,17 +525,17 @@ export default {
 				css.add(this._lis[category], "MatcSelected");
 			}
 		},
-		
-		renderIcons (query){			
+
+		renderIcons (query){
 			this.renderFactory.cleanUp();
-	
+
 			if (!query) {
-				this.cleanUpTempListener();	
+				this.cleanUpTempListener();
 			}
 			var db = new DomBuilder();
-			var cntr = db.div("MatcDateSectionIconCntr", "").build();		
-			var icons = this.icons;	
-		
+			var cntr = db.div("MatcDateSectionIconCntr", "").build();
+			var icons = this.icons;
+
 			if (query && query.length > 1) {
 				let temp = []
 				for (let j = 0; j < icons.length; j++) {
@@ -545,22 +545,22 @@ export default {
 					}
 				}
 				icons = temp
-			}	
+			}
 			for (let j = 0; j < icons.length; j++) {
 				let icon = icons[j];
 				let span = db.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j]).build(cntr);
 				span.setAttribute("data-matc-icon", icons[j]);
 				this.tempOwn(on(span, touch.press, lang.hitch(this, "onCreateIcon", icon)));
 			}
-			if (!query) {	
-				this.iconCntr.innerHTML="";	
+			if (!query) {
+				this.iconCntr.innerHTML="";
 			}
-			this.iconCntr.appendChild(cntr);	
+			this.iconCntr.appendChild(cntr);
 		},
-		
+
 		onCreateIcon (icon, e){
 			this.stopEvent(e);
-			
+
 			var value = {
 				"id" : "Icon",
 				"type" : "Icon",
@@ -596,13 +596,13 @@ export default {
 					"icon" : "mdi mdi-"+icon
 				}
 			};
-			
+
 			//this.model.lastCategory = "Icons";
-			this.hideDropDown();	
-	
+			this.hideDropDown();
+
 			this.emit("change", value ,e);
-			
-		
+
+
 		},
 
 		renderImportedApp (app) {
@@ -610,14 +610,14 @@ export default {
 			let elements = Services.getSymbolService().convertAppToSymbols(app)
 			this.renderElements(elements, app.id, false);
 		},
-		
+
 		renderTemplates (){
 
 			var elements = [];
 			if(this.model && this.model.templates){
 				for(var tid in this.model.templates){
 					var template = this.model.templates[tid];
-					
+
 					if(template.visible){
 						/**
 						 * copy object and add meta data for correct dispatch
@@ -627,27 +627,27 @@ export default {
 						template._isTemplate = true;
 						elements.push(template);
 					}
-					
+
 				}
-			} 
-			
+			}
+
 			this.renderElements(elements, 'Template', true);
-	
+
 		},
-		
+
 		renderCategory (category){
-			
+
 			var children = this.categories[category];
 			var elements = [];
 			for(var id in children){
 				var child = children[id];
 				elements.push(child);
 			}
-			
+
 			this.renderElements(elements, category, false);
-			
+
 		},
-		
+
 		renderSearchResult (query){
 			//css.remove(this.searchRemoveBtn, "hidden");
 			var elements = [];
@@ -664,31 +664,31 @@ export default {
 			this.renderElements(elements, "search", false);
 			this.renderIcons(query)
 		},
-	
 
-		
+
+
 		renderElements (elements, category, isTemplate, append){
 			this._visibleElements = elements
 			elements.sort(function(a,b){
-			
+
 				if(a.subcategory && b.subcategory){
 					if(a.subcategory == b.subcategory){
 						return a.name.localeCompare(b.name);
 					}
-					
+
 					return a.subcategory.localeCompare(b.subcategory);
 				}
 				return a.name.localeCompare(b.name);
 			});
-			
+
 			this.renderFactory.cleanUp();
 			this.cleanUpTempListener();
-			
-			
+
+
 			var db = new DomBuilder();
 			var size = this._getPreviewSize(category);
 			var cntr = db.div().build();
-						
+
 			if(elements.length === 0){
 				if(isTemplate){
 					/**
@@ -698,18 +698,18 @@ export default {
 				} else if(this.searchQuery){
 					db.span("MatcHint","No elements match the search query").build(cntr);
 				}
-				
+
 			} else {
-				
+
 				var categoryCntr = null;
 				var lastSubCat = null;
-				
+
 				this.renderAddButton(db, size, cntr);
 				for(var i =0; i < elements.length; i++){
 					var child = elements[i];
-					
+
 					if(this.showSubCatgeoryLabels && !this.searchQuery && child.subcategory != lastSubCat){
-						
+
 						if(this.showSubCatgeoryLabels=="inline"){
 							categoryCntr = db.div("MatcCreateBtnElement ").h3("",child.subcategory).build(cntr);
 							domStyle.set(categoryCntr, {
@@ -717,32 +717,32 @@ export default {
 								"height" : size.h + "px",
 							});
 						}
-						
+
 						if(this.showSubCatgeoryLabels=="row"){
 							categoryCntr = db.div("MatcCreateSubCategory").h3("",child.subcategory).build(cntr);
 						}
-						
+
 					}
-					lastSubCat = child.subcategory;					
-					
+					lastSubCat = child.subcategory;
+
 					var div = db.div("MatcCreateBtnElement MatcToolbarDropDownButtonItem").build(cntr);
 					if (elements.length === 1) {
 						css.add(div, 'MatcCreateBtnElementSelected')
 					}
-					
+
 					var preview = db.div("MatcCreateBtnElementPreview").build(div);
 					css.add(preview, child.category);
 					domStyle.set(preview, {
 						"width" :  size.w + "px",
 						"height" : size.h + "px",
 					});
-					
+
 					if(child.type != "Group"){
 						this.renderWidget(child, preview, db, size, isTemplate, div);
 					} else {
 						this.renderGroup(child, preview, db, size, isTemplate, div);
 					}
-					
+
 					/**
 					 * FIXME: For templates make inline edit someday to change name
 					 */
@@ -750,37 +750,37 @@ export default {
 					lbl.style.width = size.w + "px";
 				}
 			}
-			
+
 			if(!append){
-				this.iconCntr.innerHTML="";	
+				this.iconCntr.innerHTML="";
 			}
-		
+
 			this.iconCntr.appendChild(cntr);
-			
+
 		},
-		
-		
-		renderAddButton (){			
+
+
+		renderAddButton (){
 		},
-		
-		
+
+
 		renderGroup (group, preview, db, size, isTemplate, elementDiv){
-		
+
 			/**
 			 * template groups are rendered differently
 			 */
 			if(isTemplate){
-			
+
 				this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", group)));
-				
+
 				/**
 				 * bounding box is primary
 				 */
 				let child = this.getBoundingBox(group.children);
-				let scale = this.getScale(size, "auto", child)				
+				let scale = this.getScale(size, "auto", child)
 				child = this._getScalledChild(child, size);
 				child.h -= 10;
-				child.w -= 10;			
+				child.w -= 10;
 				let box = this._createCenteredBox(db, preview, child, size);
 
 				/**
@@ -792,28 +792,28 @@ export default {
 					child.w *= scale.x;
 					child.x *= scale.x;
 					child.h *= scale.y;
-					child.y *= scale.y;							
+					child.y *= scale.y;
 					let widgetBox = db.div("MatcBox").build(box);
 					domStyle.set(widgetBox, {
 						"width" :  (child.w) + "px",
 						"height" : (child.h) + "px",
 						"top" : (child.y) + "px",
 						"left" : (child.x) + "px",
-					});					
+					});
 					this.renderFactory.createWidgetHTML(widgetBox, child);
 				}
 			} else {
-		
+
 				this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", group)));
-				
+
 				let child = this.getBoundingBoxByBoxes(group.children);
 				let scale = this.getScale(size, "auto", child)
 				scale.x = Math.min(1, scale.x)
-				scale.y = Math.min(1, scale.y)	
-			
+				scale.y = Math.min(1, scale.y)
+
 				child = this._getScalledChild(child, size);
 				let box = this._createCenteredBox(db, preview, child, size);
-	
+
 				var children = group.children;
 				for(let i=0; i< children.length; i++){
 					// FIXME: call clone
@@ -821,12 +821,12 @@ export default {
 					child.w *= scale.x;
 					child.x *= scale.x;
 					child.h *= scale.y;
-					child.y *= scale.y;				
+					child.y *= scale.y;
 					try{
 						//if(!child.id){
 						//	console.warn("Theme without child id");
 						child.id = group.id +"_" + i;
-						//}				
+						//}
 						var widgetBox = db.div("MatcBox").build(box);
 						domStyle.set(widgetBox, {
 							"width" :  (child.w) + "px",
@@ -834,30 +834,30 @@ export default {
 							"top" : (child.y ) + "px",
 							"left" : (child.x) + "px",
 						});
-						
+
 						this.renderFactory.createWidgetHTML(widgetBox, child);
 					} catch(e){
 						console.debug("Error", e);
-					}	
+					}
 				}
 			}
 		},
-		
+
 		renderWidget (child, preview, db, size, isTemplate, elementDiv){
-			this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", child)));			
+			this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", child)));
 			/**
 			 * TODO: For templates create a remove button
 			 */
-			child = this._getScalledChild(child, size);		
-			var box = this._createCenteredBox(db, preview, child, size);			
+			child = this._getScalledChild(child, size);
+			var box = this._createCenteredBox(db, preview, child, size);
 			try {
 				this.renderFactory.createWidgetHTML(box, child);
 			} catch (e) {
 				console.error('CreateButton.renderWidget() > Error', child)
 				console.error(e)
-			}		
+			}
 		},
-		
+
 		_getScalledChild (child, size){
 			/**
 			 * check if we have to use the preview
@@ -865,7 +865,7 @@ export default {
 			if(child._preview){
 				child = child._preview;
 			}
-			
+
 			/**
 			 * check if we have to scale
 			 */
@@ -876,13 +876,13 @@ export default {
 			} else {
 				this.renderFactory.setScaleFactor(1,1);
 			}
-			
+
 			return child;
 		},
-		
-		
+
+
 		_createCenteredBox (db, preview, child, size){
-		
+
 			/**
 			 * render centered box
 			 */
@@ -895,11 +895,11 @@ export default {
 				"top" : top + "px",
 				"left" : left + "px",
 			});
-			
+
 			return box;
 		},
 
-		
+
 		onCreate (child,e){
 			this.stopEvent(e);
 			var value = lang.clone(child);
@@ -908,47 +908,47 @@ export default {
 			}  else {
 				this.model.lastCategory = "WireFrame"
 			}
-			this.hideDropDown();	
+			this.hideDropDown();
 			this.emit("change", value ,e);
 		},
-		
+
 		_getPreviewSize (category){
 			if(this.previewSizes[category]){
 				return this.previewSizes[category];
 			}
 			return this.previewSizes["default"];
 		},
-		
 
-		
+
+
 		highlight (){
 			var parent = this.domNode.parentNode;
 			if(parent){
 				css.add(parent, "MatcCreateHighlight");
-				
+
 				setTimeout(function(){
 					css.remove(parent, "MatcCreateHighlight");
 				},400);
-				
+
 				setTimeout(function(){
 					css.add(parent, "MatcCreateHighlight");
 				},800);
-				
+
 				setTimeout(function(){
 					css.remove(parent, "MatcCreateHighlight");
 				},1200);
-				
+
 				setTimeout(function(){
 					css.add(parent, "MatcCreateHighlight");
 				},1600);
-				
+
 				setTimeout(function(){
 					css.remove(parent, "MatcCreateHighlight");
 				},2000);
 			}
-		
+
 		}
-    }, 
+    },
     mounted () {
     }
 }

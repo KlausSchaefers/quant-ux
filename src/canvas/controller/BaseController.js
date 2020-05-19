@@ -87,7 +87,8 @@ export default class BaseController extends Core {
 
 	setMode (mode, forceRender){
 		this.logger.log(2,"setMode", "entry > " + mode);
-		this.toolbar.setMode(mode);
+		//this.toolbar.setMode(mode);
+		// toolbar will nbe called in canvas
 		this._canvas.setMode(mode, forceRender);
 	}
 

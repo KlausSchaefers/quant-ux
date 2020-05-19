@@ -30,7 +30,8 @@ export default {
     },
 
     cleanupRender: function() {
-      this.domNode.innerHTML = "";
+      this.removeAllChildren(this.domNode)
+      // this.domNode.innerHTML = "";
       this._borderNodes = [];
       this._backgroundNodes = [];
       this._shadowNodes = [];

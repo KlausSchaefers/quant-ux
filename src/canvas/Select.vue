@@ -122,7 +122,7 @@ import ModelResizer from 'core/ModelResizer'
 			this.showGroupResizeHandlers(selection, null, "multi", true);
 			this.controller.onMultiSelect(selection);
 			css.add(this.domNode, "MatcCanvasSelection");
-			this.showHint("Press <b>D</b> to distribute selected objects...");
+			this.showHint("Press D to distribute selected objects...");
 
 			try {
 				if (this.selectionListener) {

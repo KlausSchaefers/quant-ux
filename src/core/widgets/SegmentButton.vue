@@ -50,7 +50,8 @@ export default {
 
       var db = new DomBuilder();
 
-      this.domNode.innerHTML = "";
+      this.removeAllChildren(this.domNode)
+      // this.domNode.innerHTML = "";
       var options = this.model.props.options;
 
       var width = 100 / options.length;
@@ -160,7 +161,7 @@ export default {
           value = this.value
         }
       }
-  
+
       this.value = value;
       this.emitDataBinding(value);
       this.setValue(value);

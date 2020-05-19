@@ -76,8 +76,10 @@ export default {
 
     setValue: function(value) {
       value += "";
-      this.value = value;
-      this.setInnerHTML(this.domNode, value);
+      if (this.value != value) {
+        this.value = value;
+        this.setInnerHTML(this.domNode, value);
+      }
     },
 
     getState: function() {

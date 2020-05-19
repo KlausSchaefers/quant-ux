@@ -71,11 +71,10 @@ export default {
                 }
 
                 if (label) {
-
                     css.add(div, 'MatcCanvasDataViewLabelCntr')
                     let dataDiv = document.createElement('div')
                     css.add(dataDiv, 'MatcCanvasDataViewLabel')
-                    dataDiv.innerHTML = label
+                    dataDiv.textContent = label
                     div.appendChild(dataDiv)
                     this._dataViewDivs[widget.id] = dataDiv
                 }
@@ -129,7 +128,7 @@ export default {
             for (let id in this._dataViewDivs) {
                 let div = this._dataViewDivs[id]
                 if (div.parentNode) {
-                      css.remove(div.parentNode, 'MatcCanvasDataViewLabelCntr')
+                    css.remove(div.parentNode, 'MatcCanvasDataViewLabelCntr')
                     div.parentNode.removeChild(div)
                 }
             }

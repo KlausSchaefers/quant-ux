@@ -401,7 +401,7 @@ export default {
         this.validate(this.value, true);
       }
       if (this.label) {
-        this.setInnerHTML(this.label, this.value);
+        this.setTextContent(this.label, this.value);
       }
     },
 

@@ -48,11 +48,12 @@ export default {
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-  
+
 
       var db = new DomBuilder();
 
-      this.domNode.innerHTML = "";
+      this.removeAllChildren(this.domNode)
+      //this.domNode.innerHTML = "";
 
 
       this.minusBtn = db.div("MatcWidgetTypeStepperBtn").build(this.domNode);
@@ -63,8 +64,8 @@ export default {
 
       this.plusBtn = db.div("MatcWidgetTypeStepperBtn").build(this.domNode);
       this.plusLbl = db.div("MatcWidgetTypeStepperLabel", "+").build(this.plusBtn);
- 
-      
+
+
       this.resize(model)
       if (model.props.value !== undefined && model.props.value !== null) {
         this.setValue(model.props.value * 1, true);

@@ -95,7 +95,8 @@ export default {
           this._renderNode(child, cntr, db, values, 0)
       })
 
-      this.domNode.innerHTML = "";
+      this.removeAllChildren(this.domNode)
+      //this.domNode.innerHTML = "";
       this.domNode.appendChild(cntr)
 
       this.setStyle(style, model)

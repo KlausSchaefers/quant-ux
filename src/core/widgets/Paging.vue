@@ -95,7 +95,7 @@ export default {
     renderElements(model, style, width, scale) {
       var db = new DomBuilder();
       this.elements = [];
- 
+
       var cntr = db.div("MatcWidgetTypePagingCntr").build();
 
       let elementWidth = this.getZoomed(style.fontSize, scale) * 2
@@ -113,7 +113,8 @@ export default {
         this.renderElement(db, elementWidth, cntr, '...', 'onNext', model.props.iconNext)
       }
 
-      this.domNode.innerHTML = ""
+      this.removeAllChildren(this.domNode)
+      // this.domNode.innerHTML = ""
       this.domNode.appendChild(cntr);
 
       this.currentElementCount = elementCount
@@ -139,7 +140,7 @@ export default {
           let label = db.span("MatcWidgetTypePagingElementLabel", value).build(element)
           this._labelNodes.push(label)
         }
-       
+
     },
 
     resize (box) {
@@ -236,7 +237,7 @@ export default {
     destroy: function() {
       if (this._compositeState) {
         this.emitCompositeState();
-      }   
+      }
     }
   },
   mounted() {}

@@ -39,7 +39,7 @@ export default {
           }))
         })
       }
-      
+
       this.trs.forEach((tr, i) => {
         this.own(on(tr, touch.over, () => this.onHoverStart(tr,i)))
         this.own(on(tr, touch.out, () => this.onHoverEnd(tr,i)))
@@ -136,19 +136,20 @@ export default {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
 
-      this.domNode.innerHTML = "";
-      this.checkBoxes = [] 
+      this.removeAllChildren(this.domNode)
+      // this.domNode.innerHTML = "";
+      this.checkBoxes = []
       this.cells = []
       this.trs = []
       this.actions = []
-     
+
       let data = this.getTable()
       let columns = data.columns
       let rows = data.rows
 
       let widths = this.getWidths(model.props.widths, this.style, this.props );
       let borderStyle = this.getBorderStyle(model);
-      
+
       let db = new DomBuilder();
       let table = db.table("MatcWidgetTypeTableBorder" + borderStyle).build();
 
@@ -158,11 +159,11 @@ export default {
         table.style.borderStyle = "solid";
       }
 
-      // if we have a checkbox we need to add 
+      // if we have a checkbox we need to add
       // an empty row and also some adjustments to the table
       if (style.checkBox) {
         columns = [''].concat(columns)
-        // FIXME: we should only do this if we miss widths. Later we could add this 
+        // FIXME: we should only do this if we miss widths. Later we could add this
         // with some handlers
         //widths = [0.10].concat(widths)
         //widths = widths.map(w => w / 1.10)
@@ -182,7 +183,7 @@ export default {
       this.domNode.appendChild(table);
       this.setStyle(style, model);
 
-      this.renderOddRows(rows, style)     
+      this.renderOddRows(rows, style)
     },
 
     getWidths (widths,style, props, fontFactor = 0.6) {
@@ -190,9 +191,9 @@ export default {
       if (widths) {
         var sum = 0;
         let padding = this._getBorderWidth(style.paddingLeft) + this._getBorderWidth(style.paddingRight)
-      
+
         if (style.checkBox) {
-          let w = style.checkBoxSize ? style.checkBoxSize : style.fontSize 
+          let w = style.checkBoxSize ? style.checkBoxSize : style.fontSize
           widths = [w + padding].concat(widths);
         }
         if (props.tableActions && props.tableActions.length > 0) {
@@ -202,7 +203,7 @@ export default {
         }
         for (let i = 0; i < widths.length; i++) {
           sum += widths[i];
-        } 
+        }
         for (let i = 0; i < widths.length; i++) {
           result[i] = widths[i] / sum;
         }
@@ -229,16 +230,16 @@ export default {
       }
 
       this.renderRowBorder(tr, 0, style, borderStyle, rows.length);
-      
+
       for (let j = 0; j < columns.length; j++) {
         let td = document.createElement("td");
         td.setAttribute("valign", "top");
-        td.innerHTML = columns[j];
+        td.textContent = columns[j];
         this.renderCellBorder(td, 0, j, style, borderStyle, rows.length, columns.length);
-    
+
         tr.appendChild(td);
         this._paddingNodes.push(td);
-    
+
         if (widths[j]) {
           td.style.width = Math.round(widths[j] * 100) + "%";
         }
@@ -272,7 +273,7 @@ export default {
           if (j === -1) {
             this.renderCheckBox(row, i, td, style, db)
           } else {
-            td.innerHTML = row[j];
+            td.textContent = row[j];
           }
 
           tr.appendChild(td);
@@ -282,9 +283,9 @@ export default {
 
         }
 
-  
+
         if (actions && actions.length > 0) {
-          let td = document.createElement("td"); 
+          let td = document.createElement("td");
           css.add(td, 'MatcWidgetTypeTableActionCntr')
           tr.appendChild(td);
 
@@ -388,7 +389,7 @@ export default {
 
     getTable () {
       /**
-       * FIXME: I am not sure where I am messing with the rows, 
+       * FIXME: I am not sure where I am messing with the rows,
        * but I do not clone temp updates will produce blank rows...
        */
       let data = lang.clone(this.parseData(this.model.props.data))

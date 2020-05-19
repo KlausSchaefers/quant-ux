@@ -50,7 +50,7 @@ export default {
 
       this.setStyle(style, model);
 
-      this.setInnerHTML(this.domNode, this.model.props.label);
+      this.setTextContent(this.domNode, this.model.props.label);
       this.setValue(model.props.active, true);
     },
 
@@ -74,13 +74,13 @@ export default {
           this.setStyle(this.model.active);
         }
         //	console.debug(this.model.props.label);
-        this.setInnerHTML(this.domNode, this.model.props.label);
+        this.setTextContent(this.domNode, this.model.props.label);
       } else {
         if (valid) {
           this.setStyle(this.model.style);
         }
         if (this.model.props.activeLabel) {
-          this.setInnerHTML(this.domNode, this.model.props.activeLabel);
+          this.setTextContent(this.domNode, this.model.props.activeLabel);
         }
       }
     },

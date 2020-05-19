@@ -185,7 +185,8 @@ export default {
       this._scaleY = scaleY;
       this.setStyle(style, widget);
 
-      this.domNode.innerHTML = ""
+      this.removeAllChildren(this.domNode)
+      // this.domNode.innerHTML = ""
       this._childWidgets = []
       let db = new DomBuilder()
 
