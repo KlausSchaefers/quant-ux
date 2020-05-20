@@ -13,6 +13,7 @@ import Gestures from "core/Gestures";
 
 export default {
   name: "UIWidget",
+  props: ['qWidget', 'qQcaleX', 'qQcaleY'],
   mixins: [Layout, _Touch, Gestures, DojoWidget],
   data: function() {
     return {
@@ -1161,6 +1162,10 @@ export default {
   destroyed () {
     this.beforeDestroy()
   },
-  mounted() {}
+  mounted() {
+    if (this.qWidget) {
+      this.render(this.qWidget, this.qWidget.style, this.qQcaleX, this.qQcaleX, false);
+    }
+  }
 };
 </script>

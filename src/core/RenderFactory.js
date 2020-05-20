@@ -35,7 +35,6 @@ import Chart from 'core/widgets/Chart'
 import HoverDropDown from 'core/widgets/HoverDropDown'
 import CheckBoxGroup from 'core/widgets/CheckBoxGroup'
 import RadioGroup from 'core/widgets/RadioGroup'
-import ChatBot from 'core/widgets/ChatBot'
 import LabeledIconToggle from 'core/widgets/LabeledIconToggle'
 import Rest from 'core/widgets/Rest'
 import Vector from 'core/widgets/Vector'
@@ -74,6 +73,7 @@ export default class RenderFactory extends Core {
 		this._containerWidgets = {}
 		this._scaleX = 1;
 		this._scaleY = 1;
+		this._componentClassCache = {}
 		this.hash = null;
 		this.logger.log(2, "constructor", "exit > " + this.mode);
 	}
@@ -504,13 +504,6 @@ export default class RenderFactory extends Core {
 
 	_createRadioGroup(parent, model) {
 		var widget = this.$new(RadioGroup);
-		widget.placeAt(parent);
-		this._uiWidgets[model.id] = widget;
-	}
-
-	_createChatBot(parent, model) {
-		var widget = this.$new(ChatBot);
-		widget.setMode(this.mode)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

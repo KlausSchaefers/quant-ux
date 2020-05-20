@@ -12,7 +12,7 @@ import touch from "dojo/touch";
 import UIWidget from "core/widgets/UIWidget";
 
 export default {
-  name: "Label",
+  name: "Button",
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
@@ -61,7 +61,7 @@ export default {
     },
 
     setValue() {
-    
+
     },
 
     getState() {

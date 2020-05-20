@@ -137,8 +137,8 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "unit" */ './unit/SVGEditorTest.vue')
     },
     {
-      path: '/test/Figma.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/FigmaTest.vue')
+      path: '/test/Fast.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/FastRenderTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',

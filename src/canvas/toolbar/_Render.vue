@@ -1413,9 +1413,8 @@ export default {
 								 * somehow delay the setting of the scroll a little
 								 * so it is correctly rendered.
 								 */
-								let me = this;
-								setTimeout(function(){
-									me.propertiesCntr.scrollTop = state.scrollTop;
+								requestAnimationFrame(() => {
+									this.propertiesCntr.scrollTop = state.scrollTop;
 								},1);
 							}
 							this.widgetViewModeBtn.setValue(state.view);

@@ -19,10 +19,10 @@ export default {
 
 				this.beforeRender();
 				this.model = model;
-							this.cleanUpFast();
+				this.cleanUpFast();
 				this.renderCanvas();
 				this.renderChangeCounter = 0
-
+				this.renderStartTime = new Date().getTime()
 
 				/**
 				 * start adding or updating stuff
@@ -99,7 +99,16 @@ export default {
 					setTimeout(lang.hitch(this,"renderAnimation"),1);
 				}
 
-				this.logger.log(0,"renderFlowViewFast", "exit > " + this.renderChangeCounter);
+				this.logger.log(1,"renderFlowViewFast", "exit > " + this.renderChangeCounter , (new Date().getTime() - this.renderStartTime) +'ms');
+			},
+
+			countNodes (node) {
+				let result = 1;
+				var children = [...node.childNodes];
+				children.forEach(child => {
+					result += this.countNodes(child)
+				})
+				return result;
 			},
 
 			updateScreen (screen) {
