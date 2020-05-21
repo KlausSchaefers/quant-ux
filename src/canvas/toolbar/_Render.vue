@@ -1218,7 +1218,7 @@ export default {
 			this.screenParentsDiv = parent;
 		},
 
-		_renderScreenDownload:function () {
+		_renderScreenDownload () {
 
 			var parent = this.createSection( "Export");
 
@@ -1231,20 +1231,17 @@ export default {
 			this.screenDownLoad.setJwtToken(this.jwtToken);
 			this.screenDownLoad.placeAt(content);
 
-
 			this.screenExport = this.$new(CSSExporter);
+			this.screenExport.setHash(this.hash);
 			this.screenExport.setModel(this.model);
 			this.screenExport.placeAt(content);
-
 
 			this.properties.appendChild(parent);
 			this.screenDownloadDiv = parent;
 
 		},
 
-
-
-		_renderScreen:function(){
+		_renderScreen (){
 
 			var parent = this.createSection( "Settings");
 

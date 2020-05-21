@@ -11,7 +11,8 @@
 
 .MatcCSSDialogCntr pre{
 	border:none;
-	background: none;
+  background: none;
+  border-radius: 4px;
 }
 
 
@@ -20,7 +21,6 @@
   width:1000px;
   height:500px;
   overflow: auto;
-  background: #2b2b2b;
   margin-top: 10px;
 }
 
@@ -36,6 +36,7 @@
     overflow: auto;
     border:0px;
     font-size: 10px;
+    border-radius: 4px;
 }
 
 .MatcCodePreview{
@@ -49,7 +50,7 @@
 
 .MatcCode.MatcToolbarTabContainer{
   padding: 0px;
-  padding-bottom: 5px; 
+  padding-bottom: 5px;
 }
 
 .MatcCodeIframe{
@@ -71,6 +72,7 @@
 
 .MatcCode code{
     font-size: 10px;
+    border-radius: 4px;
 }
 /*
 Darcula color scheme from the JetBrains family of IDEs
@@ -83,16 +85,16 @@ Darcula color scheme from the JetBrains family of IDEs
     padding: 0.5em;
     background: #2b2b2b;
   }
-  
+
   .hljs {
     color: #bababa;
   }
-  
+
   .hljs-strong,
   .hljs-emphasis {
     color: #a8a8a2;
   }
-  
+
   .hljs-bullet,
   .hljs-quote,
   .hljs-link,
@@ -101,16 +103,16 @@ Darcula color scheme from the JetBrains family of IDEs
   .hljs-literal {
     color: #6896ba;
   }
-  
+
   .hljs-code,
   .hljs-selector-class {
     color: #a6e22e;
   }
-  
+
   .hljs-emphasis {
     font-style: italic;
   }
-  
+
   .hljs-keyword,
   .hljs-selector-tag,
   .hljs-section,
@@ -119,15 +121,15 @@ Darcula color scheme from the JetBrains family of IDEs
   .hljs-variable {
     color: #cb7832;
   }
-  
+
   .hljs-params {
     color: #b9b9b9;
   }
-  
+
   .hljs-string {
     color: #6a8759;
   }
-  
+
   .hljs-subst,
   .hljs-type,
   .hljs-built_in,
@@ -141,10 +143,9 @@ Darcula color scheme from the JetBrains family of IDEs
   .hljs-addition {
     color: #e0c46c;
   }
-  
+
   .hljs-comment,
   .hljs-deletion,
   .hljs-meta {
     color: #7f7f7f;
   }
-  

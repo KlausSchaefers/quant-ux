@@ -610,6 +610,12 @@ export default class Core extends Evented {
         }
     }
 
+    getCallbacks(widget) {
+        if( widget && widget.props && widget.props.callbacks) {
+            return widget.props.callbacks;
+        }
+    }
+
     getChanges(objOld, objNew, parentPath) {
 
         var changes = [];
