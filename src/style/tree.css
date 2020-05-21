@@ -30,7 +30,7 @@
 .MatcTreeItemLabel {
   font-weight: 400;
   font-size: 12px;
-  padding: 5px 0;
+  padding: 5px 0px 0px 10px;
   cursor: pointer;
 }
 
@@ -45,7 +45,7 @@ input.MatcTreeItemLabel {
 }
 
 .MatcTree ul li{
-  width: calc(100% - 10px);
+  width: calc(100% - 20px);
   margin-left: 15px;
 }
 

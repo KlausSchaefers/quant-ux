@@ -10,11 +10,11 @@
 							</span>
 						</div>
 						<div class=" MatcToolbarSectionContent">
-							<Tree 
-								:value="tree" 
+							<Tree
+								:value="tree"
 								@open="onOpen"
-								@select="onSelect" 
-								@changeLabel="onChangeLabel" 
+								@select="onSelect"
+								@changeLabel="onChangeLabel"
 								@dnd="onDnd"/>
 						</div>
 					</div>
@@ -35,8 +35,8 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-            sections: [], 
-            screenListeners: {}, 
+            sections: [],
+            screenListeners: {},
 			collapsed: {},
 			openNodes: {},
 			trees: [],
@@ -49,17 +49,17 @@ export default {
     methods: {
       	postCreate (){
 			this.logger = new Logger("LayerList");
-			this.logger.log(-1,"constructor", "entry > " + this.mode);	
+			this.logger.log(-1,"constructor", "entry > " + this.mode);
 		},
-		
+
 		setController (c){
 			this.controller = c;
 		},
-		
+
 		setCanvas (c){
 			this.canvas = c;
 		},
-		
+
 		setToolbar (t) {
 			this.toolbar = t;
 		},
@@ -86,7 +86,7 @@ export default {
 
 		onSelect (ids) {
 			this.logger.log(-1, "onSelect", "entry > ", ids);
-			
+
 			if (ids.length === 1) {
 				let node = this.nodes[ids[0]]
 				if (node) {
@@ -106,11 +106,11 @@ export default {
 				if (this.canvas) {
 					this.canvas.onMutliSelected(ids, true);
 				}
-			} 
+			}
 		},
 
 		onChangeLabel (id, txt) {
-			this.logger.log(1, "onChangeLabel", "entry > ", id + ': ' + txt);	
+			this.logger.log(1, "onChangeLabel", "entry > ", id + ': ' + txt);
 			if (this.toolbar && this.controller) {
 				let node = this.nodes[id]
 				if (node) {
@@ -131,7 +131,7 @@ export default {
 
 		onDnd (from, to) {
 			this.logger.log(-1, "onDnd", "entry > ", from + ' -> ' + to);
-			
+
 			let fromNode = this.nodes[from]
 			let toNode = this.nodes[to]
 			if (fromNode && toNode) {
@@ -160,18 +160,18 @@ export default {
 				}
 			}
 		},
-		
+
 		render (model){
 			this.logger.log(2,"render", "render > ", model);
 			this.model = model;
 			this.createNestedModel(model);
 		},
-		
-	
+
+
 		createNestedModel (model){
 			var result = [];
 			this.nodes = {}
-			
+
 			// 1) Build group lookup
 			let parentGroups = {}
 			for(let id in model.groups){
@@ -188,12 +188,12 @@ export default {
 				}
 			}
 
-			// 
-		
+			//
+
 			// build a tree for each screen
 			for(let id in model.screens){
 				let screen = model.screens[id];
-					
+
 				let tree = {
 					name: screen.name,
 					id: screen.id,
@@ -232,10 +232,10 @@ export default {
 						} else {
 							let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
 							tree.children.push(node)
-						}	
-					}				
+						}
+					}
 				}
-				result.push(tree)				
+				result.push(tree)
 			}
 
 			/**
@@ -253,7 +253,7 @@ export default {
 					widgets[widget.id] = widget
 				}
 			}
-			return this.getOrderedWidgets(widgets).reverse();	
+			return this.getOrderedWidgets(widgets).reverse();
 		},
 
 		getOrCreateMaster (masterScreen, screenId, masterNodes, tree, widget) {
@@ -270,7 +270,7 @@ export default {
 			 * Check if we have to create a group node, or can recycle one
 			 */
 			if (!groupNodes[group.id]){
-				
+
 
 				/**
 				 * Check if we have to create parent groups
@@ -326,7 +326,7 @@ export default {
 			this.lastNode = node
 			return node;
 		},
-	
+
 		getCloseIcon (box) {
 			if (box.type == "Master") {
 				return "mdi mdi-content-duplicate";
@@ -340,7 +340,7 @@ export default {
 			}
 			return false
 		},
-		
+
 		getNodeIcon (box){
 			if (box.type == "Master") {
 				return "mdi mdi-content-duplicate";
@@ -411,11 +411,11 @@ export default {
 		setSelectedWidget (){
 			console.warn('setSelectedWidget() DEPRCATED', new Error().stack)
 		},
-		
+
 		setSelectedGroup (){
 			console.warn('setSelectedGroup() DEPRCATED', new Error().stack)
 		}
-	}, 
+	},
 	watch: {
 		value (v) {
 			this.render(v)

@@ -1,5 +1,5 @@
 /****************************************************
- * LoginPage 
+ * LoginPage
  ****************************************************/
 .MatcLoginPage {
 	height: 100%;
@@ -8,14 +8,14 @@
 .MatcLoginPageContainer {
 	position: fixed;
 	padding: 40px 40px;
-    line-height: 2;
-    width: 400px;
+	line-height: 2;
+	width: 400px;
 	text-align: left;
 	background: #fefefe;
-    border: 1px solid rgba(255,255,255,1);
-    color: #333;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0, 0.15);
+	border: 1px solid rgba(255,255,255,1);
+	color: #333;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0,0,0, 0.15);
 	transform: translateY(-50%) translateX(-200px);
 	top:50%;
 	left:50%;
@@ -25,7 +25,19 @@
 	margin-top: 50px;
 }
 
+.MatcLoginPageContainer .MatcToolbarTabs{
+	text-align: center;
+	margin-bottom: 20px;
+}
 
+.MatcLoginPageContainer .MatcToolbarTabs a {
+	border-bottom-width: 2px;
+	margin: 0px 5px;
+}
+
+.MatcLoginPageContainer .MatcToolbarTabs a:HOVER {
+	color: #1973e8;
+}
 
 body.MatcPublic{
 	background: #eee;
@@ -36,13 +48,13 @@ body.MatcTestMobile{
 }
 
 .MatcTest{
-	
+
 }
 
 /****************************************************
- * CanvasComment 
+ * CanvasComment
  ****************************************************/
- 
+
 .MatcCanvasComment{
     left: 0;
     position: absolute;
@@ -90,7 +102,7 @@ body.MatcTestMobile{
 
 .MatcCanvasCommentIcon div{
 	width: 100%;
-	text-align: center;	
+	text-align: center;
 }
 
 .MatcCanvasCommentFooter{
@@ -152,7 +164,7 @@ body.MatcTestMobile{
  	color:#333;
  	transition:all 0.3s;
     border-radius: 50%;
-    
+
     font-size: 24px;
     height: 50px;
     right: 20px;

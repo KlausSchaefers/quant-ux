@@ -1,7 +1,11 @@
 <template>
     <div class="MatcLoginPage MatcSimulatorSplash MactMainGradient">
         <div class="MatcLoginPageContainer">
-            <div>
+             <div class="MatcToolbarTabs MatcToolbarTabsBig">
+                   <a :class="{'MatcToolbarTabActive': tab === 'login'}" @click="tab = 'login'">Login</a>
+                   <a :class="{'MatcToolbarTabActive': tab === 'signup'}" @click="tab = 'signup'">Sign Up</a>
+             </div>
+            <div v-if="tab === 'login'">
                 <div class=" form-group">
                     <label class="">Email</label>
                     <input class=" form-control input-lg" placeholder="Your email" type="text" v-model="email">
@@ -13,6 +17,22 @@
                 </div>
                 <div class="MatcButtonBar">
                     <a class=" MatcButton" @click="login">Login</a>
+                    <span class="MatcErrorLabel" v-if="errorMessage">{{errorMessage}}</span>
+                </div>
+            </div>
+
+            <div v-if="tab == 'signup'">
+                <div class=" form-group">
+                    <label class="">Email</label>
+                    <input class=" form-control input-lg" placeholder="Your email" type="text" v-model="email">
+                </div>
+
+                <div class=" form-group has-feedback">
+                    <label class="">Password</label>
+                    <input class=" form-control input-lg" placeholder="Your password" type="password" v-model="password" @keyup.enter="signup">
+                </div>
+                <div class="MatcButtonBar">
+                    <a class=" MatcButton" @click="signup">SignUp</a>
                     <span class="MatcErrorLabel" v-if="errorMessage">{{errorMessage}}</span>
                 </div>
             </div>
@@ -32,7 +52,8 @@ export default {
     return {
         email: '',
         password: '',
-        errorMessage: ''
+        errorMessage: '',
+        tab: 'login'
     }
   },
   watch: {
@@ -45,18 +66,45 @@ export default {
   },
   methods: {
       async login () {
-            this.logger.info('login', 'enter ', this.email)
-            var result = await Services.getUserService().login({
-                email:this.email,
-                password: this.password
-            })
-            if (result.type == "error") {
-                this.$root.$emit("Error", "Wrong login credentials")
-                this.errorMessage = "Login is wrong"
+        this.logger.info('login', 'enter ', this.email)
+        var result = await Services.getUserService().login({
+            email:this.email,
+            password: this.password
+        })
+        if (result.type == "error") {
+            this.$root.$emit("Error", "Wrong login credentials")
+            this.errorMessage = "Login is wrong"
+        } else {
+            this.$emit('login', result);
+            this.$root.$emit('UserLogin', result)
+        }
+      },
+      async signup() {
+        this.logger.info('login', 'signup ', this.email)
+
+        if (this.password.length < 6) {
+            this.$root.$emit("Error", "Password requires 6 characters")
+            this.errorMessage = "Password too short"
+            return;
+        }
+
+        var result = await Services.getUserService().signup({
+            email:this.email,
+            password: this.password,
+            tos: true
+        })
+        if (result.type == "error") {
+            if (result.errors.indexOf("user.email.not.unique") >= 0) {
+                this.$root.$emit("Error", "Email is taken")
+                this.errorMessage = "Email is taken"
             } else {
-                this.$emit('login', result);
-                this.$root.$emit('UserLogin', result)
+                this.$root.$emit("Error", "Password to short")
+                this.errorMessage = "Password too short"
             }
+        } else {
+            this.$emit('login', result);
+            this.$root.$emit('UserLogin', result)
+        }
       }
   },
   async mounted() {

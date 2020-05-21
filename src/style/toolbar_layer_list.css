@@ -10,6 +10,10 @@
 	display: none;
 }
 
+.MatcToolbar .MatcToolbarLayerList .mdi {
+
+}
+
 .MatcToolbarLayerListScreenCntr{
 }
 
@@ -33,7 +37,7 @@
 
 .MatcToolbarLayerList.MatcToobarPropertiesSection{
 	border-top:1px solid #1a1f23;
-} 
+}
 
 
 .MatcToolbarLayerList .MatcToolbarSection {
@@ -57,7 +61,7 @@
 }
 
 .MatcLayerListDragOver{
-	border-top:3px solid #1973e8; 
+	border-top:3px solid #1973e8;
 }
 
 
