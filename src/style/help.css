@@ -103,3 +103,14 @@
     padding:2px 4px;
     font-size: 14px;
 }
+
+.MatcHelp ol{
+    list-style: circle;
+    padding: 10px;
+}
+
+.MatcHelp ol li{
+    list-style-type: circle;
+    margin: 10px;
+    padding: 0;
+}
