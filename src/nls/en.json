@@ -1,44 +1,152 @@
 {
     "title": "Quant-UX",
+    "header": {
+        "my-prototypes": "My Prototypes",
+        "my-account": "My Account",
+        "logout": "Logout"
+    },
+    "common": {
+        "register": "Please register to save changes...",
+        "guest": "Guest",
+        "loading": "Loading...",
+        "tableAction": "Action"
+    },
+    "btn": {
+        "login": "Login",
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete": "Delete",
+        "download": "Download",
+        "edit": "Edit",
+        "post": "Post",
+        "close": "Close"
+    },
+    "dialog": {
+        "login": {
+            "password": {
+                "label": "Password",
+                "placeholder": "Your password",
+                "reset": "Forgot Password?",
+                "error": "The password must have 6 characters"
+            },
+            "email": {
+                "placeholder": "Your email",
+                "error": "Please enter your email"
+            },
+            "btn": {
+                "reate": "Create Free Account"
+            },
+            "tos": {
+                "1": "I have read the",
+                "2": "Terms of Service &amp; Privacy Policy",
+                "3": ".",
+                "error": "You must accept the terms of service &amp; privacy policy!"
+            },
+            "privacy": {
+                "1": "I have read the ",
+                "2": "Privacy Notice",
+                "error": "You must accept the privacy notice"
+            }
+        }
+    },
+    "test": {
+        "welcome": {
+            "headline": "Welcome!",
+            "intro": {
+                "1": "You were invited for a usability test of the",
+                "2": "application.",
+                "tasks": "You can try out the prototype and perform certain tasks. When you click on <b>Show Tasks</b> button, you will receive detailed instructions.",
+                "no-tasks": "You can try out the prototype by clicking on the <b>Start Prototype</b> button. ",
+                "privacy": "Please be aware that your interaction will be recored to make the design better. We do not store any personal information about you."
+            },
+            "next": "Show Tasks",
+            "start": "Start Prototype",
+            "privacy": "This is a usability test and your interaction will be stored to make the design better. We do not store any personal information about you."
+        },
+        "task": {
+            "headline": "Tasks",
+            "description": "In the scope of this usability test you are kindly requested to perform the tasks listed below. Don't worry if you can not fulfill all tasks. This is just a sign that the prototype needs further improvements. The tasks are:",
+            "footer": "You can try out the prototype by clicking on the <b>Start Prototype</b> button."
+        },
+        "qr": {
+            "headline": "Scan the QR code with your mobile device."
+        }
+    },
 
-    "common.register": "Please register to save changes...",
-    "common.guest": "Guest",
-    "common.loading": "Loading...",
+    "user": {
+        "retire": {
+            "hi": "Hi ",
+            "msg": "are you sure that you want to <b>delete</b> your account? You will loose all your data.",
+            "cusoon": "Thanks for using Quant-UX. We hope to see you soon again."
+        }
+    },
+    "app": {
+        "error": {
+            "server-offline-title": "Ooops",
+            "server-offline-msg": "You have been gone for more than 30 minutes. To continue working, please log in again."
+        }
+    },
+    "applist": {
+        "add": "Create new Prorotype",
+        "sign-in": "Sign up to create a new Prototype"
+    },
+    "analytics": {
+        "header": {
+            "user": "User",
+            "duration": "Test Duration",
+            "coverage": "Test Coverage"
+        }
 
-    "main.menu.prototypes": "MY PROTOTYPES",
-    "main.menu.examples": "EXAMPLES",
-    "main.menu.pricing": "PRICING",
-    "main.menu.features": "FEATURES",
-    "main.menu.signup": "SIGNUP FOR FREE",
-    "main.menu.login": "LOGIN",
-    "main.menu.account": "MY ACCOUNT",
-    "main.menu.logout": "LOGOUT",
-    "main.menu.blog": "BLOG",
-
-    "btn.login": "Login",
-    "btn.cancel": "Cancel",
-    "btn.save": "Save",
-    "btn.delete": "Delete",
-    "btn.download": "Download",
-    "btn.edit": "Edit",
-    "btn.post": "Post",
-    "btn.close": "Close",
-
-    "dialog.login.password.label": "Password",
-    "dialog.login.password.placeholder": "Your password",
-    "dialog.login.password.reset": "Forgot Password?",
-    "dialog.login.password.error": "The password must have 6 characters",
-
-    "dialog.login.email.placeholder": "Your email",
-    "dialog.login.email.error": "Please enter your email",
-    "dialog.login.btn.create": "Create Free Account",
-    "dialog.login.tos.1": "I have read the",
-    "dialog.login.tos.2": "Terms of Service &amp; Privacy Policy",
-    "dialog.login.tos.3": ".",
-    "dialog.login.tos.error": "You must accept the terms of service &amp; privacy policy!",
-    "dialog.login.privacy.1": "I have read the ",
-    "dialog.login.privacy.2": "Privacy Notice",
-    "dialog.login.privacy.error": "You must accept the privacy notice",
+    },
+    "dashScreenList": {
+        "views": "Views",
+        "dwel": "Dwel Time",
+        "clicks": "Interactions",
+        "table-action": "Analyze"
+    },
+    "share": {
+        "Headline": "Share this app",
+        "Test": "Test",
+        "Comment": "Share & Comment",
+        "Embed": "Embed",
+        "Code": "Code Generation"
+    },
+    "notification": {
+        "more": "More..."
+    },
+    "dash": {
+        "perf": {
+            "scatter": {
+                "yLabel": "Interactions",
+                "xLabel": "Duration"
+            },
+            "dropoff": {
+                "xLabel": "Success Rate",
+                "step": "Step "
+            },
+            "details": {
+                "yLabel": "Interactions",
+                "yLabelEast": "Duration",
+                "xLabel": "Interactions | Duration",
+                "bottom25Label": "Interactions",
+                "bottom75Label": "Duration"
+            },
+            "tab": {
+                "scatter": "Scatter Plot",
+                "dropoff": "Drop Off",
+                "duration": "Duration",
+                "interactions": "Interactions",
+                "details": "Box Plot"
+            },
+            "hint": {
+                "scatter": "Each dot presents a successful user test. Select them to get more information.",
+                "session-msg": "To replay the session recording press ",
+                "session-play": "here"
+            },
+            "no-flow-title": "No FLow",
+            "no-flow-msg": "<p>Please define a flow with <b>more</b> than <b>two</b> steps.<br> Otherwise we cannot show details about the task performance.</p>"
+        }
+    },
 
     "testSettingsDescription": "Description",
     "testSettingsTasks": "Tasks",
@@ -93,88 +201,5 @@
     "videoTableEvents": "Events",
     "videoTableDate": "Date",
     "videoTableStatusNotPayed": "Blocked",
-    "videoTablePlanUpdateMsg": "To see all videos upgate your plan.",
-
-
-    "test.welcome.headline": "Welcome!",
-    "test.welcome.intro.1": "You were invited for a usability test of the",
-    "test.welcome.intro.2": "application.",
-    "test.welcome.intro.tasks": "You can try out the prototype and perform certain tasks. When you click on <b>Show Tasks</b> button, you will receive detailed instructions.",
-    "test.welcome.intro.no.tasks": "You can try out the prototype by clicking on the <b>Start Prototype</b> button. ",
-    "test.welcome.intro.privacy": "Please be aware that your interaction will be recored to make the design better. We do not store any personal information about you.",
-    "test.welcome.next": "Show Tasks",
-    "test.welcome.start": "Start Prototype",
-    "test.task.headline": "Tasks",
-    "test.task.description": "In the scope of this usability test you are kindly requested to perform the tasks listed below. Don't worry if you can not fulfill all tasks. This is just a sign that the prototype needs further improvements. The tasks are:",
-    "test.task.footer": "You can try out the prototype by clicking on the <b>Start Prototype</b> button.",
-    "test.qr.headline": "Scan the QR code with your mobile device.",
-    "test.welcome.privacy": "This is a usability test and your interaction will be stored to make the design better. We do not store any personal information about you.",
-
-    "app.error.server.offline.title": "Ooops",
-    "app.error.server.offline.msg": "You have been gone for more than 30 minutes. To continue working, please log in again.",
-
-
-    "tableAction": "Action",
-    "user.plan.error.confirm": "Please confirm...",
-    "user.plan.error.address": "Please enter a address...",
-    "user.plan.update.ok": "Your request was sent to our sales staff",
-    "user.plan.requested.msg": "We are processing your request. Please check your email for payment instructions.",
-    "user.plan.error.msg.team": "You need to upgrade your account to add more team members",
-    "user.plan.error.msg.apps": "You need to upgarde your account to create more prototypes",
-    "user.plan.error.msg.tasks": "You need to upgarde your account to create more tasks",
-    "user.plan.error.msg.test": "You need to upgarde your account to analyse all tests!",
-    "user.plan.error.msg.analytics": "You need to upgarde your account to analyse all tests!",
-    "user.retire.hi": "Hi ",
-    "user.retire.msg": "are you sure that you want to <b>delete</b> your account? You will loose all your data.",
-    "user.retire.cusoon": "Thanks for using Quant-UX. We hope to see you soon again.",
-
-
-    "planSelector.requested.msg": "Waiting for Payment...",
-    "planSelector.paidUntil.msg": "Booked until ",
-
-    "team.plan.add.plan.error": "You plan does not allow to add more users.",
-    "team.plan.add.plan.upgrade": "Upgrade plan!",
-
-    "applist.add.msg": "Create new Prorotype",
-    "applist.upgrade.msg": "Upgrade to create more prototypes",
-
-    "analytics.plan.update.msg": "You need to upgarde your account to analyse all tests!",
-    "analytics.header.user": "User",
-    "analytics.header.duration": "Test Duration",
-    "analytics.header.coverage": "Test Coverage",
-
-    "dashScreenList.views": "Views",
-    "dashScreenList.dwel": "Dwel Time",
-    "dashScreenList.clicks": "Interactions",
-    "dashScreenList.table.action": "Analyze",
-
-    "share.Headline": "Share this app",
-    "share.Test": "Test",
-    "share.Comment": "Share & Comment",
-    "share.Embed": "Embed",
-    "share.Code": "Code Generation",
-
-    "notification.more": "More...",
-
-    "dash.perf.scatter.yLabel": "Interactions",
-    "dash.perf.scatter.xLabel": "Duration",
-    "dash.perf.dropoff.xLabel": "Success Rate",
-    "dash.perf.dropoff.step": "Step ",
-    "dash.perf.details.yLabel": "Interactions",
-    "dash.perf.details.yLabelEast": "Duration",
-    "dash.perf.details.xLabel": "Interactions | Duration",
-    "dash.perf.details.bottom25Label": "Interactions",
-    "dash.perf.details.bottom75Label": "Duration",
-
-    "dash.perf.tab.scatter": "Scatter Plot",
-    "dash.perf.tab.dropoff": "Drop Off",
-    "dash.perf.tab.duration": "Duration",
-    "dash.perf.tab.interactions": "Interactions",
-    "dash.perf.tab.details": "Box Plot",
-    "dash.perf.tab.interactions": "Interactions",
-    "dash.perf.hint.scatter": "Each dot presents a successful user test. Select them to get more information.",
-    "dash.perf.hint.session.msg": "To replay the session recording press ",
-    "dash.perf.hint.session.play": "here",
-    "dash.perf.no.flow.title": "No FLow",
-    "dash.perf.no.flow.msg": "<p>Please define a flow with <b>more</b> than <b>two</b> steps.<br> Otherwise we cannot show details about the task performance.</p>"
+    "videoTablePlanUpdateMsg": "To see all videos upgate your plan."
 }

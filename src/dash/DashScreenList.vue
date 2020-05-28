@@ -1,16 +1,16 @@
 <template>
      <div class="MatcList MatcAppList">
-		<div class="row MatcMarginBottom"> 
+		<div class="row MatcMarginBottom">
 			<div class="col-md-8 ">
 				<h2>Screen Statistics
 				<a href="#help/analyze/screens.html" class="MatcHelpIcon"><span class="mdi mdi-help-circle"></span></a>
-				
+
 				</h2>
 			</div>
 			<div class="col-md-4 MatcRight">
 				<a class="MatcButton" data-dojo-attach-point="downloadBTN">
 				Download
-				</a> 
+				</a>
 				<a class="MatcButton MatcButtonToggle" data-dojo-attach-point="detailsBtn">
 				Details
 				</a>
@@ -40,18 +40,18 @@ export default {
     mixins:[AppList, Layout, DojoWidget],
     data: function () {
         return {
-            detailed: false, 
+            detailed: false,
             hasSearch: false
         }
     },
     components: {},
     methods: {
         initListeners:function(){
-			
+
 			this.own(on(this.detailsBtn, touch.press, lang.hitch(this,"toggleDetail")));
 			this.own(on(this.downloadBTN, touch.press, lang.hitch(this,"downloadCSV")));
 		},
-		
+
 		init:function(){
 			if(this.detailed){
 				css.add(this.detailsBtn, "MatcButtonActive");
@@ -59,23 +59,23 @@ export default {
 				css.remove(this.detailsBtn, "MatcButtonActive");
 			}
 		},
-		
+
 		initSearch:function(){
-			
+
 		},
-		
+
 		toggleDetail:function(){
 			this.detailed = !this.detailed;
-			this.render(this.value);	
+			this.render(this.value);
 		},
-		
+
 		downloadCSV:function(){
 			console.debug('downlaod')
-			
-			var csvContent="Name,Clicks(ABS),Clicks(%),Views(ABS),Views(%),Duration(AVG),Duration(%)"; 
-			
+
+			var csvContent="Name,Clicks(ABS),Clicks(%),Views(ABS),Views(%),Duration(AVG),Duration(%)";
+
 			var screens = this.value;
-			for(var i=0; i < screens.length; i++){	
+			for(var i=0; i < screens.length; i++){
 				csvContent +="\n";
 				var screen = screens[i];
 				csvContent += screen.name + ",";
@@ -86,8 +86,8 @@ export default {
 				csvContent += this.formatTime(screen.durationAvg) + ",";
 				csvContent += Math.round(screen.duration*100) + "%";
 			}
-			
-	
+
+
 			var blob = new Blob([csvContent],{
 			    type: "text/csv;charset=utf-8;"
 			});
@@ -96,15 +96,15 @@ export default {
 		    } else {
 		    	 var elem = window.document.createElement('a');
 		         elem.href = window.URL.createObjectURL(blob);
-		         elem.download = 'Screens.csv';        
+		         elem.download = 'Screens.csv';
 		         document.body.appendChild(elem)
-		         elem.click();        
+		         elem.click();
 		         document.body.removeChild(elem);
 		    }
 		},
-		
+
 		render:function(list){
-			
+
 			if(this.widgets){
 				for(var id in this.widgets){
 					this.widgets[id].destroy();
@@ -112,16 +112,16 @@ export default {
 			}
 			this.cleanUp();
 			this.init();
-			this.widgets = [];		
-			
-			this.renderTable(list);			
-		
+			this.widgets = [];
+
+			this.renderTable(list);
+
 		},
-		
+
 		renderTable:function(screens){
-				
+
 			var temp =[];
-			for(var i=0; i < screens.length; i++){	
+			for(var i=0; i < screens.length; i++){
 				var screen = screens[i];
 				temp.push({
 					id : screen.id,
@@ -131,7 +131,7 @@ export default {
 					duration : this.formatTime(screen.durationAvg) + ' <span class="MatcDashTableTdHint">( ' + Math.round(screen.duration*100) + "% )</span>",
 				});
 			}
-	
+
 			var appID = this.model.id;
 			this.container.innerHTML ="";
 			var table = new Table();
@@ -153,117 +153,117 @@ export default {
 					"query" :"duration",
 					"label": this.getNLS("dashScreenList.dwel")
 				}
-				
+
 			]);
-			
+
 			var me = this;
 			table.setActions([
 				{
 					"render" : function(node, screen, i){
-						
+
 						var group = document.createElement("div");
 						css.add(group, "MatcButtonGroup");
 						node.appendChild(group);
-						
-						
+
+
 						var play = document.createElement("a");
 						css.add(play, " MatcButton ");
-						play.innerHTML= me.getNLS("dashScreenList.table.action");
-						
+						play.innerHTML= me.getNLS("dashScreenList.table-action");
+
 						if(me.mode == "public"){
 							play.href= "#/examples/" +appID + "/analytics/workspace/" +screen.id+ ".html";
 						} else {
 							play.href= "#/apps/" +appID + "/analytics/workspace/" +screen.id+ ".html";
 						}
-						
+
 						group.appendChild(play);
 
-								
+
 
 					}
 				}
 			]);
-	
+
 			table.setValue(temp);
-			
+
 			table.placeAt(this.container);
 		},
-		
+
 		setEvents:function(events){
 			var df = new DataFrame(events);
 			df.sortBy("time");
 			this.screenGrouping = df.groupBy("screen");
 		},
-		
+
 		setValue:function(value){
 			this.model = value;
 			this.value = this.getScreens();
-			this.render(this.value);	
+			this.render(this.value);
 		},
-		
+
 		setMethod:function(phone, screen){
 			if(this.mode == "public"){
 				phone.href ="#/examples/" +this.model.id + "/analytics/workspace/" +screen.id + ".html";
-				
+
 			} else {
 				phone.href ="#/apps/" +this.model.id + "/analytics/workspace/" +screen.id+ ".html";
-				
+
 			}
 		},
-		
+
 		createScreenWidget:function(item){
-			
+
 			var heatmap =  new Heatmap();
-			
+
 			var screenDF = this.screenGrouping.get(item.id);
-			if(screenDF){	
+			if(screenDF){
 				var screenEvents = screenDF.as_array();
 				heatmap.setValue(screenEvents);
 			}
-			
+
 			return heatmap;
 		},
-		
-		
+
+
 		renderDescription:function(app, item){
-					
-		
+
+
 			var div = document.createElement("div");
 			css.add(div, "MatcDashScreenListWidgets");
 			item.appendChild(div);
-			
+
 			var des = this.getDescription(app);
 			var p =document.createElement("p");
 			p.innerHTML = des;
 			div.appendChild(p);
-			
+
 
 			this.renderRow(this.getNLS("dashScreenList.views"),app.views, div );
-			
+
 			this.renderRow(this.getNLS("dashScreenList.dwel"),app.duration, div );
-			
+
 			this.renderRow(this.getNLS("dashScreenList.clicks"),app.clicks, div );
-			
-		
+
+
 		},
-		
+
 		renderRow:function(label, value, div){
-			
+
 			var row = document.createElement("div");
 			css.add(row,"VommondProgressRow");
 			div.appendChild(row);
-			
+
 			var lbl = document.createElement("span");
 			lbl.innerHTML=label;
 			row.appendChild(lbl);
-			
+
 			var clicks = new ProgressBar();
 			clicks.color = this.PROGRESS_COLOR;
 			clicks.placeAt(row);
 			clicks.setValue(value);
-			
+
 		},
-		
+
 		getDescription:function(screen){
 			var des = "";
 			if(screen.name){
@@ -271,7 +271,7 @@ export default {
 			}
 			return des;
 		},
-		
+
 		addDesciption:function(screen, prop, label){
 			var value =0;
 			if(screen[prop]){
@@ -279,10 +279,10 @@ export default {
 			}
 			return label + ' : <i>' + value +  '</i>  ';
 		},
-		
-		
+
+
 		onRenderDone:function(value){
-			
+
 			for(var i=0; i< value.length; i++){
 				var screen = value[i];
 				if(this.widgets[i]){
@@ -290,7 +290,7 @@ export default {
 				}
 			}
 		}
-    }, 
+    },
     mounted () {
     }
 }

@@ -6,18 +6,18 @@
 
             <div class="row" v-if="user && user.role !== 'guest'">
               <div class="col-md-7">
-                <a class="MatcMainMenuItem" href="#/">MY PROTOTYPES</a>
+                <a class="MatcMainMenuItem" href="#/">{{$t('header.my-prototypes')}}</a>
               </div>
               <div class="col-md-5 MatcRight">
-                <a class="MatcMainMenuItem" href="#/my-account.html">MY ACCOUNT</a>
-                <a class="MatcMainMenuItem MatcRightMenuLast" @click="logout">LOGOUT</a>
+                <a class="MatcMainMenuItem" href="#/my-account.html">{{$t('header.my-account')}}</a>
+                <a class="MatcMainMenuItem MatcRightMenuLast" @click="logout">{{$t('header.logout')}}</a>
               </div>
             </div> <!-- Logged in user -->
           </div> <!-- Desktop -->
           <div class="visible-sm-block visible-xs-block">
              <div class="row" v-if="user && user.role !== 'guest'">
                 <div class="col-md-12">
-                  <a class="MatcMainMenuItem" href="#/my-apps.html">MY PROTOTYPES</a>
+                  <a class="MatcMainMenuItem" href="#/my-apps.html">{{$t('header.my-prototypes')}}</a>
                 </div>
              </div>
           </div>
@@ -37,7 +37,7 @@ export default {
   mixins: [],
   props: ['user'],
   data: function() {
-    return {     
+    return {
     }
   },
   watch: {

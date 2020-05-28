@@ -276,15 +276,11 @@ export default {
       css.add(p, "MatcHint MatcCenter MatcListItemDescription");
 
       if (this.pub) {
-        p.innerHTML = "Sign up to create a new Prototype";
+        p.innerHTML = this.getNLS("applist.sign-in");
         phone.href = "#/signup-and-create-app.html";
       } else {
-        p.innerHTML = this.getNLS("applist.add.msg");
+        p.innerHTML = this.getNLS("applist.add");
         phone.href = "#/create-app.html";
-        if (!this.planCanCreate()) {
-          p.innerHTML = this.getNLS("applist.upgrade.msg");
-          phone.href = "#/upgrade-plan/apps.html";
-        }
       }
 
       item.appendChild(p);

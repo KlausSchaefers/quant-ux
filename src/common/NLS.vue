@@ -16,10 +16,17 @@ export default {
   components: {},
   methods: {
     getNLS (key) {
-        if (nls[key]) {
-            return nls[key]
+      if (this.$i18n) {
+        let nls = this.$i18n.t(key)
+        if (nls != null && nls != undefined) {
+          return nls
         }
-        return key
+      }
+      console.warn('getNLS() Old key', key)
+      if (nls[key]) {
+          return nls[key]
+      }
+      return key
     }
   },
   mounted() {

@@ -35,7 +35,7 @@ export default {
     postCreate: function() {
       this.logger = new Logger("Table");
       this.logger.log(2, "constructor", "entry");
-      this.actionLabel = this.getNLS("tableAction");
+      this.actionLabel = this.getNLS("common.tableAction");
     },
 
     setColumns: function(columns) {
