@@ -4,6 +4,7 @@
 </template>
 <script>
 import nls from '../nls/en.json'
+import JSONPath from 'core/JSONPath'
 
 export default {
   name: "NLS",
@@ -17,14 +18,15 @@ export default {
   methods: {
     getNLS (key) {
       if (this.$i18n) {
-        let nls = this.$i18n.t(key)
-        if (nls != null && nls != undefined) {
-          return nls
+        let result = this.$i18n.t(key)
+        if (result != null && result != undefined) {
+          return result
         }
       }
       console.warn('getNLS() > could not find key or not i18n', key)
-      if (nls[key]) {
-          return nls[key]
+      let result = JSONPath.get(nls, key)
+      if (result) {
+        return result
       }
       return key
     }

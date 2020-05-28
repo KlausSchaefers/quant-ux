@@ -10,7 +10,23 @@
         "guest": "Guest",
         "loading": "Loading..."
     },
-    "table-action": "Action",
+    "toolbar": {
+        "menu": {
+            "start": "Start Simulator",
+            "settings": "Settings",
+            "shortcuts": "Keyboard Shortcuts",
+            "share": "Share",
+            "export": "Export",
+            "change-screen-size": "Change Screen Size",
+            "save-as": "Save As",
+            "exit": "Exit"
+        }
+    },
+
+    "table": {
+        "action": "Action"
+    },
+    "table-action": "Action X",
     "btn": {
         "login": "Login",
         "cancel": "Cancel",

@@ -220,18 +220,18 @@ export default {
 
 
 		getMainMenu   () {
+
 			var options = [
- 			  {label :"Start Simulator", callback:lang.hitch(this, "startSimilator") },
-			  {label :"Settings", callback:lang.hitch(this, "onShowSettings")},
-			  {label :"Keyboard Shortcuts", callback:lang.hitch(this, "showShortCuts")},
-			  // {label :"Help", callback:lang.hitch(this, "showHelp")},
-			  {label :"Share", callback:lang.hitch(this, "showSharing")},
-			  {label :"Export", callback:lang.hitch(this, "showDownloadDialog")},
+ 			  {label : this.$i18n.t('toolbar.menu.start'), callback:lang.hitch(this, "startSimilator") },
+			  {label : this.$i18n.t('toolbar.menu.settings'), callback:lang.hitch(this, "onShowSettings")},
+			  {label : this.$i18n.t('toolbar.menu.shortcuts'), callback:lang.hitch(this, "showShortCuts")},
+			  {label : this.$i18n.t('toolbar.menu.share'), callback:lang.hitch(this, "showSharing")},
+			  {label : this.$i18n.t('toolbar.menu.export'), callback:lang.hitch(this, "showDownloadDialog")},
 			  {css:"MatcToolbarPopUpLine"},
-			  {label :"Change Screen Size", callback:lang.hitch(this, "onChangeScreenSize")},
-			  {label :"Save As", callback:lang.hitch(this, "onSaveAs")},
+			  {label : this.$i18n.t('toolbar.menu.change-screen-size'), callback:lang.hitch(this, "onChangeScreenSize")},
+			  {label :this.$i18n.t('toolbar.menu.save-as'), callback:lang.hitch(this, "onSaveAs")},
 			  {css:"MatcToolbarPopUpLine"},
-			  {label :"Exit", callback:lang.hitch(this, "onExit")},
+			  {label : this.$i18n.t('toolbar.menu.exit'), callback:lang.hitch(this, "onExit")},
 			]
 			return options
 		},
