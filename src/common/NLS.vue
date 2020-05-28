@@ -22,7 +22,7 @@ export default {
           return nls
         }
       }
-      console.warn('getNLS() Old key', key)
+      console.warn('getNLS() > could not find key or not i18n', key)
       if (nls[key]) {
           return nls[key]
       }

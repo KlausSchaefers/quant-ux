@@ -282,7 +282,7 @@ export default {
     showTaskFlow(node, task, model) {
       var d = new Dialog();
       var dialog = document.createElement("div");
-      css.add(dialog, "MatchSimulatorDialog");
+      css.add(dialog, "MatchTaskRecorderDialog");
       var s = this.$new(TaskRecorder, { model: model, task: task, dialog: d });
       s.placeAt(dialog);
       d.popup(dialog, node);

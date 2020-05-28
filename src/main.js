@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 new Vue({
   router,
   i18n: new VueI18n({
-    locale: navigator.language,
+    locale: 'en',
     fallbackLocale: 'en',
     messages: {
       'en': require('./nls/en.json'),

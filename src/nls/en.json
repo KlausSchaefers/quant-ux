@@ -8,9 +8,9 @@
     "common": {
         "register": "Please register to save changes...",
         "guest": "Guest",
-        "loading": "Loading...",
-        "tableAction": "Action"
+        "loading": "Loading..."
     },
+    "table-action": "Action",
     "btn": {
         "login": "Login",
         "cancel": "Cancel",

@@ -90,6 +90,7 @@ export default {
 
       var cntr = this.db.div("MactCenter").build(this.container);
       var pos = this.resizeSimulatorContainer(this.model, cntr, 0.7);
+
       /**
        * hack because somehow the overflow is hidden
        */

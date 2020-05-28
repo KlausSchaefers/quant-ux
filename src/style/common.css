@@ -77,10 +77,10 @@ html{
   }
 
 
-  .MatcHidden{
+	.MatcHidden{
 	  display: none;
 	  opacity:0;
-  }
+	}
 
   .MatcCenter{
 	  text-align: center;
