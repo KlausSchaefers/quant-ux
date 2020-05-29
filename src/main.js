@@ -9,11 +9,11 @@ Vue.config.productionTip = false
 new Vue({
   router,
   i18n: new VueI18n({
-    locale: 'en',
+    locale: navigator.language,
     fallbackLocale: 'en',
     messages: {
       'en': require('./nls/en.json'),
-      'cn': require('./nls/cn.json'),
+      'zh-CN': require('./nls/cn.json'),
     }
   }),
   render: h => h(App)
