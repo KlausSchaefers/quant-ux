@@ -1,0 +1,23 @@
+.MatcLanguagePicker{
+  display: inline-block;
+  position: relative;
+
+  .MatcDropDownPopUp{
+    display: block;
+    left: auto;
+    right: 0px;
+    width: 150px;
+
+    a {
+      padding: 10px;
+      display: block;
+      color: #363636;
+      cursor: pointer;
+
+      &:hover{
+        color: #fff;
+        background: #1973e8;
+      }
+    }
+  }
+}

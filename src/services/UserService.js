@@ -6,6 +6,7 @@ class UserService extends AbstractService{
     constructor () {
         super()
         this.logger = new Logger('UserService')
+        this.language = 'en'
         this.GUEST = {
             id: -1,
             name: "Guest",
@@ -159,6 +160,21 @@ class UserService extends AbstractService{
         this.setTTL(u)
         this.user = u
         localStorage.setItem('quxUser', JSON.stringify(u));
+    }
+
+    setLanguage (langauge) {
+        this.language = langauge
+        localStorage.setItem('quxLanguage', this.language);
+    }
+
+    getLanguage () {
+        let s = localStorage.getItem('quxLanguage')
+        if (s) {
+            this.language = s
+        } else {
+            this.language = navigator.language
+        }
+        return this.language
     }
 
     contact (name, email, message) {

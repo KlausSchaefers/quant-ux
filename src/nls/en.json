@@ -8,7 +8,8 @@
     "common": {
         "register": "Please register to save changes...",
         "guest": "Guest",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "language-changed": "The language was changed"
     },
     "toolbar": {
         "menu": {
@@ -20,9 +21,14 @@
             "change-screen-size": "Change Screen Size",
             "save-as": "Save As",
             "exit": "Exit"
+        },
+        "simulate": "Simulate",
+        "group": "Group",
+        "sign-up": "Sign Up To Save",
+        "templates": {
+            "new": "New Template"
         }
     },
-
     "table": {
         "action": "Action"
     },
@@ -100,7 +106,24 @@
         "error": {
             "server-offline-title": "Ooops",
             "server-offline-msg": "You have been gone for more than 30 minutes. To continue working, please log in again."
+        },
+        "overview": {
+            "design": "Design",
+            "test": "Test",
+            "dash": "Dashbaord",
+            "heat": "Heat Maps",
+            "settings": "Settings",
+            "team": "Team",
+            "run-test": "Run Test",
+            "share": "Share"
         }
+    },
+    "canvas": {
+
+    },
+    "comments": {
+        "title": "Comments",
+        "post": "Post Comment"
     },
     "applist": {
         "add": "Create new Prorotype",

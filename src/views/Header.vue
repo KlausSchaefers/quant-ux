@@ -11,6 +11,7 @@
               <div class="col-md-5 MatcRight">
                 <a class="MatcMainMenuItem" href="#/my-account.html">{{$t('header.my-account')}}</a>
                 <a class="MatcMainMenuItem MatcRightMenuLast" @click="logout">{{$t('header.logout')}}</a>
+                <LanguagePicker/>
               </div>
             </div> <!-- Logged in user -->
           </div> <!-- Desktop -->
@@ -31,6 +32,7 @@
 import Services from 'services/Services'
 import Logger from 'common/Logger'
 import hash from "dojo/hash";
+import LanguagePicker from "page/LanguagePicker";
 
 export default {
   name: "Header",
@@ -47,6 +49,7 @@ export default {
     }
   },
   components: {
+    'LanguagePicker': LanguagePicker
   },
   methods: {
     logout() {

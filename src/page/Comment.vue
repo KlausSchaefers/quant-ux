@@ -251,7 +251,7 @@ export default {
 
         var btn = document.createElement("div");
         css.add(btn, "button is-primary mt-16");
-        btn.innerHTML = "Post Comment";
+        btn.innerHTML = this.getNLS('comments.post');
         bar.appendChild(btn);
 
         css.remove(input, "MatcTextAreaSmall");

@@ -1,0 +1,222 @@
+{
+  "title": "Quant-UX",
+  "header": {
+      "my-prototypes": "Meine Prototypes",
+      "my-account": "Mein Account",
+      "logout": "Logout"
+  },
+  "common": {
+      "register": "Bitte melde dich an, um zuspeichern",
+      "guest": "Gast",
+      "loading": "Lade...",
+      "language-changed": "Die Sprache ist jetzt deutsch"
+  },
+  "toolbar": {
+      "menu": {
+          "start": "Start Simulator",
+          "settings": "Settings",
+          "shortcuts": "Keyboard Shortcuts",
+          "share": "Share",
+          "export": "Export",
+          "change-screen-size": "Change Screen Size",
+          "save-as": "Save As",
+          "exit": "Exit"
+      }
+  },
+
+  "table": {
+      "action": "Action"
+  },
+  "table-action": "Action X",
+  "btn": {
+      "login": "Login",
+      "cancel": "Cancel",
+      "save": "Save",
+      "delete": "Delete",
+      "download": "Download",
+      "edit": "Edit",
+      "post": "Post",
+      "close": "Close"
+  },
+  "dialog": {
+      "login": {
+          "password": {
+              "label": "Password",
+              "placeholder": "Your password",
+              "reset": "Forgot Password?",
+              "error": "The password must have 6 characters"
+          },
+          "email": {
+              "placeholder": "Your email",
+              "error": "Please enter your email"
+          },
+          "btn": {
+              "reate": "Create Free Account"
+          },
+          "tos": {
+              "1": "I have read the",
+              "2": "Terms of Service &amp; Privacy Policy",
+              "3": ".",
+              "error": "You must accept the terms of service &amp; privacy policy!"
+          },
+          "privacy": {
+              "1": "I have read the ",
+              "2": "Privacy Notice",
+              "error": "You must accept the privacy notice"
+          }
+      }
+  },
+  "test": {
+      "welcome": {
+          "headline": "Welcome!",
+          "intro": {
+              "1": "You were invited for a usability test of the",
+              "2": "application.",
+              "tasks": "You can try out the prototype and perform certain tasks. When you click on <b>Show Tasks</b> button, you will receive detailed instructions.",
+              "no-tasks": "You can try out the prototype by clicking on the <b>Start Prototype</b> button. ",
+              "privacy": "Please be aware that your interaction will be recored to make the design better. We do not store any personal information about you."
+          },
+          "next": "Show Tasks",
+          "start": "Start Prototype",
+          "privacy": "This is a usability test and your interaction will be stored to make the design better. We do not store any personal information about you."
+      },
+      "task": {
+          "headline": "Tasks",
+          "description": "In the scope of this usability test you are kindly requested to perform the tasks listed below. Don't worry if you can not fulfill all tasks. This is just a sign that the prototype needs further improvements. The tasks are:",
+          "footer": "You can try out the prototype by clicking on the <b>Start Prototype</b> button."
+      },
+      "qr": {
+          "headline": "Scan the QR code with your mobile device."
+      }
+  },
+
+  "user": {
+      "retire": {
+          "hi": "Hi ",
+          "msg": "are you sure that you want to <b>delete</b> your account? You will loose all your data.",
+          "cusoon": "Thanks for using Quant-UX. We hope to see you soon again."
+      }
+  },
+  "app": {
+      "error": {
+          "server-offline-title": "Ooops",
+          "server-offline-msg": "You have been gone for more than 30 minutes. To continue working, please log in again."
+      }
+  },
+  "applist": {
+      "add": "Create new Prorotype",
+      "sign-in": "Sign up to create a new Prototype"
+  },
+  "analytics": {
+      "header": {
+          "user": "User",
+          "duration": "Test Duration",
+          "coverage": "Test Coverage"
+      }
+
+  },
+  "dashScreenList": {
+      "views": "Views",
+      "dwel": "Dwel Time",
+      "clicks": "Interactions",
+      "table-action": "Analyze"
+  },
+  "share": {
+      "Headline": "Share this app",
+      "Test": "Test",
+      "Comment": "Share & Comment",
+      "Embed": "Embed",
+      "Code": "Code Generation"
+  },
+  "notification": {
+      "more": "More..."
+  },
+  "dash": {
+      "perf": {
+          "scatter": {
+              "yLabel": "Interactions",
+              "xLabel": "Duration"
+          },
+          "dropoff": {
+              "xLabel": "Success Rate",
+              "step": "Step "
+          },
+          "details": {
+              "yLabel": "Interactions",
+              "yLabelEast": "Duration",
+              "xLabel": "Interactions | Duration",
+              "bottom25Label": "Interactions",
+              "bottom75Label": "Duration"
+          },
+          "tab": {
+              "scatter": "Scatter Plot",
+              "dropoff": "Drop Off",
+              "duration": "Duration",
+              "interactions": "Interactions",
+              "details": "Box Plot"
+          },
+          "hint": {
+              "scatter": "Each dot presents a successful user test. Select them to get more information.",
+              "session-msg": "To replay the session recording press ",
+              "session-play": "here"
+          },
+          "no-flow-title": "No FLow",
+          "no-flow-msg": "<p>Please define a flow with <b>more</b> than <b>two</b> steps.<br> Otherwise we cannot show details about the task performance.</p>"
+      }
+  },
+
+  "testSettingsDescription": "Description",
+  "testSettingsTasks": "Tasks",
+  "testSettingsTaskName": "Name",
+  "testSettingsTaskDescription": "Description",
+  "testSettingsTaskAddHint": "Click the  &#34;Add Task&#34; button to create a new task. The tasks a shown to the users before the test.",
+  "testSettingsRegister": "Please register to save changes",
+  "testSettingsNoFlow": "No Flow",
+  "testSettingsFlow1": "Flow: ",
+  "testSettingsFlow2": " steps",
+  "testSettingsAddTask": "Add Task",
+  "testSettingTaskDeskPlaceholder": "Enter a description here",
+  "testSettingDesPlaceholder": "Add a short description for the users in here",
+  "testSettingTaskDelete1": "Do you want to delete the task '",
+  "testSettingTaskDelete2": "'?",
+  "testSettingsSaved": "Test settings updated...",
+  "testSettingsUpgradePlan": "Upgrade Plan",
+
+  "dashTaskEmpty": "Click the  &#34;Add Task&#34; button to create a new analytic task. Edit the flow to measure task performance. ",
+  "dashTaskTableName": "Name",
+  "dashTaskTableSuccess": "Success Rate",
+  "dashTaskTableDuration": "Duration",
+  "dashTaskTableEvents": "Interactions",
+  "dashTaskTableEditFlow": "Edit Flow",
+  "dashTaskFunnel": "Funnel",
+  "dashTaskDurDis": "Duration Distribution",
+  "dashTaskEventDis": "Event Distribution",
+  "dashTaskDesPlaceholder": "Enter a description here",
+  "dashTaskPerfHeadline": "Task: ",
+
+  "taskRecorder1": "A flow is the sequence of interactions the users have to perform to complete a task.",
+  "taskRecorderStep1": "Perform the interactions your users should perform",
+  "taskRecorderStep2": "You can press <b>Pause</b> to pause the recording",
+  "taskRecorderStep3": "Press <b>Done</b> when the flow is complete.",
+  "taskRecorderStep4": "<b>Select</b> all steps that are important for the task.",
+  "taskRecorderPauseHint": "Click Pause to pause recording",
+  "taskRecorderPauseBtn": "Pause",
+  "taskRecorderPauseDes": "Recoding interaction...",
+  "taskRecorderRecordBtn": "Record",
+  "taskRecorderRecordDes": "Click Record to continue recording",
+  "taskRecorderError1": "You have not recorded any flow. Did you press the Record button?",
+  "taskRecorderDoNotAllow": "Do not allow events in between.",
+  "taskRecorderEvent": "Event",
+  "taskRecorderScreen": "Screen",
+  "taskRecorderWidget": "Widget",
+  "taskRecorderAction": "Important",
+
+  "videoTableStatus": "Status",
+  "videoTableUser": "User",
+  "videoTableDuration": "Duration (sec)",
+  "videoTableScreens": "Visited Screens",
+  "videoTableEvents": "Events",
+  "videoTableDate": "Date",
+  "videoTableStatusNotPayed": "Blocked",
+  "videoTablePlanUpdateMsg": "To see all videos upgate your plan."
+}

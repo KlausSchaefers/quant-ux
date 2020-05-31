@@ -8,7 +8,7 @@
           </div>
           <div class="level-right" v-if="!isPublic">
             <div class="level-item">
-              <h6 class="title is-6 has-text-grey">Team</h6>
+              <h6 class="title is-6 has-text-grey">{{ $t('app.overview.team')}}</h6>
             </div>
             <div class="level-item">
               <Team v-if="app.id && user.id && !isPublic" :appID="app.id" :userID="user.id" />
@@ -20,19 +20,19 @@
             <div class="level-item tabs">
               <ul>
                 <li :class="[{'is-active': tab == 'design'}]">
-                  <a :href="`#/${urlPrefix}/${appID}/design.html`">Design</a>
+                  <a :href="`#/${urlPrefix}/${appID}/design.html`">{{ $t('app.overview.design')}}</a>
                 </li>
                 <li :class="[{'is-active': tab == 'test' || tab === 'video'}]">
-                  <a :href="`#/${urlPrefix}/${appID}/test.html`">Test</a>
+                  <a :href="`#/${urlPrefix}/${appID}/test.html`">{{ $t('app.overview.test')}}</a>
                 </li>
                 <li :class="[{'is-active': tab == 'analyze'}]">
-                  <a :href="`#/${urlPrefix}/${appID}/analyze.html`">Dashboard</a>
+                  <a :href="`#/${urlPrefix}/${appID}/analyze.html`">{{ $t('app.overview.dash')}}</a>
                 </li>
                 <li :class="[{'is-active': tab == 'heat'}]">
-                  <a :href="`#/${urlPrefix}/${appID}/heat.html`">Heat Maps</a>
+                  <a :href="`#/${urlPrefix}/${appID}/heat.html`">{{ $t('app.overview.heat')}}</a>
                 </li>
                 <li :class="[{'is-active': tab == 'settings'}]">
-                  <a :href="`#/${urlPrefix}/${appID}/settings.html`" v-if="!isPublic">Settings</a>
+                  <a :href="`#/${urlPrefix}/${appID}/settings.html`" v-if="!isPublic">{{ $t('app.overview.settings')}}</a>
                 </li>
               </ul>
             </div>
@@ -43,11 +43,10 @@
                 class="button is-primary"
                 target="test"
                 :href="'#/test.html?h=' + hash + '&log=' + !isPublic"
-                id="overviewHeaderRunTest"
-              >Test</a>
+                id="overviewHeaderRunTest">{{ $t('app.overview.run-test')}}</a>
             </div>
             <div class="level-item">
-              <a class="button is-primary" @click="showShareDialog" ref="shareButton">Share</a>
+              <a class="button is-primary" @click="showShareDialog" ref="shareButton">{{ $t('app.overview.share')}}</a>
             </div>
           </div>
         </div>
@@ -60,7 +59,7 @@
           <div class="container">
             <ScreenList :app="app" v-if="appLoaded" :pub="isPublic" />
             <div class="box is-shadowless" v-if="appLoaded">
-              <h2 class="title">Comments</h2>
+              <h2 class="title">{{ $t('comments.title')}}</h2>
               <Comment :appID="app.id" type="overview" reference contentID insertPosition="top" />
             </div>
           </div>

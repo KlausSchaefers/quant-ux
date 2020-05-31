@@ -73,7 +73,7 @@
 						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
 								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span>
-								<span class="MatcToolbarLabel">Simulate</span>
+								<span class="MatcToolbarLabel">{{ $t('toolbar.simulate')}}</span>
 							</a>
 						</div>
 						<div class="MatcToolbarSection" data-dojo-attach-point="undoSection">
@@ -118,7 +118,10 @@
 
 							<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
 								<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
-									<span class="glyphicons glyphicons-hotspot"></span><label class="MatcToolbarLabel">Group</label>
+									<span class="glyphicons glyphicons-hotspot"></span>
+									<label class="MatcToolbarLabel">
+										{{ $t('toolbar.group')}}
+									</label>
 								</a>
 							</div>
 						</div>
@@ -133,7 +136,7 @@
 
 						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
-							<span class="MatcToolbarLabel">Sign Up to Save</span>
+							<span class="MatcToolbarLabel">{{ $t('toolbar.sign-up')}}</span>
 							</a>
 						</div>
 
@@ -981,7 +984,7 @@ export default {
 			this.stopEvent(e);
 			this.logger.log(1,"onToolCreateTemplate", "entry : " + this._selectedWidget);
 
-			var name="New Template";
+			var name = this.$i18n.t("toolbar.templates.new");
 			if(this._selectedWidget && this._selectedWidget.name){
 				name = this._selectedWidget.name;
 			}
