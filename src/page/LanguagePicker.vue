@@ -14,7 +14,7 @@
   </div>
 </template>
 <style lang="scss">
-  @import "../style/langauge.scss";
+  @import "../style/language.scss";
 </style>
 <script>
 import Services from "services/Services";
