@@ -21,13 +21,13 @@ export default {
     attachFontsToDom (fonts) {
       if (fonts) {
         let head = document.head || document.getElementsByTagName('head')[0];
-        fonts.forEach(f => {        
-          if (f) { 
+        fonts.forEach(f => {
+          if (f) {
             if (!_mactImportedFonts[f.url]){
               let css = this.getFontImportStatement(f)
               let style = document.createElement('style');
               style.type = 'text/css';
-              style.appendChild(document.createTextNode(css));   
+              style.appendChild(document.createTextNode(css));
               head.appendChild(style);
               _mactImportedFonts[f.url] = true
             }
@@ -37,12 +37,12 @@ export default {
     },
 
     getFontImportStatement(f) {
-      if (f.type !== 'import') {
+      if (f.type !== 'import' && f.url.indexOf('https://fonts.googleapis.com/') === -1 ) {
         return `
           @font-face {
             font-family: "${f.name}";
             src: url("${f.url}") format("${f.type}")
-          }`;  
+          }`;
       } else {
         return `@import url('${f.url}');`
       }
@@ -119,7 +119,7 @@ export default {
     },
 
     getAllAppVariables (){
- 
+
       var variables = [];
       if (this.model) {
         for(let id in this.model.widgets){
@@ -144,9 +144,9 @@ export default {
       }
 			return variables;
     },
-    
+
     getHintsAppVariables (){
- 
+
       var variables = [];
       if (this.model) {
         for(var id in this.model.widgets){
@@ -427,7 +427,7 @@ export default {
       return model.style;
     },
 
-  
+
     /**
      * Returns the inherited style. Mixing in the properties of the
      * parent widget.
@@ -494,7 +494,7 @@ export default {
           if (parent) {
             group = parent
           } else {
-            
+
             /**
              * Return here a virtual group. This is used in the DND._addDnDChildren()
              */

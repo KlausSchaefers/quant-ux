@@ -518,7 +518,7 @@ export default class BaseController extends Core {
 					this.logger.log(0,"validateAndFixModel", "No line to:" + lineID);
 				}
 
-				if(!model.widgets[line.from] && !model.screens[line.from] && !model.groups[line.from]){
+				if(!model.widgets[line.from] && !model.screens[line.from] && (model.groups && !model.groups[line.from])){
 					lineValid = false;
 					this.logger.log(0,"validateAndFixModel", "No line from :" + lineID);
 				}

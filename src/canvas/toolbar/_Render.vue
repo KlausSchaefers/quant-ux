@@ -744,7 +744,7 @@ export default {
 
 		_renderValidation:function(){
 
-			var parent = this.createSection("Data &amp; Validation");
+			var parent = this.createSection("Data");
 
 			var content = document.createElement("div");
 			css.add(content, "");

@@ -87,7 +87,7 @@ export default {
 		css.remove(win.body(), 'MatcPublic')
 
 		let language = Services.getUserService().getLanguage()
-    this.$root.$i18n.locale = language
+		this.$root.$i18n.locale = language
   }
 }
 </script>
