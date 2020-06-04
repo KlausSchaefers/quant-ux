@@ -7,7 +7,7 @@ import DojoWidget from "dojo/DojoWidget";
 import UIWidget from "core/widgets/UIWidget";
 
 export default {
-  name: "SVG",
+  name: "Vector",
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {};
@@ -30,8 +30,8 @@ export default {
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-      var svg = model.props.svg;
-      this.domNode.innerHTML = svg;
+      var paths = model.props.paths;
+      this.domNode.innerHTML = JSON.stringify(paths);
     },
 
     getValue: function() {},

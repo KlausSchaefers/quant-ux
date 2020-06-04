@@ -1,0 +1,593 @@
+{
+  "document": {
+    "id": "0:0",
+    "name": "Document",
+    "type": "DOCUMENT",
+    "children": [
+      {
+        "id": "0:1",
+        "name": "Page 1",
+        "type": "CANVAS",
+        "children": [
+          {
+            "id": "1:2",
+            "name": "iPhone 8 Plus - 1",
+            "type": "FRAME",
+            "blendMode": "PASS_THROUGH",
+            "children": [
+              {
+                "id": "1:3",
+                "name": "Line 1",
+                "type": "LINE",
+                "blendMode": "PASS_THROUGH",
+                "absoluteBoundingBox": {
+                  "x": -151.0,
+                  "y": -319.0,
+                  "width": 123.0,
+                  "height": 45.0
+                },
+                "constraints": {
+                  "vertical": "TOP",
+                  "horizontal": "LEFT"
+                },
+                "fills": [],
+                "strokes": [
+                  {
+                    "blendMode": "NORMAL",
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.0,
+                      "g": 0.0,
+                      "b": 0.0,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "strokeWeight": 1.0,
+                "strokeAlign": "CENTER",
+                "effects": []
+              },
+              {
+                "id": "1:4",
+                "name": "Rectangle 1",
+                "type": "RECTANGLE",
+                "blendMode": "PASS_THROUGH",
+                "absoluteBoundingBox": {
+                  "x": -144.0,
+                  "y": -228.0,
+                  "width": 162.0,
+                  "height": 108.0
+                },
+                "constraints": {
+                  "vertical": "TOP",
+                  "horizontal": "LEFT"
+                },
+                "fills": [
+                  {
+                    "blendMode": "NORMAL",
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.76862746477127075,
+                      "g": 0.76862746477127075,
+                      "b": 0.76862746477127075,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "strokeAlign": "INSIDE",
+                "effects": []
+              },
+              {
+                "id": "1:5",
+                "name": "Ellipse 1",
+                "type": "ELLIPSE",
+                "blendMode": "PASS_THROUGH",
+                "absoluteBoundingBox": {
+                  "x": -144.0,
+                  "y": -74.0,
+                  "width": 116.0,
+                  "height": 124.0
+                },
+                "constraints": {
+                  "vertical": "TOP",
+                  "horizontal": "LEFT"
+                },
+                "fills": [
+                  {
+                    "blendMode": "NORMAL",
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.76862746477127075,
+                      "g": 0.76862746477127075,
+                      "b": 0.76862746477127075,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "strokeAlign": "INSIDE",
+                "effects": []
+              },
+              {
+                "id": "1:8",
+                "name": "Component 1",
+                "type": "COMPONENT",
+                "blendMode": "PASS_THROUGH",
+                "children": [
+                  {
+                    "id": "1:6",
+                    "name": "Rectangle 2",
+                    "type": "RECTANGLE",
+                    "blendMode": "PASS_THROUGH",
+                    "absoluteBoundingBox": {
+                      "x": -118.0,
+                      "y": 121.0,
+                      "width": 75.0,
+                      "height": 77.0
+                    },
+                    "constraints": {
+                      "vertical": "SCALE",
+                      "horizontal": "SCALE"
+                    },
+                    "fills": [
+                      {
+                        "blendMode": "NORMAL",
+                        "type": "SOLID",
+                        "color": {
+                          "r": 0.66250002384185791,
+                          "g": 0.28156250715255737,
+                          "b": 0.28156250715255737,
+                          "a": 1.0
+                        }
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "strokeAlign": "INSIDE",
+                    "effects": []
+                  },
+                  {
+                    "id": "1:7",
+                    "name": "Rectangle 3",
+                    "type": "RECTANGLE",
+                    "blendMode": "PASS_THROUGH",
+                    "absoluteBoundingBox": {
+                      "x": -79.0,
+                      "y": 151.0,
+                      "width": 89.0,
+                      "height": 103.0
+                    },
+                    "constraints": {
+                      "vertical": "SCALE",
+                      "horizontal": "SCALE"
+                    },
+                    "fills": [
+                      {
+                        "blendMode": "NORMAL",
+                        "type": "SOLID",
+                        "color": {
+                          "r": 0.70833331346511841,
+                          "g": 0.23315969109535217,
+                          "b": 0.23315969109535217,
+                          "a": 1.0
+                        }
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "strokeAlign": "INSIDE",
+                    "effects": []
+                  }
+                ],
+                "absoluteBoundingBox": {
+                  "x": -118.0,
+                  "y": 121.0,
+                  "width": 128.0,
+                  "height": 133.0
+                },
+                "constraints": {
+                  "vertical": "TOP",
+                  "horizontal": "LEFT"
+                },
+                "clipsContent": false,
+                "background": [
+                  {
+                    "blendMode": "NORMAL",
+                    "visible": false,
+                    "type": "SOLID",
+                    "color": {
+                      "r": 1.0,
+                      "g": 1.0,
+                      "b": 1.0,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "fills": [
+                  {
+                    "blendMode": "NORMAL",
+                    "visible": false,
+                    "type": "SOLID",
+                    "color": {
+                      "r": 1.0,
+                      "g": 1.0,
+                      "b": 1.0,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "strokeAlign": "INSIDE",
+                "backgroundColor": {
+                  "r": 0.0,
+                  "g": 0.0,
+                  "b": 0.0,
+                  "a": 0.0
+                },
+                "effects": []
+              }
+            ],
+            "absoluteBoundingBox": {
+              "x": -207.0,
+              "y": -368.0,
+              "width": 414.0,
+              "height": 736.0
+            },
+            "constraints": {
+              "vertical": "TOP",
+              "horizontal": "LEFT"
+            },
+            "clipsContent": true,
+            "background": [
+              {
+                "blendMode": "NORMAL",
+                "type": "SOLID",
+                "color": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                }
+              }
+            ],
+            "fills": [
+              {
+                "blendMode": "NORMAL",
+                "type": "SOLID",
+                "color": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                }
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "strokeAlign": "INSIDE",
+            "backgroundColor": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "effects": []
+          },
+          {
+            "id": "5:3",
+            "name": "iPhone 8 Plus - 2",
+            "type": "FRAME",
+            "blendMode": "PASS_THROUGH",
+            "children": [
+              {
+                "id": "5:4",
+                "name": "Line 1",
+                "type": "LINE",
+                "blendMode": "PASS_THROUGH",
+                "absoluteBoundingBox": {
+                  "x": 303.0,
+                  "y": -319.0,
+                  "width": 123.0,
+                  "height": 45.0
+                },
+                "constraints": {
+                  "vertical": "TOP",
+                  "horizontal": "LEFT"
+                },
+                "fills": [],
+                "strokes": [
+                  {
+                    "blendMode": "NORMAL",
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.0,
+                      "g": 0.0,
+                      "b": 0.0,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "strokeWeight": 1.0,
+                "strokeAlign": "CENTER",
+                "effects": []
+              },
+              {
+                "id": "5:5",
+                "name": "Rectangle 1",
+                "type": "RECTANGLE",
+                "blendMode": "PASS_THROUGH",
+                "absoluteBoundingBox": {
+                  "x": 310.0,
+                  "y": -228.0,
+                  "width": 162.0,
+                  "height": 108.0
+                },
+                "constraints": {
+                  "vertical": "TOP",
+                  "horizontal": "LEFT"
+                },
+                "fills": [
+                  {
+                    "blendMode": "NORMAL",
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.74583333730697632,
+                      "g": 0.14295136928558350,
+                      "b": 0.14295136928558350,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "strokeAlign": "INSIDE",
+                "effects": []
+              },
+              {
+                "id": "5:6",
+                "name": "Ellipse 1",
+                "type": "ELLIPSE",
+                "blendMode": "PASS_THROUGH",
+                "absoluteBoundingBox": {
+                  "x": 310.0,
+                  "y": -74.0,
+                  "width": 116.0,
+                  "height": 124.0
+                },
+                "constraints": {
+                  "vertical": "TOP",
+                  "horizontal": "LEFT"
+                },
+                "fills": [
+                  {
+                    "blendMode": "NORMAL",
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.76862746477127075,
+                      "g": 0.76862746477127075,
+                      "b": 0.76862746477127075,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "strokeAlign": "INSIDE",
+                "effects": []
+              },
+              {
+                "id": "5:7",
+                "name": "Component 1",
+                "type": "INSTANCE",
+                "blendMode": "PASS_THROUGH",
+                "children": [
+                  {
+                    "id": "I5:7;1:6",
+                    "name": "Rectangle 2",
+                    "type": "RECTANGLE",
+                    "blendMode": "PASS_THROUGH",
+                    "absoluteBoundingBox": {
+                      "x": 336.0,
+                      "y": 121.0,
+                      "width": 75.0,
+                      "height": 77.0
+                    },
+                    "constraints": {
+                      "vertical": "SCALE",
+                      "horizontal": "SCALE"
+                    },
+                    "fills": [
+                      {
+                        "blendMode": "NORMAL",
+                        "type": "SOLID",
+                        "color": {
+                          "r": 0.66250002384185791,
+                          "g": 0.28156250715255737,
+                          "b": 0.28156250715255737,
+                          "a": 1.0
+                        }
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "strokeAlign": "INSIDE",
+                    "effects": []
+                  },
+                  {
+                    "id": "I5:7;1:7",
+                    "name": "Rectangle 3",
+                    "type": "RECTANGLE",
+                    "blendMode": "PASS_THROUGH",
+                    "absoluteBoundingBox": {
+                      "x": 375.0,
+                      "y": 151.0,
+                      "width": 89.0,
+                      "height": 103.0
+                    },
+                    "constraints": {
+                      "vertical": "SCALE",
+                      "horizontal": "SCALE"
+                    },
+                    "fills": [
+                      {
+                        "blendMode": "NORMAL",
+                        "type": "SOLID",
+                        "color": {
+                          "r": 0.70833331346511841,
+                          "g": 0.23315969109535217,
+                          "b": 0.23315969109535217,
+                          "a": 1.0
+                        }
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "strokeAlign": "INSIDE",
+                    "effects": []
+                  }
+                ],
+                "absoluteBoundingBox": {
+                  "x": 336.0,
+                  "y": 121.0,
+                  "width": 128.0,
+                  "height": 133.0
+                },
+                "constraints": {
+                  "vertical": "TOP",
+                  "horizontal": "LEFT"
+                },
+                "clipsContent": false,
+                "background": [
+                  {
+                    "blendMode": "NORMAL",
+                    "visible": false,
+                    "type": "SOLID",
+                    "color": {
+                      "r": 1.0,
+                      "g": 1.0,
+                      "b": 1.0,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "fills": [
+                  {
+                    "blendMode": "NORMAL",
+                    "visible": false,
+                    "type": "SOLID",
+                    "color": {
+                      "r": 1.0,
+                      "g": 1.0,
+                      "b": 1.0,
+                      "a": 1.0
+                    }
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "strokeAlign": "INSIDE",
+                "backgroundColor": {
+                  "r": 0.0,
+                  "g": 0.0,
+                  "b": 0.0,
+                  "a": 0.0
+                },
+                "effects": [],
+                "componentId": "1:8"
+              }
+            ],
+            "absoluteBoundingBox": {
+              "x": 247.0,
+              "y": -368.0,
+              "width": 414.0,
+              "height": 736.0
+            },
+            "constraints": {
+              "vertical": "TOP",
+              "horizontal": "LEFT"
+            },
+            "clipsContent": true,
+            "background": [
+              {
+                "blendMode": "NORMAL",
+                "type": "SOLID",
+                "color": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                }
+              }
+            ],
+            "fills": [
+              {
+                "blendMode": "NORMAL",
+                "type": "SOLID",
+                "color": {
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0,
+                  "a": 1.0
+                }
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "strokeAlign": "INSIDE",
+            "backgroundColor": {
+              "r": 1.0,
+              "g": 1.0,
+              "b": 1.0,
+              "a": 1.0
+            },
+            "effects": []
+          }
+        ],
+        "backgroundColor": {
+          "r": 0.89803922176361084,
+          "g": 0.89803922176361084,
+          "b": 0.89803922176361084,
+          "a": 1.0
+        },
+        "prototypeStartNodeID": null,
+        "prototypeDevice": {
+          "type": "PRESET",
+          "size": {
+            "width": 414.0,
+            "height": 736.0
+          },
+          "presetIdentifier": "APPLE_IPHONE_8_PLUS_GOLD",
+          "rotation": "NONE"
+        },
+        "exportSettings": [
+          {
+            "suffix": "",
+            "format": "PNG",
+            "constraint": {
+              "type": "SCALE",
+              "value": 1.0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "components": {
+    "1:8": {
+      "key": "",
+      "name": "Component 1",
+      "description": ""
+    }
+  },
+  "schemaVersion": 0,
+  "styles": {},
+  "name": "Export Test",
+  "lastModified": "2020-06-04T21:23:37.792593Z",
+  "thumbnailUrl": "https://s3-alpha-sig.figma.com/thumbnails/blank.png?Expires=1592179200&Signature=L7p1SYAQr9E-GjTDXKOBg9ZYynGRe6ijF7Mo7NlO3EzWAM~lzT3kb9Gb0vIJvT4lOOSDYpaoLEhD6Tr~JVM~WLTV~gPyjZiTgttwWYh4l9F1~Gv09ZGiFmKwfVhuxDZGgNA6hlf220RacDgBu5Dhpg7mjMPfokOOhF~3uF4TEdh8tu90MCqxV5YxB36GkAItGcFfJi0u42M2qoSG4BVBVSdPXve9VLTtVdw1fFHNfoUaGOaGm10Nd1cZDHvuLyGSFJJR0M7xjRg~mhAC-cZ2URQ~Su~-WSi6K28Hxi4eeVkc2C6TNVVNmzT1Cd1M03iw1~muZXxSL41UC5JdfEVtUg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+  "version": "347089852",
+  "role": "owner"
+}

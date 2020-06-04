@@ -1,24 +1,21 @@
 <template>
   <div class="MatcLight">
     <h1>Figma Test</h1>
+    <input v-model="accessKey" @change="setAccessKey" v-if="!accessKey"/>
 
     <div class="MatcTReeCntr" v-for="file in files" :key="file.name">
         {{file.json}}
     </div>
 
-    <div class="MatcTReeCntr" v-if="false">
-        {{model}}
-    </div>
+    {{height}} {{width}}
 
     <div
         class="MatcPreviewCntr"
         v-for="screen in screens"
         :key="screen.id"
-        :style="{'width:': width, 'height':height}">
+        :style="{'width': width, 'height':height}">
         <Preview :app="model" :screen="screen.id" />
     </div>
-
-    <img :src="getPreview(preview)" v-for="preview in previews" :key="preview.name">
 
   </div>
 </template>
@@ -30,8 +27,6 @@
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
       display: inline-block;
       padding: 5px;
-      width: 250px;
-      height: 400px;
       overflow: scroll;
       margin-left: 30px;
       font-size: 14px;
@@ -55,6 +50,7 @@
 
 import FigmaService from 'services/FigmaService'
 import Preview from 'page/Preview'
+import figma from './data/figma.json'
 
 export default {
   name: "FigmaTest",
@@ -63,7 +59,9 @@ export default {
     return {
         files: [],
         previews: [],
-        model: null
+        model: null,
+        accessKey: '',
+        figma1: figma
     };
   },
   components: {
@@ -95,12 +93,19 @@ export default {
       onSelect (d) {
           this.selection = d
       },
+      setAccessKey () {
+        localStorage.setItem('quxFigmaTest', this.accessKey)
+      },
       async run() {
-        FigmaService.get('https://www.figma.com/file/vABDxPscPKnF2qV4yTroUB/Export-Test?node-id=0%3A1')
+        let app = await FigmaService.get('vABDxPscPKnF2qV4yTroUB')
+        console.debug(app)
+        this.model = app
       }
   },
   mounted() {
-      this.run()
+    this.accessKey = localStorage.getItem('quxFigmaTest')
+    FigmaService.setAccessKey(this.accessKey)
+    this.run()
   }
 };
 </script>

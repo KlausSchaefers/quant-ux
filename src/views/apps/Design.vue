@@ -149,8 +149,8 @@ export default {
   async mounted() {
     this.logger = new Logger("Design");
     css.add(win.body(), "MatcVisualEditor");
-    this.modelService = Services.getModelService(this.$route);
     this.user = await Services.getUserService().load();
+    this.modelService = Services.getModelService(this.$route);
     this.loadData();
     this.logger.log(3, "mounted", "exit");
   }

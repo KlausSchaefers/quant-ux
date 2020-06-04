@@ -6,6 +6,9 @@ export default class AbstractService {
 
     setToken (token) {
         this.token = token
+        if (!this.token) {
+            console.warn('AbstractService.setToken() > No token passed', new Error().stack)
+        }
     }
 
     _createDefaultHeader() {
@@ -36,7 +39,7 @@ export default class AbstractService {
     _getChached (url, successCallback, errorCallback) {
         this.logger.log(6, '_getChached', 'enter ', url)
         return new Promise((resolve, reject) => {
-            /** 
+            /**
              * 1st check cache
              */
             if (this._cache && this._cache[url]) {
