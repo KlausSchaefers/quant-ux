@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcWidgetTypeVector" :style="{'background': backgroundImage}"></div>
+  <div class="MatcWidgetTypeVector" :style="{'backgroundImage': backgroundImage}">{{errorMsg}}</div>
 </template>
 <script>
 import DojoWidget from "dojo/DojoWidget";
@@ -11,7 +11,8 @@ export default {
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
-      backgroundImage: ''
+      backgroundImage: '',
+      errorMsg: ''
     };
   },
   components: {},
@@ -36,6 +37,8 @@ export default {
       var figmaImage = model.props.figmaImage;
       if (figmaImage) {
         this.backgroundImage = `url(${figmaImage})`
+      } else {
+        this.errorMsg = 'No figma image'
       }
     },
 

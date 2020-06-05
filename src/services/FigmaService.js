@@ -3,7 +3,8 @@ class FigmaService {
   constructor () {
     this.baseURL = 'https://api.figma.com/v1/'
     this.vectorTypes = ['LINE', 'ELLIPSE', 'VECTOR']
-    this.buttonTypes = ['RECTANGLE']
+    this.buttonTypes = ['RECTANGLE', 'TEXT']
+    this.allAsVecor = false
   }
 
   setAccessKey (key) {
@@ -21,10 +22,9 @@ class FigmaService {
 
 }
 
-  async get (key) {
-
+  async get (key, allAsVecor = false) {
+    this.allAsVecor = allAsVecor
     return new Promise ((resolve, reject) => {
-      console.debug('get', key)
       let url = this.baseURL + 'files/' + key + '?geometry=paths'
       fetch(url, {
         method: 'get',
@@ -49,7 +49,7 @@ class FigmaService {
 
   getImages (key, ids) {
     return new Promise ((resolve, reject) => {
-      let url = this.baseURL + 'images/' + key + '?ids=' + ids
+      let url = this.baseURL + 'images/' + key + '?format=png&ids=' + ids
       fetch(url, {
         method: 'get',
         credentials: "same-origin",
@@ -84,10 +84,21 @@ class FigmaService {
       })
     }
 
+    /**
+     * Get download images for all
+     */
+    await this.addVectorImages(id, model)
+
+    /**
+     * TODO Add groups
+     */
+
+    return model
+  }
+
+  async addVectorImages(id, model) {
     let vectorWidgets = Object.values(model.widgets).filter(widget => widget.props.isVector)
     let vectorWidgetIds = vectorWidgets.map(w => w.figmaId).join(',')
-
-
     let imageResponse = await this.getImages(id, vectorWidgetIds)
     if (imageResponse.err === null) {
       let images = imageResponse.images
@@ -96,13 +107,16 @@ class FigmaService {
         if (image) {
           w.props.figmaImage = image
         } else {
-          console.error('FigmaService.parse() > No image for', w)
+          console.error('FigmaService.addVectorImages() > No image for', w)
         }
       })
     } else {
-      console.error('FigmaService.parse() > Could not get images', imageResponse)
+      console.error('FigmaService.addVectorImages() > Could not get images', imageResponse)
     }
-    return model
+
+    /**
+     * TODO get image fills / uploads
+     */
   }
 
   parseScreen (fScreen, model, fModel) {
@@ -118,8 +132,8 @@ class FigmaService {
       w: pos.w,
       h: pos.h,
       props: {},
-      style: this.getStyle(fScreen),
-      children: []
+      children: [],
+      style: this.getStyle(fScreen)
     }
 
     if (fScreen.children) {
@@ -147,10 +161,11 @@ class FigmaService {
       x: pos.x,
       y: pos.y,
       w: pos.w,
-      h: pos.h,
-      props: this.getProps(element),
-      style: this.getStyle(element)
+      h: pos.h
     }
+    widget.style = this.getStyle(element, widget)
+    widget.props = this.getProps(element, widget)
+    widget.has = this.getHas(element, widget)
     model.widgets[widget.id] = widget
     qScreen.children.push(widget.id)
 
@@ -160,25 +175,46 @@ class FigmaService {
     return widget
   }
 
-  getProps (element) {
+  getProps (element, widget) {
     let props = {}
     if (this.isVector(element)) {
-      console.debug('FigmaService.getProps() > make vector', element)
+      //console.debug('FigmaService.getProps() > make vector', element)
       props.paths = element.strokeGeometry
       props.relativeTransform = element.relativeTransform
       props.isVector = true
+    }
+    if (widget.type === 'Label') {
+      props.label = widget.name
     }
     return props
   }
 
   isVector (element) {
-    return this.buttonTypes.indexOf(element.type) === -1
+    return this.allAsVecor || this.buttonTypes.indexOf(element.type) === -1
   }
 
-  getStyle (element) {
-    let style = {
-      backgroundColor: 'red'
+  getHas (element, widget) {
+    if (widget.type === 'Label') {
+      return {
+        label: true,
+        padding : true,
+        advancedText: true
+      }
     }
+    if (widget.type === 'Button') {
+      return {
+        label: true,
+        backgroundColor : true,
+        border: true,
+        onclick: true,
+        padding: true
+      }
+    }
+    return {}
+  }
+
+  getStyle (element, widget) {
+    let style = {}
     /**
      * How is this rendered. Which has priority
      */
@@ -187,8 +223,88 @@ class FigmaService {
     }
     if (element.fills && element.fills.length > 0) {
       let fill = element.fills[0]
-      style.backgroundColor = this.getColor(fill.color)
+      if (this.isLabel(widget)) {
+        style.color = this.getColor(fill.color)
+      } else {
+        style.backgroundColor = this.getColor(fill.color)
+      }
     }
+
+    if (element.cornerRadius) {
+      style.borderBottomLeftRadius = element.cornerRadius
+      style.borderTopLeftRadius = element.cornerRadius
+      style.borderBottomRightRadius = element.cornerRadius
+      style.borderTopRightRadius = element.cornerRadius
+    }
+
+    if (!this.isVector(element)) {
+      if (element.strokes && element.strokes.length > 0) {
+        let stroke = element.strokes[0]
+        style.borderBottomColor = this.getColor(stroke.color)
+        style.borderTopColor = this.getColor(stroke.color)
+        style.borderLeftColor = this.getColor(stroke.color)
+        style.borderRightColor = this.getColor(stroke.color)
+
+        if (element.strokeWeight) {
+          style.borderBottomWidth = element.strokeWeight
+          style.borderTopWidth = element.strokeWeight
+          style.borderLeftWidth = element.strokeWeight
+          style.borderRightWidth = element.strokeWeight
+        }
+
+        if (element.strokeAlign !== 'INSIDE' && element.strokeWeight) {
+          widget.x -= element.strokeWeight
+          widget.w += element.strokeWeight * 2
+          widget.y -= element.strokeWeight
+          widget.h += element.strokeWeight * 2
+        }
+      }
+
+      if (element.effects) {
+        element.effects.forEach(effect => {
+          if (effect.type === 'DROP_SHADOW') {
+            style.boxShadow = {
+              v: effect.offset.y,
+              h: effect.offset.x,
+              b: effect.radius,
+              s: 0,
+              i: false,
+              c: this.getColor(effect.color)
+            }
+          }
+          if (effect.type === 'INNER_SHADOW') {
+            style.boxShadow = {
+              v: effect.offset.y,
+              h: effect.offset.x,
+              b: effect.radius,
+              s: 0,
+              i: true,
+              c: this.getColor(effect.color)
+            }
+          }
+        })
+      }
+
+      if (element.style) {
+        let fStyle = element.style
+        style.fontSize = fStyle.fontSize
+        style.fontSize = fStyle.fontSize
+        style.fontWeight = fStyle.fontWeight
+        style.lineHeight = fStyle.lineHeightPercent / 100
+        style.letterSpacing = fStyle.letterSpacing
+        if (fStyle.textAlignHorizontal) {
+          style.textAlign = fStyle.textAlignHorizontal.toLowerCase()
+        }
+        if (fStyle.textAlignVertical) {
+          style.valign = fStyle.textAlignVertical.toLowerCase()
+        }
+      }
+
+      console.debug(element)
+    }
+
+
+
 
     return style
   }
@@ -197,6 +313,10 @@ class FigmaService {
     if (this.isVector(element)) {
       return 'Vector'
     }
+    if (element.type === 'TEXT') {
+      return 'Label'
+    }
+
     return 'Button'
   }
 
@@ -215,6 +335,10 @@ class FigmaService {
     }
     console.warn('FigmaServive.getPosition() > No abs pos', element)
     return {}
+  }
+
+  isLabel (widget) {
+    return widget && widget.type === 'Label'
   }
 
   createApp (id, data) {
