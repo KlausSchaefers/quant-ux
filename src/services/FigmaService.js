@@ -3,6 +3,7 @@ class FigmaService {
   constructor () {
     this.baseURL = 'https://api.figma.com/v1/'
     this.vectorTypes = ['LINE', 'ELLIPSE', 'VECTOR']
+    this.buttonTypes = ['RECTANGLE']
   }
 
   setAccessKey (key) {
@@ -21,8 +22,7 @@ class FigmaService {
 }
 
   async get (key) {
-    //let images = this.getImages(key)
-    //console.debug(images)
+
     return new Promise ((resolve, reject) => {
       console.debug('get', key)
       let url = this.baseURL + 'files/' + key + '?geometry=paths'
@@ -47,10 +47,9 @@ class FigmaService {
 
   }
 
-  getImages (key) {
+  getImages (key, ids) {
     return new Promise ((resolve, reject) => {
-      console.debug('get', key)
-      let url = this.baseURL + 'images/' + key
+      let url = this.baseURL + 'images/' + key + '?ids=' + ids
       fetch(url, {
         method: 'get',
         credentials: "same-origin",
@@ -70,7 +69,7 @@ class FigmaService {
     })
   }
 
-  parse (id, fModel) {
+  async parse (id, fModel) {
     console.debug('FigmaService.parse', fModel)
     let model = this.createApp(id, fModel)
     let fDoc = fModel.document
@@ -83,6 +82,25 @@ class FigmaService {
           })
         }
       })
+    }
+
+    let vectorWidgets = Object.values(model.widgets).filter(widget => widget.props.isVector)
+    let vectorWidgetIds = vectorWidgets.map(w => w.figmaId).join(',')
+
+
+    let imageResponse = await this.getImages(id, vectorWidgetIds)
+    if (imageResponse.err === null) {
+      let images = imageResponse.images
+      vectorWidgets.forEach(w => {
+        let image = images[w.figmaId]
+        if (image) {
+          w.props.figmaImage = image
+        } else {
+          console.error('FigmaService.parse() > No image for', w)
+        }
+      })
+    } else {
+      console.error('FigmaService.parse() > Could not get images', imageResponse)
     }
     return model
   }
@@ -125,6 +143,7 @@ class FigmaService {
       figmaId: element.id,
       name: element.name,
       type: this.getType(element),
+      figmaType: element.type,
       x: pos.x,
       y: pos.y,
       w: pos.w,
@@ -143,12 +162,17 @@ class FigmaService {
 
   getProps (element) {
     let props = {}
-    let type = element.type
-    if (this.vectorTypes.indexOf(type) >=0) {
-      console.debug(element)
-      props.paths = []
+    if (this.isVector(element)) {
+      console.debug('FigmaService.getProps() > make vector', element)
+      props.paths = element.strokeGeometry
+      props.relativeTransform = element.relativeTransform
+      props.isVector = true
     }
     return props
+  }
+
+  isVector (element) {
+    return this.buttonTypes.indexOf(element.type) === -1
   }
 
   getStyle (element) {
@@ -170,8 +194,7 @@ class FigmaService {
   }
 
   getType (element) {
-    let type = element.type
-    if (this.vectorTypes.indexOf(type) >=0) {
+    if (this.isVector(element)) {
       return 'Vector'
     }
     return 'Button'
