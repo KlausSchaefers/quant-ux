@@ -24,6 +24,7 @@ import Services from 'services/Services'
 import QR from 'core/QR'
 import Help from 'help/Help'
 import Share from 'page/Share'
+import ImportDialog from 'canvas/toolbar/ImportDialog'
 
 export default {
     name: '_Dialogs',
@@ -65,6 +66,22 @@ export default {
 				this.controller.setFonts(customFonts.getFonts());
 
 				dialog.close()
+		},
+
+		showImportDialog (e) {
+			this.logger.log(-1,"showImportDialog", "entry > ");
+			let dialog = new Dialog()
+      var db = new DomBuilder();
+			var popup = db.div("MatcDialog MatchImportDialog MatcPadding").build();
+      dialog.popup(popup, e.target);
+      let importDialog = this.$new(ImportDialog)
+			importDialog.placeAt(popup)
+
+			importDialog.setJwtToken(this.jwtToken)
+			importDialog.setModel(this.model)
+			importDialog.$on('save', data => {
+					this.logger.log(-1,"showImportDialog", "save > ", data);
+			})
 		},
 
 		showHelp (e) {

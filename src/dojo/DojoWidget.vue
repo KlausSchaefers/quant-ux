@@ -44,6 +44,9 @@ export default {
       for (let key in params){
         instance[key] = params[key]
       }
+      /**
+       * FIMXE: pass here some how the NLS stuff
+       */
       instance.$mount(); // pass nothing
       return instance;
     },
@@ -69,13 +72,17 @@ export default {
     initDomNodes() {
       this.domNode = this.$el;
       if (this.domNode) {
-        let attachPoints = this.domNode.querySelectorAll("[data-dojo-attach-point]");
-        attachPoints.forEach(element => {
-          let name = element.getAttribute("data-dojo-attach-point");
-          if (!this[name]) {
-            this[name] = element;
-          }
-        });
+        if (this.domNode.querySelectorAll) {
+          let attachPoints = this.domNode.querySelectorAll("[data-dojo-attach-point]");
+          attachPoints.forEach(element => {
+            let name = element.getAttribute("data-dojo-attach-point");
+            if (!this[name]) {
+              this[name] = element;
+            }
+          });
+        } else {
+          console.warn('initDomNodes', this.domNode)
+        }
       } else {
         console.warn('no domnode for', this.name)
       }

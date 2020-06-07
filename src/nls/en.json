@@ -17,6 +17,7 @@
             "settings": "Settings",
             "shortcuts": "Keyboard Shortcuts",
             "share": "Share",
+            "import": "Import",
             "export": "Export",
             "change-screen-size": "Change Screen Size",
             "save-as": "Save As",
@@ -44,6 +45,12 @@
         "close": "Close"
     },
     "dialog": {
+        "import": {
+            "images-title": "Import from Images",
+            "figma-title": "Import from Figma",
+            "tab-images": "Images",
+            "tab-figma": "Figma"
+        },
         "login": {
             "password": {
                 "label": "Password",

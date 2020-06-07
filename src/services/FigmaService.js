@@ -1,3 +1,5 @@
+import Logger from 'common/Logger'
+
 class FigmaService {
 
   constructor () {
@@ -5,6 +7,7 @@ class FigmaService {
     this.vectorTypes = ['LINE', 'ELLIPSE', 'VECTOR']
     this.buttonTypes = ['RECTANGLE', 'TEXT']
     this.allAsVecor = false
+    this.logger = new Logger('FigmaService')
   }
 
   setAccessKey (key) {
@@ -36,7 +39,7 @@ class FigmaService {
             let app = this.parse(key, json)
             resolve(app)
           } catch (e) {
-            console.error('FigmaService.get() Error', e)
+            this.logger.error('get', 'Error', e)
             resolve(null)
           }
         })
@@ -59,7 +62,7 @@ class FigmaService {
           try {
             resolve(json)
           } catch (e) {
-            console.error('FigmaService.get() Error', e)
+            this.logger.error('get', 'Error', e)
             resolve(null)
           }
         })
@@ -70,7 +73,7 @@ class FigmaService {
   }
 
   async parse (id, fModel) {
-    console.debug('FigmaService.parse', fModel)
+    this.logger.log(-1, 'parse', fModel)
     let model = this.createApp(id, fModel)
     let fDoc = fModel.document
 
@@ -98,29 +101,27 @@ class FigmaService {
 
   async addVectorImages(id, model) {
     let vectorWidgets = Object.values(model.widgets).filter(widget => widget.props.isVector)
-    let vectorWidgetIds = vectorWidgets.map(w => w.figmaId).join(',')
-    let imageResponse = await this.getImages(id, vectorWidgetIds)
-    if (imageResponse.err === null) {
-      let images = imageResponse.images
-      vectorWidgets.forEach(w => {
-        let image = images[w.figmaId]
-        if (image) {
-          w.props.figmaImage = image
-        } else {
-          console.error('FigmaService.addVectorImages() > No image for', w)
-        }
-      })
-    } else {
-      console.error('FigmaService.addVectorImages() > Could not get images', imageResponse)
+    if (vectorWidgets.length > 0) {
+      let vectorWidgetIds = vectorWidgets.map(w => w.figmaId).join(',')
+      let imageResponse = await this.getImages(id, vectorWidgetIds)
+      if (imageResponse.err === null) {
+        let images = imageResponse.images
+        vectorWidgets.forEach(w => {
+          let image = images[w.figmaId]
+          if (image) {
+            w.props.figmaImage = image
+          } else {
+            this.logger.error('addVectorImages', 'No image for', w)
+          }
+        })
+      } else {
+        this.logger.error('addVectorImages', 'Could not get images', imageResponse)
+      }
     }
-
-    /**
-     * TODO get image fills / uploads
-     */
   }
 
   parseScreen (fScreen, model, fModel) {
-    // console.debug('FigmaService.parseScreen', fScreen)
+    this.logger.log(1, 'parseScreen', fScreen.name)
     let pos = this.getPosition(fScreen)
     let qScreen = {
       id: 's' + this.getUUID(model),
@@ -148,8 +149,8 @@ class FigmaService {
     return qScreen
   }
 
-  parseElement (element, qScreen, fParent, model) {
-    // console.debug('FigmaService.parseElement', element)
+  parseElement (element, qScreen, fScreen, model, fModel) {
+    this.logger.log(1, 'parseElement', 'enter', element)
 
     let pos = this.getPosition(element)
     let widget = {
@@ -172,6 +173,12 @@ class FigmaService {
     /**
      * Go down recursive...
      */
+    if (element.children) {
+      element.children.forEach(child => {
+        this.logger.log(-1, 'parseElement', 'go recursive', element)
+        this.parseElement(child, qScreen, fScreen, model, fModel)
+      })
+    }
     return widget
   }
 
@@ -190,8 +197,33 @@ class FigmaService {
   }
 
   isVector (element) {
-    return this.allAsVecor || this.buttonTypes.indexOf(element.type) === -1
+    return this.allAsVecor || !this.isButton(element)
   }
+
+  isButton (element) {
+    if (this.buttonTypes.indexOf(element.type) >=0 ){
+      return  !this.isTooComplexStyle(element)
+    }
+    return false
+  }
+
+  isTooComplexStyle (element) {
+    if (element.fills && element.fills.length > 1) {
+      return true
+    }
+    if (element.fills && element.fills.length === 1) {
+      let fill = element.fills[0]
+      return fill.type !== 'SOLID'
+    }
+    if (element.effects && element.effects.length > 1) {
+      return true
+    }
+    if (element.strokes && element.strokes.length > 1) {
+      return true
+    }
+    return false
+  }
+
 
   getHas (element, widget) {
     if (widget.type === 'Label') {
@@ -221,12 +253,42 @@ class FigmaService {
     if (element.backgroundColor) {
       style.backgroundColor =  this.getColor(element.backgroundColor)
     }
-    if (element.fills && element.fills.length > 0) {
-      let fill = element.fills[0]
-      if (this.isLabel(widget)) {
-        style.color = this.getColor(fill.color)
-      } else {
-        style.backgroundColor = this.getColor(fill.color)
+    if (element.fills) {
+      if (element.fills.length === 1) {
+        let fill = element.fills[0]
+        if (fill.type === 'SOLID') {
+          if (this.isLabel(widget)) {
+            style.color = this.getColor(fill.color)
+          } else {
+            style.backgroundColor = this.getColor(fill.color)
+          }
+        }
+        if (fill.type === 'GRADIENT_LINEAR') {
+          console.debug('gradient', element.name, element.id, element.fills)
+          if (!this.isLabel(widget)) {
+            let start = fill.gradientHandlePositions[0]
+            let end = fill.gradientHandlePositions[1]
+
+            let xDiff = start.x - end.x;
+            let yDiff = start.y - end.y;
+            let dir = Math.atan2(yDiff, xDiff) * 180 / Math.PI;
+
+
+            let gradientStops = fill.gradientStops
+            let colors = gradientStops.map(stop => {
+                return {
+                  c: this.getColor(stop.color),
+                  p: stop.position * 100
+                }
+            })
+            style.background = {
+              direction: dir,
+              colors: colors
+            }
+          } else {
+            this.logger.log(1, 'getStyle', 'gradients not supported...')
+          }
+        }
       }
     }
 
@@ -237,6 +299,9 @@ class FigmaService {
       style.borderTopRightRadius = element.cornerRadius
     }
 
+    /**
+     * The border stuff we just do for rects and text
+     */
     if (!this.isVector(element)) {
       if (element.strokes && element.strokes.length > 0) {
         let stroke = element.strokes[0]
@@ -299,12 +364,7 @@ class FigmaService {
           style.valign = fStyle.textAlignVertical.toLowerCase()
         }
       }
-
-      console.debug(element)
     }
-
-
-
 
     return style
   }
@@ -333,7 +393,7 @@ class FigmaService {
         h: element.absoluteBoundingBox.height
       }
     }
-    console.warn('FigmaServive.getPosition() > No abs pos', element)
+    this.logger.warn('getPosition', 'No abs pos', element)
     return {}
   }
 

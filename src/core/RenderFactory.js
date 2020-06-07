@@ -1214,6 +1214,9 @@ export default class RenderFactory extends Core {
 				value += "," + color.c + " " + color.p + "% ";
 			}
 			value + ");";
+			/**
+			 * FIXME: Add suppoprt for radial as well
+			 */
 			parent.style.background = "linear-gradient" + value;
 			parent.style.background = "-webkit-linear-gradient" + value;
 		} else {

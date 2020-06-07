@@ -23,7 +23,9 @@ export default {
           return result
         }
       }
-      console.warn('getNLS() > could not find key or not i18n', key)
+      /**
+       * This can happen for elements that are mounted with DojoWidget.$new
+       */
       let result = JSONPath.get(nls, key)
       if (result) {
         return result
