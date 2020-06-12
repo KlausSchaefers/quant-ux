@@ -1,221 +1,251 @@
 {
-  "title": "Quant-UX(中国)",
-  "header": {
-    "my-prototypes": "我的项目",
-    "my-account": "我的账户",
-    "logout": "退出"
-  },
-  "common": {
-    "register": "Please register to save changes...",
-    "guest": "Guest",
-    "loading": "加载中..."
-  },
-  "toolbar": {
-    "menu": {
-      "start": "Start Simulator",
-      "settings": "设置",
-      "shortcuts": "快捷键",
-      "share": "分享",
-      "export": "导出",
-      "change-screen-size": "桌布大小设置",
-      "save-as": "保存",
-      "exit": "退出"
-    }
-  },
-
-  "table": {
-    "action": "动作"
-  },
-  "table-action": "动作 X",
-  "btn": {
-    "login": "登录",
-    "cancel": "取消",
-    "save": "保存",
-    "delete": "删除",
-    "download": "下载",
-    "edit": "编辑",
-    "post": "Post",
-    "close": "关闭"
-  },
-  "dialog": {
-    "login": {
-      "password": {
-        "label": "密码",
-        "placeholder": "输入密码",
-        "reset": "忘记密码?",
-        "error": "密码至少有6个字符"
-      },
-      "email": {
-        "placeholder": "邮箱",
-        "error": "输入你的邮箱"
-      },
-      "btn": {
-        "reate": "创建你的账户"
-      },
-      "tos": {
-        "1": "I have read the",
-        "2": "Terms of Service &amp; Privacy Policy",
-        "3": ".",
-        "error": "You must accept the terms of service &amp; privacy policy!"
-      },
-      "privacy": {
-        "1": "I have read the ",
-        "2": "Privacy Notice",
-        "error": "You must accept the privacy notice"
-      }
-    }
-  },
-  "test": {
-    "welcome": {
-      "headline": "Welcome!",
-      "intro": {
-        "1": "You were invited for a usability test of the",
-        "2": "application.",
-        "tasks": "You can try out the prototype and perform certain tasks. When you click on <b>Show Tasks</b> button, you will receive detailed instructions.",
-        "no-tasks": "You can try out the prototype by clicking on the <b>Start Prototype</b> button. ",
-        "privacy": "Please be aware that your interaction will be recored to make the design better. We do not store any personal information about you."
-      },
-      "next": "Show Tasks",
-      "start": "Start Prototype",
-      "privacy": "This is a usability test and your interaction will be stored to make the design better. We do not store any personal information about you."
-    },
-    "task": {
-      "headline": "Tasks",
-      "description": "In the scope of this usability test you are kindly requested to perform the tasks listed below. Don't worry if you can not fulfill all tasks. This is just a sign that the prototype needs further improvements. The tasks are:",
-      "footer": "You can try out the prototype by clicking on the <b>Start Prototype</b> button."
-    },
-    "qr": {
-      "headline": "Scan the QR code with your mobile device."
-    }
-  },
-
-  "user": {
-    "retire": {
-      "hi": "Hi ",
-      "msg": "are you sure that you want to <b>delete</b> your account? You will loose all your data.",
-      "cusoon": "Thanks for using Quant-UX. We hope to see you soon again."
-    }
-  },
-  "app": {
-    "error": {
-      "server-offline-title": "Ooops",
-      "server-offline-msg": "You have been gone for more than 30 minutes. To continue working, please log in again."
-    }
-  },
-  "applist": {
-    "add": "Create new Prorotype",
-    "sign-in": "Sign up to create a new Prototype"
-  },
-  "analytics": {
+    "title": "Quant-UX(中国)",
     "header": {
-      "user": "User",
-      "duration": "Test Duration",
-      "coverage": "Test Coverage"
-    }
+        "my-prototypes": "我的原型",
+        "my-account": "我的账户",
+        "logout": "退出登入"
+    },
+    "common": {
+        "register": "请注册以保存更改...",
+        "guest": "宾客",
+        "loading": "加载中...",
+        "language-changed": "语言已更改"
+    },
+    "toolbar": {
+        "menu": {
+            "start": "启动模拟器",
+            "settings": "设置",
+            "shortcuts": "快捷键",
+            "share": "分享",
+            "import": "导入",
+            "export": "导出",
+            "change-screen-size": "更改屏幕尺寸",
+            "save-as": "保存为",
+            "exit": "退出"
+        },
+        "simulate": "模拟",
+        "group": "组",
+        "sign-up": "注册以保存",
+        "templates": {
+            "new": "新建模板"
+        }
+    },
+    "table": {
+        "action": "Action"
+    },
+    "table-action": "Action X",
+    "btn": {
+        "login": "登录",
+        "cancel": "取消",
+        "save": "保存",
+        "delete": "删除",
+        "download": "下载",
+        "edit": "编辑",
+        "post": "发布",
+        "close": "关闭"
+    },
+    "dialog": {
+        "import": {
+            "images-title": "从图像导入",
+            "figma-title": "从Figma导入",
+            "tab-images": "图片",
+            "tab-figma": "Figma"
+        },
+        "login": {
+            "password": {
+                "label": "密码",
+                "placeholder": "你的密码",
+                "reset": "忘记密码?",
+                "error": "密码至少有6个字符"
+            },
+            "email": {
+                "placeholder": "你的邮箱",
+                "error": "请输入你的邮箱"
+            },
+            "btn": {
+                "reate": "创建免费账户"
+            },
+            "tos": {
+                "1": "我已经阅读",
+                "2": "服务条款 &amp; 隐私政策",
+                "3": ".",
+                "error": "你必须接受服务条款 &amp; 隐私政策!"
+            },
+            "privacy": {
+                "1": "我已经阅读 ",
+                "2": "隐私政策",
+                "error": "你必须接受此隐私政策!"
+            }
+        }
+    },
+    "test": {
+        "welcome": {
+            "headline": "欢迎!",
+            "intro": {
+                "1": "您被邀请做用途测试关于",
+                "2": "应用.",
+                "tasks": "您可以试用原型并执行某些任务. 当您点击 <b>任务列表</b> 按钮, 您讲收到详细说明.",
+                "no-tasks": "您可以通过点击<b>启动原型</b>按钮来试用原型. ",
+                "privacy": "请注意，我们将被记录您的行为来优化设计。我们不会存储有关您的任何个人信息."
+            },
+            "next": "任务列表",
+            "start": "启动原型",
+            "privacy": "这是一个可用性测试, 我们将被记录您的行为来优化设计。我们不会存储有关您的任何个人信息."
+        },
+        "task": {
+            "headline": "任务",
+            "description": "在此可用性测试的范围内，恳请您执行以下任务。如果您不能完成所有任务，请不要担心。这表明原型需要进一步改进。任务是:",
+            "footer": "您可以通过点击<b>启动原型</b>按钮来试用原型."
+        },
+        "qr": {
+            "headline": "扫描二维码."
+        }
+    },
 
-  },
-  "dashScreenList": {
-    "views": "Views",
-    "dwel": "Dwel Time",
-    "clicks": "Interactions",
-    "table-action": "Analyze"
-  },
-  "share": {
-    "Headline": "Share this app",
-    "Test": "Test",
-    "Comment": "Share & Comment",
-    "Embed": "Embed",
-    "Code": "Code Generation"
-  },
-  "notification": {
-    "more": "More..."
-  },
-  "dash": {
-    "perf": {
-      "scatter": {
-        "yLabel": "Interactions",
-        "xLabel": "Duration"
-      },
-      "dropoff": {
-        "xLabel": "Success Rate",
-        "step": "Step "
-      },
-      "details": {
-        "yLabel": "Interactions",
-        "yLabelEast": "Duration",
-        "xLabel": "Interactions | Duration",
-        "bottom25Label": "Interactions",
-        "bottom75Label": "Duration"
-      },
-      "tab": {
-        "scatter": "Scatter Plot",
-        "dropoff": "Drop Off",
-        "duration": "Duration",
-        "interactions": "Interactions",
-        "details": "Box Plot"
-      },
-      "hint": {
-        "scatter": "Each dot presents a successful user test. Select them to get more information.",
-        "session-msg": "To replay the session recording press ",
-        "session-play": "here"
-      },
-      "no-flow-title": "No FLow",
-      "no-flow-msg": "<p>Please define a flow with <b>more</b> than <b>two</b> steps.<br> Otherwise we cannot show details about the task performance.</p>"
-    }
-  },
+    "user": {
+        "retire": {
+            "hi": "Hi ",
+            "msg": "您确定要<b>删除</b>您的帐户吗？您将丢失所有数据",
+            "cusoon": "感谢您使用Quant-UX。希望能再见到你."
+        }
+    },
+    "app": {
+        "error": {
+            "server-offline-title": "注意",
+            "server-offline-msg": "您已经离开了30多分钟。请再次登录."
+        },
+        "overview": {
+            "design": "设计",
+            "test": "测试",
+            "dash": "仪表盘",
+            "heat": "热力图",
+            "settings": "设置",
+            "team": "团队",
+            "run-test": "启动测试",
+            "share": "分享"
+        }
+    },
+    "canvas": {
 
-  "testSettingsDescription": "Description",
-  "testSettingsTasks": "Tasks",
-  "testSettingsTaskName": "Name",
-  "testSettingsTaskDescription": "Description",
-  "testSettingsTaskAddHint": "Click the  &#34;Add Task&#34; button to create a new task. The tasks a shown to the users before the test.",
-  "testSettingsRegister": "Please register to save changes",
-  "testSettingsNoFlow": "No Flow",
-  "testSettingsFlow1": "Flow: ",
-  "testSettingsFlow2": " steps",
-  "testSettingsAddTask": "Add Task",
-  "testSettingTaskDeskPlaceholder": "Enter a description here",
-  "testSettingDesPlaceholder": "Add a short description for the users in here",
-  "testSettingTaskDelete1": "Do you want to delete the task '",
-  "testSettingTaskDelete2": "'?",
-  "testSettingsSaved": "Test settings updated...",
-  "testSettingsUpgradePlan": "Upgrade Plan",
+    },
+    "comments": {
+        "title": "评论",
+        "post": "发表评论"
+    },
+    "applist": {
+        "add": "创建新原型",
+        "sign-in": "注册以创建新的原型"
+    },
+    "analytics": {
+        "header": {
+            "user": "用户",
+            "duration": "测试时间",
+            "coverage": "测试覆盖率"
+        }
 
-  "dashTaskEmpty": "Click the  &#34;Add Task&#34; button to create a new analytic task. Edit the flow to measure task performance. ",
-  "dashTaskTableName": "Name",
-  "dashTaskTableSuccess": "Success Rate",
-  "dashTaskTableDuration": "Duration",
-  "dashTaskTableEvents": "Interactions",
-  "dashTaskTableEditFlow": "Edit Flow",
-  "dashTaskFunnel": "Funnel",
-  "dashTaskDurDis": "Duration Distribution",
-  "dashTaskEventDis": "Event Distribution",
-  "dashTaskDesPlaceholder": "Enter a description here",
-  "dashTaskPerfHeadline": "Task: ",
+    },
+    "dashScreenList": {
+        "views": "访问次数",
+        "dwel": "停顿时间",
+        "clicks": "交互量",
+        "table-action": "分析"
+    },
+    "share": {
+        "Headline": "分享此应用",
+        "Test": "测试",
+        "Comment": "分享 & 评论",
+        "Embed": "嵌入",
+        "Code": "代码生成"
+    },
+    "notification": {
+        "more": "跟多..."
+    },
+    "dash": {
+        "perf": {
+            "scatter": {
+                "yLabel": "交互量",
+                "xLabel": "时间"
+            },
+            "dropoff": {
+                "xLabel": "成功率",
+                "step": "步骤 "
+            },
+            "details": {
+                "yLabel": "交互量",
+                "yLabelEast": "时间",
+                "xLabel": "交互量 | 时间",
+                "bottom25Label": "交互量",
+                "bottom75Label": "时间"
+            },
+            "tab": {
+                "scatter": "散点图",
+                "dropoff": "放下",
+                "duration": "时间",
+                "interactions": "交互量",
+                "details": "箱型图"
+            },
+            "hint": {
+                "scatter": "每个点表示一个成功的用户测试. 选择它们以获得更多信息.",
+                "session-msg": "回话回放点击 ",
+                "session-play": "这里"
+            },
+            "no-flow-title": "无流程",
+            "no-flow-msg": "<p>请定义一个流程，流程要多于<b>两个步骤</b>. 否则, 我们将无法显示有关任务执行的详细信息. </p>"
+        }
+    },
 
-  "taskRecorder1": "A flow is the sequence of interactions the users have to perform to complete a task.",
-  "taskRecorderStep1": "Perform the interactions your users should perform",
-  "taskRecorderStep2": "You can press <b>Pause</b> to pause the recording",
-  "taskRecorderStep3": "Press <b>Done</b> when the flow is complete.",
-  "taskRecorderStep4": "<b>Select</b> all steps that are important for the task.",
-  "taskRecorderPauseHint": "Click Pause to pause recording",
-  "taskRecorderPauseBtn": "Pause",
-  "taskRecorderPauseDes": "Recoding interaction...",
-  "taskRecorderRecordBtn": "Record",
-  "taskRecorderRecordDes": "Click Record to continue recording",
-  "taskRecorderError1": "You have not recorded any flow. Did you press the Record button?",
-  "taskRecorderDoNotAllow": "Do not allow events in between.",
-  "taskRecorderEvent": "Event",
-  "taskRecorderScreen": "Screen",
-  "taskRecorderWidget": "Widget",
-  "taskRecorderAction": "Important",
+    "testSettingsDescription": "描述",
+    "testSettingsTasks": "任务",
+    "testSettingsTaskName": "名称",
+    "testSettingsTaskDescription": "描述",
+    "testSettingsTaskAddHint": "单击 &#34;添加任务&#34; 按钮创建一个新任务. 测试前会向用户显示任务.",
+    "testSettingsRegister": "请注册以保存更改",
+    "testSettingsNoFlow": "无流程",
+    "testSettingsFlow1": "流程: ",
+    "testSettingsFlow2": " 步骤",
+    "testSettingsAddTask": "添加任务",
+    "testSettingTaskDeskPlaceholder": "输入描述",
+    "testSettingDesPlaceholder": "在此处为用户添加简短说明",
+    "testSettingTaskDelete1": "您要删除此任务 '",
+    "testSettingTaskDelete2": "'吗?",
+    "testSettingsSaved": "测试设置已更新...",
+    "testSettingsUpgradePlan": "升级计划",
 
-  "videoTableStatus": "Status",
-  "videoTableUser": "User",
-  "videoTableDuration": "Duration (sec)",
-  "videoTableScreens": "Visited Screens",
-  "videoTableEvents": "Events",
-  "videoTableDate": "Date",
-  "videoTableStatusNotPayed": "Blocked",
-  "videoTablePlanUpdateMsg": "To see all videos upgate your plan."
+    "dashTaskEmpty": "单击 &#34;添加任务&#34; 创建一个新分析任务. 编辑流程以衡量任务性能. ",
+    "dashTaskTableName": "名称",
+    "dashTaskTableSuccess": "成功率",
+    "dashTaskTableDuration": "时间",
+    "dashTaskTableEvents": "互动量",
+    "dashTaskTableEditFlow": "编辑流程",
+    "dashTaskFunnel": "漏斗",
+    "dashTaskDurDis": "时间分布",
+    "dashTaskEventDis": "事件粪污",
+    "dashTaskDesPlaceholder": "输入描述",
+    "dashTaskPerfHeadline": "任务: ",
+
+    "taskRecorder1": "流程是用户完成任务必须执行的交互顺序.",
+    "taskRecorderStep1": "执行用户应执行的互动",
+    "taskRecorderStep2": "您可以按<b>暂停</b>暂停记录",
+    "taskRecorderStep3": "单机<b>完成</b>, 流程完成.",
+    "taskRecorderStep4": "<b>选择</b>对任务重要的所有步骤.",
+    "taskRecorderPauseHint": "单击暂停以暂停记录",
+    "taskRecorderPauseBtn": "暂停",
+    "taskRecorderPauseDes": "记录交互...",
+    "taskRecorderRecordBtn": "记录",
+    "taskRecorderRecordDes": "单击记录以继续记录",
+    "taskRecorderError1": "您尚未记录任何流程. 您是否按下了记录按钮?",
+    "taskRecorderDoNotAllow": "不允许事件介于此之间.",
+    "taskRecorderEvent": "事件",
+    "taskRecorderScreen": "屏幕",
+    "taskRecorderWidget": "Widget",
+    "taskRecorderAction": "重要",
+
+    "videoTableStatus": "状态",
+    "videoTableUser": "用于",
+    "videoTableDuration": "时间 (秒)",
+    "videoTableScreens": "访问过屏幕",
+    "videoTableEvents": "事件",
+    "videoTableDate": "日期",
+    "videoTableStatusNotPayed": "阻塞",
+    "videoTablePlanUpdateMsg": "查看全部视频更新您的计划"
 }
