@@ -237,7 +237,7 @@
     "taskRecorderDoNotAllow": "不允许事件介于此之间.",
     "taskRecorderEvent": "事件",
     "taskRecorderScreen": "屏幕",
-    "taskRecorderWidget": "Widget",
+    "taskRecorderWidget": "组件",
     "taskRecorderAction": "重要",
 
     "videoTableStatus": "状态",
