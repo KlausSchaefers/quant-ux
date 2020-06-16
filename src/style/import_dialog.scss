@@ -1,4 +1,58 @@
+@import './variables.scss';
+
 .MatcDialog.MatchImportDialog{
-  width: 1200px;
-  height: 400px;
+  width: 900px;
+  height: 500px;
+
+  .MatcError{
+    height: 20px;
+  }
+
+  .MatcToolbarTabsBig {
+    margin-bottom: 20px;
+  }
+
+  .MatchImportDialogCntr{
+    height: 300px;
+    position: relative;
+
+    .MatcHint {
+      color: #ccc;
+      position: absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%, -50%);
+      transition: 0.2s all;
+      font-size: 24px;
+    }
+  }
+
+  .MatchImportDialogDropZone {
+    border: 1px dashed #ccc;
+    transition: 0.2s all;
+    overflow: auto;
+
+    &.MatchImportDialogDropZoneHover{
+      border-color: $main_color;
+
+      .MatcHint {
+        color: $main_color;
+        font-size: 26px;
+      }
+    }
+
+    .MatchImportDialogPreview{
+      display: inline-block;
+      margin: 10px;
+
+
+      img {
+        width: 100%;
+      }
+    }
+
+  }
+
+
 }
+

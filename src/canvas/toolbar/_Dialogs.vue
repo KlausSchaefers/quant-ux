@@ -79,8 +79,16 @@ export default {
 
 			importDialog.setJwtToken(this.jwtToken)
 			importDialog.setModel(this.model)
+			importDialog.setController(this.controller)
+			importDialog.setCanvas(this.canvas)
+			importDialog.setZoom(this.canvas.getZoomFactor())
 			importDialog.$on('save', data => {
 					this.logger.log(-1,"showImportDialog", "save > ", data);
+					dialog.close()
+			})
+			importDialog.$on('cancel', () => {
+					this.logger.log(-1,"showImportDialog", "cancel > ");
+					dialog.close()
 			})
 		},
 

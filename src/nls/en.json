@@ -49,7 +49,10 @@
             "images-title": "Import from Images",
             "figma-title": "Import from Figma",
             "tab-images": "Images",
-            "tab-figma": "Figma"
+            "tab-figma": "Figma",
+            "images-drop-msg": "Drop Images Here",
+            "progress-title": "Uploading...",
+            "error-too-big": "One file is too big. Max is 5MB"
         },
         "login": {
             "password": {

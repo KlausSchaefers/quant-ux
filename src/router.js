@@ -139,6 +139,10 @@ export default new VueRouter({
     {
       path: '/test/Figma.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/FigmaTest.vue')
+    },
+    {
+      path: '/test/Import.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/ImportDialogTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',

@@ -218,6 +218,7 @@ export default {
 			this.screenCreateBtn.setModel(this.model);
 			this.tempOwn(this.screenCreateBtn.on( "onAdd", lang.hitch(this, "onNewThemeObject")));
 			this.tempOwn(this.screenCreateBtn.on("onUpload", lang.hitch(this, "onThemedMultiScreen")));
+			this.tempOwn(this.screenCreateBtn.on("onImport", lang.hitch(this, "showImportDialog")));
 
 			css.add(this.screenCreateBtn.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
 			this.screenCreateBtn.placeAt(this.addScreenSection);

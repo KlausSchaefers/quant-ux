@@ -264,6 +264,9 @@ class FigmaService {
           }
         }
         if (fill.type === 'GRADIENT_LINEAR') {
+          /*
+          * https://github.com/KarlRombauts/Figma-SCSS-Generator
+          */
           console.debug('gradient', element.name, element.id, element.fills)
           if (!this.isLabel(widget)) {
             let start = fill.gradientHandlePositions[0]
