@@ -9,7 +9,7 @@
 
             <div :class="['MatchImportDialogDropZone MatchImportDialogCntr', {'MatchImportDialogDropZoneHover': hasDrop}]">
                 <span class="MatcHint" v-if="uploadFiles.length === 0">{{ getNLS('dialog.import.images-drop-msg')}}</span>
-                <div class="MatchImportDialogPreview" v-for="(file,i) in uploadFiles" :key="file.name" :style="{'height': previewHeight, 'width': previewWidth}">
+                <div class="MatchImportDialogPreview MatcToolbarDropDownButtonItem" v-for="(file,i) in uploadFiles" :key="file.name" :style="{'height': previewHeight, 'width': previewWidth}">
                     <img :src="uploadPreviews[i]" :alt="file.name"/>
                 </div>
             </div>
@@ -132,7 +132,7 @@ export default {
             let pos = this.getCanvasCenter()
             let screens = uploads.map((upload,i ) => {
 
-				let x = pos.x + (50 + this.model.screenSize.w) * i;
+				let x = pos.x + (100 + this.model.screenSize.w) * i;
                 let y = pos.y
                 let screen = this.createEmptyScreen(x,y, upload.name);
                 screen.w = this.model.screenSize.w
