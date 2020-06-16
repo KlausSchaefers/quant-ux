@@ -190,7 +190,7 @@ export default {
 			},
 
 			_onUploadDone (result, screens, completed, fileName, pos, hoverScreen){
-				this.logger.log(0,"_onUploadDone", "enter >  " ,this._uploadJobCount,  fileName);
+				this.logger.log(-1,"_onUploadDone", "enter >  " ,this._uploadJobCount,  fileName);
 
 				if(result.error){
 					console.error("_onUploadDone()", result);
@@ -301,6 +301,7 @@ export default {
 			},
 
 			_onImageUploaded (result, screens, completed){
+				this.logger.log(-1,"_onImageUploaded", "enter", result);
 				var uploads  = result.uploads;
 				var names = [];
 				for(var i=0; i< uploads.length; i++){
@@ -348,6 +349,10 @@ export default {
 					var ring = job.ring;
 					ring.stopAnimation();
 					ring.destroy();
+					let div = job.div
+					if (div && div.parentNode) {
+						 div.parentNode.removeChild(div)
+					}
 				}
 				this.addAfterRenderCallBack(null);
 				delete this._uploadJobCount;
