@@ -51,8 +51,14 @@
             "tab-images": "Images",
             "tab-figma": "Figma",
             "images-drop-msg": "Drop Images Here",
-            "progress-title": "Uploading...",
-            "error-too-big": "One file is too big. Max is 5MB"
+            "image-progress": "Uploading...",
+            "figma-key": "Access Key",
+            "figma-url": "Url",
+            "figma-progress-file": "Loading Figma File...",
+            "error-too-big": "One file is too big. Max is 5MB",
+            "error-figma-key": "Please provide the access key",
+            "error-figma-url": "Copy the url of the figma prototype",
+            "error-figma-load": "Something went wrong loading the figma file"
         },
         "login": {
             "password": {

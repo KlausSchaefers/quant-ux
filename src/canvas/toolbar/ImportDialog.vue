@@ -18,11 +18,24 @@
         <div v-if="tab=== 'figma'">
             <div class="MatchImportDialogCntr">
 
+            <div class="field ">
+                <label>{{ getNLS('dialog.import.figma-key')}}</label>
+                <input type="text" class="input" v-model="figmaAcccessKey" />
+            </div>
+
+            <div class="field">
+                <label>{{ getNLS('dialog.import.figma-url')}}</label>
+                <input type="text" class="input" v-model="figmaUrl" />
+            </div>
+
+
             </div>
         </div>
          <div v-if="tab=== 'progress'">
             <div class="MatchImportDialogCntr">
-                <span class="MatcHint" v-if="uploadFiles.length === 0">{{ getNLS('dialog.import.progress-title')}}</span>
+                <span class="MatcHint" >
+                   {{progressMSG}}
+                </span>
             </div>
         </div>
         <div class="MatcError">
@@ -49,18 +62,23 @@ import DojoWidget from 'dojo/DojoWidget'
 import Logger from 'common/Logger'
 import Util from 'core/Util'
 import Services from 'services/Services'
+import FigmaService from 'services/FigmaService'
 
 export default {
     name: 'ImportDialog',
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-            tab: "images",
+            tab: "figma",
             hasDrop: false,
             uploadFiles: [],
             uploadPreviews: [],
             zoom: 1,
-            errorMSG: ''
+            errorMSG: '',
+            progressMSG: '',
+            progessPercent: 0,
+            figmaAcccessKey: '',
+            figmaUrl: ''
         }
     },
     components: {},
@@ -106,7 +124,132 @@ export default {
                 this.tab = 'progress'
                 await this.uploadImagesAndCreateScreens()
             }
+            if (this.tab === 'figma' && this.isValidFigmaConfig()) {
+
+                this.tab = 'progress'
+                await this.importFigma(this.figmaAcccessKey, this.figmaUrl)
+            }
             this.$emit('save')
+        },
+
+        isValidFigmaConfig () {
+            if (!this.figmaAcccessKey) {
+                this.errorMSG = this.getNLS('dialog.import.error-figma-key')
+                return false
+            }
+            if (!this.figmaUrl) {
+                this.errorMSG = this.getNLS('dialog.import.error-figma-url')
+                return false
+            }
+            if (this.figmaUrl.indexOf('https://www.figma.com/file/') !== 0) {
+                this.errorMSG = this.getNLS('dialog.import.error-figma-url')
+                return false
+            }
+            if (!this.getFigmaFileKey(this.figmaUrl)) {
+                this.errorMSG = this.getNLS('dialog.import.error-figma-url')
+                return false
+            }
+            return true
+        },
+
+        getFigmaFileKey (url) {
+            let parts = url.split('/')
+            if (parts.length >= 5) {
+                return parts[4]
+            }
+        },
+
+        async importFigma (accessKey, url) {
+            this.logger.log(-1, 'importFigma', 'enter', url)
+            localStorage.setItem('quxFigmaAccessKey', accessKey)
+            localStorage.setItem('quxFigmaUrl', url)
+            let fileId = this.getFigmaFileKey(url)
+
+            try {
+                FigmaService.setAccessKey(accessKey)
+                this.setProgress(0, 'dialog.import.figma-progress-file')
+                let model = await FigmaService.get(fileId)
+                if (model) {
+                    this.logger.log(-1, 'importFigma', 'model', model)
+                    let vectorWidgets = Object.values(model.widgets).filter(w => w.type === 'Vector' || w.type === 'Image')
+                    await this.downloadFigmaImages(vectorWidgets)
+
+                    let minX = 1000000
+                    let minY = 1000000
+                    Object.values(model.screens).forEach(screen => {
+                        minX = Math.min(minX, screen.x)
+                        minY = Math.min(minY, screen.y)
+                    })
+
+                    /**
+                     * Set to correct position
+                     */
+                    let pos = this.getCanvasCenter()
+                    let offsetX = pos.x - minX
+                    let offsetY = pos.y - minY
+                    Object.values(model.screens).forEach(screen => {
+                        screen.x += offsetX
+                        screen.y += offsetY
+                        return screen
+                    })
+                    Object.values(model.widgets).forEach(widget => {
+                        widget.x += offsetX
+                        widget.y += offsetY
+                        return widget
+                    })
+
+
+                    this.controller.addScreensAndWidgets(model);
+                } else {
+                    throw new Error('Could not download figma. Servivce returned null')
+                }
+            } catch (err) {
+                this.logger.error('importFigma', 'Cannot import figma')
+                this.logger.sendError(err)
+                this.errorMSG = this.getNLS('dialog.import.error-figma-load')
+                this.tab = 'figma'
+            }
+        },
+
+        async downloadFigmaImages (vectorWidgets) {
+            let imageService = Services.getImageService()
+            let url = '/rest/images/' + this.model.id;
+            let promisses = vectorWidgets.map(widget => {
+                let figmaImage = widget.props.figmaImage
+                this.logger.log(-1, 'downloadFigmaImages', 'enter', figmaImage)
+                return new Promise ((resolve, reject) => {
+                    var myRequest = new Request(figmaImage);
+                    fetch(myRequest).then(response => response.blob()).then(blob => {
+                        var formData = new FormData()
+                        formData.append(widget.name +'.png', blob, widget.name +'.png')
+                        imageService.upload(url, formData).then(uploadResponse => {
+                            uploadResponse = JSON.parse(uploadResponse)
+                            let upload = uploadResponse.uploads[0]
+                            if (upload) {
+                                widget.style.backgroundImage = {
+                                    url: upload.url,
+                                    w: upload.width,
+                                    h: upload.height
+                                };
+                            }
+                            resolve(widget)
+                        }, err => {
+                            this.logger.error('downloadFigmaImages', 'Could not upload image')
+                            reject(err)
+                        })
+                    }, err => {
+                        this.logger.error('downloadFigmaImages', 'Could get blob')
+                        reject(err)
+                    })
+                })
+            })
+            let images = await Promise.all(promisses)
+            return images
+        },
+
+        setProgress (p, msg = '') {
+            this.progessPercent = p,
+            this.progressMSG = this.getNLS(msg)
         },
 
         async uploadImagesAndCreateScreens () {
@@ -115,6 +258,8 @@ export default {
                 this.logger.error('uploadImagesAndCreateScreens', 'no model')
                 return
             }
+
+            this.setProgress(0, 'dialog.import.image-progress')
 
 		    let url = '/rest/images/' + this.model.id;
             let imageService = Services.getImageService()
@@ -149,11 +294,13 @@ export default {
         },
 
         getCanvasCenter () {
-            // we have to take teh inverse
-            return {
-                x: Math.max(50, this.getZoomed(-1 * (this.canvas.domPos.x + this.canvas.canvasPos.x - 200), 1 / this.zoom)),
-                y: Math.max(50, this.getZoomed(-1 * (this.canvas.domPos.y + this.canvas.canvasPos.y - 200), 1 / this.zoom)),
+            if (this.canvas) {
+                return {
+                    x: Math.max(50, this.getZoomed(-1 * (this.canvas.domPos.x + this.canvas.canvasPos.x - 200), 1 / this.zoom)),
+                    y: Math.max(50, this.getZoomed(-1 * (this.canvas.domPos.y + this.canvas.canvasPos.y - 200), 1 / this.zoom)),
+                }
             }
+            return {x:0, y: 0}
         },
 
         onDragEnter (e) {
@@ -210,6 +357,8 @@ export default {
     },
     mounted () {
         this.logger = new Logger("ImportDialog");
+        this.figmaAcccessKey = localStorage.getItem('quxFigmaAccessKey')
+        this.figmaUrl = localStorage.getItem('quxFigmaUrl')
     }
 }
 </script>

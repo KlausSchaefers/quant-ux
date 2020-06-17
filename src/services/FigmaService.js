@@ -52,6 +52,9 @@ class FigmaService {
 
   getImages (key, ids) {
     return new Promise ((resolve, reject) => {
+      /**
+       * Gte in dounle resolution?
+       */
       let url = this.baseURL + 'images/' + key + '?format=png&ids=' + ids
       fetch(url, {
         method: 'get',

@@ -105,6 +105,7 @@ export default {
   mounted() {
     this.accessKey = localStorage.getItem('quxFigmaTest')
     FigmaService.setAccessKey(this.accessKey)
+    console.debug(this.accessKey)
     this.run()
   }
 };
