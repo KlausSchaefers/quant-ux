@@ -1171,12 +1171,13 @@ input.MatcToobarInlineEditDisabled:focus{
 
 .MatcToolbarColorIndicator{
 	display: inline-block;
-    width: 25px;
-    height: 18px;
-    margin-top:2px;
-    border-radius: 2px;
+	width: 25px;
+	height: 18px;
+	margin-top:2px;
+	border-radius: 2px;
 	background: red;
 	background: linear-gradient(145deg, rgba(255,255,255,1) 47%, rgba(237,0,0,1) 48%, rgba(237,0,0,1) 52%, rgba(255,255,255,1) 53%);
+	background-repeat: no-repeat;
 }
 
 

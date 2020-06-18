@@ -1,21 +1,9 @@
 <template>
   <div>
     <div class="VommondContentContainer">
-      <div class="MatcHeader MactMainGradient MatcHeaderTab bs-docs-header">
-        <div class="container">
-          <div class="row MatcHeaderTopRow">
-            <div class="col-md-12">
-                Help
-            </div>
-          </div>
 
-          <div class="row MatcHeaderBottomRow">
-            <div class="col-md-12 MatcRight"></div>
-          </div>
-        </div>
-      </div>
 
-      <div class="MatcContent">
+      <div class="MatcContent MatcMarginTopXXL">
         <div class="MatcSection MatcSectionOdd">
           <div class="container">
              <div class="row">
@@ -37,7 +25,7 @@ export default {
   name: "404",
   mixins: [],
    data: function() {
-    return {   
+    return {
         name: '',
         email: '',
         message: '',

@@ -53,9 +53,9 @@ class FigmaService {
   getImages (key, ids) {
     return new Promise ((resolve, reject) => {
       /**
-       * Gte in dounle resolution?
+       * Get in double resolution
        */
-      let url = this.baseURL + 'images/' + key + '?format=png&ids=' + ids
+      let url = this.baseURL + 'images/' + key + '?format=png&scale=2&ids=' + ids
       fetch(url, {
         method: 'get',
         credentials: "same-origin",
@@ -249,7 +249,9 @@ class FigmaService {
   }
 
   getStyle (element, widget) {
-    let style = {}
+    let style = {
+      fontFamily : 'Helvetica Neue,Helvetica,Arial,sans-serif'
+    }
     /**
      * How is this rendered. Which has priority
      */

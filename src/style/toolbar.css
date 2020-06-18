@@ -1025,7 +1025,7 @@
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a.MatcToolbarTabActive,
 .MatcCode.MatcToolbarTabContainer a.MatcToolbarTabActive{
-	border-bottom: 2px solid #555;
+	border-bottom: 2px solid #1973e8;
 	color:#555;
 }
 

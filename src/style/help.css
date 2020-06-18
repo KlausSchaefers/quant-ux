@@ -12,7 +12,7 @@
 .MatcHelp a {
     display: inline-block;
     width: 100%;
-    color:#777;
+    color:#4a4a4a;
     font-size: 16px;
     margin-bottom: 5px;
     margin-top: 5px;
@@ -43,18 +43,6 @@
     margin-top: 16px;
 }
 
-.MatcHelpTopics{
-    width: 200px;
-    overflow: auto;
-    display: inline-block;
-}
-
-.MatcHelpDialog .MatcHelpTopicsCntr {
-    overflow: auto;
-    height: 600px;
-}
-
-
 
 .MatcHelpContent{
     display: inline-block;
@@ -62,33 +50,64 @@
     padding-right: 20px;
     margin-right: 20px;
     height: 100%;
-    font-weight: 300;
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+
+.MatcHelpDialog .MatcHelpContent{
+    width: 960px;
+}
+
+.MatcHelpTopics{
+    width: 200px;
+    overflow: auto;
+}
+
+.MatcHelpTopicsCntr a{
+    font-size: 14px;
+}
+
+.MatcHelpDialog .MatcHelpTopicsCntr {
+    overflow: auto;
+    height: 580px;
+}
+
+.MatcHelpContentCntr {
+    width: 800px;
+    padding-left: 60px;
 }
 
 .MatcHelpDialog .MatcHelpContentCntr{
-    height: 600px;
+    height: 620px;
+    padding-right: 60px;
     overflow: auto;
-    padding-right: 20px;
 }
 
 .MatcHelpContentCntr iframe {
     margin-top: 30px;
 }
 
-.MatcHelpContent h2{
-    font-size: 24px;
-    font-weight: 400;
-}
 
-.MatcHelpContent h3{
+
+.MatcHelp .MatcHelpContent h2{
     font-size: 20px;
     font-weight: 400;
+    color: #4a4a4a;
+    margin-bottom: 5px;
+}
+
+.MatcHelp .MatcHelpContent h3{
+    font-size: 18px;
+    color: #4a4a4a;
+    margin-bottom: 5px;
 }
 
 .MatcHelpContentParagraph {
     margin-top: 32px;
-    line-height: 1.6;
-    font-size: 18px;
+    line-height: 1.8;
+    font-size: 16px;
+    color: #777777;
 }
 
 .MatcHelpContentParagraphSpacer {
@@ -111,6 +130,6 @@
 
 .MatcHelp ol li{
     list-style-type: circle;
-    margin: 10px;
+    margin: 3px 10px;
     padding: 0;
 }

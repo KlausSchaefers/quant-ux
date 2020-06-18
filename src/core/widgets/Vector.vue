@@ -35,7 +35,13 @@ export default {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
       var figmaImage = model.props.figmaImage;
-      if (figmaImage) {
+      if (style.backgroundImage) {
+         if (this.hash) {
+          this.backgroundImage = "url(/rest/images/" + this.hash + "/" + style.backgroundImage.url + ")";
+        } else {
+          this.backgroundImage = "url(/rest/images/" + style.backgroundImage.url + ")";
+        }
+      } else if (figmaImage) {
         this.backgroundImage = `url(${figmaImage})`
       } else {
         this.errorMsg = 'No figma image'

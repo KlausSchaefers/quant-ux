@@ -12,6 +12,7 @@
                 <div class="MatchImportDialogPreview MatcToolbarDropDownButtonItem" v-for="(file,i) in uploadFiles" :key="file.name" :style="{'height': previewHeight, 'width': previewWidth}">
                     <img :src="uploadPreviews[i]" :alt="file.name"/>
                 </div>
+                <input type="file" @change="onFileChange" >
             </div>
 
         </div>
@@ -19,7 +20,11 @@
             <div class="MatchImportDialogCntr">
 
             <div class="field ">
-                <label>{{ getNLS('dialog.import.figma-key')}}</label>
+                <label>{{ getNLS('dialog.import.figma-key')}}
+                    <a  target="figma" href="https://www.figma.com/developers/api#access-tokens">
+                        <span class="mdi mdi-help-circle"></span>
+                    </a>
+                    </label>
                 <input type="text" class="input" v-model="figmaAcccessKey" />
             </div>
 
@@ -34,7 +39,10 @@
          <div v-if="tab=== 'progress'">
             <div class="MatchImportDialogCntr">
                 <span class="MatcHint" >
-                   {{progressMSG}}
+                    {{progressMSG}}
+                    <span class="MatcUploadProgressCnr">
+                        <span class="MatcUploadProgress" ref="progressBar" :style="'width:' + progessPercent + '%'"/>
+                    </span>
                 </span>
             </div>
         </div>
@@ -44,8 +52,8 @@
 
         <div class=" MatcButtonBar MatcMarginTop">
 
-            <a class=" MatcButton" @click="onSave">{{ getNLS('btn.save')}}</a>
-            <a class=" MatcLinkButton" @click="onCancel">{{ getNLS('btn.cancel')}}</a>
+            <a class=" MatcButton" @click.stop="onSave">{{ getNLS('btn.import')}}</a>
+            <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel')}}</a>
         </div>
 
          <div v-if="tab=== 'log'">
@@ -69,7 +77,7 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-            tab: "figma",
+            tab: "images",
             hasDrop: false,
             uploadFiles: [],
             uploadPreviews: [],
@@ -212,6 +220,9 @@ export default {
         },
 
         async downloadFigmaImages (vectorWidgets) {
+            this.setProgress(20)
+            let total = vectorWidgets.length * 2;
+            let done = 0
             let imageService = Services.getImageService()
             let url = '/rest/images/' + this.model.id;
             let promisses = vectorWidgets.map(widget => {
@@ -220,6 +231,9 @@ export default {
                 return new Promise ((resolve, reject) => {
                     var myRequest = new Request(figmaImage);
                     fetch(myRequest).then(response => response.blob()).then(blob => {
+                        done++
+                        this.setProgress(((done / total) * 80) + 20)
+
                         var formData = new FormData()
                         formData.append(widget.name +'.png', blob, widget.name +'.png')
                         imageService.upload(url, formData).then(uploadResponse => {
@@ -232,6 +246,10 @@ export default {
                                     h: upload.height
                                 };
                             }
+
+                            done++
+                            this.setProgress(((done / total) * 80) + 20)
+
                             resolve(widget)
                         }, err => {
                             this.logger.error('downloadFigmaImages', 'Could not upload image')
@@ -247,26 +265,29 @@ export default {
             return images
         },
 
-        setProgress (p, msg = '') {
-            this.progessPercent = p,
-            this.progressMSG = this.getNLS(msg)
-        },
-
         async uploadImagesAndCreateScreens () {
             this.logger.log(-1, 'uploadImagesAndCreateScreens', 'enter')
+
+            let progress = []
+            this.setProgress(10, 'dialog.import.image-progress')
+
             if (!this.model) {
                 this.logger.error('uploadImagesAndCreateScreens', 'no model')
                 return
             }
 
-            this.setProgress(0, 'dialog.import.image-progress')
-
 		    let url = '/rest/images/' + this.model.id;
             let imageService = Services.getImageService()
-            let promisses = this.uploadFiles.map(file => {
+            let promisses = this.uploadFiles.map((file, i) => {
                 var formData = new FormData();
 				formData.append('file', file);
-                return imageService.upload(url, formData)
+                return imageService.upload(url, formData, event => {
+                    progress[i] = event.loaded / file.size;
+                    var total = progress.reduce((a, b) => {
+                        return a + b;
+                    }, 0);
+                    this.setProgress(total * 100)
+                })
             })
 
             let results = await Promise.all(promisses)
@@ -325,6 +346,13 @@ export default {
             this.hasDrop = false
             this.showFiles(files)
         },
+
+        onFileChange (e) {
+            let files = e.target.files
+            this.hasDrop = false
+            this.showFiles(files)
+        },
+
         showFiles (files) {
             this.logger.log(-1, 'showFiles', 'enter', files)
             this.uploadFiles = []
@@ -345,12 +373,25 @@ export default {
                 }
             }
         },
+
+        setProgress (p, msg = '') {
+            this.progessPercent = p;
+            if (msg) {
+                this.progressMSG = this.getNLS(msg)
+            }
+        },
+
         isAllowedFileType (file) {
             if(file.size > 50000000){
                 this.errorMSG = this.getNLS('dialog.import.error-too-big')
                 return false
             }
-            return true
+            let name = file.name.toLowerCase()
+            if (name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0 || name.indexOf('.png') > 0 || name.indexOf('.gif') > 0) {
+                return true
+            } else {
+                this.errorMSG = this.getNLS('dialog.import.error-wrong-type')
+            }
         }
 
 

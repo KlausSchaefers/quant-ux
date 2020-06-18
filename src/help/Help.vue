@@ -1,21 +1,41 @@
 
 <template>
     <div class="MatcHelp">
-        <div class="MatcHelpContent">
+            <div class="MatcHelpContent">
+                <div class="MatcHelpTopics" v-if="hasSideBar">
+                <div v-if="hasSearch">
+                    <input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" v-model="search"/>
+                </div>
+                <span v-if="loading" class="MatchHint">
+                    Loading...
+                </span>
+                <div class="MatcHelpTopicsCntr">
+                    <template v-for="topic in topics" >
+                        <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id">
+                            {{topic.name}}
+                        </a>
+                        <template v-if="topic.id === selected">
+                            <a  v-for="(p, i) in topic.paragraphs" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)">
+                                {{p.title}}
+                            </a>
+                        </template>
+                    </template>
+                </div>
+            </div>
             <span v-if="loading" class="MatchHint">
                 Loading...
             </span>
             <div v-else class="MatcHelpContentCntr">
                 <h2>{{current.title}}</h2>
                 <p v-html="current.body" class="MatcHelpContentParagraph"></p>
-                
-                
+
+
                 <iframe
-                    v-if="current.video" 
-                    :width="560 * 1.2" 
-                    :height="315 * 1.2" 
-                    :src="current.video.src" 
-                    frameborder="0" 
+                    v-if="current.video"
+                    :width="560 * 1.2"
+                    :height="315 * 1.2"
+                    :src="current.video.src"
+                    frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>
 
@@ -32,13 +52,13 @@
                         <label>Message</label>
                         <textarea class="form-control input-lg MatcIgnoreOnKeyPress" v-model="contactMessage"/>
                     </div>
-                 
+
                     <div class=" MatcButtonBar MatcMarginTopXXL">
                         <div class="MatcButton" @click="sendContact">Send</div>
-                        <span class="MatcError"> 
+                        <span class="MatcError">
                             {{contactError}}
                         </span>
-                        <span class="MatcSuccess"> 
+                        <span class="MatcSuccess">
                             {{concatSucess}}
                         </span>
                     </div>
@@ -51,38 +71,19 @@
                     <p v-html="p.body"></p>
 
                      <iframe
-                        v-if="p.video" 
-                        :width="560 * 1.2" 
-                        :height="315 * 1.2" 
-                        :src="p.video.src" 
-                        frameborder="0" 
+                        v-if="p.video"
+                        :width="560 * 1.2"
+                        :height="315 * 1.2"
+                        :src="p.video.src"
+                        frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                     </iframe>
 
                 </div>
-           
+
             </div>
         </div>
-        <div class="MatcHelpTopics" v-if="hasSideBar">
-            <div>
-              	<input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" v-model="search"/>
-            </div>
-            <span v-if="loading" class="MatchHint">
-                Loading...
-            </span>
-            <div class="MatcHelpTopicsCntr">
-                <template v-for="topic in topics" > 
-                    <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id">
-                        {{topic.name}}
-                    </a>
-                    <template v-if="topic.id === selected">
-                        <a  v-for="(p, i) in topic.paragraphs" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)">
-                            {{p.title}}
-                        </a>
-                    </template>
-                </template>
-            </div>
-        </div>
+
     </div>
 </template>
 <style scoped>
@@ -106,6 +107,7 @@ export default {
             selectedParagraph: "",
             search: "",
             hasSideBar: true,
+            hasSearch: true,
             hasNotifications: true,
             contactName: '',
             contactEmail: '',
@@ -164,7 +166,7 @@ export default {
                 "id": "notifications." + n.id,
                 "title": n.title,
                 "body": n.more
-            } 
+            }
             if (n.video) {
                 let url = n.video
                 if (url.indexOf('src="') > 0 ){
@@ -178,7 +180,7 @@ export default {
             return news
         },
         async sendContact () {
-      
+
             if (this.contactEmail && this.contactMessage) {
                 let res = await Services.getUserService().contact(this.contactName, this.contactEmail, this.contactMessage)
                 if (res) {
@@ -193,9 +195,9 @@ export default {
             } else {
                 this.contactError = 'Please fill out the form'
                 this.concatSucess = ''
-            }   
+            }
         }
-    }, 
+    },
     async mounted () {
         let texts = await Services.getHelpService().getAll()
         if (this.hasNotifications) {
@@ -204,7 +206,7 @@ export default {
                 notifications.sort(function(a,b) {
 					return b.lastUpdate - a.lastUpdate;
                 });
-                
+
                 texts = [{
                     "id": "notifications",
                     "name":"News",

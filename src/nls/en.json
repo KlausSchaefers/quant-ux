@@ -42,7 +42,8 @@
         "download": "Download",
         "edit": "Edit",
         "post": "Post",
-        "close": "Close"
+        "close": "Close",
+        "import": "Import"
     },
     "dialog": {
         "import": {
@@ -56,6 +57,7 @@
             "figma-url": "Url",
             "figma-progress-file": "Loading Figma File...",
             "error-too-big": "One file is too big. Max is 5MB",
+            "error-wrong-type": "Only JPG, PNG and GIF are supported",
             "error-figma-key": "Please provide the access key",
             "error-figma-url": "Copy the url of the figma prototype",
             "error-figma-load": "Something went wrong loading the figma file"

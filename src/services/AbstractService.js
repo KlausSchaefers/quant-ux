@@ -6,9 +6,6 @@ export default class AbstractService {
 
     setToken (token) {
         this.token = token
-        if (!this.token) {
-            console.warn('AbstractService.setToken() > No token passed', new Error().stack)
-        }
     }
 
     _createDefaultHeader() {

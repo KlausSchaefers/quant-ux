@@ -345,7 +345,6 @@ export default class RenderFactory extends Core {
 
 		if (this._uiWidgets[model.id]) {
 			var w = this._uiWidgets[model.id];
-
 			if (this.mode == "simulator") {
 				w.wireEvents();
 			}
@@ -510,12 +509,14 @@ export default class RenderFactory extends Core {
 
 	_createSketch(parent, model) {
 		var widget = this.$new(Sketch);
+		widget.hash = this.hash
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createVector(parent, model) {
 		var widget = this.$new(Vector);
+		widget.hash = this.hash
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
