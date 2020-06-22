@@ -1,0 +1,25 @@
+
+@import './variables.scss';
+
+.MatcSurveySection {
+
+  table {
+
+    thead > tr > th {
+      color: $text-color-dark;
+      font-weight: 700;
+      border-bottom-width: 1px;
+    }
+
+    .MatcSurveySectionTableNumber{
+      width: 40px;
+    }
+
+  }
+
+  .MatcSurveySectionTableCntr{
+    width: 100%;
+    max-height: 800px;
+    overflow: auto;
+  }
+}

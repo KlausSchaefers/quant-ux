@@ -5,7 +5,7 @@
       <div class="level">
         <div class="level-left">
           <h2 class="title level-item">
-            <span data-nls="testSettingsTasks">Tasks</span>
+            <span data-nls="testSettingsTasks">{{$t('analytic-task-list.header')}}</span>
             <HelpButton
               topic="analytics.tasks"
               subtopic="analytics.tasks.create"
@@ -18,7 +18,7 @@
             class="button is-primary is-outlined level-item"
             data-nls="btn.download"
             @click="downloadCVS"
-          >Download Task Summary</a>
+          >{{$t('analytic-task-list.download')}}</a>
         </div>
       </div>
 

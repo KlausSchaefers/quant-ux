@@ -295,7 +295,7 @@ export default {
 
         /** Since 2.4 we show also the user */
         let user = session.data && session.data.length > 0 ? session.data[0].user : '-'
-        if (user.name) {
+        if (user && user.name) {
           user = user.name
         }
 

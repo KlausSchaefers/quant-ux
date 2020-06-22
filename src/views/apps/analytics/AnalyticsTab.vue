@@ -34,6 +34,20 @@
       </div>
     </section>
 
+     <section class="section" data-dojo-attach-point="sectionTask">
+      <div class="container">
+        <div class="box is-shadowless">
+          <SurveySection
+            :pub="pub"
+            :test="test"
+            :app="app"
+            :events="events"
+            :annotation="annotation"/>
+        </div>
+      </div>
+    </section>
+
+
     <section class="section">
       <div class="container">
         <div class="box is-shadowless">
@@ -60,6 +74,7 @@ import Plan from "page/Plan";
 import Util from "core/Util";
 import AnalyticsHeader from "views/apps/analytics/AnalyticsHeader";
 import AnalyticTaskList from "views/apps/analytics/AnalyticTaskList";
+import SurveySection from "views/apps/analytics/SurveySection";
 import Comment from "page/Comment";
 
 export default {
@@ -73,9 +88,10 @@ export default {
     };
   },
   components: {
-    Comment: Comment,
-    AnalyticsHeader: AnalyticsHeader,
-    AnalyticTaskList: AnalyticTaskList
+    'Comment': Comment,
+    'AnalyticsHeader': AnalyticsHeader,
+    'AnalyticTaskList': AnalyticTaskList,
+    'SurveySection': SurveySection
   },
   computed: {
     isPublic() {

@@ -156,36 +156,27 @@ export default {
 
 			]);
 
-			var me = this;
+
 			table.setActions([
 				{
-					"render" : function(node, screen, i){
-
+					"render" : function(node, screen){
 						var group = document.createElement("div");
 						css.add(group, "MatcButtonGroup");
 						node.appendChild(group);
-
-
 						var play = document.createElement("a");
 						css.add(play, " MatcButton ");
 						play.innerHTML= me.getNLS("dashScreenList.table-action");
-
 						if(me.mode == "public"){
 							play.href= "#/examples/" +appID + "/analytics/workspace/" +screen.id+ ".html";
 						} else {
 							play.href= "#/apps/" +appID + "/analytics/workspace/" +screen.id+ ".html";
 						}
-
 						group.appendChild(play);
-
-
-
 					}
 				}
 			]);
 
 			table.setValue(temp);
-
 			table.placeAt(this.container);
 		},
 

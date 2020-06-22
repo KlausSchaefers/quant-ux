@@ -50,7 +50,7 @@
             "images-title": "Import from Images",
             "figma-title": "Import from Figma",
             "tab-images": "Images",
-            "tab-figma": "Figma",
+            "tab-figma": "Figmam (Beta)",
             "images-drop-msg": "Drop Images Here",
             "image-progress": "Uploading...",
             "figma-key": "Access Key",
@@ -59,8 +59,8 @@
             "error-too-big": "One file is too big. Max is 5MB",
             "error-wrong-type": "Only JPG, PNG and GIF are supported",
             "error-figma-key": "Please provide the access key",
-            "error-figma-url": "Copy the url of the figma prototype",
-            "error-figma-load": "Something went wrong loading the figma file"
+            "error-figma-url": "Copy the url of the Figma prototype",
+            "error-figma-load": "Something went wrong loading the Figma file"
         },
         "login": {
             "password": {
@@ -112,7 +112,6 @@
             "headline": "Scan the QR code with your mobile device."
         }
     },
-
     "user": {
         "retire": {
             "hi": "Hi ",
@@ -128,13 +127,22 @@
         "overview": {
             "design": "Design",
             "test": "Test",
-            "dash": "Dashbaord",
+            "dash": "Dashboard",
             "heat": "Heat Maps",
             "settings": "Settings",
             "team": "Team",
             "run-test": "Run Test",
             "share": "Share"
         }
+    },
+    "survey": {
+        "header": "Survey Answers",
+        "download": "Download Survey Answers",
+        "no-data": "No survey data was collected. Make sure that you have added data bindings to the desired survey fields."
+    },
+    "analytic-task-list": {
+        "header": "Tasks",
+        "download": "Download Task Summary"
     },
     "canvas": {
 
@@ -153,7 +161,6 @@
             "duration": "Test Duration",
             "coverage": "Test Coverage"
         }
-
     },
     "dashScreenList": {
         "views": "Views",

@@ -707,7 +707,7 @@ export default {
 
 				var item = {
 					session : sessionID,
-					taskPerformance : taskSuccess + " / " +taskCount,
+					taskPerformance : taskSuccess + " / " + taskCount,
 					duration : (Math.ceil( (session.max("time") - session.min("time")) / 1000 )),
 					date : date,
 					start : session.min("time"),

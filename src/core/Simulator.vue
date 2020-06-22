@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v3.0.6  </div>
+      <div class="MatcSimulatorVersion">v3.0.10</div>
     </div>
   </div>
 </template>
@@ -941,6 +941,12 @@ export default {
 							this.logger.log(2,"getUser","created user > "+ user);
 						} else {
 							this.logger.log(2,"getUser","found user > "+ user);
+						}
+						if (user.id) {
+							user = {
+								'id': user.id,
+								'name': user.name
+							}
 						}
 						this._user = user;
 					}
