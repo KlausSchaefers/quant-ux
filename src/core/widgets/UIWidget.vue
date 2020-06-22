@@ -1013,13 +1013,7 @@ export default {
           // reset class.. this is a little hacky! We should not do this too often!
           label.className = "MatcInlineEditable";
           if (style.textAlign) {
-            css.add(
-              label,
-              "MatcInlineEditVAlign-" +
-                style.verticalAlign +
-                "-" +
-                style.textAlign
-            );
+            css.add(label, "MatcInlineEditVAlign-" + style.verticalAlign + "-" + style.textAlign);
           } else {
             css.add(label, "MatcInlineEditVAlign-" + style.verticalAlign);
           }

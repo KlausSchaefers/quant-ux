@@ -167,7 +167,7 @@ export default {
             }
         },
 
-        async importFigma (accessKey, url) {
+        async importFigma (accessKey, url, importChildren = false) {
             this.logger.log(-1, 'importFigma', 'enter', url)
             localStorage.setItem('quxFigmaAccessKey', accessKey)
             localStorage.setItem('quxFigmaUrl', url)
@@ -176,10 +176,11 @@ export default {
             try {
                 FigmaService.setAccessKey(accessKey)
                 this.setProgress(0, 'dialog.import.figma-progress-file')
-                let model = await FigmaService.get(fileId)
+                let model = await FigmaService.get(fileId, importChildren)
                 if (model) {
                     this.logger.log(-1, 'importFigma', 'model', model)
-                    let vectorWidgets = Object.values(model.widgets).filter(w => w.type === 'Vector' || w.type === 'Image')
+                    let vectorWidgets = this.getImagesWithFigmaImage(model, importChildren)
+                    console.debug(vectorWidgets)
                     await this.downloadFigmaImages(vectorWidgets)
 
                     let minX = 1000000
@@ -216,6 +217,14 @@ export default {
                 this.logger.sendError(err)
                 this.errorMSG = this.getNLS('dialog.import.error-figma-load')
                 this.tab = 'figma'
+            }
+        },
+
+        getImagesWithFigmaImage (model, importChildren) {
+            if (importChildren) {
+                return Object.values(model.widgets).filter(w => w.props && w.props.figmaImage)
+            } else {
+                return Object.values(model.screens).filter(w => w.props && w.props.figmaImage)
             }
         },
 

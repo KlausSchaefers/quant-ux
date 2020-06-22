@@ -5,9 +5,11 @@ class FigmaService {
   constructor () {
     this.baseURL = 'https://api.figma.com/v1/'
     this.vectorTypes = ['LINE', 'ELLIPSE', 'VECTOR']
-    this.buttonTypes = ['RECTANGLE', 'TEXT']
+    this.buttonTypes = ['RECTANGLE', 'TEXT', 'FRAME']
+    this.ignoredTypes = ['GROUP', 'INSTANCE']
     this.allAsVecor = false
     this.logger = new Logger('FigmaService')
+    this.max_ids = 50
   }
 
   setAccessKey (key) {
@@ -25,7 +27,7 @@ class FigmaService {
 
 }
 
-  async get (key, allAsVecor = false) {
+  async get (key, importChildren = true, allAsVecor = false) {
     this.allAsVecor = allAsVecor
     return new Promise ((resolve, reject) => {
       let url = this.baseURL + 'files/' + key + '?geometry=paths'
@@ -36,7 +38,7 @@ class FigmaService {
       }).then(resp => {
         resp.json().then(json => {
           try {
-            let app = this.parse(key, json)
+            let app = this.parse(key, json, importChildren)
             resolve(app)
           } catch (e) {
             this.logger.error('get', 'Error', e)
@@ -64,9 +66,9 @@ class FigmaService {
         resp.json().then(json => {
           try {
             resolve(json)
-          } catch (e) {
-            this.logger.error('get', 'Error', e)
-            resolve(null)
+          } catch (err) {
+            this.logger.error('get', 'Error', err)
+            reject(err)
           }
         })
       }, err => {
@@ -75,8 +77,8 @@ class FigmaService {
     })
   }
 
-  async parse (id, fModel) {
-    this.logger.log(-1, 'parse', fModel)
+  async parse (id, fModel, importChildren) {
+    this.logger.log(-1, 'parse', 'enter importChildren:' + importChildren,fModel)
     let model = this.createApp(id, fModel)
     let fDoc = fModel.document
 
@@ -84,7 +86,7 @@ class FigmaService {
       fDoc.children.forEach(page => {
         if (page.children) {
           page.children.forEach(screen => {
-            this.parseScreen(screen, model, fModel)
+            this.parseScreen(screen, model, fModel, importChildren)
           })
         }
       })
@@ -93,7 +95,7 @@ class FigmaService {
     /**
      * Get download images for all
      */
-    await this.addVectorImages(id, model)
+    await this.addBackgroundImages(id, model, importChildren)
 
     /**
      * TODO Add groups
@@ -102,28 +104,70 @@ class FigmaService {
     return model
   }
 
-  async addVectorImages(id, model) {
-    let vectorWidgets = Object.values(model.widgets).filter(widget => widget.props.isVector)
+  async addBackgroundImages(id, model, importChildren) {
+
+    let vectorWidgets = this.getElementsWithBackgroundIMage(model, importChildren)
     if (vectorWidgets.length > 0) {
-      let vectorWidgetIds = vectorWidgets.map(w => w.figmaId).join(',')
-      let imageResponse = await this.getImages(id, vectorWidgetIds)
-      if (imageResponse.err === null) {
-        let images = imageResponse.images
-        vectorWidgets.forEach(w => {
-          let image = images[w.figmaId]
-          if (image) {
-            w.props.figmaImage = image
-          } else {
-            this.logger.error('addVectorImages', 'No image for', w)
-          }
-        })
-      } else {
-        this.logger.error('addVectorImages', 'Could not get images', imageResponse)
-      }
+
+      this.logger.log(-1, 'addBackgroundImages', 'vectors', vectorWidgets.length)
+      let batches = this.getChunks(vectorWidgets, this.max_ids)
+
+      let promisses = batches.map((batch,i) => {
+        return this.addBackgroundImagesBatch(id, batch, i)
+      })
+      await Promise.all(promisses)
+    }
+    this.logger.log(-1, 'addBackgroundImages', 'exit')
+  }
+
+  getElementsWithBackgroundIMage (model, importChildren) {
+    if (importChildren) {
+      return Object.values(model.widgets).filter(widget => widget.props.isVector)
+    } else {
+      return Object.values(model.screens)
     }
   }
 
-  parseScreen (fScreen, model, fModel) {
+  async addBackgroundImagesBatch(id, batch, i) {
+    this.logger.log(3, 'addBackgroundImagesBatch', 'start', i)
+    return new Promise((resolve, reject) => {
+      let vectorWidgetIds = batch.map(w => w.figmaId).join(',')
+      this.getImages(id, vectorWidgetIds).then(imageResponse => {
+        if (imageResponse.err === null) {
+          this.logger.log(3, 'addBackgroundImagesBatch', 'end', i)
+          let images = imageResponse.images
+          batch.forEach(w => {
+            let image = images[w.figmaId]
+            if (image) {
+              w.props.figmaImage = image
+            } else {
+              console.debug('addBackgroundImagesBatch() No image', imageResponse, w)
+            }
+            resolve(batch)
+          })
+        } else {
+          this.logger.error('addBackgroundImagesBatch', 'Could not get images', imageResponse)
+          reject(imageResponse.err)
+        }
+      }, err => {
+        this.logger.error('addBackgroundImagesBatch', 'Could not get images', err)
+        reject(err)
+      })
+    })
+  }
+
+
+
+  getChunks (array, size) {
+    let result = []
+    for (let i = 0; i < array.length; i += size) {
+        let chunk = array.slice(i, i + size);
+        result.push(chunk);
+    }
+    return result;
+  }
+
+  parseScreen (fScreen, model, fModel, importChildren) {
     this.logger.log(1, 'parseScreen', fScreen.name)
     let pos = this.getPosition(fScreen)
     let qScreen = {
@@ -140,46 +184,58 @@ class FigmaService {
       style: this.getStyle(fScreen)
     }
 
-    if (fScreen.children) {
+    if (fScreen.children && importChildren) {
       fScreen.children.forEach(child => {
         this.parseElement(child, qScreen, fScreen, model, fModel)
       })
     }
 
-    model.screenSize.w = model.screenSize.w === -1 ? pos.w : Math.min(model.screenSize.w, pos.w)
-    model.screenSize.h = model.screenSize.h === -1 ? pos.h : Math.min(model.screenSize.h, pos.h)
+    model.screenSize.w = model.screenSize.w === -1 ? pos.w : Math.max(model.screenSize.w, pos.w)
+    model.screenSize.h = model.screenSize.h === -1 ? pos.h : Math.max(model.screenSize.h, pos.h)
     model.screens[qScreen.id] = qScreen
     return qScreen
   }
 
   parseElement (element, qScreen, fScreen, model, fModel) {
-    this.logger.log(1, 'parseElement', 'enter', element)
+    this.logger.log(1, 'parseElement', 'enter: ' + element.name, element.type)
 
-    let pos = this.getPosition(element)
-    let widget = {
-      id: 'w' + this.getUUID(model),
-      figmaId: element.id,
-      name: element.name,
-      type: this.getType(element),
-      figmaType: element.type,
-      x: pos.x,
-      y: pos.y,
-      w: pos.w,
-      h: pos.h
+    let widget = null
+    if (!this.isIgnored(element) && !this.isInsisible(element)) {
+      let pos = this.getPosition(element)
+      widget = {
+        id: 'w' + this.getUUID(model),
+        figmaId: element.id,
+        name: element.name,
+        type: this.getType(element),
+        figmaType: element.type,
+        x: pos.x,
+        y: pos.y,
+        w: pos.w,
+        h: pos.h,
+        z: this.getZ(element, model)
+      }
+      widget.style = this.getStyle(element, widget)
+      widget.props = this.getProps(element, widget)
+      widget.has = this.getHas(element, widget)
+      model.widgets[widget.id] = widget
+      qScreen.children.push(widget.id)
+    } else {
+      this.logger.log(4, 'parseElement', 'Ignore: ' + element.name, element.type)
     }
-    widget.style = this.getStyle(element, widget)
-    widget.props = this.getProps(element, widget)
-    widget.has = this.getHas(element, widget)
-    model.widgets[widget.id] = widget
-    qScreen.children.push(widget.id)
+
+    if (element.name.indexOf('Got') >=0) {
+      console.debug(element)
+    }
 
     /**
      * Go down recursive...
      */
     if (element.children) {
       element.children.forEach(child => {
-        this.logger.log(-1, 'parseElement', 'go recursive', element)
-        this.parseElement(child, qScreen, fScreen, model, fModel)
+        if (child.visible !== false) {
+          this.logger.log(3, 'parseElement', 'go recursive', element)
+          this.parseElement(child, qScreen, fScreen, model, fModel)
+        }
       })
     }
     return widget
@@ -194,13 +250,50 @@ class FigmaService {
       props.isVector = true
     }
     if (widget.type === 'Label') {
-      props.label = widget.name
+      if (element.characters) {
+        props.label = element.characters
+      } else {
+        props.label = element.name
+      }
     }
     return props
   }
 
+  isIgnored (element) {
+    // FIXME: check for empty frames
+    return this.ignoredTypes.indexOf(element.type) >= 0
+  }
+
+  isInsisible (element) {
+    if (element.visible === false) {
+      this.logger.log(5, 'isInsisible', 'exit (visible): ' + element.name, element.type)
+      return true
+    }
+    if (element.type === 'FRAME') {
+      if (element.name === 'Back'){
+        console.debug(element)
+      }
+      if (element.backgroundColor && element.backgroundColor.a === 0) {
+        this.logger.log(5, 'isInsisible', 'exit (alpha): ' + element.name, element.type)
+        return true
+      }
+      if (element.fills) {
+        if (element.fills.every(f => !f.visible)) {
+          this.logger.log(5, 'isInsisible', 'exit (fills): ' + element.name, element.type)
+          return true
+        }
+      }
+
+    }
+    return false
+  }
+
   isVector (element) {
     return this.allAsVecor || !this.isButton(element)
+  }
+
+  isLabel (widget) {
+    return widget && widget.type === 'Label'
   }
 
   isButton (element) {
@@ -272,7 +365,7 @@ class FigmaService {
           /*
           * https://github.com/KarlRombauts/Figma-SCSS-Generator
           */
-          console.debug('gradient', element.name, element.id, element.fills)
+          // console.debug('gradient', element.name, element.id, element.fills)
           if (!this.isLabel(widget)) {
             let start = fill.gradientHandlePositions[0]
             let end = fill.gradientHandlePositions[1]
@@ -369,7 +462,7 @@ class FigmaService {
           style.textAlign = fStyle.textAlignHorizontal.toLowerCase()
         }
         if (fStyle.textAlignVertical) {
-          style.valign = fStyle.textAlignVertical.toLowerCase()
+          style.verticalAlign = fStyle.textAlignVertical.toLowerCase()
         }
       }
     }
@@ -405,8 +498,9 @@ class FigmaService {
     return {}
   }
 
-  isLabel (widget) {
-    return widget && widget.type === 'Label'
+  getZ (element, model) {
+    model.lastZ++
+    return model.lastZ
   }
 
   createApp (id, data) {
@@ -423,7 +517,8 @@ class FigmaService {
 			screens: {},
 			widgets: {},
 			lines: {},
-			lastUUID: 10000,
+      lastUUID: 10000,
+      lastZ: 1,
 			lastUpdate: 0,
 			created: 0,
 			startScreen: "",

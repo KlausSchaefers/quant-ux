@@ -72,16 +72,16 @@ export default {
       if (this.model) {
         return Object.values(this.model.screens)
       }
-      return null
+      return []
     },
     width () {
-      if (this.model) {
+      if (this.model && this.model.screenSize) {
         return this.model.screenSize.w + 'px'
       }
       return 0
     },
     height () {
-      if (this.model) {
+      if (this.model && this.model.screenSize) {
         return this.model.screenSize.h + 'px'
       }
       return 0
@@ -97,7 +97,17 @@ export default {
         localStorage.setItem('quxFigmaTest', this.accessKey)
       },
       async run() {
-        let app = await FigmaService.get('vABDxPscPKnF2qV4yTroUB')
+        //let app = await FigmaService.get('vABDxPscPKnF2qV4yTroUB')
+        let app = await FigmaService.get('VtVe96tDjhA0OByfcvJIlE9o', true)
+        if (app) {
+          Object.values(app.screens).forEach(screen => {
+            if (screen.props.figmaImage) {
+              screen.style.backgroundImage = {
+                url: screen.props.figmaImage
+              }
+            }
+          })
+        }
         console.debug(app)
         this.model = app
       }
