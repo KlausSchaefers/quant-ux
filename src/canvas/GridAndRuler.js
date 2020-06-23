@@ -11,6 +11,7 @@ export default class GridAndRuler extends Core {
 		this.logger = new Logger('GridAndRuler');
 		this.logger.log(2, "constructor", "entry");
 		this.snappDistance = 4
+		this.fastSnappMouseVelcity = 60
 		this.showDistance = 15
 		this.patternNeibhourhood = 10
 		this._initLinesCalled = 0
@@ -317,6 +318,45 @@ export default class GridAndRuler extends Core {
 		this.dimDiv.style.top = (mouse.y + 10) + "px";
 		this.dimDiv.innerHTML = this._getHackedUnZoomed(pos.w, this.zoom) + " x " + this._getHackedUnZoomed(pos.h, this.zoom);
 	}
+
+	/***********************************************************************
+	 * Snapping Distabce
+	 ***********************************************************************/
+
+	getSnappDictance () {
+		let result = this.snappDistance
+		if (this.adjustSnappDistanceToMouseSpeed) {
+			if (this.mousePositions.length > 2) {
+				/**
+				 * We calculate the miuse velicty as pixel per second. If we
+				 * have a fast movement (> 60 p/s), we set the snapp to 10
+				 * pixel. If we move slow, it's half of the snapp distance
+				 */
+				let v = this.getMouseVelocity(this.mousePositions)
+				if (v > this.fastSnappMouseVelcity) {
+					return 10
+				}
+				return this.snappDistance / 2
+			}
+		}
+		return result
+	}
+
+	/**
+	 * Returns the pixel per second velociy
+	 */
+	getMouseVelocity (list) {
+		let distanceInPixel = 0;
+		let end = list.length - 1
+		for (let i=0; i < end; i++) {
+			let a = list[i]
+			let b = list[i+1]
+			distanceInPixel += Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y))
+		}
+		let timeInSec = (list[list.length - 1].t - list[0].t) / 1000
+		return distanceInPixel / timeInSec
+	}
+
 	/***********************************************************************
 	 * Distance
 	 ***********************************************************************/
@@ -1450,26 +1490,6 @@ export default class GridAndRuler extends Core {
 	 * Snapping
 	 ***********************************************************************/
 
-	getSnappDictance () {
-		let result = this.snappDistance
-		if (this.adjustSnappDistanceToMouseSpeed) {
-			if (this.mousePositions.length > 2) {
-				/**
-				 * We calculate the manhatten distance of the last movements.
-				 * if this is below a certain threshold, we return only
-				 * the fraction of the snapp distance
-				 */
-				let start = this.mousePositions[0]
-				let end = this.mousePositions[this.mousePositions.length - 1]
-				let distance = Math.abs(start.x - end.x) + Math.abs(start.y - end.y)
-				if (distance < 3) {
-					result = this.snappDistance / 2
-				}
-			}
-		}
-		return result
-	}
-
 	correctX(absPos, diff, closeXLine) {
 		let snappDistance = this.getSnappDictance()
 		this.showLine(closeXLine, "x");
@@ -1490,15 +1510,19 @@ export default class GridAndRuler extends Core {
 
 	updateMovements(absPos) {
 
-		if (this.mousePositions.length > 3) {
+		if (this.mousePositions.length > 20) {
 			this.mousePositions.shift()
 		}
-		this.mousePositions.push(absPos)
+		this.mousePositions.push({
+			x: absPos.x,
+			y: absPos.y,
+			t: new Date().getTime()
+		})
 
-		if (this.xMovements.length > 12) {
+		if (this.xMovements.length > 20) {
 			this.xMovements.shift()
 		}
-		if (this.yMovements.length > 12) {
+		if (this.yMovements.length > 20) {
 			this.yMovements.shift()
 		}
 
