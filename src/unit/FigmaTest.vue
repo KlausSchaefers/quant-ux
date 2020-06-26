@@ -61,7 +61,11 @@ export default {
         previews: [],
         model: null,
         accessKey: '',
-        figma1: figma
+        figma1: figma,
+        fileLogin: 'eRXU9ZlV1m2zLJdEUJIOvF',
+        fileComplex: 'VtVe96tDjhA0OByfcvJIlE9o',
+        pluginSimple: 'r4DTXpFJOTrWG3b7MVRc5v',
+        selectedFile: ''
     };
   },
   components: {
@@ -98,7 +102,7 @@ export default {
       },
       async run() {
         //let app = await FigmaService.get('vABDxPscPKnF2qV4yTroUB')
-        let app = await FigmaService.get('VtVe96tDjhA0OByfcvJIlE9o', true)
+        let app = await new FigmaService(this.accessKey).get(this.selectedFile, true)
         if (app) {
           Object.values(app.screens).forEach(screen => {
             if (screen.props.figmaImage) {
@@ -114,8 +118,7 @@ export default {
   },
   mounted() {
     this.accessKey = localStorage.getItem('quxFigmaTest')
-    FigmaService.setAccessKey(this.accessKey)
-    console.debug(this.accessKey)
+    this.selectedFile = this.pluginSimple
     this.run()
   }
 };

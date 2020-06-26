@@ -1,15 +1,16 @@
-import Logger from 'common/Logger'
+import Logger from '../core/Logger'
 
-class FigmaService {
+export default class FigmaService {
 
-  constructor () {
+  constructor (key) {
+    this.setAccessKey(key)
     this.baseURL = 'https://api.figma.com/v1/'
     this.vectorTypes = ['LINE', 'ELLIPSE', 'VECTOR']
     this.buttonTypes = ['RECTANGLE', 'TEXT', 'FRAME']
     this.ignoredTypes = ['GROUP', 'INSTANCE']
     this.allAsVecor = false
-    this.logger = new Logger('FigmaService')
     this.max_ids = 50
+    this.pluginId = '858477504263032980'
   }
 
   setAccessKey (key) {
@@ -30,7 +31,7 @@ class FigmaService {
   async get (key, importChildren = true, allAsVecor = false) {
     this.allAsVecor = allAsVecor
     return new Promise ((resolve, reject) => {
-      let url = this.baseURL + 'files/' + key + '?geometry=paths'
+      let url = this.baseURL + 'files/' + key + '?geometry=paths&plugin_data=' + this.pluginId
       fetch(url, {
         method: 'get',
         credentials: "same-origin",
@@ -41,7 +42,7 @@ class FigmaService {
             let app = this.parse(key, json, importChildren)
             resolve(app)
           } catch (e) {
-            this.logger.error('get', 'Error', e)
+            Logger.error('get() > Error', e)
             resolve(null)
           }
         })
@@ -67,7 +68,7 @@ class FigmaService {
           try {
             resolve(json)
           } catch (err) {
-            this.logger.error('get', 'Error', err)
+            Logger.error('get() > Error', err)
             reject(err)
           }
         })
@@ -78,7 +79,7 @@ class FigmaService {
   }
 
   async parse (id, fModel, importChildren) {
-    this.logger.log(-1, 'parse', 'enter importChildren:' + importChildren,fModel)
+    Logger.log(-1, 'parse() > enter importChildren:' + importChildren,fModel)
     let model = this.createApp(id, fModel)
     let fDoc = fModel.document
 
@@ -109,7 +110,7 @@ class FigmaService {
     let vectorWidgets = this.getElementsWithBackgroundIMage(model, importChildren)
     if (vectorWidgets.length > 0) {
 
-      this.logger.log(-1, 'addBackgroundImages', 'vectors', vectorWidgets.length)
+      Logger.log(-1, 'addBackgroundImages() > vectors', vectorWidgets.length)
       let batches = this.getChunks(vectorWidgets, this.max_ids)
 
       let promisses = batches.map((batch,i) => {
@@ -117,7 +118,7 @@ class FigmaService {
       })
       await Promise.all(promisses)
     }
-    this.logger.log(-1, 'addBackgroundImages', 'exit')
+    Logger.log(-1, 'addBackgroundImages() > exit')
   }
 
   getElementsWithBackgroundIMage (model, importChildren) {
@@ -129,28 +130,26 @@ class FigmaService {
   }
 
   async addBackgroundImagesBatch(id, batch, i) {
-    this.logger.log(3, 'addBackgroundImagesBatch', 'start', i)
+    Logger.log(3, 'addBackgroundImagesBatch() > start', i)
     return new Promise((resolve, reject) => {
       let vectorWidgetIds = batch.map(w => w.figmaId).join(',')
       this.getImages(id, vectorWidgetIds).then(imageResponse => {
         if (imageResponse.err === null) {
-          this.logger.log(3, 'addBackgroundImagesBatch', 'end', i)
+          Logger.log(3, 'addBackgroundImagesBatch () > end', i)
           let images = imageResponse.images
           batch.forEach(w => {
             let image = images[w.figmaId]
             if (image) {
               w.props.figmaImage = image
-            } else {
-              console.debug('addBackgroundImagesBatch() No image', imageResponse, w)
             }
             resolve(batch)
           })
         } else {
-          this.logger.error('addBackgroundImagesBatch', 'Could not get images', imageResponse)
+          Logger.error('addBackgroundImagesBatch () > Could not get images', imageResponse)
           reject(imageResponse.err)
         }
       }, err => {
-        this.logger.error('addBackgroundImagesBatch', 'Could not get images', err)
+        Logger.error('addBackgroundImagesBatch() > Could not get images', err)
         reject(err)
       })
     })
@@ -168,7 +167,7 @@ class FigmaService {
   }
 
   parseScreen (fScreen, model, fModel, importChildren) {
-    this.logger.log(1, 'parseScreen', fScreen.name)
+    Logger.log(1, 'parseScreen()', fScreen.name)
     let pos = this.getPosition(fScreen)
     let qScreen = {
       id: 's' + this.getUUID(model),
@@ -197,7 +196,8 @@ class FigmaService {
   }
 
   parseElement (element, qScreen, fScreen, model, fModel) {
-    this.logger.log(1, 'parseElement', 'enter: ' + element.name, element.type)
+    Logger.log(1, 'parseElement() > enter: ' + element.name, element.type)
+    console.debug(element)
 
     let widget = null
     if (!this.isIgnored(element) && !this.isInsisible(element)) {
@@ -220,12 +220,9 @@ class FigmaService {
       model.widgets[widget.id] = widget
       qScreen.children.push(widget.id)
     } else {
-      this.logger.log(4, 'parseElement', 'Ignore: ' + element.name, element.type)
+      Logger.log(4, 'parseElement() >Ignore: ' + element.name, element.type)
     }
 
-    if (element.name.indexOf('Got') >=0) {
-      console.debug(element)
-    }
 
     /**
      * Go down recursive...
@@ -233,7 +230,7 @@ class FigmaService {
     if (element.children) {
       element.children.forEach(child => {
         if (child.visible !== false) {
-          this.logger.log(3, 'parseElement', 'go recursive', element)
+          Logger.log(3, 'parseElement() > go recursive', element)
           this.parseElement(child, qScreen, fScreen, model, fModel)
         }
       })
@@ -266,7 +263,7 @@ class FigmaService {
 
   isInsisible (element) {
     if (element.visible === false) {
-      this.logger.log(5, 'isInsisible', 'exit (visible): ' + element.name, element.type)
+      Logger.log(5, 'isInsisible() > exit (visible): ' + element.name, element.type)
       return true
     }
     if (element.type === 'FRAME') {
@@ -274,12 +271,12 @@ class FigmaService {
         console.debug(element)
       }
       if (element.backgroundColor && element.backgroundColor.a === 0) {
-        this.logger.log(5, 'isInsisible', 'exit (alpha): ' + element.name, element.type)
+        Logger.log(5, 'isInsisible() > exit (alpha): ' + element.name, element.type)
         return true
       }
       if (element.fills) {
         if (element.fills.every(f => !f.visible)) {
-          this.logger.log(5, 'isInsisible', 'exit (fills): ' + element.name, element.type)
+          Logger.log(5, 'isInsisible() > exit (fills): ' + element.name, element.type)
           return true
         }
       }
@@ -387,7 +384,7 @@ class FigmaService {
               colors: colors
             }
           } else {
-            this.logger.log(1, 'getStyle', 'gradients not supported...')
+            Logger.log(1, 'getStyle() > gradients not supported...')
           }
         }
       }
@@ -494,7 +491,7 @@ class FigmaService {
         h: element.absoluteBoundingBox.height
       }
     }
-    this.logger.warn('getPosition', 'No abs pos', element)
+    Logger.warn('getPosition() > No abs pos', element)
     return {}
   }
 
@@ -539,5 +536,3 @@ class FigmaService {
 	}
 
 }
-
-export default new FigmaService()

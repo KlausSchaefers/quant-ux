@@ -174,9 +174,9 @@ export default {
             let fileId = this.getFigmaFileKey(url)
 
             try {
-                FigmaService.setAccessKey(accessKey)
+                let figmaService = new FigmaService(accessKey)
                 this.setProgress(0, 'dialog.import.figma-progress-file')
-                let model = await FigmaService.get(fileId, importChildren)
+                let model = await figmaService.get(fileId, importChildren)
                 if (model) {
                     this.logger.log(-1, 'importFigma', 'model', model)
                     let vectorWidgets = this.getImagesWithFigmaImage(model, importChildren)
