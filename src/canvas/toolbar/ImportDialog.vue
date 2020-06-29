@@ -180,7 +180,7 @@ export default {
                 if (model) {
                     this.logger.log(-1, 'importFigma', 'model', model)
                     let vectorWidgets = this.getImagesWithFigmaImage(model, importChildren)
-                    console.debug(vectorWidgets)
+
                     await this.downloadFigmaImages(vectorWidgets)
 
                     let minX = 1000000

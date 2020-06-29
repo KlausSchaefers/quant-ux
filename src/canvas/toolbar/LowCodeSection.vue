@@ -7,20 +7,32 @@
           <div class="MatcToolbarItem">
              <CheckBox label="Force Grid" :value="isGrid" @change="onGridChange"/>
          </div>
+
+         <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" ref="tooltipCustom">
+
+             <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
+                placeholder="Custom Component"
+                :value="customComponent"
+                @change="onCustomChange"/>
+            <span class="mdi mdi-puzzle MatcToobarInputIcon" />
+
+         </div>
 	</div>
 </template>
 <script>
 
 import DojoWidget from 'dojo/DojoWidget'
 import CheckBox from 'common/CheckBox'
+import _Tooltip from 'common/_Tooltip'
 
 export default {
     name: 'LowCodeSection',
-    mixins:[DojoWidget],
+    mixins:[DojoWidget, _Tooltip],
     data: function () {
         return {
             isWraped: false,
             isGrid: false,
+            customComponent: '',
             callbacks: {
                 click: ''
             }
@@ -46,16 +58,17 @@ export default {
             }
         },
 
-        onClickChange (e) {
-            this.callbacks.click = e.target.value
+        onCustomChange (e) {
+            let value = e.target.value
             if (this.isGroup) {
-                this.emit('changeGroupProps', 'callbacks', this.callbacks)
+                this.emit('changeGroupProps', 'customComponent', value)
             } else {
-                this.emit('changeProps', 'callbacks', this.callbacks)
+                this.emit('changeProps', 'customComponent', value)
             }
         },
 
 		setValue (widget, isGroup = false){
+            console.debug('setVlaue', widget)
             this.isGroup = isGroup
       		if (widget.style && widget.style.wrap) {
                 this.isWraped = widget.style.wrap
@@ -74,9 +87,17 @@ export default {
                     click: ''
                 }
             }
+            if (widget.props && widget.props.customComponent) {
+                this.customComponent = widget.props.customComponent
+            } else {
+                this.customComponent = ''
+            }
 		}
     },
     mounted () {
+         if (this.$refs.tooltipCustom) {
+            this.addTooltip(this.$refs.tooltipCustom, 'Enter the name of the custom component that should be used during rendering.')
+        }
     }
 }
 </script>

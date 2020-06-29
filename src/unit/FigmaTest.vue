@@ -118,7 +118,7 @@ export default {
   },
   mounted() {
     this.accessKey = localStorage.getItem('quxFigmaTest')
-    this.selectedFile = this.pluginSimple
+    this.selectedFile = this.fileComplex
     this.run()
   }
 };

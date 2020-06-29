@@ -115,7 +115,7 @@ export default {
 
         updateWidgetDataView (widget) {
             if (this.hasDataView && widget) {
-                this.logger.log(-1,"updateWidgetDataView", "enter", widget.name);
+                // this.logger.log(5,"updateWidgetDataView", "enter", widget.name);
                 let div = this.widgetDivs[widget.id]
                 if (div) {
                     this.createWidgetDataView(widget, div, true)

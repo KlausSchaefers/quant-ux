@@ -25,8 +25,7 @@ export default class FigmaService {
         'X-Figma-Token': this.key
     })
     return headers
-
-}
+  }
 
   async get (key, importChildren = true, allAsVecor = false) {
     this.allAsVecor = allAsVecor
@@ -185,6 +184,7 @@ export default class FigmaService {
 
     if (fScreen.children && importChildren) {
       fScreen.children.forEach(child => {
+        child._parent = fScreen
         this.parseElement(child, qScreen, fScreen, model, fModel)
       })
     }
@@ -197,7 +197,6 @@ export default class FigmaService {
 
   parseElement (element, qScreen, fScreen, model, fModel) {
     Logger.log(1, 'parseElement() > enter: ' + element.name, element.type)
-    console.debug(element)
 
     let widget = null
     if (!this.isIgnored(element) && !this.isInsisible(element)) {
@@ -230,6 +229,7 @@ export default class FigmaService {
     if (element.children) {
       element.children.forEach(child => {
         if (child.visible !== false) {
+          child._parent = element
           Logger.log(3, 'parseElement() > go recursive', element)
           this.parseElement(child, qScreen, fScreen, model, fModel)
         }
@@ -267,9 +267,6 @@ export default class FigmaService {
       return true
     }
     if (element.type === 'FRAME') {
-      if (element.name === 'Back'){
-        console.debug(element)
-      }
       if (element.backgroundColor && element.backgroundColor.a === 0) {
         Logger.log(5, 'isInsisible() > exit (alpha): ' + element.name, element.type)
         return true
@@ -280,7 +277,10 @@ export default class FigmaService {
           return true
         }
       }
-
+    }
+    if (element.opacity <= 0) {
+      Logger.log(5, 'isInsisible() > exit (opacity): ' + element.name, element.type)
+      return true
     }
     return false
   }
@@ -346,16 +346,16 @@ export default class FigmaService {
      * How is this rendered. Which has priority
      */
     if (element.backgroundColor) {
-      style.backgroundColor =  this.getColor(element.backgroundColor)
+      style.backgroundColor =  this.getColor(element.backgroundColor, element)
     }
     if (element.fills) {
       if (element.fills.length === 1) {
         let fill = element.fills[0]
         if (fill.type === 'SOLID') {
           if (this.isLabel(widget)) {
-            style.color = this.getColor(fill.color)
+            style.color = this.getColor(fill.color, element)
           } else {
-            style.backgroundColor = this.getColor(fill.color)
+            style.backgroundColor = this.getColor(fill.color, element)
           }
         }
         if (fill.type === 'GRADIENT_LINEAR') {
@@ -403,10 +403,10 @@ export default class FigmaService {
     if (!this.isVector(element)) {
       if (element.strokes && element.strokes.length > 0) {
         let stroke = element.strokes[0]
-        style.borderBottomColor = this.getColor(stroke.color)
-        style.borderTopColor = this.getColor(stroke.color)
-        style.borderLeftColor = this.getColor(stroke.color)
-        style.borderRightColor = this.getColor(stroke.color)
+        style.borderBottomColor = this.getColor(stroke.color, element)
+        style.borderTopColor = this.getColor(stroke.color, element)
+        style.borderLeftColor = this.getColor(stroke.color, element)
+        style.borderRightColor = this.getColor(stroke.color, element)
 
         if (element.strokeWeight) {
           style.borderBottomWidth = element.strokeWeight
@@ -432,7 +432,7 @@ export default class FigmaService {
               b: effect.radius,
               s: 0,
               i: false,
-              c: this.getColor(effect.color)
+              c: this.getColor(effect.color, element)
             }
           }
           if (effect.type === 'INNER_SHADOW') {
@@ -442,7 +442,7 @@ export default class FigmaService {
               b: effect.radius,
               s: 0,
               i: true,
-              c: this.getColor(effect.color)
+              c: this.getColor(effect.color, element)
             }
           }
         })
@@ -464,6 +464,17 @@ export default class FigmaService {
       }
     }
 
+    /**
+     * Labels with constraints can be vertical middle
+     */
+    if (this.isLabel(widget) && style.verticalAlign !== 'bottom') {
+      if (element.constraints) {
+        let constraints = element.constraints
+        if (constraints.vertical === 'TOP_BOTTOM') {
+          style.verticalAlign = 'middle'
+        }
+      }
+    }
     return style
   }
 
@@ -478,21 +489,38 @@ export default class FigmaService {
     return 'Button'
   }
 
-  getColor (c) {
-    return `rgba(${Math.round(c.r * 255)}, ${Math.round(c.g * 255)}, ${Math.round(c.b * 255)}, ${c.a})`
+  getColor (c, element) {
+    let a = c.a
+    if (element && element.opacity < 1) {
+      a = element.opacity
+    }
+    return `rgba(${Math.round(c.r * 255)}, ${Math.round(c.g * 255)}, ${Math.round(c.b * 255)}, ${a})`
   }
 
   getPosition (element) {
     if (element.absoluteBoundingBox) {
-      return {
+      let pos = {
         x: element.absoluteBoundingBox.x,
         y: element.absoluteBoundingBox.y,
         w: element.absoluteBoundingBox.width,
         h: element.absoluteBoundingBox.height
       }
+      /**
+       * We can ignore transformMatrix because absolutePositon gives the right values
+       */
+      return pos
     }
     Logger.warn('getPosition() > No abs pos', element)
     return {}
+  }
+
+  getTransformParent (element) {
+    if (element._parent) {
+      if (element._parent.type === 'FRAME') {
+        return element._parent
+      }
+    }
+    return
   }
 
   getZ (element, model) {
