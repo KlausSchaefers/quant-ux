@@ -169,6 +169,9 @@ export default {
 				*/
 				var div = document.createElement("div");
 				div.style.width = screen.w + "px";
+				/**
+				 * FIXME: If this.qr, max(body.heigth, screen.h)
+				 */
 				div.style.height = screen.h + "px";
 				div.style.left = "0px";
 				div.style.top ="0px";
@@ -229,6 +232,9 @@ export default {
 						this.logger.log(-1,"setScreenBackground","enter", screen.style.background);
 						let body = win.body()
 						if (body) {
+							/**
+							 * FIXME: check for gradients...
+							 */
 							body.style.backgroundColor = screen.style.background
 						}
 					}
