@@ -520,7 +520,7 @@ export default class Screen extends CopyPaste {
 	}
 
 	updateScreenPosition (id, pos, updateChildren){
-		this.logger.log(0,"updateScreenPosition", "enter > screen.id : " + id + " > udpateChildren: "+ updateChildren);
+		this.logger.log(1,"updateScreenPosition", "enter > screen.id : " + id + " > udpateChildren: "+ updateChildren);
 
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
 
@@ -593,7 +593,6 @@ export default class Screen extends CopyPaste {
 		/**
 		 * create the command
 		 */
-
 		var delta = this.getDeltaBox(screen, pos);
 		var command = {
 			timestamp : new Date().getTime(),
@@ -613,31 +612,29 @@ export default class Screen extends CopyPaste {
 	}
 
 	modelScreenUpdate (id, pos, updateChildren){
-		this.logger.log(0,"modelScreenUpdate", "enter > " +id+ " > " + updateChildren);
+		this.logger.log(-1,"modelScreenUpdate", "enter > id: " + id + " > updateChildren: " + updateChildren);
 
+		let modified = new Date().getTime()
 		var screen = this.model.screens[id];
-		screen.modified = new Date().getTime()
+		screen.modified = modified
 
 		/**
 		 * update all widgets too if there was
 		 * a screen move and no resize!
 		 */
-		if(updateChildren){
-
-			for(var i=0; i < screen.children.length; i++){
+		if (updateChildren){
+			for (var i=0; i < screen.children.length; i++){
 				var widgetID = screen.children[i];
 				var widget = this.model.widgets[widgetID];
-				if(widget){
-					if(pos.x){
+				widget.modified = modified
+				if (widget){
+					if (pos.x){
 						widget.x -= (screen.x - pos.x);
 					}
-					if(pos.y){
+					if (pos.y){
 						widget.y -= (screen.y - pos.y);
 					}
-				} else {
-					// should not happen!
 				}
-
 			}
 		}
 

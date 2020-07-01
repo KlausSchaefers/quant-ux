@@ -10,12 +10,12 @@ export default class CopyPaste extends Group{
 
 		this.borderStyleAttributes = ["borderColor", "borderWidth", "borderRadius", "borderTopWidth",
 									  "borderBottomWidth", "borderLeftWidth", "borderRightWidth" ,
-									  "borderTopLeftRadius", "borderTopRightRadius", "borderBottomLeftRadius", 
-									  "borderBottomRightRadius", "borderTopColor", "borderBottomColor", 
+									  "borderTopLeftRadius", "borderTopRightRadius", "borderBottomLeftRadius",
+									  "borderBottomRightRadius", "borderTopColor", "borderBottomColor",
 									  "borderRightColor", "borderLeftColor"]
 
-		this.textStyleAttributes = ["color", "fontFamily", "fontSize", "line-height", "fontStyle", 
-									"fontWeight", "textAlign", "letter-spacing", "textShadow", 
+		this.textStyleAttributes = ["color", "fontFamily", "fontSize", "line-height", "fontStyle",
+									"fontWeight", "textAlign", "letter-spacing", "textShadow",
 									"textDecoration", "verticalAlign" ]
 
 		this.backStyleAttributes = ["background", "boxShadow" ,"opacity"]
@@ -24,17 +24,17 @@ export default class CopyPaste extends Group{
 	}
 
 	replicateWidgets (ids, pos, selectedGroup, fromToolbar){
-		this.logger.log(0,"replicateWidgets", "enter > ");	
-		
+		this.logger.log(0,"replicateWidgets", "enter > ");
+
 		/**
 		 * This was id!!!
 		 */
 		pos = this.correctPostion(ids, pos, fromToolbar);
-					
+
 		var cloneIds = this.modelAddClonedWidgets(ids, pos, selectedGroup)
-		
+
 		/**
-		 * make command 
+		 * make command
 		 */
 		var command = {
 			timestamp : new Date().getTime(),
@@ -44,20 +44,20 @@ export default class CopyPaste extends Group{
 			clonedIds: cloneIds,
 			group: selectedGroup
 		};
-		
+
 		this.addCommand(command);
 		this.render();
 		return cloneIds;
 	}
-	
+
 	modelAddClonedWidgets (ids, pos,selectedGroup, undoIds) {
 		var clonedIds = {
 			widgets: [],
 			groups: [],
 		};
-		
+
 		var targetScreen = this.getHoverScreen(pos);
-		
+
 		/**
 		 * FIXME: copy the group stuff as well!
 		 */
@@ -67,10 +67,10 @@ export default class CopyPaste extends Group{
 			var cPos = clonePos[i];
 			if(this.model.widgets[cPos.cloneOff]){
 				var widget = this.model.widgets[cPos.cloneOff];
-				
+
 				var clonedWidget = this._copyWidget(widget, targetScreen);
 				/**
-				 * In case of redo, we have to use the same ids, so 
+				 * In case of redo, we have to use the same ids, so
 				 * undo works again...
 				 */
 				if (undoIds && undoIds[i]){
@@ -83,14 +83,14 @@ export default class CopyPaste extends Group{
 				clonedWidget.copyOf = widget.id;
 				clonedWidget.z = this.getMaxZValue(this.model.widgets) +1;
 				delete clonedWidget.props.databinding;
-				
+
 				/**
 				 * update model
 				 */
 				this.modelAddWidget(clonedWidget, true);
-			
+
 				clonedIds.widgets.push(clonedWidget.id)
-				
+
 				/**
 				 * Check if we should create a group!
 				 */
@@ -108,7 +108,7 @@ export default class CopyPaste extends Group{
 					}
 					groups[cPos.group].children.push(clonedWidget.id)
 				}
-				
+
 			} else {
 				this.logger.error("modelAddClonedWidgets", "Error. No widget with id > " +cPos.cloneOff);
 			}
@@ -116,7 +116,7 @@ export default class CopyPaste extends Group{
 		this.onModelChanged();
 		return clonedIds;
 	}
-	
+
 	modelRemoveClonedWidgets (ids) {
 		var widgetIDs= ids.widgets;
 		/**
@@ -146,20 +146,20 @@ export default class CopyPaste extends Group{
 		}
 		this.onModelChanged();
 	}
-	
+
 	undoWidgetReplicate (command){
 		this.logger.log(3,"redoWidgetReplicate", "enter > " + command.id);
 		this.modelRemoveClonedWidgets(command.clonedIds);
 		this.unSelect();
 		this.render();
 	}
-	
+
 	redoWidgetReplicate (command){
 		this.logger.log(3,"redoWidgetReplicate", "enter > " + command.id);
 		this.modelAddClonedWidgets(command.sourceIds, command.sourcePos, command.group, command.clonedIds.widgets);
 		this.render();
 	}
-	
+
 	/**********************************************************************
 	 * Clip Board
 	 **********************************************************************/
@@ -181,7 +181,7 @@ export default class CopyPaste extends Group{
 			screens: [],
 			groups: []
 		};
-		if (selectWidget){
+		if (selectWidget) {
 
 			clipBoard.widgets = [this.model.widgets[selectWidget.id]]
 
@@ -190,7 +190,13 @@ export default class CopyPaste extends Group{
 			clipBoard.screens = [this.model.screens[selectedScreen.id]];
 			for(let i = 0; i < selectedScreen.children.length; i++){
 				let id = selectedScreen.children[i];
-				clipBoard.widgets.push(this.model.widgets[id]);
+				let widget = this.model.widgets[id];
+				/**
+				 * It can happen that there are master widgets. these shall not be copied
+				 */
+				if (widget) {
+					clipBoard.widgets.push(this.model.widgets[id]);
+				}
 			}
 
 		} else if (selectMulti) {
@@ -218,7 +224,7 @@ export default class CopyPaste extends Group{
 		 * we fuckup the model!
 		 */
 		clipBoard = lang.clone(clipBoard)
-		
+
 		/**
 		 * Also normalize the position in respect to the bounding box?
 		 */
@@ -240,7 +246,7 @@ export default class CopyPaste extends Group{
 			localStorage.setItem("mactCanvasClipBoard", JSON.stringify(clipBoard));
 		} else {
 			this.logger.error("_setCligBoard", "No local storage");
-		}		
+		}
 	}
 
 	onPasteClipBoard (clipBoard, pos) {
@@ -305,7 +311,7 @@ export default class CopyPaste extends Group{
 		};
 		this.addCommand(command);
 		this.modelPasteClipBoard(clipBoard)
-	
+
 	}
 
 	modelPasteClipBoard (clipBoard) {
@@ -366,13 +372,13 @@ export default class CopyPaste extends Group{
 
 	onCopyWidgetStyle (source, target){
 		this.logger.log(0,"onCopyWidgetStyle", "enter > " + source + " > " + target);
-		
+
 		var from = this.getBoxById(source);
 		var to = this.getBoxById(target);
-		
+
 		if(from && to){
 			var isSameType = from.type == to.type;
-			
+
 			/**
 			 * FIXME: Make style copy also work with templates!
 			 */
@@ -380,57 +386,57 @@ export default class CopyPaste extends Group{
 				this.showError("Cannot copy style to templated elements!");
 				return;
 			}
-			
+
 			var fromStyle = from.style;
 			var fromProps = from.props;
-			
+
 			var fromHover = from.hover;
 			var fromError = from.error;
 			var fromFocus = from.focus;
-				
+
 			/**
 			 * First copy props, than copy styles
 			 */
 			var props = {};
 			var style = {};
-			if(isSameType || (from.has.backgroundColor && to.has.backgroundColor)){				
+			if(isSameType || (from.has.backgroundColor && to.has.backgroundColor)){
 				for(let i=0; i< this.backStyleAttributes.length; i++){
 					let attr = this.backStyleAttributes[i];
 					this._copyAttribute(fromStyle, style, attr);
-				}	
+				}
 			}
-			
-			if(isSameType || (from.has.backgroundImage && to.has.backgroundImage)){				
+
+			if(isSameType || (from.has.backgroundImage && to.has.backgroundImage)){
 				this._copyAttribute(fromStyle, style, "backgroundImage");
 				this._copyAttribute(fromStyle, style, "opacity");
 			}
-			
-			if(isSameType || (from.has.padding && to.has.padding)){				
+
+			if(isSameType || (from.has.padding && to.has.padding)){
 				this._copyAttribute(fromStyle, style, "paddingTop");
 				this._copyAttribute(fromStyle, style, "paddingBottom");
 				this._copyAttribute(fromStyle, style, "paddingRight");
 				this._copyAttribute(fromStyle, style, "paddingLeft");
 			}
-			
-			
-			if(isSameType || (from.has.border  && to.has.border)){				
+
+
+			if(isSameType || (from.has.border  && to.has.border)){
 				for(let i=0; i< this.borderStyleAttributes.length; i++){
 					let attr = this.borderStyleAttributes[i];
 					this._copyAttribute(fromStyle, style, attr);
-				}				
+				}
 				for(let i=0; i< this.borderPropsAttributes.length; i++){
 					let attr = this.borderPropsAttributes[i];
 					this._copyAttribute(fromProps, props, attr);
 				}
 			}
 
-			if(isSameType || (from.has.label && to.has.label)){				
+			if(isSameType || (from.has.label && to.has.label)){
 				for(let i=0; i< this.textStyleAttributes.length; i++){
 					let attr = this.textStyleAttributes[i];
 					this._copyAttribute(fromStyle, style, attr);
-				}				
+				}
 			}
-			
+
 			/**
 			 * Now build one multi command to update props and style
 			 */
@@ -440,13 +446,13 @@ export default class CopyPaste extends Group{
 				label : "CopyWidgetStyle",
 				children :[]
 			};
-			
+
 			var styleCommand = this.createWidgetPropertiesCommand(target, style, "style");
 			command.children.push(styleCommand);
-			
+
 			var propsCommand = this.createWidgetPropertiesCommand(target, props, "props");
 			command.children.push(propsCommand);
-			
+
 			if(fromHover){
 
 				var hover = lang.clone(fromHover);
@@ -454,34 +460,34 @@ export default class CopyPaste extends Group{
 				command.children.push(hoverCommand);
 				this.modelWidgetPropertiesUpdate(target, hover, "hover");
 			}
-			
+
 			if(fromError){
-		
+
 				var error = lang.clone(fromError);
 				var errorCommand = this.createWidgetPropertiesCommand(target,error , "error");
 				command.children.push(errorCommand);
 				this.modelWidgetPropertiesUpdate(target, error, "error");
 			}
-			
+
 			if(fromFocus){
-			
+
 				var focus = lang.clone(fromFocus);
 				var focusCommand = this.createWidgetPropertiesCommand(target,focus,  "focus");
 				command.children.push(focusCommand);
 				this.modelWidgetPropertiesUpdate(target, focus, "focus");
 			}
-			
+
 			this.addCommand(command);
-		
+
 			this.modelWidgetPropertiesUpdate(target, style, "style");
 			this.modelWidgetPropertiesUpdate(target, props, "props");
-			
-			this.renderWidget(to);	
+
+			this.renderWidget(to);
 		} else {
-			this.logger.error("onCopyWidgetStyle", "Could not copy > " +source + " > " + target);				
+			this.logger.error("onCopyWidgetStyle", "Could not copy > " +source + " > " + target);
 		}
 	}
-	
+
 	_copyAttribute (from, to, attr){
 		if(from[attr] != null){
 			to[attr] = from[attr];
@@ -489,19 +495,19 @@ export default class CopyPaste extends Group{
 			to[attr] = from[attr];
 		}
 	}
-	
-	
+
+
 	onMultiCopyWidget (selection, pos){
 		this.logger.log(2,"onMultiCopyWidget", "enter > "+pos);
-	
+
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 		var targetScreen = this.getHoverScreen(pos);
-		
+
 		/**
 		 * get the most top right position in the selection
 		 */
 		var parentPos = this.getBoundingBox(selection);
-		
+
 		/**
 		 * 2) create mutli command
 		 */
@@ -511,34 +517,37 @@ export default class CopyPaste extends Group{
 			label : "MultiCopyWidget",
 			children :[]
 		};
-		
+
 		/**
 		 * create already the grou
 		 */
 		var newSelection = [];
-		
+
 		/**
 		 * 3) copy children and add off set to top children
 		 */
 		for(var i=0; i < selection.length; i++){
 			var id = selection[i];
 			var widget = this.model.widgets[id];
-			
+
 			var newWidget = this._copyWidget(widget, targetScreen);
 			newWidget.id = "w"+this.getUUID();
-			
+
 			newWidget.x =  pos.x + (newWidget.x - parentPos.x);
 			newWidget.y =  pos.y + (newWidget.y - parentPos.y);
-			
+
 			if (pos.newScreen){
 				this.logger.log(1,"onMultiCopyWidget", "copy on new screen: " + id);
-				
 				var parentScreen = this.getParentScreen(widget)
-				newWidget.x =  targetScreen.x + (widget.x - parentScreen.x);
-				newWidget.y =  targetScreen.y + (widget.y - parentScreen.y);
+				if (parentScreen) {
+					newWidget.x =  targetScreen.x + (widget.x - parentScreen.x);
+					newWidget.y =  targetScreen.y + (widget.y - parentScreen.y);
+				} else {
+					this.logger.error("onMultiCopyWidget", "Could not find new screen ", id, widget);
+				}
 			}
 			newSelection.push(newWidget.id);
-		
+
 			/**
 			 * create the command
 			 */
@@ -548,41 +557,41 @@ export default class CopyPaste extends Group{
 				model : newWidget
 			};
 			command.children.push(child);
-			
+
 			/**
 			 * update model
 			 */
 			this.modelAddWidget(newWidget);
-			
+
 		}
-	
-		
+
+
 		/**
 		 * finally add command
 		 */
 		this.addCommand(command);
-		
+
 		/**
 		 * render
 		 */
 		this.render();
 		return newSelection;
 	}
-	
 
-	
+
+
 	onCopyGroup (group, pos){
 		this.logger.log(-1,"onCopyGroup", "enter > ", pos);
-		
+
 		// FIXME: check if (pos.newScreen)
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
-		
+
 		/**
 		 * get the most top right position in the selection
 		 */
 		var parentPos = this.getBoundingBox(group.children);
 		var targetScreen = this.getHoverScreen(pos);
-		
+
 		/**
 		 * 2) create mutli command
 		 */
@@ -592,7 +601,7 @@ export default class CopyPaste extends Group{
 			label : "CopyGroup",
 			children :[]
 		};
-		
+
 		/**
 		 * create already the grou
 		 */
@@ -600,30 +609,30 @@ export default class CopyPaste extends Group{
 		var copyIds = {}
 		/**
 		 * 3) copy children and add off set to top children
-		 * 
-		 * - Since 2.1.3 We have subgroup. The copy works 
+		 *
+		 * - Since 2.1.3 We have subgroup. The copy works
 		 *   here because the Select class sets allChildren()!
-		 * 
+		 *
 		 * - Make sure we add in the correct Z order
 		 */
-		let allChildren = this.sortChildren(group.children)	
+		let allChildren = this.sortChildren(group.children)
 
 		allChildren.forEach(widget => {
 			let id = widget.id
 			let newWidget = this._copyWidget(widget, targetScreen);
 			newWidget.id = "w" + this.getUUID();
 			newWidget.x =  pos.x + (newWidget.x - parentPos.x);
-			newWidget.y =  pos.y + (newWidget.y - parentPos.y);			
+			newWidget.y =  pos.y + (newWidget.y - parentPos.y);
 			if (pos.newScreen){
 				this.logger.log(1,"onCopyGroup", "copy on new screen :" + id);
 				let parentScreen = this.getParentScreen(widget)
 				newWidget.x =  targetScreen.x + (widget.x - parentScreen.x);
 				newWidget.y =  targetScreen.y + (widget.y - parentScreen.y);
-			}			
+			}
 			newWidget.z = this.getMaxZValue(this.model.widgets) + 1;
 			selection.push(newWidget.id);
 			copyIds[id] = newWidget.id
-		
+
 			/**
 			 * create the command
 			 */
@@ -637,24 +646,24 @@ export default class CopyPaste extends Group{
 			/**
 			 * update model
 			 */
-			this.modelAddWidget(newWidget);			
+			this.modelAddWidget(newWidget);
 		})
-	
+
 		/**
 		 * 4) copy group
 		 */
 		let newGroup = this.createGroupCommands(group, copyIds, command, targetScreen)
-		
+
 		/**
 		 * finally add command
 		 */
 		this.addCommand(command);
-		
+
 		/**
 		 * render
 		 */
 		this.onGroupSelected(newGroup.id);
-		this.render();		
+		this.render();
 		return newGroup;
 	}
 
@@ -710,22 +719,22 @@ export default class CopyPaste extends Group{
 				return copyIds[id]
 			}).filter(id => id !== undefined && id !== null)
 		}
-		console.error('CopyPaste.getGroupCopyChildren() > cannot find group', groupId) 
+		console.error('CopyPaste.getGroupCopyChildren() > cannot find group', groupId)
 		return []
 	}
-	
+
 	/**********************************************************************
 	 * Copy Widget
 	 **********************************************************************/
-	
-	
-	
+
+
+
 	onCopyWidget (id, pos, isEnbaleInheritedWidget){
 		this.logger.log(-1,"onCopyWidget", "enter > "+ id + " > "+pos.newScreen + "> " + isEnbaleInheritedWidget) ;
-	
-		
+
+
 		var widget = this.model.widgets[id];
-		
+
 		if(widget){
 			pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 			var targetScreen = this.getHoverScreen(pos);
@@ -737,8 +746,8 @@ export default class CopyPaste extends Group{
 					pos.y = targetScreen.y + (widget.y - parentScreen.y)
 				}
 			}
-		
-		
+
+
 			/**
 			 * FIXME: What about the templates widgets
 			 */
@@ -748,8 +757,8 @@ export default class CopyPaste extends Group{
 			newWidget.y =  pos.y;
 			newWidget.copyOf = widget.id;
 			newWidget.z = this.getMaxZValue(this.model.widgets) +1;
-			
-			
+
+
 			/**
 			 * create the command
 			 */
@@ -759,7 +768,7 @@ export default class CopyPaste extends Group{
 				model : newWidget
 			};
 			this.addCommand(command);
-			
+
 			/**
 			 * update model
 			 */
@@ -771,20 +780,20 @@ export default class CopyPaste extends Group{
 		}
 	}
 
-	
-	
+
+
 	undoCopyWidget (command){
 		this.logger.log(3,"undoCopyWidget", "enter > " + command.id);
 		var widget = command.model;
 		this.modelRemoveWidget(widget);
 		this.render();
-	}		
+	}
 	redoCopyWidget (command){
 		this.logger.log(3,"redoCopyWidget", "enter > " + command.id);
 		var widget = command.model;
 		this.modelAddWidget(widget);
 		this.render();
-	}	
+	}
 
 	_copyWidget (w, targetScreen){
 		this.logger.log(3,"_copyWidget", "enter > ", targetScreen);
@@ -796,21 +805,21 @@ export default class CopyPaste extends Group{
 		copy.copyOf = w.id;
 		if (targetScreen) {
 			copy.name = this.getWidgetName(targetScreen.id, w.name)
-		} 
-		
+		}
+
 		/**
 		 * Clean up references here
-		 * 
+		 *
 		 * 1) errorLabels
-		 * 
+		 *
 		 * 2) Animation references...
-		 * 
+		 *
 		 * 3) give a name??
 		 */
 		if(copy.props.validation){
 			delete copy.props.validation.errorLabels;
 		}
-		
+
 		if(copy.children){
 			copy.children = [];
 		}
@@ -818,25 +827,25 @@ export default class CopyPaste extends Group{
 		if(copy.props.refs){
 			delete copy.props.refs;
 		}
-		
+
 		return copy;
 	}
-	
+
 	/**********************************************************************
 	 * Copy Widget
 	 **********************************************************************/
-	
+
 	onCopyScreen (id, pos){
 		this.logger.log(0,"onCopyScreen", "enter > "+ id + " "+pos);
-		
+
 		var screen = this.model.screens[id];
-		
+
 		if(screen){
 			if(this._canvas){
 				pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 			}
-		
-			
+
+
 			var newScreen = lang.clone(screen);
 			newScreen.id = "s"+this.getUUID();
 			newScreen.x =  pos.x;
@@ -844,54 +853,54 @@ export default class CopyPaste extends Group{
 			newScreen.name = this.getSceenName(screen.name);
 			newScreen.children = [];
 			delete newScreen.props.start;
-			
+
 			let children = [];
 			let groups = [];
 			let parentGroups ={};
 			let widgetIDMapping = {};
 			/**
 			 * FIXME: Create a copy of all widgets too,
-			 * 
+			 *
 			 * and create a own modelCopyScreen funtion!
 			 */
 			if(screen.children){
 				for(let i=0; i < screen.children.length; i++){
 					let widgetID = screen.children[i];
 					let widget = this.model.widgets[widgetID];
-					
+
 					// we do not update the widget names!
 					let newWidget = lang.clone(widget);
 					newWidget.id = "w" + this.getUUID();
 					newWidget.copyOf = widget.id;
 					newWidget.x = pos.x + (widget.x - screen.x);
 					newWidget.y = pos.y + (widget.y - screen.y);
-					
+
 					/**
-					 *  Dunno if i should raise the z level. Then I would have to 
+					 *  Dunno if i should raise the z level. Then I would have to
 					 *  loop over the widhets in the right order.
 					 */
 					//newWidget.z = this.getMaxZValue(this.model.widgets) +1 + 1;
 					newScreen.children.push(newWidget.id);
-					
+
 					children.push(newWidget);
 					widgetIDMapping[widgetID] = newWidget.id;
-					
+
 					var parentGroup = this.getParentGroup(widgetID);
 					if(parentGroup){
 						parentGroups[parentGroup.id] = parentGroup;
 					}
 				}
 			}
-			
+
 			/**
 			 * Copy also groups
 			 */
 			for(let parentGroupID in parentGroups){
-				let parentGroup = parentGroups[parentGroupID];				
+				let parentGroup = parentGroups[parentGroupID];
 				this.copyScreenGroup(parentGroup, groups, widgetIDMapping)
 			}
-			
-			
+
+
 			/**
 			 * create the command
 			 */
@@ -903,19 +912,19 @@ export default class CopyPaste extends Group{
 				groups : groups
 			};
 			this.addCommand(command);
-			
+
 			/**
 			 * update model
 			 */
 			this.modelAddScreenAndWidgetsAndLines(newScreen, children, null, groups);
-			
+
 			this.render();
-			
+
 			return newScreen;
 		} else {
 			console.warn("No screen with id", id);
-		}			
-	}		
+		}
+	}
 
 	copyScreenGroup (parentGroup, groups, widgetIDMapping) {
 
@@ -954,7 +963,7 @@ export default class CopyPaste extends Group{
 		this.modelRemoveScreenAndWidgetAndLines(model, command.children, null, command.groups);
 		this.render();
 	}
-	
+
 	redoCopyScreen (command){
 		this.logger.log(3,"redoCopyScreen", "enter > " + command.id);
 		var model = command.model;

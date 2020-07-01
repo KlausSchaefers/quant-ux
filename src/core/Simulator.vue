@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v3.0.10</div>
+      <div class="MatcSimulatorVersion">v3.0.14</div>
     </div>
   </div>
 </template>
@@ -550,6 +550,9 @@ export default {
 				getMatchingLine (screenID, widgetID, line, value) {
 					var logic = this.model.widgets[line.to];
 					if (logic) {
+						/**
+						 * FIXME: Here is a bug, if the first line dos not have a rule, but the second has...
+						 */
 						var matchedLine = null;
 						var lines = this.getFromLines(logic);
 						for(var i=0; i< lines.length; i++){
@@ -816,8 +819,7 @@ export default {
 					var value = uiWidget.getValue()
 					var valid = uiWidget.isValid(false);
 					var result = this.isValueMatchingRule(value, valid, rule);
-					this.logger.log(0,"isRuleMatching","enter > " ,
-						rule.value + " " + rule.operator + " " + value + " / " + valid + " =>" + result);
+					this.logger.log(0,"isRuleMatching","enter > " ,	rule.value + " " + rule.operator + " " + value + " / " + valid + " =>" + result);
 					return result;
 				},
 

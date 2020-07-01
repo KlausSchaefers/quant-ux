@@ -95,7 +95,7 @@ export default class Widget extends Screen {
 			var widgetID = source[i];
 			var widget = this.model.widgets[widgetID];
 
-			if (widget){
+			if (widget) {
 				/**
 				 * We copy the old position
 				 */
@@ -873,22 +873,15 @@ export default class Widget extends Screen {
 
 	undoWidgetPosition (command){
 		this.logger.log(0,"undoWidgetPosition", "enter > " + command.id);
-
 		this.modelWidgetUpdate(command.modelId, command.delta.o);
-
 		this.render();
 	}
-
 
 	redoWidgetPosition (command){
 		this.logger.log(0,"redoWidgetPosition", "enter > " + command.id);
-
 		this.modelWidgetUpdate(command.modelId, command.delta.n);
-
 		this.render();
 	}
-
-
 
 	cleanUpParent (widget){
 		let currentParent = this.getParentScreen(widget);
@@ -900,7 +893,6 @@ export default class Widget extends Screen {
 			}
 		}
 	}
-
 
 	cleanUpGroup (widget){
 
@@ -965,7 +957,6 @@ export default class Widget extends Screen {
 
 	modelWidgetPropertiesUpdate (id, props, type){
 		this.logger.log(1,"modelWidgetPropertiesUpdate", "enter > " + id+ " > " + type);
-
 
 		var widget = this.model.widgets[id];
 		if(widget && widget[type]){
@@ -1168,14 +1159,12 @@ export default class Widget extends Screen {
 
 		var result = [];
 
-		for(var widgetID in this.model.widgets){
+		for (var widgetID in this.model.widgets) {
 			var w = this.model.widgets[widgetID];
-			if(w.props && w.props.refs){
-
+			if (w.props && w.props.refs) {
 				var refs = w.props.refs;
 				for(var refKey in refs){
 					var refIds  = refs[refKey];
-
 					if(refIds.indexOf(widget.id) >=0){
 						var refId = widget.id;
 						result.push({
@@ -1185,7 +1174,6 @@ export default class Widget extends Screen {
 						})
 					}
 				}
-
 			}
 		}
 
@@ -1403,8 +1391,10 @@ export default class Widget extends Screen {
 
 	modelWidgetLayers (zValues){
 		var widgets = this.model.widgets;
+		let modified = new Date().getTime()
 		for(var id in zValues){
 			var widget = widgets[id];
+			widget.modified = modified
 			if(widget){
 				widget.z = zValues[id];
 			} else {
