@@ -43,13 +43,13 @@ export default {
     wireEvents: function() {
       for (var i = 0; i < this._borderNodes.length; i++) {
         var back = this._borderNodes[i];
-        var label = this._labelNodes[i];
+        var row = this._rowNodes[i];
         var option = this.options[i];
         this.own(
           this.addClickListener(back, lang.hitch(this, "onChange", option))
         );
         this.own(
-          this.addClickListener(label, lang.hitch(this, "onChange", option))
+          this.addClickListener(row, lang.hitch(this, "onChange", option))
         );
       }
     },

@@ -262,6 +262,7 @@
 .MatcWidgetTypeCheckBoxLabel{
 	display: inline-block;
 	vertical-align: center;
+	cursor: pointer;
 }
 
 /*******************************
