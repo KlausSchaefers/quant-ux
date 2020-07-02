@@ -1,4 +1,52 @@
 /*******************************
+ * Timeline
+ *******************************/
+ .MatcWidgetTypeTimeLine{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid rgba(0,0,0,0)
+}
+
+.MatcWidgetTypeTimeLineCntr{
+	min-height: 100%;
+}
+
+
+.MatcWidgetTypeTimeLineCntrAutoSpace{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.MatcWidgetTypeTimeLineBar{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	top:0px;
+	left:0px;
+}
+
+.MatcWidgetTypeTimeLineElement {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.MatcWidgetTypeTimeLineCircle{
+	display: inline-block;
+	border-radius: 50%;
+	border-style: solid;
+}
+
+.MatcWidgetTypeTimeLineLabel{
+	display: inline-block;
+  flex-grow: 1;
+}
+
+/*******************************
  * Paging
  *******************************/
 .MatcWidgetTypePaging{

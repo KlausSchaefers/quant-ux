@@ -115,6 +115,10 @@ export default {
 			this._renderDataBinding(model);
 		},
 
+		_showTimeline (model){
+			this._renderDataBinding(model);
+		},
+
 		_showCamera (model){
 			this._renderDataBinding(model);
 		},

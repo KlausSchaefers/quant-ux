@@ -243,6 +243,109 @@ export default {
 				], true);
 			},
 
+
+			_showTimeline (model){
+				this._setSectionLabel("Timeline");
+
+				this._renderButton("Options", "mdi mdi-settings", "_renderOptionDialog");
+
+				let style = model.style
+
+				this._renderDropDownTree("Line", "mdi mdi-cursor-text", [
+					{
+						label: "Background",
+						type: "color",
+						value: style.lineBackground,
+						key:'lineBackground',
+						icon: 'mdi mdi-format-color-fill',
+						isStyle: true
+					},
+					{
+						label: "Width",
+						type: "int",
+						value: style.lineWidth,
+						key:'lineWidth',
+						icon: 'mdi mdi-pound',
+						options: [1, 2, 5, 8, 16, 24, 32, 40, 48, 60],
+						isStyle: true
+					}
+				])
+
+				this._renderDropDownTree("Circles", "mdi mdi-checkbox-blank-circle-outline", [
+					{
+						label: "Background",
+						type: "color",
+						value: style.cicleBackground,
+						key:'cicleBackground',
+						icon: 'mdi mdi-format-color-fill',
+						isStyle: true
+					},
+					{
+						label: "Border Color",
+						type: "color",
+						value: style.cicleBorderColor,
+						key:'cicleBorderColor',
+						icon: 'mdi mdi-border-color',
+						isStyle: true
+					},
+					{
+						label: "Border Width",
+						type: "int",
+						value: style.circleBorderWidth,
+						key:'circleBorderWidth',
+						icon: 'mdi mdi-pound',
+						options: [1, 2, 3, 4, 5, 8, 10, 20],
+						isStyle: true
+					},
+					{
+						label: "Size",
+						type: "int",
+						value: style.circleSize,
+						key:'circleSize',
+						icon: 'mdi mdi-arrow-all',
+						options: [5, 8, 16, 24, 32, 40, 48, 60],
+						isStyle: true
+					},
+					{
+						label: "Spacing",
+						type: "int",
+						value: style.elementSpacing,
+						key:'elementSpacing',
+						icon: 'mdi mdi-arrow-collapse-up',
+						options: [-1, 8, 16, 24, 32, 40, 48, 60],
+						isStyle: true
+					}
+				])
+
+				this._renderDropDownTree("Active Circles", "mdi mdi-checkbox-blank-circle", [
+					{
+						label: "Background",
+						type: "color",
+						value: style.cicleActiveBackground,
+						key:'cicleActiveBackground',
+						icon: 'mdi mdi-format-color-fill',
+						isStyle: true
+					},
+					{
+						label: "Border Color",
+						type: "color",
+						value: style.cicleActiveBorderColor,
+						key:'cicleActiveBorderColor',
+						icon: 'mdi mdi-border-color',
+						isStyle: true
+					},
+						{
+						label: "Text Color",
+						type: "color",
+						value: style.cicleActiveTextColor,
+						key:'cicleActiveTextColor',
+						icon: 'mdi mdi-format-text',
+						isStyle: true
+					}
+				])
+
+			},
+
 			_showIconButton(model) {
 				this._setSectionLabel("Icon Button");
 				this._renderButton("Icon", "mdi mdi-settings", "_renderIconDialog");
@@ -625,7 +728,7 @@ export default {
 				let style = model.style
 				let props = model.props
 
-					this._renderDropDownTree("Colors", "mdi mdi-format-color-fill", [
+				this._renderDropDownTree("Colors", "mdi mdi-format-color-fill", [
 					{
 						label: "Header Background",
 						type: "color",

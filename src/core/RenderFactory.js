@@ -49,6 +49,7 @@ import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
 import IconButton from 'core/widgets/IconButton'
 import Paging from 'core/widgets/Paging'
+import Timeline from 'core/widgets/Timeline'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -408,6 +409,12 @@ export default class RenderFactory extends Core {
 
 	_createTree(parent, model) {
 		var widget = this.$new(Tree);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createTimeline (parent, model) {
+		var widget = this.$new(Timeline)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
