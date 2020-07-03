@@ -112,19 +112,19 @@ export default {
                     { label: "In", value: "default" },
                     { label: "Selected", value: "output" }
                 ]
-            } 
+            }
             if (this.widget.type === 'Paging') {
                 return [
                     { label: "# Elements", value: "elements" },
                     { label: "Selected", value: "output" }
                 ]
             }
-            if (['TypeAheadTextBox', 'DropDown', 'MobileDropDown', 'CheckBoxGroup', 'RadioGroup'].indexOf(this.widget.type) >= 0) {
+            if (['TypeAheadTextBox', 'DropDown', 'MobileDropDown', 'CheckBoxGroup', 'RadioGroup', 'Timeline'].indexOf(this.widget.type) >= 0) {
                 return [
                     { label: "In & out", value: "default" },
                     { label: "Options", value: "options" }
                 ]
-            } 
+            }
 
             return [
                 { label: "In & out", value: "default" }

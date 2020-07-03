@@ -86,6 +86,9 @@ export default {
 			this._renderDataBinding(model, false);
 		},
 
+		_showLabeledIconToggle (model){
+			this._renderDataBinding(model);
+		},
 
 		_showButton (model){
 			this._renderDataBinding(model, false);
