@@ -93,6 +93,11 @@ export default class FigmaService {
     }
 
     /**
+     * Fix the lines that are until now with figma ids
+     */
+    this.setLineTos(model, fModel)
+
+    /**
      * Get download images for all
      */
     await this.addBackgroundImages(id, model, importChildren)
@@ -101,7 +106,26 @@ export default class FigmaService {
      * TODO Add groups
      */
 
+
     return model
+  }
+
+  setLineTos (model) {
+    let widgetMapping = {}
+    Object.values(model.widgets).forEach(w => {
+      widgetMapping[w.figmaId] = w.id
+    })
+
+    let screenMapping = {}
+    Object.values(model.screens).forEach(s => {
+      console.debug(s.name, s.id)
+      screenMapping[s.figmaId] = s.id
+    })
+
+    Object.values(model.lines).forEach(line => {
+      line.from = widgetMapping[line.figmaFrom]
+      line.to = screenMapping[line.figmaTo]
+    })
   }
 
   async addBackgroundImages(id, model, importChildren) {
@@ -154,8 +178,6 @@ export default class FigmaService {
     })
   }
 
-
-
   getChunks (array, size) {
     let result = []
     for (let i = 0; i < array.length; i += size) {
@@ -165,7 +187,7 @@ export default class FigmaService {
     return result;
   }
 
-  parseScreen (fScreen, model, fModel, importChildren) {
+  parseScreen (fScreen, model, fModel) {
     Logger.log(1, 'parseScreen()', fScreen.name)
     let pos = this.getPosition(fScreen)
     let qScreen = {
@@ -182,21 +204,26 @@ export default class FigmaService {
       style: this.getStyle(fScreen)
     }
 
-    if (fScreen.children && importChildren) {
+    if (fScreen.children) {
       fScreen.children.forEach(child => {
         child._parent = fScreen
         this.parseElement(child, qScreen, fScreen, model, fModel)
       })
     }
 
+    /**
+     * Or check prototypeDevice
+     */
     model.screenSize.w = model.screenSize.w === -1 ? pos.w : Math.max(model.screenSize.w, pos.w)
     model.screenSize.h = model.screenSize.h === -1 ? pos.h : Math.max(model.screenSize.h, pos.h)
     model.screens[qScreen.id] = qScreen
+
+    Logger.log(4, 'parseScreen() exit ', fScreen.name, qScreen.id)
     return qScreen
   }
 
   parseElement (element, qScreen, fScreen, model, fModel) {
-    Logger.log(1, 'parseElement() > enter: ' + element.name, element.type)
+    Logger.log(6, 'parseElement() > enter: ' + element.name, element.type)
 
     let widget = null
     if (!this.isIgnored(element) && !this.isInsisible(element)) {
@@ -216,12 +243,17 @@ export default class FigmaService {
       widget.style = this.getStyle(element, widget)
       widget.props = this.getProps(element, widget)
       widget.has = this.getHas(element, widget)
+      widget.pluginData = this.getPluginData(element, widget)
       model.widgets[widget.id] = widget
+
       qScreen.children.push(widget.id)
+
     } else {
       Logger.log(4, 'parseElement() >Ignore: ' + element.name, element.type)
+      /**
+       * What if we have defined the callbacks and on a compomemt?
+       */
     }
-
 
     /**
      * Go down recursive...
@@ -235,7 +267,63 @@ export default class FigmaService {
         }
       })
     }
+
+    this.addTempLine(element, model)
     return widget
+  }
+
+  addTempLine (element,  model) {
+    Logger.log(4, 'addLine() > enter', element.name, 'transition :' + element.transitionNodeID, element)
+
+    if (element.transitionNodeID) {
+      let clickChild = this.getFirstNoIgnoredChild(element)
+      Logger.log(-1, 'addLine() >  : ', element.name, clickChild)
+      let line = {
+        id: 'l' + this.getUUID(model),
+        from : null,
+        to: null,
+        figmaFrom: clickChild.id,
+        figmaTo: element.transitionNodeID,
+        points : [ ],
+        event: "click",
+        animation: "",
+        duration : element.transitionDuration
+      }
+      model.lines[line.id] = line
+    }
+  }
+
+  getFirstNoIgnoredChild (element) {
+    /**
+     * We do not render instance wrappers, so we take the first child.
+     */
+    if (this.isIgnored(element) && element.children.length > 0) {
+      Logger.log(5, 'getFirstNoIgnoredChild() >  take child ', element.name)
+      return this.getFirstNoIgnoredChild(element.children[0])
+    }
+    return element
+  }
+
+  getPluginData (element, widget) {
+    if (element.pluginData && element.pluginData[this.pluginId]) {
+      let pluginData = element.pluginData[this.pluginId]
+      if (pluginData.quxType) {
+        Logger.log(3, 'getPluginData() > quxType : ', pluginData.quxType, element.name)
+        widget.type = pluginData.quxType
+      }
+      if (pluginData.quxDataBindingDefault) {
+        Logger.log(3, 'getPluginData() > quxDataBindingDefault : ', pluginData.quxDataBindingDefault, element.name)
+        widget.props.databinding = {
+          'default': pluginData.quxDataBindingDefault
+        }
+      }
+      if (pluginData.quxOnClickCallback) {
+        Logger.log(3, 'getPluginData() > quxOnClickCallback: ', pluginData.quxOnClickCallback, element.name)
+        widget.props.callbacks = {
+          'click': pluginData.quxOnClickCallback
+        }
+      }
+    }
   }
 
   getProps (element, widget) {
@@ -485,7 +573,6 @@ export default class FigmaService {
     if (element.type === 'TEXT') {
       return 'Label'
     }
-
     return 'Button'
   }
 
@@ -540,8 +627,9 @@ export default class FigmaService {
       },
 			type: 'smartphone',
 			screens: {},
-			widgets: {},
-			lines: {},
+      widgets: {},
+      lines: {},
+      groups: {},
       lastUUID: 10000,
       lastZ: 1,
 			lastUpdate: 0,

@@ -179,6 +179,12 @@ export default {
                 let model = await figmaService.get(fileId, importChildren)
                 if (model) {
                     this.logger.log(-1, 'importFigma', 'model', model)
+
+                    /**
+                     * Add hot spots for widgets with links
+                     */
+                    model.widgets = this.addHotspots(model)
+
                     let vectorWidgets = this.getImagesWithFigmaImage(model, importChildren)
 
                     await this.downloadFigmaImages(vectorWidgets)
@@ -207,7 +213,6 @@ export default {
                         return widget
                     })
 
-
                     this.controller.addScreensAndWidgets(model);
                 } else {
                     throw new Error('Could not download figma. Servivce returned null')
@@ -218,6 +223,40 @@ export default {
                 this.errorMSG = this.getNLS('dialog.import.error-figma-load')
                 this.tab = 'figma'
             }
+        },
+
+        addHotspots (model) {
+            let result = {}
+
+            var widgetScreenMapping = {}
+            Object.values(model.screens).forEach(screen => {
+                screen.children.forEach(widgetId => {
+                    widgetScreenMapping[widgetId] = screen
+                })
+                screen.children = []
+            })
+
+            Object.values(model.lines).forEach(line => {
+                let from = model.widgets[line.from]
+                let to = model.screens[line.to]
+
+                console.debug('addHotspots', from.id, to.name)
+                if (from && to) {
+                    let parent = widgetScreenMapping[from.id]
+                    if (parent) {
+                        from.type = 'HotSpot'
+                        from.style = {}
+                        result[from.id] = from
+                        parent.children.push(from.id)
+                    } else {
+                        this.logger.log(0, 'addHotspots', 'cannot add hotspot for parent', line)
+                    }
+                } else {
+                    this.logger.log(0, 'addHotspots', 'cannot add hotspot for line', line)
+                }
+            })
+            this.logger.log(-1, 'addHotspots', 'exit', result)
+            return result
         },
 
         getImagesWithFigmaImage (model, importChildren) {

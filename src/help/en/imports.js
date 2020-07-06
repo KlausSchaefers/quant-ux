@@ -23,6 +23,9 @@ export let texts = [
             {
                 "id": "import.figma",
                 "title": "Figma Import",
+                "video": {
+                    "src": "https://www.youtube.com/embed/sg6pwbDa3zU"
+                },
                 "body": `
                     You can import Figma projects into Quant-UX by opening the Import wizard. Before you start you need to create an Access key:
 

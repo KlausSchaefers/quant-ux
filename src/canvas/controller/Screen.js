@@ -1263,6 +1263,7 @@ export default class Screen extends CopyPaste {
 		var screens = result.screens;
 		var widgets = result.widgets;
 		var groups = result.groups;
+		var lines = result.lines;
 		var startScreen = this.getStartScreen();
 
 		if(!startScreen){
@@ -1286,11 +1287,14 @@ export default class Screen extends CopyPaste {
 
 
 		var tempScreens = {};
+		var screenIdMapping = {};
 		for(let screenID in screens){
 			let screen = screens[screenID];
 			let newID = "s"+this.getUUID();
 			screen.id = newID;
 			tempScreens[newID] = screen;
+
+			screenIdMapping[screenID] = newID
 
 			var tempChildren = [];
 			for(let i =0; i< screen.children.length; i++){
@@ -1298,9 +1302,8 @@ export default class Screen extends CopyPaste {
 				if(widgetIdMapping[oldChildID]){
 					tempChildren.push(widgetIdMapping[oldChildID]);
 				} else {
-					console.error("Wooop Woopp", oldChildID);
+					console.error("Wooop Woopp. Cannot map old child to screen", oldChildID);
 				}
-
 			}
 			screen.children = tempChildren;
 		}
@@ -1332,16 +1335,32 @@ export default class Screen extends CopyPaste {
 			}
 		}
 
+		var tempLines = {}
+		for(let lineID in lines){
+			let line = lines[lineID];
+			if (widgetIdMapping[line.from] && screenIdMapping[line.to]) {
+				line.from = widgetIdMapping[line.from]
+				line.to = screenIdMapping[line.to]
+				line.id = "l"+this.getUUID();
+				tempLines[line.id] = line
+			} else {
+				console.error("Wooop Woopp, cannot map line", line);
+			}
+		}
+
+
 		var app = {
-			screens : tempScreens,
-			widgets : tempWidgets,
-			groups : tempGroup
+			screens: tempScreens,
+			widgets: tempWidgets,
+			groups: tempGroup,
+			lines: tempLines
 		};
 
 		return app;
 	}
 
 	modelAddScreenAndWidgets (app){
+
 
 		if(app.screens){
 			let screens = app.screens;
@@ -1361,6 +1380,20 @@ export default class Screen extends CopyPaste {
 					this.model.widgets[id] = widgets[id];
 				} else {
 					console.warn("modelAddScreenAndWidgets() > Duplicate widget id!!", id)
+				}
+			}
+		}
+
+		/**
+		 * Since 3.0.15 we add also lines (liek from Figma)
+		 */
+		if(app.lines){
+			let lines = app.lines;
+			for(let id in lines){
+				if(!this.model.lines[id] ){
+					this.model.lines[id] = lines[id];
+				} else {
+					console.warn("modelAddScreenAndWidgets() > Duplicate line id!!", id)
 				}
 			}
 		}
@@ -1396,6 +1429,13 @@ export default class Screen extends CopyPaste {
 			let widgets = app.widgets;
 			for(let id in widgets){
 				delete this.model.widgets[id];
+			}
+		}
+
+		if(app.lines){
+			let lines = app.lines;
+			for(let id in lines){
+				delete this.model.lines[id];
 			}
 		}
 
