@@ -94,7 +94,6 @@ export default {
             progessPercent: 0,
             figmaAcccessKey: '',
             figmaUrl: '',
-            user: null,
             isPublic: false
         }
     },
