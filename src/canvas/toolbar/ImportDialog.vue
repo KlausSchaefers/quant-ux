@@ -5,60 +5,67 @@
             <a @click="tab='images'" :class="{'MatcToolbarTabActive': tab === 'images'}">{{ getNLS('dialog.import.tab-images')}}</a>
             <a @click="tab='figma'" :class="{'MatcToolbarTabActive': tab === 'figma'}">{{ getNLS('dialog.import.tab-figma')}}</a>
         </div>
-        <div v-if="tab=== 'images'">
-
-            <div :class="['MatchImportDialogDropZone MatchImportDialogCntr', {'MatchImportDialogDropZoneHover': hasDrop}]">
-                <span class="MatcHint" v-if="uploadFiles.length === 0">{{ getNLS('dialog.import.images-drop-msg')}}</span>
-                <div class="MatchImportDialogPreview MatcToolbarDropDownButtonItem" v-for="(file,i) in uploadFiles" :key="file.name" :style="{'height': previewHeight, 'width': previewWidth}">
-                    <img :src="uploadPreviews[i]" :alt="file.name"/>
+        <div v-if="isPublic">
+             <div class="MatchImportDialogCntr">
+             {{ getNLS('dialog.import.error-public')}}
+            </div>
+        </div>
+        <div v-else>
+            <div v-if="tab=== 'images'">
+                <div :class="['MatchImportDialogDropZone MatchImportDialogCntr', {'MatchImportDialogDropZoneHover': hasDrop}]">
+                    <span class="MatcHint" v-if="uploadFiles.length === 0">{{ getNLS('dialog.import.images-drop-msg')}}</span>
+                    <div class="MatchImportDialogPreview MatcToolbarDropDownButtonItem" v-for="(file,i) in uploadFiles" :key="file.name" :style="{'height': previewHeight, 'width': previewWidth}">
+                        <img :src="uploadPreviews[i]" :alt="file.name"/>
+                    </div>
+                    <input type="file" @change="onFileChange" >
                 </div>
-                <input type="file" @change="onFileChange" >
             </div>
 
-        </div>
-        <div v-if="tab=== 'figma'">
-            <div class="MatchImportDialogCntr">
+            <div v-if="tab=== 'figma'">
+                <div class="MatchImportDialogCntr">
 
-            <div class="field ">
-                <label>{{ getNLS('dialog.import.figma-key')}}
-                    <a  target="figma" href="https://www.figma.com/developers/api#access-tokens">
-                        <span class="mdi mdi-help-circle"></span>
-                    </a>
-                    </label>
-                <input type="text" class="input" v-model="figmaAcccessKey" />
+                <div class="field ">
+                    <label>{{ getNLS('dialog.import.figma-key')}}
+                        <a  target="figma" href="https://www.figma.com/developers/api#access-tokens">
+                            <span class="mdi mdi-help-circle"></span>
+                        </a>
+                        </label>
+                    <input type="text" class="input" v-model="figmaAcccessKey" />
+                </div>
+
+                <div class="field">
+                    <label>{{ getNLS('dialog.import.figma-url')}}</label>
+                    <input type="text" class="input" v-model="figmaUrl" />
+                </div>
+
+                </div>
             </div>
 
-            <div class="field">
-                <label>{{ getNLS('dialog.import.figma-url')}}</label>
-                <input type="text" class="input" v-model="figmaUrl" />
-            </div>
-
-
-            </div>
-        </div>
-         <div v-if="tab=== 'progress'">
-            <div class="MatchImportDialogCntr">
-                <span class="MatcHint" >
-                    {{progressMSG}}
-                    <span class="MatcUploadProgressCnr">
-                        <span class="MatcUploadProgress" ref="progressBar" :style="'width:' + progessPercent + '%'"/>
+            <div v-if="tab=== 'progress'">
+                <div class="MatchImportDialogCntr">
+                    <span class="MatcHint" >
+                        {{progressMSG}}
+                        <span class="MatcUploadProgressCnr">
+                            <span class="MatcUploadProgress" ref="progressBar" :style="'width:' + progessPercent + '%'"/>
+                        </span>
                     </span>
-                </span>
+                </div>
             </div>
+
         </div>
+
+
         <div class="MatcError">
             {{errorMSG}}
         </div>
 
         <div class=" MatcButtonBar MatcMarginTop">
 
-            <a class=" MatcButton" @click.stop="onSave">{{ getNLS('btn.import')}}</a>
+            <a class=" MatcButton" v-if="!isPublic" @click.stop="onSave">{{ getNLS('btn.import')}}</a>
             <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel')}}</a>
         </div>
 
-         <div v-if="tab=== 'log'">
 
-        </div>
 
 	</div>
 </template>
@@ -86,7 +93,9 @@ export default {
             progressMSG: '',
             progessPercent: 0,
             figmaAcccessKey: '',
-            figmaUrl: ''
+            figmaUrl: '',
+            user: null,
+            isPublic: false
         }
     },
     components: {},
@@ -105,6 +114,11 @@ export default {
     methods: {
         setModel (m){
             this.model = m;
+        },
+
+        setPublic (isPublic) {
+            console.debug('isPublic', isPublic)
+            this.isPublic = isPublic
         },
 
         setController (controller) {

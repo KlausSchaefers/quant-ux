@@ -77,6 +77,7 @@ export default {
       let importDialog = this.$new(ImportDialog)
 			importDialog.placeAt(popup)
 
+			importDialog.setPublic(this.mode === "public" )
 			importDialog.setJwtToken(this.jwtToken)
 			importDialog.setModel(this.model)
 			importDialog.setController(this.controller)
