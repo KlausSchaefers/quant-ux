@@ -1393,7 +1393,7 @@ export default class Screen extends CopyPaste {
 				if(!this.model.lines[id] ){
 					this.model.lines[id] = lines[id];
 				} else {
-					console.warn("modelAddScreenAndWidgets() > Duplicate line id!!", id)
+					console.warn("modelAddScreenAndWidgets() > Duplicate line id!", id)
 				}
 			}
 		}
