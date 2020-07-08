@@ -42,14 +42,26 @@
         "download": "下载",
         "edit": "编辑",
         "post": "发布",
-        "close": "关闭"
+        "close": "关闭",
+        "import": "导入"
     },
     "dialog": {
         "import": {
             "images-title": "从图像导入",
             "figma-title": "从Figma导入",
             "tab-images": "图片",
-            "tab-figma": "Figma"
+            "tab-figma": "Figma(测试版)",
+            "images-drop-msg": "把图片拖到此处",
+            "image-progress": "上传中...",
+            "figma-key": "Access Key",
+            "figma-url": "地址",
+            "figma-progress-file": "加载Figma文件中...",
+            "error-too-big": "文件过大, 不能超过5MB",
+            "error-wrong-type": "仅支持JPG, PNG and GIF格式图片",
+            "error-figma-key": "请提供 access key",
+            "error-figma-url": "复制Figma原型Url",
+            "error-figma-load": "加载Figma文件发生了一些错误",
+            "error-public": "导入功能无法在使用模式下使用"
         },
         "login": {
             "password": {
@@ -101,7 +113,6 @@
             "headline": "扫描二维码."
         }
     },
-
     "user": {
         "retire": {
             "hi": "Hi ",
@@ -125,6 +136,15 @@
             "share": "分享"
         }
     },
+    "survey": {
+        "header": "测量问卷",
+        "download": "下载调查问卷",
+        "no-data": "未搜集到测量数据. 确保已将数据绑定添加到所需的测量字段."
+    },
+    "analytic-task-list": {
+        "header": "任务集",
+        "download": "下载任务总结"
+    },
     "canvas": {
 
     },
@@ -142,7 +162,6 @@
             "duration": "测试时间",
             "coverage": "测试覆盖率"
         }
-
     },
     "dashScreenList": {
         "views": "访问次数",
