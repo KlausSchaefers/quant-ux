@@ -403,6 +403,11 @@ export default {
 		 */
 		wireWidget (id) {
 			let widget = this.model.widgets[id];
+
+			if (this.isElementLocked(widget) || this.isElementHidden(widget)) {
+				return
+			}
+
 			let div = this.widgetDivs[widget.id];
 			if (!widget.inherited || this.wireInheritedWidgets){
 				if(this.mode == "edit" || this.mode == "addLine"){
@@ -428,9 +433,22 @@ export default {
 			}
 		},
 
+		isElementLocked (widget) {
+			return widget && widget.props && widget.props.locked
+		},
+
+		isElementHidden (widget) {
+			return widget && widget.props && widget.props.hidden
+		},
+
 		wireScreen (id) {
 			let dndDiv = this.screenDivs[id];
 			let screen = this.model.screens[id];
+
+			if (this.isElementLocked(screen)) {
+				return
+			}
+
 			/**
 			 * register dnd
 			 */
@@ -569,12 +587,13 @@ export default {
 				* if the widget was rendered!
 				*/
 			var div = null;
-			if(!this.widgetDivs[widget.id]){
+			if(!this.widgetBackgroundDivs[widget.id] && !this.isElementHidden(widget)){
 
 				/**
 					* create dnd
 					*/
-				if(this.renderDND){
+				if (this.renderDND && !this.isElementLocked(widget)) {
+
 					div = this.createWidgetDnD(widget);
 					if(widget.inherited){
 						css.add(div, "MatcWidgetDNDInherited");

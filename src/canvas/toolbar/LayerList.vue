@@ -13,6 +13,8 @@
 							<Tree
 								:value="tree"
 								@open="onOpen"
+								@locked="onLocked"
+								@hidden="onHidden"
 								@select="onSelect"
 								@changeLabel="onChangeLabel"
 								@dnd="onDnd"/>
@@ -35,17 +37,17 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-            sections: [],
-            screenListeners: {},
-			collapsed: {},
-			openNodes: {},
-			trees: [],
-			nodes: {}
+					sections: [],
+					screenListeners: {},
+					collapsed: {},
+					openNodes: {},
+					trees: [],
+					nodes: {}
         }
     },
     components: {
-		'Tree': Tree
-	},
+			'Tree': Tree
+		},
     methods: {
       	postCreate (){
 			this.logger = new Logger("LayerList");
@@ -76,6 +78,33 @@ export default {
 				this.$set(this.collapsed, tree.id, !this.collapsed[tree.id])
 			} else {
 				this.$set(this.collapsed, tree.id, true)
+			}
+		},
+
+		onLocked (id, value) {
+
+			this.logger.log(-1, "onLocked", "entry > ", id + ': ' + value);
+			if (this.controller) {
+				let node = this.nodes[id]
+				if (node) {
+					let type = node.type
+					if (type == "widget") {
+						this.controller.updateWidgetProperties(id, {'locked': value}, 'props', true, true)
+					}
+				}
+			}
+		},
+
+		onHidden (id, value) {
+			this.logger.log(-1, "onHidden", "entry > ", id + ': ' + value);
+			if (this.controller) {
+				let node = this.nodes[id]
+				if (node) {
+					let type = node.type
+					if (type == "widget") {
+						this.controller.updateWidgetProperties(id, {'hidden': value}, 'props', true, true)
+					}
+				}
 			}
 		},
 
@@ -309,6 +338,8 @@ export default {
 				children:[],
 				type: type,
 				open: this.openNodes[box.id],
+				locked: box?.props.locked === true,
+				hidden: box?.props.hidden === true,
 				inherited: box.inherited,
 				fixed: false
 			}

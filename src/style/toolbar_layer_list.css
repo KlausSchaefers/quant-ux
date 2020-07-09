@@ -60,6 +60,10 @@
 	vertical-align: center;
 }
 
+.MatcTreeItemRow input.MatcTreeItemLabel{
+	width: 140px;
+}
+
 .MatcLayerListDragOver{
 	border-top:3px solid #1973e8;
 }
@@ -111,3 +115,4 @@
 .MatcLayerListWidgetInherited .MatcTreeItemLabel{
 	cursor: auto;
 }
+

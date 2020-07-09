@@ -13,7 +13,7 @@ export default {
 			 **********************************************************************/
 
 			renderFlowViewFast (model){
-				this.logger.log(0,"renderFlowViewFast", "enter");
+				this.logger.log(-1,"renderFlowViewFast", "enter");
 
 				// console.debug(new Error().stack)
 
@@ -51,11 +51,18 @@ export default {
 				var widgets = this.getOrderedWidgets(model.widgets);
 				for (let i=0; i< widgets.length; i++){
 					let widget = widgets[i];
+
+					/**
+					 * FIXME: we have to check here which for hidden stuff.
+					 * 1) If stuff was hidden, and is now not hidden, the wiring will fail!
+					 * 2) If stuff was visible and is not hidden, we have to remove the node
+					 */
+
 					/**
 					 * We assume that for the first rendering we do not need to
 					 * set the zIndex. For the updates we need, thus we pass i.
 					 */
-					if (!this.widgetDivs[widget.id]) {
+					if (!this.widgetBackgroundDivs[widget.id]) {
 						this.renderWidget(widget);
 						this.updateWidgetZ(widget, i)
 						this.renderedModels[widget.id] = widget
@@ -264,7 +271,7 @@ export default {
 			},
 
 			forceRenderUpdates () {
-				this.logger.warn("forceCompleteRender", "enter");
+				this.logger.warn("forceRenderUpdates", "enter");
 				this.renderedModels = {}
 			},
 

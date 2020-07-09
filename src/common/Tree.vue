@@ -4,12 +4,14 @@
     {{value.label}}
     <TreeItem v-for="child in value.children"
       :level="0"
-      :key="child.id" 
-      class="MatcTreeRootNode" 
-      :value="child" 
+      :key="child.id"
+      class="MatcTreeRootNode"
+      :value="child"
       @endEdit="onChildEndEdit"
       @startEdit="onStartEdit"
       @select="onSelect"
+      @locked="onChildLocked"
+			@hidden="onChildHidden"
       @open="onOpen"
       @dnd="onDnd">
     </TreeItem>
@@ -37,6 +39,12 @@ export default {
     },
     onDnd (from, to, position) {
       this.$emit('dnd', from, to, position)
+    },
+    onChildLocked (id, value) {
+      this.$emit('locked', id, value)
+    },
+    onChildHidden (id, value) {
+      this.$emit('hidden', id, value)
     },
     onChildEndEdit (id, txt) {
       this.clearEdit()

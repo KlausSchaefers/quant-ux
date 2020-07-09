@@ -28,12 +28,21 @@
             :focus="focus()"
             ref="lblNode"
             @keydown.enter="onBlur" :value="value.label"/>
+
+          <div class="MatcTreeItemOptions" v-if="hasOptions">
+            <span :class="lockIcon" @click.stop="toggleLocked"></span>
+            <span :class="hiddenIcon" @click.stop="toggleHidden"></span>
+          </div>
+
+
         </div>
         <ul v-if="isOpen">
           <TreeItem v-for="child in value.children" :key="child.id"
             :value="child"
             @dnd="onChildDnd"
             @open="onChildOpen"
+            @locked="onChildLocked"
+						@hidden="onChildHidden"
             @select="onChildSelect"
             @startEdit="onChildStartEdit"
             @endEdit="onChildEndEdit"
@@ -51,16 +60,21 @@ export default {
   mixins: [],
   data: function() {
     return {
+      hasOptions: false,
       isOpen: true,
       isDragOver: false
     };
   },
   computed: {
     rowStyle () {
+      let result = ''
       if (this.value && this.value.css) {
-        return this.value.css
+        result = this.value.css
       }
-      return ''
+      if (this.value.locked || this.value.hidden) {
+        result += ' MatcTreeItemOptionsVisible'
+      }
+      return result
     },
     hasChildren () {
       return this.value.children && this.value.children.length > 0
@@ -76,6 +90,18 @@ export default {
         return this.value.icon
       }
       return 'mdi mdi-crop-portrait MatcTreeIcon'
+    },
+    lockIcon () {
+      if (this.value && this.value.locked) {
+        return 'mdi mdi-lock-outline'
+      }
+      return 'mdi mdi-lock-open-outline'
+    },
+    hiddenIcon () {
+      if (this.value && this.value.hidden) {
+        return 'mdi mdi-eye-off-outline'
+      }
+      return 'mdi mdi-eye-outline'
     },
     expandIcon () {
       if (this.isOpen) {
@@ -101,6 +127,12 @@ export default {
       if (this.value && !this.value.disabled) {
         this.$emit('startEdit', this.value.id)
       }
+    },
+    toggleLocked () {
+      this.$emit('locked', this.value.id, !this.value.locked)
+    },
+    toggleHidden () {
+      this.$emit('hidden', this.value.id, !this.value.hidden)
     },
     toggleOpen () {
       this.isOpen = !this.isOpen
@@ -135,6 +167,12 @@ export default {
     },
     onChildDnd (from, to, position) {
       this.$emit('dnd', from, to, position)
+    },
+    onChildLocked (id, value) {
+      this.$emit('locked', id, value)
+    },
+    onChildHidden (id, value) {
+      this.$emit('hidden', id, value)
     },
     onChildSelect (id, expand) {
       this.$emit('select', id, expand)

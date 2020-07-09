@@ -909,7 +909,7 @@ export default class Widget extends Screen {
 	/**********************************************************************
 	* Widget props
 	**********************************************************************/
-	updateWidgetProperties (id, props, type, doNotRender){
+	updateWidgetProperties (id, props, type, doNotRender, forceCompleteRender = false){
 		this.logger.log(-1,"updateWidgetProperties", "enter > " + type+ " > doNotRender: "+ doNotRender);
 
 		/**
@@ -928,6 +928,11 @@ export default class Widget extends Screen {
 		if (inlineEdit) {
 			this.logger.log(-1,"updateWidgetProperties", "force rerender because of inline edit");
 			this.render();
+		}
+
+		if (forceCompleteRender) {
+			this.logger.log(-1,"updateWidgetProperties", "force rerender !");
+			this.render()
 		}
 	}
 
