@@ -362,31 +362,43 @@ export default class Widget extends Screen {
 	}
 
 	removeMultiWidget (selection){
-		this.logger.log(1,"removeMultiWidget", "enter > ");
+		this.logger.log(-1,"removeMultiWidget", "enter > ", selection);
 
-		var command = {
-			timestamp : new Date().getTime(),
-			type : "MultiCommand",
-			label : "RemoveMultiWidget",
-			children :[]
+		let command = {
+			timestamp: new Date().getTime(),
+			type: "MultiCommand",
+			label: "RemoveMultiWidget",
+			children: []
 		};
 
-		for(var i=0; i < selection.length; i++){
-			var id = selection[i];
+		for (let i=0; i < selection.length; i++){
+			let id = selection[i];
+			let widget = this.model.widgets[id];
 
-			var child = this.createWidgetRemoveCommand(id);
-			command.children.push(child);
+			if (widget) {
+				let group = this.getParentGroup(id)
 
-			var widget = this.model.widgets[id];
-			var lines = this.getLines(widget);
-			var refs = this.getReferences(widget);
+				/**
+				 * Also check groups
+				 */
+				if (group) {
+					this.logger.log(-1,"removeMultiWidget", "remove group > ", group);
+					let groupRemoveCmd = this.createRemoveGroupCommand(group)
+					command.children.push(groupRemoveCmd);
+					this.modelRemoveGroup(group, groupRemoveCmd.line);
+				}
 
-			this.modelRemoveWidgetAndLines(widget, lines, refs);
+				let widgetRemoveCmd = this.createWidgetRemoveCommand(id);
+				command.children.push(widgetRemoveCmd);
+				this.modelRemoveWidgetAndLines(widget, widgetRemoveCmd.lines, widgetRemoveCmd.refs);
+
+			} else {
+				console.warn('removeMultiWidget() Could not find widget', id)
+			}
 		}
 
 		this.unSelect();
 		this.render();
-
 		this.addCommand(command);
 	}
 
@@ -507,10 +519,8 @@ export default class Widget extends Screen {
 	updateWidgetPosition (id, pos, fromToolbar, hasCopies){
 		this.logger.log(1,"updateWidgetPosition", "enter > " + id );
 
-
 		var command = this.createWidgetPositionCommand(id, pos,fromToolbar, true);
 		this.addCommand(command);
-
 
 		/**
 		 * get the old screen
@@ -522,7 +532,6 @@ export default class Widget extends Screen {
 		 * Update the model
 		 */
 		this.modelWidgetUpdate(id, pos);
-
 
 		/**
 		 * show message
@@ -557,7 +566,6 @@ export default class Widget extends Screen {
 
 	createWidgetPositionCommand (id, pos,fromToolbar, correctPosition){
 
-
 		/**
 		 * get the correct coordinates in the
 		 * un-zoomed model or do the snapping to
@@ -566,7 +574,6 @@ export default class Widget extends Screen {
 		if(correctPosition){
 			pos = this.correctPostion(id, pos, fromToolbar);
 		}
-
 
 		/**
 		 * make command
@@ -579,7 +586,6 @@ export default class Widget extends Screen {
 			delta :delta,
 			modelId : id
 		};
-
 
 		return command;
 	}
@@ -868,9 +874,6 @@ export default class Widget extends Screen {
 		this.onModelChanged();
 	}
 
-
-
-
 	undoWidgetPosition (command){
 		this.logger.log(0,"undoWidgetPosition", "enter > " + command.id);
 		this.modelWidgetUpdate(command.modelId, command.delta.o);
@@ -918,13 +921,16 @@ export default class Widget extends Screen {
 		var widget = this.model.widgets[id];
 		var command = this.createWidgetPropertiesCommand(id, props, type);
 		var inlineEdit = this.getInlineEdit();
+
 		if(command){
 			this.addCommand(command);
 			this.modelWidgetPropertiesUpdate(id, props, type, doNotRender);
 		}
+
 		if(!doNotRender){
 			this.renderWidget(widget, type);
 		}
+
 		if (inlineEdit) {
 			this.logger.log(-1,"updateWidgetProperties", "force rerender because of inline edit");
 			this.render();
@@ -938,14 +944,13 @@ export default class Widget extends Screen {
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){
 		var widget = this.model.widgets[id];
-		if(widget){
-			if(!widget[type]){
+		if (widget){
+			if (!widget[type]){
 				this.logger.log(0,"createWidgetPropertiesCommand", "add key > " + type);
 				widget[type]={};
 			}
 
 			var delta = this.getPropertyDelta(widget, props, type);
-
 			var command = {
 				timestamp : new Date().getTime(),
 				type : "WidgetProperties",
@@ -955,6 +960,7 @@ export default class Widget extends Screen {
 				inlineLabel: inlineLabel
 			};
 			return command;
+
 		} else {
 			this.logger.log(0,"createWidgetPropertiesCommand", "No widget with id > " + id);
 		}
@@ -1096,7 +1102,6 @@ export default class Widget extends Screen {
 	}
 
 	modelRemoveWidget (widget){
-		console.debug('Repeater.remove')
 		if(this.model.widgets[widget.id]){
 			// this.cleanUpParentWidgets(widget);
 			delete this.model.widgets[widget.id];
@@ -1168,9 +1173,9 @@ export default class Widget extends Screen {
 			var w = this.model.widgets[widgetID];
 			if (w.props && w.props.refs) {
 				var refs = w.props.refs;
-				for(var refKey in refs){
-					var refIds  = refs[refKey];
-					if(refIds.indexOf(widget.id) >=0){
+				for (var refKey in refs){
+					var refIds = refs[refKey];
+					if (refIds.indexOf(widget.id) >=0){
 						var refId = widget.id;
 						result.push({
 							widget : widgetID,
@@ -1182,57 +1187,59 @@ export default class Widget extends Screen {
 			}
 		}
 
-		//console.debug("getFres", result)
-
 		return result;
 	}
 
 	modelRemoveWidgetAndLines (widget, lines, refs, doNotCallModelChanged){
 
-		if(this.model.widgets[widget.id]){
+		if (this.model.widgets[widget.id]) {
 			delete this.model.widgets[widget.id];
-			// this.cleanUpParentWidgets(widget);
 			this.cleanUpParent(widget);
-
 			this.cleanUpGroup(widget);
+		} else {
+			console.warn("Could not delete widget and lines: " + widget.id, widget);
+		}
 
-			for(let i=0; i < lines.length; i++){
+		if (lines) {
+			for	(let i=0; i < lines.length; i++){
 				let line = lines[i];
 				delete this.model.lines[line.id];
 			}
+		} else {
+			console.warn("modelRemoveWidgetAndLines() > Missing lines parameter");
+		}
 
-			if(refs){
-				try{
-					for(let i=0; i < refs.length; i++){
-						let ref = refs[i];
-						let refKey = ref.refKey;
-						let refId = ref.refId;
-						let target = this.model.widgets[ref.widget];
-						if(target!=null && target.props!=null && target.props.refs!=null){
-							let refs = target.props.refs[refKey];
-							let pos = refs.indexOf(refId);
-							if(pos >=0){
-								target.props.refs[refKey].splice(pos, 1);
-							}
-							if(target.props.refs[refKey].length == 0){
-								delete target.props.refs[ref.refKey];
-							}
+		if (refs){
+			try {
+				for(let i=0; i < refs.length; i++){
+					let ref = refs[i];
+					let refKey = ref.refKey;
+					let refId = ref.refId;
+					let target = this.model.widgets[ref.widget];
+					if (target!=null && target.props!=null && target.props.refs!=null){
+						let refs = target.props.refs[refKey];
+						let pos = refs.indexOf(refId);
+						if(pos >=0){
+							target.props.refs[refKey].splice(pos, 1);
+						}
+						if(target.props.refs[refKey].length == 0){
+							delete target.props.refs[ref.refKey];
 						}
 					}
-				} catch(e){
-					this.logger.sendError(e);
-					console.error(e);
 				}
-			} else {
-				console.warn("modelRemoveWidgetAndLines() > Missing refs parameter");
+			} catch (e) {
+				this.logger.sendError(e);
+				console.error(e);
 			}
-			if(!doNotCallModelChanged){
-				this.onModelChanged();
-			}
-			return true;
 		} else {
-			console.warn("Could not delete widget and lines", widget);
+			console.warn("modelRemoveWidgetAndLines() > Missing refs parameter");
 		}
+
+		if(!doNotCallModelChanged){
+			this.onModelChanged();
+		}
+
+		return true;
 	}
 
 
@@ -1248,45 +1255,47 @@ export default class Widget extends Screen {
 			if(screen){
 				screen.children.push(widget.id);
 			}
-			// this.setParentWidgets(widget)
-
-			if(refs){
-				try{
-					for(let i=0; i < refs.length; i++){
-						let ref = refs[i];
-						let target = this.model.widgets[ref.widget];
-						if(target && target.props && target.props){
-							if(!target.props){
-								target.props = {};
-							}
-							if(!target.props.refs[ref.refKey]){
-								target.props.refs[ref.refKey] = [];
-							}
-							target.props.refs[ref.refKey].push(ref.refId);
-						}
-					}
-				} catch(e){
-					this.logger.sendError(e);
-				}
-
-			} else {
-				console.warn("modelAddWidgetAndLines() > Missing refs parameter");
-			}
 
 		} else {
 			console.warn("Could not add widget", widget);
 		}
 
+		if (refs){
+			try {
+				for (let i=0; i < refs.length; i++){
+					let ref = refs[i];
+					let target = this.model.widgets[ref.widget];
+					if (target && target.props && target.props){
+						if (!target.props){
+							target.props = {};
+						}
+						if (!target.props.refs[ref.refKey]){
+							target.props.refs[ref.refKey] = [];
+						}
+						target.props.refs[ref.refKey].push(ref.refId);
+					}
+				}
+			} catch(e){
+				this.logger.sendError(e);
+			}
+		} else {
+			console.warn("modelAddWidgetAndLines() > Missing refs parameter");
+		}
+
 		/**
 			* also add lines
 			*/
-		for(let i=0; i < lines.length; i++){
-			let line = lines[i];
-			if(!this.model.lines[line.id]){
-				this.model.lines[line.id] = line;
-			} else {
-				console.warn("Could not add line", line);
+		if (lines) {
+			for(let i=0; i < lines.length; i++){
+				let line = lines[i];
+				if(!this.model.lines[line.id]){
+					this.model.lines[line.id] = line;
+				} else {
+					console.warn("Could not add line", line);
+				}
 			}
+		} else {
+			console.warn("modelAddWidgetAndLines() > Missing lines parameter");
 		}
 
 		this.onModelChanged();
@@ -1320,8 +1329,7 @@ export default class Widget extends Screen {
 			children :[]
 		};
 
-
-		for(var i=0; i< widgets.length; i++){
+		for (var i=0; i< widgets.length; i++){
 			/**
 				* Set id
 				*/

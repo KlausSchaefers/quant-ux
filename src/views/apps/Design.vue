@@ -94,6 +94,7 @@ export default {
       if (this.pub) {
         controller.setPublic(true);
         canvas.setPublic(true);
+        toolbar.setPublic(true);
       }
 
       toolbar.setController(controller);

@@ -61,7 +61,7 @@
             "error-figma-key": "Please provide the access key",
             "error-figma-url": "Copy the url of the Figma prototype",
             "error-figma-load": "Something went wrong loading the Figma file",
-            "error-public": "Import does not work in Try-Out mode"
+            "error-public": "Import does not work in Try-Out mode. Please sign up to import elements."
         },
         "login": {
             "password": {

@@ -164,12 +164,13 @@ import EditModeButton from "canvas/toolbar/EditModeButton"
 import topic from 'dojo/topic'
 
 export default {
-    name: 'Toolbar',
+  name: 'Toolbar',
 	mixins:[Util, _Render, _Dialogs, DojoWidget],
 	props:['pub'],
     data: function () {
         return {
 					value: false,
+					isPublic: false,
 					active: true,
 					redirectAfterExit: true,
 					showRestTool: true,
@@ -271,6 +272,11 @@ export default {
 			this.render();
 		},
 
+		setPublic (isPublic) {
+			this.logger.log(-1,"setPublic", "entry > '" + isPublic + "'");
+			this.isPublic = isPublic
+		},
+
 		setMode (mode){
 			this.logger.log(3,"setMode", "entry > '" + mode + "'");
 			this.mode = mode;
@@ -338,7 +344,7 @@ export default {
 
 
 		onCommandAdded (count){
-			if(this.mode=="public" && count == 50 && !this.reminderShown){
+			if(this.isPublic && count == 50 && !this.reminderShown){
 				this.showSignUpReminderDialog(this.saveButton);
 				this.reminderShown = true;
 			}

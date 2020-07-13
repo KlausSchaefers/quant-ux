@@ -37,7 +37,7 @@ export default {
     components: {},
     methods: {
 		showFontDialog (e) {
-			this.logger.log(0,"showFontDialog", "entry > ");
+			this.logger.log(0,"showFontDialog", "entry > ", this.isPublic);
 
 			var db = new DomBuilder();
 			var popup = db.div("MatcFontDialog  MatcPadding").build();
@@ -69,7 +69,7 @@ export default {
 		},
 
 		showImportDialog (e) {
-			this.logger.log(-1,"showImportDialog", "entry > ");
+			this.logger.log(-1,"showImportDialog", "entry > " + this.isPublic);
 			let dialog = new Dialog()
       var db = new DomBuilder();
 			var popup = db.div("MatcDialog MatchImportDialog MatcPadding").build();
@@ -77,7 +77,7 @@ export default {
       let importDialog = this.$new(ImportDialog)
 			importDialog.placeAt(popup)
 
-			importDialog.setPublic(this.mode === "public" )
+			importDialog.setPublic(this.isPublic)
 			importDialog.setJwtToken(this.jwtToken)
 			importDialog.setModel(this.model)
 			importDialog.setController(this.controller)

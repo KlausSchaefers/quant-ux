@@ -404,7 +404,6 @@ export default class Group extends Layer {
 		}
 
 		this.model.groups[group.id] = group;
-
 		if(line){
 			this.model.lines[line.id] = line;
 		}
@@ -428,7 +427,6 @@ export default class Group extends Layer {
 	 * Group Remove
 	 **********************************************************************/
 
-
 	removeGroup (id){
 		this.logger.log(1, "removeGroup", "enter >> " + id);
 
@@ -446,16 +444,11 @@ export default class Group extends Layer {
 	}
 
 	createRemoveGroupCommand (group){
-
 		var command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveGroup",
 			model : group
 		};
-
-		/**
-		 * if group has line, also remove it
-		 */
 		var line = this.getLineFrom(group);
 		if(line){
 			command.line = line;
@@ -463,17 +456,11 @@ export default class Group extends Layer {
 		return command;
 	}
 
-
-
 	modelRemoveGroup (group, line, doNotCallModelChanged){
 		var id = group.id;
-		if(this.model.groups && this.model.groups[id]){
+		if (this.model.groups && this.model.groups[id]){
 			delete this.model.groups[id];
-
-			/**
-			 * also update lines
-			 */
-			if(line){
+			if (line){
 				delete this.model.lines[line.id];
 			}
 
@@ -482,8 +469,8 @@ export default class Group extends Layer {
 			}
 
 		} else {
-			console.debug(this.model.groups);
-			console.warn("Could not delete group", group);
+			console.warn("Could not delete group:", this.model.groups);
+			console.warn("Could not delete group: " + group.id, group);
 		}
 	}
 
@@ -493,7 +480,7 @@ export default class Group extends Layer {
 	}
 
 	redoRemoveGroup (command){
-		this.modelRemoveGroup(command.model);
+		this.modelRemoveGroup(command.model, command.line);
 		this.render();
 	}
 
@@ -529,17 +516,16 @@ export default class Group extends Layer {
 			};
 
 			/**
-			 * Since 2.1.3 we have subgroups.
-			 * Get all the children before we execute the group removal
+			 * get all the children before we change the model
 			 */
-			var children = this.getAllGroupChildren(group)
+			let children = this.getAllGroupChildren(group)
 
 			/**
 			 * 1st) remove group se we have also the children list saved!
 			 */
 			var child = this.createRemoveGroupCommand(group);
 			command.children.push(child);
-			this.modelRemoveGroup(group, null, true);
+			this.modelRemoveGroup(group, child.line, true);
 
 			/**
 			 * Since 2.1.3 we have subgroups. Delete them as well
@@ -548,14 +534,18 @@ export default class Group extends Layer {
 			subGroups.forEach(subGroup => {
 				var subGroupChild = this.createRemoveGroupCommand(subGroup);
 				command.children.push(subGroupChild);
-				this.modelRemoveGroup(subGroup, null, true);
+				this.modelRemoveGroup(subGroup, subGroupChild.line, true);
 			})
 
 			/**
 			 * 2) remove widgets. Clone children list as it might
 			 * be modified in the modelRemoveWidgetAndLines() method.
+			 *
+			 * Since 2.1.3 we have subgroups.
+			 * Get all the children before we execute the group removal
 			 */
-			for(let i=0; i < children.length; i++){
+
+			for (let i=0; i < children.length; i++){
 				let id = children[i];
 				let child = this.createWidgetRemoveCommand(id);
 				command.children.push(child);

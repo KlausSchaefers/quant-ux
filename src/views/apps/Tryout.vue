@@ -49,21 +49,18 @@ export default {
       this._setStatus('canvasTestModel', m)
     },
     getModel () {
-      let model = this._getStatus('canvasTestModel')
-      if (!model || this.$route.query.new === 'true') {
-        let type = {
-          type: this.$route.query.t,
-          screenSize: {
-              w: this.$route.query.w,
-              h: this.$route.query.h
-            }
-        }
-        let factory = new ModelFactory();
-        model = factory.createAppModel('Test', 'Test Des', type);
-        model.isPublic = true;
-        model.id = 0;
-        model.isTryOut = true;
+      let type = {
+        type: this.$route.query.t,
+        screenSize: {
+            w: this.$route.query.w * 1,
+            h: this.$route.query.h * 1
+          }
       }
+      let factory = new ModelFactory();
+      let model = factory.createAppModel('Test', 'Test Des', type);
+      model.isPublic = true;
+      model.id = 0;
+      model.isTryOut = true;
       return model
     }
   },
@@ -100,6 +97,7 @@ export default {
     controller.setModelFactory(factory);
     controller.setPublic(true)
 
+    toolbar.setPublic(true)
     toolbar.setController(controller);
     toolbar.setCanvas(canvas);
     toolbar.setUser(this.user);

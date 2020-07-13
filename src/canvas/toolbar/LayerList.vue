@@ -337,11 +337,16 @@ export default {
 				openIcon: this.getOpenIcon(box),
 				children:[],
 				type: type,
+				locked: false,
+				hidde: false,
 				open: this.openNodes[box.id],
-				locked: box?.props.locked === true,
-				hidden: box?.props.hidden === true,
 				inherited: box.inherited,
 				fixed: false
+			}
+
+			if (box.props) {
+				node.locked = box.props.locked === true
+				node.hidden = box.props.hidden === true
 			}
 
 			if (box.style && box.style.fixed) {

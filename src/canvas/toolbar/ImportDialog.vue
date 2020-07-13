@@ -116,7 +116,6 @@ export default {
         },
 
         setPublic (isPublic) {
-            console.debug('isPublic', isPublic)
             this.isPublic = isPublic
         },
 
