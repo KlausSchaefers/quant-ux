@@ -84,7 +84,8 @@
 	"name" : "Toggle Button",
 	"_extends" : "Box",
 	"props" : {
-		"label" : "Toggle Me"
+		"label" : "Toggle Me",
+		"active": false
 	},
 	"has" : {
 		"onclick" : true,

@@ -2,7 +2,7 @@ class JSONPath {
 
     get (data, path) {
         if (data) {
-            if (data[path]) {
+            if (data[path] !== null && data[path] !== undefined) {
                 return data[path]
             }
             if (path.indexOf('.') >=0 ){
@@ -28,7 +28,7 @@ class JSONPath {
             if (elements.length > 0) {
                 if (!node[current]) {
                     if (elements[0].toLowerCase) {
-                    
+
                         node[current] = {}
                     } else {
                         node[current] = []

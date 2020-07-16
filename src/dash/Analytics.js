@@ -30,9 +30,11 @@ export default class {
 			rows: [],
 			cols: []
 		}
-		console.debug(events)
+
 		let widgetDataBindings = {}
+		let widgetTypes = {}
 		Object.values(app.widgets).forEach(w => {
+			widgetTypes[w.id] = w.type
 			if (w.props && w.props.databinding && w.props.databinding.default && w.type !== 'Password') {
 				widgetDataBindings[w.id] = w.props.databinding.default
 			}
@@ -44,7 +46,12 @@ export default class {
 		})
 
 		var eventsDF = new DataFrame(events);
+		eventsDF.sortBy("time");
 		var sessionGrouping = eventsDF.groupBy("session");
+
+		/**
+		 * sort by start??
+		 */
 
 		sessionGrouping.foreach(df => {
 			let row = {}
@@ -56,15 +63,17 @@ export default class {
 				if (app.widgets[e.widget]) {
 					if (e.widget && e.state && widgetDataBindings[e.widget]) {
 						let col = widgetDataBindings[e.widget]
-						row[col] = e.state.value
+						if (widgetTypes[e.widget] === 'Rating') {
+							row[col] = (e.state.value * 1) + 1
+						} else {
+							row[col] = e.state.value
+						}
 					}
 				}
 			})
 			result.rows.push(row)
 		})
 
-
-		console.debug(widgetDataBindings)
 
 		return result
 	}

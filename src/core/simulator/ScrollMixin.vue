@@ -13,26 +13,25 @@ export default {
 	name: 'ScrollMixin',
     methods: {
         initScroll (){
-		
+
 			/**
 			 * Hook in window scroll listener if the simulator is launched in the
-			 * mobile. 
-			 */		
+			 * mobile.
+			 */
 			if(!this.scrollListenerInited){
 				if(this.scrollListenTarget == "window"){
 					this.own(on(window, "scroll", lang.hitch(this, "onScrollWindow")));
 				} else {
 					if (this.domNode.parentNode) {
-						console.debug('initScroll() > Register on parent', this.domNode.parentNode)
 						this.own(on(this.domNode.parentNode, "scroll", lang.hitch(this, "onScrollParent" )));
 					} else {
-						console.warn('initScroll() > no parent,, wait 200')				
+						console.warn('initScroll() > no parent,, wait 200')
 						return
 					}
 				}
-				
+
 				this.own(topic.subscribe("VommondScrollContainer", lang.hitch(this,"onVommondScroll")));
-		
+
 				this.scrollListenerInited = true;
 				this.logger.log(0,"initScroll","enter >" + this.scrollListenerInited + " @ " +this.scrollListenTarget);
 			}
@@ -42,10 +41,10 @@ export default {
 		 * Scrolling
 		 **********************************************************/
 		onVommondScroll (p, scrollTop){
-		
+
 			this.onScroll(scrollTop);
 		},
-	
+
 		onScrollWindow (e){
 			/**
 			 * After scroll animations we do not want to scroll
@@ -55,30 +54,30 @@ export default {
 				window.scrollTo(0, 0);
 				return false;
 			}
-			
-			var scrollTop = (window.pageYOffset !== undefined) 
-				? window.pageYOffset 
+
+			var scrollTop = (window.pageYOffset !== undefined)
+				? window.pageYOffset
 				: (document.documentElement || document.body.parentNode || document.body).scrollTop;
-	
+
 			this.onScroll(scrollTop);
 		},
-		
+
 		onScrollParent (e){
 
 			var node = e.target;
 			var scrollTop = (node.pageYOffset !== undefined) ? node.pageYOffset : node.scrollTop;
 			this.onScroll(scrollTop);
 		},
-		
+
 		onScroll (scrollTop){
-			
+
 			var p = (scrollTop / this.currentScreen.h);
 			var now = new Date().getTime();
 			if(this.logScroll){
 				/**
-				 * We do not want to record all scroll events. We stick to 
+				 * We do not want to record all scroll events. We stick to
 				 * every 30ms...
-				 */				
+				 */
 				var event = {
 					time : now,
 					value : p
@@ -95,31 +94,31 @@ export default {
 						this._scrollEvent.children.push(event)
 					}
 					this.lastScroll = now;
-					
+
 					this._scrollFlushTimeout = setTimeout(lang.hitch(this,"flushScroll", this.currentScreen.id), 530);
-				} 
-				
+				}
+
 				this._lastScrollEvent = event;
 				this.currentScrollTop = scrollTop;
 				this.currentScrollTopRelative = p;
 			}
-			
-			this.gestureLastScroll = now;			
+
+			this.gestureLastScroll = now;
 			topic.publish("MatcSimulatorScrollEvent", p, scrollTop);
-			
+
 			this.fireScrollEvents(scrollTop)
 		},
 
-	
+
 		/**
 		 * Check here for all the registered scroll widgets,
 		 * if thez are in the view.
-		 * 
+		 *
 		 * This works currentlz onlz for down scrolls
 		 */
 		fireScrollEvents (scrollTop) {
 			if (this._scrollWidgets && this.currentScreen) {
-				let offset = this.currentScreen.y + this.screenPos.h 
+				let offset = this.currentScreen.y + this.screenPos.h
 				for (let i=0; i < this._scrollWidgets.length; i++) {
 					let widget = this._scrollWidgets[i].w;
 					let line = this._scrollWidgets[i].l
@@ -155,7 +154,7 @@ export default {
 				 */
 				this._scrollEvent.children.push(this._lastScrollEvent)
 				this._scrollEvent.value = this._lastScrollEvent.value;
-				
+
 				if(this._scrollEvent.children.length > 0){
 					var start = this._scrollEvent.children[0];
 					if(start.value > this._lastScrollEvent.value){
@@ -164,8 +163,8 @@ export default {
 						this._scrollEvent.dir ="down";
 					}
 				}
-			
-				
+
+
 				this.log("ScreenScroll", screenID, null, null, this._scrollEvent);
 				delete this._scrollEvent;
 				delete this._lastScrollEvent;
@@ -174,10 +173,10 @@ export default {
 //				console.debug("cancelFlush");
 			}
 		},
-		
-		
+
+
 		scrollToSamePosition (pos){
-				
+
 			/**
 			 * we do not need to do this??
 			 * Funny. But log the scroll event
@@ -191,36 +190,36 @@ export default {
 //			}
 			/**
 			 * Log scroll event, so the player moves to the right position.
-			 * 
-			 * FIXME: This causes a small flickering in the 
+			 *
+			 * FIXME: This causes a small flickering in the
 			 * player. We should somehow add the scroll position
 			 * to the pageload event?
-			 * 
+			 *
 			 */
 			this.onScroll(pos);
 		},
-		
+
 		setScrollContainer (s){
 			this.scrollContainer = s;
         },
-        
 
-		scrollToTop (){			
+
+		scrollToTop (){
 			if(this.mode != "debug" && this.mode!= "recordFlow"){
-				this.logger.log(-1,"scrollToTop","enter");				
+				this.logger.log(-1,"scrollToTop","enter");
 				window.scrollTo(0, 0);
 				/**
 				 * Also set last scroll, so the onScroll() method will
 				 * ignore the event from this forced scrolling
 				 */
 				this.lastScroll = new Date().getTime();
-			} else {	
+			} else {
 				if(this.scrollListenTarget !== "window"){
-					this.logger.log(-1,"scrollToTop","enter > parent");	
+					this.logger.log(-1,"scrollToTop","enter > parent");
 					this.domNode.parentNode.scrollTop = 0
 				}
 			}
-			
+
 			/**
 			 * Notify the ScrollContainer
 			 */

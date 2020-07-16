@@ -68,7 +68,7 @@ export default {
         },
 
 		setValue (widget, isGroup = false){
-            console.debug('setVlaue', widget)
+
             this.isGroup = isGroup
       		if (widget.style && widget.style.wrap) {
                 this.isWraped = widget.style.wrap

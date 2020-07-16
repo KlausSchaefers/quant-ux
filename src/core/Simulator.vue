@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v3.0.15</div>
+      <div class="MatcSimulatorVersion">v3.0.17</div>
     </div>
   </div>
 </template>
@@ -341,6 +341,7 @@ export default {
 					} else {
 						this.logger.log(1,"setModel","enter >" + model.id + " > splash : "+ this._splashTime);
 						this.model = model;
+						this.initDefaultDataBinding(model)
 						if(this.hash){
 							this.preloadImages();
 						}
@@ -754,6 +755,8 @@ export default {
 					let rule = line.rule
 					let value = this.getDataBindingByPath(rule.databinding)
 					if (!value) {
+						// Since 3.0.17 this should not happen
+						this.logger.warn('checkDataBindingRule', 'No databinding value for ', rule.databinding)
 						value = this.getDefaultDatabinding(rule.databinding)
 					}
 					var result = this.isValueMatchingRule(value, true, rule);
