@@ -50,7 +50,7 @@ export default class GridAndRuler extends Core {
 			/**
 			 * Fixed 5.5.2019 to make grid be more strict!
 			 */
-			this.snappDistance = Math.ceil(grid.h ) * this.zoom ;
+			this.snappDistance = Math.ceil(grid.h * this.zoom );
 			this.showDistance = this.snappDistance + 5;
 			this.adjustSnappDistanceToMouseSpeed = false
 		}
@@ -157,6 +157,7 @@ export default class GridAndRuler extends Core {
 		 * If no screen, no snapping...
 		 */
 		if (!this._lastScreen) {
+			console.debug('GridAndDrile() No ssreen')
 			return absPos;
 		}
 
@@ -168,8 +169,8 @@ export default class GridAndRuler extends Core {
 		 * on north-west corner
 		 */
 		var corners = this.getCorners(absPos, left, top);
-		var closeXLine = this.getCloseLines(this._linesX, "x", corners.x);
-		var closeYLine = this.getCloseLines(this._linesY, "y", corners.y);
+		let closeXLine = this.getCloseLines(this._linesX, "x", corners.x);
+		let closeYLine = this.getCloseLines(this._linesY, "y", corners.y);
 
 		/**
 		 * Get close middle lines. We handle this a little special:
@@ -179,16 +180,21 @@ export default class GridAndRuler extends Core {
 		 * 2) New in 0.9973 => We just compare middle with middle!!
 		 *
 		 */
-		var closeXMiddle = this.getCloseLines(this._linesXMiddle, "x", corners.mx, "Grid");
-		var closeYMiddle = this.getCloseLines(this._linesYMiddle, "y", corners.my, "Grid");
+		let closeXMiddle = this.getCloseLines(this._linesXMiddle, "x", corners.mx, "Grid");
+		let closeYMiddle = this.getCloseLines(this._linesYMiddle, "y", corners.my, "Grid");
 
 		/**
 		 * Get patterns and create *virtual* lines (that are no rendered)
+		 *
+		 * Since 3.0.17 we do not do pattern matching if we snapp to the grid
 		 */
-		var linesPattern = this.renderOverLapDistance(absPos, top, left);
-		var closeXPattern = this.getCloseLines(linesPattern.x, "x", corners.l);
-		var closeYPattern = this.getCloseLines(linesPattern.y, "y", corners.t);
-
+		let closeXPattern = null
+		let closeYPattern = null
+		if (!this.grid.enabled) {
+			let linesPattern = this.renderOverLapDistance(absPos, top, left);
+			closeXPattern = this.getCloseLines(linesPattern.x, "x", corners.l);
+			closeYPattern = this.getCloseLines(linesPattern.y, "y", corners.t);
+		}
 
 		/**
 		 * Hide all lines
@@ -1809,17 +1815,10 @@ export default class GridAndRuler extends Core {
 				this.logger.log(-1, "initLines", "ignore widget lines");
 			}
 
-			/**
-			 * Last add grid as fallback
-			 */
 			this.initGrid(screen);
 
 			this.initRulers(screen)
 
-
-			/**
-			 * Now render all lines....
-			 */
 			this.renderLines();
 		}
 		this._lastScreen = screen;
