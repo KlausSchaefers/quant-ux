@@ -3,6 +3,7 @@ import Logger from 'common/Logger'
 import Vue from "vue"
 import ModelGeom from 'core/ModelGeom'
 import lang from 'dojo/_base/lang'
+import CoreUtil from 'core/CoreUtil'
 // import HelloWorld from 'examples/HelloWorld'
 
 /**
@@ -237,7 +238,7 @@ class SymbolService extends AbstractService{
     }
 
     convertAppToSymbols (app) {
-        let elements = Object.values(app.widgets).map(widget => {
+      let elements = Object.values(app.widgets).map(widget => {
 				let element = lang.clone(widget)
 				if (element.template && app.templates) {
 					let template = app.templates[element.template]
@@ -263,7 +264,6 @@ class SymbolService extends AbstractService{
 
 			if (app.groups) {
 				let groups = Object.values(app.groups).map(group => {
-
           let bbbox = ModelGeom.getBoundingBox(group.children, app)
           let result = {
             w: bbbox.w,
@@ -284,8 +284,13 @@ class SymbolService extends AbstractService{
               element.y = element.y - bbbox.y
               result.children.push(element)
             }
-
           })
+
+          /**
+           * Sort the group elements to ensure the correct rendering!
+           */
+          result.children = CoreUtil.getOrderedWidgets(result.children)
+
 					return result
         })
         elements = elements.concat(groups)

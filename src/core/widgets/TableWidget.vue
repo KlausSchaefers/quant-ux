@@ -231,10 +231,17 @@ export default {
 
       this.renderRowBorder(tr, 0, style, borderStyle, rows.length);
 
+      /**
+       * 3.0.19. Bulma set somehow stupid default table widths!
+       */
+      let fontSize = this._getBorderWidth(style.fontSize) + 'px'
+
       for (let j = 0; j < columns.length; j++) {
         let td = document.createElement("td");
         td.setAttribute("valign", "top");
         td.textContent = columns[j];
+
+        td.style.fontSize = fontSize
         this.renderCellBorder(td, 0, j, style, borderStyle, rows.length, columns.length);
 
         tr.appendChild(td);

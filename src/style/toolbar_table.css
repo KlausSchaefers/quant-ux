@@ -36,7 +36,7 @@
 }
 
 .MatcToolbarTable .MatcToolbarTableBody td{
-	border-top:1px solid #cecece;
+	border-top:1px solid #cecece !important;
 	border-left:1px solid #cecece;
 	padding: 0px;
 }
@@ -68,7 +68,7 @@
 	opacity:0;
 	height: 0px;
 	padding: 0px;
-	overflow: hidden;	
+	overflow: hidden;
 }
 
 .MatcToolbarTable thead td{
