@@ -45,7 +45,10 @@
             
                 <div class="form-group">
                     <label>Auth Token</label>
-                    <input v-model="rest.token" class="form-control" @change="onChange" placeholder="Enter auth token if needed"/>
+                    <div class="MatcToolbarRestAuth">
+                        <DropDownButton :options="authMethods" v-model="rest.authType" style="width:40px"/>
+                        <input v-model="rest.token" class="form-control" @change="onChange" placeholder="Enter auth token if needed"/>
+                    </div>
                 </div>
 
             </div>
@@ -83,6 +86,23 @@
                             @change="onChange">
                         </textarea>
                         -->
+
+                        <p class="MatcHint">
+                            Use the ${databinding} notation to send data from the prototype.
+                        </p>
+                    </div>
+
+                    <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'FORM' " >
+                       
+                        <label>{{ rest.method }} FORM</label>
+                        <Ace 
+                            ref="aceEditor"
+                            v-model="rest.input.template" 
+                            @init="editorInit" 
+                            lang="text" 
+                            theme="chrome" 
+                            width="740" 
+                            height="180"></Ace>
 
                         <p class="MatcHint">
                             Use the ${databinding} notation to send data from the prototype.
@@ -206,6 +226,10 @@ export default {
                 {
                     label: "File",
                     value: "FILE"
+                },
+                {
+                    label: "Form-Encoded",
+                    value: "FORM"
                 }
             ],
             outputTypes: [
@@ -246,7 +270,17 @@ export default {
             testError: '',
             runSuccess: false,
             isDirty: false,
-            uploadedFile: null
+            uploadedFile: null,
+            authMethods: [
+                {
+                    "label": "Bearer",
+                    "value": "Bearer ",
+                },
+                {
+                    "label": "Basic",
+                    "value": "Basic ",
+                }
+            ]
         }
     },
     components: {

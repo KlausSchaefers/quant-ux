@@ -8,7 +8,7 @@ class RestEngine {
     
     run (request, data) {
 
-        if (request.method === "POST" && request.input.type === 'JSON') {
+        if (request.method === "POST" && (request.input.type === 'JSON' || request.input.type === 'FORM')) {
             return this.postOrPut(request, data)
         }
         if (request.method === "POST" && (request.input.type === 'IMAGE' || request.input.type === 'FILE')) {
@@ -37,6 +37,12 @@ class RestEngine {
     async buildData (request, values) {
         let data = await this.fillString(request.input.template, values, true);
         this.logger.log(1, "buildData", "exit", data)
+        return data;
+    }
+
+    async buildToken (request, values) {
+        let data = await this.fillString(request.token, values, true);
+        this.logger.log(1, "buildToken", "exit", data)
         return data;
     }
 
@@ -118,7 +124,7 @@ class RestEngine {
     get (request, values) {
         return new Promise( async (resolve, reject) => {
             let url = await this.buildURL(request, values)
-            let header = this.createDefaultHeader(request)
+            let header = await this.createDefaultHeader(request, values)
 
             fetch(url, {
                 method: "GET",
@@ -139,7 +145,7 @@ class RestEngine {
     postOrPostImage (request, values) {
         return new Promise( async (resolve, reject) => {
             let url = await this.buildURL(request, values)
-            let header = this.createDefaultHeader(request)
+            let header = await this.createDefaultHeader(request, values)
 
             const formData = new FormData()
             for (let key in values) {
@@ -169,7 +175,7 @@ class RestEngine {
 
             let url = await this.buildURL(request, values)
             let data = await this.buildData(request, values)
-            let header = this.createDefaultHeader(request)
+            let header = await this.createDefaultHeader(request, values)
       
             fetch(url, {
                 method: request.method,
@@ -192,7 +198,7 @@ class RestEngine {
     delete (request, values) {
         return new Promise( async (resolve, reject) => {
             let url = await this.buildURL(request, values)
-            let header = this.createDefaultHeader(request)
+            let header = await this.createDefaultHeader(request, values)
 
             fetch(url, {
                 method: "DELETE",
@@ -211,17 +217,25 @@ class RestEngine {
         })
     }
     
-    createDefaultHeader(request) {
+    async createDefaultHeader(request, values) {
+        let token = await this.buildToken(request, values)
         if (request.input.type === 'JSON') {
             let headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${request.token}`
+                'Authorization': `${request.authType}${token}`
+            }
+            return headers
+        }
+        else if(request.input.type === 'FORM') {
+            let headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `${request.authType}${token}`
             }
             return headers
         }
         return new Headers({
-            'Authorization': `Bearer ${request.token}`
+            'Authorization': `${request.authType}${token}`
         })
     }
 
@@ -229,7 +243,7 @@ class RestEngine {
         let result = []
         this.parseString(rest.url, result)
         this.parseString(rest.token, result)
-        if ((rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'JSON') {
+        if ((rest.method === 'POST' || rest.method === 'PUT') && (rest.input.type === 'JSON' || rest.input.type === 'FORM')) {
             this.parseString(rest.input.template, result)
         }
         if ((rest.method === 'POST' || rest.method === 'PUT') && (rest.input.type === 'FILE' || rest.input.type === 'IMAGE')) {
@@ -241,7 +255,7 @@ class RestEngine {
     }
 
     parseString (s, result) {
-        let matches = s.match(/\$\{(.*)\}/g)
+        let matches = s.match(/\$\{(.*?)\}/g)
         if (matches) {
             matches.forEach(m => {
                 let variable = m.substring(2, m.length -1)
