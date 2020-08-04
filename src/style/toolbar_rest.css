@@ -78,7 +78,7 @@
 }
 
 .MatcToolbarRestSettings .MatcError {
-   
+
 }
 
 .MatcToolbarRestSettingsHeader {
@@ -92,6 +92,7 @@
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-left: 0px;
+    height: 36px;
 }
 
 .MatcToolbarRestSettingsHeader .MatcButton{
@@ -127,6 +128,8 @@
 .MatcToolbarRestAuth .MatcButton{
     margin-left: 5px;
     padding-top: 4px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 .MatcToolbarRestAuth .MatcDropDownButtonWidth{

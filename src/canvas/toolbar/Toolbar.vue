@@ -653,6 +653,7 @@ export default {
 						"method": "GET",
 						"url": "",
 						"token": "",
+						"authType": "Bearer",
 						"input": {
 							"type": "JSON",
 							"fileDataBinding": '',

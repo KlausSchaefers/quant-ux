@@ -5,7 +5,7 @@ class RestEngine {
     constructor () {
         this.logger = new Logger("RestEngine")
     }
-    
+
     run (request, data) {
 
         if (request.method === "POST" && (request.input.type === 'JSON' || request.input.type === 'FORM')) {
@@ -50,7 +50,7 @@ class RestEngine {
         for (let key in values) {
             let value = await this.getStringFilelValue(values[key], encodeFiles)
             let pattern = "${" + key + "}"
-            let i = 0 
+            let i = 0
             while(s.indexOf(pattern) >= 0 && i < 100) {
                 s = s.replace(pattern, value)
                 i++
@@ -129,7 +129,7 @@ class RestEngine {
             fetch(url, {
                 method: "GET",
                 mode: 'cors',
-                cache: 'no-cache', 
+                cache: 'no-cache',
                 headers: header,
                 redirect: 'follow',
                 referrer: 'no-referrer'
@@ -151,11 +151,11 @@ class RestEngine {
             for (let key in values) {
                 formData.append(key, values[key])
             }
-   
+
             fetch(url, {
                 method: request.method,
                 mode: 'cors',
-                cache: 'no-cache', 
+                cache: 'no-cache',
                 headers: header,
                 redirect: 'follow',
                 referrer: 'no-referrer',
@@ -176,11 +176,11 @@ class RestEngine {
             let url = await this.buildURL(request, values)
             let data = await this.buildData(request, values)
             let header = await this.createDefaultHeader(request, values)
-      
+
             fetch(url, {
                 method: request.method,
                 mode: 'cors',
-                cache: 'no-cache', 
+                cache: 'no-cache',
                 headers: header,
                 redirect: 'follow',
                 referrer: 'no-referrer',
@@ -203,7 +203,7 @@ class RestEngine {
             fetch(url, {
                 method: "DELETE",
                 mode: 'cors',
-                cache: 'no-cache', 
+                cache: 'no-cache',
                 headers: header,
                 redirect: 'follow',
                 referrer: 'no-referrer'
@@ -216,26 +216,27 @@ class RestEngine {
             });
         })
     }
-    
+
     async createDefaultHeader(request, values) {
         let token = await this.buildToken(request, values)
+        let authType= request.authType ? request.authType : 'Bearer'
         if (request.input.type === 'JSON') {
             let headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `${request.authType}${token}`
+                'Authorization': `${authType} ${token}`
             }
             return headers
         }
         else if(request.input.type === 'FORM') {
             let headers = {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `${request.authType}${token}`
+                'Authorization': `${authType} ${token}`
             }
             return headers
         }
         return new Headers({
-            'Authorization': `${request.authType}${token}`
+            'Authorization': `${authType} ${token}`
         })
     }
 

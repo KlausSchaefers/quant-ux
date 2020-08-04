@@ -1,17 +1,17 @@
 
 <template>
      <div class="MatcToolbarRestSettings">
-      
+
       <label>Endpoint</label>
       <div class="MatcToolbarRestSettingsHeader">
             <DropDownButton :options="methods" v-model="rest.method" style="width:50px" @change="onChange"/>
-              
+
             <input v-model="rest.url" class="form-control" @change="onChange" placeholder="https://server.com/${databinding}.json"/>
-           
+
             <a @click="run" class="MatcButton">Test</a>
       </div>
 
-    
+
       <div class="MatcToolbarTabs MatcToolbarTabsBig">
             <a @click="tab='output'" :class="{'MatcToolbarTabActive': tab === 'output'}">Response</a>
             <a @click="tab='input'" :class="{'MatcToolbarTabActive': tab === 'input'}">Request</a>
@@ -19,17 +19,17 @@
             <a @click="tab='params'" :class="{'MatcToolbarTabActive': tab === 'params'}" style="margin-left:20px;">Test Parameter</a>
             <a @click="tab='preview'" :class="{'MatcToolbarTabActive': tab === 'preview'}">Test Result</a>
         </div>
-     
+
         <div class="MatcMarginTop">
             <div v-show="tab === 'output'">
-            
+
                 <div class="form-group">
                     <label>Output Variable</label>
-                    <Combo 
-                        :value="rest.output.databinding" 
-                        @change="onChangeOutputVar" 
+                    <Combo
+                        :value="rest.output.databinding"
+                        @change="onChangeOutputVar"
                         :hints="hints"
-                        :fireOnBlur="true" 
+                        :fireOnBlur="true"
                         :formControl="true"
                         :isDropDown="true"
                         placeholder="Name of output variable"/>
@@ -42,7 +42,7 @@
             </div>
 
             <div v-show="tab === 'auth'">
-            
+
                 <div class="form-group">
                     <label>Auth Token</label>
                     <div class="MatcToolbarRestAuth">
@@ -67,22 +67,22 @@
                     </div>
 
                     <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'JSON' " >
-                       
+
                         <label>{{ rest.method }} JSON</label>
-                        <Ace 
+                        <Ace
                             ref="aceEditor"
-                            v-model="rest.input.template" 
-                            @init="editorInit" 
-                            lang="json" 
-                            theme="chrome" 
-                            width="740" 
+                            v-model="rest.input.template"
+                            @init="editorInit"
+                            lang="json"
+                            theme="chrome"
+                            width="740"
                             height="180"></Ace>
                         <!--
-                        <textarea 
-                            class="form-control MatcToolbarRestSettingsInputArea" 
-                            spellcheck="false" 
+                        <textarea
+                            class="form-control MatcToolbarRestSettingsInputArea"
+                            spellcheck="false"
                             placeholder="{a: ${databinding}}"
-                            v-model="rest.input.template" 
+                            v-model="rest.input.template"
                             @change="onChange">
                         </textarea>
                         -->
@@ -93,15 +93,15 @@
                     </div>
 
                     <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'FORM' " >
-                       
+
                         <label>{{ rest.method }} FORM</label>
-                        <Ace 
+                        <Ace
                             ref="aceEditor"
-                            v-model="rest.input.template" 
-                            @init="editorInit" 
-                            lang="text" 
-                            theme="chrome" 
-                            width="740" 
+                            v-model="rest.input.template"
+                            @init="editorInit"
+                            lang="text"
+                            theme="chrome"
+                            width="740"
                             height="180"></Ace>
 
                         <p class="MatcHint">
@@ -118,15 +118,15 @@
                     <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'FILE' " >
                         <div class="form-group"  v-if="rest.method === 'POST' || rest.method === 'PUT'" >
                             <label>File DataBinding</label>
-                            <Combo 
-                                :value="rest.input.fileDataBinding" 
-                                @change="onChangeFileDataBinging" 
+                            <Combo
+                                :value="rest.input.fileDataBinding"
+                                @change="onChangeFileDataBinging"
                                 :hints="hints"
-                                :fireOnBlur="true" 
+                                :fireOnBlur="true"
                                 :formControl="true"
                                 :isDropDown="true"
                                 placeholder="Name of output variable"/>
-                          
+
                         </div>
                         <p class="MatcHint">
                             Image will be send as mutlipart
@@ -136,23 +136,23 @@
              </div>
             <div v-show="tab === 'params'">
                 <div class="MatcMarginBottom" >
-                        <div class="MatcToolbarRestDataBindingRow" v-for="(key) in dataBindingKeys" :key="key">  
+                        <div class="MatcToolbarRestDataBindingRow" v-for="(key) in dataBindingKeys" :key="key">
                             <span class="MatcToolbarRestDataBindingRowLabel">{{key}}</span>
-                            <input 
-                                v-model="databingValues[key]" 
-                                class="form-control" 
-                                ref="dbInputs" 
+                            <input
+                                v-model="databingValues[key]"
+                                class="form-control"
+                                ref="dbInputs"
                                 v-if="rest.input.type === 'JSON'" />
-                            <FileButton 
+                            <FileButton
                                 v-if="rest.input.type === 'JSON'"
                                 class="MatcToolbarRestDataBindingIcon"
-                                @change="onDataBingingFileChange(key, $event)" 
+                                @change="onDataBingingFileChange(key, $event)"
                                 icon="mdi mdi-cloud-upload"/>
 
-                            <FileButton 
+                            <FileButton
                                 v-if="rest.input.type === 'FILE'"
                                 class="MatcToolbarRestDataBindingFile"
-                                @change="onFileChange" 
+                                @change="onFileChange"
                                 label="Select a file"/>
 
                         </div>
@@ -160,17 +160,17 @@
                             You are not using databings. No need to specify any data.
                         </span>
                     </div>
-                   
+
             </div>
-             
+
             <div v-show="tab === 'preview'">
-                    
-                <pre v-if="rest.output.type != 'IMAGE'"  
+
+                <pre v-if="rest.output.type != 'IMAGE'"
                     :class="['MatcToolbarRestDataBindingCntr MatcMarginBottom', {'MatcError': testError}]">{{testResult}}</pre>
                 <div class="MatcToolbarRestDataBindingCntr" v-else >
                     <img :src="testResultImage">
                 </div>
-                   
+
              </div>
         </div>
 
@@ -254,6 +254,7 @@ export default {
                 method: "GET",
                 url: "",
                 token: "",
+                authType: 'Bearer',
                 input: {
                     type: "JSON",
                     template: ''
@@ -274,11 +275,11 @@ export default {
             authMethods: [
                 {
                     "label": "Bearer",
-                    "value": "Bearer ",
+                    "value": "Bearer",
                 },
                 {
                     "label": "Basic",
-                    "value": "Basic ",
+                    "value": "Basic",
                 }
             ]
         }
@@ -321,7 +322,7 @@ export default {
         },
         arrayBufferToBase64 (buffer) {
             var binary = '';
-            var bytes = [].slice.call(new Uint8Array(buffer));      
+            var bytes = [].slice.call(new Uint8Array(buffer));
             bytes.forEach((b) => binary += String.fromCharCode(b));
             return window.btoa(binary);
         },
@@ -333,9 +334,13 @@ export default {
                     this.logger.log(-1, 'setWidget', 'Set name as output')
                     this.rest.output.databinding = this.widget.name
                 }
+                if (!this.rest.authType) {
+                    this.logger.log(-1, 'setWidget', 'Set auth')
+                    this.rest.authType = 'Bearer'
+                }
             }
 		},
-		
+
 		setModel  (m){
             this.model = m;
         },
@@ -382,7 +387,7 @@ export default {
                 url = this.replaceAll(url, key, '"v:' + key + '"')
                 template = this.replaceAll(template, key, '"v:' + key + '"')
             })
-         
+
             let matches = url.match(/\$\{(\w*)\}/g)
             if (matches){
                 // this.testResult = url
@@ -430,7 +435,7 @@ export default {
 
         replaceAll (s, key, value) {
             let pattern = "${" + key + "}"
-            let i = 0 
+            let i = 0
             while (s.indexOf(pattern) >= 0 && i < 100) {
                 s = s.replace(pattern, value)
                 i++
@@ -457,12 +462,12 @@ export default {
                         this.visitResult(o, result, path)
                     })
                     return
-                } 
+                }
                 if (lang.isObject(object)) {
                     for (let key in object) {
                         let o = object[key]
                         let path = prefix + '_' + key
-                        result[path] = "Object"                   
+                        result[path] = "Object"
                         this.visitResult(o, result, path)
                     }
                     return
@@ -502,14 +507,14 @@ export default {
             require(/* webpackChunkName: "ace" */ 'brace/ext/language_tools') //language extension prerequsite...
             require(/* webpackChunkName: "ace" */ 'brace/mode/json')
             require(/* webpackChunkName: "ace" */ 'brace/theme/chrome')
-      
+
             let editor = this.$refs.aceEditor.editor
             editor.setOptions({
                 enableBasicAutocompletion: false,
                 enableSnippets: false,
                 enableLiveAutocompletion: true
             });
-    
+
             let vars = this.getAllAppVariables()
             editor.completers.push({
                 getCompletions (editor, session, pos, prefix, callback) {
