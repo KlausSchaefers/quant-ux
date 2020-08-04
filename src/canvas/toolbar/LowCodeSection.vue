@@ -1,22 +1,32 @@
 
 <template>
      <div class="MatcToolbarLowCode">
-		 <div class="MatcToolbarItem">
-             <CheckBox label="Wrap Children" :value="isWraped" @change="onWrapChange"/>
-         </div>
-          <div class="MatcToolbarItem">
-             <CheckBox label="Force Grid" :value="isGrid" @change="onGridChange"/>
+
+		 <div class="MatcToolbarItem" v-if="isContainer">
+             <CheckBox label="Auto Layout" :value="isAutoLayout" @change="onAutoChange"/>
          </div>
 
-         <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" ref="tooltipCustom">
+        <div class="MatcToobarRow" v-if="isAutoLayout && isContainer">
+            <ToolbarDropDownButton
+                class="MatcToolbarGridFull"
+                :qOptions="flexOptions"
+                :qValue="flex"
+                @change="onFlexChange"
+                :qReposition="true"
+                :qUpdateLabel="true"/>
+        </div>
 
-             <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
-                placeholder="Custom Component"
-                :value="customComponent"
-                @change="onCustomChange"/>
-            <span class="mdi mdi-puzzle MatcToobarInputIcon" />
+        <div class="MatcToobarRow">
+            <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" ref="tooltipCustom">
 
-         </div>
+                <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
+                    placeholder="Custom Component"
+                    :value="customComponent"
+                    @change="onCustomChange"/>
+                <span class="mdi mdi-puzzle MatcToobarInputIcon" />
+
+            </div>
+        </div>
 	</div>
 </template>
 <script>
@@ -24,37 +34,53 @@
 import DojoWidget from 'dojo/DojoWidget'
 import CheckBox from 'common/CheckBox'
 import _Tooltip from 'common/_Tooltip'
+import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
 
 export default {
     name: 'LowCodeSection',
     mixins:[DojoWidget, _Tooltip],
     data: function () {
         return {
-            isWraped: false,
-            isGrid: false,
+            widget: null,
+            isAutoLayout: false,
+            flex: 'Wrap', // Row, Col,, Wrap
             customComponent: '',
-            callbacks: {
-                click: ''
-            }
+            layoutOptions: [
+                {label: 'Grid', value: 'Grid'},
+                {label: 'Flex', value: 'Flex'},
+            ],
+            flexOptions: [
+                {label: 'Wrap', value: 'Wrap'},
+                {label: 'Rows', value: 'Row'},
+                {label: 'Colums', value: 'Col'},
+            ]
         }
     },
     components: {
-        'CheckBox': CheckBox
+        'CheckBox': CheckBox,
+        'ToolbarDropDownButton': ToolbarDropDownButton
+    },
+    computed: {
+        isContainer () {
+            if (this.widget && (this.widget.type === 'Box' || this.widget.type === 'Button')) {
+                return true
+            }
+            return false
+        }
     },
     methods: {
-        onWrapChange (value){
+        onAutoChange (value) {
             if (this.isGroup) {
-                this.emit('changeGroupStyle', 'wrap', value)
+                this.emit('changeGroupStyle', 'autoLayout', value)
             } else {
-                this.emit('changeStyle', 'wrap', value)
+                this.emit('changeStyle', 'autoLayout', value)
             }
         },
-
-        onGridChange (value) {
+        onFlexChange (value) {
             if (this.isGroup) {
-                this.emit('changeGroupStyle', 'grid', value)
+                this.emit('changeGroupStyle', 'flex', value)
             } else {
-                this.emit('changeStyle', 'grid', value)
+                this.emit('changeStyle', 'flex', value)
             }
         },
 
@@ -70,23 +96,20 @@ export default {
 		setValue (widget, isGroup = false){
 
             this.isGroup = isGroup
-      		if (widget.style && widget.style.wrap) {
-                this.isWraped = widget.style.wrap
+            this.widget = widget
+
+            if (widget.style && widget.style.autoLayout === true) {
+                this.isAutoLayout = widget.style.autoLayout
             } else {
-                this.isWraped = false
+                this.isAutoLayout = false
             }
-            if (widget.style && widget.style.grid) {
-                this.isGrid = widget.style.grid
+
+            if (widget.style && widget.style.flex) {
+                this.flex = widget.style.flex
             } else {
-                this.isGrid = false
+                this.flex = 'Wrap'
             }
-            if (widget.props && widget.props.callbacks){
-                this.callbacks.click = widget.props.callbacks.click
-            } else {
-                this.callbacks = {
-                    click: ''
-                }
-            }
+
             if (widget.props && widget.props.customComponent) {
                 this.customComponent = widget.props.customComponent
             } else {

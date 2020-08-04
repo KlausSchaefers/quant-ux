@@ -1173,7 +1173,7 @@
 	color: #fff;
 }
 
-.MatcToolbarEditMode a.MatcToolbarEditModeActive:hover{
+.MatcToolbar .MatcToolbarEditMode a.MatcToolbarEditModeActive:hover{
 	background-color: #1251a3;
 	color: #fff;
 }
