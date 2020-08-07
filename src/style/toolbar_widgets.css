@@ -497,6 +497,11 @@
 	background: #242a30;
 }
 
+.MatcToolbarInputDropDownButton .MatcToolbarInputDropDownButtonIcon{
+	vertical-align: middle;
+	margin-right: 4px;
+}
+
 .MatcBoxBorder .MatcToolbarDropDownButton{
 	width: 40px;
 	position: absolute;

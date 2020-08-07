@@ -48,7 +48,7 @@ export default {
     getChildren() {
        return this._childWidgets
     },
-    
+
     update (widget) {
         /**
          * FIXME: we shoukd have here some kind of fast rendering!
@@ -70,7 +70,7 @@ export default {
     render (widget, style, scaleX, scaleY, isUpdate = false) {
       /**
        * This is super slow for fast rendering, as we will redraw everzthing. We must
-       * therefore reuse the items or have some kind of rerender() method if the 
+       * therefore reuse the items or have some kind of rerender() method if the
        * isUpdate parameter is set
        */
       this.model = widget;
@@ -96,20 +96,25 @@ export default {
           this._screenID = widget.props.screenID
           let screen = this.app.screens[widget.props.screenID]
           if (screen) {
-          
+
             let core = new Core()
             core.model = this.app
 
             let parentScreen = core.getParentScreen(widget, this.app)
-        
+
             let cntr = db
                 .div('MatcWidgetTypeScreenSegementCntr')
                 .w(screen.w)
                 .h(screen.h)
                 .build()
 
-            var widgets = core.getSortedScreenChildren(this.app, screen)
-			for(let i=0; i< widgets.length; i++){
+            /**
+             * Attention: The core.sortedList is somehow reversed... So, we
+             * prevent this by passing a new parameter.
+             */
+            var widgets = core.getSortedScreenChildren(this.app, screen, false)
+
+			      for (let i=0; i< widgets.length; i++){
                 let childWidget = widgets[i];
                 let copy = lang.clone(childWidget)
                 copy.inherited = childWidget.id
@@ -130,7 +135,7 @@ export default {
           } else {
                db.div('MatcWidgetTypeScreenSegementHint', 'Screen segment does not exist').build(this.domNode)
           }
-       
+
       } else {
         this._screenID = ''
         db.div('MatcWidgetTypeScreenSegementHint', 'Select a screen segment').build(this.domNode)
@@ -138,14 +143,14 @@ export default {
     },
 
     renderWidget (widget, screen, db) {
-     
+
 	    let div = db.div('MatcBox MatcWidget')
                 .w(widget.w)
                 .h(widget.h)
                 .top(widget.y - screen.y)
                 .left(widget.x - screen.x)
                 .build()
-   
+
       this.factory.createWidgetHTML(div, widget);
       return div
     }

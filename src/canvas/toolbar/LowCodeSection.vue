@@ -2,21 +2,46 @@
 <template>
      <div class="MatcToolbarLowCode">
 
-		 <div class="MatcToolbarItem" v-if="isContainer">
-             <CheckBox label="Auto Layout" :value="isAutoLayout" @change="onAutoChange"/>
-         </div>
-
-        <div class="MatcToobarRow" v-if="isAutoLayout && isContainer">
+        <div class="MatcToobarRow" v-if="isContainer">
             <ToolbarDropDownButton
-                class="MatcToolbarGridFull"
-                :qOptions="flexOptions"
-                :qValue="flex"
-                @change="onFlexChange"
+                class=""
+                :qOptions="layoutOptions"
+                :qValue="layout"
+                @change="onLayoutChange"
                 :qReposition="true"
                 :qUpdateLabel="true"/>
         </div>
 
-        <div class="MatcToobarRow">
+        <div class="MatcToobarRow" v-if="isAutoLayout && isContainer">
+            <InputDropDownButton
+                ref="paddingY"
+                @change="onPaddingYChange"
+                :qValue="paddingY"
+                :qOptions="paddingOptions"
+                qIcon="mdi mdi-unfold-more-horizontal"
+                :qReposition="true" />
+
+            <InputDropDownButton
+                ref="paddingX"
+                @change="onPaddingXChange"
+                :qValue="paddingX"
+                :qOptions="paddingOptions"
+                qIcon="mdi mdi-unfold-more-vertical"
+                :qReposition="true" />
+
+
+            <InputDropDownButton
+                ref="space"
+                @change="onSpacingChange"
+                :qValue="spacing"
+                :qOptions="paddingOptions"
+                qIcon="mdi mdi-select-all"
+                :qReposition="true" />
+
+        </div>
+
+
+        <div class="MatcToobarRow" v-if="isCustom || !isContainer">
             <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" ref="tooltipCustom">
 
                 <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
@@ -32,9 +57,10 @@
 <script>
 
 import DojoWidget from 'dojo/DojoWidget'
-import CheckBox from 'common/CheckBox'
+// import CheckBox from 'common/CheckBox'
 import _Tooltip from 'common/_Tooltip'
 import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
+import InputDropDownButton from 'canvas/toolbar/InputDropDownButton'
 
 export default {
     name: 'LowCodeSection',
@@ -42,25 +68,38 @@ export default {
     data: function () {
         return {
             widget: null,
-            isAutoLayout: false,
-            flex: 'Wrap', // Row, Col,, Wrap
+            layout: 'Grid',
+            flexAlign: 'Wrap', // Row, Col,, Wrap
             customComponent: '',
+            paddingX: -1,
+            paddingY: -1,
+            spacing: 8,
             layoutOptions: [
-                {label: 'Grid', value: 'Grid'},
-                {label: 'Flex', value: 'Flex'},
+                {label: 'Default', value: 'Grid'},
+                {label: 'Custom', value: 'Custom'},
+                {label: 'Rows', value: 'Row'},
+                {label: 'Colums', value: 'Col'},
+                {label: 'Wrap', value: 'Wrap'},
             ],
             flexOptions: [
                 {label: 'Wrap', value: 'Wrap'},
                 {label: 'Rows', value: 'Row'},
                 {label: 'Colums', value: 'Col'},
-            ]
+            ],
+            paddingOptions: [0, 1, 2, 3, 4, 8, 16, 24, 32, 40]
         }
     },
     components: {
-        'CheckBox': CheckBox,
-        'ToolbarDropDownButton': ToolbarDropDownButton
+        'ToolbarDropDownButton': ToolbarDropDownButton,
+        'InputDropDownButton': InputDropDownButton
     },
     computed: {
+        isCustom () {
+            return this.layout === 'Custom'
+        },
+        isAutoLayout () {
+            return this.layout !== 'Grid' && this.layout !== 'Custom'
+        },
         isContainer () {
             if (this.widget && (this.widget.type === 'Box' || this.widget.type === 'Button')) {
                 return true
@@ -69,18 +108,32 @@ export default {
         }
     },
     methods: {
-        onAutoChange (value) {
+        onLayoutChange (value) {
             if (this.isGroup) {
-                this.emit('changeGroupStyle', 'autoLayout', value)
+                this.emit('changeGroupStyle', 'layout', value)
             } else {
-                this.emit('changeStyle', 'autoLayout', value)
+                this.emit('changeStyle', 'layout', value)
             }
         },
-        onFlexChange (value) {
+        onPaddingXChange (value) {
             if (this.isGroup) {
-                this.emit('changeGroupStyle', 'flex', value)
+                this.emit('changeGroupStyle', 'flexPaddingX', value)
             } else {
-                this.emit('changeStyle', 'flex', value)
+                this.emit('changeStyle', 'flexPaddingX', value)
+            }
+        },
+        onPaddingYChange (value) {
+            if (this.isGroup) {
+                this.emit('changeGroupStyle', 'flexPaddingY', value)
+            } else {
+                this.emit('changeStyle', 'flexPaddingY', value)
+            }
+        },
+        onSpacingChange (value) {
+            if (this.isGroup) {
+                this.emit('changeGroupStyle', 'flexSpacing', value)
+            } else {
+                this.emit('changeStyle', 'flexSpacing', value)
             }
         },
 
@@ -98,16 +151,28 @@ export default {
             this.isGroup = isGroup
             this.widget = widget
 
-            if (widget.style && widget.style.autoLayout === true) {
-                this.isAutoLayout = widget.style.autoLayout
+            if (widget.style && widget.style.layout) {
+                this.layout = widget.style.layout
             } else {
-                this.isAutoLayout = false
+                this.layout = 'Grid'
             }
 
-            if (widget.style && widget.style.flex) {
-                this.flex = widget.style.flex
+            if (widget.style && widget.style.flexPaddingX !== undefined) {
+                this.paddingX = widget.style.flexPaddingX
             } else {
-                this.flex = 'Wrap'
+                this.paddingX = -1
+            }
+
+            if (widget.style && widget.style.flexPaddingY !== undefined) {
+                this.paddingY = widget.style.flexPaddingY
+            } else {
+                this.paddingY = -1
+            }
+
+            if (widget.style && widget.style.flexSpacing !== undefined) {
+                this.spacing = widget.style.flexSpacing
+            } else {
+                this.spacing = -1
             }
 
             if (widget.props && widget.props.customComponent) {
@@ -118,8 +183,11 @@ export default {
 		}
     },
     mounted () {
-         if (this.$refs.tooltipCustom) {
+        if (this.$refs.tooltipCustom) {
             this.addTooltip(this.$refs.tooltipCustom, 'Enter the name of the custom component that should be used during rendering.')
+        }
+        if (this.$refs.paddingX) {
+            this.addTooltip(this.$refs.paddingX, 'Horizontal Padding')
         }
     }
 }

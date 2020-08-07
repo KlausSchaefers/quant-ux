@@ -1870,7 +1870,7 @@ export default class Core extends Evented {
         return result
     }
 
-    getSortedScreenChildren(model, screen) {
+    getSortedScreenChildren(model, screen, isReverse = true) {
         let widgets = {}
         for (let i = 0; i < screen.children.length; i++) {
             let widgetID = screen.children[i];
@@ -1879,6 +1879,10 @@ export default class Core extends Evented {
                 widgets[widget.id] = widget
             }
         }
-        return this.getOrderedWidgets(widgets).reverse();
+        let result = this.getOrderedWidgets(widgets);
+        if (isReverse) {
+            return result.reverse()
+        }
+        return result
     }
 }
