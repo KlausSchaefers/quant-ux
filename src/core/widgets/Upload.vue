@@ -33,14 +33,20 @@ export default {
   },
   components: {},
   computed: {
-    options () {
-      return this.style.options
-    },
     label () {
-        if (this.model && this.model.props){
-            return this.model.props.label
+      if (this.value && !this.icon && this.value.name) {
+        return this.value.name
+      }
+      if (this.model && this.model.props){
+          return this.model.props.label
+      }
+      return ''
+    },
+    maxFiles () {
+        if (this.model && this.model.props && this.model.props.maxFiles !== undefined){
+            return this.model.props.maxFiles
         }
-        return ''
+        return 1
     },
     icon () {
         if (this.model && this.model.style && this.model.style.icon){
@@ -60,7 +66,7 @@ export default {
     onFileChange () {
       if (this.$refs.input) {
         let files = this.$refs.input.files;
-        if (files.length === 1) {
+        if (files.length >= this.maxFiles) {
           this.setImage(files[0])
         }
       }

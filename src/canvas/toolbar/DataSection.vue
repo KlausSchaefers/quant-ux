@@ -1640,7 +1640,8 @@ export default {
 
 				var row = this.db.div("MatcToobarRow").build(this.cntr);
 				var drpDwn = this.$new(ToolbarDropDownButton, {maxLabelLength:15});
-				css.add(drpDwn.domNode, "")
+				css.add(drpDwn.domNode, "MatcToolbarGridFull")
+
 				drpDwn.reposition = true;
 				drpDwn.setOptions(options);
 				drpDwn.setLabelPostfix(label);

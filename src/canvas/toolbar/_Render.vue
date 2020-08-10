@@ -70,7 +70,7 @@ export default {
 					hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
 					hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
 					hasCheckedViewMode : ["CheckBox", "RadioBox"],
-					hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging'],
+					hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload'],
 					hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation", "Stepper", "Paging"],
 					hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 					hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging"],
@@ -1056,7 +1056,7 @@ export default {
 			 { value:"top", icon:"mdi mdi-format-vertical-align-top"},
 			 { value:"middle", icon:"mdi mdi-format-vertical-align-center"},
 			 { value:"bottom", icon:"mdi mdi-format-vertical-align-bottom"},
-            ]);
+      ]);
 			this.verticalAlign.setLabel('<span class="glyphicons glyphicons-text-width"></span>');
 			this.verticalAlign.reposition = true;
 			this.verticalAlign.updateLabel  = true;

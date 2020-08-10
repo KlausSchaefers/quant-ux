@@ -4,7 +4,9 @@
 
         <div class="MatcToobarRow" v-if="isContainer">
             <ToolbarDropDownButton
-                class=""
+                class="MatcToolbarGridFull"
+                qPopupCSS="MatcActionAnimProperties"
+                qMaxLabelLength="40"
                 :qOptions="layoutOptions"
                 :qValue="layout"
                 @change="onLayoutChange"
@@ -77,16 +79,26 @@ export default {
             layoutOptions: [
                 {label: 'Default', value: 'Grid'},
                 {label: 'Custom', value: 'Custom'},
-                {label: 'Rows', value: 'Row'},
-                {label: 'Colums', value: 'Col'},
-                {label: 'Wrap', value: 'Wrap'},
+                {label: 'Rows (Auto Layout)', value: 'Row'},
+                {label: 'Colums (Auto Layout)', value: 'Col'},
+                {label: 'Wrap (Auto Layout)', value: 'Wrap'},
             ],
             flexOptions: [
                 {label: 'Wrap', value: 'Wrap'},
                 {label: 'Rows', value: 'Row'},
                 {label: 'Colums', value: 'Col'},
             ],
-            paddingOptions: [0, 1, 2, 3, 4, 8, 16, 24, 32, 40]
+            paddingOptions: [
+                {label: 'Auto', value: -1},
+                {label: '0', value: 0},
+                {label: 1, value: 1},
+                {label: 4, value: 4},
+                {label: 8, value: 8},
+                {label: 16, value: 16},
+                {label: 24, value: 24},
+                {label: 32, value: 32},
+                {label: 40, value: 40}
+            ]
         }
     },
     components: {

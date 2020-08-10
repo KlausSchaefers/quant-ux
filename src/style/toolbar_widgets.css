@@ -2,8 +2,8 @@
 /****************************************************
  * Notification
  ****************************************************/
-.MatcToolbarLowCode{
-
+.MatcToolbarLowCode .MatcToolbarDropDownButtonLabel{
+	width: 150px;
 }
 
 

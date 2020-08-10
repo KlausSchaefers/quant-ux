@@ -22,7 +22,7 @@ import DomBuilder from 'common/DomBuilder'
 
 export default {
 		name: 'ToolbarDropDownButton',
-		props: ["qOptions", "qValue", 'qUpdateLabel', 'qReposition', 'qMaxLabelLength'],
+		props: ["qOptions", "qValue", 'qUpdateLabel', 'qReposition', 'qMaxLabelLength', 'qPopupCSS'],
     mixins:[DojoWidget, _DropDown],
     data: function () {
         return {
@@ -353,7 +353,12 @@ export default {
 			if (this.qReposition) {
 				this.reposition = true
 			}
-
+			if (this.qMaxLabelLength) {
+				this.maxLabelLength = this.qMaxLabelLength
+			}
+			if (this.qPopupCSS) {
+				this.setPopupCss(this.qPopupCSS);
+			}
 			if (this.qValue) {
 				this.setValue(this.qValue)
 			}
