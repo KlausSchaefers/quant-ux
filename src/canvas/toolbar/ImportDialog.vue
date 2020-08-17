@@ -24,22 +24,34 @@
             <div v-if="tab=== 'figma'">
                 <div class="MatchImportDialogCntr">
 
-                <div class="field ">
-                    <label>{{ getNLS('dialog.import.figma-key')}}
-                        <a  target="figma" href="https://www.figma.com/developers/api#access-tokens">
-                            <span class="mdi mdi-help-circle"></span>
-                        </a>
-                        </label>
-                    <input type="text" class="input" v-model="figmaAcccessKey" />
-                </div>
+                    <div v-if="!figmaPages">
 
-                <div class="field">
-                    <label>{{ getNLS('dialog.import.figma-url')}}</label>
-                    <input type="text" class="input" v-model="figmaUrl" />
-                </div>
+                        <div class="field ">
+                            <label>{{ getNLS('dialog.import.figma-key')}}
+                                <a  target="figma" href="https://www.figma.com/developers/api#access-tokens">
+                                    <span class="mdi mdi-help-circle"></span>
+                                </a>
+                                </label>
+                            <input type="text" class="input" v-model="figmaAcccessKey" />
+                        </div>
+
+                        <div class="field">
+                            <label>{{ getNLS('dialog.import.figma-url')}}</label>
+                            <input type="text" class="input" v-model="figmaUrl" />
+                        </div>
+
+                    </div>
+
+                    <div v-else>
+                        <label>{{ getNLS('dialog.import.figma-select-page')}}</label>
+                        <div>
+                            <RadioBoxList :qOptions="figmaPages" @change="setSelectedFigmaPage" />
+                        </div>
+                    </div>
 
                 </div>
             </div>
+
 
             <div v-if="tab=== 'progress'">
                 <div class="MatchImportDialogCntr">
@@ -60,8 +72,8 @@
         </div>
 
         <div class=" MatcButtonBar MatcMarginTop">
-
-            <a class=" MatcButton" v-if="!isPublic" @click.stop="onSave">{{ getNLS('btn.import')}}</a>
+            <a class=" MatcButton" v-if="hasContinue" @click.stop="onContinueFigma">{{ getNLS('btn.continue')}}</a>
+            <a class=" MatcButton" v-if="!isPublic && !hasContinue" @click.stop="onSave">{{ getNLS('btn.import')}}</a>
             <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel')}}</a>
         </div>
 
@@ -77,6 +89,9 @@ import DojoWidget from 'dojo/DojoWidget'
 import Logger from 'common/Logger'
 import Util from 'core/Util'
 import Services from 'services/Services'
+import RadioBoxList from 'common/RadioBoxList'
+
+
 import FigmaService from 'services/FigmaService'
 
 export default {
@@ -86,6 +101,7 @@ export default {
         return {
             tab: "images",
             hasDrop: false,
+            hasContinue: false,
             uploadFiles: [],
             uploadPreviews: [],
             zoom: 1,
@@ -94,10 +110,15 @@ export default {
             progessPercent: 0,
             figmaAcccessKey: '',
             figmaUrl: '',
+            figmaPages: null,
+            figmaModel: null,
+            figmaSelectedPage: null,
             isPublic: false
         }
     },
-    components: {},
+    components: {
+        'RadioBoxList': RadioBoxList
+    },
     computed: {
         previewWidth () {
             return '100px'
@@ -140,16 +161,26 @@ export default {
         },
 
         async onSave () {
+            this.logger.log(-1, 'onSave', 'enter', this.figmaSelectedPage !== null)
             if (this.tab === 'images') {
                 this.tab = 'progress'
                 await this.uploadImagesAndCreateScreens()
             }
             if (this.tab === 'figma' && this.isValidFigmaConfig()) {
-
                 this.tab = 'progress'
                 await this.importFigma(this.figmaAcccessKey, this.figmaUrl)
             }
-            this.$emit('save')
+        },
+
+        async onContinueFigma () {
+            this.logger.log(-1, 'onContinueFigma', 'enter', this.figmaSelectedPage !== null)
+            if (this.figmaSelectedPage) {
+                this.tab = 'progress'
+                await this.parseFigma(this.figmaAcccessKey, this.figmaUrl, this.figmaModel, this.figmaSelectedPage, this.model.screenSize)
+                this.$emit('save')
+            } else {
+                this.errorMSG = this.getNLS('dialog.import.error-figma-page')
+            }
         },
 
         isValidFigmaConfig () {
@@ -179,18 +210,72 @@ export default {
             }
         },
 
-        async importFigma (accessKey, url, importChildren = false) {
+        resetFigma () {
+            this.logger.log(-1, 'resetFigma', 'enter')
+            this.figmaPages = null
+            this.figmaModel = null
+            this.figmaSelectedPage = null
+            this.hasContinue = false
+        },
+
+        setSelectedFigmaPage (value) {
+            this.logger.log(-1, 'setSelectedFigmaPage', 'enter', value)
+            this.figmaSelectedPage = value
+        },
+
+        async importFigma (accessKey, url) {
             this.logger.log(-1, 'importFigma', 'enter', url)
+
             localStorage.setItem('quxFigmaAccessKey', accessKey)
             localStorage.setItem('quxFigmaUrl', url)
             let fileId = this.getFigmaFileKey(url)
 
             try {
-                let figmaService = new FigmaService(accessKey)
                 this.setProgress(0, 'dialog.import.figma-progress-file')
-                let model = await figmaService.get(fileId, importChildren)
+
+                let figmaService = new FigmaService(accessKey)
+                let fModel = await figmaService.get(fileId)
+                if (fModel) {
+                    this.logger.log(-1, 'importFigma', 'fModel', fModel)
+                    this.figmaPages = figmaService.getPages(fModel)
+                    this.figmaModel = fModel
+
+                    /**
+                     * Check now if we need to show the 2nd wizard step
+                     */
+                    if (this.figmaPages.length === 1) {
+                        this.figmaSelectedPage = this.figmaPages[0].id
+                        await this.parseFigma(accessKey, url, this.figmaModel, this.figmaSelectedPage, this.model.screenSize)
+                        this.$emit('save')
+                    } else {
+                        /**
+                         * show the page selection page
+                         */
+                        this.hasContinue = true
+                        this.tab = 'figma'
+                    }
+
+                } else {
+                    throw new Error('Could not download figma. Servivce returned null')
+                }
+
+            } catch (err) {
+                console.debug(err.stack)
+                this.logger.error('importFigma', 'Cannot import figma')
+                this.logger.sendError(err)
+                this.errorMSG = this.getNLS('dialog.import.error-figma-load')
+                this.tab = 'figma'
+            }
+        },
+
+        async parseFigma (accessKey, url, fModel, figmaSelectedPage, screenSize, importChildren = false) {
+            this.logger.log(-1, 'parseFigma', 'enter', url)
+
+            try {
+                let fileId = this.getFigmaFileKey(url)
+                let figmaService = new FigmaService(accessKey)
+                let model = await figmaService.parse(fileId, fModel, importChildren, screenSize, [figmaSelectedPage])
                 if (model) {
-                    this.logger.log(-1, 'importFigma', 'model', model)
 
                     /**
                      * Add hot spots for widgets with links
@@ -227,14 +312,19 @@ export default {
 
                     this.controller.addScreensAndWidgets(model);
                 } else {
-                    throw new Error('Could not download figma. Servivce returned null')
+                    this.logger.error('importFigma', 'Cannot partse figma')
+                    this.logger.sendError(new Error('Could not parse figma'))
+                    this.errorMSG = this.getNLS('dialog.import.error-figma-load')
+                    this.tab = 'figma'
                 }
             } catch (err) {
-                this.logger.error('importFigma', 'Cannot import figma')
+                this.logger.error('importFigma', 'Cannot partse figma', err)
                 this.logger.sendError(err)
                 this.errorMSG = this.getNLS('dialog.import.error-figma-load')
                 this.tab = 'figma'
             }
+
+            this.resetFigma()
         },
 
         addHotspots (model) {
@@ -251,8 +341,6 @@ export default {
             Object.values(model.lines).forEach(line => {
                 let from = model.widgets[line.from]
                 let to = model.screens[line.to]
-
-                console.debug('addHotspots', from.id, to.name)
                 if (from && to) {
                     let parent = widgetScreenMapping[from.id]
                     if (parent) {
@@ -280,6 +368,7 @@ export default {
         },
 
         async downloadFigmaImages (vectorWidgets) {
+            this.logger.log(-1, 'importFigma', 'downloadFigmaImages', vectorWidgets)
             this.setProgress(20)
             let total = vectorWidgets.length * 2;
             let done = 0
@@ -372,6 +461,11 @@ export default {
                 return screen
             })
             this.controller.addScreensAndWidgets({screens: screens});
+
+            /**
+             * Close dialog
+             */
+            this.$emit('save')
         },
 
         getCanvasCenter () {

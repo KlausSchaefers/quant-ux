@@ -27,6 +27,12 @@
     height: 300px;
     border: 1px solid transparent;
     position: relative;
+    overflow: auto;
+
+    .VommondRadioBoxListItem {
+      display: inline-block;
+      width: 250px;
+    }
 
     .MatcHint {
       color: $text_color_passive;

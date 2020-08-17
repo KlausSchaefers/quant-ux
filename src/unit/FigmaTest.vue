@@ -51,6 +51,8 @@
 import FigmaService from 'services/FigmaService'
 import Preview from 'page/Preview'
 import figma from './data/figma.json'
+import Logger from '../core/Logger'
+
 
 export default {
   name: "FigmaTest",
@@ -64,6 +66,7 @@ export default {
         figma1: figma,
         fileLogin: 'eRXU9ZlV1m2zLJdEUJIOvF',
         fileComplex: 'VtVe96tDjhA0OByfcvJIlE9o',
+        fileBug: 'bUyZvfdtErxaljjuboyYHY',
         pluginSimple: 'r4DTXpFJOTrWG3b7MVRc5v',
         selectedFile: ''
     };
@@ -74,7 +77,11 @@ export default {
   computed: {
     screens () {
       if (this.model) {
-        return Object.values(this.model.screens)
+        let screens = Object.values(this.model.screens)
+        if (screens.length > 10) {
+          screens = screens.slice(0, 10)
+        }
+        return screens
       }
       return []
     },
@@ -102,23 +109,30 @@ export default {
       },
       async run() {
         //let app = await FigmaService.get('vABDxPscPKnF2qV4yTroUB')
-        let app = await new FigmaService(this.accessKey).get(this.selectedFile, true)
-        if (app) {
-          Object.values(app.screens).forEach(screen => {
-            if (screen.props.figmaImage) {
-              screen.style.backgroundImage = {
-                url: screen.props.figmaImage
+        let fService = new FigmaService(this.accessKey)
+        let fModel = await fService.get(this.selectedFile)
+        if (fModel) {
+          let fPages = fService.getPages(fModel)
+          let app = await fService.parse(this.selectedFile, fModel, false, {w: 375, h: 667}, fPages.map(page => page.id))
+          if (app) {
+            Object.values(app.screens).forEach(screen => {
+              if (screen.props.figmaImage) {
+                screen.style.backgroundImage = {
+                  url: screen.props.figmaImage
+                }
               }
-            }
-          })
+            })
+            app.widgets = {}
+          }
+          console.debug(app.screenSize)
+          this.model = app
         }
-        console.debug(app)
-        this.model = app
       }
   },
   mounted() {
+    Logger.setLogLevel(4)
     this.accessKey = localStorage.getItem('quxFigmaTest')
-    this.selectedFile = this.fileComplex
+    this.selectedFile = this.fileBug
     this.run()
   }
 };

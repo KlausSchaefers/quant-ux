@@ -27,29 +27,23 @@ export default class FigmaService {
     return headers
   }
 
-  async get (key, importChildren = true, allAsVecor = false) {
-    this.allAsVecor = allAsVecor
-    return new Promise ((resolve, reject) => {
-      let url = this.baseURL + 'files/' + key + '?geometry=paths&plugin_data=' + this.pluginId
-      fetch(url, {
-        method: 'get',
-        credentials: "same-origin",
-        headers: this._createDefaultHeader()
-      }).then(resp => {
-        resp.json().then(json => {
-          try {
-            let app = this.parse(key, json, importChildren)
-            resolve(app)
-          } catch (e) {
-            Logger.error('get() > Error', e)
-            resolve(null)
-          }
+  getPages (fModel) {
+    Logger.log(-1, 'getPages() > enter')
+    let pages = []
+    let fDoc = fModel.document
+    if (fDoc.children) {
+      fDoc.children.forEach(page => {
+        console.debug(page)
+        pages.push({
+          id: page.id,
+          value: page.id,
+          label: page.name
         })
-      }, err => {
-        reject(err)
-      })
-    })
 
+      })
+    }
+    Logger.log(-1, 'getPages() > exit', pages)
+    return pages
   }
 
   getImages (key, ids) {
@@ -77,16 +71,39 @@ export default class FigmaService {
     })
   }
 
-  async parse (id, fModel, importChildren) {
-    Logger.log(-1, 'parse() > enter importChildren:' + importChildren,fModel)
-    let model = this.createApp(id, fModel)
+  async get (key) {
+    Logger.log(-1, 'get() > enter :' + key)
+    return new Promise ((resolve, reject) => {
+      let url = this.baseURL + 'files/' + key + '?geometry=paths&plugin_data=' + this.pluginId
+      fetch(url, {
+        method: 'get',
+        credentials: "same-origin",
+        headers: this._createDefaultHeader()
+      }).then(resp => {
+        if (resp.status === 200) {
+          resp.json().then(json => {
+            console.debug('get ', json)
+            resolve(json)
+          })
+        } else {
+          reject(new Error('Wrong Status'))
+        }
+      }, err => {
+        reject(err)
+      })
+    })
+  }
+
+  async parse (id, fModel, importChildren, screenSize, selectedPages) {
+    Logger.log(-1, 'parse() > enter importChildren:' + importChildren, fModel)
+    let model = this.createApp(id, fModel, screenSize)
     let fDoc = fModel.document
 
     if (fDoc.children) {
       fDoc.children.forEach(page => {
-        if (page.children) {
+        if (page.children && selectedPages.indexOf(page.id) >= 0) {
           page.children.forEach(screen => {
-            this.parseScreen(screen, model, fModel, importChildren)
+            this.parseScreen(screen, model, fModel, importChildren, screenSize)
           })
         }
       })
@@ -118,7 +135,6 @@ export default class FigmaService {
 
     let screenMapping = {}
     Object.values(model.screens).forEach(s => {
-      console.debug(s.name, s.id)
       screenMapping[s.figmaId] = s.id
     })
 
@@ -187,7 +203,7 @@ export default class FigmaService {
     return result;
   }
 
-  parseScreen (fScreen, model, fModel) {
+  parseScreen (fScreen, model, fModel, importChildren, screenSize) {
     Logger.log(1, 'parseScreen()', fScreen.name)
     let pos = this.getPosition(fScreen)
     let qScreen = {
@@ -204,6 +220,8 @@ export default class FigmaService {
       style: this.getStyle(fScreen)
     }
 
+    console.debug('parseScreen', pos, qScreen.name, qScreen.w, qScreen.h, screenSize)
+
     if (fScreen.children) {
       fScreen.children.forEach(child => {
         child._parent = fScreen
@@ -214,8 +232,10 @@ export default class FigmaService {
     /**
      * Or check prototypeDevice
      */
-    model.screenSize.w = model.screenSize.w === -1 ? pos.w : Math.max(model.screenSize.w, pos.w)
-    model.screenSize.h = model.screenSize.h === -1 ? pos.h : Math.max(model.screenSize.h, pos.h)
+    if (!screenSize) {
+      model.screenSize.w = model.screenSize.w === -1 ? pos.w : Math.max(model.screenSize.w, pos.w)
+      model.screenSize.h = model.screenSize.h === -1 ? pos.h : Math.max(model.screenSize.h, pos.h)
+    }
     model.screens[qScreen.id] = qScreen
 
     Logger.log(4, 'parseScreen() exit ', fScreen.name, qScreen.id)
@@ -249,7 +269,7 @@ export default class FigmaService {
       qScreen.children.push(widget.id)
 
     } else {
-      Logger.log(4, 'parseElement() >Ignore: ' + element.name, element.type)
+      Logger.log(7, 'parseElement() >Ignore: ' + element.name, element.type)
       /**
        * What if we have defined the callbacks and on a compomemt?
        */
@@ -262,7 +282,7 @@ export default class FigmaService {
       element.children.forEach(child => {
         if (child.visible !== false) {
           child._parent = element
-          Logger.log(3, 'parseElement() > go recursive', element)
+          Logger.log(6, 'parseElement() > go recursive', element)
           this.parseElement(child, qScreen, fScreen, model, fModel)
         }
       })
@@ -615,8 +635,8 @@ export default class FigmaService {
     return model.lastZ
   }
 
-  createApp (id, data) {
-    return {
+  createApp (id, data, screenSize) {
+    let app = {
       version: 2.1,
       figmaId: id,
 			name: data.name,
@@ -644,6 +664,11 @@ export default class FigmaService {
 				enabled: false
 			}
     }
+
+    if (screenSize) {
+      app.screenSize = screenSize
+    }
+    return app
   }
 
   getUUID (model){
