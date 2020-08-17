@@ -241,6 +241,8 @@ export default {
 						{ value:"mdi mdi-menu-down-outline", icon:"mdi mdi-menu-down-outline", label : "Arrow Outline"},
 						{ value:"nulll", icon:"mdi mdi-close", label : "No Icon"}
 				], true);
+
+				this._renderCheck("Collapsed",model.props.collapsed, "collapsed" );
 			},
 
 

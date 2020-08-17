@@ -8,7 +8,7 @@
             <form>
               <div class="field">
                 <label>Name</label>
-                <input type="text" class="input" v-model="name" placeholder="Enter App name" />
+                <input type="text" class="input" v-model="name" placeholder="Enter App name" ref="inputName"/>
                 <div data-binding-error="name"></div>
               </div>
 
@@ -73,6 +73,11 @@ export default {
   },
   async mounted() {
     this.logger = new Logger("Create");
+    setTimeout(() => {
+      if (this.$refs.inputName) {
+        this.$refs.inputName.focus()
+      }
+    }, 50)
   }
 };
 </script>

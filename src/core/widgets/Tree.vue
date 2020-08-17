@@ -96,7 +96,20 @@ export default {
       })
 
       this.removeAllChildren(this.domNode)
-      //this.domNode.innerHTML = "";
+
+      /**
+       * Since 3.0.22 we can have the tree collapsed
+       */
+      if (model.props.collapsed === true) {
+        let collapsed = []
+        tree.children.forEach(child => {
+          if (child.children && child.children.length > 0) {
+            collapsed.push(child.id)
+          }
+        })
+        this.setCollapsed(collapsed)
+      }
+
       this.domNode.appendChild(cntr)
 
       this.setStyle(style, model)
