@@ -1,5 +1,5 @@
 <template>
-  <div class="MatcCanvasPage" id="CanvasNode">
+  <div class="MatcCanvasPage" id="CanvasNode" @wheel="onMouseWheel">
     <Toolbar ref="toolbar" :pub="pub" />
     <Canvas ref="canvas" />
   </div>
@@ -48,6 +48,15 @@ export default {
     }
   },
   methods: {
+    onMouseWheel (e) {
+      /**
+       * Cancel all left and right swipes to surpress back navigation
+       */
+      if (e && Math.abs(e.deltaX) > 50 ) {
+        this.logger.log(-1, "onMouseWheel", "cancel");
+        e.preventDefault();
+      }
+    },
     loadData() {
       let id = this.$route.params.id;
       this.logger.log(3, "loadData", "enter", id);
