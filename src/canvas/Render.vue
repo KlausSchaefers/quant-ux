@@ -44,24 +44,24 @@ export default {
 			 *
 			 * 11 = StandAlone
 		 	 */
-        return {
-            state: 0,
-            isSinglePage: false,
-            defaultFontSize: 12,
-            canvasFlowWidth: 15000,
-            canvasFlowHeight: 8000,
-            canvasStartX: -1000,
-            canvasStartY: -1000,
-            canvasMargin: 0.6,
-            moveMode: "ps",
-            renderDND: true,
-            renderLines: true,
-            showDistance: true,
-            wireInheritedWidgets: false,
-						showAnimation: false,
-						showRuler: true,
-            hasSelectOnScreen: false,
-            gridBackground: {}
+      return {
+					state: 0,
+					isSinglePage: false,
+					defaultFontSize: 12,
+					canvasFlowWidth: 20000,
+					canvasFlowHeight: 10000,
+					canvasStartX: -1000,
+					canvasStartY: -1000,
+					canvasMargin: 0.6,
+					moveMode: "ps",
+					renderDND: true,
+					renderLines: true,
+					showDistance: true,
+					wireInheritedWidgets: false,
+					showAnimation: false,
+					showRuler: true,
+					hasSelectOnScreen: false,
+					gridBackground: {}
         }
     },
     components: {},
