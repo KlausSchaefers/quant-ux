@@ -993,7 +993,7 @@ export default {
 					* Here is a bug when we have scrolling...
 					* cannot we add the stupid element to the parent or whatever domnode that does not scroll?
 					*
-					* FIXME: What about fixed right? If we want real responsiveness, we would need
+					* TODO: What about fixed right? If we want real responsiveness, we would need
 					* to look also for right pinned.
 					*/
 
@@ -1001,7 +1001,7 @@ export default {
 
 						if (this.qr && this.isPinnedDown(box)) {
 							/**
-							 * Since 3.0.18 we pin bottom down fixed.
+							 * Since 3.0.25 we pin bottom down fixed.
 							 */
 
 							let distanceFromBottom = this.getDistanceFromScreenBottom(box, parentBox, this.model)
