@@ -965,6 +965,7 @@ export default {
 			},
 
 			createBox (box, parentBox){
+
 				var div = document.createElement("div");
 				div.style.width = box.w + "px";
 				div.style.height = box.h + "px";
@@ -974,7 +975,9 @@ export default {
 				if (!style) {
 					style = box.style;
 				}
-				if(style.fixed){
+
+				if (style.fixed){
+
 					/**
 					* Read the screen position a every time, because
 					* the animation...
@@ -989,17 +992,37 @@ export default {
 					/**
 					* Here is a bug when we have scrolling...
 					* cannot we add the stupid element to the parent or whatever domnode that does not scroll?
-					* No does not work in mobile...
+					*
+					* FIXME: What about fixed right? If we want real responsiveness, we would need
+					* to look also for right pinned.
 					*/
-					if(this.screenPos && parentBox){
-						div.style.top = (box.y - parentBox.y) + screen.y + "px";
-						div.style.left = (box.x - parentBox.x) + screen.x + "px";
+
+					if(this.screenPos && parentBox) {
+
+						if (this.qr && this.isPinnedDown(box)) {
+							/**
+							 * Since 3.0.18 we pin bottom down fixed.
+							 */
+
+							let distanceFromBottom = this.getDistanceFromScreenBottom(box, parentBox, this.model)
+							div.style.bottom = distanceFromBottom + "px";
+							div.style.left = (box.x - parentBox.x) + screen.x + "px";
+
+							this.logger.log(-1,"createBOx","isPinnedDown > " + box.name, distanceFromBottom);
+
+						} else {
+							/**
+							 * Other stuff is just pinned to top
+							 */
+							div.style.top = (box.y - parentBox.y) + screen.y + "px";
+							div.style.left = (box.x - parentBox.x) + screen.x + "px";
+						}
 					} else {
 						console.warn("createBox() > no screenPos or parentBox for fixed box!")
 					}
 				} else {
 					if(parentBox){
-						div.style.top = (box.y -parentBox.y) + "px";
+						div.style.top = (box.y - parentBox.y) + "px";
 						div.style.left = (box.x -parentBox.x) + "px";
 					} else {
 						console.warn("createBox() > no parent passed!");
@@ -1007,6 +1030,19 @@ export default {
 				}
 
 				return div;
+			},
+
+			isPinnedDown (e) {
+					return e.props && e.props.resize && e.props.resize.down
+			},
+
+			getDistanceFromScreenBottom(element, parentBox, model) {
+				if (element && model.screenSize) {
+					let top = (element.y - parentBox.y)
+					let dif = model.screenSize.h - (top + element.h)
+					return Math.max(0,dif);
+				}
+				return 0
 			},
 
 			cleanUpOverlays (){
