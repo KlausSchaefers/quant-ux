@@ -1,6 +1,7 @@
 
 <template>
-	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem']"  :xScroll="scrollToItem()" >
+<!-- :xScroll="scrollToItem()" -->
+	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem']" >
     <li :class="'MatcTreeItemLevel' + level">
         <div
             :class="'MatcTreeItemRow ' + rowStyle"
@@ -17,10 +18,14 @@
             <span :class="expandIcon" @click.stop="toggleOpen"></span>
           </template>
           <template v-else>
-            <span v-if="nodeIcon" :class="nodeIcon"></span>
+            <span class="MatcTreeIcon"  @click.stop=""></span>
           </template>
+
+          <span v-if="nodeIcon" :class="nodeIcon"></span>
+
          <label class="MatcTreeItemLabel" v-if="!isEditable" ref="lblNode" >
-            {{value.label}}
+           <!-- add here         {{value.hint}} -->
+            {{hintAndLabel}}
           </label>
           <input class="MatcTreeItemLabel MatcIgnoreOnKeyPress"
             v-if="isEditable"
@@ -66,6 +71,16 @@ export default {
     };
   },
   computed: {
+    hintAndLabel () {
+      if (this.value) {
+        if (this.value.hint) {
+          let hint  = this.unStripHTML(this.value.hint)
+          return this.short(hint) + ' (' + this.value.label + ')'
+        }
+        return this.value.label
+      }
+      return ''
+    },
     rowStyle () {
       let result = ''
       if (this.value && this.value.css) {
@@ -106,18 +121,31 @@ export default {
     expandIcon () {
       if (this.isOpen) {
         if (this.value && this.value.openIcon) {
-          return this.value.openIcon
+          return this.value.openIcon + ' MatcTreeToggleChildrenIcon'
         }
-        return 'mdi mdi-folder-open MatcTreeIcon'
+        return 'mdi mdi-folder-open MatcTreeIcon MatcTreeToggleChildrenIcon'
       }
       if (this.value && this.value.closeIcon) {
-         return this.value.closeIcon
+         return this.value.closeIcon + ' MatcTreeToggleChildrenIcon'
       }
-      return 'mdi mdi-folder MatcTreeIcon'
+      return 'mdi mdi-folder MatcTreeIcon MatcTreeToggleChildrenIcon'
     }
   },
   components: {},
   methods: {
+    unStripHTML:function(s) {
+			if(!s){
+				s="";
+			}
+			s = s.replace(/\$perc;/g, "%");
+			return s;
+		},
+    short (s, maxLendth = 20) {
+      if (s.length > maxLendth) {
+        return s.substring(0, maxLendth) + '...'
+      }
+      return s
+    },
     onBlur () {
       if (this.isEditable) {
         this.$emit('endEdit', this.value.id, this.getInlineTxt())

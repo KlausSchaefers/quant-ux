@@ -33,7 +33,7 @@ import Tree from 'common/Tree'
 
 export default {
 	name: 'LayerList',
-	props: ['value'],
+	props: ['value', 'includeMasterNodes'],
     mixins:[Util, DojoWidget],
     data: function () {
         return {
@@ -238,16 +238,18 @@ export default {
 					 * FIMXE: Make here a extra group for the master widgets
 					 */
 					if (widget.inherited) {
-						let masterScreen = model.screens[widget.masterScreen]
-						let master = {
-							id: masterScreen.id,
-							name: masterScreen.name,
-							inherited: true,
-							type: 'Master'
+						if (this.includeMasterNodes) {
+							let masterScreen = model.screens[widget.masterScreen]
+							let master = {
+								id: masterScreen.id,
+								name: masterScreen.name,
+								inherited: true,
+								type: 'Master'
+							}
+							let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
+							let masterNode = this.getOrCreateMaster(master, screen.id, masterNodes, tree, widget)
+							masterNode.children.push(node)
 						}
-						let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
-						let masterNode = this.getOrCreateMaster(master, screen.id, masterNodes, tree, widget)
-						masterNode.children.push(node)
 					} else {
 
 						/**
@@ -289,6 +291,9 @@ export default {
 			if (!masterNodes[masterScreen.id]) {
 				let newMasterNode = this.createNode(masterScreen, widget.id, screenId, null, 'master', false);
 				masterNodes[masterScreen.id] = newMasterNode;
+				/**
+				 * This should be at the back
+				 */
 				tree.children.push(newMasterNode);
 			}
 			return masterNodes[masterScreen.id]
@@ -332,7 +337,7 @@ export default {
 				screenID: screenID,
 				groupID: groupId,
 				label: box.name, // + ' (' + box.id + ') ' + box.z,
-				icon: this.getNodeIcon(box),
+				icon: this.getNodeIcon(box, type),
 				closeIcon : this.getCloseIcon(box),
 				openIcon: this.getOpenIcon(box),
 				children:[],
@@ -358,6 +363,10 @@ export default {
 				node.css = "MatcLayerListWidgetInherited"
 				node.disabled = true
 			}
+
+			if (box.props && box.props.label) {
+				node.hint = box.props.label
+			}
 			this.nodes[node.id] = node
 			this.lastNode = node
 			return node;
@@ -367,17 +376,22 @@ export default {
 			if (box.type == "Master") {
 				return "mdi mdi-content-duplicate";
 			}
-			return false
+			return 'mdi mdi-chevron-right MatcTreeIcon' // mdi-select
 		},
 
 		getOpenIcon (box) {
 			if (box.type == "Master") {
 				return "mdi mdi-content-duplicate";
 			}
-			return false
+			return 'mdi mdi-chevron-down MatcTreeIcon'
 		},
 
-		getNodeIcon (box){
+
+		getNodeIcon (box, type){
+			console.debug('getNodeIcvn', box)
+			if (type === 'group') {
+				return 'mdi mdi-crop-free'
+			}
 			if (box.type == "Master") {
 				return "mdi mdi-content-duplicate";
 			}
@@ -457,10 +471,10 @@ export default {
 			this.render(v)
 		}
 	},
-    mounted () {
+  mounted () {
 		if (this.value) {
 			this.render(this.value)
 		}
-    }
+  }
 }
 </script>

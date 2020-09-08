@@ -776,6 +776,10 @@
 
 }
 
+.MatcToobarRow.MatcToobarRowSpacer{
+	margin-bottom: 8px;
+}
+
 
 .MatcToobarPropertiesSection .MatcToolbarSectionContent{
 	padding: 5px 10px;

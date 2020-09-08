@@ -1,6 +1,6 @@
 .MatcToolbarLayerList{
 	position: fixed;
-	width:250px;
+	width:300px;
 	height:100%;
 	padding-top:40px;
 	padding-bottom:0px;
@@ -11,7 +11,7 @@
 }
 
 .MatcToolbar .MatcToolbarLayerList .mdi {
-
+	font-size:14px;
 }
 
 .MatcToolbarLayerListScreenCntr{
@@ -80,7 +80,7 @@
 .MatcToolbarLayerListScreenLabel {
 	border-bottom: 0px;
 	background: none;
-	border-top: 1px solid #ccc;
+	margin-top: 8px;
 	text-align: left;
 	padding: 3px 10px;
 	display: block;

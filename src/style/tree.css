@@ -15,6 +15,8 @@
 
 .MatcTreeItemRow{
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .MatcTreeItemRow:hover{
@@ -50,12 +52,22 @@ input.MatcTreeItemLabel {
 
 .MatcTree ul li{
   width: calc(100% - 20px);
-  margin-left: 15px;
+  margin-left: 10px;
 }
 
 .MatcTree .MatcTreeIcon {
   display: inline-block;
   width: 20px;
+  height: 16px;
+}
+
+.MatcTree .MatcTreeToggleChildrenIcon {
+  cursor: pointer;
+  color: #aaaaaa;
+}
+
+.MatcTree .MatcTreeToggleChildrenIcon:hover {
+  color: #555555;
 }
 
 .MatcTree .MatcTreeIcon.MatcTreeIconClosed {

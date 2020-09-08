@@ -584,11 +584,18 @@ export default {
 			_showHSlider (model){
 				this._setSectionLabel("Slider");
 
-				this._renderInputDropDown("Position",model, [10,20,30,40,50,60,70,80,90,100], "value", true);
+				this._renderInputDropDown("Value",model, [10,20,30,40,50,60,70,80,90,100], "value", true);
+				this._renderInputDropDown("Min",model, [0,1,5,10,20,50,100, 200], "min", true);
+				this._renderInputDropDown("Max",model, [0,1,5,10,20,50,100, 200], "max", true);
+
+				this._renderSpacer()
+
 				this._renderInputDropDown("Handle Width",model, [5,10,20,30,40,50, 75,100], "handleWidth");
 				this._renderInputDropDown("Handle Radius",model, [0,1,2,3,4,5,10,20,30,40,50, 75,100], "handleRadius");
 				this._renderColor('Handle Color','<span class="mdi mdi-format-color-fill"></span>',model.style.handleColor, "handleColor" ,"onStyleChanged", true);
 				this._renderColor('Foreground Color','<span class="mdi mdi-format-color-fill"></span>',model.style.barColor, "barColor" ,"onStyleChanged", true);
+
+
 
 				//this._renderReferenceButton(model,"valueLabel", "No Label", "mdi mdi-label");
 			},
@@ -1562,6 +1569,10 @@ export default {
 				if(tt){
 					this.addTooltip(row, tt);
 				}
+			},
+
+			_renderSpacer () {
+				this.db.div("MatcToobarRow MatcToobarRowSpacer ").build(this.cntr);
 			},
 
 			_renderButton (lbl, icon, callback){

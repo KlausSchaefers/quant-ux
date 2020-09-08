@@ -82,6 +82,7 @@
 	border-left: none;
 	border-right: 1px solid rgba(0, 0, 0, 0.15);
 	padding-top:39px;
+	background: #ffffff;
 }
 
 .MatcLight .MatcToolbarTopCntr{
@@ -452,7 +453,7 @@
 }
 
 .MatcLight .MatcTreeItem{
-	color:#777;
+	color:#555;
 }
 
 .MatcLight .MatcToolbarColorIndicator{
