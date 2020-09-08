@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v3.0.26</div>
+      <div class="MatcSimulatorVersion">v3.0.28</div>
     </div>
   </div>
 </template>
@@ -493,6 +493,15 @@ export default {
 
 				setScreenPosition (pos) {
 					this._externScreenPos = pos
+				},
+
+				getRootNode () {
+					console.debug('getRootNode', this.isDesktopTest)
+					if (this.isDesktopTest) {
+						return this.domNode.parentNode;
+					} else {
+						return this.domNode;
+					}
 				},
 
 				initScale (){

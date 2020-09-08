@@ -982,7 +982,8 @@ export default {
 					* Read the screen position a every time, because
 					* the animation...
 					*/
-					let screen = domGeom.position(this.domNode);
+					let screen = domGeom.position(this.getRootNode());
+					console.debug('fixed', screen, this.getRootNode())
 
 					/**
 					* A hacky method to allow fixed elements!!!
@@ -997,12 +998,13 @@ export default {
 					* to look also for right pinned.
 					*/
 
-					if(this.screenPos && parentBox) {
+					if(parentBox) {
 
 						if (this.qr && this.isPinnedDown(box)) {
 							/**
 							 * Since 3.0.25 we pin bottom down fixed.
 							 */
+
 
 							let distanceFromBottom = this.getDistanceFromScreenBottom(box, parentBox, this.model)
 							div.style.bottom = distanceFromBottom + "px";
@@ -1021,6 +1023,9 @@ export default {
 						console.warn("createBox() > no screenPos or parentBox for fixed box!")
 					}
 				} else {
+					/**
+					 * Not fixed
+					 */
 					if(parentBox){
 						div.style.top = (box.y - parentBox.y) + "px";
 						div.style.left = (box.x -parentBox.x) + "px";

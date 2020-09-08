@@ -21,15 +21,13 @@ export default {
 			/**
 			 * Called on mouse over!
 			 */
-			renderWidgetDistance (widget){
-
+			renderWidgetDistance (widget) {
 				/**
 				 * In case no widget was selected we init with the hover one
 				 */
-				if(!this._alignmentToolInited && widget){
+				if (!this._alignmentToolInited && widget){
 					this.alignmentStart("widget", widget, "All");
 				}
-
 				if(this._selectWidget && widget && this._selectWidget.id != widget.id){
 					this._alignmentTool.showWidgetDistance(this._selectWidget, widget);
 				} else if(this._selectWidget){
@@ -37,9 +35,7 @@ export default {
 				} else if(widget){
 					this._alignmentTool.showScreenDistance(widget);
 				}
-
 				this.setHoverWidget(widget);
-
 			},
 
 			/**********************************************************************
@@ -587,19 +583,16 @@ export default {
 			onSelectionMove (e){
 				//this.logger.log(4,"onSelectionMove", "enter > ");
 				this.stopEvent(e);
-
 				if(this._selectionToolStart){
 					this._selectionToolEnd = this.getCanvasMousePosition(e);
-
 					if(!window.requestAnimationFrame){
 						console.warn("No requestAnimationFrame()");
-							this._renderSelectionTool();
-						} else {
-							var callback = lang.hitch(this, "_renderSelectionTool");
-								requestAnimationFrame(callback);
-						}
+						this._renderSelectionTool();
+					} else {
+						var callback = lang.hitch(this, "_renderSelectionTool");
+						requestAnimationFrame(callback);
+					}
 				}
-
 				return false;
 			},
 
@@ -999,7 +992,7 @@ export default {
 							}
 							widgets = this.getOrderedWidgets(widgets);
 
-							for(let i=0; i< widgets.length; i++){
+							for (let i=0; i< widgets.length; i++){
 								let widget = widgets[i];
 								let cloned = lang.clone(widget);
 								cloned.id="_temp"+i;
@@ -1032,7 +1025,7 @@ export default {
 							}
 							widgets = this.getOrderedWidgets(widgets);
 
-							for(let i=0; i< widgets.length; i++){
+							for (let i=0; i< widgets.length; i++){
 								let widget = widgets[i];
 								let cloned = lang.clone(widget);
 								cloned.id="_temp"+i;
@@ -1041,7 +1034,6 @@ export default {
 								let clonedDiv = this.createWidget(cloned);
 								div.appendChild(clonedDiv);
 							}
-
 
 							if(!this._alignmentToolInited){
 								this.alignmentStart("boundingbox", boundingBox, "All");

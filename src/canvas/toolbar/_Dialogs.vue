@@ -786,6 +786,7 @@ export default {
 
 			var s = this.$new(Simulator,{mode : "debug", logData : false});
 			s.scrollListenTarget = "parent";
+			s.isDesktopTest = true
 			s.setHash(this.hash)
 
 			var scroller = this.$new(ScrollContainer,{canDestroy:true});
@@ -861,6 +862,7 @@ export default {
 
 			var s = this.$new(Simulator,{mode : "debug", logData : false});
 			s.scrollListenTarget = "parent";
+			s.isDesktopTest = true
 			s.setScrollContainer(scroller);
 			s.setHash(this.hash)
 

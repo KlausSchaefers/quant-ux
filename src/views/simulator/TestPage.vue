@@ -392,7 +392,7 @@ export default {
 			css.add(win.body(), "MatcTestMobile");
 
 			var factor = 0.75;
-			var cntrPos={
+			var cntrPos = {
 				w : Math.floor(screenPos.w * factor),
 				h : Math.floor(screenPos.h * factor)
 			};
@@ -416,6 +416,7 @@ export default {
 
 			var s = this.createSimulator();
 			s.setInvitation(this.hash);
+			s.isDesktopTest = true;
 			s.scrollListenTarget = "parent";
 			s.placeAt(container)
 			s.setModel(this.model);
