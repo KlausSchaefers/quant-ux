@@ -79,8 +79,8 @@ export default {
             layoutOptions: [
                 {label: 'Default', value: 'Grid'},
                 {label: 'Custom', value: 'Custom'},
-                {label: 'Rows (Auto Layout)', value: 'Row'},
-                {label: 'Colums (Auto Layout)', value: 'Col'},
+                // {label: 'Rows (Auto Layout)', value: 'Row'},
+                // {label: 'Colums (Auto Layout)', value: 'Col'},
                 {label: 'Wrap (Auto Layout)', value: 'Wrap'},
             ],
             flexOptions: [

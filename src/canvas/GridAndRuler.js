@@ -157,7 +157,6 @@ export default class GridAndRuler extends Core {
 		 * If no screen, no snapping...
 		 */
 		if (!this._lastScreen) {
-			console.debug('GridAndDrile() No ssreen')
 			return absPos;
 		}
 

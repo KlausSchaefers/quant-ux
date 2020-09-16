@@ -7,7 +7,7 @@ import win from 'dojo/win'
 
 export default class BaseController extends Core {
 
-    constructor (params){
+  constructor (params){
 		super()
 		this.logger = new Logger("Controller");
 		this.mode = 'private'
@@ -226,16 +226,16 @@ export default class BaseController extends Core {
 
 	setDirty (){
 		this._dirty = true;
-		if(this.debug){
+		if (this.debug){
 			this.saveModelChanges();
 		} else {
 			setTimeout(lang.hitch(this, "saveModelChanges"), 300);
 		}
 	}
 
-	async saveModelChanges (){
+	async saveModelChanges () {
 
-		if(this.mode=="public"){
+		if (this.mode == "public"){
 			this.showSuccess("Please register to save changes...");
 			this.validateAndFixModel(this.model);
 			this.emit("notSavedWarningShow", this.model);

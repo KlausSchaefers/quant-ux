@@ -388,7 +388,6 @@ export default {
 
 
 		getNodeIcon (box, type){
-			console.debug('getNodeIcvn', box)
 			if (type === 'group') {
 				return 'mdi mdi-crop-free'
 			}

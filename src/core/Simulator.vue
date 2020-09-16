@@ -496,7 +496,6 @@ export default {
 				},
 
 				getRootNode () {
-					console.debug('getRootNode', this.isDesktopTest)
 					if (this.isDesktopTest) {
 						return this.domNode.parentNode;
 					} else {
