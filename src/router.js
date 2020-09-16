@@ -51,6 +51,11 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "design" */ 'views/apps/Design.vue')
     },
     {
+      path: '/apps/:id/design2/:sid.html',
+      name: 'ReactiveCanvas',
+      component: () => import(/* webpackChunkName: "reactive" */ 'views/apps/ReactiveDesign.vue')
+    },
+    {
       path: '/tryout2.html',
       name: 'TryoutEditor',
       meta: {isPublic:true},
