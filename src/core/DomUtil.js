@@ -36,4 +36,76 @@ export default class DomUtil {
     var y = s.top.replace("px","") *1;
     return {x : x , y : y};
   }
+
+  static stopEvent (e) {
+    try {
+      if (e && e.stopPropagation) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    } catch (err){
+      console.warn('DojoWidget.stopEvent', err, e)
+    }
+  }
+
+  static getMousePosition (e){
+    // updated and synced with simulator
+    // in case of error roll back and change mixin order in simulator
+    var result = {x: 0, y: 0};
+    if (e) {
+      if (e.touches && e.touches.length > 0) {
+        e = e.touches[0]
+        result.x = e.clientX;
+        result.y = e.clientY;
+      } else if (e.changedTouches && e.changedTouches.length > 0 ) {
+        e = e.changedTouches[0]
+        result.x = e.clientX;
+        result.y = e.clientY;
+      } else {
+        result.x = e.pageX;
+        result.y = e.pageY;
+      }
+    }
+    return result;
+  }
+
+  static position (node, includeScroll) {
+    if (node && node.toLowerCase) {
+        node = document.getElementById(node)
+    }
+    let ret = node.getBoundingClientRect();
+    ret = {x: ret.left, y: ret.top, w: ret.right - ret.left, h: ret.bottom - ret.top};
+    if(includeScroll){
+      var scroll = DomUtil.docScroll(node.ownerDocument);
+      ret.x += scroll.x;
+      ret.y += scroll.y;
+    }
+    return ret;
+  }
+
+  static  docScroll () {
+    var node = document.parentWindow || document.defaultView;
+    return {x: node.pageXOffset, y: node.pageYOffset }
+  }
+
+  static body () {
+      return document.getElementsByTagName("BODY")[0]
+  }
+
+  static getBox (doc){
+      doc = doc || window.document;
+      var scrollRoot = doc.documentElement
+      var scroll = DomUtil.docScroll(doc)
+      var w = 0
+      var h = 0
+      w = scrollRoot.clientWidth;
+      h = scrollRoot.clientHeight;
+      return {
+          l: scroll.x,
+          t: scroll.y,
+          w: w,
+          h: h
+      };
+  }
+
 }

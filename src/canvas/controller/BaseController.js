@@ -193,6 +193,7 @@ export default class BaseController extends Core {
 
 	onModelChanged (){
 		this.logger.log(3,"onModelChanged", "enter");
+
 		if (this.active) {
 
 			/**
@@ -202,7 +203,7 @@ export default class BaseController extends Core {
 			 * not require a new rendering!
 			 */
 
-			if(this._canvas){
+			if (this._canvas){
 				var zoomedModel = this.createZoomedModel(this._canvas.getZoomFactor());
 				this._canvas.setModel(zoomedModel);
 			}

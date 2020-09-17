@@ -13,7 +13,7 @@ import Gestures from "core/Gestures";
 
 export default {
   name: "UIWidget",
-  props: ['qWidget', 'qQcaleX', 'qQcaleY'],
+  props: ['qWidget', 'qQcaleX', 'qQcaleY', 'qZoom'],
   mixins: [Layout, _Touch, Gestures, DojoWidget],
   data: function() {
     return {
@@ -1156,9 +1156,17 @@ export default {
   destroyed () {
     this.beforeDestroy()
   },
+  watch: {
+    qWidget () {
+      /**
+       * FIXME: can we somehow make the rendering here faster in case of zoom
+       */
+      this.render(this.qWidget, this.qWidget.style, this.qZoom, this.qZoom, false);
+    }
+  },
   mounted() {
     if (this.qWidget) {
-      this.render(this.qWidget, this.qWidget.style, this.qQcaleX, this.qQcaleX, false);
+      this.render(this.qWidget, this.qWidget.style, this.qZoom, this.qZoom, false);
     }
   }
 };

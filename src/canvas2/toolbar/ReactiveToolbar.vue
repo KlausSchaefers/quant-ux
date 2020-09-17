@@ -147,17 +147,17 @@
 
 </template>
 <script>
-import DojoWidget from 'dojo/DojoWidget'
+
 import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
-import on from 'dojo/on'
-import touch from 'dojo/touch'
+
 import hash from 'dojo/hash'
 import Util from 'core/Util'
+
 import Logger from 'common/Logger'
-import _Render from 'canvas/toolbar/_Render'
+
 import _Dialogs from 'canvas/toolbar/_Dialogs'
-import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
+
 import ViewConfig from 'canvas/toolbar/ViewConfig'
 import HelpButton from 'help/HelpButton'
 import EditModeButton from "canvas/toolbar/EditModeButton"
@@ -165,7 +165,7 @@ import topic from 'dojo/topic'
 
 export default {
   name: 'Toolbar',
-	mixins:[Util, _Render, _Dialogs, DojoWidget],
+	mixins:[Util, _Dialogs],
 	props:['pub'],
     data: function () {
         return {
@@ -189,41 +189,10 @@ export default {
 			return this.settings && this.settings.hasProtoMoto
 		}
 	},
-    methods: {
-      postCreate: function(){
-				this.logger = new Logger("Toolbar");
-				this.logger.log(3, "constructor", "entry > " + this.pub);
-
-				this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
-				this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
-
-				this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
-				this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
-				this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
-				this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
-				this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
-
-				this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
-				this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
-				this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
-
-				this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
-				this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-				this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
-				this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
-				this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
-
-				var btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
-				btn.updateLabel = false;
-				btn.setLabel('<span class="mdi mdi-menu"></span>');
-				btn.setOptions(this.getMainMenu());
-				btn.placeAt(this.home);
-				css.add(btn.domNode, "MatcToolbarItem");
-
-		},
+  methods: {
 
 
-		getMainMenu   () {
+		getMainMenu () {
 
 			var options = [
  			  {label : this.$i18n.t('toolbar.menu.start'), callback:lang.hitch(this, "startSimilator") },
@@ -268,8 +237,6 @@ export default {
 
 		setModel (m){
 			this.model = m;
-			this.renderToolbar();
-			this.render();
 		},
 
 		setPublic (isPublic) {
@@ -382,7 +349,7 @@ export default {
 			this.logger.log("onWidgetSelected", "entry : active:" + this.active);
 
 			/**
-			 * Make this faster. Just updating the view costs 30 to 100ms
+			 * Make this faster. Just updating the view costs 30ms
 			 */
 			if (this.active){
 				try{
@@ -1733,6 +1700,7 @@ export default {
 		}
     },
     mounted () {
+      this.logger = new Logger('ReactiveToolbar')
     }
 }
 </script>
