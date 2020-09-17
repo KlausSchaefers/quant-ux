@@ -286,13 +286,13 @@ export default {
 		},
 
 
-		render (model){
-			this.logger.log(-1,"render", "enter");
+		render (model, isResize = false){
+			this.logger.log(2,"render", "enter", isResize);
 			let renderStart = new Date().getTime();
 			try {
 
 				if (this.settings.fastRender) {
-					this.renderFlowViewFast(model);
+					this.renderFlowViewFast(model, isResize);
 				} else {
 					this.renderFlowView(model);
 				}
@@ -378,7 +378,7 @@ export default {
 		},
 
 		wireEvents (){
-			this.logger.log(1,"wireEvents", "enter > " + this.mode);
+			this.logger.log(2,"wireEvents", "enter > " + this.mode);
 
 			this.wireCanvas()
 

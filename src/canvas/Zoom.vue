@@ -299,18 +299,11 @@ export default {
 
 		onZoomChange (forceRender, animate){
 
-			//this.zoom = Math.round(this.zoom*10) / 10;
-
-			if(this.zoom != this._lastZoom || forceRender){
+			if (this.zoom != this._lastZoom || forceRender){
 				this.logger.log(2,"onZoomChange", "entry >" + this.zoom + "00% > animate : " + animate);
-				if (this.zoomLabel) {
-					this.zoomLabel.innerHTML = "Zoom (" + Math.round(this.zoom * 100) + "%)";
-				}
-
 				this.onChangeCanvasViewConfig()
-
 				if(this.controller){
-					this.controller.render();
+					this.controller.render(null, true);
 				}
 			}
 			this._lastZoom = this.zoom;
@@ -338,13 +331,10 @@ export default {
 				var difX = Math.round(this._preZoomAbsPos.x - x);
 				var difY = Math.round(this._preZoomAbsPos.y - y);
 
-
 				this.canvasPos.x += difX;
 				this.canvasPos.y += difY;
 
-
 				this.setContainerPos();
-
 			}
 			delete this._preZoomRelPos;
 			delete this._preZoomAbsPos;

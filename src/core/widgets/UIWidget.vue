@@ -75,6 +75,13 @@ export default {
       this.setStyle(style, model);
     },
 
+    /*
+     * should be called when the widget was scalled, e.g. by
+     */
+    updateScale (model, style, scaleX, scaleY) {
+      this.render(model, style, scaleX, scaleY)
+    },
+
     getScaledValue (v ) {
       return this._scaleX * v
     },

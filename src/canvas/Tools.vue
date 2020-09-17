@@ -716,7 +716,7 @@ export default {
 						this.controller.setMode("edit", false);
 					} else {
 						this.onCanvasSelected();
-						this.controller.setMode("edit", true);
+						this.controller.setMode("edit", false);
 					}
 
 				} else {

@@ -1382,7 +1382,7 @@ export default {
 					state.sections[i] = css.contains(section, "MatcToolbarSectionCollabsed");
 				}
 				// TODO: This forces a reflow :(
-				state.scrollTop = this.propertiesCntr.scrollTop;
+				// state.scrollTop = this.propertiesCntr.scrollTop;
 				state.view = this.widgetViewModeBtn.getValue();
 				this.propertiesStates[this._selectionID] = state;
 			}
@@ -1413,7 +1413,7 @@ export default {
 								 */
 								requestAnimationFrame(() => {
 									this.propertiesCntr.scrollTop = state.scrollTop;
-								},1);
+								});
 							}
 							this.widgetViewModeBtn.setValue(state.view);
 						}

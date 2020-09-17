@@ -8,20 +8,27 @@ export default {
     components: {},
     methods: {
 
+
 			/**********************************************************************
 			 * Rendering pipeline
 			 **********************************************************************/
 
-			renderFlowViewFast (model){
-				this.logger.log(-1,"renderFlowViewFast", "enter");
+			renderFlowViewFast (model, isResize = false){
+				this.logger.log(1,"renderFlowViewFast", "enter");
+
+				/**
+				 * Check here if we really need a rerendering. SOmetimes this is also
+				 * called after selection exit or so
+				 */
 
 				// console.debug(new Error().stack)
 
 				this.beforeRender();
 				this.model = model;
-				this.cleanUpFast();
+				this.cleanUpFast(isResize);
 				this.renderCanvas();
 				this.renderChangeCounter = 0
+				this.renderCreateCounter = 0
 				this.renderStartTime = new Date().getTime()
 
 				/**
@@ -30,21 +37,26 @@ export default {
 				for (let id in model.screens){
 						let screen = model.screens[id]
 						if (!this.screenDivs[id]) {
+							/**
+							 * Create new screen
+							 */
 							this.renderScreen(screen);
 							this.renderedModels[screen.id] = screen
-							this.renderChangeCounter++;
+
+							this.renderCreateCounter++;
 						} else {
 							/**
 							 * FIXME: we still have issues with the screen buttons!
 							 * Sometiems there are double and not correctly removed!
 							 */
-							this.updateScreen(screen)
+							this.updateScreen(screen, isResize)
 						}
 				}
 
 				/**
 				 * Make sure the container widgets (grid) get
 				 * the latest zoomed model.
+				 * FIXME: Thsi should have been done in renderCanvas()...
 				 */
 				this.renderFactory.setZoomedModel(model)
 				this.renderFactory.updatePositions(model)
@@ -66,9 +78,10 @@ export default {
 						this.renderWidget(widget);
 						this.updateWidgetZ(widget, i)
 						this.renderedModels[widget.id] = widget
-						this.renderChangeCounter++;
+
+						this.renderCreateCounter++;
 					} else {
-							this.updateWidget(widget, i);
+							this.updateWidget(widget, i, isResize);
 					}
 				}
 
@@ -99,14 +112,17 @@ export default {
 				/**
 				 * FIXME: We could still try to avoid wireing everzthing from scrath
 				 */
-				this.wireEvents();
+				if (!isResize) {
+					this.wireEvents();
+				}
+
 				this.renderSelection();
 				this.renderDistance();
 				if(this.animate){
 					setTimeout(lang.hitch(this,"renderAnimation"),1);
 				}
 
-				this.logger.log(1,"renderFlowViewFast", "exit > " + this.renderChangeCounter , (new Date().getTime() - this.renderStartTime) +'ms');
+				this.logger.log(-1, "renderFlowViewFast", "exit > #update: " + this.renderChangeCounter + ' > #new : '+ this.renderCreateCounter , (new Date().getTime() - this.renderStartTime) +'ms');
 			},
 
 			countNodes (node) {
@@ -116,6 +132,11 @@ export default {
 					result += this.countNodes(child)
 				})
 				return result;
+			},
+
+
+			resizeScreen (screen) {
+					this.updateScreen(screen)
 			},
 
 			updateScreen (screen) {
@@ -165,8 +186,8 @@ export default {
 				delete this.renderedModels[id]
 			},
 
-			updateWidget (widget, i) {
-				if (this.elementHasChanged(widget)) {
+			updateWidget (widget, i, isResize) {
+				if (isResize || this.elementHasChanged(widget)) {
 					let dnd = this.widgetDivs[widget.id]
 					if (dnd) {
 						this.updateBox(widget, dnd)
@@ -175,7 +196,11 @@ export default {
 					let background = this.widgetBackgroundDivs[widget.id]
 					if (background) {
 						this.updateBox(widget, background)
-						this.renderFactory.updateWidgetHTML(background, widget);
+						if (isResize) {
+							this.renderFactory.reizeWidgetHTML(background, widget);
+						} else {
+							this.renderFactory.updateWidgetHTML(background, widget);
+						}
 						background.style.zIndex = i
 					}
 					this.renderedModels[widget.id] = widget
@@ -234,8 +259,8 @@ export default {
 			 * CleanUp Code
 			 **************************************************/
 
-			cleanUpFast (){
-				this.logger.log(3,"cleanUpFast", "enter");
+			cleanUpFast (isResize=false){
+				this.logger.log(3,"cleanUpFast", "enter", isResize);
 
 				this.cleanUpLines()
 				this.cleanUpSVG()
@@ -254,7 +279,9 @@ export default {
 				/**
 				 * TODO: Be smarter later
 				 */
-				this.cleanUpAllListeners();
+				if (isResize === false) {
+					this.cleanUpAllListeners();
+				}
 				this.cleanUpAlignment();
 
 				css.remove(this.container, "MatcCanvasFadeOut");

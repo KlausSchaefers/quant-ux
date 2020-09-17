@@ -9,6 +9,7 @@ import CheckBoxWidget from 'core/widgets/CheckBoxWidget'
 import RadioBox from 'core/widgets/RadioBox'
 import RadioBox2 from 'core/widgets/RadioBox2'
 import SwitchWidget from 'core/widgets/SwitchWidget'
+import Button from 'core/widgets/Button'
 import DropDown from 'core/widgets/DropDown'
 import TextBox from 'core/widgets/TextBox'
 import Password from 'core/widgets/Password'
@@ -297,7 +298,11 @@ export default class RenderFactory extends Core {
 	}
 
 	updateWidgetHTML (parent, model) {
-		this.setStyle(parent, model, true);
+		this.setStyle(parent, model, true), false;
+	}
+
+	reizeWidgetHTML (parent, model) {
+		this.setStyle(parent, model, true, true);
 	}
 
 	/**********************************************************************
@@ -730,13 +735,25 @@ export default class RenderFactory extends Core {
 	}
 
 	/**
-	 * Old version of button
+	 * Create buddons with plain JS. This is 2x faster
+	 * than using a dedicated VUE component
 	 */
 	_createButton(parent, model) {
 		css.add(parent, "MatcEventedWidget");
 		var border = this._createBorder(parent, model);
 		this._createInlineEdit(border, model);
 	}
+
+	/**
+	 * Using a VUE widget is much slower!
+	 */
+	_createButtonSlow(parent, model) {
+		var widget = this.$new(Button)
+		widget.mode = this.mode
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
 
 	_createBox(parent, model) {
 		var border = this._createBorder(parent, model);
@@ -810,43 +827,52 @@ export default class RenderFactory extends Core {
 	 **********************************************************************/
 
 
-	setStyle(parent, model, isUpdate = false) {
+	setStyle(parent, model, isUpdate = false, isResize = false) {
 		var style = this.getStyle(model, parent);
 		if (style) {
 			if (!this._uiWidgets[model.id]) {
 				style = this.getStyle(model, parent);
 				if (style) {
-					for (var p in style) {
-						/**
-						 * check if we have a special function for
-						 * the property
-						 */
-						if (this["_set_" + p]) {
-							this["_set_" + p](parent, style, model);
-						} else {
-							if (style[p] != null) {
-								parent.style[p] = style[p];
-							} else {
-								console.warn("The style", p, " is no value!", model);
-							}
-						}
-					}
+					this.setStyle2DomNode(parent, style, model)
 				}
 			} else {
 				try {
 					var w = this._uiWidgets[model.id];
 					w.isSimulator = this.mode == "simulator"
 					w.setFactory(this);
-					w.render(model, style, this._scaleX, this._scaleY, isUpdate);
+					/**
+					 * Since 3.0.29 we try to optimize scaleing operations. This could make
+					 * some widgets, that have a lot of children, much faster.rr
+					 */
+					if (isResize) {
+						w.updateScale(model, style, this._scaleX, this._scaleY)
+					} else {
+						w.render(model, style, this._scaleX, this._scaleY, isUpdate);
+					}
+
 				} catch (e) {
 					this.logger.error("setStyle", "Error", e);
 				}
 			}
 		}
+	}
 
-		/**
-		 * FIXME: add some marker for invissible elements
-		 */
+	setStyle2DomNode (parent, style, model) {
+		for (var p in style) {
+			/**
+			 * check if we have a special function for
+			 * the property
+			 */
+			if (this["_set_" + p]) {
+				this["_set_" + p](parent, style, model);
+			} else {
+				if (style[p] != null) {
+					parent.style[p] = style[p];
+				} else {
+					console.warn("The style", p, " is no value!", model);
+				}
+			}
+		}
 	}
 
 	_set_fixed() {

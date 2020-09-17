@@ -23,10 +23,10 @@ export default {
   components: {},
   computed: {
       label () {
-          if (this.model && this.model.props && this.model.props.label) {
-              return this.model.props.label
-          }
-          return ''
+        if (this.model && this.model.props && this.model.props.label) {
+            return this.model.props.label
+        }
+        return ''
       }
   },
   methods: {
@@ -51,6 +51,12 @@ export default {
     render(model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
+      this._scaleX = scaleX;
+      this._scaleY = scaleY;
+      this.setStyle(style, model);
+    },
+
+    updateScale (model, style, scaleX, scaleY) {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
       this.setStyle(style, model);
