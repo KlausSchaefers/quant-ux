@@ -981,6 +981,7 @@ export default class Core extends Evented {
      * FIXME: Change name to createViewModel();
      */
     createZoomedModel(zoomX, zoomY, isPreview, model) {
+
         this.logger.log(3, "Core.createZoomedModel", "enter > " + zoomX + " > " + zoomY + " > " + isPreview);
 
         if (!model) {

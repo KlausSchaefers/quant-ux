@@ -54,7 +54,7 @@ export default class AnimationWrapper {
     setFactory(m) {
       this.factory = m;
     }
-  
+
     onScreenRendered() {
         if (!this._onScreenRenderedCalled) {
             this.hideErrorLabel();
@@ -589,7 +589,7 @@ export default class AnimationWrapper {
       return 0;
     }
 
-    getZoomed (v, zoom) {    
+    getZoomed (v, zoom) {
         return Math.round(v * zoom);
     }
 
@@ -602,8 +602,7 @@ export default class AnimationWrapper {
     }
 
     destroy () {
-        
+
     }
-  
+
 }
-  

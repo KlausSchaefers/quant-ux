@@ -3,7 +3,6 @@ import lang from 'dojo/_base/lang'
 
 import Core from 'core/Core'
 import Logger from 'common/Logger'
-import win from 'dojo/win'
 
 export default class BaseController extends Core {
 
@@ -201,13 +200,13 @@ export default class BaseController extends Core {
 			 * correctly updated. This should normally
 			 * not require a new rendering!
 			 */
-
-			if(this._canvas){
+			if (this._canvas){
 				var zoomedModel = this.createZoomedModel(this._canvas.getZoomFactor());
 				this._canvas.setModel(zoomedModel);
+				this.setZoomedModelCache(zoomedModel)
 			}
 
-			if(this.toolbar){
+			if (this.toolbar){
 				this.toolbar.updatePropertiesView();
 			}
 
@@ -611,51 +610,22 @@ export default class BaseController extends Core {
 		}
 	}
 
-	render (screenID){
+	/**
+	 * Since 3.0.29 we have a sepcial isResize to maake the fast render faster
+	 */
+	render (screenID, isResize = false){
 		this.logger.log(2,"render", "enter > screenID : " + screenID);
 		if(this._canvas){
 			/**
-			 * resize the model
+			 * resize the model.
 			 */
-			var zoomedModel = this.createZoomedModel(this._canvas.getZoomFactor());
-
-			if(!window.requestAnimationFrame){
-				console.warn("No requestAnimationFrame()");
-				this._canvas.render(zoomedModel);
-			} else {
-				this._zoomedModel = zoomedModel;
-				var callback = lang.hitch(this, "_requestRendering", screenID);
-				requestAnimationFrame(callback);
-			}
-		}
-	}
-
-	_requestRendering (screenID){
-		if(this._zoomedModel){
-			this._canvas.render(this._zoomedModel);
-			if(screenID){
-				this._canvas.moveToScreen(screenID);
-			}
-		}
-		this._zoomedModel = null;
-	}
-
-
-	_zoomToScreen (screenID){
-		if(screenID && this.model.screens[screenID]){
-			/**
-			 * here we make sure the selected screen fits in the
-			 * browser window. We simply find the smallest possible
-			 * zoom factor and subtract 0.2 to make sure it fits in
-			 * browser
-			 */
-			var screen = this.model.screens[screenID];
-			let winBox = win.getBox();
-			let x =  winBox.w / screen.w;
-			let y =  winBox.h / screen.h;
-			var zoom = (Math.floor( Math.min(x,y) * 10) / 10) -0.2 ;
-			this._canvas.setZoom(zoom);
-
+			let zoomedModel = this.getZoomedModelCache()
+			requestAnimationFrame(() => {
+				this._canvas.render(zoomedModel, isResize);
+				if(screenID){
+					this._canvas.moveToScreen(screenID);
+				}
+			});
 		}
 	}
 
@@ -667,20 +637,25 @@ export default class BaseController extends Core {
 		if(this._canvas){
 			/**
 			 * resize the model
+			 *
 			 */
-			var zoomedModel = this.createZoomedModel(this._canvas.getZoomFactor());
-
-			if(!window.requestAnimationFrame){
+			let zoomedModel = this.getZoomedModelCache()
+			requestAnimationFrame(() => {
 				this._canvas.onWidgetPositionChange(zoomedModel);
-			} else {
-				this._zoomedModel = zoomedModel;
-				requestAnimationFrame(() => {
-					this._canvas.onWidgetPositionChange(zoomedModel);
-				});
-			}
+			});
 		}
 	}
 
+	setZoomedModelCache (m) {
+		this._zoomedModel = m
+	}
+
+	getZoomedModelCache () {
+		/**
+		 * We could read the cached on. But we have to test more
+		 */
+		return this.createZoomedModel(this._canvas.getZoomFactor());
+	}
 
 	renderWidget (widget, type){
 		this.logger.log(0,"renderWidget", "enter > type : ", type);

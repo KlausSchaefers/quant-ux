@@ -12,15 +12,15 @@ import UIWidget from "core/widgets/UIWidget";
 export default {
   name: "Label",
   mixins: [UIWidget, DojoWidget],
-  data: function() {
-    return {
+  data: function () {
+    return  {
       value: "",
       hackValueLabel: false
     };
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
@@ -28,7 +28,7 @@ export default {
       this._labelNodes = [this.domNode];
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.own(
         this.addClickListener(this.domNode, lang.hitch(this, "onClick"))
       );
@@ -38,11 +38,11 @@ export default {
       this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
     },
 
-    getLabelNode: function() {
+    getLabelNode () {
       return this.domNode;
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -54,10 +54,17 @@ export default {
       }
     },
 
+    updateScale (model, style, scaleX, scaleY) {
+      this._scaleX = scaleX;
+      this._scaleY = scaleY;
+      this.setStyle(style, model);
+    },
+
+
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       if (this.isQDate(v)) {
         v = this.convertQDateToString(v);
       }
@@ -70,11 +77,11 @@ export default {
       this.setValue(v);
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
-    setValue: function(value) {
+    setValue (value) {
       value += "";
       if (this.value != value) {
         this.value = value;
@@ -82,14 +89,14 @@ export default {
       }
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "value",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       /**
        * Hack for the time when we use the getValueLabel() mechnism!
        */
@@ -101,13 +108,13 @@ export default {
       }
     },
 
-    resize: function(pos) {
+    resize (pos) {
       if (this.style.fontSize === "Auto" || this.style.fontSize === "a") {
         this.domNode.style.fontSize = pos.h * 0.95 + "px";
       }
     },
 
-    _set_fontSize: function(parent, style) {
+    _set_fontSize (parent, style) {
       if (style.fontSize === "Auto" || this.style.fontSize === "a") {
         parent.style.fontSize = this.model.h * 0.95 + "px";
       } else {
@@ -119,7 +126,7 @@ export default {
       }
     },
 
-    onClick: function(e) {
+    onClick (e) {
       this.stopEvent(e);
       this.emitClick(e);
     }
