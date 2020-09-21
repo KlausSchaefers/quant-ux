@@ -32,14 +32,10 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-
-</style>
-
 <script>
 
 import Logger from 'core/Logger'
-import win from "dojo/win";
+import win from "dojo/win"
 import css from 'dojo/css'
 
 /**
