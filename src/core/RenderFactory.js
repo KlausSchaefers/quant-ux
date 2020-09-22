@@ -325,7 +325,6 @@ export default class RenderFactory extends Core {
 
 	createWidgetHTML(parent, model) {
 
-
 		css.add(parent, "MatchWidgetType" + model.type);
 
 		/**
@@ -858,6 +857,7 @@ export default class RenderFactory extends Core {
 	}
 
 	setStyle2DomNode (parent, style, model) {
+
 		for (var p in style) {
 			/**
 			 * check if we have a special function for

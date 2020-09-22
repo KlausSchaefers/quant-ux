@@ -112,7 +112,7 @@ export default {
 				/**
 				 * FIXME: We could still try to avoid wireing everzthing from scrath
 				 */
-				if (!isResize) {
+				if (isResize === false) {
 					this.wireEvents();
 				}
 
