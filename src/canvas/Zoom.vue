@@ -87,6 +87,9 @@ export default {
 
 			var now = new Date().getTime();
 			if(this.mouseWheelMode=="zoom" || e.metaKey || e.ctrlKey){
+				/**
+				 * FIXME: For the MagicMouse the events still come a lot after I have moved the wheel
+				 */
 
 				/**
 				 * FIXME: Use the spin property of the delta event to surpress small

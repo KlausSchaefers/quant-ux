@@ -54,12 +54,6 @@ export default {
       }
     },
 
-    updateScale (model, style, scaleX, scaleY) {
-      this._scaleX = scaleX;
-      this._scaleY = scaleY;
-      this.setStyle(style, model);
-    },
-
 
     /**
      * Can be overwritten by children to have proper type conversion

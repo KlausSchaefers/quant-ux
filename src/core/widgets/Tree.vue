@@ -5,7 +5,7 @@
 </template>
 <script>
 import DojoWidget from "dojo/DojoWidget"
-import lang from "dojo/_base/lang"
+// import lang from "dojo/_base/lang"
 import on from "dojo/on"
 import css from "dojo/css"
 import touch from "dojo/touch"
@@ -36,7 +36,12 @@ export default {
     },
 
     wireEvents() {
-      this.own(this.addClickListener(this.domNode, lang.hitch(this, "onChange")));
+      /**
+       * Since 3.0.29 we do not do anothy with the domEvents.
+       */
+      //this.own(this.addClickListener(this.domNode, e => {
+      //  this.onChange(e)
+      //}));
 
       this.nodes.forEach(o => {
           this.own(on(o.div, touch.click, (e) => {
@@ -220,6 +225,7 @@ export default {
         }
         this.setValue(node.value)
         this.emitDataBinding(this.value);
+
         this.onChange(e)
     },
 
