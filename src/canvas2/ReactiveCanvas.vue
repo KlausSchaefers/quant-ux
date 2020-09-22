@@ -7,7 +7,7 @@
 					<div v-for="screen in screens" :key="screen.id + '_render'" class="MatcBox MatcScreen" :style="getPosition(screen) + getBackground(screen)">
 					</div>
 					<div v-for="widget in widgets" :key="widget.id + '_render'" class="MatcBox MatcWidget" :style="getPosition(widget)">
-						<component :is="'q'+ widget.type" :qWidget="widget" :qZoom="zoom" />
+						<component :is="getWidgetType(widget)" :qWidget="widget" :qZoom="zoom" />
 					</div>
 				</div>
         <div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer" v-if="hasDND">
@@ -39,9 +39,14 @@ import win from "dojo/win"
 import css from 'dojo/css'
 
 /**
- * Widgets
+ * Reactive Widgets
  */
-import Button from 'core/widgets/Button'
+import Label from './widgets/rLabel'
+import Button from './widgets/rButton'
+/**
+ * Old Widgets
+ */
+//import Button from 'core/widgets/Button'
 import QImage from 'core/widgets/QImage'
 import CheckBoxWidget from 'core/widgets/CheckBoxWidget'
 import RadioBox from 'core/widgets/RadioBox'
@@ -67,7 +72,6 @@ import IconToggle from 'core/widgets/IconToggle'
 import Stepper from 'core/widgets/Stepper'
 import MobileDropDown from 'core/widgets/MobileDropDown'
 import TypeAheadTextBox from 'core/widgets/TypeAheadTextBox'
-import Label from 'core/widgets/Label'
 import Chart from 'core/widgets/Chart'
 import HoverDropDown from 'core/widgets/HoverDropDown'
 import CheckBoxGroup from 'core/widgets/CheckBoxGroup'
@@ -129,7 +133,7 @@ export default {
           grid: null,
 					active: true,
 					model: null,
-					hasDND: true,
+					hasDND: false,
 					zoom: 1,
 					zoomLevels: [0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 2],
           zoomLevelPos: 3
@@ -209,12 +213,20 @@ export default {
 			this.setModel(this._model)
 		},
 
+		getWidgetType (w) {
+			return 'q' + w.type
+		},
+
 		setModel (model) {
 			this._model = model
 			/**
 			 * Check out if it would not be faster to not do this, but
 			 */
 			this.model = CoreUtil.createZoomedModel(this.zoom, this.zoom, false, model)
+
+			let types = {}
+			Object.values(this.model.widgets).forEach(w => types[w.type] = 1)
+			console.debug(types)
 			Logger.log(-1, 'ReactiveCanvas.setModel() > exit', model)
 		},
 
@@ -247,6 +259,17 @@ export default {
 
 		},
 
+		showHint () {
+
+		},
+
+		showSuccess () {
+
+		},
+
+		showError () {
+
+		},
 
 		/***************************************************************************
 			* Mouse Functons
