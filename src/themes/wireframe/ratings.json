@@ -12,7 +12,7 @@
 	"z" : 0,
 	"props" : {
 		"elementCount" : 5,
-		"selected" : 2
+		"selected" : 0
 	},
 	"has" : {
 		"onclick" : true
