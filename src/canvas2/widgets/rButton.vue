@@ -1,6 +1,7 @@
 
 <template>
-  <div class="MatcWidget MatchWidgetTypeButton MatcEventedWidget MatcSimulatorClickable" :style="padding + font + border + background">
+  <div class="MatcWidget MatchWidgetTypeButton MatcEventedWidget MatcSimulatorClickable"
+      :style="{padding: padding, color: color, fontSize: fontSize, lineHeight: lineHeight, background: background}">
       <div v-html="label" :class="verticalAlign + ' MatcInlineEditable'"></div>
   </div>
 </template>

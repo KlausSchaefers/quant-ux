@@ -1,6 +1,7 @@
 
 <template>
-  <div class="MatcInlineEditable MatcWidgetTypeLabelInlineEditable" v-html="label" :style="padding + font"></div>
+  <div class="MatcInlineEditable MatcWidgetTypeLabelInlineEditable" v-html="label"
+    :style="{padding: padding, color: color, fontSize: fontSize, lineHeight: lineHeight}"></div>
 </template>
 <script>
 

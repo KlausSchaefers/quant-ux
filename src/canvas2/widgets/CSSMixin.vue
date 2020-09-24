@@ -57,7 +57,8 @@ export default {
   components: {},
   computed: {
     padding () {
-      return ''
+      let s = this.style
+      return `${this.getZoomed(s.paddingTop)} ${this.getZoomed(s.paddingRight)} ${this.getZoomed(s.paddingBottom)} ${this.getZoomed(s.paddingLeft)}`
     },
     border () {
       let s = this.style
@@ -82,6 +83,9 @@ export default {
               borderTopRightRadius: ${this.getZoomed(s.borderTopRightRadius)};`
     },
     background () {
+      /**
+       * Gets still called on qWidget :()
+       */
       var background = this.style.background;
 		  if (background && background.colors) {
         var value = "(" + background.direction + "deg";
@@ -90,11 +94,20 @@ export default {
           value += "," + color.c + " " + color.p + "% ";
         }
         value + ");";
-        return `background: linear-gradient ${value}`;
+        return `linear-gradient ${value}`;
 
       } else {
-        return `backgroundColor:${background};`
+        return background
       }
+    },
+    color () {
+      return this.style.color
+    },
+    fontSize () {
+      return this.getFontSize(this.qWidget, this.style)
+    },
+    lineHeight () {
+      return this.style.lineHeight
     },
     font () {
       let s = this.style
@@ -133,11 +146,11 @@ export default {
     },
     getFontSize (model, style) {
       if (style.fontSize === "Auto" || style.fontSize === "a") {
-        return model.h * 0.95 + "px";
+        return Math.round(model.h * 0.95) + "px";
       } else {
-        var size = style.fontSize * this.qZoom;
+        var size = Math.round(style.fontSize * this.qZoom);
         if (this.qZoom < 1) {
-          size = size * 0.95;
+          size = Math.round(size * 0.95);
         }
         return size + "px";
       }

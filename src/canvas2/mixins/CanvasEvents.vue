@@ -45,8 +45,6 @@ export default {
       var delta = this.getNormalizedDelatFB(e);
       DomUtil.stopEvent(e);
 
-
-
 			var now = new Date().getTime();
 			if (this.mouseWheelMode === 'zoom' || e.metaKey || e.ctrlKey) {
 
@@ -205,6 +203,9 @@ export default {
 			if(!this.zoomAnimationRunning){
 				if(this.zoomLevelPos < this.zoomLevels.length -1){
 					this.zoomLevelPos++;
+					/**
+					 * This might trigger the first redraw!!!
+					 */
 					this.zoom = this.zoomLevels[this.zoomLevelPos];
 				} else {
 					// this.showHint("You cannot zoom more");

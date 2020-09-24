@@ -11,7 +11,7 @@ import CSSMixin from './CSSMixin'
 
 export default {
   name: "UIWidget",
-  props: ['qWidget', 'qZoom'],
+  props: ['qWidget'],
   mixins: [CSSMixin],
   data: function() {
     return {
@@ -19,7 +19,8 @@ export default {
       model: null,
       lastValidation: true,
       hoverAnimationDuration: 150,
-      erroAnimationDuration: 0
+      erroAnimationDuration: 0,
+      qZoom: 1
     };
   },
   components: {},
@@ -816,9 +817,9 @@ export default {
       return v * 1;
     },
 
-    inherited () {
-      console.warn(this.name + '().inherected() > DEPRECTAED')
-    },
+    initStyles () {
+
+    }
   },
   destroyed () {
     this.beforeDestroy()
@@ -826,12 +827,13 @@ export default {
   watch: {
     qWidget (qWidget) {
       this.qWidget = qWidget
-    },
-    qZoom (qZoom) {
-      this.qZoom = qZoom
+      this.qZoom = qWidget._zoom
+      this.initStyles(this.qWidget, this.qZoom)
     }
   },
   mounted() {
+    this.qZoom = this.qWidget._zoom
+    this.initStyles(this.qWidget, this.qZoom)
   }
 };
 </script>

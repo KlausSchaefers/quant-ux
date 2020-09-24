@@ -7,7 +7,7 @@
 					<div v-for="screen in screens" :key="screen.id + '_render'" class="MatcBox MatcScreen" :style="getPosition(screen) + getBackground(screen)">
 					</div>
 					<div v-for="widget in widgets" :key="widget.id + '_render'" class="MatcBox MatcWidget" :style="getPosition(widget)">
-						<component :is="getWidgetType(widget)" :qWidget="widget" :qZoom="zoom" />
+						<component :is="getWidgetType(widget)" :qWidget="widget" />
 					</div>
 				</div>
         <div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer" v-if="hasDND">
@@ -43,6 +43,7 @@ import css from 'dojo/css'
  */
 import Label from './widgets/rLabel'
 import Button from './widgets/rButton'
+import Icon from './widgets/rIcon'
 /**
  * Old Widgets
  */
@@ -185,7 +186,7 @@ export default {
 		'qPaging':  Paging,
 		'qTimeline':  Timeline,
 		'qLabeledIconToggle': LabeledIconToggle,
-		'qIcon': IconToggle
+		'qIcon': Icon
 	},
 	computed: {
 		screens () {
@@ -197,7 +198,10 @@ export default {
 		widgets () {
 			if (this.model) {
 				// get ordered
-				return CoreUtil.getOrderedWidgets(this.model.widgets)
+				return CoreUtil.getOrderedWidgets(this.model.widgets).map(w => {
+					w._zoom = this.zoom
+					return w
+				})
 			}
 			return []
 		},
@@ -225,7 +229,7 @@ export default {
 			this.model = CoreUtil.createZoomedModel(this.zoom, this.zoom, false, model)
 
 			let types = {}
-			Object.values(this.model.widgets).forEach(w => types[w.type] = 1)
+			Object.values(this.model.widgets).forEach(w => types[w.type] = types[w.type] ? types[w.type] +1 : 1)
 			console.debug(types)
 			Logger.log(-1, 'ReactiveCanvas.setModel() > exit', model)
 		},
