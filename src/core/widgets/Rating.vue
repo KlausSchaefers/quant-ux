@@ -60,11 +60,15 @@ export default {
         this.elements.push(element);
       }
 
+      this.removeAllChildren(this.domNode)
       this.domNode.appendChild(cntr);
 
       this.resize(model);
 
-      //this.setValue(model.props.selected)
+      /**
+       * Selected is the visible starts
+       */
+      this.setValue(model.props.selected - 1)
     },
 
     resize: function(model) {
@@ -132,7 +136,7 @@ export default {
     destroy: function() {
       if (this._compositeState) {
         this.emitCompositeState();
-      }   
+      }
     }
   },
   mounted() {}

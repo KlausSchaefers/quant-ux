@@ -480,9 +480,15 @@ export default {
 			_showRating (model){
 				this._setSectionLabel("Rating");
 				this._renderColor('Color','<span class="mdi mdi-star"></span>',model.style.color, "color", "onStyleChanged" , true);
+				this._renderDropDown(model,"selected",[
+							{ value:0, label : "0 Star"},
+							{ value:1, label : "1 Star"},
+							{ value:2, label : "2 Stars"},
+							{ value:3, label : "3 Stars"},
+							{ value:4, label : "4 Stars"},
+							{ value:5, label : "5 Stars"},
+				]);
 			},
-
-
 
 			_showImageCarousel (model){
 				this._setSectionLabel("Image Carousel");

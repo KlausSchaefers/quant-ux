@@ -54,6 +54,9 @@ export default {
       }
     },
 
+    /**
+    * Build in update scale and just set the font size
+     */
 
     /**
      * Can be overwritten by children to have proper type conversion

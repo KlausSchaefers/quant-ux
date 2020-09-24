@@ -298,10 +298,13 @@ export default class RenderFactory extends Core {
 	}
 
 	updateWidgetHTML (parent, model) {
-		this.setStyle(parent, model, true), false;
+		this.setStyle(parent, model, true, false);
 	}
 
 	reizeWidgetHTML (parent, model) {
+		/**
+		 * Add here a list of props to be resized, e.g. borderwidth but not color
+		 */
 		this.setStyle(parent, model, true, true);
 	}
 
