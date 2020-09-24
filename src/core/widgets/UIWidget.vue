@@ -11,6 +11,13 @@ import _Touch from "common/_Touch";
 import Layout from "core/Layout";
 import Gestures from "core/Gestures";
 
+const styleKeysForResize = [
+			'fontSize',
+			"borderTopLeftRadius", "borderTopRightRadius", "borderBottomRightRadius", "borderBottomLeftRadius",
+			"borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth",
+			'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+      'boxShadow', 'textShadow', 'letterSpacing' ]
+
 export default {
   name: "UIWidget",
   props: ['qWidget', 'qQcaleX', 'qQcaleY'],
@@ -711,15 +718,31 @@ export default {
       this._setBorderRadius(node, style);
     },
 
-    setStyle: function(style, model) {
-      for (var p in style) {
-        if (this["_set_" + p]) {
-          this["_set_" + p](this.domNode, style, model);
-        } else {
+    setStyle (style, model, isResize = false ) {
+      /**
+       * Since 3.0.32 we to selective updates on zooms
+       */
+      if (isResize) {
+        for (let i=0; i < styleKeysForResize.length; i++) {
+          let p = styleKeysForResize[i]
           if (style[p] != null) {
-            this.domNode.style[p] = style[p];
+           if (this["_set_" + p]) {
+            this["_set_" + p](this.domNode, style, model);
+            } else {
+              this.domNode.style[p] = style[p];
+            }
+          }
+			  }
+      } else {
+        for (var p in style) {
+          // we have to call the method, to be sure to also handle nulls,
+          // e.g. for background images
+          if (this["_set_" + p]) {
+            this["_set_" + p](this.domNode, style, model);
           } else {
-            //console.warn("The style", p ," is no value!", model);
+            if (style[p] != null) {
+              this.domNode.style[p] = style[p];
+            }
           }
         }
       }

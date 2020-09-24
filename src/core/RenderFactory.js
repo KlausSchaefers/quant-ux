@@ -77,6 +77,12 @@ export default class RenderFactory extends Core {
 		this._scaleY = 1;
 		this._componentClassCache = {}
 		this.hash = null;
+		this.styleKeysForResize = [
+			'fontSize',
+			"borderTopLeftRadius", "borderTopRightRadius", "borderBottomRightRadius", "borderBottomLeftRadius",
+			"borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth",
+			'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+			'boxShadow', 'textShadow', 'letterSpacing' ]
 		this.logger.log(2, "constructor", "exit > " + this.mode);
 	}
 
@@ -833,9 +839,12 @@ export default class RenderFactory extends Core {
 		var style = this.getStyle(model, parent);
 		if (style) {
 			if (!this._uiWidgets[model.id]) {
+				/**
+				 * Remove this get style???
+				 */
 				style = this.getStyle(model, parent);
 				if (style) {
-					this.setStyle2DomNode(parent, style, model)
+					this.setStyle2DomNode(parent, style, model, isResize)
 				}
 			} else {
 				try {
@@ -859,20 +868,35 @@ export default class RenderFactory extends Core {
 		}
 	}
 
-	setStyle2DomNode (parent, style, model) {
+	setStyle2DomNode (parent, style, model, isResize = false) {
 
-		for (var p in style) {
-			/**
-			 * check if we have a special function for
-			 * the property
-			 */
-			if (this["_set_" + p]) {
-				this["_set_" + p](parent, style, model);
-			} else {
+		/**
+		 * Since 3.0.32 we just update some props on zoom
+		 */
+		if (isResize === true) {
+
+			for (let i=0; i < this.styleKeysForResize.length; i++) {
+				let p = this.styleKeysForResize[i]
 				if (style[p] != null) {
-					parent.style[p] = style[p];
+					if (this["_set_" + p]) {
+						this["_set_" + p](parent, style, model);
+					} else {
+							parent.style[p] = style[p];
+					}
+				}
+			}
+		} else {
+			for (let p in style) {
+				// we have to call the method, to be sure to also handle nulls,
+				// e.g. for background images
+				if (this["_set_" + p]) {
+					this["_set_" + p](parent, style, model);
 				} else {
-					console.warn("The style", p, " is no value!", model);
+					if (style[p] != null) {
+						parent.style[p] = style[p];
+					} else {
+						console.warn("The style", p, " is no value!", model);
+					}
 				}
 			}
 		}
@@ -913,7 +937,10 @@ export default class RenderFactory extends Core {
 		if (this._scaleX < 1) {
 			size = size * 0.95;
 		}
-		parent.style.fontSize = size + "px";
+		/**
+		 * Since 3.0.32 we round
+		 */
+		parent.style.fontSize = Math.round(size) + "px";
 	}
 
 	_set_rotate(parent, style,) {

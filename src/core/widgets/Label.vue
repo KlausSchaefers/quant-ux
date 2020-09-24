@@ -54,6 +54,19 @@ export default {
       }
     },
 
+
+    /*
+     * should be called when the widget was scalled, e.g. by
+     */
+    updateScale (model, style, scaleX, scaleY) {
+      this.model = model;
+      this.style = style;
+      this._scaleX = scaleX;
+      this._scaleY = scaleY;
+      this.setStyle(style, model, true);
+    },
+
+
     /**
     * Build in update scale and just set the font size
      */
@@ -113,13 +126,13 @@ export default {
 
     _set_fontSize (parent, style) {
       if (style.fontSize === "Auto" || this.style.fontSize === "a") {
-        parent.style.fontSize = this.model.h * 0.95 + "px";
+        parent.style.fontSize = Math.round(this.model.h * 0.95) + "px";
       } else {
         var size = style.fontSize * this._scaleX;
         if (this._scaleX < 1) {
           size = size * 0.95;
         }
-        parent.style.fontSize = size + "px";
+        parent.style.fontSize = Math.round(size) + "px";
       }
     },
 
