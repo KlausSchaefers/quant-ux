@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v3.0.31</div>
+      <div class="MatcSimulatorVersion">v3.0.33 </div>
     </div>
   </div>
 </template>

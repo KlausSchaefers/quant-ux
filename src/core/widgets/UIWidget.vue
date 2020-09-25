@@ -725,7 +725,7 @@ export default {
       if (isResize) {
         for (let i=0; i < styleKeysForResize.length; i++) {
           let p = styleKeysForResize[i]
-          if (style[p] != null) {
+          if (style[p] !== null && style[p] !== 0) {
            if (this["_set_" + p]) {
             this["_set_" + p](this.domNode, style, model);
             } else {

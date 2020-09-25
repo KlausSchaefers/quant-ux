@@ -877,7 +877,7 @@ export default class RenderFactory extends Core {
 
 			for (let i=0; i < this.styleKeysForResize.length; i++) {
 				let p = this.styleKeysForResize[i]
-				if (style[p] != null) {
+				if (style[p] !== null && style[p] !== 0) {
 					if (this["_set_" + p]) {
 						this["_set_" + p](parent, style, model);
 					} else {
