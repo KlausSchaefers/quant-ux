@@ -8,9 +8,9 @@
         </div>
 
         <div class="MatcToolbarTableSettingsCntr">
-         
 
-            <div v-if="tab === 'actions'" class="MatcDialogTable">
+
+            <div v-if="tab === 'actions'" class="MatcDialogTable MatcDialogTableScrollable">
                     <table  class="MatcToolbarTableSettingsTable">
                        <tbody>
                             <tr class="MatcFormRow">
@@ -25,13 +25,17 @@
                                 <th style="width:70px; text-align=center;"><span class="mdi mdi-arrow-all"/></th>
                                 -->
                                 <td style="width:120px"></td>
-                           
+
                             </tr>
-                      
-                     
+
+
                             <tr class="MatcFormRow">
                                 <td>
+
+                                    <span class="MatcButton MatcButtonActive" @click="addAction">Add Action</span>
+                                    <!--
                                     <input class="form-control vommondInlineEdit" placeholder="Enter action name" @change="addAction"/>
+                                    -->
                                 </td>
                                 <td></td>
                                 <td></td>
@@ -51,8 +55,8 @@
                                         @change="onChangeActionColor(action, 'color', $event)"/>
                                 </td>
                                 <td>
-                                    <CheckBox 
-                                        v-model="action.isHover" 
+                                    <CheckBox
+                                        v-model="action.isHover"
                                         label="" />
 
                                 </td>
@@ -92,11 +96,11 @@
                         </tbody>
                     </table>
 
-         
+
             </div> <!-- End Actions -->
 
 
-            <div v-if="tab === 'columns'" class="MatcDialogTable">
+            <div v-if="tab === 'columns'" class="MatcDialogTable MatcDialogTableScrollable">
                    <table  class="MatcToolbarTableSettingsTable">
                         <tbody>
                             <tr>
@@ -104,15 +108,23 @@
                                 <td style="width:270px;">Data Binding</td>
                                 <td style="width:120px"></td>
                             </tr>
-                    
+
                             <tr>
                                 <td>
-                                    <input class="form-control vommondInlineEdit" placeholder="Enter column data binding" @change="addColumn"/>
+                                    <span class="MatcButton MatcButtonActive" @click="addColumn">Add Column</span>
+                                    <!--
+                                        <input
+                                            class="form-control vommondInlineEdit"
+                                            placeholder="Enter column data binding" @change="addColumn"/>
+                                    -->
+
+                                </td>
+                                <td>
+
                                 </td>
                                 <td></td>
-                                <td></td>
                             </tr>
-                     
+
                             <tr class="MatcFormRow" v-for="(column, i) in props.columns" :key="i">
                                 <td>
                                     <input class="form-control vommondInlineEdit" v-model="column.label"/>
@@ -120,7 +132,7 @@
                                 <td>
                                     <input class="form-control vommondInlineEdit" placeholder="Databinding Variable" v-model="column.databinding"/>
                                 </td>
-                              
+
                                 <td>
                                     <a class="MatcFormRowHoverAction" @click="removeColumn(i)">  <span class="mdi mdi-close"/></a>
                                 </td>

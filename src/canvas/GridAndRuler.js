@@ -10,7 +10,7 @@ export default class GridAndRuler extends Core {
 		super()
 		this.logger = new Logger('GridAndRuler');
 		this.logger.log(2, "constructor", "entry");
-		this.snappDistance = 4
+		this.snappDistance = 8
 		this.fastSnappMouseVelcity = 60
 		this.showDistance = 15
 		this.patternNeibhourhood = 10

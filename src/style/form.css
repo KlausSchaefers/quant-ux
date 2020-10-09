@@ -23,12 +23,12 @@ input:focus{
  /****************************************************
  * Forms
  ****************************************************/
- 
+
  .MatcFormRow{
  	text-align: left;
  	margin-bottom: 20px;
  }
- 
+
 .MatcFormRow label{
  	display: block;
 }
@@ -45,7 +45,7 @@ input:focus{
 }
 
 .MatcHintLabel{
-	
+
 }
 
 .MatcHintLabelHidden{
@@ -120,7 +120,7 @@ input:focus{
 }
 
 .MatcLinkBox:hover{
-	color:#333;	
+	color:#333;
 	text-decoration: none;
 }
 
@@ -166,7 +166,7 @@ input:focus{
 .MatcButtonSignUp{
 	background: #1973e8;
 	text-decoration: none;
-	color:#fff;	
+	color:#fff;
 }
 
 .MatcButtonSignUp:hover{
@@ -183,7 +183,7 @@ input:focus{
 
 
 .MatcButtonIcon{
-	
+
 }
 
 .MatcButtonIconLabel{
@@ -246,7 +246,7 @@ input:focus{
 
 .MatcButtonTrans{
 	background:none;
-	border:1px solid #fff; 
+	border:1px solid #fff;
 	color:#fff;
 }
 
@@ -254,19 +254,19 @@ input:focus{
 
 .MatcButtonTrans:HOVER{
 	background:rgba(255,255,255,0.2);
-	border:1px solid #fff; 
+	border:1px solid #fff;
 }
 
 .MatcButtonRed.MatcButtonTrans{
 	color:#cc0000;
 }
- 
+
 .MatcButtonGreen{
  	background: #92c500;
  	border:1px solid #92c500;
 	color:#fff;
 }
- 
+
 .MatcButtonGreen:HOVER{
  	background: #6da000;
  	border:1px solid #6da000;
@@ -376,33 +376,37 @@ input:focus{
 /****************************************************
  * DialogTable
  ****************************************************/
- 
+
  .MatcDialogTable{
  	overflow: hidden;
  	padding: 0px;
  	background: rgb(242, 242, 242) none repeat scroll 0 0;
-    border: 1px solid #cecece;
-    border-radius:3px;
-    height: 450px;
+  border: 1px solid #cecece;
+  border-radius:3px;
+  height: 450px;
  }
- 
+
+ .MatcDialogTable.MatcDialogTableScrollable{
+	overflow: scroll;
+ }
+
  .MatcDialogTransTable{
     border: 1px solid #cecece;
     border-radius:3px;
     height: 350px;
     overflow:hidden;
  }
- 
+
  .MatcDialogTable table{
  	width: 100%;
  	min-width: 250px;
  }
- 
+
  .MatcDialogTableXL table{
- 
+
   	min-width: 450px;
  }
- 
+
 .MatcDialogTable thead{
 	font-weight: bold;
 	background: rgb(230, 230, 230);
@@ -417,7 +421,7 @@ input:focus{
 .MatcDialogTable td.MatcDialogTableCheckBoxLabel{
 	padding:10px;
 }
- 
+
 .MatcDialogTable tr{
  	border-bottom: 1px solid #cecece;
 
@@ -441,11 +445,11 @@ input:focus{
 }
 
 
- 
+
 /****************************************************
  * Popover Bar
  ****************************************************/
- 
+
 .MatcPopoverCntr{
 	position: relative;
 	overflow: hidden;
@@ -460,9 +464,9 @@ input:focus{
 	transition-duration: 0.1s;
 	background: rgba(0,0,0,0.8);
 	display: block;
-	
+
 	border-radius:3px;
-	
+
 	z-index: 11000;
 }
 
@@ -482,7 +486,7 @@ input:focus{
 	text-decoration: none;
 	display: inline-block;
 }
- 
+
 /****************************************************
  * Button Bar
  ****************************************************/
@@ -504,14 +508,14 @@ input:focus{
 	font-size: 16px;
 }
 
- 
+
 .MatcButtonBar a{
 	padding-top: 3px;
 	display: inline-block;
 }
 
 .MatcButtonBar .MatcButton{
-  margin-right: 20px;	
+  margin-right: 20px;
   vertical-align: top;
 }
 
@@ -576,11 +580,11 @@ input:focus{
 .MatcVerticalButtonGroup .MatcButton:last-child{
 	border-bottom-right-radius:3px;
 	border-bottom-left-radius:3px;
-	border-bottom: 2px solid #1973e8; 
+	border-bottom: 2px solid #1973e8;
 }
 
 .MatcVerticalButtonGroup .MatcButton:last-child:HOVER{
-	border-bottom: 2px solid #6da000; 
+	border-bottom: 2px solid #6da000;
 }
 
 
@@ -594,18 +598,18 @@ input:focus{
 /****************************************************
  * table
  ****************************************************/
- 
+
  .vommondTable .action .MatcButton{
  	margin-left: 10px;
  }
- 
+
 .vommondTable .vommondInlineEdit{
-  margin-left:-16px; 
-}	
+  margin-left:-16px;
+}
 /****************************************************
  * DropDown
  ****************************************************/
- 
+
 .MatcDropDownButton{
 	display: inline-block;
 	position: relative;
@@ -618,12 +622,12 @@ input:focus{
 }
 
 .MatcDropDownButtonWidth{
-	min-width:200px;	
+	min-width:200px;
 }
 
 .MatcDropDownIcon{
 	vertical-align: middle;
-	margin-right: 10px;	
+	margin-right: 10px;
 }
 
 .MatcDropDownLabel{
@@ -648,11 +652,11 @@ input:focus{
 
 .MatcDropDownUp .MatcDropDownPopUp{
 	top:auto;
-	bottom:100%;	
+	bottom:100%;
 }
 
 .MatcDropDownButtonOpen .MatcDropDownPopUp, .MatcDropDownButtonOpen.MatcDropDownPopUp{
-	display: block;	
+	display: block;
 }
 
 
@@ -688,7 +692,7 @@ input:focus{
 /****************************************************
  * Slider & Co
  ****************************************************/
- 
+
  .MatcForm .VommondSlider {
  	width:75%;
  }
@@ -703,23 +707,23 @@ input:focus{
 }
 
 .MatcForm .VommondSliderBar{
-	background: #1973e8;	
+	background: #1973e8;
 }
 
 .MatcForm .VommondSliderHandle{
-	background: #1973e8;	
+	background: #1973e8;
 	border-radius: 2px;
     height: 21px;
     border-color:#1973e8;
 }
 
 .MatcForm .VommondSliderHandle:hover{
-	background: #1973e8;	
+	background: #1973e8;
     border-color:#1973e8;
 }
 
 .MatcForm .vommondLegendBarItem{
-	border-right: 1px solid #cecece;	
+	border-right: 1px solid #cecece;
 }
 
 .MatcForm .vommondLegendBarItemLabel{
@@ -734,8 +738,8 @@ input:focus{
 
 .MatcSliderLabel{
 	color:#999;
-	width:150px;	
-	
+	width:150px;
+
 	display: inline-block;
 	vertical-align: top;
 	padding-left: 50px;
@@ -745,7 +749,7 @@ input:focus{
  ****************************************************/
 
 .MatcCheckBoxContainer{
-	
+
 }
 
 .MatcCheckBoxLabel{
@@ -779,7 +783,7 @@ input:focus{
     line-height: 1.33;
     padding: 10px 16px;
 }
- 
+
 textarea.form-control.MatcTextAreaSmall{
 	height: 30px;
 	overflow: hidden;
