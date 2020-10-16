@@ -140,7 +140,7 @@ export default {
   },
   methods: {
     async deleteApp() {
-      if (confirm(`Do you want to delete the ${this.app.name} prorotype?`)) {
+      if (confirm(`Do you want to delete the ${this.app.name} prototype?`)) {
         await Services.getModelService().deleteApp(this.app);
         location.href = "#/my-apps.html";
       }
