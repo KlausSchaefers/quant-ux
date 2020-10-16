@@ -6,20 +6,20 @@
       "logout": "Logout"
   },
   "common": {
-      "register": "Bitte melde dich an, um zuspeichern",
+      "register": "Bitte melde dich an, um abzuspeichern",
       "guest": "Gast",
       "loading": "Lade...",
-      "language-changed": "Die Sprache ist jetzt deutsch"
+      "language-changed": "Die Sprache ist jetzt Deutsch"
   },
   "toolbar": {
       "menu": {
-          "start": "Start Simulator",
-          "settings": "Settings",
+          "start": "Simulator starten",
+          "settings": "Einstellungen",
           "shortcuts": "Keyboard Shortcuts",
-          "share": "Share",
-          "export": "Export",
+          "share": "Teilen",
+          "export": "Exportieren",
           "change-screen-size": "Change Screen Size",
-          "save-as": "Save As",
+          "save-as": "Speichern als",
           "exit": "Exit"
       }
   },
@@ -31,10 +31,10 @@
   "btn": {
       "login": "Login",
       "cancel": "Cancel",
-      "save": "Save",
-      "delete": "Delete",
+      "save": "Speichern",
+      "delete": "Löschen",
       "download": "Download",
-      "edit": "Edit",
+      "edit": "Bearbeiten",
       "post": "Post",
       "close": "Close"
   },
@@ -104,7 +104,7 @@
       }
   },
   "applist": {
-      "add": "Create new Prorotype",
+      "add": "Create new Prototype",
       "sign-in": "Sign up to create a new Prototype"
   },
   "analytics": {
