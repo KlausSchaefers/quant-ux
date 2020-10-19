@@ -16,7 +16,7 @@ const styleKeysForResize = [
 			"borderTopLeftRadius", "borderTopRightRadius", "borderBottomRightRadius", "borderBottomLeftRadius",
 			"borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth",
 			'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
-      'boxShadow', 'textShadow', 'letterSpacing' ]
+      'boxShadow', 'textShadow', 'letterSpacing', 'icon']
 
 export default {
   name: "UIWidget",

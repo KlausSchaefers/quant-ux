@@ -82,7 +82,7 @@ export default class RenderFactory extends Core {
 			"borderTopLeftRadius", "borderTopRightRadius", "borderBottomRightRadius", "borderBottomLeftRadius",
 			"borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth",
 			'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
-			'boxShadow', 'textShadow', 'letterSpacing' ]
+			'boxShadow', 'textShadow', 'letterSpacing', 'icon']
 		this.logger.log(2, "constructor", "exit > " + this.mode);
 	}
 
