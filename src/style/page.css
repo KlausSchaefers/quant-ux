@@ -1051,6 +1051,7 @@ textarea.MatcContentWidgetAbs{
 	color:#fff;
 	font-size: 70px;
 	background: #1973e8;
+	position: relative;
 }
 
 .MatcTeamDialog .MatcTeamItem{

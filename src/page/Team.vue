@@ -106,7 +106,7 @@ export default {
         .div("MatcErrorLabel MatcErrorLabelEmpty")
         .build(right);
 
-      var bar = this.db.div("buttons").build(cntr);
+      var bar = this.db.div("buttons MatcMarginTop").build(cntr);
 
       var write = this.db.div("button is-primary", "Add User").build(bar);
 
@@ -206,7 +206,7 @@ export default {
 
       row = this.db.div("columns").build(cntr);
       left = this.db.div("column is-4").build(row);
-      right = this.db.div("column is-8 buttons").build(row);
+      right = this.db.div("column buttons").build(cntr);
 
       var d = new Dialog();
 
