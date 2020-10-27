@@ -78,7 +78,7 @@ export default {
             spacing: 8,
             layoutOptions: [
                 {label: 'Default', value: 'Grid'},
-                {label: 'Custom', value: 'Custom'},
+                {label: 'Custom Component', value: 'Custom'},
                 // {label: 'Rows (Auto Layout)', value: 'Row'},
                 // {label: 'Colums (Auto Layout)', value: 'Col'},
                 {label: 'Wrap (Auto Layout)', value: 'Wrap'},
@@ -196,7 +196,7 @@ export default {
     },
     mounted () {
         if (this.$refs.tooltipCustom) {
-            this.addTooltip(this.$refs.tooltipCustom, 'Enter the name of the custom component that should be used during rendering.')
+            this.addTooltip(this.$refs.tooltipCustom, 'Custom component to replace element')
         }
         if (this.$refs.paddingX) {
             this.addTooltip(this.$refs.paddingX, 'Horizontal Padding')

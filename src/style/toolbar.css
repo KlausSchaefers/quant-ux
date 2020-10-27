@@ -158,6 +158,7 @@
 	text-align: left;
 }
 
+
 .MatcToolbarItem{
 	padding: 8px;
  	color:#FFF;
@@ -173,14 +174,14 @@
  }
 
  .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarItemSmall{
- 	min-width: 16.665%;
-	height:30px;
+		min-width: 16.665%;
+		height:30px;
  }
 
  .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton{
   	width:25px;
-	height:30px;
-	min-width: 25px;
+		height:30px;
+		min-width: 25px;
  }
 
 

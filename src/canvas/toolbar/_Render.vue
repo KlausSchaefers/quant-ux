@@ -41,6 +41,7 @@ import Services from 'services/Services'
 import RulerSection from 'canvas/toolbar/RulerSection'
 import LowCodeSection from 'canvas/toolbar/LowCodeSection'
 import CallBackSection from 'canvas/toolbar/CallBackSection'
+import LowCodeResponsiveSection from 'canvas/toolbar/LowCodeResponsiveSection'
 
 // import ContactButton from 'canvas/toolbar/ContactButton'
 // import Notification from 'page/Notification'
@@ -683,6 +684,9 @@ export default {
 
 		_renderLowCode () {
 
+			/**
+			 * LowCode
+			 */
 			var parent = this.createSection("Rendering", true);
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
@@ -698,7 +702,9 @@ export default {
 			this.lowCodeDiv = parent;
 			this.properties.appendChild(parent);
 
-
+			/**
+			 * Callbacks
+			 */
 			parent = this.createSection("Callbacks", true);
 			content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
@@ -712,6 +718,26 @@ export default {
 
 			this.callBackDiv = parent;
 			this.properties.appendChild(parent);
+
+
+			/**
+			 * Responsive
+			 */
+			parent = this.createSection("Responsive", true);
+			content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.lowCodeResponsiveSection = this.$new(LowCodeResponsiveSection);
+			this.own(on(this.lowCodeResponsiveSection, "changeStyle", lang.hitch(this, "setWidgetStyle")));
+			this.own(on(this.lowCodeResponsiveSection, "changeProps", lang.hitch(this, "setWidgetProps")));
+			this.own(on(this.lowCodeResponsiveSection, "changeGroupProps", lang.hitch(this, "setGroupProperties")));
+			this.own(on(this.lowCodeResponsiveSection, "changeGroupStyle", lang.hitch(this, "setGroupStyle")));
+			this.lowCodeResponsiveSection.placeAt(content)
+
+			this.lowCodeResponsiveDiv = parent;
+			this.properties.appendChild(parent);
+
 		},
 
 
@@ -1504,12 +1530,14 @@ export default {
 			css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
 			// css.remove(this.groupActionDiv, "MatcToolbarSectionHidden");
 			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
+			css.remove(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")
 			//css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
 
 			this.groupActionBTN.setValue(model);
 			this.groupName.value = model.name ? model.name : "";
 			this.groupName.blur();
 			this.lowCodeSection.setValue(model, true)
+			this.lowCodeResponsiveSection.setValue(model, true)
 
 			//this.callbackSection.setValue(model)
 
@@ -1883,9 +1911,11 @@ export default {
 			}
 			this.lowCodeSection.setValue(model)
 			this.callbackSection.setValue(model)
+			this.lowCodeResponsiveSection.setValue(model)
 
 			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
 			css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
+			css.remove(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")
 		},
 
 		reopenColorWidget:function(){
@@ -2350,6 +2380,7 @@ export default {
 			css.add(this.backgroundColorDiv, "MatcToolbarSectionHidden");
 			css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")
 			css.add(this.callBackDiv, "MatcToolbarSectionHidden")
+			css.add(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")
 
 			if (this.responsiveDiv){
 				css.add(this.responsiveDiv, "MatcToolbarSectionHidden")
