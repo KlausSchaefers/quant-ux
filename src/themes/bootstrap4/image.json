@@ -13,8 +13,7 @@
 	"props" : {},
 	"has" : {
 		"onclick" : true,
-		"backgroundImage" : true,
-		"border":true
+		"backgroundImage" : true
 	},
 	"actions" : {},
 	"style" : {

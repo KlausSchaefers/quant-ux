@@ -14,11 +14,10 @@
 	     "props" : {},
 	     "has" : {
 	        "onclick" : true,
-	        "backgroundImage" : true,
-	        "border":true
+	        "backgroundImage" : true
 	     },
 	     "actions":{},
-	     "style" : { 	
+	     "style" : {
 	    	 "borderTopRightRadius" : 0,
 	         "borderTopLeftRadius" : 0,
 	         "borderBottomRightRadius" : 0,
@@ -49,11 +48,10 @@
 	     "props" : {},
 	     "has" : {
 	        "onclick" : true,
-	        "backgroundImage" : true,
-	        "border":true
+	        "backgroundImage" : true
 	     },
 	     "actions":{},
-	     "style" : { 	
+	     "style" : {
 	    	 "borderTopRightRadius" : 500,
 	         "borderTopLeftRadius" : 500,
 	         "borderBottomRightRadius" : 500,
