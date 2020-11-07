@@ -42,6 +42,7 @@ import RulerSection from 'canvas/toolbar/RulerSection'
 import LowCodeSection from 'canvas/toolbar/LowCodeSection'
 import CallBackSection from 'canvas/toolbar/CallBackSection'
 import LowCodeResponsiveSection from 'canvas/toolbar/LowCodeResponsiveSection'
+import ImageRotate from 'canvas/toolbar/ImageRotate'
 
 // import ContactButton from 'canvas/toolbar/ContactButton'
 // import Notification from 'page/Notification'
@@ -75,6 +76,7 @@ export default {
 					hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation", "Stepper", "Paging"],
 					hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 					hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging"],
+					hasRotate: ['Image', 'Icon'],
 					hideAction: ['ScreenSegment'],
 					colorWidgets: [],
 					isDataView: false,
@@ -895,6 +897,13 @@ export default {
 			this.own(on(this.backgroundImagePosition, "change", lang.hitch(this, "setWidgetMultiStyle")));
 			this._placeAt(this.backgroundImagePosition, content);
 			this.addTooltip(this.backgroundImagePosition.domNode, "Image Position");
+
+			// rotate
+			this.backgroundImageRotation = this.$new(ImageRotate);
+			this.own(on(this.backgroundImageRotation, "change", lang.hitch(this, "setWidgetStyle", "backgroundImageRotation")));
+			this.own(on(this.backgroundImageRotation, "changing", lang.hitch(this, "setTempWidgetStyle", "backgroundImageRotation")));
+			this._placeAt(this.backgroundImageRotation, content);
+			this.addTooltip(this.backgroundImageRotation.domNode, "Image Rotation");
 
 			this.backgroundColorDiv = parent;
 			this.properties.appendChild(parent);
@@ -1765,8 +1774,17 @@ export default {
 						css.add(this.backgroundImagePosition.domNode, "MatcToolbarSectionHidden");
 					}
 				}
+
 				this.boxShadow.setValue(style.boxShadow);
 				this.opacity.setValue(style.opacity);
+			}
+
+			if (this.hasRotate.indexOf(model.type) >= 0) {
+					css.remove(this.backgroundImageRotation.domNode, "MatcToolbarSectionHidden");
+					this.backgroundImageRotation.setValue(style.backgroundImageRotation);
+			} else {
+					css.add(this.backgroundImageRotation.domNode, "MatcToolbarSectionHidden");
+					this.backgroundImageRotation.setValue(style.backgroundImageRotation);
 			}
 
 			if(model.has.label){

@@ -15,40 +15,40 @@ export default {
     mixins:[DojoWidget],
     data: function () {
         return {
-            value: false, 
-            borderRadius: ["borderTopLeftRadius", "borderTopRightRadius", "borderBottomLeftRadius", "borderBottomRightRadius"], 
+            value: false,
+            borderRadius: ["borderTopLeftRadius", "borderTopRightRadius", "borderBottomLeftRadius", "borderBottomRightRadius"],
             inputEvent: "change"
         }
     },
     components: {},
     methods: {
-        postCreate: function(){		
-		
+        postCreate: function(){
+
 		},
-		
+
 		render  (){
 			if(!this.rendered){
-				this.radius = this.renderIntBox(this.domNode);	
+				this.radius = this.renderIntBox(this.domNode);
 				this.own(on( this.radius, "change", lang.hitch(this,"setRadius", "borderTopLeftRadius")));
-				this.own(on( this.radius, "changing", lang.hitch(this,"setTempRadius", "borderTopLeftRadius")));	
+				this.own(on( this.radius, "changing", lang.hitch(this,"setTempRadius", "borderTopLeftRadius")));
 				this.rendered = true;
 			}
 		},
-		
+
 		renderIntBox  (parent){
-			var input = this.$new(ToolbarSlider,{max:100});
+			var input = this.$new(ToolbarSlider,{max:32});
 			input.placeAt(parent);
 			input.render();
 			return input;
 		},
-	
+
 		blur  (){
 			if(this.radius){
 				this.radius.blur()
 			}
 		},
-		
-		
+
+
 		setTempRadius  (key, value){
 			value = value * 1;
 			this.value[key] = value;
@@ -58,8 +58,8 @@ export default {
 			}
 			this.emit("changing", this.getDelta(this.value));
 		},
-		
-		setRadius  (key, value){			
+
+		setRadius  (key, value){
 			value = value * 1;
 			this.value[key] = value;
 			for(var i=0; i < 4; i++){
@@ -68,19 +68,19 @@ export default {
 			}
 			this.emit("change", this.getDelta(this.value));
 		},
-		
-	
-		
+
+
+
 		update  (){
-			
+
 		},
-		
-		
+
+
 		setValue  (v){
 			this.render();
 			/**
 			 * Clone object as we toggle the value in the toogle()
-			 * method and as consequence the command delta 
+			 * method and as consequence the command delta
 			 * would be null!
 			 */
 			var clone = {};
@@ -92,7 +92,7 @@ export default {
 			this.orginalValue = v;
 			this.radius.setValue(clone.borderTopLeftRadius);
 		},
-		
+
 		getDelta  (value){
 			var delta = {};
 			for(var key in value){
@@ -104,14 +104,14 @@ export default {
 			}
 			return delta;
 		},
-		
+
 		setModel  (m){
 			if (this.color) {
 				this.color.setModel(m);
 			}
 			this.model = m;
 		}
-    }, 
+    },
     mounted () {
     }
 }

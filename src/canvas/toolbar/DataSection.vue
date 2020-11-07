@@ -28,6 +28,7 @@ import SymbolService from 'services/SymbolService'
 import Preview from 'page/Preview'
 import TableSettings from 'canvas/toolbar/TableSettings'
 import DropDownTree from 'canvas/toolbar/DropDownTree'
+import ImageRotate from 'canvas/toolbar/ImageRotate'
 import DomUtil from 'core/DomUtil'
 
 export default {
@@ -716,6 +717,14 @@ export default {
 				this._setSectionLabel("Icon");
 				this._renderButton("Icon", "mdi mdi-settings", "_renderIconDialog");
 				this._renderColor('Color','<span class="mdi mdi-format-color-fill"></span>',model.style.color, "color", "onStyleChanged", true );
+
+				var row = this.db.div("MatcToobarRow").build(this.cntr);
+				let rotate = this.$new(ImageRotate)
+				rotate.placeAt(row)
+				this.tempOwn(on(rotate, "change", lang.hitch(this, 'onStyleChanged', 'backgroundImageRotation')));
+				this.tempOwn(on(rotate, "changing", lang.hitch(this, "onTempStyleChanged", 'backgroundImageRotation')));
+				rotate.setValue(model.style.backgroundImageRotation)
+				this._addChildWidget(rotate);
 			},
 
 			_showCamera (model){

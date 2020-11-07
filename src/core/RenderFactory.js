@@ -68,6 +68,7 @@ export default class RenderFactory extends Core {
 		this._widgetNodes = {};
 		this._widgetModels = {};
 		this._iconNodes = {};
+		this._imageNodes = {};
 		this._borderNodes = {};
 		this._editNodes = {};
 		this._uiWidgets = {};
@@ -82,7 +83,7 @@ export default class RenderFactory extends Core {
 			"borderTopLeftRadius", "borderTopRightRadius", "borderBottomRightRadius", "borderBottomLeftRadius",
 			"borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth",
 			'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
-			'boxShadow', 'textShadow', 'letterSpacing', 'icon']
+			'boxShadow', 'textShadow', 'letterSpacing', 'icon', 'backgroundImage']
 		this.logger.log(2, "constructor", "exit > " + this.mode);
 	}
 
@@ -128,8 +129,6 @@ export default class RenderFactory extends Core {
 
 
 		if (widget) {
-
-
 			/**
 			 * Calculate the delta to not update unneeded stuff
 			 */
@@ -177,6 +176,8 @@ export default class RenderFactory extends Core {
 				widget._backgroundNodes = [div];
 				widget._paddingNodes = [div];
 				widget._shadowNodes = [div];
+				widget._iconNodes = [this._iconNodes[id]]
+				widget._imageNodes = [this._imageNodes[id]]
 				widget.domNode = div;
 				var border = this._borderNodes[id];
 				if (border) {
@@ -765,10 +766,6 @@ export default class RenderFactory extends Core {
 
 	_createBox(parent, model) {
 		var border = this._createBorder(parent, model);
-
-		/**
-		 * FIXME: Make this smart.
-		 */
 		return border;
 	}
 
@@ -780,13 +777,14 @@ export default class RenderFactory extends Core {
 	}
 
 	_createImage(parent, model) {
-		//css.add(parent, "MatcEventedWidget");
-		if (model.style.backgroundImage) {
-			css.remove(parent, "MatchWidgetTypeImage");
-		} else {
-			var span = document.createElement("span");
-			css.add(span, "glyphicon glyphicon-picture");
-		}
+		/**
+		 * Since 3.0.41 we add another div so we can rotate
+		 */
+		let imgCntr =  document.createElement("div")
+		css.add(imgCntr, 'MatchWidgetTypeImageCntr')
+		parent.appendChild(imgCntr)
+		this._imageNodes[model.id] = imgCntr
+		css.add(parent, "MatchWidgetTypeImage");
 	}
 
 	_createIcon(parent, model) {
@@ -1305,17 +1303,38 @@ export default class RenderFactory extends Core {
 
 	}
 
+	_set_backgroundImageRotation (parent, style, model) {
+		let imgCntr = this._imageNodes[model.id]
+		if (imgCntr) {
+			imgCntr.style.transform = `rotate(${style.backgroundImageRotation}deg)`
+
+		} else {
+			let iconNode = this._iconNodes[model.id]
+			if (iconNode) {
+				iconNode.style.transform = `rotate(${style.backgroundImageRotation}deg)`
+				css.add(parent, 'MatchWidgetTypeIconRotated')
+			}
+		}
+	}
+
 	/**
 	 * background image
 	 */
 	_set_backgroundImage(parent, style, model) {
 
-		var node = this._borderNodes[model.id];
+		let node = this._borderNodes[model.id];
 		if (node) {
 			parent = node;
 		}
+		/**
+		 * Since 3.0.41 we have child which will get the image
+		 */
+		let imgCntr = this._imageNodes[model.id]
+		if (imgCntr) {
+			parent = imgCntr
+		}
 
-		var img = style.backgroundImage;
+		let img = style.backgroundImage;
 		css.add(parent, "MatcScreenImage");
 		if (img) {
 			if (img.w > img.h) {
@@ -1444,7 +1463,8 @@ export default class RenderFactory extends Core {
 			}
 
 		}
-
+		this._iconNodes = {}
+		this._imageNodes = {};
 		this._labelNodes = {};
 		this._borderNodes = {};
 		this._editNodes = {};

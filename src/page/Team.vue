@@ -15,7 +15,6 @@ import Dialog from "common/Dialog";
 import DomBuilder from "common/DomBuilder";
 import Input from "common/Input";
 import RadioBoxList from "common/RadioBoxList";
-import SlideLeftButton from "common/SlideLeftButton";
 import Util from "core/Util";
 import Plan from "page/Plan";
 
@@ -25,12 +24,14 @@ export default {
   name: "Team",
   mixins: [Util, Plan, DojoWidget],
   props: ["appID", "userID"],
-  data: function() {
-    return {};
+  data: function () {
+    return {
+      isSaving: false,
+    };
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate: function () {
       this.logger = new Logger("Team");
       this.logger.log(
         4,
@@ -48,12 +49,12 @@ export default {
       this.setTeamLoaded(team);
     },
 
-    setTeamLoaded: function(team) {
+    setTeamLoaded: function (team) {
       this.team = team;
       this.render();
     },
 
-    render: function() {
+    render: function () {
       this.cleanUp();
       var div = document.createElement("div");
 
@@ -70,7 +71,7 @@ export default {
       this.cntr.appendChild(div);
     },
 
-    renderPlus: function(div) {
+    renderPlus: function (div) {
       var item = this.db.div("MatcTeamItem ").build(div);
       //var imgCntr = this.db.div("MatcUserImageCntr").build(item);
       var plus = this.db.div("MatcUserAdd").build(item);
@@ -78,7 +79,7 @@ export default {
       return plus;
     },
 
-    renderUser: function(div, user) {
+    renderUser: function (div, user) {
       var item = this.db.div("MatcTeamItem ").build(div);
       var top = this.db.div("").build(item);
       this.createUserImage(user, top);
@@ -127,7 +128,7 @@ export default {
       /**
        * Some kind of hack to male sure the focus is called.
        */
-      setTimeout(function() {
+      setTimeout(function () {
         email.focus();
       }, 300);
 
@@ -138,7 +139,7 @@ export default {
       // this._doGet("rest/apps/" + this.appID + "/suggestions/team.json", lang.hitch(this, "setTeamSuggestions", email));
     },
 
-    setTeamSuggestions: function(email, data) {
+    setTeamSuggestions: function (email, data) {
       var ids = {};
       for (let i = 0; i < this.team.length; i++) {
         ids[this.team[i].id] = true;
@@ -172,7 +173,7 @@ export default {
       email.setHints(hints);
     },
 
-    showEdit: function(item, user) {
+    showEdit: function (item, user) {
       var popup = this.db
         .div("MatcTeamDialog MatcTeamDialogEdit MatcPadding MatcActionBox")
         .build();
@@ -198,7 +199,7 @@ export default {
         radio = this.$new(RadioBoxList);
         radio.setOptions([
           { label: "Write", value: 2, css: "" },
-          { label: "Read", value: 1, css: "" }
+          { label: "Read", value: 1, css: "" },
         ]);
         radio.placeAt(right);
         radio.setValue(user.permission);
@@ -211,25 +212,13 @@ export default {
       var d = new Dialog();
 
       if (user.permission != 3) {
-        let s = this.$new(SlideLeftButton);
-        s.placeAt(popup);
-        s.setOptions([
-          {
-            value: "delete",
-            icon: "glyphicon glyphicon-trash",
-            callback: lang.hitch(this, "removeUser", user, radio, d)
-          }
-        ]);
+
         let write = this.db.div("button is-primary", "Save").build(right);
         let cancel = this.db.a("button is-text", "Cancel").build(right);
+        let remove = this.db.a("button is-text", "Remove").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
-        d.own(
-          on(
-            write,
-            touch.press,
-            lang.hitch(this, "changePermission", user, radio, d)
-          )
-        );
+        d.own(on( write, touch.press, lang.hitch(this, "changePermission", user, radio, d)));
+        d.own(on( remove, touch.press, lang.hitch(this, "removeUser", user, radio, d)));
       } else {
         let cancel = this.db.div("button is-primary", "Close").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
@@ -240,12 +229,23 @@ export default {
     async addUser(input, error, dialog, bar, e) {
       this.logger.log(-1, "addUser", "enter");
       this.stopEvent(e);
+      /**
+       * Sometimes we users click here two times,
+       * which causes ACL errors
+       */
+      if (this.isSaving) {
+        this.logger.error("addUser", "EXIT > Is saving");
+        return;
+      }
+      this.isSaving = true;
       var permission = 2;
       var user = { email: input.getValue(), permission: permission };
       let result = await Services.getModelService().createTeam(
         this.appID,
         user
       );
+
+      this.isSaving = false;
       // var result = this._doPost("/rest/apps/" +this.appID + "/team/", user);
       if (result.type == "error") {
         if (result.errors[0] == "apps.team.member.add.error.email") {
@@ -286,11 +286,11 @@ export default {
       this.load();
     },
 
-    cleanUp: function() {
+    cleanUp: function () {
       this.cleanUpTempListener();
       this.cntr.innerHTML = "";
-    }
+    },
   },
-  mounted() {}
+  mounted() {},
 };
 </script>

@@ -611,7 +611,7 @@ export default {
         this._lastAnimPos = pos;
       }
 
-      //
+
     },
 
     /**
@@ -988,52 +988,88 @@ export default {
       }
     },
 
+
+    _set_backgroundImageRotation (parent, style) {
+      if (this._iconNodes) {
+        this._iconNodes.forEach(node => {
+          if (node) {
+            node.style.transform = `rotate(${style.backgroundImageRotation}deg)`
+          }
+        })
+        css.add(parent, 'MatchWidgetTypeIconRotated')
+      }
+      /**
+       * Here is still a bug, because this we sets the background image on the parent.
+       * This does not matter much, because, animation look anohow shit when not cropped.
+       */
+      if (this._imageNodes) {
+        this._imageNodes.forEach(node => {
+          if (node) {
+            node.style.transform = `rotate(${style.backgroundImageRotation}deg)`
+          }
+        })
+      }
+    },
+
+
     /**
      * background image
      */
     _set_backgroundImage: function(parent, style, model) {
-      if (this._borderNodes) {
-        var node = this._borderNodes[model.id];
-        if (node) {
-          parent = node;
-        }
-      }
-
+      /**
+       * With the new update of the RemderFacory, this should be set in the image node...
+       */
       var img = style.backgroundImage;
       if (img) {
-        css.add(parent, "MatcScreenImage");
-        if (img) {
-          if (img.w > img.h) {
-            css.add(parent, "MatcScreenImageHorizontal");
-          } else {
-            css.add(parent, "MatcScreenImageVertical");
-          }
-          if (this.hash) {
-            parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + ")";
-          } else {
-            var url = "url(/rest/images/" + img.url + ")";
-            parent.style.backgroundImage = url;
-          }
-
-          if (style.backgroundSize) {
-            parent.style.backgroundSize = style.backgroundSize + "%";
-          } else {
-            parent.style.backgroundSize = "100%"; // 100%
-          }
-
-          if (style.backgroundPosition && this.model) {
-            var pos = style.backgroundPosition;
-            parent.style.backgroundPosition = Math.round(pos.left * this.model.w) + "px " + Math.round(pos.top * this.model.h) + "px";
-            parent.style.webkitBackgroundPosition = Math.round(pos.left * this.model.w) + "px " + Math.round(pos.top * this.model.h) + "px";
-          } else {
-            parent.style.backgroundPosition = "0 0"; // 100%
-          }
-
-          parent.style.backgroundRepeat = "no-repeat";
+        if (this._imageNodes) {
+            this._imageNodes.forEach(node => {
+              if (node) {
+                this._set_backgroundImageInNode(node, style, model)
+              }
+            })
         } else {
-          parent.style.backgroundImage = "none";
+          console.warn('UIWidget._set_backgroundImage() > no image nodes passed...')
+          this._set_backgroundImageInNode(parent, style, model)
         }
+
       }
+    },
+
+    _set_backgroundImageInNode (parent, style) {
+      var img = style.backgroundImage;
+      css.add(parent, "MatcScreenImage");
+      if (img) {
+        if (img.w > img.h) {
+          css.add(parent, "MatcScreenImageHorizontal");
+        } else {
+          css.add(parent, "MatcScreenImageVertical");
+        }
+        if (this.hash) {
+          parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + ")";
+        } else {
+          var url = "url(/rest/images/" + img.url + ")";
+          parent.style.backgroundImage = url;
+        }
+
+        if (style.backgroundSize) {
+          parent.style.backgroundSize = style.backgroundSize + "%";
+        } else {
+          parent.style.backgroundSize = "100%"; // 100%
+        }
+
+        if (style.backgroundPosition && this.model) {
+          var pos = style.backgroundPosition;
+          parent.style.backgroundPosition = Math.round(pos.left * this.model.w) + "px " + Math.round(pos.top * this.model.h) + "px";
+          parent.style.webkitBackgroundPosition = Math.round(pos.left * this.model.w) + "px " + Math.round(pos.top * this.model.h) + "px";
+        } else {
+          parent.style.backgroundPosition = "0 0"; // 100%
+        }
+
+        parent.style.backgroundRepeat = "no-repeat";
+      } else {
+        parent.style.backgroundImage = "none";
+      }
+
     },
 
     _set_verticalAlign: function(parent, style) {
