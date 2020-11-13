@@ -1868,15 +1868,23 @@ export default {
 			 * Must come at last so radius container is visible...
 			 */
 			if (model.has.border){
+
 				css.remove(this.borderDiv, "MatcToolbarSectionHidden");
-				css.remove(this.radiusBox.domNode, "hidden");
 				this.boxBorder.setValue(style);
 
 				if (this.radiusBox){
+					css.remove(this.radiusBox.domNode, "hidden");
 					this.radiusBox.setValue(style);
 				}
 				if (this.boxBorder2){
 					this.boxBorder2.setValue(style);
+				}
+
+			} else if (model.has.borderRadus){
+
+				if (this.radiusBox){
+					css.remove(this.radiusBox.domNode, "hidden");
+					this.radiusBox.setValue(style);
 				}
 
 			} else {

@@ -57,8 +57,6 @@ export default {
       },
 
       setValue (v){
-
-        console.debug('setValue', v)
         if (v === undefined) {
           v = 0
         }

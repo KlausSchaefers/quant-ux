@@ -1225,12 +1225,25 @@ td.MatcGradientBox.MatcColorBox span{
 
 
 
+
 .MatcToolbarColorSketch.MatcToolbarColor td span,
 .MatcToolbarColorSketch .MatcColorBox span{
 	height:25px;
 	width:25px;
 	margin: 1px;
 	margin-left:2px;
+	border: 1px solid rgba(0,0,0, 0.35);
+	border-radius: 2px;
+}
+
+.MatcColorAlphaBox {
+	background-image: linear-gradient(90deg, transparent 50%, rgba(0,0,0, 0.15) 50%)
+}
+
+
+.MatcToolbarColorSketch.MatcToolbarColor td span:hover,
+.MatcToolbarColorSketch .MatcColorBox span:hover{
+	border: 1px solid rgba(0,0,0, 0.25);
 }
 
 .MatcToolbarColorSketch.MatcToolbarColorContainer{

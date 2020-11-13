@@ -16,17 +16,17 @@ export default {
 		yellowToGreen: ["#ffae18", "#83b600"],
 		greenToGreen: ["#b6db49", "#75a800"],
 		mini_palette: [
-        "#ffffff", "#808080", "#000000", 
-        "#e2f4fb", "#33b5e5", "#0099cc", 
-        "#e5caf2", "#c182e0", "#9933cc", 
-        "#e2f0b6", "#92c500", "#669900", 
+        "#ffffff", "#808080", "#000000",
+        "#e2f4fb", "#33b5e5", "#0099cc",
+        "#e5caf2", "#c182e0", "#9933cc",
+        "#e2f0b6", "#92c500", "#669900",
         "#ffecc0", "#ffb61c", "#ff8a00",
         "#ffcaca", "#f83a3a", "#cc0000"],
       shadow_palette: [
-        "#ffffff", "rgba(0,0,0,0.25)", "rgba(0,0,0,0.5)", 
-        "#e2f4fb", "#33b5e5", "#0099cc", 
-        "#e5caf2", "#c182e0", "#9933cc", 
-        "#e2f0b6", "#92c500", "#669900", 
+        "#ffffff", "rgba(0,0,0,0.25)", "rgba(0,0,0,0.5)",
+        "#e2f4fb", "#33b5e5", "#0099cc",
+        "#e5caf2", "#c182e0", "#9933cc",
+        "#e2f0b6", "#92c500", "#669900",
         "#ffecc0", "#ffb61c", "#ff8a00",
         "#ffcaca", "#f83a3a", "#cc0000"]
     };
@@ -105,8 +105,10 @@ export default {
         var td = document.createElement("td");
         css.add(td, "MatcColorBox MatcColorBox" + (i % columns));
         var span = document.createElement("span");
-        span.style.background = color;
-        span.style.borderColor = color;
+        span.style.backgroundColor = color;
+        if (this.hasAlpha(color)) {
+          css.add(span, "MatcColorAlphaBox");
+        }
         colorBoxes[color] = span;
         this.tempOwn(on(span, touch.press, lang.hitch(this, callback, color)));
         td.appendChild(span);
@@ -114,6 +116,13 @@ export default {
       }
       parent.appendChild(table);
       return colorBoxes;
+    },
+
+    hasAlpha (color) {
+      if (color.indexOf('0.') > 0) {
+        return true
+      }
+      return false
     }
   }
 };

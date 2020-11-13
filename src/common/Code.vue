@@ -37,16 +37,11 @@
 
 <script>
 import DojoWidget from 'dojo/DojoWidget'
-import hljs from 'highlight.js/lib/highlight'
 import javascript from 'highlight.js/lib/languages/javascript'
 import xml from 'highlight.js/lib/languages/xml'
 import css from 'highlight.js/lib/languages/css'
-
-
 import Vue from 'vue'
-hljs.registerLanguage('javascript', javascript)
-hljs.registerLanguage('html', xml)
-hljs.registerLanguage('css', css)
+
 
 export default {
   name: "home",
@@ -91,7 +86,7 @@ export default {
       }
       this.cssTemplate = v
       Vue.nextTick(() => {
-        hljs.highlightBlock(this.$refs.codeCSS);
+        this.highlightBlock(this.$refs.codeCSS);
       })
     },
     setVue (v) {
@@ -103,7 +98,7 @@ export default {
       this.hasVue = true
       this.vueTemplate = v
       Vue.nextTick(() => {
-        hljs.highlightBlock(this.$refs.codeVue);
+        this.highlightBlock(this.$refs.codeVue);
       })
     },
     setHTMLTemplate (v) {
@@ -111,7 +106,7 @@ export default {
       this.hasHTML = true
       this.htmlTemplate = v
       Vue.nextTick(() => {
-        hljs.highlightBlock(this.$refs.codeHTML);
+        this.highlightBlock(this.$refs.codeHTML);
       })
     },
     setLowCodeTemplate (v) {
@@ -120,59 +115,73 @@ export default {
       this.hasLowCode = true
       this.lowCodeTemplate = v
       Vue.nextTick(() => {
-        hljs.highlightBlock(this.$refs.codeLowCode);
+        this.highlightBlock(this.$refs.codeLowCode);
       })
     },
     setNPMTemplate (v) {
       this.npmTemplate = v
       Vue.nextTick(() => {
-        hljs.highlightBlock(this.$refs.codeNPM);
+        this.highlightBlock(this.$refs.codeNPM);
       })
     },
     setRouterTemplate (v) {
       this.routerTemplate = v
       Vue.nextTick(() => {
-        hljs.highlightBlock(this.$refs.codeRouter);
+        this.highlightBlock(this.$refs.codeRouter);
       })
     },
     setPreview (v) {
       this.hasPreview = true
       this.htmlPreview = v
+    },
+    highlightBlock (ref) {
+      if (this.hljs) {
+        this.hljs.highlightBlock(ref);
+      }
     }
   },
   watch: {
       html (v) {
         this.htmlTemplate = v
         Vue.nextTick(() => {
-          hljs.highlightBlock(this.$refs.codeHTML);
+          this.highlightBlock(this.$refs.codeHTML);
         })
       },
       css (v) {
         this.cssTemplate = v
         Vue.nextTick(() => {
-          hljs.highlightBlock(this.$refs.codeCSS);
+          this.highlightBlock(this.$refs.codeCSS);
         })
       },
       vue (v) {
         this.vueTemplate = v
         Vue.nextTick(() => {
-          hljs.highlightBlock(this.$refs.codeVue);
+          this.highlightBlock(this.$refs.codeVue);
         })
       },
       lowCode (v) {
         this.lowCode = v
         Vue.nextTick(() => {
-          hljs.highlightBlock(this.$refs.codeLowCode);
+          this.highlightBlock(this.$refs.codeLowCode);
         })
       }
   },
-  mounted() {
+  async mounted() {
     this.cssTemplate = this.css
     this.htmlTemplate = this.html
     this.vueTemplate = this.vue
     this.codeLowCode = this.lowCode
     this.npmTemplate = this.npm
     this.routerTemplate = this.router
+
+    /*
+     * We load highlight.js as late as possible
+     */
+    let hljs = await import(/* webpackChunkName: "highlight" */ 'highlight.js/lib/highlight')
+    hljs.registerLanguage('javascript', javascript)
+    hljs.registerLanguage('html', xml)
+    hljs.registerLanguage('css', css)
+    this.hljs = hljs
 
     if (this.selected) {
       this.tab = this.selected

@@ -6,7 +6,7 @@ export default class Animation extends Core{
 
 	constructor() {
 		super()
-		
+
 		this._inverse = {
 			"slideLeft": "slideRight",
 			"slideRight": "slideLeft",
@@ -161,7 +161,12 @@ export default class Animation extends Core{
 					 * FIXME: We could cache hre the colors...
 					 */
 					var c = Color.blendColors(new Color(from), new Color(to), p);
-					mixedStyle[key] = c.toHex();
+					if (c.a < 1) {
+						mixedStyle[key] = c.toCss(true);
+					} else {
+						mixedStyle[key] = c.toHex();
+					}
+
 				} else {
 					mixedStyle[key] = to;
 				}
@@ -202,11 +207,11 @@ export default class Animation extends Core{
 
 	/**
 	 * Retuns the mixed animation pos.
-	 * 
+	 *
 	 * X and Y are the relative changes to the model location
-	 * 
+	 *
 	 * W & H are the relative changes to the model location
-	 * 
+	 *
 	 * Keep in sync with Player.initWidgetAnimationPos();
 	 */
 	getAnimationMixedPos(fromPos, toPos, p) {
@@ -1178,17 +1183,17 @@ export default class Animation extends Core{
 	/**
 	 * Create base animation object. An animation has
 	 * the following live cicle:
-	 * 
+	 *
 	 * 1) startTime is set
-	 * 
+	 *
 	 * 2) run() can optional be called called. If no startTime is set, the current time is used. Run call requestAnimationFrame()
 	 * unil the duration is finished. Run is for the simualtor basically.
-	 * 
-	 * 3) time() is called, weather by code or run(). The method calculates the percentage of the 
+	 *
+	 * 3) time() is called, weather by code or run(). The method calculates the percentage of the
 	 * animation and calls the renderCalback.
-	 * 
+	 *
 	 * 4) if time > duration we call stop...
-	 * 
+	 *
 	 */
 	createAnimation() {
 		// FIXME: Move to own class
@@ -1398,11 +1403,11 @@ export default class Animation extends Core{
 
 				/**
 				 * ok we are done. No clean up and call the end callback. we just cal this once
-				 * 
-				 * FIXME: Shouldn't the thing stop only when the time is 
-				 * 
+				 *
+				 * FIXME: Shouldn't the thing stop only when the time is
+				 *
 				 * t >= this.duration + this.delay
-				 * 
+				 *
 				 * Otherwise an easing function might once output one and we are fucked
 				 */
 				if (p == 1 && !this.finished) {

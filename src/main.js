@@ -13,6 +13,7 @@ new Vue({
     fallbackLocale: 'en',
     messages: {
       'en': require('./nls/en.json'),
+      'en-uk': require('./nls/en.json'),
       'en-us': require('./nls/en.json'),
       'cn': require('./nls/cn.json'),
       'de': require('./nls/de.json'),

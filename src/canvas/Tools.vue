@@ -1052,14 +1052,14 @@ export default {
 				 * If we do not clone here, the controller might zoom the mousePosition...
 				 */
 				let pos = lang.clone(mousePos)
-				var newScreen = this.getHoverScreen(pos);
+				let newScreen = this.getHoverScreen(pos);
 
-				var oldScreen;
-				var boundingBox;
-				if(this._copied.widget){
+				let oldScreen;
+				let boundingBox;
+				if (this._copied.widget){
 					oldScreen = this.getHoverScreen(this._copied.widget);
 				}
-				if(this._copied.multi){
+				if (this._copied.multi){
 					boundingBox = this.getBoundingBox(this._copied.multi)
 					oldScreen = this.getHoverScreen(boundingBox);
 				}
@@ -1068,24 +1068,15 @@ export default {
 					oldScreen = this.getHoverScreen(boundingBox);
 				}
 
-				if (oldScreen && newScreen && oldScreen.id != newScreen.id){
-					/**
-					 * Paste on new screen on same relative position
-					 */
-					// var x = oldScreen.x
-					if(this._copied.widget){
-						pos.x = (this._copied.widget.x - oldScreen.x) + newScreen.x;
-						pos.y = (this._copied.widget.y - oldScreen.y) + newScreen.y;
-					}
-					if(this._copied.multi || this._copied.group){
-						pos.x = (boundingBox.x - oldScreen.x) + newScreen.x;
-						pos.y = (boundingBox.y - oldScreen.y) + newScreen.y;
-					}
+				if (oldScreen && newScreen && oldScreen.id != newScreen.id) {
+
+					pos = this.getPastePositionInScreen(pos, oldScreen, newScreen, boundingBox)
+
 					/**
 					 * Ff we paste to new screen, we do not want have the last paste
 					 * function active!
 					 */
-					pos.newScreen = true
+
 				} else {
 					/**
 					 * Paste on same screen. Now check if we have a paste pattern...
@@ -1129,6 +1120,48 @@ export default {
 					}
 				}
 				return pos;
+			},
+
+			/**
+			 * Check if we paste on new screen on same relative position
+			 */
+			getPastePositionInScreen (pos, oldScreen, newScreen, boundingBox) {
+
+					if (this._copied.widget){
+
+						let x = (this._copied.widget.x - oldScreen.x) + newScreen.x;
+						let y = (this._copied.widget.y - oldScreen.y) + newScreen.y;
+
+						/**
+						 * Only paste if we are in the screen
+						 */
+						if (y < (newScreen.y + newScreen.h)) {
+							pos.newScreen = true
+							pos.x = x
+							pos.y = y
+						} else {
+							this.logger.log(-1,"getPastePositionInScreen()", "EXIT: Widget out of bounce");
+						}
+					}
+
+					if (this._copied.multi || this._copied.group) {
+
+						let x = (boundingBox.x - oldScreen.x) + newScreen.x;
+						let y = (boundingBox.y - oldScreen.y) + newScreen.y;
+
+						/**
+						 * Only past if we are inn screen
+						 */
+						if (y < (newScreen.y + newScreen.h)) {
+							pos.newScreen = true
+							pos.x = x
+							pos.y = y
+						} else {
+							this.logger.log(-1,"getPastePositionInScreen()", "EXIT: Group out of bounce");
+						}
+					}
+
+					return pos
 			},
 
 			getPasteBoundingBox (copy){

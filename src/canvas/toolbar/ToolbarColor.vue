@@ -451,12 +451,7 @@ export default {
 					if(this.value == color){
 						span.style.borderColor = "red";
 					} else {
-						if(color!= "#fff" && color!= "#ffffff"){
-							span.style.borderColor = color;
-						} else {
-							span.style.borderColor = "#cecece";
-						}
-
+						span.style.borderColor = 'rgba(0,0,0, 0.15);';
 					}
 				}
 			}
