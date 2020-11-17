@@ -1083,7 +1083,7 @@ export default {
 		},
 
 		alignmentStart (selectedType, selectedModel, activePoint, ignoreIds, showDimensions){
-			this.logger.log(1,"alignmentStart","enter > " + selectedType);
+			this.logger.log(-1,"alignmentStart","enter > " + selectedType, this.settings.snapGridOnlyToTopLeft);
 
 			/**
 			 * Use the grid only when widget is selected and grid is specified
@@ -1093,6 +1093,7 @@ export default {
 					this._alignmentTool = new GridAndRuler();
 					this._alignmentTool.ignoreGroup = this._dragNDropIgnoreGroup;
 					this._alignmentTool.showDndDistance = this.showDistance;
+					this._alignmentTool.snapGridOnlyToTopLeft = this.settings.snapGridOnlyToTopLeft
 					this._alignmentTool.showDimensions = showDimensions;
 					if(ignoreIds){
 						this._alignmentTool.ignoreIds = ignoreIds;

@@ -499,6 +499,14 @@ input:focus{
 	margin-top: 20px;
 }
 
+.MatcDialog .MatcButtonBar.MatcMarginTopXL{
+	margin-top: 40px;
+}
+
+.MatcDialog .MatcButtonBar.MatcMarginTopXXL{
+	margin-top: 60px;
+}
+
 .MatcButtonBarRelative{
 	position: relative;
 }

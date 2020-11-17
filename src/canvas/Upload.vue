@@ -247,7 +247,7 @@ export default {
 				db.div("MatcHint", "The export file contains exiting screens and widgets. Do you want to update the existing widgets or import as new?").build(cntr);
 
 
-				var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
+				var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 				var cancel = db.a(" MatcButton ", "Import as new").build(bar);
 				var save = db.a("MatcButton ", "Update Elements").build(bar);
 

@@ -11,7 +11,7 @@ export default class GridAndRuler extends Core {
 		this.logger = new Logger('GridAndRuler');
 		this.logger.log(2, "constructor", "entry");
 		this.snappDistance = 8
-		this.fastSnappMouseVelcity = 60
+		this.fastSnappMouseVelcity = 10
 		this.showDistance = 15
 		this.patternNeibhourhood = 10
 		this._initLinesCalled = 0
@@ -20,7 +20,8 @@ export default class GridAndRuler extends Core {
 		this.showDndDistance = true
 		this.highlightBoxes = true
 		this.showDimensions = false
-		this.adjustSnappDistanceToMouseSpeed =  true
+		this.snapGridOnlyToTopLeft = false
+		this.adjustSnappDistanceToMouseSpeed =  false
 		this.xMovements = [];
 		this.yMovements = [];
 		this.mousePositions = []
@@ -112,6 +113,14 @@ export default class GridAndRuler extends Core {
 		this.updateMovements(absPos);
 		var left = this.getMovementDir(this.xMovements);
 		var top = this.getMovementDir(this.yMovements);
+
+		/**
+		 * Since 3.0.43 we snapp grid on top left corner
+		 */
+		if (this.snapGridOnlyToTopLeft && this.grid.enabled) {
+			left = true
+			top = true
+		}
 
 		/**
 		 * When the user presses CTRL during dnd or resize
@@ -334,12 +343,12 @@ export default class GridAndRuler extends Core {
 			if (this.mousePositions.length > 2) {
 				/**
 				 * We calculate the miuse velicty as pixel per second. If we
-				 * have a fast movement (> 60 p/s), we set the snapp to 10
+				 * have a fast movement (> 10 p/s), we set the snapp to 10
 				 * pixel. If we move slow, it's half of the snapp distance
 				 */
 				let v = this.getMouseVelocity(this.mousePositions)
 				if (v > this.fastSnappMouseVelcity) {
-					return 10
+					return this.snappDistance
 				}
 				return this.snappDistance / 2
 			}
@@ -1576,7 +1585,8 @@ export default class GridAndRuler extends Core {
 		switch (this.activePoint) {
 
 			/**
-			 * Here we take the direction of the movement into account
+			 * Here we take the direction of the movement into account.
+			 * Since 3.0.43 top and left might be fixed because of gridSnapTopLeft
 			 */
 			case "All":
 

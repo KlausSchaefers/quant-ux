@@ -34,12 +34,12 @@ export default {
         var dialog = new Dialog();
         var db = new DomBuilder();
         let popup = db.div("MatcDialog MatcPadding").build();
-        
-    
-        let cntr = db.div().build(popup);				
-        db.h3("MatcDialogHeader", "Contact").build(cntr);		
 
-        let hint = db.p("MatcMarginBottom", "If you found a bug, miss a feature and want to share anything else, please contact us!").build(cntr);	
+
+        let cntr = db.div().build(popup);
+        db.h3("MatcDialogHeader", "Contact").build(cntr);
+
+        let hint = db.p("MatcMarginBottom", "If you found a bug, miss a feature and want to share anything else, please contact us!").build(cntr);
 
         let name = db
             .div("form-group")
@@ -62,12 +62,12 @@ export default {
             .parent()
             .textarea("form-control input-lg MatcIgnoreOnKeyPress")
             .build(cntr);
-		
-        let bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
+
+        let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
         let send = db.div("MatcButton", "Send").build(bar);
-        let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);				
+        let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
         dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
-        dialog.own(on(send, touch.press, lang.hitch(this, "send", name, email, msg, dialog, hint)));		
+        dialog.own(on(send, touch.press, lang.hitch(this, "send", name, email, msg, dialog, hint)));
 
         if (this.user && this.user.role !== 'guest') {
             name.value = this.user.name
@@ -80,9 +80,9 @@ export default {
                 name.focus()
             }, 200)
         }
-       
-        		
-        dialog.popup(popup, this.$el);			
+
+
+        dialog.popup(popup, this.$el);
     },
 
     async send (inputName, inputEmail, inputMsg, dialog, hint) {

@@ -268,7 +268,7 @@ export default {
 
 			db.div("MatcHint", "It seems you like our tool. Why don't you sign up, it's for free!").build(div);
 
-			var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(div);
+			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(div);
 
 			var save = db.a("MatcButton ", "Sign Up For Free").build(bar);
 			var cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
@@ -518,7 +518,16 @@ export default {
 			protoMotoCheckBox.setValue(settings.hasProtoMoto);
 			protoMotoCheckBox.placeAt(protoMotoCntr);
 
-			var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
+			/**
+			 * Since 3.0.43 we snapp by default to top left corner
+			 */
+			var gridSnapTopLeftCntr = db.div("form-group").build(cntr);
+			var gridSnapTopLeftChkBox = this.$new(CheckBox);
+			gridSnapTopLeftChkBox.setLabel("Snap grid to top left corner");
+			gridSnapTopLeftChkBox.setValue(settings.snapGridOnlyToTopLeft);
+			gridSnapTopLeftChkBox.placeAt(gridSnapTopLeftCntr);
+
+			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 
 			var save = db.a("MatcButton ", "Save").build(bar);
 			var cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
@@ -527,7 +536,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
-				this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox
+				this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox, gridSnapTopLeftChkBox
 			)));
 
 			dialog.popup(popup, this.template);
@@ -538,14 +547,15 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 
-		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox){
+		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox, gridSnapTopLeftChkBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
 				moveMode : moveList.getValue(),
 				mouseWheelMode: mouseWheelList.getValue(),
 				keepColorWidgetOpen: colorPicker.getValue(),
 				fastRender: renderCheckBox.getValue(),
-				hasProtoMoto: protoMotoCheckBox.getValue()
+				hasProtoMoto: protoMotoCheckBox.getValue(),
+				snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue()
 			};
 
 			this.canvas.setSettings(settings);
@@ -604,7 +614,7 @@ export default {
 			var dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 
-			var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
+			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 			var cancel = db.a("MatcButton ", "Close").build(bar);
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 
@@ -638,7 +648,7 @@ export default {
 			var dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 
-			var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
+			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 			var write = db.div("MatcButton", "Make").build(bar);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 
@@ -692,14 +702,14 @@ export default {
 				db.div("MatcHint", "Register to create a copy of the prototype...").build(cntr);
 				dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 				let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
-				let bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
+				let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 				dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			} else {
 				let cntr = db.div().build(popup);
 				db.h3("MatcDialogHeader", "Save as").build(cntr);
 				let inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", "Copy of " + this.model.name , "Name of the template").build(cntr);
 				dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
-				let bar = db.div("MatcButtonBar MatcMarginTopXXL").build(popup);
+				let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 				let write = db.div("MatcButton", "Save As").build(bar);
 				let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 				dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));

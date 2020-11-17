@@ -329,7 +329,8 @@ export default {
 		initSettings (){
 			this.logger.log(0, "initSettings", "enter > " );
 			/**
-			 * default settings
+			 * default settings.
+			 * Since 3.0.43 we snapp by default to top left corner
 			 */
 			this.settings = {
 				canvasTheme : "MatcLight",
@@ -340,6 +341,7 @@ export default {
 				startToolsOnKeyDown : true,
 				mouseWheelMode : "scroll",
 				renderLines : true,
+				snapGridOnlyToTopLeft: true,
 				keepColorWidgetOpen: true,
 				layerListVisible: false,
 				showRuler: true,
@@ -377,6 +379,9 @@ export default {
 				}
 				if(s.showAnimation != null){
 					this.settings.showAnimation = s.showAnimation;
+				}
+				if (s.snapGridOnlyToTopLeft != null) {
+					this.settings.snapGridOnlyToTopLeft = s.snapGridOnlyToTopLeft
 				}
 				if(s.keepColorWidgetOpen === true || s.keepColorWidgetOpen === false){
 					this.settings.keepColorWidgetOpen = s.keepColorWidgetOpen;
@@ -454,6 +459,9 @@ export default {
 			}
 			if (s.fastRender != null) {
 				this.settings.fastRender = s.fastRender
+			}
+			if (s.snapGridOnlyToTopLeft != null) {
+				this.settings.snapGridOnlyToTopLeft = s.snapGridOnlyToTopLeft
 			}
 			if (s.hasProtoMoto != null) {
 				this.settings.hasProtoMoto = s.hasProtoMoto
