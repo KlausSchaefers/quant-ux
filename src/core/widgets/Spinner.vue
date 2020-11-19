@@ -94,10 +94,16 @@ export default {
           option = this.values[pos];
           this.currentTop = top;
           var anim = new Animation().createAnimation();
-          anim.duration = space * 10;
+          anim.duration = space * 5;
           anim.onRender(lang.hitch(this, "onSlide", this.currentTop, dif));
           anim.onEnd(lang.hitch(this, "onSlideDone", option));
           anim.run();
+        }
+        /**
+         * Since 3.0.43 we virbrate
+         */
+        if (window.navigator && window.navigator.vibrate) {
+          window.navigator.vibrate(30);
         }
       }
 
@@ -274,7 +280,7 @@ export default {
       }
     },
 
- 
+
     destroy: function() {
       if (this._compositeState) {
         this.emitCompositeState();

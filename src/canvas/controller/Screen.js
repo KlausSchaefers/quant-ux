@@ -347,7 +347,7 @@ export default class Screen extends CopyPaste {
 		/**
 		 * do the model update
 		 */
-		this.modelScreenSize(newScreenSize, true);
+		this.modelScreenSize(newScreenSize, false);
 	}
 
 	modelScreenSize (value, updateWidgets){
@@ -370,6 +370,7 @@ export default class Screen extends CopyPaste {
 
 	/**
 	 * We simply scale...
+	 * FIXME: This is super buggy!
 	 */
 	modelScreenSizeWidgets (screen, newW, newH) { // oldMinHeight
 		var difX = screen.w / newW;

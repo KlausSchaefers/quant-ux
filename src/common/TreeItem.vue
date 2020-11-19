@@ -1,7 +1,7 @@
 
 <template>
 <!-- :xScroll="scrollToItem()" -->
-	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem']" >
+	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem']"  >
     <li :class="'MatcTreeItemLevel' + level">
         <div
             :class="'MatcTreeItemRow ' + rowStyle"

@@ -1568,7 +1568,6 @@ export default class GridAndRuler extends Core {
 
 	getCorners(pos, left, top) {
 
-
 		var corners = {
 			x: [],
 			y: [],
