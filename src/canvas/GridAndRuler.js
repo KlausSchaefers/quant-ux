@@ -114,6 +114,9 @@ export default class GridAndRuler extends Core {
 		var left = this.getMovementDir(this.xMovements);
 		var top = this.getMovementDir(this.yMovements);
 
+		let showDistanceXLeft = left
+		let showDistanceYTop = top
+
 		/**
 		 * Since 3.0.43 we snapp grid on top left corner
 		 */
@@ -294,7 +297,7 @@ export default class GridAndRuler extends Core {
 
 		if (this.showDndDistance && this.selectedType != "Xboundingbox") {
 			try {
-				this.renderNNDistance(absPos, top, left);
+				this.renderNNDistance(absPos, showDistanceYTop, showDistanceXLeft);
 			} catch (e) {
 				console.error(e);
 				console.error(e.stack);
