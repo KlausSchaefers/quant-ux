@@ -83,11 +83,6 @@ export default {
                 // {label: 'Colums (Auto Layout)', value: 'Col'},
                 {label: 'Wrap (Auto Layout)', value: 'Wrap'},
             ],
-            flexOptions: [
-                {label: 'Wrap', value: 'Wrap'},
-                {label: 'Rows', value: 'Row'},
-                {label: 'Colums', value: 'Col'},
-            ],
             paddingOptions: [
                 {label: 'Auto', value: -1},
                 {label: '0', value: 0},
@@ -110,7 +105,10 @@ export default {
             return this.layout === 'Custom'
         },
         isAutoLayout () {
-            return this.layout !== 'Grid' && this.layout !== 'Custom'
+            /**
+             * This was copied from Figma, but doe snot make much sense without auto layout in the canvas
+             */
+            return false //this.layout !== 'Grid' && this.layout !== 'Custom'
         },
         isContainer () {
             if (this.widget && (this.widget.type === 'Box' || this.widget.type === 'Button')) {

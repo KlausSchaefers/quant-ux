@@ -215,7 +215,6 @@ export default {
         // console.debug('Repeater.render(Y) h:', widget.h,  ' > bb: ', cntrBox.h, ' > r ', rows, ' > dis ', distanceY, "=", cntrBox.h * rows + (rows-1) * distanceY)
         // console.debug('Repeater.render(X)', widget.id, widget.w, cntrBox.w, columns, distanceX, "=", cntrBox.w * columns + (columns-1) * distanceX, widget)
 
-
         let cntrDiv = db.div('MatcWidgetTypeRepeaterGrid ' + widget.props.layout).build()
 
         if (widget.props.layout !== 'rows') {
@@ -368,8 +367,17 @@ export default {
 
         let w = cntrBox.w
         if (widget.props.distanceX > 0 && !widget.props.auto) {
+            /**
+             * This takes too the distance on the last element into account!
+             * widget.w = columns * w + (columns - 1) * distanceX
+             * widget.w = columns * w + columns * distanceX  + -1 * distanceX
+             * widget.w = columns * w + columns * distanceX  - distanceX
+             * widget.w + distanceX = columns * w + columns * distanceX
+             * widget.w + distanceX = columns * (w + distanceX)
+             * widget.w + distanceX  / (w + disanceX) = columns
+             */
             let distance = Math.round(widget.props.distanceX * this._scaleX)
-            columns = Math.ceil((widget.w - distance) / (w + distance))
+            columns = Math.floor((widget.w + distance) / (w + distance))
         } else {
             columns = Math.floor(widget.w / w)
         }
@@ -390,12 +398,12 @@ export default {
              * This takes too the distance on the last element into account!
              * widget.h = rows * h + (rows - 1) * distanceY
              * widget.h = rows * h + rows * distanceY - distanceY
-             * widget.h - distanceY = rows * h + rows * distanceY
-             * widget.h - distanceY = rows * (h + distanceY)
-             * (widget.h - distanceY) / (h + distanceY) = rows
+             * widget.h + distanceY = rows * h + rows * distanceY
+             * widget.h + distanceY = rows * (h + distanceY)
+             * (widget.h + distanceY) / (h + distanceY) = rows
              */
             let distance = Math.round(widget.props.distanceY * this._scaleY)
-            rows = Math.ceil((widget.h - distance) / (h + distance))
+            rows = Math.ceil((widget.h + distance) / (h + distance))
         } else {
             rows = Math.floor(widget.h / h)
         }
