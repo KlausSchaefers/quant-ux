@@ -940,24 +940,29 @@ input.VommondHasError{
 
 
  .VommondSliderBar{
- 	width: 10%;
- 	height:100%;
- 	background: #333;
- 	position: relative;
+		width: 10%;
+		height:100%;
+		background: #333;
+		position: relative;
+		cursor: pointer;
+ }
+
+ .VommondSliderMoving .VommondSliderBar{
+	cursor: grabbing;
  }
 
 
  .VommondSliderHandle{
- 	position: absolute;
- 	height: 19px;
- 	width: 10px;
- 	border-radius:2px;
- 	border:1px solid #333;
- 	background-color: #333;
- 	top:-6px;
- 	transition-duration:0.1s;
- 	transition-property:border;
- 	cursor: pointer;
+		position: absolute;
+		height: 19px;
+		width: 10px;
+		border-radius:2px;
+		border:1px solid #333;
+		background-color: #333;
+		top:-6px;
+		transition-duration:0.1s;
+		transition-property:border;
+		cursor: pointer;
  }
 
  .VommondSliderHandleLabel, .VommondSliderHandleIcon{

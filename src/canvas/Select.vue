@@ -841,7 +841,7 @@ import ModelResizer from 'core/ModelResizer'
 				 * call aligner to snap to ruler of grid
 				 */
 				if(this._resizeModelType == "screen"){
-					this.controller.updateScreenPosition(this._resizeId, pos);
+					this.controller.updateScreenPosition(this._resizeId, pos, false);
 				} else {
 					this.renderFactory.resize(this._resizeId, pos);
 					var widget = this.model.widgets[this._resizeId];

@@ -82,6 +82,8 @@ export default {
 					}
 
 					this.checkEndScreen(screen);
+
+					this.afterScreenRendered(screen)
 				} catch (err) {
 					console.error(err)
 					console.warn("Simualtor.render() >", err.message);
@@ -92,6 +94,9 @@ export default {
 				return div;
 			},
 
+			afterScreenRendered () {
+				// can be overwritten
+			},
 
 			renderScreenOverlay (overlay, line){
 				this.logger.log(3,"renderScreenOverlay","enter > " + overlay.id);

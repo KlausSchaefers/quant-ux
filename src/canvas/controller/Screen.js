@@ -520,57 +520,71 @@ export default class Screen extends CopyPaste {
 		this.modelScreenName(command.modelId, command.n);
 	}
 
-	updateScreenPosition (id, pos, updateChildren){
-		this.logger.log(1,"updateScreenPosition", "enter > screen.id : " + id + " > udpateChildren: "+ updateChildren);
+	updateScreenPosition (id, pos, isMove = false){
+		this.logger.log(-1,"updateScreenPosition", "enter > screen.id : " + id + " > isMove: "+ isMove);
 
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
 
-		var screen = this.model.screens[id];
-		/**
-		 * zooming can make width or height to small.
-		 * we correct that here
-		 */
-		if (!screen.segment) {
-			if(pos.w){
-				pos.w = Math.max(pos.w,this.model.screenSize.w);
+
+
+		let screen = this.model.screens[id];
+		if (screen) {
+
+			/**
+			 * Resizing might cause the stupid 1px bug. If we do not move,
+			 * we keep x and y stable
+			 */
+			if (!isMove) {
+				pos.x = screen.x
+				pos.y = screen.y
 			}
-			if(pos.h){
-				pos.h = Math.max(pos.h,this.model.screenSize.h);
+
+			/**
+			 * zooming can make width or height to small.
+			 * we correct that here
+			 */
+			if (!screen.segment) {
+				if(pos.w){
+					pos.w = Math.max(pos.w,this.model.screenSize.w);
+				}
+				if(pos.h){
+					pos.h = Math.max(pos.h,this.model.screenSize.h);
+				}
+			} else {
+				this.logger.log(0,"updateScreenPosition", "segement > screen.id : " + id + " > do not enforce min: ");
 			}
-		} else {
-			this.logger.log(0,"updateScreenPosition", "segement > screen.id : " + id + " > do not enforce min: ");
+
+			if(pos.x < 0){
+				pos.x = Math.abs(pos.x);
+				console.warn("updateScreenPosition() > Something strange happened, pos.x < 0 ...");
+			}
+
+			if(pos.y < 0){
+				pos.y = Math.abs(pos.y);
+				console.warn("updateScreenPosition() > Something strange happened, pos.y < 0 ...");
+			}
+
+			/**
+			 * create the command
+			 */
+			var delta = this.getDeltaBox(screen, pos);
+			var command = {
+				timestamp : new Date().getTime(),
+				type : "ScreenPosition",
+				delta :delta,
+				modelId : id,
+				updateChildren :isMove
+			};
+			this.addCommand(command);
+
+			/**
+			 * do the model update
+			 */
+			this.modelScreenUpdate(id, pos, isMove);
 		}
-
-		if(pos.x < 0){
-			pos.x = Math.abs(pos.x);
-			console.warn("updateScreenPosition() > Something strange happened, pos.x < 0 ...");
-		}
-
-		if(pos.y < 0){
-			pos.y = Math.abs(pos.y);
-			console.warn("updateScreenPosition() > Something strange happened, pos.y < 0 ...");
-		}
-
-		/**
-		 * create the command
-		 */
-		var delta = this.getDeltaBox(screen, pos);
-		var command = {
-			timestamp : new Date().getTime(),
-			type : "ScreenPosition",
-			delta :delta,
-			modelId : id,
-			updateChildren :updateChildren
-		};
-		this.addCommand(command);
-
-		/**
-		 * do the model update
-		 */
-		this.modelScreenUpdate(id, pos, updateChildren);
 	}
 
-	updateScreenWidthAndHeight (id, pos){
+	updateScreenWidthAndHeight (id, pos) {
 		this.logger.log(0,"updateScreenWidthAndHeight", "enter > screen.id : " + id + " > " +pos.w + "/"+pos.h);
 
 		var screen = this.model.screens[id];

@@ -1794,8 +1794,6 @@ export default class BaseController extends Core {
 	}
 
 	getDeltaBox (model, pos){
-
-
 		var delta = {n:{}, o:{}};
 		if(model){
 			for(var p in pos){
@@ -1803,6 +1801,7 @@ export default class BaseController extends Core {
 					if(pos[p] != model[p]){
 						delta.n[p] = pos[p];
 						delta.o[p] = model[p];
+						this.fix1PXBug(p, model, pos)
 					}
 				}
 
@@ -1810,9 +1809,28 @@ export default class BaseController extends Core {
 		} else{
 			this.logger.error("getDeltaBox", "no model passed ");
 		}
-
 		return delta;
 	}
+
+	/**
+	 * There is a nasty bug that miss aligns widgets sometimes by one px.
+	 * This method will do some additional logging to find out what is happening
+	 */
+	fix1PXBug (p, model, pos) {
+		if (p === 'x' || p === 'y') {
+			let dif = Math.abs(pos[p] - model[p])
+			if (dif === 1) {
+				//this.logger.warn("getDeltaBox", "1 PX BUG '" + p + "' @ " + model.id);
+				//this.logger.sendError(new Error("1 PX BUG '" + p + "' @ " + model.id))
+				if (window.location.href.indexOf('localhost') > 0) {
+					alert('1 PX BUG')
+					console.warn(new Error().stack)
+				}
+
+			}
+		}
+	}
+
 
 	getPropertyDelta (model, props, type){
 		/**

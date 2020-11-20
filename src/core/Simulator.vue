@@ -1041,6 +1041,18 @@ export default {
 					}
 				},
 
+				scrollIntoView (ids) {
+						for(let i=0; i< ids.length; i++){
+							var div = this.renderFactory.getWidgetNodeByID(ids[i]);
+							if(div && div.scrollIntoViewIfNeeded) {
+									/**
+									 *  This is somehow not standard. Later thereshould be a flag on scrollIntoView
+									 */
+									div.scrollIntoViewIfNeeded({behavior: "smooth", block: "center", inline: "nearest", scrollMode: 'if-needed'})
+							}
+						}
+				},
+
 				getUserTasks:function(){
 					var tasks = [];
 					if (this.settings.tasks && this.settings.tasks){

@@ -11,33 +11,33 @@ export default {
     methods: {
 		onAnimation (screenID, widgetID, e){
 			this.logger.log(2,"onAnimation","enter >  sreen:" + screenID + " > widget:" + widgetID + " > taget : " + e.id);
-							
+
 			if(this._animations[e.id]){
 				this._animations[e.id].stop();
-			}	
+			}
 
 			if (this.isDestroyed) {
 				return;
 			}
 
-			var anim = this.renderFactory.createWidgetAnimation(e);	
+			var anim = this.renderFactory.createWidgetAnimation(e);
 			if(anim){
 				anim.run()
-				this.log("Animation",screenID, widgetID, null, {animation : anim.event});	
+				this.log("Animation",screenID, widgetID, null, {animation : anim.event});
 				anim.onEnd(lang.hitch(this, "onAnimationEnded", e.id));
 				this._animations[e.id]  = anim;
-			}			
+			}
 		},
-		
+
 		onAnimationEnded (widgetID){
 			delete this._animations[widgetID];
 		},
-		
-		
+
+
 		/**********************************************************
 		 * Screen Animation!
 		 **********************************************************/
-		
+
 		/**
 		 * We create here a animation object like it would be in the model,
 		 * and the call the default runScreenAnimation;
@@ -56,7 +56,7 @@ export default {
 			var from = this.currentScreen;
 			var widgets = this.sortChildren(screen.children);
 			for(var i=0; i< widgets.length; i++){
-				var widget = widgets[i];	
+				var widget = widgets[i];
 				if(!animations.widgets[widget.id]){
 					var animation = {duration:duration, delay:0, type: null, easing:line.easing};
 					if(this.widgetIsCopyOfOtherScreen(widget, screen.id, from)){
@@ -64,12 +64,12 @@ export default {
 						animations.widgets[widget.id] = animation;
 					}
 				}
-					
-			}			
+
+			}
 			return animations;
 		},
-		
-		
+
+
 		widgetIsCopyOfOtherScreen (widget, screenID, from){
 			if (from){
 				var children = from.children;
@@ -82,9 +82,9 @@ export default {
 				}
 			}
 			return false;
-		},	
-		
-		
+		},
+
+
 		runOnLoadedScreenAnimation (screenID,line, endCallback){
 			this.logger.log(1,"runOnLoadedScreenAnimation","enter >  sreen:" + screenID);
 			if (this.doNotRunOnLoadAnimation || this.isDestroyed){
@@ -107,7 +107,7 @@ export default {
 								anim.widgets[id] = widgetTranAnims[id]
 							}
 						}
-					
+
 					} else {
 						/**
 						 * If no anim, but and transition anim,
@@ -119,28 +119,28 @@ export default {
 				}
 				if(anim){
 					this.runScreenAnimation(screenID, anim, "ScreenLoaded", endCallback);
-				} 
+				}
 			}
 		},
-	
-		
+
+
 		runScreenAnimation (screenID, animation, triggerType, endCallBack, progressCallback){
 			this.logger.log(1,"runScreenAnimation","enter >  sreen:" + screenID);
-			
+
 			if (this.isDestroyed) {
 				console.warn('Simulator.runScreenAnimation() > Destroyed')
 				return;
 			}
 			var animFactory = new Css3Animation();
 			var anims2Run = [];
-			
-			
+
+
 			var widgets = lang.clone(animation.widgets);
-			
+
 			/**
 			 * Here we create a copy of the group animations
 			 * for every child.
-			 * 
+			 *
 			 * To make slides work, we also calculate the offsets,
 			 * which will be in the Animation factory method used
 			 * to correct the *from* position, so the proportions stay the
@@ -152,14 +152,19 @@ export default {
 					var groupAnim = groups[groupID];
 					var group = this.model.groups[groupID];
 					if(group && group.children) {
-						var children = group.children;
-						
+
+						/**
+						 * We can define animations only on top level groups!
+						 */
+						var children = this.getAllGroupChildren(group);
+
 						var bbox = this.getGroupBoundingBox(group.children);
-					
+
 						for(var i =0; i< children.length; i++){
 							var widgetID = children[i];
 							var modelWidget = this.model.widgets[widgetID];
-							if(!widgets[widgetID]){
+							// avoid double animation
+							if (!widgets[widgetID]){
 								var widgetAnim = lang.clone(groupAnim);
 								widgetAnim.offSet = {
 									left: modelWidget.x - bbox.x,
@@ -168,34 +173,34 @@ export default {
 									bottom : (modelWidget.y + modelWidget.h) - (bbox.y + bbox.h)
 								}
 								widgets[widgetID] = widgetAnim;
-								
+
 							} else {
 								console.warn("runScreenAnimation > Group cannot overwrite widget animation for " + widgetID);
 							}
-							
+
 						}
 					} else {
 						// FIXME: this can happen if the group was deleted
 						// We should clean up the animations on widget delete or group delete...
 						console.warn("runScreenAnimation() > No Group with id", groupID)
-					}	
+					}
 				}
 			}
-			
-			
+
+
 			for(let widgetID in widgets){
 				var widgetAnimation = widgets[widgetID];
-				
+
 				/**
 				 * Check if we have an factory method
 				 */
-				if(animFactory["createAnimationEvent_" + widgetAnimation.type]){					
+				if(animFactory["createAnimationEvent_" + widgetAnimation.type]){
 					let animationEvent = animFactory["createAnimationEvent_" + widgetAnimation.type](widgetID, widgetAnimation, this.model, this.lastScreen);
-					if(animationEvent){						
+					if(animationEvent){
 						/**
 						 * Like this.renderFactory.createWidgetAnimation(e)
 						 */
-						var widget = this.renderFactory.getAnimationWrapper(widgetID);					
+						var widget = this.renderFactory.getAnimationWrapper(widgetID);
 						if(widget){
 							let anim = animFactory.createWidgetAnimation(widget, animationEvent);
 							/**
@@ -203,16 +208,16 @@ export default {
 							 */
 							if(anim){
 								anims2Run.push(anim);
-							}	
+							}
 						} else {
 							console.warn("runScreenAnimation > Not widget for " + widgetID);
-						}						
+						}
 					}
 				} else {
 					console.warn("runScreenAnimation > Not supported type " + widgetAnimation.type);
 				}
 			}
-			
+
 			/**
 			 * Start the animations only after and have a closure to check
 			 * if everything is done. Only then invoke callback
@@ -229,7 +234,7 @@ export default {
 					}
 				}
 			};
-			
+
 			/**
 			 * No run the animations...
 			 */
@@ -242,13 +247,13 @@ export default {
 				}
 				anim.run();
 				this.logAnimationEvent(screenID, widgetID, anim, triggerType);
-			} 
+			}
 			if(total ==0){
 				if(endCallBack){
 					endCallBack();
 				}
 			}
-			this._widgetAnimations = anims2Run;			
+			this._widgetAnimations = anims2Run;
 		},
 
 		cleanUpAnimations (){
@@ -259,7 +264,7 @@ export default {
 			}
 			delete this._widgetAnimations;
 		},
-		
+
         cleanUpGestureScreenAnim (){
 			if(this._screenGestureMoveListener){
 				this._screenGestureMoveListener.remove();
@@ -273,7 +278,7 @@ export default {
 				this._gesturePressListener.remove();
 				delete this._gesturePressListener;
 			}
-				
+
 			delete this._screenGestureType;
 			delete this._screenGestureLine;
 			delete this._screenGestureStartScreenID;

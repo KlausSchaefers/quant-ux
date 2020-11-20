@@ -51,6 +51,12 @@ export default class Logger {
 		if(vommondLoggingErros < 10){
 			var q = this.writeQueue();
 			let u = Services.getUserService().getUser();
+			if (u) {
+				u = {
+					id: u.id,
+					email: u.email
+				}
+			}
 
 			var msg = {
 				level : 0,
