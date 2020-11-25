@@ -537,6 +537,7 @@ export default class Screen extends CopyPaste {
 			if (!isMove) {
 				pos.x = screen.x
 				pos.y = screen.y
+
 			}
 
 			/**
@@ -544,10 +545,14 @@ export default class Screen extends CopyPaste {
 			 * we correct that here
 			 */
 			if (!screen.segment) {
-				if(pos.w){
-					pos.w = Math.max(pos.w,this.model.screenSize.w);
+				/**
+				 * Since 3.0.44 we will always enforce the width. Otherwise rounding issues
+				 * can add a pixel :(
+				 */
+				if (pos.w) {
+					pos.w = this.model.screenSize.w;
 				}
-				if(pos.h){
+				if (pos.h) {
 					pos.h = Math.max(pos.h,this.model.screenSize.h);
 				}
 			} else {
