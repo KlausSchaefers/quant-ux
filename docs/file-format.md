@@ -1,7 +1,7 @@
 # Quant-UX File Format
 
 The Quant-UX file format assumes an invinite canvas. All elements are positioned relative to the canvas.
-The two main elements are **screens** (aka artboards) and **widgets**. They have x & x coordinates, a width (w) and height(h)
+The two main elements are **screens** (aka artboards) and **widgets**. They have x & y coordinates, a width (w) and height(h)
 and in case of widgets also a z property. In addtion there are **groups** and lines. The file format is **flat**,
 there is no nesting of elements. Rererences between elements, e.g. parent child relations, are maintained through ids. The basic structure looks as
 
