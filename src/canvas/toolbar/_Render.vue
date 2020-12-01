@@ -1837,7 +1837,7 @@ export default {
 
 				if(this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
 					css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
-					this.validationWidget.setValue(model);
+					this.validationWidget.setValue(model, false);
 				}
 
 				if(this.widgetName){
@@ -1933,7 +1933,7 @@ export default {
 
 			if (this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
 				css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
-				this.validationWidget.setValue(model);
+				this.validationWidget.setValue(model, true);
 			}
 			this.lowCodeSection.setValue(model)
 			this.callbackSection.setValue(model)

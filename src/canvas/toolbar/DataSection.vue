@@ -29,6 +29,7 @@ import Preview from 'page/Preview'
 import TableSettings from 'canvas/toolbar/TableSettings'
 import DropDownTree from 'canvas/toolbar/DropDownTree'
 import ImageRotate from 'canvas/toolbar/ImageRotate'
+import DataBindingButton from 'canvas/toolbar/DataBindingButton'
 import DomUtil from 'core/DomUtil'
 
 export default {
@@ -83,7 +84,9 @@ export default {
 				this.icons = icons
 			},
 
-			setValue (widget){
+			setValue (widget, isDataView = false){
+
+				this.isDataView = isDataView
 
 				if (this.widget && this.widget.id === widget.id){
 					this.logger.log(0, "setValue", "exit because same widget");
@@ -1061,24 +1064,17 @@ export default {
 			 **********************************************************************/
 
 			_renderDataBinding (widget, hasIgnoreState = true){
-				var icon = "mdi mdi-database-plus";
-				var txt = "Add Data Binding";
 
-				var dataBinding = this.getDataBinding(widget);
-				if(dataBinding && Object.keys(dataBinding).length > 0){
-					icon = "mdi mdi-database";
-					txt = Object.values(dataBinding).join(', ')
-				}
-
-				var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);
-
-				var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull").build(row);
-				var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
-				this.db.span(icon).build(lbl);
-				this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
-
-				this.db.span("caret").build(cntr);
-				this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showDataBindingDialog", widget)));
+				let dataBindingBtn = this.$new(DataBindingButton)
+				dataBindingBtn.setWidget(widget)
+				dataBindingBtn.setDataView(this.isDataView)
+				dataBindingBtn.setModel(this.model)
+				dataBindingBtn.placeAt(this.cntr)
+				dataBindingBtn.on('showDialog', () => this._showDataBindingDialog(widget))
+				dataBindingBtn.on('change', (value) => {
+					console.debug('change', value)
+					this.emit("propertyChange", "databinding", value);
+				})
 
 				if (hasIgnoreState) {
 					this._renderIgnoreState(widget);
