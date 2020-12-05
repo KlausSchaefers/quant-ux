@@ -589,7 +589,7 @@ export default {
 					 * If a ScreenLoad follows a ScreenAnimation we do not reset as well!
 					 */
 					var lastEvent = this.events[i-1];
-					if (event.type !="ScreenAnimation" && !(lastEvent.type == "ScreenAnimation" && event.type == "ScreenLoaded")) {
+					if (lastEvent && event.type !="ScreenAnimation" && !(lastEvent.type == "ScreenAnimation" && event.type == "ScreenLoaded")) {
 						if(event.scrollTop != undefined && event.scrollTop != null){
 							state.value = event.scrollTop;
 						}
