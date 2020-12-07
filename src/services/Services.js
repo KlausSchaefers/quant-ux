@@ -22,6 +22,7 @@ class Services {
     }
 
     getUserService () {
+        UserService.setToken(UserService.getToken())
         return UserService
     }
 
