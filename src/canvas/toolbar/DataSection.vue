@@ -1691,6 +1691,7 @@ export default {
 
 				var imageDrpDwn = this.$new(ToolbarImage, {mode:this.mode});
 				css.add(imageDrpDwn.domNode, "MatcToolbarGridFull")
+				imageDrpDwn.setJwtToken(this.jwtToken)
 				imageDrpDwn.setModel(this.model);
 				imageDrpDwn.setCanvas(this.canvas);
 				imageDrpDwn.setSelection(widget.props.images);

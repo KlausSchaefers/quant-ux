@@ -57,7 +57,6 @@ export default {
 
 				setMultiSelection (multiSelection){
 					this.multiSelection = multiSelection;
-
 				},
 
 				setSelection (selection){
@@ -308,11 +307,11 @@ export default {
 						this.errorMsg.innerHTML="Please register to delete images...";
 						css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
 					} else {
-						this._doDelete("/rest/images/" + this.model.id + "/" + img.id + "/" + img.url);
 						/**
-						 * FIXME: If we delete an image, and it is the current image
-						 * we should set the backgroundImage value to 'null'
+						 * FIXME: Move this to model client
 						 */
+						this._doDelete("/rest/images/" + this.model.id + "/" + img.id + "/" + img.url + "?token=" + this.jwtToken+ ")")
+
 						if(this._value && this._value.url == img.url){
 							this.onChange(null);
 						}
@@ -324,10 +323,7 @@ export default {
 								this.selection.splice(pos,1);
 							}
 						}
-
-
 					}
-
 					this.load();
 			},
 			destroy (){
