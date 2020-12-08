@@ -1,16 +1,16 @@
 
 <template>
      <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarImage">
-			<div type="button" data-dojo-attach-point="button"> 
-				<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label> 
-				<span class="caret"></span> 
+			<div type="button" data-dojo-attach-point="button">
+				<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
+				<span class="caret"></span>
 				</div>
 				<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 				<div class="MatcImageUpload" data-dojo-attach-point="upload">
 						<div data-dojo-attach-point="imageContainer" class="MatcImageUploadContainer">
 				</div>
 				<div class="MatcPopupErrorMsg" data-dojo-attach-point="errorMsg"></div>
-				<div data-dojo-attach-point="footer" class="MatcToolbarPopupFooter"> 
+				<div data-dojo-attach-point="footer" class="MatcToolbarPopupFooter">
 				</div>
 			</div>
 		</div>
@@ -33,306 +33,307 @@ export default {
     mixins:[DojoWidget, _DropDown],
     data: function () {
         return {
-            value: false, 
-            reposition: true, 
-            arrowPosition: "right", 
-            mode: "private", 
-            multiSelection: false, 
-            selection: []
+            value: false,
+            reposition: true,
+            arrowPosition: "right",
+            mode: "private",
+            multiSelection: false,
+						selection: [],
+						jwtToken: 'notoken',
         }
     },
     components: {},
     methods: {
         init: function(){
-		
-		},
-		
-		setCanvas (c){
-			this.canvas = c;
-		},
-		
-		setMultiSelection (multiSelection){
-			this.multiSelection = multiSelection;
-			
-		},
-		
-		setSelection (selection){
-			if(selection){
-				this.selection = lang.clone(selection);
-			}
+				},
 
-		},
-		
-		setModel (m){
-			this.model = m;	
-		},
-		
-		setValue (v){
-			this._value = v;
-		},
-		
-		setLabel (value){
-			this.label.innerHTML = value;
-		},
-		
+				setJwtToken (t) {
+					this.jwtToken = t
+				},
 
-		onVisible (){
-			this.load();
-			this.canvas.enableMouseZoom(false);
-			css.remove(this.errorMsg, "MatcPopupErrorMsgVivisble");
-		},
-		
-		onHide (){
-					
-			this.cleanUpTempListener();
-			if(this.uploader){
-				this.uploader.destroyFileDnD();
-				this.uploader.destroy();	
-			}
-			
-			this.canvas.enableMouseZoom(true);
-		},
-		
-		
-		
-		onUploadDone (result){
-		
-			if(result.errors && result.errors.length > 0){
-				css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
-				this.errorMsg.innerHTML="The image type is not supported or the image bigger than 1 MB.";
-			} else {
-				css.remove(this.errorMsg, "MatcPopupErrorMsgVivisble");
-				this.errorMsg.innerHTML=""
-			}
-		    this._files = null;
-		    this.load();
-		},
-		
-		onUploadError (MSG){
-			this.errorMsg.innerHTML=MSG;
-			css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
-		},
-		
-		
-		async load (){
-			if (this.model.id) {
-				//this.clearXHRCache("/rest/images/" + this.model.id + ".json");
-				let data = await Services.getModelService().findImages(this.model.id)
-				this.render(data)
-				//this._doGet("/rest/images/" + this.model.id + ".json", "render");
-			} else {
-				this.renderTryOut();
-			}
-		},
-		
-		renderTryOut (){
-			var parent = document.createElement("div");
-			
-			var div = document.createElement("div");
-			css.add(div, "MatcHint");
-			div.innerHTML="Register to upload images...";
-			parent.appendChild(div);
-	
-			this.imageContainer.innerHTML="";
-			this.imageContainer.appendChild(parent);
-			
-			this.renderFooter();
-		},
-		
-		render (data){
+				setCanvas (c){
+					this.canvas = c;
+				},
 
-			if(this.scrollCntr){
-				//this.scrollCntr.destroy();
-			}
-			this.cleanUpTempListener();
-		
-			
-			let parent = document.createElement("div");
-		 	this.tempOwn(on(parent, touch.press, lang.hitch(this, "stopEvent")));
-			this.tempOwn(on(parent, "click", lang.hitch(this, "stopEvent")));
-			
-			let add = document.createElement("div");
-			css.add(add, "MatcImageUploadPreview");
-			
-			if(this.uploader){
-				this.uploader.destroyFileDnD();
-				this.uploader.destroy();	
-			}
+				setMultiSelection (multiSelection){
+					this.multiSelection = multiSelection;
 
-			this.uploader = this.$new(Uploader,{size:70, url : '/rest/images/' + this.model.id, width:2});	
-			this.uploader.placeAt(add);
-			this.uploader.setMode(this.mode);
-			this.uploader.initFileDnD(this.popup);
-			parent.appendChild(add);
-			
-			this.tempOwn(this.uploader.on("uploadDone", lang.hitch(this, "onUploadDone")));
-			this.tempOwn(this.uploader.on("uploadError", lang.hitch(this, "onUploadError", "Something went wrong...")));
-			this.tempOwn(this.uploader.on("uploadPublicError", lang.hitch(this, "onUploadError", "Please register to upload images.")));
-			
-			
-			for(let i=0; i< data.length; i++){		
-				let div = document.createElement("div");
-				css.add(div, "MatcImageUploadPreview MatcToolbarDropDownButtonItem");
-				if(data[i].width > data[i].height){
-					css.add(div, "MatcImageUploadPreviewHorizontal");
-				} else {
-					css.add(div, "MatcImageUploadPreviewVertical");
-				}
-				div.style.backgroundImage = "url(/rest/images/" + data[i].url + ")";
-				
-				if(this.imageIsSelected(data[i])){
-					css.add(div, "MatcImageUploadPreviewSelected ");
-				}
-				
-				let del = document.createElement("div");
-				css.add(del, "MatcImageUploadRemove");
-				del.innerHTML = 'X';
-				this.tempOwn(on(del, touch.press, lang.hitch(this, "_deleteImage", data[i])));
-				div.appendChild(del);
-				
-				parent.appendChild(div);
-				this.tempOwn(on(div, touch.press, lang.hitch(this, "_selectImage", data[i], div)));
-			}
-			
-			if(data.length ==0){
-				let div = document.createElement("div");
-				css.add(div, "MatcHint");
-				div.innerHTML="Click the button or drop your images here!";
-				parent.appendChild(div);
-			}
-			
-			
-			this.imageContainer.innerHTML="";
-			this.imageContainer.appendChild(parent);
-			
-			
-			let s = this.$new(ScrollContainer);
-			s.placeAt(this.imageContainer);
-			s.wrap(parent);
-		
-			//css.remove(this.progressCntr, "MatcImageUploadLabelVisible");
-			this.scrollCntr = s;
-			
-			this.renderFooter();
-		
-		},
-		
-		imageIsSelected (img){
-			if(this.multiSelection){
-				var url = img.url;
-				return this.selection && this.selection.indexOf(url) >=0;				
-			} else {
-				return this._value && this._value.url == img.url
-			}
-		},
-		
-		
-		renderFooter (){
+				},
 
-			if(this.multiSelection){
-				this.footer.innerHTML="";
-				
-				var bar = document.createElement("div");
-				css.add(bar, "MatcButtonBar");
-				
-				
-				var save = document.createElement("span");
-				save.innerHTML="Save";
-				css.add(save, "MatcButton");
-				bar.appendChild(save);
-				
-				var cancel = document.createElement("span");
-				cancel.innerHTML="Cancel";
-				css.add(cancel, "MatcLinkButton");
-				bar.appendChild(cancel);
-				
-				this.footer.appendChild(bar);
-				
-			 	this.tempOwn(on(save, touch.press, lang.hitch(this, "saveImageSelection")));
-			 	this.tempOwn(on(cancel, touch.press, lang.hitch(this, "canceImageSelection")));
-			 	
-			} else {
-				this.footer.innerHTML = '<span class="MatcToolbarPopupFooterNone glyphicon glyphicon-remove-sign"></span> No Background Image ';
-			 	this.tempOwn(on(this.footer, touch.press, lang.hitch(this, "_removeImage")));
-			}
-		},
-		
-		saveImageSelection (e){
-			this.stopEvent(e);
-			this.onChange(this.selection);
-		},
-		
-		canceImageSelection (e){
-			this.stopEvent(e);
-			this.hideDropDown();
-		},
-		
-		
-		
-		_selectImage (v, div, e){
-			this.stopEvent(e);
-			
-			if(this.multiSelection){
-				
-				var url = v.url;
-				var pos = this.selection.indexOf(url);
-				if(pos >=0){
-					this.selection.splice(pos,1);
-					css.remove(div, "MatcImageUploadPreviewSelected");
-				} else {
-					this.selection.push(url);					
-					css.add(div, "MatcImageUploadPreviewSelected");
-				}
-				
-			} else {
-				var i = {
-					url : v.url,
-					w : v.width,
-					h : v.height
-				};
-				this.onChange(i);
-			}
-				
-		},
-		
-		_removeImage (e){
-			this.stopEvent(e);
-			this.onChange(null);
-		},
-		
-		_deleteImage (img, e){
-			this.stopEvent(e);
-			if(this.mode == "public"){
-				this.errorMsg.innerHTML="Please register to delete images...";
-				css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
-			} else {
-				this._doDelete("/rest/images/" + this.model.id + "/" + img.id + "/" + img.url);
-				/**
-				 * FIXME: If we delete an image, and it is the current image 
-				 * we should set the backgroundImage value to 'null'
-				 */
-				if(this._value && this._value.url == img.url){
-					this.onChange(null);
-				}
-				
-				var url = img.url;
-				if(this.multiSelection){
-					var pos = this.selection.indexOf(url);
-					if(pos >=0){
-						this.selection.splice(pos,1);
+				setSelection (selection){
+					if(selection){
+						this.selection = lang.clone(selection);
 					}
-				}
-				
-			
+
+				},
+
+				setModel (m){
+					this.model = m;
+				},
+
+				setValue (v){
+					this._value = v;
+				},
+
+				setLabel (value){
+					this.label.innerHTML = value;
+				},
+
+
+				onVisible (){
+					this.load();
+					this.canvas.enableMouseZoom(false);
+					css.remove(this.errorMsg, "MatcPopupErrorMsgVivisble");
+				},
+
+				onHide (){
+
+					this.cleanUpTempListener();
+					if(this.uploader){
+						this.uploader.destroyFileDnD();
+						this.uploader.destroy();
+					}
+
+					this.canvas.enableMouseZoom(true);
+				},
+
+
+
+				onUploadDone (result){
+
+					if(result.errors && result.errors.length > 0){
+						css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
+						this.errorMsg.innerHTML="The image type is not supported or the image bigger than 1 MB.";
+					} else {
+						css.remove(this.errorMsg, "MatcPopupErrorMsgVivisble");
+						this.errorMsg.innerHTML=""
+					}
+						this._files = null;
+						this.load();
+				},
+
+				onUploadError (MSG){
+					this.errorMsg.innerHTML=MSG;
+					css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
+				},
+
+
+				async load (){
+					if (this.model.id) {
+						let data = await Services.getModelService().findImages(this.model.id)
+						this.render(data)
+					} else {
+						this.renderTryOut();
+					}
+				},
+
+				renderTryOut (){
+					var parent = document.createElement("div");
+
+					var div = document.createElement("div");
+					css.add(div, "MatcHint");
+					div.innerHTML="Register to upload images...";
+					parent.appendChild(div);
+
+					this.imageContainer.innerHTML="";
+					this.imageContainer.appendChild(parent);
+
+					this.renderFooter();
+				},
+
+				render (data){
+
+					if(this.scrollCntr){
+						//this.scrollCntr.destroy();
+					}
+					this.cleanUpTempListener();
+
+
+					let parent = document.createElement("div");
+					this.tempOwn(on(parent, touch.press, lang.hitch(this, "stopEvent")));
+					this.tempOwn(on(parent, "click", lang.hitch(this, "stopEvent")));
+
+					let add = document.createElement("div");
+					css.add(add, "MatcImageUploadPreview");
+
+					if(this.uploader){
+						this.uploader.destroyFileDnD();
+						this.uploader.destroy();
+					}
+
+					this.uploader = this.$new(Uploader,{size:70, url : '/rest/images/' + this.model.id, width:2});
+					this.uploader.placeAt(add);
+					this.uploader.setMode(this.mode);
+					this.uploader.initFileDnD(this.popup);
+					parent.appendChild(add);
+
+					this.tempOwn(this.uploader.on("uploadDone", lang.hitch(this, "onUploadDone")));
+					this.tempOwn(this.uploader.on("uploadError", lang.hitch(this, "onUploadError", "Something went wrong...")));
+					this.tempOwn(this.uploader.on("uploadPublicError", lang.hitch(this, "onUploadError", "Please register to upload images.")));
+
+
+					for(let i=0; i< data.length; i++){
+						let div = document.createElement("div");
+						css.add(div, "MatcImageUploadPreview MatcToolbarDropDownButtonItem");
+						if(data[i].width > data[i].height){
+							css.add(div, "MatcImageUploadPreviewHorizontal");
+						} else {
+							css.add(div, "MatcImageUploadPreviewVertical");
+						}
+						div.style.backgroundImage = "url(/rest/images/" + data[i].url + "?token=" + this.jwtToken+ ")";
+
+						if(this.imageIsSelected(data[i])){
+							css.add(div, "MatcImageUploadPreviewSelected ");
+						}
+
+						let del = document.createElement("div");
+						css.add(del, "MatcImageUploadRemove");
+						del.innerHTML = 'X';
+						this.tempOwn(on(del, touch.press, lang.hitch(this, "_deleteImage", data[i])));
+						div.appendChild(del);
+
+						parent.appendChild(div);
+						this.tempOwn(on(div, touch.press, lang.hitch(this, "_selectImage", data[i], div)));
+					}
+
+					if(data.length ==0){
+						let div = document.createElement("div");
+						css.add(div, "MatcHint");
+						div.innerHTML="Click the button or drop your images here!";
+						parent.appendChild(div);
+					}
+
+
+					this.imageContainer.innerHTML="";
+					this.imageContainer.appendChild(parent);
+
+
+					let s = this.$new(ScrollContainer);
+					s.placeAt(this.imageContainer);
+					s.wrap(parent);
+
+					//css.remove(this.progressCntr, "MatcImageUploadLabelVisible");
+					this.scrollCntr = s;
+
+					this.renderFooter();
+
+				},
+
+				imageIsSelected (img){
+					if(this.multiSelection){
+						var url = img.url;
+						return this.selection && this.selection.indexOf(url) >=0;
+					} else {
+						return this._value && this._value.url == img.url
+					}
+				},
+
+
+				renderFooter (){
+
+					if(this.multiSelection){
+						this.footer.innerHTML="";
+
+						var bar = document.createElement("div");
+						css.add(bar, "MatcButtonBar");
+
+
+						var save = document.createElement("span");
+						save.innerHTML="Save";
+						css.add(save, "MatcButton");
+						bar.appendChild(save);
+
+						var cancel = document.createElement("span");
+						cancel.innerHTML="Cancel";
+						css.add(cancel, "MatcLinkButton");
+						bar.appendChild(cancel);
+
+						this.footer.appendChild(bar);
+
+						this.tempOwn(on(save, touch.press, lang.hitch(this, "saveImageSelection")));
+						this.tempOwn(on(cancel, touch.press, lang.hitch(this, "canceImageSelection")));
+
+					} else {
+						this.footer.innerHTML = '<span class="MatcToolbarPopupFooterNone glyphicon glyphicon-remove-sign"></span> No Background Image ';
+						this.tempOwn(on(this.footer, touch.press, lang.hitch(this, "_removeImage")));
+					}
+				},
+
+				saveImageSelection (e){
+					this.stopEvent(e);
+					this.onChange(this.selection);
+				},
+
+				canceImageSelection (e){
+					this.stopEvent(e);
+					this.hideDropDown();
+				},
+
+
+
+				_selectImage (v, div, e){
+					this.stopEvent(e);
+
+					if(this.multiSelection){
+
+						var url = v.url;
+						var pos = this.selection.indexOf(url);
+						if(pos >=0){
+							this.selection.splice(pos,1);
+							css.remove(div, "MatcImageUploadPreviewSelected");
+						} else {
+							this.selection.push(url);
+							css.add(div, "MatcImageUploadPreviewSelected");
+						}
+
+					} else {
+						var i = {
+							url : v.url,
+							w : v.width,
+							h : v.height
+						};
+						this.onChange(i);
+					}
+
+				},
+
+				_removeImage (e){
+					this.stopEvent(e);
+					this.onChange(null);
+				},
+
+				_deleteImage (img, e){
+					this.stopEvent(e);
+					if(this.mode == "public"){
+						this.errorMsg.innerHTML="Please register to delete images...";
+						css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
+					} else {
+						this._doDelete("/rest/images/" + this.model.id + "/" + img.id + "/" + img.url);
+						/**
+						 * FIXME: If we delete an image, and it is the current image
+						 * we should set the backgroundImage value to 'null'
+						 */
+						if(this._value && this._value.url == img.url){
+							this.onChange(null);
+						}
+
+						var url = img.url;
+						if(this.multiSelection){
+							var pos = this.selection.indexOf(url);
+							if(pos >=0){
+								this.selection.splice(pos,1);
+							}
+						}
+
+
+					}
+
+					this.load();
+			},
+			destroy (){
+				this.cleanUpTempListener();
 			}
-						
-			this.load();
-		},			
-		
-		destroy (){
-			this.cleanUpTempListener();
-		}
-    }, 
+    },
     mounted () {
     }
 }

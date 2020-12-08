@@ -81,7 +81,7 @@ export default {
     this.logger.log(-1, 'mounted', 'exit >> ' + this.user.email + " >> locale: " + navigator.language)
     this.$root.$on('MatcLogout', (user) => {
 				this.onLogout(user)
-		})
+    })
   }
 };
 </script>

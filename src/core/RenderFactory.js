@@ -1347,6 +1347,7 @@ export default class RenderFactory extends Core {
 			} else if (this.jwtToken) {
 				parent.style.backgroundImage = "url(/rest/images/" + img.url + "?token=" + this.jwtToken+ ")";
 			} else {
+				console.error('RenderFactory._set_background() > No Token!')
 				parent.style.backgroundImage = "url(/rest/images/" + img.url + ")";
 			}
 

@@ -870,6 +870,7 @@ export default {
 			// background image
 			this.backgroundImage = this.$new(ToolbarImage, {mode:this.mode});
 			this.backgroundImage.setCanvas(this.canvas);
+			this.backgroundImage.setJwtToken(this.jwtToken);
 			this.backgroundImage.setLabel('<span class="mdi mdi-image"></span>');
 			this.own(on(this.backgroundImage, "change", lang.hitch(this, "setWidgetStyle", "backgroundImage")));
 			this._placeAt(this.backgroundImage,content);
@@ -893,6 +894,7 @@ export default {
 
 			// background image position
 			this.backgroundImagePosition = this.$new(ToolbarImagePosition, {mode:this.mode});
+			this.backgroundImagePosition.setJwtToken(this.jwtToken);
 			this.backgroundImagePosition.setLabel('<span class="mdi mdi-crop"></span>');
 			this.own(on(this.backgroundImagePosition, "change", lang.hitch(this, "setWidgetMultiStyle")));
 			this._placeAt(this.backgroundImagePosition, content);
@@ -1176,6 +1178,7 @@ export default {
 			this._placeAt(this.screenBackgroundColor, content);
 
 			this.screenBackgroundImage = this.$new(ToolbarImage, {mode:this.mode});
+			this.screenBackgroundImage.setJwtToken(this.jwtToken)
 			this.screenBackgroundImage.setLabel('<span class="mdi mdi-image"></span>');
 			this.screenBackgroundImage.setCanvas(this.canvas);
 			this.own(on(this.screenBackgroundImage, "change", lang.hitch(this, "setScreenStyle", "backgroundImage")));
