@@ -97,10 +97,6 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "unit" */ './unit/CodeGenTest.vue')
     },
     {
-      path: '/test/Player.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/PlayerTest.vue')
-    },
-    {
       path: '/test/Rest.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/RestSettingsTest.vue')
     },

@@ -1054,8 +1054,7 @@ export default {
         } else if (this.jwtToken) {
           parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + "?token=" + this.jwtToken + ")";
         } else {
-          this.logger.error('_set_backgroundImageInNode', 'error > no token or hash')
-				  this.logger.sendError(new Error('UIWidget() > No token for image request'))
+          this.logger.warn('_set_backgroundImageInNode', 'error > no token or hash')
           var url = "url(/rest/images/" + img.url + ")";
           parent.style.backgroundImage = url;
         }

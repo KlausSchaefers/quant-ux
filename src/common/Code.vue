@@ -37,6 +37,7 @@
 
 <script>
 import DojoWidget from 'dojo/DojoWidget'
+import hljs from 'highlight.js';
 import javascript from 'highlight.js/lib/languages/javascript'
 import xml from 'highlight.js/lib/languages/xml'
 import css from 'highlight.js/lib/languages/css'
@@ -177,7 +178,7 @@ export default {
     /*
      * We load highlight.js as late as possible
      */
-    let hljs = await import(/* webpackChunkName: "highlight" */ 'highlight.js/lib/highlight')
+
     hljs.registerLanguage('javascript', javascript)
     hljs.registerLanguage('html', xml)
     hljs.registerLanguage('css', css)

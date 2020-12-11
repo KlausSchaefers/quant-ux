@@ -352,8 +352,7 @@ export default {
             let url = "url(/rest/images/" + image + "?token=" + this.jwtToken + ")";
             element.style.backgroundImage = url;
           } else {
-            this.logger.error('setImage', 'error > no token or hash')
-				    this.logger.sendError(new Error('ImageCarussel() > No token for image request'))
+            this.logger.warn('setImage', 'error > no token or hash')
             let url = "url(/rest/images/" + image + ")";
             element.style.backgroundImage = url;
           }
