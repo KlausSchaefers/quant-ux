@@ -329,6 +329,10 @@ export default class RenderFactory extends Core {
 		var instance = new ComponentClass();
 		instance.mode = this.mode
 		instance.$mount(); // pass nothing
+		/**
+		 * We have to set the JWT token!
+		 */
+		instance.setJwtToken(this.jwtToken)
 		return instance;
 	}
 
@@ -1347,7 +1351,8 @@ export default class RenderFactory extends Core {
 			} else if (this.jwtToken) {
 				parent.style.backgroundImage = "url(/rest/images/" + img.url + "?token=" + this.jwtToken+ ")";
 			} else {
-				console.error('RenderFactory._set_background() > No Token!')
+				this.logger.error('_set_backgroundImage', 'error > no token or hash')
+				this.logger.sendError(new Error('RenderFactory() > No token for image request'))
 				parent.style.backgroundImage = "url(/rest/images/" + img.url + ")";
 			}
 

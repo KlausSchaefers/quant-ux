@@ -5,6 +5,7 @@
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import UIWidget from "core/widgets/UIWidget";
+import Logger from 'common/Logger'
 
 export default {
   name: "Vector",
@@ -38,6 +39,8 @@ export default {
       if (style.backgroundImage) {
          if (this.hash) {
           this.backgroundImage = "url(/rest/images/" + this.hash + "/" + style.backgroundImage.url + ")";
+        } else if (this.jwtToken) {
+          this.backgroundImage = "url(/rest/images/" + this.hash + "/" + style.backgroundImage.url + "?token=" + this.jwtToken + ")";
         } else {
           this.backgroundImage = "url(/rest/images/" + style.backgroundImage.url + ")";
         }
@@ -58,6 +61,8 @@ export default {
 
     setState: function() {}
   },
-  mounted() {}
+  mounted() {
+    this.logger = new Logger('Vector')
+  }
 };
 </script>

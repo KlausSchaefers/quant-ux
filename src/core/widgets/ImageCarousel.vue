@@ -16,6 +16,7 @@ import win from "dojo/_base/win";
 import DomBuilder from "common/DomBuilder";
 import UIWidget from "core/widgets/UIWidget";
 import Animation from "core/Animation";
+import Logger from 'common/Logger'
 
 export default {
   name: "ImageCarousel",
@@ -351,6 +352,8 @@ export default {
             let url = "url(/rest/images/" + image + "?token=" + this.jwtToken + ")";
             element.style.backgroundImage = url;
           } else {
+            this.logger.error('setImage', 'error > no token or hash')
+				    this.logger.sendError(new Error('ImageCarussel() > No token for image request'))
             let url = "url(/rest/images/" + image + ")";
             element.style.backgroundImage = url;
           }
@@ -432,6 +435,8 @@ export default {
       this.cleanUp();
     },
   },
-  mounted() {},
+  mounted() {
+    this.logger = new Logger('ImageCarousel')
+  },
 };
 </script>

@@ -10,6 +10,7 @@ import domStyle from "dojo/domStyle";
 import _Touch from "common/_Touch";
 import Layout from "core/Layout";
 import Gestures from "core/Gestures";
+import Logger from 'common/Logger'
 
 const styleKeysForResize = [
 			'fontSize',
@@ -69,6 +70,10 @@ export default {
      * Widget can expose here some properties
      */
     getValidationProperties () {
+    },
+
+    setJwtToken(t) {
+      this.jwtToken = t
     },
 
     /**
@@ -1046,7 +1051,11 @@ export default {
         }
         if (this.hash) {
           parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + ")";
+        } else if (this.jwtToken) {
+          parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + "?token=" + this.jwtToken + ")";
         } else {
+          this.logger.error('_set_backgroundImageInNode', 'error > no token or hash')
+				  this.logger.sendError(new Error('UIWidget() > No token for image request'))
           var url = "url(/rest/images/" + img.url + ")";
           parent.style.backgroundImage = url;
         }
@@ -1226,6 +1235,7 @@ export default {
     if (this.qWidget) {
       this.render(this.qWidget, this.qWidget.style, this.qQcaleX, this.qQcaleX, false);
     }
+    this.logger = new Logger('UIWidget')
   }
 };
 </script>

@@ -33,7 +33,7 @@ export class ModelService extends AbstractService{
     }
 
     deleteApp (model) {
-        this.logger.error('deleteApp', 'enter', model)
+        this.logger.log(-1,'deleteApp', 'enter', model)
         return this._delete(`rest/apps/${model.id}.json`)
     }
 
@@ -42,15 +42,15 @@ export class ModelService extends AbstractService{
     }
 
     findMyAppSummaries () {
-        return this._get('rest/apps/?summary=true')    
+        return this._get('rest/apps/?summary=true')
     }
 
     findPublic () {
-        return this._get('rest/apps/public')  
+        return this._get('rest/apps/public')
     }
 
     findMyApps () {
-        return this._get('rest/apps/')  
+        return this._get('rest/apps/')
     }
 
     findApp (id) {
@@ -94,7 +94,7 @@ export class ModelService extends AbstractService{
     }
 
     /**
-     * Team 
+     * Team
      */
     findTeam (id) {
         return this._get(`rest/apps/${id}/team.json`)
@@ -121,16 +121,16 @@ export class ModelService extends AbstractService{
     }
 
     /**
-     * Events 
+     * Events
      */
     saveEvent (id, hash, event) {
         return this._post(`rest/invitation/${id}/${hash}/events.json`, event)
     }
-    
+
     findEvents (id) {
         return this._get(`rest/events/${id}.json?exclude=Animation`)
     }
-   
+
     findEventsBatch (id) {
         return this._get(`rest/events/${id}.json?exclude=Animation&batch=true`)
     }
@@ -148,7 +148,7 @@ export class ModelService extends AbstractService{
     }
 
     /**
-     * Mouse 
+     * Mouse
      */
     findMouse (id) {
         return this._get(`rest/mouse/${id}.json`)
@@ -168,7 +168,7 @@ export class ModelService extends AbstractService{
 
 
     /**
-     * Annotations 
+     * Annotations
      */
     findSessionAnnotations (id) {
         if (!id) {
@@ -191,14 +191,14 @@ export class ModelService extends AbstractService{
     }
 
     /**
-     * Inivitations 
+     * Inivitations
      */
     findInvitation (id) {
         return this._get(`rest/invitation/${id}.json`)
     }
 
     /**
-     * Test 
+     * Test
      */
     findTest (id) {
         return this._get(`rest/test/${id}.json`)
@@ -214,7 +214,7 @@ export class ModelService extends AbstractService{
 
 
     /**
-     * Examples 
+     * Examples
      */
     findPublicMouse (id) {
         return this._get(`examples/mouse/${id}.json`)
