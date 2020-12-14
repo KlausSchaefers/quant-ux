@@ -1102,9 +1102,8 @@ input.VommondHasError{
 	overflow: auto;
 
 	background: none repeat scroll 0 0 white;
-  	box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.5);
-
-  	border-radius:4px;
+  box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.5);
+  border-radius:4px;
 }
 
 .VommondInputOpenTop ul {

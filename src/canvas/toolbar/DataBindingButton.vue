@@ -9,10 +9,21 @@
     <div v-else class="">
         <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" v-for="variable in dataBindingVars" :key="variable.value">
 
-            <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
+
+            <Combo
+                :fireOnBlur="true"
+                :top="false"
                 :placeholder="variable.label"
+                :toolbar="true"
+                :inline="true"
+                :hints="getHints()"
+                :actions="actions"
                 :value="getDataBindingValue(variable.value)"
-                @change="onChangeVaribale(variable.value, $event)"/>
+                @focus="hasNewTypeSelector = true"
+                @change="onChangeVaribale(variable.value, $event)"
+                @more="onOpenDialog"
+				:formControl="false"/>
+
             <span class="mdi mdi-database MatcToobarInputIcon" @click.stop="onOpenDialog" />
 
 	    </div>
@@ -26,6 +37,7 @@ import lang from 'dojo/_base/lang'
 import Logger from 'common/Logger'
 import _Tooltip from 'common/_Tooltip'
 import DataBindingService from 'services/DataBindingService'
+import Input from 'common/Input'
 //import Dialog from 'common/Dialog'
 
 // import CheckBox from 'common/CheckBox'
@@ -42,8 +54,20 @@ export default {
             isDataView: false
         }
     },
-    components: {},
+    components: {
+        'Combo': Input
+    },
     computed: {
+        actions () {
+            return [
+                {
+                    label: 'More...',
+                    value: 'More...',
+                    css:'MatcToobarInputAction',
+                    action: 'more'
+                }
+            ]
+        },
         dataBindingVars () {
             return DataBindingService.getDefautlBindings(this.widget)
         },
@@ -63,13 +87,22 @@ export default {
         }
     },
     methods: {
-        onChangeVaribale (key, e) {
+        getHints () {
+            let hints = DataBindingService.getAllBindingPaths(this.model)
+            hints = hints.map(h => {
+				return {
+					label: h,
+					value: h
+				}
+            })
+            return hints
+        },
+        onChangeVaribale (key, value) {
             let dataBinding = lang.clone(this.getDataBinding(this.widget));
             if (!dataBinding) {
                 dataBinding = {}
             }
-            if (e && e.target) {
-                let value = e.target.value
+            if (value !== undefined) {
                 dataBinding[key] = value
                 this.emit('change', dataBinding)
             }

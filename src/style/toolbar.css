@@ -122,6 +122,10 @@
 	color: rgba(255, 255, 255, 0.35)
 }
 
+.MatcToobarPropertiesSection .MatcToobarInput{
+	border-radius: 0px;
+}
+
 .MatcToobarInputIconCntr {
 	position: relative;
 }
@@ -132,6 +136,30 @@
 	right: 10px;
 	font-size: 14px;
 }
+
+/****************************************************
+ * Combo
+ ****************************************************/
+
+ .MatcToobarPropertiesSection .VommondInput ul{
+  border-radius:0px;
+}
+
+.MatcToobarPropertiesSection .VommondInput ul li{
+	padding: 3px;
+}
+
+.MatcToobarPropertiesSection .VommondInput ul li.VommonInputSelected {
+	background-color: #1973e8;
+	color:#fff
+}
+
+.MatcToobarPropertiesSection .VommondInput ul li.MatcToobarInputAction {
+	font-style: italic;
+	color:#ccc;
+}
+
+
 
 /****************************************************
  * Grid System
