@@ -52,6 +52,7 @@
             "figma-title": "Import from Figma",
             "tab-images": "Images",
             "tab-figma": "Figma (Beta)",
+            "tab-open-api": "Swagger (OpenAPI)",
             "images-drop-msg": "Drop Images Here",
             "image-progress": "Uploading...",
             "figma-key": "Access Key",
@@ -64,7 +65,9 @@
             "error-figma-url": "Copy the url of the Figma prototype",
             "error-figma-load": "Something went wrong loading the Figma file",
             "error-figma-page": "Select the page you want to import and click on 'Import'",
-            "error-public": "Import does not work in Try-Out mode. Please sign up to import elements."
+            "error-public": "Import does not work in Try-Out mode. Please sign up to import elements.",
+            "error-swagger-no-url": "Please enter a URL with a swagger file",
+            "open-api-url": "URL"
         },
         "login": {
             "password": {

@@ -1310,15 +1310,23 @@ export default class Core extends Evented {
         for (let screenID in inModel.screens) {
             let screen = inModel.screens[screenID];
             if (screen.segment) {
-                screenSegments.forEach(parent => {
-                    if (parent.props && parent.props.screenID && screen.id === parent.props.screenID) {
+                screenSegments.forEach(segment => {
+                    /**
+                     * make sure we have a backwards reference from the widgets rendered
+                     * in the segment for fast updates in the renderfactory
+                     */
+                    if (segment.props && segment.props.screenID && screen.id === segment.props.screenID) {
                         for (let i = 0; i < screen.children.length; i++) {
                             let widgetID = screen.children[i];
                             let widget = inModel.widgets[widgetID];
-                            if (!widget.segmentParent) {
-                                widget.segmentParent = []
+                            if (widget) {
+                                if (!widget.segmentParent) {
+                                    widget.segmentParent = []
+                                }
+                                widget.segmentParent.push(segment.id)
+                            } else {
+                                console.warn('Core.createScreenSegmentModel() No widget with id', widgetID, 'in', screenID)
                             }
-                            widget.segmentParent.push(parent.id)
                         }
                     }
                 })

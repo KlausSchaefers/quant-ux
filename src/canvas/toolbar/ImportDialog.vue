@@ -4,6 +4,7 @@
         <div class="MatcToolbarTabs MatcToolbarTabsBig">
             <a @click="tab='images'" :class="{'MatcToolbarTabActive': tab === 'images'}">{{ getNLS('dialog.import.tab-images')}}</a>
             <a @click="tab='figma'" :class="{'MatcToolbarTabActive': tab === 'figma'}">{{ getNLS('dialog.import.tab-figma')}}</a>
+            <a @click="tab='swagger'" :class="{'MatcToolbarTabActive': tab === 'swagger'}" v-if="hasSwagger">{{ getNLS('dialog.import.tab-open-api')}}</a>
         </div>
         <div v-if="isPublic">
              <div class="MatchImportDialogCntr">
@@ -64,6 +65,17 @@
                 </div>
             </div>
 
+
+            <div v-if="tab=== 'swagger'">
+                <div class="MatchImportDialogCntr">
+                      <div class="field">
+                            <label>{{ getNLS('dialog.import.open-api-url')}}</label>
+                            <input type="text" class="input" v-model="swaggerURL" />
+                        </div>
+                </div>
+            </div>
+
+
         </div>
 
 
@@ -113,7 +125,9 @@ export default {
             figmaPages: null,
             figmaModel: null,
             figmaSelectedPage: null,
-            isPublic: false
+            swaggerURL: '',
+            isPublic: false,
+            hasSwagger: false
         }
     },
     components: {
@@ -162,6 +176,7 @@ export default {
 
         async onSave () {
             this.logger.log(-1, 'onSave', 'enter', this.figmaSelectedPage !== null)
+            this.errorMSG = ""
             if (this.tab === 'images') {
                 this.tab = 'progress'
                 await this.uploadImagesAndCreateScreens()
@@ -169,6 +184,18 @@ export default {
             if (this.tab === 'figma' && this.isValidFigmaConfig()) {
                 this.tab = 'progress'
                 await this.importFigma(this.figmaAcccessKey, this.figmaUrl)
+            }
+            if (this.tab === 'swagger') {
+                await this.loadSwagger()
+            }
+        },
+
+        async loadSwagger () {
+            this.logger.log(-1, 'loadSwagger', 'enter', this.swaggerURL)
+            if (this.swaggerURL) {
+                console.debug()
+            } else {
+                this.errorMSG = this.getNLS('dialog.import.error-swagger-no-url')
             }
         },
 

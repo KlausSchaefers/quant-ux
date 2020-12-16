@@ -51,6 +51,7 @@
             "figma-title": "从Figma导入",
             "tab-images": "图片",
             "tab-figma": "Figma(测试版)",
+            "tab-open-api": "Open API",
             "images-drop-msg": "把图片拖到此处",
             "image-progress": "上传中...",
             "figma-key": "Access Key",
