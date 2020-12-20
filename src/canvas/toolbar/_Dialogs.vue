@@ -26,6 +26,7 @@ import Help from 'help/Help'
 import Share from 'page/Share'
 import ImportDialog from 'canvas/toolbar/ImportDialog'
 
+
 export default {
     name: '_Dialogs',
     mixins:[Plan, DojoWidget],
@@ -102,10 +103,12 @@ export default {
       help.placeAt(popup)
 		},
 
-    showSharing (e){
+    async showSharing (e){
 			this.logger.log(-1,"showSharing", "entry > ", this.isPublic);
 
-			var invitation = this._doGet("/rest/invitation/"+this.model.id+ ".json");
+			console.debug(this.$route)
+
+			var invitation = await Services.getModelService(this.$route).findInvitation(this.model.id)
 			var temp = {};
 			for(var key in invitation){
 				temp[invitation[key]] = key;
@@ -567,7 +570,7 @@ export default {
 		 * Histroy
 		 **********************************************************************/
 
-		onShowHistory:function(){
+		async onShowHistory(){
 
 			var db = new DomBuilder();
 
@@ -583,7 +586,7 @@ export default {
 			var pos = this.controller.commandStack.pos;
 
 
-			var team = this._doGet("/rest/apps/" + this.model.id +"/team.json");
+			var team = await Services.getModelService(this.$route).findTeam(this.model.id) //this._doGet("/rest/apps/" + this.model.id +"/team.json");
 			var users = this.getObjectFromArray(team, "id");
 
 			var tblCntr =  db.div("MatcDialogTable").build(cntr);

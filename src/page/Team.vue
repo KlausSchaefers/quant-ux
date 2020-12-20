@@ -33,11 +33,7 @@ export default {
   methods: {
     postCreate: function () {
       this.logger = new Logger("Team");
-      this.logger.log(
-        4,
-        "postCreate",
-        "enter >" + this.appID + " > " + this.userID + " > " + this.reference
-      );
+      this.logger.log(4,"postCreate", "enter >" + this.appID + " > " + this.userID + " > " + this.reference);
       this.db = new DomBuilder();
       if (this.appID && this.userID) {
         this.load();
@@ -114,13 +110,7 @@ export default {
       var cancel = this.db.a("button is-text", "Cancel").build(bar);
 
       var d = new Dialog({ overflow: true });
-      d.own(
-        on(
-          write,
-          touch.press,
-          lang.hitch(this, "addUser", email, error, d, bar)
-        )
-      );
+      d.own( on(write, touch.press, lang.hitch(this, "addUser", email, error, d, bar)));
       d.own(on(cancel, touch.press, lang.hitch(d, "close")));
       d.own(on(d, "close", lang.hitch(email, "destroy")));
       d.popup(div, this.plus);
@@ -212,13 +202,24 @@ export default {
       var d = new Dialog();
 
       if (user.permission != 3) {
-
         let write = this.db.div("button is-primary", "Save").build(right);
         let cancel = this.db.a("button is-text", "Cancel").build(right);
         let remove = this.db.a("button is-text", "Remove").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
-        d.own(on( write, touch.press, lang.hitch(this, "changePermission", user, radio, d)));
-        d.own(on( remove, touch.press, lang.hitch(this, "removeUser", user, radio, d)));
+        d.own(
+          on(
+            write,
+            touch.press,
+            lang.hitch(this, "changePermission", user, radio, d)
+          )
+        );
+        d.own(
+          on(
+            remove,
+            touch.press,
+            lang.hitch(this, "removeUser", user, radio, d)
+          )
+        );
       } else {
         let cancel = this.db.div("button is-primary", "Close").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
@@ -229,6 +230,19 @@ export default {
     async addUser(input, error, dialog, bar, e) {
       this.logger.log(-1, "addUser", "enter");
       this.stopEvent(e);
+
+      /**
+       * Make sure we do not add twice!!
+       */
+      let email = input.getValue()
+      let found = this.team.filter(t => t.email === email)
+      if (found.length > 0) {
+        this.logger.error("addUser", "EXIT > User already in team");
+        dialog.close();
+        return;
+      }
+
+
       /**
        * Sometimes we users click here two times,
        * which causes ACL errors
