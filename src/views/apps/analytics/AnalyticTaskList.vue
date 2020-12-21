@@ -108,13 +108,15 @@ export default {
        * Perf stats
        */
       csvContent += "Test, Task, Interactions, Duration\n";
-      perf.foreach(function(row) {
+      perf.foreach(row => {
         csvContent += row["session"] + ",";
         csvContent += row["taskName"] + ",";
         csvContent += row["interactions"] + ",";
-        csvContent += row["duration"] + ",";
+        csvContent += this.formatNumber(row["duration"] / 1000) + "";
         csvContent += "\n";
       });
+
+      console.debug(csvContent)
 
       var blob = new Blob([csvContent], {
         type: "text/csv;charset=utf-8;"

@@ -164,8 +164,8 @@ export default class DataFrame {
 		} else if (row != null) {
 			/**
 			 * FIXME This is very inefficnet! We hsould have some how a kind of variable what tells me
-			 * what is to do! So in case 
-			 * 
+			 * what is to do! So in case
+			 *
 			 * BUG: is nun returns true for an [2000]
 			 */
 			var value = this.data[row];
@@ -242,12 +242,12 @@ export default class DataFrame {
 		for (let i = 0; i < values.length; i++) {
 			var v = values[i];
 			/**
-			 * FIXME: This is somehow stupidly naive. Can't we calcute the 
+			 * FIXME: This is somehow stupidly naive. Can't we calcute the
 			 * bucket number somehow like:
-			 * 
-			 *  var norm_v = v - min;		
+			 *
+			 *  var norm_v = v - min;
 			 *  var b = Math.min(bins-1, Math.round(norm_v * width));
-			 *  
+			 *
 			 *  The round is false in here...
 			 */
 
@@ -385,7 +385,7 @@ export default class DataFrame {
 			return a - b
 		})
 		if (list.length > 0) {
-			return list[Math.floor(list.length / 2) - 1];
+			return list[Math.max(0, Math.floor(list.length / 2) - 1)];
 		}
 		return 0
 	}
@@ -538,8 +538,8 @@ export default class DataFrame {
 
 	/**
 	 * Set an index over some columns for faster lookup via the "ix()" method.
-	 * We basically build up a tree which maps the values to the right row.. 
-	 * 
+	 * We basically build up a tree which maps the values to the right row..
+	 *
 	 */
 	setIndex(keys) {
 
@@ -574,14 +574,14 @@ export default class DataFrame {
 	}
 
 	/**
-	 * get *ONE* row by index values. The value have to be in the same 
+	 * get *ONE* row by index values. The value have to be in the same
 	 * order as the columns called in the setIndex!
-	 * 
+	 *
 	 * @param values: array of values to be found
-	 * 
-	 * @includeIndex boolean: Also return the index not only the row. If true, the result 
+	 *
+	 * @includeIndex boolean: Also return the index not only the row. If true, the result
 	 * 						  will look like {row:..., index:key}, where key is int or string
-	 * 
+	 *
 	 */
 	ix(values, includeIndex) {
 
