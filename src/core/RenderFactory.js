@@ -486,6 +486,7 @@ export default class RenderFactory extends Core {
 
 	_createUploadPreview(parent, model) {
 		var upload = this.$new(UploadPreview);
+		upload.hash = this.hash
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
 	}

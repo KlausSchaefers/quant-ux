@@ -13,12 +13,12 @@
         "z" : 0,
         "props" : {},
         "has" : {
+            "backgroundColor" : true,
            "onclick" : true,
-           "backgroundImage" : true,
            "border":true
         },
         "actions":{},
-        "style" : { 	
+        "style" : {
             "borderTopRightRadius" : 0,
             "borderTopLeftRadius" : 0,
             "borderBottomRightRadius" : 0,
