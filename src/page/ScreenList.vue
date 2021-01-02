@@ -97,6 +97,7 @@ export default {
 
     createScreenWidget: function() {
       var heatmap = this.$new(Preview);
+      heatmap.isFillBackground = true
       heatmap.setJwtToken(this.jwtToken);
       if (this.hash) {
         heatmap.setInvitation(this.hash);

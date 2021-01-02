@@ -377,7 +377,8 @@ export default {
 
     createScreenWidget: function() {
       let preview = this.$new(Preview);
-      preview.mode = preview;
+      preview.mode = 'preview';
+      preview.isFillBackground = true
       preview.setJwtToken(this.jwtToken);
       return preview;
     },

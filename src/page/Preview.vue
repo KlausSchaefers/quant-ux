@@ -19,6 +19,7 @@ export default {
   props: ['app', 'screen'],
   data: function() {
     return {
+      isFillBackground: false,
       debug: false,
       mode: "standalone",
       loadingMessage: "No Start Screen!",
@@ -285,7 +286,21 @@ export default {
        */
       this.addFixedWidgets();
 
+      if (this.isFillBackground) {
+        this.fillBackground(screen)
+      }
+
+
       return div;
+    },
+
+    fillBackground (screen) {
+      if (this.$el && this.$el.parentNode) {
+        let parent = this.$el.parentNode
+        if (screen.style && screen.style.background) {
+          parent.style.background = screen.style.background
+        }
+      }
     },
 
     addScreen: function(screen, div, scrollTop) {
