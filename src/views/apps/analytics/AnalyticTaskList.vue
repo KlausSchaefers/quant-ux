@@ -47,6 +47,7 @@ import HelpButton from "help/HelpButton";
 export default {
   name: "AnalyticsTaskList",
   mixins: [TestSettings, DojoWidget],
+  props: ['hash'],
   data: function() {
     return {
       appID: "",
@@ -116,7 +117,6 @@ export default {
         csvContent += "\n";
       });
 
-      console.debug(csvContent)
 
       var blob = new Blob([csvContent], {
         type: "text/csv;charset=utf-8;"
@@ -285,7 +285,7 @@ export default {
       var d = new Dialog();
       var dialog = document.createElement("div");
       css.add(dialog, "MatchTaskRecorderDialog");
-      var s = this.$new(TaskRecorder, { model: model, task: task, dialog: d });
+      var s = this.$new(TaskRecorder, { model: model, task: task, dialog: d, hash: this.hash });
       s.placeAt(dialog);
       d.popup(dialog, node);
       d.own(

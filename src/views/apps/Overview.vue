@@ -69,6 +69,7 @@
         <TestTab
           :app="app"
           :test="testSettings"
+          :hash="hash"
           :annotation="sessionAnnotations"
           :events="events"
           v-if="restLoaded"
@@ -78,6 +79,7 @@
       <div v-if="tab == 'analyze'">
         <AnalyticsTab
           :app="app"
+          :hash="hash"
           :test="testSettings"
           :annotation="sessionAnnotations"
           :events="events"

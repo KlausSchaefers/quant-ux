@@ -23,6 +23,7 @@
       <div class="container">
         <div class="box is-shadowless">
           <AnalyticTaskList
+            :hash="hash"
             :pub="pub"
             :test="test"
             :app="app"
@@ -80,7 +81,7 @@ import Comment from "page/Comment";
 export default {
   name: "Test",
   mixins: [DojoWidget, Plan, Util],
-  props: ["app", "test", "annotation", "events", "pub"],
+  props: ["app", "test", "annotation", "events", "pub", "hash"],
   data: function() {
     return {
       MIN_REQUIERED_USERS: 40,
@@ -94,6 +95,9 @@ export default {
     'SurveySection': SurveySection
   },
   computed: {
+    imageHash () {
+      return 'imageHahs'
+    },
     isPublic() {
       return this.$route.meta && this.$route.meta.isPublic;
     },
