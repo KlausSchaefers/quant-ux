@@ -16,7 +16,7 @@ import Animation from 'core/Animation'
 export default {
   name: "Preview",
   mixins: [Layout, DojoWidget],
-  props: ['app', 'screen'],
+  props: ['app', 'screen', 'isPublic'],
   data: function() {
     return {
       isFillBackground: false,
@@ -48,6 +48,11 @@ export default {
     setJwtToken (t) {
       this.jwtToken = t
       this.renderFactory.setJwtToken(t)
+    },
+
+    setPublic (p) {
+      this.isPublic = p
+      this.renderFactory.setPublic(p)
     },
 
     setInvitation: function(h) {

@@ -352,7 +352,9 @@ export default {
             let url = "url(/rest/images/" + image + "?token=" + this.jwtToken + ")";
             element.style.backgroundImage = url;
           } else {
-            this.logger.warn('setImage', 'error > no token or hash')
+            if (!this.isPublic) {
+              this.logger.warn('setImage', 'error > no token or hash')
+            }
             let url = "url(/rest/images/" + image + ")";
             element.style.backgroundImage = url;
           }

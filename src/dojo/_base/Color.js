@@ -100,6 +100,7 @@ export default class Color {
 		/*Number*/ weight,
 		/*Color?*/ obj
 	){
+
 		// summary:
 		//		Blend colors end and start with weight from 0 to 1, 0.5 being a 50/50 blend,
 		//		can reuse a previously allocated Color object for the result

@@ -379,6 +379,7 @@ export default {
       let preview = this.$new(Preview);
       preview.mode = 'preview';
       preview.isFillBackground = true
+      preview.setPublic(this.pub)
       preview.setJwtToken(this.jwtToken);
       return preview;
     },

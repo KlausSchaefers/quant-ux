@@ -39,7 +39,8 @@ export default {
       ],
       lastValidation: true,
       hoverAnimationDuration: 150,
-      erroAnimationDuration: 0
+      erroAnimationDuration: 0,
+      isPublic: false
     };
   },
   components: {},
@@ -74,6 +75,10 @@ export default {
 
     setJwtToken(t) {
       this.jwtToken = t
+    },
+
+    setPublic(p) {
+      this.isPublic = p
     },
 
     /**
@@ -1052,9 +1057,12 @@ export default {
         if (this.hash) {
           parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + ")";
         } else if (this.jwtToken) {
-          parent.style.backgroundImage = "url(/rest/images/" + this.hash + "/" + img.url + "?token=" + this.jwtToken + ")";
+          parent.style.backgroundImage = "url(/rest/images/" + img.url + "?token=" + this.jwtToken + ")";
         } else {
           this.logger.warn('_set_backgroundImageInNode', 'error > no token or hash')
+          if (!this.isPublic) {
+            this.logger.sendError(new Error('No hash for image'))
+          }
           var url = "url(/rest/images/" + img.url + ")";
           parent.style.backgroundImage = url;
         }

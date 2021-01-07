@@ -99,6 +99,7 @@ export default {
       var heatmap = this.$new(Preview);
       heatmap.isFillBackground = true
       heatmap.setJwtToken(this.jwtToken);
+      heatmap.setPublic(this.pub)
       if (this.hash) {
         heatmap.setInvitation(this.hash);
       }

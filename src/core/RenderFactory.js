@@ -78,6 +78,7 @@ export default class RenderFactory extends Core {
 		this._scaleY = 1;
 		this._componentClassCache = {}
 		this.hash = null;
+		this.isPublic = false
 		this.styleKeysForResize = [
 			'fontSize',
 			"borderTopLeftRadius", "borderTopRightRadius", "borderBottomRightRadius", "borderBottomLeftRadius",
@@ -92,6 +93,11 @@ export default class RenderFactory extends Core {
 		this.logger.log(2, "setScaleFactor", "entry >" + x + " > " + y);
 		this._scaleX = x;
 		this._scaleY = y;
+	}
+
+	setPublic (p) {
+		this.logger.log(3, "setPublic", "enter", p);
+		this.isPublic = p
 	}
 
 	setHash (h) {
@@ -333,6 +339,8 @@ export default class RenderFactory extends Core {
 		 * We have to set the JWT token!
 		 */
 		instance.setJwtToken(this.jwtToken)
+		instance.hash = this.hash
+		instance.setPublic(this.isPublic)
 		return instance;
 	}
 
@@ -1352,7 +1360,10 @@ export default class RenderFactory extends Core {
 			} else if (this.jwtToken) {
 				parent.style.backgroundImage = "url(/rest/images/" + img.url + "?token=" + this.jwtToken+ ")";
 			} else {
-				this.logger.warn('_set_backgroundImage', 'error > no token or hash')
+				if (!this.isPublic) {
+					this.logger.warn('_set_backgroundImage', 'error > no token or hash')
+					this.logger.sendError(new Error('RenderFactgoryNoToken'))
+				}
 				parent.style.backgroundImage = "url(/rest/images/" + img.url + ")";
 			}
 

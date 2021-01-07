@@ -37,10 +37,10 @@ export default {
       this._scaleY = scaleY;
       var figmaImage = model.props.figmaImage;
       if (style.backgroundImage) {
-         if (this.hash) {
+        if (this.hash) {
           this.backgroundImage = "url(/rest/images/" + this.hash + "/" + style.backgroundImage.url + ")";
         } else if (this.jwtToken) {
-          this.backgroundImage = "url(/rest/images/" + this.hash + "/" + style.backgroundImage.url + "?token=" + this.jwtToken + ")";
+          this.backgroundImage = "url(/rest/images/" + style.backgroundImage.url + "?token=" + this.jwtToken + ")";
         } else {
           this.backgroundImage = "url(/rest/images/" + style.backgroundImage.url + ")";
         }
