@@ -106,9 +106,9 @@ export default {
 						this._preZoomAbsPos = this.getCanvasMousePosition(e);
 
 						if(dir < 0){
-							this.onZoomMinus(e);
-						} else {
 							this.onZoomPlus(e);
+						} else {
+							this.onZoomMinus(e);
 						}
 					} else {
 						/**
