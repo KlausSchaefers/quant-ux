@@ -1,13 +1,13 @@
 
 <template>
-     <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarViewConfig" 
+     <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarViewConfig"
         @mousedown.stop="showPopup" @mouseup.stop="">
          <div>
             <span class="mdi mdi-magnify" v-if="hasIcon"></span>
             <label class="MatcToolbarLabel"> {{zoomFactor}} %</label>
-            <span class="caret" data-dojo-attach-point="caret"></span> 
+            <span class="caret" data-dojo-attach-point="caret"></span>
          </div>
-         <div class="MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarViewConfigPopup" role="menu" v-if="hasPopup"  
+         <div class="MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarViewConfigPopup" role="menu" v-if="hasPopup"
             @mouseup.stop=""
             @mousedown.stop=""
             >
@@ -31,7 +31,7 @@
                             Zoom to 100%
                     </div>
                 </div>
-               
+
 
                 <div v-if="analytic == true">
 
@@ -59,7 +59,7 @@
 
                      <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
                         <span class="mdi mdi-settings" style="margin-right:4px"/>
-                        <span class="MatcStatusItemLabel" >Configure Grid</span> 
+                        <span class="MatcStatusItemLabel" >Configure Grid</span>
                     </div>
 
                     <div class="MatcToolbarViewConfigCntrRow">
@@ -107,7 +107,7 @@ export default {
     data: function () {
         return {
             hasPopup: false,
-            zoomLevels: [0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 2], 
+            zoomLevels: [0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 2],
             zoomLevelPos: 3,
             hasIcon: false
         }
@@ -119,7 +119,7 @@ export default {
                 if (this.value.grid.type === 'grid') {
                     return `${this.value.grid.w} x ${this.value.grid.h}`
                 }
-                
+
             }
             return ''
         },
@@ -272,7 +272,7 @@ export default {
              this.hideMaybe()
             return false
 		},
-		
+
 		onZoomPlus (){
             this.log.log(-1, 'onZoomPlus', 'enter')
             if (this.zoomLevelPos < this.zoomLevels.length -1){
@@ -284,7 +284,7 @@ export default {
             return false
         },
 
-       
+
         showPopup () {
             this.hasPopup = true
             /**
@@ -295,12 +295,12 @@ export default {
              * the canvas can register to this to flush stuff
              */
             topic.publish("matc/toolbar/click", "");
-                
+
             this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this,"hidePopup"));
         	this._topicListener = topic.subscribe("matc/canvas/click", lang.hitch(this,"onCanvasClick"));
 			this._escListener = topic.subscribe("matc/canvas/esc", lang.hitch(this,"hidePopup"));
-            this._dialogListner = topic.subscribe("vommond/dialog/open", lang.hitch(this,"hidePopup"));	
-            
+            this._dialogListner = topic.subscribe("vommond/dialog/open", lang.hitch(this,"hidePopup"));
+
             this.ignoreHide = false
         },
 

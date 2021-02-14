@@ -1,7 +1,6 @@
 <script>
 import css from 'dojo/css'
 import on from 'dojo/on'
-import touch from 'dojo/touch'
 import lang from 'dojo/_base/lang'
 import domGeom from 'dojo/domGeom'
 import win from 'dojo/win'
@@ -12,10 +11,11 @@ import Ruler from 'canvas/Ruler'
 import GridAndRuler from 'canvas/GridAndRuler'
 import SimpleGrid from 'canvas/SimpleGrid'
 import RenderFast from 'canvas/RenderFast'
+import Wiring from 'canvas/Wiring'
 
 export default {
     name: 'Render',
-    mixins:[_Color, RenderFast],
+    mixins:[_Color, RenderFast, Wiring],
     data: function () {
 		/**
 			 * The canvas has the following states:
@@ -83,7 +83,6 @@ export default {
 			this.lineSVGs = {};
 			this.gridBackground = {};
 			this.renderedModels = {};
-
 
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));
@@ -236,18 +235,25 @@ export default {
 		 * Container Size
 		 **********************************************************************/
 
-		setContainerSize (){
-			this.container.style.height = this.getZoomed(this.canvasPos.h, this.zoom) +"px";
-			this.container.style.width = this.getZoomed(this.canvasPos.w, this.zoom) +"px";
-			this.frame.style.fontSize = this.getZoomed(this.defaultFontSize, this.zoom)  + "px";
+		initContainerSize () {
+			this.container.style.height = this.canvasPos.h + "px";
+			this.container.style.width = this.canvasPos.w + "px";
+			this.frame.style.fontSize = this.defaultFontSize + "px";
 			this.containerSize = {
-				h: this.getZoomed(this.canvasPos.h, this.zoom),
-				w: this.getZoomed(this.canvasPos.w, this.zoom)
+				h: this.canvasPos.h,
+				w: this.canvasPos.w
 			}
 		},
 
+
 		setContainerPos (ignoreScollUpdate){
-			this.domUtil.setXY(this.container, Math.round(this.canvasPos.x), Math.round(this.canvasPos.y))
+			console.debug('setContainerPos', this.zoom, this.canvasPos.x, this.canvasPos.y)
+			this.container.style.transform = `scale(${this.zoom}) translate(${this.canvasPos.x}px, ${this.canvasPos.y}px)`
+			this.zoomedContainerSize = {
+				h: this.getZoomed(this.canvasPos.h, this.zoom),
+				w: this.getZoomed(this.canvasPos.w, this.zoom)
+			}
+			// this.domUtil.setXY(this.container, Math.round(this.canvasPos.x), Math.round(this.canvasPos.y))
 			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
 			}
@@ -273,6 +279,10 @@ export default {
 			this.render(this.model);
 		},
 
+		renderZoom () {
+			this.setContainerPos()
+		},
+
 		/**
 		 * Method should be called if the positions of widgets have been
 		 * changed, but we did not do an complete rerender. This happens
@@ -291,11 +301,7 @@ export default {
 			let renderStart = new Date().getTime();
 			try {
 
-				if (this.settings.fastRender) {
-					this.renderFlowViewFast(model, isResize);
-				} else {
-					this.renderFlowView(model);
-				}
+				this.renderFlowViewFast(model, isResize);
 
 				this.afterRender();
 
@@ -318,47 +324,6 @@ export default {
 			this.logger.log(0,"render", "exit > " + (new Date().getTime() - renderStart) + 'ms');
 		},
 
-		renderFlowView (model){
-			this.logger.log(2,"renderFlowView", "enter");
-
-			this.beforeRender();
-			this.model = model;
-			this.cleanUp();
-			this.renderCanvas();
-
-			/**
-			 * start real rendering
-			 */
-			for(let id in model.screens){
-				this.renderScreen(model.screens[id]);
-			}
-
-			var widgets = this.getOrderedWidgets(model.widgets);
-			for(let i=0; i< widgets.length; i++){
-				let widget = widgets[i];
-				this.renderWidget(widget);
-			}
-
-			if(this.renderLines){
-				for(let id in model.lines){
-					let line = model.lines[id];
-					if(!line.hidden){
-						this.renderLine(model.lines[id]);
-					} else {
-						this.logger.log(4,"renderFlowView", "Do not render hidden line > " + id);
-					}
-				}
-			}
-
-			this.wireEvents();
-			this.renderSelection();
-			this.renderDistance();
-			if(this.animate){
-				setTimeout(lang.hitch(this,"renderAnimation"),1);
-			}
-			this.logger.log(3,"renderFlowView", "exit");
-		},
-
 
 		renderDistance (){
 			if(this.mode == "distance"){
@@ -368,142 +333,12 @@ export default {
 			}
 		},
 
-		/**********************************************************************
-		 * Wiring
-		 **********************************************************************/
-		reWireEvents (){
-			this.logger.log(3,"reWireEvents", "enter");
-			this.cleanUpAllListeners();
-			this.wireEvents();
-		},
-
-		wireEvents (){
-			this.logger.log(2,"wireEvents", "enter > " + this.mode);
-
-			this.wireCanvas()
-
-			for(let id in this.model.screens){
-				this.wireScreen(id)
-			}
-
-			for(let id in this.model.widgets){
-				this.wireWidget(id);
-			}
-
-			// wire comments;
-			this.wireComments();
-			/**
-			 * FIXME: Wire lines too. Then we can call this in setMode();
-			 */
-			this.logger.log(4,"wireEvents", "exit");
-		},
-
-		/**
-		 * wire all widgets that are *NOT* inherited
-		 */
-		wireWidget (id) {
-			let widget = this.model.widgets[id];
-
-			if (this.isElementLocked(widget) || this.isElementHidden(widget)) {
-				return
-			}
-
-			let div = this.widgetDivs[widget.id];
-			if (!widget.inherited || this.wireInheritedWidgets){
-				if(this.mode == "edit" || this.mode == "addLine"){
-					let locked = widget.style.locked;
-					if(locked){
-						this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
-					} else {
-						this.registerDragOnDrop(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick");
-					}
-					this.tempOwn(on(div, touch.over, lang.hitch(this, "setHoverWidget", widget)));
-				} else if(this.mode == "view" ){
-					this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
-				} else if (this.mode == "distance"){
-					this.tempOwn(on(div, touch.over, lang.hitch(this, "renderWidgetDistance", widget)));
-					this.tempOwn(on(div, touch.out, lang.hitch(this, "renderWidgetDistance", null)));
-					/**
-					 * TODO: Make addCloneWork. Really use dull
-					 */
-					this.tempOwn(on(div, touch.press, lang.hitch(this, "addClonedWidget", widget))); // ALT + DND
-				}
-			} else {
-				this.tempOwn(on(div, "click", lang.hitch(this, "onInheritedWidgetSelected", widget)));
-			}
-		},
-
-		isElementLocked (widget) {
-			return widget && widget.props && widget.props.locked
-		},
-
-		isElementHidden (widget) {
-			return widget && widget.props && widget.props.hidden
-		},
-
-		wireScreen (id) {
-			let dndDiv = this.screenDivs[id];
-			let screen = this.model.screens[id];
-
-			if (this.isElementLocked(screen)) {
-				return
-			}
-
-			/**
-			 * register dnd
-			 */
-			if (this.mode == "addLine") {
-				this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
-			} else if(this.mode == "edit" && !this.isSinglePage){
-				if (this.hasSelectOnScreen) {
-					let lbl = this.screenLabels[id]
-					if (lbl) {
-						this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", lbl);
-					}
-				} else {
-					this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
-				}
-			} else if(this.mode == "view"){
-				this.tempOwn(on(dndDiv, "mousedown", lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
-			}
-		},
-
-		wireCanvas () {
-			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view" || this.mode === "data") ){
-				/**
-				 * In the classic mode the
-				 */
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
-			} else if (this.mode === "edit" || this.mode === "view" || this.mode === "data"){
-				/**
-				 * The must be mousedown, because in chrome the touch press is fired after mousedown and fucks up some how our state maschine
-				 */
-
-				this.tempOwn(on(this.container, "mousedown", lang.hitch(this, "onSelectionStarted") ));
-
-			} else if(this.mode == "move"){
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null);
-			} else if(this.mode == "select"){
-				this._selectionToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onSelectionStarted"));
-			} else if(this.mode == "hotspot"){
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolHotspotStart"));
-			} else if(this.mode == "addLine") {
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
-			} else if(this.mode == "addText") {
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolTextStart"));
-			} else if(this.mode == "addBox") {
-				this.onToolBoxInit();
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolBoxStart"));
-			}
-		},
-
 		renderCanvas (){
 			this.initSVG();
-			this.setContainerSize();
 			this.setContainerPos();
-			this.setZoomedContainerPosition();
-			this.renderFactory.setScaleFactor(this.zoom, this.zoom);
-			this.renderFactory.setZoomedModel(this.model);
+			// this.setZoomedContainerPosition();
+			//this.renderFactory.setScaleFactor(this.zoom, this.zoom);
+			//this.renderFactory.setZoomedModel(this.model);
 		},
 
 		beforeRender () {
@@ -1067,6 +902,12 @@ export default {
 			var pos = this.getCanvasMousePosition(e);
 			pos.x = pos.x / this.getZoomed(this.canvasPos.w, this.zoom);
 			pos.y = pos.y / this.getZoomed(this.canvasPos.h, this.zoom);
+			return pos;
+		},
+
+
+		getAbsCanvasMousePosition (e){
+			var pos = this._getMousePosition(e);
 			return pos;
 		},
 

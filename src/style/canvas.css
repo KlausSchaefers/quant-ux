@@ -81,6 +81,7 @@
 	transition-property:opacity;
 	left:0px;
 	right:0px;
+	transform-origin: 0 0;
 }
 
 

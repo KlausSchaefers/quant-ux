@@ -13,13 +13,11 @@ export default {
     data: function () {
         return {
 						isFireFox: false,
-            zoom: 0.5,
+            zoom: 1,
             lastMouseWheel: 0,
             mouseZoomEnabled: true,
             mouseWheelMode: "scroll",
             zoomWithCSS: false,
-            zoomLevels: [0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 2],
-            zoomLevelPos: 3,
             zoomAnimationRunning: false
         }
     },
@@ -102,13 +100,13 @@ export default {
 				 * Ideas:
 				 * 	- Use the spin property of the delta event to surpress small events on trackpad?
 				 */
-				if(Math.abs(this.lastMouseWheel -now) > 200 ){
+				if(Math.abs(this.lastMouseWheel -now) ){
 					if (!this.zoomAnimationRunning){
 						/**
 						 * Put canvas at the right space. Mouse should be over the same element again,
 						 * so we save the position relative!
 						 */
-						this._preZoomRelPos = this.getRelCanvasMousePosition(e);
+						this._preZoomRelPos = this.getAbsCanvasMousePosition(e);
 						this._preZoomAbsPos = this.getCanvasMousePosition(e);
 
 						if (dir < 0){
@@ -161,6 +159,133 @@ export default {
 			return delta;
 		},
 
+
+		getEventType () {
+			/**
+			 * In FireFox we have to use the MouseScroll. If we use 'wheel' we cannot
+			 * stop the CTRL + WHEEL and browser zooming get's triggered.
+			 * Attention: FireFox will return 'flipped' wheel events.
+			 */
+			if (has("ff")) {
+				this.isFireFox = true
+				return "DOMMouseScroll";
+			} else {
+				return "wheel";
+			}
+		},
+
+		_setCenterPos (){
+			/**
+			 * In case we have an selected element make zoom
+			 * like the mouse was over it. making sure it stay in the focus.
+			 */
+			if(this._resizeHandlerBox){
+				this._setCenterPosByBox(this._resizeHandlerBox);
+			} else {
+				var winBox = win.getBox()
+				var y = (winBox.h/2) + this.canvasPos.y * -1
+				var x = (winBox.w/2) + this.canvasPos.x * -1
+				this._preZoomAbsPos = {
+					y : y,
+					x : x
+				}
+				this._preZoomRelPos = {
+					y : y / this.getZoomed(this.canvasPos.h, this.zoom),
+					x : x /this.getZoomed(this.canvasPos.w, this.zoom)
+				}
+			}
+		},
+
+		_setCenterPosByBox (box){
+			var y = box.y + box.h / 2
+			var x = box.x + box.w / 2
+			this._preZoomAbsPos = {
+					y : y,
+					x : x
+			}
+			this._preZoomRelPos ={
+				y : y / this.getZoomed(this.canvasPos.h, this.zoom),
+				x : x /this.getZoomed(this.canvasPos.w, this.zoom)
+			}
+		},
+
+		onClickMinus (e){
+			this._setCenterPos();
+			this.onZoomMinus(e);
+		},
+
+
+		onClickPlus (e){
+			this._setCenterPos();
+			this.onZoomPlus(e);
+		},
+
+		onZoomMinus (e){
+			this.stopEvent(e);
+			this.zoom = Math.max(0.1, this.zoom - 0.01)
+			this.onZoomChange();
+		},
+
+		onZoomPlus (e){
+			this.stopEvent(e);
+			this.zoom = Math.min(3, this.zoom + 0.01)
+			this.onZoomChange();
+		},
+
+		onZoomChange (forceRender){
+
+			if (this.zoom != this._lastZoom || forceRender){
+				this.onChangeCanvasViewConfig()
+				// put this into a reuqestNaimationFraem
+				this.setZoomedContainerPosition(this._lastZoom, this.zoom)
+				this.renderZoom()
+			}
+			this._lastZoom = this.zoom;
+		},
+
+
+
+		cleanUpZoom (){
+			if(this.container){
+				// css.remove(this.container, "MatcCanvasContainerAnimate");
+			} else {
+				this.logger.sendError(new Error("Could not cleanUpZoom. Container is null"));
+			}
+		},
+
+		setZoomedContainerPosition (lastZoom, newZoom){
+			if(	this._preZoomRelPos ){
+				console.debug('setZoomedContainerPosition', newZoom, this._preZoomRelPos)
+				this.logger.log(3,"setZoomedContainerPosition", "entry >" + this.zoom + "00%");
+
+				/**
+				 * Canvas:
+				 * 	x: 1000
+				 * 	y: 1000
+				 * Mouse:
+				 *  x:500
+				 * 	x: 500
+				 *
+				 * OldZoom: 1
+				 *
+				 *
+				 *
+				 */
+				let difZoom = (lastZoom - newZoom)
+				var difX = (this._preZoomRelPos.x  * difZoom) / newZoom;
+				var difY = (this._preZoomRelPos.y  * difZoom) / newZoom;
+
+				console.debug(difZoom, difX, difY)
+
+				this.canvasPos.x += difX ;
+				this.canvasPos.y += difY;
+
+
+			}
+			delete this._preZoomRelPos;
+			delete this._preZoomAbsPos;
+		},
+
 		getNormalizedDeltaFB (event){
 			// Reasonable defaults
 			var PIXEL_STEP  = 10;
@@ -207,150 +332,6 @@ export default {
 								pixelX : pX,
 								pixelY : pY };
 
-		},
-
-		getEventType () {
-			/**
-			 * In FireFox we have to use the MouseScroll. If we use 'wheel' we cannot
-			 * stop the CTRL + WHEEL and browser zooming get's triggered.
-			 * Attention: FireFox will return 'flipped' wheel events.
-			 */
-			if (has("ff")) {
-				this.isFireFox = true
-				return "DOMMouseScroll";
-			} else {
-				return "wheel";
-			}
-		},
-
-		_setCenterPos (){
-			/**
-			 * In case we have an selected element make zoom
-			 * like the mouse was over it. making sure it stay in the focus.
-			 */
-			if(this._resizeHandlerBox){
-				this._setCenterPosByBox(this._resizeHandlerBox);
-
-			} else {
-
-				var winBox = win.getBox();
-				var y = (winBox.h/2) + this.canvasPos.y*-1;
-				var x = (winBox.w/2) + this.canvasPos.x*-1;
-
-				this._preZoomAbsPos = {
-					y : y,
-					x : x
-				};
-				this._preZoomRelPos ={
-					y : y / this.getZoomed(this.canvasPos.h, this.zoom),
-					x : x /this.getZoomed(this.canvasPos.w, this.zoom)
-				};
-
-
-			}
-
-		},
-
-		_setCenterPosByBox (box){
-			var y = box.y + box.h/2;
-			var x = box.x + box.w/2
-			this._preZoomAbsPos = {
-					y : y,
-					x : x
-			};
-			this._preZoomRelPos ={
-				y : y / this.getZoomed(this.canvasPos.h, this.zoom),
-				x : x /this.getZoomed(this.canvasPos.w, this.zoom)
-			};
-
-
-		},
-
-		onClickMinus (e){
-			this._setCenterPos();
-			this.onZoomMinus(e);
-		},
-
-
-		onClickPlus (e){
-			this._setCenterPos();
-			this.onZoomPlus(e);
-		},
-
-		onZoomMinus (e){
-			this.stopEvent(e);
-
-			if(!this.zoomAnimationRunning){
-				if(this.zoomLevelPos >= 1){
-					this.zoomLevelPos--;
-					this.zoom = this.zoomLevels[this.zoomLevelPos];
-				} else {
-					this.showHint("You cannot zoom more");
-				}
-				this.onZoomChange();
-			} else {
-				this.logger.log(3,"onZoomMinus", "exit > Zoom Request refused! Animation Running...");
-			}
-		},
-
-		onZoomPlus (e){
-			this.stopEvent(e);
-
-			if(!this.zoomAnimationRunning){
-				if(this.zoomLevelPos < this.zoomLevels.length -1){
-					this.zoomLevelPos++;
-					this.zoom = this.zoomLevels[this.zoomLevelPos];
-				} else {
-					this.showHint("You cannot zoom more");
-				}
-				this.onZoomChange();
-			} else {
-				this.logger.log(3,"onZoomMinus", "exit > Zoom Request refused! Animation Running...");
-			}
-
-		},
-
-		onZoomChange (forceRender, animate){
-
-			if (this.zoom != this._lastZoom || forceRender){
-				this.logger.log(2,"onZoomChange", "entry >" + this.zoom + "00% > animate : " + animate);
-				this.onChangeCanvasViewConfig()
-				if(this.controller){
-					this.controller.render(null, true);
-				}
-			}
-			this._lastZoom = this.zoom;
-		},
-
-		cleanUpZoom (){
-			if(this.container){
-				// css.remove(this.container, "MatcCanvasContainerAnimate");
-			} else {
-				this.logger.sendError(new Error("Could not cleanUpZoom. Container is null"));
-			}
-		},
-
-		setZoomedContainerPosition (){
-			if(	this._preZoomRelPos ){
-				this.logger.log(3,"setZoomedContainerPosition", "entry >" + this.zoom + "00%");
-
-				/**
-				 * Assume mouse has not moved nor the container.
-				 *
-				 */
-				var x = this._preZoomRelPos.x  *this.getZoomed(this.canvasPos.w, this.zoom);
-				var y = this._preZoomRelPos.y  *this.getZoomed(this.canvasPos.h, this.zoom);
-
-				var difX = Math.round(this._preZoomAbsPos.x - x);
-				var difY = Math.round(this._preZoomAbsPos.y - y);
-
-				this.canvasPos.x += difX;
-				this.canvasPos.y += difY;
-
-				this.setContainerPos();
-			}
-			delete this._preZoomRelPos;
-			delete this._preZoomAbsPos;
 		}
 	},
 	mounted () {

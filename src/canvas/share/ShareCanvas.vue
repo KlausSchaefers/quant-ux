@@ -113,7 +113,7 @@ export default {
 				w: this.canvasFlowWidth,
 				h : this.canvasFlowHeight
 			};
-			this.setContainerSize();
+			this.initContainerSize();
 			this.setContainerPos();
 
 			this.db = new DomBuilder();

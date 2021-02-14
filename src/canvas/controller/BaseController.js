@@ -2,6 +2,7 @@ import hash from 'dojo/hash'
 import lang from 'dojo/_base/lang'
 
 import Core from 'core/Core'
+import CoreUtil from 'core/CoreUtil'
 import Logger from 'common/Logger'
 
 export default class BaseController extends Core {
@@ -619,9 +620,9 @@ export default class BaseController extends Core {
 			/**
 			 * resize the model.
 			 */
-			let zoomedModel = this.getZoomedModelCache()
+			let inheritedModel = CoreUtil.createInheritedModel(this.model)
 			requestAnimationFrame(() => {
-				this._canvas.render(zoomedModel, isResize);
+				this._canvas.render(inheritedModel, isResize);
 				if(screenID){
 					this._canvas.moveToScreen(screenID);
 				}
@@ -639,9 +640,9 @@ export default class BaseController extends Core {
 			 * resize the model
 			 *
 			 */
-			let zoomedModel = this.getZoomedModelCache()
+			let inheritedModel = CoreUtil.createInheritedModel(this.model)
 			requestAnimationFrame(() => {
-				this._canvas.onWidgetPositionChange(zoomedModel);
+				this._canvas.onWidgetPositionChange(inheritedModel);
 			});
 		}
 	}
