@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v3.0.43</div>
+      <div class="MatcSimulatorVersion">v3.0.60</div>
     </div>
   </div>
 </template>
@@ -991,10 +991,10 @@ export default {
 									/**
 									 * FIXME: This blocks the scrolling to an input element
 									 */
-									requestFullScreen.call(docEl);
+									requestFullScreen.call(docEl, {navigationUI: 'hide' });
 								}
 								else {
-									cancelFullScreen.call(doc);
+									cancelFullScreen.call(doc, { navigationUI: 'hide' });
 								}
 								this.logger.log(2,"toggleFullScreen","exit > Fullscreen started");
 							} else {

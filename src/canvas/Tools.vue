@@ -444,26 +444,38 @@ export default {
 			 **********************************************************************/
 
 
-			onArrowLeft (e){
+			onArrowLeft (e, isShift){
 				this.logger.log(0,"onArrowLeft", "enter > "+ e.altKey);
-				this.controller.incMultiWidgetPosition(this.getSelectedIds(), -1, 0);
+				this.controller.incMultiWidgetPosition(this.getSelectedIds(), -1 * this.getArrowMoveDistance(isShift, true), 0);
 			},
 
-			onArrowRight (e){
+			onArrowRight (e, isShift){
 				this.logger.log(0,"onArrowRight", "enter > " + e.altKey);
-				this.controller.incMultiWidgetPosition(this.getSelectedIds(), 1, 0);
+				this.controller.incMultiWidgetPosition(this.getSelectedIds(), 1 * this.getArrowMoveDistance(isShift, true), 0);
 			},
 
-			onArrowUp (e){
+			onArrowUp (e, isShift){
 				this.logger.log(0,"onArrowUp", "enter > " + e.altKey);
-				this.controller.incMultiWidgetPosition(this.getSelectedIds(), 0, -1);
+				this.controller.incMultiWidgetPosition(this.getSelectedIds(), 0, -1 * this.getArrowMoveDistance(isShift, false));
 			},
 
-			onArrowDown (e){
+			onArrowDown (e, isShift){
 				this.logger.log(0,"onArrowDown", "enter > "+ e.altKey);
-				this.controller.incMultiWidgetPosition(this.getSelectedIds(), 0, 1);
+				this.controller.incMultiWidgetPosition(this.getSelectedIds(), 0, 1 * this.getArrowMoveDistance(isShift, false));
 			},
 
+			getArrowMoveDistance (isShift, isHorizontal) {
+				if (isShift) {
+					if (this.model && this.model.grid) {
+						if (isHorizontal) {
+							return this.model.grid.w
+						} else {
+							return this.model.grid.h
+						}
+					}
+				}
+				return 1
+			},
 
 			/**********************************************************************
 			 * Group

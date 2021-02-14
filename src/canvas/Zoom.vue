@@ -12,6 +12,7 @@ export default {
     mixins:[],
     data: function () {
         return {
+						isFireFox: false,
             zoom: 0.5,
             lastMouseWheel: 0,
             mouseZoomEnabled: true,
@@ -75,29 +76,34 @@ export default {
 
 		onMouseWheel (e){
 
+			// There could be a bug for natural scrolling for some users
+			// console.debug('onMouseWheen', dir, e.webkitDirectionInvertedFromDevice)
+
 			var dir = e.wheelDelta ? e.wheelDelta : e.detail;
-			if(!this.mouseZoomEnabled || dir==0){
+			if(!this.mouseZoomEnabled || dir === 0) {
 				return;
 			}
 
-			var delta = this.getNormalizedDelatFB(e);
+			/**
+			 * Flip direction in FireFox
+			 */
+			if (this.isFireFox) {
+				dir *= -1
+			}
 
 
+			var delta = this.getNormalizedDeltaFB(e);
 			this.stopEvent(e);
 
 			var now = new Date().getTime();
-			if(this.mouseWheelMode=="zoom" || e.metaKey || e.ctrlKey){
+			if(this.mouseWheelMode === "zoom" || e.metaKey || e.ctrlKey){
 				/**
-				 * FIXME: For the MagicMouse the events still come a lot after I have moved the wheel
-				 */
-
-				/**
-				 * FIXME: Use the spin property of the delta event to surpress small
-				 * events on trackpad?
+				 * Supress some events, because they might come in too fast.
+				 * Ideas:
+				 * 	- Use the spin property of the delta event to surpress small events on trackpad?
 				 */
 				if(Math.abs(this.lastMouseWheel -now) > 200 ){
-
-					if(!this.zoomAnimationRunning){
+					if (!this.zoomAnimationRunning){
 						/**
 						 * Put canvas at the right space. Mouse should be over the same element again,
 						 * so we save the position relative!
@@ -105,7 +111,7 @@ export default {
 						this._preZoomRelPos = this.getRelCanvasMousePosition(e);
 						this._preZoomAbsPos = this.getCanvasMousePosition(e);
 
-						if(dir < 0){
+						if (dir < 0){
 							this.onZoomMinus(e);
 						} else {
 							this.onZoomPlus(e);
@@ -116,7 +122,6 @@ export default {
 						 */
 						this.logger.log(3,"onMouseWheel", "exit > Zoom Request refused! Animation Running...");
 					}
-
 					this.lastMouseWheel = now;
 				}
 
@@ -130,7 +135,6 @@ export default {
 					this.lastMouseWheel = now;
 				}
 			}
-
 		},
 
 
@@ -157,7 +161,7 @@ export default {
 			return delta;
 		},
 
-		getNormalizedDelatFB (event){
+		getNormalizedDeltaFB (event){
 			// Reasonable defaults
 			var PIXEL_STEP  = 10;
 			var LINE_HEIGHT = 40;
@@ -205,8 +209,14 @@ export default {
 
 		},
 
-		getEventType : function(){
-			if(has("ff")){
+		getEventType () {
+			/**
+			 * In FireFox we have to use the MouseScroll. If we use 'wheel' we cannot
+			 * stop the CTRL + WHEEL and browser zooming get's triggered.
+			 * Attention: FireFox will return 'flipped' wheel events.
+			 */
+			if (has("ff")) {
+				this.isFireFox = true
 				return "DOMMouseScroll";
 			} else {
 				return "wheel";
