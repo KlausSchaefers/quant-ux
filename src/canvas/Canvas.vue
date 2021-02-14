@@ -639,6 +639,8 @@ export default {
 			var target = e.target;
 			var isMeta = e.altKey || e.ctrlKey || e.metaKey;
 			var isCntrl = e.ctrlKey || e.metaKey;
+			var isShift = e.shiftKey
+
 
 
 			// console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
@@ -680,22 +682,22 @@ export default {
 			 */
 			} else if(k == 37 && !isCntrl){
 				if(!this._inlineEditStarted ){
-					this.onArrowLeft(e);
+					this.onArrowLeft(e, isShift);
 					this.stopEvent(e);
 				}
 			} else if(k == 39 && !isCntrl){
 				if(!this._inlineEditStarted){
-					this.onArrowRight(e);
+					this.onArrowRight(e, isShift);
 					this.stopEvent(e);
 				}
 			} else if(k == 40 && !isCntrl){
 				if(!this._inlineEditStarted){
-					this.onArrowDown(e);
+					this.onArrowDown(e, isShift);
 					this.stopEvent(e);
 				}
 			} else if(k == 38 && !isCntrl){
 				if(!this._inlineEditStarted ){
-					this.onArrowUp(e);
+					this.onArrowUp(e, isShift);
 					this.stopEvent(e);
 				}
 			} else if (k == 65) { // a for select
@@ -898,7 +900,6 @@ export default {
 						this.stopEvent(e);
 					}
 
-
 					if(k == 40){ // ctrl & down
 						if(this.toolbar){
 							this.stopEvent(e);
@@ -912,7 +913,6 @@ export default {
 							this.toolbar.onToolWidgetLayer("front");
 						}
 					}
-
 
 					if(k == 71){ // ctrl-g
 						this.onGroup();
@@ -955,7 +955,7 @@ export default {
 				 * Do nothing...
 				 */
 					return;
-			} else if(k==65){
+			} else if (k==65){
 				/**
 				 * End selection
 				 */
@@ -964,22 +964,6 @@ export default {
 			} else if (k==18){ // alt
 				this.cleanUpAlignment();
 				this.setMode("edit");
-			} else if (k==68){ // D
-				//this.onDistributeEnd();
-				//this.stopEvent(e);
-				//e.cancelBubble = true
-			} else if (k==72){ // H
-	//			 if(this.settings.startToolsOnKeyDown){
-	//				 this.onToolHotspotEnd(this._lastMouseMoveEvent);
-	//		     }
-	//			 this.setMode("edit");
-	//		     this.stopEvent(e);
-			} else if (k==82){ // B
-	//			 if(this.settings.startToolsOnKeyDown){
-	//				 this.onToolBoxEnd(this._lastMouseMoveEvent);
-	//			 }
-	//			 this.setMode("edit");
-	//		     this.stopEvent(e);
 			} else if (k==32){ // space
 				this.onDragEnd(this._lastMouseMoveEvent);
 				/**
@@ -991,13 +975,7 @@ export default {
 					this.setMode("edit");
 				}
 				this.stopEvent(e);
-			} else if (k==84){ // t
-	//			 if(this.settings.startToolsOnKeyDown){
-	//				 this.onToolTextEnd(this._lastMouseMoveEvent);
-	//			 }
-	//			 this.setMode("edit");
-	//		     this.stopEvent(e);
-			} else if (k==72 || k==84 || k == 66 || k == 70){
+			} else if (k == 72 || k == 84 || k == 66 || k == 70){
 				this.stopEvent(e);
 				this.setMode("edit");
 			}

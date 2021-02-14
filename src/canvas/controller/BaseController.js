@@ -1826,7 +1826,6 @@ export default class BaseController extends Core {
 					alert('1 PX BUG')
 					console.warn(new Error().stack)
 				}
-
 			}
 		}
 	}
