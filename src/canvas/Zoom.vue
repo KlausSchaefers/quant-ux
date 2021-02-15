@@ -106,7 +106,7 @@ export default {
 						 * Put canvas at the right space. Mouse should be over the same element again,
 						 * so we save the position relative!
 						 */
-						this._preZoomRelPos = this.getAbsCanvasMousePosition(e);
+						this._preZoomRelPos = this.getRelCanvasMousePosition(e) // this.getRelCanvasMousePosition(e); getAbsCanvasMousePosition
 						this._preZoomAbsPos = this.getCanvasMousePosition(e);
 
 						if (dir < 0){
@@ -269,15 +269,19 @@ export default {
 				 * OldZoom: 1
 				 *
 				 *
-				 *
+				 *https://stackoverflow.com/questions/46647138/zoom-in-on-a-mousewheel-point-using-scale-and-translate
 				 */
-				let difZoom = (lastZoom - newZoom)
-				var difX = (this._preZoomRelPos.x  * difZoom) / newZoom;
-				var difY = (this._preZoomRelPos.y  * difZoom) / newZoom;
+				let difZoom = (lastZoom - newZoom) / newZoom
+				var difX = (this._preZoomRelPos.x  * difZoom) ;
+				var difY = (this._preZoomRelPos.y  * difZoom);
+
+				//var x = this._preZoomRelPos.x  *this.getZoomed(this.canvasPos.w);
+				//var y = this._preZoomRelPos.y  *this.getZoomed(this.canvasPos.h);
+
 
 				console.debug(difZoom, difX, difY)
 
-				this.canvasPos.x += difX ;
+				this.canvasPos.x += difX;
 				this.canvasPos.y += difY;
 
 
