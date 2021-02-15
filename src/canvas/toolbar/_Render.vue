@@ -200,7 +200,7 @@ export default {
 		 * Rending stuff
 		 **********************************************************************/
 
-		renderToolbar:function(){
+		renderToolbar (){
 			this.logger.log(2,"renderToolbar", "enter");
 
 			this.jwtToken = Services.getUserService().getToken()
@@ -211,6 +211,7 @@ export default {
 			 */
 			this.createBTN = this.$new(CreateButton);
 			this.createBTN.setModel(this.model);
+			this.createBTN.setJwtToken(this.jwtToken)
 			this.tempOwn(on(this.createBTN, "change", lang.hitch(this, "onNewThemeObject")));
 			this.tempOwn(on(this.createBTN, "importsChange", lang.hitch(this, "onImportChange")));
 			css.add(this.createBTN.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
