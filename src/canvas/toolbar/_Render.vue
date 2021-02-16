@@ -1571,7 +1571,6 @@ export default {
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 			css.remove(this.multiPositionDiv, "MatcToolbarSectionHidden");
 
-
 			var fixed = true;
 			var wrap = true;
 			for(var i=0; i< model.length;i++){
@@ -1586,10 +1585,7 @@ export default {
 
 			}
 			this.multiPositionCheckBox.setValue(fixed);
-
-
 			// this.childWidget.setMulti(model);
-
 			this._showMultiVisualProperties(model);
 		},
 

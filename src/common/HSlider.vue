@@ -29,7 +29,8 @@ export default {
       hasLabel: false,
       center: false,
       round: true,
-      wire: true
+      wire: true,
+      showLabel: false
     };
   },
   components: {},
@@ -41,16 +42,16 @@ export default {
     },
 
     wireEvents: function() {
-      this.own(
-        this.addTouchStart(this.domNode, lang.hitch(this, "onDomPress"))
-      );
-      this.own(
-        this.addTouchStart(this.hndl, lang.hitch(this, "onHandlePress"))
-      );
+      this.own(this.addTouchStart(this.domNode, lang.hitch(this, "onDomPress")));
+      this.own(this.addTouchStart(this.hndl, lang.hitch(this, "onHandlePress")));
     },
 
     startup: function() {
       this.init();
+    },
+
+    setShowLabel (show) {
+      this.showLabel = show
     },
 
     setMax: function(m) {
@@ -132,10 +133,7 @@ export default {
           var p = i / this.legend;
           var lblCntr = db.span("vommondLegendBarItem").build(cntr);
           lblCntr.style.left = Math.min(pos.w * p, pos.w - 1) + "px";
-          db.div(
-            "vommondLegendBarItemLabel",
-            Math.round(this.min + p * s)
-          ).build(lblCntr);
+          db.div( "vommondLegendBarItemLabel", Math.round(this.min + p * s)).build(lblCntr);
         }
       }
     },
@@ -246,6 +244,10 @@ export default {
         }
       } else {
         this.bar.style.width = p * w + "px";
+      }
+
+      if (this.showLabel) {
+        this.hndl.innerText = value
       }
 
       this._value = value;

@@ -702,7 +702,10 @@
 
 .MatcWidgetTypeHSlider .VommondSliderHandle{
 	border-radius:0px;
-}
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	}
 
 
 /*******************************

@@ -10,7 +10,7 @@
             <span class="mdi mdi-cursor-default MatcToobarInputIcon" />
 
          </div>
-        <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" v-show="!isScreen" ref="tooltipChange">
+        <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" v-show="!isScreen && isInput" ref="tooltipChange">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Change callback"
@@ -26,6 +26,16 @@
                 :value="callbacks.load"
                 @change="onLoadChange"/>
               <span class="mdi mdi-backup-restore MatcToobarInputIcon" />
+
+         </div>
+
+          <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" ref="tooltipRender">
+
+             <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
+                placeholder="Render callback"
+                :value="callbacks.css"
+                @change="onRenderChange"/>
+              <span class="mdi mdi-format-paint MatcToobarInputIcon" />
 
          </div>
 	</div>
@@ -50,6 +60,9 @@ export default {
     computed: {
         isScreen () {
             return this.type === 'Screen'
+        },
+        isInput () {
+            return this.type !== 'Button' && this.type !== 'Label' &&  this.type !== 'Box'
         }
     },
     components: {
@@ -69,6 +82,11 @@ export default {
             this.emit('changeProps', 'callbacks', this.callbacks)
         },
 
+        onRenderChange (e) {
+            this.callbacks.render = e.target.value
+            this.emit('changeProps', 'callbacks', this.callbacks)
+        },
+
         onLoadChange (e) {
             this.callbacks.load = e.target.value
             this.emit('changeScreenProps', 'callbacks', {
@@ -82,11 +100,13 @@ export default {
                 this.callbacks.click = widget.props.callbacks.click
                 this.callbacks.change = widget.props.callbacks.change
                 this.callbacks.load = widget.props.callbacks.load
+                this.callbacks.render = widget.props.callbacks.render
             } else {
                 this.callbacks = {
                     click: '',
                     change: '',
-                    load: ''
+                    load: '',
+                    render: ''
                 }
             }
 		}
@@ -100,6 +120,9 @@ export default {
         }
         if (this.$refs.tooltipLoad) {
             this.addTooltip(this.$refs.tooltipLoad, 'Enter the name of the method that should be called when the screen is <b>LOADED</b>.')
+        }
+        if (this.$refs.tooltipRender) {
+            this.addTooltip(this.$refs.tooltipRender, 'The method that will be called to customize the <b>RENDERING</b> of the element.')
         }
     }
 }
