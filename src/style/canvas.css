@@ -81,7 +81,7 @@
 	transition-property:opacity;
 	left:0px;
 	right:0px;
-	transform-origin: 0 0;
+	transform-origin: 0% 0%;
 }
 
 
@@ -118,6 +118,17 @@
 	position: absolute;
 	width: 100%;
  	height: 100%;
+}
+
+.MatcDnDLayer{
+	position: absolute;
+	width: 100%;
+ 	height: 100%;
+
+}
+
+.MatcDnDLayer .MatcBox{
+	border: 1px dashed orange;
 }
 
 .MatcBox{

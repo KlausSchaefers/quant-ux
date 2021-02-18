@@ -23,6 +23,19 @@ export default class FastDomUtil {
     div.pos_y = box.y
   }
 
+  setScale (div, scale = 1) {
+    div.style.transform = `scale(${scale}) `;
+  }
+
+  setPosAndScale (div, pos, scale = 1) {
+    div.style.left = "0px";
+    div.style.top = "0px";
+    div.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${scale}) `;
+    div.pos_x = pos.x;
+    div.pos_y = pos.y
+  }
+
+
   setPos (div, pos) {
     div.style.left = "0px";
     div.style.top = "0px";

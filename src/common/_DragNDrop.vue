@@ -17,7 +17,7 @@ export default {
     components: {},
     methods: {
 
-      registerDragOnDrop (node, id, startCallback, moveCallback, endCallback, clickCallback, targetNode){
+    registerDragOnDrop (node, id, startCallback, moveCallback, endCallback, clickCallback, targetNode){
 
 			// new method overload. We can attach the start event to a different node, then to one to be moved!
 			if (!targetNode) {
@@ -69,6 +69,7 @@ export default {
 				 * is for now always the same!
 				 */
 				this._dragNDropStartPos = this.domUtil.getPos(node);
+				console.debug('start', this._dragNDropStartPos, node)
 				this._dragnDropMousePos = this._getMousePosition(e);
 
 				this._dragNDropRenderJobs = {};
@@ -136,11 +137,15 @@ export default {
 
 
 				var pos = this._getMousePosition(e);
+
+
+
 				var difX = pos.x - this._dragnDropMousePos.x;
 				var difY = pos.y - this._dragnDropMousePos.y;
 				var x = this._dragNDropStartPos.x + difX;
-				var y= this._dragNDropStartPos.y + difY;
+				var y = this._dragNDropStartPos.y + difY;
 
+				console.debug('newPos 1)', pos, x, y, difX, difY, '_dragNDropStartPos',this._dragNDropStartPos)
 
 				/**
 				 * Only start DND if there was a real mouse movement.
@@ -173,6 +178,8 @@ export default {
 					w: this._dragNDropStartPos.w
 				};
 
+				console.debug('newPos', pos, newPos)
+
 				/**
 				 * Alt Key will ensure that we move on one line!
 				 */
@@ -189,6 +196,8 @@ export default {
 				 * grid or ruler
 				 */
 				newPos = this.allignPosition(newPos, e);
+
+				console.debug('newPos', pos, newPos)
 
 				this._dragNDropLastPos = newPos;
 

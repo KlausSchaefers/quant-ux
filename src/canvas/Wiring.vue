@@ -117,31 +117,32 @@ export default {
 		},
 
 		wireCanvas () {
+			console.debug('wireCanvas', this.mode)
 			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view" || this.mode === "data") ){
 				/**
 				 * In the classic mode the
 				 */
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
+				this.registerDragOnDrop(this.dndContainer, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick", this.container);
 			} else if (this.mode === "edit" || this.mode === "view" || this.mode === "data"){
 				/**
 				 * The must be mousedown, because in chrome the touch press is fired after mousedown and fucks up some how our state maschine
 				 */
 
-				this.tempOwn(on(this.container, "mousedown", lang.hitch(this, "onSelectionStarted") ));
+				this.tempOwn(on(this.dndContainer, "mousedown", lang.hitch(this, "onSelectionStarted") ));
 
 			} else if(this.mode == "move"){
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null);
+				this.registerDragOnDrop(this.dndContainer, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, this.container);
 			} else if(this.mode == "select"){
-				this._selectionToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onSelectionStarted"));
+				this._selectionToolPressListener = on(this.dndContainer,"mousedown", lang.hitch(this,"onSelectionStarted"));
 			} else if(this.mode == "hotspot"){
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolHotspotStart"));
+				this._hotspotToolPressListener = on(this.dndContainer,"mousedown", lang.hitch(this,"onToolHotspotStart"));
 			} else if(this.mode == "addLine") {
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
+				this.registerDragOnDrop(this.dndContainer, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
 			} else if(this.mode == "addText") {
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolTextStart"));
+				this._hotspotToolPressListener = on(this.dndContainer,"mousedown", lang.hitch(this,"onToolTextStart"));
 			} else if(this.mode == "addBox") {
 				this.onToolBoxInit();
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolBoxStart"));
+				this._hotspotToolPressListener = on(this.dndContainer,"mousedown", lang.hitch(this,"onToolBoxStart"));
 			}
     }
 

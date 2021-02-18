@@ -43,7 +43,6 @@ export default {
 		},
 
 		setZoomFactor (zoom){
-			this.zoomLevelPos = this.zoomLevels.findIndex(x => x === zoom)
 			this._setCenterPos();
 			this.zoom = zoom
 			this.onZoomChange();
@@ -51,7 +50,6 @@ export default {
 
 		zoomOut (animate){
 			this.zoomLevelPos = 0;
-			this.zoom = this.zoomLevels[this.zoomLevelPos];
 			this.onZoomChange(true, animate);
 		},
 
@@ -77,54 +75,31 @@ export default {
 			// There could be a bug for natural scrolling for some users
 			// console.debug('onMouseWheen', dir, e.webkitDirectionInvertedFromDevice)
 
-			var dir = e.wheelDelta ? e.wheelDelta : e.detail;
+			var dir = this.getWheelDir(e)
+			var delta = this.getNormalizedDeltaFB(e);
 			if(!this.mouseZoomEnabled || dir === 0) {
 				return;
 			}
 
-			/**
-			 * Flip direction in FireFox
-			 */
-			if (this.isFireFox) {
-				dir *= -1
-			}
-
-
-			var delta = this.getNormalizedDeltaFB(e);
 			this.stopEvent(e);
 
 			var now = new Date().getTime();
 			if(this.mouseWheelMode === "zoom" || e.metaKey || e.ctrlKey){
-				/**
-				 * Supress some events, because they might come in too fast.
-				 * Ideas:
-				 * 	- Use the spin property of the delta event to surpress small events on trackpad?
-				 */
-				if(Math.abs(this.lastMouseWheel -now) ){
-					if (!this.zoomAnimationRunning){
-						/**
-						 * Put canvas at the right space. Mouse should be over the same element again,
-						 * so we save the position relative!
-						 */
-						this._preZoomRelPos = this.getRelCanvasMousePosition(e) // this.getRelCanvasMousePosition(e); getAbsCanvasMousePosition
-						this._preZoomAbsPos = this.getCanvasMousePosition(e);
+				if (Math.abs(this.lastMouseWheel -  now) > 30) {
 
-						if (dir < 0){
-							this.onZoomMinus(e);
-						} else {
-							this.onZoomPlus(e);
-						}
+					this._preZoomRelPos = this.getRelCanvasMousePosition(e)
+					this._preZoomAbsPos = this.getCanvasMousePosition(e);
+
+					if (dir < 0){
+						this.onZoomMinus(e);
 					} else {
-						/**
-						 * we could somehow to update the running animation...
-						 */
-						this.logger.log(3,"onMouseWheel", "exit > Zoom Request refused! Animation Running...");
+						this.onZoomPlus(e);
 					}
 					this.lastMouseWheel = now;
 				}
 
 			} else {
-				if(Math.abs(this.lastMouseWheel -now) > 1 ){
+				if (Math.abs(this.lastMouseWheel - now) > 1 ){
 					this.canvasPos.y -= Math.round(delta.pixelY / 2);
 					if(delta.pixelX){
 						this.canvasPos.x -= Math.round(delta.pixelX / 2);
@@ -133,6 +108,17 @@ export default {
 					this.lastMouseWheel = now;
 				}
 			}
+		},
+
+		getWheelDir (e) {
+			let dir = e.wheelDelta ? e.wheelDelta : e.detail;
+			/**
+			 * Flip direction in FireFox
+			 */
+			if (this.isFireFox) {
+				dir *= -1
+			}
+			return dir
 		},
 
 
@@ -222,13 +208,14 @@ export default {
 
 		onZoomMinus (e){
 			this.stopEvent(e);
-			this.zoom = Math.max(0.1, this.zoom - 0.01)
+			// make some magnetic thingis...
+			this.zoom = Math.max(0.05, this.zoom - 0.1)
 			this.onZoomChange();
 		},
 
 		onZoomPlus (e){
 			this.stopEvent(e);
-			this.zoom = Math.min(3, this.zoom + 0.01)
+			this.zoom = Math.min(3, this.zoom + 0.1)
 			this.onZoomChange();
 		},
 
@@ -237,7 +224,7 @@ export default {
 			if (this.zoom != this._lastZoom || forceRender){
 				this.onChangeCanvasViewConfig()
 				// put this into a reuqestNaimationFraem
-				this.setZoomedContainerPosition(this._lastZoom, this.zoom)
+				this.setZoomedContainerPosition()
 				this.renderZoom()
 			}
 			this._lastZoom = this.zoom;
@@ -253,38 +240,14 @@ export default {
 			}
 		},
 
-		setZoomedContainerPosition (lastZoom, newZoom){
+		setZoomedContainerPosition (){
 			if(	this._preZoomRelPos ){
-				console.debug('setZoomedContainerPosition', newZoom, this._preZoomRelPos)
-				this.logger.log(3,"setZoomedContainerPosition", "entry >" + this.zoom + "00%");
-
-				/**
-				 * Canvas:
-				 * 	x: 1000
-				 * 	y: 1000
-				 * Mouse:
-				 *  x:500
-				 * 	x: 500
-				 *
-				 * OldZoom: 1
-				 *
-				 *
-				 *https://stackoverflow.com/questions/46647138/zoom-in-on-a-mousewheel-point-using-scale-and-translate
-				 */
-				let difZoom = (lastZoom - newZoom) / newZoom
-				var difX = (this._preZoomRelPos.x  * difZoom) ;
-				var difY = (this._preZoomRelPos.y  * difZoom);
-
-				//var x = this._preZoomRelPos.x  *this.getZoomed(this.canvasPos.w);
-				//var y = this._preZoomRelPos.y  *this.getZoomed(this.canvasPos.h);
-
-
-				console.debug(difZoom, difX, difY)
-
+				var x = this._preZoomRelPos.x  * this.getZoomed(this.canvasPos.w, this.zoom);
+				var y = this._preZoomRelPos.y  * this.getZoomed(this.canvasPos.h, this.zoom);
+				var difX = Math.round(this._preZoomAbsPos.x - x);
+				var difY = Math.round(this._preZoomAbsPos.y - y);
 				this.canvasPos.x += difX;
 				this.canvasPos.y += difY;
-
-
 			}
 			delete this._preZoomRelPos;
 			delete this._preZoomAbsPos;

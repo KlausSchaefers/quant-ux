@@ -9,11 +9,22 @@ export default {
     methods: {
 
 
+			updateDnD (model) {
+				this.logger.log(1,"updateDnD", "enter");
+
+				for (let id in model.screens){
+						let screen = model.screens[id]
+						if (!this.screenDivs[id]) {
+							console.debug(screen)
+						}
+				}
+			},
+
 			/**********************************************************************
 			 * Rendering pipeline
 			 **********************************************************************/
 
-			renderFlowViewFast (model, isResize = false){
+			renderFlowViewFast (model, zoomedModel, isResize = false){
 				this.logger.log(1,"renderFlowViewFast", "enter");
 
 				/**
@@ -24,7 +35,6 @@ export default {
 				// console.debug(new Error().stack)
 
 				this.beforeRender();
-				this.model = model;
 				this.cleanUpFast(isResize);
 				this.renderCanvas();
 				this.renderChangeCounter = 0
@@ -36,11 +46,12 @@ export default {
 				 */
 				for (let id in model.screens){
 						let screen = model.screens[id]
+						let zoomedScreen = zoomedModel.screens[id]
 						if (!this.screenDivs[id]) {
 							/**
 							 * Create new screen
 							 */
-							this.renderScreen(screen);
+							this.renderScreen(screen, zoomedScreen);
 							this.renderedModels[screen.id] = screen
 
 							this.renderCreateCounter++;
@@ -49,7 +60,7 @@ export default {
 							 * FIXME: we still have issues with the screen buttons!
 							 * Sometiems there are double and not correctly removed!
 							 */
-							this.updateScreen(screen, isResize)
+							this.updateScreen(screen, zoomedScreen, isResize)
 						}
 				}
 
@@ -63,7 +74,7 @@ export default {
 				var widgets = this.getOrderedWidgets(model.widgets);
 				for (let i=0; i< widgets.length; i++){
 					let widget = widgets[i];
-
+					let zoomedWidget = zoomedModel.widgets[widget.id]
 					/**
 					 * FIXME: we have to check here which for hidden stuff.
 					 * 1) If stuff was hidden, and is now not hidden, the wiring will fail!
@@ -75,13 +86,13 @@ export default {
 					 * set the zIndex. For the updates we need, thus we pass i.
 					 */
 					if (!this.widgetBackgroundDivs[widget.id]) {
-						this.renderWidget(widget);
+						this.renderWidget(widget, zoomedWidget);
 						this.updateWidgetZ(widget, i)
 						this.renderedModels[widget.id] = widget
 
 						this.renderCreateCounter++;
 					} else {
-							this.updateWidget(widget, i, isResize);
+							this.updateWidget(widget, zoomedWidget, i, isResize);
 					}
 				}
 
@@ -135,17 +146,61 @@ export default {
 			},
 
 
-			resizeScreen (screen) {
-					this.updateScreen(screen)
+			/********************************************************
+			 *   Screen
+			 ********************************************************/
+
+			///esizeScreen (screen) {
+			//	this.updateScreen(screen)
+			//},
+
+			renderScreen (screen, zoomedScreen){
+				this.logger.log(4,"renderScreen", "enter");
+
+				var dndDiv = null;
+				var backgroundDiv = null;
+				/**
+				* We need these div also to check if the screen was rendered!
+				*/
+				if (!this.screenDivs[screen.id]){
+					/**
+					 * create dnd
+					 */
+					dndDiv = this.createScreenDnD(zoomedScreen);
+					this.screenDivs[screen.id] = dndDiv;
+					this.dndContainer.appendChild(dndDiv);
+
+					var lbl = document.createElement("div");
+					css.add(lbl, "MatcScreenLabel");
+					this.setTextContent(lbl, screen.name);
+					this.screenLabels[screen.id] = lbl;
+					dndDiv.appendChild(lbl);
+
+					/**
+					 * Create a background box
+					 */
+					backgroundDiv = this.createScreen(screen);
+					this.screenContainer.appendChild(backgroundDiv);
+					this.screenBackgroundDivs[screen.id] = backgroundDiv;
+				}
+
+				/**
+				 * set style and grid
+				 */
+				this.renderFactory.setStyle(backgroundDiv, screen);
+				this.renderGrid(dndDiv, screen);
+				this.renderScreenButtons(dndDiv, screen)
+
+				return dndDiv;
 			},
 
-			updateScreen (screen) {
+			updateScreen (screen, zoomedScreen) {
 				if (this.elementHasChanged(screen)) {
 					let dnd = this.screenDivs[screen.id]
 					if (dnd) {
 
 						this.cleanUpNode(dnd)
-						this.updateBox(screen, dnd)
+						this.updateBox(zoomedScreen, dnd)
 
 						/**
 						 * TODO: cleanUpNode() also removes the name. We should keep it :D
@@ -157,8 +212,8 @@ export default {
 						this.screenLabels[screen.id] = lbl;
 						dnd.appendChild(lbl);
 
-						this.renderGrid(dnd, screen);
-						this.renderScreenButtons(dnd, screen)
+						this.renderGrid(dnd, zoomedScreen);
+						this.renderScreenButtons(dnd, zoomedScreen)
 
 					}
 
@@ -186,11 +241,48 @@ export default {
 				delete this.renderedModels[id]
 			},
 
-			updateWidget (widget, i, isResize) {
+			/********************************************************
+			 *   WIDGETS
+			 ********************************************************/
+
+			renderWidget (widget, zoomedWidget){
+				this.logger.log(4,"renderWidget", "enter");
+
+				/**
+					* check if we have to create div again.. Also used as indicator
+					* if the widget was rendered!
+					*/
+				var div = null;
+				if (!this.widgetBackgroundDivs[widget.id] && !this.isElementHidden(widget)){
+
+					/**
+						* create dnd
+						*/
+					if (this.renderDND && !this.isElementLocked(widget)) {
+
+						div = this.createWidgetDnD(zoomedWidget);
+						if(widget.inherited){
+							css.add(div, "MatcWidgetDNDInherited");
+						}
+						this.widgetDivs[widget.id] = div;
+						this.dndContainer.appendChild(div);
+					}
+
+					/**
+						* Create background
+						*/
+					let divBack = this.createWidget(widget);
+					this.screenContainer.appendChild(divBack);
+					this.widgetBackgroundDivs[widget.id] = divBack;
+				}
+				return div;
+			},
+
+			updateWidget (widget, zoomedWidget, i, isResize) {
 				if (isResize || this.elementHasChanged(widget)) {
 					let dnd = this.widgetDivs[widget.id]
 					if (dnd) {
-						this.updateBox(widget, dnd)
+						this.updateBox(zoomedWidget, dnd)
 						dnd.style.zIndex = 10009 + i
 					}
 					let background = this.widgetBackgroundDivs[widget.id]

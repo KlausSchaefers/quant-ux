@@ -10,12 +10,13 @@ import _Color from 'common/_Color'
 import Ruler from 'canvas/Ruler'
 import GridAndRuler from 'canvas/GridAndRuler'
 import SimpleGrid from 'canvas/SimpleGrid'
-import RenderFast from 'canvas/RenderFast'
+import RenderFlow from 'canvas/RenderFlow'
 import Wiring from 'canvas/Wiring'
+import ModelUtil from 'core/ModelUtil'
 
 export default {
     name: 'Render',
-    mixins:[_Color, RenderFast, Wiring],
+    mixins:[_Color, RenderFlow, Wiring],
     data: function () {
 		/**
 			 * The canvas has the following states:
@@ -235,10 +236,15 @@ export default {
 		 * Container Size
 		 **********************************************************************/
 
-		initContainerSize () {
+		initContainerSize () { // was setContainerSize
 			this.container.style.height = this.canvasPos.h + "px";
 			this.container.style.width = this.canvasPos.w + "px";
+
 			this.frame.style.fontSize = this.defaultFontSize + "px";
+
+			this.dndContainer.style.height = this.canvasPos.h + "px";
+			this.dndContainer.style.width = this.canvasPos.w + "px";
+
 			this.containerSize = {
 				h: this.canvasPos.h,
 				w: this.canvasPos.w
@@ -247,13 +253,20 @@ export default {
 
 
 		setContainerPos (ignoreScollUpdate){
-			console.debug('setContainerPos', this.zoom, this.canvasPos.x, this.canvasPos.y)
-			this.container.style.transform = `scale(${this.zoom}) translate(${this.canvasPos.x}px, ${this.canvasPos.y}px)`
-			this.zoomedContainerSize = {
+
+
+			this.domUtil.setPos(this.container, this.canvasPos)
+			this.domUtil.setScale(this.zoomContainer, this.zoom)
+
+			this.containerSize = {
 				h: this.getZoomed(this.canvasPos.h, this.zoom),
 				w: this.getZoomed(this.canvasPos.w, this.zoom)
 			}
-			// this.domUtil.setXY(this.container, Math.round(this.canvasPos.x), Math.round(this.canvasPos.y))
+
+			this.dndContainer.style.height = this.containerSize.h + "px";
+			this.dndContainer.style.width = this.containerSize.w + "px";
+
+
 			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
 			}
@@ -281,6 +294,10 @@ export default {
 
 		renderZoom () {
 			this.setContainerPos()
+			if (this.model) {
+				this.zoomedModel = ModelUtil.createScalledModel(this.model, this.zoom)
+
+			}
 		},
 
 		/**
@@ -290,7 +307,7 @@ export default {
 		 */
 		onWidgetPositionChange (zoomedModel) {
 			this.logger.log(-1,"onWidgetPositionChange", "enter", zoomedModel);
-			this.model = zoomedModel;
+			this.zoomedModel = zoomedModel;
 			this.renderFactory.setZoomedModel(zoomedModel);
 			this.renderFactory.updatePositions(zoomedModel)
 		},
@@ -299,9 +316,13 @@ export default {
 		render (model, isResize = false){
 			this.logger.log(2,"render", "enter", isResize);
 			let renderStart = new Date().getTime();
+
 			try {
 
-				this.renderFlowViewFast(model, isResize);
+				this.model = model;
+				this.zoomedModel = ModelUtil.createScalledModel(model, this.zoom)
+
+				this.renderFlowViewFast(model, this.zoomedModel, isResize);
 
 				this.afterRender();
 
@@ -336,9 +357,6 @@ export default {
 		renderCanvas (){
 			this.initSVG();
 			this.setContainerPos();
-			// this.setZoomedContainerPosition();
-			//this.renderFactory.setScaleFactor(this.zoom, this.zoom);
-			//this.renderFactory.setZoomedModel(this.model);
 		},
 
 		beforeRender () {
@@ -373,79 +391,7 @@ export default {
 			}
 		},
 
-		renderScreen (screen){
-			this.logger.log(4,"renderScreen", "enter");
 
-			var dndDiv = null;
-			var backgroundDiv = null;
-			/**
-			* We need these div also to check if the screen was rendered!
-			*/
-			if(!this.screenDivs[screen.id]){
-				/**
-				 * create dnd
-				 */
-				dndDiv = this.createScreenDnD(screen);
-				this.screenDivs[screen.id] = dndDiv;
-				this.widgetContainer.appendChild(dndDiv);
-
-				var lbl = document.createElement("div");
-				css.add(lbl, "MatcScreenLabel");
-				this.setTextContent(lbl, screen.name);
-				this.screenLabels[screen.id] = lbl;
-				dndDiv.appendChild(lbl);
-
-				/**
-				 * Create a background box
-				 */
-				backgroundDiv = this.createScreen(screen);
-				this.screenContainer.appendChild(backgroundDiv);
-				this.screenBackgroundDivs[screen.id] = backgroundDiv;
-			}
-
-			/**
-			 * set style and grid
-			 */
-			this.renderFactory.setStyle(backgroundDiv, screen);
-			this.renderGrid(dndDiv, screen);
-			this.renderScreenButtons(dndDiv, screen)
-
-			return dndDiv;
-		},
-
-
-		renderWidget (widget){
-			this.logger.log(4,"renderWidget", "enter");
-
-			/**
-				* check if we have to create div again.. Also used as indicator
-				* if the widget was rendered!
-				*/
-			var div = null;
-			if(!this.widgetBackgroundDivs[widget.id] && !this.isElementHidden(widget)){
-
-				/**
-					* create dnd
-					*/
-				if (this.renderDND && !this.isElementLocked(widget)) {
-
-					div = this.createWidgetDnD(widget);
-					if(widget.inherited){
-						css.add(div, "MatcWidgetDNDInherited");
-					}
-					this.widgetDivs[widget.id] = div;
-					this.widgetContainer.appendChild(div);
-				}
-
-				/**
-					* Create background
-					*/
-				let divBack = this.createWidget(widget);
-				this.screenContainer.appendChild(divBack);
-				this.widgetBackgroundDivs[widget.id] = divBack;
-			}
-			return div;
-		},
 
 		renderScreenButtons () {
 			/**
