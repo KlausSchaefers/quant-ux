@@ -40,7 +40,7 @@ export default {
      **********************************************************************/
 
     onCanvasDnDStart (id, div, pos) {
-      this.logger.log(-3,"onCanvasDnDStart", "enter > " + id + ' ' + pos);
+      this.logger.log(3,"onCanvasDnDStart", "enter > " + id + ' ' + pos);
       this.setDnDMinTime(0);
       this._dndContainerPos = domGeom.position(this.dndContainer);
       this._dndDomPos = domGeom.position(this.domNode);
@@ -48,7 +48,7 @@ export default {
     },
 
     onCanvasDnDMove (id, div, pos) {
-      this.logger.log(-1,"onCanvasDnDMove", "enter > x:" + pos.x + " y:" + pos.y);
+      this.logger.log(3,"onCanvasDnDMove", "enter > x:" + pos.x + " y:" + pos.y);
       this.canvasPos.x = pos.x;
       this.canvasPos.y = pos.y;
       this.updateScrollHandlers();

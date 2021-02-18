@@ -486,19 +486,6 @@ export default {
 			mouseWheelList.placeAt(cntr);
 
 			/**
-			 * Move mode
-			 */
-			db.label("MatcMarginTop","Move Mode:").build(cntr);
-			var moveList = this.$new(RadioBoxList);
-			moveList.setOptions([
-			   {value:"ps", label: "Extra move tool and SPACE"},
-			   {value:"classic", label:"Canvas Drag'n'Drop"}
-			]);
-			moveList.setValue(settings.moveMode);
-			moveList.placeAt(cntr);
-
-
-			/**
 			 * Keep color boxes open
 			 */
 			db.label("MatcMarginTop","Other:").build(cntr);
@@ -539,7 +526,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
-				this, "onSaveSettings", dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox, gridSnapTopLeftChkBox
+				this, "onSaveSettings", dialog, themeList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox, gridSnapTopLeftChkBox
 			)));
 
 			dialog.popup(popup, this.template);
@@ -550,10 +537,9 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 
-		onSaveSettings:function(dialog, themeList,moveList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox, gridSnapTopLeftChkBox){
+		onSaveSettings:function(dialog, themeList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox, gridSnapTopLeftChkBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
-				moveMode : moveList.getValue(),
 				mouseWheelMode: mouseWheelList.getValue(),
 				keepColorWidgetOpen: colorPicker.getValue(),
 				fastRender: renderCheckBox.getValue(),

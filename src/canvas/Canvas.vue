@@ -106,14 +106,15 @@ export default {
 			this.initComment();
 			this.initScreenRuler()
 			this.initDataView()
+			this.initWiring()
+			this.initKeys()
 
 			/**
 			 * Init Listeners
 			 */
 			this.own(topic.subscribe("matc/toolbar/click", lang.hitch(this,"onToolbarClick")));
 			//this.own(on(this.gridBtn, touch.press, lang.hitch(this, "showGrid")));
-			this.own(on(win.body(), "keydown", lang.hitch(this,"onKeyPress")));
-			this.own(on(win.body(), "keyup", lang.hitch(this,"onKeyUp")));
+
 
 
 			/**

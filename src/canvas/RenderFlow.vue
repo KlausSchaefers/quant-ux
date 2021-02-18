@@ -1,6 +1,5 @@
 <script>
 import css from 'dojo/css'
-import lang from 'dojo/_base/lang'
 
 export default {
     name: 'RenderFast',
@@ -30,7 +29,7 @@ export default {
 			 * Rendering pipeline
 			 **********************************************************************/
 
-			renderFlowViewFast (model, zoomedModel, isResize = false){
+			renderFlowViewFast (sourceModel, zoomedModel, isResize = false){
 				this.logger.log(1,"renderFlowViewFast", "enter");
 
 				/**
@@ -50,8 +49,8 @@ export default {
 				/**
 				 * start adding or updating stuff
 				 */
-				for (let id in model.screens){
-						let screen = model.screens[id]
+				for (let id in sourceModel.screens){
+						let screen = sourceModel.screens[id]
 						let zoomedScreen = zoomedModel.screens[id]
 						if (!this.screenDivs[id]) {
 							/**
@@ -75,9 +74,9 @@ export default {
 				 * the latest zoomed model.
 				 * FIXME: Thsi should have been done in renderCanvas()...
 				 */
-				this.renderFactory.setZoomedModel(model)
-				this.renderFactory.updatePositions(model)
-				var widgets = this.getOrderedWidgets(model.widgets);
+				this.renderFactory.setZoomedModel(sourceModel)
+				this.renderFactory.updatePositions(sourceModel)
+				var widgets = this.getOrderedWidgets(sourceModel.widgets);
 				for (let i=0; i< widgets.length; i++){
 					let widget = widgets[i];
 					let zoomedWidget = zoomedModel.widgets[widget.id]
@@ -103,10 +102,10 @@ export default {
 				}
 
 				if (this.renderLines){
-					for (let id in model.lines){
-						let line = model.lines[id];
+					for (let id in sourceModel.lines){
+						let line = sourceModel.lines[id];
 						if (!line.hidden){
-							this.renderLine(model.lines[id]);
+							this.renderLine(sourceModel.lines[id]);
 						}
 					}
 				}
@@ -115,13 +114,13 @@ export default {
 				 * Remove not needed stuff
 				 */
 				for (let id in this.screenDivs) {
-					if (!model.screens[id]) {
+					if (!sourceModel.screens[id]) {
 						this.deleteScreen(id)
 					}
 				}
 
 				for (let id in this.widgetDivs) {
-					if (!model.widgets[id]) {
+					if (!sourceModel.widgets[id]) {
 						this.deleteWidget(id)
 					}
 				}
@@ -135,9 +134,6 @@ export default {
 
 				this.renderSelection();
 				this.renderDistance();
-				if(this.animate){
-					setTimeout(lang.hitch(this,"renderAnimation"),1);
-				}
 
 				this.logger.log(-1, "renderFlowViewFast", "exit > #update: " + this.renderChangeCounter + ' > #new : '+ this.renderCreateCounter , (new Date().getTime() - this.renderStartTime) +'ms');
 			},

@@ -255,7 +255,6 @@ export default {
 
 		setContainerPos (ignoreScollUpdate){
 
-
 			this.domUtil.setPos(this.container, this.canvasPos)
 			this.domUtil.setScale(this.zoomContainer, this.zoom)
 
@@ -290,15 +289,17 @@ export default {
 		 **********************************************************************/
 
 		rerender (){
-			this.render(this.model);
+			this.render(this.sourceModel);
 		},
 
 		renderZoom () {
 			this.setContainerPos()
 			if (this.model) {
 				this.cleanUpScreenButtons()
-				this.zoomedModel = ModelUtil.createScalledModel(this.model, this.zoom)
-				this.updateDnD(this.zoomedModel)
+				this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
+				this.updateDnD(this.model)
+				this.renderSelection();
+				this.renderDistance();
 			}
 		},
 
@@ -320,11 +321,14 @@ export default {
 			let renderStart = new Date().getTime();
 
 			try {
+				/**
+				 * We keep here the sourceModel for rendering and zooming.
+				 * The rest stays as is with the zoomedModel as this.model
+				 */
+				this.sourceModel = model;
+				this.model = ModelUtil.createScalledModel(model, this.zoom)
 
-				this.model = model;
-				this.zoomedModel = ModelUtil.createScalledModel(model, this.zoom)
-
-				this.renderFlowViewFast(model, this.zoomedModel, isResize);
+				this.renderFlowViewFast(this.sourceModel, this.model, isResize);
 
 				this.afterRender();
 
@@ -616,6 +620,7 @@ export default {
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");
 			var div = this.createBox(screen);
+			div._screenID = screen.id
 			css.add(div, "MatcScreenDnD");
 			return div;
 		},
@@ -631,6 +636,7 @@ export default {
 		createWidgetDnD (widget){
 			this.logger.log(4,"createWidgetDnD", "enter");
 			var div = this.createBox(widget);
+			div._widgetID = widget.id
 			css.add(div, "MatcWidgetDND");
 			if (this.hasLogic(widget)){
 				css.add(div, "MatcLogicWidgetDnD");

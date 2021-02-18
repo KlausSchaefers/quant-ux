@@ -15,6 +15,196 @@ export default {
     components: {},
     methods: {
 
+			initWiring() {
+				this.logger.log(-1,"initWiring", "enter");
+				this.own(on(this.dndContainer, "mousedown", (e) => this.dispatchMouseDown(e)));
+				this.own(on(this.dndContainer, touch.over, (e) => this.dispatchOver(e)));
+				this.own(on(this.dndContainer, touch.out, (e) => this.dispatchOut(e)));
+			},
+
+			dispatchOver (e) {
+				let target = e.target
+				if (target._widgetID) {
+					let widget = this.model.widgets[target._widgetID];
+					if (widget) {
+						if (this.mode == "distance") {
+							this.renderWidgetDistance(widget);
+							return
+						}
+						if (this.mode == "edit" || this.mode == "addLine"){
+							this.setHoverWidget(widget);
+							return
+						}
+					}
+
+				}
+				if (target._screenID) {
+					let scrn = this.model.screens[target._screenID];
+					if (scrn) {
+						return
+					}
+					return
+				}
+
+			},
+
+			dispatchOut (e) {
+				let target = e.target
+				if (target._widgetID) {
+					if (this.mode == "distance") {
+						let widget = this.model.widgets[target._widgetID];
+						if (widget) {
+							this.renderWidgetDistance(null);
+							// TODO add clone
+						}
+					}
+					return
+				}
+				if (target._screenID) {
+					let scrn = this.model.screens[target._screenID];
+					if (scrn) {
+						return
+					}
+					return
+				}
+			},
+
+			dispatchMouseDown (e) {
+				let target = e.target
+
+				/**
+				 * First dispatch tools
+				 */
+				if (this.mode == "move"){
+					this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, e);
+				}
+
+				if(this.mode == "select") {
+					this.onSelectionStarted(e);
+					return
+				}
+
+				if (this.mode == "hotspot"){
+					this.onToolHotspotStart(e)
+					return
+				}
+
+				if(this.mode == "addLine") {
+					this.onDragStart(this.dndContainer, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
+				}
+
+				if (this.mode == "addText") {
+					this.onToolTextStart(e);
+					return
+				}
+				if (this.mode == "addBox") {
+					//this.onToolBoxInit();
+					this.onToolBoxStart(e);
+					return
+				}
+
+				/**
+				 * Otherwise check selection on screen, widget or canbas
+				 */
+				if (target._widgetID) {
+					this.dispatchMouseDownWidget(e, target._widgetID, target)
+					return
+				}
+				if (target._screenID) {
+					this.dispatchMouseDownScreen(e, target._screenID, target)
+					return
+				}
+
+				if (target._lineID) {
+					this.dispatchMouseDownLine(e, target._lineID, target._pointId, target)
+				}
+
+				this.dispatchMouseDownCanvas(e, target)
+
+			},
+
+			dispatchMouseDownWidget (e, id) {
+				this.logger.log(-1,"dispatchMouseDownWidget", "enter", id);
+				let widget = this.model.widgets[id];
+
+				if (!widget) {
+					return
+				}
+
+				if (this.isElementLocked(widget) || this.isElementHidden(widget)) {
+					return
+				}
+
+				let div = this.widgetDivs[widget.id];
+				if (widget.inherited){
+					this.onInheritedWidgetSelected(widget);
+					return
+				}
+
+				if (this.mode == "edit" || this.mode == "addLine"){
+						let locked = widget.style.locked;
+						if(locked){
+							this.onWidgetDndClick(id, div, null)
+						} else {
+							this.onDragStart(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick", e);
+						}
+					return
+				}
+
+				if (this.mode == "view" ){
+					this.onWidgetDndClick(widget.id, div, null);
+					return
+				}
+
+			},
+
+			dispatchMouseDownScreen (e, id) {
+				this.logger.log(-1,"dispatchMouseDownScreen", "enter", id);
+
+				let dndDiv = this.screenDivs[id];
+				let screen = this.model.screens[id];
+
+				if (!screen) {
+					return
+				}
+
+				if (this.isElementLocked(screen)) {
+					return
+				}
+
+				/**
+				 * register dnd
+				 */
+				if (this.mode == "addLine") {
+					this.onDragStart(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", e);
+					return
+				}
+
+				if (this.mode == "edit"){
+					this.onDragStart(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", e);
+					return
+				}
+
+				if(this.mode == "view"){
+					this.tempOwn(on(dndDiv, "mousedown", lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
+					return
+				}
+			},
+
+			dispatchMouseDownLine (e, id, point) {
+				this.logger.log(-1,"dispatchMouseDownLine", "enter", id, point);
+			},
+
+			dispatchMouseDownCanvas (e) {
+				this.logger.log(-1,"dispatchMouseDownCanvas", "enter", e);
+
+
+				if (this.mode === "edit" || this.mode === "view" || this.mode === "data"){
+					this.onSelectionStarted(e);
+					return
+				}
+
+			},
 
 			/**********************************************************************
 			 * Wiring
@@ -27,6 +217,9 @@ export default {
 
 			wireEvents (){
 				this.logger.log(2,"wireEvents", "enter > " + this.mode);
+				if (this.mode) {
+					return
+				}
 
 				this.wireCanvas()
 

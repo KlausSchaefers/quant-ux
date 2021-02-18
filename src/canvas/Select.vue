@@ -69,7 +69,7 @@ import ModelResizer from 'core/ModelResizer'
 			this.controller.onInheritedWidgetSelected(widget);
 			var parent  = this.widgetDivs[widget.id];
 			this.selectBox(parent);
-			this.showResizeHandles(widget,widget.id, parent, "inheritedWidget", true);
+			this.showResizeHandles(widget, widget.id, parent, "inheritedWidget", true);
 		},
 
 
@@ -389,9 +389,9 @@ import ModelResizer from 'core/ModelResizer'
 
 
 
-		showResizeHandles (box, id, parent, modelType, drawLines){
+		showResizeHandles (box, id, parent, modelType, drawLines) {
 
-			if(!this.resizeEnabled){
+			if (!this.resizeEnabled){
 				return;
 			}
 
@@ -452,7 +452,7 @@ import ModelResizer from 'core/ModelResizer'
 			div.style.height = l + "px";
 			css.add(div, "MatcResizeHandle MatchResize"+type);
 			this._addSizeHandlerTouch(div);
-			this.widgetContainer.appendChild(div);
+			this.dndContainer.appendChild(div);
 			this.handlers[type] = div;
 			this.registerResizeListener(div, parent, id, type, modelType);
 		},
@@ -463,7 +463,7 @@ import ModelResizer from 'core/ModelResizer'
 			div.style.width="1px"
 			css.add(div, "MatcResizeBorder MatcResizeBorder"+type);
 			this.handlers[type] = div;
-			this.widgetContainer.appendChild(div);
+			this.dndContainer.appendChild(div);
 		},
 
 		_updateResizeHandlers (box){
@@ -587,14 +587,14 @@ import ModelResizer from 'core/ModelResizer'
 			/**
 			 * FIXME: This should be in toolbar!
 			 */
-			if(this._selectGroup){
+			if (this._selectGroup){
 				let group = this._selectGroup;
 				this.unSelect();
 				this.controller.removeGroupAndWidgets(group.id);
 				return true;
 			}
 
-			if(this._selectMulti){
+			if (this._selectMulti){
 				let multi = this._selectMulti;
 				this.unSelect();
 				this.controller.removeMultiWidget(multi);

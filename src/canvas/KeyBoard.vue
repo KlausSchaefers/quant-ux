@@ -18,6 +18,12 @@ export default {
     },
     components: {},
     methods: {
+
+      initKeys () {
+        this.own(on(win.body(), "keydown", lang.hitch(this,"onKeyPress")));
+			  this.own(on(win.body(), "keyup", lang.hitch(this,"onKeyUp")));
+      },
+
       onKeyPress (e){
 
         this._currentKeyEvent = e;
