@@ -125,15 +125,27 @@ export default {
         this._dragNDropBoxPositions[id] = temp;
 
         /**
-         * update also the background screen
+         * update also the background screen & grid
          */
+        let zoomedPos = this.getBackgroundPos(temp, this.zoom, this.zoom);
         let backgroundDiv = this.screenBackgroundDivs[id];
         let job = {
+          zoom: true,
           div: backgroundDiv,
-          pos: temp,
+          pos: zoomedPos,
           id: id + "backGround"
         };
         this.addDragNDropRenderJob(job);
+
+
+        let gridDiv = this.screenGridDivs[id];
+        let job2 = {
+          zoom: true,
+          div: gridDiv,
+          pos: zoomedPos,
+          id: id + "grud"
+        };
+        this.addDragNDropRenderJob(job2);
 
         /**
          * Also update resize handlers. The _DragNDrop._dragNDropUpDateUI()
@@ -164,7 +176,7 @@ export default {
         /**
          * also update all lines
          */
-        this.onUpdateLines(screen);
+        this.updateLines(screen);
 
         return true;
       }
@@ -234,7 +246,7 @@ export default {
          */
         this._updateWidgetBackground(widgetID, widgetPos);
 
-        this.onUpdateLines(widget);
+        this.updateLines(widget);
       } else {
         console.warn("Widget with ", widgetID, " doe snot exits");
       }
@@ -242,16 +254,22 @@ export default {
 
     _updateWidgetBackground (widgetID, pos) {
       var backgroundDiv = this.widgetBackgroundDivs[widgetID];
+
       if (backgroundDiv) {
         var job = {
+          zoom: true,
           div: backgroundDiv,
-          pos: pos,
+          pos: this.getBackgroundPos(pos),
           id: widgetID + "backGround"
         };
         this.addDragNDropRenderJob(job);
       } else {
         console.warn("_updateWidgetBackground", "No Background", widgetID);
       }
+    },
+
+    getBackgroundPos(pos) {
+      return this.getUnZoomedBox(lang.clone(pos), this.zoom, this.zoom);
     },
 
     onScreenDndEnd (id, div, pos, dif) {
@@ -427,9 +445,9 @@ export default {
               w: this._dragNDropBoundingBox.w
             };
             this._dragNDropBoxPositions[this._dragNDropLineFromBox.id] = temp2;
-            this.onUpdateLines(this._dragNDropLineFromBox);
+            this.updateLines(this._dragNDropLineFromBox);
           } else {
-            this.onUpdateLines(widget);
+            this.updateLines(widget);
           }
 
           return true;
@@ -441,7 +459,7 @@ export default {
       return false;
     },
 
-    onUpdateLines (box) {
+    updateLines (box) {
       for (var id in this.model.lines) {
         var line = this.model.lines[id];
         if (line.to == box.id || line.from == box.id) {

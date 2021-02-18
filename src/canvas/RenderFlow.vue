@@ -125,12 +125,6 @@ export default {
 					}
 				}
 
-				/**
-				 * FIXME: We could still try to avoid wireing everzthing from scrath
-				 */
-				if (isResize === false) {
-					this.wireEvents();
-				}
 
 				this.renderSelection();
 				this.renderDistance();
@@ -198,7 +192,7 @@ export default {
 				 */
 				this.renderFactory.setStyle(backgroundDiv, screen);
 
-				this.renderScreenButtons(dndDiv, screen)
+				this.renderScreenButtons(dndDiv, zoomedScreen)
 
 				return dndDiv;
 			},

@@ -302,7 +302,6 @@ export default {
 					this.rerender();
 				} else {
 					this.inlineEditStop();
-					this.reWireEvents();
 					this.renderSelection();
 				}
 

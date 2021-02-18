@@ -12,13 +12,13 @@ export default {
     mixins:[],
     data: function () {
         return {
-						isFireFox: false,
-            zoom: 1,
-            lastMouseWheel: 0,
-            mouseZoomEnabled: true,
-            mouseWheelMode: "scroll",
-            zoomWithCSS: false,
-            zoomAnimationRunning: false
+					isFireFox: false,
+					zoom: 0.5,
+					lastMouseWheel: 0,
+					mouseZoomEnabled: true,
+					mouseWheelMode: "scroll",
+					zoomWithCSS: false,
+					zoomAnimationRunning: false
         }
     },
 	components: {},
