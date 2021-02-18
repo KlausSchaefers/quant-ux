@@ -822,6 +822,7 @@ export default {
 			 * T dispatch...
 			 */
 			} else if(k == 84){
+
 				if(!this._inlineEditStarted  && !this._selectionToolStart){
 					this.setMode("addText");
 					this.showHint("Mark the area where to create the txt...");
@@ -975,7 +976,16 @@ export default {
 					this.setMode("edit");
 				}
 				this.stopEvent(e);
+			}	else if (k==84){ // t
+
+			}	else if (k==68){ // D
+
+			} else if (k==72){ // H
+
+			} else if (k==82){ // B
+
 			} else if (k == 72 || k == 84 || k == 66 || k == 70){
+				//this should never be called
 				this.stopEvent(e);
 				this.setMode("edit");
 			}
