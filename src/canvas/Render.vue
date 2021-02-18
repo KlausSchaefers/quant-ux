@@ -79,6 +79,7 @@ export default {
 			this.widgetDivs = {};
 			this.widgetBackgroundDivs = {};
 			this.screenDivs = {};
+			this.screenGridDivs = {}
 			this.screenLabels = {};
 			this.screenBackgroundDivs = {};
 			this.lineSVGs = {};
@@ -240,7 +241,7 @@ export default {
 			this.container.style.height = this.canvasPos.h + "px";
 			this.container.style.width = this.canvasPos.w + "px";
 
-			this.frame.style.fontSize = this.defaultFontSize + "px";
+			this.dndContainer.style.fontSize = this.defaultFontSize + "px";
 
 			this.dndContainer.style.height = this.canvasPos.h + "px";
 			this.dndContainer.style.width = this.canvasPos.w + "px";
@@ -265,7 +266,7 @@ export default {
 
 			this.dndContainer.style.height = this.containerSize.h + "px";
 			this.dndContainer.style.width = this.containerSize.w + "px";
-
+			this.dndContainer.style.fontSize = this.getZoomed(this.defaultFontSize, this.zoom)  + "px";
 
 			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
@@ -295,8 +296,9 @@ export default {
 		renderZoom () {
 			this.setContainerPos()
 			if (this.model) {
+				this.cleanUpScreenButtons()
 				this.zoomedModel = ModelUtil.createScalledModel(this.model, this.zoom)
-
+				this.updateDnD(this.zoomedModel)
 			}
 		},
 
@@ -428,6 +430,7 @@ export default {
 			this.widgetDivs = {};
 			this.widgetBackgroundDivs = {};
 			this.screenDivs = {};
+			this.screenGridDivs = {}
 			this.screenLabels = {};
 			this.screenBackgroundDivs = {};
 			this.lineSVGs = {};
@@ -521,8 +524,9 @@ export default {
 		renderGrid (backgroundDiv){
 			if(this.model.grid && this.model.grid.visible){
 
+				let z = '1'
 				if (this.model.grid.type === "columns"){
-					let z = this.zoom + "";
+
 					let h = this.getZoomed(this.zoom,this.model.grid.h);
 					let w = this.getZoomed(this.zoom,this.model.grid.w);
 
@@ -574,11 +578,13 @@ export default {
 						* Check drigRuler how we calculate the grid in there
 						* ..
 						*/
-					let h = this.getZoomed(this.zoom,this.model.grid.h);
-					let w = this.getZoomed(this.zoom,this.model.grid.w);
+					let h = this.model.grid.h;
+					let w = this.model.grid.w;
+
+
 
 					if(w > 0 && h > 0 && w < this.model.screenSize.w && h < this.model.screenSize.h ){
-						let z = this.zoom + "";
+
 						if (!this.gridBackground[z]){
 							let c= document.createElement("canvas");
 							c.width=w;
@@ -679,6 +685,7 @@ export default {
 				if(div){
 					this.updateBox(widget, div);
 				}
+				//** FIXME: should be zoomed */
 				div = this.widgetDivs[id];
 				if(div){
 					this.updateBox(widget, div);

@@ -9,13 +9,19 @@ export default {
     methods: {
 
 
-			updateDnD (model) {
-				this.logger.log(1,"updateDnD", "enter");
+			updateDnD (zoomedModel) {
+				this.logger.log(-1,"updateDnD", "enter");
 
-				for (let id in model.screens){
-						let screen = model.screens[id]
-						if (!this.screenDivs[id]) {
-							console.debug(screen)
+				for (let id in zoomedModel.screens){
+						let zoomedScreen = zoomedModel.screens[id]
+						this.updateScreenDnd(zoomedScreen)
+				}
+
+					for (let id in zoomedModel.widgets){
+						let zoomedWidget = zoomedModel.widgets[id]
+						if (zoomedWidget && this.widgetDivs[id]) {
+							let dnd = this.widgetDivs[id]
+							this.updateBox(zoomedWidget, dnd)
 						}
 				}
 			},
@@ -184,38 +190,30 @@ export default {
 					this.screenBackgroundDivs[screen.id] = backgroundDiv;
 				}
 
+				if (!this.screenGridDivs[screen.id]) {
+					let gridDiv = this.createScreenDnD(screen);
+					this.screenGridDivs[screen.id] = gridDiv;
+					this.widgetContainer.appendChild(gridDiv);
+					this.renderGrid(gridDiv, screen);
+				}
+
 				/**
 				 * set style and grid
 				 */
 				this.renderFactory.setStyle(backgroundDiv, screen);
-				this.renderGrid(dndDiv, screen);
+
 				this.renderScreenButtons(dndDiv, screen)
 
 				return dndDiv;
 			},
 
+			hasScreenGrid () {
+
+			},
+
 			updateScreen (screen, zoomedScreen) {
 				if (this.elementHasChanged(screen)) {
-					let dnd = this.screenDivs[screen.id]
-					if (dnd) {
-
-						this.cleanUpNode(dnd)
-						this.updateBox(zoomedScreen, dnd)
-
-						/**
-						 * TODO: cleanUpNode() also removes the name. We should keep it :D
-						 * Is there a better waz to remove all the other screen buttons?
-						 */
-						var lbl = document.createElement("div");
-						css.add(lbl, "MatcScreenLabel");
-						this.setTextContent(lbl, screen.name);
-						this.screenLabels[screen.id] = lbl;
-						dnd.appendChild(lbl);
-
-						this.renderGrid(dnd, zoomedScreen);
-						this.renderScreenButtons(dnd, zoomedScreen)
-
-					}
+					this.updateScreenDnd(zoomedScreen)
 
 					let background = this.screenBackgroundDivs[screen.id]
 					if (background) {
@@ -227,6 +225,26 @@ export default {
 				}
 			},
 
+			updateScreenDnd (zoomedScreen) {
+					let dnd = this.screenDivs[zoomedScreen.id]
+					if (dnd) {
+						this.cleanUpNode(dnd)
+						this.updateBox(zoomedScreen, dnd)
+
+						/**
+						 * TODO: cleanUpNode() also removes the name. We should keep it :D
+						 * Is there a better waz to remove all the other screen buttons?
+						 */
+						var lbl = document.createElement("div");
+						css.add(lbl, "MatcScreenLabel");
+						this.setTextContent(lbl, zoomedScreen.name);
+						this.screenLabels[screen.id] = lbl;
+						dnd.appendChild(lbl);
+
+						this.renderScreenButtons(dnd, zoomedScreen)
+					}
+			},
+
 			deleteScreen (id) {
 				let dnd = this.screenDivs[id]
 				if (dnd && dnd.parentNode) {
@@ -236,8 +254,13 @@ export default {
 				if (background && background.parentNode) {
 					background.parentNode.removeChild(background);
 				}
+				let gridDiv = this.screenGridDivs[id]
+				if (gridDiv && gridDiv.parentNode) {
+					gridDiv.parentNode.removeChild(gridDiv);
+				}
 				delete this.screenDivs[id]
-				delete this.screenBackgroundDivs[id]
+				delete this.screenDivs[id]
+				delete this.screenGridDivs[id]
 				delete this.renderedModels[id]
 			},
 
@@ -399,13 +422,13 @@ export default {
 
 				this.cleanUpNode(this.screenContainer)
 				this.cleanUpNode(this.widgetContainer)
-				// this.screenContainer.innerHTML = "";
-				// this.widgetContainer.innerHTML = "";
+				this.cleanUpNode(this.dndContainer)
 				this.renderFactory.cleanUp();
 
 				this.widgetDivs = {};
 				this.widgetBackgroundDivs = {};
 				this.screenDivs = {};
+				this.screenGridDivs = {};
 				this.screenLabels = {};
 				this.screenBackgroundDivs = {};
 				this.lineSVGs = {};
