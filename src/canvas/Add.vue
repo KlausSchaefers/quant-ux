@@ -205,7 +205,7 @@ export default {
 					var child = children[i];
 					var widget = this.factory.createTemplatedModel(child);
 					widget = this.getZoomedBox(widget,z,z);
-					var widgetDIV = this.createWidget(widget);
+					var widgetDIV = this.createZoomedWidget(widget);
 					div.appendChild(widgetDIV);
 				}
 
@@ -246,10 +246,10 @@ export default {
 				this.setMode("add");
 
 				var z = this.getZoomFactor();
-				var clonedScreen = this.getZoomedBox(lang.clone(screen),z,z);
-				var div = this.createScreen(clonedScreen);
+				var zoomedScreen = this.getZoomedBox(lang.clone(screen),z,z);
+				var div = this.createScreen(zoomedScreen);
 				css.add(div, "MatcAddBox")
-				this.renderFactory.setStyle(div, clonedScreen);
+				this.renderFactory.setStyle(div, zoomedScreen);
 				this._onAddNDropStart(div, screen, params.event, "onScreenAdded");
 				this.setState(3);
 			},
@@ -307,7 +307,7 @@ export default {
 				/**
 				 * add addNDrop div
 				 */
-				var div = this.createWidget(zoomedWidget);
+				var div = this.createZoomedWidget(zoomedWidget);
 				css.add(div, "MatcAddBox")
 
 				/**
@@ -375,7 +375,7 @@ export default {
 					}
 				}
 
-				if(params.from){
+				if (params.from){
 
 					let widget = this.model.widgets[params.from];
 					if(widget){
@@ -623,7 +623,7 @@ export default {
 				css.add(this._addNDropNode,"");
 				css.add(this._addNDropNode,"MatcCanvasAddNDropNode");
 				this._addNDropUpDateUI();
-				this.widgetContainer.appendChild(this._addNDropNode);
+				this.dndContainer.appendChild(this._addNDropNode);
 
 
 				/**
@@ -740,10 +740,8 @@ export default {
 					this._addNDropUp.remove();
 				this._addNDropStarted = false;
 
-				if(this._addNDropNode && this.widgetContainer){
-					this.widgetContainer.removeChild(this._addNDropNode);
-				} else {
-					//console.debug("Add._onAddCleanup() > Cannot clean dnd node")
+				if (this._addNDropNode && this._addNDropNode.parentNode){
+					this._addNDropNode.parentNode.removeChild(this._addNDropNode);
 				}
 
 				this.setDragNDropActive(true);

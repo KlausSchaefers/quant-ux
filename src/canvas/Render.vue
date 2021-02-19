@@ -533,6 +533,7 @@ export default {
 
 
 		renderGrid (backgroundDiv){
+
 			if(this.model.grid && this.model.grid.visible){
 
 				let z = '1'
@@ -622,7 +623,7 @@ export default {
 			} else {
 				backgroundDiv.style.backgroundImage = 'none'
 			}
-        },
+    },
 
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");
@@ -657,6 +658,23 @@ export default {
 
 		createWidgetDataView () {
 			// child classes can implement
+		},
+
+		createZoomedWidget (widget) {
+			this.logger.log(-1,"createZoomedWidget", "enter");
+
+			var div = this.createBox(widget);
+			css.add(div, "MatcWidget");
+
+			this.renderFactory.setScaleFactor(this.zoom, this.zoom)
+			this.renderFactory.createWidgetHTML(div, widget);
+			this.renderFactory.setScaleFactor(1, 1)
+
+			if(this.hasLine(widget)){
+				css.add(div, "MatcWidgetWithTransition");
+			}
+
+			return div;
 		},
 
 		createWidget (widget){

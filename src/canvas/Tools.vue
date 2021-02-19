@@ -421,7 +421,7 @@ export default {
 				if(!this._selectionToolDiv){
 					this._selectionToolDiv = document.createElement("div");
 					css.add(this._selectionToolDiv,cssClass);
-					this.widgetContainer.appendChild(this._selectionToolDiv);
+					this.dndContainer.appendChild(this._selectionToolDiv);
 				}
 
 				var pos = this._getSelectionToolBox();
@@ -613,7 +613,7 @@ export default {
 				if(!this._selectionToolDiv){
 					this._selectionToolDiv = document.createElement("div");
 					css.add(this._selectionToolDiv, "MatcSelectionTool");
-					this.widgetContainer.appendChild(this._selectionToolDiv);
+					this.dndContainer.appendChild(this._selectionToolDiv);
 				}
 				var pos = this._getSelectionToolBox();
 				if(pos){
@@ -765,7 +765,7 @@ export default {
 				this._selectionToolInit = null;
 
 				if(this._selectionToolDiv){
-					this.widgetContainer.removeChild(this._selectionToolDiv);
+					this.dndContainer.removeChild(this._selectionToolDiv);
 					this._selectionToolDiv = null;
 				}
 

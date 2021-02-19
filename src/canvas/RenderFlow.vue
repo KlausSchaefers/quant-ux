@@ -402,13 +402,16 @@ export default {
 				}
 			},
 
-			forceRenderUpdates () {
-				this.logger.warn("forceRenderUpdates", "enter");
-				this.renderedModels = {}
+			renderGridUpdates () {
+				/**
+				 * This happens if a grid is changed or so
+				 */
+				this.logger.log(3, "renderGridUpdates", "enter");
+				this.forceCompleteRender()
 			},
 
 			forceCompleteRender () {
-				this.logger.warn("forceCompleteRender", "enter");
+				this.logger.log(-1, "forceCompleteRender", "enter");
 
 				this.cleanUpNode(this.screenContainer)
 				this.cleanUpNode(this.widgetContainer)

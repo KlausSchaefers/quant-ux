@@ -969,7 +969,7 @@ export default class Core extends Evented {
 
     getUnZoomedBoxCopy (box, zoomX, zoomY) {
         let result = {
-            isZoomed: true,
+            isZoomed: false,
             x: this.getUnZoomed(box.x, zoomX),
             y: this.getUnZoomed(box.y, zoomY),
             w: this.getUnZoomed(box.w, zoomX),

@@ -20,6 +20,13 @@ export default {
 				this.own(on(this.dndContainer, "mousedown", (e) => this.dispatchMouseDown(e)));
 				this.own(on(this.dndContainer, touch.over, (e) => this.dispatchOver(e)));
 				this.own(on(this.dndContainer, touch.out, (e) => this.dispatchOut(e)));
+				this.own(on(this.dndContainer, 'dblclick', (e) => this.disPatchDoubleClick(e)));
+			},
+
+			disPatchDoubleClick () {
+				this.logger.log(-1, "disPatchDoubleClick", "enter");
+				this.forceCompleteRender()
+				this.rerender()
 			},
 
 			dispatchOver (e) {

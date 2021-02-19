@@ -40,7 +40,6 @@ import DomBuilder from 'common/DomBuilder'
 import GridSelector from 'canvas/GridSelector'
 import Render from 'canvas/Render'
 import Lines from 'canvas/Lines'
-import KeyBoard from 'canvas/KeyBoard'
 import DnD from 'canvas/DnD'
 import Add from 'canvas/Add'
 import Select from 'canvas/Select'
@@ -57,12 +56,16 @@ import DataView from 'canvas/DataView'
 import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 
+import KeyBoard from 'canvas/KeyBoard'
+import Resize from 'canvas/Resize'
+import Replicate from 'canvas/Replicate'
+
 import FastDomUtil from 'core/FastDomUtil'
 
 export default {
   name: 'Canvas',
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
-			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView, KeyBoard],
+			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView, KeyBoard, Resize, Replicate],
     data: function () {
         return {
 					mode: "edit",
@@ -565,7 +568,7 @@ export default {
 		},
 
 		setVisibleGrid (value) {
-			this.forceRenderUpdates();
+			this.renderGridUpdates();
 			let grid = lang.clone(this.model.grid)
 			grid.visible = value
 			if (grid.type === "columns"){
@@ -578,7 +581,7 @@ export default {
 		setGrid2 (selector){
 
 			if(selector.isValid()){
-				this.forceRenderUpdates();
+				this.renderGridUpdates();
 				var grid = selector.getValue();
 				this.gridBackground = {}
 				if (grid.type === "columns"){
