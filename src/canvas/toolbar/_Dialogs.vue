@@ -746,12 +746,12 @@ export default {
 			 * FIXME: This could be still a litte bit better. We could max the height and with factors
 			 */
 			css.add(win.body(), 'MatcCanvasSimulatorVisible')
-			if(this.model.type == "desktop"){
+			if (this.model.type === "desktop"){
 				pos.w = pos.w * 0.75;
 				pos.h = pos.h * 0.75;
-				this._showDesktopSimulator(this.model, pos);
-			} else if(this.model.type=="tablet"){
-				if(this.model.screenSize.w > this.model.screenSize.h){
+				this._showDesktopSimulator(this.model, pos, maxHeight);
+			} else if(this.model.type === "tablet") {
+				if (this.model.screenSize.w > this.model.screenSize.h){
 					pos.w = pos.w * 0.65;
 					pos.h = pos.h * 0.65;
 					this._showMobileTest(this.model, pos, "MatchSimulatorWrapperTablet", maxHeight);
@@ -768,18 +768,21 @@ export default {
 		},
 
 
-		_showDesktopSimulator (model, pos){
-
+		_showDesktopSimulator (model, pos, maxHeight){
 
 			var dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
-
 
 			var container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 			dialog.appendChild(container);
 
 			pos = this.getScaledSize(pos, "width", this.model);
+			if (pos.h > maxHeight) {
+				let factor = pos.h / maxHeight
+				pos.h = pos.h / factor
+				pos.w = pos.w / factor
+			}
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
 

@@ -82,6 +82,10 @@ export default {
         this._setShadow(this.slider.hndl, style.handleShadow);
       }
 
+      if (model.props && model.props.hasLabel) {
+        this.slider.setShowLabel(true)
+      }
+
       this.setStyle(style, model);
 
       this.resize(model);
@@ -118,6 +122,9 @@ export default {
         this.slider.hndl.style.borderRadius = w + "px";
       }
 
+
+
+
       //this.setScalledNodeStyle(this.slider.hndl, this.style, ["borderTopLeftRadius", "borderTopRightRadius", "borderBottomLeftRadius", "borderBottomRightRadius"])
 
       this.slider.bar.style.height = bPos.h + "px";
@@ -151,23 +158,23 @@ export default {
       }
     },
 
-    setValue: function(value) {
+    setValue (value) {
       this.slider.setValue(value);
       this.setValueLabel(value);
     },
 
-    getValue: function() {
+    getValue () {
       return this.slider.getValue();
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "select",
         value: this.getValue()
       };
     },
 
-    setState: function(state, t) {
+    setState (state, t) {
       if (state && state.type == "select") {
         var child = this.getLastSubState(state, t);
         if (child) {
@@ -178,20 +185,20 @@ export default {
       }
     },
 
-    _set_handleBorderColor: function(parent, style) {
+    _set_handleBorderColor (parent, style) {
       this.slider.hndl.style.borderColor = style.handleBorderColor;
     },
 
-    _set_handleBorderWidth: function(parent, style) {
+    _set_handleBorderWidth (parent, style) {
       this.slider.hndl.style.borderWidth =
         this._getBorderWidth(style.handleBorderWidth) + "px";
     },
 
-    _set_handleBorderStyle: function(parent, style) {
+    _set_handleBorderStyle (parent, style) {
       this.slider.hndl.style.borderStyle = style.handleBorderStyle;
     },
 
-    beforeDestroy: function() {
+    beforeDestroy () {
       if (this._compositeState) {
         this.emitCompositeState();
       }

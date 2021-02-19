@@ -249,10 +249,7 @@ export default class Animation extends Core{
 
 
 		var me = this;
-		anim.onRender(function (p) {
-			/**
-			 * FIXME: How can this be null?
-			 */
+		anim.onRender(p => {
 			if (widget) {
 				try {
 					if (toStyle) {
@@ -270,7 +267,7 @@ export default class Animation extends Core{
 					console.error("WidgetAnimation.render() >  ", e.stack);
 				}
 			}
-		});
+		})
 
 		return anim;
 

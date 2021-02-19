@@ -381,6 +381,7 @@ export default {
 			},
 
 			createWidget (widget, screen, screenId, div){
+
 				/**
 				* Create the widget container and call render factory
 				*/
@@ -674,13 +675,12 @@ export default {
 
 						var inverse = this.animationFactory.getInverseAnimation(line.animation);
 						if(inverse && this.animationFactory["createScreen_"+inverse]){
-							var me = this;
-							var animation = this.animationFactory["createScreen_"+ inverse](overlay.screen, overlay.div,null , true);
-							animation.onEnd(function(){
 
-								me.removeOverlay(overlay.div);
-								me.logHideOverlay(overlay.screen);
-								me.onOverlayPoped();
+							var animation = this.animationFactory["createScreen_"+ inverse](overlay.screen, overlay.div,null , true);
+							animation.onEnd(() => {
+								this.removeOverlay(overlay.div, overlay.screen);
+								this.logHideOverlay(overlay.screen);
+								this.onOverlayPoped();
 							});
 
 							if(line.duration){
@@ -705,13 +705,13 @@ export default {
 						} else {
 							console.warn("popOverlay() > No animation function for : createScreen_"+inverse);
 
-							this.removeOverlay(overlay.div);
+							this.removeOverlay(overlay.div, overlay.screen);
 							this.logHideOverlay(overlay.screen);
 							this.onOverlayPoped();
 						}
 
 					} else {
-						this.removeOverlay(overlay.div, overlay);
+						this.removeOverlay(overlay.div, overlay.screen);
 						this.logHideOverlay(overlay.screen);
 						this.onOverlayPoped();
 					}
@@ -724,11 +724,17 @@ export default {
 				return false;
 			},
 
-			removeOverlay (div){
+			removeOverlay (div, overlay) {
+				/**
+				 * We need to destroy all the widgets of the overlay. Otherwise
+				 * animations make stange issues!
+				 */
+				if (overlay) {
+					this.renderFactory.destroyWidgetsById(overlay.children)
+				}
 				if(div && div.parentNode){
 					div.parentNode.removeChild(div);
 				}
-
 				this.unBlurBackground();
 
 			},
@@ -1058,10 +1064,10 @@ export default {
 			cleanUpOverlays (){
 				if(this.overlays){
 					for(var i=0; i< this.overlays.length; i++){
-						var o = this.overlays[ this.overlays.length-1];
-						var div = o.div;
-						this.removeOverlay(div);
-						this.logHideOverlay(o.screen);
+						var overlay = this.overlays[ this.overlays.length-1];
+						var div = overlay.div;
+						this.removeOverlay(div, overlay.screen);
+						this.logHideOverlay(overlay.screen);
 					}
 				}
 				this.overlays = [];

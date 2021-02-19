@@ -200,7 +200,7 @@ export default {
 		 * Rending stuff
 		 **********************************************************************/
 
-		renderToolbar:function(){
+		renderToolbar (){
 			this.logger.log(2,"renderToolbar", "enter");
 
 			this.jwtToken = Services.getUserService().getToken()
@@ -211,6 +211,7 @@ export default {
 			 */
 			this.createBTN = this.$new(CreateButton);
 			this.createBTN.setModel(this.model);
+			this.createBTN.setJwtToken(this.jwtToken)
 			this.tempOwn(on(this.createBTN, "change", lang.hitch(this, "onNewThemeObject")));
 			this.tempOwn(on(this.createBTN, "importsChange", lang.hitch(this, "onImportChange")));
 			css.add(this.createBTN.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
@@ -1570,7 +1571,6 @@ export default {
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 			css.remove(this.multiPositionDiv, "MatcToolbarSectionHidden");
 
-
 			var fixed = true;
 			var wrap = true;
 			for(var i=0; i< model.length;i++){
@@ -1585,10 +1585,7 @@ export default {
 
 			}
 			this.multiPositionCheckBox.setValue(fixed);
-
-
 			// this.childWidget.setMulti(model);
-
 			this._showMultiVisualProperties(model);
 		},
 
