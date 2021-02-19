@@ -14,6 +14,7 @@ import RenderFlow from 'canvas/RenderFlow'
 import Wiring from 'canvas/Wiring'
 import ModelUtil from 'core/ModelUtil'
 
+
 export default {
     name: 'Render',
     mixins:[_Color, RenderFlow, Wiring],
@@ -292,6 +293,12 @@ export default {
 			this.render(this.sourceModel);
 		},
 
+		renderPartial (sourceModel, changes) {
+			this.logger.log(-1,"renderPartial", "enter", changes);
+			this.sourceModel = sourceModel;
+			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
+		},
+
 		renderZoom () {
 			this.setContainerPos()
 			if (this.model) {
@@ -316,7 +323,7 @@ export default {
 		},
 
 
-		render (model, isResize = false){
+		render (sourceModel, isResize = false){
 			this.logger.log(2,"render", "enter", isResize);
 			let renderStart = new Date().getTime();
 
@@ -325,8 +332,8 @@ export default {
 				 * We keep here the sourceModel for rendering and zooming.
 				 * The rest stays as is with the zoomedModel as this.model
 				 */
-				this.sourceModel = model;
-				this.model = ModelUtil.createScalledModel(model, this.zoom)
+				this.sourceModel = sourceModel;
+				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
 
 				this.renderFlowViewFast(this.sourceModel, this.model, isResize);
 
@@ -338,7 +345,7 @@ export default {
 				 * Also update layer list. The renderFlow might call
 				 * select which extends the group with additonal children!
 				 */
-				this.renderLayerList(model);
+				this.renderLayerList(sourceModel);
 
 				/**
 				 * Make sure we continue the add mode
@@ -680,24 +687,35 @@ export default {
 		},
 
 
-		setWidgetPosition (id, pos){
-			var widget = this.model.widgets[id];
-			if(widget){
-				widget.x = pos.x;
-				widget.y = pos.y;
-				widget.w = pos.w;
-				widget.h = pos.h;
-				var div = this.widgetBackgroundDivs[id];
-				if(div){
-					this.updateBox(widget, div);
+		setWidgetPosition (id, sourcePos, zoomedPos){
+			let widget = this.model.widgets[id];
+			if (widget) {
+				widget.x = zoomedPos.x;
+				widget.y = zoomedPos.y;
+				widget.w = zoomedPos.w;
+				widget.h = zoomedPos.h;
+
+				let dndDiv = this.widgetDivs[id];
+				if (dndDiv){
+					this.updateBox(widget, dndDiv);
 				}
-				//** FIXME: should be zoomed */
-				div = this.widgetDivs[id];
-				if(div){
-					this.updateBox(widget, div);
+			}
+
+			let sourceWidget = this.sourceModel.widgets[id]
+			if (sourceWidget) {
+
+				sourceWidget.x = sourcePos.x;
+				sourceWidget.y = sourcePos.y;
+				sourceWidget.w = sourcePos.w;
+				sourceWidget.h = sourcePos.h;
+
+				let sourceDiv = this.widgetBackgroundDivs[id];
+				if(sourceDiv){
+					this.updateBox(sourcePos, sourceDiv);
 				}
 			}
 		},
+
 
 		setScreenPosition (){
 		},

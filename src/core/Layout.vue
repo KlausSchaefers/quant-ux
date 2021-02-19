@@ -255,80 +255,27 @@ export default {
      */
     createZoomedModel: function(zoomX, zoomY, isPreview) {
       this.logger.log(4, "createZoomedModel", "enter > " + zoomX + " > " + zoomY + " > " + isPreview);
-
       return CoreUtil.createZoomedModel(zoomX, zoomY, isPreview, this.model)
     },
 
-
-
-    getZoomed: function(v, zoom) {
-      //			if(this.doNotRoundForPreview){
-      //				return v * zoom;
-      //			}
+    getZoomed (v, zoom) {
       return Math.round(v * zoom);
     },
 
-    getUnZoomed: function(v, zoom) {
+    getUnZoomed (v, zoom) {
       return Math.round(v / zoom);
     },
 
-    getZoomedBox: function(box, zoomX, zoomY) {
-      if (box.x) {
-        box.x = this.getZoomed(box.x, zoomX);
-      }
-
-      if (box.y) {
-        box.y = this.getZoomed(box.y, zoomY);
-      }
-
-      if (box.w) {
-        box.w = this.getZoomed(box.w, zoomX);
-      }
-
-      if (box.h) {
-        box.h = this.getZoomed(box.h, zoomY);
-      }
-
-      if (box.min) {
-        box.min.h = this.getZoomed(box.min.h, zoomY);
-        box.min.w = this.getZoomed(box.min.w, zoomX);
-      }
-
-      box.isZoomed = true;
-
-      return box;
+    getZoomedBox (box, zoomX, zoomY) {
+      return CoreUtil.getZoomedBox(box, zoomX, zoomY)
     },
 
-    getUnZoomedBox: function(box, zoomX, zoomY) {
-      /**
-       * Fall back
-       */
-      if (!zoomY) {
-        zoomY = zoomX;
-      }
-
-      if (box.x) {
-        box.x = this.getUnZoomed(box.x, zoomX);
-      }
-
-      if (box.y) {
-        box.y = this.getUnZoomed(box.y, zoomY);
-      }
-
-      if (box.w) {
-        box.w = this.getUnZoomed(box.w, zoomX);
-      }
-
-      if (box.h) {
-        box.h = this.getUnZoomed(box.h, zoomY);
-      }
-
-      return box;
+    getUnZoomedBox (box, zoomX, zoomY) {
+      return CoreUtil.getUnZoomedBox(box, zoomX, zoomY)
     },
 
-    createInheritedModel: function(model) {
+    createInheritedModel (model) {
       let inModel = CoreUtil.createInheritedModel(model)
-      //console.debug("createInheritedModel", inModel.widgets);
       return inModel;
     },
 
@@ -345,7 +292,7 @@ export default {
      * the _overwriten property if needed. This is
      * related to mixinNotOverwriten() below!
      */
-    mixin: function(a, b, keepTrack) {
+    mixin (a, b, keepTrack) {
       if (a && b) {
         b = lang.clone(b);
         if (keepTrack) {

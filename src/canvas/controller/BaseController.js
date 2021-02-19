@@ -191,8 +191,11 @@ export default class BaseController extends Core {
 	 **********************************************************************/
 
 
-	onModelChanged (){
-		this.logger.log(3,"onModelChanged", "enter");
+	onModelChanged (changes){
+		this.logger.log(-1,"onModelChanged", "enter");
+		if (!changes) {
+			console.warn('onModelChanged()', 'No Changes')
+		}
 		if (this.active) {
 
 			/**
@@ -202,9 +205,8 @@ export default class BaseController extends Core {
 			 * not require a new rendering!
 			 */
 			if (this._canvas){
-				var zoomedModel = this.createZoomedModel(this._canvas.getZoomFactor());
-				this._canvas.setModel(zoomedModel);
-				this.setZoomedModelCache(zoomedModel)
+				let inheritedModel = CoreUtil.createInheritedModel(this.model)
+				this._canvas.renderPartial(inheritedModel, changes);
 			}
 
 			if (this.toolbar){
@@ -647,16 +649,8 @@ export default class BaseController extends Core {
 		}
 	}
 
-	setZoomedModelCache (m) {
-		this._zoomedModel = m
-	}
 
-	getZoomedModelCache () {
-		/**
-		 * We could read the cached on. But we have to test more
-		 */
-		return this.createZoomedModel(this._canvas.getZoomFactor());
-	}
+
 
 	renderWidget (widget, type){
 		this.logger.log(0,"renderWidget", "enter > type : ", type);
@@ -885,7 +879,7 @@ export default class BaseController extends Core {
 
 	modelSetGrid (grid){
 		this.model.grid = grid;
-		this.onModelChanged();
+		this.onModelChanged([{type: 'grid', action:"add"}]);
 	}
 
 
@@ -934,7 +928,7 @@ export default class BaseController extends Core {
 				console.warn("modelRemoveAction() > No widgte with ID", widgetID)
 			}
 		}
-		this.onModelChanged();
+		this.onModelChanged([{type: 'grid', action:"add"}]);
 	}
 
 	undoAddAction (command){
@@ -987,7 +981,7 @@ export default class BaseController extends Core {
 			}
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([{type: 'grid', action:"remove"}]);
 	}
 
 
@@ -1049,7 +1043,7 @@ export default class BaseController extends Core {
 			}
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([{type: 'grid', action:"update"}]);
 	}
 
 	undoActionAction (command){
@@ -1110,7 +1104,7 @@ export default class BaseController extends Core {
 	modelAddLine (line){
 		if(!this.model.lines[line.id]){
 			this.model.lines[line.id] = line;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'line', action:"add", id:line.id}]);
 		} else {
 			console.warn("Could not add line", line);
 		}
@@ -1121,7 +1115,7 @@ export default class BaseController extends Core {
 
 		if(this.model.lines[line.id]){
 			delete this.model.lines[line.id];
-			this.onModelChanged();
+			this.onModelChanged([{type: 'line', action:"remove", id:line.id}]);
 		} else {
 			console.warn("Could not delete line", line);
 		}
@@ -1221,7 +1215,7 @@ export default class BaseController extends Core {
 			console.warn("Could not update line point ", i, "in line", id);
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([{type: 'line', action:"change", id:id}]);
 	}
 
 	undoLinePointPosition (command){
@@ -1272,7 +1266,7 @@ export default class BaseController extends Core {
 
 		if(line){
 			line[key] = value;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'line', action:"change", id:id}]);
 		} else {
 			console.warn("modelLineProperties() > No line with id " + id);
 		}
@@ -1329,7 +1323,7 @@ export default class BaseController extends Core {
 
 		if(line){
 			this.model.lines[id] = newLine;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'line', action:"change", id:id}]);
 		} else {
 			console.warn("modelLineProperties() > No line with id " + id);
 		}

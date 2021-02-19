@@ -378,7 +378,7 @@ export default {
         },
 
         cleanUpScreenButtons () {
-            this.logger.log(-1,"cleanUpScreenButtons", "enter");
+            this.logger.log(3,"cleanUpScreenButtons", "enter");
             this.cleanUpScreenButtonMove()
             this._cleanUpScreenRulerHandlers()
             if (this._screenButtonsListeners){

@@ -948,6 +948,44 @@ export default class Core extends Evented {
         return box;
     }
 
+    getZoomedBoxCopy (box, zoomX, zoomY) {
+        let result = {
+            isZoomed: true,
+            x: this.getZoomed(box.x, zoomX),
+            y: this.getZoomed(box.y, zoomY),
+            w: this.getZoomed(box.w, zoomX),
+            h: this.getZoomed(box.h, zoomY)
+        }
+
+        if (box.min) {
+            result.min = {
+                h: this.getZoomed(box.min.h, zoomY),
+                w: this.getZoomed(box.min.w, zoomX)
+            }
+        }
+
+        return result
+    }
+
+    getUnZoomedBoxCopy (box, zoomX, zoomY) {
+        let result = {
+            isZoomed: true,
+            x: this.getUnZoomed(box.x, zoomX),
+            y: this.getUnZoomed(box.y, zoomY),
+            w: this.getUnZoomed(box.w, zoomX),
+            h: this.getUnZoomed(box.h, zoomY)
+        }
+
+        if (box.min) {
+            result.min = {
+                h: this.getUnZoomed(box.min.h, zoomY),
+                w: this.getUnZoomed(box.min.w, zoomX)
+            }
+        }
+
+        return result
+    }
+
     getUnZoomedBox(box, zoomX, zoomY) {
         /**
          * Fall back

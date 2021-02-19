@@ -19,7 +19,7 @@ import ModelResizer from 'core/ModelResizer'
     components: {},
     methods: {
       onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
-					this.logger.log(-1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
+					this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 
 					/**
 					 * Check here if the widget was select a second time. In this case

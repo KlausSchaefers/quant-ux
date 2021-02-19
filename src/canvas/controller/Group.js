@@ -39,7 +39,7 @@ export default class Group extends Layer {
 			}
 			group[type][key] = value
 		}
-		this.onModelChanged()
+		this.onModelChanged([{type: 'group', action:"change", id: id}])
 	}
 
 	undoUpdateGroup(command) {
@@ -107,7 +107,7 @@ export default class Group extends Layer {
 		}
 		this.addCommand(command);
 
-		this.onModelChanged();
+		this.onModelChanged([]);
 		this.render();
 	}
 
@@ -188,9 +188,8 @@ export default class Group extends Layer {
 
 		this.addCommand(command);
 
-		this.onModelChanged();
+		this.onModelChanged([]);
 		this.render();
-
 
 	}
 
@@ -275,7 +274,7 @@ export default class Group extends Layer {
 
 			this.addCommand(command);
 
-			this.onModelChanged();
+			this.onModelChanged([]);
 			this.render();
 		}
 	}
@@ -319,7 +318,7 @@ export default class Group extends Layer {
 		if(this.model.groups && this.model.groups[id]){
 			var group = this.model.groups[id];
 			group.name = value;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'group', action:"change", id: id}])
 			this.onGroupNameChange(group)
 		} else {
 			console.warn("modelGroupName() > No group with id", id)
@@ -409,7 +408,7 @@ export default class Group extends Layer {
 		}
 
 		if(!ignoreModelUpdate){
-			this.onModelChanged();
+			this.onModelChanged([{type: 'group', action:"change", id: group.id}])
 		}
 	}
 
@@ -465,7 +464,7 @@ export default class Group extends Layer {
 			}
 
 			if(!doNotCallModelChanged){
-				this.onModelChanged();
+				this.onModelChanged([{type: 'group', action:"change", id: id}])
 			}
 
 		} else {
@@ -555,7 +554,7 @@ export default class Group extends Layer {
 				this.modelRemoveWidgetAndLines(widget, lines, refs, true);
 			}
 			this.addCommand(command);
-			this.onModelChanged();
+			this.onModelChanged([]);
 			this.unSelect();
 			this.render();
 		}

@@ -438,7 +438,7 @@ export default class Widget extends Screen {
 		var widget = this.model.widgets[id];
 		if(widget){
 			widget.name = value;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'widget', action:"change", id: id}])
 			this.onWidgetNameChange(widget)
 		}
 
@@ -491,8 +491,7 @@ export default class Widget extends Screen {
 		if (widget) {
 			widget.props.label = label
 			widget.w = width
-
-			this.onModelChanged();
+			this.onModelChanged([{type: 'widget', action:"change", id: id}])
 		}
 
 	}
@@ -871,7 +870,7 @@ export default class Widget extends Screen {
 		/**
 		 * call model change
 		 */
-		this.onModelChanged();
+		this.onModelChanged([{type: 'widget', action:"change", id: id}])
 	}
 
 	undoWidgetPosition (command){
@@ -980,7 +979,7 @@ export default class Widget extends Screen {
 		}
 
 		this.setLastChangedWidget(widget)
-		this.onModelChanged();
+		this.onModelChanged([{type: 'widget', action:"change", id: id}])
 	}
 
 	undoWidgetProperties (command){
@@ -1089,14 +1088,14 @@ export default class Widget extends Screen {
 		* also check if we have dropped on a screen
 		*/
 		var screen = this.getHoverScreen(widget);
-		if(screen){
+		if (screen){
 			screen.children.push(widget.id);
 		}
 
 		// this.setParentWidgets(widget)
 
 		if(!ignoreModelChange){
-			this.onModelChanged();
+			this.onModelChanged([{type: 'widget', action:"add", id: widget.id}]) // pass teh screen as well?
 		}
 
 	}
@@ -1106,7 +1105,7 @@ export default class Widget extends Screen {
 			// this.cleanUpParentWidgets(widget);
 			delete this.model.widgets[widget.id];
 			this.cleanUpParent(widget);
-			this.onModelChanged();
+			this.onModelChanged([{type: 'widget', action:"remove", id: widget.id}])
 			return true;
 		} else {
 			console.warn("Could not delete widget", widget);
@@ -1236,7 +1235,7 @@ export default class Widget extends Screen {
 		}
 
 		if(!doNotCallModelChanged){
-			this.onModelChanged();
+			this.onModelChanged([])
 		}
 
 		return true;
@@ -1298,7 +1297,7 @@ export default class Widget extends Screen {
 			console.warn("modelAddWidgetAndLines() > Missing lines parameter");
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([]);
 	}
 
 
@@ -1399,7 +1398,7 @@ export default class Widget extends Screen {
 
 		this.addCommand(command);
 		this.modelWidgetLayers(zValues);
-		this.render();
+
 	}
 
 	modelWidgetLayers (zValues){
@@ -1414,16 +1413,15 @@ export default class Widget extends Screen {
 				console.warn("Could not set z Valoue for ", id);
 			}
 		}
-		this.onModelChanged();
+		this.onModelChanged([]);
+		this.render();
 	}
 
 	undoWidgetLayers (command){
 		this.modelWidgetLayers(command.o);
-		this.render();
 	}
 
 	redoWidgetLayers (command){
 		this.modelWidgetLayers(command.n);
-		this.render();
 	}
 }

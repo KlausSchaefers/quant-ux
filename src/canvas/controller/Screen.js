@@ -39,7 +39,7 @@ export default class Screen extends CopyPaste {
 			let oldRuler = screen.rulers.find(r => r.id === rulerID)
 			if (oldRuler) {
 				oldRuler.props = props
-				this.onModelChanged();
+				this.onModelChanged([{type: 'screen', action:"change", id: screenID}])
 			} else {
 				console.warn('No ruler with id', rulerID)
 			}
@@ -138,7 +138,7 @@ export default class Screen extends CopyPaste {
 					}
 				}
 
-				this.onModelChanged();
+				this.onModelChanged([{type: 'screen', action:"change", id: screenID}])
 			} else {
 				console.warn('No ruler with id', rulerID)
 			}
@@ -228,7 +228,7 @@ export default class Screen extends CopyPaste {
 				screen.rulers = []
 			}
 			screen.rulers.push(ruler)
-			this.onModelChanged();
+			this.onModelChanged([{type: 'screen', action:"change", id: screenID}])
 		}
 	}
 
@@ -245,7 +245,7 @@ export default class Screen extends CopyPaste {
 					})
 					.filter(r => r !== null)
 			}
-			this.onModelChanged();
+			this.onModelChanged([{type: 'screen', action:"change", id: screenID}])
 		}
 	}
 
@@ -307,7 +307,7 @@ export default class Screen extends CopyPaste {
 					screen.animation = {};
 			}
 			screen.animation[eventType] = animation;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'screen', action:"change", id: screenID}])
 		} else {
 			this.logger.error("modelSetScreenAnimation", "No screen : " +screenID + " >" +eventType);
 		}
@@ -364,7 +364,7 @@ export default class Screen extends CopyPaste {
 		this.model.screenSize.w = value.screenSize.w;
 		this.model.screenSize.h = value.screenSize.h;
 		this.model.type = value.type;
-		this.onModelChanged();
+		this.onModelChanged([]);
 		this.render();
 	}
 
@@ -507,7 +507,7 @@ export default class Screen extends CopyPaste {
 		var screen = this.model.screens[id];
 		if(screen){
 			screen.name = value;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'screen', action:"change", id: id}])
 			this.onScreenNameChange(screen)
 		}
 	}
@@ -662,7 +662,7 @@ export default class Screen extends CopyPaste {
 		 * update screen
 		 */
 		this.updateBox(pos, screen);
-		this.onModelChanged();
+		this.onModelChanged([{type: 'screen', action:"change", id: id}])
 	}
 
 	undoScreenPosition (command){
@@ -697,7 +697,7 @@ export default class Screen extends CopyPaste {
 		};
 		this.addCommand(command);
 		this.modelScreenSegement(id, isSegment);
-		this.onModelChanged();
+		this.onModelChanged([{type: 'screen', action:"change", id: id}])
 		this.render();
 	}
 
@@ -752,7 +752,6 @@ export default class Screen extends CopyPaste {
 		this.addCommand(command);
 		this.modelScreenParentUpdate(id, parents);
 
-		this.render();
 
 	}
 
@@ -765,19 +764,18 @@ export default class Screen extends CopyPaste {
 			console.debug("Could not update screen properties");
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([])
+		this.render();
 	}
 
 	undoScreenParent (command){
 		this.logger.log(0,"undoScreenParent", "enter > " + command.id);
 		this.modelScreenParentUpdate(command.modelId, command.delta.o);
-		this.render();
 	}
 
 	redoScreenParent (command){
 		this.logger.log(0,"undoScreenProperties", "enter > " + command.id);
 		this.modelScreenParentUpdate(command.modelId, command.delta.n);
-		this.render();
 	}
 
 
@@ -813,7 +811,7 @@ export default class Screen extends CopyPaste {
 		}else {
 			console.debug("Could not update screen properties");
 		}
-		this.onModelChanged();
+		this.onModelChanged([{type: 'screen', action:"change", id: id}])
 	}
 
 
@@ -883,7 +881,7 @@ export default class Screen extends CopyPaste {
 			this.showError("No Start screen is selected!");
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([{type: 'screen', action:"change", id: id}])
 	}
 
 	undoScreenStart (command){
@@ -1432,7 +1430,7 @@ export default class Screen extends CopyPaste {
 			}
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([])
 	}
 
 
@@ -1466,7 +1464,7 @@ export default class Screen extends CopyPaste {
 			}
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([]);
 	}
 
 
@@ -1533,7 +1531,6 @@ export default class Screen extends CopyPaste {
 		this.modelAddScreen(screen);
 
 
-		this.render();
 
 		return screen;
 	}
@@ -1542,12 +1539,8 @@ export default class Screen extends CopyPaste {
 
 		if(!this.model.screens[screen.id] ){
 			this.model.screens[screen.id] = screen;
-
-			/**
-			 * FIXME: Check if there is a start screen, if not
-			 * set start screen to true
-			 */
-			this.onModelChanged();
+			this.onModelChanged([])
+			this.render();
 		} else {
 			console.warn("Could not add screen", screen);
 		}
@@ -1556,9 +1549,9 @@ export default class Screen extends CopyPaste {
 
 	modelRemoveScreen (screen){
 		if(this.model.screens[screen.id]){
-			// check for start screen!
 			delete this.model.screens[screen.id];
-			this.onModelChanged();
+			this.onModelChanged([])
+			this.render();
 		} else {
 			console.warn("Could not delete screen");
 		}
@@ -1569,14 +1562,12 @@ export default class Screen extends CopyPaste {
 		this.logger.log(3,"undoAddScreen", "enter > " + command.id);
 		var screen = command.model;
 		this.modelRemoveScreen(screen);
-		this.render();
 	}
 
 	redoAddScreen (command){
 		this.logger.log(3,"redoAddScreen", "enter > " + command.id);
 		var screen = command.model;
 		this.modelAddScreen(screen);
-		this.render();
 	}
 
 	/**********************************************************************
@@ -1604,10 +1595,7 @@ export default class Screen extends CopyPaste {
 				modelId : id
 		};
 		this.addCommand(command);
-
-
 		this.modelRemoveScreenAndWidgetAndLines(screen, widgets, lines, groups);
-
 		this.unSelect();
 		this.render();
 	}
@@ -1637,7 +1625,7 @@ export default class Screen extends CopyPaste {
 					delete this.model.groups[group.id];
 				}
 			}
-			this.onModelChanged();
+			this.onModelChanged([]);
 			return true;
 		} else {
 			console.warn("Could not delete widget and lines", screen);
@@ -1649,7 +1637,6 @@ export default class Screen extends CopyPaste {
 
 		if(!this.model.screens[screen.id] ){
 			this.model.screens[screen.id] = screen;
-			this.onModelChanged();
 		} else {
 			console.warn("Could not add screen because id exists!", screen);
 		}
@@ -1687,12 +1674,11 @@ export default class Screen extends CopyPaste {
 			}
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([]);
 		return true;
 	}
 
 	getGroupsForWidgets (widgets){
-
 		var result = [];
 		var addedGroupIds = {};
 		for(var i = 0; i< widgets.length; i++){
@@ -1702,7 +1688,6 @@ export default class Screen extends CopyPaste {
 					result.push(group);
 					addedGroupIds[group.id] = true;
 				}
-
 			}
 		}
 		return result;

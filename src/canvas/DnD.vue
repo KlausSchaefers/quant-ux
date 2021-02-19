@@ -3,6 +3,7 @@ import lang from "dojo/_base/lang";
 import topic from "dojo/topic";
 import domGeom from "dojo/domGeom";
 import css from "dojo/css";
+import CoreUtil from 'core/CoreUtil'
 
 export default {
   name: "DnD",
@@ -269,14 +270,15 @@ export default {
     },
 
     getBackgroundPos(pos) {
-      return this.getUnZoomedBox(lang.clone(pos), this.zoom, this.zoom);
+      return CoreUtil.getUnZoomedBoxCopy(pos, this.zoom, this.zoom);
     },
 
     onScreenDndEnd (id, div, pos, dif) {
       this.logger.log(3, "onScreenDndEnd", "enter > x:" + pos.x + " y:" + pos.y);
 
       this.cleanUpAlignment();
-      this.getController().updateScreenPosition(id, pos, true);
+      this.getController().updateScreenPosition(id, lang.clone(pos), true);
+
       this._dragNDropBoxPositions = null;
       this.onSelectionMoved(pos, dif, id);
       this.setState(0);
@@ -554,7 +556,7 @@ export default {
         // single widgte move
         let widget = this.model.widgets[id];
         if (widget) {
-          var modelPos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
+          var sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
           try {
             /**
              * Update position to avoid snapping bumps: Could be called from controller
@@ -562,9 +564,9 @@ export default {
              * will be done propertlz in the controller. In worst case the current
              * rendering would be wrong by 1px.
              */
-            var zoomed = this.getZoomedBox(modelPos,this.getZoomFactor(), this.getZoomFactor());
-            this.setWidgetPosition(widget.id, zoomed);
-            pos = zoomed;
+            var zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
+            this.setWidgetPosition(widget.id, sourcePos, zoomedPos);
+            pos = zoomedPos;
           } catch (e) {
             this.logger.sendError(e);
           }

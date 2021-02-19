@@ -9,7 +9,7 @@ export default {
 
 
 			updateDnD (zoomedModel) {
-				this.logger.log(-1,"updateDnD", "enter");
+				this.logger.log(3,"updateDnD", "enter");
 
 				for (let id in zoomedModel.screens){
 						let zoomedScreen = zoomedModel.screens[id]
