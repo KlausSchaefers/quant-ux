@@ -165,15 +165,22 @@ export default class RenderFactory extends Core {
 
 		var widget;
 		if (this._uiWidgets[id]) {
+
 			widget = this._uiWidgets[id];
 			widget.hash = this.hash
+			widget.jwtToken = this.jwtToken
+
 		} else {
 			var model = this._widgetModels[id];
 
 			if (model) {
 				widget = this.$new(UIWidget);
+
+				widget._isAnimWrapper = true
 				widget.model = model;
 				widget.hash = this.hash
+				widget.jwtToken = this.jwtToken
+
 				widget.style = model.style;
 				widget._scaleX = this._scaleX;
 				widget._scaleY = this._scaleY;
@@ -1499,5 +1506,23 @@ export default class RenderFactory extends Core {
 			}
 		}
 		delete this._widgetsToDestroy;
+	}
+
+	destroyWidgetsById(ids) {
+		this.logger.log(-1, "destroyWidgets", "enter > ", ids)
+		ids.forEach(id => {
+			var w = this._uiWidgets[id]
+			if (w) {
+				if (this.mode == "simulator" || this.mode == "view") {
+					var widget = this.model.widgets[id];
+					if (widget && widget.inherited) {
+						id = widget.inherited;
+					}
+					this._uiWidgetsStates[id] = w.getState();
+				}
+				w.beforeDestroy()
+				delete this._uiWidgets[id]
+			}
+		})
 	}
 }
