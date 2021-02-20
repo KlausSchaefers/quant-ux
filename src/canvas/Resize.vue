@@ -445,10 +445,18 @@ export default {
 
             let sourcePos = this.controller.updateWidgetPosition(this._resizeId, pos, false, this.isMasterWidget(widget));
             if (sourcePos) {
+
               /**
                * We use here the source position to also show snapping
                */
               this.renderFactory.resize(this._resizeId, sourcePos);
+
+              /**
+               * Also update with the real snapped one
+               */
+              let zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
+              this.setWidgetPosition(widget.id, sourcePos, zoomedPos);
+
             } else {
               this.logger.warn("onResizeDnDEnd", "no source pos");
             }

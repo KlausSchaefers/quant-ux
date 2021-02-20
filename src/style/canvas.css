@@ -127,10 +127,6 @@
 
 }
 
-.MatcDnDLayer .MatcBox{
-	border: 1px dashed orange;
-}
-
 .MatcBox{
 	position: absolute;
 }

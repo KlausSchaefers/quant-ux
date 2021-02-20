@@ -1067,6 +1067,7 @@ export default class BaseController extends Core {
 
 	addLine (line){
 
+		console.debug(JSON.stringify(line))
 
 		/**
 		 * here comes already the correct model.
@@ -1079,6 +1080,7 @@ export default class BaseController extends Core {
 			this.getUnZoomedBox(line.points[i], zoom);
 		}
 
+		console.debug(zoom, JSON.stringify(line))
 		/**
 		 * create the command
 		 */

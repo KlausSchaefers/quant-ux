@@ -16,12 +16,21 @@ export default {
 						this.updateScreenDnd(zoomedScreen)
 				}
 
-					for (let id in zoomedModel.widgets){
-						let zoomedWidget = zoomedModel.widgets[id]
-						if (zoomedWidget && this.widgetDivs[id]) {
-							let dnd = this.widgetDivs[id]
-							this.updateBox(zoomedWidget, dnd)
+				for (let id in zoomedModel.widgets){
+					let zoomedWidget = zoomedModel.widgets[id]
+					if (zoomedWidget && this.widgetDivs[id]) {
+						let dnd = this.widgetDivs[id]
+						this.updateBox(zoomedWidget, dnd)
+					}
+				}
+
+				if (this.renderLines){
+					for (let id in zoomedModel.lines){
+						let line = zoomedModel.lines[id];
+						if (!line.hidden){
+							this.renderLine(line);
 						}
+					}
 				}
 			},
 
@@ -102,10 +111,13 @@ export default {
 				}
 
 				if (this.renderLines){
-					for (let id in sourceModel.lines){
-						let line = sourceModel.lines[id];
+					/**
+					 * Lines are with zoomed model!
+					 */
+					for (let id in zoomedModel.lines){
+						let line = zoomedModel.lines[id];
 						if (!line.hidden){
-							this.renderLine(sourceModel.lines[id]);
+							this.renderLine(zoomedModel.lines[id]);
 						}
 					}
 				}

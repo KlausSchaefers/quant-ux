@@ -424,13 +424,12 @@ export default {
            * resizeHnalder.
            */
           if (this._resizeHandlerBox) {
-            var resizePos = {
+            this._dragNDropRenderResizeHandlerJob = {
               w: this._resizeHandlerBox.w,
               h: this._resizeHandlerBox.h,
               x: this._resizeHandlerBox.x + dif.x,
               y: this._resizeHandlerBox.y + dif.y
             };
-            this._dragNDropRenderResizeHandlerJob = resizePos;
           }
 
           /**
@@ -556,7 +555,7 @@ export default {
         // single widgte move
         let widget = this.model.widgets[id];
         if (widget) {
-          var sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
+          let sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
           try {
             /**
              * Update position to avoid snapping bumps: Could be called from controller
@@ -839,6 +838,8 @@ export default {
        */
       var line = this.model.lines[point.id];
       var p = line.points[point.i - 1];
+      console.debug('start', p)
+
       return p;
     },
 

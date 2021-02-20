@@ -12,6 +12,7 @@ export default {
     mixins:[],
     data: function () {
         return {
+					zoomStep: 0.05,
 					isFireFox: false,
 					zoom: 0.5,
 					lastMouseWheel: 0,
@@ -85,7 +86,7 @@ export default {
 
 			var now = new Date().getTime();
 			if(this.mouseWheelMode === "zoom" || e.metaKey || e.ctrlKey){
-				if (Math.abs(this.lastMouseWheel -  now) > 30) {
+				if (Math.abs(this.lastMouseWheel -  now) > 10) {
 
 					this._preZoomRelPos = this.getRelCanvasMousePosition(e)
 					this._preZoomAbsPos = this.getCanvasMousePosition(e);
@@ -209,13 +210,13 @@ export default {
 		onZoomMinus (e){
 			this.stopEvent(e);
 			// make some magnetic thingis...
-			this.zoom = Math.max(0.05, this.zoom - 0.1)
+			this.zoom = Math.max(0.1, this.zoom - this.zoomStep)
 			this.onZoomChange();
 		},
 
 		onZoomPlus (e){
 			this.stopEvent(e);
-			this.zoom = Math.min(3, this.zoom + 0.1)
+			this.zoom = Math.min(3, this.zoom + this.zoomStep)
 			this.onZoomChange();
 		},
 

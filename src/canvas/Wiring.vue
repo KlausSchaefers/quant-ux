@@ -123,7 +123,8 @@ export default {
 				}
 
 				if (target._lineID) {
-					this.dispatchMouseDownLine(e, target._lineID, target._pointId, target)
+					this.dispatchMouseDownLine(e, target._lineID, target._pointIndex, target)
+					return
 				}
 
 				this.dispatchMouseDownCanvas(e, target)
@@ -198,8 +199,16 @@ export default {
 				}
 			},
 
-			dispatchMouseDownLine (e, id, point) {
-				this.logger.log(-1,"dispatchMouseDownLine", "enter", id, point);
+			dispatchMouseDownLine (e, lineID, pointIndex, div) {
+				this.logger.log(-1,"dispatchMouseDownLine", "enter", lineID, pointIndex);
+	     	let line = this.model.lines[lineID];
+				if (line) {
+					/**
+					 * We distaptch in the touch div, but we want to move the parent
+					 */
+					div = div.parentNode
+					this.onDragStart(div,{ id : lineID, i : pointIndex, l: line} , "onLinePointDnDStart", "onLinePointDnDMove", "onLinePointDnDEnd", "onLinePointDnDClikc", e);
+				}
 			},
 
 			dispatchMouseDownCanvas (e) {

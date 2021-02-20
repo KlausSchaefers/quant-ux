@@ -11,13 +11,25 @@
 
 - DesignSystem like in figma with sahred styles
 ## CSS Render
- - Improve render factory so we pass the scale as paramter to createWidgetHTML()
- - Select resize
- - screen resize
- - lines also with reize and mvoe
+ - dnd (x)
+ - tools (x)
+ - add (*)
+ - grid (X)
+ - Select resize (X)
+ - screen resize (X)
+ - lines also with reize and mvoe (X)
  - replicate
  - distribute
  - themes adding
- - grouü move
+ - group move
  - master screens
  - properties live update
+ - undo screen does not update grid
+ - partial rendering to clean up DND and Resize End code
+ - Filter mouse wheel events to prevent jumping back and forth and adopt snapp point acoording to grid (at leats50, 75, 100, 150, 200, 250, 300)
+ - GridAndRuler should in case of Grid calculate the real position (distance and label)
+  - Grid and ruler could somehow get snapp positon also from source model ()
+
+## Nice to have
+   - Improve render factory so we pass the scale as paramter to createWidgetHTML()
+  - improve grid crispyness. Maybe render in higher resolution and shring backgroudnSize?

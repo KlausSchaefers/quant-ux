@@ -60,7 +60,7 @@ export default class GridAndRuler extends Core {
 		this.grid = grid;
 		this.model = canvas.model;
 
-		this.container = canvas.widgetContainer;
+		this.container = canvas.dndContainer;
 		this.selectedModel = selectedModel;
 		this.selectedID = selectedModel.id;
 		this.selectedType = selectedType;

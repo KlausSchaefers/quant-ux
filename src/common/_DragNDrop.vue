@@ -78,6 +78,7 @@ export default {
 				if (this[this._dragnDropStartCallback]){
 					try {
 						var modelPos = this[this._dragnDropStartCallback](this._dragnDropID, this._dragNDropNode, this._dragNDropStartPos,e);
+
 						if(modelPos){
 							this._dragNDropStartPos = modelPos;
 						}  else {
@@ -108,10 +109,8 @@ export default {
 			this._dragNDropMinTime = t;
 		},
 
-		onDragMove ( e ){
-			try{
-
-
+		onDragMove (e){
+			try {
 				this.stopEvent(e);
 
 				var now = new Date().getTime();
@@ -139,6 +138,7 @@ export default {
 				var difY = pos.y - this._dragnDropMousePos.y;
 				var x = this._dragNDropStartPos.x + difX;
 				var y = this._dragNDropStartPos.y + difY;
+
 
 
 				/**
@@ -219,7 +219,6 @@ export default {
 				}
 
 				if(isInArea !== false){
-
 					/**
 					 * we have a render queue, and have to put a new
 					 * job in the queue

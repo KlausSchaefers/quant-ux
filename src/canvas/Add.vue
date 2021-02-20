@@ -378,19 +378,19 @@ export default {
 				if (params.from){
 
 					let widget = this.model.widgets[params.from];
-					if(widget){
+					if (widget) {
 						this.logger.log(1,"addLine", "draw widget line");
 						this.onLineStartSelected(params.from, null, null, params.event );
 						this._updateAddLineMove(params.event);
 					} else {
 						let screen = this.model.screens[params.from];
-						if(screen){
+						if (screen) {
 							this.logger.log(0,"addLine", "draw screen line");
 							this.onLineStartSelected(params.from, null, null, params.event );
 							this._updateAddLineMove(params.event);
-						} else if(this.model.groups) {
+						} else if (this.model.groups) {
 							let group = this.model.groups[params.from];
-							if(group){
+							if (group){
 								this.logger.log(1,"addLine", "draw group line");
 								this.onLineStartSelected(params.from, null, null, params.event );
 								this._updateAddLineMove(params.event);
@@ -462,7 +462,7 @@ export default {
 				pos.h = 1;
 
 				div = this.drawPoint(pos);
-				this.widgetContainer.appendChild(div);
+				this.dndContainer.appendChild(div);
 				this._addLinePoints.push(div);
 
 				this._addLineModel.points.push(pos);

@@ -16,14 +16,14 @@ class ModelUtil {
       var zoomedModel = lang.clone(model);
       zoomedModel.isZoomed = true;
 
-      CoreUtil.getZoomedBox(zoomedModel.screenSize, zoom, zoom);
+      this.getZoomedBox(zoomedModel.screenSize, zoom, zoom);
 
       for (let id in zoomedModel.widgets) {
-        CoreUtil.getZoomedBox(zoomedModel.widgets[id], zoom, zoom);
+        this.getZoomedBox(zoomedModel.widgets[id], zoom, zoom);
       }
 
       for (let id in zoomedModel.screens) {
-          var zoomedScreen = CoreUtil.getZoomedBox(
+          var zoomedScreen = this.getZoomedBox(
               zoomedModel.screens[id],
               zoom,
               zoom
@@ -46,8 +46,8 @@ class ModelUtil {
                    * When we copy a screen we might not have the org widget yet
                    */
                   var orgScreen = model.screens[zoomedScreen.id];
-                  var difX = CoreUtil.getZoomed(orgWidget.x - orgScreen.x, zoom);
-                  var difY = CoreUtil.getZoomed(orgWidget.y - orgScreen.y, zoom);
+                  var difX = this.getZoomed(orgWidget.x - orgScreen.x, zoom);
+                  var difY = this.getZoomed(orgWidget.y - orgScreen.y, zoom);
                   if (orgWidget.parentWidget) {
                       if (zoomWidget.x >= 0) {
                           zoomWidget.x = zoomedScreen.x + difX;
@@ -66,12 +66,20 @@ class ModelUtil {
       for (let id in zoomedModel.lines) {
           let line = zoomedModel.lines[id];
           for (let i = 0; i < line.points.length; i++) {
-            CoreUtil.getZoomedBox(line.points[i], zoom, zoom);
+            this.getZoomedBox(line.points[i], zoom, zoom);
           }
       }
 
 
       return zoomedModel;
+  }
+
+  getZoomedBox (box, zoomX, zoomY) {
+    return CoreUtil.getZoomedBox(box, zoomX, zoomY, false);
+  }
+
+  getZoomed (v, zoom) {
+    return CoreUtil.getZoomed(v, zoom, false);
   }
 }
 

@@ -84,6 +84,7 @@ export default {
 			this.screenLabels = {};
 			this.screenBackgroundDivs = {};
 			this.lineSVGs = {};
+			this.linePoints = {}
 			this.gridBackground = {};
 			this.renderedModels = {};
 
@@ -267,6 +268,10 @@ export default {
 			this.dndContainer.style.height = this.containerSize.h + "px";
 			this.dndContainer.style.width = this.containerSize.w + "px";
 			this.dndContainer.style.fontSize = this.getZoomed(this.defaultFontSize, this.zoom)  + "px";
+
+			if (this.svg) {
+				this.updateSVG()
+			}
 
 			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
@@ -582,20 +587,17 @@ export default {
 					}
 					backgroundDiv.style.backgroundImage = this.gridBackground[z]
 				} else {
+
 					/**
-						* FIXME: We should render the background image for the x times so it is even.
-						* e.g. h= 2.5 so we would have to render for 5. Also we should store the image and do
-						* the rendering only once...
-						*
-						* Check drigRuler how we calculate the grid in there
-						* ..
-						*/
-					let h = this.model.grid.h;
-					let w = this.model.grid.w;
+					 * We render with double resolution and let the broser sort it out. Wr could call
+					 * this on zoom and adopt z to the zoom
+					 */
+					let z = 2
+					let h = this.model.grid.h * z;
+					let w = this.model.grid.w * z;
 
 
-
-					if(w > 0 && h > 0 && w < this.model.screenSize.w && h < this.model.screenSize.h ){
+					if (w > 0 && h > 0 && w < this.model.screenSize.w && h < this.model.screenSize.h ){
 
 						if (!this.gridBackground[z]){
 							let c= document.createElement("canvas");
@@ -618,6 +620,7 @@ export default {
 							this.gridBackground[z] = "url(" + c.toDataURL("image/png")  + ")";
 						}
 						backgroundDiv.style.backgroundImage = this.gridBackground[z]
+						backgroundDiv.style.backgroundSize = w / z + 'px ' + h / z + 'px'
 					}
 				}
 			} else {
