@@ -26,9 +26,11 @@
  - properties live update
  - undo screen does not update grid
  - partial rendering to clean up DND and Resize End code
+  - grid and ruler could use zoom to decide of to ceil or floor the labels
  - Filter mouse wheel events to prevent jumping back and forth and adopt snapp point acoording to grid (at leats50, 75, 100, 150, 200, 250, 300)
  - GridAndRuler should in case of Grid calculate the real position (distance and label)
   - Grid and ruler could somehow get snapp positon also from source model ()
+
 
 ## Nice to have
    - Improve render factory so we pass the scale as paramter to createWidgetHTML()
