@@ -327,7 +327,7 @@ export default {
 			if( model.type == "desktop"){
 				pos.w = pos.w * 0.75;
 				pos.h = pos.h * 0.75;
-				this._showDesktopSimulator(model, pos);
+				this._showDesktopSimulator(model, pos, maxHeight);
 			} else if( model.type=="tablet"){
 				if(this.model.screenSize.w > this.model.screenSize.h){
 					pos.w = pos.w * 0.65;
@@ -346,7 +346,7 @@ export default {
 		},
 
 
-		_showDesktopSimulator (model, pos){
+		_showDesktopSimulator (model, pos, maxHeight){
 
 			var dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
@@ -356,6 +356,12 @@ export default {
 			dialog.appendChild(container);
 
 			pos = this.getScaledSize(pos, "width", model);
+			if (pos.h > maxHeight) {
+				let factor = pos.h / maxHeight
+				pos.h = pos.h / factor
+				pos.w = pos.w / factor
+			}
+
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
 
