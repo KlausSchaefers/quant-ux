@@ -3,8 +3,11 @@
 	<div class="MatcCanvas MatcAnalyticCanvas">
 		<div class="MatcCanvasFrame" data-dojo-attach-point="frame">
 			<div class="MatcCanvasContainer MatcCanvasZoomable " data-dojo-attach-point="container">
-				<div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div>
-				<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div>
+				<div class="MatcCanvasContainer " data-dojo-attach-point="zoomContainer">
+					<div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div>
+					<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div>
+				</div>
+				<div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
 			</div>
 		</div>
 		<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
@@ -54,7 +57,7 @@ import Upload from 'canvas/Upload'
 import Comment from 'canvas/Comment'
 import Analytics from 'dash/Analytics'
 
-import DomUtil from 'core/DomUtil'
+import FastDomUtil from 'core/FastDomUtil'
 
 export default {
     name: 'AnalyticCanvas',
@@ -81,7 +84,7 @@ export default {
 		this.logger.log(2,"constructor", "entry");
 		this.cache = {};
 		this.moveMode ="classic";
-		this.domUtil = new DomUtil()
+		this.domUtil = new FastDomUtil()
 
 		this.logger.log(2,"postCreate", "entry");
 		this.initSize()
