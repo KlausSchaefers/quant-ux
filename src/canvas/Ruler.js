@@ -39,8 +39,6 @@ export default class Ruler extends Core{
 
 			var corners = this.getActiveCorners(box, this._lastBox);
 
-			console.debug('corners', corners, box)
-
 			/**
 			 * get all elements that are close
 			 */

@@ -110,7 +110,7 @@ export default {
           var job = this._resizeCopyJobs[i];
           var div = this.createBox(job);
           css.add(div, "MatcBoxPlaceHolder");
-          this.widgetContainer.appendChild(div);
+          this.dndContainer.appendChild(div);
           this._resizeCopyJobsDivs.push(div);
         }
         delete this._resizeCopyJobs;
@@ -122,7 +122,7 @@ export default {
           this._updateResizeHandlers(this._resizeRenderJobsHandlerPos);
         }
 
-        console.debug('_replicateDndUpDateUI() > exit')
+
       },
 
       cleanUpReplicate (){

@@ -155,6 +155,7 @@ export default {
     },
 
     update (widget) {
+
         /**
          * We should have here some kind of fast rendering!
          */
@@ -162,6 +163,7 @@ export default {
     },
 
     render (widget, style, scaleX, scaleY) {
+
       /**
        * This is super slow for fast rendering, as we will redraw everzthing. We must
        * therefore reuse the items or have some kind of rerender() method if the
@@ -254,6 +256,7 @@ export default {
 
                 if (this.isSimulator || i > 0) {
                     childWidgets.forEach(childWidget => {
+
                         let copy = lang.clone(childWidget)
                         copy.inherited = childWidget.id
                         copy.id = childWidget.id + '-' + i
@@ -286,6 +289,7 @@ export default {
                     })
                 }
         }
+
         this.domNode.appendChild(cntrDiv)
         this.boundingBox = cntrBox
         this.distanceY = distanceY

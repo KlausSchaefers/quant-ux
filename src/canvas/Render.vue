@@ -320,11 +320,12 @@ export default {
 		 * changed, but we did not do an complete rerender. This happens
 		 * for instance when widgets are moved.
 		 */
-		onWidgetPositionChange (zoomedModel) {
-			this.logger.log(-1,"onWidgetPositionChange", "enter", zoomedModel);
-			this.zoomedModel = zoomedModel;
-			this.renderFactory.setZoomedModel(zoomedModel);
-			this.renderFactory.updatePositions(zoomedModel)
+		onWidgetPositionChange (sourceModel) {
+			this.logger.log(-1,"onWidgetPositionChange", "enter", sourceModel);
+			this.sourceModel = sourceModel;
+			this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
+			this.renderFactory.setZoomedModel(sourceModel);
+			this.renderFactory.updatePositions(sourceModel)
 		},
 
 
@@ -743,32 +744,41 @@ export default {
 
 		setTempWidgetStyle (id, style){
 			//this.logger.log(4,"setTempWidgetStyle", "enter");
-			var widget = this.model.widgets[id];
+
+			let sourceWidget = this.getUpdatedSourceWidget(id, style)
 			var div = this.widgetBackgroundDivs[id];
-			if(widget && widget.style && div){
-				/**
-				 * We merge the new style into the current style
-				 */
-				for (var k in style) {
-					widget.style[k] = style[k];
-				}
-				this.renderFactory.setStyle(div, widget, true);
-				this.setCopyStyle(widget, true);
+			if(div && sourceWidget){
+				this.renderFactory.setStyle(div, sourceWidget, true);
+				this.setCopyStyle(sourceWidget, true);
 			} else {
 				console.warn("setTempWidgetStyle() > Cannot set widget style", id, style);
 			}
 		},
 
-		setWidgetStyle (id, style, model){
+		getUpdatedSourceWidget (id, style) {
+			let sourceWidget = this.sourceModel.widgets[id];
+			if (sourceWidget) {
+				for (var k in style) {
+					sourceWidget.style[k] = style[k];
+				}
+			}
+			return sourceWidget
+		},
+
+		setWidgetStyle (id, style, widget){
 			this.logger.log(-1,"setWidgetStyle", "enter > ", id);
-			var widget = this.model.widgets[id];
+			/**
+			 * get the source model and copy the style. Asume
+			 * partieal updates...
+			 */
+			let sourceWidget = this.getUpdatedSourceWidget(id, style)
 			var div = this.widgetBackgroundDivs[id];
-			if (widget && div){
+			if (div && sourceWidget){
 				/**
 				 * Flush inlineEdit if needed
 				 */
 				var newLabel = this.inlineEditStop();
-				if (newLabel && model.props) {
+				if (newLabel && widget.props) {
 					/**
 						* For some reason this will overwrite the style change in the undo()
 						* This we live if this...
@@ -776,25 +786,32 @@ export default {
 					//console.debug("overwrite inline", newLabel)
 					//model.props.label = newLabel;
 				}
-				this.renderFactory.setStyle(div, model, true);
-				this.setCopyStyle(widget, false);
+				/**
+				 * Pass here the source model! Otherwise the repeater or so, will have issues
+				 * with zooming
+				 */
+				this.renderFactory.setStyle(div, sourceWidget, true);
+				this.setCopyStyle(sourceWidget, false);
 			} else {
 				console.warn("setWidgetStyle() > Cannot set widget style", id, style);
 			}
 		},
 
+
+
 		/**
 		 * copy style to copies (from master screen)
 		 */
-		setCopyStyle (widget, isTempUpdate) {
-			if (widget.copies){
-				for(let i=0; i< widget.copies.length; i++){
-					let copyID = widget.copies[i];
-					let copyWidget = this.model.widgets[copyID];
+		setCopyStyle (sourceWidget, isTempUpdate) {
+
+			if (sourceWidget.copies){
+				for(let i=0; i< sourceWidget.copies.length; i++){
+					let copyID = sourceWidget.copies[i];
+					let copyWidget = this.sourceModel.widgets[copyID];
 					let copyDiv = this.widgetBackgroundDivs[copyID];
 					if(copyWidget && copyDiv){
-						copyWidget.style = widget.style;
-						copyWidget.props = widget.props;
+						copyWidget.style = sourceWidget.style;
+						copyWidget.props = sourceWidget.props;
 						this.renderFactory.setStyle(copyDiv, copyWidget);
 					}
 				}
@@ -803,21 +820,21 @@ export default {
 			/**
 			 * Since 2.2.0 we have screen segments
 			 */
-			if (widget.segmentParent) {
-				this.renderFactory.updateSegementChild(widget, this.model);
+			if (sourceWidget.segmentParent) {
+				this.renderFactory.updateSegementChild(sourceWidget, this.sourceModel);
 			}
 
-			if (widget.container) {
-				this.renderFactory.updateContainerChild(widget, this.model);
+			if (sourceWidget.container) {
+				this.renderFactory.updateContainerChild(sourceWidget, this.sourceModel);
 			}
 
 
-			if(widget.inheritedCopies){
-				for(let i=0; i< widget.inheritedCopies.length; i++){
+			if(sourceWidget.inheritedCopies){
+				for(let i=0; i< sourceWidget.inheritedCopies.length; i++){
 					/**
 						* Here we get also the latest updated model method
 						*/
-					let copyID = widget.inheritedCopies[i];
+					let copyID = sourceWidget.inheritedCopies[i];
 					let copyWidget = this.model.widgets[copyID];
 					if (isTempUpdate) {
 						/**
@@ -831,16 +848,16 @@ export default {
 							*
 							* Thereefore we have a special update methid here
 							*/
-						copyWidget.style = this.mixinNotOverwriten(widget.style, copyWidget.style)
-						copyWidget.props = this.mixinNotOverwriten(widget.props, copyWidget.props)
+						copyWidget.style = this.mixinNotOverwriten(sourceWidget.style, copyWidget.style)
+						copyWidget.props = this.mixinNotOverwriten(sourceWidget.props, copyWidget.props)
 					} else {
 						/**
 							* This code is called when the setTempWidgetStyle() is done. If we would
 							* call the normal mixin method it would set an empty _mixin. We do not that,
 							* so we ignore that (and copy the old _mixin)
 							*/
-						copyWidget.style = this.mixin(widget.style, copyWidget.style, false)
-						copyWidget.props = this.mixin(widget.props, copyWidget.props, false)
+						copyWidget.style = this.mixin(sourceWidget.style, copyWidget.style, false)
+						copyWidget.props = this.mixin(sourceWidget.props, copyWidget.props, false)
 					}
 
 					let copyDiv = this.widgetBackgroundDivs[copyID];

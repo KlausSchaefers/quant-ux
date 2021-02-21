@@ -185,7 +185,8 @@
 	bottom:0%;
 	outline: none;
 	color:#cecece;
-	font-size: 200%;;
+	font-size: 150%;
+	padding: 5px;
 }
 
 .MatcLight .MatcWidgetTypeRest .MatcWidgetTypeRestLabel{

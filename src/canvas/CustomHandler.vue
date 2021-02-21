@@ -15,15 +15,15 @@ export default {
     components: {},
     methods: {
         showCustomHandlers (widget) {
-			if (this.renderFactory) {
+			if (this.renderFactory && this.hasCustomHandler) {
                 let uiWidget = this.renderFactory.getUIWidget(widget)
 				if (uiWidget && uiWidget.getHandlers) {
                     let handlers = uiWidget.getHandlers()
-                 
+
                   	if (handlers) {
                         this.logger.log(1,"showCustomHandlers", "enter > " +  widget.id + " > #: " + handlers.length);
 						this.customHandlers = []
-						var l = (this.resizeButtonSize *2) + 1;	
+						var l = (this.resizeButtonSize *2) + 1;
 						handlers.forEach(handler => {
                             var div = document.createElement("div");
                             if (handler.size) {
@@ -33,21 +33,21 @@ export default {
                                 div.style.width = l + "px";
                                 div.style.height = l + "px";
                             }
-                           
+
                             this._addSizeHandlerTouch(div)
 
                             css.add(div, "MatcCutsomerHandler " + handler.icon);
-                            
+
 							var listener = this.createCustomerHandlerListener(div, widget, uiWidget, handler)
 
-							this.widgetContainer.appendChild(div);
+							this.dndContainer.appendChild(div);
 							this.customHandlers.push({
 								div: div,
 								handler: handler,
                                 listener: listener,
                                 widget: widget
 							})
-						
+
 						})
 					}
 				}
@@ -64,7 +64,7 @@ export default {
         onCustomHandlerClick (widget, uiWidget, div, handler, e) {
             this.logger.log(-1,"onCustomHandlerClick", "enter > " +  widget.id);
             this.stopEvent(e);
-           
+
 
             let command = uiWidget.getHandlerCommand(null, handler)
             if (command) {
@@ -79,13 +79,13 @@ export default {
 			this.logger.log(-1,"onCustomHandlerStart", "enter > " +  widget.id);
             topic.publish("matc/canvas/click", "", "");
             this.inlineEditStop();
-			
+
 			// this is wrong if we want to have snappz stuff
 			// we have to select depending on the type.. arghh
 			this._customHandlerStartPos = this.getCanvasMousePosition(e);
             this._customerHandlerCursor = handler.cursor
 			css.add(this.container, this._customerHandlerCursor);
-			
+
 			/**
 			 * register mouse move and release listener
              * FIXME: Add ESC liszener
@@ -97,7 +97,7 @@ export default {
         onCustomHandlerMove (widget, uiWidget, div, handler, e) {
             this.logger.log(4,"onCustomHandlerMove", "enter > " +  widget.id);
             this.stopEvent(e);
-            
+
             this._customHandlerMovePos = this.getCanvasMousePosition(e);
             let difY = this._customHandlerMovePos.y - this._customHandlerStartPos.y
             let difX = this._customHandlerMovePos.x - this._customHandlerStartPos.x
@@ -178,7 +178,7 @@ export default {
 					}
 				})
             }
-            
+
         }
     }
 }

@@ -118,6 +118,7 @@ export default {
 			this.own(topic.subscribe("matc/toolbar/click", lang.hitch(this,"onToolbarClick")));
 			//this.own(on(this.gridBtn, touch.press, lang.hitch(this, "showGrid")));
 
+			this.hasCustomHandler = false
 
 
 			/**

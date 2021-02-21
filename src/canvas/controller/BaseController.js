@@ -671,14 +671,10 @@ export default class BaseController extends Core {
 				 *
 				 * FIXME: Also add children in case it is an container widget!
 				 */
-				var zoom = this._canvas.getZoomFactor();
-				var zoomedModel = lang.clone(widget);
-				zoomedModel.isZoomed = true;
-				this.getZoomedBox(zoomedModel, zoom, zoom)
-				this._canvas.setWidgetStyle(zoomedModel.id, zoomedModel.style, zoomedModel);
+				this._canvas.setWidgetStyle(widget.id, widget.style, widget);
 
 				if (type === 'props') {
-					this._canvas.updateWidgetDataView(zoomedModel);
+					this._canvas.updateWidgetDataView(widget);
 				}
 			}
 		} else {
@@ -1067,8 +1063,6 @@ export default class BaseController extends Core {
 
 	addLine (line){
 
-		console.debug(JSON.stringify(line))
-
 		/**
 		 * here comes already the correct model.
 		 * we do not have to do anything more,
@@ -1080,7 +1074,6 @@ export default class BaseController extends Core {
 			this.getUnZoomedBox(line.points[i], zoom);
 		}
 
-		console.debug(zoom, JSON.stringify(line))
 		/**
 		 * create the command
 		 */
@@ -1820,7 +1813,7 @@ export default class BaseController extends Core {
 				//this.logger.warn("getDeltaBox", "1 PX BUG '" + p + "' @ " + model.id);
 				//this.logger.sendError(new Error("1 PX BUG '" + p + "' @ " + model.id))
 				if (window.location.href.indexOf('localhost') > 0) {
-					alert('1 PX BUG')
+					// alert('1 PX BUG')
 					console.warn(new Error().stack)
 				}
 			}

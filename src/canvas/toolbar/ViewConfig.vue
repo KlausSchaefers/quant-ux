@@ -27,8 +27,11 @@
                     <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(3)" @mouseup.stop="" @click.stop="">
                             Zoom to 50%
                     </div>
-                     <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(5)" @mouseup.stop="" @click.stop="">
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(5)" @mouseup.stop="" @click.stop="">
                             Zoom to 100%
+                    </div>
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(6)" @mouseup.stop="" @click.stop="">
+                            Zoom to 200%
                     </div>
                 </div>
 
@@ -256,7 +259,7 @@ export default {
         },
 
         onZoom (pos) {
-             this.hideMaybe()
+            this.hideMaybe()
             this.zoomLevelPos = pos
             this.value.zoom = this.zoomLevels[this.zoomLevelPos];
             this.$emit('change', 'zoom', this.value.zoom)
@@ -266,7 +269,7 @@ export default {
             this.log.log(-1, 'onZoomMinus', 'enter')
             if (this.zoomLevelPos >= 1){
                 this.zoomLevelPos--;
-                this.value.zoom = this.zoomLevels[this.zoomLevelPos];
+                this.value.zoom = Math.round((this.value.zoom - 0.05) * 100) / 100 //this.zoomLevels[this.zoomLevelPos];
                 this.$emit('change', 'zoom', this.value.zoom)
             }
              this.hideMaybe()
@@ -277,7 +280,7 @@ export default {
             this.log.log(-1, 'onZoomPlus', 'enter')
             if (this.zoomLevelPos < this.zoomLevels.length -1){
                 this.zoomLevelPos++;
-                this.value.zoom = this.zoomLevels[this.zoomLevelPos];
+                this.value.zoom = Math.round((this.value.zoom + 0.05) * 100) / 100
                 this.$emit('change', 'zoom', this.value.zoom)
             }
              this.hideMaybe()

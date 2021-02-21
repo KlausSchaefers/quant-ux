@@ -10,18 +10,18 @@ export default {
     mixins:[],
     data: function () {
         return {
-            resizeButtonSize: 3, 
-            resizeBorder: 2, 
+            resizeButtonSize: 3,
+            resizeBorder: 2,
             resizeEnabled: true
         }
     },
     components: {},
     methods: {
- 		
+
 		/**********************************************************************
 		 * Distribute Tool
 		 **********************************************************************/
-		
+
 		onDistribute (){
 			if (this._distributeEnabled){
 				this.onDistributeEnd()
@@ -29,7 +29,7 @@ export default {
 				this.onDistributeStart();
 			}
 		},
-	
+
 		onDistributeStart () {
 			this.logger.log(3,"onDistributeStart", "enter");
 			css.add(this.container, "MatcCanvasModeAlign");
@@ -44,11 +44,11 @@ export default {
             //    }
             // }
         },
-        
+
         renderDistrubutionHandler (icon) {
-            
-            var l = (this.resizeButtonSize *2) +1;	
-         
+
+            var l = (this.resizeButtonSize *2) +1;
+
             var div = document.createElement("div");
             div.style.width = l + "px";
             div.style.height = l + "px";
@@ -56,7 +56,7 @@ export default {
             css.add(div, "MatcCutsomerHandler " + icon);
             // var listener = on(div,"mousedown", lang.hitch(this,"onCustomHandlerStart", widget, uiWidget, div, handler));
 
-            this.widgetContainer.appendChild(div);
+            this.dndContainer.appendChild(div);
             this.distibutionHandlers.push({
                 div: div
                 // handler: handler,
@@ -64,7 +64,7 @@ export default {
                 // widget: widget
             })
         },
-		
+
 		onDistributeEnd (){
 			this.logger.log(4, "onDistributeEnd", "enter");
 			css.remove(this.container, "MatcCanvasModeAlign");
@@ -88,7 +88,7 @@ export default {
 					}
 				})
             }
-            
+
         }
     }
 }

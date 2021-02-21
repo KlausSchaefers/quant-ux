@@ -1,11 +1,9 @@
 
 <script>
 import on from 'dojo/on'
-import lang from 'dojo/_base/lang'
-// import touch from 'dojo/touch'
 import win from 'dojo/win'
 import has from 'dojo/has'
-
+import ZoomSessionHandler from 'canvas/ZoomSessionHandler'
 
 export default {
     name: 'Zoom',
@@ -30,40 +28,23 @@ export default {
 	},
     methods: {
 		initZoom (){
-			//this.own(on(this.zoomMinus, touch.press, lang.hitch(this, "onClickMinus")));
-			//this.own(on(this.zoomPlus, touch.press, lang.hitch(this, "onClickPlus")));
 			var eventType = this.getEventType();
-			this.own(on(this.domNode, eventType, lang.hitch(this,"onMouseWheel")));
+			this.zoomSessionHandler = new ZoomSessionHandler(this.zoom)
+			this.own(on(this.domNode, eventType, e => this.onMouseWheel(e)));
 			this.onZoomChange();
 			this.logger.log(2,"initZoom", "exit >  "+ eventType);
 		},
 
 
-		getZoomFactor (){
+		getZoomFactor () {
 			return this.zoom;
 		},
 
 		setZoomFactor (zoom){
 			this._setCenterPos();
 			this.zoom = zoom
+			this.zoomSessionHandler.setZoom(zoom)
 			this.onZoomChange();
-		},
-
-		zoomOut (animate){
-			this.zoomLevelPos = 0;
-			this.onZoomChange(true, animate);
-		},
-
-		zoomIn (animate){
-			this.zoomLevelPos = this.zoomLevels.length-2;
-			this.zoom = this.zoomLevels[this.zoomLevelPos];
-			this.onZoomChange(true, animate);
-		},
-
-		zoomHalf (animate){
-			this.zoomLevelPos = (this.zoomLevels.length / 2) -1;
-			this.zoom = this.zoomLevels[this.zoomLevelPos];
-			this.onZoomChange(true, animate);
 		},
 
 		enableMouseZoom (e){
@@ -72,12 +53,9 @@ export default {
 
 
 		onMouseWheel (e){
-
-			// There could be a bug for natural scrolling for some users
-			// console.debug('onMouseWheen', dir, e.webkitDirectionInvertedFromDevice)
-
 			var dir = this.getWheelDir(e)
 			var delta = this.getNormalizedDeltaFB(e);
+
 			if(!this.mouseZoomEnabled || dir === 0) {
 				return;
 			}
@@ -85,7 +63,7 @@ export default {
 			this.stopEvent(e);
 
 			var now = new Date().getTime();
-			if(this.mouseWheelMode === "zoom" || e.metaKey || e.ctrlKey){
+			if(this.mouseWheelMode === "zoom" || e.metaKey || e.ctrlKey) {
 				if (Math.abs(this.lastMouseWheel -  now) > 10) {
 
 					this._preZoomRelPos = this.getRelCanvasMousePosition(e)
@@ -122,31 +100,6 @@ export default {
 			return dir
 		},
 
-
-		getNormalizedDelta (e){
-			var delta ={x:0,y:0};
-			var o = e;
-			var d = o.detail;
-			var w = o.wheelDelta;
-			var n = 225;
-			var n1 = n-1;
-			/**
-			* FIXME: F was not defined
-				*/
-			let f = 1
-
-				// Normalize delta
-				d = d ? w && (f = w/d) ? d/f : -d/1.35 : w/120;
-				// Quadratic scale if |d| > 1
-				d = d < 1 ? d < -1 ? (-Math.pow(d, 2) - n1) / n : d : (Math.pow(d, 2) + n1) / n;
-				// Delta *should* not be greater than 2...
-
-			delta.y = Math.min(Math.max(d / 2, -1), 1);
-
-			return delta;
-		},
-
-
 		getEventType () {
 			/**
 			 * In FireFox we have to use the MouseScroll. If we use 'wheel' we cannot
@@ -159,6 +112,56 @@ export default {
 			} else {
 				return "wheel";
 			}
+		},
+
+		onClickMinus (e){
+			this._setCenterPos();
+			this.onZoomMinus(e);
+		},
+
+
+		onClickPlus (e){
+			this._setCenterPos();
+			this.onZoomPlus(e);
+		},
+
+		onZoomMinus (e){
+			this.stopEvent(e);
+			this.zoom = this.zoomSessionHandler.minus()
+			this.onZoomChange();
+		},
+
+		onZoomPlus (e){
+			this.stopEvent(e);
+			this.zoom = this.zoomSessionHandler.plus()
+			this.onZoomChange();
+		},
+
+		onZoomChange (forceRender) {
+			if (this.zoom != this._lastZoom || forceRender){
+				this.onChangeCanvasViewConfig()
+				// put this into a reuqestNaimationFraem
+				this.setZoomedContainerPosition()
+				this.renderZoom()
+			}
+			this._lastZoom = this.zoom;
+		},
+
+
+		cleanUpZoom () {
+		},
+
+		setZoomedContainerPosition (){
+			if(	this._preZoomRelPos ){
+				var x = this._preZoomRelPos.x  * this.getZoomed(this.canvasPos.w, this.zoom);
+				var y = this._preZoomRelPos.y  * this.getZoomed(this.canvasPos.h, this.zoom);
+				var difX = Math.round(this._preZoomAbsPos.x - x);
+				var difY = Math.round(this._preZoomAbsPos.y - y);
+				this.canvasPos.x += difX;
+				this.canvasPos.y += difY;
+			}
+			delete this._preZoomRelPos;
+			delete this._preZoomAbsPos;
 		},
 
 		_setCenterPos (){
@@ -196,63 +199,7 @@ export default {
 			}
 		},
 
-		onClickMinus (e){
-			this._setCenterPos();
-			this.onZoomMinus(e);
-		},
 
-
-		onClickPlus (e){
-			this._setCenterPos();
-			this.onZoomPlus(e);
-		},
-
-		onZoomMinus (e){
-			this.stopEvent(e);
-			// make some magnetic thingis...
-			this.zoom = Math.max(0.1, this.zoom - this.zoomStep)
-			this.onZoomChange();
-		},
-
-		onZoomPlus (e){
-			this.stopEvent(e);
-			this.zoom = Math.min(3, this.zoom + this.zoomStep)
-			this.onZoomChange();
-		},
-
-		onZoomChange (forceRender){
-
-			if (this.zoom != this._lastZoom || forceRender){
-				this.onChangeCanvasViewConfig()
-				// put this into a reuqestNaimationFraem
-				this.setZoomedContainerPosition()
-				this.renderZoom()
-			}
-			this._lastZoom = this.zoom;
-		},
-
-
-
-		cleanUpZoom (){
-			if(this.container){
-				// css.remove(this.container, "MatcCanvasContainerAnimate");
-			} else {
-				this.logger.sendError(new Error("Could not cleanUpZoom. Container is null"));
-			}
-		},
-
-		setZoomedContainerPosition (){
-			if(	this._preZoomRelPos ){
-				var x = this._preZoomRelPos.x  * this.getZoomed(this.canvasPos.w, this.zoom);
-				var y = this._preZoomRelPos.y  * this.getZoomed(this.canvasPos.h, this.zoom);
-				var difX = Math.round(this._preZoomAbsPos.x - x);
-				var difY = Math.round(this._preZoomAbsPos.y - y);
-				this.canvasPos.x += difX;
-				this.canvasPos.y += difY;
-			}
-			delete this._preZoomRelPos;
-			delete this._preZoomAbsPos;
-		},
 
 		getNormalizedDeltaFB (event){
 			// Reasonable defaults
@@ -260,45 +207,44 @@ export default {
 			var LINE_HEIGHT = 40;
 			var PAGE_HEIGHT = 800;
 
-			var sX = 0, sY = 0,       // spinX, spinY
-							pX = 0, pY = 0;       // pixelX, pixelY
+			var sX = 0, sY = 0, pX = 0, pY = 0;
 
-				// Legacy
-				if ('detail'      in event) { sY = event.detail; }
-				if ('wheelDelta'  in event) { sY = -event.wheelDelta / 120; }
-				if ('wheelDeltaY' in event) { sY = -event.wheelDeltaY / 120; }
-				if ('wheelDeltaX' in event) { sX = -event.wheelDeltaX / 120; }
+			// Legacy
+			if ('detail'      in event) { sY = event.detail; }
+			if ('wheelDelta'  in event) { sY = -event.wheelDelta / 120; }
+			if ('wheelDeltaY' in event) { sY = -event.wheelDeltaY / 120; }
+			if ('wheelDeltaX' in event) { sX = -event.wheelDeltaX / 120; }
 
-				// side scrolling on FF with DOMMouseScroll
-				if ( 'axis' in event && event.axis === event.HORIZONTAL_AXIS ) {
-					sX = sY;
-					sY = 0;
+			// side scrolling on FF with DOMMouseScroll
+			if ( 'axis' in event && event.axis === event.HORIZONTAL_AXIS ) {
+				sX = sY;
+				sY = 0;
+			}
+
+			pX = sX * PIXEL_STEP;
+			pY = sY * PIXEL_STEP;
+
+			if ('deltaY' in event) { pY = event.deltaY; }
+			if ('deltaX' in event) { pX = event.deltaX; }
+
+			if ((pX || pY) && event.deltaMode) {
+				if (event.deltaMode === 1) {          // delta in LINE units
+					pX *= LINE_HEIGHT;
+					pY *= LINE_HEIGHT;
+				} else {                             // delta in PAGE units
+					pX *= PAGE_HEIGHT;
+					pY *= PAGE_HEIGHT;
 				}
+			}
 
-				pX = sX * PIXEL_STEP;
-				pY = sY * PIXEL_STEP;
+			// Fall-back if spin cannot be determined
+			if (pX && !sX) { sX = (pX < 1) ? -1 : 1; }
+			if (pY && !sY) { sY = (pY < 1) ? -1 : 1; }
 
-				if ('deltaY' in event) { pY = event.deltaY; }
-				if ('deltaX' in event) { pX = event.deltaX; }
-
-				if ((pX || pY) && event.deltaMode) {
-					if (event.deltaMode == 1) {          // delta in LINE units
-						pX *= LINE_HEIGHT;
-						pY *= LINE_HEIGHT;
-					} else {                             // delta in PAGE units
-						pX *= PAGE_HEIGHT;
-						pY *= PAGE_HEIGHT;
-					}
-				}
-
-				// Fall-back if spin cannot be determined
-				if (pX && !sX) { sX = (pX < 1) ? -1 : 1; }
-				if (pY && !sY) { sY = (pY < 1) ? -1 : 1; }
-
-				return { spinX  : sX,
-								spinY  : sY,
-								pixelX : pX,
-								pixelY : pY };
+			return { spinX  : sX,
+							spinY  : sY,
+							pixelX : pX,
+							pixelY : pY };
 
 		}
 	},
