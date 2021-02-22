@@ -1,4 +1,3 @@
-
 <template>
   <div class="MatcWidgetTypeDropDown">
     <div data-dojo-attach-point="button" class="MatcWidgetTypeDropDownCntr">

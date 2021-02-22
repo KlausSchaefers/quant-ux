@@ -1107,56 +1107,8 @@ export default {
       parent.style.letterSpacing = style.letterSpacing * this._scaleX + "px";
     },
 
-    /**********************************************************************
-     * QDate methods!
-     **********************************************************************/
 
-    convertQDateToString: function(qdate) {
-      var d = this.convertQDateToDate(qdate);
-      return d.toLocaleDateString();
-    },
 
-    isEqualDate: function(a, b) {
-      if (a && b) {
-        return a.d == b.d && a.m == b.m && a.y == b.y;
-      }
-      return false;
-    },
-
-    isQDate: function(d) {
-      return d && d.d != null && d.m != null && d.y != null;
-    },
-
-    createNow: function() {
-      return this.convertDateToQdate(new Date());
-    },
-
-    createQDate: function(year, month, day) {
-      // use date object to parse correctly..
-      var d = new Date(year, month, day);
-      return this.convertDateToQdate(d);
-    },
-
-    convertDateToQdate: function(d) {
-      return {
-        d: d.getDate(),
-        m: d.getMonth(),
-        y: d.getFullYear()
-      };
-    },
-
-    convertQDateToDate: function(qdate) {
-      return new Date(qdate.y, qdate.m, qdate.d);
-    },
-
-    convertMillisToQDate: function(ms) {
-      var d = new Date(ms);
-      return this.convertDateToQdate(d);
-    },
-
-    convertQDateToMillis: function(qdate) {
-      return new Date(qdate.y, qdate.m, qdate.d).getTime();
-    },
 
     /**********************************************************************
      * helper methods!

@@ -220,6 +220,7 @@ export default {
     },
 
     onSelect: function(e) {
+
       /**
        * we have here two kind of events. The plus or minus button were pressed. In this
        * case we do not update the value and do not close. Alternativly a date was selected,
@@ -237,8 +238,8 @@ export default {
           noheat: true,
           e: e.e
         };
-        this.emit("stateChange", event);
         this.emitDataBinding(event.value);
+        this.emit("stateChange", event);
         this.setValue(event.value);
 
         /**
@@ -253,7 +254,7 @@ export default {
         var event = {
           type: "navigate",
           value: e.value,
-          runTransition: true,
+          runTransition: false,
           noheat: true,
           e: e.e
         };
