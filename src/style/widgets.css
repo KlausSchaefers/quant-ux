@@ -628,9 +628,11 @@
 
 .MatcWidgetTypeTable table td{
 	border:none;
+	vertical-align: middle !important;
 }
 
 .MatcWidgetTypeTable table.MatcWidgetTypeTableBorderCell td{
+	padding: 0px;
 	border-style:solid;
 }
 
@@ -639,8 +641,9 @@
 	display: inline-block;
 }
 
-.MatcWidgetTypeTableActionCntr{
+.MatcWidgetTypeTable table .MatcWidgetTypeTableActionCntr{
 	text-align: right;
+	padding: 0px;
 }
 
 .MatcWidgetTypeTableAction.MatcWidgetTypeTableActionOnlyHover{
@@ -1520,6 +1523,7 @@
 	border: 1px dashed #ff353a;
 	border-radius:0px;
 }
+
 
 
 .MatchWidgetTypeTextBox{
