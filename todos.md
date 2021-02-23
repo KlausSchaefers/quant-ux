@@ -30,11 +30,13 @@
  - copy paste (started, seems ok)
  - remove onWidgetPositionCHange ()
     - repeater will rerender all the stuff..
- - themes adding
+ - themes adding (X)
  - group move (X)
  - master screens (X)
  - properties live update (X)
  - analytic canvas
+   - clean up
+   - graph & clean up
  - share canvas
 
  - undo screen does not update grid (x)
@@ -45,6 +47,7 @@
 - Grid and ruler could somehow get snapp positon also from source model ()
 - analytic canvas
 - help should be better
+- detach template...
 
 ## Bugs
   - REST Name
@@ -57,3 +60,4 @@
   - multi screen selection.
   - Selection of screens only on label or layer
   - Implement partial rendering to clean up DND and Resize End code
+  -

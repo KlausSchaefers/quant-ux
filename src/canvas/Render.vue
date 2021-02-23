@@ -337,12 +337,12 @@ export default {
 				 * We keep here the sourceModel for rendering and zooming.
 				 * The rest stays as is with the zoomedModel as this.model
 				 */
-				this.sourceModel = sourceModel;
+				this.sourceModel = ModelUtil.inlineTemplateModifies(sourceModel);
 				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
 
 				this.renderFlowViewFast(this.sourceModel, this.model, isResize);
 
-				this.afterRender();
+				this.afterRender(this.sourceModel, this.model);
 
 				this.renderComments();
 

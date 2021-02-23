@@ -25,6 +25,7 @@
 	</div>
 
 </template>
+
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
@@ -55,25 +56,26 @@ import InlineEdit from 'canvas/InlineEdit'
 import Scroll from 'canvas/Scroll'
 import Upload from 'canvas/Upload'
 import Comment from 'canvas/Comment'
+import KeyBoard from 'canvas/KeyBoard'
+import Resize from 'canvas/Resize'
+import Replicate from 'canvas/Replicate'
 import Analytics from 'dash/Analytics'
-
 import FastDomUtil from 'core/FastDomUtil'
 
 export default {
     name: 'AnalyticCanvas',
-    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Heat],
+    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, KeyBoard, Resize, Replicate, Comment, Heat],
     data: function () {
         return {
-            mode: "view",
-            zoom: 0.4,
-            zoomLevelPos: 3,
-            analyticMode: "HeatmapClick",
-            resizeEnabled: false,
-            renderDND: false,
-            dragNDropMinTimeSpan: 0,
-            wireInheritedWidgets: true,
-			taskLineOpacity: 1,
-			isBlackAndWhite: false
+					mode: "view",
+					zoom: 0.5,
+					analyticMode: "HeatmapClick",
+					resizeEnabled: false,
+					renderDND: true,
+					dragNDropMinTimeSpan: 0,
+					wireInheritedWidgets: true,
+					taskLineOpacity: 1,
+					isBlackAndWhite: false
         }
     },
     components: {},
@@ -110,6 +112,8 @@ export default {
 		this.initScrollBars();
 		this.initComment();
 		this.initSettings();
+		this.initWiring()
+		this.initKeys()
 
 		this.db = new DomBuilder();
 
@@ -129,7 +133,7 @@ export default {
 	},
 
 	setModelService (s) {
-		this.modelService = s
+		this.sourceModelService = s
 	},
 
 	setCommentService (s) {
@@ -147,7 +151,7 @@ export default {
 
 	setMouseData (data){
 		this.logger.log(0,"setMouseData", "enter > " + data.length);
-		// this.mouseData = this.computeMouseDistribution(data, this.model);
+		// this.mouseData = this.computeMouseDistribution(data, this.sourceModel);
 		this.mouseData = data
 		if(data.length ==0){
 			this.showError("No Mouse data was recorded");
@@ -192,6 +196,26 @@ export default {
 			this.isBlackAndWhite = value
 			this.setBW(value)
 		}
+	},
+
+
+	initWiring() {
+		this.logger.log(-1,"initWiring", "enter");
+		this.own(on(this.dndContainer, "mousedown", (e) => this.dispatchMouseDown(e)));
+	},
+
+
+	dispatchMouseDownScreen (e, id) {
+		this.logger.log(-1,"dispatchMouseDownScreen", "enter", id);
+		let dndDiv = this.screenDivs[id];
+		let screen = this.model.screens[id];
+		this.onScreenDndClick(screen.id, dndDiv, null);
+	},
+
+	dispatchMouseDownWidget (e, id) {
+	this.logger.log(-1,"dispatchMouseDownWidget", "enter", id);
+	 let div = this.widgetDivs[id]
+	 this.onWidgetDndClick(id, div);
 	},
 
 	/**********************************************************************
@@ -343,11 +367,15 @@ export default {
 			css.remove(this._analyticLastSelectedDiv, "MatcHeapMapWidgetSelected");
 			delete this._analyticLastSelectedDiv;
 		}
-		if(this.analyticsDivs){
-			var div = this.analyticsDivs[id];
-			if(div){
-				css.add(div, "MatcHeapMapWidgetSelected");
-			}
+		if (this.analyticsDivs && this.analyticsDivs[id]) {
+			let div = this.analyticsDivs[id];
+			css.add(div, "MatcHeapMapWidgetSelected");
+			this._analyticLastSelectedDiv = div;
+		}
+
+		if (this.widgetDivs && this.widgetDivs[id]) {
+			let div = this.widgetDivs[id];
+			css.add(div, "MatcHeapMapWidgetSelected");
 			this._analyticLastSelectedDiv = div;
 		}
 	},
@@ -362,8 +390,7 @@ export default {
 	},
 
 	afterRender (){
-		this.logger.log(2,"afterRender", "entry > " + this.analyticMode);
-
+		this.logger.log(-1,"afterRender", "entry > " + this.analyticMode);
 		this.cleanUpAnalytics();
 
 		try{
@@ -375,16 +402,7 @@ export default {
 
 	},
 
-	wireEvents(){
-		this.logger.log(2,"wireEvents", "enter");
-		this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
-		for(var id in this.model.screens){
-			var dndDiv = this.screenDivs[id];
-			var screen = this.model.screens[id];
-			this.tempOwn(on(dndDiv, touch.press, lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
-		}
-		this.logger.log(4,"wireEvents", "exit");
-	},
+
 
 
 	hasSelect(){
@@ -405,12 +423,12 @@ export default {
 		/**
 		 * FIXME: Make this customisable
 		 */
-		if(this.model.type == "smartphone" || this.model.type == "tablet"){
-			this.defaultRadius = this.model.screenSize.w / 20;
-			this.defaultBlur = this.model.screenSize.w / 15;
+		if(this.sourceModel.type == "smartphone" || this.sourceModel.type == "tablet"){
+			this.defaultRadius = this.sourceModel.screenSize.w / 20;
+			this.defaultBlur = this.sourceModel.screenSize.w / 15;
 		} else {
-			this.defaultRadius = this.model.screenSize.w / 120;
-			this.defaultBlur = this.model.screenSize.w / 100;
+			this.defaultRadius = this.sourceModel.screenSize.w / 120;
+			this.defaultBlur = this.sourceModel.screenSize.w / 100;
 		}
 		this.logger.log(0,"onScreenRendered","adjust radios to " +this.defaultRadius);
 
@@ -419,8 +437,8 @@ export default {
 		var screenGrouping = this.df.groupBy("screen");
 
 		this.heatmapDivs = {};
-		for(var id in this.model.screens){
-			var screen = this.model.screens[id];
+		for(var id in this.sourceModel.screens){
+			var screen = this.sourceModel.screens[id];
 
 			var screenDF = screenGrouping.get(id);
 			var screenEvents = [];
@@ -428,23 +446,22 @@ export default {
 				screenEvents = screenDF.as_array();
 			}
 
-		    if(this["_render_" + this.analyticMode]){
+		  if(this["_render_" + this.analyticMode]){
 		    	/**
 				 * create canvas
 				 */
-		    	var div = this.createBox(screen);
-		    	css.add(div, "MatcHeatMapScreen")
+		    var div = this.createBox(screen);
+		    css.add(div, "MatcHeatMapScreen")
 				var cntr = this.db.div("MatcHeapMapContainer").build(div)
 
-			   	var canvas = this.db.canvas(screen.w, screen.h).build(cntr);
-			    var ctx = canvas.getContext('2d');
+			  var canvas = this.db.canvas(screen.w, screen.h).build(cntr);
+			  var ctx = canvas.getContext('2d');
 
 				this["_render_" + this.analyticMode](screenEvents, screen, ctx, div);
 
 				if(this.hasSelect()){
 					this.tempOwn(on(div, touch.press, lang.hitch(this, "onScreenDndClick", screen.id, div, null)));
 				}
-
 
 				this.widgetContainer.appendChild(div);
 
@@ -461,21 +478,9 @@ export default {
 		 * A little hack but I dunno have a better way...
 		 */
 		if("UserJourney"!=this.analyticMode && "Gesture" !=this.analyticMode){
-
-			var widgets = this.getOrderedWidgets(this.model.widgets);
-			for(var i=0; i< widgets.length; i++){
-				var widget = widgets[i];
-				if(widget){
-					let div = this.createBox(widget);
-					css.add(div, "MatcHeapMapWidget MatcWidget");
-					this.widgetContainer.appendChild(div);
-					if(this.hasSelect()){
-						this.tempOwn(on(div, touch.press, lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
-					}
-					this.analyticsDivs[widget.id] = div;
-				}
-
-			}
+			this.hideWidgetDND = true
+		} else {
+			this.hideWidgetDND = false
 		}
 
 
@@ -491,7 +496,7 @@ export default {
 		 * or at least soft the events by screen
 		 */
 		let mouseData = this.mouseData.filter(m => m.screen === screen.id)
-		let data = this.computeMouseDistribution(mouseData, this.model);
+		let data = this.computeMouseDistribution(mouseData, this.sourceModel);
 		if (data[screen.id]) {
 			let d = data[screen.id]
 			this.draw(ctx, d.values, d.max, screen.w, screen.h);
@@ -546,7 +551,7 @@ export default {
 	_render_HeatmapScrollView(screenEvents, screen, ctx){
 		this.logger.log(2,"_render_HeatmapScrollView", "entry > ");
 
-		var dist = this.computeScrollVisibiltyDistribution(screenEvents, this.model.screenSize.h, screen.h);
+		var dist = this.computeScrollVisibiltyDistribution(screenEvents, this.sourceModel.screenSize.h, screen.h);
 		this.drawSections(dist,ctx,screen.h, screen.w);
 
 	},
@@ -554,7 +559,7 @@ export default {
 	_render_HeatmapScrollTime(screenEvents, screen, ctx){
 		this.logger.log(2,"_render_HeatmapScrollTime", "entry > ");
 
-		var dist = this.computeScrollDurationDistrubtion(screenEvents, this.model.screenSize.h, screen.h);
+		var dist = this.computeScrollDurationDistrubtion(screenEvents, this.sourceModel.screenSize.h, screen.h);
 		this.drawSections(dist,ctx,screen.h, screen.w);
 
 	},
@@ -751,7 +756,7 @@ export default {
 			 * Be aware of the overlay...
 			 */
 			var screenID = this.getEventScreenId(e);
-			var screen = this.model.screens[screenID];
+			var screen = this.sourceModel.screens[screenID];
 			if(screen){
 				if(e.type =="SessionStart"){
 					let x = screen.x - Math.max(10, Math.round(30 * this.zoom));
@@ -846,7 +851,7 @@ export default {
 			 * Be aware of the overlay...
 			 */
 			var screenID = this.getEventScreenId(e);
-			var screen = this.model.screens[screenID];
+			var screen = this.sourceModel.screens[screenID];
 			if(screen){
 				var to = {};
 				if(e.type =="SessionStart"){
@@ -856,8 +861,8 @@ export default {
 					from = this._addToGraph(from, to, graph);
 				} else if(e.x >=0 && e.y >=0 && !e.noheat) {
 
-					if (e.widget && this.model.widgets[e.widget]){
-						var widget = this.model.widgets[e.widget];
+					if (e.widget && this.sourceModel.widgets[e.widget]){
+						var widget = this.sourceModel.widgets[e.widget];
 						to.x = Math.round(widget.x + widget.w/2);
 						to.y = Math.round(widget.y + widget.h/2);
 						from = this._addToGraph(from, to, graph);
@@ -909,7 +914,7 @@ export default {
 
 
 			var screenID = this.getEventScreenId(e);
-			var screen = this.model.screens[screenID];
+			var screen = this.sourceModel.screens[screenID];
 			if(screen && gesture){
 				var line = [];
 
@@ -1018,7 +1023,7 @@ export default {
 
 
 			var views = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				views[screen.id] =screenLoadCounts.get(screen.id,null, 0)
@@ -1040,7 +1045,7 @@ export default {
 			var sessionCount = sessions.size().size();
 
 			var tests = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				tests[screen.id] =0;
@@ -1070,7 +1075,7 @@ export default {
 
 
 			var views = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				views[screen.id] =screenLoadCounts.get(screen.id,null, 0)
@@ -1092,7 +1097,7 @@ export default {
 			var sessionCount = sessions.size().size();
 
 			var tests = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				tests[screen.id] =0;
@@ -1128,7 +1133,7 @@ export default {
 
 
 			var times = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				var screenTimeDF = screenTimeGrouping.get(screen.id);
@@ -1168,7 +1173,7 @@ export default {
 
 
 			var times = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				var screenTimeDF = overlayGrouping.get(screen.id);
@@ -1209,7 +1214,7 @@ export default {
 
 
 			var clicks = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				clicks[screen.id] = widgetScreenEvents.get(screen.id,null, 0);
@@ -1240,7 +1245,7 @@ export default {
 			var widgetScreenEvents = widgetEvents.count("screen");
 
 			var clicks = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				clicks[screen.id] = widgetScreenEvents.get(screen.id,null, 0);
@@ -1270,7 +1275,7 @@ export default {
 			var totalWidgetEvents = widgetScreenEvents.sum();
 
 			var clicks = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				clicks[screen.id] = widgetScreenEvents.get(screen.id,null, 0);
@@ -1299,7 +1304,7 @@ export default {
 			var totalWidgetEvents = widgetScreenEvents.sum();
 
 			var clicks = {};
-			var screens = this.getScreens(this.model);
+			var screens = this.getScreens(this.sourceModel);
 			for(var s=0; s< screens.length; s++){
 				var screen = screens[s];
 				clicks[screen.id] = widgetScreenEvents.get(screen.id,null, 0);
@@ -1322,7 +1327,7 @@ export default {
 
 			var widgets = {};
 
-			var data = analytics.getWidgetStatistics(this.model, this.df);
+			var data = analytics.getWidgetStatistics(this.sourceModel, this.df);
 
 			for(var id in data){
 				widgets[id] = data[id];
@@ -1380,8 +1385,8 @@ export default {
 	},
 
 	setModel(model){
-		this.model = model;
-		this.grid = this.model.grid;
+		this.sourceModel = model;
+		this.grid = this.sourceModel.grid;
 		this.loadComments()
 	},
 
@@ -1520,13 +1525,6 @@ export default {
 	 ***************************************************************************/
 
 	initMouseTracker(){
-
-//		this._debugMouseLabel = document.createElement("div");
-//		this._debugMouseLabel.innerHTML="[0,0]";
-//		css.add(this._debugMouseLabel,"MatcStatusItem");
-//		this.status.appendChild(this._debugMouseLabel);
-//		this.own(on(win.body(),"mousemove", lang.hitch(this,"onMouseMove")));
-//
 
 	},
 

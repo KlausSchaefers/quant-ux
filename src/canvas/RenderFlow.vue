@@ -39,7 +39,7 @@ export default {
 			 **********************************************************************/
 
 			renderFlowViewFast (sourceModel, zoomedModel, isResize = false){
-				this.logger.log(1,"renderFlowViewFast", "enter");
+				this.logger.log(-1,"renderFlowViewFast", "enter");
 
 				/**
 				 * Check here if we really need a rerendering. SOmetimes this is also
@@ -233,10 +233,6 @@ export default {
 						this.cleanUpNode(dnd)
 						this.updateBox(zoomedScreen, dnd)
 
-						/**
-						 * TODO: cleanUpNode() also removes the name. We should keep it :D
-						 * Is there a better waz to remove all the other screen buttons?
-						 */
 						var lbl = document.createElement("div");
 						css.add(lbl, "MatcScreenLabel");
 						this.setTextContent(lbl, zoomedScreen.name);
@@ -291,7 +287,6 @@ export default {
 						* create dnd
 						*/
 					if (this.renderDND && !this.isElementLocked(widget)) {
-
 						div = this.createWidgetDnD(zoomedWidget);
 						if(widget.inherited){
 							css.add(div, "MatcWidgetDNDInherited");

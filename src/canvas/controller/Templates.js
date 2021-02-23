@@ -158,7 +158,7 @@ export default class Templates extends BaseController{
 			template.y =0;
 			template.templateType = "Widget";
 			template.type = widget.type;
-			template.visible=visible;
+			template.visible = visible;
 			template.name = name;
 			template.modified = new Date().getTime()
 			template.created = new Date().getTime()

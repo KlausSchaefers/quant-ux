@@ -10,14 +10,15 @@ class ModelUtil {
 
 
     inlineTemplateModifies(model) {
+      /**
+       * We set the template modfied date, so in RenderFlow we can recognize that we have to update the widget.
+       */
       if (model.templates) {
-
           for (let widgetID in model.widgets) {
               let widget = model.widgets[widgetID]
               if (widget.template) {
                 var t = model.templates[widget.template];
                 widget._templateModified = t.modified
-                console.debug(widget.name, widget._templateModified)
               }
           }
         }

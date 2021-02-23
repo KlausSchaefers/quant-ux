@@ -85,7 +85,7 @@ export default {
             zoomLevelPos: 3,
             analyticMode: "HeatmapClick",
             resizeEnabled: false,
-            renderDND: false,
+            renderDND: true,
             dragNDropMinTimeSpan: 0,
             wireInheritedWidgets: true,
             taskLineOpacity: 1
