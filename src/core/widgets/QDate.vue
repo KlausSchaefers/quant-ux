@@ -122,18 +122,18 @@ export default {
      * The selection flag will indicate if we can close the
      * popup.
      */
-    emitStateChange: function(type, value, e, selection) {
+    emitStateChange (type, value, e, selection, runTransition = true) {
       var event = {
         type: type,
         value: value,
-        runTransition: true,
+        runTransition: runTransition,
         e: e,
         selection: selection
       };
       this.emit("stateChange", event);
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -256,7 +256,7 @@ export default {
         this.tds.push(td);
         this.tblHeaderTds.push(td);
       }
-      
+
       for (let i = 0; i < 35; i++) {
         if (i % 7 == 0) {
           tr = db.tr().build(tbl);

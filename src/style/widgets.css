@@ -629,9 +629,11 @@
 
 .MatcWidgetTypeTable table td{
 	border:none;
+	vertical-align: middle !important;
 }
 
 .MatcWidgetTypeTable table.MatcWidgetTypeTableBorderCell td{
+	padding: 0px;
 	border-style:solid;
 }
 
@@ -640,8 +642,9 @@
 	display: inline-block;
 }
 
-.MatcWidgetTypeTableActionCntr{
+.MatcWidgetTypeTable table .MatcWidgetTypeTableActionCntr{
 	text-align: right;
+	padding: 0px;
 }
 
 .MatcWidgetTypeTableAction.MatcWidgetTypeTableActionOnlyHover{
@@ -792,10 +795,13 @@
 	height: 15%;
 }
 
-.MatcWidgetTypeDateBody table{
+.MatcWidgetTypeDateBody table,
+.MatcWidgetTypeDateBody table th td,
+.MatcWidgetTypeDateBody table tr td {
 	width:100%;
 	height: 100%;
 	text-align: center;
+	vertical-align: middle;
 }
 
 
@@ -1518,6 +1524,7 @@
 	border: 1px dashed #ff353a;
 	border-radius:0px;
 }
+
 
 
 .MatchWidgetTypeTextBox{

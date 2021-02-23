@@ -23,7 +23,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this.log = new Logger("TextBox");
       if (this.mode == "simulator") {
         this.input = document.createElement("input");
@@ -39,11 +39,11 @@ export default {
       this._shadowNodes = [this.input];
     },
 
-    getAnimationNode: function() {
+    getAnimationNode () {
       return this.domNode.parentNode;
     },
 
-    onSimulatorEvent: function(type, screenID, widgetID) {
+    onSimulatorEvent (type, screenID, widgetID) {
       this.log.log(5, "onSimulatorEvent", this.model.id, type, "@" , screenID, widgetID)
       if (type != "ScreenScroll" && type != "Animation" && type != "ScreenGesture" && widgetID != this.model.id) {
         if (this.hasFocus) {
@@ -52,7 +52,7 @@ export default {
       }
     },
 
-    wireEvents: function() {
+    wireEvents () {
       if (!this.wired) {
         this.own(
           this.addClickListener(this.domNode, lang.hitch(this, "onInputClick"))
@@ -71,19 +71,19 @@ export default {
     /**
      * For child classes to hook in
      */
-    afterWiredEvents: function() {},
+    afterWiredEvents () {},
 
-    getLabelNode: function() {
+    getLabelNode () {
       return this.input;
     },
 
-    onInputClick: function(e) {
+    onInputClick (e) {
       this.log.log(0, "onInputClick", "enter");
       this.stopPropagation(e);
       this.emitClick(e);
     },
 
-    onFocus: function(e) {
+    onFocus (e) {
       this.log.log(0, "onFocus", "enter >" + this.lastValidation);
       this.stopPropagation(e);
 
@@ -96,11 +96,11 @@ export default {
       this.afterFocus();
     },
 
-    afterFocus: function() {
+    afterFocus () {
       this.initCompositeState(this._readValue());
     },
 
-    onKeyPress: function(e) {
+    onKeyPress (e) {
       this.log.log(3, "onKeyPress", "enter > ");
       this.addCompositeSubState(this._readValue());
       this.value = this._readValue();
@@ -117,7 +117,7 @@ export default {
       }
     },
 
-    onEnterPressed: function() {
+    onEnterPressed () {
       this.input.blur();
       var gesture = {
         type: "KeyboardEnter"
@@ -125,7 +125,7 @@ export default {
       this.emit("gesture", gesture);
     },
 
-    onBlur: function(e) {
+    onBlur (e) {
       this.log.log(3, "onBlur", "enter");
       this.stopPropagation(e);
 
@@ -146,14 +146,14 @@ export default {
       this.emit("blur", {});
     },
 
-    getStateOptions: function() {
+    getStateOptions () {
       return {
         valid: this.lastValidation,
         focus: this.hasFocus
       };
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "text",
         value: this._readValue(),
@@ -167,7 +167,7 @@ export default {
     /**
      * Subclasses my overwrite this...
      */
-    _readValue: function() {
+    _readValue () {
       if (this.mode == "simulator") {
         return this.input.value;
       } else {
@@ -175,7 +175,7 @@ export default {
       }
     },
 
-    setState: function(state, t) {
+    setState (state, t) {
       if (state && state.type == "text") {
         /**
          * If we have children its an animation...
@@ -207,16 +207,16 @@ export default {
     /**
      * child classes can overwrite
      */
-    afterSetState: function() {},
+    afterSetState () {},
 
-    cleanUp: function() {
+    cleanUp () {
       if (this.keyListener) {
         this.keyListener.remove();
       }
       delete this.keyListener;
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._validStyle = lang.clone(style);
@@ -304,15 +304,15 @@ export default {
     /**
      * Child classes can do something in here
      */
-    beforeSetStyle: function() {},
+    beforeSetStyle () {},
 
-    getPlaceHolderColor: function(style) {
+    getPlaceHolderColor (style) {
       var c = new Color(style.color);
       c.a = 0.5;
       return c.toString();
     },
 
-    addCssClass: function(selector, styles) {
+    addCssClass (selector, styles) {
       if (!this._styleNode) {
         this._styleNode = [];
       }
@@ -329,11 +329,11 @@ export default {
       this._styleNode.push(style);
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
-    setValue: function(value, ignoreValidation) {
+    setValue (value, ignoreValidation) {
       if (value != null && value != undefined && this.value != value) {
         this.value = value;
         css.remove(this.input, "MatcWidgetTypeTextBoxInputPlaceholder");
@@ -357,7 +357,7 @@ export default {
       }
     },
 
-    _validateValue: function(value) {
+    _validateValue (value) {
       var validation = this.model.props.validation;
       if (validation) {
         var type = validation.type;
@@ -471,6 +471,13 @@ export default {
 
     isValid: function(showError) {
       return this.validate(this._readValue(), showError);
+    },
+
+    _setDataBindingValue (v) {
+      if (this.isQDate(v)) {
+        v = this.convertQDateToString(v);
+      }
+      this.setValue(v);
     },
 
     setPlaceholder: function(msg) {

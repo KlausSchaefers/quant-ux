@@ -16,31 +16,55 @@ export default {
 			initDefaultDataBinding (model) {
 				this.logger.log(3, "initDefaultDataBinding","enter ");
 
+				let bindingsCount = {}
+				Object.values(model.widgets).forEach(w => {
+					let databinding = this.getDataBinding(w)
+					if (databinding && databinding.default) {
+						let defaultVariable = databinding.default
+						/**
+						 * We could make this even better and check if we alswas have different states.
+						 */
+						if (!bindingsCount[defaultVariable]) {
+							bindingsCount[defaultVariable] = 1
+						} else {
+							bindingsCount[defaultVariable] = bindingsCount[defaultVariable] + 1
+						}
+					}
+				})
+
+				this.logger.log(1, "initDefaultDataBinding","counts ", this.bindingsCount);
+
 				/**
-				 * We might override stuff in here.
+				 * We should avoid overwriting stuff here, e.g.
+				 * if we have two widhets pointing to the same value
 				 */
 				Object.values(model.widgets).forEach(w => {
 					let databinding = this.getDataBinding(w)
 					if (databinding && databinding.default && w.props) {
 						let defaultVariable = databinding.default
-						let props = w.props
-						if (props.checked === true || props.checked === false) {
-							this.logger.log(5, "initDefaultDataBinding", "set (checked):" + w.name, props.checked);
-							this.setDataBindingByKey(defaultVariable, props.checked)
-						} else if (props.selected) {
-							this.logger.log(5, "initDefaultDataBinding", "set (selected): " + w.name, props.selected);
-							this.setDataBindingByKey(defaultVariable, props.selected)
-						} else if (props.value) {
-							this.logger.log(-1, "initDefaultDataBinding", "set (value): " + w.name, props.value);
-							this.setDataBindingByKey(defaultVariable, props.value)
-						} else if (props.active === true || props.active === false) {
-							this.logger.log(-1, "initDefaultDataBinding", "set (active): " + w.name, props.active);
-							this.setDataBindingByKey(defaultVariable, props.active)
+						if (bindingsCount[defaultVariable] === 1) {
+							let props = w.props
+							if (props.checked === true || props.checked === false) {
+								this.logger.log(5, "initDefaultDataBinding", "set (checked):" + w.name, props.checked);
+								this.setDataBindingByKey(defaultVariable, props.checked)
+							} else if (props.selected) {
+								this.logger.log(5, "initDefaultDataBinding", "set (selected): " + w.name, props.selected);
+								this.setDataBindingByKey(defaultVariable, props.selected)
+							} else if (props.value) {
+								this.logger.log(-1, "initDefaultDataBinding", "set (value): " + w.name, props.value);
+								this.setDataBindingByKey(defaultVariable, props.value)
+							} else if (props.active === true || props.active === false) {
+								this.logger.log(-1, "initDefaultDataBinding", "set (active): " + w.name, props.active);
+								this.setDataBindingByKey(defaultVariable, props.active)
+							} else {
+								// this.logger.log(6, "initDefaultDataBinding", "Could not set default: " + w.name, w.props);
+							}
 						} else {
-							// this.logger.log(6, "initDefaultDataBinding", "Could not set default: " + w.name, w.props);
+							this.logger.log(-1, "initDefaultDataBinding","do not init ", defaultVariable);
 						}
 					}
 				})
+				this.logger.log(-1, "initDefaultDataBinding","exit ", this.dataBindingValues);
 
 				/**
 				 * Once we introduce default values via a UI configuration, we
@@ -93,29 +117,7 @@ export default {
 			onUIWidgetDataBinding (screenID, widgetID, variable, value){
 
 				this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
-				/*
-				let elements = JSONPath.getJsonPath(variable)
-				let current = elements.shift()
-				let node = this.dataBindingValues
-				let i = 0
-				while (current && i < 100) {
-					i++
-					if (elements.length > 0) {
-						if (!node[current]) {
-							if (elements[0].toLowerCase) {
 
-								node[current] = {}
-							} else {
-								node[current] = []
-							}
-						}
-						node = node[current]
-						current = elements.shift()
-					} else {
-						node[current] = value;
-					}
-				}
-				*/
 				this.emit('onDataBindingChange', this.dataBindingValues)
 
 				/**
@@ -160,6 +162,7 @@ export default {
 			},
 
 			flushOutputDataBinding (screenID, widgetID) {
+
 				/**
 				 * This is needed for clicks in containers. As containers can have
 				 * an output databinding, we want to set here the correct value,

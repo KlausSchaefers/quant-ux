@@ -837,6 +837,11 @@ export default {
 				isValueMatchingRule (value, valid, rule) {
 					this.logger.log(2,"isValueMatchingRule","enter > " + rule.value + " " + rule.operator + " " + value + " / " + valid);
 
+					if (this.isQDate(value)) {
+						this.logger.log(-1,"isValueMatchingRule","convert q date > " + this.convertQDateToIsoString(value));
+						value = this.convertQDateToIsoString(value)
+					}
+
 					var operator = rule.operator;
 					/**
 					 * Special handling for checkbox group.
