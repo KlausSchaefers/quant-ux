@@ -29,13 +29,22 @@ export default {
     methods: {
 		initZoom (){
 			var eventType = this.getEventType();
-			this.zoomSessionHandler = new ZoomSessionHandler(this.zoom)
+			if (!this.zoomSessionHandler) {
+				this.zoomSessionHandler = new ZoomSessionHandler(this.zoom, [0.25, 0.5, 0.75, 1, 1.5, 2])
+			}
 			this.own(on(this.domNode, eventType, e => this.onMouseWheel(e)));
 			this.onZoomChange();
 			this.logger.log(2,"initZoom", "exit >  "+ eventType);
 		},
 
-
+		setSettingZoomSnap (active) {
+			this.logger.log(2,"setSettingZoomSnap", "enter >  "+ active);
+			if (active) {
+				this.zoomSessionHandler = new ZoomSessionHandler(this.zoom, [0.25, 0.5, 0.75, 1, 1.5, 2])
+			} else {
+				this.zoomSessionHandler = new ZoomSessionHandler(this.zoom, [])
+			}
+		},
 		getZoomFactor () {
 			return this.zoom;
 		},

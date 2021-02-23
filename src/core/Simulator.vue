@@ -108,6 +108,7 @@ import AnimationMixin from 'core/simulator/AnimationMixin'
 import MouseMixin from 'core/simulator/MouseMixin'
 import DataBindingMixin from 'core/simulator/DataBindingMixin'
 import EventMixin from 'core/simulator/EventMixin'
+import ModelUtil from 'core/ModelUtil'
 // import TaskMixin from 'core/simulator/TaskMixin'
 
 import Gestures from 'core/Gestures'
@@ -304,7 +305,7 @@ export default {
 						this.model = app;
 						this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 						this.model = Core.addContainerChildrenToModel(this.model);
-						this.model = Core.inlineTemplateStyles(this.model)
+						this.model = ModelUtil.inlineTemplateStyles(this.model)
 						if (this.currentScreen && this.currentScreen.id){
 							this.setScreenId(this.currentScreen.id)
 						}
@@ -453,7 +454,7 @@ export default {
 
 					this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 					this.model = Core.addContainerChildrenToModel(this.model);
-					this.model = Core.inlineTemplateStyles(this.model)
+					this.model = ModelUtil.inlineTemplateStyles(this.model)
 
 					this.initParent();
 

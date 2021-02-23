@@ -245,6 +245,13 @@ export default {
 
 						this.renderScreenButtons(dnd, zoomedScreen)
 					}
+
+					let sourceScreen = this.sourceModel.screens[zoomedScreen.id]
+					let gridDnd = this.screenGridDivs[zoomedScreen.id]
+					if (sourceScreen && gridDnd) {
+						this.updateBox(sourceScreen, gridDnd)
+					}
+
 			},
 
 			deleteScreen (id) {

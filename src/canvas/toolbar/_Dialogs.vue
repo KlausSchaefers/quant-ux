@@ -496,11 +496,11 @@ export default {
 			colorPicker.setValue(settings.keepColorWidgetOpen);
 			colorPicker.placeAt(colorCntr);
 
-			var renderCntr = db.div("form-group").build(cntr);
-			var renderCheckBox = this.$new(CheckBox);
-			renderCheckBox.setLabel("Enable fast rendering");
-			renderCheckBox.setValue(settings.fastRender);
-			renderCheckBox.placeAt(renderCntr);
+			var zoomCntr = db.div("form-group").build(cntr);
+			var zoomChkBox = this.$new(CheckBox);
+			zoomChkBox.setLabel("Snapp on zoom");
+			zoomChkBox.setValue(settings.zoomSnapp);
+			zoomChkBox.placeAt(zoomCntr);
 
 			var protoMotoCntr = db.div("form-group").build(cntr);
 			var protoMotoCheckBox = this.$new(CheckBox);
@@ -526,7 +526,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
-				this, "onSaveSettings", dialog, themeList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox, gridSnapTopLeftChkBox
+				this, "onSaveSettings", dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox
 			)));
 
 			dialog.popup(popup, this.template);
@@ -537,12 +537,12 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 
-		onSaveSettings:function(dialog, themeList, mouseWheelList, colorPicker, renderCheckBox, protoMotoCheckBox, gridSnapTopLeftChkBox){
+		onSaveSettings:function(dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
 				mouseWheelMode: mouseWheelList.getValue(),
 				keepColorWidgetOpen: colorPicker.getValue(),
-				fastRender: renderCheckBox.getValue(),
+				zoomSnapp: zoomChkBox.getValue(),
 				hasProtoMoto: protoMotoCheckBox.getValue(),
 				snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue()
 			};

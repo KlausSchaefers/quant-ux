@@ -3,7 +3,7 @@ import lang from 'dojo/_base/lang'
 
 export default class Templates extends BaseController{
 
-        updateTemplateStyle (id){
+    updateTemplateStyle (id){
 			this.logger.log(0,"updateTemplateStyle", "enter > " + id);
 
 			if (this.model.widgets[id]){
@@ -78,7 +78,8 @@ export default class Templates extends BaseController{
 				widget.focus = {};
 			}
 
-			this.onModelChanged([]);
+			template.modified = new Date().getTime()
+			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
 			this.render();
 		}
 
@@ -89,20 +90,18 @@ export default class Templates extends BaseController{
 				template.style = oldTemplate.style
 				widget.style = oldWidget.style
 			}
-			this.onModelChanged([]);
+			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
 			this.render();
 		}
 
 		undoUpdateWidget (command){
 			this.logger.log(0,"undoUpdateWidget", "enter > ", command);
 			this.modelRollbackUpdateTemplate(command.template, command.widget);
-			this.render();
 		}
 
 		redoUpdateWidget (command){
 			this.logger.log(0,"redoUpdateWidgetfunction", "enter > ");
 			this.modelUpdateTemplate(command.template, command.widget);
-			this.render();
 		}
 
 		/**********************************************************************
@@ -161,6 +160,8 @@ export default class Templates extends BaseController{
 			template.type = widget.type;
 			template.visible=visible;
 			template.name = name;
+			template.modified = new Date().getTime()
+			template.created = new Date().getTime()
 			return template;
 		}
 
@@ -257,7 +258,7 @@ export default class Templates extends BaseController{
 			if(groupID){
 				this.model.groups[groupID].template = group.id;
 			}
-			this.onModelChanged([]);
+			this.onModelChanged([{type: 'template', action: 'add'}]);
 			this.showSuccess("The template was created. You can find it in the 'Create' menu");
 		}
 

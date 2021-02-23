@@ -46,7 +46,7 @@ export default class ZoomSessionHandler {
          * snapp with dependen of the scroll velocity (e.g. frequencey of last events.)
          * For slow scrolling snapp could be 0.3 or so, whicjh for fast scroll it could be 0.7 or so
          */
-        if (dif < 0.05) {
+        if (dif < 0.03) {
           this.zoom = point
         }
       })

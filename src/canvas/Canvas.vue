@@ -353,7 +353,8 @@ export default {
 				layerListVisible: false,
 				showRuler: true,
 				fastRender: false,
-				hasProtoMoto: false
+				hasProtoMoto: false,
+				zoomSnapp: true
 			};
 
 			var s = this._getStatus("matcSettings");
@@ -405,9 +406,11 @@ export default {
 				if (s.layerListVisible === true || s.layerListVisible === false){
 					this.settings.layerListVisible = s.layerListVisible;
 				}
-
 				if (s.hasProtoMoto != null) {
 					this.settings.hasProtoMoto = s.hasProtoMoto
+				}
+				if(s.zoomSnapp === true || s.zoomSnapp === false){
+					this.settings.zoomSnapp = s.zoomSnapp
 				}
 			} else {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
@@ -463,6 +466,9 @@ export default {
 			if (s.hasProtoMoto != null) {
 				this.settings.hasProtoMoto = s.hasProtoMoto
 			}
+			if(s.zoomSnapp === true || s.zoomSnapp === false){
+				this.settings.zoomSnapp = s.zoomSnapp
+			}
 			this._setStatus("matcSettings",this.settings );
 			this.applySettings(this.settings);
 
@@ -471,6 +477,8 @@ export default {
 
 		applySettings (s){
 			this.logger.log(0,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
+
+			console.debug('apply', s)
 
 			if(s.moveMode){
 				this.moveMode = s.moveMode;
@@ -500,10 +508,15 @@ export default {
 				this.defaultLineWidth = s.lineWidth;
 			}
 
-			if(s.mouseWheelMode){
+			if (s.mouseWheelMode){
 				this._mouseWheelMode = s.mouseWheelMode;
 			}
-			if(s.canvasTheme){
+
+			if (s.zoomSnapp === false  || s.zoomSnapp === true) {
+				this.setSettingZoomSnap(s.zoomSnapp)
+			}
+
+			if (s.canvasTheme){
 				if(this._lastCanvasTheme){
 					css.remove(win.body(), this._lastCanvasTheme);
 				}

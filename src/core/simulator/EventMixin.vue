@@ -7,7 +7,7 @@ import has from 'dojo/has'
 import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
-import Core from 'core/Core'
+import ModelUtil from 'core/ModelUtil'
 
 export default {
 	name: 'EventMixin',
@@ -18,7 +18,7 @@ export default {
 
 				var widget = this.model.widgets[widgetID];
 				if (widget){
-					var hover  = Core.getTemplatedStyle(widget, this.model, 'hover');
+					var hover  = ModelUtil.getTemplatedStyle(widget, this.model, 'hover');
 					if (hover) {
 						var aninEvent = {
 							id : widgetID,
@@ -52,9 +52,9 @@ export default {
 				var widget = this.model.widgets[widgetID];
 
 				if (widget) {
-					var hover  = Core.getTemplatedStyle(widget, this.model, 'hover');
+					var hover  = ModelUtil.getTemplatedStyle(widget, this.model, 'hover');
 					if (hover) {
-						var style  = Core.getTemplatedStyle(widget, this.model, 'style');
+						var style  = ModelUtil.getTemplatedStyle(widget, this.model, 'style');
 						var toStyle = {};
 						for(var key in hover){
 							toStyle[key] = style[key];

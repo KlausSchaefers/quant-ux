@@ -83,7 +83,7 @@ export default {
        * Try to avoid rerenders if not needed
        */
       if (isUpdate && widget.props.screenID === this._screenID) {
-        this.logger.log(-1, 'render', 'exit update > ', widget.props)
+        this.logger.log(2, 'render', 'exit update > ', widget.props)
         return
       }
 
@@ -92,7 +92,7 @@ export default {
       let db = new DomBuilder()
 
       if (!this.isSymbol && this.app && widget.props.screenID) {
-          this.logger.log(-1, 'render', 'enter > full render')
+          this.logger.log(2, 'render', 'enter > full render')
           this._screenID = widget.props.screenID
           let screen = this.app.screens[widget.props.screenID]
           if (screen) {

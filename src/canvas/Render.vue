@@ -14,7 +14,6 @@ import RenderFlow from 'canvas/RenderFlow'
 import Wiring from 'canvas/Wiring'
 import ModelUtil from 'core/ModelUtil'
 
-
 export default {
     name: 'Render',
     mixins:[_Color, RenderFlow, Wiring],
