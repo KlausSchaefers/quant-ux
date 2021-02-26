@@ -212,6 +212,8 @@
 	left:0px;
 	color:#cecece;
 	font-size: 200%;
+	cursor: pointer;
+	user-select: none;
 }
 
 .MatcTopologySVG{

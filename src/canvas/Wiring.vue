@@ -117,6 +117,7 @@ export default {
 					this.dispatchMouseDownWidget(e, target._widgetID, target)
 					return
 				}
+
 				if (target._screenID) {
 					this.dispatchMouseDownScreen(e, target._screenID, target)
 					return
@@ -133,6 +134,7 @@ export default {
 
 			dispatchMouseDownWidget (e, id) {
 				this.logger.log(-1,"dispatchMouseDownWidget", "enter", id);
+
 				let widget = this.model.widgets[id];
 
 				if (!widget) {
@@ -149,21 +151,42 @@ export default {
 					return
 				}
 
+
 				if (this.mode == "edit" || this.mode == "addLine"){
-						let locked = widget.style.locked;
-						if(locked){
-							this.onWidgetDndClick(id, div, null)
-						} else {
+						/**
+						 * we check if the widget can move. This is not the case,
+						 * if it is locked, or if it not selected in case we have the Slected2Move mode on
+						 */
+						if(this.widgetCanMove(widget)){
 							this.onDragStart(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick", e);
+						} else {
+							/**
+							 * shouldbe mouse up...
+							 */
+							this.onWidgetDndClick(id, div, null, e)
 						}
 					return
 				}
 
 				if (this.mode == "view" ){
-					this.onWidgetDndClick(widget.id, div, null);
+					this.onWidgetDndClick(widget.id, div, null, e);
 					return
 				}
 
+			},
+
+			widgetCanMove(widget) {
+				if (widget.style.locked) {
+					return false
+				}
+				if (this.isMoveOnlySelected) {
+					/**
+					 * check if teh widget is selected. This can be because,
+					 * it is selected alone, in a multi or in a group.s
+					 */
+					return this.isWidgetSelected(widget.id)
+				}
+				return true
 			},
 
 			dispatchMouseDownScreen (e, id) {
@@ -183,13 +206,12 @@ export default {
 				/**
 				 * register dnd
 				 */
-				if (this.mode == "addLine") {
-					this.onDragStart(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", e);
-					return
-				}
-
-				if (this.mode == "edit") {
-					this.onDragStart(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", e);
+				if (this.mode == "addLine" || this.mode == "edit") {
+					if(this.screenCanMove(screen)){
+						this.onDragStart(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", e);
+					} else {
+						this.onScreenDndClick(screen.id, dndDiv, null, e)
+					}
 					return
 				}
 
@@ -197,6 +219,20 @@ export default {
 					this.tempOwn(on(dndDiv, "mousedown", lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
 					return
 				}
+			},
+
+			screenCanMove(screen) {
+				if (screen.style.locked) {
+					return false
+				}
+				if (this.isMoveOnlySelected) {
+					/**
+					 * check if teh widget is selected. This can be because,
+					 * it is selected alone, in a multi or in a group.s
+					 */
+					return this.isScreenSelected(screen.id)
+				}
+				return true
 			},
 
 			dispatchMouseDownLine (e, lineID, pointIndex, div) {

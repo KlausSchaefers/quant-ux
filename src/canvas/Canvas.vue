@@ -69,6 +69,7 @@ export default {
     data: function () {
         return {
 					mode: "edit",
+					isMoveOnlySelected: true,
           debug: false,
           grid: null,
           isPublic: false,
@@ -354,64 +355,13 @@ export default {
 				showRuler: true,
 				fastRender: false,
 				hasProtoMoto: false,
-				zoomSnapp: true
+				zoomSnapp: true,
+				selectMove: false
 			};
 
 			var s = this._getStatus("matcSettings");
 			if (s){
-				/**
-				 * Cant we use setSetiings her??
-				 */
-				if(s.canvasTheme){
-					this.settings.canvasTheme = s.canvasTheme;
-				}
-
-				if(s.showRuler != null){
-					this.settings.showRuler = s.showRuler;
-				}
-
-				if(s.lineColor){
-					this.settings.lineColor = s.lineColor;
-				}
-				if(s.lineWidth){
-					this.settings.lineWidth = s.lineWidth;
-				}
-				if(s.moveMode){
-					this.settings.moveMode = s.moveMode;
-				}
-				if(s.renderLines != null){
-					this.settings.renderLines = s.renderLines;
-				}
-				if(s.showDistance != null){
-					this.settings.showDistance = s.showDistance;
-				}
-				if(s.showAnimation != null){
-					this.settings.showAnimation = s.showAnimation;
-				}
-				if (s.snapGridOnlyToTopLeft != null) {
-					this.settings.snapGridOnlyToTopLeft = s.snapGridOnlyToTopLeft
-				}
-				if(s.keepColorWidgetOpen === true || s.keepColorWidgetOpen === false){
-					this.settings.keepColorWidgetOpen = s.keepColorWidgetOpen;
-				}
-				if(s.storePropView != null){
-					this.settings.storePropView = s.storePropView;
-				}
-				if(s.startToolsOnKeyDown != null){
-					this.settings.startToolsOnKeyDown = s.startToolsOnKeyDown;
-				}
-				if(s.mouseWheelMode != null){
-					this.settings.mouseWheelMode = s.mouseWheelMode;
-				}
-				if (s.layerListVisible === true || s.layerListVisible === false){
-					this.settings.layerListVisible = s.layerListVisible;
-				}
-				if (s.hasProtoMoto != null) {
-					this.settings.hasProtoMoto = s.hasProtoMoto
-				}
-				if(s.zoomSnapp === true || s.zoomSnapp === false){
-					this.settings.zoomSnapp = s.zoomSnapp
-				}
+				this.mergeSettings(s)
 			} else {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
 			}
@@ -423,13 +373,7 @@ export default {
 			return this.settings;
 		},
 
-		/**
-		 * Called from the dialog
-		 */
-		setSettings (s){
-			/**
-			 * Mixin values
-			 */
+		mergeSettings (s) {
 			if(s.canvasTheme){
 				this.settings.canvasTheme = s.canvasTheme;
 			}
@@ -469,16 +413,23 @@ export default {
 			if(s.zoomSnapp === true || s.zoomSnapp === false){
 				this.settings.zoomSnapp = s.zoomSnapp
 			}
-			this._setStatus("matcSettings",this.settings );
-			this.applySettings(this.settings);
+			if (s.selectMove === true || s.selectMove === false) {
+				this.settings.selectMove = s.selectMove
+			}
+		},
 
+		/**
+		 * Called from the dialog
+		 */
+		setSettings (s){
+			this.mergeSettings(s)
+			this._setStatus("matcSettings",this.settings);
+			this.applySettings(this.settings);
 			this.rerender();
 		},
 
 		applySettings (s){
 			this.logger.log(0,"applySettings", "enter > "  + s.canvasTheme + " &> " + s.moveMode);
-
-			console.debug('apply', s)
 
 			if(s.moveMode){
 				this.moveMode = s.moveMode;
@@ -514,6 +465,10 @@ export default {
 
 			if (s.zoomSnapp === false  || s.zoomSnapp === true) {
 				this.setSettingZoomSnap(s.zoomSnapp)
+			}
+
+			if (s.selectMove === true || s.selectMove === false) {
+				this.isMoveOnlySelected = s.selectMove
 			}
 
 			if (s.canvasTheme){

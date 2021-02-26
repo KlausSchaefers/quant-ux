@@ -79,9 +79,9 @@ export default {
 					this._preZoomAbsPos = this.getCanvasMousePosition(e);
 
 					if (dir < 0){
-						this.onZoomMinus(e);
+						this.onZoomMinus(e, delta.pixelY);
 					} else {
-						this.onZoomPlus(e);
+						this.onZoomPlus(e, delta.pixelY);
 					}
 					this.lastMouseWheel = now;
 				}
@@ -134,15 +134,15 @@ export default {
 			this.onZoomPlus(e);
 		},
 
-		onZoomMinus (e){
+		onZoomMinus (e, speed = 1){
 			this.stopEvent(e);
-			this.zoom = this.zoomSessionHandler.minus()
+			this.zoom = this.zoomSessionHandler.minus(speed)
 			this.onZoomChange();
 		},
 
-		onZoomPlus (e){
+		onZoomPlus (e, speed = 1){
 			this.stopEvent(e);
-			this.zoom = this.zoomSessionHandler.plus()
+			this.zoom = this.zoomSessionHandler.plus(speed)
 			this.onZoomChange();
 		},
 

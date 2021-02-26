@@ -644,6 +644,15 @@ export default {
 			return div;
 		},
 
+		createScreenLabel(screen) {
+			let lbl =document.createElement("div");
+			css.add(lbl, "MatcScreenLabel");
+			lbl._screenLabel = true
+			lbl._screenID = screen.id
+			this.setTextContent(lbl, screen.name);
+			return lbl
+		},
+
 		createScreen (screen){
 			this.logger.log(4,"createScreen", "enter");
 			var div = this.createBox(screen);

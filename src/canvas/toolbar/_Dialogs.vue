@@ -490,6 +490,12 @@ export default {
 			 */
 			db.label("MatcMarginTop","Other:").build(cntr);
 
+			var selectMoveCntr = db.div("form-group").build(cntr);
+			var selectMoveBox = this.$new(CheckBox);
+			selectMoveBox.setLabel("Select to move");
+			selectMoveBox.setValue(settings.selectMove);
+			selectMoveBox.placeAt(selectMoveCntr);
+
 			var colorCntr = db.div("form-group").build(cntr);
 			var colorPicker = this.$new(CheckBox);
 			colorPicker.setLabel("Keep colorpicker open");
@@ -526,7 +532,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
-				this, "onSaveSettings", dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox
+				this, "onSaveSettings", dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox
 			)));
 
 			dialog.popup(popup, this.template);
@@ -537,14 +543,15 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 
-		onSaveSettings:function(dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox){
+		onSaveSettings (dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
 				mouseWheelMode: mouseWheelList.getValue(),
 				keepColorWidgetOpen: colorPicker.getValue(),
 				zoomSnapp: zoomChkBox.getValue(),
 				hasProtoMoto: protoMotoCheckBox.getValue(),
-				snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue()
+				snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue(),
+				selectMove: selectMoveBox.getValue()
 			};
 
 			this.canvas.setSettings(settings);

@@ -185,9 +185,7 @@ export default {
 					this.screenDivs[screen.id] = dndDiv;
 					this.dndContainer.appendChild(dndDiv);
 
-					var lbl = document.createElement("div");
-					css.add(lbl, "MatcScreenLabel");
-					this.setTextContent(lbl, screen.name);
+					let lbl = this.createScreenLabel(zoomedScreen)
 					this.screenLabels[screen.id] = lbl;
 					dndDiv.appendChild(lbl);
 
@@ -240,9 +238,7 @@ export default {
 						this.cleanUpNode(dnd)
 						this.updateBox(zoomedScreen, dnd)
 
-						var lbl = document.createElement("div");
-						css.add(lbl, "MatcScreenLabel");
-						this.setTextContent(lbl, zoomedScreen.name);
+						let lbl = this.createScreenLabel(zoomedScreen)
 						this.screenLabels[screen.id] = lbl;
 						dnd.appendChild(lbl);
 

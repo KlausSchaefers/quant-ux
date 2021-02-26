@@ -611,7 +611,7 @@ export default {
       /**
        * 2) If SHIFT, CTRL or ALT is pressed, we add things to an selection
        */
-      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      if (e && e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
         /**
          * FIXME: This is an evil bug! This open in FireFox an popup!
          * Maybe we have to listen to RMC and stop it..

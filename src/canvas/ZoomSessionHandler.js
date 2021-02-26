@@ -23,19 +23,40 @@ export default class ZoomSessionHandler {
       this._tempZoom = zoom
     }
 
-    minus () {
+    minus (speed) {
       this.reset()
-      let v = Math.max(0.05, this._tempZoom - this.zoomStep)
-      return this.snapp(v)
+      let v = Math.max(0.05, this._tempZoom - this.getStep(speed))
+      return this.snapp(v, speed)
     }
 
-    plus () {
+    plus (speed) {
       this.reset()
-      let v = Math.min(3, this._tempZoom + this.zoomStep)
-      return this.snapp(v)
+      let v = Math.min(3, this._tempZoom + this.getStep(speed))
+      return this.snapp(v, speed)
+    }
+
+    getStep(speed) {
+      /**
+       * Make the zooming dependent on the mouse wheel speed.
+       * TODO: We could have something lire a logarithm ???
+       */
+      if (Math.abs(speed) > 20) {
+        return 0.1
+      }
+
+      /**
+       * To make the thing less sensitive we ignore tiny movements...
+       */
+      if (Math.abs(speed) === 1) {
+        return 0
+      }
+      return this.zoomStep
     }
 
     snapp (v) {
+      /***
+       * TODO: We could make the snapping dependent on the speed?
+       */
       let r = Math.round(v * 100) / 100
       this._tempZoom = r
       this.zoom = r

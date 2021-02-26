@@ -17,6 +17,30 @@ import topic from 'dojo/topic'
     },
     components: {},
     methods: {
+
+			isScreenSelected (id) {
+				if (this._selectedScreen) {
+					return this._selectedScreen.id === id
+				}
+				if (this._selectMulti) {
+					return this._selectMulti.indexOf(id) > -1
+				}
+				return false
+			},
+
+			isWidgetSelected (id) {
+				if (this._selectWidget) {
+					return this._selectWidget.id === id
+				}
+				if (this._selectMulti) {
+					return this._selectMulti.indexOf(id) > -1
+				}
+				if (this._selectGroup && this._selectGroup.children) {
+					return this._selectGroup.children.indexOf(id) > -1
+				}
+				return false
+			},
+
       onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
 					this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 
