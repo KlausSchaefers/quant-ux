@@ -33,21 +33,29 @@
  - themes adding (X)
  - group move (X)
  - master screens (X)
+ - comments
+ - moveToScreen
  - properties live update (X)
  - analytic canvas
    - clean up
    - graph & clean up
  - share canvas
+   - padd inherited model
+  - upload
 
  - undo screen does not update grid (x)
 
 - grid and ruler could use zoom to decide of to ceil or floor the labels
  - Filter mouse wheel events to prevent jumping back and forth and adopt snapp point acoording to grid (at leats50, 75, 100, 150, 200, 250, 300)
  - GridAndRuler should in case of Grid calculate the real position (distance and label)
+
 - Grid and ruler could somehow get snapp positon also from source model ()
+
 - analytic canvas
-- help should be better
-- detach template...
+
+- help should be better and more present
+
+- detach template. Make seperate section, could also host styles
 
 ## Bugs
   - REST Name

@@ -3,9 +3,12 @@
 	 <div class="MatcCanvas MatcAnalyticCanvas">
 		<div class="MatcCanvasFrame" data-dojo-attach-point="frame">
 			<div class="MatcCanvasContainer MatcCanvasZoomable " data-dojo-attach-point="container">
+			<div class="MatcCanvasContainer " data-dojo-attach-point="zoomContainer">
 				<div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div>
 				<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div>
 			</div>
+			<div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
+		</div>
 		</div>
 		<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
 			<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr">
@@ -43,7 +46,6 @@ import css from 'dojo/css'
 
 import Logger from 'common/Logger'
 import on from 'dojo/on'
-import touch from 'dojo/touch'
 import lang from 'dojo/_base/lang'
 
 import win from 'dojo/_base/win'
@@ -73,11 +75,16 @@ import Simulator from 'core/Simulator'
 import Util from 'core/Util'
 import QR from 'core/QR'
 
-import DomUtil from 'core/DomUtil'
+import KeyBoard from "canvas/KeyBoard";
+import Resize from "canvas/Resize";
+import Replicate from "canvas/Replicate";
+
+import DomUtil from 'core/FastDomUtil'
 
 export default {
     name: 'ShareCanvas',
-    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools, Zoom, InlineEdit, Scroll, Upload, Comment, Heat],
+    mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute,
+					  Tools, Zoom, InlineEdit, Scroll, Upload, Comment, KeyBoard, Resize, Replicate, Heat],
     data: function () {
         return {
             mode: "view",
@@ -97,10 +104,10 @@ export default {
 		postCreate (){
 			this.logger = new Logger("ShareCanvas");
 			this.logger.log(2,"postCreate", "entry");
-
 			this.domUtil = new DomUtil()
 
 			this.initSize()
+			this.initWiring()
 
 			this.cache = {};
 			this.moveMode ="classic";
@@ -505,30 +512,52 @@ export default {
 		},
 
 
-		/**********************************************************************
-		 * DnD.js overwrites
-		 **********************************************************************/
 
+		/**********************************************************************
+     * Wiring
+     **********************************************************************/
+
+    initWiring() {
+      this.logger.log(-1, "initWiring", "enter");
+      this.own(
+        on(this.dndContainer, "mousedown", (e) => this.dispatchMouseDown(e))
+      );
+    },
+
+		dispatchMouseDownCanvas (e) {
+			this.logger.log(-1,"dispatchMouseDownCanvas", "enter", e, this.mode);
+			this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, e);
+		},
+
+    dispatchMouseDownScreen(e, id) {
+      this.logger.log(-1, "dispatchMouseDownScreen", "enter", id);
+    },
+
+    dispatchMouseDownWidget(e, id) {
+      this.logger.log(-1, "dispatchMouseDownWidget", "enter", id);
+      let div = this.widgetDivs[id];
+      this.onWidgetDndClick(id, div);
+    },
 
 		onWidgetDndClick (id, div, pos ,e ){
 			this.stopEvent(e);
 			this.logger.log(-1,"onWidgetDndClick", "enter > " + id);
 			this.setState(0);
-			var widget = this.model.widgets[id];
-			if(widget){
-				var lines = this.getLinesForWidget(widget);
-				if (lines) {
-					var clickLine = this.getLineForGesture(lines, "click")
-					if (!clickLine){
-						clickLine = lines[0]
-					}
-					if (clickLine){
-						this.animateToScreen(clickLine.to, this.container);
-					}
-				}
-			} else {
-				this.highlightActionWidgets();
-			}
+			// var widget = this.model.widgets[id];
+			// if(widget){
+			// 	var lines = this.getLinesForWidget(widget);
+			// 	if (lines) {
+			// 		var clickLine = this.getLineForGesture(lines, "click")
+			// 		if (!clickLine){
+			// 			clickLine = lines[0]
+			// 		}
+			// 		if (clickLine){
+			// 			this.animateToScreen(clickLine.to, this.container);
+			// 		}
+			// 	}
+			// } else {
+			// 	this.highlightActionWidgets();
+			// }
 		},
 
 		highlightActionWidgets (){
@@ -576,7 +605,7 @@ export default {
 
 
 		animateToScreen (screenID, container){
-			css.add(container, "MatcShareCanvasAnimatedContainer");
+			// css.add(container, "MatcShareCanvasAnimatedContainer");
 			this.moveToScreen(screenID);
 
 			setTimeout(function(){
@@ -593,53 +622,9 @@ export default {
 		afterRender (){
 			this.logger.log(-1,"afterRender", "entry > " + this.analyticMode);
 			this.cleanUpAnalytics();
-			try{
-				// add hover widgets for all widgets with lines
-				var widgets = this.getOrderedWidgets(this.model.widgets);
-				for(var i=0; i< widgets.length; i++){
-					var widget = widgets[i];
-					if(widget){
-						var lines = this.getLinesForWidget(widget);
-						if (lines) {
-							var div = this.createBox(widget);
-							css.add(div, "MatcHeapMapWidget MatcWidget");
-							this.widgetContainer.appendChild(div);
-							if(this.hasSelect()){
-								this.tempOwn(on(div, touch.press, lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
-							}
-							this.analyticsDivs[widget.id] = div;
-						}
-					}
-				}
 
-			} catch(e){
-				this.logger.error("afterRender", "Could not render heatmaps ", e);
-				this.logger.sendError(e);
-			}
 
 		},
-
-
-		wireEvents (){
-			this.logger.log(-1,"wireEvents", "enter");
-			if(this.moveMode == "classic" && (this._mode == "edit" || this._mode == "view") ){
-				/**
-				 * In the classic mode the
-				 */
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
-
-				for(var id in this.model.screens){
-					var dndDiv = this.screenDivs[id];
-					var screen = this.model.screens[id];
-					if (dndDiv) {
-						this.tempOwn(on(dndDiv, touch.press, lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
-					}
-				}
-
-			}
-			this.logger.log(4,"wireEvents", "exit");
-		},
-
 
 		hasSelect (){
 			return this._mode!= "addComment";

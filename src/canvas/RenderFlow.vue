@@ -14,6 +14,7 @@ export default {
 				for (let id in zoomedModel.screens){
 						let zoomedScreen = zoomedModel.screens[id]
 						this.updateScreenDnd(zoomedScreen)
+						this.updateCommentDnd(zoomedScreen)
 				}
 
 				for (let id in zoomedModel.widgets){
@@ -32,6 +33,12 @@ export default {
 						}
 					}
 				}
+
+				this.afterUpdateDnd(zoomedModel)
+			},
+
+			afterUpdateDnd () {
+				// can be implemented in child classes
 			},
 
 			/**********************************************************************

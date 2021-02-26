@@ -234,9 +234,6 @@ export default {
 				if(a2){
 					supportedLine[l-1] = a2[1];
 				}
-
-
-
 				return supportedLine;
 			},
 
@@ -525,6 +522,7 @@ export default {
 			},
 
 			cleanUpSVG () {
+
 				let nodes = this.dndContainer.querySelectorAll('svg')
 				nodes.forEach(n => {
 					this.dndContainer.removeChild(n)

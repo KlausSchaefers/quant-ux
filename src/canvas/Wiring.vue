@@ -213,13 +213,10 @@ export default {
 
 			dispatchMouseDownCanvas (e) {
 				this.logger.log(-1,"dispatchMouseDownCanvas", "enter", e, this.mode);
-
-
 				if (this.mode === "edit" || this.mode === "view" || this.mode === "data"){
 					this.onSelectionStarted(e);
 					return
 				}
-
 			},
 
 

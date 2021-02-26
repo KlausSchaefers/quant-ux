@@ -388,7 +388,7 @@ export default {
 						ring.setPercent(1);
 					}
 
-					this.widgetContainer.appendChild(div);
+					this.dndContainer.appendChild(div);
 					job.div = div;
 					job.ring = ring;
 				}

@@ -251,18 +251,26 @@ export default {
 				h: this.canvasPos.h,
 				w: this.canvasPos.w
 			}
+
+			this.container.style.height = this.containerSize.h + "px";
+			this.container.style.width = this.containerSize.w + "px";
+
+
 		},
 
 
 		setContainerPos (ignoreScollUpdate){
 
-			this.domUtil.setPos(this.container, this.canvasPos)
-			this.domUtil.setScale(this.zoomContainer, this.zoom)
-
 			this.containerSize = {
 				h: this.getZoomed(this.canvasPos.h, this.zoom),
 				w: this.getZoomed(this.canvasPos.w, this.zoom)
 			}
+
+			this.domUtil.setPos(this.container, this.canvasPos)
+			this.domUtil.setScale(this.zoomContainer, this.zoom)
+
+			this.container.style.height = this.containerSize.h + "px";
+			this.container.style.width = this.containerSize.w + "px";
 
 			this.dndContainer.style.height = this.containerSize.h + "px";
 			this.dndContainer.style.width = this.containerSize.w + "px";
