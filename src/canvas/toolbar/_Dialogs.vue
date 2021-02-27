@@ -16,16 +16,17 @@ import ScrollContainer from 'common/ScrollContainer'
 import RadioBoxList from 'common/RadioBoxList'
 import Form from 'common/Form'
 import ScreenSizeSelector from 'page/ScreenSizeSelector'
-import AnimationComposer from 'canvas/toolbar/AnimationComposer'
-import DownloadDialog from 'canvas/toolbar/DownloadDialog'
-import CustomFonts from 'canvas/toolbar/CustomFonts'
+
 import Plan from 'page/Plan'
 import Services from 'services/Services'
 import QR from 'core/QR'
 import Help from 'help/Help'
 import Share from 'page/Share'
-import ImportDialog from 'canvas/toolbar/ImportDialog'
 
+import ImportDialog from 'canvas/toolbar/dialogs/ImportDialog'
+import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
+import DownloadDialog from 'canvas/toolbar/dialogs/DownloadDialog'
+import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
 
 export default {
     name: '_Dialogs',

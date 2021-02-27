@@ -154,14 +154,16 @@ import on from 'dojo/on'
 import touch from 'dojo/touch'
 import hash from 'dojo/hash'
 import Util from 'core/Util'
+import topic from 'dojo/topic'
 import Logger from 'common/Logger'
 import _Render from 'canvas/toolbar/_Render'
 import _Dialogs from 'canvas/toolbar/_Dialogs'
-import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
-import ViewConfig from 'canvas/toolbar/ViewConfig'
+import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
+import ViewConfig from 'canvas/toolbar/components/ViewConfig'
+import EditModeButton from "canvas/toolbar/components/EditModeButton"
 import HelpButton from 'help/HelpButton'
-import EditModeButton from "canvas/toolbar/EditModeButton"
-import topic from 'dojo/topic'
+
+
 
 export default {
   name: 'Toolbar',

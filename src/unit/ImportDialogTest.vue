@@ -23,7 +23,7 @@
 
 <script>
 
-import ImportDialog from 'canvas/toolbar/ImportDialog'
+import ImportDialog from 'canvas/toolbar/dialogs/ImportDialog'
 
 export default {
   name: "FigmaTest",

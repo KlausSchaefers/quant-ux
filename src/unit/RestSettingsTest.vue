@@ -33,7 +33,7 @@
 
 <script>
 
-import RestSettings from 'canvas/toolbar/RestSettings'
+import RestSettings from 'canvas/toolbar/components/RestSettings'
 import rest from './data/rest.json'
 import SegmentButton from 'page/SegmentButton'
 

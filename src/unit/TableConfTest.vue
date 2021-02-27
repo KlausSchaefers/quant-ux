@@ -24,7 +24,7 @@
 <script>
 
 import app from './data/tableapp.json'
-import TableSettings from 'canvas/toolbar/TableSettings'
+import TableSettings from 'canvas/toolbar/components/TableSettings'
 
 export default {
   name: "SketchTest",

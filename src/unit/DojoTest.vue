@@ -92,7 +92,7 @@ import DomBuilder from "common/DomBuilder";
 import ScrollContainer from "common/ScrollContainer";
 import on from "dojo/on";
 import Mixin from './Mixin'
-import ToolbarColor from 'canvas/toolbar/ToolbarColor'
+import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 
 
 export default {

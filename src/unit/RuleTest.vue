@@ -21,7 +21,7 @@
 
 <script>
 
-import Rule from 'canvas/toolbar/Rule'
+import Rule from 'canvas/toolbar/components/Rule'
 import rest from './data/rest.json'
 
 export default {

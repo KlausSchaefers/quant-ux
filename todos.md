@@ -52,6 +52,7 @@
   - REST Name
   - Fixed Element in group overflows seelction when resized. (http://localhost:8080/#/apps/6032e683295894053a555d3e/create.html)
 
+## Pages
 
 ## Nice to have
   - Improve render factory so we pass the scale as paramter to createWidgetHTML()
