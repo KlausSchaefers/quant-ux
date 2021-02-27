@@ -36,26 +36,17 @@
  - comments
  - moveToScreen
  - properties live update (X)
- - analytic canvas
-   - clean up
-   - graph & clean up
- - share canvas
+ - analytic canvas (X)
+   - clean up (X)
+   - graph & clean up (X)
+ - share canvas (X)
    - padd inherited model
-  - upload
-
+  - upload (X)
  - undo screen does not update grid (x)
 
-- grid and ruler could use zoom to decide of to ceil or floor the labels
- - Filter mouse wheel events to prevent jumping back and forth and adopt snapp point acoording to grid (at leats50, 75, 100, 150, 200, 250, 300)
- - GridAndRuler should in case of Grid calculate the real position (distance and label)
-
-- Grid and ruler could somehow get snapp positon also from source model ()
-
-- analytic canvas
-
-- help should be better and more present
-
-- detach template. Make seperate section, could also host styles
+## New Toolbar
+- design systsme
+ - detach template. Make seperate section, could also host styles
 
 ## Bugs
   - REST Name
@@ -68,4 +59,7 @@
   - multi screen selection.
   - Selection of screens only on label or layer
   - Implement partial rendering to clean up DND and Resize End code
-  -
+  - grid and ruler could use zoom to decide of to ceil or floor the labels
+  - Filter mouse wheel events to prevent jumping back and forth and adopt snapp point acoording to grid (at leats50, 75, 100, 150, 200, 250, 300)
+  - GridAndRuler should in case of Grid calculate the real position (distance and label)
+  - Grid and ruler could somehow get snapp positon also from source model ()

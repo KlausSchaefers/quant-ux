@@ -356,7 +356,7 @@ export default {
 				fastRender: false,
 				hasProtoMoto: false,
 				zoomSnapp: true,
-				selectMove: false
+				selectMove: true
 			};
 
 			var s = this._getStatus("matcSettings");
