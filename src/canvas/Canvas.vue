@@ -251,6 +251,10 @@ export default {
 			if (this.layerList){
 				this.layerList.changeName(screen);
 			}
+			let div = this.screenLabels[screen.id]
+			if (div) {
+				this.setTextContent(div, screen.name);
+			}
 		},
 
 		setWidgetName (widget) {

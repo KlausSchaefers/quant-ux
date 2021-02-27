@@ -45,8 +45,11 @@
  - undo screen does not update grid (x)
 
 ## New Toolbar
+- remove locks from boders
 - design systsme
  - detach template. Make seperate section, could also host styles
+ - grousp shoudl have actions
+ - LayourLIst into view only when selection from canavs
 
 ## Bugs
   - REST Name

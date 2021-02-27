@@ -128,7 +128,7 @@
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
-								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig" />
+								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig"  @canvasViewMode="setCanvasViewMode"/>
 							</div>
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
@@ -156,8 +156,10 @@ import hash from 'dojo/hash'
 import Util from 'core/Util'
 import topic from 'dojo/topic'
 import Logger from 'common/Logger'
-import _Render from 'canvas/toolbar/_Render'
-import _Dialogs from 'canvas/toolbar/_Dialogs'
+import _Tools from 'canvas/toolbar/mixins/_Tools'
+import _Render from 'canvas/toolbar/mixins/_Render'
+import _Dialogs from 'canvas/toolbar/mixins/_Dialogs'
+import _Show from 'canvas/toolbar/mixins/_Show'
 import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
@@ -167,10 +169,11 @@ import HelpButton from 'help/HelpButton'
 
 export default {
   name: 'Toolbar',
-	mixins:[Util, _Render, _Dialogs, DojoWidget],
+	mixins:[Util, _Render, _Dialogs, _Tools,_Show, DojoWidget],
 	props:['pub'],
     data: function () {
         return {
+					canvasViewMode: 'design',
 					value: false,
 					isPublic: false,
 					active: true,
@@ -271,7 +274,7 @@ export default {
 		setModel (m){
 			this.model = m;
 			this.renderToolbar();
-			this.render();
+			this.renderProperties()
 		},
 
 		setPublic (isPublic) {
@@ -283,11 +286,6 @@ export default {
 			this.logger.log(3,"setMode", "entry > '" + mode + "'");
 			this.mode = mode;
 			this.onModeChange();
-		},
-
-		setDataView (isDataView) {
-			this.logger.log(-1,"setDataView", "entry ", isDataView);
-			this.isDataView = isDataView
 		},
 
 		setLayerList (layerlist){
@@ -316,6 +314,11 @@ export default {
 			}
 		},
 
+		setCanvasViewMode (mode) {
+			this.logger.log(-1,"setCanvasViewMode", "entry > " + mode);
+			this.canvasViewMode = mode
+			this.updatePropertiesView()
+		},
 
 		/********************************************************
 		 * Mian menu handlers
@@ -509,7 +512,6 @@ export default {
 		},
 
 
-
 		onCanvasSelected (){
 			this.cleanUp();
 		},
@@ -528,7 +530,6 @@ export default {
 					 */
 					this.hideNotNeededButtons();
 
-
 					/**
 					 * 2) update stuff
 					 */
@@ -539,6 +540,12 @@ export default {
 					if(this._selectedScreen){
 						this.onScreenSelected(this._selectedScreen);
 					}
+
+
+					if(this._selectedGroup){
+						this.showGroupProperties(this._selectedGroup);
+					}
+
 				} catch(e){
 					console.error(e);
 					console.error(e.stack);
