@@ -384,7 +384,7 @@ export default {
 		},
 
 		onWidgetSelected (widget){
-			this.logger.log("onWidgetSelected", "entry : active:" + this.active);
+			this.logger.log(-1, "onWidgetSelected", "entry : active:" + this.active);
 
 			/**
 			 * Make this faster. Just updating the view costs 30ms

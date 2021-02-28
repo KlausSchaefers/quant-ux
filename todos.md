@@ -45,14 +45,19 @@
  - undo screen does not update grid (x)
 
 ## New Toolbar
+- prototype view
+  - after link is added select widget
+
 - remove locks from boders
+
 - design systsme
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions
  - LayourLIst into view only when selection from canavs
+ - Layerlist shoul dbe one big tree... also selecting a screen should
 
 ## Bugs
-  - REST Name
+  - REST rename (caused bug in layerl listr)
   - Fixed Element in group overflows seelction when resized. (http://localhost:8080/#/apps/6032e683295894053a555d3e/create.html)
 
 ## Pages

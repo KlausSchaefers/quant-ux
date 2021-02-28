@@ -48,6 +48,7 @@ export default {
 			renderFlowViewFast (sourceModel, zoomedModel, isResize = false){
 				this.logger.log(-1,"renderFlowViewFast", "enter");
 
+
 				/**
 				 * Check here if we really need a rerendering. SOmetimes this is also
 				 * called after selection exit or so
@@ -165,7 +166,7 @@ export default {
 			 *   Screen
 			 ********************************************************/
 
-			///esizeScreen (screen) {
+			///resizeScreen (screen) {
 			//	this.updateScreen(screen)
 			//},
 

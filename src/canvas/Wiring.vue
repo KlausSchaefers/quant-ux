@@ -97,7 +97,9 @@ export default {
 				}
 
 				if(this.mode == "addLine") {
-					this.onDragStart(this.dndContainer, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
+					//this.dispatchMouseDownCanvas(e, target)
+					//return
+					//this.onDragStart(this.dndContainer, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
 				}
 
 				if (this.mode == "addText") {
@@ -141,6 +143,11 @@ export default {
 					return
 				}
 
+				if(this.mode == "addLine") {
+					this.onLineEndSelected(id, e)
+					return
+				}
+
 				if (this.isElementLocked(widget) || this.isElementHidden(widget)) {
 					return
 				}
@@ -150,7 +157,6 @@ export default {
 					this.onInheritedWidgetSelected(widget);
 					return
 				}
-
 
 				if (this.mode == "edit" || this.mode == "addLine"){
 						/**
@@ -196,6 +202,11 @@ export default {
 				let screen = this.model.screens[id];
 
 				if (!screen) {
+					return
+				}
+
+				if (this.mode == "addLine") {
+					this.onLineEndSelected(id, e)
 					return
 				}
 
@@ -249,6 +260,12 @@ export default {
 
 			dispatchMouseDownCanvas (e) {
 				this.logger.log(-1,"dispatchMouseDownCanvas", "enter", e, this.mode);
+
+				if(this.mode == "addLine") {
+					this.onLinePointSelected(e)
+					return
+				}
+
 				if (this.mode === "edit" || this.mode === "view" || this.mode === "data"){
 					this.onSelectionStarted(e);
 					return

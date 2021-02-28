@@ -417,7 +417,11 @@ export default {
 				if (tree) {
 					this.$set(tree, 'name', box.name)
 				} else {
-					this.logger.error('changeName', 'No node with id', box.id)
+					/**
+					 * This can happen for REST and OR nodes,
+					 * which are not shown in the tree
+					 */
+					this.logger.warn('changeName', 'No node with id: ' + box.id)
 				}
 			}
 		},

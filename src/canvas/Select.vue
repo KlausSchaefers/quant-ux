@@ -127,7 +127,7 @@ import topic from 'dojo/topic'
 
 
 		onLineSelected (id){
-			this.logger.log(0,"onLineSelected", "enter ");
+			this.logger.log(-1,"onLineSelected", "enter ");
 			this.onSelectionChanged(id, "line");
 			this._selectedLine = this.model.lines[id];
 			this.setLineColor(id, "orange");
@@ -293,7 +293,7 @@ import topic from 'dojo/topic'
 		 * again!
 		 */
 		renderSelection (){
-			this.logger.log(3,"renderSelection", "enter > ");
+			this.logger.log(-1,"renderSelection", "enter > ", this._selectWidget);
 
 			if(this._selectWidget){
 				this.onWidgetSelected(this._selectWidget.id, true);

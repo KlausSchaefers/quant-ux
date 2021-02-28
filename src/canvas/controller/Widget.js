@@ -408,6 +408,11 @@ export default class Widget extends Screen {
 
 	setWidgetName (id, value){
 
+		if (value === '') {
+			this.logger.warn("setWidgetName", "exit EMPYT name > " + id);
+			return
+		}
+
 
 		/**
 		 * check first if there was really a change. This method might get called alot.

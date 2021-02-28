@@ -1312,14 +1312,14 @@ export default {
 			* show properties section and make sure the scroll bar is moved too!
 			****************************************************************************************************/
 
-			showSaveButton:function(){
+			showSaveButton (){
 				if(this.user.role=="guest"){
 					// css.remove(this.signupSection,"MatcToolbarSectionHidden" );
 				}
 			},
 
 
-			showProperties:function(){
+			showProperties (){
 				css.remove(this.propertiesCntr, "MatcToolbarSectionHidden");
 				if(this.canvas){
 					css.add(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
@@ -1327,8 +1327,8 @@ export default {
 				css.add(this.widgetViewSection, "MatcToobarViewSectionVisible");
 			},
 
-			hideProperties:function(){
-
+			hideProperties (){
+				//console.trace()
 				css.add(this.propertiesCntr, "MatcToolbarSectionHidden");
 				if(this.canvas){
 					css.remove(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
@@ -1338,7 +1338,7 @@ export default {
 			},
 
 
-			storePropertiesState:function(){
+			storePropertiesState (){
 
 				if(this._selectionID && this.propertiesCntr){
 					var state = {x : 0, scrollTop : -1, sections :[]};

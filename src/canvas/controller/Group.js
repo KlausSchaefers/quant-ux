@@ -288,6 +288,11 @@ export default class Group extends Layer {
 	setGroupName (id, value){
 		this.logger.log(2,"setGroupName", "enter ");
 
+		if (value === '') {
+			this.logger.warn("setGroupName", "exit > EMPTY name: " + id);
+			return
+		}
+
 		if(this.model.groups && this.model.groups[id]){
 
 			var group = this.model.groups[id];

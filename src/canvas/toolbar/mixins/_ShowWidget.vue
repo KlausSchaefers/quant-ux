@@ -1,0 +1,420 @@
+<script>
+import DojoWidget from 'dojo/DojoWidget'
+import css from 'dojo/css'
+import lang from 'dojo/_base/lang'
+import _Tooltip from 'common/_Tooltip'
+
+export default {
+    name: '_Show',
+    mixins:[_Tooltip, DojoWidget],
+    data: function () {
+        return {
+					colorWidgets: []
+      }
+	},
+    components: {},
+		computed: {
+		},
+    methods: {
+
+			/*****************************************************************************************************
+			* widget properties
+			****************************************************************************************************/
+
+			showWidgetProperties (model){
+				this.logger.log(1,"showWidgetProperties", "entry > ", this.isDataView);
+
+				this.restorePropertiesState();
+				/**
+				* Since 2.1.6 we have a dedicated data view
+				*/
+				if (this.isDataView) {
+					return this.showWidgetDataProperties(model)
+				}
+
+				if (this.isDesignView) {
+					this.showWidgetDesignProperties(model)
+				}
+
+				if (this.isPrototypeView) {
+					this.showWidgetPrototypeProperties(model)
+				}
+
+
+			},
+
+			showWidgetPrototypeProperties (model) {
+				this.logger.log(- 1,"showWidgetPrototypeProperties", "entry > ", model);
+
+				this.showProperties();
+				this.showWidgetTools();
+
+				if (this.widgetName){
+					css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+					css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+					if(model.name){
+						this.widgetName.value = model.name;
+					} else {
+						this.widgetName.value = "";
+					}
+					this.widgetName.blur();
+				}
+
+
+				var isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
+
+				css.remove(this.lineDiv, "MatcToolbarSectionHidden");
+				this.actionBTN.setValue(model, isLogicWidget);
+
+			},
+
+			showWidgetDesignProperties (model) {
+				this.setWidgetViewModes(model);
+
+				var widgetViewMode = this.widgetViewModeBtn.getValue();
+
+				var style = this.getViewModeStyle(model, widgetViewMode);
+
+				this.showProperties();
+				this.showWidgetTools();
+
+				var isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
+				if(isLogicWidget){
+					css.add(this.positionCheckBox.domNode, "hidden");
+					css.add(this.widgetSize.domNode, "hidden");
+					css.add(this.responsiveDiv, "hidden");
+				} else {
+					css.remove(this.positionCheckBox.domNode, "hidden");
+					css.remove(this.widgetSize.domNode, "hidden");
+					css.remove(this.responsiveDiv, "hidden");
+				}
+
+				this.widgetSize.setModel(this.model);
+				this.widgetSize.setValue(model);
+
+				this.positionCheckBox.setValue(style.fixed);
+
+				if(model.has.backgroundColor || model.has.backgroundImage){
+
+					css.remove(this.backgroundColorDiv, "MatcToolbarSectionHidden");
+
+					if(model.has.backgroundColor){
+						css.remove(this.backgroundColor.domNode, "MatcToolbarSectionHidden");
+						this.backgroundColor.setValue(style.background);
+					} else {
+						css.add(this.backgroundColor.domNode, "MatcToolbarSectionHidden");
+					}
+
+					if(model.has.backgroundImage){
+						this.backgroundImage.setValue(style.backgroundImage);
+						this.backgroundImage.setModel(this.model);
+						css.remove(this.backgroundImage.domNode, "MatcToolbarSectionHidden");
+						if (this.backgroundImagePosition) {
+							css.remove(this.backgroundImagePosition.domNode, "MatcToolbarSectionHidden");
+							this.backgroundImagePosition.setValue(model);
+						}
+					} else {
+						css.add(this.backgroundImage.domNode, "MatcToolbarSectionHidden");
+						if (this.backgroundImagePosition) {
+							css.add(this.backgroundImagePosition.domNode, "MatcToolbarSectionHidden");
+						}
+					}
+
+					this.boxShadow.setValue(style.boxShadow);
+					this.opacity.setValue(style.opacity);
+				}
+
+				if (this.hasRotate.indexOf(model.type) >= 0) {
+						css.remove(this.backgroundImageRotation.domNode, "MatcToolbarSectionHidden");
+						this.backgroundImageRotation.setValue(style.backgroundImageRotation);
+				} else {
+						css.add(this.backgroundImageRotation.domNode, "MatcToolbarSectionHidden");
+						this.backgroundImageRotation.setValue(style.backgroundImageRotation);
+				}
+
+				if(model.has.label){
+					css.remove(this.textDiv, "MatcToolbarSectionHidden");
+
+					this.family.setValue(style.fontFamily);
+					this.fontSize.setValue(style.fontSize);
+					this.fontWeight.setValue(style.fontWeight == "bold");
+					this.fontStyle.setValue(style.fontStyle == "italic");
+					this.textDecoration.setValue(style.textDecoration == "underline");
+					this.color.setValue(style.color);
+					this.textAlign.setValue(style.textAlign);
+
+					css.remove(this.textAdvancedDiv,  "MatcToolbarSectionHidden");
+					this.textShadow.setValue(style.textShadow);
+					this.lineHeight.setValue(style.lineHeight);
+					this.letterSpacing.setValue(style.letterSpacing);
+					this.strikeThrough.setValue(style.textDecoration == "line-through");
+				}
+
+				if(this.hasValign.indexOf(model.type) >=0){
+					css.remove(this.verticalAlign.domNode, "hidden");
+					if(style.verticalAlign){
+						this.verticalAlign.setValue(style.verticalAlign);
+					} else {
+						this.verticalAlign.setValue("top");
+					}
+				}
+
+				if (this.hasPadding.indexOf(model.type) >=0) {
+					css.remove(this.boxDiv, "MatcToolbarSectionHidden");
+					this.paddingWidget.setValue(style);
+				}
+
+				if (widgetViewMode == "style") {
+
+					if (this.responsiveDiv) {
+						css.remove(this.responsiveDiv, "MatcToolbarSectionHidden")
+						this.responsiveWidget.setValue(model)
+					}
+
+					if(this.widgetAlignDiv){
+						css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
+					}
+
+					if(this.hasData.indexOf(model.type) >=0 || model.has.data) { // if(model.has.data){
+						css.remove(this.dataDiv,"MatcToolbarSectionHidden" );
+						this.dataWidget.setValue(model);
+					}
+
+					if(this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
+						css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
+						this.validationWidget.setValue(model, false);
+					}
+
+					if(this.widgetName){
+						css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+						css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+						if(model.name){
+							this.widgetName.value = model.name;
+						} else {
+							this.widgetName.value = "";
+						}
+						this.widgetName.blur();
+					}
+
+					/**
+				 	* Since 4.0.0 we do not show the prototyping properties in the deisgn view
+				 	*/
+					//css.remove(this.lineDiv, "MatcToolbarSectionHidden");
+					//this.actionBTN.setValue(model, isLogicWidget);
+
+				} else if (widgetViewMode == "hover"){
+					this.showTemplateMarkers(" (Hover)")
+				} else if (widgetViewMode == "error"){
+					this.showTemplateMarkers(" (Error)")
+				}
+
+				if(model.template){
+					this.showTemplateMarkers();
+				}
+
+				/**
+				* Must come at last so radius container is visible...
+				*/
+				if (model.has.border){
+
+					css.remove(this.borderDiv, "MatcToolbarSectionHidden");
+					this.boxBorder.setValue(style);
+
+					if (this.radiusBox){
+						css.remove(this.radiusBox.domNode, "hidden");
+						this.radiusBox.setValue(style);
+					}
+					if (this.boxBorder2){
+						this.boxBorder2.setValue(style);
+					}
+
+				} else if (model.has.borderRadus){
+
+					if (this.radiusBox){
+						css.remove(this.radiusBox.domNode, "hidden");
+						this.radiusBox.setValue(style);
+					}
+
+				} else {
+					if (this.radiusBox) {
+						css.add(this.radiusBox.domNode, "hidden");
+					}
+				}
+
+				/**
+				* Check if we reopen color
+				*/
+				if (this.settings && this.settings.keepColorWidgetOpen){
+					this.reopenColorWidget(model);
+				}
+
+				if (this.screenExport && this.screenDownloadDiv) {
+					css.remove(this.screenDownloadDiv, "MatcToolbarSectionHidden");
+					this.screenExport.setWidgets([model.id]);
+				}
+			},
+
+			/**
+			* Since 2.1.6 we have the dataview
+			*/
+			showWidgetDataProperties (model) {
+				this.logger.log(-1,"showWidgetDataProperties", "enter");
+
+				this.showProperties();
+
+				/**
+				* Make sure the widget name is set, so
+				* the flushing will work!
+				*/
+				if (this.widgetName){
+					css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+					css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+					if(model.name){
+						this.widgetName.value = model.name;
+					} else {
+						this.widgetName.value = "";
+					}
+					this.widgetName.blur();
+				}
+
+				if (this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
+					css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
+					this.validationWidget.setValue(model, true);
+				}
+				this.lowCodeSection.setValue(model)
+				this.callbackSection.setValue(model)
+				this.lowCodeResponsiveSection.setValue(model)
+
+				css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
+				css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
+				css.remove(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")
+			},
+
+			reopenColorWidget:function(){
+				this.logger.log(3,"reopenColorWidget", "exit");
+				var now = new Date().getTime();
+
+				this.colorWidgets.sort(function(a,b) {
+					return b.lastClose - a.lastClose
+				});
+
+				var widget = this.colorWidgets[0];
+				if (widget){
+					if (now - widget.lastClose < 100){
+						// fixme: this can can lead to some stupid
+						// flickering because the scroll position in the
+						// option panel might be after the show. This leads to
+						widget.showDropDown(null);
+						/**
+						* We have to call reposition after the render
+						* to put the color box at the right place.
+						*/
+						setTimeout(function(){
+							widget.updatePosition();
+						}, 10);
+					}
+				}
+			},
+
+
+			blurWidgetProperties:function(){
+				this.boxBorder.blur();
+				this.widgetSize.blur();
+			},
+
+			/**
+			* Gets the normal style and mixes in the view mode style,
+			* e.g. for error or so. Dunno how this works actually with templates
+			*
+			* Update: For inherited widgets we delegate to the Layout.getInheritedStyle()
+			* method.
+			*
+			* FIMXE: This might not work for templates, inherited widgets!
+			*/
+			getViewModeStyle:function(model, widgetViewMode){
+				if (model && model.parentWidget) {
+					return this.getInheritedStyle(model, widgetViewMode)
+				}
+
+				var normal = this.getStyle(model);
+
+				if(model[widgetViewMode]){
+					var viewStyle = model[widgetViewMode];
+					var mixed = lang.clone(normal);
+					for(var key in viewStyle){
+						mixed[key] = viewStyle[key];
+					}
+					return mixed;
+				}
+				return normal;
+			},
+
+			setWidgetViewModes:function(model){
+
+				css.remove(this.widgetViewSection, "MatcToolbarSectionHidden");
+
+				var type = model.type
+				if(this.hasErrorViewMode.indexOf(type) >= 0){
+					this.widgetViewModeBtn.showOption("error");
+				} else {
+					this.widgetViewModeBtn.hideOption("error");
+				}
+
+				if(this.hasFocusViewMode.indexOf(type) >= 0){
+					this.widgetViewModeBtn.showOption("focus");
+				} else {
+					this.widgetViewModeBtn.hideOption("focus");
+				}
+
+
+				if(this.hasCheckedViewMode.indexOf(type) >=0){
+					this.widgetViewModeBtn.showOption("checked");
+				} else {
+					this.widgetViewModeBtn.hideOption("checked");
+				}
+
+				if(this.hasHoverViewMode.indexOf(type) >=0){
+					this.widgetViewModeBtn.showOption("hover");
+				} else {
+					this.widgetViewModeBtn.hideOption("hover");
+				}
+
+				if(this.hasActiveViewMode.indexOf(type)>=0){
+					this.widgetViewModeBtn.showOption("active");
+				} else {
+					this.widgetViewModeBtn.hideOption("active");
+				}
+			},
+
+
+			showInheritedWidgetProperties:function (model) {
+				this.logger.log(-1,"showInheritedWidgetProperties", "entry > ");
+
+				this.setWidgetViewModes(model);
+
+				this.restorePropertiesState();
+
+				this.showProperties();
+
+
+				css.add(this.positionCheckBox.domNode, "hidden");
+				css.add(this.widgetSize.domNode, "hidden");
+				css.add(this.widgetSize.domNode, "hidden");
+				css.add(this.radiusBox.domNode, "hidden");
+
+				if(model.name){
+					this.widgetName.value = model.name;
+				} else {
+					this.widgetName.value = "";
+				}
+				this.widgetName.blur();
+
+				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+				css.remove(this.inheritedWidgetDiv, "MatcToolbarSectionHidden");
+			}
+
+    },
+    mounted () {
+    }
+}
+</script>

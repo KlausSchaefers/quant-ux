@@ -439,8 +439,8 @@ export default {
 				this._addLineIsPaused = false;
 				this._addNDropMove = on(win.body(),"mousemove", lang.hitch(this,"_updateAddLineMove"));
 
-				this.setBoxClickCallback("onLineEndSelected");
-				this.setCanvasClickCallback("onLinePointSelected");
+				//this.setBoxClickCallback("onLineEndSelected");
+				//this.setCanvasClickCallback("onLinePointSelected");
 
 				this.showHint("Select the screen where the click should go to. You can also set some way points in the middle to make it look nicer!");
 
@@ -448,27 +448,25 @@ export default {
 			},
 
 
-
-
-			onLinePointSelected (id, div, pos, e){
-				this.logger.log(1,"onLinePointSelected", "enter >  "+ pos.x +"/" +pos.y);
+			onLinePointSelected (e){
+				this.logger.log(1,"onLinePointSelected", "enter >  ");
 
 				if(!this._addLineStartPos){
 					this._onAddCleanup();
 				}
 
-				pos = this.getCanvasMousePosition(e);
+				let pos = this.getCanvasMousePosition(e);
 				pos.w = 1;
 				pos.h = 1;
 
-				div = this.drawPoint(pos);
-				this.dndContainer.appendChild(div);
-				this._addLinePoints.push(div);
+				let point = this.drawPoint(pos);
+				this.dndContainer.appendChild(point);
+				this._addLinePoints.push(point);
 
 				this._addLineModel.points.push(pos);
 			},
 
-			onLineEndSelected (id, div, pos,e){
+			onLineEndSelected (id, e){
 				this.logger.log(0,"onLineEndSelected", "enter > "+ id);
 				/**
 				 * check if we clicked on a screen or widegt
