@@ -44,6 +44,7 @@
   - upload (X)
  - undo screen does not update grid (x)
  - updateDND should just resize
+ - Zooming should not call toolbar selected ()!
 
 ## New Toolbar
 - prototype view
