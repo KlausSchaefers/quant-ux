@@ -50,6 +50,7 @@
   - after link is added select widget
 - Layerlist shoul dbe one big tree... also selecting a screen should
 - Actions could have ScreenContaoner as target!
+- LayerList open should have effect on Scroll
 ## Design Token
  - add plus buttons
  - select canvas view
@@ -68,6 +69,7 @@
 ## Vector Editor
 
 ## Bugs
+  - Focxus will trigger screen transition
   - REST rename (caused bug in layerl listr)
   - Fixed Element in group overflows seelction when resized. (http://localhost:8080/#/apps/6032e683295894053a555d3e/create.html)
 

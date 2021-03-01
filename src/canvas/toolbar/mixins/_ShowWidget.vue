@@ -136,6 +136,7 @@ export default {
 				if(model.has.label){
 					css.remove(this.textDiv, "MatcToolbarSectionHidden");
 					this.textProperties.hasVerticalAlign(this.hasValign.indexOf(model.type) >= 0)
+					this.textProperties.setModel(this.model)
 					this.textProperties.setValue(style)
 				}
 

@@ -40,6 +40,9 @@ export default {
       },
 
       setModel (m) {
+				if (this.color) {
+					this.color.setModel(m)
+				}
         this.model = m
       },
 

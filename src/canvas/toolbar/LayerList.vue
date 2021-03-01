@@ -32,7 +32,7 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-					sections: [],
+					selection: [],
 					screenListeners: {},
 					collapsed: {},
 					openNodes: {},
@@ -111,7 +111,9 @@ export default {
 
 		onSelect (ids) {
 			this.logger.log(-1, "onSelect", "entry > ", ids);
-
+			/**
+			 * FIXME: This will later trigger the select() which causes sometimes jumps
+			 */
 			if (ids.length === 1) {
 				let node = this.nodes[ids[0]]
 				if (node) {
@@ -467,15 +469,16 @@ export default {
 			this.selectNode(ids)
 		},
 
-		selectNode (ids) {
+		selectNode (ids, scroll = true) {
 			this.unSelectNodes()
 			ids.forEach(id => {
 				let node = this.nodes[id]
 				if (node) {
 					this.$set(node, 'selected', true)
-					this.$set(node, 'scroll', true)
+					this.$set(node, 'scroll', scroll)
 				}
 			})
+			this.selection = ids
 		},
 
 		unSelectNodes () {
