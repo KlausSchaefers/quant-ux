@@ -743,7 +743,7 @@
 	position: relative;
 	border-top:1px solid #1a1f23;
 	border-top: 1px solid #242a30;
-    background: none;
+  background: none;
 	color: #777;
 	text-align: left;
 	padding-left: 16px;
@@ -757,9 +757,21 @@
 	width: 18px;
 	text-align:center;
 	height: 18px;
-    transition-duration: 0.2s;
+  transition-duration: 0.2s;
 	transition-property:transform;
 }
+
+.MatcToolbarSectionDesignSystemCntr {
+	position: absolute;
+	right:15px;
+	top:2px;
+	width: 18px;
+	text-align:center;
+	height: 18px;
+  transition-duration: 0.2s;
+	transition-property:transform;
+}
+
 
 .MatcToolbarSectionCollabsed .MatcToolbarSectionChevron{
 	 transform: rotate(180deg);
@@ -774,8 +786,13 @@
 	text-align:center;
 	opacity:1;
 	height: 18px;
-    transition-duration: 0.2s;
+  transition-duration: 0.2s;
 	transition-property:transform;
+}
+
+.MatcToolbarSectionDesignSystemCntr:hover,
+.MatcToolbarSectionSettingsIcon:hover{
+	color: #1973e8;
 }
 
 .MatcToolbar .MatcToolbarSectionSettingsIcon.mdi{
@@ -785,10 +802,6 @@
 .MatcToolbarSectionCollabsed .MatcToolbarSectionSettingsIcon{
 	opacity:0;
 }
-
-.MatcToolbarChildSection{
-
-	}
 
 .MatcToolbarSectionCollabsed .MatcToolbarChildSection{
 	display: none;

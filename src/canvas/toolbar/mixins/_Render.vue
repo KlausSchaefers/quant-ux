@@ -41,6 +41,7 @@ import LowCodeSection from 'canvas/toolbar/components/LowCodeSection'
 import CallBackSection from 'canvas/toolbar/components/CallBackSection'
 import LowCodeResponsiveSection from 'canvas/toolbar/components/LowCodeResponsiveSection'
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
+import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 
 import Services from 'services/Services'
 
@@ -499,7 +500,7 @@ export default {
 			},
 
 
-			_renderWidgetAlign:function(){
+			_renderWidgetAlign (){
 
 				var content = document.createElement("div");
 				css.add(content, "MatcToolbarSectionContent");
@@ -557,7 +558,7 @@ export default {
 				this.widgetAlignDiv = content;
 			},
 
-			_renderWidgetName:function(){
+			_renderWidgetName (){
 
 				var parent = this.createSection("Widget");
 
@@ -588,7 +589,7 @@ export default {
 				this.widgetSizeDiv = widgetSizeDiv
 			},
 
-			_renderWidgetResponsive:function(){
+			_renderWidgetResponsive (){
 
 				var parent = this.createSection("Constraints", true);
 
@@ -672,7 +673,7 @@ export default {
 			},
 
 
-			_renderData:function(){
+			_renderData (){
 				var parent = this.createSection("Settings");
 
 				var content = document.createElement("div");
@@ -700,7 +701,7 @@ export default {
 				this.dataDiv = parent;
 			},
 
-			_renderValidation:function(){
+			_renderValidation (){
 
 				var parent = this.createSection("Data");
 
@@ -726,7 +727,7 @@ export default {
 			},
 
 
-			_renderWidgetLine:function(){
+			_renderWidgetLine (){
 
 				var parent = this.createSection("Action");
 
@@ -757,9 +758,11 @@ export default {
 			},
 
 
-			_renderWidgetBox:function(){
+			_renderWidgetBox (){
 
-				var parent = this.createSection( "Padding", true);
+				this.designTokenPaddingBtn = this.$new(DesignTokenBtn)
+
+				var parent = this.createSection( "Padding", true, this.designTokenPaddingBtn);
 
 				var content = document.createElement("div");
 				css.add(content, "MatcToolbarSectionContent");
@@ -774,9 +777,11 @@ export default {
 				this.properties.appendChild(parent);
 			},
 
-			_renderWidgetBackground:function(){
+			_renderWidgetBackground (){
 
-				var parent = this.createSection( "Background", true);
+				this.designTokenBackground = this.$new(DesignTokenBtn)
+
+				var parent = this.createSection( "Background", true, this.designTokenBackground);
 
 				var content = document.createElement("div");
 				css.add(content, "MatcToolbarSectionContent");
@@ -842,9 +847,11 @@ export default {
 			},
 
 
-			_renderWidgetBorder:function(){
+			_renderWidgetBorder (){
 
-				var parent = this.createSection("Border", true, "toggleBoxBorder");
+				this.designTokenBorder = this.$new(DesignTokenBtn)
+
+				var parent = this.createSection("Border", true, this.designTokenBorder, "toggleBoxBorder");
 
 				var content = document.createElement("div");
 				css.add(content, "MatcToolbarSectionContent MatcToolbarBoxBorderDetails");
@@ -876,7 +883,7 @@ export default {
 				css.add(parent, "MatcToolbarBoxBorderSimple");
 			},
 
-			_renderInheritedWidget:function(){
+			_renderInheritedWidget (){
 
 				var parent = this.createSection('Inherited Widget', true);
 
@@ -900,9 +907,12 @@ export default {
 				this.inheritedWidgetDiv = parent;
 			},
 
-			_renderWidgetText:function(){
+			_renderWidgetText (){
 
-				var parent = this.createSection('Text', true);
+
+				this.designTokenText = this.$new(DesignTokenBtn)
+
+				var parent = this.createSection('Text', true, this.designTokenText);
 
 				var content = document.createElement("div");
 				css.add(content, "MatcToolbarSectionContent");
@@ -1041,7 +1051,7 @@ export default {
 			* Multli Widget
 			****************************************************************************************************/
 
-			_renderMultiPosition:function(){
+			_renderMultiPosition (){
 
 				var parent = this.createSection("Position");
 
@@ -1066,7 +1076,7 @@ export default {
 			/*****************************************************************************************************
 			* Render screen
 			****************************************************************************************************/
-			_renderScreenName:function(){
+			_renderScreenName (){
 
 				var parent = this.createSection("Screen Name");
 
@@ -1087,9 +1097,12 @@ export default {
 			},
 
 
-			_renderScreenBackground:function(){
+			_renderScreenBackground (){
 
-				var parent = this.createSection( "Background", true);
+
+				this.designTokenScreenBackground = this.$new(DesignTokenBtn)
+
+				var parent = this.createSection( "Background", true, this.designTokenScreenBackground);
 				var content = document.createElement("div");
 				css.add(content, "MatcToolbarSectionContent");
 				parent.appendChild(content);
@@ -1118,7 +1131,7 @@ export default {
 			},
 
 
-			_renderScreenActions:function(){
+			_renderScreenActions (){
 
 				var parent = this.createSection("Actions");
 
@@ -1147,7 +1160,7 @@ export default {
 			},
 
 
-			_renderScreenAnimations:function(){
+			_renderScreenAnimations (){
 
 				var parent = this.createSection("Animations");
 
@@ -1169,7 +1182,7 @@ export default {
 				this.screenAnimationDiv = parent;
 			},
 
-			_renderScreenInheritance:function(){
+			_renderScreenInheritance (){
 				var parent = this.createSection( "Master Screens");
 
 				var content = document.createElement("div");
@@ -1417,7 +1430,7 @@ export default {
 			****************************************************************************************************/
 
 
-			createInput:function(content,placeholder){
+			createInput (content,placeholder){
 				var div = document.createElement("div");
 				css.add(div, " MatcToolbarItem MatcToolbarGridFull");
 				content.appendChild(div);
@@ -1433,12 +1446,12 @@ export default {
 			},
 
 
-			createSection:function(lbl, hasTemplateMarker, settingsCallback){
+			createSection (lbl, hasTemplateMarker, plusCallback, settingsCallback){
 
 				var parent = document.createElement("div");
 				css.add(parent, "MatcToolbarSection");
 
-				var header = this.createSectionHeader( parent, lbl,hasTemplateMarker, settingsCallback);
+				var header = this.createSectionHeader( parent, lbl,hasTemplateMarker, plusCallback, settingsCallback);
 
 				/**
 				* store the value somehow in a cookie? and use it during restore??
@@ -1453,7 +1466,7 @@ export default {
 				return parent;
 			},
 
-			createSectionHeader:function(parent, lbl, hasTemplateMarker, settingsCallback){
+			createSectionHeader (parent, lbl, hasTemplateMarker, designTokenWidget, settingsCallback){
 				var div = document.createElement("div");
 				css.add(div,"MatcToolbarSectionLabel");
 				parent.appendChild(div);
@@ -1473,22 +1486,29 @@ export default {
 				}
 
 				if (settingsCallback){
-					var settings = document.createElement("span");
+					let settings = document.createElement("span");
 					css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-settings");
 					div.appendChild(settings);
 					this.own(on(settings, touch.press, lang.hitch(this, settingsCallback)));
 				}
 
-				var chev = document.createElement("span");
-				css.add(chev, "MatcToolbarSectionChevron mdi mdi-chevron-down");
-				div.appendChild(chev);
+				if (designTokenWidget) {
+					let cntr = document.createElement("span");
+					css.add(cntr, "MatcToolbarSectionDesignSystemCntr");
+					designTokenWidget.placeAt(cntr)
+					div.appendChild(cntr);
+				}
+
+				//var chev = document.createElement("span");
+				//css.add(chev, "MatcToolbarSectionChevron mdi mdi-chevron-down");
+				//div.appendChild(chev);
 
 				return div;
 			},
 
 
 
-			createSpacer:function(parent){
+			createSpacer (parent){
 				var span = document.createElement("span");
 				css.add(span,"MatcToolbarSeperator");
 				if(!parent){
@@ -1499,7 +1519,7 @@ export default {
 				return span;
 			},
 
-			createToolBarItem:function(label, callback, clazz, parent){
+			createToolBarItem (label, callback, clazz, parent){
 				var a = document.createElement("a");
 				css.add(a,"MatcToolbarItem");
 				a.innerHTML =label;
@@ -1517,7 +1537,7 @@ export default {
 				return a;
 			},
 
-			createToolBarButton:function(label, clazz, parent){
+			createToolBarButton (label, clazz, parent){
 
 				var item = document.createElement("div");
 				css.add(item, "MatcToolbarItem ");
@@ -1531,7 +1551,7 @@ export default {
 				return item;
 			},
 
-			cleanUpUI:function(){
+			cleanUpUI (){
 				this.hideAllSections();
 				this.hideCopyPaste();
 
@@ -1544,7 +1564,7 @@ export default {
 				}
 			},
 
-			_getFontFamilies:function(){
+			_getFontFamilies (){
 				let fonts = [
 						{ value: 'Helvetica Neue,Helvetica,Arial,sans-serif', label: "Helvetica Neue",  css:"MatchFont MatchFontHelvetica"},
 						{ value:"Arial, sans-serif", label:"Arial", css:"MatchFont MatchFontArial"},

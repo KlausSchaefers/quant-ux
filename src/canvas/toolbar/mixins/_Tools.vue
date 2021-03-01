@@ -13,6 +13,10 @@ export default {
     components: {},
     methods: {
 
+			addDesignToken (e) {
+				this.stopEvent(e)
+				console.debug('addDesignToken')
+			},
 
 			toolCopyPasteStyleStart (){
 				css.add(this.copyStyleBtn,"MatcToolbarItemActive");

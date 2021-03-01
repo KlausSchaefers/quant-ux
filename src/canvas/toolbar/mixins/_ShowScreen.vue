@@ -65,6 +65,7 @@ export default {
 					css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
 					this.screenActionBTN.setScreen(model);
 				}
+
       },
 
       showScreenDesignProperties (model) {

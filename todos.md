@@ -43,18 +43,20 @@
    - padd inherited model
   - upload (X)
  - undo screen does not update grid (x)
+ - updateDND should just resize
 
 ## New Toolbar
 - prototype view
   - after link is added select widget
 
-- remove locks from boders
-
+## Design System
+ - add plus buttons
 - design systsme
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions
  - LayourLIst into view only when selection from canavs
  - Layerlist shoul dbe one big tree... also selecting a screen should
+ - Actions could have ScreenContaoner as target!
 
 ## Bugs
   - REST rename (caused bug in layerl listr)

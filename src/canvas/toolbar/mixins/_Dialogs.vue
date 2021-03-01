@@ -468,7 +468,6 @@ export default {
 			var themeList = this.$new(RadioBoxList);
 			themeList.setOptions([
 			  {value:"MatcLight", label: "Light"},
-			  {value:"MatcLightOld", label:"Light (Old)"},
 			  {value:"MatcDark", label:"Dark"}
 			]);
 			themeList.setValue(settings.canvasTheme);

@@ -120,9 +120,9 @@ export default {
 
 			_setSectionLabel (lbl){
 				this.header.firstChild.innerHTML=lbl;
-				var chev = document.createElement("span");
-				css.add(chev, "MatcToolbarSectionChevron mdi mdi-chevron-down");
-				this.header.firstChild.appendChild(chev);
+				//var chev = document.createElement("span");
+				//css.add(chev, "MatcToolbarSectionChevron mdi mdi-chevron-down");
+				//this.header.firstChild.appendChild(chev);
 			},
 
 			showWidgetByProps (widget, props) {
