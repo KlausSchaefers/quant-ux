@@ -1,6 +1,6 @@
 
 <template>
-  <span class="mdi mdi-plus" @click.stop="onPlus" @mousedown.stop="">
+  <span class="mdi mdi-dots-horizontal" @click.stop="onPlus" @mousedown.stop="">
 
 	</span>
 </template>

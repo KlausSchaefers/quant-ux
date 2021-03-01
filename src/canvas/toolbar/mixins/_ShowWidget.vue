@@ -97,6 +97,7 @@ export default {
 				if(model.has.backgroundColor || model.has.backgroundImage){
 
 					css.remove(this.backgroundColorDiv, "MatcToolbarSectionHidden");
+					//css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
 
 					if(model.has.backgroundColor){
 						css.remove(this.backgroundColor.domNode, "MatcToolbarSectionHidden");
@@ -134,29 +135,8 @@ export default {
 
 				if(model.has.label){
 					css.remove(this.textDiv, "MatcToolbarSectionHidden");
-
-					this.family.setValue(style.fontFamily);
-					this.fontSize.setValue(style.fontSize);
-					this.fontWeight.setValue(style.fontWeight == "bold");
-					this.fontStyle.setValue(style.fontStyle == "italic");
-					this.textDecoration.setValue(style.textDecoration == "underline");
-					this.color.setValue(style.color);
-					this.textAlign.setValue(style.textAlign);
-
-					css.remove(this.textAdvancedDiv,  "MatcToolbarSectionHidden");
-					this.textShadow.setValue(style.textShadow);
-					this.lineHeight.setValue(style.lineHeight);
-					this.letterSpacing.setValue(style.letterSpacing);
-					this.strikeThrough.setValue(style.textDecoration == "line-through");
-				}
-
-				if(this.hasValign.indexOf(model.type) >=0){
-					css.remove(this.verticalAlign.domNode, "hidden");
-					if(style.verticalAlign){
-						this.verticalAlign.setValue(style.verticalAlign);
-					} else {
-						this.verticalAlign.setValue("top");
-					}
+					this.textProperties.hasVerticalAlign(this.hasValign.indexOf(model.type) >= 0)
+					this.textProperties.setValue(style)
 				}
 
 				if (this.hasPadding.indexOf(model.type) >=0) {

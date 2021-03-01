@@ -844,36 +844,24 @@
 /****************************************************
  * Popup footer
  ****************************************************/
- .MatcToolbarPopupFooterMetal{
- 	border-top: 1px solid  #aaa;
-	background: #ddd;
-	padding: 10px;
-	text-shadow: 1px 1px #fff;
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cccccc+0,dbdbdb+53 */
-	background: #cccccc; /* Old browsers */
-	background: -moz-linear-gradient(top,  #cccccc 0%, #dbdbdb 53%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cccccc), color-stop(53%,#dbdbdb)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #cccccc 0%,#dbdbdb 53%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #cccccc 0%,#dbdbdb 53%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #cccccc 0%,#dbdbdb 53%); /* IE10+ */
-	background: linear-gradient(to bottom,  #cccccc 0%,#dbdbdb 53%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#dbdbdb',GradientType=0 ); /* IE6-9 */
- }
 
 .MatcToolbarPopupFooter{
 
 	background:none;
 	margin: 10px;
-    padding-top: 10px;
-    padding-left:10px;
-    padding-right:10px;
-    border-top: 1px solid #cecece;
-    color:#555;
-    margin-left: 0px;
-    margin-right: 0px;
-    cursor:pointer;
-    text-align: center;
-    font-size: 14px;
+  padding-top: 10px;
+  padding-left:10px;
+  padding-right:10px;
+  border-top: 1px solid #cecece;
+  color:#555;
+  margin-left: 0px;
+  margin-right: 0px;
+  cursor:pointer;
+  text-align: center;
+  font-size: 14px;
+	display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .MatcToolbarPopupFooter:hover{
@@ -881,12 +869,10 @@
 }
 
 .MatcToolbarPopupFooterNone, .MatcToolbarPopupFooterIcon{
-	height:18px;
-	width:14px;
+	height: 20px;
+	width: 14px;
 	display: inline-block;
-	text-align: center;
 	margin-right: 5px;
-	vertical-align: middle;
 }
 
 .MatcToolbarPopupFooter .glyphicon.glyphicon-remove-sign {

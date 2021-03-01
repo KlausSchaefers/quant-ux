@@ -12,17 +12,17 @@ import DomBuilder from 'common/DomBuilder'
 import ScrollContainer from 'common/ScrollContainer'
 import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
-import ToolbarToggleButton from 'canvas/toolbar/components/ToolbarToggleButton'
+//import ToolbarToggleButton from 'canvas/toolbar/components/ToolbarToggleButton'
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import ToolbarImage from 'canvas/toolbar/components/ToolbarImage'
 
 import BoxShadow from 'canvas/toolbar/components/BoxShadow'
-import TextShadow from 'canvas/toolbar/components/TextShadow'
+//import TextShadow from 'canvas/toolbar/components/TextShadow'
 import BoxSize from 'canvas/toolbar/components/BoxSize'
 import BoxBorder from 'canvas/toolbar/components/BoxBorder'
 import BoxBorder2 from 'canvas/toolbar/components/BoxBorder2'
 import BoxPadding from 'canvas/toolbar/components/BoxPadding'
-import InputDropDownButton from 'canvas/toolbar/components/InputDropDownButton'
+//import InputDropDownButton from 'canvas/toolbar/components/InputDropDownButton'
 import CreateButton from 'canvas/toolbar/components/CreateButton'
 import ActionButton from 'canvas/toolbar/components/ActionButton'
 import DataSection from 'canvas/toolbar/components/DataSection'
@@ -42,6 +42,7 @@ import CallBackSection from 'canvas/toolbar/components/CallBackSection'
 import LowCodeResponsiveSection from 'canvas/toolbar/components/LowCodeResponsiveSection'
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
+import TextProperties from 'canvas/toolbar/components/TextProperties'
 
 import Services from 'services/Services'
 
@@ -226,6 +227,8 @@ export default {
 
 				this.sections = [];
 
+				this.designTokenBtns = []
+
 				this.propertiesStates = {};
 
 				this._renderWidgetAlign();
@@ -254,7 +257,6 @@ export default {
 				this._renderWidgetLine();
 
 
-
 				this._renderData();
 
 				this._renderValidation();
@@ -264,6 +266,8 @@ export default {
 				this._renderWidgetBackground();
 
 				this._renderWidgetBorder();
+
+				//this._renderWidgetBoxShadow()
 
 				this._renderWidgetText();
 
@@ -397,7 +401,7 @@ export default {
 			* Group Settings
 			****************************************************************************************************/
 
-			_renderGroupName:function(){
+			_renderGroupName (){
 				var parent = this.createSection("Group Name");
 
 				var content = document.createElement("div");
@@ -669,7 +673,6 @@ export default {
 
 				this.lowCodeResponsiveDiv = parent;
 				this.properties.appendChild(parent);
-
 			},
 
 
@@ -682,7 +685,6 @@ export default {
 
 				var dataDiv = document.createElement("div");
 				content.appendChild(dataDiv);
-
 
 				this.dataWidget = this.$new(DataSection);
 				this.dataWidget.setModel(this.model);
@@ -751,16 +753,15 @@ export default {
 				this.own(on(this.actionBTN, "updateAction", lang.hitch(this, "updateAction")));
 				this.own(on(this.actionBTN, "showScreenAnimation", lang.hitch(this, "showAdvancedAnimationDialog")));
 
-
 				this.properties.appendChild(parent);
 				this.lineDiv = parent;
-
 			},
 
 
 			_renderWidgetBox (){
 
-				this.designTokenPaddingBtn = this.$new(DesignTokenBtn)
+				this.designTokenPaddingBtn = this.createDesignTokenBtn()
+
 
 				var parent = this.createSection( "Padding", true, this.designTokenPaddingBtn);
 
@@ -779,7 +780,7 @@ export default {
 
 			_renderWidgetBackground (){
 
-				this.designTokenBackground = this.$new(DesignTokenBtn)
+				this.designTokenBackground = this.createDesignTokenBtn()
 
 				var parent = this.createSection( "Background", true, this.designTokenBackground);
 
@@ -847,9 +848,33 @@ export default {
 			},
 
 
+			_renderWidgetBoxShadow (){
+
+				this.designTokenBackground = this.createDesignTokenBtn()
+
+				var parent = this.createSection( "Effects", true, this.designTokenBackground);
+
+				var content = document.createElement("div");
+				css.add(content, "MatcToolbarSectionContent");
+				parent.appendChild(content);
+
+
+				this.boxShadow = this.$new(BoxShadow);
+				this.boxShadow.setModel(this.model)
+				this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
+				this._placeAt(this.boxShadow,content);
+				this.addTooltip(this.boxShadow.domNode, "Box Shadow");
+
+
+				this.boxShadowBackgroundDiv = parent;
+				this.properties.appendChild(parent);
+
+			},
+
+
 			_renderWidgetBorder (){
 
-				this.designTokenBorder = this.$new(DesignTokenBtn)
+				this.designTokenBorder = this.createDesignTokenBtn()
 
 				var parent = this.createSection("Border", true, this.designTokenBorder, "toggleBoxBorder");
 
@@ -910,140 +935,28 @@ export default {
 			_renderWidgetText (){
 
 
-				this.designTokenText = this.$new(DesignTokenBtn)
-
+				this.designTokenText = this.createDesignTokenBtn()
 				var parent = this.createSection('Text', true, this.designTokenText);
 
-				var content = document.createElement("div");
-				css.add(content, "MatcToolbarSectionContent");
-				parent.appendChild(content);
 
 
-				this.family = this.$new(ToolbarDropDownButton);
-				this.family.setOptions(this._getFontFamilies());
-				this.family.reposition = true;
-				this.addTooltip(this.family.domNode, "Font Family");
-
-				this.own(on(this.family, "change", lang.hitch(this, "setWidgetStyle", "fontFamily")));
-				this._placeAt(this.family, content);
-
-
-				this.fontSize = this.$new(InputDropDownButton);
-				this.fontSize.setOptions(["Auto",10,12,14,18,20,24,28,32,40,50,60,70,80,100,120]);
-				this.fontSize.reposition = true;
-				this.own(on(this.fontSize, "change", lang.hitch(this, "setWidgetStyle", "fontSize")));
-				this._placeAt(this.fontSize, content);
-				this.addTooltip(this.fontSize.domNode, "Font Size");
-
-				this.createSpacer(content);
-
-
-				this.color = this.$new(ToolbarColor, {hasPicker:true, chevron:false});
-				this.color.keepOpenOnTypeSelection = "widget";
-				this.color.reposition = true;
-				this.color.updateLabel = true;
-				this.color.setModel(this.model);
-				this.color.setLabel('<span class="MatcToolbarColorIndicator"></span>');
-				this.own(on(this.color, "change", lang.hitch(this, "setWidgetStyle", "color")));
-				this.own(on(this.color, "changing", lang.hitch(this, "setTempWidgetStyle", "color")));
-				this._placeAt(this.color, content);
-				this.addTooltip(this.color.domNode, "Font Color");
-				this.colorWidgets.push(this.color);
-
-
-				this.fontWeight= this.$new(ToolbarToggleButton);
-				this.fontWeight.setLabel("");
-				this.fontWeight.setCss("mdi mdi-format-bold");
-				this.own(on(this.fontWeight, "change", lang.hitch(this, "toggleStyle", "fontWeight", "bold")));
-				this._placeAt(this.fontWeight, content);
-				this.addTooltip(this.fontWeight.domNode, "Bold");
-
-				this.fontStyle = this.$new(ToolbarToggleButton);
-				this.fontStyle.setLabel("");
-				this.fontStyle.setCss("mdi mdi-format-italic");
-				this.own(on(this.fontStyle, "change", lang.hitch(this, "toggleStyle", "fontStyle", "italic")));
-				this._placeAt(this.fontStyle, content);
-				this.addTooltip(this.fontStyle.domNode, "Italic");
-
-				this.textDecoration = this.$new(ToolbarToggleButton);
-				this.textDecoration.setLabel("");
-				this.textDecoration.setCss("mdi mdi-format-underline");
-				this.own(on(this.textDecoration, "change", lang.hitch(this, "toggleStyle", "textDecoration", "underline")));
-				this._placeAt(this.textDecoration, content);
-				this.addTooltip(this.textDecoration.domNode, "Underline");
-
-				this.strikeThrough = this.$new(ToolbarToggleButton);
-				this.strikeThrough.setLabel('S');
-				this.strikeThrough.setCss("MatcToolbarStrikeTrought");
-				this.own(on(this.strikeThrough, "change", lang.hitch(this, "toggleStyle", "textDecoration", "line-through")));
-				//this._placeAt(this.strikeThrough, content);
-				this.addTooltip(this.strikeThrough.domNode, "Strikethrough");
-
-				this.createSpacer(content);
-
-
-				this.textAlign = this.$new(ToolbarSelector);
-				this.textAlign.setOptions([
-					{ value:"left", icon:"mdi mdi-format-align-left"},
-						{ value:"center", icon:"mdi mdi-format-align-center"},
-						{ value:"right", icon:"mdi mdi-format-align-right"},
-						{ value:"justify", icon:"mdi mdi-format-align-justify"}
-				]);
-				this.own(on(this.textAlign, "change", lang.hitch(this, "setWidgetStyle", "textAlign")));
-				this._placeAt(this.textAlign, content);
-				this.addTooltip(this.textAlign.domNode, "Text Alignment");
-
-				this.createSpacer(content);
-
+				this.textProperties = this.$new(TextProperties)
+				this.textProperties.setModel(this.model)
+				this.textProperties.setFontFamilies(this._getFontFamilies())
+				this.textProperties.placeAt(parent)
+				this.own(on(this.textProperties, "change", lang.hitch(this, "setWidgetStyle")));
+				this.own(on(this.textProperties, "changing", lang.hitch(this, "setTempWidgetStyle")));
+				this.own(on(this.textProperties, "toggle", lang.hitch(this, "toggleStyle")));
 
 				/**
-				* advanced text stuff
-				*/
-				var advanced = document.createElement("div");
-				css.add(advanced, "MatcToolbarSectionContent");
-				parent.appendChild(advanced);
-
-				this.textShadow = this.$new(TextShadow);
-				this.textShadow.setModel(this.model)
-				this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
-				this._placeAt(this.textShadow, advanced);
-				this.addTooltip(this.textShadow.domNode, "Text Shadow");
-
-				this.lineHeight = this.$new(ToolbarDropDownButton);
-				this.lineHeight.setOptions([1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
-				this.lineHeight.setLabel('<span class="mdi mdi-format-line-spacing"></span>');
-				this.lineHeight.reposition = true;
-				this.lineHeight.updateLabel  =false;
-				this.own(on(this.lineHeight, "change", lang.hitch(this, "setWidgetStyle", "lineHeight")));
-				this._placeAt(this.lineHeight, advanced);
-				this.addTooltip(this.lineHeight.domNode, "Line Height");
-
-				this.letterSpacing = this.$new(ToolbarDropDownButton);
-				this.letterSpacing.setOptions([0,1,2,4,5,6,7,8,9,10,20,30]);
-				this.letterSpacing.setLabel('<span class="glyphicons glyphicons-text-width"></span>');
-				this.letterSpacing.reposition = true;
-				this.letterSpacing.updateLabel  =false;
-				this.own(on(this.letterSpacing, "change", lang.hitch(this, "setWidgetStyle", "letterSpacing")));
-				this._placeAt(this.letterSpacing, advanced);
-				this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
-
-				this.verticalAlign = this.$new(ToolbarDropDownButton);
-				this.verticalAlign.setOptions([
-				{ value:"top", icon:"mdi mdi-format-vertical-align-top"},
-				{ value:"middle", icon:"mdi mdi-format-vertical-align-center"},
-				{ value:"bottom", icon:"mdi mdi-format-vertical-align-bottom"},
-				]);
-				this.verticalAlign.setLabel('<span class="glyphicons glyphicons-text-width"></span>');
-				this.verticalAlign.reposition = true;
-				this.verticalAlign.updateLabel  = true;
-				this.own(on(this.verticalAlign, "change", lang.hitch(this, "setWidgetStyle", "verticalAlign")));
-				this._placeAt(this.verticalAlign, advanced);
-				this.addTooltip(this.verticalAlign.domNode, "Vertical Align");
+				 * FIXME: We should not expose child widgets...
+				 */
+				this.colorWidgets.push(this.textProperties.getColorPicker())
 
 
 				this.properties.appendChild(parent);
 				this.textDiv = parent;
-				this.textAdvancedDiv = advanced;
+
 			},
 
 
@@ -1100,7 +1013,7 @@ export default {
 			_renderScreenBackground (){
 
 
-				this.designTokenScreenBackground = this.$new(DesignTokenBtn)
+				this.designTokenScreenBackground = this.createDesignTokenBtn()
 
 				var parent = this.createSection( "Background", true, this.designTokenScreenBackground);
 				var content = document.createElement("div");
@@ -1487,7 +1400,7 @@ export default {
 
 				if (settingsCallback){
 					let settings = document.createElement("span");
-					css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-settings");
+					css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-settings"); //mdi-tune-vertical
 					div.appendChild(settings);
 					this.own(on(settings, touch.press, lang.hitch(this, settingsCallback)));
 				}
@@ -1506,7 +1419,11 @@ export default {
 				return div;
 			},
 
-
+			createDesignTokenBtn () {
+				let btn = this.$new(DesignTokenBtn)
+				this.designTokenBtns.push(btn)
+				return btn
+			},
 
 			createSpacer (parent){
 				var span = document.createElement("span");
@@ -1608,8 +1525,8 @@ export default {
 			},
 
 			updateFontFamilies () {
-				if (this.family){
-					this.family.setOptions(this._getFontFamilies());
+				if (this.textProperties){
+					this.textProperties.setFontFamilies(this._getFontFamilies());
 				}
 			},
 

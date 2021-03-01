@@ -103,11 +103,11 @@ export default {
 			* Tools properties
 			****************************************************************************************************/
 
-			hideTools:function(){
+			hideTools (){
 				css.add(this.toolsDiv, "MatcToolbarSectionHidden");
 			},
 
-			showCopyPaste:function(){
+			showCopyPaste (){
 				this.logger.log(3,"showCopyPaste", "entry");
 
 				css.remove(this.copyPasteDiv, "MatcToolbarSectionHidden");
@@ -123,25 +123,24 @@ export default {
 				}
 			},
 
-			hideWidgetTools:function(){
+			hideWidgetTools (){
 				css.add(this.toolsCntrDiv,"MatcToolbarSectionHidden");
-				css.add(this.verticalAlign.domNode, "hidden");
 			},
 
 
-			showWidgetTools:function(){
+			showWidgetTools (){
 				css.remove(this.toolsCntrDiv,"MatcToolbarSectionHidden");
 			},
 
 
-			hideDisButtons:function(){
-				for(var id in this.distButtons){
+			hideDisButtons (){
+				for (let id in this.distButtons) {
 					css.add(this.distButtons[id], "MatcToolbarItemPassive");
 				}
 			},
 
-			showDistButtons:function(){
-				for(var id in this.distButtons){
+			showDistButtons (){
+				for (let id in this.distButtons) {
 					css.remove(this.distButtons[id], "MatcToolbarItemPassive");
 				}
 			},
@@ -268,10 +267,14 @@ export default {
 				css.add(this.dataDiv,"MatcToolbarSectionHidden" );
 				css.add(this.validationDiv, "MatcToolbarSectionHidden");
 				css.add(this.backgroundColorDiv, "MatcToolbarSectionHidden");
+
 				css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")
 				css.add(this.callBackDiv, "MatcToolbarSectionHidden")
 				css.add(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")
 
+				if (this.boxShadowBackgroundDiv) {
+					css.add(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
+				}
 				if (this.responsiveDiv){
 					css.add(this.responsiveDiv, "MatcToolbarSectionHidden")
 				}

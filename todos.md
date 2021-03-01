@@ -48,15 +48,24 @@
 ## New Toolbar
 - prototype view
   - after link is added select widget
-
-## Design System
+- Layerlist shoul dbe one big tree... also selecting a screen should
+- Actions could have ScreenContaoner as target!
+## Design Token
  - add plus buttons
-- design systsme
+ - select canvas view
+   - popup to edit (colors, text, shadow)
+
+ - designtokens as root in model
+ - inhereited will add design tokens!
+ - live update when changing?
+ - How to show?
+  - Color -> have special popup
+  - Text hide block and show name
+
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions
- - LayourLIst into view only when selection from canavs
- - Layerlist shoul dbe one big tree... also selecting a screen should
- - Actions could have ScreenContaoner as target!
+
+## Vector Editor
 
 ## Bugs
   - REST rename (caused bug in layerl listr)

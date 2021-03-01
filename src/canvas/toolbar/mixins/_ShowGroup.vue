@@ -116,7 +116,10 @@ export default {
 
 			},
 
-			showMultiProperties:function(model){
+			showMultiProperties (model){
+				console.debug('showMultiProperties')
+
+    		this.showProperties();
 
 				if(this.widgetAlignDiv){
 					css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
@@ -143,7 +146,6 @@ export default {
 
 				}
 				this.multiPositionCheckBox.setValue(fixed);
-				// this.childWidget.setMulti(model);
 				this._showMultiVisualProperties(model);
 			},
 
@@ -206,26 +208,7 @@ export default {
 
 					if(hasLabel){
 						css.remove(this.textDiv, "MatcToolbarSectionHidden");
-
-						this.family.setValue(style.fontFamily);
-						this.fontSize.setValue(style.fontSize);
-						this.fontWeight.setValue(style.fontWeight == "bold");
-						this.fontStyle.setValue(style.fontStyle == "italic");
-						this.textDecoration.setValue(style.textDecoration == "underline");
-						this.color.setValue(style.color);
-						this.textAlign.setValue(style.textAlign);
-
-
-						css.remove(this.textAdvancedDiv,  "MatcToolbarSectionHidden");
-						this.textShadow.setValue(style.textShadow);
-						this.lineHeight.setValue(style.lineHeight);
-						this.letterSpacing.setValue(style.letterSpacing);
-						this.strikeThrough.setValue(style.textDecoration == "line-through")
-
-						if (this.verticalAlign) {
-							this.verticalAlign.setValue(style.verticalAlign);
-						}
-
+						this.textProperties.setValue(style)
 					}
 
 
