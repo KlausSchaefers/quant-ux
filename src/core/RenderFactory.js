@@ -1387,8 +1387,8 @@ export default class RenderFactory extends Core {
 				parent.style.backgroundPosition = "0 0"; // 100%
 			}
 
-
 			parent.style.backgroundRepeat = "no-repeat";
+			parent.style.border = "none";
 		} else {
 			/**
 			 * Images get a placeholder x... mixture of canvas and css border
