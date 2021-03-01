@@ -811,13 +811,6 @@ export default {
 				this._placeAt(this.backgroundImage,content);
 				this.addTooltip(this.backgroundImage.domNode, "Background Image");
 
-
-				this.boxShadow = this.$new(BoxShadow);
-				this.boxShadow.setModel(this.model)
-				this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
-				this._placeAt(this.boxShadow,content);
-				this.addTooltip(this.boxShadow.domNode, "Box Shadow");
-
 				this.opacity = this.$new(ToolbarDropDownButton);
 				this.opacity.setLabel('<span class="mdi mdi-contrast"></span>');
 				this.opacity.updateLabel = false;
@@ -826,6 +819,13 @@ export default {
 				this.own(on(this.opacity, "change", lang.hitch(this, "setWidgetStyle", "opacity")));
 				this._placeAt(this.opacity, content);
 				this.addTooltip(this.opacity.domNode, "Opacity");
+
+				this.boxShadow = this.$new(BoxShadow);
+				this.boxShadow.setModel(this.model)
+				this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
+				this._placeAt(this.boxShadow,content);
+				this.addTooltip(this.boxShadow.domNode, "Box Shadow");
+
 
 				// background image position
 				this.backgroundImagePosition = this.$new(ToolbarImagePosition, {mode:this.mode});

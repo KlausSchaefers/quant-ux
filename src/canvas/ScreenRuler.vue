@@ -263,8 +263,6 @@ export default {
                             h.listener.remove()
                             if (h.div.parentNode) {
                                 h.div.parentNode.removeChild(h.div)
-                            } else {
-                                console.warn('_cleanUpScreenRulerHandlers() > No div', h)
                             }
                         })
                         delete this._screenRulerHandles[screenId]

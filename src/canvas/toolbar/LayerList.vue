@@ -3,15 +3,10 @@
 		<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="cntr">
 			<div class="MatcToolbarLayerListScreenCntr">
 				<div class="MatcLayerListScreens">
-					<div :class="['MatcToolbarSection', {'MatcToolbarSectionCollabsed': isTreeCollapsed(tree)}]" v-for="tree in trees" :key="tree.id">
-						<div class="MatcToolbarLayerListScreenLabel" @click="toggleTreeCollapsed(tree)">
-							{{tree.name}}
-							<span class="MatcToolbarSectionChevron MatcLayerListExpandIcon mdi mdi-chevron-down">
-							</span>
-						</div>
-						<div class=" MatcToolbarSectionContent">
+
+						<div class=" MatcToolbarSectionContent" >
 							<Tree
-								:value="tree"
+								:value="root"
 								@open="onOpen"
 								@locked="onLocked"
 								@hidden="onHidden"
@@ -19,7 +14,7 @@
 								@changeLabel="onChangeLabel"
 								@dnd="onDnd"/>
 						</div>
-					</div>
+
 				</div>
 			</div>
 		</div>
@@ -41,6 +36,7 @@ export default {
 					screenListeners: {},
 					collapsed: {},
 					openNodes: {},
+					root: {},
 					trees: [],
 					nodes: {}
         }
@@ -199,6 +195,11 @@ export default {
 
 		createNestedModel (model){
 			var result = [];
+			let root = {
+				name: "",
+				id: model.id,
+				children: []
+			};
 			this.nodes = {}
 
 			// 1) Build group lookup
@@ -222,10 +223,16 @@ export default {
 			// build a tree for each screen
 			for(let id in model.screens){
 				let screen = model.screens[id];
-
+				if (this.openNodes[screen.id] === undefined) {
+					this.openNodes[screen.id] = true
+				}
 				let tree = {
 					name: screen.name,
 					id: screen.id,
+					icon: this.getNodeIcon(screen, 'screen'),
+					closeIcon : this.getCloseIcon(screen),
+					openIcon: this.getOpenIcon(screen),
+					open: this.openNodes[screen.id],
 					children: []
 				};
 				let groupNodes = {};
@@ -266,13 +273,14 @@ export default {
 						}
 					}
 				}
-				result.push(tree)
+				root.children.push(tree)
 			}
 
 			/**
 			 * Now still add before and after listeners
 			 */
 			this.trees = result
+			this.root = root
 		},
 
 		getSortedScreenChildren (model, screen) {
@@ -388,6 +396,9 @@ export default {
 
 
 		getNodeIcon (box, type){
+			if (type === 'screen') {
+				return 'mdi mdi-laptop'
+			}
 			if (type === 'group') {
 				return 'mdi mdi-crop-free'
 			}

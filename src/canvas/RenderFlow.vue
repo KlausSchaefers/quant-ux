@@ -11,6 +11,22 @@ export default {
 			updateDnD (zoomedModel) {
 				this.logger.log(3,"updateDnD", "enter");
 
+				requestAnimationFrame(() => {
+					this._updateDNDRendered = false
+					this._updateDnD(zoomedModel)
+				})
+
+
+				this.afterUpdateDnd(zoomedModel)
+			},
+
+
+			_updateDnD (zoomedModel) {
+
+				if (this._updateDNDRendered) {
+					return
+				}
+
 				for (let id in zoomedModel.screens){
 						let zoomedScreen = zoomedModel.screens[id]
 						this.updateScreenDnd(zoomedScreen)
@@ -34,7 +50,8 @@ export default {
 					}
 				}
 
-				this.afterUpdateDnd(zoomedModel)
+				this._updateDNDRendered = true
+
 			},
 
 			afterUpdateDnd () {
