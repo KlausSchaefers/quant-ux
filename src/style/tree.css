@@ -51,13 +51,17 @@ input.MatcTreeItemLabel {
 }
 
 .MatcTree ul li{
-  width: calc(100% - 20px);
-  margin-left: 10px;
+  width: calc(100% - 16px);
+  margin-left: 4px;
+}
+
+.MatcTree ul li ul{
+  margin-left: 12px;
 }
 
 .MatcTree .MatcTreeIcon {
   display: inline-block;
-  width: 20px;
+  width: 16px;
   height: 16px;
 }
 

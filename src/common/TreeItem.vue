@@ -71,6 +71,12 @@ export default {
     };
   },
   computed: {
+    customCSS () {
+      if (this.value && this.value.customCSS) {
+        return this.value.customCSS
+      }
+      return ''
+    },
     hintAndLabel () {
       if (this.value) {
         if (this.value.hint) {

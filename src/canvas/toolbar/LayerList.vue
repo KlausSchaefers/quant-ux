@@ -228,13 +228,17 @@ export default {
 				}
 				let tree = {
 					name: screen.name,
+					label: screen.name,
 					id: screen.id,
-					icon: this.getNodeIcon(screen, 'screen'),
+					css: 'MatcToolbarLayerListScreen',
+					icon: this.getAppTypeIcon(model),
 					closeIcon : this.getCloseIcon(screen),
 					openIcon: this.getOpenIcon(screen),
 					open: this.openNodes[screen.id],
 					children: []
 				};
+				this.nodes[id] = tree
+
 				let groupNodes = {};
 				let masterNodes = {}
 				let sorted = this.getSortedScreenChildren(model, screen)
@@ -397,7 +401,7 @@ export default {
 
 		getNodeIcon (box, type){
 			if (type === 'screen') {
-				return 'mdi mdi-laptop'
+				return  this.getAppTypeIcon()
 			}
 			if (type === 'group') {
 				return 'mdi mdi-crop-free'
@@ -418,6 +422,16 @@ export default {
 			}
 			return "mdi mdi-crop-portrait";
 		},
+
+
+    getAppTypeIcon (model) {
+      if (model.type == "smartphone") {
+        return "mdi mdi-cellphone";
+      } else if (model.type == "tablet") {
+        return "mdi mdi-tablet-ipad";
+      }
+      return "mdi mdi-laptop";
+    },
 
 		changeName (box) {
 			let node = this.nodes[box.id]

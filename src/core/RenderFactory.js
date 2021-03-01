@@ -1389,6 +1389,7 @@ export default class RenderFactory extends Core {
 
 
 			parent.style.backgroundRepeat = "no-repeat";
+			parent.style.border = "none";
 		} else {
 			/**
 			 * Images get a placeholder x... mixture of canvas and css border

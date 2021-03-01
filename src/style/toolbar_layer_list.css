@@ -17,6 +17,14 @@
 .MatcToolbarLayerListScreenCntr{
 }
 
+.MatcToolbarLayerListScreen {
+	margin-top: 8px;
+}
+
+.MatcToolbarLayerListScreen .MatcTreeItemLabel{
+	font-weight: 700;
+}
+
 
 .MatcLayerListVisible .MatcToolbarLayerList{
 	display: block
@@ -116,3 +124,10 @@
 	cursor: auto;
 }
 
+.MatcTreeToggleChildrenIcon{
+	opacity: 0;
+}
+
+.MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon{
+	opacity: 1;
+}
