@@ -267,7 +267,7 @@ export default {
 
 				this._renderWidgetBorder();
 
-				//this._renderWidgetBoxShadow()
+				this._renderWidgetBoxShadow()
 
 				this._renderWidgetText();
 
@@ -820,11 +820,11 @@ export default {
 				this._placeAt(this.opacity, content);
 				this.addTooltip(this.opacity.domNode, "Opacity");
 
-				this.boxShadow = this.$new(BoxShadow);
-				this.boxShadow.setModel(this.model)
-				this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
-				this._placeAt(this.boxShadow,content);
-				this.addTooltip(this.boxShadow.domNode, "Box Shadow");
+				//this.boxShadow = this.$new(BoxShadow);
+				//this.boxShadow.setModel(this.model)
+				//this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
+				//this._placeAt(this.boxShadow,content);
+				//this.addTooltip(this.boxShadow.domNode, "Box Shadow");
 
 
 				// background image position
@@ -850,9 +850,9 @@ export default {
 
 			_renderWidgetBoxShadow (){
 
-				this.designTokenBackground = this.createDesignTokenBtn()
+				this.designTokenBoxShadow = this.createDesignTokenBtn()
 
-				var parent = this.createSection( "Effects", true, this.designTokenBackground);
+				var parent = this.createSection( "Box Shadow", true, this.designTokenBoxShadow);
 
 				var content = document.createElement("div");
 				css.add(content, "MatcToolbarSectionContent");

@@ -414,14 +414,7 @@ export default {
 			if (box.type == "Label") {
 				return "mdi mdi-format-title";
 			}
-			if (box.type == "Icon") {
-				if (box.style.icon){
-					return box.style.icon;
-				}
-			}
-			if (box.type == "Table") {
-				return "mdi mdi-table-large"
-			}
+
 			return "mdi mdi-crop-portrait";
 		},
 

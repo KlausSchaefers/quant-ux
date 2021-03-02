@@ -121,6 +121,9 @@ export default {
 						}
 					}
 
+					if (this.boxShadowBackgroundDiv) {
+						css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
+					}
 					this.boxShadow.setValue(style.boxShadow);
 					this.opacity.setValue(style.opacity);
 				}
