@@ -1887,7 +1887,8 @@ export default class BaseController extends Core {
 				"templates" : true,
 				"groups" : true,
 				"fonts": true,
-				"imports": true
+				"imports": true,
+				"designtokens": true
 		};
 
 

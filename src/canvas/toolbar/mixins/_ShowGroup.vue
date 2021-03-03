@@ -59,6 +59,7 @@ export default {
 
       showGroupDesignProperties (model) {
 
+				this.showDesignTokenBtns(model, 'group')
 
 				if(this.widgetAlignDiv){
 					css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
@@ -117,7 +118,6 @@ export default {
 			},
 
 			showMultiProperties (model){
-				console.debug('showMultiProperties')
 
     		this.showProperties();
 
@@ -149,7 +149,9 @@ export default {
 				this._showMultiVisualProperties(model);
 			},
 
-			_showMultiVisualProperties:function(ids){
+			_showMultiVisualProperties (ids){
+
+				this.showDesignTokenBtns(ids, 'multi')
 
 				var widgetViewMode = "style";
 				var style = null;

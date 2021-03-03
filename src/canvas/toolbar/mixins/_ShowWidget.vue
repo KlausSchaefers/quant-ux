@@ -77,6 +77,7 @@ export default {
 
 				this.showProperties();
 				this.showWidgetTools();
+				this.showDesignTokenBtns(model, 'widget')
 
 				var isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
 				if(isLogicWidget){

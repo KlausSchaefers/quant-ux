@@ -3,6 +3,7 @@ import Logger from 'common/Logger'
 import Evented from 'dojo/Evented'
 import ModelGeom from 'core/ModelGeom'
 import ModelResizer from 'core/ModelResizer'
+import ModelUtil from 'core/ModelUtil'
 
 export default class Core extends Evented {
 
@@ -1124,6 +1125,12 @@ export default class Core extends Evented {
 
         var inModel = lang.clone(model);
         inModel.inherited = true;
+
+        /**
+         * Inline designtokens
+         */
+        inModel = ModelUtil.inlineModelDesignTokens(inModel)
+
 
         /**
          * add container widgets

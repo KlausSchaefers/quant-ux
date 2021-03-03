@@ -13,6 +13,41 @@
 
 - Make easier task recording!
 
+
+## New Toolbar
+- prototype view
+  - after link is added select widget
+- Layerlist shoul dbe one big tree... also selecting a screen should
+- Actions could have ScreenContaoner as target!
+- LayerList open should have effect on Scroll
+## Design Token
+ - add plus buttons
+ - select canvas view
+   - popup to edit (colors, text, shadow)
+  - canvas view
+  - box-shaodw section
+  - background section
+  - templates
+
+ - live update when changing?
+ - How to show?
+  - Color -> have special popup
+  - Text hide block and show name
+
+ - detach template. Make seperate section, could also host styles
+ - grousp shoudl have actions
+
+## SVG Widgets
+## Vector Editor
+
+## Bugs
+ - remove onWidgetPositionCHange ()
+    - repeater will rerender all the stuff..
+  - Focxus will trigger screen transition
+  - REST rename (caused bug in layerl listr)
+  - Fixed Element in group overflows seelction when resized. (http://localhost:8080/#/apps/6032e683295894053a555d3e/create.html)
+
+
 ## CSS Render
  - dnd (x)
  - tools (x)
@@ -25,15 +60,14 @@
  - distribute (X)
  - repeater
     - update on props (X)
-    - space handler ()
+    - space handler (removed)
     - child color updates (x)
  - copy paste (started, seems ok)
- - remove onWidgetPositionCHange ()
-    - repeater will rerender all the stuff..
+
  - themes adding (X)
  - group move (X)
  - master screens (X)
- - comments
+ - comments (X)
  - moveToScreen
  - properties live update (X)
  - analytic canvas (X)
@@ -46,37 +80,10 @@
  - updateDND should just resize
  - Zooming should not call toolbar selected ()!
 
-## New Toolbar
-- prototype view
-  - after link is added select widget
-- Layerlist shoul dbe one big tree... also selecting a screen should
-- Actions could have ScreenContaoner as target!
-- LayerList open should have effect on Scroll
-## Design Token
- - add plus buttons
- - select canvas view
-   - popup to edit (colors, text, shadow)
-
- - designtokens as root in model
- - inhereited will add design tokens!
- - live update when changing?
- - How to show?
-  - Color -> have special popup
-  - Text hide block and show name
-
- - detach template. Make seperate section, could also host styles
- - grousp shoudl have actions
-
-## Vector Editor
-
-## Bugs
-  - Focxus will trigger screen transition
-  - REST rename (caused bug in layerl listr)
-  - Fixed Element in group overflows seelction when resized. (http://localhost:8080/#/apps/6032e683295894053a555d3e/create.html)
-
 ## Pages
 
 ## Nice to have
+  - remove canvas listener
   - Improve render factory so we pass the scale as paramter to createWidgetHTML()
   - improve grid crispyness. Maybe render in higher resolution and shring backgroudnSize?
   - multi screen selection.

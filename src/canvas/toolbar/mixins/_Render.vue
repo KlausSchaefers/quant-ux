@@ -43,6 +43,7 @@ import LowCodeResponsiveSection from 'canvas/toolbar/components/LowCodeResponsiv
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
+import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
 
 import Services from 'services/Services'
 
@@ -299,6 +300,11 @@ export default {
 				this._renderRuler();
 
 				/**
+				* render canavs
+				*/
+				this._renderDesignTokens()
+
+				/**
 				* Hide everything
 				*/
 				this.hideAllSections();
@@ -374,6 +380,21 @@ export default {
 				if (this.dataWidget){
 					this.dataWidget.setIcons(icons);
 				}
+			},
+
+			_renderDesignTokens () {
+
+				var parent = document.createElement("div");
+
+
+				this.designTokenList = this.$new(DesignTokenList)
+				this.designTokenList.placeAt(parent)
+				this.own(on(this.designTokenList, "change", lang.hitch(this, "changeDesignToken")));
+				this.own(on(this.designTokenList, "remove", lang.hitch(this, "removeDesignToken")));
+
+
+				this.properties.appendChild(parent);
+				this.designTokenDiv = parent;
 			},
 
 			/*****************************************************************************************************
@@ -760,8 +781,7 @@ export default {
 
 			_renderWidgetBox (){
 
-				this.designTokenPaddingBtn = this.createDesignTokenBtn()
-
+				this.designTokenPaddingBtn = this.createDesignTokenBtn('padding', ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'] )
 
 				var parent = this.createSection( "Padding", true, this.designTokenPaddingBtn);
 
@@ -780,7 +800,7 @@ export default {
 
 			_renderWidgetBackground (){
 
-				this.designTokenBackground = this.createDesignTokenBtn('background')
+				this.designTokenBackground = this.createDesignTokenBtn('color', ['background'])
 
 				var parent = this.createSection( "Background", true, this.designTokenBackground);
 
@@ -850,7 +870,7 @@ export default {
 
 			_renderWidgetBoxShadow (){
 
-				this.designTokenBoxShadow = this.createDesignTokenBtn('box-shadow')
+				this.designTokenBoxShadow = this.createDesignTokenBtn('boxShadow', ['boxShadow'])
 
 				var parent = this.createSection( "Box Shadow", true, this.designTokenBoxShadow);
 
@@ -874,7 +894,7 @@ export default {
 
 			_renderWidgetBorder (){
 
-				this.designTokenBorder = this.createDesignTokenBtn('border')
+				this.designTokenBorder = this.createDesignTokenBtn('stroke', ['borderTopWidth', 'borderRightWidth', 'borderLeftWidth', 'borderBottomWidth', 'borderTopColor', 'borderBottomColor', 'borderRightColor', 'borderLeftColor'])
 
 				var parent = this.createSection("Border", true, this.designTokenBorder, "toggleBoxBorder");
 
@@ -935,7 +955,7 @@ export default {
 			_renderWidgetText (){
 
 
-				this.designTokenText = this.createDesignTokenBtn('text')
+				this.designTokenText = this.createDesignTokenBtn('text', ['color', 'fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight'])
 				var parent = this.createSection('Text', true, this.designTokenText);
 
 
@@ -1013,7 +1033,7 @@ export default {
 			_renderScreenBackground (){
 
 
-				this.designTokenScreenBackground = this.createDesignTokenBtn('background')
+				this.designTokenScreenBackground = this.createDesignTokenBtn('color', ['background'])
 
 				var parent = this.createSection( "Background", true, this.designTokenScreenBackground);
 				var content = document.createElement("div");
@@ -1400,7 +1420,7 @@ export default {
 
 				if (settingsCallback){
 					let settings = document.createElement("span");
-					css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-settings"); //mdi-tune-vertical
+					css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-cog"); //mdi-tune-vertical
 					div.appendChild(settings);
 					this.own(on(settings, touch.press, lang.hitch(this, settingsCallback)));
 				}
@@ -1419,9 +1439,13 @@ export default {
 				return div;
 			},
 
-			createDesignTokenBtn (type) {
+			createDesignTokenBtn (tokenType, cssProps) {
 				let btn = this.$new(DesignTokenBtn)
-				btn.setType(type)
+				btn.setTokenType(tokenType)
+				btn.setCSSprops(cssProps)
+				this.own(on(btn, "new", lang.hitch(this, "newDesignToken")));
+				this.own(on(btn, "link", lang.hitch(this, "linkDesignToken")));
+				this.own(on(btn, "unlink", lang.hitch(this, "unlinkDesignToken")));
 				this.designTokenBtns.push(btn)
 				return btn
 			},

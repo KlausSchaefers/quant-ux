@@ -29,10 +29,12 @@ export default {
     },
 
     dispatchBoxClickCallback (id, div, pos, e) {
+      //console.warn('DEPRECTAED dispatchBoxClickCallback()')
       this[this._boxClickCallback](id, div, pos, e);
     },
 
     dispatchCanvasClickCallback (id, div, pos, e) {
+      //console.warn('DEPRECTAED dispatchCanvasClickCallback()')
       this[this._canvasClickCallback](id, div, pos, e);
     },
 

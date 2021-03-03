@@ -69,6 +69,9 @@ export default {
       },
 
       showScreenDesignProperties (model) {
+
+				this.showDesignTokenBtns(model, 'screen')
+
         if(this.screenDIV){
 					css.remove(this.screenDIV, "MatcToolbarSectionHidden");
 				}

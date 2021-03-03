@@ -514,6 +514,8 @@ export default {
 
 		onCanvasSelected (){
 			this.cleanUp();
+
+			this.showCanvas()
 		},
 
 
@@ -809,7 +811,39 @@ export default {
 			return false;
 		},
 
+		/**********************************************************************
+		 * Design Token
+		 **********************************************************************/
 
+		newDesignToken (tokenType, cssProps) {
+			this.logger.log(-1,"newDesignToken", "entry", cssProps);
+
+			var state = this._getViewStyleModelKey();
+
+			if(this._selectedWidget){
+				this.controller.addDesignToken(this._selectedWidget.id, tokenType, cssProps, state, this._selectedWidget.name, 'widget');
+			}
+
+			if(this._selectedScreen){
+				this.controller.addDesignToken(this._selectedScreen.id, tokenType, cssProps, state, this._selectedScreen.name, 'screen');
+			}
+		},
+
+		linkDesignToken () {
+			this.logger.log(-1,"linkDesignToken", "entry");
+		},
+
+		unlinkDesignToken () {
+			this.logger.log(-1,"unlinkDesignToken", "entry");
+		},
+
+		changeDesignToken () {
+			this.logger.log(-1,"changeDesignToken", "entry");
+		},
+
+		removeDesignToken () {
+			this.logger.log(-1,"deleteDesignToken", "entry");
+		},
 
 		/**********************************************************************
 		 * Action

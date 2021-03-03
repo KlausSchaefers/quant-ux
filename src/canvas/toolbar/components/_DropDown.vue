@@ -207,10 +207,8 @@ export default {
 			},
 
 			renderArrow (){
-				console.debug('arrow', this.arrowPosition)
 
 				if(this.arrowPosition){
-
 					if(!this.arrow){
 						this.arrow = document.createElement("div");
 						css.add(this.arrow, "MatcToolbarPopUpArrowCntr");
@@ -228,8 +226,6 @@ export default {
 						var y = Math.round(pos.y - popupPos.y +((pos.h-this.arrowSize)/2));
 						this.arrow.style.top = Math.min(y, popupPos.h-2*this.arrowSize) + "px";
 					}
-
-
 				}
 			},
 

@@ -5,10 +5,11 @@ import _Tooltip from 'common/_Tooltip'
 import _ShowWidget from './_ShowWidget'
 import _ShowGroup from './_ShowGroup'
 import _ShowScreen from './_ShowScreen'
+import _ShowCanvas from './_ShowCanvas'
 
 export default {
     name: '_Show',
-    mixins:[_ShowWidget, _ShowGroup, _ShowScreen, _Tooltip, DojoWidget],
+    mixins:[_ShowWidget, _ShowGroup, _ShowScreen, _ShowCanvas, _Tooltip, DojoWidget],
     data: function () {
         return {
       }
@@ -265,6 +266,7 @@ export default {
 				css.add(this.dataDiv,"MatcToolbarSectionHidden" );
 				css.add(this.validationDiv, "MatcToolbarSectionHidden");
 				css.add(this.backgroundColorDiv, "MatcToolbarSectionHidden");
+				css.add(this.designTokenDiv, "MatcToolbarSectionHidden")
 
 				css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")
 				css.add(this.callBackDiv, "MatcToolbarSectionHidden")
@@ -307,8 +309,22 @@ export default {
 			},
 
 
-			showRemoveButton:function(callback){
+			showRemoveButton (callback){
 				this._removeBTN = this.createToolBarItem('<span class="glyphicon glyphicon-trash"></span>', callback, "MatcToolbarItemRemove");
+			},
+
+			showDesignTokenBtns (selection, type) {
+				this.designTokenBtns.forEach(btn => {
+					if (type === 'widget') {
+						btn.setWidget(selection)
+					}
+					if (type === 'screen') {
+						btn.setScreen(selection)
+					}
+					if (type === 'multi' || type === 'group') {
+						btn.setMulti(selection)
+					}
+				})
 			},
 
 

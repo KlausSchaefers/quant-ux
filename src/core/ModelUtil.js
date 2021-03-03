@@ -8,6 +8,43 @@ class ModelUtil {
       this.logger = new Logger("ModelUtil");
     }
 
+    inlineModelDesignTokens (model) {
+        /**
+         * This is quite costly. Can we do this smarter? Maybe we could do it in the
+         * RenderFactory (beawre of hover etc). Then we would have to just add here
+         * for all the reference design token the modified?
+         */
+        if (model.designtokens) {
+            for (let widgetID in model.widgets) {
+                let widget = model.widgets[widgetID]
+                this.inlineBoxDesignToken(widget, model)
+            }
+            for (let screenId in model.screens) {
+                let scrn = model.widgets[screenId]
+                this.inlineBoxDesignToken(scrn, model)
+            }
+        }
+        return model
+    }
+
+    inlineBoxDesignToken (box, model) {
+        if (box && box.designtokens) {
+            let designtokens = box.designtokens
+            for (let state in designtokens) {
+                let stateTokens = designtokens[state]
+                for (let cssProp in stateTokens) {
+                    let designTokenId = stateTokens[cssProp]
+                    let designToken = model.designtokens[designTokenId]
+                    if (designToken && designToken.value[cssProp]) {
+                        box[state][cssProp] = designToken.value[cssProp]
+                    } else {
+                        console.warn('ModelUtil.inlineBoxDesignToken() > NO token with id or no value:' + designTokenId, designToken)
+                    }
+                }
+            }
+        }
+    }
+
 
     inlineTemplateModifies(model) {
       /**
@@ -17,8 +54,10 @@ class ModelUtil {
           for (let widgetID in model.widgets) {
               let widget = model.widgets[widgetID]
               if (widget.template) {
-                var t = model.templates[widget.template];
-                widget._templateModified = t.modified
+                let t = model.templates[widget.template];
+                if (t) {
+                    widget._templateModified = t.modified
+                }
               }
           }
         }
