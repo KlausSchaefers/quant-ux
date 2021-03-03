@@ -1458,6 +1458,7 @@ export default {
 				var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 				var d = new Dialog();
+				d.hasCSSAnimation = false
 				d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 				d.own(on(table, touch.press, lang.hitch(this, "setIcon", d)));
 				d.own(on(input, touch.press, function(e){e.stopPropagation()}));
@@ -1467,25 +1468,41 @@ export default {
 
 				d.popup(popup, e.target);
 
-				var me = this;
-				setTimeout(function(){
+				let selected = this.getSelectedIcon()
+
+				setTimeout(() => {
 					input.focus();
-					me.renderIconTable(table,"");
-				},500);
+					this.renderIconTable(table, "", selected);
+				},400);
 			},
 
-			renderIconTable (table, filter){
+			getSelectedIcon () {
+				if (this.widget && this.widget.style) {
+					return this.widget.style.icon
+				}
+			},
+
+			renderIconTable (table, filter, selected = false){
 				table.innerHTML="";
 				var icons = this.icons;
-				// var count =0;
+
 				for (var j = 0; j < icons.length; j++) {
 					var icon = icons[j];
 					if(!filter || icon.indexOf(filter.toLowerCase()) >=0 ){
 						var span = this.db.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j]).build(table);
 						span.setAttribute("data-matc-icon", icons[j]);
-						// count++;
+						if ('mdi mdi-' + icons[j] === selected) {
+							this.focusIcon(span)
+						}
 					}
 				}
+			},
+
+			focusIcon (span) {
+				css.add(span, 'selected')
+				setTimeout( () => {
+					span.scrollIntoView({block: "nearest", inline: "nearest"})
+				}, 100)
 			},
 
 			onIconSearch (input, tbody, e){

@@ -207,6 +207,7 @@ export default {
 			},
 
 			renderArrow (){
+				console.debug('arrow', this.arrowPosition)
 
 				if(this.arrowPosition){
 

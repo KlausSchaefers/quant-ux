@@ -574,6 +574,10 @@
 	line-height:1;
 }
 
+.MatcDateSectionIconCntr .selected{
+	background: #1973e8;
+	color:#fff;
+}
 
 /****************************************************
  * Action Button
@@ -761,16 +765,6 @@
 	transition-property:transform;
 }
 
-.MatcToolbarSectionDesignSystemCntr {
-	position: absolute;
-	right:15px;
-	top:2px;
-	width: 18px;
-	text-align:center;
-	height: 18px;
-  transition-duration: 0.2s;
-	transition-property:transform;
-}
 
 
 .MatcToolbarSectionCollabsed .MatcToolbarSectionChevron{
@@ -790,8 +784,7 @@
 	transition-property:transform;
 }
 
-.MatcToolbarSectionDesignSystemCntr:hover,
-.MatcToolbarSectionSettingsIcon:hover{
+.MatcToolbarSectionDesignSystemCntr:hover{
 	color: #1973e8;
 }
 

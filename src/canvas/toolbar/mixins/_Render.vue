@@ -780,7 +780,7 @@ export default {
 
 			_renderWidgetBackground (){
 
-				this.designTokenBackground = this.createDesignTokenBtn()
+				this.designTokenBackground = this.createDesignTokenBtn('background')
 
 				var parent = this.createSection( "Background", true, this.designTokenBackground);
 
@@ -850,7 +850,7 @@ export default {
 
 			_renderWidgetBoxShadow (){
 
-				this.designTokenBoxShadow = this.createDesignTokenBtn()
+				this.designTokenBoxShadow = this.createDesignTokenBtn('box-shadow')
 
 				var parent = this.createSection( "Box Shadow", true, this.designTokenBoxShadow);
 
@@ -874,7 +874,7 @@ export default {
 
 			_renderWidgetBorder (){
 
-				this.designTokenBorder = this.createDesignTokenBtn()
+				this.designTokenBorder = this.createDesignTokenBtn('border')
 
 				var parent = this.createSection("Border", true, this.designTokenBorder, "toggleBoxBorder");
 
@@ -935,7 +935,7 @@ export default {
 			_renderWidgetText (){
 
 
-				this.designTokenText = this.createDesignTokenBtn()
+				this.designTokenText = this.createDesignTokenBtn('text')
 				var parent = this.createSection('Text', true, this.designTokenText);
 
 
@@ -1013,7 +1013,7 @@ export default {
 			_renderScreenBackground (){
 
 
-				this.designTokenScreenBackground = this.createDesignTokenBtn()
+				this.designTokenScreenBackground = this.createDesignTokenBtn('background')
 
 				var parent = this.createSection( "Background", true, this.designTokenScreenBackground);
 				var content = document.createElement("div");
@@ -1419,8 +1419,9 @@ export default {
 				return div;
 			},
 
-			createDesignTokenBtn () {
+			createDesignTokenBtn (type) {
 				let btn = this.$new(DesignTokenBtn)
+				btn.setType(type)
 				this.designTokenBtns.push(btn)
 				return btn
 			},

@@ -24,7 +24,7 @@ import _Color from 'common/_Color'
 import Util from 'core/Util'
 
 export default {
-    name: 'ToolbarColor',
+  name: 'ToolbarColor',
 	mixins:[Util, _Color, DojoWidget, _DropDown],
 	props: ['isDialog', 'icon', 'color', 'app'],
     data: function () {

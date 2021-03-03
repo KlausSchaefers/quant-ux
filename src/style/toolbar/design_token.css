@@ -1,0 +1,25 @@
+.MatcToolbarSectionDesignSystemCntr {
+	position: absolute;
+	right:15px;
+	top:2px;
+	width: 18px;
+	text-align:center;
+	height: 18px;
+  transition-duration: 0.2s;
+	transition-property:transform;
+}
+
+
+
+.MatcToolbarSectionDesignSystemCntr:hover span{
+	color: #1973e8;
+}
+
+
+.MatcDesignTokenButton{
+
+}
+
+.MatcDesignTokenButton .MatcToolbarPopUp{
+	width: 180px;
+}

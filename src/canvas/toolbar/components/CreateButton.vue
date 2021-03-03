@@ -3,7 +3,7 @@
     <div class="MatcToolbarItem MatcCreateBtn MatcMultiIcon MatcToolbarDropDownButton">
 		<div type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="">
-				<span class="mdi mdi-puzzle"></span>
+				<span class="mdi mdi-puzzle-outline"></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</label>
 
