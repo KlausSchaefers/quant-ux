@@ -58,7 +58,7 @@ export default {
       setTokenType (t) {
         this.tokenType = t
       },
-      setCSSprops (props) {
+      setCssProps (props) {
         this.cssProps = props
       },
       onNew () {

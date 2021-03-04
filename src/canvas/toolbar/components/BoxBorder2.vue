@@ -65,7 +65,7 @@ export default {
 				widget.keepOpenOnTypeSelection = "widget";
 				widget.reposition = true;
 				widget.updateLabel = true;
-				widget.setLabel('<span class="MatcToolbarColorIndicator"></span>');
+				widget.setLabel();
 				if (this.model){
 					widget.setModel(this.model);
 				}

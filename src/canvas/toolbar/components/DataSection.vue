@@ -1624,7 +1624,6 @@ export default {
 				drpDwn.setPopupCss("MatcActionAnimProperties");
 
 				this.tempOwn(on(drpDwn, "change", (option, value) => {
-					console.debug('tree change', option.key, value)
 					if (option.isStyle) {
 						this.onStyleChanged(option.key, value)
 					} else {
@@ -1738,10 +1737,12 @@ export default {
 					color.updateLabel = true;
 				}
 
-				color.setLabel(icon + '<span class="MatcToolbarItemLabel">' + lbl + '</span>');
+				color.setLabel(lbl);
 				color.setModel(this.model);
 				color.setValue(value);
-				css.add(color.domNode, "MatcToolbarDropDownButton MatcToolbarGridFull");
+				color.setBox(this.widget)
+				color.setCssProps([property])
+				css.add(color.domNode, " MatcToolbarGridFull");
 				this.tempOwn(on(color, "change", lang.hitch(this, callback, property)));
 				this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", property)));
 
@@ -1805,7 +1806,8 @@ export default {
 				var color = this.$new(ToolbarColor, {hasPicker:true});
 				color.placeAt(row);
 				color.updateColor = true;
-				color.setLabel('<span class="mdi mdi-format-color-fill"></span>' + '<span class="MatcToolbarItemLabel">' + lbl + ' Fill</span>');
+				color.setLabel(lbl + ' Fill');
+				color.setCssProps([propertyBack])
 				color.setModel(this.model);
 				color.setValue(model.style[propertyBack]);
 				css.add(color.domNode ,"MatcToolbarGridFull");
@@ -1817,8 +1819,8 @@ export default {
 					row = this.db.div("MatcToobarRow  MatcToolbarGridFull").build(this.cntr);
 					color = this.$new(ToolbarColor, {hasPicker:true});
 					color.placeAt(row);
-					color.updateColor = true;
-					color.setLabel('<span class="mdi mdi-format-text"></span>' + '<span class="MatcToolbarItemLabel">' + lbl + ' Font</span>');
+					color.setCssProps([propertyColor])
+					color.setLabel(lbl + ' Text');
 					color.setModel(this.model);
 					color.setValue(model.style[propertyColor]);
 					css.add(color.domNode ,"MatcToolbarGridFull");
@@ -1831,8 +1833,8 @@ export default {
 					row = this.db.div("MatcToobarRow MatcToolbarGridFull").build(this.cntr);
 					color = this.$new(ToolbarColor, {hasPicker:true});
 					color.placeAt(row);
-					color.updateColor = true;
-					color.setLabel('<span class="mdi mdi-border-color"></span>' + '<span class="MatcToolbarItemLabel">' + lbl + ' Border</span>');
+					color.setCssProps([propertyBorder])
+					color.setLabel(lbl + ' Border');
 					color.setModel(this.model);
 					color.setValue(model.style[propertyBorder]);
 					css.add(color.domNode ,"MatcToolbarGridFull");

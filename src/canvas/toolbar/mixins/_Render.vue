@@ -266,6 +266,8 @@ export default {
 
 				this._renderWidgetBackground();
 
+				this._renderWidgetImage()
+
 				this._renderWidgetBorder();
 
 				this._renderWidgetBoxShadow()
@@ -282,6 +284,8 @@ export default {
 				this._renderScreen();
 
 				this._renderScreenBackground();
+
+				this._renderScreenImage()
 
 				this._renderScreenActions();
 
@@ -800,7 +804,7 @@ export default {
 
 			_renderWidgetBackground (){
 
-				this.designTokenBackground = this.createDesignTokenBtn('color', ['background'])
+				this.designTokenBackground = this.createDesignTokenBtn('backgroundColor', ['background'])
 
 				var parent = this.createSection( "Background", true, this.designTokenBackground);
 
@@ -810,17 +814,31 @@ export default {
 
 
 				// background color
-				this.backgroundColor = this.$new(ToolbarColor, {hasGradient : true, hasPicker:true, chevron:false});
+				this.backgroundColor = this.$new(ToolbarColor, {hasGradient : true, hasPicker:true, chevron:false, hex:true});
 				this.backgroundColor.updateLabel = true;
 				this.backgroundColor.keepOpenOnTypeSelection = "widget";
-				this.backgroundColor.setLabel('<span class="MatcToolbarColorIndicator"></span>');
 				this.backgroundColor.setModel(this.model);
+				this.backgroundColor.setCssProps(['background'])
 				this._placeAt(this.backgroundColor, content);
 				this.own(on(this.backgroundColor, "change", lang.hitch(this, "setWidgetStyle", "background")));
 				this.own(on(this.backgroundColor, "changing", lang.hitch(this, "setTempWidgetStyle", "background")));
 
+
 				this.addTooltip(this.backgroundColor.domNode, "Background Color");
 				this.colorWidgets.push(this.backgroundColor);
+
+				this.backgroundColorDiv = parent;
+				this.properties.appendChild(parent);
+			},
+
+			_renderWidgetImage () {
+
+				var parent = this.createSection( "Image", true);
+
+				var content = document.createElement("div");
+				css.add(content, "MatcToolbarSectionContent");
+				parent.appendChild(content);
+
 
 				// background image
 				this.backgroundImage = this.$new(ToolbarImage, {mode:this.mode});
@@ -840,13 +858,6 @@ export default {
 				this._placeAt(this.opacity, content);
 				this.addTooltip(this.opacity.domNode, "Opacity");
 
-				//this.boxShadow = this.$new(BoxShadow);
-				//this.boxShadow.setModel(this.model)
-				//this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
-				//this._placeAt(this.boxShadow,content);
-				//this.addTooltip(this.boxShadow.domNode, "Box Shadow");
-
-
 				// background image position
 				this.backgroundImagePosition = this.$new(ToolbarImagePosition, {mode:this.mode});
 				this.backgroundImagePosition.setJwtToken(this.jwtToken);
@@ -862,9 +873,8 @@ export default {
 				this._placeAt(this.backgroundImageRotation, content);
 				this.addTooltip(this.backgroundImageRotation.domNode, "Image Rotation");
 
-				this.backgroundColorDiv = parent;
+				this.imageWidgetDiv = parent;
 				this.properties.appendChild(parent);
-
 			},
 
 
@@ -1046,11 +1056,24 @@ export default {
 				this.screenBackgroundColor = this.$new(ToolbarColor, {hasGradient:true, hasPicker:true, chevron:false});
 				this.screenBackgroundColor.updateLabel  = true;
 				this.screenBackgroundColor.keepOpenOnTypeSelection = "screen";
-				this.screenBackgroundColor.setLabel('<span class="MatcToolbarColorIndicator"></span>');
 				this.screenBackgroundColor.setModel(this.model);
 				this.own(on(this.screenBackgroundColor, "change", lang.hitch(this, "setScreenStyle", "background")));
 				this.own(on(this.screenBackgroundColor, "changing", lang.hitch(this, "setTempScreenStyle", "background")));
 				this._placeAt(this.screenBackgroundColor, content);
+
+
+				this.properties.appendChild(parent);
+				this.screenBackDiv = parent;
+			},
+
+
+			_renderScreenImage () {
+
+				var parent = this.createSection( "Image", true);
+
+				var content = document.createElement("div");
+				css.add(content, "MatcToolbarSectionContent");
+				parent.appendChild(content);
 
 				this.screenBackgroundImage = this.$new(ToolbarImage, {mode:this.mode});
 				this.screenBackgroundImage.setJwtToken(this.jwtToken)
@@ -1059,8 +1082,9 @@ export default {
 				this.own(on(this.screenBackgroundImage, "change", lang.hitch(this, "setScreenStyle", "backgroundImage")));
 				this._placeAt(this.screenBackgroundImage, content);
 
+
+				this.screenImageDiv = parent;
 				this.properties.appendChild(parent);
-				this.screenBackDiv = parent;
 			},
 
 
@@ -1442,7 +1466,7 @@ export default {
 			createDesignTokenBtn (tokenType, cssProps) {
 				let btn = this.$new(DesignTokenBtn)
 				btn.setTokenType(tokenType)
-				btn.setCSSprops(cssProps)
+				btn.setCssProps(cssProps)
 				this.own(on(btn, "new", lang.hitch(this, "newDesignToken")));
 				this.own(on(btn, "link", lang.hitch(this, "linkDesignToken")));
 				this.own(on(btn, "unlink", lang.hitch(this, "unlinkDesignToken")));

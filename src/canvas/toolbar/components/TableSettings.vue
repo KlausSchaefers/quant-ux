@@ -49,7 +49,6 @@
                                 <td>
                                     <ToolbarColor
                                         :isDialog="true"
-                                        icon="MatcToolbarColorIndicator"
                                         :app="model"
                                         :color="action.color"
                                         @change="onChangeActionColor(action, 'color', $event)"/>

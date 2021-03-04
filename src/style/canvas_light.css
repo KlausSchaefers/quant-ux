@@ -279,8 +279,8 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarItemActive {
-    background: #777 none repeat scroll 0 0;
-    color:#ddd;
+    background: none;
+		color:#1973e8;
 }
 
 
@@ -289,7 +289,7 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarToggleButton.MatcToolbarItemActive:hover{
-	color:#fff;
+	color:#333;
 }
 
 

@@ -1,16 +1,16 @@
 
 <template>
-    <div class="MatcToolbarDropDownButton MatcToolbarItem ">
+    <div class="MatcToolbarDropDownButton  MatcToolbarItem ">
 		<div type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
 			<span data-dojo-attach-point="caret" class="caret"></span>
 		</div>
-		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="">
+		<div class="MatcToolbarPopUp MatcToolbarDropDownTree MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="">
             <ul v-show="view === 'options'" ref="optionCntr" style="width:200px">
                 <li v-for="(option,i) in options" :key="i" @click="selectOption(option)">
 
-                    <label v-if="option.type === 'color'" class="MatcToolbarPopUpLabel" >
-                        <span :class="'MatcToolbarPopUpIcon MatcToolbarPopUpIconTextShadow ' + option.icon" :style="{'color': option.value}"/>
+                    <label v-if="option.type === 'color'" class="MatcToolbarPopUpLabel MatcToolbarLabeledColor" >
+                        <span :class="'MatcToolbarColorIndicator'" :style="{'background': option.value}"/>
                         {{option.label}}
                     </label>
 
@@ -94,6 +94,10 @@ export default {
     methods: {
 	    init (){
 
+        },
+
+        setLabel (lbl) {
+            this.label.innerHTML = lbl
         },
 
         closeColors () {
@@ -199,7 +203,7 @@ export default {
 
         onChange (value) {
             this.hideDropDown();
-            this.setValue(value);
+            //this.setValue(value);
             this.emit("change", this.selectedOption, value);
         },
 
@@ -207,7 +211,6 @@ export default {
 			if (this.value != value) {
 				this.tempValue = value;
 				this.emit("changing", this.selectedOption, value);
-				this.setLabelColor(value);
 			}
 		},
 

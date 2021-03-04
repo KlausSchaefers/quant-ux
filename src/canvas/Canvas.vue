@@ -360,7 +360,8 @@ export default {
 				fastRender: false,
 				hasProtoMoto: false,
 				zoomSnapp: true,
-				selectMove: true
+				selectMove: true,
+				hasDesignToken: true
 			};
 
 			var s = this._getStatus("matcSettings");
@@ -419,6 +420,9 @@ export default {
 			}
 			if (s.selectMove === true || s.selectMove === false) {
 				this.settings.selectMove = s.selectMove
+			}
+			if (s.hasDesignToken === true || s.hasDesignToken === false) {
+				this.settings.hasDesignToken = s.hasDesignToken
 			}
 		},
 
@@ -490,8 +494,8 @@ export default {
 				} else {
 					this.defaultLineColor = "#777";
 				}
-
 			}
+
 			this.settings = s;
 
 			if (this.toolbar) {

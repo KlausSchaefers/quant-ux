@@ -109,7 +109,6 @@ export default {
 				this.color.reposition = true;
 				this.color.updateLabel = true;
 				this.color.setModel(this.model);
-				this.color.setLabel('<span class="MatcToolbarColorIndicator"></span>');
 				this.own(on(this.color, "change", lang.hitch(this, "setWidgetStyle", "color")));
 				this.own(on(this.color, "changing", lang.hitch(this, "setTempWidgetStyle", "color")));
 				this._placeAt(this.color, content);

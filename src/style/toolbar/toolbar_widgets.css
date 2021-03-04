@@ -259,8 +259,15 @@
 
 .MatcAction .MatcToolbarDropDownButton .MatcToolbarItemIcon,
 .MatcToolbarDropDownButton.MatcToolbarGridFull .MatcToolbarItemIcon{
- 	width: 167px;
+ 	width: 180px;
  	text-align: left;
+}
+
+
+
+.MatcToolbarColorWithHex.MatcToolbarColor .MatcToolbarItemIcon{
+	width: 45px;
+	text-align: left;
 }
 
 .MatcAction .MatcToolbarItem{
@@ -1123,117 +1130,13 @@ input.MatcToobarInlineEditDisabled:focus{
 
 }
 
-
-
-
 /****************************************************
- * Color Picker
+ * DropDownTree
  ****************************************************/
 
-.MatcToolbarColor{
-
-}
-
-.MatcToolbarColorContainer{
-	min-height: 300px;
-	width: 470px;
-	padding-top:0px;
-}
-
-.MatcToolbarColorCustomCntr{
-
-}
-
-.MatcToolbarColor label{
-	width: 20px;
-}
-
-.MatcToolbarColor td span, .MatcColorBox span{
-	height:30px;
-	width:30px;
-	display: block;
-	border:1px solid #cecece;
-	margin: 2px;
-}
-
-.MatcToolbarColor td span:HOVER, .MatcColorBox span:HOVER{
-	border:1px solid #555;
-}
-
-.MatcToolbarColorIndicator{
-	display: inline-block;
-	width: 25px;
-	height: 18px;
-	margin-top:2px;
-	border-radius: 2px;
-	background: red;
-	background: linear-gradient(145deg, rgba(255,255,255,1) 47%, rgba(237,0,0,1) 48%, rgba(237,0,0,1) 52%, rgba(255,255,255,1) 53%);
-	background-repeat: no-repeat;
-}
-
-
-td.MatcColorBox{
-	padding: 0px;
-	cursor: pointer;
-}
-td.MatcGradientBox.MatcColorBox span{
-	height:30px;
-	width:40px;
-	margin-right: 4px;
-	margin-bottom: 4px;
-}
-
-
-.MatcToolbarColorCntr{
-	padding: 10px;
-}
-
-.MatcToolbarColorLabel{
-	padding-top: 20px;
-	padding-bottom: 5px;
-	color:#777;
-}
-
-.MatcToolbarColorLabel a{
-	margin-right: 20px;
-}
-
-.MatcColorDialog{
-	width:440px;
-	height:370px;
-}
-
-
-.MatcColorGradientDialog{
-	width:600px;
-	height:420px;
-}
-
-
-
-
-.MatcToolbarColorSketch.MatcToolbarColor td span,
-.MatcToolbarColorSketch .MatcColorBox span{
-	height:25px;
-	width:25px;
-	margin: 1px;
-	margin-left:2px;
-	border: 1px solid rgba(0,0,0, 0.35);
-	border-radius: 2px;
-}
-
-.MatcColorAlphaBox {
-	background-image: linear-gradient(90deg, transparent 50%, rgba(0,0,0, 0.15) 50%)
-}
-
-
-.MatcToolbarColorSketch.MatcToolbarColor td span:hover,
-.MatcToolbarColorSketch .MatcColorBox span:hover{
-	border: 1px solid rgba(0,0,0, 0.25);
-}
-
-.MatcToolbarColorSketch.MatcToolbarColorContainer{
-	width:320px;
+.MatcToolbarDropDownTree .MatcToolbarColorIndicator{
+	margin-right: 5px;
+	vertical-align: middle;
 }
 
 

@@ -508,6 +508,12 @@ export default {
 			zoomChkBox.setValue(settings.zoomSnapp);
 			zoomChkBox.placeAt(zoomCntr);
 
+			var designTokenCntr = db.div("form-group").build(cntr);
+			var designTokenCheckBox = this.$new(CheckBox);
+			designTokenCheckBox.setLabel("Show Design Tokens");
+			designTokenCheckBox.setValue(settings.hasDesignToken);
+			designTokenCheckBox.placeAt(designTokenCntr);
+
 			var protoMotoCntr = db.div("form-group").build(cntr);
 			var protoMotoCheckBox = this.$new(CheckBox);
 			protoMotoCheckBox.setLabel("Enable Beta Features");
@@ -532,7 +538,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
-				this, "onSaveSettings", dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox
+				this, "onSaveSettings", dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox
 			)));
 
 			dialog.popup(popup, this.template);
@@ -543,7 +549,7 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 
-		onSaveSettings (dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox){
+		onSaveSettings (dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
 				mouseWheelMode: mouseWheelList.getValue(),
@@ -551,7 +557,8 @@ export default {
 				zoomSnapp: zoomChkBox.getValue(),
 				hasProtoMoto: protoMotoCheckBox.getValue(),
 				snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue(),
-				selectMove: selectMoveBox.getValue()
+				selectMove: selectMoveBox.getValue(),
+				hasDesignToken: designTokenCheckBox.getValue()
 			};
 
 			this.canvas.setSettings(settings);

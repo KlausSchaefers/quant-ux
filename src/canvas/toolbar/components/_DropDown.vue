@@ -1,6 +1,6 @@
 
 <template>
-     <div class="MatcToolbarItem MatcToolbarColor">
+     <div class="MatcToolbarItem ">
 							<div type="button" data-dojo-attach-point="button">
 								<label data-dojo-attach-point="label" class="">F</label>
 							    <span class="caret" data-dojo-attach-point="caret"></span>

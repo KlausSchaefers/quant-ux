@@ -565,7 +565,7 @@ export default {
 
 			this.sessionTaskLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false});
 			this.sessionTaskLineColor.placeAt(row);
-			this.sessionTaskLineColor.setLabel('<span class="mdi mdi-vector-line"></span><span class="MatcToolbarItemLabel">Task Color</span>');
+			this.sessionTaskLineColor.setLabel('Task Color');
 			this.sessionTaskLineColor.setModel(this.model);
 			this.sessionTaskLineColor.setValue("#f83a3a");
 			css.add(this.sessionTaskLineColor.domNode ,"MatcToolbarGridFull hidden");

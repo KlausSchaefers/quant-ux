@@ -195,7 +195,7 @@ export default {
 			}
 		},
 
-		renderStyleBox:function(parent){
+		renderStyleBox (parent){
 			var widget = this.$new(ToolbarDropDownButton);
 			widget.placeAt(parent);
 			widget.reposition = true;
@@ -209,7 +209,7 @@ export default {
 			return widget;
 		},
 
-		renderIntBox:function(parent, options){
+		renderIntBox (parent, options){
 			var input =  this.$new(InputDropDownButton);
 			input.setOptions(options);
 			input.placeAt(parent);
@@ -217,7 +217,7 @@ export default {
 			return input;
 		},
 
-		renderColorBox:function(parent){
+		renderColorBox (parent){
 			var widget = this.$new(ToolbarColor, {hasPicker:true});
 			widget.updateBackground = true;
 			widget.placeAt(parent);
@@ -229,7 +229,7 @@ export default {
 			return widget;
 		},
 
-		renderLock:function(node, cntrPos){
+		renderLock (node, cntrPos){
 
 			var div = this.db.div("MatcToolbarItem").build(node);
 			var lock = this.db.span("mdi mdi-lock").build(div);

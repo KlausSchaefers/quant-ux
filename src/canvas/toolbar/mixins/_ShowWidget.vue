@@ -92,41 +92,28 @@ export default {
 
 				this.widgetSize.setModel(this.model);
 				this.widgetSize.setValue(model);
-
 				this.positionCheckBox.setValue(style.fixed);
 
-				if(model.has.backgroundColor || model.has.backgroundImage){
 
+				css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
+				this.boxShadow.setValue(style.boxShadow);
+				this.opacity.setValue(style.opacity);
+
+				if (model.has.backgroundImage){
+					css.remove(this.imageWidgetDiv, "MatcToolbarSectionHidden")
+					this.backgroundImage.setValue(style.backgroundImage);
+					this.backgroundImage.setModel(this.model);
+					//css.remove(this.backgroundImage.domNode, "MatcToolbarSectionHidden");
+					//css.remove(this.backgroundImagePosition.domNode, "MatcToolbarSectionHidden");
+					this.backgroundImagePosition.setValue(model);
+				}
+
+				if(model.has.backgroundColor ){
 					css.remove(this.backgroundColorDiv, "MatcToolbarSectionHidden");
-					//css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
-
-					if(model.has.backgroundColor){
-						css.remove(this.backgroundColor.domNode, "MatcToolbarSectionHidden");
-						this.backgroundColor.setValue(style.background);
-					} else {
-						css.add(this.backgroundColor.domNode, "MatcToolbarSectionHidden");
-					}
-
-					if(model.has.backgroundImage){
-						this.backgroundImage.setValue(style.backgroundImage);
-						this.backgroundImage.setModel(this.model);
-						css.remove(this.backgroundImage.domNode, "MatcToolbarSectionHidden");
-						if (this.backgroundImagePosition) {
-							css.remove(this.backgroundImagePosition.domNode, "MatcToolbarSectionHidden");
-							this.backgroundImagePosition.setValue(model);
-						}
-					} else {
-						css.add(this.backgroundImage.domNode, "MatcToolbarSectionHidden");
-						if (this.backgroundImagePosition) {
-							css.add(this.backgroundImagePosition.domNode, "MatcToolbarSectionHidden");
-						}
-					}
-
-					if (this.boxShadowBackgroundDiv) {
-						css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
-					}
-					this.boxShadow.setValue(style.boxShadow);
-					this.opacity.setValue(style.opacity);
+					//css.remove(this.backgroundColor.domNode, "MatcToolbarSectionHidden");
+					this.backgroundColor.setValue(style.background);
+					this.backgroundColor.setModel(this.model)
+					this.backgroundColor.setBox(model);
 				}
 
 				if (this.hasRotate.indexOf(model.type) >= 0) {
@@ -150,26 +137,21 @@ export default {
 				}
 
 				if (widgetViewMode == "style") {
-
 					if (this.responsiveDiv) {
 						css.remove(this.responsiveDiv, "MatcToolbarSectionHidden")
 						this.responsiveWidget.setValue(model)
 					}
-
 					if(this.widgetAlignDiv){
 						css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
 					}
-
 					if(this.hasData.indexOf(model.type) >=0 || model.has.data) { // if(model.has.data){
 						css.remove(this.dataDiv,"MatcToolbarSectionHidden" );
 						this.dataWidget.setValue(model);
 					}
-
 					if(this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
 						css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
 						this.validationWidget.setValue(model, false);
 					}
-
 					if(this.widgetName){
 						css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
 						css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")

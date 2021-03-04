@@ -243,6 +243,7 @@ export default {
 				css.add(this.screenParentsDiv, "MatcToolbarSectionHidden");
 				css.add(this.screenDownloadDiv, "MatcToolbarSectionHidden");
 				css.add(this.screenDownLoad.domNode, "MatcHidden")
+				css.add(this.screenImageDiv, "MatcToolbarSectionHidden")
 
 				if(this.screenActionDiv){
 					css.add(this.screenActionDiv, "MatcToolbarSectionHidden");
@@ -267,6 +268,7 @@ export default {
 				css.add(this.validationDiv, "MatcToolbarSectionHidden");
 				css.add(this.backgroundColorDiv, "MatcToolbarSectionHidden");
 				css.add(this.designTokenDiv, "MatcToolbarSectionHidden")
+				css.add(this.imageWidgetDiv, "MatcToolbarSectionHidden")
 
 				css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")
 				css.add(this.callBackDiv, "MatcToolbarSectionHidden")

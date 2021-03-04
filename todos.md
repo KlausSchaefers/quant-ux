@@ -41,6 +41,7 @@
 ## Vector Editor
 
 ## Bugs
+  - Toolbar Pop jumps for Header in Qdate data xsectzion
  - remove onWidgetPositionCHange ()
     - repeater will rerender all the stuff..
   - Focxus will trigger screen transition

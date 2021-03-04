@@ -21,6 +21,10 @@ export default {
       showCanvas () {
 			  this.logger.log(-1,"showCanvas", "entry > ");
 
+        if (!this.getSettings().hasDesignToken) {
+          return
+        }
+
         this.showProperties();
         css.remove(this.designTokenDiv, "MatcToolbarSectionHidden")
 
