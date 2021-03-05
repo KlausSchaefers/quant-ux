@@ -1053,7 +1053,7 @@ export default {
 				/**
 				* back ground color is for every one :-D
 				*/
-				this.screenBackgroundColor = this.$new(ToolbarColor, {hasGradient:true, hasPicker:true, chevron:false});
+				this.screenBackgroundColor = this.$new(ToolbarColor, {hasGradient:true, hasPicker:true, chevron:false, hex:true});
 				this.screenBackgroundColor.updateLabel  = true;
 				this.screenBackgroundColor.keepOpenOnTypeSelection = "screen";
 				this.screenBackgroundColor.setModel(this.model);

@@ -1,9 +1,10 @@
 
 <template>
-  <div :class="[' MatcToolbarItem MatcToolbarColor', {'MatcToolbarGridFull MatcToolbarColorWithHex': hex}, {'MatcToolbarLabeledColor': label}] ">
+  <div :class="[' MatcToolbarItem MatcToolbarColor', {'MatcToolbarGridFull': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}] ">
 				<div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
 					<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
 					<span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
+					<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInput" @mousedown.stop="" @click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput"/>
 				</div>
 
 				<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
@@ -15,6 +16,7 @@ import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
+import Color from 'dojo/_base/Color'
 import touch from 'dojo/touch'
 import ColorPickerSketch from 'common/ColorPickerSketch'
 import GradientPicker from 'common/GradientPicker'
@@ -31,6 +33,7 @@ export default {
     data: function () {
         return {
             value: null,
+						tempValue: false,
             updateColor: false,
             updateBackground: false,
             updateLabel: false,
@@ -44,6 +47,7 @@ export default {
             lastOpen: 0,
             lastClose: 0,
 						hex: false,
+						hexError: false,
 						dropdown: false,
 						label: null,
 						colors : [
@@ -67,7 +71,61 @@ export default {
         }
     },
     components: {},
+		computed: {
+			colorAsHex () {
+				if (this.tempValue) {
+					return this.toHex(this.tempValue)
+				}
+				if (this.value) {
+					return this.toHex(this.value)
+				}
+
+				return ''
+			}
+		},
     methods: {
+
+			reOpenDropDown () {
+				let now = new Date().getTime()
+				if (!this.ignoreReOpen || (now - this.ignoreReOpen) > 500) {
+					this.showDropDown()
+				} else {
+					console.debug('ignore Reopen')
+				}
+
+				this.ignoreReOpen = 0
+			},
+
+			focusHex () {
+				this.hideDropDown()
+				if (this.$refs.hexInput) {
+					this.$refs.hexInput.focus()
+					this.$refs.hexInput.select()
+				}
+			},
+
+			toHex(v) {
+				if (v === "transparent") {
+					return "-"
+				}
+				let c = new Color(v)
+				return c.toHex()
+			},
+
+			setColorHasHex () {
+				this.hexError = false
+				if (this.$refs.hexInput) {
+					let value = this.$refs.hexInput.value
+					if (/^#([0-9A-F]{3}){1,2}$/i.test(value)) {
+						this.ignoreReOpen = new Date().getTime()
+						this.emit("change", value);
+					} else {
+						console.debug('ToolbarColor.setColorHasHex() > Wrong value', value)
+						this.hexError = true
+					}
+
+				}
+			},
 
 			setBox (box) {
 				this.box = box
@@ -232,9 +290,9 @@ export default {
 			},
 
 			flush  (){
-				if (this.tempValue && this.tempValue){
+				if (this.tempValue){
 					this.emit("change", this.tempValue);
-					delete this.tempValue
+					this.tempValue = false
 				}
 			},
 

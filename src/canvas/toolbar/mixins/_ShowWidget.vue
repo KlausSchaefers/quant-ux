@@ -271,12 +271,12 @@ export default {
 						// fixme: this can can lead to some stupid
 						// flickering because the scroll position in the
 						// option panel might be after the show. This leads to
-						widget.showDropDown(null);
+						widget.reOpenDropDown(null);
 						/**
 						* We have to call reposition after the render
 						* to put the color box at the right place.
 						*/
-						setTimeout(function(){
+						setTimeout(() => {
 							widget.updatePosition();
 						}, 10);
 					}

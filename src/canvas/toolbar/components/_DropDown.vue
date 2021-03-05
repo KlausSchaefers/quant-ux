@@ -143,13 +143,37 @@ export default {
 
 				this.onVisible();
 
-				if(this.reposition){
+				if (this.reposition) {
+						this.teleportToBody(true)
+				}
+				this.renderArrow();
+				if(this.showListener){
+					this.showListener();
+				}
+				this.isOpen = true;
+			},
+
+			teleportToBody (retry = false) {
 					try {
 						/**
 						 * We will now place the popup to the body, to allow scrolling in the properties bar
 						 */
 						var pos = domGeom.position(this.domNode);
 						var h = win.getBox().h;
+
+						/**
+						 * FIXME: This bug happens, because the data setions will rerender all colors if there
+						 * was a model change. This might remove the element already from the dom :(
+						 */
+						if (pos.x === 0 && retry === true) {
+							/**
+							 * We clsoe the popup, so it does not look shitty.
+							 */
+							console.debug('_DropDown.teleportToBody() > Position is bad, try agound')
+							this.hideDropDown()
+							return
+						}
+
 						if(!this.popupPos){
 							this.popupPos = domGeom.position(this.popup);
 						}
@@ -165,15 +189,9 @@ export default {
 						this.popup.style.bottom = "auto";
 						this.popup.style.left = pos.x - this.popupPos.w - this.arrowSize+ "px";
 						win.body().appendChild(this.popup);
-					} catch(e){
+				} catch(e){
 						console.error(e);
-					}
 				}
-				this.renderArrow();
-				if(this.showListener){
-					this.showListener();
-				}
-				this.isOpen = true;
 			},
 
 			updatePosition (doNotUpdatePosition = true){
@@ -187,12 +205,14 @@ export default {
 			_reposition (doNotUpdatePosition){
 				var pos = domGeom.position(this.domNode);
 				var h = win.getBox().h;
+
+
 				delete this.arrow;
 				if (!doNotUpdatePosition){
 					this.popupPos = domGeom.position(this.popup);
 				}
 				this._popupAtBody = true;
-				if(pos.y > h* 0.667){
+				if(pos.y > h * 0.667){
 					this.popup.style.top = pos.y - (this.popupPos.h - pos.h) + "px"
 				} else if (pos.y > h* 0.33){
 					this.popup.style.top = pos.y - (this.popupPos.h/2) + "px"
@@ -247,6 +267,8 @@ export default {
 					return;
 				}
 
+
+
 				if(this.popup){
 					css.remove(this.popup, "MatcToolbarPopUpOpen");
 				} else {
@@ -257,11 +279,15 @@ export default {
 					//var e = new Error("hideDropDown() > this.popup is null > " +  this.declaredClass);
 					//this.logger.sendError(e);
 				}
-
-				if(this._popupAtBody && this.popup){
-					win.body().removeChild(this.popup);
-					this.domNode.appendChild(this.popup);
+				try {
+					if(this._popupAtBody && this.popup){
+						win.body().removeChild(this.popup);
+						this.domNode.appendChild(this.popup);
+					}
+				} catch (err) {
+					console.error('_DropDown.hideDropDown() > cannot remove', err)
 				}
+
 				this._popupAtBody = false;
 
 				if(this._mouseDownListener){
