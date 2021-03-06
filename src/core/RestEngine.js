@@ -220,24 +220,21 @@ class RestEngine {
     async createDefaultHeader(request, values) {
         let token = await this.buildToken(request, values)
         let authType= request.authType ? request.authType : 'Bearer'
+        let headers = {}
+
         if (request.input.type === 'JSON') {
-            let headers = {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `${authType} ${token}`
-            }
-            return headers
+            headers['Content-Type'] = 'application/json'
+            headers['Accept'] = 'application/json'
         }
-        else if(request.input.type === 'FORM') {
-            let headers = {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `${authType} ${token}`
-            }
-            return headers
+
+        if(request.input.type === 'FORM') {
+            headers['Content-Type'] = 'application/x-www-form-urlencoded'
         }
-        return new Headers({
-            'Authorization': `${authType} ${token}`
-        })
+
+        if (token) {
+            headers['Authorization'] = `${authType} ${token}`
+        }
+        return headers
     }
 
     getNeededDataBings (rest) {
