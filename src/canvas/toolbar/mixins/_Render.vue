@@ -4,25 +4,23 @@ import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import on from 'dojo/on'
 import touch from 'dojo/touch'
-// import win from 'dojo/win'
+
 import _Tooltip from 'common/_Tooltip'
 import CheckBox from 'common/CheckBox'
-// import Dialog from 'common/Dialog'
+
 import DomBuilder from 'common/DomBuilder'
 import ScrollContainer from 'common/ScrollContainer'
 import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
-//import ToolbarToggleButton from 'canvas/toolbar/components/ToolbarToggleButton'
+
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import ToolbarImage from 'canvas/toolbar/components/ToolbarImage'
 
-import BoxShadow from 'canvas/toolbar/components/BoxShadow'
-//import TextShadow from 'canvas/toolbar/components/TextShadow'
+import BoxShadow from 'canvas/toolbar/components/BoxShadowSection'
 import BoxSize from 'canvas/toolbar/components/BoxSize'
 import BoxBorder from 'canvas/toolbar/components/BoxBorder'
 import BoxBorder2 from 'canvas/toolbar/components/BoxBorder2'
 import BoxPadding from 'canvas/toolbar/components/BoxPadding'
-//import InputDropDownButton from 'canvas/toolbar/components/InputDropDownButton'
 import CreateButton from 'canvas/toolbar/components/CreateButton'
 import ActionButton from 'canvas/toolbar/components/ActionButton'
 import DataSection from 'canvas/toolbar/components/DataSection'
@@ -888,12 +886,11 @@ export default {
 				css.add(content, "MatcToolbarSectionContent");
 				parent.appendChild(content);
 
-
 				this.boxShadow = this.$new(BoxShadow);
 				this.boxShadow.setModel(this.model)
 				this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
+				this.own(on(this.boxShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "boxShadow")));
 				this._placeAt(this.boxShadow,content);
-				this.addTooltip(this.boxShadow.domNode, "Box Shadow");
 
 
 				this.boxShadowBackgroundDiv = parent;

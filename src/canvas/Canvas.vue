@@ -346,13 +346,13 @@ export default {
 			 */
 			this.settings = {
 				canvasTheme : "MatcLight",
-				lineColor : "#333",
+				lineColor : "#1973e8",
 				lineWidth : 1,
 				storePropView : true,
 				moveMode : "ps",
 				startToolsOnKeyDown : true,
 				mouseWheelMode : "scroll",
-				renderLines : true,
+				renderLines : false,
 				snapGridOnlyToTopLeft: true,
 				keepColorWidgetOpen: true,
 				layerListVisible: false,
@@ -443,9 +443,12 @@ export default {
 				this.moveMode = s.moveMode;
 			}
 
-			if(s.renderLines!=null){
-				this.renderLines = s.renderLines;
-			}
+			/**
+			 * Since 4.0.0 we ignore the setting. Only the EditModeButton determines line visiboility
+			 */
+			//if(s.renderLines!=null){
+				//this.renderLines = s.renderLines;
+			//}
 
 			if(s.showDistance!=null){
 				this.showDistance = s.showDistance;
@@ -490,9 +493,9 @@ export default {
 				 * FIXME: Kind of hack
 				 */
 				if(s.canvasTheme=="MatcLight"){
-					this.defaultLineColor = "#777";
+					this.defaultLineColor = "#49C0F0";
 				} else {
-					this.defaultLineColor = "#777";
+					this.defaultLineColor = "#49C0F0";
 				}
 			}
 

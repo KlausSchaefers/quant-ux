@@ -28,6 +28,7 @@
 @import './toolbar/toolbar_table_settings.css';
 @import './toolbar/design_token.css';
 @import './toolbar/color_picker.css';
+@import './toolbar/box-shadow.css';
 @import 'public.css';
 @import 'pricing.css';
 @import 'animation_composer.css';

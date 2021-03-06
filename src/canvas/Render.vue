@@ -56,7 +56,7 @@ export default {
 					canvasMargin: 0.6,
 					moveMode: "ps",
 					renderDND: true,
-					renderLines: true,
+					renderLines: false,
 					showDistance: true,
 					wireInheritedWidgets: false,
 					showAnimation: false,

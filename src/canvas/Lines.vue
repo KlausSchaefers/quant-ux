@@ -7,8 +7,9 @@ export default {
     mixins:[],
     data: function () {
         return {
-					lineFunction: d3.line().x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }),
-					defaultLineColor : "#333",
+					straightLineFunction: d3.line().x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }),
+					smoothLineFunction: d3.line().curve(d3.curveBasis).x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }), // basis
+					defaultLineColor : "#1973e8",
 					defaultLineWidth: 1,
 					arrowCorrect : 3,
 					arrowSize : 8,
@@ -36,6 +37,35 @@ export default {
 	    		w: this.getZoomed(this.canvasPos.w, this.zoom)
 	    	};
 				this.svg.attr("width", pos.w).attr("height",pos.h );
+			},
+
+			lineFunction (line) {
+				let start = line[0]
+				let end = line[1]
+				/**
+				 * We render a curved line, only if we have no line points,
+				 * and if they are not a vertical.
+				 *
+				 * FIXME: We might get here some weird flickering, due to
+				 * zooming.. Dunno exactyl why. Maybe the anchor points get fucked up...
+				 */
+				if (line.length === 2 && (Math.abs(start.x - end.x) > 5)) {
+					let curvedLine = []
+
+					curvedLine.push(start)
+					curvedLine.push({
+						x: start.x - Math.round((start.x - end.x) / 2),
+						y: start.y
+					})
+					curvedLine.push({
+						x: start.x - Math.round((start.x - end.x) / 2),
+						y: end.y
+					})
+					this.drawPoint(curvedLine[1])
+					curvedLine.push(end)
+					return this.smoothLineFunction(curvedLine)
+				}
+				return this.straightLineFunction(line)
 			},
 
 			renderLine (line){
@@ -66,10 +96,8 @@ export default {
 								for (let i =1; i < l-1; i++) {
 									let p = layoutedLine[i];
 									let div = this.drawPoint(p,line.id, i);
-
 									this.dndContainer.appendChild(div);
 									this.linePoints[`${line.id}_${i}`] = div
-									//this.registerDragOnDrop(div, { id : line.id, i : i, l : layoutedLine}, "onLinePointDnDStart", "onLinePointDnDMove", "onLinePointDnDEnd", "onLinePointDnDClikc");
 								}
 
 							}
@@ -79,7 +107,6 @@ export default {
 							 */
 							let svg = this.lineSVGs[line.id];
 							svg.attr("d", this.lineFunction(layoutedLine));
-
 
 							if (this.mode === "edit") {
 								let l = layoutedLine.length;
@@ -184,39 +211,28 @@ export default {
 				return false;
 			},
 
-
-
-
-
 			/**********************************************************************
 			 * Layout stuff : calculate anchor points, smoothing etc
 			 **********************************************************************/
 
-			layoutLine (fromPos, toPos, line){
-
-
-
+			layoutLine (fromPos, toPos, line) {
 				/**
 				 * add support points that guide the line
 				 */
 				var supportedLine = this.layoutAddSupportPoints(fromPos, toPos, line);
-
 				/**
 				 * set anchor points
 				 */
 				var correctedLine = this.layoutCorrectAnchorPoints(supportedLine);
-
 				/**
 				 * correct last node for arrow
 				 */
-				var result =  this.layoutCorrectArrow(correctedLine);
-
-
+				var result = this.layoutCorrectArrow(correctedLine);
 				return result;
 			},
 
 
-			layoutCorrectAnchorPoints (supportedLine){
+			layoutCorrectAnchorPoints (supportedLine) {
 				var l = supportedLine.length;
 
 				/**
@@ -296,7 +312,7 @@ export default {
 				var top = this.isTop(from, to);
 				var fromIsLogic = this.hasLogic(from);
 				var toIsLogic = this.hasLogic(to);
-				var yOverlap = ((to.y <= from.y) && ((to.y + to.h) >= from.y)) || ( (from.y <= to.y) && ( (from.y + from.h) >= to.y));
+				var yOverlap = ((to.y <= from.y) && ((to.y + to.h) > from.y)) || ( (from.y <= to.y) && ( (from.y + from.h) > to.y));
 				var xOverlap = ((to.x <= from.x) && ((to.x + to.w) > from.x)) || ( (from.x <= to.x) && ( (from.x + from.w) > to.x));
 
 				if(yOverlap){
@@ -426,6 +442,7 @@ export default {
 				css.add(inner, "MatcLineSupportPointTouch");
 				inner._lineID = id
 				inner._pointIndex = i
+				inner.style.background = this.defaultLineColor
 
 				let div = this.createBox({
 					x : x.x,
@@ -434,6 +451,7 @@ export default {
 					h : x.h
 				});
 				css.add(div, "MatcLineSupportPoint");
+
 				div.appendChild(inner);
 
 				return div;
@@ -446,15 +464,13 @@ export default {
 
 			setLineColor (id, color){
 				var svg = this.lineSVGs[id];
-
 				if(svg){
-					if(color){
+					if (color) {
 						svg.attr("stroke", color);
 					} else {
 						svg.attr("stroke", this.defaultLineColor);
 					}
 				}
-
 			},
 
 
@@ -463,6 +479,7 @@ export default {
 			},
 
 			drawSVGLineWidthArrow (id, line, color, width, op){
+
 
 				this.svg.append("path")
 							.attr("d", this.lineFunction(line))
@@ -477,6 +494,7 @@ export default {
 
 
 			drawSVGLine (id, line, color, width, op){
+					console.debug('draw', color)
 
 				this.svg.append("defs").append("marker")
 						.attr("id", "arrowhead_"+id)

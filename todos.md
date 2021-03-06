@@ -37,6 +37,8 @@
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions
 
+## Labeled CheckBox and radio
+
 ## SVG Widgets
 ## Vector Editor
 

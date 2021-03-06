@@ -50,6 +50,7 @@ export default {
 						hexError: false,
 						dropdown: false,
 						label: null,
+						hasPicker: true,
 						colors : [
 							"#e2f4fb", "#a8dff4", "#8ad5f0", "#50c0e9", "#33b5e5", "#2cb1e1", "#1da9da", "#16a5d7", "#0fa1d3", "#0099cc",
 							"#f5eafa", "#ddbcee", "#d6adeb", "#cb97e5", "#c58be2", "#c182e0", "#b368d9", "#ac59d6", "#a750d3", "#9933cc",
@@ -92,7 +93,6 @@ export default {
 				} else {
 					console.debug('ignore Reopen')
 				}
-
 				this.ignoreReOpen = 0
 			},
 
@@ -123,7 +123,6 @@ export default {
 						console.debug('ToolbarColor.setColorHasHex() > Wrong value', value)
 						this.hexError = true
 					}
-
 				}
 			},
 
@@ -661,7 +660,8 @@ export default {
 		},
 	watch: {
 			color (v) {
-							this.setValue(v)
+				console.debug('Watch', v)
+				this.setValue(v)
 			},
 			app (v) {
 				this.setModel(v)

@@ -18,6 +18,13 @@
 	background-repeat: no-repeat;
 }
 
+.MatcBoxBorder .MatcToolbarColorIndicator{
+	width: 45px;
+	height: 23px;
+	border-radius: 0px;
+	border: none;
+}
+
 .MatcToolbarLabeledColor .MatcToolbarColorIndicator {
 	width: 16px;
 	height:16px;

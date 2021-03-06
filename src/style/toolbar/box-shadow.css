@@ -1,0 +1,21 @@
+.MatcBoxShadowSection{
+  display: flex;
+  align-items: top;
+
+}
+
+.MatcBoxShadowSection input.MatcBoxShadowInput{
+  width: 45px;
+}
+
+.MatcBoxShadowSectionDetails{
+  flex-grow: 1;
+  height: 60px;
+}
+
+.MatcBoxShadowSectionRow {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

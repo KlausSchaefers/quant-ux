@@ -42,6 +42,7 @@ export default {
       this.canvasViewMode = 'design'
       this.$emit('canvasViewMode', this.canvasViewMode)
       this.$emit('change', 'hasDataView', false)
+      this.$emit('change', 'renderLines', false)
     },
     setCode () {
       this.log.log(-1, 'setCode', 'enter')
@@ -49,6 +50,7 @@ export default {
       this.canvasViewMode = 'data'
       this.$emit('canvasViewMode', this.canvasViewMode)
       this.$emit('change', 'hasDataView', true)
+      this.$emit('change', 'renderLines', false)
     },
     setPrototype () {
       this.log.log(-1, 'setPrototype', 'enter')
@@ -56,6 +58,7 @@ export default {
       this.canvasViewMode = 'prototype'
       this.$emit('canvasViewMode', this.canvasViewMode)
       this.$emit('change', 'hasDataView', false)
+      this.$emit('change', 'renderLines', true)
     }
   },
   watch: {

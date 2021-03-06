@@ -69,9 +69,11 @@
                         <CheckBox label="Layers" :value="hasLayers"  @change="onChangeLayer"/>
                     </div>
 
+                    <!--
                     <div class="MatcToolbarViewConfigCntrRow">
                         <CheckBox label="Lines" :value="hasLines"  @change="onChangeLines"/>
                     </div>
+                    -->
 
                     <div class="MatcToolbarViewConfigCntrRow">
                         <CheckBox label="Distance" :value="hasDistance"  @change="onChangeDistance"/>
