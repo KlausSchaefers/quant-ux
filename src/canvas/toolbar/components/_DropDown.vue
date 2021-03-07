@@ -267,8 +267,6 @@ export default {
 					return;
 				}
 
-
-
 				if(this.popup){
 					css.remove(this.popup, "MatcToolbarPopUpOpen");
 				} else {

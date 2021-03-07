@@ -16,7 +16,7 @@ import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import ToolbarImage from 'canvas/toolbar/components/ToolbarImage'
 
-import BoxShadow from 'canvas/toolbar/components/BoxShadowSection'
+import BoxShadow from 'canvas/toolbar/components/BoxShadow2'
 import BoxSize from 'canvas/toolbar/components/BoxSize'
 import BoxBorder from 'canvas/toolbar/components/BoxBorder'
 import BoxBorder2 from 'canvas/toolbar/components/BoxBorder2'

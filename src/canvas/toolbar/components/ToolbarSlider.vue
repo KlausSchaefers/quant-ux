@@ -26,13 +26,14 @@ export default {
     },
     components: {},
     methods: {
-        postCreate: function(){
+    postCreate: function(){
 			this.own(on( this.input, this.inputEvent, lang.hitch(this,"onChangeInput")));
 		},
 
 		render:function(){
 			this.slider = this.$new(HSlider);
 			this.slider.max = this.max;
+			this.slider.min = this.min;
 			this.slider.placeAt(this.cntr);
 			this.own(on( this.slider, "change", lang.hitch(this,"onMoveSlider")));
 			this.own(on( this.slider, "click", lang.hitch(this,"onClickSlider")));
@@ -76,7 +77,7 @@ export default {
 			this.emit("change", this.value);
 		},
 
-		setValue:function(v){
+		setValue (v){
 			if (this.value != v) {
 				this.value = v;
 				this.input.value = v;
@@ -84,8 +85,11 @@ export default {
 			}
 		},
 
+		getValue () {
+			return this.value
+		},
 
-		isValid:function(value){
+		isValid (value){
 			var er = /^-?[0-9]+$/;
 			var valid =  er.test(value);
 			if(!valid){
@@ -97,11 +101,11 @@ export default {
 			return false;
 		},
 
-		setModel:function(m){
+		setModel (m){
 			this.model = m;
 		},
 
-		blur:function(){
+		blur (){
 			this.input.blur();
 		}
     },

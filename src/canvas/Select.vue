@@ -293,7 +293,7 @@ import topic from 'dojo/topic'
 		 * again!
 		 */
 		renderSelection (){
-			this.logger.log(-1,"renderSelection", "enter > ", this._selectWidget);
+			this.logger.log(5,"renderSelection", "enter > ", this._selectWidget);
 
 			if(this._selectWidget){
 				this.onWidgetSelected(this._selectWidget.id, true);

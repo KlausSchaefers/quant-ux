@@ -19,3 +19,34 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.MatcBoxShadowPopup {
+  width: 320px;
+}
+
+.MatcBoxShadowSliderCntr {
+  display: flex;
+  align-items: center;
+
+}
+
+.MatcBoxShadowSliderCntr .MatcToolbarPopUpLabel{
+  width:60px
+}
+
+.MatcBoxShadowSliderCntr input.MatcToobarInlineEdit{
+  width: 40px;
+  border: 1px solid transparent
+}
+
+.MatcBoxShadowSliderCntr .MatcToolbarSlider {
+  width: 250px;
+}
+
+.MatcBoxShadowSliderCntr .MatcToolbarSlider .MatcToolbarSliderCntr{
+  width: 180px;
+}
+
+.MatcBoxShadowSliderCntr .MatcToolbarSlider .VommondSliderContainer{
+  background: #999;
+}

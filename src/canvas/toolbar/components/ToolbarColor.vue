@@ -432,7 +432,7 @@ export default {
 				}
 			},
 
-			setCustomColor  (colorPicker, d){
+			setCustomColor (colorPicker, d){
 				var color = colorPicker.getValue();
 				if(color){
 					this.onChange(color.toHex());
@@ -440,7 +440,7 @@ export default {
 				this.closeColorDialog(d);
 			},
 
-			setGradient  (gradientPicker, d){
+			setGradient (gradientPicker, d){
 				var gradient = gradientPicker.getValue();
 				if(gradient){
 					this.onChange(gradient);
@@ -660,7 +660,6 @@ export default {
 		},
 	watch: {
 			color (v) {
-				console.debug('Watch', v)
 				this.setValue(v)
 			},
 			app (v) {

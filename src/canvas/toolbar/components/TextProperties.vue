@@ -15,7 +15,7 @@ import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButt
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 import ToolbarToggleButton from 'canvas/toolbar/components/ToolbarToggleButton'
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
-import TextShadow from 'canvas/toolbar/components/TextShadow'
+import TextShadow from 'canvas/toolbar/components/TextShadow2'
 import InputDropDownButton from 'canvas/toolbar/components/InputDropDownButton'
 import _Tooltip from 'common/_Tooltip'
 
@@ -168,6 +168,7 @@ export default {
 				this.textShadow = this.$new(TextShadow);
 				this.textShadow.setModel(this.model)
 				this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
+				this.own(on(this.textShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "textShadow")));
 				this._placeAt(this.textShadow, advanced);
 				this.addTooltip(this.textShadow.domNode, "Text Shadow");
 
@@ -224,12 +225,12 @@ export default {
         this.emit('change', key, value)
       },
 
+			setTempWidgetStyle (key, value) {
+				this.emit('changing', key, value)
+			},
+
       toggleStyle (key, value) {
         this.emit('toggle', key, value)
-      },
-
-      setTempWidgetStyle (key, value) {
-        this.emit('changing', key, value)
       }
 
     },

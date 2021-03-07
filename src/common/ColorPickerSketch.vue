@@ -332,6 +332,13 @@ export default {
 				}
 			},
 
+			getValueAsString() {
+				if (this.color) {
+					return this.getColorString(this.color)
+				}
+				return 'transparent'
+			},
+
 			getColorString (c) {
 				if (c.a < 1) {
 					return c.toCss(true)
