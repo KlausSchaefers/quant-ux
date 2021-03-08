@@ -11,25 +11,24 @@ import topic from 'dojo/topic'
 import _Tooltip from 'common/_Tooltip'
 import ToolbarSlider from './ToolbarSlider'
 import ToolbarColor from './ToolbarColor'
+import _DesignToken from './_DesignToken'
 
 export default {
     name: 'BoxBorder2',
-    mixins:[_Tooltip, DojoWidget],
+    mixins:[_Tooltip, _DesignToken, DojoWidget],
     data: function () {
         return {
-            value: false,
-            tab: "Width",
-            isLocked: true,
-            borderWidth: ["borderTopWidth","borderBottomWidth", "borderLeftWidth", "borderRightWidth" ],
-            borderColor: ["borderTopColor", "borderBottomColor", "borderRightColor", "borderLeftColor"],
-            colorWidgets: [],
-            inputEvent: "change"
+					value: false,
+					tab: "Width",
+					isLocked: true,
+					borderWidth: ["borderTopWidth","borderBottomWidth", "borderLeftWidth", "borderRightWidth" ],
+					borderColor: ["borderTopColor", "borderBottomColor", "borderRightColor", "borderLeftColor"],
+					colorWidgets: [],
+					inputEvent: "change"
         }
     },
     components: {},
     methods: {
-    	postCreate(){
-			},
 
 			render (){
 				if(!this.rendered){

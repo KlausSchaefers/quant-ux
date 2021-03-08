@@ -39,8 +39,9 @@ import LowCodeSection from 'canvas/toolbar/components/LowCodeSection'
 import CallBackSection from 'canvas/toolbar/components/CallBackSection'
 import LowCodeResponsiveSection from 'canvas/toolbar/components/LowCodeResponsiveSection'
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
-import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
+
+import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
 
 import Services from 'services/Services'
@@ -254,7 +255,6 @@ export default {
 				this._renderInheritedWidget()
 
 				this._renderWidgetLine();
-
 
 				this._renderData();
 
@@ -500,11 +500,6 @@ export default {
 
 			_renderWidgetView() {
 
-				//let cntr = document.createElement("div");
-				// css.add(cntr, '')
-
-				//var statusBar = this.canvas.getStatusBar();
-
 				var content = document.createElement("div");
 				css.add(content, "MatcToobarViewSection")
 				this.widgetViewModeBtn = this.$new(ToolbarSelector);
@@ -521,9 +516,7 @@ export default {
 				this.own(on(this.widgetViewModeBtn, "change", lang.hitch(this, "setWidgetViewModel")));
 
 				this.propertiesCntr.appendChild(content);
-
 				this.widgetViewSection = content;
-
 			},
 
 
@@ -537,7 +530,7 @@ export default {
 
 				var values = ["vertical", "horizontal"];
 
-				for(let i=0; i< values.length; i++){
+				for (let i=0; i< values.length; i++){
 					let value = values[i];
 
 					let a = document.createElement("a");

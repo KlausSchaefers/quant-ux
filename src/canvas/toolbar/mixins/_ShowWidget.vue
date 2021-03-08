@@ -59,13 +59,9 @@ export default {
 					}
 					this.widgetName.blur();
 				}
-
-
-				var isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
-
+				var isLogicWidget = this.hasLogic2.indexOf(model.type) >= 0;
 				css.remove(this.lineDiv, "MatcToolbarSectionHidden");
 				this.actionBTN.setValue(model, isLogicWidget);
-
 			},
 
 			showWidgetDesignProperties (model) {
@@ -103,17 +99,15 @@ export default {
 					css.remove(this.imageWidgetDiv, "MatcToolbarSectionHidden")
 					this.backgroundImage.setValue(style.backgroundImage);
 					this.backgroundImage.setModel(this.model);
-					//css.remove(this.backgroundImage.domNode, "MatcToolbarSectionHidden");
-					//css.remove(this.backgroundImagePosition.domNode, "MatcToolbarSectionHidden");
 					this.backgroundImagePosition.setValue(model);
 				}
 
 				if(model.has.backgroundColor ){
 					css.remove(this.backgroundColorDiv, "MatcToolbarSectionHidden");
-					//css.remove(this.backgroundColor.domNode, "MatcToolbarSectionHidden");
 					this.backgroundColor.setValue(style.background);
 					this.backgroundColor.setModel(this.model)
 					this.backgroundColor.setBox(model);
+					this.backgroundColor.setWidgetViewMode(widgetViewMode)
 				}
 
 				if (this.hasRotate.indexOf(model.type) >= 0) {
@@ -128,12 +122,16 @@ export default {
 					css.remove(this.textDiv, "MatcToolbarSectionHidden");
 					this.textProperties.hasVerticalAlign(this.hasValign.indexOf(model.type) >= 0)
 					this.textProperties.setModel(this.model)
+					this.textProperties.setBox(model)
+					this.textProperties.setWidgetViewMode(widgetViewMode)
 					this.textProperties.setValue(style)
 				}
 
 				if (this.hasPadding.indexOf(model.type) >=0) {
 					css.remove(this.boxDiv, "MatcToolbarSectionHidden");
 					this.paddingWidget.setValue(style);
+					this.paddingWidget.setBox(model)
+					this.paddingWidget.setWidgetViewMode(widgetViewMode)
 				}
 
 				if (widgetViewMode == "style") {
@@ -186,13 +184,18 @@ export default {
 
 					css.remove(this.borderDiv, "MatcToolbarSectionHidden");
 					this.boxBorder.setValue(style);
+					this.boxBorder.setBox(model)
+					this.boxBorder.setWidgetViewMode(widgetViewMode)
 
 					if (this.radiusBox){
 						css.remove(this.radiusBox.domNode, "hidden");
 						this.radiusBox.setValue(style);
 					}
+
 					if (this.boxBorder2){
 						this.boxBorder2.setValue(style);
+						this.boxBorder2.setBox(model)
+						this.boxBorder2.setWidgetViewMode(widgetViewMode)
 					}
 
 				} else if (model.has.borderRadus){

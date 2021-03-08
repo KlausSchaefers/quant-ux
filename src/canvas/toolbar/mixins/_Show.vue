@@ -316,7 +316,11 @@ export default {
 			},
 
 			showDesignTokenBtns (selection, type) {
+				var widgetViewMode = this.widgetViewModeBtn.getValue();
 				this.designTokenBtns.forEach(btn => {
+					btn.setModel(this.model)
+					btn.setWidgetViewMode(widgetViewMode)
+
 					if (type === 'widget') {
 						btn.setWidget(selection)
 					}
@@ -326,6 +330,7 @@ export default {
 					if (type === 'multi' || type === 'group') {
 						btn.setMulti(selection)
 					}
+
 				})
 			},
 

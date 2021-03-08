@@ -27,10 +27,11 @@ import DomBuilder from 'common/DomBuilder'
 import ToolbarDropDownButton from './ToolbarDropDownButton'
 import InputDropDownButton from './InputDropDownButton'
 import ToolbarColor from './ToolbarColor'
+import _DesignToken from './_DesignToken'
 
 export default {
     name: 'BoxBorder',
-    mixins:[DojoWidget],
+    mixins:[_DesignToken, DojoWidget],
     data: function () {
         return {
             value: false,

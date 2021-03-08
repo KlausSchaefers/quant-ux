@@ -33,10 +33,10 @@ export default {
     },
     components: {},
     methods: {
-			postCreate: function(){
-					this.logger = new Logger("_DropDown");
-					this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
-					this.setChevron()
+			postCreate (){
+				this.logger = new Logger("_DropDown");
+				this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
+				this.setChevron()
 			},
 
 			setChevron () {

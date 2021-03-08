@@ -7,11 +7,11 @@
           	<span class="MatcToolbarPopUpIcon mdi mdi-plus-circle-outline"></span>
             <label class="MatcToolbarPopUpLabel">Create Design Token</label>
         </li>
-        <li @mousedown.stop="onLink">
+        <li @mousedown.stop="onLink" v-show="!hasDesignToken">
             <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant-plus"></span>
             <label class="MatcToolbarPopUpLabel">Link Design Token</label>
         </li>
-         <li @mousedown.stop="onUnLink">
+         <li @mousedown.stop="onUnLink" v-show="hasDesignToken">
             <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant-minus"></span>
             <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
         </li>
@@ -22,17 +22,17 @@
 import DojoWidget from 'dojo/DojoWidget'
 import _DropDown from './_DropDown'
 import Util from 'core/Util'
+import _DesignToken from './_DesignToken'
 
 export default {
     name: 'DesignTokenBtn',
-    mixins:[Util, DojoWidget, _DropDown],
+    mixins:[Util, DojoWidget,_DesignToken, _DropDown],
     data: function () {
         return {
            isVisible: true,
            value: null,
            reposition: true,
            arrowPosition: "right",
-           cssProp: '',
            tokenType: ''
         }
     },
@@ -41,15 +41,17 @@ export default {
     components: {},
     methods: {
       setWidget (w) {
-        // console.debug('setWidget', w)
         this.value = w
+        this.setBox(w)
         this.isVisible = true
       },
       setScreen (s) {
         this.value = s
+        this.setBox(s)
         this.isVisible = true
       },
       setMulti () {
+        this.setBox(null)
         this.isVisible = false
       },
       onVisible (){
@@ -58,11 +60,7 @@ export default {
       setTokenType (t) {
         this.tokenType = t
       },
-      setCssProps (props) {
-        this.cssProps = props
-      },
       onNew () {
-        console.debug('new')
         this.emit('new', this.tokenType, this.cssProps)
         this.hideDropDown()
       },

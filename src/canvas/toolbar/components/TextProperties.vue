@@ -18,10 +18,11 @@ import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import TextShadow from 'canvas/toolbar/components/TextShadow2'
 import InputDropDownButton from 'canvas/toolbar/components/InputDropDownButton'
 import _Tooltip from 'common/_Tooltip'
+import _DesignToken from './_DesignToken'
 
 export default {
     name: 'TextProperties',
-    mixins:[_Tooltip, DojoWidget],
+    mixins:[_Tooltip, _DesignToken, DojoWidget],
     data: function () {
         return {
           fontFamilies: []

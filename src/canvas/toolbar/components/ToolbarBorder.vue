@@ -1,15 +1,15 @@
 
 <template>
     <div class="MatcToolbarDropDownButton MatcToolbarItem">
-		<div type="button" data-dojo-attach-point="button">
-			<span data-dojo-attach-point="lbl" class="MatcToolbarBorder MatcToolbarItemIcon"></span>
-			<span class="caret"></span>
+			<div type="button" data-dojo-attach-point="button">
+				<span data-dojo-attach-point="lbl" class="MatcToolbarBorder MatcToolbarItemIcon"></span>
+				<span class="caret"></span>
 			</div>
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
-			<div data-dojo-attach-point="top" class="MatcToolbarDropDownButtonItem"><span class="MatcToolbarBorder MatcToolbarBorderTop"></span></div>
-			<div data-dojo-attach-point="bottom" class="MatcToolbarDropDownButtonItem"><span class="MatcToolbarBorder MatcToolbarBorderBottom"></span></div>
-			<div data-dojo-attach-point="left" class="MatcToolbarDropDownButtonItem"><span class="MatcToolbarBorder MatcToolbarBorderLeft"></span></div>
-			<div data-dojo-attach-point="right" class="MatcToolbarDropDownButtonItem"><span class="MatcToolbarBorder MatcToolbarBorderRight"></span></div>
+					<div data-dojo-attach-point="top" class="MatcToolbarDropDownButtonItem"><span class="MatcToolbarBorder MatcToolbarBorderTop"></span></div>
+					<div data-dojo-attach-point="bottom" class="MatcToolbarDropDownButtonItem"><span class="MatcToolbarBorder MatcToolbarBorderBottom"></span></div>
+					<div data-dojo-attach-point="left" class="MatcToolbarDropDownButtonItem"><span class="MatcToolbarBorder MatcToolbarBorderLeft"></span></div>
+					<div data-dojo-attach-point="right" class="MatcToolbarDropDownButtonItem"><span class="MatcToolbarBorder MatcToolbarBorderRight"></span></div>
 			</div>
 	</div>
 </template>

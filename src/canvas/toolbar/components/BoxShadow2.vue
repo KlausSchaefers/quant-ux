@@ -55,13 +55,13 @@ import touch from 'dojo/touch'
 import _DropDown from './_DropDown'
 import ToolbarSlider from './ToolbarSlider'
 import CheckBox from 'common/CheckBox'
-//import DomBuilder from 'common/DomBuilder'
 import _Color from 'common/_Color'
+import _DesignToken from './_DesignToken'
 import ColorPickerSketch from 'common/ColorPickerSketch'
 
 export default {
     name: 'BoxShadow',
-    mixins:[_Color, DojoWidget, _DropDown],
+    mixins:[_Color, DojoWidget, _DesignToken, _DropDown],
     data: function () {
         return {
             tab: 'position',
@@ -88,7 +88,6 @@ export default {
       },
 
       onVisible (){
-        console.debug('onVisible')
         this.tempValue = false
         this.setValuesInWidgets(this.value)
 			},
@@ -205,15 +204,7 @@ export default {
           this.label = 'No Shadow'
         }
 
-      },
-
-			setModel (m) {
-				this.model = m
-			},
-
-			setBox (b){
-				this.box = b
-			}
+      }
     },
     mounted () {
     }

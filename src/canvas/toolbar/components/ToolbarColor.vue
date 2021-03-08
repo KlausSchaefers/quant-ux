@@ -1,14 +1,16 @@
 
 <template>
-  <div :class="[' MatcToolbarItem MatcToolbarColor', {'MatcToolbarGridFull': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}] ">
-				<div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
-					<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
-					<span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
-					<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInput" @mousedown.stop="" @click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput"/>
-				</div>
-
-				<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
-				</div>
+	<div class="MatcDesignTokenMixin">
+		<DesignTokenView v-if="hasDesignToken" :designtoken="currentDesignToken"/>
+		<div v-show="!hasDesignToken" :class="[' MatcToolbarItem MatcToolbarColor', {'MatcToolbarGridFull': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}] ">
+					<div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
+						<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
+						<span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
+						<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInput" @mousedown.stop="" @click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput"/>
+					</div>
+		</div>
+		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
+		</div>
 	</div>
 </template>
 <script>
@@ -25,10 +27,12 @@ import DomBuilder from 'common/DomBuilder'
 import _DropDown from './_DropDown'
 import _Color from 'common/_Color'
 import Util from 'core/Util'
+import _DesignToken from './_DesignToken'
+import DesignTokenView from './DesignTokenView'
 
 export default {
   name: 'ToolbarColor',
-	mixins:[Util, _Color, DojoWidget, _DropDown],
+	mixins:[Util, _Color, DojoWidget, _DesignToken, _DropDown],
 	props: ['isDialog', 'color', 'app'],
     data: function () {
         return {
@@ -71,7 +75,9 @@ export default {
             gradients: []
         }
     },
-    components: {},
+    components: {
+			'DesignTokenView': DesignTokenView
+		},
 		computed: {
 			colorAsHex () {
 				if (this.tempValue) {
@@ -124,14 +130,6 @@ export default {
 						this.hexError = true
 					}
 				}
-			},
-
-			setBox (box) {
-				this.box = box
-			},
-
-			setCssProps (props) {
-				this.cssProps = props
 			},
 
 			init () {

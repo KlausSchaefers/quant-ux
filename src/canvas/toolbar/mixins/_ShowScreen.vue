@@ -102,6 +102,7 @@ export default {
 					this.screenBackgroundImage.setValue(style.backgroundImage);
 					this.screenBackgroundImage.setModel(this.model);
 					this.screenBackgroundColor.setValue(style.background);
+					this.screenBackgroundColor.setBox(model)
 
 					this.screenOverlayCheckBox.setValue(style.overlay);
 
