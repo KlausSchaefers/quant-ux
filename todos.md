@@ -21,19 +21,27 @@
 - Actions could have ScreenContaoner as target!
 - LayerList open should have effect on Scroll
 ## Design Token
- - add plus buttons
- - select canvas view
-   - popup to edit (colors, text, shadow)
-  - canvas view
-  - box-shaodw section
-  - background section
-  - templates
+
+- Toggle Widgets
+  - Background
+  - text
+  - boder (both)
+  - shadpow
+  - padding
+
+- Show List
+- unlink
+- link
+- templates
 
  - live update when changing?
  - How to show?
   - Color -> have special popup
   - Text hide block and show name
 
+
+## Template to Cpmponents
+ - show in LayerList differen symbol
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions
 
