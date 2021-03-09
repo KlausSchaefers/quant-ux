@@ -1387,7 +1387,6 @@ export default class RenderFactory extends Core {
 				parent.style.backgroundPosition = "0 0"; // 100%
 			}
 
-
 			parent.style.backgroundRepeat = "no-repeat";
 			parent.style.border = "none";
 		} else {
