@@ -44,6 +44,8 @@ export default {
 			renderScreen (screen, line){
 				this.logger.log(-1,"renderScreen","enter > " + screen.id + " / " + screen.name);
 
+				this.setSystemVariable('screen', screen.name)
+
 				try {
 					this.log("ScreenLoaded",screen.id, null, null);
 
@@ -100,6 +102,8 @@ export default {
 
 			renderScreenOverlay (overlay, line){
 				this.logger.log(3,"renderScreenOverlay","enter > " + overlay.id);
+
+				this.setSystemVariable('overlay', overlay.name)
 
 				try {
 					this.logShowOverlay(overlay);

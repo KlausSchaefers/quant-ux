@@ -10,6 +10,11 @@ export default {
 	name: 'DataBindingMixin',
     methods: {
 
+			setSystemVariable (key, value) {
+				this.logger.log(-1, "setSystemVariable","enter " + key, value);
+				this.setDataBindingByKey('_qux.' + key, value)
+			},
+
 			/**
 			 * Since 3.0.17 we set default values to data binding
 			 */
