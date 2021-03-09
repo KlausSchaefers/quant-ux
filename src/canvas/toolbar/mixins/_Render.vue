@@ -1035,10 +1035,10 @@ export default {
 			},
 
 
-			_renderScreenBackground (){
+			_renderScreenBackground (cssProps = ['background']){
 
 
-				this.designTokenScreenBackground = this.createDesignTokenBtn('color', ['background'])
+				this.designTokenScreenBackground = this.createDesignTokenBtn('color', cssProps)
 
 				var parent = this.createSection( "Background", true, this.designTokenScreenBackground);
 				var content = document.createElement("div");
@@ -1051,6 +1051,7 @@ export default {
 				this.screenBackgroundColor = this.$new(ToolbarColor, {hasGradient:true, hasPicker:true, chevron:false, hex:true});
 				this.screenBackgroundColor.updateLabel  = true;
 				this.screenBackgroundColor.keepOpenOnTypeSelection = "screen";
+				this.screenBackgroundColor.setCssProps(cssProps)
 				this.screenBackgroundColor.setModel(this.model);
 				this.own(on(this.screenBackgroundColor, "change", lang.hitch(this, "setScreenStyle", "background")));
 				this.own(on(this.screenBackgroundColor, "changing", lang.hitch(this, "setTempScreenStyle", "background")));

@@ -43,7 +43,7 @@ class ModelUtil {
                 this.inlineBoxDesignToken(widget, model)
             }
             for (let screenId in model.screens) {
-                let scrn = model.widgets[screenId]
+                let scrn = model.screens[screenId]
                 this.inlineBoxDesignToken(scrn, model)
             }
             /**
@@ -54,7 +54,7 @@ class ModelUtil {
     }
 
     inlineBoxDesignToken (box, model) {
-        if (box && box.designtokens) {
+          if (box && box.designtokens) {
             console.debug('box', box)
             let designtokens = box.designtokens
             for (let state in designtokens) {
