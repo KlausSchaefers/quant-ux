@@ -21,6 +21,7 @@
 - Actions could have ScreenContaoner as target!
 - LayerList open should have effect on Scroll
 ## Design Token
+- Make model better with specila keys like _color, _background and a flag
 
 - Toggle Widgets
   - Background
@@ -41,7 +42,8 @@
 
 
 ## Template to Cpmponents
- - show in LayerList differen symbol
+ - show in LayerList differen symbol. Mark also the source component!
+  - All changes from this one should be copied to the other instances? Check Figma...
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions
 
@@ -51,7 +53,9 @@
 ## Vector Editor
 
 ## Bugs
-  - Toolbar Pop jumps for Header in Qdate data xsectzion
+  - ESC closes all popups, but triggers flush of temp values. Is this really wanted?
+ - _BaseConreoller.renderWidget() > make method to inline all templates and design tokens
+ - Toolbar Pop jumps for Header in Qdate data xsectzion
  - remove onWidgetPositionCHange ()
     - repeater will rerender all the stuff..
   - Focxus will trigger screen transition

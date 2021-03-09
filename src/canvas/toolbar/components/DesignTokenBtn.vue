@@ -11,7 +11,7 @@
             <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant-plus"></span>
             <label class="MatcToolbarPopUpLabel">Link Design Token</label>
         </li>
-         <li @mousedown.stop="onUnLink" v-show="hasDesignToken">
+        <li @mousedown.stop="onUnLink" v-show="hasDesignToken">
             <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant-minus"></span>
             <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
         </li>

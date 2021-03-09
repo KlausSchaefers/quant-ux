@@ -1368,6 +1368,11 @@ input.MatcToobarInlineEditDisabled:focus{
  * Border 2
  ****************************************************/
 
+ .MatcBoxBoder2 {
+	display: flex;
+	align-items: center;
+ }
+
 .MatcBoxBorder2 .MatcToolbarInputDropDownButton input{
 	text-align: center;
 }

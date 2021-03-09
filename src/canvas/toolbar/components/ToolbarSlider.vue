@@ -21,7 +21,8 @@ export default {
             inputEvent: "change",
             mode: "all",
             min: 0,
-            max: 100
+            max: 100,
+						center: false
         }
     },
     components: {},
@@ -34,6 +35,7 @@ export default {
 			this.slider = this.$new(HSlider);
 			this.slider.max = this.max;
 			this.slider.min = this.min;
+			this.slider.center = this.center;
 			this.slider.placeAt(this.cntr);
 			this.own(on( this.slider, "change", lang.hitch(this,"onMoveSlider")));
 			this.own(on( this.slider, "click", lang.hitch(this,"onClickSlider")));

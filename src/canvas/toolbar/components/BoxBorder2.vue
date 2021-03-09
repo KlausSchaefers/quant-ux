@@ -1,6 +1,9 @@
 
 <template>
-     <div class="MatcBoxBorder2"></div>
+	  <div class="MatcDesignTokenMixin">
+			<DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
+			<div class="MatcBoxBorder2" v-show="!hasDesignToken" ref="cntr"></div>
+		</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -12,6 +15,7 @@ import _Tooltip from 'common/_Tooltip'
 import ToolbarSlider from './ToolbarSlider'
 import ToolbarColor from './ToolbarColor'
 import _DesignToken from './_DesignToken'
+import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'BoxBorder2',
@@ -27,22 +31,26 @@ export default {
 					inputEvent: "change"
         }
     },
-    components: {},
+    components: {
+			'DesignTokenView': DesignTokenView
+		},
     methods: {
 
 			render (){
 				if(!this.rendered){
 
+					let cntr = this.$refs.cntr
+
 					/**
 					 * color
 					 */
-					this.color = this.renderColorBox(this.domNode);
+					this.color = this.renderColorBox(cntr);
 					this.addTooltip(this.color.domNode, "Border Color");
 
 					this.own(on( this.color, this.inputEvent, lang.hitch(this,"setColor", "borderTopColor", this.color)));
 					this.own(on( this.color, "changing", lang.hitch(this,"setTempColor", "borderTopColor", this.color)));
 
-					this.width = this.renderIntBox(this.domNode);
+					this.width = this.renderIntBox(cntr);
 					this.own(on( this.width, "change", lang.hitch(this,"setWidth", "borderTopWidth")));
 					this.own(on( this.width, "changing", lang.hitch(this,"setTempWidth", "borderTopWidth")));
 

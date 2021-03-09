@@ -6,6 +6,29 @@ class ModelUtil {
 
     constructor() {
       this.logger = new Logger("ModelUtil");
+      this.designTokenCssProps = [
+          'color',
+          'fontSize',
+          'fontWeight',
+          'fontFamily',
+          'textAlign',
+          'letterSpacing',
+          'lineHeight',
+          'background',
+          'boxShadow',
+          'paddingTop',
+          'paddingBottom',
+          'paddingLeft',
+          'paddingRight',
+          'borderTopWidth',
+          'borderRightWidth',
+          'borderLeftWidth',
+          'borderBottomWidth',
+          'borderTopColor',
+          'borderBottomColor',
+          'borderRightColor',
+          'borderLeftColor'
+        ].map(t => 'dt-' + t)
     }
 
     inlineModelDesignTokens (model) {
@@ -23,12 +46,16 @@ class ModelUtil {
                 let scrn = model.widgets[screenId]
                 this.inlineBoxDesignToken(scrn, model)
             }
+            /**
+             * FIXME Add tempaltes
+             */
         }
         return model
     }
 
     inlineBoxDesignToken (box, model) {
         if (box && box.designtokens) {
+            console.debug('box', box)
             let designtokens = box.designtokens
             for (let state in designtokens) {
                 let stateTokens = designtokens[state]
@@ -43,6 +70,7 @@ class ModelUtil {
                 }
             }
         }
+        return box
     }
 
 

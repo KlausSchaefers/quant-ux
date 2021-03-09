@@ -93,6 +93,8 @@ export default {
 
 				css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
 				this.boxShadow.setValue(style.boxShadow);
+				this.boxShadow.setBox(model)
+
 				this.opacity.setValue(style.opacity);
 
 				if (model.has.backgroundImage){
@@ -130,6 +132,7 @@ export default {
 				if (this.hasPadding.indexOf(model.type) >=0) {
 					css.remove(this.boxDiv, "MatcToolbarSectionHidden");
 					this.paddingWidget.setValue(style);
+					this.paddingWidget.setModel(this.model)
 					this.paddingWidget.setBox(model)
 					this.paddingWidget.setWidgetViewMode(widgetViewMode)
 				}

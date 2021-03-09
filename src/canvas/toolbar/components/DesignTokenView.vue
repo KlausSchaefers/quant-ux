@@ -1,7 +1,41 @@
 
 <template>
   <div class="MatcToolbarItem MatcToolbarGridFull"  @mousedown.stop="" >
-    {{designtoken.name}}
+    <div v-if="designtoken && designtoken.type === 'color'" class="MatcDesignTokenView">
+      <span class="MatcToolbarItemIcon">
+        <span class="mdi mdi-cog" />
+      </span>
+      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+    </div>
+
+    <div v-if="designtoken && designtoken.type === 'boxShadow'" class="MatcDesignTokenView">
+      <span class="MatcToolbarItemIcon">
+        <span class="mdi mdi-cogs" />
+      </span>
+      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+    </div>
+
+    <div v-if="designtoken && designtoken.type === 'stroke'" class="MatcDesignTokenView">
+      <span class="MatcToolbarItemIcon">
+        <span class="mdi mdi-cogs" />
+      </span>
+      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+    </div>
+
+    <div v-if="designtoken && designtoken.type === 'padding'" class="MatcDesignTokenView">
+      <span class="MatcToolbarItemIcon">
+        <span class="mdi mdi-cogs" />
+      </span>
+      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+    </div>
+
+    <div v-if="designtoken && designtoken.type === 'text'" class="MatcDesignTokenView">
+      <span class="MatcToolbarItemIcon">
+        <span class="mdi mdi-cogs" />
+      </span>
+      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+    </div>
+
 	</div>
 </template>
 <script>

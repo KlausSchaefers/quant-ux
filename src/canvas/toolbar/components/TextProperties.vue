@@ -1,8 +1,13 @@
 
 <template>
-  <div>
-      <div class="MatcToolbarSectionContent" ref="main" />
-      <div class="MatcToolbarSectionContent" ref="advanced"/>
+	  <div class="MatcDesignTokenMixin">
+			<div class="MatcToolbarSectionContent" v-show="hasDesignToken">
+      	<DesignTokenView class="MatcToolbarItem"  :designtoken="currentDesignToken"/>
+			</div>
+			<div v-show="!hasDesignToken">
+					<div class="MatcToolbarSectionContent" ref="main" />
+					<div class="MatcToolbarSectionContent" ref="advanced"/>
+			</div>
 	</div>
 </template>
 
@@ -19,6 +24,7 @@ import TextShadow from 'canvas/toolbar/components/TextShadow2'
 import InputDropDownButton from 'canvas/toolbar/components/InputDropDownButton'
 import _Tooltip from 'common/_Tooltip'
 import _DesignToken from './_DesignToken'
+import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'TextProperties',
@@ -28,7 +34,9 @@ export default {
           fontFamilies: []
         }
     },
-    components: {},
+    components: {
+			'DesignTokenView': DesignTokenView
+		},
     computed: {
     },
     methods: {

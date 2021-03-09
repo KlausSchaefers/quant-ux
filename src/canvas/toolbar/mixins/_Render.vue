@@ -774,9 +774,9 @@ export default {
 			},
 
 
-			_renderWidgetBox (){
+			_renderWidgetBox (cssProps = ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight']){
 
-				this.designTokenPaddingBtn = this.createDesignTokenBtn('padding', ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'] )
+				this.designTokenPaddingBtn = this.createDesignTokenBtn('padding', cssProps)
 
 				var parent = this.createSection( "Padding", true, this.designTokenPaddingBtn);
 
@@ -786,6 +786,7 @@ export default {
 
 				this.paddingWidget = this.$new(BoxPadding);
 				this.own(on(this.paddingWidget, "change", lang.hitch(this, "setWidgetMultiStyle")));
+				this.paddingWidget.setCssProps(cssProps);
 				this.paddingWidget.placeAt(content);
 
 
@@ -795,7 +796,7 @@ export default {
 
 			_renderWidgetBackground (){
 
-				this.designTokenBackground = this.createDesignTokenBtn('backgroundColor', ['background'])
+				this.designTokenBackground = this.createDesignTokenBtn('color', ['background'])
 
 				var parent = this.createSection( "Background", true, this.designTokenBackground);
 
@@ -881,6 +882,7 @@ export default {
 
 				this.boxShadow = this.$new(BoxShadow);
 				this.boxShadow.setModel(this.model)
+				this.boxShadow.setCssProps(['boxShadow'])
 				this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
 				this.own(on(this.boxShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "boxShadow")));
 				this._placeAt(this.boxShadow,content);
@@ -892,9 +894,9 @@ export default {
 			},
 
 
-			_renderWidgetBorder (){
+			_renderWidgetBorder (cssProps = ['borderTopWidth', 'borderRightWidth', 'borderLeftWidth', 'borderBottomWidth', 'borderTopColor', 'borderBottomColor', 'borderRightColor', 'borderLeftColor']){
 
-				this.designTokenBorder = this.createDesignTokenBtn('stroke', ['borderTopWidth', 'borderRightWidth', 'borderLeftWidth', 'borderBottomWidth', 'borderTopColor', 'borderBottomColor', 'borderRightColor', 'borderLeftColor'])
+				this.designTokenBorder = this.createDesignTokenBtn('stroke', cssProps)
 
 				var parent = this.createSection("Border", true, this.designTokenBorder, "toggleBoxBorder");
 
@@ -904,6 +906,7 @@ export default {
 
 				this.boxBorder = this.$new(BoxBorder);
 				this.boxBorder.setModel(this.model);
+				this.boxBorder.setCssProps(cssProps)
 				this.own(on(this.boxBorder, "change", lang.hitch(this, "setWidgetMultiStyle")));
 				this.own(on(this.boxBorder, "changing", lang.hitch(this, "setTempMultiWidgetStyle")));
 
@@ -915,6 +918,7 @@ export default {
 
 				this.boxBorder2 = this.$new(BoxBorder2, {colorWidgets:this.colorWidgets});
 				this.boxBorder2.setModel(this.model);
+				this.boxBorder2.setCssProps(cssProps)
 				this.own(on(this.boxBorder2, "change", lang.hitch(this, "setWidgetMultiStyle")));
 				this.own(on(this.boxBorder2, "changing", lang.hitch(this, "setTempMultiWidgetStyle")));
 				this._placeAt(this.boxBorder2, content);
@@ -952,16 +956,17 @@ export default {
 				this.inheritedWidgetDiv = parent;
 			},
 
-			_renderWidgetText (){
+			_renderWidgetText (cssProps = ['color', 'fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight', 'fontStyle', 'verticalAlign', 'fontWeight', 'textDecoration', 'textShadow']){
 
 
-				this.designTokenText = this.createDesignTokenBtn('text', ['color', 'fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight'])
+				this.designTokenText = this.createDesignTokenBtn('text', cssProps)
 				var parent = this.createSection('Text', true, this.designTokenText);
 
 
 
 				this.textProperties = this.$new(TextProperties)
 				this.textProperties.setModel(this.model)
+				this.textProperties.setCssProps(cssProps)
 				this.textProperties.setFontFamilies(this._getFontFamilies())
 				this.textProperties.placeAt(parent)
 				this.own(on(this.textProperties, "change", lang.hitch(this, "setWidgetStyle")));

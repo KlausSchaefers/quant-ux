@@ -1,51 +1,58 @@
 
 <template>
-     <div class=" MatcToolbarItem MatcBoxShadow2">
-	    <div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
-					<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
-					<span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
-			</div>
-			<div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
-				<div class="MatcToolbarPopUpContainer" role="menu" data-dojo-attach-point="ctnr" @click.stop="" @mousedown.stop="" @keydown.stop="" @keypress.stop="" @keyup.stop="">
-            <div class=" MatcToolbarTabs">
-              <a :class="{'MatcToolbarTabActive' : tab === 'position'}" @click="setTab('position')">Postion</a>
-              <a :class="{'MatcToolbarTabActive' : tab === 'color'}" @click="setTab('color')">Color</a>
-            </div>
-            <div v-show="tab === 'position'" >
-                <div ref="hSliderCntr" class="MatcBoxShadowSliderCntr">
-                  <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">X</span>
+	  <div class="MatcDesignTokenMixin">
+      <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
+      <div class=" MatcToolbarItem MatcBoxShadow2" v-show="!hasDesignToken">
+        <div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
+            <span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator">
+            </span>
+            <span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
+        </div>
+      </div>
+
+        <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
+          <div class="MatcToolbarPopUpContainer" role="menu" data-dojo-attach-point="ctnr" @click.stop="" @mousedown.stop="" @keydown.stop="" @keypress.stop="" @keyup.stop="">
+              <div class=" MatcToolbarTabs">
+                <a :class="{'MatcToolbarTabActive' : tab === 'position'}" @click="setTab('position')">Postion</a>
+                <a :class="{'MatcToolbarTabActive' : tab === 'color'}" @click="setTab('color')">Color</a>
+              </div>
+              <div v-show="tab === 'position'" >
+                  <div ref="hSliderCntr" class="MatcBoxShadowSliderCntr">
+                    <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">X</span>
+                  </div>
+
+                  <div ref="vSliderCntr" class="MatcBoxShadowSliderCntr">
+                    <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Y</span>
+                  </div>
+
+                  <div ref="bSliderCntr" class="MatcBoxShadowSliderCntr">
+                    <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Blur</span>
+                  </div>
+
+                  <div ref="sSliderCntr" class="MatcBoxShadowSliderCntr">
+                    <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Spread</span>
+                  </div>
+
+                  <div ref="insertCntr" class="MatcBoxShadowSliderCntr">
+                    <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Insert</span>
+                  </div>
+
+              </div>
+
+              <div v-show="tab === 'color'" >
+                <div ref="colorCntr" >
                 </div>
+              </div>
 
-                <div ref="vSliderCntr" class="MatcBoxShadowSliderCntr">
-                  <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Y</span>
-                </div>
+          </div>
+          <div data-dojo-attach-point="removeBTN" class="MatcToolbarPopupFooter">
+            <span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span>
+            <span class="MatcToolbarPopupFooterLabel">No Shadow</span>
+          </div>
+        </div>
 
-                <div ref="bSliderCntr" class="MatcBoxShadowSliderCntr">
-                  <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Blur</span>
-                </div>
-
-                <div ref="sSliderCntr" class="MatcBoxShadowSliderCntr">
-                  <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Spread</span>
-                </div>
-
-                <div ref="insertCntr" class="MatcBoxShadowSliderCntr">
-                  <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Insert</span>
-                </div>
-
-            </div>
-
-            <div v-show="tab === 'color'" >
-               <div ref="colorCntr" >
-               </div>
-            </div>
-
-				</div>
-				<div data-dojo-attach-point="removeBTN" class="MatcToolbarPopupFooter">
-					<span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span>
-					<span class="MatcToolbarPopupFooterLabel">No Shadow</span>
-				</div>
-			</div>
 	</div>
+
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -58,6 +65,7 @@ import CheckBox from 'common/CheckBox'
 import _Color from 'common/_Color'
 import _DesignToken from './_DesignToken'
 import ColorPickerSketch from 'common/ColorPickerSketch'
+import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'BoxShadow',
@@ -79,7 +87,9 @@ export default {
 						arrowPosition: "right"
         }
     },
-    components: {},
+    components: {
+      'DesignTokenView': DesignTokenView
+    },
     methods: {
 
       setTab(t) {
@@ -93,7 +103,7 @@ export default {
 			},
 
       onHide () {
-        if (this.tempValue) {
+        if (this.tempValue && (this.tempValue.v !== 0 || this.tempValue.h !== 0 || this.tempValue.s !== 0 || this.tempValue.b !== 0)) {
           this.emit('change', this.tempValue)
         }
       },
@@ -125,7 +135,7 @@ export default {
 			},
 
       renderIntBox (parent, param){
-        var input = this.$new(ToolbarSlider,{max:50, min:-50});
+        var input = this.$new(ToolbarSlider,{max:50, min:-50, center: true});
         input.placeAt(parent);
         input.render();
 				this.own(on(input, "change", lang.hitch(this, "setIntValue", param)));
@@ -154,7 +164,7 @@ export default {
       },
 
 
-			setTempBoxShadow (){
+			setTempBoxShadow () {
 				this.tempValue = {
 					v: Math.round(this.vSlider.getValue()),
 					h: Math.round(this.hSlider.getValue()),
@@ -168,7 +178,7 @@ export default {
 
 
 			setValuesInWidgets (boxShadow){
-				if(this.hSlider){
+				if (this.hSlider){
 					this.vSlider.setValue(boxShadow.v);
 					this.hSlider.setValue(boxShadow.h);
 					this.bSlider.setValue(boxShadow.b);
@@ -207,6 +217,7 @@ export default {
       }
     },
     mounted () {
+      this.setCssProps(['boxShadow'])
     }
 }
 </script>

@@ -76,6 +76,7 @@ export default class DesignToken extends Widget{
 
 
 		cssProps.forEach(key => {
+			// or thing of something like 			box[cssState]['dt-' + key] = token.id
 			box.designtokens[cssState][key] = token.id
 			box[cssState][key] = '' // delete is not detected in
 		});

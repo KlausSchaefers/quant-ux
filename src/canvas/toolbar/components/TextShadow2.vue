@@ -70,6 +70,13 @@ export default {
     components: {},
     methods: {
 
+			onHide () {
+				console.debug('onHide', this.tempValue)
+        if (this.tempValue && (this.tempValue.v !== 0 || this.tempValue.h !== 0 || this.tempValue.b !== 0)) {
+          this.emit('change', this.tempValue)
+        }
+      },
+
       init (){
 
 				this.own(on(this.removeBTN, touch.press, lang.hitch(this, "_removeBoxShadow")));

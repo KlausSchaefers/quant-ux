@@ -656,10 +656,16 @@ export default class BaseController extends Core {
 		this.logger.log(0,"renderWidget", "enter > type : ", type);
 		if (widget) {
 
-			if(widget.template){
-				/**
-				 * TODO: Make this faster! Get all the widgets with the template and update them!
-				 */
+			/**
+				* In case we have a templated or design token widget, we
+				* kick of a complete rendering. This is to make sure that we
+				* merge in all teh style. This does not hurt too much, because
+				* we have the partical rendering now.
+				* TODO: We could use the ModelUtil and inline the template and
+				*  the design tokens
+			 */
+			if(widget.template || widget.designtokens){
+
 				this.render();
 			} else {
 				/**
@@ -671,6 +677,9 @@ export default class BaseController extends Core {
 				 *
 				 * FIXME: Also add children in case it is an container widget!
 				 */
+				// let designTokenWidget = ModelUtil.inlineBoxDesignToken
+
+
 				this._canvas.setWidgetStyle(widget.id, widget.style, widget);
 
 				if (type === 'props') {

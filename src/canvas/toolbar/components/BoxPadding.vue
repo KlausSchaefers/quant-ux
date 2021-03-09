@@ -1,9 +1,14 @@
 
 <template>
-     <div class="MatcBoxBorder  MatcBoxPadding">
-		<div class="MatcBoxBorderContainer" data-dojo-attach-point="cntr">
+	  <div class="MatcDesignTokenMixin">
+      <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
+
+			<div class="MatcBoxBorder MatcBoxPadding" v-show="!hasDesignToken" >
+				<div class="MatcBoxBorderContainer" data-dojo-attach-point="cntr">
+				</div>
+			</div>
+
 		</div>
-	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -14,6 +19,7 @@ import DomBuilder from 'common/DomBuilder'
 import InputDropDownButton from './InputDropDownButton'
 import BoxBorder from './BoxBorder'
 import _DesignToken from './_DesignToken'
+import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'BoxPadding',
@@ -25,7 +31,9 @@ export default {
           inputEvent: "change"
         }
     },
-    components: {},
+    components: {
+			'DesignTokenView': DesignTokenView
+		},
     methods: {
 
       postCreate () {

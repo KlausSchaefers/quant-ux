@@ -16,13 +16,14 @@ export default {
             let tokensByMode = this.box.designtokens[this.widgetViewMode]
             if (tokensByMode) {
                 let designTokenId = this.findDesignToken(tokensByMode, this.cssProps)
-                let designToken = this.model.designtokens[designTokenId]
-                if (designToken) {
-                    return designToken
-                } else {
-                    console.debug('_DesignToken () > currentDesignToken() No token with id', designToken, tokensByMode)
+                if (designTokenId) {
+                  let designToken = this.model.designtokens[designTokenId]
+                  if (designToken) {
+                      return designToken
+                  } else {
+                      console.debug('_DesignToken () > currentDesignToken() No token with id: ' + designTokenId, tokensByMode)
+                  }
                 }
-                console.debug(tokensByMode, designTokenId)
             }
         }
         return null;
