@@ -34,6 +34,7 @@
 - unlink
 - link
 - templates
+  - hide for templates!!!
 
  - live update when changing?
  - How to show?
@@ -43,6 +44,10 @@
 
 ## Template to Cpmponents
  - show in LayerList differen symbol. Mark also the source component!
+    - flag the source component
+    - changes to this widhet should be updated in the template
+    - when copiying or creating, we should remove the flaf!
+
   - All changes from this one should be copied to the other instances? Check Figma...
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions

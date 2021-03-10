@@ -48,6 +48,7 @@ export default {
 			showTemplate:function(model){
 				css.remove(this.templateDiv, "MatcToolbarSectionHidden");
 				if(model.template){
+					css.remove(this.templateRemove, "MatcToolbarItemDisbaled hidden")
 					/**
 					* FIXME: we should also check for hover, error and such... This should
 					* however be well tested.
@@ -56,12 +57,13 @@ export default {
 					if (count > 0) {
 						css.remove(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
 					} else {
-						css.add(this.templateUpdate, "MatcToolbarItemDisbaled");
+						css.add(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
 					}
 					css.add(this.template, "MatcToolbarItemDisbaled hidden");
 				} else {
 					css.remove(this.template, "MatcToolbarItemDisbaled hidden");
 					css.add(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
+					css.add(this.templateRemove, "MatcToolbarItemDisbaled hidden")
 				}
 
 			},

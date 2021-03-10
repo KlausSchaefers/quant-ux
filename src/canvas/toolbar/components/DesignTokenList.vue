@@ -7,7 +7,7 @@
 
           <div class="MatcToolbarItem MatcToolbarGridFull" v-for="designtoken in colorTokens" :key="designtoken.id">
 
-             <span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background' : designtoken.value.background}"></span>
+             <span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background' : designtoken.value}"></span>
 
             <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
           </div>

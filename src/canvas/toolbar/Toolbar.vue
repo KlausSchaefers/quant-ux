@@ -815,17 +815,17 @@ export default {
 		 * Design Token
 		 **********************************************************************/
 
-		newDesignToken (tokenType, cssProps) {
-			this.logger.log(-1,"newDesignToken", "entry", cssProps);
+		newDesignToken (tokenType, cssProps, name) {
+			this.logger.log(-1,"newDesignToken", "entry", name);
 
 			var state = this._getViewStyleModelKey();
 
 			if(this._selectedWidget){
-				this.controller.addDesignToken(this._selectedWidget.id, tokenType, cssProps, state, this._selectedWidget.name, 'widget');
+				this.controller.addDesignToken(this._selectedWidget.id, tokenType, cssProps, state, name, 'widget');
 			}
 
 			if(this._selectedScreen){
-				this.controller.addDesignToken(this._selectedScreen.id, tokenType, cssProps, state, this._selectedScreen.name, 'screen');
+				this.controller.addDesignToken(this._selectedScreen.id, tokenType, cssProps, state, name, 'screen');
 			}
 		},
 
@@ -1023,6 +1023,12 @@ export default {
 		onToolCreateTheme (e){
 			this.stopEvent(e);
 			this.showThemeCreateDialog();
+		},
+
+		onToolRemoveTemplate (e) {
+			this.stopEvent(e);
+			this.logger.log(1,"onToolRemoveTemplate", "entry : " + this._selectedWidget);
+			//this.controller.updateTemplateStyle(this._selectedWidget.id);
 		},
 
 		onToolUpdateTemplate (e) {
