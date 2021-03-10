@@ -50,7 +50,7 @@
 
 .MatcLight .MatcToobarLeft .MatcToolbarItem:hover,
 .MatcLight .MatcToolbarTop .MatcToolbarItem:hover{
-	color:#1973e8;
+	color:#3787f2;
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcDashLabel,
@@ -275,12 +275,12 @@
 
 .MatcLight .MatcToolbarItemActive {
     background: none;
-    color:#1973e8;
+    color:#3787f2;
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarItemActive {
     background: none;
-		color:#1973e8;
+		color:#3787f2;
 }
 
 
@@ -418,7 +418,7 @@
 }
 
 .MatcLight .MatcToolbarResizeActive .MatcToolbarResizePinLine{
-    background: #1973e8;
+    background: #3787f2;
 }
 
 .MatcLight .MatcToolbarResizePinCenter,
@@ -434,7 +434,7 @@
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinRight,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinUp,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinDown{
-    border-color: #1973e8;
+    border-color: #3787f2;
 }
 
 .MatcLight .MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
@@ -444,7 +444,7 @@
 
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizeGrowHorizontal .MatcToolbarResizeGrowLine{
-    background: #1973e8;
+    background: #3787f2;
 }
 
 

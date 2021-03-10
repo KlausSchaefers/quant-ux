@@ -10,7 +10,7 @@
 }
 
 .MatcTreeItem.MatcTreeItemDragOver {
-  border-top: 2px solid #1973e8;
+  border-top: 2px solid #3787f2;
 }
 
 .MatcTreeItemRow{
@@ -25,7 +25,7 @@
 
 .MatcTreeItem.MatcTreeItemSelected,
 .MatcTreeItemSelected .MatcTreeItem{
-  background: #1973e8;
+  background: #3787f2;
   color: #fff;
 }
 

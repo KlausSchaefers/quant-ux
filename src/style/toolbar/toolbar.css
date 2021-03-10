@@ -68,7 +68,7 @@
 	width:100%;
 	text-align: center;
 	font-size: 14px;
-	background: #1973e8;
+	background: #3787f2;
 	text-decoration: none;
 	color:#fff;
 }
@@ -98,7 +98,7 @@
 }
 
 .MatcToolbar .vommondToolTipLabel,  .MatcToolbar .vommondToolTipArrow{
-	background:#1973e8;
+	background:#3787f2;
 }
 
 .MatcToolbarHintCntr{
@@ -151,7 +151,7 @@
 }
 
 .MatcToobarPropertiesSection .VommondInput ul li.VommonInputSelected {
-	background-color: #1973e8;
+	background-color: #3787f2;
 	color:#fff
 }
 
@@ -477,12 +477,12 @@
 }
 
 .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive{
-	background:#1973e8;
+	background:#3787f2;
 	color: #fff;
 }
 
 .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive:hover{
-	background:#1973e8;
+	background:#3787f2;
 	color: #fff;
 }
 
@@ -575,7 +575,7 @@
 }
 
 .MatcDateSectionIconCntr .selected{
-	background: #1973e8;
+	background: #3787f2;
 	color:#fff;
 }
 
@@ -660,7 +660,7 @@
 
 .MatcToolbarDropDownButtonItem:HOVER,
 .MatcCreateBtnElementSelected.MatcToolbarDropDownButtonItem{
-	border:1px solid #1973e8;
+	border:1px solid #3787f2;
 }
 
 /****************************************************
@@ -689,7 +689,7 @@
  ****************************************************/
 
  .MatcToobarHomeSection{
- 	background: #1973e8;
+ 	background: #3787f2;
  	transition-duration: 0.25s;
  }
 
@@ -785,7 +785,7 @@
 }
 
 .MatcToolbarSectionDesignSystemCntr:hover{
-	color: #1973e8;
+	color: #3787f2;
 }
 
 .MatcToolbar .MatcToolbarSectionSettingsIcon.mdi{
@@ -887,7 +887,7 @@
 }
 
 .MatcToobarRowRightIcon:HOVER{
-	color:#1973e8;
+	color:#3787f2;
 }
 
 .MatcToolBarNumberCntr{
@@ -1031,7 +1031,7 @@
 }
 
 .MatcToolbarTabs a.MatcToolbarTabActive{
-	border-bottom: 1px solid #1973e8;
+	border-bottom: 1px solid #3787f2;
 	color: #333;
 }
 
@@ -1055,17 +1055,17 @@
 }
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a:HOVER{
-	border-bottom: 2px solid #1973e8;
+	border-bottom: 2px solid #3787f2;
 }
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a:HOVER{
-	color:#1973e8;
+	color:#3787f2;
 }
 
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a.MatcToolbarTabActive,
 .MatcCode.MatcToolbarTabContainer a.MatcToolbarTabActive{
-	border-bottom: 2px solid #1973e8;
+	border-bottom: 2px solid #3787f2;
 	color:#555;
 }
 
@@ -1166,7 +1166,7 @@
  }
 
  .MatcToolbarViewConfigBtn:hover{
-	color:#1973e8;
+	color:#3787f2;
 	cursor: pointer;
  }
 
@@ -1209,7 +1209,7 @@
 }
 
 .MatcToolbarEditMode a.MatcToolbarEditModeActive{
-	background-color: #1973e8;
+	background-color: #3787f2;
 	color: #fff;
 }
 

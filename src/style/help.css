@@ -20,7 +20,7 @@
 
 .MatcHelp a.MatcHelpLink {
     display: inline;
-    color:#1973e8;
+    color:#3787f2;
     font-size: 18px;
     text-decoration: underline;
 }
@@ -35,7 +35,7 @@
 }
 
 .MatcHelp a.selected {
-    color:#1973e8;
+    color:#3787f2;
     text-decoration: none;
 }
 
@@ -118,7 +118,7 @@
 }
 
 .MatcHelpContent .MatcButton{
-    background: #1973e8;
+    background: #3787f2;
     color: #fff;
     padding:2px 4px;
     font-size: 14px;

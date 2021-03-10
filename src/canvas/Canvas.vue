@@ -346,7 +346,7 @@ export default {
 			 */
 			this.settings = {
 				canvasTheme : "MatcLight",
-				lineColor : "#1973e8",
+				lineColor : "#3787f2",
 				lineWidth : 1,
 				storePropView : true,
 				moveMode : "ps",

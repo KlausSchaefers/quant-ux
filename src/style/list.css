@@ -2,7 +2,7 @@
  * List Widget
  ****************************************************/
 .MatcAbsList{
-	position: relative;	
+	position: relative;
 	border: 1px dotted #ccc;
 }
 
@@ -10,7 +10,7 @@
 
 .MatcAbsList .MatcListItem{
 	display: inline-block;
-	position: absolute;	
+	position: absolute;
 }
 
 /****************************************************
@@ -18,7 +18,7 @@
  ****************************************************/
 
 .MatcList{
-	
+
 }
 
 .MatcListContainer{
@@ -27,7 +27,7 @@
 .MatcListRow{
 	clear: both;
 }
- 
+
 .MatcListColumn{
 	display: inline-block;
 	vertical-align: top;
@@ -77,7 +77,7 @@
 .MatcSearchForm input{
  	width: 0px;
  	opacity:0;
- 	transition: all 0.3s;	
+ 	transition: all 0.3s;
  	margin-right: 10px;
  	border:0px;
 
@@ -98,7 +98,7 @@
 .MatcListSearchVisible .MatcSearchForm{
 	border-bottom: 1px solid #ccc;
 }
- 	
+
 
 .MatcAppListMobile{
 	text-align: center;
@@ -167,14 +167,14 @@
 .MatcFluidListPaging ul li{
 	display: inline-block;
 	margin:0px 5px;
-	color: #1973e8;
+	color: #3787f2;
 	cursor:pointer;
 	padding: 3px 10px;
 	border-radius:3px;
 }
 
 .MatcFluidListPaging ul li.active{
-	background: #1973e8;
+	background: #3787f2;
 	color:#fff;
 }
 
@@ -221,7 +221,7 @@
 	padding-top:100px;
 	display:inline-block;
 }
- 
+
  /****************************************************
  * App List
  ****************************************************/
@@ -247,12 +247,12 @@
 	margin-right: 0px;
 }
 
-.MatcListItemName{	
+.MatcListItemName{
 	margin-top:30px;
 	font-weight: 300;
 }
 
-.MatcListItemDescription{	
+.MatcListItemDescription{
 	height: 50px;
 	overflow:hidden;
 	font-style: italic;
@@ -293,7 +293,7 @@
 }
 
 .MatcAppListItemAdd:HOVER{
-	border: 3px dashed #1973e8;
+	border: 3px dashed #3787f2;
 }
 
 .MatcApplListAdd{
@@ -320,7 +320,7 @@
 }
 
 .MatcAppListItem h3{
-	color:#333;	
+	color:#333;
 	font-weight: bold;
 	margin: 0px;
 	margin-bottom: 30px;
@@ -354,7 +354,7 @@
 	transition-duration: 0.2s;
     transition-property: all;
     box-shadow: 0 0px 5px rgba(0,0,0,0.20);
-    border:1px solid #1973e8;
+    border:1px solid #3787f2;
     box-shadow: 0 2px 15px rgba(0,0,0,0.25);
 
 }
@@ -365,7 +365,7 @@
 }
 
 .MatcAppListBox:hover .MatcPreview{
-	
+
 }
 
 .MatcAppList .MatcAppListBox .MatcPreviewWrapper{
@@ -384,7 +384,7 @@
 }
 
 .MatcAppListBox.MatcListItem:HOVER .MatcApplListAdd{
-	color:#1973e8;
+	color:#3787f2;
 	transform:scale(1.05, 1.05);
 }
 

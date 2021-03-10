@@ -9,7 +9,7 @@ export default {
         return {
 					straightLineFunction: d3.line().x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }),
 					smoothLineFunction: d3.line().curve(d3.curveBasis).x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }), // basis
-					defaultLineColor : "#1973e8",
+					defaultLineColor : "#3787f2",
 					defaultLineWidth: 1,
 					arrowCorrect : 3,
 					arrowSize : 8,
@@ -478,8 +478,7 @@ export default {
 				return this.drawSVGLine(id, line,this.defaultLineColor, this.defaultLineWidth, 1);
 			},
 
-			drawSVGLineWidthArrow (id, line, color, width, op){
-
+			drawSVGLineWidthArrow (id, line, color, width, op) {
 
 				this.svg.append("path")
 							.attr("d", this.lineFunction(line))
@@ -488,26 +487,24 @@ export default {
 							.attr("fill", "none")
 							.style("opacity", op);
 
-
 				return line
 			},
 
 
 			drawSVGLine (id, line, color, width, op){
-					console.debug('draw', color)
 
 				this.svg.append("defs").append("marker")
 						.attr("id", "arrowhead_"+id)
 						.attr("viewBox", "0 -5 12 12")
-					.attr("refX", 7)
-					.attr("markerWidth", this.arrowSize)
-					.attr("markerHeight", this.arrowSize)
-					.attr("orient", "auto")
-					.append("svg:path")
-					.attr("d", "M0,-5L10,0L0,5")
-					.attr("stroke", color)
-					.attr("fill", color)
-					.style("opacity", op);
+						.attr("refX", 7)
+						.attr("markerWidth", this.arrowSize)
+						.attr("markerHeight", this.arrowSize)
+						.attr("orient", "auto")
+						.append("svg:path")
+						.attr("d", "M0,-5L10,0L0,5")
+						.attr("stroke", color)
+						.attr("fill", color)
+						.style("opacity", op);
 
 				var lineGraph = this.svg.append("path")
 							.attr("d", this.lineFunction(line))

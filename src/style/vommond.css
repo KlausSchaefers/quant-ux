@@ -777,13 +777,13 @@ input.VommondHasError{
 	display: inline-block;
 	padding: 3px 10px;
 	margin:0px 5px;
-	color: #1973e8;
+	color: #3787f2;
 	cursor:pointer;
 	border-radius:3px;
 }
 
 .vommondTable .pagination ul li.active{
-	background: #1973e8;
+	background: #3787f2;
 	color:#fff;
 
 }
@@ -803,14 +803,14 @@ input.VommondHasError{
 
 .vommondInlineEdit:hover,
 .VommondInputList input.vommondInlineEdit:hover{
-	border: 1px #1973e8 dashed;
+	border: 1px #3787f2 dashed;
 }
 
 .vommondInlineEdit:focus,
 .VommondInputList input.vommondInlineEdit:focus{
 	background-color: #fff;
     background-image: none;
-    border: 1px solid #1973e8;
+    border: 1px solid #3787f2;
 }
 
 .vommondLineInput{
@@ -923,7 +923,7 @@ input.VommondHasError{
 .VommondSliderMarker .VommondSliderMarkPopup{
 	padding: 10px;
 	top:15px;
-	background-color: #1973e8;
+	background-color: #3787f2;
 	color:#fff;
 	display: none;
 	position: absolute;
@@ -1254,7 +1254,7 @@ input.VommondHasError{
 
 .VommondProgressBar{
 	height: 100%;
-	background:#1973e8;
+	background:#3787f2;
 	transition-duration: 0.5s;
 	transition-property: width;
 	position: relative;
@@ -1314,7 +1314,7 @@ input.VommondHasError{
     height: 100%;
     width: 100%;
 
-    background:#1973e8;
+    background:#3787f2;
 	vertical-align: top;
 	border-radius:50%;
  }
@@ -1357,8 +1357,8 @@ input.VommondHasError{
  	opacity:0;
  	transition-duration: 0.3s;
 	transition-property: opacity;
- 	border-bottom: 3px solid #1973e8;
-	border-right: 2px solid #1973e8;
+ 	border-bottom: 3px solid #3787f2;
+	border-right: 2px solid #3787f2;
 	transform:rotate(45deg);
 	-ms-transform:rotate(45deg); /* IE 9 */
 	-webkit-transform:rotate(45deg); /* Opera, Chrome, and Safari */
@@ -1406,9 +1406,9 @@ input.VommondHasError{
 .VommondFileButton {
 	display: inline-block;
 	padding: 3px 20px;
-	border: 1px solid #1973e8;
+	border: 1px solid #3787f2;
 	border-radius: 3px;
-	color: #1973e8;
+	color: #3787f2;
 	cursor: pointer;
 	transition: all 0.25s;
 	text-align: left;
@@ -1419,7 +1419,7 @@ input.VommondHasError{
 
 .VommondFileButton:hover,
 .VommondFileButtonSelected{
-	background: #1973e8;
+	background: #3787f2;
 	color: #fff;
 }
 

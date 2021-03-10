@@ -42,8 +42,8 @@
 
 .MatcToolbarResizePin .MatcToolbarResizeActive,
 .MatcToolbarResizePin .MatcToolbarResizeActive{
-    color:#1973e8;
-    border-color: #1973e8;
+    color:#3787f2;
+    border-color: #3787f2;
 }
 
 .MatcToolbarResizePinLine{
@@ -51,13 +51,13 @@
 }
 
 .MatcToolbarResizeActive .MatcToolbarResizePinLine {
-    background: #1973e8;
+    background: #3787f2;
 }
 
 .MatcToolbarResizePinUp{
     position: absolute;
     left:50%;
-    transform: translateX(-50%); 
+    transform: translateX(-50%);
     top:4px;
     height: 20%;
     width: 20px;
@@ -70,7 +70,7 @@
     top:50%;
     width: 15%;
     height: 20px;
-    transform: translateY(-50%); 
+    transform: translateY(-50%);
     border-left: 1px solid #555;
 }
 
@@ -81,20 +81,20 @@
     width: 15%;
     height: 20px;
     border-right: 1px solid #555;
-    transform: translateY(-50%); 
+    transform: translateY(-50%);
 }
 
 .MatcToolbarResizePinDown{
     position: absolute;
     left: 50%;
-    transform: translateX(-50%); 
+    transform: translateX(-50%);
     bottom: 4px;
     height: 20%;
     width: 20px;
     border-bottom: 1px solid #555;
 }
 
-.MatcToolbarResizePinUp .MatcToolbarResizePinLine, 
+.MatcToolbarResizePinUp .MatcToolbarResizePinLine,
 .MatcToolbarResizePinDown .MatcToolbarResizePinLine{
     width: 1px;
     height: 100%;
@@ -114,7 +114,7 @@
     position: absolute;
     left:50%;
     top:50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     width: 10px;
     height: 10px;
     border: 1px solid #555;
@@ -127,7 +127,7 @@
 
 .MatcToolbarResizeGrowHorizontal {
     top:50%;
-    transform: translateY(-50%); 
+    transform: translateY(-50%);
     height: 9px;
     width: 100%;
     position: absolute;
@@ -137,7 +137,7 @@
 
 
 .MatcToolbarResizePreviewBox {
-    background: #1973e8;
+    background: #3787f2;
     position: absolute;
     height: 20px;
     width: 20px;
@@ -151,7 +151,7 @@
 
 .MatcToolbarResizeGrowHorizontal {
     top:50%;
-    transform: translateY(-50%); 
+    transform: translateY(-50%);
     height: 9px;
     width: 100%;
     position: absolute;
@@ -170,12 +170,12 @@
 
 .MatcToolbarResizeGrowHorizontal:hover .MatcToolbarResizeGrowLine,
 .MatcToolbarResizeActive .MatcToolbarResizeGrowLine {
-    background: #1973e8;
+    background: #3787f2;
 }
 
 .MatcToolbarResizeGrowVertical {
     left:50%;
-    transform: translateX(-50%); 
+    transform: translateX(-50%);
     top:0px;
     width: 9px;
     height: 100%;
@@ -195,7 +195,7 @@
 
 .MatcToolbarResizeGrowVertical:hover .MatcToolbarResizeGrowLine,
 .MatcToolbarResizeActive .MatcToolbarResizeGrowLine {
-    background: #1973e8;
+    background: #3787f2;
 }
 
 
@@ -210,7 +210,7 @@
 }
 
 .MatcLight .MatcToolbarResizeActive .MatcToolbarResizePinLine{
-    background: #1973e8;
+    background: #3787f2;
 }
 
 .MatcLight .MatcToolbarResizePinCenter,
@@ -227,7 +227,7 @@
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinRight,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinUp,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinDown{
-    border-color: #1973e8;
+    border-color: #3787f2;
 }
 
 .MatcLight .MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
@@ -238,5 +238,5 @@
 
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizeGrowHorizontal .MatcToolbarResizeGrowLine{
-    background: #1973e8;
+    background: #3787f2;
 }

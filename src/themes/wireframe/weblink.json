@@ -19,7 +19,7 @@
            "border" : true,
 	       "label" : true
 	    },
-	    "style" : { 
+	    "style" : {
             "fontSize" : 14,
             "background": "transparent",
             "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
@@ -42,7 +42,7 @@
             "verticalAlign" : "middle"
         },
         "hover": {
-            "color": "1973e8"
+            "color": "3787f2"
         }
 	}
 ]

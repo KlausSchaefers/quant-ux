@@ -48,17 +48,15 @@ export default class DesignToken extends Widget{
 		/**
 		 * create token. can be simple or complex.
 		 */
-		let value = {}
-		cssProps.forEach(key => {
-			value[key] = box[cssState][key]
-		});
+
 
 		let token = {
 			id: 'dt' + this.getUUID(),
 			modified: new Date().getTime(),
+			isComplex: cssProps.length > 1,
 			name: name,
 			type: tokenType,
-			value: value
+			value: this.getDesignTokenValue(box, cssState, cssProps)
 		}
 
 		if (!this.model.designtokens) {
@@ -84,6 +82,19 @@ export default class DesignToken extends Widget{
 		this.onModelChanged([{type:"designtoken", action:'add', id: null}, {type:"widget", action:'update', id: id}]);
 
 		return token
+	}
+
+	getDesignTokenValue (box, cssState, cssProps) {
+		if (cssProps.length === 1) {
+			let key = cssProps[0]
+			return box[cssState][key]
+		} else {
+			let value = {}
+			cssProps.forEach(key => {
+				value[key] = box[cssState][key]
+			});
+			return value
+		}
 	}
 
 	modelRemoveDesignToken (tokenId) {
