@@ -39,7 +39,7 @@ export default class DesignToken extends Widget{
 	modelAddDesignToken(id, tokenType, cssProps, cssState, name, modelType ){
 		let box = modelType === 'widget' ? this.model.widgets[id] : this.model.screens[id]
 		if (!box) {
-			this.logger.warn(-1,"undoAddDesignToken", "NO BOX WITH ID > ", id);
+			this.logger.warn(-1,"modelAddDesignToken", "NO BOX WITH ID > ", id);
 			return
 		}
 
@@ -81,7 +81,7 @@ export default class DesignToken extends Widget{
 			box[cssState][key] = '' // delete is not detected in
 		});
 
-		this.onModelChanged([{type:"designtoken", action:'add', id: null}, {type:"widget", action:'update', id: id}]);
+		this.onModelChanged([{type:"designtoken", action:'add', id: null}, {type: modelType, action:'update', id: id}]);
 
 		return token
 	}
@@ -104,8 +104,6 @@ export default class DesignToken extends Widget{
 			delete this.model.designtokens[tokenId];
 			this.onModelChanged([{type:"designtoken", action:'remove', id: tokenId}]);
 		}
-
-
 	}
 
 	undoAddDesignToken (command) {
@@ -116,6 +114,110 @@ export default class DesignToken extends Widget{
 	redoAddDesignToken (command) {
 		this.logger.log(-1,"redoAddDesignToken", "enter > ", command);
 		this.modelAddDesignToken(command.modelId, command.tokenType, command.cssProps, command.cssState, command.tokenName, command.modelType)
+	}
+
+	/**********************************************************************
+	 * Clip Board
+	 **********************************************************************/
+
+	unlinkDesignToken (id, tokenId, cssState, modelType) {
+		this.logger.log(-1,"unlinkDesignToken", "enter > " + id, tokenId);
+
+		this.modelUnLinkDesignToken(id, tokenId, cssState, modelType)
+
+		/**
+		 * make command
+		 */
+		 var command = {
+			timestamp : new Date().getTime(),
+			type : "UnlinkDesignToken",
+			modelId: id,
+			tokenId: tokenId,
+			modelType: modelType,
+			cssState: cssState
+		};
+
+		this.addCommand(command);
+		this.render();
+
+		this.logger.log(-1,"unlinkDesignToken", "exit");
+
+	}
+
+	modelUnLinkDesignToken (id, tokenId, cssState, modelType) {
+
+
+
+		if(!this.model.designtokens) {
+			this.logger.warn("modelUnLinkDesignToken", "NO Design tokens in model");
+			return
+		}
+
+		let box = modelType === 'widget' ? this.model.widgets[id] : this.model.screens[id]
+		if (!box) {
+			this.logger.warn("modelUnLinkDesignToken", "NO BOX WITH ID > ", id);
+			return
+		}
+
+		//console.debug('modelUnLinkDesignToken', JSON.stringify(box, null, 2))
+
+		let token = this.model.designtokens[tokenId]
+		if (!token) {
+			this.logger.warn("modelUnLinkDesignToken", "NO Design token or state > ", token);
+			return
+		}
+
+		if (box.designtokens && box.designtokens[cssState]) {
+			let style = box[cssState]
+			let state = box.designtokens[cssState]
+
+
+			for (let key in state) {
+				let keyTokenId = state[key]
+				if (keyTokenId === tokenId) {
+					if (!token.isComplex) {
+						style[key] = token.value
+					} else {
+						style[key] = token.value[key]
+					}
+
+					/**
+					 * Remove the key
+					 */
+					 delete state[key]
+				}
+			}
+
+		}
+
+		/**
+		 * Do not forget to clean up!
+		 */
+		if (Object.values(box.designtokens[cssState]).length === 0) {
+			this.logger.log(-1,"modelUnLinkDesignToken", "Remove box.designtoken." +cssState);
+			delete box.designtokens[cssState]
+		}
+
+		if (Object.values(box.designtokens).length === 0) {
+			this.logger.log(-1,"modelUnLinkDesignToken", "Remove box.designtoken");
+			delete box.designtokens
+		}
+
+		//console.debug(JSON.stringify(box, null, 2))
+
+		this.onModelChanged([{type:modelType, action:'update', id: id}]);
+
+	}
+
+	undoUnlinkDesignToken (command) {
+		this.logger.log(-1,"undoUnlinkDesignToken", "enter > ", command);
+		//this.modelRemoveDesignToken(command.tokenId)
+	}
+
+	redoUnlinkDesignToken (command) {
+		this.logger.log(-1,"redoUnlinkDesignToken", "enter > ", command);
+		this.modelUnLinkDesignToken(command.modelId, command.tokenId, command.cssState, command.modelType)
+		this.render();
 	}
 
 }

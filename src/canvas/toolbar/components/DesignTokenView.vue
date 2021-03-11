@@ -6,6 +6,10 @@
         <span :class="icons[designtoken.type]" />
       </span>
       <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+
+      <span class="MatcToolbarItemIcon MatcDesignTokenUnlink" @click="unlink" v-if="false">
+        <span class="mdi mdi-minus-circle-outline" />
+      </span>
     </div>
 	</div>
 </template>
@@ -19,7 +23,7 @@ export default {
     data: function () {
         return {
           icons: {
-            color: 'mdi mdi-palette',
+            color: 'mdi mdi-water',
             text: 'mdi mdi-format-size',
             padding: 'mdi mdi-select-all',
             stroke: 'mdi mdi-border-color',
@@ -32,6 +36,9 @@ export default {
     },
     components: {},
     methods: {
+      unlink () {
+        this.emit('unlink', this.designtoken)
+      },
       setModel (m) {
         this.model = m
       }

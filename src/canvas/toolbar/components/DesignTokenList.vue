@@ -73,7 +73,7 @@ export default {
         return {
           model: null,
           icons: {
-            color: 'mdi mdi-palette',
+            color: 'mdi mdi-water',
             text: 'mdi mdi-format-size',
             padding: 'mdi mdi-select-all',
             stroke: 'mdi mdi-border-color',

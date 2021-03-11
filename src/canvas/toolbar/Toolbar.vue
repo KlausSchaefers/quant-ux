@@ -833,10 +833,21 @@ export default {
 
 		linkDesignToken () {
 			this.logger.log(-1,"linkDesignToken", "entry");
+
 		},
 
-		unlinkDesignToken () {
-			this.logger.log(-1,"unlinkDesignToken", "entry");
+		unlinkDesignToken (designToken) {
+			this.logger.log(-1,"unlinkDesignToken", "entry", designToken);
+
+			var state = this._getViewStyleModelKey();
+
+			if(this._selectedWidget){
+				this.controller.unlinkDesignToken(this._selectedWidget.id, designToken.id,state, 'widget');
+			}
+
+			if(this._selectedScreen){
+				this.controller.unlinkDesignToken(this._selectedScreen.id, designToken.id, state, 'screen');
+			}
 		},
 
 		changeDesignToken () {

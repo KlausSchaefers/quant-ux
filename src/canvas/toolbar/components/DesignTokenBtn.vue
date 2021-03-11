@@ -1,18 +1,22 @@
 
 <template>
     <div class="MatcDesignTokenButton MatcToolbarDropDownButtonPopup"  @mousedown.stop="" >
-      <span class="mdi mdi-dots-horizontal" v-show="isVisible && !hasDesignToken"/>
+      <span class="mdi mdi-dots-horizontal" v-show="isVisible"/>
     	<ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
-        <li @mousedown.stop="showCreateDialog">
+        <li @mousedown.stop="showCreateDialog" v-show="!hasDesignToken">
           	<span class="MatcToolbarPopUpIcon mdi mdi-plus-circle-outline"></span>
             <label class="MatcToolbarPopUpLabel">Create Design Token</label>
         </li>
         <li @mousedown.stop="onLink" v-show="!hasDesignToken">
-            <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant-plus"></span>
+            <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant"></span>
             <label class="MatcToolbarPopUpLabel">Link Design Token</label>
         </li>
+        <li @mousedown.stop="onLink" v-show="hasDesignToken">
+            <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant"></span>
+            <label class="MatcToolbarPopUpLabel">Change Design Token</label>
+        </li>
         <li @mousedown.stop="onUnLink" v-show="hasDesignToken">
-            <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant-minus"></span>
+            <span class="MatcToolbarPopUpIcon mdi mdi mdi-minus-circle-outline"></span>
             <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
         </li>
 			</ul>
@@ -75,7 +79,7 @@ export default {
         this.hideDropDown()
       },
       onUnLink () {
-        this.emit('unlink', this.tokenType, this.cssProps)
+        this.emit('unlink', this.currentDesignToken)
         this.hideDropDown()
       },
 

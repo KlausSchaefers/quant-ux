@@ -31,6 +31,11 @@
 .MatcDesignTokenView {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+}
+
+.MatcDesignTokenView .MatcToolbarItemLabel {
+	flex-grow: 1;
 }
 
 
@@ -50,4 +55,16 @@
 
 .MatcDesignTokenList .MatcToolbarSectionContent{
 	margin-bottom: 16px;
+}
+
+.MatcDesignTokenUnlink {
+	opacity: 0;
+}
+
+.MatcDesignTokenUnlink {
+	opacity: 0;
+}
+
+.MatcDesignTokenView:hover .MatcDesignTokenUnlink {
+	opacity: 1;
 }
