@@ -32,3 +32,22 @@
 	display: flex;
 	align-items: center;
 }
+
+
+.MatcDesignTokenView .MatcToolbarColorIndicator {
+	margin-right: 5px;
+}
+
+.MatcDesignTokenList label {
+	background: none;
+  color: #555;
+  text-align: left;
+  padding-left: 8px;
+  font-weight: 700;
+	margin-top: 16px;
+	margin-top: 8px;
+}
+
+.MatcDesignTokenList .MatcToolbarSectionContent{
+	margin-bottom: 16px;
+}

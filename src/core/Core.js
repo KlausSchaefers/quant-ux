@@ -1126,11 +1126,6 @@ export default class Core extends Evented {
         var inModel = lang.clone(model);
         inModel.inherited = true;
 
-        /**
-         * Inline designtokens
-         */
-        inModel = ModelUtil.inlineModelDesignTokens(inModel)
-
 
         /**
          * add container widgets
@@ -1275,6 +1270,13 @@ export default class Core extends Evented {
                     }
                 }
             }
+
+            /**
+             * Inline designtokens. must come last, otherwise master screen widgets are not correctly filled.
+             */
+            inModel = ModelUtil.inlineModelDesignTokens(inModel)
+
+
         }
         return inModel;
     }

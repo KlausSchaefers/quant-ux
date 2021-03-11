@@ -1,75 +1,65 @@
 
 <template>
-    <div class=""  @mousedown.stop="" >
-      <div :class="[']MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible.color}]">
-        <div class=" MatcToolbarSectionLabel" @click.stop="toggleSection('color')">Colors</div>
-        <div class=" MatcToolbarSectionContent">
+    <div class="MatcDesignTokenList"  @mousedown.stop="" >
+      <div :class="[']MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible}]">
+        <div class=" MatcToolbarSectionLabel"></div>
 
-          <div class="MatcToolbarItem MatcToolbarGridFull" v-for="designtoken in colorTokens" :key="designtoken.id">
 
-             <span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background' : designtoken.value}"></span>
 
-            <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+          <div class=" MatcToolbarSectionContent" v-show="colorTokens.length > 0">
+              <label>Color Styles</label>
+              <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in colorTokens" :key="designtoken.id">
+                <span class="MatcToolbarItemIcon" >
+                  <span :class="icons[designtoken.type]" :style="{'color': designtoken.value}"/>
+                </span>
+                <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+              </div>
           </div>
 
-        </div>
-      </div>
 
-       <div :class="[']MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible.text}]">
-        <div class=" MatcToolbarSectionLabel" @click.stop="toggleSection('text')">Text</div>
-        <div class=" MatcToolbarSectionContent">
-
-          <div class="MatcToolbarItem MatcToolbarGridFull" v-for="designtoken in textTokens" :key="designtoken.id">
-             <span class="MatcToolbarItemIcon">
-              <span class="mdi mdi-cogs" />
-            </span>
-            <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+          <div class=" MatcToolbarSectionContent" v-show="textTokens.length > 0">
+              <label>Text Styles</label>
+              <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in textTokens" :key="designtoken.id">
+                <span class="MatcToolbarItemIcon" >
+                  <span :class="icons[designtoken.type]" />
+                </span>
+                <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+              </div>
           </div>
 
-        </div>
-      </div>
 
-      <div :class="[']MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible.stroke}]">
-        <div class=" MatcToolbarSectionLabel" @click.stop="toggleSection('stroke')" >Strokes</div>
-        <div class=" MatcToolbarSectionContent">
-
-          <div class="MatcToolbarItem MatcToolbarGridFull" v-for="designtoken in strokeTokens" :key="designtoken.id">
-             <span class="MatcToolbarItemIcon">
-              <span class="mdi mdi-cogs" />
-            </span>
-            <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+          <div class=" MatcToolbarSectionContent" v-show="strokeTokens.length > 0">
+              <label>Border Styles</label>
+              <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in strokeTokens" :key="designtoken.id">
+                <span class="MatcToolbarItemIcon" >
+                  <span :class="icons[designtoken.type]" :style="{'color': designtoken.value.borderTopColor}"/>
+                </span>
+                <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+              </div>
           </div>
 
-        </div>
-      </div>
 
-      <div :class="[']MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible.shadow}]">
-        <div class=" MatcToolbarSectionLabel" @click.stop="toggleSection('shadow')" >Shadows</div>
-        <div class=" MatcToolbarSectionContent">
-
-          <div class="MatcToolbarItem MatcToolbarGridFull" v-for="designtoken in shadowTokens" :key="designtoken.id">
-             <span class="MatcToolbarItemIcon">
-              <span class="mdi mdi-cogs" />
-            </span>
-            <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+          <div class=" MatcToolbarSectionContent" v-show="shadowTokens.length > 0">
+              <label>Shadow Styles</label>
+              <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in shadowTokens" :key="designtoken.id">
+                <span class="MatcToolbarItemIcon" >
+                  <span :class="icons[designtoken.type]" />
+                </span>
+                <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+              </div>
           </div>
 
-        </div>
-      </div>
 
-      <div :class="[']MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible.padding}]">
-        <div class=" MatcToolbarSectionLabel" @click.stop="toggleSection('padding')" >Padding</div>
-        <div class=" MatcToolbarSectionContent">
-
-          <div class="MatcToolbarItem MatcToolbarGridFull" v-for="designtoken in paddingTokens" :key="designtoken.id">
-             <span class="MatcToolbarItemIcon">
-              <span class="mdi mdi-cogs" />
-            </span>
-            <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-          </div>
-
-        </div>
-      </div>
+          <div class=" MatcToolbarSectionContent" v-show="paddingTokens.length > 0">
+            <label>Padding Styles</label>
+            <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in paddingTokens" :key="designtoken.id">
+              <span class="MatcToolbarItemIcon" >
+                <span :class="icons[designtoken.type]" />
+              </span>
+              <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+            </div>
+	      </div>
+  </div>
 	</div>
 </template>
 <script>
@@ -81,17 +71,31 @@ export default {
     mixins:[DojoWidget],
     data: function () {
         return {
-           model: null,
-           visible: {
-             color: true,
-             text: true,
-             shadow:true,
-             stroke:true,
-             padding:true
-           }
+          model: null,
+          icons: {
+            color: 'mdi mdi-palette',
+            text: 'mdi mdi-format-size',
+            padding: 'mdi mdi-select-all',
+            stroke: 'mdi mdi-border-color',
+            boxShadow: 'mdi mdi-box-shadow',
+          },
+          visible: true,
+          designtokens: null
         }
     },
     computed: {
+      sortedTokens () {
+        let result = {}
+        if (this.model && this.model.designtokens) {
+          for (let id in this.model.designtokens) {
+            let token = this.model.designtokens[id]
+            if (token.type === 'color') {
+              result.push(token)
+            }
+          }
+        }
+        return result
+      },
       colorTokens () {
         let result = []
         if (this.model && this.model.designtokens) {
@@ -145,7 +149,7 @@ export default {
         if (this.model && this.model.designtokens) {
           for (let id in this.model.designtokens) {
             let token = this.model.designtokens[id]
-            if (token.type === 'stroke') {
+            if (token.type === 'padding') {
               result.push(token)
             }
           }
@@ -159,7 +163,9 @@ export default {
         this.visible[s] = !this.visible[s]
       },
       setModel (m) {
+        this.model = null
         this.model = m
+        this.$forceUpdate()
       }
 
     },

@@ -1,41 +1,12 @@
 
 <template>
   <div class="MatcToolbarItem MatcToolbarGridFull"  @mousedown.stop="" >
-    <div v-if="designtoken && designtoken.type === 'color'" class="MatcDesignTokenView">
-      <span class="MatcToolbarItemIcon">
-        <span class="mdi mdi-cog" />
+    <div class="MatcDesignTokenView" v-if="designtoken">
+      <span class="MatcToolbarItemIcon" >
+        <span :class="icons[designtoken.type]" />
       </span>
       <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
     </div>
-
-    <div v-if="designtoken && designtoken.type === 'boxShadow'" class="MatcDesignTokenView">
-      <span class="MatcToolbarItemIcon">
-        <span class="mdi mdi-cogs" />
-      </span>
-      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-    </div>
-
-    <div v-if="designtoken && designtoken.type === 'stroke'" class="MatcDesignTokenView">
-      <span class="MatcToolbarItemIcon">
-        <span class="mdi mdi-cogs" />
-      </span>
-      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-    </div>
-
-    <div v-if="designtoken && designtoken.type === 'padding'" class="MatcDesignTokenView">
-      <span class="MatcToolbarItemIcon">
-        <span class="mdi mdi-cogs" />
-      </span>
-      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-    </div>
-
-    <div v-if="designtoken && designtoken.type === 'text'" class="MatcDesignTokenView">
-      <span class="MatcToolbarItemIcon">
-        <span class="mdi mdi-cogs" />
-      </span>
-      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-    </div>
-
 	</div>
 </template>
 <script>
@@ -47,7 +18,14 @@ export default {
     mixins:[DojoWidget],
     data: function () {
         return {
-           model: null
+          icons: {
+            color: 'mdi mdi-palette',
+            text: 'mdi mdi-format-size',
+            padding: 'mdi mdi-select-all',
+            stroke: 'mdi mdi-border-color',
+            boxShadow: 'mdi mdi-box-shadow',
+          },
+          model: null
         }
     },
     computed: {

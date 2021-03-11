@@ -52,11 +52,17 @@ export default {
     },
 
     setModel(m) {
+      this.model = null
       this.model = m;
     },
 
     setBox(b) {
+      this.box = null
       this.box = b;
+      if (b) {
+        this.$set(this.box, 'designtokens', b.designtokens)
+        this.$forceUpdate()
+      }
     },
   },
 };

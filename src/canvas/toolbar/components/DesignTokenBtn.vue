@@ -1,7 +1,7 @@
 
 <template>
     <div class="MatcDesignTokenButton MatcToolbarDropDownButtonPopup"  @mousedown.stop="" >
-      <span class="mdi mdi-dots-horizontal" v-show="isVisible"/>
+      <span class="mdi mdi-dots-horizontal" v-show="isVisible && !hasDesignToken"/>
     	<ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
         <li @mousedown.stop="showCreateDialog">
           	<span class="MatcToolbarPopUpIcon mdi mdi-plus-circle-outline"></span>

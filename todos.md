@@ -58,6 +58,7 @@
 ## Vector Editor
 
 ## Bugs
+  - Fix Downlaod dialog jumping....
   - ESC closes all popups, but triggers flush of temp values. Is this really wanted?
  - _BaseConreoller.renderWidget() > make method to inline all templates and design tokens
  - Toolbar Pop jumps for Header in Qdate data xsectzion

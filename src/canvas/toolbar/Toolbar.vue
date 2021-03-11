@@ -827,6 +827,8 @@ export default {
 			if(this._selectedScreen){
 				this.controller.addDesignToken(this._selectedScreen.id, tokenType, cssProps, state, name, 'screen');
 			}
+
+			this.designTokenList.setModel(this.model)
 		},
 
 		linkDesignToken () {

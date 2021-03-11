@@ -32,6 +32,8 @@ export default class DesignToken extends Widget{
 
 		this.addCommand(command);
 		this.render();
+
+		this.logger.log(-1,"addDesignToken", "exit");
 	}
 
 	modelAddDesignToken(id, tokenType, cssProps, cssState, name, modelType ){
