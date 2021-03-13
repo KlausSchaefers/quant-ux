@@ -1,20 +1,12 @@
 
 <template>
   <div class="MatcToolbarItem MatcToolbarGridFull"  @mousedown.stop="" >
-    <div class="MatcDesignTokenView" v-if="designtoken">
-      <span class="MatcToolbarItemIcon" >
-        <span :class="icons[designtoken.type]" />
-      </span>
-      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-
-      <span class="MatcToolbarItemIcon MatcDesignTokenUnlink" @click="unlink" v-if="false">
-        <span class="mdi mdi-minus-circle-outline" />
-      </span>
-    </div>
+      <DesignTokenPreview :designtoken="designtoken"/>
 	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
+import DesignTokenPreview from './DesignTokenPreview'
 
 export default {
     name: 'DesignTokenView',
@@ -34,7 +26,9 @@ export default {
     },
     computed: {
     },
-    components: {},
+    components: {
+      'DesignTokenPreview': DesignTokenPreview
+    },
     methods: {
       unlink () {
         this.emit('unlink', this.designtoken)

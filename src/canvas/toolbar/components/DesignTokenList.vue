@@ -4,66 +4,40 @@
       <div :class="[']MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible}]">
         <div class=" MatcToolbarSectionLabel"></div>
 
-
-
           <div class=" MatcToolbarSectionContent" v-show="colorTokens.length > 0">
               <label>Color Styles</label>
-              <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in colorTokens" :key="designtoken.id">
-                <span class="MatcToolbarItemIcon" >
-                  <span :class="icons[designtoken.type]" :style="{'color': designtoken.value}"/>
-                </span>
-                <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-              </div>
+              <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in colorTokens" :key="designtoken.id"/>
           </div>
 
 
           <div class=" MatcToolbarSectionContent" v-show="textTokens.length > 0">
               <label>Text Styles</label>
-              <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in textTokens" :key="designtoken.id">
-                <span class="MatcToolbarItemIcon" >
-                  <span :class="icons[designtoken.type]" />
-                </span>
-                <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-              </div>
+              <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in textTokens" :key="designtoken.id"/>
           </div>
 
 
           <div class=" MatcToolbarSectionContent" v-show="strokeTokens.length > 0">
               <label>Border Styles</label>
-              <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in strokeTokens" :key="designtoken.id">
-                <span class="MatcToolbarItemIcon" >
-                  <span :class="icons[designtoken.type]" :style="{'color': designtoken.value.borderTopColor}"/>
-                </span>
-                <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-              </div>
+              <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in strokeTokens" :key="designtoken.id"/>
           </div>
 
 
           <div class=" MatcToolbarSectionContent" v-show="shadowTokens.length > 0">
               <label>Shadow Styles</label>
-              <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in shadowTokens" :key="designtoken.id">
-                <span class="MatcToolbarItemIcon" >
-                  <span :class="icons[designtoken.type]" />
-                </span>
-                <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-              </div>
+              <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in shadowTokens" :key="designtoken.id"/>
           </div>
 
 
           <div class=" MatcToolbarSectionContent" v-show="paddingTokens.length > 0">
             <label>Padding Styles</label>
-            <div class="MatcToolbarItem MatcDesignTokenView" v-for="designtoken in paddingTokens" :key="designtoken.id">
-              <span class="MatcToolbarItemIcon" >
-                <span :class="icons[designtoken.type]" />
-              </span>
-              <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
-            </div>
+            <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in paddingTokens" :key="designtoken.id"/>
 	      </div>
   </div>
 	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
+import DesignTokenPreview from './DesignTokenPreview'
 //import Util from 'core/Util'
 
 export default {
@@ -82,6 +56,9 @@ export default {
           visible: true,
           designtokens: null
         }
+    },
+    components: {
+      'DesignTokenPreview': DesignTokenPreview
     },
     computed: {
       sortedTokens () {
@@ -157,7 +134,6 @@ export default {
         return result
       }
     },
-    components: {},
     methods: {
       toggleSection (s) {
         this.visible[s] = !this.visible[s]

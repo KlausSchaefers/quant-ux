@@ -28,18 +28,18 @@
 	display: inline-block;
 }
 
-.MatcDesignTokenView {
+.MatcDesignTokenPreView {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
 
-.MatcDesignTokenView .MatcToolbarItemLabel {
+.MatcDesignTokenPreView .MatcToolbarItemLabel {
 	flex-grow: 1;
 }
 
 
-.MatcDesignTokenView .MatcToolbarColorIndicator {
+.MatcDesignTokenPreView .MatcToolbarColorIndicator {
 	margin-right: 5px;
 }
 
@@ -57,14 +57,39 @@
 	margin-bottom: 16px;
 }
 
-.MatcDesignTokenUnlink {
-	opacity: 0;
+.MatcDesignTokenList .MatcDesignTokenPreView{
+		padding: 8px;
 }
 
 .MatcDesignTokenUnlink {
 	opacity: 0;
 }
 
-.MatcDesignTokenView:hover .MatcDesignTokenUnlink {
+.MatcDesignTokenUnlink {
+	opacity: 0;
+}
+
+.MatcDesignTokenPreView:hover .MatcDesignTokenUnlink {
 	opacity: 1;
+}
+
+
+.MatcDesignTokenDialog {
+	width: 300px;
+}
+
+.MatcDesignTokenDialogListCntr {
+	width:260px;
+	height:400px;
+	overflow: auto;
+}
+
+.MatcDesignTokenDialogListRow {
+	display: flex;
+	align-items: center;
+}
+
+.MatcDesignTokenDialogListCntr .MatcDesignTokenPreView{
+	margin-top: 8px;
+	margin-bottom: 8px;
 }

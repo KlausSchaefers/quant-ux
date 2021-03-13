@@ -22,13 +22,7 @@
 - LayerList open should have effect on Scroll
 ## Design Token
 - Make model better with specila keys like _color, _background and a flag
-
-- Toggle Widgets
-  - Background
-  - text
-  - boder (both)
-  - shadpow
-  - padding
+- Think about border? Figma does just the color? Where would I put in this case the slider?
 
 - Show List
 - unlink

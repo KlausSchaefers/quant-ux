@@ -260,7 +260,7 @@ export default {
           }
         } else if (e.altKey || e.ctrlKey || e.metaKey){
 
-          this.logger.log(0,"onKeyPress", "enter > " + k + " > ctrl : " +e.ctrlKey + " > meta :" +(e.ctrlKey || e.metaKey));
+          this.logger.log(1,"onKeyPress", "enter > " + k + " > ctrl : " +e.ctrlKey + " > meta :" +(e.ctrlKey || e.metaKey));
 
           /**
            * Copy only when no inline edit
@@ -331,7 +331,7 @@ export default {
       onKeyUp (e){
 
         if(this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()){
-          this.logger.log(-1 ,"onKeyUp", "exit because of dialog");
+          this.logger.log(1 ,"onKeyUp", "exit because of dialog");
           return;
         }
 
