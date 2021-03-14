@@ -1,13 +1,11 @@
 
 <template>
-
     <div class="MatcDesignTokenPreView" v-if="designtoken">
       <span class="MatcToolbarItemIcon" >
         <span :class="icons[designtoken.type]" />
       </span>
       <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
     </div>
-
 </template>
 <script>
 

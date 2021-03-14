@@ -10,23 +10,46 @@
 }
 
 
-
 .MatcToolbarSectionDesignSystemCntr:hover span{
 	color: #3787f2;
 }
 
+
+/****************************************************
+ * DesignTokenButton
+ ****************************************************/
 
 .MatcDesignTokenButton{
 
 }
 
 .MatcDesignTokenButton .MatcToolbarPopUp{
-	width: 180px;
+	width: 200px;
+}
+
+.MatcDesignTokenButtonPopup{
+	width: 200px;
+}
+
+
+
+.MatcDesignTokenButtonHeader {
+	border-bottom: 1px solid #ccc;
+}
+
+.MatcDesignTokenButtonPopup .MatcDesignTokenButtonPreviews {
+	max-height: 200px;
+	overflow: auto;
 }
 
 .MatcDesignTokenMixin {
 	display: inline-block;
 }
+
+
+/****************************************************
+ * Preview
+ ****************************************************/
 
 .MatcDesignTokenPreView {
 	display: flex;
@@ -43,6 +66,11 @@
 	margin-right: 5px;
 }
 
+
+/****************************************************
+ * DesignTokenList
+ ****************************************************/
+
 .MatcDesignTokenList label {
 	background: none;
   color: #555;
@@ -52,6 +80,7 @@
 	margin-top: 16px;
 	margin-top: 8px;
 }
+
 
 .MatcDesignTokenList .MatcToolbarSectionContent{
 	margin-bottom: 16px;
@@ -73,6 +102,10 @@
 	opacity: 1;
 }
 
+
+/****************************************************
+ * Dialog (FIXME:_ Removce
+ ****************************************************/
 
 .MatcDesignTokenDialog {
 	width: 300px;

@@ -1,27 +1,25 @@
 
 <template>
-    <div class="MatcDesignTokenButton MatcToolbarDropDownButtonPopup"  @mousedown.stop="" >
+    <div class="MatcDesignTokenButton"  @mousedown.stop="" >
       <span class="mdi mdi-dots-horizontal" v-show="isVisible"/>
-    	<ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
+    	<ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
 
-        <li @mousedown.stop="showCreateDialog" v-show="!hasDesignToken">
-          	<span class="MatcToolbarPopUpIcon mdi mdi-plus-circle-outline"></span>
+        <li @mousedown.stop="showCreateDialog" v-show="!hasDesignToken" class="MatcDesignTokenButtonHeader">
+            <span class="MatcToolbarPopUpIcon mdi mdi-plus"></span>
             <label class="MatcToolbarPopUpLabel">Create {{tokenLabel}} Token</label>
+
         </li>
-        <li @mousedown.stop="onUnLink" v-show="hasDesignToken">
-            <span class="MatcToolbarPopUpIcon mdi mdi mdi-minus-circle-outline"></span>
+        <li @mousedown.stop="onUnLink" v-show="hasDesignToken" class="MatcDesignTokenButtonHeader">
+            <span class="MatcToolbarPopUpIcon mdi mdi mdi-minus MatcToolbarPopUpIconDanger"></span>
             <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
         </li>
-        <!-- add hre list and filter -->
 
-        <li @mousedown.stop="showLinkDialog" v-show="!hasDesignToken">
-            <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant"></span>
-            <label class="MatcToolbarPopUpLabel">Link Design Token</label>
-        </li>
-        <li @mousedown.stop="showChangeDialog" v-show="hasDesignToken">
-            <span class="MatcToolbarPopUpIcon mdi mdi mdi-link-variant"></span>
-            <label class="MatcToolbarPopUpLabel">Change Design Token</label>
-        </li>
+        <!-- add hre list and filter -->
+        <ul class="MatcDesignTokenButtonPreviews" >
+          <li v-for="designtoken in filteredTokens" :key="designtoken.id" @mousedown="onSelectToken(designtoken)">
+            <DesignTokenPreview :designtoken="designtoken"/>
+          </li>
+        </ul>
 
 			</ul>
 	</div>
@@ -31,8 +29,7 @@ import DojoWidget from 'dojo/DojoWidget'
 import _DropDown from './_DropDown'
 import Util from 'core/Util'
 import _DesignToken from './_DesignToken'
-import DesignTokenDialog from '../dialogs/DesignTokenDialog'
-
+import DesignTokenPreview from './DesignTokenPreview'
 import Dialog from 'common/Dialog'
 import DomBuilder from 'common/DomBuilder'
 import lang from 'dojo/_base/lang'
@@ -60,9 +57,21 @@ export default {
         }
     },
     computed: {
-
+      filteredTokens () {
+        let result = []
+        if (this.model && this.model.designtokens) {
+          Object.values(this.model.designtokens).forEach(t => {
+            if (t.type === this.tokenType) {
+              result.push(t)
+            }
+          })
+        }
+        return result
+      }
     },
-    components: {},
+    components: {
+      'DesignTokenPreview': DesignTokenPreview
+    },
     methods: {
 
       setWidget (w) {
@@ -90,41 +99,13 @@ export default {
         this.emit('new', this.tokenType, this.cssProps, name)
         this.hideDropDown()
       },
-      onLink (token) {
-        console.debug('token', token)
-        this.emit('link', this.tokenType, this.cssProps)
-        this.hideDropDown()
+      onSelectToken (designtoken) {
+        console.debug('onSelect', designtoken)
+        this.emit('link', designtoken, this.cssProps)
       },
       onUnLink () {
         this.emit('unlink', this.currentDesignToken)
         this.hideDropDown()
-      },
-
-      showChangeDialog () {
-
-      },
-
-      showLinkDialog () {
-	      var dialog = new Dialog();
-        var db = new DomBuilder();
-        let popup = db.div("MatcDialog MatcDesignTokenDialog MatcPadding").build();
-
-        let designTokenDialog = this.$new(DesignTokenDialog)
-        designTokenDialog.setModel(this.model)
-        designTokenDialog.setTokenType(this.tokenType)
-        designTokenDialog.placeAt(popup)
-
-        let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-        let write = db.div("MatcButton", "Link").build(bar);
-        let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
-        dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
-
-        dialog.own(on(write, touch.press, () => {
-          dialog.close()
-          this.onNew(designTokenDialog.getValue())
-        }))
-
-        dialog.popup(popup, this.domNode);
       },
 
       showCreateDialog () {

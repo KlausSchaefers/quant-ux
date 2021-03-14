@@ -819,32 +819,33 @@ export default {
 			this.logger.log(-1,"newDesignToken", "entry", name);
 
 			var state = this._getViewStyleModelKey();
-
 			if(this._selectedWidget){
 				this.controller.addDesignToken(this._selectedWidget.id, tokenType, cssProps, state, name, 'widget');
 			}
-
 			if(this._selectedScreen){
 				this.controller.addDesignToken(this._selectedScreen.id, tokenType, cssProps, state, name, 'screen');
 			}
-
 			this.designTokenList.setModel(this.model)
 		},
 
-		linkDesignToken () {
+		linkDesignToken (designToken, cssProps) {
 			this.logger.log(-1,"linkDesignToken", "entry");
-
+			var state = this._getViewStyleModelKey();
+			if(this._selectedWidget){
+				this.controller.linkDesignToken(this._selectedWidget.id, designToken.id,state, cssProps, 'widget');
+			}
+			if(this._selectedScreen){
+				this.controller.linkDesignToken(this._selectedScreen.id, designToken.id, state, cssProps,'screen');
+			}
 		},
 
 		unlinkDesignToken (designToken) {
 			this.logger.log(-1,"unlinkDesignToken", "entry", designToken);
 
 			var state = this._getViewStyleModelKey();
-
 			if(this._selectedWidget){
 				this.controller.unlinkDesignToken(this._selectedWidget.id, designToken.id,state, 'widget');
 			}
-
 			if(this._selectedScreen){
 				this.controller.unlinkDesignToken(this._selectedScreen.id, designToken.id, state, 'screen');
 			}

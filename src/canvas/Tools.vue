@@ -578,7 +578,7 @@ export default {
 				 * In case something is added (screen, widht or comment) we do not
 				 * want to render selections
 				 */
-				if(this.state != 3){
+				if (this.state != 3 && this.controller){
 					this.controller.setMode("select");
 					this.stopEvent(e);
 					if(!this._selectionToolStart){

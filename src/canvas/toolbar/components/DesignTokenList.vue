@@ -61,18 +61,7 @@ export default {
       'DesignTokenPreview': DesignTokenPreview
     },
     computed: {
-      sortedTokens () {
-        let result = {}
-        if (this.model && this.model.designtokens) {
-          for (let id in this.model.designtokens) {
-            let token = this.model.designtokens[id]
-            if (token.type === 'color') {
-              result.push(token)
-            }
-          }
-        }
-        return result
-      },
+
       colorTokens () {
         let result = []
         if (this.model && this.model.designtokens) {
