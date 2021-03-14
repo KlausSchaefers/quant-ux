@@ -1,9 +1,9 @@
-import hash from 'dojo/hash'
-import lang from 'dojo/_base/lang'
+import hash from '../../dojo/hash'
+import lang from '../../dojo/_base/lang'
 
-import Core from 'core/Core'
-import CoreUtil from 'core/CoreUtil'
-import Logger from 'common/Logger'
+import Core from '../../core/Core'
+import CoreUtil from '../../core/CoreUtil'
+import Logger from '../../common/Logger'
 
 export default class BaseController extends Core {
 

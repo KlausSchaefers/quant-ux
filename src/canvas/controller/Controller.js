@@ -3,7 +3,7 @@
  *
  * Controller -> DesignToken -> Widget -> Screen -> CopyPaste -> Group -> Layer -> Templates ->BaseController
  */
-import DesignToken from 'canvas/controller/DesignToken'
+import DesignToken from './DesignToken'
 
 export default class Controller extends DesignToken {
 

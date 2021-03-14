@@ -1,10 +1,10 @@
-import UserService from 'services/UserService'
-import ModelService from 'services/ModelService'
-import PublicModelService from 'services/PublicModelService'
-import CommentService from 'services/CommentService'
-import SymbolService from 'services/SymbolService'
-import HelpService from 'services/HelpService'
-import ImageService from 'services/ImageService'
+import UserService from './UserService'
+import ModelService from './ModelService'
+import PublicModelService from './PublicModelService'
+import CommentService from './CommentService'
+import SymbolService from './SymbolService'
+import HelpService from './HelpService'
+import ImageService from './ImageService'
 
 class Services {
 

@@ -1,5 +1,5 @@
-import Templates from 'canvas/controller/Templates'
-import LayerUtil from 'core/LayerUtil'
+import Templates from './Templates'
+import LayerUtil from '../../core/LayerUtil'
 export default class Layer extends Templates {
 
 	changeLayer (from, to){

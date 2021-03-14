@@ -1,4 +1,4 @@
-import Screen from 'canvas/controller/Screen'
+import Screen from './Screen'
 
 export default class Container extends Screen {
 
@@ -24,7 +24,7 @@ export default class Container extends Screen {
 		//			this.logger.log(0,"cleanUpParent", "remove Conatiner " + widget.id  +" from " + parent.id);
 		//			parent.children.splice(pos, 1);
 		//		}
-		//	}	
+		//	}
 		//}
     }
 

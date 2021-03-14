@@ -1,4 +1,4 @@
-import Layer from 'canvas/controller/Layer'
+import Layer from './Layer'
 
 export default class Group extends Layer {
 

@@ -1,6 +1,6 @@
-import lang from 'dojo/_base/lang'
-import Screen from 'canvas/controller/Screen'
-import * as TextUtil from 'core/TextUtil'
+import Screen from './Screen'
+import lang from '../../dojo/_base/lang'
+import * as TextUtil from '../../core/TextUtil'
 
 export default class Widget extends Screen {
 

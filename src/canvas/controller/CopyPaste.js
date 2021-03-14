@@ -1,6 +1,6 @@
 
-import Group from 'canvas/controller/Group'
-import lang from 'dojo/_base/lang'
+import Group from './Group'
+import lang from '../../dojo/_base/lang'
 
 export default class CopyPaste extends Group{
 

@@ -1,9 +1,9 @@
-import lang from 'dojo/_base/lang'
-import Logger from 'common/Logger'
-import Evented from 'dojo/Evented'
-import ModelGeom from 'core/ModelGeom'
-import ModelResizer from 'core/ModelResizer'
-import ModelUtil from 'core/ModelUtil'
+import lang from '../dojo/_base/lang'
+import Logger from '../common/Logger'
+import Evented from '../dojo/Evented'
+import ModelGeom from './ModelGeom'
+import ModelResizer from './ModelResizer'
+import ModelUtil from './ModelUtil'
 
 export default class Core extends Evented {
 

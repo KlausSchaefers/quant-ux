@@ -1,7 +1,7 @@
-import CopyPaste from 'canvas/controller/CopyPaste'
-import lang from 'dojo/_base/lang'
-import Core from 'core/Core'
-import ModelResizer from 'core/ModelResizer'
+import CopyPaste from './CopyPaste'
+import lang from '../../dojo/_base/lang'
+import Core from '../../core/Core'
+import ModelResizer from '../../core/ModelResizer'
 
 export default class Screen extends CopyPaste {
 

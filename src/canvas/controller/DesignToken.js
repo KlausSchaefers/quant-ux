@@ -1,5 +1,5 @@
 
-import Widget from 'canvas/controller/Widget'
+import Widget from './Widget'
 
 export default class DesignToken extends Widget{
 
@@ -146,16 +146,11 @@ export default class DesignToken extends Widget{
 		}
 
 		if (box.designtokens && box.designtokens[cssState]) {
-			let style = box[cssState]
+			//let style = box[cssState]
 			let state = box.designtokens[cssState]
 			for (let key in state) {
 				let keyTokenId = state[key]
 				if (keyTokenId === tokenId) {
-					if (!token.isComplex) {
-						style[key] = token.value
-					} else {
-						style[key] = token.value[key]
-					}
 					cssProps.push(key)
 					/**
 					 * Remove the key
@@ -252,14 +247,16 @@ export default class DesignToken extends Widget{
 		}
 		cssProps.forEach(key => {
 			box.designtokens[cssState][key] = token.id
-			box[cssState][key] = ''
+			// we keep the old values, so undo works
+			// rbox[cssState][key] = ''
 		});
 	}
 
 
 	undoLinkDesignToken (command) {
 		this.logger.log(-1,"undoUnlinkDesignToken", "enter > ", command);
-		//this.modelRemoveDesignToken(command.tokenId)
+		this.modelUnLinkDesignToken(command.modelId, command.tokenId, command.cssState, command.modelType)
+		this.render()
 	}
 
 	redoLinkDesignToken (command) {

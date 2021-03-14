@@ -1,5 +1,5 @@
-import BaseController from 'canvas/controller/BaseController'
-import lang from 'dojo/_base/lang'
+import BaseController from './BaseController'
+import lang from '../../dojo/_base/lang'
 
 export default class Templates extends BaseController{
 

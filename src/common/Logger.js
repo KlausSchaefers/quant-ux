@@ -1,6 +1,6 @@
 
-import request from 'dojo/request'
-import Services from 'services/Services'
+import request from '../dojo/request'
+import Services from '../services/Services'
 
 var vommonLoggingQueue = []
 var vommonLoggingQueuePos = 0
