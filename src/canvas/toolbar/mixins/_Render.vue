@@ -274,9 +274,11 @@ export default {
 
 				this._renderWidgetBorder();
 
-				this._renderWidgetBoxShadow()
+				this._renderWidgetColor();
 
 				this._renderWidgetText();
+
+				this._renderWidgetBoxShadow()
 
 				this._renderWidgetBox();
 
@@ -962,13 +964,44 @@ export default {
 				this.inheritedWidgetDiv = parent;
 			},
 
-			_renderWidgetText (cssProps = ['color', 'fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight', 'fontStyle', 'verticalAlign', 'fontWeight', 'textDecoration', 'textShadow']){
+			_renderWidgetColor (cssProps = ['color']) {
+
+
+				this.designTokenText = this.createDesignTokenBtn('color', cssProps)
+				var parent = this.createSection('Color', true, this.designTokenText);
+
+				var content = document.createElement("div");
+				css.add(content, "MatcToolbarSectionContent");
+				parent.appendChild(content);
+
+
+
+				this.color = this.$new(ToolbarColor, {hasPicker:true, chevron:false, hex:true});
+				this.color.keepOpenOnTypeSelection = "widget";
+				this.color.reposition = true;
+				this.color.updateLabel = true;
+				this.color.setModel(this.model);
+				this.color.setCssProps(cssProps)
+				this.own(on(this.color, "change", lang.hitch(this, "setWidgetStyle", "color")));
+				this.own(on(this.color, "changing", lang.hitch(this, "setTempWidgetStyle", "color")));
+				this._placeAt(this.color, content);
+				this.addTooltip(this.color.domNode, "Font Color");
+				/**
+				 * FIXME: We should not expose child widgets...
+				 */
+				this.colorWidgets.push(this.color)
+
+
+				this.properties.appendChild(parent);
+				this.textColorDiv = parent;
+
+			},
+
+			_renderWidgetText (cssProps = ['fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight', 'fontStyle', 'verticalAlign', 'fontWeight', 'textDecoration', 'textShadow']){
 
 
 				this.designTokenText = this.createDesignTokenBtn('text', cssProps)
 				var parent = this.createSection('Text', true, this.designTokenText);
-
-
 
 				this.textProperties = this.$new(TextProperties)
 				this.textProperties.setModel(this.model)
@@ -978,12 +1011,6 @@ export default {
 				this.own(on(this.textProperties, "change", lang.hitch(this, "setWidgetStyle")));
 				this.own(on(this.textProperties, "changing", lang.hitch(this, "setTempWidgetStyle")));
 				this.own(on(this.textProperties, "toggle", lang.hitch(this, "toggleStyle")));
-
-				/**
-				 * FIXME: We should not expose child widgets...
-				 */
-				this.colorWidgets.push(this.textProperties.getColorPicker())
-
 
 				this.properties.appendChild(parent);
 				this.textDiv = parent;

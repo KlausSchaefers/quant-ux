@@ -62,6 +62,17 @@ export default {
 				var isLogicWidget = this.hasLogic2.indexOf(model.type) >= 0;
 				css.remove(this.lineDiv, "MatcToolbarSectionHidden");
 				this.actionBTN.setValue(model, isLogicWidget);
+
+				var widgetViewMode = this.widgetViewModeBtn.getValue();
+				if (widgetViewMode == "style") {
+					/**
+					 * Show data binding etc in prototypiung mode
+					 */
+					if(this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
+						css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
+						this.validationWidget.setValue(model, false);
+					}
+				}
 			},
 
 			showWidgetDesignProperties (model) {
@@ -122,11 +133,18 @@ export default {
 
 				if(model.has.label){
 					css.remove(this.textDiv, "MatcToolbarSectionHidden");
+					css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
+
 					this.textProperties.hasVerticalAlign(this.hasValign.indexOf(model.type) >= 0)
 					this.textProperties.setModel(this.model)
 					this.textProperties.setBox(model)
 					this.textProperties.setWidgetViewMode(widgetViewMode)
 					this.textProperties.setValue(style)
+
+					this.color.setValue(style.color)
+					this.color.setModel(this.model)
+					this.color.setBox(model)
+					this.color.setWidgetViewMode(widgetViewMode)
 				}
 
 				if (this.hasPadding.indexOf(model.type) >=0) {
@@ -145,14 +163,13 @@ export default {
 					if(this.widgetAlignDiv){
 						css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
 					}
-					if(this.hasData.indexOf(model.type) >=0 || model.has.data) { // if(model.has.data){
+
+
+					if(this.hasData.indexOf(model.type) >=0 || model.has.data) {
 						css.remove(this.dataDiv,"MatcToolbarSectionHidden" );
 						this.dataWidget.setValue(model);
 					}
-					if(this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
-						css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
-						this.validationWidget.setValue(model, false);
-					}
+
 					if(this.widgetName){
 						css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
 						css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")

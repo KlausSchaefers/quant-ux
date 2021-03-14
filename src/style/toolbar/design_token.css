@@ -59,11 +59,17 @@
 
 .MatcDesignTokenPreView .MatcToolbarItemLabel {
 	flex-grow: 1;
+	line-height: 1;
 }
 
 
 .MatcDesignTokenPreView .MatcToolbarColorIndicator {
 	margin-right: 5px;
+}
+
+.MatcDesignTokenButtonPopup .MatcToolbarItemIcon,
+.MatcDesignTokenButtonPopup .MatcToolbarItemIcon .mdi{
+	font-size: 16px;
 }
 
 

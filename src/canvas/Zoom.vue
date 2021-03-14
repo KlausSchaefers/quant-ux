@@ -12,7 +12,7 @@ export default {
         return {
 					zoomStep: 0.05,
 					isFireFox: false,
-					zoom: 0.5,
+					zoom: 1.0,
 					lastMouseWheel: 0,
 					mouseZoomEnabled: true,
 					mouseWheelMode: "scroll",

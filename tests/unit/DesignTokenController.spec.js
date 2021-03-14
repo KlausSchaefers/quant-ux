@@ -9,6 +9,5 @@ test('Test DesignToken CRUD', async () => {
   //controller.setModel(app)
 
   console.debug('end', controller)
-
 });
 

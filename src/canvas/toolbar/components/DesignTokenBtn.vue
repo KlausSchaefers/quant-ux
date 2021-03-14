@@ -5,12 +5,12 @@
     	<ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
 
         <li @mousedown.stop="showCreateDialog" v-show="!hasDesignToken" class="MatcDesignTokenButtonHeader">
-            <span class="MatcToolbarPopUpIcon mdi mdi-plus"></span>
+            <span class="MatcToolbarItemIcon mdi mdi mdi-plus-circle"></span>
             <label class="MatcToolbarPopUpLabel">Create {{tokenLabel}} Token</label>
 
         </li>
         <li @mousedown.stop="onUnLink" v-show="hasDesignToken" class="MatcDesignTokenButtonHeader">
-            <span class="MatcToolbarPopUpIcon mdi mdi mdi-minus MatcToolbarPopUpIconDanger"></span>
+            <span class="MatcToolbarItemIcon mdi mdi mdi-minus-circle MatcToolbarPopUpIconDanger"></span>
             <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
         </li>
 

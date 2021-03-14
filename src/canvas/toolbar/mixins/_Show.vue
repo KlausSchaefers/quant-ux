@@ -262,6 +262,7 @@ export default {
 				css.add(this.templateDiv, "MatcToolbarSectionHidden");
 				css.add(this.multiPositionDiv, "MatcToolbarSectionHidden");
 				css.add(this.textDiv, "MatcToolbarSectionHidden");
+				css.add(this.textColorDiv, "MatcToolbarSectionHidden")
 				css.add(this.borderDiv, "MatcToolbarSectionHidden");
 				css.add(this.boxDiv, "MatcToolbarSectionHidden");
 				css.add(this.childDiv,"MatcToolbarSectionHidden" );

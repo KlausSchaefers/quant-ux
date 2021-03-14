@@ -35,6 +35,7 @@
   - Color -> have special popup
   - Text hide block and show name
 
+- Multi Selection????
 
 ## Template to Cpmponents
  - show in LayerList differen symbol. Mark also the source component!

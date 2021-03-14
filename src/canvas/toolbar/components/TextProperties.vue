@@ -19,7 +19,7 @@ import css from 'dojo/css'
 import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 import ToolbarToggleButton from 'canvas/toolbar/components/ToolbarToggleButton'
-import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
+// import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import TextShadow from 'canvas/toolbar/components/TextShadow2'
 import InputDropDownButton from 'canvas/toolbar/components/InputDropDownButton'
 import _Tooltip from 'common/_Tooltip'
@@ -74,7 +74,7 @@ export default {
 					this.fontWeight.setValue(style.fontWeight == "bold");
 					this.fontStyle.setValue(style.fontStyle == "italic");
 					this.textDecoration.setValue(style.textDecoration == "underline");
-					this.color.setValue(style.color);
+					//this.color.setValue(style.color);
 					this.textAlign.setValue(style.textAlign);
 
 					this.textShadow.setValue(style.textShadow);
@@ -94,7 +94,6 @@ export default {
         let content = this.$refs.main
         let advanced = this.$refs.advanced
 
-
 				this.family = this.$new(ToolbarDropDownButton);
 				this.family.setOptions(this.fontFamilies);
 				this.family.reposition = true;
@@ -113,15 +112,6 @@ export default {
 				// this.createSpacer(content);
 
 
-				this.color = this.$new(ToolbarColor, {hasPicker:true, chevron:false});
-				this.color.keepOpenOnTypeSelection = "widget";
-				this.color.reposition = true;
-				this.color.updateLabel = true;
-				this.color.setModel(this.model);
-				this.own(on(this.color, "change", lang.hitch(this, "setWidgetStyle", "color")));
-				this.own(on(this.color, "changing", lang.hitch(this, "setTempWidgetStyle", "color")));
-				this._placeAt(this.color, content);
-				this.addTooltip(this.color.domNode, "Font Color");
 
 
 				this.fontWeight= this.$new(ToolbarToggleButton);
@@ -146,10 +136,10 @@ export default {
 				this.addTooltip(this.textDecoration.domNode, "Underline");
 
 				this.strikeThrough = this.$new(ToolbarToggleButton);
-				this.strikeThrough.setLabel('S');
-				this.strikeThrough.setCss("MatcToolbarStrikeTrought");
+				this.strikeThrough.setLabel('');
+				this.strikeThrough.setCss("mdi mdi mdi-format-strikethrough-variant");
 				this.own(on(this.strikeThrough, "change", lang.hitch(this, "toggleStyle", "textDecoration", "line-through")));
-				//this._placeAt(this.strikeThrough, content);
+				this._placeAt(this.strikeThrough, content);
 				this.addTooltip(this.strikeThrough.domNode, "Strikethrough");
 
 				//this.createSpacer(content);
@@ -173,14 +163,6 @@ export default {
 				* advanced text stuff
 				*/
 
-
-				this.textShadow = this.$new(TextShadow);
-				this.textShadow.setModel(this.model)
-				this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
-				this.own(on(this.textShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "textShadow")));
-				this._placeAt(this.textShadow, advanced);
-				this.addTooltip(this.textShadow.domNode, "Text Shadow");
-
 				this.lineHeight = this.$new(ToolbarDropDownButton);
 				this.lineHeight.setOptions([1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
 				this.lineHeight.setLabel('<span class="mdi mdi-format-line-spacing"></span>');
@@ -198,6 +180,17 @@ export default {
 				this.own(on(this.letterSpacing, "change", lang.hitch(this, "setWidgetStyle", "letterSpacing")));
 				this._placeAt(this.letterSpacing, advanced);
 				this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
+
+				this.textShadow = this.$new(TextShadow);
+				this.textShadow.setModel(this.model)
+				this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
+				this.own(on(this.textShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "textShadow")));
+				this._placeAt(this.textShadow, advanced);
+				this.addTooltip(this.textShadow.domNode, "Text Shadow");
+
+
+
+
 
 				this.verticalAlign = this.$new(ToolbarDropDownButton);
 				this.verticalAlign.setOptions([

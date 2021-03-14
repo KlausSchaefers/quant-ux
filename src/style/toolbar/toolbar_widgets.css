@@ -989,10 +989,13 @@ input.MatcToobarInlineEditDisabled:focus{
 	top:0px;
 }
 
-.MatcToolbarDropDownButton label, .MatcToolbarDropDownButtonPopup label{
+.MatcToolbarDropDownButton label,
+.MatcToolbarDropDownButtonPopup label{
 	font-weight: 400;
 	cursor: pointer;
 	text-align: left;
+	margin-bottom: 0px;
+	line-height: 1;
 }
 
 .MatcToolbarDropDownButton .mdi{
@@ -1016,7 +1019,7 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 .MatcToolbarDropDownButtonWide ul{
-	min-width: 200px;
+	min-width: 220px;
 }
 
 .MatcToolbarDropDownButtonMiddle ul{
@@ -1029,14 +1032,18 @@ input.MatcToobarInlineEditDisabled:focus{
 	position: relative;
 }
 
-.MatcToolbar .MatcToolbarDropDownButton li, .MatcToolbarDropDownButtonPopup li{
-	padding: 5px;
+.MatcToolbar .MatcToolbarDropDownButton li,
+.MatcToolbarDropDownButtonPopup li{
+	padding: 8px;
 	padding-left: 10px;
 	padding-right: 10px;
 	position: relative;
 	font-size: 14px;
 	font-weight: 400;
 	cursor: pointer;
+	display: flex;
+  align-items: center;
+
 }
 
 
@@ -1082,8 +1089,9 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 .MatcToolbarPopUpIcon{
-	font-size: 14px;
-	margin-right: 10px;
+	font-size: 16px;
+	margin-right: 5px;
+	line-height: 1;
 }
 
 .MatcToolbarPopUpIconTextShadow{
