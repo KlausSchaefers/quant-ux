@@ -66,6 +66,7 @@ body.MatcTestMobile{
 
 .MatcCanvasComment textarea{
 	padding: 3px;
+	border: 1px solid transparent;
 }
 
 
@@ -120,7 +121,7 @@ body.MatcTestMobile{
 }
 
 .MatcCanvasCommentOpen{
-	box-shadow: 0 0 10px -5px #333;
+	box-shadow: 0 0 25px 5px rgb(0 0 0 / 25%);
 	background: #fff;
 	border-radius:5px;
 	width: 350px;

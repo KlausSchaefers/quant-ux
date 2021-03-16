@@ -478,7 +478,22 @@ export default {
 
 			cleanUpComments (){
 				this.logger.log(2,"cleanUpComments", "enter");
+				this.removeScreenCommentIcons()
+			},
 
+			removeScreenCommentIcons () {
+				if (this.screenComments) {
+					for (let screenID in this.screenComments) {
+						let list = this.screenComments[screenID]
+						list.forEach(c => {
+							let div = c.div
+							if (div.parentNode) {
+								div.parentNode.removeChild(div)
+							}
+						})
+					}
+				}
+				this.screenComments = {}
 			}
     },
     mounted () {
