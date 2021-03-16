@@ -35,11 +35,14 @@
   - Color -> have special popup
   - Text hide block and show name
 
+- undo has issues with textshadow etc. I assume it is because the new value is null...
+- undo does not work when changing. we should add old token
+
 - Multi Selection????
 
 ## Template to Cpmponents
  - show in LayerList differen symbol. Mark also the source component!
-    - flag the source component
+    - flag the source component,.
     - changes to this widhet should be updated in the template
     - when copiying or creating, we should remove the flaf!
 
