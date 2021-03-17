@@ -29,32 +29,33 @@
                 <h2>{{current.title}}</h2>
                 <p v-html="current.body" class="MatcHelpContentParagraph"></p>
 
-
-                <iframe
-                    v-if="current.video"
-                    :width="560 * 1.2"
-                    :height="315 * 1.2"
-                    :src="current.video.src"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                </iframe>
+                <div class="MatcHelpContentVideo" >
+                    <iframe
+                        v-if="current.video"
+                        :width="560 * this.videoScaleFactor"
+                        :height="315 * this.videoScaleFactor"
+                        :src="current.video.src"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
+                </div>
 
                 <div v-if="current.hasContact">
-                    <div class="form-group">
+                    <div class="field">
                         <label>Name</label>
-                        <input class="form-control input-lg MatcIgnoreOnKeyPress"  v-model="contactName"/>
+                        <input class="input MatcIgnoreOnKeyPress"  v-model="contactName"/>
                     </div>
-                    <div class="form-group">
+                    <div class="field">
                         <label>Email</label>
-                        <input class="form-control input-lg MatcIgnoreOnKeyPress" v-model="contactEmail"/>
+                        <input class="input MatcIgnoreOnKeyPress" v-model="contactEmail"/>
                     </div>
-                    <div class="form-group">
+                    <div class="field">
                         <label>Message</label>
-                        <textarea class="form-control input-lg MatcIgnoreOnKeyPress" v-model="contactMessage"/>
+                        <textarea class="input MatcIgnoreOnKeyPress" v-model="contactMessage"/>
                     </div>
 
-                    <div class=" MatcButtonBar MatcMarginTopXXL">
-                        <div class="MatcButton" @click="sendContact">Send</div>
+                    <div class=" MatcButtonBar buttons">
+                        <div class="button is-primary" @click="sendContact">Send</div>
                         <span class="MatcError">
                             {{contactError}}
                         </span>
@@ -99,7 +100,7 @@ import Vue from 'vue'
 export default {
     name: 'HelpButton',
     mixins:[DojoWidget],
-    props: ['help'],
+    props: ['help', 'standalone'],
     data: function () {
         return {
             texts: [],
@@ -113,7 +114,8 @@ export default {
             contactEmail: '',
             contactMessage:'',
             contactError: '',
-            concatSucess: ''
+            concatSucess: '',
+            videoScaleFactor: 1.2
         }
     },
     components: {},
@@ -199,6 +201,11 @@ export default {
         }
     },
     async mounted () {
+        if (this.standalone) {
+            this.hasNotifications = false
+            this.videoScaleFactor = 0.9
+        }
+
         let texts = await Services.getHelpService().getAll()
         if (this.hasNotifications) {
             let notifications = await Services.getUserService().getNotications()
