@@ -56,6 +56,7 @@
 ## Vector Editor
 
 ## Bugs
+  - Screen rename not updates after yooming
   - Fix Downlaod dialog jumping....
   - ESC closes all popups, but triggers flush of temp values. Is this really wanted?
  - _BaseConreoller.renderWidget() > make method to inline all templates and design tokens

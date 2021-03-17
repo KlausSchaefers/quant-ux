@@ -10,7 +10,7 @@ export default {
 					straightLineFunction: d3.line().x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }),
 					smoothLineFunction: d3.line().curve(d3.curveBasis).x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }), // basis
 					defaultLineColor : "#3787f2",
-					defaultLineWidth: 1,
+					defaultLineWidth: 2,
 					arrowCorrect : 3,
 					arrowSize : 8,
 					touchLineWidth: 15,

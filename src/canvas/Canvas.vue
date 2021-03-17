@@ -251,9 +251,15 @@ export default {
 			if (this.layerList){
 				this.layerList.changeName(screen);
 			}
+			/**
+			 * FIXME: here is a small bug. After yooming I get in here still a reference to the old
+			 * label. This the updates are not visible
+			 */
 			let div = this.screenLabels[screen.id]
 			if (div) {
 				this.setTextContent(div, screen.name);
+			} else {
+				this.logger.log(-1, "setScreenName", "exit  > NO LABEL" + screen.name);
 			}
 		},
 

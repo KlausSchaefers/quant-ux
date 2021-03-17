@@ -407,7 +407,7 @@ export default {
              * (widget.h + distanceY) / (h + distanceY) = rows
              */
             let distance = Math.round(widget.props.distanceY * this._scaleY)
-            rows = Math.ceil((widget.h + distance) / (h + distance))
+            rows = Math.floor((widget.h + distance) / (h + distance))
         } else {
             rows = Math.floor(widget.h / h)
         }
