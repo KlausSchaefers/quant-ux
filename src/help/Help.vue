@@ -73,8 +73,8 @@
 
                      <iframe
                         v-if="p.video"
-                        :width="560 * 1.2"
-                        :height="315 * 1.2"
+                        :width="560 * this.videoScaleFactor"
+                        :height="315 * this.videoScaleFactor"
                         :src="p.video.src"
                         frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
