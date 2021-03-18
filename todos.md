@@ -23,12 +23,13 @@
 ## Design Token
 - Make model better with specila keys like _color, _background and a flag
 - Think about border? Figma does just the color? Where would I put in this case the slider?
-
+- labels should have text shadow as an effect in the same box as the box shadow
 - Show List
 - unlink
 - link
 - templates
   - hide for templates!!!
+
 
  - live update when changing?
  - How to show?
@@ -56,6 +57,7 @@
 ## Vector Editor
 
 ## Bugs
+  - Text Tool on click does not work if last widget was an designtoken?
   - Screen rename not updates after yooming
   - Fix Downlaod dialog jumping....
   - ESC closes all popups, but triggers flush of temp values. Is this really wanted?

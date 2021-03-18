@@ -22,7 +22,7 @@ export default {
 
 
 			_updateDnD (zoomedModel) {
-
+				this.logger.log(-3,"_updateDnD", "enter");
 				if (this._updateDNDRendered) {
 					return
 				}
@@ -257,7 +257,7 @@ export default {
 						this.updateBox(zoomedScreen, dnd)
 
 						let lbl = this.createScreenLabel(zoomedScreen)
-						this.screenLabels[screen.id] = lbl;
+						this.screenLabels[zoomedScreen.id] = lbl;
 						dnd.appendChild(lbl);
 
 						this.renderScreenButtons(dnd, zoomedScreen)

@@ -259,7 +259,7 @@ export default {
 			if (div) {
 				this.setTextContent(div, screen.name);
 			} else {
-				this.logger.log(-1, "setScreenName", "exit  > NO LABEL" + screen.name);
+				this.logger.log(-1, "setScreenName", "exit  > NO LABEL" + screen.name, this.screenLabels);
 			}
 		},
 

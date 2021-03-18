@@ -102,9 +102,17 @@ export default {
 				this.positionCheckBox.setValue(style.fixed);
 
 
-				css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
-				this.boxShadow.setValue(style.boxShadow);
-				this.boxShadow.setBox(model)
+				if (model.type !== 'Label') {
+					css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
+					this.boxShadow.setValue(style.boxShadow);
+					this.boxShadow.setBox(model)
+				} else {
+
+					/**
+					 * TODO Make her box shadow visible?
+					 */
+				}
+
 
 				this.opacity.setValue(style.opacity);
 

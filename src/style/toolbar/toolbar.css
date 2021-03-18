@@ -701,6 +701,14 @@
  	width: 200px;
 }
 
+.MatcToolbar .MatcToobarHomeSection .MatcToolbarPopUp li {
+	padding: 10px;
+}
+
+.MatcToolbar .MatcToobarHomeSection .MatcToolbarPopUp li.MatcToolbarPopUpLine {
+	padding: 0px;
+}
+
 /****************************************************
  * Preview Section
  ****************************************************/

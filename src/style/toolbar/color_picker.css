@@ -25,6 +25,7 @@
 	border: none;
 }
 
+.MatcDesignTokenPreView .MatcToolbarColorIndicator,
 .MatcToolbarLabeledColor .MatcToolbarColorIndicator {
 	width: 16px;
 	height:16px;
@@ -130,4 +131,14 @@ td.MatcGradientBox.MatcColorBox span{
 
 .MatcToolbarColorSketch.MatcToolbarColorContainer{
 	width:320px;
+}
+
+/****************************************************
+ * DropDownTree
+ ****************************************************/
+
+.MatcDesignTokenPreView .MatcToolbarColorIndicator,
+.MatcToolbarDropDownTree .MatcToolbarColorIndicator{
+	margin-right: 5px;
+	vertical-align: middle;
 }

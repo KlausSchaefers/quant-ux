@@ -72,6 +72,14 @@
 	font-size: 16px;
 }
 
+.MatcDesignTokenEdit {
+	opacity: 0;
+}
+
+.MatcDesignTokenPreView:hover .MatcDesignTokenEdit {
+	opacity: 1;
+}
+
 
 /****************************************************
  * DesignTokenList
@@ -96,17 +104,6 @@
 		padding: 8px;
 }
 
-.MatcDesignTokenUnlink {
-	opacity: 0;
-}
-
-.MatcDesignTokenUnlink {
-	opacity: 0;
-}
-
-.MatcDesignTokenPreView:hover .MatcDesignTokenUnlink {
-	opacity: 1;
-}
 
 
 /****************************************************
@@ -114,21 +111,35 @@
  ****************************************************/
 
 .MatcDesignTokenDialog {
-	width: 300px;
+	width: 960px;
+
 }
 
-.MatcDesignTokenDialogListCntr {
-	width:260px;
-	height:400px;
-	overflow: auto;
-}
-
-.MatcDesignTokenDialogListRow {
+.MatcDesignTokenDialogCntr {
 	display: flex;
-	align-items: center;
 }
 
-.MatcDesignTokenDialogListCntr .MatcDesignTokenPreView{
-	margin-top: 8px;
-	margin-bottom: 8px;
+.MatcDesignTokenDialogEdit {
+	flex-grow: 1;
+	border:1px solid red;
+}
+
+
+.MatcDesignTokenDialog .MatcDesignTokenDialogList {
+	width: 200px;
+	height: 500px;
+}
+
+.MatcDesignTokenDialog .MatcDesignTokenDialogList a{
+	font-size: 14px;
+  font-weight: 700;
+	text-decoration: none;
+	display: block;
+	margin-bottom: 10px;
+	color:#555;
+}
+
+.MatcDesignTokenDialog .MatcDesignTokenDialogList a:hover,
+.MatcDesignTokenDialog .MatcDesignTokenDialogList a.selected {
+	color: #3787f2;
 }

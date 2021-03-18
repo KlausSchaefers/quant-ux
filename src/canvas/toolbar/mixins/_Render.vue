@@ -40,6 +40,7 @@ import CallBackSection from 'canvas/toolbar/components/CallBackSection'
 import LowCodeResponsiveSection from 'canvas/toolbar/components/LowCodeResponsiveSection'
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
+import TextShadow from 'canvas/toolbar/components/TextShadow2'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -997,7 +998,7 @@ export default {
 
 			},
 
-			_renderWidgetText (cssProps = ['fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight', 'fontStyle', 'verticalAlign', 'fontWeight', 'textDecoration', 'textShadow']){
+			_renderWidgetText (cssProps = ['fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight', 'fontStyle', 'verticalAlign', 'fontWeight', 'textDecoration']){
 
 
 				this.designTokenText = this.createDesignTokenBtn('text', cssProps)
@@ -1015,6 +1016,23 @@ export default {
 				this.properties.appendChild(parent);
 				this.textDiv = parent;
 
+			},
+
+			renderWidgetTextShadow (cssProps = ['textShadow']) {
+
+				this.designTokenText = this.createDesignTokenBtn('textShadow', cssProps)
+				var parent = this.createSection('Text Shadow', true, this.designTokenText);
+
+				this.textShadow = this.$new(TextShadow);
+				this.textShadow.setModel(this.model)
+				this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
+				this.own(on(this.textShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "textShadow")));
+				this._placeAt(this.textShadow, parent);
+				this.addTooltip(this.textShadow.domNode, "Text Shadow");
+
+
+				this.properties.appendChild(parent);
+				this.textShadowDiv = parent;
 			},
 
 

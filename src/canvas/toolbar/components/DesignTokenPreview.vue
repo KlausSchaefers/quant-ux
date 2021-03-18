@@ -1,17 +1,34 @@
 
 <template>
     <div class="MatcDesignTokenPreView" v-if="designtoken">
-      <span class="MatcToolbarItemIcon" >
-        <span :class="icons[designtoken.type]" />
+      <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'color'">
+  				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background': designtoken.value}" />
       </span>
+       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'stroke'">
+  				  <span :class="icons[designtoken.type]" :style="{'color': designtoken.value.borderTopColor}" />
+      </span>
+      <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'text'">
+  				  <span :class="icons[designtoken.type]" />
+      </span>
+       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'padding'">
+  				  <span :class="icons[designtoken.type]" />
+      </span>
+      <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'boxShadow'">
+  			  <span :class="icons[designtoken.type]" />
+      </span>
+
       <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+
+      <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit">
+  			  <span class="mdi mdi-cogs" />
+      </span>
+
     </div>
 </template>
 <script>
-
 export default {
     name: 'DesignTokenPreview',
-    props: ['designtoken'],
+    props: ['designtoken', 'edit'],
     mixins:[],
     data: function () {
         return {
@@ -20,8 +37,8 @@ export default {
             color: 'mdi mdi-water',
             text: 'mdi mdi-format-size',
             padding: 'mdi mdi-select-all',
-            stroke: 'mdi mdi-border-color',
-            boxShadow: 'mdi mdi-box-shadow',
+            stroke: 'mdi mdi-border-all-variant',
+            boxShadow: 'mdi mdi-blur', //'mdi mdi-box-shadow',
           },
           visible: true,
           designtokens: null
@@ -31,7 +48,9 @@ export default {
     },
     components: {},
     methods: {
-
+      onEdit (e) {
+        this.$emit('edit', this.designtoken, this.$el, e)
+      }
     },
     mounted () {
     }

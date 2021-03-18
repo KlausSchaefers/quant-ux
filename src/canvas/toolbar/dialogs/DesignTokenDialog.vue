@@ -1,19 +1,27 @@
 
 <template>
     <div class="">
-      <label>Export</label>
-      <div class="MatcDesignTokenDialogListCntr " >
-          <div v-for="t in filteredTokens" :key="t.id" class="MatcDesignTokenDialogListRow">
 
-            <DesignTokenPreview :designtoken="t" />
-          </div>
+      <div class="MatcDesignTokenDialogCntr " >
+        <div class="MatcDesignTokenDialogList" >
+
+          <a v-for="t in filteredTokens" :key="t.id" :class="{'selected': token && t.id === token.id}" @click="onSelect(t)">
+             {{t.name}}
+          </a>
+
+        </div>
+
+        <div class="MatcDesignTokenDialogEdit " >
+
+
+        </div>
 
       </div>
 	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
-import DesignTokenPreview from '../components/DesignTokenPreview'
+import lang from 'dojo/_base/lang'
 //import CheckBox from 'common/CheckBox'
 
 export default {
@@ -28,16 +36,14 @@ export default {
         }
     },
     components: {
-      'DesignTokenPreview': DesignTokenPreview,
+
     },
     computed: {
       filteredTokens () {
         let result = []
         if (this.model && this.model.designtokens) {
           Object.values(this.model.designtokens).forEach(t => {
-            if (t.type === this.tokenType) {
               result.push(t)
-            }
           })
         }
         return result
@@ -50,11 +56,15 @@ export default {
       getValue () {
         this.token
       },
+
+      onSelect (t) {
+        this.setDesignToken(t)
+      },
       setTokenType (t) {
         this.tokenType = t
       },
       setDesignToken (t) {
-        this.token = t
+        this.token = lang.clone(t)
       },
       setModel (m) {
         this.model = m

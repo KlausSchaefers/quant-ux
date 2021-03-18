@@ -431,7 +431,7 @@ export default {
 		 **************************************************/
 
 		cleanUp (){
-			this.logger.log(3,"cleanUp", "enter");
+			this.logger.log(2,"cleanUp", "enter");
 
 			if (this.settings && this.settings.fastRender) {
 				return this.cleanUpFast();
