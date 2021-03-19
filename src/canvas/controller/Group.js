@@ -438,8 +438,8 @@ export default class Group extends Layer {
 			var group = this.model.groups[id];
 			var command = this.createRemoveGroupCommand(group);
 			this.addCommand(command);
-			this.modelRemoveGroup(group, command.line);
 			this.unSelect();
+			this.modelRemoveGroup(group, command.line);
 			this.render();
 		} else {
 			console.debug(this.model.groups);
@@ -559,8 +559,8 @@ export default class Group extends Layer {
 				this.modelRemoveWidgetAndLines(widget, lines, refs, true);
 			}
 			this.addCommand(command);
-			this.onModelChanged([]);
 			this.unSelect();
+			this.onModelChanged([]);
 			this.render();
 		}
 	}

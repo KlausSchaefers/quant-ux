@@ -104,7 +104,73 @@
 		padding: 8px;
 }
 
+.MatcDesignTokenListPopup{
+	width:320px;
+}
 
+.MatcDesignTokenListPopup.MatcDesignTokenListPopupText{
+	width:230px;
+}
+
+.MatcDesignTokenListPopup .MatcToolbarDropDownButton,
+.MatcDesignTokenListPopup .MatcToolbarToggleButton {
+	border: 1px solid transparent;
+}
+
+.MatcDesignTokenListPopup .MatcToolbarDropDownButton:hover,
+.MatcDesignTokenListPopup .MatcToolbarToggleButton:hover {
+	border: 1px solid #777;
+}
+
+.MatcDesignTokenListInput{
+	border: 1px solid transparent;
+	width: 100%;
+	padding: 3px;
+	border: 1px solid #ddd;
+}
+
+.MatcDesignTokenListPopupSection {
+	border-bottom: 1px solid #ddd;
+	padding: 8px;
+}
+
+.MatcDesignTokenListPopupButtonBar{
+	border-top: 1px solid #ddd;
+	padding: 8px;
+}
+
+label.MatcDesignTokenListPopupSection{
+	display: block;
+	font-weight: 700;
+}
+
+.MatcDesignTokenListPopup .MatcToolbarPopUpContainer {
+	padding: 0px;
+}
+
+
+.MatcDesignTokenListPopup .MatcToolbarInputDropDownButton input{
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: 0px solid #555;
+  font-size: 12px;
+  line-height: 1em;
+  padding: 0px;
+  vertical-align: middle;
+  width:30px;
+  height: auto;
+}
+
+/* keep in sync with MatcToolbarPopUpIcon */
+
+.MatcDesignTokenListPopup .mdi {
+	font-size: 16px;
+}
+
+.MatcDesignTokenListPopup .MatcButton,
+.MatcDesignTokenListPopup .MatcLinkButton{
+	font-size: 14px;
+	padding: 3px 10px;
+}
 
 /****************************************************
  * Dialog (FIXME:_ Removce

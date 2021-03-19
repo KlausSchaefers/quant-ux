@@ -22,15 +22,15 @@
 }
 
 .MatcToolbar .mdi{
-	font-size: 20px;
+	font-size: 18px;
 	vertical-align: middle;
 	line-height:1;
 }
 
 .MatcToolbar .MatcTinyIcon.mdi{
 	bottom: 8px;
-    font-size: 12px;
-    position: absolute;
+  font-size: 12px;
+  position: absolute;
 	right: 4px;
 	opacity: 0;
 }

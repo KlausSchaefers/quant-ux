@@ -21,6 +21,7 @@
 - Actions could have ScreenContaoner as target!
 - LayerList open should have effect on Scroll
 ## Design Token
+ - WHAT ABOUT GRADIENTS
 - Make model better with specila keys like _color, _background and a flag
 - Think about border? Figma does just the color? Where would I put in this case the slider?
 - labels should have text shadow as an effect in the same box as the box shadow
@@ -57,6 +58,58 @@
 ## Vector Editor
 
 ## Bugs
+ - selection bug after remove: Create welcome mat group and remove
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   - Text Tool on click does not work if last widget was an designtoken?
   - Screen rename not updates after yooming
   - Fix Downlaod dialog jumping....

@@ -4,9 +4,11 @@
 			<div class="MatcToolbarSectionContent" v-show="hasDesignToken">
       	<DesignTokenView class="MatcToolbarItem"  :designtoken="currentDesignToken"/>
 			</div>
-			<div v-show="!hasDesignToken">
-					<div class="MatcToolbarSectionContent" ref="main" />
-					<div class="MatcToolbarSectionContent" ref="advanced"/>
+			<div v-show="!hasDesignToken" class="MatcTextProperties">
+					<div class="MatcToolbarSectionContent" ref="row1" />
+					<div class="MatcToolbarSectionContent" ref="row2" />
+					<div class="MatcToolbarSectionContent" ref="row3" />
+					<div class="MatcToolbarSectionContent" ref="row4"/>
 			</div>
 	</div>
 </template>
@@ -28,6 +30,7 @@ import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'TextProperties',
+		props:['isChildDropDown'],
     mixins:[_Tooltip, _DesignToken, DojoWidget],
     data: function () {
         return {
@@ -91,55 +94,58 @@ export default {
 
       postCreate() {
 
-        let content = this.$refs.main
-        let advanced = this.$refs.advanced
+        let row1 = this.$refs.row1
+				let row2 = this.$refs.row2
+				let row3 = this.$refs.row3
+				let row4 = this.$refs.row4
+
 
 				this.family = this.$new(ToolbarDropDownButton);
 				this.family.setOptions(this.fontFamilies);
 				this.family.reposition = true;
+				this.family.isChildDropDown = this.isChildDropDown
+				css.add(this.family.domNode, 'MatcTextPropertiesFontFamily')
 				this.addTooltip(this.family.domNode, "Font Family");
 				this.own(on(this.family, "change", lang.hitch(this, "setWidgetStyle", "fontFamily")));
-				this._placeAt(this.family, content);
+				this._placeAt(this.family, row1);
 
 
 				this.fontSize = this.$new(InputDropDownButton);
 				this.fontSize.setOptions(["Auto",10,12,14,18,20,24,28,32,40,50,60,70,80,100,120]);
 				this.fontSize.reposition = true;
+				this.fontSize.isChildDropDown = this.isChildDropDown
 				this.own(on(this.fontSize, "change", lang.hitch(this, "setWidgetStyle", "fontSize")));
-				this._placeAt(this.fontSize, content);
+				this._placeAt(this.fontSize, row1);
 				this.addTooltip(this.fontSize.domNode, "Font Size");
 
 				// this.createSpacer(content);
-
-
-
 
 				this.fontWeight= this.$new(ToolbarToggleButton);
 				this.fontWeight.setLabel("");
 				this.fontWeight.setCss("mdi mdi-format-bold");
 				this.own(on(this.fontWeight, "change", lang.hitch(this, "toggleStyle", "fontWeight", "bold")));
-				this._placeAt(this.fontWeight, content);
+				this._placeAt(this.fontWeight, row2);
 				this.addTooltip(this.fontWeight.domNode, "Bold");
 
 				this.fontStyle = this.$new(ToolbarToggleButton);
 				this.fontStyle.setLabel("");
 				this.fontStyle.setCss("mdi mdi-format-italic");
 				this.own(on(this.fontStyle, "change", lang.hitch(this, "toggleStyle", "fontStyle", "italic")));
-				this._placeAt(this.fontStyle, content);
+				this._placeAt(this.fontStyle, row2);
 				this.addTooltip(this.fontStyle.domNode, "Italic");
 
 				this.textDecoration = this.$new(ToolbarToggleButton);
 				this.textDecoration.setLabel("");
 				this.textDecoration.setCss("mdi mdi-format-underline");
 				this.own(on(this.textDecoration, "change", lang.hitch(this, "toggleStyle", "textDecoration", "underline")));
-				this._placeAt(this.textDecoration, content);
+				this._placeAt(this.textDecoration, row2);
 				this.addTooltip(this.textDecoration.domNode, "Underline");
 
 				this.strikeThrough = this.$new(ToolbarToggleButton);
 				this.strikeThrough.setLabel('');
 				this.strikeThrough.setCss("mdi mdi mdi-format-strikethrough-variant");
 				this.own(on(this.strikeThrough, "change", lang.hitch(this, "toggleStyle", "textDecoration", "line-through")));
-				this._placeAt(this.strikeThrough, content);
+				this._placeAt(this.strikeThrough, row2);
 				this.addTooltip(this.strikeThrough.domNode, "Strikethrough");
 
 				//this.createSpacer(content);
@@ -153,10 +159,10 @@ export default {
 						{ value:"justify", icon:"mdi mdi-format-align-justify"}
 				]);
 				this.own(on(this.textAlign, "change", lang.hitch(this, "setWidgetStyle", "textAlign")));
-				this._placeAt(this.textAlign, content);
+				this._placeAt(this.textAlign, row3);
 				this.addTooltip(this.textAlign.domNode, "Text Alignment");
 
-				this.createSpacer(content);
+				//this.createSpacer(content);
 
 
 				/**
@@ -168,8 +174,9 @@ export default {
 				this.lineHeight.setLabel('<span class="mdi mdi-format-line-spacing"></span>');
 				this.lineHeight.reposition = true;
 				this.lineHeight.updateLabel  =false;
+				this.lineHeight.isChildDropDown = this.isChildDropDown
 				this.own(on(this.lineHeight, "change", lang.hitch(this, "setWidgetStyle", "lineHeight")));
-				this._placeAt(this.lineHeight, advanced);
+				this._placeAt(this.lineHeight, row4);
 				this.addTooltip(this.lineHeight.domNode, "Line Height");
 
 				this.letterSpacing = this.$new(ToolbarDropDownButton);
@@ -177,20 +184,18 @@ export default {
 				this.letterSpacing.setLabel('<span class="glyphicons glyphicons-text-width"></span>');
 				this.letterSpacing.reposition = true;
 				this.letterSpacing.updateLabel  =false;
+				this.letterSpacing.isChildDropDown = this.isChildDropDown
 				this.own(on(this.letterSpacing, "change", lang.hitch(this, "setWidgetStyle", "letterSpacing")));
-				this._placeAt(this.letterSpacing, advanced);
+				this._placeAt(this.letterSpacing, row4);
 				this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
 
 				this.textShadow = this.$new(TextShadow);
 				this.textShadow.setModel(this.model)
+				this.textShadow.isChildDropDown = this.isChildDropDown
 				this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
 				this.own(on(this.textShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "textShadow")));
-				this._placeAt(this.textShadow, advanced);
+				this._placeAt(this.textShadow, row4);
 				this.addTooltip(this.textShadow.domNode, "Text Shadow");
-
-
-
-
 
 				this.verticalAlign = this.$new(ToolbarDropDownButton);
 				this.verticalAlign.setOptions([
@@ -201,11 +206,16 @@ export default {
 				this.verticalAlign.setLabel('<span class="glyphicons glyphicons-text-width"></span>');
 				this.verticalAlign.reposition = true;
 				this.verticalAlign.updateLabel  = true;
+				this.verticalAlign.isChildDropDown = this.isChildDropDown
 				this.own(on(this.verticalAlign, "change", lang.hitch(this, "setWidgetStyle", "verticalAlign")));
-				this._placeAt(this.verticalAlign, advanced);
+				this._placeAt(this.verticalAlign, row4);
 				this.addTooltip(this.verticalAlign.domNode, "Vertical Align");
 
       },
+
+			addTooltip () {
+			// disable
+			},
 
 
 			createSpacer (parent){

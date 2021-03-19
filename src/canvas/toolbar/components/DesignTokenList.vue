@@ -39,28 +39,42 @@
             </div>
       </div>
 
-      <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
-        <div class="MatcToolbarPopUpContainer" role="menu" data-dojo-attach-point="ctnr" @click.stop="" @mousedown.stop="" @keydown.stop="" @keypress.stop="" @keyup.stop="">
-          Klaus
+
+       <div class="MatcToolbarPopUp  MatcDesignTokenListPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
+          <div >
+            <div class="MatcDesignTokenListPopupSection" v-if="selectedDesignToken">
+               <input class="MatcIgnoreOnKeyPress MatcDesignTokenListInput " v-model="selectedDesignToken.name"/>
+            </div>
+            <div class="MatcDesignTokenListPopupSection" v-show="selectedDesignToken && selectedDesignToken.type === 'boxShadow'">
+              <ShadowSettings ref="boxShadowSettings" @resize="onResize"  @change="onChangeShadow"/>
+            </div>
+            <div class="MatcDesignTokenListPopupSection" v-show="selectedDesignToken && selectedDesignToken.type === 'color'">
+              <ColorPickerSketch ref="colorSettings" @resize="onResize" @change="onChangeColor"/>
+            </div>
+            <div class="MatcDesignTokenListPopupSection " v-show="selectedDesignToken && selectedDesignToken.type === 'text'">
+              <TextProperties ref="textSettings" @resize="onResize" @change="onChangeText" @toggle="onToggleText" :isChildDropDown="true"/>
+            </div>
+             <div class="MatcDesignTokenListPopupSection">
+               <a class="MatcButton" @click="onSave">Save</a>    <a class="MatcLinkButton" @click="onCancel">Cancel</a>
+            </div>
+          </div>
         </div>
-      </div>
 	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import DesignTokenPreview from './DesignTokenPreview'
-
-import Dialog from 'common/Dialog'
-import DesignTokenDialog from '../dialogs/DesignTokenDialog'
+import ShadowSettings from './ShadowSettings'
+import _DropDown from './_DropDown'
 import lang from 'dojo/_base/lang'
-import on from 'dojo/on'
-import touch from 'dojo/touch'
-import DomBuilder from 'common/DomBuilder'
-import * as DojoUtil from 'dojo/DojoUtil';
+import ColorPickerSketch from 'common/ColorPickerSketch'
+import TextProperties from 'canvas/toolbar/components/TextProperties'
+import css from 'dojo/css'
+//import Input from '../../../common/Input.vue'
 
 export default {
     name: 'DesignTokenBtn',
-    mixins:[DojoWidget],
+    mixins:[DojoWidget, _DropDown],
     data: function () {
         return {
           model: null,
@@ -74,13 +88,22 @@ export default {
           visible: true,
           designtokens: null,
           reposition: true,
-					arrowPosition: "right"
+					arrowPosition: "right",
+          selectedDesignToken: null,
+          fontFamilies: []
         }
     },
     components: {
-      'DesignTokenPreview': DesignTokenPreview
+      'DesignTokenPreview': DesignTokenPreview,
+      'ShadowSettings': ShadowSettings,
+      'ColorPickerSketch': ColorPickerSketch,
+      'TextProperties': TextProperties
     },
     computed: {
+
+      isText () {
+        return this.selectedDesignToken && this.selectedDesignToken.type === 'text'
+      },
 
       isEmpty () {
         if (this.model && this.model.designtokens) {
@@ -151,33 +174,94 @@ export default {
       }
     },
     methods: {
+
+      setFontFamilies (f) {
+        this.fontFamilies = f
+        if (this.$refs.textSettings) {
+          this.$refs.textSettings.setFontFamilies(f)
+        }
+      },
+
+      postCreate (){
+			},
+
       toggleSection (s) {
         this.visible[s] = !this.visible[s]
       },
 
-      onEdit(designtoken, node) {
-        console.debug('onEdit', designtoken, this.popup)
-
-				let db = new DomBuilder();
-
-
-        var popup = db.div("MatcDesignTokenDialog MatcPadding").build(this.ctnr);
-
-        let tokenDialog = DojoUtil.$new(DesignTokenDialog)
-        tokenDialog.setModel(this.model)
-        tokenDialog.setDesignToken(designtoken)
-        tokenDialog.placeAt(popup)
-
-        let bar = db.div("MatcButtonBar MatcMarginTop").build(popup);
-				let write = db.div("MatcButton", "Ok").build(bar);
-				let cancel = db.a("MatcLinkButton", "Cancel").build(bar);
-
-				var d = new Dialog();
-				d.overflow = true
-				d.own(on(write, touch.press, lang.hitch(this,"updateDesignToken", d, tokenDialog)));
-				d.own(on(cancel, touch.press, () => d.close()));
-				d.popup(popup, node);
+      onChangeColor (c) {
+        console.debug('onChangeColor', c)
+        this.selectedDesignToken.value = c
       },
+
+      onChangeShadow (c) {
+        console.debug('onChangeShadow', c)
+        this.selectedDesignToken.value = c
+      },
+
+      onChangeText (key, value) {
+        console.debug('onChangeColor', key, value)
+        this.selectedDesignToken.value[key] = value
+      },
+
+      onToggleText (key, value) {
+        console.debug('onToggleText', key, value)
+        let style = this.selectedDesignToken.value
+        if(style && (style[key] == null || style[key] != value)){
+          style[key] = value
+        } else {
+          style[key] = ''
+        }
+      },
+
+      onCanvasClick (id, type, e) {
+        console.debug('onCanvasClick() keep open',e)
+        if (!e || !e.isChildDropDown) {
+          this.hideDropDown(id, type);
+        }
+      },
+
+      onHide () {
+        console.debug('onHide', this.selectedDesignToken)
+      },
+
+      onSave () {
+
+      },
+
+      onCancel () {
+        this.hideDropDown()
+      },
+
+      onResize () {
+        this.updatePosition()
+      },
+
+      onEdit(designtoken, node) {
+        console.debug('onEdit', designtoken, node)
+        this.hideDropDown();
+        css.remove(this.popup, 'MatcDesignTokenListPopupText')
+
+        this.popupRootNode = node
+        this.selectedDesignToken = lang.clone(designtoken)
+
+        if (this.selectedDesignToken.type === 'color') {
+          this.$refs.colorSettings.setValue(this.selectedDesignToken.value)
+        }
+
+        if (this.selectedDesignToken.type === 'text') {
+          css.add(this.popup, 'MatcDesignTokenListPopupText')
+          this.$refs.textSettings.setValue(this.selectedDesignToken.value)
+        }
+
+        this.showDropDown()
+
+
+      },
+
+    	getPopupRootNode () {
+				return this.popupRootNode
+			},
 
       setModel (m) {
         this.model = null

@@ -1601,8 +1601,8 @@ export default class Screen extends CopyPaste {
 				modelId : id
 		};
 		this.addCommand(command);
-		this.modelRemoveScreenAndWidgetAndLines(screen, widgets, lines, groups);
 		this.unSelect();
+		this.modelRemoveScreenAndWidgetAndLines(screen, widgets, lines, groups);
 		this.render();
 	}
 

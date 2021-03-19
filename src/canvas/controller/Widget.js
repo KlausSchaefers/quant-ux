@@ -363,6 +363,7 @@ export default class Widget extends Screen {
 
 	removeMultiWidget (selection){
 		this.logger.log(-1,"removeMultiWidget", "enter > ", selection);
+		this.unSelect();
 
 		let command = {
 			timestamp: new Date().getTime(),
@@ -397,7 +398,7 @@ export default class Widget extends Screen {
 			}
 		}
 
-		this.unSelect();
+
 		this.render();
 		this.addCommand(command);
 	}
@@ -1145,9 +1146,9 @@ export default class Widget extends Screen {
 		var widget = this.model.widgets[id];
 		var lines = this.getLines(widget);
 		var refs = this.getReferences(widget);
-		this.modelRemoveWidgetAndLines(widget, lines, refs);
 
 		this.unSelect();
+		this.modelRemoveWidgetAndLines(widget, lines, refs);
 		this.render();
 	}
 

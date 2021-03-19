@@ -93,7 +93,9 @@ export default {
 				for(var i=0; i< model.children.length;i++){
 					var id = model.children[i];
 					var widget = this.model.widgets[id];
-					fixed = fixed && widget.style.fixed === true;
+					if (widget) {
+						fixed = fixed && widget.style.fixed === true;
+					}
 				}
 
 				if(this.screenExport && this.screenDownloadDiv) {

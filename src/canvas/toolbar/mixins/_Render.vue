@@ -402,6 +402,7 @@ export default {
 				this.designTokenList.placeAt(parent)
 				this.own(on(this.designTokenList, "change", lang.hitch(this, "changeDesignToken")));
 				this.own(on(this.designTokenList, "remove", lang.hitch(this, "removeDesignToken")));
+				this.designTokenList.setFontFamilies(this._getFontFamilies());
 
 
 				this.properties.appendChild(parent);
@@ -1623,6 +1624,7 @@ export default {
 			updateFontFamilies () {
 				if (this.textProperties){
 					this.textProperties.setFontFamilies(this._getFontFamilies());
+					this.designTokenList.setFontFamilies(this._getFontFamilies());
 				}
 			},
 

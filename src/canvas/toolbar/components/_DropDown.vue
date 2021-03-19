@@ -28,7 +28,8 @@ export default {
             reposition: false,
             isOpen: false,
             arrowSize: 10,
-            chevron: true
+            chevron: true,
+						isChildDropDown: false
         }
     },
     components: {},
@@ -117,7 +118,7 @@ export default {
 				/**
 				 * this will force all other popups to close
 				 */
-				topic.publish("matc/canvas/click", "", "");
+				topic.publish("matc/canvas/click", "", "", {isDropDown: true, isChildDropDown: this.isChildDropDown});
 				/**
 				 * the canvas can register to this to flush stuff
 				 */
@@ -158,7 +159,7 @@ export default {
 						/**
 						 * We will now place the popup to the body, to allow scrolling in the properties bar
 						 */
-						var pos = domGeom.position(this.domNode);
+						var pos = domGeom.position(this.getPopupRootNode());
 						var h = win.getBox().h;
 
 						/**
@@ -194,6 +195,10 @@ export default {
 				}
 			},
 
+			getPopupRootNode () {
+				return this.domNode
+			},
+
 			updatePosition (doNotUpdatePosition = true){
 				if (this.arrow){
 					this.popup.removeChild(this.arrow);
@@ -203,9 +208,8 @@ export default {
 			},
 
 			_reposition (doNotUpdatePosition){
-				var pos = domGeom.position(this.domNode);
+				var pos = domGeom.position(this.getPopupRootNode());
 				var h = win.getBox().h;
-
 
 				delete this.arrow;
 				if (!doNotUpdatePosition){
@@ -241,7 +245,7 @@ export default {
 					}
 
 					if(this.reposition){
-						var pos = domGeom.position(this.domNode);
+						var pos = domGeom.position(this.getPopupRootNode());
 						var popupPos = domGeom.position(this.popup);
 						var y = Math.round(pos.y - popupPos.y +((pos.h-this.arrowSize)/2));
 						this.arrow.style.top = Math.min(y, popupPos.h-2*this.arrowSize) + "px";

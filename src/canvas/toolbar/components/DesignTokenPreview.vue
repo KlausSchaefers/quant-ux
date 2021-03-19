@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcDesignTokenPreView" v-if="designtoken">
+    <div class="MatcDesignTokenPreView" v-if="designtoken" @mousedown.stop="">
       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'color'">
   				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background': designtoken.value}" />
       </span>
@@ -19,7 +19,7 @@
 
       <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
 
-      <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit">
+      <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true">
   			  <span class="mdi mdi-cogs" />
       </span>
 
