@@ -27,7 +27,7 @@
 .MatcBoxShadowSliderCntr {
   display: flex;
   align-items: center;
-
+  height: 40px;
 }
 
 .MatcBoxShadowSliderCntr .MatcToolbarPopUpLabel{
