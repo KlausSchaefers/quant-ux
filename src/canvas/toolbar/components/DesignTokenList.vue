@@ -254,7 +254,13 @@ export default {
           this.$refs.textSettings.setValue(this.selectedDesignToken.value)
         }
 
+        if (this.selectedDesignToken.type === 'boxShadow') {
+          this.$refs.boxShadowSettings.setValue(this.selectedDesignToken.value)
+        }
+
         this.showDropDown()
+
+
 
 
       },

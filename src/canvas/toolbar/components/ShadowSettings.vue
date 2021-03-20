@@ -145,7 +145,9 @@ export default {
 					this.sSlider.setValue(boxShadow.s);
           this.picker.setValue(boxShadow.c)
           this.insertBox.setValue(boxShadow.i)
-				}
+				} else {
+          console.debug('ShadowSettings.setValuesInWidgets() > No widgets', boxShadow)
+        }
 			},
 
 			_removeBoxShadow (e){
@@ -154,15 +156,16 @@ export default {
 			},
 
 			setValue (v){
+        this.init()
         this.tab = 'position'
 				if (v) {
 					this.value = lang.clone(v);
-          this.setValuesInWidgets(v)
+          this.setValuesInWidgets(this.value)
         }
       }
     },
     mounted () {
-      this.init()
+        this.init()
     }
 }
 </script>

@@ -114,6 +114,9 @@ export default {
 				if (v === "transparent") {
 					return "-"
 				}
+				if (v.colors) {
+					return "--"
+				}
 				let c = new Color(v)
 				return c.toHex()
 			},

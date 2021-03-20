@@ -21,7 +21,8 @@
 - Actions could have ScreenContaoner as target!
 - LayerList open should have effect on Scroll
 ## Design Token
- - WHAT ABOUT GRADIENTS
+ . fix stupid boxshadow slider bug
+ - WHAT ABOUT GRADIENTS -> gradient will not be shown
 - Make model better with specila keys like _color, _background and a flag
 - Think about border? Figma does just the color? Where would I put in this case the slider?
 - labels should have text shadow as an effect in the same box as the box shadow

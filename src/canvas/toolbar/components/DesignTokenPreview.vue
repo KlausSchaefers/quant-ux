@@ -2,7 +2,7 @@
 <template>
     <div class="MatcDesignTokenPreView" v-if="designtoken" @mousedown.stop="">
       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'color'">
-  				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background': designtoken.value}" />
+  				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background': getBackgroundColor(designtoken.value)}" />
       </span>
        <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'stroke'">
   				  <span :class="icons[designtoken.type]" :style="{'color': designtoken.value.borderTopColor}" />
@@ -48,6 +48,27 @@ export default {
     },
     components: {},
     methods: {
+      getBackgroundColor (v) {
+				if (v === 'None' || v === 'transparent' || !v) {
+					v = '';
+				}
+
+				if (v.colors) {
+					v = "linear-gradient"  + this._getGradientCSS(v)
+				}
+
+        console.debug('getColor', v)
+				return v
+      },
+      _getGradientCSS (gradient) {
+				var value = "(" + gradient.direction + "deg";
+				for(var i=0; i < gradient.colors.length; i++){
+					var color = gradient.colors[i];
+					value +="," + color.c + " " + color.p + "% ";
+				}
+				value + ");";
+				return value;
+			},
       onEdit (e) {
         this.$emit('edit', this.designtoken, this.$el, e)
       }
