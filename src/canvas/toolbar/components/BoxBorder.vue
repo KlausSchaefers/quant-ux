@@ -37,6 +37,7 @@ import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'BoxBorder',
+		props: ['isChildDropDown'],
     mixins:[_DesignToken, DojoWidget],
     data: function () {
         return {
@@ -74,8 +75,8 @@ export default {
 					/**
 					 * Width
 					 */
-					var cntrPos = {w : 150, h:75};
-					var inputPos= {w: 40, h : 24};
+					var cntrPos =  {w: 150, h: 75};
+					var inputPos = {w: 45, h: 24};
 
 					//domGeom.position(this.cntrWidth);
 
@@ -91,11 +92,11 @@ export default {
 					this.bottomWidth.domNode.style.left = (cntrPos.w - inputPos.w) /2+"px";
 
 					this.leftWidth = this.renderIntBox(this.cntrWidth, options);
-					this.leftWidth.domNode.style.top =  (cntrPos.h - inputPos.h) /2-1+"px";
+					this.leftWidth.domNode.style.top =  (cntrPos.h - inputPos.h)/2 - 1 +"px";
 					this.leftWidth.domNode.style.left = -1 * ((inputPos.w /2)-1)+"px";
 
 					this.rightWidth = this.renderIntBox(this.cntrWidth, options);
-					this.rightWidth.domNode.style.top =  (cntrPos.h - inputPos.h) /2 -1+"px";
+					this.rightWidth.domNode.style.top =  (cntrPos.h - inputPos.h) /2 -1 + "px";
 					this.rightWidth.domNode.style.right = -1 * ((inputPos.w /2)-1)+"px";
 
 					this.lockWidth = this.renderLock(this.cntrWidth, cntrPos);
@@ -209,6 +210,7 @@ export default {
 				widget.placeAt(parent);
 				widget.reposition = true;
 				widget.updateLabel = true;
+				widget.isChildDropDown = this.isChildDropDown
 				widget.maxLabelLength  =2000;
 				widget.setOptions([
 					{value:"solid", label:'<div class="MatcBorderStyle"><div class="MatcBorderStyleSolid"></div></div>'},
@@ -222,6 +224,7 @@ export default {
 				var input =  this.$new(InputDropDownButton);
 				input.setOptions(options);
 				input.placeAt(parent);
+				input.isChildDropDown = this.isChildDropDown
 				input.reposition = true;
 				return input;
 			},
@@ -232,6 +235,7 @@ export default {
 				widget.placeAt(parent);
 				widget.keepOpenOnTypeSelection = "widget";
 				widget.reposition = true;
+				widget.isChildDropDown = this.isChildDropDown
 				if (this.colorWidgets){
 					this.colorWidgets.push(widget)
 				}
@@ -292,6 +296,7 @@ export default {
 			},
 
 			setStyle:function(key, input, value){
+
 				this.value[key] = value;
 				if(this.isLocked){
 					for(var i=0; i < 4; i++){
@@ -321,6 +326,7 @@ export default {
 
 
 			setWidth:function(key, input, value){
+				console.debug(' setWidth, value', this.isLocked)
 				//this.stopEvent(e);
 				value = value * 1;
 				if(this.isValid(value)){
@@ -481,7 +487,7 @@ export default {
 				 * would be null!
 				 */
 				var clone = {};
-				for(let i=0; i < 4; i++){
+				for (let i=0; i < 4; i++) {
 					var s = this.borderStyle[i];
 					clone[s] = v[s];
 
@@ -527,6 +533,9 @@ export default {
 			}
     },
     mounted () {
+			if (this.isChildDropDown) {
+				this.postCreate()
+			}
     }
 }
 </script>

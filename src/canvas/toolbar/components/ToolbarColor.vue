@@ -23,6 +23,7 @@ import touch from 'dojo/touch'
 import ColorPickerSketch from 'common/ColorPickerSketch'
 import GradientPicker from 'common/GradientPicker'
 import Dialog from 'common/Dialog'
+import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
 import _DropDown from './_DropDown'
 import _Color from 'common/_Color'
@@ -93,11 +94,15 @@ export default {
     methods: {
 
 			reOpenDropDown () {
+				if (this.hasDesignToken) {
+					this.logger.log(-1, 'reOpenDropDown', 'Exit because of design token')
+					return
+				}
 				let now = new Date().getTime()
 				if (!this.ignoreReOpen || (now - this.ignoreReOpen) > 500) {
 					this.showDropDown()
 				} else {
-					console.debug('ignore Reopen')
+					this.logger.log(-1, 'reOpenDropDown', 'Ignore')
 				}
 				this.ignoreReOpen = 0
 			},
@@ -668,6 +673,7 @@ export default {
 			}
 		},
   mounted () {
+		this.logger = new Logger('ToolbarColor')
 		if (this.isDialog) {
 			this.reposition = false
 			this.arrowPosition = false

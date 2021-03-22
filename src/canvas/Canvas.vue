@@ -59,13 +59,15 @@ import CustomHandler from 'canvas/CustomHandler'
 import KeyBoard from 'canvas/KeyBoard'
 import Resize from 'canvas/Resize'
 import Replicate from 'canvas/Replicate'
+import Prototyping from 'canvas/Prototyping'
 
 import FastDomUtil from 'core/FastDomUtil'
 
 export default {
   name: 'Canvas',
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
-			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView, KeyBoard, Resize, Replicate],
+			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView,
+			KeyBoard, Resize, Replicate, Prototyping],
     data: function () {
         return {
 					mode: "edit",
@@ -161,6 +163,11 @@ export default {
 			this._controllerCallback = c;
 		},
 
+		setViewMode (m) {
+			this.logger.log(-1, "setViewMode", "enter > " + m);
+			this.canvasViewMode = m
+			this.setPrototypingView(m === 'prototype')
+		},
 
 		setModelFactory (f){
 			this.factory = f;

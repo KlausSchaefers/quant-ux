@@ -23,6 +23,7 @@ import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'BoxPadding',
+		props: ['isChildDropDown'],
     mixins:[BoxBorder, _DesignToken, DojoWidget],
     data: function () {
         return {
@@ -47,8 +48,8 @@ export default {
 					/**
 					 * Width
 					 */
-					var cntrPos = {w : 150, h:70};
-					var inputPos= {w: 40, h : 24};
+					var cntrPos = {w : 150, h:75};
+					var inputPos= {w: 45, h : 24};
 
 					var options = [0,1,2,3,4,5,6,7,8,9,10,12,14,16,20,24,32];
 
@@ -117,6 +118,7 @@ export default {
 				var input = this.$new(InputDropDownButton);
 				input.setOptions(options);
 				input.placeAt(parent);
+				input.isChildDropDown = this.isChildDropDown
 				input.reposition = true;
 				return input;
 			},
@@ -150,6 +152,9 @@ export default {
 			}
     },
     mounted () {
+			if (this.isChildDropDown) {
+				this.postCreate()
+			}
     }
 }
 </script>

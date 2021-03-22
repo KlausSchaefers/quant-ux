@@ -178,24 +178,7 @@ export default {
          */
         } else if(k == 76){
           if(!this._inlineEditStarted  && !this._selectionToolStart){
-            if (this._selectWidget && this._lastMouseMoveEvent) {
-              this.addLine({
-                from : this._selectWidget.id,
-                event:this._lastMouseMoveEvent
-              })
-            }
-            if (this._selectedScreen && this._lastMouseMoveEvent) {
-              this.addLine({
-                from : this._selectedScreen.id,
-                event:this._lastMouseMoveEvent
-              })
-            }
-            if (this._selectGroup && this._lastMouseMoveEvent) {
-              this.addLine({
-                from : this._selectGroup.id,
-                event:this._lastMouseMoveEvent
-              })
-            }
+            this.addLineAtSelected(e)
           }
         /**
          * D dispatch...

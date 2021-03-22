@@ -184,7 +184,7 @@ export default {
             this.$nextTick(() => {
                 let pos = domGeom.position(cntr)
                 this.popup.style.width = pos.w + 'px'
-                this.updatePosition(false)
+                this.updatePosition(true)
             })
         },
 

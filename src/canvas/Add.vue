@@ -347,6 +347,28 @@ export default {
 			 * 3) the user select the end screen (onLineEndSelected)
 			 **********************************************************************/
 
+			addLineAtSelected () {
+				this.logger.log(-1,"addLineAtSelected", "enter");
+				if (this._selectWidget && this._lastMouseMoveEvent) {
+          this.addLine({
+						from : this._selectWidget.id,
+						event:this._lastMouseMoveEvent
+					})
+				}
+				if (this._selectedScreen && this._lastMouseMoveEvent) {
+					this.addLine({
+						from : this._selectedScreen.id,
+						event:this._lastMouseMoveEvent
+					})
+				}
+				if (this._selectGroup && this._lastMouseMoveEvent) {
+					this.addLine({
+						from : this._selectGroup.id,
+						event:this._lastMouseMoveEvent
+					})
+				}
+			},
+
 			addLine (params){
 				this.logger.log(-1,"addLine", "enter " + params.from +  " " + params.animation);
 

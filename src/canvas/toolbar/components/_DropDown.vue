@@ -105,8 +105,9 @@ export default {
 			/***************************************************
 			 * Hide and show methods
 			 ***************************************************/
-			showDropDown (e){
+			showDropDown (e, forceUpdatePosition =false){
 				this._ignoreHide = false;
+
 				/**
 				 * Lazy init only when first time clicked!
 				 */
@@ -130,7 +131,7 @@ export default {
 					 * and the data section gets rendered again. This means also, that this widget
 					 * will be in the mean time deleted!
 					 */
-					console.debug("return no popup");
+					console.debug("_DropDown.showDropDown() > return no popup");
 					return;
 				}
 
@@ -145,7 +146,7 @@ export default {
 				this.onVisible();
 
 				if (this.reposition) {
-						this.teleportToBody(true)
+						this.teleportToBody(forceUpdatePosition)
 				}
 				this.renderArrow();
 				if(this.showListener){
@@ -154,42 +155,13 @@ export default {
 				this.isOpen = true;
 			},
 
-			teleportToBody (retry = false) {
-					try {
-						/**
-						 * We will now place the popup to the body, to allow scrolling in the properties bar
-						 */
-						var pos = domGeom.position(this.getPopupRootNode());
-						var h = win.getBox().h;
-
-						/**
-						 * FIXME: This bug happens, because the data setions will rerender all colors if there
-						 * was a model change. This might remove the element already from the dom :(
-						 */
-						if (pos.x === 0 && retry === true) {
-							/**
-							 * We clsoe the popup, so it does not look shitty.
-							 */
-							console.debug('_DropDown.teleportToBody() > Position is bad, try agound')
-							this.hideDropDown()
-							return
-						}
-
-						if(!this.popupPos){
-							this.popupPos = domGeom.position(this.popup);
-						}
+			teleportToBody (forceUpdatePosition = false) {
+				try {
+					if (this._reposition(forceUpdatePosition)) {
 						this._popupAtBody = true;
 						this.domNode.removeChild(this.popup);
-						if(pos.y > h* 0.667){
-							this.popup.style.top = pos.y - (this.popupPos.h - pos.h) + "px"
-						} else if (pos.y > h* 0.33){
-							this.popup.style.top = pos.y - (this.popupPos.h/2) + "px"
-						}else {
-							this.popup.style.top = pos.y + "px"
-						}
-						this.popup.style.bottom = "auto";
-						this.popup.style.left = pos.x - this.popupPos.w - this.arrowSize+ "px";
 						win.body().appendChild(this.popup);
+					}
 				} catch(e){
 						console.error(e);
 				}
@@ -199,52 +171,58 @@ export default {
 				return this.domNode
 			},
 
-			updatePosition (doNotUpdatePosition = true){
+			updatePosition (forceUpdatePosition = false){
 				if (this.arrow){
 					this.popup.removeChild(this.arrow);
 					delete this.arrow;
 				}
-				this._reposition(doNotUpdatePosition);
-			},
-
-			_reposition (doNotUpdatePosition){
-				var pos = domGeom.position(this.getPopupRootNode());
-				var h = win.getBox().h;
-
-				delete this.arrow;
-				if (!doNotUpdatePosition){
-					this.popupPos = domGeom.position(this.popup);
-				}
-				this._popupAtBody = true;
-				if(pos.y > h * 0.667){
-					this.popup.style.top = pos.y - (this.popupPos.h - pos.h) + "px"
-				} else if (pos.y > h* 0.33){
-					this.popup.style.top = pos.y - (this.popupPos.h/2) + "px"
-				}else {
-					this.popup.style.top = pos.y + "px"
-				}
-
-				this.popup.style.bottom = "auto";
-				this.popup.style.left = pos.x - this.popupPos.w -this.arrowSize+ "px";
-
+				this._reposition(forceUpdatePosition);
 				this.renderArrow();
 			},
 
-			renderArrow (){
+			_reposition (forceUpdatePosition = false) {
+				var pos = domGeom.position(this.getPopupRootNode());
+				if (pos.x === 0) {
+					console.debug('_DropDown.teleportToBody() > Position is bad, try agound')
+					this.hideDropDown()
+					return false
+				}
 
-				if(this.arrowPosition){
-					if(!this.arrow){
+				if (!this.popupPos || forceUpdatePosition){
+					this.popupPos = domGeom.position(this.popup);
+				}
+
+				var h = win.getBox().h;
+
+
+
+				if(pos.y > h * 0.667){
+					this.popup.style.top = pos.y - (this.popupPos.h - pos.h) + "px"
+				} else if (pos.y > h* 0.33){
+					this.popup.style.top = pos.y - (this.popupPos.h / 2) + "px"
+				} else {
+					this.popup.style.top = pos.y + "px"
+				}
+				console.debug('repositon', pos.y, h, this.popupPos.h, "=", this.popup.style.top,  pos.y - (this.popupPos.h - pos.h), forceUpdatePosition)
+
+				this.popup.style.bottom = "auto";
+				this.popup.style.left = pos.x - this.popupPos.w -this.arrowSize+ "px";
+				return true
+			},
+
+			renderArrow () {
+				if (this.arrowPosition) {
+
+					if (!this.arrow) {
 						this.arrow = document.createElement("div");
 						css.add(this.arrow, "MatcToolbarPopUpArrowCntr");
-
 						var triangle = document.createElement("div");
 						css.add(triangle, "MatcToolbarPopUpArrow");
 						this.arrow.appendChild(triangle);
-
 						this.popup.appendChild(this.arrow);
 					}
 
-					if(this.reposition){
+					if (this.reposition) {
 						var pos = domGeom.position(this.getPopupRootNode());
 						var popupPos = domGeom.position(this.popup);
 						var y = Math.round(pos.y - popupPos.y +((pos.h-this.arrowSize)/2));
@@ -282,7 +260,7 @@ export default {
 					//this.logger.sendError(e);
 				}
 				try {
-					if(this._popupAtBody && this.popup){
+					if (this._popupAtBody && this.popup){
 						win.body().removeChild(this.popup);
 						this.domNode.appendChild(this.popup);
 					}

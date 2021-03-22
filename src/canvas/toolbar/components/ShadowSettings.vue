@@ -1,11 +1,13 @@
 
 <template>
-    <div class="MatcToolbarPopUpContainer" role="menu" data-dojo-attach-point="ctnr" @keydown.stop="" @keypress.stop="" @keyup.stop="">
-        <div class=" MatcToolbarTabs">
-          <a :class="{'MatcToolbarTabActive' : tab === 'position'}" @mousedown.stop="setTab('position')">Postion</a>
-          <a :class="{'MatcToolbarTabActive' : tab === 'color'}" @mousedown.stop="setTab('color')">Color</a>
+    <div class="MatcToolbarPopUpContainer " role="menu" data-dojo-attach-point="ctnr" @keydown.stop="" @keypress.stop="" @keyup.stop="">
+        <div class=" MatcToolbarTabContainer">
+          <div class=" MatcToolbarTabs">
+            <a :class="{'MatcToolbarTabActive' : tab === 'position'}" @mousedown.stop="setTab('position')">Postion</a>
+            <a :class="{'MatcToolbarTabActive' : tab === 'color'}" @mousedown.stop="setTab('color')">Color</a>
+          </div>
         </div>
-        <div v-show="tab === 'position'" >
+        <div v-show="tab === 'position'" class="MatcShadowSettings">
             <div ref="hSliderCntr" class="MatcBoxShadowSliderCntr">
               <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">X</span>
             </div>

@@ -24,6 +24,10 @@
   width: 320px;
 }
 
+.MatcShadowSettings{
+  padding: 8px;
+}
+
 .MatcBoxShadowSliderCntr {
   display: flex;
   align-items: center;
@@ -44,7 +48,7 @@
 }
 
 .MatcBoxShadowSliderCntr .MatcToolbarSlider .MatcToolbarSliderCntr{
-  width: 180px;
+  width: 160px;
 }
 
 .MatcBoxShadowSliderCntr .MatcToolbarSlider .VommondSliderContainer{

@@ -112,6 +112,8 @@
 	width:230px;
 }
 
+
+
 .MatcDesignTokenListPopup .MatcToolbarDropDownButton,
 .MatcDesignTokenListPopup .MatcToolbarToggleButton {
 	border: 1px solid transparent;
@@ -132,6 +134,15 @@
 .MatcDesignTokenListPopupSection {
 	border-bottom: 1px solid #ddd;
 	padding: 8px;
+}
+
+.MatcDesignTokenListPopupSection.MatcDesignTokenListPopupPadding {
+	padding: 8px 18px;
+}
+
+
+.MatcDesignTokenListPopupSection.MatcDesignTokenListPopupPadding .MatcToolbarTabs a {
+	padding: 5px;
 }
 
 .MatcDesignTokenListPopupButtonBar{

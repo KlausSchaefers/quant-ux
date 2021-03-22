@@ -317,6 +317,9 @@ export default {
 		setCanvasViewMode (mode) {
 			this.logger.log(-1,"setCanvasViewMode", "entry > " + mode);
 			this.canvasViewMode = mode
+			if (this.canvas) {
+				this.canvas.setViewMode(mode)
+			}
 			this.updatePropertiesView()
 		},
 

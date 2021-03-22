@@ -1,7 +1,7 @@
 
 <template>
     <div class="MatcDesignTokenList"  @mousedown.stop="" >
-        <div :class="[']MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible}]">
+        <div :class="['MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible}]">
             <div class=" MatcToolbarSectionLabel"></div>
 
               <div class=" MatcToolbarSectionContent" v-show="colorTokens.length > 0">
@@ -54,6 +54,12 @@
             <div class="MatcDesignTokenListPopupSection " v-show="selectedDesignToken && selectedDesignToken.type === 'text'">
               <TextProperties ref="textSettings" @resize="onResize" @change="onChangeText" @toggle="onToggleText" :isChildDropDown="true"/>
             </div>
+            <div class="MatcDesignTokenListPopupSection MatcDesignTokenListPopupPadding" v-show="selectedDesignToken && selectedDesignToken.type === 'stroke'">
+              <BoxBorder ref="borderSettings" @resize="onResize" @change="onBorderChange" :isChildDropDown="true"/>
+            </div>
+            <div class="MatcDesignTokenListPopupSection MatcDesignTokenListPopupPadding" v-show="selectedDesignToken && selectedDesignToken.type === 'padding'">
+              <BoxPadding ref="paddingSettings" @resize="onResize" @change="onPaddingChange" :isChildDropDown="true"/>
+            </div>
              <div class="MatcDesignTokenListPopupSection">
                <a class="MatcButton" @click="onSave">Save</a>    <a class="MatcLinkButton" @click="onCancel">Cancel</a>
             </div>
@@ -68,7 +74,10 @@ import ShadowSettings from './ShadowSettings'
 import _DropDown from './_DropDown'
 import lang from 'dojo/_base/lang'
 import ColorPickerSketch from 'common/ColorPickerSketch'
+import Logger from 'common/Logger'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
+import BoxBorder from 'canvas/toolbar/components/BoxBorder'
+import BoxPadding from 'canvas/toolbar/components/BoxPadding'
 import css from 'dojo/css'
 //import Input from '../../../common/Input.vue'
 
@@ -97,7 +106,9 @@ export default {
       'DesignTokenPreview': DesignTokenPreview,
       'ShadowSettings': ShadowSettings,
       'ColorPickerSketch': ColorPickerSketch,
-      'TextProperties': TextProperties
+      'TextProperties': TextProperties,
+      'BoxBorder': BoxBorder,
+      'BoxPadding': BoxPadding
     },
     computed: {
 
@@ -190,22 +201,38 @@ export default {
       },
 
       onChangeColor (c) {
-        console.debug('onChangeColor', c)
+        this.logger.log(-1, 'onChangeColor', 'enter', c)
         this.selectedDesignToken.value = c
       },
 
       onChangeShadow (c) {
-        console.debug('onChangeShadow', c)
+        this.logger.log(-1, 'onChangeShadow', 'enter', c)
         this.selectedDesignToken.value = c
       },
 
+      onBorderChange (c) {
+        this.logger.log(-1, 'onBorderChange', 'enter', c)
+        for (let key in c) {
+          this.selectedDesignToken.value[key] = c[key]
+        }
+        this.$refs.borderSettings.setValue(this.selectedDesignToken.value)
+      },
+
+      onPaddingChange (c) {
+        this.logger.log(-1, 'onPaddingChange', 'enter', c)
+        for (let key in c) {
+          this.selectedDesignToken.value[key] = c[key]
+        }
+        this.$refs.paddingSettings.setValue(this.selectedDesignToken.value)
+      },
+
       onChangeText (key, value) {
-        console.debug('onChangeColor', key, value)
+        this.logger.log(-1, 'onChangeText', 'enter', key, value)
         this.selectedDesignToken.value[key] = value
       },
 
       onToggleText (key, value) {
-        console.debug('onToggleText', key, value)
+        this.logger.log(-1, 'onToggleText', 'enter', key, value)
         let style = this.selectedDesignToken.value
         if(style && (style[key] == null || style[key] != value)){
           style[key] = value
@@ -215,18 +242,17 @@ export default {
       },
 
       onCanvasClick (id, type, e) {
-        console.debug('onCanvasClick() keep open',e)
         if (!e || !e.isChildDropDown) {
           this.hideDropDown(id, type);
         }
       },
 
       onHide () {
-        console.debug('onHide', this.selectedDesignToken)
       },
 
       onSave () {
 
+        this.hideDropDown()
       },
 
       onCancel () {
@@ -237,10 +263,15 @@ export default {
         this.updatePosition()
       },
 
-      onEdit(designtoken, node) {
-        console.debug('onEdit', designtoken, node)
+      onEdit(designtoken, node, e) {
+        this.logger.log(-1, 'onEdit', 'enter', designtoken)
+
         this.hideDropDown();
-        css.remove(this.popup, 'MatcDesignTokenListPopupText')
+        if (designtoken.type === 'text' || designtoken.type === 'stroke' || designtoken.type === 'padding') {
+          css.add(this.popup, 'MatcDesignTokenListPopupText')
+        } else {
+          css.remove(this.popup, 'MatcDesignTokenListPopupText')
+        }
 
         this.popupRootNode = node
         this.selectedDesignToken = lang.clone(designtoken)
@@ -250,7 +281,7 @@ export default {
         }
 
         if (this.selectedDesignToken.type === 'text') {
-          css.add(this.popup, 'MatcDesignTokenListPopupText')
+
           this.$refs.textSettings.setValue(this.selectedDesignToken.value)
         }
 
@@ -258,10 +289,19 @@ export default {
           this.$refs.boxShadowSettings.setValue(this.selectedDesignToken.value)
         }
 
-        this.showDropDown()
+        if (this.selectedDesignToken.type === 'stroke') {
+          this.$refs.borderSettings.setModel(this.model)
+          this.$refs.borderSettings.setValue(this.selectedDesignToken.value)
+        }
 
+        if (this.selectedDesignToken.type === 'padding') {
+          this.$refs.paddingSettings.setValue(this.selectedDesignToken.value)
+        }
 
-
+        /**
+         * This is still super buggy!
+         */
+        this.$nextTick(() => this.showDropDown(e, true))
 
       },
 
@@ -277,6 +317,7 @@ export default {
 
     },
     mounted () {
+      this.logger = new Logger('DesignTokenList')
     }
 }
 

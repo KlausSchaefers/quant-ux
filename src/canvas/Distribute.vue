@@ -11,6 +11,7 @@ export default {
     data: function () {
         return {
             resizeButtonSize: 3,
+            prototypingButtonSize: 5,
             resizeBorder: 2,
             resizeEnabled: true
         }

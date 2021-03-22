@@ -34,49 +34,45 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate() {
       if (this.wire) {
         this.wireEvents();
       }
     },
 
-    wireEvents: function() {
-      this.own(
-        this.addTouchStart(this.domNode, lang.hitch(this, "onDomPress"))
-      );
-      this.own(
-        this.addTouchStart(this.hndl, lang.hitch(this, "onHandlePress"))
-      );
+    wireEvents () {
+      this.own(this.addTouchStart(this.domNode, lang.hitch(this, "onDomPress")));
+      this.own(this.addTouchStart(this.hndl, lang.hitch(this, "onHandlePress")));
     },
 
-    startup: function() {
+    startup () {
       this.init();
     },
 
-    setMax: function(m) {
+    setMax (m) {
       this.max = m * 1;
     },
 
-    setCenter: function(c) {
+    setCenter (c) {
       this.center = c;
     },
 
-    setMin: function(m) {
+    setMin (m) {
       this.min = m * 1;
     },
 
-    setLegend: function(l) {
+    setLegend (l) {
       this.legend = l * 1;
     },
 
     /**
      * Marks indicate some part on the slider, this is use full for the video player
      */
-    setMarks: function(marks) {
+    setMarks (marks) {
       this.marks = marks;
     },
 
-    placeAt: function(node) {
+    placeAt (node) {
       if (node && node.toLowerCase) {
         node = document.getElementById(node);
       }
@@ -84,7 +80,7 @@ export default {
       this.init();
     },
 
-    init: function(p) {
+    init (p) {
       if (p) {
         console.error('init called with pos???', new Error().stack)
       }
@@ -97,20 +93,20 @@ export default {
       this.setValue(this.value)
     },
 
-    getWidth: function() {
+    getWidth () {
       if (this._width) {
         return this._width;
       }
       return domGeom.position(this.domNode).w;
     },
 
-    onDomPress: function(e) {
+    onDomPress (e) {
       this.stopEvent(e);
       this.onClick(e);
       this.emit("click", this._value, e);
     },
 
-    onHandlePress: function(e) {
+    onHandlePress (e) {
       this.stopEvent(e);
       this.cleanup();
       this._touchMoveListner = this.addTouchMove(win.body(), lang.hitch(this, "onHandleMove"));
@@ -120,18 +116,18 @@ export default {
       this.onClick(e);
     },
 
-    onHandleMove: function(e) {
+    onHandleMove (e) {
       this.stopEvent(e);
       this.onClick(e);
     },
 
-    onHandleRelease: function(e) {
+    onHandleRelease (e) {
       this.stopEvent(e);
       this.cleanup();
       this.emit("release", e, this._value);
     },
 
-    cleanup: function() {
+    cleanup () {
       if (this._touchMoveListner) {
         this._touchMoveListner.remove();
       }
@@ -143,7 +139,7 @@ export default {
       css.remove(this.domNode, "VommondSliderMoving");
     },
 
-    onClick: function(e) {
+    onClick (e) {
       var mPos = this._getMousePosition(e);
       var pos = domGeom.position(this.domNode);
 
@@ -163,29 +159,31 @@ export default {
       this.emit("change", w, e);
     },
 
-    setValue: function(value) {
+    setValue (value) {
       value = Math.min(this.max, Math.max(this.min, value));
 
       var s = this.max - this.min;
       var p = Math.abs((value - this.min) / s);
-      var w = this.getWidth();
-      this.hndl.style.left = p * w - this.hndlWidth + "px";
+      let w = 100
+      let unit = '%'
+
+      this.hndl.style.left = p * w - this.hndlWidth + unit;
       if (this.center) {
         if (value >= 0) {
-          this.bar.style.left = 0.5 * w + "px";
-          this.bar.style.width = (p - 0.5) * w + "px";
+          this.bar.style.left = 0.5 * w + unit;
+          this.bar.style.width = (p - 0.5) * w + unit;
         } else {
-          this.bar.style.left = p * w + "px";
-          this.bar.style.width = (0.5 - p) * w + "px";
+          this.bar.style.left = p * w + unit;
+          this.bar.style.width = (0.5 - p) * w + unit;
         }
       } else {
-        this.bar.style.width = p * w + "px";
+        this.bar.style.width = p * w + unit;
       }
 
       this._value = value;
     },
 
-    getValue: function() {
+    getValue () {
       return this._value;
     }
   },

@@ -19,7 +19,7 @@
 
       <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
 
-      <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true">
+      <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true" ref="editBtn">
   			  <span class="mdi mdi-cogs" />
       </span>
 

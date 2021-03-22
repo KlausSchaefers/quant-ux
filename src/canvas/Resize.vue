@@ -92,6 +92,9 @@ export default {
           this._renderResizeLine("Down");
         }
 
+        if (this.hasPrototypingView) {
+          this._renderPrototypingHandler('Link', (this.prototypingButtonSize * 2), parent, id, modelType);
+        }
 
         this._selectedParent = parent;
         this._resizeHandlerBox = box;
@@ -100,6 +103,17 @@ export default {
         this._updateResizeHandlers(box);
 
         return parent;
+      },
+
+      _renderPrototypingHandler (type, l, parent, id, modelType){
+        var div = document.createElement("div");
+        div.style.width = l + "px";
+        div.style.height = l + "px";
+        css.add(div, "MatcResizeHandle MatcPrototypingHandle ");
+        this._addSizeHandlerTouch(div);
+        this.dndContainer.appendChild(div);
+        this.handlers[type] = div;
+        this.registerPrototypingHandler(div, parent, id, type, modelType);
       },
 
       _renderResizeHandler (type, l, parent, id, modelType){
@@ -179,6 +193,11 @@ export default {
             this.handlers['South'].style.left = (box.x + box.w/2)+ (-1* this.resizeButtonSize)+ "px";
           }
 
+          if (this.handlers['Link']) {
+            this.handlers['Link'].style.top = box.y +(box.h/2) + (-1* this.prototypingButtonSize) + "px";
+            this.handlers['Link'].style.left = (box.x + box.w)+ (-1* this.prototypingButtonSize)+ "px";
+          }
+
           if (this.updateCustomHandlers) {
             this.updateCustomHandlers(box)
           }
@@ -235,6 +254,17 @@ export default {
           this._resizeHandleListeners = [];
         }
         var listener = on(div,"mousedown", lang.hitch(this,"onResizeDnDStart", div,parent, id, type, modelType));
+        this._resizeHandleListeners.push(listener);
+      },
+
+      registerPrototypingHandler (div){
+        if(!this._resizeHandleListeners){
+          this._resizeHandleListeners = [];
+        }
+        var listener = on(div,"mousedown", (e) => {
+           this.stopEvent(e)
+           this.addLineAtSelected(e)
+        });
         this._resizeHandleListeners.push(listener);
       },
 

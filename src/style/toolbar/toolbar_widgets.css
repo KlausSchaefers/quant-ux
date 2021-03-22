@@ -478,8 +478,6 @@
 	transition-property: border-color;
 }
 
-
-
 .MatcBoxBorder input{
 	width: 40px;
 	position: absolute;
@@ -493,6 +491,12 @@
 
 .MatcBoxBorder .MatcToolbarItem .mdi{
 	cursor: pointer;
+}
+
+.MatcBoxBorder .MatcDesignTokenMixin {
+	position: absolute;
+		width: 40px;
+	height:24px;
 }
 
 .MatcBoxBorder .MatcToolbarColor,
@@ -553,19 +557,19 @@
 
 .MatcBorderStyleSolid{
 	border-top:3px solid #ddd;
-	width: 100;
+	width: 30px;
 	height: 1px;
 }
 
 .MatcBorderStyleDashed{
 	border-top:3px dashed #ddd;
-	width: 100;
+	width: 30px;
 	height: 1px;
 }
 
 .MatcBorderStyleDotted{
 	border-top:3px dotted #ddd;
-	width: 100;
+	width: 30px;
 	height: 1px;
 }
 
