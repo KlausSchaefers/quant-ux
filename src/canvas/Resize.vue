@@ -7,6 +7,7 @@ import css from 'dojo/css'
 import topic from 'dojo/topic'
 import CoreUtil from 'core/CoreUtil'
 import ModelResizer from 'core/ModelResizer'
+import ModelUtil from 'core/ModelUtil'
 
 export default {
     name: 'Resize',
@@ -106,6 +107,20 @@ export default {
       },
 
       _renderPrototypingHandler (type, l, parent, id, modelType){
+
+        /**
+         * Do not show the lines for
+         */
+        if (modelType === 'widget') {
+          let widget = this.model.widgets[id]
+          if (!ModelUtil.isLogicWidget(widget)) {
+					  let lines = this.getFromLines(this._selectWidget)
+						if (lines.length > 0) {
+              return
+            }
+          }
+        }
+
         var div = document.createElement("div");
         div.style.width = l + "px";
         div.style.height = l + "px";

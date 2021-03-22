@@ -420,8 +420,8 @@
 .MatcWidgetTypeStepperLabel{
 	position: absolute;
 	top:50%;
-	transform: translateY(-50%);
-	-webkit-transform: translateY(-50%);
+	transform: translateY(-55%);
+	-webkit-transform: translateY(-55%);
 	width: 100%;
 }
 

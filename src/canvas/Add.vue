@@ -3,6 +3,7 @@ import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import win from 'dojo/_base/win'
+import ModelUtil from 'core/ModelUtil'
 
 export default {
     name: 'Add',
@@ -350,6 +351,20 @@ export default {
 			addLineAtSelected () {
 				this.logger.log(-1,"addLineAtSelected", "enter");
 				if (this._selectWidget && this._lastMouseMoveEvent) {
+
+					/**
+					 * Check if there is a line
+					 */
+          if (!ModelUtil.isLogicWidget(this._selectWidget)) {
+							let lines = this.getFromLines(this._selectWidget)
+							if (lines.length > 0) {
+								this.logger.log(-1,"addLineAtSelected", "EXIT because line exists");
+								this.showError('The widget has already a link')
+								return
+							}
+					}
+
+
           this.addLine({
 						from : this._selectWidget.id,
 						event:this._lastMouseMoveEvent
@@ -456,6 +471,7 @@ export default {
 				}
 
 				this._addLineStartPos = this._getMousePosition(e);
+				this._addLineStartId = id
 				this._addLineModel = line;
 				this._addLinePoints=[];
 				this._addLineIsPaused = false;
@@ -491,15 +507,15 @@ export default {
 			onLineEndSelected (id, e){
 				this.logger.log(0,"onLineEndSelected", "enter > "+ id);
 				/**
-				 * check if we clicked on a screen or widegt
+				 * check if we clicked on a screen or widget
 				 */
 				var screen = this.model.screens[id];
-				if(!screen){
+				if (!screen){
 					let widget = this.model.widgets[id];
 					screen = this.getParentScreen(widget);
 				}
 
-				if(screen){
+				if (screen) {
 					let model = this._addLineModel;
 					model.to = screen.id;
 					this.controller.addLine(model,e);
@@ -561,7 +577,19 @@ export default {
 				 */
 				var screen = this.getHoverScreen(to);
 				if(screen){
-					to = screen;
+					/**
+					 * Do not snapp to same screen
+					 */
+					let startWidget = this.model.widgets[this._addLineStartId]
+					if (startWidget) {
+						let startParent = this.getParentScreen(startWidget);
+						if (!startParent || startParent.id !== screen.id) {
+							to = screen;
+						}
+					} else {
+						to = screen;
+					}
+
 				} else {
 					if (this._addLineActionTargets) {
 						for (let i=0; i < this._addLineActionTargets.length; i++) {
@@ -751,6 +779,7 @@ export default {
 				this._addNDropClickCallback=null;
 				this._addMDropModel = null;
 				this._addNDropNewPos = null;
+				this._addLineStartId = null
 				this._addLineSVG = null;
 				delete this._addNDropModel;
 

@@ -18,6 +18,7 @@ export default {
 			initWiring() {
 				this.logger.log(-1,"initWiring", "enter");
 				this.own(on(this.dndContainer, "mousedown", (e) => this.dispatchMouseDown(e)));
+				//this.own(on(this.dndContainer, "mouseup", (e) => this.dispatchMouseUp(e)));
 				this.own(on(this.dndContainer, touch.over, (e) => this.dispatchOver(e)));
 				this.own(on(this.dndContainer, touch.out, (e) => this.dispatchOut(e)));
 				this.own(on(this.dndContainer, 'dblclick', (e) => this.disPatchDoubleClick(e)));
@@ -73,6 +74,18 @@ export default {
 						return
 					}
 					return
+				}
+			},
+
+			dispatchMouseUp (e) {
+				let target = e.target
+				if( this.mode == "addLine") {
+					if (target._widgetID) {
+						this.onLineEndSelected(target._widgetID, e)
+					}
+						if (target._screenID) {
+						this.onLineEndSelected(target._screenID, e)
+					}
 				}
 			},
 

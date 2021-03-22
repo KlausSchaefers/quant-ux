@@ -20,27 +20,17 @@
 - Layerlist shoul dbe one big tree... also selecting a screen should
 - Actions could have ScreenContaoner as target!
 - LayerList open should have effect on Scroll
+
+## Prototyping view:
+- make sure we do not get double lines
+- mouse up shoudl trigger end
+
+
 ## Design Token
 - Make model better with specila keys like _color, _background and a flag
-- Think about border? Figma does just the color? Where would I put in this case the slider?
-- labels should have text shadow as an effect in the same box as the box shadow
-- Show List
-- unlink
-- link
-- templates
-  - hide for templates!!!
-
-
- - live update when changing?
- - How to show?
-  - Color -> have special popup
-  - Text hide block and show name
-
 - undo has issues with textshadow etc. I assume it is because the new value is null...
 - undo does not work when changing. we should add old token
 
-- Multi Selection????
-- split toolbar color in design section and picker???
 
 ## Template to Cpmponents
  - show in LayerList differen symbol. Mark also the source component!

@@ -98,6 +98,9 @@ export default {
 						if(this.hasLogic(to)){
 							icon = "MatcToolbarIconAddLogic mdi mdi-checkbox-blank"
 						}
+						if(this.hasRest(to)){
+							icon = "MatcToolbarIconAddLogic mdi mdi-cloud"
+						}
 						let item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr").build(parent);
 						db.span(icon + " MatcToolbarSmallIcon").build(item);
 						db.span("MatcToolbarItemLabel", to.name).build(item);
@@ -210,6 +213,10 @@ export default {
 			var icon = "mdi mdi-link-variant"; //this.getAppTypeIcon(this.model);
 			if(this.hasLogic(to)){
 				icon = "MatcToolbarIconAddLogic mdi mdi-checkbox-blank"
+			}
+
+			if(this.hasRest(to)){
+				icon = " mdi mdi-cloud"
 			}
 
 			var item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr").build(parent);

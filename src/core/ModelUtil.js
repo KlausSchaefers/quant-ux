@@ -31,6 +31,10 @@ class ModelUtil {
         ].map(t => 'dt-' + t)
     }
 
+    isLogicWidget (widget) {
+        return widget && (widget.type === 'LogicOr' || widget.type === "Rest")
+    }
+
     inlineModelDesignTokens (model) {
         /**
          * This is quite costly. Can we do this smarter? Maybe we could do it in the
