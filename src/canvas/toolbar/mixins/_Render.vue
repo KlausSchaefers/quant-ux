@@ -1026,7 +1026,7 @@ export default {
 
 			},
 
-			_renderWidgetText (cssProps = ['fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight', 'fontStyle', 'verticalAlign', 'fontWeight', 'textDecoration']){
+			_renderWidgetText (cssProps = ['fontSize', 'fontWeight', 'fontFamily', 'textAlign', 'letterSpacing', 'lineHeight', 'fontStyle', 'verticalAlign', 'fontWeight', 'textDecoration', 'textShadow']){
 
 
 				this.designTokenText = this.createDesignTokenBtn('text', cssProps)

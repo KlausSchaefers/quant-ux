@@ -35,7 +35,7 @@ export default {
           model: null,
           icons: {
             color: 'mdi mdi-water',
-            text: 'mdi mdi-format-size',
+            text: 'mdi mdi-format-text-variant',
             padding: 'mdi mdi-select-all',
             stroke: 'mdi mdi-border-all-variant',
             boxShadow: 'mdi mdi-blur', //'mdi mdi-box-shadow',

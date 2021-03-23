@@ -1,6 +1,6 @@
 
 <template>
-     <div class="MatcToolbarSlider">
+     <div class="MatcToolbarSlider" @mousedown.stop="">
 		<div class="MatcToolbarSliderCntr MatcBoxShadowSlider" data-dojo-attach-point="cntr">
 		</div>
 		<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit" data-dojo-attach-point="input"/>
@@ -27,11 +27,11 @@ export default {
     },
     components: {},
     methods: {
-    postCreate: function(){
+    postCreate (){
 			this.own(on( this.input, this.inputEvent, lang.hitch(this,"onChangeInput")));
 		},
 
-		render:function(){
+		render (){
 			this.slider = this.$new(HSlider);
 			this.slider.max = this.max;
 			this.slider.min = this.min;
@@ -40,18 +40,18 @@ export default {
 			this.own(on( this.slider, "change", lang.hitch(this,"onMoveSlider")));
 			this.own(on( this.slider, "click", lang.hitch(this,"onClickSlider")));
 			this.own(on( this.slider, "release", lang.hitch(this,"onChangeSlider")));
-			this.own(on( this.input, "focus", lang.hitch(this,"focusInput")));
+			this.own(on( this.input, "focus", lang.hitch(this,"selectInput")));
 		},
 
-		focusInput () {
+		selectInput () {
 			this.input.select()
 		},
 
-		isDirty:function(){
+		isDirty (){
 			return this._dirty;
 		},
 
-		onChangeInput: function(){
+		onChangeInput (){
 			if (this.isValid(this.input.value)){
 				if (this.input.value != this.value){
 					this.setValue(this.input.value);
@@ -62,21 +62,29 @@ export default {
 			}
 		},
 
-		onMoveSlider:function(){
+		onMoveSlider (){
 			this.setValue(this.slider.getValue());
 			this.emit("changing", this.value);
+			this.focusInput()
 		},
 
-		onChangeSlider:function(){
+		onChangeSlider (){
 			if (this.slider != this.slider.getValue()){
 				this.setValue(this.slider.getValue());
 				this.emit("change", this.value);
+				this.focusInput()
 			}
 		},
 
-		onClickSlider:function(){
+		onClickSlider (){
 			this.setValue(this.slider.getValue());
 			this.emit("change", this.value);
+			this.focusInput()
+		},
+
+		focusInput () {
+			this.input.select()
+			this.input.focus()
 		},
 
 		setValue (v){

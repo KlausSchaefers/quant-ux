@@ -47,13 +47,13 @@
                <input class="MatcIgnoreOnKeyPress MatcDesignTokenListInput " v-model="selectedDesignToken.name"/>
             </div>
             <div class="MatcDesignTokenListPopupSection" v-show="selectedDesignToken && selectedDesignToken.type === 'boxShadow'">
-              <ShadowSettings ref="boxShadowSettings" @resize="onResize"  @change="onChangeShadow"/>
+              <ShadowSettings ref="boxShadowSettings" @resize="onResize"  @change="onChangeShadow" @changing="onChangeShadow"/>
             </div>
             <div class="MatcDesignTokenListPopupSection" v-show="selectedDesignToken && selectedDesignToken.type === 'color'">
               <ColorPickerSketch ref="colorSettings" @resize="onResize" @change="onChangeColor"/>
             </div>
             <div class="MatcDesignTokenListPopupSection " v-show="selectedDesignToken && selectedDesignToken.type === 'text'">
-              <TextProperties ref="textSettings" @resize="onResize" @change="onChangeText" @toggle="onToggleText" :isChildDropDown="true"/>
+              <TextProperties ref="textSettings" @resize="onResize" @change="onChangeText" @toggle="onToggleText" @changing="onChangeText" :isChildDropDown="true"/>
             </div>
             <div class="MatcDesignTokenListPopupSection MatcDesignTokenListPopupPadding" v-show="selectedDesignToken && selectedDesignToken.type === 'stroke'">
               <BoxBorder ref="borderSettings" @resize="onResize" @change="onBorderChange" :isChildDropDown="true"/>

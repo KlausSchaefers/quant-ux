@@ -43,6 +43,14 @@
   border: 1px solid transparent
 }
 
+.MatcBoxShadowSliderCntr input.MatcToobarInlineEdit:hover {
+  border: 1px solid #ddd;
+}
+
+.MatcBoxShadowSliderCntr input.MatcToobarInlineEdit:focus{
+  border: 1px solid #ddd;
+}
+
 .MatcBoxShadowSliderCntr .MatcToolbarSlider {
   width: 250px;
 }
