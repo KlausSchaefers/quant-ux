@@ -1,40 +1,41 @@
 
 <template>
     <div class="MatcDesignTokenList"  @mousedown.stop="" >
-        <div :class="['MatcToolbarSection', {'MatcToolbarSectionCollabsed' : !visible}]">
-            <div class=" MatcToolbarSectionLabel"></div>
+        <div>
 
-              <div class=" MatcToolbarSectionContent" v-show="colorTokens.length > 0">
+
+              <div class=" MatcDesignTokenListSection" v-show="colorTokens.length > 0">
                   <label>Color Styles</label>
                   <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in colorTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
               </div>
 
 
-              <div class=" MatcToolbarSectionContent" v-show="textTokens.length > 0">
+              <div class=" MatcDesignTokenListSection" v-show="textTokens.length > 0">
                   <label>Text Styles</label>
                   <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in textTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
               </div>
 
 
-              <div class=" MatcToolbarSectionContent" v-show="strokeTokens.length > 0">
+              <div class=" MatcDesignTokenListSection" v-show="strokeTokens.length > 0">
                   <label>Border Styles</label>
                   <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
               </div>
 
 
-              <div class=" MatcToolbarSectionContent" v-show="shadowTokens.length > 0">
+              <div class=" MatcDesignTokenListSection" v-show="shadowTokens.length > 0">
                   <label>Shadow Styles</label>
                   <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
               </div>
 
 
-              <div class=" MatcToolbarSectionContent" v-show="paddingTokens.length > 0">
+              <div class=" MatcDesignTokenListSection" v-show="paddingTokens.length > 0">
                 <label>Padding Styles</label>
                 <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
             </div>
 
-             <div class=" MatcToolbarSectionContent" v-show="isEmpty">
-                  No tokens have been defined
+             <div class=" MatcDesignTokenListSection MatcToolbarItem" v-show="isEmpty" style="text-align:left; height:120px">
+                  No tokens have been defined yet. Select a widget and press one of the
+                  <span class="mdi mdi-dots-horizontal"></span> icon to create a design token.
 
             </div>
       </div>
@@ -201,17 +202,17 @@ export default {
       },
 
       onChangeColor (c) {
-        this.logger.log(-1, 'onChangeColor', 'enter', c)
+        this.logger.log(2, 'onChangeColor', 'enter', c)
         this.selectedDesignToken.value = c
       },
 
       onChangeShadow (c) {
-        this.logger.log(-1, 'onChangeShadow', 'enter', c)
+        this.logger.log(2, 'onChangeShadow', 'enter', c)
         this.selectedDesignToken.value = c
       },
 
       onBorderChange (c) {
-        this.logger.log(-1, 'onBorderChange', 'enter', c)
+        this.logger.log(2, 'onBorderChange', 'enter', c)
         for (let key in c) {
           this.selectedDesignToken.value[key] = c[key]
         }
@@ -219,7 +220,7 @@ export default {
       },
 
       onPaddingChange (c) {
-        this.logger.log(-1, 'onPaddingChange', 'enter', c)
+        this.logger.log(2, 'onPaddingChange', 'enter', c)
         for (let key in c) {
           this.selectedDesignToken.value[key] = c[key]
         }
@@ -227,12 +228,12 @@ export default {
       },
 
       onChangeText (key, value) {
-        this.logger.log(-1, 'onChangeText', 'enter', key, value)
+        this.logger.log(2, 'onChangeText', 'enter', key, value)
         this.selectedDesignToken.value[key] = value
       },
 
       onToggleText (key, value) {
-        this.logger.log(-1, 'onToggleText', 'enter', key, value)
+        this.logger.log(2, 'onToggleText', 'enter', key, value)
         let style = this.selectedDesignToken.value
         if(style && (style[key] == null || style[key] != value)){
           style[key] = value
@@ -322,33 +323,4 @@ export default {
       this.logger = new Logger('DesignTokenList')
     }
 }
-
-/**
- *
-      getPopupRootNode () {
-				return this.popupRootNode
-			},
-
-      postCreate () {
-
-			},
-
-      onVisible (){
-        console.debug('onVisible')
-        this.tempValue = false
-
-			},
-
-      onHide () {
-        console.debug('onHide')
-
-      },
-
-      init (){
-        console.debug('init')
-
-
-			},
-
- */
 </script>

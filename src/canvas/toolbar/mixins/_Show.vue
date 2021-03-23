@@ -271,6 +271,7 @@ export default {
 				css.add(this.validationDiv, "MatcToolbarSectionHidden");
 				css.add(this.backgroundColorDiv, "MatcToolbarSectionHidden");
 				css.add(this.designTokenDiv, "MatcToolbarSectionHidden")
+				css.add(this.designTokenDownloadDiv, "MatcToolbarSectionHidden")
 				css.add(this.imageWidgetDiv, "MatcToolbarSectionHidden")
 
 				css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")

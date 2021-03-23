@@ -347,11 +347,149 @@ export default class Templates extends BaseController{
 		 * update Template
 		 **********************************************************************/
 
+		 unlinkTemplate (id) {
+				this.logger.log(0,"unlinkTemplate", "enter > ");
+
+				if (!this.model.widgets[id]) {
+					this.logger.log(0,"unlinkTemplate", "No widhget > ", id);
+					return
+				}
+
+				if (!this.model.templates) {
+					this.logger.log(0,"unlinkTemplate", "No templates  ");
+					return
+				}
+
+				let widget = this.model.widgets[id]
+				let template = this.model.templates[widget.template]
+				if (!template) {
+					this.logger.log(0,"unlinkTemplate", "No template with id  ", widget.template);
+					return
+				}
 
 
+				var command = {
+					timestamp : new Date().getTime(),
+					type : "UnlinkTemplate",
+					modelId: id,
+					templateId: template.id
+				};
 
+				this.modelUnlinkTemplate(id);
+				this.addCommand(command);
 
-		updateTemplateWidget (){
+				this.render()
+		 }
+
+		 modelUnlinkTemplate (id) {
+
+				if (!this.model.widgets[id]) {
+					this.logger.log(0,"modelUnlinkTemplate", "No widhget > ", id);
+					return
+				}
+
+				if (!this.model.templates) {
+					this.logger.log(0,"modelUnlinkTemplate", "No templates ");
+					return
+				}
+
+				let widget = this.model.widgets[id]
+				if (widget.template) {
+					let template = this.model.templates[widget.template]
+					if (template) {
+						if (template.style) {
+							let style = template.style
+							for (let key in style) {
+								widget.style[key] = style[key]
+							}
+						}
+
+						if (template.hover) {
+							let hover = template.hover
+							for (let key in hover) {
+								widget.hover[key] = hover[key]
+							}
+						}
+
+						if (template.focus) {
+							let focus = template.focus
+							for (let key in focus) {
+								widget.focus[key] = focus[key]
+							}
+						}
+
+						if (template.error) {
+							let error = template.error
+							for (let key in error) {
+								widget.error[key] = error[key]
+							}
+						}
+
+						if (template.active) {
+							let active = template.active
+							for (let key in active) {
+								widget.active[key] = active[key]
+							}
+						}
+					}
+				}
+				delete widget.template
+				this.onModelChanged([{type: 'widget', action:"change", id: id}])
+
+		 }
+
+		 modelLinkTemplate (id, templateId) {
+			this.logger.log(0,"modelLinkTemplate", "enter > ", id, templateId);
+
+			if (!this.model.widgets[id]) {
+				this.logger.log(0,"modelUnlinkTemplate", "No widhget > ", id);
+				return
+			}
+
+			if (!this.model.templates) {
+				this.logger.log(0,"modelUnlinkTemplate", "No templates ");
+				return
+			}
+
+			let template = this.model.templates[templateId]
+			if (!template) {
+				this.logger.log(0,"modelUnlinkTemplate", "No template with id > ", templateId);
+				return
+			}
+
+			let widget = this.model.widgets[id]
+			widget.template = template.id
+
+			widget.style = {};
+			if (widget.hover) {
+				widget.hover = {}
+			}
+			if (widget.error) {
+				widget.error = {}
+			}
+			if (widget.focus) {
+				widget.focus = {}
+			}
+			if (widget.active) {
+				widget.active = {}
+			}
 
 		}
+
+
+
+		undoUnlinkTemplate (command){
+			this.logger.log(0,"undoUnlinkTemplate", "enter > ");
+			this.modelLinkTemplate(command.modelId, command.templateId);
+			this.render();
+		}
+
+		redoUnlinkTemplate (command){
+			this.logger.log(0,"redoUnlinkTemplate", "enter > ");
+			this.modelUnlinkTemplate(command.modelId);
+			this.render();
+		}
+
+
+
 	}

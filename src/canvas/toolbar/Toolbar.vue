@@ -1046,9 +1046,11 @@ export default {
 		},
 
 		onToolRemoveTemplate (e) {
-			this.stopEvent(e);
 			this.logger.log(1,"onToolRemoveTemplate", "entry : " + this._selectedWidget);
-			//this.controller.updateTemplateStyle(this._selectedWidget.id);
+			this.stopEvent(e);
+			if (this._selectedWidget){
+				this.controller.unlinkTemplate(this._selectedWidget.id);
+			}
 		},
 
 		onToolUpdateTemplate (e) {

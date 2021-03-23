@@ -51,12 +51,21 @@ export default {
 			setScreen (screen) {
 				this.screen = screen;
 				delete this.selectedWidgetIDs
+				delete this.selectedDesignTokens
 			},
 
 			setWidgets (widgetIDs) {
 				this.logger.log(3, "setWidgets", "enter > " + widgetIDs)
 				this.selectedWidgetIDs = widgetIDs;
 				delete this.screen
+				delete this.selectedDesignTokens
+			},
+
+			setDesignTokens (designTokens) {
+				this.logger.log(3, "setDesignTokens", "enter > ")
+				this.selectedDesignTokens = designTokens;
+				delete this.screen
+				delete this.selectedWidgetIDs
 			},
 
 			download () {
@@ -98,6 +107,8 @@ export default {
 
 					this.generateScreen(this.model, this.screen.id, code, true)
 
+				} else if (this.selectedDesignTokens) {
+						this.generateDesignTokens(this.model, this.selectedDesignTokens, code, true)
 				} else {
 					code.setCSS(this.getWidgetCSS())
 				}
@@ -109,6 +120,28 @@ export default {
 				var d = new Dialog();
 				d.own(on(write, touch.press, lang.hitch(d,"close")));
 				d.popup(popup, this.domNode);
+			},
+
+			generateDesignTokens (model, designTokens, code) {
+					let result = this.getDesignTokenCss(designTokens)
+					code.setCSS(result)
+			},
+
+			getDesignTokenCss (designTokens) {
+				let result = ''
+				for (let id in designTokens) {
+					let token = designTokens[id]
+					result += `.${token.name} {\n`
+					if (token.isComplex) {
+						for (let key in token.value) {
+							result += `   ${key}: ${token.value[key]};\n`
+						}
+					} else {
+						result += `   color: ${token.value};\n`
+					}
+					result += `}\n\n`
+				}
+				return result
 			},
 
 			generateScreen (model, screenID, code, isResponsive) {

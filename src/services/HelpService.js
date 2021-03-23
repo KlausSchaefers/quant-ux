@@ -9,14 +9,19 @@ class HelpService  {
                     import(/* webpackChunkName: "help" */ 'help/en/master_screens.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/animations.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/imports.js'),
+
+
+                    import(/* webpackChunkName: "help" */ 'help/en/design_token.js'),
+
                     import(/* webpackChunkName: "help" */ 'help/en/logic_flows.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/ab_testing.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/form_validation.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/data_binding.js'),
-                    import(/* webpackChunkName: "help" */ 'help/en/design_system.js'),
+
                     import(/* webpackChunkName: "help" */ 'help/en/screen_segments.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/rest.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/other.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/design_system.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_intro.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_tasks.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_canvas.js'),

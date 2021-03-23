@@ -314,6 +314,7 @@ export default {
 				* render canavs
 				*/
 				this._renderDesignTokens()
+				this._renderDesignTokensDownload();
 
 				/**
 				* Hide everything
@@ -395,11 +396,16 @@ export default {
 
 			_renderDesignTokens () {
 
-				var parent = document.createElement("div");
+				var parent = this.createSection("Design Tokens");
+
+				var content = document.createElement("div");
+				css.add(content, "MatcToolbarSectionContent");
+				parent.appendChild(content);
+
 
 
 				this.designTokenList = this.$new(DesignTokenList)
-				this.designTokenList.placeAt(parent)
+				this.designTokenList.placeAt(content)
 				this.own(on(this.designTokenList, "change", lang.hitch(this, "changeDesignToken")));
 				this.own(on(this.designTokenList, "remove", lang.hitch(this, "removeDesignToken")));
 				this.designTokenList.setFontFamilies(this._getFontFamilies());
@@ -407,6 +413,27 @@ export default {
 
 				this.properties.appendChild(parent);
 				this.designTokenDiv = parent;
+			},
+
+
+			_renderDesignTokensDownload () {
+
+				var parent = this.createSection("Export");
+
+				var content = document.createElement("div");
+				css.add(content, "MatcToolbarSectionContent");
+				parent.appendChild(content);
+
+
+				this.designTokenExport = this.$new(CSSExporter);
+				this.designTokenExport.setHash(this.hash);
+				this.designTokenExport.setModel(this.model);
+				this.designTokenExport.placeAt(content);
+
+
+
+				this.properties.appendChild(parent);
+				this.designTokenDownloadDiv = parent;
 			},
 
 			/*****************************************************************************************************

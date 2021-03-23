@@ -14,7 +14,7 @@
             <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
         </li>
 
-        <!-- add hre list and filter -->
+        <!-- add here list and filter -->
         <ul class="MatcDesignTokenButtonPreviews" >
           <li v-for="designtoken in filteredTokens" :key="designtoken.id" @mousedown="onSelectToken(designtoken)">
             <DesignTokenPreview :designtoken="designtoken"/>
