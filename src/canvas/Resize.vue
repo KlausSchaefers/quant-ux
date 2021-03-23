@@ -108,16 +108,28 @@ export default {
 
       _renderPrototypingHandler (type, l, parent, id, modelType){
 
+        if (modelType === 'multi') {
+          return
+        }
+
         /**
          * Do not show the lines for
          */
         if (modelType === 'widget') {
           let widget = this.model.widgets[id]
           if (!ModelUtil.isLogicWidget(widget)) {
-					  let lines = this.getFromLines(this._selectWidget)
+					  let lines = this.getFromLines(widget)
 						if (lines.length > 0) {
               return
             }
+          }
+        }
+
+        if (modelType === 'group') {
+          let group = this.model.groups[id]
+          let lines = this.getFromLines(group)
+          if (lines.length > 0) {
+            return
           }
         }
 
@@ -278,7 +290,7 @@ export default {
         }
         var listener = on(div,"mousedown", (e) => {
            this.stopEvent(e)
-           this.addLineAtSelected(e)
+           this.addLineAtSelected(e, true)
         });
         this._resizeHandleListeners.push(listener);
       },

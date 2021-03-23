@@ -61,15 +61,16 @@ class ModelUtil {
         if (box && box.designtokens) {
             let designtokens = box.designtokens
             for (let state in designtokens) {
+                if (!box[state]) {
+                    box[state] = {}
+                }
                 let stateTokens = designtokens[state]
                 for (let cssProp in stateTokens) {
                     let designTokenId = stateTokens[cssProp]
                     let designToken = model.designtokens[designTokenId]
                     if (designToken) {
                         if (designToken.isComplex) {
-                            if (designToken.value[cssProp]) {
-                                box[state][cssProp] = designToken.value[cssProp]
-                            }
+                            box[state][cssProp] = designToken.value[cssProp]
                         } else {
                             box[state][cssProp] = designToken.value
                         }

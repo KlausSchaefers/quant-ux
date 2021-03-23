@@ -383,6 +383,8 @@ export default class CopyPaste extends Group{
 		var from = this.getBoxById(source);
 		var to = this.getBoxById(target);
 
+		console.debug(from)
+
 		if(from && to){
 			var isSameType = from.type == to.type;
 
@@ -400,6 +402,8 @@ export default class CopyPaste extends Group{
 			var fromHover = from.hover;
 			var fromError = from.error;
 			var fromFocus = from.focus;
+
+			var fromDesigntokens = from.designtokens
 
 			/**
 			 * First copy props, than copy styles
@@ -482,6 +486,13 @@ export default class CopyPaste extends Group{
 				var focusCommand = this.createWidgetPropertiesCommand(target,focus,  "focus");
 				command.children.push(focusCommand);
 				this.modelWidgetPropertiesUpdate(target, focus, "focus");
+			}
+
+			if (fromDesigntokens) {
+				var designtokens = lang.clone(fromDesigntokens);
+				var designtokensCommand = this.createWidgetPropertiesCommand(target,designtokens,  "designtokens");
+				command.children.push(designtokensCommand);
+				this.modelWidgetPropertiesUpdate(target, designtokens, "designtokens");
 			}
 
 			this.addCommand(command);

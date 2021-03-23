@@ -251,7 +251,9 @@ export default {
       },
 
       onSave () {
-
+        if (this.selectedDesignToken) {
+          this.emit('change', this.selectedDesignToken)
+        }
         this.hideDropDown()
       },
 

@@ -193,9 +193,6 @@ export default {
 				}
 
 				var h = win.getBox().h;
-
-
-
 				if(pos.y > h * 0.667){
 					this.popup.style.top = pos.y - (this.popupPos.h - pos.h) + "px"
 				} else if (pos.y > h* 0.33){
@@ -203,7 +200,6 @@ export default {
 				} else {
 					this.popup.style.top = pos.y + "px"
 				}
-				console.debug('repositon', pos.y, h, this.popupPos.h, "=", this.popup.style.top,  pos.y - (this.popupPos.h - pos.h), forceUpdatePosition)
 
 				this.popup.style.bottom = "auto";
 				this.popup.style.left = pos.x - this.popupPos.w -this.arrowSize+ "px";

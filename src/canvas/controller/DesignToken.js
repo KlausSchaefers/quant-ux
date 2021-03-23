@@ -178,7 +178,8 @@ export default class DesignToken extends Widget{
 
 	undoUnlinkDesignToken (command) {
 		this.logger.log(-1,"undoUnlinkDesignToken", "enter > ", command);
-		//this.modelRemoveDesignToken(command.tokenId)
+		this.modelLinkDesignToken(command.modelId, command.tokenId, command.cssState, command.cssProps, command.modelType)
+		this.render();
 	}
 
 	redoUnlinkDesignToken (command) {
@@ -263,5 +264,73 @@ export default class DesignToken extends Widget{
 		this.logger.log(-1,"redoUnlinkDesignToken", "enter > ", command);
 		this.modelLinkDesignToken(command.modelId, command.tokenId, command.cssState, command.cssProps, command.modelType)
 		this.render();
+	}
+
+
+	/**********************************************************************
+	 * update design token
+	 **********************************************************************/
+
+
+	 updateDesignToken (id, name, value) {
+		this.logger.log(-1,"updateDesignToken", "enter > " + id, value);
+
+		if (!this.model.designtokens || !this.model.designtokens[id]) {
+			this.logger.warn("updateDesignToken", "NO Design tokens in model", id);
+			return
+		}
+
+		let token = this.model.designtokens[id]
+
+		/**
+		 * make command
+		 */
+		 var command = {
+			timestamp : new Date().getTime(),
+			type : "UpdateDesignToken",
+			modelId: id,
+			n: {
+				name: name,
+				value: value
+			},
+			o: {
+				name: token.name,
+				value: token.value
+			}
+		};
+
+		this.modelUpdateDesignToken(id, name, value)
+		this.addCommand(command);
+		this.render();
+
+		this.logger.log(-1,"updateDesignToken", "exit");
+	}
+
+
+	modelUpdateDesignToken (id, name, value) {
+
+		if (!this.model.designtokens || !this.model.designtokens[id]) {
+			this.logger.warn("modelUpdateDesignToken", "NO Design tokens in model", id);
+			return
+		}
+
+		let token = this.model.designtokens[id]
+		token.name = name
+		token.value = value
+
+		this.onModelChanged([{type: 'designtoken', action:'update', id: id}]);
+	}
+
+
+	undoUpdateDesignToken (command) {
+		this.logger.log(-1,"undoUpdateDesignToken", "enter > ", command);
+		this.modelUpdateDesignToken(command.modelId, command.o.name, command.o.value)
+		this.render()
+	}
+
+	redoUpdateDesignToken (command) {
+		this.logger.log(-1,"undoUpdateDesignToken", "enter > ", command);
+		this.modelUpdateDesignToken(command.modelId, command.n.name, command.n.value)
+		this.render()
 	}
 }

@@ -305,23 +305,22 @@ export default {
 
 		getEventTypes (line, isWidget, btn){
 
-			// || this.widget.type =="TextArea" does not make sense becaue we want multi line inout
-			if(this.widget && (this.widget.type =="TextBox" || this.widget.type =="Password" )){ //
+			if (this.widget && (this.widget.type == "TextBox" || this.widget.type == "Password" )){ //
 				return [
-		                {value:"click", label:"Click", icon:"mdi mdi-cursor-default"},
-		                {value:"KeyboardEnter" , label : "Keyboard Return", icon:"mdi mdi-keyboard-return"},
-		                {value:"KeyboardUp" , label : "Key Up", icon:"mdi mdi-arrow-expand-up"}
-			           ];
+					{value:"click", label:"Click", icon:"mdi mdi-cursor-default"},
+					{value:"KeyboardEnter" , label : "Keyboard Return", icon:"mdi mdi-keyboard-return"},
+					{value:"KeyboardUp" , label : "Key Up", icon:"mdi mdi-arrow-expand-up"}
+				]
 			}
 
 			var triggers =  [
-                {value:"click", label:"Click", icon:"mdi mdi-cursor-default"},
-                {value:"swipeLeft", label:"Left Swipe", icon:"mdi mdi-arrow-left-bold-circle"},
-                {value:"swipeRight", label:"Right Swipe", icon:"mdi mdi-arrow-right-bold-circle"},
-                {value:"swipeUp", label:"Up Swipe",icon:"mdi mdi-arrow-up-bold-circle"},
+        {value:"click", label:"Click", icon:"mdi mdi-cursor-default"},
+				{value:"swipeLeft", label:"Left Swipe", icon:"mdi mdi-arrow-left-bold-circle"},
+				{value:"swipeRight", label:"Right Swipe", icon:"mdi mdi-arrow-right-bold-circle"},
+				{value:"swipeUp", label:"Up Swipe",icon:"mdi mdi-arrow-up-bold-circle"},
 				{value:"swipeDown", label:"Down Swipe", icon:"mdi mdi-arrow-down-bold-circle"},
 				{value:"scroll", label:"Scrolled in view", icon:"mdi mdi-unfold-more-horizontal"}
-		   ];
+		  ]
 
 			/**
 			 * Screens have also a timer...

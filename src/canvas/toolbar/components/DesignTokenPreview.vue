@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcDesignTokenPreView" v-if="designtoken" @mousedown.stop="">
+    <div class="MatcDesignTokenPreView" v-if="designtoken">
       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'color'">
   				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background': getBackgroundColor(designtoken.value)}" />
       </span>
@@ -17,7 +17,7 @@
   			  <span :class="icons[designtoken.type]" />
       </span>
 
-      <span class="MatcToolbarItemLabel">{{designtoken.name}}</span>
+      <span class="MatcToolbarItemLabel" :style="textStyle">{{designtoken.name}}</span>
 
       <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true" ref="editBtn">
   			  <span class="mdi mdi-cogs" />
@@ -45,6 +45,12 @@ export default {
         }
     },
     computed: {
+      textStyle () {
+        if (this.designtoken && this.designtoken.type === 'text') {
+          return `font-family:${this.designtoken.value.fontFamily}; font-weight: ${this.designtoken.value.fontWeight}`
+        }
+        return ''
+      }
     },
     components: {},
     methods: {
@@ -56,8 +62,6 @@ export default {
 				if (v.colors) {
 					v = "linear-gradient"  + this._getGradientCSS(v)
 				}
-
-        console.debug('getColor', v)
 				return v
       },
       _getGradientCSS (gradient) {

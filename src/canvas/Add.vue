@@ -348,8 +348,11 @@ export default {
 			 * 3) the user select the end screen (onLineEndSelected)
 			 **********************************************************************/
 
-			addLineAtSelected () {
-				this.logger.log(-1,"addLineAtSelected", "enter");
+			addLineAtSelected (e, isLineDndStarted = false) {
+				this.logger.log(-1,"addLineAtSelected", "enter > isLineDnd: " + isLineDndStarted);
+
+
+
 				if (this._selectWidget && this._lastMouseMoveEvent) {
 
 					/**
@@ -363,7 +366,6 @@ export default {
 								return
 							}
 					}
-
 
           this.addLine({
 						from : this._selectWidget.id,
@@ -382,6 +384,12 @@ export default {
 						event:this._lastMouseMoveEvent
 					})
 				}
+
+				/**
+				 * Set flag so wiring.vue knwos how to handle mouseup.
+				 * Add last, because addLine() will call cleanup
+				 */
+				this._addLineIsDndStarted = isLineDndStarted
 			},
 
 			addLine (params){
@@ -782,6 +790,7 @@ export default {
 				this._addLineStartId = null
 				this._addLineSVG = null;
 				delete this._addNDropModel;
+				delete this._addLineIsDndStarted
 
 				if(this._addNDropMove)
 					this._addNDropMove.remove();

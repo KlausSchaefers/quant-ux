@@ -854,8 +854,11 @@ export default {
 			}
 		},
 
-		changeDesignToken () {
+		changeDesignToken (designToken) {
 			this.logger.log(-1,"changeDesignToken", "entry");
+
+			this.controller.updateDesignToken(designToken.id, designToken.name, designToken.value);
+
 		},
 
 		removeDesignToken () {
