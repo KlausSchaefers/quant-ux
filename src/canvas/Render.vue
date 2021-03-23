@@ -317,6 +317,9 @@ export default {
 				this.cleanUpScreenButtons()
 				this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
 				this.updateDnD(this.model)
+				/**
+				 * FIXME This will also trigger the toolabr select. Can we ignore this?
+				 */
 				this.renderSelection();
 				this.renderDistance();
 			}

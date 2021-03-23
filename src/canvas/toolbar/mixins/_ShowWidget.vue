@@ -44,7 +44,7 @@ export default {
 			},
 
 			showWidgetPrototypeProperties (model) {
-				this.logger.log(- 1,"showWidgetPrototypeProperties", "entry > ", model);
+				this.logger.log(1,"showWidgetPrototypeProperties", "entry > ", model);
 
 				this.showProperties();
 				this.showWidgetTools();

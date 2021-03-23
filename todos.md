@@ -21,16 +21,14 @@
 - Actions could have ScreenContaoner as target!
 - LayerList open should have effect on Scroll
 
-## Prototyping view:
-- make sure we do not get double lines
-- mouse up shoudl trigger end
-
+## Fats Render
+- avoid toolbar selection on zoom
 
 ## Design Token
 - Make model better with specila keys like _color, _background and a flag
 - undo has issues with textshadow etc. I assume it is because the new value is null...
 - undo does not work when changing. we should add old token
-
+- make download work
 
 ## Template to Cpmponents
  - show in LayerList differen symbol. Mark also the source component!

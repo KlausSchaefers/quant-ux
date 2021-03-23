@@ -22,7 +22,7 @@ export default {
 
 
 			_updateDnD (zoomedModel) {
-				this.logger.log(-3,"_updateDnD", "enter");
+				this.logger.log(3,"_updateDnD", "enter");
 				if (this._updateDNDRendered) {
 					return
 				}
