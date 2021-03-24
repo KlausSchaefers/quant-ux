@@ -20,9 +20,11 @@
 - Layerlist shoul dbe one big tree... also selecting a screen should
 - Actions could have ScreenContaoner as target!
 - LayerList open should have effect on Scroll
+- make all dropdown 4px
 
 ## Fats Render
 - avoid toolbar selection on zoom
+- create inhereited model is called to often.... in render and in modelChange in BaseController
 
 ## Design Token
 - Make model better with specila keys like _color, _background and a flag

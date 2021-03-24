@@ -58,6 +58,18 @@ class ModelUtil {
     }
 
     inlineBoxDesignToken (box, model) {
+        /**
+         * If the box is templates, we copy all the designtokens from the template
+         */
+        if (box && box.template && model.templates && model.templates[box.template]) {
+            let template = model.templates[box.template]
+            if (template.designtokens) {
+                /**
+                 * We could mix this in....
+                 */
+                box.designtokens = template.designtokens
+            }
+        }
         if (box && box.designtokens) {
             let designtokens = box.designtokens
             for (let state in designtokens) {

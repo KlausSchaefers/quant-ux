@@ -4,19 +4,25 @@
       <span class="mdi mdi-dots-horizontal" v-show="isVisible"/>
     	<ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
 
-        <li @mousedown.stop="showCreateDialog" v-show="!hasDesignToken" class="MatcDesignTokenButtonHeader">
-            <span class="MatcToolbarItemIcon mdi mdi mdi-plus-circle"></span>
-            <label class="MatcToolbarPopUpLabel">Create {{tokenLabel}} Token</label>
+        <template v-if="!isTemplate">
+          <li @mousedown.stop="showCreateDialog" v-show="!hasDesignToken" class="MatcDesignTokenButtonHeader">
+              <span class="MatcToolbarItemIcon mdi mdi mdi-plus-circle"></span>
+              <label class="MatcToolbarPopUpLabel">Create {{tokenLabel}} Token</label>
 
-        </li>
-        <li @mousedown.stop="onUnLink" v-show="hasDesignToken" class="MatcDesignTokenButtonHeader">
-            <span class="MatcToolbarItemIcon mdi mdi mdi-minus-circle MatcToolbarPopUpIconDanger"></span>
-            <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
+          </li>
+          <li @mousedown.stop="onUnLink" v-show="hasDesignToken" class="MatcDesignTokenButtonHeader">
+              <span class="MatcToolbarItemIcon mdi mdi mdi-minus-circle MatcToolbarPopUpIconDanger"></span>
+              <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
+          </li>
+        </template>
+
+        <li v-show="isTemplate" class="MatcDesignTokenButtonHeader">
+            <label class="MatcHint">You cannot change the design token for a component instance</label>
         </li>
 
         <!-- add here list and filter -->
-        <ul class="MatcDesignTokenButtonPreviews" >
-          <li v-for="designtoken in filteredTokens" :key="designtoken.id" @mousedown="onSelectToken(designtoken)">
+        <ul class="MatcDesignTokenButtonPreviews" v-if="!isTemplate">
+          <li v-for="designtoken in filteredTokens" :key="designtoken.id" @mousedown="onSelectToken(designtoken)" >
             <DesignTokenPreview :designtoken="designtoken"/>
           </li>
         </ul>
@@ -42,6 +48,7 @@ export default {
     data: function () {
         return {
            isVisible: true,
+           isTemplate: false,
            value: null,
            reposition: true,
            arrowPosition: "right",
@@ -78,15 +85,18 @@ export default {
         this.value = w
         this.setBox(w)
         this.isVisible = true
+        this.isTemplate = w.template !== undefined && w.template !== null
       },
       setScreen (s) {
         this.value = s
         this.setBox(s)
         this.isVisible = true
+        this.isTemplate = false
       },
       setMulti () {
         this.setBox(null)
         this.isVisible = false
+        this.isTemplate = false
       },
       onVisible (){
         // reste state

@@ -58,9 +58,20 @@ export default {
 
     setBox(b) {
       this.box = null
-      this.box = b;
+      this.box = {};
       if (b) {
-        this.$set(this.box, 'designtokens', b.designtokens)
+        let designtokens = b.designtokens
+        /**
+         * In case we have a template, we take the design token from teh template.
+         * TODO: If we allow mixing, at some point we have to somehpw be carefull
+         */
+        if (b.template && this.model && this.model.templates) {
+          let template = this.model.templates[b.template]
+          if (template.designtokens) {
+            designtokens = template.designtokens
+          }
+        }
+        this.$set(this.box, 'designtokens', designtokens)
         this.$forceUpdate()
       }
     },

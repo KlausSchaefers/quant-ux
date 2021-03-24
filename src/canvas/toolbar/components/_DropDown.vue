@@ -142,6 +142,9 @@ export default {
 				this._escListener = topic.subscribe("matc/canvas/esc", lang.hitch(this,"onEcc"));
 				this._dialogListner = topic.subscribe("vommond/dialog/open", lang.hitch(this,"hideDropDown"));
 
+				if (this.isChildDropDown) {
+					this._childListener = topic.subscribe("matc/dropdown/child", lang.hitch(this,"hideDropDown"));
+				}
 
 				this.onVisible();
 
@@ -281,6 +284,10 @@ export default {
 				if (this._dialogListner){
 					this._dialogListner.remove();
 					delete this._dialogListner;
+				}
+				if (this._childListener) {
+					this._childListener.remove()
+					delete this._childListener
 				}
 				this.onHide();
 				if(this.hideListener){

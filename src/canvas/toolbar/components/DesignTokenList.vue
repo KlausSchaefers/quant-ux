@@ -41,7 +41,7 @@
       </div>
 
 
-       <div class="MatcToolbarPopUp  MatcDesignTokenListPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
+       <div class="MatcToolbarPopUp  MatcDesignTokenListPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="onPopupClick" >
           <div >
             <div class="MatcDesignTokenListPopupSection" v-if="selectedDesignToken">
                <input class="MatcIgnoreOnKeyPress MatcDesignTokenListInput " v-model="selectedDesignToken.name"/>
@@ -80,6 +80,7 @@ import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BoxBorder from 'canvas/toolbar/components/BoxBorder'
 import BoxPadding from 'canvas/toolbar/components/BoxPadding'
 import css from 'dojo/css'
+import topic from 'dojo/topic'
 //import Input from '../../../common/Input.vue'
 
 export default {
@@ -186,6 +187,11 @@ export default {
       }
     },
     methods: {
+
+      onPopupClick () {
+        console.debug('onPopupClick')
+        topic.publish('matc/dropdown/child')
+      },
 
       setFontFamilies (f) {
         this.fontFamilies = f

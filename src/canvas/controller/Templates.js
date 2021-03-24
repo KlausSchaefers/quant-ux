@@ -148,6 +148,11 @@ export default class Templates extends BaseController{
 				template.focus = lang.clone(widget.focus);
 			}
 
+			if (widget.designtokens) {
+				template.designtokens = lang.clone(widget.designtokens);
+			}
+
+
 			template.style = lang.clone(widget.style);
 			template.has = lang.clone(widget.has);
 			template.props = lang.clone(widget.props);
@@ -246,6 +251,10 @@ export default class Templates extends BaseController{
 					}
 					if (widget.active) {
 						widget.active = {}
+					}
+
+					if (widget.designtokens) {
+						delete widget.designtokens
 					}
 				} else {
 					console.warn("No Widget with ", widgetID);

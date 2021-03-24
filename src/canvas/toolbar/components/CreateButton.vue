@@ -57,6 +57,7 @@ import RenderFactory from 'core/RenderFactory'
 import _DropDown from './_DropDown'
 import Services from 'services/Services'
 import CheckBox from 'common/CheckBox'
+import ModelUtil from 'core/ModelUtil'
 
 export default {
     name: 'CreateButton2',
@@ -631,6 +632,10 @@ export default {
 							template = lang.clone(template);
 							template._type = template.templateType;
 							template._isTemplate = true;
+							/**
+							 * Since 4.0 we have to inline also the deisgn tokens
+							 */
+							ModelUtil.inlineBoxDesignToken(template, this.model)
 							elements.push(template);
 						}
 
