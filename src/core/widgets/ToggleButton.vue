@@ -1,7 +1,7 @@
 
 <template>
   <div class="MatcWidgetTypeToggleButton">
-      <div data-dojo-attach-point="labelNode" class="MatcInlineEditable">{{label}}</div>
+      <div data-dojo-attach-point="labelNode" class="MatcInlineEditable"></div>
   </div>
 </template>
 <script>
@@ -21,7 +21,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
@@ -29,22 +29,17 @@ export default {
       this._labelNodes = [this.labelNode];
     },
 
-    wireEvents: function() {
-      this.own(
-        this.addClickListener(this.domNode, lang.hitch(this, "onChange"))
-      );
-      //this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
-      this.own(
-        on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver"))
-      );
+    wireEvents () {
+      this.own(this.addClickListener(this.domNode, lang.hitch(this, "onChange")));
+      this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));
       this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
     },
 
-    getLabelNode: function() {
-      return this.domNode;
+    getLabelNode () {
+      return this.labelNode;
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -52,15 +47,15 @@ export default {
 
       this.setStyle(style, model);
 
-      this.setTextContent(this.labelNode, this.model.props.label);
+      this.setInnerHTML(this.labelNode, this.model.props.label);
       this.setValue(model.props.active, true);
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
-    setValue: function(value, ignoreValidation) {
+    setValue (value, ignoreValidation) {
       if (value == undefined || value == null) {
         value = false;
       }
@@ -76,31 +71,31 @@ export default {
           this.setStyle(this.model.active);
         }
         //	console.debug(this.model.props.label);
-        this.setTextContent(this.labelNode, this.model.props.label);
+        this.setInnerHTML(this.labelNode, this.model.props.label);
       } else {
         if (valid) {
           this.setStyle(this.model.style);
         }
         if (this.model.props.activeLabel) {
-          this.setTextContent(this.labelNode, this.model.props.activeLabel);
+          this.setInnerHTML(this.labelNode, this.model.props.activeLabel);
         }
       }
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "checked",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       if (state && state.type == "checked") {
         this.setValue(state.value);
       }
     },
 
-    _validateValue: function(value) {
+    _validateValue (value) {
       var validation = this.model.props.validation;
       if (validation) {
         if (validation.required && value === false) {
@@ -110,21 +105,21 @@ export default {
       return true;
     },
 
-    isValid: function(showError) {
+    isValid (showError) {
       return this.validate(this.value, showError);
     },
 
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       if (v !== true && v !== false && v >= 1) {
         v = true;
       }
       this.setValue(v);
     },
 
-    onChange: function(e) {
+    onChange (e) {
       this.stopEvent(e);
       this.setValue(!this.value);
       this.emitDataBinding(this.value);

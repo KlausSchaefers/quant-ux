@@ -24,7 +24,7 @@
                             v-if="hasNewTypeSelector"
                             :options="variableKeys"
                             v-model="newType"
-                            style="width:350px"
+                             :style="'width:' + buttonWidth"
                              @change="setNewType($event)"/>
                     </td>
                  </tr>
@@ -48,7 +48,7 @@
                             v-if="variable.selected"
                             :options="variableKeys"
                             v-model="variable.type"
-                            style="width:350px"
+                            :style="'width:' + buttonWidth"
                             @change="setType($event, variable.name)"/>
                     </td>
                  </tr>
@@ -90,6 +90,9 @@ export default {
         // 'DropDownButton': DropDownButton
     },
     computed: {
+        buttonWidth () {
+            return this.variableKeys.length * 80 + 'px'
+        },
         dataTypes () {
             return ["Number", "String", "Boolean", "Object", "Array"].map(a => {
                 return {
@@ -121,13 +124,13 @@ export default {
             }
             if (['TypeAheadTextBox', 'DropDown', 'MobileDropDown', 'CheckBoxGroup', 'RadioGroup', 'Timeline'].indexOf(this.widget.type) >= 0) {
                 return [
-                    { label: "In & out", value: "default" },
+                    { label: "Default", value: "default" },
                     { label: "Options", value: "options" }
                 ]
             }
 
             return [
-                { label: "In & out", value: "default" }
+                { label: "Default", value: "default" }
             ]
         },
         hints () {

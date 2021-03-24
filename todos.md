@@ -27,6 +27,7 @@
 - create inhereited model is called to often.... in render and in modelChange in BaseController
 
 ## Design Token
+- remocing token does sometimes not remove shadows or so!
 - Make model better with specila keys like _color, _background and a flag
 - undo has issues with textshadow etc. I assume it is because the new value is null...
 - undo does not work when changing. we should add old token
