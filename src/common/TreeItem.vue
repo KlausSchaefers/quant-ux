@@ -146,7 +146,8 @@ export default {
 			s = s.replace(/\$perc;/g, "%");
 			return s;
 		},
-    short (s, maxLendth = 20) {
+    short (s, maxLendth = 10) {
+      s = this.unStripHTML(s)
       if (s.length > maxLendth) {
         return s.substring(0, maxLendth) + '...'
       }

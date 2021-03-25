@@ -729,6 +729,7 @@ export default {
     },
 
     setStyle (style, model, isResize = false ) {
+
       /**
        * Since 3.0.32 we to selective updates on zooms
        */
@@ -744,6 +745,17 @@ export default {
           }
 			  }
       } else {
+        /**
+         * For design tokens we might have the weird situation, that the
+         * shadow styles were injected in ModelUtils. After detaching the token,
+         * the none method would not be called.
+         */
+        if (style['textShadow'] === undefined) {
+          this._set_textShadow(this.domNode, style)
+        }
+        if (style['boxShadow'] === undefined) {
+          this._set_boxShadow(this.domNode, style)
+        }
         for (var p in style) {
           // we have to call the method, to be sure to also handle nulls,
           // e.g. for background images
@@ -812,8 +824,7 @@ export default {
       var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
       var s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
       var inset = shadow.i ? "inset" : "";
-      var value =
-        h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
+      var value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
       parent.style.boxShadow = value;
     },
 

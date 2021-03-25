@@ -26,14 +26,15 @@ export default {
     }
   },
   methods: {
-    postCreate: function() {
+    postCreate () {
+      this._labelNodes = [];
       this._borderNodes = [];
       this._shadowNodes = [];
       this._backgroundNodes = [];
       this._paddingNodes = [];
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.wired = true;
       for (var i = 0; i < this.btns.length; i++) {
         var option = this.btns[i].o;
@@ -42,7 +43,7 @@ export default {
       }
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -61,8 +62,14 @@ export default {
         var btn = db
           .div("MatcWidgetTypeSegmentButtonChild")
           .build(this.domNode);
-        db.span("", option).build(btn);
+
         btn.style.width = width + "%";
+
+        let label = db.span("", option).build(btn);
+        this._labelNodes.push(label)
+
+
+
         this.setDomStyle(btn, style, i);
         this.btns.push({o: option, b: btn});
         this._paddingNodes.push(btn);
@@ -76,6 +83,8 @@ export default {
           btn.style.borderBottomRightRadius = this.getZoomed(style.borderBottomRightRadius, this._scaleX) + "px";
         }
       }
+
+      console.debug('', style)
 
       this.setStyle(style, model);
       if (this.model.props.selected) {

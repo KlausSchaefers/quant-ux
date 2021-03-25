@@ -14,32 +14,36 @@
 - Make easier task recording!
 
 
-## New Toolbar
-- prototype view
-  - after link is added select widget
-- Layerlist shoul dbe one big tree... also selecting a screen should
-- Actions could have ScreenContaoner as target!
-- LayerList open should have effect on Scroll
-- make all dropdown 4px
 
-## Fats Render
+## New Features
+ - ScreenSegments as targets
+ - Auto Width for widgets with text
+
+## Fast Render
 - avoid toolbar selection on zoom
 - create inhereited model is called to often.... in render and in modelChange in BaseController
-
+## must have
+  - segment button valign
+  - color picker with design tokens (without liking!)
+  - check clipboard past no widget with id
 ## Design Token
+- make segment button work with valign
+- make design token colors selectable! at leats for the color!
 - remocing token does sometimes not remove shadows or so!
-- Make model better with specila keys like _color, _background and a flag
-- undo has issues with textshadow etc. I assume it is because the new value is null...
-- undo does not work when changing. we should add old token
-- make download work
+
+# Update download
+- design token download work
+- use csss facotry & optimizer
+- Just provide download
 
 ## Template to Cpmponents
+ - Changes in the template root should be updated in all instances? We could get rid of the update button?
  - show in LayerList differen symbol. Mark also the source component!
     - flag the source component,.
     - changes to this widhet should be updated in the template
     - when copiying or creating, we should remove the flaf!
 
-  - All changes from this one should be copied to the other instances? Check Figma...
+- All changes from this one should be copied to the other instances? Check Figma...
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions
 

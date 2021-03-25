@@ -75,7 +75,7 @@ export default {
 					hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload'],
 					hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation", "Stepper", "Paging"],
 					hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
-					hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton"],
+					hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton"],
 					hasRotate: ['Image', 'Icon'],
 					hideAction: ['ScreenSegment']
       }
