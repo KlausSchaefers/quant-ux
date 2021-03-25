@@ -909,12 +909,14 @@ export default class RenderFactory extends Core {
 			 * shadow styles were injected in ModelUtils. After detaching the token,
 			 * the none method would not be called.
 			 */
+			/*
 			if (style['textShadow'] === undefined) {
 				this._set_textShadow(parent, style, model)
 			}
 			if (style['boxShadow'] === undefined) {
 				this._set_boxShadow(parent, style, model)
 			}
+			*/
 
 			for (let p in style) {
 				if (this["_set_" + p]) {

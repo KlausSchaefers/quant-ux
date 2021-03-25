@@ -520,7 +520,11 @@
 	width: 4px;
 	vertical-align: top;
 	background-color: #ddd ;
+}
 
+.VommondCheckBoxWrapper.MatcToolbarItem{
+	display: flex;
+	align-items: center;
 }
 
 /****************************************************

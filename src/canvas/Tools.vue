@@ -128,7 +128,8 @@ export default {
 							"textAlign" : "left",
 							"letterSpacing" : 0,
 							"lineHeight" : 1,
-							"color": "#333333"
+							"color": "#333333",
+							"textShadow": null
 						}
 					};
 
@@ -262,7 +263,8 @@ export default {
 									"paddingTop" : 0,
 									"paddingBottom" : 0,
 									"paddingLeft" : 0,
-									"paddingRight" : 0
+									"paddingRight" : 0,
+									"textShadow": null
 							}
 					};
 

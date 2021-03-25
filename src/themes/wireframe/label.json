@@ -25,7 +25,8 @@
 	       "textAlign" : "left",
 	       "letterSpacing" : 0,
 	       "lineHeight" : 1,
-	       "color": "#333333"
+	       "color": "#333333",
+				 "textShadow": null
 	    }
 	},
 	{
@@ -54,7 +55,8 @@
 	       "textAlign" : "left",
 	       "letterSpacing" : 0,
 	       "lineHeight" : 1,
-	       "color": "#333333"
+	       "color": "#333333",
+				 "textShadow": null
 	    }
 	},
 	{
@@ -83,7 +85,8 @@
 	       "textAlign" : "left",
 	       "letterSpacing" : 0,
 	       "lineHeight" : 1,
-	       "color": "#333333"
+	       "color": "#333333",
+				 "textShadow": null
 	    }
 	},
 	{
@@ -112,7 +115,8 @@
 	       "textAlign" : "left",
 	       "letterSpacing" : 0,
 	       "lineHeight" : 1,
-	       "color": "#333333"
+	       "color": "#333333",
+				 "textShadow": null
 	    }
 	},
 	{
@@ -141,9 +145,10 @@
 	       "letterSpacing" : 0,
 	       "lineHeight" : 1.4,
 	       "textAlign":"justify",
-	       "color": "#333333"
+	       "color": "#333333",
+				 "textShadow": null
 	    }
 	}
-	
-	
+
+
 ]

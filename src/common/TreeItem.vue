@@ -143,10 +143,13 @@ export default {
 			if(!s){
 				s="";
 			}
+      s = s.replace(/(\r\n|\n|\r)/gm, '')
+      s = s.replace(/<br>/g, "");
+      s = s.replace(/&nbsp;/g, " ");
 			s = s.replace(/\$perc;/g, "%");
 			return s;
 		},
-    short (s, maxLendth = 10) {
+    short (s, maxLendth = 20) {
       s = this.unStripHTML(s)
       if (s.length > maxLendth) {
         return s.substring(0, maxLendth) + '...'
