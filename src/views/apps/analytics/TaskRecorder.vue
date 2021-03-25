@@ -2,11 +2,13 @@
 <template>
   <div class="MatcTaskRecorder">
     <div data-dojo-attach-point="wrapper">
-      <div data-dojo-attach-point="container">
+      <div data-dojo-attach-point="container" style=" width: 480px">
         <h2 class="title">Record a Task flow</h2>
-        <p class="subtitle">{{nls.taskRecorder1}}</p>
-        <div class="content">
+        <p class="">{{nls.taskRecorder1}}</p>
+        <p class="">{{nls.taskRecorder2}}</p>
+        <div class="content" style="margin-bottom: 32px;">
           <ol style="margin-left: 16px">
+            <li v-html="nls.taskRecorderStep0"></li>
             <li v-html="nls.taskRecorderStep1"></li>
             <li v-html="nls.taskRecorderStep3"></li>
             <li v-html="nls.taskRecorderStep4"></li>
@@ -16,19 +18,25 @@
     </div>
 
     <div>
-      <div class="buttons mt-16" data-dojo-attach-point="btnBar">
-        <a class="button is-primary" data-dojo-attach-point="startBtn">Begin</a>
-        <a class="button is-text" data-dojo-attach-point="cancelBTN">Cancel</a>
+      <div class="" data-dojo-attach-point="btnBar">
+        <div class="buttons mt-16">
+          <a class="button is-primary" data-dojo-attach-point="startBtn">Begin</a>
+          <a class="button is-text" data-dojo-attach-point="cancelBTN">Cancel</a>
+         </div>
       </div>
 
-      <div class="buttons MatcHidden" style="margin-top: -32px" data-dojo-attach-point="recordBar">
-        <a class="button is-primary MatcButtonPassive" data-dojo-attach-point="stopBtn">Done</a>
+      <div class="MatcHidden" data-dojo-attach-point="recordBar">
+        <div class="buttons">
+         <a class="button is-primary MatcButtonPassive" data-dojo-attach-point="stopBtn">Done</a>
+        </div>
       </div>
 
-      <div class="buttons MatcHidden" style="margin-top: -32px" data-dojo-attach-point="flowBar">
-        <a class="button is-primary" data-dojo-attach-point="saveBTN">Save</a>
-        <a class="button is-primary is-outlined" data-dojo-attach-point="startBtn2">Record Again</a>
-        <a class="button is-text" data-dojo-attach-point="cancelBTN2">Cancel</a>
+      <div class="MatcHidden" data-dojo-attach-point="flowBar">
+          <div class="buttons">
+            <a class="button is-primary" data-dojo-attach-point="saveBTN">Save</a>
+            <a class="button is-primary is-outlined" data-dojo-attach-point="startBtn2">Record Again</a>
+            <a class="button is-text" data-dojo-attach-point="cancelBTN2">Cancel</a>
+          </div>
       </div>
     </div>
   </div>
@@ -97,7 +105,7 @@ export default {
        * hack because somehow the overflow is hidden
        */
       pos.w += 40;
-      pos.h += 120;
+      pos.h += 80;
 
       // var scroller = new ScrollContainer();
       // scroller.placeAt(cntr);
@@ -262,7 +270,7 @@ export default {
 
         var chkBx = this.$new(CheckBox);
         chkBx.setLabel(this.getNLS("taskRecorderDoNotAllow"));
-        chkBx.placeAt(this.db.div("MatcLead").build(cntr));
+        chkBx.placeAt(this.db.div("MatcLead").build(this.container));
         chkBx.setValue(this._task.strict == true);
         this.own(on(chkBx, "change", lang.hitch(this, "setStrict")));
       } else {

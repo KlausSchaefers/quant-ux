@@ -1850,13 +1850,15 @@ export default class GridAndRuler extends Core {
 					this.addXLine(screen.x +  v, {
 						id: ruler.id,
 						type: "Ruler",
-						pos: "x"
+						pos: "x",
+						_v: screen.x +  v
 					}, "Screen")
 				} else {
 					this.addYLine(screen.y +  v, {
 						id: ruler.id,
 						type: "Ruler",
-						pos: "y"
+						pos: "y",
+						_v: screen.y +  v
 					}, "Screen")
 				}
 			})
@@ -1983,6 +1985,7 @@ export default class GridAndRuler extends Core {
 						pos: "x",
 						line: count,
 						type: "Grid",
+						_v: screen.x + lastX,
 						column: true
 					}, "Grid");
 					count++;
@@ -1992,6 +1995,7 @@ export default class GridAndRuler extends Core {
 						pos: "x",
 						line: count,
 						type: "Grid",
+						_v: screen.x + x,
 						column: true
 					}, "Grid");
 					count++;
@@ -2007,6 +2011,7 @@ export default class GridAndRuler extends Core {
 							id: screen.id,
 							pos: "x",
 							line: i,
+							_v: screen.x + i * this.gridWidth,
 							type: "Grid"
 						}, "Grid");
 					}
@@ -2021,7 +2026,8 @@ export default class GridAndRuler extends Core {
 							id: screen.id,
 							pos: "y",
 							type: "Grid",
-							line: i
+							line: i,
+							_v: screen.y + i * this.gridWidth,
 						}, "Grid");
 					}
 				}

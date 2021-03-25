@@ -13,12 +13,19 @@
 
 - Make easier task recording!
 
+# Dash
+ - Simjualtor does not store user anymore. Always create a fresh one!
+ - Call etst not users
+
+# Analytic Cnavas
+ - Check Lines
+ - Check Color Picker
 
 
 ## New Features
  - ScreenSegments as targets
  - Auto Width for widgets with text
-
+ - select canvas color and line color
 ## Fast Render
 - avoid toolbar selection on zoom
 - create inhereited model is called to often.... in render and in modelChange in BaseController

@@ -6,7 +6,6 @@
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
 import lang from "dojo/_base/lang";
-import hash from "dojo/hash";
 import on from "dojo/on";
 import touch from "dojo/touch";
 import Logger from "common/Logger";
@@ -16,6 +15,7 @@ import Table from "common/Table";
 import Util from "core/Util";
 import Plan from "page/Plan";
 import Services from "services/Services";
+import TaskRecorder from "views/apps/analytics/TaskRecorder";
 
 export default {
   name: "TestSettings",
@@ -79,10 +79,15 @@ export default {
               task.description = input.value;
               me.save(false);
             },
-            width: 70
+            width: 60
           }
         ]);
         tbl.setActions([
+          {
+            label: this.getNLS("dashTaskTableEditFlow"),
+            css: "button is-primary is-outlined ",
+            callback: lang.hitch(me, "_onEditFlow")
+          },
           {
             label: "",
             icon: "mdi mdi-close",
@@ -95,23 +100,14 @@ export default {
         tbl.placeAt(this.domNode);
         tbl.setValue(data.tasks);
       } else {
-        this.db
-          .div(
-            "MatcHint MatcMarginBottom",
-            this.getNLS("testSettingsTaskAddHint")
-          )
-          .build(this.domNode);
+        this.db.div("MatcHint MatcMarginBottom", this.getNLS("testSettingsTaskAddHint")).build(this.domNode);
       }
+
       this.addBTN = this.db
         .a("button is-primary", this.getNLS("testSettingsAddTask"))
         .build(this.domNode);
-      this.own(
-        on(
-          this.addBTN,
-          touch.press,
-          lang.hitch(this, "addTaskToTable", this.addBTN, null)
-        )
-      );
+
+      this.own(on(this.addBTN, touch.press, lang.hitch(this, "addTaskToTable", this.addBTN, null)));
     },
 
     checkPlan() {
@@ -128,11 +124,6 @@ export default {
     },
 
     async addTaskToTable() {
-      if (!this.pub && !this.planCanAddTask(this.test)) {
-        hash("#/upgrade-plan/tasks.html");
-        return;
-      }
-
       if (!this.test.tasks) {
         this.test.tasks = [];
       }
@@ -147,28 +138,17 @@ export default {
       this.save();
     },
 
-    onDelete: function(node, task, i) {
+    onDelete (node, task, i) {
       var name = task.name ? task.name : task.label;
 
       var div = this.db.div("box").build();
 
-      this.db
-        .h3(
-          "title is-4",
-          this.getNLS("testSettingTaskDelete1") +
-            name +
-            this.getNLS("testSettingTaskDelete2")
-        )
-        .build(div);
+      this.db.h3("title is-4",this.getNLS("testSettingTaskDelete1") + name + this.getNLS("testSettingTaskDelete2")).build(div);
 
       var bar = this.db.div("buttons").build(div);
 
-      var write = this.db
-        .a("button is-danger", this.getNLS("btn.delete"))
-        .build(bar);
-      var cancel = this.db
-        .a("button is-text", this.getNLS("btn.cancel"))
-        .build(bar);
+      var write = this.db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
+      var cancel = this.db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
 
       var d = new Dialog();
       d.own(on(write, touch.press, lang.hitch(this, "removeTask", i, d)));
@@ -199,6 +179,55 @@ export default {
         }
       }
     },
+
+     _onEditFlow(task, i, node) {
+      var tasks = this.test.tasks;
+      for (let j = 0; j < tasks.length; j++) {
+        var t = tasks[j];
+        if (t.id == task.id) {
+          this.onFlow(node, t, j);
+        }
+      }
+    },
+
+    onFlow(node, task) {
+      this.showTaskFlow(node, task, this.app);
+    },
+
+    showTaskFlow(node, task, model) {
+      var d = new Dialog();
+      var dialog = document.createElement("div");
+      css.add(dialog, "MatchTaskRecorderDialog");
+      var s = this.$new(TaskRecorder, { model: model, task: task, dialog: d, hash: this.hash });
+      s.placeAt(dialog);
+      d.popup(dialog, node);
+      d.own(
+        on(d, "close", function() {
+          s.destroy();
+        })
+      );
+      d.own(
+        on(s, "close", function() {
+          d.close();
+        })
+      );
+      d.own(on(s, "save", lang.hitch(this, "saveFlow", task.id, d)));
+    },
+
+    saveFlow(taskID, d, flow, strict) {
+      console.debug("saveFlow", taskID, flow, strict, this.test);
+      let task = this.test.tasks.find(t => t.id === taskID);
+      if (task) {
+        task.flow = flow;
+        task.strict = strict;
+        d.close();
+        this.render(this.test);
+        this.save();
+      } else {
+        console.error("AnalyticTaskList.saveFlow() > Cannot find task", taskID);
+      }
+    },
+
 
     cleanUp() {
       this.cleanUpTempListener();

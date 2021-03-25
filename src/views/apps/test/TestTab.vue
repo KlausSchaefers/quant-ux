@@ -181,15 +181,11 @@ export default {
           label: this.getNLS("videoTableStatus")
         },
         {
-          query: "user",
-          label: this.getNLS("videoTableUser")
-        },
-        {
           query: "taskPerformance",
           label: "Successful Tasks",
           fct: function(td, row) {
             var names = row.taskNames;
-            css.add(td, "MatcDashTableTaskNameCntr tags");
+            css.add(td, "");
             if (names && names.length > 0) {
               for (var r = 0; r < names.length; r++) {
                 var span = document.createElement("span");
@@ -225,14 +221,7 @@ export default {
             var group = document.createElement("div");
             node.appendChild(group);
             let play = document.createElement("a");
-            play.href =
-              "#/" +
-              urlPrefix +
-              "/" +
-              app.id +
-              "/replay/" +
-              row.session +
-              ".html";
+            play.href = "#/" +  urlPrefix + "/" +  app.id + "/replay/" + row.session + ".html";
             css.add(play, "button is-primary");
             play.innerHTML = '<span class="mdi mdi-play"></span>';
             group.appendChild(play);
