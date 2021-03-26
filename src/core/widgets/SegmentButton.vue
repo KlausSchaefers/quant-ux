@@ -84,8 +84,6 @@ export default {
         }
       }
 
-      console.debug('', style)
-
       this.setStyle(style, model);
       if (this.model.props.selected) {
         /**

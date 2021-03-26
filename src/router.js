@@ -141,8 +141,8 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "unit" */ './unit/ImportDialogTest.vue')
     },
     {
-      path: '/test/Token.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/DesignTokenDialogTest.vue')
+      path: '/test/Task.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/TaskCreateDialogTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',

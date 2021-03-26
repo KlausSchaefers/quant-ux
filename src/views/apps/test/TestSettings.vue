@@ -15,7 +15,8 @@ import Table from "common/Table";
 import Util from "core/Util";
 import Plan from "page/Plan";
 import Services from "services/Services";
-import TaskRecorder from "views/apps/analytics/TaskRecorder";
+//import TaskRecorder from "views/apps/analytics/TaskRecorder";
+import TaskRecorder from "views/apps/analytics/TaskCreateDialog";
 
 export default {
   name: "TestSettings",
@@ -168,7 +169,6 @@ export default {
       if (this.pub) {
         this.showSuccess(this.getNLS("testSettingsRegister"));
       } else {
-        console.debug("save", this.test);
         let res = await Services.getModelService().saveTestSettings(
           this.app.id,
           this.test
@@ -201,16 +201,8 @@ export default {
       var s = this.$new(TaskRecorder, { model: model, task: task, dialog: d, hash: this.hash });
       s.placeAt(dialog);
       d.popup(dialog, node);
-      d.own(
-        on(d, "close", function() {
-          s.destroy();
-        })
-      );
-      d.own(
-        on(s, "close", function() {
-          d.close();
-        })
-      );
+      d.own(on(d, "close", function() { s.destroy(); }));
+      d.own(on(s, "close", function() { d.close(); }));
       d.own(on(s, "save", lang.hitch(this, "saveFlow", task.id, d)));
     },
 

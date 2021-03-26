@@ -1,66 +1,83 @@
 
 <template>
-  <div class="MatcTaskRecorder">
-    <div data-dojo-attach-point="wrapper">
-      <div data-dojo-attach-point="container" >
-        <div style=" width: 480px">
-        <h2 class="title">Record a Task flow</h2>
-        <p class="">{{nls.taskRecorder1}}</p>
-        <p class="">{{nls.taskRecorder2}}</p>
-        <div class="content" style="margin-bottom: 32px;">
-          <ol style="margin-left: 16px">
-            <li v-html="nls.taskRecorderStep0"></li>
-            <li v-html="nls.taskRecorderStep1"></li>
-            <li v-html="nls.taskRecorderStep3"></li>
-            <li v-html="nls.taskRecorderStep4"></li>
-          </ol>
-        </div>
-        </div>
-      </div>
-    </div>
+  <div :class="'TaskCreateDialog ' + model.type">
+    <div class="TaskCreateDialogCntr">
+      <div class="FormCntr" >
 
-    <div>
-      <div class="" data-dojo-attach-point="btnBar">
-        <div class="buttons mt-16">
-          <a class="button is-primary" data-dojo-attach-point="startBtn">Begin</a>
-          <a class="button is-text" data-dojo-attach-point="cancelBTN">Cancel</a>
-         </div>
-      </div>
-
-      <div class="MatcHidden" data-dojo-attach-point="recordBar">
-        <div class="buttons">
-         <a class="button is-primary MatcButtonPassive" data-dojo-attach-point="stopBtn">Done</a>
-        </div>
-      </div>
-
-      <div class="MatcHidden" data-dojo-attach-point="flowBar">
-          <div class="buttons">
-            <a class="button is-primary" data-dojo-attach-point="saveBTN">Save</a>
-            <a class="button is-primary is-outlined" data-dojo-attach-point="startBtn2">Record Again</a>
-            <a class="button is-text" data-dojo-attach-point="cancelBTN2">Cancel</a>
+          <div class="field">
+            <label>Name</label>
+            <input  v-model="task.name" type="text" class="input" placeholder="Name"  />
           </div>
+
+          <div class="field">
+            <label>Description</label>
+            <textarea  v-model="task.description" type="text" class="input"  placeholder="An explaination for the users"  />
+          </div>
+
+
+
+          <div>
+            <label>Expected Steps</label>
+            <p class="MatcHint mb-16">Click in the simulator to add steps. You can remove steps that are not needed by clicking on them.</p>
+            <div class="StepCntr">
+              <div v-for="(step, i) in steps" :key="i" class="Step">
+                <div class="StepDetails">
+                    {{step.type}} -
+                    {{step.label}}
+                    <div class="removePopup">
+                      <span @click="removeEvent(i)" class="mdi">Remove</span>
+                    </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
       </div>
+
+      <div class="SimCntr">
+
+        <div class="SimWrapper" ref="wrapper">
+
+        </div>
+
+      </div>
+
     </div>
+
+
+    <div class="buttons mt-16">
+      <a class="button is-primary" >Save</a>
+      <a class="button is-text" >Cancel</a>
+    </div>
+
   </div>
 </template>
+<style lang="scss">
+  @import '../../../style/scss/TaskCreateDialog.scss';
+</style>
 <script>
 import DojoWidget from "dojo/DojoWidget";
-import css from "dojo/css";
 import lang from "dojo/_base/lang";
 import on from "dojo/on";
-import touch from "dojo/touch";
 import Logger from "common/Logger";
-import DomBuilder from "common/DomBuilder";
 import CheckBox from "common/CheckBox";
 import Simulator from "core/Simulator";
 import Util from "core/Util";
 
 export default {
   name: "TaskRecorder",
+  props: ['model'],
   mixins: [Util, DojoWidget],
   data: function() {
     return {
       hash: '',
+      task: {
+        name: '',
+        description: '',
+        flow:[]
+      },
       ignoredEvents: [
         "SessionStart",
         "ScreenAnimation",
@@ -75,95 +92,59 @@ export default {
     };
   },
   components: {},
+  computed: {
+    steps () {
+      console.debug('steps')
+      return this.task.flow.map(event => {
+        return {
+          screen: this.getScreenName(event.screen),
+          widget: this.getWidgetName(event.widget),
+          type:  this.getEventLabel(event.type),
+          label: event.widget ? this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen): this.getScreenName(event.screen)
+        }
+      })
+    }
+  },
   methods: {
-    postCreate: function() {
+
+    postCreate () {
       this.logger = new Logger("TaskRecorder");
       this.logger.log(-1, "postCreate", "enter > " + this.appID + "> " + this.hash);
-      this.db = new DomBuilder();
-      this.own(on(this.cancelBTN, touch.press, lang.hitch(this, "_close")));
-      this.own(on(this.cancelBTN2, touch.press, lang.hitch(this, "_close")));
-      this.own(on(this.startBtn, touch.press, lang.hitch(this, "start")));
-      this.own(on(this.startBtn2, touch.press, lang.hitch(this, "start")));
-      this.own(on(this.stopBtn, touch.press, lang.hitch(this, "stop")));
-      this.own(on(this.saveBTN, touch.press, lang.hitch(this, "_save")));
-      this._task = lang.clone(this.task);
-      if (this.task.flow && this.task.flow.length > 0) {
-        this._flow = lang.clone(this.task.flow);
-        this.renderFlow(this._flow, true);
-      }
+      setTimeout(() => {
+        this.createSimulator()
+      }, 500)
     },
 
-    start: function() {
+    createSimulator () {
+      let wrapper = this.$refs.wrapper
+      var pos = this.resizeSimulatorContainer(this.model, wrapper, 0.7);
 
-      this.container.innerHTML = "";
+      wrapper.style.width = pos.w + 'px'
+      wrapper.style.height = pos.h + 'px'
 
-      this._flow = [];
-      this._notRecorded = 0;
-
-      var cntr = this.db.div("MactCenter").build(this.container);
-      var pos = this.resizeSimulatorContainer(this.model, cntr, 0.7);
-
-      /**
-       * hack because somehow the overflow is hidden
-       */
-      pos.w += 40;
-      pos.h += 80;
-
-      // var scroller = new ScrollContainer();
-      // scroller.placeAt(cntr);
-
-      this.dialog.resize(pos);
-
-      /**
-       * Because of the fixed positions we have to wait a little
-       * to render the simulator
-       */
-
-      setTimeout(() => {
-        this.showButtonBar(this.recordBar);
-        this.simulator = this.$new(Simulator, {
+      this.simulator = this.$new(Simulator, {
+          isDesktopTest: true,
           mode: "recordFlow",
           logData: false
-        });
-        this.simulator.setHash(this.hash)
-        this.tempOwn(on(this.simulator, "event", lang.hitch(this, "onEvent")));
-        this.simulator.placeAt(cntr);
-        this.simulator.scrollListenTarget = "parent";
-        this.simulator.startup();
-        this.record();
-        this.simulator.setModel(this.model);
-      }, 400);
+      });
+      this.simulator.setHash(this.hash)
+      this.tempOwn(on(this.simulator, "event", lang.hitch(this, "onEvent")));
+      this.simulator.placeAt(wrapper);
+      this.simulator.scrollListenTarget = "parent";
+      this.simulator.startup();
+      this.simulator.setModel(this.model);
     },
 
-    onEvent: function(e) {
-      if (this.isRecording) {
-        if (this.ignoredEvents.indexOf(e.type) < 0) {
-          this._flow.push(e);
-          css.remove(this.stopBtn, "MatcButtonPassive");
-        } else {
-          //console.debug("onEvent > ignore", e.type)
-        }
-      } else {
-        /**
-         * TODO: Show somehow a warning message to the user if he does not record anything?
-         */
+
+    onEvent (e) {
+      console.debug(e)
+      if (this.ignoredEvents.indexOf(e.type) < 0) {
+        this.task.flow.push(e);
       }
     },
 
-    record: function() {
-      this.isRecording = true;
-      if (!this.isRecording) {
-        //this.recordBtn.innerHTML = this.getNLS("taskRecorderPauseBtn");
-        //this.recordHint.innerHTML= this.getNLS("taskRecorderPauseDes");
-        //this.isRecording = true;
-      } else {
-        //this.recordBtn.innerHTML = this.getNLS("taskRecorderRecordBtn");
-        //this.recordHint.innerHTML=this.getNLS("taskRecorderRecordDes");
-        //this.isRecording = false;
-      }
-    },
 
-    stop: function() {
+    stop () {
       this.simulator.destroy();
 
       /**
@@ -282,13 +263,12 @@ export default {
       }
     },
 
-    removeEvent: function(i) {
-      this._flow.splice(i, 1);
-      this.renderFlow(this._flow);
+    removeEvent (i) {
+      this.task.flow.splice(i, 1);
     },
 
-    setStrict: function(value) {
-      this._task.strict = value;
+    setStrict (value) {
+      this.task.strict = value;
     },
 
     _close: function() {
@@ -311,23 +291,8 @@ export default {
       this.emit("save", selected, this._task.strict);
     },
 
-    showButtonBar: function(node) {
-      this._toggerBar(node, this.btnBar);
-      this._toggerBar(node, this.flowBar);
-      this._toggerBar(node, this.recordBar);
-    },
-
-    _toggerBar: function(node, bar) {
-      if (node == bar) {
-        css.remove(bar, "MatcHidden");
-      } else {
-        css.add(bar, "MatcHidden");
-      }
-    },
-
     cleanUp: function() {
       this.cleanUpTempListener();
-      //this.cntr.innerHTML="";
     }
   },
   mounted() {}

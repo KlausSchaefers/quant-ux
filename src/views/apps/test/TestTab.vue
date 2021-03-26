@@ -3,7 +3,7 @@
     <section class="section">
       <div class="container">
         <div class="box is-shadowless">
-          <h2 class="title">Users</h2>
+          <h2 class="title">Tests</h2>
           <div class="MatcForm" id="testUserCountCntr">
             <BulletGraph :value="sessionCount" :sections="bulletGraphSection" />
           </div>

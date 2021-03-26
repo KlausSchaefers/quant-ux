@@ -555,7 +555,7 @@ if(widgetEvent.e){
 					gesture.end.x = pos.x;
 					gesture.end.y = pos.y;
 				}
-					},
+			},
 
 
 			finishScreenGestureAnimation (gesture){
@@ -641,9 +641,9 @@ if(widgetEvent.e){
 				} else {
 					console.debug('No current')
 				}
-					},
+			},
 
-					onValiationError (screenID, widgetID, e){
+			onValiationError (screenID, widgetID, e){
 				this.log("ValidationError",screenID, widgetID, null, {type:"value", value: e.value});
 			},
 

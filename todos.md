@@ -14,9 +14,13 @@
 - Make easier task recording!
 
 # Dash
+ - Make Task recorder Like Maze
  - Simjualtor does not store user anymore. Always create a fresh one!
  - Call etst not users
 
+# Anayltics
+ - Take alook at UX berry for drop outs
+ - add this to the task table?
 # Analytic Cnavas
  - Check Lines
  - Check Color Picker

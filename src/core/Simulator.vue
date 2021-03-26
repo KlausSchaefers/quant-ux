@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v3.0.65</div>
+      <div class="MatcSimulatorVersion">v4.0.0</div>
     </div>
   </div>
 </template>
@@ -487,7 +487,7 @@ export default {
 				 */
 				initParent (){
 					if(!this.qr && this.domNode.parentNode){
-						this.logger.log(0,"initParent","enter > "  +this.model.screenSize.h  );
+						this.logger.log(-1,"initParent","enter > "  +this.model.screenSize.h  );
 						this.domNode.parentNode.style.height = this.model.screenSize.h + "px";
 					}
 				},
@@ -526,7 +526,7 @@ export default {
 
 					this._scaleX = (this.screenPos.w / this.model.screenSize.w );
 					this._scaleY = this._scaleX;
-					this.logger.log(0,"initScale","exit > h:" + this.screenPos.h + " x w:" + this.screenPos.w + " * " + this._scaleX + " > desk : " + this.isDesktopTest);
+					this.logger.log(-1,"initScale","exit > h:" + this.screenPos.h + " x w:" + this.screenPos.w + " * " + this._scaleX + " > desk : " + this.isDesktopTest);
 				},
 
 
@@ -953,23 +953,11 @@ export default {
 
 				getUser (){
 					if (!this._user){
-						var user = this._getStatus("user");
-						if(!user){
-							user = this.getUUID("U");
-							this._setStatus("user", user);
-							this.logger.log(2,"getUser","created user > "+ user);
-						} else {
-							this.logger.log(2,"getUser","found user > "+ user);
+						this._user  = {
+							'id': this.getUUID("U"),
+							'name': 'tester'
 						}
-						if (user.id) {
-							user = {
-								'id': user.id,
-								'name': user.name
-							}
-						}
-						this._user = user;
 					}
-
 					return this._user;
 				},
 

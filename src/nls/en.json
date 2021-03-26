@@ -164,7 +164,7 @@
     },
     "analytics": {
         "header": {
-            "user": "User",
+            "user": "Tests",
             "duration": "Test Duration",
             "coverage": "Test Coverage"
         }
@@ -248,8 +248,8 @@
     "dashTaskDesPlaceholder": "Enter a description here",
     "dashTaskPerfHeadline": "Task: ",
 
-    "taskRecorder1": "A flow is the sequence of interactions the users have to perform to complete a task. For instance, they have to visit 'Screen A' and navigate to 'Screen C'.",
-    "taskRecorder2": "You can also mark important sub events, like clicking on a button, or visitng a screen in between.",
+    "taskRecorder1": "A flow is the sequence of interactions the users have to perform to complete a task. ",
+    "taskRecorder2": "For instance, they have to visit 'Screen A' and navigate to 'Screen C'. You can also mark important sub events, like clicking on a button, or visitng a screen in between.",
     "taskRecorderStep0": "Pess <b>Begin</b> to launch the simulator.",
     "taskRecorderStep1": "Perform the interactions your users should perform",
     "taskRecorderStep2": "You can press <b>Pause</b> to pause the recording",
