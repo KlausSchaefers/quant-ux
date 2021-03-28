@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcTestSettings">
+  <div class="MatcTestSettings MatcTestTable">
     <div class data-dojo-attach-point="sectionTask">
       <div class="level">
         <div class="level-left">
@@ -168,7 +168,6 @@ export default {
         {
           query: "label",
           label: this.getNLS("dashTaskTableName"),
-          edit: lang.hitch(me, "_setTaskName"),
           width: 20
         },
         {
@@ -182,7 +181,7 @@ export default {
             bar.setValue(row.p);
             bar.setLabel(row.value + " / " + row.sessionCount);
           },
-          width: 40
+          width: 30
         },
         {
           query: "success",
@@ -191,12 +190,12 @@ export default {
             css.add(td, "MatcDashTableTdHint MatcDashTableLabels");
             td.innerHTML = "(" + Math.round(row.p * 100) + "%)";
           },
-          width: 10
+          width: 15
         },
         {
           query: "durationMean",
           label: this.getNLS("dashTaskTableDuration"),
-          width: 10,
+          width: 15,
           fct: function(td, row) {
             css.add(td, "MatcDashTableLabels");
             td.innerHTML = me.formatNumber(row.durationMean / 1000) + "sec";
@@ -205,7 +204,7 @@ export default {
         {
           query: "interactionsMean",
           label: this.getNLS("dashTaskTableEvents"),
-          width: 10,
+          width: 15,
           fct: function(td, row) {
             css.add(td, "MatcDashTableLabels");
             td.innerHTML = me.formatNumber(row.interactionsMean);

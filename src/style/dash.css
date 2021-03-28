@@ -610,7 +610,8 @@
 	width: 100%;
 }
 
-.MatcTestSettings table thead a{
+.MatcTestTable table thead,
+.MatcTestTable table thead a  {
 	color:#363636;
 	font-weight:700;
 }

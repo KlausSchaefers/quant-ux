@@ -42,7 +42,7 @@ export default class ModelFactory {
 	createTemplatedWidget(t) {
 		var model = {
 			id: t.id,
-			name: "",
+			name: t.name,
 			w: t.w,
 			h: t.h,
 			x: t.x,

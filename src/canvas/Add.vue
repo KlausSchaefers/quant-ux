@@ -39,7 +39,7 @@ export default {
 			},
 
 			addRestObject (params){
-				this.logger.log(-1,"addRestObject", "enter");
+				this.logger.log(1,"addRestObject", "enter");
 
 				this._createAddCommand("addRestObject", params);
 
@@ -80,6 +80,7 @@ export default {
 			addThemedWidget (params, mode){
 				this.logger.log(1,"addThemedWidget", "enter");
 				this._createAddCommand("addThemedWidget", params);
+				console.debug('addThemedWidget', params),
 				this._addWidget(params, params.obj, mode);
 			},
 
@@ -155,17 +156,15 @@ export default {
 
 				this._createAddCommand("addTemplatedWidget", params);
 
-
 				/**
 				 * check what kind of template this is.
 				 */
 				var widget = this.factory.createTemplatedModel(params);
-
+				ModelUtil.inlineBoxDesignToken(widget, this.model)
 				/**
 				 * Render drag and drop!
 				 */
 				this._addWidget(params, widget);
-
 			},
 
 
@@ -282,7 +281,7 @@ export default {
 			},
 
 			_addWidget (params, widget, mode){
-				this.logger.log(-1,"_addWidget", "enter");
+				this.logger.log(-1,"_addWidget", "enter", widget);
 
 				if(mode){
 					this.setMode(mode);

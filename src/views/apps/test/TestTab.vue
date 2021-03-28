@@ -38,7 +38,7 @@
       <div class="container">
         <div class="box is-shadowless">
           <h2 class="title">Screen Recordings</h2>
-          <div ref="sessionCntr"></div>
+          <div ref="sessionCntr" class="MatcTestTable"></div>
         </div>
       </div>
     </section>

@@ -733,6 +733,8 @@ export default {
 			this.logger.log(1,"onNewThemeObject", "entry > " + obj._type + " > " + obj.type+ " > " +obj._isTemplate);
 			var type = obj._type;
 
+
+
 			/**
 			 * remove here some of the shit not needed
 			 */

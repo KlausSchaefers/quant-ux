@@ -21,15 +21,15 @@
             <p class="MatcHint mb-16">Click in the simulator to add steps. You can remove steps that are not needed by clicking on them.</p>
             <div class="StepCntr">
               <div v-for="(step, i) in steps" :key="i" class="Step">
+                         <span class="mdi mdi-arrow-right" v-if="i > 0"/>
                 <div class="StepDetails">
                     {{step.type}} -
                     {{step.label}}
-                    <div class="removePopup">
-                      <span @click="removeEvent(i)" class="mdi">Remove</span>
+                    <div class="removePopup" @click="removeEvent(i)">
+                      <span class="mdi">Remove</span>
                     </div>
-
-
                 </div>
+
               </div>
             </div>
           </div>
@@ -48,21 +48,20 @@
 
 
     <div class="buttons mt-16">
-      <a class="button is-primary" >Save</a>
-      <a class="button is-text" >Cancel</a>
+      <a class="button is-primary" @click="onSave">Save</a>
+      <a class="button is-text" @click="onCancel" >Cancel</a>
     </div>
 
   </div>
 </template>
 <style lang="scss">
-  @import '../../../style/scss/TaskCreateDialog.scss';
+  @import '../../../style/scss/task_create_dialog.scss';
 </style>
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import Logger from "common/Logger";
-import CheckBox from "common/CheckBox";
 import Simulator from "core/Simulator";
 import Util from "core/Util";
 
@@ -73,6 +72,7 @@ export default {
   data: function() {
     return {
       hash: '',
+      ignoreFirstEvent: false,
       task: {
         name: '',
         description: '',
@@ -94,7 +94,6 @@ export default {
   components: {},
   computed: {
     steps () {
-      console.debug('steps')
       return this.task.flow.map(event => {
         return {
           screen: this.getScreenName(event.screen),
@@ -118,10 +117,8 @@ export default {
     createSimulator () {
       let wrapper = this.$refs.wrapper
       var pos = this.resizeSimulatorContainer(this.model, wrapper, 0.7);
-
       wrapper.style.width = pos.w + 'px'
       wrapper.style.height = pos.h + 'px'
-
       this.simulator = this.$new(Simulator, {
           isDesktopTest: true,
           mode: "recordFlow",
@@ -136,130 +133,21 @@ export default {
     },
 
 
-    onEvent (e) {
-      console.debug(e)
-      if (this.ignoredEvents.indexOf(e.type) < 0) {
-        this.task.flow.push(e);
-      }
-    },
+    onEvent (event) {
+      this.logger.log(-1,  'onEvent',  'enter', event)
 
-
-    stop () {
-      this.simulator.destroy();
-
-      /**
-       * Here we have to order the events by time and
-       * then remove unwanted attributes...
-       */
-      this._flow.sort(function(a, b) {
-        return a.time - b.time;
-      });
-      for (var i = 0; i < this._flow.length; i++) {
-        var e = this._flow[i];
-        delete e["session"];
-        delete e["user"];
-        delete e["time"];
-        if (e.state) {
-          delete e.state.children;
+      if (this.ignoredEvents.indexOf(event.type) < 0) {
+        if (this.ignoreFirstEvent) {
+          this.logger.log(-1,  'onEvent',  'ignore first event')
+          this.ignoreFirstEvent = false
+          return
         }
-      }
-
-      this.renderFlow(this._flow, false);
-
-
-    },
-
-    renderFlow: function(flow, existingFlow) {
-      console.debug('renderFlow')
-
-      if (this.domNode.parentNode) {
-        this.dialog.resize({ w: 650, h: 550 });
-      }
-
-      this.cleanUpTempListener();
-
-      this.showButtonBar(this.flowBar);
-
-      this.container.innerHTML = "";
-
-      var cntr = this.db.div("MatcTaskRecorderFlowList").build(this.container);
-
-      this.db.h2("", "Recorded Task Flow").build(cntr);
-      this.checkBoxList = [];
-      if (flow.length > 0) {
-        var tblCntr = this.db.div("MatcTaskRecorderFlowListTable").build(cntr);
-        var tbl = this.db.table().build(tblCntr);
-        this.db
-          .thead([
-            this.getNLS("taskRecorderEvent"),
-            this.getNLS("taskRecorderScreen"),
-            this.getNLS("taskRecorderWidget"),
-            this.getNLS("taskRecorderAction")
-          ])
-          .build(tbl);
-        var tbody = this.db.tbody().build(tbl);
-        for (let i = 0; i < flow.length; i++) {
-          let event = flow[i];
-          let row;
-          if (event.widget) {
-            if (event.type == "WidgetGesture" && event.gesture) {
-              let gesture = event.gesture;
-              row = [
-                this.getGestureLabel(gesture.type),
-                this.getScreenName(event.screen),
-                this.getWidgetName(event.widget)
-              ];
-            } else if (
-              event.state &&
-              (event.type == "WidgetClick" || event.type == "WidgetChange")
-            ) {
-              row = [
-                this.getEventStateLabel(event.state),
-                this.getScreenName(event.screen),
-                this.getWidgetName(event.widget)
-              ];
-            } else {
-              row = [
-                this.getEventLabel(event.type),
-                this.getScreenName(event.screen),
-                this.getWidgetName(event.widget)
-              ];
-            }
-          } else if (event.type == "ScreenGesture" && event.gesture) {
-            let gesture = event.gesture;
-            row = [
-              "Screen " + this.getGestureLabel(gesture.type),
-              this.getScreenName(event.screen),
-              "-"
-            ];
-          } else {
-            row = [
-              this.getEventLabel(event.type),
-              this.getScreenName(event.screen),
-              "-"
-            ];
-          }
-          var tr = this.db.tr(row).build(tbody);
-
-          var chkCntr = this.db
-            .td("MatcTaskRecorderFlowListCheckCntr")
-            .build(tr);
-          let chkBx = this.$new(CheckBox);
-          chkBx.placeAt(chkCntr);
-          if (i === 0 || i === flow.length - 1 || existingFlow) {
-            chkBx.setValue(true);
-          }
-          this.checkBoxList.push(chkBx);
-        }
-
-        var chkBx = this.$new(CheckBox);
-        chkBx.setLabel(this.getNLS("taskRecorderDoNotAllow"));
-        chkBx.placeAt(this.db.div("MatcLead").build(this.container));
-        chkBx.setValue(this._task.strict == true);
-        this.own(on(chkBx, "change", lang.hitch(this, "setStrict")));
-      } else {
-        this.db.div("MatcLead", this.getNLS("taskRecorderError1")).build(cntr);
-        //this.db.div("MatcLead MatcMarginTop", this.getNLS("taskRecorderError2")).build(cntr);
+        this.task.flow.push({
+          screen: event.screen,
+          widget: event.widget,
+          type: event.type,
+          state: event.state
+        });
       }
     },
 
@@ -271,24 +159,23 @@ export default {
       this.task.strict = value;
     },
 
-    _close: function() {
+    onCancel () {
       this.emit("close", {});
     },
 
-    _save: function() {
-      var selected = this._flow;
-      if (this.checkBoxList) {
-        selected = [];
-        for (var i = 0; i < this._flow.length; i++) {
-          var event = this._flow[i];
-          if (this.checkBoxList[i].getValue()) {
-            selected.push(event);
-          }
-        }
-      } else {
-        console.warn("_save, no checkBoxList");
-      }
-      this.emit("save", selected, this._task.strict);
+    onSave() {
+      this.task.flow.sort((a, b) => {
+        return a.time - b.time;
+      });
+      this.emit("save", this.task);
+    },
+
+    getValue () {
+      return this.task
+    },
+
+    setValue (task) {
+      this.task = lang.clone(task)
     },
 
     cleanUp: function() {
