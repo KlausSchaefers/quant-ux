@@ -21,7 +21,7 @@
             <p class="MatcHint mb-16">Click in the simulator to add steps. You can remove steps that are not needed by clicking on them.</p>
             <div class="StepCntr">
               <div v-for="(step, i) in steps" :key="i" class="Step">
-                         <span class="mdi mdi-arrow-right" v-if="i > 0"/>
+                <span class="mdi mdi-arrow-right" v-if="i > 0"/>
                 <div class="StepDetails">
                     {{step.type}} -
                     {{step.label}}
@@ -29,14 +29,13 @@
                       <span class="mdi">Remove</span>
                     </div>
                 </div>
-
               </div>
             </div>
           </div>
 
       </div>
 
-      <div class="SimCntr">
+      <div class="SimCntr" ref="simCntr">
 
         <div class="SimWrapper" ref="wrapper">
 
@@ -64,6 +63,7 @@ import on from "dojo/on";
 import Logger from "common/Logger";
 import Simulator from "core/Simulator";
 import Util from "core/Util";
+import domGeom from "dojo/domGeom";
 
 export default {
   name: "TaskRecorder",
@@ -116,7 +116,8 @@ export default {
 
     createSimulator () {
       let wrapper = this.$refs.wrapper
-      var pos = this.resizeSimulatorContainer(this.model, wrapper, 0.7);
+      var pos = this.resizeSimulatorContainer(this.model, this.$refs.simCntr, 0.7);
+      console.debug(pos)
       wrapper.style.width = pos.w + 'px'
       wrapper.style.height = pos.h + 'px'
       this.simulator = this.$new(Simulator, {
@@ -130,6 +131,17 @@ export default {
       this.simulator.scrollListenTarget = "parent";
       this.simulator.startup();
       this.simulator.setModel(this.model);
+    },
+
+    resizeSimulatorContainer (app, node) {
+        let pos = domGeom.position(node)
+        pos.h = 600
+        if (app.type == 'smartphone') {
+            pos = this.getScaledSize(pos, "height", app);
+        } else {
+            pos = this.getScaledSize(pos, "width", app);
+        }
+        return pos
     },
 
 

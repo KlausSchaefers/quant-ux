@@ -1,14 +1,14 @@
-.TaskCreateDialog{
-
+.TaskCreateDialog {
   width: 1200px;
 
 
   .TaskCreateDialogCntr {
     display: flex;
     height: 650px;
+    gap: 16px;
 
     .FormCntr{
-      width: 600px;
+      width: 500px;
 
       textarea{
         height: 100px;
@@ -17,11 +17,14 @@
 
     .StepCntr {
       height: 200px;
+      border: 1px solid #dbdbdb;
+      border-radius: 4px;
+      padding: 8px;
 
       .StepDetails {
         padding: 4px 10px;
         font-size: 16px;
-
+        border: 1px solid #3787f2;
       }
     }
 
@@ -66,8 +69,8 @@
       align-items: center;
       position: relative;
       transition: all 0.2s;
-      background: rgb(242, 242, 242);
-      color:#333;
+      background: #3788f241; // rgb(242, 242, 242);
+      color:#3787f2;
 
 
       &:hover{
@@ -104,5 +107,11 @@
         opacity: 1;
       }
     }
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  .TaskCreateDialog.desktop {
+    width: 1400px;
   }
 }

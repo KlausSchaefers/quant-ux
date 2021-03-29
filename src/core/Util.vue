@@ -673,7 +673,7 @@ export default {
       return type;
     },
 
-    getEventLabel: function(type) {
+    getEventLabel (type) {
       if (this.eventLabels[type]) {
         return this.eventLabels[type];
       }

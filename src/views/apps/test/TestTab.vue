@@ -3,7 +3,14 @@
     <section class="section">
       <div class="container">
         <div class="box is-shadowless">
-          <h2 class="title">Tests</h2>
+          <h2 class="title">Tests
+            <HelpButton
+              topic="testing"
+              subtopic="testing.howmany"
+              :hasNotifications="false"
+            />
+
+          </h2>
           <div class="MatcForm" id="testUserCountCntr">
             <BulletGraph :value="sessionCount" :sections="bulletGraphSection" />
           </div>
@@ -28,7 +35,12 @@
     <section class="section" data-dojo-attach-point="sectionTask">
       <div class="container">
         <div class="box is-shadowless">
-          <h2 data-nls="testSettingsTasks" class="title">Tasks</h2>
+          <h2 data-nls="testSettingsTasks" class="title">Tasks
+            <HelpButton
+              topic="testing"
+              subtopic="testing.tasks"
+              :hasNotifications="false"
+            /></h2>
           <TestSettings :pub="pub" :test="test" :app="app" @change="onTaskChange" />
         </div>
       </div>
@@ -38,7 +50,7 @@
       <div class="container">
         <div class="box is-shadowless">
           <h2 class="title">Screen Recordings</h2>
-          <div ref="sessionCntr" class="MatcTestTable"></div>
+          <div ref="sessionCntr" class="MatcDashTable"></div>
         </div>
       </div>
     </section>
@@ -75,6 +87,7 @@ import Analytics from "dash/Analytics";
 import Plan from "page/Plan";
 import Util from "core/Util";
 import Comment from "page/Comment";
+import HelpButton from "help/HelpButton";
 
 export default {
   name: "Test",
@@ -106,9 +119,10 @@ export default {
     };
   },
   components: {
-    BulletGraph: BulletGraph,
-    TestSettings: TestSettings,
-    Comment: Comment
+    'BulletGraph': BulletGraph,
+    'TestSettings': TestSettings,
+    'Comment': Comment,
+    'HelpButton': HelpButton
   },
   computed: {
     pub() {
@@ -298,9 +312,7 @@ export default {
           user: user,
           taskPerformance: taskSuccess + " / " + taskCount,
           taskNames: sessionTaskNames[sessionID],
-          duration: Math.ceil(
-            (session.max("time") - session.min("time")) / 1000
-          ),
+          duration: Math.ceil((session.max("time") - session.min("time")) / 1000) + ' sec',
           date: date,
           start: session.min("time"),
           size: session.size(),

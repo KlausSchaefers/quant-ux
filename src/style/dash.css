@@ -610,11 +610,17 @@
 	width: 100%;
 }
 
-.MatcTestTable table thead,
-.MatcTestTable table thead a  {
+.MatcDashTable table thead,
+.MatcDashTable table thead a  {
 	color:#363636;
 	font-weight:700;
 }
+
+.MatcDashTable .table>thead>tr>td,
+.MatcDashTable .table>tbody>tr>td{
+	vertical-align: middle;
+}
+
 
 
  /****************************************************

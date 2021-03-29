@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcTestSettings MatcTestTable">
+    <div class="MatcTestSettings MatcDashTable">
 
 
 
@@ -9,8 +9,8 @@
             <thead>
                 <tr>
                   <td style="width: 20%;">Name</td>
-                  <td style="width: 20%;">Description</td>
-                  <td style="width: 45%;">Steps</td>
+                  <td style="width: 30%;">Description</td>
+                  <td style="width: 35%;">Steps</td>
                   <td style="width: 15%;" class="action">Action</td>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@
 
             </tbody>
           </table>
-          <p v-else>
+          <p v-else class="mb-32">
             {{getNLS("testSettingsTaskAddHint")}}
           </p>
         </div>
@@ -112,7 +112,7 @@ export default {
 
     createStep (event) {
       return {
-        label: this.getEventLabel(event.type) + ' - ' + event.widget ? this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen): this.getScreenName(event.screen)
+        label: this.getEventLabel(event.type) + ' - ' + (event.widget ? this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen): this.getScreenName(event.screen))
       }
     },
 

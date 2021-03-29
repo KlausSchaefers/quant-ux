@@ -79,13 +79,13 @@ export default {
 			this._scatterPoints = {};
 		},
 
-		addTab:function(key, cls){
+		addTab (key, cls){
 			var tab = this.db.a(cls, this.getNLS("dash.perf.tab." + key)).build(this.tabsCntr);
 			this.own(on(tab, "mousedown", lang.hitch(this, "setTab", key)));
 			this.tabs[key] = tab;
 		},
 
-		setTab:function(tab){
+		setTab (tab){
 			if (this.tab != tab){
 				this.lastTab = this.tab;
 				this.tab = tab;
@@ -99,7 +99,7 @@ export default {
 			}
 		},
 
-		setValue:function(df, task, annotations, tasks){
+		setValue (df, task, annotations, tasks){
 			this.df = df;
 			this.task = task;
 			this.annotations = annotations;
@@ -109,7 +109,7 @@ export default {
 			this.render();
 		},
 
-		renderTasks:function(tasks){
+		renderTasks (tasks){
 			this.log.log(-1, "renderTasks", "enter");
 			this.taskDivs = {};
 			this.taskCircles = {};
@@ -158,7 +158,7 @@ export default {
 
 		},
 
-		render:function(changeTask){
+		render (changeTask){
 			this.log.log(-1, "render", "enter > " + changeTask);
 			if (this.task.flow && this.task.flow.length >= 2) {
 				if (!changeTask && this["clean_" + this.lastTab]){
@@ -360,7 +360,7 @@ export default {
 		 * Scatter
 		 *********************************************************************/
 
-		render_scatter:function(df, task, annotations, tasks, changeTask){
+		render_scatter (df, task, annotations, tasks, changeTask){
 			this.log.log(-1, "render_scatter", "enter > changeTask:" + changeTask);
 
 			var db = new DomBuilder();
@@ -448,13 +448,13 @@ export default {
 			setTimeout(lang.hitch(this, "setMiddle",mean_count, max_count, mean_duration, max_duration),200);
 		},
 
-		fadeOutPoint:function(p){
+		fadeOutPoint (p){
 			if (p.parentNode){
 				p.parentNode.removeChild(p);
 			}
 		},
 
-		clean_scatter:function(callback){
+		clean_scatter (callback){
 			this.log.log(-1, "clean_scatter", "enter");
 			css.remove(this.domNode, "MatcDashTaskPerfGramScatter");
 			this.setHint();
@@ -471,7 +471,7 @@ export default {
 
 		},
 
-		removePoints:function(){
+		removePoints (){
 			if(this._scatterPoints){
 				for (var sessionID in this._scatterPoints){
 					var p = this._scatterPoints[sessionID];
@@ -485,9 +485,7 @@ export default {
 			this._scatterPoints = {};
 		},
 
-
-
-		selectPoint:function(p, s, i, e){
+		selectPoint (p, s, i, e){
 			this.stopEvent(e);
 			this.setXMiddle(s.duration, this.max_duration);
 			this.setYMiddle(s.interactions, this.max_interactions);
@@ -508,7 +506,7 @@ export default {
 			this.setHint(hint);
 		},
 
-		render_user_journey:function(s, max_duration, max_count){
+		render_user_journey (s, max_duration, max_count){
 			var pos = domGeom.position(this.cntr);
 			var w = pos.w;
 			var h = pos.h;
@@ -520,7 +518,7 @@ export default {
 			this.cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
 		},
 
-		_render_line:function(w,h, s, ctx, max_duration, max_count){
+		_render_line(w,h, s, ctx, max_duration, max_count){
 			var n = 0.5;
 			var events = this.df.select("session", "==", s.session);
 			var min = events.min("time");
@@ -576,6 +574,7 @@ export default {
 					bar.style.left = "0px"
 					bar.style.height = "20px";
 					bar.style.width ="0%";
+					bar.style.background = this.greenToRed(v)
 					bar.innerHTML = Math.round(v * 100) + "%";
 
 					var label = this.db.span("MatxAxisLabel MatcDashTaskPerfGramBarLabel MatcDashTaskPerfGramScatterHidden MatcDashTaskPerfGramBarLabelHidden", lbl).build(this.cntr);
@@ -591,12 +590,12 @@ export default {
 
 		},
 
-		animateBar:function(bar, label, width){
+		animateBar (bar, label, width){
 			bar.style.width = width;
 			css.remove(label, "MatcDashTaskPerfGramBarLabelHidden");
 		},
 
-		clean_dropoff:function(callback){
+		clean_dropoff (callback){
 			this.log.log(-1, "clean_dropoff", "enter");
 			css.remove(this.domNode, "MatcDashTaskPerfGramDropOff");
 			if(this._barLabels){
@@ -619,7 +618,7 @@ export default {
 			}
 		},
 
-		removeBars:function(){
+		removeBars (){
 			if(this._bars){
 				for (var id in this._bars){
 					var b = this._bars[id];
@@ -635,7 +634,7 @@ export default {
 		 *********************************************************************/
 
 
-		showSessionReplay:function(url, i, e){
+		showSessionReplay (url, i, e){
 			this.stopEvent(e);
 			if (this.dialog){
 				this.dialog.close();
@@ -643,48 +642,48 @@ export default {
 			location.href = url;
 		},
 
-		hoverPoint:function(p){
+		hoverPoint (p){
 			if (this._selectedScatterPoint == p){
 				css.add(this.cntr, "MatcDashTaskPerfGramCntrHover");
 			}
 		},
 
-		setHint:function(hintNode){
+		setHint (hintNode){
 			this.hintCntr.innerHTML = "";
 			if(hintNode){
 				this.hintCntr.appendChild(hintNode);
 			}
 		},
 
-		clearPoint:function(){
+		clearPoint (){
 			//this.setMiddle(mean_count, max_count, mean_duration, max_duration);
 			css.remove(this.cntr, "MatcDashTaskPerfGramCntrHover");
 		},
 
-		setMiddle:function(mean_count, max_count, mean_duration, max_duration){
+		setMiddle (mean_count, max_count, mean_duration, max_duration){
 			this.setXMiddle(mean_duration, max_duration);
 			this.setYMiddle(mean_count, max_count);
 			css.remove(this.cntr, "MatcDashTaskPerfGramCntrHover");
 		},
 
-		setYMiddle:function(count, max_count){
+		setYMiddle (count, max_count){
 			this.yMiddleLabel.innerHTML = Math.ceil(count);
 			this.yMiddleLabel.style.bottom = ((count / max_count) * 100)+ "%";
 			this.yLine.style.bottom = ((count / max_count) * 100)+ "%";
 		},
 
-		setXMiddle:function(duration, max_duration){
+		setXMiddle (duration, max_duration){
 			this.xMiddleLabel.innerHTML = Math.ceil(duration /1000) + " sec" ;
 			this.xMiddleLabel.style.left =(((duration / max_duration) * 100))+ "%";
 			this.xLine.style.left =(((duration / max_duration) * 100))+ "%";
 		},
 
-		animateScatterPoint:function(p, s, max_duration, max_interactions){
+		animateScatterPoint (p, s, max_duration, max_interactions){
 			p.style.bottom = (((s.interactions / max_interactions) * 100))+ "%";
 			p.style.left = (((s.duration / max_duration) * 100))+ "%";
 		},
 
-		getNiceEventLabel:function(event, i){
+		getNiceEventLabel (event, i){
 			if (this.model){
 				var row = [];
 				if(event.widget){
@@ -692,9 +691,9 @@ export default {
 						let gesture = event.gesture;
 						row = [this.getGestureLabel(gesture.type),  this.getWidgetName(event.widget)];
 					} else if(event.state && (event.type == "WidgetClick" || event.type == "WidgetChange")  ){
-						row = [this.getEventStateLabel(event.state), this.getWidgetName(event.widget)];
+						return this.getEventStateLabel(event.state) + ` -  ` + this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen);
 					} else {
-						row = [this.getEventLabel(event.type), this.getWidgetName(event.widget)];
+						return this.getEventLabel(event.type) + ` -  ` + this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen);
 					}
 				} else if(event.type =="ScreenGesture" && event.gesture){
 					let gesture = event.gesture;
@@ -702,7 +701,7 @@ export default {
 				}else {
 					row = [this.getEventLabel(event.type), this.getScreenName(event.screen)];
 				}
-				return row[0] + " &quot;" +row[1]+ " &quot;";
+				return row[0] + " - " +row[1]+ "";
 			}
 			return this.getNLS("dash.perf.dropoff.step") + i;
 		}

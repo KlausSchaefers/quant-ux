@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcTestSettings MatcTestTable">
+  <div class="MatcTestSettings MatcDashTable">
     <div class data-dojo-attach-point="sectionTask">
       <div class="level">
         <div class="level-left">
@@ -14,18 +14,12 @@
           </h2>
         </div>
         <div class="level-right">
-          <a
-            class="button is-primary is-outlined level-item"
-            data-nls="btn.download"
-            @click="downloadCVS"
-          >{{$t('analytic-task-list.download')}}</a>
+          <a class="button is-primary is-outlined level-item"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>
         </div>
       </div>
 
       <div data-dojo-attach-point="tableCntr"></div>
-      <!--
-      <a data-nls="testSettingsAddTask" @click="addTaskToTable" class="button is-primary">Add task</a>
-      -->
+
     </div>
   </div>
 </template>
@@ -198,7 +192,7 @@ export default {
           width: 15,
           fct: function(td, row) {
             css.add(td, "MatcDashTableLabels");
-            td.innerHTML = me.formatNumber(row.durationMean / 1000) + "sec";
+            td.innerHTML = me.formatNumber(row.durationMean / 1000) + " sec";
           }
         },
         {
@@ -240,7 +234,7 @@ export default {
         var dialog = new Dialog();
         var d = db.div("MatcPadding MatcDashTaskPerfGramDialog").build();
         var gram = this.$new(TaskPerfGram, {
-          model: this.model,
+          model: this.app,
           dialog: dialog,
           mode: this.mode
         });

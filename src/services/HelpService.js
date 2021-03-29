@@ -22,6 +22,9 @@ class HelpService  {
                     import(/* webpackChunkName: "help" */ 'help/en/rest.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/other.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/design_system.js'),
+
+                    import(/* webpackChunkName: "help" */ 'help/en/testing.js'),
+
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_intro.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_tasks.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_canvas.js'),
