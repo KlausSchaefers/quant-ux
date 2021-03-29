@@ -1,6 +1,9 @@
 .TaskCreateDialog {
   width: 1200px;
 
+  .VommondCheckBoxLabel, .MatcHint {
+    font-size: 16px;
+  }
 
   .TaskCreateDialogCntr {
     display: flex;
@@ -58,6 +61,11 @@
     display: flex;
     align-items: center;
     gap: 8px;
+
+    .mdi {
+      color:#3787f2;
+      font-size: 14px;
+    }
 
     .StepDetails {
       padding: 2px 10px;

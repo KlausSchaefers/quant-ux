@@ -794,7 +794,8 @@ input:focus{
 	vertical-align: top;
 }
 
-.MatcFormCheckBox,  .form-group .VommondCheckBox, .MatcFormCheckBox .VommondCheckBox{
+.MatcFormCheckBox,  .form-group .VommondCheckBox,
+.MatcFormCheckBox .VommondCheckBox{
 	height: 24px;
 	width: 24px;
 	border-radius: 3px;

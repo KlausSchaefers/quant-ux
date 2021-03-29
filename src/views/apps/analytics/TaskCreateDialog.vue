@@ -19,7 +19,7 @@
           <div>
             <label>Expected Steps</label>
             <p class="MatcHint mb-16">Click in the simulator to add steps. You can remove steps that are not needed by clicking on them.</p>
-            <div class="StepCntr">
+            <div class="StepCntr form-group">
               <div v-for="(step, i) in steps" :key="i" class="Step">
                 <span class="mdi mdi-arrow-right" v-if="i > 0"/>
                 <div class="StepDetails">
@@ -30,6 +30,12 @@
                     </div>
                 </div>
               </div>
+            </div>
+            <div class="form-group">
+               <CheckBox label="Strict matching. No events between are allowed." :value="task.strict"  @change="setStrict"/>
+            </div>
+            <div class="form-group">
+              <CheckBox label="Record only screen views" :value="recordOnlyScreenViews"  @change="setRecordOnlyScreenView"/>
             </div>
           </div>
 
@@ -61,6 +67,7 @@ import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import Logger from "common/Logger";
+import CheckBox from "common/CheckBox";
 import Simulator from "core/Simulator";
 import Util from "core/Util";
 import domGeom from "dojo/domGeom";
@@ -72,6 +79,7 @@ export default {
   data: function() {
     return {
       hash: '',
+      recordOnlyScreenViews: true,
       ignoreFirstEvent: false,
       task: {
         name: '',
@@ -91,7 +99,9 @@ export default {
       ]
     };
   },
-  components: {},
+  components: {
+    'CheckBox': CheckBox
+  },
   computed: {
     steps () {
       return this.task.flow.map(event => {
@@ -106,6 +116,10 @@ export default {
   },
   methods: {
 
+    setRecordOnlyScreenView (v) {
+      this.recordOnlyScreenViews = v
+    },
+
     postCreate () {
       this.logger = new Logger("TaskRecorder");
       this.logger.log(-1, "postCreate", "enter > " + this.appID + "> " + this.hash);
@@ -117,7 +131,6 @@ export default {
     createSimulator () {
       let wrapper = this.$refs.wrapper
       var pos = this.resizeSimulatorContainer(this.model, this.$refs.simCntr, 0.7);
-      console.debug(pos)
       wrapper.style.width = pos.w + 'px'
       wrapper.style.height = pos.h + 'px'
       this.simulator = this.$new(Simulator, {
@@ -146,9 +159,26 @@ export default {
 
 
     onEvent (event) {
-      this.logger.log(-1,  'onEvent',  'enter', event)
+      this.logger.log(-1,  'onEvent',  'enter > recordOnlyScreenViews:' + this.recordOnlyScreenViews, event)
 
-      if (this.ignoredEvents.indexOf(event.type) < 0) {
+      if (this.recordOnlyScreenViews) {
+
+        if (event.type === 'ScreenLoaded' || event.type === 'OverlayLoaded' ) {
+          if (this.ignoreFirstEvent) {
+            this.logger.log(-1,  'onEvent',  'ignore first event')
+            this.ignoreFirstEvent = false
+            return
+          }
+          this.task.flow.push({
+            screen: event.screen,
+            widget: event.widget,
+            type: event.type,
+            state: event.state
+          });
+        }
+
+      } else  if (this.ignoredEvents.indexOf(event.type) < 0 ) {
+
         if (this.ignoreFirstEvent) {
           this.logger.log(-1,  'onEvent',  'ignore first event')
           this.ignoreFirstEvent = false
@@ -161,6 +191,7 @@ export default {
           state: event.state
         });
       }
+
     },
 
     removeEvent (i) {

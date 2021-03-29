@@ -1102,6 +1102,10 @@
 
 }
 
+.MatcToolbarHelpKeyCntr.container{
+	padding: 0px;
+}
+
 .MatcToolbarHelpKeyCntr td{
 	margin-bottom: 10px;
 }
