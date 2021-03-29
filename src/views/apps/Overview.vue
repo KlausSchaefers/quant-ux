@@ -72,6 +72,7 @@
           :hash="hash"
           :annotation="sessionAnnotations"
           :events="events"
+          @reloadEvents="reloadEvents"
           v-if="restLoaded"
           @change="onTestChange"
         />
@@ -187,6 +188,10 @@ export default {
   methods: {
     scrollTop() {
       window.scrollTo(0, 0);
+    },
+    reloadEvents () {
+      this.logger.log(-1, "reloadEvents", "enter > ");
+      this.loadEvents();
     },
     onSettingsChange(settings) {
       this.logger.info("onSettingsChange", "enter > ", settings);

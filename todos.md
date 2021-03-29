@@ -14,17 +14,23 @@
 - Make easier task recording!
 
 # Dash
- - Make Task recorder Like Maze
- - Simjualtor does not store user anymore. Always create a fresh one!
- - Call etst not users
+ - Make Questionaire statitics
+  - sortable table?
+  - add some charts???
+ - delet session
 
 # Anayltics
  - Take alook at UX berry for drop outs
  - add this to the task table?
+
+
 # Analytic Cnavas
+ - Make Task drop off chart?
  - Check Lines
  - Check Color Picker
 
+# TEST
+ - deletion fo events not possible in public
 
 ## New Features
  - ScreenSegments as targets

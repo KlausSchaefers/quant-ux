@@ -76,6 +76,7 @@
 import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
+import on from "dojo/on";
 import lang from "dojo/_base/lang";
 import DataFrame from "common/DataFrame";
 import BulletGraph from "common/BulletGraph";
@@ -83,11 +84,13 @@ import TestSettings from "views/apps/test/TestSettings";
 import Table from "common/Table";
 import Services from "services/Services";
 import Analytics from "dash/Analytics";
-// import DomBuilder from 'common/DomBuilder'
 import Plan from "page/Plan";
 import Util from "core/Util";
 import Comment from "page/Comment";
 import HelpButton from "help/HelpButton";
+import Dialog from "common/Dialog";
+import touch from "dojo/touch";
+import DomBuilder from "common/DomBuilder";
 
 export default {
   name: "Test",
@@ -216,10 +219,10 @@ export default {
           query: "duration",
           label: this.getNLS("videoTableDuration")
         },
-        {
-          query: "screens",
-          label: this.getNLS("videoTableScreens")
-        },
+        //{
+        //  query: "screens",
+        //  label: this.getNLS("videoTableScreens")
+        //},
         {
           query: "size",
           label: this.getNLS("videoTableEvents")
@@ -231,20 +234,56 @@ export default {
       ]);
       tbl.setActions([
         {
-          render: function(node, row) {
+          render: (node, row) => {
             var group = document.createElement("div");
+            group.style.width = '120px'
             node.appendChild(group);
+
             let play = document.createElement("a");
             play.href = "#/" +  urlPrefix + "/" +  app.id + "/replay/" + row.session + ".html";
             css.add(play, "button is-primary");
             play.innerHTML = '<span class="mdi mdi-play"></span>';
             group.appendChild(play);
+
+
+            let remove = document.createElement("a");
+            this.own(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
+            css.add(remove, "button is-danger");
+            remove.innerHTML = '<span class="mdi mdi-close"></span>';
+            group.appendChild(remove);
+
           }
         }
       ]);
 
+      this.$refs.sessionCntr.innerHTML = ""
       tbl.placeAt(this.$refs.sessionCntr);
       tbl.setValue(list);
+    },
+
+    showDeleteSessionDialog (e, session) {
+      this.logger.warn("showDeleteSessionDialog", "enter >", session.session);
+      let db = new DomBuilder()
+      var div = db.div("box").build();
+      db.h3("title is-4", "Do you want to delete the test?").build(div);
+      var bar = db.div("buttons").build(div);
+      var write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
+      var cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
+      var d = new Dialog();
+      d.own(on(write, touch.press, lang.hitch(this, "deleteSession", session, d)));
+      d.own(on(cancel, touch.press, lang.hitch(d, "close")));
+      d.popup(div, e.target);
+    },
+
+    async deleteSession (session, d) {
+      this.logger.warn("deleteSession", "enter >", session.session);
+      if (!this.pub) {
+        await this.modelService.deleteEventsBySession(this.app.id, session.session)
+        this.showSuccess('Test deleted');
+        this.$emit('reloadEvents')
+      }
+
+      d.close()
     },
 
     _getTestList: function(events, annotatation, testSettings) {
@@ -338,6 +377,12 @@ export default {
       // for some reason not called
       this.logger.info("watch", "test >", v);
       this.test = v;
+    },
+    events (v) {
+      this.logger.info("watch", "events >", v);
+      this.events = v;
+      this.showBullet();
+      this.showSessions();
     }
   },
   async mounted() {
