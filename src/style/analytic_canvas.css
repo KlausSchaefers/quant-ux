@@ -1,0 +1,10 @@
+.MatcAnalyticCanvas.MatcCanvasSelection .MatcWidgetDND:hover,
+.MatcAnalyticCanvas .MatcBoxSelected.MatcWidgetDND:hover,
+.MatcAnalyticCanvas .MatcBoxMoving.MatcWidgetDND:hover {
+  border:1px solid #49C0F0;
+	background:rgba(73,192,240,0.3);
+}
+
+.MatcAnalyticCanvas .MatcHeatMapScreen{
+  z-index:1000;
+}

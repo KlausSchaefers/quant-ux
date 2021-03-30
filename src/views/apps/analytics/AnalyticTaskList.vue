@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcTestSettings">
+  <div class="MatcTestSettings MatcDashTable">
     <div class data-dojo-attach-point="sectionTask">
       <div class="level">
         <div class="level-left">
@@ -14,16 +14,12 @@
           </h2>
         </div>
         <div class="level-right">
-          <a
-            class="button is-primary is-outlined level-item"
-            data-nls="btn.download"
-            @click="downloadCVS"
-          >{{$t('analytic-task-list.download')}}</a>
+          <a class="button is-primary is-outlined level-item"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>
         </div>
       </div>
 
       <div data-dojo-attach-point="tableCntr"></div>
-      <a data-nls="testSettingsAddTask" @click="addTaskToTable" class="button is-primary">Add task</a>
+
     </div>
   </div>
 </template>
@@ -31,14 +27,13 @@
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
 import lang from "dojo/_base/lang";
-import on from "dojo/on";
 import Logger from "common/Logger";
 import Dialog from "common/Dialog";
 import DomBuilder from "common/DomBuilder";
 import ProgressBar from "common/ProgressBar";
 import Table from "common/Table";
 import DataFrame from "common/DataFrame";
-import TaskRecorder from "views/apps/analytics/TaskRecorder";
+
 import TaskPerfGram from "views/apps/analytics/TaskPerfGram";
 import TestSettings from "views/apps/test/TestSettings";
 import Analytics from "dash/Analytics";
@@ -77,12 +72,10 @@ export default {
       this.logger = new Logger("AnalyticsTaskList");
       this.logger.log(0, "postCreate", "enter > " + this.app.id);
       this.db = new DomBuilder();
-      // this.own(on(this.downLoadBtn, touch.press, lang.hitch(this, "downloadCVS")));
-      // this.own(on(this.addBTN, touch.press, lang.hitch(this, "addTaskToTable", this.addBTN, null)));
       this.render();
     },
 
-    downloadCVS: function() {
+    downloadCVS () {
       var csvContent =
         "Name,Success Rate,Duration (Mean),Duration (Median), Duration (STD),Events (Mean), Events (STD)\n";
 
@@ -169,7 +162,6 @@ export default {
         {
           query: "label",
           label: this.getNLS("dashTaskTableName"),
-          edit: lang.hitch(me, "_setTaskName"),
           width: 20
         },
         {
@@ -183,7 +175,7 @@ export default {
             bar.setValue(row.p);
             bar.setLabel(row.value + " / " + row.sessionCount);
           },
-          width: 20
+          width: 30
         },
         {
           query: "success",
@@ -192,21 +184,21 @@ export default {
             css.add(td, "MatcDashTableTdHint MatcDashTableLabels");
             td.innerHTML = "(" + Math.round(row.p * 100) + "%)";
           },
-          width: 10
+          width: 15
         },
         {
           query: "durationMean",
           label: this.getNLS("dashTaskTableDuration"),
-          width: 12,
+          width: 15,
           fct: function(td, row) {
             css.add(td, "MatcDashTableLabels");
-            td.innerHTML = me.formatNumber(row.durationMean / 1000) + "sec";
+            td.innerHTML = me.formatNumber(row.durationMean / 1000) + " sec";
           }
         },
         {
           query: "interactionsMean",
           label: this.getNLS("dashTaskTableEvents"),
-          width: 14,
+          width: 15,
           fct: function(td, row) {
             css.add(td, "MatcDashTableLabels");
             td.innerHTML = me.formatNumber(row.interactionsMean);
@@ -215,23 +207,10 @@ export default {
       ]);
       tbl.setActions([
         {
-          label: this.getNLS("dashTaskTableEditFlow"),
-          css: "button is-primary is-outlined ",
-          callback: lang.hitch(me, "_onEditFlow")
-        },
-        {
           label: "",
           icon: "mdi mdi-chart-bar",
           css: "button is-primary is-outlined",
           callback: lang.hitch(me, "_showTaskPerf")
-        },
-        {
-          label: "",
-          icon: "mdi mdi-close",
-          css: " button is-danger",
-          callback: function(task, i, node) {
-            me.onDelete(node, task, i);
-          }
         }
       ]);
       tbl.placeAt(col);
@@ -255,7 +234,7 @@ export default {
         var dialog = new Dialog();
         var d = db.div("MatcPadding MatcDashTaskPerfGramDialog").build();
         var gram = this.$new(TaskPerfGram, {
-          model: this.model,
+          model: this.app,
           dialog: dialog,
           mode: this.mode
         });
@@ -267,55 +246,8 @@ export default {
       }
     },
 
-    _onEditFlow(task, i, node) {
-      var tasks = this.test.tasks;
-      for (let j = 0; j < tasks.length; j++) {
-        var t = tasks[j];
-        if (t.id == task.id) {
-          this.onFlow(node, t, j);
-        }
-      }
-    },
 
-    onFlow(node, task) {
-      this.showTaskFlow(node, task, this.app);
-    },
-
-    showTaskFlow(node, task, model) {
-      var d = new Dialog();
-      var dialog = document.createElement("div");
-      css.add(dialog, "MatchTaskRecorderDialog");
-      var s = this.$new(TaskRecorder, { model: model, task: task, dialog: d, hash: this.hash });
-      s.placeAt(dialog);
-      d.popup(dialog, node);
-      d.own(
-        on(d, "close", function() {
-          s.destroy();
-        })
-      );
-      d.own(
-        on(s, "close", function() {
-          d.close();
-        })
-      );
-      d.own(on(s, "save", lang.hitch(this, "saveFlow", task.id, d)));
-    },
-
-    saveFlow(taskID, d, flow, strict) {
-      console.debug("saveFlow", taskID, flow, strict, this.test);
-      let task = this.test.tasks.find(t => t.id === taskID);
-      if (task) {
-        task.flow = flow;
-        task.strict = strict;
-        d.close();
-        this.render(this.test);
-        this.save();
-      } else {
-        console.error("AnalyticTaskList.saveFlow() > Cannot find task", taskID);
-      }
-    },
-
-    _setTaskName: function(input, task) {
+    _setTaskName (input, task) {
       var tasks = this.test.tasks;
       for (var i = 0; i < tasks.length; i++) {
         var t = tasks[i];
@@ -323,21 +255,6 @@ export default {
           t.name = input.value;
         }
       }
-      this.save();
-    },
-
-    addTaskToTable: function() {
-      if (!this.test.tasks) {
-        this.test.tasks = [];
-      }
-      this.test.tasks.push({
-        name: "Task " + (this.test.tasks.length + 1),
-        description: this.getNLS("dashTaskDesPlaceholder"),
-        id: "t" + Date.now(),
-        isAnalytic: true,
-        flow: []
-      });
-      this.render(this.test);
       this.save();
     }
   },

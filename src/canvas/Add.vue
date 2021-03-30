@@ -3,6 +3,7 @@ import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import win from 'dojo/_base/win'
+import ModelUtil from 'core/ModelUtil'
 
 export default {
     name: 'Add',
@@ -38,7 +39,7 @@ export default {
 			},
 
 			addRestObject (params){
-				this.logger.log(-1,"addRestObject", "enter");
+				this.logger.log(1,"addRestObject", "enter");
 
 				this._createAddCommand("addRestObject", params);
 
@@ -79,6 +80,7 @@ export default {
 			addThemedWidget (params, mode){
 				this.logger.log(1,"addThemedWidget", "enter");
 				this._createAddCommand("addThemedWidget", params);
+				console.debug('addThemedWidget', params),
 				this._addWidget(params, params.obj, mode);
 			},
 
@@ -154,17 +156,15 @@ export default {
 
 				this._createAddCommand("addTemplatedWidget", params);
 
-
 				/**
 				 * check what kind of template this is.
 				 */
 				var widget = this.factory.createTemplatedModel(params);
-
+				ModelUtil.inlineBoxDesignToken(widget, this.model)
 				/**
 				 * Render drag and drop!
 				 */
 				this._addWidget(params, widget);
-
 			},
 
 
@@ -205,7 +205,7 @@ export default {
 					var child = children[i];
 					var widget = this.factory.createTemplatedModel(child);
 					widget = this.getZoomedBox(widget,z,z);
-					var widgetDIV = this.createWidget(widget);
+					var widgetDIV = this.createZoomedWidget(widget);
 					div.appendChild(widgetDIV);
 				}
 
@@ -246,10 +246,10 @@ export default {
 				this.setMode("add");
 
 				var z = this.getZoomFactor();
-				var clonedScreen = this.getZoomedBox(lang.clone(screen),z,z);
-				var div = this.createScreen(clonedScreen);
+				var zoomedScreen = this.getZoomedBox(lang.clone(screen),z,z);
+				var div = this.createScreen(zoomedScreen);
 				css.add(div, "MatcAddBox")
-				this.renderFactory.setStyle(div, clonedScreen);
+				this.renderFactory.setStyle(div, zoomedScreen);
 				this._onAddNDropStart(div, screen, params.event, "onScreenAdded");
 				this.setState(3);
 			},
@@ -281,7 +281,7 @@ export default {
 			},
 
 			_addWidget (params, widget, mode){
-				this.logger.log(-1,"_addWidget", "enter");
+				this.logger.log(-1,"_addWidget", "enter", widget);
 
 				if(mode){
 					this.setMode(mode);
@@ -307,7 +307,7 @@ export default {
 				/**
 				 * add addNDrop div
 				 */
-				var div = this.createWidget(zoomedWidget);
+				var div = this.createZoomedWidget(zoomedWidget);
 				css.add(div, "MatcAddBox")
 
 				/**
@@ -347,6 +347,50 @@ export default {
 			 * 3) the user select the end screen (onLineEndSelected)
 			 **********************************************************************/
 
+			addLineAtSelected (e, isLineDndStarted = false) {
+				this.logger.log(-1,"addLineAtSelected", "enter > isLineDnd: " + isLineDndStarted);
+
+
+
+				if (this._selectWidget && this._lastMouseMoveEvent) {
+
+					/**
+					 * Check if there is a line
+					 */
+          if (!ModelUtil.isLogicWidget(this._selectWidget)) {
+							let lines = this.getFromLines(this._selectWidget)
+							if (lines.length > 0) {
+								this.logger.log(-1,"addLineAtSelected", "EXIT because line exists");
+								this.showError('The widget has already a link')
+								return
+							}
+					}
+
+          this.addLine({
+						from : this._selectWidget.id,
+						event:this._lastMouseMoveEvent
+					})
+				}
+				if (this._selectedScreen && this._lastMouseMoveEvent) {
+					this.addLine({
+						from : this._selectedScreen.id,
+						event:this._lastMouseMoveEvent
+					})
+				}
+				if (this._selectGroup && this._lastMouseMoveEvent) {
+					this.addLine({
+						from : this._selectGroup.id,
+						event:this._lastMouseMoveEvent
+					})
+				}
+
+				/**
+				 * Set flag so wiring.vue knwos how to handle mouseup.
+				 * Add last, because addLine() will call cleanup
+				 */
+				this._addLineIsDndStarted = isLineDndStarted
+			},
+
 			addLine (params){
 				this.logger.log(-1,"addLine", "enter " + params.from +  " " + params.animation);
 
@@ -375,22 +419,22 @@ export default {
 					}
 				}
 
-				if(params.from){
+				if (params.from){
 
 					let widget = this.model.widgets[params.from];
-					if(widget){
+					if (widget) {
 						this.logger.log(1,"addLine", "draw widget line");
 						this.onLineStartSelected(params.from, null, null, params.event );
 						this._updateAddLineMove(params.event);
 					} else {
 						let screen = this.model.screens[params.from];
-						if(screen){
+						if (screen) {
 							this.logger.log(0,"addLine", "draw screen line");
 							this.onLineStartSelected(params.from, null, null, params.event );
 							this._updateAddLineMove(params.event);
-						} else if(this.model.groups) {
+						} else if (this.model.groups) {
 							let group = this.model.groups[params.from];
-							if(group){
+							if (group){
 								this.logger.log(1,"addLine", "draw group line");
 								this.onLineStartSelected(params.from, null, null, params.event );
 								this._updateAddLineMove(params.event);
@@ -434,13 +478,14 @@ export default {
 				}
 
 				this._addLineStartPos = this._getMousePosition(e);
+				this._addLineStartId = id
 				this._addLineModel = line;
 				this._addLinePoints=[];
 				this._addLineIsPaused = false;
 				this._addNDropMove = on(win.body(),"mousemove", lang.hitch(this,"_updateAddLineMove"));
 
-				this.setBoxClickCallback("onLineEndSelected");
-				this.setCanvasClickCallback("onLinePointSelected");
+				//this.setBoxClickCallback("onLineEndSelected");
+				//this.setCanvasClickCallback("onLinePointSelected");
 
 				this.showHint("Select the screen where the click should go to. You can also set some way points in the middle to make it look nicer!");
 
@@ -448,38 +493,36 @@ export default {
 			},
 
 
-
-
-			onLinePointSelected (id, div, pos, e){
-				this.logger.log(1,"onLinePointSelected", "enter >  "+ pos.x +"/" +pos.y);
+			onLinePointSelected (e){
+				this.logger.log(1,"onLinePointSelected", "enter >  ");
 
 				if(!this._addLineStartPos){
 					this._onAddCleanup();
 				}
 
-				pos = this.getCanvasMousePosition(e);
+				let pos = this.getCanvasMousePosition(e);
 				pos.w = 1;
 				pos.h = 1;
 
-				div = this.drawPoint(pos);
-				this.widgetContainer.appendChild(div);
-				this._addLinePoints.push(div);
+				let point = this.drawPoint(pos);
+				this.dndContainer.appendChild(point);
+				this._addLinePoints.push(point);
 
 				this._addLineModel.points.push(pos);
 			},
 
-			onLineEndSelected (id, div, pos,e){
+			onLineEndSelected (id, e){
 				this.logger.log(0,"onLineEndSelected", "enter > "+ id);
 				/**
-				 * check if we clicked on a screen or widegt
+				 * check if we clicked on a screen or widget
 				 */
 				var screen = this.model.screens[id];
-				if(!screen){
+				if (!screen){
 					let widget = this.model.widgets[id];
 					screen = this.getParentScreen(widget);
 				}
 
-				if(screen){
+				if (screen) {
 					let model = this._addLineModel;
 					model.to = screen.id;
 					this.controller.addLine(model,e);
@@ -541,7 +584,19 @@ export default {
 				 */
 				var screen = this.getHoverScreen(to);
 				if(screen){
-					to = screen;
+					/**
+					 * Do not snapp to same screen
+					 */
+					let startWidget = this.model.widgets[this._addLineStartId]
+					if (startWidget) {
+						let startParent = this.getParentScreen(startWidget);
+						if (!startParent || startParent.id !== screen.id) {
+							to = screen;
+						}
+					} else {
+						to = screen;
+					}
+
 				} else {
 					if (this._addLineActionTargets) {
 						for (let i=0; i < this._addLineActionTargets.length; i++) {
@@ -623,7 +678,7 @@ export default {
 				css.add(this._addNDropNode,"");
 				css.add(this._addNDropNode,"MatcCanvasAddNDropNode");
 				this._addNDropUpDateUI();
-				this.widgetContainer.appendChild(this._addNDropNode);
+				this.dndContainer.appendChild(this._addNDropNode);
 
 
 				/**
@@ -731,8 +786,10 @@ export default {
 				this._addNDropClickCallback=null;
 				this._addMDropModel = null;
 				this._addNDropNewPos = null;
+				this._addLineStartId = null
 				this._addLineSVG = null;
 				delete this._addNDropModel;
+				delete this._addLineIsDndStarted
 
 				if(this._addNDropMove)
 					this._addNDropMove.remove();
@@ -740,10 +797,8 @@ export default {
 					this._addNDropUp.remove();
 				this._addNDropStarted = false;
 
-				if(this._addNDropNode && this.widgetContainer){
-					this.widgetContainer.removeChild(this._addNDropNode);
-				} else {
-					//console.debug("Add._onAddCleanup() > Cannot clean dnd node")
+				if (this._addNDropNode && this._addNDropNode.parentNode){
+					this._addNDropNode.parentNode.removeChild(this._addNDropNode);
 				}
 
 				this.setDragNDropActive(true);

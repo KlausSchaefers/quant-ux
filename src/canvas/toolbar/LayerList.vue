@@ -3,15 +3,10 @@
 		<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="cntr">
 			<div class="MatcToolbarLayerListScreenCntr">
 				<div class="MatcLayerListScreens">
-					<div :class="['MatcToolbarSection', {'MatcToolbarSectionCollabsed': isTreeCollapsed(tree)}]" v-for="tree in trees" :key="tree.id">
-						<div class="MatcToolbarLayerListScreenLabel" @click="toggleTreeCollapsed(tree)">
-							{{tree.name}}
-							<span class="MatcToolbarSectionChevron MatcLayerListExpandIcon mdi mdi-chevron-down">
-							</span>
-						</div>
-						<div class=" MatcToolbarSectionContent">
+
+						<div class=" MatcToolbarSectionContent" >
 							<Tree
-								:value="tree"
+								:value="root"
 								@open="onOpen"
 								@locked="onLocked"
 								@hidden="onHidden"
@@ -19,7 +14,7 @@
 								@changeLabel="onChangeLabel"
 								@dnd="onDnd"/>
 						</div>
-					</div>
+
 				</div>
 			</div>
 		</div>
@@ -37,10 +32,11 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-					sections: [],
+					selection: [],
 					screenListeners: {},
 					collapsed: {},
 					openNodes: {},
+					root: {},
 					trees: [],
 					nodes: {}
         }
@@ -115,7 +111,9 @@ export default {
 
 		onSelect (ids) {
 			this.logger.log(-1, "onSelect", "entry > ", ids);
-
+			/**
+			 * FIXME: This will later trigger the select() which causes sometimes jumps
+			 */
 			if (ids.length === 1) {
 				let node = this.nodes[ids[0]]
 				if (node) {
@@ -199,6 +197,11 @@ export default {
 
 		createNestedModel (model){
 			var result = [];
+			let root = {
+				name: "",
+				id: model.id,
+				children: []
+			};
 			this.nodes = {}
 
 			// 1) Build group lookup
@@ -222,12 +225,22 @@ export default {
 			// build a tree for each screen
 			for(let id in model.screens){
 				let screen = model.screens[id];
-
+				if (this.openNodes[screen.id] === undefined) {
+					this.openNodes[screen.id] = true
+				}
 				let tree = {
 					name: screen.name,
+					label: screen.name,
 					id: screen.id,
+					css: 'MatcToolbarLayerListScreen',
+					icon: this.getAppTypeIcon(model),
+					closeIcon : this.getCloseIcon(screen),
+					openIcon: this.getOpenIcon(screen),
+					open: this.openNodes[screen.id],
 					children: []
 				};
+				this.nodes[id] = tree
+
 				let groupNodes = {};
 				let masterNodes = {}
 				let sorted = this.getSortedScreenChildren(model, screen)
@@ -266,13 +279,14 @@ export default {
 						}
 					}
 				}
-				result.push(tree)
+				root.children.push(tree)
 			}
 
 			/**
 			 * Now still add before and after listeners
 			 */
 			this.trees = result
+			this.root = root
 		},
 
 		getSortedScreenChildren (model, screen) {
@@ -388,6 +402,9 @@ export default {
 
 
 		getNodeIcon (box, type){
+			if (type === 'screen') {
+				return  this.getAppTypeIcon()
+			}
 			if (type === 'group') {
 				return 'mdi mdi-crop-free'
 			}
@@ -397,16 +414,28 @@ export default {
 			if (box.type == "Label") {
 				return "mdi mdi-format-title";
 			}
-			if (box.type == "Icon") {
-				if (box.style.icon){
-					return box.style.icon;
-				}
+
+			if (box.template) {
+			//	return "mdi mdi-puzzle-outline";
 			}
-			if (box.type == "Table") {
-				return "mdi mdi-table-large"
+
+			if (box.w > box.h) {
+				// this is funny, but we would need live update...
+				//return "mdi mdi-crop-landscape";
 			}
+
 			return "mdi mdi-crop-portrait";
 		},
+
+
+    getAppTypeIcon (model) {
+      if (model.type == "smartphone") {
+        return "mdi mdi-cellphone";
+      } else if (model.type == "tablet") {
+        return "mdi mdi-tablet-ipad";
+      }
+      return "mdi mdi-laptop";
+    },
 
 		changeName (box) {
 			let node = this.nodes[box.id]
@@ -417,7 +446,11 @@ export default {
 				if (tree) {
 					this.$set(tree, 'name', box.name)
 				} else {
-					this.logger.error('changeName', 'No node with id', box.id)
+					/**
+					 * This can happen for REST and OR nodes,
+					 * which are not shown in the tree
+					 */
+					this.logger.warn('changeName', 'No node with id: ' + box.id)
 				}
 			}
 		},
@@ -438,15 +471,16 @@ export default {
 			this.selectNode(ids)
 		},
 
-		selectNode (ids) {
+		selectNode (ids, scroll = true) {
 			this.unSelectNodes()
 			ids.forEach(id => {
 				let node = this.nodes[id]
 				if (node) {
 					this.$set(node, 'selected', true)
-					this.$set(node, 'scroll', true)
+					this.$set(node, 'scroll', scroll)
 				}
 			})
+			this.selection = ids
 		},
 
 		unSelectNodes () {

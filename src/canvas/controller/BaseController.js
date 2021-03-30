@@ -1,8 +1,9 @@
-import hash from 'dojo/hash'
-import lang from 'dojo/_base/lang'
+import hash from '../../dojo/hash'
+import lang from '../../dojo/_base/lang'
 
-import Core from 'core/Core'
-import Logger from 'common/Logger'
+import Core from '../../core/Core'
+import CoreUtil from '../../core/CoreUtil'
+import Logger from '../../common/Logger'
 
 export default class BaseController extends Core {
 
@@ -190,8 +191,11 @@ export default class BaseController extends Core {
 	 **********************************************************************/
 
 
-	onModelChanged (){
-		this.logger.log(3,"onModelChanged", "enter");
+	onModelChanged (changes){
+		this.logger.log(-1,"onModelChanged", "enter");
+		if (!changes) {
+			console.warn('onModelChanged()', 'No Changes')
+		}
 		if (this.active) {
 
 			/**
@@ -201,9 +205,8 @@ export default class BaseController extends Core {
 			 * not require a new rendering!
 			 */
 			if (this._canvas){
-				var zoomedModel = this.createZoomedModel(this._canvas.getZoomFactor());
-				this._canvas.setModel(zoomedModel);
-				this.setZoomedModelCache(zoomedModel)
+				let inheritedModel = CoreUtil.createInheritedModel(this.model)
+				this._canvas.renderPartial(inheritedModel, changes);
 			}
 
 			if (this.toolbar){
@@ -619,9 +622,9 @@ export default class BaseController extends Core {
 			/**
 			 * resize the model.
 			 */
-			let zoomedModel = this.getZoomedModelCache()
+			let inheritedModel = CoreUtil.createInheritedModel(this.model)
 			requestAnimationFrame(() => {
-				this._canvas.render(zoomedModel, isResize);
+				this._canvas.render(inheritedModel, isResize);
 				if(screenID){
 					this._canvas.moveToScreen(screenID);
 				}
@@ -639,32 +642,30 @@ export default class BaseController extends Core {
 			 * resize the model
 			 *
 			 */
-			let zoomedModel = this.getZoomedModelCache()
+			let inheritedModel = CoreUtil.createInheritedModel(this.model)
 			requestAnimationFrame(() => {
-				this._canvas.onWidgetPositionChange(zoomedModel);
+				this._canvas.onWidgetPositionChange(inheritedModel);
 			});
 		}
 	}
 
-	setZoomedModelCache (m) {
-		this._zoomedModel = m
-	}
 
-	getZoomedModelCache () {
-		/**
-		 * We could read the cached on. But we have to test more
-		 */
-		return this.createZoomedModel(this._canvas.getZoomFactor());
-	}
+
 
 	renderWidget (widget, type){
 		this.logger.log(0,"renderWidget", "enter > type : ", type);
 		if (widget) {
 
-			if(widget.template){
-				/**
-				 * TODO: Make this faster! Get all the widgets with the template and update them!
-				 */
+			/**
+				* In case we have a templated or design token widget, we
+				* kick of a complete rendering. This is to make sure that we
+				* merge in all teh style. This does not hurt too much, because
+				* we have the partical rendering now.
+				* TODO: We could use the ModelUtil and inline the template and
+				*  the design tokens
+			 */
+			if(widget.template || widget.designtokens){
+
 				this.render();
 			} else {
 				/**
@@ -676,14 +677,13 @@ export default class BaseController extends Core {
 				 *
 				 * FIXME: Also add children in case it is an container widget!
 				 */
-				var zoom = this._canvas.getZoomFactor();
-				var zoomedModel = lang.clone(widget);
-				zoomedModel.isZoomed = true;
-				this.getZoomedBox(zoomedModel, zoom, zoom)
-				this._canvas.setWidgetStyle(zoomedModel.id, zoomedModel.style, zoomedModel);
+				// let designTokenWidget = ModelUtil.inlineBoxDesignToken
+
+
+				this._canvas.setWidgetStyle(widget.id, widget.style, widget);
 
 				if (type === 'props') {
-					this._canvas.updateWidgetDataView(zoomedModel);
+					this._canvas.updateWidgetDataView(widget);
 				}
 			}
 		} else {
@@ -884,7 +884,7 @@ export default class BaseController extends Core {
 
 	modelSetGrid (grid){
 		this.model.grid = grid;
-		this.onModelChanged();
+		this.onModelChanged([{type: 'grid', action:"add"}]);
 	}
 
 
@@ -933,7 +933,7 @@ export default class BaseController extends Core {
 				console.warn("modelRemoveAction() > No widgte with ID", widgetID)
 			}
 		}
-		this.onModelChanged();
+		this.onModelChanged([{type: 'grid', action:"add"}]);
 	}
 
 	undoAddAction (command){
@@ -986,7 +986,7 @@ export default class BaseController extends Core {
 			}
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([{type: 'grid', action:"remove"}]);
 	}
 
 
@@ -1048,7 +1048,7 @@ export default class BaseController extends Core {
 			}
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([{type: 'grid', action:"update"}]);
 	}
 
 	undoActionAction (command){
@@ -1071,7 +1071,6 @@ export default class BaseController extends Core {
 	 **********************************************************************/
 
 	addLine (line){
-
 
 		/**
 		 * here comes already the correct model.
@@ -1109,7 +1108,7 @@ export default class BaseController extends Core {
 	modelAddLine (line){
 		if(!this.model.lines[line.id]){
 			this.model.lines[line.id] = line;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'line', action:"add", id:line.id}]);
 		} else {
 			console.warn("Could not add line", line);
 		}
@@ -1120,7 +1119,7 @@ export default class BaseController extends Core {
 
 		if(this.model.lines[line.id]){
 			delete this.model.lines[line.id];
-			this.onModelChanged();
+			this.onModelChanged([{type: 'line', action:"remove", id:line.id}]);
 		} else {
 			console.warn("Could not delete line", line);
 		}
@@ -1220,7 +1219,7 @@ export default class BaseController extends Core {
 			console.warn("Could not update line point ", i, "in line", id);
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([{type: 'line', action:"change", id:id}]);
 	}
 
 	undoLinePointPosition (command){
@@ -1271,7 +1270,7 @@ export default class BaseController extends Core {
 
 		if(line){
 			line[key] = value;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'line', action:"change", id:id}]);
 		} else {
 			console.warn("modelLineProperties() > No line with id " + id);
 		}
@@ -1328,7 +1327,7 @@ export default class BaseController extends Core {
 
 		if(line){
 			this.model.lines[id] = newLine;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'line', action:"change", id:id}]);
 		} else {
 			console.warn("modelLineProperties() > No line with id " + id);
 		}
@@ -1823,7 +1822,7 @@ export default class BaseController extends Core {
 				//this.logger.warn("getDeltaBox", "1 PX BUG '" + p + "' @ " + model.id);
 				//this.logger.sendError(new Error("1 PX BUG '" + p + "' @ " + model.id))
 				if (window.location.href.indexOf('localhost') > 0) {
-					alert('1 PX BUG')
+					// alert('1 PX BUG')
 					console.warn(new Error().stack)
 				}
 			}
@@ -1897,7 +1896,8 @@ export default class BaseController extends Core {
 				"templates" : true,
 				"groups" : true,
 				"fonts": true,
-				"imports": true
+				"imports": true,
+				"designtokens": true
 		};
 
 

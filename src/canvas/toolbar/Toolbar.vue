@@ -128,7 +128,7 @@
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
-								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig" />
+								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig"  @canvasViewMode="setCanvasViewMode"/>
 							</div>
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
@@ -154,21 +154,26 @@ import on from 'dojo/on'
 import touch from 'dojo/touch'
 import hash from 'dojo/hash'
 import Util from 'core/Util'
-import Logger from 'common/Logger'
-import _Render from 'canvas/toolbar/_Render'
-import _Dialogs from 'canvas/toolbar/_Dialogs'
-import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
-import ViewConfig from 'canvas/toolbar/ViewConfig'
-import HelpButton from 'help/HelpButton'
-import EditModeButton from "canvas/toolbar/EditModeButton"
 import topic from 'dojo/topic'
+import Logger from 'common/Logger'
+import _Tools from 'canvas/toolbar/mixins/_Tools'
+import _Render from 'canvas/toolbar/mixins/_Render'
+import _Dialogs from 'canvas/toolbar/mixins/_Dialogs'
+import _Show from 'canvas/toolbar/mixins/_Show'
+import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
+import ViewConfig from 'canvas/toolbar/components/ViewConfig'
+import EditModeButton from "canvas/toolbar/components/EditModeButton"
+import HelpButton from 'help/HelpButton'
+
+
 
 export default {
   name: 'Toolbar',
-	mixins:[Util, _Render, _Dialogs, DojoWidget],
+	mixins:[Util, _Render, _Dialogs, _Tools,_Show, DojoWidget],
 	props:['pub'],
     data: function () {
         return {
+					canvasViewMode: 'design',
 					value: false,
 					isPublic: false,
 					active: true,
@@ -269,7 +274,7 @@ export default {
 		setModel (m){
 			this.model = m;
 			this.renderToolbar();
-			this.render();
+			this.renderProperties()
 		},
 
 		setPublic (isPublic) {
@@ -281,11 +286,6 @@ export default {
 			this.logger.log(3,"setMode", "entry > '" + mode + "'");
 			this.mode = mode;
 			this.onModeChange();
-		},
-
-		setDataView (isDataView) {
-			this.logger.log(-1,"setDataView", "entry ", isDataView);
-			this.isDataView = isDataView
 		},
 
 		setLayerList (layerlist){
@@ -314,6 +314,14 @@ export default {
 			}
 		},
 
+		setCanvasViewMode (mode) {
+			this.logger.log(-1,"setCanvasViewMode", "entry > " + mode);
+			this.canvasViewMode = mode
+			if (this.canvas) {
+				this.canvas.setViewMode(mode)
+			}
+			this.updatePropertiesView()
+		},
 
 		/********************************************************
 		 * Mian menu handlers
@@ -379,7 +387,7 @@ export default {
 		},
 
 		onWidgetSelected (widget){
-			this.logger.log("onWidgetSelected", "entry : active:" + this.active);
+			this.logger.log(-1, "onWidgetSelected", "entry : active:" + this.active);
 
 			/**
 			 * Make this faster. Just updating the view costs 30ms
@@ -507,9 +515,10 @@ export default {
 		},
 
 
-
 		onCanvasSelected (){
 			this.cleanUp();
+
+			this.showCanvas()
 		},
 
 
@@ -526,7 +535,6 @@ export default {
 					 */
 					this.hideNotNeededButtons();
 
-
 					/**
 					 * 2) update stuff
 					 */
@@ -537,6 +545,12 @@ export default {
 					if(this._selectedScreen){
 						this.onScreenSelected(this._selectedScreen);
 					}
+
+
+					if(this._selectedGroup){
+						this.showGroupProperties(this._selectedGroup);
+					}
+
 				} catch(e){
 					console.error(e);
 					console.error(e.stack);
@@ -719,6 +733,8 @@ export default {
 			this.logger.log(1,"onNewThemeObject", "entry > " + obj._type + " > " + obj.type+ " > " +obj._isTemplate);
 			var type = obj._type;
 
+
+
 			/**
 			 * remove here some of the shit not needed
 			 */
@@ -800,7 +816,56 @@ export default {
 			return false;
 		},
 
+		/**********************************************************************
+		 * Design Token
+		 **********************************************************************/
 
+		newDesignToken (tokenType, cssProps, name) {
+			this.logger.log(-1,"newDesignToken", "entry", name);
+
+			var state = this._getViewStyleModelKey();
+			if(this._selectedWidget){
+				this.controller.addDesignToken(this._selectedWidget.id, tokenType, cssProps, state, name, 'widget');
+			}
+			if(this._selectedScreen){
+				this.controller.addDesignToken(this._selectedScreen.id, tokenType, cssProps, state, name, 'screen');
+			}
+			this.designTokenList.setModel(this.model)
+		},
+
+		linkDesignToken (designToken, cssProps) {
+			this.logger.log(-1,"linkDesignToken", "entry");
+			var state = this._getViewStyleModelKey();
+			if(this._selectedWidget){
+				this.controller.linkDesignToken(this._selectedWidget.id, designToken.id,state, cssProps, 'widget');
+			}
+			if(this._selectedScreen){
+				this.controller.linkDesignToken(this._selectedScreen.id, designToken.id, state, cssProps,'screen');
+			}
+		},
+
+		unlinkDesignToken (designToken) {
+			this.logger.log(-1,"unlinkDesignToken", "entry", designToken);
+
+			var state = this._getViewStyleModelKey();
+			if(this._selectedWidget){
+				this.controller.unlinkDesignToken(this._selectedWidget.id, designToken.id,state, 'widget');
+			}
+			if(this._selectedScreen){
+				this.controller.unlinkDesignToken(this._selectedScreen.id, designToken.id, state, 'screen');
+			}
+		},
+
+		changeDesignToken (designToken) {
+			this.logger.log(-1,"changeDesignToken", "entry");
+
+			this.controller.updateDesignToken(designToken.id, designToken.name, designToken.value);
+
+		},
+
+		removeDesignToken () {
+			this.logger.log(-1,"deleteDesignToken", "entry");
+		},
 
 		/**********************************************************************
 		 * Action
@@ -980,6 +1045,14 @@ export default {
 		onToolCreateTheme (e){
 			this.stopEvent(e);
 			this.showThemeCreateDialog();
+		},
+
+		onToolRemoveTemplate (e) {
+			this.logger.log(1,"onToolRemoveTemplate", "entry : " + this._selectedWidget);
+			this.stopEvent(e);
+			if (this._selectedWidget){
+				this.controller.unlinkTemplate(this._selectedWidget.id);
+			}
 		},
 
 		onToolUpdateTemplate (e) {

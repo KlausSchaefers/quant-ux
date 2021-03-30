@@ -17,7 +17,7 @@ export default {
     components: {},
     methods: {
 
-      registerDragOnDrop (node, id, startCallback, moveCallback, endCallback, clickCallback, targetNode){
+    registerDragOnDrop (node, id, startCallback, moveCallback, endCallback, clickCallback, targetNode){
 
 			// new method overload. We can attach the start event to a different node, then to one to be moved!
 			if (!targetNode) {
@@ -70,28 +70,27 @@ export default {
 				 */
 				this._dragNDropStartPos = this.domUtil.getPos(node);
 				this._dragnDropMousePos = this._getMousePosition(e);
-
 				this._dragNDropRenderJobs = {};
 
 				this._dragNDropMove = on(win.body(),"mousemove", lang.hitch(this,"onDragMove"));
 				this._dragNDropUp = on(win.body(),"mouseup", lang.hitch(this,"onDragEnd"));
 
-				if(this[this._dragnDropStartCallback]){
-					try{
+				if (this[this._dragnDropStartCallback]){
+					try {
 						var modelPos = this[this._dragnDropStartCallback](this._dragnDropID, this._dragNDropNode, this._dragNDropStartPos,e);
+
 						if(modelPos){
 							this._dragNDropStartPos = modelPos;
 						}  else {
 							console.debug('onDragStart() NO DND model pos')
 						}
-					}catch(e){
+					} catch(e){
 						if(this.logger){
 							this.logger.sendError(e);
 							this.logger.error("onDragStart", "Could not indluce callback " + this._dragnDropStartCallback, e);
 						} else {
 							console.error("onDragStart() > Error invoking " + this._dragnDropStartCallback);
 						}
-
 					}
 				}
 			} catch(e){
@@ -110,10 +109,8 @@ export default {
 			this._dragNDropMinTime = t;
 		},
 
-		onDragMove ( e ){
-			try{
-
-
+		onDragMove (e){
+			try {
 				this.stopEvent(e);
 
 				var now = new Date().getTime();
@@ -136,10 +133,12 @@ export default {
 
 
 				var pos = this._getMousePosition(e);
+
 				var difX = pos.x - this._dragnDropMousePos.x;
 				var difY = pos.y - this._dragnDropMousePos.y;
 				var x = this._dragNDropStartPos.x + difX;
-				var y= this._dragNDropStartPos.y + difY;
+				var y = this._dragNDropStartPos.y + difY;
+
 
 
 				/**
@@ -173,6 +172,7 @@ export default {
 					w: this._dragNDropStartPos.w
 				};
 
+
 				/**
 				 * Alt Key will ensure that we move on one line!
 				 */
@@ -204,24 +204,21 @@ export default {
 				 * if there a callback check if the move is ok.
 				 */
 				var isInArea = true;
-				if(this[this._dragnDropMoveCallback]){
-					try{
+				if (this[this._dragnDropMoveCallback]){
+					try {
 						//console.debug("move callback", this._dragnDropMoveCallback)
 						isInArea = this[this._dragnDropMoveCallback](this._dragnDropID, this._dragNDropNode, newPos, dif);
-					}catch(e){
+					} catch (e) {
 						if(this.logger){
 							this.logger.error("onDragMove", "Error invoking " + this._dragnDropMoveCallback, e);
 							this.logger.sendError(e);
 						} else {
 							console.error("onDragMove() > Error invoking " + this._dragnDropMoveCallback);
 						}
-
 					}
-
 				}
 
 				if(isInArea !== false){
-
 					/**
 					 * we have a render queue, and have to put a new
 					 * job in the queue

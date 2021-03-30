@@ -1,21 +1,72 @@
 
 <template>
-  <div></div>
+    <div class="MatcTestSettings MatcDashTable">
+
+
+
+        <div data-dojo-attach-point="tableCntr" class="">
+          <table v-if="hasTests" class="vommondTable table is-hoverable">
+            <thead>
+                <tr>
+                  <td style="width: 20%;">Name</td>
+                  <td style="width: 30%;">Description</td>
+                  <td style="width: 35%;">Steps</td>
+                  <td style="width: 15%;" class="action">Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(task, i) in testSettings.tasks" :key="task.id">
+                  <td >{{task.name}}</td>
+                  <td>{{task.description}}</td>
+                  <td>
+                    <template v-if="task.flow && task.flow.length > 0">
+                      <div class="StepCntr">
+                          <div v-for="(step, i) in getTaskSteps(task)" :key="i" class="Step">
+                            <span class="mdi mdi-arrow-right" v-if="i > 0"/>
+                            <div class="StepDetails">{{step.label}}  </div>
+                         </div>
+                      </div>
+
+
+                    </template>
+                    <span class="MatcHint" v-else>No steps </span>
+                  </td>
+                  <td class=" action">
+                    <a class=" button " @click="onEditTask(task, i, $event)">Edit</a>
+                    <a class=" button is-danger" @click="onDelete(task, i, $event)"><span class=" mdi mdi-close"></span></a>
+                  </td>
+                </tr>
+
+            </tbody>
+          </table>
+          <p v-else class="mb-32">
+            {{getNLS("testSettingsTaskAddHint")}}
+          </p>
+        </div>
+
+        <a data-nls="testSettingsAddTask" @click="showCreateDialog" class="button is-primary">Add task</a>
+
+
+  </div>
 </template>
+<style lang="scss">
+  @import '../../../style/scss/task_create_dialog.scss';
+</style>
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
 import lang from "dojo/_base/lang";
-import hash from "dojo/hash";
 import on from "dojo/on";
 import touch from "dojo/touch";
 import Logger from "common/Logger";
 import Dialog from "common/Dialog";
 import DomBuilder from "common/DomBuilder";
-import Table from "common/Table";
 import Util from "core/Util";
 import Plan from "page/Plan";
 import Services from "services/Services";
+//import TaskRecorder from "views/apps/analytics/TaskRecorder";
+import TaskRecorder from "views/apps/analytics/TaskCreateDialog";
+//import Table from '../../../common/Table.vue';
 
 export default {
   name: "TestSettings",
@@ -23,6 +74,7 @@ export default {
   mixins: [Util, Plan, DojoWidget],
   data: function() {
     return {
+      testSettings: null,
       appID: "",
       userID: ""
     };
@@ -31,16 +83,58 @@ export default {
   computed: {
     pub() {
       return this.$route.meta && this.$route.meta.isPublic;
+    },
+    hasTests () {
+      return this.testSettings && this.testSettings.tasks && this.testSettings.tasks.length > 0
     }
   },
   methods: {
+
+    getTaskSteps (task) {
+      let result = []
+      if (task.flow.length > 0) {
+        result.push(this.createStep(task.flow[0]))
+      }
+
+      if (task.flow.length > 2) {
+        result.push({
+          type: '',
+          label: '...'
+        })
+      }
+
+      if (task.flow.length > 1) {
+        result.push(this.createStep(task.flow[task.flow.length-1]))
+      }
+
+      return result
+    },
+
+    createStep (event) {
+      return {
+        label: this.getEventLabel(event.type) + ' - ' + (event.widget ? this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen): this.getScreenName(event.screen))
+      }
+    },
+
+
+
+    getScreenName (screenID) {
+      if (this.app.screens[screenID] && this.app.screens[screenID].name) {
+        return this.app.screens[screenID].name;
+      }
+      return screenID;
+    },
+
+    getWidgetName (widgetID) {
+      if (this.app.widgets[widgetID] && this.app.widgets[widgetID].name) {
+        return this.app.widgets[widgetID].name;
+      }
+      return widgetID;
+    },
+
     postCreate() {
       this.logger = new Logger("TestSettings");
-      this.logger.log(
-        4,
-        "postCreate",
-        "enter > " + this.appID + " > " + this.pub
-      );
+      this.logger.log(4,"postCreate", "enter > " + this.appID + " > " + this.pub);
       this.db = new DomBuilder();
       if (this.test) {
         this.setValue(this.test);
@@ -48,138 +142,97 @@ export default {
     },
 
     setValue(data) {
-      this.render(data);
+      this.testSettings = data
     },
 
     render(data) {
       this.cleanUpTempListener();
       this.renderTaskTable(data);
-      this.checkPlan();
     },
 
-    renderTaskTable(data) {
-      this.domNode.innerHTML = "";
-      if (data.tasks && data.tasks.length > 0) {
-        var me = this;
-        var tbl = this.$new(Table);
-        tbl.setColumns([
-          {
-            query: "name",
-            label: this.getNLS("testSettingsTaskName"),
-            edit: function(input, task) {
-              task.name = input.value;
-              me.save(false);
-            },
-            width: 20
-          },
-          {
-            query: "description",
-            label: this.getNLS("testSettingsTaskDescription"),
-            edit: function(input, task) {
-              task.description = input.value;
-              me.save(false);
-            },
-            width: 70
-          }
-        ]);
-        tbl.setActions([
-          {
-            label: "",
-            icon: "mdi mdi-close",
-            css: "button is-danger",
-            callback: function(task, i, node) {
-              me.onDelete(node, task, i);
-            }
-          }
-        ]);
-        tbl.placeAt(this.domNode);
-        tbl.setValue(data.tasks);
-      } else {
-        this.db
-          .div(
-            "MatcHint MatcMarginBottom",
-            this.getNLS("testSettingsTaskAddHint")
-          )
-          .build(this.domNode);
-      }
-      this.addBTN = this.db
-        .a("button is-primary", this.getNLS("testSettingsAddTask"))
-        .build(this.domNode);
-      this.own(
-        on(
-          this.addBTN,
-          touch.press,
-          lang.hitch(this, "addTaskToTable", this.addBTN, null)
-        )
-      );
+
+    showCreateDialog () {
+      var d = new Dialog();
+      var dialog = document.createElement("div");
+      css.add(dialog, "MatchTaskRecorderDialog");
+      var s = this.$new(TaskRecorder, { model: this.app, hash: this.hash });
+      s.setValue({
+        name: "Task " + (this.test.tasks.length + 1),
+        description: '',
+        flow: [],
+        strict: false
+      })
+      s.placeAt(dialog);
+      d.popup(dialog, this.addBTN);
+      d.own(on(d, "close", function() { s.destroy(); }));
+      d.own(on(s, "close", function() { d.close(); }));
+      d.own(on(s, "save", lang.hitch(this, "createNewTask", s, d)));
     },
 
-    checkPlan() {
-      this.logger.log(8, "checkPlan", "enter");
-      if (this.pub) {
-        if (!this.planCanAddTask(this.test)) {
-          css.add(this.addBTN, "MatcButtonGreen");
-          this.addBTN.innerHTML = this.getNLS("testSettingsUpgradePlan");
-        } else {
-          css.remove(this.addBTN, "MatcButtonGreen");
-          this.addBTN.innerHTML = this.getNLS("testSettingsAddTask");
-        }
-      }
-    },
-
-    async addTaskToTable() {
-      if (!this.pub && !this.planCanAddTask(this.test)) {
-        hash("#/upgrade-plan/tasks.html");
-        return;
-      }
-
+    async createNewTask(s, dialog) {
+      let newTask = s.getValue()
+      dialog.close()
       if (!this.test.tasks) {
         this.test.tasks = [];
       }
       this.test.tasks.push({
-        name: "Task " + (this.test.tasks.length + 1),
-        description: this.getNLS("testSettingTaskDeskPlaceholder"),
+        name: newTask.name,
+        description: newTask.description,
         id: "t" + Date.now(),
-        flow: []
+        strict: newTask.strict,
+        flow: newTask.flow
       });
 
-      this.render(this.test);
+
       this.save();
     },
 
-    onDelete: function(node, task, i) {
+    onEditTask(task, i, e) {
+      var d = new Dialog();
+      var dialog = document.createElement("div");
+      css.add(dialog, "MatchTaskRecorderDialog");
+      var s = this.$new(TaskRecorder, { model: this.app, hash: this.hash, ignoreFirstEvent: true});
+      s.setValue(task)
+      s.placeAt(dialog);
+      d.popup(dialog, e.target);
+      d.own(on(d, "close", function() { s.destroy(); }));
+      d.own(on(s, "close", function() { d.close(); }));
+      d.own(on(s, "save", lang.hitch(this, "updateTask", s, d)));
+    },
+
+    updateTask(s, dialog) {
+      let updatedTask = s.getValue()
+      let task = this.test.tasks.find(t => t.id === updatedTask.id);
+      if (task) {
+        task.name = updatedTask.name
+        task.strict = updatedTask.strict
+        task.flow = updatedTask.flow
+        task.description = updatedTask.description
+
+        this.save();
+      } else {
+        console.error("AnalyticTaskList.saveFlow() > Cannot find task", updatedTask);
+      }
+      dialog.close();
+    },
+
+
+
+    onDelete (task, i, e) {
       var name = task.name ? task.name : task.label;
-
       var div = this.db.div("box").build();
-
-      this.db
-        .h3(
-          "title is-4",
-          this.getNLS("testSettingTaskDelete1") +
-            name +
-            this.getNLS("testSettingTaskDelete2")
-        )
-        .build(div);
-
+      this.db.h3("title is-4",this.getNLS("testSettingTaskDelete1") + name + this.getNLS("testSettingTaskDelete2")).build(div);
       var bar = this.db.div("buttons").build(div);
-
-      var write = this.db
-        .a("button is-danger", this.getNLS("btn.delete"))
-        .build(bar);
-      var cancel = this.db
-        .a("button is-text", this.getNLS("btn.cancel"))
-        .build(bar);
-
+      var write = this.db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
+      var cancel = this.db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
       var d = new Dialog();
       d.own(on(write, touch.press, lang.hitch(this, "removeTask", i, d)));
       d.own(on(cancel, touch.press, lang.hitch(d, "close")));
-
-      d.popup(div, node);
+      d.popup(div, e.target);
     },
 
-    removeTask: function(i, d) {
+    removeTask (i, d) {
       this.test.tasks.splice(i, 1);
-      this.render(this.test);
       d.close();
       this.save();
     },
@@ -188,7 +241,6 @@ export default {
       if (this.pub) {
         this.showSuccess(this.getNLS("testSettingsRegister"));
       } else {
-        console.debug("save", this.test);
         let res = await Services.getModelService().saveTestSettings(
           this.app.id,
           this.test
@@ -199,6 +251,21 @@ export default {
         }
       }
     },
+
+     _onEditFlow(task, i, node) {
+      var tasks = this.test.tasks;
+      for (let j = 0; j < tasks.length; j++) {
+        var t = tasks[j];
+        if (t.id == task.id) {
+          this.onFlow(node, t, j);
+        }
+      }
+    },
+
+    onFlow(node, task) {
+      this.showTaskFlow(node, task, this.app);
+    },
+
 
     cleanUp() {
       this.cleanUpTempListener();

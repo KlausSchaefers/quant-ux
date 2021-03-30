@@ -22,11 +22,11 @@ html{
   a{
 	  outline: none;
 	  cursor: pointer;
-	  color:#1973e8;
+	  color:#3787f2;
   }
 
   a:hover {
-	  color:#1973e8;
+	  color:#3787f2;
   }
 
   a:FOCUS{
@@ -58,7 +58,7 @@ html{
 
 
   .VommondDialogContent label{
-	  font-size: 14px;
+	  font-size: 16px;
   }
 
 
@@ -266,10 +266,11 @@ html{
   .MatcHelpIcon{
 	  margin-left: 10px;
 	  color:#ccc;
+		cursor: pointer;
   }
 
   .MatcHelpIcon:hover{
-	  color:#1973e8
+	  color:#3787f2
   }
 
   .MatcHelpIcon > div {
@@ -301,7 +302,7 @@ html{
 	  font-weight: bold;
 	  margin-top: 0px;
 	  margin-bottom: 20px;
-	  color:#1973e8;
+	  color:#3787f2;
   }
 
 
@@ -354,7 +355,7 @@ html{
 
 
   .MatcDialogLogo{
-	  background: none repeat scroll 0 0 #1973e8;
+	  background: none repeat scroll 0 0 #3787f2;
 	  color: #fff;
 	  font-size: 70px;
 	  height: 100px;

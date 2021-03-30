@@ -63,10 +63,7 @@
     </section>
     <section class="section">
       <div class="container">
-        <a
-          @click="deleteApp"
-          class="button is-fullwidth is-normal is-danger level-item"
-        >Delete Prototype</a>
+        <a @click="showDeleteDialog" class="button is-fullwidth is-normal is-danger level-item" ><span ref="deleteBtn">Delete Prototype</span></a>
       </div>
     </section>
     <section class="section">
@@ -92,6 +89,11 @@ import DojoWidget from "dojo/DojoWidget";
 import Team from "page/Team";
 import Services from "services/Services";
 import Comment from "page/Comment";
+import on from "dojo/on";
+import touch from "dojo/touch";
+import Dialog from "common/Dialog";
+import lang from "dojo/_base/lang";
+import DomBuilder from "common/DomBuilder";
 
 export default {
   name: "Test",
@@ -116,16 +118,7 @@ export default {
       if (this.app) {
         var w = this.app.screenSize.w + "px";
         var h = this.app.screenSize.h + "px";
-        var code =
-          '<iframe src="' +
-          this.base +
-          "/em.html?h=" +
-          this.hashes[1] +
-          '" width="' +
-          w +
-          '" height="' +
-          h +
-          '" allowTransparency="true" frameborder="0"></iframe>';
+        var code = '<iframe src="' + this.base + "/em.html?h=" + this.hashes[1] + '" width="' +  w + '" height="' +  h + '" allowTransparency="true" frameborder="0"></iframe>';
         return code;
       }
       return "-";
@@ -139,11 +132,30 @@ export default {
     }
   },
   methods: {
-    async deleteApp() {
-      if (confirm(`Do you want to delete the ${this.app.name} prototype?`)) {
-        await Services.getModelService().deleteApp(this.app);
-        location.href = "#/my-apps.html";
-      }
+    async showDeleteDialog() {
+
+      let db = new DomBuilder()
+
+      var div = db.div("box").build();
+
+      db.h3("title is-4", `Do you want to delete the ${this.app.name} prototype?`).build(div);
+
+      var bar = db.div("buttons").build(div);
+
+      var write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
+      var cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
+
+      var d = new Dialog();
+      d.own(on(write, touch.press, lang.hitch(this, "deleteApp", d)));
+      d.own(on(cancel, touch.press, lang.hitch(d, "close")));
+      d.popup(div, this.$refs.deleteBtn);
+
+    },
+
+    async deleteApp (d) {
+      await Services.getModelService().deleteApp(this.app);
+      d.close()
+      location.href = "#/my-apps.html";
     },
     async resetShare() {
       await Services.getModelService().resetTeam(this.app.id);

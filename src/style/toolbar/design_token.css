@@ -1,0 +1,222 @@
+.MatcToolbarSectionDesignSystemCntr {
+	position: absolute;
+	right:15px;
+	top:2px;
+	width: 18px;
+	text-align:center;
+	height: 18px;
+  transition-duration: 0.2s;
+	transition-property:transform;
+}
+
+
+.MatcToolbarSectionDesignSystemCntr:hover span{
+	color: #3787f2;
+}
+
+
+/****************************************************
+ * DesignTokenButton
+ ****************************************************/
+
+.MatcDesignTokenButton{
+
+}
+
+.MatcDesignTokenButton .MatcToolbarPopUp{
+	width: 200px;
+}
+
+.MatcDesignTokenButtonPopup{
+	width: 200px;
+}
+
+
+
+.MatcDesignTokenButtonHeader {
+	border-bottom: 1px solid #ccc;
+}
+
+.MatcDesignTokenButtonPopup .MatcDesignTokenButtonPreviews {
+	max-height: 200px;
+	overflow: auto;
+}
+
+.MatcDesignTokenMixin {
+	display: inline-block;
+}
+
+
+/****************************************************
+ * Preview
+ ****************************************************/
+
+.MatcDesignTokenPreView {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.MatcDesignTokenPreView .MatcToolbarItemLabel {
+	flex-grow: 1;
+	line-height: 1;
+}
+
+
+.MatcDesignTokenPreView .MatcToolbarColorIndicator {
+	margin-right: 5px;
+}
+
+.MatcDesignTokenButtonPopup .MatcToolbarItemIcon,
+.MatcDesignTokenButtonPopup .MatcToolbarItemIcon .mdi{
+	font-size: 16px;
+}
+
+.MatcDesignTokenEdit {
+	opacity: 0;
+}
+
+.MatcDesignTokenPreView:hover .MatcDesignTokenEdit {
+	opacity: 1;
+}
+
+
+/****************************************************
+ * DesignTokenList
+ ****************************************************/
+
+.MatcDesignTokenList label {
+	background: none;
+  color: #555;
+  text-align: left;
+  padding-left: 8px;
+  font-weight: 400;
+	margin-top: 16px;
+	margin-top: 8px;
+}
+
+
+.MatcDesignTokenList .MatcDesignTokenListSection{
+	margin-bottom: 16px;
+}
+
+.MatcDesignTokenList .MatcDesignTokenPreView{
+		padding: 8px;
+}
+
+.MatcDesignTokenListPopup{
+	width:320px;
+}
+
+.MatcDesignTokenListPopup.MatcDesignTokenListPopupText{
+	width:230px;
+}
+
+
+
+.MatcDesignTokenListPopup .MatcToolbarDropDownButton,
+.MatcDesignTokenListPopup .MatcToolbarToggleButton {
+	border: 1px solid transparent;
+}
+
+.MatcDesignTokenListPopup .MatcToolbarDropDownButton:hover,
+.MatcDesignTokenListPopup .MatcToolbarToggleButton:hover {
+	border: 1px solid #777;
+}
+
+.MatcDesignTokenListInput{
+	border: 1px solid transparent;
+	width: 100%;
+	padding: 3px;
+	border: 1px solid #ddd;
+}
+
+.MatcDesignTokenListPopupSection {
+	border-bottom: 1px solid #ddd;
+	padding: 8px;
+}
+
+.MatcDesignTokenListPopupSection.MatcDesignTokenListPopupPadding {
+	padding: 8px 18px;
+}
+
+
+.MatcDesignTokenListPopupSection.MatcDesignTokenListPopupPadding .MatcToolbarTabs a {
+	padding: 5px;
+}
+
+.MatcDesignTokenListPopupButtonBar{
+	border-top: 1px solid #ddd;
+	padding: 8px;
+}
+
+label.MatcDesignTokenListPopupSection{
+	display: block;
+	font-weight: 700;
+}
+
+.MatcDesignTokenListPopup .MatcToolbarPopUpContainer {
+	padding: 0px;
+}
+
+
+.MatcDesignTokenListPopup .MatcToolbarInputDropDownButton input{
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: 0px solid #555;
+  font-size: 12px;
+  line-height: 1em;
+  padding: 0px;
+  vertical-align: middle;
+  width:30px;
+  height: auto;
+}
+
+/* keep in sync with MatcToolbarPopUpIcon */
+
+.MatcDesignTokenListPopup .mdi {
+	font-size: 16px;
+}
+
+.MatcDesignTokenListPopup .MatcButton,
+.MatcDesignTokenListPopup .MatcLinkButton{
+	font-size: 14px;
+	padding: 3px 10px;
+}
+
+/****************************************************
+ * Dialog (FIXME:_ Removce
+ ****************************************************/
+
+.MatcDesignTokenDialog {
+	width: 960px;
+
+}
+
+.MatcDesignTokenDialogCntr {
+	display: flex;
+}
+
+.MatcDesignTokenDialogEdit {
+	flex-grow: 1;
+	border:1px solid red;
+}
+
+
+.MatcDesignTokenDialog .MatcDesignTokenDialogList {
+	width: 200px;
+	height: 500px;
+}
+
+.MatcDesignTokenDialog .MatcDesignTokenDialogList a{
+	font-size: 14px;
+  font-weight: 700;
+	text-decoration: none;
+	display: block;
+	margin-bottom: 10px;
+	color:#555;
+}
+
+.MatcDesignTokenDialog .MatcDesignTokenDialogList a:hover,
+.MatcDesignTokenDialog .MatcDesignTokenDialogList a.selected {
+	color: #3787f2;
+}

@@ -179,17 +179,12 @@ export default {
       var max = sessionGroup.max("time");
       max.minus(min);
 
-      var userCount = df.count("user");
-      var userGroup = df.groupBy("user");
-      var uniqueSession = userGroup.unique("session");
+      /**
+       *
+       */
+
 
       let summary = {};
-      summary.userCount = userCount.size();
-      summary.userEventMean = Math.round(userCount.mean());
-      summary.userEventStd = Math.round(userCount.std());
-      summary.userSessionMean = Math.round(uniqueSession.mean());
-      summary.userSessionStd = Math.round(uniqueSession.std());
-
       summary.sessionCount = count.size();
       summary.sessionCountMean = Math.round(count.mean());
       summary.sessionCountStd = Math.round(count.std());

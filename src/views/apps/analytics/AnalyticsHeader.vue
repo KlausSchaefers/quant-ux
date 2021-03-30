@@ -1,15 +1,15 @@
 
 <template>
-  <div class="columns has-text-centered mt-16">
-    <div class="column">
+  <div class="columns has-text-centered mt-16 ">
+    <div class="column mb-32">
       <div data-dojo-attach-point="userContainer"></div>
     </div>
 
-    <div class="column">
+    <div class="column mb-32">
       <div data-dojo-attach-point="coverageContainer"></div>
     </div>
 
-    <div class="column">
+    <div class="column mb-32">
       <div data-dojo-attach-point="durContainer"></div>
     </div>
   </div>

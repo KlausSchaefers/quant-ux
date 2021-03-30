@@ -21,6 +21,7 @@ import RenderFactory from 'core/RenderFactory'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import Services from 'services/Services'
+import app from './data/canvasTestApp.json'
 
 export default {
   name: "home",
@@ -65,7 +66,7 @@ export default {
      * model factory
      */
 
-    let model = this.getModel()
+    let model = app
     var factory = new ModelFactory();
     var stack = {stack:[], pos:0, lastUUID:0,appID:0};
     let user = {role:'user', id:-1}

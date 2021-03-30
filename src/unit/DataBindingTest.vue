@@ -31,7 +31,7 @@
 
 <script>
 
-import DataBinding from 'canvas/toolbar/DataBinding'
+import DataBinding from 'canvas/toolbar/components/DataBinding'
 import rest from './data/rest.json'
 
 export default {

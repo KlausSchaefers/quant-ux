@@ -149,7 +149,7 @@ body{
 }
 
 .MatcInfitationDialogLarge{
-	height:380px;
+	height:400px;
 }
 
  /****************************************************
@@ -301,12 +301,12 @@ body{
 }
 
 .MatcHeaderActionContainer .MatcButton {
-    border-color: #1973e8;
+    border-color: #3787f2;
     box-shadow: none;
     background:none;
     color: #fff;
     font-size: 30px;
-    color:#1973e8;
+    color:#3787f2;
 }
 
 .MatcHeaderActionContainer .MatcButton:HOVER {
@@ -316,7 +316,7 @@ body{
 
 .MatcAbout .MatcSection:nth-child(odd) h2,
 .MatcAbout .MatcSection:nth-child(odd) h1{
-	color:#1c78d3;
+	color:#3787f2;
 }
 
 
@@ -372,7 +372,7 @@ body{
 	padding-top: 200px;
 	min-height: 800px;
 	padding-bottom: 200px;
-	background: #1c78d3;
+	background: #3787f2;
 }
 
 .MatcFeatureHeader .MatcLead{
@@ -988,7 +988,7 @@ textarea.MatcContentWidgetAbs{
 	font-size: 30px;
 	overflow: hidden;
 	text-align: center;
-	color:#1973e8;
+	color:#3787f2;
 }
 
 .MatcUserAdd{
@@ -1050,7 +1050,7 @@ textarea.MatcContentWidgetAbs{
 	overflow: hidden;
 	color:#fff;
 	font-size: 70px;
-	background: #1973e8;
+	background: #3787f2;
 	position: relative;
 }
 
@@ -1084,7 +1084,7 @@ textarea.MatcContentWidgetAbs{
 
  .MatcSettings .MatcUserImageNone, .MatcSettings .MatcUserAdd{
  	font-size: 55px;
- 	background: #1973e8;
+ 	background: #3787f2;
  	color:#fff;
  }
 
@@ -1329,7 +1329,7 @@ textarea.MatcContentWidgetAbs{
 }
 
 .MatcCommentPic .MatcUserImageNone{
-	background: none repeat scroll 0 0 #1973e8;
+	background: none repeat scroll 0 0 #3787f2;
     color: #fff;
     font-size: 45px;
 }

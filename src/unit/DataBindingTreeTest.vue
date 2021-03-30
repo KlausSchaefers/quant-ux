@@ -31,7 +31,7 @@
 
 <script>
 
-import DataBindingTree from 'canvas/toolbar/DataBindingTree'
+import DataBindingTree from 'canvas/toolbar/components/DataBindingTree'
 import rest from './data/rest.json'
 
 export default {

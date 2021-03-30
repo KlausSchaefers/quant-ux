@@ -35,7 +35,7 @@
 }
 
 .MatcDashTaskPerfGram .MatcToolbarTabs a:hover{
-	color:#1973e8;
+	color:#3787f2;
 }
 
 
@@ -187,7 +187,7 @@
 
 .MatcDashTaskPerfGramBar{
 	position: absolute;
-	background-color: #1973e8;
+	background-color: #3787f2;
 	border-top-right-radius:3px;
 	border-bottom-right-radius:3px;
 	transition: all 0.2s;
@@ -490,7 +490,7 @@
 }
 
 .VommondProgressBar{
-	background:#1973e8;
+	background:#3787f2;
 }
 
 
@@ -548,7 +548,7 @@
 }
 
 .DashTaskListChartBtn:hover{
-	color: #1973e8;
+	color: #3787f2;
 }
 
 
@@ -610,9 +610,24 @@
 	width: 100%;
 }
 
-.MatcTestSettings table thead a{
+.MatcDashTable table thead,
+.MatcDashTable table thead a  {
 	color:#363636;
 	font-weight:700;
+}
+
+.MatcDashTable .table>thead>tr>td,
+.MatcDashTable .table>tbody>tr>td{
+	vertical-align: middle;
+}
+
+.MatcDashTable  tbody td.action{
+	opacity: 1;
+	transition: all 0.2s;
+}
+
+.MatcDashTable  tbody tr:hover td.action{
+	opacity: 1;
 }
 
 
@@ -658,6 +673,11 @@
 
  .MatcTaskRecorder{
 
+ }
+
+ .MatcTaskRecorder .MactCenter{
+
+	box-shadow: 0px 0px 16px rgba(0,0,0,0.15);
  }
 
 

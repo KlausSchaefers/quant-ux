@@ -1,6 +1,6 @@
 
-import Group from 'canvas/controller/Group'
-import lang from 'dojo/_base/lang'
+import Group from './Group'
+import lang from '../../dojo/_base/lang'
 
 export default class CopyPaste extends Group{
 
@@ -62,6 +62,7 @@ export default class CopyPaste extends Group{
 		 * FIXME: copy the group stuff as well!
 		 */
 		var groups = []
+		let changes = []
 		var clonePos = this.getClones(ids, pos).clones;
 		for (var i=0; i< clonePos.length; i++) {
 			var cPos = clonePos[i];
@@ -69,6 +70,8 @@ export default class CopyPaste extends Group{
 				var widget = this.model.widgets[cPos.cloneOff];
 
 				var clonedWidget = this._copyWidget(widget, targetScreen);
+				changes.push({type:"widget", action:'add', id: clonedWidget.id})
+
 				/**
 				 * In case of redo, we have to use the same ids, so
 				 * undo works again...
@@ -113,7 +116,8 @@ export default class CopyPaste extends Group{
 				this.logger.error("modelAddClonedWidgets", "Error. No widget with id > " +cPos.cloneOff);
 			}
 		}
-		this.onModelChanged();
+
+		this.onModelChanged(changes);
 		return clonedIds;
 	}
 
@@ -122,10 +126,12 @@ export default class CopyPaste extends Group{
 		/**
 		 * remove widgets
 		 */
+		let changes = []
 		for(let i=0; i < widgetIDs.length; i++){
 			let id = widgetIDs[i];
 			if(this.model.widgets[id]){
 				var widget = this.model.widgets[id];
+				changes.push({type: 'widget', action: 'remove', id: id})
 				delete this.model.widgets[id];
 				this.cleanUpParent(widget);
 			} else {
@@ -144,7 +150,7 @@ export default class CopyPaste extends Group{
 				console.warn("modelRemoveClonedWidgets() > Could not delete groud", id);
 			}
 		}
-		this.onModelChanged();
+		this.onModelChanged(changes);
 	}
 
 	undoWidgetReplicate (command){
@@ -318,6 +324,7 @@ export default class CopyPaste extends Group{
 		let hasScreen = clipBoard.screens.length > 0
 		clipBoard.widgets.forEach(widget => {
 			this.model.widgets[widget.id] = widget
+
 			if (!hasScreen) {
 				let parent = this.getHoverScreen(widget);
 				if (parent) {
@@ -334,7 +341,7 @@ export default class CopyPaste extends Group{
 			}
 			this.model.groups[group.id] = group
 		})
-		this.onModelChanged();
+		this.onModelChanged([]);
 		this.render();
 	}
 
@@ -351,7 +358,7 @@ export default class CopyPaste extends Group{
 				delete this.model.groups[group.id]
 			}
 		})
-		this.onModelChanged();
+		this.onModelChanged([]);
 		this.render();
 	}
 
@@ -376,6 +383,8 @@ export default class CopyPaste extends Group{
 		var from = this.getBoxById(source);
 		var to = this.getBoxById(target);
 
+		console.debug(from)
+
 		if(from && to){
 			var isSameType = from.type == to.type;
 
@@ -393,6 +402,8 @@ export default class CopyPaste extends Group{
 			var fromHover = from.hover;
 			var fromError = from.error;
 			var fromFocus = from.focus;
+
+			var fromDesigntokens = from.designtokens
 
 			/**
 			 * First copy props, than copy styles
@@ -475,6 +486,13 @@ export default class CopyPaste extends Group{
 				var focusCommand = this.createWidgetPropertiesCommand(target,focus,  "focus");
 				command.children.push(focusCommand);
 				this.modelWidgetPropertiesUpdate(target, focus, "focus");
+			}
+
+			if (fromDesigntokens) {
+				var designtokens = lang.clone(fromDesigntokens);
+				var designtokensCommand = this.createWidgetPropertiesCommand(target,designtokens,  "designtokens");
+				command.children.push(designtokensCommand);
+				this.modelWidgetPropertiesUpdate(target, designtokens, "designtokens");
 			}
 
 			this.addCommand(command);

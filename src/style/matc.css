@@ -10,7 +10,7 @@
 @import 'header.css';
 @import 'canvas.css';
 @import 'canvas_light.css';
-@import 'canvas_light_old.css';
+@import "analytic_canvas.css";
 @import 'dash.css';
 @import 'widgets.css';
 @import 'widgets_chat.css';
@@ -18,14 +18,18 @@
 @import 'widgets/scrolltarget.css';
 @import 'widgets/screensegment.css';
 @import 'simulator.css';
-@import 'toolbar.css';
-@import 'toolbar_widgets.css';
-@import 'toolbar_table.css';
-@import 'toolbar_layer_list.css';
-@import 'toolbar_resize.css';
-@import 'toolbar_create.css';
-@import 'toolbar_rest.css';
-@import 'toolbar_table_settings.css';
+@import './toolbar/toolbar.css';
+@import './toolbar/toolbar_widgets.css';
+@import './toolbar/toolbar_table.css';
+@import './toolbar/toolbar_layer_list.css';
+@import './toolbar/toolbar_resize.css';
+@import './toolbar/toolbar_create.css';
+@import './toolbar/toolbar_rest.css';
+@import './toolbar/toolbar_table_settings.css';
+@import './toolbar/design_token.css';
+@import './toolbar/color_picker.css';
+@import './toolbar/box-shadow.css';
+@import './toolbar/text.css';
 @import 'public.css';
 @import 'pricing.css';
 @import 'animation_composer.css';
@@ -40,3 +44,5 @@
 @import 'databindingtree.css';
 @import 'tree.css';
 @import "custom.css";
+
+

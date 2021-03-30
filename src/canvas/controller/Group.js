@@ -1,4 +1,4 @@
-import Layer from 'canvas/controller/Layer'
+import Layer from './Layer'
 
 export default class Group extends Layer {
 
@@ -39,7 +39,7 @@ export default class Group extends Layer {
 			}
 			group[type][key] = value
 		}
-		this.onModelChanged()
+		this.onModelChanged([{type: 'group', action:"change", id: id}])
 	}
 
 	undoUpdateGroup(command) {
@@ -107,7 +107,7 @@ export default class Group extends Layer {
 		}
 		this.addCommand(command);
 
-		this.onModelChanged();
+		this.onModelChanged([]);
 		this.render();
 	}
 
@@ -188,9 +188,8 @@ export default class Group extends Layer {
 
 		this.addCommand(command);
 
-		this.onModelChanged();
+		this.onModelChanged([]);
 		this.render();
-
 
 	}
 
@@ -275,7 +274,7 @@ export default class Group extends Layer {
 
 			this.addCommand(command);
 
-			this.onModelChanged();
+			this.onModelChanged([]);
 			this.render();
 		}
 	}
@@ -288,6 +287,11 @@ export default class Group extends Layer {
 
 	setGroupName (id, value){
 		this.logger.log(2,"setGroupName", "enter ");
+
+		if (value === '') {
+			this.logger.warn("setGroupName", "exit > EMPTY name: " + id);
+			return
+		}
 
 		if(this.model.groups && this.model.groups[id]){
 
@@ -319,7 +323,7 @@ export default class Group extends Layer {
 		if(this.model.groups && this.model.groups[id]){
 			var group = this.model.groups[id];
 			group.name = value;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'group', action:"change", id: id}])
 			this.onGroupNameChange(group)
 		} else {
 			console.warn("modelGroupName() > No group with id", id)
@@ -409,7 +413,7 @@ export default class Group extends Layer {
 		}
 
 		if(!ignoreModelUpdate){
-			this.onModelChanged();
+			this.onModelChanged([{type: 'group', action:"change", id: group.id}])
 		}
 	}
 
@@ -434,8 +438,8 @@ export default class Group extends Layer {
 			var group = this.model.groups[id];
 			var command = this.createRemoveGroupCommand(group);
 			this.addCommand(command);
-			this.modelRemoveGroup(group, command.line);
 			this.unSelect();
+			this.modelRemoveGroup(group, command.line);
 			this.render();
 		} else {
 			console.debug(this.model.groups);
@@ -465,7 +469,7 @@ export default class Group extends Layer {
 			}
 
 			if(!doNotCallModelChanged){
-				this.onModelChanged();
+				this.onModelChanged([{type: 'group', action:"change", id: id}])
 			}
 
 		} else {
@@ -555,8 +559,8 @@ export default class Group extends Layer {
 				this.modelRemoveWidgetAndLines(widget, lines, refs, true);
 			}
 			this.addCommand(command);
-			this.onModelChanged();
 			this.unSelect();
+			this.onModelChanged([]);
 			this.render();
 		}
 	}

@@ -10,7 +10,7 @@
 }
 
 .MatcTreeItem.MatcTreeItemDragOver {
-  border-top: 2px solid #1973e8;
+  border-top: 2px solid #3787f2;
 }
 
 .MatcTreeItemRow{
@@ -25,7 +25,7 @@
 
 .MatcTreeItem.MatcTreeItemSelected,
 .MatcTreeItemSelected .MatcTreeItem{
-  background: #1973e8;
+  background: #3787f2;
   color: #fff;
 }
 
@@ -51,13 +51,17 @@ input.MatcTreeItemLabel {
 }
 
 .MatcTree ul li{
-  width: calc(100% - 20px);
+  width: calc(100% - 16px);
+  margin-left: 4px;
+}
+
+.MatcTree ul li ul{
   margin-left: 10px;
 }
 
 .MatcTree .MatcTreeIcon {
   display: inline-block;
-  width: 20px;
+  width: 16px;
   height: 16px;
 }
 

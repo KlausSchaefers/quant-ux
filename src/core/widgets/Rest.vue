@@ -1,7 +1,7 @@
 
 <template>
   <div class="MatcWidgetTypeRest">
-    <span class="MatcWidgetTypeIconToggleIcon mdi mdi-cloud-sync" data-dojo-attach-point="icon"></span>
+    <span class="MatcWidgetTypeIconToggleIcon mdi mdi-cloud-braces" data-dojo-attach-point="icon"></span>
     <span class="MatcWidgetTypeRestLabel" data-dojo-attach-point="labelNode">{{label}}</span>
   </div>
 </template>
@@ -21,8 +21,8 @@ export default {
   components: {},
   computed: {
     label () {
-      if (this.model && this.model.props) {
-        return this.model.props.label
+      if (this.model && this.model) {
+        return this.model.name
       }
       return 'Rest'
     }
@@ -64,7 +64,7 @@ export default {
       }
       this.setValue(v);
     },
-   
+
     getValue: function() {},
 
     setValue: function() {},

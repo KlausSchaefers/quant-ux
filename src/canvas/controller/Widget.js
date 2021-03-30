@@ -1,6 +1,6 @@
-import lang from 'dojo/_base/lang'
-import Screen from 'canvas/controller/Screen'
-import * as TextUtil from 'core/TextUtil'
+import Screen from './Screen'
+import lang from '../../dojo/_base/lang'
+import * as TextUtil from '../../core/TextUtil'
 
 export default class Widget extends Screen {
 
@@ -363,6 +363,7 @@ export default class Widget extends Screen {
 
 	removeMultiWidget (selection){
 		this.logger.log(-1,"removeMultiWidget", "enter > ", selection);
+		this.unSelect();
 
 		let command = {
 			timestamp: new Date().getTime(),
@@ -397,7 +398,7 @@ export default class Widget extends Screen {
 			}
 		}
 
-		this.unSelect();
+
 		this.render();
 		this.addCommand(command);
 	}
@@ -407,6 +408,11 @@ export default class Widget extends Screen {
 	 **********************************************************************/
 
 	setWidgetName (id, value){
+
+		if (value === '') {
+			this.logger.warn("setWidgetName", "exit EMPYT name > " + id);
+			return
+		}
 
 
 		/**
@@ -438,7 +444,7 @@ export default class Widget extends Screen {
 		var widget = this.model.widgets[id];
 		if(widget){
 			widget.name = value;
-			this.onModelChanged();
+			this.onModelChanged([{type: 'widget', action:"change", id: id}])
 			this.onWidgetNameChange(widget)
 		}
 
@@ -491,8 +497,7 @@ export default class Widget extends Screen {
 		if (widget) {
 			widget.props.label = label
 			widget.w = width
-
-			this.onModelChanged();
+			this.onModelChanged([{type: 'widget', action:"change", id: id}])
 		}
 
 	}
@@ -871,7 +876,7 @@ export default class Widget extends Screen {
 		/**
 		 * call model change
 		 */
-		this.onModelChanged();
+		this.onModelChanged([{type: 'widget', action:"change", id: id}])
 	}
 
 	undoWidgetPosition (command){
@@ -980,7 +985,7 @@ export default class Widget extends Screen {
 		}
 
 		this.setLastChangedWidget(widget)
-		this.onModelChanged();
+		this.onModelChanged([{type: 'widget', action:"change", id: id}])
 	}
 
 	undoWidgetProperties (command){
@@ -1089,14 +1094,14 @@ export default class Widget extends Screen {
 		* also check if we have dropped on a screen
 		*/
 		var screen = this.getHoverScreen(widget);
-		if(screen){
+		if (screen){
 			screen.children.push(widget.id);
 		}
 
 		// this.setParentWidgets(widget)
 
 		if(!ignoreModelChange){
-			this.onModelChanged();
+			this.onModelChanged([{type: 'widget', action:"add", id: widget.id}]) // pass teh screen as well?
 		}
 
 	}
@@ -1106,7 +1111,7 @@ export default class Widget extends Screen {
 			// this.cleanUpParentWidgets(widget);
 			delete this.model.widgets[widget.id];
 			this.cleanUpParent(widget);
-			this.onModelChanged();
+			this.onModelChanged([{type: 'widget', action:"remove", id: widget.id}])
 			return true;
 		} else {
 			console.warn("Could not delete widget", widget);
@@ -1141,9 +1146,9 @@ export default class Widget extends Screen {
 		var widget = this.model.widgets[id];
 		var lines = this.getLines(widget);
 		var refs = this.getReferences(widget);
-		this.modelRemoveWidgetAndLines(widget, lines, refs);
 
 		this.unSelect();
+		this.modelRemoveWidgetAndLines(widget, lines, refs);
 		this.render();
 	}
 
@@ -1236,7 +1241,7 @@ export default class Widget extends Screen {
 		}
 
 		if(!doNotCallModelChanged){
-			this.onModelChanged();
+			this.onModelChanged([])
 		}
 
 		return true;
@@ -1298,7 +1303,7 @@ export default class Widget extends Screen {
 			console.warn("modelAddWidgetAndLines() > Missing lines parameter");
 		}
 
-		this.onModelChanged();
+		this.onModelChanged([]);
 	}
 
 
@@ -1399,7 +1404,7 @@ export default class Widget extends Screen {
 
 		this.addCommand(command);
 		this.modelWidgetLayers(zValues);
-		this.render();
+
 	}
 
 	modelWidgetLayers (zValues){
@@ -1414,16 +1419,15 @@ export default class Widget extends Screen {
 				console.warn("Could not set z Valoue for ", id);
 			}
 		}
-		this.onModelChanged();
+		this.onModelChanged([]);
+		this.render();
 	}
 
 	undoWidgetLayers (command){
 		this.modelWidgetLayers(command.o);
-		this.render();
 	}
 
 	redoWidgetLayers (command){
 		this.modelWidgetLayers(command.n);
-		this.render();
 	}
 }

@@ -1,0 +1,108 @@
+.MatcToolbarTableToolbar{
+	height: 40px;
+	border-bottom:1px solid #cecece;
+
+}
+
+.MatcToolbarTableBody{
+	border-bottom:1px solid #cecece;
+	border-right:1px solid #cecece;
+}
+
+
+.MatcToolbarTable{
+	width: 1030px;
+	font-size: 14px;
+	position: relative;
+	overflow: hidden;
+}
+
+.MatcToolbarTable thead .MatcToolbarTableLabel{
+	position: relative;
+}
+
+.MatcToolbarTable table{
+	border-collapse: separate;
+	border-spacing: 0; /* remove border gaps */
+}
+
+.MatcToolbarTableReizeCol td{
+	cursor: col-resize;
+}
+
+.MatcToolbarTableBody{
+	height: 400px;
+	overflow: hidden;
+}
+
+.MatcToolbarTable .MatcToolbarTableBody td{
+	border-top:1px solid #cecece !important;
+	border-left:1px solid #cecece;
+	padding: 0px;
+}
+
+.MatcToolbarTable input{
+	border:none;
+	width: 100%;
+	height: 100%;
+	outline: none;
+}
+
+.MatcToolbarTable .MatcToolbarTableLabelRow input {
+	font-weight: 700;
+}
+
+.MatcToolbarTable input:focus {
+    border: medium none;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    background: #e2f4fb;
+}
+
+.MatcToolbarTableInputFocus{
+	background: #e2f4fb;
+}
+
+.MatcToolbarTableHidden{
+	opacity:0;
+	height: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.MatcToolbarTable thead td{
+	text-align: center;
+	background: #eee;
+	color:#cecece;
+}
+
+.MatcToolbarTable tr td:FIRST-CHILD, .MatcToolbarTable tr td:FIRST-CHILD{
+	text-align: center;
+	background: #eee;
+	color:#cecece;
+	width: 30px;
+}
+
+.MatcToolbarTableColumnHandle{
+	position: absolute;
+	height: 100%;
+	top:0px;
+	right:-4px;
+	width: 9px;
+	background: transparent;
+	cursor: col-resize;
+}
+
+.MatcToolbarTableColumnHandle:HOVER, .MatcToolbarTableColumnHandle.MatcToolbarTableColumnHandleSelected{
+	background: #3787f2;
+}
+
+.MatcToolbarTableUpload{
+	position: relative;
+	display: inline-block;
+}
+
+.MatcToolbarTableUpload:hover a{
+	text-decoration: underline;
+}

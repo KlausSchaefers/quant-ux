@@ -109,7 +109,7 @@ body{
 	padding: 3px 20px;
 	border-radius:3px;
 	border: 2px solid #fff;
-	color:#1c78d3;
+	color:#3787f2;
 	background:#fff;
 	cursor: pointer;
 	transition-duration: 0.2s;
@@ -209,7 +209,7 @@ body{
 
  .MatcSimulatorContent .MatcSimulatorStartBtn{
 	width: 100%;
-	border: 1px solid #1c78d3;
+	border: 1px solid #3787f2;
 	font-size: 18px;
 	cursor: pointer;
 	transition: all 0.2s;

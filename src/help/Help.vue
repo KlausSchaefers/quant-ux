@@ -32,8 +32,8 @@
                 <div class="MatcHelpContentVideo" >
                     <iframe
                         v-if="current.video"
-                        :width="560 * this.videoScaleFactor"
-                        :height="315 * this.videoScaleFactor"
+                        :width="560 * videoScaleFactor"
+                        :height="315 * videoScaleFactor"
                         :src="current.video.src"
                         frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
@@ -73,8 +73,8 @@
 
                      <iframe
                         v-if="p.video"
-                        :width="560 * this.videoScaleFactor"
-                        :height="315 * this.videoScaleFactor"
+                        :width="560 * videoScaleFactor"
+                        :height="315 * videoScaleFactor"
                         :src="p.video.src"
                         frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>

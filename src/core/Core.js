@@ -1,8 +1,9 @@
-import lang from 'dojo/_base/lang'
-import Logger from 'common/Logger'
-import Evented from 'dojo/Evented'
-import ModelGeom from 'core/ModelGeom'
-import ModelResizer from 'core/ModelResizer'
+import lang from '../dojo/_base/lang'
+import Logger from '../common/Logger'
+import Evented from '../dojo/Evented'
+import ModelGeom from './ModelGeom'
+import ModelResizer from './ModelResizer'
+import ModelUtil from './ModelUtil'
 
 export default class Core extends Evented {
 
@@ -906,46 +907,90 @@ export default class Core extends Evented {
         return null;
     }
 
-    getZoomed(v, zoom) {
-        return Math.round(v * zoom);
+    getZoomed(v, zoom, round = true) {
+        if (round) {
+            return Math.round(v * zoom);
+        }
+        return v * zoom
     }
 
-    getZoomedCeil(v, zoom) {
-        return Math.ceil(v * zoom);
+    getZoomedCeil(v, zoom, round = true) {
+        if (round) {
+            return Math.ceil(v * zoom);
+        }
+        return v * zoom
     }
 
     getUnZoomed(v, zoom) {
         return Math.round(v / zoom);
     }
 
-    getZoomedBox(box, zoomX, zoomY) {
+    getZoomedBox(box, zoomX, zoomY, round = true) {
         if (box.x) {
-            box.x = this.getZoomed(box.x, zoomX);
+            box.x = this.getZoomed(box.x, zoomX, round);
         }
 
         if (box.y) {
-            box.y = this.getZoomed(box.y, zoomY);
+            box.y = this.getZoomed(box.y, zoomY, round);
         }
 
         /**
          * Since 2.2.5 we use ceil for w and h
          */
         if (box.w) {
-            box.w = this.getZoomedCeil(box.w, zoomX);
+            box.w = this.getZoomedCeil(box.w, zoomX, round);
         }
 
         if (box.h) {
-            box.h = this.getZoomedCeil(box.h, zoomY);
+            box.h = this.getZoomedCeil(box.h, zoomY, round);
         }
 
         if (box.min) {
-            box.min.h = this.getZoomed(box.min.h, zoomY);
-            box.min.w = this.getZoomed(box.min.w, zoomX);
+            box.min.h = this.getZoomed(box.min.h, zoomY, round);
+            box.min.w = this.getZoomed(box.min.w, zoomX, round);
         }
 
         box.isZoomed = true;
 
         return box;
+    }
+
+    getZoomedBoxCopy (box, zoomX, zoomY) {
+        let result = {
+            isZoomed: true,
+            x: this.getZoomed(box.x, zoomX),
+            y: this.getZoomed(box.y, zoomY),
+            w: this.getZoomed(box.w, zoomX),
+            h: this.getZoomed(box.h, zoomY)
+        }
+
+        if (box.min) {
+            result.min = {
+                h: this.getZoomed(box.min.h, zoomY),
+                w: this.getZoomed(box.min.w, zoomX)
+            }
+        }
+
+        return result
+    }
+
+    getUnZoomedBoxCopy (box, zoomX, zoomY) {
+        let result = {
+            isZoomed: false,
+            x: this.getUnZoomed(box.x, zoomX),
+            y: this.getUnZoomed(box.y, zoomY),
+            w: this.getUnZoomed(box.w, zoomX),
+            h: this.getUnZoomed(box.h, zoomY)
+        }
+
+        if (box.min) {
+            result.min = {
+                h: this.getUnZoomed(box.min.h, zoomY),
+                w: this.getUnZoomed(box.min.w, zoomX)
+            }
+        }
+
+        return result
     }
 
     getUnZoomedBox(box, zoomX, zoomY) {
@@ -1080,6 +1125,7 @@ export default class Core extends Evented {
 
         var inModel = lang.clone(model);
         inModel.inherited = true;
+
 
         /**
          * add container widgets
@@ -1224,56 +1270,15 @@ export default class Core extends Evented {
                     }
                 }
             }
+
+            /**
+             * Inline designtokens. must come last, otherwise master screen widgets are not correctly filled.
+             */
+            inModel = ModelUtil.inlineModelDesignTokens(inModel)
+
+
         }
         return inModel;
-    }
-
-    static inlineTemplateStyles(model) {
-        for (let widgetID in model.widgets) {
-            let widget = model.widgets[widgetID]
-            if (widget.template) {
-                let hover = this.getTemplatedStyle(widget, model, 'hover')
-                if (hover) {
-                    widget.hover = hover
-                }
-                let error = this.getTemplatedStyle(widget, model, 'error')
-                if (error) {
-                    widget.error = error
-                }
-                let focus = this.getTemplatedStyle(widget, model, 'focus')
-                if (focus) {
-                    widget.focus = focus
-                }
-                let active = this.getTemplatedStyle(widget, model, 'active')
-                if (active) {
-                    widget.active = active
-                }
-            }
-
-        }
-        return model
-    }
-
-    static getTemplatedStyle(widget, model, prop) {
-        if (widget.template) {
-            if (model.templates) {
-                var t = model.templates[widget.template];
-                if (t && t[prop]) {
-                    /**
-                     * Merge in overwriten styles
-                     */
-                    var merged = lang.clone(t[prop])
-                    if (widget[prop]) {
-                        let props = widget[prop]
-                        for (var key in props) {
-                            merged[key] = props[key]
-                        }
-                    }
-                    return merged;
-                }
-            }
-        }
-        return widget[prop];
     }
 
 

@@ -61,14 +61,14 @@ import _Tooltip from 'common/_Tooltip'
 import CheckBox from 'common/CheckBox'
 import RadioBoxList from 'common/RadioBoxList'
 import Form from 'common/Form'
-import ToolbarDropDownButton from 'canvas/toolbar/ToolbarDropDownButton'
-import ToolbarColor from 'canvas/toolbar/ToolbarColor'
+import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
+import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import Ring from 'common/Ring'
 import Histogram from 'dash/Histogram'
 import Analytics from 'dash/Analytics'
 import VideoPlayer from 'views/apps/test/VideoPlayer'
 import DataFrame from 'common/DataFrame'
-import ViewConfig from 'canvas/toolbar/ViewConfig'
+import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import HelpButton from 'help/HelpButton'
 
 export default {
@@ -457,9 +457,9 @@ export default {
 			/**
 			 * Name
 			 */
-			this.widgetNameDiv = this.createSection("Widget Name");
+			this.widgetNameDiv = this.createSection("Widget ");
 			var content = this.createContent(this.widgetNameDiv);
-			this.widgetName = this.createInput(content, "Screen Name");
+			this.widgetName = this.createInput(content, "Screen");
 			this.widgetName.readOnly = true;
 			var ringCntr = db.div("MatcCenter").build(content);
 
@@ -536,7 +536,7 @@ export default {
 
 			this.sessionLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false});
 			this.sessionLineColor.placeAt(row);
-			this.sessionLineColor.setLabel('<span class="mdi mdi-vector-polyline"></span><span class="MatcToolbarItemLabel">Graph Color</span>');
+			this.sessionLineColor.setLabel('Graph Color');
 			this.sessionLineColor.setModel(this.model);
 			this.sessionLineColor.setValue("#33b5e5");
 			css.add(this.sessionLineColor.domNode ,"MatcToolbarGridFull");
@@ -565,7 +565,7 @@ export default {
 
 			this.sessionTaskLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false});
 			this.sessionTaskLineColor.placeAt(row);
-			this.sessionTaskLineColor.setLabel('<span class="mdi mdi-vector-line"></span><span class="MatcToolbarItemLabel">Task Color</span>');
+			this.sessionTaskLineColor.setLabel('Task Color');
 			this.sessionTaskLineColor.setModel(this.model);
 			this.sessionTaskLineColor.setValue("#f83a3a");
 			css.add(this.sessionTaskLineColor.domNode ,"MatcToolbarGridFull hidden");
@@ -743,7 +743,7 @@ export default {
 
 			this.gestureLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false});
 			this.gestureLineColor.placeAt(row);
-			this.gestureLineColor.setLabel('<span class="mdi mdi-vector-polyline"></span>');
+			this.gestureLineColor.setLabel('Line Color');
 			this.gestureLineColor.setModel(this.model);
 			this.gestureLineColor.setValue("#0099cc");
 			this.own(on(this.gestureLineColor, "change", lang.hitch(this, "showGestureMap")));
@@ -1037,8 +1037,9 @@ export default {
 		},
 
 
+		onModeChange () {
 
-
+		},
 
 
 		/********************************************************

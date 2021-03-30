@@ -1,5 +1,5 @@
-import {ModelService} from 'services/ModelService'
-import Logger from 'common/Logger'
+import {ModelService} from './ModelService'
+import Logger from '../common/Logger'
 
 /**
  * Model service for the exampole section taht doe snot test anything

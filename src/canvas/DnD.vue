@@ -3,6 +3,7 @@ import lang from "dojo/_base/lang";
 import topic from "dojo/topic";
 import domGeom from "dojo/domGeom";
 import css from "dojo/css";
+import CoreUtil from 'core/CoreUtil'
 
 export default {
   name: "DnD",
@@ -28,10 +29,12 @@ export default {
     },
 
     dispatchBoxClickCallback (id, div, pos, e) {
+      //console.warn('DEPRECTAED dispatchBoxClickCallback()')
       this[this._boxClickCallback](id, div, pos, e);
     },
 
     dispatchCanvasClickCallback (id, div, pos, e) {
+      //console.warn('DEPRECTAED dispatchCanvasClickCallback()')
       this[this._canvasClickCallback](id, div, pos, e);
     },
 
@@ -42,12 +45,13 @@ export default {
     onCanvasDnDStart (id, div, pos) {
       this.logger.log(3,"onCanvasDnDStart", "enter > " + id + ' ' + pos);
       this.setDnDMinTime(0);
-      this._dndContainerPos = domGeom.position(this.container);
+      this._dndContainerPos = domGeom.position(this.dndContainer);
       this._dndDomPos = domGeom.position(this.domNode);
       this.beforeDND();
     },
 
     onCanvasDnDMove (id, div, pos) {
+      this.logger.log(3,"onCanvasDnDMove", "enter > x:" + pos.x + " y:" + pos.y);
       this.canvasPos.x = pos.x;
       this.canvasPos.y = pos.y;
       this.updateScrollHandlers();
@@ -124,15 +128,27 @@ export default {
         this._dragNDropBoxPositions[id] = temp;
 
         /**
-         * update also the background screen
+         * update also the background screen & grid
          */
+        let zoomedPos = this.getBackgroundPos(temp, this.zoom, this.zoom);
         let backgroundDiv = this.screenBackgroundDivs[id];
         let job = {
+          zoom: true,
           div: backgroundDiv,
-          pos: temp,
+          pos: zoomedPos,
           id: id + "backGround"
         };
         this.addDragNDropRenderJob(job);
+
+
+        let gridDiv = this.screenGridDivs[id];
+        let job2 = {
+          zoom: true,
+          div: gridDiv,
+          pos: zoomedPos,
+          id: id + "grud"
+        };
+        this.addDragNDropRenderJob(job2);
 
         /**
          * Also update resize handlers. The _DragNDrop._dragNDropUpDateUI()
@@ -163,7 +179,7 @@ export default {
         /**
          * also update all lines
          */
-        this.onUpdateLines(screen);
+        this.updateLines(screen);
 
         return true;
       }
@@ -233,7 +249,7 @@ export default {
          */
         this._updateWidgetBackground(widgetID, widgetPos);
 
-        this.onUpdateLines(widget);
+        this.updateLines(widget);
       } else {
         console.warn("Widget with ", widgetID, " doe snot exits");
       }
@@ -241,10 +257,12 @@ export default {
 
     _updateWidgetBackground (widgetID, pos) {
       var backgroundDiv = this.widgetBackgroundDivs[widgetID];
+
       if (backgroundDiv) {
         var job = {
+          zoom: true,
           div: backgroundDiv,
-          pos: pos,
+          pos: this.getBackgroundPos(pos),
           id: widgetID + "backGround"
         };
         this.addDragNDropRenderJob(job);
@@ -253,11 +271,16 @@ export default {
       }
     },
 
+    getBackgroundPos(pos) {
+      return CoreUtil.getUnZoomedBoxCopy(pos, this.zoom, this.zoom);
+    },
+
     onScreenDndEnd (id, div, pos, dif) {
       this.logger.log(3, "onScreenDndEnd", "enter > x:" + pos.x + " y:" + pos.y);
 
       this.cleanUpAlignment();
-      this.getController().updateScreenPosition(id, pos, true);
+      this.getController().updateScreenPosition(id, lang.clone(pos), true);
+
       this._dragNDropBoxPositions = null;
       this.onSelectionMoved(pos, dif, id);
       this.setState(0);
@@ -403,13 +426,12 @@ export default {
            * resizeHnalder.
            */
           if (this._resizeHandlerBox) {
-            var resizePos = {
+            this._dragNDropRenderResizeHandlerJob = {
               w: this._resizeHandlerBox.w,
               h: this._resizeHandlerBox.h,
               x: this._resizeHandlerBox.x + dif.x,
               y: this._resizeHandlerBox.y + dif.y
             };
-            this._dragNDropRenderResizeHandlerJob = resizePos;
           }
 
           /**
@@ -426,9 +448,9 @@ export default {
               w: this._dragNDropBoundingBox.w
             };
             this._dragNDropBoxPositions[this._dragNDropLineFromBox.id] = temp2;
-            this.onUpdateLines(this._dragNDropLineFromBox);
+            this.updateLines(this._dragNDropLineFromBox);
           } else {
-            this.onUpdateLines(widget);
+            this.updateLines(widget);
           }
 
           return true;
@@ -440,7 +462,7 @@ export default {
       return false;
     },
 
-    onUpdateLines (box) {
+    updateLines (box) {
       for (var id in this.model.lines) {
         var line = this.model.lines[id];
         if (line.to == box.id || line.from == box.id) {
@@ -535,7 +557,7 @@ export default {
         // single widgte move
         let widget = this.model.widgets[id];
         if (widget) {
-          var modelPos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
+          let sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
           try {
             /**
              * Update position to avoid snapping bumps: Could be called from controller
@@ -543,9 +565,9 @@ export default {
              * will be done propertlz in the controller. In worst case the current
              * rendering would be wrong by 1px.
              */
-            var zoomed = this.getZoomedBox(modelPos,this.getZoomFactor(), this.getZoomFactor());
-            this.setWidgetPosition(widget.id, zoomed);
-            pos = zoomed;
+            var zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
+            this.setWidgetPosition(widget.id, sourcePos, zoomedPos);
+            pos = zoomedPos;
           } catch (e) {
             this.logger.sendError(e);
           }
@@ -591,7 +613,7 @@ export default {
       /**
        * 2) If SHIFT, CTRL or ALT is pressed, we add things to an selection
        */
-      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      if (e && e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
         /**
          * FIXME: This is an evil bug! This open in FireFox an popup!
          * Maybe we have to listen to RMC and stop it..
@@ -818,6 +840,8 @@ export default {
        */
       var line = this.model.lines[point.id];
       var p = line.points[point.i - 1];
+      console.debug('start', p)
+
       return p;
     },
 

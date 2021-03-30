@@ -2,7 +2,7 @@
 .MCUChip{
 	display: inline-block;
 	padding: 3px 10px;
-	background:#1973e8;
+	background:#3787f2;
 	border-radius:30px;
 	color:#fff;
 	transition: all 0.25s;
@@ -21,7 +21,7 @@
 }
 
 .MCUUserCurrent .MatcCommentPic .MatcUserImageNone {
-	background: orange;	
+	background: orange;
 }
 
 .MCUApp .MatcCommentText{

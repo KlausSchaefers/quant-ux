@@ -14,8 +14,8 @@
 		"value" : 50
 	},
 	"has" : {
-        "onclick" : true,
-        "border" : true
+		"onclick" : true,
+		"border" : true
 	},
 	"style" : {
 		"fontSize" : 14,
@@ -28,19 +28,19 @@
 		"paddingBottom" : 0,
 		"paddingLeft" : 0,
 		"paddingRight" : 0,
-        "borderTopRightRadius" : 0,
-        "borderTopLeftRadius" : 0,
-        "borderBottomRightRadius" : 0,
-        "borderBottomLeftRadius" : 0,
-        "borderTopWidth" : 1,
-        "borderBottomWidth" : 1,
-        "borderRightWidth" : 1,
-        "borderLeftWidth" : 1,
-        "borderTopColor" : "#333333",
-        "borderBottomColor" : "#333333",
-        "borderRightColor" : "#333333",
-        "borderLeftColor" : "#333333",
-        "background" : "#ffffff",
-        "foreground": "#333333"
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 1,
+		"borderBottomWidth" : 1,
+		"borderRightWidth" : 1,
+		"borderLeftWidth" : 1,
+		"borderTopColor" : "#333333",
+		"borderBottomColor" : "#333333",
+		"borderRightColor" : "#333333",
+		"borderLeftColor" : "#333333",
+		"background" : "#ffffff",
+		"foreground": "#333333"
 	}
 } ]

@@ -1,4 +1,4 @@
-.MatcPricingHeader{	
+.MatcPricingHeader{
 	font-size: 40px;
 
 }
@@ -25,25 +25,25 @@
 	height: 220px;
 }
 .MatcPricingTableHeaderName{
-	font-size: 20px; 
-	display: block;	
+	font-size: 20px;
+	display: block;
 	margin-bottom: 20px;
 }
 
 .MatcPricingTableHeaderPrice{
-	font-size: 80px; 
-	
+	font-size: 80px;
+
 }
 
 .MatcPricingTableHeaderDollar{
 	vertical-align: top;
-	font-size: 40px; 
+	font-size: 40px;
 }
 
 
 .MatcPricingTableHeaderMonth{
-	font-size: 20px; 
-	display: block;		
+	font-size: 20px;
+	display: block;
 }
 
 .MatcPricingTableHeaderDiscount{
@@ -52,9 +52,9 @@
 }
 
 .MatcPricingTableHeaderPro{
-	background: #1973e8;
+	background: #3787f2;
 	color:#fff;
-	border:1px solid #1973e8;
+	border:1px solid #3787f2;
 }
 
 .MatcPricingTableHeaderEnterprise{
@@ -68,8 +68,8 @@
 	border:1px solid #cecece;
 }
 
-	
-	
+
+
 .MatcPricingTable tbody td{
 	padding-top: 20px;
 	padding-bottom: 30px;
@@ -90,7 +90,7 @@
 
 .MatcPricingFeature ul{
 	display: inline-block;
-	width:80%;	
+	width:80%;
 	margin: none;
 	text-align: left;
 	margin-bottom: 40px;

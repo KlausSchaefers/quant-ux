@@ -218,7 +218,7 @@ table.MatcAnimationComposerTable td.MatcAnimationComposerRowName {
 
 .MatcAnimationComposer .MatcToolbarItem:hover,
 .MatcAnimationComposer .MatcToolbarItem:hover .MatcToolbarDropDownButtonLabel{
-	color:#1c78d3;
+	color:#3787f2;
 }
 
 .MatcAnimationComposer .MatcToolbarItem{
@@ -258,7 +258,7 @@ table.MatcAnimationComposerTable td.MatcAnimationComposerRowName {
 }
 
 .MatcAnimationComposer .VommondSliderHandleIcon{
-	background: #1973e8 none repeat scroll 0 0;
+	background: #3787f2 none repeat scroll 0 0;
     border-radius: 0;
     display: inline-block;
     height: 10px;
@@ -288,7 +288,7 @@ table.MatcAnimationComposerTable td.MatcAnimationComposerRowName {
 
 .MatcAnimationComposer .VommondSliderBar,
 .MatcAnimationComposer .VommondSliderHandleIcon{
-	background:#1973e8;
+	background:#3787f2;
 }
 
 .MatcIconBorderLeft{

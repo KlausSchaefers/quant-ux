@@ -148,7 +148,7 @@
         "no-data": "No survey data was collected. Make sure that you have added data bindings to the desired survey fields."
     },
     "analytic-task-list": {
-        "header": "Tasks",
+        "header": "Task Results",
         "download": "Download Task Summary"
     },
     "canvas": {
@@ -164,7 +164,7 @@
     },
     "analytics": {
         "header": {
-            "user": "User",
+            "user": "Tests",
             "duration": "Test Duration",
             "coverage": "Test Coverage"
         }
@@ -223,7 +223,7 @@
     "testSettingsTasks": "Tasks",
     "testSettingsTaskName": "Name",
     "testSettingsTaskDescription": "Description",
-    "testSettingsTaskAddHint": "Click the  &#34;Add Task&#34; button to create a new task. The tasks a shown to the users before the test.",
+    "testSettingsTaskAddHint": "Click the  'Add Task' button to create a new task. The tasks a shown to the users before the test.",
     "testSettingsRegister": "Please register to save changes",
     "testSettingsNoFlow": "No Flow",
     "testSettingsFlow1": "Flow: ",
@@ -236,19 +236,21 @@
     "testSettingsSaved": "Test settings updated...",
     "testSettingsUpgradePlan": "Upgrade Plan",
 
-    "dashTaskEmpty": "Click the  &#34;Add Task&#34; button to create a new analytic task. Edit the flow to measure task performance. ",
+    "dashTaskEmpty": "You can create tasks in the 'Test' tab. ",
     "dashTaskTableName": "Name",
     "dashTaskTableSuccess": "Success Rate",
     "dashTaskTableDuration": "Duration",
     "dashTaskTableEvents": "Interactions",
-    "dashTaskTableEditFlow": "Edit Flow",
+    "dashTaskTableEditFlow": "Edit",
     "dashTaskFunnel": "Funnel",
     "dashTaskDurDis": "Duration Distribution",
     "dashTaskEventDis": "Event Distribution",
     "dashTaskDesPlaceholder": "Enter a description here",
     "dashTaskPerfHeadline": "Task: ",
 
-    "taskRecorder1": "A flow is the sequence of interactions the users have to perform to complete a task.",
+    "taskRecorder1": "A flow is the sequence of interactions the users have to perform to complete a task. ",
+    "taskRecorder2": "For instance, they have to visit 'Screen A' and navigate to 'Screen C'. You can also mark important sub events, like clicking on a button, or visitng a screen in between.",
+    "taskRecorderStep0": "Pess <b>Begin</b> to launch the simulator.",
     "taskRecorderStep1": "Perform the interactions your users should perform",
     "taskRecorderStep2": "You can press <b>Pause</b> to pause the recording",
     "taskRecorderStep3": "Press <b>Done</b> when the flow is complete.",
@@ -267,8 +269,8 @@
 
     "videoTableStatus": "Status",
     "videoTableUser": "User",
-    "videoTableDuration": "Duration (sec)",
-    "videoTableScreens": "Visited Screens",
+    "videoTableDuration": "Duration",
+    "videoTableScreens": "Screens",
     "videoTableEvents": "Events",
     "videoTableDate": "Date",
     "videoTableStatusNotPayed": "Blocked",

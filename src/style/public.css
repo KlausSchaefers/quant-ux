@@ -36,11 +36,11 @@
 }
 
 .MatcLoginPageContainer .MatcToolbarTabs a:HOVER {
-	color: #1973e8;
+	color: #3787f2;
 }
 
 body.MatcPublic{
-	background: #eee;
+
 }
 
 body.MatcTestMobile{
@@ -66,6 +66,7 @@ body.MatcTestMobile{
 
 .MatcCanvasComment textarea{
 	padding: 3px;
+	border: 1px solid transparent;
 }
 
 
@@ -88,16 +89,15 @@ body.MatcTestMobile{
 
 .MatcCanvasCommentIcon{
  	background: #ffbd21 none repeat scroll 0 0;
-    border-radius:50%;
-
-    transition : box-shadow 0.3s, background 0.3s;
-    width: 25px;
-    height: 25px;
-    color:#fff;
-    font-size: 12px;
-    cursor: pointer;
-    z-index: 10010;
-  	box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
+  border-radius:50%;
+	transition : box-shadow 0.3s, background 0.3s;
+	width: 25px;
+	height: 25px;
+	color:#fff;
+	font-size: 12px;
+	cursor: pointer;
+	z-index: 100000;
+	box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
 }
 
 .MatcCanvasCommentIcon div{
@@ -121,7 +121,7 @@ body.MatcTestMobile{
 }
 
 .MatcCanvasCommentOpen{
-	box-shadow: 0 0 10px -5px #333;
+	box-shadow: 0 0 25px 5px rgb(0 0 0 / 25%);
 	background: #fff;
 	border-radius:5px;
 	width: 350px;

@@ -1,5 +1,5 @@
-import AbstractService from 'services/AbstractService'
-import Logger from 'common/Logger'
+import AbstractService from './AbstractService'
+import Logger from '../common/Logger'
 
 class UserService extends AbstractService{
 

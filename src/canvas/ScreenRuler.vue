@@ -4,7 +4,7 @@ import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import win from 'dojo/_base/win'
 import Core from 'core/Core'
-import CheckBox from 'common/CheckBox'
+
 import ModelResizer from 'core/ModelResizer'
 
 export default {
@@ -18,13 +18,7 @@ export default {
     methods: {
 
         initScreenRuler () {
-            if(this.rulerCntr){
-                this.rulerChkBox = this.$new(CheckBox);
-                this.rulerChkBox.setLabel("Rulers");
-                this.rulerChkBox.setValue(this.settings.showRuler);
-                this.rulerChkBox.placeAt(this.rulerCntr);
-                this.own(on(this.rulerChkBox, "change", lang.hitch(this, "setShowScreenRuler")));
-            }
+
         },
 
         setShowScreenRuler (value) {
@@ -34,19 +28,19 @@ export default {
 		},
 
         renderScreenButtons (dndDiv, screen) {
-            this.logger.log(2,"renderScreenButtons", "enter " +  screen.name, screen.rulers );
+            this.logger.log(1,"renderScreenButtons", "enter " +  screen.name, screen.rulers );
 
             if (!this._screenButtonsListeners) {
                 this._screenButtonsListeners = []
             }
-           
-           	let top = document.createElement("div");		
+
+           	let top = document.createElement("div");
             css.add(top, "MatcScreenGridButtonTop");
-            dndDiv.appendChild(top)	
+            dndDiv.appendChild(top)
             let topListener = on(top, 'mousedown', lang.hitch(this, '_onScreenTopMouseDown', screen, dndDiv))
             this._screenButtonsListeners.push(topListener)
 
-            let left = document.createElement("div");		
+            let left = document.createElement("div");
             css.add(left, "MatcScreenGridButtonLeft");
             dndDiv.appendChild(left)
             let leftListener = on(left, 'mousedown', lang.hitch(this, '_onScreenLeftMouseDown', screen, dndDiv))
@@ -67,7 +61,7 @@ export default {
                 this._cleanUpScreenRulerHandlers(screen.id)
                 this._screenRulerHandles[screen.id] = rulers.map(ruler => {
 
-                    let handle = document.createElement("div");		
+                    let handle = document.createElement("div");
                     css.add(handle, " MatcScreenGridHandle MatcScreenGridHandle" + ruler.type);
                     dndDiv.appendChild(handle)
 
@@ -83,7 +77,7 @@ export default {
                             line.style.height = screen.h + 'px'
                         }
                     }
-                   
+
                     if (ruler.type === 'y') {
                         handle.style.top = ruler.v * z + 'px'
                     } else {
@@ -91,7 +85,7 @@ export default {
                     }
                     if (ruler.inherited) {
                         css.add(handle, "MatcScreenGridHandleDisbaled")
-                    } 
+                    }
                     let listener = on(handle, 'mousedown', lang.hitch(this, '_onScreenRulerHandleDown', screen, ruler, dndDiv, handle))
                     return {
                         rulerId: ruler.id,
@@ -146,7 +140,7 @@ export default {
                     if (div) {
                         this._resizeRenderJobs[id] = {
                             "pos" : newPos,
-                            "div" : div 
+                            "div" : div
                         };
                     }
                 }
@@ -167,7 +161,7 @@ export default {
             if (!this._screenButtonsMoveLabel) {
                 var div = document.createElement("div");
                 css.add(div, "MatcRulerDimensionLabel");
-                this.widgetContainer.appendChild(div);
+                this.dndContainer.appendChild(div);
                 this._screenButtonsMoveLabel = div;
             }
 
@@ -195,7 +189,7 @@ export default {
 
         _onScreenRulerHandleUp (screen, ruler, dndDiv, handle, e) {
             this.stopEvent(e)
-          
+
             let now = new Date().getTime()
             let dif = (now - this._screenButtonsListenerMoveStart)
             this.cleanUpScreenButtonMove()
@@ -209,7 +203,7 @@ export default {
                 }
                 return;
             }
-          
+
             let rulers = null
             let pos = this.getCanvasMousePosition(e);
             if (ruler.type === 'y') {
@@ -244,7 +238,7 @@ export default {
 
         _updateInheritedScreenHandlers (screen) {
             /**
-             * This method will update all child screens. 
+             * This method will update all child screens.
              * ATTENTION: This method depends on the fact, that the
              * controller will inject before a new updated inherited model!
              */
@@ -260,7 +254,7 @@ export default {
         },
 
         _cleanUpScreenRulerHandlers (screenId) {
-        
+
             if (this._screenRulerHandles) {
                 if (screenId) {
                     let handlers = this._screenRulerHandles[screenId]
@@ -269,9 +263,7 @@ export default {
                             h.listener.remove()
                             if (h.div.parentNode) {
                                 h.div.parentNode.removeChild(h.div)
-                            } else {
-                                console.warn('_cleanUpScreenRulerHandlers() > No div', h)
-                            }  
+                            }
                         })
                         delete this._screenRulerHandles[screenId]
                     }
@@ -297,7 +289,7 @@ export default {
             if (!this._screenButtonMoveLine) {
                 this._screenButtonMoveLine = document.createElement('div')
                 css.add(this._screenButtonMoveLine, 'MatcScreenGridButtonTopLine')
-                this.widgetContainer.appendChild(this._screenButtonMoveLine);
+                this.dndContainer.appendChild(this._screenButtonMoveLine);
             }
             this.stopEvent(e);
             let pos = this.getCanvasMousePosition(e);
@@ -330,14 +322,14 @@ export default {
         },
 
         onScreenLeftMove (screen, dndDiv, e) {
-            
+
             if (!this._screenButtonMoveLine) {
                 this._screenButtonMoveLine = document.createElement('div')
                 css.add(this._screenButtonMoveLine, 'MatcScreenGridButtonLeftLine')
-                this.widgetContainer.appendChild(this._screenButtonMoveLine);
+                this.dndContainer.appendChild(this._screenButtonMoveLine);
             }
             this.stopEvent(e);
-            
+
             let pos = this.getCanvasMousePosition(e);
             this._screenButtonMoveLine.style.left = pos.x + 'px';
             this._renderRulerLabel(screen, 'x', pos)
@@ -393,7 +385,8 @@ export default {
                 })
             }
             delete this._screenButtonsListeners
-        },
+        }
+
     }
 }
 </script>

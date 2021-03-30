@@ -18,466 +18,483 @@ export default {
     },
     components: {},
     methods: {
-        initComment (){
-			this.logger.log(2,"initComment", "enter");
+      initComment (){
+				this.logger.log(2,"initComment", "enter");
 
-			/*
-			this.commentCheckBox = this.$new(CheckBox);
-			this.commentCheckBox.setLabel("Comments");
-			this.commentCheckBox.setValue(this.showComments);
-			this.commentCheckBox.placeAt(this.commentCntr);
-			this.own(on(this.commentCheckBox, "change", lang.hitch(this, "setCommentView")));
-			*/
-		},
+				/*
+				this.commentCheckBox = this.$new(CheckBox);
+				this.commentCheckBox.setLabel("Comments");
+				this.commentCheckBox.setValue(this.showComments);
+				this.commentCheckBox.placeAt(this.commentCntr);
+				this.own(on(this.commentCheckBox, "change", lang.hitch(this, "setCommentView")));
+				*/
+			},
 
-		/**********************************************************************
-		 * Comment
-		 **********************************************************************/
+			/**********************************************************************
+			 * Comment
+			 **********************************************************************/
 
-		setCommentView (value){
-			this.logger.log(2,"setCommentView", "enter > "+ value);
-			this.showComments = value;
-			if(this.showComments){
-				this.loadComments()
-			} else {
-				this.rerender()
-			}
-		},
-
-		async loadComments (){
-			this.logger.log(0,"loadComments", "enter > " + this.model);
-			if(this.model && this.model.isTryOut){
-				this.onCommentsLoaded([]);
-			} else {
-				let comments = await this.commentService.find(this.model.id, 'ScreenComment')
-				this.onCommentsLoaded(comments)
-				//this._doGet("/rest/comments/apps/" + this.model.id +"/ScreenComment.json", lang.hitch(this, "onCommentsLoaded"));
-			}
-		},
-
-		onCommentsLoaded (temp){
-			this.logger.log(0,"onCommentsLoaded", "enter > "+ temp.length);
-
-			/**
-			 * This method is called sometimes from the Canvas.setModel() but we do not want do do any thing here
-			 */
-			this.comments = {};
-			for(var i =0; i< temp.length;i++){
-				var comment = temp[i];
-				this.comments[comment.id] = comment;
-			}
-			if(this.showComments){
-				this.rerender()
-			}
-		},
-
-
-		addComment (params){
-			this.logger.log(2,"addComment", "enter > ");
-
-			this.setMode("addComment");
-			this.setState(3);
-
-			this._createAddCommand("addComment", params);
-
-			var div = this.renderCommentIcon({x:0,y:0});
-			this._onAddNDropStart(div, {}, params.event, "onCommentAdded");
-		},
-
-		async onCommentAdded (pos, model, e){
-			this.logger.log(2,"onCommentAdded", "enter");
-
-			this._onAddDone();
-			this.setState(0);
-			this.setMode("edit");
-
-			/**
-			 * get an increasing number....
-			 */
-			if(this.model.isTryOut){
-				this.showHint("Register to add comments...");
-				this._onCommentAdded(pos,e, [] );
-			} else {
-				let comments = await this.commentService.find(this.model.id, 'ScreenComment')
-				this._onCommentAdded(pos, e, comments)
-				//this._doGet("/rest/comments/count/apps/" + this.model.id +"/ScreenComment.json", lang.hitch(this, "_onCommentAdded", pos,e));
-			}
-		},
-
-		_onCommentAdded (pos, e){
-			pos = this._addCorrectOffset(pos);
-			pos.w = 10;
-			pos.h = 10;
-			var screen = this.getHoverScreen(pos);
-
-			var count = 0;
-			for(var commentID in this.comments){
-				var c = this.comments[commentID];
-				count = Math.max(count, c.number);
-			}
-			count++;
-
-			if(screen){
-				var x=  (pos.x - screen.x) / screen.w;
-				var y=  (pos.y - screen.y) / screen.h;
-				var comment = {
-					message : "",
-					type : "ScreenComment",
-					reference : screen.id,
-					user : this.user,
-					userID : this.user.id,
-					created : new Date().getTime(),
-					number : count,
-					x : x,
-					y: y
-				};
-
-				this._commentSaveListener = lang.hitch(this, "_onCommentAdded2");
-
-				this.showCommentPopUp(comment, e);
-
-			} else {
-				this.showError("Please add the comment to a screen");
-			}
-		},
-
-
-		_onCommentAdded2 (){
-			//this.commentCheckBox.setValue(true);
-			this.onChangeCanvasViewConfig()
-			this.setCommentView(true);
-		},
-
-
-		/**********************************************************************
-		 * Render
-		 *
-		 * TODO: We could somehow do this as an decorator... But WTF
-		 **********************************************************************/
-
-
-		renderComments (){
-
-			if(this.showComments && this.comments){
-				this.logger.log(2,"renderComments", "enter > ");
-
-
-				this.screenComments = {};
-
-				for(var commentID in this.comments){
-					var comment = this.comments[commentID];
-
-					var screenID = comment.reference;
-
-					if(this.model.screens[screenID]){
-						if(this.screenDivs[screenID]){
-
-							//console.debug(" - ", commentID, comment.reference, comment.number);
-
-							if(!this.screenComments[screenID]){
-								this.screenComments[screenID] = [];
-							}
-
-							var screen = this.model.screens[screenID];
-
-							var box = {
-								x : Math.round(screen.x + screen.w * comment.x),
-								y : Math.round(screen.y + screen.h * comment.y),
-							};
-							var div = this.renderCommentIcon(box, comment);
-							this.widgetContainer.appendChild(div);
-							this.screenComments[screenID].push({
-								div : div,
-								id : comment.id
-							});
-							this.registerDragOnDrop(div, comment.id, "onCommentDndStart", "onCommntDndMove", "onCommentDndEnd", "onCommentDndClick");
-						} else {
-							console.debug("renderComments() > ", screenID, " not rendered...");
-						}
-					} else {
-						console.warn("renderComments() > Comments for non exiting screen ", screenID);
-					}
+			setCommentView (value){
+				this.logger.log(2,"setCommentView", "enter > "+ value);
+				this.showComments = value;
+				if(this.showComments){
+					this.loadComments()
+				} else {
+					this.rerender()
 				}
+			},
 
-			}
-		},
+			async loadComments (){
+				this.logger.log(0,"loadComments", "enter > " + this.model);
+				if(this.model && this.model.isTryOut){
+					this.onCommentsLoaded([]);
+				} else {
+					let comments = await this.commentService.find(this.model.id, 'ScreenComment')
+					this.onCommentsLoaded(comments)
+					//this._doGet("/rest/comments/apps/" + this.model.id +"/ScreenComment.json", lang.hitch(this, "onCommentsLoaded"));
+				}
+			},
 
-		/**
-		 * Wires all comments. Must be separate method as we
-		 * rewire shit all the time...
-		 */
-		wireComments (){
-			try{
-				if (this.showComments && this.screenComments){
-					this.logger.log(1,"wireComments", "enter > ");
-					for (var screenID in this.screenComments){
-						var list = this.screenComments[screenID];
-						if (list) {
-							for(var i=0; i< list.length; i++){
-								var item = list[i];
-								var comment = this.comments[item.id];
-								if (comment && div) {
-									var div = item.div;
-									this.registerDragOnDrop(div, comment.id, "onCommentDndStart", "onCommntDndMove", "onCommentDndEnd", "onCommentDndClick");
+			onCommentsLoaded (temp){
+				this.logger.log(0,"onCommentsLoaded", "enter > "+ temp.length);
+
+				/**
+				 * This method is called sometimes from the Canvas.setModel() but we do not want do do any thing here
+				 */
+				this.comments = {};
+				for(var i =0; i< temp.length;i++){
+					var comment = temp[i];
+					this.comments[comment.id] = comment;
+				}
+				if(this.showComments){
+					this.rerender()
+				}
+			},
+
+
+			addComment (params){
+				this.logger.log(2,"addComment", "enter > ");
+
+				this.setMode("addComment");
+				this.setState(3);
+
+				this._createAddCommand("addComment", params);
+
+				var div = this.renderCommentIcon({x:0,y:0});
+				this._onAddNDropStart(div, {}, params.event, "onCommentAdded");
+			},
+
+			async onCommentAdded (pos, model, e){
+				this.logger.log(2,"onCommentAdded", "enter");
+
+				this._onAddDone();
+				this.setState(0);
+				this.setMode("edit");
+
+				/**
+				 * get an increasing number....
+				 */
+				if(this.model.isTryOut){
+					this.showHint("Register to add comments...");
+					this._onCommentAdded(pos,e, [] );
+				} else {
+					let comments = await this.commentService.find(this.model.id, 'ScreenComment')
+					this._onCommentAdded(pos, e, comments)
+					//this._doGet("/rest/comments/count/apps/" + this.model.id +"/ScreenComment.json", lang.hitch(this, "_onCommentAdded", pos,e));
+				}
+			},
+
+			_onCommentAdded (pos, e){
+				pos = this._addCorrectOffset(pos);
+				pos.w = 10;
+				pos.h = 10;
+				var screen = this.getHoverScreen(pos);
+
+				var count = 0;
+				for(var commentID in this.comments){
+					var c = this.comments[commentID];
+					count = Math.max(count, c.number);
+				}
+				count++;
+
+				if(screen){
+					var x=  (pos.x - screen.x) / screen.w;
+					var y=  (pos.y - screen.y) / screen.h;
+					var comment = {
+						message : "",
+						type : "ScreenComment",
+						reference : screen.id,
+						user : this.user,
+						userID : this.user.id,
+						created : new Date().getTime(),
+						number : count,
+						x : x,
+						y: y
+					};
+
+					this._commentSaveListener = lang.hitch(this, "_onCommentAdded2");
+
+					this.showCommentPopUp(comment, e);
+
+				} else {
+					this.showError("Please add the comment to a screen");
+				}
+			},
+
+
+			_onCommentAdded2 (){
+				//this.commentCheckBox.setValue(true);
+				this.onChangeCanvasViewConfig()
+				this.setCommentView(true);
+			},
+
+
+			/**********************************************************************
+			 * Render
+			 *
+			 * TODO: We could somehow do this as an decorator... But WTF
+			 **********************************************************************/
+
+
+			renderComments (){
+
+				if(this.showComments && this.comments){
+					this.logger.log(2,"renderComments", "enter > ");
+
+
+					this.screenComments = {};
+
+					for(var commentID in this.comments){
+						var comment = this.comments[commentID];
+
+						var screenID = comment.reference;
+
+						if(this.model.screens[screenID]){
+							if(this.screenDivs[screenID]){
+
+								//console.debug(" - ", commentID, comment.reference, comment.number);
+
+								if(!this.screenComments[screenID]){
+									this.screenComments[screenID] = [];
+								}
+
+								var screen = this.model.screens[screenID];
+
+								var box = {
+									x : Math.round(screen.x + screen.w * comment.x),
+									y : Math.round(screen.y + screen.h * comment.y),
+								};
+								var div = this.renderCommentIcon(box, comment);
+								this.dndContainer.appendChild(div);
+								this.screenComments[screenID].push({
+									div : div,
+									id : comment.id
+								});
+								this.registerDragOnDrop(div, comment.id, "onCommentDndStart", "onCommntDndMove", "onCommentDndEnd", "onCommentDndClick");
+							} else {
+								console.debug("renderComments() > ", screenID, " not rendered...");
+							}
+						} else {
+							console.warn("renderComments() > Comments for non exiting screen ", screenID);
+						}
+					}
+
+				}
+			},
+
+			/**
+			 * Wires all comments. Must be separate method as we
+			 * rewire shit all the time...
+			 */
+			wireComments (){
+				try{
+					if (this.showComments && this.screenComments){
+						this.logger.log(1,"wireComments", "enter > ");
+						for (var screenID in this.screenComments){
+							var list = this.screenComments[screenID];
+							if (list) {
+								for(var i=0; i< list.length; i++){
+									var item = list[i];
+									var comment = this.comments[item.id];
+									if (comment && div) {
+										var div = item.div;
+										this.registerDragOnDrop(div, comment.id, "onCommentDndStart", "onCommntDndMove", "onCommentDndEnd", "onCommentDndClick");
+									}
 								}
 							}
 						}
 					}
+				} catch (e){
+					this.logger.error("wireComments", "enter >Something is wrong ", e);
+					this.logger.sendError(e)
 				}
-			} catch (e){
-				this.logger.error("wireComments", "enter >Something is wrong ", e);
-				this.logger.sendError(e)
-			}
-		},
+			},
 
 
-		renderCommentIcon (box, comment){
-
-			box.w = this.getZoomed(25, this.zoom);
-			box.h = this.getZoomed(25, this.zoom);
-
-			var div = this.createBox(box);
-			css.add(div, "MatcCanvasCommentIcon");
-
-			var fontSize = this.getZoomed(12, this.zoom);
-
-			if(comment && fontSize > 6){
-				var lbl = document.createElement("div");
-				css.add(lbl,"MatcMiddle");
-				lbl.style.fontSize = fontSize + "px";
-				lbl.textContent = comment.number;
-				div.appendChild(lbl);
-			}
-			return div;
-		},
+			renderCommentIcon (box, ) {
+				box.w = this.getZoomed(25, this.zoom);
+				box.h = this.getZoomed(25, this.zoom);
+				var div = this.createBox(box);
+				css.add(div, "MatcCanvasCommentIcon");
+				return div;
+			},
 
 
-		onCommentDndStart (){
-		},
+			onCommentDndStart (){
+			},
 
-		onCommntDndMove (){
-		},
+			onCommntDndMove (){
+			},
 
 
-		onCommentDndEnd (id, div, pos){
-			this.logger.log(10, 'onCommentDndEnd', 'enter', 'id', id, div)
-			var comment = this.comments[id];
-			if(comment){
-				var screen = this.model.screens[comment.reference];
-				if(screen){
-					/**
-					 * TODO: we could pass this to the controller
-					 * to work on an unZoomed model
-					 */
-					var x=  (pos.x - screen.x) / screen.w;
-					var y=  (pos.y - screen.y) / screen.h;
+			onCommentDndEnd (id, div, pos){
+				this.logger.log(10, 'onCommentDndEnd', 'enter', 'id', id, div)
+				var comment = this.comments[id];
+				if(comment){
+					var screen = this.model.screens[comment.reference];
+					if(screen){
+						/**
+						 * TODO: we could pass this to the controller
+						 * to work on an unZoomed model
+						 */
+						var x=  (pos.x - screen.x) / screen.w;
+						var y=  (pos.y - screen.y) / screen.h;
 
-					/**
-					 * Update our model
-					 */
-					comment.x = x;
-					comment.y = y;
+						/**
+						 * Update our model
+						 */
+						comment.x = x;
+						comment.y = y;
 
-					this.saveDNDChange(comment);
+						this.saveDNDChange(comment);
 
+					} else {
+						console.warn("onCommentDndEnd() > no screen with id", comment.reference)
+					}
+				}
+
+			},
+
+			async saveDNDChange (comment){
+				/**
+				 * send to server!
+				 */
+				if(this.isPublic){
+					this.showSuccess("Register to comment...");
 				} else {
-					console.warn("onCommentDndEnd() > no screen with id", comment.reference)
-				}
-			}
-
-		},
-
-		async saveDNDChange (comment){
-			/**
-			 * send to server!
-			 */
-			if(this.isPublic){
-				this.showSuccess("Register to comment...");
-			} else {
-				let comments = await this.commentService.update(this.model.id, comment)
-				this.onCommentSaved(comments)
-				// this._doPost("/rest/comments/apps/" + this.model.id +"/" + comment.id+ ".json", comment, "onCommentSaved");
-			}
-		},
-
-		onCommentDndClick (id, div, pos,e){
-			this.stopEvent(e);
-			console.debug("onCommentDndClick() Close old");
-			this.onCloseCommentPopup(e);
-			var comment = this.comments[id];
-			if(comment){
-				this.showCommentPopUp(comment,e);
-			}
-
-		},
-
-		showCommentPopUp (comment, e){
-			var db  = new DomBuilder();
-			var screen = this.model.screens[comment.reference];
-			if(screen) {
-
-				var popup = db
-					.div("MatcCanvasComment MatcCanvasCommentOpen")
-					.build(	this.widgetContainer);
-
-				popup.style.top =  Math.round(screen.y + screen.h * comment.y) + "px";
-				popup.style.left =  Math.round(screen.x + screen.w * comment.x) + "px";
-
-				this._commentTouchListner = on(popup, "mousedown", function(e){
-					e.stopPropagation();
-				});
-
-				this._commentTouchListner = on(popup, "click", function(e){
-					e.stopPropagation();
-				});
-
-				var cntr = db
-					.div("MatcCanvasCommentCntr MatcPadding")
-					.build(popup);
-
-				/**
-				 * Resize so its always in screen!
-				 */
-				this._repositionCanvasPopup(popup, e);
-
-				/**
-				 * register close on ESC and Canvas clicks
-				 */
-				this.addSelectionStartListener(lang.hitch(this,"onCloseCommentPopup"));
-				this._canvasClickLisenter = topic.subscribe("matc/canvas/click", lang.hitch(this, "onCloseCommentPopup"));
-				this.setCanvasCancelCallback("onCloseCommentPopup");
-				this.renderCommentPopup(comment, this.user, cntr, db, this.canDeleteAllComments);
-				this._commentPopup = popup;
-			}
-
-		},
-
-		_repositionCanvasPopup (popup, e){
-			var wBox = win.getBox();
-			var mPos = this._getMousePosition(e);
-			if(mPos.x > wBox.w * 0.7){
-				css.add(popup, "MatcCanvasCommentLeft");
-			} else {
-				css.remove(popup, "MatcCanvasCommentLeft");
-			}
-			if(mPos.y > wBox.h * 0.7){
-				css.add(popup, "MatcCanvasCommentTop");
-			} else {
-				css.remove(popup, "MatcCanvasCommentTop");
-			}
-		},
-
-
-
-		onCloseCommentPopup (comment,e){
-			if (e && e.preventDefault){
-				this.stopEvent(e);
-			}
-			if(this._commentTouchListner){
-				this._commentTouchListner.remove();
-			}
-			if (this._canvasClickLisenter){
-				this._canvasClickLisenter.remove();
-			}
-			if(this._commentPopup && this._commentPopup.parentNode){
-				this._commentPopup.parentNode.removeChild(this._commentPopup);
-			} else {
-				console.debug("onCloseCommentPopup() Connot remove");
-			}
-			delete this._commentTouchListner;
-			delete this._commentPopup;
-			delete this._canvasClickLisenter;
-			return false;
-		},
-
-
-
-		async onSaveComment (txt,comment, e){
-			this.stopEvent(e);
-			comment.message = txt.value;
-			if(this.isPublic){
-				this.showSuccess("Register to comment...");
-			} else {
-				if(comment.id){
-					let res = await this.commentService.update(this.model.id, comment)
-					this.onCommentSaved(res)
+					let comments = await this.commentService.update(this.model.id, comment)
+					this.onCommentSaved(comments)
 					// this._doPost("/rest/comments/apps/" + this.model.id +"/" + comment.id+ ".json", comment, "onCommentSaved");
-				} else {
-					let res = await this.commentService.create(this.model.id, comment)
-					this.onCommentSaved(res)
-					// this._doPost("/rest/comments/apps/" + this.model.id, comment, "onCommentSaved");
 				}
-			}
-			this.stopEvent(e);
-			this.onCloseCommentPopup();
-		},
+			},
 
-
-		async onDeleteComment (comment, e){
-			if(this.isPublic){
-				this.showSuccess("Register to comment...");
-			} else {
-				if(comment.id){
-					let res = await this.commentService.delete(this.model.id, comment)
-					this.onCommentDeleted(res)
-					//this._doDelete("/rest/comments/apps/" + this.model.id +"/"+comment.id + ".json", comment, "onCommentDeleted");
-				} else {
-					this.showSuccess("No Comment was deleted");
+			onCommentDndClick (id, div, pos,e){
+				this.stopEvent(e);
+				this.onCloseCommentPopup(e);
+				var comment = this.comments[id];
+				if(comment){
+					this.showCommentPopUp(comment,e);
 				}
-			}
-			this.stopEvent(e);
-			this.onCloseCommentPopup();
-		},
 
+			},
 
-		onCommentSaved (data){
-			if(data){
-				this.showSuccess("Comment updated");
-				if(this._commentSaveListener){
-					this._commentSaveListener(data);
-					delete this._commentSaveListener;
-				}
-			}
-		},
+			showCommentPopUp (comment, e){
+				var db  = new DomBuilder();
+				var screen = this.model.screens[comment.reference];
+				if(screen) {
 
-		onCommentDeleted (data){
-			if(data){
-				this.showSuccess("Comment deleted");
-			}
-			this.loadComments();
-			this.rerender();
-		},
+					var popup = db
+						.div("MatcCanvasComment MatcCanvasCommentOpen")
+						.build(	this.dndContainer);
 
-		updateCommentPosition (id, temp){
-			if(this.screenComments && this.screenComments[id]){
+					popup.style.top =  Math.round(screen.y + screen.h * comment.y) + "px";
+					popup.style.left =  Math.round(screen.x + screen.w * comment.x) + "px";
 
-				var list = this.screenComments[id];
-
-				for(var i=0; i< list.length; i++){
-					var item = list[i];
-
-					var comment = this.comments[item.id];
-
-					var box = {
-
-						x : Math.round(temp.x + temp.w * comment.x),
-						y : Math.round(temp.y + temp.h * comment.y),
-					};
-
-					this.addDragNDropRenderJob({
-						div : item.div,
-						pos : box,
-						id : item.id
+					this._commentTouchListner = on(popup, "mousedown", e => {
+						e.stopPropagation();
 					});
 
+					this._commentTouchListner = on(popup, "click", e => {
+						e.stopPropagation();
+					});
+
+					var cntr = db
+						.div("MatcCanvasCommentCntr MatcPadding")
+						.build(popup);
+
+					/**
+					 * Resize so its always in screen!
+					 */
+					this._repositionCanvasPopup(popup, e);
+
+					/**
+					 * register close on ESC and Canvas clicks
+					 */
+					this.addSelectionStartListener(lang.hitch(this,"onCloseCommentPopup"));
+					this._canvasClickLisenter = topic.subscribe("matc/canvas/click", lang.hitch(this, "onCloseCommentPopup"));
+					this.setCanvasCancelCallback("onCloseCommentPopup");
+					this.renderCommentPopup(comment, this.user, cntr, db, this.canDeleteAllComments);
+					this._commentPopup = popup;
 				}
+
+			},
+
+			_repositionCanvasPopup (popup, e){
+				var wBox = win.getBox();
+				var mPos = this._getMousePosition(e);
+				if(mPos.x > wBox.w * 0.7){
+					css.add(popup, "MatcCanvasCommentLeft");
+				} else {
+					css.remove(popup, "MatcCanvasCommentLeft");
+				}
+				if(mPos.y > wBox.h * 0.7){
+					css.add(popup, "MatcCanvasCommentTop");
+				} else {
+					css.remove(popup, "MatcCanvasCommentTop");
+				}
+			},
+
+
+
+			onCloseCommentPopup (comment,e){
+				if (e && e.preventDefault){
+					this.stopEvent(e);
+				}
+				if(this._commentTouchListner){
+					this._commentTouchListner.remove();
+				}
+				if (this._canvasClickLisenter){
+					this._canvasClickLisenter.remove();
+				}
+				if(this._commentPopup && this._commentPopup.parentNode){
+					this._commentPopup.parentNode.removeChild(this._commentPopup);
+				} else {
+					console.debug("onCloseCommentPopup() Connot remove");
+				}
+				delete this._commentTouchListner;
+				delete this._commentPopup;
+				delete this._canvasClickLisenter;
+				return false;
+			},
+
+
+
+			async onSaveComment (txt,comment, e){
+				this.stopEvent(e);
+				comment.message = txt.value;
+				if(this.isPublic){
+					this.showSuccess("Register to comment...");
+				} else {
+					if(comment.id){
+						let res = await this.commentService.update(this.model.id, comment)
+						this.onCommentSaved(res)
+						// this._doPost("/rest/comments/apps/" + this.model.id +"/" + comment.id+ ".json", comment, "onCommentSaved");
+					} else {
+						let res = await this.commentService.create(this.model.id, comment)
+						this.onCommentSaved(res)
+						// this._doPost("/rest/comments/apps/" + this.model.id, comment, "onCommentSaved");
+					}
+				}
+				this.stopEvent(e);
+				this.onCloseCommentPopup();
+			},
+
+
+			async onDeleteComment (comment, e){
+				if(this.isPublic){
+					this.showSuccess("Register to comment...");
+				} else {
+					if(comment.id){
+						let res = await this.commentService.delete(this.model.id, comment)
+						this.onCommentDeleted(res)
+						//this._doDelete("/rest/comments/apps/" + this.model.id +"/"+comment.id + ".json", comment, "onCommentDeleted");
+					} else {
+						this.showSuccess("No Comment was deleted");
+					}
+				}
+				this.stopEvent(e);
+				this.onCloseCommentPopup();
+			},
+
+
+			onCommentSaved (data){
+				if(data){
+					this.showSuccess("Comment updated");
+					if(this._commentSaveListener){
+						this._commentSaveListener(data);
+						delete this._commentSaveListener;
+					}
+				}
+			},
+
+			onCommentDeleted (data){
+				if(data){
+					this.showSuccess("Comment deleted");
+				}
+				this.loadComments();
+				this.rerender();
+			},
+
+			updateCommentPosition (id, temp){
+				if(this.screenComments && this.screenComments[id]){
+
+					var list = this.screenComments[id];
+
+					for(var i=0; i< list.length; i++){
+						var item = list[i];
+						var comment = this.comments[item.id];
+						var box = {
+							x : Math.round(temp.x + temp.w * comment.x),
+							y : Math.round(temp.y + temp.h * comment.y),
+						};
+
+						this.addDragNDropRenderJob({
+							div : item.div,
+							pos : box,
+							id : item.id
+						});
+
+					}
+				}
+			},
+
+
+			updateCommentDnd (zoomedScreen){
+				if(this.screenComments && this.screenComments[zoomedScreen.id]) {
+					var list = this.screenComments[zoomedScreen.id];
+					for (var i=0; i< list.length; i++){
+						var item = list[i];
+						var comment = this.comments[item.id];
+						var pos = {
+							x: Math.round(zoomedScreen.x + zoomedScreen.w * comment.x),
+							y: Math.round(zoomedScreen.y + zoomedScreen.h * comment.y),
+							w: this.getZoomed(25, this.zoom),
+							h: this.getZoomed(25, this.zoom)
+						};
+						this.domUtil.setBox(item.div, pos)
+					}
+				}
+			},
+
+			cleanUpComments (){
+				this.logger.log(2,"cleanUpComments", "enter");
+				this.removeScreenCommentIcons()
+			},
+
+			removeScreenCommentIcons () {
+				if (this.screenComments) {
+					for (let screenID in this.screenComments) {
+						let list = this.screenComments[screenID]
+						list.forEach(c => {
+							let div = c.div
+							if (div.parentNode) {
+								div.parentNode.removeChild(div)
+							}
+						})
+					}
+				}
+				this.screenComments = {}
 			}
-		},
-
-		cleanUpComments (){
-			this.logger.log(2,"cleanUpComments", "enter");
-
-		}
     },
     mounted () {
     }

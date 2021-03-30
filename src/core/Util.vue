@@ -172,7 +172,7 @@ export default {
       for (let i = 0; i < sets.length; i++) {
         var set = sets[i];
         var overlap = this._getDisOverlap(start, end, set.start, set.end);
-        if (overlap > 0) {     
+        if (overlap > 0) {
           set.start = Math.min(set.start, start);
           set.end = Math.max(set.end, end);
           set.children.push(widget.id);
@@ -673,7 +673,7 @@ export default {
       return type;
     },
 
-    getEventLabel: function(type) {
+    getEventLabel (type) {
       if (this.eventLabels[type]) {
         return this.eventLabels[type];
       }
@@ -1083,7 +1083,7 @@ export default {
           /**
            * Create a save button that will only show if people start editing...
            */
-          var saveBtn = db.a("MatcButton MatcButtonAnimated MatcButtonClosed", "Update").build(bar);
+          var saveBtn = db.a("MatcButton MatcButtonAnimated ", "Update").build(bar);
           this.tempOwn(on(saveBtn,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
 
           let close = db.a("MatcLinkButton", "Close").build(bar);
@@ -1108,17 +1108,6 @@ export default {
               callback: lang.hitch(this, "onDeleteComment", comment)
             }
           ]);
-
-          this.tempOwn(on(txtarea, "focus", function() {
-             css.remove(saveBtn, "MatcButtonClosed");
-            })
-          );
-          this.tempOwn(on(txtarea, "blur", function() {
-              if (txtarea.value == comment.message) {
-                css.add(saveBtn, "MatcButtonClosed");
-              }
-            })
-          );
         } else {
           let create = db.a("MatcButton", "Create").build(bar);
           this.tempOwn(on(create,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
@@ -1128,7 +1117,6 @@ export default {
       } else {
         if (canDelete) {
           let s = this.$new(SlideLeftButton);
-          console.debug(SlideLeftButton)
           s.placeAt(cntr);
           s.setOptions([
             {

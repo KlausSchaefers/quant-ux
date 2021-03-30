@@ -1,7 +1,6 @@
 <script>
 import css from 'dojo/css'
 import on from 'dojo/on'
-import touch from 'dojo/touch'
 import lang from 'dojo/_base/lang'
 import domGeom from 'dojo/domGeom'
 import win from 'dojo/win'
@@ -11,11 +10,13 @@ import _Color from 'common/_Color'
 import Ruler from 'canvas/Ruler'
 import GridAndRuler from 'canvas/GridAndRuler'
 import SimpleGrid from 'canvas/SimpleGrid'
-import RenderFast from 'canvas/RenderFast'
+import RenderFlow from 'canvas/RenderFlow'
+import Wiring from 'canvas/Wiring'
+import ModelUtil from 'core/ModelUtil'
 
 export default {
     name: 'Render',
-    mixins:[_Color, RenderFast],
+    mixins:[_Color, RenderFlow, Wiring],
     data: function () {
 		/**
 			 * The canvas has the following states:
@@ -55,7 +56,7 @@ export default {
 					canvasMargin: 0.6,
 					moveMode: "ps",
 					renderDND: true,
-					renderLines: true,
+					renderLines: false,
 					showDistance: true,
 					wireInheritedWidgets: false,
 					showAnimation: false,
@@ -78,12 +79,13 @@ export default {
 			this.widgetDivs = {};
 			this.widgetBackgroundDivs = {};
 			this.screenDivs = {};
+			this.screenGridDivs = {}
 			this.screenLabels = {};
 			this.screenBackgroundDivs = {};
 			this.lineSVGs = {};
+			this.linePoints = {}
 			this.gridBackground = {};
 			this.renderedModels = {};
-
 
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));
@@ -236,18 +238,48 @@ export default {
 		 * Container Size
 		 **********************************************************************/
 
-		setContainerSize (){
-			this.container.style.height = this.getZoomed(this.canvasPos.h, this.zoom) +"px";
-			this.container.style.width = this.getZoomed(this.canvasPos.w, this.zoom) +"px";
-			this.frame.style.fontSize = this.getZoomed(this.defaultFontSize, this.zoom)  + "px";
+		initContainerSize () { // was setContainerSize
+			this.container.style.height = this.canvasPos.h + "px";
+			this.container.style.width = this.canvasPos.w + "px";
+
+			this.dndContainer.style.fontSize = this.defaultFontSize + "px";
+
+			this.dndContainer.style.height = this.canvasPos.h + "px";
+			this.dndContainer.style.width = this.canvasPos.w + "px";
+
+			this.containerSize = {
+				h: this.canvasPos.h,
+				w: this.canvasPos.w
+			}
+
+			this.container.style.height = this.containerSize.h + "px";
+			this.container.style.width = this.containerSize.w + "px";
+
+
+		},
+
+
+		setContainerPos (ignoreScollUpdate){
+
 			this.containerSize = {
 				h: this.getZoomed(this.canvasPos.h, this.zoom),
 				w: this.getZoomed(this.canvasPos.w, this.zoom)
 			}
-		},
 
-		setContainerPos (ignoreScollUpdate){
-			this.domUtil.setXY(this.container, Math.round(this.canvasPos.x), Math.round(this.canvasPos.y))
+			this.domUtil.setPos(this.container, this.canvasPos)
+			this.domUtil.setScale(this.zoomContainer, this.zoom)
+
+			this.container.style.height = this.containerSize.h + "px";
+			this.container.style.width = this.containerSize.w + "px";
+
+			this.dndContainer.style.height = this.containerSize.h + "px";
+			this.dndContainer.style.width = this.containerSize.w + "px";
+			this.dndContainer.style.fontSize = this.getZoomed(this.defaultFontSize, this.zoom)  + "px";
+
+			if (this.svg) {
+				this.updateSVG()
+			}
+
 			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
 			}
@@ -270,7 +302,27 @@ export default {
 		 **********************************************************************/
 
 		rerender (){
-			this.render(this.model);
+			this.render(this.sourceModel);
+		},
+
+		renderPartial (sourceModel, changes) {
+			this.logger.log(-1,"renderPartial", "enter", changes);
+			this.sourceModel = sourceModel;
+			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
+		},
+
+		renderZoom () {
+			this.setContainerPos()
+			if (this.model) {
+				this.cleanUpScreenButtons()
+				this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
+				this.updateDnD(this.model)
+				/**
+				 * FIXME This will also trigger the toolabr select. Can we ignore this?
+				 */
+				this.renderSelection();
+				this.renderDistance();
+			}
 		},
 
 		/**
@@ -278,26 +330,30 @@ export default {
 		 * changed, but we did not do an complete rerender. This happens
 		 * for instance when widgets are moved.
 		 */
-		onWidgetPositionChange (zoomedModel) {
-			this.logger.log(-1,"onWidgetPositionChange", "enter", zoomedModel);
-			this.model = zoomedModel;
-			this.renderFactory.setZoomedModel(zoomedModel);
-			this.renderFactory.updatePositions(zoomedModel)
+		onWidgetPositionChange (sourceModel) {
+			this.logger.log(-1,"onWidgetPositionChange", "enter", sourceModel);
+			this.sourceModel = sourceModel;
+			this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
+			this.renderFactory.setZoomedModel(sourceModel);
+			this.renderFactory.updatePositions(sourceModel)
 		},
 
 
-		render (model, isResize = false){
+		render (sourceModel, isResize = false){
 			this.logger.log(2,"render", "enter", isResize);
 			let renderStart = new Date().getTime();
+
 			try {
+				/**
+				 * We keep here the sourceModel for rendering and zooming.
+				 * The rest stays as is with the zoomedModel as this.model
+				 */
+				this.sourceModel = ModelUtil.inlineTemplateModifies(sourceModel);
+				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
 
-				if (this.settings.fastRender) {
-					this.renderFlowViewFast(model, isResize);
-				} else {
-					this.renderFlowView(model);
-				}
+				this.renderFlowViewFast(this.sourceModel, this.model, isResize);
 
-				this.afterRender();
+				this.afterRender(this.sourceModel, this.model);
 
 				this.renderComments();
 
@@ -305,7 +361,7 @@ export default {
 				 * Also update layer list. The renderFlow might call
 				 * select which extends the group with additonal children!
 				 */
-				this.renderLayerList(model);
+				this.renderLayerList(sourceModel);
 
 				/**
 				 * Make sure we continue the add mode
@@ -318,47 +374,6 @@ export default {
 			this.logger.log(0,"render", "exit > " + (new Date().getTime() - renderStart) + 'ms');
 		},
 
-		renderFlowView (model){
-			this.logger.log(2,"renderFlowView", "enter");
-
-			this.beforeRender();
-			this.model = model;
-			this.cleanUp();
-			this.renderCanvas();
-
-			/**
-			 * start real rendering
-			 */
-			for(let id in model.screens){
-				this.renderScreen(model.screens[id]);
-			}
-
-			var widgets = this.getOrderedWidgets(model.widgets);
-			for(let i=0; i< widgets.length; i++){
-				let widget = widgets[i];
-				this.renderWidget(widget);
-			}
-
-			if(this.renderLines){
-				for(let id in model.lines){
-					let line = model.lines[id];
-					if(!line.hidden){
-						this.renderLine(model.lines[id]);
-					} else {
-						this.logger.log(4,"renderFlowView", "Do not render hidden line > " + id);
-					}
-				}
-			}
-
-			this.wireEvents();
-			this.renderSelection();
-			this.renderDistance();
-			if(this.animate){
-				setTimeout(lang.hitch(this,"renderAnimation"),1);
-			}
-			this.logger.log(3,"renderFlowView", "exit");
-		},
-
 
 		renderDistance (){
 			if(this.mode == "distance"){
@@ -368,142 +383,9 @@ export default {
 			}
 		},
 
-		/**********************************************************************
-		 * Wiring
-		 **********************************************************************/
-		reWireEvents (){
-			this.logger.log(3,"reWireEvents", "enter");
-			this.cleanUpAllListeners();
-			this.wireEvents();
-		},
-
-		wireEvents (){
-			this.logger.log(2,"wireEvents", "enter > " + this.mode);
-
-			this.wireCanvas()
-
-			for(let id in this.model.screens){
-				this.wireScreen(id)
-			}
-
-			for(let id in this.model.widgets){
-				this.wireWidget(id);
-			}
-
-			// wire comments;
-			this.wireComments();
-			/**
-			 * FIXME: Wire lines too. Then we can call this in setMode();
-			 */
-			this.logger.log(4,"wireEvents", "exit");
-		},
-
-		/**
-		 * wire all widgets that are *NOT* inherited
-		 */
-		wireWidget (id) {
-			let widget = this.model.widgets[id];
-
-			if (this.isElementLocked(widget) || this.isElementHidden(widget)) {
-				return
-			}
-
-			let div = this.widgetDivs[widget.id];
-			if (!widget.inherited || this.wireInheritedWidgets){
-				if(this.mode == "edit" || this.mode == "addLine"){
-					let locked = widget.style.locked;
-					if(locked){
-						this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
-					} else {
-						this.registerDragOnDrop(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick");
-					}
-					this.tempOwn(on(div, touch.over, lang.hitch(this, "setHoverWidget", widget)));
-				} else if(this.mode == "view" ){
-					this.tempOwn(on(div, "mousedown", lang.hitch(this, "onWidgetDndClick", widget.id, div, null)));
-				} else if (this.mode == "distance"){
-					this.tempOwn(on(div, touch.over, lang.hitch(this, "renderWidgetDistance", widget)));
-					this.tempOwn(on(div, touch.out, lang.hitch(this, "renderWidgetDistance", null)));
-					/**
-					 * TODO: Make addCloneWork. Really use dull
-					 */
-					this.tempOwn(on(div, touch.press, lang.hitch(this, "addClonedWidget", widget))); // ALT + DND
-				}
-			} else {
-				this.tempOwn(on(div, "click", lang.hitch(this, "onInheritedWidgetSelected", widget)));
-			}
-		},
-
-		isElementLocked (widget) {
-			return widget && widget.props && widget.props.locked
-		},
-
-		isElementHidden (widget) {
-			return widget && widget.props && widget.props.hidden
-		},
-
-		wireScreen (id) {
-			let dndDiv = this.screenDivs[id];
-			let screen = this.model.screens[id];
-
-			if (this.isElementLocked(screen)) {
-				return
-			}
-
-			/**
-			 * register dnd
-			 */
-			if (this.mode == "addLine") {
-				this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
-			} else if(this.mode == "edit" && !this.isSinglePage){
-				if (this.hasSelectOnScreen) {
-					let lbl = this.screenLabels[id]
-					if (lbl) {
-						this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick", lbl);
-					}
-				} else {
-					this.registerDragOnDrop(dndDiv, screen.id, "onScreenDndStart", "onScreenDndMove", "onScreenDndEnd", "onScreenDndClick");
-				}
-			} else if(this.mode == "view"){
-				this.tempOwn(on(dndDiv, "mousedown", lang.hitch(this, "onScreenDndClick", screen.id, dndDiv, null)));
-			}
-		},
-
-		wireCanvas () {
-			if(this.moveMode == "classic" && (this.mode == "edit" || this.mode == "view" || this.mode === "data") ){
-				/**
-				 * In the classic mode the
-				 */
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
-			} else if (this.mode === "edit" || this.mode === "view" || this.mode === "data"){
-				/**
-				 * The must be mousedown, because in chrome the touch press is fired after mousedown and fucks up some how our state maschine
-				 */
-
-				this.tempOwn(on(this.container, "mousedown", lang.hitch(this, "onSelectionStarted") ));
-
-			} else if(this.mode == "move"){
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null);
-			} else if(this.mode == "select"){
-				this._selectionToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onSelectionStarted"));
-			} else if(this.mode == "hotspot"){
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolHotspotStart"));
-			} else if(this.mode == "addLine") {
-				this.registerDragOnDrop(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", "onCanvasDnClick");
-			} else if(this.mode == "addText") {
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolTextStart"));
-			} else if(this.mode == "addBox") {
-				this.onToolBoxInit();
-				this._hotspotToolPressListener = on(this.container,"mousedown", lang.hitch(this,"onToolBoxStart"));
-			}
-		},
-
 		renderCanvas (){
 			this.initSVG();
-			this.setContainerSize();
 			this.setContainerPos();
-			this.setZoomedContainerPosition();
-			this.renderFactory.setScaleFactor(this.zoom, this.zoom);
-			this.renderFactory.setZoomedModel(this.model);
 		},
 
 		beforeRender () {
@@ -538,79 +420,7 @@ export default {
 			}
 		},
 
-		renderScreen (screen){
-			this.logger.log(4,"renderScreen", "enter");
 
-			var dndDiv = null;
-			var backgroundDiv = null;
-			/**
-			* We need these div also to check if the screen was rendered!
-			*/
-			if(!this.screenDivs[screen.id]){
-				/**
-				 * create dnd
-				 */
-				dndDiv = this.createScreenDnD(screen);
-				this.screenDivs[screen.id] = dndDiv;
-				this.widgetContainer.appendChild(dndDiv);
-
-				var lbl = document.createElement("div");
-				css.add(lbl, "MatcScreenLabel");
-				this.setTextContent(lbl, screen.name);
-				this.screenLabels[screen.id] = lbl;
-				dndDiv.appendChild(lbl);
-
-				/**
-				 * Create a background box
-				 */
-				backgroundDiv = this.createScreen(screen);
-				this.screenContainer.appendChild(backgroundDiv);
-				this.screenBackgroundDivs[screen.id] = backgroundDiv;
-			}
-
-			/**
-			 * set style and grid
-			 */
-			this.renderFactory.setStyle(backgroundDiv, screen);
-			this.renderGrid(dndDiv, screen);
-			this.renderScreenButtons(dndDiv, screen)
-
-			return dndDiv;
-		},
-
-
-		renderWidget (widget){
-			this.logger.log(4,"renderWidget", "enter");
-
-			/**
-				* check if we have to create div again.. Also used as indicator
-				* if the widget was rendered!
-				*/
-			var div = null;
-			if(!this.widgetBackgroundDivs[widget.id] && !this.isElementHidden(widget)){
-
-				/**
-					* create dnd
-					*/
-				if (this.renderDND && !this.isElementLocked(widget)) {
-
-					div = this.createWidgetDnD(widget);
-					if(widget.inherited){
-						css.add(div, "MatcWidgetDNDInherited");
-					}
-					this.widgetDivs[widget.id] = div;
-					this.widgetContainer.appendChild(div);
-				}
-
-				/**
-					* Create background
-					*/
-				let divBack = this.createWidget(widget);
-				this.screenContainer.appendChild(divBack);
-				this.widgetBackgroundDivs[widget.id] = divBack;
-			}
-			return div;
-		},
 
 		renderScreenButtons () {
 			/**
@@ -624,7 +434,7 @@ export default {
 		 **************************************************/
 
 		cleanUp (){
-			this.logger.log(3,"cleanUp", "enter");
+			this.logger.log(2,"cleanUp", "enter");
 
 			if (this.settings && this.settings.fastRender) {
 				return this.cleanUpFast();
@@ -647,6 +457,7 @@ export default {
 			this.widgetDivs = {};
 			this.widgetBackgroundDivs = {};
 			this.screenDivs = {};
+			this.screenGridDivs = {}
 			this.screenLabels = {};
 			this.screenBackgroundDivs = {};
 			this.lineSVGs = {};
@@ -738,10 +549,12 @@ export default {
 
 
 		renderGrid (backgroundDiv){
+
 			if(this.model.grid && this.model.grid.visible){
 
+				let z = '1'
 				if (this.model.grid.type === "columns"){
-					let z = this.zoom + "";
+
 					let h = this.getZoomed(this.zoom,this.model.grid.h);
 					let w = this.getZoomed(this.zoom,this.model.grid.w);
 
@@ -785,19 +598,18 @@ export default {
 					}
 					backgroundDiv.style.backgroundImage = this.gridBackground[z]
 				} else {
-					/**
-						* FIXME: We should render the background image for the x times so it is even.
-						* e.g. h= 2.5 so we would have to render for 5. Also we should store the image and do
-						* the rendering only once...
-						*
-						* Check drigRuler how we calculate the grid in there
-						* ..
-						*/
-					let h = this.getZoomed(this.zoom,this.model.grid.h);
-					let w = this.getZoomed(this.zoom,this.model.grid.w);
 
-					if(w > 0 && h > 0 && w < this.model.screenSize.w && h < this.model.screenSize.h ){
-						let z = this.zoom + "";
+					/**
+					 * We render with double resolution and let the broser sort it out. Wr could call
+					 * this on zoom and adopt z to the zoom
+					 */
+					let z = 2
+					let h = this.model.grid.h * z;
+					let w = this.model.grid.w * z;
+
+
+					if (w > 0 && h > 0 && w < this.model.screenSize.w && h < this.model.screenSize.h ){
+
 						if (!this.gridBackground[z]){
 							let c= document.createElement("canvas");
 							c.width=w;
@@ -819,18 +631,29 @@ export default {
 							this.gridBackground[z] = "url(" + c.toDataURL("image/png")  + ")";
 						}
 						backgroundDiv.style.backgroundImage = this.gridBackground[z]
+						backgroundDiv.style.backgroundSize = w / z + 'px ' + h / z + 'px'
 					}
 				}
 			} else {
 				backgroundDiv.style.backgroundImage = 'none'
 			}
-        },
+    },
 
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");
 			var div = this.createBox(screen);
+			div._screenID = screen.id
 			css.add(div, "MatcScreenDnD");
 			return div;
+		},
+
+		createScreenLabel(screen) {
+			let lbl =document.createElement("div");
+			css.add(lbl, "MatcScreenLabel");
+			lbl._screenLabel = true
+			lbl._screenID = screen.id
+			this.setTextContent(lbl, screen.name);
+			return lbl
 		},
 
 		createScreen (screen){
@@ -844,6 +667,7 @@ export default {
 		createWidgetDnD (widget){
 			this.logger.log(4,"createWidgetDnD", "enter");
 			var div = this.createBox(widget);
+			div._widgetID = widget.id
 			css.add(div, "MatcWidgetDND");
 			if (this.hasLogic(widget)){
 				css.add(div, "MatcLogicWidgetDnD");
@@ -857,6 +681,23 @@ export default {
 
 		createWidgetDataView () {
 			// child classes can implement
+		},
+
+		createZoomedWidget (widget) {
+			this.logger.log(-1,"createZoomedWidget", "enter");
+
+			var div = this.createBox(widget);
+			css.add(div, "MatcWidget");
+
+			this.renderFactory.setScaleFactor(this.zoom, this.zoom)
+			this.renderFactory.createWidgetHTML(div, widget);
+			this.renderFactory.setScaleFactor(1, 1)
+
+			if(this.hasLine(widget)){
+				css.add(div, "MatcWidgetWithTransition");
+			}
+
+			return div;
 		},
 
 		createWidget (widget){
@@ -887,55 +728,76 @@ export default {
 		},
 
 
-		setWidgetPosition (id, pos){
-			var widget = this.model.widgets[id];
-			if(widget){
-				widget.x = pos.x;
-				widget.y = pos.y;
-				widget.w = pos.w;
-				widget.h = pos.h;
-				var div = this.widgetBackgroundDivs[id];
-				if(div){
-					this.updateBox(widget, div);
+		setWidgetPosition (id, sourcePos, zoomedPos){
+			let widget = this.model.widgets[id];
+			if (widget) {
+				widget.x = zoomedPos.x;
+				widget.y = zoomedPos.y;
+				widget.w = zoomedPos.w;
+				widget.h = zoomedPos.h;
+
+				let dndDiv = this.widgetDivs[id];
+				if (dndDiv){
+					this.updateBox(widget, dndDiv);
 				}
-				div = this.widgetDivs[id];
-				if(div){
-					this.updateBox(widget, div);
+			}
+
+			let sourceWidget = this.sourceModel.widgets[id]
+			if (sourceWidget) {
+
+				sourceWidget.x = sourcePos.x;
+				sourceWidget.y = sourcePos.y;
+				sourceWidget.w = sourcePos.w;
+				sourceWidget.h = sourcePos.h;
+
+				let sourceDiv = this.widgetBackgroundDivs[id];
+				if(sourceDiv){
+					this.updateBox(sourcePos, sourceDiv);
 				}
 			}
 		},
+
 
 		setScreenPosition (){
 		},
 
 		setTempWidgetStyle (id, style){
 			//this.logger.log(4,"setTempWidgetStyle", "enter");
-			var widget = this.model.widgets[id];
+
+			let sourceWidget = this.getUpdatedSourceWidget(id, style)
 			var div = this.widgetBackgroundDivs[id];
-			if(widget && widget.style && div){
-				/**
-				 * We merge the new style into the current style
-				 */
-				for (var k in style) {
-					widget.style[k] = style[k];
-				}
-				this.renderFactory.setStyle(div, widget, true);
-				this.setCopyStyle(widget, true);
+			if(div && sourceWidget){
+				this.renderFactory.setStyle(div, sourceWidget, true);
+				this.setCopyStyle(sourceWidget, true);
 			} else {
 				console.warn("setTempWidgetStyle() > Cannot set widget style", id, style);
 			}
 		},
 
-		setWidgetStyle (id, style, model){
+		getUpdatedSourceWidget (id, style) {
+			let sourceWidget = this.sourceModel.widgets[id];
+			if (sourceWidget) {
+				for (var k in style) {
+					sourceWidget.style[k] = style[k];
+				}
+			}
+			return sourceWidget
+		},
+
+		setWidgetStyle (id, style, widget){
 			this.logger.log(-1,"setWidgetStyle", "enter > ", id);
-			var widget = this.model.widgets[id];
+			/**
+			 * get the source model and copy the style. Asume
+			 * partieal updates...
+			 */
+			let sourceWidget = this.getUpdatedSourceWidget(id, style)
 			var div = this.widgetBackgroundDivs[id];
-			if (widget && div){
+			if (div && sourceWidget){
 				/**
 				 * Flush inlineEdit if needed
 				 */
 				var newLabel = this.inlineEditStop();
-				if (newLabel && model.props) {
+				if (newLabel && widget.props) {
 					/**
 						* For some reason this will overwrite the style change in the undo()
 						* This we live if this...
@@ -943,25 +805,32 @@ export default {
 					//console.debug("overwrite inline", newLabel)
 					//model.props.label = newLabel;
 				}
-				this.renderFactory.setStyle(div, model, true);
-				this.setCopyStyle(widget, false);
+				/**
+				 * Pass here the source model! Otherwise the repeater or so, will have issues
+				 * with zooming
+				 */
+				this.renderFactory.setStyle(div, sourceWidget, true);
+				this.setCopyStyle(sourceWidget, false);
 			} else {
 				console.warn("setWidgetStyle() > Cannot set widget style", id, style);
 			}
 		},
 
+
+
 		/**
 		 * copy style to copies (from master screen)
 		 */
-		setCopyStyle (widget, isTempUpdate) {
-			if (widget.copies){
-				for(let i=0; i< widget.copies.length; i++){
-					let copyID = widget.copies[i];
-					let copyWidget = this.model.widgets[copyID];
+		setCopyStyle (sourceWidget, isTempUpdate) {
+
+			if (sourceWidget.copies){
+				for(let i=0; i< sourceWidget.copies.length; i++){
+					let copyID = sourceWidget.copies[i];
+					let copyWidget = this.sourceModel.widgets[copyID];
 					let copyDiv = this.widgetBackgroundDivs[copyID];
 					if(copyWidget && copyDiv){
-						copyWidget.style = widget.style;
-						copyWidget.props = widget.props;
+						copyWidget.style = sourceWidget.style;
+						copyWidget.props = sourceWidget.props;
 						this.renderFactory.setStyle(copyDiv, copyWidget);
 					}
 				}
@@ -970,21 +839,21 @@ export default {
 			/**
 			 * Since 2.2.0 we have screen segments
 			 */
-			if (widget.segmentParent) {
-				this.renderFactory.updateSegementChild(widget, this.model);
+			if (sourceWidget.segmentParent) {
+				this.renderFactory.updateSegementChild(sourceWidget, this.sourceModel);
 			}
 
-			if (widget.container) {
-				this.renderFactory.updateContainerChild(widget, this.model);
+			if (sourceWidget.container) {
+				this.renderFactory.updateContainerChild(sourceWidget, this.sourceModel);
 			}
 
 
-			if(widget.inheritedCopies){
-				for(let i=0; i< widget.inheritedCopies.length; i++){
+			if(sourceWidget.inheritedCopies){
+				for(let i=0; i< sourceWidget.inheritedCopies.length; i++){
 					/**
 						* Here we get also the latest updated model method
 						*/
-					let copyID = widget.inheritedCopies[i];
+					let copyID = sourceWidget.inheritedCopies[i];
 					let copyWidget = this.model.widgets[copyID];
 					if (isTempUpdate) {
 						/**
@@ -998,16 +867,16 @@ export default {
 							*
 							* Thereefore we have a special update methid here
 							*/
-						copyWidget.style = this.mixinNotOverwriten(widget.style, copyWidget.style)
-						copyWidget.props = this.mixinNotOverwriten(widget.props, copyWidget.props)
+						copyWidget.style = this.mixinNotOverwriten(sourceWidget.style, copyWidget.style)
+						copyWidget.props = this.mixinNotOverwriten(sourceWidget.props, copyWidget.props)
 					} else {
 						/**
 							* This code is called when the setTempWidgetStyle() is done. If we would
 							* call the normal mixin method it would set an empty _mixin. We do not that,
 							* so we ignore that (and copy the old _mixin)
 							*/
-						copyWidget.style = this.mixin(widget.style, copyWidget.style, false)
-						copyWidget.props = this.mixin(widget.props, copyWidget.props, false)
+						copyWidget.style = this.mixin(sourceWidget.style, copyWidget.style, false)
+						copyWidget.props = this.mixin(sourceWidget.props, copyWidget.props, false)
 					}
 
 					let copyDiv = this.widgetBackgroundDivs[copyID];
@@ -1067,6 +936,12 @@ export default {
 			var pos = this.getCanvasMousePosition(e);
 			pos.x = pos.x / this.getZoomed(this.canvasPos.w, this.zoom);
 			pos.y = pos.y / this.getZoomed(this.canvasPos.h, this.zoom);
+			return pos;
+		},
+
+
+		getAbsCanvasMousePosition (e){
+			var pos = this._getMousePosition(e);
 			return pos;
 		},
 
