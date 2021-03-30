@@ -621,6 +621,14 @@
 	vertical-align: middle;
 }
 
+.MatcDashTable  tbody td.action{
+	opacity: 1;
+	transition: all 0.2s;
+}
+
+.MatcDashTable  tbody tr:hover td.action{
+	opacity: 1;
+}
 
 
  /****************************************************
