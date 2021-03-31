@@ -28,6 +28,11 @@
 }
 
 
+.MatcTestQRButton.MatcShareLine{
+	bottom: 290px;
+}
+
+
 .MatcTestQRButton.MatcShareZoomIn{
 	bottom: 230px;
 }

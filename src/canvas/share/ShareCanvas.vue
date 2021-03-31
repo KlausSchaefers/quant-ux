@@ -23,11 +23,11 @@
 		<div class="MatcStatus MatcHidden" data-dojo-attach-point="status">' +
 
 			<div class="MatcStatusItem">' +
-				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus">
+				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus" @click="onZoomMinusClick">
 				</span>
 				<span class="MatcStatusItemLabel" data-dojo-attach-point="zoomLabel">
 				</span>
-				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus">
+				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus" @click="onZoomPlusClick">
 				</span>
 			</div>
 			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
@@ -164,6 +164,19 @@ export default {
 			this.logger.log(2,"inlineEditInit", "enter");
 		},
 
+		onZoomMinusClick () {
+			let z = Math.round((this.zoom - 0.1) * 10) / 10
+			this.setZoomFactor(z)
+		},
+
+		onZoomPlusClick () {
+			let z = Math.round((this.zoom + 0.1) * 10) /10
+			this.setZoomFactor(z)
+		},
+
+		onTogggleLine () {
+			this.setViewLines(!this.renderLines)
+		},
 
 		setBW (isBW){
 			this.logger.log(-1,"setBW", "enter > " + isBW);
@@ -221,7 +234,7 @@ export default {
 
 			var btnZoomIn = this.db.div("MatcTestQRButton  MatcShareZoomIn MatcAnimated MatcFadeOut").build(this.domNode);
 			this.db.span("mdi mdi-magnify-plus-outline MatcMiddle").build(btnZoomIn);
-			this.own(on(btnZoomIn, "click", lang.hitch(this, "onClickPlus")));
+			this.own(on(btnZoomIn, "click", lang.hitch(this, "onZoomPlusClick")));
 
 			setTimeout(function(){
 				css.remove(btnZoomIn, "MatcFadeOut")
@@ -229,11 +242,20 @@ export default {
 
 			var btnZoomOut = this.db.div("MatcTestQRButton MatcShareZoomOut MatcAnimated MatcFadeOut").build(this.domNode);
 			this.db.span("mdi mdi-magnify-minus-outline MatcMiddle").build(btnZoomOut);
-			this.own(on(btnZoomOut, "click", lang.hitch(this, "onClickMinus")));
+			this.own(on(btnZoomOut, "click", lang.hitch(this, "onZoomMinusClick")));
 
 			setTimeout(function(){
 				css.remove(btnZoomOut, "MatcFadeOut")
 			}, 1750);
+
+
+			var lineButton = this.db.div("MatcTestQRButton MatcShareLine MatcAnimated MatcFadeOut").build(this.domNode);
+			this.db.span("mdi mdi-vector-line MatcMiddle").build(lineButton);
+			this.own(on(lineButton, "click", lang.hitch(this, "onTogggleLine")));
+
+			setTimeout(function(){
+				css.remove(lineButton, "MatcFadeOut")
+			}, 2250);
 
 		},
 
