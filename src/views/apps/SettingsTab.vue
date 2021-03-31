@@ -135,13 +135,10 @@ export default {
     async showDeleteDialog() {
 
       let db = new DomBuilder()
-
-      var div = db.div("box").build();
-
-      db.h3("title is-4", `Do you want to delete the ${this.app.name} prototype?`).build(div);
-
+      var div = db.div("box MatcDeleteDialog").build();
+      db.h3("title is-4", 'Delete Prototype').build(div);
+      db.p('', `Do you want to delete the '${this.app.name}' prototype?`).build(div)
       var bar = db.div("buttons").build(div);
-
       var write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
       var cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
 

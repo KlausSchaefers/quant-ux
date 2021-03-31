@@ -1,38 +1,11 @@
-
-import * as Util from './ExportUtil'
 import * as Color from './ColorUtil'
-import CSSWidgetFactory from '../web/css/CSSWidgetFactory'
-import CSSPosition from './CSSPosition'
-import Logger from './Logger'
-export default class CSSFactory {
+import CSSOptimizer from './CSSOptimizer'
+import Logger from '../Logger'
+class CSSFactory {
 
-	constructor (config = {}, imagePrefix='') {
-		Logger.log(4, 'CSSFactory.constructor() ', config)
+	constructor () {
+		Logger.log(4, 'CSSFactory.constructor() ')
 		this.marginWhiteSpaceCorrect = 0
-		this.imagePrefix = imagePrefix
-
-		this.responsive = {
-			mobile: {
-				min: 0,
-				max: 400
-			},
-			tablet: {
-					min: 401,
-					max: 1000
-			},
-			desktop: {
-					min: 1201,
-					max: 1000000
-			}
-		}
-
-		if (config.css) {
-			this.prefix = config.css.prefix ? config.css.prefix : ''
-		}
-
-		if (config.responsive) {
-			this.responsive = config.responsive
-		}
 
 		this.mapping = {
 
@@ -150,138 +123,33 @@ export default class CSSFactory {
 
 		this.fontProperties = ['color', 'fontSize', 'fontWeight', 'textAlign', 'fontStyle', 'letterSpacing', 'lineHeight']
 
-		//this.isAlwaysFixedHorizontal = ['Switch', 'Stepper']
-
-		this.widgetFactory = new CSSWidgetFactory(this)
-		this.positionFactory = new CSSPosition(config, this)
-
-	}
-
-	generate(model) {
-		let start = new Date().getTime()
-		let result = {}
-
-		/**
-		 * Generate the template styles
-		 */
-		model.templates.forEach(t => {
-			if (t.style) {
-				let style = {
-					type: 'template',
-					css: t.cssSelector,
-					global:true,
-					code: this.getTemplateCSS(t, null, false)
-				}
-				result[t.id] = [style]
-			}
-		})
-
-		/**
-		 * Generate styles for each screen. The templates styles
-		 * might here be reused!
-		 */
-		model.screens.forEach(screen => {
-			result[screen.id] = []
-			result[screen.id].push({
-				type: 'screen',
-				css: screen.cssSelector,
-				global:false,
-				code: this.getCSS(screen)
-			})
-			screen.children.forEach(child => {
-				this.generateElement(child, result, screen)
-			})
-
-			screen.fixedChildren.forEach(child => {
-				this.generateElement(child, result, screen)
-			})
-		})
-
-		/**
-		 * Add some normalizer styles
-		 */
-		result['$NORMALIZE'] = []
-		result['$NORMALIZE'].push({
-			type: 'screen',
-			css: '',
-			global:true,
-			code: this.getGlobalStyles()
-		})
-
-		let end = new Date().getTime()
-		Logger.log(1, 'CSSFactory.generate() > took ', end - start)
-		return result
-	}
-
-	getGlobalStyles () {
-		let result = ''
-		result += `body {\n  margin:0px;\n  font-family:'Source Sans Pro', 'Helvetica Neue', 'Helvetica', sans-serif;\n}\n\n`
-		result += `div {\n  margin:0px;\n}\n\n`
-		return result
-	}
-
-	generateDesignSystemRoot (node) {
-
-		let result = {}
-
-		let style = {
-			type: 'template',
-			css: node.cssSelector,
-			global:true,
-			code: this.getCSS(node, null, false)
-		}
-		result[node.id] = [style]
-
-
-		if (node.children) {
-			node.children.forEach(child =>{
-				this.generateElement(child, result, screen)
-			})
-		}
-		// add something like inlibe block, and fexl with if no children
-		// generate rest like usual
-
-		return result
-	}
-
-	generateElement (node, result, screen) {
-
-		result[node.id] = []
-
-		result[node.id].push({
-			type: 'widget',
-			css: node.cssSelector,
-			global:false,
-			code: this.getCSS(node, screen),
-			inherited: node.inherited,
-			inheritedScreen: node.inheritedScreen
-		})
-
-
-		if (node.children) {
-			node.children.forEach(child =>{
-				this.generateElement(child, result, screen)
-			})
-		}
 	}
 
 
-	getRaw (model, selectedWidgets) {
+	create (boxes, model) {
 		var result = "";
-		for (var i=0; i< selectedWidgets.length; i++) {
-			var id = selectedWidgets[i];
-			var widget = model.widgets[id];
-			if (widget) {
-				result += this.getCSS(widget, null, false)
-			} else {
-				this.logger.warn("getRaw", "No widget with id > " + widget);
-			}
+		boxes.forEach(box => {
+			result += this.getCSS(box)
+		})
+		if (boxes.filter(box => box.template !== undefined).length > 0) {
+			result += '/*\n Component Style\n */\n\n'
+			boxes.forEach(box => {
+				if (box.template && model.templates && model.templates[box.template]) {
+					let template = model.templates[box.template]
+					result += this.getCSS(template, '', '')
+				}
+			})
 		}
+		/**
+		 * FIXME: add designTokens
+		 */
+
+
 		return result;
 	}
 
-	getSelector(widget) {
-		return widget.cssSelector
+	getSelector(widget, prefix ='', postfix ='') {
+		return prefix + this.getName(widget) + postfix
 	}
 
 	getName(box){
@@ -295,16 +163,18 @@ export default class CSSFactory {
 		return name
 	}
 
-	getTemplateCSS (widget, screen) {
+
+	getCSS (widget, prefix ='', postfix ='') {
+
+		widget = this.clone(widget)
+		widget = CSSOptimizer.get(widget)
 		var result = "";
 
 		var style = widget.style;
-		style = Util.fixAutos(style, widget)
+		style = this.fixAutos(style, widget)
 
-		let selector = this.getSelector(widget, screen);
-		if (this.widgetFactory['getCSS_' + widget.type]) {
-			result += this.widgetFactory['getCSS_' + widget.type](selector, widget.style, widget)
-		} else {
+		let selector = this.getSelector(widget, prefix, postfix);
+
 			/**
 			 * Add normal css
 			 */
@@ -337,76 +207,13 @@ export default class CSSFactory {
 				result += '}\n\n'
 			}
 
-			if (Util.isInputElement(widget)) {
+			if (this.isInputElement(widget)) {
 				result += selector + '::placeholder {\n'
 				result += `  color: ${this.getPlaceHolderColor(style.color)};\n`
 				result += '}\n\n'
 			}
-		}
-		return result
-	}
 
-	getCSS (widget, screen) {
-		var result = "";
 
-		var style = widget.style;
-		style = Util.fixAutos(style, widget)
-
-		let selector = this.getSelector(widget, screen);
-		if (this.widgetFactory['getCSS_' + widget.type]) {
-			result += this.widgetFactory['getCSS_' + widget.type](selector, widget.style, widget)
-		} else if (widget.isCustomComponent){
-			/**
-			 * For custom components we just set the position!
-			 */
-			result += selector + ' {\n'
-			result += this.getPosition(widget);
-			result += '}\n\n'
-		} else {
-			/**
-			 * Add normal css
-			 */
-			result += selector + ' {\n'
-			result += this.getRawStyle(style, widget);
-			result += this.getPosition(widget);
-			result += '}\n\n'
-
-			if (widget.hover) {
-				result += selector + ':hover {\n'
-				result += '  transition: all 0.2s;\n'
-				result += this.getRawStyle(widget.hover, widget);
-				result += '}\n\n'
-			}
-
-			if (widget.focus) {
-				result += selector + ':focus {\n'
-				result += this.getRawStyle(widget.focus, widget);
-				result += '}\n\n'
-			}
-
-			if (widget.error) {
-				result += selector + ':invalid {\n'
-				result += this.getRawStyle(widget.error, widget);
-				result += '}\n\n'
-			}
-
-			if (widget.active) {
-				result += selector + '.qux-active {\n'
-				result += this.getRawStyle(widget.active, widget);
-				result += '}\n\n'
-			}
-
-			if (Util.isInputElement(widget)) {
-				result += selector + '::placeholder {\n'
-				result += `  color: ${this.getPlaceHolderColor(style.color)};\n`
-				result += '}\n\n'
-			}
-		}
-
-		/**
-		 * Break points
-		 */
-		result += this.getBreakpoints(selector, widget)
 
 		/**
 		 * Animation
@@ -432,42 +239,6 @@ export default class CSSFactory {
 		return result
 	}
 
-	getBreakpoints (selector, widget) {
-		let result = ''
-		if (widget.props.breakpoints) {
-			Logger.log(-1, 'CSSFactory.getBreakpoints()', widget.name)
-			const breakpoints = widget.props.breakpoints
-			/**
-			 * Assume at leats one is true
-			 */
-			if (!breakpoints.mobile) {
-				result += `@media only screen and (min-width: ${this.responsive.mobile.min}px) and (max-width: ${this.responsive.mobile.max}px) {\n`
-				result += `  ${selector} {\n`
-				result += '    display: none;\n'
-				result += '  }\n'
-				result += '}\n\n'
-			}
-
-			if (!breakpoints.tablet) {
-				result += `@media only screen and (min-width: ${this.responsive.tablet.min}px) and (max-width: ${this.responsive.tablet.max}px) {\n`
-				result += `  ${selector} {\n`
-				result += '    display: none;\n'
-				result += '  }\n'
-				result += '}\n\n'
-			}
-
-			if (!breakpoints.desktop) {
-				result += `@media only screen and (min-width: ${this.responsive.desktop.min}px) and (max-width: ${this.responsive.desktop.max}px) {\n`
-				result += `  ${selector} {\n`
-				result += '    display: none;\n'
-				result += '  }\n'
-				result += '}\n\n'
-			}
-
-		}
-
-		return result
-	}
 
 	getAnimation (animation, selector, widget) {
 		let result = ''
@@ -593,21 +364,6 @@ export default class CSSFactory {
 		return this.easingMapping[easing]
 	}
 
-
-	/*********************************************************************
-	 * Position
-	 *********************************************************************/
-
-	getPosition (widget) {
-		/**
-		 * Default is grid, bit it will also do the row stuff.
-		 */
-		return this.positionFactory.getPostion(widget)
-	}
-
-
-
-
 	getStyleByKey (style, widget, keys) {
 		var result = ''
 		keys.forEach( key => {
@@ -731,23 +487,18 @@ export default class CSSFactory {
 		return JSON.parse(_s)
 	}
 
-	getFixedHeight (widget) {
-		return this.positionFactory.getFixedHeight(widget)
+	isInputElement (element) {
+    const type = element.type
+    return type === 'TextBox' || type === 'TextArea' || type === 'Password'
 	}
 
-	getWrappedWidth (widget) {
-		return this.positionFactory.getWrappedWidth(widget)
+	fixAutos (style, widget) {
+    if (style.fontSize === 'Auto') {
+        style.fontSize = widget.h
+    }
+    return style
 	}
 
-	getCorrectedHeight (widget, isPosition = false, h = -1) {
-		return this.positionFactory.getCorrectedHeight(widget, isPosition, h)
-	}
-
-	getCorrectedWidth(widget, isPosition = false, w = -1) {
-		return this.positionFactory.getCorrectedWidth(widget, isPosition, w)
-	}
-
-	hasAllwaysFixedHeight (widget) {
-		return widget.type === 'Icon'
-	}
 }
+
+export default new CSSFactory()

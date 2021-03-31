@@ -1,5 +1,5 @@
-import CoreUtil from './CoreUtil'
-import JSONPath from './JSONPath'
+import CoreUtil from '../CoreUtil'
+import JSONPath from '../JSONPath'
 
 export function getNPMTemplate (){
   return 'npm i vue-low-code'

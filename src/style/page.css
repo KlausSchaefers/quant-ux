@@ -1564,3 +1564,14 @@ textarea.MatcContentWidgetAbs{
 	margin-bottom: 40px;
 }
 
+ /****************************************************
+ * Video
+ ****************************************************/
+
+.MatcDeleteDialog {
+	width: 400px;
+}
+
+.MatcDeleteDialog p{
+	height: 80px;
+}

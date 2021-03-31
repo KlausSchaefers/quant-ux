@@ -47,6 +47,15 @@
 
         </div>
 
+        <div v-if="abScreens && abScreens.length > 0" class="ABSelector">
+          <p class="MatcHint">
+            Select the next screen to show
+          </p>
+          <div v-for="box in abScreens" :key="box.id" class="button is-primary" @click="selectABLine(box)">
+            {{box.name}}
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -80,6 +89,7 @@ export default {
     return {
       hash: '',
       recordOnlyScreenViews: true,
+      abScreens: null,
       ignoreFirstEvent: false,
       task: {
         name: '',
@@ -143,7 +153,36 @@ export default {
       this.simulator.placeAt(wrapper);
       this.simulator.scrollListenTarget = "parent";
       this.simulator.startup();
+      this.simulator.abSelector = (lines, callback) => {this.showABDialog(lines, callback)}
       this.simulator.setModel(this.model);
+    },
+
+    async showABDialog (lines, callback) {
+      this.logger.log(-1,  'showABDialog',  'enter > ', lines)
+      this.abCallback = callback
+      this.abLines = lines
+      this.abScreens = lines.map(line => {
+        let to = line.to
+        if (this.model.screens[to]) {
+          return this.model.screens[to]
+        }
+        if (this.model.widgets[to]) {
+          return this.model.widgets[to]
+        }
+      })
+
+    },
+
+    selectABLine (box) {
+      this.logger.log(-1,  'selectABLine',  'enter > ', box)
+      if (this.abLines && this.abCallback) {
+       let selectedLine = this.abLines.find(l => l.to === box.id)
+       this.abCallback(selectedLine)
+      }
+
+      this.abLines = null
+      this.abScreens = null
+      this.abCallback = null
     },
 
     resizeSimulatorContainer (app, node) {

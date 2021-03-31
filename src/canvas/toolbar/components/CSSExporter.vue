@@ -18,9 +18,10 @@ import _Tooltip from 'common/_Tooltip'
 import Dialog from 'common/Dialog'
 import Code from 'common/Code'
 import Util from 'core/Util'
-import * as LowCodeUtil from 'core/LowCodeUtil'
+import * as LowCodeUtil from 'core/code/LowCodeUtil'
+import CSSFactory from 'core/code/CSSFactory'
 
-const cli = require('quant-ux-cli')
+//const cli = require('quant-ux-cli')
 
 export default {
     name: 'CSSExporter',
@@ -79,39 +80,18 @@ export default {
 				let code = this.$new(Code)
 				code.placeAt(cntr)
 
-				if (this.selectedWidgetIDs && this.selectedWidgetIDs.length > 1){
-					/**
-					 * Create here a faked model with one screen taht is the bounding box.
-					 */
-					let boundingBox = this.getBoundingBox(this.selectedWidgetIDs)
-					let fakedModel = lang.clone(this.model)
-					fakedModel.screens = {
-						'SelectedScreen': {
-							id: 'SelectedScreen',
-							name: "Selection",
-							style: {},
-							x: boundingBox.x,
-							y: boundingBox.y,
-							w: boundingBox.w,
-							h: boundingBox.h,
-							children: this.selectedWidgetIDs
-						}
-					}
-					fakedModel.screenSize.w = boundingBox.w
-					fakedModel.screenSize.h = boundingBox.h
-
-					this.generateScreen(fakedModel, "SelectedScreen", code, true)
-
-
-				} else if(this.screen) {
-
-					this.generateScreen(this.model, this.screen.id, code, true)
-
-				} else if (this.selectedDesignTokens) {
-						this.generateDesignTokens(this.model, this.selectedDesignTokens, code, true)
-				} else {
-					code.setCSS(this.getWidgetCSS())
+			  if (this.screen) {
+					this.getScreenCSS(this.model, this.screen.id, code)
 				}
+
+				if (this.selectedWidgetIDs){
+					this.getWidgetCSS(this.model, this.selectedWidgetIDs, code)
+				}
+
+				if (!this.screen && !this.selectedWidgetIDs) {
+					this.getDesignTokenCss(this.model, this.selectedDesignTokens, code)
+				}
+
 
 				var write = db.div("MatcButtonBar")
 					.div("MatcButton MatcMarginTop", "Close")
@@ -122,91 +102,57 @@ export default {
 				d.popup(popup, this.domNode);
 			},
 
-			generateDesignTokens (model, designTokens, code) {
-					let result = this.getDesignTokenCss(designTokens)
-					code.setCSS(result)
-			},
 
-			getDesignTokenCss (designTokens) {
-				let result = ''
-				for (let id in designTokens) {
-					let token = designTokens[id]
-					result += `.${token.name} {\n`
-					if (token.isComplex) {
-						for (let key in token.value) {
-							result += `   ${key}: ${token.value[key]};\n`
-						}
-					} else {
-						result += `   color: ${token.value};\n`
-					}
-					result += `}\n\n`
-				}
-				return result
-			},
-
-			generateScreen (model, screenID, code, isResponsive) {
+			getDesignTokenCss (model, designTokens, code) {
 
 				code.setNPMTemplate(LowCodeUtil.getNPMTemplate(this.hash, this.model))
 				code.setRouterTemplate(LowCodeUtil.getRouterTemplate(this.hash, this.model))
 				code.setLowCodeTemplate(LowCodeUtil.getMainTemplate(this.hash, this.model))
+				code.setModel(model)
 
-				/**
-				 * Create HTML
-				 */
-				let htmlGenerator = new cli.Generator(new cli.HTMLFactory(), new cli.CSSFactory(isResponsive, "", true))
-				let result = htmlGenerator.run(model)
-				let screen = result.screens.find(s => s.id === screenID)
-				if (screen) {
-					let html = screen.template
-					let writer = new cli.SinglePageWriter()
-					let files = writer.getFiles(result)
-					let selectedFile = files.find(f => f.id === screenID)
-					if (selectedFile) {
-						let previewCode = selectedFile.content
-						code.setHTMLTemplate(html)
-						code.setPreview(previewCode)
-					} else {
-						console.warn('CssExporter.downloadScreen() > no file for screen', screenID)
+				let boxes = []
+				for (let id in designTokens) {
+					let token = designTokens[id]
+					let box = {
+						id: id,
+						name: token.name,
+						style: {}
 					}
-				} else {
-					console.warn('CssExporter.downloadScreen() > no sceeen')
+					boxes.push(box)
+
+					if (token.isComplex) {
+						box.style = token.value
+					} else {
+						/** this will always give a color! */
+						box.style[token.type] = token.value
+					}
+
 				}
-
-				/**
-				 * Generate CSS and Vue
-				 */
-				let vueGenerator = new cli.Generator(
-					new cli.VueFactory(),
-					new cli.CSSFactory(isResponsive, false, true)
-				)
-				let vueResult = vueGenerator.run(model, isResponsive)
-				let vueScreen = vueResult.screens.find(s => s.id === screenID)
-				if (vueScreen) {
-					let writer = new cli.VueExportWriter()
-					let files = writer.getFiles(vueResult)
-
-					let selectedFile = files.find(f => f.id === screenID && f.type === 'vue')
-					if (selectedFile) {
-						let previewCode = selectedFile.content
-						code.setVue(previewCode)
-					} else {
-						console.warn('CssExporter.downloadScreen() > no vue for screen', screenID)
-					}
-
-					let selectedCSS = files.find(f => f.id === screenID && f.type === 'css')
-					if (selectedCSS) {
-						let previewCSS = selectedCSS.content
-						code.setCSS(previewCSS)
-					} else {
-						console.warn('CssExporter.downloadScreen() > no css for screen', screenID)
-					}
+				let tokenCSS = CSSFactory.create(boxes, model)
+				if (!tokenCSS.trim()) {
+					tokenCSS = `/* no design tokens */`
 				}
+				code.setCSS(tokenCSS)
+
+
+			},
+
+			getScreenCSS (model, screenID, code) {
+				let screens =[model.screens[screenID]].filter(w => w !== null && w !== undefined)
+				let screenCSS = CSSFactory.create(screens, model)
+				code.setCSS(screenCSS)
+
+				code.setNPMTemplate(LowCodeUtil.getNPMTemplate(this.hash, this.model))
+				code.setRouterTemplate(LowCodeUtil.getRouterTemplate(this.hash, this.model))
+				code.setLowCodeTemplate(LowCodeUtil.getMainTemplate(this.hash, this.model))
 				code.setModel(model)
 			},
 
-			getWidgetCSS () {
-				var f = new cli.CSSFactory()
-				return f.getRaw(this.model,this.selectedWidgetIDs)
+			getWidgetCSS (model, ids, code) {
+				let widgets = ids.map(id => model.widgets[id]).filter(w => w !== null && w !== undefined)
+				let widgetCSS = CSSFactory.create(widgets, model)
+				console.debug(widgetCSS)
+				code.setCSS(widgetCSS)
 			}
     },
     mounted () {

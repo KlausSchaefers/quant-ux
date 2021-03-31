@@ -715,15 +715,31 @@ export default {
 					}
 
 					if (widget.props && widget.props.isRandom){
-						var random = Math.random()
-						var pos = Math.floor(random * lines.length);
-						this.logger.log(1,"executeLogic","enter >  do AB:" + widget.id + " >> " + random + " >> " + pos);
-						matchedLine = lines[pos]
+						/**
+						 * Since 4.0. the test dialog can inject a method
+						 */
+						if (this.abSelector) {
+							this.abSelector(lines, (matchedLIne) => {
+									this.excuteMatchedLine(matchedLIne, screenID, orginalLine)
+							})
+							this.logger.warn("executeLogic"," delagte to external selctor!");
+							return
+						} else {
+							matchedLine = this.getABLine(lines, widget)
+							this.logger.log(-1,"executeLogic","AB:" + widget.id + " >> " + matchedLine);
+						}
 					} else {
 						matchedLine = this.getRuleMatchingLine(lines, screenID, restSuccess)
 					}
 
 					this.excuteMatchedLine(matchedLine, screenID, orginalLine)
+				},
+
+				getABLine (lines, widget) {
+						var random = Math.random()
+						var pos = Math.floor(random * lines.length);
+						this.logger.log(-1,"getABLine","enter >  do AB:" + widget.id + " >> " + random + " >> " + pos);
+						return lines[pos]
 				},
 
 				getRuleMatchingLine (lines, screenID, restSuccess) {

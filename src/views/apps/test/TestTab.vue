@@ -264,8 +264,9 @@ export default {
     showDeleteSessionDialog (e, session) {
       this.logger.warn("showDeleteSessionDialog", "enter >", session.session);
       let db = new DomBuilder()
-      var div = db.div("box").build();
-      db.h3("title is-4", "Do you want to delete the test?").build(div);
+      var div = db.div("box MatcDeleteDialog").build();
+      db.h3("title is-4", 'Delete Test').build(div);
+      db.p('', "Do you want to delete the test? You will loose all data related to this test!").build(div)
       var bar = db.div("buttons").build(div);
       var write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
       var cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);

@@ -231,6 +231,7 @@
     "testSettingsAddTask": "Add Task",
     "testSettingTaskDeskPlaceholder": "Enter a description here",
     "testSettingDesPlaceholder": "Add a short description for the users in here",
+    "testSettingTaskDeleteTitle": "Delete Task",
     "testSettingTaskDelete1": "Do you want to delete the task '",
     "testSettingTaskDelete2": "'?",
     "testSettingsSaved": "Test settings updated...",

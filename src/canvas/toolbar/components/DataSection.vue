@@ -393,7 +393,7 @@ export default {
 
 			_showLogicOr (model){
 				this._setSectionLabel("Logic");
-				this._renderCheck("A / B Test (Select line randomly)",model.props.isRandom, "isRandom" );
+				this._renderCheck("A / B Test",model.props.isRandom, "isRandom" );
 			},
 
 			_showBarChart (model){

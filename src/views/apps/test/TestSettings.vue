@@ -220,8 +220,9 @@ export default {
 
     onDelete (task, i, e) {
       var name = task.name ? task.name : task.label;
-      var div = this.db.div("box").build();
-      this.db.h3("title is-4",this.getNLS("testSettingTaskDelete1") + name + this.getNLS("testSettingTaskDelete2")).build(div);
+      var div = this.db.div("box MatcDeleteDialog").build();
+      this.db.h3("title is-4", this.getNLS("testSettingTaskDeleteTitle")).build(div);
+      this.db.p('', this.getNLS("testSettingTaskDelete1") + name + this.getNLS("testSettingTaskDelete2")).build(div)
       var bar = this.db.div("buttons").build(div);
       var write = this.db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
       var cancel = this.db.a("button is-text", this.getNLS("btn.cancel")).build(bar);

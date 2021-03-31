@@ -37,9 +37,29 @@
       flex-grow: 1;
       display: flex;
       justify-content: center;
+      position: relative;
+
+      .ABSelector {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .button {
+          margin:16px;
+          display: inline;
+          font-size: 20px;
+        }
+
+      }
+
 
       .SimWrapper {
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        overflow: auto;
       }
 
     }

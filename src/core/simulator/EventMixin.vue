@@ -467,7 +467,7 @@ if(widgetEvent.e){
 			getWidgetAnimationLine (widgetID, endEvent){
 				var type = this.getGestureType(this._screenGestureStart, endEvent);
 
-				if(type!="none" && type!="click" && type!="longclick"){
+				if (type!="none" && type!="click" && type!="longclick"){
 					this._screenGestureType = type;
 					var widget = this.model.widgets[widgetID];
 					if(widget){
@@ -481,11 +481,8 @@ if(widgetEvent.e){
 					} else {
 						console.warn("getWidgetAnimationLine() > no widget with id ", widgetID)
 					}
-
 				}
 			},
-
-
 
 			getScreenAnimationLine (endEvent){
 				var type = this.getGestureType(this._screenGestureStart, endEvent);

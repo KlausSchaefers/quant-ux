@@ -310,7 +310,7 @@ export default {
      **********************************************************************/
 
 		afterUpdateDnd (zoomedModel) {
-      this.logger.log(-1, "afterUpdateDnd", "enter > ", zoomedModel);
+      this.logger.log(1, "afterUpdateDnd", "enter > ", zoomedModel);
 		},
 
     initSettings() {
