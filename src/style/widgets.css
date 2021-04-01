@@ -1499,6 +1499,17 @@
 	right:0px;
 }
 
+/*******************************
+ * Standard Types
+ *******************************/
+.MatcWidgetTypeSVGBox {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 1px dashed rgb(255, 0, 191);
+}
 
 /*******************************
  * Standard Types

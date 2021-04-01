@@ -19,10 +19,12 @@
   - add some charts???
  - delet session
 
+# Spinenr BUg!
 # Anayltics
  - Take alook at UX berry for drop outs
  - add this to the task table?
 
+# Make scrolling smooth snapp to 100
 
 # Analytic Cnavas
  - Make Task drop off chart?

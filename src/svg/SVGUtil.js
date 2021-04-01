@@ -1,9 +1,9 @@
-export function pathToSVG (path, offset) {
-  return path.d.map(point => {
+export function pathToSVG (d, offsetX =0, offsetY = 0) {
+  return d.map(point => {
       if (point.t === 'C') {
-        return `C ${point.x1 + offset} ${point.y1 + offset}, ${point.x2 + offset} ${point.y2 + offset}, ${point.x + offset} ${point.y + offset}`
+        return `C ${point.x1 + offsetX} ${point.y1 + offsetY}, ${point.x2 + offsetX} ${point.y2 + offsetY}, ${point.x + offsetX} ${point.y + offsetY}`
       }
-      return `${point.t}${point.x + offset} ${point.y + offset}`
+      return `${point.t}${point.x + offsetX} ${point.y + offsetY}`
   }).join(' ')
 }
 

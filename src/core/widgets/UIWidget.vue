@@ -106,7 +106,7 @@ export default {
     /**
      * Gets called after resizing in canvas
      */
-    resize: function(box) {
+    resize (box) {
       if (this.domNode.parentNode) {
         this.domNode.style.height = Math.round(box.h) + "px";
         this.domNode.style.width = Math.round(box.w) + "px";

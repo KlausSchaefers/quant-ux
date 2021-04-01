@@ -1,0 +1,43 @@
+[
+  {
+    "id" : "SVgLineHorizontal",
+    "type" : "SVGBox",
+    "category" : "WireFrame",
+    "subcategory" : "ABox",
+    "_type" : "Widget",
+    "name" : "Horizontal Line",
+    "x" : 0,
+    "y" : 0,
+    "w" : 120,
+    "h" : 40,
+    "z" : 0,
+    "props" : {
+    },
+    "elements": [
+      {
+        "type": "path",
+        "stroke": "#333333",
+        "strokeWidth": 1,
+        "fill": "",
+        "d": [
+          {
+            "t": "M",
+            "x": 0,
+            "y": 0.5
+          },
+          {
+            "t": "L",
+            "x": 1,
+            "y": 0.5
+          }
+        ]
+      }
+    ],
+    "has" : {
+    },
+    "actions":{},
+    "style" : {
+    }
+  }
+
+ ]

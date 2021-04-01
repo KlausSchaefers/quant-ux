@@ -116,6 +116,7 @@ class UserService extends AbstractService{
             if (this.isValidUser(this.user)) {
                 return this.user.token
             } else {
+                this.logger.error('getToken', 'Error > Token has timed out')
                 if (this.errorHandler) {
                     this.errorHandler('', {
                         tokenTimedOut: true
@@ -133,6 +134,7 @@ class UserService extends AbstractService{
             } else {
                 this.logger.error('isValidUser', 'Error > Token has timed out')
                 this.logout()
+                location.href= "#/"
             }
         }
         return false
@@ -145,6 +147,8 @@ class UserService extends AbstractService{
                 // JWT uses seconds
                 u.exp = jwt.exp * 1000
                 this.logger.log(-1, 'setTTL', 'exit > User valid until', new Date(u.exp))
+            } else {
+                this.logger.log(-1, 'setTTL', 'exit > NO token')
             }
         }
     }

@@ -125,7 +125,7 @@ export default {
       delete this.dndStartTime;
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       // On (re)render ( called when style or props are updated)
       // make sure things are properly cleaned up.
       if (this.cntr && this.cntr.parentNode) {
@@ -168,10 +168,7 @@ export default {
       }
 
       if (this.model.style.borderBoxWidth) {
-        var w = Math.max(
-          1,
-          this.getZoomed(this.model.style.borderBoxWidth, this._scaleY)
-        );
+        var w = Math.max(1,this.getZoomed(this.model.style.borderBoxWidth, this._scaleY));
         this.borderBox.style.borderTopWidth = w + "px";
         this.borderBox.style.borderBottomWidth = w + "px";
       }
@@ -179,7 +176,7 @@ export default {
       this.setValue(options[0]);
     },
 
-    onSelect: function(option, pos, e) {
+    onSelect (option, pos, e) {
       this.stopPropagation(e);
 
       if (pos == this.currentPos) {
@@ -198,7 +195,7 @@ export default {
       }
     },
 
-    setPosition: function(pos) {
+    setPosition (pos) {
       var h = Math.round(this.model.h * 0.33);
       var p = pos + this.model.props.options.length;
 
@@ -212,7 +209,7 @@ export default {
       this.currentPos = p;
     },
 
-    setTop: function(top) {
+    setTop (top) {
       if (top > 0 || top < -0.66 * this.cntrHeight) {
         var rest = top % Math.round(this.cntrHeight / this.repeats);
         top = -1 * (this.cntrHeight / this.repeats) + rest;
@@ -221,34 +218,42 @@ export default {
       this._lastTop = top;
     },
 
-    getTopInPercent: function(top) {
+    getTopInPercent (top) {
       return top / this.cntrHeight;
     },
 
-    onSlide: function(top, dif, p) {
+    onSlide (top, dif, p) {
       var t = top - dif * p;
       this.setTop(t);
       this.addCompositeSubState(this.getTopInPercent(t));
     },
 
-    onSlideDone: function(option) {
+    onSlideDone (option) {
       this.emitDataBinding(option);
       this.setValue(option);
       this.emitCompositeState("select", option);
     },
 
-    resize: function(box) {
+    resize (box) {
       var h = Math.round(box.h * 0.33);
       for (var i = 0; i < this.options.length; i++) {
         var node = this.options[i];
         node.style.height = h + "px";
       }
-      this.cntrHeight = h * this.options.length;
+      this.cntrHeight = h * this.repeats * this.options.length;
       this.viewHeight = h * 3;
       this.optionHeight = h;
+      /**
+       * We have to ste the top correct by selected the first element.
+       *
+       * FIXME: pass the model in the methode
+       */
+      this.model.h = box.h
+      this.model.w = box.w
+      this.setPosition(0)
     },
 
-    setValue: function(value) {
+    setValue (value) {
       if (value !== this.value) {
         var pos = this.model.props.options.indexOf(value);
         if (pos >= 0) {
@@ -258,7 +263,7 @@ export default {
       }
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
