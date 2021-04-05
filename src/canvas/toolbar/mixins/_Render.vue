@@ -40,7 +40,7 @@ import CallBackSection from 'canvas/toolbar/components/CallBackSection'
 import LowCodeResponsiveSection from 'canvas/toolbar/components/LowCodeResponsiveSection'
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
-import TextShadow from 'canvas/toolbar/components/TextShadow2'
+import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -911,19 +911,31 @@ export default {
 
 				this.designTokenBoxShadow = this.createDesignTokenBtn('boxShadow', ['boxShadow'])
 
-				var parent = this.createSection( "Box Shadow", true, this.designTokenBoxShadow);
+				var parent = this.createSection( "Effects", true, this.designTokenBoxShadow);
 
 				var content = document.createElement("div");
 				css.add(content, "MatcToolbarSectionContent");
 				parent.appendChild(content);
+
+				let row = document.createElement("div");
+				content.appendChild(row)
 
 				this.boxShadow = this.$new(BoxShadow);
 				this.boxShadow.setModel(this.model)
 				this.boxShadow.setCssProps(['boxShadow'])
 				this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
 				this.own(on(this.boxShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "boxShadow")));
-				this._placeAt(this.boxShadow,content);
+				this._placeAt(this.boxShadow,row);
 
+
+				row = document.createElement("div");
+				content.appendChild(row)
+				this.backdropFilter = this.$new(BackdropFilter)
+				this.backdropFilter.setModel(this.model)
+				this.backdropFilter.setCssProps(['boxShadow'])
+				this.own(on(this.backdropFilter, "change", lang.hitch(this, "setWidgetStyle", "backdropFilter")));
+				this.own(on(this.backdropFilter, "changing", lang.hitch(this, "setTempWidgetStyle", "backdropFilter")));
+				this._placeAt(this.backdropFilter,row);
 
 				this.boxShadowBackgroundDiv = parent;
 				this.properties.appendChild(parent);
@@ -1044,23 +1056,6 @@ export default {
 				this.properties.appendChild(parent);
 				this.textDiv = parent;
 
-			},
-
-			renderWidgetTextShadow (cssProps = ['textShadow']) {
-
-				this.designTokenText = this.createDesignTokenBtn('textShadow', cssProps)
-				var parent = this.createSection('Text Shadow', true, this.designTokenText);
-
-				this.textShadow = this.$new(TextShadow);
-				this.textShadow.setModel(this.model)
-				this.own(on(this.textShadow, "change", lang.hitch(this, "setWidgetStyle", "textShadow")));
-				this.own(on(this.textShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "textShadow")));
-				this._placeAt(this.textShadow, parent);
-				this.addTooltip(this.textShadow.domNode, "Text Shadow");
-
-
-				this.properties.appendChild(parent);
-				this.textShadowDiv = parent;
 			},
 
 

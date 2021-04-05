@@ -38,7 +38,7 @@ export default {
             text: 'mdi mdi-format-text-variant',
             padding: 'mdi mdi-select-all',
             stroke: 'mdi mdi-border-all-variant',
-            boxShadow: 'mdi mdi-blur', //'mdi mdi-box-shadow',
+            boxShadow: 'mdi mdi mdi-box-shadow', //'mdi mdi-box-shadow',
           },
           visible: true,
           designtokens: null

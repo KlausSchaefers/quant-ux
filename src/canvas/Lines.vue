@@ -538,9 +538,14 @@ export default {
 
 			cleanUpSVG () {
 
+				/**
+				 * Make this smarter. We get no also all the SVG widgets
+				 */
 				let nodes = this.dndContainer.querySelectorAll('svg')
 				nodes.forEach(n => {
-					this.dndContainer.removeChild(n)
+					if (n.parentNode === this.dndContainer) {
+						this.dndContainer.removeChild(n)
+					}
 				})
 
 				let points = this.dndContainer.querySelectorAll('.MatcLineSupportPoint')

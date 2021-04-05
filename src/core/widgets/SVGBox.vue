@@ -1,7 +1,7 @@
 
 <template>
   <div class="MatcWidgetTypeSVGBox" >
-      <svg id="svg" xmlns="http://www.w3.org/2000/svg" :width="width" :height="height" v-if="model">
+      <svg xmlns="http://www.w3.org/2000/svg" :width="width" :height="height" v-if="model" isNotCanvas="true">
         <g id="main" fill="none">
 
             <path v-for="p in paths"
@@ -11,8 +11,6 @@
                 :fill="p.fill"
                 :id="p.id"
                 ref="paths"
-                @mouseover="onElementHover(p, $event)"
-                @mouseout="onElementBlur(p, $event)"
                 :stroke-width="p.strokeWidth"/>
             </g>
         </svg>
@@ -52,7 +50,7 @@ export default {
     },
 
     resize (box) {
-      this.renderElements(box, this.elements, this._scaleX)
+      this.renderElements(box, this.elements, this._scaleX, this.style)
     },
 
     render (model, style, scaleX, scaleY) {
@@ -62,10 +60,10 @@ export default {
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-      this.renderElements(this.model, this.elements, scaleX)
+      this.renderElements(this.model, this.elements, scaleX, style)
     },
 
-    renderElements (box, elements, scale) {
+    renderElements (box, elements, scale, style) {
       this.width = box.w
       this.height = box.h
       let w = box.w
@@ -73,6 +71,9 @@ export default {
       let paths = []
       elements.forEach(element => {
         if (element.type === 'path') {
+          /**
+           * FIXME: Could we do this smarter and stretch and scale the SVG?
+           */
           let d = element.d.map(p => {
             return {
               t: p.t,
@@ -85,7 +86,15 @@ export default {
           let path = {
             d: d,
             stroke: element.stroke,
-            strokeWith: element.strokeWith
+            strokeWidth: element.strokeWith
+          }
+
+          /**
+           * This is a kind of hack. we use the boder css.
+           */
+          if (style) {
+            path.stroke = style.borderTopColor
+            path.strokeWidth = style.borderTopWidth
           }
           paths.push(path)
         }

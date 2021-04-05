@@ -1139,6 +1139,16 @@ export default class RenderFactory extends Core {
 		parent.style.borderBottomRightRadius = w;
 	}
 
+	_set_backdropFilter(parent, style) {
+		let backdropFilter = style.backdropFilter
+		if (backdropFilter) {
+			let blur = backdropFilter.blur
+			blur = this.getZoomed(blur, this._scaleX)
+			parent.style.backdropFilter = `blur(${blur}px)`
+		} else {
+			parent.style.backdropFilter = 'none';
+		}
+	}
 
 	/**
 	 * color

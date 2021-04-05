@@ -105,7 +105,7 @@ export default {
 			if(!valid){
 				return false;
 			}
-			if(value > 0){
+			if(value >= this.min){
 				return true;
 			}
 			return false;

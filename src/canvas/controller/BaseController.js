@@ -4,6 +4,7 @@ import lang from '../../dojo/_base/lang'
 import Core from '../../core/Core'
 import CoreUtil from '../../core/CoreUtil'
 import Logger from '../../common/Logger'
+import ModelDB from './ModelDB'
 
 export default class BaseController extends Core {
 
@@ -18,6 +19,8 @@ export default class BaseController extends Core {
 
 		this.debug = false
 		this.active = true
+		this.transactions = {}
+		this.modelDB = new ModelDB()
 
 		this.logger.log(1,"constructor", "entry > " + this.mode);
 		this.commandStack =  {stack : [], pos : 0, id:0};
@@ -82,6 +85,24 @@ export default class BaseController extends Core {
 		if (this._canvas) {
 			this._canvas.setFonts(m.fonts)
 			this._canvas.setModel(this.model)
+		}
+
+		this.modelDB.get(m.id).then(localModel => {
+			this.checkModel(localModel)
+		})
+	}
+
+	checkModel (localModel) {
+		this.logger.log(2,"checkModel", "enter");
+		if (localModel && this.model) {
+			this.logger.log(-1,"checkModel", "enter :"  + localModel.lastUpdate  + ' > ' + this.model.lastUpdate);
+			if (localModel.lastUpdate > this.model.lastUpdate) {
+				this.logger.error("checkModel", "error > Local mode not the newer: " + localModel.lastUpdate  + ' > ' + this.model.lastUpdate);
+				this.logger.sendError(new Error('Local Model is newer'))
+				/**
+				 * FIXME: We could now show a dialog, offering the possibility to update the local model
+				 */
+			}
 		}
 	}
 
@@ -242,8 +263,8 @@ export default class BaseController extends Core {
 			this.validateAndFixModel(this.model);
 			this.emit("notSavedWarningShow", this.model);
 		} else {
-			if(this._dirty){
-				if(this.oldModel ){
+			if (this._dirty){
+				if (this.oldModel) {
 
 					/**
 					 * Validate and fix model
@@ -255,8 +276,13 @@ export default class BaseController extends Core {
 					 */
 					var changes = this.getModelDelta(this.oldModel, this.model);
 					this.logger.log(4,"saveModelChanges", "Save changes " + changes.length);
-					if(changes.length > 0){
+					if(changes.length > 0) {
+						/**
+						 * We start a transaction, and we will close it.
+						 */
+						let transactionId = this.startTransaction(transactionId)
 						this.modelService.updateApp(this.model, changes).then(res => {
+							this.endTransaction(transactionId)
 							this.onModelUpdated(res);
 						})
 					} else {
@@ -273,6 +299,7 @@ export default class BaseController extends Core {
 				} else {
 					console.warn("saveModelChanges() > No oldModel!", this);
 				}
+				this.storeModel(this.model)
 
 				/**
 				 * Clone currrent model as old model
@@ -281,6 +308,55 @@ export default class BaseController extends Core {
 			}
 		}
 	}
+
+	storeModel (model) {
+		this.logger.log(3, "storeModel", "enter " );
+		this.modelDB.save(model)
+	}
+
+	startTransaction (changes) {
+		let id = new Date().getTime() + '_' + Math.round(Math.random() * 1000)
+		this.transactions[id] = {
+			id: id,
+			ts: new Date().getTime(),
+			changes: changes
+		}
+		/**
+		 * FIXME: We should think here about a good strategy for dealing with errors.
+		 * We could:
+		 *  - Think about persisting the changes and fire them again?
+		 *  - Check on reload if there are open changes and fire and apply them again?
+		 *  - We should in this case also save the entire model.... check the last update???
+		 */
+		this.logger.log(3, "startTransaction", "enter " + id);
+		setTimeout(() => this.checkTransaction(id, 0), 3000)
+		return id
+	}
+
+	checkTransaction (id, number) {
+		this.logger.log(-1, "checkTransaction", "enter " + id);
+		if (this.transactions[id]) {
+			if (number < 10) {
+				setTimeout(() => this.checkTransaction(id, number + 1), 3000)
+			} else {
+				/**
+				 * For now we just log that that a transaction failed.
+				 * We should consoder resending!
+				 */
+				this.logger.sendError("checkTransaction", new Error("Some transaction not done!"));
+			}
+		}
+	}
+
+	endTransaction (id) {
+		this.logger.log(3, "endTransaction", "enter " + id);
+		let transaction = this.transactions[id]
+		if (transaction) {
+			this.logger.log(-1, "endTransaction", "time " + (new Date().getTime() - transaction.ts));
+		}
+		delete this.transactions[id]
+	}
+
 
 	async onModelUpdated (response){
 		/**

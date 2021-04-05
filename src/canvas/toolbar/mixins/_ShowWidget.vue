@@ -102,10 +102,12 @@ export default {
 				this.positionCheckBox.setValue(style.fixed);
 
 
-				if (model.type !== 'Label') {
+				if (model.type !== 'Label' && model.type !== 'SVGBox') {
 					css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
 					this.boxShadow.setValue(style.boxShadow);
 					this.boxShadow.setBox(model)
+
+					this.backdropFilter.setValue(style.backdropFilter)
 				} else {
 
 					/**

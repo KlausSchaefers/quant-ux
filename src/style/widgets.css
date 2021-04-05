@@ -1508,7 +1508,13 @@
 	height: 100%;
 	overflow: hidden;
 	outline: none;
-	border: 1px dashed rgb(255, 0, 191);
+	border: 0px solid transparent;
+}
+
+.MatcWidgetTypeSVGBox svg{
+	position: absolute;
+	top:0px;
+	left:0px;
 }
 
 /*******************************

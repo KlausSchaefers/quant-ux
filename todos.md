@@ -1,59 +1,30 @@
-# ToDo & ideas
+
+# MUST HAVE before shipping 4.0
+- Show tasks in test
+- Image Filters?
+- Check why broken server does not give errors
+## Renderfacoty
+  No token error for public...  https://quant-ux.com/#/examples/5a0cb67ee2fb533609d6fa7b/replay/S1517414873055_5240.html
 
 
-- SVG editing capabilities
 
-- Low Code components for Flutter, Angular, React (Similar to https://github.com/KlausSchaefers/vue-low-code)
 
-- Improved user task management during test
+## Labeled CheckBox and radio
 
-- Ai to predict click and mouse heat maps or other UX KPIs based on the visual design.
-
-- DesignSystem like in figma with sahred styles
-
-- Make easier task recording!
-
-# Dash
- - Make Questionaire statitics
-  - sortable table?
-  - add some charts???
- - delet session
-
-# Spinenr BUg!
-# Anayltics
- - Take alook at UX berry for drop outs
- - add this to the task table?
-
-# Make scrolling smooth snapp to 100
-
-# Analytic Cnavas
+# Nice to have
+ -Make scrolling smooth snapp to 100
+## Analytic Cnavas
  - Make Task drop off chart?
- - Check Lines
- - Check Color Picker
-
-# TEST
- - deletion fo events not possible in public
 
 ## New Features
  - ScreenSegments as targets
  - Auto Width for widgets with text
  - select canvas color and line color
-## Fast Render
-- avoid toolbar selection on zoom
-- create inhereited model is called to often.... in render and in modelChange in BaseController
-## must have
-  - segment button valign
-  - color picker with design tokens (without liking!)
-  - check clipboard past no widget with id
-## Design Token
-- make segment button work with valign
-- make design token colors selectable! at leats for the color!
-- remocing token does sometimes not remove shadows or so!
 
-# Update download
-- design token download work
-- use csss facotry & optimizer
-- Just provide download
+## Vector Editor
+- edit exting shaped
+- draw lines
+- group & substract???
 
 ## Template to Cpmponents
  - Changes in the template root should be updated in all instances? We could get rid of the update button?
@@ -66,10 +37,20 @@
  - detach template. Make seperate section, could also host styles
  - grousp shoudl have actions
 
-## Labeled CheckBox and radio
+## Fast Render
+- avoid toolbar selection on zoom
+- create inhereited model is called to often.... in render and in modelChange in BaseController
 
-## SVG Widgets
-## Vector Editor
+## Dash
+ - Make Questionaire statitics
+  - sortable table?
+  - add some charts???
+ - delet session
+
+## Real Time Collaboration
+ - https://ckeditor.com/blog/Lessons-learned-from-creating-a-rich-text-editor-with-real-time-collaboration/
+ - https://github.com/websockets/ws
+ - https://github.com/automerge/automerge
 
 ## Bugs
  - selection bug after remove: Create welcome mat group and remove

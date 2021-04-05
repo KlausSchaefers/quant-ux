@@ -855,6 +855,23 @@ export default {
       }
     },
 
+   _set_backdropFilter(parent, style) {
+      let backdropFilter = style.backdropFilter
+      if (this._backgroundNodes) {
+        for (let i = 0; i < this._backgroundNodes.length; i++) {
+          let node = this._backgroundNodes[i];
+          if (backdropFilter) {
+            let blur = backdropFilter.blur
+            blur = this.getZoomed(blur, this._scaleX)
+            node.style.backdropFilter = `blur(${blur}px)`
+          } else {
+            node.style.backdropFilter = 'none';
+          }
+        }
+      }
+
+    },
+
     _setScalledBorderStyle: function(key, parent, style) {
       if (this._borderNodes) {
         for (var i = 0; i < this._borderNodes.length; i++) {
