@@ -42,6 +42,14 @@
                 {{row[col]}}
               </td>
             </tr>
+            <tr class="MatcSurveySectionTableSummary">
+              <td class="MatcSurveySectionTableNumber">
+                =
+              </td>
+              <td v-for="(value, i) in summary" :key="i">
+                {{value}}
+              </td>
+            </tr>
           </tbody>
        </table>
 
@@ -73,6 +81,34 @@ export default {
       'HelpButton': HelpButton
     },
     computed: {
+      summary () {
+        let result = []
+        let data = this.table
+        data.cols.forEach(col => {
+          let sum = 0
+          let count = 0
+          data.rows.forEach(row  => {
+            let value = row[col]
+            if (value !== '-') {
+              /**
+               * FIXME: We could check table.types and check for
+               * the data types,.g. boolean, categorical etc.
+               */
+              if (!isNaN(value * 1)) {
+                sum += value * 1
+                count++
+              }
+
+            }
+          })
+          if (count > 0) {
+            result.push(sum / count)
+          } else {
+            result.push('-')
+          }
+        })
+        return result
+      },
       table () {
         var analytics = new Analytics();
         let events = analytics.filterEvents(lang.clone(this.events), this.annotation)

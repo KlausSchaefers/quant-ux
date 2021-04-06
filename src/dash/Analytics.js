@@ -28,7 +28,8 @@ export default class {
 	getSurveyAnswers (events, app) {
 		let result = {
 			rows: [],
-			cols: []
+			cols: [],
+			types: {}
 		}
 
 		let widgetDataBindings = {}
@@ -52,7 +53,6 @@ export default class {
 		/**
 		 * sort by start??
 		 */
-
 		sessionGrouping.foreach(df => {
 			let row = {}
 			result.cols.forEach(c => row[c] = '-')
@@ -68,6 +68,7 @@ export default class {
 						} else {
 							row[col] = e.state.value
 						}
+						result.types[col] = widgetTypes[e.widget]
 					}
 				}
 			})

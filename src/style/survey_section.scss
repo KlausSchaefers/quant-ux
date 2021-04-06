@@ -21,5 +21,14 @@
     width: 100%;
     max-height: 800px;
     overflow: auto;
+
+    .table>tbody>tr>td {
+      border-top: 0px;
+    }
+
+    .table>tbody>tr.MatcSurveySectionTableSummary>td {
+      border-top: 1px solid #ddd;
+    }
+
   }
 }

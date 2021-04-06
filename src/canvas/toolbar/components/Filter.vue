@@ -4,7 +4,7 @@
       <div class=" MatcToolbarItem MatcBoxShadow2">
         <div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
             <span class="MatcToolbarItemIcon ">
-              <span class="mdi mdi-blur" />
+              <span class="mdi mdi-image-filter-black-white" />
             </span>
             <span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
         </div>
