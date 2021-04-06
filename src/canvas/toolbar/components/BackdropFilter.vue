@@ -12,7 +12,13 @@
       </div>
 
         <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
-            <div class="MatcShadowSettings">
+
+         <div class=" MatcToolbarTabContainer">
+          <div class=" MatcToolbarTabs">
+            <a class="">Backdrop</a>
+          </div>
+        </div>
+         <div class="MatcShadowSettings">
            <div ref="blurSliderCntr" class="MatcBoxShadowSliderCntr">
               <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Blur</span>
             </div>
@@ -124,7 +130,7 @@ export default {
 			setValue (v){
 				if (v) {
 					this.value = lang.clone(v);
-          this.label = 'Background Blur (' + this.value.blur + ')'
+          this.label = 'Backdrop Blur (' + this.value.blur + ')'
 				} else {
           this.value = lang.clone(this.defaultValue)
           this.label = 'No Blur'
@@ -135,6 +141,7 @@ export default {
     },
     mounted () {
       this.setCssProps(['backdropFilter'])
+      this.init()
     }
 }
 </script>

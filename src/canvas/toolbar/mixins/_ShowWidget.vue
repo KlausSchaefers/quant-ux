@@ -116,13 +116,13 @@ export default {
 				}
 
 
-				this.opacity.setValue(style.opacity);
-
 				if (model.has.backgroundImage){
 					css.remove(this.imageWidgetDiv, "MatcToolbarSectionHidden")
 					this.backgroundImage.setValue(style.backgroundImage);
 					this.backgroundImage.setModel(this.model);
 					this.backgroundImagePosition.setValue(model);
+
+					this.imageFilter.setValue(style.filter)
 				}
 
 				if(model.has.backgroundColor ){

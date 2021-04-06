@@ -114,9 +114,7 @@ export default class Animation extends Core{
 			var from = fromStyle[key];
 			var to = toStyle[key];
 
-			// FIXME: add image background size!
 			if (this._shadowAttribs[key]) {
-
 
 				if (!from && to) {
 					from = {
@@ -187,6 +185,8 @@ export default class Animation extends Core{
 				}
 
 				mixedStyle[key] = mixedPos;
+			} else if ('filter' == key) {
+				mixedStyle[key] = this.getMixedFilter(from, to, p);
 			} else {
 
 				if (isNaN(from)) {
@@ -202,6 +202,24 @@ export default class Animation extends Core{
 			}
 		}
 		return mixedStyle;
+	}
+
+	getMixedFilter (from, to, p) {
+		/**
+		 * we expect from and to!
+		*/
+		if (to && from) {
+			var mixedFitler = {
+				blur: from.blur - ((from.blur - to.blur) * p),
+				grayscale: from.grayscale - ((from.grayscale - to.grayscale) * p),
+				hueRotate: from.hueRotate - ((from.hueRotate - to.hueRotate) * p),
+				opacity: from.opacity - ((from.opacity - to.opacity) * p),
+				contrast: from.contrast - ((from.contrast - to.contrast) * p),
+				saturate: from.saturate - ((from.saturate - to.saturate) * p),
+				brightness: from.brightness - ((from.brightness - to.brightness) * p)
+			};
+			return mixedFitler;
+		}
 	}
 
 

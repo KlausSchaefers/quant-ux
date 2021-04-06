@@ -1150,6 +1150,47 @@ export default class RenderFactory extends Core {
 		}
 	}
 
+	_set_filter(parent, style) {
+		let filter = style.filter
+		if (filter) {
+			let result = []
+
+			if (filter.blur) {
+				let blur = filter.blur
+				blur = this.getZoomed(blur, this._scaleX)
+				result.push(`blur(${blur}px)`)
+			}
+
+			if (filter.grayscale) {
+				result.push(`grayscale(${filter.grayscale}%)`)
+			}
+
+			if (filter.opacity) {
+				result.push(`opacity(${filter.opacity}%)`)
+			}
+
+			if (filter.contrast !== undefined) {
+				result.push(`contrast(${filter.contrast}%)`)
+			}
+
+			if (filter.brightness !== undefined) {
+				result.push(`brightness(${filter.brightness}%)`)
+			}
+
+			if (filter.saturate !== undefined) {
+				result.push(`saturate(${filter.saturate}%)`)
+			}
+
+			if (filter.hueRotate !== undefined) {
+				result.push(`hue-rotate(${filter.hueRotate * 360 / 100}deg)`)
+			}
+
+			parent.style.filter = result.join(' ')
+		} else {
+			parent.style.filter = 'none';
+		}
+	}
+
 	/**
 	 * color
 	 */

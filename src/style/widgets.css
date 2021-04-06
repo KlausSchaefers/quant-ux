@@ -1000,7 +1000,7 @@
 }
 
 .MatchWidgetTypeDropDownMobilePopupScroll{
-	overflow: scroll;
+	overflow: auto;
 }
 
 

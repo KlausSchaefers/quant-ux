@@ -190,7 +190,7 @@ export default {
 						this.backgroundImage.setValue(style.backgroundImage);
 						this.backgroundImage.setModel(this.model);
 						this.boxShadow.setValue(style.boxShadow);
-						this.opacity.setValue(style.opacity);
+						//this.opacity.setValue(style.opacity);
 					}
 
 					if(hasBorder){

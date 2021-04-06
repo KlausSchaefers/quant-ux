@@ -87,6 +87,10 @@ export default class BaseController extends Core {
 			this._canvas.setModel(this.model)
 		}
 
+		/**
+		 * Load model from local db and check if we have
+		 * a newer version
+		 */
 		this.modelDB.get(m.id).then(localModel => {
 			this.checkModel(localModel)
 		})
@@ -99,17 +103,33 @@ export default class BaseController extends Core {
 			if (localModel.lastUpdate > this.model.lastUpdate) {
 				this.logger.error("checkModel", "error > Local mode not the newer: " + localModel.lastUpdate  + ' > ' + this.model.lastUpdate);
 				this.logger.sendError(new Error('Local Model is newer'))
+
 				/**
-				 * FIXME: We could now show a dialog, offering the possibility to update the local model
+				 * This is tricky. Thing of the following scenarios:
+				 *
+				 * 1) User A is offline and the local model is last edited at t1 (e.g. 12h). The server
+				 * model is still at t0 (e.g. 11h). In thsi case we should patch the model.
+				 *
+				 * 2) What happens if we have concurrent editing? User B edits at 13h, and misses A's changes. We would not warn,
+				 * because the server version is newer. A's changesa are lost.
+				 *
+				 * 3) Now let's assume B changes the last time at 11:30h. In this case A's changes are newer and
+				 * woudl win.
+				 *
 				 */
+				/*
+				if (this.toolbar) {
+					this.toolbar.showOutOFSyncError(localModel, result => {
+						console.debug(result)
+					})
+				}
+				*/
 			}
 		}
 	}
 
 	setMode (mode, forceRender){
 		this.logger.log(2,"setMode", "entry > " + mode);
-		//this.toolbar.setMode(mode);
-		// toolbar will nbe called in canvas
 		this._canvas.setMode(mode, forceRender);
 	}
 
@@ -284,21 +304,23 @@ export default class BaseController extends Core {
 						this.modelService.updateApp(this.model, changes).then(res => {
 							this.endTransaction(transactionId)
 							this.onModelUpdated(res);
+						}).catch(err => {
+							this.logger.error("saveModelChanges", "Something wenrt wrong with the rest", err);
+							this.showError("Could not reach server! Changes not saved!");
 						})
 					} else {
-						console.warn("saveModelChanges() > triggered without getting change! We send entire model!");
 						this.logger.error("saveModelChanges", "Triggered without getting change! We send entire model");
-						// this._doPost("rest/apps/" + this.model.id + ".json", this.model, "onModelSaved");
 						let res = await this.modelService.saveApp(this.model)
 						this.onModelSaved(res);
 					}
-
 					this._dirty = false;
-
-
 				} else {
 					console.warn("saveModelChanges() > No oldModel!", this);
 				}
+
+				/**
+				 * Store the model in case of network failure.
+				 */
 				this.storeModel(this.model)
 
 				/**
@@ -334,14 +356,21 @@ export default class BaseController extends Core {
 	}
 
 	checkTransaction (id, number) {
-		this.logger.log(-1, "checkTransaction", "enter " + id);
+		this.logger.log(-1, "checkTransaction", "enter #" + number, id);
+		/**
+		 * If we still have a transaction id in our list, this means the
+		 * is potentially and issue. We
+		 */
 		if (this.transactions[id]) {
-			if (number < 10) {
-				setTimeout(() => this.checkTransaction(id, number + 1), 3000)
-			} else {
+			if (number < 3) {
 				/**
 				 * For now we just log that that a transaction failed.
 				 * We should consoder resending!
+				 */
+				setTimeout(() => this.checkTransaction(id, number + 1), 3000)
+			} else {
+				/**
+				 * here something is really wrong!
 				 */
 				this.logger.sendError("checkTransaction", new Error("Some transaction not done!"));
 			}
@@ -1509,6 +1538,9 @@ export default class BaseController extends Core {
 				this.modelService.deleteCommand(this.model, count).then(res => {
 					this.logger.log(0,"addCommand", "cut off future! > " + count + " >> "  + res.pos);
 					this.onCommandDeleted(command)
+				}).catch(err => {
+					this.logger.error("addCommand", "ERROR deleteing", err);
+					this.showError('Could not reach server! Changes not saved')
 				})
 			}
 		} else {
@@ -1552,6 +1584,9 @@ export default class BaseController extends Core {
 			try {
 				this.modelService.addCommand(this.model, command).then(pos => {
 					this.onCommandAdded(pos);
+				}).catch(err => {
+					this.logger.error("postCommand", "ERROR saving", err);
+					this.showError('Could not reach server! Changes not saved')
 				})
 
 				/**

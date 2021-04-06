@@ -195,6 +195,37 @@ export default {
 			this.controller.setScreenSize(newSize, false);
 		},
 
+		showOutOFSyncError (localApp, callback) {
+
+			let db = new DomBuilder();
+			var popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
+
+			var cntr = db.div().build(popup);
+
+			db.h3("MatcDialogHeader", "Error Detected").build(cntr);
+			db.p("", "We found that there is a newer version stored on your computer. This can happen when there are networking issues.").build(cntr);
+			db.p("", "Do you want to use the local version, or the version from the server.").build(cntr);
+
+			var dialog = new Dialog();
+			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
+
+			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
+			var fix = db.div("MatcButton", "Keep local version").build(bar);
+			var stay = db.a("MatcButton ", "Keep online version").build(bar);
+
+			dialog.own(on(fix, touch.press, () => {
+				dialog.close()
+				callback(true)
+			}));
+
+			dialog.own(on(stay, touch.press, () => {
+				dialog.close()
+				callback(false)
+			}));
+
+			dialog.popup(popup, this.template);
+		},
+
 
 		showShortCuts:function(e){
 

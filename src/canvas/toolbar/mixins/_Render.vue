@@ -41,6 +41,7 @@ import LowCodeResponsiveSection from 'canvas/toolbar/components/LowCodeResponsiv
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
+import Filter from 'canvas/toolbar/components/Filter'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -878,6 +879,16 @@ export default {
 				this._placeAt(this.backgroundImage,content);
 				this.addTooltip(this.backgroundImage.domNode, "Background Image");
 
+
+				this.imageFilter = this.$new(Filter)
+				//this.imageFilter.setModel(this.model)
+				this.own(on(this.imageFilter, "change", lang.hitch(this, "setWidgetStyle", "filter")));
+				this.own(on(this.imageFilter, "changing", lang.hitch(this, "setTempWidgetStyle", "filter")));
+				this._placeAt(this.imageFilter, content);
+				this.addTooltip(this.imageFilter.domNode, "Image Filter");
+
+
+				/*
 				this.opacity = this.$new(ToolbarDropDownButton);
 				this.opacity.setLabel('<span class="mdi mdi-contrast"></span>');
 				this.opacity.updateLabel = false;
@@ -886,6 +897,7 @@ export default {
 				this.own(on(this.opacity, "change", lang.hitch(this, "setWidgetStyle", "opacity")));
 				this._placeAt(this.opacity, content);
 				this.addTooltip(this.opacity.domNode, "Opacity");
+				*/
 
 				// background image position
 				this.backgroundImagePosition = this.$new(ToolbarImagePosition, {mode:this.mode});
