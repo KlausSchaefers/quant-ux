@@ -204,6 +204,7 @@ export default {
 					this.popup.style.top = pos.y + "px"
 				}
 
+
 				this.popup.style.bottom = "auto";
 				this.popup.style.left = pos.x - this.popupPos.w -this.arrowSize+ "px";
 				return true

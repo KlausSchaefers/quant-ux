@@ -3,11 +3,17 @@
 - Show tasks in test
 - Check why broken server does not give errors
 - Nicer Gradients
+  - make sliders on top
+    - make gradient picker sketch...
+- color token in picker?
 - Improve Picture section as mutli line
+- states should have data props
 ## Renderfacoty
   No token error for public...  https://quant-ux.com/#/examples/5a0cb67ee2fb533609d6fa7b/replay/S1517414873055_5240.html
 
 
+## Deisgn Token
+  - Export to adobe? https://www.adobe.com/products/xd/learn/design-systems/cloud-libraries/vscode-extension.html
 
 
 ## Labeled CheckBox and radio

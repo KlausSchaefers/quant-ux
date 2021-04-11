@@ -356,12 +356,13 @@ export default class BaseController extends Core {
 	}
 
 	checkTransaction (id, number) {
-		this.logger.log(-1, "checkTransaction", "enter #" + number, id);
+
 		/**
 		 * If we still have a transaction id in our list, this means the
 		 * is potentially and issue. We
 		 */
 		if (this.transactions[id]) {
+			this.logger.log(1, "checkTransaction", "enter #" + number, id);
 			if (number < 3) {
 				/**
 				 * For now we just log that that a transaction failed.
@@ -381,7 +382,7 @@ export default class BaseController extends Core {
 		this.logger.log(3, "endTransaction", "enter " + id);
 		let transaction = this.transactions[id]
 		if (transaction) {
-			this.logger.log(-1, "endTransaction", "time " + (new Date().getTime() - transaction.ts));
+			this.logger.log(2, "endTransaction", "time " + (new Date().getTime() - transaction.ts));
 		}
 		delete this.transactions[id]
 	}

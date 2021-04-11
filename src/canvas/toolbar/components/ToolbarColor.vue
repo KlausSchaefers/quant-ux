@@ -194,14 +194,22 @@ export default {
 					 */
 					if(this.hasGradient) {
 						let tabGradient = this.createTab("Gradient", tabHeader,cntr, db, false);
+
 						this.gradientDiv = db.div().build(tabGradient);
 
-						this.customGradientLabel= db.div("MatcToolbarColorLabel", "Global Gradients").build(tabGradient);
-						this.customGardintDiv=  db.div("MatcToolbarColorCustomCntr").build(tabGradient);
+						this.gradientPicker = this.$new(GradientPicker)
+						this.gradientPicker.placeAt(this.gradientDiv)
 
-						var lblCntr = db.div("MatcToolbarColorLabel").build(tabGradient);
-						let a = db.a("","Custom Gradient...").build(lblCntr);
-						this.own(on(a, touch.press, lang.hitch(this, "showGradient")));
+
+						/**
+						 * Add hre gradient picker
+						 */
+						this.customGradientLabel= db.div("MatcToolbarColorLabel", "Global Gradients").build(tabGradient);
+						this.customGardintDiv =  db.div("MatcToolbarColorCustomCntr").build(tabGradient);
+
+						//var lblCntr = db.div("MatcToolbarColorLabel").build(tabGradient);
+						//let a = db.a("","Custom Gradient...").build(lblCntr);
+						//this.own(on(a, touch.press, lang.hitch(this, "showGradient")));
 					}
 
 				} else {
@@ -222,6 +230,8 @@ export default {
 			onVisible (){
 				this.reOpenTab();
 				this.setColorValues()
+				console.debug('onVisibale')
+				this.updatePosition()
 			},
 
 			setColorValues () {
@@ -251,11 +261,12 @@ export default {
 				/**
 				 * 4) Render Gradient
 				 */
-				if(this.hasGradient){
-					this.gradientDiv.innerHTML = ""
+				if(this.hasGradient && this.gradientPicker){
+					//this.gradientDiv.innerHTML = ""
+					this.gradientPicker.setValue(this.value)
 					this.customGardintDiv.innerHTML = ""
-					this._gradientBoxes = this.renderGradientBoxes(this.gradients, this.gradientDiv, 6, "onChange");
-					this.renderCustomGradientBoxes(this._gradientBoxes , this.customGardintDiv, 6, "onChange")
+					//this._gradientBoxes = this.renderGradientBoxes(this.gradients, this.gradientDiv, 6, "onChange");
+					//this.renderCustomGradientBoxes(this._gradientBoxes , this.customGardintDiv, 6, "onChange")
 				}
 
 				this.lastOpen = new Date().getTime();
@@ -635,6 +646,7 @@ export default {
 			},
 
 			onSelectTab  (i, showDefaultColor, e){
+				console.debug('onSelectTab', i)
 				this.stopEvent(e);
 
 				if(this.tabs){

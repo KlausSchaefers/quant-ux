@@ -143,6 +143,10 @@ export default new VueRouter({
     {
       path: '/test/Task.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/TaskCreateDialogTest.vue')
+    },
+    {
+      path: '/test/Color.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/ColorPickerTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',
