@@ -39,7 +39,7 @@
 }
 
 .MatcToolbarColorButton input {
-	width: 80px;
+	width: 110px;
 	margin-left: 8px;
 }
 
@@ -155,19 +155,50 @@ td.MatcGradientBox.MatcColorBox span{
 	background: #fff;
 }
 
-.VommondGradientPickerSelectorRow {
-	height:40px;
+.VommondGradientPickerSelectorRow, .VommondGradientPickerAngleRow {
+	height:60px;
+	display: flex;
+	justify-content: space-between;
+	align-items:flex-end;
 }
 
+.VommondGradientPickerSelectorLabels {
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+	text-align: center;
+  font-size: 10px;
+  color: #777;
+	margin-bottom: 16px;
+}
+
+.VommondGradientPickerSelectorLabels span:first-child{
+	margin-left: 8px;
+	margin-right: 8px;
+	width: 240px;
+}
+
+.VommondGradientPickerSelectorLabels span:last-child{
+	width: 35px;
+}
 
 .VommondGradientPickerSelector{
 	margin-top: 32px;
 	margin-left: 8px;
 	margin-right: 8px;
-	height: 16px;
+	width: 240px;
+	height: 28px;
 	position: relative;
 	border:1px solid #ddd;
  }
+.VommondGradientPickerAngle{
+	background: linear-gradient(177deg, rgba(255,255,255,1) 50%, rgba(193,193,193,1) 51%);
+	margin-top: 32px;
+	margin-left: 8px;
+	margin-right: 8px;
+	height: 16px;
+	position: relative;
+}
 
  .VommondGradientPickerSelectorHandleCntr{
 	position: absolute;
@@ -176,88 +207,67 @@ td.MatcGradientBox.MatcColorBox span{
 	cursor: pointer;
  }
 
- .VommondGradientPickerSelectorHandleCntrSelected .VommondGradientPickerSelectorHandle{
-	box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0,0,0,.3), 0 0 1px 2px rgba(0,0,0,.6);
- }
-
-
- .VommondGradientPickerSelectorHandle{
+ .VommondGradientPickerSelectorOuter{
 	cursor: pointer;
-	box-shadow: 0 0 0 1.5px #ccc, inset 0 0 1px 1px rgba(0,0,0,.3), 0 0 1px 2px rgba(0,0,0,.4);
-	transform: translate(-8px, -20px);
+	transform: translate(-8px, -22px);
 	width: 16px;
 	height: 16px;
-	-webkit-box-shadow: 0 0 2px rgb(0 0 0 / 60%);
-	box-shadow: 0 0 2px rgb(0 0 0 / 60%);
 	background: #fff;
+	border:1px solid #bbb;
+	padding: 2px;
  }
 
-.VommondGradientPickerTopRow{
+ .VommondGradientPickerSelectorOuter::after{
+	content: "";
+	border: 5px solid transparent;
+	border-top-color: #bbb;
+	height: 8px;
+	width: 8px;
+	position: absolute;
+	bottom: -11px;
+	left: 2px;
+ }
+
+
+ .VommondGradientPickerSelectorHandleCntrSelected .VommondGradientPickerSelectorOuter{
+	border:1px solid #333;
+ }
+
+
+ .VommondGradientPickerSelectorHandleCntrSelected  .VommondGradientPickerSelectorOuter::after{
+	border-top-color: #333;
+ }
+
+ .VommondGradientPickerSelectorInner {
+	 height: 10px;
+	 width: 10px;
+ }
+
+
+
+.VommondGradientPickerMainRow{
 	height: 300px;
 	position: relative;
 }
 
-.VommondGradientPickerTopLeft{
- position: absolute;
- top:0px;
- left:0px;
- width:300px;
- height: 100%;
-}
 
-.VommondGradientPickerTopRight{
- position: absolute;
- top:0px;
- right:0px;
- width:200px;
- height: 100%;
-}
-
-.VommondGradientPickerPreviewCntr{
- margin-bottom: 20px;
-}
 
 .VommondGradientPickerRotationInput{
  width:100%;
  border:1px solid #cecece;
  margin: 0px;
  color: #777;
-	 font-size: 16px;
-	 margin-top:11px;
+ font-size: 16px;
+ margin-top:11px;
 }
 
-.VommondGradientPickerSketchControlLabels{
- text-align: center;
- font-size: 10px;
- color:#777;
-}
 
-.VommondGradientPickerPreview{
- width:200px;
- height: 200px;
-}
 
 .VommondGradientPickerDirections{
  height: 30px;
 }
 
 
-
-.VommondGradientPickerSelectorHandleArrow{
- width: 10px;
- height: 10px;
- position: absolute;
- -ms-transform: rotate(45deg); /* IE 9 */
-	-webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-	 transform: rotate(45deg);
-	 background: #ccc;
-	 left:5px;
-	 bottom:0px;
-}
-
-.VommondGradientPicker .VommondColorPickerPreview{
- display: none;
-}
 
 /****************************************************
 * Color Picker

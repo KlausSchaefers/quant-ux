@@ -22,7 +22,6 @@ import Color from 'dojo/_base/Color'
 import touch from 'dojo/touch'
 import ColorPickerSketch from 'common/ColorPickerSketch'
 import GradientPicker from 'common/GradientPicker'
-import Dialog from 'common/Dialog'
 import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
 import _DropDown from './_DropDown'
@@ -63,17 +62,7 @@ export default {
 							"#fff6df", "#ffe3a0", "#ffd980", "#ffc641", "#ffbd21", "#ffb61c", "#ffa713", "#ffa00e", "#ff9909", "#ff8a00",
 							"#ffe4e4", "#ffafaf", "#ff9494", "#ff5f5f", "#ff4444", "#f83a3a", "#e92727", "#e21d1d", "#db1313", "#cc0000",
 							"#ffffff", "#E6E6E6", "#D9D9D9", "#BFBFBF", "#B2B2B2", "#999999",  "#666666", "#4D4D4D", "#333333", "#000000"
-						],
-						gradientsColors: [
-							['#09203F', '#537895'],
-							['#662D8C', '#ED1E79'],
-							["#d54222", "#d460c5"],
-							['#FF5F6D', '#FFC371'],
-							['#009245', '#FCEE21'], // yellow green
-							["#22a5d5", "#23df96"],
-							['#4E65FF', '#92EFFD']
-						],
-            gradients: []
+						]
         }
     },
     components: {
@@ -120,7 +109,9 @@ export default {
 					return "-"
 				}
 				if (v.colors) {
-					return "--"
+					let start = new Color(v.colors[0].c).toHex()
+					let end = new Color(v.colors[1].c).toHex()
+					return start + " -> " + end
 				}
 				let c = new Color(v)
 				return c.toHex()
@@ -148,18 +139,7 @@ export default {
 			_renderColorWidgets (popup) {
 
 				this.tabs = null
-				/**
-				 * Init gradients
-				 */
-				if (this.gradients.length == 0) {
-					let angles = [0,90,180,270, 45, 135]
-					for (var i=0; i< this.gradientsColors.length; i++){
-						let colors = this.gradientsColors[i];
-						for (let a = 0; a < angles.length; a++){
-							this.gradients.push([colors[0], colors[1], angles[a]]);
-						}
-					}
-				}
+
 
 				var db = new DomBuilder();
 				var cntr = db.div("MatcToolbarPopUpContainer MatcToolbarColorContainer MatcToolbarColorSketch").build();
@@ -181,6 +161,9 @@ export default {
 						this.picker = this.$new(ColorPickerSketch);
 						this.picker.placeAt(this.pickerDiv);
 						this.own(on(this.picker, "change", lang.hitch(this, "onTempColorSelected")));
+
+						this.customColorDivLabel = db.div("MatcToolbarColorLabel", "Global Colors").build(this.pickerDiv);
+						this.customColorDiv =  db.div("MatcToolbarColorCustomCntr").build(this.pickerDiv);
 					}
 
 					/**
@@ -199,17 +182,14 @@ export default {
 
 						this.gradientPicker = this.$new(GradientPicker)
 						this.gradientPicker.placeAt(this.gradientDiv)
-
+						this.own(on(this.gradientPicker, "change", lang.hitch(this, "onTempColorSelected")));
 
 						/**
 						 * Add hre gradient picker
 						 */
-						this.customGradientLabel= db.div("MatcToolbarColorLabel", "Global Gradients").build(tabGradient);
+						this.customGradientLabel = db.div("MatcToolbarColorLabel", "Global Gradients").build(tabGradient);
 						this.customGardintDiv =  db.div("MatcToolbarColorCustomCntr").build(tabGradient);
 
-						//var lblCntr = db.div("MatcToolbarColorLabel").build(tabGradient);
-						//let a = db.a("","Custom Gradient...").build(lblCntr);
-						//this.own(on(a, touch.press, lang.hitch(this, "showGradient")));
 					}
 
 				} else {
@@ -221,8 +201,7 @@ export default {
 					this.colorDiv =  db.div().build(cntr);
 				}
 
-				this.customColorDivLabel = db.div("MatcToolbarColorLabel", "Global Colors").build(cntr);
-				this.customColorDiv =  db.div("MatcToolbarColorCustomCntr").build(cntr);
+
 				popup.appendChild(cntr)
 				return cntr
 			},
@@ -230,8 +209,6 @@ export default {
 			onVisible (){
 				this.reOpenTab();
 				this.setColorValues()
-				console.debug('onVisibale')
-				this.updatePosition()
 			},
 
 			setColorValues () {
@@ -257,16 +234,14 @@ export default {
 				var customColors = this.getCustomColors();
 				this._renderCustomColors(customColors, this.customColorDivLabel, this.customColorDiv);
 
-
 				/**
 				 * 4) Render Gradient
 				 */
-				if(this.hasGradient && this.gradientPicker){
-					//this.gradientDiv.innerHTML = ""
-					this.gradientPicker.setValue(this.value)
+				if (this.hasGradient && this.gradientPicker) {
+					this.gradientPicker.setValue(this.value, true)
 					this.customGardintDiv.innerHTML = ""
-					//this._gradientBoxes = this.renderGradientBoxes(this.gradients, this.gradientDiv, 6, "onChange");
-					//this.renderCustomGradientBoxes(this._gradientBoxes , this.customGardintDiv, 6, "onChange")
+					this._gradientBoxes = []
+					this.renderCustomGradientBoxes(this._gradientBoxes, this.customGardintDiv, 6, "onChange")
 				}
 
 				this.lastOpen = new Date().getTime();
@@ -297,7 +272,7 @@ export default {
 				}
 			},
 
-			onTempColorSelected (value){
+			onTempColorSelected (value) {
 				if (this.value != value) {
 					this.tempValue = value;
 					this.emit("changing", value);
@@ -305,7 +280,7 @@ export default {
 				}
 			},
 
-			flush  (){
+			flush () {
 				if (this.tempValue){
 					this.emit("change", this.tempValue);
 					this.tempValue = false
@@ -316,9 +291,14 @@ export default {
 				this.onTempColorSelected('transparent')
 			},
 
-
 			onHide  (){
 				this.flush();
+				if (this.gradientPicker) {
+					this.gradientPicker.onParentClose()
+				}
+				if (this.picker) {
+					this.picker.onParentClose()
+				}
 				this.lastClose = new Date().getTime();
 			},
 
@@ -422,33 +402,6 @@ export default {
 				}
 			},
 
-			showGradient  (e){
-
-				var db = new DomBuilder();
-				var popup = db.div("MatcColorGradientDialog MatcPadding").build();
-
-				var gradientPicker = this.$new(GradientPicker);
-				gradientPicker.placeAt(popup);
-
-				var bar = db.div("MatcButtonBar MatcMarginTop").build(popup);
-
-				var write = db.div("MatcButton", "Ok").build(bar);
-				var cancel = db.a("MatcLinkButton", "Cancel").build(bar);
-
-				var d = new Dialog();
-				d.own(on(write, touch.press, lang.hitch(this,"setGradient", gradientPicker, d)));
-				d.own(on(cancel, touch.press, lang.hitch(this, "closeColorDialog",d)));
-				d.popup(popup, e.target);
-
-				if(this.isGradient(this.value)){
-					var value = this.value;
-					setTimeout(function(){
-						gradientPicker.setValue(value);
-						gradientPicker.selectHandle(0);
-					},300);
-				}
-			},
-
 			setCustomColor (colorPicker, d){
 				var color = colorPicker.getValue();
 				if(color){
@@ -481,7 +434,7 @@ export default {
 				 * Gradients will open the right tab...
 				 */
 				if (this.hasGradient && this.isGradient(v)) {
-					this.onSelectTab(2)
+					this.onSelectTab(2, false)
 				} else {
 					this.onSelectTab(0)
 				}
@@ -500,16 +453,13 @@ export default {
 				if (v === 'None' || v === 'transparent' || !v) {
 					v = '';
 				}
-
 				if (this.isGradient(v)) {
 					v = "linear-gradient"  + this._getGradientCSS(v)
 				}
-
 				if (this.icon && this.icon.style) {
 					this.icon.style.background = v;
 				}
 			},
-
 
 			setBoxes  (boxes){
 				if(!this.isGradient(this.value)){
@@ -522,7 +472,6 @@ export default {
 						}
 					}
 				}
-
 			},
 
 			isGradient  (v){
@@ -541,52 +490,11 @@ export default {
 				this.model = m;
 			},
 
-			renderGradientBoxes  (gradients, parent, columns, callback) {
-
-				var boxes = {};
-				var table = document.createElement("table");
-				var tbody = document.createElement("tbody");
-				table.appendChild(tbody);
-
-				var tr = null;
-				for (var i=0; i<  gradients.length; i++){
-					if(i % columns ==0 || tr ==null){
-						tr = document.createElement("tr");
-						tbody.appendChild(tr);
-					}
-					var gradientColors = gradients[i];
-
-					var gradient = {
-						colors :
-						[
-							{c:gradientColors[0], p:0},
-							{c:gradientColors[1], p:100},
-						],
-						gradient:true,
-						direction : gradientColors[2]
-					};
-
-
-					var td = document.createElement("td");
-					css.add(td,"MatcGradientBox MatcColorBox MatcColorBox"+i % columns);
-					var span = document.createElement("span");
-					var cssGradientKey = this._setGradientCSS(span,gradient )
-					boxes[cssGradientKey] = span;
-					this.tempOwn(on(span, touch.press, lang.hitch(this, callback, gradient)));
-					td.appendChild(span);
-					tr.appendChild(td);
-				}
-				parent.appendChild(table);
-
-
-				return boxes;
-			},
-
 			renderCustomGradientBoxes (boxes, parent, columns, callback) {
 				let customGradients = this.getCustomGradients()
 				// do not render duplicates
 				customGradients = customGradients.filter(g => {
-					return boxes[g.css] === undefined
+					return g !== null && boxes[g.css] === undefined
 				})
 
 				var table = document.createElement("table");
@@ -594,14 +502,11 @@ export default {
 				table.appendChild(tbody);
 				let tr = null
 				for (let i=0; i< Math.min(customGradients.length, 10); i++){
-
 					var gradient = customGradients[i].gradient;
-
 					if(i % columns ==0 || tr == null){
 						tr = document.createElement("tr");
 						tbody.appendChild(tr);
 					}
-
 					var td = document.createElement("td");
 					css.add(td,"MatcGradientBox MatcColorBox MatcColorBox"+i % columns);
 					var span = document.createElement("span");
@@ -646,9 +551,7 @@ export default {
 			},
 
 			onSelectTab  (i, showDefaultColor, e){
-				console.debug('onSelectTab', i)
 				this.stopEvent(e);
-
 				if(this.tabs){
 					for(var j=0; j < this.tabs.length; j++ ){
 						css.remove(this.tabs[j], "MatcToolbarTabActive");
@@ -656,13 +559,6 @@ export default {
 					}
 					css.add(this.tabs[i], "MatcToolbarTabActive");
 					css.remove(this.tabContainers[i], "hidden");
-				}
-				if (!showDefaultColor){
-					css.add(this.customColorDivLabel, "hidden");
-					css.add( this.customColorDiv, "hidden");
-				} else {
-					css.remove(this.customColorDivLabel, "hidden");
-					css.remove( this.customColorDiv, "hidden");
 				}
 				this._selectedTabNumber = i;
 				this.__selectedTabDefault = showDefaultColor

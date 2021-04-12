@@ -1,12 +1,18 @@
 
 <template>
-  <div class="VommondGradientPicker" @click.stop="" @mousedown.stop="">
-		<div class="VommondGradientPickerSelectorRow">
+  <div class="VommondGradientPicker VommondColorPickerSketch" @click.stop="" @mousedown.stop="">
+		<div class="VommondGradientPickerSelectorRow ">
 			   <div  class="VommondGradientPickerSelector" data-dojo-attach-point="selector">
 				 </div>
+         <input data-dojo-attach-point="inputDegree" class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" @keyup="onDirectionChange">
     </div>
-    <div class="VommondGradientPickerTopRow">
-      <div class="VommondGradientPickerTopLeft"  data-dojo-attach-point="topLeft"  ></div>
+    <div class="VommondGradientPickerSelectorLabels">
+      <span class="VommondGradientPickerGradientLabel">Gradient</span>
+      <span>Angle</span>
+    </div>
+
+    <div class="VommondGradientPickerMainRow">
+      <div data-dojo-attach-point="topLeft"  ></div>
     </div>
   </div>
 </template>
@@ -26,10 +32,10 @@ export default {
   mixins: [DojoWidget],
   data: function () {
     return {
-      value: {
+      defaultValue: {
         colors: [
-          { c: "#fff", p: 0 },
-          { c: "#ccc", p: 100 },
+          { c: "#ffffff", p: 0 },
+          { c: "#cccccc", p: 100 },
         ],
         gradient: true,
         direction: 90,
@@ -42,19 +48,9 @@ export default {
   components: {},
   methods: {
     postCreate () {
-      //var db = new DomBuilder();
       this.colorPicker = this.$new(ColorPickerSketch);
       this.colorPicker.placeAt(this.topLeft);
       this.own(this.colorPicker.on("change", lang.hitch(this, "onColorChange")));
-
-      //this.preview = db
-      //  .div("VommondGradientPickerPreview")
-      //  .build(this.topRight);
-
-      //this.own(on(this.inputDegree, "keypress", function (e) {e.stopPropagation(); }));
-      //this.own(on(this.inputDegree, "keydown", function (e) { e.stopPropagation(); }));
-      //this.own(on(this.inputDegree, "change", lang.hitch(this, "onDirectionChange")));
-
       this.setValue(this.value);
     },
 
@@ -62,13 +58,22 @@ export default {
       return this.value;
     },
 
-    setValue (value) {
+    setValue (value, fromParent = false) {
 			if (value && value.colors) {
 				this.value = lang.clone(value);
-			}
+			} else {
+        this.value = lang.clone(this.defaultValue)
+      }
 			this._setGradientCSS(this.selector, this.value, true);
 			this.setSelectorColor(this.value);
 			this.setSelectorPos(this.value);
+      this.setDirection(this.value)
+      /**
+       * TODO: we could call    this.selectHandle(0);. However, this will tricker this method again, and we have an invite loop
+       */
+      if (fromParent) {
+         //this.selectHandle(0);
+      }
     },
 
     setSelectorColor (value) {
@@ -87,13 +92,13 @@ export default {
         this.selector.innerHTML = "";
         for (let i = 0; i < gradient.colors.length; i++) {
           let cntr = db.div("VommondGradientPickerSelectorHandleCntr").build(this.selector);
-          let handle = db.div("VommondGradientPickerSelectorHandle").build(cntr);
+          let wrapper = db.div("VommondGradientPickerSelectorOuter").build(cntr);
+          let handle = db.div("VommondGradientPickerSelectorInner").build(wrapper);
+
           this.selectorButtons[i] = cntr;
           this.selectorButtonsColor[i] = handle;
           this.tempOwn( on(cntr, touch.press, lang.hitch(this, "onSelectorPress", i)));
         }
-        this.selectHandle(0);
-
 				this.tempOwn( on(this.selector, touch.press, lang.hitch(this, "onSelectorClick")));
       }
 
@@ -105,6 +110,8 @@ export default {
     },
 
 		onSelectorClick (e) {
+      this.cleanUp()
+      this.stopEvent(e);
 			var pos = this.getMousePos(e, this.selector);
       var p = Math.min(100, Math.max(0, Math.round((pos.x * 1000) / pos.w) / 10));
 			let distanceStart = Math.abs(this.value.colors[0].p - p)
@@ -119,6 +126,7 @@ export default {
 		},
 
     onSelectorPress (i, e) {
+      this.cleanUp()
       this.stopEvent(e);
       this.selectHandle(i);
       this._touchMoveListner = on(win.body(), touch.move, lang.hitch(this, "onSelectorMove"));
@@ -137,8 +145,7 @@ export default {
     },
 
 		onChange () {
-			console.debug('onCHnage')
-			this.emit('changing', this.value)
+			this.emit('change', this.value)
 		},
 
     selectHandle  (i) {
@@ -146,13 +153,14 @@ export default {
       for (var j = 0; j < this.selectorButtons.length; j++) {
         css.remove( this.selectorButtons[j], "VommondGradientPickerSelectorHandleCntrSelected" );
       }
-      css.add( this.selectorButtons[i],"VommondGradientPickerSelectorHandleCntrSelected" );
+      css.add(this.selectorButtons[i],"VommondGradientPickerSelectorHandleCntrSelected" );
       var selectedColor = this.value.colors[i];
       this.colorPicker.setValue(selectedColor.c);
     },
 
     onColorChange (c) {
       if (this.selectedHandle < this.value.colors.length) {
+       this.value.colors[this.selectedHandle].c !== c;
         this.value.colors[this.selectedHandle].c = c;
         this.setValue(this.value);
       }
@@ -163,9 +171,14 @@ export default {
       //this.label.innerHTML=label;
     },
 
+    setDirection (value) {
+      this.inputDegree.value = value.direction
+    },
+
     onDirectionChange () {
       this.value.direction = this.inputDegree.value;
       this.setValue(this.value);
+      this.onChange()
     },
 
     cleanUp  () {
@@ -199,6 +212,13 @@ export default {
       value + ");";
       node.style.background = "linear-gradient" + value;
       node.style.background = "-webkit-linear-gradient" + value;
+    },
+
+    onParentClose () {
+      this.cleanUp()
+      if (this.colorPicker) {
+        this.colorPicker.onParentClose()
+      }
     }
   },
   mounted() {

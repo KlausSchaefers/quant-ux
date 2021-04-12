@@ -1,5 +1,6 @@
 
 # MUST HAVE before shipping 4.0
+- token in animation wrapper
 - Show tasks in test
 - Check why broken server does not give errors
 - Nicer Gradients
@@ -8,6 +9,8 @@
 - color token in picker?
 - Improve Picture section as mutli line
 - states should have data props
+- move to SCSS?
+
 ## Renderfacoty
   No token error for public...  https://quant-ux.com/#/examples/5a0cb67ee2fb533609d6fa7b/replay/S1517414873055_5240.html
 

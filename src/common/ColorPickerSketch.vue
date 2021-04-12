@@ -102,6 +102,7 @@ export default {
 				var alpha = this.getFloat(this.inputA);
 				var c = new Color([red, green, blue, alpha]);
 				this.setColor(c);
+				this.onChange()
 			},
 
 			onHexChange (){
@@ -109,6 +110,7 @@ export default {
 				if(c){
 					css.remove(this.inputHex, "VommondFormInputError");
 					this.setColor(c);
+					this.onChange()
 				} else {
 					css.add(this.inputHex, "VommondFormInputError");
 				}
@@ -139,6 +141,7 @@ export default {
 			},
 
 			onSatPress (e){
+				this.cleanUp()
 				this.stopEvent(e);
 				var hsv = this.toHsv(this.color);
 				/**
@@ -156,7 +159,6 @@ export default {
 			},
 
 			onSatMove (hsv, e){
-
 				this.stopEvent(e);
 				var pos = this.getMousePos(e,this.satCntr)
 				// calculate new sat and bright
@@ -172,9 +174,11 @@ export default {
 				// update controls and
 				var c = this.hsvToRgb(hsv.h, saturation, bright, hsv.a);
 				this.setControls(c);
+				this.onChange();
 			},
 
 			onAlphaPress (e) {
+				this.cleanUp()
 				this.stopEvent(e);
 				let rbga = this.color
 				this._touchMoveListner = on(win.body(),touch.move, lang.hitch(this,"onAlphaMove",rbga));
@@ -188,6 +192,7 @@ export default {
 				rbga.a = Math.round(left * 100) / 100
 				this.setAlpha(rbga)
 				this.setControls(rbga);
+				this.onChange();
 			},
 
 			onAlphaRelease () {
@@ -195,6 +200,7 @@ export default {
 			},
 
 			onHuePress (e){
+				this.cleanUp()
 				this.stopEvent(e);
 				var hsv = this.toHsv(this.color);
 				this._touchMoveListner = on(win.body(),touch.move, lang.hitch(this,"onHueMove",hsv));
@@ -206,19 +212,20 @@ export default {
 				var pos = this.getMousePos(e,this.hueCntr)
 				var left = pos.left
 				var h = 0;
-					var percent
-						if (left > 1) {
-							h = 360
-						} else {
-							percent = left * 100
-							h = (360 * percent / 100)
-						}
-					if (h != hsv.h){
-						this.huePointer.style.left = percent + '%'
-						this.satCntr.style.background = "hsl(" + (h) + ", 100%, 50%)";
-						var c = this.hsvToRgb(h, hsv.s, hsv.v, hsv.a);
-						this.setControls(c);
+				var percent
+					if (left > 1) {
+						h = 360
+					} else {
+						percent = left * 100
+						h = (360 * percent / 100)
 					}
+				if (h != hsv.h){
+					this.huePointer.style.left = percent + '%'
+					this.satCntr.style.background = "hsl(" + (h) + ", 100%, 50%)";
+					var c = this.hsvToRgb(h, hsv.s, hsv.v, hsv.a);
+					this.setControls(c);
+					this.onChange();
+				}
 			},
 
 			onHueRelease (hsv, e){
@@ -238,6 +245,7 @@ export default {
 						this.satCntr.style.background = "hsl(" + (h) + ", 100%, 50%)";
 						var c = this.hsvToRgb(h, hsv.s, hsv.v, hsv.a);
 						this.setControls(c);
+						this.onChange();
 					}
 					/**
 				 * Sometimes the hue value is not converted correctly when
@@ -275,7 +283,6 @@ export default {
 				this.setColorPreview(c);
 				this.setColorInput(c);
 				this.color = c;
-				this.onChange();
 			},
 
 			setColorInput (c){
@@ -313,6 +320,10 @@ export default {
 				this._touchMoveListner = null;
 			},
 
+			onParentClose () {
+				this.cleanUp()
+			},
+
 			getValue (){
 				return this.color;
 			},
@@ -320,7 +331,7 @@ export default {
 			setValue (hex){
 				if (hex && hex.toLowerCase) {
 					if (hex !== 'transparent') {
-						var c = new Color(hex);
+						let c = new Color(hex);
 						if (c){
 							this.setColor(c);
 						} else {
@@ -328,7 +339,17 @@ export default {
 						}
 					}
 				} else {
-					console.debug("ColorPickerSketch.setValue() > No String", hex);
+					if (hex && hex.colors) {
+						hex = hex.colors[0].c
+						let c = new Color(hex);
+						if (c){
+							this.setColor(c);
+						} else {
+							console.warn("Error while setting value", hex);
+						}
+					} else {
+						console.debug("ColorPickerSketch.setValue() > No String", hex);
+					}
 				}
 			},
 
