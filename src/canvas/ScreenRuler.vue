@@ -35,16 +35,14 @@ export default {
             }
 
            	let top = document.createElement("div");
+            top._screenRulerTop = screen.id
             css.add(top, "MatcScreenGridButtonTop");
             dndDiv.appendChild(top)
-            let topListener = on(top, 'mousedown', lang.hitch(this, '_onScreenTopMouseDown', screen, dndDiv))
-            this._screenButtonsListeners.push(topListener)
 
             let left = document.createElement("div");
+            left._screenRulerLeft = screen.id
             css.add(left, "MatcScreenGridButtonLeft");
             dndDiv.appendChild(left)
-            let leftListener = on(left, 'mousedown', lang.hitch(this, '_onScreenLeftMouseDown', screen, dndDiv))
-            this._screenButtonsListeners.push(leftListener)
 
             this._renderScreenRulers(screen, screen.rulers, dndDiv)
         },
@@ -279,10 +277,16 @@ export default {
             }
         },
 
-        _onScreenTopMouseDown (screen, dndDiv, e) {
+        _onScreenTopMouseDown (screenId, e) {
             this.stopEvent(e)
-            this._screenButtonsListenerMove = on(win.body(),"mousemove", lang.hitch(this,"onScreenTopMove", screen, dndDiv));
-			this._screenButtonsListenerUp = on(win.body(),"mouseup", lang.hitch(this,"onScreenTopUp", screen, dndDiv));
+            let screen = this.model.screens[screenId]
+            let dndDiv = this.screenDivs[screenId]
+            if (screen && dndDiv) {
+                this._screenButtonsListenerMove = on(win.body(),"mousemove", lang.hitch(this,"onScreenTopMove", screen, dndDiv));
+			    this._screenButtonsListenerUp = on(win.body(),"mouseup", lang.hitch(this,"onScreenTopUp", screen, dndDiv));
+            } else {
+                this.logger.warn('_onScreenTopMouseDown', 'No screen or DND')
+            }
         },
 
         onScreenTopMove (screen, dndDiv, e) {
@@ -315,10 +319,16 @@ export default {
             }
         },
 
-        _onScreenLeftMouseDown (screen, dndDiv, e) {
+        _onScreenLeftMouseDown (screenId, e) {
             this.stopEvent(e)
-            this._screenButtonsListenerMove = on(win.body(),"mousemove", lang.hitch(this,"onScreenLeftMove", screen, dndDiv));
-			this._screenButtonsListenerUp = on(win.body(),"mouseup", lang.hitch(this,"onScreenLeftUp", screen, dndDiv));
+            let screen = this.model.screens[screenId]
+            let dndDiv = this.screenDivs[screenId]
+            if (screen && dndDiv) {
+                this._screenButtonsListenerMove = on(win.body(),"mousemove", lang.hitch(this,"onScreenLeftMove", screen, dndDiv));
+			    this._screenButtonsListenerUp = on(win.body(),"mouseup", lang.hitch(this,"onScreenLeftUp", screen, dndDiv));
+            } else {
+                this.logger.warn('_onScreenLeftMouseDown', 'No screen or DND')
+            }
         },
 
         onScreenLeftMove (screen, dndDiv, e) {

@@ -66,17 +66,16 @@ export default class Ruler extends Core{
 				/**
 				 * check what are the closest lines
 				 */
-				for(var c=0; c < corners.length; c++){
+				for (var c=0; c < corners.length; c++){
 					var corner = corners[c];
-
-					if(line.x && (Math.abs(corner.x - line.x) < this.snapDistance) && (line.x < closeX)){
+					if (line.x && (Math.abs(corner.x - line.x) < this.snapDistance) && (line.x < closeX)){
 						closeX = line.x;
 						cornerX = corner;
 						if(line.box){
 							cornerX.box = line.box;
 						}
 					}
-					if(line.y && (Math.abs(corner.y - line.y) < this.snapDistance) && (line.y < closeY)){
+					if (line.y && (Math.abs(corner.y - line.y) < this.snapDistance) && (line.y < closeY)){
 						closeY = line.y;
 						cornerY = corner;
 						if(line.box){
@@ -84,9 +83,7 @@ export default class Ruler extends Core{
 						}
 					}
 				}
-
 			}
-
 			result = this.snapp(closeX, closeY, box, cornerX, cornerY);
 		}
 

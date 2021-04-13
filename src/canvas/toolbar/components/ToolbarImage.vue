@@ -1,10 +1,12 @@
 
 <template>
-     <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarImage">
+     <div class=" MatcToolbarItem MatcToolbarImage">
 			<div type="button" data-dojo-attach-point="button">
-				<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
-				<span class="caret"></span>
-				</div>
+				<label class="MatcToolbarItemIcon">
+					<span class="mdi mdi-image"></span>
+				</label>
+		    <span class="MatcToolbarItemLabel">{{btnLabel}}</span>
+			</div>
 				<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 				<div class="MatcImageUpload" data-dojo-attach-point="upload">
 						<div data-dojo-attach-point="imageContainer" class="MatcImageUploadContainer">
@@ -43,7 +45,25 @@ export default {
         }
     },
     components: {},
+		computed: {
+			btnLabel () {
+				if (this.value) {
+					if (this.value.name) {
+						return this.shorten(this.value.name, 20)
+					}
+					return 'Image'
+				}
+				return 'No  Image'
+			}
+		},
     methods: {
+				shorten (s, max) {
+					if (s && s.length > max) {
+						return s.substring(0, max) + '...'
+					}
+					return s
+				},
+
         init: function(){
 				},
 
@@ -71,13 +91,8 @@ export default {
 				},
 
 				setValue (v){
-					this._value = v;
+					this.value = v;
 				},
-
-				setLabel (value){
-					this.label.innerHTML = value;
-				},
-
 
 				onVisible (){
 					this.load();
@@ -223,7 +238,7 @@ export default {
 						var url = img.url;
 						return this.selection && this.selection.indexOf(url) >=0;
 					} else {
-						return this._value && this._value.url == img.url
+						return this.value && this.value.url == img.url
 					}
 				},
 
@@ -287,6 +302,7 @@ export default {
 
 					} else {
 						var i = {
+							name: v.name,
 							url : v.url,
 							w : v.width,
 							h : v.height
@@ -312,7 +328,7 @@ export default {
 						 */
 						this._doDelete("/rest/images/" + this.model.id + "/" + img.id + "/" + img.url + "?token=" + this.jwtToken+ ")")
 
-						if(this._value && this._value.url == img.url){
+						if(this.value && this.value.url == img.url){
 							this.onChange(null);
 						}
 

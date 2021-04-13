@@ -121,8 +121,13 @@ export default {
 					this.backgroundImage.setValue(style.backgroundImage);
 					this.backgroundImage.setModel(this.model);
 					this.backgroundImagePosition.setValue(model);
-
 					this.imageFilter.setValue(style.filter)
+
+					if (style.backgroundImage) {
+						css.remove(this.imageWidgetDeatilsDiv, 'hidden')
+					} else {
+						css.add(this.imageWidgetDeatilsDiv, 'hidden')
+					}
 				}
 
 				if(model.has.backgroundColor ){

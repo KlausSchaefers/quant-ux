@@ -1,8 +1,11 @@
 
 <template>
-     <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarImagePosition">
+     <div class=" MatcToolbarItem MatcToolbarImagePosition">
 		<div type="button" data-dojo-attach-point="button">
-			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
+			<label class="MatcToolbarItemIcon">
+				<span class="mdi mdi-crop"></span>
+			</label>
+			  <span class="MatcToolbarItemLabel">{{label}}</span>
 		</div>
 	</div>
 </template>
@@ -31,10 +34,12 @@ export default {
             multiSelection: false,
 						urlPrefix: "/rest/images/",
 						jwtToken: 'notoken',
-            selection: []
+            selection: [],
+						label: ''
         }
     },
     components: {},
+
     methods: {
       postCreate(){
 				this.own(on(this.domNode, touch.press, lang.hitch(this, "showDialog")));
@@ -45,17 +50,17 @@ export default {
 				this.jwtToken = t
 			},
 
-
 			setModel (m){
 				this.model = m;
 			},
 
 			setValue (v){
 				this._value = v;
-			},
-
-			setLabel (value){
-				this.label.innerHTML = value;
+				if (v && v.style && v.style.backgroundPosition) {
+					this.label = "Cropped"
+				} else {
+					this.label = "No Crop"
+				}
 			},
 
 			init (){

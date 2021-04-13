@@ -291,6 +291,8 @@ export default {
 
 				this._renderScreen();
 
+				this._renderScreenAnimations()
+
 				this._renderScreenBackground();
 
 				this._renderScreenImage()
@@ -871,50 +873,49 @@ export default {
 
 
 				// background image
+				let row = document.createElement('div')
+				content.append(row)
 				this.backgroundImage = this.$new(ToolbarImage, {mode:this.mode});
 				this.backgroundImage.setCanvas(this.canvas);
 				this.backgroundImage.setJwtToken(this.jwtToken);
-				this.backgroundImage.setLabel('<span class="mdi mdi-image"></span>');
 				this.own(on(this.backgroundImage, "change", lang.hitch(this, "setWidgetStyle", "backgroundImage")));
-				this._placeAt(this.backgroundImage,content);
+				this._placeAt(this.backgroundImage,row);
 				this.addTooltip(this.backgroundImage.domNode, "Background Image");
 
 
+				let imageDetailsDiv  = document.createElement('div')
+				content.append(imageDetailsDiv)
+
+				row = document.createElement('div')
+				imageDetailsDiv.append(row)
 				this.imageFilter = this.$new(Filter)
 				//this.imageFilter.setModel(this.model)
 				this.own(on(this.imageFilter, "change", lang.hitch(this, "setWidgetStyle", "filter")));
 				this.own(on(this.imageFilter, "changing", lang.hitch(this, "setTempWidgetStyle", "filter")));
-				this._placeAt(this.imageFilter, content);
+				this._placeAt(this.imageFilter, row);
 				this.addTooltip(this.imageFilter.domNode, "Image Filter");
 
 
-				/*
-				this.opacity = this.$new(ToolbarDropDownButton);
-				this.opacity.setLabel('<span class="mdi mdi-contrast"></span>');
-				this.opacity.updateLabel = false;
-				this.opacity.reposition = true;
-				this.opacity.setOptions(this._getOpacity());
-				this.own(on(this.opacity, "change", lang.hitch(this, "setWidgetStyle", "opacity")));
-				this._placeAt(this.opacity, content);
-				this.addTooltip(this.opacity.domNode, "Opacity");
-				*/
-
 				// background image position
+				row = document.createElement('div')
+				imageDetailsDiv.append(row)
 				this.backgroundImagePosition = this.$new(ToolbarImagePosition, {mode:this.mode});
 				this.backgroundImagePosition.setJwtToken(this.jwtToken);
-				this.backgroundImagePosition.setLabel('<span class="mdi mdi-crop"></span>');
 				this.own(on(this.backgroundImagePosition, "change", lang.hitch(this, "setWidgetMultiStyle")));
-				this._placeAt(this.backgroundImagePosition, content);
+				this._placeAt(this.backgroundImagePosition, row);
 				this.addTooltip(this.backgroundImagePosition.domNode, "Image Position");
 
 				// rotate
+				row = document.createElement('div')
+				imageDetailsDiv.append(row)
 				this.backgroundImageRotation = this.$new(ImageRotate);
 				this.own(on(this.backgroundImageRotation, "change", lang.hitch(this, "setWidgetStyle", "backgroundImageRotation")));
 				this.own(on(this.backgroundImageRotation, "changing", lang.hitch(this, "setTempWidgetStyle", "backgroundImageRotation")));
-				this._placeAt(this.backgroundImageRotation, content);
+				this._placeAt(this.backgroundImageRotation, row);
 				this.addTooltip(this.backgroundImageRotation.domNode, "Image Rotation");
 
 				this.imageWidgetDiv = parent;
+				this.imageWidgetDeatilsDiv = imageDetailsDiv
 				this.properties.appendChild(parent);
 			},
 
@@ -1159,7 +1160,6 @@ export default {
 
 				this.screenBackgroundImage = this.$new(ToolbarImage, {mode:this.mode});
 				this.screenBackgroundImage.setJwtToken(this.jwtToken)
-				this.screenBackgroundImage.setLabel('<span class="mdi mdi-image"></span>');
 				this.screenBackgroundImage.setCanvas(this.canvas);
 				this.own(on(this.screenBackgroundImage, "change", lang.hitch(this, "setScreenStyle", "backgroundImage")));
 				this._placeAt(this.screenBackgroundImage, content);
@@ -1328,12 +1328,12 @@ export default {
 				this.screenBackgroundOverlayCheckBox.placeAt(item)
 
 
-				var db = new DomBuilder();
-				var add = db.div("MatcToolbarGridFull MatcPointer MatcToolbarItem ").build(content);
-				db.span("MatcToolbarSmallIcon mdi mdi-video").build(add);
-				db.span("MatcToolbarItemLabel", "Animations").build(add);
-				this.tempOwn(on(add, touch.press, lang.hitch(this, "showAnimationDialog", "ScreenLoaded")));
-				this.addTooltip(add, "Define an animation which is run when the screen is loaded");
+				//var db = new DomBuilder();
+				//var add = db.div("MatcToolbarGridFull MatcPointer MatcToolbarItem ").build(content);
+				//db.span("MatcToolbarSmallIcon mdi mdi-video").build(add);
+				//db.span("MatcToolbarItemLabel", "Animations").build(add);
+				//this.tempOwn(on(add, touch.press, lang.hitch(this, "showAnimationDialog", "ScreenLoaded")));
+				//this.addTooltip(add, "Define an animation which is run when the screen is loaded");
 
 
 				this.properties.appendChild(parent);
@@ -1346,7 +1346,7 @@ export default {
 			* ANIMATION Properties
 			****************************************************************************************************/
 
-			showAnimationDialog:function(type, e){
+			showAnimationDialog (type, e){
 				this._showAnimationComposer(this._selectedScreen, type, e.target);
 			},
 

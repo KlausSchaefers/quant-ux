@@ -137,6 +137,16 @@ export default {
 					return
 				}
 
+				if (target._screenRulerTop) {
+					this._onScreenTopMouseDown(target._screenRulerTop, e)
+					return
+				}
+
+				if (target._screenRulerLeft) {
+					this._onScreenLeftMouseDown(target._screenRulerLeft, e)
+					return
+				}
+
 				if (target._screenID) {
 					this.dispatchMouseDownScreen(e, target._screenID, target)
 					return

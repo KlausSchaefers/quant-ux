@@ -1010,7 +1010,7 @@ export default {
 
 
 
-			d.popup(dialog, node, "MatcDialogThemed");
+			d.popup(dialog, node);
 			d.on("close", lang.hitch(this, "stopSimulator", composer, null));
 
 			this.canvas.enableMouseZoom(false);

@@ -1,37 +1,3 @@
-/****************************************************
- *  Dark Theme
- ****************************************************/
-
-
-.MatcDark .MatcDialogThemed{
-	background:	#242a30;
-	color:#ddd;
-}
-
-.MatcDark .MatcAnimationComposer .VommondSliderContainer{
-	background-color: #999;
-}
-
-.MatcDark .MatcAnimationComposerTable{
-	color:#ddd;
-}
-
-
-.MatcDark .MatcAnimationComposer .MatcToolbarItem:hover {
-	border: 1px solid #5E5E5E;
-}
-
-.MatcDark .MatcAnimationComposerPreview {
-    border-right: 1px solid #1a1f23;
-}
-
-.MatcDark .MatcAnimationComposerTable tr {
-    border-bottom: 1px solid transparent;
-}
-
-.MatcDark .MatcAnimationComposerTableCntr{
-	background:#1a1f23;
-}
 
 
 /****************************************************

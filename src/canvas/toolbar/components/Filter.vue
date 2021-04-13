@@ -6,7 +6,7 @@
             <span class="MatcToolbarItemIcon ">
               <span class="mdi mdi-image-filter-black-white" />
             </span>
-            <span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
+            <span class="MatcToolbarItemLabel">{{label}}</span>
         </div>
       </div>
 
@@ -70,14 +70,16 @@ export default {
               contrast: 100,
               brightness: 100
             },
+            label: '',
             value: false,
             tempValue: false,
-            label: '',
             reposition: true,
 						arrowPosition: "right"
         }
     },
     components: {
+    },
+    computed: {
     },
     methods: {
 
@@ -85,7 +87,7 @@ export default {
         if (this.blurSlider) {
           return
         }
-        this.blurSlider = this.renderIntBox(this.$refs.blurSliderCntr, 'blur')
+        this.blurSlider = this.renderIntBox(this.$refs.blurSliderCntr, 'blur', 50)
         this.graySlider = this.renderIntBox(this.$refs.graySliderCntr, 'grayScale')
         this.opacitySlider = this.renderIntBox(this.$refs.opacitySliderCntr, 'opacity')
         this.hueSlider = this.renderIntBox(this.$refs.hueSliderCntr, 'hueRotate')
@@ -165,8 +167,10 @@ export default {
 			setValue (v){
 				if (v) {
 					this.value = lang.clone(v);
+          this.label = 'Filter'
 				} else {
           this.value = lang.clone(this.defaultValue)
+          this.label = "No Filter"
         }
         this.setValuesInWidgets(this.value)
       }

@@ -66,6 +66,10 @@ export default {
 					this.screenActionBTN.setScreen(model);
 				}
 
+				if(this.screenAnimationDiv){
+					css.remove(this.screenAnimationDiv, "MatcToolbarSectionHidden")
+				}
+
       },
 
       showScreenDesignProperties (model) {
@@ -82,10 +86,6 @@ export default {
 				css.remove(this.screenParentsDiv, "MatcToolbarSectionHidden");
 				css.remove(this.screenDownloadDiv, "MatcToolbarSectionHidden");
 
-
-				if(this.screenAnimationDiv){
-					css.remove(this.screenAnimationDiv, "MatcToolbarSectionHidden")
-				}
 
 				/**
 				 	* Since 4.0.0 we do not show the prototyping properties in the deisgn view

@@ -33,15 +33,15 @@
                 <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
             </div>
 
-             <div class=" MatcDesignTokenListSection MatcToolbarItem" v-show="isEmpty" style="text-align:left; height:120px">
-                  No tokens have been defined yet. Select a widget and press one of the
+             <div class=" MatcDesignTokenListSection MatcToolbarItem" v-show="isEmpty" style="text-align:left; height:80px">
+                  No tokens have been defined yet. Select a widget and press on of the
                   <span class="mdi mdi-dots-horizontal"></span> icon to create a design token.
 
             </div>
       </div>
 
 
-       <div class="MatcToolbarPopUp  MatcDesignTokenListPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="onPopupClick" >
+       <div class="MatcToolbarPopUp MatcLight MatcDesignTokenListPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="onPopupClick" >
           <div >
             <div class="MatcDesignTokenListPopupSection" v-if="selectedDesignToken">
                <input class="MatcIgnoreOnKeyPress MatcDesignTokenListInput " v-model="selectedDesignToken.name"/>
@@ -50,7 +50,8 @@
               <ShadowSettings ref="boxShadowSettings" @resize="onResize"  @change="onChangeShadow" @changing="onChangeShadow"/>
             </div>
             <div class="MatcDesignTokenListPopupSection" v-show="selectedDesignToken && selectedDesignToken.type === 'color'">
-              <ColorPickerSketch ref="colorSettings" @resize="onResize" @change="onChangeColor"/>
+              <ColorPickerSketch ref="colorSettings" @resize="onResize" @change="onChangeColor" v-show="!isGradient(selectedDesignToken)"/>
+              <GradientPicker ref="gradientSettings" @resize="onResize" @change="onChangeColor" v-show="isGradient(selectedDesignToken)"/>
             </div>
             <div class="MatcDesignTokenListPopupSection " v-show="selectedDesignToken && selectedDesignToken.type === 'text'">
               <TextProperties ref="textSettings" @resize="onResize" @change="onChangeText" @toggle="onToggleText" @changing="onChangeText" :isChildDropDown="true"/>
@@ -75,6 +76,8 @@ import ShadowSettings from './ShadowSettings'
 import _DropDown from './_DropDown'
 import lang from 'dojo/_base/lang'
 import ColorPickerSketch from 'common/ColorPickerSketch'
+import GradientPicker from 'common/GradientPicker'
+
 import Logger from 'common/Logger'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BoxBorder from 'canvas/toolbar/components/BoxBorder'
@@ -110,7 +113,8 @@ export default {
       'ColorPickerSketch': ColorPickerSketch,
       'TextProperties': TextProperties,
       'BoxBorder': BoxBorder,
-      'BoxPadding': BoxPadding
+      'BoxPadding': BoxPadding,
+      'GradientPicker': GradientPicker
     },
     computed: {
 
@@ -187,6 +191,13 @@ export default {
       }
     },
     methods: {
+      isGradient (token) {
+        if (token) {
+          let color = token.value
+          return color.colors !== undefined
+        }
+        return true
+      },
 
       onPopupClick () {
         console.debug('onPopupClick')
@@ -286,7 +297,11 @@ export default {
         this.selectedDesignToken = lang.clone(designtoken)
 
         if (this.selectedDesignToken.type === 'color') {
-          this.$refs.colorSettings.setValue(this.selectedDesignToken.value)
+          if (!this.isGradient(this.selectedDesignToken)) {
+            this.$refs.colorSettings.setValue(this.selectedDesignToken.value)
+          } else {
+            this.$refs.gradientSettings.setValue(this.selectedDesignToken.value)
+          }
         }
 
         if (this.selectedDesignToken.type === 'text') {

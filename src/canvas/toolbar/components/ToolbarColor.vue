@@ -367,6 +367,7 @@ export default {
 					this._countColor(box.style.evenRowColor, result);
 					this._countColor(box.style.headerBackground, result);
 					this._countColor(box.style.headerColor, result);
+					this._countColor(box.style.colorButton, result);
 					// since 3.0.15 we have timelines
 					this._countColor(box.style.cicleBackground, result);
 					this._countColor(box.style.cicleBorderColor, result);
