@@ -987,6 +987,7 @@ export default {
 			dialog.style.height = Math.round(pos.h * 0.9) + "px";
 
 			var composer = this.$new(AnimationComposer);
+			composer.setHash(this.hash)
 			composer.setType(type);
 			composer.placeAt(div);
 			composer.setModel(this.model);
@@ -1007,7 +1008,6 @@ export default {
 			setTimeout(function(){
 				composer.setScreen(screen);
 			},500);
-
 
 
 			d.popup(dialog, node);

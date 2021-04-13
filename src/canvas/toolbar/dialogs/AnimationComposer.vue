@@ -25,7 +25,9 @@ export default {
     mixins:[_Tooltip, Util, DojoWidget],
     data: function () {
         return {
-            maxTime: 50
+            maxTime: 50,
+						jwtToken: 'NoTokenComposer',
+						hash: "NoHashComposer"
         }
     },
     components: {},
@@ -34,6 +36,16 @@ export default {
 				this.logger = new Logger({"className":"de.vommond.matc.canvas.toolbar.ActionSettings"});
 				this.logger.log(0, "postCreate", "enter > ");
 			},
+
+			setJwtToken (t) {
+				this.jwtToken = t
+			},
+
+			setHash (h) {
+				this.logger.log(-1,"setHash","enter");
+				this.hash = h
+			},
+
 
 			setModel:function(m){
 				this.orgModel = lang.clone(m);
@@ -88,6 +100,7 @@ export default {
 				 */
 				var sim = this.renderSimulator(simCntr, screen);
 				sim.doNotRunOnLoadAnimation = true
+				sim.setHash(this.hash)
 				sim.setStartScreen(screen);
 				sim.setModel(this.orgModel);
 				this.simulator = sim;
