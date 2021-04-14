@@ -417,6 +417,7 @@ export default {
                             let upload = uploadResponse.uploads[0]
                             if (upload) {
                                 widget.style.backgroundImage = {
+                                    name: upload.name,
                                     url: upload.url,
                                     w: upload.width,
                                     h: upload.height
@@ -481,6 +482,7 @@ export default {
                 screen.h = this.model.screenSize.h
 
                 screen.style.backgroundImage = {
+                    name: upload.name,
                     url : upload.url,
                     w : upload.width,
                     h : upload.height

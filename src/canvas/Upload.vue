@@ -318,6 +318,7 @@ export default {
 						var screen = screens[upload.name];
 
 						screen.style.backgroundImage = {
+							name: upload.name,
 							url : upload.url,
 							w : upload.width,
 							h : upload.height

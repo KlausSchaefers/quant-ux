@@ -1,6 +1,5 @@
 
 # MUST HAVE before shipping 4.0
-- token in animation wrapper
 - Show tasks in test
 - Improve Picture section as mutli line
 - states should have data props
