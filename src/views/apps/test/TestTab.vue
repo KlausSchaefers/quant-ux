@@ -41,7 +41,7 @@
               subtopic="testing.tasks"
               :hasNotifications="false"
             /></h2>
-          <TestSettings :pub="pub" :test="test" :app="app" @change="onTaskChange" />
+          <TestSettings :pub="pub" :test="test" :app="app" @change="onTaskChange" :hash="hash"/>
         </div>
       </div>
     </section>
@@ -95,7 +95,7 @@ import DomBuilder from "common/DomBuilder";
 export default {
   name: "Test",
   mixins: [DojoWidget, Plan, Util],
-  props: ["app", "test", "annotation", "events"],
+  props: ["app", "test", "annotation", "events", "hash"],
   data: function() {
     return {
       sessionCount: 10,

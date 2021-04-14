@@ -73,7 +73,7 @@ import TaskRecorder from "views/apps/analytics/TaskCreateDialog";
 
 export default {
   name: "TestSettings",
-  props: ["test", "app", "annotation", "events"],
+  props: ["test", "app", "annotation", "events", "hash"],
   mixins: [Util, Plan, DojoWidget],
   data: function() {
     return {

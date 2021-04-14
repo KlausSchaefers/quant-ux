@@ -1,6 +1,6 @@
 
 # MUST HAVE before shipping 4.0
-- Show tasks in test
+ - Drop off anayltics
 - states should have data props
 
 ## Renderfacoty

@@ -87,7 +87,7 @@ export default {
   mixins: [Util, DojoWidget],
   data: function() {
     return {
-      hash: '',
+      hash: 'NoHashTaskCreate',
       recordOnlyScreenViews: true,
       abScreens: null,
       ignoreFirstEvent: false,
