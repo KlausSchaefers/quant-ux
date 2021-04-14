@@ -2,10 +2,9 @@
 <template>
     <div class="MatcTestSettings MatcDashTable">
 
-
-
         <div data-dojo-attach-point="tableCntr" class="">
-          <table v-if="hasTests" class="vommondTable table is-hoverable">
+          <div v-if="hasTests" >
+          <table class="vommondTable table is-hoverable">
             <thead>
                 <tr>
                   <td style="width: 20%;">Name</td>
@@ -36,9 +35,13 @@
                     <a class=" button is-danger" @click="onDelete(task, i, $event)"><span class=" mdi mdi-close"></span></a>
                   </td>
                 </tr>
-
             </tbody>
           </table>
+          <div class="form-group mb-32">
+            <CheckBox :value="test.showTaskInTest" :label="getNLS('testSettingsShowTaskInTest')" @change="onShowTaskChange"/>
+          </div>
+
+          </div>
           <p v-else class="mb-32">
             {{getNLS("testSettingsTaskAddHint")}}
           </p>
@@ -61,12 +64,12 @@ import touch from "dojo/touch";
 import Logger from "common/Logger";
 import Dialog from "common/Dialog";
 import DomBuilder from "common/DomBuilder";
+import CheckBox from "common/CheckBox";
 import Util from "core/Util";
 import Plan from "page/Plan";
 import Services from "services/Services";
-//import TaskRecorder from "views/apps/analytics/TaskRecorder";
 import TaskRecorder from "views/apps/analytics/TaskCreateDialog";
-//import Table from '../../../common/Table.vue';
+
 
 export default {
   name: "TestSettings",
@@ -79,7 +82,9 @@ export default {
       userID: ""
     };
   },
-  components: {},
+  components: {
+    'CheckBox': CheckBox
+  },
   computed: {
     pub() {
       return this.$route.meta && this.$route.meta.isPublic;
@@ -148,6 +153,11 @@ export default {
     render(data) {
       this.cleanUpTempListener();
       this.renderTaskTable(data);
+    },
+
+    onShowTaskChange (value) {
+      this.test.showTaskInTest = value
+      this.save();
     },
 
 

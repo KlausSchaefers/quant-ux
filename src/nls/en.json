@@ -225,6 +225,7 @@
     "testSettingsTaskDescription": "Description",
     "testSettingsTaskAddHint": "Click the  'Add Task' button to create a new task. The tasks a shown to the users before the test.",
     "testSettingsRegister": "Please register to save changes",
+    "testSettingsShowTaskInTest": "Show tasks during test",
     "testSettingsNoFlow": "No Flow",
     "testSettingsFlow1": "Flow: ",
     "testSettingsFlow2": " steps",

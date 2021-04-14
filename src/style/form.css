@@ -219,12 +219,6 @@ input:focus{
 	overflow: hidden;
 }
 
-
-.MatcButton .glyphicon{
-
-
-}
-
 .MatcButtonRed{
 	background:#f83a3a
 }
@@ -250,8 +244,6 @@ input:focus{
 	border:1px solid #fff;
 	color:#fff;
 }
-
-
 
 .MatcButtonTrans:HOVER{
 	background:rgba(255,255,255,0.2);

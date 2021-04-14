@@ -66,9 +66,9 @@
 
 
 @keyframes sk-load {
-    0% { 
+    0% {
       width:0%;
-    } 100% { 
+    } 100% {
         width:100%;
     }
 }
@@ -80,7 +80,7 @@
 	top:0px;
 	left:0px;
 	height:100%;
-	width:100%;		
+	width:100%;
 	color:#fff;
 	transition: all 0.5s;
 	left:0px;
@@ -91,7 +91,7 @@
 .MatcTestMenu.MatcTestMenuMax{
 	opacity:1;
 	left:0px;
-	width:100%;		
+	width:100%;
 	overflow: scroll;
 	z-index: 999;
 }
@@ -119,7 +119,7 @@
 
 .MatchTestQRDialog{
 	width:340px;
-	height:400px;	
+	height:400px;
 }
 
 .MatchTestQRDialogHint{
@@ -129,27 +129,26 @@
 }
 
 
-
-
-
 .MatcTestContent p{
-	font-weight:300;
-	margin-bottom: 20px;
+	margin-bottom: 24px;
+    font-size:16px;
 }
 
 
 .MatcTestContent h2{
-	font-size:20px;
+    font-weight: 700;
+	font-size:24px;
+    margin-bottom: 16px;
 }
 
 .MatcTestContent h3{
+    font-weight: 700;
     font-size:16px;
     margin:0px;
 }
 
 .MatcTestTaskDescription{
     font-size:16px;
-    font-weight: 300;
     margin-bottom: 15px;
 }
 
@@ -190,6 +189,13 @@
 
 .MatcTestDesktopCntr{
 	display: inline-block;
+    margin-top: 32px;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 0px;
+    margin-top: 16px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+    overflow: auto;
 }
 
 .MatcTest .MatchSimulatorWrapper{
@@ -198,12 +204,13 @@
    border-radius: 3px;
    display: inline-block;
    padding: 0px;
+   margin-top: 48px;
    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
 }
 
 
 .MatcSimulatorSection{
-	overflow: visible;	
+	overflow: visible;
 	position: relative;
 }
 
@@ -220,7 +227,7 @@
  	color:#333;
  	transition:all 0.3s;
     border-radius: 50%;
-    
+
     font-size: 24px;
     height: 50px;
     right: 20px;
@@ -252,4 +259,35 @@
 
 .logoFade-enter, .logoFade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+}
+
+
+body.MatcTestMobile{
+	overflow:hidden;
+}
+
+
+.MatcTestTaskCntr {
+    background: #fff;
+    padding: 32px;
+    width: 400px;
+    position: fixed;
+    top:0px;
+    left:0px;
+    height: 100%;
+    box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.15);
+}
+
+.MatcTestTaskCntr h1{
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.MatcTestTaskCntr p{
+    margin-top: 8px;
+}
+
+.MatcTestTaskDone{
+    text-decoration: line-through;
+    color: #999;
 }

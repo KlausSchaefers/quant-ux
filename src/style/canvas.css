@@ -1067,18 +1067,18 @@
 
   .MatchSimulatorContainer{
   	height:452px;
- 	width:302px;
- 	overflow: auto;
-	display: inline-block;
-	border-radius: 3px;
+		width:302px;
+		overflow: auto;
+		display: inline-block;
+		border-radius: 3px;
  }
 
  .MatchSimulatorWrapper{
-	background: none;
-	border: none;
-	border-radius: 3px;
-	display: inline-block;
-	padding: 0px;
+		background: none;
+		border: none;
+		border-radius: 3px;
+		display: inline-block;
+		padding: 0px;
  }
 
  .MatchSimulatorWrapperTablet{
