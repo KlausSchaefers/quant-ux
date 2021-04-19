@@ -531,7 +531,7 @@ export default {
 			var db = new DomBuilder();
 
 
-			this.dropOffOptionsDiv = this.createSection("Drop Off");
+			this.dropOffOptionsDiv = this.createSection("Tasks");
 			var content = this.createContent(this.dropOffOptionsDiv);
 			var row = db.div("MatcToobarRow ").build(content);
 
@@ -549,8 +549,10 @@ export default {
 			this.dropOffTaskBtn.placeAt(row);
 			this.own(on(this.dropOffTaskBtn, "change", lang.hitch(this, "selectDropOffTask")));
 
-			row = db.div("MatcToobarRow ").build(content);
-			this.dropOffChartDiv = db.div('MatcToolbarDropOffChart', '').build(row)
+
+			this.dropOffChartDivCntr = this.createSection("Drop Off");
+			content = this.createContent(this.dropOffChartDivCntr);
+			this.dropOffChartDiv = db.div('MatcToolbarDropOffChart', '').build(content)
 		},
 
 
@@ -570,6 +572,12 @@ export default {
 			this.sessionTreeCheckBox.setLabel("Merge Graph");
 			this.sessionTreeCheckBox.placeAt(row);
 			this.own(on(this.sessionTreeCheckBox, "change", lang.hitch(this, "showUserJourney")));
+
+
+			this.sessionTaskCntr = this.createSection("Tasks");
+			content = this.createContent(this.sessionTaskCntr);
+
+			row = db.div("MatcToobarRow ").build(content);
 
 			var tasks = [{value:-1, label: "No Task"}];
 			if (this.testSettings.tasks){
@@ -956,11 +964,14 @@ export default {
 			css.remove(this.sessionDiv, "MatcToolbarSectionHidden");
 			css.remove(this.sessionOptionsDiv, "MatcToolbarSectionHidden");
 
+
 			if (this.sessionTreeCheckBox.getValue()){
+				css.add(this.sessionTaskCntr, "MatcToolbarSectionHidden")
 				css.add(this.sessionLineColor.domNode, "hidden");
 				css.add(this.sessionTaskBtn.domNode, "hidden");
 				//css.add(this.sessionTaskLineColor.domNode, "hidden");
 			} else {
+				css.remove(this.sessionTaskCntr, "MatcToolbarSectionHidden")
 				css.remove(this.sessionLineColor.domNode, "hidden");
 				css.remove(this.sessionTaskBtn.domNode, "hidden");
 				//css.remove(this.sessionTaskLineColor.domNode, "hidden");
@@ -987,10 +998,12 @@ export default {
 					color: '#ccc'
 				});
 				css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
+				css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
 				this.showDropOffChart(task)
 				this.showProperties();
 			} else {
 				css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
+				css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
 				this.showProperties();
 				this.dropOffChartDiv.innerHTML = "Please select a task"
 			}
