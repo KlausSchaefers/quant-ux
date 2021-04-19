@@ -88,7 +88,7 @@
 				Please perfrom the following tasks
 			</p>
 			<div v-for="(t,i) in getUserTasks()" :key="t.id" :class="{'MatcTestTaskDone':taskDone[t.id] }">
-					<h3>#{{i+1}} - {{t.name}} <span class="mdi mdi-check-bold" v-if="taskDone[t.id]"/> </h3>
+					<h3>#{{i+1}} - {{t.name}} <span class="mdi mdi-check-circle" v-if="taskDone[t.id]"/> </h3>
 					<div class="MatcTestTaskDescription">
 						{{t.description}}
 					</div>

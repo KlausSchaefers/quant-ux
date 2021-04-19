@@ -111,6 +111,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/paging.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/timeline.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/svg.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/nps.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/button2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/calender.json'),
@@ -222,6 +223,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/lightning/visualpicker.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/welcome.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/tree.json')
+            //import(/* webpackChunkName: "themes" */ 'themes/survey/radio.json')
           ]).then(values => {
             this.themes = []
             values.forEach(v => {

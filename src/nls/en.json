@@ -145,7 +145,7 @@
     "survey": {
         "header": "Survey Answers",
         "download": "Download Survey Answers",
-        "no-data": "No survey data was collected. Make sure that you have added data bindings to the desired survey fields."
+        "no-data": "No survey fields. Make sure that you have to marked the survey fields in the canvas."
     },
     "analytic-task-list": {
         "header": "Task Results",
@@ -224,8 +224,8 @@
     "testSettingsTaskName": "Name",
     "testSettingsTaskDescription": "Description",
     "testSettingsTaskAddHint": "Click the  'Add Task' button to create a new task. The tasks a shown to the users before the test.",
-    "testSettingsRegister": "Please register to save changes",
-    "testSettingsShowTaskInTest": "Show tasks during test",
+    "testSettingsRegister": "Please register to save changes.",
+    "testSettingsShowTaskInTest": "Show tasks during test.",
     "testSettingsNoFlow": "No Flow",
     "testSettingsFlow1": "Flow: ",
     "testSettingsFlow2": " steps",

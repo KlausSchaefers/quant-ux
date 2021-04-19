@@ -8,3 +8,24 @@
 .MatcAnalyticCanvas .MatcHeatMapScreen{
   z-index:1000;
 }
+
+.MatcToolbarDropOffChart {
+  padding: 8px;
+}
+
+.MatcToolbarDropOffChart .MatcToolbarDropOffChartBar {
+  border-radius: 4px;
+  background: #3787f2;
+  font-size: 10px;
+  width: 0%;
+  color:#fff;
+  margin-bottom: 16px;
+  padding: 4px;
+  text-align: right;
+  transition: all 0.3s;
+}
+
+.MatcToolbarRadioList {
+  padding: 8px;
+  margin-bottom: 16px;
+}

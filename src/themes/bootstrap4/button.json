@@ -44,7 +44,8 @@
 		"paddingBottom" : 10,
 		"paddingLeft" : 30,
 		"paddingRight" : 30,
-		"valign" : "top"
+		"valign" : "top",
+		"verticalAlign" : "middle"
 	}
 }, {
 	"id" : "Bootstrap4ButtonOutline",

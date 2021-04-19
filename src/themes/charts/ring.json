@@ -1,52 +1,52 @@
-[ {
-	"id" : "RingChart",
-	"type" : "RingChart",
-	"name" : "Ring Chart",
-	"_type" : "Widget",
-	"category" : "Charts",
-	"subcategory" : "Ring",
-	"x" : 0,
-	"y" : 0,
-	"w" : 200,
-	"h" : 200,
-	"z" : 0,
-	"props" : {
-		"value" : 40
+[
+	{
+		"id": "RingChart",
+		"type": "RingChart",
+		"name": "Ring Chart",
+		"_type": "Widget",
+		"category": "Charts",
+		"subcategory": "Ring",
+		"x": 0,
+		"y": 0,
+		"w": 200,
+		"h": 200,
+		"z": 0,
+		"props": {
+			"value": 40
+		},
+		"has": {},
+		"style": {
+			"background": "#cccccc",
+			"color": "#333333",
+			"lineWidth": 32
+		}
 	},
-	"has" : {
-		
+	{
+		"id": "RingChart2",
+		"type": "RingChart",
+		"name": "Ring Chart",
+		"_type": "Widget",
+		"category": "Charts",
+		"_extends": "RingChart",
+		"subcategory": "Ring",
+		"style": {
+			"background": "#cccccc",
+			"color": "#333333",
+			"lineWidth": 24
+		}
 	},
-	"style" : {
-		"background" : "#cccccc",
-		"color" : "#333333",
-		"lineWidth" : 30
+	{
+		"id": "RingChart3",
+		"type": "RingChart",
+		"name": "Ring Chart",
+		"_type": "Widget",
+		"category": "Charts",
+		"_extends": "RingChart",
+		"subcategory": "Ring",
+		"style": {
+			"background": "#cccccc",
+			"color": "#333333",
+			"lineWidth": 8
+		}
 	}
-}, {
-	"id" : "RingChart2",
-	"type" : "RingChart",
-	"name" : "Ring Chart",
-	"_type" : "Widget",
-	"category" : "Charts",
-	"_extends" : "RingChart",
-	"subcategory" : "Ring",
-	"style" : {
-		"background" : "#cccccc",
-		"color" : "#333333",
-		"lineWidth" : 20
-	}
-}, {
-	"id" : "RingChart3",
-	"type" : "RingChart",
-	"name" : "Ring Chart",
-	"_type" : "Widget",
-	"category" : "Charts",
-	"_extends" : "RingChart",
-	"subcategory" : "Ring",
-	"style" : {
-		"background" : "#cccccc",
-		"color" : "#333333",
-		"lineWidth" : 10
-	}
-}
-
 ]

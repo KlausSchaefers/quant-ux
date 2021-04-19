@@ -152,19 +152,19 @@ export default {
 
 
 			_showBarChart (model){
-				this._renderDataBinding(model);
+				this._renderDataBinding(model, false);
 			},
 
 			_showRingChart (model){
-				this._renderDataBinding(model);
+				this._renderDataBinding(model, false);
 			},
 
 			_showPieChart (model){
-				this._renderDataBinding(model);
+				this._renderDataBinding(model, false);
 			},
 
 			_showMultiRingChart(model){
-				this._renderDataBinding(model);
+				this._renderDataBinding(model, false);
 			},
 
 			_showTypeAheadTextBox (model){

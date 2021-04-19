@@ -28,16 +28,15 @@ export default class {
 	getSurveyAnswers (events, app) {
 		let result = {
 			rows: [],
-			cols: [],
-			types: {}
+			cols: []
 		}
 
 		let widgetDataBindings = {}
 		let widgetTypes = {}
 		Object.values(app.widgets).forEach(w => {
 			widgetTypes[w.id] = w.type
-			if (w.props && w.props.databinding && w.props.databinding.default && w.type !== 'Password') {
-				widgetDataBindings[w.id] = w.props.databinding.default
+			if (w.props && w.props.isSurveyElement && w.type !== 'Password') {
+				widgetDataBindings[w.id] = w.name
 			}
 		})
 
@@ -68,7 +67,6 @@ export default class {
 						} else {
 							row[col] = e.state.value
 						}
-						result.types[col] = widgetTypes[e.widget]
 					}
 				}
 			})

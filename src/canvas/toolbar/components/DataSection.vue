@@ -364,7 +364,7 @@ export default {
 				this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
 				this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
 				this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
-				this._renderInputDropDown("Height",model, [10,20,30,40,50,60, 70, 80, 90, 100], "boxHeight", false);
+				this._renderInputDropDown("Height",model, [8, 12, 16, 24, 32, 40, 64, 80, 120], "boxHeight", false);
 
 			},
 
@@ -382,7 +382,7 @@ export default {
 				this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
 				this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );
 				this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
-				this._renderInputDropDown("Height",model, [10,20,30,40,50,60, 70, 80, 90, 100], "boxHeight", false);
+				this._renderInputDropDown("Height",model, [8, 12, 16, 24, 32, 40, 64, 80, 120], "boxHeight", false);
 
 			},
 
@@ -415,7 +415,7 @@ export default {
 				this._setSectionLabel("Chart");
 
 				this._renderInputDropDown("Value",model, [0,10,20,30,40,50,60,70,80,90, 100], "value", true);
-				this._renderInputDropDown("Width",model, [0,10,20,30,40,50,100], "lineWidth", false);
+				this._renderInputDropDown("Width",model, [0, 4, 8, 12, 16, 24, 32, 40, 64], "lineWidth", false);
 
 
 				this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged" , true);
@@ -441,7 +441,7 @@ export default {
 			_showMultiRingChart (model){
 				this._setSectionLabel("Chart");
 				this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
-				this._renderInputDropDown("Width",model, [0,10,20,30,40,50,100], "lineWidth", false);
+				this._renderInputDropDown("Width",model, [0, 4, 8, 12, 16, 24, 32, 40, 64], "lineWidth", false);
 
 				if(model.props.data && model.props.data[0]){
 					var row = model.props.data[0];
@@ -600,8 +600,8 @@ export default {
 
 				this._renderSpacer()
 
-				this._renderInputDropDown("Handle Width",model, [5,10,20,30,40,50, 75,100], "handleWidth");
-				this._renderInputDropDown("Handle Radius",model, [0,1,2,3,4,5,10,20,30,40,50, 75,100], "handleRadius");
+				this._renderInputDropDown("Handle Width",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleWidth");
+				this._renderInputDropDown("Handle Radius",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleRadius");
 				this._renderColor('Handle Color','<span class="mdi mdi-format-color-fill"></span>',model.style.handleColor, "handleColor" ,"onStyleChanged", true);
 				this._renderColor('Foreground Color','<span class="mdi mdi-format-color-fill"></span>',model.style.barColor, "barColor" ,"onStyleChanged", true);
 
@@ -1072,13 +1072,33 @@ export default {
 				dataBindingBtn.placeAt(this.cntr)
 				dataBindingBtn.on('showDialog', () => this._showDataBindingDialog(widget))
 				dataBindingBtn.on('change', (value) => {
-					console.debug('change', value)
 					this.emit("propertyChange", "databinding", value);
 				})
 
+
 				if (hasIgnoreState) {
+					this._renderSurveyBindig(widget)
 					this._renderIgnoreState(widget);
 				}
+			},
+
+
+			_renderSurveyBindig (widget) {
+
+				var row = this.db.div("MatcToobarRow").build(this.cntr);
+
+				var chkBox = this.$new(CheckBox);
+				css.add(chkBox.domNode, "MatcToolbarItem");
+				chkBox.placeAt(row);
+				chkBox.setLabel("Survey element")
+				chkBox.setValue(widget.props.isSurveyElement);
+				this.tempOwn(on(chkBox, "change", lang.hitch(this, "setSurveyElement")));
+				this._addChildWidget(chkBox);
+				this.addTooltip(row, "User inout will be saved and shown in the survey section.");
+			},
+
+			setSurveyElement (value) {
+				this.emit("propertyChange", "isSurveyElement", value);
 			},
 
 			_showDataBindingDialog (widget){

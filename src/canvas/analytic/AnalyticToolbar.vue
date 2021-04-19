@@ -258,6 +258,12 @@ export default {
 			this.setAnalyticMode("HeatmapViews");
 		},
 
+		showDropOff () {
+			this.logger.log(-1,"showDropOff", "entry");
+			this.setSelectedViewButton(this.viewBtnDropOff);
+			this.showDropOffProperties()
+		},
+
 		showUserJourney(){
 			this.logger.log(-1,"showUserJourney", "entry > ");
 			this.setSelectedViewButton(this.viewBtnClickStream);
@@ -275,8 +281,6 @@ export default {
 			};
 			this.setAnalyticMode("UserJourney",params );
 			this.showSessionProperties();
-
-
 		},
 
 		showGestureMap(){
@@ -326,6 +330,10 @@ export default {
 			this.viewBtns.push(this.viewBtnClickStream);
 			this.addTooltip(this.viewBtnClickStream, "See where the users have clicked in one session.");
 
+			this.viewBtnDropOff = this.createToolBarItem("Drop Off", "showDropOff", "mdi mdi-axis-y-arrow",this.journeySection);
+			this.viewBtns.push(this.viewBtnDropOff);
+			this.addTooltip(this.viewBtnDropOff, "See whre users dropped of when performing tasks.");
+
 			this.viewBtnScrollMap = this.createToolBarItem("Scroll Visibility", "showScrollHeatMap", "mdi mdi-swap-vertical",this.scrollSection);
 			this.viewBtns.push(this.viewBtnScrollMap);
 			this.addTooltip(this.viewBtnScrollMap, "How often was the part of the screen visible");
@@ -368,6 +376,8 @@ export default {
 			this.renderWidgetProperties();
 
 			this.renderSessionProperties();
+
+			this.renderDropOffProperties()
 
 			this.renderHeatMapProperties();
 
@@ -503,7 +513,7 @@ export default {
 			var row = db.div("MatcToobarRow MatcMarginBottomXXL").build(content);
 
 			var list = this.$new(RadioBoxList);
-			css.add(list.domNode, "MatcToolbarItem");
+			css.add(list.domNode, "MatcToolbarRadioList");
 			list.setOptions([
 			   {"value" : -1,label : "All Clicks"},
 			   {"value" : 1, label : "First Click"},
@@ -513,6 +523,34 @@ export default {
 			this.own(list.on("change", lang.hitch(this, "showFirstClickHeatMap")));
 
 			this.heatmapClickList = list;
+		},
+
+		renderDropOffProperties () {
+			this.logger.log(2,"renderSessionProperties", "entry");
+
+			var db = new DomBuilder();
+
+
+			this.dropOffOptionsDiv = this.createSection("Drop Off");
+			var content = this.createContent(this.dropOffOptionsDiv);
+			var row = db.div("MatcToobarRow ").build(content);
+
+			var tasks = [];
+			if (this.testSettings.tasks){
+				for (let i=0; i < this.testSettings.tasks.length; i++){
+					let task = this.testSettings.tasks[i];
+					tasks.push({value: i, label: task.name});
+				}
+			}
+			this.dropOffTaskBtn = this.$new(RadioBoxList, {maxLabelLength:20});
+			this.dropOffTaskBtn.setOptions(tasks);
+			this.dropOffTaskBtn.setValue(0);
+			css.add(this.dropOffTaskBtn.domNode ,"MatcToolbarRadioList");
+			this.dropOffTaskBtn.placeAt(row);
+			this.own(on(this.dropOffTaskBtn, "change", lang.hitch(this, "selectDropOffTask")));
+
+			row = db.div("MatcToobarRow ").build(content);
+			this.dropOffChartDiv = db.div('MatcToolbarDropOffChart', '').build(row)
 		},
 
 
@@ -533,37 +571,30 @@ export default {
 			this.sessionTreeCheckBox.placeAt(row);
 			this.own(on(this.sessionTreeCheckBox, "change", lang.hitch(this, "showUserJourney")));
 
-
-			this.sessionLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false});
-			this.sessionLineColor.placeAt(row);
-			this.sessionLineColor.setLabel('Graph Color');
-			this.sessionLineColor.setModel(this.model);
-			this.sessionLineColor.setValue("#33b5e5");
-			css.add(this.sessionLineColor.domNode ,"MatcToolbarGridFull");
-			this.own(on(this.sessionLineColor, "change", lang.hitch(this, "showUserJourney")));
-			//this.own(on(this.sessionLineColor, "changing", lang.hitch(this, "showUserJourney")));
-
-
-
-			var tasks = [{value:-1, label: "Select Task"}];
+			var tasks = [{value:-1, label: "No Task"}];
 			if (this.testSettings.tasks){
 				for (let i=0; i < this.testSettings.tasks.length; i++){
 					let task = this.testSettings.tasks[i];
 					tasks.push({value: i, label: task.name});
 				}
 			}
-			this.sessionTaskBtn = this.$new(ToolbarDropDownButton, {maxLabelLength:20});
-			this.sessionTaskBtn.setLabel('Select Task');
-			this.sessionTaskBtn.updateLabel = true;
+			this.sessionTaskBtn = this.$new(RadioBoxList, {maxLabelLength:20});
 			this.sessionTaskBtn.setOptions(tasks);
-			this.sessionTaskBtn.reposition = true;
 			this.sessionTaskBtn.setValue(-1);
-			css.add(this.sessionTaskBtn.domNode ,"MatcToolbarGridFull");
+			css.add(this.sessionTaskBtn.domNode ,"MatcToolbarRadioList");
 			this.sessionTaskBtn.placeAt(row);
 			this.own(on(this.sessionTaskBtn, "change", lang.hitch(this, "selectUserJournyTask")));
 
 
-			this.sessionTaskLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false});
+			this.sessionLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
+			this.sessionLineColor.placeAt(row);
+			this.sessionLineColor.setLabel('Graph Color');
+			this.sessionLineColor.setModel(this.model);
+			this.sessionLineColor.setValue("#33b5e5");
+			css.add(this.sessionLineColor.domNode ,"MatcToolbarGridFull");
+			this.own(on(this.sessionLineColor, "change", lang.hitch(this, "showUserJourney")));
+
+			this.sessionTaskLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
 			this.sessionTaskLineColor.placeAt(row);
 			this.sessionTaskLineColor.setLabel('Task Color');
 			this.sessionTaskLineColor.setModel(this.model);
@@ -660,6 +691,8 @@ export default {
 		},
 
 
+
+
 		_getTestList(events, annotatation, testSettings){
 
 			var list =[];
@@ -741,7 +774,7 @@ export default {
 			var row = db.div("MatcToobarRow MatcMarginBottomXXL").build(content);
 			db.span("MatcToolbarItemLabel", "Gesture Color").build(row);
 
-			this.gestureLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false});
+			this.gestureLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
 			this.gestureLineColor.placeAt(row);
 			this.gestureLineColor.setLabel('Line Color');
 			this.gestureLineColor.setModel(this.model);
@@ -935,6 +968,77 @@ export default {
 		},
 
 
+		/*****************************************************************************************************
+		 * drop off
+		 ****************************************************************************************************/
+		selectDropOffTask () {
+			this.showDropOffProperties()
+		},
+
+		showDropOffProperties(){
+			this.logger.log(0,"showDropOffProperties", "entry");
+
+
+			let taskNumber = this.dropOffTaskBtn.getValue()
+			if (taskNumber >= 0) {
+				let task = this.testSettings.tasks[taskNumber];
+				this.setAnalyticMode("DropOff", {
+					task: task,
+					color: '#ccc'
+				});
+				css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
+				this.showDropOffChart(task)
+				this.showProperties();
+			} else {
+				css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
+				this.showProperties();
+				this.dropOffChartDiv.innerHTML = "Please select a task"
+			}
+		},
+
+		showDropOffChart (task) {
+				var df = new DataFrame(this.events);
+				var analytics  = new Analytics();
+				let funnel = analytics.getFunnelSummary(df, task, this.annotation);
+				this.dropOffChartDiv.innerHTML = ''
+				let db = new DomBuilder()
+				let cntr = db.div().build()
+				funnel.forEach((step, i) => {
+					if(step.event){
+						db.span('MatcDashLabel', this.getNiceEventLabel(step.event, i)).build(cntr)
+						let bar = db.div('MatcToolbarDropOffChartBar', Math.round(step.p * 100) + '%').build(cntr)
+						setTimeout(() => {
+							bar.style.width = step. p * 100 + '%'
+						}, 30)
+					}
+				})
+				this.dropOffChartDiv.appendChild(cntr)
+		},
+
+		getNiceEventLabel (event, i){
+			if (this.model){
+				var row = [];
+				if(event.widget){
+					if(event.type =="WidgetGesture" && event.gesture){
+						let gesture = event.gesture;
+						row = [this.getGestureLabel(gesture.type),  this.getWidgetName(event.widget)];
+					} else if(event.state && (event.type == "WidgetClick" || event.type == "WidgetChange")  ){
+						return this.getEventStateLabel(event.state) + ` -  ` + this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen);
+					} else {
+						return this.getEventLabel(event.type) + ` -  ` + this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen);
+					}
+				} else if(event.type =="ScreenGesture" && event.gesture){
+					let gesture = event.gesture;
+					row = ["Screen " + this.getGestureLabel(gesture.type), this.getScreenName(event.screen)];
+				}else {
+					row = [this.getEventLabel(event.type), this.getScreenName(event.screen)];
+				}
+				return row[0] + " - " +row[1]+ "";
+			}
+			return this.getNLS("dash.perf.dropoff.step") + i;
+		},
+
+
 		showHeatMapProperties(){
 			this.showProperties();
 
@@ -1016,7 +1120,7 @@ export default {
 		},
 
 		setAnnotation(a){
-			this.logger.log(2,"setAnnotation", "enter > # " );
+			this.logger.log(-1,"setAnnotation", "enter > # " );
 			this.annotation = a;
 		},
 
@@ -1115,7 +1219,7 @@ export default {
 
 			let input = document.createElement("input");
 			input.disabled = true;
-			css.add(input, "MatcIgnoreOnKeyPress MatcToobarInlineEdit  MatcToobarInlineEditDisabled");
+			css.add(input, "MatcIgnoreOnKeyPress MatcToobarInput  MatcToobarInlineEditDisabled");
 			div.appendChild(input);
 
 			if(placeholder){
@@ -1332,8 +1436,6 @@ export default {
 				      "/rest/mouse/"+ this.model.id + "/" + sessionID + ".json",
 				],callBack);
 			}
-
-
 		},
 
 		_showSession(sessionID, cntr, dialog, data) {

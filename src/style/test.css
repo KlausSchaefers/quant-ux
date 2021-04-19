@@ -276,18 +276,40 @@ body.MatcTestMobile{
     left:0px;
     height: 100%;
     box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.15);
+    transition: color 0.2s;
 }
 
 .MatcTestTaskCntr h1{
     font-size: 24px;
     font-weight: 700;
+    display: none;
 }
 
 .MatcTestTaskCntr p{
     margin-top: 8px;
+    transition: color 0.5s;
+    display: none;
+}
+
+.MatcTestTaskCntr h3{
+    transition: color 0.5s;
+    height: 32px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.MatcTestTaskCntr .MatcTestTaskDescription {
+    font-size: 20px;
+    margin-bottom: 32px;
+}
+
+.MatcTestTaskCntr span.mdi{
+    color: #92c500;
+    font-size: 24px;
+    margin-left: 16px;
 }
 
 .MatcTestTaskDone{
-    text-decoration: line-through;
     color: #999;
 }

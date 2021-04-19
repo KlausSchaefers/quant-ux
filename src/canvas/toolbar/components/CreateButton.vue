@@ -102,7 +102,7 @@ export default {
 				this.renderFactory = new RenderFactory();
 				this.renderFactory.setModel(m);
 				this.renderFactory.setSymbol(true);
-				this.categoriesList = ["WireFrame", "Material", "IOS", "Lightning", "OpenUI", "Bootstrap4", "Charts"];
+				this.categoriesList = ["WireFrame", "Material", "IOS", "Lightning", "OpenUI", "Bootstrap4", "Charts" ];
 				this._importedApps = {}
 				/**
 				 * set to last added category...

@@ -560,6 +560,8 @@ export default {
 				this.funnel = analytics.getFunnelSummary(df, task, annotations);
 			}
 
+			console.debug(this.funnel)
+
 			// var height = Math.min(10, (100 / (this.funnel.length*2 - 1)));
 			for(var i=0; i< this.funnel.length; i++){
 				var summary = this.funnel[i];

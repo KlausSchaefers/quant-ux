@@ -183,6 +183,9 @@ export default {
     },
 
 
+    lineFunction (line) {
+    	return this.straightLineFunction(line)
+    },
 
 
     setPublic(isPublic) {
@@ -509,11 +512,8 @@ export default {
         this.defaultRadius = this.sourceModel.screenSize.w / 120;
         this.defaultBlur = this.sourceModel.screenSize.w / 100;
       }
-      this.logger.log(
-        0,
-        "onScreenRendered",
-        "adjust radios to " + this.defaultRadius
-      );
+
+      this.logger.log(0,"onScreenRendered", "adjust radios to " + this.defaultRadius);
 
       var screenGrouping = this.df.groupBy("screen");
 
@@ -734,14 +734,6 @@ export default {
         }
       }
 
-      /**
-       * This does not work as we put single lines with only to segments...
-       */
-      //	    this.lineFunction = d3.svg.line()
-      //	        .x(function(d) { return d.x-.5; })
-      //	        .y(function(d) { return d.y-.5; })
-      //	        .interpolate("linear"); // basis
-
       var divs = {};
       for (var id in graph) {
         var l = graph[id];
@@ -812,10 +804,7 @@ export default {
           if (session) {
             this._renderUserGraph(session, db, task, matches);
           } else {
-            console.debug(
-              "_render_global_UserJourney() > No session for ",
-              sessionID
-            );
+            console.debug( "_render_global_UserJourney() > No session for ", sessionID   );
           }
         }
       }
@@ -954,7 +943,7 @@ export default {
             }
           }
         } else {
-          console.warn("_renderUserGraph()", "Screen is not there", e.screen);
+          console.warn("_getSessionGraph()", "Screen is not there", e.screen);
         }
       }
     },
@@ -973,6 +962,91 @@ export default {
         return to;
       }
       return to;
+    },
+
+    /**********************************************************************
+     * DropOff
+     **********************************************************************/
+
+    _render_global_DropOff(screenEvents, screen, ctx, div) {
+      this.logger.log(-1, "_render_global_DropOff", "entry > ", this.analyticParams.task);
+      this.setBW(true);
+      if (this.analyticParams.task) {
+        this._render_dropoff_task(screenEvents, screen, ctx, div, this.analyticParams.task);
+      }
+    },
+
+    _render_dropoff_task (screenEvents, screen, ctx, div, task) {
+      console.debug('_render_dropoff_task', task)
+
+      let db = new DomBuilder()
+      let sessions = this.getUserJourney()
+
+      var df = new DataFrame(this.events);
+      var analytics  = new Analytics();
+      let funnel = analytics.getFunnelSummary(df, task, this.annotation);
+      console.debug(funnel)
+      /**
+       * 1 paint all sessions
+       */
+      for (let sessionId in sessions) {
+        let session = sessions[sessionId]
+        this._renderDropOffLine(sessionId, session.data, db, '#ccc', 2);
+      }
+
+      /**
+       * now get all the macthed for the line
+       */
+
+
+
+    },
+
+    _renderDropOffLine (id, sessionEvents, db, color = '#ccc', width = 2) {
+
+      var line = [];
+      var lastEventDiv = null;
+      var divs = [];
+
+      for (let i = 0; i < sessionEvents.length; i++) {
+        var e = sessionEvents[i];
+        /**
+         * Be aware of the overlay...
+         */
+        var screenID = this.getEventScreenId(e);
+        var sourceScreen = this.sourceModel.screens[screenID];
+				var zoomedScreen = this.model.screens[screenID];
+        if (sourceScreen && zoomedScreen) {
+          if (e.type == "SessionStart") {
+            let x = sourceScreen.x - Math.max(10, Math.round(30 * this.zoom));
+            let y = sourceScreen.y + Math.max(10, Math.round(30 * this.zoom));
+            lastEventDiv = this._renderScreenEvent(x,y, e.type, "S",db, e.session);
+
+            line.push({ x: x, y: y, d: "right" });
+          } else if (e.x >= 0 && e.y >= 0 && !e.noheat) {
+            let x = e.x * sourceScreen.w + sourceScreen.x;
+            let y = e.y * sourceScreen.h + sourceScreen.y;
+            lastEventDiv = this._renderScreenEvent(x,y,e.type,"", db, e.session);
+            line.push({ x: x, y: y, d: "right" });
+            divs.push(lastEventDiv);
+          }
+        } else {
+          console.warn("_renderUserGraph()", "Screen is not there", e.screen);
+        }
+      }
+
+      if (lastEventDiv) {
+        css.add(lastEventDiv, "MatcAnalyticCanvasEventSessionEnd");
+      }
+
+      if (color) {
+        for (let i = 0; i < divs.length - 1; i++) {
+          divs[i].style.background = color;
+        }
+      }
+
+      this.drawAnalyticLine(id,line, color, width, this.taskLineOpacity);
+
     },
 
     /**********************************************************************
