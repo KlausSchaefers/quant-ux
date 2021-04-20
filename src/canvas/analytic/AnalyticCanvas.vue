@@ -2,52 +2,24 @@
 <template>
   <div class="MatcCanvas MatcAnalyticCanvas">
     <div class="MatcCanvasFrame" data-dojo-attach-point="frame">
-      <div
-        class="MatcCanvasContainer MatcCanvasZoomable"
-        data-dojo-attach-point="container"
-      >
+      <div class="MatcCanvasContainer MatcCanvasZoomable"  data-dojo-attach-point="container" >
         <div class="MatcCanvasContainer" data-dojo-attach-point="zoomContainer">
-          <div
-            data-dojo-attach-point="screenContainer"
-            class="MatcCanvasLayer"
-          ></div>
-          <div
-            data-dojo-attach-point="widgetContainer"
-            class="MatcCanvasLayer"
-          ></div>
-					<div
-            data-dojo-attach-point="svgContainer"
-            class="MatcCanvasLayer"
-          ></div>
+          <div  data-dojo-attach-point="screenContainer" class="MatcCanvasLayer" ></div>
+          <div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div>
+					<div data-dojo-attach-point="svgContainer" class="MatcCanvasLayer MatcCanvasSVGLayer"></div>
         </div>
         <div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
       </div>
     </div>
-    <div
-      class="MatcCanvasScrollBar MatcCanvasScrollBarRight"
-      data-dojo-attach-point="scrollRight"
-    >
-      <div
-        class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight"
-        data-dojo-attach-point="scrollRightCntr"
-      >
-        <div
-          class="MatchCanvasScrollHandle"
-          data-dojo-attach-point="scrollRightHandler"
+    <div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
+      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr" >
+        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"
         ></div>
       </div>
     </div>
-    <div
-      class="MatcCanvasScrollBar MatcCanvasScrollBarBottom"
-      data-dojo-attach-point="scrollBottom"
-    >
-      <div
-        class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom"
-        data-dojo-attach-point="scrollBottomCntr"
-      >
-        <div
-          class="MatchCanvasScrollHandle"
-          data-dojo-attach-point="scrollBottomHandler"
+    <div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom" >
+      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr" >
+        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"
         ></div>
       </div>
     </div>
@@ -91,12 +63,14 @@ import Replicate from "canvas/Replicate";
 import Analytics from "dash/Analytics";
 import FastDomUtil from "core/FastDomUtil";
 import * as d3 from "d3";
+import _Color from 'common/_Color'
 
 export default {
   name: "AnalyticCanvas",
   mixins: [
     DojoWidget,
     _DragNDrop,
+    _Color,
     Util,
     Render,
     Lines,
@@ -126,6 +100,9 @@ export default {
       wireInheritedWidgets: true,
       taskLineOpacity: 1,
       isBlackAndWhite: false,
+      dropOffLineWidth: 25,
+      dropOffLineColor: '#555',
+      dropOffEventWidth: 40
     };
   },
   components: {},
@@ -183,10 +160,9 @@ export default {
     },
 
 
-    lineFunction (line) {
+    XlineFunction (line) {
     	return this.straightLineFunction(line)
     },
-
 
     setPublic(isPublic) {
       this.isPublic = isPublic;
@@ -749,8 +725,9 @@ export default {
           y: l.to.y,
           d: "right",
         });
-        var width = Math.min(Math.max(1, l.count * 0.8), 15);
-        var color = this.mixColor(Math.min(1, l.count / maxCount));
+        let p = l.count / maxCount
+        var width = Math.max(1, Math.round(p * 25));
+        var color = this.mixColor(Math.min(1, p));
         var toID = l.to.x + "," + l.to.y;
         if (!divs[toID]) {
           divs[toID] = this._renderTreeEvent(l.to.x, l.to.y, width, color, db);
@@ -889,15 +866,13 @@ export default {
       var div = db
         .div("MatcAnalyticCanvasEvent MatcAnalyticCanvasEvent" + type)
         .build(cntr);
-      var r = Math.max(5, Math.round(15 * this.zoom));
+      var r = Math.max(5, Math.round(15));
       div.style.width = r + "px";
       div.style.height = r + "px";
       div.style.top = -1 * Math.round(r / 2) + "px";
       div.style.left = -1 * Math.round(r / 2) + "px";
 
-      this.tempOwn(
-        on(div, "click", lang.hitch(this, "onScreenEventClick", screenID))
-      );
+      this.tempOwn(on(div, "click", lang.hitch(this, "onScreenEventClick", screenID)));
 
       return div;
     },
@@ -927,8 +902,8 @@ export default {
         if (screen) {
           var to = {};
           if (e.type == "SessionStart") {
-            to.x = screen.x - Math.max(10, Math.round(30 * this.zoom));
-            to.y = screen.y + Math.max(10, Math.round(30 * this.zoom));
+            to.x = screen.x - Math.max(10, Math.round(30));
+            to.y = screen.y + Math.max(10, Math.round(30));
             from = this._addToGraph(from, to, graph);
           } else if (e.x >= 0 && e.y >= 0 && !e.noheat) {
             if (e.widget && this.sourceModel.widgets[e.widget]) {
@@ -977,77 +952,111 @@ export default {
     },
 
     _render_dropoff_task (screenEvents, screen, ctx, div, task) {
-      console.debug('_render_dropoff_task', task)
 
       let db = new DomBuilder()
-      let sessions = this.getUserJourney()
 
       var df = new DataFrame(this.events);
       var analytics  = new Analytics();
       let funnel = analytics.getFunnelSummary(df, task, this.annotation);
-      console.debug(funnel)
-      /**
-       * 1 paint all sessions
-       */
-      for (let sessionId in sessions) {
-        let session = sessions[sessionId]
-        this._renderDropOffLine(sessionId, session.data, db, '#ccc', 2);
-      }
-
-      /**
-       * now get all the macthed for the line
-       */
 
 
+      if (task.flow && task.flow.length > 1) {
+        for (let i=0; i < task.flow.length - 1; i++){
+          //let
+          let startSummary = funnel[i+1]
+          let endSummary = funnel[i+2]
+          let start = task.flow[i]
+          let end = task.flow[i+1]
 
-    },
+          let startPos = this._getDropOffBoxPosition(start)
+          let endPos = this._getDropOffBoxPosition(end)
+          let line = [startPos, endPos]
 
-    _renderDropOffLine (id, sessionEvents, db, color = '#ccc', width = 2) {
+          let color = this.greenToRed(endSummary.p)
+          let width = Math.max(3, Math.round(this.dropOffLineWidth * endSummary.p))
+          this.drawAnalyticLine('dropOffLine'+i,line, color , width, this.taskLineOpacity);
 
-      var line = [];
-      var lastEventDiv = null;
-      var divs = [];
-
-      for (let i = 0; i < sessionEvents.length; i++) {
-        var e = sessionEvents[i];
-        /**
-         * Be aware of the overlay...
-         */
-        var screenID = this.getEventScreenId(e);
-        var sourceScreen = this.sourceModel.screens[screenID];
-				var zoomedScreen = this.model.screens[screenID];
-        if (sourceScreen && zoomedScreen) {
-          if (e.type == "SessionStart") {
-            let x = sourceScreen.x - Math.max(10, Math.round(30 * this.zoom));
-            let y = sourceScreen.y + Math.max(10, Math.round(30 * this.zoom));
-            lastEventDiv = this._renderScreenEvent(x,y, e.type, "S",db, e.session);
-
-            line.push({ x: x, y: y, d: "right" });
-          } else if (e.x >= 0 && e.y >= 0 && !e.noheat) {
-            let x = e.x * sourceScreen.w + sourceScreen.x;
-            let y = e.y * sourceScreen.h + sourceScreen.y;
-            lastEventDiv = this._renderScreenEvent(x,y,e.type,"", db, e.session);
-            line.push({ x: x, y: y, d: "right" });
-            divs.push(lastEventDiv);
+          /**
+           * Render drop off
+           */
+          if (startSummary && endSummary) {
+              let p = startSummary.p - endSummary.p
+              let dropOffPos = {
+                x: startPos.x + 100,
+                y: startPos.y + 100
+              }
+              let dropOffLine = [startPos, dropOffPos]
+               let width = Math.max(3, Math.round(this.dropOffLineWidth * p))
+              this.drawAnalyticLine('dropOffLineDrop'+i,dropOffLine, this.dropOffLineColor , width, this.taskLineOpacity);
+              this._renderDropOffEvent(dropOffPos.x, dropOffPos.y, 'FlowStep', db, this.dropOffLineColor, width + this.dropOffEventWidth, -1 * p)
           }
-        } else {
-          console.warn("_renderUserGraph()", "Screen is not there", e.screen);
+
+          /**
+           * Render POints
+           */
+          this._renderDropOffEvent(endPos.x, endPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, endSummary.p)
+          if (i === 0) {
+              color = this.greenToRed(startSummary.p)
+              width = Math.max(3, Math.round(this.dropOffLineWidth * startSummary.p))
+              this._renderDropOffEvent(startPos.x, startPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, startSummary.p)
+          }
+
         }
+      } else {
+        this.showError('The selected task has only one step')
       }
-
-      if (lastEventDiv) {
-        css.add(lastEventDiv, "MatcAnalyticCanvasEventSessionEnd");
-      }
-
-      if (color) {
-        for (let i = 0; i < divs.length - 1; i++) {
-          divs[i].style.background = color;
-        }
-      }
-
-      this.drawAnalyticLine(id,line, color, width, this.taskLineOpacity);
-
     },
+
+    _getDropOffBoxPosition (e) {
+
+      if (e.widget) {
+        let widget = this.sourceModel.widgets[e.widget]
+        if (widget) {
+            let pos = {}
+            pos.x = Math.round(widget.x + widget.w / 2);
+            pos.y = Math.round(widget.y + widget.h / 2);
+            return pos
+        } else {
+           this.logger.warn("_geDropOffBoxPosition", "no widget > ", e.widget);
+        }
+
+      }
+      if (e.screen) {
+        let sourceScreen = this.sourceModel.screens[e.screen]
+        if (sourceScreen) {
+            let pos = {}
+            pos.x = Math.round(sourceScreen.x + sourceScreen.w / 2);
+            pos.y = Math.round(sourceScreen.y + sourceScreen.h / 2);
+            return pos
+        } else {
+           this.logger.warn("_geDropOffBoxPosition", "no screen > ", e.screen);
+        }
+      }
+    },
+
+    _renderDropOffEvent(x, y, type, db, color, width, p) {
+      var cntr = db
+        .div("MatcAnalyticCanvasEventCntr")
+        .build(this.widgetContainer);
+      cntr.style.left = Math.round(x) + "px";
+      cntr.style.top = Math.round(y) + "px";
+
+      var div = db
+        .div("MatcAnalyticCanvasEvent MatcAnalyticCanvasEvent" + type,)
+        .build(cntr);
+
+      var r = Math.max(5, Math.round(width));
+      div.style.width = r + "px";
+      div.style.height = r + "px";
+      div.style.top = -1 * Math.round(r / 2) + "px";
+      div.style.left = -1 * Math.round(r / 2) + "px";
+      div.style.background = color
+
+      db.span('MatcAnalyticCanvasEventLabel',  Math.round(p *100) + '%').build(div)
+
+      return div;
+    },
+
 
     /**********************************************************************
      * Gesture

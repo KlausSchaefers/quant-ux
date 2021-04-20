@@ -29,3 +29,20 @@
   padding: 0px 8px;
   margin-bottom: 8px;
 }
+
+.MatcAnalyticCanvasEventFlowStep{
+  border:1px solid rgba(0,0,0, 0.15);
+}
+
+.MatcAnalyticCanvasEventLabel{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  color:#fff;
+  font-size: 16px;
+}
+
+.MatcCanvasSVGLayer {
+  z-index: 5000;
+}
