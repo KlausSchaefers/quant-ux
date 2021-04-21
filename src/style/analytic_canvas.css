@@ -46,3 +46,7 @@
 .MatcCanvasSVGLayer {
   z-index: 5000;
 }
+
+.MatcAnalyticCanvas .MatcMessage{
+  left:0px
+}

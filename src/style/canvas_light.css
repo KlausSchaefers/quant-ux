@@ -459,3 +459,6 @@
 .MatcLight .MatcToolbarColorIndicator{
 	border:1px solid rgba(0,0,0, 0.15)
 }
+.MatcLight .MatcToolbarDetailLabel{
+	color: #777;
+}

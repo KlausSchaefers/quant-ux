@@ -159,6 +159,15 @@ export default {
       this.logger.log(2, "postCreate", "exit!!!");
     },
 
+    showError (msg){
+			if(this.message){
+				css.add(this.message, "MatcMessageError");
+				css.remove(this.message, "MatcMessageSuccess MatcMessageHint");
+				this.message.textContent = msg;
+				setTimeout(lang.hitch(this,"hideMessage"), 3000);
+			}
+		},
+
 
     XlineFunction (line) {
     	return this.straightLineFunction(line)
@@ -531,7 +540,7 @@ export default {
        * now draw a div for every widgert so we can also select them.
        * A little hack but I dunno have a better way...
        */
-      if ("UserJourney" != this.analyticMode && "Gesture" != this.analyticMode) {
+      if ("UserJourney" != this.analyticMode && "Gesture" != this.analyticMode && 'DropOff' != this.analyticMode) {
         this.hideWidgetDND = true;
       } else {
         this.hideWidgetDND = false;
@@ -947,11 +956,16 @@ export default {
       this.logger.log(-1, "_render_global_DropOff", "entry > ", this.analyticParams.task);
       this.setBW(true);
       if (this.analyticParams.task) {
-        this._render_dropoff_task(screenEvents, screen, ctx, div, this.analyticParams.task);
+        if (this.analyticParams.time) {
+          this._render_dropoff_task_time(screenEvents, screen, ctx, div, this.analyticParams.task);
+        } else {
+          this._render_dropoff_task_sucess(screenEvents, screen, ctx, div, this.analyticParams.task);
+        }
+
       }
     },
 
-    _render_dropoff_task (screenEvents, screen, ctx, div, task) {
+     _render_dropoff_task_time (screenEvents, screen, ctx, div, task) {
 
       let db = new DomBuilder()
 
@@ -960,6 +974,69 @@ export default {
       let funnel = analytics.getFunnelSummary(df, task, this.annotation);
 
 
+
+      let length = task.flow.length
+      if (task.flow && task.flow.length > 1) {
+
+        /**
+         * We take here to total task time...
+         */
+        let maxTime = Math.max(1,funnel[funnel.length-1].durationMean)
+        /*
+        let maxTime = 1
+        for (let i=0; i < task.flow.length - 1; i++){
+          let startSummary = funnel[i+1]
+          let endSummary = funnel[i+2]
+          let time = endSummary.durationMean - startSummary.durationMean
+          maxTime = Math.max(maxTime, time)
+        }
+        */
+
+        for (let i=0; i < task.flow.length - 1; i++){
+          //let
+          let startSummary = funnel[i+1]
+          let endSummary = funnel[i+2]
+          let start = task.flow[i]
+          let end = task.flow[i+1]
+
+
+          let time = endSummary.durationMean - startSummary.durationMean
+          let p = time  / maxTime
+
+          let startPos = this._getDropOffBoxPosition(start, i , length)
+          let endPos = this._getDropOffBoxPosition(end, i+ 1, length)
+          let line = [startPos, endPos]
+
+          let color = this.mixColor(p)
+          let width = Math.max(3, Math.round(this.dropOffLineWidth * p))
+          this.drawAnalyticLine('dropOffLine'+i,line, color , width, this.taskLineOpacity);
+
+
+          /**
+           * Render Points
+           */
+          this._renderDropOffEvent(endPos.x, endPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, Math.round(time / 100) / 10, 's')
+          if (i === 0) {
+              color = this.mixColor(p)
+              width = Math.max(3, Math.round(this.dropOffLineWidth * p))
+              this._renderDropOffEvent(startPos.x, startPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, '0', 's')
+          }
+
+        }
+      } else {
+        this.showError('Cannot show task times. The selected task has only one step.')
+      }
+    },
+
+    _render_dropoff_task_sucess (screenEvents, screen, ctx, div, task) {
+
+      let db = new DomBuilder()
+
+      var df = new DataFrame(this.events);
+      var analytics  = new Analytics();
+      let funnel = analytics.getFunnelSummary(df, task, this.annotation);
+
+      let length = task.flow.length
       if (task.flow && task.flow.length > 1) {
         for (let i=0; i < task.flow.length - 1; i++){
           //let
@@ -968,8 +1045,8 @@ export default {
           let start = task.flow[i]
           let end = task.flow[i+1]
 
-          let startPos = this._getDropOffBoxPosition(start)
-          let endPos = this._getDropOffBoxPosition(end)
+          let startPos = this._getDropOffBoxPosition(start, i, length)
+          let endPos = this._getDropOffBoxPosition(end, i + 1, length)
           let line = [startPos, endPos]
 
           let color = this.greenToRed(endSummary.p)
@@ -988,26 +1065,26 @@ export default {
               let dropOffLine = [startPos, dropOffPos]
                let width = Math.max(3, Math.round(this.dropOffLineWidth * p))
               this.drawAnalyticLine('dropOffLineDrop'+i,dropOffLine, this.dropOffLineColor , width, this.taskLineOpacity);
-              this._renderDropOffEvent(dropOffPos.x, dropOffPos.y, 'FlowStep', db, this.dropOffLineColor, width + this.dropOffEventWidth, -1 * p)
+              this._renderDropOffEvent(dropOffPos.x, dropOffPos.y, 'FlowStep', db, this.dropOffLineColor, width + this.dropOffEventWidth, Math.round(-100 * p))
           }
 
           /**
            * Render POints
            */
-          this._renderDropOffEvent(endPos.x, endPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, endSummary.p)
+          this._renderDropOffEvent(endPos.x, endPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, Math.round(endSummary.p * 100))
           if (i === 0) {
               color = this.greenToRed(startSummary.p)
               width = Math.max(3, Math.round(this.dropOffLineWidth * startSummary.p))
-              this._renderDropOffEvent(startPos.x, startPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, startSummary.p)
+              this._renderDropOffEvent(startPos.x, startPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, Math.round(startSummary.p * 100))
           }
 
         }
       } else {
-        this.showError('The selected task has only one step')
+        this.showError('Cannot show task times. The selected task has only one step.')
       }
     },
 
-    _getDropOffBoxPosition (e) {
+    _getDropOffBoxPosition (e, i = 0, l = 1) {
 
       if (e.widget) {
         let widget = this.sourceModel.widgets[e.widget]
@@ -1026,7 +1103,7 @@ export default {
         if (sourceScreen) {
             let pos = {}
             pos.x = Math.round(sourceScreen.x + sourceScreen.w / 2);
-            pos.y = Math.round(sourceScreen.y + sourceScreen.h / 2);
+            pos.y = Math.min(sourceScreen.y + sourceScreen.h, Math.round(sourceScreen.y + sourceScreen.h / 3) + (sourceScreen.h * i / (l * 2)));
             return pos
         } else {
            this.logger.warn("_geDropOffBoxPosition", "no screen > ", e.screen);
@@ -1034,7 +1111,7 @@ export default {
       }
     },
 
-    _renderDropOffEvent(x, y, type, db, color, width, p) {
+    _renderDropOffEvent(x, y, type, db, color, width, p, unit='%') {
       var cntr = db
         .div("MatcAnalyticCanvasEventCntr")
         .build(this.widgetContainer);
@@ -1052,7 +1129,9 @@ export default {
       div.style.left = -1 * Math.round(r / 2) + "px";
       div.style.background = color
 
-      db.span('MatcAnalyticCanvasEventLabel',  Math.round(p *100) + '%').build(div)
+      if (unit) {
+        db.span('MatcAnalyticCanvasEventLabel', p + unit).build(div)
+      }
 
       return div;
     },

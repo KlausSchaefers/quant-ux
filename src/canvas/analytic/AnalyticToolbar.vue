@@ -331,7 +331,7 @@ export default {
 				this.viewBtns.push(this.viewBtnClickStream);
 				this.addTooltip(this.viewBtnClickStream, "See where the users have clicked in one session.");
 
-				this.viewBtnDropOff = this.createToolBarItem("Drop Off", "showDropOff", "mdi mdi-axis-y-arrow",this.journeySection);
+				this.viewBtnDropOff = this.createToolBarItem("Tasks & Drop Off", "showDropOff", "mdi mdi-chart-timeline-variant-shimmer",this.journeySection);
 				this.viewBtns.push(this.viewBtnDropOff);
 				this.addTooltip(this.viewBtnDropOff, "See whre users dropped of when performing tasks.");
 
@@ -457,9 +457,6 @@ export default {
 			},
 
 
-
-
-
 			renderWidgetProperties(){
 				this.logger.log(3,"renderWidgetProperties", "entry");
 
@@ -532,9 +529,23 @@ export default {
 				var db = new DomBuilder();
 
 
+				this.dropOffConfigDiv = this.createSection("Show");
+				var content = this.createContent(this.dropOffConfigDiv);
+				var row = db.div("MatcToobarRow MatcToolbarRadioList").build(content);
+
+				this.dropOffTimeCheckBox = this.$new(RadioBoxList, {maxLabelLength:20});
+				this.dropOffTimeCheckBox.setOptions([
+					{value: false, label: 'Drop Off'},
+					{value: true, label: 'Time'}
+				]);
+				this.dropOffTimeCheckBox.setValue(false);
+				this.dropOffTimeCheckBox.placeAt(row);
+				this.own(on(this.dropOffTimeCheckBox, "change", lang.hitch(this, "selectDropOffTask")));
+
+
 				this.dropOffOptionsDiv = this.createSection("Tasks");
-				var content = this.createContent(this.dropOffOptionsDiv);
-				var row = db.div("MatcToobarRow ").build(content);
+				content = this.createContent(this.dropOffOptionsDiv);
+				row = db.div("MatcToobarRow ").build(content);
 
 				var tasks = [];
 				if (this.testSettings.tasks){
@@ -551,8 +562,30 @@ export default {
 				this.own(on(this.dropOffTaskBtn, "change", lang.hitch(this, "selectDropOffTask")));
 
 
-				this.dropOffChartDivCntr = this.createSection("Drop Off");
+
+				this.dropOffChartDivCntr = this.createSection("Insights");
 				content = this.createContent(this.dropOffChartDivCntr);
+
+				var ringCntr = db.div("MatcCenter MatcMarginBottom").build(content);
+				this.dropoffTaskSuccess = this.createRing("Success", "analytics.canvas.kpi.first-clicks");
+				this.dropoffTaskSuccess.placeAt(ringCntr);
+
+
+				let cntr = db.div("MatcMarginBottom").build(ringCntr);
+				var nodes =  this.createBigNumber(db, cntr, "Duration", "analytics.canvas.kpi.before-click");
+				this.dropOffTaskDuration =nodes[0];
+				this.dropOffTaskDurationLabel = nodes[1];
+
+
+				cntr = db.div("MatcMarginBottom").build(ringCntr);
+				nodes =  this.createBigNumber(db, cntr, "Interactions", "analytics.canvas.kpi.before-click");
+				this.dropOffInteractions =nodes[0];
+				this.dropOffInteractionsLabel = nodes[1];
+
+
+				this.dropOffFunnelDivCntr = this.createSection("Drop Off");
+				content = this.createContent(this.dropOffFunnelDivCntr);
+
 				this.dropOffChartDiv = db.div('MatcToolbarDropOffChart', '').build(content)
 			},
 
@@ -995,16 +1028,21 @@ export default {
 				if (taskNumber >= 0) {
 					let task = this.testSettings.tasks[taskNumber];
 					this.setAnalyticMode("DropOff", {
+						time: this.dropOffTimeCheckBox.getValue(),
 						task: task,
 						color: '#ccc'
 					});
+					css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
 					css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
 					css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
+					css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
 					this.showDropOffChart(task)
 					this.showProperties();
 				} else {
+					css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
 					css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
 					css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
+					css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
 					this.showProperties();
 					this.dropOffChartDiv.innerHTML = "Please select a task"
 				}
@@ -1014,6 +1052,19 @@ export default {
 					var df = new DataFrame(this.events);
 					var analytics  = new Analytics();
 					let funnel = analytics.getFunnelSummary(df, task, this.annotation);
+
+					let lastStep = funnel[funnel.length-1]
+
+					this.dropoffTaskSuccess.setPs(lastStep.p)
+					this.dropoffTaskSuccess.setValue(Math.round(lastStep.p * 100) + '%')
+
+					this.dropOffTaskDuration.innerText = Math.round(lastStep.durationMean / 100) / 10 + 's'
+				  this.dropOffTaskDurationLabel.innerText = '+/-' + Math.round(lastStep.durationStd / 100) / 10 + 's'
+
+					this.dropOffInteractions.innerText = Math.round(lastStep.interactionsMean)
+					this.dropOffInteractionsLabel.innerText = '+/-' + Math.round(lastStep.interactionsStd)
+
+
 					this.dropOffChartDiv.innerHTML = ''
 					let db = new DomBuilder()
 					let cntr = db.div().build()
@@ -1022,9 +1073,7 @@ export default {
 							db.span('MatcDashLabel', this.getNiceEventLabel(step.event, i)).build(cntr)
 							let bar = db.div('MatcToolbarDropOffChartBar', Math.round(step.p * 100) + '%').build(cntr)
 							bar.style.background = this.greenToRed(step.p)
-							setTimeout(() => {
-								bar.style.width = step. p * 100 + '%'
-							}, 30)
+							bar.style.width = step. p * 100 + '%'
 						}
 					})
 					this.dropOffChartDiv.appendChild(cntr)

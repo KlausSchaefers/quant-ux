@@ -489,7 +489,6 @@ export default class {
 				var matcher = this.createMatcher(task.id, flow, task.strict);
 				matcher.taskName = task.name;
 				matchers.push(matcher);
-
 			}
 		}
 		var matcherLength = matchers.length;
@@ -553,18 +552,11 @@ export default class {
 									matcher.disabled = true;
 								}
 							}
-
-
 						}
 					}
-
 				}
 			}
-
 		});
-
-
-
 
 		return new DataFrame(result);
 	}
@@ -647,7 +639,6 @@ export default class {
 				t.flow = lang.clone(flow);
 				tasks.push(t);
 				flow.pop();
-
 			}
 
 			/**

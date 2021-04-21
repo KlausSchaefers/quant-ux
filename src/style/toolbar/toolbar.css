@@ -44,6 +44,7 @@
 }
 
 
+
 .MatcToolbar .MatcToobarItemBig .mdi {
 	font-size: 24px;
 	cursor: pointer;
@@ -527,6 +528,7 @@
 	align-items: center;
 }
 
+
 /****************************************************
  * Data Section
  ****************************************************/
@@ -904,7 +906,7 @@
 
 .MatcToolBarNumberCntr{
 	display: inline-block;
-	width:120px;
+	width:140px;
 	height: 100px;
 	color:#ddd;
 }
