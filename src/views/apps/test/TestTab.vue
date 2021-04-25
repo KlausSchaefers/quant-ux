@@ -202,17 +202,19 @@ export default {
           label: "Successful Tasks",
           fct: function(td, row) {
             var names = row.taskNames;
-            css.add(td, "");
+            css.add(td, "MatcTagCntr");
+            let cntr = document.createElement('div')
             if (names && names.length > 0) {
               for (var r = 0; r < names.length; r++) {
                 var span = document.createElement("span");
                 css.add(span, "tag");
                 span.innerHTML = names[r];
-                td.appendChild(span);
+                cntr.appendChild(span);
               }
             } else {
               td.innerHTML = "-";
             }
+            td.appendChild(cntr)
           }
         },
         {

@@ -1293,3 +1293,12 @@
  	text-align: center;
  	color: #cecece;
 }
+
+.MatcTagCntr {
+	max-width: 200px;
+}
+
+.MatcTagCntr .tag{
+	margin-left: 4px;
+	margin-bottom: 4px;
+}

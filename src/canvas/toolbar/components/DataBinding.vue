@@ -20,12 +20,15 @@
 					        :formControl="true"/>
                     </td>
                      <td>
+                        <a class="MatcButton">Create</a>
+                        <!--
                          <SegmentButton
                             v-if="hasNewTypeSelector"
                             :options="variableKeys"
                             v-model="newType"
                              :style="'width:' + buttonWidth"
                              @change="setNewType($event)"/>
+                             -->
                     </td>
                  </tr>
                  <tr v-for="variable in selectedVaribales" :key="variable.name">
@@ -118,7 +121,7 @@ export default {
             }
             if (this.widget.type === 'Paging') {
                 return [
-                    { label: "# Elements", value: "elements" },
+                    { label: "Pages", value: "elements" },
                     { label: "Selected", value: "output" }
                 ]
             }
@@ -167,8 +170,8 @@ export default {
             if (this.variables.indexOf(v) < 0) {
                 this.variables.unshift(v)
             }
-            this.onSelectVariable(v, this.newType)
-            this.hasNewTypeSelector = false
+            //this.onSelectVariable(v, this.newType)
+            //this.hasNewTypeSelector = false
             this.onChange()
         },
         onCheckBox (selected, name, key) {

@@ -16,13 +16,13 @@
             <tbody>
                 <tr v-for="(task, i) in testSettings.tasks" :key="task.id">
                   <td >{{task.name}}</td>
-                  <td>{{task.description}}</td>
+                  <td>{{shorten(task.description)}}</td>
                   <td>
                     <template v-if="task.flow && task.flow.length > 0">
                       <div class="StepCntr">
                           <div v-for="(step, i) in getTaskSteps(task)" :key="i" class="Step">
                             <span class="mdi mdi-arrow-right" v-if="i > 0"/>
-                            <div class="StepDetails">{{step.label}}  </div>
+                            <div class="StepDetails">{{shorten(step.label, 20)}}  </div>
                          </div>
                       </div>
 
@@ -94,6 +94,13 @@ export default {
     }
   },
   methods: {
+
+    shorten (s, max = 70) {
+      if (s && s.length > max) {
+        return s.substring(0, max) + '...'
+      }
+      return s
+    },
 
     getTaskSteps (task) {
       let result = []

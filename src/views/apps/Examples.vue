@@ -1,29 +1,16 @@
 <template>
-  <div class="MatcApps">
-    
-    <div class="MatcContent MatcAbout">
-      <div class="MatcSection">
-        <div class="container" id="">
-            <AppList :pub="true" :canAdd="false"/>
-        </div>
-      </div>
+  <section class="section MatcApps">
+    <div class="container">
+      <AppList :pub="true" :canAdd="false" />
     </div>
-  </div>
+  </section>
 </template>
 <script>
-// import Services from 'services/Services'
-// import hash from "dojo/hash";
-// import lang from "dojo/_base/lang";
-// import on from "dojo/on";
-// import Form from 'common/Form'
-// import Dialog from "common/Dialog";
-// import DomBuilder from "common/DomBuilder";
+
 import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import Services from "services/Services";
-import AppList from 'page/AppList'
-// import CheckBox from "common/CheckBox.vue";
-// import UserImage from "page/UserImage.vue";
+import AppList from "page/AppList";
 
 export default {
   name: "Apps",
@@ -32,23 +19,20 @@ export default {
     return {
       apps: [],
       user: null
-    }
+    };
   },
   watch: {},
   components: {
-      'AppList': AppList
+    AppList: AppList
   },
   methods: {
-      load () {
-
-      }
+    load() {}
   },
   async mounted() {
     this.logger = new Logger("Examples");
-    this.user = Services.getUserService().getUser()
-    this.load()
-    this.logger.info('mounted', 'exit > ', this.user)
+    this.user = Services.getUserService().getUser();
+    this.load();
+    this.logger.info("mounted", "exit > ", this.user);
   }
 };
 </script>
-

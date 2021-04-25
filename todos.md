@@ -1,7 +1,6 @@
 
 # MUST HAVE before shipping 4.0
- - Drop off anayltics
- - survey dashboard?
+ - design token updates not always visible in panel!
 - states should have data props
 
 ## Renderfacoty

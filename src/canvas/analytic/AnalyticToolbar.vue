@@ -566,8 +566,9 @@ export default {
 				this.dropOffChartDivCntr = this.createSection("Insights");
 				content = this.createContent(this.dropOffChartDivCntr);
 
-				var ringCntr = db.div("MatcCenter MatcMarginBottom").build(content);
+				var ringCntr = db.div("MatcCenter ").build(content);
 				this.dropoffTaskSuccess = this.createRing("Success", "analytics.canvas.kpi.first-clicks");
+				css.add(this.dropoffTaskSuccess.domNode, 'MatcMarginBottom')
 				this.dropoffTaskSuccess.placeAt(ringCntr);
 
 
@@ -1035,14 +1036,14 @@ export default {
 					css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
 					css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
 					css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
-					css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
+					//css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
 					this.showDropOffChart(task)
 					this.showProperties();
 				} else {
 					css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
 					css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
 					css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
-					css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
+					//css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
 					this.showProperties();
 					this.dropOffChartDiv.innerHTML = "Please select a task"
 				}
@@ -1065,6 +1066,11 @@ export default {
 					this.dropOffInteractionsLabel.innerText = '+/-' + Math.round(lastStep.interactionsStd)
 
 
+
+					//this.showDropOffFunnel(funnel)
+			},
+
+			showDropOffFunnel (funnel) {
 					this.dropOffChartDiv.innerHTML = ''
 					let db = new DomBuilder()
 					let cntr = db.div().build()
