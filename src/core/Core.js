@@ -1270,14 +1270,12 @@ export default class Core extends Evented {
                     }
                 }
             }
-
-            /**
-             * Inline designtokens. must come last, otherwise master screen widgets are not correctly filled.
-             */
-            inModel = ModelUtil.inlineModelDesignTokens(inModel)
-
-
         }
+
+        /**
+         * Inline designtokens. must come last, otherwise master screen widgets are not correctly filled.
+         */
+        inModel = ModelUtil.inlineModelDesignTokens(inModel)
         return inModel;
     }
 
