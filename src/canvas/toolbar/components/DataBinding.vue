@@ -83,6 +83,7 @@ export default {
             hasNewTypeSelector: false,
             newType: "default",
             variables: [],
+            checked:{},
             databinding: {}
         }
     },
@@ -109,8 +110,8 @@ export default {
                 return [
                     { label: "Input", value: "default" },
                     { label: "Selected", value: "output" },
-                    { label: "Action", value: "action" },
-                    { label: "Pagination", value: "pagination" }
+                    { label: "Action", value: "action" }
+                    // { label: "Pagination", value: "pagination" }
                 ]
             }
             if (this.widget.type === 'Repeater') {
@@ -155,7 +156,7 @@ export default {
 			let result = this.variables.map(v => {
                 return {
                     name: v,
-                    selected: values2Keys[v] !== null && values2Keys[v] !== undefined,
+                    selected: this.checked[v],
                     defaultValue: '',
                     dataType: "Object",
                     type: values2Keys[v]
@@ -172,11 +173,19 @@ export default {
             }
             //this.onSelectVariable(v, this.newType)
             //this.hasNewTypeSelector = false
+            this.checked[v] = true
             this.onChange()
         },
         onCheckBox (selected, name, key) {
+            this.checked[name] = selected
+
             if (selected) {
-                this.onSelectVariable(name)
+                let defaultKey = 'default'
+                let keys = this.variableKeys
+                if (keys[0]) {
+                    defaultKey = keys[0].value
+                }
+                this.onSelectVariable(name, defaultKey)
             } else {
                 this.$delete(this.databinding, key)
                 this.onChange()
@@ -190,18 +199,20 @@ export default {
             this.newType = newKey
         },
         setType (newKey, name) {
-            let oldKey = null
-            for (oldKey in this.databinding) {
-                let value = this.databinding[oldKey]
-                if (value === name) {
-                    break
-                }
-            }
+            let oldKey = this.getCurrentKey(name)
             if (oldKey) {
                 this.$delete(this.databinding, oldKey)
-                this.onSelectVariable(name, newKey)
             }
+            this.onSelectVariable(name, newKey)
             this.onChange()
+        },
+        getCurrentKey(name) {
+            for (let oldKey in this.databinding) {
+                let value = this.databinding[oldKey]
+                if (value === name) {
+                    return oldKey
+                }
+            }
         },
         getValue () {
             return this.databinding
@@ -217,6 +228,9 @@ export default {
             if (this.widget.props && this.widget.props.databinding) {
                 this.databinding = this.widget.props.databinding
             }
+            Object.values(this.databinding).forEach(value => {
+                this.checked[value] = true
+            })
             this.initVariables()
         },
         initVariables () {

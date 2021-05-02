@@ -83,12 +83,11 @@ export default {
       this.wireEvents()
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-
       this.renderElements(model, style, model.w, scaleX)
     },
 
@@ -163,7 +162,10 @@ export default {
       return numberofVisibleElements
     },
 
-    onSelect: function(pos, e) {
+    onSelect (pos, e) {
+      /**
+       * This could be better and we coudl skip forwards when we are one before the arrow
+       */
       this.stopPropagation(e);
       this.emitClick(e);
       this.setValue(pos);
