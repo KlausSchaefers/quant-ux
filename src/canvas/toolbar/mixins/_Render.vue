@@ -202,7 +202,7 @@ export default {
 				this.createSpacer(this.toolsDiv);
 
 
-				this.template = this.createToolBarItem('<span class="mdi mdi mdi-puzzle-plus"></span> <label class="MatcToolbarLabel">Make Component</label>', lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv);
+				this.template = this.createToolBarItem('<span class="mdi mdi mdi-puzzle-plus"></span> <label class="MatcToolbarLabel">Create Component</label>', lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv);
 				this.templateUpdate = this.createToolBarItem('<span class="mdi mdi-puzzle-edit"></span> <label class="MatcToolbarLabel">Update Component</label>', lang.hitch(this,"onToolUpdateTemplate"), null, this.templateDiv);
 				this.templateRemove = this.createToolBarItem('<span class="mdi mdi-puzzle-minus"></span> <label class="MatcToolbarLabel">Remove Component</label>', lang.hitch(this,"onToolRemoveTemplate"), null, this.templateDiv);
 

@@ -1,8 +1,8 @@
 export let texts = [
   {
       "id": "survey.intro",
-      "name":"Qualitative Surveys",
-      "title": "Qualitative Surveys",
+      "name":"User Surveys",
+      "title": "User Surveys",
       "body": `
           When users test a Quant-UX prototype, the user input is saved. For instance, a Star Rating that they are giving is stored.
           You can use this mechanism to also collect qualitative feedback from the users.
@@ -31,10 +31,10 @@ export let texts = [
                     Select the new element
                 </li>
                 <li>
-                    In the properties section click on "Add Data Binding" in the data section in the properties panel
+                    Select the 'Protoyping View'
                 </li>
                 <li>
-                    Create a new varibale in the dialog, for instance "Satisfaction"
+                    Select the 'Survey Element' checkbox.
                 </li>
               </ol>
           `

@@ -10,16 +10,30 @@
                     Loading...
                 </span>
                 <div class="MatcHelpTopicsCntr">
-                    <template v-for="topic in topics" >
-                        <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id">
-                            {{topic.name}}
-                        </a>
-                        <template v-if="topic.id === selected">
-                            <a  v-for="(p, i) in topic.paragraphs" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)">
-                                {{p.title}}
+                    <div v-if="!standalone">
+                        <template v-for="topic in topics">
+                            <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" >
+                                {{topic.name}}
                             </a>
+                            <template v-if="topic.id === selected">
+                                <a  v-for="(p, i) in topic.paragraphs" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" >
+                                    {{p.title}}
+                                </a>
+                            </template>
                         </template>
-                    </template>
+                    </div>
+                    <div v-else>
+                        <template v-for="topic in topics">
+                            <a :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :href="'#/help/' + topic.id + '.html'">
+                                {{topic.name}}
+                            </a>
+                            <template v-if="topic.id === selected">
+                                <a  v-for="(p, i) in topic.paragraphs" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'" >
+                                    {{p.title}}
+                                </a>
+                            </template>
+                        </template>
+                    </div>
                 </div>
             </div>
             <span v-if="loading" class="MatchHint">
@@ -104,7 +118,7 @@ export default {
     data: function () {
         return {
             texts: [],
-            selected: "default",
+            selected: "getting_started",
             selectedParagraph: "",
             search: "",
             hasSideBar: true,
@@ -198,6 +212,19 @@ export default {
                 this.contactError = 'Please fill out the form'
                 this.concatSucess = ''
             }
+        },
+        setTopicByRoute () {
+            if (this.$route.params.topic) {
+                this.setTopic(this.$route.params.topic)
+            }
+            if (this.$route.params.subtopic) {
+                this.setSupTopic(this.$route.params.subtopic)
+            }
+        }
+    },
+    watch: {
+        $route () {
+            this.setTopicByRoute()
         }
     },
     async mounted () {
@@ -230,6 +257,9 @@ export default {
             Vue.nextTick( () => {
                 this.focus(this.selectedParagraph)
             })
+        }
+        if (this.standalone) {
+            this.setTopicByRoute()
         }
     }
 }

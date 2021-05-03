@@ -1001,7 +1001,8 @@ export default {
 
 
           let time = endSummary.durationMean - startSummary.durationMean
-          let p = time  / maxTime
+          let p = Math.min(1, time  / maxTime)
+
 
           let startPos = this._getDropOffBoxPosition(start, i , length)
           let endPos = this._getDropOffBoxPosition(end, i+ 1, length)
@@ -1011,7 +1012,6 @@ export default {
           let width = Math.max(3, Math.round(this.dropOffLineWidth * p))
           this.drawAnalyticLine('dropOffLine'+i,line, color , width, this.taskLineOpacity);
 
-
           /**
            * Render Points
            */
@@ -1019,6 +1019,7 @@ export default {
           if (i === 0) {
               color = this.mixColor(p)
               width = Math.max(3, Math.round(this.dropOffLineWidth * p))
+                        console.debug(time, p, maxTime, width)
               this._renderDropOffEvent(startPos.x, startPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, '0', 's')
           }
 

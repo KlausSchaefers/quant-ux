@@ -22,7 +22,7 @@ import Service from 'services/Services'
 import Help from 'help/Help'
 
 export default {
-  name: "404",
+  name: "HelpPage",
   mixins: [],
    data: function() {
     return {

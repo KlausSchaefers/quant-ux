@@ -418,6 +418,8 @@
 
 .MatcToolbar .VommondRadioBoxListItem{
 	text-align: left;
+	display: flex;
+	align-content: center;
 }
 
 

@@ -705,7 +705,7 @@ export default {
 						/**
 						 * This case should only happen for templates. Therefore we will have specific message here
 						 */
-						db.span("MatcHint","No symbols defined. To create a symbol, select a widget and click 'Make Component' in the toolbar!").build(cntr);
+						db.span("MatcHint","No symbols defined. To create a symbol, select a widget and click 'Create Component' in the toolbar!").build(cntr);
 					} else if(this.searchQuery){
 						db.span("MatcHint","No elements match the search query").build(cntr);
 					}

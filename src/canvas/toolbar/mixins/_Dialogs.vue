@@ -675,7 +675,7 @@ export default {
 
 			var cntr = db.div().build(popup);
 
-			db.h3("MatcDialogHeader", "Make Component").build(cntr);
+			db.h3("MatcDialogHeader", "Create Component").build(cntr);
 
 			var inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", name, "Name of the template").build(cntr);
 
@@ -683,7 +683,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			var write = db.div("MatcButton", "Make").build(bar);
+			var write = db.div("MatcButton", "Create").build(bar);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));

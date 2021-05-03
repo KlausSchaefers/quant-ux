@@ -198,7 +198,7 @@ export default {
 
 
     onEvent (event) {
-      this.logger.log(-1,  'onEvent',  'enter > recordOnlyScreenViews:' + this.recordOnlyScreenViews, event)
+      this.logger.log(-1,  'onEvent',  'enter > ignoreFirstEvent:' + this.ignoreFirstEvent, event)
 
       if (this.recordOnlyScreenViews) {
 

@@ -6,12 +6,9 @@ class HelpService  {
             if (!this.texts) {
                 Promise.all([
                     import(/* webpackChunkName: "help" */ 'help/en/default.js'),
-                    import(/* webpackChunkName: "help" */ 'help/en/master_screens.js'),
+
                     import(/* webpackChunkName: "help" */ 'help/en/animations.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/imports.js'),
-
-
-                    import(/* webpackChunkName: "help" */ 'help/en/design_token.js'),
 
                     import(/* webpackChunkName: "help" */ 'help/en/logic_flows.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/ab_testing.js'),
@@ -21,14 +18,20 @@ class HelpService  {
                     import(/* webpackChunkName: "help" */ 'help/en/screen_segments.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/rest.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/other.js'),
+
                     import(/* webpackChunkName: "help" */ 'help/en/design_system.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/design_token.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/components.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/master_screens.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/design_import.js'),
 
                     import(/* webpackChunkName: "help" */ 'help/en/testing.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/survey.js'),
 
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_intro.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_tasks.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/analytic_canvas.js'),
-                    import(/* webpackChunkName: "help" */ 'help/en/survey.js'),
+
                     import(/* webpackChunkName: "help" */ 'help/en/support.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/bugs.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/contact.js')

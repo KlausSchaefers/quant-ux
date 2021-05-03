@@ -33,7 +33,7 @@ export default {
 				w : Math.min(1,Math.round((pos.w / this.currentScreen.w ) * 1000) / 1000),
 				h : Math.min(1,Math.round((pos.h / this.currentScreen.h ) * 1000) / 1000)
 			};
-        },
+    },
 
 		logLine (line, screenID){
 			this.screenHistory.push({screenID:screenID, line:line});
@@ -113,7 +113,7 @@ export default {
 				this.sendEvent(event);
 			} else {
 				if(type!="Animation" && type!="MouseOut" && type!="MouseOver"){
-					console.debug("log() >" , type, " > s:" , screenID, " > w:", widgetID, " > state:", event.state, " > anim:", event.animation, " > overlay:", event.overlay);
+					// console.debug("log() >" , type, " > s:" , screenID, " > w:", widgetID, " > state:", event.state, " > anim:", event.animation, " > overlay:", event.overlay);
 				}
 			}
 
