@@ -1732,7 +1732,7 @@ export default {
 				imageDrpDwn.setCanvas(this.canvas);
 				imageDrpDwn.setSelection(widget.props.images);
 				imageDrpDwn.setMultiSelection(true);
-				imageDrpDwn.setLabel('<span class="mdi mdi-image"></span> <span class="MatcToolbarItemLabel">Images</span>');
+				//imageDrpDwn.setLabel('<span class="mdi mdi-image"></span> <span class="MatcToolbarItemLabel">Images</span>');
 				imageDrpDwn.placeAt(row);
 				this.tempOwn(on(imageDrpDwn, "change", lang.hitch(this, "onProperyChanged", "images")));
 

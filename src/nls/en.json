@@ -51,7 +51,7 @@
             "images-title": "Import from Images",
             "figma-title": "Import from Figma",
             "tab-images": "Images",
-            "tab-figma": "Figma (Beta)",
+            "tab-figma": "Figma",
             "tab-open-api": "Swagger (OpenAPI)",
             "images-drop-msg": "Drop Images Here",
             "image-progress": "Uploading...",

@@ -47,6 +47,9 @@ export default {
     components: {},
 		computed: {
 			btnLabel () {
+				if (this.selection && this.selection.length > 0){
+					return this.selection.length + ' Images'
+				}
 				if (this.value) {
 					if (this.value.name) {
 						return this.shorten(this.value.name, 20)
@@ -83,7 +86,6 @@ export default {
 					if(selection){
 						this.selection = lang.clone(selection);
 					}
-
 				},
 
 				setModel (m){
@@ -315,6 +317,10 @@ export default {
 				_removeImage (e){
 					this.stopEvent(e);
 					this.onChange(null);
+				},
+
+				setLabel (){
+
 				},
 
 				_deleteImage (img, e){

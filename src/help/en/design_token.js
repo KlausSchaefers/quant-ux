@@ -64,7 +64,7 @@ export let texts = [
                        Change the style or the name in the popup.
                     </li>
                     <li>
-                        Press 'Save.
+                        Press <span class="MatcButton">Save</span>.
                     </li>
                     <li>
                         All instances of the style will be updated.

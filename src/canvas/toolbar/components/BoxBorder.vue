@@ -111,7 +111,7 @@ export default {
 					/**
 					 * radius
 					 */
-					options = [0,3,5,10,20,30,40,50,100,200];
+					options = [0,2,4,8,12,16,24,32,64,128,256];
 
 					this.topRightRadius = this.renderIntBox(this.cntrRadius, options);
 					this.topRightRadius.domNode.style.top = -1 * ((inputPos.h/2)-1)+"px";

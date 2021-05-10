@@ -10,6 +10,7 @@ class HelpService  {
                     import(/* webpackChunkName: "help" */ 'help/en/animations.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/imports.js'),
 
+                    import(/* webpackChunkName: "help" */ 'help/en/other.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/logic_flows.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/ab_testing.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/form_validation.js'),

@@ -60,14 +60,14 @@ export default class Logger {
 
 			var msg = {
 				level : 0,
-				url : location.href,
+				url : location.hostname,
 				message : e.message,
 				stack : e.stack,
 				ua : navigator.userAgent,
 				appCodeName : navigator.appCodeName,
 				appName : navigator.appName,
 				platform : navigator.platform,
-				user : u,
+				user : 'User',
 				plugins : plugins,
 				queue : q
 			};

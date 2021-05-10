@@ -239,6 +239,7 @@ export default {
           render: (node, row) => {
             var group = document.createElement("div");
             group.style.width = '120px'
+            group.style.display = 'inline-block'
             node.appendChild(group);
 
             let play = document.createElement("a");

@@ -366,20 +366,20 @@
 
 .MatcToobarPropertiesSection input{
 	background: none;
-    color: #ddd;
-    font-size: 12px;
-    line-height: 1em;
+  color: #ddd;
+  font-size: 12px;
+  line-height: 1em;
 	padding: 5px;
 	padding-left: 0px;
-    vertical-align: middle;
+  vertical-align: middle;
 	outline: none;
 	width: 100%;
-	border: 1px solid transparent;
-	border-bottom-color: #555
+	padding: 3px;
+	border: 1px solid #555;
 }
 
 .MatcToobarPropertiesSection input:focus{
-	border-color: #555;
+	border-color: #777;
 }
 
 .MatcToobarPropertiesSection  input::-moz-selection{ /* Code for Firefox */
@@ -917,6 +917,9 @@
     height: auto;
 }
 
+.MatcToolbarPopupFooter .MatcButtonBar{
+	width: 100%;
+}
 
 /****************************************************
  * Toggle Button
