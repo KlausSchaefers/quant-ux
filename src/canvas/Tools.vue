@@ -752,12 +752,12 @@ export default {
 			cleanUpSelectionListener (){
 				this.logger.log(5,"cleanUpSelectionListener", "enter > ");
 
-				if(this._selectionToolMoveListener){
+				if (this._selectionToolMoveListener){
 					this._selectionToolMoveListener.remove();
 					this._selectionToolMoveListener = null;
 				}
 
-				if(this._selectionToolUpListener){
+				if (this._selectionToolUpListener){
 					this._selectionToolUpListener.remove();
 					this._selectionToolUpListener = null;
 				}
@@ -766,8 +766,8 @@ export default {
 				this._selectionToolEnd = null;
 				this._selectionToolInit = null;
 
-				if(this._selectionToolDiv){
-					this.dndContainer.removeChild(this._selectionToolDiv);
+				if (this._selectionToolDiv && this._selectionToolDiv.parentNode){
+					this._selectionToolDiv.parentNode.removeChild(this._selectionToolDiv);
 					this._selectionToolDiv = null;
 				}
 

@@ -4,7 +4,7 @@ import Services from '../services/Services'
 
 var vommonLoggingQueue = []
 var vommonLoggingQueuePos = 0
-var vommonLoggingQueueMax = 200
+var vommonLoggingQueueMax = 50
 var vommonLoggingDebugLevel = 0
 var vommondLoggingErros = 0
 
@@ -30,7 +30,7 @@ export default class Logger {
 			vommonLoggingQueue.sort(function(a,b){
 				return b.t -a.t;
 			});
-			for(var i=0; i <vommonLoggingQueue.length-1; i++){
+			for(var i=0; i < vommonLoggingQueue.length - 1; i++){
 				if(vommonLoggingQueue[i]){
 					q+=new Date(vommonLoggingQueue[i].t).toISOString() + " - "  + vommonLoggingQueue[i].m +"\n";
 				}

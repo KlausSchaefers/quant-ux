@@ -2434,11 +2434,13 @@ export default class GridAndRuler extends Core {
 		this.hideBoxes();
 		for (let id in this._linesDivs) {
 			let div = this._linesDivs[id];
-			this.container.removeChild(div);
+			if (div && div.parentNode) {
+				div.parentNode.removeChild(div);
+			}
 		}
 
-		if (this.dimDiv) {
-			this.container.removeChild(this.dimDiv);
+		if (this.dimDiv && this.dimDiv.parentNode) {
+			this.dimDiv.parentNode.removeChild(this.dimDiv);
 		}
 
 		this.cleanupDistanceLines();
