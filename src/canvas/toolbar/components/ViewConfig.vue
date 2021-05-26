@@ -271,7 +271,10 @@ export default {
             this.log.log(-1, 'onZoomMinus', 'enter')
             if (this.zoomLevelPos >= 1){
                 this.zoomLevelPos--;
-                this.value.zoom = Math.round((this.value.zoom - 0.05) * 100) / 100 //this.zoomLevels[this.zoomLevelPos];
+                let zoom = Math.round((this.value.zoom - 0.05) * 100)
+                zoom -= zoom % 5
+                zoom /= 100
+                this.value.zoom = zoom
                 this.$emit('change', 'zoom', this.value.zoom)
             }
              this.hideMaybe()
@@ -282,7 +285,10 @@ export default {
             this.log.log(-1, 'onZoomPlus', 'enter')
             if (this.zoomLevelPos < this.zoomLevels.length -1){
                 this.zoomLevelPos++;
-                this.value.zoom = Math.round((this.value.zoom + 0.05) * 100) / 100
+                let zoom = Math.round((this.value.zoom + 0.05) * 100)
+                zoom -= zoom % 5
+                zoom /= 100
+                this.value.zoom = zoom
                 this.$emit('change', 'zoom', this.value.zoom)
             }
              this.hideMaybe()

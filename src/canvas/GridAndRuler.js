@@ -2271,16 +2271,12 @@ export default class GridAndRuler extends Core {
 	}
 
 	hideBoxes() {
-
 		if (this.highlightBoxes) {
-
 			if (this.highlightBoxesDivs) {
 				for (var i = 0; i < this.highlightBoxesDivs.length; i++) {
 					css.remove(this.highlightBoxesDivs[i], "MatcRulerBoxSelectedBorder MatcRulerBoxSelectedMiddle");
 				}
 			}
-
-
 			this.highlightBoxesDivs = [];
 		}
 	}
@@ -2383,8 +2379,8 @@ export default class GridAndRuler extends Core {
 		if (this.distanceLines) {
 			for (let id in this.distanceLines) {
 				let div = this.distanceLines[id];
-				if (div) {
-					this.container.removeChild(div);
+				if (div && div.parentNode) {
+					div.parentNode.removeChild(div);
 				} else {
 					console.debug("cleanupDistanceLines() > no div", id)
 				}
@@ -2406,8 +2402,8 @@ export default class GridAndRuler extends Core {
 		if (this.distributionLines) {
 			for (let id in this.distributionLines) {
 				let div = this.distributionLines[id];
-				if (div) {
-					this.container.removeChild(div);
+				if (div && div.parentNode) {
+					div.parentNode.removeChild(div);
 				} else {
 					console.debug("cleanupDistributionLines() > no div", id)
 				}
@@ -2431,6 +2427,7 @@ export default class GridAndRuler extends Core {
 	}
 
 	cleanUp() {
+		this.logger.log(4, "cleanUp", "enter");
 		this.hideBoxes();
 		for (let id in this._linesDivs) {
 			let div = this._linesDivs[id];
@@ -2455,5 +2452,6 @@ export default class GridAndRuler extends Core {
 		delete this._distanceXDiv;
 		delete this.distributionLines;
 		delete this.dimDiv;
+		this.logger.log(4, "cleanUp", "exit");
 	}
 }

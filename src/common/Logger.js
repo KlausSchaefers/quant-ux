@@ -67,7 +67,7 @@ export default class Logger {
 				appCodeName : navigator.appCodeName,
 				appName : navigator.appName,
 				platform : navigator.platform,
-				user : 'User',
+				user : 'User@4.0.4',
 				plugins : plugins,
 				queue : q
 			};

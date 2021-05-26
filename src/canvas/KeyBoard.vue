@@ -33,6 +33,8 @@ export default {
         var isCntrl = e.ctrlKey || e.metaKey;
         var isShift = e.shiftKey
 
+        console.debug(k, isCntrl)
+
 
 
         // console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
@@ -224,13 +226,13 @@ export default {
         /**
          * Zoom
          */
-        } else if (k== 171 || k ==187){ // +
+        } else if (k== 171 || k ==187 || k === 107){ // +
 
           if(!this._inlineEditStarted){
             this.onClickPlus();
             this.stopEvent(e);
           }
-        } else if (k== 173 || k ==189){ //-
+        } else if (k== 173 || k ==189 || k === 109){ //-
 
           if(!this._inlineEditStarted){
             this.onClickMinus();
@@ -301,6 +303,7 @@ export default {
            */
           this.onSelectionKeyPress(e);
         }
+
 
       },
 

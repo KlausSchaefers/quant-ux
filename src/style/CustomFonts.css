@@ -14,14 +14,14 @@
     align-items: center;
 }
 
-.MatcCustomFontsName{
+.MatcCustomFontsRow input.MatcCustomFontsName{
     width: 20%;
 }
 
-.MatcCustomFontsURL{
+.MatcCustomFontsRow input.MatcCustomFontsURL{
     width: 75%;
 }
 
-.MatcCustomFontsType{
+.MatcCustomFontsRow .MatcCustomFontsType{
     width: 5%;
 }

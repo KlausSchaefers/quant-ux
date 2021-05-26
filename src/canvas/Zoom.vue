@@ -123,15 +123,20 @@ export default {
 			}
 		},
 
-		onClickMinus (e){
+		onClickMinus (){
 			this._setCenterPos();
-			this.onZoomMinus(e);
+			this.zoom = Math.round((this.zoom - 0.05) * 100)
+			this.zoom -= this.zoom % 5
+			this.zoom /= 100
+			this.onZoomChange();
 		},
 
-
-		onClickPlus (e){
+		onClickPlus (){
 			this._setCenterPos();
-			this.onZoomPlus(e);
+			this.zoom = Math.round((this.zoom + 0.05) * 100)
+			this.zoom -= this.zoom % 5
+			this.zoom /= 100
+			this.onZoomChange();
 		},
 
 		onZoomMinus (e, speed = 1){

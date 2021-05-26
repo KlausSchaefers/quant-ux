@@ -635,13 +635,17 @@ export default {
 			this._lastMouseMoveEvent = e;
 		},
 		destroy (){
+			this.logger.log(3,"destroy", "enter > ");
 			this.cleanUp();
 			this._dojoCleanUpOwn();
 			this._dojoCleanUpEvent();
 			this.cleanUpTempListener();
 		}
 	},
-    mounted () {
-    }
+  mounted () {
+  },
+	beforeDestroy () {
+		this.logger.log(3,"beforeDestroy", "enter > ");
+	}
 }
 </script>

@@ -441,18 +441,21 @@ export default class Ruler extends Core{
 		for(let id in this._linesDivs){
 			if(!lines[id]){
 				let div = this._linesDivs[id];
-				this.container.removeChild(div);
+				if (div && div.parentNode){
+					div.parentNode.removeChild(div);
+				}
 				delete this._linesDivs[id];
 			}
 		}
 	}
 
-	cleanUp (){
-
-		for(var id in this._linesDivs){
-
+	cleanUp () {
+		this.logger.log(3,"cleanUp", "entry");
+		for (let id in this._linesDivs) {
 			var div = this._linesDivs[id];
-			this.container.removeChild(div);
+			if (div && div.parentNode) {
+				div.parentNode.removeChild(div);
+			}
 		}
 		this._linesDivs = null;
 	}
