@@ -506,9 +506,10 @@
 	display: none;
 }
 
+/* 400 is palyer*/
 .MatcPlayerDialog{
 	width:1200px;
-	height:500px;
+	height:550px;
 	padding:20px;
 }
 

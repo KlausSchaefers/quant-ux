@@ -24,6 +24,7 @@
  - select canvas color and line color
 
 ## Vector Editor
+- check out Konvajs https://lavrton.com/case-study-image-labeling-for-machine-learning/
 - edit exting shaped
 - draw lines
 - group & substract???

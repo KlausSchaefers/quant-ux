@@ -178,6 +178,10 @@ export class ModelService extends AbstractService{
         return this._get(`rest/annotations/apps/${id}/session.json`)
     }
 
+    findTagAnnotations (id) {
+        return this._get(`rest/annotations/apps/${id}/tags.json`)
+    }
+
     deleteAnnotation (id, annotationId) {
         return this._delete(`rest/annotations/apps/${id}/${annotationId}.json`)
     }
@@ -220,5 +224,12 @@ export class ModelService extends AbstractService{
         return this._get(`examples/mouse/${id}.json`)
     }
 
+    findPublicMouseBySession (appId, sessionId) {
+        return this._get(`/examples/mouse/${appId}/${sessionId}.json`)
+    }
+
+    findPublicTagAnnotations (id) {
+        return this._get(`/examples/annotations/apps/${id}/tags.json`)
+    }
 }
 export default new ModelService()

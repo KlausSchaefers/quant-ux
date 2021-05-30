@@ -671,7 +671,7 @@ export default {
 					this.sessionCheckBoxes[session.session] = chk;
 					this.own(on(chk,"change", lang.hitch(this,"selectSession")));
 
-					var play = db.div("MatcToobarRowRightIcon").span("mdi mdi-youtube-play").build(row)
+					var play = db.div("MatcToobarRowRightIcon").span("mdi mdi-play").build(row)
 					this.own(on(play,"click", lang.hitch(this,"showSession", session)));
 				}
 			},
@@ -1493,18 +1493,20 @@ export default {
 
 				d.popup(div, e.target);
 
-				var callBack = lang.hitch(this, "_showSession", sessionID, cntr, d);
-
 				if (this.isPublic){
-					this._doMultiGet([
-								"/examples/annotations/apps/"+this.model.id + "/tags.json",
-								"/examples/mouse/"+ this.model.id + "/" + sessionID + ".json",
-					],callBack);
+					Promise.all([
+						this.modelService.findPublicTagAnnotations(this.model.id),
+						this.modelService.findPublicMouseBySession(this.model.id, sessionID)
+					]).then(values => {
+						this._showSession(sessionID, cntr, d, values);
+					});
 				} else {
-					this._doMultiGet([
-								"/rest/annotations/apps/"+this.model.id + "/tags.json",
-								"/rest/mouse/"+ this.model.id + "/" + sessionID + ".json",
-					],callBack);
+					Promise.all([
+						this.modelService.findTagAnnotations(this.model.id),
+						this.modelService.findMouseBySession(this.model.id, sessionID)
+					]).then(values => {
+						this._showSession(sessionID, cntr, d, values);
+					});
 				}
 			},
 
