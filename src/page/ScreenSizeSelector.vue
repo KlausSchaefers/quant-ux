@@ -22,9 +22,14 @@ export default {
     return {
       value: null,
       types: {
-        "IPhone X": {
+        "IPhone X / 11 / 12": {
           type: "smartphone",
           screenSize: { w: 375, h: 812 },
+          factor: 2
+        },
+        "IPhone 11 / 12 Max": {
+          type: "smartphone",
+          screenSize: { w: 414, h: 896 },
           factor: 2
         },
         "IPhone 6 / 7 / 8": {
@@ -40,11 +45,6 @@ export default {
         "IPhone 5 / 6SE": {
           type: "smartphone",
           screenSize: { w: 320, h: 568 },
-          factor: 2
-        },
-        "IPhone 4": {
-          type: "smartphone",
-          screenSize: { w: 320, h: 480 },
           factor: 2
         },
         "Galaxy S6": {
@@ -122,7 +122,7 @@ export default {
       this._checks["custom"] = c;
       this._divs["custom"] = custom;
       this.cntr.appendChild(parent);
-      this.onTypePress("IPhone X");
+      this.onTypePress("IPhone X / 11 / 12");
     },
 
     onCustomSelected: function() {

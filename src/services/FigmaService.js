@@ -511,10 +511,12 @@ export default class FigmaService {
     if (!this.isVector(element)) {
       if (element.strokes && element.strokes.length > 0) {
         let stroke = element.strokes[0]
-        style.borderBottomColor = this.getColor(stroke.color, element)
-        style.borderTopColor = this.getColor(stroke.color, element)
-        style.borderLeftColor = this.getColor(stroke.color, element)
-        style.borderRightColor = this.getColor(stroke.color, element)
+        if (stroke.color) {
+          style.borderBottomColor = this.getColor(stroke.color, element)
+          style.borderTopColor = this.getColor(stroke.color, element)
+          style.borderLeftColor = this.getColor(stroke.color, element)
+          style.borderRightColor = this.getColor(stroke.color, element)
+        }
 
         if (element.strokeWeight) {
           style.borderBottomWidth = element.strokeWeight
@@ -597,6 +599,9 @@ export default class FigmaService {
   }
 
   getColor (c, element) {
+    if (element && element.visible === false) {
+      return ''
+    }
     let a = c.a
     if (element && element.opacity < 1) {
       a = element.opacity
