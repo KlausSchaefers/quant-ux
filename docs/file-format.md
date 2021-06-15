@@ -67,8 +67,8 @@ screens have a **style** property which contains JavaScript kind of css key valu
 ## Widgets
 
 Widgets are rectangles that are placed on the canvas. Like screens, they have **style** and **props** objects.  The **props** object contains additional information that
-are not related with the visual presentation. For instance the label or options. Some widgets support **hover**, **active** or **error** states. This state objects
-contain JavsScript CSS key value pairs, that differ from the style propperties. The semantics are similar to CSS. An example for a simple rectangle looks like:
+are not related to the visual presentation. For instance the label or options. Some widgets support **hover**, **active** or **error** states. These state objects
+contain JavaScript CSS key value pairs that differ from the style properties. The semantics are similar to CSS. An example for a simple rectangle looks like:
 
 ```json
 {
@@ -227,7 +227,7 @@ You can find detailed exampels in the [templates](https://github.com/KlausSchaef
 
 ## Lines
 
-A line is defined by its start (**from**) and end (**to**). In addition the trigger event is defined. The **points** property can be ignored. Please note that groups can be also refereced in the from node.
+A line is defined by its start (**from**) and end (**to**). In addition the trigger event is defined. The **points** property can be ignored. Please note that groups can be also referenced in the from node.
 
 ```json
 {
