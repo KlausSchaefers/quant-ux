@@ -1536,10 +1536,10 @@ export default class GridAndRuler extends Core {
 			t: new Date().getTime()
 		})
 
-		if (this.xMovements.length > 20) {
+		if (this.xMovements.length > 2) {
 			this.xMovements.shift()
 		}
-		if (this.yMovements.length > 20) {
+		if (this.yMovements.length > 2) {
 			this.yMovements.shift()
 		}
 
