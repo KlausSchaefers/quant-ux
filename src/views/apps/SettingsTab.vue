@@ -1,5 +1,5 @@
 <template>
-  <div class="MatcContent">
+  <div class="MatcContent MatcSettings">
     <section class="section">
       <div class="container">
         <div class="box is-shadowless">

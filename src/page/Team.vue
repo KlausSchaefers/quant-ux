@@ -12,6 +12,7 @@ import on from "dojo/on";
 import touch from "dojo/touch";
 import Logger from "common/Logger";
 import Dialog from "common/Dialog";
+import _Tooltip from 'common/_Tooltip'
 import DomBuilder from "common/DomBuilder";
 import Input from "common/Input";
 import RadioBoxList from "common/RadioBoxList";
@@ -22,7 +23,7 @@ import Services from "services/Services";
 
 export default {
   name: "Team",
-  mixins: [Util, Plan, DojoWidget],
+  mixins: [Util, Plan, _Tooltip, DojoWidget],
   props: ["appID", "userID"],
   data: function () {
     return {
@@ -31,7 +32,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function () {
+    postCreate () {
       this.logger = new Logger("Team");
       this.logger.log(4,"postCreate", "enter >" + this.appID + " > " + this.userID + " > " + this.reference);
       this.db = new DomBuilder();
@@ -45,19 +46,17 @@ export default {
       this.setTeamLoaded(team);
     },
 
-    setTeamLoaded: function (team) {
+    setTeamLoaded (team) {
       this.team = team;
       this.render();
     },
 
-    render: function () {
+    render  () {
       this.cleanUp();
       var div = document.createElement("div");
 
       this.plus = this.renderPlus(div);
-      this.tempOwn(
-        on(this.plus, touch.press, lang.hitch(this, "showAdd", this.plus))
-      );
+      this.tempOwn(on(this.plus, touch.press, lang.hitch(this, "showAdd", this.plus)));
 
       for (var i = 0; i < this.team.length; i++) {
         var user = this.team[i];
@@ -67,21 +66,19 @@ export default {
       this.cntr.appendChild(div);
     },
 
-    renderPlus: function (div) {
+    renderPlus (div) {
       var item = this.db.div("MatcTeamItem ").build(div);
-      //var imgCntr = this.db.div("MatcUserImageCntr").build(item);
       var plus = this.db.div("MatcUserAdd").build(item);
       this.db.span("mdi mdi-plus MatcMiddle").build(plus);
       return plus;
     },
 
-    renderUser: function (div, user) {
+    renderUser  (div, user) {
       var item = this.db.div("MatcTeamItem ").build(div);
       var top = this.db.div("").build(item);
       this.createUserImage(user, top);
-      this.tempOwn(
-        on(item, touch.press, lang.hitch(this, "showEdit", top, user))
-      );
+      this.tempOwn(on(item, touch.press, lang.hitch(this, "showEdit", top, user)));
+      this.addTooltip(top, this.getUserName(user))
     },
 
     async showAdd() {
@@ -206,20 +203,8 @@ export default {
         let cancel = this.db.a("button is-text", "Cancel").build(right);
         let remove = this.db.a("button is-text", "Remove").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
-        d.own(
-          on(
-            write,
-            touch.press,
-            lang.hitch(this, "changePermission", user, radio, d)
-          )
-        );
-        d.own(
-          on(
-            remove,
-            touch.press,
-            lang.hitch(this, "removeUser", user, radio, d)
-          )
-        );
+        d.own(on(write, touch.press, lang.hitch(this, "changePermission", user, radio, d)));
+        d.own(on(remove, touch.press, lang.hitch(this, "removeUser", user, radio, d)));
       } else {
         let cancel = this.db.div("button is-primary", "Close").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));

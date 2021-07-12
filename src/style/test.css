@@ -272,11 +272,14 @@ body.MatcTestMobile{
     padding: 32px;
     width: 400px;
     position: fixed;
+    height: 100%;
     top:0px;
     left:0px;
     height: 100%;
     box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.15);
     transition: color 0.2s;
+    overflow: auto;
+    line-height: 1.5;
 }
 
 .MatcTestTaskCntr h1{
@@ -289,19 +292,20 @@ body.MatcTestMobile{
     margin-top: 8px;
     transition: color 0.5s;
     display: none;
+    line-height: 1.5;
 }
 
 .MatcTestTaskCntr h3{
     transition: color 0.5s;
     height: 32px;
-    font-size: 24px;
+    font-size: 20px;
     display: flex;
     align-items: center;
 }
 
 .MatcTestTaskCntr .MatcTestTaskDescription {
-    font-size: 20px;
-    margin-bottom: 32px;
+    font-size: 16px;
+    margin-bottom: 40px;
 }
 
 .MatcTestTaskCntr span.mdi{
@@ -313,3 +317,5 @@ body.MatcTestMobile{
 .MatcTestTaskDone{
     color: #999;
 }
+
+

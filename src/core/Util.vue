@@ -962,15 +962,7 @@ export default {
         css.add(imgCntr, "MatcUserImageCntrTrans");
 
         let img = document.createElement("img");
-        img.src =
-          "/rest/user/" +
-          user.id +
-          "/images/" +
-          user.name +
-          "_" +
-          user.lastname +
-          "/" +
-          user.image;
+        img.src = "/rest/user/" + user.id + "/images/" + user.name + "_" + user.lastname + "/" + user.image;
         css.add(img, "MatcUserImage");
         imgCntr.appendChild(img);
       } else {
@@ -978,7 +970,7 @@ export default {
         css.add(img, "MatcUserImageNone");
         var span = document.createElement("span");
         img.appendChild(span);
-        css.add(span, "MatcMiddle");
+        css.add(span, "MatcMiddle MatcUserLetters");
         span.innerHTML = this.getUserLetter(user);
         imgCntr.appendChild(img);
       }
@@ -994,11 +986,22 @@ export default {
     },
 
     getUserLetter: function(user) {
+      let result = ''
       if (user.name) {
-        return user.name.substring(0, 1).toUpperCase();
+        result += user.name.substring(0, 1).toUpperCase();
+        if (user.lastname) {
+          result += user.lastname.substring(0, 1).toUpperCase();
+        }
       } else {
-        return user.email.substring(0, 1).toUpperCase();
+        let parts = user.email.split('.')
+        if (parts.length > 0) {
+          result += parts[0].substring(0, 1).toUpperCase();
+        }
+        if (parts.length > 1) {
+          result += parts[1].substring(0, 1).toUpperCase();
+        }
       }
+      return result
     },
 
     getUserName: function(user) {

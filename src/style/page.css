@@ -984,11 +984,11 @@ textarea.MatcContentWidgetAbs{
 
 .MatcUserImageNone{
 	height: 100%;
-	background: #FFF;
-	font-size: 30px;
+	color: #FFF;
+	font-size: 16px;
 	overflow: hidden;
 	text-align: center;
-	color:#3787f2;
+	background:#3787f2;
 }
 
 .MatcUserAdd{
@@ -1049,7 +1049,7 @@ textarea.MatcContentWidgetAbs{
 	width: 100px;
 	overflow: hidden;
 	color:#fff;
-	font-size: 70px;
+	font-size: 60px;
 	background: #3787f2;
 	position: relative;
 }
@@ -1082,20 +1082,17 @@ textarea.MatcContentWidgetAbs{
 	width: 80px;
  }
 
- .MatcSettings .MatcUserImageNone, .MatcSettings .MatcUserAdd{
- 	font-size: 55px;
+ .MatcSettings .MatcUserImageNone,
+ .MatcSettings .MatcUserAdd{
+ 	font-size: 40px;
  	background: #3787f2;
  	color:#fff;
  }
 
 .MatcSettings .MatcTeamItem .MatcUserImageCntr:HOVER, .MatcSettings .MatcUserAdd:HOVER{
 	box-shadow:none;
-
 }
 
-.MatcSettings .MatcUserImageNone:HOVER, .MatcSettings .MatcUserAdd:HOVER{
-	background: #6da000;
-}
 
 .MatcSettings .MatcUserImage:HOVER{
 	opacity:0.9;
@@ -1106,16 +1103,6 @@ textarea.MatcContentWidgetAbs{
 	height: 80px;
 	width: 80px;
 }
-
-.MatcSettings .MatcUserAdd{
-	height: 80px;
-	width: 80px;
-	font-size: 70px;
-}
-
-
-
-
 
 
 /****************************************************
