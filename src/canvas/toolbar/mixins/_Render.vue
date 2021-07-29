@@ -160,6 +160,7 @@ export default {
 				this.createBTN.setJwtToken(this.jwtToken)
 				this.tempOwn(on(this.createBTN, "change", lang.hitch(this, "onNewThemeObject")));
 				this.tempOwn(on(this.createBTN, "importsChange", lang.hitch(this, "onImportChange")));
+				this.tempOwn(on(this.createBTN, "removeTemplate", lang.hitch(this, "onRemoveTemplate")));
 				css.add(this.createBTN.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
 				this.createBTN.placeAt(this.addSection);
 

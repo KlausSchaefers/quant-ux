@@ -680,17 +680,15 @@ export default {
 
 			renderElements (elements, category, isTemplate, append){
 				this._visibleElements = elements
-				elements.sort(function(a,b){
-
-					if(a.subcategory && b.subcategory){
+				elements.sort((a,b) => {
+					if (a.subcategory && b.subcategory){
 						if(a.subcategory == b.subcategory){
 							return a.name.localeCompare(b.name);
 						}
-
 						return a.subcategory.localeCompare(b.subcategory);
 					}
 					return a.name.localeCompare(b.name);
-				});
+				})
 
 				this.renderFactory.cleanUp();
 				this.cleanUpTempListener();
@@ -716,12 +714,12 @@ export default {
 					var lastSubCat = null;
 
 					this.renderAddButton(db, size, cntr);
-					for(var i =0; i < elements.length; i++){
+					for (let i =0; i < elements.length; i++) {
 						var child = elements[i];
 
-						if(this.showSubCatgeoryLabels && !this.searchQuery && child.subcategory != lastSubCat){
+						if (this.showSubCatgeoryLabels && !this.searchQuery && child.subcategory != lastSubCat){
 
-							if(this.showSubCatgeoryLabels=="inline"){
+							if (this.showSubCatgeoryLabels=="inline"){
 								categoryCntr = db.div("MatcCreateBtnElement ").h3("",child.subcategory).build(cntr);
 								domStyle.set(categoryCntr, {
 									"width" :  size.w + "px",
@@ -759,6 +757,11 @@ export default {
 						 */
 						var lbl = db.div("MatcCreateBtnElementLabel",this.formatString(child.name, 18)).build(div);
 						lbl.style.width = size.w + "px";
+
+						if (isTemplate) {
+							let delBtn = db.div("MatcCreateBtnRemove  mdi mdi-close-circle").build(div)
+							this.tempOwn(on(delBtn, touch.press, lang.hitch(this, "onRemoveTemplate", child)));
+						}
 					}
 				}
 
@@ -910,6 +913,11 @@ export default {
 				return box;
 			},
 
+			onRemoveTemplate (template, e) {
+				this.stopEvent(e);
+				this.hideDropDown();
+				this.emit("removeTemplate", template ,e);
+			},
 
 			onCreate (child,e){
 				this.stopEvent(e);

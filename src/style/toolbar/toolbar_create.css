@@ -64,14 +64,15 @@
 	margin-right: 10px;
 	vertical-align: top;
 	cursor: pointer;
+	position: relative;
 }
 
 .MatcCreateBtnElementLabel{
 	color:#555;
 	transition:all 0.2;
 	height: 20px;
-    overflow: hidden;
-    width: 100%;
+  overflow: hidden;
+  width: 100%;
 }
 
 
@@ -89,7 +90,6 @@
 	overflow: hidden;
 	position: relative;
 }
-
 
 .MatcToolbar .MatcToolbarDropDownButton .MatcCreateBtnCntr li{
 	margin-bottom: 4px;
@@ -134,8 +134,18 @@
 }
 
 .MatcCreateBtn .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow{
-
 	left: auto;
 	right:-10px;
+}
 
+.MatcCreateBtnRemove{
+	position: absolute;
+	display: none;
+	color:#f83a3a;
+	top:5px;
+	right:5px;
+}
+
+.MatcCreateBtnElement:hover .MatcCreateBtnRemove{
+	display: block;
 }

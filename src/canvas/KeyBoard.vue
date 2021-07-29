@@ -33,9 +33,6 @@ export default {
         var isCntrl = e.ctrlKey || e.metaKey;
         var isShift = e.shiftKey
 
-        console.debug(k, isCntrl)
-
-
 
         // console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
 

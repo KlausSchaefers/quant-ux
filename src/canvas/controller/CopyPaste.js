@@ -691,7 +691,7 @@ export default class CopyPaste extends Group{
 		/**
 		 * First copy recursive down
 		 */
-		let subGroups= []
+		let subGroups = []
 		if (group.groups) {
 			group.groups.forEach(subGroupId => {
 				let subGroup = this.model.groups[subGroupId]
@@ -716,6 +716,7 @@ export default class CopyPaste extends Group{
 			children : this.getGroupCopyChildren(group.id, copyIds),
 			groups: subGroups,
 			copyOf : group.id,
+			template: group.template,
 			name : name
 		};
 

@@ -405,6 +405,11 @@ export default {
 			if (type === 'screen') {
 				return  this.getAppTypeIcon()
 			}
+
+			if (box.template) {
+				return "mdi mdi-puzzle-outline";
+			}
+
 			if (type === 'group') {
 				return 'mdi mdi-crop-free'
 			}
@@ -415,9 +420,6 @@ export default {
 				return "mdi mdi-format-title";
 			}
 
-			if (box.template) {
-			//	return "mdi mdi-puzzle-outline";
-			}
 
 			if (box.w > box.h) {
 				// this is funny, but we would need live update...

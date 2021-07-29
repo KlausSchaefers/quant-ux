@@ -1263,7 +1263,8 @@ export default class Core extends Evented {
                                 }
                             }
                         } else {
-                            console.warn("createInheritedModel() > Deteced Self inheritance...", screen);
+                            let parentScreen = model.screens[parentID];
+                            console.warn("createInheritedModel() > Deteced Self inheritance..." + parentID, screen, parentScreen);
                         }
                     } else {
                         console.warn("createInheritedModel() > no parent screen with id > " + parentID);

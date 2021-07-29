@@ -954,9 +954,15 @@ export default {
 							this.showSuccess("Widgets were pasted!");
 							lastPaste.target.multi = this._selectMulti;
 						} else if(this._copied.group){
-							this._selectGroup = this.controller.onCopyGroup(this._copied.group, pos);
-							this.showSuccess("Group were pasted!");
-							lastPaste.target.group = this._selectGroup;
+							let copy = this.controller.onCopyGroup(this._copied.group, pos);
+							if (copy) {
+								this.showSuccess("Group were pasted!");
+								requestAnimationFrame( () => {
+										this.onGroupSelected(copy.id, true);
+								})
+								lastPaste.target.group = copy;
+							}
+
 						}
 
 						if (!pos.newScreen){

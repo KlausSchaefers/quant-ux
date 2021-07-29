@@ -67,7 +67,7 @@ export default {
          */
         if (b.template && this.model && this.model.templates) {
           let template = this.model.templates[b.template]
-          if (template.designtokens) {
+          if (template && template.designtokens) {
             designtokens = template.designtokens
           }
         }

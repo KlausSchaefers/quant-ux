@@ -295,6 +295,17 @@ export default class GridAndRuler extends Core {
 
 		this.snapp(absPos, diff, this.activePoint);
 
+		/**
+		 * Ensure we do not have negative snapping
+		 */
+		if (absPos.w < 0) {
+			absPos.w = 1
+		}
+
+		if (absPos.h < 0) {
+			absPos.h = 1
+		}
+
 		if (this.showDndDistance && this.selectedType != "Xboundingbox") {
 			try {
 				this.renderNNDistance(absPos, showDistanceYTop, showDistanceXLeft);

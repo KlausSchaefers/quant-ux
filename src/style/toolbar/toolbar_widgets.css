@@ -345,7 +345,11 @@
  ****************************************************/
 .MatcValidation, .MatcRule {
 	width: 300px;
-	height:300px;
+	height:360px;
+}
+
+.MatcValidation, .MatcRule .MatcHint {
+	font-size: 14px;
 }
 
 

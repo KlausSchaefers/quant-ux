@@ -123,7 +123,7 @@ export default {
 
       if (model.props.selected) {
         this.setValue(model.props.selected, true);
-      } else if (model.props.options.length > 0) {
+      } else if (model.props.options && model.props.options.length > 0) {
         this.setValue(model.props.options[0], true);
       } else {
         this.setValue("- No Options - ", true);

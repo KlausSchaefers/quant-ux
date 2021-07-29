@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v4.0.0</div>
+      <div class="MatcSimulatorVersion">v4.0.12</div>
     </div>
   </div>
 </template>
@@ -793,12 +793,12 @@ export default {
 				checkWidgetRule (line, screenID) {
 					var rule = line.rule;
 					var uiWidget = this.renderFactory.getUIWidgetByID(rule.widget);
-					if(!uiWidget){
+					if (!uiWidget) {
 						var copyId = rule.widget + "@" + screenID;
 						uiWidget = this.renderFactory.getUIWidgetByID(copyId);
 					}
-					if(uiWidget){
-						if(this.isRuleMatching(rule, uiWidget)){
+					if (uiWidget){
+						if (this.isRuleMatching(rule, uiWidget)) {
 							return line;
 						}
 					} else {
@@ -851,6 +851,16 @@ export default {
 					return result;
 				},
 
+				getRuleValue (rule) {
+					let result = rule.value
+					if (result && result.indexOf('${') === 0 && result.indexOf('}') === result.length-1) {
+						let path = result.substring(2, result.length - 1)
+						result = this.getDataBindingByPath(path)
+						this.logger.log(-1,'getRuleValue', 'WITH PATH ' +  path,  ` >${result}<`)
+					}
+					return result
+				},
+
 				isValueMatchingRule (value, valid, rule) {
 					this.logger.log(2,"isValueMatchingRule","enter > " + rule.value + " " + rule.operator + " " + value + " / " + valid);
 
@@ -870,63 +880,75 @@ export default {
 					}
 
 					var result = false;
+					let ruleValue = this.getRuleValue(rule)
 					switch(operator){
 						case "contains":
-							if (value.toLowerCase && rule.value.toLowerCase) {
+							if (value.toLowerCase && ruleValue.toLowerCase) {
 								var lowerValue = value.toLowerCase();
-								var lowerRule = rule.value.toLowerCase();
+								var lowerRule = ruleValue.toLowerCase();
 								result = lowerValue.indexOf(lowerRule) >= 0;
 							} else {
 								result = false;
 							}
-								break;
+							break;
+
 						case "isValid":
 							result = valid;
-								break;
+							break;
+
 						case "checked":
 							result = (value === true);
-								break;
+							break;
+
 						case "notchecked":
 							result = (value === false);
-									break;
+							break;
 
-							case "active":
-								result = (value === true);
-									break;
-							case "notactive":
-								result = (value === false);
-									break;
-							case "==":
-								result = (value === rule.value);
-									break;
-							case "!=":
-								result = (value != rule.value);
-									break;
-							case ">":
-								if(!value){
-									value = 0;
-								}
-								result = (value*1 > rule.value *1);
-									break;
-							case "<":
-								if(!value){
-									value = 0;
-								}
-								result = (value*1 < rule.value *1);
-									break;
-							case ">=":
-								if(!value){
-									value = 0;
-								}
-								result = (value*1 >= rule.value *1);
-									break;
-							case "<=":
-								if(!value){
-									value = 0;
-								}
-								result = (value*1 <= rule.value *1);
-									break;
-							default:
+						case "active":
+							result = (value === true);
+							break;
+
+						case "notactive":
+							result = (value === false);
+							break;
+
+						case "==":
+							result = (value === ruleValue);
+							break;
+
+						case "!=":
+							result = (value != ruleValue);
+							break;
+
+						case ">":
+							if(!value){
+								value = 0;
+							}
+							result = (value*1 > ruleValue *1);
+							break;
+
+						case "<":
+							if(!value){
+								value = 0;
+							}
+							result = (value*1 < ruleValue *1);
+							break;
+
+						case ">=":
+							if(!value){
+								value = 0;
+							}
+							result = (value*1 >= ruleValue *1);
+							break;
+
+						case "<=":
+							if(!value){
+								value = 0;
+							}
+							result = (value*1 <= ruleValue *1);
+							break;
+
+						default:
 								console.warn("getRuleLabel() > not supported operator", rule.operator)
 					}
 					return result;

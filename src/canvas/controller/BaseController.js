@@ -542,7 +542,7 @@ export default class BaseController extends Core {
 
 
 	validateAndFixModel (model){
-		this.logger.log(3,"validateAndFixModel", "enter > model : " + model.id);
+		this.logger.log(-3,"validateAndFixModel", "enter > model : " + model.id);
 		var errors = [];
 
 		if(model.lastCategory === null){
@@ -561,10 +561,16 @@ export default class BaseController extends Core {
 					this.logger.log(0,"validateAndFixModel", "screen.x less 0 : " + screenID);
 				}
 				if(screen.y < 0){
-					screen.y =0;
+					screen.y = 0;
 					errors.push({id:screenID, msg: "y less  0"});
 					this.logger.log(0,"validateAndFixModel", "screen.y less 0 : " + screenID);
 				}
+
+				if(screen.w < 0){
+					errors.push({id:screenID, msg: "w less  0"});
+					this.logger.log(-1,"validateAndFixModel", "screen.w less 0 : " + screenID);
+				}
+
 
 
 				let children = lang.clone(screen.children);
@@ -577,6 +583,23 @@ export default class BaseController extends Core {
 						errors.push({id:screenID, msg: "No child "+ widgetID});
 						this.logger.log(0,"validateAndFixModel", "screen  " + screenID + " has not exisitng widget " + widgetID);
 					}
+				}
+
+				if (screen.parents && screen.parents.length > 0) {
+					let parentsToRemove = {}
+					screen.parents.forEach(parentId => {
+
+						if (!model.screens[parentId]) {
+							this.logger.log(-1,"validateAndFixModel", "No screen parent : " + parentId  + " in screen " + screenID);
+							parentsToRemove[parentId] = true
+						}
+					})
+
+					if (Object.values(parentsToRemove).length > 0) {
+						screen.parents = screen.parents.filter(parentId => !parentsToRemove[parentId])
+						errors.push({id:screenID, msg: "No parents " + parentsToRemove});
+					}
+
 				}
 
 			} else {
@@ -600,6 +623,20 @@ export default class BaseController extends Core {
 					errors.push({id:widgetID, msg: "y less  0"});
 					this.logger.log(0,"validateAndFixModel", "widget.y less 0 : " + widgetID);
 				}
+
+
+				if (widget.h < 0){
+					errors.push({id:widget, msg: "h less  0"});
+					widget.h = 100
+					this.logger.log(-1,"validateAndFixModel", "widget.h less 0 : " + widgetID);
+				}
+
+				if (widget.w < 0){
+					errors.push({id:widget, msg: "w less  0"});
+					widget.w = 100
+					this.logger.log(-1,"validateAndFixModel", "widget.w less 0 : " + widgetID);
+				}
+
 				// fix widgets that are on screens, but are somehow not attached.
 				// dunno why this sometimes happens
 				if(!widgets2Screen[widgetID]){

@@ -21,24 +21,24 @@ export default {
     data: function () {
         return {
             widgetOutputTypes: {
-				"ToggleButton" : "active",
-				"SegmentButton" : "options",
-				"DropDown" : "options",
-				"TextBox" : "string", 
-				"TextArea" : "string", 
-				"Password" : "string", 
-				"CheckBox" : "checked", 
-				"RadioBox" : "checked",
-				"RadioBox2" : "checked",
-				"HSlider" : "int", 
-				"Spinner" : "options", 
-				"Switch" : "active", 
-				"DragNDrop" : "pos", 
-				"Date" : "date", 
-				"DateDropDown" : "date",
-				"RadioGroup": "options",
-				"CheckBoxGroup": "options"
-			}
+							"ToggleButton" : "active",
+							"SegmentButton" : "options",
+							"DropDown" : "options",
+							"TextBox" : "string",
+							"TextArea" : "string",
+							"Password" : "string",
+							"CheckBox" : "checked",
+							"RadioBox" : "checked",
+							"RadioBox2" : "checked",
+							"HSlider" : "int",
+							"Spinner" : "options",
+							"Switch" : "active",
+							"DragNDrop" : "pos",
+							"Date" : "date",
+							"DateDropDown" : "date",
+							"RadioGroup": "options",
+							"CheckBoxGroup": "options"
+						}
         }
     },
     components: {},
@@ -47,22 +47,22 @@ export default {
 			this.logger = new Logger("Rule");
 			this.db = new DomBuilder();
 		},
-		
+
 		setModel (model){
 			this.model = model;
 		},
-		
+
 		getValidationModel (widget){
 			if(widget.props && widget.props.validation){
 				return widget.props.validation;
 			}
 			return {};
 		},
-		
+
 		setScreenIDs (ids){
 			this.screenIDs = ids;
 		},
-		
+
 		setValue (line){
 			this.line = lang.clone(line);
 			this.value = this.line.rule;
@@ -74,7 +74,7 @@ export default {
 					"operation" : null,
 					"value" : null
 				};
-			} 
+			}
 			/**
 			 * Make sure old rules work. New rules will have a type
 			 */
@@ -83,11 +83,11 @@ export default {
 			}
 			this.render(this.value);
 		},
-		
+
 		getValue (){
 			return this.value;
 		},
-		
+
 		isValid (){
 			if (this.value.type === 'widget') {
 				return this.value.widget!=null && this.value.operator !=null;
@@ -97,7 +97,7 @@ export default {
 			}
 			return true
 		},
-		
+
 		render (rule){
 			this.domNode.innerHTML="";
 			this.cleanUpTempListener();
@@ -131,7 +131,7 @@ export default {
 				})
 				this.db.label(null,"Databinding Variable").build(row);
 				let input = this.$new(Input, {
-					fireOnBlur: true, 
+					fireOnBlur: true,
 					placeholder: "Select Variable",
 					formControl: true,
 					isDropDown: true
@@ -158,8 +158,8 @@ export default {
 			}
 		},
 
-	
-		
+
+
 		renderWidget (rule){
 			if (rule.type == 'widget') {
 				var row = this.db.div("form-group").build(this.domNode);
@@ -187,18 +187,18 @@ export default {
 					console.warn("renderOperator() > No widget with id",rule.widget );
 				}
 				return;
-			} 
+			}
 			if (rule.type === 'databinding' && rule.databinding) {
 				let row = this.db.div("form-group").build(this.domNode);
 				this.db.label(null,"Operator").build(row);
 				let drpBox = this.$new(DropDownButton, {maxLabelLength:25});
 				drpBox.setOptions([
-					{"value" : "==", label:"Equals (==)"},
+						{"value" : "==", label:"Equals (==)"},
 			    	{"value" : "!=", label:"Not Equals (!=)"},
 			    	{"value" : ">", label:"Bigger (>)"},
-					{"value" : "<", label:"Smaller (<)"},
+						{"value" : "<", label:"Smaller (<)"},
 				  	{"value" : ">=", label:"Bigger Equals (>=)"},
-					{"value" : "<=", label:"Smaller Eqauls(<=)"}
+						{"value" : "<=", label:"Smaller Eqauls(<=)"}
 				]);
 				drpBox.setValue(rule.operator)
 				drpBox.placeAt(row);
@@ -206,17 +206,20 @@ export default {
 				return;
 			}
 		},
-		
+
 
 		renderValue (rule){
-			if(rule.widget && rule.operator && rule.operator != "isValid"){
+			if (rule.widget && rule.operator && rule.operator != "isValid") {
 				let widget = this.model.widgets[rule.widget];
-				if(widget){
+				if (widget) {
 					let row = this.db.div("form-group").build(this.domNode);
 					let type = this.widgetOutputTypes[widget.type];
-					if(this["renderValue_" +type]){
+					if (this["renderValue_" +type]) {
 						this["renderValue_" +type](row, widget, rule);
-					} 
+
+						let rowCheckBox = this.db.div("form-group").build(this.domNode);
+						this.renderValue_isBinding(rowCheckBox, rule)
+					}
 				} else {
 					console.debug("renderValue() > No widget with id", rule.widget);
 				}
@@ -225,39 +228,44 @@ export default {
 				let row = this.db.div("form-group").build(this.domNode);
 				let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(row);
 				this.tempOwn(on(text, "keyup", lang.hitch(this, "setRuleValueText", text)));
+
+				let rowCheckBox = this.db.div("form-group").build(this.domNode);
+				this.renderValue_isBinding(rowCheckBox, rule)
 			}
+
+
 		},
-		
+
 		renderValue_options (row, widget, rule){
 			this.db.label(null,"Value").build(row);
-			
+
 			var drpBox = this.$new(DropDownButton,{maxLabelLength:25});
 			drpBox.setOptions(this.getOptions(widget));
 			drpBox.setValue(rule.value)
 			drpBox.placeAt(row);
-			this.tempOwn(on(drpBox, "change", lang.hitch(this, "setRuleValue")));	
+			this.tempOwn(on(drpBox, "change", lang.hitch(this, "setRuleValue")));
 		},
-		
+
 		renderValue_string (row, widget, rule){
-			
+
 			if(widget.props && widget.props.validation){
 				var val = widget.props.validation;
-				var valType = val.type;				
+				var valType = val.type;
 				switch(valType){
-					case "int":	{			
+					case "int":	{
 						let number = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(this.domNode);
 						this.tempOwn(on(number, "keyup", lang.hitch(this, "setRuleValueNumber", number, "int")));
 						break;
 					}
-					
-					case "double": {					
+
+					case "double": {
 						let number = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(this.domNode);
 						this.tempOwn(on(number, "keyup", lang.hitch(this, "setRuleValueNumber", number, "double")));
 						break;
-					}	
-						
-				    default: {
-				    	let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(row);
+					}
+
+				  default: {
+				    let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(row);
 						this.tempOwn(on(text, "keyup", lang.hitch(this, "setRuleValueText", text)));
 						break;
 					}
@@ -266,85 +274,89 @@ export default {
 				let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(row);
 				this.tempOwn(on(text, "keyup", lang.hitch(this, "setRuleValueText", text)));
 			}
+
+
 		},
-		
-		renderValue_int (row, widget, rule){				
+
+		renderValue_isBinding (row) {
+			this.db.span('MatcHint', 'Use ${variable} synthax to compare against databinding variables.').build(row)
+		},
+
+		renderValue_int (row, widget, rule){
 			var number = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(this.domNode);
 			this.tempOwn(on(number, "keyup", lang.hitch(this, "setRuleValueNumber", number, "int")));
 		},
-		
+
 		getOperators (widget){
 			var result = [];
 			var type = this.widgetOutputTypes[widget.type];
 			switch(type){
 				case "checked":
-					result.push({"value" : "checked", label:"Checked"});
-					result.push({"value" : "notchecked", label:"Not Checked"});
+							result.push({"value" : "checked", label:"Checked"});
+							result.push({"value" : "notchecked", label:"Not Checked"});
 			        break;
 				case "active":
-					result.push({"value" : "active", label:"Active"});
-					result.push({"value" : "notactive", label:"Not Active"});
+							result.push({"value" : "active", label:"Active"});
+							result.push({"value" : "notactive", label:"Not Active"});
 			        break;
 			    case "date":
-			    	result.push({"value" : "isValid", label:"Is valid"});
+			    		result.push({"value" : "isValid", label:"Is valid"});
 			        break;
 			    case "string":
 			        result.push({"value" : "isValid", label:"Is valid"});
 			        result.push({"value" : "==", label:"Equals (==)"});
-			    	result.push({"value" : "!=", label:"Not Equals (!=)"});
-			    	result.push({"value" : "contains", label: "Matches (~)"})
+							result.push({"value" : "!=", label:"Not Equals (!=)"});
+							result.push({"value" : "contains", label: "Matches (~)"})
 			        break;
 			    case "int":
 			        result.push({"value" : "isValid", label:"Is valid"});
 			        result.push({"value" : "==", label:"Equals (==)"});
-			    	result.push({"value" : "!=", label:"Not Equals (!=)"});
-			    	result.push({"value" : ">", label:"Bigger (>)"});
-					result.push({"value" : "<", label:"Smaller (<)"});
-				  	result.push({"value" : ">=", label:"Bigger Equals (>=)"});
-					result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
+							result.push({"value" : "!=", label:"Not Equals (!=)"});
+							result.push({"value" : ">", label:"Bigger (>)"});
+							result.push({"value" : "<", label:"Smaller (<)"});
+							result.push({"value" : ">=", label:"Bigger Equals (>=)"});
+							result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
 			        break;
 			    case "options":
-			    	result.push({"value" : "==", label:"Equals"});
-			    	result.push({"value" : "!=", label:"Not Equals"});
+							result.push({"value" : "==", label:"Equals"});
+							result.push({"value" : "!=", label:"Not Equals"});
 			        break;
 			    default:
 			    	console.warn("getOperators() > not supported type", widget.type, type)
 			}
-			
+
 			if(type == "string"){
-			
+
 				if(widget.props && widget.props.validation){
 					var val = widget.props.validation;
 					var valType = val.type;
-					
+
 					switch(valType){
 						case "int":
-							result.push({"value" : ">", label:"Bigger (>)"});
-							result.push({"value" : "<", label:"Smaller (<)"});
-						  	result.push({"value" : ">=", label:"Bigger Equals (>=)"});
-							result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
-					        break;
+								result.push({"value" : ">", label:"Bigger (>)"});
+								result.push({"value" : "<", label:"Smaller (<)"});
+								result.push({"value" : ">=", label:"Bigger Equals (>=)"});
+								result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
+								break;
 						case "double":
-							result.push({"value" : ">", label:"Bigger (>)"});
-							result.push({"value" : "<", label:"Smaller (<)"});
-						  	result.push({"value" : ">=", label:"Bigger Equals (>=)"});
-							result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
-					        break;
-					    case "string":
-					        result.push({"value" : "contains", label:"Contains"});
-					        
-					    	
-					        break;
-					    default:
+								result.push({"value" : ">", label:"Bigger (>)"});
+								result.push({"value" : "<", label:"Smaller (<)"});
+								result.push({"value" : ">=", label:"Bigger Equals (>=)"});
+								result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
+								break;
+					  case "string":
+					      result.push({"value" : "contains", label:"Contains"})
+					      break;
+					  default:
 					    	//console.warn("getOperators() > not supported validaton string type", valType, val)
 					}
-					
+
 				}
-				
+
 			}
 			return result;
 		},
-		
+
 		getTypeOption () {
 			let widget = this.getFromWidget()
 			if (widget && widget.type === 'Rest') {
@@ -353,10 +365,10 @@ export default {
 					{value: "databinding", label: "DataBinding"},
 					{value: "rest", label: "Rest"}
 				]
-			} 
+			}
 			return [
-				{value: "widget", label: "Widget"},
-             	{value: "databinding", label: "DataBinding"}
+					{value: "widget", label: "Widget"},
+          {value: "databinding", label: "DataBinding"}
 			]
 		},
 
@@ -371,7 +383,7 @@ export default {
 
 		getUIWidgets (){
 			var result = [];
-			
+
 			if(this.screenIDs && this.screenIDs.length >0){
 				let _ids = {};
 				for(let j=0; j< this.screenIDs.length; j++){
@@ -392,7 +404,7 @@ export default {
 					} else {
 						console.warn("getUIWidgets() > No screen with id : " , screenID);
 					}
-				}				
+				}
 			} else {
 				for(let id in this.model.widgets){
 					let widget = this.model.widgets[id];
@@ -401,14 +413,14 @@ export default {
 					}
 				}
 			}
-			
+
 			result.sort(function (a, b){
 				return a.label.localeCompare(b.label);
 			});
-			
+
 			return result;
 		},
-		
+
 		getOptions (widget){
 			var result = [];
 			var options = widget.props.options;
@@ -419,7 +431,7 @@ export default {
 	    	}
 	    	return result;
 		},
-			
+
 		setType (type) {
 			this.value.type = type;
 			this.value.operator = null;
@@ -453,29 +465,29 @@ export default {
 			this.render(this.value);
 			this._onChange();
 		},
-		
+
 		setOperator (value){
 			this.value.operator = value;
 			this.render(this.value);
 			this._onChange();
 		},
-		
+
 		setRuleValue (value){
 			this.value.value = value;
 			this._onChange();
 		},
-		
+
 		setRuleValueText (input){
 			this.value.value = input.value;
 			this._onChange();
 		},
-		
+
 		setText (input){
 			this.value.text = input.value;
 			this._onChange();
 		},
-		
-		
+
+
 		setRuleValueNumber (input, type){
 
 			if(type == "int"){
@@ -491,7 +503,7 @@ export default {
 			}
 			if(type == "double"){
 				let min = input.value;
-				let re = /^-?[0-9]+((\.|,)[0-9]+)?$/;	
+				let re = /^-?[0-9]+((\.|,)[0-9]+)?$/;
 				if( re.test(min)){
 					min = parseInt(min);
 					this.value.value = min;
@@ -500,14 +512,14 @@ export default {
 					css.add(input.parentNode, "has-error");
 				}
 			}
-			
+
 			this._onChange();
 		},
-		
+
 		_onChange (){
-			
+
 		}
-    }, 
+    },
     mounted () {
 		if (this.app) {
 			this.setModel(this.app)

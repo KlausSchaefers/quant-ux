@@ -5,8 +5,8 @@ export let texts = [
         "title": "Support",
         "css": "MatcHelpTopicSpacer",
         "body": `
-            If you need help with Quant-UX, please use our channel at 
-            <a class="MatcHelpLink" target="quxSpectrumChat" href="https://spectrum.chat/quant-ux">Spectrum Chat</a> 
+            If you need help with Quant-UX, please use our channel at
+            <a class="MatcHelpLink" target="quxSpectrumChat" href="https://discord.gg/TQBpfAAKmU">Discord.com</a>
             or contact us directly.
         `,
     }

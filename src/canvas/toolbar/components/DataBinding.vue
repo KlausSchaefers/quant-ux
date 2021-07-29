@@ -167,12 +167,17 @@ export default {
     },
     methods: {
         onNewVariable (v) {
+            console.debug('Lala', this.variableKeys)
             this.$refs.combo.clear()
             if (this.variables.indexOf(v) < 0) {
                 this.variables.unshift(v)
             }
-            //this.onSelectVariable(v, this.newType)
-            //this.hasNewTypeSelector = false
+            /**
+             * If we have a default type, set the new variable
+             */
+            if (this.variableKeys.length === 1) {
+                this.$set(this.databinding, "default", v)
+            }
             this.checked[v] = true
             this.onChange()
         },

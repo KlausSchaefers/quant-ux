@@ -28,6 +28,7 @@ export default {
 				if (v){
 					this.buildLayerList();
 				}
+
 				this.setSettings({layerListVisible: v})
 			},
 

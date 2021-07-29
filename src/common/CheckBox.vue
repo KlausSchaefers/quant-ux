@@ -33,7 +33,7 @@ export default {
   components: {
   },
   methods: {
-		postCreate: function(){
+		postCreate (){
 			this.log = new Logger('CheckBox')
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
 			if(this.value || this.value === "true"){
@@ -41,11 +41,11 @@ export default {
 			}
 		},
 
-		getValue:function(){
+		getValue (){
 			return this.checked;
 		},
 
-		setValue:function(value){
+		setValue (value){
 			this.checked = value;
 			if(value){
 				css.add(this.domNode,"VommondCheckBoxChecked") ;
@@ -54,11 +54,11 @@ export default {
 			}
 		},
 
-		setLabel:function(l){
+		setLabel (l){
 			this.label = l
 		},
 
-		onChange:function(e){
+		onChange (e){
 			this.stopEvent(e)
 			this.setValue(!this.checked);
 			this.emit("change", this.checked );

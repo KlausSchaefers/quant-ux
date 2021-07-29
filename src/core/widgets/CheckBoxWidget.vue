@@ -23,18 +23,18 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this.log = new Logger('CheckBoxWigdet')
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.own(this.addClickListener(this.domNode, lang.hitch(this, "onChange")));
     },
 
-    resize: function(box) {
+    resize (box) {
       this.hook.style.borderBottomWidth =
       this._getBorderWidth(box.w / 10) + "px";
       this.hook.style.borderRightWidth =
@@ -67,21 +67,27 @@ export default {
       this.setValue(model.props.checked, true);
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue(v) {
+      if (v === 'false') {
+        v = false
+      }
+      if (v === 'true') {
+        v = true
+      }
       if (v !== true && v !== false && v >= 1) {
         v = true;
       }
       this.setValue(v);
     },
 
-    setValue: function(value, ignoreValidation) {
+    setValue (value, ignoreValidation) {
       this.value = value;
       var valid = true;
       if (!ignoreValidation) {
@@ -109,13 +115,13 @@ export default {
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       if (state && state.type == "checked") {
         this.setValue(state.value);
       }
     },
 
-    _validateValue: function(value) {
+    _validateValue (value) {
       var validation = this.model.props.validation;
       if (validation) {
         if (validation.required && value === false) {
@@ -125,11 +131,11 @@ export default {
       return true;
     },
 
-    isValid: function(showError) {
+    isValid (showError) {
       return this.validate(this.value, showError);
     },
 
-    onChange: function(e) {
+    onChange (e) {
       this.stopEvent(e);
       this.setValue(!this.value);
       this.emitDataBinding(this.value);

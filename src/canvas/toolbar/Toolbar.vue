@@ -110,11 +110,7 @@
 							<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
 							</div>
 
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
-							</div>
 
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
-							</div>
 
 							<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
 								<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
@@ -123,6 +119,12 @@
 										{{ $t('toolbar.group')}}
 									</label>
 								</a>
+							</div>
+
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
+							</div>
+
+							<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
 							</div>
 						</div>
 
@@ -729,6 +731,14 @@ export default {
 			}
 		},
 
+
+		onRemoveTemplate (template) {
+			this.logger.log(-1,"onRemoveTemplate", "entry > ", template);
+			if (this.controller && template) {
+				this.controller.removeAndUnlinkTemplate(template.id)
+			}
+		},
+
 		onNewThemeObject (obj, e){
 			this.logger.log(1,"onNewThemeObject", "entry > " + obj._type + " > " + obj.type+ " > " +obj._isTemplate);
 			var type = obj._type;
@@ -1051,7 +1061,10 @@ export default {
 			this.logger.log(1,"onToolRemoveTemplate", "entry : " + this._selectedWidget);
 			this.stopEvent(e);
 			if (this._selectedWidget){
-				this.controller.unlinkTemplate(this._selectedWidget.id);
+				this.controller.unlinkTemplate(this._selectedWidget.id, false);
+			}
+			if (this._selectedGroup){
+				this.controller.unlinkTemplate(this._selectedGroup.id, true);
 			}
 		},
 
