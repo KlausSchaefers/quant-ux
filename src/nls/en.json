@@ -44,7 +44,8 @@
         "continue": "Continue",
         "post": "Post",
         "close": "Close",
-        "import": "Import"
+        "import": "Import",
+        "export": "Export"
     },
     "dialog": {
         "import": {
@@ -52,6 +53,7 @@
             "figma-title": "Import from Figma",
             "tab-images": "Images",
             "tab-figma": "Figma",
+            "tab-github": "Github",
             "tab-open-api": "Swagger (OpenAPI)",
             "images-drop-msg": "Drop Images Here",
             "image-progress": "Uploading...",
@@ -68,6 +70,15 @@
             "error-public": "Import does not work in Try-Out mode. Please sign up to import elements.",
             "error-swagger-no-url": "Please enter a URL with a swagger file",
             "open-api-url": "URL"
+        },
+        "export": {
+            "tab-images": "Images",
+            "tab-github": "Github",
+            "github-token": "Github Access Token",
+            "github-user": "User",
+            "github-repo": "Repository",
+            "github-branch": "Branch",
+            "github-folder": "Folder"
         },
         "login": {
             "password": {

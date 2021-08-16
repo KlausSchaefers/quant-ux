@@ -107,8 +107,6 @@ export default {
     async showSharing (e){
 			this.logger.log(-1,"showSharing", "entry > ", this.isPublic);
 
-			console.debug(this.$route)
-
 			var invitation = await Services.getModelService(this.$route).findInvitation(this.model.id)
 			var temp = {};
 			for(var key in invitation){

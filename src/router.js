@@ -148,6 +148,10 @@ export default new VueRouter({
     {
       path: '/test/Color.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/ColorPickerTest.vue')
+    },
+    {
+      path: '/test/Export.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/ExportTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',
