@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .MatcExportDialogCntr{
   height: 500px;
   overflow: auto;
@@ -5,4 +7,25 @@
 
 .MatchExportDialog.MatchImportDialog{
   height: 720px;
+}
+
+.MatcExportZip{
+
+  .MatcCreateBtnElement {
+    width: 160px;
+    height: 160px;
+    text-align: center;
+
+    .mdi {
+      font-size: 80px;
+      color: #777;
+      transition: color 0.2s;
+    }
+
+    &:hover .mdi {
+      color: #555;
+    }
+  }
+
+
 }

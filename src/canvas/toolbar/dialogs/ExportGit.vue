@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcGitExport" @dblclick="forgetProfile">
+  <div class="MatcExportGit" @dblclick="forgetProfile">
 
 
         <div class="field">

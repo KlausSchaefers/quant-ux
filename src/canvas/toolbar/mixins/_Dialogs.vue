@@ -25,7 +25,7 @@ import Share from 'page/Share'
 
 import ImportDialog from 'canvas/toolbar/dialogs/ImportDialog'
 import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
-import DownloadDialog from 'canvas/toolbar/dialogs/DownloadDialog'
+import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
 
 export default {
@@ -136,29 +136,23 @@ export default {
 		},
 
 
-		showDownloadDialog:function(e){
+		showDownloadDialog (e){
 
 			var d = new Dialog();
 
 			var db = new DomBuilder();
 
-			var div = db.div("MatcPadding MatcDownloadDialog").build();
+			var div = db.div("").build();
 
-			var downloader = this.$new(DownloadDialog);
-			downloader.setJwtToken(this.jwtToken);
-			downloader.placeAt(div);
-			var model = this.model;
-			// rendering of png does not work if scale is set, so we wait
-			setTimeout(function() {
-				downloader.setModel(model);
+			var exportDialog = this.$new(ExportDialog);
+			exportDialog.setJwtToken(this.jwtToken);
+			exportDialog.placeAt(div);
+			setTimeout(() => {
+				exportDialog.setModel(this.model);
 			}, 500)
 
-			var bar = db.div(" MatcMarginTop row").build(div);
-			var left = db.div("col-md-1 MatcButtonBar").build(bar);
-			db.div("col-md-9  MatcHint", "Click to download").build(bar);
-			var cancel = db.a("MatcButton", "Close").build(left);
 
-			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
+			d.own(on(exportDialog, 'cancel', lang.hitch(d, "close")));
 			d.popup(div, e.target);
 
 		},

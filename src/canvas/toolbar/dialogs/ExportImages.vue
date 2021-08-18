@@ -157,6 +157,10 @@ export default {
 				} else {
 					this.logger.log(0, "download", "No BLOB >" + screen.id);
 				}
+			},
+			cleanUp () {
+				delete this.blobs
+				delete this.wrapper
 			}
     },
     mounted () {

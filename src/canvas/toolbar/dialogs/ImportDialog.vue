@@ -4,6 +4,7 @@
         <div class="MatcToolbarTabs MatcToolbarTabsBig">
             <a @click="tab='images'" :class="{'MatcToolbarTabActive': tab === 'images'}">{{ getNLS('dialog.import.tab-images')}}</a>
             <a @click="tab='figma'" :class="{'MatcToolbarTabActive': tab === 'figma'}">{{ getNLS('dialog.import.tab-figma')}}</a>
+            <a @click="tab='zip'" :class="{'MatcToolbarTabActive': tab === 'zip'}">{{ getNLS('dialog.import.tab-zip')}}</a>
             <a @click="tab='swagger'" :class="{'MatcToolbarTabActive': tab === 'swagger'}" v-if="hasSwagger">{{ getNLS('dialog.import.tab-open-api')}}</a>
         </div>
         <div v-if="isPublic">
@@ -21,6 +22,17 @@
                     <input type="file" @change="onFileChange" >
                 </div>
             </div>
+
+            <div v-if="tab=== 'zip'">
+                <div :class="['MatchImportDialogDropZone MatchImportDialogCntr', {'MatchImportDialogDropZoneHover': hasDrop}]">
+                    <span class="MatcHint" v-if="zipScreens.length === 0">{{ getNLS('dialog.import.zip-drop-msg')}}</span>
+                    <div class="MatchImportDialogPreview MatcToolbarDropDownButtonItem" v-for="(zipScreen,i) in zipScreens" :key="zipScreen.id" :style="{'height': previewHeight, 'width': previewWidth}">
+                        <img :src="zipScreen[i]" :alt="zipScreen.name"/>
+                    </div>
+                    <input type="file" @change="onZipChange" >
+                </div>
+            </div>
+
 
             <div v-if="tab=== 'figma'">
                 <div class="MatchImportDialogCntr">
@@ -116,6 +128,7 @@ export default {
             hasContinue: false,
             uploadFiles: [],
             uploadPreviews: [],
+            zipScreens: [],
             zoom: 1,
             errorMSG: '',
             progressMSG: '',
@@ -512,7 +525,9 @@ export default {
             e.preventDefault()
             e.dataTransfer.dropEffect = 'copy'
             this.hasDrop = true
-            this.tab = 'images'
+            if (this.tab === 'figma') {
+                this.tab = 'images'
+            }
         },
 
         onDragLeave (e) {
@@ -523,11 +538,17 @@ export default {
         },
 
         onDrop (e) {
+            this.logger.log(-1, 'onDrop', 'enter', this.tab)
             e.stopPropagation()
             e.preventDefault()
             let files = e.dataTransfer.files
             this.hasDrop = false
-            this.showFiles(files)
+            if (this.tab === 'zip') {
+                this.showZip(files)
+            }
+            if (this.tab === "images") {
+                this.showFiles(files)
+            }
         },
 
         onFileChange (e) {
@@ -575,6 +596,20 @@ export default {
             } else {
                 this.errorMSG = this.getNLS('dialog.import.error-wrong-type')
             }
+        },
+
+        /**
+         * Zip stuff
+         */
+
+        onZipChange (e) {
+            let files = e.target.files
+            this.hasDrop = false
+            this.showFiles(files)
+        },
+
+        showZip (files) {
+            this.logger.log(-1, 'showZip', 'error', files)
         }
 
 

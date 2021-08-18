@@ -4,7 +4,8 @@
 
         <div class="MatcToolbarTabs MatcToolbarTabsBig">
             <a @click="showImageExport()" :class="{'MatcToolbarTabActive': tab === 'images'}">{{ getNLS('dialog.export.tab-images')}}</a>
-            <a @click="tab='github'" :class="{'MatcToolbarTabActive': tab === 'github'}">{{ getNLS('dialog.export.tab-github')}}</a>
+            <a @click="tab='github'" v-if="hasGit" :class="{'MatcToolbarTabActive': tab === 'github'}">{{ getNLS('dialog.export.tab-github')}}</a>
+            <a @click="tab='zip'" :class="{'MatcToolbarTabActive': tab === 'zip'}">{{ getNLS('dialog.export.tab-zip')}}</a>
         </div>
         <div v-if="isPublic">
              <div class="MatchImportDialogCntr">
@@ -19,6 +20,10 @@
              <div v-show="tab=== 'github'">
                 <ExportGit :model="model" :jwtToken="jwtToken" ref="exportGit" />
             </div>
+
+            <div v-show="tab=== 'zip'">
+                <ExportZip :model="model" :jwtToken="jwtToken" ref="exportZip" />
+            </div>
         </div>
 
         <div class="MatcError">
@@ -26,8 +31,8 @@
         </div>
 
         <div class=" MatcButtonBar MatcMarginTop">
-            <a class=" MatcButton" v-if="!isPublic" @click.stop="onExport">{{ getNLS('btn.export')}}</a>
-            <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel')}}</a>
+            <a class=" MatcButton" v-if="tab === 'github'" @click.stop="onExport">{{ getNLS('btn.export')}}</a>
+            <a class=" MatcButton" @click.stop="onCancel">{{ getNLS('btn.close')}}</a>
         </div>
 
 
@@ -44,13 +49,15 @@ import Logger from 'common/Logger'
 import Util from 'core/Util'
 import ExportImages from './ExportImages'
 import ExportGit from './ExportGit'
+import ExportZip from './ExportZip'
 
 export default {
     name: 'GitExport',
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-            tab: "github",
+            hasGit: false,
+            tab: "images",
             zoom: 1,
             errorMSG: '',
             progressMSG: '',
@@ -62,7 +69,8 @@ export default {
         }
     },
     components: {
-      'ExportGit': ExportGit
+      'ExportGit': ExportGit,
+      'ExportZip': ExportZip
     },
     computed: {
     },
@@ -101,6 +109,9 @@ export default {
         },
 
         onCancel () {
+          if (this.downloader) {
+            this.downloader.cleanUp()
+          }
           this.emit('cancel')
         },
 
@@ -116,9 +127,7 @@ export default {
         }
     },
     mounted () {
-        this.logger = new Logger("GitExport");
-        this.figmaAcccessKey = localStorage.getItem('quxFigmaAccessKey')
-        this.figmaUrl = localStorage.getItem('quxFigmaUrl')
+        this.logger = new Logger("ExportDialog");
     }
 }
 </script>
