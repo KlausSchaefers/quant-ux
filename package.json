@@ -16,7 +16,6 @@
     "dom-to-image-more": "^2.9.1",
     "eventsource-polyfill": "^0.9.6",
     "file-saver": "^2.0.1",
-    "github-api": "^3.4.0",
     "highlight.js": "^10.4.1",
     "jszip": "^3.7.1",
     "paper": "^0.12.3",

@@ -383,8 +383,6 @@ export default class CopyPaste extends Group{
 		var from = this.getBoxById(source);
 		var to = this.getBoxById(target);
 
-		console.debug(from)
-
 		if(from && to){
 			var isSameType = from.type == to.type;
 

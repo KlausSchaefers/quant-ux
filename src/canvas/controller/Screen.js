@@ -2,6 +2,7 @@ import CopyPaste from './CopyPaste'
 import lang from '../../dojo/_base/lang'
 import Core from '../../core/Core'
 import ModelResizer from '../../core/ModelResizer'
+import * as ImportUtil from './ImportUtil'
 
 export default class Screen extends CopyPaste {
 
@@ -387,82 +388,6 @@ export default class Screen extends CopyPaste {
 				widget.y = Math.round(widget.y - top + (top / difY))
 				widget.h = Math.round(widget.h / difY)
 				widget.w = Math.round(widget.w / difX)
-			}
-		}
-	}
-
-	/**
-	 * We try to be smarter...
-	 */
-	modelScreenSizeWidgets2 (screen, newW) { // , newH, oldMinHeight
-		var difRelX = screen.w / newW;
-		var difAbsX = screen.w - newW;
-
-		// var difRelY = screen.h / newH;
-		// var difAbsY = screen.h - newH
-		//var newScreenHeight = screen.h * (newW / oldMinHeight)
-
-		var xMapping = {}
-
-		for(var i=0; i < screen.children.length; i++){
-			var widgetID = screen.children[i];
-
-			var widget = this.model.widgets[widgetID];
-			if(widget){
-				var relX = widget.x - screen.x;
-				// var relY = widget.y - screen.y;
-				var newDistRight =  Math.round(relX / difRelX)
-				// FIXME: I guess we can clean up this code a lot
-				// 1) We have centered things that should stay centered (full with is centered)
-				// 2) Align all the rest based on left or right aligned. Id we detected that
-				//    a widget was aligned to a centered one, we also align them
-				// 3) AWESOME: Check if elements are nested in other widgets, if so
-				//    align them to parent
-				// This means we need two loops. First scale the centered, then check if the
-				// remaining are aligned...
-				if(widget.w === screen.w){
-					// full width
-					widget.w = newW;
-				} else if(relX === 0) {
-					// left glued
-				} else if(relX + widget.w === screen.w){
-					// right glued
-					widget.x -= difAbsX;
-				} else if(Math.abs(relX - (screen.w - (relX + widget.w)) ) < 3){
-					// centered but it gets smaller, so we shrink the distance to the
-					// border and also the width
-					if(newDistRight < relX) {
-						widget.x -= (relX- newDistRight);
-						widget.w = newW - newDistRight *2
-					} else {
-						// the screen gets bigger, so we just make it wider.
-						widget.w = newW - relX *2
-					}
-					// save here the alignmend.
-					// FIXME: This is depended on the order
-					xMapping[relX] = widget.x;
-				} else {
-					// FIXME: Put these things on a queue and loop later
-					// after all centered things are fixed.
-					var oldDistLeft = (screen.w - (relX + widget.w))
-					// adapt with if not square
-					if(Math.abs(widget.w - widget.h) > 2){
-						widget.w = Math.round(widget.w / difRelX)
-					}
-					if(xMapping[relX]) {
-						console.debug("widget align", xMapping[relX])
-						widget.x = xMapping[relX];
-					} else {
-						// check if left or rght aligned
-						if(relX < oldDistLeft) {
-							widget.x = (widget.x -relX) + Math.round(relX / difRelX)
-						} else {
-							var newDistLeft = Math.round(oldDistLeft / difRelX)
-							widget.x = (widget.x -relX) + (newW-newDistLeft -widget.w)
-						}
-					}
-				}
-
 			}
 		}
 	}
@@ -1708,4 +1633,53 @@ export default class Screen extends CopyPaste {
 		this.modelRemoveScreenAndWidgetAndLines(command.screen, command.widgets, command.lines, command.groups);
 		this.render();
 	}
+
+
+	/**********************************************************************
+	 * Import app
+	 **********************************************************************/
+
+	 importApp (importModel, pos){
+		this.logger.log(-1,"importApp", "enter > ", pos);
+
+		let ids = ImportUtil.mergeModel(this.model, importModel, pos)
+		var command = {
+				timestamp : new Date().getTime(),
+				type : "ImportApp",
+				ids: ids
+		};
+
+		this.addCommand(command);
+
+		this.onModelChanged([]);
+		this.render();
+
+		// set now ids to templates
+		// update templates in widgets
+
+		// update groups
+		// update group children
+
+
+		// set widgets ids
+		// update widget ids in groups and screens and lines
+
+		// set screen ids
+		// update screen ids lines
+
+
+		// update lines
+
+		// add lines, templates, groups screens
+	}
+
+	undoImportApp (command){
+		console.debug('ImportApp', command)
+		this.render();
+	}
+
+	redoImportApp (){
+	}
+
+
 }

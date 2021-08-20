@@ -18,7 +18,7 @@
             </div>
 
              <div v-show="tab=== 'github'">
-                <ExportGit :model="model" :jwtToken="jwtToken" ref="exportGit" />
+                <!-- <ExportGit :model="model" :jwtToken="jwtToken" ref="exportGit" /> -->
             </div>
 
             <div v-show="tab=== 'zip'">
@@ -48,7 +48,7 @@ import DojoWidget from 'dojo/DojoWidget'
 import Logger from 'common/Logger'
 import Util from 'core/Util'
 import ExportImages from './ExportImages'
-import ExportGit from './ExportGit'
+//import ExportGit from './ExportGit'
 import ExportZip from './ExportZip'
 
 export default {
@@ -69,7 +69,7 @@ export default {
         }
     },
     components: {
-      'ExportGit': ExportGit,
+      //'ExportGit': ExportGit,
       'ExportZip': ExportZip
     },
     computed: {

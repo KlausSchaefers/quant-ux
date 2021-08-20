@@ -2,7 +2,7 @@
   <div class="MatcLight">
     <h1>Import Test</h1>
     <div class="MatcDialog MatchImportDialog MatcPadding">
-      <ImportDialog />
+      <ImportDialog ref="importDialog"/>
     </div>
   </div>
 </template>
@@ -24,6 +24,7 @@
 <script>
 
 import ImportDialog from 'canvas/toolbar/dialogs/ImportDialog'
+import app from './data/export_snack.json'
 
 export default {
   name: "FigmaTest",
@@ -73,7 +74,8 @@ export default {
       }
   },
   mounted() {
-
+    this.$refs.importDialog.setModel(app)
+    this.$refs.importDialog.setJwtToken('lalal')
   }
 };
 </script>

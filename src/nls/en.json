@@ -71,6 +71,8 @@
             "error-figma-page": "Select the page you want to import and click on 'Import'",
             "error-public": "Import does not work in Try-Out mode. Please sign up to import elements.",
             "error-swagger-no-url": "Please enter a URL with a swagger file",
+            "error-no-file": "No file selected",
+            "error-zip-no-file": "Wrong file type",
             "open-api-url": "URL"
         },
         "export": {

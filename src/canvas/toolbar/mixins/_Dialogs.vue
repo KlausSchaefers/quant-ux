@@ -70,7 +70,7 @@ export default {
 				dialog.close()
 		},
 
-		showImportDialog (e) {
+		showImportDialog (e, zipFiles = null) {
 			this.logger.log(-1,"showImportDialog", "entry > " + this.isPublic);
 			let dialog = new Dialog()
       var db = new DomBuilder();
@@ -85,6 +85,9 @@ export default {
 			importDialog.setController(this.controller)
 			importDialog.setCanvas(this.canvas)
 			importDialog.setZoom(this.canvas.getZoomFactor())
+			if (zipFiles) {
+				importDialog.onZipFileDropped(zipFiles)
+			}
 			importDialog.$on('save', data => {
 					this.logger.log(-1,"showImportDialog", "save > ", data);
 					dialog.close()

@@ -25,10 +25,10 @@
 
             <div v-if="tab=== 'zip'">
                 <div :class="['MatchImportDialogDropZone MatchImportDialogCntr', {'MatchImportDialogDropZoneHover': hasDrop}]">
-                    <span class="MatcHint" v-if="zipScreens.length === 0">{{ getNLS('dialog.import.zip-drop-msg')}}</span>
-                    <div class="MatchImportDialogPreview MatcToolbarDropDownButtonItem" v-for="(zipScreen,i) in zipScreens" :key="zipScreen.id" :style="{'height': previewHeight, 'width': previewWidth}">
-                        <img :src="zipScreen[i]" :alt="zipScreen.name"/>
-                    </div>
+                    <span class="MatcHint" v-if="!hasZip">{{ getNLS('dialog.import.zip-drop-msg')}}</span>
+                    <span v-else class="MatchImportDialogPreview MatchImportDialogZip MatcToolbarDropDownButtonItem">
+                        <span class="mdi mdi-file-code-outline"/>
+                    </span>
                     <input type="file" @change="onZipChange" >
                 </div>
             </div>
@@ -115,7 +115,7 @@ import Util from 'core/Util'
 import Services from 'services/Services'
 import RadioBoxList from 'common/RadioBoxList'
 
-
+import ZipSevice from 'services/ZipService'
 import FigmaService from 'services/FigmaService'
 
 export default {
@@ -128,7 +128,7 @@ export default {
             hasContinue: false,
             uploadFiles: [],
             uploadPreviews: [],
-            zipScreens: [],
+            hasZip: false,
             zoom: 1,
             errorMSG: '',
             progressMSG: '',
@@ -197,6 +197,9 @@ export default {
             if (this.tab === 'figma' && this.isValidFigmaConfig()) {
                 this.tab = 'progress'
                 await this.importFigma(this.figmaAcccessKey, this.figmaUrl)
+            }
+            if (this.tab === 'zip') {
+                await this.importZip()
             }
             if (this.tab === 'swagger') {
                 await this.loadSwagger()
@@ -543,6 +546,10 @@ export default {
             e.preventDefault()
             let files = e.dataTransfer.files
             this.hasDrop = false
+            // flip tab if zip is dropped
+            if (files.length === 1 && this.isZipFile(files[0])) {
+                this.tab = 'zip'
+            }
             if (this.tab === 'zip') {
                 this.showZip(files)
             }
@@ -601,15 +608,56 @@ export default {
         /**
          * Zip stuff
          */
-
         onZipChange (e) {
             let files = e.target.files
-            this.hasDrop = false
-            this.showFiles(files)
+            this.showZip(files)
+        },
+
+        isZipFile (file) {
+            return file.name.endsWith('.zip')
+        },
+
+        onZipFileDropped (files) {
+            this.tab = 'zip'
+            this.showZip(files)
         },
 
         showZip (files) {
             this.logger.log(-1, 'showZip', 'error', files)
+            this.hasZip = true
+             this.hasDrop = false
+            this.zipFile = files[0]
+            this.errorMSG = ""
+
+            if (this.zipFile && !this.isZipFile(this.zipFile)) {
+                this.errorMSG = this.getNLS('dialog.import.error-zip-no-file')
+                this.hasZip = false
+                return
+            }
+        },
+
+        async importZip () {
+            this.logger.log(-1, 'importZip', 'enter')
+            if (!this.hasZip) {
+                this.errorMSG = this.getNLS('dialog.import.error-no-file')
+                return
+            }
+            if (this.zipFile && !this.isZipFile(this.zipFile)) {
+                this.errorMSG = this.getNLS('dialog.import.error-zip-no-file')
+                return
+            }
+
+            this.tab = 'progress'
+
+            // upload images from zip and update model
+            this.setProgress(0.1)
+            let zipModel = await ZipSevice.uploadImages(this.zipFile, this.model.id, (done, total) => {
+                 this.setProgress(((done / total) * 80) + 20)
+            })
+            // import app
+            await this.controller.importApp(zipModel, this.getCanvasCenter())
+            // close dialog
+            this.$emit('save')
         }
 
 

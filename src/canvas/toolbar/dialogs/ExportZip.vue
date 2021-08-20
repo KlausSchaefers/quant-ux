@@ -3,7 +3,7 @@
   <div class="MatcExportZip">
 
     <span class="MatcToolbarScreenListPreviewWrapper MatcCreateBtnElement MatcToolbarDropDownButtonItem" @click="downloadZip">
-        <span class="mdi mdi-cloud-download-outline"/>
+        <span class="mdi mdi-file-code-outline"/>
     </span>
 
 

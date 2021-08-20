@@ -67,6 +67,19 @@ export default {
 
 				var dt = e.dataTransfer;
 				this._files = dt.files;
+
+				/**
+				 * If we drop a zip file, we open the import dialog. One
+				 * might still want to select what to import.
+				 */
+				if (this._files.length === 1 && this._files[0].name.endsWith('.zip')) {
+					css.remove(this.domNode, "MatcCanvasImageUploadDND");
+					if (this.toolbar) {
+						this.toolbar.showImportDialog(e, this._files)
+					}
+					return
+				}
+
 				css.remove(this.domNode, "MatcCanvasImageUploadDND");
 				this._sendFiles(e);
 
