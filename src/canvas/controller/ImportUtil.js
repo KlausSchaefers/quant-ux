@@ -16,6 +16,132 @@ export function mergeModel (model, importModel, pos) {
    */
   changes = changes.concat(mergeGroups(model, importModel))
 
+  /**
+   * Copy screens and update
+   */
+  changes = changes.concat(mergeScreens(model, importModel))
+
+  /**
+   * Copy widgets and update references in screens, lines and groups
+   */
+  changes = changes.concat(mergeWidgets(model, importModel))
+
+  /**
+   * Copy copy lines
+   */
+  changes = changes.concat(mergeLines(model, importModel))
+
+
+  return changes
+}
+
+
+function mergeWidgets (model, importModel) {
+  let changes = []
+
+  /**
+   * Update ids in merged model
+   */
+  let oldToNewIds = {}
+  Object.values(importModel.widgets).forEach(widget => {
+    let oldId = widget.id
+    let newId = updateUUID('w', widget, model)
+    oldToNewIds[oldId] = newId
+  })
+
+  /**
+   * Copy models
+   */
+  Object.values(importModel.widgets).forEach(widget => {
+    model.widgets[widget.id] = widget
+    changes.push({type:"widget", action:'import', id: widget.id})
+  })
+
+  Object.values(importModel.lines).forEach(line => {
+    if (oldToNewIds[line.to]) {
+      line.to = oldToNewIds[line.to]
+    }
+    if (oldToNewIds[line.from]) {
+      line.from = oldToNewIds[line.from]
+    }
+  })
+
+  /**
+   * Update refs in new model
+   */
+  Object.values(model.screens).forEach(screen => {
+    screen.children = replaceValues(screen.children, oldToNewIds)
+  })
+
+
+  if (model.groups) {
+    Object.values(model.groups).forEach(group => {
+      group.children = replaceValues(group.children, oldToNewIds)
+    })
+  }
+
+  return changes
+}
+
+function mergeLines (model, importModel) {
+  let changes = []
+
+  /**
+   * Update ids in merged model
+   */
+  let oldToNewIds = {}
+  Object.values(importModel.lines).forEach(line => {
+    let oldId = screen.id
+    let newId = updateUUID('l', line, model)
+    oldToNewIds[oldId] = newId
+  })
+
+  /**
+   * Copy models
+   */
+  Object.values(importModel.lines).forEach(line => {
+    model.lines[line.id] = line
+    changes.push({type:"line", action:'import', id: line.id})
+  })
+
+  return changes
+}
+
+
+function mergeScreens (model, importModel) {
+  let changes = []
+
+  /**
+   * Update ids in merged model
+   */
+  let oldToNewIds = {}
+  Object.values(importModel.screens).forEach(screen => {
+    let oldId = screen.id
+    let newId = updateUUID('s', screen, model)
+    oldToNewIds[oldId] = newId
+  })
+
+  /**
+   * Copy models
+   */
+  Object.values(importModel.screens).forEach(screen => {
+    model.screens[screen.id] = screen
+    changes.push({type:"screen", action:'import', id: screen.id})
+  })
+
+  /**
+   * Update refs in lines in importModel
+   */
+  Object.values(importModel.lines).forEach(line => {
+    if (oldToNewIds[line.to]) {
+      line.to = oldToNewIds[line.to]
+    }
+    if (oldToNewIds[line.from]) {
+      line.from = oldToNewIds[line.from]
+    }
+  })
+
+
   return changes
 }
 
@@ -38,16 +164,15 @@ function mergeGroups (model, importModel) {
     })
 
     /**
-     * Update references
+     * Update references to child groups
      */
      for (let oldId in oldToNewIds) {
       let newId = oldToNewIds[oldId]
       Object.values(importModel.groups).forEach(group => {
         if (group.groups) {
-          group.groups = group.groups.map(id => id === oldId ? newId : id)
+          group.groups = replaceValue(group.groups, oldId, newId)
         }
       })
-
     }
 
 
@@ -62,6 +187,14 @@ function mergeGroups (model, importModel) {
   return changes
 }
 
+export function replaceValue (list, oldValue, newValue) {
+  return list.map(value => value === oldValue ? newValue : value)
+}
+
+export function replaceValues (list, mapping) {
+  return list.map(value => mapping[value] !== undefined ? mapping[value] : value)
+}
+
 
 function mergeTemplates (model, importModel) {
   let changes = []
@@ -70,8 +203,6 @@ function mergeTemplates (model, importModel) {
     if (!model.templates) {
       model.templates = {}
     }
-
-
 
     /**
      * Set new ids and update refs
@@ -84,7 +215,7 @@ function mergeTemplates (model, importModel) {
     })
 
     /**
-     * Update references
+     * Update references in importModel
      */
     let widgetsByTemplate = {}
     Object.values(importModel.widgets).forEach(widget => {

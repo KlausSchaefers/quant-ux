@@ -1,0 +1,376 @@
+{
+  "_id": "611d70d8295894e6d2a620fd",
+  "version": 2.1,
+  "name": "ExportTest",
+  "description": "",
+  "screenSize": {
+    "w": 375,
+    "h": 667
+  },
+  "type": "smartphone",
+  "screens": {
+    "s10000": {
+      "x": 1311,
+      "y": 1053,
+      "h": 667,
+      "w": 375,
+      "name": "Screen",
+      "type": "Screen",
+      "style": {
+        "background": "#ffffff"
+      },
+      "min": {
+        "w": 375,
+        "h": 667
+      },
+      "has": {
+        "image": true
+      },
+      "props": {
+        "start": true
+      },
+      "children": [
+        "w10001",
+        "w10005",
+        "w10002",
+        "w10003",
+        "w10010"
+      ],
+      "id": "s10000"
+    },
+    "s10015": {
+      "x": 1856,
+      "y": 1053,
+      "h": 667,
+      "w": 375,
+      "name": "Screen 1",
+      "type": "Screen",
+      "style": {
+        "background": "#ffffff"
+      },
+      "min": {
+        "w": 375,
+        "h": 667
+      },
+      "has": {
+        "image": true
+      },
+      "props": {
+        "start": false
+      },
+      "children": [],
+      "id": "s10015",
+      "modified": 1630268071776
+    }
+  },
+  "widgets": {
+    "w10001": {
+      "type": "Button",
+      "name": "Box",
+      "x": 1352,
+      "y": 1074,
+      "w": 140,
+      "h": 53,
+      "z": 1,
+      "props": {
+        "label": ""
+      },
+      "has": {
+        "backgroundColor": true,
+        "border": true,
+        "label": true,
+        "padding": true,
+        "onclick": true
+      },
+      "actions": {},
+      "style": {},
+      "id": "w10001",
+      "created": 1629319398205,
+      "modified": 1629319421893,
+      "template": "tw10008"
+    },
+    "w10002": {
+      "type": "Button",
+      "name": "Child2",
+      "x": 1370,
+      "y": 1172,
+      "w": 95,
+      "h": 52,
+      "z": 2,
+      "props": {
+        "label": ""
+      },
+      "has": {
+        "backgroundColor": true,
+        "border": true,
+        "label": true,
+        "padding": true,
+        "onclick": true
+      },
+      "actions": {},
+      "style": {
+        "fontSize": 14,
+        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign": "left",
+        "letterSpacing": 0,
+        "lineHeight": 1.4,
+        "color": "#ffffff",
+        "borderTopRightRadius": 0,
+        "borderTopLeftRadius": 0,
+        "borderBottomRightRadius": 0,
+        "borderBottomLeftRadius": 0,
+        "borderTopWidth": 0,
+        "borderBottomWidth": 0,
+        "borderRightWidth": 0,
+        "borderLeftWidth": 0,
+        "borderTopColor": "#333333",
+        "borderBottomColor": "#333333",
+        "borderRightColor": "#333333",
+        "borderLeftColor": "#333333",
+        "background": "#333333",
+        "paddingTop": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "textShadow": null
+      },
+      "id": "w10002",
+      "created": 1629319400139,
+      "modified": 1629411507538
+    },
+    "w10003": {
+      "type": "Button",
+      "name": "Child1",
+      "x": 1370,
+      "y": 1172,
+      "w": 32,
+      "h": 97,
+      "z": 3,
+      "props": {
+        "label": ""
+      },
+      "has": {
+        "backgroundColor": true,
+        "border": true,
+        "label": true,
+        "padding": true,
+        "onclick": true
+      },
+      "actions": {},
+      "style": {
+        "fontSize": 14,
+        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign": "left",
+        "letterSpacing": 0,
+        "lineHeight": 1.4,
+        "color": "#ffffff",
+        "borderTopRightRadius": 0,
+        "borderTopLeftRadius": 0,
+        "borderBottomRightRadius": 0,
+        "borderBottomLeftRadius": 0,
+        "borderTopWidth": 0,
+        "borderBottomWidth": 0,
+        "borderRightWidth": 0,
+        "borderLeftWidth": 0,
+        "borderTopColor": "#333333",
+        "borderBottomColor": "#333333",
+        "borderRightColor": "#333333",
+        "borderLeftColor": "#333333",
+        "background": "#333333",
+        "paddingTop": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "textShadow": null
+      },
+      "id": "w10003",
+      "created": 1629319403908,
+      "modified": 1629411507539
+    },
+    "w10005": {
+      "type": "Button",
+      "name": "ParentChild",
+      "x": 1352,
+      "y": 1156,
+      "w": 140,
+      "h": 153,
+      "z": 0,
+      "props": {
+        "label": ""
+      },
+      "has": {
+        "backgroundColor": true,
+        "border": true,
+        "label": true,
+        "padding": true,
+        "onclick": true
+      },
+      "actions": {},
+      "style": {
+        "fontSize": 14,
+        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign": "left",
+        "letterSpacing": 0,
+        "lineHeight": 1.4,
+        "color": "#ffffff",
+        "borderTopRightRadius": 0,
+        "borderTopLeftRadius": 0,
+        "borderBottomRightRadius": 0,
+        "borderBottomLeftRadius": 0,
+        "borderTopWidth": 0,
+        "borderBottomWidth": 0,
+        "borderRightWidth": 0,
+        "borderLeftWidth": 0,
+        "borderTopColor": "#333333",
+        "borderBottomColor": "#333333",
+        "borderRightColor": "#333333",
+        "borderLeftColor": "#333333",
+        "background": "#e89595",
+        "paddingTop": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "textShadow": null
+      },
+      "id": "w10005",
+      "created": 1629319421008,
+      "modified": 1629411507537
+    },
+    "w10010": {
+      "type": "Label",
+      "name": "Label",
+      "x": 1353,
+      "y": 1395,
+      "w": 187,
+      "h": 20,
+      "z": 5,
+      "props": {
+        "label": "Type something"
+      },
+      "has": {
+        "label": true,
+        "padding": true,
+        "advancedText": true
+      },
+      "style": {
+        "fontSize": "Auto",
+        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign": "left",
+        "letterSpacing": 0,
+        "lineHeight": 1,
+        "color": "#333333",
+        "textShadow": null
+      },
+      "id": "w10010",
+      "created": 1629322692763,
+      "modified": 1629411543932
+    }
+  },
+  "lines": {
+    "l10016": {
+      "id": "l10016",
+      "from": "w10001",
+      "to": "s10015",
+      "points": [],
+      "event": "click"
+    },
+    "l10017": {
+      "id": "l10017",
+      "from": "s10015",
+      "to": "s10000",
+      "points": [],
+      "event": "click"
+    }
+  },
+  "groups": {
+    "g10004": {
+      "id": "g10004",
+      "children": [
+        "w10002",
+        "w10003"
+      ],
+      "groups": [],
+      "name": "ChildGroup"
+    },
+    "g10006": {
+      "id": "g10006",
+      "children": [
+        "w10005"
+      ],
+      "groups": [
+        "g10004"
+      ],
+      "name": "ParentGroup"
+    }
+  },
+  "lastUUID": 10018,
+  "lastUpdate": 1630268080982,
+  "created": 1629319384327,
+  "startScreen": "",
+  "grid": {
+    "w": 8,
+    "h": 8,
+    "style": "line",
+    "color": "#cecece",
+    "visible": false,
+    "enabled": false
+  },
+  "domain": "Quant-UX.com",
+  "size": 5361,
+  "isDirty": false,
+  "templates": {
+    "tw10008": {
+      "id": "tw10008",
+      "style": {
+        "fontSize": 14,
+        "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign": "left",
+        "letterSpacing": 0,
+        "lineHeight": 1.4,
+        "color": "#ffffff",
+        "borderTopRightRadius": 0,
+        "borderTopLeftRadius": 0,
+        "borderBottomRightRadius": 0,
+        "borderBottomLeftRadius": 0,
+        "borderTopWidth": 0,
+        "borderBottomWidth": 0,
+        "borderRightWidth": 0,
+        "borderLeftWidth": 0,
+        "borderTopColor": "#333333",
+        "borderBottomColor": "#333333",
+        "borderRightColor": "#333333",
+        "borderLeftColor": "#333333",
+        "background": "#333333",
+        "paddingTop": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "textShadow": null
+      },
+      "has": {
+        "backgroundColor": true,
+        "border": true,
+        "label": true,
+        "padding": true,
+        "onclick": true
+      },
+      "props": {
+        "label": ""
+      },
+      "w": 140,
+      "h": 53,
+      "z": 1,
+      "x": 0,
+      "y": 0,
+      "templateType": "Widget",
+      "type": "Button",
+      "visible": true,
+      "name": "Template1",
+      "modified": 1629321129064,
+      "created": 1629321129064
+    }
+  },
+  "lastBackup": 1629412041481,
+  "sizeBackup": 5200,
+  "id": "611d70d8295894e6d2a620fd"
+}

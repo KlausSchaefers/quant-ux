@@ -1642,39 +1642,71 @@ export default class Screen extends CopyPaste {
 	 importApp (importModel, pos){
 		this.logger.log(-1,"importApp", "enter > ", pos);
 
-		let ids = ImportUtil.mergeModel(this.model, importModel, pos)
+		let changes = ImportUtil.mergeModel(this.model, importModel, pos)
 		var command = {
 				timestamp : new Date().getTime(),
 				type : "ImportApp",
-				ids: ids
+				changes: changes
 		};
 
 		this.addCommand(command);
+		this.onModelChanged(changes);
+		this.render();
+	}
+
+	modelRemoveImportedChanges (changes) {
+
+		changes.forEach(change => {
+			if (change.type === 'widget') {
+				if (this.model.widgets[change.id]) {
+					delete this.model.widgets[change.id]
+				} else {
+					this.logger.log(-1,"modelRemoveImportedChanges", "Error > cannot undo", change);
+				}
+			}
+
+			if (change.type === 'line') {
+				if (this.model.lines[change.id]) {
+					delete this.model.lines[change.id]
+				} else {
+					this.logger.log(-1,"modelRemoveImportedChanges", "Error > cannot undo", change);
+				}
+			}
+
+
+			if (change.type === 'screen') {
+				if (this.model.screens[change.id]) {
+					delete this.model.screens[change.id]
+				} else {
+					this.logger.log(-1,"modelRemoveImportedChanges", "Error > cannot undo", change);
+				}
+			}
+
+
+			if (change.type === 'group' && this.model.groups) {
+				if (this.model.groups[change.id]) {
+					delete this.model.groups[change.id]
+				} else {
+					this.logger.log(-1,"modelRemoveImportedChanges", "Error > cannot undo", change);
+				}
+			}
+
+			if (change.type === 'template' && this.model.templates) {
+				if (this.model.templates[change.id]) {
+					delete this.model.templates[change.id]
+				} else {
+					this.logger.log(-1,"modelRemoveImportedChanges", "Error > cannot undo", change);
+				}
+			}
+		})
 
 		this.onModelChanged([]);
-		this.render();
-
-		// set now ids to templates
-		// update templates in widgets
-
-		// update groups
-		// update group children
-
-
-		// set widgets ids
-		// update widget ids in groups and screens and lines
-
-		// set screen ids
-		// update screen ids lines
-
-
-		// update lines
-
-		// add lines, templates, groups screens
 	}
 
 	undoImportApp (command){
-		console.debug('ImportApp', command)
+		this.logger.log(-1,"undoImportApp", "enter > ", command);
+		this.modelRemoveImportedChanges(command.changes)
+
 		this.render();
 	}
 

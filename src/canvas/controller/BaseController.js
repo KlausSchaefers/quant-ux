@@ -714,7 +714,7 @@ export default class BaseController extends Core {
 
 		if(errors.length > 0){
 			this.printStackToLog();
-			this.logger.log(-1,"validateAndFixModel", "exit() > Found  " + errors.length + " errors");
+			this.logger.log(-1,"validateAndFixModel", "exit() > Found  " + errors.length + " errors", errors);
 		}
 
 		return errors;
