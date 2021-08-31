@@ -152,6 +152,10 @@ export default new VueRouter({
     {
       path: '/test/Export.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/ExportTest.vue')
+    },
+    {
+      path: '/test/WS.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/WebSocketTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',
