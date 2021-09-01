@@ -5,6 +5,7 @@ import Core from '../../core/Core'
 import CoreUtil from '../../core/CoreUtil'
 import Logger from '../../common/Logger'
 import ModelDB from './ModelDB'
+import * as CollabUtil from './CollabUtil'
 
 export default class BaseController extends Core {
 
@@ -14,13 +15,14 @@ export default class BaseController extends Core {
 		this.mode = 'private'
 
 		if(params && params.mode){
-			this.mode =params.mode;
+			this.mode = params.mode;
 		}
 
 		this.debug = false
 		this.active = true
 		this.transactions = {}
 		this.modelDB = new ModelDB()
+
 
 		this.logger.log(1,"constructor", "entry > " + this.mode);
 		this.commandStack =  {stack : [], pos : 0, id:0};
@@ -294,9 +296,9 @@ export default class BaseController extends Core {
 					/**
 					 * compute changes and send them to server
 					 */
-					var changes = this.getModelDelta(this.oldModel, this.model);
+					var changes = CollabUtil.getModelDelta(this.oldModel, this.model);
 					this.logger.log(4,"saveModelChanges", "Save changes " + changes.length);
-					if(changes.length > 0) {
+					if (changes.length > 0) {
 						/**
 						 * We start a transaction, and we will close it.
 						 */
@@ -308,6 +310,12 @@ export default class BaseController extends Core {
 							this.logger.error("saveModelChanges", "Something wenrt wrong with the rest", err);
 							this.showError("Could not reach server! Changes not saved!");
 						})
+
+						/**
+						 * Since 4.2 we broadcast changes
+						 */
+						this.collabBroadcastChanges(changes)
+
 					} else {
 						this.logger.error("saveModelChanges", "Triggered without getting change! We send entire model");
 						let res = await this.modelService.saveApp(this.model)
@@ -324,12 +332,73 @@ export default class BaseController extends Core {
 				this.storeModel(this.model)
 
 				/**
-				 * Clone currrent model as old model
+				 * Clone currrent model as old model, so we can later again compute deltas
 				 */
-				this.oldModel = lang.clone(this.model);
+				this.setOldModel(this.model);
 			}
 		}
 	}
+
+	async onModelUpdated (response){
+		/**
+		 * Some server shit might happen. In this case we
+		 * save the entire app.
+		 */
+		if(response && response.type === "error") {
+			this.logger.error("onModelUpdated", "Error while partial save. ");
+			let res = await this.modelService.saveApp(this.model)
+			this.onModelSaved(res)
+			this.logger.sendError("onModelUpdated", new Error("Could not update. Check Server Log"));
+		} else {
+			this.showSuccess("Model Updated!");
+		}
+	}
+
+	onModelSaved (){
+		this.logger.error("onModelSaved", "Should not have been called!");
+		this.showSuccess("Model Saved!");
+	}
+
+	setOldModel (model) {
+		this.oldModel = lang.clone(model);
+	}
+
+
+	/***************************************************************************************
+	 *  Collab stuff
+	 ***************************************************************************************/
+	collabBroadcastChanges (changes) {
+		this.logger.log(-1, "collabBroadcastChanges", "enter " , changes);
+	}
+
+	collabRecieveChanges (message) {
+		this.logger.log(-1, "collabRecieveChanges", "enter " , message);
+
+		/**
+		 * We get a message and pass it to the collab service
+		 * This checks if it is the last message, otherwise it reorders
+		 * The collab service updates the current model
+		 * we have to create a new old model and kick of rendering
+		 *
+		 * 			var s = JSON.stringify(this.model);
+			this.model.size = s.length;
+
+			this.setOldModel(this.model)
+
+					if (this._canvas){
+				let inheritedModel = CoreUtil.createInheritedModel(this.model)
+				this._canvas.renderPartial(inheritedModel, changes);
+			}
+
+		 */
+
+	}
+
+
+	/***************************************************************************************
+	 *  Local model Storage & transactions
+	 ***************************************************************************************/
+
 
 	storeModel (model) {
 		this.logger.log(3, "storeModel", "enter " );
@@ -387,352 +456,6 @@ export default class BaseController extends Core {
 		delete this.transactions[id]
 	}
 
-
-	async onModelUpdated (response){
-		/**
-		 * Some server shit might happen. In this case we
-		 * save the entire app.
-		 */
-		if(response && response.type === "error") {
-			this.logger.error("onModelUpdated", "Error while partial save. ");
-			let res = await this.modelService.saveApp(this.model)
-			this.onModelSaved(res)
-			this.logger.sendError("onModelUpdated", new Error("Could not update. Check Server Log"));
-		} else {
-			this.showSuccess("Model Updated!");
-		}
-	}
-
-	onModelSaved (){
-		this.logger.error("onModelSaved", "Should not have been called!");
-		this.showSuccess("Model Saved!");
-	}
-
-
-	/**********************************************************************
-	 * Model FIXES
-	 **********************************************************************/
-
-	fixModelCount (m){
-		var errors = [];
-		this.logger.log(4,"fixModelCount", "enter");
-		try {
-			var max = 0;
-			for(let id in m.screens){
-				let i = parseInt(id.substring(1));
-				max = Math.max(max, i)
-			}
-			for(let id in m.widgets){
-				let i = parseInt(id.substring(1));
-				max = Math.max(max, i)
-			}
-			if (m.lines){
-				for(let id in m.lines){
-					let i = parseInt(id.substring(1));
-					max = Math.max(max, i)
-				}
-			}
-			if (m.groups){
-				for(let id in m.groups){
-					let i = parseInt(id.substring(1));
-					max = Math.max(max, i)
-				}
-			}
-			if (m.templates){
-				for(let id in m.templates){
-					let i = parseInt(id.substring(1));
-					max = Math.max(max, i)
-				}
-			}
-			this.logger.log(4,"fixModelCount", "exit > " + max + " ?= " +m.lastUUID + " == " + (max > m.lastUUID));
-			if (max > m.lastUUID){
-				errors.push({msg: "lastUUID to small!"})
-				this.logger.error("fixModelCount", "fix > " + max + " ?= " +m.lastUUID);
-				this.logger.sendError(new Error("Controller.fixModelCount() > Some fuckup"));
-				m.lastUUID = max + 1;
-			}
-
-		} catch (e){
-			console.error('BaseController.fixModelCount() > Error', e)
-		}
-		return errors;
-	}
-
-	/**
-	 * Deprecated... Is not called...
-	 */
-	fixWidgetsNotInScreen (m){
-		this.logger.log(2,"fixWidgetsNotInScreen", "enter");
-		var errors = [];
-
-		var widgets2Screen = {};
-		for(let id in m.screens){
-			let screen = m.screens[id];
-			let children = screen.children;
-			for (let i=0; i < children.length; i++){
-				let widgetID = children[i];
-				widgets2Screen[widgetID] = id;
-			}
-		}
-		for(let id in m.widgets){
-			if(!widgets2Screen[id]){
-				// let widget = m.widgets[id]
-				let screen = this._getHoverScreen(id, m);
-				if (screen) {
-					errors.push({
-						widgetID : id,
-						type: "WidgetNotInScreen"
-					});
-					screen.children.push(id);
-				}
-			}
-		}
-
-		if (errors.length > 0){
-			this.logger.log(1,"fixWidgetsNotInScreen", "exit > " + errors.length);
-			//this.printStackToLog();
-			//this.logger.sendError(new Error("Controller.fixWidgetsNotInScreen() > Some fuckup"));
-		}
-		return errors;
-	}
-
-	fixNegativeCoords (m){
-		var fixed = false;
-		for(let id in m.screens){
-			let s = m.screens[id];
-			let difX = 0;
-			let difY = 0;
-			if(s.x < 0){
-				s.x = Math.abs(s.x);
-				fixed = true;
-				difX = s.x *2;
-			}
-			if(s.y < 0){
-				s.y = Math.abs(s.y);
-				fixed = true;
-				difY = s.y *2;
-			}
-			if(difY> 0 || difY > 0){
-				for(let i=0; i < s.children.length; i++){
-					let widgetID = screen.children[i];
-					let widget = m.widgets[widgetID];
-					widget.x += difX;
-					widget.y += difY;
-				}
-			}
-		}
-
-		for(let id in m.widgets){
-			let w = m.widgets[id];
-			if(w.x < 0){
-				w.x = Math.abs(w.x);
-				fixed = true;
-			}
-			if(w.y < 0){
-				w.y = Math.abs(w.y);
-				fixed = true;
-			}
-		}
-
-		if(fixed){
-			this.printStackToLog();
-			this.logger.sendError({message:"fixNegativeCoords() > negative screens", "stack" : "---"});
-		}
-	}
-
-
-	validateAndFixModel (model){
-		this.logger.log(-3,"validateAndFixModel", "enter > model : " + model.id);
-		var errors = [];
-
-		if(model.lastCategory === null){
-			this.logger.log(0,"validateAndFixModel", "lastCategory is null");
-			errors.push({id:model.id, msg: "lastCategory is null"});
-			model.lastCategory = "WireFrame";
-		}
-
-		var widgets2Screen = {};
-		for(let screenID in model.screens){
-			let screen = model.screens[screenID];
-			if(screen){
-				if(screen.x < 0){
-					screen.x =0;
-					errors.push({id:screenID, msg: "x less 0"});
-					this.logger.log(0,"validateAndFixModel", "screen.x less 0 : " + screenID);
-				}
-				if(screen.y < 0){
-					screen.y = 0;
-					errors.push({id:screenID, msg: "y less  0"});
-					this.logger.log(0,"validateAndFixModel", "screen.y less 0 : " + screenID);
-				}
-
-				if(screen.w < 0){
-					errors.push({id:screenID, msg: "w less  0"});
-					this.logger.log(-1,"validateAndFixModel", "screen.w less 0 : " + screenID);
-				}
-
-
-
-				let children = lang.clone(screen.children);
-				for(let i=0; i< children.length; i++){
-					let widgetID = children[i];
-					let widget = model.widgets[widgetID];
-					widgets2Screen[widgetID] = screenID;
-					if(!widget){
-						screen.children.splice(i, 1);
-						errors.push({id:screenID, msg: "No child "+ widgetID});
-						this.logger.log(0,"validateAndFixModel", "screen  " + screenID + " has not exisitng widget " + widgetID);
-					}
-				}
-
-				if (screen.parents && screen.parents.length > 0) {
-					let parentsToRemove = {}
-					screen.parents.forEach(parentId => {
-
-						if (!model.screens[parentId]) {
-							this.logger.log(-1,"validateAndFixModel", "No screen parent : " + parentId  + " in screen " + screenID);
-							parentsToRemove[parentId] = true
-						}
-					})
-
-					if (Object.values(parentsToRemove).length > 0) {
-						screen.parents = screen.parents.filter(parentId => !parentsToRemove[parentId])
-						errors.push({id:screenID, msg: "No parents " + parentsToRemove});
-					}
-
-				}
-
-			} else {
-				delete model.screens[screenID];
-				errors.push({id:screenID, msg: "No screen"});
-				this.logger.log(0,"validateAndFixModel", "No screen object : " + screenID);
-			}
-
-		}
-
-		for(let widgetID in model.widgets){
-			let widget = model.widgets[widgetID];
-			if(widget){
-				if(widget.x < 0){
-					widget.x =0;
-					errors.push({id:widgetID, msg: "x less 0"});
-					this.logger.log(0,"validateAndFixModel", "widget.x less 0 : " + widgetID);
-				}
-				if(widget.y < 0){
-					widget.y =0;
-					errors.push({id:widgetID, msg: "y less  0"});
-					this.logger.log(0,"validateAndFixModel", "widget.y less 0 : " + widgetID);
-				}
-
-
-				if (widget.h < 0){
-					errors.push({id:widget, msg: "h less  0"});
-					widget.h = 100
-					this.logger.log(-1,"validateAndFixModel", "widget.h less 0 : " + widgetID);
-				}
-
-				if (widget.w < 0){
-					errors.push({id:widget, msg: "w less  0"});
-					widget.w = 100
-					this.logger.log(-1,"validateAndFixModel", "widget.w less 0 : " + widgetID);
-				}
-
-				// fix widgets that are on screens, but are somehow not attached.
-				// dunno why this sometimes happens
-				if(!widgets2Screen[widgetID]){
-					var screen = this._getHoverScreen(widget, model);
-					if (screen) {
-						this.logger.log(0,"validateAndFixModel", "widget not in screen : " + widgetID);
-						errors.push({id:widgetID, msg: "Not in screen"});
-						screen.children.push(widgetID);
-					}
-				}
-			} else {
-				delete model.widgets[widgetID];
-				errors.push({id:widgetID, msg: "No widget"});
-				this.logger.log(0,"validateAndFixModel", "No widget object : " + widgetID);
-			}
-		}
-
-		for(let lineID in model.lines){
-			let line = model.lines[lineID];
-			if(line){
-				let lineValid = true;
-				if(!model.widgets[line.to] && !model.screens[line.to]){
-					lineValid = false;
-					this.logger.log(0,"validateAndFixModel", "No line to:" + lineID);
-				}
-
-				if(!model.widgets[line.from] && !model.screens[line.from] && (model.groups && !model.groups[line.from])){
-					lineValid = false;
-					this.logger.log(0,"validateAndFixModel", "No line from :" + lineID);
-				}
-
-				if(!lineValid){
-					delete model.lines[lineID];
-					errors.push({id:line.from, msg: "No line to or from"});
-				}
-
-			} else {
-				this.logger.log(0,"validateAndFixModel", "No line object : " + lineID);
-			}
-		}
-
-		if(model.groups){
-			for(let groupID in model.groups){
-				let group = model.groups[groupID];
-				if(group){
-
-					let children = lang.clone(group.children);
-					for(let i=0; i< children.length; i++){
-						let widgetID = children[i];
-						let widget = model.widgets[widgetID];
-						if(!widget){
-							group.children.splice(i, 1);
-							errors.push({id:groupID, msg: "No group member "+ widgetID});
-							this.logger.log(0,"validateAndFixModel", "group  " + groupID + " has not exisitng widget " + widgetID);
-						}
-					}
-
-
-					/**
-					 * This can happen. Don't make a mess, just remove empty group
-					 */
-					let groupLength = 0
-					if (group.groups) {
-						groupLength = group.groups.length
-					}
-					if(group.children.length === 0 && groupLength === 0){
-						this.logger.log(-1,"validateAndFixModel", "group  " + groupID + "  was empty");
-						delete model.groups[groupID];
-					}
-				}
-			}
-		}
-
-
-
-		if(errors.length > 0){
-			this.printStackToLog();
-			this.logger.log(-1,"validateAndFixModel", "exit() > Found  " + errors.length + " errors", errors);
-		}
-
-		return errors;
-	}
-
-	printStackToLog (){
-		var stack = this.commandStack.stack;
-		var to = Math.max(0, stack.length-5);
-		this.logger.log(0,"printStackToLog", "zoom : " +this.getZoomFactor()  );
-		for(var i=stack.length-1; i > to; i--){
-			var c = stack[i];
-			var raw = i + "_"+c.type;
-			if(c.label){
-				raw+=" ("+ c.label + ")";
-			}
-			this.logger.log(0,"getStackAsString() >",  raw);
-		}
-	}
 
 	/**********************************************************************
 	 * Canvas Delegates
@@ -1915,6 +1638,9 @@ export default class BaseController extends Core {
 	}
 
 	getUUID (){
+		/**
+		 * FIXME: Use UUID if we have collab session?
+		 */
 		var uuid = this.model.lastUUID++ + "";
 //			var isUnique = (this.model.widgets["w" + uuid] === undefined && this.model.widgets["s" + uuid] === undefined)
 //			while (!isUnique){
@@ -2016,76 +1742,6 @@ export default class BaseController extends Core {
 		return delta;
 	}
 
-
-
-	/**
-	 * Try to keep in sync with JS Objetc.Observe()
-	 *
-	 * https://developer.mozilla.org/pt-PT/docs/Web/JavaScript/Reference/Global_Objects/Object/observe
-	 *
-	 * Returns a list of:
-	 * - name: The name of the property which was changed.
-	 * - object: The changed object after the change was made.
-	 * - type: A string indicating the type of change taking place. One of "add", "update", or "delete".
-	 * - oldValue: Only for "update" and "delete" types. The value before the change
-	 * - parent: The name of the parent node in case of widgets or so
-	 */
-	getModelDelta (objOld, objNew){
-
-
-		var changes =[];
-
-		/**
-		 * some children have to looked deeper into..
-		 */
-		var specialChildren = {
-				"screens" : true,
-				"widgets" : true,
-				"lines" : true,
-				"templates" : true,
-				"groups" : true,
-				"fonts": true,
-				"imports": true,
-				"designtokens": true
-		};
-
-
-		/**
-		 * check which things have changed in the new model
-		 */
-		for(let key in objOld){
-			let vOld = objOld[key];
-			let vNew = objNew[key];
-			if(specialChildren[key]){
-				let childChanges = this.getChanges(vOld, vNew, key);
-				changes = changes.concat(childChanges);
-			} else {
-				let change = this.getChange(key, vOld, vNew);
-				if(change){
-					changes.push(change);
-				}
-			}
-		}
-
-		/**
-		 * check which things were added
-		 */
-		for(let key in objNew){
-			let vOld = objOld[key];
-			let vNew = objNew[key];
-			if(vOld === undefined || vOld === null){
-				let change = {
-					name : key,
-					type :"add",
-					object : vNew
-				};
-				changes.push(change);
-			}
-		}
-		return changes;
-	}
-
-
 	logPageEvent (action, label) {
 		this.logger.log(4,"logPageEvent","enter", action + " > " + label);
 		try{
@@ -2108,4 +1764,330 @@ export default class BaseController extends Core {
 		}
 		return id + '[Not found]'
 	}
+
+	/**********************************************************************
+	 * Model FIXES
+	 **********************************************************************/
+
+	 fixModelCount (m){
+		var errors = [];
+		this.logger.log(4,"fixModelCount", "enter");
+		try {
+			var max = 0;
+			for(let id in m.screens){
+				let i = parseInt(id.substring(1));
+				max = Math.max(max, i)
+			}
+			for(let id in m.widgets){
+				let i = parseInt(id.substring(1));
+				max = Math.max(max, i)
+			}
+			if (m.lines){
+				for(let id in m.lines){
+					let i = parseInt(id.substring(1));
+					max = Math.max(max, i)
+				}
+			}
+			if (m.groups){
+				for(let id in m.groups){
+					let i = parseInt(id.substring(1));
+					max = Math.max(max, i)
+				}
+			}
+			if (m.templates){
+				for(let id in m.templates){
+					let i = parseInt(id.substring(1));
+					max = Math.max(max, i)
+				}
+			}
+			this.logger.log(4,"fixModelCount", "exit > " + max + " ?= " +m.lastUUID + " == " + (max > m.lastUUID));
+			if (max > m.lastUUID){
+				errors.push({msg: "lastUUID to small!"})
+				this.logger.error("fixModelCount", "fix > " + max + " ?= " +m.lastUUID);
+				this.logger.sendError(new Error("Controller.fixModelCount() > Some fuckup"));
+				m.lastUUID = max + 1;
+			}
+
+		} catch (e){
+			console.error('BaseController.fixModelCount() > Error', e)
+		}
+		return errors;
+	}
+
+	/**
+	 * Deprecated... Is not called...
+	 */
+	fixWidgetsNotInScreen (m){
+		this.logger.log(2,"fixWidgetsNotInScreen", "enter");
+		var errors = [];
+
+		var widgets2Screen = {};
+		for(let id in m.screens){
+			let screen = m.screens[id];
+			let children = screen.children;
+			for (let i=0; i < children.length; i++){
+				let widgetID = children[i];
+				widgets2Screen[widgetID] = id;
+			}
+		}
+		for(let id in m.widgets){
+			if(!widgets2Screen[id]){
+				// let widget = m.widgets[id]
+				let screen = this._getHoverScreen(id, m);
+				if (screen) {
+					errors.push({
+						widgetID : id,
+						type: "WidgetNotInScreen"
+					});
+					screen.children.push(id);
+				}
+			}
+		}
+
+		if (errors.length > 0){
+			this.logger.log(1,"fixWidgetsNotInScreen", "exit > " + errors.length);
+			//this.printStackToLog();
+			//this.logger.sendError(new Error("Controller.fixWidgetsNotInScreen() > Some fuckup"));
+		}
+		return errors;
+	}
+
+	fixNegativeCoords (m){
+		var fixed = false;
+		for(let id in m.screens){
+			let s = m.screens[id];
+			let difX = 0;
+			let difY = 0;
+			if(s.x < 0){
+				s.x = Math.abs(s.x);
+				fixed = true;
+				difX = s.x *2;
+			}
+			if(s.y < 0){
+				s.y = Math.abs(s.y);
+				fixed = true;
+				difY = s.y *2;
+			}
+			if(difY> 0 || difY > 0){
+				for(let i=0; i < s.children.length; i++){
+					let widgetID = screen.children[i];
+					let widget = m.widgets[widgetID];
+					widget.x += difX;
+					widget.y += difY;
+				}
+			}
+		}
+
+		for(let id in m.widgets){
+			let w = m.widgets[id];
+			if(w.x < 0){
+				w.x = Math.abs(w.x);
+				fixed = true;
+			}
+			if(w.y < 0){
+				w.y = Math.abs(w.y);
+				fixed = true;
+			}
+		}
+
+		if(fixed){
+			this.printStackToLog();
+			this.logger.sendError({message:"fixNegativeCoords() > negative screens", "stack" : "---"});
+		}
+	}
+
+
+	validateAndFixModel (model){
+		this.logger.log(-3,"validateAndFixModel", "enter > model : " + model.id);
+		var errors = [];
+
+		if(model.lastCategory === null){
+			this.logger.log(0,"validateAndFixModel", "lastCategory is null");
+			errors.push({id:model.id, msg: "lastCategory is null"});
+			model.lastCategory = "WireFrame";
+		}
+
+		var widgets2Screen = {};
+		for(let screenID in model.screens){
+			let screen = model.screens[screenID];
+			if(screen){
+				if(screen.x < 0){
+					screen.x =0;
+					errors.push({id:screenID, msg: "x less 0"});
+					this.logger.log(0,"validateAndFixModel", "screen.x less 0 : " + screenID);
+				}
+				if(screen.y < 0){
+					screen.y = 0;
+					errors.push({id:screenID, msg: "y less  0"});
+					this.logger.log(0,"validateAndFixModel", "screen.y less 0 : " + screenID);
+				}
+
+				if(screen.w < 0){
+					errors.push({id:screenID, msg: "w less  0"});
+					this.logger.log(-1,"validateAndFixModel", "screen.w less 0 : " + screenID);
+				}
+
+
+
+				let children = lang.clone(screen.children);
+				for(let i=0; i< children.length; i++){
+					let widgetID = children[i];
+					let widget = model.widgets[widgetID];
+					widgets2Screen[widgetID] = screenID;
+					if(!widget){
+						screen.children.splice(i, 1);
+						errors.push({id:screenID, msg: "No child "+ widgetID});
+						this.logger.log(0,"validateAndFixModel", "screen  " + screenID + " has not exisitng widget " + widgetID);
+					}
+				}
+
+				if (screen.parents && screen.parents.length > 0) {
+					let parentsToRemove = {}
+					screen.parents.forEach(parentId => {
+
+						if (!model.screens[parentId]) {
+							this.logger.log(-1,"validateAndFixModel", "No screen parent : " + parentId  + " in screen " + screenID);
+							parentsToRemove[parentId] = true
+						}
+					})
+
+					if (Object.values(parentsToRemove).length > 0) {
+						screen.parents = screen.parents.filter(parentId => !parentsToRemove[parentId])
+						errors.push({id:screenID, msg: "No parents " + parentsToRemove});
+					}
+
+				}
+
+			} else {
+				delete model.screens[screenID];
+				errors.push({id:screenID, msg: "No screen"});
+				this.logger.log(0,"validateAndFixModel", "No screen object : " + screenID);
+			}
+
+		}
+
+		for(let widgetID in model.widgets){
+			let widget = model.widgets[widgetID];
+			if(widget){
+				if(widget.x < 0){
+					widget.x =0;
+					errors.push({id:widgetID, msg: "x less 0"});
+					this.logger.log(0,"validateAndFixModel", "widget.x less 0 : " + widgetID);
+				}
+				if(widget.y < 0){
+					widget.y =0;
+					errors.push({id:widgetID, msg: "y less  0"});
+					this.logger.log(0,"validateAndFixModel", "widget.y less 0 : " + widgetID);
+				}
+
+
+				if (widget.h < 0){
+					errors.push({id:widget, msg: "h less  0"});
+					widget.h = 100
+					this.logger.log(-1,"validateAndFixModel", "widget.h less 0 : " + widgetID);
+				}
+
+				if (widget.w < 0){
+					errors.push({id:widget, msg: "w less  0"});
+					widget.w = 100
+					this.logger.log(-1,"validateAndFixModel", "widget.w less 0 : " + widgetID);
+				}
+
+				// fix widgets that are on screens, but are somehow not attached.
+				// dunno why this sometimes happens
+				if(!widgets2Screen[widgetID]){
+					var screen = this._getHoverScreen(widget, model);
+					if (screen) {
+						this.logger.log(0,"validateAndFixModel", "widget not in screen : " + widgetID);
+						errors.push({id:widgetID, msg: "Not in screen"});
+						screen.children.push(widgetID);
+					}
+				}
+			} else {
+				delete model.widgets[widgetID];
+				errors.push({id:widgetID, msg: "No widget"});
+				this.logger.log(0,"validateAndFixModel", "No widget object : " + widgetID);
+			}
+		}
+
+		for(let lineID in model.lines){
+			let line = model.lines[lineID];
+			if(line){
+				let lineValid = true;
+				if(!model.widgets[line.to] && !model.screens[line.to]){
+					lineValid = false;
+					this.logger.log(0,"validateAndFixModel", "No line to:" + lineID);
+				}
+
+				if(!model.widgets[line.from] && !model.screens[line.from] && (model.groups && !model.groups[line.from])){
+					lineValid = false;
+					this.logger.log(0,"validateAndFixModel", "No line from :" + lineID);
+				}
+
+				if(!lineValid){
+					delete model.lines[lineID];
+					errors.push({id:line.from, msg: "No line to or from"});
+				}
+
+			} else {
+				this.logger.log(0,"validateAndFixModel", "No line object : " + lineID);
+			}
+		}
+
+		if(model.groups){
+			for(let groupID in model.groups){
+				let group = model.groups[groupID];
+				if(group){
+
+					let children = lang.clone(group.children);
+					for(let i=0; i< children.length; i++){
+						let widgetID = children[i];
+						let widget = model.widgets[widgetID];
+						if(!widget){
+							group.children.splice(i, 1);
+							errors.push({id:groupID, msg: "No group member "+ widgetID});
+							this.logger.log(0,"validateAndFixModel", "group  " + groupID + " has not exisitng widget " + widgetID);
+						}
+					}
+
+
+					/**
+					 * This can happen. Don't make a mess, just remove empty group
+					 */
+					let groupLength = 0
+					if (group.groups) {
+						groupLength = group.groups.length
+					}
+					if(group.children.length === 0 && groupLength === 0){
+						this.logger.log(-1,"validateAndFixModel", "group  " + groupID + "  was empty");
+						delete model.groups[groupID];
+					}
+				}
+			}
+		}
+
+
+
+		if(errors.length > 0){
+			this.printStackToLog();
+			this.logger.log(-1,"validateAndFixModel", "exit() > Found  " + errors.length + " errors", errors);
+		}
+
+		return errors;
+	}
+
+	printStackToLog (){
+		var stack = this.commandStack.stack;
+		var to = Math.max(0, stack.length-5);
+		this.logger.log(0,"printStackToLog", "zoom : " +this.getZoomFactor()  );
+		for(var i=stack.length-1; i > to; i--){
+			var c = stack[i];
+			var raw = i + "_"+c.type;
+			if(c.label){
+				raw+=" ("+ c.label + ")";
+			}
+			this.logger.log(0,"getStackAsString() >",  raw);
+		}
+	}
+
 }
