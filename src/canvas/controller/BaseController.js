@@ -379,6 +379,7 @@ export default class BaseController extends Core {
 		 * This checks if it is the last message, otherwise it reorders
 		 * The collab service updates the current model
 		 * we have to create a new old model and kick of rendering
+		 * check if we have new fonts or imports???
 		 *
 		 * 			var s = JSON.stringify(this.model);
 			this.model.size = s.length;

@@ -89,7 +89,8 @@ export default {
   mounted() {
 
     this.clients.forEach(client => {
-      client.service = new WebSocketService('ws://localhost:8086', client.app, Services.getUserService().getToken())
+      // ws://localhost:8086
+      client.service = new WebSocketService('wss://ws.quant-ux.com', client.app, Services.getUserService().getToken())
       client.service.onMessage(message => {
         client.messages.push(message.data)
       })

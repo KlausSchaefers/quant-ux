@@ -92,6 +92,8 @@ export default class ModelFactory {
 			widgets: {},
 			lines: {},
 			groups: {},
+			templates: {},
+			designtokens: {},
 			lastUUID: 10000,
 			lastUpdate: 0,
 			created: 0,

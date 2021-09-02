@@ -1,3 +1,27 @@
+import {diff} from './MergeUtil'
+
+
+export function getMiniChanges (changes) {
+	return changes.map(change => getMiniChange(change))
+}
+
+export function getMiniChange(change) {
+	let result = {
+		id: change.name,
+		type: change.type,
+		parent: change.parent,
+		value: change.object
+	}
+	/**
+	 * We only do mini difs if we have an update and a parent.
+	 */
+	if (change.object && change.oldValue && change.type === 'update' && change.parent) {
+		//result.value = diff(change.oldValue, change.object)
+		// result.diff = true
+	}
+	return result
+}
+
 /**
  * Try to keep in sync with JS Objetc.Observe()
  *
