@@ -16,8 +16,8 @@ export function getMiniChange(change) {
 	 * We only do mini difs if we have an update and a parent.
 	 */
 	if (change.object && change.oldValue && change.type === 'update' && change.parent) {
-		//result.value = diff(change.oldValue, change.object)
-		// result.diff = true
+		result.value = diff(change.oldValue, change.object)
+		result.diff = true
 	}
 	return result
 }

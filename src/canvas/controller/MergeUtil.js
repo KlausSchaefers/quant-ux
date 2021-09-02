@@ -1,7 +1,6 @@
 /**
  * based on https://gomakethings.com/getting-the-differences-between-two-objects-with-vanilla-js/
  */
-
 export function mergeDeep(target, source) {
     const isObject = (obj) => obj && typeof obj === 'object';
 
@@ -15,11 +14,9 @@ export function mergeDeep(target, source) {
 
       if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
         /**
-         * We have a special case of primitives
+         * This diff produces for arrays the updated version
          */
-        console.debug(targetValue, sourceValue)
-        console.debug(targetValue.filter(x => sourceValue.includes(x)))
-        target[key] = mergeDeep(Object.assign({}, targetValue), sourceValue);
+        target[key] = sourceValue
       } else if (isObject(targetValue) && isObject(sourceValue)) {
         target[key] = mergeDeep(Object.assign({}, targetValue), sourceValue);
       } else {

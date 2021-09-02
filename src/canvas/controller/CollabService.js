@@ -1,7 +1,7 @@
 import Logger from '../../core/Logger'
 import * as CollabUtil from './CollabUtil'
 import { v4 as uuidv4 } from 'uuid';
-//import {mergeDeep} from './MergeUtil'
+import {mergeDeep} from './MergeUtil'
 export default class CollabService {
 
     constructor(appId){
@@ -98,7 +98,11 @@ export default class CollabService {
       if (change.type === 'update') {
         Logger.log(1, 'CollabService.applyInParent() >  update', change)
         if (parent[change.id]) {
-          parent[change.id] = change.value
+          // FIXME: we should have here something like deep merge.
+          let oldValue =parent[change.id]
+          let newValue = mergeDeep(oldValue, change.value)
+          parent[change.id] = newValue
+          //parent[change.id] = change.value
         } else {
           Logger.log(-1, 'CollabService.applyInParent() >  No object to update', change)
         }
