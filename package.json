@@ -13,6 +13,7 @@
     "bulma": "^0.8.1",
     "core-js": "^3.6.4",
     "d3": "5.9.1",
+    "diff": "^5.0.0",
     "dom-to-image-more": "^2.9.1",
     "eventsource-polyfill": "^0.9.6",
     "file-saver": "^2.0.1",

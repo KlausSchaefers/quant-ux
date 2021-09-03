@@ -1,8 +1,20 @@
-/**
- * based on https://gomakethings.com/getting-the-differences-between-two-objects-with-vanilla-js/
+
+/*!
+ * diff() based on work from 2019 Chris Ferdinandi & Jascha Brinkmann, MIT License, https://gomakethings.com & https://twitter.com/jaschaio
+ * mergeDeep() based on https://gomakethings.com/getting-the-differences-between-two-objects-with-vanilla-js/
+ *
  */
-export function mergeDeep(target, source) {
-    const isObject = (obj) => obj && typeof obj === 'object';
+
+export function getDelta(a, b) {
+    return diff(a,b)
+}
+
+export function applyDelta(a, delta) {
+    return mergeDeep(a, delta)
+}
+
+function mergeDeep(target, source) {
+
 
     if (!isObject(target) || !isObject(source)) {
       return source;
@@ -12,7 +24,11 @@ export function mergeDeep(target, source) {
       const targetValue = target[key];
       const sourceValue = source[key];
 
-      if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+
+      if (isObject(sourceValue) && sourceValue.added && sourceValue.removed && Array.isArray(targetValue)) {
+        target[key] = applyArrayDelta(targetValue, sourceValue)
+      } else if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+
         /**
          * This diff produces for arrays the updated version. Take a look at compare
          */
@@ -27,16 +43,10 @@ export function mergeDeep(target, source) {
     return target;
   }
 
-/*!
- * Find the differences between two objects and push to a new object
- * (c) 2019 Chris Ferdinandi & Jascha Brinkmann, MIT License, https://gomakethings.com & https://twitter.com/jaschaio
- * @param  {Object} obj1 The original object
- * @param  {Object} obj2 The object to compare against it
- * @return {Object}      An object of differences between the two
- */
+
 export function diff (obj1, obj2) {
 
-  if (!obj2 || Object.prototype.toString.call(obj2) !== '[object Object]') {
+  if (!obj2 || getType(obj2) !== '[object Object]') {
       return obj1;
   }
   let diffs = {};
@@ -55,12 +65,58 @@ export function diff (obj1, obj2) {
   return diffs;
 }
 
-/**
- * Check if two arrays are equal
- * @param  {Array}   arr1 The first array
- * @param  {Array}   arr2 The second array
- * @return {Boolean}      If true, both arrays are equal
- */
+
+function compare (item1, item2, key, diffs) {
+
+    const type1 = getType(item1);
+    const type2 = getType(item2);
+
+    if (type2 === '[object Undefined]') {
+        diffs[key] = null;
+        return;
+    }
+
+    if (type1 !== type2) {
+        diffs[key] = item2;
+        return;
+    }
+
+    if (type1 === '[object Object]') {
+        var objDiff = diff(item1, item2);
+        if (Object.keys(objDiff).length > 0) {
+            diffs[key] = objDiff;
+        }
+        return;
+    }
+
+    if (Array.isArray(item1)) {
+        if (!arraysMatch(item1, item2)) {
+            if (arrayPrimitive(item1) && arrayPrimitive(item2)) {
+                diffs[key] = getArrayDelta(item1, item2);
+            } else {
+                diffs[key] = item2
+            }
+        }
+        return;
+    }
+
+    if (item1 !== item2 ) {
+        diffs[key] = item2;
+    }
+
+}
+
+function getType(obj) {
+    return Object.prototype.toString.call(obj);
+}
+
+function applyArrayDelta (item, delta) {
+    let result = item.filter(x => !delta.removed.includes(x))
+    result = result.concat(delta.added)
+    return result
+}
+
+
 function arraysMatch (arr1, arr2) {
     if (arr1.length !== arr2.length) return false;
     for (var i = 0; i < arr1.length; i++) {
@@ -69,45 +125,41 @@ function arraysMatch (arr1, arr2) {
     return true;
 }
 
-/**
- * Compare two items and push non-matches to object
- * @param  {*}      item1 The first item
- * @param  {*}      item2 The second item
- * @param  {String} key   The key in our object
- */
-function compare (item1, item2, key, diffs) {
+function arrayPrimitive (arr) {
+    for (let i=0; i < arr.length; i++) {
+        let value = arr[i]
+        if (isObject(value) || Array.isArray(value)) {
+            return false
+        }
+    }
+    return true
+}
 
-  var type1 = Object.prototype.toString.call(item1);
-  var type2 = Object.prototype.toString.call(item2);
-  if (type2 === '[object Undefined]') {
-      diffs[key] = null;
-      return;
-  }
-  if (type1 !== type2) {
-      diffs[key] = item2;
-      return;
-  }
-  if (type1 === '[object Object]') {
-      var objDiff = diff(item1, item2);
-      if (Object.keys(objDiff).length > 0) {
-          diffs[key] = objDiff;
-      }
-      return;
-  }
-  if (type1 === '[object Array]') {
-      // this is important. if arrays do not match, we take the new one!
-      if (!arraysMatch(item1, item2)) {
-          diffs[key] = item2;
-      }
-      return;
-  }
-  if (type1 === '[object Function]') {
-      if (item1.toString() !== item2.toString()) {
-          diffs[key] = item2;
-      }
-  } else {
-      if (item1 !== item2 ) {
-          diffs[key] = item2;
-      }
-  }
+function getArrayDelta (item1, item2) {
+    let result = {
+        added: [],
+        removed: [],
+        value: item2
+    }
+
+    // check which things are added
+    item2.filter(a => {
+        if (!item1.includes(a)) {
+            result.added.push(a)
+        }
+    })
+
+
+    // check which things are added
+    item1.filter(a => {
+        if (!item2.includes(a)) {
+            result.removed.push(a)
+        }
+    })
+
+    return result
+}
+
+function isObject (obj) {
+    return obj && typeof obj === 'object';
 }

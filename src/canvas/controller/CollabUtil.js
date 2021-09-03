@@ -1,4 +1,4 @@
-import {diff} from './MergeUtil'
+import * as MergeUtil from './MergeUtil'
 
 
 export function getMiniChanges (changes) {
@@ -16,7 +16,7 @@ export function getMiniChange(change) {
 	 * We only do mini difs if we have an update and a parent.
 	 */
 	if (change.object && change.oldValue && change.type === 'update' && change.parent) {
-		result.value = diff(change.oldValue, change.object)
+		result.value = MergeUtil.getDelta(change.oldValue, change.object)
 		result.diff = true
 	}
 	return result

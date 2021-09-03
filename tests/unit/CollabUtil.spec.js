@@ -278,9 +278,10 @@ test('Test CollabUtil.getMiniChanges() ', async () => {
   expect(minichanges[0].id).toBe('w3')
   expect(minichanges[1].id).toBe('s1')
   expect(minichanges[1].value.start).toBe(true)
-  expect(minichanges[1].value.children.length).toBe(3)
-  expect(minichanges[1].value.children[0]).toBe('w1')
-  expect(minichanges[1].value.children[1]).toBe('w2')
-  expect(minichanges[1].value.children[2]).toBe('w3')
+  expect(minichanges[1].value.children.value.length).toBe(3)
+  expect(minichanges[1].value.children.added.length).toBe(1)
+  expect(minichanges[1].value.children.added[0]).toBe('w3')
+  expect(minichanges[1].value.children.removed.length).toBe(0)
+
 });
 
