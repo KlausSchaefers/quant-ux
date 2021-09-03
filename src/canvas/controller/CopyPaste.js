@@ -64,7 +64,8 @@ export default class CopyPaste extends Group{
 		var groups = []
 		let changes = []
 		var clonePos = this.getClones(ids, pos).clones;
-		for (var i=0; i< clonePos.length; i++) {
+		let z = this.getMaxZValue(this.model.widgets)
+		for (let i = 0; i < clonePos.length; i++) {
 			var cPos = clonePos[i];
 			if(this.model.widgets[cPos.cloneOff]){
 				var widget = this.model.widgets[cPos.cloneOff];
@@ -84,7 +85,7 @@ export default class CopyPaste extends Group{
 				clonedWidget.x =  cPos.x;
 				clonedWidget.y =  cPos.y;
 				clonedWidget.copyOf = widget.id;
-				clonedWidget.z = this.getMaxZValue(this.model.widgets) +1;
+				clonedWidget.z = z + 1 + i;
 				delete clonedWidget.props.databinding;
 
 				/**
@@ -542,12 +543,14 @@ export default class CopyPaste extends Group{
 		/**
 		 * 3) copy children and add off set to top children
 		 */
-		for(var i=0; i < selection.length; i++){
+		let z = this.getMaxZValue(this.model.widgets)
+		for (let i = 0; i < selection.length; i++){
 			var id = selection[i];
 			var widget = this.model.widgets[id];
 
 			var newWidget = this._copyWidget(widget, targetScreen);
 			newWidget.id = "w"+this.getUUID();
+			newWidget.z = z + 1 + i
 
 			newWidget.x =  pos.x + (newWidget.x - parentPos.x);
 			newWidget.y =  pos.y + (newWidget.y - parentPos.y);
@@ -636,7 +639,7 @@ export default class CopyPaste extends Group{
 		allChildren.forEach(widget => {
 			let id = widget.id
 			let newWidget = this._copyWidget(widget, targetScreen);
-			newWidget.id = "w" + this.getUUID();
+			newWidget.id = "w"+this.getUUID();
 			newWidget.x =  pos.x + (newWidget.x - parentPos.x);
 			newWidget.y =  pos.y + (newWidget.y - parentPos.y);
 			if (pos.newScreen){
@@ -752,7 +755,7 @@ export default class CopyPaste extends Group{
 
 		var widget = this.model.widgets[id];
 
-		if(widget){
+		if (widget) {
 			pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 			var targetScreen = this.getHoverScreen(pos);
 			// for copies to other screens, we take the position from the unzoomed model.
@@ -770,11 +773,10 @@ export default class CopyPaste extends Group{
 			 */
 			var newWidget = this._copyWidget(widget, targetScreen);
 			newWidget.id = "w"+this.getUUID();
+			newWidget.z = this.getMaxZValue(this.model.widgets) + 1;
 			newWidget.x =  pos.x;
 			newWidget.y =  pos.y;
 			newWidget.copyOf = widget.id;
-			newWidget.z = this.getMaxZValue(this.model.widgets) +1;
-
 
 			/**
 			 * create the command
@@ -880,6 +882,7 @@ export default class CopyPaste extends Group{
 			 *
 			 * and create a own modelCopyScreen funtion!
 			 */
+			let z = this.getMaxZValue(this.model.widgets)
 			if(screen.children){
 				for(let i=0; i < screen.children.length; i++){
 					let widgetID = screen.children[i];
@@ -887,7 +890,8 @@ export default class CopyPaste extends Group{
 
 					// we do not update the widget names!
 					let newWidget = lang.clone(widget);
-					newWidget.id = "w" + this.getUUID();
+					newWidget.id = "w"+this.getUUID();
+					newWidget.z = z + 1 + i
 					newWidget.copyOf = widget.id;
 					newWidget.x = pos.x + (widget.x - screen.x);
 					newWidget.y = pos.y + (widget.y - screen.y);

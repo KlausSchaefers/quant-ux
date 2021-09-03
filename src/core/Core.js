@@ -1,5 +1,4 @@
 import lang from '../dojo/_base/lang'
-import Logger from '../common/Logger'
 import Evented from '../dojo/Evented'
 import ModelGeom from './ModelGeom'
 import ModelResizer from './ModelResizer'
@@ -9,7 +8,6 @@ export default class Core extends Evented {
 
     constructor() {
         super()
-        this.logger = new Logger("Core");
     }
 
     getContainedChildWidgets(container, model) {
@@ -207,12 +205,10 @@ export default class Core extends Evented {
 
     _correctBoundindBox(boundingbox, modelBoundingBox) {
         if (Math.abs(boundingbox.x - modelBoundingBox.x) <= 2) {
-            this.logger.log(2, "_correctBoundindBox", "Correct X");
             boundingbox.x = modelBoundingBox.x;
         }
 
         if (Math.abs(boundingbox.y - modelBoundingBox.y) <= 2) {
-            this.logger.log(2, "_correctBoundindBox", "Correct Y");
             boundingbox.y = modelBoundingBox.y;
         }
         return boundingbox;
@@ -323,16 +319,6 @@ export default class Core extends Evented {
             for (var id in tempPositions) {
                 if (!result[id]) {
                     result[id] = tempPositions[id];
-                } else {
-                    if (this.logger) {
-                        this.logger.error(
-                            "_distributedPositions()",
-                            "Widget with id is in two sets: " + id
-                        );
-                        this.logger.sendError(
-                            new Error("_distributedPositions() > Sets not ok")
-                        );
-                    }
                 }
             }
             distances = distances.concat(temp.distances);
@@ -373,9 +359,6 @@ export default class Core extends Evented {
          * Actually this should not happen often (or at all)
          */
         if (overlapps.length > 1) {
-            if (this.logger) {
-                this.logger.warn("_addToDisSet()", "Merging of sets needed");
-            }
             var merged = {
                 start: start,
                 end: end,
@@ -956,8 +939,6 @@ export default class Core extends Evented {
      */
     createZoomedModel(zoomX, zoomY, isPreview, model) {
 
-        this.logger.log(3, "Core.createZoomedModel", "enter > " + zoomX + " > " + zoomY + " > " + isPreview);
-
         if (!model) {
             //console.warn('createZoomedModel without model', new Error.stack)
             model = this.model;
@@ -1520,11 +1501,6 @@ export default class Core extends Evented {
             if (widget) {
                 this.fixMissingZValue(widget);
                 result.push(widget);
-            } else {
-                var e = new Error("getOrderedWidgets() > no widget with id " + id);
-                if (this.logger) {
-                    this.logger.sendError(e);
-                }
             }
         }
         this.sortWidgetList(result);
@@ -1575,14 +1551,14 @@ export default class Core extends Evented {
          * we have to check if style exists, because the Toolbar.onToolWidgetLayer()
          * call the method without styles.
          */
-        var isFixed = function (w) {
+        var isFixed = (w) => {
             if (w.style && w.style.fixed) {
                 return true;
             }
             return false;
         };
 
-        result.sort(function (a, b) {
+        result.sort((a, b) => {
             var aFix = isFixed(a);
             var bFix = isFixed(b);
 
@@ -1597,9 +1573,10 @@ export default class Core extends Evented {
                  */
                 if ((a.inherited && b.inherited) || (!a.inherited && !b.inherited)) {
                     /**
-                     * 4) if the have the same z, sot by id
+                     * 4) if the have the same z, soet by id. This should be highly decrecated!
                      */
                     if (a.z == b.z && (a.id && b.id)) {
+                        console.warn('Order BY ID not DPRECATED')
                         return a.id.localeCompare(b.id);
                     }
 

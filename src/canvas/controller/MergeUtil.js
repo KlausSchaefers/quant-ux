@@ -14,7 +14,7 @@ export function mergeDeep(target, source) {
 
       if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
         /**
-         * This diff produces for arrays the updated version
+         * This diff produces for arrays the updated version. Take a look at compare
          */
         target[key] = sourceValue
       } else if (isObject(targetValue) && isObject(sourceValue)) {
@@ -95,6 +95,7 @@ function compare (item1, item2, key, diffs) {
       return;
   }
   if (type1 === '[object Array]') {
+      // this is important. if arrays do not match, we take the new one!
       if (!arraysMatch(item1, item2)) {
           diffs[key] = item2;
       }

@@ -1,4 +1,4 @@
-import Core from 'core/Core'
+import Core from './Core'
 
 /**
  * Static import of Core

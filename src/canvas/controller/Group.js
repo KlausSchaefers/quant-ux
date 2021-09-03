@@ -150,7 +150,7 @@ export default class Group extends Layer {
 		 */
 		var z = this.getMaxZValue(this.model.widgets);
 		var children = themedGroup.children;
-		for(let i=0; i< children.length; i++){
+		for (let i=0; i< children.length; i++){
 			/**
 			 * we just assume the object was already cloned.
 			 * we just give new id and set position
@@ -160,7 +160,7 @@ export default class Group extends Layer {
 			widget.id = "w"+this.getUUID();
 			widget.x +=  pos.x;
 			widget.y +=  pos.y;
-			widget.z = z+1+i;
+			widget.z = z + 1 + i;
 
 			/**
 			 * do not forget to add to group
@@ -241,15 +241,15 @@ export default class Group extends Layer {
 			/**
 			 * 2) create child widgets
 			 */
-			var z = this.getMaxZValue(this.model.widgets);
-			for(let i=0; i< children.length; i++){
+			let z = this.getMaxZValue(this.model.widgets);
+			for (let i=0; i< children.length; i++){
 				let widgetTemplate = children[i];
 				let widget = this.factory.createTemplatedModel(widgetTemplate);
 
 				widget.id = "w"+this.getUUID();
 				widget.x +=  pos.x;
 				widget.y +=  pos.y;
-				widget.z = z+1+i;
+				widget.z = z + 1 + i;
 				widget.name = this.createNiceName(widget);
 
 				let child = this._createAddWidgetCommand(widget);

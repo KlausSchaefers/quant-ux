@@ -38,9 +38,11 @@ export default class Widget extends Screen {
 		newWidget.copyOf = widget.id;
 		newWidget.name = widget.name // make sure we get the same name! Otherwise we would get box1 or so...
 		newWidget.id = "w"+this.getUUID();
+		newWidget.z = this.getMaxZValue(this.model.widgets) + 1;
+
 		newWidget.x =  pos.x;
 		newWidget.y =  pos.y;
-		newWidget.z = this.getMaxZValue(this.model.widgets) + 1;
+
 		delete newWidget.props.databinding;
 
 		// special stuff for inherited widgets
@@ -1020,13 +1022,14 @@ export default class Widget extends Screen {
 			widget.name = this.getWidgetName(targetScreen.id, widget.name);
 		}
 		widget.id = "w"+this.getUUID();
+		widget.z = this.getMaxZValue(this.model.widgets) + 1;
+
 		widget.x =  pos.x;
 		widget.y =  pos.y;
 		if(fromTool){
 			widget.w =  pos.w;
 			widget.h =  pos.h;
 		}
-		widget.z = this.getMaxZValue(this.model.widgets) +1;
 
 		var command = this._createAddWidgetCommand(widget);
 		this.addCommand(command);
@@ -1334,7 +1337,8 @@ export default class Widget extends Screen {
 			children :[]
 		};
 
-		for (var i=0; i< widgets.length; i++){
+		let z = this.getMaxZValue(this.model.widgets) + 1;
+		for (let i=0; i< widgets.length; i++){
 			/**
 				* Set id
 				*/
@@ -1344,6 +1348,7 @@ export default class Widget extends Screen {
 			var scaleRatio = img.h / img.w;
 
 			widget.id = "w"+this.getUUID();
+			widget.z = z + 1 + i
 			widget.w = Math.min(300, img.w);
 			widget.props = {};
 			widget.has = {

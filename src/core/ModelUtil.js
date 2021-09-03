@@ -1,11 +1,9 @@
-import lang from 'dojo/_base/lang'
-import Logger from 'common/Logger'
-import CoreUtil from 'core/CoreUtil'
+import lang from '../dojo/_base/lang'
+import CoreUtil from './CoreUtil'
 
 class ModelUtil {
 
     constructor() {
-      this.logger = new Logger("ModelUtil");
       this.designTokenCssProps = [
           'color',
           'fontSize',
@@ -164,8 +162,6 @@ class ModelUtil {
   }
 
   createScalledModel(model, zoom) {
-    this.logger.log(3, "Core.createScalledModel", "enter > " + zoom + " > ");
-
 
     var zoomedModel = lang.clone(model);
     zoomedModel.isZoomed = true;

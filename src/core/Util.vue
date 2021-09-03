@@ -1646,7 +1646,7 @@ export default {
       return result;
     },
 
-    getMinZValue: function(widgets) {
+    getMinZValue (widgets) {
       var min = 100000;
       var l = 0;
       for (var id in widgets) {
@@ -1661,7 +1661,7 @@ export default {
       }
     },
 
-    getMaxZValue: function(widgets) {
+    getMaxZValue (widgets) {
       var max = -10000;
 
       var l = 0;
@@ -1678,7 +1678,7 @@ export default {
       }
     },
 
-    getZValues: function(widgets) {
+    getZValues (widgets) {
       var values = {};
       for (var id in widgets) {
         var widget = widgets[id];

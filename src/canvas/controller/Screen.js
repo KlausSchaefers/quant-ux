@@ -1209,11 +1209,11 @@ export default class Screen extends CopyPaste {
 
 	_createScreenAndWidgets (result){
 
-		var screens = result.screens;
-		var widgets = result.widgets;
-		var groups = result.groups;
-		var lines = result.lines;
-		var startScreen = this.getStartScreen();
+		let screens = result.screens;
+		let widgets = result.widgets;
+		let groups = result.groups;
+		let lines = result.lines;
+		let startScreen = this.getStartScreen();
 
 		if(!startScreen){
 			for(var screenID in screens){
@@ -1222,16 +1222,18 @@ export default class Screen extends CopyPaste {
 			}
 		}
 
-		var tempWidgets = {};
-		var widgetIdMapping = {};
-		for(var widgetID in widgets){
-			var widget = widgets[widgetID];
-
-			var newID = "w"+this.getUUID();
+		let tempWidgets = {};
+		let widgetIdMapping = {};
+		let z = this.getMaxZValue(this.model.widgets) + 1;
+		let i = 0;
+		for (let widgetID in widgets){
+			let widget = widgets[widgetID];
+			let newID = "w"+this.getUUID();
 			widget.id = newID;
+			widget.z = z + 1 + i
 			tempWidgets[newID] = widget;
-
 			widgetIdMapping[widgetID] = newID;
+			i++
 		}
 
 
