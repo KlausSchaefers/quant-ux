@@ -130,6 +130,15 @@ function mergeScreens (model, importModel) {
   })
 
   /**
+   * Update master screen refs
+   */
+  Object.values(model.screens).forEach(screen => {
+    if (screen.parents) {
+      screen.parents = replaceValues(screen.parents, oldToNewIds)
+    }
+  })
+
+  /**
    * Update refs in lines in importModel
    */
   Object.values(importModel.lines).forEach(line => {

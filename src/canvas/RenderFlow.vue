@@ -110,7 +110,7 @@ export default {
 				 */
 				this.renderFactory.setZoomedModel(sourceModel)
 				this.renderFactory.updatePositions(sourceModel)
-				var widgets = this.getOrderedWidgets(sourceModel.widgets);
+				const widgets = this.getOrderedWidgets(sourceModel.widgets);
 				for (let i=0; i< widgets.length; i++){
 					let widget = widgets[i];
 					let zoomedWidget = zoomedModel.widgets[widget.id]

@@ -1494,7 +1494,7 @@ export default class Core extends Evented {
      * Get children
      */
 
-    getOrderedWidgets(widgets) {
+    getOrderedWidgets(widgets, useIds = true) {
         var result = [];
         for (var id in widgets) {
             var widget = widgets[id];
@@ -1503,7 +1503,7 @@ export default class Core extends Evented {
                 result.push(widget);
             }
         }
-        this.sortWidgetList(result);
+        this.sortWidgetList(result, useIds);
         return result;
     }
 
@@ -1512,7 +1512,7 @@ export default class Core extends Evented {
      *
      * Pass the children as parameter
      */
-    sortChildren(children, model) {
+    sortChildren(children, model, useIds = true) {
         if (!model) {
             model = this.model
         }
@@ -1525,7 +1525,7 @@ export default class Core extends Evented {
                 result.push(widget);
             }
         }
-        this.sortWidgetList(result);
+        this.sortWidgetList(result, useIds);
         return result;
     }
 
@@ -1545,7 +1545,8 @@ export default class Core extends Evented {
      *  4) id: if the z value is the same, sort by id, which means the order the widgets have been
      *  added to the screen.
      */
-    sortWidgetList(result) {
+    sortWidgetList(result, useIds = false) {
+
         /**
          * Inline function to determine if a widget is fixed.
          * we have to check if style exists, because the Toolbar.onToolWidgetLayer()
@@ -1562,30 +1563,47 @@ export default class Core extends Evented {
             var aFix = isFixed(a);
             var bFix = isFixed(b);
 
+
             /**
              * 1) Sort by fixed. If both are fixed or not fixed,
              * continue sorting by inherited.
              */
             if (aFix == bFix) {
+
                 /**
-                 * 2) If both a inherited or not inherited,
-                 * continue sorting by z & id
+                 * 2) If both are inherited continue sorting by z & id.
                  */
-                if ((a.inherited && b.inherited) || (!a.inherited && !b.inherited)) {
+                if (!a.inherited && !b.inherited) {
                     /**
-                     * 4) if the have the same z, soet by id. This should be highly decrecated!
+                     * 2.a) if the have the same z, soet by id. This should be highly decrecated!
                      */
-                    if (a.z == b.z && (a.id && b.id)) {
-                        console.warn('Order BY ID not DPRECATED')
+                    if (a.z == b.z && (a.id && b.id) && useIds) {
+                        console.warn('Order BY ID DPRECATED', a.z, b.z, a, b.id)
                         return a.id.localeCompare(b.id);
                     }
 
                     /**
-                     * 3) Sort by z. Attention, Chrome
+                     * 2.b) Sort by z. Attention, Chrome
                      * needs -1, 0, 1 or one. > does not work
                      */
                     return a.z - b.z;
                 }
+
+                /**
+                 * 3) If both are not inherited,
+                 * continue sorting by z, because they
+                 * will not be in the same screen
+                 */
+                if (a.inherited && b.inherited) {
+
+                    /**
+                     * 3.a) Sort by z. Attention, Chrome
+                     * needs -1, 0, 1 or one. > does not work
+                     */
+                    return a.z - b.z;
+                }
+
+
                 if (a.inherited) {
                     return -1;
                 }
