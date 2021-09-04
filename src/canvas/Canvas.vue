@@ -55,6 +55,7 @@ import Layer from 'canvas/Layer'
 import DataView from 'canvas/DataView'
 import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
+import Collab from 'canvas/Collab'
 
 import KeyBoard from 'canvas/KeyBoard'
 import Resize from 'canvas/Resize'
@@ -67,7 +68,7 @@ export default {
   name: 'Canvas',
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView,
-			KeyBoard, Resize, Replicate, Prototyping],
+			KeyBoard, Resize, Replicate, Prototyping, Collab],
     data: function () {
         return {
 					mode: "edit",
@@ -175,6 +176,10 @@ export default {
 
 		setRenderFactory (f){
 			this.renderFactory = f;
+		},
+
+		setMouseListner (callback) {
+			this.mouseListenerCallback = callback
 		},
 
 		setToolbar (t){
@@ -633,6 +638,14 @@ export default {
 			 */
 			this._lastMousePos = pos2;
 			this._lastMouseMoveEvent = e;
+			if (this.mouseListenerCallback) {
+				try {
+					this.mouseListenerCallback(pos2)
+				} catch (err){
+					this.logger.log(3,"onMouseMove", "error with callback > ", err);
+				}
+
+			}
 		},
 		destroy (){
 			this.logger.log(3,"destroy", "enter > ");

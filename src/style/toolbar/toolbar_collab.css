@@ -1,0 +1,14 @@
+.MatcToolbarCollabUser{
+  width: 100px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 8px;
+}
+
+.MatcToolbarCollabUser .MatcTeamItem {
+  margin: 0px;
+}

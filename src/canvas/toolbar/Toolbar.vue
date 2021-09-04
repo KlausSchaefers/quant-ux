@@ -130,6 +130,9 @@
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
+								<CollabUser :users="collabUsers" />
+							</div>
+							<div class="MatcToolbarSection">
 								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig"  @canvasViewMode="setCanvasViewMode"/>
 							</div>
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
@@ -165,6 +168,7 @@ import _Show from 'canvas/toolbar/mixins/_Show'
 import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
+import CollabUser from "canvas/toolbar/components/CollabUser"
 import HelpButton from 'help/HelpButton'
 
 
@@ -183,13 +187,15 @@ export default {
 					showRestTool: true,
 					hasViewConfigVtn: true,
 					canvasViewConfig: {},
-					settings: {}
+					settings: {},
+					collabUsers:[]
         }
     },
 	components: {
 		'ViewConfig': ViewConfig,
 		'HelpButton': HelpButton,
-		'EditModeButton': EditModeButton
+		'EditModeButton': EditModeButton,
+		'CollabUser': CollabUser
 	},
 	computed: {
 		hasProtoMoto () {
@@ -291,12 +297,26 @@ export default {
 		},
 
 		setLayerList (layerlist){
-			this.logger.log(-1,"setLayerList", "entry ");
+			this.logger.log(1,"setLayerList", "entry ");
 			layerlist.placeAt(this.layerListCntr)
 		},
 
 		setUser (user){
 			this.user = user;
+			this.collabUsers.push(user)
+		},
+
+		addCollabUser (user) {
+			this.logger.log(-1,"addCollabUser", "entry ", user);
+			const found = this.collabUsers.find(u => u.id === user.id)
+			if (!found) {
+				this.collabUsers.push(user)
+			}
+		},
+
+		removeCollabUser (user) {
+			this.logger.log(-1,"addCollabUser", "entry ", user);
+			this.collabUsers = this.collabUsers.filter(u => u.id !== user.id)
 		},
 
 		getSettings (){

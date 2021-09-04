@@ -1,0 +1,73 @@
+
+<template>
+  <div class="MatcToolbarCollabUser">
+    <div v-for="user in users" :key="user.id" class="MatcTeamItem">
+      <div :class="['MatcUserImageCntr', {'MatcUserImageCntrTrans': user.image}]">
+        <div v-if="user.image">
+          <img :src="'/rest/user/' + user.id + '/images/' + user.name + '_' + user.lastname + '/' + user.image"/>
+        </div>
+         <div v-else class="MatcUserImageNone">
+          <span class="MatcMiddle MatcUserLetters">
+            {{getUserLetter(user)}}
+          </span>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</template>
+<script>
+
+import Logger from "common/Logger";
+
+
+export default {
+  name: "CoolabUser",
+  mixins: [],
+  props: ['users'],
+  data: function() {
+    return {
+      canvasViewMode: 'design'
+    };
+  },
+  computed: {
+    hasData () {
+      if (this.value) {
+          return this.value.hasDataView
+      }
+      return true
+    }
+  },
+  components: {},
+  methods: {
+    getUserLetter (user) {
+      let result = ''
+      if (user.name) {
+        result += user.name.substring(0, 1).toUpperCase();
+        if (user.lastname) {
+          result += user.lastname.substring(0, 1).toUpperCase();
+        }
+      } else {
+        let parts = user.email.split('.')
+        if (parts.length > 0) {
+          result += parts[0].substring(0, 1).toUpperCase();
+        }
+        if (parts.length > 1) {
+          result += parts[1].substring(0, 1).toUpperCase();
+        }
+      }
+      return result
+    }
+  },
+  watch: {
+    users (v) {
+        this.log.log(2, 'watch(users)', 'enter', v)
+        this.users = v
+    }
+   },
+  async mounted() {
+    this.log = new Logger("CoolabUser")
+  }
+};
+</script>

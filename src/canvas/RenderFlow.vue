@@ -178,6 +178,95 @@ export default {
 				return result;
 			},
 
+			/********************************************************
+			 *   Collab Mouse
+			 ********************************************************/
+
+			renderCollabMousePosition (positions) {
+				this.logger.log(4,"renderCollabMousePosition", "enter");
+
+				requestAnimationFrame(() => {
+					this._renderCollabMousePosition(positions)
+				})
+			},
+
+			_renderCollabMousePosition (positions) {
+
+
+				if (!this.mouseDivs) {
+					this.mouseDivs = {}
+				}
+
+				for (let userId in positions) {
+					let pos = positions[userId].pos
+					let user = positions[userId].user
+					let mouseDiv = this.mouseDivs[userId]
+					if (!mouseDiv) {
+						mouseDiv = this.renderUserMouse(user)
+						this.mouseDivs[userId] = mouseDiv
+						this.dndContainer.appendChild(mouseDiv);
+					}
+					this.domUtil.setPos(mouseDiv, pos)
+				}
+
+				/**
+				 * Remove mouse position where we do not have
+				 * any position for
+				 */
+				for (let userId in this.mouseDivs) {
+					if (!positions[userId]) {
+						this.removeUserMouse(userId)
+					}
+				}
+
+			},
+
+			removeUserMouse (userId) {
+				let div = this.mouseDivs[userId]
+				if (div && div.parentNode) {
+					div.parentNode.removeChild(div)
+				}
+				delete this.mouseDivs[userId]
+			},
+
+			renderUserMouse(user) {
+				let div = document.createElement('div')
+				css.add(div, 'MatcCanvasMouse')
+
+				let pointer = document.createElement('div')
+				css.add(pointer, 'MatcCanvasMousePointer')
+				div.appendChild(pointer)
+
+				if (user.image) {
+					let cntr = document.createElement('div')
+					css.add(cntr, 'MatcCanvasMouseImageCntr')
+					div.appendChild(cntr)
+
+					let image = document.createElement('img')
+					css.add(image, 'MatcCanvasMouseImage')
+					image.src = "/rest/user/" + user.id + "/images/" + user.name + "_" + user.lastname + "/" + user.image;
+					cntr.appendChild(image)
+				} else {
+					let label = document.createElement('div')
+					css.add(label, 'MatcCanvasMouseLabel')
+					label.innerHTML = this.getUserLetter(user)
+					div.appendChild(label)
+				}
+
+				return div
+			},
+
+			cleanUpCollabMouse() {
+				if (this.mouseDivs) {
+					for (let id in this.mouseDivs) {
+						let div = this.mouseDivs[id]
+						if (div && div.parentNode) {
+							div.parentNode.removeChild(div)
+						}
+					}
+				}
+				this.mouseDivs = {}
+			},
 
 			/********************************************************
 			 *   Screen
@@ -404,6 +493,7 @@ export default {
 
 				this.cleanUpLines()
 				this.cleanUpSVG()
+				this.cleanUpCollabMouse()
 
 				/**
 				 * Make sure inline edit is flushed

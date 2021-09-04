@@ -29,6 +29,8 @@
 - draw lines
 - group & substract???
 
+# Missed Click in analytic canbas
+
 ## Template to Cpmponents
  - Changes in the template root should be updated in all instances? We could get rid of the update button?
  - show in LayerList differen symbol. Mark also the source component!

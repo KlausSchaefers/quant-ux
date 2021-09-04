@@ -148,8 +148,6 @@
 	cursor: text;
 }
 
-
-
 .MatcScreenDnD{
 	position: absolute;
 	z-index: 10008;
@@ -264,6 +262,46 @@
 
 .MatcAddBox {
 	z-index: 999999;
+}
+
+/****************************************************
+ * Collab
+ ****************************************************/
+.MatcCanvasMouse {
+	position: absolute;
+	height: 1px;
+	width: 1px;
+	z-index: 999999;
+}
+
+.MatcCanvasMouse .MatcCanvasMousePointer {
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-top: 10px solid #3787f2;
+	border-right: 10px solid transparent;
+}
+
+.MatcCanvasMouse .MatcCanvasMouseLabel{
+	position: absolute;
+	padding: 4px;
+	top: 4px;
+	left: 2px;
+	width: 24px;
+	height: 24px;
+	border-radius: 50px;
+	background: #3787f2;
+	color: #fff;
+}
+
+.MatcCanvasMouse .MatcCanvasMouseImageCntr{
+	position: absolute;
+	top: 4px;
+	left: 2px;
+	width: 24px;
+	height: 24px;
+	border-radius: 50px;
+	overflow: hidden;
 }
 
 /****************************************************

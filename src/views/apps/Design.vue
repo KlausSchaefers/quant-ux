@@ -25,6 +25,7 @@ import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import Services from "services/Services";
 import Logger from "common/Logger";
+import BusService from 'services/BusService'
 
 export default {
   name: "Design",
@@ -154,6 +155,18 @@ export default {
        * Init layer list
        */
       canvas.initLayer();
+
+      if (!this.pub && this.user.role !== 'guest') {
+        this.bus = new BusService()
+        this.bus.initWebsocket(model, canvas, controller, toolbar, this.user)
+      }
+    },
+
+  },
+  beforeDestroy () {
+    if (this.bus) {
+      this.bus.sendBye()
+      this.bus.close()
     }
   },
   async mounted() {

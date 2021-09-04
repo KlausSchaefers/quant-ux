@@ -190,6 +190,10 @@ export default {
       this.onChangeCanvasViewConfig();
     },
 
+		setMouseListner (callback) {
+			this.mouseListenerCallback = callback
+		},
+
     inlineEditInit() {
       this.logger.log(2, "inlineEditInit", "enter");
     },
