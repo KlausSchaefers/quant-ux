@@ -16,7 +16,7 @@ export default class CollabService {
 
     createEvent (changes) {
       Logger.log(1, 'CollabService.createEvent()')
-      let minichanges = CollabUtil.getMiniChanges(changes)
+      let minichanges = CollabUtil.getMiniChanges(changes, {'lastUUID': 'inc'})
       let event = {
         id:uuidv4(),
         appId: this.appId,
@@ -73,7 +73,17 @@ export default class CollabService {
        */
       if (change.type === 'update') {
         Logger.log(1, 'CollabService.applyInRoot() >  update', change)
-        model[change.id] = change.value
+
+        let value = change.value
+        /**
+         * For some values we support isInc function!
+         */
+        if (value._isInc && value.inc) {
+          model[change.id] = model[change.id]  + value.inc
+        } else {
+          model[change.id] = change.value
+        }
+
       }
 
       if (change.type === 'delete') {

@@ -159,6 +159,8 @@ export default {
       if (!this.pub && this.user.role !== 'guest') {
         this.bus = new BusService()
         this.bus.initWebsocket(model, canvas, controller, toolbar, this.user)
+
+        window.onbeforeunload = () => {this.bus.sendBye()}
       }
     },
 

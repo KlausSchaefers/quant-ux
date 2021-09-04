@@ -125,6 +125,53 @@ test('Test MergeUtil - Remove Array ', async () => {
 
 })
 
+test('Test MergeUtil - Nested Prim Array ', async () => {
+
+
+  let a = {
+      id: 'w1',
+      x:1,
+      y:1,
+      style: {
+        'color': 'red',
+        'background': 'white'
+      },
+      a: {
+        children: ['a', 'b']
+      }
+    }
+
+  let b = {
+      id: 'w1',
+      x:1,
+      y:1,
+      style: {
+        'color': 'green',
+        'background': 'white'
+      },
+      a: {
+        children: ['a', 'c']
+      }
+  }
+
+  /**
+   * Make sure for arrays of objects we do not send a delta
+   */
+  let delta = MergeUtil.getDelta(a, b)
+  expect(delta.style.color).toBe('green')
+  expect(delta.a.children.removed.length).toBe(1)
+  expect(delta.a.children.removed[0]).toBe('b')
+  expect(delta.a.children.added.length).toBe(1)
+  expect(delta.a.children.added[0]).toBe('c')
+
+
+  let merged = MergeUtil.applyDelta(a, delta)
+  expect(merged.a.children.length).toBe(2)
+  expect(merged.a.children[0]).toBe('a')
+  expect(merged.a.children[1]).toBe('c')
+
+})
+
 
 test('Test MergeUtil - Object Array ', async () => {
 
@@ -172,4 +219,36 @@ test('Test MergeUtil - Object Array ', async () => {
   expect(merged.fonts[1].url).toBe('2')
   expect(merged.fonts[2].url).toBe('3')
 })
-// groups
+
+
+test('Test MergeUtil - Inc ', async () => {
+
+
+  let a = {
+      id: 'w1',
+      x:1,
+      y:1,
+      lastUUID: 1
+    }
+
+  let b = {
+    id: 'w1',
+    x:1,
+    y:2,
+    lastUUID: 6
+  }
+
+  /**
+   * Make sure for arrays of objects we do not send a delta
+   */
+  let delta = MergeUtil.getDelta(a, b, {'lastUUID': 'inc'})
+  console.debug(delta)
+  expect(delta.lastUUID.inc).toBe(5)
+  expect(delta.y).toBe(2)
+
+
+  let merged = MergeUtil.applyDelta(a, delta)
+  expect(merged.lastUUID).toBe(6)
+  expect(merged.y).toBe(2)
+  expect(merged.x).toBe(1)
+})

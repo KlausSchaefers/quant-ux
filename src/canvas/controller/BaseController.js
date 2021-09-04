@@ -1645,7 +1645,7 @@ export default class BaseController extends Core {
 
 	getUUID (){
 		/**
-		 * FIXME: Use UUID if we have collab session?
+		 * FIXME: Add here random number between 0 and 1000? Also send and inc to the server, so the others can bumb up there ids
 		 */
 		var uuid = this.model.lastUUID++ + "";
 		return uuid

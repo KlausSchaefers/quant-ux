@@ -5,8 +5,8 @@
  *
  */
 
-export function getDelta(a, b) {
-    return diff(a,b)
+export function getDelta(a, b, options = {}) {
+    return diff(a,b, options)
 }
 
 export function applyDelta(a, delta) {
@@ -23,9 +23,10 @@ function mergeDeep(target, source) {
     Object.keys(source).forEach(key => {
       const targetValue = target[key];
       const sourceValue = source[key];
-
-
-      if (isObject(sourceValue) && sourceValue.added && sourceValue.removed && Array.isArray(targetValue)) {
+      if (sourceValue._isInc && sourceValue.inc) {
+        console.debug(key, ' - ',targetValue, sourceValue, '   ', targetValue + sourceValue.inc)
+        target[key] = targetValue + sourceValue.inc
+      } else if (isObject(sourceValue) && sourceValue.added && sourceValue.removed && Array.isArray(targetValue)) {
         target[key] = applyArrayDelta(targetValue, sourceValue)
       } else if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
 
@@ -44,7 +45,7 @@ function mergeDeep(target, source) {
   }
 
 
-export function diff (obj1, obj2) {
+function diff (obj1, obj2, options) {
 
   if (!obj2 || getType(obj2) !== '[object Object]') {
       return obj1;
@@ -52,7 +53,7 @@ export function diff (obj1, obj2) {
   let diffs = {};
   for (let key in obj1) {
       if (obj1.hasOwnProperty(key)) {
-          compare(obj1[key], obj2[key], key, diffs);
+          compare(obj1[key], obj2[key], key, diffs, options);
       }
   }
   for (let key in obj2) {
@@ -66,10 +67,19 @@ export function diff (obj1, obj2) {
 }
 
 
-function compare (item1, item2, key, diffs) {
+function compare (item1, item2, key, diffs, options) {
 
     const type1 = getType(item1);
     const type2 = getType(item2);
+
+    if (options[key] === 'inc') {
+        diffs[key] = {
+            _isInc: true,
+            inc: item2 - item1,
+            value: item2
+        }
+        return
+    }
 
     if (type2 === '[object Undefined]') {
         diffs[key] = null;
@@ -82,7 +92,7 @@ function compare (item1, item2, key, diffs) {
     }
 
     if (type1 === '[object Object]') {
-        var objDiff = diff(item1, item2);
+        var objDiff = diff(item1, item2, options);
         if (Object.keys(objDiff).length > 0) {
             diffs[key] = objDiff;
         }
@@ -137,6 +147,7 @@ function arrayPrimitive (arr) {
 
 function getArrayDelta (item1, item2) {
     let result = {
+        _isArray: true,
         added: [],
         removed: [],
         value: item2

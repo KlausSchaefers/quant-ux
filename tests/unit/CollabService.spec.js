@@ -248,13 +248,20 @@ test('Test CollabService.delete() ', async () => {
       }
     },
     lastUpdate: 3,
-    lastUUID: 2
+    lastUUID: 6
   }
 
   let changes = CollabUtil.getModelDelta(oldModel, newModel)
-  let event = cs.createEvent(changes)
   expect(changes.length).toBe(4)
 
+  let event = cs.createEvent(changes)
+  expect(event.changes.length).toBe(4)
+
+  /**
+   * Maker sure we have an inc on lastUUID
+   */
+  let lastUUIDChange = event.changes.find(c => c.id === 'lastUUID')
+  expect(lastUUIDChange.value.inc).toBe(5)
 
   /**
    * In fresh service, event should be merged
@@ -265,5 +272,5 @@ test('Test CollabService.delete() ', async () => {
   expect(merged.screens.s1.children.length).toBe(1)
   expect(merged.screens.s1.children[0]).toBe('w1')
   expect(merged.lastUpdate).toBe(3)
-  expect(merged.lastUUID).toBe(2)
+  expect(merged.lastUUID).toBe(6)
 });

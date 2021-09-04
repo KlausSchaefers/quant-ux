@@ -1,11 +1,11 @@
 import * as MergeUtil from './MergeUtil'
 
 
-export function getMiniChanges (changes) {
-	return changes.map(change => getMiniChange(change))
+export function getMiniChanges (changes, options = {}) {
+	return changes.map(change => getMiniChange(change, options))
 }
 
-export function getMiniChange(change) {
+export function getMiniChange(change, options = {}) {
 	let result = {
 		id: change.name,
 		type: change.type,
@@ -19,6 +19,16 @@ export function getMiniChange(change) {
 		result.value = MergeUtil.getDelta(change.oldValue, change.object)
 		result.diff = true
 	}
+	if (change.type === 'update' && options[change.name] === "inc") {
+		result.value = {
+			_isInc: true,
+			value: change.object,
+			inc: change.object - change.oldValue
+		}
+	}
+	/**
+	 * FIXME: add here some logic for lastUUID
+	 */
 	return result
 }
 
