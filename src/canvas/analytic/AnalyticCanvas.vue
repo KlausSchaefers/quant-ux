@@ -190,7 +190,7 @@ export default {
       this.onChangeCanvasViewConfig();
     },
 
-		setMouseListner (callback) {
+		setMouseListener (callback) {
 			this.mouseListenerCallback = callback
 		},
 

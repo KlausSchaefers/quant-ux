@@ -9,7 +9,7 @@ class ModelFixer {
 	}
 
 	fixZValues(m) {
-		this.logger.log(-1, "fixZValues", "enter")
+		this.logger.log(2, "fixZValues", "enter")
 
 		let zValues = Object.values(m.widgets).map(w => w.z)
 		if (this.hasDoublicate(zValues)) {
@@ -86,28 +86,28 @@ class ModelFixer {
 		try {
 			var max = 0
 			for (let id in m.screens) {
-				let i = parseInt(id.substring(1))
+				let i = this.getUUID(id)
 				max = Math.max(max, i)
 			}
 			for (let id in m.widgets) {
-				let i = parseInt(id.substring(1))
+				let i = this.getUUID(id)
 				max = Math.max(max, i)
 			}
 			if (m.lines) {
 				for (let id in m.lines) {
-					let i = parseInt(id.substring(1))
+					let i = this.getUUID(id)
 					max = Math.max(max, i)
 				}
 			}
 			if (m.groups) {
 				for (let id in m.groups) {
-					let i = parseInt(id.substring(1))
+					let i = this.getUUID(id)
 					max = Math.max(max, i)
 				}
 			}
 			if (m.templates) {
 				for (let id in m.templates) {
-					let i = parseInt(id.substring(1))
+					let i = this.getUUID(id)
 					max = Math.max(max, i)
 				}
 			}
@@ -122,6 +122,15 @@ class ModelFixer {
 			console.error("BaseController.fixModelCount() > Error", e)
 		}
 		return errors
+	}
+
+	getUUID (id) {
+		let result = id.substring(1)
+		let pos = result.indexOf('_')
+		if (pos >= 0) {
+			result = result.substring(0,pos)
+		}
+		return parseInt(result)
 	}
 
 	validateAndFixModel(model) {

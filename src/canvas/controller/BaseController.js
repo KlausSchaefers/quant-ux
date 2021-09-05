@@ -6,6 +6,7 @@ import CoreUtil from '../../core/CoreUtil'
 import Logger from '../../common/Logger'
 import ModelDB from './ModelDB'
 import * as CollabUtil from './CollabUtil'
+import CollabService from './CollabService'
 import ModelFixer from './ModelFixer'
 export default class BaseController extends Core {
 
@@ -22,6 +23,7 @@ export default class BaseController extends Core {
 		this.active = true
 		this.transactions = {}
 		this.modelDB = new ModelDB()
+		this.collabService = new CollabService()
 
 
 		this.logger.log(1,"constructor", "entry > " + this.mode);
@@ -68,10 +70,9 @@ export default class BaseController extends Core {
 	setModel (m, screenID){
 		this.logger.log(-1,"setModel", "entry > " + screenID);
 
-
-
 		this.model = m;
 		this.oldModel = lang.clone(m);
+		this.collabService.setModel(m)
 
 		/**
 		 * Apply model fixes here that might happen
@@ -372,8 +373,19 @@ export default class BaseController extends Core {
 	/***************************************************************************************
 	 *  Collab stuff
 	 ***************************************************************************************/
+
+	setModelChangeListener (callback) {
+		this.collabChangeListener = callback
+	}
+
 	collabBroadcastChanges (changes) {
 		this.logger.log(-1, "collabBroadcastChanges", "enter " , changes);
+
+		if (this.collabService && this.collabChangeListener) {
+			let event = this.collabService.createEvent(changes)
+			this.collabChangeListener(event)
+		}
+
 	}
 
 	collabRecieveChanges (message) {
@@ -1645,9 +1657,11 @@ export default class BaseController extends Core {
 
 	getUUID (){
 		/**
-		 * FIXME: Add here random number between 0 and 1000? Also send and inc to the server, so the others can bumb up there ids
+		 * We add here a random number, to avoid collisions in collab sessions. Using UUIDs would
+		 * be better, hwoever the Core.getOrderedWidgets() relies for old prototypes
+		 * on the id to establish order.
 		 */
-		var uuid = this.model.lastUUID++ + "";
+		var uuid = this.model.lastUUID++ + "_" + Math.round(Math.random() * 100000);
 		return uuid
 	}
 

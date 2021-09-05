@@ -4,10 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import * as MergeUtil from './MergeUtil'
 export default class CollabService {
 
-    constructor(appId){
+    constructor(appId ='OhOh'){
       Logger.log(2, 'CollabService()', appId)
       this.events = []
       this.appId = appId
+    }
+
+    setModel (m) {
+      this.appId = m.id
     }
 
     reset () {

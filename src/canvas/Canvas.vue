@@ -178,7 +178,7 @@ export default {
 			this.renderFactory = f;
 		},
 
-		setMouseListner (callback) {
+		setMouseListener (callback) {
 			this.mouseListenerCallback = callback
 		},
 

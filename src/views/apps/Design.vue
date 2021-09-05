@@ -9,7 +9,7 @@
   @import url("../../style/matc.css");
 </style>
 <style lang="sass">
-  @import "../../style/bulma.sass";
+  @import "../../style/bulma.sass"
 </style>
 
 <script>
@@ -25,7 +25,7 @@ import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import Services from "services/Services";
 import Logger from "common/Logger";
-import BusService from 'services/BusService'
+import CollabSession from '../../canvas/controller/CollabSession'
 
 export default {
   name: "Design",
@@ -157,18 +157,17 @@ export default {
       canvas.initLayer();
 
       if (!this.pub && this.user.role !== 'guest') {
-        this.bus = new BusService()
-        this.bus.initWebsocket(model, canvas, controller, toolbar, this.user)
-
-        window.onbeforeunload = () => {this.bus.sendBye()}
+        this.collabSession = new CollabSession(this.user)
+        this.collabSession.initWebsocket(model, canvas, controller, toolbar)
+        window.onbeforeunload = () => {this.collabSession.sendBye()}
       }
     },
 
   },
   beforeDestroy () {
-    if (this.bus) {
-      this.bus.sendBye()
-      this.bus.close()
+    if (this.collabSession) {
+      this.collabSession.sendBye()
+      this.collabSession.close()
     }
   },
   async mounted() {
