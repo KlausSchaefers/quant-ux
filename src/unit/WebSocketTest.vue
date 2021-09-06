@@ -90,9 +90,9 @@ export default {
 
     this.clients.forEach(client => {
       // ws://localhost:8086
-      client.service = new WebSocketService('wss://ws.quant-ux.com', client.app, Services.getUserService().getToken())
+      client.service = new WebSocketService('ws://localhost:8086', client.app, Services.getUserService().getToken())
       client.service.onMessage(message => {
-        client.messages.push(message.data)
+        client.messages.push(message)
       })
       client.service.onError(() => {
         client.error =  true

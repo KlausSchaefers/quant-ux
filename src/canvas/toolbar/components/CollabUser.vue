@@ -1,7 +1,7 @@
 
 <template>
   <div class="MatcToolbarCollabUser">
-    <div v-for="user in users" :key="user.id" class="MatcTeamItem">
+    <div v-for="user in visibleUsers" :key="user.id" class="MatcTeamItem">
       <div :class="['MatcUserImageCntr', {'MatcUserImageCntrTrans': user.image}]">
         <div v-if="user.image">
           <img :src="'/rest/user/' + user.id + '/images/' + user.name + '_' + user.lastname + '/' + user.image"/>
@@ -32,11 +32,11 @@ export default {
     };
   },
   computed: {
-    hasData () {
-      if (this.value) {
-          return this.value.hasDataView
+    visibleUsers () {
+      if (this.users.length < 5) {
+        return this.users
       }
-      return true
+      return this.users.slice(0,4)
     }
   },
   components: {},

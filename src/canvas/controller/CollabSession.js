@@ -47,7 +47,7 @@ export default class CollabSession {
      */
     if (this.websocket && this.hasOtherUsers()) {
       Logger.log(-1, "CollabSession.sendChange()", "send", changeEvent);
-      //this.websocket.send({type: 'change', changeEvent: changeEvent})
+      this.websocket.send({type: 'change', changeEvent: changeEvent})
     } else {
       Logger.log(-1, "CollabSession.sendChange()", "NOT SEND");
     }
@@ -107,8 +107,13 @@ export default class CollabSession {
       this.removeCollabUser(msg.user)
     }
     if (msg.type === 'mouse') {
-      Logger.log(2, "CollabSession.dispatchWebSocketMessage()", "mouse");
+      //Logger.log(2, "CollabSession.dispatchWebSocketMessage()", "mouse");
       canvas.setCollabMouse(msg.user, msg.pos)
+    }
+
+    if (msg.type === 'change') {
+      Logger.log(-1, "CollabSession.dispatchWebSocketMessage()", "change");
+      controller.collabRecieveChanges(msg.user, msg.changeEvent)
     }
   }
 

@@ -1154,6 +1154,7 @@
 
 .MatcToolbarViewConfig .MatcToolbarLabel{
 	width: 50px;
+	padding: 4px;
 }
 
 .MatcToolbarViewConfig .MatcToolbarPopUpArrowCntr{

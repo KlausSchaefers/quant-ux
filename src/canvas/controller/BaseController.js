@@ -388,28 +388,25 @@ export default class BaseController extends Core {
 
 	}
 
-	collabRecieveChanges (message) {
-		this.logger.log(-1, "collabRecieveChanges", "enter " , message);
+	collabRecieveChanges (user, event) {
+		this.logger.log(1, "collabRecieveChanges", "enter " , event);
 
 		/**
-		 * We get a message and pass it to the collab service
-		 * This checks if it is the last message, otherwise it reorders
-		 * The collab service updates the current model
-		 * we have to create a new old model and kick of rendering
-		 * check if we have new fonts or imports???
-		 *
-		 * 			var s = JSON.stringify(this.model);
-			this.model.size = s.length;
-
-			this.setOldModel(this.model)
-
-					if (this._canvas){
-				let inheritedModel = CoreUtil.createInheritedModel(this.model)
-				this._canvas.renderPartial(inheritedModel, changes);
-			}
-
+		 * Apply changes
 		 */
+		this.model = this.collabService.applyEvent(this.model, event)
+		this.setOldModel(this.model)
 
+		/**
+		 * Rerender
+		 */
+		this.render();
+
+
+		/**
+		 * What about updating import and such?
+		 */
+		 this.logger.log(-1, "collabRecieveChanges", "exit " , this.model.lastUUID);
 	}
 
 
