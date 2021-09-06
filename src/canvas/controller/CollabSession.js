@@ -40,7 +40,7 @@ export default class CollabSession {
 
 
   sendChange (changeEvent) {
-    Logger.log(-1, "CollabSession.sendChange()", "enter", changeEvent);
+    Logger.log(1, "CollabSession.sendChange()", "enter", changeEvent);
     /**
      * We do not want to overload our websocket server,
      * so we just send events if there is another user.

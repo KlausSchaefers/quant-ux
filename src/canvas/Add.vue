@@ -680,7 +680,6 @@ export default {
 				this._addNDropUpDateUI();
 				this.dndContainer.appendChild(this._addNDropNode);
 
-
 				/**
 				 * register mouse move and release listener, mazbe also esc listener
 				 */
@@ -695,10 +694,8 @@ export default {
 			},
 
 
-			_onAddNDropMove ( e ){
-
+			_onAddNDropMove (e){
 				this.stopEvent(e);
-
 
 				/**
 				 * Sometimes there might be still a listener.
@@ -719,19 +716,15 @@ export default {
 				 */
 				this._addNDropNodePos.w = this.getZoomed(this._addNDropModel.w, this.getZoomFactor());
 				this._addNDropNodePos.h = this.getZoomed(this._addNDropModel.h, this.getZoomFactor());
-
 				this._addNDropNodePos = this.allignPosition(this._addNDropNodePos, e);
-
 
 				if(!window.requestAnimationFrame){
 					console.warn("No requestAnimationFrame()");
-						this._addNDropUpDateUI();
-					} else {
-						var callback = lang.hitch(this, "_addNDropUpDateUI");
-							requestAnimationFrame(callback);
-					}
-
-
+					this._addNDropUpDateUI();
+				} else {
+					var callback = lang.hitch(this, "_addNDropUpDateUI");
+						requestAnimationFrame(callback);
+				}
 				return false;
 			},
 
@@ -748,8 +741,9 @@ export default {
 					this._onAddCleanup();
 					return;
 				}
-				this._addNDropNode.style.left = this._addNDropNodePos.x +"px";
-				this._addNDropNode.style.top = this._addNDropNodePos.y +"px";
+				this.domUtil.setPos(this._addNDropNode, this._addNDropNodePos)
+				//this._addNDropNode.style.left = this._addNDropNodePos.x  +"px";
+				//this._addNDropNode.style.top = this._addNDropNodePos.y + "px";
 			},
 
 
@@ -777,6 +771,7 @@ export default {
 			},
 
 			_onAddCleanup (){
+
 				if(this._addNDropNode){
 					css.remove(this._addNDropNode,"MatcCanvasAddNDropNode");
 				}

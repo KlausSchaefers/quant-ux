@@ -22,13 +22,19 @@ export default {
     components: {},
     methods: {
 	    initSVG (){
-	    	this.logger.log(3, "initSVG", "entry");
-	    	let pos = {
-	    		h : this.getZoomed(this.canvasPos.h, this.zoom),
-	    		w: this.getZoomed(this.canvasPos.w, this.zoom)
-	    	};
-	    	let bodySelection = d3.select(this.dndContainer);
-				this.svg = bodySelection.append("svg").attr("width", pos.w).attr("height",pos.h );
+
+				if (!this.svg) {
+					this.logger.log(-1, "initSVG", "entry");
+					let pos = {
+						h : this.getZoomed(this.canvasPos.h, this.zoom),
+						w: this.getZoomed(this.canvasPos.w, this.zoom)
+					};
+					let bodySelection = d3.select(this.dndContainer);
+					this.svg = bodySelection.append("svg").attr("width", pos.w).attr("height",pos.h );
+				} else {
+					this.updateSVG()
+				}
+
 	    },
 
 			updateSVG () {
@@ -537,7 +543,6 @@ export default {
 			},
 
 			cleanUpSVG () {
-
 				/**
 				 * Make this smarter. We get no also all the SVG widgets
 				 */
@@ -547,11 +552,16 @@ export default {
 						this.dndContainer.removeChild(n)
 					}
 				})
+				this.svg = null
+				this.cleanUpSVGPoints()
+			},
 
+			cleanUpSVGPoints () {
 				let points = this.dndContainer.querySelectorAll('.MatcLineSupportPoint')
 				points.forEach(n => {
 					this.dndContainer.removeChild(n)
 				})
+				this.linePoints = {}
 			},
 
 

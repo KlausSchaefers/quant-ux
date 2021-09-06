@@ -158,6 +158,7 @@
 .MatcLight .MatcToolbarSection,
 .MatcLight .MatcToolbarSeperator {
     border-right: 1px solid #ccc;
+		Xborder-right: 1px solid transparent;
 }
 
 .MatcLight .MatcStatusItem {

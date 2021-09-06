@@ -902,7 +902,7 @@ export default {
 					}
 
 				} else if (this._copied){
-					this.logger.log(-1,"onPaste", "enter > SAME APP");
+					this.logger.log(-1,"onPaste", "enter > SAME APP  > "+  fromToolBar);
 
 					if (!fromToolBar){
 
@@ -981,9 +981,12 @@ export default {
 						 */
 
 						if(this._copied.widget){
+							/**
+							 * FIXME! We should get here the widget from the source and copy that
+							 */
 							let widget = lang.clone(this._copied.widget);
-							widget.id="_temp";
-							let div = this.createWidget(widget);
+							widget.id = "_temp";
+							let div = this.createZoomedWidget(widget);
 							if(!this._alignmentToolInited){
 								this.alignmentStart("widget", widget, "All");
 							}
@@ -994,6 +997,8 @@ export default {
 						if(this._copied.screen){
 							let screen = lang.clone(this._copied.screen);
 							screen.id="_temp";
+							screen.x = 0
+							screen.y = 0
 							let div = this.createScreen(screen);
 							if(!this._alignmentToolInited){
 								this.alignmentStart("screen", screen, "All");
@@ -1024,7 +1029,7 @@ export default {
 								// add children relative to bounding box!
 								cloned.x =  cloned.x - boundingBox.x;
 								cloned.y =  cloned.y - boundingBox.y;
-								let clonedDiv = this.createWidget(cloned);
+								let clonedDiv = this.createZoomedWidget(cloned);
 								div.appendChild(clonedDiv);
 							}
 

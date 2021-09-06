@@ -492,7 +492,7 @@ export default {
 				this.logger.log(3,"cleanUpFast", "enter", isResize);
 
 				this.cleanUpLines()
-				this.cleanUpSVG()
+				this.cleanUpSVGPoints()
 				this.cleanUpCollabMouse()
 
 				/**
@@ -541,6 +541,7 @@ export default {
 				this.cleanUpNode(this.screenContainer)
 				this.cleanUpNode(this.widgetContainer)
 				this.cleanUpNode(this.dndContainer)
+				this.cleanUpSVG()
 				this.renderFactory.cleanUp();
 
 				this.widgetDivs = {};

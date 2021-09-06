@@ -114,8 +114,8 @@
 
 							<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
 								<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
-									<span class="glyphicons glyphicons-hotspot"></span>
-									<label class="MatcToolbarLabel">
+									<span class="mdi mdi-link-variant-plus"></span>
+									<label class="MatcToolbarLabel MatcToolbarResponsiveLabel">
 										{{ $t('toolbar.group')}}
 									</label>
 								</a>

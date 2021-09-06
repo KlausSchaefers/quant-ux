@@ -186,7 +186,7 @@ export default {
 				* Tools section
 				*/
 				this.layer = this.$new(ToolbarDropDownButton, {arrowPosition:false});
-				this.layer.setLabel('<span class="mdi mdi-layers"></span><label class="MatcToolbarLabel">Order</label>');
+				this.layer.setLabel('<span class="mdi mdi-layers"></span><label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Order</label>');
 				css.add(this.layer.domNode, "MatcToolbarDropDownButtonWide");
 				this.layer.updateLabel = false;
 				this.layer.setOptions([
@@ -200,24 +200,24 @@ export default {
 				this._placeAt(this.layer, this.toolsDiv);
 				this.addTooltip(this.layer.domNode, "Change the layer of the element");
 
-				this.createSpacer(this.toolsDiv);
+				//this.createSpacer(this.toolsDiv);
 
 
-				this.template = this.createToolBarItem('<span class="mdi mdi mdi-puzzle-plus"></span> <label class="MatcToolbarLabel">Create Component</label>', lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv);
-				this.templateUpdate = this.createToolBarItem('<span class="mdi mdi-puzzle-edit"></span> <label class="MatcToolbarLabel">Update Component</label>', lang.hitch(this,"onToolUpdateTemplate"), null, this.templateDiv);
-				this.templateRemove = this.createToolBarItem('<span class="mdi mdi-puzzle-minus"></span> <label class="MatcToolbarLabel">Remove Component</label>', lang.hitch(this,"onToolRemoveTemplate"), null, this.templateDiv);
+				this.template = this.createToolBarItem('<span class="mdi mdi mdi-puzzle-plus"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Create Component</label>', lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv);
+				this.templateUpdate = this.createToolBarItem('<span class="mdi mdi-puzzle-edit"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Update Component</label>', lang.hitch(this,"onToolUpdateTemplate"), null, this.templateDiv);
+				this.templateRemove = this.createToolBarItem('<span class="mdi mdi-puzzle-minus"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Remove Component</label>', lang.hitch(this,"onToolRemoveTemplate"), null, this.templateDiv);
 
 
 
-				this.createSpacer(this.templateDiv);
+				//this.createSpacer(this.templateDiv);
 
 
-				this.replicateBtn = this.createToolBarItem('<span class="MatcIconMirror mdi mdi-tab-unselected"></span> <label class="MatcToolbarLabel">Clone</label>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
+				this.replicateBtn = this.createToolBarItem('<span class="MatcIconMirror mdi mdi-tab-unselected"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Clone</label>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
 
-				this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span> <label class="MatcToolbarLabel">Responsive Resize</label>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);
+				this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Responsive Resize</label>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);
 
 				if(this.user.role=="admin"){
-					this.createSpacer(this.templateDiv);
+					//this.createSpacer(this.templateDiv);
 					this.createThemeBtn = this.createToolBarItem('<span class="glyphicon glyphicon-cloud-download"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.templateDiv);
 				}
 
