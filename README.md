@@ -2,6 +2,7 @@
 
 This is the quant-ux front end. You can find a working demo at https://quant-ux.com/#/
 
+
 ## Project setup
 ```
 npm install
