@@ -984,7 +984,7 @@ export default {
 							/**
 							 * FIXME! We should get here the widget from the source and copy that
 							 */
-							let widget = lang.clone(this._copied.widget);
+							let widget = this.getZoomedSourceWidget(this._copied.widget)
 							widget.id = "_temp";
 							let div = this.createZoomedWidget(widget);
 							if(!this._alignmentToolInited){
@@ -1075,6 +1075,15 @@ export default {
 					}
 
 				}
+			},
+
+			getZoomedSourceWidget (widget) {
+				if (this.sourceModel && this.sourceModel.widgets[widget.id]) {
+					var z = this.getZoomFactor();
+					let sourceWidget = lang.clone(this.sourceModel.widgets[widget.id])
+					return this.getZoomedBox(sourceWidget,z,z);
+				}
+				return widget
 			},
 
 			getPastePostion (mousePos){

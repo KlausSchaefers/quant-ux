@@ -2,7 +2,7 @@
 <template>
   <div class="MatcToolbarEditMode">
     <a @click="setDesign" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'design'  }]">
-      <span class="MatcToolbarResponsiveIcon mdi mdi-border-color"/>
+      <span class="MatcToolbarResponsiveIcon mdi  mdi-file-edit-outline"/>
       <span class="MatcToolbarResponsiveLabel">
         Design
       </span>

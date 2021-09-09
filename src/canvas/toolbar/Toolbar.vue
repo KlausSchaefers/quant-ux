@@ -73,7 +73,7 @@
 						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
 								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span>
-								<span class="MatcToolbarLabel">{{ $t('toolbar.simulate')}}</span>
+								<span class="MatcToolbarLabel MatcToolbarResponsiveLabel">{{ $t('toolbar.simulate')}}</span>
 							</a>
 						</div>
 						<div class="MatcToolbarSection" data-dojo-attach-point="undoSection">
