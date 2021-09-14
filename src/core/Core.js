@@ -649,11 +649,13 @@ export default class Core extends Evented {
                     /**
                      * Merge in overwriten styles
                      */
-                    var merged = lang.clone(t.style)
+                    let merged = lang.clone(t.style)
                     if (model.style) {
-                        for (var key in model.style) {
+                        for (let key in model.style) {
                             merged[key] = model.style[key]
                         }
+                    } else {
+                        console.debug('Layout.getStyle() >  mdel has no style',)
                     }
                     return merged;
                 } else {
@@ -1578,7 +1580,7 @@ export default class Core extends Evented {
                      * 2.a) if the have the same z, soet by id. This should be highly decrecated!
                      */
                     if (a.z == b.z && (a.id && b.id) && useIds) {
-                        console.warn('Order BY ID DPRECATED', a.z, b.z, a, b.id)
+                        //console.warn('Order BY ID DPRECATED', a.z, b.z, a, b.id)
                         return a.id.localeCompare(b.id);
                     }
 

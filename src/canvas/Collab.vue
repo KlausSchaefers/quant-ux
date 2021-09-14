@@ -13,8 +13,9 @@ export default {
     methods: {
 
       setCollabMouse (user, pos) {
+        let zoomedPOs = this.getZoomedBox(pos, this.zoom, this.zoom);
         this.collabMousePositions[user.id] = {
-          pos: pos,
+          pos: zoomedPOs,
           user: user
         }
         this.renderCollabMousePosition(this.collabMousePositions)

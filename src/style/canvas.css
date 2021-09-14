@@ -284,6 +284,7 @@
 
 .MatcCanvasMouse .MatcCanvasMouseLabel{
 	position: absolute;
+	font-size: 12px;
 	padding: 4px;
 	top: 4px;
 	left: 2px;

@@ -242,7 +242,6 @@ test('Test MergeUtil - Inc ', async () => {
    * Make sure for arrays of objects we do not send a delta
    */
   let delta = MergeUtil.getDelta(a, b, {'lastUUID': 'inc'})
-  console.debug(delta)
   expect(delta.lastUUID.inc).toBe(5)
   expect(delta.y).toBe(2)
 
@@ -251,4 +250,47 @@ test('Test MergeUtil - Inc ', async () => {
   expect(merged.lastUUID).toBe(6)
   expect(merged.y).toBe(2)
   expect(merged.x).toBe(1)
+})
+
+
+test('Test MergeUtil - Null ', async () => {
+
+
+  let a = {
+      id: 'w1',
+      x:1,
+      y:1,
+      style: {
+        color: 'red',
+        border: 'pink'
+      },
+      hover: {
+        color: 'red',
+        backgroundImage: 'abc.png'
+      }
+    }
+
+  let b = {
+    id: 'w1',
+    x:1,
+    y:1,
+    style: { // this one should be empty
+    },
+    hover: {
+      color: 'red',
+      backgroundImage: null // this one should be still null
+    }
+  }
+
+  /**
+   * Make sure for arrays of objects we do not send a delta
+   */
+  let delta = MergeUtil.getDelta(a, b, {'lastUUID': 'inc'})
+
+  let merged = MergeUtil.applyDelta(a, delta)
+  expect(merged.style.color).toBeUndefined()
+  expect(merged.style.border).toBeUndefined()
+  expect(merged.hover.color).toBe('red')
+  expect(merged.hover.backgroundImage).toBeNull()
+
 })

@@ -23,8 +23,7 @@ function mergeDeep(target, source) {
     Object.keys(source).forEach(key => {
       const targetValue = target[key];
       const sourceValue = source[key];
-      if (sourceValue._isInc && sourceValue.inc) {
-        console.debug(key, ' - ',targetValue, sourceValue, '   ', targetValue + sourceValue.inc)
+      if (sourceValue && sourceValue._isInc && sourceValue.inc) {
         target[key] = targetValue + sourceValue.inc
       } else if (isObject(sourceValue) && sourceValue.added && sourceValue.removed && Array.isArray(targetValue)) {
         target[key] = applyArrayDelta(targetValue, sourceValue)
@@ -35,7 +34,18 @@ function mergeDeep(target, source) {
          */
         target[key] = sourceValue
       } else if (isObject(targetValue) && isObject(sourceValue)) {
-        target[key] = mergeDeep(Object.assign({}, targetValue), sourceValue);
+          let newObject = mergeDeep(Object.assign({}, targetValue), sourceValue);
+          
+          /**
+           * if we for istance create a template, all the values will be set to null in the delta.
+           * we do not want that, we want an empty object, so Core.getStyle() works properly.
+           **/ 
+          if (objecAllValuesNull(newObject)) {
+            target[key] = {}
+          } else {
+            target[key] = newObject
+          }
+
       } else {
         target[key] = sourceValue;
       }
@@ -124,6 +134,16 @@ function applyArrayDelta (item, delta) {
     let result = item.filter(x => !delta.removed.includes(x))
     result = result.concat(delta.added)
     return result
+}
+
+function objecAllValuesNull(obj) {
+    for (let key in obj){
+        let value = obj[key]
+        if (value !== null && value !== undefined) {
+            return false
+        }
+    }
+    return true
 }
 
 

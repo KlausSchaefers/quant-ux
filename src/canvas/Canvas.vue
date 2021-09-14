@@ -640,7 +640,8 @@ export default {
 			this._lastMouseMoveEvent = e;
 			if (this.mouseListenerCallback) {
 				try {
-					this.mouseListenerCallback(pos2)
+					const unZoomedPos = this.getUnZoomedBox(pos2, this.zoom, this.zoom);
+					this.mouseListenerCallback(unZoomedPos)
 				} catch (err){
 					this.logger.log(3,"onMouseMove", "error with callback > ", err);
 				}

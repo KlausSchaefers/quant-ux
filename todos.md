@@ -2,6 +2,8 @@
 ## Renderfacoty
   No token error for public...  https://quant-ux.com/#/examples/5a0cb67ee2fb533609d6fa7b/replay/S1517414873055_5240.html
 
+# Collab
+  - Adding templates causes issue. For some reason the templates are not added!
 
 ## Design Token
   - Export to adobe? https://www.adobe.com/products/xd/learn/design-systems/cloud-libraries/vscode-extension.html

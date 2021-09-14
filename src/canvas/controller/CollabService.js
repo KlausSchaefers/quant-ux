@@ -32,7 +32,7 @@ export default class CollabService {
     }
 
     applyEvent (model, event) {
-      Logger.log(1, 'CollabService.applyEvent() > enter')
+      Logger.log(-1, 'CollabService.applyEvent() > enter', event)
       /**
        * Should we clone???
        */
@@ -51,14 +51,25 @@ export default class CollabService {
         return model
       }
 
-      let changes = event.changes
-      changes.forEach(change => {
-        if (change.parent) {
-          this.applyInParent(model, change)
-        } else {
-          this.applyInRoot(model, change)
-        }
-      })
+      console.debug('before', model.templates)
+
+      try {
+        let changes = event.changes
+        changes.forEach(change => {
+          if (change.parent) {
+            this.applyInParent(model, change)
+          } else {
+            this.applyInRoot(model, change)
+          }
+        })
+  
+      } catch (err) {
+        Logger.error('CollabService.applyEvent() > Opoops', err)
+        Logger.error('CollabService.applyEvent() > Opoops', event.changes)        
+      }
+
+      console.debug('after', model.templates)
+
 
       this.pushEvent(event)
 
