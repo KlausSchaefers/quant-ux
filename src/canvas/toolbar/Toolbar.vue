@@ -130,7 +130,7 @@
 
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
-								<CollabUser :users="collabUsers" />
+								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
 							</div>
 							<div class="MatcToolbarSection">
 								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig"  @canvasViewMode="setCanvasViewMode"/>
@@ -343,6 +343,13 @@ export default {
 				this.canvas.setViewMode(mode)
 			}
 			this.updatePropertiesView()
+		},
+
+		onCollabUserClicked (user) {
+			this.logger.log(-1,"onCollabUserClicked", "entry > ", user);
+			if (this.canvas && this.user.id !== user.id) {
+				this.canvas.moveToCollabUser(user)
+			}
 		},
 
 		/********************************************************

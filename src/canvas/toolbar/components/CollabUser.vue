@@ -1,8 +1,8 @@
-
 <template>
   <div class="MatcToolbarCollabUser">
-    <div v-for="user in visibleUsers" :key="user.id" class="MatcTeamItem">
-      <div :class="['MatcUserImageCntr', {'MatcUserImageCntrTrans': user.image}]">
+    <div v-for="user in visibleUsers" :key="user.id" class="MatcTeamItem vommondToolTipCntr" @click="onClickUser(user)">
+      
+      <div :class="['MatcUserImageCntr ', {'MatcUserImageCntrTrans': user.image}]">
         <div v-if="user.image">
           <img :src="'/rest/user/' + user.id + '/images/' + user.name + '_' + user.lastname + '/' + user.image"/>
         </div>
@@ -13,6 +13,10 @@
         </div>
       </div>
 
+      <div class="vommondToolTip">
+            <div class="vommondToolTipArrow"></div>
+            <span class="vommondToolTipLabel">Click to view {{getUserName(user)}}</span>
+      </div>
 
     </div>
   </div>
@@ -58,6 +62,23 @@ export default {
         }
       }
       return result
+    },
+    getUserName (user) {
+      let result = "";
+      if (user.name) {
+        result = user.name + " ";
+      }
+      if (user.lastname) {
+        result += user.lastname;
+      }
+      if (result.length == 0) {
+        result = user.email;
+      }
+      return result;
+    },
+    onClickUser (user) {
+      this.log.log(2, 'onClickUser', 'enter')
+      this.$emit('select', user)
     }
   },
   watch: {

@@ -368,7 +368,7 @@ export default {
 				this.addTooltip(this.deleteBtn, "Remove (DELETE)");
 				this.addTooltip(this.copyStyleBtn, "Copy Style");
 				this.addTooltip(this.signupSection, "Sign Up for Free to save your changes...");
-				this.addTooltip(this.template, "Create a reusable symbol. You can find it in the widget menu.");
+				this.addTooltip(this.template, "Create a reusable component. You can find it in the widget menu.");
 
 
 				this.addTooltip(this.groupBTN, "Group (CTRL-G)");

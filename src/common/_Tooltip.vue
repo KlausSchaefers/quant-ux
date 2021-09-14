@@ -3,7 +3,7 @@
 import css from "dojo/css";
 
 export default {
-  name: "_Touch",
+  name: "_Tooltip",
   mixins: [],
   data: function() {
     return {};
