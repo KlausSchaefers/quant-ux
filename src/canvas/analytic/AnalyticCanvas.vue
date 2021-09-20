@@ -577,16 +577,32 @@ export default {
         numberOfClicks = this.analyticParams.numberOfClicks;
       }
 
-      if (numberOfClicks > 0) {
-        var firstNEvents = this.getFirstNClicksData(numberOfClicks);
+      if (numberOfClicks === "screenClicks") {
+
+        let screenClicks = this.getScreenClicksOnBackground();
+        screenClicks = screenClicks.as_array();
+        this._render_pixel_screen_heatmap(screenClicks, screen, ctx, div);
+
+      } else if (numberOfClicks === "missedClicks") {
+
+        let missedClicks = this.getMissedClicks();
+        missedClicks = missedClicks.as_array();
+        this._render_pixel_screen_heatmap(missedClicks, screen, ctx, div);
+
+      } else if (numberOfClicks > 0) {
+
+        let firstNEvents = this.getFirstNClicksData(numberOfClicks);
         this._render_pixel_screen_heatmap(firstNEvents, screen, ctx, div);
+
       } else {
+
         /**
          * Ignore Hover events...
          */
-        var filtered = this.getClickEvents(new DataFrame(this.events));
-        var actionEvents = filtered.as_array();
+        let filtered = this.getClickEvents(new DataFrame(this.events));
+        let actionEvents = filtered.as_array();
         this._render_pixel_screen_heatmap(actionEvents, screen, ctx, div);
+        
       }
     },
 
@@ -1468,6 +1484,43 @@ export default {
 
       return this.cache["screenWidgetClicks"];
     },
+
+
+    getScreenClicksOnBackground() {
+      if (!this.cache["screenClicksOnBackground"]) {
+        var screenClicks = this.df.select("type", "==", "ScreenClick");
+        this.cache["screenClicksOnBackground"] = screenClicks
+      }
+
+      return this.cache["screenClicksOnBackground"];
+    },
+
+    getMissedClicks () {
+       if (!this.cache["missedClicks"]) {
+        /** 
+         * Get all screens that do not have a line
+         */
+        var screens = this.getScreens(this.sourceModel);
+        let screensWithoutLines = []
+        for (let s = 0; s < screens.length; s++) {
+          var screen = screens[s];
+          let linesFrom = this.getFromLines(screen)
+          if (linesFrom.length === 0) {
+            screensWithoutLines.push(screen.id)
+          }
+        }
+        /**
+         * Filter screenclicks for these screens
+         */
+        let clickEvents = this.df.select("type", "==", "ScreenClick");
+        let missedClicks = clickEvents.select("screen", "in", screensWithoutLines);
+       
+        this.cache["missedClicks"] = missedClicks;
+      }
+
+      return this.cache["missedClicks"];
+    },
+
 
     getScreenClicks() {
       if (!this.cache["screenClicks"]) {

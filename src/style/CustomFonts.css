@@ -12,14 +12,22 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
 }
 
-.MatcCustomFontsRow input.MatcCustomFontsName{
+.MatcCustomFontsRow input.MatcCustomFontsName,
+.MatcCustomFontsRow label.MatcCustomFontsName{
     width: 20%;
 }
 
-.MatcCustomFontsRow input.MatcCustomFontsURL{
+.MatcCustomFontsRow input.MatcCustomFontsURL,
+.MatcCustomFontsRow label.MatcCustomFontsURL{
     width: 75%;
+}
+
+.MatcCustomFontsRow .MatcCustomFontsIcon {
+    width: 24px;
+    text-align: right;
 }
 
 .MatcCustomFontsRow .MatcCustomFontsType{

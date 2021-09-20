@@ -516,6 +516,8 @@ export default {
 					{"value" : -1,label : "All Clicks"},
 					{"value" : 1, label : "First Click"},
 					{"value" : 3, label : "First Three Clicks"},
+					{"value" : "screenClicks", label : "Screen Clicks"},
+					{"value" : "missedClicks", label : "Missed Clicks"}
 				]);
 				list.placeAt(db.div().build(row));
 				this.own(list.on("change", lang.hitch(this, "showFirstClickHeatMap")));

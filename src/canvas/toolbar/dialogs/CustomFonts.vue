@@ -2,13 +2,14 @@
 <template>
      <div class="MatcCustomFonts" @keydown.stop="" @keyup.stop="">
         <div class="MatcCustomFontsRow">
-            <label class="MatcCustomFontsName">Name</label>
             <label class="MatcCustomFontsURL">URL</label>
+            <label class="MatcCustomFontsName">Name</label>
+             <span class="MatcCustomFontsIcon"></span>
         </div>
         <div v-for="(font, i) in fonts" :key="i" class="MatcCustomFontsRow MatcPaddingBottom">
+            <input v-model="font.url" autocomplete="off" :placeholder="urlHint" class="form-control MatcIgnoreOnKeyPress MatcCustomFontsURL" @change="onChangeURL"/>
             <input v-model="font.name" autocomplete="off" class="form-control MatcIgnoreOnKeyPress MatcCustomFontsName" />
-            <input v-model="font.url" autocomplete="off" class="form-control MatcIgnoreOnKeyPress MatcCustomFontsURL" @change="onChangeURL"/>
-            <span class="mdi mdi-close-circle" @click="removeFont(font)"></span>
+            <span class="MatcCustomFontsIcon mdi mdi-close-circle" @click="removeFont(font)"></span>
         </div>
         <div class="MatcButton" @click="addFont">Add</div>
 	</div>
@@ -26,6 +27,7 @@ export default {
     mixins:[DojoWidget],
     data: function () {
         return {
+            urlHint:'e.g. <link href="https://fonts.googleapis.com/css2?family=Grey+Qo&display=swap" rel="stylesheet">',
 			fonts: [{
                 name: '',
                 url: ''
@@ -67,7 +69,22 @@ export default {
                     let nameStart = f.url.indexOf('css?family=')
                     if (nameStart > 0){
                         f.name = f.url.substring(nameStart + 'css?family='.length)
+                    } else {
+                        let nameStart2 = f.url.indexOf('css2?family=')
+                        if (nameStart2 > 0){
+                            f.name = f.url.substring(nameStart2 + 'css2?family='.length)
+                        }
                     }
+
+                    if (f.name.indexOf("&")) {
+                        f.name = f.name.substring(0, f.name.indexOf("&"))
+                    }
+
+                    if (f.name.indexOf("+")) {
+                        f.name = f.name.replace("+", " ")
+                    }
+                   
+                    console.debug(f, nameStart)
                 } else if (f.url.indexOf('.ttf') > 0){
                     f.type = 'truetype'
                 }
