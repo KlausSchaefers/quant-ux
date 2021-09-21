@@ -753,8 +753,12 @@ export default {
           y: l.to.y,
           d: "right",
         });
-        let p = l.count / maxCount
-        var width = Math.max(1, Math.round(p * 25));
+        /**
+         * FIXME: here is a bug that l.count might be biigger than max
+         */
+        let p = Math.min(1, l.count / maxCount)
+        var width = Math.min(15, Math.max(1, Math.round(p * 25)));
+       
         var color = this.mixColor(Math.min(1, p));
         var toID = l.to.x + "," + l.to.y;
         if (!divs[toID]) {
@@ -980,7 +984,8 @@ export default {
         } else {
           this._render_dropoff_task_sucess(screenEvents, screen, ctx, div, this.analyticParams.task);
         }
-
+      } else {
+        this.showError('No task selected')
       }
     },
 

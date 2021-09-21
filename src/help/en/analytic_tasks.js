@@ -9,7 +9,7 @@ export let texts = [
             <br>
         `,
         "video": {
-            "src": "https://www.youtube.com/embed/mdYEBEhd33Q"
+            "src": "https://www.youtube.com/embed/eGDTAJlB-uI?t=64"
         },
         "paragraphs": [
                 {

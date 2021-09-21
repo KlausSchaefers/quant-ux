@@ -1062,17 +1062,29 @@ export default {
 
 				let taskNumber = this.dropOffTaskBtn.getValue()
 				if (taskNumber >= 0) {
-					let task = this.testSettings.tasks[taskNumber];
-					this.setAnalyticMode("DropOff", {
-						time: this.dropOffTimeCheckBox.getValue(),
-						task: task,
-						color: '#ccc'
-					});
-					css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
-					css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
-					css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
-					//css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
-					this.showDropOffChart(task)
+					if (this.testSettings.tasks[taskNumber]) {
+						let task = this.testSettings.tasks[taskNumber];
+
+						this.setAnalyticMode("DropOff", {
+							time: this.dropOffTimeCheckBox.getValue(),
+							task: task,
+							color: '#ccc'
+						});
+						css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
+						css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
+						css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
+						//css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
+						this.showDropOffChart(task)
+					} else {
+						this.setAnalyticMode("DropOff", {
+							time: this.dropOffTimeCheckBox.getValue(),
+							task: null,
+							color: '#ccc'
+						});
+						css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
+						this.dropOffChartDiv.innerHTML = "Please select a task"
+					}
+				
 					this.showProperties();
 				} else {
 					css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
