@@ -13,7 +13,7 @@ export let texts = [
                 "id": "analytics.canvas.intro",
                 "title": "What are heatmaps",
                 "body": `
-                    Click heat maps visualize where the users have clicked. The more the users 
+                    Click heatmaps visualize where the users have clicked. The more the users 
                     click on a certain area, the hotter (more reddish) the area gets. Thus, the 
                     elements in the area are likely important for the user.
                 `
@@ -26,13 +26,37 @@ export let texts = [
                     uses cases. Before you created the interface, you identified and 
                     prioritized user tasks and designed the interface accordingly. The primary 
                     elements should be easy to find and you expect them to be used a lot.
-                    <br>
+                    <br>  </br>
                     If the primary elements are hot your hypothesis was most likely right 
                     and the users behave as you expected. If the primary elements are cold, 
                     this usually indicates a problem. The users might not be able to 
                     find the elements or do not want to use the function.
                     Unexpected hot areas indicate that the users behave differently than you thought. 
-                    </br>
+                    </br>  </br>
+                    There are five different types of click heatmaps supported:
+                    <ol>
+                        <li>
+                            <b>All Clicks</b> gives you a good understanding on
+                            busy areas of your design, but also makes it easy to spot areas 
+                            that did not catch the users attention.
+                        </li>
+                        <li>
+                            <b>First Click</b> help you to uncover which 
+                            elements draw the most attention from the users, and were 
+                            clicked right after a screen was loaded.
+                        </li>
+                        <li>
+                            <b>First three Click</b> extends the first clicks to three clicks. 
+                            Elements that are not touched withing three 
+                            clicks, may be hard to discover for the user.
+                        </li>
+                        <li>
+                            <b>Missed Clicks</b> show clicks on not actionable elements, for instance
+                            when the users click on the screen background. This can indicate that the users made an
+                            error and could not understand the intended interaction.
+                        </li>
+                    </ol>
+
                 `
             },
             {

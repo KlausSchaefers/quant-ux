@@ -198,6 +198,9 @@ export default {
 			showFirstClickHeatMap(i){
 				this.logger.log(0,"showFirstClickHeatMap", "entry > "+ i);
 				this.analyticHeatMapClicks = i;
+
+				this.setHeatMapLabel(i)
+
 				this.setAnalyticMode("HeatmapClick",{numberOfClicks : this.analyticHeatMapClicks} );
 			},
 
@@ -508,21 +511,51 @@ export default {
 
 				let content = this.createContent(this.heatmapDiv);
 
-				var row = db.div("MatcToobarRow MatcMarginBottomXXL").build(content);
+				var row = db.div("MatcToobarRow MatcMarginBottom").build(content);
 
 				var list = this.$new(RadioBoxList);
 				css.add(list.domNode, "MatcToolbarRadioList");
 				list.setOptions([
 					{"value" : -1,label : "All Clicks"},
 					{"value" : 1, label : "First Click"},
-					{"value" : 3, label : "First Three Clicks"},
-					{"value" : "screenClicks", label : "Screen Clicks"},
+					{"value" : 3, label : "First three Clicks"},
 					{"value" : "missedClicks", label : "Missed Clicks"}
 				]);
 				list.placeAt(db.div().build(row));
 				this.own(list.on("change", lang.hitch(this, "showFirstClickHeatMap")));
 
+
+				this.heatmapLabel = db.div('MatcToobarRow').label('MatcToolbarLabel MatcToolbarHelpSection').build(content)
+
 				this.heatmapClickList = list;
+				this.setHeatMapLabel(-1)
+			},
+
+			setHeatMapLabel (i) {
+				let lbl = ''
+				if (i === -1) {
+					lbl = `Find the busy areas in your design where the users have clicked most.`
+				}
+
+				if (i === 1) {
+					lbl = `Uncover which elements draw the most attention from the 
+						   users right after a screen was loaded.`
+				}
+
+
+				if (i === 3) {
+					lbl = `Elements that are not clicked withing three 
+                           interactions, may be hard to discover for the user.`
+				}
+
+
+				if (i === 'missedClicks') {
+					lbl = `Clicks on not actionable elements can indicate that the users made an
+                          error and could not understand the intended interaction.`
+				}
+
+
+				this.heatmapLabel.textContent = lbl
 			},
 
 			renderDropOffProperties () {

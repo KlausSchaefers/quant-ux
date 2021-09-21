@@ -586,7 +586,6 @@ export default {
       } else if (numberOfClicks === "missedClicks") {
 
         let missedClicks = this.getMissedClicks();
-        missedClicks = missedClicks.as_array();
         this._render_pixel_screen_heatmap(missedClicks, screen, ctx, div);
 
       } else if (numberOfClicks > 0) {
@@ -1500,21 +1499,50 @@ export default {
         /** 
          * Get all screens that do not have a line
          */
-        var screens = this.getScreens(this.sourceModel);
-        let screensWithoutLines = []
-        for (let s = 0; s < screens.length; s++) {
-          var screen = screens[s];
-          let linesFrom = this.getFromLines(screen)
+        var screens = Object.values(this.sourceModel.screens);
+        let passiveScreens = {}
+        screens.forEach(s => {
+          let linesFrom = this.getFromLines(s)
           if (linesFrom.length === 0) {
-            screensWithoutLines.push(screen.id)
+            passiveScreens[s.id] = true
           }
-        }
+        })
+
+
+        /**
+         * Get all the widgets that do not have a line
+         * AND that are not inputs 
+         */
+        let passiveWidgets = []
+        let widgets = Object.values(this.sourceModel.widgets)
+        widgets.forEach(w => {
+          if (w.type === "Box" || w.type === "Button" || w.type === "HotSpot") {
+            let linesFrom = this.getFromLines(w)
+            if (linesFrom.length === 0) {
+              passiveWidgets[w.id] = true
+            }
+          }
+        })
+
         /**
          * Filter screenclicks for these screens
          */
-        let clickEvents = this.df.select("type", "==", "ScreenClick");
-        let missedClicks = clickEvents.select("screen", "in", screensWithoutLines);
-       
+        let clickEvents = this.df
+          .select("type", "in", ["ScreenClick", "WidgetClick"])
+          .as_array();
+        
+
+        let missedClicks = clickEvents.filter(e => {
+          if (e.type === "ScreenClick" && passiveScreens[e.screen] === true) {
+            return true
+          }
+          if (e.type === "WidgetClick" && passiveWidgets[e.widget] === true) {
+            return true
+          }
+        
+          return false
+        })
+
         this.cache["missedClicks"] = missedClicks;
       }
 
