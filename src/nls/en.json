@@ -183,6 +183,18 @@
             "user": "Tests",
             "duration": "Test Duration",
             "coverage": "Test Coverage"
+        },
+        "canvas": {
+            "dropoff": {
+                "hintNoTasksDefined": "No tasks defined",
+                "errorNoTask": "Please select a task"
+            },
+            "heatamp": {
+                "hintAll": "Find the busy areas in your design where the users have clicked most.",
+                "hintFirst": "Uncover which elements draw the most attention from the users right after a screen was loaded.",
+                "hintFirstThree": "Elements that are not clicked withing three interactions, may be hard to discover for the user.",
+                "hintMissed": "Clicks on passive elements, such as backgrounds, can indicate that the users made an error and could not understand the intended interaction."
+            }
         }
     },
     "dashScreenList": {

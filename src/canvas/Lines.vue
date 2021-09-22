@@ -37,572 +37,576 @@ export default {
 
 	    },
 
-			updateSVG () {
-				let pos = {
-	    		h : this.getZoomed(this.canvasPos.h, this.zoom),
-	    		w: this.getZoomed(this.canvasPos.w, this.zoom)
-	    	};
-				this.svg.attr("width", pos.w).attr("height",pos.h );
-			},
+		updateSVG () {
+			let pos = {
+			h : this.getZoomed(this.canvasPos.h, this.zoom),
+			w: this.getZoomed(this.canvasPos.w, this.zoom)
+		};
+			this.svg.attr("width", pos.w).attr("height",pos.h );
+		},
 
-			lineFunction (line) {
-				let start = line[0]
-				let end = line[1]
-				/**
-				 * We render a curved line, only if we have no line points,
-				 * and if they are not a vertical.
-				 *
-				 * FIXME: We might get here some weird flickering, due to
-				 * zooming.. Dunno exactyl why. Maybe the anchor points get fucked up...
-				 */
-				if (line.length === 2 && (Math.abs(start.x - end.x) > 5)) {
-					let curvedLine = []
+		lineFunction (line) {
+			let start = line[0]
+			let end = line[1]
+			/**
+			 * We render a curved line, only if we have no line points,
+			 * and if they are not a vertical.
+			 *
+			 * FIXME: We might get here some weird flickering, due to
+			 * zooming.. Dunno exactyl why. Maybe the anchor points get fucked up...
+			 * 
+			 * We could still distinnguish between left-right and right left and move the 
+			 * points to eiter felt or right. This might be usefull to show circles
+			 * in the analytc graphs
+			 */
+			if (line.length === 2 && (Math.abs(start.x - end.x) > 5)) {
+				let curvedLine = []
 
-					curvedLine.push(start)
-					curvedLine.push({
-						x: start.x - Math.round((start.x - end.x) / 2),
-						y: start.y
-					})
-					curvedLine.push({
-						x: start.x - Math.round((start.x - end.x) / 2),
-						y: end.y
-					})
-					this.drawPoint(curvedLine[1])
-					curvedLine.push(end)
-					return this.smoothLineFunction(curvedLine)
-				}
-				return this.straightLineFunction(line)
-			},
+				curvedLine.push(start)
+				curvedLine.push({
+					x: start.x - Math.round((start.x - end.x) / 2),
+					y: start.y
+				})
+				curvedLine.push({
+					x: start.x - Math.round((start.x - end.x) / 2),
+					y: end.y
+				})
+				this.drawPoint(curvedLine[1])
+				curvedLine.push(end)
+				return this.smoothLineFunction(curvedLine)
+			}
+			return this.straightLineFunction(line)
+		},
 
-			renderLine (line){
-				// this.logger.log(6,"renderLine", "entry > " + this.mode);
+		renderLine (line){
+			// this.logger.log(6,"renderLine", "entry > " + this.mode);
 
-				var fromPos = this.getFromBox(line);
-				var toPos = this.getToBox(line);
+			var fromPos = this.getFromBox(line);
+			var toPos = this.getToBox(line);
 
-				if (fromPos && toPos){
-					let layoutedLine = this.layoutLine(fromPos, toPos, line);
-					if (layoutedLine){
+			if (fromPos && toPos){
+				let layoutedLine = this.layoutLine(fromPos, toPos, line);
+				if (layoutedLine){
+					/**
+					 * render line
+					 */
+					if (!this.lineSVGs[line.id]){
+
 						/**
-						 * render line
+						 * create new line
 						 */
-						if (!this.lineSVGs[line.id]){
+						let svg = this.drawLine(line.id, layoutedLine);
+						this.lineSVGs[line.id] = svg;
 
-							/**
-							 * create new line
-							 */
-							let svg = this.drawLine(line.id, layoutedLine);
-							this.lineSVGs[line.id] = svg;
-
-							/**
-							 * render support point
-							 */
-							if (this.mode === "edit") {
-								let l = layoutedLine.length;
-								for (let i =1; i < l-1; i++) {
-									let p = layoutedLine[i];
-									let div = this.drawPoint(p,line.id, i);
-									this.dndContainer.appendChild(div);
-									this.linePoints[`${line.id}_${i}`] = div
-								}
-
-							}
-						} else {
-							/**
-							 * update line
-							 */
-							let svg = this.lineSVGs[line.id];
-							svg.attr("d", this.lineFunction(layoutedLine));
-
-							if (this.mode === "edit") {
-								let l = layoutedLine.length;
-								for (let i =1; i < l-1; i++) {
-									let p = layoutedLine[i];
-									let div =	this.linePoints[`${line.id}_${i}`]
-									if (div) {
-										this.domUtil.setPos(div, p)
-									} else {
-										console.warn('Lines. Cannot update point')
-									}
-								}
-							}
-							/**
-							 * FIXME: update the line points in here too!
-							 */
-						}
-					}
-				} else {
-					console.warn("Cannot render line", line, fromPos, toPos);
-				}
-			},
-
-			updateLine (line, from, to){
-
-				if(line.hidden){
-					return;
-				}
-
-				if(!this._lineUpdateJobs){
-					this._lineUpdateJobs = {};
-				}
-
-				/**
-				 * FIXME: here is a bug with group lines!
-				 */
-				var layoutedLine = this.layoutLine(from, to, line);
-
-				if(layoutedLine){
-					var job = {
-						line : layoutedLine
-					};
-					this._lineUpdateJobs[line.id] = job;
-				}
-
-				if(!window.requestAnimationFrame){
-						console.warn("No requestAnimationFrame()");
-						this._lineUpdateUI();
-				} else {
-					// var callback = lang.hitch(this, "_lineUpdateUI");
-					requestAnimationFrame(() => {
-						this._lineUpdateUI()
-					});
-				}
-			},
-
-			_lineUpdateUI (){
-				if (this._lineUpdateJobs){
-					for (let id in this._lineUpdateJobs){
-						var job = this._lineUpdateJobs[id];
 						/**
-						 * update line graph
+						 * render support point
 						 */
-						var line = job.line;
-						var svg = this.lineSVGs[id];
-						if(svg){
-							svg.attr("d", this.lineFunction(line));
+						if (this.mode === "edit") {
+							let l = layoutedLine.length;
+							for (let i =1; i < l-1; i++) {
+								let p = layoutedLine[i];
+								let div = this.drawPoint(p,line.id, i);
+								this.dndContainer.appendChild(div);
+								this.linePoints[`${line.id}_${i}`] = div
+							}
+
 						}
+					} else {
+						/**
+						 * update line
+						 */
+						let svg = this.lineSVGs[line.id];
+						svg.attr("d", this.lineFunction(layoutedLine));
+
+						if (this.mode === "edit") {
+							let l = layoutedLine.length;
+							for (let i =1; i < l-1; i++) {
+								let p = layoutedLine[i];
+								let div =	this.linePoints[`${line.id}_${i}`]
+								if (div) {
+									this.domUtil.setPos(div, p)
+								} else {
+									console.warn('Lines. Cannot update point')
+								}
+							}
+						}
+						/**
+						 * FIXME: update the line points in here too!
+						 */
 					}
 				}
-				this._lineUpdateJobs = null;
-			},
+			} else {
+				console.warn("Cannot render line", line, fromPos, toPos);
+			}
+		},
 
-			onLineClick (id){
-				this.onLineSelected(id);
-			},
+		updateLine (line, from, to){
 
-			onLineMouseOver (id, e){
-				this._lineMouseOver = id;
-				this._lineMouseOverPos = this.getCanvasMousePosition(e);
-			},
+			if(line.hidden){
+				return;
+			}
 
-			onLineMouseOut (){
-			},
+			if(!this._lineUpdateJobs){
+				this._lineUpdateJobs = {};
+			}
 
 			/**
-			 * This method is an evil hack because d3.js sucks so much at
-			 * mouse handling. We now listen to hoover events and store
-			 * the position of the last event. In case the canvas is clicked
-			 * DnD.js will call this method with the mouse position of the
-			 * click and we check if it was close the last hoover event.
-			 * This works more or less good!
+			 * FIXME: here is a bug with group lines!
 			 */
-			checkIfLineWasCLicked (pos){
-				if(this._lineMouseOver){
-					var distance = Math.sqrt( Math.pow(this._lineMouseOverPos.x - pos.x, 2) + Math.pow(this._lineMouseOverPos.y - pos.y, 2));
-					if(distance < this.touchLineWidth){
-						this.onLineSelected(this._lineMouseOver);
-						return true;
+			var layoutedLine = this.layoutLine(from, to, line);
+
+			if(layoutedLine){
+				var job = {
+					line : layoutedLine
+				};
+				this._lineUpdateJobs[line.id] = job;
+			}
+
+			if(!window.requestAnimationFrame){
+					console.warn("No requestAnimationFrame()");
+					this._lineUpdateUI();
+			} else {
+				// var callback = lang.hitch(this, "_lineUpdateUI");
+				requestAnimationFrame(() => {
+					this._lineUpdateUI()
+				});
+			}
+		},
+
+		_lineUpdateUI (){
+			if (this._lineUpdateJobs){
+				for (let id in this._lineUpdateJobs){
+					var job = this._lineUpdateJobs[id];
+					/**
+					 * update line graph
+					 */
+					var line = job.line;
+					var svg = this.lineSVGs[id];
+					if(svg){
+						svg.attr("d", this.lineFunction(line));
 					}
 				}
-				return false;
-			},
+			}
+			this._lineUpdateJobs = null;
+		},
 
-			/**********************************************************************
-			 * Layout stuff : calculate anchor points, smoothing etc
-			 **********************************************************************/
+		onLineClick (id){
+			this.onLineSelected(id);
+		},
 
-			layoutLine (fromPos, toPos, line) {
-				/**
-				 * add support points that guide the line
-				 */
-				var supportedLine = this.layoutAddSupportPoints(fromPos, toPos, line);
-				/**
-				 * set anchor points
-				 */
-				var correctedLine = this.layoutCorrectAnchorPoints(supportedLine);
-				/**
-				 * correct last node for arrow
-				 */
-				var result = this.layoutCorrectArrow(correctedLine);
-				return result;
-			},
+		onLineMouseOver (id, e){
+			this._lineMouseOver = id;
+			this._lineMouseOverPos = this.getCanvasMousePosition(e);
+		},
 
+		onLineMouseOut (){
+		},
 
-			layoutCorrectAnchorPoints (supportedLine) {
-				var l = supportedLine.length;
-
-				/**
-				 * get "real" line with the correct anchor points
-				 */
-				var a1 = this.getAnchorLine(supportedLine[0], supportedLine[1]);
-				var a2 = this.getAnchorLine(supportedLine[l-2], supportedLine[l-1]);
-
-				/**
-				 * update line
-				 */
-				if(a1){
-					supportedLine[0] = a1[0];
+		/**
+		 * This method is an evil hack because d3.js sucks so much at
+		 * mouse handling. We now listen to hoover events and store
+		 * the position of the last event. In case the canvas is clicked
+		 * DnD.js will call this method with the mouse position of the
+		 * click and we check if it was close the last hoover event.
+		 * This works more or less good!
+		 */
+		checkIfLineWasCLicked (pos){
+			if(this._lineMouseOver){
+				var distance = Math.sqrt( Math.pow(this._lineMouseOverPos.x - pos.x, 2) + Math.pow(this._lineMouseOverPos.y - pos.y, 2));
+				if(distance < this.touchLineWidth){
+					this.onLineSelected(this._lineMouseOver);
+					return true;
 				}
-				if(a2){
-					supportedLine[l-1] = a2[1];
-				}
-				return supportedLine;
-			},
+			}
+			return false;
+		},
 
+		/**********************************************************************
+		 * Layout stuff : calculate anchor points, smoothing etc
+		 **********************************************************************/
+
+		layoutLine (fromPos, toPos, line) {
+			/**
+			 * add support points that guide the line
+			 */
+			var supportedLine = this.layoutAddSupportPoints(fromPos, toPos, line);
+			/**
+			 * set anchor points
+			 */
+			var correctedLine = this.layoutCorrectAnchorPoints(supportedLine);
+			/**
+			 * correct last node for arrow
+			 */
+			var result = this.layoutCorrectArrow(correctedLine);
+			return result;
+		},
+
+
+		layoutCorrectAnchorPoints (supportedLine) {
+			var l = supportedLine.length;
 
 			/**
-			 * assemble line with support points
+			 * get "real" line with the correct anchor points
 			 */
-			layoutAddSupportPoints (from, to, line){
-				var result = [from];
-				var l = line.points.length;
-				for(var i=0; i < l; i++){
-					var x = line.points[i];
-					var p = {
-						x : x.x,
-						y : x.y,
-						w : 1,
-						h : 1
-					};
-					result.push(p);
-				}
-				result.push(to);
-				return result;
-			},
-
+			var a1 = this.getAnchorLine(supportedLine[0], supportedLine[1]);
+			var a2 = this.getAnchorLine(supportedLine[l-2], supportedLine[l-1]);
 
 			/**
-			 * A very ugly method that has to be used
-			 * to put the line a little shorted to
-			 * make space for the arrow
+			 * update line
 			 */
-			layoutCorrectArrow ( line){
+			if(a1){
+				supportedLine[0] = a1[0];
+			}
+			if(a2){
+				supportedLine[l-1] = a2[1];
+			}
+			return supportedLine;
+		},
 
-				var p = line[line.length-1];
 
-				if(p){
-					if(p.d=="left"){
-						p.x -= this.arrowCorrect;
-					}
-					if(p.d=="right"){
-						p.x+= this.arrowCorrect;
-					}
-					if(p.d=="top"){
-						p.y -= this.arrowCorrect;
-					}
-					if(p.d=="bottom"){
-						p.y+= this.arrowCorrect;
-					}
-					p.corrected=true;
+		/**
+		 * assemble line with support points
+		 */
+		layoutAddSupportPoints (from, to, line){
+			var result = [from];
+			var l = line.points.length;
+			for(var i=0; i < l; i++){
+				var x = line.points[i];
+				var p = {
+					x : x.x,
+					y : x.y,
+					w : 1,
+					h : 1
+				};
+				result.push(p);
+			}
+			result.push(to);
+			return result;
+		},
+
+
+		/**
+		 * A very ugly method that has to be used
+		 * to put the line a little shorted to
+		 * make space for the arrow
+		 */
+		layoutCorrectArrow ( line){
+
+			var p = line[line.length-1];
+
+			if(p){
+				if(p.d=="left"){
+					p.x -= this.arrowCorrect;
 				}
-				return line;
-			},
-
-			getAnchorLine (from, to){
-				if(!from || !to){
-					return null;
+				if(p.d=="right"){
+					p.x+= this.arrowCorrect;
 				}
-				var f = null;
-				var t = null;
-				var left = this.isLeft(from,to);
-				var top = this.isTop(from, to);
-				var fromIsLogic = this.hasLogic(from);
-				var toIsLogic = this.hasLogic(to);
-				var yOverlap = ((to.y <= from.y) && ((to.y + to.h) > from.y)) || ( (from.y <= to.y) && ( (from.y + from.h) > to.y));
-				var xOverlap = ((to.x <= from.x) && ((to.x + to.w) > from.x)) || ( (from.x <= to.x) && ( (from.x + from.w) > to.x));
+				if(p.d=="top"){
+					p.y -= this.arrowCorrect;
+				}
+				if(p.d=="bottom"){
+					p.y+= this.arrowCorrect;
+				}
+				p.corrected=true;
+			}
+			return line;
+		},
 
-				if(yOverlap){
-					if(!left){
-						f = this.getAnchorPoint(from, "right");
-						t = this.getAnchorPoint(to, "left");
-					} else {
-						f = this.getAnchorPoint(from, "left");
-						t = this.getAnchorPoint(to, "right");
-					}
-					let o = Math.min(to.y+to.h, from.y + from.h) - Math.max(to.y, from.y);
-					if(((to.y < from.y) && ((to.y + to.h) > from.y))){
-						if(!toIsLogic){
-							t.y = Math.floor(from.y + o/2);
-						}
-						if(!fromIsLogic){
-							f.y = Math.floor(from.y + o/2)
-						}
-					} else {
-						if(!toIsLogic){
-							t.y = Math.floor(to.y + o/2);
-						}
-						if(!fromIsLogic){
-							f.y = Math.floor(to.y + o/2);
-						}
-					}
-				} else if(xOverlap){
-					if(!top){
-						f = this.getAnchorPoint(from, "bottom");
-						t = this.getAnchorPoint(to, "top");
-					} else {
-						f = this.getAnchorPoint(from, "top");
-						t = this.getAnchorPoint(to, "bottom");
-					}
-					let o = Math.min(to.x+to.w, from.x + from.w) - Math.max(to.x, from.x);
-					if(((to.x < from.x) && ((to.x + to.w) > from.x))){
-						if(!toIsLogic){
-							t.x = Math.floor(from.x + o/2);
-						}
-						if(!fromIsLogic){
-							f.x = Math.floor(from.x + o/2);
-						}
-					} else {
-						if(!toIsLogic){
-							t.x = Math.floor(to.x + o/2);
-						}
-						if(!fromIsLogic){
-							f.x = Math.floor(to.x + o/2);
-						}
-					}
-				} else if(left){
-					f = this.getAnchorPoint(from, "left");
-					t = this.getAnchorPoint(to, "right");
-				}else if(!left){
+		getAnchorLine (from, to){
+			if(!from || !to){
+				return null;
+			}
+			var f = null;
+			var t = null;
+			var left = this.isLeft(from,to);
+			var top = this.isTop(from, to);
+			var fromIsLogic = this.hasLogic(from);
+			var toIsLogic = this.hasLogic(to);
+			var yOverlap = ((to.y <= from.y) && ((to.y + to.h) > from.y)) || ( (from.y <= to.y) && ( (from.y + from.h) > to.y));
+			var xOverlap = ((to.x <= from.x) && ((to.x + to.w) > from.x)) || ( (from.x <= to.x) && ( (from.x + from.w) > to.x));
+
+			if(yOverlap){
+				if(!left){
 					f = this.getAnchorPoint(from, "right");
 					t = this.getAnchorPoint(to, "left");
 				} else {
-					/**
-					 * default
-					 */
-					f = this.getAnchorPoint(from, "center");
-					t = this.getAnchorPoint(to, "center");
+					f = this.getAnchorPoint(from, "left");
+					t = this.getAnchorPoint(to, "right");
 				}
-
-				var line = [];
-				line.push(f);
-				line.push(t);
-				return line;
-			},
-
-
-			isTop (from, to){
-				return (from.y + from.h/2) > (to.y + to.h/2);
-			},
-
-			isLeft (from, to){
-				return ( from.x + from.w/2) > (to.x + to.w/2);
-			},
-
-
-			getAnchorPoint (box, pos) {
-
-				var a = {
-						x : box.x + box.w/2,
-						y :box.y + box.h/2,
-						d : pos,
-						h:0,
-						w:0
-				};
-
-				if (pos== "top") {
-
-					a.x = box.x + box.w/2;
-					a.y = box.y;
-
-				} else if (pos == "bottom"){
-
-					a.x = box.x + box.w/2;
-					a.y = box.y + box.h;
-
-				} else if (pos == "left"){
-
-					a.x = box.x;
-					a.y = box.y + box.h/2;
-
-				} else if (pos == "right"){
-
-					a.x = box.x + box.w;
-					a.y = box.y + box.h/2;
-
-				} else if(pos != "center"){
-					this.logger.error("getAnchorPoint", pos + " not supported!");
-				}
-
-				return a;
-			},
-
-
-			/**********************************************************************
-			 * Point
-			 **********************************************************************/
-			drawPoint (x, id, i)  {
-				/**
-				 * Correct position so line goes through the middle
-				 */
-				let inner = document.createElement("div");
-				css.add(inner, "MatcLineSupportPointTouch");
-				inner._lineID = id
-				inner._pointIndex = i
-				inner.style.background = this.defaultLineColor
-
-				let div = this.createBox({
-					x : x.x,
-					y : x.y,
-					w : x.w,
-					h : x.h
-				});
-				css.add(div, "MatcLineSupportPoint");
-
-				div.appendChild(inner);
-
-				return div;
-			},
-
-
-			/**********************************************************************
-			 * SVG Stuff
-			 **********************************************************************/
-
-			setLineColor (id, color){
-				var svg = this.lineSVGs[id];
-				if(svg){
-					if (color) {
-						svg.attr("stroke", color);
-					} else {
-						svg.attr("stroke", this.defaultLineColor);
+				let o = Math.min(to.y+to.h, from.y + from.h) - Math.max(to.y, from.y);
+				if(((to.y < from.y) && ((to.y + to.h) > from.y))){
+					if(!toIsLogic){
+						t.y = Math.floor(from.y + o/2);
+					}
+					if(!fromIsLogic){
+						f.y = Math.floor(from.y + o/2)
+					}
+				} else {
+					if(!toIsLogic){
+						t.y = Math.floor(to.y + o/2);
+					}
+					if(!fromIsLogic){
+						f.y = Math.floor(to.y + o/2);
 					}
 				}
-			},
+			} else if(xOverlap){
+				if(!top){
+					f = this.getAnchorPoint(from, "bottom");
+					t = this.getAnchorPoint(to, "top");
+				} else {
+					f = this.getAnchorPoint(from, "top");
+					t = this.getAnchorPoint(to, "bottom");
+				}
+				let o = Math.min(to.x+to.w, from.x + from.w) - Math.max(to.x, from.x);
+				if(((to.x < from.x) && ((to.x + to.w) > from.x))){
+					if(!toIsLogic){
+						t.x = Math.floor(from.x + o/2);
+					}
+					if(!fromIsLogic){
+						f.x = Math.floor(from.x + o/2);
+					}
+				} else {
+					if(!toIsLogic){
+						t.x = Math.floor(to.x + o/2);
+					}
+					if(!fromIsLogic){
+						f.x = Math.floor(to.x + o/2);
+					}
+				}
+			} else if(left){
+				f = this.getAnchorPoint(from, "left");
+				t = this.getAnchorPoint(to, "right");
+			}else if(!left){
+				f = this.getAnchorPoint(from, "right");
+				t = this.getAnchorPoint(to, "left");
+			} else {
+				/**
+				 * default
+				 */
+				f = this.getAnchorPoint(from, "center");
+				t = this.getAnchorPoint(to, "center");
+			}
+
+			var line = [];
+			line.push(f);
+			line.push(t);
+			return line;
+		},
 
 
-			drawLine (id, line){
-				return this.drawSVGLine(id, line,this.defaultLineColor, this.defaultLineWidth, 1);
-			},
+		isTop (from, to){
+			return (from.y + from.h/2) > (to.y + to.h/2);
+		},
 
-			drawSVGLineWidthArrow (id, line, color, width, op) {
-
-				this.svg.append("path")
-							.attr("d", this.lineFunction(line))
-							.attr("stroke", color)
-							.attr("stroke-width", width )
-							.attr("fill", "none")
-							.style("opacity", op);
-
-				return line
-			},
+		isLeft (from, to){
+			return ( from.x + from.w/2) > (to.x + to.w/2);
+		},
 
 
-			drawSVGLine (id, line, color, width, op){
+		getAnchorPoint (box, pos) {
 
-				this.svg.append("defs").append("marker")
-						.attr("id", "arrowhead_"+id)
-						.attr("viewBox", "0 -5 12 12")
-						.attr("refX", 7)
-						.attr("markerWidth", this.arrowSize)
-						.attr("markerHeight", this.arrowSize)
-						.attr("orient", "auto")
-						.append("svg:path")
-						.attr("d", "M0,-5L10,0L0,5")
+			var a = {
+					x : box.x + box.w/2,
+					y :box.y + box.h/2,
+					d : pos,
+					h:0,
+					w:0
+			};
+
+			if (pos== "top") {
+
+				a.x = box.x + box.w/2;
+				a.y = box.y;
+
+			} else if (pos == "bottom"){
+
+				a.x = box.x + box.w/2;
+				a.y = box.y + box.h;
+
+			} else if (pos == "left"){
+
+				a.x = box.x;
+				a.y = box.y + box.h/2;
+
+			} else if (pos == "right"){
+
+				a.x = box.x + box.w;
+				a.y = box.y + box.h/2;
+
+			} else if(pos != "center"){
+				this.logger.error("getAnchorPoint", pos + " not supported!");
+			}
+
+			return a;
+		},
+
+
+		/**********************************************************************
+		 * Point
+		 **********************************************************************/
+		drawPoint (x, id, i)  {
+			/**
+			 * Correct position so line goes through the middle
+			 */
+			let inner = document.createElement("div");
+			css.add(inner, "MatcLineSupportPointTouch");
+			inner._lineID = id
+			inner._pointIndex = i
+			inner.style.background = this.defaultLineColor
+
+			let div = this.createBox({
+				x : x.x,
+				y : x.y,
+				w : x.w,
+				h : x.h
+			});
+			css.add(div, "MatcLineSupportPoint");
+
+			div.appendChild(inner);
+
+			return div;
+		},
+
+
+		/**********************************************************************
+		 * SVG Stuff
+		 **********************************************************************/
+
+		setLineColor (id, color){
+			var svg = this.lineSVGs[id];
+			if(svg){
+				if (color) {
+					svg.attr("stroke", color);
+				} else {
+					svg.attr("stroke", this.defaultLineColor);
+				}
+			}
+		},
+
+
+		drawLine (id, line){
+			return this.drawSVGLine(id, line,this.defaultLineColor, this.defaultLineWidth, 1);
+		},
+
+		drawSVGLineWidthArrow (id, line, color, width, op) {
+
+			this.svg.append("path")
+						.attr("d", this.lineFunction(line))
 						.attr("stroke", color)
-						.attr("fill", color)
+						.attr("stroke-width", width )
+						.attr("fill", "none")
 						.style("opacity", op);
 
-				var lineGraph = this.svg.append("path")
-							.attr("d", this.lineFunction(line))
-							.attr("stroke", color)
-							.attr("stroke-width", width )
-							.attr("fill", "none")
-							.style("opacity", op)
-							.attr("marker-end", "url(#" + "arrowhead_"+id +")");
-
-				return lineGraph;
-			},
+			return line
+		},
 
 
-			/**********************************************************************
-			 * CleanUp
-			 **********************************************************************/
-			cleanUpLines (){
-				if(this.svg){
-					/**
-					 * FIXME: This is a performance bottleneck:
-					 * The * selector seems to be quite fast (then the old .line and .marker),
-					 * however we still might want to use a list of things
-					 */
-					this.svg.selectAll("*").remove();
-				}
+		drawSVGLine (id, line, color, width, op){
 
-				this._lineListeners = []
-				this.lineSVGs = {};
-				this.linePoints = {}
-			},
+			this.svg.append("defs").append("marker")
+					.attr("id", "arrowhead_"+id)
+					.attr("viewBox", "0 -5 12 12")
+					.attr("refX", 7)
+					.attr("markerWidth", this.arrowSize)
+					.attr("markerHeight", this.arrowSize)
+					.attr("orient", "auto")
+					.append("svg:path")
+					.attr("d", "M0,-5L10,0L0,5")
+					.attr("stroke", color)
+					.attr("fill", color)
+					.style("opacity", op);
 
-			cleanUpSVG () {
+			var lineGraph = this.svg.append("path")
+						.attr("d", this.lineFunction(line))
+						.attr("stroke", color)
+						.attr("stroke-width", width )
+						.attr("fill", "none")
+						.style("opacity", op)
+						.attr("marker-end", "url(#" + "arrowhead_"+id +")");
+
+			return lineGraph;
+		},
+
+
+		/**********************************************************************
+		 * CleanUp
+		 **********************************************************************/
+		cleanUpLines (){
+			if(this.svg){
 				/**
-				 * Make this smarter. We get no also all the SVG widgets
+				 * FIXME: This is a performance bottleneck:
+				 * The * selector seems to be quite fast (then the old .line and .marker),
+				 * however we still might want to use a list of things
 				 */
-				let nodes = this.dndContainer.querySelectorAll('svg')
-				nodes.forEach(n => {
-					if (n.parentNode === this.dndContainer) {
-						this.dndContainer.removeChild(n)
-					}
-				})
-				this.svg = null
-				this.cleanUpSVGPoints()
-			},
-
-			cleanUpSVGPoints () {
-				let points = this.dndContainer.querySelectorAll('.MatcLineSupportPoint')
-				points.forEach(n => {
-					this.dndContainer.removeChild(n)
-				})
-				this.linePoints = {}
-			},
-
-
-			/**********************************************************************
-			 * Debug Stuff
-			 **********************************************************************/
-
-			_renderDebugLinePoints (p){
-
-				if(this.debug){
-
-					var div = document.createElement("div");
-					css.add(div, "MatcLineDebugPoint");
-
-					div.style.left = p.x-5 + "px";
-					div.style.top = p.y-5 + "px";
-					div.style.width = "11px";
-					div.style.height = "11px";
-
-					this.dndContainer.appendChild(div);
-
-					if(!this.linesDebugPoints){
-						this.linesDebugPoints = [];
-					}
-					this.linesDebugPoints.push(div);
-				}
-
-
-			},
-
-			cleanUpDebugLines (){
-
-				if (this.linesDebugPoints) {
-					for (var i=0; i< this.linesDebugPoints.length;i++) {
-						var div = this.linesDebugPoints[i];
-						this.dndContainer.removeChild(div);
-					}
-				}
-
-				this.linesDebugPoints = null;
+				this.svg.selectAll("*").remove();
 			}
+
+			this._lineListeners = []
+			this.lineSVGs = {};
+			this.linePoints = {}
+		},
+
+		cleanUpSVG () {
+			/**
+			 * Make this smarter. We get no also all the SVG widgets
+			 */
+			let nodes = this.dndContainer.querySelectorAll('svg')
+			nodes.forEach(n => {
+				if (n.parentNode === this.dndContainer) {
+					this.dndContainer.removeChild(n)
+				}
+			})
+			this.svg = null
+			this.cleanUpSVGPoints()
+		},
+
+		cleanUpSVGPoints () {
+			let points = this.dndContainer.querySelectorAll('.MatcLineSupportPoint')
+			points.forEach(n => {
+				this.dndContainer.removeChild(n)
+			})
+			this.linePoints = {}
+		},
+
+
+		/**********************************************************************
+		 * Debug Stuff
+		 **********************************************************************/
+
+		_renderDebugLinePoints (p){
+
+			if(this.debug){
+
+				var div = document.createElement("div");
+				css.add(div, "MatcLineDebugPoint");
+
+				div.style.left = p.x-5 + "px";
+				div.style.top = p.y-5 + "px";
+				div.style.width = "11px";
+				div.style.height = "11px";
+
+				this.dndContainer.appendChild(div);
+
+				if(!this.linesDebugPoints){
+					this.linesDebugPoints = [];
+				}
+				this.linesDebugPoints.push(div);
+			}
+
+
+		},
+
+		cleanUpDebugLines (){
+
+			if (this.linesDebugPoints) {
+				for (var i=0; i< this.linesDebugPoints.length;i++) {
+					var div = this.linesDebugPoints[i];
+					this.dndContainer.removeChild(div);
+				}
+			}
+
+			this.linesDebugPoints = null;
+		}
     },
     mounted () {
     }

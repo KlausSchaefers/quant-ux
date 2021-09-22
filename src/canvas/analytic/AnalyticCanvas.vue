@@ -713,22 +713,22 @@ export default {
     },
 
     _renderUserTree() {
-      var sessions = this.getUserJourney();
-      var taskPerformance = this.getTaskPerformance();
-      var db = new DomBuilder();
-      var task = null;
+      let sessions = this.getUserJourney();
+      let taskPerformance = this.getTaskPerformance();
+      let db = new DomBuilder();
+      let task = null;
       if (this.analyticParams.task !== false && this.analyticParams.task >= 0) {
         task = this.testSettings.tasks[this.analyticParams.task];
       }
 
-      var selectedSessions = this.analyticParams.sessions;
-      var graph = {};
-      var taskGraph = {};
-      var maxCount = 0;
-      for (var sessionID in selectedSessions) {
+      let selectedSessions = this.analyticParams.sessions;
+      let graph = {};
+      let taskGraph = {};
+      let maxCount = 0;
+      for (let sessionID in selectedSessions) {
         if (selectedSessions[sessionID] === true) {
-          var session = sessions[sessionID];
-          var matches = taskPerformance[sessionID];
+          let session = sessions[sessionID];
+          let matches = taskPerformance[sessionID];
           if (session) {
             this._getSessionGraph(session, db, task, matches, graph, taskGraph);
             maxCount++;
@@ -738,11 +738,25 @@ export default {
         }
       }
 
-      var divs = {};
-      for (var id in graph) {
-        var l = graph[id];
+      /**
+       * We might have the situation that the users creates loopes
+       * in one session. This will cause the count to be bigger than the
+       * session count (maxCount). This messes up the graph. To make it
+       * nice again, we update maxCount
+       */
+      for (let id in graph) {
+        let l = graph[id]
+        if (l.count > maxCount) {
+          console.warn("_renderUserTree() > Update maxcount, because l.count bigger than max count", )
+          maxCount = l.count
+        }
+      }
 
-        var line = [];
+      let divs = {};
+      for (let id in graph) {
+        let l = graph[id];
+
+        let line = [];
         line.push({
           x: l.from.x,
           y: l.from.y,
@@ -753,9 +767,7 @@ export default {
           y: l.to.y,
           d: "right",
         });
-        /**
-         * FIXME: here is a bug that l.count might be biigger than max
-         */
+        
         let p = Math.min(1, l.count / maxCount)
         var width = Math.min(15, Math.max(1, Math.round(p * 25)));
        

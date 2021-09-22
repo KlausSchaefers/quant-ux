@@ -198,9 +198,7 @@ export default {
 			showFirstClickHeatMap(i){
 				this.logger.log(0,"showFirstClickHeatMap", "entry > "+ i);
 				this.analyticHeatMapClicks = i;
-
 				this.setHeatMapLabel(i)
-
 				this.setAnalyticMode("HeatmapClick",{numberOfClicks : this.analyticHeatMapClicks} );
 			},
 
@@ -500,8 +498,6 @@ export default {
 			},
 
 
-
-
 			renderHeatMapProperties(){
 				this.logger.log(1,"renderHeatMapProperties", "entry");
 
@@ -534,27 +530,17 @@ export default {
 			setHeatMapLabel (i) {
 				let lbl = ''
 				if (i === -1) {
-					lbl = `Find the busy areas in your design where the users have clicked most.`
+					lbl = this.getNLS('analytics.canvas.heatamp.hintAll')
 				}
-
 				if (i === 1) {
-					lbl = `Uncover which elements draw the most attention from the 
-						   users right after a screen was loaded.`
+					lbl = this.getNLS('analytics.canvas.heatamp.hintFirst')
 				}
-
-
 				if (i === 3) {
-					lbl = `Elements that are not clicked withing three 
-                           interactions, may be hard to discover for the user.`
+					lbl = this.getNLS('analytics.canvas.heatamp.hintFirstThree')
 				}
-
-
 				if (i === 'missedClicks') {
-					lbl = `Clicks on not actionable elements can indicate that the users made an
-                          error and could not understand the intended interaction.`
+					lbl = this.getNLS('analytics.canvas.heatamp.hintMissed')
 				}
-
-
 				this.heatmapLabel.textContent = lbl
 			},
 
@@ -582,21 +568,28 @@ export default {
 				content = this.createContent(this.dropOffOptionsDiv);
 				row = db.div("MatcToobarRow ").build(content);
 
-				var tasks = [];
-				if (this.testSettings.tasks){
-					for (let i=0; i < this.testSettings.tasks.length; i++){
-						let task = this.testSettings.tasks[i];
-						tasks.push({value: i, label: task.name});
-					}
-				}
+
 				this.dropOffTaskBtn = this.$new(RadioBoxList, {maxLabelLength:20});
+
+				let tasks = []
+				if (this.testSettings.tasks && this.testSettings.tasks.length > 1) {
+					tasks = this.testSettings.tasks.map((task,i) => {
+						return {value: i, label: task.name}
+					})	
+				} else {
+					this.dropOffOptionsLabel = db
+							.span(
+								  "MatcToolbarLabel MatcToolbarHelpSection", 
+								  this.getNLS("analytics.canvas.dropoff.hintNoTasksDefined")
+							)
+							.build(row)
+				}
+				
 				this.dropOffTaskBtn.setOptions(tasks);
 				this.dropOffTaskBtn.setValue(0);
 				css.add(this.dropOffTaskBtn.domNode ,"MatcToolbarRadioList");
 				this.dropOffTaskBtn.placeAt(row);
 				this.own(on(this.dropOffTaskBtn, "change", lang.hitch(this, "selectDropOffTask")));
-
-
 
 				this.dropOffChartDivCntr = this.createSection("Insights");
 				content = this.createContent(this.dropOffChartDivCntr);
@@ -1061,75 +1054,61 @@ export default {
 
 
 				let taskNumber = this.dropOffTaskBtn.getValue()
-				if (taskNumber >= 0) {
-					if (this.testSettings.tasks[taskNumber]) {
-						let task = this.testSettings.tasks[taskNumber];
-
-						this.setAnalyticMode("DropOff", {
-							time: this.dropOffTimeCheckBox.getValue(),
-							task: task,
-							color: '#ccc'
-						});
-						css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
-						css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
-						css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
-						//css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
-						this.showDropOffChart(task)
-					} else {
-						this.setAnalyticMode("DropOff", {
-							time: this.dropOffTimeCheckBox.getValue(),
-							task: null,
-							color: '#ccc'
-						});
-						css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
-						this.dropOffChartDiv.innerHTML = "Please select a task"
-					}
-				
-					this.showProperties();
-				} else {
+				let task = this.testSettings.tasks[taskNumber];
+				if (task) {
+					this.setAnalyticMode("DropOff", {
+						time: this.dropOffTimeCheckBox.getValue(),
+						task: task,
+						color: '#ccc'
+					});
 					css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
 					css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
 					css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
 					//css.remove(this.dropOffFunnelDivCntr, "MatcToolbarSectionHidden")
+					this.showDropOffChart(task)
 					this.showProperties();
-					this.dropOffChartDiv.innerHTML = "Please select a task"
+				} else {
+					this.setAnalyticMode("DropOff", {
+						time: this.dropOffTimeCheckBox.getValue(),
+						task: null,
+						color: '#ccc'
+					});
+					css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
+					css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden")
+					this.showProperties();
 				}
 			},
 
 			showDropOffChart (task) {
-					var df = new DataFrame(this.events);
-					var analytics  = new Analytics();
-					let funnel = analytics.getFunnelSummary(df, task, this.annotation);
+				var df = new DataFrame(this.events);
+				var analytics  = new Analytics();
+				let funnel = analytics.getFunnelSummary(df, task, this.annotation);
 
-					let lastStep = funnel[funnel.length-1]
+				let lastStep = funnel[funnel.length-1]
 
-					this.dropoffTaskSuccess.setPs(lastStep.p)
-					this.dropoffTaskSuccess.setValue(Math.round(lastStep.p * 100) + '%')
+				this.dropoffTaskSuccess.setPs(lastStep.p)
+				this.dropoffTaskSuccess.setValue(Math.round(lastStep.p * 100) + '%')
 
-					this.dropOffTaskDuration.innerText = Math.round(lastStep.durationMean / 100) / 10 + 's'
-				  this.dropOffTaskDurationLabel.innerText = '+/-' + Math.round(lastStep.durationStd / 100) / 10 + 's'
+				this.dropOffTaskDuration.innerText = Math.round(lastStep.durationMean / 100) / 10 + 's'
+				this.dropOffTaskDurationLabel.innerText = '+/-' + Math.round(lastStep.durationStd / 100) / 10 + 's'
 
-					this.dropOffInteractions.innerText = Math.round(lastStep.interactionsMean)
-					this.dropOffInteractionsLabel.innerText = '+/-' + Math.round(lastStep.interactionsStd)
-
-
-
-					//this.showDropOffFunnel(funnel)
+				this.dropOffInteractions.innerText = Math.round(lastStep.interactionsMean)
+				this.dropOffInteractionsLabel.innerText = '+/-' + Math.round(lastStep.interactionsStd)
 			},
 
 			showDropOffFunnel (funnel) {
-					this.dropOffChartDiv.innerHTML = ''
-					let db = new DomBuilder()
-					let cntr = db.div().build()
-					funnel.forEach((step, i) => {
-						if(step.event){
-							db.span('MatcDashLabel', this.getNiceEventLabel(step.event, i)).build(cntr)
-							let bar = db.div('MatcToolbarDropOffChartBar', Math.round(step.p * 100) + '%').build(cntr)
-							bar.style.background = this.greenToRed(step.p)
-							bar.style.width = step. p * 100 + '%'
-						}
-					})
-					this.dropOffChartDiv.appendChild(cntr)
+				this.dropOffChartDiv.innerHTML = ''
+				let db = new DomBuilder()
+				let cntr = db.div().build()
+				funnel.forEach((step, i) => {
+					if(step.event){
+						db.span('MatcDashLabel', this.getNiceEventLabel(step.event, i)).build(cntr)
+						let bar = db.div('MatcToolbarDropOffChartBar', Math.round(step.p * 100) + '%').build(cntr)
+						bar.style.background = this.greenToRed(step.p)
+						bar.style.width = step. p * 100 + '%'
+					}
+				})
+				this.dropOffChartDiv.appendChild(cntr)
 			},
 
 			getNiceEventLabel (event, i){

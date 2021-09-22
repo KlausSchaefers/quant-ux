@@ -288,6 +288,10 @@
 	vertical-align: middle;
 }
 
+.MatcToolbarHelpSection{
+	font-size: 12px;
+}
+
 .MatcToolbarInfo{
 	padding-left: 20px;
 }
