@@ -148,64 +148,63 @@ export default {
 				}
 			},
 
-
-			hideCopyPaste:function(){
-				this.logger.log(3,"hideCopyPaste", "entry");
-
-
+			hideCopyPaste (){
+				this.logger.log(3,"hideCopyPaste", "entry");		
 				css.add(this.copyBtn, "MatcToolbarItemDisbaled");
 				if(this.canvas && !this.canvas.hasCopy()){
 					css.add(this.pasteBtn, "MatcToolbarItemDisbaled");
 				}
-
 				css.add(this.deleteBtn, "MatcToolbarItemDisbaled");
 				css.add(this.copyStyleBtn, "MatcToolbarItemDisbaled");
-
 				this.logger.log(3,"hideCopyPaste", "exit");
 			},
 
-
-			hideNotNeededButtons:function(){
+			hideNotNeededButtons (){
 				this.logger.log(3,"hideNotNeededButtons", "entry");
 
 				try{
-					var screenCount = this.getObjectLength(this.model.screens);
-					if(screenCount > 0) {
-						this._removeCss(this.simulatorSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.undoSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.commentSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
-						this._removeCss(this.editTool,"MatcToolbarSectionHidden");
-						this._removeCss(this.moveTool,"MatcToolbarSectionHidden");
-						this._removeCss(this.commentBtn,"MatcToolbarSectionHidden");
-						this._removeCss(this.selectBtn, "MatcToolbarSectionHidden");
-						this._removeCss(this.addSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.hotspotTool, "MatcToolbarSectionHidden");
-						this._removeCss(this.rectangleTool, "MatcToolbarSectionHidden");
-						this._removeCss(this.textTool, "MatcToolbarSectionHidden");
-						this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.addRestSection, "MatcToolbarSectionHidden");
+					if (this.model && this.model.screens) {					
+						var screenCount = this.getObjectLength(this.model.screens);
+						if(screenCount > 0) {
+							this._removeCss(this.simulatorSection, "MatcToolbarSectionHidden");
+							this._removeCss(this.undoSection, "MatcToolbarSectionHidden");
+							this._removeCss(this.commentSection, "MatcToolbarSectionHidden");
+							this._removeCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
+							this._removeCss(this.editTool,"MatcToolbarSectionHidden");
+							this._removeCss(this.moveTool,"MatcToolbarSectionHidden");
+							this._removeCss(this.commentBtn,"MatcToolbarSectionHidden");
+							this._removeCss(this.selectBtn, "MatcToolbarSectionHidden");
+							this._removeCss(this.addSection, "MatcToolbarSectionHidden");
+							this._removeCss(this.hotspotTool, "MatcToolbarSectionHidden");
+							this._removeCss(this.rectangleTool, "MatcToolbarSectionHidden");
+							this._removeCss(this.textTool, "MatcToolbarSectionHidden");
+							this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
+							this._removeCss(this.addRestSection, "MatcToolbarSectionHidden");
 
-					} else {
-						this._addCss(this.simulatorSection, "MatcToolbarSectionHidden");
-						this._addCss(this.commentSection, "MatcToolbarSectionHidden");
-						this._addCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
-						this._addCss(this.editTool,"MatcToolbarSectionHidden");
-						this._addCss(this.moveTool,"MatcToolbarSectionHidden");
-						this._addCss(this.commentBtn,"MatcToolbarSectionHidden");
-						this._addCss(this.selectBtn, "MatcToolbarSectionHidden");
-						this._addCss(this.addSection, "MatcToolbarSectionHidden");
-						this._addCss(this.hotspotTool, "MatcToolbarSectionHidden");
-						this._addCss(this.rectangleTool, "MatcToolbarSectionHidden");
-						this._addCss(this.textTool, "MatcToolbarSectionHidden");
-						this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");
-						this._addCss(this.addRestSection, "MatcToolbarSectionHidden");
+						} else {
+							this._addCss(this.simulatorSection, "MatcToolbarSectionHidden");
+							this._addCss(this.commentSection, "MatcToolbarSectionHidden");
+							this._addCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
+							this._addCss(this.editTool,"MatcToolbarSectionHidden");
+							this._addCss(this.moveTool,"MatcToolbarSectionHidden");
+							this._addCss(this.commentBtn,"MatcToolbarSectionHidden");
+							this._addCss(this.selectBtn, "MatcToolbarSectionHidden");
+							this._addCss(this.addSection, "MatcToolbarSectionHidden");
+							this._addCss(this.hotspotTool, "MatcToolbarSectionHidden");
+							this._addCss(this.rectangleTool, "MatcToolbarSectionHidden");
+							this._addCss(this.textTool, "MatcToolbarSectionHidden");
+							this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");
+							this._addCss(this.addRestSection, "MatcToolbarSectionHidden");
 
-						if(!this.controller.canUndo()){
-							this._addCss(this.undoSection, "MatcToolbarSectionHidden");
+							if(!this.controller.canUndo()){
+								this._addCss(this.undoSection, "MatcToolbarSectionHidden");
+							}
+
+							this.screenCreateBtn.showDropDown();
 						}
-
-						this.screenCreateBtn.showDropDown();
+					} else {
+						this.logger.error('hideNotNeededButtons', 'No screens', this.model)
+						this.logger.sendError(new Error('hideNotNeededButtons() not screens'));
 					}
 				} catch(e ){
 					this.logger.sendError(e);
@@ -213,7 +212,7 @@ export default {
 
 			},
 
-			_removeCss:function(node, cls){
+			_removeCss (node, cls){
 				if(node){
 					css.remove(node, cls);
 				} else {
@@ -222,8 +221,8 @@ export default {
 				}
 			},
 
-			_addCss:function(node, cls){
-				if(node){
+			_addCss (node, cls){
+				if (node){
 					css.add(node, cls);
 				} else {
 					var e = new Error("_addCss() > Node is null");
@@ -231,7 +230,7 @@ export default {
 				}
 			},
 
-			hideAllSections:function(){
+			hideAllSections (){
 				this.logger.log(2,"hideAllSections", "entry");
 
 				this.hideProperties();

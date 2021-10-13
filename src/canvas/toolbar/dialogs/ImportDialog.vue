@@ -277,7 +277,7 @@ export default {
                 this.setProgress(0, 'dialog.import.figma-progress-file')
 
                 let figmaService = new FigmaService(accessKey)
-                let fModel = await figmaService.get(fileId)
+                let fModel = await figmaService.get(fileId)       
                 if (fModel) {
                     this.logger.log(-1, 'importFigma', 'fModel', fModel)
                     this.figmaPages = figmaService.getPages(fModel)
@@ -318,15 +318,13 @@ export default {
                 let fileId = this.getFigmaFileKey(url)
                 let figmaService = new FigmaService(accessKey)
                 let model = await figmaService.parse(fileId, fModel, importChildren, screenSize, [figmaSelectedPage])
+
                 if (model) {
 
                     /**
-                     * Add hot spots for widgets with links
+                     * Download all the images
                      */
-                    model.widgets = this.addHotspots(model)
-
                     let vectorWidgets = this.getImagesWithFigmaImage(model, importChildren)
-
                     await this.downloadFigmaImages(vectorWidgets)
 
                     let minX = 1000000
@@ -370,37 +368,7 @@ export default {
             this.resetFigma()
         },
 
-        addHotspots (model) {
-            let result = {}
-
-            var widgetScreenMapping = {}
-            Object.values(model.screens).forEach(screen => {
-                screen.children.forEach(widgetId => {
-                    widgetScreenMapping[widgetId] = screen
-                })
-                screen.children = []
-            })
-
-            Object.values(model.lines).forEach(line => {
-                let from = model.widgets[line.from]
-                let to = model.screens[line.to]
-                if (from && to) {
-                    let parent = widgetScreenMapping[from.id]
-                    if (parent) {
-                        from.type = 'HotSpot'
-                        from.style = {}
-                        result[from.id] = from
-                        parent.children.push(from.id)
-                    } else {
-                        this.logger.log(0, 'addHotspots', 'cannot add hotspot for parent', line)
-                    }
-                } else {
-                    this.logger.log(0, 'addHotspots', 'cannot add hotspot for line', line)
-                }
-            })
-            this.logger.log(-1, 'addHotspots', 'exit', result)
-            return result
-        },
+ 
 
         getImagesWithFigmaImage (model, importChildren) {
             if (importChildren) {

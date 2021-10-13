@@ -19,12 +19,12 @@ export class ModelService extends AbstractService{
 
     saveApp (model) {
         this.logger.log(1, 'saveApp', 'enter', model)
-        return this._post(`rest/apps/${model.id}.json`, model)
+        return this._post(`/rest/apps/${model.id}.json`, model)
     }
 
     copyApp (model, newName) {
         this.logger.warn('copyApp', 'enter', model)
-        return this._post(`rest/apps/copy/${model.id}`, {"name" : newName})
+        return this._post(`/rest/apps/copy/${model.id}`, {"name" : newName})
     }
 
     updateApp (model, changes) {
@@ -34,7 +34,7 @@ export class ModelService extends AbstractService{
 
     deleteApp (model) {
         this.logger.log(-1,'deleteApp', 'enter', model)
-        return this._delete(`rest/apps/${model.id}.json`)
+        return this._delete(`/rest/apps/${model.id}.json`)
     }
 
     findPublicSummaries () {
@@ -54,19 +54,19 @@ export class ModelService extends AbstractService{
     }
 
     findApp (id) {
-        return this._get(`rest/apps/${id}.json`)
+        return this._get(`/rest/apps/${id}.json`)
     }
 
     findAppByHash (hash) {
-        return this._get(`rest/invitation/${hash}/app.json`)
+        return this._get(`/rest/invitation/${hash}/app.json`)
     }
 
     checkAppUpdateByHash (hash) {
-        return this._get(`rest/invitation/${hash}/update.json`)
+        return this._get(`/rest/invitation/${hash}/update.json`)
     }
 
     findImages(id) {
-        return this._get(`rest/images/${id}.json`)
+        return this._get(`/rest/images/${id}.json`)
     }
 
     /**
@@ -97,11 +97,11 @@ export class ModelService extends AbstractService{
      * Team
      */
     findTeam (id) {
-        return this._get(`rest/apps/${id}/team.json`)
+        return this._get(`/rest/apps/${id}/team.json`)
     }
 
     findTeamSuggestions (id) {
-        return this._get(`rest/apps/${id}/suggestions/team.json`)
+        return this._get(`/rest/apps/${id}/suggestions/team.json`)
     }
 
     createTeam (id, user) {
@@ -124,15 +124,15 @@ export class ModelService extends AbstractService{
      * Events
      */
     saveEvent (id, hash, event) {
-        return this._post(`rest/invitation/${id}/${hash}/events.json`, event)
+        return this._post(`/rest/invitation/${id}/${hash}/events.json`, event)
     }
 
     findEvents (id) {
-        return this._get(`rest/events/${id}.json?exclude=Animation`)
+        return this._get(`/rest/events/${id}.json?exclude=Animation`)
     }
 
     findEventsBatch (id) {
-        return this._get(`rest/events/${id}.json?exclude=Animation&batch=true`)
+        return this._get(`/rest/events/${id}.json?exclude=Animation&batch=true`)
     }
 
     countEvents (id) {
@@ -140,30 +140,30 @@ export class ModelService extends AbstractService{
     }
 
     findEventsBySession (id, session) {
-        return this._get(`rest/events/${id}/${session}.json`)
+        return this._get(`/rest/events/${id}/${session}.json`)
     }
 
     deleteEventsBySession (id, session) {
-        return this._delete(`rest/events/${id}/${session}.json`)
+        return this._delete(`/rest/events/${id}/${session}.json`)
     }
 
     /**
      * Mouse
      */
     findMouse (id) {
-        return this._get(`rest/mouse/${id}.json`)
+        return this._get(`/rest/mouse/${id}.json`)
     }
 
     findMouseBySession (id, session) {
-        return this._get(`rest/mouse/${id}/${session}.json`)
+        return this._get(`/rest/mouse/${id}/${session}.json`)
     }
 
     saveMouse (id, hash, events) {
-        return this._post(`rest/invitation/${id}/${hash}/mouse.json`, events)
+        return this._post(`/rest/invitation/${id}/${hash}/mouse.json`, events)
     }
 
     deleteMouseBySession (id, session) {
-        return this._delete(`rest/mouse/${id}/${session}.json`)
+        return this._delete(`/rest/mouse/${id}/${session}.json`)
     }
 
 
@@ -175,45 +175,45 @@ export class ModelService extends AbstractService{
             this.logger.error('findSessionAnnotations', 'error', 'no id passed')
             this.logger.sendError(new Error())
         }
-        return this._get(`rest/annotations/apps/${id}/session.json`)
+        return this._get(`/rest/annotations/apps/${id}/session.json`)
     }
 
     findTagAnnotations (id) {
-        return this._get(`rest/annotations/apps/${id}/tags.json`)
+        return this._get(`/rest/annotations/apps/${id}/tags.json`)
     }
 
     deleteAnnotation (id, annotationId) {
-        return this._delete(`rest/annotations/apps/${id}/${annotationId}.json`)
+        return this._delete(`/rest/annotations/apps/${id}/${annotationId}.json`)
     }
 
     saveAnnotation (id, annotation) {
-        return this._post(`rest/annotations/apps/${id}`, annotation)
+        return this._post(`/rest/annotations/apps/${id}`, annotation)
     }
 
     updateAnnotation (id, annotation) {
-        return this._post(`rest/annotations/apps/${id}/${annotation.id}.json`, annotation)
+        return this._post(`/rest/annotations/apps/${id}/${annotation.id}.json`, annotation)
     }
 
     /**
      * Inivitations
      */
     findInvitation (id) {
-        return this._get(`rest/invitation/${id}.json`)
+        return this._get(`/rest/invitation/${id}.json`)
     }
 
     /**
      * Test
      */
     findTest (id) {
-        return this._get(`rest/test/${id}.json`)
+        return this._get(`/rest/test/${id}.json`)
     }
 
     findTestByHash (app, hash) {
-        return this._get(`rest/invitation/${app.id}/${hash}/test.json`)
+        return this._get(`/rest/invitation/${app.id}/${hash}/test.json`)
     }
 
     saveTestSettings (id, test) {
-        return this._post(`rest/test/${id}.json`, test)
+        return this._post(`/rest/test/${id}.json`, test)
     }
 
 
@@ -221,7 +221,7 @@ export class ModelService extends AbstractService{
      * Examples
      */
     findPublicMouse (id) {
-        return this._get(`examples/mouse/${id}.json`)
+        return this._get(`/examples/mouse/${id}.json`)
     }
 
     findPublicMouseBySession (appId, sessionId) {

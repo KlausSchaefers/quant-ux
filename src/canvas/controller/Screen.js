@@ -1289,13 +1289,18 @@ export default class Screen extends CopyPaste {
 		var tempLines = {}
 		for(let lineID in lines){
 			let line = lines[lineID];
-			if (widgetIdMapping[line.from] && screenIdMapping[line.to]) {
-				line.from = widgetIdMapping[line.from]
-				line.to = screenIdMapping[line.to]
-				line.id = "l"+this.getUUID();
-				tempLines[line.id] = line
+			if (line.from && line.to) {
+				if (widgetIdMapping[line.from] && screenIdMapping[line.to]) {
+					line.from = widgetIdMapping[line.from]
+					line.to = screenIdMapping[line.to]
+					line.id = "l"+this.getUUID();
+					tempLines[line.id] = line
+					console.debug('ADD LINE' , line)
+				} else {
+					console.error("Wooop Woopp, cannot map line", line);
+				}
 			} else {
-				console.error("Wooop Woopp, cannot map line", line);
+				console.error("Waap, Waap - Line is not correct", line);
 			}
 		}
 

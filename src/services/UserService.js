@@ -1,5 +1,6 @@
 import AbstractService from './AbstractService'
 import Logger from '../common/Logger'
+import Cookies from 'js-cookie'
 
 class UserService extends AbstractService{
 
@@ -38,6 +39,7 @@ class UserService extends AbstractService{
 
     logout () {
         localStorage.removeItem('quxUser');
+        Cookies.remove('quxUserLoggedIn')
         return this._delete('rest/login/')
     }
 
@@ -171,6 +173,11 @@ class UserService extends AbstractService{
         this.setTTL(u)
         this.user = u
         localStorage.setItem('quxUser', JSON.stringify(u));
+        if (location.hostname === 'quant-ux') {
+            Cookies.set('quxUserLoggedIn', 'true', { expires: 7, secure: true, domain: '.quant-ux.com'}) 
+        } else {
+            Cookies.set('quxUserLoggedIn','true', { expires: 7, secure: true })
+        }   
     }
 
     setLanguage (langauge) {

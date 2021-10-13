@@ -70,7 +70,7 @@
 				"props" : {
 					"options" : [ "Month", "January", "February", "March",
 							"April", "May", "June", "July", "August",
-							"September", "October", "November", "Dezember" ],
+							"September", "October", "November", "December" ],
 					"selected" : "Month"
 				},
 				"has" : {
@@ -228,7 +228,7 @@
 				"props" : {
 					"options" : [ "Month", "January", "February", "March",
 							"April", "May", "June", "July", "August",
-							"September", "October", "November", "Dezember" ],
+							"September", "October", "November", "December" ],
 					"selected" : "Month"
 				},
 				"has" : {

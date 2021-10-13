@@ -11,6 +11,8 @@ class ZipService {
     return new Promise ( async (resolve, reject) => {
       try {
 
+        model = JSON.parse(JSON.stringify(model))
+
         let JSZip = await import(/* webpackChunkName: "jszip" */ 'jszip')
 
         let baseZip = new JSZip.default();
