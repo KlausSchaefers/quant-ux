@@ -708,6 +708,7 @@ export default {
 				this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
 
 				var lbl = "No Group";
+				console.debug(model)
 				if (model.props.formGroup){
 					lbl = model.props.formGroup + "";
 				}
@@ -1222,7 +1223,7 @@ export default {
 
 				var popup = this.db.div("MatcOptionDialog MatcPadding").build();
 
-				var cntr = this.db.div("MatcDialogTable MatcDialogTableXL").build(popup);
+				var cntr = this.db.div("MatcDialogTable").build(popup);
 
 
 				var scroller = this.$new(ScrollContainer);
@@ -1252,6 +1253,7 @@ export default {
 
 			setFormGroup (d, list){
 				var value = list.getSelected();
+				console.debug("setFormGroup", value)
 				this.emit("propertyChange", "formGroup", value);
 				d.close();
 				list.destroy();
