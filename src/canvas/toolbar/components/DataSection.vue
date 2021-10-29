@@ -564,8 +564,8 @@ export default {
 				this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
 
 				this._renderLabelDropDown("Popup Position", model,"popupPosition",[
-									{ value:"MatcWidgetTypeDropDownPopUber", icon:"mdi mdi-arrow-up-bold-circle", label : "Popup Over"},
-									{ value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
+					{ value:"MatcWidgetTypeDropDownPopUber", icon:"mdi mdi-arrow-up-bold-circle", label : "Popup Over"},
+					{ value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
 				]);
 				this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
 			},
@@ -589,6 +589,13 @@ export default {
 				this._renderInputDropDown("Max",model, [1,5,15,20], "max", true);
 				this._renderInputDropDown("Value",model, [1,2,3,4,5,10,15,20], "selected", true);
 				this._renderInputDropDown("Visible Elements",model, [0,1,2,3,4,5,10,15,20], "maxVisisble", true);
+				console.debug(model)
+				this._renderLabelDropDown("Popup Position", model,"justifyContent",[
+					{ value:"left", icon:"mdi  mdi-arrow-collapse-left", label : "Left"},
+					{ value:"right", icon:"mdi  mdi-arrow-collapse-right", label : "Right"},
+					{ value:"center", icon:"mdi mdi-arrow-split-vertical", label : "Center"},
+					{ value: null, icon:"mdi mdi-arrow-expand-horizontal", label : "Full Width"},
+				]);
 			},
 
 			_showHSlider (model){

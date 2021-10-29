@@ -32,8 +32,8 @@ export default {
             maxLabelLength: 7,
             hasLabelTxt: true,
             updateSelection: true,
-						arrowPosition: "right",
-						currentLabel: null
+			arrowPosition: "right",
+			currentLabel: ''
         }
     },
     components: {},
@@ -254,7 +254,7 @@ export default {
 
 					for(var i=0; i < this._options.length; i++){
 						var o = this._options[i];
-
+						console.debug('setLabel', value, o.value)
 						if (value == o.value){
 
 							if (o.icon){
@@ -292,7 +292,8 @@ export default {
 				}
 			},
 
-			setValue  (value){
+			setValue (value){
+				console.debug('setValue', value)
 
 				if(this._selectedLi){
 					css.remove(this._selectedLi, "MatcToolbarPopupSelected");

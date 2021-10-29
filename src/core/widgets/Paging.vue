@@ -97,6 +97,31 @@ export default {
 
       var cntr = db.div("MatcWidgetTypePagingCntr").build();
 
+      let gap = Math.round(8 * scale)+ 'px'
+      switch (model.props.justifyContent) {
+        case 'left':
+          cntr.style.justifyContent = 'flex-start'
+          cntr.style.gap = gap
+          break;
+
+        case 'right':
+          cntr.style.justifyContent = 'flex-end'
+          cntr.style.gap = gap
+          break
+
+        case 'center':
+          cntr.style.justifyContent = 'center'
+          cntr.style.gap = gap
+          break
+
+        default:
+          cntr.style.justifyContent = 'space-between'
+          cntr.style.gap = ''
+          break
+
+      }
+
+
       let elementWidth = this.getZoomed(style.fontSize, scale) * 2
       var elementCount = this.getNumberOfVisibleElements(model, style, width)
 
