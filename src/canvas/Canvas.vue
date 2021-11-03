@@ -638,9 +638,12 @@ export default {
 			 */
 			this._lastMousePos = pos2;
 			this._lastMouseMoveEvent = e;
+			/**
+			 * If there is a callback, like the collab service, call it
+			 */
 			if (this.mouseListenerCallback) {
 				try {
-					const unZoomedPos = this.getUnZoomedBox(pos2, this.zoom, this.zoom);
+					const unZoomedPos = this.getUnZoomedBox(lang.clone(pos2), this.zoom, this.zoom);
 					this.mouseListenerCallback(unZoomedPos)
 				} catch (err){
 					this.logger.log(3,"onMouseMove", "error with callback > ", err);
