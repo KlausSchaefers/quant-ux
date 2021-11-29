@@ -300,18 +300,34 @@ export default {
     },
 
     getDataBindingValue (i, child) {
+     
         if (this.dataBindingValues) {
             if (child.props.databinding && child.props.databinding.default){
                 let key = child.props.databinding.default
                 let path = key
+                
                 /**
                  * We remove the parent path here if needed. The varibale must stay
                  * the same, otherwise the UIWidget.setDataBining() will not work
                  */
-                if (this.model.props.databinding && this.model.props.databinding.default && key.indexOf('[0].') > 0) {
+                
+                if (this.model.props.databinding && this.model.props.databinding.default) {
                     let parentKey = this.model.props.databinding.default
                     if (key.indexOf(parentKey) === 0) {
-                        path = key.substring(key.indexOf('.') + 1)
+                        path = key.substring(parentKey.length)
+                        
+                        /**
+                         * We might have a path from the auto suggestion with '[0].' We cut it off
+                         */
+                        if (path.indexOf('[0]') === 0) {
+                            path = path.substring(3)
+                        }
+                        /**
+                         * We might have also a path starting with '.', we cut it off as well
+                         */
+                        if (path.indexOf('.') === 0) {
+                            path = path.substring(1)
+                        }
                     }
                 }
                 /**
@@ -325,6 +341,8 @@ export default {
                             variable: key,
                             value: value
                         }
+                    } else {
+                        this.logger.warn('getDataBindingValue()', 'Cannot find ' + path)
                     }
                 }
             }

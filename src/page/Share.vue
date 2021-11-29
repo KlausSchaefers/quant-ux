@@ -18,7 +18,7 @@
     </div>
 
     <div class="field MatcShareRow">
-      <label>Code Generation</label>
+      <label>Low-Code Token</label>
       <input type="text" class="input" :value="`${hash}`" @focus="select" ref="hashInput" />
       <a class="MatcShareIcon" @click="copy" target="_QuantUXShare">
         <span class="mdi mdi-content-copy" />
