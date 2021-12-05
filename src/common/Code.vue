@@ -12,7 +12,8 @@
       <pre v-show="tab=='vue'"><code ref="codeVue" class="html" >{{vueTemplate}}</code></pre>
       <div v-show="tab=='lowCode'">
 
-        <span class="MatcHint">Install the vue-low-code package with NPM</span>
+        <span class="MatcHint">Install the luisa-vue package with NPM.</span>
+        
         <pre>
           <code ref="codeNPM" class="html" >{{npmTemplate}}</code>
         </pre>

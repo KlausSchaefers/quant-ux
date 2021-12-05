@@ -94,10 +94,6 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "unit" */ './unit/CanvasTest.vue')
     },
     {
-      path: '/test/code/:id.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/CodeGenTest.vue')
-    },
-    {
       path: '/test/Rest.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/RestSettingsTest.vue')
     },

@@ -51,6 +51,30 @@
                     </div>
                 </div>
 
+                <div class="MatcToolbarRestHeaderCntr">
+                    <div class="MatcToolbarRestHeaderRow" v-for="(header, i) in rest.headers" :key="i">
+
+                          <Combo
+                            :value="header.key"
+                            @change="setHeaderKey(i, $event)"
+                            :hints="variableHints"
+                            :fireOnBlur="true"
+                            :formControl="true"
+                            placeholder="Key"/>
+
+                        <Combo
+                            :value="header.value"
+                            @change="setHeaderValue(i, $event)"
+                            :hints="variableHints"
+                            :fireOnBlur="true"
+                            :formControl="true"
+                            placeholder="Value"/>
+                
+                        <span class="mdi mdi-close-circle" @click="removeHeader(i)" />
+                    </div>
+                </div>
+                <span class="MatcButton" @click="addHeader">Add Header</span>
+
             </div>
 
              <div v-show="tab === 'input'">
@@ -77,15 +101,6 @@
                             theme="chrome"
                             width="740"
                             height="180"></Ace>
-                        <!--
-                        <textarea
-                            class="form-control MatcToolbarRestSettingsInputArea"
-                            spellcheck="false"
-                            placeholder="{a: ${databinding}}"
-                            v-model="rest.input.template"
-                            @change="onChange">
-                        </textarea>
-                        -->
 
                         <p class="MatcHint">
                             Use the ${databinding} notation to send data from the prototype.
@@ -264,7 +279,8 @@ export default {
                     template: '',
                     type: 'JSON',
                     hints: {}
-                }
+                },
+                headers: []
             },
             databingValues: {},
             testResult: '',
@@ -301,6 +317,15 @@ export default {
             var imageStr = this.arrayBufferToBase64(this.testResult);
             return base64Flag + imageStr
         },
+        variableHints () {
+            let hints = this.getAllAppVariables()
+            return hints.map(h => {
+				return {
+					label: h,
+					value: "${" + h + "}"
+				}
+            })
+        },
         hints () {
             let hints = this.getAllAppVariables()
             return hints.map(h => {
@@ -312,6 +337,39 @@ export default {
         }
     },
     methods: {
+        setHeaderKey (i, value) {
+            this.logger.log(-1, 'setHeaderKey', 'enter' + i, value)
+            if (this.rest.headers[i]) {
+                this.rest.headers[i].key = value
+            }
+        },
+        setHeaderValue (i, value) {
+            this.logger.log(-1, 'setHeaderValue', 'enter' + i, value)
+            if (this.rest.headers[i]) {
+                this.rest.headers[i].value = value
+            }
+        },
+        addHeader () {
+            this.logger.log(-1, 'addHeader', 'enter')
+            if (!this.rest.headers) {
+                this.logger.log(-1, 'addHeader', 'Set headers')
+                this.rest.headers = []
+            }
+            this.rest.headers.push({
+                key: '',
+                value: ''
+            })
+            console.debug(this.rest.headers)
+        },
+        removeHeader (i) {
+            this.logger.log(-1, 'removeHeader', 'enter', i)
+            if (!this.rest.headers) {
+                this.logger.log(-1, 'removeHeader', 'Set headers')
+                this.rest.headers = []
+            }
+            this.rest.headers.splice(i, 1);
+            console.debug(this.rest.headers)
+        },
         onDataBingingFileChange (key, file) {
             this.$set(this.databingValues, key, file)
         },
@@ -337,6 +395,11 @@ export default {
                 if (!this.rest.authType) {
                     this.logger.log(-1, 'setWidget', 'Set auth')
                     this.rest.authType = 'Bearer'
+                }
+
+                if (!this.rest.headers) {
+                    this.logger.log(-1, 'setWidget', 'Set headers')
+                    this.$set(this.rest, "headers", [])
                 }
             }
 		},

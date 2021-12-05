@@ -707,7 +707,8 @@ export default {
 							"template": '',
 							"type": 'JSON',
 							"hints": {}
-						}
+						},
+						"headers": []
 					}
 				},
 				"has" :{

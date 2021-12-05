@@ -6,6 +6,7 @@
 			type="text"
 			:class="['MatcIgnoreOnKeyPress', {'form-control': formControl}, {'vommondInlineEdit': inline}, {'MatcToobarInput MatcToobarInlineEdit': toolbar}]"
 			data-dojo-attach-point="input"
+		
 			@focus="onFocus"
 			:placeholder="placeholder"
 			autocomplete="false" >

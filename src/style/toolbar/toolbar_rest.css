@@ -179,3 +179,21 @@
     z-index: 90000000;
 }
 
+
+.MatcToolbarRestHeaderCntr {
+    margin-bottom: 8px;
+    max-height: 200px;
+}
+
+.MatcToolbarRestHeaderRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+    justify-content: space-between;
+}
+
+.MatcToolbarRestHeaderRow input.form-control {
+    width: 380px;
+}
+

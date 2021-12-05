@@ -27,6 +27,7 @@
       background: white;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
       padding:20px;
+      width: 840px;
       display: inline-block;
   }
 </style>
@@ -58,7 +59,10 @@ export default {
                 "template": "",
                 "type": "JSON",
                 "hints": []
-            }
+            },
+            headers: [
+              {key: 'a', value: 'b'}
+            ]
         },
         {
           "method": "POST",
@@ -73,7 +77,10 @@ export default {
               "template": "",
               "type": "JSON",
               "hints": []
-          }
+          },
+          headers: [
+              {key: 'a', value: 'b'}
+          ]
         },
         {
           "method": "GET",
@@ -88,7 +95,10 @@ export default {
               "template": "",
               "type": "IMAGE",
               "hints": []
-          }
+          },
+          header: [
+              {key: 'a', value: 'b'}
+          ]
         },
         {
           "method": "POST",
@@ -104,7 +114,10 @@ export default {
               "template": "",
               "type": "JSON",
               "hints": []
-          }
+          },
+          header: [
+              {key: 'a', value: 'b'}
+            ]
         },
         // https://cloud.google.com/vision/docs/labels
         {
@@ -147,7 +160,7 @@ export default {
         {label: "Image Post", value: 3},
         {label: "Goolge Vision", value: 4}
       ],
-      selectedTest: 4
+      selectedTest: 0
     };
   },
   components: {

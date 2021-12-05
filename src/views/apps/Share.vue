@@ -9,7 +9,7 @@
   @import url("../../style/test.css");
 </style>
 <style lang="sass">
-  @import "../../style/bulma.sass";
+  @import "../../style/bulma.sass"
 </style>
 
 <script>

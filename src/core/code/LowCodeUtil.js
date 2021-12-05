@@ -2,7 +2,7 @@ import CoreUtil from '../CoreUtil'
 import JSONPath from '../JSONPath'
 
 export function getNPMTemplate (){
-  return 'npm i vue-low-code'
+  return 'npm i luisa-vue@2'
 }
 
 export function getRouterTemplate () {
@@ -70,14 +70,15 @@ export function getMainTemplate(hash, model) {
 
   return `<template>
   <div class="">
-    <QUX app="${hash}" v-model="viewModel"/>
+    <Luisa design="${hash}" v-model="viewModel"/>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import QUX from 'vue-low-code'
-Vue.use(QUX);
+import Luisa from 'luisa-vue'
+Vue.use(Luisa);
+// more documentation can be found at https://luias.could
 
 export default {
   name: '${model.name}',

@@ -12,7 +12,7 @@
   @import url("../style/qux.css");
 </style>
 <style lang="sass">
-  @import "../style/bulma.sass";
+  @import "../style/bulma.sass"
 </style>
 <script>
 import LoginPage from 'views/LoginPage'
