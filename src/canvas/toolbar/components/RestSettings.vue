@@ -51,13 +51,14 @@
                     </div>
                 </div>
 
-                <div class="MatcToolbarRestHeaderCntr">
+                <div :class="['MatcToolbarRestHeaderCntr', {'MatcToolbarRestHeaderCntrLong': rest.headers.length > 4} ]">
                     <div class="MatcToolbarRestHeaderRow" v-for="(header, i) in rest.headers" :key="i">
 
                           <Combo
                             :value="header.key"
                             @change="setHeaderKey(i, $event)"
                             :hints="variableHints"
+                            magicChar="$"
                             :fireOnBlur="true"
                             :formControl="true"
                             placeholder="Key"/>
@@ -66,6 +67,7 @@
                             :value="header.value"
                             @change="setHeaderValue(i, $event)"
                             :hints="variableHints"
+                            magicChar="$"
                             :fireOnBlur="true"
                             :formControl="true"
                             placeholder="Value"/>
@@ -74,6 +76,10 @@
                     </div>
                 </div>
                 <span class="MatcButton" @click="addHeader">Add Header</span>
+
+                <p class="MatcHint MatcMarginTop" v-if="rest.headers && rest.headers.length < 5">
+                    You can use ${databinding} expressions in the headers
+                </p>
 
             </div>
 
@@ -320,9 +326,10 @@ export default {
         variableHints () {
             let hints = this.getAllAppVariables()
             return hints.map(h => {
+                let v = "${" + h + "}"
 				return {
-					label: h,
-					value: "${" + h + "}"
+					label: v,
+					value: v
 				}
             })
         },

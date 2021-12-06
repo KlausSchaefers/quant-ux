@@ -30,7 +30,7 @@ class RestEngine {
 
     async buildURL (request, values) {
         let url = await this.fillString(request.url, values, false);
-        this.logger.log(1, "buildURL", "exit" ,url)
+        this.logger.log(11, "buildURL", "exit" ,url)
         return url;
     }
 
@@ -45,20 +45,53 @@ class RestEngine {
         this.logger.log(1, "buildToken", "exit", data)
         return data;
     }
-
+    
     async fillString (s, values, encodeFiles = true) {
         for (let key in values) {
-            let value = await this.getStringFilelValue(values[key], encodeFiles)
+            let value = this.getValueByKey(values, key)
+            value = await this.getStringFilelValue(value, encodeFiles)
             let pattern = "${" + key + "}"
-            let i = 0
-            while(s.indexOf(pattern) >= 0 && i < 100) {
-                s = s.replace(pattern, value)
-                i++
-            }
+            s = this.replacePattern(s, pattern, value)
         }
         if (s.indexOf('${') >= 0){
-            this.logger.error("buildURL", "exit" ,s)
-            throw new Error("buildURL() > Not all parameters replaced!" + s)
+            this.logger.error("fillString", "exit" ,s)
+            throw new Error("fillString() > Not all parameters replaced!" + s)
+        }
+        return s
+    }
+
+    fillSimpleString (s, values) {
+        let matches = this.getDataBindingVariables(s)
+        matches.forEach(key => {
+            if (values[key] !== undefined) {
+                let value = this.getValueByKey(values, key)
+                let pattern = "${" + key + "}"
+                s = this.replacePattern(s, pattern, value)
+            } else {
+                this.logger.warn("fillSimpleString", "Could not find", key)
+            }
+        })
+        return s
+    }
+
+    getDataBindingVariables (s) {
+        let matches = []
+        this.parseString(s, matches)
+        return matches
+    }
+
+    getValueByKey (values, key) {
+        /**
+         * Shouldn't thjsi be JSONPath?
+         */
+        return values[key]
+    }
+
+    replacePattern (s, pattern, value) {
+        let i = 0
+        while (s.indexOf(pattern) >= 0 && i < 100) {
+            s = s.replace(pattern, value)
+            i++
         }
         return s
     }
@@ -234,6 +267,15 @@ class RestEngine {
         if (token) {
             headers['Authorization'] = `${authType} ${token}`
         }
+
+        if (request.headers) {
+            request.headers.forEach(header => {
+                let key = this.fillSimpleString(header.key, values)
+                let value = this.fillSimpleString(header.value, values)
+                headers[key] = value
+            })
+        }
+
         return headers
     }
 
@@ -248,6 +290,12 @@ class RestEngine {
             if (rest.input.fileDataBinding) {
                 result.push(rest.input.fileDataBinding)
             }
+        }
+        if (rest.headers) {
+            rest.headers.forEach(header => {
+                this.parseString(header.key, result) 
+                this.parseString(header.value, result) 
+            })
         }
         return result;
     }

@@ -30,7 +30,7 @@ import Logger from 'common/Logger'
 export default {
     name: 'Input',
 	mixins:[DojoWidget],
-	props:['fireOnBlur', 'top', 'placeholder', 'inline', 'formControl', 'hints', 'value', 'isDropDown', 'toolbar', 'actions'],
+	props:['fireOnBlur', 'top', 'placeholder', 'inline', 'formControl', 'hints', 'value', 'isDropDown', 'toolbar', 'actions', 'magicChar'],
     data: function () {
         return {
 
@@ -140,23 +140,23 @@ export default {
 					}
 				}
 
-				var suggestions = [];
-				var value = this.input.value;
-				if(value.length >=1){
+				const suggestions = [];
+				let value = this.input.value;
+				if (value.length >=1){
 					value = value.toLowerCase();
-					for(var i=0; i< this.hints.length; i++){
-						var hint = this.hints[i];
-						if(hint._label.indexOf(value)>=0){
+					for (let i=0; i< this.hints.length; i++){
+						let hint = this.hints[i];
+						if (hint._label.indexOf(value)>=0){
 							suggestions.push(hint);
 						}
 					}
 				}
 
 				if (this.actions) {
-						for(let i=0; i < this.actions.length; i++){
-							let action = this.actions[i];
-							suggestions.push(action);
-						}
+					for (let i=0; i < this.actions.length; i++){
+						let action = this.actions[i];
+						suggestions.push(action);
+					}
 				}
 
 

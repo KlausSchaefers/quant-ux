@@ -48,7 +48,7 @@ export default {
       tests: [
           {
             "method": "GET",
-            "url": "http://localhost:8081/public/test/1.json",
+            "url": "http://localhost:8080/test/${url}.json",
             "token": "",
             "input": {
                 "type": "JSON",
@@ -61,7 +61,9 @@ export default {
                 "hints": []
             },
             headers: [
-              {key: 'a', value: 'b'}
+              {key: 'a', value: '1'},
+              {key: '${key}', value: '2'},
+              {key: 'c', value: '${value}'}
             ]
         },
         {

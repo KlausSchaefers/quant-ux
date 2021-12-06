@@ -185,12 +185,24 @@
     max-height: 200px;
 }
 
+.MatcToolbarRestHeaderCntrLong {
+    overflow: auto;
+}
+
 .MatcToolbarRestHeaderRow {
     display: flex;
     gap: 8px;
     align-items: center;
     margin-bottom: 8px;
     justify-content: space-between;
+}
+
+.MatcToolbarRestHeaderRow .mdi {
+    cursor: pointer;
+}
+
+.MatcToolbarRestHeaderRow .mdi:hover {
+    color: red;
 }
 
 .MatcToolbarRestHeaderRow input.form-control {
