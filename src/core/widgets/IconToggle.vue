@@ -56,6 +56,9 @@ export default {
       this._scaleY = scaleY;
 
       this.domNode.style.color = style.color;
+      if (style.boxShadow) {
+        this._setBoxShadow(this.domNode, style)
+      }
       this.setValue(model.props.active, true);
       this.resize(model);
     },
@@ -119,11 +122,24 @@ export default {
       return true;
     },
 
-    isValid: function(showError) {
+    isValid (showError) {
       return this.validate(this.value, showError);
     },
 
-    onChange: function(e) {
+
+    _setBoxShadow (node, style) {
+      var shadow = style.boxShadow;
+      if (shadow) {
+        var v = this.getZoomed(shadow.v, this._scaleY);
+        var h = this.getZoomed(shadow.h, this._scaleX);
+        var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
+        node.style.textShadow = h + "px " + v + "px " + b + "px " + shadow.c;
+      } else {
+        node.style.textShadow = "none";
+      }
+    },
+
+    onChange (e) {
       this.stopEvent(e);
       this.setValue(!this.value);
       this.emitDataBinding(this.value);

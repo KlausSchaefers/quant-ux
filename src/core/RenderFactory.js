@@ -989,22 +989,27 @@ export default class RenderFactory extends Core {
 	}
 
 	_set_boxShadow(parent, style, model) {
-		var shadow = style.boxShadow;
-
-		var node = this._borderNodes[model.id];
-		if (node) {
-			parent = node;
-		}
-		if (shadow) {
-			var v = this.getZoomed(shadow.v, this._scaleY);
-			var h = this.getZoomed(shadow.h, this._scaleX);
-			var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
-			var s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
-			var inset = shadow.i ? "inset" : "";
-			parent.style.boxShadow = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
-
+		/**
+		 * For icons we treat the boxShadow as in textShadow
+		 */
+		if (model.type === 'Icon') {
+			this._set_icon_boxShadow(parent, style, model)
 		} else {
-			parent.style.boxShadow = "none";
+			let shadow = style.boxShadow;
+			let node = this._borderNodes[model.id];
+			if (node) {
+				parent = node;
+			}
+			if (shadow) {
+				var v = this.getZoomed(shadow.v, this._scaleY);
+				var h = this.getZoomed(shadow.h, this._scaleX);
+				var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
+				var s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
+				var inset = shadow.i ? "inset" : "";
+				parent.style.boxShadow = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
+			} else {
+				parent.style.boxShadow = "none";
+			}
 		}
 	}
 
@@ -1017,6 +1022,22 @@ export default class RenderFactory extends Core {
 			parent.style.textShadow = h + "px " + v + "px " + b + "px " + shadow.c;
 		} else {
 			parent.style.textShadow = "none";
+		}
+	}
+
+	_set_icon_boxShadow(parent, style, model) {
+		console.debug("Renderfacory._set_icon_boxShadow", )
+		let node = this._iconNodes[model.id]
+		if (node) {
+			let shadow = style.boxShadow;
+			if (shadow) {
+				var v = this.getZoomed(shadow.v, this._scaleY);
+				var h = this.getZoomed(shadow.h, this._scaleX);
+				var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
+				node.style.textShadow = h + "px " + v + "px " + b + "px " + shadow.c;
+			} else {
+				node.style.textShadow = "none";
+			}
 		}
 	}
 
