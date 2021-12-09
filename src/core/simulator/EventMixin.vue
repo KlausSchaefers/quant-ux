@@ -99,7 +99,7 @@ export default {
 					this.logger.error("onWidgetKeyUp","error", e);
 					this.logger.sendError(e)
 				}
-					},
+			},
 
 
 			onWidgetMouseOver (screenID, widgetID,e){
@@ -196,7 +196,7 @@ export default {
 			onWidgetEvent (screenID, widgetID, uiWidget, line, widgetEvent){
 				this.logger.log(1,"onWidgetEvent","enter >  sreen:" + screenID + " > widget:" + widgetID);
 
-if(widgetEvent.e){
+				if (widgetEvent.e){
 					this.stopEvent(widgetEvent.e);
 					this.log("WidgetClick",screenID, widgetID, widgetEvent.e, widgetEvent);
 				} else {

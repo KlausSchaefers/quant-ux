@@ -20,11 +20,11 @@
               <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Blur</span>
             </div>
 
-            <div ref="sSliderCntr" class="MatcBoxShadowSliderCntr" v-show="type !== 'textShadow'">
+            <div ref="sSliderCntr" class="MatcBoxShadowSliderCntr" v-show="type !== 'textShadow' && hasInsertAndSpread">
               <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Spread</span>
             </div>
 
-            <div ref="insertCntr" class="MatcBoxShadowSliderCntr" v-show="type !== 'textShadow'">
+            <div ref="insertCntr" class="MatcBoxShadowSliderCntr" v-show="type !== 'textShadow' && hasInsertAndSpread">
               <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Insert</span>
             </div>
 
@@ -55,6 +55,7 @@ export default {
     data: function () {
         return {
             tab: 'position',
+            hasInsertAndSpread: true,
             defaultValue: {
               v: 0,
               h: 0,
@@ -83,7 +84,7 @@ export default {
         }
         this.hSlider = this.renderIntBox(this.$refs.hSliderCntr, 'h')
         this.vSlider = this.renderIntBox(this.$refs.vSliderCntr, 'v')
-        this.bSlider = this.renderIntBox(this.$refs.bSliderCntr, 'b')
+        this.bSlider = this.renderIntBox(this.$refs.bSliderCntr, 'b', 0, 100, false)
         this.sSlider = this.renderIntBox(this.$refs.sSliderCntr, 's')
         this.renderInset(this.$refs.insertCntr)
 				this.picker = this.$new(ColorPickerSketch, {isDialog: true});
@@ -98,8 +99,8 @@ export default {
 				this.tempOwn(on(this.insertBox, "change", lang.hitch(this, "onInsertChange")))
 			},
 
-      renderIntBox (parent, param){
-        var input = this.$new(ToolbarSlider,{max:50, min:-50, center: true});
+      renderIntBox (parent, param, min = -50, max =50, center = true){
+        var input = this.$new(ToolbarSlider,{max:max, min:min, center: center});
         input.placeAt(parent);
         input.render();
 				this.own(on(input, "change", lang.hitch(this, "setIntValue", param)));
@@ -138,6 +139,10 @@ export default {
 				}
         this.emit('changing', this.tempValue)
 			},
+
+      setHasInsertAndSpread (v) {
+        this.hasInsertAndSpread = v
+      },
 
 			setValuesInWidgets (boxShadow){
 				if (this.hSlider){

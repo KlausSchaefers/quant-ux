@@ -65,6 +65,12 @@ export default {
         this.updatePosition()
       },
 
+      setHasInsertAndSpread (v) {
+        if (this.$refs.settings) {
+          this.$refs.settings.setHasInsertAndSpread(v)
+        }
+      },
+
       onHide () {
         if (this.tempValue && (this.tempValue.v !== 0 || this.tempValue.h !== 0 || this.tempValue.s !== 0 || this.tempValue.b !== 0)) {
           this.emit('change', this.tempValue)

@@ -664,13 +664,10 @@ export default {
 			popOverlay (){
 
 				if (this.overlays && this.overlays.length > 0){
-
 					this.sendMouse();
-
 					this.logger.log(1,"popOverlay","enter >");
-
 					var overlay = this.overlays.pop();
-					if(overlay.line && overlay.line.animation){
+					if (overlay.line && overlay.line.animation){
 						var line = overlay.line;
 
 						if(overlay.screen.id != line.to){
