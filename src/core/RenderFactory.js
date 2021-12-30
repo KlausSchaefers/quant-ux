@@ -1026,7 +1026,6 @@ export default class RenderFactory extends Core {
 	}
 
 	_set_icon_boxShadow(parent, style, model) {
-		console.debug("Renderfacory._set_icon_boxShadow", )
 		let node = this._iconNodes[model.id]
 		if (node) {
 			let shadow = style.boxShadow;

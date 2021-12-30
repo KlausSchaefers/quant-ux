@@ -541,6 +541,10 @@ input:focus{
 	text-align: center;
 }
 
+.MatcButtonBar.MatcButtonBarRight{
+	text-align: right;
+}
+
 .VommondDataBindingPassive.MatcButton{
 	cursor:auto;
 	border: 1px solid #999999;

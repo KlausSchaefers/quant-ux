@@ -125,7 +125,7 @@ export default {
 	},
 
 	_retireUser(d, dialog) {
-		this.log.error("_retireUser", "enter");
+		this.logger.error("_retireUser", "enter");
 		Services.getUserService().retire(this.user); // this._doGet("/rest/retire");
 		d.shake();
 		dialog.innerHTML = this.getNLS("user.retire.cusoon");

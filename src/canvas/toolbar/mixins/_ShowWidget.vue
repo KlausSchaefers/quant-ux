@@ -106,6 +106,10 @@ export default {
 					css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
 					this.boxShadow.setValue(style.boxShadow);
 					this.boxShadow.setBox(model)
+					/**
+					 * For Icons and IconToggles we use TextShadow and do not
+					 * need insert and spread.
+					 */
 					this.boxShadow.setHasInsertAndSpread(model.type !== 'Icon' && model.type !== 'IconToggle')
 
 					this.backdropFilter.setValue(style.backdropFilter)

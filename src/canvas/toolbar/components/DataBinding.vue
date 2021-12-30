@@ -46,7 +46,7 @@
                             {{variable.name}}
                         </span>
                     </td>
-                     <td>
+                     <td :class="{'MatcDataBindingVariableSelected': variable.selected}">
                         <SegmentButton
                             v-if="variable.selected"
                             :options="variableKeys"
@@ -132,7 +132,6 @@ export default {
                     { label: "Options", value: "options" }
                 ]
             }
-
             return [
                 { label: "Default", value: "default" }
             ]
@@ -167,34 +166,54 @@ export default {
     },
     methods: {
         onNewVariable (v) {
-            console.debug('Lala', this.variableKeys)
+            this.logger.log(-1, 'onNewVariable', 'enter', v)
             this.$refs.combo.clear()
             if (this.variables.indexOf(v) < 0) {
                 this.variables.unshift(v)
             }
-            /**
-             * If we have a default type, set the new variable
-             */
-            if (this.variableKeys.length === 1) {
-                this.$set(this.databinding, "default", v)
-            }
+            this.setNewVariableKey(v)
+            this.unCheckNotAssigned()
             this.checked[v] = true
             this.onChange()
+        },
+        unCheckNotAssigned () {
+            this.logger.log(-1, 'unCheckNotAssigned', 'enter')
+            let dataBindingValues = Object.values(this.databinding)
+            for (let value in this.checked) {
+                if (dataBindingValues.indexOf(value) < 0) {
+                    this.checked[value] = false
+                }
+            }
+        },
+        setNewVariableKey (v) {
+            /**
+             * Try to set the type by taking teh foirst free databinding
+             */
+            for (let i = 0; i < this.variableKeys.length; i++) {
+                let key = this.variableKeys[i].value
+                if (this.databinding[key] === undefined || this.databinding[key] === null) {
+                    this.$set(this.databinding, key, v)
+                    this.logger.log(-1, 'setNewVariableKey', 'exit > Free key taken: ' + key)
+                    return;
+                }
+            }
+            /**
+             * Take the first one, most likely default
+             */
+            let key = this.variableKeys[0].value
+            this.$set(this.databinding, key, v)
+            this.logger.log(-1, 'setNewVariableKey', 'exit > Default key taken: ' + key)
         },
         onCheckBox (selected, name, key) {
             this.checked[name] = selected
 
             if (selected) {
-                let defaultKey = 'default'
-                let keys = this.variableKeys
-                if (keys[0]) {
-                    defaultKey = keys[0].value
-                }
-                this.onSelectVariable(name, defaultKey)
+                this.setNewVariableKey(name)
             } else {
                 this.$delete(this.databinding, key)
-                this.onChange()
             }
+            this.onChange()
+            this.unCheckNotAssigned()
         },
         onSelectVariable (v, key = "default") {
             this.$set(this.databinding, key, v)
@@ -210,6 +229,7 @@ export default {
             }
             this.onSelectVariable(name, newKey)
             this.onChange()
+            this.unCheckNotAssigned()
         },
         getCurrentKey(name) {
             for (let oldKey in this.databinding) {
