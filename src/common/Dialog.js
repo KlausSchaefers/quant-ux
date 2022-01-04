@@ -162,10 +162,25 @@ export default class Dialog extends Evented {
 			}, 500);
 		}
 
+		/**
+		 * Since 4.0.34 we have an an onOpen listener
+		 */
+		setTimeout(() => this.emitOpen(), 500)
+
 
 		this._dialogBackground = background;
 		this.node = node;
 		this.wrapper = wrapper;
+	}
+
+	onOpen (callback) {
+		this._onOpenCallback = callback
+	}
+
+	emitOpen() {
+		if (this._onOpenCallback) {
+			this._onOpenCallback()
+		}
 	}
 
 	getStartPos(parent) {

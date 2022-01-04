@@ -19,6 +19,7 @@
 
 .MatcToolbarTable thead .MatcToolbarTableLabel{
 	position: relative;
+	text-align: center;
 }
 
 .MatcToolbarTable table{
@@ -32,7 +33,7 @@
 
 .MatcToolbarTableBody{
 	height: 400px;
-	overflow: hidden;
+	overflow: auto;
 }
 
 .MatcToolbarTable .MatcToolbarTableBody td{
@@ -82,6 +83,7 @@
 	background: #eee;
 	color:#cecece;
 	width: 30px;
+	vertical-align: inherit;
 }
 
 .MatcToolbarTableColumnHandle{

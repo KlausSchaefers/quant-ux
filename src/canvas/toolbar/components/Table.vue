@@ -18,7 +18,6 @@ import touch from 'dojo/touch'
 import win from 'dojo/_base/win'
 import keys from 'dojo/keys'
 import DomBuilder from 'common/DomBuilder'
-import ScrollContainer from 'common/ScrollContainer'
 import Util from 'core/Util'
 
 export default {
@@ -26,33 +25,30 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-					value: null,
-					inputEvent: "change",
-					rows: 300,
-					columns: 10,
-					maxWidth: 1000,
-					columnWidths: [],
-					rowHeight: 30,
-					columnNames: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"],
-					data: [],
-					widthDirty: false,
-					dataDirty: false,
-					inputClicked: false,
-					actionKeys: [37],
-					mode: "blur",
-					hasHeader: false,
-					widgetsWithHeader: ['Repeater', 'Table']
+			value: null,
+			inputEvent: "change",
+			rows: 200,
+			columns: 10,
+			maxWidth: 1000,
+			columnWidths: [],
+			rowHeight: 30,
+			columnNames: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"],
+			data: [],
+			widthDirty: false,
+			dataDirty: false,
+			inputClicked: false,
+			actionKeys: [37],
+			mode: "blur",
+			hasHeader: false,
+			widgetsWithHeader: ['Repeater', 'Table']
         }
     },
     components: {},
     methods: {
-        postCreate: function(){
-
+        postCreate (){
 			this.own(on(this.file, "change", lang.hitch(this,"_onFileChange")));
 			this.own(on(win.body(), "keydown", lang.hitch(this,"onBodyKeyDown")));
-			//this.own(on(win.body(), "keyup", lang.hitch(this,"onBodyKeyUp")));
 			this._initFileDnD(this.domNode);
-
 			this.selection = {
 				r : 0,
 				c: 0
@@ -92,13 +88,10 @@ export default {
 
 			this.renderData(this.data);
 			this.renderColumnWidths();
+
 		},
 
-
-
-
 		getWidths (){
-
 			var result = [];
 			var columns = this.getDimensions().c;
 			for(var i=0; i< columns;i++){
@@ -172,7 +165,7 @@ export default {
 		},
 
 		render (){
-
+		
 			this.tds = [];
 			this.inputs = [];
 			this.columnTDs = [];
@@ -226,9 +219,7 @@ export default {
 					this.inputs[r].push(input);
 				}
 			}
-			var scroll = this.$new(ScrollContainer);
-			scroll.placeAt(	this.cntr);
-			scroll.wrap(table);
+			this.cntr.appendChild(table)
 		},
 
 
@@ -387,7 +378,6 @@ export default {
 
 
 		selectInput (r,c){
-			console.debug("selectInput", r, c);
 			r = Math.max(0,r);
 			c = Math.max(0,c);
 			this.selection = {
@@ -453,43 +443,6 @@ export default {
 				return data;
 			}
 
-		},
-
-
-		getData_bak (){
-			var data = [];
-			var maxC = 0;
-			for(let r=0; r < this.inputs.length; r++){
-				let inputRow = this.inputs[r];
-				let row = [];
-				for(let c=0; c < inputRow.length; c++){
-					let value = this.inputs[r][c].value;
-					if(value){
-						row[c] = value;
-						maxC = Math.max(maxC, c);
-					}
-				}
-				if(row.length >0){
-					data[r] = row;
-				}
-			}
-
-			maxC++;
-			/**
-			 * Fill up undefined
-			 */
-			for(let r=0; r < data.length; r++){
-				for(let c=0; c < maxC; c++){
-					if(!data[r]){
-						data[r] = [];
-					}
-					if(data[r][c] == undefined){
-						data[r][c] ="";
-					}
-				}
-			}
-
-			return data;
 		},
 
 
@@ -698,7 +651,6 @@ export default {
 		destroy (){
 			this._destroyFileDnD();
 			this.cleanUpTempListener();
-
 		}
     },
     mounted () {

@@ -1185,12 +1185,10 @@ export default {
 			},
 
 			_renderTableDialog (e){
-
 				var me = this;
 				var popup = this.db.div("MatcOptionDialog MatcPadding").build();
 				var cntr = this.db.div("").build(popup);
 				var table = this.$new(Table);
-				table.setWidget(this.widget);
 				table.placeAt(cntr);
 				var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
 				var write = this.db.div("MatcButton", "Ok").build(bar);
@@ -1203,8 +1201,11 @@ export default {
 					table.destroy();
 					me.canvas.setState(0);
 				}));
+				d.onOpen(() => {
+					// render table only after dialog is open
+					table.setWidget(this.widget);
+				})
 				d.popup(popup, e.target);
-
 			},
 
 			setTableData (d, table){
