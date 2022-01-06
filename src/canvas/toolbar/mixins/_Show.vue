@@ -110,6 +110,12 @@ export default {
 				css.add(this.toolsDiv, "MatcToolbarSectionHidden");
 			},
 
+			showDevTools () {
+				if (this.isDeveloperMode) {
+					css.remove(this.developerDiv, "MatcToolbarSectionHidden");
+				}
+			},
+
 			showCopyPaste (){
 				this.logger.log(3,"showCopyPaste", "entry");
 
@@ -258,6 +264,7 @@ export default {
 				}
 
 
+				css.add(this.developerDiv, "MatcToolbarSectionHidden");
 				css.add(this.templateDiv, "MatcToolbarSectionHidden");
 				css.add(this.multiPositionDiv, "MatcToolbarSectionHidden");
 				css.add(this.textDiv, "MatcToolbarSectionHidden");

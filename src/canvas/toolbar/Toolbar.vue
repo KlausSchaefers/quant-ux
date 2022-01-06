@@ -1,6 +1,6 @@
 
 <template>
-     <div class="MatcToolbar">
+     <div class="MatcToolbar" @dblclick="onDoubleClick">
 
 
 		<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
@@ -128,6 +128,9 @@
 							</div>
 						</div>
 
+						<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
+						</div>
+
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
@@ -179,16 +182,17 @@ export default {
 	props:['pub'],
     data: function () {
         return {
-					canvasViewMode: 'design',
-					value: false,
-					isPublic: false,
-					active: true,
-					redirectAfterExit: true,
-					showRestTool: true,
-					hasViewConfigVtn: true,
-					canvasViewConfig: {},
-					settings: {},
-					collabUsers:[]
+			canvasViewMode: 'design',
+			value: false,
+			isPublic: false,
+			active: true,
+			redirectAfterExit: true,
+			showRestTool: true,
+			hasViewConfigVtn: true,
+			canvasViewConfig: {},
+			settings: {},
+			collabUsers:[],
+			isDeveloperMode: false
         }
     },
 	components: {
@@ -204,35 +208,34 @@ export default {
 	},
     methods: {
       postCreate: function(){
-				this.logger = new Logger("Toolbar");
-				this.logger.log(3, "constructor", "entry > " + this.pub);
+			this.logger = new Logger("Toolbar");
+			this.logger.log(3, "constructor", "entry > " + this.pub);
 
-				this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
-				this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
+			this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
+			this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
 
-				this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
-				this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
-				this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
-				this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
-				this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
+			this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
+			this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
+			this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
+			this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
+			this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
 
-				this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
-				this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
-				this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
+			this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
+			this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
+			this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
 
-				this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
-				this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-				this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
-				this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
-				this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
+			this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
+			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
+			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
+			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
+			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
 
-				var btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
-				btn.updateLabel = false;
-				btn.setLabel('<span class="mdi mdi-menu"></span>');
-				btn.setOptions(this.getMainMenu());
-				btn.placeAt(this.home);
-				css.add(btn.domNode, "MatcToolbarItem");
-
+			var btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
+			btn.updateLabel = false;
+			btn.setLabel('<span class="mdi mdi-menu"></span>');
+			btn.setOptions(this.getMainMenu());
+			btn.placeAt(this.home);
+			css.add(btn.domNode, "MatcToolbarItem");
 		},
 
 
@@ -356,6 +359,14 @@ export default {
 		 * Mian menu handlers
 		 ********************************************************/
 
+		onDoubleClick () {
+			this.logger.log(-1,"onDoubleClick", "entry ", this.isDeveloperMode);
+			this.isDeveloperMode = !this.isDeveloperMode
+			if (this.isDeveloperMode && this.canvas) {
+				this.canvas.showSuccess("Ninja mode enabled!")
+			}
+		},
+
 		onExit (){
 			this.logger.log(-1,"onExit", "entry > " + this.pub);
 			this.active = false;
@@ -437,6 +448,7 @@ export default {
 					this._selectionID = widget.id;
 					this.showWidgetProperties(widget);
 					this.showCopyPaste();
+					this.showDevTools()
 					this.showTools();
 					this.showTemplate(widget);
 
@@ -486,6 +498,7 @@ export default {
 						this._selectedScreen = screen;
 						this.showScreenProperties(screen);
 						this.showCopyPaste();
+						this.showDevTools()
 					} else {
 						this.logger.error("onScreenSelected", "exit > no screen passed");
 					}
@@ -534,6 +547,7 @@ export default {
 					this.showTemplate(group);
 					this.showTools();
 					this.showGroupProperties(group);
+					this.showDevTools()
 				} catch(e){
 					console.error(e);
 					this.logger.sendError(e);
@@ -769,9 +783,7 @@ export default {
 
 		onNewThemeObject (obj, e){
 			this.logger.log(1,"onNewThemeObject", "entry > " + obj._type + " > " + obj.type+ " > " +obj._isTemplate);
-			var type = obj._type;
-
-
+			const type = obj._type;
 
 			/**
 			 * remove here some of the shit not needed
@@ -781,6 +793,7 @@ export default {
 			delete obj._group;
 			delete obj.category;
 			delete obj.subcategory;
+			delete obj._previewSize
 			/**
 			 * Now dispatch the the right listener
 			 */
@@ -789,12 +802,14 @@ export default {
 				 * special handling for templates
 				 */
 				this.emit("newTemplated"+type, {"id" : obj.id, "event" : e});
-			} else if(type == "Screen"){
+			} else if(type === "Screen"){
 				this.emit("newThemedScreen", {"obj" : obj, "event" : e});
-			} else if(type =="Group"){
+			} else if(type === "Group"){
 				this.emit("newThemedGroup", {"obj" : obj, "event" : e});
-			} else if (type == "Widget"){
+			} else if (type === "Widget"){
 				this.emit("newThemedWidget",{"obj" : obj, "event" : e} );
+			} else if (type === "ScreenAndWidget") {
+				this.emit("newThemedScreenAndWidget",{"obj" : obj, "event" : e} );
 			}
 		},
 
@@ -1082,7 +1097,7 @@ export default {
 
 		onToolCreateTheme (e){
 			this.stopEvent(e);
-			this.showThemeCreateDialog();
+			this.showThemeCreateDialog(e);
 		},
 
 		onToolRemoveTemplate (e) {

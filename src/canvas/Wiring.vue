@@ -286,7 +286,7 @@ export default {
 			},
 
 			dispatchMouseDownCanvas (e) {
-				this.logger.log(-1,"dispatchMouseDownCanvas", "enter", e, this.mode);
+				this.logger.log(1,"dispatchMouseDownCanvas", "enter", e, this.mode);
 
 				if(this.mode == "addLine") {
 					this.onLinePointSelected(e)

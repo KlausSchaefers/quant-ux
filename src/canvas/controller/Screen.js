@@ -456,8 +456,6 @@ export default class Screen extends CopyPaste {
 
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
 
-
-
 		let screen = this.model.screens[id];
 		if (screen) {
 
@@ -468,7 +466,6 @@ export default class Screen extends CopyPaste {
 			if (!isMove) {
 				pos.x = screen.x
 				pos.y = screen.y
-
 			}
 
 			/**
@@ -1182,14 +1179,33 @@ export default class Screen extends CopyPaste {
 	}
 
 	/**********************************************************************
-	 * Sketch Import
+	 * Add Screens and Widgets
 	 **********************************************************************/
 
-
-	addScreensAndWidgets (result){
-		this.logger.log(0,"addScreensAndWidgets", "enter > ");
+	addScreensAndWidgets (result, pos){
+		this.logger.log(-1,"addScreensAndWidgets", "enter > ", pos);
 
 		var app = this._createScreenAndWidgets(result);
+
+		if (pos) {
+			this.logger.log(-1,"addScreensAndWidgets", "fix position", pos);
+			pos = this.getUnZoomedBox(pos, this.getZoomFactor());
+			if (app.screens) {
+				Object.values(app.screens).forEach(screen => {
+					screen.x += pos.x
+					screen.y += pos.y
+					console.debug('fix', screen.name, screen.x, screen.y)
+					return screen
+				})
+			}
+			if (app.widgets) {
+				Object.values(app.widgets).forEach(widget => {
+					widget.x += pos.x
+					widget.y += pos.y
+					return widget
+				})
+			}
+		}
 
 		/**
 		 * create the command
@@ -1241,10 +1257,10 @@ export default class Screen extends CopyPaste {
 		var screenIdMapping = {};
 		for(let screenID in screens){
 			let screen = screens[screenID];
+		
 			let newID = "s"+this.getUUID();
 			screen.id = newID;
 			tempScreens[newID] = screen;
-
 			screenIdMapping[screenID] = newID
 
 			var tempChildren = [];

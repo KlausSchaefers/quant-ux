@@ -59,7 +59,7 @@
 	"type" : "ToggleButton",
 	"_type" : "Widget",
 	"_extends" : "OpenUI5Button",
-	"category" : "Fiori",
+	"category" : "OpenUI",
 	"subcategory" : "FormButton",
 	"name" : "Toggle Button",
 	"props" : {

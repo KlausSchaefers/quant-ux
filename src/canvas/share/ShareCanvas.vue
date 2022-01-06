@@ -546,10 +546,10 @@ export default {
       );
     },
 
-		dispatchMouseDownCanvas (e) {
-			this.logger.log(-1,"dispatchMouseDownCanvas", "enter", e, this.mode);
-			this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, e);
-		},
+	dispatchMouseDownCanvas (e) {
+		this.logger.log(1,"dispatchMouseDownCanvas", "enter", e, this.mode);
+		this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, e);
+	},
 
     dispatchMouseDownScreen(e, id) {
       this.logger.log(-1, "dispatchMouseDownScreen", "enter", id);

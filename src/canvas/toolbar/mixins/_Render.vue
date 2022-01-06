@@ -54,31 +54,31 @@ export default {
     mixins:[_Tooltip, DojoWidget],
     data: function () {
         return {
-					hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox",
-								"TextArea", "Password", "SegmentButton", "ToggleButton", "Table", 'Tree', 'VerticalNavigation', 'Paging'],
-					hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
-								"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
-								"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
-								"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest",
-								'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline'],
-					hasActiveData: ["DateDropDown"],
-					// validation == databining
-					hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
-									"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
-									"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
-									"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
-									'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
-									'Table', 'Paging', 'Timeline', 'LabeledIconToggle'],
-					hasLogic2: ["LogicOr", "Rest"],
-					hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
-					hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
-					hasCheckedViewMode : ["CheckBox", "RadioBox"],
-					hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload'],
-					hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation", "Stepper", "Paging"],
-					hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
-					hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton"],
-					hasRotate: ['Image', 'Icon'],
-					hideAction: ['ScreenSegment']
+			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox",
+						"TextArea", "Password", "SegmentButton", "ToggleButton", "Table", 'Tree', 'VerticalNavigation', 'Paging'],
+			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
+						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
+						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
+						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest",
+						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline'],
+			hasActiveData: ["DateDropDown"],
+			// validation == databining
+			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
+							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
+							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
+							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
+							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
+							'Table', 'Paging', 'Timeline', 'LabeledIconToggle'],
+			hasLogic2: ["LogicOr", "Rest"],
+			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
+			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
+			hasCheckedViewMode : ["CheckBox", "RadioBox"],
+			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload'],
+			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "VerticalNavigation", "Stepper", "Paging"],
+			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
+			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton"],
+			hasRotate: ['Image', 'Icon'],
+			hideAction: ['ScreenSegment']
       }
 	},
     components: {},
@@ -216,10 +216,9 @@ export default {
 
 				this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Responsive Resize</label>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);
 
-				if(this.user.role=="admin"){
-					//this.createSpacer(this.templateDiv);
-					this.createThemeBtn = this.createToolBarItem('<span class="glyphicon glyphicon-cloud-download"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.templateDiv);
-				}
+		
+				this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
+				
 
 				this.logger.log(3,"renderToolbar", "exit");
 			},
@@ -1369,6 +1368,7 @@ export default {
 				if(this.user.role=="guest"){
 					// css.remove(this.signupSection,"MatcToolbarSectionHidden" );
 				}
+				
 			},
 
 

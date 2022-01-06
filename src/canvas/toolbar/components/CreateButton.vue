@@ -64,7 +64,7 @@ export default {
     mixins:[Util, DojoWidget, _DropDown],
     data: function () {
         return {
-           screenWidth : 300,
+        	screenWidth : 300,
 			screenHeight : 600,
 			selectedCategory : "WireFrame",
 			showSubCatgeoryLabels : false,
@@ -200,12 +200,17 @@ export default {
 				/**
 				 * sort into categories
 				 */
-				for(let i=0; i< themes.length; i++){
+				for (let i=0; i< themes.length; i++){
 					let theme = themes[i];
-					if(theme.id){
+					if (theme.id){
 						let category = theme.category;
 						if(!categories[category]){
 							categories[category] = {};
+						}
+						// add categories omn demand
+						if (this.categoriesList.indexOf(category) === -1) {
+							console.warn('CreateButton.onThemesLoaded() > Found new category. Consinder updating the CreateButton.vue componenet', category)
+							this.categoriesList.push(category)
 						}
 						if(!categories[category][theme.id]){
 							categories[category][theme.id] = (theme);
@@ -319,9 +324,21 @@ export default {
 						box.h = Math.round(this.screenHeight);
 					}
 
-					if(box.children){
-						for(var i=0; i< box.children.length; i++){
+					if (box.children){
+						for (let i = 0; i < box.children.length; i++){
 							this.setDefaultValues(box.children[i]);
+						}
+					}
+
+					if (box.screens) {
+						for (let id in box.screens){
+							this.setDefaultValues(box.screens[id]);
+						}
+					}
+
+					if (box.widgets) {
+						for (let id in box.widgets){
+							this.setDefaultValues(box.widgets[id]);
 						}
 					}
 				}
@@ -333,13 +350,11 @@ export default {
 				/**
 				 * first sort and pr
 				 */
-				var db = new DomBuilder();
+				let db = new DomBuilder();
 				this._lis = {};
 				var ul = db.ul("").build();
-
-				var cats = this.categoriesList;
-
-				for(var i=0; i< cats.length; i++){
+				const cats = this.categoriesList;
+				for (let i=0; i< cats.length; i++){
 					let category = cats[i];
 					let li = db.li().build(ul);
 					let label = category;
@@ -695,7 +710,7 @@ export default {
 
 
 				var db = new DomBuilder();
-				var size = this._getPreviewSize(category);
+			
 				var cntr = db.div().build();
 
 				if(elements.length === 0){
@@ -710,43 +725,25 @@ export default {
 
 				} else {
 
-					var categoryCntr = null;
-					var lastSubCat = null;
-
-					this.renderAddButton(db, size, cntr);
 					for (let i =0; i < elements.length; i++) {
-						var child = elements[i];
+						let child = elements[i];
+						let size = this._getPreviewSize(child);
 
-						if (this.showSubCatgeoryLabels && !this.searchQuery && child.subcategory != lastSubCat){
-
-							if (this.showSubCatgeoryLabels=="inline"){
-								categoryCntr = db.div("MatcCreateBtnElement ").h3("",child.subcategory).build(cntr);
-								domStyle.set(categoryCntr, {
-									"width" :  size.w + "px",
-									"height" : size.h + "px",
-								});
-							}
-
-							if(this.showSubCatgeoryLabels=="row"){
-								categoryCntr = db.div("MatcCreateSubCategory").h3("",child.subcategory).build(cntr);
-							}
-
-						}
-						lastSubCat = child.subcategory;
-
-						var div = db.div("MatcCreateBtnElement MatcToolbarDropDownButtonItem").build(cntr);
+						let div = db.div("MatcCreateBtnElement MatcToolbarDropDownButtonItem").build(cntr);
 						if (elements.length === 1) {
 							css.add(div, 'MatcCreateBtnElementSelected')
 						}
 
-						var preview = db.div("MatcCreateBtnElementPreview").build(div);
+						let preview = db.div("MatcCreateBtnElementPreview").build(div);
 						css.add(preview, child.category);
 						domStyle.set(preview, {
 							"width" :  size.w + "px",
 							"height" : size.h + "px",
 						});
 
-						if(child.type != "Group"){
+						if (child.type === "ScreenAndWidget") {
+							this.renderScreenAndWidget(child, preview, db, size, isTemplate, div)
+						} else if(child.type != "Group"){
 							this.renderWidget(child, preview, db, size, isTemplate, div);
 						} else {
 							this.renderGroup(child, preview, db, size, isTemplate, div);
@@ -773,8 +770,72 @@ export default {
 
 			},
 
+			renderScreenAndWidget (app, preview, db, size, isTemplate, elementDiv){
 
-			renderAddButton (){
+				console.debug('renderScreenAndWidget', app.name, app)
+				
+				this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", app)));
+
+				// FIXME: Somehow scale to model minscreen size??
+			
+				let screens = Object.values(app.screens)
+				if (screens.length === 1) {
+					let screen = screens[0]
+
+					let scale = this.getScale(size, "auto", screen)
+					scale.x = Math.min(1, scale.x)
+					scale.y = Math.min(1, scale.y)
+			
+					let scalledScreen = this._getScalledChild(screen, size);
+					let centeredBox = this._createCenteredBox(db, preview, scalledScreen, size);
+
+					/**
+					 * Create screen box
+					 */
+					let screenBox = db.div("MatcBox").build(centeredBox);
+					domStyle.set(screenBox, {
+						"width" :  (scalledScreen.w) + "px",
+						"height" : (scalledScreen.h) + "px",
+						"top": "0px",
+						"left": "0px",
+					});
+					this.renderFactory.setStyle(screenBox, screen);
+
+					/**
+					 * render children
+					 */
+					const children = screen.children;
+					for (let i=0; i< children.length; i++) {
+						let childID = children[i]
+						let widget = app.widgets[childID]
+						if (widget) {
+							let child = lang.clone(widget);
+							this.renderChildWidget(child, scale, screen, screenBox, db, i)
+						} else {
+							console.debug("CreateButton.renderScreenAndWidget() > No widget with id", childID);
+						}
+					}
+				}
+			},
+
+			renderChildWidget (child, scale, parent, parentDiv, db, i) {
+				child.w *= scale.x;
+				child.x *= scale.x;
+				child.h *= scale.y;
+				child.y *= scale.y;
+				try{
+					child.id = parent.id +"_" + i;
+					var widgetBox = db.div("MatcBox").build(parentDiv);
+					domStyle.set(widgetBox, {
+						"width" :  Math.round(child.w) + "px",
+						"height" : Math.round(child.h) + "px",
+						"top" : (child.y) + "px",
+						"left" : (child.x) + "px",
+					});
+					this.renderFactory.createWidgetHTML(widgetBox, child);
+				} catch(e){
+					console.debug("CreateButton.renderChildWidget() > Error", e);
+				}
 			},
 
 
@@ -783,7 +844,7 @@ export default {
 				/**
 				 * template groups are rendered differently
 				 */
-				if(isTemplate){
+				if (isTemplate){
 
 					this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", group)));
 
@@ -801,20 +862,9 @@ export default {
 					 * now render group
 					 */
 					let children = this.getTemplateGroupOrderChildren(group);
-					for(let i=0; i< children.length; i++){
+					for (let i=0; i< children.length; i++){
 						child = lang.clone(children[i]);
-						child.w *= scale.x;
-						child.x *= scale.x;
-						child.h *= scale.y;
-						child.y *= scale.y;
-						let widgetBox = db.div("MatcBox").build(box);
-						domStyle.set(widgetBox, {
-							"width" :  (child.w) + "px",
-							"height" : (child.h) + "px",
-							"top" : (child.y) + "px",
-							"left" : (child.x) + "px",
-						});
-						this.renderFactory.createWidgetHTML(widgetBox, child);
+						this.renderChildWidget(child, scale, screen, box, db, i)
 					}
 				} else {
 
@@ -829,30 +879,9 @@ export default {
 					let box = this._createCenteredBox(db, preview, child, size);
 
 					var children = group.children;
-					for(let i=0; i< children.length; i++){
-						// FIXME: call clone
+					for (let i=0; i< children.length; i++){
 						child = lang.clone(children[i]);
-						child.w *= scale.x;
-						child.x *= scale.x;
-						child.h *= scale.y;
-						child.y *= scale.y;
-						try{
-							//if(!child.id){
-							//	console.warn("Theme without child id");
-							child.id = group.id +"_" + i;
-							//}
-							var widgetBox = db.div("MatcBox").build(box);
-							domStyle.set(widgetBox, {
-								"width" :  (child.w) + "px",
-								"height" : (child.h) + "px",
-								"top" : (child.y ) + "px",
-								"left" : (child.x) + "px",
-							});
-
-							this.renderFactory.createWidgetHTML(widgetBox, child);
-						} catch(e){
-							console.debug("Error", e);
-						}
+						this.renderChildWidget(child, scale, screen, box, db, i)
 					}
 				}
 			},
@@ -931,14 +960,16 @@ export default {
 				this.emit("change", value ,e);
 			},
 
-			_getPreviewSize (category){
-				if(this.previewSizes[category]){
-					return this.previewSizes[category];
+			_getPreviewSize (child){
+				if (child._previewSize) {
+					return child._previewSize
+				}
+				let type = child.type
+				if(this.previewSizes[type]){
+					return this.previewSizes[type];
 				}
 				return this.previewSizes["default"];
 			},
-
-
 
 			highlight (){
 				var parent = this.domNode.parentNode;

@@ -63,7 +63,7 @@ export default {
 			 **********************************************************************/
 
 			renderFlowViewFast (sourceModel, zoomedModel, isResize = false){
-				this.logger.log(-1,"renderFlowViewFast", "enter");
+				this.logger.log(1,"renderFlowViewFast", "enter");
 
 
 				/**
@@ -166,7 +166,7 @@ export default {
 				this.renderSelection();
 				this.renderDistance();
 
-				this.logger.log(-1, "renderFlowViewFast", "exit > #update: " + this.renderChangeCounter + ' > #new : '+ this.renderCreateCounter , (new Date().getTime() - this.renderStartTime) +'ms');
+				this.logger.log(1, "renderFlowViewFast", "exit > #update: " + this.renderChangeCounter + ' > #new : '+ this.renderCreateCounter , (new Date().getTime() - this.renderStartTime) +'ms');
 			},
 
 			countNodes (node) {

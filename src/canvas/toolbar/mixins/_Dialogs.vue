@@ -412,7 +412,7 @@ export default {
 			}
 		},
 
-		showThemeCreateDialog:function(){
+		showThemeCreateDialog (e){
 
 			var db = new DomBuilder();
 			var div = db.div("MatcDialogXL MatcPadding").build();
@@ -420,10 +420,10 @@ export default {
 
 			let category = this.model.lastCategory ? this.model.lastCategory : 'XXX'
 
-			if(this._selectedGroup){
+			if (this._selectedGroup){
 
-				var boundingBox = this.getBoundingBox(this._selectedGroup.children);
-				var group = {
+				let boundingBox = this.getBoundingBox(this._selectedGroup.children);
+				let group = {
 					 "id" : "XXX",
 					 "type" : "Group",
 					 "_type" : "Group",
@@ -432,10 +432,10 @@ export default {
 					 "subcategory" : "XXX",
 					 "children":[]
 				}
-				var children = this.sortChildren(this._selectedGroup.children);
-				for(var i=0; i< children.length; i++){
+				let children = this.sortChildren(this._selectedGroup.children);
+				for (let i=0; i< children.length; i++){
 					var org = children[i];
-					var widget = lang.clone(org);
+					let widget = lang.clone(org);
 					delete widget.created
 					delete widget.modified
 					delete widget.z
@@ -467,11 +467,68 @@ export default {
 				delete widget.copyOf
 				txt.value = JSON.stringify(widget,null, '  ');
 			}
+
+			if (this._selectedScreen){
+				let app = {
+					type: 'ScreenAndWidget',
+					_type: 'ScreenAndWidget',
+					id: this._selectedScreen.name,
+					name: this._selectedScreen.name,
+					category: category,
+					subcategory: 'AAA',
+					screens: {},
+					widgets: {},
+					lines: {},
+					groups: {}
+				}
+				let screen = lang.clone(this._selectedScreen)
+				screen._type = "Screen"
+				screen.category = category
+				screen.subcategory = "XXX"
+				screen.id = screen.name
+				screen.children = []
+				screen.w = '$100%'
+				screen.h = '$100%'
+				screen.x = 0
+				screen.y = 0
+
+				app.screens[screen.id] = (screen)
+
+				let children = this.sortChildren(this._selectedScreen.children);
+				for (let i=0; i< children.length; i++){
+					let org = children[i];
+					let widget = lang.clone(org);
+					delete widget.created
+					delete widget.modified
+					delete widget.z
+					delete widget.template
+					delete widget.copyOf
+					widget._type = "Widget"
+					widget.style = this.getStyle(org);
+					widget.x = widget.x - screen.x;
+					widget.y = widget.y - screen.y;
+					widget.id = this._selectedScreen.name+i;
+					widget.z = null;
+					widget.template = null;
+					screen.children.push(widget.id);
+					app.widgets[widget.id] = (widget)
+				}
+				delete screen.created
+				delete screen.modified
+				delete screen.x
+				delete screen.y
+				delete screen.z
+				delete screen.min
+				delete screen.template
+				delete screen.copyOf
+				txt.value = JSON.stringify(app,null, '  ');
+			}
+
 			var bar = db.div("MatcButtonBar MatcMarginTop").build(div);
-			var cancel = db.a("MatcLinkButton", "Cancel").build(bar);
+			var cancel = db.a("MatcButton", "Close").build(bar);
 			var d = new Dialog();
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
-			d.popup(div, this.domNode);
+			d.popup(div, e.target);
 
 			this.logger.log(0,"showThemeCreateDialog", "exit > ");
 		},

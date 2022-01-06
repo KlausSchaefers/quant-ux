@@ -379,7 +379,7 @@ export default class BaseController extends Core {
 	}
 
 	collabBroadcastChanges (changes) {
-		this.logger.log(-1, "collabBroadcastChanges", "enter " , changes);
+		this.logger.log(1, "collabBroadcastChanges", "enter " , changes);
 
 		if (this.collabService && this.collabChangeListener) {
 			let event = this.collabService.createEvent(changes)
