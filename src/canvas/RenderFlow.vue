@@ -71,8 +71,6 @@ export default {
 				 * called after selection exit or so
 				 */
 
-				// console.debug(new Error().stack)
-
 				this.beforeRender();
 				this.cleanUpFast(isResize);
 				this.renderCanvas();
@@ -131,7 +129,7 @@ export default {
 
 						this.renderCreateCounter++;
 					} else {
-							this.updateWidget(widget, zoomedWidget, i, isResize);
+						this.updateWidget(widget, zoomedWidget, i, isResize);
 					}
 				}
 
@@ -387,18 +385,19 @@ export default {
 				this.logger.log(4,"renderWidget", "enter");
 
 				/**
-					* check if we have to create div again.. Also used as indicator
-					* if the widget was rendered!
-					*/
+				 * check if we have to create div again.. Also used as indicator
+				 * if the widget was rendered!
+				 */
 				var div = null;
 				if (!this.widgetBackgroundDivs[widget.id] && !this.isElementHidden(widget)){
 
 					/**
-						* create dnd
-						*/
+					 * create dnd from zoomedWidget
+					 */
 					if (this.renderDND && !this.isElementLocked(widget)) {
 						div = this.createWidgetDnD(zoomedWidget);
-						if(widget.inherited){
+						//console.debug("rederDND", div, zoomedWidget)
+						if (widget.inherited){
 							css.add(div, "MatcWidgetDNDInherited");
 						}
 						this.widgetDivs[widget.id] = div;
@@ -406,8 +405,8 @@ export default {
 					}
 
 					/**
-						* Create background
-						*/
+					 * Create background
+					 */
 					let divBack = this.createWidget(widget);
 					this.screenContainer.appendChild(divBack);
 					this.widgetBackgroundDivs[widget.id] = divBack;

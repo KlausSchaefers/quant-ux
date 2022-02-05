@@ -10,14 +10,14 @@ export default {
     mixins:[],
     data: function () {
         return {
-					zoomStep: 0.05,
-					isFireFox: false,
-					zoom: 1.0,
-					lastMouseWheel: 0,
-					mouseZoomEnabled: true,
-					mouseWheelMode: "scroll",
-					zoomWithCSS: false,
-					zoomAnimationRunning: false
+			zoomStep: 0.05,
+			isFireFox: false,
+			zoom: 1.0,
+			lastMouseWheel: 0,
+			mouseZoomEnabled: true,
+			mouseWheelMode: "scroll",
+			zoomWithCSS: false,
+			zoomAnimationRunning: false
         }
     },
 	components: {},

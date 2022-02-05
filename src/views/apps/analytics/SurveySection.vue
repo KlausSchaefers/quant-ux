@@ -102,7 +102,7 @@ export default {
             }
           })
           if (count > 0) {
-            result.push(sum / count)
+            result.push(Math.round((sum / count) * 100) / 100)
           } else {
             result.push('-')
           }

@@ -181,7 +181,7 @@ export default {
 
 				let div = this.widgetDivs[widget.id];
 				if (widget.inherited){
-					this.onInheritedWidgetSelected(widget);
+					this.onInheritedWidgetSelected(widget.id);
 					return
 				}
 

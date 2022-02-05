@@ -44,6 +44,11 @@ export default {
       },
 
 
+      _updateGroupResizeHandlers (children,groupID, type) {
+          var boundingBox = this.getBoundingBox(children);
+          this._updateResizeHandlers(boundingBox,groupID, null, type, true);
+      },
+
 
 
       showResizeHandles (box, id, parent, modelType, drawLines) {
@@ -164,8 +169,7 @@ export default {
       },
 
       _updateResizeHandlers (box){
-
-
+       
         if (this.handlers && box && this.resizeEnabled) {
           if (this.handlers['LeftUp']) {
             this.handlers['LeftUp'].style.top = box.y  + (-1* this.resizeButtonSize) + "px";

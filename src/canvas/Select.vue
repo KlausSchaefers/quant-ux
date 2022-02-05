@@ -41,59 +41,71 @@ import topic from 'dojo/topic'
 				return false
 			},
 
-      onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
-					this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
+      
+	 
+	 		onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
+				this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 
-					/**
-					 * Check here if the widget was select a second time. In this case
-					 * trigger the inline edit unless the forceSelection flag is set. This happens
-					 * normally only after a complete rendering. Check this.renderSelection() for
-					 * more details.
-					 */
-					if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
-						topic.publish("matc/canvas/click", "", "");
-						this.inlineEditInit(this._selectWidget);
+				/**
+				 * Check here if the widget was select a second time. In this case
+				 * trigger the inline edit unless the forceSelection flag is set. This happens
+				 * normally only after a complete rendering. Check this.renderSelection() for
+				 * more details.
+				 */
+				if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
+					topic.publish("matc/canvas/click", "", "");
+					this.inlineEditInit(this._selectWidget);
+				} else {
+					this.onSelectionChanged(id, "widget");
+					if (this.model.widgets[id]){
+						this._selectWidget = this.model.widgets[id];
+
+						if (ignoreParentGroups === true) {
+							this._dragNDropIgnoreGroup = true
+						}
+
+						var parent = this.widgetDivs[id];
+						if (parent){
+							if (this.showCustomHandlers) {
+								this.showCustomHandlers(this._selectWidget, parent)
+							}
+							this.showResizeHandles(this._selectWidget,id, parent, "widget", true);
+							this.selectBox(parent);
+							this.selectDnDBox(id);
+						}
+						this.controller.onWidgetSelected(id);
 					} else {
-						this.onSelectionChanged(id, "widget");
-						if (this.model.widgets[id]){
-							this._selectWidget = this.model.widgets[id];
-
-							if (ignoreParentGroups === true) {
-								this._dragNDropIgnoreGroup = true
-							}
-
-							var parent = this.widgetDivs[id];
-							if (parent){
-								if (this.showCustomHandlers) {
-									this.showCustomHandlers(this._selectWidget, parent)
-								}
-								this.showResizeHandles(this._selectWidget,id, parent, "widget", true);
-								this.selectBox(parent);
-								this.selectDnDBox(id);
-							}
-							this.controller.onWidgetSelected(id);
-						} else {
-							console.warn("onWidgetSelected() > No widget with id", id);
-						}
+						console.warn("onWidgetSelected() > No widget with id", id);
 					}
-					css.add(this.domNode, "MatcCanvasSelection");
-					try {
-						if (this.selectionListener) {
-							this.selectionListener.selectWidget(id);
-						}
-					} catch (e){
-						console.debug(e)
-						this.logger.error("onWidgetSelected", "could not call selectionListener > ", e);
+				}
+				css.add(this.domNode, "MatcCanvasSelection");
+				try {
+					if (this.selectionListener) {
+						this.selectionListener.selectWidget(id);
 					}
-		},
+				} catch (e){
+					console.debug(e)
+					this.logger.error("onWidgetSelected", "could not call selectionListener > ", e);
+				}
+			},
 
-		onInheritedWidgetSelected (widget) {
-			this.logger.log(3,"onInheritedWidgetSelected", "enter > "+ widget.id);
-			this.controller.onInheritedWidgetSelected(widget);
-			var parent  = this.widgetDivs[widget.id];
-			this.selectBox(parent);
-			this.showResizeHandles(widget, widget.id, parent, "inheritedWidget", true);
-		},
+			onInheritedWidgetSelected (id) {
+				this.logger.log(-3,"onInheritedWidgetSelected", "enter > "+id);
+			
+				let widget = this.model.widgets[id];
+				if (widget){
+
+					this.onSelectionChanged(id, "inheritedWidget");
+					this.controller.onInheritedWidgetSelected(widget);
+					var parent  = this.widgetDivs[widget.id];
+					this._selectInheritedWidget = widget
+					this.selectBox(parent);
+					this.showResizeHandles(widget, widget.id, parent, "inheritedWidget", true);
+				} else {
+					this.logger.log(-3,"onInheritedWidgetSelected", "cannot find > " + id);
+				}
+				
+			},
 
 
 		onScreenSelected (id){
@@ -258,6 +270,7 @@ import topic from 'dojo/topic'
 			this._selectWidget = null;
 			this._selectMulti = null;
 			this._selectGroup = null;
+			this._selectInheritedWidget = null
 
 			css.remove(this.domNode, "MatcCanvasSelection");
 
@@ -309,6 +322,58 @@ import topic from 'dojo/topic'
 
 			if(this._selectGroup){
 				this.onGroupSelected(this._selectGroup.id, true);
+			}
+
+			if (this._selectInheritedWidget) {
+				this.onInheritedWidgetSelected(this._selectInheritedWidget.id, true);
+			}
+		},
+
+		updateSelection () {
+			this.logger.log(5,"updateSelection", "enter > ");
+	
+			/**
+			 * Since 4.0.40 we can just update the resizeHandlers for zooms etc.
+			 * We still provide a call to renderSelection() as fallback
+			 */
+			let box = this.getSelectedBox()
+			if (box) {
+				this._updateResizeHandlers(box)
+			} else {
+				this.logger.error("updateSelection", "could not find box > ");
+				this.logger.sendError(new Error('updateSelection() > could not find box'))
+				this.renderSelection()
+			}
+		},
+
+		getSelectedBox () {
+			if (this._selectWidget){
+				if(this.model.widgets[this._selectWidget.id]){
+					return this.model.widgets[this._selectWidget.id]
+				}
+			}
+
+			if(this._selectedScreen){
+				if(this.model.screens[this._selectedScreen.id]){
+					return this.model.screens[this._selectedScreen.id]
+				}
+			}
+
+			if (this._selectMulti){
+				let boundingBox = this.getBoundingBox(this._selectMulti);
+				return boundingBox
+			}
+
+			if (this._selectGroup){
+				let children = this.getAllGroupChildren(this._selectGroup)
+				let boundingBox = this.getBoundingBox(children);
+				return boundingBox
+			}
+
+			if (this._selectInheritedWidget) {
+				if(this.model.widgets[this._selectInheritedWidget.id]){
+					return this.model.widgets[this._selectInheritedWidget.id]
+				}
 			}
 		},
 

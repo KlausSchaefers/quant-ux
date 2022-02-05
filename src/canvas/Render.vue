@@ -318,9 +318,10 @@ export default {
 				this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
 				this.updateDnD(this.model)
 				/**
-				 * FIXME This will also trigger the toolabr select. Can we ignore this?
+				 * 4.0.40: We do not call renderSelection(),as this would also update the 
+				 * property panel. We just need to update the seelction handlers
 				 */
-				this.renderSelection();
+				this.updateSelection();
 				this.renderDistance();
 			}
 		},
@@ -347,6 +348,9 @@ export default {
 				/**
 				 * We keep here the sourceModel for rendering and zooming.
 				 * The rest stays as is with the zoomedModel as this.model
+				 * 
+				 * The sourceModel is used to draw tge elements on the zoomable
+				 * background, whereas the model is used to handle DND
 				 */
 				this.sourceModel = ModelUtil.inlineTemplateModifies(sourceModel);
 				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
