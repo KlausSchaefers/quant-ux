@@ -348,7 +348,7 @@ export default {
 				}
 				if(	this._splashTime > 0){
 
-					this.logger.log(-1,"setModel","show splash");
+					this.logger.log(1,"setModel","show splash");
 					/**
 					 * If we can by splash screen make sure we show it long enough...
 					 */
@@ -455,6 +455,7 @@ export default {
 			this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 			this.model = Core.addContainerChildrenToModel(this.model);
 			this.model = ModelUtil.inlineTemplateStyles(this.model)
+			this.model = ModelUtil.updateInheritedRefs(this.model)
 
 			this.initParent();
 

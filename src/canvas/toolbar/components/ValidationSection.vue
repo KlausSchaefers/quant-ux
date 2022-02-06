@@ -443,8 +443,9 @@ export default {
 				scroller.wrap(tbl);
 
 				var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-				var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+		
 				var write = this.db.div("MatcButton", "Ok").build(bar);
+				var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 				var d = new Dialog({overflow:true});
 

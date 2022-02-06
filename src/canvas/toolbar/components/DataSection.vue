@@ -468,10 +468,10 @@ export default {
 				this._renderCheck("Text is placeholder",model.props.placeholder, "placeholder" );
 				this._renderCheck("Focus on load",model.props.focus, "focus" );
 				this._renderLabelDropDown("Normal", model,"stringCase",[
-								{ value: null, icon:"mdi mdi-briefcase-check", label : "Normal"},
-									{ value:"UpperCase", icon:"mdi mdi-briefcase-upload", label : "Upper Case"},
-									{ value: "LowerCase", icon:"mdi mdi-briefcase-download", label : "Lower Case"}
-					]);
+					{ value: null, icon:"mdi mdi-briefcase-check", label : "Normal"},
+					{ value:"UpperCase", icon:"mdi mdi-briefcase-upload", label : "Upper Case"},
+					{ value: "LowerCase", icon:"mdi mdi-briefcase-download", label : "Lower Case"}
+				]);
 			},
 
 			_showTypeAheadTextBox (model){
@@ -485,12 +485,12 @@ export default {
 				this._setSectionLabel("Rating");
 				this._renderColor('Color','<span class="mdi mdi-star"></span>',model.style.color, "color", "onStyleChanged" , true);
 				this._renderDropDown(model,"selected",[
-							{ value:0, label : "0 Star"},
-							{ value:1, label : "1 Star"},
-							{ value:2, label : "2 Stars"},
-							{ value:3, label : "3 Stars"},
-							{ value:4, label : "4 Stars"},
-							{ value:5, label : "5 Stars"},
+					{ value:0, label : "0 Star"},
+					{ value:1, label : "1 Star"},
+					{ value:2, label : "2 Stars"},
+					{ value:3, label : "3 Stars"},
+					{ value:4, label : "4 Stars"},
+					{ value:5, label : "5 Stars"}
 				]);
 			},
 
@@ -1325,16 +1325,12 @@ export default {
 			},
 
 			_showRefDialog (model, refElement, refId, e){
+			
 				this.stopEvent(e);
-
-
 				var popup = this.db.div("MatcOptionDialog MatcPadding").build();
 
 				var cntr = this.db.div("MatcDialogTable MatcDialogTableXL").build(popup);
-
-
 				var widgetsWidthDistance = this._getSortedReferenceableWidgets(model);
-
 
 				var scroller = this.$new(ScrollContainer);
 				scroller.placeAt(cntr);
@@ -1364,6 +1360,7 @@ export default {
 				var write = this.db.div("MatcButton", "Ok").build(bar);
 				var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
+		
 				var d = new Dialog({overflow:true});
 
 				d.own(on(write, touch.press, lang.hitch(this,"setReference", d, list, model, refId)));
