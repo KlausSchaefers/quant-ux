@@ -340,8 +340,7 @@ import topic from 'dojo/topic'
 			if (box) {
 				this._updateResizeHandlers(box)
 			} else {
-				this.logger.error("updateSelection", "could not find box > ");
-				this.logger.sendError(new Error('updateSelection() > could not find box'))
+				this.logger.log(3, "updateSelection", "could not find box > ");
 				this.renderSelection()
 			}
 		},
@@ -375,6 +374,8 @@ import topic from 'dojo/topic'
 					return this.model.widgets[this._selectInheritedWidget.id]
 				}
 			}
+			this.logger.log(1, "updateSelection", "No selection");
+			
 		},
 
 		getSelectedIds (){

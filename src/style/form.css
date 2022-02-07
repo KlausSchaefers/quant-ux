@@ -823,6 +823,11 @@ textarea.form-control.MatcTextAreaSmall{
 	overflow: hidden;
 }
 
+textarea.MatcTextAreaMedium {
+	height: 96px;
+	overflow: hidden;
+}
+
 .form-group .MatcDropDownButton{
 	display:block;
 	width: 100%;

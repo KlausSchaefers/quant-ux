@@ -1,5 +1,5 @@
 <template>
-  <div class="MatcTest">
+  <div class="MatcTest" @dragenter="onDragEnter" @dragleave="onDragLeave" @dragend="onDragEnd">
     <section class="section">
       <div class="container">
         <div class="box is-shadowless">
@@ -20,17 +20,45 @@
     <section class="section" data-dojo-attach-point="sectionDes">
       <div class="container">
         <div class="box is-shadowless">
-          <h2 data-nls="testSettingsDescription" class="title">Description</h2>
-          <textarea
-            class="input"
-            v-model="test.description"
-            data-gramm_editor="false"
-            @change="onDescriptionChange"
-            placeholder="Enter here a description that will be shown to your testers."
-          ></textarea>
+
+            <h2 class="title">Description</h2>
+            <textarea
+              class="input MatcTextAreaMedium"
+              v-model="test.description"
+              data-gramm_editor="false"
+              @change="onDescriptionChange"
+              placeholder="Enter here a description that will be shown to your testers."
+            ></textarea>
+        
         </div>
       </div>
     </section>
+
+    <section class="section" data-dojo-attach-point="sectionDes" v-if="false">
+      <div class="container">
+        <div class="box is-shadowless">
+        
+      
+            <h2 class="title">Custom Splash   
+              <HelpButton
+                topic="testing"
+                subtopic="testing.splash"
+                :hasNotifications="false"
+              /></h2>
+
+          
+              <div :class="['MatUploader MatUploaderDropZone', {'MatUploaderDropZoneHover': hasDragOver}]">
+                  <span class="MatcHint" v-if="!hasSplash">{{ getNLS('test.splash.upload')}}</span>
+                  <span v-else class="MatcToolbarDropDownButtonItem">
+                      <span class="mdi mdi-file-code-outline"/>
+                  </span>
+                  <input type="file" @change="onSplashChange" >
+              </div>
+        
+        </div>
+       
+      </div>
+      </section>
 
     <section class="section" data-dojo-attach-point="sectionTask">
       <div class="container">
@@ -72,6 +100,9 @@
     </section>
   </div>
 </template>
+<style lang="scss">
+  @import '../../../style/scss/upload.scss';
+</style>
 <script>
 import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
@@ -99,6 +130,7 @@ export default {
   data: function() {
     return {
       sessionCount: 10,
+      hasDragOver: false,
       bulletGraphSection: [
         {
           value: 5,
@@ -136,9 +168,25 @@ export default {
         return "examples";
       }
       return "apps";
+    },
+    hasSplash () {
+      return false
     }
   },
   methods: {
+    onDragEnter () {
+      this.hasDragOver = true
+    },
+    onDragLeave () {
+      this.hasDragOver = false
+    },
+    onDragEnd (e) {
+      this.logger.log(-1, "onDragEnd", "enter ", e);
+
+    },
+    onSplashChange () {
+
+    },
     onTaskChange(test) {
       this.$emit("change", lang.clone(test));
     },
