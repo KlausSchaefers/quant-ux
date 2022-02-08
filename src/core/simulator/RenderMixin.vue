@@ -393,6 +393,19 @@ export default {
 				div.appendChild(w);
 
 				/**
+				 * 
+				 * Since 4.0.41 we wire before setting data.
+				 * 
+				 * FIXME: Here is still a bug. ErrorLabels might
+				 * be rendered later, and thus might not 
+				 * be found and animated. We should fix the renderOrder,
+				 * and 1) render all widgets and 2) wire 3) set data
+				 * at last
+				 * 
+				 */
+				this.wireWidget(widget, screen, screenId, w)
+
+				/**
 				* 2.1.1 Do the data binding here, so that the repeater will
 				* return the correct children
 				*/
@@ -401,10 +414,7 @@ export default {
 					this.initDataBinding(uiWidget, screen);
 				}
 
-				/**
-				* Wire shit together
-				*/
-				this.wireWidget(widget, screen, screenId, w)
+			
 
 				/**
 				* For container widgets we wire all the children and add

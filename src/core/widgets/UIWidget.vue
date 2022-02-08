@@ -183,6 +183,19 @@ export default {
         var widgetVarialbe = databinding["default"];
         if (widgetVarialbe === variable) {
           this._setDataBindingValue(value);
+
+          /**
+           * Since 4.0.41 we force a validation
+           * after the data set set! We do this with some delay,
+           * 
+           * FIXME: ecause the 
+           * setDataBindign is called before the animation hooks are regsitered,
+           * we need a timehout
+           */
+          setTimeout(() => {
+            this.validate(value, true, true);
+          }, 10)
+      
           return true;
         }
       }
@@ -452,7 +465,7 @@ export default {
       return true;
     },
 
-    validate: function(value, showError) {
+    validate: function(value, showError, forceValidation) {
       /**
        * backup for legacy
        */
@@ -463,13 +476,14 @@ export default {
       var validation = this.model.props.validation;
       if (validation) {
         var isValid = this._validateValue(value);
-
+       
         /**
          * This can cause some validation messages to be swallowed.
          */
-        if (this.lastValidation != isValid) {
+        if (this.lastValidation != isValid || forceValidation) {
           if (!isValid) {
             if (showError) {
+              console.debug('SHOW ERROR')
               this.showErrorLabel();
               if (this.model.error) {
                 this.emitAnimation(
