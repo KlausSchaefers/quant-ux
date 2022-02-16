@@ -21,29 +21,29 @@ export default {
     data: function () {
         return {
             widgetOutputTypes: {
-							"ToggleButton" : "active",
-							"SegmentButton" : "options",
-							"DropDown" : "options",
-							"TextBox" : "string",
-							"TextArea" : "string",
-							"Password" : "string",
-							"CheckBox" : "checked",
-							"RadioBox" : "checked",
-							"RadioBox2" : "checked",
-							"HSlider" : "int",
-							"Spinner" : "options",
-							"Switch" : "active",
-							"DragNDrop" : "pos",
-							"Date" : "date",
-							"DateDropDown" : "date",
-							"RadioGroup": "options",
-							"CheckBoxGroup": "options"
-						}
+				"ToggleButton" : "active",
+				"SegmentButton" : "options",
+				"DropDown" : "options",
+				"TextBox" : "string",
+				"TextArea" : "string",
+				"Password" : "string",
+				"CheckBox" : "checked",
+				"RadioBox" : "checked",
+				"RadioBox2" : "checked",
+				"HSlider" : "int",
+				"Spinner" : "options",
+				"Switch" : "active",
+				"DragNDrop" : "pos",
+				"Date" : "date",
+				"DateDropDown" : "date",
+				"RadioGroup": "options",
+				"CheckBoxGroup": "options"
+			}
         }
     },
     components: {},
     methods: {
-        postCreate: function(){
+        postCreate (){
 			this.logger = new Logger("Rule");
 			this.db = new DomBuilder();
 		},
@@ -193,12 +193,12 @@ export default {
 				this.db.label(null,"Operator").build(row);
 				let drpBox = this.$new(DropDownButton, {maxLabelLength:25});
 				drpBox.setOptions([
-						{"value" : "==", label:"Equals (==)"},
+					{"value" : "==", label:"Equals (==)"},
 			    	{"value" : "!=", label:"Not Equals (!=)"},
 			    	{"value" : ">", label:"Bigger (>)"},
-						{"value" : "<", label:"Smaller (<)"},
+					{"value" : "<", label:"Smaller (<)"},
 				  	{"value" : ">=", label:"Bigger Equals (>=)"},
-						{"value" : "<=", label:"Smaller Eqauls(<=)"}
+					{"value" : "<=", label:"Smaller Eqauls(<=)"}
 				]);
 				drpBox.setValue(rule.operator)
 				drpBox.placeAt(row);

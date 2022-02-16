@@ -17,6 +17,7 @@ import Dialog from 'common/Dialog'
 import ToolbarDropDownButton from './ToolbarDropDownButton'
 import Rule from './Rule'
 import ActionSettings from './ActionSettings'
+import VariableActionSettings from './VariableActionSettings'
 import Util from 'core/Util'
 import DomUtil from 'core/FastDomUtil'
 
@@ -31,7 +32,7 @@ export default {
     },
     components: {},
     methods: {
-        postCreate: function(){
+        postCreate(){
 		},
 
 		setModel (m){
@@ -162,25 +163,10 @@ export default {
 					if (action.type === 'back') {
 						db.span("mdi mdi-ray-end-arrow MatcToolbarSmallIcon").build(item);
 						db.span("MatcToolbarItemLabel", "Navigate Back").build(item);
-					} else {
-						db.span("mdi mdi-xml MatcToolbarSmallIcon").build(item);
-						db.span("MatcToolbarItemLabel", "JavaScript").build(item);
-
-						/**
-						 * We should loop through all the callbacks in theorz, if we want
-						 * to allow multiple events
-						 */
-						let method = ''
-						if (action.callbacks && action.callbacks.length > 0) {
-							method = action.callbacks[0].method
-						}
-
-						let callBackInput = db.div('MatcToolbarItem MatcToolbarGridFull')
-						  .input('MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput', method, 'Enter callback name...')
-						  .build(parent)
-
-						this.tempOwn(on(callBackInput, 'blur', lang.hitch(this, "onSetActionCallback", widget, action, 'click', callBackInput)));
-					}
+					} 
+					if (action.type === 'variable') {
+						this.renderVariableAction(item, db, action)
+					} 
 
 					let removeBtn = db.span("MatcToobarRemoveBtn ")
 						.tooltip("Remove Action", "vommondToolTipRightBottom")
@@ -197,6 +183,7 @@ export default {
 			this.domNode.appendChild(parent);
 		},
 
+	
 
 		/**
 		 * This seems to be really slow. Maybe because of the call of $new()?
@@ -298,7 +285,8 @@ export default {
 			let result = [
 				{value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
 				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
-				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")}
+				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")},
+				{value:true, label:"Set Variable", icon:"mdi mdi-database-edit-outline", callback:lang.hitch(this, "onActionVariable")}
 			]
 			return result;
 		},
@@ -314,13 +302,13 @@ export default {
 			}
 
 			var triggers =  [
-        {value:"click", label:"Click", icon:"mdi mdi-cursor-default"},
+       			{value:"click", label:"Click", icon:"mdi mdi-cursor-default"},
 				{value:"swipeLeft", label:"Left Swipe", icon:"mdi mdi-arrow-left-bold-circle"},
 				{value:"swipeRight", label:"Right Swipe", icon:"mdi mdi-arrow-right-bold-circle"},
 				{value:"swipeUp", label:"Up Swipe",icon:"mdi mdi-arrow-up-bold-circle"},
 				{value:"swipeDown", label:"Down Swipe", icon:"mdi mdi-arrow-down-bold-circle"},
 				{value:"scroll", label:"Scrolled in view", icon:"mdi mdi-unfold-more-horizontal"}
-		  ]
+		  	]
 
 			/**
 			 * Screens have also a timer...
@@ -498,9 +486,10 @@ export default {
 		},
 
 
+	
+
 
 		showActionSettings (line, node, e){
-
 
 			var db = new DomBuilder();
 
@@ -555,6 +544,82 @@ export default {
 
 		onActionBack (){
 			this.emit("newAction",{type:"back"});
+		},
+
+		/*******************************************************************
+		 *  Variable Action
+		 *******************************************************************/
+		renderVariableAction (item, db, action) {
+			db.span("mdi mdi-database-edit-outline MatcToolbarSmallIcon").build(item);
+			
+			let label = 'Set Variable'
+			if (action.steps[0]) {
+				let step = action.steps[0]
+				label = ''
+			
+				if (step.operation) {
+					label += step.operation + '('
+				}
+				if (step.databinding) {
+					label += step.databinding
+				}
+
+				if (step.parameter) {
+					label += ", '" + step.parameter + "'"
+				}
+
+				if (step.operation) {
+					label +=  ')'
+				}
+			}
+
+			db.span("MatcToolbarItemLabel", label).build(item);
+
+			this.tempOwn(on(item, touch.press, lang.hitch(this, "showEditVariable", action)));
+		},
+
+
+		onActionVariable () {
+			this.emit("newAction",{type:"variable", steps: []});
+		},
+
+		showEditVariable (action, e) {
+			console.debug('showEditVariable', action, e)
+
+
+			var db = new DomBuilder();
+
+			this.stopEvent(e);
+
+			var popup = db.div(" MatcPadding").build();
+
+			var cntr = db.div("").build(popup);
+
+			var settings = this.$new(VariableActionSettings);
+			settings.setModel(this.model)
+			settings.setValue(action);
+			settings.placeAt(cntr);
+
+
+			var bar = db.div("MatcButtonBar MatcButtonBarRelative MatcMarginTop").build(popup);
+			var write = db.div("MatcButton", "Save").build(bar);
+			var cancel = db.a("MatcLinkButton", "Cancel").build(bar);
+
+			var d = new Dialog({overflow:true});
+
+			d.own(on(write, touch.press, lang.hitch(this,"setVariableAction", d, settings, action)));
+			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
+			d.own(on(d, "close", function(){
+				settings.destroy();
+			}));
+			d.popup(popup, e.target);
+		},
+
+		setVariableAction (d, settings, action) {
+			let updatedAction = settings.getValue()
+			action.steps = updatedAction.steps
+			this.emit("updateAction", action);
+			d.close()
 		},
 
 		onActionJS() {

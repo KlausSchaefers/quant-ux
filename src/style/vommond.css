@@ -883,6 +883,7 @@ tr:hover .VommondInputListRemove{
 
 .VommondInputDropButton .caret{
 	color: #ccc;
+	margin-top: 5px;
 }
 
 

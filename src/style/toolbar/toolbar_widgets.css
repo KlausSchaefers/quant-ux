@@ -341,7 +341,7 @@
 
 
 /****************************************************
- * Validation & Rule
+ * Validation & Rule & VaribaleAction
  ****************************************************/
 .MatcValidation, .MatcRule {
 	width: 300px;
@@ -362,6 +362,10 @@
 
 .MatcValidation label, .MatcRule label{
 	font-size: 16px;
+}
+
+.MatcVariableAction textarea {
+	height: 120px;
 }
 
 /****************************************************
