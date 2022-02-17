@@ -6,15 +6,52 @@ const isNumeric = /^[-+]?(\d+|\d+\.\d*|\d*\.\d+)$/;
 export function executeAction (action, data) {
     Logger.log(-1, 'WorkFlowEngine.executeAction() ', action, data)
 
-    let results = []
+    let changes = []
 
     if (action && action.steps) {
         action.steps.forEach(step => {
-            results.push(executeStep(step, data))
+            let change = executeStep(step, data)
+            // if the value is a JSON, we should call all paths as well...
+            if (isObject(change.value)) {
+                expandJSON(change.path, change.value, changes)
+            }
+            if (Array.isArray(change.value)) {
+                expandArray(change.path, change.value, changes)
+            }
+            changes.push(change)
         })
     }
 
-    return results
+    return changes
+}
+
+function expandJSON(path, value, changes) {
+    for (let key in value) {
+        let childPath = path + "." + key
+        let childValue = value[key]
+        if (isObject(childValue)) {
+            expandJSON(childPath, childValue, changes)
+        } else if (Array.isArray(childValue)) {
+            expandArray(childPath, childValue, changes)
+        } else {
+            changes.push({path: childPath, value:childValue})
+        }
+    }
+}
+
+
+function expandArray(path, value, changes) {
+    for (let i = 0; i < value.length; i++) {
+        let childPath = path + "[" + i + "]"
+        let childValue = value[i]
+        if (isObject(childValue)) {
+            expandJSON(childPath, childValue, changes)
+        } else if (Array.isArray(childValue)) {
+            expandArray(childPath, childValue, changes)
+        } else {
+            changes.push({path: childPath, value:childValue})
+        }
+    }
 }
 
 function executeStep (step, data) {
@@ -84,4 +121,8 @@ function getParameter (parameter, data) {
 
 function isJSON (str) {
     return (str.indexOf('{') === 0 && str.indexOf('}') === str.length-1) || (str.indexOf('[') === 0 && str.indexOf(']') === str.length-1)
+}
+
+function isObject(value) {
+    return typeof value === 'object' && !Array.isArray(value) && value !== null
 }

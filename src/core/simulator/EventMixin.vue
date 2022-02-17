@@ -23,7 +23,6 @@ export default {
 		
 			datachanges.forEach(change => {
 				this.logger.log(-2,"executeAction","change", change);
-				// FIXME: if the value is a JSON, we should call all paths as well...
 				this.onUIWidgetDataBinding(screenID, widgetID, change.path, change.value)
 			}) 
 		},
