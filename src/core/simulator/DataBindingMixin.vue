@@ -79,8 +79,12 @@ export default {
 
 
 			setDataBindingByKey (path, value) {
-				this.dataBindingValues[path] = value;
-				this.emit('onDataBindingChange', this.dataBindingValues)
+				// FIXME, this should actually be JSONPath
+				//this.dataBindingValues[path] = value;
+				if (this.dataBindingValues) {
+					JSONPath.set(this.dataBindingValues, path, value)
+					this.emit('onDataBindingChange', this.dataBindingValues)
+				}
 			},
 
 			getDataBindingByPath (path) {
@@ -120,11 +124,12 @@ export default {
 			},
 
 			onUIWidgetDataBinding (screenID, widgetID, variable, value){
-
 				this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
-
 				this.emit('onDataBindingChange', this.dataBindingValues)
+				this.updateAllDataBindings(screenID, variable, value)
+			},
 
+			updateAllDataBindings (screenID, variable, value) {
 				/**
 				 * Find all widgets that are bound to this variable then
 				 *
@@ -136,12 +141,12 @@ export default {
 				 *
 				 *     - log state for player this.log("WidgetInit", screenID, e.id, null, state);
 				 */
-				var widgets = this.renderFactory.getAllUIWidgets();
-				for(var id in widgets){
-					var uiWidget = widgets[id];
-					var changed = uiWidget.setDataBinding(variable, value, this);
+				const widgets = this.renderFactory.getAllUIWidgets();
+				for(let id in widgets){
+					let uiWidget = widgets[id];
+					let changed = uiWidget.setDataBinding(variable, value, this);
 					if(changed){
-						var state = uiWidget.getState();
+						let state = uiWidget.getState();
 						this.log("WidgetInit", screenID, id, null, state);
 					}
 				}

@@ -1,6 +1,6 @@
 class JSONPath {
 
-    get (data, path) {
+    get (data, path, defaultValue = undefined) {
         if (data) {
             if (data[path] !== null && data[path] !== undefined) {
                 return data[path]
@@ -16,6 +16,7 @@ class JSONPath {
                 return value
             }
         }
+        return defaultValue
     }
 
     set (data, path, value) {

@@ -90,8 +90,8 @@ export default {
 					{"value" : "set", label:"Set"},
 					{"value" : "plus", label:"Plus"},
 					{"value" : "minus", label:"Minus"},
-					{"value" : "append", label:"Add to list"},
-					{"value" : "remove", label:"Remove from list"},
+					//{"value" : "append", label:"Add to list"},
+					//{"value" : "remove", label:"Remove from list"},
 					{"value" : "toggle", label:"Toggle"},
 				]);
 				drpBox.setValue(step.operation)

@@ -17,7 +17,7 @@ import Dialog from 'common/Dialog'
 import ToolbarDropDownButton from './ToolbarDropDownButton'
 import Rule from './Rule'
 import ActionSettings from './ActionSettings'
-import VariableActionSettings from './VariableActionSettings'
+import WorkflowSettings from './WorkflowSettings'
 import Util from 'core/Util'
 import DomUtil from 'core/FastDomUtil'
 
@@ -164,7 +164,7 @@ export default {
 						db.span("mdi mdi-ray-end-arrow MatcToolbarSmallIcon").build(item);
 						db.span("MatcToolbarItemLabel", "Navigate Back").build(item);
 					} 
-					if (action.type === 'variable') {
+					if (action.type === 'workflow') {
 						this.renderVariableAction(item, db, action)
 					} 
 
@@ -286,7 +286,7 @@ export default {
 				{value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
 				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
 				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")},
-				{value:true, label:"Set Variable", icon:"mdi mdi-database-edit-outline", callback:lang.hitch(this, "onActionVariable")}
+				{value:true, label:"Set Variable", icon:"mdi mdi-database-edit-outline", callback:lang.hitch(this, "onActionWorkflow")}
 			]
 			return result;
 		},
@@ -575,17 +575,16 @@ export default {
 
 			db.span("MatcToolbarItemLabel", label).build(item);
 
-			this.tempOwn(on(item, touch.press, lang.hitch(this, "showEditVariable", action)));
+			this.tempOwn(on(item, touch.press, lang.hitch(this, "showEditWorkflow", action)));
 		},
 
 
-		onActionVariable () {
-			this.emit("newAction",{type:"variable", steps: []});
+		onActionWorkflow () {
+			this.emit("newAction",{type:"workflow", steps: []});
 		},
 
-		showEditVariable (action, e) {
-			console.debug('showEditVariable', action, e)
-
+		showEditWorkflow (action, e) {
+		
 
 			var db = new DomBuilder();
 
@@ -595,7 +594,7 @@ export default {
 
 			var cntr = db.div("").build(popup);
 
-			var settings = this.$new(VariableActionSettings);
+			var settings = this.$new(WorkflowSettings);
 			settings.setModel(this.model)
 			settings.setValue(action);
 			settings.placeAt(cntr);
@@ -607,7 +606,7 @@ export default {
 
 			var d = new Dialog({overflow:true});
 
-			d.own(on(write, touch.press, lang.hitch(this,"setVariableAction", d, settings, action)));
+			d.own(on(write, touch.press, lang.hitch(this,"setActionWorkflow", d, settings, action)));
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			d.own(on(d, "close", function(){
 				settings.destroy();
@@ -615,7 +614,7 @@ export default {
 			d.popup(popup, e.target);
 		},
 
-		setVariableAction (d, settings, action) {
+		setActionWorkflow (d, settings, action) {
 			let updatedAction = settings.getValue()
 			action.steps = updatedAction.steps
 			this.emit("updateAction", action);

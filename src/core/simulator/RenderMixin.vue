@@ -478,8 +478,12 @@ export default {
 						*/
 						line = this.getLineForGesture(lines, "click");
 					}
-					if(action){
-						this.tempOwn(uiWidget.on("click", lang.hitch(this, "onTransitionBack", screenId, widget.id, action)));
+					if (action){
+						if (action.type === 'back') {
+							this.tempOwn(uiWidget.on("click", lang.hitch(this, "onTransitionBack", screenId, widget.id, action)));
+						} else {
+							this.tempOwn(uiWidget.on("click", lang.hitch(this, "executeAction", screenId, widget.id, action, 'click')));
+						}
 						this.tempOwn(uiWidget.on("stateChange", lang.hitch(this, "onWidgetEvent", screenId, widget.id, uiWidget, line, action)));
 					} else if(line){
 						uiWidget.setClickable(true);
@@ -534,9 +538,13 @@ export default {
 					* Gestures will be dispatched in the onScreenPress. For now this
 					* only works, if the staart and end are the same..
 					*/
-					if(action){
-						this.tempOwn(on(w, touch.click, lang.hitch(this, "onTransitionBack", screenId, widget.id, action)));
-					} else if(lines){
+					if (action) {
+						if (action.type === 'back') {
+							this.tempOwn(on(w, touch.click, lang.hitch(this, "onTransitionBack", screenId, widget.id, action)));
+						} else {
+							this.tempOwn(on(w, touch.click, lang.hitch(this, "executeAction", screenId, widget.id, action, 'click')));
+						}
+					} else if (lines) {
 						let line = this.getLineForGesture(lines, "click");
 						if (line) {
 							this.tempOwn(on(w, touch.click, lang.hitch(this, "onTransition", screenId, widget.id, line)));

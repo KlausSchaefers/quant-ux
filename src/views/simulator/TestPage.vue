@@ -215,7 +215,7 @@ export default {
 			},
 
 			async setPassword () {
-				this.logger.log(-1,"setPassword","enter", this.password);
+				this.logger.log(1,"setPassword","enter", this.password);
 
 				var hash = this.getHashFromUri();
 				let newHash = hash + this.password
@@ -373,7 +373,6 @@ export default {
 
 
 			onSimulatorEvent (e) {
-				console.debug('TestPage', e)
 				this.simulatorEvents.push(e)
 
 				var session = new DataFrame(this.simulatorEvents);
