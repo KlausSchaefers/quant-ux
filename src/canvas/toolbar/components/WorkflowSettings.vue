@@ -1,6 +1,15 @@
 
 <template>
-     <div class="MatcRule MatcVariableAction"></div>
+     <div class="MatcRule MatcWorkFlowSettings MatcWorkFlowSettingsSimple">
+
+		 <div class="MatcWorkFlowSettingsSteps">
+			 Step 1
+		 </div>
+
+		 <div class="MatcWorkFlowSettingsCntr" ref="cntr">
+
+		 </div>
+	 </div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -29,12 +38,12 @@ export default {
 		},
 
 		setModel (model) {
-			console.debug('VariableActionSettings.setModel', model)
 			this.model = model
 		},
 		
 		setValue(action){
 			this.action = lang.clone(action);
+			this.selectedStep = 0
 			this.render(this.action);
 		},
 		
@@ -44,12 +53,14 @@ export default {
 		
 		
 		render(action){
-			this.domNode.innerHTML="";
-			if (!action.steps ||! action.steps[0]) {
-				action.steps = [{databinding: '', operation: '', parameter:''}]
+			this.$refs.cntr.innerHTML="";
+			if (!action.steps) {
+				action.steps = []
 			}
-			const step = action.steps[0]
-			console.debug('Action', action, step)
+			if (!action.steps[this.selectedStep]) {
+				action.steps[this.selectedStep] = {databinding: '', operation: '', parameter:''}
+			}
+			const step = action.steps[this.selectedStep]
 			this.cleanUpTempListener();
 			this.renderDataBinding(step);
 			this.renderOperation(step)
@@ -58,7 +69,7 @@ export default {
 
 		renderDataBinding (step) {
 		
-			var row = this.db.div("form-group").build(this.domNode);
+			var row = this.db.div("form-group").build(this.$refs.cntr);
 
 			let variables = this.getAllAppVariables()
 			let hints = this.getHintsAppVariables()
@@ -83,15 +94,18 @@ export default {
 		renderOperation (step){
 			if(step.databinding){
 			
-				let row = this.db.div("form-group").build(this.domNode);
+				let row = this.db.div("form-group").build(this.$refs.cntr);
 				this.db.label(null,"Operator").build(row);
 				let drpBox = this.$new(DropDownButton, {maxLabelLength:25});
 				drpBox.setOptions([
 					{"value" : "set", label:"Set"},
 					{"value" : "plus", label:"Plus"},
 					{"value" : "minus", label:"Minus"},
-					//{"value" : "append", label:"Add to list"},
-					//{"value" : "remove", label:"Remove from list"},
+					{"value" : "multiply", label:"Multiply"},
+					{"value" : "devide", label:"Devide"},
+					{"value" : "increment", label:"Increment"},
+					{"value" : "decrement", label:"Decrement"},
+			
 					{"value" : "toggle", label:"Toggle"},
 				]);
 				drpBox.setValue(step.operation)
@@ -105,30 +119,66 @@ export default {
 
 
 		renderValue (step){
-			let row = this.db.div("form-group").build(this.domNode);
-			if (step.operation === 'set' || step.operation === 'minus' || step.operation === 'plus') {
-				
+			
+			if (step.operation === 'set' || step.operation === 'decrement' || step.operation === 'increment') {
+				let row = this.db.div("form-group").build(this.$refs.cntr);
 				let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", step.parameter, "").build(row);
 				this.tempOwn(on(text, "keyup", lang.hitch(this, "setParameter", text)));
 			}
 			if (step.operation === 'append') {
+				let row = this.db.div("form-group").build(this.$refs.cntr);
 				let text = this.db.formGroupTextArea("MatcIgnoreOnKeyPress", "Value", step.parameter, "").build(row);
 				this.tempOwn(on(text, "keyup", lang.hitch(this, "setParameter", text)));
 			}
 			
 			if (step.operation === 'remove') {
+				let row = this.db.div("form-group").build(this.$refs.cntr);
 				let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Remove last X elemens", step.parameter, "").build(row);
 				this.tempOwn(on(text, "keyup", lang.hitch(this, "setParameter", text)));
 			}
 
 			if (step.operation === 'toggle') {
+				let row = this.db.div("form-group").build(this.$refs.cntr);
 				let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Value 1", step.parameter, "").build(row);
 				this.tempOwn(on(text, "keyup", lang.hitch(this, "setParameter", text)));
 
-				let row2 = this.db.div("form-group").build(this.domNode);
+				let row2 = this.db.div("form-group").build(this.$refs.cntr);
 				let text2 = this.db.formGroup("MatcIgnoreOnKeyPress", "Value 2", step.parameter2, "").build(row2);
 				this.tempOwn(on(text2, "keyup", lang.hitch(this, "setParameter2", text2)));
 			}
+
+
+			if (step.operation === 'plus' || step.operation === 'multiply' || step.operation === 'devide' || step.operation === 'minus') {
+				this.renderVariableInput("Variable 1", step.parameter, (parameter) => {
+					this.action.steps[0].parameter = parameter
+				})
+				this.renderVariableInput("Variable 2", step.parameter2, (parameter) => {
+					this.action.steps[0].parameter2 = parameter
+				})
+			}
+		},
+
+
+		renderVariableInput (label, value, callback) {
+			let row = this.db.div("form-group").build(this.$refs.cntr);
+
+			let variables = this.getAllAppVariables()
+			let hints = this.getHintsAppVariables()
+
+			let options = variables.concat(hints).map(v => {
+				return {value: '${' + v + '}', label: v}
+			})
+			this.db.label(null,label).build(row);
+			let input = this.$new(Input, {
+				fireOnBlur: true,
+				placeholder: "Select Variable",
+				formControl: true,
+				isDropDown: true
+			})
+			input.placeAt(row)
+			input.setValue(value)
+			input.setHints(options);
+			this.tempOwn(on(input, "change", callback));
 		},
 
 		setParameter (text) {
@@ -142,7 +192,6 @@ export default {
 		},
 
 		setDataBinding (databinding) {
-			console.debug('setDataBinding', databinding)
 			this.action.steps[0].databinding = databinding
 			this.render(this.action)
 		},

@@ -212,6 +212,16 @@
 	transition: all 0.25s ease 0s;
 }
 
+.MatcToolbarFormularLabel {
+	display: flex;
+	gap: 5px;
+	align-items: flex-start;
+}
+
+.MatcToolbarFormularLabel .MatcToolbarItemLabel {
+	width: 130px;
+}
+
 
 .MatcMultiActionDropDownPopup.MatcToolbarPopUp {
 	width:200px;
@@ -312,7 +322,10 @@
   	width:20px;
   	height:20px;
   	text-align:center;
+}
 
+.MatcToobarRemoveBtnTop {
+	top:14px
 }
 
 .MatcToobarRemoveBtn:Hover{
@@ -364,7 +377,35 @@
 	font-size: 16px;
 }
 
-.MatcVariableAction textarea {
+
+
+/****************************************************
+ * MatcWorkFlowSettings
+ ****************************************************/
+ .MatcWorkFlowSettings {
+	 width: 520px;
+	 display: flex;
+	 gap: 20px;
+	 align-items: flex-start;
+ }
+
+ .MatcWorkFlowSettingsSimple {
+	 width: 300px;
+ }
+
+ .MatcWorkFlowSettingsSteps {
+	 width: 130px;
+ }
+
+ .MatcWorkFlowSettingsSimple .MatcWorkFlowSettingsSteps{
+	 display: none;
+ }
+
+ .MatcWorkFlowSettingsCntr {
+	 flex-grow: 1;
+ }
+
+ .MatcWorkFlowSettings textarea {
 	height: 120px;
 }
 

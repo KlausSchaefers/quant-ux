@@ -11,14 +11,16 @@ export function executeAction (action, data) {
     if (action && action.steps) {
         action.steps.forEach(step => {
             let change = executeStep(step, data)
-            // if the value is a JSON, we should call all paths as well...
-            if (isObject(change.value)) {
-                expandJSON(change.path, change.value, changes)
+                if (change) {
+                if (isObject(change.value)) {
+                    expandJSON(change.path, change.value, changes)
+                }
+                if (Array.isArray(change.value)) {
+                    expandArray(change.path, change.value, changes)
+                }
+                changes.push(change)
             }
-            if (Array.isArray(change.value)) {
-                expandArray(change.path, change.value, changes)
-            }
-            changes.push(change)
+
         })
     }
 
@@ -62,14 +64,38 @@ function executeStep (step, data) {
     }
 
     if (step.operation === 'plus') {
-        let x = getParameter(step.parameter, data)
-        let o = JSONPath.get(data, step.databinding, 0)
-        return {path: step.databinding, value: o + x}
+        let a = getParameter(step.parameter, data) * 1
+        let b = getParameter(step.parameter2, data) * 1
+        return {path: step.databinding, value: a + b}
     }
 
     if (step.operation === 'minus') {
-        let x = getParameter(step.parameter, data)
-        let o = JSONPath.get(data, step.databinding, 0)
+        let a = getParameter(step.parameter, data) * 1
+        let b = getParameter(step.parameter2, data) * 1
+        return {path: step.databinding, value: a - b}
+    }
+
+    if (step.operation === 'multiply') {
+        let a = getParameter(step.parameter, data) * 1
+        let b = getParameter(step.parameter2, data) * 1
+        return {path: step.databinding, value: a * b}
+    }
+
+    if (step.operation === 'devide') {
+        let a = getParameter(step.parameter, data) * 1
+        let b = getParameter(step.parameter2, data) * 1
+        return {path: step.databinding, value: a / b}
+    }
+
+    if (step.operation === 'increment') {
+        let x = getParameter(step.parameter, data) * 1
+        let o = JSONPath.get(data, step.databinding, 0) * 1
+        return {path: step.databinding, value: o + x}
+    }
+
+    if (step.operation === 'decrement') {
+        let x = getParameter(step.parameter, data) * 1
+        let o = JSONPath.get(data, step.databinding, 0) * 1
         return {path: step.databinding, value: o - x}
     }
 

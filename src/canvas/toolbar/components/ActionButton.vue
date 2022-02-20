@@ -168,7 +168,7 @@ export default {
 						this.renderVariableAction(item, db, action)
 					} 
 
-					let removeBtn = db.span("MatcToobarRemoveBtn ")
+					let removeBtn = db.span("MatcToobarRemoveBtn MatcToobarRemoveBtnTop ")
 						.tooltip("Remove Action", "vommondToolTipRightBottom")
 						.span("mdi mdi-close-circle")
 						.build(item);
@@ -286,7 +286,7 @@ export default {
 				{value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
 				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
 				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")},
-				{value:true, label:"Set Variable", icon:"mdi mdi-database-edit-outline", callback:lang.hitch(this, "onActionWorkflow")}
+				{value:true, label:"Simple Formuala", icon:"mdi mdi-flask-empty-plus-outline", callback:lang.hitch(this, "onActionWorkflow")}
 			]
 			return result;
 		},
@@ -550,32 +550,56 @@ export default {
 		 *  Variable Action
 		 *******************************************************************/
 		renderVariableAction (item, db, action) {
-			db.span("mdi mdi-database-edit-outline MatcToolbarSmallIcon").build(item);
-			
-			let label = 'Set Variable'
+			let row = db.div('MatcToolbarFormularLabel').build(item)
+			let label = 'Create Formula'
+			let icon = 'mdi mdi-flask-empty-plus-outline'
 			if (action.steps[0]) {
+				icon = 'mdi mdi-flask-empty-outline'
 				let step = action.steps[0]
-				label = ''
-			
-				if (step.operation) {
-					label += step.operation + '('
-				}
-				if (step.databinding) {
-					label += step.databinding
-				}
-
-				if (step.parameter) {
-					label += ", '" + step.parameter + "'"
-				}
-
-				if (step.operation) {
-					label +=  ')'
-				}
+				label = this.getWorkFlowLabel(step)
 			}
-
-			db.span("MatcToolbarItemLabel", label).build(item);
+			db.span(`mdi ${icon} MatcToolbarSmallIcon`).build(row);
+			db.span("MatcToolbarItemLabel", label).build(row);
 
 			this.tempOwn(on(item, touch.press, lang.hitch(this, "showEditWorkflow", action)));
+		},
+
+		getWorkFlowLabel (step) {
+			let label = 'Edit Formula'
+			
+			if (step.operation === 'set') {
+				label = `${step.databinding} = ${step.parameter}`
+			}
+
+			if (step.operation === 'minus') {
+				label = `${step.databinding} = ${step.parameter} -  ${step.parameter2}`
+			}
+
+			if (step.operation === 'plus') {
+				label = `${step.databinding} = ${step.parameter} + ${step.parameter2}`
+			}
+
+			if (step.operation === 'multiply') {
+				label = `${step.databinding} = ${step.parameter} * ${step.parameter2}`
+			}
+
+			if (step.operation === 'devide') {
+				label = `${step.databinding} = ${step.parameter} * ${step.parameter2}`
+			}
+
+			if (step.operation === 'increment') {
+				label = `${step.databinding} += ${step.parameter}`
+			}
+
+			if (step.operation === 'decrement') {
+				label = `${step.databinding} -= ${step.parameter}`
+			}
+
+			if (step.operation === 'toggle') {
+				label = `${step.databinding} = ${step.parameter} ? ${step.parameter2}`
+			}
+			
+			return label
 		},
 
 

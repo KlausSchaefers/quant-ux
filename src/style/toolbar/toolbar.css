@@ -29,8 +29,8 @@
 
 .MatcToolbar .MatcTinyIcon.mdi{
 	bottom: 8px;
-  font-size: 12px;
-  position: absolute;
+  	font-size: 12px;
+  	position: absolute;
 	right: 4px;
 	opacity: 0;
 }
@@ -42,8 +42,6 @@
 .MatcIconMirror:before{
 	transform:rotateY(180deg);
 }
-
-
 
 .MatcToolbar .MatcToobarItemBig .mdi {
 	font-size: 24px;
