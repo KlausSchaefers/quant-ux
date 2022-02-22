@@ -4,6 +4,7 @@ const path = require('path')
 const compression = require('compression')
 const proxyMiddleware = require('http-proxy-middleware')
 
+const target_server = process.env.QUX_HTTP_HOST;
 
 let config = {
   index: path.resolve(__dirname, '../dist/index.html'),
@@ -34,7 +35,7 @@ app.use(compression())
  * init proxies. Change here to you server
  */
 app.use('/rest/', proxyMiddleware({
-    target: 'https://v1.quant-ux.com',
+    target: target_server,
     changeOrigin: true
 }))
 
