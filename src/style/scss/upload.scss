@@ -5,43 +5,30 @@
 
     .MatcHint {
         color: $text_color_passive;
-        position: absolute;
-        top:50%;
-        left:50%;
-        transform: translate(-50%, -50%);
-        transition: 0.2s all;
-        font-size: 24px;
-        text-align: center;
-  
-        .MatcUploadProgressCnr {
-          display: block;
-          margin: 20px;
-          width: 200px;
-          height: 10px;
-  
-  
-          .MatcUploadProgress {
-            width: 10px;
-            height: 100%;
-            display: block;
-            border-radius: 3px;
-            background-color: $main_color;
-          }
-        }
-  
-  
+        font-size: 1rem;
+        display: block;
+        padding-bottom: calc(0.5em - 1px);
+        padding-left: calc(0.75em - 1px);
+        padding-right: calc(0.75em - 1px);
+        padding-top: calc(0.5em - 1px);
       }
 
 }
 
 .MatUploaderDropZone {
         
-    border: 1px dashed $input_border;
+    border: 1px solid $input_border;
     transition: 0.2s all;
-    overflow: auto;
     cursor: pointer;
     height: 96px;
     position: relative;
+    border-radius: 4px;
+
+    &.MatUploaderHasFile {
+      border: 0px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
 
     input {
       width: 100%;
@@ -49,6 +36,9 @@
       border:none;
       opacity: 0;
       cursor: pointer;
+      position: absolute;
+      top: 0px;
+      left: 0px;
     }
 
     &:hover{
@@ -64,19 +54,35 @@
 
       .MatcHint {
         color: $main_color;
-        font-size: 26px;
       }
     }
 
     .MatUploaderPreview{
-      display: inline-block;
-      margin: 10px;
-      vertical-align: top;
+      display: block;
+      height: 100%;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: top center;
       position: relative;
 
+      &:hover {
+        .MatUploaderPreviewRemove {
+          opacity: 1;
+        }
+      }
 
-      img {
-        width: 100%;
+      .MatUploaderPreviewRemove {
+        position: absolute;
+        top:0px;
+        right: 5px;
+        font-size: 24px;
+        text-shadow: 0px 0px 10px rgb(255 255 255);
+        opacity: 0;
+
+        &:hover {
+          color: #f83a3a;
+        }
       }
     }
 }
+

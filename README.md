@@ -79,13 +79,10 @@ npm install
 npm run build
 ```
 
-- Edit server/start.js to point the proxy to the right server, e.g.
+- Set the proxy server url as en ENV variable
 
 ```
-app.use('/rest/', proxyMiddleware({
-    target: 'https://api.yourserver.com',
-    changeOrigin: true
-}))
+export QUX_PROXY_URL=https://your.quant-xu.server.com
 
 ```
 

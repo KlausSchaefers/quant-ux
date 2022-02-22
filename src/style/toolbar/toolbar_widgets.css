@@ -212,15 +212,12 @@
 	transition: all 0.25s ease 0s;
 }
 
-.MatcToolbarFormularLabel {
-	display: flex;
-	gap: 5px;
-	align-items: flex-start;
+.MatcToobarPropertiesSection .MatcToolbarFormularLabel {
+	padding-left: 34px;
+	text-align: left;
+	width: 100%;
 }
 
-.MatcToolbarFormularLabel .MatcToolbarItemLabel {
-	width: 130px;
-}
 
 
 .MatcMultiActionDropDownPopup.MatcToolbarPopUp {
@@ -354,7 +351,7 @@
 
 
 /****************************************************
- * Validation & Rule & VaribaleAction
+ * Validation & Rule
  ****************************************************/
 .MatcValidation, .MatcRule {
 	width: 300px;
@@ -377,6 +374,34 @@
 	font-size: 16px;
 }
 
+
+
+
+/****************************************************
+ * Action Section
+ ****************************************************/
+ .MatcToobarActionSelector {
+	display: flex;	
+	align-items: center;
+	gap: 10px;
+}
+
+.MatcToobarActionSelector .MatcToolbarDropDownButton {
+	width: auto;
+	flex-grow: 1;
+	text-align: left;
+}
+
+
+.MatcToobarActionSelector .MatcToolbarDropDownButton .MatcToolbarItemIcon{
+    width: 90%;
+}
+
+
+.MatcToobarActionSelector .MatcToobarRemoveBtn {
+	position: unset;
+	transform: none;
+}
 
 
 /****************************************************
@@ -1288,22 +1313,19 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 .MatcImageUploadRemove{
-	background: #333 none repeat scroll 0 0;
     border-radius: 50%;
-    color: #fff;
+    color: #333;;
     cursor: pointer;
     display: none;
-    font-size: 16px;
-    height: 24px;
-    padding: 2px;
+    font-size: 24px;
     position: absolute;
     right: -12px;
-    top: -6px;
-    width: 24px;
+    top: -12px;
+	text-shadow: 0px 0px 10px rgb(255 255 255);
 }
 
 .MatcImageUploadRemove:HOVER{
-	background: red;
+	color: #f83a3a;
 }
 
 .MatcImageUploadPreview:Hover .MatcImageUploadRemove{

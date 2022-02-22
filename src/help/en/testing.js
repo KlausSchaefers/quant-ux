@@ -20,6 +20,26 @@ export let texts = [
               `
           },
           {
+            "id": "testing.landing",
+            "title": "Landing Page",
+            "body": `
+                When the users load the share link, they will come to a landing page. On this page they will
+                see a welcome message with an explanation as well as the list of tasks. You can customize the following settings:
+
+                <ol>
+                    <li>
+                        <b>Welcome Messsage</b>: You can customize the welcome message that will be shown to the users. Make sure 
+                        the welcome message encourages them to start the test, but also explains what is the purpose of the test,
+                        and what is expected from them.
+                    </li>
+                    <li>
+                        <b>Background Image</b>: You can upload a custom background image for the landing page. This allows you to keep
+                        the test experience close to your brand.
+                    </li>
+                </ol>
+            `
+        },
+          {
             "id": "testing.tasks",
             "title": "Creating Tasks",
             "css": "",

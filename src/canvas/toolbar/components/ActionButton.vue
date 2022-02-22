@@ -158,22 +158,33 @@ export default {
 					});
 
 				} else if (action) {
-					let item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr").build(parent);
 
-					if (action.type === 'back') {
-						db.span("mdi mdi-ray-end-arrow MatcToolbarSmallIcon").build(item);
-						db.span("MatcToolbarItemLabel", "Navigate Back").build(item);
-					} 
-					if (action.type === 'workflow') {
-						this.renderVariableAction(item, db, action)
-					} 
+					let actionCntr = db.div("MatcToobarActionSelector").build(parent);
 
-					let removeBtn = db.span("MatcToobarRemoveBtn MatcToobarRemoveBtnTop ")
+					let btn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
+					btn.setOptions([
+						{value:'back', label:"Navigate Back", icon:"mdi mdi-ray-end-arrow MatcToolbarSmallIcon"},
+						{value:'workflow', label:"Simple Formula", icon:"mdi mdi-flask-empty-plus-outline"},
+					]);
+					btn.setValue(action.type);
+					btn.setPopupCss("MatcActionAnimProperties");
+					btn.updateLabel = true;
+					btn.reposition = true;
+					css.add(btn.domNode, "  MatcToolbarIconNoSmooth");
+					btn.placeAt(actionCntr);
+					this.tempOwn(on(btn, "change", lang.hitch(this, "setActionType", action)));
+					this.addTooltip(btn.domNode, "Select action type");
+
+					let removeBtn = db.span("MatcToobarRemoveBtn ")
 						.tooltip("Remove Action", "vommondToolTipRightBottom")
 						.span("mdi mdi-close-circle")
-						.build(item);
+						.build(actionCntr);
 
 					this.tempOwn(on(removeBtn, touch.press, lang.hitch(this, "onRemoveAction", action)));
+
+					if (action.type === 'workflow') {
+						this.renderWorkFlowAction(parent, db, action)
+					} 
 
 
 				} else {
@@ -211,7 +222,6 @@ export default {
 			db.span("MatcToolbarItemLabel", to.name).build(item);
 			var btn = db.span("MatcToobarRemoveBtn ").tooltip("Remove Link", "vommondToolTipRightBottom").span("mdi mdi-close-circle").build(item);
 			this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveLineByID", line.id)));
-
 
 			btn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
 			btn.setOptions(this.getEventTypes(line, isWidget, btn));
@@ -285,8 +295,8 @@ export default {
 			let result = [
 				{value:false, label:"Link to other screen (L)", icon:"mdi mdi-link-variant", callback:lang.hitch(this, "onNewLine")},
 				{value:true, label:"Navigate Back", icon:"mdi mdi-ray-end-arrow", callback:lang.hitch(this, "onActionBack")},
-				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")},
-				{value:true, label:"Simple Formuala", icon:"mdi mdi-flask-empty-plus-outline", callback:lang.hitch(this, "onActionWorkflow")}
+				{value:true, label:"Animation", icon:"mdi mdi-video", callback:lang.hitch(this, "onNewTransfromLine")}
+				//{value:true, label:"Simple Formuala", icon:"mdi mdi-flask-empty-plus-outline", callback:lang.hitch(this, "onActionWorkflow")}
 			]
 			return result;
 		},
@@ -485,48 +495,35 @@ export default {
 			return result;
 		},
 
-
-	
-
-
 		showActionSettings (line, node, e){
-
-			var db = new DomBuilder();
-
 			this.stopEvent(e);
+			let db = new DomBuilder();
+			let popup = db.div(" MatcPadding").build();
+			let cntr = db.div("").build(popup);
 
-			var popup = db.div(" MatcPadding").build();
-
-			var cntr = db.div("").build(popup);
-
-
-			var settings = this.$new(ActionSettings);
+			let settings = this.$new(ActionSettings);
 			settings.setValue(line);
 			settings.placeAt(cntr);
 
-
-			var bar = db.div("MatcButtonBar MatcButtonBarRelative MatcMarginTop").build(popup);
-			var write = db.div("MatcButton", "Save").build(bar);
-			var cancel = db.a("MatcLinkButton", "Cancel").build(bar);
-			var anim = db.a("MatcLinkButton MatcButtonRight")
+			let bar = db.div("MatcButtonBar MatcButtonBarRelative MatcMarginTop").build(popup);
+			let write = db.div("MatcButton", "Save").build(bar);
+			let cancel = db.a("MatcLinkButton", "Cancel").build(bar);
+			let anim = db.a("MatcLinkButton MatcButtonRight")
 				.span(" mdi mdi-video")
 				.up()
 				.span("","Custom Animations")
 				.build(bar);
 
 
-			var d = new Dialog({overflow:true});
+			let d = new Dialog({overflow:true});
 
 			d.own(on(write, touch.press, lang.hitch(this,"setAnimation", d, settings, line)));
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			d.own(on(anim, touch.press, lang.hitch(this, "showScreenAnim", d, line)));
-			d.own(on(d, "close", function(){
+			d.own(on(d, "close", () => {
 				settings.destroy();
 			}));
 			d.popup(popup, node);
-
-
-
 			this.tempOwn(settings.on("change", lang.hitch(this, "updateLine", line.id)));
 		},
 
@@ -546,22 +543,22 @@ export default {
 			this.emit("newAction",{type:"back"});
 		},
 
+		setActionType (action, type) {
+			action.type = type
+			this.emit("updateAction", action);
+		},
+
 		/*******************************************************************
 		 *  Variable Action
 		 *******************************************************************/
-		renderVariableAction (item, db, action) {
-			let row = db.div('MatcToolbarFormularLabel').build(item)
+		renderWorkFlowAction (item, db, action) {
 			let label = 'Create Formula'
-			let icon = 'mdi mdi-flask-empty-plus-outline'
-			if (action.steps[0]) {
-				icon = 'mdi mdi-flask-empty-outline'
+			if (action.steps && action.steps[0]) {
 				let step = action.steps[0]
 				label = this.getWorkFlowLabel(step)
 			}
-			db.span(`mdi ${icon} MatcToolbarSmallIcon`).build(row);
-			db.span("MatcToolbarItemLabel", label).build(row);
-
-			this.tempOwn(on(item, touch.press, lang.hitch(this, "showEditWorkflow", action)));
+			let row = db.div('MatcToolbarItem MatcToolbarDropDownButton MatcToolbarFormularLabel', label).build(item)
+			this.tempOwn(on(row, touch.press, lang.hitch(this, "showEditWorkflow", action)));
 		},
 
 		getWorkFlowLabel (step) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="MatcTest" @dragenter="onDragEnter" @dragleave="onDragLeave" @dragend="onDragEnd">
+  <div class="MatcTest MatcLayout" >
     <section class="section">
       <div class="container">
         <div class="box is-shadowless">
@@ -17,48 +17,42 @@
         </div>
       </div>
     </section>
-    <section class="section" data-dojo-attach-point="sectionDes">
+    <section class="section" data-dojo-attach-point="sectionDes" >
       <div class="container">
-        <div class="box is-shadowless">
+        <div class="box is-shadowless ">
 
-            <h2 class="title">Description</h2>
-            <textarea
-              class="input MatcTextAreaMedium"
-              v-model="test.description"
-              data-gramm_editor="false"
-              @change="onDescriptionChange"
-              placeholder="Enter here a description that will be shown to your testers."
-            ></textarea>
+            <h2 class="title">Landing Page   
+             <HelpButton topic="testing" subtopic="testing.landing" :hasNotifications="false"/>
+            </h2>
+
+          
+            <div class="MatcLayoutCols">
+                <textarea
+                    class="input MatcTextAreaMedium MatcLayoutColGrow"
+                    v-model="test.description"
+                    data-gramm_editor="false"
+                    @change="onTestChange"
+                    placeholder="Enter here a welcome message for your testers."
+                  />
+              
+                  <div class="MatcLayoutCol3" v-if="false">
+                      <div :class="['MatUploader MatUploaderDropZone', {'MatUploaderDropZoneHover': hasDragOver}, {'MatUploaderHasFile': hasSplash}]" 
+                        @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
+                        
+                          <div class="MatcHint" v-if="!hasSplash">{{ splashMessage}}</div>
+                          <div v-else class="MatUploaderPreview" :style="'background-image:url(' + splashUrl + ')'">
+                            <span class="MatUploaderPreviewRemove mdi mdi-close-circle" @click="onRemoveSplash"/>
+                          </div>
+
+                          <input type="file" v-if="!hasSplash" @change="onFileChanged" >
+                      </div>
+                  </div>
+            </div>
         
         </div>
       </div>
     </section>
 
-    <section class="section" data-dojo-attach-point="sectionDes" v-if="false">
-      <div class="container">
-        <div class="box is-shadowless">
-        
-      
-            <h2 class="title">Custom Splash   
-              <HelpButton
-                topic="testing"
-                subtopic="testing.splash"
-                :hasNotifications="false"
-              /></h2>
-
-          
-              <div :class="['MatUploader MatUploaderDropZone', {'MatUploaderDropZoneHover': hasDragOver}]">
-                  <span class="MatcHint" v-if="!hasSplash">{{ getNLS('test.splash.upload')}}</span>
-                  <span v-else class="MatcToolbarDropDownButtonItem">
-                      <span class="mdi mdi-file-code-outline"/>
-                  </span>
-                  <input type="file" @change="onSplashChange" >
-              </div>
-        
-        </div>
-       
-      </div>
-      </section>
 
     <section class="section" data-dojo-attach-point="sectionTask">
       <div class="container">
@@ -102,26 +96,27 @@
 </template>
 <style lang="scss">
   @import '../../../style/scss/upload.scss';
+  @import '../../../style/scss/layout.scss';
 </style>
 <script>
-import Logger from "common/Logger";
-import DojoWidget from "dojo/DojoWidget";
-import css from "dojo/css";
-import on from "dojo/on";
-import lang from "dojo/_base/lang";
-import DataFrame from "common/DataFrame";
-import BulletGraph from "common/BulletGraph";
-import TestSettings from "views/apps/test/TestSettings";
-import Table from "common/Table";
-import Services from "services/Services";
-import Analytics from "dash/Analytics";
-import Plan from "page/Plan";
-import Util from "core/Util";
-import Comment from "page/Comment";
-import HelpButton from "help/HelpButton";
-import Dialog from "common/Dialog";
-import touch from "dojo/touch";
-import DomBuilder from "common/DomBuilder";
+import Logger from "common/Logger"
+import DojoWidget from "dojo/DojoWidget"
+import css from "dojo/css"
+import on from "dojo/on"
+import lang from "dojo/_base/lang"
+import DataFrame from "common/DataFrame"
+import BulletGraph from "common/BulletGraph"
+import TestSettings from "views/apps/test/TestSettings"
+import Table from "common/Table"
+import Services from "services/Services"
+import Analytics from "dash/Analytics"
+import Plan from "page/Plan"
+import Util from "core/Util"
+import Comment from "page/Comment"
+import HelpButton from "help/HelpButton"
+import Dialog from "common/Dialog"
+import touch from "dojo/touch"
+import DomBuilder from "common/DomBuilder"
 
 export default {
   name: "Test",
@@ -131,6 +126,7 @@ export default {
     return {
       sessionCount: 10,
       hasDragOver: false,
+      isUploading: false,
       bulletGraphSection: [
         {
           value: 5,
@@ -170,7 +166,16 @@ export default {
       return "apps";
     },
     hasSplash () {
-      return false
+      return this.test && this.test.splash
+    },
+    splashUrl () {
+      if (this.test && this.test.splash) {
+        return '/rest/images/' + this.hash + "/" + this.test.splash.url
+      }
+      return ''
+    },
+    splashMessage () {
+      return this.getNLS('test.splash.upload')
     }
   },
   methods: {
@@ -180,17 +185,45 @@ export default {
     onDragLeave () {
       this.hasDragOver = false
     },
-    onDragEnd (e) {
-      this.logger.log(-1, "onDragEnd", "enter ", e);
-
+    onDrop (e) {
+      this.logger.log(-1, 'onDrop', 'enter', e)
+      e.stopPropagation()
+      e.preventDefault()
+      let files = e.dataTransfer.files
+      this.hasDragOver = false
+      this.uploadSplash(files)
     },
-    onSplashChange () {
-
+    onFileChanged (e) {
+      let files = e.target.files
+      this.uploadSplash(files)
+    },
+    async uploadSplash(files) {
+      this.logger.log(-1, 'onDrop', 'enter', files)
+      if (files.length === 1) {
+          this.isUploading = true
+          let file = files[0]
+          let url = '/rest/images/' + this.app.id;
+          let formData = new FormData();
+				  formData.append('file', file);
+          let result = await this.imageService.upload(url, formData)
+          result = JSON.parse(result)
+          if (result.uploads && result.uploads.length === 1) {
+            this.test.splash = result.uploads[0]
+            this.onTestChange()
+          }
+          this.isUploading = false
+      } else {
+        this.showError("Upload single image");
+      }
+    },
+    onRemoveSplash () {
+      delete this.test.splash
+      this.onTestChange()
     },
     onTaskChange(test) {
       this.$emit("change", lang.clone(test));
     },
-    async onDescriptionChange() {
+    async onTestChange() {
       if (this.pub) {
         this.showSuccess("Saved");
       } else {
@@ -440,6 +473,7 @@ export default {
   async mounted() {
     this.logger = new Logger("Test");
     this.modelService = Services.getModelService(this.$route);
+    this.imageService = Services.getImageService()
     this.showBullet();
     this.showSessions();
     this.logger.info("mounted", "exit");

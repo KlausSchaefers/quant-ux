@@ -96,12 +96,14 @@
     font-weight: 400;
     color: #4a4a4a;
     margin-bottom: 5px;
+    font-weight: 700;
 }
 
 .MatcHelp .MatcHelpContent h3{
     font-size: 18px;
     color: #4a4a4a;
     margin-bottom: 5px;
+    font-weight: 700;
 }
 
 .MatcHelpContentParagraph {

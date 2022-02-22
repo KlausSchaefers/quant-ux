@@ -1,0 +1,20 @@
+@import '../variables.scss';
+
+.MatcLayout {
+    .MatcLayoutCols {
+        display: flex;
+        gap: 2.5rem;
+
+        .MatcLayoutColGrow {
+            flex-grow: 1;
+        }
+
+        .MatcLayoutCol3 {
+            width: 25%;
+        }
+
+        .MatcLayoutCol5 {
+            width: 40%;
+        }
+    }
+}

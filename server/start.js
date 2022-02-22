@@ -33,8 +33,9 @@ app.use(compression())
 /**
  * init proxies. Change here to you server
  */
+let proxyUrl = process.env.QUX_PROXY_URL ?  process.env.QUX_PROXY_URL : 'https://v1.quant-ux.com'
 app.use('/rest/', proxyMiddleware({
-    target: 'https://v1.quant-ux.com',
+    target: proxyUrl,
     changeOrigin: true
 }))
 
@@ -63,6 +64,7 @@ module.exports = server.listen(port, function (err) {
   console.debug(' \\ \\___\\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\\\"\\_\\    \\ \\_\\  \\ \\_____\\   /\\_\\/\\_\\ ')
   console.debug('  \\/___/_/   \\/_____/   \\/_/\\/_/   \\/_/ \\/_/     \\/_/   \\/_____/   \\/_/\\/_/ ')
   console.log('Listening on ' + host + ':' + server.address().port)
+  console.log('Backend : ' + proxyUrl)
 })
 
 
