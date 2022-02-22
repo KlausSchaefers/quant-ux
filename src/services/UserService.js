@@ -57,8 +57,8 @@ class UserService extends AbstractService{
     }
 
     retire () {
-        this.logger.error('retire', 'THIS IS DEV... Did not retire user...')
-        // return this._get('/rest/retire')
+        this.logger.info('retire()', 'enter > Oh oh')
+        return this._get('/rest/retire')
     }
 
     load () {

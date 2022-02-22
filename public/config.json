@@ -1,0 +1,4 @@
+{
+    "auth": "qux",
+    "websocket":"wss://ws.quant-ux.com"
+}

@@ -79,10 +79,13 @@ npm install
 npm run build
 ```
 
+### Config front-end
 - Set the proxy server url as en ENV variable
 
 ```
-export QUX_PROXY_URL=https://your.quant-xu.server.com
+export QUX_PROXY_URL=https://your.quant-ux.server.com // backend host
+
+export QUX_WS_URL= wss.quant-ux.server.com // web socket server
 
 ```
 

@@ -1,5 +1,5 @@
 import Logger from '../../core/Logger'
-import WebSocketService from '../../services/WebSocketService'
+import Services from '../../services/Services'
 
 export default class CollabSession {
 
@@ -12,7 +12,7 @@ export default class CollabSession {
     Logger.log(-1, "BusService.initWebsocket()", "enter");
     try {
       let user = this.user
-      let websocket = new WebSocketService('wss://ws.quant-ux.com', model.id, user.token, user)
+      let websocket = Services.getWebSocketService(model.id, user.token, user)
       websocket.onMessage(msg => this.dispatchWebSocketMessage(canvas, controller, toolbar, user, msg))
       websocket.init(success => {
         if (success) {

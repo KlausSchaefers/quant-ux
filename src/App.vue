@@ -74,28 +74,27 @@ export default {
 			document.cookie = c_name + "=" + c_value;
 		}
   },
-  mounted () {
-		this.setCookie('quant-ux-ui', '4.0.0.OSS')
-		Services.getUserService().load()
-		Services.setErrorHandler((url, res) => {
-			this.handler4xx(url, res)
-		})
-    this.$root.$on('Success', (msg) => {
-      this.showSuccess(msg)
-    })
-    this.$root.$on('Error', (msg) => {
-      this.showError(msg)
-    })
-    this.$root.$on('Hint', (msg) => {
-      this.showHint(msg)
-		})
-		this.$root.$on('UserLogin', (user) => {
-			Services.getUserService().setUser(user)
-		})
-		css.remove(win.body(), 'MatcPublic')
+  async mounted () {
+	await Services.initConfig()
+	Services.setErrorHandler((url, res) => {
+		this.handler4xx(url, res)
+	})
+	this.$root.$on('Success', (msg) => {
+		this.showSuccess(msg)
+	})
+	this.$root.$on('Error', (msg) => {
+		this.showError(msg)
+	})
+	this.$root.$on('Hint', (msg) => {
+		this.showHint(msg)
+	})
+	this.$root.$on('UserLogin', (user) => {
+		Services.getUserService().setUser(user)
+	})
+	css.remove(win.body(), 'MatcPublic')
 
-		let language = Services.getUserService().getLanguage()
-		this.$root.$i18n.locale = language
+	let language = Services.getUserService().getLanguage()
+	this.$root.$i18n.locale = language
   }
 }
 </script>

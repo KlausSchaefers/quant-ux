@@ -5,20 +5,16 @@ const compression = require('compression')
 const proxyMiddleware = require('http-proxy-middleware')
 
 
-let config = {
-  index: path.resolve(__dirname, '../dist/index.html'),
-  assetsRoot: path.resolve(__dirname, '../dist'),
-  assetsSubDirectory: 'public',
-  assetsPublicPath: '/',
-  productionSourceMap: true,
-  productionGzip: false,
-  productionGzipExtensions: ['js', 'css'],
-}
 /**
  * Some config stuff
  */
-var host = '0.0.0.0'
-var port = 8082
+const host = '0.0.0.0'
+const port = 8082
+const assetsRoot = path.resolve(__dirname, '../dist')
+const proxyUrl = process.env.QUX_PROXY_URL ?  process.env.QUX_PROXY_URL : 'https://v1.quant-ux.com'
+const wsUrl = process.env.QUX_WS_URL ?  process.env.QUX_WS_URL : 'wss://ws.quant-ux.com'
+const auth = process.env.QUX_AUTH ?  process.env.QUX_AUTH : 'qux'
+
 /**
  *
  * Init express
@@ -30,10 +26,19 @@ var app = express()
  */
 app.use(compression())
 
-/**
- * init proxies. Change here to you server
+/** 
+ * make config dynamic on env variables
  */
-let proxyUrl = process.env.QUX_PROXY_URL ?  process.env.QUX_PROXY_URL : 'https://v1.quant-ux.com'
+app.get("/config.json", (_req, res) => {
+  res.send({
+    "auth": auth,
+    "websocket": wsUrl
+  })
+})
+
+/**
+ * init proxy.
+ */
 app.use('/rest/', proxyMiddleware({
     target: proxyUrl,
     changeOrigin: true
@@ -43,7 +48,7 @@ app.use('/rest/', proxyMiddleware({
 /**
  * Setup static to serve all html, js and images from server/dist
  */
-app.use(express.static(config.assetsRoot))
+app.use(express.static(assetsRoot))
 
 
 /**
@@ -64,7 +69,9 @@ module.exports = server.listen(port, function (err) {
   console.debug(' \\ \\___\\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\\\"\\_\\    \\ \\_\\  \\ \\_____\\   /\\_\\/\\_\\ ')
   console.debug('  \\/___/_/   \\/_____/   \\/_/\\/_/   \\/_/ \\/_/     \\/_/   \\/_____/   \\/_/\\/_/ ')
   console.log('Listening on ' + host + ':' + server.address().port)
-  console.log('Backend : ' + proxyUrl)
+  console.log('Backend   : ' + proxyUrl)
+  console.log('WebSocket : ' + wsUrl)
+  console.log('Auth      : ' + auth)
 })
 
 

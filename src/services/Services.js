@@ -5,8 +5,36 @@ import CommentService from './CommentService'
 import SymbolService from './SymbolService'
 import HelpService from './HelpService'
 import ImageService from './ImageService'
+import WebSocketService from './WebSocketService'
 
 class Services {
+
+    constructor () {
+        this.config = {
+            'auth': 'qux',
+            'websocket': 'wss://ws.quant-ux.com'
+        }
+    }
+
+    async initConfig () {
+        return new Promise((resolve, reject) => {
+            fetch('/config.json', {
+                method: 'get',
+                credentials: "same-origin"
+            }).then((res) => {
+                if (res.status === 200) {
+                    res.json().then(j => {
+                        this.config = j
+                        resolve(j)
+                    })
+                } else {
+                    reject(new Error('Could not load config'))
+                }
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 
     setErrorHandler (handler) {
         this.errorHandler = handler
@@ -17,8 +45,13 @@ class Services {
     }
 
     getImageService () {
-        ImageService.setToken(UserService.getToken())
+        ImageService.setToken(this.getUserService().getToken())
         return ImageService
+    }
+
+    getWebSocketService (modelId, token, user) {
+        let ws = new WebSocketService(this.config.websocket, modelId, token, user)
+        return ws
     }
 
     getUserService () {
