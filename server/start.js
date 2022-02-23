@@ -14,6 +14,7 @@ const assetsRoot = path.resolve(__dirname, '../dist')
 const proxyUrl = process.env.QUX_PROXY_URL ?  process.env.QUX_PROXY_URL : 'https://v1.quant-ux.com'
 const wsUrl = process.env.QUX_WS_URL ?  process.env.QUX_WS_URL : 'wss://ws.quant-ux.com'
 const auth = process.env.QUX_AUTH ?  process.env.QUX_AUTH : 'qux'
+const tos = process.env.QUX_TOS_URL ?  process.env.QUX_TOS_URL : ''
 
 /**
  *
@@ -32,7 +33,8 @@ app.use(compression())
 app.get("/config.json", (_req, res) => {
   res.send({
     "auth": auth,
-    "websocket": wsUrl
+    "websocket": wsUrl,
+    "tos": tos
   })
 })
 

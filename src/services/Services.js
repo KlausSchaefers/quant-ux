@@ -54,8 +54,11 @@ class Services {
     }
 
     getWebSocketService (modelId, token, user) {
-        let ws = new WebSocketService(this.config.websocket, modelId, token, user)
-        return ws
+        if (this.config.websocket) {
+            let ws = new WebSocketService(this.config.websocket, modelId, token, user)
+            return ws
+        }
+        return null
     }
 
     getUserService () {

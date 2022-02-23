@@ -108,6 +108,7 @@ export default {
                 this.errorMessage = "Password too short"
             }
         } else {
+            console.debug(result)
             this.$emit('login', result);
             this.$root.$emit('UserLogin', result)
         }

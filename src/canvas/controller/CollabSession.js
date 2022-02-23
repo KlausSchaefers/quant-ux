@@ -13,21 +13,24 @@ export default class CollabSession {
     try {
       let user = this.user
       let websocket = Services.getWebSocketService(model.id, user.token, user)
-      websocket.onMessage(msg => this.dispatchWebSocketMessage(canvas, controller, toolbar, user, msg))
-      websocket.init(success => {
-        if (success) {
-          //canvas.showSuccess('Collaborative editing initiated! (BETA)')
-          this.sendHello()
-        }
-        canvas.setMouseListener(pos => {
-          this.sendMouse(pos)
+      if (websocket) {
+        websocket.onMessage(msg => this.dispatchWebSocketMessage(canvas, controller, toolbar, user, msg))
+        websocket.init(success => {
+          if (success) {
+            this.sendHello()
+          }
+          canvas.setMouseListener(pos => {
+            this.sendMouse(pos)
+          })
+          controller.setModelChangeListener(changeEvent => {
+            this.sendChange(changeEvent)
+          })
         })
-        controller.setModelChangeListener(changeEvent => {
-          this.sendChange(changeEvent)
-        })
-      })
 
-      this.websocket = websocket
+        this.websocket = websocket
+      } else {
+        Logger.log(-1, "BusService.initWebsocket()", "exit > No session created");
+      }
     } catch (err) {
       Logger.error('CollabSession.initWebsocket()', "Cannot init WebSocket", err)
     }
