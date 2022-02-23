@@ -1,17 +1,15 @@
 import Logger from 'common/Logger'
+import AbstractService from './AbstractService'
 
-class ImageService  {
+class ImageService extends AbstractService {
 
   constructor () {
+    super()
     this.logger = new Logger('ImageService')
   }
 
-  setErrorHandler (handler) {
-    this.errorHandler = handler
-  }
-
-  setToken (token) {
-    this.token = token
+  delete (model, image) {
+    this._delete("/rest/images/" + model.id + "/" + image.id + "/" + image.url)
   }
 
   upload (url, formData, progressHandler) {

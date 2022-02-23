@@ -36,6 +36,10 @@ class Services {
         })
     }
 
+    getConfig() {
+        return this.config
+    }
+
     setErrorHandler (handler) {
         this.errorHandler = handler
         ModelService.setErrorHandler(handler)
@@ -55,8 +59,10 @@ class Services {
     }
 
     getUserService () {
+    
         UserService.setToken(UserService.getToken())
         return UserService
+        
     }
 
     getSymbolService () {
@@ -69,20 +75,20 @@ class Services {
 
     getModelService (route) {
         if (route && route.meta && route.meta.isPublic) {
-            PublicModelService.setToken(UserService.getToken())
+            PublicModelService.setToken(this.getUserService().getToken())
             return PublicModelService
         }
-        ModelService.setToken(UserService.getToken())
+        ModelService.setToken(this.getUserService().getToken())
         return ModelService
     }
 
     getPublicModelService () {
-        PublicModelService.setToken(UserService.getToken())
+        PublicModelService.setToken(this.getUserService().getToken())
         return PublicModelService
     }
 
     getCommentService () {
-        CommentService.setToken(UserService.getToken())
+        CommentService.setToken(this.getUserService().getToken())
         return CommentService
     }
 

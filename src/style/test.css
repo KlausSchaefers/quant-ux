@@ -318,4 +318,22 @@ body.MatcTestMobile{
     color: #999;
 }
 
+.MatcTestCustomSplash .MatcLogoNew{
+    display: none;
+}
 
+.MatcTestCustomSplash .MactMainGradient{
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+.MatcTestCustomSplashPowered {
+    position: fixed;
+    z-index: 9999;
+    bottom: 10px;
+    right: 10px;
+}

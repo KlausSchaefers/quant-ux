@@ -1,6 +1,6 @@
 <template>
     <div class="MatcLoginPage MatcSimulatorSplash MactMainGradient">
-        <div class="MatcLoginPageContainer">
+        <div class="MatcLoginPageContainer" v-if="isQuxAuth">
              <div class="MatcToolbarTabs MatcToolbarTabsBig">
                    <a :class="{'MatcToolbarTabActive': tab === 'login'}" @click="tab = 'login'">Login</a>
                    <a :class="{'MatcToolbarTabActive': tab === 'signup'}" @click="tab = 'signup'">Sign Up</a>
@@ -44,6 +44,7 @@
 import Services from 'services/Services'
 import Logger from 'common/Logger'
 
+
 export default {
   name: "Header",
   mixins: [],
@@ -54,6 +55,11 @@ export default {
         password: '',
         errorMessage: '',
         tab: 'login'
+    }
+  },
+  computed: {
+    isQuxAuth () {
+        return Services.getConfig().auth !== 'keycloak'
     }
   },
   watch: {
@@ -105,10 +111,30 @@ export default {
             this.$emit('login', result);
             this.$root.$emit('UserLogin', result)
         }
+      },
+      async initKeyCloak () {
+        this.logger.log(-2, 'initKeyCloak', 'enter ')
+        const ks = await import(/* webpackChunkName: "keycloak" */ 'keycloak-js')
+        console.debug(ks)
+        let initOptions = {
+            url: 'http://localhost:8081/', realm: 'qux', clientId: 'qux-client', onLoad: 'login-required'
+        }
+        let keycloak = ks.default(initOptions);
+        keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
+            console.debug(auth)
+            if (!auth) {
+                window.location.reload();
+            } else {
+                console.debug(auth)
+            }
+        })
       }
   },
   async mounted() {
     this.logger = new Logger('LoginPage')
+    if (!this.isQuxAuth) {
+        this.initKeyCloak()
+    }
   }
 }
 </script>

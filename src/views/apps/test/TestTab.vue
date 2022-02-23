@@ -35,7 +35,7 @@
                     placeholder="Enter here a welcome message for your testers."
                   />
               
-                  <div class="MatcLayoutCol3" v-if="false">
+                  <div class="MatcLayoutCol3" >
                       <div :class="['MatUploader MatUploaderDropZone', {'MatUploaderDropZoneHover': hasDragOver}, {'MatUploaderHasFile': hasSplash}]" 
                         @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
                         
@@ -175,6 +175,9 @@ export default {
       return ''
     },
     splashMessage () {
+      if (this.isUploading) {
+        return this.getNLS('test.splash.uploading')
+      }
       return this.getNLS('test.splash.upload')
     }
   },
@@ -202,11 +205,12 @@ export default {
       if (files.length === 1) {
           this.isUploading = true
           let file = files[0]
-          let url = '/rest/images/' + this.app.id;
+          let url = '/rest/images/' + this.app.id + '?resize=false';
           let formData = new FormData();
 				  formData.append('file', file);
           let result = await this.imageService.upload(url, formData)
           result = JSON.parse(result)
+          console.debug(result)
           if (result.uploads && result.uploads.length === 1) {
             this.test.splash = result.uploads[0]
             this.onTestChange()
@@ -216,7 +220,10 @@ export default {
         this.showError("Upload single image");
       }
     },
-    onRemoveSplash () {
+    async onRemoveSplash () {
+      if (this.test.splash) {
+        await this.imageService.delete(this.app, this.test.splash)
+      }
       delete this.test.splash
       this.onTestChange()
     },

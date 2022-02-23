@@ -62,9 +62,9 @@
       height: 100%;
       background-size: 100%;
       background-repeat: no-repeat;
-      background-position: top center;
-      position: relative;
-
+      background-position: center center;
+      background-size: cover;
+   
       &:hover {
         .MatUploaderPreviewRemove {
           opacity: 1;
