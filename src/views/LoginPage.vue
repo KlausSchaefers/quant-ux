@@ -86,7 +86,7 @@ export default {
         }
       },
       async signup() {
-        this.logger.info('login', 'signup ', this.email)
+        this.logger.info('signup', 'enter ', this.email)
 
         if (this.password.length < 6) {
             this.$root.$emit("Error", "Password requires 6 characters")
@@ -108,9 +108,13 @@ export default {
                 this.errorMessage = "Password too short"
             }
         } else {
-            console.debug(result)
-            this.$emit('login', result);
-            this.$root.$emit('UserLogin', result)
+            let user = await Services.getUserService().login({
+                email:this.email,
+                password: this.password,
+            })
+            this.$emit('login', user);
+            this.$root.$emit('UserLogin', user)
+            this.logger.log(-1,'signup', 'exit with login', this.email)
         }
       },
       async initKeyCloak () {

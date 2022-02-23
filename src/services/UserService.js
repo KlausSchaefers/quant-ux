@@ -22,11 +22,7 @@ class UserService extends AbstractService{
     }
 
     async signup (data) {
-        let result = this._post('/rest/user', data)
-        if (!result.errors) {
-            return this.login(data)
-        }
-        return result;
+        return this._post('/rest/user', data)
     }
 
     async login (data) {
