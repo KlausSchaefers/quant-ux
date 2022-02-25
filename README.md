@@ -32,10 +32,15 @@ npm run lint
 
 # Installation
 
+The easiest way to get your own installation up and running is using the prebuild Docker images by [Brian McGonagill](https://github.com/bmcgonag).  You can find the repo and instructions at https://github.com/bmcgonag/quant-ux-docker/
+
+
+## Manual Installation
+
 Quant-UX has two components. A front-end (this package) and a backend (qux-java). The front-end needs node (> 12) installed. The backend needs a Mongo DB, Mail Server (SMPT) and Java (> 1.8).
 The front-end comoes with it's own mini web server, which also include a procy that redirects all request to the correct backend.
 
-## Backend
+### Backend
 
 - Install Mongo DB (> 4.4)
 
@@ -58,7 +63,7 @@ java -jar release/matc.jar -Xmx2g -conf matc.conf -instances 1
 ```
 
 
-## Front-end
+### Front-end
 
 - Install Node.js (> 12)
 
@@ -94,7 +99,7 @@ export QUX_WS_URL= wss.quant-ux.server.com // web socket server
 node server/start.js
 ```
 
-## Reverse Proxy
+### Reverse Proxy
 
 Now you should have a a running system. It is not secure yet. The best is to put both behind a NGINX reverse proxy, which handles SSL.
 
