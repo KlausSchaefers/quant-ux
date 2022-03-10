@@ -14,7 +14,7 @@
           vertical-align: top;
           word-break: break-all;
           white-space: pre;
-          word-wrap: break-word;">{{settings}}</code>
+          word-wrap: break-word;">{{app}}</code>
 
 
   </div>
@@ -32,7 +32,7 @@
 <script>
 
 import DataBindingTree from 'canvas/toolbar/components/DataBindingTree'
-import rest from './data/rest.json'
+import databinging from './data/databinging.json'
 
 export default {
   name: "DataSettingsTest",
@@ -40,26 +40,21 @@ export default {
   data: function() {
     return {
       waiting: true,
-      app: rest,
+      app: databinging,
       settings: {},
       selectedTest: 3,
-      selectedWidget: {
-            "id" : "Rest",
-            "name" : "Rest",
-            "type":"Repeater",
-            "x": 0,
-            "y": 0,
-            "w": 80,
-            "h": 80,
-            "props" : {
-                "label" : "Rest",
-                 "databinding" : {
-                    "default" : "content",
-                    "output": "image"
-                },
-                "hasOutputDataBinding": false
-            }
-      }
+      selectedWidget:  {
+        "id" : "w10007_32115",
+        "type" : "TextBox",
+        "name" : "Text Box 5",
+        "props" : {
+          "label" : "Enter a value",
+          "placeholder" : true,
+          "databinding" : {
+            "default" : "address.zip"
+          }
+        }
+      },
     };
   },
   components: {
@@ -73,75 +68,19 @@ export default {
       }
   },
   mounted() {
-    this.app.dataModel = {
-      variables: [
-        {
-          name: "objectVar",
-          type: "Object",
-          children: [
-            {
-              name: "id",
-              type: "String",
-              value: ""
-            },
-            {
-              name: "email",
-              type: "String",
-              value: ""
-            },
-            {
-              name: "lastname",
-              type: "String",
-              value: ""
-            },
-            {
-              name: "address",
-              type: "Object",
-              children: [
-                {
-                  name: "street",
-                  type: "String",
-                  value: ""
-                },
-                {
-                  name: "city",
-                  type: "String",
-                  value: ""
-                },
-                {
-                  name: "zip",
-                  type: "Number",
-                  value: null,
-                },
-                {
-                  name: "country",
-                  type: "String",
-                  value: ""
-                },
-              ]
-            }
-          ]
-        },
-        {
-          name: "intVar",
-          type: "Number",
-          value: 1
-        },
-        {
-          name: "stringVar",
-          type: "String",
-          value: "abc"
-        },
-        {
-          name: "boolVar",
-          type: "Boolean",
-          value: true
-        },
-        {
-          name: "arrayVar",
-          type: "Array"
+    this.app.schemas = {
+      "user": {
+        "type": "Object",
+        "default": {},
+        "children": {
+          "name": {
+            "type": "String",
+            "default": "Peter",
+            "required": true
+          }
         }
-      ]
+      }
+      
     }
     this.waiting = false
   }

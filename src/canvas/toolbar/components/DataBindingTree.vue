@@ -25,7 +25,7 @@
                  </tr>
              </table>
 
-             {{dataModel}}
+             {{variables}}
          </div>
 	</div>
 </template>
@@ -35,13 +35,13 @@
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import lang from 'dojo/_base/lang'
-import Util from 'core/Util'
+import * as DataBindingUtil from 'core/DataBindingUtil'
 import Logger from 'common/Logger'
 import Input from 'common/Input'
 
 export default {
     name: 'DataBinding',
-    mixins:[DojoWidget, Util],
+    mixins:[DojoWidget],
     props:["app", "value", "canChangeVars"],
     data: function () {
         return {
@@ -51,7 +51,7 @@ export default {
             newType: "default",
             variables: [],
             databinding: {},
-            dataModel: {}
+            dataModel: {},
         }
     },
     components: {
@@ -92,7 +92,7 @@ export default {
 
         },
         hints () {
-           	var hints = this.getHintsAppVariables();
+           	var hints = DataBindingUtil.getHintsAppVariables(this.model);
 			hints = hints.map(h => {
 				return {
 					label: h,
@@ -138,7 +138,6 @@ export default {
             }
         },
         onSelectVariable (v, key = "default") {
-            console.debug('onSelectVariable()', v, key)
             this.$set(this.databinding, key, v)
             this.onChange()
         },
@@ -167,6 +166,7 @@ export default {
         },
         setModel (v) {
             this.model = v
+            console.debug(v)
             if (v.dataModel) {
                 this.dataModel = lang.clone(v.dataModel)
             }
@@ -179,7 +179,8 @@ export default {
             this.initVariables()
         },
         initVariables () {
-            var variables = this.getAllAppVariables();
+            var variables = DataBindingUtil.getAllAppVariables(this.model);
+            //var schema = 
             if (this.variables.length === 0) {
                 variables.sort((a, b) => {
                     return a.localeCompare(b)
@@ -201,7 +202,7 @@ export default {
         }
     },
     mounted () {
-        this.logger = new Logger("DataSetting")
+        this.logger = new Logger("DataBindingTree")
         if (this.app) {
             this.setModel(this.app)
         }

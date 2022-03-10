@@ -59,6 +59,7 @@ export function getModelDelta(objOld, objNew) {
 		fonts: true,
 		imports: true,
 		designtokens: true,
+		schemas: true
 	}
 
 	/**

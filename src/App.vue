@@ -15,8 +15,8 @@ import Services from 'services/Services'
 
 export default {
   methods: {
-    showSuccess:function(msg){
-			if(this.$refs.message){
+    showSuccess (msg){
+		if (this.$refs.message){
 				css.add(this.$refs.message, "vommondMessageSuccess");
 				css.remove(this.$refs.message, "vommondMessageError vommondMessageHint");
 				this.$refs.message.innerHTML = msg;
@@ -26,19 +26,19 @@ export default {
 			}
 		},
 
-	showError:function(msg){
-		if(this.message){
-				css.add(this.$refs.message, "vommondMessageError");
-				css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageHint");
-				this.$refs.message.innerHTML = msg;
-				setTimeout( () => {
-					this.hideMessage()
-				},4000);
+	showError (msg){
+		if (this.message){
+			css.add(this.$refs.message, "vommondMessageError");
+			css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageHint");
+			this.$refs.message.innerHTML = msg;
+			setTimeout( () => {
+				this.hideMessage()
+			},4000);
 		}
 	},
 
-	showHint:function(msg){
-		if(this.$refs.message){
+	showHint (msg){
+		if (this.$refs.message){
 			css.add(this.$refs.message, "vommondMessageHint");
 			css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageSuccess");
 			this.$refs.message.innerHTML = msg;
@@ -48,7 +48,7 @@ export default {
 		}
 	},
 
-	hideMessage:function(){
+	hideMessage (){
 		css.remove(this.$refs.message, "vommondMessageSuccess vommondMessageError vommondMessageHint");
 	},
 
@@ -67,12 +67,12 @@ export default {
 		}
 	},
 
-		setCookie(c_name, value, exdays = 10) {
-			var exdate = new Date();
-			exdate.setDate(exdate.getDate() + exdays);
-			var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
-			document.cookie = c_name + "=" + c_value;
-		}
+	setCookie(c_name, value, exdays = 10) {
+		var exdate = new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+		document.cookie = c_name + "=" + c_value;
+	}
   },
   async mounted () {
 	await Services.initConfig()

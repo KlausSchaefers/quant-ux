@@ -559,23 +559,24 @@ export default {
 				let z = '1'
 				if (this.model.grid.type === "columns"){
 
-					let h = this.getZoomed(this.zoom,this.model.grid.h);
-					let w = this.getZoomed(this.zoom,this.model.grid.w);
-
+					let h = this.model.grid.h * 1
+					let w = this.model.grid.w * 1
+				
 					if (!this.gridBackground[z]){
-						let columnCount = this.model.grid.columnCount;
-						let columnOffset = (this.zoom * this.model.grid.columnOffset);
-						let columnGutter = (this.zoom * this.model.grid.columnGutter);
-						let columnWidth = (this.zoom * this.model.grid.columnWidth);
-
+						let columnCount = this.model.grid.columnCount * 1;
+						let columnOffset = this.model.grid.columnOffset * 1;
+						let columnGutter = this.model.grid.columnGutter * 1;
+						let columnWidth = this.model.grid.columnWidth * 1;
+					
 						let c = document.createElement("canvas");
-						c.width = this.model.screenSize.w;
+						c.width = this.sourceModel.screenSize.w;
 						c.height = 1;
 						let context = c.getContext("2d");
 
 						var lastX = columnOffset;
 						for (let i=0; i< columnCount; i++){
 							let x = lastX + columnWidth;
+						
 							// if gutter is 0, we just draw some lines...
 							if (columnGutter > 0 ) {
 								context.moveTo(Math.round(lastX), 0);
@@ -591,8 +592,8 @@ export default {
 							lastX = x + columnGutter;
 						}
 						/**
-							* We had here somehow a ghost h...
-							*/
+						* We had here somehow a ghost h...
+						*/
 						context.moveTo(0, h);
 						context.lineTo(w, h);
 						context.strokeStyle = this.model.grid.color;
@@ -611,8 +612,7 @@ export default {
 					let h = this.model.grid.h * z;
 					let w = this.model.grid.w * z;
 
-
-					if (w > 0 && h > 0 && w < this.model.screenSize.w && h < this.model.screenSize.h ){
+					if (w > 0 && h > 0 && w < this.sourceModel.screenSize.w && h < this.sourceModel.screenSize.h ){
 
 						if (!this.gridBackground[z]){
 							let c= document.createElement("canvas");

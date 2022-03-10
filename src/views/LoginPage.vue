@@ -116,30 +116,10 @@ export default {
             this.$root.$emit('UserLogin', user)
             this.logger.log(-1,'signup', 'exit with login', this.email)
         }
-      },
-      async initKeyCloak () {
-        this.logger.log(-2, 'initKeyCloak', 'enter ')
-        const ks = await import(/* webpackChunkName: "keycloak" */ 'keycloak-js')
-        console.debug(ks)
-        let initOptions = {
-            url: 'http://localhost:8081/', realm: 'qux', clientId: 'qux-client', onLoad: 'login-required'
-        }
-        let keycloak = ks.default(initOptions);
-        keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
-            console.debug(auth)
-            if (!auth) {
-                window.location.reload();
-            } else {
-                console.debug(auth)
-            }
-        })
       }
   },
   async mounted() {
     this.logger = new Logger('LoginPage')
-    if (!this.isQuxAuth) {
-        this.initKeyCloak()
-    }
   }
 }
 </script>

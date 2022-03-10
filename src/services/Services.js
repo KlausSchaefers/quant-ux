@@ -11,6 +11,7 @@ class Services {
 
     constructor () {
         this.config = {
+            'default': true,
             'auth': 'qux',
             'websocket': 'wss://ws.quant-ux.com'
         }
@@ -62,10 +63,8 @@ class Services {
     }
 
     getUserService () {
-    
         UserService.setToken(UserService.getToken())
-        return UserService
-        
+        return UserService   
     }
 
     getSymbolService () {
