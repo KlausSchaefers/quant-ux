@@ -37,8 +37,7 @@ The easiest way to get your own installation up and running is using the prebuil
 
 ## Manual Installation
 
-Quant-UX has two components. A front-end (this package) and a backend (qux-java). The front-end needs node (> 12) installed. The backend needs a Mongo DB, Mail Server (SMPT) and Java (> 1.8).
-The front-end comoes with it's own mini web server, which also include a procy that redirects all request to the correct backend.
+Quant-UX has two components. A front-end (this package) and a backend (qux-java). The front-end needs Node.js (> 12) installed. The backend needs a Mongo DB, a Mail Server (SMPT) and Java (> 1.8). The front-end comes with it's own mini web server, which also include a proxy that redirects all request to the correct backend.
 
 ### Backend
 
