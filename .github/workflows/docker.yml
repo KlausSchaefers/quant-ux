@@ -1,0 +1,31 @@
+name: Docker Image Build and Push to Dockerhub - CI/CD
+
+on: 
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Set Tag in evn variable
+      run: |
+        echo "${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}" > APP_NAME
+        echo "$GITHUB_SHA" > TAG 
+        
+      
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag $(cat APP_NAME):$(cat TAG)
+    
+    - name: Tag the image to latest
+      run: docker tag $(cat APP_NAME):$(cat TAG) $(cat APP_NAME):latest
+      
+    - name: Docker Login
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      
+    - name: Image push
+      run: docker push $(cat APP_NAME):latest
