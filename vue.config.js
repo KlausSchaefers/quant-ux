@@ -3,12 +3,7 @@ module.exports = {
   devServer: {
     proxy: {
       '^/rest': {
-        target: 'https://v1.quant-ux.com',
-        ws: true,
-        changeOrigin: true
-      },
-      '^/examples': {
-        target: 'https://v1.quant-ux.com',
+        target: 'https://v1.quant-ux.com', // 'http://localhost:8081',
         ws: true,
         changeOrigin: true
       }

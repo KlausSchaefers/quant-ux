@@ -12,7 +12,7 @@
           <p>
           <div class="row">
 
-            <div class="col-md-6">
+            <div class="col-md-6" v-if="isQuxAuth">
               <div data-dojo-type="de/vommond/Form">
                 <div class="form-group">
                   <label>Name</label>
@@ -51,6 +51,11 @@
                   <a class href="#/my-apps.html">Cancel</a>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6" v-else>
+              <p class="MatcLead MatcMarginBottomXL">
+                Your credentials are managed in Keycloak. Contact your admin for help.
+              </p>
             </div>
             <div class="col-md-2 col-md-offset-1 visible-md-block visible-lg-block">
               <Label>Image</Label>
@@ -97,6 +102,11 @@ export default {
   components: {
       'CheckBox': CheckBox,
       'UserImage': UserImage
+  },
+  computed: {
+    isQuxAuth () {
+        return Services.getConfig().auth !== 'keycloak'
+    }
   },
   methods: {
     async retire () {

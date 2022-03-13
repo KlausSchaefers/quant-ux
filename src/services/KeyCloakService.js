@@ -1,15 +1,17 @@
 import AbstractService from './AbstractService'
-import Logger from '../common/Logger'
+import Logger from 'common/Logger'
+import Keycloak from "keycloak-js";
 
-class UserServiceKeyCloak extends AbstractService{
+class KeyCloakService extends AbstractService{
 
     constructor () {
         super()
-        this.logger = new Logger('UserServiceKeyCloak')
         this.language = 'en'
+        this.REFRESH_INTERVAl = 60 * 1000
         this.GUEST = {
             id: -1,
             name: "Guest",
+            isKeyCloak: true,
             email: "guest@quant-ux.com",
             role: "guest",
             lastlogin: 0,
@@ -18,70 +20,107 @@ class UserServiceKeyCloak extends AbstractService{
             paidUntil: 0,
             plan: "Free"
         }
+        this.logger = new Logger('KeyCloakService')
     }
 
-    signup (data) {
-        return this._post('/rest/user', data)
+    init(conf) {
+        return new Promise((resolve) => {
+            this.logger.log(-1, 'init() > enter')
+            let initOptions = {
+                url: conf.keycloak.url, 
+                realm: conf.keycloak.realm, 
+                clientId: conf.keycloak.clientId
+            }
+            
+          
+            let keycloak = Keycloak(initOptions);
+            keycloak.init({
+              onLoad: 'check-sso',
+              silentCheckSsoRedirectUri: window.location.origin + '/sso.html'
+            })
+          
+            keycloak.onReady = () => {
+              if (!keycloak.authenticated){
+                this.logger.log(-1, 'init() > need login')
+                keycloak.login()
+                resolve()
+              } else {
+                this.logger.log(-1, 'init() > user logged in')
+                keycloak.loadUserProfile().then(async user => {
+                  this.logger.log(-1, 'init()', 'user loaded', user)
+                  let quxUser = {
+                    id:user.id,
+                    name: user.username,
+                    lastname: user.lastname,
+                    email: user.username,
+                    token: keycloak.token
+                  }
+                  this.setUser(quxUser)
+                  await this._post('/rest/user/external', quxUser)
+                  resolve()
+                  
+                  setInterval(async () => {
+                    await keycloak.updateToken(300).catch(() => {
+                      Logger.error('Keycloak failed to refresh token')
+                    })
+                    let quxUser = {
+                        id:user.id,
+                        name: user.username,
+                        lastname: user.lastname,
+                        email: user.username,
+                        token: keycloak.token
+                    }
+                    this.setUser(quxUser)
+                  }, this.REFRESH_INTERVAl)
+              
+                })
+              
+              }
+            }
+          
+            keycloak.onAuthLogout = () => {
+              this.logger.log(-1, 'onAuthLogout()')
+            }
+            this.keycloak = keycloak   
+            this.logger.log(-1, 'init() > exit')   
+        })
+       
+       
     }
 
-    async login (data) {
-        let user = await this._post('rest/login/', data)
-        if (!user.errors) {
-            this.setUser(user)
-        }
-        return user;
+    signup () {
+   
     }
 
-    save (userID, data) {
-        return this._post('rest/user/' + userID + ".json", data)
+    async login () {
+    
+    }
+
+    save () {
+        //return this._post('rest/user/' + userID + ".json", data)
     }
 
     logout () {
+        this.logger.log(-1, 'KeyCloakService.logout()')
         localStorage.removeItem('quxKeyCloakUser');
-        return this._delete('rest/login/')
-    }
-
-    reset (email) {
-        return this._post('/rest/user/password/request', {email: email})
-    }
-
-    reset2 (email, password, token) {
-        let data = {
-            email: email,
-            password: password,
-            key: token
+        if (this.keycloak) {
+            this.keycloak.logout()
         }
-        return this._post('/rest/user/password/set', data)
+    }
+
+    reset () {
+    }
+
+    reset2 () {
+       
     }
 
     retire () {
-        this.logger.info('retire()', 'enter > Oh oh')
-        return this._get('/rest/retire')
+      
     }
 
     load () {
-        if (!this.user) {
-            this.logger.info('getUser()', 'load')
-            let s = localStorage.getItem('quxKeyCloakUser')
-            if (s) {
-                try {
-                    let user = JSON.parse(s)
-                    this.setTTL(user)
-                    if (this.isValidUser(user)) {
-                        this.user = user
-                        this.setToken(this.getToken())
-                    } else {
-                        this.user = this.GUEST
-                    }
-                } catch (error) {
-                    this.logger.error('getUser', 'could not parse', s)
-                    this.user = this.GUEST
-                }
-            } else {
-                this.user = this.GUEST
-            }
-        }
-        return this.user
+       return this.user
     }
 
     async loadById (id) {
@@ -162,7 +201,7 @@ class UserServiceKeyCloak extends AbstractService{
             }).join(''));
             return JSON.parse(jsonPayload);
         } catch (e) {
-            this.logger.error('parseJwt', 'error > could not parse token', e)
+            this.this.logger.error('parseJwt', 'error > could not parse token', e)
         }
         return null
     }
@@ -170,7 +209,6 @@ class UserServiceKeyCloak extends AbstractService{
     setUser (u) {
         this.setTTL(u)
         this.user = u
-        localStorage.setItem('quxKeyCloakUser', JSON.stringify(u));
     }
 
     setLanguage (langauge) {
@@ -201,4 +239,4 @@ class UserServiceKeyCloak extends AbstractService{
     }
 
 }
-export default new UserServiceKeyCloak()
+export default new KeyCloakService()

@@ -108,7 +108,8 @@ class UserService extends AbstractService{
 
     getToken () {
         /**
-         * We moght have an issue here on forst loads!. Make sure we chhecke the local storage.
+         * We might have an issue here on first loads!
+         * Make sure we chheck the local storage.
          */
         if (!this.user) {
             this.load()

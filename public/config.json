@@ -1,10 +1,10 @@
 {
     "info": "This file is just used for development. Do not edit",
-    "auth": "keycloak",
+    "auth": "qux",
     "websocket":"wss://ws.quant-ux.com",
     "keycloak": {
-        "realm": "", 
-        "clientId": "",
-        "url": ""
+        "realm": "realm", 
+        "clientId": "client",
+        "url": "http://localhost:8180/auth"
     }
 }

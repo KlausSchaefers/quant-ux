@@ -65,17 +65,9 @@ export default {
 			this.$router.push('/')
 			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)
 		}
-	},
-
-	setCookie(c_name, value, exdays = 10) {
-		var exdate = new Date();
-		exdate.setDate(exdate.getDate() + exdays);
-		var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
-		document.cookie = c_name + "=" + c_value;
 	}
   },
   async mounted () {
-	await Services.initConfig()
 	Services.setErrorHandler((url, res) => {
 		this.handler4xx(url, res)
 	})

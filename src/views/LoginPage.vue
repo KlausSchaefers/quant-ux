@@ -42,6 +42,7 @@
 <script>
 
 import Services from 'services/Services'
+//import initKeyCloak from '../sso.js'
 import Logger from 'common/Logger'
 
 
@@ -116,10 +117,19 @@ export default {
             this.$root.$emit('UserLogin', user)
             this.logger.log(-1,'signup', 'exit with login', this.email)
         }
+      },
+      initKeyCloak (conf) {
+          // getthe user service!
+        const keycloakService = Services.getUserService()
+        keycloakService.init(conf)
+        // - init should return a promise if this is ok
+        // - emit the login
+        //initKeyCloak()
       }
   },
   async mounted() {
     this.logger = new Logger('LoginPage')
+   
   }
 }
 </script>
