@@ -27,7 +27,7 @@ class KeyCloakService extends AbstractService{
         return new Promise((resolve) => {
             this.logger.log(-1, 'init() > enter')
             let initOptions = {
-                url: conf.keycloak.url, 
+                url: conf.keycloak.url + '/auth', 
                 realm: conf.keycloak.realm, 
                 clientId: conf.keycloak.clientId
             }
