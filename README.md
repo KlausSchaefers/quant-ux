@@ -1,3 +1,5 @@
+[![Docker Image Build and Push to Dockerhub - CI/CD](https://github.com/KlausSchaefers/quant-ux/actions/workflows/docker.yml/badge.svg)](https://github.com/KlausSchaefers/quant-ux/actions/workflows/docker.yml)
+
 # Quant-UX - Prototype, Test and Learn
 
 Quant UX is a research, usability and prototyping tool to quickly test your designs and get data driven insights. 
