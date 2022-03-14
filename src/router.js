@@ -106,10 +106,6 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "unit" */ './unit/RuleTest.vue')
     },
     {
-      path: '/test/DataBinding.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/DataBindingTest.vue')
-    },
-    {
       path: '/test/DataBindingTree.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/DataBindingTreeTest.vue')
     },

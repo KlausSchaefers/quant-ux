@@ -281,7 +281,7 @@ export default {
         }
     },
     mounted () {
-        this.logger = new Logger("RestSettings")
+        this.logger = new Logger("DataBinding")
         if (this.app) {
             this.setModel(this.app)
         }

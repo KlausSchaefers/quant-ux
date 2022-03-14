@@ -3,7 +3,7 @@
     <h1 style="margin-left:20px; margin-bottom:20px;">DataBinding Test</h1>
 
 
-   <div class="MatcDialogBack" style="display:inline-block; width:auto; vertical-align: top; margin-left:30px;">
+   <div class="MatcDialog" style="display:inline-block; width:auto; vertical-align: top; margin-left:30px;">
         <DataBindingTree :app="app" @change="onChange" :value="selectedWidget" :canChangeVars="false" v-if="!waiting"/>
     </div>
 
@@ -14,7 +14,7 @@
           vertical-align: top;
           word-break: break-all;
           white-space: pre;
-          word-wrap: break-word;">{{app}}</code>
+          word-wrap: break-word;">{{result}}</code>
 
 
   </div>
@@ -41,17 +41,20 @@ export default {
     return {
       waiting: true,
       app: databinging,
+      result: {},
       settings: {},
       selectedTest: 3,
       selectedWidget:  {
         "id" : "w10007_32115",
-        "type" : "TextBox",
+        "type" : "Table",
         "name" : "Text Box 5",
         "props" : {
           "label" : "Enter a value",
           "placeholder" : true,
           "databinding" : {
-            "default" : "address.zip"
+            "default" : "address.int",
+            "output": "address.out",
+            "action": "address.action"
           }
         }
       },
@@ -64,7 +67,7 @@ export default {
   },
   methods: {
       onChange (d) {
-          this.settings = JSON.stringify(d, null, 2)
+          this.result = JSON.stringify(d, null, 2)
       }
   },
   mounted() {

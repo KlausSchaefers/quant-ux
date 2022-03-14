@@ -78,6 +78,13 @@ export default {
       if (this.isQDate(v)) {
         v = this.convertQDateToString(v);
       }
+      if (typeof v === 'object' && !Array.isArray(v) && v !== null) {
+        try {
+          v = JSON.stringify(v, '  ', 2)
+        } catch (err) {
+          console.warn('Label._setDataBindingValue() Cannot convert JSON', v)
+        }
+      }
       if (this.model.props && this.model.props.label) {
         var label = this.model.props.label;
         if (label.indexOf("{0}") >= 0) {

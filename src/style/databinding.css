@@ -1,7 +1,8 @@
 .MatcDataBindingDialogXXL{
 	width: 840px;
-	min-height: 600px;
+	min-height: 660px;
 }
+
 
 .MatcDataBinding{
     width: 800px;
@@ -42,3 +43,20 @@
 .MatcDataBinding .MatcDropDownButtonWidth{
     min-width: 120px;
 }
+
+.MatcDataBinding .MatcDataBindingVariableDefault input{
+    background: none;
+    border-color: transparent;
+    font-style: italic;
+}
+
+.MatcDataBinding .MatcDataBindingVariableDefault input:hover{
+    border-color: #3787f2;
+    border-style: dashed;
+}
+
+.MatcDataBinding .MatcDataBindingVariableDefault input:focus{
+    border-color: #3787f2;
+    background: #fff;
+}
+

@@ -1040,6 +1040,7 @@
 	margin-right: 5px;
 	font-size: 18px;
 	padding: 5px;
+	border-bottom-width: 2px;
 }
 
 .MatcToolbarTabs a:HOVER{
@@ -1047,7 +1048,7 @@
 }
 
 .MatcToolbarTabs a.MatcToolbarTabActive{
-	border-bottom: 1px solid #3787f2;
+	border-bottom-color: #3787f2;
 	color: #333;
 }
 

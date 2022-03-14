@@ -369,7 +369,7 @@
       },
       "w10007_32115" : {
         "id" : "w10007_32115",
-        "type" : "TextBox",
+        "type" : "Table",
         "name" : "Text Box 5",
         "x" : 1338,
         "y" : 1592,
@@ -380,7 +380,9 @@
           "label" : "Enter a value",
           "placeholder" : true,
           "databinding" : {
-            "default" : "address.zip"
+            "default" : "address.int",
+            "output": "address.out",
+            "action": "address.action"
           }
         },
         "has" : {

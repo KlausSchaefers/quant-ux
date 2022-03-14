@@ -1,7 +1,17 @@
 
 <template>
-     <div class="MatcDataSettings">
+     <div class="MatcDataBinding MatcDataBindingTree">
+           <div class="MatcToolbarTabs MatcToolbarTabsBig MatcMarginBottom">
+                <a v-for="key in variableKeys" 
+                    @click="setVariableType(key.value)"
+                    :key="key.value" 
+                    :class="{'MatcToolbarTabActive': selectedVaribaleType === key.value}">
+                    {{key.label}}
+                </a>
+         
+            </div>
          <div v-if="model" class="MatcDialogTable">
+          
              <table>
                   <tr >
                     <td class="MatcDataBindingCheckCntr">
@@ -20,12 +30,29 @@
 					        :formControl="true"/>
                     </td>
                      <td>
-                         <span class="MatcButton" v-if="hasNewTypeSelector">Add</span>
+                        <a class="MatcButton">Create</a>                       
                     </td>
                  </tr>
              </table>
+     
+              <table>                  
+                 <tbody>
+                    <tr class="" v-for="variable in modelVariables" :key="variable.name">
+                        <td class="MatcDataBindingCheckCntr">
+                            <CheckBox :value="variable.selected" @change="onSelectVariable($event, variable.name)"/>
+                        </td>                 
+                        <td>                
+                            <span class="MatcDataBindingVariableName">
+                                {{variable.name}}
+                            </span>
+                        </td>
+                        <td class="MatcDataBindingVariableDefault" v-if="hasDefaults">
+                            <input class="MatcIgnoreOnKeyPress form-control" placeholder="default value" v-model="variable.defaultValue"        @keydown.stop=""/>
+                        </td>
+                    </tr>
+                 </tbody>
 
-             {{variables}}
+             </table>
          </div>
 	</div>
 </template>
@@ -34,14 +61,16 @@
 </style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
-import lang from 'dojo/_base/lang'
-import * as DataBindingUtil from 'core/DataBindingUtil'
+import Util from 'core/Util'
 import Logger from 'common/Logger'
+// import DropDownButton from 'page/DropDownButton'
+import CheckBox from 'common/CheckBox'
 import Input from 'common/Input'
+import DataBindingService from 'services/DataBindingService'
 
 export default {
     name: 'DataBinding',
-    mixins:[DojoWidget],
+    mixins:[DojoWidget, Util],
     props:["app", "value", "canChangeVars"],
     data: function () {
         return {
@@ -51,16 +80,20 @@ export default {
             newType: "default",
             variables: [],
             databinding: {},
-            dataModel: {},
+            selectedVaribaleType: 'default',
+            hasDefaults: false,
+            variableKeys: []
         }
     },
     components: {
-        //'CheckBox': CheckBox,
-        'Combo': Input,
-        //'SegmentButton': SegmentButton
+        'CheckBox': CheckBox,
+        'Combo': Input
         // 'DropDownButton': DropDownButton
     },
     computed: {
+        buttonWidth () {
+            return this.variableKeys.length * 80 + 'px'
+        },
         dataTypes () {
             return ["Number", "String", "Boolean", "Object", "Array"].map(a => {
                 return {
@@ -68,31 +101,9 @@ export default {
                     value: a
                 }
             })
-        },
-        variableKeys () {
-            if (this.widget.type === 'Repeater') {
-                return [
-                    {
-                        label: "In",
-                        value: "default"
-                    },
-                    {
-                        label: "Out",
-                        value: "output"
-                    }
-                ]
-            } else {
-                return [
-                    {
-                        label: "In & out",
-                        value: "default"
-                    }
-                ]
-            }
-
-        },
+        },        
         hints () {
-           	var hints = DataBindingUtil.getHintsAppVariables(this.model);
+           	var hints = this.getHintsAppVariables();
 			hints = hints.map(h => {
 				return {
 					label: h,
@@ -101,60 +112,39 @@ export default {
             })
             return hints
         },
-        selectedVaribales () {
-            let values2Keys = {}
-            for (let key in this.databinding) {
-                let value = this.databinding[key]
-                values2Keys[value] = key
-            }
+        modelVariables () {          
+            const selectedVaribale = this.databinding[this.selectedVaribaleType]           
 			let result = this.variables.map(v => {
                 return {
                     name: v,
-                    selected: values2Keys[v] !== null && values2Keys[v] !== undefined,
+                    selected: selectedVaribale === v,
                     defaultValue: '',
-                    dataType: "Object",
-                    type: values2Keys[v]
+                    dataType: "Object"
                 }
             })
             return result
         }
     },
     methods: {
+        setVariableType (type) {
+            this.logger.log(-1, 'setVariableType', 'enter', type)
+            this.selectedVaribaleType = type
+        },
         onNewVariable (v) {
+            this.logger.log(-1, 'onNewVariable', 'enter', v)
             this.$refs.combo.clear()
             if (this.variables.indexOf(v) < 0) {
                 this.variables.unshift(v)
             }
-            this.onSelectVariable(v, this.newType)
-            this.hasNewTypeSelector = false
+            this.onSelectVariable(true, v)
             this.onChange()
-        },
-        onCheckBox (selected, name, key) {
+        },      
+        onSelectVariable (selected, variable) {      
+            this.logger.log(-1, 'onSelectVariable', 'enter', selected, variable)     
             if (selected) {
-                this.onSelectVariable(name)
+                this.databinding[this.selectedVaribaleType] = variable
             } else {
-                this.$delete(this.databinding, key)
-                this.onChange()
-            }
-        },
-        onSelectVariable (v, key = "default") {
-            this.$set(this.databinding, key, v)
-            this.onChange()
-        },
-        setNewType (newKey) {
-            this.newType = newKey
-        },
-        setType (newKey, name) {
-            let oldKey = null
-            for (oldKey in this.databinding) {
-                let value = this.databinding[oldKey]
-                if (value === name) {
-                    break
-                }
-            }
-            if (oldKey) {
-                this.$delete(this.databinding, oldKey)
-                this.onSelectVariable(name, newKey)
+                this.$delete(this.databinding, this.selectedVaribaleType)
             }
             this.onChange()
         },
@@ -166,24 +156,30 @@ export default {
         },
         setModel (v) {
             this.model = v
-            console.debug(v)
-            if (v.dataModel) {
-                this.dataModel = lang.clone(v.dataModel)
-            }
         },
         setWidget (v) {
             this.widget = v
             if (this.widget.props && this.widget.props.databinding) {
-                this.databinding = this.widget.props.databinding
+                this.databinding = this.widget.props.databinding               
             }
+            this.variableKeys = DataBindingService.getDefautlBindings(this.widget)
+            if (this.variableKeys.length > 0) {
+                this.selectedVaribaleType = this.variableKeys[0].value
+            }    
             this.initVariables()
+            this.logger.log(-1, 'setWidget() > exit',  this.selectedVaribaleType)
+        },
+        setVariable (v) {
+            if (v.label && v.value) {
+                this.logger.log(-1, 'setVariable', 'enter', v.value)
+                this.selectedVaribaleType = v.value
+            }
         },
         initVariables () {
-            var variables = DataBindingUtil.getAllAppVariables(this.model);
-            //var schema = 
+            var variables = this.getAllAppVariables();
             if (this.variables.length === 0) {
                 variables.sort((a, b) => {
-                    return a.localeCompare(b)
+                    return a.toLowerCase().localeCompare(b.toLowerCase())
                 })
             }
             this.variables = variables

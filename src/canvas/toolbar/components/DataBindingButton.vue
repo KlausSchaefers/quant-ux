@@ -24,7 +24,7 @@
                 @more="onOpenDialog"
 				:formControl="false"/>
 
-            <span class="mdi mdi-database MatcToobarInputIcon" @click.stop="onOpenDialog" />
+            <span class="mdi mdi-database MatcToobarInputIcon" @click.stop="onOpenDialog(variable)" />
 
 	    </div>
 
@@ -120,8 +120,9 @@ export default {
         setWidget(w) {
             this.widget = w
         },
-        onOpenDialog () {
-            this.emit('showDialog')
+        onOpenDialog (variable) {
+            console.debug('onOpenDialog', variable)
+            this.emit('showDialog', variable)
         }
     },
     mounted () {
