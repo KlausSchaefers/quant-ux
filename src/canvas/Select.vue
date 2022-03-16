@@ -129,7 +129,7 @@ import topic from 'dojo/topic'
 
 			try {
 				if (this.selectionListener) {
-					this.selectionListener.unSelect();
+					this.selectionListener.selectScreen(id);
 				}
 			} catch (e){
 				this.logger.error("onGroupSelected", "could not call selectionListener > ", e);

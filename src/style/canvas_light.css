@@ -60,7 +60,7 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection{
-	background: rgb(245, 245, 245);
+	background: #fff; /* rgb(245, 245, 245); */
 	color:#777;
 }
 
@@ -82,7 +82,7 @@
 	border-left: none;
 	border-right: 1px solid rgba(0, 0, 0, 0.15);
 	padding-top:39px;
-	background: rgb(245, 245, 245);;
+	background: #fff; /* rgb(245, 245, 245); */
 }
 
 .MatcLight .MatcToolbarTopCntr{
@@ -157,8 +157,8 @@
 
 .MatcLight .MatcToolbarSection,
 .MatcLight .MatcToolbarSeperator {
-    border-right: 1px solid #ccc;
-		Xborder-right: 1px solid transparent;
+    border-right: 1px solid transparent;
+	
 }
 
 .MatcLight .MatcStatusItem {

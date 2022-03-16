@@ -232,6 +232,7 @@ export default {
 					name: screen.name,
 					label: screen.name,
 					id: screen.id,
+					domId: this.getScrollId(screen.id),
 					css: 'MatcToolbarLayerListScreen',
 					icon: this.getAppTypeIcon(model),
 					closeIcon : this.getCloseIcon(screen),
@@ -347,6 +348,7 @@ export default {
 			}
 			let node = {
 				id: box.id,
+				domId: this.getScrollId(box.id),
 				widgetID: widgetID,
 				screenID: screenID,
 				groupID: groupId,
@@ -384,6 +386,10 @@ export default {
 			this.nodes[node.id] = node
 			this.lastNode = node
 			return node;
+		},
+
+		getScrollId (id) {
+			return 'layerListItem' + id
 		},
 
 		getCloseIcon (box) {
@@ -430,14 +436,14 @@ export default {
 		},
 
 
-    getAppTypeIcon (model) {
-      if (model.type == "smartphone") {
-        return "mdi mdi-cellphone";
-      } else if (model.type == "tablet") {
-        return "mdi mdi-tablet-ipad";
-      }
-      return "mdi mdi-laptop";
-    },
+		getAppTypeIcon (model) {
+			if (model.type == "smartphone") {
+				return "mdi mdi-cellphone";
+			} else if (model.type == "tablet") {
+				return "mdi mdi-tablet-ipad";
+			}
+			return "mdi mdi-laptop";
+		},
 
 		changeName (box) {
 			let node = this.nodes[box.id]
@@ -473,23 +479,39 @@ export default {
 			this.selectNode(ids)
 		},
 
-		selectNode (ids, scroll = true) {
+		selectScreen(screenID) {
+			this.selectNode([screenID])
+		},
+
+		selectNode (ids) {
 			this.unSelectNodes()
 			ids.forEach(id => {
 				let node = this.nodes[id]
 				if (node) {
 					this.$set(node, 'selected', true)
-					this.$set(node, 'scroll', scroll)
 				}
 			})
 			this.selection = ids
+			this.scrollToSelection(ids)						
+		},
+
+		scrollToSelection(ids) {
+			let id = ids[0]
+			if (id) {
+				let element = document.getElementById(this.getScrollId(id))
+				if (element) {
+					element.scrollIntoViewIfNeeded(true)
+				} else {
+					this.logger.warn('scrollToSelection', 'No node with id: ' + this.getScrollId(id))
+				}
+			}
 		},
 
 		unSelectNodes () {
 			for (let id in this.nodes) {
 				let node = this.nodes[id]
 				this.$set(node, 'selected', false)
-				this.$set(node, 'scroll', false)
+				//this.$set(node, 'scroll', false)
 			}
 		},
 
@@ -507,9 +529,9 @@ export default {
 		}
 	},
   mounted () {
-		if (this.value) {
-			this.render(this.value)
-		}
+	if (this.value) {
+		this.render(this.value)
+	}
   }
 }
 </script>

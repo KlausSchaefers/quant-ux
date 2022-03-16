@@ -110,11 +110,11 @@
 }
 
 .MatcDesignTokenListPopup{
-	width:320px;
+	width:336px;
 }
 
 .MatcDesignTokenListPopup.MatcDesignTokenListPopupText{
-	width:230px;
+	width:246px;
 }
 
 
@@ -138,8 +138,13 @@
 
 .MatcDesignTokenListPopupSection {
 	border-bottom: 1px solid #ddd;
-	padding: 8px;
+	padding: 16px;
 }
+
+.MatcDesignTokenListPopupSection:last-child {
+	border-bottom: 0px solid #ddd;
+}
+
 
 .MatcDesignTokenListPopupSection.MatcDesignTokenListPopupPadding {
 	padding: 8px 18px;
@@ -184,7 +189,7 @@ label.MatcDesignTokenListPopupSection{
 
 .MatcDesignTokenListPopup .MatcButton,
 .MatcDesignTokenListPopup .MatcLinkButton{
-	font-size: 14px;
+	font-size: 16px;
 	padding: 3px 10px;
 }
 

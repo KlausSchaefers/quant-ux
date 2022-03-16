@@ -306,7 +306,7 @@ export default {
 		},
 
 		renderPartial (sourceModel, changes) {
-			this.logger.log(-1,"renderPartial", "enter", changes);
+			this.logger.log(1,"renderPartial", "enter", changes);
 			this.sourceModel = sourceModel;
 			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
 		},

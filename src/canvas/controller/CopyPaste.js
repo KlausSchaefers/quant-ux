@@ -515,7 +515,7 @@ export default class CopyPaste extends Group{
 
 
 	onMultiCopyWidget (selection, pos){
-		this.logger.log(2,"onMultiCopyWidget", "enter > "+pos);
+		this.logger.log(-2,"onMultiCopyWidget", "enter > "+pos);
 
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 		var targetScreen = this.getHoverScreen(pos);
@@ -543,14 +543,15 @@ export default class CopyPaste extends Group{
 		/**
 		 * 3) copy children and add off set to top children
 		 */
-		let z = this.getMaxZValue(this.model.widgets)
-		for (let i = 0; i < selection.length; i++){
-			var id = selection[i];
-			var widget = this.model.widgets[id];
+		let zMax = this.getMaxZValue(this.model.widgets)
+		let allChildren = this.sortChildren(selection)
+		console.debug('XXX', zMax, selection, allChildren)
+		allChildren.forEach((widget, i) => {
+			var id = widget.id
 
 			var newWidget = this._copyWidget(widget, targetScreen);
 			newWidget.id = "w"+this.getUUID();
-			newWidget.z = z + 1 + i
+			newWidget.z = zMax + 1 + i
 
 			newWidget.x =  pos.x + (newWidget.x - parentPos.x);
 			newWidget.y =  pos.y + (newWidget.y - parentPos.y);
@@ -582,7 +583,7 @@ export default class CopyPaste extends Group{
 			 */
 			this.modelAddWidget(newWidget);
 
-		}
+		})
 
 
 		/**
@@ -602,19 +603,18 @@ export default class CopyPaste extends Group{
 	onCopyGroup (group, pos){
 		this.logger.log(-1,"onCopyGroup", "enter > ", pos);
 
-		// FIXME: check if (pos.newScreen)
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
 		/**
 		 * get the most top right position in the selection
 		 */
-		var parentPos = this.getBoundingBox(group.children);
-		var targetScreen = this.getHoverScreen(pos);
+		const parentPos = this.getBoundingBox(group.children);
+		const targetScreen = this.getHoverScreen(pos);
 
 		/**
 		 * 2) create mutli command
 		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
 			label : "CopyGroup",
@@ -624,8 +624,8 @@ export default class CopyPaste extends Group{
 		/**
 		 * create already the grou
 		 */
-		var selection = [];
-		var copyIds = {}
+		const selection = [];
+		const copyIds = {}
 		/**
 		 * 3) copy children and add off set to top children
 		 *
@@ -634,9 +634,9 @@ export default class CopyPaste extends Group{
 		 *
 		 * - Make sure we add in the correct Z order
 		 */
-		let allChildren = this.sortChildren(group.children)
-
-		allChildren.forEach(widget => {
+		const zMax =  this.getMaxZValue(this.model.widgets)
+		const allChildren = this.sortChildren(group.children)
+		allChildren.forEach((widget, i) => {	
 			let id = widget.id
 			let newWidget = this._copyWidget(widget, targetScreen);
 			newWidget.id = "w"+this.getUUID();
@@ -648,7 +648,7 @@ export default class CopyPaste extends Group{
 				newWidget.x =  targetScreen.x + (widget.x - parentScreen.x);
 				newWidget.y =  targetScreen.y + (widget.y - parentScreen.y);
 			}
-			newWidget.z = this.getMaxZValue(this.model.widgets) + 1;
+			newWidget.z = zMax + 1 + i;
 			selection.push(newWidget.id);
 			copyIds[id] = newWidget.id
 
@@ -882,25 +882,20 @@ export default class CopyPaste extends Group{
 			 *
 			 * and create a own modelCopyScreen funtion!
 			 */
-			let z = this.getMaxZValue(this.model.widgets)
+			const zMax =  this.getMaxZValue(this.model.widgets)
 			if(screen.children){
-				for(let i=0; i < screen.children.length; i++){
-					let widgetID = screen.children[i];
-					let widget = this.model.widgets[widgetID];
-
+				const allChildren = this.sortChildren(screen.children)
+				allChildren.forEach((widget, i) => {	
+					let widgetID = widget.id
+	
 					// we do not update the widget names!
 					let newWidget = lang.clone(widget);
 					newWidget.id = "w"+this.getUUID();
-					newWidget.z = z + 1 + i
+					newWidget.z = zMax + 1 + i
 					newWidget.copyOf = widget.id;
 					newWidget.x = pos.x + (widget.x - screen.x);
 					newWidget.y = pos.y + (widget.y - screen.y);
 
-					/**
-					 *  Dunno if i should raise the z level. Then I would have to
-					 *  loop over the widhets in the right order.
-					 */
-					//newWidget.z = this.getMaxZValue(this.model.widgets) +1 + 1;
 					newScreen.children.push(newWidget.id);
 
 					children.push(newWidget);
@@ -910,7 +905,7 @@ export default class CopyPaste extends Group{
 					if(parentGroup){
 						parentGroups[parentGroup.id] = parentGroup;
 					}
-				}
+				})
 			}
 
 			/**

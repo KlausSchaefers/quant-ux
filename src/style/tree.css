@@ -20,17 +20,17 @@
 }
 
 .MatcTreeItemRow:hover{
-  color: #333;
+  color: #111;
 }
 
 .MatcTreeItem.MatcTreeItemSelected,
 .MatcTreeItemSelected .MatcTreeItem{
-  background: #3787f2;
-  color: #fff;
+  background: #d6e5f8;
+
 }
 
 .MatcTreeItemSelected .MatcTreeItemRow:hover{
-  color: #fff;
+
 }
 
 .MatcTreeItemLabel {
@@ -51,12 +51,12 @@ input.MatcTreeItemLabel {
 }
 
 .MatcTree ul li{
-  width: calc(100% - 16px);
-  margin-left: 4px;
+  width: calc(100%);
+  margin-left: 0px;
 }
 
 .MatcTree ul li ul{
-  margin-left: 10px;
+  margin-left: 0px;
 }
 
 .MatcTree .MatcTreeIcon {
@@ -96,6 +96,12 @@ input.MatcTreeItemLabel {
   color: #fff;
 }
 
+.MatcDark .MatcTreeItem.MatcTreeItemSelected,
+.MatcDark .MatcTreeItemSelected .MatcTreeItem{
+  background: #13161B;
+
+}
+
 .MatcTreeItemRow .MatcTreeItemOptions{
   display: none;
 }
@@ -117,4 +123,59 @@ input.MatcTreeItemLabel {
 
 .MatcTreeItemSelected .MatcTreeItemRow .MatcTreeItemOptions .mdi{
   color:#fff;
+}
+
+.MatcTree ul.MatcTreeItemLevel0{
+  margin-left: 0px;
+  margin-bottom: 10px;
+}
+
+.MatcTreeItemLevel1 .MatcTreeItemRow {
+  margin-left: 16px;
+}
+
+.MatcTreeItemLevel2 .MatcTreeItemRow {
+  margin-left: 32px;
+}
+
+
+.MatcTreeItemLevel3 .MatcTreeItemRow {
+  margin-left: 48px;
+}
+
+
+.MatcTreeItemLevel4 .MatcTreeItemRow {
+  margin-left: 64px;
+}
+
+.MatcTreeItemLevel5 .MatcTreeItemRow {
+  margin-left: 80px;
+}
+
+.MatcTreeItemLevel6 .MatcTreeItemRow {
+  margin-left: 96px;
+}
+
+.MatcTreeItemLevel7 .MatcTreeItemRow {
+  margin-left: 112px;
+}
+
+.MatcTreeItemLevel8 .MatcTreeItemRow {
+  margin-left: 120px;
+}
+
+.MatcTreeItemLevel8 .MatcTreeItemRow {
+  margin-left: 128px;
+}
+
+.MatcTreeItemLevel9 .MatcTreeItemRow {
+  margin-left: 132px;
+}
+
+.MatcTreeItemLevel10 .MatcTreeItemRow {
+  margin-left: 140px;
+}
+
+.MatcTreeTypeIcon.mdi {
+  opacity: 0.5;
 }

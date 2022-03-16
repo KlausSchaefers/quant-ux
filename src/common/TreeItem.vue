@@ -1,8 +1,8 @@
 
 <template>
 <!-- :xScroll="scrollToItem()" Add this to enbale scrolling...  HSould be fixed to only tricker when seelction was changes from canvas-->
-	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem']" :xScroll="scrollToItem()"  >
-    <li :class="'MatcTreeItemLevel' + level">
+	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem', 'MatcTreeItemLevel' + level]" :xScroll="scrollToItem()"  >
+    <li >
         <div
             :class="'MatcTreeItemRow ' + rowStyle"
             @click.stop="onClick($event)"
@@ -11,6 +11,7 @@
             @dragleave="onDragLeave"
             @dblclick.stop="onDoubleClick"
             @drop="onDrop"
+            :id="value.domId"
             ref="row"
             :draggable="!isEditable"
           >
@@ -21,7 +22,7 @@
             <span class="MatcTreeIcon"  @click.stop=""></span>
           </template>
 
-          <span v-if="nodeIcon" :class="nodeIcon"></span>
+          <span v-if="nodeIcon" :class="'MatcTreeTypeIcon ' + nodeIcon"></span>
 
          <label class="MatcTreeItemLabel" v-if="!isEditable" ref="lblNode" >
            <!-- add here         {{value.hint}} -->

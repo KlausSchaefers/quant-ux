@@ -162,7 +162,7 @@ export default {
 			},
 
 			dispatchMouseDownWidget (e, id) {
-				this.logger.log(-1,"dispatchMouseDownWidget", "enter", id);
+				this.logger.log(1,"dispatchMouseDownWidget", "enter", id);
 
 				let widget = this.model.widgets[id];
 
@@ -223,7 +223,7 @@ export default {
 			},
 
 			dispatchMouseDownScreen (e, id) {
-				this.logger.log(-1,"dispatchMouseDownScreen", "enter", id);
+				this.logger.log(1,"dispatchMouseDownScreen", "enter", id);
 
 				let dndDiv = this.screenDivs[id];
 				let screen = this.model.screens[id];
@@ -275,7 +275,7 @@ export default {
 
 			dispatchMouseDownLine (e, lineID, pointIndex, div) {
 				this.logger.log(-1,"dispatchMouseDownLine", "enter", lineID, pointIndex);
-	     	let line = this.model.lines[lineID];
+	     		let line = this.model.lines[lineID];
 				if (line) {
 					/**
 					 * We distaptch in the touch div, but we want to move the parent
