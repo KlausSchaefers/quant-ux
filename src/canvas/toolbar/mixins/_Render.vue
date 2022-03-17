@@ -595,7 +595,7 @@ export default {
 
 					this.alignButtons[value] = a;
 					this.distButtons[value] = a;
-					this.addTooltip(a, "Distribute <b>" + value + "</b>. ");
+					//this.addTooltip(a, "Distribute <b>" + value + "</b>. ", 'vommondToolTipRightBottom');
 				}
 
 
@@ -618,7 +618,7 @@ export default {
 					this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolAlignElements", value)));
 					this.alignButtons[value] = a;
 
-					this.addTooltip(a, "Align <b>" + value + "</b>. After click select element to align to");
+					//this.addTooltip(a, "Align <b>" + value + "</b>. After click select element to align to", 'vommondToolTipRightBottom');
 				}
 				this.properties.appendChild(content);
 				this.widgetAlignDiv = content;

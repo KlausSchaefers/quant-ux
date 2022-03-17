@@ -413,8 +413,11 @@ export default {
 			}
 
 			if (box.template) {
-				console.debug(box)
-				return "mdi mdi-view-grid-outline MatcIcon45";
+				if (box.isRootTemplate) {
+					return "mdi mdi-view-grid-outline MatcIcon45";
+				} else {
+					return "mdi mdi-view-grid-outline MatcIcon45";
+				}
 			}
 
 			if (type === 'group') {

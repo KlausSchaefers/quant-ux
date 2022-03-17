@@ -822,6 +822,7 @@ export default class CopyPaste extends Group{
 		}
 		var copy = lang.clone(w);
 		copy.copyOf = w.id;
+		copy.isRootTemplate = false
 		if (targetScreen) {
 			copy.name = this.getWidgetName(targetScreen.id, w.name)
 		}
