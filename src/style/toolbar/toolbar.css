@@ -7,7 +7,7 @@
  	font-size: 14px;
  	background: #242a30;
  	height: 40px;
-	 user-select: none;
+	user-select: none;
  }
 
  .MatcToolbar .MatcToobarLeft .glyphicons::before{
@@ -35,12 +35,20 @@
 	opacity: 0;
 }
 
+.MatcToolbar .MatcTinyIcon.MatcTinyIconRemove.mdi{
+	opacity: 1;
+}
+
 .MatcToolbar .MatcMultiIcon:hover .MatcTinyIcon.mdi{
 	opacity: 1;
 }
 
 .MatcIconMirror:before{
 	transform:rotateY(180deg);
+}
+
+.MatcIcon45:before{
+	transform:rotate(45deg);
 }
 
 .MatcToolbar .MatcToobarItemBig .mdi {
@@ -160,7 +168,6 @@
 }
 
 
-
 /****************************************************
  * Grid System
  ****************************************************/
@@ -244,7 +251,6 @@
 }
 
 
-
 .MatcToolbarItemDisbaled{
 	color:#555;
 	cursor: auto;
@@ -264,18 +270,12 @@
 	opacity:0.25;
 }
 
-
-
 .MatcToolbarItemHidden{
 	display: none;
 }
 
 .MatcToolbarItem.MatcToolbarItemDisbaled:HOVER{
 	color:#555;
-}
-
-.MatcToolbarIcon{
-
 }
 
 .MatcToolbarLabel{
@@ -322,10 +322,27 @@
 	flex-direction: row;
  }
 
+ .MatcToolbarNotificationSection{
+	top: 0px;
+	right: 0px;
+	width: 500px;
+	padding: 0px;
+	border: none;
+	text-align: right;
+ }
+
+
  .MatcToolbarTopCntr{
-	display: inline-block;
+	display: flex;
+	justify-content: space-between;
 	height: 40px;
 	width: calc(100% - 40px);
+ }
+
+ .MatcToolbarTopCenterCntr {
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
  }
 
 
@@ -763,7 +780,7 @@
 	position: relative;
 	border-top:1px solid #1a1f23;
 	border-top: 1px solid #242a30;
-  background: none;
+  	background: none;
 	color: #777;
 	text-align: left;
 	padding-left: 16px;
@@ -943,7 +960,6 @@
     display: inline-block;
     transition-duration: 0.5s;
 	transition-property:opacity;
-
 	height: 40px;
 }
 
@@ -953,10 +969,6 @@
 
 .MatcToolbarSectionCollabsed .MatcToolbarSectionContent{
 	display: none;
-}
-
-.MatcToolbarSectionCollabsed  .MatcToolbarSectionLabel{
-
 }
 
 .MatcToolbarSectionLabel{
@@ -970,25 +982,22 @@
 	  cursor: pointer;
 }
 
- .MatcToolbarSectionMarker{
+
+.MatcToolbarSectionMarker{
  	display: none;
- }
-
- .MatcToolbarTemplateMarkerVisible .MatcToolbarSectionMarker{
- 	display: inline;
- }
-
-.MatcToolbarSection:hover .MatcToolbarSectionLabel{
-
 }
 
+.MatcToolbarTemplateMarkerVisible .MatcToolbarSectionMarker{
+ 	display: inline;
+}
 
 .MatcToolbarSubSection{
 	display: inline-block;
 	vertical-align: top;
 }
 
-.MatcToolbarSectionHidden, .MatcToolbarSectionHidden.MatcToolbarItem, .MatcToolbarSectionHidden.MatcToolbarSection{
+.MatcToolbarSectionHidden, .MatcToolbarSectionHidden.MatcToolbarItem, 
+.MatcToolbarSectionHidden.MatcToolbarSection{
 	display: none;
 }
 
@@ -999,13 +1008,9 @@
    height:40px;
    vertical-align:middle;
    border-right: 1px solid #555;
-   margin-left: 4px;
-   margin-right: 4px;
+   margin-left: 8px;
+   margin-right: 8px;
 }
-
-
-
-
 
 
 
@@ -1137,15 +1142,6 @@
 /****************************************************
  * Notification Section
  ****************************************************/
- .MatcToolbarNotificationSection{
-	position: fixed;
-	top: 0px;
-	right: 0px;
-	width: 500px;
-	padding: 0px;
-	border: none;
-	text-align: right;
- }
 
 /****************************************************
  * View Config Section
@@ -1258,4 +1254,16 @@
 	.MatcToolbarResponsiveLabel{
 		display: none;
 	}
+
+	.MatcToolbarSeperator{
+		display: inline-block;
+		width: 1px;
+		height:40px;
+		vertical-align:middle;
+		border-right: 1px solid #555;
+		margin-left: 4px;
+		margin-right: 4px;
+	 }
+	 
+	 
 }

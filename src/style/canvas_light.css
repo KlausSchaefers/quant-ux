@@ -56,11 +56,11 @@
 .MatcLight .MatcToobarPropertiesSection .MatcDashLabel,
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarItem,
 .MatcLight .MatcToobarPropertiesSection .MatcDashRingValue{
-	color:#777;
+	color:#555;
 }
 
 .MatcLight .MatcToobarPropertiesSection{
-	background: #fff; /* rgb(245, 245, 245); */
+	background: rgb(245, 245, 245);
 	color:#777;
 }
 
@@ -82,7 +82,7 @@
 	border-left: none;
 	border-right: 1px solid rgba(0, 0, 0, 0.15);
 	padding-top:39px;
-	background: #fff; /* rgb(245, 245, 245); */
+	background: rgb(245, 245, 245); 
 }
 
 .MatcLight .MatcToolbarTopCntr{
@@ -90,26 +90,30 @@
 }
 
 .MatcLight .MatcScreenLabel{
-	color:#555;
+	color:#333;
 }
 
 .MatcLight .MatcToolbarBigLabel{
-	color:#777;
+	color:#555;
 }
 
 
 .MatcLight .MatcBorderStyleDashed,
 .MatcLight .MatcBorderStyleDotted,
 .MatcLight .MatcBorderStyleSolid {
-	border-color: #777;
+	border-color: #555;
 }
 
 .MatcLight .MatcToolbarItem {
-	color:#555;
+	color:#333;
 }
 
 .MatcLight .MatcToolbarItem:HOVER {
 	color:#333;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton .glyphicon{
+	color:#555;
 }
 
 .MatcLight .MatcToolbarItemDisbaled,
@@ -143,7 +147,7 @@
 }
 
 .MatcLight .MatcToolbarAddSection{
-	background-color: #555;
+	background-color: #333;
 }
 
 .MatcLight .MatcToolbar .MatcToolbarAddSection:HOVER{
@@ -175,7 +179,7 @@
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionLabel{
 	background: none;
-	color:#555;
+	color:#333;
 	border-top:1px solid rgba(0,0,0, 0.15);
 	border-bottom:1px solid transparent;
 	text-align:left;
@@ -188,7 +192,7 @@
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarSectionLabel:HOVER,
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarSection:HOVER .MatcToolbarSectionLabel{
 	background:none;
-	color:#555;
+	color:#333;
 }
 
 .MatcLight .MatcToolbarSectionCollabsed  .MatcToolbarSectionLabel{
@@ -210,15 +214,15 @@
 .MatcLight .MatcToobarPropertiesSection .VommondCheckBoxLabel,
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarItemLabel,
 .MatcLight .MatcToobarPropertiesSection .VommondRadioBoxLabel {
-	color:#777;
+	color:#555;
 }
 
 .MatcLight .MatcToolbarTabs a {
-	color:#777;
+	color:#555;
 }
 
 .MatcLight .MatcToolbarTabs a:HOVER {
-	color:#555;
+	color:#333;
 }
 
 
@@ -254,11 +258,11 @@
 	border-top:1px solid transparent;
 	border-left:1px solid transparent;
 	border-right:1px solid transparent;
-	color:#777;
+	color:#555;
 }
 
 .MatcLight .MatcToobarPropertiesSection input:FOCUS{
-	color:#555;
+	color:#333;
 }
 
 .MatcLight .MatcBoxBorder .MatcToolbarColor,
@@ -271,7 +275,7 @@
 }
 
 .MatcLight .MatcToolbar .MatcToolbarInputDropDownButton input{
-	color:#555;
+	color:#333;
 }
 
 .MatcLight .MatcToolbarItemActive {
@@ -307,7 +311,7 @@
 
 .MatcLight .MatcToolbar .MatcToolbarDropDownButton li:HOVER,
 .MatcLight .MatcToolbarDropDownButtonPopup li:hover{
-	background: #555;
+	background: #333;
 	color:#fff;
 }
 
@@ -317,7 +321,7 @@
 
 .MatcLight .MatcCanvasScrollBarCntr:hover .MatchCanvasScrollHandle,
 .MatcLight .MatcCanvasScrollBarHandlerActive .MatchCanvasScrollHandle {
-	background: #555;
+	background: #333;
 }
 
 .MatcLight .MatcBoxBorder .MatcToolbarColor.MatcToolbarItem,
@@ -369,7 +373,7 @@
 }
 
 .MatcLight .MatcToolbarIcon-vertical-bar{
-	background-color: #555 ;
+	background-color: #555;
 }
 
 .MatcLight .MatcToolbarIcon-horizontal{
@@ -392,11 +396,11 @@
 }
 
 .MatcLight .MatcScreenGridHandlex{
-	border-color: #555 transparent transparent transparent;
+	border-color: #333 transparent transparent transparent;
 }
 
 .MatcLight .MatcScreenGridHandley{
-	border-color: transparent transparent transparent #555;
+	border-color: transparent transparent transparent #333;
 }
 
 .MatcLight .MatcScreenGridHandleDel.MatcScreenGridHandlex{
@@ -454,7 +458,7 @@
 }
 
 .MatcLight .MatcTreeItem{
-	color:#555;
+	color:#333;
 }
 
 .MatcLight .MatcToolbarColorIndicator{

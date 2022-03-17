@@ -1,22 +1,28 @@
 
 <template>
-     <div class="MatcToolbar">
+     <div class="MatcToolbar MatcAnalyticsToolbar">
 
 		<div class="MatcToolbarTop ">
 			<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
 
 			<div class="MatcToolbarTopCntr">
-				<div class="MatcToolbarSection" data-dojo-attach-point="screenSection" style="padding-left:0px">
+
+				<div class="MatcToolbarTopLeftCntr">
+
+					<div class="MatcToolbarSection" data-dojo-attach-point="screenSection" style="padding-left:0px">
+					</div>
+
+					<div class="MatcToolbarSection" data-dojo-attach-point="journeySection">
+					</div>
+
+					<div class="MatcToolbarSection" data-dojo-attach-point="scrollSection">
+					</div>
+
+					<div class="MatcToolbarSection" data-dojo-attach-point="globalSection">
+					</div>
 				</div>
 
-				<div class="MatcToolbarSection" data-dojo-attach-point="journeySection">
-				</div>
-
-				<div class="MatcToolbarSection" data-dojo-attach-point="scrollSection">
-				</div>
-
-				<div class="MatcToolbarSection" data-dojo-attach-point="globalSection">
-				</div>
+			
 
 				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>

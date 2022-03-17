@@ -413,7 +413,8 @@ export default {
 			}
 
 			if (box.template) {
-				return "mdi mdi-puzzle-outline";
+				console.debug(box)
+				return "mdi mdi-view-grid-outline MatcIcon45";
 			}
 
 			if (type === 'group') {
@@ -438,11 +439,11 @@ export default {
 
 		getAppTypeIcon (model) {
 			if (model.type == "smartphone") {
-				return "mdi mdi-cellphone";
+				return "mdi mdi-cellphone MatcTreeIconRoot";
 			} else if (model.type == "tablet") {
-				return "mdi mdi-tablet-ipad";
+				return "mdi mdi-tablet-ipad MatcTreeIconRoot";
 			}
-			return "mdi mdi-laptop";
+			return "mdi mdi-laptop MatcTreeIconRoot";
 		},
 
 		changeName (box) {

@@ -2,10 +2,6 @@
 <template>
      <div class="MatcToolbar" @dblclick="onDoubleClick">
 
-
-		<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
-		</div>
-
 		<div class="" data-dojo-attach-point="layerListCntr">
 		</div>
 
@@ -70,6 +66,8 @@
 				<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
 
 				<div class="MatcToolbarTopCntr">
+
+						
 						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
 								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span>
@@ -99,34 +97,37 @@
 							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
 								<span class="mdi mdi-close-circle"></span>
 							</a>
+			
 						</div>
 
 
 
 
+						<div class="MatcToolbarTopCenterCntr">
+							<div class="MatcToolbarSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 
-						<div class="MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
+							
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
+									<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
+										<span class="mdi mdi-link-variant-plus"></span>
+										<label class="MatcToolbarLabel MatcToolbarResponsiveLabel" v-if="showLabels">
+											{{ $t('toolbar.group')}}
+										</label>
+									</a>
+								</div>
 
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
-							</div>
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
+								</div>
 
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
+								</div>
 
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
+								</div>
 
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
-								<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
-									<span class="mdi mdi-link-variant-plus"></span>
-									<label class="MatcToolbarLabel MatcToolbarResponsiveLabel">
-										{{ $t('toolbar.group')}}
-									</label>
-								</a>
-							</div>
-
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
-							</div>
-
-							<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
 							</div>
 						</div>
+
 
 						<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
 						</div>
@@ -149,6 +150,9 @@
 						</div>
 
 				</div>
+			</div>
+
+			<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
 			</div>
 
 		</div>
@@ -192,6 +196,7 @@ export default {
 			canvasViewConfig: {},
 			settings: {},
 			collabUsers:[],
+			showLabels:false,
 			isDeveloperMode: false
         }
     },

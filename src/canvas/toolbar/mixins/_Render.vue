@@ -185,8 +185,8 @@ export default {
 				/**
 				* Tools section
 				*/
-				this.layer = this.$new(ToolbarDropDownButton, {arrowPosition:false});
-				this.layer.setLabel('<span class="mdi mdi-layers"></span><label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Order</label>');
+				this.layer = this.$new(ToolbarDropDownButton, {arrowPosition:false, hasCaret: true});
+				this.layer.setLabel('<span class="mdi mdi-layers-outline"></span>');
 				css.add(this.layer.domNode, "MatcToolbarDropDownButtonWide");
 				this.layer.updateLabel = false;
 				this.layer.setOptions([
@@ -196,27 +196,30 @@ export default {
 					{value: "back", label: "Send back (CTRL-&darr;)", icon:"mdi mdi-arrange-send-to-back"}
 				]);
 				this.layer.updateSelection = false;
+				this.layer.hideCaret()
 				this.own(on(this.layer, "change", lang.hitch(this, "onToolWidgetLayer")));
 				this._placeAt(this.layer, this.toolsDiv);
 				this.addTooltip(this.layer.domNode, "Change the layer of the element");
 
-				//this.createSpacer(this.toolsDiv);
+				//this.template = this.createToolBarItem('<span class="mdi mdi mdi-puzzle-plus-outline"></span>', lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv);
+				//this.templateUpdate = this.createToolBarItem('<span class="mdi mdi-puzzle-edit"></span>', lang.hitch(this,"onToolUpdateTemplate"), null, this.templateDiv);
+				//this.templateRemove = this.createToolBarItem('<span class="mdi mdi-puzzle-minus"></span>', lang.hitch(this,"onToolRemoveTemplate"), null, this.templateDiv);
 
+				this.template = this.createToolBarItem(
+					'<span class="mdi mdi-view-grid-outline MatcIcon45"></span> <span class="mdi mdi-plus-circle  MatcTinyIcon MatcTinyIconRemove"></span>', 
+					lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv
+				);				
+				this.templateUpdate = this.createToolBarItem(
+					'<span class="mdi mdi-view-grid MatcIcon45"></span> <span class="mdi mdi-pencil MatcTinyIcon MatcTinyIconRemove"></span>', 
+					lang.hitch(this,"onToolUpdateTemplate"), null, this.templateDiv
+				);
+				this.templateRemove = this.createToolBarItem(
+					'<span class="mdi mdi mdi-view-grid MatcIcon45"></span> <span class="mdi mdi-minus-circle MatcTinyIcon MatcTinyIconRemove"></span>', 
+					lang.hitch(this,"onToolRemoveTemplate"), null, this.templateDiv
+				);
 
-				this.template = this.createToolBarItem('<span class="mdi mdi mdi-puzzle-plus"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Create Component</label>', lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv);
-				this.templateUpdate = this.createToolBarItem('<span class="mdi mdi-puzzle-edit"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Update Component</label>', lang.hitch(this,"onToolUpdateTemplate"), null, this.templateDiv);
-				this.templateRemove = this.createToolBarItem('<span class="mdi mdi-puzzle-minus"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Remove Component</label>', lang.hitch(this,"onToolRemoveTemplate"), null, this.templateDiv);
-
-
-
-				//this.createSpacer(this.templateDiv);
-
-
-				this.replicateBtn = this.createToolBarItem('<span class="MatcIconMirror mdi mdi-tab-unselected"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Clone</label>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
-
-				this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span> <label class="MatcToolbarLabel MatcToolbarResponsiveLabel">Responsive Resize</label>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);
-
-		
+				this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-expand-all-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
+				this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
 				this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
 				
 
@@ -368,6 +371,9 @@ export default {
 				this.addTooltip(this.copyStyleBtn, "Copy Style");
 				this.addTooltip(this.signupSection, "Sign Up for Free to save your changes...");
 				this.addTooltip(this.template, "Create a reusable component. You can find it in the widget menu.");
+				this.addTooltip(this.templateUpdate, "Update the component and all instances.");
+				this.addTooltip(this.templateRemove, "Unlink the component.");
+
 
 
 				this.addTooltip(this.groupBTN, "Group (CTRL-G)");
@@ -1615,25 +1621,25 @@ export default {
 
 			_getFontFamilies (){
 				let fonts = [
-						{ value: 'Helvetica Neue,Helvetica,Arial,sans-serif', label: "Helvetica Neue",  css:"MatchFont MatchFontHelvetica"},
-						{ value:"Arial, sans-serif", label:"Arial", css:"MatchFont MatchFontArial"},
-						{ value: 'Arial Black, Gadget, sans-serif', label : "Arial Black", css:"MatchFont MatchFontArialBlack"},
+					{ value: 'Helvetica Neue,Helvetica,Arial,sans-serif', label: "Helvetica Neue",  css:"MatchFont MatchFontHelvetica"},
+					{ value:"Arial, sans-serif", label:"Arial", css:"MatchFont MatchFontArial"},
+					{ value: 'Arial Black, Gadget, sans-serif', label : "Arial Black", css:"MatchFont MatchFontArialBlack"},
 
-						{ value: 'Source Sans Pro, sans-serif', label: "Source Sans Pro",  css:"MatchFont MatchSourceSansPro"},
-						{ value: 'Roboto, sans-serif', label: "Roboto",  css:"MatchFont MatchFontRoboto"},
+					{ value: 'Source Sans Pro, sans-serif', label: "Source Sans Pro",  css:"MatchFont MatchSourceSansPro"},
+					{ value: 'Roboto, sans-serif', label: "Roboto",  css:"MatchFont MatchFontRoboto"},
 
-						{ value:"Comic Sans MS, cursive, sans-serif", label:"Comic Sans MS", css:"MatchFont MatchFontComic"},
-						{ value:"Impact, Charcoal, sans-serif", label:"Impact", css:"MatchFont MatchFontImpact"},
-						{ value:"Lucida Sans Unicode, Lucida Grande, sans-serif", label:"Lucida", css:"MatchFont MatchFontLucida"},
-						{ value:"Tahoma, Geneva, sans-serif", label:"Tahoma", css:"MatchFont MatchFontTahoma"},
+					{ value:"Comic Sans MS, cursive, sans-serif", label:"Comic Sans MS", css:"MatchFont MatchFontComic"},
+					{ value:"Impact, Charcoal, sans-serif", label:"Impact", css:"MatchFont MatchFontImpact"},
+					{ value:"Lucida Sans Unicode, Lucida Grande, sans-serif", label:"Lucida", css:"MatchFont MatchFontLucida"},
+					{ value:"Tahoma, Geneva, sans-serif", label:"Tahoma", css:"MatchFont MatchFontTahoma"},
 
-						{ css:"MatcToolbarPopUpLine"},
-						{ value:"Georgia, serif", label:"Georgia", css:"MatchFont MatchFontGeorgia"},
-						{ value : '"Palatino Linotype", "Book Antiqua", Palatino, serif', label:"Palatino", css: "MatchFontPalatino"},
-						{ value: 'Times New Roman, Times, serif', label:"Times New Roman", css:" MatchFont MatchFontTimesNewRoman"},
+					{ css:"MatcToolbarPopUpLine"},
+					{ value:"Georgia, serif", label:"Georgia", css:"MatchFont MatchFontGeorgia"},
+					{ value : '"Palatino Linotype", "Book Antiqua", Palatino, serif', label:"Palatino", css: "MatchFontPalatino"},
+					{ value: 'Times New Roman, Times, serif', label:"Times New Roman", css:" MatchFont MatchFontTimesNewRoman"},
 
-						{ css:"MatcToolbarPopUpLine"},
-						{ value:"Courier New, Courier, monospace", label:"Courier New", css:"MatchFont MatchFontCourier"}
+					{ css:"MatcToolbarPopUpLine"},
+					{ value:"Courier New, Courier, monospace", label:"Courier New", css:"MatchFont MatchFontCourier"}
 				];
 
 				if (this.model.fonts) {

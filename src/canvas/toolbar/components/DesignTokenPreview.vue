@@ -20,7 +20,7 @@
       <span class="MatcToolbarItemLabel" :style="textStyle">{{designtoken.name}}</span>
 
       <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true" ref="editBtn">
-  			  <span class="mdi mdi-cogs" />
+  			  <span class="mdi mdi-tune-vertical" />
       </span>
 
     </div>

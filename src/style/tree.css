@@ -179,3 +179,7 @@ input.MatcTreeItemLabel {
 .MatcTreeTypeIcon.mdi {
   opacity: 0.5;
 }
+
+.MatcTreeIconRoot.mdi {
+  opacity: 1;
+}
