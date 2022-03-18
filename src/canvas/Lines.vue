@@ -7,34 +7,32 @@ export default {
     mixins:[],
     data: function () {
         return {
-					straightLineFunction: d3.line().x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }),
-					smoothLineFunction: d3.line().curve(d3.curveBasis).x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }), // basis
-					defaultLineColor : "#3787f2",
-					defaultLineWidth: 2,
-					arrowCorrect : 3,
-					arrowSize : 8,
-					touchLineWidth: 15,
-					bendFactorX : 0.5,
-					bendFactorY : 0.5,
-					lineEventType :"receives", // emits
+			straightLineFunction: d3.line().x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }),
+			smoothLineFunction: d3.line().curve(d3.curveBasis).x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }), // basis
+			defaultLineColor : "#3787f2",
+			defaultLineWidth: 2,
+			arrowCorrect : 3,
+			arrowSize : 8,
+			touchLineWidth: 15,
+			bendFactorX : 0.5,
+			bendFactorY : 0.5,
+			lineEventType :"receives", // emits
         }
     },
     components: {},
     methods: {
-	    initSVG (){
-
-				if (!this.svg) {
-					this.logger.log(-1, "initSVG", "entry");
-					let pos = {
-						h : this.getZoomed(this.canvasPos.h, this.zoom),
-						w: this.getZoomed(this.canvasPos.w, this.zoom)
-					};
-					let bodySelection = d3.select(this.dndContainer);
-					this.svg = bodySelection.append("svg").attr("width", pos.w).attr("height",pos.h );
-				} else {
-					this.updateSVG()
-				}
-
+	    initSVG () {
+			if (!this.svg) {
+				this.logger.log(1, "initSVG", "entry");
+				let pos = {
+					h : this.getZoomed(this.canvasPos.h, this.zoom),
+					w: this.getZoomed(this.canvasPos.w, this.zoom)
+				};
+				let bodySelection = d3.select(this.dndContainer);
+				this.svg = bodySelection.append("svg").attr("width", pos.w).attr("height",pos.h );
+			} else {
+				this.updateSVG()
+			}
 	    },
 
 		updateSVG () {

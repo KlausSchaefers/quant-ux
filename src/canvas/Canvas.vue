@@ -216,7 +216,7 @@ export default {
 		},
 
 		setCanvasViewConfig (key, value) {
-			this.logger.log(-1, "setCanvasViewConfig", "enter > " + key, value);
+			this.logger.log(3, "setCanvasViewConfig", "enter > " + key, value);
 			if (key === 'zoom') {
 				this.setZoomFactor(value)
 			}

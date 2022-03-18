@@ -37,20 +37,22 @@ export default {
 
         createWidgetDataView (widget, div) {
             if (this.hasDataView && widget) {
-                let label = ''
+                let dataLabel = ''
+                let methodBindings = []
                 var dataBindings = this.getAllDataBinding(widget);
                 if (dataBindings && dataBindings.length > 0) {
-                    label = dataBindings.join(', ') + ' '
+                    dataLabel = dataBindings.join(', ') + ' '
                 }
 
                 if (widget.props && widget.props.callbacks) {
                     if (widget.props.callbacks.click) {
-                        label += ` ${widget.props.callbacks.click}`
+                        methodBindings.push(` ${widget.props.callbacks.click}()`)
                     }
                     if (widget.props.callbacks.change) {
-                        label += ` ${widget.props.callbacks.change}`
+                        methodBindings.push(` ${widget.props.callbacks.change}()`)
                     }
                 }
+                const methodLabel = methodBindings.join(', ')
 
                 if (!this._dataViewDivs) {
                     this._dataViewDivs = {}
@@ -62,13 +64,28 @@ export default {
                     }
                 }
 
-                if (label) {
+                if (dataLabel || methodLabel) {
+
                     css.add(div, 'MatcCanvasDataViewLabelCntr')
-                    let dataDiv = document.createElement('div')
-                    css.add(dataDiv, 'MatcCanvasDataViewLabel')
-                    dataDiv.textContent = label
-                    div.appendChild(dataDiv)
-                    this._dataViewDivs[widget.id] = dataDiv
+
+                    let cntrDiv = document.createElement('div')
+                    css.add(cntrDiv, 'MatcCanvasDataViewLabelList')
+                    div.appendChild(cntrDiv)
+                    this._dataViewDivs[widget.id] = cntrDiv
+                  
+                    if (dataLabel) {
+                        let dataDiv = document.createElement('div')
+                        css.add(dataDiv, 'MatcCanvasDataViewLabelVariables')
+                        dataDiv.textContent = dataLabel
+                        cntrDiv.appendChild(dataDiv)
+                    }
+                    if (methodLabel) {
+                        let dataDiv = document.createElement('div')
+                        css.add(dataDiv, 'MatcCanvasDataViewLabelMethods')
+                        dataDiv.textContent = methodLabel
+                        cntrDiv.appendChild(dataDiv)
+                    }
+                   
                 }
 
             }
@@ -116,7 +133,7 @@ export default {
         },
 
         cleanDataView () {
-            this.logger.log(-1,"cleanDataView", "enter", this._dataViewDivs);
+            this.logger.log(3,"cleanDataView", "enter", this._dataViewDivs);
             for (let id in this._dataViewDivs) {
                 let div = this._dataViewDivs[id]
                 if (div.parentNode) {
