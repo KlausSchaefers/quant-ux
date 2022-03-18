@@ -73,10 +73,11 @@ export default {
 		showImportDialog (e, zipFiles = null) {
 			this.logger.log(-1,"showImportDialog", "entry > " + this.isPublic);
 			let dialog = new Dialog()
-      var db = new DomBuilder();
+      		var db = new DomBuilder();
 			var popup = db.div("MatcDialog MatchImportDialog MatcPadding").build();
-      dialog.popup(popup, e.target);
-      let importDialog = this.$new(ImportDialog)
+      		dialog.popup(popup, e.target);
+      		
+			let importDialog = this.$new(ImportDialog)
 			importDialog.placeAt(popup)
 
 			importDialog.setPublic(this.isPublic)
@@ -98,14 +99,14 @@ export default {
 			})
 		},
 
-		showHelp (e) {
-			let dialog = new Dialog()
-      var db = new DomBuilder();
-			var popup = db.div("MatcDialog MatcHelpDialog MatcPadding").build();
-      dialog.popup(popup, e.target);
-      let help = this.$new(Help)
-      help.placeAt(popup)
-		},
+	showHelp (e) {
+		let dialog = new Dialog()
+    	var db = new DomBuilder();
+		let popup = db.div("MatcDialog MatcHelpDialog MatcPadding").build();
+      	dialog.popup(popup, e.target);
+     	let help = this.$new(Help)
+     	help.placeAt(popup)
+	},
 
     async showSharing (e){
 			this.logger.log(-1,"showSharing", "entry > ", this.isPublic);
@@ -739,7 +740,12 @@ export default {
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
-
+			dialog.own(on(inputName, 'keyup', e => {
+				var k = e.keyCode ? e.keyCode : e.which;
+				if (k === 13) {
+					this._createTemplate(inputName, dialog)
+				}
+			}))
 			dialog.own(on(write, touch.press, lang.hitch(this, "_createTemplate", inputName, dialog)));
 			dialog.popup(popup, this.template);
 

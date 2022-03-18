@@ -8,9 +8,6 @@
     margin-top: 10px;
 }
 
-.MatcToolbarTableSettings > .MatcToolbarTabs{
-    border-bottom: 1px solid #ccc;
-}
 
 .MatcToolbarTableSettings > .MatcToolbarTabs a{
     margin-bottom: -1px;

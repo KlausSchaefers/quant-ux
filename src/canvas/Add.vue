@@ -16,21 +16,20 @@ export default {
     },
     components: {},
     methods: {
-      addMultiThemedScreens (params){
+      	addMultiThemedScreens (params) {
+			let z = this.getZoomFactor();
 
-			var z = this.getZoomFactor();
+			let screens = params.obj;
+			let clonedScreens = []
 
-			var screens = params.obj;
-			var clonedScreens = []
-
-			var pos = this.getCanvasMousePosition(params.event);
+			let pos = this.getCanvasMousePosition(params.event);
 			pos = this.getUnZoomedBox(pos, this.zoom, this.zoom);
-			for(var i=0; i< screens.length;i++){
+			for(let i=0; i< screens.length;i++){
 				/**
 				 * FIXME: Do something with rows???
 				 */
-				var screen = screens[i];
-				var clonedScreen = this.getZoomedBox(lang.clone(screen),z,z);
+				let screen = screens[i];
+				let clonedScreen = this.getZoomedBox(lang.clone(screen),z,z);
 				clonedScreens.push(clonedScreen);
 				clonedScreen.x = pos.x + (this.model.screenSize.w + this.getZoomed(100,this.zoom)) * i;
 				clonedScreen.y = pos.y;
@@ -445,6 +444,9 @@ export default {
 
 			this._addLineParams = params;
 
+			/**
+			 * Store all other widget where a line can go too
+			 */
 			this._addLineActionTargets = []
 			for (let id in this.model.widgets) {
 				let widget = this.model.widgets[id]
@@ -596,6 +598,7 @@ export default {
 		},
 
 		_updateAddLineMove (e){
+	
 			/**
 			 * Pressing space will pause this operation!
 			 * The canvas DnD handler will instead move the
@@ -610,7 +613,6 @@ export default {
 				this._onAddCleanup();
 			}
 
-			//var from = this.model.widgets[this._addLineModel.from];
 			var from = this.getFromBox(this._addLineModel);
 			var to = this.getCanvasMousePosition(e);
 			to.h = 2;
