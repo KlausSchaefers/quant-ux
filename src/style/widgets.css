@@ -169,13 +169,15 @@
 	height: 100%;
 	overflow: hidden;
 	outline: none;
+	text-align: center;
 }
 
 .MatcWidgetTypeRest .mdi {
 	color:#777;
 	position: absolute;
 	top:-20%;
-	left:10%;
+	left:50%;
+	transform: translateX(-50%);
 }
 
 .MatcWidgetTypeRest .MatcWidgetTypeRestLabel{
@@ -187,6 +189,7 @@
 	color:#cecece;
 	font-size: 150%;
 	padding: 5px;
+	display: block;
 }
 
 .MatcLight .MatcWidgetTypeRest .MatcWidgetTypeRestLabel{

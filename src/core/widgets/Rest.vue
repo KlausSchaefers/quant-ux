@@ -21,30 +21,31 @@ export default {
   components: {},
   computed: {
     label () {
-      if (this.model && this.model) {
-        return this.model.name
+      if (this.model && this.model && this.model.props) {
+        return this.model.props.label
       }
       return 'Rest'
     }
   },
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [];
       this._backgroundNodes = [];
       this._shadowNodes = [];
       this._paddingNodes = [];
     },
 
-    getLabelNode: function() {
+    getLabelNode () {
       return this.labelNode;
     },
 
-    resize: function(box) {
-      var h = Math.min(box.h, box.w);
+    resize (box) {
+      var h = box.h
       this.icon.style.fontSize = (h * 0.8) + "px";
+      this.labelNode.style.fontSize = (h * 0.2) + "px";
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -58,7 +59,7 @@ export default {
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       if (v !== true && v !== false && v >= 1) {
         v = true;
       }

@@ -45,7 +45,7 @@
 
              <div class=" MatcDesignTokenListSection MatcDesignTokenListSectionNoBorder" v-show="isEmpty" style="text-align:left; height:120px">
                   <label>Design Tokens</label>
-                  <div class="MatcDesignTokenListSectionContent">
+                  <div class="MatcDesignTokenListSectionContent" style="padding: 0px 16px;">
                     No tokens have been defined yet. Select a widget and press on of the
                     <span class="mdi mdi-dots-horizontal"></span> icon to create a design token.
                   </div>
