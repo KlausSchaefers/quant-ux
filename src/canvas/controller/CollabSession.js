@@ -9,7 +9,7 @@ export default class CollabSession {
   }
 
   initWebsocket(model, canvas, controller, toolbar) {
-    Logger.log(-1, "BusService.initWebsocket()", "enter");
+    Logger.log(3, "CollabSession.initWebsocket()", "enter");
     try {
       let user = this.user
       let websocket = Services.getWebSocketService(model.id, user.token, user)
@@ -29,7 +29,7 @@ export default class CollabSession {
 
         this.websocket = websocket
       } else {
-        Logger.log(-1, "BusService.initWebsocket()", "exit > No session created");
+        Logger.log(-1, "CollabSession.initWebsocket()", "exit > No session created");
       }
     } catch (err) {
       Logger.error('CollabSession.initWebsocket()', "Cannot init WebSocket", err)

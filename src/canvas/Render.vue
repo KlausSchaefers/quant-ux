@@ -337,6 +337,7 @@ export default {
 			this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
 			this.renderFactory.setZoomedModel(sourceModel);
 			this.renderFactory.updatePositions(sourceModel)
+			this.renderLayerList(sourceModel);
 		},
 
 

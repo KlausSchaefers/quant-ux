@@ -360,6 +360,8 @@ export default class Widget extends Screen {
 		if (fromToolbar || hasCopies) {
 			this.logger.log(-1,"updateMultiWidgetPosition", "exit > with render");
 			this.render();
+		} else {
+			this.onWidgetPositionChange()
 		}
 	}
 

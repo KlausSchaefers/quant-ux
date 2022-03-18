@@ -32,13 +32,13 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-					selection: [],
-					screenListeners: {},
-					collapsed: {},
-					openNodes: {},
-					root: {},
-					trees: [],
-					nodes: {}
+			selection: [],
+			screenListeners: {},
+			collapsed: {},
+			openNodes: {},
+			root: {},
+			trees: [],
+			nodes: {}
         }
     },
     components: {
@@ -47,7 +47,7 @@ export default {
     methods: {
       	postCreate (){
 			this.logger = new Logger("LayerList");
-			this.logger.log(-1,"constructor", "entry > " + this.mode);
+			this.logger.log(2,"constructor", "entry > " + this.mode);
 		},
 
 		setController (c){
@@ -220,66 +220,31 @@ export default {
 				}
 			}
 
-			//
+			// canvas children
+			const canvasChildren = []
+			for (let id in model.widgets) {
+				const widget = model.widgets[id]
+				const parent = this.getParentScreen(widget, model)
+				if (!parent) {
+					canvasChildren.push(widget.id)
+				}
+			}
+			
+			if (canvasChildren.length > 0) {
+				let canvasScreen = {
+					id:'CanvasScreen',
+					type: 'canvas',
+					name: 'Canvas',
+					children: canvasChildren
+				}
+				let tree = this.createTreeForScreen(canvasScreen.id, canvasScreen, model, parentGroups)
+				root.children.push(tree)
+			}
 
 			// build a tree for each screen
 			for(let id in model.screens){
 				let screen = model.screens[id];
-				if (this.openNodes[screen.id] === undefined) {
-					this.openNodes[screen.id] = true
-				}
-				let tree = {
-					name: screen.name,
-					label: screen.name,
-					id: screen.id,
-					domId: this.getScrollId(screen.id),
-					css: 'MatcToolbarLayerListScreen',
-					icon: this.getAppTypeIcon(model),
-					closeIcon : this.getCloseIcon(screen),
-					openIcon: this.getOpenIcon(screen),
-					open: this.openNodes[screen.id],
-					children: []
-				};
-				this.nodes[id] = tree
-
-				let groupNodes = {};
-				let masterNodes = {}
-				let sorted = this.getSortedScreenChildren(model, screen)
-				for(let i=0; i< sorted.length; i++){
-					let widget = sorted[i];
-
-					/**
-					 * FIMXE: Make here a extra group for the master widgets
-					 */
-					if (widget.inherited) {
-						if (this.includeMasterNodes) {
-							let masterScreen = model.screens[widget.masterScreen]
-							let master = {
-								id: masterScreen.id,
-								name: masterScreen.name,
-								inherited: true,
-								type: 'Master'
-							}
-							let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
-							let masterNode = this.getOrCreateMaster(master, screen.id, masterNodes, tree, widget)
-							masterNode.children.push(node)
-						}
-					} else {
-
-						/**
-						 * Check if we have a group
-						 */
-						if (parentGroups[widget.id]){
-							let group = parentGroups[widget.id]
-							let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
-							let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
-							groupNode.children.push(node)
-						} else {
-							let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
-							tree.children.push(node)
-						}
-					}
-				}
+				let tree = this.createTreeForScreen(id, screen, model, parentGroups)
 				root.children.push(tree)
 			}
 
@@ -288,6 +253,66 @@ export default {
 			 */
 			this.trees = result
 			this.root = root
+		},
+
+		createTreeForScreen (id, screen, model, parentGroups) {
+		
+			if (this.openNodes[screen.id] === undefined) {
+				this.openNodes[screen.id] = true
+			}
+			let tree = {
+				name: screen.name,
+				label: screen.name,
+				id: screen.id,
+				domId: this.getScrollId(screen.id),
+				css: 'MatcToolbarLayerListScreen',
+				icon: this.getAppTypeIcon(model, screen),
+				closeIcon : this.getCloseIcon(screen),
+				openIcon: this.getOpenIcon(screen),
+				open: this.openNodes[screen.id],
+				children: []
+			};
+			this.nodes[id] = tree
+
+			let groupNodes = {};
+			let masterNodes = {}
+			let sorted = this.getSortedScreenChildren(model, screen)
+			for(let i=0; i< sorted.length; i++){
+				let widget = sorted[i];
+
+				/**
+				 * FIMXE: Make here a extra group for the master widgets
+				 */
+				if (widget.inherited) {
+					if (this.includeMasterNodes) {
+						let masterScreen = model.screens[widget.masterScreen]
+						let master = {
+							id: masterScreen.id,
+							name: masterScreen.name,
+							inherited: true,
+							type: 'Master'
+						}
+						let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
+						let masterNode = this.getOrCreateMaster(master, screen.id, masterNodes, tree, widget)
+						masterNode.children.push(node)
+					}
+				} else {
+
+					/**
+					 * Check if we have a group
+					 */
+					if (parentGroups[widget.id]){
+						let group = parentGroups[widget.id]
+						let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
+						let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
+						groupNode.children.push(node)
+					} else {
+						let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
+						tree.children.push(node)
+					}
+				}
+			}
+			return tree
 		},
 
 		getSortedScreenChildren (model, screen) {
@@ -408,15 +433,12 @@ export default {
 
 
 		getNodeIcon (box, type){
-			if (type === 'screen') {
-				return  this.getAppTypeIcon()
-			}
-
+			
 			if (box.template) {
 				if (box.isRootTemplate) {
 					return "mdi mdi-view-grid-outline MatcIcon45";
 				} else {
-					return "mdi mdi mdi-border-all-variant MatcIcon45";
+					return "mdi mdi-view-grid-outline MatcIcon45"; // return "mdi mdi mdi-border-all-variant MatcIcon45";
 				}
 			}
 
@@ -440,8 +462,10 @@ export default {
 		},
 
 
-		getAppTypeIcon (model) {
-			if (model.type == "smartphone") {
+		getAppTypeIcon (model, screen) {
+			if (screen.type === 'canvas') {
+				return "mdi mdi-border-none-variant MatcTreeIconRoot";
+			} else if (model.type == "smartphone") {
 				return "mdi mdi-cellphone MatcTreeIconRoot";
 			} else if (model.type == "tablet") {
 				return "mdi mdi-tablet-ipad MatcTreeIconRoot";

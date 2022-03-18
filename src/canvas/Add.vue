@@ -444,17 +444,30 @@ export default {
 
 			this._addLineParams = params;
 
+
+			this._addLineStartedFromTemplate = this.isLineStartedFromTemplate(params)
+
 			/**
-			 * Store all other widget where a line can go too
+			 * Store all other widget where a line can go to
 			 */
 			this._addLineActionTargets = []
 			for (let id in this.model.widgets) {
 				let widget = this.model.widgets[id]
-				if (widget.type === "Rest") {
-					this._addLineActionTargets.push(widget)
-				}
-				if (widget.type === "LogicOr") {
-					this._addLineActionTargets.push(widget)
+				if (this._addLineStartedFromTemplate) {
+					if (widget.template) {
+						let parent = this.getParentScreen(widget, this.model)
+						if (!parent) {
+							this.logger.log(-1,"addLine", "addTemplate", widget.name);
+							this._addLineActionTargets.push(widget)
+						}				
+					}
+				} else {
+					if (widget.type === "Rest") {
+						this._addLineActionTargets.push(widget)
+					}
+					if (widget.type === "LogicOr") {
+						this._addLineActionTargets.push(widget)
+					}		
 				}
 			}
 
@@ -502,6 +515,39 @@ export default {
 			}
 		},
 
+		isLineStartedFromTemplate (params) {
+			if (params.from){
+				const widget = this.model.widgets[params.from];
+				if (this.isTemplatedWidgetOnCanvas(widget)) {
+					return true
+				}
+			
+				const group = this.model.groups[params.from];
+				if (group && group.template){
+					this.logger.warn("isLineStartedFromTemplate", "groups not supported");
+					const children = group.children
+					for (let i=0; i < children.length; i++) {
+						let id = children[i]
+						const widget = this.model.widgets[id];
+						if (this.isTemplatedWidgetOnCanvas(widget)) {
+							return true
+						}
+					}
+				}
+			}
+			return false
+		},
+
+		isTemplatedWidgetOnCanvas (widget) {
+			if (widget && widget.template) {
+					const parent = this.getParentScreen(widget, this.model)
+					if (!parent) {
+						return true
+					}			
+			}
+			return false
+		},
+
 		onLineStartSelected (id, div, pos,e){
 			this.logger.log(1,"onLineStartSelected", "enter > " +id);
 
@@ -522,9 +568,6 @@ export default {
 			this._addLinePoints=[];
 			this._addLineIsPaused = false;
 			this._addNDropMove = on(win.body(),"mousemove", lang.hitch(this,"_updateAddLineMove"));
-
-			//this.setBoxClickCallback("onLineEndSelected");
-			//this.setCanvasClickCallback("onLinePointSelected");
 
 			this.showHint("Select the screen where the click should go to. You can also set some way points in the middle to make it look nicer!");
 
@@ -552,45 +595,70 @@ export default {
 
 		onLineEndSelected (id, e){
 			this.logger.log(0,"onLineEndSelected", "enter > "+ id);
-			/**
-			 * check if we clicked on a screen or widget
-			 */
-			var screen = this.model.screens[id];
-			if (!screen){
+			
+			if (this._addLineStartedFromTemplate) {
 				let widget = this.model.widgets[id];
-				screen = this.getParentScreen(widget);
-			}
+				if (this.isTemplatedWidgetOnCanvas(widget)) {
+					let parentGroup = this.getParentGroup(id)
 
-			if (screen) {
-				let model = this._addLineModel;
-				model.to = screen.id;
-				this.controller.addLine(model,e);
-				this._onAddDone();
+					let model = this._addLineModel;
+					model.isTemplateTransition = true
+					if (parentGroup) {
+						model.to = parentGroup.id;
+						model.isGroup = true
+					} else {
+						model.to = widget.id;
+					}			
+			
+					this.controller.addLine(model, e);
+					this._onAddDone();
+
+					console.debug(widget, parentGroup)
+				} else {
+					this.showError("You have to select a component on the canvas!");
+				}
 			} else {
 				/**
-				 * Check if we have clicked on LogicElement
+				 * check if we clicked on a screen or widget
 				 */
-				let widget = this.model.widgets[id];
-				if(this.hasLogic(widget)){
-					let fromWidget = this.model.widgets[this._addLineModel.from];
-					if(!this.hasLogic(fromWidget)){
+				var screen = this.model.screens[id];
+				if (!screen){
+					let widget = this.model.widgets[id];
+					screen = this.getParentScreen(widget);
+				}
+
+				if (screen) {
+					let model = this._addLineModel;
+					model.to = screen.id;
+					this.controller.addLine(model,e);
+					this._onAddDone();
+				} else {
+					/**
+					 * Check if we have clicked on LogicElement
+					 */
+					let widget = this.model.widgets[id];
+					if(this.hasLogic(widget)){
+						let fromWidget = this.model.widgets[this._addLineModel.from];
+						if(!this.hasLogic(fromWidget)){
+							let model = this._addLineModel;
+							model.to = widget.id;
+							this.controller.addLine(model, e);
+							this._onAddDone();
+						} else {
+							this.showError("You cannot connect two logic nodes!");
+						}
+					} else if (this.hasRest(widget)) {
 						let model = this._addLineModel;
 						model.to = widget.id;
 						this.controller.addLine(model, e);
 						this._onAddDone();
 					} else {
-						this.showError("You cannot connect two logic nodes!");
+
+						this.showError("You have to select a screen, logic or cloud element!");
 					}
-				} else if (this.hasRest(widget)) {
-					let model = this._addLineModel;
-					model.to = widget.id;
-					this.controller.addLine(model, e);
-					this._onAddDone();
-				} else {
-					this.showError("You have to select a screen, logic or cloud element!");
 				}
 			}
-
+		
 			this.cleanUpAddLine();
 			this.setMode(this._oldMode);
 			this._onAddDone();
@@ -622,7 +690,7 @@ export default {
 			 * check if we are hovering over anything
 			 */
 			var screen = this.getHoverScreen(to);
-			if(screen){
+			if(screen && !this._addLineStartedFromTemplate){
 				/**
 				 * Do not snapp to same screen
 				 */
@@ -637,6 +705,9 @@ export default {
 				}
 
 			} else {
+				/**
+				 * Check for all the smart widgets, if we can snapp
+				 */
 				if (this._addLineActionTargets) {
 					for (let i=0; i < this._addLineActionTargets.length; i++) {
 						let action = this._addLineActionTargets[i]
@@ -668,22 +739,19 @@ export default {
 
 		cleanUpAddLine (){
 			this.logger.log(0,"cleanUpAddLine", "enter");
-
 			this.cleanUpClickCallbacks();
 			delete this._addLineParams;
 			this._addLinePoints = null;
 			this._addLineModel = null;
 			this._addLineIsPaused = false;
 			this._addLineActionTargets = null;
+			this._addLineStartedFromTemplate = false;
 			if(this._addLineSVG){
 				this._addLineSVG.remove();
 			}
 			this._addLineSVG = null;
 			this._onAddCleanup();
-
 			this.setState(0);
-
-
 			return true;
 		},
 

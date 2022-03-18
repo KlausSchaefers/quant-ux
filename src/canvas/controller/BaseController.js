@@ -68,7 +68,7 @@ export default class BaseController extends Core {
 	 * Method is called on first load. Inits the
 	 */
 	setModel (m, screenID){
-		this.logger.log(-1,"setModel", "entry > " + screenID);
+		this.logger.log(1,"setModel", "entry > " + screenID);
 
 		this.model = m;
 		this.oldModel = lang.clone(m);

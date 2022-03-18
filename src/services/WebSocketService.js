@@ -10,7 +10,7 @@ export default class WebSocketService {
   }
 
   init (callback) {
-    Logger.log(-1, 'WebSocketService.init()', this.appId, this.url)
+    Logger.log(1, 'WebSocketService.init()', this.appId, this.url)
     try {
       let connection = new WebSocket(`${this.url}/?app=${this.appId}&jwt=${this.jwtToken}`)
       connection.onmessage = (event) => {

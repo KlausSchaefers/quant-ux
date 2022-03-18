@@ -64,6 +64,11 @@
 
 .MatcTreeItemRow input.MatcTreeItemLabel{
 	width: 140px;
+	padding: 7px 5px 7px 10px;
+	border: 0px solid #3787f2;
+	font-size: 12px;
+
+	display: block;
 }
 
 .MatcLayerListDragOver{

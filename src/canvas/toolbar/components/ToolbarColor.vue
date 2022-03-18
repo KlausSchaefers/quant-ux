@@ -37,7 +37,7 @@ export default {
     data: function () {
         return {
             value: null,
-						tempValue: false,
+			tempValue: false,
             updateColor: false,
             updateBackground: false,
             updateLabel: false,
@@ -50,19 +50,19 @@ export default {
             keepOpenOnTypeSelection: null,
             lastOpen: 0,
             lastClose: 0,
-						hex: false,
-						hexError: false,
-						dropdown: false,
-						label: null,
-						hasPicker: true,
-						colors : [
-							"#e2f4fb", "#a8dff4", "#8ad5f0", "#50c0e9", "#33b5e5", "#2cb1e1", "#1da9da", "#16a5d7", "#0fa1d3", "#0099cc",
-							"#f5eafa", "#ddbcee", "#d6adeb", "#cb97e5", "#c58be2", "#c182e0", "#b368d9", "#ac59d6", "#a750d3", "#9933cc",
-							"#f0f8db", "#d3e992", "#c5e26d", "#a8d324", "#99cc00", "#92c500", "#83b600", "#7caf00", "#75a800", "#669900",
-							"#fff6df", "#ffe3a0", "#ffd980", "#ffc641", "#ffbd21", "#ffb61c", "#ffa713", "#ffa00e", "#ff9909", "#ff8a00",
-							"#ffe4e4", "#ffafaf", "#ff9494", "#ff5f5f", "#ff4444", "#f83a3a", "#e92727", "#e21d1d", "#db1313", "#cc0000",
-							"#ffffff", "#E6E6E6", "#D9D9D9", "#BFBFBF", "#B2B2B2", "#999999",  "#666666", "#4D4D4D", "#333333", "#000000"
-						]
+			hex: false,
+			hexError: false,
+			dropdown: false,
+			label: null,
+			hasPicker: true,
+			colors : [
+				"#e2f4fb", "#a8dff4", "#8ad5f0", "#50c0e9", "#33b5e5", "#2cb1e1", "#1da9da", "#16a5d7", "#0fa1d3", "#0099cc",
+				"#f5eafa", "#ddbcee", "#d6adeb", "#cb97e5", "#c58be2", "#c182e0", "#b368d9", "#ac59d6", "#a750d3", "#9933cc",
+				"#f0f8db", "#d3e992", "#c5e26d", "#a8d324", "#99cc00", "#92c500", "#83b600", "#7caf00", "#75a800", "#669900",
+				"#fff6df", "#ffe3a0", "#ffd980", "#ffc641", "#ffbd21", "#ffb61c", "#ffa713", "#ffa00e", "#ff9909", "#ff8a00",
+				"#ffe4e4", "#ffafaf", "#ff9494", "#ff5f5f", "#ff4444", "#f83a3a", "#e92727", "#e21d1d", "#db1313", "#cc0000",
+				"#ffffff", "#E6E6E6", "#D9D9D9", "#BFBFBF", "#B2B2B2", "#999999",  "#666666", "#4D4D4D", "#333333", "#000000"
+			]
         }
     },
     components: {
@@ -306,8 +306,12 @@ export default {
 				var colors = [];
 				if(this.model){
 					var temp = {}
-					this.getBoxColors(this.model.screens,temp);
-					this.getBoxColors(this.model.widgets,temp);
+					this.getBoxColors(this.model.screens,temp)
+					this.getBoxColors(this.model.widgets,temp)
+					if (this.model.templates) {
+						this.getBoxColors(this.model.templates,temp)
+					}
+		
 					var list = []
 					for(var color in temp){
 						list.push({
@@ -360,22 +364,25 @@ export default {
 			getBoxColors (boxes, result){
 				for(var id in boxes){
 					var box = boxes[id];
-					this._countColor(box.style.background, result);
-					this._countColor(box.style.color, result);
-					this._countColor(box.style.borderTopColor, result);
-					this._countColor(box.style.evenRowBackground, result);
-					this._countColor(box.style.evenRowColor, result);
-					this._countColor(box.style.headerBackground, result);
-					this._countColor(box.style.headerColor, result);
-					this._countColor(box.style.colorButton, result);
-					// since 3.0.15 we have timelines
-					this._countColor(box.style.cicleBackground, result);
-					this._countColor(box.style.cicleBorderColor, result);
-					this._countColor(box.style.lineBackground, result);
-					this._countColor(box.style.lineBorderColor, result);
-					this._countColor(box.style.cicleActiveBackground, result);
-					this._countColor(box.style.cicleActiveTextColor, result);
-					this._countColor(box.style.cicleActiveBorderColor, result);
+					if (box.style) {
+						this._countColor(box.style.background, result);
+						this._countColor(box.style.color, result);
+						this._countColor(box.style.borderTopColor, result);
+						this._countColor(box.style.evenRowBackground, result);
+						this._countColor(box.style.evenRowColor, result);
+						this._countColor(box.style.headerBackground, result);
+						this._countColor(box.style.headerColor, result);
+						this._countColor(box.style.colorButton, result);
+						// since 3.0.15 we have timelines
+						this._countColor(box.style.cicleBackground, result);
+						this._countColor(box.style.cicleBorderColor, result);
+						this._countColor(box.style.lineBackground, result);
+						this._countColor(box.style.lineBorderColor, result);
+						this._countColor(box.style.cicleActiveBackground, result);
+						this._countColor(box.style.cicleActiveTextColor, result);
+						this._countColor(box.style.cicleActiveBorderColor, result);
+					}
+					
 					if (box.active) {
 						this._countColor(box.active.background, result);
 						this._countColor(box.active.color, result);

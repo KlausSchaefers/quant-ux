@@ -19,7 +19,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [];
       this._backgroundNodes = [];
       this._shadowNodes = [];
@@ -28,26 +28,34 @@ export default {
     /**
      * Get the node for inline editing
      */
-    getLabelNode: function() {
+    getLabelNode () {
       return this.label;
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    resize (box) {
+      var h = Math.min(box.h, box.w);
+      this.label.style.fontSize = (h * 0.4) + "px";
+    },
+
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
       this._drawRaute(this.domNode, model, style);
+      this.resize(model)
 
       if (model.props.label) {
         this.setTextContent(this.label, model.props.label);
       }
     },
 
-    _drawRaute: function(parent, model, style) {
+    _drawRaute (parent, model, style) {
       var w = model.w * 2;
       var h = model.h * 2;
       var c = document.createElement("canvas");
+
+      
 
       c.width = w;
       c.height = h;

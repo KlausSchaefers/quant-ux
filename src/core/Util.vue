@@ -1394,7 +1394,7 @@ export default {
      * For all line drawing this function returns the widget, or in case of an
      * group the bounding box!
      */
-    getFromBox: function(line) {
+    getFromBox (line) {
       var fromPos = this.model.widgets[line.from];
 
       if (!fromPos) {
@@ -1414,10 +1414,20 @@ export default {
       return fromPos;
     },
 
-    getToBox: function(line) {
+    getToBox (line) {
       var to = this.model.screens[line.to];
       if (!to) {
         to = this.model.widgets[line.to];
+      }
+
+      if (!to && line.isGroup && this.model.groups) {
+        /**
+         * no widget, must be a group
+         */
+        var group = this.model.groups[line.to];
+        if (group) {
+          to = this.getBoundingBox(group.children);
+        }
       }
       return to;
     },

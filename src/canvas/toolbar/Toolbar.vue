@@ -1850,7 +1850,7 @@ export default {
 		},
 
 		setSettings (v){
-			this.logger.log(-1,"setSettings", "entry > ", v);
+			this.logger.log(1,"setSettings", "entry > ", v);
 			this.settings = v;
 		},
 

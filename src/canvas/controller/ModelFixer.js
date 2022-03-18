@@ -243,14 +243,14 @@ class ModelFixer {
 			let line = model.lines[lineID]
 			if (line) {
 				let lineValid = true
-				if (!model.widgets[line.to] && !model.screens[line.to]) {
+				if (!model.widgets[line.to] && !model.screens[line.to] && model.groups && !model.groups[line.to]) {
 					lineValid = false
-					this.logger.log(0, "validateAndFixModel", "No line to:" + lineID)
+					this.logger.warn("validateAndFixModel", "No line to:", line)
 				}
 
 				if (!model.widgets[line.from] && !model.screens[line.from] && model.groups && !model.groups[line.from]) {
 					lineValid = false
-					this.logger.log(0, "validateAndFixModel", "No line from :" + lineID)
+					this.logger.warn("validateAndFixModel", "No line from :" + lineID)
 				}
 
 				if (!lineValid) {
@@ -297,6 +297,10 @@ class ModelFixer {
 		}
 
 		return errors
+	}
+
+	isValidLine () {
+
 	}
 
 	/**
