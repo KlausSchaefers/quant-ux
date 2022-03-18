@@ -55,7 +55,7 @@
 
 			<div class="" data-dojo-attach-point="commentSection">
 				<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="commentBtn">
-					<span class="mdi mdi-comment"></span>
+					<span class="mdi mdi-comment-outline"></span>
 
 				</div>
 			</div>
@@ -95,7 +95,7 @@
 								<span class="mdi mdi-format-paint"></span>
 							</a>
 							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
-								<span class="mdi mdi-close-circle"></span>
+								<span class="mdi mdi-close-circle-outline"></span>
 							</a>
 			
 						</div>

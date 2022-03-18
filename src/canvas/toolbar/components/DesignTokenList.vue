@@ -6,36 +6,49 @@
 
               <div class=" MatcDesignTokenListSection" v-show="colorTokens.length > 0">
                   <label>Color Styles</label>
-                  <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in colorTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  <div class="MatcDesignTokenListSectionContent">
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in colorTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  </div>
               </div>
 
 
               <div class=" MatcDesignTokenListSection" v-show="textTokens.length > 0">
                   <label>Text Styles</label>
-                  <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in textTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  <div class="MatcDesignTokenListSectionContent">
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in textTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  </div>
               </div>
 
 
               <div class=" MatcDesignTokenListSection" v-show="strokeTokens.length > 0">
                   <label>Border Styles</label>
-                  <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  <div class="MatcDesignTokenListSectionContent">
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  </div>
               </div>
 
 
               <div class=" MatcDesignTokenListSection" v-show="shadowTokens.length > 0">
                   <label>Shadow Styles</label>
-                  <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  <div class="MatcDesignTokenListSectionContent">
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  </div>
               </div>
 
 
               <div class=" MatcDesignTokenListSection" v-show="paddingTokens.length > 0">
                 <label>Padding Styles</label>
-                <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                <div class="MatcDesignTokenListSectionContent">
+                  <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                </div>
             </div>
 
-             <div class=" MatcDesignTokenListSection MatcToolbarItem" v-show="isEmpty" style="text-align:left; height:80px">
-                  No tokens have been defined yet. Select a widget and press on of the
-                  <span class="mdi mdi-dots-horizontal"></span> icon to create a design token.
+             <div class=" MatcDesignTokenListSection MatcDesignTokenListSectionNoBorder" v-show="isEmpty" style="text-align:left; height:120px">
+                  <label>Design Tokens</label>
+                  <div class="MatcDesignTokenListSectionContent">
+                    No tokens have been defined yet. Select a widget and press on of the
+                    <span class="mdi mdi-dots-horizontal"></span> icon to create a design token.
+                  </div>
 
             </div>
       </div>

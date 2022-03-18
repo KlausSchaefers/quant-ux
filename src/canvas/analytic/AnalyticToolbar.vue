@@ -5,21 +5,12 @@
 		<div class="MatcToolbarTop ">
 			<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
 
-			<div class="MatcToolbarTopCntr">
+			<div class="MatcToolbarTopCntr" >
 
-				<div class="MatcToolbarTopLeftCntr">
+				<div class="MatcToolbarTopLeftCntr" data-dojo-attach-point="screenSection">
 
-					<div class="MatcToolbarSection" data-dojo-attach-point="screenSection" style="padding-left:0px">
-					</div>
-
-					<div class="MatcToolbarSection" data-dojo-attach-point="journeySection">
-					</div>
-
-					<div class="MatcToolbarSection" data-dojo-attach-point="scrollSection">
-					</div>
-
-					<div class="MatcToolbarSection" data-dojo-attach-point="globalSection">
-					</div>
+				
+				
 				</div>
 
 			
@@ -334,31 +325,31 @@ export default {
 				//this.viewBtns.push(this.viewBtnGesture);
 				//this.addTooltip(this.viewBtnGesture, "Which gestures were done?");
 
-				this.viewBtnClickStream = this.createToolBarItem("User Journey", "showUserJourney", "mdi mdi-vector-polyline",this.journeySection);
+				this.viewBtnClickStream = this.createToolBarItem("User Journey", "showUserJourney", "mdi mdi-vector-polyline",this.screenSection);
 				this.viewBtns.push(this.viewBtnClickStream);
 				this.addTooltip(this.viewBtnClickStream, "See where the users have clicked in one session.");
 
-				this.viewBtnDropOff = this.createToolBarItem("Tasks & Drop Off", "showDropOff", "mdi mdi-chart-timeline-variant-shimmer",this.journeySection);
+				this.viewBtnDropOff = this.createToolBarItem("Tasks & Drop Off", "showDropOff", "mdi mdi-chart-timeline-variant-shimmer",this.screenSection);
 				this.viewBtns.push(this.viewBtnDropOff);
 				this.addTooltip(this.viewBtnDropOff, "See whre users dropped of when performing tasks.");
 
-				this.viewBtnScrollMap = this.createToolBarItem("Scroll Visibility", "showScrollHeatMap", "mdi mdi-swap-vertical",this.scrollSection);
+				this.viewBtnScrollMap = this.createToolBarItem("Scroll Visibility", "showScrollHeatMap", "mdi mdi-swap-vertical",this.screenSection);
 				this.viewBtns.push(this.viewBtnScrollMap);
 				this.addTooltip(this.viewBtnScrollMap, "How often was the part of the screen visible");
 
-				this.viewBtnScrollTime = this.createToolBarItem("Scroll Time", "showScrollTimeMap", "mdi mdi-timer",this.scrollSection);
+				this.viewBtnScrollTime = this.createToolBarItem("Scroll Time", "showScrollTimeMap", "mdi mdi-timer",this.screenSection);
 				this.viewBtns.push(this.viewBtnScrollTime);
 				this.addTooltip(this.viewBtnScrollTime, "How long was the part of the screen visible");
 
 				/**
 				 * Global Distributions
 				 */
-				this.viewBtnView = this.createToolBarItem("Views", "showViewMap", "mdi mdi-eye",this.globalSection);
+				this.viewBtnView = this.createToolBarItem("Views", "showViewMap", "mdi mdi-eye",this.screenSection);
 				this.viewBtns.push(this.viewBtnView);
 				this.addTooltip(this.viewBtnView, "How often was the screen loaded");
 
 
-				this.viewBtnDwellTime = this.createToolBarItem("Dwell Time", "showDwelTimeMap", "mdi mdi-timelapse",this.globalSection);
+				this.viewBtnDwellTime = this.createToolBarItem("Dwell Time", "showDwelTimeMap", "mdi mdi-timelapse",this.screenSection);
 				this.viewBtns.push(this.viewBtnDwellTime);
 				this.addTooltip(this.viewBtnDwellTime, "How much time have the users spend on this page in average");
 

@@ -87,12 +87,11 @@
 
 .MatcDesignTokenList label {
 	background: none;
-  color: #555;
-  text-align: left;
-  padding-left: 8px;
-  font-weight: 400;
-	margin-top: 16px;
-	margin-top: 8px;
+	color: #555;
+	text-align: left;
+	padding-left: 8px;
+	font-weight: 400;
+	margin-top: 4px;
 }
 
 .MatcDark .MatcDesignTokenList label,
@@ -103,10 +102,33 @@
 
 .MatcDesignTokenList .MatcDesignTokenListSection{
 	margin-bottom: 16px;
+    border-top: 1px solid rgba(0,0,0, 0.15);
+    border-bottom: 1px solid transparent;
 }
 
+.MatcDesignTokenList .MatcDesignTokenListSectionContent {
+	padding: 0px 8px;
+}
+
+.MatcDesignTokenList .MatcDesignTokenListSection:first-child,
+.MatcDesignTokenList .MatcDesignTokenListSectionNoBorder{
+    border-top: 1px solid transparent;
+
+}
+
+.MatcDesignTokenList .MatcDesignTokenListSection label {
+	color: #777;
+    text-align: left;
+	padding: 3px 16px;
+    background: #242a30;
+	display: block;
+	font-weight: 400;
+    font-size: 12px;
+}
+
+
 .MatcDesignTokenList .MatcDesignTokenPreView{
-		padding: 8px;
+	padding: 8px;
 }
 
 .MatcDesignTokenListPopup{

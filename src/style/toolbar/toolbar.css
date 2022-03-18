@@ -35,6 +35,11 @@
 	opacity: 0;
 }
 
+.MatcToolbar .MatcToolbarItemActive .MatcTinyIcon.mdi{
+	opacity: 1;
+}
+
+
 .MatcToolbar .MatcTinyIcon.MatcTinyIconRemove.mdi{
 	opacity: 1;
 }
@@ -325,7 +330,7 @@
  .MatcToolbarNotificationSection{
 	top: 0px;
 	right: 0px;
-	width: 500px;
+
 	padding: 0px;
 	border: none;
 	text-align: right;
@@ -397,6 +402,10 @@
 
 .MatcToolbarMoveHiddden .MatcToolbarMove{
 	display: none;
+}
+
+.MatcToolbarTopCntr .MatcToolbarItem .MatcToolbarLabel{
+	cursor: pointer;
 }
 
 /****************************************************
@@ -1235,6 +1244,16 @@
 .MatcToolbar .MatcToolbarEditMode a.MatcToolbarEditModeActive:hover{
 	background-color: #1251a3;
 	color: #fff;
+}
+
+
+ /****************************************************
+ * Analytics
+ ****************************************************/
+
+.MatcAnalyticsToolbar .MatcToolbarTopLeftCntr {
+	gap: 16px;
+	display: flex;
 }
 
 

@@ -210,11 +210,11 @@ export default {
 					lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv
 				);				
 				this.templateUpdate = this.createToolBarItem(
-					'<span class="mdi mdi-view-grid MatcIcon45"></span> <span class="mdi mdi-pencil MatcTinyIcon MatcTinyIconRemove"></span>', 
+					'<span class="mdi mdi-view-grid-outline MatcIcon45"></span> <span class="mdi mdi-pencil MatcTinyIcon MatcTinyIconRemove"></span>', 
 					lang.hitch(this,"onToolUpdateTemplate"), null, this.templateDiv
 				);
 				this.templateRemove = this.createToolBarItem(
-					'<span class="mdi mdi mdi-view-grid MatcIcon45"></span> <span class="mdi mdi-minus-circle MatcTinyIcon MatcTinyIconRemove"></span>', 
+					'<span class="mdi mdi mdi-view-grid-outline MatcIcon45"></span> <span class="mdi mdi-minus-circle MatcTinyIcon MatcTinyIconRemove"></span>', 
 					lang.hitch(this,"onToolRemoveTemplate"), null, this.templateDiv
 				);
 
@@ -405,10 +405,10 @@ export default {
 
 			_renderDesignTokens () {
 
-				var parent = this.createSection("Design Tokens");
+				var parent = this.createSection("");
 
 				var content = document.createElement("div");
-				css.add(content, "MatcToolbarSectionContent");
+				css.add(content, "");
 				parent.appendChild(content);
 
 
@@ -1514,10 +1514,11 @@ export default {
 
 			createSectionHeader (parent, lbl, hasTemplateMarker, designTokenWidget, settingsCallback){
 				var div = document.createElement("div");
-				css.add(div,"MatcToolbarSectionLabel");
-				parent.appendChild(div);
-
-				div.textContent = lbl;
+				if (lbl){
+					css.add(div,"MatcToolbarSectionLabel");
+					parent.appendChild(div);
+					div.textContent = lbl;
+				}
 
 				if(hasTemplateMarker){
 					var span = document.createElement("span");

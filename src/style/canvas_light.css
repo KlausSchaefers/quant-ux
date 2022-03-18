@@ -285,7 +285,7 @@
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarItemActive {
     background: none;
-		color:#3787f2;
+	color:#3787f2;
 }
 
 
@@ -467,3 +467,19 @@
 .MatcLight .MatcToolbarDetailLabel{
 	color: #777;
 }
+
+
+.MatcLight .MatcAnalyticsToolbar .MatcToolbarTopLeftCntr .MatcToolbarItemActive {
+    background: #d6e5f8;
+	color:#333;
+	height: 39px;
+}
+
+
+.MatcLight .MatcDesignTokenList .MatcDesignTokenListSection label {
+	color:#333;
+	background: none;
+	font-weight: 700;
+	padding: 0px 16px;
+}
+
