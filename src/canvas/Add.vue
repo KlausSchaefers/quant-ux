@@ -454,6 +454,9 @@ export default {
 			for (let id in this.model.widgets) {
 				let widget = this.model.widgets[id]
 				if (this._addLineStartedFromTemplate) {
+					/**
+					 * FIXME: Make sure there is no other templates link from some other widget>
+					 */
 					if (widget.template) {
 						let parent = this.getParentScreen(widget, this.model)
 						if (!parent) {
@@ -600,7 +603,9 @@ export default {
 				let widget = this.model.widgets[id];
 				if (this.isTemplatedWidgetOnCanvas(widget)) {
 					let parentGroup = this.getParentGroup(id)
-
+					/**
+					 * Check somehow if the group is templated??
+					 */
 					let model = this._addLineModel;
 					model.isTemplateTransition = true
 					if (parentGroup) {

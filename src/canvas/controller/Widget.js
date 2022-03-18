@@ -247,7 +247,7 @@ export default class Widget extends Screen {
 	}
 
 	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies){
-		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
+		this.logger.log(1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
 
 		var command = {
 			timestamp : new Date().getTime(),

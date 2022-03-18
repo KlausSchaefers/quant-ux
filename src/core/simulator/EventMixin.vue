@@ -53,12 +53,18 @@ export default {
 						this.logger.log(1,"onDomMouseOver","enter > run line");
 						//this.log("WidgetHover",screenID, widgetID, e);
 						this.executeLine(screenID, widgetID, line);
+						return
 					}
 				}
-				this.onMouseMove(e);
+				/**
+				 * Since 4.0.60 we have template transitions
+				 */
+				this.fireTemplateLineIfNeeded(screenID, widgetID, "mouseover")
+				
 			} else {
 				console.warn('Repeater,could not find', widgetID)
 			}
+			this.onMouseMove(e);
 		},
 
 		onDomMouseOut (screenID, widgetID,e){
@@ -83,8 +89,13 @@ export default {
 						delay: 0,
 						duration : this.hoverAnimationDuration
 					};
-					this.onAnimation(screenID, widgetID, aninEvent);
+					this.onAnimation(screenID, widgetID, aninEvent);				
 				}
+
+				/**
+				 * Since 4.0.60 we have template transitions
+				 */
+				this.fireTemplateLineIfNeeded(screenID, widgetID, "mouseout")
 			}
 
 			this.onMouseMove(e);
@@ -118,18 +129,20 @@ export default {
 
 		onWidgetMouseOver (screenID, widgetID,e){
 			this.onMouseMove(e);
-			//this.log("MouseOver",screenID, widgetID, null);
-
-			var widget = this.model.widgets[widgetID];
+			const widget = this.model.widgets[widgetID];
 			if (widget) {
 				var lines = this.getLinesForWidget(widget);
 				if (lines){
 					var line = this.getLineForGesture(lines, "hover");
 					if (line) {
-						this.logger.log(1,"onWidgetMouseOver","enter > run line");
-						//this.log("WidgetHover",screenID, widgetID, e);
+						this.logger.log(1,"onWidgetMouseOver","enter > run line");				
 						this.executeLine(screenID, widgetID, line);
+						return
 					}
+					/**
+					 * Since 4.0.60 we have template transitions
+					 */
+					this.fireTemplateLineIfNeeded(screenID, widgetID, "mouseover")
 				}
 			}
 		},
@@ -631,15 +644,20 @@ export default {
 		},
 
 		onScreenClickFromWidget (screenID, widgetID){
-			this.logger.log(0,"onScreenClickFromWidget","enter > " + screenID + " > widget:" + widgetID);
+			this.logger.log(1,"onScreenClickFromWidget","enter > " + screenID + " > widget:" + widgetID);
 			if(this.currentScreen){
-				var lines = this.getFromLines(this.currentScreen);
-				if(lines){
+				const lines = this.getFromLines(this.currentScreen);
+				if (lines){
 					var line = this.getLineForGesture(lines, "click");
 					if(line){
 						this.executeLine(this.currentScreen.id, "", line);
+						return
 					}
 				}
+				/**
+				 * Since 4.0.60 we also check template lines
+				 */
+				this.fireTemplateLineIfNeeded(screenID, widgetID, "click")		
 			} else {
 				console.debug('No current')
 			}

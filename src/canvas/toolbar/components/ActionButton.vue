@@ -241,8 +241,11 @@ export default {
 			db.span("MatcToolbarItemLabel", iconAndLabel.label).build(item);
 			this.tempOwn(on(item, touch.press, lang.hitch(this, "showActionSettings", line, item)));
 
+			/**
+			 *  Since 
+			 */
 
-			if(isWidget){
+			if(isWidget && !line.isTemplateTransition){
 				btn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
 				btn.setOptions([
 						{value:false, label:"No validation", icon:"mdi mdi-close"},
@@ -261,13 +264,15 @@ export default {
 			/**
 			 * Move this and the timer options int
 			 */
-			var scrollChkBox = this.$new(CheckBox);
-			scrollChkBox.setLabel("Keep scroll position");
-			css.add(scrollChkBox.domNode, "MatcToolbarItem");
-			this.addTooltip(scrollChkBox.domNode, "BETA: Scroll to same position after the new screen is loaded.");
-			scrollChkBox.placeAt(parent);
-			scrollChkBox.setValue(line.scroll);
-			this.tempOwn(on(scrollChkBox, "change", lang.hitch(this, "onLineScrollByID", line.id)));
+			if (!line.isTemplateTransition){
+				var scrollChkBox = this.$new(CheckBox);
+				scrollChkBox.setLabel("Keep scroll position");
+				css.add(scrollChkBox.domNode, "MatcToolbarItem");
+				this.addTooltip(scrollChkBox.domNode, "BETA: Scroll to same position after the new screen is loaded.");
+				scrollChkBox.placeAt(parent);
+				scrollChkBox.setValue(line.scroll);
+				this.tempOwn(on(scrollChkBox, "change", lang.hitch(this, "onLineScrollByID", line.id)));
+			}
 
 
 			var chkBox = this.$new(CheckBox);
@@ -302,6 +307,14 @@ export default {
 		},
 
 		getEventTypes (line, isWidget, btn){
+
+			if (line.isTemplateTransition) {
+				return [
+					{value:"click", label:"Click", icon:"mdi mdi-cursor-default"},
+					{value:"mouseover", label:"Mouse Over", icon:"mdi mdi-cursor-default"},
+					{value:"mouseout", label:"Mouse Out", icon:"mdi mdi-cursor-default-outline"}
+				]
+			}
 
 			if (this.widget && (this.widget.type == "TextBox" || this.widget.type == "Password" )){ //
 				return [

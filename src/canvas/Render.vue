@@ -332,7 +332,7 @@ export default {
 		 * for instance when widgets are moved.
 		 */
 		onWidgetPositionChange (sourceModel) {
-			this.logger.log(-1,"onWidgetPositionChange", "enter", sourceModel);
+			this.logger.log(1,"onWidgetPositionChange", "enter", sourceModel);
 			this.sourceModel = sourceModel;
 			this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
 			this.renderFactory.setZoomedModel(sourceModel);

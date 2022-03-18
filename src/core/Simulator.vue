@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v4.0.50</div>
+      <div class="MatcSimulatorVersion">v4.0.60</div>
     </div>
   </div>
 </template>
@@ -108,6 +108,7 @@ import AnimationMixin from 'core/simulator/AnimationMixin'
 import MouseMixin from 'core/simulator/MouseMixin'
 import DataBindingMixin from 'core/simulator/DataBindingMixin'
 import EventMixin from 'core/simulator/EventMixin'
+import TemplateMixin from 'core/simulator/TemplateMixin'
 import ModelUtil from 'core/ModelUtil'
 // import TaskMixin from 'core/simulator/TaskMixin'
 
@@ -118,7 +119,7 @@ export default {
 	props: ['mode', 'app'],
 	mixins:[
 		Layout, Gestures, RestMixin, LogMixin, RenderMixin, EventMixin,
-		ScrollMixin, AnimationMixin, MouseMixin, DataBindingMixin, DojoWidget
+		ScrollMixin, AnimationMixin, MouseMixin, DataBindingMixin, TemplateMixin, DojoWidget
 	],
     data: function () {
         return {
