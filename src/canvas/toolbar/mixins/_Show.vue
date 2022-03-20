@@ -45,30 +45,37 @@ export default {
 			* Twemplate properties
 			****************************************************************************************************/
 
-			showTemplate:function(model){
+			showTemplate (model){
 				css.remove(this.templateDiv, "MatcToolbarSectionHidden");
+				console.debug('showTemplate', model.template)
 				if(model.template){
-					css.remove(this.templateRemove, "MatcToolbarItemDisbaled hidden")
+					
+					
 					/**
 					* FIXME: we should also check for hover, error and such... This should
 					* however be well tested.
 					*/
-					var count = this.countProps(model.style);
-					if (count > 0) {
-						css.remove(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
-					} else {
-						css.add(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
-					}
+					//var count = this.countProps(model.style);
+					//if (count > 0) {
+					//	css.remove(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
+					//} else {
+					//	css.add(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
+					//}
+					//css.remove(this.templateRemove, "MatcToolbarItemDisbaled hidden")
+
+					css.remove(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
+					console.debug('show')
 					css.add(this.template, "MatcToolbarItemDisbaled hidden");
 				} else {
 					css.remove(this.template, "MatcToolbarItemDisbaled hidden");
-					css.add(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
-					css.add(this.templateRemove, "MatcToolbarItemDisbaled hidden")
+					css.add(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
+					//css.add(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
+					//css.add(this.templateRemove, "MatcToolbarItemDisbaled hidden")
 				}
 
 			},
 
-			showTemplateMarkers:function(lbl){
+			showTemplateMarkers (lbl){
 				css.add(this.domNode, "MatcToolbarTemplateMarkerVisible");
 				if(this.templateMarkers && lbl){
 					for(var i=0; i< this.templateMarkers.length; i++){
@@ -88,7 +95,7 @@ export default {
 				css.remove(this.distributeBtn, "hidden");
 				css.remove(this.replicateBtn, "hidden");
 
-				if(this._selectedMulti ||this._selectedGroup ){
+				if(this._selectedMulti || this._selectedGroup ){
 					css.remove(this.groupDIV, "MatcToolbarSectionHidden");
 					if(this._selectedGroup){
 						css.add(this.groupBTN, "MatcToolbarItemActive");

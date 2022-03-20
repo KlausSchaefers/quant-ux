@@ -67,6 +67,10 @@
 	margin-right: 5px;
 }
 
+.MatcDesignTokenButtonPopup .MatcToolbarItemIcon {
+	margin-right: 5px;
+}
+
 .MatcDesignTokenButtonPopup .MatcToolbarItemIcon,
 .MatcDesignTokenButtonPopup .MatcToolbarItemIcon .mdi{
 	font-size: 16px;

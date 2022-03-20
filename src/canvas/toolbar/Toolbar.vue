@@ -1105,6 +1105,17 @@ export default {
 			this.showThemeCreateDialog(e);
 		},
 
+		onToolChangeTemplate(type, e){
+			this.stopEvent(e);
+			this.logger.log(-1,"onToolChangeTemplate", "entry : " + type);
+			if (type === 'update') {
+				this.onToolUpdateTemplate(e)
+			}
+			if (type === 'remove') {
+				this.onToolRemoveTemplate(e)
+			}
+		},
+
 		onToolRemoveTemplate (e) {
 			this.logger.log(1,"onToolRemoveTemplate", "entry : " + this._selectedWidget);
 			this.stopEvent(e);

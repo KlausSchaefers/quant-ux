@@ -28,6 +28,10 @@ export default {
 
       executeTemplateLine(screenID, widgetID, line) {
         this.logger.log(-1,"executeTemplateLine","enter > " + widgetID, line.to);
+
+        /**
+         * chekc the kind of transition....
+         */
       },
 
       getTemplateLines (widgetID) {
