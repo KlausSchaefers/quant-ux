@@ -393,7 +393,8 @@ export default {
 	
 
 
-				this.addTooltip(this.groupBTN, "Group (CTRL-G)");
+				this.addTooltip(this.groupBTN, "Create group (CTRL-G)");
+				this.addTooltip(this.ungroupBTN, "Remove group (CTRL-G)");
 				this.addTooltip(this.replicateBtn, "Clone selection (C)");
 			},
 

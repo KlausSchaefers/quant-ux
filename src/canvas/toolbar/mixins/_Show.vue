@@ -47,13 +47,12 @@ export default {
 
 			showTemplate (model){
 				css.remove(this.templateDiv, "MatcToolbarSectionHidden");
-				console.debug('showTemplate', model.template)
+	
 				if(model.template){
-					
-					
+							
 					/**
-					* FIXME: we should also check for hover, error and such... This should
-					* however be well tested.
+					* FIXME: Adopt the dropdoen to enable or disbale certain elements
+					//
 					*/
 					//var count = this.countProps(model.style);
 					//if (count > 0) {
@@ -69,10 +68,16 @@ export default {
 				} else {
 					css.remove(this.template, "MatcToolbarItemDisbaled hidden");
 					css.add(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
-					//css.add(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
-					//css.add(this.templateRemove, "MatcToolbarItemDisbaled hidden")
 				}
 
+			},
+
+			showTemplateMerge (selection) {
+				console.debug('showTemplateMerge', selection)
+
+				// FIXME: Check here if we have one template or template
+				// group AND x addtional things.
+				// if so, allow to merge in the group
 			},
 
 			showTemplateMarkers (lbl){
@@ -88,25 +93,26 @@ export default {
 			* tool properties
 			****************************************************************************************************/
 
-			showTools:function(){
+			showTools (){
 
 				css.remove(this.toolsDiv, "MatcToolbarSectionHidden");
 				css.remove(this.toolsCntrDiv, "MatcToolbarSectionHidden");
 				css.remove(this.distributeBtn, "hidden");
 				css.remove(this.replicateBtn, "hidden");
 
-				if(this._selectedMulti || this._selectedGroup ){
+				if (this._selectedMulti || this._selectedGroup ) {
 					css.remove(this.groupDIV, "MatcToolbarSectionHidden");
 					if(this._selectedGroup){
-						css.add(this.groupBTN, "MatcToolbarItemActive");
+						css.add(this.groupBTN, "hidden");
+						css.remove(this.ungroupBTN, "hidden");
 						css.add(this.distributeBtn, "hidden");
 					} else {
-						css.remove(this.groupBTN, "MatcToolbarItemActive");
+						css.remove(this.groupBTN, "hidden");
+						css.add(this.ungroupBTN, "hidden");
 					}
 				} else {
 					css.add(this.groupDIV, "MatcToolbarSectionHidden");
 				}
-
 			},
 
 			/*****************************************************************************************************

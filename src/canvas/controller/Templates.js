@@ -163,8 +163,8 @@ export default class Templates extends BaseController{
 		template.w = widget.w;
 		template.h = widget.h;
 		template.z = widget.z;
-		template.x =0;
-		template.y =0;
+		template.x = 0;
+		template.y = 0;
 		template.templateType = "Widget";
 		template.type = widget.type;
 		template.visible = visible;
@@ -180,9 +180,14 @@ export default class Templates extends BaseController{
 		this.updateCreateWidget();
 	}
 
-	addTemplateGroup (group, name){
-		this.logger.log(0,"addTemplateGroup", "enter > " + name);
+	addNestedTemplateGroup (group, name) {
+		// FIXME: Make this work also nested groups...
+		this.addTemplateGroup(group, name)
+	}
 
+	addTemplateGroup (group, name){
+		this.logger.log(-1,"addTemplateGroup", "DEPRECTAED!! enter > " + name);
+		// keep this method, because of legacy commands!
 
 		var command = {
 			timestamp : new Date().getTime(),
@@ -207,14 +212,14 @@ export default class Templates extends BaseController{
 
 		/**
 		 * make templates for all children
+		 * 
 		 */
-		let allChildren = this.getAllGroupChildren(group)
-		var boundingBox = this.getBoundingBox(allChildren);
-		for(var i=0; i < allChildren.length; i++){
-			var widgetID = allChildren[i];
-			var widget = this.model.widgets[widgetID];
-
-			var t = this._createWidgetTemplate(widget, false, name+"_"+i, "");
+		const allChildren = this.getAllGroupChildren(group)
+		const boundingBox = this.getBoundingBox(allChildren);
+		for(let i=0; i < allChildren.length; i++){
+			let widgetID = allChildren[i];
+			let widget = this.model.widgets[widgetID];
+			let t = this._createWidgetTemplate(widget, false, name+"_"+i, "");
 			// add also relative coords!
 			t.x = widget.x - boundingBox.x;
 			t.y = widget.y - boundingBox.y;
@@ -258,6 +263,7 @@ export default class Templates extends BaseController{
 					widget.active = {}
 				}
 
+				// templates cannot have design tokens?
 				if (widget.designtokens) {
 					delete widget.designtokens
 				}
@@ -266,14 +272,14 @@ export default class Templates extends BaseController{
 			}
 		}
 
-		if(group){
+		if(group){ // FIXME should be groups, make backward compatible
 			this.model.templates[group.id] = group;
 		}
 		if(groupID){
 			this.model.groups[groupID].template = group.id;
 		}
 		this.onModelChanged([{type: 'template', action: 'add'}]);
-		this.showSuccess("The template was created. You can find it in the 'Create' menu");
+		this.showSuccess("The Component was created. You can find it in the 'Create' menu");
 	}
 
 	undoCreateTemplate (command){
@@ -503,6 +509,7 @@ export default class Templates extends BaseController{
 				}
 			}
 		}
+		widget.isRootTemplate = false
 		delete widget.template
 	}
 
@@ -608,8 +615,8 @@ export default class Templates extends BaseController{
 		let template = this.model.templates[id]
 		let isGroup = template.templateType === 'Group'
 		let widgetIds = isGroup && this.model.groups ?
-										Object.values(this.model.groups).filter(g => g.template === id).map(g => g.id) :
-										Object.values(this.model.widgets).filter(w => w.template === id).map(w => w.id)
+			Object.values(this.model.groups).filter(g => g.template === id).map(g => g.id) :
+			Object.values(this.model.widgets).filter(w => w.template === id).map(w => w.id)
 
 		let templates = [{
 			template: template,
@@ -667,7 +674,7 @@ export default class Templates extends BaseController{
 	}
 
 	modelAddAndLinkTemplate (templateChanges) {
-		this.logger.log(-1,"modelRemoveAndUnlinkTemplate", "enter > ", templateChanges);
+		this.logger.log(-1,"modelAddAndLinkTemplate", "enter > ", templateChanges);
 
 		if (!this.model.templates) {
 			this.model.templates = {}
@@ -699,5 +706,4 @@ export default class Templates extends BaseController{
 	}
 
 
-
-	}
+}

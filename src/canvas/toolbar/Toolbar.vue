@@ -109,10 +109,10 @@
 							
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
 									<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
-										<span class="mdi mdi-link-variant-plus"></span>
-										<label class="MatcToolbarLabel MatcToolbarResponsiveLabel" v-if="showLabels">
-											{{ $t('toolbar.group')}}
-										</label>
+										<span class="mdi mdi-link-variant-plus" ></span>
+									</a>
+									<a class="MatcToolbarItem" data-dojo-attach-point="ungroupBTN">
+										<span class="mdi mdi-link-variant-minus"></span>
 									</a>
 								</div>
 
@@ -231,6 +231,7 @@ export default {
 
 			this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
 			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
+			this.own(on(this.ungroupBTN, touch.press, lang.hitch(this, "onToolGroup")));
 			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
 			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
 			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
@@ -531,6 +532,7 @@ export default {
 					this._selection = "multi";
 					this._selectedMulti = selection;
 					this.showCopyPaste();
+					this.showTemplateMerge(selection);
 					this.showTools();
 					this.showMultiProperties(this._selectedMulti);
 				}catch(e){
@@ -1130,7 +1132,12 @@ export default {
 		onToolUpdateTemplate (e) {
 			this.stopEvent(e);
 			this.logger.log(1,"onToolUpdateTemplate", "entry : " + this._selectedWidget);
-			this.controller.updateTemplateStyle(this._selectedWidget.id);
+			if (this._selectedWidget){
+				this.controller.updateTemplateStyle(this._selectedWidget.id);
+			} 
+			if (this._selectedGroup){
+				this.canvas.showError("Groups not supported. Update each child")
+			}
 		},
 
 		onToolCreateTemplate (e){

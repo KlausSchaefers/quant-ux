@@ -83,6 +83,9 @@ export default {
 
         /**
          * Select everything
+         * 
+         * @FIXME: IF we have copied groups the distrubute does not
+         * work properly
          */
         var selection = cloneIDs.widgets.concat(this._selectCloneIds);
         this.onMutliSelected(selection)

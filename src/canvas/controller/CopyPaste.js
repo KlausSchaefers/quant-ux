@@ -26,9 +26,7 @@ export default class CopyPaste extends Group{
 	replicateWidgets (ids, pos, selectedGroup, fromToolbar){
 		this.logger.log(0,"replicateWidgets", "enter > ");
 
-		/**
-		 * This was id!!!
-		 */
+		
 		pos = this.correctPostion(ids, pos, fromToolbar);
 
 		var cloneIds = this.modelAddClonedWidgets(ids, pos, selectedGroup)

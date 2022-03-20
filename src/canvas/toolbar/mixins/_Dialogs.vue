@@ -769,7 +769,7 @@ export default {
 			}
 
 			if(this._selectedGroup){
-				this.controller.addTemplateGroup(this._selectedGroup, input.value);
+				this.controller.addNestedTemplateGroup(this._selectedGroup, input.value);
 			}
 		},
 
