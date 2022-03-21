@@ -530,7 +530,15 @@ export default class BaseController extends Core {
 		}
 	}
 
-
+	onLayerListChange () {
+		this.logger.log(2,"onLayerListChange", "enter");
+		if(this._canvas){
+			let inheritedModel = CoreUtil.createInheritedModel(this.model)
+			requestAnimationFrame(() => {
+				this._canvas.onWidgetPositionChange(inheritedModel);
+			});
+		}
+	}
 
 
 	renderWidget (widget, type){

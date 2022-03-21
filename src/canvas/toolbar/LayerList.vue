@@ -206,7 +206,7 @@ export default {
 
 			// 1) Build group lookup
 			let parentGroups = {}
-			for(let id in model.groups){
+			for (let id in model.groups) {
 				let group = model.groups[id]
 				for (let i=0; i < group.children.length; i++) {
 					let widgetID = group.children[i]
@@ -436,7 +436,7 @@ export default {
 			
 			if (box.template) {
 				if (box.isRootTemplate) {
-					return "mdi mdi-view-grid-outline MatcIcon45";
+					return "mdi mdi mdi-border-all-variant MatcIcon45";
 				} else {
 					return "mdi mdi-view-grid-outline MatcIcon45"; // return "mdi mdi mdi-border-all-variant MatcIcon45";
 				}

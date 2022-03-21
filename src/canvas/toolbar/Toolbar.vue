@@ -438,7 +438,7 @@ export default {
 			/**
 			 * Make this faster. Just updating the view costs 30ms
 			 */
-			if (this.active){
+			if (this.active && widget){
 				try{
 					/**
 					 * We might want to blur some stuff

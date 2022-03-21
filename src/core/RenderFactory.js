@@ -102,7 +102,7 @@ export default class RenderFactory extends Core {
 	}
 
 	setHash (h) {
-		this.logger.log(-1, "setHash", "enter");
+		this.logger.log(1, "setHash", "enter");
 		this.hash = h
 	}
 

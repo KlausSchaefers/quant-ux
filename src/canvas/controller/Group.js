@@ -204,22 +204,13 @@ export default class Group extends Layer {
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
 		var groupTemplate = this.model.templates[group.template];
-
-
+	
 		if(groupTemplate){
-
-			group = this.factory.createTemplatedModel(groupTemplate);
-			group.id = "tg"+this.getUUID();
-
-			var targetScreen = this.getHoverScreen(pos);
-			if (targetScreen) {
-				group.name = this.getGroupName(targetScreen.id, group.name)
-			}
 
 			/**
 			 * 1) create mutli command
 			 */
-			var command = {
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "MultiCommand",
 				label : "AddGroupByTemplate",
@@ -227,7 +218,24 @@ export default class Group extends Layer {
 			};
 
 			/**
-			 * order by z
+			 * 2) Group the main group
+			 */
+			group = this.factory.createTemplatedModel(groupTemplate);
+			group.id = "tg"+this.getUUID();
+			group.groups = []
+
+			const targetScreen = this.getHoverScreen(pos);
+			if (targetScreen) {
+				group.name = this.getGroupName(targetScreen.id, group.name)
+			}
+
+			/**
+			 * 3) Since 4.0.60 we also create sub groups
+			 */
+			const [subgroups, template2Group] = this._addSubGroupByTemplate(groupTemplate, group, targetScreen)
+
+			/**
+			 * order templates by z
 			 */
 			var children = [];
 			for(let i=0; i < group.children.length; i++){
@@ -236,33 +244,37 @@ export default class Group extends Layer {
 				children.push(child);
 			}
 			children = this.getOrderedWidgets(children);
-
 			group.children=[];
+		
 			/**
-			 * 2) create child widgets
+			 * 4) create child widgets
 			 */
 			let z = this.getMaxZValue(this.model.widgets);
 			for (let i=0; i< children.length; i++){
 				let widgetTemplate = children[i];
 				let widget = this.factory.createTemplatedModel(widgetTemplate);
-
+			
 				widget.id = "w"+this.getUUID();
 				widget.x +=  pos.x;
 				widget.y +=  pos.y;
 				widget.z = z + 1 + i;
-				widget.name = this.createNiceName(widget);
+				if (targetScreen) {
+					widget.name = this.getGroupName(targetScreen.id, widgetTemplate.name)
+				}
 
 				let child = this._createAddWidgetCommand(widget);
 				command.children.push(child);
-				group.children.push(widget.id);
 
+				if (template2Group[widget.template]) {
+					template2Group[widget.template].children.push(widget.id)
+				} else {
+					group.children.push(widget.id);
+				}
 				this.modelAddWidget(widget, true);
 			}
 
-
-
 			/**
-			 * 3) add group
+			 * 5) add main group
 			 */
 			let child = {
 				timestamp : new Date().getTime(),
@@ -271,12 +283,61 @@ export default class Group extends Layer {
 			};
 			command.children.push(child);
 			this.modelAddGroup(group, true);
+	
+			/**
+			 * 6) Add sub groups
+			 */
+			Object.values(subgroups).forEach(subgroup => {
+				let child = {
+					timestamp : new Date().getTime(),
+					type : "AddGroup",
+					model : subgroup
+				};
+				command.children.push(child);
+				this.modelAddGroup(subgroup, true);
+			})
 
+		
 			this.addCommand(command);
 
 			this.onModelChanged([]);
 			this.render();
 		}
+	}
+
+	_addSubGroupByTemplate (groupTemplate, group, targetScreen) {
+		const subgroups = {}
+		const template2Group = {}
+		if (groupTemplate.groups) {
+			// create sub groups if needed
+			groupTemplate.groups.forEach(subGroupTemplate => {
+
+				const subgroup = this.factory.createTemplatedGroup(subGroupTemplate);
+				subgroup.children = []
+				subgroup.groups = []
+				subgroup.parent = subGroupTemplate.parent
+				subgroup.id = "tg"+this.getUUID(); 
+				if (targetScreen) {
+					subgroup.name = this.getGroupName(targetScreen.id, subGroupTemplate.name)
+				}
+
+				subGroupTemplate.children.forEach(childTemplateId => {
+					template2Group[childTemplateId] = subgroup
+				})
+				subgroups[subGroupTemplate.id] = subgroup
+			})
+
+			// sort hierachical to parents
+			Object.values(subgroups).forEach(subgroup => {
+				if (subgroup.parent && subgroups[subgroup.parent]) {
+					subgroups[subgroup.parent].groups.push(subgroup.id)
+				} else {
+					group.groups.push(subgroup.id)
+				}
+				delete subgroup.parent
+			})
+		}
+		return [subgroups, template2Group]
 	}
 
 

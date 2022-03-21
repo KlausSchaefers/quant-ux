@@ -180,16 +180,13 @@ export default class Templates extends BaseController{
 		this.updateCreateWidget();
 	}
 
-	addNestedTemplateGroup (group, name) {
-		// FIXME: Make this work also nested groups...
-		this.addTemplateGroup(group, name)
-	}
+	
 
-	addTemplateGroup (group, name){
-		this.logger.log(-1,"addTemplateGroup", "DEPRECTAED!! enter > " + name);
+	addNestedTemplateGroup (group, name){
+		this.logger.log(-1,"addNestedTemplateGroup", "enter > " + name);
 		// keep this method, because of legacy commands!
 
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "CreateTemplate",
 			models : [],
@@ -197,16 +194,23 @@ export default class Templates extends BaseController{
 			groupID : group.id
 		};
 
+		const allChildren = this.getAllGroupChildren(group)
+		const boundingBox = this.getBoundingBox(allChildren);
+
 		/**
 		 * make one group template!
 		 */
-		var template = {};
+		const template = {};
 		template.id = "tg" + this.getUUID();
 		template.type = "Group";
 		template.templateType = "Group";
 		template.visible=true;
 		template.name = name;
 		template.children = [];
+		template.groups = []
+		template.w = boundingBox.w
+		template.h = boundingBox.h
+
 		command.group = template;
 
 
@@ -214,39 +218,78 @@ export default class Templates extends BaseController{
 		 * make templates for all children
 		 * 
 		 */
-		const allChildren = this.getAllGroupChildren(group)
-		const boundingBox = this.getBoundingBox(allChildren);
+	
+		const template2Widget = {}
 		for(let i=0; i < allChildren.length; i++){
 			let widgetID = allChildren[i];
 			let widget = this.model.widgets[widgetID];
-			let t = this._createWidgetTemplate(widget, false, name+"_"+i, "");
-			// add also relative coords!
+
+			let t = this._createWidgetTemplate(widget, false, widget.name , "");
 			t.x = widget.x - boundingBox.x;
 			t.y = widget.y - boundingBox.y;
 
 			template.children.push(t.id);
 			command.models.push(t);
 			command.widgets.push(widgetID);
+			template2Widget[widgetID] = t.id
 		}
+
+		this._createSubGroupTemplates(template, group, template.id, name, template2Widget)
 
 		this.addCommand(command);
 		this.modelAddTemplate(command.models,command.widgets,command.group, command.groupID);
 		this.updateCreateWidget();
+		this.onLayerListChange()
 	}
 
-	modelAddTemplate (templates, widgetIDs, group, groupID){
+	_createSubGroupTemplates (template, group, parentID, name, template2Widget) {
+		if (group.groups) {
+			group.groups.forEach(subID => {
+				const subgroup = this.model.groups[subID]
+				if (subgroup) {
+					let childTemplate = {
+						id : 'tsg' + this.getUUID(),
+						name: name + subgroup.name,
+						groupID: subgroup.id,
+						parent: parentID,
+						children: []
+					}
 
-		if(!this.model.templates){
+					if (subgroup.children) {
+						subgroup.children.forEach(widgetID => {
+							if (template2Widget[widgetID]) {
+								childTemplate.children.push(template2Widget[widgetID])
+							} else {
+								console.warn('_createSubGroupTemplates() Cannot map widget id', widgetID)
+							}
+						})
+					}
+
+					template.groups.push(childTemplate)
+
+					this._createSubGroupTemplates(template, subgroup, childTemplate.id, name, template2Widget)
+					
+				}
+			})
+		}
+	}
+
+	modelAddTemplate (childTemplates, widgetIDs, template, groupID){
+
+		if (!this.model.templates){
 			this.model.templates = {};
 		}
 
-		for(var i=0; i < templates.length; i++){
-			var t = templates[i];
+		for (let i=0; i < childTemplates.length; i++) {
+			const t = childTemplates[i];
+			const widgetID = widgetIDs[i];
+
+			// 1) add the widget template
 			this.model.templates[t.id] = t;
-			// make widget instance of template as well
-			var widgetID = widgetIDs[i];
-			var widget = this.model.widgets[widgetID];
-			if(widget){
+			
+			// 2) make the widget a template
+			const widget = this.model.widgets[widgetID];
+			if (widget){
 				widget.template = t.id;
 				widget.isRootTemplate = true
 				widget.style = {};
@@ -262,24 +305,44 @@ export default class Templates extends BaseController{
 				if (widget.active) {
 					widget.active = {}
 				}
-
-				// templates cannot have design tokens?
 				if (widget.designtokens) {
 					delete widget.designtokens
 				}
 			} else {
-				console.warn("No Widget with ", widgetID);
+				console.warn("modelAddTemplate() > No Widget with ", widgetID);
 			}
 		}
 
-		if(group){ // FIXME should be groups, make backward compatible
-			this.model.templates[group.id] = group;
+		// in early version group was no there. this might have caused an issue.
+		if (template) {
+			this.model.templates[template.id] = template;
+
+			/** 
+			 * Since 4.0.60 we have sub groups!!
+			 */
+			if (template.groups) {
+				template.groups.forEach(childGroupTemplate => {
+					let childGroup = this.model.groups[childGroupTemplate.groupID]
+					if (childGroup) {
+						childGroup.template = childGroupTemplate.id
+						childGroup.isRootTemplate = true
+					} else {
+						console.warn("modelAddTemplate() > No childgroup with ", childGroupTemplate.groupID);
+					} 
+				})
+			}
 		}
-		if(groupID){
-			this.model.groups[groupID].template = group.id;
+
+
+		if (groupID) {
+			this.model.groups[groupID].template = template.id;
+			this.model.groups[groupID].isRootTemplate = true
 		}
+
+
 		this.onModelChanged([{type: 'template', action: 'add'}]);
 		this.showSuccess("The Component was created. You can find it in the 'Create' menu");
+		
 	}
 
 	undoCreateTemplate (command){
@@ -308,18 +371,33 @@ export default class Templates extends BaseController{
 	}
 
 
-	modelRemoveTemplate (templates, widgetIDs, group, groupID){
+	modelRemoveTemplate (templates, widgetIDs, template, groupID){
 
-		if(this.model.templates){
-			for(var i=0; i < templates.length; i++){
-				var t = templates[i];
+		if (this.model.templates) {
+			for(let i=0; i < templates.length; i++) {
+				let t = templates[i];
 				delete this.model.templates[t.id];
 
-				var widgetID = widgetIDs[i];
-				var widget = this.model.widgets[widgetID];
-				if (widget){
+				let widgetID = widgetIDs[i];
+				let widget = this.model.widgets[widgetID];
+				if (widget) {
 					delete widget.template;
+					delete widget.isRootTemplate
 					widget.style = t.style;
+
+					if (t.hover) {
+						widget.hover = t.hover
+					}
+					if (t.error) {
+						widget.error = t.error
+					}
+					if (t.focus) {
+						widget.focus = t.focus
+					}
+					if (t.active) {
+						widget.active = t.active
+					}
+		
 				} else {
 					console.warn("No widget with ", widgetID);
 				}
@@ -334,8 +412,23 @@ export default class Templates extends BaseController{
 			}
 		}
 
-		if(group){
-			delete this.model.templates[group.id];
+		if(template){
+			delete this.model.templates[template.id];
+
+			/** 
+			 * Since 4.0.60 we have sub groups!!
+			 */
+			if (template.groups) {
+				template.groups.forEach(childGroupTemplate => {
+					let childGroup = this.model.groups[childGroupTemplate.groupID]
+					if (childGroup) {
+						delete childGroup.template
+						delete childGroup.isRootTemplate
+					} else {
+						console.warn("modelAddTemplate() > No childgroup with ", childGroupTemplate.groupID);
+					} 
+				})
+			}
 		}
 
 		if(groupID){
@@ -371,7 +464,7 @@ export default class Templates extends BaseController{
 		this.logger.log(-1,"unlinkTemplate", "enter > ", isGroup);
 
 		if (!isGroup && !this.model.widgets[id]) {
-			this.logger.log(-1,"unlinkTemplate", "No widhget > ", id);
+			this.logger.log(-1,"unlinkTemplate", "No widget > ", id);
 			return
 		}
 
@@ -396,6 +489,7 @@ export default class Templates extends BaseController{
 		 * FIXME: what about group children
 		 */
 		let childrenTemplateIds = []
+		let childGroupTemplateIds = []
 		if (isGroup) {
 			let group = this.model.groups[id]
 			group.children.forEach(childId => {
@@ -407,7 +501,34 @@ export default class Templates extends BaseController{
 					})
 				}
 			})
+
+			/**
+			 * Since 4.0.60 we have subgroups as well
+			 */
+			let subgroups = this.getAllChildGroups(group)
+			subgroups.forEach(subgroup => {
+				if (subgroup && subgroup.template) {
+					childGroupTemplateIds.push({
+						groupId: subgroup.id,
+						templateId: subgroup.template
+					})
+
+					if (subgroup.children) {
+						subgroup.children.forEach(childId => {
+							let child = this.model.widgets[childId]
+							if (child && child.template) {
+								childrenTemplateIds.push({
+									widgetId: child.id,
+									templateId: child.template
+								})
+							}
+						})
+					}
+				}
+			})
 		}
+
+		
 
 		var command = {
 			timestamp : new Date().getTime(),
@@ -415,30 +536,31 @@ export default class Templates extends BaseController{
 			modelId: id,
 			isGroup: isGroup,
 			templateId: template.id,
-			childrenTemplateIds: childrenTemplateIds
+			childrenTemplateIds: childrenTemplateIds,
+			childGroupTemplateIds: childGroupTemplateIds
 		};
 
-		this.modelUnlinkTemplate(id, isGroup, childrenTemplateIds);
+		this.modelUnlinkTemplate(id, isGroup, childrenTemplateIds, childGroupTemplateIds);
 		this.onModelChanged([{type: 'widget', action:"change", id: id}])
 		this.addCommand(command);
 
 		this.render()
 	}
 
-	modelUnlinkTemplate (id, isGroup = false, childrenTemplateIds) {
+	modelUnlinkTemplate (id, isGroup = false, childrenTemplateIds, childGroupTemplateIds) {
 		this.logger.log(-1,"modelUnlinkTemplate", "enter ");
 		if (!this.model.templates) {
 			this.logger.log(0,"modelUnlinkTemplate", "No templates ");
 			return
 		}
 		if (isGroup) {
-			this.modelUnlinkGroupTemplate(id, childrenTemplateIds)
+			this.modelUnlinkGroupTemplate(id, childrenTemplateIds, childGroupTemplateIds)
 		} else {
 			this.modelUnlinkWidgetTemplate(id)
 		}
 	}
 
-	modelUnlinkGroupTemplate(id, childrenTemplateIds) {
+	modelUnlinkGroupTemplate(id, childrenTemplateIds, childGroupTemplateIds) {
 		this.logger.log(-1,"modelUnlinkGroupTemplate", "enter ");
 		if (!this.model.groups || !this.model.groups[id]){
 			this.logger.log(0,"modelUnlinkGroupTemplate", "No group ", id);
@@ -449,7 +571,9 @@ export default class Templates extends BaseController{
 		 * Delete the group
 		 */
 		let group = this.model.groups[id]
-		delete group.template
+		if (group) {
+			delete group.template
+		}
 
 		/**
 		 * Clean up children
@@ -457,6 +581,17 @@ export default class Templates extends BaseController{
 		if (childrenTemplateIds) {
 			childrenTemplateIds.forEach(child => {
 				this.modelUnlinkWidgetTemplate(child.widgetId)
+			})
+		}
+
+		if (childGroupTemplateIds) {
+			childGroupTemplateIds.forEach(child => {
+				let group = this.model.groups[child.groupId]
+				if (group) {
+					delete group.template
+				} else {
+					console.warn('modelUnlinkGroupTemplate() Cannot unlink child group')
+				}
 			})
 		}
 	}
@@ -514,7 +649,7 @@ export default class Templates extends BaseController{
 	}
 
 
-	modelLinkTemplate (id, templateId, isGroup, childrenTemplateIds) {
+	modelLinkTemplate (id, templateId, isGroup, childrenTemplateIds, childGroupTemplateIds) {
 		this.logger.log(0,"modelLinkTemplate", "enter > ", id, templateId);
 
 		if (!this.model.templates) {
@@ -529,14 +664,14 @@ export default class Templates extends BaseController{
 		}
 
 		if (isGroup) {
-			this.modelLinkGroupTemplate(id, templateId, childrenTemplateIds)
+			this.modelLinkGroupTemplate(id, templateId, childrenTemplateIds, childGroupTemplateIds)
 		} else {
 			this.modelLinkWidgetTemplate(id, templateId)
 		}
 
 	}
 
-	modelLinkGroupTemplate (id, templateId, childrenTemplateIds) {
+	modelLinkGroupTemplate (id, templateId, childrenTemplateIds, childGroupTemplateIds) {
 		this.logger.log(0,"modelLinkGroupTemplate", "enter > ", id, templateId);
 
 		if (!this.model.groups || !this.model.groups[id]){
@@ -545,11 +680,23 @@ export default class Templates extends BaseController{
 		}
 
 		let group = this.model.groups[id]
-		group.template = templateId
+		if (group) {
+			group.template = templateId
+		}
+		
 
 		if (childrenTemplateIds) {
 			childrenTemplateIds.forEach(child => {
 				this.modelLinkWidgetTemplate(child.widgetId, child.templateId)
+			})
+		}
+
+		if (childGroupTemplateIds) {
+			childGroupTemplateIds.forEach(child => {
+				let group = this.model.groups[child.groupId]
+				if (group) {
+					group.template = child.templateId
+				}
 			})
 		}
 	}
@@ -583,13 +730,13 @@ export default class Templates extends BaseController{
 
 	undoUnlinkTemplate (command){
 		this.logger.log(0,"undoUnlinkTemplate", "enter > ");
-		this.modelLinkTemplate(command.modelId, command.templateId, command.isGroup, command.childrenTemplateIds);
+		this.modelLinkTemplate(command.modelId, command.templateId, command.isGroup, command.childrenTemplateIds, command.childGroupTemplateIds);
 		this.render();
 	}
 
 	redoUnlinkTemplate (command){
 		this.logger.log(0,"redoUnlinkTemplate", "enter > ");
-		this.modelUnlinkTemplate(command.modelId, command.isGroup, command.childrenTemplateIds);
+		this.modelUnlinkTemplate(command.modelId, command.isGroup, command.childrenTemplateIds, command.childGroupTemplateIds);
 		this.render();
 	}
 

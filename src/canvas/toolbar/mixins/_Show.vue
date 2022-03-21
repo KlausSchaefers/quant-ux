@@ -63,7 +63,6 @@ export default {
 					//css.remove(this.templateRemove, "MatcToolbarItemDisbaled hidden")
 
 					css.remove(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
-					console.debug('show')
 					css.add(this.template, "MatcToolbarItemDisbaled hidden");
 				} else {
 					css.remove(this.template, "MatcToolbarItemDisbaled hidden");

@@ -265,7 +265,7 @@ export default {
 		},
 
 		setInvitation (h){
-			this.logger.log(-1,"setInvitation","enter > " + h);
+			this.logger.log(1,"setInvitation","enter > " + h);
 			this.hash = h;
 			if (this.renderFactory) {
 				this.renderFactory.setHash(h);
