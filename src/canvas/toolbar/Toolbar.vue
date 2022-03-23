@@ -1136,7 +1136,7 @@ export default {
 				this.controller.updateTemplateStyle(this._selectedWidget.id);
 			} 
 			if (this._selectedGroup){
-				this.canvas.showError("Groups not supported. Update each child")
+				this.controller.updateGroupTemplateStyle(this._selectedGroup.id);
 			}
 		},
 

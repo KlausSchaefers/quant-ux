@@ -12,66 +12,60 @@ export default {
       }
 	},
     components: {},
-		computed: {
-		},
+	computed: {
+	},
     methods: {
 
+		/*****************************************************************************************************
+		* screen properties
+		****************************************************************************************************/
 
-			/*****************************************************************************************************
-			* screen properties
-			****************************************************************************************************/
-
-
-			showScreenProperties (model){
-				this.logger.log(0,"showScreenProperties", "entry");
+		showScreenProperties (model){
+			this.logger.log(0,"showScreenProperties", "entry");
 
 
-				this.showProperties();
+			this.showProperties();
 
-				if (this.isDataView) {
-					return this.showScreenDataProperties(model)
-				}
-
-
-				if (this.isDesignView) {
-					this.showScreenDesignProperties(model)
-				}
-
-				if (this.isPrototypeView) {
-					this.showScreenPrototypeProperties(model)
-				}
+			if (this.isDataView) {
+				return this.showScreenDataProperties(model)
+			}
 
 
-				this.restorePropertiesState();
+			if (this.isDesignView) {
+				this.showScreenDesignProperties(model)
+			}
 
-				this.logger.log(2,"showWidgetProperties", "exit");
-			},
+			if (this.isPrototypeView) {
+				this.showScreenPrototypeProperties(model)
+			}
+
+
+			this.restorePropertiesState();
+
+			this.logger.log(2,"showScreenProperties", "exit");
+		},
 
       showScreenPrototypeProperties (model) {
-			  this.logger.log(-1,"showScreenPrototypeProperties", "entry");
+			this.logger.log(-1,"showScreenPrototypeProperties", "entry");
 
 
-				if(model.name){
-					this.screenName.value = model.name;
-				} else {
-					this.screenName.value = "";
-				}
-				this.screenName.blur();
+			if(model.name){
+				this.screenName.value = model.name;
+			} else {
+				this.screenName.value = "";
+			}
+			this.screenName.blur();
 
-				css.add(this.screenSize.domNode, 'MatcHidden')
-				css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
+			css.add(this.screenSize.domNode, 'MatcHidden')
+			css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
 
-        if(this.screenActionDiv){
-					css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
-					this.screenActionBTN.setScreen(model);
-				}
-				/**
-				 * Show
-				 */
-				if(this.screenAnimationDiv){
-					css.remove(this.screenAnimationDiv, "MatcToolbarSectionHidden")
-				}
-
+			if(this.screenActionDiv){
+				css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
+				this.screenActionBTN.setScreen(model);
+			}
+			if(this.screenAnimationDiv){
+				css.remove(this.screenAnimationDiv, "MatcToolbarSectionHidden")
+			}
       },
 
       showScreenDesignProperties (model) {

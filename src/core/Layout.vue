@@ -350,19 +350,18 @@ export default {
      *
      * This method is called in _Render.js and RenderFactory
      */
-    getStyle: function(model) {
+    getStyle (model) {
       if (model.template) {
         if (this.model.templates) {
-          var t = this.model.templates[model.template];
+          const t = this.model.templates[model.template];
           if (t) {
             /**
              * Merge in overwriten styles
              */
             var merged = lang.clone(t.style);
             if (model.style) {
-              for (var key in model.style) {
-                // console.debug("Layout.getStyle() > replace ",key, ":",  merged[key], " ->  ", model.style[key])
-                merged[key] = model.style[key];
+              for (let key in model.style) {
+                 merged[key] = model.style[key];
               }
             }
             return merged;
@@ -373,6 +372,7 @@ export default {
       }
       return model.style;
     },
+
 
 
     /**

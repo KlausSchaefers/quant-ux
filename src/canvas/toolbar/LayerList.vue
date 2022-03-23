@@ -110,10 +110,8 @@ export default {
 		},
 
 		onSelect (ids) {
-			this.logger.log(-1, "onSelect", "entry > ", ids);
-			/**
-			 * FIXME: This will later trigger the select() which causes sometimes jumps
-			 */
+			this.logger.log(1, "onSelect", "entry > ", ids);
+			
 			if (ids.length === 1) {
 				let node = this.nodes[ids[0]]
 				if (node) {

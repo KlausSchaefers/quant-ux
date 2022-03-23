@@ -134,7 +134,7 @@ class ModelFixer {
 	}
 
 	validateAndFixModel(model) {
-		this.logger.log(-3, "validateAndFixModel", "enter > model : " + model.id)
+		this.logger.log(3, "validateAndFixModel", "enter > model : " + model.id)
 		var errors = []
 
 		if (model.lastCategory === null) {

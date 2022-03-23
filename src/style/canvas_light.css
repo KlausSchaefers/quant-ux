@@ -294,6 +294,10 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarToggleButton.MatcToolbarItemActive:hover{
+	color:#fff;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarToggleButton:hover{
 	color:#333;
 }
 

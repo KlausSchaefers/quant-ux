@@ -134,10 +134,12 @@ export default {
 			},
 
 
-			setWidgetViewModel:function(){
+			setWidgetViewModel (){
 				if(this._selectedWidget){
 					this.hideAllSections();
 					this.showWidgetProperties(this._selectedWidget);
+					this.showTools();
+					this.showTemplate(this._selectedWidget);
 				}
 			},
 
@@ -568,13 +570,13 @@ export default {
 				css.add(content, "MatcToobarViewSection")
 				this.widgetViewModeBtn = this.$new(ToolbarSelector);
 				this.widgetViewModeBtn.setOptions([
-								{label :"Normal", value:"style"},
-								{label :"Hover", value:"hover"},
-								{label :"Focus", value:"focus"},
-								{label :"Checked", value:"checked"},
-								{label :"Active", value:"active"},
-								{label :"Error", value:"error"}
-							]);
+					{label :"Normal", value:"style"},
+					{label :"Hover", value:"hover"},
+					{label :"Focus", value:"focus"},
+					{label :"Checked", value:"checked"},
+					{label :"Active", value:"active"},
+					{label :"Error", value:"error"}
+				]);
 				this.widgetViewModeBtn.placeAt(content);
 				this.widgetViewModeBtn.setValue("style");
 				this.own(on(this.widgetViewModeBtn, "change", lang.hitch(this, "setWidgetViewModel")));

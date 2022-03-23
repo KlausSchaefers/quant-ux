@@ -3,26 +3,93 @@ import lang from '../../dojo/_base/lang'
 
 export default class Templates extends BaseController{
 
+	/**********************************************************************
+	 * Udate Template Group
+	 **********************************************************************/
+
+
+	updateGroupTemplateStyle (groupId) {
+		this.logger.log(-1,"updateGroupTemplateStyle", "enter > " + groupId);
+
+		if (this.model.groups && this.model.groups[groupId]){ 
+			const group = this.model.groups[groupId]
+			if (group.template && this.model.templates[group.template]) {
+				const changes = []
+				let groupTemplate = this.model.templates[group.template]
+
+				var command = {
+					timestamp : new Date().getTime(),
+					type : "MultiCommand",
+					label : "GroupTemplateStyle",
+					children :[]
+				};
+				
+
+				const children = this.getAllGroupChildren(group)
+				children.forEach(widgetId => {
+					const widget = this.model.widgets[widgetId]
+					if (widget && widget.template) {
+						var template = this.model.templates[widget.template];
+						if (template) {
+							this.logger.log(-1,"updateGroupTemplateStyle", "Update widget " + widget.name);
+							const resizes = this.getWidgetTemplateResize(template, widget)
+							var childCommand = {
+								timestamp : new Date().getTime(),
+								type : "UpdateWidget",
+								template: lang.clone(template),
+								widget: lang.clone(widget),
+								resizes: resizes
+							};
+							this.modelUpdateTemplate(template, widget, resizes, false);
+							changes.push({type: 'template', action:"change", id: template.id})
+							command.children.push(childCommand)
+						}
+					
+					} else {
+						this.logger.log(-1,"updateGroupTemplateStyle", "New widget " + widget);
+					}
+				})
+
+				this.addCommand(command);
+				this.onModelChanged(changes)
+				this.showSuccess("The template "  + groupTemplate.name + " was updated.");
+				this.render()
+
+
+			} else {
+				this.logger.log(-1,"updateGroupTemplateStyle", "Group is not template > " + groupId);
+			}
+		
+
+
+		} else {
+			this.logger.warn("updateGroupTemplateStyle", "No group > " + groupId);
+		}
+	}
+
+	/**********************************************************************
+	 * Uodate Template
+	 **********************************************************************/
+
+
     updateTemplateStyle (id){
 		this.logger.log(0,"updateTemplateStyle", "enter > " + id);
 
 		if (this.model.widgets[id]){
-			var widget = this.model.widgets[id]
+			const widget = this.model.widgets[id]
 			if (widget.template && this.model.templates[widget.template]) {
-
-				var template = this.model.templates[widget.template];
-				var command = {
+				const template = this.model.templates[widget.template];
+				const resizes = this.getWidgetTemplateResize(template, widget)
+				const command = {
 					timestamp : new Date().getTime(),
 					type : "UpdateWidget",
 					template: lang.clone(template),
 					widget: lang.clone(widget),
+					resizes: resizes
 				};
 				this.addCommand(command);
-
-				this.modelUpdateTemplate(template, widget);
-
+				this.modelUpdateTemplate(template, widget, resizes, true);
 				this.showSuccess("The template "  + template.name + " was updated.");
-
 			} else {
 				this.logger.error("updateTemplateStyle", "No template > " + widget.template);
 			}
@@ -31,13 +98,23 @@ export default class Templates extends BaseController{
 		}
 	}
 
-	modelUpdateTemplate  (template, widget) {
+	getWidgetTemplateResize (template, widget) {
+
+		console.debug('getWidgetTemplateResize', template.w, widget.w, template.h, widget.h)
+		return []
+	}
+
+	modelUpdateTemplate  (template, widget, resizes, render = true) {
+		template.w = widget.w
+		template.h = widget.h
+
 		for (let key in widget.style) {
 			let value = widget.style[key]
 			template.style[key] = value
 			this.logger.log(0,"modelUpdateTemplate", "enter > " + key + " : "  + value);
 		}
 		widget.style = {};
+		widget.modified = new Date().getTime()
 
 		if (widget.hover) {
 			let style = widget.hover
@@ -79,33 +156,64 @@ export default class Templates extends BaseController{
 		}
 
 		template.modified = new Date().getTime()
-		this.onModelChanged([{type: 'template', action:"change", id: template.id}])
-		this.render();
+	
+		if (render) {
+			console.debug('modelUpdateTemplate() > RENDER')
+			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
+			this.render();
+		}
+
 	}
 
-	modelRollbackUpdateTemplate (oldTemplate, oldWidget) {
+	modelRollbackUpdateTemplate (oldTemplate, oldWidget, resizes, render = true) {
 		this.logger.log(-1,"modelRollbackUpdateTemplate", "enter > ", JSON.stringify(oldWidget.style));
 		var template = this.model.templates[oldTemplate.id];
 		var widget = this.model.widgets[oldWidget.id];
 		if (template && widget) {
+
 			template.style = oldTemplate.style
+			this.updateStylesInBox(template, oldTemplate)
+			template.modified = new Date().getTime()
+			template.w = oldTemplate.w
+			template.h = oldTemplate.h
+
 			widget.style = oldWidget.style
+			this.updateStylesInBox(widget, oldWidget)
+			widget.modified = new Date().getTime()
 		}
-		/**
-		 * Here is an issue, that we do not rerender properly.
-		 */
-		this.onModelChanged([{type: 'template', action:"change", id: template.id}])
-		this.render();
+		
+		// this is not correctly rendered
+	
+		if (render) {
+			console.debug('modelRollbackUpdateTemplate() > RENDER')
+			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
+			this.render();
+		}
+	}
+
+	updateStylesInBox (box, oldBox) {
+		if (oldBox.hover) {
+			box.hover = oldBox.hover
+		}
+		if (oldBox.error) {
+			box.error = oldBox.error
+		}
+		if (oldBox.active) {
+			box.active = oldBox.active
+		}
+		if (oldBox.focus) {
+			box.focus = oldBox.focus
+		}
 	}
 
 	undoUpdateWidget (command){
 		this.logger.log(0,"undoUpdateWidget", "enter > ", command);
-		this.modelRollbackUpdateTemplate(command.template, command.widget);
+		this.modelRollbackUpdateTemplate(command.template, command.widget, command.resizes, true);
 	}
 
 	redoUpdateWidget (command){
 		this.logger.log(0,"redoUpdateWidgetfunction", "enter > ");
-		this.modelUpdateTemplate(command.template, command.widget);
+		this.modelUpdateTemplate(command.template, command.widget, command.resizes, true);
 	}
 
 	/**********************************************************************
