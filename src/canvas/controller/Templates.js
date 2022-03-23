@@ -172,13 +172,13 @@ export default class Templates extends BaseController{
 		if (template && widget) {
 
 			template.style = oldTemplate.style
-			this.updateStylesInBox(template, oldTemplate)
+			//this.updateStylesInBox(template, oldTemplate)
 			template.modified = new Date().getTime()
 			template.w = oldTemplate.w
 			template.h = oldTemplate.h
 
 			widget.style = oldWidget.style
-			this.updateStylesInBox(widget, oldWidget)
+			//this.updateStylesInBox(widget, oldWidget)
 			widget.modified = new Date().getTime()
 		}
 		
@@ -207,12 +207,12 @@ export default class Templates extends BaseController{
 	}
 
 	undoUpdateWidget (command){
-		this.logger.log(0,"undoUpdateWidget", "enter > ", command);
+		this.logger.log(-1,"undoUpdateWidget", "enter > ", command);
 		this.modelRollbackUpdateTemplate(command.template, command.widget, command.resizes, true);
 	}
 
 	redoUpdateWidget (command){
-		this.logger.log(0,"redoUpdateWidgetfunction", "enter > ");
+		this.logger.log(-1,"redoUpdateWidgetfunction", "enter > ");
 		this.modelUpdateTemplate(command.template, command.widget, command.resizes, true);
 	}
 
@@ -725,6 +725,9 @@ export default class Templates extends BaseController{
 
 				if (template.hover) {
 					let hover = template.hover
+					if (!widget.hover) {
+						widget.hover = {}
+					}
 					for (let key in hover) {
 						widget.hover[key] = hover[key]
 					}
@@ -732,6 +735,9 @@ export default class Templates extends BaseController{
 
 				if (template.focus) {
 					let focus = template.focus
+					if (!widget.focus) {
+						widget.focus = {}
+					}
 					for (let key in focus) {
 						widget.focus[key] = focus[key]
 					}
@@ -739,6 +745,9 @@ export default class Templates extends BaseController{
 
 				if (template.error) {
 					let error = template.error
+					if (!widget.error) {
+						widget.error = {}
+					}
 					for (let key in error) {
 						widget.error[key] = error[key]
 					}
@@ -746,6 +755,9 @@ export default class Templates extends BaseController{
 
 				if (template.active) {
 					let active = template.active
+					if (!widget.active) {
+						widget.active = {}
+					}
 					for (let key in active) {
 						widget.active[key] = active[key]
 					}
