@@ -76,18 +76,16 @@ export default {
 		},
 
 		showWidgetDesignProperties (model) {
+
 			this.setWidgetViewModes(model);
-
-			var widgetViewMode = this.widgetViewModeBtn.getValue();
-
-			var style = this.getViewModeStyle(model, widgetViewMode);
-			console.debug('showWidgetDesignProperties', widgetViewMode, style.background)
+			const widgetViewMode = this.widgetViewModeBtn.getValue();
+			const style = this.getViewModeStyle(model, widgetViewMode);
 		
 			this.showProperties();
 			this.showWidgetTools();
 			this.showDesignTokenBtns(model, 'widget')
 
-			var isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
+			const isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
 			if(isLogicWidget){
 				css.add(this.positionCheckBox.domNode, "hidden");
 				css.add(this.widgetSize.domNode, "hidden");

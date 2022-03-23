@@ -1,5 +1,6 @@
 import BaseController from './BaseController'
 import lang from '../../dojo/_base/lang'
+import ModelUtil from 'core/ModelUtil'
 
 export default class Templates extends BaseController{
 
@@ -99,7 +100,6 @@ export default class Templates extends BaseController{
 	}
 
 	getWidgetTemplateResize (template, widget) {
-
 		console.debug('getWidgetTemplateResize', template.w, widget.w, template.h, widget.h)
 		return []
 	}
@@ -259,7 +259,6 @@ export default class Templates extends BaseController{
 		if (widget.focus) {
 			template.focus = lang.clone(widget.focus);
 		}
-
 		if (widget.designtokens) {
 			template.designtokens = lang.clone(widget.designtokens);
 		}
@@ -480,7 +479,6 @@ export default class Templates extends BaseController{
 
 
 	modelRemoveTemplate (templates, widgetIDs, template, groupID){
-
 		if (this.model.templates) {
 			for(let i=0; i < templates.length; i++) {
 				let t = templates[i];
@@ -593,9 +591,6 @@ export default class Templates extends BaseController{
 			return
 		}
 
-		/**
-		 * FIXME: what about group children
-		 */
 		let childrenTemplateIds = []
 		let childGroupTemplateIds = []
 		if (isGroup) {
@@ -716,57 +711,18 @@ export default class Templates extends BaseController{
 		if (widget.template) {
 			let template = this.model.templates[widget.template]
 			if (template) {
-				if (template.style) {
-					let style = template.style
-					for (let key in style) {
-						widget.style[key] = style[key]
-					}
-				}
-
-				if (template.hover) {
-					let hover = template.hover
-					if (!widget.hover) {
-						widget.hover = {}
-					}
-					for (let key in hover) {
-						widget.hover[key] = hover[key]
-					}
-				}
-
-				if (template.focus) {
-					let focus = template.focus
-					if (!widget.focus) {
-						widget.focus = {}
-					}
-					for (let key in focus) {
-						widget.focus[key] = focus[key]
-					}
-				}
-
-				if (template.error) {
-					let error = template.error
-					if (!widget.error) {
-						widget.error = {}
-					}
-					for (let key in error) {
-						widget.error[key] = error[key]
-					}
-				}
-
-				if (template.active) {
-					let active = template.active
-					if (!widget.active) {
-						widget.active = {}
-					}
-					for (let key in active) {
-						widget.active[key] = active[key]
-					}
-				}
+				ModelUtil.setMergedTemplateStyle(widget, template, "style")
+				ModelUtil.setMergedTemplateStyle(widget, template, "hover")
+				ModelUtil.setMergedTemplateStyle(widget, template, "focus")
+				ModelUtil.setMergedTemplateStyle(widget, template, "error")
+				ModelUtil.setMergedTemplateStyle(widget, template, "active")
 			}
 		}
 		widget.isRootTemplate = false
 		delete widget.template
 	}
+
+
 
 
 	modelLinkTemplate (id, templateId, isGroup, childrenTemplateIds, childGroupTemplateIds) {
@@ -829,24 +785,21 @@ export default class Templates extends BaseController{
 			return
 		}
 
+		if (!this.model.templates[templateId]) {
+			this.logger.log(0,"modelLinkWidgetTemplate", "No template > ", templateId);
+			return
+		}
+
+		let template = this.model.templates[templateId]
 		let widget = this.model.widgets[id]
 		widget.template = templateId
-		widget.style = {};
-		if (widget.hover) {
-			widget.hover = {}
-		}
-		if (widget.error) {
-			widget.error = {}
-		}
-		if (widget.focus) {
-			widget.focus = {}
-		}
-		if (widget.active) {
-			widget.active = {}
-		}
+		ModelUtil.setStylesNotInTemplate(widget, template, 'style')
+		ModelUtil.setStylesNotInTemplate(widget, template, 'hover')
+		ModelUtil.setStylesNotInTemplate(widget, template, 'error')
+		ModelUtil.setStylesNotInTemplate(widget, template, 'focus')
+		ModelUtil.setStylesNotInTemplate(widget, template, 'active')
 	}
-
-
+	
 
 	undoUnlinkTemplate (command){
 		this.logger.log(0,"undoUnlinkTemplate", "enter > ");
