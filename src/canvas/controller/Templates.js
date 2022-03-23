@@ -104,86 +104,59 @@ export default class Templates extends BaseController{
 		return []
 	}
 
-	modelUpdateTemplate  (template, widget, resizes, render = true) {
+	modelUpdateTemplate  (commandTemplate, commandWidget, resizes, render = true) {
+		console.debug('modelUpdateTemplate()', commandTemplate.style.background, commandWidget.style.background)
+
+		if (!this.model.widgets[commandWidget.id]) {
+			this.logger.warn("modelUpdateTemplate", "Cannot find wiget");
+			return
+		}
+
+		if (!this.model.templates[commandTemplate.id]) {
+			this.logger.warn("modelUpdateTemplate", "Cannot find template");
+			return
+		}
+
+		const widget = this.model.widgets[commandWidget.id]
+		const template = this.model.templates[commandTemplate.id]
+
 		template.w = widget.w
 		template.h = widget.h
-
-		for (let key in widget.style) {
-			let value = widget.style[key]
-			template.style[key] = value
-			this.logger.log(0,"modelUpdateTemplate", "enter > " + key + " : "  + value);
-		}
-		widget.style = {};
-		widget.modified = new Date().getTime()
-
-		if (widget.hover) {
-			let style = widget.hover
-			if (!template.hover) {
-				template.hover = {}
-			}
-			for (let key in style) {
-				let value = style[key]
-				template.hover[key] = value
-				this.logger.log(0,"modelUpdateTemplate", "enter > " + key + " : "  + value);
-			}
-			widget.hover = {};
-		}
-
-		if (widget.error) {
-			let style = widget.error
-			if (!template.error) {
-				template.error = {}
-			}
-			for (let key in style) {
-				let value = style[key]
-				template.error[key] = value
-				this.logger.log(0,"modelUpdateTemplate", "enter > " + key + " : "  + value);
-			}
-			widget.hover = {};
-		}
-
-		if (widget.focus) {
-			let style = widget.focus
-			if (!template.focus) {
-				template.focus = {}
-			}
-			for (let key in style) {
-				let value = style[key]
-				template.focus[key] = value
-				this.logger.log(0,"modelUpdateTemplate", "enter > " + key + " : "  + value);
-			}
-			widget.focus = {};
-		}
-
 		template.modified = new Date().getTime()
-	
+
+		widget.modified = new Date().getTime()
+		ModelUtil.updateTemplateStyle(widget, template, 'style')
+		ModelUtil.updateTemplateStyle(widget, template, 'error')
+		ModelUtil.updateTemplateStyle(widget, template, 'focus')
+		ModelUtil.updateTemplateStyle(widget, template, 'active')
+		ModelUtil.updateTemplateStyle(widget, template, 'hover')
+
 		if (render) {
 			console.debug('modelUpdateTemplate() > RENDER')
 			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
 			this.render();
 		}
-
 	}
 
 	modelRollbackUpdateTemplate (oldTemplate, oldWidget, resizes, render = true) {
 		this.logger.log(-1,"modelRollbackUpdateTemplate", "enter > ", JSON.stringify(oldWidget.style));
-		var template = this.model.templates[oldTemplate.id];
-		var widget = this.model.widgets[oldWidget.id];
+		const template = this.model.templates[oldTemplate.id];
+		const widget = this.model.widgets[oldWidget.id];
 		if (template && widget) {
 
 			template.style = oldTemplate.style
-			//this.updateStylesInBox(template, oldTemplate)
+			this.updateStylesInBox(template, oldTemplate)
 			template.modified = new Date().getTime()
 			template.w = oldTemplate.w
 			template.h = oldTemplate.h
 
 			widget.style = oldWidget.style
-			//this.updateStylesInBox(widget, oldWidget)
+			this.updateStylesInBox(widget, oldWidget)
 			widget.modified = new Date().getTime()
+		} else {
+			this.logger.warn("modelRollbackUpdateTemplate", "Cannot find template or widget");
 		}
 		
-		// this is not correctly rendered
-	
 		if (render) {
 			console.debug('modelRollbackUpdateTemplate() > RENDER')
 			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
@@ -234,10 +207,9 @@ export default class Templates extends BaseController{
 			widgets : [widget.id],
 		};
 		this.addCommand(command);
-
 		this.modelAddTemplate([template],[widget.id]);
-
 		this.updateCreateWidget();
+		this.onLayerListChange()
 
 		this.showSuccess("The template "  + name + " was created. You can find it in the Create menu");
 	}
@@ -399,6 +371,7 @@ export default class Templates extends BaseController{
 			if (widget){
 				widget.template = t.id;
 				widget.isRootTemplate = true
+				widget.modified = new Date().getTime()
 				widget.style = {};
 				if (widget.hover) {
 					widget.hover = {}
@@ -505,7 +478,7 @@ export default class Templates extends BaseController{
 					}
 		
 				} else {
-					console.warn("No widget with ", widgetID);
+					console.warn("modelRemoveTemplate() > No widget with ", widgetID);
 				}
 
 				/**

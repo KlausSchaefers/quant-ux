@@ -283,6 +283,20 @@ class ModelUtil {
         }
     }
 
+    updateTemplateStyle(widget, template, mode) {
+        if (widget[mode]) {
+			const style = widget[mode]
+			if (!template[mode]) {
+				template[mode] = {}
+			}
+			for (let key in style) {
+				const value = style[key]
+				template[mode][key] = value
+			}
+			widget[mode] = {};
+		}
+    }
+
     setStylesNotInTemplate(widget, template, mode) {
         if (widget[mode]) {
             let result = {}
