@@ -78,9 +78,9 @@ export default {
 
 		showTemplateMarkers (lbl){
 			css.add(this.domNode, "MatcToolbarTemplateMarkerVisible");
-			if(this.templateMarkers && lbl){
-				for(var i=0; i< this.templateMarkers.length; i++){
-					this.templateMarkers[i].innerHTML=lbl;
+			if(this.templateMarkers){
+				for(let i=0; i< this.templateMarkers.length; i++){
+					this.templateMarkers[i].innerText=lbl;
 				}
 			}
 		},
@@ -219,7 +219,7 @@ export default {
 					}
 				} else {
 					this.logger.error('hideNotNeededButtons', 'No screens', this.model)
-					this.logger.sendError(new Error('hideNotNeededButtons() not screens'));
+					this.logger.sendError(new Error('hideNotNeededButtons() no screens'));
 				}
 			} catch(e ){
 				this.logger.sendError(e);

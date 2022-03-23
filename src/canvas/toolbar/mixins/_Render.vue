@@ -1432,7 +1432,7 @@ export default {
 				}
 			},
 
-			restorePropertiesState:function(){
+			restorePropertiesState (){
 
 				var settings = this.getSettings();
 
@@ -1696,14 +1696,12 @@ export default {
 				}
 			},
 
-			_getCreateList:function(){
-
+			_getCreateList (){
+				console.error('_getCreateList() IS DECRCATED')
 				return [
 					{value: "Screen", label: "Screen"},
 					{css:"MatcToolbarPopUpLine"},
-
 					{value:null, label:"Widgets", children: [
-
 						{value: "Box", label: "Box"},
 						{value: "Button", label: "Button"},
 						{value: "Label", label: "Label"},
@@ -1711,12 +1709,9 @@ export default {
 						{value: "HotSpot", label: "HotSpot"},
 						{value: "TextBox", label: "TextBox"}
 					]},
-
 					{css:"MatcToolbarPopUpLine"},
 					{value: "Templates", label: "Templates", children: this._getTemplates()}
-
-
-					];
+				];
 
 			},
 
@@ -1750,19 +1745,19 @@ export default {
 			},
 
 
-			_placeAt:function(widget, node){
+			_placeAt (widget, node){
 				widget.placeAt(node);
 				this._addChildWidget(widget);
 			},
 
-			_addChildWidget:function(w){
+			_addChildWidget (w){
 				if(!this._childWidgets){
 					this._childWidgets = [];
 				}
 				this._childWidgets.push(w);
 			},
 
-			_destroyChildWidget:function(){
+			_destroyChildWidget (){
 	//			if(this._childWidgets){
 	//				for(var i=0; i< this._childWidgets.length; i++){
 	//					//this._childWidgets[i].destroy();

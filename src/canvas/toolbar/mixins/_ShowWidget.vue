@@ -206,16 +206,19 @@ export default {
 				//css.remove(this.lineDiv, "MatcToolbarSectionHidden");
 				//this.actionBTN.setValue(model, isLogicWidget);
 
-			} else if (widgetViewMode == "hover"){
-				this.showTemplateMarkers(" (Hover)")
+			} 
+			
+			if (widgetViewMode == "style"){
+				this.showTemplateMarkers("", model.template)
 			} else if (widgetViewMode == "error"){
-				this.showTemplateMarkers(" (Error)")
-			}
-
-			if(model.template){
-				//this.showTemplateMarkers();
-			}
-
+				this.showTemplateMarkers(" (Error)", model.template)
+			} else if (widgetViewMode == "active"){
+				this.showTemplateMarkers(" (Active)", model.template)
+			} else if (widgetViewMode == "hover"){
+				this.showTemplateMarkers(" (Hover)", model.template)
+			} else if (widgetViewMode == "focus"){
+				this.showTemplateMarkers(" (Focus)", model.template)
+			} 
 			/**
 			* Must come at last so radius container is visible...
 			*/
@@ -332,8 +335,12 @@ export default {
 		},
 
 		/**
-		* Gets the normal style and mixes in the view mode style,
-		* e.g. for error or so. Dunno how this works actually with templates
+		* Gets the normal style and mixes in the view mode style (overwrites),
+		* e.g. for error or so. Example:
+		*
+		*  - style: {a:1, b:2}
+		*  - hover: {a:3}
+		*  = {a:3, b:2}
 		*
 		* Update: For inherited widgets we delegate to the Layout.getInheritedStyle()
 		* method.
@@ -345,18 +352,40 @@ export default {
 			if (model && model.parentWidget) {
 				return this.getInheritedStyle(model, widgetViewMode)
 			}
-			const normal = this.getStyleByMode(model, widgetViewMode);
+
+			// we get the default style. This method
+			// will take the template and mix in 
+			// the nornal "style" overwrites
+			const normal = this.getStyle(model);
+
 			if (model[widgetViewMode]){
-				const viewStyle = model[widgetViewMode];
 				const mixed = lang.clone(normal);
-				for (let key in viewStyle){
-					mixed[key] = viewStyle[key];
+
+				// if we have specific overwrite in the template
+				// for the given widgetViewMode, we mix this in and
+				// overwrite the values
+				if (model.template && this.model.templates[model.template]) {
+					const template = this.model.templates[model.template]
+					if (template && template[widgetViewMode]) {
+						const templateStyle = template[widgetViewMode]
+						for (let key in templateStyle) {
+							mixed[key] = templateStyle[key];
+						}
+					}
+				}
+				// last we mix in values that are defined 
+				// in the widget
+				const widgetStyle = model[widgetViewMode];
+				for (let key in widgetStyle){
+					mixed[key] = widgetStyle[key];
 				}
 				return mixed;
 			}
+		
 			return normal;
 		},
 
+		/** Not used */
 		getStyleByMode (model, widgetViewMode) {
 			if (model.template) {
 				if (this.model.templates) {

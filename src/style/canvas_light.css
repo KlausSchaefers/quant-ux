@@ -487,3 +487,7 @@
 	padding: 0px 16px;
 }
 
+.MatcLight .MatcToolbarSectionMarker {
+	opacity: 0.5;
+}
+

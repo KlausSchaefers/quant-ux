@@ -346,7 +346,7 @@ export default {
 
     /**
      * returns the style for an widget. If it is templated,
-     * the template style is returned!
+     * the template style is merged in.
      *
      * This method is called in _Render.js and RenderFactory
      */
