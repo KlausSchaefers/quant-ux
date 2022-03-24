@@ -24,6 +24,7 @@
 import DojoWidget from 'dojo/DojoWidget'
 import Logger from 'common/Logger'
 import Util from 'core/Util'
+import ModelUtil from 'core/ModelUtil'
 import Tree from 'common/Tree'
 
 export default {
@@ -219,14 +220,9 @@ export default {
 			}
 
 			// canvas children
-			const canvasChildren = []
-			for (let id in model.widgets) {
-				const widget = model.widgets[id]
-				const parent = this.getParentScreen(widget, model)
-				if (!parent) {
-					canvasChildren.push(widget.id)
-				}
-			}
+			const canvasChildren = ModelUtil
+				.getCanvasWidgets(model)
+				.map(w => w.id)
 			
 			if (canvasChildren.length > 0) {
 				let canvasScreen = {

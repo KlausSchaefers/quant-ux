@@ -153,11 +153,11 @@ class LayerUtil {
     }
 
     getNewZValuePositions (beforePosition, selection, oldZValues){
-        //console.debug('getNewZValuePositions()',`enter > ${selection.join(',')}' before ${beforePosition}`)
+        console.debug('getNewZValuePositions()',`enter > ${selection.join(',')}' before ${beforePosition} [${oldZValues[beforePosition]}]`)
    
-        let insertZ = oldZValues[beforePosition]
-        let offset = selection.length
-        let selectedZ = selection.map(id => {
+        const insertZ = oldZValues[beforePosition]
+        const offset = selection.length
+        const selectedZ = selection.map(id => {
             return {
                 id: id,
                 z: oldZValues[id]

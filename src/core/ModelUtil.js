@@ -346,6 +346,21 @@ class ModelUtil {
 		return normal;
     }
 
+    getCanvasWidgets (model) {
+        const result = []
+        const widgetsOnScreens = {}
+        Object.values(model.screens).forEach(s => {
+            s.children.forEach(id => {
+                widgetsOnScreens[id] = true
+            })
+        })
+        Object.values(model.widgets).forEach(w => {
+            if (!widgetsOnScreens[w.id]) {
+                result.push(w)
+            }
+        })
+        return result
+    }
 
 }
 

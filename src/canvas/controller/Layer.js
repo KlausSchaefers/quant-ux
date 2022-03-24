@@ -1,5 +1,6 @@
 import Templates from './Templates'
 import LayerUtil from '../../core/LayerUtil'
+import ModelUtil from '../../core/ModelUtil';
 export default class Layer extends Templates {
 
 	changeLayer (from, to){
@@ -23,12 +24,15 @@ export default class Layer extends Templates {
 		var beforePosition = to.widgetID
 		var selectedElements = [from.widgetID]
 
+		console.debug(JSON.stringify(from))
+		console.debug(JSON.stringify(to))
+
 		/**
 		 * If we have a group, expand the selection to the group
 		 */
 		if (from.groupID && from.type === 'group' && from.source) {
-			let group = this.model.groups[from.source]
-			let children = this.getAllGroupChildren(group)
+			const group = this.model.groups[from.source]
+			const children = this.getAllGroupChildren(group)
 			selectedElements = children
 		}
 
@@ -118,16 +122,22 @@ export default class Layer extends Templates {
 	}
 
 	getZValuesForScreen (model, screenID) {
-		var result = {};
-		var screen = model.screens[screenID];
+		const result = {};
+		const screen = model.screens[screenID];
 		if (screen) {
-			for (var i=0; i < screen.children.length; i++){
-				var widgetID = screen.children[i];
-				var widget = model.widgets[widgetID];
+			for (let i=0; i < screen.children.length; i++){
+				let widgetID = screen.children[i];
+				let widget = model.widgets[widgetID];
 				if (widget) {
 					result[widgetID] = widget.z;
 				}
 			}
+		} else {
+			// for stuff on canvas we need to get all
+			let canvasChildren = ModelUtil.getCanvasWidgets(model)
+			canvasChildren.forEach(widget => {
+				result[widget.id] = widget.z;
+			})
 		}
 		return result;
 	}
