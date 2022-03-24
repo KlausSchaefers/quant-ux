@@ -2,6 +2,14 @@ import Layer from './Layer'
 
 export default class Group extends Layer {
 
+
+
+
+	/**********************************************************************
+	 * Update Group
+	 **********************************************************************/
+
+
 	updateGroup (id, type, key, value) {
 		this.logger.log(-1,"updateGroup", "enter > " + id, type);
 

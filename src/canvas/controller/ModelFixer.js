@@ -13,7 +13,7 @@ class ModelFixer {
 
 		let zValues = Object.values(m.widgets).map(w => w.z)
 		if (this.hasDoublicate(zValues)) {
-			this.logger.warn("fixZValues", "Missing z values", zValues)
+			this.logger.warn("fixZValues", "Double z values", zValues)
 			const ordered = CoreUtil.getOrderedWidgets(m.widgets, true)
 			for (let i = 0; i< ordered.length; i++) {
 				let widget = ordered[i]

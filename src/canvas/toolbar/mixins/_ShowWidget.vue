@@ -3,6 +3,7 @@ import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import _Tooltip from 'common/_Tooltip'
+import ModelUtil from 'core/ModelUtil'
 
 export default {
     name: '_Show',
@@ -345,44 +346,12 @@ export default {
 		* Update: For inherited widgets we delegate to the Layout.getInheritedStyle()
 		* method.
 		*
-		* Update 4.0.60: we get now for templates the style by viewMode
-		*
 		*/
-		getViewModeStyle (model, widgetViewMode){
-			if (model && model.parentWidget) {
-				return this.getInheritedStyle(model, widgetViewMode)
+		getViewModeStyle (widget, widgetViewMode){
+			if (widget && widget.parentWidget) {
+				return this.getInheritedStyle(widget, widgetViewMode)
 			}
-
-			// we get the default style. This method
-			// will take the template and mix in 
-			// the nornal "style" overwrites
-			const normal = this.getStyle(model);
-
-			if (model[widgetViewMode]){
-				const mixed = lang.clone(normal);
-
-				// if we have specific overwrite in the template
-				// for the given widgetViewMode, we mix this in and
-				// overwrite the values
-				if (model.template && this.model.templates[model.template]) {
-					const template = this.model.templates[model.template]
-					if (template && template[widgetViewMode]) {
-						const templateStyle = template[widgetViewMode]
-						for (let key in templateStyle) {
-							mixed[key] = templateStyle[key];
-						}
-					}
-				}
-				// last we mix in values that are defined 
-				// in the widget
-				const widgetStyle = model[widgetViewMode];
-				for (let key in widgetStyle){
-					mixed[key] = widgetStyle[key];
-				}
-				return mixed;
-			}
-		
-			return normal;
+			return ModelUtil.getViewModeStyle(widget,this.model,  widgetViewMode)
 		},
 
 		/** Not used */

@@ -801,9 +801,9 @@ export default class Core extends Evented {
 
     getParentGroup(widgetID) {
         if (this.model.groups) {
-            for (var id in this.model.groups) {
-                var group = this.model.groups[id];
-                var i = group.children.indexOf(widgetID);
+            for (let id in this.model.groups) {
+                const group = this.model.groups[id];
+                const i = group.children.indexOf(widgetID);
                 if (i > -1) {
                     return group;
                 }

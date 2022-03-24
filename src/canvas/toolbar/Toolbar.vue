@@ -1063,12 +1063,7 @@ export default {
 
 		removeWidget (){
 			if(this._selectedWidget){
-				var group = this.getParentGroup(this._selectedWidget.id);
-				if(!group){
-					this.controller.removeWidget(this._selectedWidget.id);
-				} else {
-					this.controller.removeGroupAndWidgets(group.id);
-				}
+				this.controller.removeWidget(this._selectedWidget.id);	
 				this.cleanUp();
 			}
 			return false;

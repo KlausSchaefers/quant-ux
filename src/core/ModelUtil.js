@@ -139,15 +139,15 @@ class ModelUtil {
         return model
     }
 
-    getTemplatedStyle(widget, model, prop) {
+    getTemplatedStyle(widget, model, prop = 'style') {
         if (widget.template) {
             if (model.templates) {
-                var t = model.templates[widget.template];
-                if (t && t[prop]) {
+                const template = model.templates[widget.template];
+                if (template && template[prop]) {
                     /**
                      * Merge in overwriten styles
                      */
-                    var merged = lang.clone(t[prop])
+                    const merged = lang.clone(template[prop])
                     if (widget[prop]) {
                         let props = widget[prop]
                         for (var key in props) {
@@ -312,6 +312,39 @@ class ModelUtil {
             widget[mode] = result
         }
 	}
+
+    getViewModeStyle (widget, model, widgetViewMode) {
+     
+        // we get the default style. This method
+		// will take the template and mix in 
+		// the nornal "style" overwrites
+		const normal = this.getTemplatedStyle(widget, model, 'style');
+
+		if (widget[widgetViewMode]){
+			const mixed = lang.clone(normal);
+
+            // if we have specific overwrite in the template
+            // for the given widgetViewMode, we mix this in and
+            // overwrite the values
+            if (widget.template && model.templates[widget.template]) {
+                const template = model.templates[widget.template]
+                if (template && template[widgetViewMode]) {
+                    const templateStyle = template[widgetViewMode]
+                    for (let key in templateStyle) {
+                        mixed[key] = templateStyle[key];
+                    }
+                }
+            }
+            // last we mix in values that are defined 
+            // in the widget
+            const widgetStyle = widget[widgetViewMode];
+            for (let key in widgetStyle){
+                mixed[key] = widgetStyle[key];
+            }
+            return mixed;
+		}
+		return normal;
+    }
 
 
 }

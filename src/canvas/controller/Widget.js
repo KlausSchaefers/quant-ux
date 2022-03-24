@@ -395,7 +395,7 @@ export default class Widget extends Screen {
 
 				let widgetRemoveCmd = this.createWidgetRemoveCommand(id);
 				command.children.push(widgetRemoveCmd);
-				this.modelRemoveWidgetAndLines(widget, widgetRemoveCmd.lines, widgetRemoveCmd.refs);
+				this.modelRemoveWidgetAndLines(widget, widgetRemoveCmd.lines, widgetRemoveCmd.refs, false);
 
 			} else {
 				console.warn('removeMultiWidget() Could not find widget', id)
@@ -1144,29 +1144,30 @@ export default class Widget extends Screen {
 
 	removeWidget (id){
 		this.logger.log(3,"removeWidget", "enter > " +id);
-
-		var command = this.createWidgetRemoveCommand(id);
-		this.addCommand(command);
-
-		var widget = this.model.widgets[id];
-		var lines = this.getLines(widget);
-		var refs = this.getReferences(widget);
-
-		this.unSelect();
-		this.modelRemoveWidgetAndLines(widget, lines, refs);
-		this.render();
+		const widget = this.model.widgets[id];
+		if (widget) {
+			const command = this.createWidgetRemoveCommand(id);
+			this.addCommand(command);
+			this.unSelect();
+			this.modelRemoveWidgetAndLines(command.model, command.lines, command.refs, false, command.group);
+			this.render();
+		}
+		
 	}
 
 	createWidgetRemoveCommand (id){
-		var widget = this.model.widgets[id];
-		var lines = this.getLines(widget);
-		var refs = this.getReferences(widget);
+		const widget = this.model.widgets[id];
+		const lines = this.getLines(widget);
+		const refs = this.getReferences(widget);
+		const group = this.getParentGroup(widget.id)
+		console.debug('createWidgetRemoveCommand', widget.id, group)
 
 		var command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveWidget",
-			model :widget,
-			lines : lines,
+			model: widget,
+			lines: lines,
+			group: lang.clone(group),
 			refs : refs,
 			modelId : id
 		};
@@ -1200,7 +1201,8 @@ export default class Widget extends Screen {
 		return result;
 	}
 
-	modelRemoveWidgetAndLines (widget, lines, refs, doNotCallModelChanged){
+	modelRemoveWidgetAndLines (widget, lines, refs, doNotCallModelChanged, group){
+		console.debug('modelRemoveWidgetAndLines', group)
 
 		if (this.model.widgets[widget.id]) {
 			delete this.model.widgets[widget.id];
@@ -1245,6 +1247,15 @@ export default class Widget extends Screen {
 			console.warn("modelRemoveWidgetAndLines() > Missing refs parameter");
 		}
 
+		if (group) {
+			const groupId = group.id
+			if (this.model.groups && this.model.groups[groupId]) {
+				group = this.model.groups[groupId]
+				group.children = group.children.filter(id => id!== widget.id)
+				console.debug('modelRemoveWidgetAndLines() > Updated group!')
+			}
+		}
+
 		if(!doNotCallModelChanged){
 			this.onModelChanged([])
 		}
@@ -1253,7 +1264,7 @@ export default class Widget extends Screen {
 	}
 
 
-	modelAddWidgetAndLines (widget, lines, refs){
+	modelAddWidgetAndLines (widget, lines, refs, group){
 
 		if(!this.model.widgets[widget.id]){
 			this.model.widgets[widget.id] = widget;
@@ -1308,19 +1319,29 @@ export default class Widget extends Screen {
 			console.warn("modelAddWidgetAndLines() > Missing lines parameter");
 		}
 
+
+		if (group) {
+			if (!this.model.groups) {
+				this.model.groups = {}
+			}
+			this.model.groups[group.id] = group
+			console.debug('modelAddWidgetAndLines() > Updated group!', group)
+		}
+
 		this.onModelChanged([]);
 	}
 
 
 	undoRemoveWidget (command){
 		var widget = command.model;
-		this.modelAddWidgetAndLines(widget, command.lines, command.refs);
+		console.debug('undoRemoveWidget', command)
+		this.modelAddWidgetAndLines(widget, command.lines, command.refs, command.group);
 		this.render();
 	}
 
 	redoRemoveWidget (command){
 		var widget = command.model;
-		this.modelRemoveWidgetAndLines(widget, command.lines, command.refs);
+		this.modelRemoveWidgetAndLines(widget, command.lines, command.refs, false, command.group);
 		this.render();
 	}
 
@@ -1415,10 +1436,10 @@ export default class Widget extends Screen {
 	}
 
 	modelWidgetLayers (zValues){
-		var widgets = this.model.widgets;
-		let modified = new Date().getTime()
-		for(var id in zValues){
-			var widget = widgets[id];
+		const widgets = this.model.widgets;
+		const modified = new Date().getTime()
+		for(let id in zValues){
+			const widget = widgets[id];
 			widget.modified = modified
 			if(widget){
 				widget.z = zValues[id];

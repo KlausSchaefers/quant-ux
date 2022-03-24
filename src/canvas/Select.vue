@@ -461,16 +461,8 @@ import topic from 'dojo/topic'
 
 			if(this._selectWidget){
 				let id = this._selectWidget.id;
-				let group = this.getParentGroup(this._selectWidget.id);
 				this.unSelect();
-				if(!group){
-					this.controller.removeWidget(id);
-				} else {
-					/**
-					 * We should have here a method removeFromGroup
-					 */
-					this.controller.removeGroupAndWidgets(group.id);
-				}
+				this.controller.removeWidget(id);
 				return true;
 			}
 
