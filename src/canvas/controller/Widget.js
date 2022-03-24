@@ -379,32 +379,22 @@ export default class Widget extends Screen {
 		for (let i=0; i < selection.length; i++){
 			let id = selection[i];
 			let widget = this.model.widgets[id];
-
 			if (widget) {
-				let group = this.getParentGroup(id)
-
-				/**
-				 * Also check groups
-				 */
-				if (group) {
-					this.logger.log(-1,"removeMultiWidget", "remove group > ", group);
-					let groupRemoveCmd = this.createRemoveGroupCommand(group)
-					command.children.push(groupRemoveCmd);
-					this.modelRemoveGroup(group, groupRemoveCmd.line);
-				}
-
+				// create first the command,, whcih contain a group
 				let widgetRemoveCmd = this.createWidgetRemoveCommand(id);
 				command.children.push(widgetRemoveCmd);
-				this.modelRemoveWidgetAndLines(widget, widgetRemoveCmd.lines, widgetRemoveCmd.refs, false);
-
 			} else {
 				console.warn('removeMultiWidget() Could not find widget', id)
 			}
 		}
 
-
-		this.render();
+		// once all groups are stored, fire the commands.
+		command.children.forEach(cmd => {
+			this.modelRemoveWidgetAndLines(cmd.model, cmd.lines, cmd.refs, false, cmd.group);
+		})
+		
 		this.addCommand(command);
+		this.render();
 	}
 
 	/**********************************************************************
@@ -1202,8 +1192,7 @@ export default class Widget extends Screen {
 	}
 
 	modelRemoveWidgetAndLines (widget, lines, refs, doNotCallModelChanged, group){
-		console.debug('modelRemoveWidgetAndLines', group)
-
+	
 		if (this.model.widgets[widget.id]) {
 			delete this.model.widgets[widget.id];
 			this.cleanUpParent(widget);
@@ -1252,7 +1241,6 @@ export default class Widget extends Screen {
 			if (this.model.groups && this.model.groups[groupId]) {
 				group = this.model.groups[groupId]
 				group.children = group.children.filter(id => id!== widget.id)
-				console.debug('modelRemoveWidgetAndLines() > Updated group!')
 			}
 		}
 
