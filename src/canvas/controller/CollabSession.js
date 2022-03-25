@@ -29,7 +29,7 @@ export default class CollabSession {
 
         this.websocket = websocket
       } else {
-        Logger.log(-1, "CollabSession.initWebsocket()", "exit > No session created");
+        Logger.log(1, "CollabSession.initWebsocket()", "exit > No session created");
       }
     } catch (err) {
       Logger.error('CollabSession.initWebsocket()', "Cannot init WebSocket", err)
@@ -49,10 +49,10 @@ export default class CollabSession {
      * so we just send events if there is another user.
      */
     if (this.websocket && this.hasOtherUsers()) {
-      Logger.log(-1, "CollabSession.sendChange()", "send", changeEvent);
+      Logger.log(2, "CollabSession.sendChange()", "send", changeEvent);
       this.websocket.send({type: 'change', changeEvent: changeEvent})
     } else {
-      Logger.log(-1, "CollabSession.sendChange()", "NOT SEND");
+      Logger.log(2, "CollabSession.sendChange()", "NOT SEND");
     }
   }
 
@@ -115,14 +115,14 @@ export default class CollabSession {
     }
 
     if (msg.type === 'change') {
-      Logger.log(-1, "CollabSession.dispatchWebSocketMessage()", "change");
+      Logger.log(2, "CollabSession.dispatchWebSocketMessage()", "change");
       controller.collabRecieveChanges(msg.user, msg.changeEvent)
     }
   }
 
 
   addCollabUser (user) {
-    Logger.log(-1, "CollabSession.addCollabUser()", user);
+    Logger.log(1, "CollabSession.addCollabUser()", user);
     const found = this.collabUsers.find(u => u.id === user.id)
     if (!found) {
       this.collabUsers.push(user)
@@ -130,12 +130,12 @@ export default class CollabSession {
   }
 
   removeCollabUser (user) {
-    Logger.log(-1, "CollabSession.removeCollabUser()", user);
+    Logger.log(1, "CollabSession.removeCollabUser()", user);
     this.collabUsers = this.collabUsers.filter(u => u.id !== user.id)
   }
 
   close () {
-    Logger.log(-1, "CollabSession.dispatchWebSocketMessage()", "close");
+    Logger.log(1, "CollabSession.dispatchWebSocketMessage()", "close");
     if (this.websocket) {
       this.websocket.close()
     }

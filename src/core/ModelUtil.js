@@ -362,6 +362,18 @@ class ModelUtil {
         return result
     }
 
+
+    getWidgetsTyTemplate(templateId, model) {
+        let result = []
+        for (let widgetID in model.widgets) {
+            let widget = model.widgets[widgetID]
+            if (widget.template === templateId) {
+                result.push(widget)
+            }
+        }
+        return result
+    }
+
 }
 
 export default new ModelUtil()

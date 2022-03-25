@@ -241,7 +241,7 @@ export default class BaseController extends Core {
 
 
 	onModelChanged (changes){
-		this.logger.log(-1,"onModelChanged", "enter");
+		this.logger.log(1,"onModelChanged", "enter");
 		if (!changes) {
 			console.warn('onModelChanged()', 'No Changes')
 		}

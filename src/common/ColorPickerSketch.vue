@@ -119,18 +119,18 @@ export default {
 
 
 		onRGBChange (){
-			var red = this.getInt(this.inputR);
-			var green = this.getInt(this.inputG);
-			var blue = this.getInt(this.inputB);
-			var alpha = this.getFloat(this.inputA);
-			var c = new Color([red, green, blue, alpha]);
+			const red = this.getInt(this.inputR);
+			const green = this.getInt(this.inputG);
+			const blue = this.getInt(this.inputB);
+			const alpha = this.getFloat(this.inputA);
+			const c = new Color([red, green, blue, alpha]);
 			this.setColor(c);
 			this.onChange()
 		},
 
 		onHexChange (){
-			var c = new Color(this.inputHex.value);
-			if(c){
+			const c = new Color(this.inputHex.value);
+			if (c) {
 				css.remove(this.inputHex, "VommondFormInputError");
 				this.setColor(c);
 				this.onChange()
@@ -140,10 +140,10 @@ export default {
 		},
 
 		getInt (input){
-			var value = input.value;
-			var er = /^[0-9]+$/;
-			var valid =  er.test(value);
-			if(!valid || value > 255){
+			const value = input.value;
+			const er = /^[0-9]+$/;
+			const valid =  er.test(value);
+			if (!valid || value > 255){
 				css.add(input, "VommondFormInputError");
 				return 0;
 			}
@@ -152,10 +152,10 @@ export default {
 		},
 
 		getFloat (input) {
-			var value = input.value;
-			var er = /^[+-]?\d+(\.\d+)?$/
-			var valid =  er.test(value);
-			if(!valid || value > 1){
+			const value = input.value;
+			const er = /^[+-]?\d+(\.\d+)?$/
+			const valid =  er.test(value);
+			if (!valid || value > 1) {
 				css.add(input, "VommondFormInputError");
 				return 0;
 			}
@@ -166,7 +166,7 @@ export default {
 		onSatPress (e){
 			this.cleanUp()
 			this.stopEvent(e);
-			var hsv = this.toHsv(this.color);
+			const hsv = this.toHsv(this.color);
 			/**
 			 * Sometimes the hue value is not converted correctly when
 			 * the hue is changed as sat values are 0. E.g. #333 will
@@ -183,10 +183,10 @@ export default {
 
 		onSatMove (hsv, e){
 			this.stopEvent(e);
-			var pos = this.getMousePos(e,this.satCntr)
+			const pos = this.getMousePos(e,this.satCntr)
 			// calculate new sat and bright
-			var saturation = pos.left;
-			var bright = -(pos.top) + 1;
+			let saturation = pos.left;
+			let bright = -(pos.top) + 1;
 			bright = bright > 0 ? bright : 0;
 			bright = bright > 1 ? 1 : bright;
 
@@ -195,7 +195,7 @@ export default {
 			this.satPointer.style.left = saturation * 100 + '%'
 
 			// update controls and
-			var c = this.hsvToRgb(hsv.h, saturation, bright, hsv.a);
+			const c = this.hsvToRgb(hsv.h, saturation, bright, hsv.a);
 			this.setControls(c);
 			this.onChange();
 		},
@@ -210,8 +210,8 @@ export default {
 		},
 
 		onAlphaMove (rbga, e) {
-			var pos = this.getMousePos(e,this.alphaCntr)
-			var left = pos.left
+			const pos = this.getMousePos(e,this.alphaCntr)
+			const left = pos.left
 			rbga.a = Math.round(left * 100) / 100
 			this.setAlpha(rbga)
 			this.setControls(rbga);
@@ -225,23 +225,23 @@ export default {
 		onHuePress (e){
 			this.cleanUp()
 			this.stopEvent(e);
-			var hsv = this.toHsv(this.color);
+			const hsv = this.toHsv(this.color);
 			this._touchMoveListner = on(win.body(),touch.move, lang.hitch(this,"onHueMove",hsv));
 			this._touchReleaseListner = on(win.body(),touch.release, lang.hitch(this,"onHueRelease", hsv));
 			this.onHueMove(hsv, e);
 		},
 
 		onHueMove (hsv, e){
-			var pos = this.getMousePos(e,this.hueCntr)
-			var left = pos.left
-			var h = 0;
-			var percent
-				if (left > 1) {
-					h = 360
-				} else {
-					percent = left * 100
-					h = (360 * percent / 100)
-				}
+			const pos = this.getMousePos(e,this.hueCntr)
+			const left = pos.left
+			let h = 0;
+			let percent = 0
+			if (left > 1) {
+				h = 360
+			} else {
+				percent = left * 100
+				h = (360 * percent / 100)
+			}
 			if (h != hsv.h){
 				this.huePointer.style.left = percent + '%'
 				this.satCntr.style.background = "hsl(" + (h) + ", 100%, 50%)";

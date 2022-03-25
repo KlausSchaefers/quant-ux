@@ -543,7 +543,6 @@ export default class CopyPaste extends Group{
 		 */
 		let zMax = this.getMaxZValue(this.model.widgets)
 		let allChildren = this.sortChildren(selection)
-		console.debug('XXX', zMax, selection, allChildren)
 		allChildren.forEach((widget, i) => {
 			var id = widget.id
 

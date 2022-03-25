@@ -1241,6 +1241,10 @@ export default class Widget extends Screen {
 			if (this.model.groups && this.model.groups[groupId]) {
 				group = this.model.groups[groupId]
 				group.children = group.children.filter(id => id!== widget.id)
+				// remove not needed groups before the model fixer will do
+				if (group.children.length === 0) {
+					delete this.model.groups[groupId]
+				}
 			}
 		}
 

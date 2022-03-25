@@ -9,8 +9,8 @@ export default class Templates extends BaseController{
 	 **********************************************************************/
 
 
-	updateGroupTemplateStyle (groupId) {
-		this.logger.log(-1,"updateGroupTemplateStyle", "enter > " + groupId);
+	updateGroupTemplateStyle (groupId, updatePositons = true) {
+		this.logger.log(-1,"updateGroupTemplateStyle", "enter > " + groupId + ' > updatePositons: ' + updatePositons);
 
 		if (this.model.groups && this.model.groups[groupId]){ 
 			const group = this.model.groups[groupId]
@@ -27,29 +27,37 @@ export default class Templates extends BaseController{
 				
 
 				const children = this.getAllGroupChildren(group)
-				children.forEach(widgetId => {
-					const widget = this.model.widgets[widgetId]
+				const sortedChildren = this.sortChildren(children)
+				// sort children!
+				sortedChildren.forEach((widget, index) => {
+					const boundingBox = this.getBoundingBox(children)
 					if (widget && widget.template) {
-						var template = this.model.templates[widget.template];
+						const template = this.model.templates[widget.template];
 						if (template) {
 							this.logger.log(-1,"updateGroupTemplateStyle", "Update widget " + widget.name);
-							const resizes = this.getWidgetTemplateResize(template, widget)
-							var childCommand = {
+							const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, boundingBox)
+							const childCommand = {
 								timestamp : new Date().getTime(),
 								type : "UpdateWidget",
 								template: lang.clone(template),
 								widget: lang.clone(widget),
-								resizes: resizes
+								resizes: resizes,
+								deltaZ: template.z - index
 							};
-							this.modelUpdateTemplate(template, widget, resizes, false);
+							this.modelUpdateTemplate(childCommand, false);
+
 							changes.push({type: 'template', action:"change", id: template.id})
 							command.children.push(childCommand)
 						}
 					
 					} else {
 						this.logger.log(-1,"updateGroupTemplateStyle", "New widget " + widget);
+
+						// create here an addWidget command
 					}
 				})
+
+				// waht about removed widgets??
 
 				this.addCommand(command);
 				this.onModelChanged(changes)
@@ -73,14 +81,14 @@ export default class Templates extends BaseController{
 	 **********************************************************************/
 
 
-    updateTemplateStyle (id){
+    updateTemplateStyle (id, updatePositons = true){
 		this.logger.log(0,"updateTemplateStyle", "enter > " + id);
 
 		if (this.model.widgets[id]){
 			const widget = this.model.widgets[id]
 			if (widget.template && this.model.templates[widget.template]) {
 				const template = this.model.templates[widget.template];
-				const resizes = this.getWidgetTemplateResize(template, widget)
+				const resizes = this.getWidgetTemplateResize(updatePositons, template, widget)
 				const command = {
 					timestamp : new Date().getTime(),
 					type : "UpdateWidget",
@@ -89,7 +97,7 @@ export default class Templates extends BaseController{
 					resizes: resizes
 				};
 				this.addCommand(command);
-				this.modelUpdateTemplate(template, widget, resizes, true);
+				this.modelUpdateTemplate(command, true);
 				this.showSuccess("The template "  + template.name + " was updated.");
 			} else {
 				this.logger.error("updateTemplateStyle", "No template > " + widget.template);
@@ -99,13 +107,34 @@ export default class Templates extends BaseController{
 		}
 	}
 
-	getWidgetTemplateResize (template, widget) {
-		console.debug('getWidgetTemplateResize', template.w, widget.w, template.h, widget.h)
-		return []
+	getWidgetTemplateResize (updatePositons, template, updatedWidget, boundingBox) {
+		let result = []
+		if (updatePositons && template.w !== updatedWidget.w || template.h !== updatedWidget.h) {
+			this.logger.log(-1,"getWidgetTemplateResize", "enter", boundingBox);
+			const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
+			widgets.forEach(widget => {
+				// we apply the changes only iff there is a difference.
+				// change as mini commands, where 
+				if (widget.w === template.w) {
+					result.push({id: widget.id, type:'w', n: updatedWidget.w, o: widget.w})
+				}
+				if (widget.h === template.h) {
+					result.push({id: widget.id, type:'h', n: updatedWidget.h, o: widget.h})
+				}
+
+				// what about bounding box? Just plain update??? or check with the old one??
+			})
+
+		}
+		return result
 	}
 
-	modelUpdateTemplate  (commandTemplate, commandWidget, resizes, render = true) {
-		console.debug('modelUpdateTemplate()', commandTemplate.style.background, commandWidget.style.background)
+	modelUpdateTemplate  (command, render = true) {
+		this.logger.log(0, "modelUpdateTemplate", "enter", command.deltaZ);
+
+		const commandTemplate = command.template
+		const commandWidget = command.widget
+		const resizes = command.resizes
 
 		if (!this.model.widgets[commandWidget.id]) {
 			this.logger.warn("modelUpdateTemplate", "Cannot find wiget");
@@ -131,6 +160,38 @@ export default class Templates extends BaseController{
 		ModelUtil.updateTemplateStyle(widget, template, 'active')
 		ModelUtil.updateTemplateStyle(widget, template, 'hover')
 
+		// execute all widget position updates
+		if (resizes) {
+			resizes.forEach(r => {
+				let widget = this.model.widgets[r.id]
+				if (widget) {
+					if (r.type === 'w') {
+						widget.w = r.n
+					}
+					if (r.type === 'h') {
+						widget.h = r.n
+					}
+					if (r.type === 'x') {
+						widget.x = r.n
+					}
+					if (r.type === 'y') {
+						widget.y = r.n
+					}
+				}
+			})	
+		}
+
+		// if we have z change, update also all instances
+		// and the template
+		if (command.deltaZ !== undefined) {
+			template.z = template.z - command.deltaZ
+			const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
+			widgets.forEach(widget => {
+				console.debug('Update Z', command.deltaZ)
+				widget.z = widget.z - command.deltaZ
+			})
+		}
+
 		if (render) {
 			console.debug('modelUpdateTemplate() > RENDER')
 			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
@@ -138,21 +199,59 @@ export default class Templates extends BaseController{
 		}
 	}
 
-	modelRollbackUpdateTemplate (oldTemplate, oldWidget, resizes, render = true) {
-		this.logger.log(-1,"modelRollbackUpdateTemplate", "enter > ", JSON.stringify(oldWidget.style));
+	modelRollbackUpdateTemplate (command, render = true) {
+		this.logger.log(-1,"modelRollbackUpdateTemplate", "enter > ");
+
+		const oldTemplate = command.template
+		const oldWidget = command.widget
+		const resizes = command.resizes
+
 		const template = this.model.templates[oldTemplate.id];
 		const widget = this.model.widgets[oldWidget.id];
 		if (template && widget) {
 
 			template.style = oldTemplate.style
-			this.updateStylesInBox(template, oldTemplate)
 			template.modified = new Date().getTime()
 			template.w = oldTemplate.w
 			template.h = oldTemplate.h
-
+			this.updateStylesInBox(template, oldTemplate)
+			
 			widget.style = oldWidget.style
-			this.updateStylesInBox(widget, oldWidget)
 			widget.modified = new Date().getTime()
+			this.updateStylesInBox(widget, oldWidget)
+			
+			// undo all the position updates and set the
+			// old value
+			if (resizes) {
+				resizes.forEach(r => {
+					let widget = this.model.widgets[r.id]
+					if (widget) {
+						if (r.type === 'w') {
+							widget.w = r.o
+						}
+						if (r.type === 'h') {
+							widget.h = r.o
+						}
+						if (r.type === 'x') {
+							widget.x = r.o
+						}
+						if (r.type === 'y') {
+							widget.y = r.o
+						}
+					}
+				})
+			}
+
+			// if we have z change, update also all instances
+			// and the template
+			if (command.deltaZ !== undefined) {
+				template.z = template.z + command.deltaZ
+				const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
+				widgets.forEach(widget => {
+					widget.z = widget.z + command.deltaZ
+				})
+			}
+
 		} else {
 			this.logger.warn("modelRollbackUpdateTemplate", "Cannot find template or widget");
 		}
@@ -181,12 +280,12 @@ export default class Templates extends BaseController{
 
 	undoUpdateWidget (command){
 		this.logger.log(-1,"undoUpdateWidget", "enter > ", command);
-		this.modelRollbackUpdateTemplate(command.template, command.widget, command.resizes, true);
+		this.modelRollbackUpdateTemplate(command, true);
 	}
 
 	redoUpdateWidget (command){
 		this.logger.log(-1,"redoUpdateWidgetfunction", "enter > ");
-		this.modelUpdateTemplate(command.template, command.widget, command.resizes, true);
+		this.modelUpdateTemplate(command, true);
 	}
 
 	/**********************************************************************
@@ -275,6 +374,7 @@ export default class Templates extends BaseController{
 
 		const allChildren = this.getAllGroupChildren(group)
 		const boundingBox = this.getBoundingBox(allChildren);
+		const sortChildren = this.sortChildren(allChildren)
 
 		/**
 		 * make one group template!
@@ -295,23 +395,21 @@ export default class Templates extends BaseController{
 
 		/**
 		 * make templates for all children
-		 * 
 		 */
-	
 		const template2Widget = {}
-		for(let i=0; i < allChildren.length; i++){
-			let widgetID = allChildren[i];
-			let widget = this.model.widgets[widgetID];
-
-			let t = this._createWidgetTemplate(widget, false, widget.name , "");
+		sortChildren.forEach((widget, index) => {
+	
+			const t = this._createWidgetTemplate(widget, false, widget.name , "");
 			t.x = widget.x - boundingBox.x;
 			t.y = widget.y - boundingBox.y;
+			t.z = index
 
 			template.children.push(t.id);
 			command.models.push(t);
-			command.widgets.push(widgetID);
-			template2Widget[widgetID] = t.id
-		}
+			command.widgets.push(widget.id);
+			template2Widget[widget.id] = t.id
+		})
+	
 
 		this._createSubGroupTemplates(template, group, template.id, name, template2Widget)
 
@@ -326,7 +424,7 @@ export default class Templates extends BaseController{
 			group.groups.forEach(subID => {
 				const subgroup = this.model.groups[subID]
 				if (subgroup) {
-					let childTemplate = {
+					const childTemplate = {
 						id : 'tsg' + this.getUUID(),
 						name: name + subgroup.name,
 						groupID: subgroup.id,
@@ -344,6 +442,9 @@ export default class Templates extends BaseController{
 						})
 					}
 
+					// for templates we store all child groups in the template, and do not
+					// create different templates as we would do for the normal groups. 
+					// This makes the preview and create rendering easy.
 					template.groups.push(childTemplate)
 
 					this._createSubGroupTemplates(template, subgroup, childTemplate.id, name, template2Widget)
