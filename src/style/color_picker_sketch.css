@@ -106,9 +106,9 @@
 .VommondColorPickerSketchAlpha {
 	background: linear-gradient(to right, #fff 0%,  #000 100%);
 	width:100%;
-  height:15px;
-  margin-bottom:10px;
-  position:relative;
+	height:15px;
+	margin-bottom:10px;
+	position:relative;
 }
 
 .VommondColorPickerSketchHuePointer{
@@ -126,11 +126,36 @@
 	 transform: translateX(-2px);
 }
 
+.VommondColorPickerSketchPreviewCntr{
+	width: 50px;
+	padding: 5px;
+	display: flex;
+	flex-direction: column;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+
 .VommondColorPickerSketchPreview{
 	width: 40px;
 	height: 40px;
 	border-radius: 40px;
-	margin: 5px;
+
 	display: inline-block;
 	border: 1px solid rgba(0,0,0, 0.15);
+}
+
+.VommondColorPickerSketchEyeDropper {
+	text-align: center;
+
+}
+
+.VommondColorPickerSketchEyeDropper .mdi {
+	cursor: pointer;
+	font-size: 20px;
+	color: #777;
+}
+
+.VommondColorPickerSketchEyeDropper .mdi:hover {
+	color: #333;
 }

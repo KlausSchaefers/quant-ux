@@ -39,7 +39,12 @@
 						<span>A</span>
 					</div>
 				</div>
-				<div class="VommondColorPickerSketchPreview" data-dojo-attach-point="preview">
+				<div class="VommondColorPickerSketchPreviewCntr">
+					<div class="VommondColorPickerSketchPreview" data-dojo-attach-point="preview">
+					</div>
+					<div class="VommondColorPickerSketchEyeDropper" v-if="hasEyeDropper">
+						<span class="mdi mdi-eyedropper" @click.stop="openEyeDropper"/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -60,10 +65,14 @@ export default {
     mixins:[DojoWidget],
     data: function () {
         return {
-
         }
     },
     components: {},
+	computed: {
+		hasEyeDropper () {
+			return "EyeDropper" in window
+		}
+	},
     methods: {
 		postCreate (){
 			this.color = new Color({ r:0, g:0, b:0, a:0});
@@ -92,6 +101,20 @@ export default {
 			this.own(on(this.alphaCntr, touch.press, lang.hitch(this, "onAlphaPress")));
 
 			this.own(on(this.domNode, "mousedown", function(e){e.stopPropagation()}));
+		},
+
+		async openEyeDropper () {
+			try {
+				const eyeDropper = new window.EyeDropper();
+				const selectedColorHex = await eyeDropper.open();
+				if (selectedColorHex.sRGBHex) {
+					const color = new Color(selectedColorHex.sRGBHex);
+					this.setColor(color);
+					this.onChange()
+				}
+			} catch (err) {
+				console.log('ColorPickerSketch.openEyeDropper() Could not pick', err);
+			}
 		},
 
 
