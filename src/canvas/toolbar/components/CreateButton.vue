@@ -944,8 +944,12 @@ export default {
 
 			onRemoveTemplate (template, e) {
 				this.stopEvent(e);
-				this.hideDropDown();
+				//this.hideDropDown();
 				this.emit("removeTemplate", template ,e);
+				setTimeout(() => {
+					this.showTemplates()
+				}, 100)
+				
 			},
 
 			onCreate (child,e){

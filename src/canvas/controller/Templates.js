@@ -34,15 +34,28 @@ export default class Templates extends BaseController{
 					if (widget && widget.template) {
 						const template = this.model.templates[widget.template];
 						if (template) {
-							this.logger.log(-1,"updateGroupTemplateStyle", "Update widget " + widget.name);
-							const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, boundingBox)
+							
+							const x = widget.x - boundingBox.x
+							const y = widget.y - boundingBox.y
+							const deltaX = template.x - x
+							const deltaY = template.y - y
+							const deltaZ = template.z - index
+							this.logger.log(
+								1,
+								"updateGroupTemplateStyle", 
+								"Update widget " + widget.name + ">>> ", 
+								template.x + "?" +x + " > " + template.y + "?" + y
+							);
+							const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, deltaX, deltaY)
 							const childCommand = {
 								timestamp : new Date().getTime(),
 								type : "UpdateWidget",
 								template: lang.clone(template),
 								widget: lang.clone(widget),
 								resizes: resizes,
-								deltaZ: template.z - index
+								deltaZ: deltaZ,
+								deltaX: deltaX,
+								deltaY: deltaY
 							};
 							this.modelUpdateTemplate(childCommand, false);
 
@@ -107,25 +120,42 @@ export default class Templates extends BaseController{
 		}
 	}
 
-	getWidgetTemplateResize (updatePositons, template, updatedWidget, boundingBox) {
+	getWidgetTemplateResize (updatePositons, template, updatedWidget = false, deltaX = 0, deltaY = 0) {
 		let result = []
-		if (updatePositons && template.w !== updatedWidget.w || template.h !== updatedWidget.h) {
-			this.logger.log(-1,"getWidgetTemplateResize", "enter", boundingBox);
-			const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
-			widgets.forEach(widget => {
-				// we apply the changes only iff there is a difference.
-				// change as mini commands, where 
-				if (widget.w === template.w) {
+		if (!updatePositons) {
+			this.logger.log(1,"getWidgetTemplateResize", "NO update");
+			return
+		}
+		// we apply the changes only iff there is a difference.
+		// change as mini commands, where 
+		
+		this.logger.log(1,"getWidgetTemplateResize", "enter x" +  deltaX + ' y:' +deltaY);
+		const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
+		widgets.forEach(widget => {
+
+			if (widget.id !== updatedWidget.id) {
+			
+				if (widget.w === template.w && template.w !== updatedWidget.w ) {
 					result.push({id: widget.id, type:'w', n: updatedWidget.w, o: widget.w})
 				}
-				if (widget.h === template.h) {
+				if (widget.h === template.h && template.h !== updatedWidget.h) {
 					result.push({id: widget.id, type:'h', n: updatedWidget.h, o: widget.h})
 				}
 
-				// what about bounding box? Just plain update??? or check with the old one??
-			})
+				// FIXME: This causes some stupid bugs, if the elements have been moved
+				// relative to their parent group. To make this work super good, we
+				// should get the current bounding box (how???) and the check of there
+				// is a delta, und only then update the x & y like we do for the w & h
+				// 
+				if (deltaX !== 0 ) {
+					result.push({id: widget.id, type:'x', n: widget.x - deltaX, o: widget.x})
+				}
 
-		}
+				if (deltaY !== 0) {
+					result.push({id: widget.id, type:'y', n: widget.y - deltaY, o: widget.y})
+				}
+			}
+		})
 		return result
 	}
 
@@ -187,9 +217,16 @@ export default class Templates extends BaseController{
 			template.z = template.z - command.deltaZ
 			const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
 			widgets.forEach(widget => {
-				console.debug('Update Z', command.deltaZ)
 				widget.z = widget.z - command.deltaZ
 			})
+		}
+
+		if (command.deltaX) {
+			template.x = template.x - command.deltaX
+		}
+
+		if (command.deltaY) {
+			template.y = template.y - command.deltaY
 		}
 
 		if (render) {
@@ -250,6 +287,15 @@ export default class Templates extends BaseController{
 				widgets.forEach(widget => {
 					widget.z = widget.z + command.deltaZ
 				})
+			}
+
+
+			if (command.deltaX) {
+				template.x = template.x + command.deltaX
+			}
+	
+			if (command.deltaY) {
+				template.y = template.y + command.deltaY
 			}
 
 		} else {

@@ -110,6 +110,27 @@ test('Test ModelUtil.getViewModeStyle() >  Template:Hover Overwrite', async () =
     expect(style.c).toBe(333)
 })
 
+test('Test ModelUtil.getViewModeStyle() >  Template:Hover Bug', async () => {
+
+    const app = {
+        templates: {
+            't1': {
+                style: {a:1, b:2, c:3},
+                hover: {a:11}
+            }
+        }
+    }
+    let widget = {
+        template: 't1',
+        style: {a:111}
+    }
+    const style = ModelUtil.getViewModeStyle(widget, app, 'hover')
+
+    expect(style.a).toBe(11)
+    expect(style.b).toBe(2)
+    expect(style.c).toBe(3)
+})
+
 test('Test ModelUtil.setMergedTemplateStyle() > unlink template ', async () => {
 
 

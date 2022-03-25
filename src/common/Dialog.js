@@ -121,8 +121,6 @@ export default class Dialog extends Evented {
 			var ratioH = startPos.h / endPos.h;
 			var transform = " scale(" + ratioW + "," + ratioH + ")"
 			wrapper.style.transform = transform;
-		} else {
-			console.warn('Dialog.popup() > Do not use CSS')
 		}
 		
 
@@ -131,14 +129,14 @@ export default class Dialog extends Evented {
 		/**
 		 * fade in
 		 */
-		setTimeout(function () {
+		setTimeout(() => {
 			css.remove(background, "VommondDialogHidden");
 		}, 1);
 
 		/**
 		 * fade in
 		 */
-		setTimeout(function () {
+		setTimeout(() => {
 			css.remove(background, "VommondDialogContentHidden");
 		}, 350);
 
