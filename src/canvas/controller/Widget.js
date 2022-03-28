@@ -1005,10 +1005,10 @@ export default class Widget extends Screen {
 		var targetScreen = this.getHoverScreen(pos);
 
 		/**
-			* Create the model. Attention! The passed model might say that it was from a
-			* template. In that case we need to create a templated model! We assume the
-			* template exists!
-			*/
+		* Create the model. Attention! The passed model might say that it was from a
+		* template. In that case we need to create a templated model! We assume the
+		* template exists!
+		*/
 		var widget = this._createWidgetModel(model);
 		if (targetScreen) {
 			widget.name = this.getWidgetName(targetScreen.id, widget.name);
@@ -1129,8 +1129,8 @@ export default class Widget extends Screen {
 
 
 	/**********************************************************************
-		* Widget remove
-		**********************************************************************/
+	* Widget remove
+	**********************************************************************/
 
 	removeWidget (id){
 		this.logger.log(3,"removeWidget", "enter > " +id);
@@ -1326,7 +1326,6 @@ export default class Widget extends Screen {
 
 	undoRemoveWidget (command){
 		var widget = command.model;
-		console.debug('undoRemoveWidget', command)
 		this.modelAddWidgetAndLines(widget, command.lines, command.refs, command.group);
 		this.render();
 	}

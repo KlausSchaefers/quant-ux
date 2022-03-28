@@ -644,12 +644,12 @@ export default class Core extends Evented {
     getStyle(model) {
         if (model.template) {
             if (this.model.templates) {
-                var t = this.model.templates[model.template];
+                const t = this.model.templates[model.template];
                 if (t) {
                     /**
                      * Merge in overwriten styles
                      */
-                    let merged = lang.clone(t.style)
+                    const merged = lang.clone(t.style)
                     if (model.style) {
                         for (let key in model.style) {
                             merged[key] = model.style[key]

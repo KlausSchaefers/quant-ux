@@ -25,64 +25,34 @@ export default class Templates extends BaseController{
 					children :[]
 				};
 				
-	
+				
 				const instanceBoundingBoxes = this.getInstanceBoundingBoxes(groupTemplate)
-
-
 				const children = this.getAllGroupChildren(group)
+				// sort children to get new ZValues
 				const sortedChildren = this.sortChildren(children)
 				const boundingBox = this.getBoundingBox(children)
-				// sort children!
-				sortedChildren.forEach((widget, index) => {			
-					if (widget && widget.template) {
-						const template = this.model.templates[widget.template];
-						if (template) {
-							
-							const x = widget.x - boundingBox.x
-							const y = widget.y - boundingBox.y
-							const deltaX = template.x - x
-							const deltaY = template.y - y
-							const deltaZ = template.z - index
-							this.logger.log(
-								1,
-								"updateGroupTemplateStyle", 
-								"Update widget " + widget.name + ">>> ", 
-								template.x + "?" +x + " > " + template.y + "?" + y
-							);
-							const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, x, y, instanceBoundingBoxes)
-							const childCommand = {
-								timestamp : new Date().getTime(),
-								type : "UpdateWidget",
-								template: lang.clone(template),
-								widget: lang.clone(widget),
-								resizes: resizes,
-								deltaZ: deltaZ,
-								deltaX: deltaX,
-								deltaY: deltaY
-							};
-							this.modelUpdateTemplate(childCommand, false);
 
-							changes.push({type: 'template', action:"change", id: template.id})
-							command.children.push(childCommand)
-						}
-					
-					} else {
-						this.logger.log(-1,"updateGroupTemplateStyle", "New widget " + widget);
+				/**
+				 * 1) update all widgets in the group
+				 */
+				this.updateAllTemplateGroupWidgets(command, changes, updatePositons, instanceBoundingBoxes, sortedChildren, boundingBox)
 
-						// create here an addWidget command
-					}
-				})
+				/**
+				 * 2) Check if we have added elements (or groups)
+				 */
+				this.addAndRemoveTemplateGroupWidgets(command, changes, group, groupTemplate, sortedChildren, boundingBox)
 
-				// waht about removed widgets??
+
 
 				this.addCommand(command);
 				this.onModelChanged(changes)
+				this.onLayerListChange()
 				this.showSuccess("The template "  + groupTemplate.name + " was updated.");
 				this.render()
 
 
 			} else {
-				this.logger.log(-1,"updateGroupTemplateStyle", "Group is not template > " + groupId);
+				this.logger.log(-1,"updateGroupTemplateStyle", "Group is not template > " + groupId, group);
 			}
 		
 
@@ -93,24 +63,221 @@ export default class Templates extends BaseController{
 	}
 
 	getInstanceBoundingBoxes (groupTemplate) {
-		this.logger.log(-1,"getInstanceBoundingBoxes", "enter > ", groupTemplate);
+		this.logger.log(1,"getInstanceBoundingBoxes", "enter > ", groupTemplate);
 		const result = {}
 		const instanceGroups = ModelUtil.getGroupsByTemplate(groupTemplate.id, this.model)
 		instanceGroups.forEach(instanceGroup => {
-			let allChildren = this.getAllGroupChildren(instanceGroup)
+			const allChildren = this.getAllGroupChildren(instanceGroup)
 			const boundingBox = this.getBoundingBox(allChildren)
 			allChildren.forEach(widgetId => {
 				result[widgetId] = {
 					x: boundingBox.x,
-					y: boundingBox.y
+					y: boundingBox.y,
+					groupId: instanceGroup.id
 				}	
 			})
 		})
 		return result
 	}
 
+	updateAllTemplateGroupWidgets (command, changes, updatePositons, instanceBoundingBoxes, sortedChildren, boundingBox) {
+		sortedChildren.forEach((widget, index) => {			
+			if (widget.template) {
+				const template = this.model.templates[widget.template];
+				if (template) {
+					
+					const x = widget.x - boundingBox.x
+					const y = widget.y - boundingBox.y
+					const deltaX = template.x - x
+					const deltaY = template.y - y
+					const deltaZ = template.z - index
+				
+					const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, x, y, instanceBoundingBoxes)
+					const childCommand = {
+						timestamp : new Date().getTime(),
+						type : "UpdateWidget",
+						template: lang.clone(template),
+						widget: lang.clone(widget),
+						resizes: resizes,
+						deltaZ: deltaZ,
+						deltaX: deltaX,
+						deltaY: deltaY
+					};
+					this.modelUpdateTemplate(childCommand, false);
+
+					changes.push({type: 'template', action:"change", id: template.id})
+					command.children.push(childCommand)
+				}
+			
+			}
+		})
+	}
+
+	addAndRemoveTemplateGroupWidgets (command, changes,group, groupTemplate, sortedChildren, boundingBox = null) {
+
+		const newTemplates = []
+		const widgets = []
+
+		sortedChildren.forEach((widget, index) => {			
+			if (!widget.template) {
+				const t = this._createWidgetTemplate(widget, false, widget.name , "");
+				t.x = widget.x - boundingBox.x;
+				t.y = widget.y - boundingBox.y;
+				t.z = index
+	
+				newTemplates.push(t);
+				widgets.push(widget.id);
+			}
+		})
+
+		if (newTemplates.length > 0) {
+			this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add new templates > ", newTemplates);
+
+			const createTemplateCommand = {
+				timestamp : new Date().getTime(),
+				type : "CreateTemplate",
+				models : newTemplates,
+				widgets : widgets
+			};
+			command.children.push(createTemplateCommand)
+			this.modelAddTemplate(createTemplateCommand.models,createTemplateCommand.widgets);
+
+
+			const updateTemplateGroupCommand = {
+				timestamp : new Date().getTime(),
+				type : "UpdateTemplateGroup",
+				templateId: groupTemplate.id,
+				addChildren: newTemplates.map(t => t.id),
+				addWidgets:[]
+			};
+		
+			
+			const instanceGroups = ModelUtil.getGroupsByTemplate(groupTemplate.id, this.model)
+			instanceGroups.forEach(instanceGroup => {
+				if (instanceGroup.id !== group.id) {
+					const allChildren = this.getAllGroupChildren(instanceGroup)
+					const boundingBox = this.getBoundingBox(allChildren)	
+					let targetScreen = this.getHoverScreen(boundingBox);
+					newTemplates.forEach(t => {										
+							const widget = this._createWidgetModel(lang.clone(t));
+							if (targetScreen) {
+								widget.name = this.getWidgetName(targetScreen.id, widget.name);
+							}
+							widget.id = "w"+this.getUUID();
+							widget.z = this.getMaxZValue(this.model.widgets) + 1;
+							widget.x =  boundingBox.x + t.x;
+							widget.y =  boundingBox.y + t.y;
+							widget.template = t.id
+
+						
+							updateTemplateGroupCommand.addWidgets.push({
+								screenId: targetScreen ? targetScreen.id : false,
+								widget: widget,
+								groupId: instanceGroup.id
+							})
+					})
+				}				
+			})	
+		
+			command.children.push(updateTemplateGroupCommand)
+			this.modelUpdateTemplateGroup(updateTemplateGroupCommand)			
+		}
+	}
+
+
+	modelUpdateTemplateGroup(command, render) {
+		this.logger.log(-1,"modelUpdateTemplateGroup", "enter > ", command);
+
+		if (!this.model.templates) {
+			return
+		}
+
+		const template = this.model.templates[command.templateId]
+		if (!template || !template.children) {
+			this.logger.log(-1,"modelUpdateTemplateGroup", "No template > ", command.templateId);
+			return
+		}
+
+		if (command.addChildren) {
+			command.addChildren.forEach(id => {
+				template.children.push(id)
+			})
+		}
+
+		if (command.addWidgets) {
+			command.addWidgets.forEach(subCommand => {
+				const widget = subCommand.widget
+				widget.created = new Date().getTime()
+				this.model.widgets[widget.id] = widget;
+				if (this.model.groups && this.model.groups[subCommand.groupId]) {
+					const parentGroup = this.model.groups[subCommand.groupId]
+					parentGroup.children.push(widget.id)
+				}
+				if (this.model.screens[subCommand.screenId]) {
+					const scrn = this.model.screens[subCommand.screenId]
+					scrn.children.push(widget.id)
+				}
+			})
+		}
+			
+		if (render) {
+			this.onModelChanged([{type: 'templateGroup', action:"change", id: template.id}])
+			this.render();
+		}
+	}
+
+	modelRollBackUpdateTemplateGroup (command) {
+		this.logger.log(-1,"modelRollBackUpdateTemplateGroup", "enter > ", command);
+
+		if (!this.model.templates) {
+			return
+		}
+
+		const template = this.model.templates[command.templateId]
+		if (!template || !template.children) {
+			this.logger.log(-1,"modelUpdateTemplateGroup", "No template > ", command.templateId);
+			return
+		}
+
+		if (command.addChildren) {
+			command.addChildren.forEach(id => {
+				template.children = template.children.filter(childId => childId !== id)
+			})
+		}
+
+		if (command.addWidgets) {
+			command.addWidgets.forEach(subCommand => {
+				const widget = subCommand.widget
+				delete this.model.widgets[widget.id]
+				if (this.model.groups && this.model.groups[subCommand.groupId]) {
+					const parentGroup = this.model.groups[subCommand.groupId]
+					parentGroup.children = parentGroup.children.filter(id => id !== widget.id)
+				}
+				if (this.model.screens[subCommand.screenId]) {
+					const scrn = this.model.screens[subCommand.screenId]
+					scrn.children = scrn.children.filter(id => id !== widget.id)
+				}
+			})
+		}
+
+		this.onModelChanged([{type: 'templateGroup', action:"change", id: template.id}])
+		this.render();
+	}
+
+
+	undoUpdateTemplateGroup(command) {
+		this.logger.log(-1,"undoUpdateTemplateGroup", "enter > ", command);
+		this.modelRollBackUpdateTemplateGroup(command, true);
+	}
+
+	redoUpdateTemplateGroup(command) {
+		this.logger.log(-1,"redoUpdateTemplateGroup", "enter > ", command);
+		this.modelUpdateTemplateGroup()
+	}
+
+
 	/**********************************************************************
-	 * Uodate Template
+	 * Update Single Template
 	 **********************************************************************/
 
 
@@ -151,7 +318,6 @@ export default class Templates extends BaseController{
 		// change as mini commands, where 	
 		const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 		widgets.forEach(widget => {
-
 			if (widget.id !== updatedWidget.id) {
 			
 				if (widget.w === template.w && template.w !== updatedWidget.w ) {
@@ -346,6 +512,8 @@ export default class Templates extends BaseController{
 		this.modelUpdateTemplate(command, true);
 	}
 
+
+
 	/**********************************************************************
 	 * Create Template
 	 **********************************************************************/
@@ -441,7 +609,7 @@ export default class Templates extends BaseController{
 		template.id = "tg" + this.getUUID();
 		template.type = "Group";
 		template.templateType = "Group";
-		template.visible=true;
+		template.visible = true;
 		template.name = name;
 		template.children = [];
 		template.groups = []
@@ -484,7 +652,7 @@ export default class Templates extends BaseController{
 				if (subgroup) {
 					const childTemplate = {
 						id : 'tsg' + this.getUUID(),
-						name: name + subgroup.name,
+						name: subgroup.name,
 						groupID: subgroup.id,
 						parent: parentID,
 						children: []

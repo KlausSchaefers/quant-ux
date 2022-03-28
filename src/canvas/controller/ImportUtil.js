@@ -246,6 +246,10 @@ function mergeTemplates (model, importModel) {
     }
 
     /**
+     * FIXME: we need to also update here the templated groups!
+     */
+
+    /**
      * Copy templates
      */
     Object.values(importModel.templates).forEach(template => {
@@ -257,7 +261,7 @@ function mergeTemplates (model, importModel) {
 }
 
 function updateUUID (prefix, element, model) {
-  var uuid = model.lastUUID++ + "";
+  var uuid = model.lastUUID++ +  "_" + Math.round(Math.random() * 100000);
   element.importSourceId = element.id
   element.id = prefix + uuid
   return element.id
