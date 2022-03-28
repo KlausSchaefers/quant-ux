@@ -319,8 +319,6 @@ class ModelUtil {
 		// will take the template and mix in 
 		// the nornal "style" overwrites
 		const normal = this.getTemplatedStyle(widget, model, 'style');
-        
-
         const mixed = lang.clone(normal);
 
         // if we have specific overwrite in the template
@@ -364,12 +362,23 @@ class ModelUtil {
     }
 
 
-    getWidgetsTyTemplate(templateId, model) {
+    getWidgetsByTemplate(templateId, model) {
         let result = []
         for (let widgetID in model.widgets) {
             let widget = model.widgets[widgetID]
             if (widget.template === templateId) {
                 result.push(widget)
+            }
+        }
+        return result
+    }
+
+    getGroupsByTemplate(templateId, model) {
+        let result = []
+        for (let groupID in model.groups) {
+            let group = model.groups[groupID]
+            if (group.template === templateId) {
+                result.push(group)
             }
         }
         return result

@@ -1687,14 +1687,14 @@ export default class BaseController extends Core {
 	}
 
 	getDeltaBox (model, pos){
-		var delta = {n:{}, o:{}};
+		const delta = {n:{}, o:{}};
 		if(model){
-			for(var p in pos){
+			for(let p in pos){
 				if(pos[p] != null && pos[p]!= undefined){
 					if(pos[p] != model[p]){
 						delta.n[p] = pos[p];
 						delta.o[p] = model[p];
-						ModelFixer.fix1PXBug(p, model, pos)
+						//ModelFixer.fix1PXBug(p, model, pos)
 					}
 				}
 			}

@@ -963,7 +963,7 @@ export default {
 		},
 
 		alignmentStart (selectedType, selectedModel, activePoint, ignoreIds, showDimensions){
-			this.logger.log(-1,"alignmentStart","enter > " + selectedType, this.settings.snapGridOnlyToTopLeft);
+			this.logger.log(1,"alignmentStart","enter > " + selectedType, this.settings.snapGridOnlyToTopLeft);
 
 			/**
 			 * Use the grid only when widget is selected and grid is specified

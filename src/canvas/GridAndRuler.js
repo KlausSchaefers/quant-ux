@@ -55,7 +55,7 @@ export default class GridAndRuler extends Core {
 			this.showDistance = this.snappDistance + 5;
 			this.adjustSnappDistanceToMouseSpeed = false
 		}
-		this.logger.log(-1, "start", "snappDistance " + this.snappDistance);
+		this.logger.log(1, "start", "snappDistance " + this.snappDistance);
 
 		this.grid = grid;
 		this.model = canvas.model;

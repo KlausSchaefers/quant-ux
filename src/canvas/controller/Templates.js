@@ -25,12 +25,15 @@ export default class Templates extends BaseController{
 					children :[]
 				};
 				
+	
+				const instanceBoundingBoxes = this.getInstanceBoundingBoxes(groupTemplate)
+
 
 				const children = this.getAllGroupChildren(group)
 				const sortedChildren = this.sortChildren(children)
+				const boundingBox = this.getBoundingBox(children)
 				// sort children!
-				sortedChildren.forEach((widget, index) => {
-					const boundingBox = this.getBoundingBox(children)
+				sortedChildren.forEach((widget, index) => {			
 					if (widget && widget.template) {
 						const template = this.model.templates[widget.template];
 						if (template) {
@@ -46,7 +49,7 @@ export default class Templates extends BaseController{
 								"Update widget " + widget.name + ">>> ", 
 								template.x + "?" +x + " > " + template.y + "?" + y
 							);
-							const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, deltaX, deltaY)
+							const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, x, y, instanceBoundingBoxes)
 							const childCommand = {
 								timestamp : new Date().getTime(),
 								type : "UpdateWidget",
@@ -89,6 +92,23 @@ export default class Templates extends BaseController{
 		}
 	}
 
+	getInstanceBoundingBoxes (groupTemplate) {
+		this.logger.log(-1,"getInstanceBoundingBoxes", "enter > ", groupTemplate);
+		const result = {}
+		const instanceGroups = ModelUtil.getGroupsByTemplate(groupTemplate.id, this.model)
+		instanceGroups.forEach(instanceGroup => {
+			let allChildren = this.getAllGroupChildren(instanceGroup)
+			const boundingBox = this.getBoundingBox(allChildren)
+			allChildren.forEach(widgetId => {
+				result[widgetId] = {
+					x: boundingBox.x,
+					y: boundingBox.y
+				}	
+			})
+		})
+		return result
+	}
+
 	/**********************************************************************
 	 * Uodate Template
 	 **********************************************************************/
@@ -120,17 +140,16 @@ export default class Templates extends BaseController{
 		}
 	}
 
-	getWidgetTemplateResize (updatePositons, template, updatedWidget = false, deltaX = 0, deltaY = 0) {
+	getWidgetTemplateResize (updatePositons, template, updatedWidget = false, x = 0, y = 0, instanceBoundingBoxes) {
 		let result = []
 		if (!updatePositons) {
 			this.logger.log(1,"getWidgetTemplateResize", "NO update");
 			return
 		}
+	
 		// we apply the changes only iff there is a difference.
-		// change as mini commands, where 
-		
-		this.logger.log(1,"getWidgetTemplateResize", "enter x" +  deltaX + ' y:' +deltaY);
-		const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
+		// change as mini commands, where 	
+		const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 		widgets.forEach(widget => {
 
 			if (widget.id !== updatedWidget.id) {
@@ -142,17 +161,10 @@ export default class Templates extends BaseController{
 					result.push({id: widget.id, type:'h', n: updatedWidget.h, o: widget.h})
 				}
 
-				// FIXME: This causes some stupid bugs, if the elements have been moved
-				// relative to their parent group. To make this work super good, we
-				// should get the current bounding box (how???) and the check of there
-				// is a delta, und only then update the x & y like we do for the w & h
-				// 
-				if (deltaX !== 0 ) {
-					result.push({id: widget.id, type:'x', n: widget.x - deltaX, o: widget.x})
-				}
-
-				if (deltaY !== 0) {
-					result.push({id: widget.id, type:'y', n: widget.y - deltaY, o: widget.y})
+				if (instanceBoundingBoxes && instanceBoundingBoxes[widget.id]) {
+					const boundBox = instanceBoundingBoxes[widget.id]
+					result.push({id: widget.id, type:'x', n: boundBox.x + x, o: widget.x})
+					result.push({id: widget.id, type:'y', n: boundBox.y + y, o: widget.y})
 				}
 			}
 		})
@@ -215,7 +227,7 @@ export default class Templates extends BaseController{
 		// and the template
 		if (command.deltaZ !== undefined) {
 			template.z = template.z - command.deltaZ
-			const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
+			const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 			widgets.forEach(widget => {
 				widget.z = widget.z - command.deltaZ
 			})
@@ -283,7 +295,7 @@ export default class Templates extends BaseController{
 			// and the template
 			if (command.deltaZ !== undefined) {
 				template.z = template.z + command.deltaZ
-				const widgets = ModelUtil.getWidgetsTyTemplate(template.id, this.model)
+				const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 				widgets.forEach(widget => {
 					widget.z = widget.z + command.deltaZ
 				})
