@@ -438,6 +438,12 @@ export default class Widget extends Screen {
 		var widget = this.model.widgets[id];
 		if(widget){
 			widget.name = value;
+			if (this.model.templates && widget.isRootTemplate) {
+				const template = this.model.templates[widget.template]
+				if (template) {
+					template.name = value
+				}
+			}
 			this.onModelChanged([{type: 'widget', action:"change", id: id}])
 			this.onWidgetNameChange(widget)
 		}

@@ -241,7 +241,7 @@ export default class Group extends Layer {
 			 * 3) Since 4.0.60 we also create sub groups
 			 */
 			const [subgroups, template2Group] = this._addSubGroupByTemplate(groupTemplate, group, targetScreen)
-		
+	
 			/**
 			 * order templates by z
 			 */
@@ -392,6 +392,14 @@ export default class Group extends Layer {
 		if(this.model.groups && this.model.groups[id]){
 			var group = this.model.groups[id];
 			group.name = value;
+
+			if (this.model.templates && group.isRootTemplate) {
+				const template = this.model.templates[group.template]
+				if (template) {
+					template.name = value
+				}
+			}
+
 			this.onModelChanged([{type: 'group', action:"change", id: id}])
 			this.onGroupNameChange(group)
 		} else {
