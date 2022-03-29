@@ -1060,9 +1060,9 @@ export default class Widget extends Screen {
 
 
 	/**
-		* create the new model. the model element must have a parameter "type",
-		* "template" or "theme"!
-		*/
+	 * create the new model. the model element must have a parameter "type",
+	 * "template" or "theme"!
+	 */
 	_createWidgetModel (model){
 
 		/**

@@ -159,7 +159,8 @@ export default class Templates extends BaseController{
 					const boundingBox = this.getBoundingBox(allChildren)	
 					let targetScreen = this.getHoverScreen(boundingBox);
 					newTemplates.forEach(t => {										
-							const widget = this._createWidgetModel(lang.clone(t));
+							// HERE might have been the bug?
+							const widget = this.factory.createTemplatedModel(lang.clone(t));
 							if (targetScreen) {
 								widget.name = this.getWidgetName(targetScreen.id, widget.name);
 							}
@@ -338,7 +339,7 @@ export default class Templates extends BaseController{
 	}
 
 	modelUpdateTemplate  (command, render = true) {
-		this.logger.log(0, "modelUpdateTemplate", "enter", command.deltaZ);
+		this.logger.log(1, "modelUpdateTemplate", "enter", command.deltaZ);
 
 		const commandTemplate = command.template
 		const commandWidget = command.widget
@@ -653,7 +654,7 @@ export default class Templates extends BaseController{
 					const childTemplate = {
 						id : 'tsg' + this.getUUID(),
 						name: subgroup.name,
-						groupID: subgroup.id,
+						groupID: subgroup.id, // FIXME: This is an ugly typo
 						parent: parentID,
 						children: []
 					}

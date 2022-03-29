@@ -507,20 +507,22 @@ export default {
 
 		selectNode (ids) {
 			this.unSelectNodes()
-			ids.forEach(id => {
-				let node = this.nodes[id]
-				if (node) {
-					this.$set(node, 'selected', true)
-				}
-			})
-			this.selection = ids
-			this.scrollToSelection(ids)						
+			this.$nextTick(() => {
+				ids.forEach(id => {
+					let node = this.nodes[id]
+					if (node) {
+						this.$set(node, 'selected', true)
+					}
+				})
+				this.selection = ids
+				this.scrollToSelection(ids)
+			})			
 		},
 
 		scrollToSelection(ids) {
-			let id = ids[0]
+			const id = ids[0]
 			if (id) {
-				let element = document.getElementById(this.getScrollId(id))
+				const element = document.getElementById(this.getScrollId(id))
 				if (element) {
 					element.scrollIntoViewIfNeeded(true)
 				} else {

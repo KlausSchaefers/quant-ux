@@ -241,14 +241,14 @@ export default class Group extends Layer {
 			 * 3) Since 4.0.60 we also create sub groups
 			 */
 			const [subgroups, template2Group] = this._addSubGroupByTemplate(groupTemplate, group, targetScreen)
-
+		
 			/**
 			 * order templates by z
 			 */
-			var children = [];
+			let children = [];
 			for(let i=0; i < group.children.length; i++){
-				let id = group.children[i];
-				let child = this.model.templates[id];
+				const id = group.children[i];
+				const child = this.model.templates[id];
 				children.push(child);
 			}
 			children = this.getOrderedWidgets(children);
@@ -259,8 +259,8 @@ export default class Group extends Layer {
 			 */
 			let z = this.getMaxZValue(this.model.widgets);
 			for (let i=0; i< children.length; i++){
-				let widgetTemplate = children[i];
-				let widget = this.factory.createTemplatedModel(widgetTemplate);
+				const widgetTemplate = children[i];
+				const widget = this.factory.createTemplatedModel(widgetTemplate);
 			
 				widget.id = "w"+this.getUUID();
 				widget.x +=  pos.x;
@@ -270,7 +270,7 @@ export default class Group extends Layer {
 					widget.name = this.getGroupName(targetScreen.id, widgetTemplate.name)
 				}
 
-				let child = this._createAddWidgetCommand(widget);
+				const child = this._createAddWidgetCommand(widget);
 				command.children.push(child);
 
 				if (template2Group[widget.template]) {

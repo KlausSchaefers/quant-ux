@@ -221,6 +221,14 @@ function mergeTemplates (model, importModel) {
       let oldId = template.id
       let newId = updateUUID('tw', template, model)
       oldToNewIds[oldId] = newId
+
+      if (template.groups) {
+        template.groups.forEach(subgroup => {
+          let oldId = subgroup.id
+          let newId = updateUUID('tsg', subgroup, model)
+          oldToNewIds[oldId] = newId
+        })
+      }
     })
 
     /**
@@ -245,10 +253,45 @@ function mergeTemplates (model, importModel) {
       }
     }
 
-    /**
-     * FIXME: we need to also update here the templated groups!
-     */
+    if (importModel.groups) {
+      const groupsByTemplate = {}
+      Object.values(importModel.groups).forEach(group => {
+        if (group.template) {
+          if (!groupsByTemplate[group.template]) {
+            groupsByTemplate[group.template] = []
+          }
+          groupsByTemplate[group.template].push(group)
+        }
+      })
+      for (let oldId in oldToNewIds) {
+        let newId = oldToNewIds[oldId]
+        if (groupsByTemplate[oldId]) {
+          let groups = groupsByTemplate[oldId]
+          groups.forEach(groups => {
+            groups.template = newId
+          })
+        }
+      }
+    }
 
+    /**
+     * Update also groups children
+     */
+    Object.values(importModel.templates).forEach(template => {
+      if (template.type === "Group") {
+        template.children = template.children.map(oldId => oldToNewIds[oldId])
+        if (template.groups) {
+          template.groups.forEach(subgroup => {
+            subgroup.parent = template.id
+            subgroup.children = subgroup.children.map(oldId => oldToNewIds[oldId])
+          })
+        }
+      }
+    })
+
+
+
+  
     /**
      * Copy templates
      */
@@ -256,6 +299,7 @@ function mergeTemplates (model, importModel) {
       changes.push({type:"template", action:'import', id: template.id})
       model.templates[template.id] = template
     })
+
   }
   return changes
 }
