@@ -872,7 +872,7 @@ export default class CopyPaste extends Group{
 			delete newScreen.props.start;
 
 			let children = [];
-			let groups = [];
+
 			let parentGroups ={};
 			let widgetIDMapping = {};
 			/**
@@ -910,10 +910,11 @@ export default class CopyPaste extends Group{
 			/**
 			 * Copy also groups
 			 */
-			for(let parentGroupID in parentGroups){
-				let parentGroup = parentGroups[parentGroupID];
-				this.copyScreenGroup(parentGroup, groups, widgetIDMapping)
-			}
+			//for(let parentGroupID in parentGroups){
+			//	let parentGroup = parentGroups[parentGroupID];
+			//	this.copyScreenGroup(parentGroup, groups, widgetIDMapping)
+			//}
+			let groups = this.copyScreenGroups(parentGroups, widgetIDMapping)
 
 
 			/**
@@ -941,7 +942,40 @@ export default class CopyPaste extends Group{
 		}
 	}
 
+	copyScreenGroups (oldGroups, widgetIDMapping) {
+		const groups = [];
+		const groupMapping = {}
+		for(let oldGroupsId in oldGroups){
+			const oldGroup = oldGroups[oldGroupsId];
+			const newGroup = lang.clone(oldGroup);
+			newGroup.id = "g" + this.getUUID();
+			newGroup.copyOf = oldGroup.id;
+			delete newGroup.isRootTemplate
+			newGroup.children = [];
+			for (let c=0; c < oldGroup.children.length; c++) {
+				const parentChildID = oldGroup.children[c];
+				if (widgetIDMapping[parentChildID]){
+					newGroup.children.push(widgetIDMapping[parentChildID]);
+				}
+			}
+			groups.push(newGroup);
+			groupMapping[oldGroupsId] = newGroup.id
+		}
+
+		groups.forEach(newGroup => {	
+			if (newGroup.groups) {
+				newGroup.groups = newGroup.groups.map(oldChildId => {
+					console.debug(oldChildId, groupMapping[oldChildId])
+					return groupMapping[oldChildId]
+				})
+			}
+		})
+
+		return groups
+	}
+
 	copyScreenGroup (parentGroup, groups, widgetIDMapping) {
+		console.warn('copyScreenGroup() Deprecated!')
 
 		let subGroupIds = []
 		if (parentGroup.groups) {
