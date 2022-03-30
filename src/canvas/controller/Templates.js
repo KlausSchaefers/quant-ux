@@ -98,7 +98,8 @@ export default class Templates extends BaseController{
 						deltaZ: deltaZ,
 						deltaX: deltaX,
 						deltaY: deltaY,
-						isChildCommand: true
+						isChildCommand: true,
+						props: this.getWidgetTemplatePropsChanges(template, widget)
 					};
 					this.modelUpdateTemplate(childCommand, false);
 
@@ -421,7 +422,8 @@ export default class Templates extends BaseController{
 					type : "UpdateWidget",
 					template: lang.clone(template),
 					widget: lang.clone(widget),
-					resizes: resizes
+					resizes: resizes,
+					props: this.getWidgetTemplatePropsChanges(template, widget)
 				};
 				this.addCommand(command);
 				this.modelUpdateTemplate(command, true);
@@ -433,6 +435,23 @@ export default class Templates extends BaseController{
 			this.logger.error("updateTemplateStyle", "No widget > " + id);
 		}
 	}
+
+	getWidgetTemplatePropsChanges (template, updatedWidget) {
+		let result = []
+		if (template.props.label && updatedWidget.props.label) {	
+			if (template.props.label !== updatedWidget.props.label) {
+				const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
+				widgets.forEach(widget => {
+					if (widget.id !== updatedWidget.id && widget?.props.label === template.props.label ) {
+						result.push({id: widget.id, type:'label', n: updatedWidget.props.label, o: widget.props.label})
+					}
+				})
+			}
+		}
+		return result
+	}
+
+
 
 	getWidgetTemplateResize (updatePositons, template, updatedWidget = false, x = 0, y = 0, instanceBoundingBoxes) {
 		let result = []
@@ -534,6 +553,20 @@ export default class Templates extends BaseController{
 			template.y = template.y - command.deltaY
 		}
 
+		if (commandWidget.props.label && template.props.label && commandWidget.props.label !== template.props.label) {
+			template.props.label = commandWidget.props.label
+		}
+
+		if (command.props) {
+			command.props.forEach(r => {
+				let widget = this.model.widgets[r.id]
+				if (widget) {
+					widget.props.label = r.n
+				}
+			})
+		}
+
+	
 		if (render) {
 			if (!command.isChildCommand) {
 				console.debug('modelUpdateTemplate() > RENDER')
@@ -603,6 +636,20 @@ export default class Templates extends BaseController{
 	
 			if (command.deltaY) {
 				template.y = template.y + command.deltaY
+			}
+
+			if (oldTemplate.props.label) {
+				template.props.label = oldTemplate.props.label
+			}
+
+			if (command.props) {
+				command.props.forEach(r => {
+					let widget = this.model.widgets[r.id]
+					if (widget) {
+						widget.modified = new Date().getTime()
+						widget.props.label = r.o
+					}
+				})
 			}
 
 		} else {

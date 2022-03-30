@@ -329,6 +329,16 @@ export default class RenderFactory extends Core {
 		this.setStyle(parent, model, true, true);
 	}
 
+	updateLabel (widget) {
+		var uiWidget = this.getUIWidgetByID(widget.id);
+		if (!uiWidget) {
+			let node = this._labelNodes[widget.id]
+			if (node) {
+				this.setInnerHTML(node, widget.props.label)
+			}
+		}
+	}
+
 	/**********************************************************************
 	 * Create Method -  The creation of the dom elements
 	 **********************************************************************/

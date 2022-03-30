@@ -76,6 +76,7 @@ export default {
 				this.renderCanvas();
 				this.renderChangeCounter = 0
 				this.renderCreateCounter = 0
+				this.renderLabelCounter = 0
 				this.renderStartTime = new Date().getTime()
 
 				/**
@@ -164,7 +165,7 @@ export default {
 				this.renderSelection();
 				this.renderDistance();
 
-				this.logger.log(1, "renderFlowViewFast", "exit > #update: " + this.renderChangeCounter + ' > #new : '+ this.renderCreateCounter , (new Date().getTime() - this.renderStartTime) +'ms');
+				this.logger.log(1, "renderFlowViewFast", "exit > #update: " + this.renderChangeCounter + ' > #new : '+ this.renderCreateCounter + ' > label ' + this.renderLabelCounter, (new Date().getTime() - this.renderStartTime) +'ms');
 			},
 
 			countNodes (node) {
@@ -338,23 +339,23 @@ export default {
 			},
 
 			updateScreenDnd (zoomedScreen) {
-					let dnd = this.screenDivs[zoomedScreen.id]
-					if (dnd) {
-						this.cleanUpNode(dnd)
-						this.updateBox(zoomedScreen, dnd)
+				let dnd = this.screenDivs[zoomedScreen.id]
+				if (dnd) {
+					this.cleanUpNode(dnd)
+					this.updateBox(zoomedScreen, dnd)
 
-						let lbl = this.createScreenLabel(zoomedScreen)
-						this.screenLabels[zoomedScreen.id] = lbl;
-						dnd.appendChild(lbl);
+					let lbl = this.createScreenLabel(zoomedScreen)
+					this.screenLabels[zoomedScreen.id] = lbl;
+					dnd.appendChild(lbl);
 
-						this.renderScreenButtons(dnd, zoomedScreen)
-					}
+					this.renderScreenButtons(dnd, zoomedScreen)
+				}
 
-					let sourceScreen = this.sourceModel.screens[zoomedScreen.id]
-					let gridDnd = this.screenGridDivs[zoomedScreen.id]
-					if (sourceScreen && gridDnd) {
-						this.updateBox(sourceScreen, gridDnd)
-					}
+				let sourceScreen = this.sourceModel.screens[zoomedScreen.id]
+				let gridDnd = this.screenGridDivs[zoomedScreen.id]
+				if (sourceScreen && gridDnd) {
+					this.updateBox(sourceScreen, gridDnd)
+				}
 
 			},
 
@@ -416,6 +417,7 @@ export default {
 
 			updateWidget (widget, zoomedWidget, i, isResize) {
 				if (isResize || this.elementHasChanged(widget)) {
+			
 					let dnd = this.widgetDivs[widget.id]
 					if (dnd) {
 						this.updateBox(zoomedWidget, dnd)
@@ -433,7 +435,15 @@ export default {
 					}
 					this.renderedModels[widget.id] = widget
 					this.renderChangeCounter++;
+
+					if (this.elementHasLabelChange(widget)) {
+						this.renderFactory.updateLabel(widget)
+						this.renderLabelCounter++;
+					}
+
 				}
+
+			
 				/**
 				 * Since 2.1.6 we have the data view and need a callback
 				 */
@@ -464,6 +474,16 @@ export default {
 				if (this.renderedModels[element.id]){
 					let old = this.renderedModels[element.id]
 					return !this.objectEquals(old, element)
+				}
+				return true
+			},
+
+			elementHasLabelChange (element) {
+				if (this.renderedModels[element.id]){
+					let old = this.renderedModels[element.id]
+					if (element?.props?.label !== old?.props?.label) {
+						return true
+					}
 				}
 				return true
 			},

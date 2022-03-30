@@ -19,7 +19,7 @@ export default {
     methods: {
 
       showCanvas () {
-			  this.logger.log(-1,"showCanvas", "entry > ");
+			  this.logger.log(1,"showCanvas", "entry > ");
 
         if (!this.getSettings().hasDesignToken) {
           return
