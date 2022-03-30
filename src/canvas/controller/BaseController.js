@@ -1305,6 +1305,11 @@ export default class BaseController extends Core {
 
 	async addCommand (command){
 
+		// Since 4.0.60: Create a copy. Some commands are sloppy and contain 
+		// live objects which will be messed up by later editing on the command 
+		// stack
+		command = lang.clone(command)
+
 		if(!this.commandStack.lastUUID){
 			this.commandStack.lastUUID = 0;
 		}

@@ -15,20 +15,20 @@ export default class Templates extends BaseController{
 		if (this.model.groups && this.model.groups[groupId]){ 
 			const group = this.model.groups[groupId]
 			if (group.template && this.model.templates[group.template]) {
-				const changes = []
-				let groupTemplate = this.model.templates[group.template]
+			
+				const groupTemplate = this.model.templates[group.template]
 
-				var command = {
+				const command = {
 					timestamp : new Date().getTime(),
 					type : "MultiCommand",
 					label : "GroupTemplateStyle",
 					children :[]
 				};
+				const changes = []
 				
 				
 				const instanceBoundingBoxes = this.getInstanceBoundingBoxes(groupTemplate)
 				const children = this.getAllGroupChildren(group)
-				// sort children to get new ZValues
 				const sortedChildren = this.sortChildren(children)
 				const boundingBox = this.getBoundingBox(children)
 
@@ -43,19 +43,15 @@ export default class Templates extends BaseController{
 				this.addAndRemoveTemplateGroupWidgets(command, changes, group, groupTemplate, sortedChildren, boundingBox)
 
 
-
 				this.addCommand(command);
 				this.onModelChanged(changes)
 				this.onLayerListChange()
 				this.showSuccess("The template "  + groupTemplate.name + " was updated.");
 				this.render()
 
-
 			} else {
 				this.logger.log(-1,"updateGroupTemplateStyle", "Group is not template > " + groupId, group);
 			}
-		
-
 
 		} else {
 			this.logger.warn("updateGroupTemplateStyle", "No group > " + groupId);
@@ -101,38 +97,34 @@ export default class Templates extends BaseController{
 						resizes: resizes,
 						deltaZ: deltaZ,
 						deltaX: deltaX,
-						deltaY: deltaY
+						deltaY: deltaY,
+						isChildCommand: true
 					};
 					this.modelUpdateTemplate(childCommand, false);
+
+
+					/**
+					 * TODO: we could still check here if the group has changed to the template....
+					 */
 
 					changes.push({type: 'template', action:"change", id: template.id})
 					command.children.push(childCommand)
 				}
 			
+
 			}
 		})
 	}
 
-	addAndRemoveTemplateGroupWidgets (command, changes,group, groupTemplate, sortedChildren, boundingBox = null) {
+	addAndRemoveTemplateGroupWidgets (command, changes,group, groupTemplate, sortedChildren, boundingBox) {
 
-		const newTemplates = []
-		const widgets = []
+		const [newTemplates, widgets, widgetGroups] = this.getTemplatesToAddFromGroup(sortedChildren, boundingBox)
+		const removeTemplates = this.getTemplatesToRemoveFromGroup(sortedChildren, groupTemplate)
 
-		sortedChildren.forEach((widget, index) => {			
-			if (!widget.template) {
-				const t = this._createWidgetTemplate(widget, false, widget.name , "");
-				t.x = widget.x - boundingBox.x;
-				t.y = widget.y - boundingBox.y;
-				t.z = index
-	
-				newTemplates.push(t);
-				widgets.push(widget.id);
-			}
-		})
+		if (newTemplates.length > 0 || removeTemplates.length > 0) {
+			this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add or remove templates > ", newTemplates, removeTemplates);
 
-		if (newTemplates.length > 0) {
-			this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add new templates > ", newTemplates);
-
+			// 1) add new widgets
 			const createTemplateCommand = {
 				timestamp : new Date().getTime(),
 				type : "CreateTemplate",
@@ -142,24 +134,30 @@ export default class Templates extends BaseController{
 			command.children.push(createTemplateCommand)
 			this.modelAddTemplate(createTemplateCommand.models,createTemplateCommand.widgets);
 
+		
 
+			// 2) Update the group
 			const updateTemplateGroupCommand = {
 				timestamp : new Date().getTime(),
 				type : "UpdateTemplateGroup",
 				templateId: groupTemplate.id,
 				addChildren: newTemplates.map(t => t.id),
-				addWidgets:[]
+				addWidgets:[],
+				removeChildren: removeTemplates.map(t => t.id),
+				removeWidgets: [],
+				addChildGroups: widgetGroups			
 			};
 		
-			
+			// for all instances add or remove children
 			const instanceGroups = ModelUtil.getGroupsByTemplate(groupTemplate.id, this.model)
 			instanceGroups.forEach(instanceGroup => {
 				if (instanceGroup.id !== group.id) {
 					const allChildren = this.getAllGroupChildren(instanceGroup)
 					const boundingBox = this.getBoundingBox(allChildren)	
 					let targetScreen = this.getHoverScreen(boundingBox);
+
+					// 3) build all the new widgets to add
 					newTemplates.forEach(t => {										
-							// HERE might have been the bug?
 							const widget = this.factory.createTemplatedModel(lang.clone(t));
 							if (targetScreen) {
 								widget.name = this.getWidgetName(targetScreen.id, widget.name);
@@ -170,19 +168,95 @@ export default class Templates extends BaseController{
 							widget.y =  boundingBox.y + t.y;
 							widget.template = t.id
 
+							let groupId = instanceGroup.id
+							if (widgetGroups[t.id]) {
+								let subgroups = this.getAllChildGroups(instanceGroup)
+								let subgroup = subgroups.find(g => g.template === widgetGroups[t.id])
+								if (subgroup) {
+									groupId = subgroup.id
+								}
+							}
 						
 							updateTemplateGroupCommand.addWidgets.push({
 								screenId: targetScreen ? targetScreen.id : false,
 								widget: widget,
-								groupId: instanceGroup.id
+								groupId: groupId
 							})
+					})
+
+					// 4) remove all not needed widgets in the instance group
+		
+					allChildren.forEach(id => {
+						const widget = this.model.widgets[id]
+						const removeTemplate = removeTemplates.find(t => t.id === widget.template)				
+						if (removeTemplate) {				
+							const group = this.getParentGroup(widget.id)
+							updateTemplateGroupCommand.removeWidgets.push({
+								screenId: targetScreen ? targetScreen.id : false,
+								widget: lang.clone(widget),
+								groupId: group ? group.id : false
+							})
+						}
 					})
 				}				
 			})	
+
+			// 5) remove and unlink all old widgets. This should not 
+			// happen before deleting the instances, otherwise stuff is not linked
+			removeTemplates.forEach(removeTemplate => {
+				const removeTemplateCommand = this.createRemoveAndUnlinkTemplateCommand(removeTemplate.id)
+				command.children.push(removeTemplateCommand)
+				this.modelRemoveAndUnlinkTemplate(removeTemplateCommand.templates)
+			})
 		
 			command.children.push(updateTemplateGroupCommand)
 			this.modelUpdateTemplateGroup(updateTemplateGroupCommand)			
 		}
+	}
+
+	getTemplatesToRemoveFromGroup (sortedChildren, groupTemplate) {
+		const removeTemplates = []
+		const instanceChildTemplateIds = {}
+		sortedChildren.forEach(widget => instanceChildTemplateIds[widget.template] = true)
+		groupTemplate.children.forEach(childTemplateId => {
+			if (!instanceChildTemplateIds[childTemplateId]) {			
+				const childTemplate = this.model.templates[childTemplateId]
+				if (childTemplate) {
+					this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Remove > ", childTemplate.name);
+					removeTemplates.push(childTemplate)
+				}				
+			}
+		})
+		return removeTemplates
+	}
+
+	getTemplatesToAddFromGroup (sortedChildren, boundingBox) {
+		const newTemplates = []
+		const widgets = []
+		const widgetGroups = {}
+	
+		sortedChildren.forEach((widget, index) => {			
+			if (!widget.template) {
+				const t = this._createWidgetTemplate(widget, false, widget.name , "");
+				t.x = widget.x - boundingBox.x;
+				t.y = widget.y - boundingBox.y;
+				t.z = index
+	
+				newTemplates.push(t);
+				widgets.push(widget.id);
+
+				const parentGroup = this.getParentGroup(widget.id)
+				if (parentGroup) {
+					if (parentGroup.template) {
+						widgetGroups[t.id] = parentGroup.template
+					} else {
+						this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "New element group is not template > ", widget);
+					}
+				}
+			}
+		})
+
+		return [newTemplates, widgets, widgetGroups]
 	}
 
 
@@ -205,26 +279,69 @@ export default class Templates extends BaseController{
 			})
 		}
 
-		if (command.addWidgets) {
-			command.addWidgets.forEach(subCommand => {
-				const widget = subCommand.widget
-				widget.created = new Date().getTime()
-				this.model.widgets[widget.id] = widget;
-				if (this.model.groups && this.model.groups[subCommand.groupId]) {
-					const parentGroup = this.model.groups[subCommand.groupId]
-					parentGroup.children.push(widget.id)
-				}
-				if (this.model.screens[subCommand.screenId]) {
-					const scrn = this.model.screens[subCommand.screenId]
-					scrn.children.push(widget.id)
-				}
+		if (command.removeChildren) {
+			command.removeChildren.forEach(removeId => {
+				template.children = template.children.filter(childId => childId !== removeId)
 			})
+		}
+
+		if (command.addChildGroups) {
+			for (let templateId in command.addChildGroups) {
+				let subgroupId = command.addChildGroups[templateId]
+				let subgroup = template.groups.find(g => g.id === subgroupId)
+				if (subgroup) {
+					subgroup.children.push(templateId)
+				}
+			}
+		}
+
+		if (command.removeWidgets) {
+			this.modelRemoveWidgetsByCommandList(command.removeWidgets)
+		}
+
+		if (command.addWidgets) {
+			this.modelAddWidgetsByCommandList(command.addWidgets)
 		}
 			
 		if (render) {
 			this.onModelChanged([{type: 'templateGroup', action:"change", id: template.id}])
 			this.render();
 		}
+	}
+
+	modelAddWidgetsByCommandList (list) {
+		list.forEach(subCommand => {
+			const widget = subCommand.widget
+			widget.created = new Date().getTime()
+			this.model.widgets[widget.id] = widget;
+			if (this.model.groups && this.model.groups[subCommand.groupId]) {
+				const parentGroup = this.model.groups[subCommand.groupId]
+				parentGroup.children.push(widget.id)
+			}else {
+				this.logger.warn("modelAddWidgetsByCommandList", "No group > ", subCommand);
+			}
+			if (this.model.screens[subCommand.screenId]) {
+				const scrn = this.model.screens[subCommand.screenId]
+				scrn.children.push(widget.id)
+			}
+		})
+	}
+
+	modelRemoveWidgetsByCommandList (list) {
+		list.forEach(subCommand => {
+			const widget = subCommand.widget
+			delete this.model.widgets[widget.id]
+			if (this.model.groups && this.model.groups[subCommand.groupId]) {
+				const parentGroup = this.model.groups[subCommand.groupId]
+				parentGroup.children = parentGroup.children.filter(id => id !== widget.id)
+			} else {
+				this.logger.warn("modelRemoveWidgetsByCommandList", "No group > ", subCommand);
+			}
+			if (this.model.screens[subCommand.screenId]) {
+				const scrn = this.model.screens[subCommand.screenId]
+				scrn.children = scrn.children.filter(id => id !== widget.id)
+			}
+		})
 	}
 
 	modelRollBackUpdateTemplateGroup (command) {
@@ -246,19 +363,28 @@ export default class Templates extends BaseController{
 			})
 		}
 
-		if (command.addWidgets) {
-			command.addWidgets.forEach(subCommand => {
-				const widget = subCommand.widget
-				delete this.model.widgets[widget.id]
-				if (this.model.groups && this.model.groups[subCommand.groupId]) {
-					const parentGroup = this.model.groups[subCommand.groupId]
-					parentGroup.children = parentGroup.children.filter(id => id !== widget.id)
-				}
-				if (this.model.screens[subCommand.screenId]) {
-					const scrn = this.model.screens[subCommand.screenId]
-					scrn.children = scrn.children.filter(id => id !== widget.id)
-				}
+		if (command.removeChildren) {
+			command.removeChildren.forEach(id => {
+				template.children.push(id)
 			})
+		}
+
+		if (command.addChildGroups) {
+			for (let templateId in command.addChildGroups) {
+				let subgroupId = command.addChildGroups[templateId]
+				let subgroup = template.groups.find(g => g.id === subgroupId)
+				if (subgroup) {
+					subgroup.children = subgroup.children.filter(childId => childId !== templateId)
+				}
+			}
+		}
+
+		if (command.removeWidgets) {
+			this.modelAddWidgetsByCommandList(command.removeWidgets)
+		}
+
+		if (command.addWidgets) {
+			this.modelRemoveWidgetsByCommandList(command.addWidgets)
 		}
 
 		this.onModelChanged([{type: 'templateGroup', action:"change", id: template.id}])
@@ -273,7 +399,7 @@ export default class Templates extends BaseController{
 
 	redoUpdateTemplateGroup(command) {
 		this.logger.log(-1,"redoUpdateTemplateGroup", "enter > ", command);
-		this.modelUpdateTemplateGroup()
+		this.modelUpdateTemplateGroup(command, true)
 	}
 
 
@@ -409,9 +535,11 @@ export default class Templates extends BaseController{
 		}
 
 		if (render) {
-			console.debug('modelUpdateTemplate() > RENDER')
-			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
-			this.render();
+			if (!command.isChildCommand) {
+				console.debug('modelUpdateTemplate() > RENDER')
+				this.onModelChanged([{type: 'template', action:"change", id: template.id}])
+				this.render();
+			}
 		}
 	}
 
@@ -482,9 +610,11 @@ export default class Templates extends BaseController{
 		}
 		
 		if (render) {
-			console.debug('modelRollbackUpdateTemplate() > RENDER')
-			this.onModelChanged([{type: 'template', action:"change", id: template.id}])
-			this.render();
+			if (!command.isChildCommand) {
+				console.debug('modelRollbackUpdateTemplate() > RENDER')
+				this.onModelChanged([{type: 'template', action:"change", id: template.id}])
+				this.render();
+			}
 		}
 	}
 
@@ -509,7 +639,7 @@ export default class Templates extends BaseController{
 	}
 
 	redoUpdateWidget (command){
-		this.logger.log(-1,"redoUpdateWidgetfunction", "enter > ");
+		this.logger.log(-1,"redoUpdateWidget", "enter > ");
 		this.modelUpdateTemplate(command, true);
 	}
 
@@ -792,6 +922,7 @@ export default class Templates extends BaseController{
 					delete widget.isRootTemplate
 					widget.style = t.style;
 
+					// here is a bug. We should weave in the original styles
 					if (t.hover) {
 						widget.hover = t.hover
 					}
@@ -1133,6 +1264,15 @@ export default class Templates extends BaseController{
 			return
 		}
 
+		const command = this.createRemoveAndUnlinkTemplateCommand(id)
+		this.modelRemoveAndUnlinkTemplate(command.templates)
+		this.addCommand(command);
+		this.render()
+	}
+
+	createRemoveAndUnlinkTemplateCommand (id) {
+		this.logger.log(-1,"createRemoveAndUnlinkTemplateCommand", "enter > ", id);
+
 		let template = this.model.templates[id]
 		let isGroup = template.templateType === 'Group'
 		let widgetIds = isGroup && this.model.groups ?
@@ -1168,10 +1308,7 @@ export default class Templates extends BaseController{
 			type : "RemoveAndUnlinkTemplate",
 			templates: templates
 		}
-
-		this.modelRemoveAndUnlinkTemplate(templates)
-		this.addCommand(command);
-		this.render()
+		return command
 	}
 
 	modelRemoveAndUnlinkTemplate (templateChanges) {

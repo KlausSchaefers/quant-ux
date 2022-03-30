@@ -253,16 +253,16 @@ export default {
 
 		onHueRelease (hsv, e){
 			this.cleanUp();
-			var pos = this.getMousePos(e,this.hueCntr)
-			var left = pos.left
-			var h = 0;
-			var percent
-				if (left > 1) {
-					h = 360
-				} else {
-					percent = left * 100
-					h = (360 * percent / 100)
-				}
+			let pos = this.getMousePos(e,this.hueCntr)
+			let left = pos.left
+			let h = 0;
+			let percent
+			if (left > 1) {
+				h = 360
+			} else {
+				percent = left * 100
+				h = (360 * percent / 100)
+			}
 			if (h != hsv.h){
 				this.huePointer.style.left = percent + '%'
 				this.satCntr.style.background = "hsl(" + (h) + ", 100%, 50%)";
@@ -309,7 +309,7 @@ export default {
 		},
 
 		setColorInput (c){
-			var rgb =  c.toRgba();
+			const rgb =  c.toRgba();
 			if(rgb[0] != this.inputR.value){
 				this.inputR.value = rgb[0];
 			}

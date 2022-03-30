@@ -1156,8 +1156,7 @@ export default class Widget extends Screen {
 		const lines = this.getLines(widget);
 		const refs = this.getReferences(widget);
 		const group = this.getParentGroup(widget.id)
-		console.debug('createWidgetRemoveCommand', widget.id, group)
-
+	
 		var command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveWidget",

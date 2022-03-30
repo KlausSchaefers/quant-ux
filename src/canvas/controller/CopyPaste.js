@@ -888,6 +888,7 @@ export default class CopyPaste extends Group{
 	
 					// we do not update the widget names!
 					let newWidget = lang.clone(widget);
+					delete newWidget.isRootTemplate
 					newWidget.id = "w"+this.getUUID();
 					newWidget.z = zMax + 1 + i
 					newWidget.copyOf = widget.id;
@@ -960,8 +961,8 @@ export default class CopyPaste extends Group{
 		newGroup.copyOf = parentGroup.id;
 		newGroup.children = [];
 		newGroup.groups = subGroupIds
-		for (var c=0; c < parentGroup.children.length; c++) {
-			var parentChildID = parentGroup.children[c];
+		for (let c=0; c < parentGroup.children.length; c++) {
+			const parentChildID = parentGroup.children[c];
 			if (widgetIDMapping[parentChildID]){
 				newGroup.children.push(widgetIDMapping[parentChildID]);
 			}
