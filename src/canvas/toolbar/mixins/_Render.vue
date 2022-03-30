@@ -204,7 +204,7 @@ export default {
 				this.addTooltip(this.layer.domNode, "Change the layer of the element");
 
 				this.template = this.createToolBarItem(
-					'<span class="mdi mdi-view-grid-outline MatcIcon45"></span>', // <span class="mdi mdi-plus-circle  MatcTinyIcon MatcTinyIconRemove"></span> 
+					'<span class="mdi mdi-view-grid-outline MatcIcon45"></span>',
 					lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv
 				);			
 				this.addTooltip(this.template, "Create a reusable component. You can find it in the widget menu.");	
@@ -215,8 +215,7 @@ export default {
 				this.templateDropBox.updateLabel = false;
 				this.templateDropBox.setOptions([
 					{value: "update", label: "Update all instances", icon:"mdi mdi-pencil"},
-					{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"},
-					//{value: "backward", label: "Send backward", icon:"mdi mdi-arrange-send-backward"},
+					{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
 				]);
 				this.templateDropBox.updateSelection = false;
 				this.templateDropBox.hideCaret()
@@ -224,24 +223,8 @@ export default {
 				this._placeAt(this.templateDropBox, this.templateDiv);
 				this.addTooltip(this.templateDropBox.domNode, "Change the component");
 
-				/*
-				this.templateUpdate = this.createToolBarItem(
-					'<span class="mdi mdi-view-grid-outline MatcIcon45"></span> <span class="mdi mdi-pencil MatcTinyIcon MatcTinyIconRemove"></span>', 
-					lang.hitch(this,"onToolUpdateTemplate"), null, this.templateDiv
-				);
-				this.templateRemove = this.createToolBarItem(
-					'<span class="mdi mdi mdi-view-grid-outline MatcIcon45"></span> <span class="mdi mdi-minus-circle MatcTinyIcon MatcTinyIconRemove"></span>', 
-					lang.hitch(this,"onToolRemoveTemplate"), null, this.templateDiv
-				);
-				*/
-
-				
-				//this.addTooltip(this.templateUpdate, "Update the component and all instances.");
-				//this.addTooltip(this.templateRemove, "Unlink the component.");
-
-
-				this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-expand-all-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
-				this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-view-grid"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
+				this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-view-grid-plus-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
+				this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-arrow-expand-horizontal"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
 				this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
 				
 

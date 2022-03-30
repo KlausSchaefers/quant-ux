@@ -74,7 +74,7 @@
 								<span class="MatcToolbarLabel MatcToolbarResponsiveLabel">{{ $t('toolbar.simulate')}}</span>
 							</a>
 						</div>
-						<div class="MatcToolbarSection" data-dojo-attach-point="undoSection">
+						<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="undoSection">
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
 								<span class="mdi mdi-undo"></span>
 							</a>
@@ -84,7 +84,7 @@
 						</div>
 
 
-						<div class="MatcToolbarSection" data-dojo-attach-point="copyPasteDiv">
+						<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="copyPasteDiv">
 							<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
 								<span class="mdi mdi-content-copy"></span>
 							</a>
@@ -95,7 +95,7 @@
 								<span class="mdi mdi-format-paint"></span>
 							</a>
 							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
-								<span class="mdi mdi-close-circle-outline"></span>
+								<span class="mdi mdi-trash-can-outline"></span>
 							</a>
 			
 						</div>
@@ -104,7 +104,7 @@
 
 
 						<div class="MatcToolbarTopCenterCntr">
-							<div class="MatcToolbarSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
+							<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 
 							
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
