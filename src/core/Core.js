@@ -641,29 +641,8 @@ export default class Core extends Evented {
         }
     }
 
-    getStyle(model) {
-        if (model.template) {
-            if (this.model.templates) {
-                const t = this.model.templates[model.template];
-                if (t) {
-                    /**
-                     * Merge in overwriten styles
-                     */
-                    const merged = lang.clone(t.style)
-                    if (model.style) {
-                        for (let key in model.style) {
-                            merged[key] = model.style[key]
-                        }
-                    } else {
-                        console.debug('Layout.getStyle() >  mdel has no style',)
-                    }
-                    return merged;
-                } else {
-                    console.warn("Layout.getStyle() > No template found for widget", model.id, " with template ", model.template);
-                }
-            }
-        }
-        return model.style;
+    getStyle(element) {
+        return ModelUtil.getStyle(element, this.model)
     }
 
 

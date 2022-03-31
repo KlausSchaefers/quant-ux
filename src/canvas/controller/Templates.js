@@ -32,15 +32,21 @@ export default class Templates extends BaseController{
 				const sortedChildren = this.sortChildren(children)
 				const boundingBox = this.getBoundingBox(children)
 
+
+			
+			
+
 				/**
-				 * 1) update all widgets in the group
+				 * 1) Check if we have added elements (or groups). this must be doen first to keep bounding
+				 * boxes well
+				 */
+				this.addAndRemoveTemplateGroupWidgets(command, changes, group, groupTemplate, sortedChildren, boundingBox)
+
+				/**
+				 * 2) Update all widgets in the group and also reposition them
 				 */
 				this.updateAllTemplateGroupWidgets(command, changes, updatePositons, instanceBoundingBoxes, sortedChildren, boundingBox)
 
-				/**
-				 * 2) Check if we have added elements (or groups)
-				 */
-				this.addAndRemoveTemplateGroupWidgets(command, changes, group, groupTemplate, sortedChildren, boundingBox)
 
 
 				this.addCommand(command);
@@ -119,8 +125,8 @@ export default class Templates extends BaseController{
 
 	addAndRemoveTemplateGroupWidgets (command, changes,group, groupTemplate, sortedChildren, boundingBox) {
 
-		const [newTemplates, widgets, widgetGroups] = this.getTemplatesToAddFromGroup(sortedChildren, boundingBox)
-		const removeTemplates = this.getTemplatesToRemoveFromGroup(sortedChildren, groupTemplate)
+		const [newTemplates, widgets, widgetGroups] = this.getTemplatesToAddFromGroup(sortedChildren, boundingBox, group)
+		const removeTemplates = this.getTemplatesToRemoveFromGroup(sortedChildren, groupTemplate, group)
 
 		if (newTemplates.length > 0 || removeTemplates.length > 0) {
 			this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add or remove templates > ", newTemplates, removeTemplates);
@@ -231,33 +237,52 @@ export default class Templates extends BaseController{
 		return removeTemplates
 	}
 
-	getTemplatesToAddFromGroup (sortedChildren, boundingBox) {
+	getTemplatesToAddFromGroup (sortedChildren, boundingBox, parentGroup) {
 		const newTemplates = []
 		const widgets = []
 		const widgetGroups = {}
 	
-		sortedChildren.forEach((widget, index) => {			
-			if (!widget.template) {
-				const t = this._createWidgetTemplate(widget, false, widget.name , "");
-				t.x = widget.x - boundingBox.x;
-				t.y = widget.y - boundingBox.y;
-				t.z = index
+		sortedChildren.forEach((widget, index) => {		
+			if (this.isNewChildInTemplatedGroup(widget, parentGroup)) {
+				if (!widget.template ) {
+					this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add > ", widget);
+					const t = this._createOrCopyWidgetTemplate(widget, false, widget.name , "");
+					t.x = widget.x - boundingBox.x;
+					t.y = widget.y - boundingBox.y;
+					t.z = index
+		
+					newTemplates.push(t);
+					widgets.push(widget.id);
 	
-				newTemplates.push(t);
-				widgets.push(widget.id);
-
-				const parentGroup = this.getParentGroup(widget.id)
-				if (parentGroup) {
-					if (parentGroup.template) {
-						widgetGroups[t.id] = parentGroup.template
-					} else {
-						this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "New element group is not template > ", widget);
+					const parentGroup = this.getParentGroup(widget.id)
+					if (parentGroup) {
+						if (parentGroup.template) {
+							widgetGroups[t.id] = parentGroup.template
+						} else {
+							this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "New element group is not template > ", widget);
+						}
 					}
-				}
+				} else {
+					this.logger.warn("addAndRemoveTemplateGroupWidgets", "Ignore templates > ", widget);
+				}		
+			
 			}
 		})
 
+
 		return [newTemplates, widgets, widgetGroups]
+	}
+
+	isNewChildInTemplatedGroup (widget, parentGroup) {
+		/**
+		 * Check Group.addGroupByTemplate() > we keep track of all
+		 * the widgets that were created on drag and drop.
+		 */
+		if (parentGroup.orginalChildren) {
+			let index = parentGroup.orginalChildren.indexOf(widget.id)
+			return index === -1
+		}
+		return false
 	}
 
 
@@ -461,7 +486,8 @@ export default class Templates extends BaseController{
 		}
 	
 		// we apply the changes only iff there is a difference.
-		// change as mini commands, where 	
+		// change as mini commands
+		// FIXME: If we have to widgets with the same template, they will get updated :( 	
 		const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 		widgets.forEach(widget => {
 			if (widget.id !== updatedWidget.id) {
@@ -473,6 +499,7 @@ export default class Templates extends BaseController{
 					result.push({id: widget.id, type:'h', n: updatedWidget.h, o: widget.h})
 				}
 
+				// Check here if this should be only supported for 
 				if (instanceBoundingBoxes && instanceBoundingBoxes[widget.id]) {
 					const boundBox = instanceBoundingBoxes[widget.id]
 					result.push({id: widget.id, type:'x', n: boundBox.x + x, o: widget.x})
@@ -486,6 +513,7 @@ export default class Templates extends BaseController{
 	modelUpdateTemplate  (command, render = true) {
 		this.logger.log(1, "modelUpdateTemplate", "enter", command.deltaZ);
 
+		const modified = new Date().getTime()
 		const commandTemplate = command.template
 		const commandWidget = command.widget
 		const resizes = command.resizes
@@ -505,14 +533,16 @@ export default class Templates extends BaseController{
 
 		template.w = widget.w
 		template.h = widget.h
-		template.modified = new Date().getTime()
+		template.modified = modified
 
-		widget.modified = new Date().getTime()
+		widget.modified = modified
 		ModelUtil.updateTemplateStyle(widget, template, 'style')
 		ModelUtil.updateTemplateStyle(widget, template, 'error')
 		ModelUtil.updateTemplateStyle(widget, template, 'focus')
 		ModelUtil.updateTemplateStyle(widget, template, 'active')
 		ModelUtil.updateTemplateStyle(widget, template, 'hover')
+
+		//this.modelUpdateTemplateCopies(template, this.model, modified)
 
 		// execute all widget position updates
 		if (resizes) {
@@ -534,6 +564,7 @@ export default class Templates extends BaseController{
 				}
 			})	
 		}
+
 
 		// if we have z change, update also all instances
 		// and the template
@@ -576,9 +607,19 @@ export default class Templates extends BaseController{
 		}
 	}
 
+	modelUpdateTemplateCopies (template, model, modified) {
+		let copies = ModelUtil.getCopiesOfTemplate(template, model)	
+		copies.forEach(copy => {
+			copy.style = template.style
+			copy.modified = modified
+			this.updateStylesInBox(copy, template)
+		})
+	}
+
 	modelRollbackUpdateTemplate (command, render = true) {
 		this.logger.log(-1,"modelRollbackUpdateTemplate", "enter > ");
 
+		const modified = new Date().getTime()
 		const oldTemplate = command.template
 		const oldWidget = command.widget
 		const resizes = command.resizes
@@ -586,16 +627,18 @@ export default class Templates extends BaseController{
 		const template = this.model.templates[oldTemplate.id];
 		const widget = this.model.widgets[oldWidget.id];
 		if (template && widget) {
-
-			template.style = oldTemplate.style
-			template.modified = new Date().getTime()
+	
+			template.modified = modified
 			template.w = oldTemplate.w
 			template.h = oldTemplate.h
+			template.style = oldTemplate.style
 			this.updateStylesInBox(template, oldTemplate)
 			
 			widget.style = oldWidget.style
-			widget.modified = new Date().getTime()
+			widget.modified = modified
 			this.updateStylesInBox(widget, oldWidget)
+
+
 			
 			// undo all the position updates and set the
 			// old value
@@ -717,7 +760,43 @@ export default class Templates extends BaseController{
 		this.showSuccess("The template "  + name + " was created. You can find it in the Create menu");
 	}
 
+	_createOrCopyWidgetTemplate (widget, visible, name) {
+		/**
+		 * We might need to create a
+		 */
+		if (widget.template) {
+			let parentTemplate = this.model.templates[widget.template]
+			if (parentTemplate) {
+				/* 
+				 * We could create here a new object with inhereited. However this 
+				 * leads to some serious issue in updates and rendering...
+				 */
+				let template = lang.clone(parentTemplate)
+				template.id = "tw" + this.getUUID();
+				template.visible = visible;
+				template.name = name;
+				template.modified = new Date().getTime()
+				template.created = new Date().getTime()
+				template.w = widget.w;
+				template.h = widget.h;
+				template.z = widget.z;
+				template.x = 0;
+				template.y = 0;
+				template.templateType = "Widget";
+				template.type = widget.type;
+				template.has = lang.clone(widget.has);
+				template.props = lang.clone(widget.props);
+				template.sourceTemplate = template.sourceTemplate ? template.sourceTemplate : widget.template
+				//template.inherited = template.inherited ? template.inherited : widget.template
+
+				return template
+			}
+		}
+		return this._createWidgetTemplate(widget, visible, name)
+	}
+
 	_createWidgetTemplate (widget, visible, name){
+
 		var template = {};
 		template.id = "tw" + this.getUUID();
 		template.style = lang.clone(widget.style);
@@ -738,8 +817,6 @@ export default class Templates extends BaseController{
 			template.designtokens = lang.clone(widget.designtokens);
 		}
 
-
-		template.style = lang.clone(widget.style);
 		template.has = lang.clone(widget.has);
 		template.props = lang.clone(widget.props);
 		template.w = widget.w;
@@ -803,7 +880,9 @@ export default class Templates extends BaseController{
 		const template2Widget = {}
 		sortChildren.forEach((widget, index) => {
 	
-			const t = this._createWidgetTemplate(widget, false, widget.name , "");
+			// some if the widgets might be already templates. In the case
+			// we create just a copy
+			const t = this._createOrCopyWidgetTemplate(widget, false, widget.name , "");
 			t.x = widget.x - boundingBox.x;
 			t.y = widget.y - boundingBox.y;
 			t.z = index
@@ -923,6 +1002,7 @@ export default class Templates extends BaseController{
 		if (groupID) {
 			this.model.groups[groupID].template = template.id;
 			this.model.groups[groupID].isRootTemplate = true
+			this.model.groups[groupID].orginalChildren = widgetIDs
 		}
 
 
@@ -1019,6 +1099,7 @@ export default class Templates extends BaseController{
 
 		if(groupID){
 			delete this.model.groups[groupID].template;
+			delete this.model.groups[groupID].orginalChildren 
 		}
 
 

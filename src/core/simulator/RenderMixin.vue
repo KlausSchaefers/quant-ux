@@ -1022,8 +1022,7 @@ export default {
 					* the animation...
 					*/
 					let screen = domGeom.position(this.getRootNode());
-					console.debug('fixed', screen, this.getRootNode())
-
+	
 					/**
 					* A hacky method to allow fixed elements!!!
 					*/

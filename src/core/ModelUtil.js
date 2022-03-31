@@ -138,11 +138,46 @@ class ModelUtil {
         }
         return model
     }
+    
+    getStyle (widget, model) {
+        if (widget.template) {
+          if (model.templates) {
+            const template = this.getTemplate(widget.template, model);
+            if (template) {
+          
+              /**
+               * Merge in overwriten styles
+               */
+              const merged = lang.clone(template.style);
+              if (widget.style) {
+                for (let key in widget.style) {
+                   merged[key] = widget.style[key];
+                }
+              }
+              return merged;
+            } else {
+              console.warn("Layout.getStyle() > No template found for widget",widget.id, " with template ",  widget.template);
+            }
+          }
+        }
+        return widget.style;
+    }
+
+    getTemplate (templateId, model) {
+        const template = model.templates[templateId];
+        /**
+         * Since 4.0.60 templates can inherit other templates
+         */
+        if (template && template.inherited) {
+            return this.getTemplate(template.inherited, model)
+        }
+        return template
+    }
 
     getTemplatedStyle(widget, model, prop = 'style') {
         if (widget.template) {
             if (model.templates) {
-                const template = model.templates[widget.template];
+                const template = this.getTemplate(widget.template, model);
                 if (template && template[prop]) {
                     /**
                      * Merge in overwriten styles
@@ -160,6 +195,17 @@ class ModelUtil {
         }
         return widget[prop];
     }
+
+    getCopiesOfTemplate (template, model) {
+  
+        if (template.sourceTemplate) {
+            if (model.templates[template.sourceTemplate]) {
+                template = model.templates[template.sourceTemplate]
+            }
+        }
+        console.debug('getCopiesof', template.id)
+        return Object.values(model.templates).filter(t => t.sourceTemplate === template.id)
+    } 
 
     createScalledModel(model, zoom) {
 

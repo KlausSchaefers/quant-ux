@@ -28,9 +28,9 @@ export default {
 				}
 
 				for (let id in zoomedModel.screens){
-						let zoomedScreen = zoomedModel.screens[id]
-						this.updateScreenDnd(zoomedScreen)
-						this.updateCommentDnd(zoomedScreen)
+					let zoomedScreen = zoomedModel.screens[id]
+					this.updateScreenDnd(zoomedScreen)
+					this.updateCommentDnd(zoomedScreen)
 				}
 
 				for (let id in zoomedModel.widgets){

@@ -137,7 +137,7 @@ export default class Group extends Layer {
 		/**
 		 * 1) create multi command
 		 */
-		let command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
 			label : "AddGroupByTheme",
@@ -147,7 +147,7 @@ export default class Group extends Layer {
 		/**
 		 * create new group
 		 */
-		let group ={
+		const group ={
 			id : "g"+this.getUUID(),
 			children : [],
 			name : themedGroup.name
@@ -156,14 +156,14 @@ export default class Group extends Layer {
 		/**
 		 * 2) create child widgets
 		 */
-		var z = this.getMaxZValue(this.model.widgets);
-		var children = themedGroup.children;
+		const z = this.getMaxZValue(this.model.widgets);
+		const children = themedGroup.children;
 		for (let i=0; i< children.length; i++){
 			/**
 			 * we just assume the object was already cloned.
 			 * we just give new id and set position
 			 */
-			let widget = children[i];
+			const widget = children[i];
 
 			widget.id = "w"+this.getUUID();
 			widget.x +=  pos.x;
@@ -211,7 +211,7 @@ export default class Group extends Layer {
 
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
-		var groupTemplate = this.model.templates[group.template];
+		const groupTemplate = this.model.templates[group.template];
 	
 		if(groupTemplate){
 
@@ -231,6 +231,7 @@ export default class Group extends Layer {
 			group = this.factory.createTemplatedModel(groupTemplate);
 			group.id = "tg"+this.getUUID();
 			group.groups = []
+			group.orginalChildren = []
 
 			this.setRootTemplateIfNeeded(group, groupTemplate)
 
@@ -282,6 +283,7 @@ export default class Group extends Layer {
 				} else {
 					group.children.push(widget.id);
 				}
+				group.orginalChildren.push(widget.id)
 				this.modelAddWidget(widget, true);
 			}
 

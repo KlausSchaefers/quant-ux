@@ -3,6 +3,7 @@ import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import css from "dojo/css";
 import CoreUtil from 'core/CoreUtil'
+import ModelUtil from 'core/ModelUtil'
 
 const _mactImportedFonts = {}
 
@@ -350,27 +351,8 @@ export default {
      *
      * This method is called in _Render.js and RenderFactory
      */
-    getStyle (model) {
-      if (model.template) {
-        if (this.model.templates) {
-          const t = this.model.templates[model.template];
-          if (t) {
-            /**
-             * Merge in overwriten styles
-             */
-            var merged = lang.clone(t.style);
-            if (model.style) {
-              for (let key in model.style) {
-                 merged[key] = model.style[key];
-              }
-            }
-            return merged;
-          } else {
-            console.warn("Layout.getStyle() > No template found for widget",model.id, " with template ",  model.template);
-          }
-        }
-      }
-      return model.style;
+    getStyle (element) {
+      return ModelUtil.getStyle(element, this.model)
     },
 
 
