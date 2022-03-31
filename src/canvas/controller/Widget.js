@@ -1008,28 +1008,35 @@ export default class Widget extends Screen {
 		this.logger.log(0,"addWidget", "enter > " + fromTool);
 
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
-		var targetScreen = this.getHoverScreen(pos);
+		const targetScreen = this.getHoverScreen(pos);
 
 		/**
-		* Create the model. Attention! The passed model might say that it was from a
-		* template. In that case we need to create a templated model! We assume the
-		* template exists!
-		*/
-		var widget = this._createWidgetModel(model);
+		 * Create the model. Attention! The passed model might say that it was from a
+		 * template. In that case we need to create a templated model! We assume the
+		 * template exists!
+		 */
+		const widget = this._createWidgetModel(model);
 		if (targetScreen) {
 			widget.name = this.getWidgetName(targetScreen.id, widget.name);
 		}
 		widget.id = "w"+this.getUUID();
-		widget.z = this.getMaxZValue(this.model.widgets) + 1;
-
+		widget.z = this.getMaxZValue(this.model.widgets) + 1;		
 		widget.x =  pos.x;
 		widget.y =  pos.y;
-		if(fromTool){
+		if( fromTool){
 			widget.w =  pos.w;
 			widget.h =  pos.h;
 		}
 
-		var command = this._createAddWidgetCommand(widget);
+		// make sure there is one root template
+		if (widget.template && this.model.templates) {
+			let template = this.model.templates[widget.template]
+			if (template) {
+				this.setRootTemplateIfNeeded(widget, template)
+			}
+		}
+
+		const command = this._createAddWidgetCommand(widget);
 		this.addCommand(command);
 
 		/**

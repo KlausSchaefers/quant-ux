@@ -155,7 +155,7 @@ export default {
 			this.logger.log(2,"onWidgetGesture","enter >  sreen:" + screenID + " > widget:" + widgetID + " > "+ gesture.type);
 
 			if(gesture && lines){
-				var line = this.getLineForGesture(lines, gesture.type);
+				const line = this.getLineForGesture(lines, gesture.type);
 				if(line){
 
 					if(gesture.type  == "click"){

@@ -232,6 +232,8 @@ export default class Group extends Layer {
 			group.id = "tg"+this.getUUID();
 			group.groups = []
 
+			this.setRootTemplateIfNeeded(group, groupTemplate)
+
 			const targetScreen = this.getHoverScreen(pos);
 			if (targetScreen) {
 				group.name = this.getGroupName(targetScreen.id, group.name)
@@ -257,10 +259,12 @@ export default class Group extends Layer {
 			/**
 			 * 4) create child widgets
 			 */
-			let z = this.getMaxZValue(this.model.widgets);
+			const z = this.getMaxZValue(this.model.widgets);
 			for (let i=0; i< children.length; i++){
 				const widgetTemplate = children[i];
 				const widget = this.factory.createTemplatedModel(widgetTemplate);
+				this.setRootTemplateIfNeeded(widget, widgetTemplate)
+
 			
 				widget.id = "w"+this.getUUID();
 				widget.x +=  pos.x;
@@ -325,6 +329,7 @@ export default class Group extends Layer {
 				subgroup.groups = []
 				subgroup.parent = subGroupTemplate.parent
 				subgroup.id = "tg"+this.getUUID(); 
+				this.setRootTemplateIfNeeded(subgroup, subGroupTemplate)
 				if (targetScreen) {
 					subgroup.name = this.getGroupName(targetScreen.id, subGroupTemplate.name)
 				}

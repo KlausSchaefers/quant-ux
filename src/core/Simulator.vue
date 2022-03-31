@@ -307,6 +307,7 @@ export default {
 				this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 				this.model = Core.addContainerChildrenToModel(this.model);
 				this.model = ModelUtil.inlineTemplateStyles(this.model)
+				this.initRootTemplateLines(this.model)
 				if (this.currentScreen && this.currentScreen.id){
 					this.setScreenId(this.currentScreen.id)
 				}
@@ -344,6 +345,7 @@ export default {
 				this.logger.log(1,"setModel","enter >" + model.id + " > splash : "+ this._splashTime);
 				this.model = model;
 				this.initDefaultDataBinding(model)
+				this.initRootTemplateLines(model)
 				if(this.hash){
 					this.preloadImages();
 				}
@@ -589,7 +591,7 @@ export default {
 		 * Handles also old school where there was not event
 		 */
 		getLineForGesture (lines,type ){
-			for(var i=0; i< lines.length; i++){
+			for(let i=0; i< lines.length; i++){
 				if(lines[i].event === type || ("click" ===type && !lines[i].event)){
 					return lines[i];
 				}

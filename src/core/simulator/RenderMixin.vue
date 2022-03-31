@@ -361,6 +361,8 @@ export default {
 				}
 			},
 
+			
+
 			/**
 			* Get action of widget.
 			*
@@ -447,14 +449,21 @@ export default {
 			},
 
 			wireWidget (widget, screen, screenId, w) {
-				var lines = this.getLinesForWidget(widget);
-				var action = this.getActionsForWidget(widget);
-				var uiWidget = this.renderFactory.getUIWidget(widget);
-				var hasGestures = this.hasGestures(lines);
+				const lines = this.getLinesForWidget(widget);
+	
+				const action = this.getActionsForWidget(widget);
+				const uiWidget = this.renderFactory.getUIWidget(widget);
+				const hasGestures = this.hasGestures(lines);
 
 				if(action || lines){
 					css.add(w, "MatcSimulatorClickable");
-					//css.add(w, "MatcWidgetNoTouch");
+				} else {
+					if (widget.template) {
+						const rootLines = this.getRootTemplateLines(widget.template)
+						if (rootLines && rootLines.length > 0) {
+							css.add(w, "MatcSimulatorClickable");
+						}
+					}
 				}
 
 				/**

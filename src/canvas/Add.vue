@@ -445,7 +445,7 @@ export default {
 			this._addLineParams = params;
 
 
-			this._addLineStartedFromTemplate = this.isLineStartedFromTemplate(params)
+			this._addLineStartedFromTemplate = false // this.isLineStartedFromTemplate(params)
 
 			/**
 			 * Store all other widget where a line can go to

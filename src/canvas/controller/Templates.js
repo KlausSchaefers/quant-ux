@@ -831,6 +831,7 @@ export default class Templates extends BaseController{
 					const childTemplate = {
 						id : 'tsg' + this.getUUID(),
 						name: subgroup.name,
+						templateType: "Group",
 						groupID: subgroup.id, // FIXME: This is an ugly typo
 						parent: parentID,
 						children: []

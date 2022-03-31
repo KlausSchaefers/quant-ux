@@ -140,7 +140,10 @@ export default {
 
       var db = new DomBuilder();
 
-      var options = this.model.props.options;
+      let options = this.model.props.options;
+      if (!options) {
+        options = []
+      }
       var cntr = db.div("MatcWidgetTypeSpinnerCntr").build();
       this.options = [];
       this.values = [];
