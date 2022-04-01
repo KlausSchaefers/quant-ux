@@ -1,5 +1,5 @@
 <template>
-     <div class="MatcToolbarLayerList MatcToobarPropertiesSection MatcToolbar">
+     <div class="MatcToolbarLayerList MatcToobarPropertiesSection MatcToolbar" v-show="isVisible">
 		<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="cntr">
 			<div class="MatcToolbarLayerListScreenCntr">
 				<div class="MatcLayerListScreens">
@@ -39,7 +39,8 @@ export default {
 			openNodes: {},
 			root: {},
 			trees: [],
-			nodes: {}
+			nodes: {},
+			isVisible: true
         }
     },
     components: {
@@ -549,6 +550,14 @@ export default {
 
 		setSelectedGroup (){
 			console.warn('setSelectedGroup() DEPRCATED', new Error().stack)
+		},
+
+		hide () {
+			this.isVisible = false
+		},
+
+		show () {
+			this.isVisible = true
 		}
 	},
 	watch: {

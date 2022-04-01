@@ -239,29 +239,26 @@ export default class Templates extends BaseController{
 	
 		sortedChildren.forEach((widget, index) => {		
 			if (this.isNewChildInTemplatedGroup(widget, parentGroup)) {
-		
-					this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add > ", widget);
-					const t = this._createOrCopyWidgetTemplate(widget, false, widget.name , "");
-					t.x = widget.x - boundingBox.x;
-					t.y = widget.y - boundingBox.y;
-					t.z = index
-		
-					newTemplates.push(t);
-					widgets.push(widget.id);
 	
-					const parentGroup = this.getParentGroup(widget.id)
-					if (parentGroup) {
-						if (parentGroup.template) {
-							widgetGroups[t.id] = parentGroup.template
-						} else {
-							this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "New element group is not template > ", widget);
-						}
+				this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add > ", widget);
+				const t = this._createOrCopyWidgetTemplate(widget, false, widget.name , "");
+				t.x = widget.x - boundingBox.x;
+				t.y = widget.y - boundingBox.y;
+				t.z = index
+	
+				newTemplates.push(t);
+				widgets.push(widget.id);
+
+				const parentGroup = this.getParentGroup(widget.id)
+				if (parentGroup) {
+					if (parentGroup.template) {
+						widgetGroups[t.id] = parentGroup.template
+					} else {
+						this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "New element group is not template > ", widget);
 					}
-					
-			
+				}
 			}
 		})
-
 
 		return [newTemplates, widgets, widgetGroups]
 	}
@@ -452,6 +449,7 @@ export default class Templates extends BaseController{
 					template: lang.clone(template),
 					widget: lang.clone(widget),
 					resizes: resizes,
+					updateCopyTemplates: false,
 					props: this.getWidgetTemplatePropsChanges(template, widget)
 				};
 				this.addCommand(command);
@@ -548,7 +546,11 @@ export default class Templates extends BaseController{
 		ModelUtil.updateTemplateStyle(widget, template, 'active')
 		ModelUtil.updateTemplateStyle(widget, template, 'hover')
 
-		//this.modelUpdateTemplateCopies(template, this.model, modified)
+		if (command.updateCopyTemplates) {
+			this.modelUpdateTemplateCopies(template, this.model, modified)
+		}
+
+		//
 
 		// execute all widget position updates
 		if (resizes) {
@@ -643,6 +645,10 @@ export default class Templates extends BaseController{
 			widget.style = oldWidget.style
 			widget.modified = modified
 			this.updateStylesInBox(widget, oldWidget)
+
+			if (command.updateCopyTemplates) {
+				this.modelUpdateTemplateCopies(oldTemplate, this.model, modified)
+			}
 
 
 			
@@ -793,12 +799,36 @@ export default class Templates extends BaseController{
 				template.has = lang.clone(widget.has);
 				template.props = lang.clone(widget.props);
 				template.sourceTemplate = template.sourceTemplate ? template.sourceTemplate : widget.template
+				this.mixinNewStyles(template, widget)
+				
+
+		
 				//template.inherited = template.inherited ? template.inherited : widget.template
 
 				return template
 			}
 		}
 		return this._createWidgetTemplate(widget, visible, name)
+	}
+
+	mixinNewStyles (target, source) {
+		target.style = ModelUtil.mixin(target.style, source.style);
+
+		if (target.hover) {
+			target.hover = ModelUtil.mixin(target.hover, source.hover);
+		}
+		if (target.error) {
+			target.error = ModelUtil.mixin(target.error, source.error);
+		}
+		if (target.active) {
+			target.active = ModelUtil.mixin(target.active, source.active);
+		}
+		if (target.focus) {
+			target.focus = ModelUtil.mixin(target.focus, source.focus);
+		}
+		if (target.designtokens) {
+			target.designtokens = lang.clone(target.designtokens);
+		}
 	}
 
 	_createWidgetTemplate (widget, visible, name){

@@ -203,7 +203,6 @@ class ModelUtil {
                 template = model.templates[template.sourceTemplate]
             }
         }
-        console.debug('getCopiesof', template.id)
         return Object.values(model.templates).filter(t => t.sourceTemplate === template.id)
     } 
 
@@ -426,6 +425,14 @@ class ModelUtil {
             if (group.template === templateId) {
                 result.push(group)
             }
+        }
+        return result
+    }
+
+    mixin (target, source) {
+        const result = lang.clone(target)
+        for (let key in source) {
+            result[key] = source[key]
         }
         return result
     }
