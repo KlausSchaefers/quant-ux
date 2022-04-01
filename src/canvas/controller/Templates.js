@@ -800,9 +800,7 @@ export default class Templates extends BaseController{
 				template.props = lang.clone(widget.props);
 				template.sourceTemplate = template.sourceTemplate ? template.sourceTemplate : widget.template
 				this.mixinNewStyles(template, widget)
-				
-
-		
+						
 				//template.inherited = template.inherited ? template.inherited : widget.template
 
 				return template
