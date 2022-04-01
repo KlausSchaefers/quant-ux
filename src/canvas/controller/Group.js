@@ -85,20 +85,20 @@ export default class Group extends Layer {
 		var ignoreStyles = ["borderTopStyle", "borderBottomStyle", "borderRightStyle", "borderLeftStyle", "fontWeight",
 							"fontStyle", "textDecoration", "boxShadow", "textShadow", "opacity", "fixed"];
 
-		for(var i=0; i< ids.length; i++){
+		for(let i=0; i< ids.length; i++){
 			/**
 			 * we just assume the object was already cloned.
 			 * we just give new id and set position
 			 */
-			var id = ids[i];
-			var widget = this.model.widgets[id];
+			const id = ids[i];
+			const widget = this.model.widgets[id];
 			if(widget){
-				var org = widget[type];
+				const org = widget[type];
 				/**
 				 * Check if this widget has already the style. If not we exclude it.
 				 * Otherwise we have Labels with background color and so on...
 				 */
-				var isIncluded = true;
+				let isIncluded = true;
 				for(var key in props){
 					if(ignoreStyles.indexOf(key) < 0 ){
 						isIncluded = isIncluded &&  (org[key] !=null && org[key]!=undefined);
@@ -231,7 +231,7 @@ export default class Group extends Layer {
 			group = this.factory.createTemplatedModel(groupTemplate);
 			group.id = "tg"+this.getUUID();
 			group.groups = []
-			group.orginalChildren = []
+			//group.templateChildren = []
 
 			this.setRootTemplateIfNeeded(group, groupTemplate)
 
@@ -283,7 +283,7 @@ export default class Group extends Layer {
 				} else {
 					group.children.push(widget.id);
 				}
-				group.orginalChildren.push(widget.id)
+				//group.templateChildren.push(widget.id)
 				this.modelAddWidget(widget, true);
 			}
 

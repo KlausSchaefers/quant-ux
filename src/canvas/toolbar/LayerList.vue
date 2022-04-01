@@ -402,6 +402,10 @@ export default {
 			if (box.props && box.props.label) {
 				node.hint = box.props.label
 			}
+
+			if (box.isNewTemplateChild) {
+				node.label += ' *' // keep this for debugging
+			}
 			this.nodes[node.id] = node
 			this.lastNode = node
 			return node;

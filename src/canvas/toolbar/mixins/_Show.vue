@@ -50,17 +50,16 @@ export default {
 
 			if(model.template){
 						
-				/**
-				* FIXME: Adopt the dropdoen to enable or disbale certain elements
-				//
-				*/
-				//var count = this.countProps(model.style);
-				//if (count > 0) {
-				//	css.remove(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
-				//} else {
-				//	css.add(this.templateUpdate, "MatcToolbarItemDisbaled hidden");
-				//}
-				//css.remove(this.templateRemove, "MatcToolbarItemDisbaled hidden")
+				if (model.isRootTemplate) {
+					this.templateDropBox.setOptions([
+						{value: "update", label: "Update all instances", icon:"mdi mdi-pencil"}, // show only when needed???
+						{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
+					]);
+				} else {
+					this.templateDropBox.setOptions([
+						{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
+					]);
+				}
 
 				css.remove(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
 				css.add(this.template, "MatcToolbarItemDisbaled hidden");

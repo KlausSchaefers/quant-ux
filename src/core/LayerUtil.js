@@ -73,18 +73,14 @@ class LayerUtil {
 		// 5)  Widget movement between group
 		if (from.groupID && to.groupID && from.groupID !== to.groupID && from.type === 'widget'){
 			// console.debug("createChangeLayerCommand() > 5) Widget movement between group", from.groupID , to.groupID);
-			newGroup.push({
-				type: "add",
-				groupID: to.groupID,
-				widgetID: from.widgetID
-			});
+		
 			newGroup.push({
 				type: "remove",
 				groupID: from.groupID,
 				widgetID: from.widgetID
 			});
-			oldGroup.push({
-				type: "remove",
+			newGroup.push({
+				type: "add",
 				groupID: to.groupID,
 				widgetID: from.widgetID
 			});
@@ -93,6 +89,12 @@ class LayerUtil {
 				groupID: from.groupID,
 				widgetID: from.widgetID
 			})
+			oldGroup.push({
+				type: "remove",
+				groupID: to.groupID,
+				widgetID: from.widgetID
+			});
+		
 		}
 
 		//* 6) Group movement to other groups (make child)
@@ -153,8 +155,7 @@ class LayerUtil {
     }
 
     getNewZValuePositions (beforePosition, selection, oldZValues){
-        console.debug('getNewZValuePositions()',`enter > ${selection.join(',')}' before ${beforePosition} [${oldZValues[beforePosition]}]`)
-   
+    
         const insertZ = oldZValues[beforePosition]
         const offset = selection.length
         const selectedZ = selection.map(id => {

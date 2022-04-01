@@ -32,10 +32,6 @@ export default class Templates extends BaseController{
 				const sortedChildren = this.sortChildren(children)
 				const boundingBox = this.getBoundingBox(children)
 
-
-			
-			
-
 				/**
 				 * 1) Check if we have added elements (or groups). this must be doen first to keep bounding
 				 * boxes well
@@ -141,8 +137,6 @@ export default class Templates extends BaseController{
 			command.children.push(createTemplateCommand)
 			this.modelAddTemplate(createTemplateCommand.models,createTemplateCommand.widgets);
 
-		
-
 			// 2) Update the group
 			const updateTemplateGroupCommand = {
 				timestamp : new Date().getTime(),
@@ -152,7 +146,8 @@ export default class Templates extends BaseController{
 				addWidgets:[],
 				removeChildren: removeTemplates.map(t => t.id),
 				removeWidgets: [],
-				addChildGroups: widgetGroups			
+				addChildGroups: widgetGroups,
+				mergedInWidgets: widgets
 			};
 		
 			// for all instances add or remove children
@@ -244,7 +239,7 @@ export default class Templates extends BaseController{
 	
 		sortedChildren.forEach((widget, index) => {		
 			if (this.isNewChildInTemplatedGroup(widget, parentGroup)) {
-				if (!widget.template ) {
+		
 					this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add > ", widget);
 					const t = this._createOrCopyWidgetTemplate(widget, false, widget.name , "");
 					t.x = widget.x - boundingBox.x;
@@ -262,9 +257,7 @@ export default class Templates extends BaseController{
 							this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "New element group is not template > ", widget);
 						}
 					}
-				} else {
-					this.logger.warn("addAndRemoveTemplateGroupWidgets", "Ignore templates > ", widget);
-				}		
+					
 			
 			}
 		})
@@ -273,16 +266,8 @@ export default class Templates extends BaseController{
 		return [newTemplates, widgets, widgetGroups]
 	}
 
-	isNewChildInTemplatedGroup (widget, parentGroup) {
-		/**
-		 * Check Group.addGroupByTemplate() > we keep track of all
-		 * the widgets that were created on drag and drop.
-		 */
-		if (parentGroup.orginalChildren) {
-			let index = parentGroup.orginalChildren.indexOf(widget.id)
-			return index === -1
-		}
-		return false
+	isNewChildInTemplatedGroup (widget) {
+		return widget.isNewTemplateChild
 	}
 
 
@@ -319,6 +304,15 @@ export default class Templates extends BaseController{
 					subgroup.children.push(templateId)
 				}
 			}
+		}
+
+		if (command.mergedInWidgets) {
+			command.mergedInWidgets.forEach(id => {
+				const widget = this.model.widgets[id]
+				if (widget) {
+					delete widget.isNewTemplateChild
+				}
+			})
 		}
 
 		if (command.removeWidgets) {
@@ -405,6 +399,16 @@ export default class Templates extends BaseController{
 			}
 		}
 
+		if (command.mergedInWidgets) {
+			command.mergedInWidgets.forEach(id => {
+				const widget = this.model.widgets[id]
+				if (widget) {
+					widget.isNewTemplateChild = true
+				}
+			})
+		}
+
+
 		if (command.removeWidgets) {
 			this.modelAddWidgetsByCommandList(command.removeWidgets)
 		}
@@ -484,6 +488,8 @@ export default class Templates extends BaseController{
 			this.logger.log(1,"getWidgetTemplateResize", "NO update");
 			return
 		}
+
+		// FIXME: update only widgets that have been in the original...?
 	
 		// we apply the changes only iff there is a difference.
 		// change as mini commands
@@ -1002,7 +1008,7 @@ export default class Templates extends BaseController{
 		if (groupID) {
 			this.model.groups[groupID].template = template.id;
 			this.model.groups[groupID].isRootTemplate = true
-			this.model.groups[groupID].orginalChildren = widgetIDs
+			//this.model.groups[groupID].templateChildren = widgetIDs
 		}
 
 
@@ -1099,7 +1105,7 @@ export default class Templates extends BaseController{
 
 		if(groupID){
 			delete this.model.groups[groupID].template;
-			delete this.model.groups[groupID].orginalChildren 
+			//delete this.model.groups[groupID].templateChildren 
 		}
 
 
@@ -1279,7 +1285,8 @@ export default class Templates extends BaseController{
 				ModelUtil.setMergedTemplateStyle(widget, template, "active")
 			}
 		}
-		widget.isRootTemplate = false
+		delete widget.isRootTemplate
+		delete widget.isNewTemplateChild
 		delete widget.template
 	}
 

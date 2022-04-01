@@ -24,9 +24,6 @@ export default class Layer extends Templates {
 		var beforePosition = to.widgetID
 		var selectedElements = [from.widgetID]
 
-		console.debug(JSON.stringify(from))
-		console.debug(JSON.stringify(to))
-
 		/**
 		 * If we have a group, expand the selection to the group
 		 */
@@ -67,8 +64,8 @@ export default class Layer extends Templates {
 
 
 	_modelChangeLayer (zValues, groupDeltas) {
-		for(var id in zValues){
-			var widget = this.model.widgets[id];
+		for(let id in zValues){
+			const widget = this.model.widgets[id];
 			if (widget){
 				widget.z = zValues[id]
 			} else {
@@ -76,18 +73,20 @@ export default class Layer extends Templates {
 			}
 		}
 
-		for (var i=0; i < groupDeltas.length; i++) {
-			var delta = groupDeltas[i]
-			var group = this.model.groups[delta.groupID];
+		for (let i=0; i < groupDeltas.length; i++) {
+			const delta = groupDeltas[i]
+			const group = this.model.groups[delta.groupID];
 			if (group) {
 				if (delta.type == "add") {
 					group.children.push(delta.widgetID);
+					this.addNewWidgetInTemplateGroup(delta.widgetID, group)
 				}
 				if (delta.type == "remove") {
 					let index = group.children.indexOf(delta.widgetID);
 					if (index > -1) {
 						group.children.splice(index, 1);
 					}
+					this.removeNewWidgetInTemplateGroup(delta.widgetID, group)
 				}
 				if (delta.type == "addSubGroup") {
 					if (!group.groups) {
@@ -107,6 +106,25 @@ export default class Layer extends Templates {
 				console.warn("LayerController._modelChangerLayer() > No group", delta);
 			}
 		}
+	}
+
+	addNewWidgetInTemplateGroup(widgetID, group) {
+		if (group.template && group.isRootTemplate) {
+			const widget = this.model.widgets[widgetID]
+			if (widget) {
+				/**
+				 * Since 4.0.60 we track if an widget was added to a root component
+				 */
+				widget.isNewTemplateChild = true
+			}	
+		}
+	}
+
+	removeNewWidgetInTemplateGroup(widgetID) {
+		const widget = this.model.widgets[widgetID]
+		if (widget) {
+			delete widget.isNewTemplateChild
+		}	
 	}
 
 	setRootTemplateIfNeeded (element, template) {
