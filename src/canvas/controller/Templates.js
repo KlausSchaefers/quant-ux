@@ -89,6 +89,8 @@ export default class Templates extends BaseController{
 					const deltaX = template.x - x
 					const deltaY = template.y - y
 					const deltaZ = template.z - index
+
+					console.debug('updateAllTemplateGroupWidgets() >', widget.name, deltaZ)
 				
 					const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, x, y, instanceBoundingBoxes)
 					const childCommand = {
@@ -158,14 +160,18 @@ export default class Templates extends BaseController{
 					const boundingBox = this.getBoundingBox(allChildren)	
 					let targetScreen = this.getHoverScreen(boundingBox);
 
+					// add the new wiggets relative
+					let instanceGroupMinZ = this.getMinZValue(allChildren) 
+
 					// 3) build all the new widgets to add
-					newTemplates.forEach(t => {										
+					newTemplates.forEach(t => {			
+							//console.debug('addAndRemoveTemplateGroupWidgets', t.name, t.z)							
 							const widget = this.factory.createTemplatedModel(lang.clone(t));
 							if (targetScreen) {
 								widget.name = this.getWidgetName(targetScreen.id, widget.name);
 							}
 							widget.id = "w"+this.getUUID();
-							widget.z = this.getMaxZValue(this.model.widgets) + 1;
+							widget.z = instanceGroupMinZ + t.z 
 							widget.x =  boundingBox.x + t.x;
 							widget.y =  boundingBox.y + t.y;
 							widget.template = t.id
@@ -576,11 +582,13 @@ export default class Templates extends BaseController{
 
 		// if we have z change, update also all instances
 		// and the template
-		if (command.deltaZ !== undefined) {
+		if (command.deltaZ) {
 			template.z = template.z - command.deltaZ
 			const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 			widgets.forEach(widget => {
-				widget.z = widget.z - command.deltaZ
+				if (commandWidget.id !== widget.id) {
+					widget.z = widget.z - command.deltaZ
+				}
 			})
 		}
 
@@ -598,6 +606,8 @@ export default class Templates extends BaseController{
 
 		if (command.props) {
 			command.props.forEach(r => {
+				// might call double for selected?
+				// 	if (commandWidget.id !== widget.id) {
 				let widget = this.model.widgets[r.id]
 				if (widget) {
 					widget.props.label = r.n
@@ -676,11 +686,13 @@ export default class Templates extends BaseController{
 
 			// if we have z change, update also all instances
 			// and the template
-			if (command.deltaZ !== undefined) {
+			if (command.deltaZ) {
 				template.z = template.z + command.deltaZ
 				const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 				widgets.forEach(widget => {
-					widget.z = widget.z + command.deltaZ
+					if (oldWidget.id !== widget.id) {
+						widget.z = widget.z + command.deltaZ
+					}	
 				})
 			}
 

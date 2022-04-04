@@ -135,10 +135,10 @@ export default class Layer extends Templates {
 
 	hasNoRootTemplate (template) {
 		if (template.templateType === 'Widget') {
-			return Object.values(this.model.widgets).filter(w => w.template === template.id).length === 0
+			return Object.values(this.model.widgets).filter(w => w.isRootTemplate && w.template === template.id).length === 0
 		}
 		if (template.templateType === 'Group') {
-			return Object.values(this.model.groups).filter(g => g.template === template.id).length === 0
+			return Object.values(this.model.groups).filter(g => g.isRootTemplate && g.template === template.id).length === 0
 		}
 	}
 

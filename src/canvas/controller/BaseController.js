@@ -99,9 +99,9 @@ export default class BaseController extends Core {
 		 * Load model from local db and check if we have
 		 * a newer version
 		 */
-		this.modelDB.get(m.id).then(localModel => {
-			this.checkModel(localModel)
-		})
+		//this.modelDB.get(m.id).then(localModel => {
+			//this.checkModel(localModel)
+		//})
 	}
 
 	checkModel (localModel) {
