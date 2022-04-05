@@ -761,10 +761,8 @@ export default {
 		},
 
 		setTempWidgetStyle (id, style){
-			//this.logger.log(4,"setTempWidgetStyle", "enter");
-
-			let sourceWidget = this.getUpdatedSourceWidget(id, style)
-			var div = this.widgetBackgroundDivs[id];
+			const sourceWidget = this.getUpdatedSourceWidget(id, style)
+			const div = this.widgetBackgroundDivs[id];
 			if(div && sourceWidget){
 				this.renderFactory.setStyle(div, sourceWidget, true);
 				this.setCopyStyle(sourceWidget, true);
@@ -774,9 +772,9 @@ export default {
 		},
 
 		getUpdatedSourceWidget (id, style) {
-			let sourceWidget = this.sourceModel.widgets[id];
+			const sourceWidget = this.sourceModel.widgets[id];
 			if (sourceWidget) {
-				for (var k in style) {
+				for (let k in style) {
 					sourceWidget.style[k] = style[k];
 				}
 			}
@@ -789,13 +787,13 @@ export default {
 			 * get the source model and copy the style. Asume
 			 * partieal updates...
 			 */
-			let sourceWidget = this.getUpdatedSourceWidget(id, style)
-			var div = this.widgetBackgroundDivs[id];
+			const sourceWidget = this.getUpdatedSourceWidget(id, style)
+			const div = this.widgetBackgroundDivs[id];
 			if (div && sourceWidget){
 				/**
 				 * Flush inlineEdit if needed
 				 */
-				var newLabel = this.inlineEditStop();
+				const newLabel = this.inlineEditStop();
 				if (newLabel && widget.props) {
 					/**
 						* For some reason this will overwrite the style change in the undo()
@@ -824,9 +822,9 @@ export default {
 
 			if (sourceWidget.copies){
 				for(let i=0; i< sourceWidget.copies.length; i++){
-					let copyID = sourceWidget.copies[i];
-					let copyWidget = this.sourceModel.widgets[copyID];
-					let copyDiv = this.widgetBackgroundDivs[copyID];
+					const copyID = sourceWidget.copies[i];
+					const copyWidget = this.sourceModel.widgets[copyID];
+					const copyDiv = this.widgetBackgroundDivs[copyID];
 					if(copyWidget && copyDiv){
 						copyWidget.style = sourceWidget.style;
 						copyWidget.props = sourceWidget.props;
@@ -852,8 +850,8 @@ export default {
 					/**
 						* Here we get also the latest updated model method
 						*/
-					let copyID = sourceWidget.inheritedCopies[i];
-					let copyWidget = this.model.widgets[copyID];
+					const copyID = sourceWidget.inheritedCopies[i];
+					const copyWidget = this.model.widgets[copyID];
 					if (isTempUpdate) {
 						/**
 							* Attention: If this code is called
@@ -878,7 +876,7 @@ export default {
 						copyWidget.props = this.mixin(sourceWidget.props, copyWidget.props, false)
 					}
 
-					let copyDiv = this.widgetBackgroundDivs[copyID];
+					const copyDiv = this.widgetBackgroundDivs[copyID];
 					if(copyWidget && copyDiv){
 						this.renderFactory.setStyle(copyDiv, copyWidget);
 					}
@@ -889,8 +887,8 @@ export default {
 		},
 
 		setScreenStyle (id){
-			var screen = this.model.screens[id];
-			var div = this.screenBackgroundDivs[id];
+			const screen = this.model.screens[id];
+			const div = this.screenBackgroundDivs[id];
 			if(screen && div){
 				this.renderFactory.setStyle(div, screen);
 				/**
@@ -906,10 +904,10 @@ export default {
 		},
 
 		setTempScreenStyle (id, style){
-			var screen = this.model.screens[id];
-			var div = this.screenBackgroundDivs[id];
+			const screen = this.model.screens[id];
+			const div = this.screenBackgroundDivs[id];
 			if(screen && div){
-				for (var k in style) {
+				for (let k in style) {
 					screen.style[k] = style[k];
 				}
 				this.renderFactory.setStyle(div, screen);
