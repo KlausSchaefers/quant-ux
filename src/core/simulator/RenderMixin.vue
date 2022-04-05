@@ -1038,17 +1038,19 @@ export default {
 
 					if(parentBox) {
 
-						if (this.qr && this.isPinnedDown(box)) {
+						if (this.isPinnedDown(box)) {
 							/**
-							 * Since 3.0.25 we pin bottom down fixed.
+							 * Since 4.0.60 pinned to bottom is also supported in simulator
 							 */
-
-
-							let distanceFromBottom = this.getDistanceFromScreenBottom(box, parentBox, this.model)
-							div.style.bottom = distanceFromBottom + "px";
+							if (this.qr) {
+								const distanceFromBottom = this.getDistanceFromScreenBottom(box, parentBox, this.model)
+								div.style.bottom = distanceFromBottom + "px";
+							} else {
+								const distanceToTop =  this.getDistanceFromScreenTop(box, parentBox, this.model)
+								div.style.top = distanceToTop + "px";
+							}
 							div.style.left = (box.x - parentBox.x) + screen.x + "px";
-
-							this.logger.log(-1,"createBOx","isPinnedDown > " + box.name, distanceFromBottom);
+							this.logger.log(-1,"createBOx","isPinnedDown > " + box.name);
 
 						} else {
 							/**
@@ -1083,6 +1085,15 @@ export default {
 				if (element && model.screenSize) {
 					let top = (element.y - parentBox.y)
 					let dif = model.screenSize.h - (top + element.h)
+					return Math.max(0,dif);
+				}
+				return 0
+			},
+
+			getDistanceFromScreenTop (element, parentBox, model) {
+				if (element && model.screenSize) {
+					let bottom = this.getDistanceFromScreenBottom(element, model, parentBox)
+					let dif = model.screenSize.h - (bottom)
 					return Math.max(0,dif);
 				}
 				return 0

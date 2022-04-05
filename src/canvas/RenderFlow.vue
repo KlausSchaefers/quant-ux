@@ -127,7 +127,6 @@ export default {
 						this.renderWidget(widget, zoomedWidget);
 						this.updateWidgetZ(widget, i)
 						this.renderedModels[widget.id] = widget
-
 						this.renderCreateCounter++;
 					} else {
 						this.updateWidget(widget, zoomedWidget, i, isResize);
@@ -417,13 +416,12 @@ export default {
 
 			updateWidget (widget, zoomedWidget, i, isResize) {
 				if (isResize || this.elementHasChanged(widget)) {
-			
-					let dnd = this.widgetDivs[widget.id]
+					const dnd = this.widgetDivs[widget.id]
 					if (dnd) {
 						this.updateBox(zoomedWidget, dnd)
 						dnd.style.zIndex = 10009 + i
 					}
-					let background = this.widgetBackgroundDivs[widget.id]
+					const background = this.widgetBackgroundDivs[widget.id]
 					if (background) {
 						this.updateBox(widget, background)
 						if (isResize) {
@@ -433,14 +431,21 @@ export default {
 						}
 						background.style.zIndex = i
 					}
-					this.renderedModels[widget.id] = widget
-					this.renderChangeCounter++;
-
 					if (this.elementHasLabelChange(widget)) {
 						this.renderFactory.updateLabel(widget)
 						this.renderLabelCounter++;
 					}
+					
+					this.renderedModels[widget.id] = widget
+					this.renderChangeCounter++;
 
+				} else if (widget?.style.fixed) {
+					/**
+					 * We need to make sure fixed widgets stay on top,
+					 * event after copy paste
+					 */
+					this.updateWidgetZ(widget, i)
+					this.renderChangeCounter++;
 				}
 
 			
@@ -467,12 +472,11 @@ export default {
 			},
 
 			elementHasChanged (element) {
-				/**
-				 * TODO: we could check just for modified, but in this case we would have
-				 * to make sure the renderedModels gets flushed on zooming.
-				 */
 				if (this.renderedModels[element.id]){
 					let old = this.renderedModels[element.id]
+					if (old.modified !== element.modified) {
+						return true
+					}
 					return !this.objectEquals(old, element)
 				}
 				return true

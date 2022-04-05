@@ -503,78 +503,17 @@ export default {
       this.cleanUpAlignment();
 
       if (this._dragNDropChildren) {
-        // multi move
-        let positions = {};
-        // Whz is this here???
-        // positions[id] = pos;
-        let hasCopies = false;
-        for (let i = 0; i < this._dragNDropChildren.length; i++) {
-          let widgetID = this._dragNDropChildren[i];
-          let widget = this.model.widgets[widgetID];
-          //console.debug(widget.name, widget);
-          hasCopies = hasCopies || this.isMasterWidget(widget);
-          if (widget) {
-            let widgetPos = {
-              x: dif.x + widget.x,
-              y: dif.y + widget.y,
-              h: widget.h,
-              w: widget.w
-            };
-            positions[widgetID] = widgetPos;
-          } else {
-            console.warn("No Widget", widgetID);
-          }
-        }
-
-        this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, id);
-      } else if (this._selectMulti && this._selectMulti.indexOf(id) >= 0) {
-        // && this._selectMulti.indexOf(id) >=0
-        /**
-         * This should actually nether be called. If we have a multi move, there
-         * should be also dndChildren....
-         */
-        let positions = {};
-        positions[id] = pos;
-        let hasCopies = false;
-        for (let i = 0; i < this._selectMulti.length; i++) {
-          let widgetID = this._selectMulti[i];
-          let widget = this.model.widgets[widgetID];
-          hasCopies = hasCopies || this.isMasterWidget(widget);
-          let widgetPos = {
-            x: dif.x + widget.x,
-            y: dif.y + widget.y,
-            h: widget.h,
-            w: widget.w
-          };
-          positions[widgetID] = widgetPos;
-        }
-        /**
-         * Make sure we pass the second param as false, otherwise we have a full
-         * render.
-         */
-        this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, id);
+        const [positions, hasCopies] = this.getDnDEndPosittions(dif)
+        const updatedPositions = this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, id);
+        this.updateZoomedPositionList(updatedPositions)
       } else {
-        // single widgte move
-        let widget = this.model.widgets[id];
+        const widget = this.model.widgets[id];
         if (widget) {
           let sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
-          try {
-            /**
-             * Update position to avoid snapping bumps: Could be called from controller
-             * FIXME: This causes the issues! Why was I doing this? The position
-             * will be done propertlz in the controller. In worst case the current
-             * rendering would be wrong by 1px.
-             */
-            var zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
-            this.setWidgetPosition(widget.id, sourcePos, zoomedPos);
-            pos = zoomedPos;
-          } catch (e) {
-            this.logger.sendError(e);
-          }
+          pos = this.updateZoomedPosition(widget, sourcePos)
         } else {
-          var e = new Error("No widget with id >" + id);
           this.logger.error("onWidgetDndEnd", "No widget with id >" + id);
-          this.logger.sendError(e);
+          this.logger.sendError(new Error("No widget with id >" + id));
         }
       }
 
@@ -584,6 +523,44 @@ export default {
 
       this.setState(0);
     },
+
+    getDnDEndPosittions (dif) {
+        const positions = {};
+        let hasCopies = false;
+        for (let i = 0; i < this._dragNDropChildren.length; i++) {
+          const widgetID = this._dragNDropChildren[i];
+          const widget = this.model.widgets[widgetID];
+          if (widget) {
+            const widgetPos = {
+              x: dif.x + widget.x,
+              y: dif.y + widget.y,
+              h: widget.h,
+              w: widget.w
+            };
+            positions[widgetID] = widgetPos;
+            hasCopies = hasCopies || this.isMasterWidget(widget);
+          } else {
+            console.warn("No Widget", widgetID);
+          }
+        }
+        return [positions, hasCopies]
+    },
+
+    updateZoomedPositionList (updatedPositions) {
+      this.logger.log(-1, "updateZoomedPositionList", "enter");
+      for (let id in updatedPositions) {
+        const sourcePos = updatedPositions[id]
+        const zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
+        this.setWidgetPosition(id, sourcePos, zoomedPos);
+      }
+    },
+
+    updateZoomedPosition (widget, sourcePos) {
+      const zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
+      this.setWidgetPosition(widget.id, sourcePos, zoomedPos);
+      return zoomedPos
+    },
+
 
     /**
      * One of the most important methods! It handles the clicks

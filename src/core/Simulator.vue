@@ -248,9 +248,7 @@ export default {
 
 		async setPassword () {
 			this.logger.log(-1,"setPassword","enter", this.password);
-
 			let newHash = this.tempHash + this.password
-
 			try {
 				let app = await Services.getModelService().findAppByHash(newHash)
 				if (app) {

@@ -391,7 +391,6 @@ export default {
 			}
 
 			if (box.style && box.style.fixed) {
-				node.label += ' (fixed)'
 				node.fixed = true
 			}
 

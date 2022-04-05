@@ -316,7 +316,7 @@ export default {
 		},
 
 		addCollabUser (user) {
-			this.logger.log(-1,"addCollabUser", "entry ", user);
+			this.logger.log(1,"addCollabUser", "entry ", user);
 			const found = this.collabUsers.find(u => u.id === user.id)
 			if (!found) {
 				this.collabUsers.push(user)
@@ -324,7 +324,7 @@ export default {
 		},
 
 		removeCollabUser (user) {
-			this.logger.log(-1,"addCollabUser", "entry ", user);
+			this.logger.log(1,"removeCollabUser", "entry ", user);
 			this.collabUsers = this.collabUsers.filter(u => u.id !== user.id)
 		},
 

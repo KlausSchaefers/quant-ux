@@ -363,6 +363,8 @@ export default class Widget extends Screen {
 		} else {
 			this.onWidgetPositionChange()
 		}
+
+		return positions
 	}
 
 	removeMultiWidget (selection){
@@ -876,7 +878,7 @@ export default class Widget extends Screen {
 		/**
 		 * call model change
 		 */
-		this.onModelChanged([{type: 'widget', action:"change", id: id}])
+		this.onModelChanged([{type: 'widget', action:"change", "prop": "position", id: id}])
 	}
 
 	undoWidgetPosition (command){

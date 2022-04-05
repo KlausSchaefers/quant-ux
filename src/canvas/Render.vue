@@ -347,9 +347,6 @@ export default {
 
 			try {
 				/**
-				 * We keep here the sourceModel for rendering and zooming.
-				 * The rest stays as is with the zoomedModel as this.model
-				 * 
 				 * The sourceModel is used to draw tge elements on the zoomable
 				 * background, whereas the model is used to handle DND
 				 */
@@ -734,28 +731,25 @@ export default {
 
 
 		setWidgetPosition (id, sourcePos, zoomedPos){
-			let widget = this.model.widgets[id];
+			const widget = this.model.widgets[id];
 			if (widget) {
 				widget.x = zoomedPos.x;
 				widget.y = zoomedPos.y;
 				widget.w = zoomedPos.w;
 				widget.h = zoomedPos.h;
-
-				let dndDiv = this.widgetDivs[id];
+				const dndDiv = this.widgetDivs[id];
 				if (dndDiv){
 					this.updateBox(widget, dndDiv);
 				}
 			}
 
-			let sourceWidget = this.sourceModel.widgets[id]
+			const sourceWidget = this.sourceModel.widgets[id]
 			if (sourceWidget) {
-
 				sourceWidget.x = sourcePos.x;
 				sourceWidget.y = sourcePos.y;
 				sourceWidget.w = sourcePos.w;
 				sourceWidget.h = sourcePos.h;
-
-				let sourceDiv = this.widgetBackgroundDivs[id];
+				const sourceDiv = this.widgetBackgroundDivs[id];
 				if(sourceDiv){
 					this.updateBox(sourcePos, sourceDiv);
 				}
