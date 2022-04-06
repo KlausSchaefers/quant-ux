@@ -265,8 +265,6 @@ export default class Group extends Layer {
 				const widgetTemplate = children[i];
 				const widget = this.factory.createTemplatedModel(widgetTemplate);
 				this.setRootTemplateIfNeeded(widget, widgetTemplate)
-
-			
 				widget.id = "w"+this.getUUID();
 				widget.x +=  pos.x;
 				widget.y +=  pos.y;

@@ -863,7 +863,6 @@ export default class Templates extends BaseController{
 		template.type = widget.type;
 		template.has = lang.clone(widget.has);
 		template.props = lang.clone(widget.props);
-		//template.variantOf = template.variantOf ? template.variantOf : widget.template
 		template.copyOf = template.copyOf ? template.copyOf : widget.template
 		ModelUtil.mixinNewStyles(template, widget)
 		return template
