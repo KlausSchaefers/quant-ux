@@ -49,6 +49,7 @@ export default class GridAndRuler extends Core {
 			this.snappDistance = Math.ceil(grid.h * this.zoom );
 			this.showDistance = this.snappDistance + 5;
 			this.adjustSnappDistanceToMouseSpeed = false
+			this.gridEnabled = true
 		}
 		this.logger.log(1, "start", "snappDistance " + this.snappDistance);
 
@@ -572,9 +573,7 @@ export default class GridAndRuler extends Core {
 
 
 	getOverlayXMiddle(from, to) {
-		var xDif = to.x - from.x;
-
-
+		const xDif = to.x - from.x;
 		if (to.x >= from.x && to.x + to.w <= from.x + from.w) {
 			return to.x + Math.round(to.w / 2);
 		} else if (from.x >= to.x && from.x + from.w <= to.x + to.w) {
@@ -588,12 +587,10 @@ export default class GridAndRuler extends Core {
 			let e = from.x + from.w;
 			return s + Math.round((e - s) / 2);
 		}
-
 	}
 
 	getOverlayYMiddle(from, to) {
 		const yDif = to.y - from.y;
-
 		if (to.y >= from.y && to.y + to.h <= from.y + from.h) {
 			return to.y + Math.round(to.h / 2);
 		} else if (from.y >= to.y && from.y + from.h <= to.y + to.h) {
@@ -756,7 +753,6 @@ export default class GridAndRuler extends Core {
 	 */
 	getSimilarBoxes(selectedBox, boxes) {
 		let simBoxes = [];
-
 		if (selectedBox) {
 			for (let i = 0; i < boxes.length; i++) {
 				const box = boxes[i];
@@ -894,34 +890,34 @@ export default class GridAndRuler extends Core {
 
 
 	renderOverLapDistanceX(overlaps, absPos) {
-		var result = {}
+		const result = {}
 
-		var y = overlaps.y;
-		var yBoxes = [];
-		for (var i = 0; i < y.length; i++) {
-			var box = y[i].to;
+		let y = overlaps.y;
+		let yBoxes = [];
+		for (let i = 0; i < y.length; i++) {
+			const box = y[i].to;
 			if (box.x < absPos.x) { // removed
 				yBoxes.push(box);
 			}
 		}
 
-		yBoxes.sort(function (a, b) {
+		yBoxes.sort((a, b) => {
 			return (a.x - b.x);
 		});
 
-		var simBoxes = this.getSimilarBoxes(this.selectedModel, yBoxes);
+		const simBoxes = this.getSimilarBoxes(this.selectedModel, yBoxes);
 		//console.debug("simBoxes X", simBoxes);
 		/**
 		 * Loop over all overlaps and compute the shortest RIGHT
 		 * distance.
 		 */
 		for (let i = 0; i < simBoxes.length; i++) {
-			var from = simBoxes[i];
-			var rightMinDistance = 10000000;
-			var rightBox = null;
+			let from = simBoxes[i];
+			let rightMinDistance = 10000000;
+			let rightBox = null;
 
-			for (var j = 0; j < yBoxes.length; j++) {
-				var to = yBoxes[j];
+			for (let j = 0; j < yBoxes.length; j++) {
+				let to = yBoxes[j];
 				let distance = from.x - (to.x + to.w);
 				if (distance > 0 && distance < rightMinDistance) {
 					rightMinDistance = distance;
@@ -938,9 +934,9 @@ export default class GridAndRuler extends Core {
 
 			if (rightBox) {
 				//console.debug("right", from.name, " => ", rightBox.name, ": ", rightMinDistance)
-				var lbl = this._getHackedUnZoomed(rightMinDistance, this.zoom);
-				var YMiddle = this.getOverlayYMiddle(from, rightBox);
-				var line = {
+				let lbl = this._getHackedUnZoomed(rightMinDistance, this.zoom);
+				let YMiddle = this.getOverlayYMiddle(from, rightBox);
+				let line = {
 					x: 0,
 					y: YMiddle,
 					lbl: lbl,
@@ -953,8 +949,8 @@ export default class GridAndRuler extends Core {
 				}
 
 				if (overlaps.minLeft && overlaps.minLeft.to) {
-					var minLeft = overlaps.minLeft.to;
-					var snappX = minLeft.x + minLeft.w + rightMinDistance;
+					let minLeft = overlaps.minLeft.to;
+					let snappX = minLeft.x + minLeft.w + rightMinDistance;
 					if (overlaps.minLeft.attach === "left") {
 						snappX = minLeft.x + rightMinDistance;
 					}
@@ -1009,20 +1005,20 @@ export default class GridAndRuler extends Core {
 		/**
 		 * 1st compute all elements that are somehow overlapping
 		 */
-		var result = {
+		const result = {
 			x: [],
 			y: []
 		};
-		var minTop = 1000000;
-		var minBottom = 1000000;
+		let minTop = 1000000;
+		let minBottom = 1000000;
 
-		var minLeft = 1000000;
-		var minRight = 1000000;
+		let minLeft = 1000000;
+		let minRight = 1000000;
 
-		var boxes = this._getOverlappingBoxes();
-		var length = boxes.length
-		for (var i = 0; i < length; i++) {
-			var widget = boxes[i]
+		let boxes = this._getOverlappingBoxes();
+		let length = boxes.length
+		for (let i = 0; i < length; i++) {
+			const widget = boxes[i]
 			if (widget && widget.id != this.selectedID) {
 
 				if (this.isOverLappingX(absPos, widget)) {
@@ -1117,8 +1113,8 @@ export default class GridAndRuler extends Core {
 
 		if (this._lastScreen) {
 
-			var overlaps = this._getNNDistance(absPos, top, left);
-
+			const overlaps = this._getNNDistance(absPos, top, left);
+			let useSourceLabel = true
 			/**
 			 *
 			 *
@@ -1134,9 +1130,6 @@ export default class GridAndRuler extends Core {
 			 */
 			if (this.activePoint == "All") {
 
-				/**
-				 * FIXME: for some 
-				 */
 
 				const disTop = overlaps.minTop ? overlaps.minTop.distance : 100000
 				const disBottom = overlaps.minBottom ? overlaps.minBottom.distance : 100000
@@ -1149,8 +1142,7 @@ export default class GridAndRuler extends Core {
 						let from = overlaps.minLeft.from;
 						let to = overlaps.minLeft.to;
 						let distance = overlaps.minLeft.distance;
-						let lbl = overlaps.minLeft.label // this._getHackedUnZoomed(distance, this.zoom);
-						//let lbl = this._getHackedUnZoomed(distance, this.zoom);
+						let lbl = this.getDistanceLabel(overlaps.minLeft, useSourceLabel, 'x', 'left')
 						let yMiddle = this.getOverlayYMiddle(from, to);
 						if (overlaps.minLeft.left == 0) {
 							this._renderDistanceLineX(to.x, yMiddle, distance, lbl, "", true);
@@ -1163,8 +1155,7 @@ export default class GridAndRuler extends Core {
 						let from = overlaps.minRight.from;
 						let to = overlaps.minRight.to;
 						let distance = overlaps.minRight.distance;
-						let lbl = overlaps.minRight.label // this._getHackedUnZoomed(distance, this.zoom);
-						//let lbl = this._getHackedUnZoomed(distance, this.zoom);
+						let lbl = this.getDistanceLabel(overlaps.minRight, useSourceLabel, 'x', 'right')
 						let yMiddle = this.getOverlayYMiddle(from, to);
 						this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
 					}
@@ -1175,8 +1166,7 @@ export default class GridAndRuler extends Core {
 						let from = overlaps.minTop.from;
 						let to = overlaps.minTop.to;
 						let distance = overlaps.minTop.distance;
-						let lbl = overlaps.minTop.label //this._getHackedUnZoomed(distance, this.zoom);
-						//let lbl = this._getHackedUnZoomed(distance, this.zoom);
+						let lbl = this.getDistanceLabel(overlaps.minTop, useSourceLabel, 'y', 'top')
 						let xMiddle = this.getOverlayXMiddle(from, to);
 						if (overlaps.minTop.top == 0) {
 							this._renderDistanceLineY(xMiddle, to.y, distance, lbl, "", true);
@@ -1190,8 +1180,7 @@ export default class GridAndRuler extends Core {
 						let from = overlaps.minBottom.from;
 						let to = overlaps.minBottom.to;
 						let distance = overlaps.minBottom.distance;
-						let lbl = overlaps.minBottom.label // this._getHackedUnZoomed(distance, this.zoom);
-						//let lbl = this._getHackedUnZoomed(distance, this.zoom);
+						let lbl = this.getDistanceLabel(overlaps.minBottom, useSourceLabel, 'y', 'bottom')
 						let xMiddle = this.getOverlayXMiddle(from, to);
 						this._renderDistanceLineY(xMiddle, from.y + from.h, distance, lbl, "", true);
 					}
@@ -1205,13 +1194,14 @@ export default class GridAndRuler extends Core {
 			const isLeftHandle = this.activePoint == "West" || this.activePoint == "LeftDown" || this.activePoint == "LeftUp";
 			const isRightHandle = this.activePoint == "East" || this.activePoint == "RightDown" || this.activePoint == "RightUp";
 
+			// FIXME: for resize sourceLabels do not work
+			useSourceLabel = false
 
 			if (isTopHandle && overlaps.minTop) {
 				let from = overlaps.minTop.from;
 				let to = overlaps.minTop.to;
 				let distance = overlaps.minTop.distance;
-				let lbl = overlaps.minTop.label // this._getHackedUnZoomed(distance, this.zoom);
-				//let lbl = this._getHackedUnZoomed(distance, this.zoom);
+				let lbl = this.getDistanceLabel(overlaps.minTop, useSourceLabel, 'y', 'top')
 				let xMiddle = this.getOverlayXMiddle(from, to);
 				if (overlaps.minTop.top == 0) {
 					this._renderDistanceLineY(xMiddle, to.y, distance, lbl, "", true);
@@ -1223,8 +1213,7 @@ export default class GridAndRuler extends Core {
 				let from = overlaps.minBottom.from;
 				let to = overlaps.minBottom.to;
 				let distance = overlaps.minBottom.distance;
-				//let lbl = overlaps.minBottom.label // this._getHackedUnZoomed(distance, this.zoom);
-				let lbl = this._getHackedUnZoomed(distance, this.zoom);
+				let lbl = this.getDistanceLabel(overlaps.minBottom, useSourceLabel, 'y', 'bottom')
 				let xMiddle = this.getOverlayXMiddle(from, to);
 				this._renderDistanceLineY(xMiddle, from.y + from.h, distance, lbl, "", true);
 			}
@@ -1232,8 +1221,7 @@ export default class GridAndRuler extends Core {
 				let from = overlaps.minLeft.from;
 				let to = overlaps.minLeft.to;
 				let distance = overlaps.minLeft.distance;
-				//let lbl = overlaps.minLeft.label // this._getHackedUnZoomed(distance, this.zoom);
-				let lbl = this._getHackedUnZoomed(distance, this.zoom);
+				let lbl = this.getDistanceLabel(overlaps.minLeft, useSourceLabel, 'x', 'left')
 				let yMiddle = this.getOverlayYMiddle(from, to);
 				if (overlaps.minLeft.left == 0) {
 					this._renderDistanceLineX(to.x, yMiddle, distance, lbl, "", true);
@@ -1245,16 +1233,15 @@ export default class GridAndRuler extends Core {
 				let from = overlaps.minRight.from;
 				let to = overlaps.minRight.to;
 				let distance = overlaps.minRight.distance;
-				//let lbl = overlaps.minRight.label // this._getHackedUnZoomed(distance, this.zoom);
-				let lbl = this._getHackedUnZoomed(distance, this.zoom);
+				let lbl = this.getDistanceLabel(overlaps.minRight, useSourceLabel, 'x', 'right')
 				let yMiddle = this.getOverlayYMiddle(from, to);
 				this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
 			}
 
-			var box = this._lastScreen;
-			var widget = absPos;
+			const box = this._lastScreen;
+			const widget = absPos;
 			if (absPos.snapp && absPos.snapp.x) {
-				var snappX = absPos.snapp.x;
+				const snappX = absPos.snapp.x;
 				if (snappX.type == "Mirror") {
 					let left = widget.x - box.x;
 					var lblLeft = this._getHackedUnZoomed(left, this.zoom);
@@ -1263,7 +1250,7 @@ export default class GridAndRuler extends Core {
 			}
 
 			if (absPos.snapp && absPos.snapp.y) {
-				var snappY = absPos.snapp.y;
+				const snappY = absPos.snapp.y;
 				if (snappY.type == "Mirror") {
 					let top = widget.y - box.y;
 					var lblTop = this._getHackedUnZoomed(top, this.zoom);
@@ -1273,8 +1260,14 @@ export default class GridAndRuler extends Core {
 		}
 	}
 
-
-
+	getDistanceLabel (minObject, useSourceLabel = false) {
+		if (useSourceLabel && minObject.label) {
+			return minObject.label
+		} else {
+			let distance =  Math.round(minObject.distance / this.zoom);
+			return distance
+		}
+	}
 
 	_getNNDistance(absPos) {
 
@@ -1287,8 +1280,9 @@ export default class GridAndRuler extends Core {
 		let minLeft = 1000000;
 		let minRight = 1000000;
 
+		// the snapp source might be corrected to the grid or ruler.
+		// FIXME: ruler is not working yet
 		const sourceAbsPos = this.getSnappSource(absPos)
-
 
 		const boxes = this._getOverlappingBoxes();
 		boxes.push(this._lastScreen);
@@ -1426,7 +1420,7 @@ export default class GridAndRuler extends Core {
 				if (snapp.x.type === 'Grid') {
 					box.x = snapp.x._sourceV
 				}
-				// FIXME: we shou
+				// FIXME: we should also support this for Rulers, but there is somehow a bug.
 			}
 			if (snapp.y && snapp.y._sourceV !== undefined) {
 				if (snapp.y.type === 'Grid') {

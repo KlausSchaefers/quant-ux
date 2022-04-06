@@ -33,6 +33,30 @@ class ModelUtil {
         return widget && (widget.type === 'LogicOr' || widget.type === "Rest")
     }
 
+    inlineAllTemplateVariants (model) {
+        // FIXME: For speedup during rendering, we could also inline all the 
+        // templates
+        return model
+    }
+
+    inlineTemplateVariant (template, model) {
+        if (template.variantOf) {
+            let parent = model.templates[template.variantOf]
+            if (parent) {
+                // FIXME: we should be able to do this without copying the parent
+                const copy = lang.clone(parent)
+                this.mixinNewStyles(copy, template)
+                template.style = copy.style
+                template.hover = copy.hover
+                template.error = copy.error
+                template.active = copy.active
+                template.focus = copy.focus
+                return template
+            }
+        }
+        return template
+    }
+
     inlineModelDesignTokens(model) {
         /**
          * This is quite costly. Can we do this smarter? Maybe we could do it in the
@@ -94,15 +118,16 @@ class ModelUtil {
     }
 
 
-    inlineTemplateModifies(model) {
+    updateTemplateModifies(model) {
         /**
-         * We set the template modfied date, so in RenderFlow we can recognize that we have to update the widget.
+         * We set the template modfied date, so in RenderFlow we 
+         * can recognize that we have to update the widget.
          */
         if (model.templates) {
             for (let widgetID in model.widgets) {
-                let widget = model.widgets[widgetID]
+                const widget = model.widgets[widgetID]
                 if (widget.template) {
-                    let t = model.templates[widget.template];
+                    const t = model.templates[widget.template];
                     if (t) {
                         widget._templateModified = t.modified
                     }
@@ -114,9 +139,8 @@ class ModelUtil {
 
     inlineTemplateStyles(model) {
         for (let widgetID in model.widgets) {
-            let widget = model.widgets[widgetID]
+            const widget = model.widgets[widgetID]
             if (widget.template) {
-
                 let hover = this.getTemplatedStyle(widget, model, 'hover')
                 if (hover) {
                     widget.hover = hover
@@ -168,11 +192,19 @@ class ModelUtil {
         /**
          * Since 4.0.60 templates can inherit other templates
          */
-        if (template && template.inherited) {
-            return this.getTemplate(template.inherited, model)
+        if (template && template.variantOf) {
+            let parent = model.templates[template.variantOf];
+            if (parent) {
+                parent = lang.clone(parent)
+                this.mixinNewStyles(parent, template)
+                // all props are now from the parent now!! Should only be used
+                // to get the template style
+                return parent
+            }
         }
         return template
     }
+
 
     getTemplatedStyle(widget, model, prop = 'style') {
         if (widget.template) {
@@ -197,13 +229,21 @@ class ModelUtil {
     }
 
     getCopiesOfTemplate (template, model) {
-  
-        if (template.sourceTemplate) {
-            if (model.templates[template.sourceTemplate]) {
-                template = model.templates[template.sourceTemplate]
+        if (template.copyOf) {
+            if (model.templates[template.copyOf]) {
+                template = model.templates[template.copyOf]
             }
         }
-        return Object.values(model.templates).filter(t => t.sourceTemplate === template.id)
+        return Object.values(model.templates).filter(t => t.copyOf === template.id)
+    } 
+
+    getVariantesOfTemplate (template, model) {
+        if (template.variantOf) {
+            if (model.templates[template.variantOf]) {
+                template = model.templates[template.variantOf]
+            }
+        }
+        return Object.values(model.templates).filter(t => t.variantOf === template.id)
     } 
 
     createScalledModel(model, zoom) {
@@ -436,6 +476,26 @@ class ModelUtil {
         }
         return result
     }
+
+    mixinNewStyles (target, source) {
+		target.style = this.mixin(target.style, source.style);
+
+		if (target.hover) {
+			target.hover = this.mixin(target.hover, source.hover);
+		}
+		if (target.error) {
+			target.error = this.mixin(target.error, source.error);
+		}
+		if (target.active) {
+			target.active = this.mixin(target.active, source.active);
+		}
+		if (target.focus) {
+			target.focus = this.mixin(target.focus, source.focus);
+		}
+		if (target.designtokens) {
+			target.designtokens = lang.clone(target.designtokens);
+		}
+	}
 
 }
 

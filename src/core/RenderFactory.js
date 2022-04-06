@@ -364,7 +364,7 @@ export default class RenderFactory extends Core {
 
 
 	createWidgetHTML(parent, model) {
-
+	
 		css.add(parent, "MatchWidgetType" + model.type);
 
 		/**

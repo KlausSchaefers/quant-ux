@@ -1168,6 +1168,11 @@ export default class Core extends Evented {
          * Inline designtokens. must come last, otherwise master screen widgets are not correctly filled.
          */
         inModel = ModelUtil.inlineModelDesignTokens(inModel)
+
+        /**
+         * Since 4.0.60 we want to inline also all template variants
+         */
+        inModel = ModelUtil.inlineAllTemplateVariants(inModel)
         return inModel;
     }
 

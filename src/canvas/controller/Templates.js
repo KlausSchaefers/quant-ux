@@ -552,9 +552,11 @@ export default class Templates extends BaseController{
 		ModelUtil.updateTemplateStyle(widget, template, 'active')
 		ModelUtil.updateTemplateStyle(widget, template, 'hover')
 
+		// FIXME: not used?
 		if (command.updateCopyTemplates) {
 			this.modelUpdateTemplateCopies(template, this.model, modified)
 		}
+		this.modelUpdateTemplateVariants(template, this.model, modified)
 
 		//
 
@@ -600,7 +602,7 @@ export default class Templates extends BaseController{
 			template.y = template.y - command.deltaY
 		}
 
-		if (commandWidget.props.label && template.props.label && commandWidget.props.label !== template.props.label) {
+		if (commandWidget.props.label !== template.props.label) {
 			template.props.label = commandWidget.props.label
 		}
 
@@ -618,7 +620,7 @@ export default class Templates extends BaseController{
 	
 		if (render) {
 			if (!command.isChildCommand) {
-				console.debug('modelUpdateTemplate() > RENDER')
+				this.logger.log(-1,"modelUpdateTemplate", "enter");
 				this.onModelChanged([{type: 'template', action:"change", id: template.id}])
 				this.render();
 			}
@@ -626,11 +628,20 @@ export default class Templates extends BaseController{
 	}
 
 	modelUpdateTemplateCopies (template, model, modified) {
-		let copies = ModelUtil.getCopiesOfTemplate(template, model)	
+		let copies = ModelUtil.getCopiesOfTemplate(template, model)
+		console.debug('modelUpdateTemplateCopies()' , copies)
 		copies.forEach(copy => {
 			copy.style = template.style
 			copy.modified = modified
 			this.updateStylesInBox(copy, template)
+		})
+	}
+
+	modelUpdateTemplateVariants (template, model, modified) {
+		let variants = ModelUtil.getVariantesOfTemplate(template, model)
+		console.debug('modelUpdateTemplateVariants()' , variants)
+		variants.forEach(variant => {
+			variant.modified = modified
 		})
 	}
 
@@ -659,6 +670,7 @@ export default class Templates extends BaseController{
 			if (command.updateCopyTemplates) {
 				this.modelUpdateTemplateCopies(oldTemplate, this.model, modified)
 			}
+			this.modelUpdateTemplateVariants(oldTemplate, this.model, modified)
 
 
 			
@@ -785,61 +797,79 @@ export default class Templates extends BaseController{
 	}
 
 	_createOrCopyWidgetTemplate (widget, visible, name) {
-		/**
-		 * We might need to create a
-		 */
 		if (widget.template) {
 			let parentTemplate = this.model.templates[widget.template]
 			if (parentTemplate) {
-				/* 
-				 * We could create here a new object with inhereited. However this 
-				 * leads to some serious issue in updates and rendering...
-				 */
-				let template = lang.clone(parentTemplate)
-				template.id = "tw" + this.getUUID();
-				template.visible = visible;
-				template.name = name;
-				template.modified = new Date().getTime()
-				template.created = new Date().getTime()
-				template.w = widget.w;
-				template.h = widget.h;
-				template.z = widget.z;
-				template.x = 0;
-				template.y = 0;
-				template.templateType = "Widget";
-				template.type = widget.type;
-				template.has = lang.clone(widget.has);
-				template.props = lang.clone(widget.props);
-				template.sourceTemplate = template.sourceTemplate ? template.sourceTemplate : widget.template
-				this.mixinNewStyles(template, widget)
-						
-				//template.inherited = template.inherited ? template.inherited : widget.template
-
+				let template = this._createTemplateVariant(widget, parentTemplate, visible, name)
 				return template
 			}
 		}
 		return this._createWidgetTemplate(widget, visible, name)
 	}
 
-	mixinNewStyles (target, source) {
-		target.style = ModelUtil.mixin(target.style, source.style);
 
-		if (target.hover) {
-			target.hover = ModelUtil.mixin(target.hover, source.hover);
+	_createTemplateVariant (widget, parentTemplate, visible, name) {
+		let template = {}//lang.clone(parentTemplate)
+		template.id = "tw" + this.getUUID();
+		template.visible = visible;
+		template.variant = true
+		template.name = name;
+		template.modified = new Date().getTime()
+		template.created = new Date().getTime()
+		template.w = widget.w;
+		template.h = widget.h;
+		template.z = widget.z;
+		template.x = 0;
+		template.y = 0;
+		template.templateType = "Widget";
+		template.type = widget.type;
+		template.has = lang.clone(widget.has);
+		template.props = lang.clone(widget.props);
+		template.variantOf = template.variantOf ? template.variantOf : parentTemplate.id
+		// here we could compute the difference between parent and widget?
+		template.style = lang.clone(widget.style);
+		if (widget.hover) {
+			template.hover = lang.clone(widget.hover);
 		}
-		if (target.error) {
-			target.error = ModelUtil.mixin(target.error, source.error);
+		if (widget.error) {
+			template.error = lang.clone(widget.error);
 		}
-		if (target.active) {
-			target.active = ModelUtil.mixin(target.active, source.active);
+		if (widget.active) {
+			template.active = lang.clone(widget.active);
 		}
-		if (target.focus) {
-			target.focus = ModelUtil.mixin(target.focus, source.focus);
+		if (widget.focus) {
+			template.focus = lang.clone(widget.focus);
 		}
-		if (target.designtokens) {
-			target.designtokens = lang.clone(target.designtokens);
+		if (widget.designtokens) {
+			template.designtokens = lang.clone(widget.designtokens);
 		}
+		return template
 	}
+
+	_createTemplateCopy (widget, parentTemplate, visible, name) {
+		let template = lang.clone(parentTemplate)
+		template.id = "tw" + this.getUUID();
+		template.visible = visible;
+		template.variant = true
+		template.name = name;
+		template.modified = new Date().getTime()
+		template.created = new Date().getTime()
+		template.w = widget.w;
+		template.h = widget.h;
+		template.z = widget.z;
+		template.x = 0;
+		template.y = 0;
+		template.templateType = "Widget";
+		template.type = widget.type;
+		template.has = lang.clone(widget.has);
+		template.props = lang.clone(widget.props);
+		//template.variantOf = template.variantOf ? template.variantOf : widget.template
+		template.copyOf = template.copyOf ? template.copyOf : widget.template
+		ModelUtil.mixinNewStyles(template, widget)
+		return template
+	}
+
+	
 
 	_createWidgetTemplate (widget, visible, name){
 

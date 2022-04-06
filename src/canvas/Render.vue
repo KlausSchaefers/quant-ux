@@ -350,7 +350,7 @@ export default {
 				 * The sourceModel is used to draw tge elements on the zoomable
 				 * background, whereas the model is used to handle DND
 				 */
-				this.sourceModel = ModelUtil.inlineTemplateModifies(sourceModel);
+				this.sourceModel = ModelUtil.updateTemplateModifies(sourceModel);
 				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
 
 				this.renderFlowViewFast(this.sourceModel, this.model, isResize);

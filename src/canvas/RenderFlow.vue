@@ -64,6 +64,7 @@ export default {
 
 			renderFlowViewFast (sourceModel, zoomedModel, isResize = false){
 				this.logger.log(1,"renderFlowViewFast", "enter");
+			
 
 
 				/**
@@ -415,6 +416,7 @@ export default {
 			},
 
 			updateWidget (widget, zoomedWidget, i, isResize) {
+				//console.debug('updateWidget', widget.name, isResize, this.elementHasChanged(widget))
 				if (isResize || this.elementHasChanged(widget)) {
 					const dnd = this.widgetDivs[widget.id]
 					if (dnd) {

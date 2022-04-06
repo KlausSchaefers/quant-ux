@@ -628,17 +628,16 @@ export default {
 			},
 
 			renderImportedApp (app) {
-				console.debug('renderImportedApp', app)
 				let elements = Services.getSymbolService().convertAppToSymbols(app)
 				this.renderElements(elements, app.id, false);
 			},
 
 			renderTemplates (){
 
-				var elements = [];
+				const elements = [];
 				if(this.model && this.model.templates){
-					for(var tid in this.model.templates){
-						var template = this.model.templates[tid];
+					for(let tid in this.model.templates){
+						let template = this.model.templates[tid];
 
 						if(template.visible){
 							/**
@@ -771,9 +770,7 @@ export default {
 			},
 
 			renderScreenAndWidget (app, preview, db, size, isTemplate, elementDiv){
-
-				console.debug('renderScreenAndWidget', app.name, app)
-				
+		
 				this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", app)));
 
 				// FIXME: Somehow scale to model minscreen size??
@@ -825,7 +822,7 @@ export default {
 				child.y *= scale.y;
 				try{
 					child.id = parent.id +"_" + i;
-					var widgetBox = db.div("MatcBox").build(parentDiv);
+					const widgetBox = db.div("MatcBox").build(parentDiv);
 					domStyle.set(widgetBox, {
 						"width" :  Math.round(child.w) + "px",
 						"height" : Math.round(child.h) + "px",
@@ -861,10 +858,14 @@ export default {
 					/**
 					 * now render group
 					 */
-					let children = this.getTemplateGroupOrderChildren(group);
+					let children = this.getTemplateGroupOrderChildren(group);	
 					for (let i=0; i< children.length; i++){
-						child = lang.clone(children[i]);
-						this.renderChildWidget(child, scale, screen, box, db, i)
+						let templateChild = lang.clone(children[i]);
+						/**
+						 * Since 4.0.60 we need to inline templates
+						 */
+						templateChild = ModelUtil.inlineTemplateVariant(templateChild, this.model)
+						this.renderChildWidget(templateChild, scale, screen, box, db, i)
 					}
 				} else {
 

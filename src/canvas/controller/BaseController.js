@@ -548,13 +548,12 @@ export default class BaseController extends Core {
 			/**
 				* In case we have a templated or design token widget, we
 				* kick of a complete rendering. This is to make sure that we
-				* merge in all teh style. This does not hurt too much, because
+				* merge in all the style. This does not hurt too much, because
 				* we have the partical rendering now.
 				* TODO: We could use the ModelUtil and inline the template and
 				*  the design tokens
 			 */
-			if(widget.template || widget.designtokens){
-
+			if (widget.template || widget.designtokens){
 				this.render();
 			} else {
 				/**
