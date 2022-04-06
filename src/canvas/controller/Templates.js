@@ -825,7 +825,7 @@ export default class Templates extends BaseController{
 		template.type = widget.type;
 		template.has = lang.clone(widget.has);
 		template.props = lang.clone(widget.props);
-		template.variantOf = template.variantOf ? template.variantOf : parentTemplate.id
+		template.variantOf = parentTemplate.variantOf ? parentTemplate.variantOf : parentTemplate.id
 		// here we could compute the difference between parent and widget?
 		template.style = lang.clone(widget.style);
 		if (widget.hover) {

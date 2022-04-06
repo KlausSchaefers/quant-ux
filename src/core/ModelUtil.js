@@ -410,7 +410,11 @@ class ModelUtil {
         // for the given widgetViewMode, we mix this in and
         // overwrite the values
         if (widget.template && model.templates[widget.template]) {
-            const template = model.templates[widget.template]
+            /**
+             * Since 4.0.60 we need to get potentially also a 
+             * check variants
+             */
+            const template = this.getTemplate(widget.template, model)
             if (template && template[widgetViewMode]) {
                 const templateStyle = template[widgetViewMode]
                 for (let key in templateStyle) {

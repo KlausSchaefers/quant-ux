@@ -197,3 +197,108 @@ test('Test ModelUtil.setStylesNotInTemplate() > relink template ', async () => {
     expect(widget.hover.a).toBe(undefined)
     expect(widget.hover.c).toBe(66)
 })
+
+
+test('Test ModelUtil.getTemplate() > No Variant', async () => {
+
+    const app = {
+        templates: {
+            't1': {
+                style: {a:1, b:2, c:3},
+                hover: {a:11, b:22},
+                error: {c:33}
+            },
+            't2': {
+                variantOf: 't1',
+                style: {a:4},
+                hover: {a:111},
+                error: {a:1111, c:333}
+            }
+        }
+    }
+
+    const template = ModelUtil.getTemplate('t1', app)
+    const style = template.style
+    expect(style.a).toBe(1)
+    expect(style.b).toBe(2)
+    expect(style.c).toBe(3)
+
+    const hover = template.hover
+    expect(hover.a).toBe(11)
+    expect(hover.b).toBe(22)
+
+    const error = template.error
+    expect(error.a).toBeUndefined()
+    expect(error.c).toBe(33)
+})
+
+
+test('Test ModelUtil.getTemplate() > variant', async () => {
+
+
+
+    const app = {
+        templates: {
+            't1': {
+                style: {a:1, b:2, c:3},
+                hover: {a:11, b:22},
+                error: {c:33}
+            },
+            't2': {
+                variantOf: 't1',
+                style: {a:4},
+                hover: {a:111},
+                error: {a:1111, c:333}
+            }
+        }
+    }
+
+    const template = ModelUtil.getTemplate('t2', app)
+    const style = template.style
+    expect(style.a).toBe(4)
+    expect(style.b).toBe(2)
+    expect(style.c).toBe(3)
+
+    const hover = template.hover
+    expect(hover.a).toBe(111)
+    expect(hover.b).toBe(22)
+
+    const error = template.error
+    expect(error.a).toBe(1111)
+    expect(error.c).toBe(333)
+})
+
+
+
+test('Test ModelUtil.getViewModeStyle() > variant no overwrites', async () => {
+
+
+
+    const app = {
+        templates: {
+            't1': {
+                style: {a:1, b:2, c:3},
+                hover: {a:11, b:22}
+            },
+            't2': {
+                variantOf: 't1',
+                style: {a:4},
+                hover: {a:111}
+            }
+        }
+    }
+    let widget = {
+        template: 't2',
+        style: {},
+        hover: {}
+    }
+    const style = ModelUtil.getViewModeStyle(widget, app, 'style')
+    expect(style.a).toBe(4)
+    expect(style.b).toBe(2)
+    expect(style.c).toBe(3)
+
+    const hover = ModelUtil.getViewModeStyle(widget, app, 'hover')
+    expect(hover.a).toBe(111)
+    expect(hover.b).toBe(22)
+})
+
