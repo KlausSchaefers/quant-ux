@@ -1276,7 +1276,8 @@ export default class GridAndRuler extends Core {
 		let minLeft = 1000000;
 		let minRight = 1000000;
 
-		const sourceAbsPos = this.getUnZoomedBox(lang.clone(absPos), this.zoom, this.zomm)
+		const sourceAbsPos = this.getSnappSource(absPos)
+
 
 		const boxes = this._getOverlappingBoxes();
 		boxes.push(this._lastScreen);
@@ -1390,6 +1391,36 @@ export default class GridAndRuler extends Core {
 
 
 		return result;
+	}
+
+	getSnappSource(absPos) {
+		const box = lang.clone(absPos)
+        if (box.x) {
+            box.x = Math.floor(box.x / this.zoom);
+        }
+        if (box.y) {
+            box.y = Math.floor(box.y / this.zoom);
+        }
+        if (box.w) {
+            box.w = Math.floor(box.w / this.zoom);
+        }
+
+        if (box.h) {
+            box.h = Math.floor(box.h / this.zoom);
+        }
+
+		if (absPos.snapp) {
+			const snapp = absPos.snapp
+			if (snapp.x && snapp.x._sourceV !== undefined) {
+				box.x = snapp.x._sourceV
+			}
+			if (snapp.y && snapp.y._sourceV !== undefined) {
+				box.y = snapp.y._sourceV
+			}
+		}
+
+	
+		return box
 	}
 
 	_getOverlappingBoxes() {
@@ -1782,14 +1813,9 @@ export default class GridAndRuler extends Core {
 
 	getCloseLines(lines, key, vales, ignoreType) {
 
-		var result = null;
-
-		var min = this.showDistance;
-
-		/**
-		 * FIXME: is related to snapp distance!
-		 */
-		var weights = {
+		let result = null;
+		let min = this.showDistance;
+		const weights = {
 			"Grid": 0,
 			"Widget": 0,
 			"Screen": 0,
@@ -1802,9 +1828,8 @@ export default class GridAndRuler extends Core {
 
 			if (!ignoreType || ignoreType != line.type) {
 				line.dist = 1000;
-				// console.debug('getCloseLines', line, ignoreType)
-				for (var i = 0; i < vales.length; i++) {
-					var v = vales[i];
+				for (let i = 0; i < vales.length; i++) {
+					let v = vales[i];
 
 					/**
 					 * We add here a penalty of 10 pixel for Grid lines to avoid that the user
@@ -1817,8 +1842,7 @@ export default class GridAndRuler extends Core {
 					 * TODO: Also we should have here some kind of penalty of the widget that causes the line is
 					 * very far in the other axis...
 					 */
-					var cost = Math.abs(v - line[key]) + weights[line.type];
-
+					const cost = Math.abs(v - line[key]) + weights[line.type];
 					if (cost >= 0 && cost < min) {
 						min = cost;
 						result = line;
@@ -1991,6 +2015,10 @@ export default class GridAndRuler extends Core {
 
 	initGrid(screen) {
 
+		const sourceScreen = this.getSourceBox(screen)
+		const sourceGridHeight = this.sourceModel.grid.h
+		const sourceGridWidth = this.sourceModel.grid.w
+
 		/**
 		 * Now add grid lines
 		 */
@@ -2040,6 +2068,7 @@ export default class GridAndRuler extends Core {
 							pos: "x",
 							line: i,
 							_v: screen.x + i * this.gridWidth,
+							_sourceV: sourceScreen.x + i * sourceGridWidth,
 							type: "Grid"
 						}, "Grid");
 					}
@@ -2056,6 +2085,7 @@ export default class GridAndRuler extends Core {
 							type: "Grid",
 							line: i,
 							_v: screen.y + i * this.gridWidth,
+							_sourceV: sourceScreen.y + i * sourceGridHeight,
 						}, "Grid");
 					}
 				}
@@ -2073,15 +2103,15 @@ export default class GridAndRuler extends Core {
 	 */
 	addGroupLines(group) {
 
-		var left, right, top, bottom = null;
+		let left, right, top, bottom = null;
 
 		/**
 		 * Get bounding box
 		 */
-		var children = group.children;
-		for (var i = 0; i < children.length; i++) {
-			var id = children[i];
-			var widget = this.model.widgets[id];
+		const children = group.children;
+		for (let i = 0; i < children.length; i++) {
+			const id = children[i];
+			const widget = this.model.widgets[id];
 			if (widget) {
 				if (!left || left.x > widget.x) {
 					left = widget;
@@ -2273,13 +2303,12 @@ export default class GridAndRuler extends Core {
 				let snappDistance = this.getSnappDictance()
 				if (Math.abs(line.dist) < snappDistance) {
 					css.add(this._linesDivs[line.id], "MatcRulerLineSelected");
-
 					if (this.highlightBoxes) {
 						if (line.boxes) {
-							var boxes = line.boxes;
-							for (var i = 0; i < boxes.length; i++) {
-								var widgetID = boxes[i];
-								var div = this.widgetDivs[widgetID];
+							const boxes = line.boxes;
+							for (let i = 0; i < boxes.length; i++) {
+								const widgetID = boxes[i];
+								const div = this.widgetDivs[widgetID];
 								if (div) {
 									if (line.snapp && (line.snapp.pos == "middleX" || line.snapp.pos == "middleY")) {
 										css.add(div, "MatcRulerBoxSelectedMiddle");
@@ -2429,7 +2458,7 @@ export default class GridAndRuler extends Core {
 	cleanupDistributionLines() {
 		if (this.distributionLines) {
 			for (let id in this.distributionLines) {
-				let div = this.distributionLines[id];
+				const div = this.distributionLines[id];
 				if (div && div.parentNode) {
 					div.parentNode.removeChild(div);
 				} else {
@@ -2444,9 +2473,9 @@ export default class GridAndRuler extends Core {
 	 * Copies from layout
 	 */
 	getParentScreen(widget) {
-		for (var id in this.model.screens) {
-			var screen = this.model.screens[id];
-			var i = screen.children.indexOf(widget.id);
+		for (let id in this.model.screens) {
+			const screen = this.model.screens[id];
+			const i = screen.children.indexOf(widget.id);
 			if (i > -1) {
 				return screen;
 			}
