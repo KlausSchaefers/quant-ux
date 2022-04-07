@@ -26,8 +26,7 @@ export default class Templates extends BaseController{
 				};
 				const changes = []
 				
-				
-				const instanceBoundingBoxes = this.getInstanceBoundingBoxes(groupTemplate)
+			
 				const children = this.getAllGroupChildren(group)
 				const sortedChildren = this.sortChildren(children)
 				const boundingBox = this.getBoundingBox(children)
@@ -36,13 +35,13 @@ export default class Templates extends BaseController{
 				 * 1) Check if we have added elements (or groups). this must be doen first to keep bounding
 				 * boxes well
 				 */
-				this.addAndRemoveTemplateGroupWidgets(command, changes, group, groupTemplate, sortedChildren, boundingBox)
+				const deltaBoundingBox = this.addAndRemoveTemplateGroupWidgets(command, changes, group, groupTemplate, sortedChildren, boundingBox)
 
 				/**
 				 * 2) Update all widgets in the group and also reposition them
 				 */
-				this.updateAllTemplateGroupWidgets(command, changes, updatePositons, instanceBoundingBoxes, sortedChildren, boundingBox)
-
+				const instanceBoundingBoxes = this.getInstanceBoundingBoxes(groupTemplate)
+				this.updateAllTemplateGroupWidgets(command, changes, updatePositons, instanceBoundingBoxes, sortedChildren, boundingBox, deltaBoundingBox)
 
 
 				this.addCommand(command);
@@ -78,7 +77,7 @@ export default class Templates extends BaseController{
 		return result
 	}
 
-	updateAllTemplateGroupWidgets (command, changes, updatePositons, instanceBoundingBoxes, sortedChildren, boundingBox) {
+	updateAllTemplateGroupWidgets (command, changes, updatePositons, instanceBoundingBoxes, sortedChildren, boundingBox, deltaBoundingBox) {
 		sortedChildren.forEach((widget, index) => {			
 			if (widget.template) {
 				const template = this.model.templates[widget.template];
@@ -89,10 +88,9 @@ export default class Templates extends BaseController{
 					const deltaX = template.x - x
 					const deltaY = template.y - y
 					const deltaZ = template.z - index
-
-					console.debug('updateAllTemplateGroupWidgets() >', widget.name, deltaZ)
-				
-					const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, x, y, instanceBoundingBoxes)
+	
+					const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, x, y, instanceBoundingBoxes, deltaBoundingBox)
+					const props = this.getWidgetTemplatePropsChanges(template, widget)
 					const childCommand = {
 						timestamp : new Date().getTime(),
 						type : "UpdateWidget",
@@ -103,14 +101,9 @@ export default class Templates extends BaseController{
 						deltaX: deltaX,
 						deltaY: deltaY,
 						isChildCommand: true,
-						props: this.getWidgetTemplatePropsChanges(template, widget)
+						props: props
 					};
 					this.modelUpdateTemplate(childCommand, false);
-
-
-					/**
-					 * TODO: we could still check here if the group has changed to the template....
-					 */
 
 					changes.push({type: 'template', action:"change", id: template.id})
 					command.children.push(childCommand)
@@ -123,8 +116,10 @@ export default class Templates extends BaseController{
 
 	addAndRemoveTemplateGroupWidgets (command, changes,group, groupTemplate, sortedChildren, boundingBox) {
 
-		const [newTemplates, widgets, widgetGroups] = this.getTemplatesToAddFromGroup(sortedChildren, boundingBox, group)
+		const [newTemplates, widgets, widgetGroups, oldWidgets] = this.getTemplatesToAddFromGroup(sortedChildren, boundingBox, group)
 		const removeTemplates = this.getTemplatesToRemoveFromGroup(sortedChildren, groupTemplate, group)
+
+		const deltaBoundingBox = this.getBoundingBoxDelta(oldWidgets, boundingBox);
 
 		if (newTemplates.length > 0 || removeTemplates.length > 0) {
 			this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "Add or remove templates > ", newTemplates, removeTemplates);
@@ -151,6 +146,7 @@ export default class Templates extends BaseController{
 				addChildGroups: widgetGroups,
 				mergedInWidgets: widgets
 			};
+
 		
 			// for all instances add or remove children
 			const instanceGroups = ModelUtil.getGroupsByTemplate(groupTemplate.id, this.model)
@@ -172,8 +168,8 @@ export default class Templates extends BaseController{
 							}
 							widget.id = "w"+this.getUUID();
 							widget.z = instanceGroupMinZ + t.z 
-							widget.x =  boundingBox.x + t.x;
-							widget.y =  boundingBox.y + t.y;
+							widget.x =  boundingBox.x + t.x - deltaBoundingBox.x;
+							widget.y =  boundingBox.y + t.y - deltaBoundingBox.y;
 							widget.template = t.id
 
 							let groupId = instanceGroup.id
@@ -220,6 +216,19 @@ export default class Templates extends BaseController{
 			command.children.push(updateTemplateGroupCommand)
 			this.modelUpdateTemplateGroup(updateTemplateGroupCommand)			
 		}
+
+		return deltaBoundingBox
+	}
+
+	getBoundingBoxDelta(oldWidgets, boundingBox) {
+		const oldBoundingBox = this.getBoundingBoxByBoxes(oldWidgets);
+		const deltaBoundingBox = {
+			w: boundingBox.w - oldBoundingBox.w,
+			h: boundingBox.h - oldBoundingBox.h,
+			x: boundingBox.x - oldBoundingBox.x,
+			y: boundingBox.y - oldBoundingBox.y
+		};
+		return deltaBoundingBox
 	}
 
 	getTemplatesToRemoveFromGroup (sortedChildren, groupTemplate) {
@@ -240,8 +249,9 @@ export default class Templates extends BaseController{
 
 	getTemplatesToAddFromGroup (sortedChildren, boundingBox, parentGroup) {
 		const newTemplates = []
-		const widgets = []
+		const newWidgets = []
 		const widgetGroups = {}
+		const oldWidgets = []
 	
 		sortedChildren.forEach((widget, index) => {		
 			if (this.isNewChildInTemplatedGroup(widget, parentGroup)) {
@@ -253,7 +263,7 @@ export default class Templates extends BaseController{
 				t.z = index
 	
 				newTemplates.push(t);
-				widgets.push(widget.id);
+				newWidgets.push(widget.id);
 
 				const parentGroup = this.getParentGroup(widget.id)
 				if (parentGroup) {
@@ -263,10 +273,12 @@ export default class Templates extends BaseController{
 						this.logger.log(-1,"addAndRemoveTemplateGroupWidgets", "New element group is not template > ", widget);
 					}
 				}
+			} else {
+				oldWidgets.push(widget)
 			}
 		})
 
-		return [newTemplates, widgets, widgetGroups]
+		return [newTemplates, newWidgets, widgetGroups, oldWidgets]
 	}
 
 	isNewChildInTemplatedGroup (widget) {
@@ -486,18 +498,13 @@ export default class Templates extends BaseController{
 
 
 
-	getWidgetTemplateResize (updatePositons, template, updatedWidget = false, x = 0, y = 0, instanceBoundingBoxes) {
+	getWidgetTemplateResize (updatePositons, template, updatedWidget = false, x = 0, y = 0, instanceBoundingBoxes, deltaBoundingBox) {
 		let result = []
 		if (!updatePositons) {
 			this.logger.log(1,"getWidgetTemplateResize", "NO update");
 			return
 		}
 
-		// FIXME: update only widgets that have been in the original...?
-	
-		// we apply the changes only iff there is a difference.
-		// change as mini commands
-		// FIXME: If we have to widgets with the same template, they will get updated :( 	
 		const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 		widgets.forEach(widget => {
 			if (widget.id !== updatedWidget.id) {
@@ -509,11 +516,10 @@ export default class Templates extends BaseController{
 					result.push({id: widget.id, type:'h', n: updatedWidget.h, o: widget.h})
 				}
 
-				// Check here if this should be only supported for 
 				if (instanceBoundingBoxes && instanceBoundingBoxes[widget.id]) {
 					const boundBox = instanceBoundingBoxes[widget.id]
-					result.push({id: widget.id, type:'x', n: boundBox.x + x, o: widget.x})
-					result.push({id: widget.id, type:'y', n: boundBox.y + y, o: widget.y})
+					result.push({id: widget.id, type:'x', n: boundBox.x + x + deltaBoundingBox.x, o: widget.x})
+					result.push({id: widget.id, type:'y', n: boundBox.y + y + deltaBoundingBox.y, o: widget.y})
 				}
 			}
 		})
@@ -639,7 +645,7 @@ export default class Templates extends BaseController{
 
 	modelUpdateTemplateVariants (template, model, modified) {
 		let variants = ModelUtil.getVariantesOfTemplate(template, model)
-		console.debug('modelUpdateTemplateVariants()' , variants)
+		this.logger.log(1,"modelUpdateTemplateVariants", "enter", variants);
 		variants.forEach(variant => {
 			variant.modified = modified
 		})
