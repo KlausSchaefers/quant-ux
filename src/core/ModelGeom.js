@@ -43,6 +43,27 @@ class ModelGeom {
         return result;
     }
 
+    getMinZValueByIDs(ids, model) {
+        let min = 100000;
+        let l = 0;
+        ids.forEach(id => {
+            const w = model.widgets[id];
+            if (w) {
+                console.debug('  - ', w.name, w.z)
+                min = Math.min(w.z, min);
+                l++;
+            } else {
+                console.debug('cannot find', id)
+            }
+        });
+        if (l > 0) {
+            console.debug('getMinZValueByIDs', ids, 'min: '+ min)
+            return min;
+        } else {
+            return 0;
+        }
+    }
+
     getBoxById (id, model) {
         if (model.widgets[id]) {
             return model.widgets[id];

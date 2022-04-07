@@ -390,7 +390,8 @@ export default {
 				hidde: false,
 				open: this.openNodes[box.id],
 				inherited: box.inherited,
-				fixed: false
+				fixed: false,
+				z: box.z
 			}
 
 			if (box.props) {
@@ -414,6 +415,8 @@ export default {
 			if (box.isNewTemplateChild) {
 				node.label += ' *' // keep this for debugging
 			}
+
+			//node.label += `[${node.z}]`
 			this.nodes[node.id] = node
 			this.lastNode = node
 			return node;

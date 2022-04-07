@@ -1,6 +1,7 @@
 import BaseController from './BaseController'
 import lang from '../../dojo/_base/lang'
 import ModelUtil from 'core/ModelUtil'
+import ModelGeom from 'core/ModelGeom'
 
 export default class Templates extends BaseController{
 
@@ -88,7 +89,7 @@ export default class Templates extends BaseController{
 					const deltaX = template.x - x
 					const deltaY = template.y - y
 					const deltaZ = template.z - index
-	
+
 					const resizes = this.getWidgetTemplateResize(updatePositons, template, widget, x, y, instanceBoundingBoxes, deltaBoundingBox)
 					const props = this.getWidgetTemplatePropsChanges(template, widget)
 					const childCommand = {
@@ -157,8 +158,9 @@ export default class Templates extends BaseController{
 					let targetScreen = this.getHoverScreen(boundingBox);
 
 					// add the new wiggets relative
-					let instanceGroupMinZ = this.getMinZValue(allChildren) 
-
+				
+					let instanceGroupMinZ = ModelGeom.getMinZValueByIDs(allChildren, this.model) 
+				
 					// 3) build all the new widgets to add
 					newTemplates.forEach(t => {			
 							//console.debug('addAndRemoveTemplateGroupWidgets', t.name, t.z)							
@@ -167,10 +169,13 @@ export default class Templates extends BaseController{
 								widget.name = this.getWidgetName(targetScreen.id, widget.name);
 							}
 							widget.id = "w"+this.getUUID();
+							
 							widget.z = instanceGroupMinZ + t.z 
 							widget.x =  boundingBox.x + t.x - deltaBoundingBox.x;
 							widget.y =  boundingBox.y + t.y - deltaBoundingBox.y;
 							widget.template = t.id
+
+							console.debug('add', widget.name, widget.z)
 
 							let groupId = instanceGroup.id
 							if (widgetGroups[t.id]) {
@@ -590,12 +595,13 @@ export default class Templates extends BaseController{
 
 		// if we have z change, update also all instances
 		// and the template
-		if (command.deltaZ) {
+		if (command.deltaZ !== undefined) {
 			template.z = template.z - command.deltaZ
 			const widgets = ModelUtil.getWidgetsByTemplate(template.id, this.model)
 			widgets.forEach(widget => {
 				if (commandWidget.id !== widget.id) {
 					widget.z = widget.z - command.deltaZ
+					console.debug('update', widget.name, widget.z)
 				}
 			})
 		}
