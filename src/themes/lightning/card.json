@@ -245,7 +245,7 @@
             "borderRightColor": "#333333",
             "borderLeftColor": "#333333",
             "color": "#4bca81",
-            "icon": "mdi mdi-contact-mail"
+            "icon": "mdi mdi-card-account-mail"
           },
           "_type": "Widget"
         },

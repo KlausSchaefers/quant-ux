@@ -76,11 +76,11 @@ export default {
 				"OpenUI": "OpenUI5"
 			},
 			previewSizes : {
-				"default" : {
+				default : {
 					w : 120,
 					h : 70
 				},
-				"Screen" : {
+				Screen : {
 					w : 160,
 					h : 200
 				}
@@ -872,14 +872,14 @@ export default {
 					this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", group)));
 
 					let child = this.getBoundingBoxByBoxes(group.children);
-					let scale = this.getScale(size, "auto", child)
+					const scale = this.getScale(size, "auto", child)
 					scale.x = Math.min(1, scale.x)
 					scale.y = Math.min(1, scale.y)
 
 					child = this._getScalledChild(child, size);
 					let box = this._createCenteredBox(db, preview, child, size);
 
-					var children = group.children;
+					const children = group.children;
 					for (let i=0; i< children.length; i++){
 						child = lang.clone(children[i]);
 						this.renderChildWidget(child, scale, screen, box, db, i)
@@ -893,7 +893,7 @@ export default {
 				 * TODO: For templates create a remove button
 				 */
 				child = this._getScalledChild(child, size);
-				var box = this._createCenteredBox(db, preview, child, size);
+				const box = this._createCenteredBox(db, preview, child, size);
 				try {
 					this.renderFactory.createWidgetHTML(box, child);
 				} catch (e) {

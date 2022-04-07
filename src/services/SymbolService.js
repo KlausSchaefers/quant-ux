@@ -223,6 +223,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/lightning/visualpicker.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/welcome.json'),
             import(/* webpackChunkName: "themes" */ 'themes/lightning/tree.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/lightning/table.json'),
             //import(/* webpackChunkName: "themes" */ 'themes/screensAndWidgets.json')
             
           ]).then(values => {

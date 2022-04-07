@@ -87,9 +87,11 @@
 .MatcCreateBtnElementPreview{
 	width: 160px;
 	height: 100px;
-	overflow: hidden;
+	overflow: visible;
 	position: relative;
 }
+
+
 
 .MatcToolbar .MatcToolbarDropDownButton .MatcCreateBtnCntr li{
 	margin-bottom: 4px;

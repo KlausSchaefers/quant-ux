@@ -125,13 +125,14 @@
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
 								</div>
 
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
+								</div>
+
 							</div>
 						</div>
 
 
-						<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
-						</div>
-
+				
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
