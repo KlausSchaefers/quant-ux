@@ -3,6 +3,62 @@ import LayerUtil from '../../core/LayerUtil'
 import ModelUtil from '../../core/ModelUtil';
 export default class Layer extends Templates {
 
+	/**********************************************************************
+	 * Normalize zValues
+	 **********************************************************************/
+
+
+	normalilizeZvalues () {
+		this.logger.log(-1,"normalilizeZvalues", "entry > Widgets: ");
+
+		let command = this.createNormalizeZValuesCommand()
+		this.modelWidgetLayers(command.n)
+		this.addCommand(command)
+		this.onModelChanged([]); // FIXME
+		this.render()
+	}
+
+	createNormalizeZValuesCommand (model) {
+		const oldValues = {}
+		const newValues = {}
+
+		for (let screenId in model.screens) {
+			let srcn = model.screens[screenId]
+			const sortedChildren = this.sortChildren(srcn.children)
+			sortedChildren.forEach((w,i) => {
+				let z = i + 1
+				if (w.z !== z) {
+					newValues[w.id] = z,
+					oldValues[w.id] = w.z
+				}
+			})
+		}
+
+		this.logger.log(1,"createNormalizeZValuesCommand", "exit > # changes: ", Object.keys(newValues).length);
+
+		return {
+			timestamp : new Date().getTime(),
+			type : "NormalizeLayers",
+			o: oldValues,
+			n: newValues,
+		};
+	}
+
+	undoNormalizeLayers(command) {
+		this.modelWidgetLayers(command.o)
+		this.render();
+	}
+
+	redoNormalizeLayers(command) {
+		this.modelWidgetLayers(command.n)
+		this.render();
+	}
+
+	/**********************************************************************
+	 * DND stuff from LayerList
+	 **********************************************************************/
+
+
 	changeLayer (from, to){
 		this.logger.log(-1,"changeLayer", "entry > Widgets: ", from, to);
 

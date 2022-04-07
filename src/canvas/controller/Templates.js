@@ -27,6 +27,10 @@ export default class Templates extends BaseController{
 				};
 				const changes = []
 				
+				// we might need to normalize all zLayers to fix z adding screw ups?
+				//let zCommand = this.createNormalizeZValuesCommand(this.model)
+				//this.modelWidgetLayers(zCommand.n)
+				//command.children.push(zCommand)
 			
 				const children = this.getAllGroupChildren(group)
 				const sortedChildren = this.sortChildren(children)
@@ -162,51 +166,19 @@ export default class Templates extends BaseController{
 					let instanceGroupMinZ = ModelGeom.getMinZValueByIDs(allChildren, this.model) 
 				
 					// 3) build all the new widgets to add
-					newTemplates.forEach(t => {			
-							//console.debug('addAndRemoveTemplateGroupWidgets', t.name, t.z)							
-							const widget = this.factory.createTemplatedModel(lang.clone(t));
-							if (targetScreen) {
-								widget.name = this.getWidgetName(targetScreen.id, widget.name);
-							}
-							widget.id = "w"+this.getUUID();
-							
-							widget.z = instanceGroupMinZ + t.z 
-							widget.x =  boundingBox.x + t.x - deltaBoundingBox.x;
-							widget.y =  boundingBox.y + t.y - deltaBoundingBox.y;
-							widget.template = t.id
-
-							console.debug('add', widget.name, widget.z)
-
-							let groupId = instanceGroup.id
-							if (widgetGroups[t.id]) {
-								let subgroups = this.getAllChildGroups(instanceGroup)
-								let subgroup = subgroups.find(g => g.template === widgetGroups[t.id])
-								if (subgroup) {
-									groupId = subgroup.id
-								}
-							}
-						
-							updateTemplateGroupCommand.addWidgets.push({
-								screenId: targetScreen ? targetScreen.id : false,
-								widget: widget,
-								groupId: groupId
-							})
+					newTemplates.forEach(newTemplate => {									
+						this.addNewTemplatesWidgets(
+							newTemplate, targetScreen, instanceGroupMinZ, boundingBox, 
+							deltaBoundingBox, instanceGroup, 
+							widgetGroups, updateTemplateGroupCommand);
 					})
 
 					// 4) remove all not needed widgets in the instance group
 		
 					allChildren.forEach(id => {
-						const widget = this.model.widgets[id]
-						const removeTemplate = removeTemplates.find(t => t.id === widget.template)				
-						if (removeTemplate) {				
-							const group = this.getParentGroup(widget.id)
-							updateTemplateGroupCommand.removeWidgets.push({
-								screenId: targetScreen ? targetScreen.id : false,
-								widget: lang.clone(widget),
-								groupId: group ? group.id : false
-							})
-						}
+						this.removeTemplatesWidget(id, removeTemplates, updateTemplateGroupCommand, targetScreen);
 					})
+
 				}				
 			})	
 
@@ -223,6 +195,47 @@ export default class Templates extends BaseController{
 		}
 
 		return deltaBoundingBox
+	}
+
+	removeTemplatesWidget(id, removeTemplates, updateTemplateGroupCommand, targetScreen) {
+		const widget = this.model.widgets[id];
+		const removeTemplate = removeTemplates.find(t => t.id === widget.template);
+		if (removeTemplate) {
+			const group = this.getParentGroup(widget.id);
+			updateTemplateGroupCommand.removeWidgets.push({
+				screenId: targetScreen ? targetScreen.id : false,
+				widget: lang.clone(widget),
+				groupId: group ? group.id : false
+			});
+		}
+	}
+
+	addNewTemplatesWidgets(t, targetScreen, instanceGroupMinZ, boundingBox, deltaBoundingBox, instanceGroup, widgetGroups, updateTemplateGroupCommand) {
+		const widget = this.factory.createTemplatedModel(lang.clone(t));
+		if (targetScreen) {
+			widget.name = this.getWidgetName(targetScreen.id, widget.name);
+		}
+		widget.id = "w" + this.getUUID();
+
+		widget.z = instanceGroupMinZ + t.z;
+		widget.x = boundingBox.x + t.x - deltaBoundingBox.x;
+		widget.y = boundingBox.y + t.y - deltaBoundingBox.y;
+		widget.template = t.id;
+
+		let groupId = instanceGroup.id;
+		if (widgetGroups[t.id]) {
+			let subgroups = this.getAllChildGroups(instanceGroup);
+			let subgroup = subgroups.find(g => g.template === widgetGroups[t.id]);
+			if (subgroup) {
+				groupId = subgroup.id;
+			}
+		}
+
+		updateTemplateGroupCommand.addWidgets.push({
+			screenId: targetScreen ? targetScreen.id : false,
+			widget: widget,
+			groupId: groupId
+		});
 	}
 
 	getBoundingBoxDelta(oldWidgets, boundingBox) {
@@ -601,7 +614,6 @@ export default class Templates extends BaseController{
 			widgets.forEach(widget => {
 				if (commandWidget.id !== widget.id) {
 					widget.z = widget.z - command.deltaZ
-					console.debug('update', widget.name, widget.z)
 				}
 			})
 		}

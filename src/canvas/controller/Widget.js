@@ -368,7 +368,7 @@ export default class Widget extends Screen {
 	}
 
 	removeMultiWidget (selection){
-		this.logger.log(-1,"removeMultiWidget", "enter > ", selection);
+		this.logger.log(1,"removeMultiWidget", "enter > ", selection);
 		this.unSelect();
 
 		let command = {
@@ -1412,8 +1412,8 @@ export default class Widget extends Screen {
 	}
 
 	/**********************************************************************
-		* Widget name
-		**********************************************************************/
+	* Widget Z
+	**********************************************************************/
 
 	setWidgetLayers (zValues){
 		this.logger.log(0,"setWidgetLayers", "enter > ");
@@ -1437,7 +1437,7 @@ export default class Widget extends Screen {
 
 		this.addCommand(command);
 		this.modelWidgetLayers(zValues);
-
+		this.render();
 	}
 
 	modelWidgetLayers (zValues){
@@ -1445,22 +1445,23 @@ export default class Widget extends Screen {
 		const modified = new Date().getTime()
 		for(let id in zValues){
 			const widget = widgets[id];
-			widget.modified = modified
 			if(widget){
+				widget.modified = modified
 				widget.z = zValues[id];
 			} else {
-				console.warn("Could not set z Valoue for ", id);
+				console.warn("modelWidgetLayers() > Could not set z Valoue for ", id);
 			}
 		}
 		this.onModelChanged([]);
-		this.render();
 	}
 
 	undoWidgetLayers (command){
 		this.modelWidgetLayers(command.o);
+		this.render();
 	}
 
 	redoWidgetLayers (command){
 		this.modelWidgetLayers(command.n);
+		this.render();
 	}
 }
