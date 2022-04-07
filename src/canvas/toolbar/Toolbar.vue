@@ -1326,19 +1326,33 @@ export default {
 
 
 		onToolWidgetLayer (value){
-
 			this.logger.log(1,"onToolWidgetLayer", "entry > "+ value);
 
-
-			var selection = this._getSelectedWidgets();
-
-			if(selection.length > 0){
-				var widgets = this.model.widgets;
-				var oldValues = this.getZValues(widgets);
-				var offset = this._getZOffset(selection, oldValues);
+			let selection = this._getSelectedWidgets();
+			if (selection.length > 0) {
+				let topId = false
+				/**
+				 * Since 4.0.60 we have a single selection in a group, 
+				 * can we boost the entire group to top?
+				 */
+				if (selection.length === 1) {
+					const widget = this.model.widgets[selection[0]];
+					if (widget) {
+						let parentGroup = this.getTopParentGroup(widget.id)
+						topId = widget.id
+						if (parentGroup) {
+							selection= this.getAllGroupChildren(parentGroup)
+						}
+					}
+				}
+				
+				const widgets = this.model.widgets;
+				const oldValues = this.getZValues(widgets);
+				const offset = this._getZOffset(selection, oldValues);
+				const max = this.getMaxZValue(widgets);
+				const min = this.getMinZValue(widgets);
 				switch(value) {
 				    case "front":
-				    	var max = this.getMaxZValue(widgets);
 				    	for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
 				    		oldValues[id] = max +1 + offset[id];
@@ -1347,17 +1361,16 @@ export default {
 				    case "forward":
 				    	for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
-				    		oldValues[id]++;
+				    		oldValues[id]+=2;
 				    	}
 				        break;
 				    case "backward":
 				    	for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
-				    		oldValues[id]--;
+				    		oldValues[id]-=2;
 				    	}
 				    	break;
 				    default:
-				    	var min = this.getMinZValue(widgets);
 				    	var l = selection.length;
 					    for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
@@ -1366,18 +1379,27 @@ export default {
 				        break;
 				}
 
+			
+				/**
+				 * Since 4.0.60 we move groups as well up or down
+				 */
+				if (topId) {
+					if (value === 'front') {
+						oldValues[topId] = max + 10 + selection.length
+					}
+					if (value === 'back') {
+						oldValues[topId] = min - 10 + selection.length
+					}
+				}
+				
+
 				/**
 				 * normalize z-values to have the model a little bit better. Lowest value should be
 				 * zero, not more than one step between layers
 				 */
-				var newValues = this.getNormalizeWidgetZValues(oldValues);
-
-
+				const newValues = this.getNormalizeWidgetZValues(oldValues);
 				this.controller.setWidgetLayers(newValues);
-
 			}
-
-
 		},
 
 		_getZOffset (selection, values){

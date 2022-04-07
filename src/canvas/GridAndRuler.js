@@ -1238,23 +1238,25 @@ export default class GridAndRuler extends Core {
 				this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
 			}
 
-			const box = this._lastScreen;
-			const widget = absPos;
-			if (absPos.snapp && absPos.snapp.x) {
-				const snappX = absPos.snapp.x;
-				if (snappX.type == "Mirror") {
-					let left = widget.x - box.x;
-					var lblLeft = this._getHackedUnZoomed(left, this.zoom);
-					this._renderDistanceLineX(box.x, widget.y + widget.h / 2, left, lblLeft);
+			if (this._lastScreen) {
+				const box = this._lastScreen;
+				const widget = absPos;
+				if (absPos.snapp && absPos.snapp.x) {
+					const snappX = absPos.snapp.x;
+					if (snappX.type == "Mirror") {
+						let left = widget.x - box.x;
+						var lblLeft = this._getHackedUnZoomed(left, this.zoom);
+						this._renderDistanceLineX(box.x, widget.y + widget.h / 2, left, lblLeft);
+					}
 				}
-			}
 
-			if (absPos.snapp && absPos.snapp.y) {
-				const snappY = absPos.snapp.y;
-				if (snappY.type == "Mirror") {
-					let top = widget.y - box.y;
-					var lblTop = this._getHackedUnZoomed(top, this.zoom);
-					this._renderDistanceLineY((widget.x + widget.w / 2), box.y, top, lblTop);
+				if (absPos.snapp && absPos.snapp.y) {
+					const snappY = absPos.snapp.y;
+					if (snappY.type == "Mirror") {
+						let top = widget.y - box.y;
+						var lblTop = this._getHackedUnZoomed(top, this.zoom);
+						this._renderDistanceLineY((widget.x + widget.w / 2), box.y, top, lblTop);
+					}
 				}
 			}
 		}

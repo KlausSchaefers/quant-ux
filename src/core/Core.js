@@ -1395,8 +1395,8 @@ export default class Core extends Evented {
         /**
          * convert values to a sorted list!
          */
-        var list = [];
-        for (var id in values) {
+        const list = [];
+        for (let id in values) {
             list.push({
                 id: id,
                 z: values[id]
@@ -1404,11 +1404,11 @@ export default class Core extends Evented {
         }
         this.sortWidgetList(list);
 
-        var z = -1;
-        var lastZ = null;
-        var result = {};
-        for (var i = 0; i < list.length; i++) {
-            var w = list[i];
+        let z = -1;
+        let lastZ = null;
+        let result = {};
+        for (let i = 0; i < list.length; i++) {
+            let w = list[i];
             if (lastZ === null || lastZ != w.z) {
                 z++;
                 lastZ = w.z;

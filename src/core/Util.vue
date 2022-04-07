@@ -1436,15 +1436,15 @@ export default {
      * template stuff
      ***************************************************************************/
 
-    getTemplateGroupOrderChildren: function(group) {
+    getTemplateGroupOrderChildren (group) {
       /**
        * render children, and order by
        * z values
        */
-      var children = [];
+      let children = [];
       for (var i = 0; i < group.children.length; i++) {
-        var id = group.children[i];
-        var child = this.model.templates[id];
+        const id = group.children[i];
+        const child = this.model.templates[id];
         children.push(child);
       }
       /**

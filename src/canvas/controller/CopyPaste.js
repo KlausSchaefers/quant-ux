@@ -864,7 +864,7 @@ export default class CopyPaste extends Group{
 			}
 
 
-			var newScreen = lang.clone(screen);
+			const newScreen = lang.clone(screen);
 			newScreen.id = "s"+this.getUUID();
 			newScreen.x =  pos.x;
 			newScreen.y =  pos.y;
@@ -872,16 +872,11 @@ export default class CopyPaste extends Group{
 			newScreen.children = [];
 			delete newScreen.props.start;
 
-			let children = [];
-
-			let parentGroups ={};
-			let widgetIDMapping = {};
-			/**
-			 * FIXME: Create a copy of all widgets too,
-			 *
-			 * and create a own modelCopyScreen funtion!
-			 */
-			const zMax =  this.getMaxZValue(this.model.widgets)
+			const children = [];
+			const parentGroups ={};
+			const widgetIDMapping = {};
+	
+			const zMax = 0//this.getMaxZValue(this.model.widgets)
 			if(screen.children){
 				const allChildren = this.sortChildren(screen.children)
 				allChildren.forEach((widget, i) => {	
@@ -902,22 +897,15 @@ export default class CopyPaste extends Group{
 					children.push(newWidget);
 					widgetIDMapping[widgetID] = newWidget.id;
 
-					var parentGroup = this.getParentGroup(widgetID);
+					const parentGroup = this.getParentGroup(widgetID);
 					if(parentGroup){
 						parentGroups[parentGroup.id] = parentGroup;
 					}
 				})
 			}
 
-			/**
-			 * Copy also groups
-			 */
-			//for(let parentGroupID in parentGroups){
-			//	let parentGroup = parentGroups[parentGroupID];
-			//	this.copyScreenGroup(parentGroup, groups, widgetIDMapping)
-			//}
+			
 			let groups = this.copyScreenGroups(parentGroups, widgetIDMapping)
-
 
 			/**
 			 * create the command

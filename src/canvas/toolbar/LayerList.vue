@@ -40,7 +40,8 @@ export default {
 			root: {},
 			trees: [],
 			nodes: {},
-			isVisible: true
+			isVisible: true,
+			isDebug: false
         }
     },
     components: {
@@ -50,6 +51,7 @@ export default {
       	postCreate (){
 			this.logger = new Logger("LayerList");
 			this.logger.log(2,"constructor", "entry > " + this.mode);
+			this.isDebug = location.hostname.indexOf('localhost') >= 0
 		},
 
 		setController (c){
@@ -416,7 +418,10 @@ export default {
 				node.label += ' *' // keep this for debugging
 			}
 
-			//node.label += `[${node.z}]`
+			if (this.isDebug) {
+				node.label += ` [${node.z}]`
+			}
+			
 			this.nodes[node.id] = node
 			this.lastNode = node
 			return node;
@@ -462,11 +467,15 @@ export default {
 			}
 
 
-			if (box.w > box.h) {
-				// this is funny, but we would need live update...
-				//return "mdi mdi-crop-landscape";
+			if (Math.abs(box.w - box.h) < 10) {
+				if (box?.style?.borderTopLeftRadius > box.w /2) {
+					return 'mdi mdi-circle-outline'
+				}
+				return 'mdi mdi-crop-square'
 			}
-
+			if (box.w > box.h) {
+				return "mdi mdi-crop-landscape";
+			}
 			return "mdi mdi-crop-portrait";
 		},
 
