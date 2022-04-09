@@ -111,7 +111,7 @@ export default {
       if (this.value && this.value.icon) {
         return this.value.icon
       }
-      return 'mdi mdi-crop-portrait MatcTreeIcon'
+      return false
     },
     lockIcon () {
       if (this.value && this.value.locked) {

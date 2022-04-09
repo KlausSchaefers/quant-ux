@@ -275,6 +275,20 @@ export default {
 			this.analyticLines[id] = line
 		},
 
+
+		drawStraightAnalyticLine(id, line, color, width, opacity) {
+			this.analyticSVG.append("path")
+							.attr("d", this.straightLineFunction(line))
+							.attr("stroke", color)
+							.attr("stroke-width", width )
+							.attr("fill", "none")
+							.style("opacity", opacity);
+
+			this.analyticLines[id] = line
+		},
+
+    
+
     /**********************************************************************
      * Wiring
      **********************************************************************/
@@ -606,23 +620,15 @@ export default {
     },
 
     _render_pixel_screen_heatmap(actionEvents, screen, ctx) {
-      /**
-       * get only the events for this screen..
-       *
-       * FIXME: could be done in one loop before rendering...
-       */
-
-      var events = [];
-
-      for (var i = 0; i < actionEvents.length; i++) {
-        var e = actionEvents[i];
-        var screenID = this.getEventScreenId(e);
+      const events = [];
+      for (let i = 0; i < actionEvents.length; i++) {
+        const e = actionEvents[i];
+        const screenID = this.getEventScreenId(e);
         if (screenID == screen.id) {
           events.push(e);
         }
       }
-
-      var dist = this.computeClickDistribution(events, screen.w, screen.h);
+      const dist = this.computeClickDistribution(events, screen.w, screen.h);
       this.draw(ctx, dist.values, dist.max, screen.w, screen.h);
     },
 
@@ -714,23 +720,18 @@ export default {
 
     _renderUserTree() {
       let sessions = this.getUserJourney();
-      let taskPerformance = this.getTaskPerformance();
       let db = new DomBuilder();
-      let task = null;
-      if (this.analyticParams.task !== false && this.analyticParams.task >= 0) {
-        task = this.testSettings.tasks[this.analyticParams.task];
-      }
-
+      let time = this.analyticParams.time
+      
       let selectedSessions = this.analyticParams.sessions;
       let graph = {};
-      let taskGraph = {};
-      let maxCount = 0;
+    
+
       for (let sessionID in selectedSessions) {
         if (selectedSessions[sessionID] === true) {
           let session = sessions[sessionID];
-          let matches = taskPerformance[sessionID];
           if (session) {
-            this._getSessionGraph(session, db, task, matches, graph, taskGraph);
+            this._getSessionGraph(session, graph, time);
             maxCount++;
           } else {
             console.debug("_renderUserTree() > No session for ", sessionID);
@@ -744,19 +745,22 @@ export default {
        * session count (maxCount). This messes up the graph. To make it
        * nice again, we update maxCount
        */
+      let maxCount = 0;
+      let maxMeanDuration = 0
       for (let id in graph) {
-        let l = graph[id]
+        const l = graph[id]
         if (l.count > maxCount) {
           console.warn("_renderUserTree() > Update maxcount, because l.count bigger than max count", )
           maxCount = l.count
         }
+        const meanDuration = l.duration / l.count
+        maxMeanDuration = Math.max(meanDuration, maxMeanDuration)
       }
 
-      let divs = {};
+      const divs = {};
       for (let id in graph) {
-        let l = graph[id];
-
-        let line = [];
+        const l = graph[id];
+        const line = [];
         line.push({
           x: l.from.x,
           y: l.from.y,
@@ -767,16 +771,21 @@ export default {
           y: l.to.y,
           d: "right",
         });
+
+        const meanDuration = l.duration / l.count
+        const p = time ?
+            Math.min(1, meanDuration / maxMeanDuration):
+            Math.min(1, l.count / maxCount)
+
+        const width = Math.min(15, Math.max(1, Math.round(p * 25))) + 1;
+        const color = this.mixColor(Math.min(1, p));
+        const toID = l.to.x + "," + l.to.y;
+        const fromID = l.from.x + "," + l.from.y;
         
-        let p = Math.min(1, l.count / maxCount)
-        var width = Math.min(15, Math.max(1, Math.round(p * 25)));
-       
-        var color = this.mixColor(Math.min(1, p));
-        var toID = l.to.x + "," + l.to.y;
         if (!divs[toID]) {
           divs[toID] = this._renderTreeEvent(l.to.x, l.to.y, width, color, db);
         }
-        var fromID = l.from.x + "," + l.from.y;
+      
         if (!divs[fromID]) {
           divs[fromID] = this._renderTreeEvent(l.from.x,l.from.y,width,color,db);
         }
@@ -808,20 +817,20 @@ export default {
     },
 
     _renderUserSingleLines() {
-      var sessions = this.getUserJourney();
-      var taskPerformance = this.getTaskPerformance();
-      var db = new DomBuilder();
+      const sessions = this.getUserJourney();
+      const taskPerformance = this.getTaskPerformance();
+      const db = new DomBuilder();
 
-      var task = null;
+      let task = null;
       if (this.analyticParams.task !== false && this.analyticParams.task >= 0) {
         task = this.testSettings.tasks[this.analyticParams.task];
       }
 
-      var selectedSessions = this.analyticParams.sessions;
-      for (var sessionID in selectedSessions) {
+      const selectedSessions = this.analyticParams.sessions;
+      for (let sessionID in selectedSessions) {
         if (selectedSessions[sessionID] === true) {
-          var session = sessions[sessionID];
-          var matches = taskPerformance[sessionID];
+          const session = sessions[sessionID];
+          const matches = taskPerformance[sessionID];
           if (session) {
             this._renderUserGraph(session, db, task, matches);
           } else {
@@ -832,85 +841,138 @@ export default {
     },
 
     _renderUserGraph(session, db, task, matches) {
-      var sessionEvents = session.data;
-      var line = [];
-      var lastEventDiv = null;
-      var divs = [];
-      var match = null;
-      var matchLines = [];
-      var matchDiv = [];
+      const sessionEvents = session.data;
+      const line = [];
+      const sessionLength = sessionEvents.length
+      const matchLines = [];
+    
+      let e
+      let lastDurationEvent
+      let duration = 0
+      let maxDuration = 0
+      let match;
       if (task && matches) {
         match = matches[task.id];
       }
-      for (let i = 0; i < sessionEvents.length; i++) {
-        var e = sessionEvents[i];
-        /**
-         * Be aware of the overlay...
-         */
-        var screenID = this.getEventScreenId(e);
-        var sourceScreen = this.sourceModel.screens[screenID];
-				var zoomedScreen = this.model.screens[screenID];
+
+      // compute line
+      for (let i = 0; i < sessionLength; i++) {
+        e = sessionEvents[i];
+        if (lastDurationEvent) {
+          duration = e.time - lastDurationEvent.time
+          maxDuration = Math.max(duration, maxDuration)
+        }
+        
+        const screenID = this.getEventScreenId(e);
+        const sourceScreen = this.sourceModel.screens[screenID];
+				const zoomedScreen = this.model.screens[screenID];
         if (sourceScreen && zoomedScreen) {
           if (e.type == "SessionStart") {
-            let x = sourceScreen.x - Math.max(10, Math.round(30 * this.zoom));
-            let y = sourceScreen.y + Math.max(10, Math.round(30 * this.zoom));
-            lastEventDiv = this._renderScreenEvent(x,y, e.type, "S",db, e.session);
-
-            line.push({ x: x, y: y, d: "right" });
+            const x = sourceScreen.x - Math.max(10, Math.round(30 * this.zoom));
+            const y = sourceScreen.y + Math.max(10, Math.round(30 * this.zoom));
+            line.push({ x: x, y: y, d: "right", duration:duration, type: e.type, session: e.session });
           } else if (e.x >= 0 && e.y >= 0 && !e.noheat) {
-            let x = e.x * sourceScreen.w + sourceScreen.x;
-            let y = e.y * sourceScreen.h + sourceScreen.y;
-            lastEventDiv = this._renderScreenEvent(x,y,e.type,"", db, e.session);
-            line.push({ x: x, y: y, d: "right" });
-            divs.push(lastEventDiv);
+            const x = e.x * sourceScreen.w + sourceScreen.x;
+            const y = e.y * sourceScreen.h + sourceScreen.y;
+            line.push({ x: x, y: y, d: "right", duration: duration , type: e.type, session: e.session});
+            lastDurationEvent = e
           }
           if (match && match.startPosition <= i && match.endPosition >= i) {
-            var temp = line[line.length - 1];
-            matchLines.push(temp);
-            matchDiv.push(lastEventDiv);
+            const point = line[line.length - 1];
+            point.match = true
+            matchLines.push(point);
           }
         } else {
           console.warn("_renderUserGraph()", "Screen is not there", e.screen);
         }
       }
-
-      if (lastEventDiv) {
-        css.add(lastEventDiv, "MatcAnalyticCanvasEventSessionEnd");
+      
+      /** Since 4.0.60 we add a last node, if it was screen load */
+      if (e && e.type === 'ScreenLoaded') {
+        const screenID = this.getEventScreenId(e);
+        const sourceScreen = this.sourceModel.screens[screenID];
+		
+        let x = Math.round(sourceScreen.x + sourceScreen.w / 2);
+        let y = Math.round(sourceScreen.y + sourceScreen.h / 2);
+        line.push({ x: x, y: y, d: "right", duration:duration, type: e.type, session: e.session});
+         if (match && match.startPosition <=  sessionLength && match.endPosition >= sessionLength) {
+            const temp = line[line.length - 1];
+            matchLines.push(temp);
+          }
       }
 
-      if (this.analyticParams.color) {
-        for (let i = 0; i < divs.length - 1; i++) {
-          divs[i].style.background = this.analyticParams.color;
+     
+      // draw all points
+      for (let i = 0; i < line.length; i++) {
+        const p = line[i]
+        const width = Math.round(40 * (p.duration / maxDuration)) + 25
+        const [div, halo] = this._renderScreenEvent(p.x,p.y, p.type, "",db, p.session, width);
+        if (i == line.length -1) {
+          css.add(div, "MatcAnalyticCanvasEventSessionEnd");
+        } else if (i > 0) {
+          if (p.match) {
+            div.style.background = this.analyticParams.taskColor;
+            halo.style.background = this.analyticParams.taskColor + 28;
+            halo.style.borderColor = this.analyticParams.taskColor;
+          } else {
+            div.style.background = this.analyticParams.color
+            halo.style.background = this.analyticParams.color + 28;
+            halo.style.borderColor = this.analyticParams.color;
+          }
         }
       }
 
+
+     
+  
       /**
        * Render successful task on top
        */
       if (task) {
-        this.drawAnalyticLine(session.session, line, this.analyticParams.color, 2, this.taskLineOpacity);
-        this.drawAnalyticLine(session.session,matchLines,this.analyticParams.taskColor,4,this.taskLineOpacity);
-        for (let i = 0; i < matchDiv.length; i++) {
-          matchDiv[i].style.background = this.analyticParams.taskColor;
-        }
+        this.drawStraightAnalyticLine(session.session, line, this.analyticParams.color, 2, this.taskLineOpacity);
+        this.drawStraightAnalyticLine(session.session, matchLines,this.analyticParams.taskColor, 4 ,this.taskLineOpacity);
       } else {
-        this.drawAnalyticLine(session.session,line, this.analyticParams.color, 2, this.taskLineOpacity);
+        this.drawStraightAnalyticLine(session.session,line, this.analyticParams.color, 2, this.taskLineOpacity);
       }
 
       return false;
     },
 
-    _renderScreenEvent(x, y, type, label, db, screenID) {
-      var cntr = db
+    drawDurationLine (session, line, defaultColor, maxDuration) {
+      for (let i = 0; i < line.length-1; i++) {
+        let start = line[i]
+        let end = line[i+1]
+        let p = end.duration / maxDuration
+        let width = Math.round(p * 6) + 2
+        let color = defaultColor
+        if (!defaultColor) {
+          //color = this.mixColor(Math.min(1, p))
+        }
+        this.drawStraightAnalyticLine(session,[start, end], color, width, this.taskLineOpacity);
+      }
+    },
+
+    _renderScreenEvent(x, y, type, label, db, screenID, width, r = 15) {
+      const cntr = db
         .div("MatcAnalyticCanvasEventCntr")
         .build(this.widgetContainer);
       cntr.style.left = Math.round(x) + "px";
       cntr.style.top = Math.round(y) + "px";
 
-      var div = db
+
+      const halo = db
+        .div("MatcAnalyticCanvasEventHalo")
+        .build(cntr);
+
+      halo.style.width = width + "px";
+      halo.style.height = width + "px";
+      halo.style.top = -1 * Math.round(width / 2) + "px";
+      halo.style.left = -1 * Math.round(width / 2) + "px";
+ 
+      const div = db
         .div("MatcAnalyticCanvasEvent MatcAnalyticCanvasEvent" + type)
         .build(cntr);
-      var r = Math.max(5, Math.round(15));
+
       div.style.width = r + "px";
       div.style.height = r + "px";
       div.style.top = -1 * Math.round(r / 2) + "px";
@@ -918,7 +980,7 @@ export default {
 
       this.tempOwn(on(div, "click", lang.hitch(this, "onScreenEventClick", screenID)));
 
-      return div;
+      return [div, halo];
     },
 
     onScreenEventClick(id, e) {
@@ -928,56 +990,78 @@ export default {
       }
     },
 
-    _getSessionGraph(session, db, task, matches, graph) {
-      var sessionEvents = session.data;
-
-      // var matchDiv = [];
-      // if (task && matches) {
-      //	match = matches[task.id];
-      //}
-      var from;
-      for (var i = 0; i < sessionEvents.length; i++) {
-        var e = sessionEvents[i];
-        /**
+    _getSessionGraph(session, graph) {
+  
+      const sessionEvents = session.data;
+      let from;
+      let e = null
+      let lastDurationEvent// = sessionEvents[0]
+      let duration = 0
+      for (let i = 0; i < sessionEvents.length; i++) {
+        e = sessionEvents[i];
+        // we start only counting durations once there
+        // was an click event
+        if (lastDurationEvent) {
+          duration = e.time - lastDurationEvent.time
+        }
+        
+      /**
          * Be aware of the overlay...
          */
-        var screenID = this.getEventScreenId(e);
-        var screen = this.sourceModel.screens[screenID];
+        const screenID = this.getEventScreenId(e);
+        const screen = this.sourceModel.screens[screenID];
         if (screen) {
-          var to = {};
+          const to = {};
           if (e.type == "SessionStart") {
             to.x = screen.x - Math.max(10, Math.round(30));
             to.y = screen.y + Math.max(10, Math.round(30));
-            from = this._addToGraph(from, to, graph);
-          } else if (e.x >= 0 && e.y >= 0 && !e.noheat) {
+            from = this._addToGraph(from, to, graph, 0);
+          } else if (e.x >= 0 && e.y >= 0 && !e.noheat) { // some click
             if (e.widget && this.sourceModel.widgets[e.widget]) {
-              var widget = this.sourceModel.widgets[e.widget];
+              const widget = this.sourceModel.widgets[e.widget];
               to.x = Math.round(widget.x + widget.w / 2);
               to.y = Math.round(widget.y + widget.h / 2);
-              from = this._addToGraph(from, to, graph);
+              from = this._addToGraph(from, to, graph, duration);
+              lastDurationEvent = e
             } else {
               to.x = Math.round(Math.min(1, e.x) * screen.w + screen.x);
               to.y = Math.round(Math.min(1, e.y) * screen.h + screen.y);
-              from = this._addToGraph(from, to, graph);
+              from = this._addToGraph(from, to, graph, duration);
+              lastDurationEvent = e
             }
           }
         } else {
           console.warn("_getSessionGraph()", "Screen is not there", e.screen);
         }
       }
+
+        /** Since 4.0.60 we add a last node, if it was screen load */
+      if (e && e.type === 'ScreenLoaded') {
+        const screenID = this.getEventScreenId(e);
+        const screen = this.sourceModel.screens[screenID];
+        const to = {
+          x: Math.round(screen.x + screen.w / 2),
+          y: Math.round(screen.y + screen.h / 2)
+        }
+        from = this._addToGraph(from, to, graph, duration);
+      }
+
+
     },
 
-    _addToGraph(from, to, graph) {
+    _addToGraph(from, to, graph, duration) {
       if (from) {
-        var id = from.x + ";" + from.y + "-" + to.x + ";" + to.y;
+        const id = from.x + ";" + from.y + "-" + to.x + ";" + to.y;
         if (!graph[id]) {
           graph[id] = {
             from: from,
             to: to,
             count: 0,
+            duration: 0
           };
         }
         graph[id].count++;
+        graph[id].duration += duration * 1;
         return to;
       }
       return to;
@@ -1018,15 +1102,6 @@ export default {
          * We take here to total task time...
          */
         let maxTime = Math.max(1,funnel[funnel.length-1].durationMean)
-        /*
-        let maxTime = 1
-        for (let i=0; i < task.flow.length - 1; i++){
-          let startSummary = funnel[i+1]
-          let endSummary = funnel[i+2]
-          let time = endSummary.durationMean - startSummary.durationMean
-          maxTime = Math.max(maxTime, time)
-        }
-        */
 
         for (let i=0; i < task.flow.length - 1; i++){
           //let
@@ -1276,21 +1351,16 @@ export default {
 
     getTaskPerformance() {
       if (!this.cache["taskPerformance"]) {
-        var analytics = new Analytics();
-
-        var df = new DataFrame(this.events);
+        const analytics = new Analytics();
+        const df = new DataFrame(this.events);
         df.sortBy("time");
 
-        var temp = analytics.getTaskPerformance(
-          df,
-          this.testSettings.tasks,
-          false,
-          false
+        const temp = analytics.getTaskPerformance(
+          df, this.testSettings.tasks, false, false
         );
-        var sessions = {};
-        for (var i = 0; i < temp.data.length; i++) {
-          var match = temp.data[i];
-
+        const sessions = {};
+        for (let i = 0; i < temp.data.length; i++) {
+          const match = temp.data[i];
           if (!sessions[match.session]) {
             sessions[match.session] = {};
           }
