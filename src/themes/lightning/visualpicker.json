@@ -44,6 +44,15 @@
           "borderBottomStyle": "solid",
           "borderRightStyle": "solid",
           "borderLeftStyle": "solid",
+          "boxShadow": {
+            "v": 1,
+            "h": 0,
+            "b": 4,
+            "s": 0,
+            "i": false,
+            "c": "rgba(0,0,0,0.16)",
+            "custom": true
+          },
           "color": "#080707",
           "icon": "mdi-card-account-details",
           "iconSize": 48,
@@ -52,6 +61,16 @@
           "popBackground": "#1A97FE",
           "popIconSize": "60",
           "popIcon": "mdi-check"
+        },
+        "hover": {
+          "borderTopColor": "#1A97FE",
+          "borderBottomColor": "#1A97FE",
+          "borderRightColor": "#1A97FE",
+          "borderLeftColor": "#1A97FE",
+          "borderTopWidth": 2,
+          "borderBottomWidth": 2,
+          "borderRightWidth": 2,
+          "borderLeftWidth": 2
         }
       }
 ]

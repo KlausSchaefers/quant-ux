@@ -124,7 +124,11 @@ export default {
 								this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
 							}
 						}
-						db.div("MatcToolbarSeparator").build(parent);
+
+						if (i < lines.length - 1) {
+							db.div("MatcToolbarSeparator").build(parent);
+						}
+						
 					}
 
 				}
@@ -200,10 +204,7 @@ export default {
 		 * This seems to be really slow. Maybe because of the call of $new()?
 		 */
 		renderNewSchool (db, parent, line, isWidget) {
-
-
 			var to = this.getToBox(line);
-
 			if(!to){
 				return;
 			}
