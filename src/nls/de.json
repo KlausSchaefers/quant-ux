@@ -185,6 +185,7 @@
   "dashTaskEmpty": "Click the  'Add Task' button to create a new analytic task. Edit the flow to measure task performance. ",
   "dashTaskTableName": "Name",
   "dashTaskTableSuccess": "Success Rate",
+  "dashTaskTableStart": "Start Rate",
   "dashTaskTableDuration": "Duration",
   "dashTaskTableEvents": "Interactions",
   "dashTaskTableEditFlow": "Edit",

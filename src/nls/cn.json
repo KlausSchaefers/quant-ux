@@ -234,6 +234,7 @@
     "dashTaskEmpty": "单击 &#34;添加任务&#34; 创建一个新分析任务. 编辑流程以衡量任务性能. ",
     "dashTaskTableName": "名称",
     "dashTaskTableSuccess": "成功率",
+    "dashTaskTableStart": "Start Rate",
     "dashTaskTableDuration": "时间",
     "dashTaskTableEvents": "互动量",
     "dashTaskTableEditFlow": "编辑流程",

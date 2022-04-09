@@ -365,6 +365,8 @@
 	padding-right: 15px;
 }
 
+
+
 .MatcDashBigTableHeader{
 	font-size: 18px;
     font-weight: 700;
@@ -381,6 +383,7 @@
 .MatcDashBigTable .VommondProgress {
     height: 30px;
     width: 100%;
+	margin-top: 8px;
 }
 
 .MatcDashBigTableDetails{

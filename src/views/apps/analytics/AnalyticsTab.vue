@@ -215,6 +215,11 @@ export default {
     test(v) {
       this.logger.info("watch", "test >", v);
       this.test = v;
+    },
+    events(v) {
+      this.logger.info("watch", "events >", v);
+      this.events = v;
+      this.show()
     }
   },
   async mounted() {

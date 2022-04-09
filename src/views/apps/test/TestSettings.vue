@@ -20,7 +20,7 @@
                   <td>
                     <template v-if="task.flow && task.flow.length > 0">
                       <div class="StepCntr">
-                          <div v-for="(step, i) in getTaskSteps(task)" :key="i" class="Step">
+                          <div v-for="(step, i) in getTaskSteps(task)" :key="i" :class="'Step ' + step.type">
                             <span class="mdi mdi-arrow-right" v-if="i > 0"/>
                             <div class="StepDetails">{{shorten(step.label, 20)}}  </div>
                          </div>
@@ -124,7 +124,8 @@ export default {
 
     createStep (event) {
       return {
-        label: this.getEventLabel(event.type) + ' - ' + (event.widget ? this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen): this.getScreenName(event.screen))
+        label: (event.widget ? this.getWidgetName(event.widget) : this.getScreenName(event.screen)),
+        type: event.widget ? 'widget' : 'screen'
       }
     },
 

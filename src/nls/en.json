@@ -272,7 +272,8 @@
 
     "dashTaskEmpty": "You can create tasks in the 'Test' tab. ",
     "dashTaskTableName": "Name",
-    "dashTaskTableSuccess": "Success Rate",
+    "dashTaskTableSuccess": "Success",
+    "dashTaskTableStart": "Start",
     "dashTaskTableDuration": "Duration",
     "dashTaskTableEvents": "Interactions",
     "dashTaskTableEditFlow": "Edit",

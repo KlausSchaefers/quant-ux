@@ -21,10 +21,18 @@ export let texts = [
                     `
                 },
                 {
-                    "id": "analytics.tasks.success",
-                    "title": "Success Rate",
+                    "id": "analytics.tasks.start",
+                    "title": "Start",
                     "body": `
-                        The success rate tells you how many users were able to complete a given task.
+                        The start rate tells you how many users were able to start a given task. If the start rate is low,
+                        this means that the users where not able to find the task in your design.
+                    `
+                },
+                {
+                    "id": "analytics.tasks.success",
+                    "title": "Success",
+                    "body": `
+                        The success rate tells you how many users were able to complete a given task once the have <b>started</b>
                         In general, you want all users to understand your design and are able to complete
                         the task. Hence, the higher the success rate, the better your design.
                     `

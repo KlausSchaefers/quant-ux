@@ -5,23 +5,21 @@ import Grouping from 'common/Grouping'
 export default class {
 
 	filterEvents (events, anno) {
-		var bad = {};
+		const bad = {};
 		for (let i = 0; i < anno.length; i++) {
-			var a = anno[i];
+			let a = anno[i];
 			if (!a.isValid) {
 				bad[a.reference] = true;
 			}
 		}
-
-		var temp = [];
-		var l = events.length;
+		const temp = [];
+		const l = events.length;
 		for (let i = 0; i < l; i++) {
 			var e = events[i];
 			if (!bad[e.session]) {
 				temp.push(e);
 			}
 		}
-
 		return temp;
 	}
 
@@ -117,32 +115,27 @@ export default class {
 
 	getPValueBionimial() {
 
-
 	}
 
 
-
 	getScreenExplorationRate(df, model) {
-
-		var screenCount = Object.keys(model.screens).length;
-
-		var session = df.groupBy("session");
-		var uniqueScreenPerSession = session.unique("screen");
-
+		const screenCount = Object.keys(model.screens).length;
+		const session = df.groupBy("session");
+		const uniqueScreenPerSession = session.unique("screen");
 		return uniqueScreenPerSession.mean() / screenCount;
 	}
 
 
 	getSuccessTaskNames(tasksPerformance, tasks) {
-		var names = {};
+		const names = {};
 		for (var i = 0; i < tasks.length; i++) {
 			names[tasks[i].id] = tasks[i].name;
 		}
-		var result = {};
-		var sessionGroup = tasksPerformance.groupBy("session");
-		sessionGroup.foreach(function (session, id) {
-			var temp = [];
-			var successTasks = session.count("task").data;
+		const result = {};
+		const sessionGroup = tasksPerformance.groupBy("session");
+		sessionGroup.foreach((session, id)  => {
+			const temp = [];
+			const successTasks = session.count("task").data;
 			for (let taskID in successTasks) {
 				temp.push(names[taskID]);
 			}
@@ -158,18 +151,17 @@ export default class {
 
 	getTagAnalytics(tags) {
 
-		var tagCount = {};
-		var tagSessionCount = {};
-		var tagTime = {};
-		for (var i = 0; i < tags.length; i++) {
-			var annotation = tags[i];
-
-			var sessions = annotation.sessions;
-			for (var id in sessions) {
-				var sessionTags = sessions[id];
-				var tagCounted = {};
-				for (var j = 0; j < sessionTags.length; j++) {
-					var t = sessionTags[j];
+		const tagCount = {};
+		const tagSessionCount = {};
+		const tagTime = {};
+		for (let i = 0; i < tags.length; i++) {
+			const annotation = tags[i];
+			const sessions = annotation.sessions;
+			for (let id in sessions) {
+				const sessionTags = sessions[id];
+				const tagCounted = {};
+				for (let j = 0; j < sessionTags.length; j++) {
+					const t = sessionTags[j];
 					if (!tagCount[t.tag]) {
 						tagCount[t.tag] = 0;
 					}
@@ -188,8 +180,8 @@ export default class {
 				}
 			}
 		}
-		var result = [];
-		for (var tag in tagCount) {
+		const result = [];
+		for (let tag in tagCount) {
 			result.push({
 				tag: tag,
 				count: tagCount[tag],
@@ -218,25 +210,15 @@ export default class {
 	createMatcher(name, flow, strict) {
 
 		return {
-
 			name: name,
-
 			match: null,
-
 			flowPos: 0,
-
 			step: flow[0],
-
 			endStep: flow[flow.length - 1],
-
 			flow: flow,
-
 			start: null,
-
 			startTime: 0,
-
 			strict: strict,
-
 			taskName: "",
 
 			init(e) {
@@ -247,7 +229,7 @@ export default class {
 
 			next(e, i) {
 
-				var result = null;
+				let result = null;
 
 				/**
 				 * Since 1.9: Check interactions only of task has started
@@ -477,11 +459,8 @@ export default class {
 	 */
 	getTaskPerformance(df, tasks, allowMultiMatch, allowPartial) {
 
-		var result = [];
-		// var count = 0;
-
-
-		var matchers = [];
+		const result = [];
+		const matchers = [];
 		for (var t = 0; t < tasks.length; t++) {
 			var task = tasks[t];
 			var flow = task.flow;
@@ -491,21 +470,21 @@ export default class {
 				matchers.push(matcher);
 			}
 		}
-		var matcherLength = matchers.length;
+		const matcherLength = matchers.length;
 
 		df.sortBy("time");
-		var sessions = df.groupBy("session");
+		const sessions = df.groupBy("session");
 
 		/**
 		 * for every session match run all matchers
 		 */
-		sessions.foreach(function (session) {
+		sessions.foreach((session) => {
 
 			/**
 			 * loop over all events
 			 */
-			var events = session.as_array();
-			var l = events.length;
+			const events = session.as_array();
+			const l = events.length;
 
 			/**
 			 * reset the matcher
@@ -517,8 +496,8 @@ export default class {
 				matcher.disabled = false;
 			}
 
-			for (var i = 0; i < l; i++) {
-				var e = events[i];
+			for (let i = 0; i < l; i++) {
+				let e = events[i];
 
 				/**
 				 * run all matchers
@@ -526,9 +505,8 @@ export default class {
 				for (let m = 0; m < matcherLength; m++) {
 					let matcher = matchers[m];
 					if (!matcher.disabled) {
-						var match = matcher.next(e, i);
+						let match = matcher.next(e, i);
 						if (match) {
-
 							if ((match.partial && allowPartial) || !match.partial) {
 								/**
 								 * Support strict matching
@@ -538,10 +516,8 @@ export default class {
 										result.push(match);
 									}
 								} else {
-
 									result.push(match);
 								}
-
 
 								/**
 								 * if we do not want to count if
@@ -562,134 +538,147 @@ export default class {
 	}
 
 	getMergedTaskPerformance(df, tasks, annotations) {
-
-			var result = [];
-
-			var temp = this.getTaskPerformance(df, tasks);
+		let result = [];
+		const temp = this.getTaskPerformance(df, tasks);
 
 
-			/**
-			 * build fast lookup
-			 */
-			temp.setIndex(["session", "task"])
+		/**
+		 * build fast lookup
+		 */
+		temp.setIndex(["session", "task"])
 
-			/**
-			 * first add all rows from the annotations.
-			 */
-			var l = annotations.length;
-			for (var i = 0; i < l; i++) {
-				var a = annotations[i];
-				if (a.isValid) {
-					var session = a.reference;
-					for (var task in a.tasks) {
+		/**
+		 * first add all rows from the annotations.
+		 */
+		const l = annotations.length;
+		for (let i = 0; i < l; i++) {
+			const a = annotations[i];
+			if (a.isValid) {
+				const session = a.reference;
+				for (let task in a.tasks) {
+					const value = a.tasks[task];
+					const row = temp.ix([session, task], true)
 
-						var value = a.tasks[task];
-						var row = temp.ix([session, task], true)
+					if (value && !row) {
+						//console.debug(session, task, " add ", value);
+						/**
+						 * Add an artifical math
+						 * if there is now real match
+						 */
 
-						if (value && !row) {
-							//console.debug(session, task, " add ", value);
-							/**
-							 * Add an artifical math
-							 * if there is now real match
-							 */
+						result.push({
+							startTime: -1,
+							discoveryTime: -1,
+							endTime: -1,
+							startPosition: -1,
+							endPosition: -1,
+							duration: 0,
+							count: -1,
+							partial: false,
+							session: session,
+							task: task,
+							user: "" // FIXME: get later the user from this session
+						})
 
-							result.push({
-								startTime: -1,
-								discoveryTime: -1,
-								endTime: -1,
-								startPosition: -1,
-								endPosition: -1,
-								duration: 0,
-								count: -1,
-								partial: false,
-								session: session,
-								task: task,
-								user: "" // FIXME: get later the user from this session
-							})
-
-						} else if (row && !value) {
-							//console.debug(session, task, " remove ", value);
-							/**
-							 * else remove row
-							 */
-							var index = row.index;
-							temp.remove(index)
-						}
+					} else if (row && !value) {
+						//console.debug(session, task, " remove ", value);
+						/**
+						 * else remove row
+						 */
+						const index = row.index;
+						temp.remove(index)
 					}
 				}
 			}
-			/**
-			 * merge both sets.
-			 */
-			result = temp.data.concat(result);
-			return new DataFrame(result);
+		}
+		/**
+		 * merge both sets.
+		 */
+		result = temp.data.concat(result);
+		return new DataFrame(result);
+	}
+
+
+	getFunnelSummary(df, task, annotation) {
+		/**
+		 * We simply build for each subflow a new task
+		 */
+		const tasks = [];
+		const flow = lang.clone(task.flow);
+		while (flow.length > 0) {
+			const t = lang.clone(task);
+			t.id = task.id + "_" + flow.length;
+			t.name += task.name + "_" + flow.length;
+			t.flow = lang.clone(flow);
+			tasks.push(t);
+			flow.pop();
 		}
 
+		/**
+		 * Now we run the normal task analytics
+		 */
+		const summary = this.getTaskSummary(df, tasks, annotation);
+		const sessionCount = df.count("session").size();
 
-		getFunnelSummary(df, task, annotation) {
-			/**
-			 * We simply build for each subflow a new task
-			 */
-			var tasks = [];
-			var flow = lang.clone(task.flow);
-			while (flow.length > 0) {
-				var t = lang.clone(task);
-				t.id = task.id + "_" + flow.length;
-				t.name += task.name + "_" + flow.length;
-				t.flow = lang.clone(flow);
-				tasks.push(t);
-				flow.pop();
-			}
-
-			/**
-			 * Now we run the normal task analytics
-			 */
-			var summary = this.getTaskSummary(df, tasks, annotation);
-
-			var sessionCount = df.count("session").size();
-
-			var all = [{
-				label: task.name + "_all",
-				id: task.id + "_all",
-				value: sessionCount,
-				sessionCount: sessionCount,
-				p: 1,
-				flow: 0,
-			}];
+		const all = [{
+			label: task.name + "_all",
+			id: task.id + "_all",
+			value: sessionCount,
+			sessionCount: sessionCount,
+			p: 1,
+			flow: 0,
+		}];
 
 
-			var result = all.concat(summary.reverse());
-			for (var i = 1; i < result.length; i++) {
-				var item = result[i];
-				item.event = task.flow[i - 1];
-			}
-
-			return result;
+		const result = all.concat(summary.reverse());
+		for (let i = 1; i < result.length; i++) {
+			const item = result[i];
+			item.event = task.flow[i - 1];
 		}
+
+		return result;
+	}
+
+	getTaskStarts (df, tasks, annotation) {
+		const startTasks = tasks.map(task => {
+			const t = lang.clone(task);
+			t.id = task.id
+			t.name = task.name
+			t.flow = [task.flow[0]] // just take the start of the flow
+			return t
+		})
+		const summary = this.getTaskPerformance(df, startTasks, annotation);
+		return summary
+	}
 
 
 	getTaskSummary(df, tasks, annotation) {
 
-		var tasksPerformance = this.getMergedTaskPerformance(df, tasks, annotation);
+		const sessionCount = df.count("session").size();
 
-		var taskGrouping = tasksPerformance.groupBy("task");
-
-		var sessionCount = df.count("session").size();
-
-		var list = [];
-		for (var i = 0; i < tasks.length; i++) {
-			var task = tasks[i];
-			var taskDf = taskGrouping.get(task.id);
+		const tasksPerformance = this.getMergedTaskPerformance(df, tasks, annotation);
+		const taskGrouping = tasksPerformance.groupBy("task");
+	
+		const startTaskPerformace = this.getTaskStarts(df, tasks, annotation)
+		const startGrouping = startTaskPerformace.groupBy("task")
+	
+		const list = [];
+		for (let i = 0; i < tasks.length; i++) {
+			const task = tasks[i];
+			let taskDf = taskGrouping.get(task.id);
+		
 
 			/**
 			 * FIXME: This is a bug! The analytics.getMergedTaskPerformance(df, tasks, annotation );
 			 * should have also performance for this task!
 			 */
 			if (taskDf) {
-				var taskCount = taskDf.size();
+				const taskCount = taskDf.size();
+				const startDf = startGrouping.get(task.id)
+				const startCount = startDf ? startDf.size() : sessionCount
 
 				/**
-				 * for the other stats we do not want manual
+				 * for the time based stats we do not want manual
 				 * annotated tasks
 				 */
 				taskDf = taskDf.select("startTime", ">", 0);
@@ -700,11 +689,14 @@ export default class {
 					id: task.id,
 					value: taskCount,
 					sessionCount: sessionCount,
-					p: taskCount / sessionCount,
-					success: taskCount / sessionCount,
-					successRel: taskCount / sessionCount,
+					sessionStart: startCount / sessionCount,
+					p: taskCount / startCount,
+					success: taskCount / startCount,
+					successRel: taskCount / startCount,
 					successAbs: taskCount,
 					flow: task.flow.length,
+					startCount: startCount,
+					startRel: startCount / sessionCount,
 
 					startMean: taskDf.mean("startPosition"),
 					startStd: taskDf.std("startPosition"),
@@ -730,7 +722,7 @@ export default class {
 					successRel: 0,
 					successAbs: 0,
 					flow: task.flow.length,
-
+					startAbs: 0,
 					startMean: 0,
 					startStd: 0,
 					discoveryTimeMean: 0,
