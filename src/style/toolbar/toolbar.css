@@ -275,6 +275,12 @@
 	opacity:0.25;
 }
 
+.MatcToobarPropertiesSection .MatcToolbarItemStrikeThrough,
+.MatcToobarPropertiesSection .MatcToolbarItemStrikeThrough:hover {
+	opacity:0.5;
+	text-decoration: line-through;
+}
+
 .MatcToolbarItemHidden{
 	display: none;
 }

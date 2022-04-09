@@ -728,11 +728,11 @@ export default {
 				for (let session in this.sessionCheckBoxes){
 					let chkBx = this.sessionCheckBoxes[session];
 					if (taskPerformance[session] && taskPerformance[session][task.id]){
-						css.remove(chkBx.domNode, "MatcToolbarItemPassive");
+						css.remove(chkBx.domNode, "MatcToolbarItemStrikeThrough");
 						//chkBx.setValue(true);
 					} else {
 						//chkBx.setValue(false);
-						css.add(chkBx.domNode, "MatcToolbarItemPassive");
+						css.add(chkBx.domNode, "MatcToolbarItemStrikeThrough");
 					}
 				}
 			} else {
