@@ -26,11 +26,11 @@ export default {
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
 		},		
 
-		getValue:function(){
+		getValue (){
 			return this.value;
 		},
 		
-		setValue:function(value){
+		setValue (value){
 			this.value = value;
 			if(value){
 				css.add(this.domNode,"VommondRadioBoxChecked") ;
@@ -39,11 +39,10 @@ export default {
 			}
 		},
 		
-		setLabel:function(){
-			//this.label.innerHTML=label;	
+		setLabel (){
 		},
 		
-		onChange:function(){
+		onChange(){
 			this.setValue(!this.value);
 			this.emit("change", this.value );
 		}

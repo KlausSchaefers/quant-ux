@@ -82,6 +82,11 @@ export default {
 				this._renderDataBinding(model, false);
 			},
 
+			_showVisualPicker(model) {
+				this._renderDataBinding(model, false);
+			},
+
+
 			_showImageCarousel(model){
 				this._renderDataBinding(model, false);
 			},

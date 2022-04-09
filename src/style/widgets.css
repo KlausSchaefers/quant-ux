@@ -1,4 +1,54 @@
 /*******************************
+ * VisualPicker
+ *******************************/
+
+ .MatcWidgetVisualPicker{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: none;
+}
+
+.MatcWidgetVisualPickerIconCntr {
+	position: relative;
+	width: 100%;
+	height: 80%;
+	cursor: pointer;
+}
+
+.MatcWidgetVisualPickerBorder {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	border: 0px solid rgba(0,0,0,0);
+}
+
+.MatcWidgetVisualPickerIconLabel {
+	width: 100%;
+	height: 20%;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+}
+
+.MatcWidgetVisualPickerPopOver {
+	position: absolute;
+	top: 0px;
+    left: 0px;
+	height: 100%;
+	width: 100%;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+}
+
+
+
+/*******************************
  * Timeline
  *******************************/
  .MatcWidgetTypeTimeLine{

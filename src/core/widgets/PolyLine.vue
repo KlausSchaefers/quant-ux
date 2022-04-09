@@ -21,8 +21,6 @@ export default {
     },
 
     wireEvents: function() {
-      //this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
-      //this.own(topic.subscribe(this.topic, lang.hitch(this, "onOtherChecked")));
     },
 
     render: function(model, style, scaleX, scaleY) {

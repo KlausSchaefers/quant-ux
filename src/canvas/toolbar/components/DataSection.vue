@@ -167,6 +167,20 @@ export default {
 			})
 		},
 
+		_showVisualPicker(model) {
+			this._setSectionLabel("Visual Picker");
+			
+			this._renderCheck("Checked",model.props.checked, "checked" );
+			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderColor('Icon Color','<span class="mdi mdi-check"></span>',model.style.iconColor, "iconColor" ,"onStyleChanged", true);
+			this._renderInputDropDown("Icon Size", model, [8,12,16,24,32,40, 48, 64, 96, 128], "iconSize", false);
+			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.popColor, "popColor" ,"onStyleChanged", true);
+			this._renderColor('Hook Background','<span class="mdi mdi-format-color-fill"></span>',model.style.popBackground, "popBackground", "onStyleChanged",true );
+
+			const lbl=  model.props.formGroup ? model.props.formGroup + "" : "No Group";
+			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
+		},
+
 		_showScreenSegment  (widget) {
 			this._setSectionLabel("Screen Section");
 			// this._renderCheck("Show Scroll",widget.props.scroll, "scroll" );
@@ -714,14 +728,8 @@ export default {
 			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );
 			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
 
-			var lbl = "No Group";
-			console.debug(model)
-			if (model.props.formGroup){
-				lbl = model.props.formGroup + "";
-			}
-
+			const lbl=  model.props.formGroup ? model.props.formGroup + "" : "No Group";
 			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
-
 		},
 
 		_showIcon (model){
