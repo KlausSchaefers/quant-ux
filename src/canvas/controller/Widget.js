@@ -1,8 +1,9 @@
-import Screen from './Screen'
+import Snapp from './Snapp'
 import lang from '../../dojo/_base/lang'
 import * as TextUtil from '../../core/TextUtil'
 
-export default class Widget extends Screen {
+
+export default class Widget extends Snapp {
 
 	enableInheritedWidget (widget){
 		this.logger.log(-1,"enableInheritedWidget", "enter > " +widget.id);
@@ -52,7 +53,7 @@ export default class Widget extends Screen {
 		newWidget.hover = {}
 		newWidget.props = {}
 
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "CopyWidget",
 			model : newWidget,
@@ -101,17 +102,17 @@ export default class Widget extends Screen {
 				/**
 				 * We copy the old position
 				 */
-				var widgetPos = { x: widget.x, y : widget.y, h: widget.h, w: widget.w};
-				var sourceBox = widgetPos
+				const widgetPos = { x: widget.x, y : widget.y, h: widget.h, w: widget.w};
+				let sourceBox = widgetPos
 				positions[widgetID] = widgetPos;
-				var offset = {x:0,y:0};
+				const offset = {x:0,y:0};
 				/**
 				 * In case there is a group, we set an offset!
 				 *
 				 */
-				var group = this.getParentGroup(widgetID);
+				 const group = this.getParentGroup(widgetID);
 				if (group){
-					var boundingBox = this.getBoundingBox(group.children);
+					const boundingBox = this.getBoundingBox(group.children);
 					offset.x = widgetPos.x - boundingBox.x;
 					offset.y = widgetPos.y - boundingBox.y;
 					/**
@@ -199,38 +200,19 @@ export default class Widget extends Screen {
 	updateBoundingBox (ids, pos) {
 		if(pos.snapp) {
 
-			/**
-			 * Get bounding box in model
-			 */
+			const modelBoundingBox = this.getBoundingBox(ids);
 
-			/**
-			 * FIXME: This where are the positions comming from?
-			 */
-			console.warn('updateBoundingBox', ids, pos)
-			//ids = [];
-			// for(id in positions){
-			//	ids.push(id);
-			//}
-			var modelBoundingBox = this.getBoundingBox(ids);
-
-			/**
-			 * Unzoomed
-			 */
-			var boundingBox = this.getUnZoomedBox(lang.clone(pos), this._canvas.getZoomFactor());
-			/**
-			 * FIXME: We had here again the issue of writing to a wrong variable boundingBox vs boundingBVox
-			 */
+			let boundingBox = this.getUnZoomedBox(lang.clone(pos), this._canvas.getZoomFactor());
 			boundingBox = this._correctBoundindBox(boundingBox, modelBoundingBox);
 
-
-			var dif ={
+			const dif ={
 				x: boundingBox.x *1.0 / modelBoundingBox.x,
 				y: boundingBox.y *1.0 / modelBoundingBox.y,
 				w: boundingBox.w *1.0 / modelBoundingBox.w,
 				h: boundingBox.h *1.0 / modelBoundingBox.h
 			};
 
-			var positions = {};
+			const positions = {};
 			for(var i=0; i< ids.length; i++){
 				var id = ids[i];
 				var widget = this.model.widgets[id];
@@ -249,14 +231,14 @@ export default class Widget extends Screen {
 	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies){
 		this.logger.log(1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
 
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
 			label : "UpdateMultiWidgetPos",
 			children :[]
 		};
 
-		var correctPosition = true;
+		let correctPosition = true;
 
 		if(boundingbox && boundingbox.snapp && boundingbox.type=="boundingbox"){
 
@@ -277,27 +259,27 @@ export default class Widget extends Screen {
 			 *
 			 * 7) surpress the normal position correction...
 			 */
-			var snapp = boundingbox.snapp;
+			 const snapp = boundingbox.snapp;
 			if(snapp.type=="All"){
 
 				/**
 				 * Get bounding box in model and also the offset
 				 */
-				var ids = [];
+				 const ids = [];
 				for(let id in positions){
 					ids.push(id);
 				}
-				var modelBoundingBox = this.getBoundingBox(ids);
+				let modelBoundingBox = this.getBoundingBox(ids);
 
 
 				/**
 				 * Get bounding box in editor
 				 */
-				var boxes = [];
+				 const boxes = [];
 				for(let id in positions){
 					boxes.push(positions[id]);
 				}
-				var b = this.getBoundingBoxByBoxes(boxes);
+				const b = this.getBoundingBoxByBoxes(boxes);
 				boundingbox.x = b.x;
 				boundingbox.y = b.y;
 
@@ -313,7 +295,7 @@ export default class Widget extends Screen {
 				/**
 				 * Get hover screen
 				 */
-				var screen = this.getHoverScreen(boundingbox);
+				 const screen = this.getHoverScreen(boundingbox);
 				if(screen) {
 					this.snappAll(modelBoundingBox, screen, boundingbox, snapp);
 				}
@@ -321,8 +303,8 @@ export default class Widget extends Screen {
 				/**
 				 * compare difference between snapped bbox and model bbox
 				 */
-				var difX = modelBoundingBox.x - boundingbox.x;
-				var difY = modelBoundingBox.y - boundingbox.y;
+				const difX = modelBoundingBox.x - boundingbox.x;
+				const difY = modelBoundingBox.y - boundingbox.y;
 				this.logger.log(0,"updateMultiWidgetPosition", "correct > " + difX + " > " + difY);
 				/**
 				 * Update move positions
@@ -340,8 +322,8 @@ export default class Widget extends Screen {
 		}
 
 		for(let id in positions){
-			let pos = positions[id];
-			var child = this.createWidgetPositionCommand(id, pos, fromToolbar, correctPosition);
+			const pos = positions[id];
+			const child = this.createWidgetPositionCommand(id, pos, fromToolbar, correctPosition);
 			command.children.push(child);
 			this.modelWidgetUpdate(id, pos);
 		}
@@ -349,21 +331,19 @@ export default class Widget extends Screen {
 		this.addCommand(command);
 
 		/**
-		 * FIXME: We could show here some validation messages,
-		 * if all widgets are inside the thing.... Should be done in the
-		 * for loop.
-		 */
-
-		/**
-		 * Do not render
+		 * We must render of the repositioning was called by the toolbar,
+		 * e.g. align. If it was from DND, not
 		 */
 		if (fromToolbar || hasCopies) {
-			this.logger.log(-1,"updateMultiWidgetPosition", "exit > with render");
+			this.logger.log(1,"updateMultiWidgetPosition", "exit > with render");
 			this.render();
 		} else {
 			this.onWidgetPositionChange()
 		}
 
+		this.checkTemplateAutoUpdate(Object.keys(positions).map(id => {
+			return {id: id, type:'widget', prop:'position', action:'change'} 
+		}))
 		return positions
 	}
 
@@ -389,6 +369,10 @@ export default class Widget extends Screen {
 				console.warn('removeMultiWidget() Could not find widget', id)
 			}
 		}
+
+		this.checkTemplateAutoUpdate(selection.map(id => {
+			return {id: id, type:'widget', action:'remove'}
+		}))
 
 		// once all groups are stored, fire the commands.
 		command.children.forEach(cmd => {
@@ -437,7 +421,7 @@ export default class Widget extends Screen {
 	}
 
 	modelWidgetName (id, value){
-		var widget = this.model.widgets[id];
+		const widget = this.model.widgets[id];
 		if(widget){
 			widget.name = value;
 			if (this.model.templates && widget.isRootTemplate) {
@@ -491,6 +475,7 @@ export default class Widget extends Screen {
 			this.modelUpdateWidgetText(id, label, width)
 			this.render();
 		}
+		this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'props', action:'change'}])
 		return command;
 	}
 
@@ -567,6 +552,8 @@ export default class Widget extends Screen {
 		} else {
 			this.onWidgetPositionChange()
 		}
+
+		this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'position', action:'change'}])
 		return pos;
 	}
 
@@ -597,252 +584,7 @@ export default class Widget extends Screen {
 		return command;
 	}
 
-	correctPostion (id, pos, fromToolbar){
-
-		if(!fromToolbar){
-			pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
-		}
-
-		if(pos.snapp){
-			/**
-			 * Group snapps do not have a .snapp object
-			 */
-			var snapp = pos.snapp;
-			var screen = this.getHoverScreen(pos);
-			var widget = this.model.widgets[id];
-			if(screen && widget) {
-				if(snapp.type=="All"){
-					this.snappAll(widget,screen, pos, snapp);
-				}else {
-					this.snappResize(widget,screen, pos, snapp)
-				}
-			}
-		}
-		return pos;
-	}
-
-	snappResize (widget,screen, pos, snapp){
-		this.logger.log(0,"snappResize", "enter > " + snapp.type);
-		var type = snapp.type;
-
-
-		if(snapp.x || snapp.y){
-			/**
-			 * We have snapping, so we ensure here that the all not changed values stay the same.
-			 * hence we copy the values form the unzoomed model and update only the snapped
-			 * values
-			 */
-			if(snapp.x){
-				let line = snapp.x;
-				let x = this.getSnappXValue(line, screen);
-
-				if(type=="RightDown" || type=="RightUp" || type =="East"){
-					pos.w = x - widget.x;
-					/**
-					 * Snapp pos.x to old x to avoid jumps
-					 */
-					pos.x = widget.x;
-				} else if(type=="LeftUp" || type=="LeftDown" || type =="West"){
-					pos.w = widget.w+ (widget.x -x);
-					pos.x = x;
-				} else {
-					console.warn("snappResize() : X with unsupported type", type, snapp.x);
-				}
-
-
-			}
-
-			if(snapp.y){
-				let line = snapp.y;
-				let y = this.getSnappYValue(line, screen);
-				if(type=="RightDown" || type=="South" || type =="LeftDown"){
-					pos.h = y - widget.y;
-					/**
-					 * Snapp pos.y to old y to avoid jumps
-					 */
-					pos.y = widget.y;
-				} else if(type=="LeftUp" || type=="RightUp" || type =="North"){
-					pos.h = widget.h+ (widget.y -y);
-					pos.y = y;
-				} else {
-					console.warn("snappResize() : X with unsupported type", type, snapp.x);
-				}
-			}
-		}
-
-
-		/**
-		 * If there is no snapp, there might be a pos.x / pos.y value that has been updated
-		 * in the canvas and has a pixel rounding error because of zooming. This we stop here
-		 */
-		if(type == "South" || type=="North"){
-			pos.x = widget.x;
-		}
-
-		if(type == "East" || type=="West"){
-			pos.y = widget.y;
-		}
-
-		if(snapp.square){
-			var min = Math.min(pos.w, pos.h);
-			pos.h = min;
-			pos.w = min;
-		}
-	}
-
-	snappAll (widget,screen, pos, snapp){
-		this.logger.log(0,"snappAll", "enter > ");
-
-		if(snapp.x){
-			pos.x = widget.x;
-			pos.w = widget.w;
-			let line = snapp.x;
-			let x = this.getSnappXValue(line, screen);
-			if (x > 0) {
-				if(snapp.x.middle){
-					/**
-					 * Should not happen for grid lines and groups!
-					 * We filter before so no problem...
-					 */
-					pos.x = x - Math.floor(pos.w/2);
-				} else if(snapp.left){
-					pos.x = x;
-				} else {
-					pos.x = x - pos.w;
-				}
-			} else {
-				this.logger.error("snappAll", " getSnappXValue return 0");
-			}
-		}
-
-		if(snapp.y){
-			let line = snapp.y;
-			pos.y = widget.y;
-			pos.h = widget.h;
-			let y = this.getSnappYValue(line, screen);
-			if (y > 0) {
-				if(snapp.y.middle){
-					/**
-					 * Should not happen for grid lines and groups!
-					 */
-					pos.y = y - Math.floor(pos.h/2);
-				} else if(snapp.top){
-					pos.y = y;
-				} else {
-					pos.y = y - pos.h;
-				}
-			} else {
-				this.logger.error("snappAll", " getSnappYValue return 0");
-			}
-		}
-	}
-
-	getSnappXValue (line, screen){
-		if("Grid" == line.type){
-
-			if (line.column === true){
-
-				var columnCount = this.model.grid.columnCount * 1;
-				var columnOffset = this.model.grid.columnOffset * 1;
-				var columnGutter = this.model.grid.columnGutter * 1;
-				var columnWidth =  this.model.grid.columnWidth * 1;
-
-				/**
-				 * FIXME: we reproduce here the method from the rendering and GridAndRuler...
-				 */
-				var count = 0;
-				var lastX = columnOffset;
-				for (let i=0; i< columnCount; i++){
-					if (line.line == count){
-						return (screen.x + lastX);
-					}
-					count++;
-					let x = lastX + columnWidth;
-					if (line.line == count){
-						return (screen.x + x);
-					}
-					count++;
-					lastX = x + columnGutter;
-				}
-				return (screen.x + screen.w);
-			} else {
-				return (screen.x + this.model.grid.w * line.line);
-			}
-
-		} else if("Screen" == line.type || "Widget" == line.type){
-			let box = this.getBoxById(line.id);
-			return this.getSnappValue(box, line);
-		} else if ("Mirror" == line.type) {
-			let box = this.getBoxById(line.id);
-			let difX = box.x - screen.x;
-			return (screen.x + screen.w) - difX
-		} else if ("Ruler" == line.type) {
-			let rulers = this.getAllRulers(this.model, screen)
-			if (rulers) {
-				let ruler = rulers.find(r => r.id === line.id)
-				if (ruler) {
-					return screen.x + ruler.v
-				} else {
-					this.logger.error("getSnappXValue", "No ruler with id " + line.id);
-					this.logger.sendError(new Error('Could not snapp to X ruler'));
-				}
-			}
-		} else {
-			console.warn("getSnappXValue() >Unsupported snapp type for x", line.type);
-		}
-		return 0;
-	}
-
-	getSnappYValue (line, screen){
-		if("Grid" == line.type){
-			return (screen.y + (this.model.grid.h * line.line));
-		}else if("Screen" == line.type || "Widget" == line.type){
-			let box = this.getBoxById(line.id);
-			return this.getSnappValue(box, line);
-		} else if ("Mirror" == line.type) {
-			let box = this.getBoxById(line.id);
-			let difY = box.y - screen.y;
-			return (screen.y + screen.h) - difY
-		} else if ("Ruler" == line.type) {
-			let rulers = this.getAllRulers(this.model, screen)
-			if (rulers) {
-				let ruler = rulers.find(r => r.id === line.id)
-				if (ruler) {
-					return screen.y + ruler.v
-				} else {
-					this.logger.error("getSnappYValue", "No ruler with id " + line.id);
-					this.logger.sendError(new Error('Could not snapp to Y ruler'));
-				}
-			}
-		} else {
-			console.warn("getSnappYValue() > Unsupported snapp type for ", line.type);
-		}
-		return 0;
-	}
-
-	getSnappValue(box, line){
-		var pos = line.pos;
-		switch(pos){
-			case "top":
-				return box.y;
-			case "bottom":
-				return box.y + box.h;
-			case "left":
-				return box.x;
-			case "right":
-				return box.x+ box.w;
-			case "middleY":
-				return box.y+ Math.round(box.h/2);
-			case "middleX":
-				return box.x+ Math.round(box.w/2);
-			default:
-				console.warn("Not supported line position", pos, line);
-		}
-		return 0;
-	}
-
-
-
+	
 	modelWidgetUpdate (id, pos){
 		var widget = this.model.widgets[id];
 		widget.modified = new Date().getTime()
@@ -947,18 +689,20 @@ export default class Widget extends Screen {
 			this.logger.log(-1,"updateWidgetProperties", "force rerender !");
 			this.render()
 		}
+
+		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
 	}
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){
-		var widget = this.model.widgets[id];
+		const widget = this.model.widgets[id];
 		if (widget){
 			if (!widget[type]){
 				this.logger.log(0,"createWidgetPropertiesCommand", "add key > " + type);
 				widget[type]={};
 			}
 
-			var delta = this.getPropertyDelta(widget, props, type);
-			var command = {
+			const delta = this.getPropertyDelta(widget, props, type);
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "WidgetProperties",
 				delta :delta,
@@ -976,10 +720,10 @@ export default class Widget extends Screen {
 	modelWidgetPropertiesUpdate (id, props, type){
 		this.logger.log(1,"modelWidgetPropertiesUpdate", "enter > " + id+ " > " + type);
 
-		var widget = this.model.widgets[id];
+		const widget = this.model.widgets[id];
 		if(widget && widget[type]){
 			widget.modified = new Date().getTime()
-			for(var p in props){
+			for(let p in props){
 				widget[type][p] = props[p];
 			}
 		}else {
@@ -1058,7 +802,6 @@ export default class Widget extends Screen {
 		}
 
 		return widget;
-
 	}
 
 	_createAddWidgetCommand (widget){
@@ -1154,6 +897,7 @@ export default class Widget extends Screen {
 			const command = this.createWidgetRemoveCommand(id);
 			this.addCommand(command);
 			this.unSelect();
+			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'remove'}])
 			this.modelRemoveWidgetAndLines(command.model, command.lines, command.refs, false, command.group);
 			this.render();
 		}

@@ -547,7 +547,7 @@ export default {
     },
 
     updateZoomedPositionList (updatedPositions) {
-      this.logger.log(-1, "updateZoomedPositionList", "enter");
+      this.logger.log(1, "updateZoomedPositionList", "enter");
       for (let id in updatedPositions) {
         const sourcePos = updatedPositions[id]
         const zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
@@ -568,7 +568,7 @@ export default {
      *
      */
     onWidgetDndClick (id, div, pos, e) {
-      this.logger.log(-1, "onWidgetDndClick", "entry > " + id);
+      this.logger.log(1, "onWidgetDndClick", "entry > " + id);
 
       this.stopEvent(e);
 

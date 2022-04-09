@@ -72,7 +72,7 @@ export default {
 			this.domNode.style.height = `${height}px`
 		},
 
-    initRender (){
+    	initRender (){
 			this.logger.log(2,"initRender", "enter");
 			this.domPos = domGeom.position(this.domNode);
 
@@ -254,8 +254,6 @@ export default {
 
 			this.container.style.height = this.containerSize.h + "px";
 			this.container.style.width = this.containerSize.w + "px";
-
-
 		},
 
 
@@ -422,8 +420,6 @@ export default {
 			}
 		},
 
-
-
 		renderScreenButtons () {
 			/**
 			 * Methdod to be implemented by mixins
@@ -506,10 +502,9 @@ export default {
 		},
 
 		cleanUpScreenButtons () {
-			// console.warn('cleanUpScreenButtons() > Not Implemented')
-			/**
-				* Methdod to be implemented by mixins
-				*/
+		   /**
+			* Methdod to be implemented by mixins
+			*/
 		},
 
 			/**************************************************
@@ -639,7 +634,7 @@ export default {
 			} else {
 				backgroundDiv.style.backgroundImage = 'none'
 			}
-    },
+    	},
 
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");

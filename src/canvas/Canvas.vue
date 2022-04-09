@@ -321,10 +321,6 @@ export default {
 				if(this.toolbar){
 					this.toolbar.setMode(mode);
 				}
-				/**
-				 * FIXME: Make sure this is correct!
-				 */
-				//this.rerender();
 				if(forceRender){
 					this.rerender();
 				} else {
@@ -659,10 +655,11 @@ export default {
 			this.cleanUpTempListener();
 		}
 	},
-  mounted () {
-  },
+	mounted () {
+	},
 	beforeDestroy () {
 		this.logger.log(3,"beforeDestroy", "enter > ");
+		this.destroy()
 	}
 }
 </script>

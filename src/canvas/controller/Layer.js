@@ -60,7 +60,7 @@ export default class Layer extends Templates {
 
 
 	changeLayer (from, to){
-		this.logger.log(-1,"changeLayer", "entry > Widgets: ", from, to);
+		this.logger.log(1,"changeLayer", "entry > Widgets: ", from, to);
 
 		if (from.screenID != to.screenID){
 			this.logger.error("changeLayer", "Screen ids not equal");
@@ -68,11 +68,15 @@ export default class Layer extends Templates {
 			return;
 		}
 
-		var command = this.createChangeLayerCommand(from, to);
+		const command = this.createChangeLayerCommand(from, to);
 
 		this.addCommand(command);
 		this.modelChangeLayer(command.n, command.ng);
 		this.render();
+
+
+		const changes = this.getLayerChanges(command.n, command.ng)
+		this.checkTemplateAutoUpdate(changes)
 	}
 
 	createChangeLayerCommand (from, to){
@@ -115,7 +119,19 @@ export default class Layer extends Templates {
 
 	modelChangeLayer (zValues, groupDeltas) {
 		this._modelChangeLayer(zValues, groupDeltas)
-		this.onModelChanged([]); // FIXME
+		const changes = this.getLayerChanges(zValues, groupDeltas)
+		this.onModelChanged(changes); 
+	}
+
+
+	getLayerChanges (zValues, groupDeltas) {
+		const changes = Object.keys(zValues).map(id => {
+			return {id: id, type:'widget', prop:'position', action:'change'}
+		})
+		groupDeltas.forEach(delta => {
+			changes.push({id: delta.groupID, type:'group', action:'change'})
+		})
+		return changes
 	}
 
 
@@ -215,15 +231,15 @@ export default class Layer extends Templates {
 		const screen = model.screens[screenID];
 		if (screen) {
 			for (let i=0; i < screen.children.length; i++){
-				let widgetID = screen.children[i];
-				let widget = model.widgets[widgetID];
+				const widgetID = screen.children[i];
+				const widget = model.widgets[widgetID];
 				if (widget) {
 					result[widgetID] = widget.z;
 				}
 			}
 		} else {
 			// for stuff on canvas we need to get all
-			let canvasChildren = ModelUtil.getCanvasWidgets(model)
+			const canvasChildren = ModelUtil.getCanvasWidgets(model)
 			canvasChildren.forEach(widget => {
 				result[widget.id] = widget.z;
 			})

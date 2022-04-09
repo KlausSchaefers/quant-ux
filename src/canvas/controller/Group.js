@@ -65,13 +65,13 @@ export default class Group extends Layer {
 	 **********************************************************************/
 
 	updateMultiProperties (ids, props, type){
-		this.logger.log(-1,"updateMultiProperties", "enter > " + type, props);
+		this.logger.log(1,"updateMultiProperties", "enter > " + type, props);
 
 
 		/**
 		 * 1) create multi command
 		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
 			label : "UpdateGroupProps",
@@ -82,7 +82,7 @@ export default class Group extends Layer {
 		 * Hack because some styles are by
 		 * default null (which is rendered as solid)
 		 */
-		var ignoreStyles = ["borderTopStyle", "borderBottomStyle", "borderRightStyle", "borderLeftStyle", "fontWeight",
+		const ignoreStyles = ["borderTopStyle", "borderBottomStyle", "borderRightStyle", "borderLeftStyle", "fontWeight",
 							"fontStyle", "textDecoration", "boxShadow", "textShadow", "opacity", "fixed"];
 
 		for(let i=0; i< ids.length; i++){
@@ -99,13 +99,13 @@ export default class Group extends Layer {
 				 * Otherwise we have Labels with background color and so on...
 				 */
 				let isIncluded = true;
-				for(var key in props){
+				for(let key in props){
 					if(ignoreStyles.indexOf(key) < 0 ){
 						isIncluded = isIncluded &&  (org[key] !=null && org[key]!=undefined);
 					}
 				}
 				if(isIncluded){
-					var child = this.createWidgetPropertiesCommand(id, props, type);
+					const child = this.createWidgetPropertiesCommand(id, props, type);
 					this.modelWidgetPropertiesUpdate(id, props, type);
 					command.children.push(child);
 				} else {
@@ -114,9 +114,13 @@ export default class Group extends Layer {
 			}
 		}
 		this.addCommand(command);
-
-		this.onModelChanged([]);
+		this.onModelChanged([]); 
 		this.render();
+
+		this.checkTemplateAutoUpdate(ids.map(id => {
+			return {id: id, type:'widget', prop:'props', action:'change'}
+		}))
+
 	}
 
 	alignGroup (direction){
@@ -592,9 +596,9 @@ export default class Group extends Layer {
 
 
 		if(this.model.groups && this.model.groups[id]){
-			var group = this.model.groups[id];
+			const group = this.model.groups[id];
 
-			var command = {
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "MultiCommand",
 				label : "RemoveGroupAndWidget",
@@ -604,21 +608,23 @@ export default class Group extends Layer {
 			/**
 			 * get all the children before we change the model
 			 */
-			let children = this.getAllGroupChildren(group)
+			const children = this.getAllGroupChildren(group)
+
+			this.checkTemplateAutoUpdate([{id: id, type:'group', action:'remove'}])
 
 			/**
 			 * 1st) remove group se we have also the children list saved!
 			 */
-			var child = this.createRemoveGroupCommand(group);
+			const child = this.createRemoveGroupCommand(group);
 			command.children.push(child);
 			this.modelRemoveGroup(group, child.line, true);
 
 			/**
 			 * Since 2.1.3 we have subgroups. Delete them as well
 			 */
-			let subGroups = this.getAllSubGroups(group)
+			const subGroups = this.getAllSubGroups(group)
 			subGroups.forEach(subGroup => {
-				var subGroupChild = this.createRemoveGroupCommand(subGroup);
+				const subGroupChild = this.createRemoveGroupCommand(subGroup);
 				command.children.push(subGroupChild);
 				this.modelRemoveGroup(subGroup, subGroupChild.line, true);
 			})
