@@ -166,7 +166,7 @@ class ModelUtil {
     getStyle (widget, model) {
         if (widget.template) {
           if (model.templates) {
-            const template = this.getTemplate(widget.template, model);
+            const template = this.getMergedTemplate(widget.template, model);
             if (template) {
           
               /**
@@ -187,7 +187,7 @@ class ModelUtil {
         return widget.style;
     }
 
-    getTemplate (templateId, model) {
+    getMergedTemplate (templateId, model) {
         const template = model.templates[templateId];
         /**
          * Since 4.0.60 templates can inherit other templates
@@ -209,7 +209,7 @@ class ModelUtil {
     getTemplatedStyle(widget, model, prop = 'style') {
         if (widget.template) {
             if (model.templates) {
-                const template = this.getTemplate(widget.template, model);
+                const template = this.getMergedTemplate(widget.template, model);
                 if (template && template[prop]) {
                     /**
                      * Merge in overwriten styles
@@ -414,7 +414,7 @@ class ModelUtil {
              * Since 4.0.60 we need to get potentially also a 
              * check variants
              */
-            const template = this.getTemplate(widget.template, model)
+            const template = this.getMergedTemplate(widget.template, model)
             if (template && template[widgetViewMode]) {
                 const templateStyle = template[widgetViewMode]
                 for (let key in templateStyle) {

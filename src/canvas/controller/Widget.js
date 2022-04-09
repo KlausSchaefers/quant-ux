@@ -1276,9 +1276,9 @@ export default class Widget extends Screen {
 			this.model.widgets[widget.id] = widget;
 
 			/**
-				* also check if we have dropped on a screen
-				*/
-			var screen = this.getHoverScreen(widget);
+			 * also check if we have dropped on a screen
+			 */
+			const screen = this.getHoverScreen(widget);
 			if(screen){
 				screen.children.push(widget.id);
 			}
@@ -1331,7 +1331,6 @@ export default class Widget extends Screen {
 				this.model.groups = {}
 			}
 			this.model.groups[group.id] = group
-			console.debug('modelAddWidgetAndLines() > Updated group!', group)
 		}
 
 		this.onModelChanged([]);
@@ -1339,13 +1338,13 @@ export default class Widget extends Screen {
 
 
 	undoRemoveWidget (command){
-		var widget = command.model;
+		const widget = command.model;
 		this.modelAddWidgetAndLines(widget, command.lines, command.refs, command.group);
 		this.render();
 	}
 
 	redoRemoveWidget (command){
-		var widget = command.model;
+		const widget = command.model;
 		this.modelRemoveWidgetAndLines(widget, command.lines, command.refs, false, command.group);
 		this.render();
 	}
@@ -1358,14 +1357,14 @@ export default class Widget extends Screen {
 	addMultiImageWidgets (widgets, parentScreen){
 		this.logger.log(0,"addMultiImageWidgets", "enter > " + parentScreen.name);
 
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
 			label : "addMultiImageWidgets",
 			children :[]
 		};
 
-		let z = this.getMaxZValue(this.model.widgets) + 1;
+		const z = this.getMaxZValue(this.model.widgets) + 1;
 		for (let i=0; i< widgets.length; i++){
 			/**
 				* Set id

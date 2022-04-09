@@ -141,10 +141,10 @@ export default {
 		onChangeLabel (id, txt) {
 			this.logger.log(1, "onChangeLabel", "entry > ", id + ': ' + txt);
 			if (this.toolbar && this.controller) {
-				let node = this.nodes[id]
+				const node = this.nodes[id]
 				if (node) {
 					this.toolbar.onModelNameChange(id, node.type, txt);
-					let type = node.type
+					const type = node.type
 					if (type == "widget"){
 						this.controller.setWidgetName(id, txt)
 					} else if (type == "screen"){
@@ -152,9 +152,9 @@ export default {
 					} else if (type == "group"){
 						this.controller.setGroupName(id, txt)
 					}
+				} else {
+					this.logger.log(-1, "onChangeLabel", "No node > ", id);
 				}
-			} else {
-				this.logger.log(-1, "onChangeLabel", "No node > ", id);
 			}
 		},
 
@@ -198,8 +198,8 @@ export default {
 
 
 		createNestedModel (model){
-			var result = [];
-			let root = {
+			const result = [];
+			const root = {
 				name: "",
 				id: model.id,
 				children: []
@@ -275,6 +275,7 @@ export default {
 				closeIcon : this.getCloseIcon(screen),
 				openIcon: this.getOpenIcon(screen),
 				open: this.openNodes[screen.id],
+				type:'screen',
 				children: []
 			};
 			this.nodes[id] = tree

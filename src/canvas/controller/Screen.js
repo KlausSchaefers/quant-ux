@@ -407,16 +407,15 @@ export default class Screen extends CopyPaste {
 
 
 	setScreenName (id, value) {
-
 		if (value === '') {
 			this.logger.warn("setScreenName", "exit > EMPTY name: " + id);
 			return
 		}
 
-		var screen = this.model.screens[id];
+		const screen = this.model.screens[id];
 		if(screen && screen.name!= value){
 			this.logger.log(0,"setScreenName", "enter > screen.id : " + id + " > "+ value);
-			var command = {
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "ScreenName",
 				o :screen.name,

@@ -5,6 +5,15 @@ import ModelGeom from 'core/ModelGeom'
 
 export default class Templates extends BaseController{
 
+
+	/**********************************************************************
+	 * Auto template update
+	 **********************************************************************/
+	checkTemplateAutoUpdate () {
+		this.logger.log(-1,"checkTemplateAutoUpdate", "enter > ");
+	}
+
+
 	/**********************************************************************
 	 * Udate Template Group
 	 **********************************************************************/
@@ -1367,9 +1376,12 @@ export default class Templates extends BaseController{
 			return
 		}
 
-		let widget = this.model.widgets[id]
+		const widget = this.model.widgets[id]
 		if (widget.template) {
-			let template = this.model.templates[widget.template]
+			/**
+			 * Since 4.0.60 we have to deal with variants as well
+			 */
+			let template = ModelUtil.getMergedTemplate(widget.template, this.model);
 			if (template) {
 				ModelUtil.setMergedTemplateStyle(widget, template, "style")
 				ModelUtil.setMergedTemplateStyle(widget, template, "hover")
@@ -1532,7 +1544,7 @@ export default class Templates extends BaseController{
 			})
 		}
 
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveAndUnlinkTemplate",
 			templates: templates

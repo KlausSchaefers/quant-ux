@@ -1336,7 +1336,8 @@ export default {
 				 * Since 4.0.60 we have a single selection in a group, 
 				 * can we boost the entire group to top?
 				 */
-				if (selection.length === 1) {
+
+				if (selection.length === 1 && (value === 'front' || value === 'back')) {
 					const widget = this.model.widgets[selection[0]];
 					if (widget) {
 						let parentGroup = this.getTopParentGroup(widget.id)
@@ -1362,13 +1363,13 @@ export default {
 				    case "forward":
 				    	for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
-				    		oldValues[id]+=2;
+				    		oldValues[id]+=1;
 				    	}
 				        break;
 				    case "backward":
 				    	for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
-				    		oldValues[id]-=2;
+				    		oldValues[id]-=1;
 				    	}
 				    	break;
 				    default:

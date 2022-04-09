@@ -199,7 +199,7 @@ test('Test ModelUtil.setStylesNotInTemplate() > relink template ', async () => {
 })
 
 
-test('Test ModelUtil.getTemplate() > No Variant', async () => {
+test('Test ModelUtil.getMergedTemplate() > No Variant', async () => {
 
     const app = {
         templates: {
@@ -217,7 +217,7 @@ test('Test ModelUtil.getTemplate() > No Variant', async () => {
         }
     }
 
-    const template = ModelUtil.getTemplate('t1', app)
+    const template = ModelUtil.getMergedTemplate('t1', app)
     const style = template.style
     expect(style.a).toBe(1)
     expect(style.b).toBe(2)
@@ -233,7 +233,7 @@ test('Test ModelUtil.getTemplate() > No Variant', async () => {
 })
 
 
-test('Test ModelUtil.getTemplate() > variant', async () => {
+test('Test ModelUtil.getMergedTemplate() > variant', async () => {
 
 
 
@@ -253,7 +253,7 @@ test('Test ModelUtil.getTemplate() > variant', async () => {
         }
     }
 
-    const template = ModelUtil.getTemplate('t2', app)
+    const template = ModelUtil.getMergedTemplate('t2', app)
     const style = template.style
     expect(style.a).toBe(4)
     expect(style.b).toBe(2)
