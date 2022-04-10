@@ -949,7 +949,7 @@ export default class RenderFactory extends Core {
 					if (style[p] != null) {
 						parent.style[p] = style[p];
 					} else {
-						console.warn("The style", p, " is no value!", model);
+						//console.warn("The style", p, " is no value!", model);
 					}
 				}
 			}

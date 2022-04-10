@@ -3,8 +3,8 @@
     "auth": "qux",
     "websocket":"wss://ws.quant-ux.com",
     "keycloak": {
-        "realm": "barista", 
-        "clientId": "moka",
+        "realm": "qux", 
+        "clientId": "qux",
         "url": "http://localhost:8180"
     }
 }

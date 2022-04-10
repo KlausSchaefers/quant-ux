@@ -662,7 +662,6 @@ export default class Templates extends BaseController{
 
 	modelUpdateTemplateCopies (template, model, modified) {
 		let copies = ModelUtil.getCopiesOfTemplate(template, model)
-		console.debug('modelUpdateTemplateCopies()' , copies)
 		copies.forEach(copy => {
 			copy.style = template.style
 			copy.modified = modified
@@ -672,7 +671,7 @@ export default class Templates extends BaseController{
 
 	modelUpdateTemplateVariants (template, model, modified) {
 		let variants = ModelUtil.getVariantesOfTemplate(template, model)
-		this.logger.log(1,"modelUpdateTemplateVariants", "enter", variants);
+		this.logger.log(-1,"modelUpdateTemplateVariants", "enter", variants);
 		variants.forEach(variant => {
 			variant.modified = modified
 		})
@@ -795,11 +794,13 @@ export default class Templates extends BaseController{
 	undoUpdateWidget (command){
 		this.logger.log(-1,"undoUpdateWidget", "enter > ", command);
 		this.modelRollbackUpdateTemplate(command, true);
+		this.render()
 	}
 
 	redoUpdateWidget (command){
 		this.logger.log(-1,"redoUpdateWidget", "enter > ");
 		this.modelUpdateTemplate(command, true);
+		this.render()
 	}
 
 
