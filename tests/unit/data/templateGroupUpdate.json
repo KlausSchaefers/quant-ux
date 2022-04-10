@@ -1,0 +1,292 @@
+{
+  "_id" : "6252c2bc406f8516a7715854",
+  "version" : 2.1,
+  "name" : "TemplateBug",
+  "description" : "",
+  "screenSize" : {
+    "w" : 375,
+    "h" : 812
+  },
+  "type" : "smartphone",
+  "screens" : {
+    "s10000_16663" : {
+      "x" : 1361,
+      "y" : 1041,
+      "h" : 812,
+      "w" : 375,
+      "name" : "Screen",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#ffffff"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 812
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : true
+      },
+      "children" : [ "w10001_65026", "w10003_98230", "w10012_13169", "w10013_12112" ],
+      "id" : "s10000_16663"
+    }
+  },
+  "widgets" : {
+    "w10001_65026" : {
+      "type" : "Button",
+      "name" : "BoxBlackBox",
+      "x" : 1382,
+      "y" : 1085,
+      "w" : 75,
+      "h" : 45,
+      "z" : 1,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : { },
+      "id" : "w10001_65026",
+      "created" : 1649590978121,
+      "template" : "tw10006_72487",
+      "isRootTemplate" : true,
+      "modified" : 1649590989765
+    },
+    "w10003_98230" : {
+      "type" : "Button",
+      "name" : "RedBox",
+      "x" : 1482,
+      "y" : 1085,
+      "w" : 75,
+      "h" : 45,
+      "z" : 2,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "background" : "#d33939"
+      },
+      "id" : "w10003_98230",
+      "created" : 1649590982496,
+      "template" : "tw10007_98856",
+      "modified" : 1649591011018,
+      "copyOf" : "w10001_65026",
+      "isRootTemplate" : true
+    },
+    "w10012_13169" : {
+      "id" : "w10012_13169",
+      "name" : "BoxBlackBox",
+      "w" : 75,
+      "h" : 45,
+      "x" : 1382,
+      "y" : 1181,
+      "z" : 3,
+      "template" : "tw10006_72487",
+      "type" : "Button",
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "style" : { },
+      "created" : 1649592510938
+    },
+    "w10013_12112" : {
+      "id" : "w10013_12112",
+      "name" : "RedBox",
+      "w" : 75,
+      "h" : 45,
+      "x" : 1482,
+      "y" : 1181,
+      "z" : 4,
+      "template" : "tw10007_98856",
+      "type" : "Button",
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "style" : { },
+      "created" : 1649592510938
+    }
+  },
+  "lines" : { },
+  "groups" : {
+    "g10004_19855" : {
+      "id" : "g10004_19855",
+      "children" : [ "w10001_65026", "w10003_98230" ],
+      "groups" : [ ],
+      "name" : "Group",
+      "template" : "tg10005_83813",
+      "isRootTemplate" : true
+    },
+    "tg10011_25818" : {
+      "id" : "tg10011_25818",
+      "name" : "Group 1",
+      "template" : "tg10005_83813",
+      "children" : [ "w10012_13169", "w10013_12112" ],
+      "groups" : [ ]
+    }
+  },
+  "templates" : {
+    "tw10002_76379" : {
+      "id" : "tw10002_76379",
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#333333",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "props" : {
+        "label" : ""
+      },
+      "w" : 75,
+      "h" : 45,
+      "z" : 1,
+      "x" : 0,
+      "y" : 0,
+      "templateType" : "Widget",
+      "type" : "Button",
+      "visible" : true,
+      "name" : "Box",
+      "modified" : 1649590981183,
+      "created" : 1649590981183
+    },
+    "tg10005_83813" : {
+      "id" : "tg10005_83813",
+      "type" : "Group",
+      "templateType" : "Group",
+      "visible" : true,
+      "name" : "Group",
+      "children" : [ "tw10006_72487", "tw10007_98856" ],
+      "groups" : [ ],
+      "w" : 175,
+      "h" : 45
+    },
+    "tw10006_72487" : {
+      "id" : "tw10006_72487",
+      "visible" : false,
+      "variant" : true,
+      "name" : "BoxBlackBox",
+      "modified" : 1649590989763,
+      "created" : 1649590989763,
+      "w" : 75,
+      "h" : 45,
+      "z" : 0,
+      "x" : 0,
+      "y" : 0,
+      "templateType" : "Widget",
+      "type" : "Button",
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "props" : {
+        "label" : ""
+      },
+      "variantOf" : "tw10002_76379",
+      "style" : { }
+    },
+    "tw10007_98856" : {
+      "id" : "tw10007_98856",
+      "visible" : false,
+      "variant" : true,
+      "name" : "RedBox",
+      "modified" : 1649590989763,
+      "created" : 1649590989763,
+      "w" : 75,
+      "h" : 45,
+      "z" : 1,
+      "x" : 100,
+      "y" : 0,
+      "templateType" : "Widget",
+      "type" : "Button",
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "props" : {
+        "label" : ""
+      },
+      "variantOf" : "tw10002_76379",
+      "style" : { }
+    }
+  },
+  "designtokens" : { },
+  "lastUUID" : 10014,
+  "lastUpdate" : 1649592510940,
+  "created" : 1649590972065,
+  "startScreen" : "",
+  "grid" : {
+    "w" : 8,
+    "h" : 8,
+    "style" : "line",
+    "color" : "#cecece",
+    "visible" : false,
+    "enabled" : false
+  },
+  "domain" : "Quant-UX.com",
+  "size" : 4108,
+  "isDirty" : true,
+  "lastCategory" : "WireFrame",
+  "id" : "6252c2bc406f8516a7715854"
+}

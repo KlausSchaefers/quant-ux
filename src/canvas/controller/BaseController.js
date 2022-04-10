@@ -1356,11 +1356,20 @@ export default class BaseController extends Core {
 
 	async postCommand (command){
 		this.logPageEvent("addCommand", command.type)
-		var result = {
+		
+		/**
+		 * Since 2.1.3 we put stuff and the stack, without waiting
+		 * for the backend.
+		 */
+		const result = {
 			pos : this.commandStack.pos + 1,
 			command : command,
 			lastUUID : this.commandStack.lastUUID + 1
 		}
+		this.commandStack.stack.push(result.command);
+		this.commandStack.pos = result.pos;
+		this.commandStack.lastUUID = result.lastUUID;
+
 		this.logger.log(1,"postCommand", "enter > " + this.mode);
 		if (this.mode == "public"){
 			/**
@@ -1376,20 +1385,13 @@ export default class BaseController extends Core {
 					this.logger.error("postCommand", "ERROR saving", err);
 					this.showError('Could not reach server! Changes not saved')
 				})
-
-				/**
-				 * Since 2.1.3 we put stuff and the stack, without waiting
-				 * for the backend.
-				 */
-				this.commandStack.stack.push(result.command);
-				this.commandStack.pos = result.pos;
-				this.commandStack.lastUUID = result.lastUUID;
-
 				this.logger.log(1,"postCommand", "exit > lastUUID: " + this.commandStack.lastUUID  + ' > pos: ' + this.commandStack.pos);
 			} catch (err) {
 				this.logger.sendError("postCommand", err);
 			}
 		}
+
+	
 	}
 
 
@@ -1453,9 +1455,9 @@ export default class BaseController extends Core {
 
 
 	onUndoCompleted (result){
-		this.logger.log(2,"onUndoCompleted", "enter > " + result.pos);
+		this.logger.log(1,"onUndoCompleted", "enter > " + result.pos);
 		this.commandStack.pos = result.pos;
-		var command = this.commandStack.stack[this.commandStack.pos];
+		const command = this.commandStack.stack[this.commandStack.pos];
 		if(command){
 			this.logger.log(0,"onUndoCompleted", "enter > "+ command.id);
 			if(this["undo" + command.type]){
@@ -1465,13 +1467,13 @@ export default class BaseController extends Core {
 					console.debug(e.stack);
 				}
 			} else {
-				console.warn("No Undo function defined for ", command);
+				this.logger.log(-1,"onUndoCompleted", "No Undo function for", command.type);
 			}
 			if(this.toolbar){
 				this.toolbar.enbaleRedo();
 			}
 		} else {
-			console.warn("No Undo command defined!");
+			this.logger.log(-1,"onUndoCompleted", "No command at position");
 		}
 	}
 

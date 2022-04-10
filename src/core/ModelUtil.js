@@ -1,5 +1,4 @@
 import lang from '../dojo/_base/lang'
-import CoreUtil from './CoreUtil'
 
 class ModelUtil {
 
@@ -309,13 +308,43 @@ class ModelUtil {
         return zoomedModel;
     }
 
-    getZoomedBox(box, zoomX, zoomY) {
-        return CoreUtil.getZoomedBox(box, zoomX, zoomY, false);
+
+    getZoomedBox(box, zoomX, zoomY, round = true) {
+        if (box.x) {
+            box.x = this.getZoomed(box.x, zoomX, round);
+        }
+
+        if (box.y) {
+            box.y = this.getZoomed(box.y, zoomY, round);
+        }
+        if (box.w) {
+            box.w = this.getZoomedCeil(box.w, zoomX, round);
+        }
+        if (box.h) {
+            box.h = this.getZoomedCeil(box.h, zoomY, round);
+        }
+        if (box.min) {
+            box.min.h = this.getZoomed(box.min.h, zoomY, round);
+            box.min.w = this.getZoomed(box.min.w, zoomX, round);
+        }
+        box.isZoomed = true;
+        return box;
+    }
+  
+    getZoomed(v, zoom, round = false) {
+        if (round) {
+            return Math.round(v * zoom);
+        }
+        return v * zoom
     }
 
-    getZoomed(v, zoom) {
-        return CoreUtil.getZoomed(v, zoom, false);
+    getZoomedCeil(v, zoom, round = true) {
+        if (round) {
+            return Math.ceil(v * zoom);
+        }
+        return v * zoom
     }
+    
 
     updateInheritedRefs(model) {
         for (let screenId in model.screens) {
@@ -369,6 +398,8 @@ class ModelUtil {
     }
 
     updateTemplateStyle(widget, template, mode) {
+        // copy all widget style back to template
+        // and reset template
         if (widget[mode]) {
 			const style = widget[mode]
 			if (!template[mode]) {

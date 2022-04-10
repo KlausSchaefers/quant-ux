@@ -1,11 +1,8 @@
-import Logger from 'common/Logger'
-import lang from 'dojo/_base/lang'
+import lang from '../dojo/_base/lang'
 
 export default class ModelFactory {
 
 	constructor() {
-		this.logger = new Logger("ModelFactory");
-		this.logger.log(2, "constructor", "entry");
 	}
 
 
@@ -78,7 +75,6 @@ export default class ModelFactory {
 				},
 				factor: 2
 			};
-			this.logger.sendError(new Error());
 		}
 
 		var grid = 8;

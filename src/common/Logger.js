@@ -1,6 +1,5 @@
 
 import request from '../dojo/request'
-import Services from '../services/Services'
 
 var vommonLoggingQueue = []
 var vommonLoggingQueuePos = 0
@@ -44,20 +43,8 @@ export default class Logger {
 
 	sendError (e){
 		var plugins = "";
-		for(var i=0;i<navigator.plugins.length;i++){
-			plugins+=navigator.plugins[i].name + "/n";
-		}
-
 		if(vommondLoggingErros < 10){
 			var q = this.writeQueue();
-			let u = Services.getUserService().getUser();
-			if (u) {
-				u = {
-					id: u.id,
-					email: u.email
-				}
-			}
-
 			var msg = {
 				level : 0,
 				url : location.hostname,
@@ -67,7 +54,7 @@ export default class Logger {
 				appCodeName : navigator.appCodeName,
 				appName : navigator.appName,
 				platform : navigator.platform,
-				user : 'User@4.0.40',
+				user : 'User@4.0.60',
 				plugins : plugins,
 				queue : q
 			};

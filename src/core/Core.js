@@ -801,17 +801,11 @@ export default class Core extends Evented {
     }
 
     getZoomed(v, zoom, round = true) {
-        if (round) {
-            return Math.round(v * zoom);
-        }
-        return v * zoom
+       return ModelUtil.getZoomed(v, zoom, round)
     }
 
     getZoomedCeil(v, zoom, round = true) {
-        if (round) {
-            return Math.ceil(v * zoom);
-        }
-        return v * zoom
+       return ModelUtil.getZoomedCeil(v, zoom, round)
     }
 
     getUnZoomed(v, zoom) {
@@ -819,33 +813,7 @@ export default class Core extends Evented {
     }
 
     getZoomedBox(box, zoomX, zoomY, round = true) {
-        if (box.x) {
-            box.x = this.getZoomed(box.x, zoomX, round);
-        }
-
-        if (box.y) {
-            box.y = this.getZoomed(box.y, zoomY, round);
-        }
-
-        /**
-         * Since 2.2.5 we use ceil for w and h
-         */
-        if (box.w) {
-            box.w = this.getZoomedCeil(box.w, zoomX, round);
-        }
-
-        if (box.h) {
-            box.h = this.getZoomedCeil(box.h, zoomY, round);
-        }
-
-        if (box.min) {
-            box.min.h = this.getZoomed(box.min.h, zoomY, round);
-            box.min.w = this.getZoomed(box.min.w, zoomX, round);
-        }
-
-        box.isZoomed = true;
-
-        return box;
+        return ModelUtil.getZoomedBox(box, zoomX, zoomY, round)
     }
 
     getZoomedBoxCopy (box, zoomX, zoomY) {

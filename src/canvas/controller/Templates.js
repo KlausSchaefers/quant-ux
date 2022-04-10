@@ -1,7 +1,7 @@
 import BaseController from './BaseController'
 import lang from '../../dojo/_base/lang'
-import ModelUtil from 'core/ModelUtil'
-import ModelGeom from 'core/ModelGeom'
+import ModelUtil from '../../core/ModelUtil'
+import ModelGeom from '../../core/ModelGeom'
 
 export default class Templates extends BaseController{
 
@@ -314,7 +314,7 @@ export default class Templates extends BaseController{
 
 
 	modelUpdateTemplateGroup(command, render) {
-		this.logger.log(-1,"modelUpdateTemplateGroup", "enter > ", command);
+		this.logger.log(1,"modelUpdateTemplateGroup", "enter > ", command);
 
 		if (!this.model.templates) {
 			return
@@ -585,13 +585,9 @@ export default class Templates extends BaseController{
 		ModelUtil.updateTemplateStyle(widget, template, 'active')
 		ModelUtil.updateTemplateStyle(widget, template, 'hover')
 
-		// FIXME: not used?
-		if (command.updateCopyTemplates) {
-			this.modelUpdateTemplateCopies(template, this.model, modified)
-		}
+		// update modified on all variants, to rendering can pick up changes
 		this.modelUpdateTemplateVariants(template, this.model, modified)
 
-		//
 
 		// execute all widget position updates
 		if (resizes) {
@@ -653,35 +649,32 @@ export default class Templates extends BaseController{
 	
 		if (render) {
 			if (!command.isChildCommand) {
-				this.logger.log(-1,"modelUpdateTemplate", "enter");
+				this.logger.log(1,"modelUpdateTemplate", "enter");
 				this.onModelChanged([{type: 'template', action:"change", id: template.id}])
 				this.render();
 			}
 		}
 	}
 
-	modelUpdateTemplateCopies (template, model, modified) {
-		let copies = ModelUtil.getCopiesOfTemplate(template, model)
-		copies.forEach(copy => {
-			copy.style = template.style
-			copy.modified = modified
-			this.updateStylesInBox(copy, template)
-		})
-	}
 
 	modelUpdateTemplateVariants (template, model, modified) {
 		let variants = ModelUtil.getVariantesOfTemplate(template, model)
-		this.logger.log(-1,"modelUpdateTemplateVariants", "enter", variants);
+		this.logger.log(1,"modelUpdateTemplateVariants", "enter", variants);
 		variants.forEach(variant => {
 			variant.modified = modified
 		})
 	}
 
 	modelRollbackUpdateTemplate (command, render = true) {
-		this.logger.log(-1,"modelRollbackUpdateTemplate", "enter > ");
+		this.logger.log(1,"modelRollbackUpdateTemplate", "enter > ");
 
 		const modified = new Date().getTime()
-		const oldTemplate = command.template
+		// FIXME:we need to clone the command in here, 
+		// because resetStylesInBox() will
+		// pass references. As a result, undo() redo() actions might 
+		// mingle with the element on the stack
+		// this could be fixed by cloning the command in the undo() method
+		const oldTemplate = lang.clone(command.template)
 		const oldWidget = command.widget
 		const resizes = command.resizes
 
@@ -693,15 +686,12 @@ export default class Templates extends BaseController{
 			template.w = oldTemplate.w
 			template.h = oldTemplate.h
 			template.style = oldTemplate.style
-			this.updateStylesInBox(template, oldTemplate)
+			this.resetStylesInBox(template, oldTemplate)
 			
 			widget.style = oldWidget.style
 			widget.modified = modified
-			this.updateStylesInBox(widget, oldWidget)
+			this.resetStylesInBox(widget, oldWidget)
 
-			if (command.updateCopyTemplates) {
-				this.modelUpdateTemplateCopies(oldTemplate, this.model, modified)
-			}
 			this.modelUpdateTemplateVariants(oldTemplate, this.model, modified)
 
 
@@ -769,14 +759,13 @@ export default class Templates extends BaseController{
 		
 		if (render) {
 			if (!command.isChildCommand) {
-				console.debug('modelRollbackUpdateTemplate() > RENDER')
 				this.onModelChanged([{type: 'template', action:"change", id: template.id}])
 				this.render();
 			}
 		}
 	}
 
-	updateStylesInBox (box, oldBox) {
+	resetStylesInBox (box, oldBox) {
 		if (oldBox.hover) {
 			box.hover = oldBox.hover
 		}
@@ -792,13 +781,13 @@ export default class Templates extends BaseController{
 	}
 
 	undoUpdateWidget (command){
-		this.logger.log(-1,"undoUpdateWidget", "enter > ", command);
+		this.logger.log(1,"undoUpdateWidget", "enter > ", command);
 		this.modelRollbackUpdateTemplate(command, true);
 		this.render()
 	}
 
 	redoUpdateWidget (command){
-		this.logger.log(-1,"redoUpdateWidget", "enter > ");
+		this.logger.log(1,"redoUpdateWidget", "enter > ");
 		this.modelUpdateTemplate(command, true);
 		this.render()
 	}
