@@ -675,7 +675,12 @@ export default class {
 			if (taskDf) {
 				const taskCount = taskDf.size();
 				const startDf = startGrouping.get(task.id)
-				const startCount = startDf ? startDf.size() : sessionCount
+				let startCount = startDf ? startDf.size() : sessionCount
+				if (startCount > sessionCount) {
+					console.warn('getTaskSummary() > start count > session count??')
+					startCount = sessionCount
+				}
+
 
 				/**
 				 * for the time based stats we do not want manual

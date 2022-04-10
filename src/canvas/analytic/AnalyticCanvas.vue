@@ -102,7 +102,8 @@ export default {
       isBlackAndWhite: false,
       dropOffLineWidth: 25,
       dropOffLineColor: '#555',
-      dropOffEventWidth: 40
+      dropOffEventWidth: 40,
+      userJourneyEndColor: '#f03131'
     };
   },
   components: {},
@@ -877,7 +878,7 @@ export default {
             line.push({ x: x, y: y, d: "right", duration: duration , type: e.type, session: e.session});
             lastDurationEvent = e
           }
-          if (match && match.startPosition <= i && match.endPosition >= i) {
+          if (match && match.startPosition < i && match.endPosition >= i) {
             const point = line[line.length - 1];
             point.match = true
             matchLines.push(point);
@@ -909,6 +910,9 @@ export default {
         const [div, halo] = this._renderScreenEvent(p.x,p.y, p.type, "",db, p.session, width);
         if (i == line.length -1) {
           css.add(div, "MatcAnalyticCanvasEventSessionEnd");
+          div.style.background = this.userJourneyEndColor
+          halo.style.background = this.userJourneyEndColor + 28;
+          halo.style.borderColor = this.userJourneyEndColor;
         } else if (i > 0) {
           if (p.match) {
             div.style.background = this.analyticParams.taskColor;
@@ -921,9 +925,6 @@ export default {
           }
         }
       }
-
-
-     
   
       /**
        * Render successful task on top

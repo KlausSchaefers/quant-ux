@@ -331,7 +331,7 @@ class ModelUtil {
         return box;
     }
   
-    getZoomed(v, zoom, round = false) {
+    getZoomed(v, zoom, round = true) {
         if (round) {
             return Math.round(v * zoom);
         }

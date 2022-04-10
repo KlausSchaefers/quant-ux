@@ -1460,7 +1460,7 @@ export default class BaseController extends Core {
 		const command = this.commandStack.stack[this.commandStack.pos];
 		if(command){
 			this.logger.log(0,"onUndoCompleted", "enter > "+ command.id);
-			if(this["undo" + command.type]){
+			if (this["undo" + command.type]) {
 				try{
 					this["undo"+ command.type](command);
 				} catch(e){
@@ -1494,7 +1494,7 @@ export default class BaseController extends Core {
 				})
 			}
 
-			var result = {
+			const result = {
 				pos : this.commandStack.pos+1
 			}
 			this.unRedoCompleted(result);
@@ -1528,18 +1528,14 @@ export default class BaseController extends Core {
 	}
 
 	setCommandStack (s){
-
 		this.logger.log(2,"setCommandStack", "enter");
-
 		this.commandStack = s;
-
 		if(this.toolbar){
 			if(this.commandStack.pos > 0){
 				this.toolbar.enbaleUndo();
 			} else {
 				this.toolbar.disableUndo();
 			}
-
 			if(this.commandStack.pos < this.commandStack.stack.length){
 				this.toolbar.enbaleRedo();
 			} else{

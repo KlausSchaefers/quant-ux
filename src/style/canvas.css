@@ -33,7 +33,14 @@
 	cursor:pointer;
 	transition: all 0.2s;
 	border: 1px solid #0099cc;
+	animation-name: growHalo ;
+	animation-duration: 2s;
 }
+
+@keyframes growHalo {
+	from {transform: scale(0);}
+	to {transform: scale(1);}
+  }
 
 
 .MatcAnalyticCanvas .MatcStatus .MatcMessage {
