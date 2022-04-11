@@ -1,0 +1,33 @@
+{
+    "_id" : "624f34e3280efd5a089ca995",
+    "userID" : "624f2ab8280efd5a089ca503",
+    "appID" : "624f2ba8280efd5a089ca50a",
+    "created" : 1649358051611,
+    "tasks" : [ {
+      "name" : "Navegação por todo o carrossel",
+      "description" : "Interaja com essa tela e navegue à vontade. Sinta-se livre para interromper o teste.",
+      "id" : "t1649358417874",
+      "strict" : false,
+      "flow" : [ {
+        "screen" : "s10004_28487",
+        "widget" : null,
+        "type" : "ScreenLoaded"
+      }, {
+        "screen" : "s10005_7363",
+        "widget" : null,
+        "type" : "ScreenLoaded"
+      }, {
+        "screen" : "s10004_28487",
+        "widget" : null,
+        "type" : "ScreenLoaded"
+      }, {
+        "screen" : "s10006_52634",
+        "widget" : null,
+        "type" : "ScreenLoaded"
+      } ]
+    } ],
+    "id" : "624f34e3280efd5a089ca995",
+    "description" : "Olá! Estou testando um produto e criei uma simulação para testar algumas coisinhas deste novo produto. Pode me ajudar?",
+    "showTaskInTest" : false,
+    "lastUpdate" : 1649358689911
+  }

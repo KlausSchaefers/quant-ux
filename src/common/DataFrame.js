@@ -1,4 +1,4 @@
-import Grouping from 'common/Grouping'
+import Grouping from './Grouping'
 
 export default class DataFrame {
 

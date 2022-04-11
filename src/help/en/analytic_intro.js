@@ -28,15 +28,18 @@ export let texts = [
                         This bias will get smaller with every user that tests the prototype and after roughly <strong>40 testers</strong>, 
                         you can expect the results to stabilize.  
                         <br>
-                        If you want to run A / B tests you should aim for much larger tests with more than 60 
-                        people in each variant. Otherwise, the differences that you observe in certain KPIs, e.g. 
+                        If you want to run A / B tests you should aim for more than 60 
+                        testers in each variant. Otherwise, the differences that you observe in certain KPIs, e.g. 
                         the duration, might still be biased. Also, be aware, the outliers might strongly 
                         influence the results in small tests.
-                        <br>
-                        In conclusion, you should try to test with as many users as possible. 
-                        If you have access to only a small user group, be careful when you report the 
-                        results to your stakeholders. It is always correct to say that 4 of 5 users clicked 
-                        on a given button, but concluding that 80% of all users will click on the button is likely to be wrong.
+                        <p class="MatcHelpCallout">
+                            In conclusion, you should try to test with as many users as possible. 
+                            If you have access to only a small user group, be careful when you report the 
+                            results to your stakeholders. 
+                            <br>
+                            It is always correct to say that 4 of 5 users clicked 
+                            on a given button, but concluding that 80% of all users will click on the button is likely to be wrong.
+                        </p>
                         
                     `
                 },
@@ -46,8 +49,10 @@ export let texts = [
                     "body": `
                         The test coverage is calculated as the fraction of screens that have been seen by the testers. 
                         The test coverage gives you a quick hint, if your testers understood with your prototype.
-                        <br>
-                        Example: If you prototype has 3 screens, and all user have only managed to see 2 of them, the test coverage is 66%
+                        <p class="MatcHelpExample">
+                            <b>Example</b>: If you prototype has 3 screens, and all user have only 
+                            managed to see 2 of them, the test coverage is 66%
+                        </p>
                         `
                 },
                 {
@@ -58,10 +63,11 @@ export let texts = [
                         It is calculated as the average duration of a test, starting from the first 
                         event until the last interaction. The standard derivation is also sown 
                         and gives you a hint, how similar the users tested the prototype.
-                        <br>
-                        Example: Three users have tested your prototype. The first user took 30s, 
-                        the second 40s and the third 50s. The average duration is 
-                        then 40s and the standard derivation is 10s.
+                        <p class="MatcHelpExample">
+                            <b>Example</b>: Three users have tested your prototype. The first user took 30s, 
+                            the second 40s and the third 50s. The average duration is 
+                            then 40s and the standard derivation is 10s.
+                        </p>
                     `
                 }
             ]

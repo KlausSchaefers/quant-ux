@@ -32,7 +32,12 @@ export let texts = [
                     </li>
                 </ol>
             <br>
-            Please note, that the screen background will not be copied. Set the background on the segment widget instead.
+
+            <p class="MatcHelpCallout">
+                Please note, that the screen background will not be copied. 
+                Set the background on the segment widget instead.
+            </p>
+            
         `
     }
 ]

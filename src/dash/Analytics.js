@@ -1,6 +1,6 @@
-import lang from 'dojo/_base/lang'
-import DataFrame from 'common/DataFrame'
-import Grouping from 'common/Grouping'
+import lang from '../dojo/_base/lang'
+import DataFrame from '../common/DataFrame'
+import Grouping from '../common/Grouping'
 
 export default class {
 
@@ -487,7 +487,7 @@ export default class {
 			const l = events.length;
 
 			/**
-			 * reset the matcher
+			 * reset all matchers
 			 */
 			for (let m = 0; m < matcherLength; m++) {
 				let matcher = matchers[m];
@@ -504,6 +504,11 @@ export default class {
 				 */
 				for (let m = 0; m < matcherLength; m++) {
 					let matcher = matchers[m];
+					/**
+					 * Usually we want to match each task max once!
+					 * If we have a match, the corresponding
+					 * matched will be disabled
+					 */
 					if (!matcher.disabled) {
 						let match = matcher.next(e, i);
 						if (match) {
@@ -639,7 +644,7 @@ export default class {
 		return result;
 	}
 
-	getTaskStarts (df, tasks, annotation) {
+	getTaskStarts (df, tasks) {
 		const startTasks = tasks.map(task => {
 			const t = lang.clone(task);
 			t.id = task.id
@@ -647,7 +652,7 @@ export default class {
 			t.flow = [task.flow[0]] // just take the start of the flow
 			return t
 		})
-		const summary = this.getTaskPerformance(df, startTasks, annotation);
+		const summary = this.getTaskPerformance(df, startTasks);
 		return summary
 	}
 
@@ -659,7 +664,7 @@ export default class {
 		const tasksPerformance = this.getMergedTaskPerformance(df, tasks, annotation);
 		const taskGrouping = tasksPerformance.groupBy("task");
 	
-		const startTaskPerformace = this.getTaskStarts(df, tasks, annotation)
+		const startTaskPerformace = this.getTaskStarts(df, tasks)
 		const startGrouping = startTaskPerformace.groupBy("task")
 	
 		const list = [];
@@ -676,12 +681,7 @@ export default class {
 				const taskCount = taskDf.size();
 				const startDf = startGrouping.get(task.id)
 				let startCount = startDf ? startDf.size() : sessionCount
-				if (startCount > sessionCount) {
-					console.warn('getTaskSummary() > start count > session count??')
-					startCount = sessionCount
-				}
-
-
+			
 				/**
 				 * for the time based stats we do not want manual
 				 * annotated tasks

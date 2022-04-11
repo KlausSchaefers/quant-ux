@@ -68,9 +68,11 @@ export let texts = [
                     correlation between the cursor movement and eye gaze. This means long hover 
                     times over a specific area can indicate strong user interest, but it can also mean 
                     that the user simply didn’t move the mouse. 
-                    <br>
-                    Often you these hepatmaps are the reuslt of a “reading pattern”, which often takes 
-                    ans F shaped form. 
+                   
+                     <p class="MatcHelpCallout">
+                        Often you these hepatmaps are the reuslt of a “reading pattern”, which often takes 
+                        ans F shaped form. 
+                    </p>
                 `
             },
             {
@@ -126,7 +128,7 @@ export let texts = [
             {
                 "id": "analytics.canvas.kpis",
                 "title": "Element KPIs",
-                "css": "MatcHelpContentParagraphSpacer",
+                "css": "",
                 "body": `
                     When you select a widget or screen you can also see certain KPIs 
                     that are related to the widget. These KPIs include:            
@@ -140,8 +142,10 @@ export let texts = [
                     This kpi relate directly to the heat maps. The gauge shows the absolute 
                     number of clicks, the position of the ring shows the relation to all 
                     other widgets in the prototype.
-                    <br>
-                    Example: During test 100 clicks were recorded by 5 users. Widget a was clicked 20 times. The relative frequency is therefore 20%.
+                    <p class="MatcHelpExample">
+                        <b>Example</b>: During test 100 clicks were recorded by 5 users. 
+                        Widget a was clicked 20 times. The relative frequency is therefore 20%.
+                    </p>
                     
                 `
             },
@@ -153,10 +157,12 @@ export let texts = [
                     after a screen was loaded</strong>. The first clicks show which elements catch the most 
                     attention of the users. The gauge shows the absolute number, and the position 
                     visualizes the relation to the screen loads.
-                    <br>
-                    Example: A screen has two elements, A and B. The screen was loaded 10 times 
-                    and 4 times element B was clicked immediately afterwards. 
-                    The relative frequency is thus 40%.
+
+                    <p class="MatcHelpExample">
+                        <b>Example</b>: A screen has two elements, A and B. The screen was loaded 10 times 
+                        and 4 times element B was clicked immediately afterwards. 
+                        The relative frequency is thus 40%.
+                    </p>
                                     
                 `
             },
@@ -167,10 +173,12 @@ export let texts = [
                     The time before click tells you how many seconds the users took in average 
                     until the interacted the first time with the given element. In general elements 
                     in the top should have shorter times the elements at the bottom of a screen.
-                    <br>
-                    Example: A screen is loaded and after 10s the user interacts with element A. 
-                    In a second test, the user only clicked on the element after 2s. 
-                    The average time before the click is therefore 15s.
+                 
+                    <p class="MatcHelpExample">
+                        <b>Example</b>: A screen is loaded and after 10s the user interacts with element A. 
+                        In a second test, the user only clicked on the element after 2s. 
+                        The average time before the click is therefore 15s.
+                    </p>
                 `
             },
             {
@@ -181,12 +189,13 @@ export let texts = [
                     This metric indicates how easy the screen is to find. The gauge 
                     shows the absolute number of screen tests in the middle. 
                     The position of the ring indicates the relative test ratio.
-                    <br>
-                    Example: Your prototype has two screens and was tested by two users. 
-                    The first user saw both screens, whereas the second user saw only the 
-                    first screen. This means there are two test. The relative frequency 
-                    of the first screen is 100% because it was tested by every users, 
-                    where is the relative frequency of the second screen is 50%.
+                    <p class="MatcHelpExample">
+                        <b>Example</b>: Your prototype has two screens and was tested by two users. 
+                        The first user saw both screens, whereas the second user saw only the 
+                        first screen. This means there are two test. The relative frequency 
+                        of the first screen is 100% because it was tested by every users, 
+                        where is the relative frequency of the second screen is 50%.
+                    </p>
                     
                 `
             },
@@ -200,11 +209,13 @@ export let texts = [
                     users had some problems, for instance finding the right elements.
                     The gauge shows the absolute dwell time and also puts in in relation to the total test duration.
                     
-                    <br>
-                    Example: Five tests were done, each taking exactly 60 seconds. 
-                    The users spend 20, 30, 30, 30 and 40 seconds in the first screen. 
-                    The average dwell time is 30 seconds, and the relative dwell 
-                    time 50% ((20 + 30 + 30 +30 + 40) / (5*60)).
+             
+                    <p class="MatcHelpExample">
+                        <b>Example</b>: Five tests were done, each taking exactly 60 seconds. 
+                        The users spend 20, 30, 30, 30 and 40 seconds in the first screen. 
+                        The average dwell time is 30 seconds, and the relative dwell 
+                        time 50% ((20 + 30 + 30 +30 + 40) / (5*60)).
+                    </p>
                 `
             },
             {
@@ -215,11 +226,12 @@ export let texts = [
                     much higher than the "Test Views", this indicates that the users came often 
                     back to this screen. The gauge shows the absolute number in the middle. 
                     The position of the ring indicates the relative frequency.
-                    <br>
-                    Example: Your prototype has two screens and was tested by two users. 
-                    The first user saw both screens, whereas the second user saw only the 
-                    first screen. This means there were three screen loads. The relative 
-                    frequency of the first screen is thus 67% and of the second 33%.
+                    <p class="MatcHelpExample">
+                        <b>Example</b>: Your prototype has two screens and was tested by two users. 
+                        The first user saw both screens, whereas the second user saw only the 
+                        first screen. This means there were three screen loads. The relative 
+                        frequency of the first screen is thus 67% and of the second 33%.
+                    </p>
                 
                 `
             },
@@ -231,9 +243,10 @@ export let texts = [
                     and not on a widget. A high number indicates often problems, for instance, that the 
                     users expect certain elements to be clickable. The gauge shows the absolute number, 
                     and the position indicates the relative frequency with respect to all clicks on the screen.
-                    <br>
-                    Example: During the test, 100 events were recorded by three users on a given screen A. 
-                    10 events were on screen A. The relative frequency is therefore 10%
+                    <p class="MatcHelpExample">
+                        <b>Example</b>: During the test, 100 events were recorded by three users on a given screen A. 
+                        10 events were on screen A. The relative frequency is therefore 10%.
+                    </p>
                 `
             },
             {
@@ -244,9 +257,10 @@ export let texts = [
                     The number indicates how much "work" the users have performed on a certain screen. 
                     The gauge shows the absolute number, and the position indicates the relative 
                     frequency with respect to all clicks on the screen.
-                    <br>
-                    Example: During the test, 100 events were recorded by three users in screen A. 
-                    90 events were on the five widgets of the screen. The relative frequency is therefore 90%
+                    <p class="MatcHelpExample">
+                        <b>Example</b>:  During the test, 100 events were recorded by three users in screen A. 
+                        90 events were on the five widgets of the screen. The relative frequency is therefore 90%.
+                    </p>
                 `
             }
         ]

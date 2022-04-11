@@ -21,9 +21,12 @@ export let texts = [
                 "body": `
                     To create a widget animation select a widget. If the widget supports animations you can see in the 
                     lower right corner a tab bar with the different widget states, e.g. <strong>Normal</strong>
-                    and <strong>Hover</strong>. If you press Hover,
-                    the properties panel will change and only show the properties that you can change for the Hover state.
-                    Change the background, or text color. When you launch the simulator the selected color will be shown when 
+                    and <strong>Hover</strong>. 
+                    
+                    <br> <br> 
+                    If you press Hover, the properties panel will change and only show the properties 
+                    that you can change for the hover state. Change the background, or text color. When you 
+                    launch the simulator the selected color will be shown when 
                     you hover with the mouse over the widget. 
                 `
             },
@@ -37,16 +40,18 @@ export let texts = [
                     the <strong><span class="mdi mdi-close"/> No Animation</strong> button. A popup will show up,
                     that lets you define how the new screen is animated, for instance if it is faded or slided in. 
                     You can also configure the duration and the easing function.
-                    <br>
+                    <br>  <br>
                     You can also create dedicated loading animations that will animate each widget separately. 
                     Select a screen, and press the <strong><span class="mdi mdi-video" /> Animation</strong> button. 
                     The animation composer will show up, which let's you define for each widget a animation 
                     time line. You can set the start and end of the animation. Press the 
                     <span class="mdi mdi-close"/> icon to select the type of animation.
-                    <br> 
-                    Please note that the <strong><span class="mdi mdi-auto-fix"/> Transform</strong> animation type 
-                    works only of the first screen has an element with the <strong>same name</strong>. 
-                    The animation will transform the previous widget (position and style) to the current one.
+
+                    <p class="MatcHelpCallout">
+                        Please note that the <strong><span class="mdi mdi-auto-fix"/> Transform</strong> animation type 
+                        works only of the first screen has an element with the <strong>same name</strong>. 
+                        The animation will transform the previous widget (position and style) to the current one.
+                    </p>
                 `
             },
             {
