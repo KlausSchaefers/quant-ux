@@ -17,7 +17,7 @@ export default {
     components: {},
     methods: {
 
-    registerDragOnDrop (node, id, startCallback, moveCallback, endCallback, clickCallback, targetNode){
+    	registerDragOnDrop (node, id, startCallback, moveCallback, endCallback, clickCallback, targetNode){
 
 			// new method overload. We can attach the start event to a different node, then to one to be moved!
 			if (!targetNode) {

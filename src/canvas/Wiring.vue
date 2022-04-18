@@ -157,8 +157,18 @@ export default {
 					return
 				}
 
+				if (target._commentID) {
+					this.dispatchMouseDownComment(e, target._commentID, target)
+					return
+				}
+
 				this.dispatchMouseDownCanvas(e, target)
 
+			},
+
+			dispatchMouseDownComment (e, id, div) {
+				this.logger.log(-1,"dispatchMouseDownComment", "enter", id);
+				this.onDragStart(div, id, "onCommentDndStart", "onCommntDndMove", "onCommentDndEnd", "onCommentDndClick", e);
 			},
 
 			dispatchMouseDownWidget (e, id) {

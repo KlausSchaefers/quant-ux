@@ -1128,7 +1128,6 @@ export default {
               callback: lang.hitch(this, "onDeleteComment", comment)
             }
           ]);
-          console.debug("delete", s);
         }
 
         db.div("MatcCommentMessage", comment.message).build(cntr);
