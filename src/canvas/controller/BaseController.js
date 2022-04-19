@@ -1274,8 +1274,8 @@ export default class BaseController extends Core {
 	undoMultiCommand (command){
 		this.logger.log(0,"undoMultiCommand", "enter > " + command.id);
 
-		for(var i=0; i< command.children.length; i++){
-			var child = command.children[i];
+		for(let i=0; i< command.children.length; i++){
+			const child = command.children[i];
 			if(this["undo" + child.type]){
 				this["undo"+ child.type](child);
 			} else {
@@ -1287,8 +1287,8 @@ export default class BaseController extends Core {
 	redoMultiCommand (command){
 		this.logger.log(0,"redoMultiCommand", "enter > " + command.id);
 
-		for(var i=0; i< command.children.length; i++){
-			var child = command.children[i];
+		for(let i=0; i< command.children.length; i++){
+			const child = command.children[i];
 			if(this["redo" + child.type]){
 				this["redo"+ child.type](child);
 			} else {
@@ -1319,7 +1319,7 @@ export default class BaseController extends Core {
 		 * if a new command comes, we throw away all newer commands.
 		 */
 		if(this.commandStack.pos < this.commandStack.stack.length){
-			if(this.mode=="public"){
+			if(this.mode == "public"){
 				this.onCommandDeleted(command);
 			} else {
 				var count = (this.commandStack.stack.length - this.commandStack.pos);
@@ -1433,15 +1433,15 @@ export default class BaseController extends Core {
 			 * Do do things faster for large requests,
 			 * we do not wait for the rest response.
 			 */
-			if(this.mode !== "public"){
-					this.modelService.undoCommand(this.model, {}).then(res => {
-						if (res.pos != this.commandStack.pos) {
-							this.logger.error('undo', "server is behind")
-						}
-						this.logger.log(2,"undo", "saved", res.pos + '==' + this.commandStack.pos);
-					})
+			if (this.mode !== "public"){
+				this.modelService.undoCommand(this.model, {}).then(res => {
+					if (res.pos != this.commandStack.pos) {
+						this.logger.error('undo', "server is behind", res)
+					}
+					this.logger.log(2,"undo", "saved", res.pos + '==' + this.commandStack.pos);
+				})
 			}
-			var result = {
+			const result = {
 				pos : this.commandStack.pos - 1
 			}
 			this.onUndoCompleted(result);
@@ -1529,6 +1529,16 @@ export default class BaseController extends Core {
 
 	setCommandStack (s){
 		this.logger.log(2,"setCommandStack", "enter");
+		/**
+		 * In some rare cases teh position might be < 0. We fix it, and store 
+		 * the entire command stack!
+		 */
+		if (ModelFixer.fixCommandStack(s) ) {
+			if (this.modelService) {
+				this.modelService.saveCommands(s.appID, s)
+			}
+			
+		}
 		this.commandStack = s;
 		if(this.toolbar){
 			if(this.commandStack.pos > 0){

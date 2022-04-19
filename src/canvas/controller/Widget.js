@@ -797,7 +797,7 @@ export default class Widget extends Snapp {
 			this.showSuccess("Great! A new widget was added to screen "+ screen.id);
 		} else {
 			if(widget.has && !widget.has.logic){
-				this.showError("Great! A new widget was added, tut is does not belong to any screen! It will not be shown in the simulator.");
+				this.showError("Great! A new widget was added, but is does not belong to any screen! It will not be shown in the simulator.");
 			}
 		}
 

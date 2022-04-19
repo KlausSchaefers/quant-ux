@@ -77,6 +77,10 @@ export class ModelService extends AbstractService{
         return this._get(`/rest/commands/${id}.json`)
     }
 
+    saveCommands (id, stack) {
+        return this._post(`/rest/commands/${id}.json`, stack)
+    }
+
     addCommand (model, command) {
         return this._post(`/rest/commands/${model.id}/add`, command)
     }

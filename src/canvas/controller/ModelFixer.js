@@ -8,6 +8,17 @@ class ModelFixer {
 		this.logger = new Logger("ModelFixer")
 	}
 
+	fixCommandStack(stack) {
+		this.logger.log(2, "fixCommandStack", "enter")
+		if (stack.pos < 0) {
+			this.logger.warn("fixCommandStack", "Pos < 0 >> pos:" + stack.pos + ' > length:' + stack.stack.length )
+			this.logger.sendError(new Error("Controller.fixCommandStack() > pos is < 0"))
+			stack.pos = stack.stack.length
+			return true
+		}
+		return false
+	}
+
 	fixZValues(m) {
 		this.logger.log(2, "fixZValues", "enter")
 

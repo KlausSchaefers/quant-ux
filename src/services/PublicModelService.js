@@ -23,6 +23,11 @@ class PublicModelService extends ModelService{
         return this._get(`/examples/commands/${id}.json`)
     }
 
+    saveCommands () {
+        return
+    }
+
+
     findEvents (id) {
         return this._get(`/examples/events/${id}.json?exclude=Animation`)
     }

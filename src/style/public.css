@@ -78,7 +78,7 @@
 
 .MatcCanvasCommentIcon{
  	background: #ffbd21 none repeat scroll 0 0;
-  border-radius:50%;
+  	border-radius:50%;
 	transition : box-shadow 0.3s, background 0.3s;
 	width: 25px;
 	height: 25px;
