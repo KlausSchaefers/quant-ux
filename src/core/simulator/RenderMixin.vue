@@ -1035,7 +1035,7 @@ export default {
 							div.style.top = distanceToTop + "px";
 						}
 						div.style.left = (box.x - parentBox.x) + screenPos.x + "px";
-						this.logger.log(-1,"createBOx","isPinnedDown > " + box.name);
+						this.logger.log(2,"createBOx","isPinnedDown > " + box.name);
 
 					} else {
 						/**
@@ -1067,19 +1067,35 @@ export default {
 		},
 
 		getDistanceFromScreenBottom(element, parentBox, model) {
-			if (element && model.screenSize) {
+			if (element && model.screenSize.h) {
 				const top = (element.y - parentBox.y)
-				const dif = model.screenSize.h - (top + element.h)
-				return Math.max(0,dif);
+				/**
+				 * Before 4.0.62 we assumed that the pinned to bottom
+				 * elements where within the "screenSize". To be backwards
+				 * compatible, we still check this condition.
+				 */
+				if (model.screenSize.h >= (top + element.h)) {
+					const dif = model.screenSize.h - (top + element.h)
+					return dif
+				}
+				/** 
+				 * If the element is below the initial view, we assume 
+				 * do it the new way
+				 */
+				const bottom = (parentBox.y + parentBox.h) - (element.y + element.h)
+				return Math.max(0,bottom);
 			}
 			return 0
 		},
 
 		getDistanceFromScreenTop (element, parentBox, model) {
+			
 			if (element && model.screenSize) {
-				const top = (element.y - parentBox.y)
-				return Math.max(0,top);
+				let bottom = this.getDistanceFromScreenBottom(element, parentBox, model)
+				let dif = model.screenSize.h - (bottom) - element.h
+				return Math.max(0,dif);
 			}
+			
 			return 0
 		},
 
