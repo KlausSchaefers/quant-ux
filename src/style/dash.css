@@ -994,6 +994,7 @@
 
 .MatcPlayerButtonBar a:HOVER{
 	border-bottom: 2px solid #49C0F0;
+	color:#fff;
 }
 
 .MatcPlayerTime{

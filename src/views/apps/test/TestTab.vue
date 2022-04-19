@@ -255,25 +255,13 @@ export default {
     },
     showSessions() {
       this.logger.log(-1, "showSessions", "enter " + this.planGetTestCount());
-
-      var maxTestsToShow = this.planGetTestCount();
+      
+      //var maxTestsToShow = this.planGetTestCount();
       let app = this.app;
-      var actionEvents = this.getActionEvents(new DataFrame(this.events));
-      let events = actionEvents.as_array();
-      var list = this._getTestList(events, this.annotation, this.test);
+
+      var list = this._getTestList(lang.clone(this.events), this.annotation, this.test);
       var urlPrefix = this.urlPrefix;
 
-      /**
-       * Set flag to turn off play buttons
-       */
-      for (var i = 0; i < list.length; i++) {
-        var t = list[i];
-        if (maxTestsToShow == -1 || i < maxTestsToShow) {
-          t.canShow = true;
-        } else {
-          t.canShow = false;
-        }
-      }
 
       var tbl = this.$new(Table);
       tbl.setColumns([
@@ -281,7 +269,7 @@ export default {
           query: "id",
           label: "#"
         },
-         {
+        {
           query: "status",
           label: this.getNLS("videoTableStatus")
         },
@@ -307,12 +295,11 @@ export default {
         },
         {
           query: "duration",
-          label: this.getNLS("videoTableDuration")
+          label: this.getNLS("videoTableDuration"),
+          fct: (td, row) => {
+            td.innerHTML = row.duration + ' sec'
+          }
         },
-        //{
-        //  query: "screens",
-        //  label: this.getNLS("videoTableScreens")
-        //},
         {
           query: "size",
           label: this.getNLS("videoTableEvents")
@@ -378,51 +365,48 @@ export default {
       d.close()
     },
 
-    _getTestList: function(events, annotatation, testSettings) {
-      var list = [];
+    _getTestList (events, annotatation, testSettings) {
+      const list = [];
 
-      /**
-       * Legacy
-       */
       if (!testSettings.tasks) {
         testSettings.tasks = [];
       }
 
-      var df = new DataFrame(events);
+      const df = new DataFrame(events);
       df.sortBy("time");
-      var sessionGroup = df.groupBy("session");
-      let sessions = sessionGroup.data;
+      const sessionGroup = df.groupBy("session");
+      const sessions = sessionGroup.data;
 
-      var annoSession = new DataFrame(annotatation).groupBy("reference");
+      const annoSession = new DataFrame(annotatation).groupBy("reference");
 
-      var actionDF = this.getActionEvents(new DataFrame(events));
+      const actionDF = this.getActionEvents(new DataFrame(events));
 
-      var analytics = new Analytics();
-      var taskCount = testSettings.tasks.length;
-      var tasksPerformance = analytics.getMergedTaskPerformance(
+      const analytics = new Analytics();
+      const taskCount = testSettings.tasks.length;
+      const tasksPerformance = analytics.getMergedTaskPerformance(
         actionDF,
         testSettings.tasks,
         annotatation
       );
-      var tasksBySession = tasksPerformance.count("session");
+      const tasksBySession = tasksPerformance.count("session");
 
-      var sessionTaskNames = analytics.getSuccessTaskNames(
+      const sessionTaskNames = analytics.getSuccessTaskNames(
         tasksPerformance,
         testSettings.tasks
       );
 
-      var id = 1;
+      let id = 1;
       for (let sessionID in sessions) {
-        var session = sessions[sessionID];
-        var date = this.formatDate(session.min("time"));
+        const session = sessions[sessionID];
+        const date = this.formatDate(session.min("time"));
 
-        var anno = annoSession.get(sessionID);
-        var status = '<span class="MatchDashStatusSuccess">Valid</span>';
-        var isValid = true;
+        const anno = annoSession.get(sessionID);
+        let status = '<span class="MatchDashStatusSuccess">Valid</span>';
+        let isValid = true;
         if (anno) {
           isValid = anno.get(0).get("isValid");
           if (!isValid) {
-            status = '<span class="MatchDashStatusFailure">Failure</span>';
+            status = '<span class="MatchDashStatusFailure">Ignore</span>';
           }
         }
 
@@ -433,20 +417,22 @@ export default {
           user = user.name
         }
 
-        var taskSuccess = tasksBySession.get(sessionID);
+        let taskSuccess = tasksBySession.get(sessionID);
         if (!taskSuccess) {
           taskSuccess = 0;
         }
 
-        var item = {
+        const actionsEvents = this.getActionEvents(new DataFrame(session.data));
+
+        const item = {
           session: sessionID,
           user: user,
           taskPerformance: taskSuccess + " / " + taskCount,
           taskNames: sessionTaskNames[sessionID],
-          duration: Math.ceil((session.max("time") - session.min("time")) / 1000) + ' sec',
+          duration: Math.ceil((session.max("time") - session.min("time")) / 1000),
           date: date,
           start: session.min("time"),
-          size: session.size(),
+          size: actionsEvents.size(),
           status: status,
           isValid: isValid,
           id: id,
@@ -457,7 +443,7 @@ export default {
         id++;
       }
 
-      list.sort(function(a, b) {
+      list.sort((a, b) => {
         return a.id - b.id;
       });
 

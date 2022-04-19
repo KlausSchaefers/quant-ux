@@ -8,13 +8,9 @@
 			<div class="MatcToolbarTopCntr" >
 
 				<div class="MatcToolbarTopLeftCntr" data-dojo-attach-point="screenSection">
-
-				
-				
 				</div>
 
 			
-
 				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
 					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn"/>
@@ -68,6 +64,7 @@ import VideoPlayer from 'views/apps/test/VideoPlayer'
 import DataFrame from 'common/DataFrame'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import HelpButton from 'help/HelpButton'
+
 
 export default {
     name: 'AnalyticToolbar',
@@ -334,14 +331,6 @@ export default {
 			this.viewBtns.push(this.viewBtnDropOff);
 			this.addTooltip(this.viewBtnDropOff, "See whre users dropped of when performing tasks.");
 
-			this.viewBtnScrollMap = this.createToolBarItem("Scroll Visibility", "showScrollHeatMap", "mdi mdi-swap-vertical",this.screenSection);
-			this.viewBtns.push(this.viewBtnScrollMap);
-			this.addTooltip(this.viewBtnScrollMap, "How often was the part of the screen visible");
-
-			this.viewBtnScrollTime = this.createToolBarItem("Scroll Time", "showScrollTimeMap", "mdi mdi-timer",this.screenSection);
-			this.viewBtns.push(this.viewBtnScrollTime);
-			this.addTooltip(this.viewBtnScrollTime, "How long was the part of the screen visible");
-
 			/**
 			 * Global Distributions
 			 */
@@ -354,6 +343,16 @@ export default {
 			this.viewBtns.push(this.viewBtnDwellTime);
 			this.addTooltip(this.viewBtnDwellTime, "How much time have the users spend on this page in average");
 
+
+			this.viewBtnScrollMap = this.createToolBarItem("Scroll Visibility", "showScrollHeatMap", "mdi mdi-swap-vertical",this.screenSection);
+			this.viewBtns.push(this.viewBtnScrollMap);
+			this.addTooltip(this.viewBtnScrollMap, "How often was the part of the screen visible");
+
+			this.viewBtnScrollTime = this.createToolBarItem("Scroll Time", "showScrollTimeMap", "mdi mdi-timer",this.screenSection);
+			this.viewBtns.push(this.viewBtnScrollTime);
+			this.addTooltip(this.viewBtnScrollTime, "How long was the part of the screen visible");
+
+		
 			this.setSelectedViewButton(this.viewBtnClickMap);
 
 			this.logger.log(3,"renderToolbar", "exit");
@@ -684,9 +683,48 @@ export default {
 			css.add(this.sessionTaskLineColor.domNode ,"MatcToolbarGridFull hidden");
 			this.own(on(this.sessionTaskLineColor, "change", lang.hitch(this, "showUserJourney")));
 
-			this.sessionDiv = this.createSection("Sessions");
+			this.sessionDiv = this.createSection("Tests");
 			content = this.createContent(this.sessionDiv);
 			css.add(content, "MatcMarginBottomXXL");
+
+
+			row = db.div("MatcToobarRow").build(content);
+
+			this.sessionOrderBrn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
+			this.sessionOrderBrn.setOptions([
+				{value:'duration', label:"Sort by Duration"},
+				{value: 'events', label:"Sort by Events"},
+				{value:'date', label:"Sort by Date"}
+			]);
+			this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties");
+			this.sessionOrderBrn.updateLabel = true;
+			this.sessionOrderBrn.reposition = true;
+			this.sessionOrderBrn.setValue('duration')
+			css.add(this.sessionOrderBrn.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
+			this.sessionOrderBrn.placeAt(row);
+			this.tempOwn(on(this.sessionOrderBrn, "change", (v) => {this.onSortSessionList(v)}));
+			this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
+
+
+			this.sessionListCntr = db.div("MatcToobarRow").build(content);
+			this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
+			this.renderSessionList(this.sessionListCntr, this.sessionList, 'duration')
+
+
+		
+		},
+
+		onSortSessionList (value) {
+			this.renderSessionList(this.sessionListCntr, this.sessionList, value)
+			this.selectUserJournyTask(this.sessionTaskBtn.getValue())
+		},
+
+		renderSessionList (content, list, order) {
+
+			const db = new DomBuilder();
+
+			content.innerHTML = ""
+
 			this.sessionCheckBoxes = {};
 			this.sessionAllCheckBox = this.$new(CheckBox);
 			this.sessionAllCheckBox.setLabel("Show All");
@@ -695,16 +733,36 @@ export default {
 			this.sessionAllCheckBox.placeAt(db.div("MatcToobarRow").build(content));
 			this.own(on(this.sessionAllCheckBox,"change", lang.hitch(this,"selectAllSessions")));
 
-			var list = this._getTestList(this.events, this.annotation, this.testSettings);
+			list.sort((a, b) => {
+				if (order === 'duration') {
+					return b.duration - a.duration
+				} 
+				if (order === 'date')  {
+					return a.start - b.start
+				}
+				return b.size - a.size
+			})
+		
+
+
 
 			for(let i=0; i < list.length; i++){
-				let session = list[i];
-				let row = db.div("MatcToobarRow MatcToobarRowIconCntr").build(content);
+				const session = list[i];
+				const row = db.div("MatcToobarRow MatcToobarRowIconCntr").build(content);
 
-				var chk = this.$new(CheckBox);
+				const chk = this.$new(CheckBox);
 				css.add(chk.domNode, "MatcToolbarItem");
 				chk.setValue(true);
-				chk.setLabel("Session " + (i+1) + " ("  + session.duration + "s )"); // + session.taskPerformance +" Tasks - "
+				if (order === 'duration') {
+					chk.setLabel("Test " + (session.id) + " ("  + session.duration + "s )"); // + session.taskPerformance +" Tasks - "
+				} 
+				if (order === 'date') {
+					chk.setLabel("Test " + (session.id) + " ("  + session.date + ")"); // + session.taskPerformance +" Tasks - "
+				}
+				if (order === 'events') {
+					chk.setLabel("Test " + (session.id) + " ("  + session.size + ")"); // + session.taskPerformance +" Tasks - "
+				}
+			
 				chk.placeAt(db.div().build(row));
 
 				this.sessionCheckBoxes[session.session] = chk;
@@ -773,40 +831,34 @@ export default {
 		},
 
 
-
-
 		_getTestList(events, annotatation, testSettings){
 
-			var list =[];
-
-			/**
-			 * FIX for wrong default:
-			 */
+			const list =[];
 			if(!testSettings.tasks){
 				testSettings.tasks = [];
 				console.warn("_getTestList() > Added missing task array")
 			}
 
-			var df = new DataFrame(events);
+			const df = new DataFrame(events);
 			df.sortBy("time");
-			var sessionGroup = df.groupBy("session");
-			let sessions = sessionGroup.data;
+			const sessionGroup = df.groupBy("session");
+			const sessions = sessionGroup.data;
 
-			var annoSession = new DataFrame(annotatation).groupBy("reference");
-			var analytics  = new Analytics();
-			var taskCount = testSettings.tasks.length;
-			var tasksPerformance = analytics.getMergedTaskPerformance(df, testSettings.tasks, annotatation );
-			var tasksBySession = tasksPerformance.count("session");
+			const annoSession = new DataFrame(annotatation).groupBy("reference");
+			const analytics  = new Analytics();
+			const taskCount = testSettings.tasks.length;
+			const tasksPerformance = analytics.getMergedTaskPerformance(df, testSettings.tasks, annotatation );
+			const tasksBySession = tasksPerformance.count("session");
 
-			var id = 1;
+			let id = 1;
 			for(let sessionID in sessions){
 
-				var session = sessions[sessionID];
-				var date = this.formatDate(session.min("time"));
+				let session = sessions[sessionID];
+				let date = this.formatDate(session.min("time"), true);
 
-				var anno = annoSession.get(sessionID);
-				var status = '<span class="MatchDashStatusSuccess">Valid</span>';
-				var isValid = true;
+				let anno = annoSession.get(sessionID);
+				let status = '<span class="MatchDashStatusSuccess">Valid</span>';
+				let isValid = true;
 				if(anno){
 					isValid = anno.get(0).get("isValid");
 					if(!isValid){
@@ -814,19 +866,21 @@ export default {
 					}
 				}
 
-				var taskSuccess = tasksBySession.get(sessionID);
+				let taskSuccess = tasksBySession.get(sessionID);
 				if(!taskSuccess){
 					taskSuccess = 0;
 				}
 
+   				const actionsEvents = this.getActionEvents(new DataFrame(session.data));
 
-				var item = {
+
+				const item = {
 					session : sessionID,
 					taskPerformance : taskSuccess + " / " + taskCount,
 					duration : (Math.ceil( (session.max("time") - session.min("time")) / 1000 )),
 					date : date,
 					start : session.min("time"),
-					size : session.size(),
+					size : actionsEvents.size(),
 					status :status,
 					isValid : isValid,
 					id : id,
@@ -837,7 +891,7 @@ export default {
 				id++;
 			}
 
-			list.sort(function(a,b){
+			list.sort((a,b) => {
 				return a.id - b.id;
 			});
 
