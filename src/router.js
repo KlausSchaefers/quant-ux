@@ -135,6 +135,10 @@ export default new VueRouter({
     },
     {
       path: '/test/Task.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/TaskPerfGramTest.vue')
+    },
+    {
+      path: '/test/Task.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/TaskCreateDialogTest.vue')
     },
     {

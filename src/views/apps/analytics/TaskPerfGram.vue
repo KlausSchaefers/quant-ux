@@ -1,40 +1,40 @@
 
 <template>
      <div class="MatcDashTaskPerfGram">
-							<div class="MatcToolbarTabContainer">
-								<div class="MatcToolbarTabs" data-dojo-attach-point="tabsCntr">
-								</div>
-							</div>
-							<div class="MatcDashTaskPerfActionCntr" data-dojo-attach-point="actionCntr">
-							</div>
-							<div class="MatcDashTaskPerfGramCntr" data-dojo-attach-point="cntr">
-								<span class="MatxAxisXLine MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden" data-dojo-attach-point="xLine"></span>
-								<span class="MatxAxisYLine MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden" data-dojo-attach-point="yLine"></span>
-								<div class="MatcDashTaskPerfGramCanvas" data-dojo-attach-point="canvas">
-								</div>
-								<span class="MatxAxisLabel xMaxLabel" data-dojo-attach-point="xMaxLabel"></span>
-								<span class="MatxAxisLabel MatcDashTaskPerfGramDropOffHidden yMaxLabel" data-dojo-attach-point="yMaxLabel"></span>
-								<span class="MatxAxisLabel MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden xMiddleLabel" data-dojo-attach-point="xMiddleLabel"></span>
-								<span class="MatxAxisLabel MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden yMiddleLabel" data-dojo-attach-point="yMiddleLabel"></span>
-								<span class="MatxAxisLabel minLabel" data-dojo-attach-point="minLabel">0</span>
-								<span class="MatxAxisLabel xLabel "  data-dojo-attach-point="xLabel">X</span>
-								<span class="MatxAxisLabel yLabel MatcDashTaskPerfGramDropOffHidden" data-dojo-attach-point="yLabel">Y</span>
+			<div class="MatcToolbarTabContainer">
+				<div class="MatcToolbarTabs" data-dojo-attach-point="tabsCntr">
+				</div>
+			</div>
+			<div class="MatcDashTaskPerfActionCntr" data-dojo-attach-point="actionCntr">
+			</div>
+			<div class="MatcDashTaskPerfGramCntr" data-dojo-attach-point="cntr">
+					<span class="MatxAxisXLine MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden" data-dojo-attach-point="xLine"></span>
+					<span class="MatxAxisYLine MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden" data-dojo-attach-point="yLine"></span>
+					<div class="MatcDashTaskPerfGramCanvas" data-dojo-attach-point="canvas">
+					</div>
+					<span class="MatxAxisLabel xMaxLabel" data-dojo-attach-point="xMaxLabel"></span>
+					<span class="MatxAxisLabel MatcDashTaskPerfGramDropOffHidden yMaxLabel" data-dojo-attach-point="yMaxLabel"></span>
+					<span class="MatxAxisLabel MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden xMiddleLabel" data-dojo-attach-point="xMiddleLabel"></span>
+					<span class="MatxAxisLabel MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden yMiddleLabel" data-dojo-attach-point="yMiddleLabel"></span>
+					<span class="MatxAxisLabel minLabel" data-dojo-attach-point="minLabel">0</span>
+					<span class="MatxAxisLabel xLabel "  data-dojo-attach-point="xLabel">X</span>
+					<span class="MatxAxisLabel yLabel MatcDashTaskPerfGramDropOffHidden" data-dojo-attach-point="yLabel">Y</span>
 
-								<span class="MatxAxisLabel yLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yLabelEast">Y</span>
-								<span class="MatxAxisLabel yMinLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yMinLabelEast">0</span>
-								<span class="MatxAxisLabel yMaxLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yMaxLabelEast">100</span>
+					<span class="MatxAxisLabel yLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yLabelEast">Y</span>
+					<span class="MatxAxisLabel yMinLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yMinLabelEast">0</span>
+					<span class="MatxAxisLabel yMaxLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yMaxLabelEast">100</span>
 
-								<span class="MatxAxisLabel bottom25Label MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="bottom25Label"></span>
-								<span class="MatxAxisLabel bottom75Label MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="bottom75Label"></span>
+					<span class="MatxAxisLabel bottom25Label MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="bottom25Label"></span>
+					<span class="MatxAxisLabel bottom75Label MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="bottom75Label"></span>
 
-								<div class="MatcDashTaskPerfTaskCntr" data-dojo-attach-point="taskCntr">
-								</div>
-							</div>
+					<div class="MatcDashTaskPerfTaskCntr" data-dojo-attach-point="taskCntr">
+					</div>
+			</div>
 
-							<div class="MatcDashTaskPerHintBar" data-dojo-attach-point="hintCntr">
-							</div>
+			<div class="MatcDashTaskPerHintBar" data-dojo-attach-point="hintCntr">
+			</div>
 
-						</div>
+	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -76,6 +76,7 @@ export default {
 			this.addTab("scatter", "MatcToolbarTabActive");
 			this.addTab("details", "");
 			this.addTab("dropoff", "");
+			//this.addTab("funnelDurartion", "");
 			this._scatterPoints = {};
 		},
 
@@ -97,6 +98,10 @@ export default {
 				}
 				this.render();
 			}
+		},
+
+		setModel (m) {
+			this.model = m
 		},
 
 		setValue (df, task, annotations, tasks){
@@ -174,7 +179,12 @@ export default {
 			}
 		},
 
-		renderTab:function(changeTask){
+		renderTab (changeTask){
+			if (this.tab === 'dropoff' || this.tab === 'funnelDurartion') {
+				css.add(this.domNode, "MatcDashTaskPerfGramHideTasks");
+			} else {
+				css.remove(this.domNode, "MatcDashTaskPerfGramHideTasks");
+			}
 			if (this["render_" + this.tab]){
 				this["render_" + this.tab](this.df, this.task, this.annotations, this.tasks, changeTask);
 			} else {
@@ -184,27 +194,43 @@ export default {
 
 
 
+		/*********************************************************************
+		 * Funnel Line stuff
+		 *********************************************************************/
+
+
+		render_funnelDurartion (df, task, annotations, tasks) {
+			this.log.log(-1, "render_funnelDurartion", "enter > :");
+
+			css.add(this.domNode, "MatcDashTaskPerfGramFunnel");
+
+			console.debug(tasks)
+		},
+
+		clean_funnelDurartion (callback) {
+			this.log.log(-1, "clean_funnelDurartion", "enter > :");
+
+			css.remove(this.domNode, "MatcDashTaskPerfGramFunnel");
+			callback()
+		},
 
 
 		/*********************************************************************
-		 * details
+		 * BoxPlot
 		 *********************************************************************/
 
 
 		render_details (df, task, annotations, tasks){
 			this.log.log(-1, "render_duration", "enter > changeTask:");
 
-			//this.removeBoxplots();
-
+		
 			css.add(this.domNode, "MatcDashTaskPerfGramDetails");
 			this.xLabel.innerHTML = ""; //this.getNLS("dash.perf.details.xLabel");
 			this.yLabel.innerHTML = "";//this.getNLS("dash.perf.details.yLabel");
 			this.yLabelEast.innerHTML = ""; //this.getNLS("dash.perf.details.yLabelEast");
 			this.bottom25Label.innerHTML = this.getNLS("dash.perf.details.bottom25Label");
 			this.bottom75Label.innerHTML = this.getNLS("dash.perf.details.bottom75Label");
-
 			this.xMaxLabel.innerHTML = "";
-
 
 			var analytics = new Analytics();
 			var perf = analytics.getTaskPerformance(df, tasks);
@@ -320,11 +346,11 @@ export default {
 
 		},
 
-		animateBoxplot:function(bar, height){
+		animateBoxplot (bar, height){
 			bar.style.height = height;
 		},
 
-		clean_details:function(callback){
+		clean_details (callback){
 			this.log.log(-1, "clean_duration", "enter");
 			css.remove(this.domNode, "MatcDashTaskPerfGramDetails");
 			this.setHint();
@@ -400,7 +426,6 @@ export default {
 				});
 
 				if (this.selectedTasks[id]){
-					console.debug("renderScatter", id, sessions)
 					var mean_duration = taskDF.mean("duration");
 					var mean_count = taskDF.mean("interactions");
 					var maxDelay = 0;

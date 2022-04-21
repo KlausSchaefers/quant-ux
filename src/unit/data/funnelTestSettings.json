@@ -1,0 +1,51 @@
+{
+    "_id" : "6261b9ad280efd5a089f59fc",
+    "userID" : "56460040ee1a411d1648065e",
+    "appID" : "6261b96f280efd5a089f59f1",
+    "created" : 1650571693697,
+    "tasks" : [ {
+      "name" : "Task 1",
+      "description" : "",
+      "id" : "t1650571906141",
+      "strict" : false,
+      "flow" : [ {
+        "screen" : "s10000_90393",
+        "widget" : null,
+        "type" : "ScreenLoaded"
+      }, {
+        "screen" : "s10001_73370",
+        "widget" : null,
+        "type" : "ScreenLoaded"
+      }, {
+        "screen" : "s10003_72617",
+        "widget" : null,
+        "type" : "ScreenLoaded"
+      }, {
+        "screen" : "s10002_1007",
+        "widget" : null,
+        "type" : "ScreenLoaded"
+      }
+     ]
+    } ,{
+        "name" : "Task 2",
+        "description" : "",
+        "id" : "t1650571906142",
+        "strict" : false,
+        "flow" : [ {
+          "screen" : "s10000_90393",
+          "widget" : null,
+          "type" : "ScreenLoaded"
+        }, {
+          "screen" : "s10001_73370",
+          "widget" : null,
+          "type" : "ScreenLoaded"
+        }, {
+          "screen" : "s10003_72617",
+          "widget" : null,
+          "type" : "ScreenLoaded"
+        }
+       ]
+      }],
+    "id" : "6261b9ad280efd5a089f59fc",
+    "lastUpdate" : 1650571906249
+  }

@@ -1079,7 +1079,7 @@ export default {
         if (this.analyticParams.time) {
           this._render_dropoff_task_time(screenEvents, screen, ctx, div, this.analyticParams.task);
         } else {
-          this._render_dropoff_task_sucess(screenEvents, screen, ctx, div, this.analyticParams.task);
+          this._render_dropoff_task_success(screenEvents, screen, ctx, div, this.analyticParams.task);
         }
       } else {
         this.showError('No task selected')
@@ -1141,7 +1141,7 @@ export default {
       }
     },
 
-    _render_dropoff_task_sucess (screenEvents, screen, ctx, div, task) {
+    _render_dropoff_task_success (screenEvents, screen, ctx, div, task) {
 
       let db = new DomBuilder()
 
@@ -1182,7 +1182,7 @@ export default {
           }
 
           /**
-           * Render POints
+           * Render points
            */
           this._renderDropOffEvent(endPos.x, endPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, Math.round(endSummary.p * 100))
           if (i === 0) {

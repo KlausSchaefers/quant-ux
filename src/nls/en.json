@@ -239,7 +239,8 @@
                 "dropoff": "Drop Off",
                 "duration": "Duration",
                 "interactions": "Interactions",
-                "details": "Box Plot"
+                "details": "Box Plot",
+                "funnelDurartion": "Duration Funnel"
             },
             "hint": {
                 "scatter": "Each dot presents a successful user test. Select them to get more information.",
