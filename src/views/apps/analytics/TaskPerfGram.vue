@@ -47,20 +47,40 @@ import _Color from 'common/_Color'
 import DomBuilder from 'common/DomBuilder'
 import Util from 'core/Util'
 import Analytics from 'dash/Analytics'
-import Plan from 'page/Plan'
+import * as d3 from "d3";
+
+
 
 export default {
     name: 'TaskPerfGram',
-    mixins:[_Color, Util, Plan, DojoWidget],
+    mixins:[_Color, Util, DojoWidget],
     data: function () {
         return {
             x_prefix: "",
             paddingFactor: 1.1,
-            tab: "scatter",
+            tab: "scatter",// "scatter",
             tabs: {},
             dialog: false,
             colors: ["#56A9FC", "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],
-            bins: 3
+            bins: 3,
+			smoothLineFunction: d3.line()
+				.curve(d3.curveBasis)
+				.x((d) => {
+					return d.x-.5; 
+				 }).y((d) => { 
+					return d.y-.5; 
+				}),
+			straightLineFunction: d3.line()
+				.x((d) => { 
+					return d.x-.5; 
+				})
+				.y((d) => { 
+					return d.y-.5; 
+			}),
+			canvasPos:{
+				w:800,
+				h:450
+			}
         }
     },
     components: {},
@@ -199,18 +219,132 @@ export default {
 		 *********************************************************************/
 
 
-		render_funnelDurartion (df, task, annotations, tasks) {
+		render_funnelDurartion (df, task, ) { //annotations, tasks
 			this.log.log(-1, "render_funnelDurartion", "enter > :");
 
 			css.add(this.domNode, "MatcDashTaskPerfGramFunnel");
 
-			console.debug(tasks)
+			this.xLabel.innerHTML = ""; //this.getNLS("dash.perf.details.xLabel");
+			this.yLabel.innerHTML = "";//this.getNLS("dash.perf.details.yLabel");
+			this.yLabelEast.innerHTML = ""; //this.getNLS("dash.perf.details.yLabelEast");
+			this.bottom25Label.innerHTML = "";
+			this.bottom75Label.innerHTML = "";
+			this.xMaxLabel.innerHTML = "";
+			this.yMaxLabel.innerHTML = ""
+			this.yMaxLabel.innerHTML = ""
+			this.yMinLabelEast.innerHTML = ""
+			this.minLabel.innerHTML = ""
+
+			const offset = 60
+			const flow = task.flow
+			const stepWidth = (this.canvasPos.w - (offset * 2)) / (flow.length - 1)
+			const canvasHeight = this.canvasPos.h
+		
+			let bodySelection = d3.select(this.canvas);
+			this.funnelSVG = bodySelection.append("svg").attr("width", this.canvasPos.w).attr("height",this.canvasPos.h );
+
+			this._render_funnel_steps(flow, stepWidth, offset)
+
+			const analytics = new Analytics();
+			const sessions = analytics.getTaskPerformance(df, [task])
+			console.debug(sessions.data)
+
+			let stepData = {}
+			let maxDuration = 0
+			sessions.data.forEach(session => {
+				let lastTime = session.startTime
+				stepData[session.session] = []
+				session.hits.forEach(hit => {
+					const duration = hit.time - lastTime
+					stepData[session.session].push({
+						duration: duration
+					})
+					maxDuration = Math.max(maxDuration, duration)
+					lastTime = hit.time
+				})
+			})
+		
+
+			const curveOffset = Math.round(stepWidth / 4)
+			for (let id in stepData) {
+				let steps = stepData[id]
+				let line = []
+				steps.forEach((step, i) => {
+					console.debug(i, step.duration)
+
+					let point = {
+						x: (offset + (stepWidth * i)),
+						y: canvasHeight - ((step.duration / maxDuration) * canvasHeight)
+					}
+					this.db.div('MatcDashTaskPerfGramFunnelStepPoint')
+						.left(point.x)
+						.bottom((step.duration / maxDuration) * canvasHeight)
+						.build(this.canvas)
+
+					line.push({
+						x: point.x - curveOffset,
+						y: point.y
+					})
+					line.push(point)
+					if (i < steps.length-1) {
+						line.push({
+							x: point.x + curveOffset,
+							y: point.y
+						})
+					}
+					
+				})
+				this.funnelSVG.append("path")
+						.attr("d", this.smoothLineFunction(line))
+						.attr("stroke", this.colors[0])
+						.attr("stroke-width", 1 )
+						.attr("fill", "none")
+						.style("opacity", 0.5);
+
+				console.debug(line)
+				break
+			}
+			
+
+
+			this.yMaxLabel.innerHTML = Math.ceil(maxDuration / 1000) + 'sec'
+	
+		},
+
+		_render_funnel_steps (flow, width, offset) {
+			this._stepDivs = []
+		
+			if (flow.length > 1) {
+				flow.forEach((step, i) => {
+
+					let div = this.db.
+						div('MatcDashTaskPerfGramFunnelStep')
+						.left((offset + (width * i)))
+						.build(this.canvas)
+					
+					this.db
+						.div('MatcDashTaskPerfGramFunnelStepLabel', 'Step ' + (i + 1))
+						.build(div)
+					this._stepDivs.push(div)
+				})
+			}
 		},
 
 		clean_funnelDurartion (callback) {
 			this.log.log(-1, "clean_funnelDurartion", "enter > :");
 
 			css.remove(this.domNode, "MatcDashTaskPerfGramFunnel");
+			
+			if (this._stepDivs) {
+				this._stepDivs.forEach(div => {
+					div.parentNode.removeChild(div)
+				})
+				delete this._stepDivs
+			}
+			if (this.funnelSVG) {
+				this.canvas.innerHTML = ""
+				delete this.funnelSVG
+			}
 			callback()
 		},
 

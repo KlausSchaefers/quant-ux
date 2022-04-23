@@ -232,7 +232,7 @@ export default class {
 				let result = null;
 
 				/**
-				 * Since 1.9: Check interactions only of task has started
+				 * Since 1.9: Check interactions only if task has started
 				 */
 				if (this.match) {
 					if (e.type == "WidgetClick" ||
@@ -268,7 +268,8 @@ export default class {
 							session: e.session,
 							task: this.name,
 							user: e.user,
-							taskName: this.taskName
+							taskName: this.taskName,
+							hits:[]
 						};
 						/**
 						 * FIX in  1.9.5. We have to start counting interactions
@@ -282,8 +283,14 @@ export default class {
 							e.type == "ScreenClick") {
 							this.interactions++;
 						}
-
 					}
+
+					/**
+					 * Since 4.0.65 we also store the matches events
+					 */
+					this.match.hits.push({
+						time: e.time, pos: i, step: this.flowPos	
+					})
 
 					/**
 					 * we have matched the last event. pass the match the result and start again
@@ -309,12 +316,15 @@ export default class {
 						this.flowPos = -1 // minus one!!
 					}
 
+					
+
 					/**
 					 * now move on to the next step
 					 */
 					this.flowPos++;
 					this.step = this.flow[this.flowPos];
 
+					
 
 				}
 

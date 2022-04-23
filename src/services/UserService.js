@@ -149,7 +149,15 @@ class UserService extends AbstractService{
             if (jwt) {
                 // JWT uses seconds
                 u.exp = jwt.exp * 1000
-                this.logger.log(-1, 'setTTL', 'exit > User valid until', new Date(u.exp))
+                if (this.ttlTimeout) {
+                    clearTimeout(this.ttlTimeout)
+                }
+                let waitTime = u.exp - new Date().getTime() - (5 * 60 * 1000)
+                this.ttlTimeout = setTimeout(() => {
+                    location.href = `#/logout.html`
+                }, waitTime)
+                this.logger.log(-1, 'setTTL', 'User valid until', new Date(u.exp))
+                this.logger.log(-1, 'setTTL', 'Auto loggout  in ' + (waitTime / 1000) + ' sec')
             } else {
                 this.logger.log(-1, 'setTTL', 'exit > NO token')
             }

@@ -362,6 +362,10 @@ export default class DomBuilder {
 		return this.setStyle("top", h + "px");
 	}
 
+	bottom(b) {
+		return this.setStyle("bottom", b + "px");
+	}
+
 	left(h) {
 		return this.setStyle("left", h + "px");
 	}

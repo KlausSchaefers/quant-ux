@@ -2,7 +2,7 @@
   <div class="MatcLight">
     <h1>TabelConf Test</h1>
 
-    <div class="dialog">
+    <div class="dialog MatcDashTaskPerfGramDialog">
       <div ref="cntr"/>
     </div>
 
