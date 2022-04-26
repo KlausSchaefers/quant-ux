@@ -240,7 +240,8 @@
                 "duration": "Duration",
                 "interactions": "Interactions",
                 "details": "Box Plot",
-                "funnelDurartion": "Duration Funnel"
+                "funnelDurartion": "Duration Funnel",
+                "funnelInteraction": "Interaction Funnel"
             },
             "hint": {
                 "scatter": "Each dot presents a successful user test. Select them to get more information.",
@@ -248,7 +249,7 @@
                 "session-play": "here"
             },
             "no-flow-title": "No FLow",
-            "no-flow-msg": "<p>Please define a flow with <b>more</b> than <b>two</b> steps.<br> Otherwise we cannot show details about the task performance.</p>"
+            "no-flow-msg": "<p>Please define a flow with <b>two or more </b> steps. Otherwise we cannot show details about the task performance.</p>"
         }
     },
 

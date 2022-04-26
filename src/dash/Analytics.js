@@ -462,6 +462,50 @@ export default class {
 		return result;
 	}
 
+	getFunnelInteraction(df, task) {
+		const result = {}
+		const sessions = this.getTaskPerformance(df, [task])
+		sessions.data.forEach(session => {
+			let lastPos = 0
+			result[session.session] = []
+			session.hits.forEach(hit => {
+				const pos = hit.pos - lastPos
+				result[session.session].push({
+					value: pos
+				})
+				lastPos = hit.pos
+			})
+		})
+		return result
+	}
+
+	getFunnelDuration(df, task) {
+		const result = {}
+		const sessions = this.getTaskPerformance(df, [task])
+		sessions.data.forEach(session => {
+			let lastTime = session.startTime
+			result[session.session] = []
+			session.hits.forEach(hit => {
+				const duration = hit.time - lastTime
+				result[session.session].push({
+					value: duration
+				})
+				lastTime = hit.time
+			})
+		})
+		return result
+	}
+
+	getFunnelMax (stepData) {
+		let result = 0
+		for (let id in stepData) {
+			let steps = stepData[id]
+			steps.forEach((step) => {
+				result = Math.max(result, step.value)
+			})
+		}
+		return result
+	}
 
 
 	/**

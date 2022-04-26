@@ -23,9 +23,13 @@
 					<span class="MatxAxisLabel yLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yLabelEast">Y</span>
 					<span class="MatxAxisLabel yMinLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yMinLabelEast">0</span>
 					<span class="MatxAxisLabel yMaxLabelEast MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="yMaxLabelEast">100</span>
+					<span class="MatxAxisLabel yMinLabel" data-dojo-attach-point="yMinLabel"></span>
 
 					<span class="MatxAxisLabel bottom25Label MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="bottom25Label"></span>
 					<span class="MatxAxisLabel bottom75Label MatcDashTaskPerfDetailsVisible" data-dojo-attach-point="bottom75Label"></span>
+
+					<span class="MatxAxisLabel MatxAxisLabelCntr" data-dojo-attach-point="xAxisLabelCntr"></span>
+
 
 					<div class="MatcDashTaskPerfTaskCntr" data-dojo-attach-point="taskCntr">
 					</div>
@@ -47,7 +51,8 @@ import _Color from 'common/_Color'
 import DomBuilder from 'common/DomBuilder'
 import Util from 'core/Util'
 import Analytics from 'dash/Analytics'
-import * as d3 from "d3";
+import * as d3 from "d3"
+import DataFrame from 'common/DataFrame'
 
 
 
@@ -96,7 +101,8 @@ export default {
 			this.addTab("scatter", "MatcToolbarTabActive");
 			this.addTab("details", "");
 			this.addTab("dropoff", "");
-			//this.addTab("funnelDurartion", "");
+			this.addTab("funnelDurartion", "");
+			this.addTab("funnelInteraction", "");
 			this._scatterPoints = {};
 		},
 
@@ -140,14 +146,14 @@ export default {
 			this.taskCircles = {};
 			this.selectedTasks = {};
 			this.taskColors = {};
-			for(var i=0; i< tasks.length; i++){
-				var task = tasks[i];
+			for(let i=0; i< tasks.length; i++){
+				const task = tasks[i];
 				if (task.flow.length >= 2) {
 					this.selectedTasks[task.id] = false;
 					this.taskColors[task.id] = this.colors[i % this.colors.length];
 
-					var div = this.db.div().build(this.taskCntr);
-					var circle = this.db.span("").build(div);
+					const div = this.db.div().build(this.taskCntr);
+					const circle = this.db.span("").build(div);
 
 					this.db.label("", tasks[i].name).build(div);
 					this.taskCircles[task.id] = circle;
@@ -165,9 +171,9 @@ export default {
 
 		selectTask (task){
 			this.selectedTasks[task.id] = !this.selectedTasks[task.id];
-			for (var id in this.selectedTasks){
-				var circle = this.taskCircles[id];
-				var div = this.taskDivs[id];
+			for (let id in this.selectedTasks){
+				const circle = this.taskCircles[id];
+				const div = this.taskDivs[id];
 				if (div){
 					if (this.selectedTasks[id]){
 						css.add(div, "MatcDashTaskPerfTaskSelected");
@@ -200,7 +206,7 @@ export default {
 		},
 
 		renderTab (changeTask){
-			if (this.tab === 'dropoff' || this.tab === 'funnelDurartion') {
+			if (this.tab === 'dropoff' || this.tab === 'funnelDurartion' || this.tab === 'funnelInteraction') {
 				css.add(this.domNode, "MatcDashTaskPerfGramHideTasks");
 			} else {
 				css.remove(this.domNode, "MatcDashTaskPerfGramHideTasks");
@@ -212,17 +218,15 @@ export default {
 			}
 		},
 
-
-
 		/*********************************************************************
-		 * Funnel Line stuff
+		 * Funnel Interaction stuff
 		 *********************************************************************/
 
 
-		render_funnelDurartion (df, task, ) { //annotations, tasks
-			this.log.log(-1, "render_funnelDurartion", "enter > :");
+		render_funnelInteraction(df, task, ) { //annotations, tasks
+			this.log.log(-1, "render_funnelInteractions", "enter > :");
 
-			css.add(this.domNode, "MatcDashTaskPerfGramFunnel");
+			css.add(this.domNode, "MatcDashTaskPerfGramFunnel MatcDashTaskPerfGramFunnelSVGHidden");
 
 			this.xLabel.innerHTML = ""; //this.getNLS("dash.perf.details.xLabel");
 			this.yLabel.innerHTML = "";//this.getNLS("dash.perf.details.yLabel");
@@ -234,57 +238,139 @@ export default {
 			this.yMaxLabel.innerHTML = ""
 			this.yMinLabelEast.innerHTML = ""
 			this.minLabel.innerHTML = ""
+			this.yMinLabel.innerHTML = "0"
 
 			const offset = 60
 			const flow = task.flow
 			const stepWidth = (this.canvasPos.w - (offset * 2)) / (flow.length - 1)
-			const canvasHeight = this.canvasPos.h
+			const canvasHeight = this.canvasPos.h - 20
 		
-			let bodySelection = d3.select(this.canvas);
-			this.funnelSVG = bodySelection.append("svg").attr("width", this.canvasPos.w).attr("height",this.canvasPos.h );
-
-			this._render_funnel_steps(flow, stepWidth, offset)
-
 			const analytics = new Analytics();
-			const sessions = analytics.getTaskPerformance(df, [task])
-			console.debug(sessions.data)
+			const stepData = analytics.getFunnelInteraction(df, task)	
+			const maxDuration = analytics.getFunnelMax(stepData) +1
+			
+		
+			this._render_funnel_steps(stepData, maxDuration, flow, stepWidth, offset, canvasHeight)
 
-			let stepData = {}
-			let maxDuration = 0
-			sessions.data.forEach(session => {
-				let lastTime = session.startTime
-				stepData[session.session] = []
-				session.hits.forEach(hit => {
-					const duration = hit.time - lastTime
-					stepData[session.session].push({
-						duration: duration
-					})
-					maxDuration = Math.max(maxDuration, duration)
-					lastTime = hit.time
+			this._render_funnel_lines(stepData, maxDuration, stepWidth, offset, canvasHeight, duration => {return Math.round(duration)})
+		
+		
+
+			this.yMaxLabel.innerHTML = Math.ceil(maxDuration / 1000) + ''
+
+			setTimeout( () => {
+				css.remove(this.domNode, "MatcDashTaskPerfGramFunnelSVGHidden");
+			}, 200)
+	
+		},
+
+		clean_funnelInteraction (callback) {
+			this.log.log(-1, "clean_funnelInteractions", "enter > :");
+
+			css.remove(this.domNode, "MatcDashTaskPerfGramFunnel");
+			
+			if (this._stepDivs) {
+				this._stepDivs.forEach(div => {
+					div.parentNode.removeChild(div)
 				})
+				delete this._stepDivs
+			}
+			if (this.funnelSVG) {
+				this.canvas.innerHTML = ""
+				delete this.funnelSVG
+			}
+			this.xAxisLabelCntr.innerHTML = ""
+			this.yMinLabel.innerHTML = ""
+			callback()
+		},
+
+		/*********************************************************************
+		 * Funnel Duration stuff
+		 *********************************************************************/
+
+
+		render_funnelDurartion (df, task, ) { //annotations, tasks
+			this.log.log(-1, "render_funnelDurartion", "enter > :");
+
+			css.add(this.domNode, "MatcDashTaskPerfGramFunnel MatcDashTaskPerfGramFunnelSVGHidden");
+
+			this.xLabel.innerHTML = ""; //this.getNLS("dash.perf.details.xLabel");
+			this.yLabel.innerHTML = "";//this.getNLS("dash.perf.details.yLabel");
+			this.yLabelEast.innerHTML = ""; //this.getNLS("dash.perf.details.yLabelEast");
+			this.bottom25Label.innerHTML = "";
+			this.bottom75Label.innerHTML = "";
+			this.xMaxLabel.innerHTML = "";
+			this.yMaxLabel.innerHTML = ""
+			this.yMaxLabel.innerHTML = ""
+			this.yMinLabelEast.innerHTML = ""
+			this.minLabel.innerHTML = ""
+			this.yMinLabel.innerHTML = "0"
+
+			const offset = 60
+			const flow = task.flow
+			const stepWidth = (this.canvasPos.w - (offset * 2)) / (flow.length - 1)
+			const canvasHeight = this.canvasPos.h - 20
+		
+			const analytics = new Analytics();
+			const stepData = analytics.getFunnelDuration(df, task)	
+			const maxDuration = analytics.getFunnelMax(stepData) + 1000
+			
+		
+			this._render_funnel_steps(stepData, maxDuration, flow, stepWidth, offset, canvasHeight)
+
+			this._render_funnel_lines(stepData, maxDuration, stepWidth, offset, canvasHeight, duration => {
+				return (Math.round(duration / 100) / 10)+ ' s'
 			})
 		
+			this.yMaxLabel.innerHTML = Math.ceil(maxDuration / 1000) + ' s'
 
+			setTimeout( () => {
+				css.remove(this.domNode, "MatcDashTaskPerfGramFunnelSVGHidden");
+			}, 200)
+	
+		},
+
+		_render_funnel_lines (stepData, maxValue,  stepWidth, offset, canvasHeight, lblFunction) {
+	
+			this.funnelSVG = d3
+				.select(this.canvas)
+				.append("svg")
+				.attr("width", this.canvasPos.w)
+				.attr("height",this.canvasPos.h)
+
+			this.lineSVGs = {}
+			this.linePoints = {}
+				
 			const curveOffset = Math.round(stepWidth / 4)
+	
 			for (let id in stepData) {
 				let steps = stepData[id]
 				let line = []
+				this.linePoints[id] = []
 				steps.forEach((step, i) => {
-					console.debug(i, step.duration)
-
+			
 					let point = {
 						x: (offset + (stepWidth * i)),
-						y: canvasHeight - ((step.duration / maxDuration) * canvasHeight)
+						y: canvasHeight - ((step.value / maxValue) * canvasHeight)
 					}
-					this.db.div('MatcDashTaskPerfGramFunnelStepPoint')
+					let div = this.db.div('MatcDashTaskPerfGramFunnelStepPoint')
 						.left(point.x)
-						.bottom((step.duration / maxDuration) * canvasHeight)
+						.top(point.y)
 						.build(this.canvas)
 
-					line.push({
-						x: point.x - curveOffset,
-						y: point.y
-					})
+					this.db.div('MatcDashTaskPerfGramFunnelStepPointLabel', lblFunction(step.value)).build(div)
+					
+					div.style.background = this.colors[0]
+					this.tempOwn(on(div, "click", lang.hitch(this, "selectFunnelPoint", id)));
+				
+					this.linePoints[id].push(div)
+					if  (i > 0) {
+						line.push({
+							x: point.x - curveOffset,
+							y: point.y
+						})
+					}
+				
 					line.push(point)
 					if (i < steps.length-1) {
 						line.push({
@@ -294,39 +380,110 @@ export default {
 					}
 					
 				})
-				this.funnelSVG.append("path")
+				let svg = this.funnelSVG.append("path")
 						.attr("d", this.smoothLineFunction(line))
 						.attr("stroke", this.colors[0])
 						.attr("stroke-width", 1 )
 						.attr("fill", "none")
 						.style("opacity", 0.5);
-
-				console.debug(line)
-				break
-			}
+				this.lineSVGs[id] = svg
 			
-
-
-			this.yMaxLabel.innerHTML = Math.ceil(maxDuration / 1000) + 'sec'
-	
+			}
 		},
 
-		_render_funnel_steps (flow, width, offset) {
+		_render_funnel_steps (stepData, maxValue, flow, width, offset, canvasHeight) {
 			this._stepDivs = []
 		
 			if (flow.length > 1) {
 				flow.forEach((step, i) => {
 
-					let div = this.db.
-						div('MatcDashTaskPerfGramFunnelStep')
-						.left((offset + (width * i)))
+					const values = this.getStepData(stepData, i)
+					const stepDF = new DataFrame(values)
+				
+					const max = Math.ceil(stepDF.max("value"));
+					const min = Math.ceil(stepDF.min("value"));
+					const mean = Math.ceil(stepDF.mean("value"));
+					const std = Math.ceil(stepDF.std("value"));
+					const left = (offset + (width * i))
+
+					const div = this.db.
+						div('MatcDashTaskPerfGramFunnelStep MatcDashTaskPerfGramFunnelStepSmall')
+						.left(left)
 						.build(this.canvas)
-					
+
+			
+					this.render_funnel_box_plot(
+						div, -11, 20, max, min, mean, std, maxValue, 
+						this.colors[0], canvasHeight)
+		
+					this._stepDivs.push(div)
+
 					this.db
 						.div('MatcDashTaskPerfGramFunnelStepLabel', 'Step ' + (i + 1))
-						.build(div)
-					this._stepDivs.push(div)
+						.left((offset + (width * i)))
+						.build(this.xAxisLabelCntr)
+
+					
+					setTimeout(() => {
+						css.remove(div, 'MatcDashTaskPerfGramFunnelStepSmall')
+					}, Math.min(300, 50 * i))
+				
 				})
+			}
+		},
+
+		render_funnel_box_plot(parent, left, width ,max, min, mean, std, total, color, canvasHeight) {
+			const height = (((max-min) / total) * canvasHeight)
+			const cntr = this.db
+				.div("MatcDashTaskPerfGramBoxPlotCntr")
+				.top(canvasHeight - ((max / total) * canvasHeight ))
+				.h(height)
+				.w(width)
+				.left(left)
+				.build(parent);
+
+			const bar = this.db
+				.div("MatcDashTaskPerfGramBoxPlot")
+				.build(cntr)
+			bar.style.bottom = Math.max(0, ((((mean-std)-min) / (max-min)))) * 100 + "%"
+			bar.style.height = ((std * 2) / (max-min)) * 100 + "%"
+			bar.style.background = color
+
+			const centre = this.db
+				.div("MatcDashTaskPerfGramBoxPlotMean")
+				.build(cntr)
+			centre.style.bottom = (((mean-min) / (max-min))) *100 + "%"
+
+
+
+		},
+ 
+		getStepData(stepData, i) {
+			const result = []
+			for (let id in stepData) {
+				const steps = stepData[id]
+				result.push(steps[i])
+			}
+			return result
+		},
+
+		selectFunnelPoint (id) {
+			this.log.log(-1, "selectFunnelPoint", "enter > :", id);
+			this.showSessionReplayHint(id)
+
+			for (let session in this.lineSVGs) {
+				const svg = this.lineSVGs[session]
+				const color = session === id ? this.colors[1] : this.colors[0]
+
+				if(svg){
+					svg.attr("stroke", color )
+				}
+				if (this.linePoints[session]) {
+					this.linePoints[session].forEach(div => {
+						div.style.background = color
+					})
+				}
+			
 			}
 		},
 
@@ -345,6 +502,8 @@ export default {
 				this.canvas.innerHTML = ""
 				delete this.funnelSVG
 			}
+			this.xAxisLabelCntr.innerHTML = ""
+			this.yMinLabel.innerHTML = ""
 			callback()
 		},
 
@@ -357,7 +516,6 @@ export default {
 		render_details (df, task, annotations, tasks){
 			this.log.log(-1, "render_duration", "enter > changeTask:");
 
-		
 			css.add(this.domNode, "MatcDashTaskPerfGramDetails");
 			this.xLabel.innerHTML = ""; //this.getNLS("dash.perf.details.xLabel");
 			this.yLabel.innerHTML = "";//this.getNLS("dash.perf.details.yLabel");
@@ -365,6 +523,8 @@ export default {
 			this.bottom25Label.innerHTML = this.getNLS("dash.perf.details.bottom25Label");
 			this.bottom75Label.innerHTML = this.getNLS("dash.perf.details.bottom75Label");
 			this.xMaxLabel.innerHTML = "";
+			this.yMinLabel.innerHTML = ""
+			this.minLabel.innerHTML = ""
 
 			var analytics = new Analytics();
 			var perf = analytics.getTaskPerformance(df, tasks);
@@ -383,7 +543,7 @@ export default {
 			}
 
 			this.yMaxLabel.innerHTML = max_count;
-			this.yMaxLabelEast.innerHTML = Math.ceil(max_duration / 1000) + " sec";
+			this.yMaxLabelEast.innerHTML = Math.ceil(max_duration / 1000) + " s";
 
 
 			/**
@@ -404,7 +564,7 @@ export default {
 					let mean = Math.ceil(taskDF.mean("interactions"));
 					let std = Math.ceil(taskDF.std("interactions"));
 					let left = (25 - ((w * slots)/2)) + (i * 2 * w) + "%";
-					this.createBoxPlot(id , "i", i, left, w, max, min, mean, std, max_count);
+					this.createBoxPlot(id , "i", i, left, w, max, min, mean, std, max_count, this.taskColors[id]);
 
 					/**
 					 * Create duration box plot
@@ -414,7 +574,7 @@ export default {
 					mean = Math.ceil(taskDF.mean("duration"));
 					std = Math.ceil(taskDF.std("duration"));
 					left = (75 - ((w * slots)/2)) + (i * 2 * w) + "%";
-					this.createBoxPlot(id , "d", i, left, w, max, min, mean, std, max_duration);
+					this.createBoxPlot(id , "d", i, left, w, max, min, mean, std, max_duration, this.taskColors[id]);
 
 					i++;
 				} else {
@@ -437,7 +597,7 @@ export default {
 			}
 		},
 
-		createBoxPlot (id, prefix, i, left, width ,max, min, mean, std, total){
+		createBoxPlot (id, prefix, i, left, width ,max, min, mean, std, total, color, widthUnit = '%'){
 
 			if (!this._bars) {
 				this._bars = {}
@@ -453,14 +613,14 @@ export default {
 				cntr.style.bottom = ((min / total) *100)+ "%"
 				cntr.style.left = left;
 				cntr.style.height = "0px";
-				cntr.style.width = width + "%";
+				cntr.style.width = width + widthUnit
 
 				this.db.div("MatcDashTaskPerfGramBoxPlotLine").build(cntr);
 
 				var bar = this.db.div("MatcDashTaskPerfGramBoxPlot").build(cntr);
 				bar.style.bottom = Math.max(0, ((((mean-std)-min) / (max-min)))) * 100 + "%";
 				bar.style.height = ((std * 2) / (max-min)) * 100 + "%";
-				bar.style.background = this.taskColors[id];
+				bar.style.background = color
 
 				var centre = this.db.div("MatcDashTaskPerfGramBoxPlotMean").build(cntr);
 				centre.style.bottom = (((mean-min) / (max-min))) *100 + "%"
@@ -476,8 +636,6 @@ export default {
 				cntr.style.left = left;
 				setTimeout(lang.hitch(this, "animateBoxplot",  cntr, height), ms);
 			}
-
-
 		},
 
 		animateBoxplot (bar, height){
@@ -535,6 +693,8 @@ export default {
 			css.add(this.domNode, "MatcDashTaskPerfGramScatter");
 			this.xLabel.innerHTML = this.getNLS("dash.perf.scatter.xLabel");
 			this.yLabel.innerHTML = this.getNLS("dash.perf.scatter.yLabel");
+			this.minLabel.innerHTML = "0 s"
+			this.yMinLabel.innerHTML = "0"
 
 			var analytics = new Analytics();
 			var perf = analytics.getTaskPerformance(df, tasks);
@@ -550,7 +710,7 @@ export default {
 				}
 			}
 
-			this.xMaxLabel.innerHTML = Math.ceil(max_duration / 1000) + " sec" ;
+			this.xMaxLabel.innerHTML = Math.ceil(max_duration / 1000) + " s" ;
 			this.yMaxLabel.innerHTML = Math.ceil(max_count);
 			for (let id in this.selectedTasks){
 				let taskDF = perf.select("task", "==", id);
@@ -627,7 +787,8 @@ export default {
 			if (callback){
 				setTimeout(callback, 200);
 			}
-
+			this.yMinLabel.innerHTML = ""
+			this.minLabel.innerHTML = ""
 		},
 
 		removePoints (){
@@ -650,19 +811,21 @@ export default {
 			this.setYMiddle(s.interactions, this.max_interactions);
 			css.add(this.cntr, "MatcDashTaskPerfGramCntrHover");
 			this._selectedScatterPoint = p;
+			this.showSessionReplayHint(s.session)
+		},
 
+		showSessionReplayHint(id) {
 			if (this.model){
-				var url = "#/apps/" + this.model.id + "/replay/" + s.session + ".html";
+				let url = "#/apps/" + this.model.id + "/replay/" + id + ".html";
 				if (this.mode == "public"){
-					url = "#/examples/" + this.model.id + "/replay/" + s.session + ".html";
+					url = "#/examples/" + this.model.id + "/replay/" + id + ".html";
 				}
-				var hint = this.db.span("MatcHint", this.getNLS("dash.perf.hint.session-msg")).build();
-				var a = this.db.a("", this.getNLS("dash.perf.hint.session-play")).build(hint);
-				this.own(on(a, "click", lang.hitch(this, "showSessionReplay", url, i)));
+				const hint = this.db.span("MatcHint", this.getNLS("dash.perf.hint.session-msg")).build();
+				const a = this.db.a("", this.getNLS("dash.perf.hint.session-play")).build(hint);
+				a.href = url
+				a.target = "_matcSessionReplay"
+				this.setHint(hint);
 			}
-
-			//this.render_user_journey(s, max_duration, max_count);
-			this.setHint(hint);
 		},
 
 		render_user_journey (s, max_duration, max_count){
@@ -711,6 +874,7 @@ export default {
 			css.add(this.domNode, "MatcDashTaskPerfGramDropOff");
 			this.xLabel.innerHTML = this.getNLS("dash.perf.dropoff.xLabel");
 			this.xMaxLabel.innerHTML = "100%";
+			this.minLabel.innerHTML = ""
 			this._bars = {}
 			this._barLabels = {}
 
@@ -832,7 +996,7 @@ export default {
 		},
 
 		setXMiddle (duration, max_duration){
-			this.xMiddleLabel.innerHTML = Math.ceil(duration /1000) + " sec" ;
+			this.xMiddleLabel.innerHTML = Math.ceil(duration /1000) + " s" ;
 			this.xMiddleLabel.style.left =(((duration / max_duration) * 100))+ "%";
 			this.xLine.style.left =(((duration / max_duration) * 100))+ "%";
 		},

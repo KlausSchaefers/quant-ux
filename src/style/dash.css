@@ -78,8 +78,7 @@
 
 .MatxAxisLabel.minLabel{
 	top:100%;
-	left:-5px;
-	transform:translateX(100%);
+	left:0px;
 }
 
 
@@ -87,7 +86,6 @@
 	top:100%;
 	right:0px;
 }
-
 
 
 .MatxAxisLabel.xMiddleLabel{
@@ -109,6 +107,14 @@
 	left:-5px;
 	transform:translateX(-100%);
 }
+
+
+.MatxAxisLabel.yMinLabel {
+	bottom:10px;
+	left:-5px;
+	transform:translateX(-100%);
+}
+
 
 
 .MatxAxisLabel.yMaxLabelEast{
@@ -147,10 +153,12 @@
 	background: #56A9FC;
 	border-radius:100%;
 	cursor: pointer;
+	opacity: 0.5;
 }
 
 .MatxScatterPoint:hover{
 	background: #333;
+	opacity: 1;
 }
 
 .MatxAxisXLine{
@@ -263,6 +271,7 @@
 	top:0px;
 	height:100%;
 	border-right:1px solid #999;
+	
 }
 
 .MatcDashTaskPerfGramBoxPlot{
@@ -276,7 +285,7 @@
 	position: absolute;
 	width:100%;
 	left:0px;
-	background: red;
+	background: #000;
 	height:2px;
 }
 
@@ -289,13 +298,9 @@
 }
 
 
-.MatcDashTaskPerBottom{
-
-}
 .MatcDashTaskPerHintBar{
-	text-align: right;
+	text-align: center;
 	font-size: 14px;
-	padding-right: 30px;
 }
 
 
@@ -355,30 +360,85 @@
 }
 
 
+.MatcDashTaskPerfGramFunnel svg {
+	transition: opacity 0.8;
+	
+}
+
+.MatcDashTaskPerfGramFunnelSVGHidden svg {
+	opacity: 0;
+	transform: translateY(100%);
+}
 
 .MatcDashTaskPerfGramFunnelStep {
 	position: absolute;
-	top: 30px;
-	left:5px;
-	height: calc(100% - 60px);
+	top: 0px;
+	left:0px;
+	height: calc(100%);
 	width: 0px;
-	border-left: 1px dashed #999;
+	border-left: 1px dashed rgb(200, 200, 200);
+	transition: all 0.25s;
 }
 
-.MatcDashTaskPerfGramFunnelStep .MatcDashTaskPerfGramFunnelStepLabel{
+.MatcDashTaskPerfGramFunnelStepSmall {
+	transform: translateY(100%);
+	transform-origin: 100 100;
+}
+
+.MatcDashTaskPerfGramFunnelStepLabel {
 	position: absolute;
-	bottom: -30px;
-	color: #999;
+	top: 0px;
+	left:0px;
 	transform: translateX(-50%);
 	white-space: nowrap;
 	font-size: 14px;
-} 
+}
+
+.MatxAxisLabelCntr {
+	height: 20px;
+	width: 100%;
+	position: absolute;
+	top: 100%;
+}
 
 .MatcDashTaskPerfGramFunnelStepPoint {
 	position: absolute;
-	height: 5px;
-	width: 5px;
-	background: red;
+	height:9px;
+	width:9px;
+	border-radius: 50%;
+    transform: translate(-50%, -50%);
+	opacity: 0.5;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.MatcDashTaskPerfGramFunnelStepPointLabel {
+	position: absolute;
+	top: 0px;
+	right: 10px;
+	background-color: #000;
+	color: #fff;
+	padding: 3px 8px;
+	border-radius: 3px;
+	opacity: 0;
+	font-size: 14px;
+	transition: all, 0.2s;
+}
+
+.MatcDashTaskPerfGramFunnelStepPoint:hover .MatcDashTaskPerfGramFunnelStepPointLabel {
+	opacity: 1;
+}
+
+.MatcDashTaskPerfGramFunnelStepPoint:hover {
+	opacity: 1;
+}
+
+.MatcDashTaskPerfGramFunnelStep .MatcDashTaskPerfGramBoxPlot{
+	opacity: 0.2;
+}
+
+.MatcDashTaskPerfGramFunnelStep .MatcDashTaskPerfGramBoxPlotCntr {
+	border: none;
 }
 
  /****************************************************
