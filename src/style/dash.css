@@ -360,14 +360,18 @@
 }
 
 
-.MatcDashTaskPerfGramFunnel svg {
-	transition: opacity 0.8;
-	
+
+.MatcDashTaskPerfGramFunnelSVG {
+	position: top;
+	width: 100%;
+	height: 100%;
+	top:0px;
+	left: 0px;
+	transition: all 0.5s;
 }
 
-.MatcDashTaskPerfGramFunnelSVGHidden svg {
-	opacity: 0;
-	transform: translateY(100%);
+.MatcDashTaskPerfGramFunnelSVG.MatcDashTaskPerfGramFunnelSVGHidden {
+	opacity: 0.0;
 }
 
 .MatcDashTaskPerfGramFunnelStep {
@@ -421,8 +425,9 @@
 	padding: 3px 8px;
 	border-radius: 3px;
 	opacity: 0;
-	font-size: 14px;
-	transition: all, 0.2s;
+	font-size: 12px;
+	transition: all 0.2s;
+	white-space: nowrap;
 }
 
 .MatcDashTaskPerfGramFunnelStepPoint:hover .MatcDashTaskPerfGramFunnelStepPointLabel {

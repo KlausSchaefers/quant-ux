@@ -292,7 +292,7 @@ export default {
 		render_funnelDurartion (df, task, ) { //annotations, tasks
 			this.log.log(-1, "render_funnelDurartion", "enter > :");
 
-			css.add(this.domNode, "MatcDashTaskPerfGramFunnel MatcDashTaskPerfGramFunnelSVGHidden");
+			css.add(this.domNode, "MatcDashTaskPerfGramFunnel");
 
 			this.xLabel.innerHTML = ""; //this.getNLS("dash.perf.details.xLabel");
 			this.yLabel.innerHTML = "";//this.getNLS("dash.perf.details.yLabel");
@@ -324,16 +324,17 @@ export default {
 		
 			this.yMaxLabel.innerHTML = Math.ceil(maxDuration / 1000) + ' s'
 
-			setTimeout( () => {
-				css.remove(this.domNode, "MatcDashTaskPerfGramFunnelSVGHidden");
-			}, 200)
+		
+		
 	
 		},
 
 		_render_funnel_lines (stepData, maxValue,  stepWidth, offset, canvasHeight, lblFunction) {
+
+			const svgCntr = this.db.div('MatcDashTaskPerfGramFunnelSVG MatcDashTaskPerfGramFunnelSVGHidden').build(this.canvas)
 	
 			this.funnelSVG = d3
-				.select(this.canvas)
+				.select(svgCntr)
 				.append("svg")
 				.attr("width", this.canvasPos.w)
 				.attr("height",this.canvasPos.h)
@@ -341,10 +342,18 @@ export default {
 			this.lineSVGs = {}
 			this.linePoints = {}
 				
-			const curveOffset = Math.round(stepWidth / 4)
-	
 			for (let id in stepData) {
 				let steps = stepData[id]
+				this._render_funnel_session_line(id, steps, maxValue, stepWidth, canvasHeight, offset, lblFunction)
+			}
+				
+			setTimeout(() => {
+				css.remove(svgCntr, 'MatcDashTaskPerfGramFunnelSVGHidden')
+			}, 200)
+		},
+
+		_render_funnel_session_line(id, steps, maxValue, stepWidth, canvasHeight, offset, lblFunction) {
+				const curveOffset = Math.round(stepWidth / 4)
 				let line = []
 				this.linePoints[id] = []
 				steps.forEach((step, i) => {
@@ -388,7 +397,6 @@ export default {
 						.style("opacity", 0.5);
 				this.lineSVGs[id] = svg
 			
-			}
 		},
 
 		_render_funnel_steps (stepData, maxValue, flow, width, offset, canvasHeight) {
