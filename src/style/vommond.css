@@ -69,6 +69,7 @@
 .vommondBulletGraphColor .vommondBulletGraphBar{
 	top:0px;
 	height: 30px;
+	transition: all 0.2s;
 }
 
 .vommondBulletGraphColor .vommondBulletGraphBarLbl{

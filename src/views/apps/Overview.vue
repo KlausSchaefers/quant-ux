@@ -282,6 +282,17 @@ export default {
         this.tab = "video";
       }
       this.scrollTop();
+    },
+    onWindowFocus () {
+        this.logger.log(-1, "onWindowFocus", "enter > ");
+        this.loadEvents();
+    },
+    initFocusListener () {
+       this.logger.log(-1, "initFocusListener", "enter > ");
+      this._focusListner = () => {
+        this.onWindowFocus()
+      } 
+      window.addEventListener('focus', this._focusListner);
     }
   },
   watch: {
@@ -297,7 +308,13 @@ export default {
     this.modelService = Services.getModelService(this.$route);
     this.loadApp();
     this.initRoute();
+    this.initFocusListener()
     this.logger.info("mounted", "exit > ");
+  },
+  beforeDestroy () {
+    this.logger.log(-1, "beforeDestroy", "enter > ");
+    window.removeEventListener('focus', this._focusListner);
+    delete this._focusListner
   }
 };
 </script>
