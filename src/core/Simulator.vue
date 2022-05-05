@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v4.0.62</div>
+      <div class="MatcSimulatorVersion">v4.0.70</div>
     </div>
   </div>
 </template>
@@ -174,13 +174,16 @@ export default {
 				this.logger.log(0, 'postCreate', 'set user bu url', this._user)
 			}
 
+			if(params.s == "true"){
+				this.logger.log(-1, 'postCreate', 'skip splash')
+				this.skipSplash = true;
+			}
+
 			if(this.mode == "standalone"){
 				// FIXME: On reloads this may cause issues because we get several screens
 				this.baseURI = uri
 
-				if(params.s == "true"){
-					this.skipSplash = true;
-				}
+			
 
 				if(params.live == "true"){
 					this.live = true;
@@ -336,6 +339,7 @@ export default {
 		},
 
 		setModel (model){
+			console.debug('setModel', this.skipSplash)
 			if (model == null) {
 				this.logger.error("setModel","exit > No model");
 				location.href = location.protocol + "//" + location.host + "/404.html";
@@ -347,7 +351,7 @@ export default {
 				if(this.hash){
 					this.preloadImages();
 				}
-				if(	this._splashTime > 0){
+				if(	this._splashTime > 0 && this.skipSplash !== false){
 
 					this.logger.log(1,"setModel","show splash");
 					/**

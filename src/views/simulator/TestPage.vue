@@ -202,8 +202,8 @@ export default {
 				return;
 			}
 			this.db = new DomBuilder();
-			if(this.$route.query.debug === "true"){
-				this.logger.log(0,"postCreate","skipSplash");
+			if(this.$route.query.s === "true"){
+				this.logger.log(-1,"postCreate","skipSplash");
 				this.skipSplash = true;
 			}
 			/**
