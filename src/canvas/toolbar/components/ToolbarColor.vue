@@ -591,11 +591,12 @@ export default {
   mounted () {
 		this.logger = new Logger('ToolbarColor')
 		if (this.isDialog) {
-			this.reposition = false
+			this.reposition = true
 			this.arrowPosition = false
 			this.hasPicker = true
 			this.updateLabel = true
 			this.chevron = false
+			css.add(this.popup, 'MatcToolbarPopUpDialog')
 			this.setChevron()
 		}
 

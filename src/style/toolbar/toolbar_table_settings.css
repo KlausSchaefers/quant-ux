@@ -83,12 +83,22 @@
 .MatcToolbarTableSettings .MatcToolbarTableSettingsTable{
     width: 100%;
     font-size: 14px;
+
 }
 
 .MatcToolbarTableSettings .MatcToolbarTableSettingsTable th{
     font-weight: 400;
     padding-top: 15px;
     font-size: 14px;
+}
+
+.MatcToolbarTableSettings .MatcToolbarTableSettingsTable .MatcDesignTokenMixin {
+    position: relative;
+}
+
+.MatcToolbarTableSettings .MatcToolbarTableSettingsTable .MatcToolbarPopUp {
+    top:0px;
+    left: 100%;
 }
 
 .MatcToolbarTableSettings .MatcFormRow > td{

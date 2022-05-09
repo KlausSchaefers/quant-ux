@@ -29,19 +29,6 @@
                             </tr>
 
 
-                            <tr class="MatcFormRow">
-                                <td>
-
-                                    <span class="MatcButton MatcButtonActive" @click="addAction">Add Action</span>
-                                    <!--
-                                    <input class="form-control vommondInlineEdit" placeholder="Enter action name" @change="addAction"/>
-                                    -->
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
                             <tr class="MatcFormRow" v-for="(action, i) in props.tableActions" :key="i">
                                 <td>
                                     <input class="form-control vommondInlineEdit" v-model="action.label"/>
@@ -92,6 +79,19 @@
                                     </a>
                                 </td>
                             </tr>
+
+
+                            <tr class="MatcFormRow">
+                                <td>
+
+                                    <span class="MatcButton MatcButtonActive" @click="addAction">Add Action</span>
+                                   
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -108,22 +108,7 @@
                                 <td style="width:120px"></td>
                             </tr>
 
-                            <tr>
-                                <td>
-                                    <span class="MatcButton MatcButtonActive" @click="addColumn">Add Column</span>
-                                    <!--
-                                        <input
-                                            class="form-control vommondInlineEdit"
-                                            placeholder="Enter column data binding" @change="addColumn"/>
-                                    -->
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td></td>
-                            </tr>
-
+                       
                             <tr class="MatcFormRow" v-for="(column, i) in props.columns" :key="i">
                                 <td>
                                     <input class="form-control vommondInlineEdit" v-model="column.label"/>
@@ -131,10 +116,17 @@
                                 <td>
                                     <input class="form-control vommondInlineEdit" placeholder="Databinding Variable" v-model="column.databinding"/>
                                 </td>
-
                                 <td>
                                     <a class="MatcFormRowHoverAction" @click="removeColumn(i)">  <span class="mdi mdi-close"/></a>
                                 </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span class="MatcButton MatcButtonActive" @click="addColumn">Add Column</span>
+                                </td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>

@@ -887,6 +887,10 @@
 	color:#333;
 }
 
+.MatcToolbarPopUp.MatcToolbarPopUpDialog{
+	z-index: 9000000;
+}
+
 .MatcToolbarPopUpWide .MatcToolbarPopUp{
 
 }

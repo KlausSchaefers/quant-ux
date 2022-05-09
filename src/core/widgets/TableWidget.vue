@@ -143,47 +143,49 @@ export default {
       this.trs = []
       this.actions = []
 
-      let data = this.getTable()
+      const data = this.getTable()
       let columns = data.columns
-      let rows = data.rows
+      const rows = data.rows
 
-      let widths = this.getWidths(model.props.widths, this.style, this.props );
-      let borderStyle = this.getBorderStyle(model);
+      const widths = this.getWidths(model.props.widths, this.style, this.props );
+      const borderStyle = this.getBorderStyle(model);
 
-      let db = new DomBuilder();
-      let table = db.table("MatcWidgetTypeTableBorder" + borderStyle).build();
+     
+      // if we have a checkbox we need to add
+      // an empty row and also some adjustments to the table
+      if (style.checkBox) {
+        columns = [''].concat(columns)
+      }
 
+      if (this.props.tableActions && this.props.tableActions.length > 0) {
+        columns = columns.concat([''])
+      }
+
+      // fixme: scrollable:
+      // 1) make two tables, 
+      // 2) calc and set the heigth of the header, body is calc(100% - height) // what about padding?
+      // 3 draw border on div around???
+
+      const db = new DomBuilder();
+      const table = this.renderTable(db, style, borderStyle)
+      this.renderHeader(rows, columns, table, style, borderStyle, widths, db)
+      this.renderRows(rows, columns, table, style, borderStyle, this.props.tableActions, db)
+
+      // FIXME: add padding?
+      this.domNode.appendChild(table);
+
+      this.setStyle(style, model);
+      this.renderOddRows(rows, style)
+    },
+
+    renderTable (db, style , borderStyle) {
+      const table = db.table("MatcWidgetTypeTableBorder" + borderStyle).build();
       if ("Out" == borderStyle || "Cell" == borderStyle) {
         table.style.borderColor = style.borderBottomColor;
         table.style.borderWidth = this._getBorderWidth(style.borderBottomWidth) + "px";
         table.style.borderStyle = "solid";
       }
-
-      // if we have a checkbox we need to add
-      // an empty row and also some adjustments to the table
-      if (style.checkBox) {
-        columns = [''].concat(columns)
-        // FIXME: we should only do this if we miss widths. Later we could add this
-        // with some handlers
-        //widths = [0.10].concat(widths)
-        //widths = widths.map(w => w / 1.10)
-      }
-
-      if (this.props.tableActions && this.props.tableActions.length > 0) {
-        columns = columns.concat([''])
-        //let w = 0.2 * this.props.tableActions.length
-        //widths = widths.concat([w])
-        //widths = widths.map(w => w / (1 + w))
-      }
-
-      this.renderHeader(rows, columns, table, style, borderStyle, widths, db)
-
-      this.renderRows(rows, columns, table, style, borderStyle, this.props.tableActions, db)
-
-      this.domNode.appendChild(table);
-      this.setStyle(style, model);
-
-      this.renderOddRows(rows, style)
+      return table
     },
 
     getWidths (widths,style, props, fontFactor = 0.6) {
@@ -217,17 +219,7 @@ export default {
         .element("tr")
         .build(table);
 
-      tr.style.color = style.headerColor;
-      tr.style.background = style.headerBackground;
-      if (style.headerFontStyle) {
-        tr.style.fontStyle = style.headerFontStyle;
-      }
-      if (style.headerFontWeight) {
-        tr.style.fontWeight = style.headerFontWeight;
-      }
-      if (style.headerTextDecoration) {
-        tr.style.textDecoration = style.headerTextDecoration;
-      }
+      this.setHeaderStyle(tr, style)
 
       this.renderRowBorder(tr, 0, style, borderStyle, rows.length);
 
@@ -240,8 +232,8 @@ export default {
         let td = document.createElement("td");
         td.setAttribute("valign", "top");
         td.textContent = columns[j];
-
         td.style.fontSize = fontSize
+
         this.renderCellBorder(td, 0, j, style, borderStyle, rows.length, columns.length);
 
         tr.appendChild(td);
@@ -250,6 +242,21 @@ export default {
         if (widths[j]) {
           td.style.width = Math.round(widths[j] * 100) + "%";
         }
+      }
+    },
+
+
+    setHeaderStyle (tr, style) {
+      tr.style.color = style.headerColor;
+      tr.style.background = style.headerBackground;
+      if (style.headerFontStyle) {
+        tr.style.fontStyle = style.headerFontStyle;
+      }
+      if (style.headerFontWeight) {
+        tr.style.fontWeight = style.headerFontWeight;
+      }
+      if (style.headerTextDecoration) {
+        tr.style.textDecoration = style.headerTextDecoration;
       }
     },
 
