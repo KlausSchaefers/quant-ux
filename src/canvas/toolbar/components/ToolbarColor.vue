@@ -592,7 +592,7 @@ export default {
 		this.logger = new Logger('ToolbarColor')
 		if (this.isDialog) {
 			this.reposition = true
-			this.arrowPosition = false
+			this.arrowPosition = true
 			this.hasPicker = true
 			this.updateLabel = true
 			this.chevron = false

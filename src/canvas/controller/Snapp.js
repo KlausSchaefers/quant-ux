@@ -240,8 +240,15 @@ export default class Snapp extends Screen {
 				return box.y+ Math.round(box.h/2);
 			case "middleX":
 				return box.x+ Math.round(box.w/2);
+			case "minY":
+				if (box.min) {
+					return box.y + box.min.h
+				} else {
+					console.warn("BaseController.getSnappValue() > minY without min property");
+				}
+				return box.y + box.h
 			default:
-				console.warn("Not supported line position", pos, line);
+				console.warn("BaseController.getSnappValue() > Not supported line position", pos, line);
 		}
 		return 0;
 	}

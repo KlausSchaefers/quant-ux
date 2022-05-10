@@ -144,35 +144,21 @@ export default {
       this.actions = []
 
       const data = this.getTable()
-      let columns = data.columns
+      const columns = this.getColumns(data, style)
       const rows = data.rows
 
       const widths = this.getWidths(model.props.widths, this.style, this.props );
+      const absWidth = widths.map(w => w * model.w)
       const borderStyle = this.getBorderStyle(model);
-
-     
-      // if we have a checkbox we need to add
-      // an empty row and also some adjustments to the table
-      if (style.checkBox) {
-        columns = [''].concat(columns)
-      }
-
-      if (this.props.tableActions && this.props.tableActions.length > 0) {
-        columns = columns.concat([''])
-      }
-
-      // fixme: scrollable:
-      // 1) make two tables, 
-      // 2) calc and set the heigth of the header, body is calc(100% - height) // what about padding?
-      // 3 draw border on div around???
-
+   
       const db = new DomBuilder();
-      const table = this.renderTable(db, style, borderStyle)
-      this.renderHeader(rows, columns, table, style, borderStyle, widths, db)
-      this.renderRows(rows, columns, table, style, borderStyle, this.props.tableActions, db)
+      const tableHeader = this.renderTable(db, style, borderStyle)
+      this.renderHeader(rows, columns, tableHeader, style, borderStyle, absWidth, db)
+      this.renderRows(rows, columns, tableHeader, style, borderStyle, this.props.tableActions, absWidth, db)
+      this.domNode.appendChild(tableHeader);
 
-      // FIXME: add padding?
-      this.domNode.appendChild(table);
+
+      // FIXME: add pagination?
 
       this.setStyle(style, model);
       this.renderOddRows(rows, style)
@@ -185,13 +171,39 @@ export default {
         table.style.borderWidth = this._getBorderWidth(style.borderBottomWidth) + "px";
         table.style.borderStyle = "solid";
       }
+      //table.style.minHeight = height
       return table
     },
 
+    getColumns (data, style) {
+      let columns = data.columns
+
+      // if we have a checkbox we need to add
+      // an empty row and also some adjustments to the table
+      if (style.checkBox) {
+        columns = [''].concat(columns)
+      }
+
+      if (this.props.tableActions && this.props.tableActions.length > 0) {
+        columns = columns.concat([''])
+      }
+      return columns
+    },
+
+    getRowHeight(style) {
+      let h = this._getBorderWidth(style.fontSize) + 
+              this._getBorderWidth(style.paddingLeft) + 
+              this._getBorderWidth(style.paddingRight) + 
+              this._getBorderWidth(style.borderBottomWidth) + 
+              this._getBorderWidth(style.borderTopWidth) 
+      
+      return h
+    },
+
     getWidths (widths,style, props, fontFactor = 0.6) {
-      var result = [];
+      const result = [];
       if (widths) {
-        var sum = 0;
+        let sum = 0;
         let padding = this._getBorderWidth(style.paddingLeft) + this._getBorderWidth(style.paddingRight)
 
         if (style.checkBox) {
@@ -240,9 +252,13 @@ export default {
         this._paddingNodes.push(td);
 
         if (widths[j]) {
-          td.style.width = Math.round(widths[j] * 100) + "%";
+          this.setCellWidth(td, widths[j])
         }
       }
+    },
+
+    setCellWidth (td, width) {
+      td.style.width = width + "px";
     },
 
 
@@ -271,7 +287,7 @@ export default {
       }
     },
 
-    renderRows (rows, columns, table, style, borderStyle, actions, db) {
+    renderRows (rows, columns, table, style, borderStyle, actions, widths, db) {
       let tbody = db.tbody().build(table);
       for (let i = 0; i < rows.length; i++) {
         let row = rows[i];
@@ -294,6 +310,11 @@ export default {
           this._paddingNodes.push(td);
           this.renderCellBorder(td, i, j,style, borderStyle, rows.length, columns.length);
           this.cells[i].push(td);
+
+         
+          if (widths[j]) {
+            this.setCellWidth(td, widths[j])
+          }
 
         }
 
@@ -406,7 +427,7 @@ export default {
        * FIXME: I am not sure where I am messing with the rows,
        * but I do not clone temp updates will produce blank rows...
        */
-      let data = lang.clone(this.parseData(this.model.props.data))
+      const data = lang.clone(this.parseData(this.model.props.data))
       return {
         columns: data[0],
         rows: data.splice(1)
@@ -418,10 +439,10 @@ export default {
        * for now assume csv
        */
       if (data.substring) {
-        var table = [];
-        var lines = data.split("\n");
+        const table = [];
+        const lines = data.split("\n");
         for (let i = 0; i < lines.length; i++) {
-          let line = lines[i];
+          const line = lines[i];
           table.push(line.split(","));
         }
         return table;

@@ -671,18 +671,27 @@
 	position: absolute;
 	width:100%;
 	height: 100%;
-	overflow: scroll;
+	overflow: auto;
 }
 
+.MatcWidgetTypeTableBodyCntr {
+	overflow: auto;
+	flex-grow: 1;
+}
 
 .MatcWidgetTypeTable table{
 	width: 100%;
 	min-height: 100%;
 }
 
+.MatcWidgetTypeTableBodyCntr table{
+	height: 100%;
+}
+
 .MatcWidgetTypeTable table td{
 	border:none;
 	vertical-align: middle !important;
+	box-sizing: border-box;
 }
 
 .MatcWidgetTypeTable table.MatcWidgetTypeTableBorderCell td{
@@ -690,7 +699,11 @@
 	border-style:solid;
 }
 
-
+.MatcWidgetTypeTable table thead{
+	position: sticky;
+	top:0px;
+	z-index: 2;
+}
 
 .MatcWidgetTypeTableAction {
 	text-decoration: none;

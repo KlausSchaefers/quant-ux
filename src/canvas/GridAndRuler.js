@@ -2222,6 +2222,16 @@ export default class GridAndRuler extends Core {
 			}
 		}
 
+		if (box.min && sourceBox.min) {
+		
+			this.addYLine(box.y + box.min.h, {
+				id: box.id,
+				type: type,
+				pos: "minY",
+				_sourceV: sourceBox.y + sourceBox.min.h
+			}, type, box);
+		}
+
 		if (addPadding) {
 			// FIXME: Add here also Padding lines
 		}
