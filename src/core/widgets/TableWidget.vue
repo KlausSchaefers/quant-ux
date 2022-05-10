@@ -146,15 +146,15 @@ export default {
       const data = this.getTable()
       const columns = this.getColumns(data, style)
       const rows = data.rows
+      const editable = data.editable
 
       const widths = this.getWidths(model.props.widths, this.style, this.props );
-      const absWidth = widths.map(w => w * model.w)
       const borderStyle = this.getBorderStyle(model);
    
       const db = new DomBuilder();
       const tableHeader = this.renderTable(db, style, borderStyle)
-      this.renderHeader(rows, columns, tableHeader, style, borderStyle, absWidth, db)
-      this.renderRows(rows, columns, tableHeader, style, borderStyle, this.props.tableActions, absWidth, db)
+      this.renderHeader(rows, columns, tableHeader, style, borderStyle, widths, db)
+      this.renderRows(rows, columns, tableHeader, style, borderStyle, this.props.tableActions, editable, db)
       this.domNode.appendChild(tableHeader);
 
 
@@ -167,11 +167,12 @@ export default {
     renderTable (db, style , borderStyle) {
       const table = db.table("MatcWidgetTypeTableBorder" + borderStyle).build();
       if ("Out" == borderStyle || "Cell" == borderStyle) {
-        table.style.borderColor = style.borderBottomColor;
-        table.style.borderWidth = this._getBorderWidth(style.borderBottomWidth) + "px";
-        table.style.borderStyle = "solid";
+        this.domNode.style.borderColor = style.borderBottomColor;
+        this.domNode.style.borderWidth = this._getBorderWidth(style.borderBottomWidth) + "px";
+        this.domNode.style.borderStyle = "solid";
+      } else {
+        this.domNode.style.border='none'
       }
-      //table.style.minHeight = height
       return table
     },
 
@@ -226,10 +227,13 @@ export default {
     },
 
     renderHeader (rows, columns, table, style, borderStyle, widths, db) {
+
+      // since 4.0.70 we have stikcy headers
       let tr = db
-        .element("thead")
+        .element("thead", style.headerSticky ? 'MatcWidgetTypeTableSticky': '')
         .element("tr")
         .build(table);
+
 
       this.setHeaderStyle(tr, style)
 
@@ -258,7 +262,7 @@ export default {
     },
 
     setCellWidth (td, width) {
-      td.style.width = width + "px";
+      td.style.width = Math.round(width * 100) + "%";
     },
 
 
@@ -287,7 +291,7 @@ export default {
       }
     },
 
-    renderRows (rows, columns, table, style, borderStyle, actions, widths, db) {
+    renderRows (rows, columns, table, style, borderStyle, actions, editable, db) {
       let tbody = db.tbody().build(table);
       for (let i = 0; i < rows.length; i++) {
         let row = rows[i];
@@ -302,20 +306,23 @@ export default {
           td.setAttribute("valign", "top");
           if (j === -1) {
             this.renderCheckBox(row, i, td, style, db)
+            this._paddingNodes.push(td);
           } else {
-            td.textContent = row[j];
+            if (editable[j]) {
+              const input = db.input('MatcWidgetTypeTableInput').build(td)
+              input.value = row[j];
+              this._paddingNodes.push(input);
+            } else {
+              td.textContent = row[j];
+              this._paddingNodes.push(td);
+            }
+            
           }
 
           tr.appendChild(td);
-          this._paddingNodes.push(td);
+        
           this.renderCellBorder(td, i, j,style, borderStyle, rows.length, columns.length);
           this.cells[i].push(td);
-
-         
-          if (widths[j]) {
-            this.setCellWidth(td, widths[j])
-          }
-
         }
 
 
@@ -346,6 +353,8 @@ export default {
         }
       }
     },
+
+   
 
     renderCheckBox (row, i, td, style, db) {
       let checkBox = db.div('MatcWidgetTypeCheckBox').build(td)
@@ -402,9 +411,17 @@ export default {
 
     renderCellBorder (td, r, c, style, borderStyle, rows, columns) {
       if ("Cell" === borderStyle) {
-        td.style.borderColor = style.borderBottomColor;
-        td.style.borderWidth = this._getBorderWidth(style.borderBottomWidth) + "px";
-        td.style.borderStyle = "solid";
+        const width = this._getBorderWidth(style.borderBottomWidth) + 'px'
+        if (c < columns - 1) {
+          td.style.borderRightColor = style.borderBottomColor;
+          td.style.borderRightWidth =  width
+          td.style.borderRightStyle = "solid";
+        }
+        if (r < rows -1) {
+          td.style.borderBottomColor = style.borderBottomColor;
+          td.style.borderBottomWidth =  width
+          td.style.borderBottomStyle = "solid";
+        }
       }
       if ("VLines" === borderStyle) {
         if (c < columns - 1) {
@@ -428,10 +445,21 @@ export default {
        * but I do not clone temp updates will produce blank rows...
        */
       const data = lang.clone(this.parseData(this.model.props.data))
-      return {
+      const table = {
         columns: data[0],
-        rows: data.splice(1)
+        rows: data.splice(1),
+        editable: {}
       }
+
+      if (this.model.props.columns) {
+        this.model.props.columns.forEach((c,i) => {
+          table.columns[i] = c.label
+          table.editable[i] = c.isEditable
+        })
+      }
+     
+
+      return table
     },
 
     parseData (data) {

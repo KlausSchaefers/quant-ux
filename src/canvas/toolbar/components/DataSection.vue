@@ -840,6 +840,15 @@ export default {
 
 			this._renderDropDownTree("Header Style", "mdi mdi-format-text", [
 				{
+					label: "Sticky",
+					type: "check",
+					key:"headerSticky",
+					value: style.headerSticky === true,
+					valueTrue: true,
+					valueFalse: false,
+					isStyle: true
+				},
+				{
 					label: "Bold",
 					type: "check",
 					key:"headerFontWeight",

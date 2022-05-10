@@ -44,6 +44,7 @@
 		"borderLeftColor" : "#e5e5e5",
 		"background" : "#fff",
 		"headerBackground" : "#ffffff",
+		"headerSticky": false,
 		"headerColor" : "#333333",
 		"color" : "#333333",
 		"paddingTop" : 10,

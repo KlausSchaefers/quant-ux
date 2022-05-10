@@ -50,6 +50,7 @@
 		"paddingRight" : 5,
 		"headerFontWeight" : "800",
 		"headerBackground" : "#333333",
+		"headerSticky": true,
 		"headerColor" : "#fff",
 		"checkBox": false,
 		"checkBoxHookColor": "#333333",

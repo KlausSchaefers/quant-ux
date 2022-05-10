@@ -105,16 +105,24 @@
                             <tr>
                                 <td style="width:270px;">Name</td>
                                 <td style="width:270px;">Data Binding</td>
+                                <td style="width:270px;">Editable</td>
                                 <td style="width:120px"></td>
                             </tr>
 
                        
                             <tr class="MatcFormRow" v-for="(column, i) in props.columns" :key="i">
+                         
+
                                 <td>
                                     <input class="form-control vommondInlineEdit" v-model="column.label"/>
                                 </td>
                                 <td>
                                     <input class="form-control vommondInlineEdit" placeholder="Databinding Variable" v-model="column.databinding"/>
+                                </td>
+                                <td>
+                                    <CheckBox
+                                        v-model="column.isEditable"
+                                        label="" />
                                 </td>
                                 <td>
                                     <a class="MatcFormRowHoverAction" @click="removeColumn(i)">  <span class="mdi mdi-close"/></a>

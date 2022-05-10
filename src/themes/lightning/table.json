@@ -68,6 +68,7 @@
       "headerFontWeight": 700,
       "headerBackground": "#f3f3f3",
       "headerColor": "#444444",
+      "headerSticky": true,
       "checkBox": true,
       "checkBoxHookColor": "#0176d3",
       "checkBoxBackground": "#ffffff",

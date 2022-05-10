@@ -689,7 +689,7 @@
 }
 
 .MatcWidgetTypeTable table td{
-	border:none;
+	border: 0px solid #333;
 	vertical-align: middle !important;
 	box-sizing: border-box;
 }
@@ -699,10 +699,18 @@
 	border-style:solid;
 }
 
-.MatcWidgetTypeTable table thead{
+.MatcWidgetTypeTable table thead.MatcWidgetTypeTableSticky{
 	position: sticky;
 	top:0px;
 	z-index: 2;
+}
+
+.MatcWidgetTypeTable .MatcWidgetTypeTableInput{
+	border: 0px solid #333000;
+	outline: none;
+	height: 100%;
+    width: 100%;
+	background: none;
 }
 
 .MatcWidgetTypeTableAction {
