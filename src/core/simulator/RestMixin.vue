@@ -4,7 +4,6 @@
 </template>
 <script>
 import RestEngine from 'core/RestEngine'
-// import lang from 'dojo/_base/lang'
 
 export default {
 	name: 'RestMixin',
@@ -12,22 +11,24 @@ export default {
     async executeRest (screenID, widgetID, widget, line) {
       this.logger.log(1,"executeRest","enter >  rest:" + widget.id, line );
 
-      let rest = widget.props.rest
+      const rest = widget.props.rest
       
       /**
        * get al the data we need!
        */
-      let requiredDataBindings = RestEngine.getNeededDataBings(rest)
+      const requiredDataBindings = RestEngine.getNeededDataBings(rest)
       let data = {}
       requiredDataBindings.forEach(path => {
-        let value = this.getDataBindingByPath(path)
+        const value = this.getDataBindingByPath(path)
         data[path] = value
       })
 
       try {
-        let result = await RestEngine.run(rest, data)
+        const result = await RestEngine.run(rest, data)
         if (rest.output.databinding) {
           this.setDataBindingByKey(rest.output.databinding, result)
+          // since 4.0.70 we also cann the data binding...
+          this.updateAllDataBindings(this.currentScreen.id, rest.output.databinding, result)
           this.logger.log(-1, "executeRest","set data " + rest.output.databinding, this.dataBindingValues);
         }
         return true

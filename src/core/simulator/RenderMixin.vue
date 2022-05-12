@@ -286,7 +286,7 @@ export default {
 					if(line){
 						this.logger.log(0,"afterScreenCreated","Found timer");
 						var delay = Math.round(line.timer * 1000);
-						if(!isNaN(delay) && delay > 0){
+						if(!isNaN(delay) && delay >= 0){
 							this._transitionTimer = setTimeout(lang.hitch(this, "executeLine", screen.id, null, line),delay);
 						} else {
 							this.logger.error("afterScreenCreated","Delay has shitty format "+ line.timer);

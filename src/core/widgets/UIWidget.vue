@@ -148,24 +148,24 @@ export default {
     /**
      * Get the node for inline editing
      */
-    getLabelNode: function() {
+    getLabelNode () {
       return null;
     },
 
     getValue () {
     },
 
-    setFactory: function(m) {
+    setFactory (m) {
       this.factory = m;
     },
 
-    emitDataBinding: function(value, key) {
+    emitDataBinding (value, key = "default") {
       if (!key) {
         key = "default";
       }
-      var databinding = this.getDataBinding(this.model);
+      const databinding = this.getDataBinding(this.model);
       if (databinding && databinding[key]) {
-        var variable = databinding[key];
+        const variable = databinding[key];
         this.emit("databinding", variable, value);
       }
     },

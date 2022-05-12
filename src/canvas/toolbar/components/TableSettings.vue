@@ -3,8 +3,8 @@
      <div class="MatcToolbarTableSettings">
 
       <div class="MatcToolbarTabs MatcToolbarTabsBig">
-            <a @click="tab='actions'" :class="{'MatcToolbarTabActive': tab === 'actions'}">Actions</a>
             <a @click="tab='columns'" :class="{'MatcToolbarTabActive': tab === 'columns'}">Columns</a>
+            <a @click="tab='actions'" :class="{'MatcToolbarTabActive': tab === 'actions'}">Actions</a>
         </div>
 
         <div class="MatcToolbarTableSettingsCntr">
@@ -158,7 +158,7 @@ export default {
     props:["app", "value", "hasDataBinding"],
     data: function () {
         return {
-            tab: 'actions',
+            tab: 'columns',
             widget: '',
             model: '',
             settings: {},

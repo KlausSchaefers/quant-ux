@@ -1,0 +1,8 @@
+[
+    {"name": "Peter", "lastname": "Parker", "age": 23, "city": "New York"},
+    {"name": "Mad", "lastname": "Murdock", "age": 33, "city": "Hells Kitchen"},
+    {"name": "Tony", "lastname": "Strak", "age": 45, "city": "New York"},
+    {"name": "Bruce", "lastname": "Wayne", "age": 35, "city": "Gotham"},
+    {"name": "Lious", "lastname": "Lane", "age": 25, "city": "Metropolis"},
+    {"name": "Bruce", "lastname": "Banner", "age": 50, "city": "None"}
+]

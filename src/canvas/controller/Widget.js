@@ -295,7 +295,7 @@ export default class Widget extends Snapp {
 				/**
 				 * Get hover screen
 				 */
-				 const screen = this.getHoverScreen(boundingbox);
+				const screen = this.getHoverScreen(boundingbox);
 				if(screen) {
 					this.snappAll(modelBoundingBox, screen, boundingbox, snapp);
 				}

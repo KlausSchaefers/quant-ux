@@ -93,7 +93,7 @@ export default {
         setV1 (e) {
             let v = e.target.value
             if (this.isValid(v)) {
-                this.v = v
+                this.v = v * 1
             } else {
                 console.debug('setV1() wrong value', v)
             }
@@ -102,6 +102,7 @@ export default {
             let v = e.target.value
              if (this.isValid(v) && this.screen) {
                 if (this.type === 'y') {
+                    v = v * 1
                     this.v = this.screen.h - v
                 } else {
                     this.v = this.screen.w - v

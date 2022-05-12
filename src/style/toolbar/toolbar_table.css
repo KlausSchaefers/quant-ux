@@ -20,6 +20,7 @@
 .MatcToolbarTable thead .MatcToolbarTableLabel{
 	position: relative;
 	text-align: center;
+	color: #777;
 }
 
 .MatcToolbarTable table{
@@ -84,6 +85,7 @@
 	color:#cecece;
 	width: 30px;
 	vertical-align: inherit;
+	color: #777;
 }
 
 .MatcToolbarTableColumnHandle{

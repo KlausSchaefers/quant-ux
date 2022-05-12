@@ -79,8 +79,6 @@ export default {
 
 
 			setDataBindingByKey (path, value) {
-				// FIXME, this should actually be JSONPath
-				//this.dataBindingValues[path] = value;
 				if (this.dataBindingValues) {
 					JSONPath.set(this.dataBindingValues, path, value)
 					this.emit('onDataBindingChange', this.dataBindingValues)
@@ -102,17 +100,17 @@ export default {
 				 * if we have several widgets!
 				 * As the facory cleans up before every rendering, this should be ok
 				 */
-				for(var id in this.model.widgets){
-					var widget = this.model.widgets[id];
+				for(let id in this.model.widgets){
+					const widget = this.model.widgets[id];
 					if (widget && widget.props) {
-					var databinding = widget.props.databinding;
-						for(var key in databinding){
-							var variable = databinding[key];
+					const databinding = widget.props.databinding;
+						for(let key in databinding){
+							const variable = databinding[key];
 							if (variable === path) {
-								let uiWidget = this.renderFactory.getUIWidgetByID(id);
+								const uiWidget = this.renderFactory.getUIWidgetByID(id);
 								if (uiWidget) {
 									this.logger.log(-1, "getDataBindingByPath"," return default " + path);
-									let value = uiWidget.getValue()
+									const value = uiWidget.getValue()
 									if (value) {
 										return value
 									}
@@ -143,10 +141,10 @@ export default {
 				 */
 				const widgets = this.renderFactory.getAllUIWidgets();
 				for(let id in widgets){
-					let uiWidget = widgets[id];
-					let changed = uiWidget.setDataBinding(variable, value, this);
+					const uiWidget = widgets[id];
+					const changed = uiWidget.setDataBinding(variable, value, this);
 					if(changed){
-						let state = uiWidget.getState();
+						const state = uiWidget.getState();
 						this.log("WidgetInit", screenID, id, null, state);
 					}
 				}

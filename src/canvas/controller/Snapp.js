@@ -96,7 +96,7 @@ export default class Snapp extends Screen {
 	}
 
 	snappAll (widget,screen, pos, snapp){
-		this.logger.log(0,"snappAll", "enter > ");
+		this.logger.log(1,"snappAll", "enter > ", snapp, pos);
 
 		if(snapp.x){
 			pos.x = widget.x;
@@ -186,7 +186,7 @@ export default class Snapp extends Screen {
 			if (rulers) {
 				let ruler = rulers.find(r => r.id === line.id)
 				if (ruler) {
-					return screen.x + ruler.v
+					return screen.x + (ruler.v * 1)
 				} else {
 					this.logger.error("getSnappXValue", "No ruler with id " + line.id);
 					this.logger.sendError(new Error('Could not snapp to X ruler'));
@@ -213,7 +213,7 @@ export default class Snapp extends Screen {
 			if (rulers) {
 				let ruler = rulers.find(r => r.id === line.id)
 				if (ruler) {
-					return screen.y + ruler.v
+					return screen.y + (ruler.v * 1)
 				} else {
 					this.logger.error("getSnappYValue", "No ruler with id " + line.id);
 					this.logger.sendError(new Error('Could not snapp to Y ruler'));

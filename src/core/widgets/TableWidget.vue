@@ -73,7 +73,7 @@ export default {
     toggleCheckBox (e, box) {
       this.stopEvent(e);
 
-      var pos = this.selected.indexOf(box.id);
+      const pos = this.selected.indexOf(box.id);
       if (pos < 0) {
         this.selected.push(box.id);
       } else {
@@ -96,7 +96,6 @@ export default {
         tr.style.color = this.style.hoverColor
       }
       css.add(tr, 'MatcWidgetTypeTableRowHover')
-      //FIXME: emit some state
     },
 
     onHoverEnd (tr, i) {
@@ -113,7 +112,6 @@ export default {
         tr.style.color = this.style.color
       }
       css.remove(tr, 'MatcWidgetTypeTableRowHover')
-      //FIXME: emit some state
     },
 
     setSelected (selected) {
@@ -129,6 +127,20 @@ export default {
       }
     },
 
+    onInputChange (r, c, value) {
+      console.debug('onInputChange', r, c, value)
+      if (this.value) {
+        //const isArray = this.isArrayOfArray(this.value)
+      }
+      
+      // FIXME find out if we have data binding???
+      // if see, chekc if isArrray?
+    },
+
+    rerender () {
+      this.render(this.model, this.style, this._scaleX, this._scaleY)
+    },
+
     render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
@@ -136,8 +148,9 @@ export default {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
 
+      this.cleanUpTempListener()
       this.removeAllChildren(this.domNode)
-      // this.domNode.innerHTML = "";
+  
       this.checkBoxes = []
       this.cells = []
       this.trs = []
@@ -146,7 +159,6 @@ export default {
       const data = this.getTable()
       const columns = this.getColumns(data, style)
       const rows = data.rows
-      const editable = data.editable
 
       const widths = this.getWidths(model.props.widths, this.style, this.props );
       const borderStyle = this.getBorderStyle(model);
@@ -154,7 +166,7 @@ export default {
       const db = new DomBuilder();
       const tableHeader = this.renderTable(db, style, borderStyle)
       this.renderHeader(rows, columns, tableHeader, style, borderStyle, widths, db)
-      this.renderRows(rows, columns, tableHeader, style, borderStyle, this.props.tableActions, editable, db)
+      this.renderRows(rows, columns, tableHeader, style, borderStyle, this.props.tableActions, db)
       this.domNode.appendChild(tableHeader);
 
 
@@ -192,7 +204,7 @@ export default {
     },
 
     getRowHeight(style) {
-      let h = this._getBorderWidth(style.fontSize) + 
+      const h = this._getBorderWidth(style.fontSize) + 
               this._getBorderWidth(style.paddingLeft) + 
               this._getBorderWidth(style.paddingRight) + 
               this._getBorderWidth(style.borderBottomWidth) + 
@@ -205,15 +217,15 @@ export default {
       const result = [];
       if (widths) {
         let sum = 0;
-        let padding = this._getBorderWidth(style.paddingLeft) + this._getBorderWidth(style.paddingRight)
+        const padding = this._getBorderWidth(style.paddingLeft) + this._getBorderWidth(style.paddingRight)
 
         if (style.checkBox) {
-          let w = style.checkBoxSize ? style.checkBoxSize : style.fontSize
+          const w = style.checkBoxSize ? style.checkBoxSize : style.fontSize
           widths = [w + padding].concat(widths);
         }
         if (props.tableActions && props.tableActions.length > 0) {
-          let text = props.tableActions.map(a => a.label).join()
-          let w = text.length * style.fontSize * fontFactor + padding * props.tableActions.length
+          const text = props.tableActions.map(a => a.label).join()
+          const w = text.length * style.fontSize * fontFactor + padding * props.tableActions.length
           widths = widths.concat(w)
         }
         for (let i = 0; i < widths.length; i++) {
@@ -242,12 +254,12 @@ export default {
       /**
        * 3.0.19. Bulma set somehow stupid default table widths!
        */
-      let fontSize = this._getBorderWidth(style.fontSize) + 'px'
+      const fontSize = this._getBorderWidth(style.fontSize) + 'px'
 
       for (let j = 0; j < columns.length; j++) {
-        let td = document.createElement("td");
+        const td = document.createElement("td");
         td.setAttribute("valign", "top");
-        td.textContent = columns[j];
+        td.textContent = columns[j].label;
         td.style.fontSize = fontSize
 
         this.renderCellBorder(td, 0, j, style, borderStyle, rows.length, columns.length);
@@ -291,7 +303,7 @@ export default {
       }
     },
 
-    renderRows (rows, columns, table, style, borderStyle, actions, editable, db) {
+    renderRows (rows, columns, table, style, borderStyle, actions, db) {
       let tbody = db.tbody().build(table);
       for (let i = 0; i < rows.length; i++) {
         let row = rows[i];
@@ -308,10 +320,11 @@ export default {
             this.renderCheckBox(row, i, td, style, db)
             this._paddingNodes.push(td);
           } else {
-            if (editable[j]) {
+            if (columns[j].isEditable) {
               const input = db.input('MatcWidgetTypeTableInput').build(td)
               input.value = row[j];
               this._paddingNodes.push(input);
+              this.tempOwn(on(input, 'change', (e => this.onInputChange(i, j, input.value, e))))
             } else {
               td.textContent = row[j];
               this._paddingNodes.push(td);
@@ -440,26 +453,78 @@ export default {
     },
 
     getTable () {
-      /**
-       * FIXME: I am not sure where I am messing with the rows,
-       * but I do not clone temp updates will produce blank rows...
-       */
+      let table = this.getCVSData()
+      // since 4.0.70 we support data binding
+      if (this.value) {
+        table = this.getDataBindingTable(table)
+      }
+      return table
+    },
+
+    getCVSData() {
       const data = lang.clone(this.parseData(this.model.props.data))
       const table = {
-        columns: data[0],
-        rows: data.splice(1),
-        editable: {}
+        columns: data[0].map(c => {
+          return {
+            label: c,
+            isEditable: false,
+            isSortable: false,
+            isSearchable: false
+          }
+        }),
+        rows: data.splice(1)
       }
 
+      // since 4.0.70 we overwrite columns
+      this.setTabelColumns(table)
+      return table
+    },
+
+    setTabelColumns (table) {
       if (this.model.props.columns) {
         this.model.props.columns.forEach((c,i) => {
-          table.columns[i] = c.label
-          table.editable[i] = c.isEditable
+          if (table.columns[i]) {
+            table.columns[i].isEditable = c.isEditable
+            table.columns[i].isSortable = c.isSortable
+            table.columns[i].isSearchable = c.isSearchable
+          }
         })
       }
-     
-
       return table
+    },
+
+
+    getDataBindingTable (table) {
+        table.rows = []
+
+        const isArray = this.isArrayOfArray(this.value)
+        this.value.forEach(row => {
+          let values = []
+          table.columns.forEach((col,i) => {
+              if (isArray) {
+                values.push(row[i])
+              } else if (col.databinding) {
+                values.push(row[col.databinding])
+              } else {
+                let key = col.label
+                if (!row[key]) {
+                  key = key.toLowerCase()
+                }
+                values.push(row[key])
+              }
+          })
+          table.rows.push(values)
+        })
+      
+        return table      
+    },
+
+    isArrayOfArray (value) {
+      if (Array.isArray(value)) {
+        let child = value[0]
+        return Array.isArray(child)
+      }
+      return false
     },
 
     parseData (data) {
@@ -474,9 +539,14 @@ export default {
           table.push(line.split(","));
         }
         return table;
-      } else {
-        return data;
       }
+      // FIXME: check for Array of Dicts
+      return data;
+    },
+
+    setValue (value) {
+      this.value = value
+      this.rerender()
     }
   },
   mounted() {}

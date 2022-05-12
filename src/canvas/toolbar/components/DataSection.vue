@@ -765,7 +765,7 @@ export default {
 		_showTable (model){
 			this._setSectionLabel("Table");
 
-			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderButton("Values", "mdi mdi-table-large", "_renderStyledTableDialog");
 
 
 			let style = model.style
@@ -972,7 +972,7 @@ export default {
 				}
 			])
 
-			this._renderButton("Actions & Columns", "mdi mdi-cog", "_renderTableSettings");
+			this._renderButton("Columns & Actions", "mdi mdi-cog", "_renderTableSettings");
 		},
 
 
@@ -1202,22 +1202,27 @@ export default {
 			dialog.close();
 		},
 
-		_renderTableDialog (e){
-			var me = this;
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
-			var cntr = this.db.div("").build(popup);
-			var table = this.$new(Table);
-			table.placeAt(cntr);
-			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var write = this.db.div("MatcButton", "Ok").build(bar);
-			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+		_renderStyledTableDialog (e) {
+			this._renderTableDialog(e)
+			
+		},
 
-			var d = this.canvas.createDialog();
+		_renderTableDialog (e){
+		
+			const popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			const cntr = this.db.div("").build(popup);
+			const table = this.$new(Table);
+			table.placeAt(cntr);
+			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const write = this.db.div("MatcButton", "Ok").build(bar);
+			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+
+			const d = this.canvas.createDialog();
 			d.own(on(write, touch.press, lang.hitch(this,"setTableData", d, table)));
 			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, table)));
-			d.own(on(d, "close", function(){
+			d.own(on(d, "close", () => {
 				table.destroy();
-				me.canvas.setState(0);
+				this.canvas.setState(0);
 			}));
 			d.onOpen(() => {
 				// render table only after dialog is open

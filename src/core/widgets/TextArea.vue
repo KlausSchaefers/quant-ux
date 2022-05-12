@@ -45,7 +45,14 @@ export default {
           }
         }
         if (Array.isArray(value)) {
-          value = value.join(',')
+          if (value.length > 0) {
+            let first = value[0]
+            if (typeof first === 'object' || Array.isArray(first)) {
+              value = JSON.stringify(value, null, 2)
+            } else {
+              value = value.join(',')
+            }
+          }
         }
        
         this.value = value;

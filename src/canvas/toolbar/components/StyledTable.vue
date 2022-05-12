@@ -199,7 +199,7 @@ export default {
 				td.style.height = this.rowHeight + "px";
 
 				if (r === 0 && this.hasHeader) {
-					td.innerHTML = 'Header'
+					td.innerHTML = 'Label'
 					td.style.width = "50px";
 					css.add(tr, 'MatcToolbarTableLabelRow')
 				} else {

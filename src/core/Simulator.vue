@@ -713,8 +713,8 @@ export default {
 			/**
 			 * Get all line sin the correct order
 			 */
-			var lines = this.getFromLines(widget);
-			var matchedLine = null;
+			const lines = this.getFromLines(widget);
+			let matchedLine = null;
 			let restSuccess = false
 			if (widget.props && widget.props.rest) {
 				restSuccess = await this.executeRest(screenID, widgetID, widget, orginalLine)
@@ -735,6 +735,7 @@ export default {
 					this.logger.log(-1,"executeLogic","AB:" + widget.id + " >> " + matchedLine);
 				}
 			} else {
+				this.logger.log(-1,"executeLogic","RULE: " + widget.id + " >> ");
 				matchedLine = this.getRuleMatchingLine(lines, screenID, restSuccess)
 			}
 
@@ -742,16 +743,16 @@ export default {
 		},
 
 		getABLine (lines, widget) {
-			var random = Math.random()
-			var pos = Math.floor(random * lines.length);
+			const random = Math.random()
+			const pos = Math.floor(random * lines.length);
 			this.logger.log(-1,"getABLine","enter >  do AB:" + widget.id + " >> " + random + " >> " + pos);
 			return lines[pos]
 		},
 
 		getRuleMatchingLine (lines, screenID, restSuccess) {
 			let matchedLine;
-			for(var i=0; i< lines.length; i++){
-				var line = lines[i];
+			for(let i=0; i< lines.length; i++){
+				const line = lines[i];
 				if(line.rule){
 					if (line.rule.type === 'widget') {
 						matchedLine = this.checkWidgetRule(line, screenID)
@@ -797,8 +798,8 @@ export default {
 		},
 
 		checkWidgetRule (line, screenID) {
-			var rule = line.rule;
-			var uiWidget = this.renderFactory.getUIWidgetByID(rule.widget);
+			const rule = line.rule;
+			let uiWidget = this.renderFactory.getUIWidgetByID(rule.widget);
 			if (!uiWidget) {
 				var copyId = rule.widget + "@" + screenID;
 				uiWidget = this.renderFactory.getUIWidgetByID(copyId);
@@ -814,9 +815,9 @@ export default {
 
 		excuteMatchedLine (matchedLine, screenID, orginalLine) {
 			if (matchedLine){
-				var screen = this.model.screens[matchedLine.to];
+				const screen = this.model.screens[matchedLine.to];
 				if(screen){
-					var newLine = lang.clone(matchedLine);
+					const newLine = lang.clone(matchedLine);
 					newLine.animation = orginalLine.animation;
 					newLine.duration = orginalLine.duration;
 
@@ -851,7 +852,7 @@ export default {
 			var value = uiWidget.getValue()
 			var valid = uiWidget.isValid(false);
 			var result = this.isValueMatchingRule(value, valid, rule);
-			this.logger.log(0,"isRuleMatching","enter > " ,	rule.value + " " + rule.operator + " " + value + " / " + valid + " =>" + result);
+			this.logger.log(-1,"isRuleMatching","enter > " ,	rule.value + " " + rule.operator + " " + value + " / " + valid + " =>" + result);
 			return result;
 		},
 
@@ -913,7 +914,7 @@ export default {
 					break;
 
 				case "notactive":
-					result = (value === false);
+					result = (value === false) || (value === null) || (value === undefined);
 					break;
 
 				case "==":
