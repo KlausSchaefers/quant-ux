@@ -1,7 +1,55 @@
 
 <template>
      <div class="MatcToolbarTable">
-		<div data-dojo-attach-point="cntr" class="MatcToolbarTableBody" >
+		<div class="MatcToolbarTableCntr">
+			<div data-dojo-attach-point="cntr" class="MatcToolbarTableBody" >
+			</div>
+			<div data-dojo-attach-point="toolbar" class="MatcToolbarTableToolbar MatcToobarPropertiesSection" v-if="widget">
+					<div class=" MatcToolbarSection">
+						<div class=" MatcToolbarSectionLabel">Header</div>
+						 <div class="  MatcToolbarSectionContent">
+
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Header Color"
+								:color="widget.style.color"
+								@change="onChangeColor(action, 'color', $event)"/>
+
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Header Background"
+								:color="widget.style.background"
+								@change="onChangeColor(action, 'color', $event)"/>
+
+						 </div>
+
+					</div>
+
+					<div class=" MatcToolbarSection">
+						<div class=" MatcToolbarSectionLabel">Row</div>
+						 <div class="  MatcToolbarSectionContent">
+
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Odd Color"
+								:color="widget.style.color"
+								@change="onChangeColor(action, 'color', $event)"/>
+
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Odd Background"
+								:color="widget.style.background"
+								@change="onChangeColor(action, 'color', $event)"/>
+
+						 </div>
+
+					</div>
+				
+			</div>
 		</div>
 		<div class="MatcToolbarTableUpload" data-dojo-attach-point="upload">
 			<a href="#">Upload CSV</a>
@@ -18,16 +66,20 @@ import touch from 'dojo/touch'
 import win from 'dojo/_base/win'
 import keys from 'dojo/keys'
 import DomBuilder from 'common/DomBuilder'
+import Logger from 'common/Logger'
 import Util from 'core/Util'
+import ToolbarColor from './ToolbarColor'
 
 export default {
-    name: 'Table',
+    name: 'StyledTable',
+    props:["app", "value", "hasDataBinding"],
     mixins:[Util, DojoWidget],
     data: function () {
         return {
-			value: null,
 			inputEvent: "change",
-			rows: 200,
+			model: null,
+			widget: null,
+			rows: 100,
 			columns: 10,
 			maxWidth: 1000,
 			columnWidths: [],
@@ -43,7 +95,9 @@ export default {
 			widgetsWithHeader: ['Repeater', 'Table']
         }
     },
-    components: {},
+    components: {
+		ToolbarColor
+	},
     methods: {
         postCreate (){
 			this.own(on(this.file, "change", lang.hitch(this,"_onFileChange")));
@@ -66,13 +120,13 @@ export default {
 			this.render();
 
 			if (widget.props.widths){
-				var widths = widget.props.widths;
-				var sum =0;
+				const widths = widget.props.widths;
+				let sum =0;
 				for(let i = 0; i < widths.length; i++){
 					this.columnWidths[i] = widths[i];
 					sum+= widths[i];
 				}
-				var w = Math.floor((this.maxWidth - sum) / (this.columns-widths.length));
+				const w = Math.floor((this.maxWidth - sum) / (this.columns-widths.length));
 				for(let i = widths.length; i < this.columns; i++){
 					this.columnWidths[i] = w;
 				}
@@ -101,14 +155,14 @@ export default {
 		},
 
 		getData (){
-			var data = [];
+			const data = [];
 
-			var maxC = 0;
+			let maxC = 0;
 			for(let r=0; r < this.inputs.length; r++){
-				var inputRow = this.inputs[r];
-				var row = [];
+				const inputRow = this.inputs[r];
+				const row = [];
 				for(let c=0; c < inputRow.length; c++){
-					var value = this.inputs[r][c].value;
+					const value = this.inputs[r][c].value;
 					if(value){
 						row[c] = value;
 						maxC = Math.max(maxC, c);
@@ -199,8 +253,8 @@ export default {
 				td.style.height = this.rowHeight + "px";
 
 				if (r === 0 && this.hasHeader) {
-					td.innerHTML = 'Label'
-					td.style.width = "50px";
+					td.innerHTML = 'Header'
+					td.style.width = "60px";
 					css.add(tr, 'MatcToolbarTableLabelRow')
 				} else {
 					td.innerHTML = r;
@@ -651,9 +705,20 @@ export default {
 		destroy (){
 			this._destroyFileDnD();
 			this.cleanUpTempListener();
-		}
+		},
+
+		setModel  (m){
+            this.model = m;
+        },
     },
     mounted () {
+		this.logger = new Logger("StyledTable")
+        if (this.app) {
+            this.setModel(this.app)
+        }
+        if (this.value) {
+            this.setWidget(this.value)
+        }
     }
 }
 </script>

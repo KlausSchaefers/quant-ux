@@ -1,21 +1,41 @@
-.MatcToolbarTableToolbar{
-	height: 40px;
-	border-bottom:1px solid #cecece;
-
-}
-
-.MatcToolbarTableBody{
-	border-bottom:1px solid #cecece;
-	border-right:1px solid #cecece;
-}
-
-
 .MatcToolbarTable{
 	width: 1030px;
 	font-size: 14px;
 	position: relative;
 	overflow: hidden;
 }
+
+
+
+
+.MatcToolbarTableBody{
+	border-bottom:1px solid #cecece;
+	border-right:1px solid #cecece;
+}
+
+.MatcToolbarTableCntr {
+	width: 1030px;
+	font-size: 14px;
+	display: flex;
+	align-items: stretch
+}
+
+.MatcToolbarTableCntr .MatcToolbarTable {
+	flex-grow: 1;
+}
+
+.MatcToolbarTableCntr .MatcToobarPropertiesSection{
+	position: unset;
+	border:1px solid #cecece;
+	border-left: none;
+	border-top: none;
+	background: rgb(245, 245, 245);
+	width: 270px;
+	height: unset;
+	align-items: stretch;
+	padding: 0px;
+}
+
 
 .MatcToolbarTable thead .MatcToolbarTableLabel{
 	position: relative;
@@ -75,13 +95,13 @@
 
 .MatcToolbarTable thead td{
 	text-align: center;
-	background: #eee;
+	background: rgb(245, 245, 245);
 	color:#cecece;
 }
 
 .MatcToolbarTable tr td:FIRST-CHILD, .MatcToolbarTable tr td:FIRST-CHILD{
 	text-align: center;
-	background: #eee;
+	background: rgb(245, 245, 245);;
 	color:#cecece;
 	width: 30px;
 	vertical-align: inherit;

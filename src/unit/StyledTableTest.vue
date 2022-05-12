@@ -3,7 +3,7 @@
     <h1>Styled Table Test</h1>
 
     <div class="dialog MatcOptionDialog">
-      <TableSettings :app="app" :value="widget"/>
+      <StyledTable :app="app" :value="widget"/>
     </div>
 
 
@@ -15,16 +15,17 @@
 
   .dialog {
     padding: 20px;
-    width: 840px;
+    width: 1070px;
     margin: 20px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2)
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    background: #fff;
   }
 </style>
 
 <script>
 
 import app from './data/tableapp.json'
-import TableSettings from 'canvas/toolbar/components/TableSettings'
+import StyledTable from 'canvas/toolbar/components/StyledTable'
 
 export default {
   name: "SketchTest",
@@ -37,7 +38,7 @@ export default {
     };
   },
   components: {
-    'TableSettings': TableSettings
+    'StyledTable': StyledTable
   },
   computed: {
   },

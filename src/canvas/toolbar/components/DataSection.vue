@@ -1670,7 +1670,7 @@ export default {
 			drpDwn.reposition = true;
 			drpDwn.setOptions(options);
 			drpDwn.setModel(this.model)
-			drpDwn.setLabel(`<span class="${icon}"/><span class="MatcToolbarItemLabel">${lbl}</span>`)
+			drpDwn.setLabel(`<span class="${icon}"></span><span class="MatcToolbarItemLabel">${lbl}</span>`)
 			drpDwn.setPopupCss("MatcActionAnimProperties");
 
 			this.tempOwn(on(drpDwn, "change", (option, value) => {

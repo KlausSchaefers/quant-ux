@@ -33,7 +33,7 @@ import DesignTokenView from './DesignTokenView'
 export default {
   name: 'ToolbarColor',
 	mixins:[Util, _Color, DojoWidget, _DesignToken, _DropDown],
-	props: ['isDialog', 'color', 'app'],
+	props: ['isDialog', 'color', 'app', 'lbl'],
     data: function () {
         return {
             value: null,
@@ -606,6 +606,10 @@ export default {
 
 		if (this.color) {
 			this.setValue(this.color)
+		}
+
+		if (this.lbl) {
+			this.setLabel(this.lbl)
 		}
   }
 }
