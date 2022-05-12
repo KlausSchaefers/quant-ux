@@ -12,21 +12,17 @@
 
             <div v-if="tab === 'actions'" class="MatcDialogTable MatcDialogTableScrollable">
                     <table  class="MatcToolbarTableSettingsTable">
-                       <tbody>
+                        <thead>
                             <tr class="MatcFormRow">
-                                <td style="width:270px;">Name</td>
-                                <td style="width:70px;">Color</td>
-                                <td style="width:70px;">Hover</td>
-                                <td style="width:270px;">Action</td>
-                                <!--
-                                <th style="width:70px; text-align=center;"><span class="mdi mdi-format-color-fill"/></th>
-                                <th style="width:70px; text-align=center;"><span class="mdi mdi-border-color"/></th>
-                                <th style="width:70px; text-align=center;"><span class="mdi mdi-vector-radius"/></th>
-                                <th style="width:70px; text-align=center;"><span class="mdi mdi-arrow-all"/></th>
-                                -->
-                                <td style="width:120px"></td>
-
+                                <th style="width:270px;">Label</th>
+                                <th style="width:70px;">Color</th>
+                                <th style="width:70px;">Hover</th>
+                                <th style="width:270px;">Action</th>
+                                 <th style="width:120px"></th>
                             </tr>
+                        </thead>
+                       <tbody>
+                           
 
 
                             <tr class="MatcFormRow" v-for="(action, i) in props.tableActions" :key="i">
@@ -101,20 +97,23 @@
 
             <div v-if="tab === 'columns'" class="MatcDialogTable MatcDialogTableScrollable">
                    <table  class="MatcToolbarTableSettingsTable">
-                        <tbody>
-                            <tr>
-                                <td style="width:270px;">Name</td>
-                                <td style="width:270px;">Data Binding</td>
-                                <td style="width:270px;">Editable</td>
-                                <td style="width:120px"></td>
+                       <thead>
+                            <tr class="MatcFormRow">
+                                <th style="width:160px;">Name</th>
+                                <th style="width:270px;">Data Binding</th>
+                                <th style="width:270px;">Editable</th> 
                             </tr>
+                       </thead>
+                        <tbody>
+                       
 
                        
                             <tr class="MatcFormRow" v-for="(column, i) in props.columns" :key="i">
                          
-
                                 <td>
-                                    <input class="form-control vommondInlineEdit" v-model="column.label"/>
+                                    <span class="form-control-label">
+                                        {{column.label}}
+                                    </span>
                                 </td>
                                 <td>
                                     <input class="form-control vommondInlineEdit" placeholder="Databinding Variable" v-model="column.databinding"/>
@@ -124,17 +123,15 @@
                                         v-model="column.isEditable"
                                         label="" />
                                 </td>
-                                <td>
-                                    <a class="MatcFormRowHoverAction" @click="removeColumn(i)">  <span class="mdi mdi-close"/></a>
-                                </td>
+                               
                             </tr>
 
-                            <tr>
+                            <tr v-if="false">
                                 <td>
                                     <span class="MatcButton MatcButtonActive" @click="addColumn">Add Column</span>
                                 </td>
                                 <td></td>
-                                <td></td>
+                            
                             </tr>
                         </tbody>
                     </table>
@@ -187,7 +184,42 @@ export default {
             if (!this.props.columns) {
                 this.$set(this.props, 'columns', [])
             }
+
+            this.updateColumns(w)
 		},
+
+        updateColumns (w) {
+            if (w.props.data) {
+                const header = this.getHeader(w.props.data)
+                header.forEach((c,i) => {
+                    if (!this.props.columns[i]) {
+                        this.props.columns[i] = {
+                            label: c,
+                            isEditable: false,
+                            isSortable: false,
+                            isSearchable: false
+                        }
+                    } else {
+                        this.props.columns[i].label = c
+                    }
+                })
+
+                if (this.props.columns.length > header.length) {
+                     this.props.columns =  this.props.columns.slice(0, header.length)
+                }
+            }
+        },
+
+        getHeader (data) {
+            if (data.substring){
+                const firstRow = data.split('\n')[0]
+                if (firstRow) {
+                   return firstRow.split(',')
+                }
+                return []
+            }
+            return data[0]
+        },
 
 		setModel  (m){
             this.model = m;

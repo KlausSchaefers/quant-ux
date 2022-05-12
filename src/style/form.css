@@ -4,11 +4,6 @@
 	border-radius:3px;
 }
 
-.form-control{
-	box-shadow:none;
-	border-radius:3px;
-}
-
 .form-control:FOCUS {
 	box-shadow:none;
 	border-radius:3px;
@@ -17,6 +12,15 @@
 
 input:focus{
 	outline:none;
+}
+
+.form-control-label{
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 0px;
+	font-size: 14px;
+	font-style: italic;
 }
 
 
@@ -434,7 +438,8 @@ input:focus{
 	background: rgb(230, 230, 230)
 }
 
-.MatcDialogTable td{
+.MatcDialogTable td,
+.MatcDialogTable th {
 	padding: 10px 20px;
 }
 

@@ -487,6 +487,7 @@ export default {
             table.columns[i].isEditable = c.isEditable
             table.columns[i].isSortable = c.isSortable
             table.columns[i].isSearchable = c.isSearchable
+            table.columns[i].databinding = c.databinding
           }
         })
       }
@@ -495,6 +496,7 @@ export default {
 
 
     getDataBindingTable (table) {
+        // remove csv data, header come still from cvs!
         table.rows = []
 
         const isArray = this.isArrayOfArray(this.value)

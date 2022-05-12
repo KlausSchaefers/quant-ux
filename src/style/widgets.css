@@ -705,12 +705,17 @@
 	z-index: 2;
 }
 
-.MatcWidgetTypeTable .MatcWidgetTypeTableInput{
+.MatcWidgetTypeTable table td  .MatcWidgetTypeTableInput{
 	border: 0px solid #333000;
 	outline: none;
 	height: 100%;
     width: 100%;
 	background: none;
+	font-size: inherit;
+    text-align: inherit;
+    font-style: inherit;
+    text-decoration: inherit;
+    font-family: inherit;
 }
 
 .MatcWidgetTypeTableAction {

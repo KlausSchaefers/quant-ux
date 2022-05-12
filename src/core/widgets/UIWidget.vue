@@ -84,7 +84,7 @@ export default {
     /**
      * Gets called from the RenderFactory. Simple classes do not need to overwrite
      */
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -121,25 +121,25 @@ export default {
       );
     },
 
-    setGestures: function(hasGestures) {
+    setGestures (hasGestures) {
       this._hasGestures = hasGestures;
     },
 
-    _onWidgetGesture: function(gesture, startEvent, endEvent) {
+    _onWidgetGesture (gesture, startEvent, endEvent) {
       this.emit("gesture", gesture, startEvent, endEvent);
     },
 
     /**
      * Notify all other widgets to b
      */
-    emitOpenPopup: function() {
+    emitOpenPopup () {
       topic.publish("MatcSimulatorEvent", "popupOpen", null, this.model.id);
     },
 
     /**
      * Gets called by RenderFactory...
      */
-    beforeDestroy: function() {
+    beforeDestroy () {
       if (this._compositeState) {
         this.emitCompositeState();
       }
@@ -178,9 +178,9 @@ export default {
      *
      */
     setDataBinding (variable, value) {
-      var databinding = this.getDataBinding(this.model);
+      const databinding = this.getDataBinding(this.model);
       if (databinding && databinding["default"]) {
-        var widgetVarialbe = databinding["default"];
+        const widgetVarialbe = databinding["default"];
         if (widgetVarialbe === variable) {
           this._setDataBindingValue(value);
 
@@ -188,9 +188,8 @@ export default {
            * Since 4.0.41 we force a validation
            * after the data set set! We do this with some delay,
            * 
-           * FIXME: ecause the 
-           * setDataBindign is called before the animation hooks are regsitered,
-           * we need a timehout
+           * FIXME: because the setDataBindign is called before 
+           * the animation hooks are regsitered we need a timeout
            */
           setTimeout(() => {
             this.validate(value, true, true);
@@ -211,12 +210,11 @@ export default {
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
-
+    _setDataBindingValue(v) {
       this.setValue(v);
     },
 
-    setAutoFocus: function(node) {
+    setAutoFocus (node) {
       if (node && this.model && this.model.props.focus === true) {
         setTimeout(function() {
           node.focus();
@@ -228,19 +226,19 @@ export default {
       this.emit("click", e);
     },
 
-    emitFocus: function(e) {
+    emitFocus (e) {
       this.emit("focus", e);
     },
 
-    emitHoverStart: function(e) {
+    emitHoverStart (e) {
       this.emit("hoverStart", e);
     },
 
-    emitHoverEnd: function(e) {
+    emitHoverEnd (e) {
       this.emit("hoverEnd", e);
     },
 
-    emitMouseMove: function(e, clicked) {
+    emitMouseMove (e, clicked) {
       if (!clicked) {
         clicked = 0;
       } else {
@@ -249,19 +247,19 @@ export default {
       this.emit("mousemove", e, clicked);
     },
 
-    emitMouseOver: function(e) {
+    emitMouseOver (e) {
       this.emit("mouseover", e);
     },
 
-    emitMouseOut: function(e) {
+    emitMouseOut (e) {
       this.emit("mouseout", e);
     },
 
-    emitValidationError: function(value) {
+    emitValidationError (value) {
       this.emit("validationError", { value: value });
     },
 
-    emitValidationOK: function() {
+    emitValidationOK () {
       this.emit("validationOK");
     },
 
@@ -271,8 +269,8 @@ export default {
      *
      * *ATTENTION* Also transition will be executed of exists...
      */
-    emitStateChange: function(type, value, e, time) {
-      var event = {
+    emitStateChange (type, value, e, time) {
+      const event = {
         type: type,
         value: value,
         runTransition: true,
@@ -281,7 +279,7 @@ export default {
       if (time) {
         event.time = time;
       }
-      var options = this.getStateOptions();
+      const options = this.getStateOptions();
       if (options) {
         event.options = options;
       }
@@ -294,8 +292,8 @@ export default {
      *
      * ATTENTION* Transition will NOT be executed!
      */
-    emitNoTransitionStateChange: function(type, value, e, time) {
-      var event = {
+    emitNoTransitionStateChange (type, value, e, time) {
+      const event = {
         type: type,
         value: value,
         runTransition: false,
@@ -304,7 +302,7 @@ export default {
       if (time) {
         event.time = time;
       }
-      var options = this.getStateOptions();
+      const options = this.getStateOptions();
       if (options) {
         event.options = options;
       }
@@ -314,7 +312,7 @@ export default {
     /**
      * Returns the state of the widget
      */
-    getState: function() {
+    getState () {
       return null;
     },
 
@@ -328,13 +326,13 @@ export default {
      * for composite states that capture more complex interactions that take
      * several steps.
      */
-    setState: function() {},
+    setState () {},
 
     /**
      * Composite states
      */
 
-    initCompositeState: function(value, e) {
+    initCompositeState (value, e) {
       if (this._compositeState) {
         //console.warn("initCompositeState() > state already registered.. we will overwrite")
       }
@@ -353,7 +351,7 @@ export default {
       }
     },
 
-    addCompositeSubState: function(value) {
+    addCompositeSubState (value) {
       if (this._compositeState) {
         this._compositeState.children.push({
           time: new Date().getTime(),
@@ -362,11 +360,11 @@ export default {
       }
     },
 
-    emitCompositeState: function(type, value, e) {
+    emitCompositeState (type, value, e) {
       if (this._compositeState) {
         this._compositeState.type = type;
         this._compositeState.value = value;
-        var options = this.getStateOptions();
+        const options = this.getStateOptions();
         if (options) {
           this._compositeState.options = options;
         }
@@ -378,11 +376,11 @@ export default {
       }
     },
 
-    getStateOptions: function() {
+    getStateOptions () {
       return null;
     },
 
-    emitAnimation: function(id, duration, style, pos) {
+    emitAnimation (id, duration, style, pos) {
       var animation = {
         id: id,
         to: {
@@ -396,7 +394,7 @@ export default {
       this.emit("animation", animation);
     },
 
-    onDomMouseOver: function(e) {
+    onDomMouseOver (e) {
       if (this.model.hover) {
         this.emitAnimation(
           this.model.id,
@@ -407,7 +405,7 @@ export default {
       this.emitMouseOver(e);
     },
 
-    onDomMouseOut: function(e) {
+    onDomMouseOut (e) {
       if (this.model.hover) {
         if (this.value && this.model.active) {
           this.emitAnimation(
@@ -429,10 +427,10 @@ export default {
     /**
      * Just in the setState method...
      */
-    getLastSubState: function(state, t) {
-      var result = null;
+    getLastSubState (state, t) {
+      const result = null;
       if (state.children) {
-        var values = state.children;
+        const values = state.children;
 
         /**
          * Use time series here as i expect linear reads from the player.
@@ -446,7 +444,7 @@ export default {
       return result;
     },
 
-    onScreenRendered: function() {
+    onScreenRendered () {
       if (!this._onScreenRenderedCalled) {
         this.hideErrorLabel();
         this._onScreenRenderedCalled = true;
@@ -457,15 +455,15 @@ export default {
      * Gets called on transitions and so on. Returns true if
      * the input is valid, otherwise false.
      */
-    isValid: function() {
+    isValid () {
       return true;
     },
 
-    _validateValue: function() {
+    _validateValue () {
       return true;
     },
 
-    validate: function(value, showError, forceValidation) {
+    validate (value, showError, forceValidation) {
       /**
        * backup for legacy
        */
@@ -518,7 +516,7 @@ export default {
       return this.lastValidation;
     },
 
-    getRef: function(id) {
+    getRef (id) {
       if (this.model.props.refs && this.model.props.refs[id]) {
         var refs = this.model.props.refs[id];
         //				if(refs.length == 1){
@@ -529,7 +527,7 @@ export default {
       return null;
     },
 
-    getErrorLabels: function() {
+    getErrorLabels () {
       var errorLabels = this.getRef("errorLabels");
       if (!errorLabels) {
         if (
@@ -543,7 +541,7 @@ export default {
       return errorLabels;
     },
 
-    hideErrorLabel: function() {
+    hideErrorLabel () {
       var errorLabels = this.getErrorLabels();
 
       if (this.model.props.validation && errorLabels) {
@@ -557,7 +555,7 @@ export default {
       }
     },
 
-    showErrorLabel: function() {
+    showErrorLabel () {
       var errorLabels = this.getErrorLabels();
       if (this.model.props.validation && errorLabels) {
         for (var i = 0; i < errorLabels.length; i++) {
@@ -572,22 +570,22 @@ export default {
     /**
      * DEPRECTAD: Use DataBinding instead!
      */
-    setValueLabel: function(value) {
-      var refs = this.getRef("valueLabel");
+    setValueLabel (value) {
+      const refs = this.getRef("valueLabel");
       if (refs) {
-        var id = refs[0];
+        const id = refs[0];
         if (id) {
           /**
            * FIXME: EVIL HACK:
            * We have to hack to old ref[valueLabel] mechanism. We have since
            * the data binding a widget, which has it's own state and get's therefore updated...
            */
-          var uiWidget = this.factory.getUIWidgetByID(id);
+          const uiWidget = this.factory.getUIWidgetByID(id);
           if (uiWidget) {
             uiWidget.hackValueLabel = true;
           }
 
-          var btn = this.factory.getLabelNodeById(id);
+          const btn = this.factory.getLabelNodeById(id);
           if (btn) {
             btn.innerHTML = value;
           } else {
@@ -600,7 +598,7 @@ export default {
       }
     },
 
-    setAnimatedPos: function(pos, style) {
+    setAnimatedPos (pos, style) {
       // FIXME: For rotate we ignore positioning!! This will
       // cause issues for transform things with onLoad.
       if (style && (style.rotate != null || style.rotate != undefined)) {
@@ -611,10 +609,10 @@ export default {
         /**
          * X and Y as css3 translate
          */
-        var trans = "translate(" + pos.x + "px," + pos.y + "px) ";
+        let trans = "translate(" + pos.x + "px," + pos.y + "px) ";
 
-        var w = pos.w + this.model.w;
-        var h = pos.h + this.model.h;
+        let w = pos.w + this.model.w;
+        let h = pos.h + this.model.h;
         // this.resize({w:w,h:h});
 
         if (pos.w != undefined || pos.h != undefined) {
@@ -625,7 +623,7 @@ export default {
           this.domNode.style.webkitTransformOrigin = "0% 0%";
         }
 
-        var node = this.getAnimationNode();
+        const node = this.getAnimationNode();
         if (node) {
           node.style.transform = trans;
           node.style.webkitTransform = trans;
@@ -641,11 +639,11 @@ export default {
     /**
      * Some widgets might need to animate the parent node, e.g. all text boxes.
      */
-    getAnimationNode: function() {
+    getAnimationNode () {
       return this.domNode;
     },
 
-    setAnimatedStyle: function(style) {
+    setAnimatedStyle (style) {
       if (this.domNode) {
         /**
          * FIXME: This will cause fat animations in the log!! Maybe
@@ -666,7 +664,7 @@ export default {
       }
     },
 
-    getAnimatedStyle: function() {
+    getAnimatedStyle () {
       if (this.animatedStyle) {
         return this.animatedStyle;
       }
@@ -674,11 +672,11 @@ export default {
       return this.style;
     },
 
-    setClickable: function() {
+    setClickable () {
       css.add(this.domNode, "MatcSimulatorClickable");
     },
 
-    stripHTML: function(s) {
+    stripHTML (s) {
       if (!s) {
         s = "";
       }
@@ -687,7 +685,7 @@ export default {
       return s;
     },
 
-    setInnerHTML: function(e, txt) {
+    setInnerHTML (e, txt) {
       if (e) {
         txt = this.stripHTML(txt);
         txt = txt.replace(/\n/g, "<br>");
@@ -715,7 +713,7 @@ export default {
       }
     },
 
-    setScalledNodeStyle: function(node, style, list) {
+    setScalledNodeStyle (node, style, list) {
       for (var i = 0; i < list.length; i++) {
         var p = list[i];
         var w = this._getBorderWidth(style[p]);
@@ -723,14 +721,14 @@ export default {
       }
     },
 
-    setBorderColor: function() {
+    setBorderColor () {
       this._setBorderStyle("borderTopColor", this.domNode, this.style, this.model);
       this._setBorderStyle( "borderBottomColor", this.domNode, this.style, this.model);
       this._setBorderStyle( "borderRightColor", this.domNode, this.style, this.model);
       this._setBorderStyle( "borderLeftColor", this.domNode, this.style, this.model);
     },
 
-    _setBorderRadius: function(node, style) {
+    _setBorderRadius (node, style) {
       for (var i = 0; i < this.borderRadius.length; i++) {
         var key = this.borderRadius[i];
         var w = this._getBorderWidth(style[key]);
@@ -738,7 +736,7 @@ export default {
       }
     },
 
-    _setBorder: function(node, style) {
+    _setBorder (node, style) {
       this._setBorderRadius(node, style);
     },
 
@@ -772,7 +770,7 @@ export default {
           this._set_boxShadow(this.domNode, style)
         }
         */
-        for (var p in style) {
+        for (let p in style) {
           // we have to call the method, to be sure to also handle nulls,
           // e.g. for background images
           if (this["_set_" + p]) {
@@ -790,7 +788,7 @@ export default {
      * Rotate around middle! This would cause problems if there is any deformation like
      * scale going on!
      */
-    _set_rotate: function(parent, style) {
+    _set_rotate (parent, style) {
       var trans = "rotate(" + Math.round(style.rotate) + "deg)";
       this.domNode.style.transform = trans;
       this.domNode.style.webkitTransform = trans;
@@ -800,7 +798,7 @@ export default {
       this._currentTransform = trans;
     },
 
-    _set_fontSize: function(parent, style) {
+    _set_fontSize (parent, style) {
       var size = style.fontSize * this._scaleX;
       if (this._scaleX < 1) {
         size = size * 0.95;
@@ -834,7 +832,7 @@ export default {
       }
     },
 
-    _setShadow: function(parent, shadow) {
+    _setShadow (parent, shadow) {
       var v = this.getZoomed(shadow.v, this._scaleY);
       var h = this.getZoomed(shadow.h, this._scaleX);
       var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
