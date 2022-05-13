@@ -771,9 +771,9 @@ export default {
 			let style = model.style
 			let props = model.props
 
-			this._renderDropDownTree("Colors", "mdi mdi-format-color-fill", [
+			this._renderDropDownTree("Odd Rows", "mdi mdi-format-color-fill", [
 				{
-					label: "Odd Background",
+					label: "Background",
 					type: "color",
 					value: style.background,
 					key:'background',
@@ -781,15 +781,18 @@ export default {
 					isStyle: true
 				},
 				{
-					label: "Odd Color",
+					label: "Color",
 					type: "color",
 					value: style.color,
 					key:'color',
 					icon: 'mdi mdi-format-text',
 					isStyle: true
-				},
+				}
+			])
+
+			this._renderDropDownTree("Even Rows", "mdi mdi-format-color-fill", [
 				{
-					label: "Even Background",
+					label: "Background",
 					type: "color",
 					value: style.evenRowBackground,
 					key:'evenRowBackground',
@@ -797,15 +800,18 @@ export default {
 					isStyle: true
 				},
 				{
-					label: "Even Color",
+					label: "Color",
 					type: "color",
 					value: style.evenRowColor,
 					key:'evenRowColor',
 					icon: 'mdi mdi-format-text',
 					isStyle: true
-				},
+				}
+			])
+
+			this._renderDropDownTree("Hover", "mdi mdi-format-color-fill", [	
 				{
-					label: "Hover Background",
+					label: "Background",
 					type: "color",
 					value: style.hoverBackground,
 					key:'hoverBackground',
@@ -813,7 +819,7 @@ export default {
 					isStyle: true
 				},
 				{
-					label: "Hover Color",
+					label: "Color",
 					type: "color",
 					value: style.hoverColor,
 					key:'hoverColor',
@@ -874,7 +880,16 @@ export default {
 					valueTrue: 'underline',
 					valueFalse: 'none',
 					isStyle: true
-				}
+				},
+				{
+					label: "Bottom Border Width",
+					type: "int",
+					value: style.headerBottomBorderWidth,
+					key:'headerBottomBorderWidth',
+					icon: 'mdi mdi-pound',
+					options: [1, 2, 3, 4, 5, 8, 10, 20],
+					isStyle: true
+				},
 			])
 
 			let selectedBorderStyle = this.borderStyles.find(s => s.value === props.borderStyle)

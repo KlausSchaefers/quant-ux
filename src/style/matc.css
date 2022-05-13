@@ -20,7 +20,6 @@
 @import 'simulator.css';
 @import './toolbar/toolbar.css';
 @import './toolbar/toolbar_widgets.css';
-@import './toolbar/toolbar_table.css';
 @import './toolbar/toolbar_layer_list.css';
 @import './toolbar/toolbar_resize.css';
 @import './toolbar/toolbar_create.css';

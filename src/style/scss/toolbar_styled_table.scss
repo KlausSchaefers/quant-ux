@@ -1,0 +1,58 @@
+.MatcToolbarTable.MatcToolbarStyledTable{
+	width: 1200px;
+	height: 600px;
+
+	.MatcToolbarTableCntr {
+		font-size: 14px;
+		display: flex;
+		align-items: stretch;
+		width: 100%;
+		height: 100%;
+	}
+
+	.MatcToolbarTableBody{
+		height: 520px;
+		margin: 40px;
+	}
+
+
+	.MatcToolbarTable {
+		flex-grow: 1;
+	}
+
+	.MatcToobarPropertiesSection{
+		position: unset;
+		border-left:1px solid #cecece;
+		background: rgb(245, 245, 245);
+		width: 270px;
+		height: unset;
+		align-items: stretch;
+		padding: 0px;
+
+		.MatcToolbarSectionLabel {
+			background: none;
+			color: #333;
+			border-top: 1px solid rgba(0,0,0, 0.15);
+			border-bottom: 1px solid transparent;
+		}
+
+		.MatcToolbarSection:first-child .MatcToolbarSectionLabel{
+			border-top: 0px;
+			margin-top: 16px;
+		}
+
+		.MatcToolbarSelector {
+			.MatcToolbarItem {
+				width: 32px;
+				min-width: unset;
+				font-size: 16px;
+			}
+		}
+	}
+
+}
+
+ 
+
+
+

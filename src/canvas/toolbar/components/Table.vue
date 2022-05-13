@@ -9,6 +9,9 @@
 		</div>
 	</div>
 </template>
+<style lang="scss">
+	@import '../../../style/scss/toolbar_table.scss';
+</style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'

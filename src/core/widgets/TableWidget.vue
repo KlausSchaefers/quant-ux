@@ -215,6 +215,10 @@ export default {
 
         this.renderCellBorder(td, 0, j, style, borderStyle, rows.length, columns.length);
 
+        if (style.headerBottomBorderWidth) {
+          td.style.borderBottomWidth = style.headerBottomBorderWidth + 'px'
+        }
+
         tr.appendChild(td);
         this._paddingNodes.push(td);
 
@@ -241,6 +245,8 @@ export default {
       if (style.headerTextDecoration) {
         tr.style.textDecoration = style.headerTextDecoration;
       }
+     
+      console.debug('header', style.headerBottomBorderWidth)
     },
 
 

@@ -14,8 +14,7 @@
   @import url("../style/matc.css");
 
   .dialog {
-    padding: 20px;
-    width: 1070px;
+    width: 1200px;
     margin: 20px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
     background: #fff;

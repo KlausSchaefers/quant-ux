@@ -1,8 +1,7 @@
 
 <template>
-     <div class="MatcToolbarSelector">
-							
-						  </div>
+     <div class="MatcToolbarSelector">						
+	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -14,6 +13,7 @@ import touch from 'dojo/touch'
 export default {
     name: 'ToolbarSelector',
     mixins:[DojoWidget],
+	props: ['options', 'selected'],
     data: function () {
         return {
             value: false
@@ -21,10 +21,10 @@ export default {
     },
     components: {},
     methods: {
-        postCreate: function(){			
+        postCreate (){			
 		},		
 		
-		setOptions:function(list){
+		setOptions (list){
 			
 			this._nodes = {};
 			this.domNode.innerHTML="";
@@ -102,6 +102,10 @@ export default {
 		}
     }, 
     mounted () {
+		if (this.options) {
+			console.debug('mounted', this.options)
+			this.setOptions(this.options)
+		}
     }
 }
 </script>

@@ -1,62 +1,110 @@
 
 <template>
-     <div class="MatcToolbarTable">
+     <div class="MatcToolbarTable MatcToolbarStyledTable">
 		<div class="MatcToolbarTableCntr">
-			<div data-dojo-attach-point="cntr" class="MatcToolbarTableBody" >
+			<div class="MatcToolbarTableCanvas">
+				<div data-dojo-attach-point="cntr" class="MatcToolbarTableBody" >
+				</div>
+				<div class="MatcToolbarTableUpload" data-dojo-attach-point="upload">
+					<a href="#">Upload CSV</a>
+					<input type="file" data-dojo-attach-point="file" class="MatcImageUploadFile"/>
+				</div>
 			</div>
 			<div data-dojo-attach-point="toolbar" class="MatcToolbarTableToolbar MatcToobarPropertiesSection" v-if="widget">
-					<div class=" MatcToolbarSection">
-						<div class=" MatcToolbarSectionLabel">Header</div>
-						 <div class="  MatcToolbarSectionContent">
+					<PropertySection title="Border">
+							
+							<ToolbarSelector :options="borderStyles" selected="None"/>
 
 							<ToolbarColor
 								:isDialog="true"
 								:app="model"
-								lbl="Header Color"
+								lbl="Border Color"
+								:color="widget.style.background"
+								@change="onChangeColor(action, 'color', $event)"/>
+
+					</PropertySection>
+
+					<PropertySection title="Header">
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Text Color"
 								:color="widget.style.color"
 								@change="onChangeColor(action, 'color', $event)"/>
 
 							<ToolbarColor
 								:isDialog="true"
 								:app="model"
-								lbl="Header Background"
+								lbl="Background"
 								:color="widget.style.background"
 								@change="onChangeColor(action, 'color', $event)"/>
 
-						 </div>
+					</PropertySection>
 
-					</div>
-
-					<div class=" MatcToolbarSection">
-						<div class=" MatcToolbarSectionLabel">Row</div>
-						 <div class="  MatcToolbarSectionContent">
+					<PropertySection title="Odd Row">
+					
 
 							<ToolbarColor
 								:isDialog="true"
 								:app="model"
-								lbl="Odd Color"
+								lbl="Text Color"
 								:color="widget.style.color"
 								@change="onChangeColor(action, 'color', $event)"/>
 
 							<ToolbarColor
 								:isDialog="true"
 								:app="model"
-								lbl="Odd Background"
+								lbl="Background"
 								:color="widget.style.background"
 								@change="onChangeColor(action, 'color', $event)"/>
 
-						 </div>
+					</PropertySection>
 
-					</div>
+					<PropertySection title="Eeven Row">
+					
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Text Color"
+								:color="widget.style.evenRowColor"
+								@change="onChangeColor(action, 'evenRowColor', $event)"/>
+
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Background"
+								:color="widget.style.evenRowBackground"
+								@change="onChangeColor(action, 'evenRowBackground', $event)"/>
+
+					</PropertySection>
+
+					<PropertySection title="Hover">
+					
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Text Color"
+								:color="widget.style.hoverColor"
+								@change="onChangeColor(action, 'hoverColor', $event)"/>
+
+							<ToolbarColor
+								:isDialog="true"
+								:app="model"
+								lbl="Background"
+								:color="widget.style.hoverBackground"
+								@change="onChangeColor(action, 'hoverBackground', $event)"/>
+
+					</PropertySection>
 				
 			</div>
 		</div>
-		<div class="MatcToolbarTableUpload" data-dojo-attach-point="upload">
-			<a href="#">Upload CSV</a>
-			<input type="file" data-dojo-attach-point="file" class="MatcImageUploadFile"/>
-		</div>
+		
 	</div>
 </template>
+<style lang="scss">
+	@import '../../../style/scss/toolbar_table.scss';
+    @import '../../../style/scss/toolbar_styled_table.scss';
+</style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
@@ -69,6 +117,8 @@ import DomBuilder from 'common/DomBuilder'
 import Logger from 'common/Logger'
 import Util from 'core/Util'
 import ToolbarColor from './ToolbarColor'
+import PropertySection from './PropertySection'
+import ToolbarSelector from './ToolbarSelector'
 
 export default {
     name: 'StyledTable',
@@ -92,11 +142,20 @@ export default {
 			actionKeys: [37],
 			mode: "blur",
 			hasHeader: false,
-			widgetsWithHeader: ['Repeater', 'Table']
+			widgetsWithHeader: ['Repeater', 'Table'],
+			borderStyles: [
+				{ value:"Cell", icon:"mdi mdi-border-all"},
+				{ value:"HLines", icon:"mdi mdi-border-horizontal"},
+				{ value:"VLines", icon:"mdi mdi-border-vertical"},
+				{ value:"None", icon:"mdi mdi-border-none"},
+				{ value:"Out", icon:"mdi mdi-border-outside"}
+			]
         }
     },
     components: {
-		ToolbarColor
+		ToolbarColor,
+		PropertySection, 
+		ToolbarSelector
 	},
     methods: {
         postCreate (){
@@ -231,7 +290,7 @@ export default {
 			/**
 			 * header
 			 */
-			var thead = db.element("thead").build(table)
+			var thead = db.element("thead", "MatcToolbarTableHead").build(table)
 			var tr = db.element("tr").build(thead);
 
 			var td = db.element("td").build(tr);
