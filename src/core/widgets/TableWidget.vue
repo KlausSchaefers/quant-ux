@@ -245,8 +245,7 @@ export default {
       if (style.headerTextDecoration) {
         tr.style.textDecoration = style.headerTextDecoration;
       }
-     
-      console.debug('header', style.headerBottomBorderWidth)
+    
     },
 
 

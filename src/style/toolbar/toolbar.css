@@ -1130,7 +1130,7 @@
 
 .MatcToolbarHelpKeyCntr{
 	min-height: 300px;
-	max-height: 550px;
+	max-height: 600px;
 
 }
 
@@ -1138,8 +1138,9 @@
 	padding: 0px;
 }
 
-.MatcToolbarHelpKeyCntr td{
-	margin-bottom: 10px;
+.MatcShortCutDialog .MatcToolbarHelpKeyCntr td{
+	margin-bottom: 16px;
+	text-align: right;
 }
 
 .MatcToolbarHelpKeyBlock{
@@ -1156,7 +1157,7 @@
 
 .MatcToolbarHelpKeyBlockTxt{
 	display: inline-block;
-	padding: 15px 5px 5px;
+	padding: 5px 5px 5px;
 	color:#333;
 }
 

@@ -248,13 +248,13 @@ export default {
 			this._renderShortCut(db, tbl,"CTRL &uarr;", "Bring to Front ");
 			this._renderShortCut(db, tbl,"CTRL &darr;", "Send Back");
 			this._renderShortCut(db, tbl,"SHIFT CLICK", "Multi Selection");
-			// this._renderShortCut(db, tbl,"SHIFT", "Selection Tool");
+			this._renderShortCut(db, tbl,"SHIFT I", "Select Text Color");
+			this._renderShortCut(db, tbl,"I", "Select Background Color");
+			this._renderShortCut(db, tbl,"SPACE", "Move Tool");
+		
+			tbl = db.table().build(right);
 			this._renderShortCut(db, tbl,"ALT", "Measure Tool");
 			this._renderShortCut(db, tbl,"L", "Create Line");
-
-			tbl = db.table().build(right);
-
-			this._renderShortCut(db, tbl,"SPACE", "Move Tool");
 			this._renderShortCut(db, tbl,"+", "Zoom In");
 			this._renderShortCut(db, tbl,"-", "Zoom Out");
 			this._renderShortCut(db, tbl,"R", "Create Rectangle");
@@ -264,6 +264,7 @@ export default {
 			this._renderShortCut(db, tbl,"W", "Create Widget");
 			this._renderShortCut(db, tbl,"D", "Distribute Selection");
 			this._renderShortCut(db, tbl,"C", "Clone Selection");
+		
 
 			var scroller = this.$new(ScrollContainer);
 			scroller.placeAt(tblCntr);

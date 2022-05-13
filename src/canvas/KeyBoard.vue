@@ -33,9 +33,6 @@ export default {
         var isCntrl = e.ctrlKey || e.metaKey;
         var isShift = e.shiftKey
 
-
-        // console.debug("onKeyPress", target, isMeta, css.contains(target, "MatcIgnoreOnKeyPress"))
-
         /**
          * Cancel listeners must be always fired.
          */
@@ -148,6 +145,13 @@ export default {
             this.showHint("Mark the area where to create the hotspot...");
             this.stopEvent(e);
           }
+          
+        /**
+         * I dispatch...
+         */
+        } else if(k == 73){
+        
+          this.startEyeDropper(isShift)
         /**
          * R dispatch...
          */

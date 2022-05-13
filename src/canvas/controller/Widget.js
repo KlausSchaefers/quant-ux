@@ -265,7 +265,7 @@ export default class Widget extends Snapp {
 				/**
 				 * Get bounding box in model and also the offset
 				 */
-				 const ids = [];
+				const ids = [];
 				for(let id in positions){
 					ids.push(id);
 				}
@@ -275,7 +275,7 @@ export default class Widget extends Snapp {
 				/**
 				 * Get bounding box in editor
 				 */
-				 const boxes = [];
+				const boxes = [];
 				for(let id in positions){
 					boxes.push(positions[id]);
 				}
