@@ -773,22 +773,6 @@ export default {
 
 			this._renderDropDownTree("Colors", "mdi mdi-format-color-fill", [
 				{
-					label: "Header Background",
-					type: "color",
-					value: style.headerBackground,
-					key:'headerBackground',
-					icon: 'mdi mdi-format-color-fill',
-					isStyle: true
-				},
-				{
-					label: "Header Color",
-					type: "color",
-					value: style.headerColor,
-					key:'headerColor',
-					icon: 'mdi mdi-format-text',
-					isStyle: true
-				},
-				{
 					label: "Odd Background",
 					type: "color",
 					value: style.background,
@@ -838,7 +822,7 @@ export default {
 				}
 			])
 
-			this._renderDropDownTree("Header Style", "mdi mdi-format-text", [
+			this._renderDropDownTree("Header", "mdi mdi-format-text", [
 				{
 					label: "Sticky",
 					type: "check",
@@ -846,6 +830,22 @@ export default {
 					value: style.headerSticky === true,
 					valueTrue: true,
 					valueFalse: false,
+					isStyle: true
+				},
+				{
+					label: "Background",
+					type: "color",
+					value: style.headerBackground,
+					key:'headerBackground',
+					icon: 'mdi mdi-format-color-fill',
+					isStyle: true
+				},
+				{
+					label: "Color",
+					type: "color",
+					value: style.headerColor,
+					key:'headerColor',
+					icon: 'mdi mdi-format-text',
 					isStyle: true
 				},
 				{

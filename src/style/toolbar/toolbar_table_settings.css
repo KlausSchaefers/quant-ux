@@ -20,10 +20,16 @@
 
 .MatcToolbarTableSettings .MatcToolbarItem.MatcToolbarColor{
     padding: 0px;
-    height: 30px;
-    min-height: 30px;
-    margin-left: 5px;
+    margin: 0px;
+    height: unset;
     vertical-align: middle;
+}
+
+.MatcToolbarTableSettings .MatcFormRow .MatcToolbarColorIndicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-top: 0px;
 }
 
 .MatcToolbarTableSettings .MatcFormRow{
@@ -68,11 +74,7 @@
     font-size: 14px;
 }
 
-.MatcToolbarTableSettings .MatcFormRow .MatcToolbarColorIndicator {
-    width: 30px;
-    height: 30px;
-    margin-top: 0px;
-}
+
 
 .MatcToolbarTableSettings .MatcFormRow .MatcToolbarDropDownButton{
     margin: 0px;
@@ -92,15 +94,11 @@
     font-size: 14px;
 }
 
-.MatcToolbarTableSettings .MatcToolbarTableSettingsTable .MatcDesignTokenMixin {
-    position: relative;
-}
 
-.MatcToolbarTableSettings .MatcToolbarTableSettingsTable .MatcToolbarPopUp {
-    top:0px;
-    left: 100%;
-}
+
 
 .MatcToolbarTableSettings .MatcFormRow > td{
     padding-bottom: 10px;
+    vertical-align: middle;
 }
+

@@ -371,7 +371,9 @@ export default {
 						console.warn("Error while setting value", hex);
 					}
 				} else {
-					console.debug("ColorPickerSketch.setValue() > No String", hex);
+					console.debug("ColorPickerSketch.setValue() > No String. Use #333. ");
+					let c = new Color('#333');
+					this.setColor(c);
 				}
 			}
 		},

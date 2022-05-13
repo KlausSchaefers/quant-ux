@@ -188,56 +188,7 @@ export default {
       return table
     },
 
-    getColumns (data, style) {
-      let columns = data.columns
-
-      // if we have a checkbox we need to add
-      // an empty row and also some adjustments to the table
-      if (style.checkBox) {
-        columns = [''].concat(columns)
-      }
-
-      if (this.props.tableActions && this.props.tableActions.length > 0) {
-        columns = columns.concat([''])
-      }
-      return columns
-    },
-
-    getRowHeight(style) {
-      const h = this._getBorderWidth(style.fontSize) + 
-              this._getBorderWidth(style.paddingLeft) + 
-              this._getBorderWidth(style.paddingRight) + 
-              this._getBorderWidth(style.borderBottomWidth) + 
-              this._getBorderWidth(style.borderTopWidth) 
-      
-      return h
-    },
-
-    getWidths (widths,style, props, fontFactor = 0.6) {
-      const result = [];
-      if (widths) {
-        let sum = 0;
-        const padding = this._getBorderWidth(style.paddingLeft) + this._getBorderWidth(style.paddingRight)
-
-        if (style.checkBox) {
-          const w = style.checkBoxSize ? style.checkBoxSize : style.fontSize
-          widths = [w + padding].concat(widths);
-        }
-        if (props.tableActions && props.tableActions.length > 0) {
-          const text = props.tableActions.map(a => a.label).join()
-          const w = text.length * style.fontSize * fontFactor + padding * props.tableActions.length
-          widths = widths.concat(w)
-        }
-        for (let i = 0; i < widths.length; i++) {
-          sum += widths[i];
-        }
-        for (let i = 0; i < widths.length; i++) {
-          result[i] = widths[i] / sum;
-        }
-      }
-      return result;
-    },
-
+   
     renderHeader (rows, columns, table, style, borderStyle, widths, db) {
 
       // since 4.0.70 we have stikcy headers
@@ -314,13 +265,18 @@ export default {
 
         let start = style.checkBox ? -1 : 0
         for (let j = start; j < row.length; j++) {
+          const colNumber = j-start // because of start slack
           let td = document.createElement("td");
           td.setAttribute("valign", "top");
+
+          this.setColumnColor(td, columns, colNumber)
+
+        
           if (j === -1) {
             this.renderCheckBox(row, i, td, style, db)
             this._paddingNodes.push(td);
           } else {
-            if (columns[j].isEditable) {
+            if (columns[colNumber].isEditable) {
               const input = db.input('MatcWidgetTypeTableInput').build(td)
               input.value = row[j];
               this._paddingNodes.push(input);
@@ -329,7 +285,6 @@ export default {
               td.textContent = row[j];
               this._paddingNodes.push(td);
             }
-            
           }
 
           tr.appendChild(td);
@@ -367,7 +322,15 @@ export default {
       }
     },
 
-   
+    setColumnColor (td, columns, j) {
+      if (columns[j] && columns[j].color) {
+        td.style.color = columns[j].color
+      }
+
+      if (columns[j] && columns[j].background) {
+        td.style.background = columns[j].background
+      }
+    },
 
     renderCheckBox (row, i, td, style, db) {
       let checkBox = db.div('MatcWidgetTypeCheckBox').build(td)
@@ -484,10 +447,13 @@ export default {
       if (this.model.props.columns) {
         this.model.props.columns.forEach((c,i) => {
           if (table.columns[i]) {
+           
             table.columns[i].isEditable = c.isEditable
             table.columns[i].isSortable = c.isSortable
             table.columns[i].isSearchable = c.isSearchable
             table.columns[i].databinding = c.databinding
+            table.columns[i].color = c.color
+            table.columns[i].background = c.background
           }
         })
       }
@@ -544,6 +510,56 @@ export default {
       }
       // FIXME: check for Array of Dicts
       return data;
+    },
+
+     getColumns (data, style) {
+      let columns = data.columns
+
+      // if we have a checkbox we need to add
+      // an empty row and also some adjustments to the table
+      if (style.checkBox) {
+        columns = [''].concat(columns)
+      }
+
+      if (this.props.tableActions && this.props.tableActions.length > 0) {
+        columns = columns.concat([''])
+      }
+      return columns
+    },
+
+    getRowHeight(style) {
+      const h = this._getBorderWidth(style.fontSize) + 
+              this._getBorderWidth(style.paddingLeft) + 
+              this._getBorderWidth(style.paddingRight) + 
+              this._getBorderWidth(style.borderBottomWidth) + 
+              this._getBorderWidth(style.borderTopWidth) 
+      
+      return h
+    },
+
+    getWidths (widths,style, props, fontFactor = 0.6) {
+      const result = [];
+      if (widths) {
+        let sum = 0;
+        const padding = this._getBorderWidth(style.paddingLeft) + this._getBorderWidth(style.paddingRight)
+
+        if (style.checkBox) {
+          const w = style.checkBoxSize ? style.checkBoxSize : style.fontSize
+          widths = [w + padding].concat(widths);
+        }
+        if (props.tableActions && props.tableActions.length > 0) {
+          const text = props.tableActions.map(a => a.label).join()
+          const w = text.length * style.fontSize * fontFactor + padding * props.tableActions.length
+          widths = widths.concat(w)
+        }
+        for (let i = 0; i < widths.length; i++) {
+          sum += widths[i];
+        }
+        for (let i = 0; i < widths.length; i++) {
+          result[i] = widths[i] / sum;
+        }
+      }
+      return result;
     },
 
     setValue (value) {

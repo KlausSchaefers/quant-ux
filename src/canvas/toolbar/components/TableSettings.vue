@@ -99,9 +99,11 @@
                    <table  class="MatcToolbarTableSettingsTable">
                        <thead>
                             <tr class="MatcFormRow">
-                                <th style="width:160px;">Name</th>
-                                <th style="width:270px;">Data Binding</th>
-                                <th style="width:270px;">Editable</th> 
+                                <th style="width:120px;">Name</th>
+                                <th style="width:160px;">Data Binding</th>
+                                <th style="width:120px;">Editable</th> 
+                                <th style="width:120px;">Color</th> 
+                                <th style="width:270px;">Background</th> 
                             </tr>
                        </thead>
                         <tbody>
@@ -123,7 +125,25 @@
                                         v-model="column.isEditable"
                                         label="" />
                                 </td>
+
+                                <td>
+                                    <ToolbarColor
+                                        :isDialog="true"
+                                        :app="model"
+                                        :color="column.color"
+                                        @changing="onChangeColumnColor(column, 'color', $event)"
+                                        @change="onChangeColumnColor(column, 'color', $event)"/>
+                                </td>
                                
+                                <td>
+                                    <ToolbarColor
+                                        :isDialog="true"
+                                        :app="model"
+                                        :color="column.background"
+                                        @changing="onChangeColumnColor(column, 'background', $event)"
+                                        @change="onChangeColumnColor(column, 'background', $event)"/>
+                                </td>
+
                             </tr>
 
                             <tr v-if="false">
@@ -260,17 +280,8 @@ export default {
             this.$set(action, key, color)
         },
 
-        addColumn (e) {
-            let input = e.target
-            this.props.columns.push({
-                label: input.value,
-                databinding: ''
-            })
-            input.value = ''
-        },
-
-        removeColumn (i) {
-            this.$delete(this.props.columns, i)
+        onChangeColumnColor (column, key, color) {
+            this.$set(column, key, color)
         },
 
         getValue () {
