@@ -1,7 +1,7 @@
 
 <template>
      <div class="MatcToolbarTable">
-		<div data-dojo-attach-point="cntr" class="MatcToolbarTableBody" >
+		<div data-dojo-attach-point="cntr" class="MatcToolbarTableBody MatcMarginTop" >
 		</div>
 		<div class="MatcToolbarTableUpload" data-dojo-attach-point="upload">
 			<a href="#">Upload CSV</a>
@@ -27,7 +27,7 @@ export default {
         return {
 			value: null,
 			inputEvent: "change",
-			rows: 200,
+			rows: 100,
 			columns: 10,
 			maxWidth: 1000,
 			columnWidths: [],
@@ -178,7 +178,7 @@ export default {
 			 * header
 			 */
 			var thead = db.element("thead").build(table)
-			var tr = db.element("tr").build(thead);
+			var tr = db.element("tr", 'MatcToolbarTableHead').build(thead);
 
 			var td = db.element("td").build(tr);
 			td.style.width = "30px";

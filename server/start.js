@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 const compression = require('compression')
 const proxyMiddleware = require('http-proxy-middleware')
-
+const helmet = require("helmet");
 
 /**
  * Some config stuff
@@ -29,6 +29,11 @@ var app = express()
  * Add compression
  */
 app.use(compression())
+
+/**
+ * Add some security headers...
+ */
+app.use(helmet())
 
 /** 
  * make config dynamic on env variables

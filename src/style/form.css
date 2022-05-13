@@ -384,10 +384,10 @@ input:focus{
  .MatcDialogTable{
  	overflow: hidden;
  	padding: 0px;
- 	background: rgb(242, 242, 242) none repeat scroll 0 0;
-  border: 1px solid #cecece;
-  border-radius:3px;
-  height: 450px;
+ 	background: rgb(245, 245, 245);
+	border: 1px solid #cecece;
+	border-radius:3px;
+	height: 450px;
  }
 
  .MatcDialogTable.MatcDialogTableScrollable{
