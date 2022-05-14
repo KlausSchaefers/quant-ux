@@ -249,6 +249,7 @@ export default {
 			this._renderShortCut(db, tbl,"CTRL &darr;", "Send Back");
 			this._renderShortCut(db, tbl,"SHIFT CLICK", "Multi Selection");
 			this._renderShortCut(db, tbl,"SHIFT I", "Select Text Color");
+			this._renderShortCut(db, tbl,"CTRL I", "Select Border Color");
 			this._renderShortCut(db, tbl,"I", "Select Background Color");
 			this._renderShortCut(db, tbl,"SPACE", "Move Tool");
 		

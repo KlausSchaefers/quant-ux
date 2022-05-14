@@ -887,7 +887,7 @@ export default {
 					value: style.headerBottomBorderWidth,
 					key:'headerBottomBorderWidth',
 					icon: 'mdi mdi-pound',
-					options: [1, 2, 3, 4, 5, 8, 10, 20],
+					options: [0, 1, 2, 3, 4, 5, 8, 10, 20],
 					isStyle: true
 				},
 			])

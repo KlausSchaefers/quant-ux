@@ -151,7 +151,7 @@ export default {
          */
         } else if(k == 73){
         
-          this.startEyeDropper(isShift)
+          this.startEyeDropper(isShift, isCntrl)
         /**
          * R dispatch...
          */

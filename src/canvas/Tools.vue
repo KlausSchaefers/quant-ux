@@ -9,29 +9,41 @@ import topic from 'dojo/topic'
 export default {
     name: 'Tools',
     methods: {
-		startEyeDropper (isShift) {
+		startEyeDropper (isShift, isCntrl) {
 		
 			if (!window.EyeDropper) {
 				this.showError('Color Selection is not supported on your browser. Try Chrome?')
 			}
 
-			if (this._selectWidget) {
-				const eyeDropper = new window.EyeDropper()
-				eyeDropper.open().then(result => {
-					const color = result.sRGBHex
-					if (this._selectWidget.type === 'Label' || isShift) {
-						this.controller.updateWidgetProperties(this._selectWidget.id, {color: color}, 'style');
-					} else {
-						this.controller.updateWidgetProperties(this._selectWidget.id, {background: color}, 'style');
-					}
-				}).catch(e => {
-					this.showError('Oooppps.. Something wenr wrong')
-					console.error(e)
-				})
-			} else {
+			if (!this._selectWidget) {
 				this.showHint('Select an element to use the color selection')
-			
+				return
 			}
+			const eyeDropper = new window.EyeDropper()
+			eyeDropper.open().then(result => {
+				const color = result.sRGBHex
+				if (this._selectWidget.type === 'Label' || isShift) {
+					this.controller.updateWidgetProperties(this._selectWidget.id, {color: color}, 'style');
+					return
+				} 
+				
+				if (isCntrl) {
+					this.controller.updateWidgetProperties(this._selectWidget.id, { 
+						borderTopColor: color, 
+						borderBottomColor: color,
+						borderRightColor: color,
+						borderLeftColor: color
+					}, 'style');
+					return
+				}
+				
+				this.controller.updateWidgetProperties(this._selectWidget.id, {background: color}, 'style');
+				
+			}).catch(e => {
+				this.showError('Oooppps.. Something wenr wrong')
+				console.error(e)
+			})
+			
 		},
 
       	renderScreenDistance (){
