@@ -741,7 +741,7 @@ export default {
     },
 
     setStyle (style, model, isResize = false ) {
-
+    
       /**
        * Since 3.0.32 we to selective updates on zooms
        */
@@ -799,11 +799,11 @@ export default {
     },
 
     _set_fontSize (parent, style) {
-      var size = style.fontSize * this._scaleX;
+      let size = style.fontSize * this._scaleX;
       if (this._scaleX < 1) {
         size = size * 0.95;
       }
-      parent.style.fontSize = size + "px";
+      parent.style.fontSize = Math.round(size) + "px";
     },
 
     _set_css: function(parent, style) {

@@ -61,7 +61,7 @@ export default {
             .build(this.button);
           this.icon = db.span(model.props.icon).build(this.iconCntr);
         }
-        this.icon.style.fontSize = style.fontSize * this._scaleY + "px";
+        this.icon.style.fontSize = Math.round(style.fontSize * this._scaleY) + "px";
         this.iconCntr.style.top = this._getBorderWidth(style.paddingTop) + "px";
         this.iconCntr.style.right =
           this._getBorderWidth(style.paddingRight) + "px";

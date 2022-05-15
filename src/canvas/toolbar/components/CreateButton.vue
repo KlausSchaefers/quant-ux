@@ -831,13 +831,12 @@ export default {
 					});
 					this.renderFactory.createWidgetHTML(widgetBox, child);
 				} catch(e){
-					console.debug("CreateButton.renderChildWidget() > Error", e);
+					console.error("CreateButton.renderChildWidget() > Error", e);
 				}
 			},
 
 
 			renderGroup (group, preview, db, size, isTemplate, elementDiv){
-
 				/**
 				 * template groups are rendered differently
 				 */
@@ -865,33 +864,32 @@ export default {
 						 * Since 4.0.60 we need to inline templates
 						 */
 						templateChild = ModelUtil.inlineTemplateVariant(templateChild, this.model)
-						this.renderChildWidget(templateChild, scale, screen, box, db, i)
+						this.renderChildWidget(templateChild, scale, group, box, db, i)
 					}
 				} else {
 
 					this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", group)));
 
-					let child = this.getBoundingBoxByBoxes(group.children);
-					const scale = this.getScale(size, "auto", child)
+					const bbbox = this.getBoundingBoxByBoxes(group.children);
+					const scale = this.getScale(size, "auto", bbbox)
 					scale.x = Math.min(1, scale.x)
 					scale.y = Math.min(1, scale.y)
 
-					child = this._getScalledChild(child, size);
-					let box = this._createCenteredBox(db, preview, child, size);
+					const scaledBbox = this._getScalledChild(bbbox, size);
+					const box = this._createCenteredBox(db, preview, scaledBbox, size);
+
+					console.debug(' - ', scale, scaledBbox.w, scaledBbox.h)
 
 					const children = group.children;
 					for (let i=0; i< children.length; i++){
-						child = lang.clone(children[i]);
-						this.renderChildWidget(child, scale, screen, box, db, i)
+						const groupChild = lang.clone(children[i]);
+						this.renderChildWidget(groupChild, scale, group, box, db, i)
 					}
 				}
 			},
 
 			renderWidget (child, preview, db, size, isTemplate, elementDiv){
 				this.tempOwn(on(elementDiv, touch.press, lang.hitch(this, "onCreate", child)));
-				/**
-				 * TODO: For templates create a remove button
-				 */
 				child = this._getScalledChild(child, size);
 				const box = this._createCenteredBox(db, preview, child, size);
 				try {
@@ -914,13 +912,14 @@ export default {
 				 * check if we have to scale
 				 */
 				if(child.w > size.w || child.h > size.h){
-					var scale = this.getScale(size, "auto", child)
+					const scale = this.getScale(size, "auto", child)
 					this.renderFactory.setScaleFactor(scale.x,scale.y);
 					child = this.getZoomedBox(lang.clone(child),scale.x, scale.y) ;
 				} else {
 					this.renderFactory.setScaleFactor(1,1);
 				}
 
+				//this.renderFactory.setScaleFactor(1,1);
 				return child;
 			},
 
