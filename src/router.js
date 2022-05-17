@@ -157,6 +157,10 @@ export default new VueRouter({
     {
       path: '/test/StyledTable.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/StyledTableTest.vue')
+    },
+    {
+      path: '/test/CondStyle.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/ConditionalStyleTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',

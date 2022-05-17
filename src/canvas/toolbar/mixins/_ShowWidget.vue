@@ -74,6 +74,8 @@ export default {
 					this.validationWidget.setValue(model, false);
 				}
 			}
+
+			css.remove(this.widgetCondStyleDiv, 'MatcToolbarSectionHidden')
 		},
 
 		showWidgetDesignProperties (model) {

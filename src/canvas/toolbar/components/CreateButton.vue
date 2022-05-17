@@ -878,8 +878,6 @@ export default {
 					const scaledBbox = this._getScalledChild(bbbox, size);
 					const box = this._createCenteredBox(db, preview, scaledBbox, size);
 
-					console.debug(' - ', scale, scaledBbox.w, scaledBbox.h)
-
 					const children = group.children;
 					for (let i=0; i< children.length; i++){
 						const groupChild = lang.clone(children[i]);

@@ -17,7 +17,8 @@
 	     "has" : {
 	        "onclick" : true,
 	        "border" : true,
- 	        "data" : true
+ 	        "data" : true,
+			"backgroundColor" : true
 	     },
 	     "style" : { 
 	    	 "borderTopRightRadius" : 5,

@@ -362,6 +362,16 @@ export default {
 			}
 		},
 
+		onFadeOut (){
+			this.logger.log(-1,"onFadeOut", "entry ");
+			css.add(this.layerListCntr, "MatcLayerListFadeOut");
+		},
+
+		onFadeIn (){
+			this.logger.log(-1,"onFadeIn", "entry ");
+			css.remove(this.layerListCntr, "MatcLayerListFadeOut");
+		},
+
 		/********************************************************
 		 * Mian menu handlers
 		 ********************************************************/

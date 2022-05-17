@@ -338,26 +338,20 @@ export default {
 		 * https://www.lucidchart.com/techblog/2014/12/02/definitive-guide-copying-pasting-javascript/
 		 */
 		onPaste (row, column){
-			var parent = this.domNode;
-			var input = null;
+			const parent = this.domNode;
+			let input = null;
 			if(this.inputs[row] && this.inputs[row][column]){
 				input = this.inputs[row][column];
 			}
-			var me = this;
-
-			/**
-			 * Hacky method: We create a hidden textarea, give it focus to receive
-			 * the paste event. Then we check if we had CSV or normal and act accordingly.
-			 */
-			var hidden = document.createElement("textarea");
+			const hidden = document.createElement("textarea");
 			css.add(hidden, "MatcToolbarTableHidden");
 			parent.appendChild(hidden);
 			hidden.focus();
 
-			setTimeout(function(){
-				var pastedValue = hidden.value;
+			setTimeout(() => {
+				const pastedValue = hidden.value;
 				if(pastedValue.indexOf("\n") > 0){ // (pastedValue.indexOf(",") > 0 || pastedValue.indexOf("\t") > 0)
-					me._importCSV(pastedValue, row, column);
+					this._importCSV(pastedValue, row, column);
 				} else {
 					if(input){
 						input.value += pastedValue;

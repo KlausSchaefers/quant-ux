@@ -293,6 +293,9 @@ export default {
 			css.add(this.designTokenDownloadDiv, "MatcToolbarSectionHidden")
 			css.add(this.imageWidgetDiv, "MatcToolbarSectionHidden")
 
+			css.add(this.widgetCondStyleDiv, 'MatcToolbarSectionHidden')
+			css.add(this.groupCondStyleDiv, 'MatcToolbarSectionHidden')
+
 			css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")
 			css.add(this.callBackDiv, "MatcToolbarSectionHidden")
 			css.add(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")

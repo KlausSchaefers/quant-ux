@@ -154,10 +154,10 @@ export default {
 					btn.reposition = true;
 					css.add(btn.domNode, "MatcMultiActionDropDown MatcToolbarButton MatcButton");
 					btn.placeAt(row);
-					btn.setShowListener(function(){
+					btn.setShowListener(() => {
 						topic.publish("matc/canvas/fadeout", {});
 					});
-					btn.setHideListener(function(){
+					btn.setHideListener(() => {
 						topic.publish("matc/canvas/fadein", {});
 					});
 
@@ -168,7 +168,8 @@ export default {
 					let btn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
 					btn.setOptions([
 						{value:'back', label:"Navigate Back", icon:"mdi mdi-ray-end-arrow MatcToolbarSmallIcon"},
-						{value:'workflow', label:"Simple Formula", icon:"mdi mdi-flask-empty-plus-outline"},
+						{value:'workflow', label:"Simple Formula", icon:"mdi mdi-flask-empty-plus-outline"}
+						//{value:'hide', label:"Hide & Show ", icon:"mdi mdi-eye-outline"},
 					]);
 					btn.setValue(action.type);
 					btn.setPopupCss("MatcActionAnimProperties");

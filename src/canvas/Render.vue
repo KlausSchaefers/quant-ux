@@ -95,10 +95,16 @@ export default {
 
 		onFadeOut (){
 			css.add(this.container, "MatcCanvasFadeOut");
+			if (this.toolbar) {
+				this.toolbar.onFadeOut()
+			}
 		},
 
 		onFadeIn (){
 			css.remove(this.container, "MatcCanvasFadeOut");
+			if (this.toolbar) {
+				this.toolbar.onFadeIn()
+			}
 		},
 
 		/**********************************************************************

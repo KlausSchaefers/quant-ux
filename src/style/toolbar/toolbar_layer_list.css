@@ -53,6 +53,11 @@
 	padding-bottom: 30px;
 }
 
+.MatcLayerListFadeOut .MatcToobarPropertiesSection{
+	opacity: 0.1;
+	transition: opacity 0.2s;
+}
+
 .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionContent {
     padding: 0px;
     width: 100%;

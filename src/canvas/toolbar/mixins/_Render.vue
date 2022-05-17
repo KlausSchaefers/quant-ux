@@ -42,6 +42,7 @@ import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
+import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -72,7 +73,7 @@ export default {
 			hasLogic2: ["LogicOr", "Rest"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
-			hasCheckedViewMode : ["CheckBox", "RadioBox"],
+			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload'],
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", 
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker"],
@@ -262,6 +263,8 @@ export default {
 
 			this._renderGroupAction();
 
+			this._renderGroupConditionalStyle()
+
 			/**
 			* render widget properties;
 			*/
@@ -292,6 +295,8 @@ export default {
 			this._renderWidgetBoxShadow()
 
 			this._renderWidgetBox();
+
+			this._renderWidgetConditionalStyle()
 
 			/**
 			* render screen properties
@@ -540,6 +545,22 @@ export default {
 
 			this.properties.appendChild(parent);
 			this.groupActionDiv = parent;
+		},
+
+		_renderGroupConditionalStyle () {
+
+			const parent = this.createSection("Conditional Style");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.groupCondStyle = this.$new(ConditionalStyleButton)
+			this.groupCondStyle.placeAt(content)
+
+
+			this.properties.appendChild(parent);
+			this.groupCondStyleDiv = parent;
 		},
 
 
@@ -842,6 +863,21 @@ export default {
 
 			this.boxDiv = parent;
 			this.properties.appendChild(parent);
+		},
+
+		_renderWidgetConditionalStyle () {
+			const parent = this.createSection("Conditional Style (W)");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.widgetCondStyle = this.$new(ConditionalStyleButton)
+			this.widgetCondStyle.placeAt(content)
+
+					
+			this.properties.appendChild(parent);
+			this.widgetCondStyleDiv = parent;
 		},
 
 		_renderWidgetBackground (){

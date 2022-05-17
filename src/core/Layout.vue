@@ -120,15 +120,15 @@ export default {
     },
 
     getAllAppVariables (){
-
-      var variables = [];
+    
+      const variables = [];
       if (this.model) {
         for(let id in this.model.widgets){
-          let widget = this.model.widgets[id];
+          const widget = this.model.widgets[id];
           if(widget.props && widget.props.databinding){
-            let databinding = widget.props.databinding;
+            const databinding = widget.props.databinding;
             for(let key in databinding){
-              let variable = databinding[key];
+              const variable = databinding[key];
               if(variables.indexOf(variable)<0){
                 variables.push(variable);
               }
@@ -140,6 +140,18 @@ export default {
             if(variables.indexOf(variable)<0){
                 variables.push(variable);
             }
+          }
+          // workflows can also be bound to varaibles
+          if(widget.props && widget.action && widget.action.type === 'workflow'){
+             const steps = widget.action.steps
+             if (steps) {
+               steps.forEach(step => {
+                   const databinding = step.databinding;
+                    if(variables.indexOf(databinding)<0){
+                      variables.push(databinding);
+                   }
+               })
+             }
           }
         }
       }

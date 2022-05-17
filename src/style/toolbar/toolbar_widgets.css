@@ -264,14 +264,17 @@
 }
 
 
-.MatcAction .MatcToolbarDropDownButton .MatcToolbarItemIcon,
+.MatcAction .MatcToolbarDropDownButton .MatcToolbarItemIcon {
+	width: 167px;
+ 	text-align: left;
+}
+
 .MatcToolbarDropDownButton.MatcToolbarGridFull .MatcToolbarItemIcon{
 	width: 167px;
  	text-align: left;
-	 display: flex;
-	 align-items: center;
+	display: inline-flex;
+	align-items: center;
 }
-
 
 
 .MatcToolbarColorWithHex.MatcToolbarColor .MatcToolbarItemIcon{
