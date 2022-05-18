@@ -872,14 +872,14 @@
 }
 
 .MatcHeapMapWidget:HOVER{
-	border:1px solid #49C0F0;
+	border:1px solid #f83a3a;
 	background:rgba(73,192,240,0.3);
 }
 
 
 
 .MatcHeapMapWidget.MatcHeapMapWidgetSelected, .MatcHeapMapWidgetSelected {
-	border:1px solid #49C0F0;
+	border:1px solid #f83a3a;
 	background:rgba(73,192,240,0.5);
 }
 
@@ -1056,8 +1056,48 @@
 	height: 20px;
 }
 
+.MatcPlayerTasks {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.MatcPlayerTasksBarCntr {
+	width: 100%;
+	position: relative;
+	height: 5px;
+	transition: 0.2s;
+}
+
+
+.MatcPlayerTasksBar {
+	position: absolute;
+	background: #49C0F0;
+	height: 100%;
+	border-radius: 3px;
+}
+
+.MatcPlayerTasksBarLabel {
+	position: absolute;
+	display: none;
+	right: 100%;
+	top:50%;
+	transform: translateY(-50%);
+}
+
+.MatcPlayerTasksBarCntr:hover .MatcPlayerTasksBarLabel {
+	display: block;
+	color: #fff;
+	font-size: 12px;
+	padding: 3px 5px;
+	z-index: 2;
+	background: #49C0F0;
+	white-space: nowrap;
+	border-radius: 3px;
+}
+
 .MatcPlayerProgress .VommondSliderBar{
- 	background: #49C0F0;
+ 	background: #f83a3a;
 }
 
 
@@ -1065,8 +1105,8 @@
  	height: 16px;
  	width: 16px;
  	border-radius:7px;
- 	background-color: #49C0F0;
- 	border: 1px solid #49C0F0;
+ 	background-color: #f83a3a;
+ 	border: 1px solid #f83a3a;
  	top:-7px;
  	right:-7px;
  }
@@ -1084,7 +1124,7 @@
 }
 
 .MatcPlayerButtonBar a:HOVER{
-	border-bottom: 2px solid #49C0F0;
+	border-bottom: 2px solid #f83a3a;
 	color:#fff;
 }
 
@@ -1106,7 +1146,7 @@
 }
 
 .MatcPlayerTagEvent{
-	color:#49c0f0;
+	color:#f83a3a;
 }
 
 .MatcPlayerEventRemove{

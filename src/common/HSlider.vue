@@ -35,18 +35,18 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       if (this.wire) {
         this.wireEvents();
       }
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.own(this.addTouchStart(this.domNode, lang.hitch(this, "onDomPress")));
       this.own(this.addTouchStart(this.hndl, lang.hitch(this, "onHandlePress")));
     },
 
-    startup: function() {
+    startup () {
       this.init();
     },
 
@@ -54,30 +54,30 @@ export default {
       this.showLabel = show
     },
 
-    setMax: function(m) {
+    setMax (m) {
       this.max = m * 1;
     },
 
-    setCenter: function(c) {
+    setCenter (c) {
       this.center = c;
     },
 
-    setMin: function(m) {
+    setMin (m) {
       this.min = m * 1;
     },
 
-    setLegend: function(l) {
+    setLegend (l) {
       this.legend = l * 1;
     },
 
     /**
      * Marks indicate some part on the slider, this is use full for the video player
      */
-    setMarks: function(marks) {
+    setMarks (marks) {
       this.marks = marks;
     },
 
-    placeAt: function(node) {
+    placeAt (node) {
       if (node && node.toLowerCase) {
         node = document.getElementById(node);
       }
@@ -85,7 +85,7 @@ export default {
       this.init();
     },
 
-    init: function(p) {
+    init (p) {
       if (p) {
         console.error('init called with pos???', new Error().stack)
       }
@@ -116,14 +116,14 @@ export default {
       return domGeom.position(this.domNode).w;
     },
 
-    render: function(pos, bPos, hPos) {
+    render (pos, bPos, hPos) {
       this.cntr.style.top = Math.round((pos.h - bPos.h) / 2) + "px";
       this.hndl.style.top = Math.round((bPos.h - hPos.h) / 2) - 1 + "px";
       this.hndlWidth = hPos.w / 2;
       this._width = pos.w;
     },
 
-    initLegend: function() {
+    initLegend () {
       if (this.legend > 0) {
         var pos = domGeom.position(this.domNode);
         var db = new DomBuilder();
@@ -138,23 +138,27 @@ export default {
       }
     },
 
-    initBars: function() {
+    initBars () {
       if (this.marks) {
-        var w = domGeom.position(this.domNode).w;
-        var marks = this.marks;
-        for (var i = 0; i < marks.length; i++) {
-          var mark = marks[i];
+        const width = domGeom.position(this.domNode).w;
+        const marks = this.marks;
+        for (let i = 0; i < marks.length; i++) {
+          const mark = marks[i];
 
-          var s = this.max - this.min;
-          var p = Math.min(Math.abs((mark.start - this.min) / s), 0.95);
 
-          var marker = document.createElement("div");
+          const s = this.max - this.min;
+          const p = Math.min(Math.abs((mark.start - this.min) / s), 0.95);
+          const w = (mark.length / s)
+
+          console.debug('initBars', mark.label, s, p, w)
+
+          const marker = document.createElement("div");
           css.add(marker, "VommondSliderMarker");
-          marker.style.left = p * w + "px";
-          marker.style.width = (mark.length / s) * w + "px";
+          marker.style.left = p * width + "px";
+          marker.style.width = w * width + "px";
 
           if (mark.label) {
-            var lbl = document.createElement("div");
+            const lbl = document.createElement("div");
             css.add(lbl, "VommondSliderMarkPopup");
             lbl.innerHTML = mark.label;
             marker.appendChild(lbl);

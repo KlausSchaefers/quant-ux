@@ -50,7 +50,10 @@ export default {
 			css.remove(this.groupActionDiv, "MatcToolbarSectionHidden");
 			this.groupActionBTN.setValue(model);
 
-			css.remove(this.groupCondStyleDiv, 'MatcToolbarSectionHidden')
+			if (this.condStyleDiv) {
+				css.remove(this.condStyleDiv, 'MatcToolbarSectionHidden')
+			}
+			
 		},
 
 		showGroupDesignProperties (model) {

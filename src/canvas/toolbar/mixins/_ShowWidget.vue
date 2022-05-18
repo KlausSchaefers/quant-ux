@@ -75,7 +75,9 @@ export default {
 				}
 			}
 
-			css.remove(this.widgetCondStyleDiv, 'MatcToolbarSectionHidden')
+			if (this.condStyleDiv){
+				css.remove(this.condStyleDiv, 'MatcToolbarSectionHidden')
+			}
 		},
 
 		showWidgetDesignProperties (model) {

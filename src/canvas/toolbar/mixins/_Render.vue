@@ -263,8 +263,6 @@ export default {
 
 			this._renderGroupAction();
 
-			this._renderGroupConditionalStyle()
-
 			/**
 			* render widget properties;
 			*/
@@ -296,7 +294,7 @@ export default {
 
 			this._renderWidgetBox();
 
-			this._renderWidgetConditionalStyle()
+			//this._renderConditionalStyle()
 
 			/**
 			* render screen properties
@@ -547,22 +545,7 @@ export default {
 			this.groupActionDiv = parent;
 		},
 
-		_renderGroupConditionalStyle () {
-
-			const parent = this.createSection("Conditional Style");
-
-			var content = document.createElement("div");
-			css.add(content, "MatcToolbarSectionContent");
-			parent.appendChild(content);
-
-			this.groupCondStyle = this.$new(ConditionalStyleButton)
-			this.groupCondStyle.placeAt(content)
-
-
-			this.properties.appendChild(parent);
-			this.groupCondStyleDiv = parent;
-		},
-
+		
 
 		/*****************************************************************************************************
 		* Render widgets
@@ -865,19 +848,19 @@ export default {
 			this.properties.appendChild(parent);
 		},
 
-		_renderWidgetConditionalStyle () {
-			const parent = this.createSection("Conditional Style (W)");
+		_renderConditionalStyle () {
+			const parent = this.createSection("Conditional Style (all)");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
-			this.widgetCondStyle = this.$new(ConditionalStyleButton)
-			this.widgetCondStyle.placeAt(content)
+			this.condStyle = this.$new(ConditionalStyleButton)
+			this.condStyle.placeAt(content)
 
 					
 			this.properties.appendChild(parent);
-			this.widgetCondStyleDiv = parent;
+			this.condStyleDiv = parent;
 		},
 
 		_renderWidgetBackground (){

@@ -5,6 +5,8 @@
 			</div>
 			<div class="MatcPlayerProgress" ref="progress">
 			</div>
+			<div class="MatcPlayerTasks" ref="tasks">
+			</div>
 			<div class="MatcPlayerButtonBar">
 				<div class="">
 					<a data-dojo-attach-point="btnBack"><span class="glyphicon glyphicon-step-backward"></span></a>
@@ -31,6 +33,7 @@ import domGeom from 'dojo/domGeom'
 import Logger from 'common/Logger'
 import DataFrame from 'common/DataFrame'
 import HSlider from 'common/HSlider'
+import DomBuilder from 'common/DomBuilder'
 import Util from 'core/Util'
 import RenderFactory from 'core/RenderFactory'
 import Animation from 'core/Animation'
@@ -51,29 +54,30 @@ export default {
             animationTimeOffSet: 400,
             mode: "private",
             invisibleEvents: {
-							"Animation": true,
-							"SessionStart": true,
-							"ScreenAnimation": true,
-							"OverlayShowAnimation": true,
-							"OverlayRemoveAnimation": true,
-							"ValidationOk": true,
-							"MouseOut": true,
-							"MouseOver": true,
-							"WidgetInit": true
-						}
+				"Animation": true,
+				"SessionStart": true,
+				"ScreenAnimation": true,
+				"OverlayShowAnimation": true,
+				"OverlayRemoveAnimation": true,
+				"ValidationOk": true,
+				"MouseOut": true,
+				"MouseOver": true,
+				"WidgetInit": true
+			}
         }
     },
 	components: {},
 
     methods: {
-      postCreate: function(){
-				this.logger = new Logger('VideoPlayer');
-				this.analytics = new Analytics();
-				this.jwtToken = Services.getUserService().getToken()
-				this.own(on(this.btnBack, touch.press, lang.hitch(this, "onBack")));
-				this.own(on(this.btnPlay, touch.press, lang.hitch(this, "onPlay")));
-				this.init()
-			},
+      postCreate (){
+			this.logger = new Logger('VideoPlayer');
+			this.analytics = new Analytics();
+			this.jwtToken = Services.getUserService().getToken()
+			this.db = new DomBuilder()
+			this.own(on(this.btnBack, touch.press, lang.hitch(this, "onBack")));
+			this.own(on(this.btnPlay, touch.press, lang.hitch(this, "onPlay")));
+			this.init()
+		},
 
 		init () {
 			if (this.app) {
@@ -89,6 +93,10 @@ export default {
 
 		setMouse (m) {
 			this.mouseData = m
+		},
+
+		setTestSettings (t) {
+			this.testSettings = t
 		},
 
 		setModel(model){
@@ -804,25 +812,59 @@ export default {
 
 			this.slider = this.$new(HSlider);
 			this.slider.setMax(this.duration);
-			this.slider.setMarks(this.getAnnotation());
+			//this.slider.setMarks(this.getAnnotation());
 			this.slider.placeAt(this.$refs.progress);
 
 			this.own(on(this.slider, "change", lang.hitch(this, "onSliderChange")));
 			this.renderEventList();
+			this.renderTaskBar()
 		},
 
-		getAnnotation(){
-			var result = [];
+		renderTaskBar () {
 			if(	this.taskMatches){
-				var names = this.taskNames;
-				var t = this.animationTimeOffSet;
-				this.taskMatches.foreach(function(row){
+				
+				const tasks = this.taskMatches.as_dict('task')
+				
+				for (let id in this.taskNames) {
+					const label = this.taskNames[id]
+					let row =  tasks[id]
+					if (row) {
+						const start = (row.startTime - this.min) / this.duration
+						const length = (row.endTime - row.startTime) / this.duration
+						this.renderTask(start, length, label)
+					}
+				}
+			}
+		},
+
+		renderTask (start, length, label) {			
+			const bar = this.db
+				.div('MatcPlayerTasksBarCntr')
+				.div('MatcPlayerTasksBar')
+				.build(this.$refs.tasks)
+
+			this.db.div('MatcPlayerTasksBarLabel', label).build(bar)
+			
+			bar.style.left = Math.min(97, (start * 100)) +'%'
+			bar.style.width = Math.max(3, 100* length) +'%'
+
+
+		},
+
+
+		getAnnotation(){
+			const result = [];
+			if(	this.taskMatches){
+				const names = this.taskNames;
+				//const t = this.animationTimeOffSet;
+				this.taskMatches.foreach(row => {
+	
 					/**
 					 * We have to fix also the task match to match the animation of the click
 					 */
-					var marker = {
-						start : row.discoveryTime -t ,
-						length : 100,
+					const marker = {
+						start : row.startTime - this.min, //row.discoveryTime -t ,
+						length : row.endTime - row.startTime,
 						label : names[row.task]
 					}
 					result.push(marker);

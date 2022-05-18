@@ -19,6 +19,15 @@ export default class DataFrame {
 		}
 	}
 
+	as_dict(key) {
+		const arr = this.as_array()
+		const result = {}
+		arr.forEach(row => {
+			result[row[key]] = row
+		})
+		return result
+	}
+
 	push(row) {
 		if (this.data.push) {
 			this.data.push(row);

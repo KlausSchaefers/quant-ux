@@ -1615,7 +1615,9 @@ export default {
 
 				var player = this.$new(VideoPlayer);
 				player.setModel(this.model);
+				player.setTestSettings(this.testSettings)
 				player.placeAt(cntr);
+				player.setMouse(mouse);
 				player.setMouse(mouse);
 				player.setSession(events, sessionID);
 
