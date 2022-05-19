@@ -141,6 +141,7 @@ export default {
     initBars () {
       if (this.marks) {
         const width = domGeom.position(this.domNode).w;
+        console.debug(width)
         const marks = this.marks;
         for (let i = 0; i < marks.length; i++) {
           const mark = marks[i];
@@ -149,7 +150,7 @@ export default {
       
           const marker = document.createElement("div");
           css.add(marker, "VommondSliderMarker");
-          marker.style.left = p * width + "px";
+          marker.style.left = p * 100 + "%";
 
           if (marker.w) {
             const w = (mark.length / s)

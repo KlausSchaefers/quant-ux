@@ -1073,12 +1073,14 @@
 	opacity: 0;
 	transition: all 0.4s;
 	padding-top: 8px;
+	padding-left: 2px;
+	padding-right: 2px;
 }
 
 .MatcPlayerNav:hover .MatcPlayerTasks{
 	opacity: 1;
 	gap: 4px;
-	background: rgba(0,0,0,0.5);
+	background: rgba(0, 0, 0, 0.496);
 	overflow: visible;
 }
 
@@ -1091,23 +1093,47 @@
 	width: 100%;
 	position: relative;
 	height: 1px;
-	overflow: hidden;
+
 	transition: all 0.2s;
 }
 
 .MatcPlayerNav:hover .MatcPlayerTasksBarCntr {
-	height: 16px;
+	height: 20px;
 }
 
 .MatcPlayerTasksBar {
 	position: absolute;
-	background: #49c1f0f0;
+	background: #49c1f0;
 	height: 100%;
-	font-size: 12px;
 	text-align: center;
 	color:#fff;
-	border-radius: 20px;
+	border-radius: 2px;
 
+    font-size: 12px;
+    color: #fff;
+	color: #113543;
+	Xborder-bottom: #fff 1px solid;
+
+}
+
+.XMatcPlayerTasksBar::after{
+	content: "";
+	height: 100%;
+	position: absolute;
+	top: 50%;
+	right: 0px;
+	width: 1px;
+	background: #fff;
+}
+
+.XMatcPlayerTasksBar::before{
+	content: "";
+	height: 100%;
+	position: absolute;
+	top: 50%;
+	left: 0px;
+	width: 1px;
+	background: #fff;
 }
 
 .MatcPlayerProgress .VommondSliderMarker {
