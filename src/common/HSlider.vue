@@ -144,19 +144,18 @@ export default {
         const marks = this.marks;
         for (let i = 0; i < marks.length; i++) {
           const mark = marks[i];
-
-
           const s = this.max - this.min;
           const p = Math.min(Math.abs((mark.start - this.min) / s), 0.95);
-          const w = (mark.length / s)
-
-          console.debug('initBars', mark.label, s, p, w)
-
+      
           const marker = document.createElement("div");
           css.add(marker, "VommondSliderMarker");
           marker.style.left = p * width + "px";
-          marker.style.width = w * width + "px";
 
+          if (marker.w) {
+            const w = (mark.length / s)
+            marker.style.width = w * width + "px";
+          }
+     
           if (mark.label) {
             const lbl = document.createElement("div");
             css.add(lbl, "VommondSliderMarkPopup");

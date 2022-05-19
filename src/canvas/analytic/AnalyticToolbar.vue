@@ -1606,20 +1606,22 @@ export default {
 		_showSession(sessionID, cntr, dialog, data) {
 
 			try {
-				var mouse = data[1];
+				const mouse = data[1];
 
-				var df = new DataFrame(this.events);
+				const df = new DataFrame(this.events);
 				df.sortBy("time");
-				var sessionGroup = df.groupBy("session");
-				var events = sessionGroup.get(sessionID);
+				const sessionGroup = df.groupBy("session");
+				const events = sessionGroup.get(sessionID);
 
-				var player = this.$new(VideoPlayer);
+				const player = this.$new(VideoPlayer);
+				player.setDialog(dialog)
+				player.placeAt(cntr);
 				player.setModel(this.model);
 				player.setTestSettings(this.testSettings)
-				player.placeAt(cntr);
 				player.setMouse(mouse);
 				player.setMouse(mouse);
 				player.setSession(events, sessionID);
+		
 
 				dialog.own(on(dialog, "close", function () {
 					player.destroy();

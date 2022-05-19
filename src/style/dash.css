@@ -600,13 +600,6 @@
 	display: none;
 }
 
-/* 400 is palyer*/
-.MatcPlayerDialog{
-	width:1200px;
-	height:550px;
-	padding:20px;
-}
-
  /****************************************************
  * TestSettings
  ****************************************************/
@@ -618,9 +611,6 @@
 .TestSettingsTaskDescription{
 	height: 60px;
 	overflow: hidden;
-}
-.MatcTask{
-
 }
 
 .MatcTask:HOVER .MatcPlus{
@@ -1001,9 +991,16 @@
  ****************************************************/
 
 
+.MatcPlayerDialog.MatcDialog{
+	width:1200px;
+	height:750px;
+	padding: 0px; /*  keep in sync with VideoPlayer.layout() method*/
+	background-color: #1a1f23;
+}
+
 
 .MatcPlayer{
-	background: none repeat scroll 0 0 #242a30;
+	background: none repeat scroll 0 0 #1a1f23;
 	display: flex;
 	flex-direction:row;
 }
@@ -1012,32 +1009,38 @@
 .MatcPlayerLeft{
 	display: inline-block;
 	vertical-align: top;
-	width: 800px;
+	width: 860px;
 }
 
 .MatcPlayerView{
-	height:400px;
+	height:600px;
 	width: 100%;
 	text-align: center;
 	display: inline-block;
 	vertical-align: top;
 }
 
+
+
 .MatcPlayerEvents{
 	flex-grow: 1;
 	display: inline-block;
 	vertical-align: top;
-	border-left: 1px solid #333;
+	border-left: 1px solid #ffffff14;
 	overflow: auto;
 }
 
 .MatcPlayerEvent{
 	padding: 20px;
 	color: #cecece;
-	border-bottom: 1px solid #333;
+	border-bottom: 1px solid #ffffff14;
 	font-size: 14px;
 	cursor: pointer;
 	position: relative;
+}
+
+.MatcPlayerEvent:hover{
+	background: #242a30
 }
 
 
@@ -1056,45 +1059,63 @@
 	height: 20px;
 }
 
+.MatcPlayerNav{
+	position: relative;
+}
+
 .MatcPlayerTasks {
 	display: flex;
 	flex-direction: column;
-	gap: 2px;
+	gap: 1px;
+	position: absolute;
+	bottom: 100%;
+	width: 100%;
+	opacity: 0;
+	transition: all 0.4s;
+	padding-top: 8px;
 }
+
+.MatcPlayerNav:hover .MatcPlayerTasks{
+	opacity: 1;
+	gap: 4px;
+	background: rgba(0,0,0,0.5);
+	overflow: visible;
+}
+
+.MatcPlayerTasks.MatcHidden {
+	display: none;
+}
+
 
 .MatcPlayerTasksBarCntr {
 	width: 100%;
 	position: relative;
-	height: 5px;
-	transition: 0.2s;
+	height: 1px;
+	overflow: hidden;
+	transition: all 0.2s;
 }
 
+.MatcPlayerNav:hover .MatcPlayerTasksBarCntr {
+	height: 16px;
+}
 
 .MatcPlayerTasksBar {
 	position: absolute;
-	background: #49C0F0;
+	background: #49c1f0f0;
 	height: 100%;
-	border-radius: 3px;
-}
-
-.MatcPlayerTasksBarLabel {
-	position: absolute;
-	display: none;
-	right: 100%;
-	top:50%;
-	transform: translateY(-50%);
-}
-
-.MatcPlayerTasksBarCntr:hover .MatcPlayerTasksBarLabel {
-	display: block;
-	color: #fff;
 	font-size: 12px;
-	padding: 3px 5px;
-	z-index: 2;
-	background: #49C0F0;
-	white-space: nowrap;
-	border-radius: 3px;
+	text-align: center;
+	color:#fff;
+	border-radius: 20px;
+
 }
+
+.MatcPlayerProgress .VommondSliderMarker {
+	background: #1a1f23;
+	min-width: 5px;
+	z-index: 3;
+}
+
 
 .MatcPlayerProgress .VommondSliderBar{
  	background: #f83a3a;
@@ -1109,6 +1130,7 @@
  	border: 1px solid #f83a3a;
  	top:-7px;
  	right:-7px;
+	 z-index: 4;
  }
 
 .MatcPlayerButtonBar{

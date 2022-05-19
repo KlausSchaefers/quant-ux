@@ -3,10 +3,13 @@
 		<div class="MatcPlayerLeft">
 			<div class="MatcPlayerView" ref="container">
 			</div>
-			<div class="MatcPlayerProgress" ref="progress">
-			</div>
-			<div class="MatcPlayerTasks" ref="tasks">
-			</div>
+			<div class="MatcPlayerNav">
+				<div class="MatcPlayerTasks" ref="tasks">
+				</div>
+				<div class="MatcPlayerProgress" ref="progress">
+				</div>
+			</div>	
+		
 			<div class="MatcPlayerButtonBar">
 				<div class="">
 					<a data-dojo-attach-point="btnBack"><span class="glyphicon glyphicon-step-backward"></span></a>
@@ -99,9 +102,18 @@ export default {
 			this.testSettings = t
 		},
 
+		setDialog(dialog) {
+			this.dialog = dialog
+		},
+
 		setModel(model){
 			this.model = this.createInheritedModel(model);
 			this.model = Core.addContainerChildrenToModel(this.model)
+			this.initSize()
+		},
+
+		initSize () {
+			this.previewWrapper = this.renderPreview()
 		},
 
 		setSession(session,sessionID){
@@ -798,21 +810,17 @@ export default {
 		render(){
 			this.logger.log(2,"render","enter");
 
-			this.$refs.container.innerHTML="";
-			var previewWrapper = document.createElement("div");
-			css.add(previewWrapper, "MatcPlayerPreview");
-			this.layout(previewWrapper);
 
 			this.preview = this.$new(Preview, {isPlayer:true});
 			this.preview.setJwtToken(this.jwtToken)
-			this.preview.placeAt(previewWrapper);
+			this.preview.placeAt(this.previewWrapper);
 			this.preview.setModel(this.model);
 
 			this.scaledModel = this.preview.model;
 
 			this.slider = this.$new(HSlider);
 			this.slider.setMax(this.duration);
-			//this.slider.setMarks(this.getAnnotation());
+			this.slider.setMarks(this.getAnnotation());
 			this.slider.placeAt(this.$refs.progress);
 
 			this.own(on(this.slider, "change", lang.hitch(this, "onSliderChange")));
@@ -820,11 +828,17 @@ export default {
 			this.renderTaskBar()
 		},
 
+		renderPreview () {
+			this.$refs.container.innerHTML="";
+			var previewWrapper = document.createElement("div");
+			css.add(previewWrapper, "MatcPlayerPreview");
+			this.layout(previewWrapper);
+			return previewWrapper
+		},
+
 		renderTaskBar () {
 			if(	this.taskMatches){
-				
 				const tasks = this.taskMatches.as_dict('task')
-				
 				for (let id in this.taskNames) {
 					const label = this.taskNames[id]
 					let row =  tasks[id]
@@ -834,38 +848,30 @@ export default {
 						this.renderTask(start, length, label)
 					}
 				}
+				if (Object.values(tasks).length === 0) {
+					css.add(this.$refs.tasks, "MatcHidden")
+				}
 			}
 		},
 
 		renderTask (start, length, label) {			
 			const bar = this.db
 				.div('MatcPlayerTasksBarCntr')
-				.div('MatcPlayerTasksBar')
+				.div('MatcPlayerTasksBar', label)
 				.build(this.$refs.tasks)
-
-			this.db.div('MatcPlayerTasksBarLabel', label).build(bar)
-			
+		
 			bar.style.left = Math.min(97, (start * 100)) +'%'
 			bar.style.width = Math.max(3, 100* length) +'%'
-
-
 		},
 
 
 		getAnnotation(){
 			const result = [];
 			if(	this.taskMatches){
-				const names = this.taskNames;
-				//const t = this.animationTimeOffSet;
 				this.taskMatches.foreach(row => {
-	
-					/**
-					 * We have to fix also the task match to match the animation of the click
-					 */
 					const marker = {
-						start : row.startTime - this.min, //row.discoveryTime -t ,
-						length : row.endTime - row.startTime,
-						label : names[row.task]
+						start : row.startTime - this.min,
+						length : 0
 					}
 					result.push(marker);
 				});
@@ -973,18 +979,27 @@ export default {
 		},
 
 		layout(previewWrapper){
+			const container = this.$refs.container
 
-			var cPos = domGeom.position(this.$refs.container);
-			var pos = this.getScaledSize(cPos, "height", this.model);
+			const cPos = domGeom.position(container);
+			const pos = this.getScaledSize(cPos, "auto", this.model);
 
 			previewWrapper.style.width = Math.round(pos.w) + "px";
-			previewWrapper.style.height = cPos.h + "px";
-			this.$refs.container.appendChild(previewWrapper);
+			previewWrapper.style.height = pos.h + "px";
+			container.style.height = pos.h + "px";
+			container.appendChild(previewWrapper);
 
-			var domPos = domGeom.position(this.domNode);
+			const domPos = domGeom.position(this.domNode);
 			this.eventCntr.style.height= Math.floor(domPos.h) + "px";
-			// this.eventCntr.style.width= Math.floor(domPos.w - cPos.w) + "px";
 
+		
+
+			if (this.dialog) {
+				this.logger.log(-1,'layout', 'enter', domPos.h, domPos.w)
+				domPos.w += 0
+				domPos.h += 0
+				this.dialog.resize(domPos)
+			}		
 		},
 
 		onEvent(e){
