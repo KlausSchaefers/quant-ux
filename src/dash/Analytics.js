@@ -462,38 +462,79 @@ export default class {
 		return result;
 	}
 
-	getFunnelInteraction(df, task) {
+	getFunnelInteraction(df, task, includeDropOff) {
 		const result = {}
 		const sessions = this.getTaskPerformance(df, [task])
 		sessions.data.forEach(session => {
-			let lastPos = 0
-			result[session.session] = []
-			session.hits.forEach(hit => {
-				const pos = hit.pos - lastPos
-				result[session.session].push({
-					value: pos
-				})
-				lastPos = hit.pos
-			})
+			this.addFunnelInteractionSteps(result, session, false)
 		})
+
+		if (includeDropOff) {
+			const subtasks = this.getFunnelTasks(task);
+			subtasks.forEach(subTask => {
+				if (subTask.flow.length > 2 && subTask.flow.length < task.flow.length) {
+					const sessions = this.getTaskPerformance(df, [subTask])
+					sessions.data.forEach(session => {
+						if (!result[session.session]) {
+							this.addFunnelInteractionSteps(result, session, true)
+						}
+					})
+				}
+			})
+		}
+
 		return result
 	}
 
-	getFunnelDuration(df, task) {
+	addFunnelInteractionSteps (result, session, isDropOff = false) {
+		let lastPos = 0
+		result[session.session] = []
+		session.hits.forEach(hit => {
+			const pos = hit.pos - lastPos
+			result[session.session].push({
+				value: pos,
+				dropoff:isDropOff
+			})
+			lastPos = hit.pos
+		})
+	}
+
+
+	getFunnelDuration(df, task, includeDropOff = false) {
 		const result = {}
 		const sessions = this.getTaskPerformance(df, [task])
 		sessions.data.forEach(session => {
-			let lastTime = session.startTime
-			result[session.session] = []
-			session.hits.forEach(hit => {
-				const duration = hit.time - lastTime
-				result[session.session].push({
-					value: duration
-				})
-				lastTime = hit.time
-			})
+			this.addFunnelDurartionSteps(result, session)
 		})
+
+
+		if (includeDropOff) {
+			const subtasks = this.getFunnelTasks(task);
+			subtasks.forEach(subTask => {
+				if (subTask.flow.length > 2 && subTask.flow.length < task.flow.length) {
+					const sessions = this.getTaskPerformance(df, [subTask])
+					sessions.data.forEach(session => {
+						if (!result[session.session]) {
+							this.addFunnelDurartionSteps(result, session, true)
+						}
+					})
+				}
+			})
+		}
 		return result
+	}
+
+	addFunnelDurartionSteps (result, session, isDropOff = false) {
+		let lastTime = session.startTime
+		result[session.session] = []
+		session.hits.forEach(hit => {
+			const duration = hit.time - lastTime
+			result[session.session].push({
+				value: duration,
+				dropoff: isDropOff
+			})
+			lastTime = hit.time
+		})
 	}
 
 	getFunnelMax (stepData) {
@@ -662,16 +703,8 @@ export default class {
 		/**
 		 * We simply build for each subflow a new task
 		 */
-		const tasks = [];
-		const flow = lang.clone(task.flow);
-		while (flow.length > 0) {
-			const t = lang.clone(task);
-			t.id = task.id + "_" + flow.length;
-			t.name += task.name + "_" + flow.length;
-			t.flow = lang.clone(flow);
-			tasks.push(t);
-			flow.pop();
-		}
+
+		const tasks = this.getFunnelTasks(task);
 
 		/**
 		 * Now we run the normal task analytics
@@ -697,6 +730,21 @@ export default class {
 
 		return result;
 	}
+
+	getFunnelTasks(task) {
+		const tasks = [];
+		const flow = lang.clone(task.flow);
+		while (flow.length > 0) {
+			const t = lang.clone(task);
+			t.id = task.id + "_" + flow.length;
+			t.name += task.name + "_" + flow.length;
+			t.flow = lang.clone(flow);
+			tasks.push(t);
+			flow.pop();
+		}
+		return tasks
+	}
+	
 
 	getTaskStarts (df, tasks) {
 		const startTasks = tasks.map(task => {
@@ -1181,3 +1229,4 @@ export default class {
 	}
 
 }
+

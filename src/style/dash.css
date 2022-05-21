@@ -308,7 +308,11 @@
 	display: none;
 }
 
-.MatcDashTaskPerfTaskCntr{
+.MatcDashTaskPerfGramHideDropoff .MatcDashTaskPerfDropCntr {
+	display: none;
+}
+
+.MatcDashTaskPerfTaskCntr {
 	position: absolute;
 	bottom: 0px;
 	right:0px;
@@ -329,8 +333,6 @@
 	overflow: hidden;
 }
 
-
-
 .MatcDashTaskPerfTaskCntr span{
 	height:14px;
 	width:14px;
@@ -350,6 +352,29 @@
 	width: 70px;
 	height:14px;
 }
+
+.MatcDashTaskPerfDropCntr{ 
+	position: absolute;
+	bottom: 0px;
+	right:0px;
+	width:160px;
+	min-height: 30px;
+	max-height: 100px;
+	overflow: auto;
+	transition:all 0.2s;
+	text-align: right;
+    padding-right: 8px;
+}
+
+.MatcDashTaskPerfDropCntr .VommondCheckBoxLabel {
+	color: #999;
+	font-size: 14px;
+}
+
+.MatcDashTaskPerfDropCntr .VommondCheckBox {
+	border-color: #999;
+}
+
 
 .MatcDashTaskPerfTaskCntr .MatcDashTaskPerfTaskSelected label{
 	color: #777;

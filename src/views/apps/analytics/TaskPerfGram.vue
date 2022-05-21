@@ -7,7 +7,7 @@
 			</div>
 			<div class="MatcDashTaskPerfActionCntr" data-dojo-attach-point="actionCntr">
 			</div>
-			<div class="MatcDashTaskPerfGramCntr" data-dojo-attach-point="cntr">
+				<div class="MatcDashTaskPerfGramCntr" data-dojo-attach-point="cntr">
 					<span class="MatxAxisXLine MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden" data-dojo-attach-point="xLine"></span>
 					<span class="MatxAxisYLine MatcDashTaskPerfScatternVisible MatcDashTaskPerfGramDurationHidden" data-dojo-attach-point="yLine"></span>
 					<div class="MatcDashTaskPerfGramCanvas" data-dojo-attach-point="canvas">
@@ -33,7 +33,14 @@
 
 					<div class="MatcDashTaskPerfTaskCntr" data-dojo-attach-point="taskCntr">
 					</div>
-			</div>
+
+					<div class="MatcDashTaskPerfDropCntr" data-dojo-attach-point="dropoffCntr">
+						<CheckBox label="Show Dropoff" @change="onChangeFunnelDropOff"/>
+					</div>
+
+					
+					
+				</div>
 
 			<div class="MatcDashTaskPerHintBar" data-dojo-attach-point="hintCntr">
 			</div>
@@ -49,6 +56,7 @@ import domGeom from 'dojo/domGeom'
 import Logger from 'common/Logger'
 import _Color from 'common/_Color'
 import DomBuilder from 'common/DomBuilder'
+import CheckBox from 'common/CheckBox'
 import Util from 'core/Util'
 import Analytics from 'dash/Analytics'
 import * as d3 from "d3"
@@ -66,6 +74,7 @@ export default {
             tab: "scatter",// "scatter",
             tabs: {},
             dialog: false,
+			includeDropOff: false,
             colors: ["#56A9FC", "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],
             bins: 3,
 			smoothLineFunction: d3.line()
@@ -88,7 +97,9 @@ export default {
 			}
         }
     },
-    components: {},
+    components: {
+		CheckBox
+	},
     methods: {
         postCreate (){
 			this.log = new Logger("TaskPerfGram");
@@ -100,7 +111,7 @@ export default {
 			this.db = new DomBuilder();
 			this.addTab("scatter", "MatcToolbarTabActive");
 			this.addTab("details", "");
-			this.addTab("dropoff", "");
+			//this.addTab("dropoff", "");
 			this.addTab("funnelDurartion", "");
 			this.addTab("funnelInteraction", "");
 			this._scatterPoints = {};
@@ -211,6 +222,14 @@ export default {
 			} else {
 				css.remove(this.domNode, "MatcDashTaskPerfGramHideTasks");
 			}
+
+			if (this.tab === 'funnelDurartion' || this.tab === 'funnelInteraction') {
+				css.remove(this.domNode, "MatcDashTaskPerfGramHideDropoff");
+			} else {
+				css.add(this.domNode, "MatcDashTaskPerfGramHideDropoff");
+			}
+				
+
 			if (this["render_" + this.tab]){
 				this["render_" + this.tab](this.df, this.task, this.annotations, this.tasks, changeTask);
 			} else {
@@ -222,15 +241,32 @@ export default {
 		 * Funnel Interaction stuff
 		 *********************************************************************/
 
+		onChangeFunnelDropOff (value) {
+			this.log.log(-1, "onChangeFunnelDropOff", "enter > :", this.tab);
+			this.includeDropOff = value
+		
+			// fixme: this should be updates with cool animations
+			if (this.tab === 'funnelDurartion') {
+				this.clean_funnelDurartion()
+				this.render_funnelDurartion(this.df, this.task, true)
+			}
 
-		render_funnelInteraction(df, task, ) { //annotations, tasks
-			this.log.log(-1, "render_funnelInteractions", "enter > :");
+			if (this.tab === 'funnelInteraction') {
+				this.clean_funnelInteraction()
+				this.render_funnelInteraction(this.df, this.task, true)
+			}
 
-			css.add(this.domNode, "MatcDashTaskPerfGramFunnel MatcDashTaskPerfGramFunnelSVGHidden");
+		},
 
-			this.xLabel.innerHTML = ""; //this.getNLS("dash.perf.details.xLabel");
-			this.yLabel.innerHTML = "";//this.getNLS("dash.perf.details.yLabel");
-			this.yLabelEast.innerHTML = ""; //this.getNLS("dash.perf.details.yLabelEast");
+
+		render_funnelInteraction(df, task) { //
+			this.log.log(-1, "render_funnelInteractions", "enter > :", this.includeDropOff);
+
+			css.add(this.domNode, "MatcDashTaskPerfGramFunnel");
+		
+			this.xLabel.innerHTML = ""; 
+			this.yLabel.innerHTML = "";
+			this.yLabelEast.innerHTML = "";
 			this.bottom25Label.innerHTML = "";
 			this.bottom75Label.innerHTML = "";
 			this.xMaxLabel.innerHTML = "";
@@ -246,22 +282,13 @@ export default {
 			const canvasHeight = this.canvasPos.h - 20
 		
 			const analytics = new Analytics();
-			const stepData = analytics.getFunnelInteraction(df, task)	
-			const maxDuration = analytics.getFunnelMax(stepData) +1
-			
+			const stepData = analytics.getFunnelInteraction(df, task, this.includeDropOff)	
+			const maxIteration = analytics.getFunnelMax(stepData) +1
+			this._render_funnel_steps(stepData, maxIteration, flow, stepWidth, offset, canvasHeight)
+			this._render_funnel_lines(stepData, maxIteration, stepWidth, offset, canvasHeight, duration => {return Math.round(duration)})
 		
-			this._render_funnel_steps(stepData, maxDuration, flow, stepWidth, offset, canvasHeight)
-
-			this._render_funnel_lines(stepData, maxDuration, stepWidth, offset, canvasHeight, duration => {return Math.round(duration)})
+			this.yMaxLabel.innerHTML = maxIteration
 		
-		
-
-			this.yMaxLabel.innerHTML = Math.ceil(maxDuration / 1000) + ''
-
-			setTimeout( () => {
-				css.remove(this.domNode, "MatcDashTaskPerfGramFunnelSVGHidden");
-			}, 200)
-	
 		},
 
 		clean_funnelInteraction (callback) {
@@ -281,15 +308,18 @@ export default {
 			}
 			this.xAxisLabelCntr.innerHTML = ""
 			this.yMinLabel.innerHTML = ""
-			callback()
+			if (callback) {
+				callback()
+			}
 		},
+
 
 		/*********************************************************************
 		 * Funnel Duration stuff
 		 *********************************************************************/
 
 
-		render_funnelDurartion (df, task, ) { //annotations, tasks
+		render_funnelDurartion (df, task) {
 			this.log.log(-1, "render_funnelDurartion", "enter > :");
 
 			css.add(this.domNode, "MatcDashTaskPerfGramFunnel");
@@ -312,21 +342,13 @@ export default {
 			const canvasHeight = this.canvasPos.h - 20
 		
 			const analytics = new Analytics();
-			const stepData = analytics.getFunnelDuration(df, task)	
+			const stepData = analytics.getFunnelDuration(df, task, this.includeDropOff)	
 			const maxDuration = analytics.getFunnelMax(stepData) + 1000
-			
-		
 			this._render_funnel_steps(stepData, maxDuration, flow, stepWidth, offset, canvasHeight)
-
 			this._render_funnel_lines(stepData, maxDuration, stepWidth, offset, canvasHeight, duration => {
 				return (Math.round(duration / 100) / 10)+ ' s'
 			})
-		
 			this.yMaxLabel.innerHTML = Math.ceil(maxDuration / 1000) + ' s'
-
-		
-		
-	
 		},
 
 		_render_funnel_lines (stepData, maxValue,  stepWidth, offset, canvasHeight, lblFunction) {
@@ -340,7 +362,10 @@ export default {
 				.attr("height",this.canvasPos.h)
 
 			this.lineSVGs = {}
+			this.lineColor = {}
 			this.linePoints = {}
+
+			// FIXME: here we could build a try to customize width and opacity?
 				
 			for (let id in stepData) {
 				let steps = stepData[id]
@@ -355,8 +380,12 @@ export default {
 		_render_funnel_session_line(id, steps, maxValue, stepWidth, canvasHeight, offset, lblFunction) {
 				const curveOffset = Math.round(stepWidth / 4)
 				let line = []
+				let color = this.colors[0]
 				this.linePoints[id] = []
 				steps.forEach((step, i) => {
+
+					color = step.dropoff === true ? 'red': this.colors[0]
+
 			
 					let point = {
 						x: (offset + (stepWidth * i)),
@@ -369,7 +398,7 @@ export default {
 
 					this.db.div('MatcDashTaskPerfGramFunnelStepPointLabel', lblFunction(step.value)).build(div)
 					
-					div.style.background = this.colors[0]
+					div.style.background = color
 					this.tempOwn(on(div, "click", lang.hitch(this, "selectFunnelPoint", id)));
 				
 					this.linePoints[id].push(div)
@@ -391,12 +420,12 @@ export default {
 				})
 				let svg = this.funnelSVG.append("path")
 						.attr("d", this.smoothLineFunction(line))
-						.attr("stroke", this.colors[0])
+						.attr("stroke", color)
 						.attr("stroke-width", 1 )
 						.attr("fill", "none")
 						.style("opacity", 0.5);
 				this.lineSVGs[id] = svg
-			
+				this.lineColor[id] = color
 		},
 
 		_render_funnel_steps (stepData, maxValue, flow, width, offset, canvasHeight) {
@@ -406,6 +435,7 @@ export default {
 				flow.forEach((step, i) => {
 
 					const values = this.getStepData(stepData, i)
+				
 					const stepDF = new DataFrame(values)
 				
 					const max = Math.ceil(stepDF.max("value"));
@@ -435,7 +465,6 @@ export default {
 					setTimeout(() => {
 						css.remove(div, 'MatcDashTaskPerfGramFunnelStepSmall')
 					}, Math.min(300, 50 * i))
-				
 				})
 			}
 		},
@@ -461,16 +490,16 @@ export default {
 				.div("MatcDashTaskPerfGramBoxPlotMean")
 				.build(cntr)
 			centre.style.bottom = (((mean-min) / (max-min))) *100 + "%"
-
-
-
 		},
  
 		getStepData(stepData, i) {
 			const result = []
 			for (let id in stepData) {
 				const steps = stepData[id]
-				result.push(steps[i])
+				if (steps[i] !== undefined) {
+					result.push(steps[i])
+				}
+				
 			}
 			return result
 		},
@@ -481,7 +510,7 @@ export default {
 
 			for (let session in this.lineSVGs) {
 				const svg = this.lineSVGs[session]
-				const color = session === id ? this.colors[1] : this.colors[0]
+				const color = session === id ? this.colors[1] : this.lineColor[session]
 
 				if(svg){
 					svg.attr("stroke", color )
@@ -512,7 +541,9 @@ export default {
 			}
 			this.xAxisLabelCntr.innerHTML = ""
 			this.yMinLabel.innerHTML = ""
-			callback()
+			if (callback) {
+				callback()
+			}
 		},
 
 
