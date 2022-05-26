@@ -2,6 +2,7 @@
     "info": "This file is just used for development. Do not edit",
     "auth": "qux",
     "websocket":"wss://ws.quant-ux.com",
+    "sharedLibs": "",
     "keycloak": {
         "realm": "qux", 
         "clientId": "qux",

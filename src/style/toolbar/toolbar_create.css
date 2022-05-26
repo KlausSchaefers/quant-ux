@@ -26,10 +26,14 @@
 }
 
 .MatcCreateImportCntr {
-	font-size: 20px;
-	height: 480px;
+	height: 530px;
 	overflow: auto;
+	font-size: 14px;
 	margin-bottom:20px;
+	background: rgb(245, 245, 245);
+    border: 1px solid #cecece;
+    border-radius: 3px;
+	padding: 16px;
 }
 
 .MatcCreateSubCategory h3{
@@ -37,7 +41,7 @@
 }
 
 .MatcCreateCatCntr{
-	height: 450px;
+	height: 550px;
 	overflow: auto;
 }
 

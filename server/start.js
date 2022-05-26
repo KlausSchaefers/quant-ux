@@ -18,6 +18,7 @@ const tos = process.env.QUX_TOS_URL ?  process.env.QUX_TOS_URL : ''
 const keycloak_realm = process.env.QUX_KEYCLOAK_REALM ?  process.env.QUX_KEYCLOAK_REALM : ''
 const keycloak_client = process.env.QUX_KEYCLOAK_CLIENT ?  process.env.QUX_KEYCLOAK_CLIENT : ''
 const keycloak_url = process.env.QUX_KEYCLOAK_URL ?  process.env.QUX_KEYCLOAK_URL : ''
+const sharedLibs = process.env.QUX_SHARED_LIBS ?  process.env.QUX_SHARED_LIBS : ''
 
 /**
  *
@@ -43,6 +44,7 @@ app.get("/config.json", (_req, res) => {
     "auth": auth,
     "websocket": wsUrl,
     "tos": tos,
+    "sharedLibs": sharedLibs,
     "keycloak": {
       "realm": keycloak_realm,
       "clientId": keycloak_client,

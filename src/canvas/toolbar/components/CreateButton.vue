@@ -350,13 +350,13 @@ export default {
 				/**
 				 * first sort and pr
 				 */
-				let db = new DomBuilder();
+				const db = new DomBuilder();
 				this._lis = {};
-				var ul = db.ul("").build();
+				const ul = db.ul("").build();
 				const cats = this.categoriesList;
 				for (let i=0; i< cats.length; i++){
-					let category = cats[i];
-					let li = db.li().build(ul);
+					const category = cats[i];
+					const li = db.li().build(ul);
 					let label = category;
 					if(this.categoryNames[label]){
 						label = this.categoryNames[label];
@@ -366,24 +366,48 @@ export default {
 					this.own(on(li, touch.press, lang.hitch(this, "showCategory", category, true) ));
 				}
 
-				/**
-				 * 3rd icons
-				 */
-				let li = db.li().build(ul);
-				db.a("", "Icons").build(li);
-				this._lis["Icons"] = li;
-				this.own(on(li, touch.press, lang.hitch(this, "showIcons", true) ));
 
 				/**
-				 * 4rd templates
+				 * 3th installation specific components
 				 */
-				li = db.li().build(ul);
-				db.a("", "My Components").build(li);
-				this._lis["Template"] = li;
-				this.own(on(li, touch.press, lang.hitch(this, "showTemplates", true) ));
+				const sharedLibs = Services.getConfig().sharedLibs
+				if (sharedLibs) {
+					let importApps = sharedLibs.split(',')
+					importApps.forEach(appHash => {
+						const sharedLi = db.li().build(ul);
+						const a = db.a("", "importing...").build(sharedLi);
+						this._lis[appHash] = li;
+						Services.getModelService().findAppByHash(appHash).then(app => {
+							this.own(on(sharedLi, touch.press, lang.hitch(this, "showImportedApp", app.id, true) ));
+							this.onImportedLoaded(app, a, '')
+						}).catch (err => {
+							a.innerHTML = 'Could not load...'
+							console.debug('Createbutton.render() >  Cannot import app', appHash, err)
+						})
+					})
+				}
 
 				/**
-				 * 5th Imports
+				 * 4rd icons
+				 */
+				const liIcons = db.li().build(ul);
+				db.a("", "Icons").build(liIcons);
+				this._lis["Icons"] = liIcons;
+				this.own(on(liIcons, touch.press, lang.hitch(this, "showIcons", true) ));
+
+			
+				/**
+				 * 5rd templates
+				 */
+				const liTemplates = db.li().build(ul);
+				db.a("", "My Components").build(liTemplates);
+				this._lis["Template"] = liTemplates;
+				this.own(on(liTemplates, touch.press, lang.hitch(this, "showTemplates", true) ));
+
+			
+
+				/**
+				 * 6th Imports
 				 */
 				if (this.model.imports) {
 					this.model.imports.forEach(appID => {
@@ -392,23 +416,23 @@ export default {
 						 */
 						let importedApp = this.importableApps.find(a => a.id === appID)
 						if (importedApp) {
-							li = db.li().build(ul);
-							let a = db.a("", "importing...").build(li);
-							this._lis[appID] = li;
-							this.own(on(li, touch.press, lang.hitch(this, "showImportedApp", appID, true) ));
+							const liImport = db.li().build(ul);
+							let a = db.a("", "importing...").build(liImport);
+							this._lis[appID] = liImport;
+							this.own(on(liImport, touch.press, lang.hitch(this, "showImportedApp", appID, true) ));
 							Services.getModelService().findApp(appID).then(app => {
 								this.onImportedLoaded(app, a)
-							}).then (err => {
-								console.debug('Cannot import app', appID, err)
+							}).catch (err => {
+								console.debug('Createbutton.render() > Cannot import app', appID, err)
 							})
 						} else {
-							console.warn('render() No access to ', appID)
+							console.warn('Createbutton.render() > render() No access to ', appID)
 						}
 					})
 				}
 
-
-				li = db.span().build(ul);
+			
+				const li = db.span().build(ul);
 				db.a("MatcButton MatcButtonFullWidth MatcButtonSignUp", "Import").build(li);
 				this._lis["Import"] = li;
 				this.own(on(li, touch.press, lang.hitch(this, "showImportSection") ));
@@ -438,8 +462,8 @@ export default {
 					}
 				})
 
-				var db = new DomBuilder();
-				let cntr = db.div('MatcCreateImportCntr').build()
+				const db = new DomBuilder();
+				const cntr = db.div('MatcCreateImportCntr').build()
 
 				apps.forEach(app => {
 					if (app.id != this.model.id) {
@@ -463,8 +487,8 @@ export default {
 				this.importCntr.appendChild(cntr)
 			},
 
-			onImportedLoaded (app, li) {
-				this.setTextContent(li, app.name + ' *')
+			onImportedLoaded (app, li, postfix = ' *') {
+				this.setTextContent(li, app.name +  postfix)
 				this._importedApps[app.id] = app
 				let elements = Services.getSymbolService().convertAppToSymbols(app)
 				if (this.categories){
@@ -497,6 +521,7 @@ export default {
 			},
 
 			showImportedApp (appID) {
+				console.debug('showImportedApp', appID, this._importedApps[appID])
 				if (this._importedApps[appID]) {
 					this.showCategory(appID, true)
 				} else {

@@ -244,7 +244,7 @@ class SymbolService extends AbstractService{
 
     convertAppToSymbols (app) {
       let elements = Object.values(app.widgets).map(widget => {
-				let element = lang.clone(widget)
+    		let element = lang.clone(widget)
 				if (element.template && app.templates) {
 					let template = app.templates[element.template]
 					if (template) {
