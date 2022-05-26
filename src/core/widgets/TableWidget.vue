@@ -470,8 +470,16 @@ export default {
         // remove csv data, header come still from cvs!
         table.rows = []
 
-        const isArray = this.isArrayOfArray(this.value)
-        this.value.forEach(row => {
+        // 2) for obejct we just take the values
+        let value = this.value
+        if (lang.isObject(value)) {
+          value = Object.values(value)
+        }
+
+        // 3) now we loop. We need to know if children are
+        // objects or arrays
+        const isArray = this.isArrayOfArray(value)
+        value.forEach(row => {
           let values = []
           table.columns.forEach((col,i) => {
               if (isArray) {
