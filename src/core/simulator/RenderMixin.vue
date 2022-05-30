@@ -116,6 +116,7 @@ export default {
 				* render screen and all widgets
 				*/
 				var div = this.createScreen(overlay, true);
+				css.add(div, 'MatcScreenOverlay')
 
 				/**
 				* append to dom
