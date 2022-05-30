@@ -680,12 +680,17 @@ export default {
       return type;
     },
 
-    getScreenName: function(screenID) {
+    getScreenName (screenID, shortenIfNeeded = false) {
       if (this.model.screens[screenID] && this.model.screens[screenID].name) {
-        return this.model.screens[screenID].name;
+        let name = this.model.screens[screenID].name;
+        if (shortenIfNeeded && name.length > 16) {
+          name = name.substring(0, 16) + '...'
+        } 
+        return name
       }
       return screenID;
     },
+    
 
     getWidgetName: function(widgetID) {
       if (this.model.widgets[widgetID] && this.model.widgets[widgetID].name) {

@@ -22,7 +22,6 @@
 	position: absolute;
 	border-radius:50%;
 	border:none;
-	cursor:pointer;
 	transition: all 0.2s;
 }
 
@@ -47,7 +46,11 @@
 	left:0px;
 }
 
-.MatcAnalyticCanvasEvent:HOVER{
+.MatcAnalyticCanvasClickableEvent {
+	cursor: pointer;
+}
+
+.MatcAnalyticCanvasClickableEvent:HOVER{
 	box-shadow: 0px 0px 15px #000;
 }
 

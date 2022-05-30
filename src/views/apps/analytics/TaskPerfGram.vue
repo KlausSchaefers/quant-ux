@@ -202,6 +202,7 @@ export default {
 
 		render (changeTask){
 			this.log.log(-1, "render", "enter > " + changeTask);
+			this.cleanUpTempListener()
 			if (this.task.flow && this.task.flow.length >= 2) {
 				if (!changeTask && this["clean_" + this.lastTab]){
 					this["clean_" + this.lastTab](lang.hitch(this, "renderTab", changeTask));
@@ -288,6 +289,7 @@ export default {
 			this._render_funnel_lines(stepData, maxIteration, stepWidth, offset, canvasHeight, duration => {return Math.round(duration)})
 		
 			this.yMaxLabel.innerHTML = maxIteration
+			this.tempOwn(on(this.cntr, "click", () => this.reset_funnel_selection()));
 		
 		},
 
@@ -348,7 +350,15 @@ export default {
 			this._render_funnel_lines(stepData, maxDuration, stepWidth, offset, canvasHeight, duration => {
 				return (Math.round(duration / 100) / 10)+ ' s'
 			})
+				
 			this.yMaxLabel.innerHTML = Math.ceil(maxDuration / 1000) + ' s'
+			this.tempOwn(on(this.cntr, "click", () => this.reset_funnel_selection()));
+		
+		},
+
+		reset_funnel_selection () {
+			this.selectFunnelPoint(false)
+			this.setHint()
 		},
 
 		_render_funnel_lines (stepData, maxValue,  stepWidth, offset, canvasHeight, lblFunction) {
@@ -386,7 +396,6 @@ export default {
 
 					color = step.dropoff === true ? 'red': this.colors[0]
 
-			
 					let point = {
 						x: (offset + (stepWidth * i)),
 						y: canvasHeight - ((step.value / maxValue) * canvasHeight)
@@ -456,8 +465,13 @@ export default {
 		
 					this._stepDivs.push(div)
 
+
+					const label = flow.length < 7
+						? this.getNiceEventLabel (step, i, false) 
+						: 'Step ' + (i +1)
+
 					this.db
-						.div('MatcDashTaskPerfGramFunnelStepLabel', 'Step ' + (i + 1))
+						.div('MatcDashTaskPerfGramFunnelStepLabel', label)
 						.left((offset + (width * i)))
 						.build(this.xAxisLabelCntr)
 
@@ -504,8 +518,9 @@ export default {
 			return result
 		},
 
-		selectFunnelPoint (id) {
+		selectFunnelPoint (id, e) {
 			this.log.log(-1, "selectFunnelPoint", "enter > :", id);
+			this.stopEvent(e)
 			this.showSessionReplayHint(id)
 
 			for (let session in this.lineSVGs) {
@@ -1045,23 +1060,28 @@ export default {
 			p.style.left = (((s.duration / max_duration) * 100))+ "%";
 		},
 
-		getNiceEventLabel (event, i){
+		getNiceEventLabel (event, i, includeScreenForWidgets=true){
 			if (this.model){
+				const screenName = this.getScreenName(event.screen, true)
+				const widgetName = this.getWidgetName(event.widget, true)
+
 				var row = [];
 				if(event.widget){
+					const screenLabel = includeScreenForWidgets ? ' @ ' + screenName : ''
 					if(event.type =="WidgetGesture" && event.gesture){
 						let gesture = event.gesture;
-						row = [this.getGestureLabel(gesture.type),  this.getWidgetName(event.widget)];
+						row = [this.getGestureLabel(gesture.type),  widgetName];
 					} else if(event.state && (event.type == "WidgetClick" || event.type == "WidgetChange")  ){
-						return this.getEventStateLabel(event.state) + ` -  ` + this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen);
+
+						return this.getEventStateLabel(event.state) + ` -  ` + widgetName +  screenLabel;
 					} else {
-						return this.getEventLabel(event.type) + ` -  ` + this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen);
+						return this.getEventLabel(event.type) + ` -  ` + widgetName + screenLabel;
 					}
 				} else if(event.type =="ScreenGesture" && event.gesture){
 					let gesture = event.gesture;
-					row = ["Screen " + this.getGestureLabel(gesture.type), this.getScreenName(event.screen)];
+					row = ["Screen " + this.getGestureLabel(gesture.type), screenName];
 				}else {
-					row = [this.getEventLabel(event.type), this.getScreenName(event.screen)];
+					row = [this.getEventLabel(event.type), screenName];
 				}
 				return row[0] + " - " +row[1]+ "";
 			}

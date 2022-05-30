@@ -480,7 +480,7 @@ export default {
     afterRender() {
       this.logger.log(-1, "afterRender", "entry > " + this.analyticMode);
       this.cleanUpAnalytics();
-
+ 
       try {
         this._renderHeatMap();
       } catch (e) {
@@ -971,7 +971,7 @@ export default {
       halo.style.left = -1 * Math.round(width / 2) + "px";
  
       const div = db
-        .div("MatcAnalyticCanvasEvent MatcAnalyticCanvasEvent" + type)
+        .div("MatcAnalyticCanvasEvent MatcAnalyticCanvasClickableEvent MatcAnalyticCanvasEvent" + type)
         .build(cntr);
 
       div.style.width = r + "px";
@@ -1131,7 +1131,6 @@ export default {
           if (i === 0) {
               color = this.mixColor(p)
               width = Math.max(3, Math.round(this.dropOffLineWidth * p))
-                        console.debug(time, p, maxTime, width)
               this._renderDropOffEvent(startPos.x, startPos.y, 'FlowStep', db, color, width + this.dropOffEventWidth, '0', 's')
           }
 
@@ -1241,12 +1240,17 @@ export default {
       div.style.top = -1 * Math.round(r / 2) + "px";
       div.style.left = -1 * Math.round(r / 2) + "px";
       div.style.background = color
-
+      this.tempOwn(on, div, 'click', (e) => this.selectDropOffPoint(e))
+    
       if (unit) {
         db.span('MatcAnalyticCanvasEventLabel', p + unit).build(div)
       }
 
       return div;
+    },
+
+    selectDropOffPoint () {
+
     },
 
 
@@ -1822,11 +1826,7 @@ export default {
     },
 
     setMode(mode, forceRender) {
-      this.logger.log(
-        2,
-        "setMode",
-        "enter > " + mode + " != " + this.mode + " > " + forceRender
-      );
+      this.logger.log( 2, "setMode", "enter > " + mode + " != " + this.mode + " > " + forceRender);
       if (mode != this.mode) {
         this.mode = mode;
         if (this.toolbar) {

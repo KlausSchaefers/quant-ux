@@ -50,3 +50,8 @@
 .MatcAnalyticCanvas .MatcMessage{
   left:0px
 }
+
+
+.MatcAnalyticCanvas.UserJourney .MatcDnDLayer{
+  display: none;
+}
