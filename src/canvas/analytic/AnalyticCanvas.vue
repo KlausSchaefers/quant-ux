@@ -265,6 +265,23 @@ export default {
 			this.analyticLines = {}
 		},
 
+    drawLine (id, line){
+      let color = this.defaultLineColor
+      let width = this.defaultLineWidth
+      if (this.model && this.model.lines && this.model.lines[id]) {
+        let modelLine = this.model.lines[id]
+        let widgetData = this.getLineWidgetData()
+        if (widgetData[modelLine.from]) {
+          let data = widgetData[modelLine.from]
+          let p = data.clicksRel
+          //width = Math.max(0.3, Math.round(1 * p))
+          color = this.mixColor(p)
+        }
+      }
+      console.debug('DarwLine', id)
+			return this.drawSVGLine(id, line, color, width, 1);
+		},
+
 		drawAnalyticLine(id, line, color, width, opacity) {
 			this.analyticSVG.append("path")
 							.attr("d", this.lineFunction(line))
@@ -1727,6 +1744,30 @@ export default {
       }
 
       return this.cache["overlayWidgetCicks"];
+    },
+
+    getLineWidgetData () {
+      if (!this.cache["lineWidgetData"]) {
+        let result = {}
+        let allWidetData = this.getWidgetData()
+        let maxClicksAbs = 0
+        // filter only for clicks on lines, and calcuate the clicksRel
+        for (let id in this.model.lines) {
+           let from = this.model.lines[id].from
+          if (allWidetData[from]) {
+              const clicksAbs = allWidetData[from].clicksAbs
+              result[from] = {
+                clicksAbs : clicksAbs
+              }
+              maxClicksAbs = Math.max(maxClicksAbs, clicksAbs)
+          } 
+          Object.values(result).forEach(v => {
+            v.clicksRel = v.clicksAbs / maxClicksAbs
+          })
+        }
+        this.cache["lineWidgetData"] = result
+      }
+      return this.cache["lineWidgetData"]
     },
 
     getWidgetData() {

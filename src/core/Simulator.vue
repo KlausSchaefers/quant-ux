@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v4.0.70</div>
+      <div class="MatcSimulatorVersion">v4.0.80</div>
     </div>
   </div>
 </template>
@@ -324,7 +324,7 @@ export default {
 
 
 		showSplashScreen (){
-			this.logger.log(2,"showSplashScreen","enter >");
+			this.logger.log(-2,"showSplashScreen","enter >");
 			css.add(this.domNode, "MatcSimulatorSplash MactMainGradient");
 			this._splashTime = new Date().getTime();
 		},
@@ -339,7 +339,7 @@ export default {
 		},
 
 		setModel (model){
-			console.debug('setModel', this.skipSplash)
+			this.logger.log(1,"setModel","enter > step:" + this.step, this._splashTime );
 			if (model == null) {
 				this.logger.error("setModel","exit > No model");
 				location.href = location.protocol + "//" + location.host + "/404.html";
@@ -351,9 +351,9 @@ export default {
 				if(this.hash){
 					this.preloadImages();
 				}
-				if(	this._splashTime > 0 && this.skipSplash !== false){
+				if(	this._splashTime > 0 && this.skipSplash !== true){
 
-					this.logger.log(1,"setModel","show splash");
+					this.logger.log(-1,"setModel","show splash");
 					/**
 					 * If we can by splash screen make sure we show it long enough...
 					 */
@@ -369,7 +369,7 @@ export default {
 		},
 
 		afterSplash () {
-			this.logger.log(-1,"afterSplash","enter", this.settings);
+			this.logger.log(-1,"afterSplash","enter > step:" + this.step, this.settings);
 			/**
 			 * 4 should not happen normally. Just o make sure ...
 			 */
@@ -427,7 +427,7 @@ export default {
 		},
 
 		onStartClick (model, e){
-			this.logger.log(2,"onStartClick","enter");
+			this.logger.log(-1,"onStartClick","enter");
 			this.stopEvent(e);
 
 			if(this.fullSreenListener){
@@ -1019,7 +1019,7 @@ export default {
 		 * http://www.html5rocks.com/en/mobile/fullscreen/
 		 */
 		toggleFullScreen (e) {
-			this.logger.log(0,"toggleFullScreen","enter");
+			this.logger.log(-1,"toggleFullScreen","enter");
 			try{
 				this.stopEvent(e);
 				if((has("android") || !has("ios"))){
@@ -1039,12 +1039,12 @@ export default {
 						else {
 							cancelFullScreen.call(doc, { navigationUI: 'hide' });
 						}
-						this.logger.log(2,"toggleFullScreen","exit > Fullscreen started");
+						this.logger.log(-1,"toggleFullScreen","exit > Fullscreen started");
 					} else {
-						this.logger.log(2,"toggleFullScreen","exit > IOS .. No FullsScreen");
+						this.logger.log(-1,"toggleFullScreen","exit > IOS .. No FullsScreen");
 					}
 				} else {
-					this.logger.log(3, "toggleFullScreen","exit > desktop");
+					this.logger.log(-1, "toggleFullScreen","exit > desktop");
 				}
 			} catch(e){
 				this.logger.error("toggleFullScreen","error", e);
