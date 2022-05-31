@@ -953,11 +953,12 @@ export default {
 			pos = this.getScaledSize(pos, "width", this.model);
 			if (pos.h > maxHeight) {
 				let factor = pos.h / maxHeight
-				pos.h = pos.h / factor
-				pos.w = pos.w / factor
+				pos.h = Math.ceil(pos.h / factor)
+				pos.w = Math.ceil(pos.w / factor)
 			}
+
 			container.style.width = Math.ceil(pos.w) + "px";
-			container.style.height = Math.ceil(pos.h) + "px";
+			container.style.height = Math.ceil(pos.h)+ "px";
 
 			wrapper.style.width = Math.ceil(pos.w) + "px";
 			wrapper.style.height = Math.ceil(pos.h) + "px";
@@ -1006,10 +1007,9 @@ export default {
 			 */
 			model = this.model;
 
-
 			var screen = this._getSimulatorScreen();
 			s.setStartScreen(screen);
-			setTimeout(function(){
+			setTimeout(() => {
 				scroller.wrap(s.domNode);
 				s.setModel(model);
 				css.remove(wrapper, 'MatcSimulatorFadeOut')

@@ -442,12 +442,8 @@ export default {
 				h : Math.floor(screenPos.h * factor)
 			};
 
-			var pos = this.model.screenSize;
-
-			if(cntrPos.h < this.model.screenSize.h){
-				this.logger.log(0,"renderMobileSimulator","scale down...");
-				pos = this.getScaledSize(cntrPos, "height", this.model);
-			}
+	
+			const pos = this.getPreviewWrapperSize(cntrPos, this.model)
 
 			var parent = this.db.div("MatcCenter").build(cntr);
 

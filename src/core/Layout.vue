@@ -510,8 +510,8 @@ export default {
       return div;
     },
 
-    createBox: function(box, parentBox) {
-      var div = document.createElement("div");
+    createBox (box, parentBox) {
+      const div = document.createElement("div");
       div.style.width = box.w + "px";
       div.style.height = box.h + "px";
       if (parentBox) {
@@ -521,11 +521,26 @@ export default {
       return div;
     },
 
-    createPreviewWrapper: function(model, node) {
-      var wrapper = document.createElement("div");
+    createPreviewWrapper (model, node) {
+      const wrapper = document.createElement("div");
       css.add(wrapper, "MatcPreviewWrapper");
       node.appendChild(wrapper);
       return wrapper;
+    },
+
+
+    getPreviewWrapperSize (cntrPos, model) {
+      if(cntrPos.h < model.screenSize.h){
+				const heightScaled = this.getScaledSize(cntrPos, "height", model);
+				const widthFactor = heightScaled.w / model.screenSize.w
+        const result = {
+          w: Math.ceil(model.screenSize.w * widthFactor),
+          h: Math.ceil(model.screenSize.h * widthFactor)
+        }
+        console.debug('getPreviewWrapperSize',)
+        return result
+			}
+      return cntrPos
     },
 
     /**
@@ -535,7 +550,7 @@ export default {
      * type : how to scale
      * pos : The box to fit the child in
      */
-    getScale: function(pos, type, box) {
+    getScale (pos, type, box) {
       var scale = {};
 
       if (type == "width") {
@@ -561,17 +576,17 @@ export default {
     /**
      * check if app or box
      */
-    getBoxToScale: function(model) {
+    getBoxToScale (model) {
       if (model.screenSize) {
         return model.screenSize;
       }
       return model;
     },
 
-    getScaledSize: function(node, type, model) {
-      var box = this.getBoxToScale(model);
-      var scale = this.getScale(node, type, box);
-      var s = {
+    getScaledSize (node, type, model) {
+      const box = this.getBoxToScale(model);
+      const scale = this.getScale(node, type, box);
+      const s = {
         w: Math.ceil(box.w * scale.x),
         h: Math.ceil(box.h * scale.y)
       };

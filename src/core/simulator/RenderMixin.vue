@@ -650,15 +650,7 @@ export default {
 
 			if(overlay.style.fixed){
 
-				/**
-				* In case if fixed we add an extra screen wrapper, which is fixed,
-				* and which will hide the overflow of animations.
-				*
-				* FIXME: This does not work with resize..
-				*/
 				if(!this.fixedOverlayWrapper){
-
-
 					this.fixedOverlayWrapper = document.createElement("div");
 					this.fixedOverlayWrapper.style.height = this.screenPos.h +"px";
 					this.fixedOverlayWrapper.style.width = this.screenPos.w +"px";
@@ -666,7 +658,6 @@ export default {
 					this.fixedOverlayWrapper.style.overflow = "hidden";
 					this.fixedOverlayWrapper.style.top = this.screenPos.y +"px";
 					this.fixedOverlayWrapper.style.left = this.screenPos.x +"px";
-					//this.fixedOverlayWrapper.style.border ="1px solid orange";
 					this.domNode.appendChild(this.fixedOverlayWrapper);
 				}
 				this.fixedOverlayWrapper.appendChild(div);

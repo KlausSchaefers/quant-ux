@@ -463,6 +463,7 @@ export default {
 			this.model = ModelUtil.updateInheritedRefs(this.model)
 
 			this.initParent();
+			this.updateScale()
 
 			this.renderFactory.setModel(this.model);
 
@@ -493,7 +494,7 @@ export default {
 		 */
 		initParent (){
 			if(!this.qr && this.domNode.parentNode){
-				this.logger.log(-1,"initParent","enter > "  +this.model.screenSize.h  );
+				this.logger.log(1,"initParent","enter > "  + this.model.screenSize.h  );
 				this.domNode.parentNode.style.height = this.model.screenSize.h + "px";
 			}
 		},
@@ -533,6 +534,15 @@ export default {
 			this._scaleX = (this.screenPos.w / this.model.screenSize.w );
 			this._scaleY = this._scaleX;
 			this.logger.log(-1,"initScale","exit > h:" + this.screenPos.h + " x w:" + this.screenPos.w + " * " + this._scaleX + " > desk : " + this.isDesktopTest);
+		},
+
+		updateScale () {
+			if (this.model.screenSize.h > this.screenPos.h) {
+				// sometimes we might need to rescale the screenPos, because the "this.model.screenSize.h "
+				// is not correclty rounded
+				this.logger.log(-2, "updateScale","exit > h:" + this.screenPos.h + " < " + this.model.screenSize.h  );
+				this.initScale()
+			}
 		},
 
 
