@@ -512,16 +512,8 @@ export default {
 		},
 
 		initScale (){
-			/**
-			 * FIXME: We should have here a way to inject the screensize from outside!
-			 */
 			if (!this._externScreenPos) {
 				if(this.isDesktopTest){
-					/**
-					 * FIXME: For some reason this method does not
-					 * return the correct size of the node in case of the
-					 * simulator is launched in the dektop test.html.
-					 */
 					this.screenPos = domGeom.position(this.domNode.parentNode);
 				} else {
 					this.screenPos = domGeom.position(this.domNode);
@@ -540,8 +532,8 @@ export default {
 			if (this.model.screenSize.h > this.screenPos.h) {
 				// sometimes we might need to rescale the screenPos, because the "this.model.screenSize.h "
 				// is not correclty rounded
-				this.logger.log(-2, "updateScale","exit > h:" + this.screenPos.h + " < " + this.model.screenSize.h  );
-				this.initScale()
+				this.logger.warn("updateScale","exit > h:" + this.screenPos.h + " < " + this.model.screenSize.h  );
+				this.screenPos.h = this.model.screenSize.h
 			}
 		},
 

@@ -1616,12 +1616,12 @@ export default class RenderFactory extends Core {
 	}
 
 	destroyWidgetsById(ids) {
-		this.logger.log(-1, "destroyWidgets", "enter > ", ids)
+		this.logger.log(1, "destroyWidgets", "enter > ", ids)
 		ids.forEach(id => {
-			var w = this._uiWidgets[id]
+			const w = this._uiWidgets[id]
 			if (w) {
 				if (this.mode == "simulator" || this.mode == "view") {
-					var widget = this.model.widgets[id];
+					const widget = this.model.widgets[id];
 					if (widget && widget.inherited) {
 						id = widget.inherited;
 					}
