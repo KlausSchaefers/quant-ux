@@ -833,13 +833,18 @@ export default {
     },
 
     _setShadow (parent, shadow) {
-      var v = this.getZoomed(shadow.v, this._scaleY);
-      var h = this.getZoomed(shadow.h, this._scaleX);
-      var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
-      var s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
-      var inset = shadow.i ? "inset" : "";
-      var value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
-      parent.style.boxShadow = value;
+      if (shadow) {
+        var v = this.getZoomed(shadow.v, this._scaleY);
+        var h = this.getZoomed(shadow.h, this._scaleX);
+        var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
+        var s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
+        var inset = shadow.i ? "inset" : "";
+        var value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
+        parent.style.boxShadow = value;
+      } else {
+        console.debug('UIWidget._setShadow() > Error : Shadow is null', shadow)
+      }
+
     },
 
     _set_textShadow: function(parent, style) {
