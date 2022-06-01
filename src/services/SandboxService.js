@@ -5,6 +5,9 @@ export default class SandBoxService {
     run (js) {
         Logger.log(1, 'SandBoxService.run()')
 
+        // or web worker
+        // https://gist.github.com/dfkaye/da49b6c05aed48e6dfb28a2c7e87cf06
+        // http://blog.namangoel.com/replacing-eval-with-a-web-worker
         var xxx = ''
         try {
 

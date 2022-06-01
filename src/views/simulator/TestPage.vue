@@ -286,6 +286,7 @@ export default {
 				this.model = model;
 				let test = await Services.getModelService().findTestByHash(this.model, this.hash)
 				this.setTestsettings(test)
+				this.preloadImages(model)
 			} else {
 				this.domNode.innerHTML="Sorry, the invitation is not valid...";
 				location.href = location.protocol + "//" + location.host + "/404.html";
@@ -352,6 +353,56 @@ export default {
 
 		getPricacy () {
 			return this.getNLS("test.welcome.privacy");
+		},
+
+		preloadImages (model) {
+			this.logger.log(-1,"preloadImages","enter");
+
+			try {
+				const div = document.createElement("div");
+				css.add(div, "MatcSimulatorImagePreloader");
+				this.domNode.appendChild(div);
+
+				for(let id in model.screens){
+					let box = model.screens[id];
+					if(box.style && box.style.backgroundImage){
+						let img = document.createElement("img");
+						img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
+						div.appendChild(img);
+					}
+				}
+
+				for(let id in model.widgets){
+					let box = model.widgets[id];
+					if(box.style && box.style.backgroundImage){
+						let img = document.createElement("img");
+						img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
+						div.appendChild(img);
+					}
+					
+				}
+
+				// since 4.0.81 we preload the icon webfont as well
+				let icons = Object
+					.values(model.widgets)
+					.filter(w => w.type === 'Icon')
+				
+				if (icons.length > 0) {
+					let span = document.createElement("span");
+					span.className = 'mdi mdi-android'
+					div.appendChild(span);
+					this.logger.log(-1,"preloadImages","load icons", span);
+				}
+
+				setTimeout(() => {
+					this.domNode.removeChild(div)
+					this.logger.log(-1,"preloadImages","exit & clean");
+				}, 1000)
+			} catch (e) {
+				this.logger.error("preloadImages","exit > error", e);
+			}
+
+		
 		},
 
 		renderTest (){
