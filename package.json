@@ -28,7 +28,7 @@
     "uuid": "^3.4.0",
     "vue": "^2.6.11",
     "vue-i18n": "^8.18.1",
-    "vue-router": "^3.5.4",
+    "vue-router": "^3.1.5",
     "vue2-ace-editor": "0.0.15"
   },
   "devDependencies": {
@@ -51,6 +51,7 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-jest": "^3.0.7",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "worker-loader": "^3.0.8"
   }
 }
