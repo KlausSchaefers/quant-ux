@@ -5,7 +5,11 @@
    <div class="MatcDialog">
    
        <textarea v-model="js" class="form-control" @change="store"/>
-       <button class="MatcButton" @click="run">Run</button>
+       <div>
+          <button class="MatcButton" @click="run">Run</button> 
+          <span class="MatcError"> {{errorMsg}} </span> 
+          <span>{{resultMsg}}</span>
+       </div>
     </div>
   </div>
 </template>
@@ -38,7 +42,7 @@
 
 
 import Logger from '../core/Logger'
-import SandBoxService from '../services/SandboxService'
+import SandBoxService from '../core/engines/ScriptEngine'
 
 
 export default {
@@ -49,7 +53,7 @@ export default {
         js: `
 console.debug('aaa')
 console.debug(qux)
-qux.save()
+qux.setData({})
 var xxx = 'xxx'
 return 1
 `,
@@ -58,7 +62,9 @@ return 1
             age: 42,
             sum: 0
         },
-        app: {}
+        app: {},
+        errorMsg: '',
+        resultMsg: ''
     };
   },
   components: {
@@ -71,15 +77,24 @@ return 1
       store () {
           localStorage.setItem('jsSandBoxTest', this.js)
       },
-      run () {
-          let s = new SandBoxService()
-          s.run(this.js, this.app, this.viewModel)
+      async run () {
+          const s = new SandBoxService()
+          try {
+            this.resultMsg = 'Running...'
+            const result = await s.run(this.js, this.app, this.viewModel)
+            this.resultMsg = result.result
+            this.viewModel = result.viewModel
+            this.errorMsg = ''
+          } catch (error) {
+            this.resultMsg = ''
+            this.errorMsg = error
+          }
       }
   },
   mounted() {
     Logger.setLogLevel(4)
     if (localStorage.getItem('jsSandBoxTest')) {
-       // this.js = localStorage.getItem('jsSandBoxTest')
+       this.js = localStorage.getItem('jsSandBoxTest')
     }
   }
 };

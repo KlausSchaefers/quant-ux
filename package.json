@@ -25,13 +25,13 @@
     "vue2-ace-editor": "^0.0.15"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "babel-eslint": "^10.1.0",
     "body-parser": "^1.20.0",
     "compression": "^1.7.4",
     "core-js": "^3.22.8",
@@ -43,6 +43,7 @@
     "jest": "^28.1.0",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
+    "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.6.14"
   }
 }
