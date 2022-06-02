@@ -2,14 +2,30 @@ import Logger from '../Logger'
 
 class QModel {
 
+    constructor (model, api, type) {
+        this.qModel = model
+        this.api = api
+        this.type = type
+    }
+
+    getName() {
+        return this.qModel.name
+    }
+
+    setStyle(newStyleDelta) {
+        this.api.appDeltas.push({
+            type: this.type,
+            id: this.qModel.id,
+            style: newStyleDelta
+        })
+    }
+
 }
 
 class QWidget extends QModel {
 
     constructor (model, api) {
-        super()
-        this.screenModel = model
-        this.api = api
+        super(model, api, 'Widget')
     }
 
 }
@@ -17,30 +33,39 @@ class QWidget extends QModel {
 class QScreen extends QModel {
 
     constructor (model, api) {
-        super()
-        this.screenModel = model
-        this.api = api
+        super(model, api, 'Screen')
     }
 
     getWidget(name) {
-        return new QWidget(null, this)
+        Logger.log(-1, "QScreen.getWidget() ", name)
+        const children = this.qModel.children
+        for (let i =0; i < children.length; i++) {
+            const widgetId = children[i]
+            const widget = this.api.app.widgets[widgetId]
+            if (widget && widget.name === name) {
+                return new QWidget(widget, this)
+            }
+        }
+
+        
     }
 }
 
 export default class ScriptAPI {
 
-    constructor(model, viewModel) {
+    constructor(app, viewModel) {
         Logger.log(-1, "ScriptAPI.constructor() ", viewModel)
-        this.model = model
+        this.app = app
         this.viewModel = viewModel
         this.appDeltas = []
     }
 
     getScreen(name) {
-        return new QScreen(null, this)
+        const found = Object.values(this.app.screens).filter(s => s.name === name)
+        if (found.length === 1) {
+            return new QScreen(found[0], this)
+        }
     }
-
-
 
     setViewModel (viewModel) {
         Logger.log(-1, "ScriptAPI.setViewModel() ", viewModel)
