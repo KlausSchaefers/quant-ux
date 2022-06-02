@@ -52,7 +52,7 @@ body{
 }
 
 .MatcLogoNew{
-	background-image: url("/img/LogoNew.png");
+	background-image: url("img/LogoNew.png");
 	background-repeat: no-repeat;
 	background-size: 100% auto;
 	display: inline-block;
@@ -62,7 +62,7 @@ body{
 }
 
 .MatcSimulatorLoadingLogo{
-	background-image: url("/img/LogoNew.png");
+	background-image: url("img/LogoNew.png");
 	background-repeat: no-repeat;
 	background-size: 100% auto;
 	display: inline-block;

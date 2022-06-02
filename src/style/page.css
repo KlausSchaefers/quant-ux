@@ -210,29 +210,13 @@ body.MatcBody{
 
 @media (min-width: 991px){
 
-	.MatcAboutFirstLaptop{
-		background: url('/img/laptop_500h.png');
-		background-repeat: no-repeat;
 
-	    height: 500px;
-	    width: 925px;
-	    display: inline-block;
-	    margin-top:20px;
-	    margin-left:20px;
-	}
 
 }
 
 @media (max-width: 991px){
 
-	.MatcAboutFirstLaptop{
-		background: url('/img/laptop_250h.png');
-		background-repeat: no-repeat;
 
-	    height: 252px;
-	    width: 462px;
-	    display: inline-block;
-	}
 
 }
 
@@ -282,25 +266,6 @@ body.MatcBody{
 }
 
 
-
-.MatcAboutProcess{
-	background-image: url("/img/Process2.png");
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    height: 500px;
-    width: 500px;
-    display: inline-block;
-}
-
-.MatcLogo{
-	background-image: url("/img/Logo_Full_White2.png");
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    display: inline-block;
-    height: 80px;
-    margin-top: 150px;
-    width: 400px;
-}
 
 .MatcHeaderActionContainer .MatcButton {
     border-color: #3787f2;
@@ -353,15 +318,7 @@ body.MatcBody{
 	perspective: 500px;
 }
 
-.MatcLogoSmall{
-	margin-top:50px;
-	background-image: url("/img/Logo_Full_White2.png");
-	width: 300px;
-	height: 50px;
-	display: inline-block;
-	background-size: 100%;
-	background-repeat: no-repeat;
-}
+
 
 
 
@@ -490,21 +447,6 @@ body.MatcBody{
 }
 
 @media (min-width: 992px) and (max-width:1199px) {
- 	.MatcImageWrapperBrowser{
-	 	background-image: url('/img/WrapperBrowser.png')  ;
-	 	padding-top: 35px;
-	 	background-repeat: no-repeat;
-	 	overflow: hidden;
-	 	border-top-left-radius:5px;
-	 	border-top-right-radius:5px;
-	 	border-bottom-left-radius:2px;
-	 	border-bottom-right-radius:2px;
-	 	background-color: #f0eeef;
-	 	border-top: 1px solid #fff;
-	 }
-	  .MatcImageWrapperBrowser img{
-	 	border-top: 1px solid #c1c1c1;
-	 }
 
 	 .MatcImageRight{
 	 	position: absolute;
@@ -549,22 +491,6 @@ body.MatcBody{
 
 
 @media (min-width:1200px) {
-
-	 .MatcImageWrapperBrowser{
-	 	background-image: url('/img/WrapperBrowser.png')  ;
-	 	padding-top: 35px;
-	 	background-repeat: no-repeat;
-	 	overflow: hidden;
-	 	border-top-left-radius:5px;
-	 	border-top-right-radius:5px;
-	 	border-bottom-left-radius:2px;
-	 	border-bottom-right-radius:2px;
-	 	background-color: #f0eeef;
-	 	border-top: 1px solid #fff;
-	 }
-	  .MatcImageWrapperBrowser img{
-	 	border-top: 1px solid #c1c1c1;
-	 }
 
 	 .MatcImageRight{
 	 	position: absolute;
