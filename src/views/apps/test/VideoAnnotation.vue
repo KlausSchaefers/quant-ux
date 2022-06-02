@@ -14,7 +14,6 @@ import hash from "dojo/hash";
 import Logger from "common/Logger";
 import DropDownButton from "page/DropDownButton";
 import Services from "services/Services";
-import { Promise } from "q";
 
 export default {
   name: "VideoAnnotation",
