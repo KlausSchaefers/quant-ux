@@ -162,10 +162,10 @@ export default new VueRouter({
       path: '/test/CondStyle.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/ConditionalStyleTest.vue')
     },
-    {
-      path: '/test/JS.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/JSSandboxTest.vue')
-    }
+    //{
+    //  path: '/test/JS.html',
+    //  component: () => import(/* webpackChunkName: "unit" */ './unit/JSSandboxTest.vue')
+    //}
     //{
     //  path: '/test/Sketch.html',
     //  component: () => import(/* webpackChunkName: "unit" */ './unit/SketchTest.vue')

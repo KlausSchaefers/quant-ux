@@ -125,6 +125,8 @@ import Simulator from 'core/Simulator'
 import QR from 'core/QR'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
+import * as ScrollUtil from '../../util/ScrollUtil'
+
 
 export default {
     name: 'TestPage',
@@ -427,11 +429,11 @@ export default {
 		showQRDialog (e){
 			this.stopEvent(e);
 
-			var dialog = this.db
+			const dialog = this.db
 				.div("MatchTestQRDialog MatcPadding")
 				.build(dialog);
 
-			var img = this.db.img().build(dialog)
+			const img = this.db.img().build(dialog)
 			css.add(img, "MatcSimulatorQR");
 			QR.getQRCode(this.hash, true, false).then(url => {
 				img.src = url
@@ -440,7 +442,7 @@ export default {
 			this.db.div("MatcHint MatchTestQRDialogHint", this.getNLS("test.qr.headline"))
 				.build(dialog);
 
-			var d = new Dialog();
+			const d = new Dialog();
 			d.popup(dialog, e.target);
 		},
 
@@ -448,10 +450,10 @@ export default {
 		onSimulatorEvent (e) {
 			this.simulatorEvents.push(e)
 
-			var session = new DataFrame(this.simulatorEvents);
+			let session = new DataFrame(this.simulatorEvents);
 			session = this.getActionEvents(session);
-			var tasks = this.settings.tasks;
-			let matches = this.analytics.getTaskPerformance(session, tasks, true);
+			const tasks = this.settings.tasks;
+			const matches = this.analytics.getTaskPerformance(session, tasks, true);
 			matches.data.forEach(match => {
 				this.$set(this.taskDone, match.task, true)
 			})
@@ -461,13 +463,13 @@ export default {
 			/**
 			 * Render Simulator
 			 */
-			var screenPos = win.getBox();
+			const screenPos = win.getBox();
 			screenPos.w -= this.menuWidth;
 
 			/**
 			 * Set container size... make sure
 			 */
-			var cntr = this.db.div("MatcSimulatorSection").build();
+			const cntr = this.db.div("MatcSimulatorSection").build();
 			cntr.style.top="0px";
 			cntr.style.left = this.menuWidth + "px";
 			cntr.style.width = screenPos.w + "px";
@@ -487,35 +489,43 @@ export default {
 
 			css.add(win.body(), "MatcTestMobile");
 
-			var factor = 0.75;
-			var cntrPos = {
+			const factor = 0.75;
+			const cntrPos = {
 				w : Math.floor(screenPos.w * factor),
 				h : Math.floor(screenPos.h * factor)
 			};
 
-			var pos = this.model.screenSize;
-
+			let pos = this.model.screenSize;
 			if(cntrPos.h < this.model.screenSize.h){
 				this.logger.log(-1,"renderMobileSimulator","scale down...");
 				pos = this.getScaledSize(cntrPos, "height", this.model);
 			}
 
-			var parent = this.db.div("MatcCenter").build(cntr);
-
-			var wrapper = this.db.div("MatchSimulatorWrapper").build(parent);
+			const parent = this.db.div("MatcCenter").build(cntr);
+			const wrapper = this.db.div("MatchSimulatorWrapper").build(parent);
 			wrapper.style.width = Math.round(pos.w) + "px";
 			wrapper.style.height = Math.round(pos.h) + "px";
 
-			var container = this.db.div("MatchSimulatorContainer").build(wrapper)
+			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
+			ScrollUtil.addScrollIfNeeded(container)
 
-			var s = this.createSimulator();
+			const s = this.createSimulator();
+			s.setResizeListener(size => {
+				this.logger.log(-1,"renderMobileSimulator","resize", size.w + '/' + size.h);
+				wrapper.style.height = size.h + 'px'
+				wrapper.style.width = size.w + 'px'
+
+				container.style.height = size.h + 'px'
+				container.style.width = size.w + 'px'
+			})
 			s.setInvitation(this.hash);
 			s.isDesktopTest = true;
 			s.scrollListenTarget = "parent";
 			s.placeAt(container)
 			s.setModel(this.model);
+		
 
 			this.logger.log(0,"renderMobileSimulator","exit", pos);
 			return s;
@@ -525,34 +535,39 @@ export default {
 		renderDesktopSimulator (cntr, screenPos){
 			this.logger.log(2,"renderDesktopSimulator","enter " );
 
-			var factor = this.getDesktopScaleFactor(screenPos);
+			const factor = this.getDesktopScaleFactor(screenPos);
 			screenPos.w -= 64
-			var cntrPos = {
+			const cntrPos = {
 				w : Math.floor(screenPos.w * factor),
 				h : Math.floor(screenPos.h * factor)
 			};
-
-			var pos = this.model.screenSize;
-
+			let pos = this.model.screenSize;
 			if (cntrPos.w < this.model.screenSize.w){
 				this.logger.log(0,"renderDesktopSimulator","scale down by width...");
 				pos = this.getScaledSize(cntrPos, "width", this.model);
 			}
 
 
-
-			var parent = this.db.div("MatcCenter").build(cntr);
-
-			var wrapper = this.db.div("MatchSimulatorWrapper").build(parent);
+			const parent = this.db.div("MatcCenter").build(cntr);
+			const wrapper = this.db.div("MatchSimulatorWrapper").build(parent);
 			wrapper.style.width = Math.round(pos.w) + "px";
 			wrapper.style.height = Math.round(pos.h) + "px";
 
-			var container = this.db.div("MatchSimulatorContainer").build(wrapper)
+			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
+			ScrollUtil.addScrollIfNeeded(container)
 
 
-			var s = this.createSimulator();
+			const s = this.createSimulator();
+			s.setResizeListener(size => {
+				this.logger.log(-1,"renderMobileSimulator","resize", size.w + '/' + size.h);
+				wrapper.style.height = size.h + 'px'
+				wrapper.style.width = size.w + 'px'
+
+				container.style.height = size.h + 'px'
+				container.style.width = size.w + 'px'
+			})
 			s.mode ="width";
 			/**
 			 * FIXME: Hacky workaround for initScale() issue;
