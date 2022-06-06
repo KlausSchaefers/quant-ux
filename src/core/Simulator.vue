@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v4.0.80</div>
+      <div class="MatcSimulatorVersion">v4.0.82</div>
     </div>
   </div>
 </template>
@@ -403,7 +403,21 @@ export default {
 					img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
 					div.appendChild(img);
 				}
+				
 			}
+
+			// since 4.0.81 we preload the icon webfont as well
+			let icons = Object
+				.values(this.model.widgets)
+				.filter(w => w.type === 'Icon')
+			
+			if (icons.length > 0) {
+				let span = document.createElement("span");
+				span.className = 'mdi mdi-android'
+				div.appendChild(span);
+				this.logger.log(-1,"preloadImages","load icons", span);
+			}
+
 			this.logger.log(3,"preloadImages","exit");
 		},
 
@@ -494,9 +508,21 @@ export default {
 		 */
 		initParent (){
 			if(!this.qr && this.domNode.parentNode){
-				this.logger.log(1,"initParent","enter > "  + this.model.screenSize.h  );
+				this.logger.log(-1,"initParent","enter > "  + this.model.screenSize.h  );
 				this.domNode.parentNode.style.height = this.model.screenSize.h + "px";
+
+				if (this._resizeListener) {
+					try {
+						this._resizeListener(this.model.screenSize)
+					} catch (err) {
+						this.logger.log(-1,"initParent","Could not call _resizeListener > ");
+					}
+				}
 			}
+		},
+
+		setResizeListener (l) {
+			this._resizeListener = l
 		},
 
 		setScreenPosition (pos) {

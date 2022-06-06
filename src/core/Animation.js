@@ -76,7 +76,8 @@ export default class Animation extends Core{
 
 		this._shadowAttribs = {
 			"boxShadow": true,
-			"testShadow": true
+			"testShadow": true,
+			"popupShadow": true
 		}
 
 		this._defaultAnimValues = {

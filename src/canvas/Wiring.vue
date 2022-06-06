@@ -21,13 +21,24 @@ export default {
 				this.own(on(this.dndContainer, "mouseup", (e) => this.dispatchMouseUp(e)));
 				this.own(on(this.dndContainer, touch.over, (e) => this.dispatchOver(e)));
 				this.own(on(this.dndContainer, touch.out, (e) => this.dispatchOut(e)));
-				this.own(on(this.dndContainer, 'dblclick', (e) => this.disPatchDoubleClick(e)));
+				this.own(on(this.dndContainer, 'dblclick', (e) => this.dispatchDoubleClick(e)));
+				this.own(on(this.container, "mousedown", (e) => this.dispatchBackroundClick(e)));
 			},
 
-			disPatchDoubleClick () {
-				this.logger.log(-1, "disPatchDoubleClick", "enter");
+			dispatchDoubleClick () {
+				this.logger.log(-1, "dispatchDoubleClick", "enter");
 				this.forceCompleteRender()
 				this.rerender()
+			},
+
+			dispatchBackroundClick (e) {
+				this.logger.log(-1, "dispatchBackroundClick", "enter");
+				let target = e.target
+				// allow inline eding
+				if (this._inlineEditDiv === target) {
+					return
+				}
+				this.dispatchMouseDownCanvas(e, target)
 			},
 
 			dispatchOver (e) {

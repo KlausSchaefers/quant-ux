@@ -4,7 +4,7 @@
 		<div class="MatcCanvasContainer MatcCanvasZoomable " data-dojo-attach-point="container">
 			<div class="MatcCanvasContainer " data-dojo-attach-point="zoomContainer">
 				<div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div>
-				<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div>
+				<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer MatcCanvasGridLayer"></div>
 			</div>
 			<div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
 		</div>

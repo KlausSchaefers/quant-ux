@@ -1043,83 +1043,88 @@ export default {
 			var event = this.getEvent(Math.floor(t));
 
 
-			/**
-			 * Set screen or animate transition
-			 */
-			if(event.screen){
+			try {
+				/**
+				 * Set screen or animate transition
+				 */
+				if(event.screen){
 
-				if("ScreenAnimation" == event.type){
-					this.preview.animateScreen(event, t, this.min);
-				} else {
-					this.preview.setScreen(event.screen, event.scrollTop);
+					if("ScreenAnimation" == event.type){
+						this.preview.animateScreen(event, t, this.min);
+					} else {
+						this.preview.setScreen(event.screen, event.scrollTop);
+					}
 				}
-			}
-
-			/**
-			 * Set overlays.
-			 *
-			 * 1) We render all overlays.
-			 * 2) Then we run an animation if required
-			 */
-			var overlays = this._overLayStates[event.id];
-			if(overlays){
-				this.preview.setOverlays(overlays);
-			}
-			if(event.type == "OverlayShowAnimation" || event.type == "OverlayRemoveAnimation"){
-
-				this.preview.animateOverlay(event, t, this.min);
-
-			} else if(this.lastEvent && this.lastEvent.type == "OverlayShowAnimation"){
 
 				/**
-				 * Because of skipping or so, the animation might not have reached 100%,
-				 * so we force fore the animation one mo time,
+				 * Set overlays.
+				 *
+				 * 1) We render all overlays.
+				 * 2) Then we run an animation if required
 				 */
-				this.preview.animateOverlay(this.lastEvent, t, this.min);
+				var overlays = this._overLayStates[event.id];
+				if(overlays){
+					this.preview.setOverlays(overlays);
+				}
+				if(event.type == "OverlayShowAnimation" || event.type == "OverlayRemoveAnimation"){
+
+					this.preview.animateOverlay(event, t, this.min);
+
+				} else if(this.lastEvent && this.lastEvent.type == "OverlayShowAnimation"){
+
+					/**
+					 * Because of skipping or so, the animation might not have reached 100%,
+					 * so we force fore the animation one mo time,
+					 */
+					this.preview.animateOverlay(this.lastEvent, t, this.min);
+				}
+
+
+				/**
+				 * Show a click marker. We only show the marker if the delta is small
+				 * and there and x and y values
+				 */
+				var tDelta = 0;
+				if(forceMarker){
+					tDelta = Math.abs((event.time -this.min) - t);
+				}
+				if(event.x> 0 && event.y >0 && tDelta < 100){
+					this.preview.setMarker(event, forceMarker );
+				}
+
+				/**
+				 * now update widget states
+				 */
+				var states = this._widgetStates[event.id];
+				for(var widgetID in states){
+					var state = states[widgetID];
+					this.preview.setWidgetState(widgetID, state, forceMarker, t +this.min);
+				}
+
+				/**
+				 * Set scroll
+				 */
+				this.setScroll(event, t);
+
+				this.setMouseCursor(event, t);
+
+
+				/**
+				 * fire widget animations
+				 */
+
+				var at = this.getAnimationIndex(t);
+				if(this._widgetAnimationStates[at]){
+					var animStates = this._widgetAnimationStates[at];
+					this.preview.setWidgetAnimationStates(animStates);
+				} else {
+					console.warn("setTime() > No animation data for time index", at)
+				}
+
+			} catch (err) {
+				console.warn("Simualtor.setTime() > Error", err)
 			}
-
-
-			/**
-			 * Show a click marker. We only show the marker if the delta is small
-			 * and there and x and y values
-			 */
-			var tDelta = 0;
-			if(forceMarker){
-				tDelta = Math.abs((event.time -this.min) - t);
-			}
-			if(event.x> 0 && event.y >0 && tDelta < 100){
-				this.preview.setMarker(event, forceMarker );
-			}
-
-			/**
-			 * now update widget states
-			 */
-			var states = this._widgetStates[event.id];
-			for(var widgetID in states){
-				var state = states[widgetID];
-				this.preview.setWidgetState(widgetID, state, forceMarker, t +this.min);
-			}
-
-			/**
-			 * Set scroll
-			 */
-			this.setScroll(event, t);
-
-			this.setMouseCursor(event, t);
-
-
-			/**
-			 * fire widget animations
-			 */
-
-			var at = this.getAnimationIndex(t);
-			if(this._widgetAnimationStates[at]){
-				var animStates = this._widgetAnimationStates[at];
-				this.preview.setWidgetAnimationStates(animStates);
-			} else {
-				console.warn("setTime() > No animation data for time index", at)
-			}
-
+			
 
 			this.lastEventID = event.id;
 

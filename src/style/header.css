@@ -123,13 +123,7 @@
 	overflow:hidden;
 }
 
-.MatcLandingImageCntr{
-	width: 800px;
-    height: 600px;
-    background: url(/img/Landing5c.png);
-    background-size: 100%;
-    background-repeat: no-repeat;
-}
+
 
  @media (max-width: 500px){
 

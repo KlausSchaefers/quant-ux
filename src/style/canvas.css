@@ -413,6 +413,12 @@
 	display: none;
 }
 
+.MatcCanvasModeInlineEdit .MatcDnDLayer,
+.MatcCanvasModeInlineEdit .MatcCanvasGridLayer {
+	pointer-events: none;
+}
+
+
 
 
  /****************************************************
