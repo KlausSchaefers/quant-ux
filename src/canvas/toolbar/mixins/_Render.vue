@@ -160,6 +160,7 @@ export default {
 			* for the widgets
 			*/
 			this.createBTN = this.$new(CreateButton);
+			this.createBTN.setUser(this.user);
 			this.createBTN.setModel(this.model);
 			this.createBTN.setJwtToken(this.jwtToken)
 			this.tempOwn(on(this.createBTN, "change", lang.hitch(this, "onNewThemeObject")));

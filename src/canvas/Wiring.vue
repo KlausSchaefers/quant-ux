@@ -32,13 +32,15 @@ export default {
 			},
 
 			dispatchBackroundClick (e) {
-				this.logger.log(-1, "dispatchBackroundClick", "enter");
-				let target = e.target
-				// allow inline eding
-				if (this._inlineEditDiv === target) {
-					return
+				this.logger.log(-1, "dispatchBackroundClick", "enter", this._inlineEditStarted);
+				if (this._inlineEditStarted) {
+					let target = e.target
+					if (this._inlineEditDiv === target) {
+						return
+					}
+					this.dispatchMouseDownCanvas(e, target)
 				}
-				this.dispatchMouseDownCanvas(e, target)
+			
 			},
 
 			dispatchOver (e) {
