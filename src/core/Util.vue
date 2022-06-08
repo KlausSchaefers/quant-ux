@@ -648,6 +648,12 @@ export default {
           return "Unchecked";
         }
       }
+
+      if (state.type == "open") {
+        return "Open";
+      }
+
+      
       if (state.type == "select") {
         return "Select";
       }

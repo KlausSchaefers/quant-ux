@@ -118,13 +118,20 @@ export default {
         return {
           screen: this.getScreenName(event.screen),
           widget: this.getWidgetName(event.widget),
-          type:  this.getEventLabel(event.type),
+          type:  this.getEventLabelWithState(event),
           label: event.widget ? this.getWidgetName(event.widget) + ' @ ' + this.getScreenName(event.screen): this.getScreenName(event.screen)
         }
       })
     }
   },
   methods: {
+
+    getEventLabelWithState (event) {
+      if (event.state && (event.type === 'WidgetClick' || event.type === 'WidgetChange')) {
+        return this.getEventStateLabel(event.state)
+      }
+      return this.getEventLabel(event.type)
+    },
 
     setRecordOnlyScreenView (v) {
       this.recordOnlyScreenViews = v
