@@ -31,10 +31,6 @@ var app = express()
  */
 app.use(compression())
 
-/**
- * Add some security headers...
- */
-app.use(helmet())
 
 /** 
  * make config dynamic on env variables
@@ -56,7 +52,7 @@ app.get("/config.json", (_req, res) => {
 /**
  * init proxy.
  */
-app.use('/rest/', proxyMiddleware({
+app.use('/rest/', proxyMiddleware.createProxyMiddleware({
     target: proxyUrl,
     changeOrigin: true
 }))

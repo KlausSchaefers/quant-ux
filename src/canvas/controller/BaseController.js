@@ -285,7 +285,7 @@ export default class BaseController extends Core {
 	}
 
 	async saveModelChanges () {
-
+	
 		if (this.mode == "public"){
 			this.showSuccess("Please register to save changes...");
 			ModelFixer.validateAndFixModel(this.model);
@@ -294,21 +294,22 @@ export default class BaseController extends Core {
 			if (this._dirty){
 				if (this.oldModel) {
 
+				
 					/**
 					 * Validate and fix model
 					 */
-					 ModelFixer.validateAndFixModel(this.model);
+					ModelFixer.validateAndFixModel(this.model);
 
 					/**
 					 * compute changes and send them to server
 					 */
-					var changes = CollabUtil.getModelDelta(this.oldModel, this.model);
-					this.logger.log(4,"saveModelChanges", "Save changes " + changes.length);
+					const changes = CollabUtil.getModelDelta(this.oldModel, this.model);
+					this.logger.log(-4,"saveModelChanges", "Save changes " + changes.length);
 					if (changes.length > 0) {
 						/**
 						 * We start a transaction, and we will close it.
 						 */
-						let transactionId = this.startTransaction(transactionId)
+						const transactionId = this.startTransaction(changes)
 						this.modelService.updateApp(this.model, changes).then(res => {
 							this.endTransaction(transactionId)
 							this.onModelUpdated(res);
@@ -328,10 +329,12 @@ export default class BaseController extends Core {
 						this.onModelSaved(res);
 					}
 					this._dirty = false;
+
 				} else {
 					console.warn("saveModelChanges() > No oldModel!", this);
 				}
 
+			
 				/**
 				 * Store the model in case of network failure.
 				 */
