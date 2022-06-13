@@ -349,7 +349,7 @@ export default {
        * default settings
        */
       this.settings = {
-        canvasTheme: "MatcDark",
+        canvasTheme: "MatcLight",
         lineColor: "#333",
         lineWidth: 1,
         storePropView: true,

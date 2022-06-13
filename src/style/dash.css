@@ -1204,6 +1204,10 @@
 	color:#fff;
 }
 
+.MatcPlayerButtonBar .mdi {
+	font-size: 24px;
+}
+
 .MatcPlayerTime{
 	display: inline-block;
 	padding: 8px 20px;

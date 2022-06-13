@@ -1,0 +1,19 @@
+.MatcDark .MatcToobarPropertiesSection input{
+    border: 1px solid transparent;
+}
+
+.MatcDark .MatcToobarPropertiesSection input:hover,
+.MatcDark .MatcToobarPropertiesSection input:focus{
+    border: 1px solid #555;
+}
+
+
+.MatcDark .MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
+    border-bottom-color: #3787f2;
+    color: #fff;
+}
+
+.MatcDialog .MatcToolbarTabs a {
+	color: #333;
+}
+
