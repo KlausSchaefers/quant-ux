@@ -40,6 +40,11 @@
 	</div>
 
 </template>
+<style lang="css">
+  @import url("../../style/matc.css");
+  @import url('../../style/toolbar/all.css');
+  @import url("../../style/canvas/all.css");
+</style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'

@@ -5,13 +5,11 @@
 @import 'common.css';
 @import 'dash.css'; 
 @import 'widgets.css'; 
-@import 'widgets_chat.css'; 
 @import 'widgets/repeater.css'; 
 @import 'widgets/scrolltarget.css'; 
 @import 'widgets/screensegment.css'; 
 @import 'simulator.css'; 
 @import 'public.css';
-@import 'plan.css';
 @import 'color_picker_sketch.css';
 @import 'download.css';
 @import 'share.css';

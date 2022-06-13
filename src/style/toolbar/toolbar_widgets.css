@@ -1437,8 +1437,8 @@ input.MatcToobarInlineEditDisabled:focus{
  * ImageRotate
  ****************************************************/
 .MatcImageRotate .MatcToolbarItem{
-	padding-left: 0px;
 	padding-top: 8px;
+	text-align: left;
 }
 
 /****************************************************

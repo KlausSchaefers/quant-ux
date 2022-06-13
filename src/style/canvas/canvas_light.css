@@ -230,7 +230,7 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection input {
-	border: 1px solid #ccc;
+	border: 1px solid transparent;
 	border-top:1px solid transparent;
 	border-left:1px solid transparent;
 	border-right:1px solid transparent;
@@ -467,3 +467,6 @@
 	opacity: 0.5;
 }
 
+.MatcLight .MatcToobarHomeSection .MatcToolbarItem {
+	color: #fff;
+}

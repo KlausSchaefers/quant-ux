@@ -15,7 +15,7 @@
 	</div>
 </template>
 <style>
- @import url('../../../style/CustomFonts.css');
+ @import url('../../../style/canvas/CustomFonts.css');
 </style>
 
 <script>

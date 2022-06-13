@@ -7,6 +7,8 @@
 
 <style lang="css">
   @import url("../../style/matc.css");
+  @import url('../../style/toolbar/all.css');
+  @import url("../../style/canvas/all.css");
 </style>
 <style lang="sass">
   @import "../../style/bulma.sass"
