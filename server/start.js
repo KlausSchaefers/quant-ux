@@ -19,6 +19,8 @@ const keycloak_realm = process.env.QUX_KEYCLOAK_REALM ?  process.env.QUX_KEYCLOA
 const keycloak_client = process.env.QUX_KEYCLOAK_CLIENT ?  process.env.QUX_KEYCLOAK_CLIENT : ''
 const keycloak_url = process.env.QUX_KEYCLOAK_URL ?  process.env.QUX_KEYCLOAK_URL : ''
 const sharedLibs = process.env.QUX_SHARED_LIBS ?  process.env.QUX_SHARED_LIBS : ''
+const userAllowSignUp = process.env.QUX_USER_ALLOW_SIGNUP !== 'false'
+const userAllowedDomains = process.env.QUX_USER_ALLOWED_DOMAINS ? QUX_USER_ALLOWED_DOMAINS : '*'
 
 /**
  *
@@ -41,6 +43,10 @@ app.get("/config.json", (_req, res) => {
     "websocket": wsUrl,
     "tos": tos,
     "sharedLibs": sharedLibs,
+    "user": {
+      "allowSignUp": userAllowSignUp,
+      "allowedDomains": userAllowedDomains
+    },
     "keycloak": {
       "realm": keycloak_realm,
       "clientId": keycloak_client,
@@ -85,6 +91,8 @@ module.exports = server.listen(port, function (err) {
   console.log('Backend   : ' + proxyUrl)
   console.log('WebSocket : ' + wsUrl)
   console.log('Auth      : ' + auth)
+  console.log('SignUp    : ' + userAllowSignUp)
+  console.log('Domains   : ' + userAllowedDomains)
 })
 
 
