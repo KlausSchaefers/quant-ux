@@ -45,5 +45,7 @@ services:
       - QUX_AUTH_SERVICE=keycloak
       - QUX_KEYCLOAK_SERVER=http://keycloak:8180 # just the keycloak host & port
       - QUX_KEYCLOAK_REALM=barista
+      - QUX_USER_ALLOW_SIGNUP=true # set the false to not allow users to signup
+      - QUX_USER_ALLOWED_DOMAINS=* # comma separated list of domains, e.g. 'my-server.com' or '*' for all
     depends_on:
       - mongo
