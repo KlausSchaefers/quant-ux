@@ -179,7 +179,7 @@ export default {
 
 		this.letterSpacing = this.$new(ToolbarDropDownButton);
 		this.letterSpacing.setOptions([0,1,2,4,5,6,7,8,9,10,20,30]);
-		this.letterSpacing.setLabel('<span class="glyphicons glyphicons-text-width"></span>');
+		this.letterSpacing.setLabel('<span class="mdi mdi-format-text-rotation-none"></span>');
 		this.letterSpacing.reposition = true;
 		this.letterSpacing.updateLabel  =false;
 		this.letterSpacing.isChildDropDown = this.isChildDropDown
@@ -201,7 +201,7 @@ export default {
 		{ value:"middle", icon:"mdi mdi-format-vertical-align-center"},
 		{ value:"bottom", icon:"mdi mdi-format-vertical-align-bottom"},
 		]);
-		this.verticalAlign.setLabel('<span class="glyphicons glyphicons-text-width"></span>');
+		this.verticalAlign.setLabel('<span class="mdi mdi-format-vertical-align-top"></span>');
 		this.verticalAlign.reposition = true;
 		this.verticalAlign.updateLabel  = true;
 		this.verticalAlign.isChildDropDown = this.isChildDropDown

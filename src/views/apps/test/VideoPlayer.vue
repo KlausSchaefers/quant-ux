@@ -12,11 +12,8 @@
 		
 			<div class="MatcPlayerButtonBar">
 				<div class="">
-					<a data-dojo-attach-point="btnBack"><span class="glyphicon glyphicon-step-backward"></span></a>
-					<a data-dojo-attach-point="btnPlay"><span data-dojo-attach-point="iconPlay" class="glyphicon glyphicon-play"></span></a>
-					<!--
-						<a data-dojo-attach-point="btnComment" class="vommondPopupCntr"><span class="glyphicon glyphicon-tag"></span></a>
-					-->
+					<a data-dojo-attach-point="btnBack"><span class="mdi mdi-skip-previous"></span></a>
+					<a data-dojo-attach-point="btnPlay"><span data-dojo-attach-point="iconPlay" class="mdi mdi-play"></span></a>
 					<span class="MatcPlayerTime" data-dojo-attach-point="time"></span>
 				</div>
 			</div>

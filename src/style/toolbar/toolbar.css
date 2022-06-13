@@ -10,11 +10,6 @@
 	user-select: none;
  }
 
- .MatcToolbar .MatcToobarLeft .glyphicons::before{
- 	font-size: 18px;
-	cursor: pointer;
- }
-
 
 .MatcMultiIcon{
 	position: relative;
@@ -61,15 +56,6 @@
 	cursor: pointer;
 }
 
- .MatcToolbar .glyphicons::before, .MatcToolbar .glyphicon {
-	font-size: 16px;
-	cursor: pointer;
-}
-
-.MatcToolbarSmallIcon.glyphicon, .MatcToolbarSmallIcon .glyphicon{
-	font-size: 12px;
-}
-
 .MatcToolbarSpacer{
 	width: 10px;
 	display: inline-block;
@@ -88,20 +74,6 @@
 .MatcToolbarButton:HOVER{
 	background: #1251a3;
 	border-color:#1251a3;
-}
-
-
-.MatcToolbarIconNoSmooth .glyphicons,
-.MatcToolbarIconNoSmooth .glyphicon {
-	-moz-osx-font-smoothing: auto;
-	-webkit-font-smooth: auto;
-	font-smooth: auto;
-}
-
-.MatcToobarPropertiesSection .glyphicons::before,
-.MatcToobarPropertiesSection .glyphicon {
-	font-size: 14px;
-	cursor: pointer;
 }
 
 

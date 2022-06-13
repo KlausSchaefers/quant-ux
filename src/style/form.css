@@ -305,10 +305,6 @@ input:focus{
 	background: #cecece;
 }
 
-.MatcCirleButton .glyphicons::before {
-	font-size: 40px;
-}
-
 .MatcPlus:hover, .MatcCirleButton:hover, .MatcCirleButton.MatcCirlePassive:hover{
 	 background: #6da000;
 }

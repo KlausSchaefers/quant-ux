@@ -29,7 +29,7 @@
 
 		<div class=" MatcToobarCommentSection MatcToolbarSection">
 			<a class="MatcToolbarItem" data-dojo-attach-point="commentBtn">
-				<span class="glyphicons glyphicons-comments"></span>
+				<span class="mdi mdi-comment-outline"></span>
 			</a>
 		</div>
 

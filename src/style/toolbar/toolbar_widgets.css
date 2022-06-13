@@ -1072,10 +1072,6 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 
-.MatcToolbarDropDownButtonPopup ul .glyphicons::before, .MatcToolbarDropDownButtonPopup ul .glyphicon{
-	font-size: 20px;
-}
-
 .MatcToolbarPopupChildren{
 	position: absolute;
 	left:100%;
