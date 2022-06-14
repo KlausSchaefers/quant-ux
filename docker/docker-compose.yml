@@ -14,9 +14,9 @@ services:
     environment:
       - QUX_PROXY_URL=http://quant-ux-backend:8080        # this is the path the front end uses to talk tot he backend
       - QUX_AUTH=qux
-      - QUX_KEYCLOAK_REALM=qux
-      - QUX_KEYCLOAK_CLIENT=qux
-      - QUX_KEYCLOAK_URL=http://keycloak:8180
+      - QUX_KEYCLOAK_REALM=
+      - QUX_KEYCLOAK_CLIENT=
+      - QUX_KEYCLOAK_URL=
       - QUX_WS_URL=
     links:
       - mongo
@@ -42,9 +42,9 @@ services:
       - QUX_IMAGE_FOLDER_USER=/qux-images        # just a folder name, change if you like
       - QUX_IMAGE_FOLDER_APPS=/qux-image-apps        # just a folder name, change if you like
       - TZ=America/Chicago        # change to your timezone
-      - QUX_AUTH_SERVICE=keycloak
-      - QUX_KEYCLOAK_SERVER=http://keycloak:8180 # just the keycloak host & port
-      - QUX_KEYCLOAK_REALM=barista
+      - QUX_AUTH_SERVICE=qux
+      - QUX_KEYCLOAK_SERVER= # just the keycloak host & port
+      - QUX_KEYCLOAK_REALM=
       - QUX_USER_ALLOW_SIGNUP=true # set the false to not allow users to signup
       - QUX_USER_ALLOWED_DOMAINS=* # comma separated list of domains, e.g. 'my-server.com' or '*' for all
     depends_on:
