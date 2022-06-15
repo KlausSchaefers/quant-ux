@@ -54,12 +54,6 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "design" */ 'views/apps/Design.vue')
     },
     {
-      path: '/tryout2.html',
-      name: 'TryoutEditor',
-      meta: {isPublic:true},
-      component: () => import(/* webpackChunkName: "design" */ 'views/apps/Tryout.vue')
-    },
-    {
       path: '/examples/:id/design/:sid.html',
       name: 'ExampleEditor',
       meta: {isPublic:true},

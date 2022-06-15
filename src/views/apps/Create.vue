@@ -57,7 +57,7 @@ export default {
     async create() {
       if (this.$route.meta && this.$route.meta.isTryout) {
         this.logger.info("create", "enter > tryout");
-        location.href = `#/tryout2.html?w=${this.type.screenSize.w}&h=${this.type.screenSize.h}&t=${this.type.type}`;
+        location.href = `#/apps/tryout2.html?w=${this.type.screenSize.w}&h=${this.type.screenSize.h}&t=${this.type.type}`;
       } else {
         this.logger.info("create", "enter > user");
         let fac = new ModelFactory();

@@ -1,11 +1,8 @@
 
-import request from '../dojo/request'
-
 var vommonLoggingQueue = []
 var vommonLoggingQueuePos = 0
 var vommonLoggingQueueMax = 50
 var vommonLoggingDebugLevel = 0
-var vommondLoggingErros = 0
 
 export default class Logger {
 
@@ -41,37 +38,8 @@ export default class Logger {
 	}
 
 
-	sendError (e){
-		var plugins = "";
-		if(vommondLoggingErros < 10){
-			var q = this.writeQueue();
-			var msg = {
-				level : 0,
-				url : location.hostname,
-				message : e.message,
-				stack : e.stack,
-				ua : navigator.userAgent,
-				appCodeName : navigator.appCodeName,
-				appName : navigator.appName,
-				platform : navigator.platform,
-				user : 'User@4.0.60',
-				plugins : plugins,
-				queue : q
-			};
-
-			var params = {
-				handleAs: "json",
-				method : "post",
-				sync: false,
-				data : JSON.stringify(msg)
-			};
-			request(this.url, params).then(function (){
-
-			}, function(err){
-				console.warn("Logger.sendError() > could not send", err)
-			});
-			vommondLoggingErros++
-		}
+	sendError (){
+		
 	}
 
 	error (meth, message, error) {
