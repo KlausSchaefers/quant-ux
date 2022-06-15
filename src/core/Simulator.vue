@@ -739,6 +739,10 @@ export default {
 		async executeLogic (screenID, widgetID, widget, orginalLine){
 			this.logger.log(1,"executeLogic","enter >  " + widget.id + ' '+ widget.type );
 
+			if (widget.props.script) {
+				this.executeScript(widgetID)
+				return
+			}
 			/**
 			 * Get all line sin the correct order
 			 */
@@ -748,6 +752,8 @@ export default {
 			if (widget.props && widget.props.rest) {
 				restSuccess = await this.executeRest(screenID, widgetID, widget, orginalLine)
 			}
+
+		
 
 			if (widget.props && widget.props.isRandom){
 				/**

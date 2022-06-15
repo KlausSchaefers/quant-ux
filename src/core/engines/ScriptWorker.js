@@ -3,7 +3,7 @@ import ScriptConsole from './ScriptConsole'
 import Logger from '../Logger'
 
 self.addEventListener('message', e => {
-    Logger.log(1, 'ScriptWorker.message() > enter ', e)
+    Logger.log(3, 'ScriptWorker.message() > enter ', e)
 
 
     const js = e.data.code
@@ -19,7 +19,7 @@ self.addEventListener('message', e => {
         result = code(qux, console)
   
         self.postMessage({
-            result: result,
+            to: result,
             viewModel: qux.getViewModel(),
             appDeltas: qux.getAppDeltas(),
             console: console.messages,

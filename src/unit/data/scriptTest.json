@@ -32,6 +32,30 @@
       "children" : [ "w10002_71762", "w10005_3380", "w10003_85390", "w10004_51309", "w10006_46139", "w10007_10067" ],
       "id" : "s10000_41636",
       "modified" : 1655323145234
+    },
+    "s10010_10970" : {
+      "x" : 1808,
+      "y" : 1084,
+      "h" : 568,
+      "w" : 320,
+      "name" : "Lala",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#f88686"
+      },
+      "min" : {
+        "w" : 320,
+        "h" : 568
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : false
+      },
+      "children" : [ "w10011_95773" ],
+      "id" : "s10010_10970",
+      "modified" : 1655326267651
     }
   },
   "widgets" : {
@@ -324,14 +348,71 @@
       "id" : "w10007_10067",
       "created" : 1655318088334,
       "modified" : 1655318123411
+    },
+    "w10011_95773" : {
+      "id" : "w10011_95773",
+      "type" : "Button",
+      "name" : "Button",
+      "x" : 1823,
+      "y" : 1093,
+      "w" : 100,
+      "h" : 40,
+      "z" : 7,
+      "props" : {
+        "label" : "Back"
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "onclick" : true,
+        "label" : true,
+        "padding" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 3,
+        "borderTopLeftRadius" : 3,
+        "borderBottomRightRadius" : 3,
+        "borderBottomLeftRadius" : 3,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#333333",
+        "fontSize" : 14,
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#ffffff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "verticalAlign" : "middle"
+      },
+      "created" : 1655326270589,
+      "modified" : 1655326275987
     }
   },
-  "lines" : { },
+  "lines" : {
+    "l10012_14165" : {
+      "id" : "l10012_14165",
+      "from" : "w10011_95773",
+      "to" : "s10000_41636",
+      "points" : [ ],
+      "event" : "click"
+    }
+  },
   "groups" : { },
   "templates" : { },
   "designtokens" : { },
-  "lastUUID" : 10008,
-  "lastUpdate" : 1655323157561,
+  "lastUUID" : 10013,
+  "lastUpdate" : 1655326275989,
   "created" : 1655310374498,
   "startScreen" : "",
   "grid" : {
@@ -343,10 +424,10 @@
     "enabled" : false
   },
   "domain" : "Quant-UX.com",
-  "size" : 5654,
+  "size" : 6866,
   "isDirty" : true,
-  "lastBackup" : 1655320303932,
-  "sizeBackup" : 5110,
+  "lastBackup" : 1655323903366,
+  "sizeBackup" : 5761,
   "id" : "62aa0826280efd5a08af9e3f",
   "lastCategory" : "WireFrame"
 }

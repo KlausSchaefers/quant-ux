@@ -48,7 +48,7 @@
 <script>
 
 
-import Logger from '../core/Logger'
+//import Logger from '../core/Logger'
 import SandBoxService from '../core/engines/ScriptEngine'
 import app from './data/scriptTest.json'
 import ScriptEdior from '../canvas/toolbar/dialogs/ScriptEditor.vue'
@@ -106,7 +106,7 @@ return 1
       }
   },
   mounted() {
-    Logger.setLogLevel(4)
+    //Logger.setLogLevel(4)
     if (localStorage.getItem('jsSandBoxTest')) {
        this.js = localStorage.getItem('jsSandBoxTest')
     }

@@ -192,7 +192,6 @@ export default {
         async run () {
             Logger.log(-1, 'ScriptEditor.run()', this.script)
             this.$emit('run', this.script)
-
             try {
                 const result = await this.simulator.runScript(this.script)
                 if (result) {
@@ -203,7 +202,6 @@ export default {
             } catch (err) {
                   Logger.log(-1, 'ScriptEditor.run() > error', err)
             }
-           
         },
      
 

@@ -825,7 +825,7 @@ export default {
 		},
 
 		renderTransition (line, screenID, isGestureAnimation){
-			this.logger.log(0,"renderTransition","enter > from " + screenID + " to " + line.to);
+			this.logger.log(-1,"renderTransition","enter > from " + screenID + " to " + line.to);
 			let to = line.to;
 			const screen = this.model.screens[to];
 			if (screen){

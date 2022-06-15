@@ -4,7 +4,7 @@ import lang from '../../dojo/_base/lang'
 export default class ScriptEngine {
 
     run (js, model, viewModel) {
-        Logger.log(-1, 'ScriptEngine.run()')
+        Logger.log(1, 'ScriptEngine.run()')
         this.isDone = false
         return new Promise((resolve, reject) => {
 
@@ -20,7 +20,7 @@ export default class ScriptEngine {
 
 
                 setTimeout(() => {
-                    Logger.log(1, 'ScriptEngine.run() > isDone:', this.isDone)
+                    Logger.log(5, 'ScriptEngine.run() > isDone:', this.isDone)
                     if (!this.isDone) {
                         resolve({
                             status: 'error',
@@ -42,7 +42,7 @@ export default class ScriptEngine {
     }
 
     onMessage (message, resolve) {
-        Logger.log(-1, 'ScriptEngine.onMessage() > enter', message.data)
+        Logger.log(1, 'ScriptEngine.onMessage() > enter', message.data)
         this.isDone = true
         resolve(message.data)
     }
