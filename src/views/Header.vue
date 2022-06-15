@@ -18,7 +18,7 @@
           <div class="visible-sm-block visible-xs-block">
              <div class="row" v-if="user && user.role !== 'guest'">
                 <div class="col-md-12">
-                  <a class="MatcMainMenuItem" href="#/my-apps.html">{{$t('header.my-prototypes')}}</a>
+                  <a class="MatcMainMenuItem" href="#/apps/my-apps.html">{{$t('header.my-prototypes')}}</a>
                 </div>
              </div>
           </div>

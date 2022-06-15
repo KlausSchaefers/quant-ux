@@ -152,7 +152,7 @@ export default {
     async deleteApp (d) {
       await Services.getModelService().deleteApp(this.app);
       d.close()
-      location.href = "#/my-apps.html";
+      location.href = "#/apps/my-apps.html";
     },
     async resetShare() {
       await Services.getModelService().resetTeam(this.app.id);

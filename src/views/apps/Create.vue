@@ -22,7 +22,7 @@
 
         <div class="buttons mt-16">
           <a class="button is-primary" @click="create">Create</a>
-          <a href="#/my-apps.html" class="button is-text">Cancel</a>
+          <a href="#/apps/my-apps.html" class="button is-text">Cancel</a>
         </div>
 
         <p class="has-text-grey is-size-6">* The screen size is measured in points and not pixel!</p>

@@ -48,7 +48,7 @@
 
                 <div class="MatcButtonBar">
                   <a class="MatcButton" @click="save">Save</a>
-                  <a class href="#/my-apps.html">Cancel</a>
+                  <a class href="#/apps/my-apps.html">Cancel</a>
                 </div>
               </div>
             </div>

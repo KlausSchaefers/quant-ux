@@ -19,5 +19,8 @@
 @import 'databinding.css';
 @import 'tree.css';
 @import "custom.css";
-
+@import 'widgets.css';
+@import  './widgets/repeater.css';
+@import './widgets/scrolltarget.css';
+@import './widgets/screensegment.css';
 

@@ -277,10 +277,10 @@ export default {
 
       if (this.pub) {
         p.innerHTML = this.getNLS("applist.sign-in");
-        phone.href = "#/signup-and-create-app.html";
+        phone.href = "#/apps/signup-and-create-app.html";
       } else {
         p.innerHTML = this.getNLS("applist.add");
-        phone.href = "#/create-app.html";
+        phone.href = "#/apps/create-app.html";
       }
 
       item.appendChild(p);

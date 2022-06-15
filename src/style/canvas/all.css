@@ -3,7 +3,3 @@
 @import 'canvas_light.css';
 @import "analytic_canvas.css";
 @import 'animation_composer.css';
-@import '../widgets.css';
-@import '../widgets/repeater.css';
-@import '../widgets/scrolltarget.css';
-@import '../widgets/screensegment.css';
