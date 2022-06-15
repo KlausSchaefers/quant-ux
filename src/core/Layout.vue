@@ -430,6 +430,7 @@ export default {
     getTopParentGroup (id) {
       let group = this.getParentGroup(id)
       if (group) {
+        let i = 0
         while (group) {
           let parent = this.getParentGroup(group.id)
           if (parent) {
@@ -443,6 +444,11 @@ export default {
             result.children = this.getAllGroupChildren(group)
             result._isTopParentGroup = true
             return result
+          }
+          i++
+          if (i > 32) {
+            console.error('Layout.getTopParentGroup() > To deep recursion for widget : ' + id, group)
+            return
           }
         }
       }
@@ -476,18 +482,18 @@ export default {
 
     getParentGroup (widgetID) {
       if (this.model.groups) {
-        for (var id in this.model.groups) {
-          var group = this.model.groups[id];
-          let i = group.children.indexOf(widgetID);
-          if (i > -1) {
+        for (let id in this.model.groups) {
+          const group = this.model.groups[id];
+          const indexChildren = group.children.indexOf(widgetID);
+          if (indexChildren > -1) {
             return group;
           }
           /**
            * Since 2.13 we have subgroups and check this too
            */
           if (group.groups) {
-            let i = group.groups.indexOf(widgetID);
-            if (i > -1) {
+            const indexSubGroup = group.groups.indexOf(widgetID);
+            if (indexSubGroup > -1) {
               return group;
             }
           }
@@ -496,7 +502,7 @@ export default {
       return null;
     },
 
-    renderWidget: function(screen, widget) {
+    renderWidget (screen, widget) {
       var div = this.createBox(widget, screen);
       css.add(div, "MatcWidget");
       this.renderFactory.createWidgetHTML(div, widget);

@@ -310,6 +310,32 @@ class ModelFixer {
 		return errors
 	}
 
+
+	fixRecursiveGroups (model) {
+
+		const errors = []
+
+		if (model.groups) {
+			for (let groupID in model.groups) {
+				const group = model.groups[groupID]
+				if (group.groups) {
+					const index = group.groups.indexOf(groupID)
+					if (index >= 0) {
+						errors.push({id: groupID, msg: "Recursive Group"})
+						group.groups.splice(index, 1)
+					}
+				}
+			}
+		}
+
+
+		if (errors.length > 0) {
+			this.logger.error("fixRecursiveGroups", "exit() > Found  " + errors.length + " errors", errors)
+		}
+
+		return errors
+	}
+
 	isValidLine () {
 
 	}

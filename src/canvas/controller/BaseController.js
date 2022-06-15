@@ -289,6 +289,7 @@ export default class BaseController extends Core {
 		if (this.mode == "public"){
 			this.showSuccess("Please register to save changes...");
 			ModelFixer.validateAndFixModel(this.model);
+			ModelFixer.fixRecursiveGroups(this.model)
 			this.emit("notSavedWarningShow", this.model);
 		} else {
 			if (this._dirty){
@@ -299,6 +300,7 @@ export default class BaseController extends Core {
 					 * Validate and fix model
 					 */
 					ModelFixer.validateAndFixModel(this.model);
+					ModelFixer.fixRecursiveGroups(this.model)
 
 					/**
 					 * compute changes and send them to server

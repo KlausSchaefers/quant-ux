@@ -723,6 +723,7 @@ export default class Core extends Evented {
     getTopParentGroup(id) {
         let group = this.getParentGroup(id)
         if (group) {
+            let i = 0
             while (group) {
                 let parent = this.getParentGroup(group.id)
                 if (parent) {
@@ -733,6 +734,11 @@ export default class Core extends Evented {
                      * all children... not sure it this is needed
                      */
                     return group
+                }
+                i++
+                if (i > 32) {
+                    console.error('Core.getTopParentGroup() > To deep recursion for widget : ' + id, group)
+                    return null    
                 }
             }
         }
@@ -779,6 +785,7 @@ export default class Core extends Evented {
     }
 
     getParentGroup(widgetID) {
+
         if (this.model.groups) {
             for (let id in this.model.groups) {
                 const group = this.model.groups[id];
