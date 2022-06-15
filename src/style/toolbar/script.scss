@@ -1,0 +1,57 @@
+@import '../variables.scss';
+
+.MatcScriptEditor {
+
+    height: 600px;
+    width: 940px;
+
+    .ace_editor,
+    .MatcScriptEditorConsole {
+        border: 1px solid #ccc;
+    }
+
+    .MatcScriptColumns {
+        display: flex;
+        gap: 32px;
+    }
+
+    .MatcScriptEditorSimulator {
+        width: 300px;
+    }
+
+    
+
+    &.MatcScriptEditorDesktop {
+        width: 1140px;
+        .MatcScriptEditorSimulator{
+            width: 500px;
+        }
+    }
+
+    .MatcScriptEditorIDE {
+        width: 600px;
+        border-left: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-left: 32px;
+
+        .MatcScriptEditorContent {
+            flex-grow: 1;
+        }
+    }
+
+
+    .MatcScriptEditorConsoleLine {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 14px;
+        padding: 3px;
+
+        &.error {
+            color: $color-danger;
+        }
+    }
+
+
+    
+}

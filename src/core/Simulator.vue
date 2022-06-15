@@ -109,6 +109,7 @@ import MouseMixin from 'core/simulator/MouseMixin'
 import DataBindingMixin from 'core/simulator/DataBindingMixin'
 import EventMixin from 'core/simulator/EventMixin'
 import TemplateMixin from 'core/simulator/TemplateMixin'
+import ScriptMixin from 'core/simulator/ScriptMixin'
 import ModelUtil from 'core/ModelUtil'
 // import TaskMixin from 'core/simulator/TaskMixin'
 
@@ -118,7 +119,7 @@ export default {
 	name: 'Simulator',
 	props: ['mode', 'app'],
 	mixins:[
-		Layout, Gestures, RestMixin, LogMixin, RenderMixin, EventMixin,
+		Layout, Gestures, RestMixin, LogMixin, RenderMixin, EventMixin,ScriptMixin,
 		ScrollMixin, AnimationMixin, MouseMixin, DataBindingMixin, TemplateMixin, DojoWidget
 	],
     data: function () {

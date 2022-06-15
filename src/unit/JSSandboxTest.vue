@@ -2,20 +2,16 @@
   <div class="MatcLight">
     <h1>JS Sandbox Test</h1>
 
-   <div class="MatcDialog">
-   
-       <textarea v-model="js" class="form-control" @change="store"/>
-       <div>
-          <button class="MatcButton" @click="run">Run</button> 
-          <span class="MatcError"> {{errorMsg}} </span> 
-          <span>{{resultMsg}}</span>
-       </div>
+   <div class="MatcDialog" ref="dialog">
+      <ScriptEdior :app="app" @change="onChange" :value="selectedWidget" v-if="selectedWidget" @run="store" />
     </div>
+
   </div>
 </template>
 
 <style>
   @import url("../style/matc.css");
+   @import url("../style/toolbar/all.css");
   .MatcDialog {
       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2), 0px 0px 2px rgba(0, 0, 0, 0.2);
       overflow: auto;
@@ -25,12 +21,23 @@
       display: inline-block;
       padding: 20px;
 
-     
   }
   .MatcDialog textarea {
         height: 400px;
         width: 700px;
    }    
+
+   .MatcToolbarTabsBig a {
+    color:#333
+   }
+
+   .MatcToolbarTabsBig a:hover {
+    color:#333
+   }
+
+   .MatcScriptEditor {
+    height: 400px;
+   }
 </style>
 
 <style lang="sass">
@@ -43,7 +50,10 @@
 
 import Logger from '../core/Logger'
 import SandBoxService from '../core/engines/ScriptEngine'
+import app from './data/scriptTest.json'
+import ScriptEdior from '../canvas/toolbar/dialogs/ScriptEditor.vue'
 
+//app.type = 'desktop'
 
 export default {
   name: "JSSandboxTest",
@@ -62,20 +72,21 @@ return 1
             age: 42,
             sum: 0
         },
-        app: {},
+        app: app,
         errorMsg: '',
-        resultMsg: ''
+        resultMsg: '',
+        selectedWidget: null
     };
   },
   components: {
-   
+   ScriptEdior
   },
   computed: {
 
   },
   methods: {
-      store () {
-          localStorage.setItem('jsSandBoxTest', this.js)
+      store (js) {
+          localStorage.setItem('jsSandBoxTest', js)
       },
       async run () {
           const s = new SandBoxService()
@@ -89,12 +100,20 @@ return 1
             this.resultMsg = ''
             this.errorMsg = error
           }
+      },
+      onChange () {
+
       }
   },
   mounted() {
     Logger.setLogLevel(4)
     if (localStorage.getItem('jsSandBoxTest')) {
        this.js = localStorage.getItem('jsSandBoxTest')
+    }
+    this.selectedWidget = {
+      props: {
+        script: this.js
+      }
     }
   }
 };
