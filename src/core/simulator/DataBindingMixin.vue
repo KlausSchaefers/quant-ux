@@ -200,18 +200,18 @@ export default {
 		},
 
 		replaceDataBinding (newValues) {
-			 this.dataBindingValues = newValues
+			this.logger.log(4,"replaceDataBinding","enter  > ", newValues);
+			this.dataBindingValues = newValues
 			const screenID = this.currentScreen.id
 			const widgets = this.renderFactory.getAllUIWidgets();
 			for(let id in widgets){
                 const uiWidget = widgets[id];
-         
-                if (uiWidget.model && uiWidget.model.props && uiWidget.model.props.databinding) {
-                    const databinding = uiWidget.model.props.databinding
+              	const databinding = this.getDataBinding(uiWidget.model);
+				if (databinding) {
                     for (let key in databinding) {
                         const variable = databinding[key]
                         const value = JSONPath.get(this.dataBindingValues, variable)
-                        this.logger.log(-1,"renderScriptDataBinding","set  > " +  variable + ': ' , value);
+                        this.logger.log(4,"replaceDataBinding","set  > " +  variable + ': ' , value);
                         const changed = uiWidget.setDataBinding(variable, value, this);
                         if(changed){
                             const state = uiWidget.getState();
@@ -220,6 +220,7 @@ export default {
                     }
                 }
             }
+			this.emit('onDataBindingChange', this.dataBindingValues)
 		}
     }
 }
