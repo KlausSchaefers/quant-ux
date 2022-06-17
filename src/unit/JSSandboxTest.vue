@@ -61,11 +61,29 @@ export default {
   data: function() {
     return {
         js: `
-console.debug('aaa')
-console.debug(qux)
-qux.setData({})
-var xxx = 'xxx'
-return 1
+function myFunc() {
+  console.debug('a was called')
+}
+let a = data.a * 1
+let b = data.b * 1
+console.debug('c:' + data.c)
+let c = a + b
+data.c = c
+console.debug('a:' + a )
+console.debug('b:' + b )
+console.debug('c:' + c )
+console.debug('end')
+let label = qux.getScreen('Screen').getWidget('StatusLabel')
+label.setStyle({color:'red'})
+label.setLabel('Klaus Was here')
+
+let hide = qux.getScreen('Screen').getWidget('HideMe')
+console.debug('hide is ' + hide.isHidden())
+if (hide.isHidden()) {
+    hide.show()
+} else {
+    hide.hide()
+}
 `,
         viewModel: {
             name: 'klaus',

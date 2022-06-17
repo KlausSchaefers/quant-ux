@@ -29,7 +29,7 @@
       "props" : {
         "start" : true
       },
-      "children" : [ "w10002_71762", "w10005_3380", "w10003_85390", "w10004_51309", "w10006_46139", "w10007_10067" ],
+      "children" : [ "w10002_71762", "w10005_3380", "w10003_85390", "w10004_51309", "w10006_46139", "w10007_10067", "w10013_80377" ],
       "id" : "s10000_41636",
       "modified" : 1655323145234
     },
@@ -302,7 +302,7 @@
     },
     "w10007_10067" : {
       "type" : "Button",
-      "name" : "Box",
+      "name" : "HideMe",
       "x" : 1363,
       "y" : 1455,
       "w" : 110,
@@ -397,6 +397,35 @@
       },
       "created" : 1655326270589,
       "modified" : 1655326275987
+    },
+    "w10013_80377" : {
+      "type" : "Label",
+      "name" : "StatusLabel",
+      "x" : 1362,
+      "y" : 1407,
+      "w" : 113,
+      "h" : 20,
+      "z" : 8,
+      "props" : {
+        "label" : "This is a test"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : "Auto",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null
+      },
+      "id" : "w10013_80377",
+      "created" : 1655484553194,
+      "modified" : 1655484561893
     }
   },
   "lines" : {
@@ -411,8 +440,8 @@
   "groups" : { },
   "templates" : { },
   "designtokens" : { },
-  "lastUUID" : 10013,
-  "lastUpdate" : 1655326275989,
+  "lastUUID" : 10014,
+  "lastUpdate" : 1655484574464,
   "created" : 1655310374498,
   "startScreen" : "",
   "grid" : {
@@ -424,10 +453,10 @@
     "enabled" : false
   },
   "domain" : "Quant-UX.com",
-  "size" : 6866,
+  "size" : 7309,
   "isDirty" : true,
-  "lastBackup" : 1655323903366,
-  "sizeBackup" : 5761,
+  "lastBackup" : 1655327503225,
+  "sizeBackup" : 6315,
   "id" : "62aa0826280efd5a08af9e3f",
   "lastCategory" : "WireFrame"
 }
