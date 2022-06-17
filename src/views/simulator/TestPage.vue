@@ -57,7 +57,7 @@
 								<div class="MatcTestContentCntr">
 									<h2>Tasks!</h2>
 									<p>
-										Please perfrom the following tasks.
+										Please perform the following tasks.
 									</p>
 									<div v-for="t in getUserTasks()" :key="t.id">
 										<h3>{{t.name}}</h3>
