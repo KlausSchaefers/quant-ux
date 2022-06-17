@@ -4,7 +4,7 @@ export let texts = [
         "name":"Logic Flows",
         "title": "Logic Flows",
         "body": `
-            Logic Flows enbale you to create conditional navigations that allow you to model real world
+            Logic Flows enaBle you to create conditional navigations that allow you to model real world
             workflows in your prototypes.
         `,
         "video": {
@@ -15,14 +15,14 @@ export let texts = [
                 "id": "logic.intro",
                 "title": "When to use",
                 "body": `
-                    Sometimes, a prototype has to react to the user input. Image you are testing a checkout 
+                    Sometimes, a prototype has to react to the user input. Imagine you are testing a checkout 
                     process, and the user must choose between several payment options, for instance bank 
                     transfer and credit card. Depending on the selection, the next page should show 
                     the different information and input fields. 
                     <br>
-                    For these kind of scenarios we support now <strong>Logic Flows</strong>. You can not 
-                    only link two pages, but you can also add a logical operator 
-                    and to dynamically decide which screen to show next.
+                    For these kind of scenarios Quant-UX supports <strong>Logic Flows</strong>. In addition 
+                    to linking two pages you can also add a logical operator 
+                    to dynamically decide which screen to show next.
                     <br>
                 `
             },
@@ -36,7 +36,7 @@ export let texts = [
                     Once you selected it, you can create multiple links to different pages, and add rules to each link. 
                     A rule simply states that a certain input field should be equal to a given value.
                     When the user clicks on the button, the first link which matches the rule 
-                    will be followed. If no rule matches the first link without any rule is followed.
+                    will be followed. If no rule is matched then the first link without any rule is followed.
                 `
             }
         ]
