@@ -6,21 +6,21 @@ export let texts = [
       "css": "",
       "body": `
           Often you want to create a design system, that can be used in multiple prototypes. To share a design system,
-          you can simply import the prototyope which contains the design systems into other prototpyes. The components
+          you can simply import the prototype which contains the design systems into other prototypes. The components
           of the design system will be available in the widget menu.
 
           <br>
-          To create design system follow these steps:
+          To create a design system follow these steps:
                   <ol>
                       <li>
-                          Create a new prototype and build you design system in here. Define all elements you
+                          Create a new prototype and build your design system in there. Define all elements you
                           want to reuse.
                       </li>
                       <li>
                           Create a second prototype.
                       </li>
                       <li>
-                         Press <strong>W</strong> or selecting <span class="mdi mdi-puzzle-outline"/> icon. The widget
+                         Press <strong>W</strong> or select the <span class="mdi mdi-puzzle-outline"/> icon. The widget
                          menu will open
                       </li>
                       <li>
