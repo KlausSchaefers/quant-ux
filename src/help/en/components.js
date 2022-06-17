@@ -5,10 +5,10 @@ export let texts = [
       "title": "Components",
       "css": "",
       "body": `
-          Components encapsulate common styles, e.g. buttons, links and input elements. Once you have creates,
+          Components encapsulate common styles, e.g. buttons, links and input elements. Once you have created
           the archetypes of your design system, you can turn them into components and reuse them at different
-          place in the prototype. The bug benefit, over simply copy-pasting the elements is, that changes in a
-          component, will be automatically updates in all instances.
+          places in the prototype. The big benefit, over simply copy-pasting the elements, is that changes in a
+          component will automatically update all instances of that component.
       `,
       "paragraphs": [
         {
@@ -19,10 +19,10 @@ export let texts = [
 
              <ol>
                 <li>
-                   Create an UI element as style is as you like. You can also group several elements.
+                   Create an UI element and style it as you like. You can also group several elements.
                 </li>
                 <li>
-                    Select the element. In the toolbar on top, the 'Create Component'.
+                    Select the element. In the toolbar on top, click on the 'Create Component'.
                 </li>
                 <li>
                     Enter the name of the component in the dialog.
@@ -37,15 +37,15 @@ export let texts = [
           "id": "components.use",
           "title": "Reuse a component",
           "body": `
-             To create reuse a component do:
+             To reuse a component follow these steps:
 
              <ol>
                   <li>
-                  Press <strong>W</strong> or selecting <span class="mdi mdi-puzzle-outline"/> icon. The widget
+                  Press <strong>W</strong> or select the <span class="mdi mdi-puzzle-outline"/> icon. The widget
                   menu will open
                 </li>
                 <li>
-                    Select the 'My Componets' section.
+                    Select the 'My Components' section.
                 </li>
                 <li>
                     Click on the component you would like to add.
