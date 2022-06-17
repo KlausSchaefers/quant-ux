@@ -17,7 +17,7 @@ export let texts = [
                     <br>
                     As an alternative, you can also select the <span class="mdi mdi-image"/> image icon when
                     you have a screen or image widget selected to open the Upload dialog. Once the dialog is open, you can drag and drop
-                    you files in here, or select already uploaded files.
+                    your files in here, or select already uploaded files.
                 `
             },
             {
@@ -43,7 +43,7 @@ export let texts = [
                             Click on "Create new token"
                         </li>
                         <li>
-                            Copy the generated token, and save it somewhere save.
+                            Copy the generated token, and save it somewhere safe.
                         </li>
                     </ol>
 
