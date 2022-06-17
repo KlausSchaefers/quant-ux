@@ -5,15 +5,15 @@ export let texts = [
         "title": "Analytic Canvas",
         "body": `
             To open the analytic canvas select the "Heatmaps" tab in the prototype overview page. Now select one of
-            the heap maps or click "Analytic Canvas" button in the right corner. In the tollbar of the analytic canvas
-            your can select the different kind of tools to vizualize the user behavior.
+            the heap maps or click "Analytic Canvas" button in the right corner. In the toolbar of the analytic canvas
+            you can select the different kind of tools to vizualize the user behavior.
         `,
         "paragraphs": [
             {
                 "id": "analytics.canvas.intro",
                 "title": "What are heatmaps",
                 "body": `
-                    Click heatmaps visualize where the users have clicked. The more the users 
+                    Click heatmaps to visualize where the users have clicked. The more the users 
                     click on a certain area, the hotter (more reddish) the area gets. Thus, the 
                     elements in the area are likely important for the user.
                 `
@@ -23,7 +23,7 @@ export let texts = [
                 "title": "Click Heatmaps",
                 "body": `
                     When you review click heat maps, you should analyze them in the context of your
-                    uses cases. Before you created the interface, you identified and 
+                    use cases. Before you created the interface, you identified and 
                     prioritized user tasks and designed the interface accordingly. The primary 
                     elements should be easy to find and you expect them to be used a lot.
                     <br>  </br>
@@ -46,8 +46,8 @@ export let texts = [
                             clicked right after a screen was loaded.
                         </li>
                         <li>
-                            <b>First three Click</b> extends the first clicks to three clicks. 
-                            Elements that are not touched withing three 
+                            <b>First three Clicks</b> extends the first clicks to three clicks. 
+                            Elements that are not touched within three 
                             clicks, may be hard to discover for the user.
                         </li>
                         <li>
@@ -61,17 +61,17 @@ export let texts = [
             },
             {
                 "id": "analytics.canvas.mouse",
-                "title": "Mouse Heapmaps",
+                "title": "Mouse Heatmaps",
                 "body": `
                     Cursor heat maps work different than click heat maps. The longer the cursor 
-                    is over a certain screen estate, the hotter it gets. Research shows some 
+                    is over a certain screen area, the hotter it gets. Research shows some 
                     correlation between the cursor movement and eye gaze. This means long hover 
                     times over a specific area can indicate strong user interest, but it can also mean 
                     that the user simply didn’t move the mouse. 
                    
                      <p class="MatcHelpCallout">
-                        Often you these hepatmaps are the reuslt of a “reading pattern”, which often takes 
-                        ans F shaped form. 
+                        Often these heatmaps are the result of a “reading pattern”, which often takes 
+                        an F shaped form. 
                     </p>
                 `
             },
@@ -93,7 +93,7 @@ export let texts = [
                 "title": "Scroll Visibility",
                 "body": `
                     The scroll visibility shows for each screen which parts of the screen were shown to the users. 
-                    This is important for you have longer screens. Parts below the fold (the bottom of the screen) 
+                    This is important if you have longer screens. Parts below the fold (the bottom of the screen) 
                     are usually less often seen and are therefore shown in colder colors. 
                     The scroll visibility helps you to detect if the users explored the entire screen.          
                 `
@@ -104,7 +104,7 @@ export let texts = [
                 "body": `
                     The scroll time shows on which parts of the screen the users have spend 
                     most of their time. The more time the users spend on a given 
-                    section, the warner is the color.          
+                    section, the warmer is the color.          
                 `
             },
             {
@@ -120,7 +120,7 @@ export let texts = [
                 "id": "analytics.canvas.dwell",
                 "title": "Dwell Time",
                 "body": `
-                    The dwell time indicate how much time the users have spent on a screen. 
+                    The dwell time indicates how much time the users have spent on a screen. 
                     If you have for instance a screen where the users have to fill out a form, 
                     the screen is usually hot.           
                 `
@@ -138,13 +138,13 @@ export let texts = [
                 "id": "analytics.canvas.kpi.clicks",
                 "title": "Widget Clicks",
                 "body": `
-                    The widget clicks tell you how many time a certain widget was clicked. 
-                    This kpi relate directly to the heat maps. The gauge shows the absolute 
+                    The widget clicks tell you how many times a certain widget was clicked. 
+                    This kpi relates directly to the heat maps. The gauge shows the absolute 
                     number of clicks, the position of the ring shows the relation to all 
                     other widgets in the prototype.
                     <p class="MatcHelpExample">
                         <b>Example</b>: During test 100 clicks were recorded by 5 users. 
-                        Widget a was clicked 20 times. The relative frequency is therefore 20%.
+                        Widget A was clicked 20 times. The relative frequency is therefore 20%.
                     </p>
                     
                 `
@@ -153,7 +153,7 @@ export let texts = [
                 "id": "analytics.canvas.kpi.first-clicks",
                 "title": "First Clicks",
                 "body": `
-                    The widget clicks tell you how many time a certain widget <strong>was clicked directly 
+                    The widget first clicks tells you how many times a certain widget <strong>was clicked directly 
                     after a screen was loaded</strong>. The first clicks show which elements catch the most 
                     attention of the users. The gauge shows the absolute number, and the position 
                     visualizes the relation to the screen loads.
@@ -171,8 +171,8 @@ export let texts = [
                 "title": "Time before Click",
                 "body": `
                     The time before click tells you how many seconds the users took in average 
-                    until the interacted the first time with the given element. In general elements 
-                    in the top should have shorter times the elements at the bottom of a screen.
+                    until they interacted the first time with the given element. In general, elements 
+                    at the top should have shorter times than the elements at the bottom of a screen.
                  
                     <p class="MatcHelpExample">
                         <b>Example</b>: A screen is loaded and after 10s the user interacts with element A. 
@@ -185,16 +185,16 @@ export let texts = [
                 "id": "analytics.canvas.kpi.coverage",
                 "title": "Test Coverage",
                 "body": `
-                    The test coverage tell you how many time a screen was tested. 
+                    The test coverage tells you how many times a screen was tested. 
                     This metric indicates how easy the screen is to find. The gauge 
                     shows the absolute number of screen tests in the middle. 
                     The position of the ring indicates the relative test ratio.
                     <p class="MatcHelpExample">
                         <b>Example</b>: Your prototype has two screens and was tested by two users. 
                         The first user saw both screens, whereas the second user saw only the 
-                        first screen. This means there are two test. The relative frequency 
-                        of the first screen is 100% because it was tested by every users, 
-                        where is the relative frequency of the second screen is 50%.
+                        first screen. This means there are two tests. The relative frequency 
+                        of the first screen is 100% because it was tested by every user, 
+                        whereas the relative frequency of the second screen is 50%.
                     </p>
                     
                 `
@@ -203,11 +203,11 @@ export let texts = [
                 "id": "analytics.canvas.kpi.dwell",
                 "title": "Dwell Time",
                 "body": `
-                    The average dwell times tells you how much times the users have in average spend 
+                    The average dwell time tells you how much time the users have spend, in average, 
                     on a screen. A high number might indicate that the users had to perform a lot of 
                     interactions, e.g. fill out a form. However, it can also indicate that the 
                     users had some problems, for instance finding the right elements.
-                    The gauge shows the absolute dwell time and also puts in in relation to the total test duration.
+                    The gauge shows the absolute dwell time and also puts it in relation to the total test duration.
                     
              
                     <p class="MatcHelpExample">
@@ -222,8 +222,8 @@ export let texts = [
                 "id": "analytics.canvas.kpi.screen-views",
                 "title": "Screen views",
                 "body": `
-                    The screen views tell you how many time a screen was shown. If this number is 
-                    much higher than the "Test Views", this indicates that the users came often 
+                    The screen views tell you how many times a screen was shown. If this number is 
+                    much higher than the "Test Views", this indicates that the users often came  
                     back to this screen. The gauge shows the absolute number in the middle. 
                     The position of the ring indicates the relative frequency.
                     <p class="MatcHelpExample">
@@ -253,7 +253,7 @@ export let texts = [
                 "id": "analytics.canvas.kpi.screen-widget-clicks",
                 "title": "Screen Widget Clicks",
                 "body": `
-                    The widget clicks tell you how many times the users have clicked on on elements. 
+                    The widget clicks tell you how many times the users have clicked on elements. 
                     The number indicates how much "work" the users have performed on a certain screen. 
                     The gauge shows the absolute number, and the position indicates the relative 
                     frequency with respect to all clicks on the screen.
