@@ -27,8 +27,9 @@
                         {{l.args}}
                     </div>
                 </div>
-                <div class=""> 
-                    <div class="MatcButton" @click="run"> Run </div>
+                <div class="MatcButtonBar"> 
+                    <div class="MatcButton" @click="run"> Run </div> 
+                    <span class="MatcError">{{errorMsg}}</span>
                 </div>
         
             </div>
@@ -68,7 +69,8 @@ export default {
             h: 500,
             loaded: true,
             widget: {},
-            logs: []
+            logs: [],
+            errorMsg: ''
         }
     },
     components: {
@@ -190,13 +192,17 @@ export default {
         },
 
         async run () {
-            Logger.log(-1, 'ScriptEditor.run()', this.script)
+            Logger.log(2, 'ScriptEditor.run()')
             this.$emit('run', this.script)
+            this.errorMsg = ''
             try {
                 const result = await this.simulator.runScript(this.script)
                 if (result) {
                     if (result.console) {
                         this.logs = result.console
+                    }
+                    if (result.status === 'error') {
+                        this.errorMsg = result.error
                     }
                 }
             } catch (err) {

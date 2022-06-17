@@ -41,6 +41,12 @@
         }
     }
 
+    .MatcScriptEditorIDE .MatcButtonBar {
+        margin: 0px;
+        display: flex;
+        align-items: center;
+    }
+
 
     .MatcScriptEditorConsoleLine {
         font-family: 'Courier New', Courier, monospace;

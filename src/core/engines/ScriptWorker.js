@@ -9,24 +9,23 @@ self.addEventListener('message', e => {
     const js = e.data.code
     const model = e.data.model
     const viewModel = e.data.viewModel
-    const qux = new ScriptAPI(model, viewModel)
-    const code = new Function('qux', 'console', js);
+    const qux = new ScriptAPI(model)
+    const code = new Function('qux', 'data', 'console', js);
     const console = new ScriptConsole()
-    console.debug('Start')
-
     let result = undefined
     try {
-        result = code(qux, console)
+        result = code(qux,viewModel, console)
   
         self.postMessage({
             to: result,
-            viewModel: qux.getViewModel(),
+            viewModel: viewModel,
             appDeltas: qux.getAppDeltas(),
             console: console.messages,
             status : 'ok'
         })
     } catch (error) {
         Logger.error(1, 'ScriptWorker.message() > Error', error)
+        console.error(error.message)
         self.postMessage({
             status: 'error',
             console: console.messages,

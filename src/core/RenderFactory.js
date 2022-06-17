@@ -340,6 +340,14 @@ export default class RenderFactory extends Core {
 		}
 	}
 
+	updateWidget(widget) {
+		console.debug('updateWidget', widget)
+		let parent = this._widgetNodes[widget.id];
+		if (parent) {
+			this.setStyle(parent, widget, true, false);
+		}
+	}
+
 	/**********************************************************************
 	 * Create Method -  The creation of the dom elements
 	 **********************************************************************/
@@ -959,6 +967,7 @@ export default class RenderFactory extends Core {
 	_set_fixed() {
 		// do nothing implement in Simulator.createBox()
 	}
+
 
 
 	_set_icon(parent, style, model) {
