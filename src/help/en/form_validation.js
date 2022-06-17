@@ -31,7 +31,7 @@ export let texts = [
                 "body": `
                     To enable validation select a widget and select the <strong>Required</strong> checkbox 
                     in the <strong>Data & Validation</strong> section of the property panel. You can also
-                    set for certain types of widgets the required input patterb. To change this, click on the
+                    set for certain types of widgets the required input pattern. To change this, click on the
                     <strong>No Validation</strong> button to select the type of pattern that is allowed.
                 `
             },
@@ -39,7 +39,7 @@ export let texts = [
                 "id": "validation.feedback",
                 "title": "User Feedback",
                 "body": `
-                    Off course simply validating the input is not enough. In case the input is wrong, 
+                    Of course simply validating the input is not enough. In case the input is wrong, 
                     you want to give some feedback to the user. With Quant-UX you can do this in two ways. 
                     First, you can define a special <strong>error style</strong> of the error case, 
                     and customize the appearance of the widget in case the input is wrong. 
@@ -51,10 +51,10 @@ export let texts = [
             },
             {
                 "id": "validation.links",
-                "title": "Block Navidation",
+                "title": "Block Navigation",
                 "body": `
                     In most scenarios you don’t want the user to progress in the workflow 
-                    when the input is wrong. For example, the user should be only able 
+                    when the input is wrong. For example, the user should only be able 
                     to move on in the sign-up process, when he has entered a valid 
                     email address. Therefore, you can also <strong>enforce data validation on links</strong>. 
                     The linked screen will only be loaded when all fields 
