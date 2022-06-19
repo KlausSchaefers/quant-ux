@@ -46,15 +46,15 @@ export let texts = [
                     <br>
                     Once it is created, you can create a new screen and place it on the canvas. After selecting the screen,
                     you can select the master screen in the "Master Screen" section 
-                    by clicking on <strong>Add Master Screen</strong>. Now, all elements form 
-                    the master screen are copied to child screen.
+                    by clicking on <strong>Add Master Screen</strong>. Now, all elements from 
+                    the master screen are copied to the child screen.
                 `
             },{
                 "id": "logic.example",
                 "title": "Extend the master screen",
                 "body": `
-                    When you want to change to style of a element that is copied from a mastre screen, you have
-                    to explicitly enbale  editing. Select the element, and click <span class="MatcButton">Enable Editing</span>.
+                    When you want to change the style of an element that is copied from a master screen, you have
+                    to explicitly enable editing. Select the element, and click <span class="MatcButton">Enable Editing</span>.
                     In the properties panel on the right side, you have to enable editing. 
                     Once editing is enabled, you can change the font color to give the visual 
                     indication. 

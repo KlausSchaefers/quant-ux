@@ -55,7 +55,7 @@
 							<div class="MatcSimulatorContentCntr">
 							<h2>Tasks!</h2>
 							<p>
-								Please perfrom the following steps!
+								Please perform the following steps!
 							</p>
 							<div v-for="t in getUserTasks()" :key="t.id">
 								<h3>{{t.name}}</h3>

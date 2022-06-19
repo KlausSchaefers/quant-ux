@@ -24,7 +24,7 @@ export let texts = [
                     </li>
                     <li>
                         Select the Screen Segment widget. In the properties section, click 
-                        on the <strong>Select Screen Segment</strong> option. I dialog will show up, listing all the
+                        on the <strong>Select Screen Segment</strong> option. A dialog will show up, listing all the
                         segment screens.
                     </li>
                     <li>
@@ -34,7 +34,7 @@ export let texts = [
             <br>
 
             <p class="MatcHelpCallout">
-                Please note, that the screen background will not be copied. 
+                Please note that the screen background will not be copied. 
                 Set the background on the segment widget instead.
             </p>
             

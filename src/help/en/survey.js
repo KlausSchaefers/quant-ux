@@ -18,7 +18,7 @@ export let texts = [
           "body": `
              To create a survey in your prototype, simply use the normal input elements, such as Star Ratings or input boxes. You have to
              create a data binding for every element that you want to be visible in the survey section. To create for
-             instance a Star Rating after at the end of the test do:
+             instance a Star Rating at the end of the test follow these steps:
 
              <ol>
                 <li>
@@ -31,7 +31,7 @@ export let texts = [
                     Select the new element
                 </li>
                 <li>
-                    Select the 'Protoyping View'
+                    Select the 'Prototype' view
                 </li>
                 <li>
                     Select the 'Survey Element' checkbox.
