@@ -56,8 +56,8 @@ export default {
     data: function () {
         return {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox",
-						"TextArea", "Password", "SegmentButton", "ToggleButton", "Table", 'Tree', 'VerticalNavigation', 'Paging'],
-			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
+						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 'VerticalNavigation', 'Paging'],
+			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest",
@@ -65,7 +65,7 @@ export default {
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
-							"MobileDropDown", "DropDown", "Label", "SegmentButton", "Spinner", "HSlider", "Stepper","Rating" ,
+							"MobileDropDown", "DropDown", "Label", "SegmentButton", "SegmentPicker", "Spinner", "HSlider", "Stepper","Rating" ,
 							"IconToggle", "TypeAheadTextBox", "ToggleButton", "CheckBoxGroup", "RadioGroup",
 							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
@@ -78,7 +78,7 @@ export default {
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", 
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
-			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton"],
+			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton", "SegmentPicker"],
 			hasRotate: ['Image', 'Icon'],
 			hideAction: ['ScreenSegment']
       }

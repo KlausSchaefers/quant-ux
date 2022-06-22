@@ -164,6 +164,9 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/ios/switch.json'),
             import(/* webpackChunkName: "themes" */ 'themes/ios/textbox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/ios/togglebutton.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/ios/buttons16.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/ios/togglebutton16.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/ios/segmentbutton16.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/charts/bar.json'),
             import(/* webpackChunkName: "themes" */ 'themes/charts/legend.json'),

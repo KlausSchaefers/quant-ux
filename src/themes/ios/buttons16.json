@@ -1,0 +1,107 @@
+[
+	{
+		"id": "IOSButton16",
+		"type": "Button",
+		"_type": "Widget",
+		"category": "IOS",
+		"subcategory": "AAFormButton",
+		"name": "Button",
+		"x": 0,
+		"y": 0,
+		"w": 120,
+		"h": 48,
+		"z": 0,
+		"props": {
+			"label": "Click Me"
+		},
+		"has": {
+			"backgroundColor": true,
+			"onclick": true,
+			"label": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": 17,
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign": "center",
+			"letterSpacing": 0,
+			"lineHeight": 1,
+			"color": "#fff",
+			"paddingTop": 6,
+			"paddingBottom": 6,
+			"paddingLeft": 6,
+			"paddingRight": 6,
+			"borderTopRightRadius": 14,
+			"borderTopLeftRadius": 14,
+			"borderBottomRightRadius": 14,
+			"borderBottomLeftRadius": 14,
+			"borderTopWidth": 1,
+			"borderBottomWidth": 1,
+			"borderRightWidth": 1,
+			"borderLeftWidth": 1,
+			"borderTopColor": "#007aff",
+			"borderBottomColor": "#007aff",
+			"borderRightColor": "#007aff",
+			"borderLeftColor": "#007aff",
+            "background": "#007aff",
+			"verticalAlign" : "middle"
+		}
+	},
+	{
+		"id": "IOSButton16Passive",
+		"type": "Button",
+		"_type": "Widget",
+		"_extends": "IOSButton16",
+		"category": "IOS",
+		"subcategory": "AAFormButton",
+		"props": {
+			"label": "Click Me"
+		},
+		"style": {
+			"color": "#007aff",
+			"background": "#D9EBFF",
+			"borderTopColor": "#D9EBFF",
+			"borderBottomColor": "#D9EBFF",
+			"borderRightColor": "#D9EBFF",
+			"borderLeftColor": "#D9EBFF"
+		}
+	},
+	{
+		"id": "IOSButton16Gray",
+		"type": "Button",
+		"_type": "Widget",
+		"_extends": "IOSButton16",
+		"category": "IOS",
+		"subcategory": "AAFormButton",
+		"props": {
+			"label": "Click Me"
+		},
+		"style": {
+			"color": "#000000",
+			"background": "#F2F2F7",
+			"borderTopColor": "#F2F2F7",
+			"borderBottomColor": "#F2F2F7",
+			"borderRightColor": "#F2F2F7",
+			"borderLeftColor": "#F2F2F7"
+		}
+	},
+    {
+		"id": "IOSButton16Black",
+		"type": "Button",
+		"_type": "Widget",
+		"_extends": "IOSButton16",
+		"category": "IOS",
+		"subcategory": "AAFormButton",
+		"props": {
+			"label": "Click Me"
+		},
+		"style": {
+			"color": "#fff",
+			"background": "#2C2C2E",
+			"borderTopColor": "#2C2C2E",
+			"borderBottomColor": "#2C2C2E",
+			"borderRightColor": "#2C2C2E",
+			"borderLeftColor": "#2C2C2E"
+		}
+	}
+]

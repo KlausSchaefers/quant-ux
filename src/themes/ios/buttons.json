@@ -42,7 +42,7 @@
 		"borderBottomColor" : "#007aff",
 		"borderRightColor" : "#007aff",
 		"borderLeftColor" : "#007aff",
-		"valign" : "top"
+		"verticalAlign" : "middle"
 	}
 }, {
 	"id" : "IOSButtonActive",

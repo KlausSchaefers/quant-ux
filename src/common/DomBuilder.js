@@ -358,24 +358,24 @@ export default class DomBuilder {
 		return result;
 	}
 
-	top(h) {
-		return this.setStyle("top", h + "px");
+	top(h, unit="px") {
+		return this.setStyle("top", h + unit);
 	}
 
-	bottom(b) {
-		return this.setStyle("bottom", b + "px");
+	bottom(b, unit="px") {
+		return this.setStyle("bottom", b + unit);
 	}
 
-	left(h) {
-		return this.setStyle("left", h + "px");
+	left(h, unit="px") {
+		return this.setStyle("left", h + unit);
 	}
 
-	h(h) {
-		return this.setStyle("height", h + "px");
+	h(h, unit="px") {
+		return this.setStyle("height", h + unit);
 	}
 
-	w(h) {
-		return this.setStyle("width", h + "px");
+	w(h, unit="px") {
+		return this.setStyle("width", h + unit );
 	}
 
 	marginBottom (m) {

@@ -1,0 +1,26 @@
+[
+    {
+        "id" : "IOSToggleButton",
+        "type" : "ToggleButton",
+        "_type" : "Widget",
+        "_extends" : "IOSButton16",
+        "category" : "IOS",
+        "name":"Toggle Button",
+        "subcategory" : "BFormButton",
+        "props" : {
+            "label" : "Toggle Me"
+        },
+        "style" : {
+            "borderTopRightRadius" : 14,
+            "borderTopLeftRadius" : 14,
+            "borderBottomRightRadius" : 14,
+            "borderBottomLeftRadius" : 14,
+            "color" : "#007aff",
+            "background" : null,
+            "verticalAlign" : "middle"
+        },
+        "active" : {
+            "color" : "#ffffff",
+            "background" : "#007aff"
+        }
+    }]

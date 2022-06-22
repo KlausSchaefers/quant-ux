@@ -1,0 +1,98 @@
+[
+    {
+        "id" : "IOSSegmentPicker16",
+        "type" : "SegmentPicker",
+        "_type" : "Widget",
+        "_extends" : "",
+        "category" : "IOS",
+        "name":"Segment Picker",
+        "subcategory" : "ABFormButton",
+        "x" : 0,
+        "y" : 0,
+        "w" : 96,
+        "h" : 32,
+        "z" : 0,
+        "props" : {
+            "options" : [ "A", "B", "C" ],
+            "selected" : ["A"]
+        },
+        "has" : {
+            "onclick" : true,
+            "backgroundColor" : true,
+            "border" : true,
+            "label" : true
+        },
+        "style" : {
+            "fontSize" : 14,
+            "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+            "textAlign" : "center",
+            "letterSpacing" : 0,
+            "lineHeight" : 1,
+            "borderTopWidth" : 2,
+            "borderBottomWidth" : 2,
+            "borderRightWidth" : 2,
+            "borderLeftWidth" : 2,
+            "borderTopRightRadius" : 7,
+            "borderTopLeftRadius" : 7,
+            "borderBottomRightRadius" : 7,
+            "borderBottomLeftRadius" : 7,
+            "color" : "#000000",
+            "borderTopColor" : "#EEEEEF",
+            "borderBottomColor" : "#EEEEEF",
+            "borderRightColor" : "#EEEEEF",
+            "borderLeftColor" : "#EEEEEF",
+            "background" : "#EEEEEF",
+            "verticalAlign" : "middle",
+            "boxShadow": { "v":2, "h":0, "b":2,"s":0, "c":"rgba(0,0,0,0.12)","i":false},
+            "selectedBackground": "#FFF"
+        }
+    },
+    {
+        "id" : "IOSSegmentPicker16Dark",
+        "type" : "SegmentPicker",
+        "_type" : "Widget",
+        "_extends" : "",
+        "category" : "IOS",
+        "name":"Segment Picker",
+        "subcategory" : "ABFormButton",
+        "x" : 0,
+        "y" : 0,
+        "w" : 96,
+        "h" : 32,
+        "z" : 0,
+        "props" : {
+            "options" : [ "A", "B", "C" ],
+            "selected" : ["A"]
+        },
+        "has" : {
+            "onclick" : true,
+            "backgroundColor" : true,
+            "border" : true,
+            "label" : true
+        },
+        "style" : {
+            "fontSize" : 14,
+            "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+            "textAlign" : "center",
+            "letterSpacing" : 0,
+            "lineHeight" : 1,
+            "borderTopWidth" : 2,
+            "borderBottomWidth" : 2,
+            "borderRightWidth" : 2,
+            "borderLeftWidth" : 2,
+            "borderTopRightRadius" : 7,
+            "borderTopLeftRadius" : 7,
+            "borderBottomRightRadius" : 7,
+            "borderBottomLeftRadius" : 7,
+            "color" : "#ffffff",
+            "borderTopColor" : "#DEDEE1",
+            "borderBottomColor" : "#DEDEE1",
+            "borderRightColor" : "#DEDEE1",
+            "borderLeftColor" : "#DEDEE1",
+            "background" : "#DEDEE1",
+            "verticalAlign" : "middle",
+            "selectedBackground": "#636366"
+        }
+    }]
+
+   

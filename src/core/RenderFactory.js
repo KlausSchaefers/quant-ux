@@ -21,6 +21,7 @@ import QDateDropDown from 'core/widgets/QDateDropDown'
 import HSlider from 'core/widgets/HSlider'
 import TableWidget from 'core/widgets/TableWidget'
 import SegmentButton from 'core/widgets/SegmentButton'
+import SegmentPicker from 'core/widgets/SegmentPicker'
 import ToggleButton from 'core/widgets/ToggleButton'
 import LogicOr from 'core/widgets/LogicOr'
 import PolyLine from 'core/widgets/PolyLine'
@@ -46,6 +47,7 @@ import UploadPreview from 'core/widgets/UploadPreview'
 import WebLink from 'core/widgets/WebLink'
 import ProgressBar from 'core/widgets/ProgressBar'
 import ScreenSegment from 'core/widgets/ScreenSegment'
+
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
 import IconButton from 'core/widgets/IconButton'
@@ -684,6 +686,12 @@ export default class RenderFactory extends Core {
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
+
+	_createSegmentPicker(parent, model) {
+		var widget = this.$new(SegmentPicker);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	} 
 
 	_createTypeAheadTextBox(parent, model) {
 		var widget = this.$new(TypeAheadTextBox)

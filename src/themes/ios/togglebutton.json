@@ -6,7 +6,7 @@
 	"_extends" : "IOSButton",
 	"category" : "IOS",
 	"name":"Toggle Button",
-	"subcategory" : "BFormButton",
+	"subcategory" : "ABFormButton",
 	"props" : {
 		"label" : "Toggle Me"
 	},
@@ -16,7 +16,8 @@
 		"borderBottomRightRadius" : 500,
 		"borderBottomLeftRadius" : 500,
 		"color" : "#007aff",
-		"background" : null
+		"background" : null,
+		"verticalAlign" : "middle"
 	},
 	"active" : {
 		"color" : "#ffffff",

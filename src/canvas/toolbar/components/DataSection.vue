@@ -599,6 +599,12 @@ export default {
 			this._renderCheck("Multi Selection", model.props.multi, "multi" );
 		},
 
+		_showSegmentPicker (model){
+			this._setSectionLabel("Segment Picker");
+			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderColor('Select Background','<span class="mdi mdi-format-color-fill"></span>',model.style.selectedBackground, "selectedBackground" ,"onStyleChanged", true);
+		},
+
 		_showPaging (model){
 			this._setSectionLabel("Paging");
 			this._renderInputDropDown("Max",model, [1,5,15,20], "max", true);

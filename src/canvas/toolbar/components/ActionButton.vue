@@ -321,7 +321,7 @@ export default {
 			if (this.widget && (this.widget.type == "TextBox" || this.widget.type == "Password" )){ //
 				return [
 					{value:"click", label:"Click", icon:"mdi mdi-cursor-default"},
-					{value:"InputChange", label:"Change", icon:"mdi mdi-debug-step-out"},
+					{value:"InputChange", label:"Change", icon:"mdi mdi-contain-end"},
 					{value:"KeyboardEnter" , label : "Keyboard Return", icon:"mdi mdi-keyboard-return"},
 					{value:"KeyboardUp" , label : "Key Up", icon:"mdi mdi-arrow-expand-up"}
 				]
