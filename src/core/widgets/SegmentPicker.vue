@@ -91,9 +91,8 @@ export default {
             this._labelNodes.push(label)
         }
         this.setStyle(style, model);
-        this.setActiveStyle(width, style)
-    
-        if (this.model.props.selected) {
+        this.setActiveStyle(width, style) 
+        if (this.model.props.selected !== undefined) {
             this.setValue(this.model.props.selected, true);
         }
     },
@@ -127,6 +126,17 @@ export default {
         let index = options.indexOf(option)
         if (index >= 0) {
           highlight.style.left = (width * index) + "%"
+        }
+
+        const style = this.style
+        for (let i = 0; i < this.btns.length; i++) {
+          let value = this.btns[i].o;
+          let btn = this.btns[i].b;
+          if (value === option) {
+            btn.style.color = style.selectedColor
+          } else {
+            btn.style.color = style.color
+          }
         }
     },
 

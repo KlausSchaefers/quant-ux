@@ -14,7 +14,7 @@
         "z" : 0,
         "props" : {
             "options" : [ "A", "B", "C" ],
-            "selected" : ["A"]
+            "selected" : "A"
         },
         "has" : {
             "onclick" : true,
@@ -44,7 +44,8 @@
             "background" : "#EEEEEF",
             "verticalAlign" : "middle",
             "boxShadow": { "v":2, "h":0, "b":2,"s":0, "c":"rgba(0,0,0,0.12)","i":false},
-            "selectedBackground": "#FFF"
+            "selectedBackground": "#FFF",
+            "selectedColor": "#000000"
         }
     },
     {
@@ -62,7 +63,7 @@
         "z" : 0,
         "props" : {
             "options" : [ "A", "B", "C" ],
-            "selected" : ["A"]
+            "selected" : "A"
         },
         "has" : {
             "onclick" : true,
@@ -91,7 +92,8 @@
             "borderLeftColor" : "#DEDEE1",
             "background" : "#DEDEE1",
             "verticalAlign" : "middle",
-            "selectedBackground": "#636366"
+            "selectedBackground": "#636366",
+            "selectedColor": "#ffffff"
         }
     }]
 

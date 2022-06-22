@@ -602,6 +602,7 @@ export default {
 		_showSegmentPicker (model){
 			this._setSectionLabel("Segment Picker");
 			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderColor('Select Text','<span class="mdi mdi-format-text"></span>',model.style.selectedColor, "selectedColor" ,"onStyleChanged", true);
 			this._renderColor('Select Background','<span class="mdi mdi-format-color-fill"></span>',model.style.selectedBackground, "selectedBackground" ,"onStyleChanged", true);
 		},
 

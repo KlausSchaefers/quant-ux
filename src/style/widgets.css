@@ -686,6 +686,7 @@
 	height: 100%;
 	cursor: pointer;
 	position: relative;
+	transition: color 0.33s;
 }
 
 .MatcWidgetTypeSegmentPicker .MatcWidgetTypeSegmentPickerWrapper {

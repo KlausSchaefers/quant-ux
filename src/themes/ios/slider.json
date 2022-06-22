@@ -8,7 +8,7 @@
 	"x" : 0,
 	"y" : 0,
 	"w" : 200,
-	"h" : 30,
+	"h" : 32,
 	"z" : 0,
 	"props" : {
 		"value" : 50,
@@ -29,7 +29,7 @@
         "handleShadow" : {
 			"v" : 2,
 			"h" : 0,
-			"b" : 1,
+			"b" : 3,
 			"s" : 1,
 			"c" : "rgba(0, 0, 0,0.176)"
 		},
@@ -39,7 +39,7 @@
         "barColor" : "#007aff",
         "handleWidth" : 30,
         "handleHeight" : 1,
-        "barHeight": 0.1,
+        "barHeight": 0.125,
         "handleRadius" : 50
 	}
 } ]

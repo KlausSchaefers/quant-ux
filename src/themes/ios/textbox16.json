@@ -1,0 +1,126 @@
+[
+    {
+        "id" : "IOSTextBox16",
+        "type" : "TextBox",
+        "_type" : "Widget",
+        "category" : "IOS",
+        "subcategory" : "ACFormInput",
+        "name" : "Text Field",
+        "x" : 0,
+        "y" : 0,
+        "w" : 200,
+        "h" : 44,
+        "z" : 0,
+        "props" : {
+            "label" : "Enter a value",
+            "placeholder" : true
+        },
+        "has" : {
+           "label" : true,
+           "backgroundColor" : true,
+           "border" : true,
+           "editable" : true,
+           "onclick" : true,
+           "padding" : true
+        },
+        "style" : { 
+             "color" : "#000000",
+             "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+             "borderTopRightRadius" : 0,
+             "borderTopLeftRadius" : 0,
+             "borderBottomRightRadius" : 0,
+             "borderBottomLeftRadius" : 0,
+             "borderTopWidth" : 1,
+             "borderBottomWidth" : 1,
+             "borderRightWidth" : 1,
+             "borderLeftWidth" : 1,
+             "fontSize" : 17,
+             "borderTopColor" : "#ffffff",
+             "borderBottomColor" : "#B9B9BB",
+             "borderRightColor" : "#ffffff",
+             "borderLeftColor" : "#ffffff",
+             "background" : "#ffffff",
+             "paddingTop" : 7,
+             "paddingBottom" : 7,
+             "paddingLeft" : 0,
+             "paddingRight" : 0,
+             "textAlign":"left"
+        },
+        "error" : {
+            "borderTopColor" : "#ff3b30",
+            "borderBottomColor" : "#ff3b30",
+            "borderRightColor" : "#ff3b30",
+            "borderLeftColor" : "#ff3b30",
+            "background" : "#ffffff"
+        },
+        "focus" : {
+            "background" : "#ffffff",
+            "borderTopColor" : "#ffffff",
+            "borderBottomColor" : "#ffffff",
+            "borderRightColor" : "#ffffff",
+            "borderLeftColor" : "#ffffff"
+        }   
+    },
+    {
+        "id" : "IOSMessageBox16",
+        "type" : "TextBox",
+        "_type" : "Widget",
+        "category" : "IOS",
+        "subcategory" : "ACFormInput",
+        "name" : "Message Field",
+        "x" : 0,
+        "y" : 0,
+        "w" : 200,
+        "h" : 36,
+        "z" : 0,
+        "props" : {
+            "label" : "Enter a value",
+            "placeholder" : true
+        },
+        "has" : {
+           "label" : true,
+           "backgroundColor" : true,
+           "border" : true,
+           "editable" : true,
+           "onclick" : true,
+           "padding" : true
+        },
+        "style" : { 
+             "color" : "#000000",
+             "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+             "borderTopRightRadius" : 50,
+             "borderTopLeftRadius" : 50,
+             "borderBottomRightRadius" : 50,
+             "borderBottomLeftRadius" : 50,
+             "borderTopWidth" : 1,
+             "borderBottomWidth" : 1,
+             "borderRightWidth" : 1,
+             "borderLeftWidth" : 1,
+             "fontSize" : 17,
+             "borderTopColor" : "#B9B9BB",
+             "borderBottomColor" : "#B9B9BB",
+             "borderRightColor" : "#B9B9BB",
+             "borderLeftColor" : "#B9B9BB",
+             "background" : "#ffffff",
+             "paddingTop" : 6,
+             "paddingBottom" : 6,
+             "paddingLeft" : 12,
+             "paddingRight" : 12,
+             "textAlign":"left"
+        },
+        "error" : {
+            "borderTopColor" : "#ff3b30",
+            "borderBottomColor" : "#ff3b30",
+            "borderRightColor" : "#ff3b30",
+            "borderLeftColor" : "#ff3b30",
+            "background" : "#ffffff"
+        },
+        "focus" : {
+            "background" : "#ffffff",
+            "borderTopColor" : "#ffffff",
+            "borderBottomColor" : "#ffffff",
+            "borderRightColor" : "#ffffff",
+            "borderLeftColor" : "#ffffff"
+        }   
+    }
+]
