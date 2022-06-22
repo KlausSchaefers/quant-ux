@@ -30,6 +30,7 @@ import TableSettings from './TableSettings'
 import DropDownTree from './DropDownTree'
 import ImageRotate from './ImageRotate'
 import DataBindingButton from './DataBindingButton'
+import BoxShadow from './BoxShadow2'
 import DomUtil from 'core/DomUtil'
 
 export default {
@@ -618,14 +619,18 @@ export default {
 			this._renderInputDropDown("Value",model, [10,20,30,40,50,60,70,80,90,100], "value", true);
 			this._renderInputDropDown("Min",model, [0,1,5,10,20,50,100, 200], "min", true);
 			this._renderInputDropDown("Max",model, [0,1,5,10,20,50,100, 200], "max", true);
-
+		
 			this._renderSpacer()
-
-			this._renderInputDropDown("Handle Width",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleWidth");
-			this._renderInputDropDown("Handle Radius",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleRadius");
 			this._renderColor('Handle Color','<span class="mdi mdi-format-color-fill"></span>',model.style.handleColor, "handleColor" ,"onStyleChanged", true);
 			this._renderColor('Foreground Color','<span class="mdi mdi-format-color-fill"></span>',model.style.barColor, "barColor" ,"onStyleChanged", true);
 
+			this._renderSpacer()
+			this._renderInputDropDown("Handle Width",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleWidth");
+			this._renderInputDropDown("Handle Radius",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleRadius");
+			this._renderShadowPicker("Handle",model, "handleShadow");
+
+
+	
 
 
 			//this._renderReferenceButton(model,"valueLabel", "No Label", "mdi mdi-label");
@@ -1626,6 +1631,22 @@ export default {
 				return model.props.refs[id];
 			}
 			return null;
+		},
+
+
+		_renderShadowPicker (label, model, prop) {
+
+			var row = this.db.div("MatcToobarRow").build(this.cntr);
+
+			let radius = this.db.div('MatcToolbarRadius').build(row);
+		
+			let picker = this.$new(BoxShadow)
+			picker.placeAt(radius)
+			picker.setLabelPostFix(label)
+			picker.setValue(model.style[prop])
+			this.tempOwn(on(picker, "change", lang.hitch(this, "onStyleChanged", prop)));
+			this.tempOwn(on(picker, "changing", lang.hitch(this, "onTempStyleChanged", prop)));
+		
 		},
 
 		_renderSlider (label, model, prop, min, max){

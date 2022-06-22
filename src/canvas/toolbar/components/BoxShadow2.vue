@@ -47,7 +47,8 @@ export default {
             tempValue: false,
             label: '',
             reposition: true,
-						arrowPosition: "right"
+						arrowPosition: "right",
+            labelPostFix: ''
         }
     },
     components: {
@@ -55,6 +56,10 @@ export default {
       'ShadowSettings': ShadowSettings
     },
     methods: {
+
+      setLabelPostFix (l) {
+        this.labelPostFix = l
+      },
 
       onVisible (){
         this.tempValue = false
@@ -109,6 +114,9 @@ export default {
           this.label = 'No Shadow'
         }
 
+        if (this.labelPostFix) {
+          this.label += ' (' + this.labelPostFix +')'
+        }
       }
     },
     mounted () {

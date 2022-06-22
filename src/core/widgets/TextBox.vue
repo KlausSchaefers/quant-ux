@@ -60,6 +60,7 @@ export default {
         this.own(on(this.input, "focus", lang.hitch(this, "onFocus")));
         if (this.mode == "simulator") {
           this.own(on(this.input, "blur", lang.hitch(this, "onBlur")));
+          this.own(on(this.input, "change", lang.hitch(this, "onChange")));
           this.own(topic.subscribe("MatcSimulatorEvent",lang.hitch(this, "onSimulatorEvent")));
         }
       }
@@ -117,6 +118,16 @@ export default {
       }
     },
 
+    onChange () {
+      // force blur to flush out data binding before
+      // any transitions are fired
+      this.onBlur()
+      const gesture = {
+        type: "InputChange"
+      };
+      this.emit("gesture", gesture);
+    }, 
+
     onEnterPressed () {
       this.input.blur();
       var gesture = {
@@ -126,7 +137,7 @@ export default {
     },
 
     onBlur (e) {
-      this.log.log(3, "onBlur", "enter");
+      this.log.log(-1, "onBlur", "enter");
       this.stopPropagation(e);
 
       var v = this._readValue();

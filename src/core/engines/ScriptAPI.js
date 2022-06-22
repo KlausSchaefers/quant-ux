@@ -55,10 +55,37 @@ class QWidget extends QModel {
 
 }
 
+class QGroup extends QModel {
+
+    constructor (model, api) {
+        super(model, api, 'Group')
+    }
+
+}
+
+
 class QScreen extends QModel {
 
     constructor (model, api) {
         super(model, api, 'Screen')
+    }
+
+    getGroup (name) {
+        Logger.log(2, "QScreen.getGroup() ", name)
+        if (this.api.app.groups) {
+            const groups = this.api.app.groups
+            const screenChildren = this.qModel.children
+            let group = Object.values(groups)
+            .find(g => { 
+                if (g.name === name) {
+                    const groupChildren = g.children
+                    const contained = groupChildren.filter(groupChild => screenChildren.indexOf(groupChild) >=0)
+                    return contained.length === groupChildren.length
+                }
+                return false
+            })
+            return new QGroup(group, this.api)
+        }
     }
 
     getWidget(name) {

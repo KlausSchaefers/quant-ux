@@ -11,7 +11,15 @@ test('Test ScriptAPI() >  Roundtrip', async () => {
                 style: {
                     background: '#fff'
                 },
-                children: ['w1', 'w2']
+                children: ['w1', 'w2', 'w3']
+            },
+            's2': {
+                id: 's2',
+                name: 'b',
+                style: {
+                    background: '#fff'
+                },
+                children: ['w5', 'w6']
             }
         },
         "widgets": {
@@ -29,9 +37,27 @@ test('Test ScriptAPI() >  Roundtrip', async () => {
                     display: 'none',
                     background: 'red'
                 }
+            },
+            'w3': {
+                id: 'w3',
+                name: 'd',
+                style: {
+                    background: 'yellow'
+                }
             }
         },
-        "groups": {},
+        "groups": {
+            "g1": {
+                id: 'g1',
+                name: 'g',
+                children: ['w1', 'w2']
+            },
+            "g2": {
+                name: 'g',
+                id: 'g2',
+                children: ['w5', 'w6']
+            }
+        },
         "templates": {}
     }
     const viewModel = {}
@@ -39,18 +65,29 @@ test('Test ScriptAPI() >  Roundtrip', async () => {
     const screenA = api.getScreen('a')
     expect(screenA).not.toBeUndefined()
     expect(screenA.getName()).toBe('a')
-   
 
+    const screenB = api.getScreen('b')
+    expect(screenB).not.toBeUndefined()
+    expect(screenB.getName()).toBe('b')
+   
     const widgetB = screenA.getWidget('b')
     expect(widgetB).not.toBeUndefined()
     expect(widgetB.getName()).toBe('b')
     expect(widgetB.isHidden()).toBe(false)
 
-
     const widgetC = screenA.getWidget('c')
     expect(widgetC).not.toBeUndefined()
     expect(widgetC.getName()).toBe('c')
     expect(widgetC.isHidden()).toBe(true)
+
+    const g1 = screenA.getGroup('g')
+    expect(g1).not.toBeUndefined()
+    expect(g1.qModel.id).toBe('g1')
+
+    const g2 = screenB.getGroup('g')
+    expect(g2).not.toBeUndefined()
+    expect(g2.qModel.id).toBe('g2')
+
 
     screenA.setStyle({'background': 'black'})
     let deltas = api.getAppDeltas()
@@ -93,7 +130,6 @@ test('Test ScriptAPI() >  Roundtrip', async () => {
     expect(deltas[4].key).toBe('props')
     expect(deltas[4].props.label).toBe(456)
 
-
     widgetB.hide()
     deltas = api.getAppDeltas()
     expect(deltas.length).toBe(6)
@@ -109,7 +145,6 @@ test('Test ScriptAPI() >  Roundtrip', async () => {
     expect(deltas[6].id).toBe('w1')
     expect(deltas[6].key).toBe('style')
     expect(deltas[6].style.display).toBe('block')
-
 
 
 })

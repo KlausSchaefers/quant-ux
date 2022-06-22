@@ -285,11 +285,18 @@
 }
 
 
+.MatcLight .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive,
+.MatcLight .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive:hover{
+	background: #3787f2;
+	color: #fff;
+}
+
+
 .MatcLight .MatcToolbarDropDownButtonItem{
 	background-color: #f2f2f2;
 }
 
-.MatcLight .MatcToolbar .MatcToolbarDropDownButton li:HOVER,
+.MatcLight .MatcToobarPropertiesSection .MatcToolbarDropDownButton li:HOVER,
 .MatcLight .MatcToolbarDropDownButtonPopup li:hover{
 	background: #333;
 	color:#fff;

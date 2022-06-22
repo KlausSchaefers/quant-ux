@@ -222,7 +222,7 @@ export default {
       }
     },
 
-    emitClick: function(e) {
+    emitClick (e) {
       this.emit("click", e);
     },
 
