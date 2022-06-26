@@ -147,6 +147,9 @@ export default {
 				this._renderDataBinding(model);
 			},
 
+			_showLockSlider (model){
+				this._renderDataBinding(model);
+			},
 
 			_showSegmentPicker(model){
 				this._renderDataBinding(model);

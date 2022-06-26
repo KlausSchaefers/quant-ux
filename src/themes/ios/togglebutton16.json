@@ -1,6 +1,6 @@
 [
     {
-        "id" : "IOSToggleButton",
+        "id" : "IOSToggleButton16",
         "type" : "ToggleButton",
         "_type" : "Widget",
         "_extends" : "IOSButton16",

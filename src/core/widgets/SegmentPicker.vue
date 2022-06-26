@@ -1,11 +1,9 @@
 
 <template>
   <div :class="['MatcWidgetTypeSegmentPicker', {'MatcWidgetTypeSegmentPickerShadow': hasActiveShadow} ]">
-    <div class="MatcWidgetTypeSegmentPickerWrapper" ref="wrapper">
-
+    <div class="MatcWidgetTypeSegmentPickerHighlight" ref="highlight">
     </div>
-     <div class="MatcWidgetTypeSegmentPickerHighlight" ref="highlight">
-
+    <div class="MatcWidgetTypeSegmentPickerWrapper" ref="wrapper">
     </div>
   </div>
 </template>
@@ -14,7 +12,6 @@ import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import DomBuilder from "common/DomBuilder";
 import UIWidget from "core/widgets/UIWidget";
-//import css from "dojo/css";
 
 export default {
   name: "SegmentPicker",

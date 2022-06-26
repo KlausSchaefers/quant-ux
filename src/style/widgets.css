@@ -1,4 +1,78 @@
 /*******************************
+ * LockSlider
+ *******************************/
+.MatcWidgetTypeLockSlider {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid transparent;
+
+}
+
+.MatcWidgetTypeLockSliderCntr {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+}
+
+.MatcWidgetTypeLockSliderBar {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border:none;
+}
+
+.MatcWidgetTypeLockSliderWrapper {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	transition: transform 0.3s;
+}
+
+.MatcWidgetTypeLockSliderMoving .MatcWidgetTypeLockSliderWrapper,
+.MatcPlayerPreview .MatcWidgetTypeLockSliderWrapper{
+	transition: none
+}
+
+.MatcWidgetTypeLockSliderForeground {
+	width: 200%;
+	height: 100%;
+	position: absolute;
+	top:0px;
+	right: 0px;
+}
+
+.MatcWidgetTypeLockSliderHandle {
+	border-radius: 50%;
+	border: 0px solid transparent;
+	position: absolute;
+	top:0px;
+	right: 0px;
+}
+
+.MatcWidgetTypeLockSliderIcon {
+	position: absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+}
+
+.MatcWidgetTypeLockSliderLabel {
+	position: absolute;
+	top:50%;
+	right:5%;
+	transform: translateY(-50%);
+}
+
+.MatcWidgetTypeLockSliderLabel:focus{
+	outline: none;
+}
+
+/*******************************
  * VisualPicker
  *******************************/
 
@@ -663,9 +737,7 @@
 	position: relative;
 }
 
-.MatcWidgetTypeSegmentButtonChildActive {
-	z-index: 1;
-}
+
 
 /*******************************
  * Segment Picker
@@ -695,7 +767,7 @@
 	position: absolute;
 	left:0px;
 	top:0px;
-	z-index: 2;
+
 	display: flex;
 }
 
@@ -707,7 +779,7 @@
 	top:0px;
 	display: block;
 	min-width: 10px;
-	z-index: 1;
+
 	transition: left 0.33s;
 }
 

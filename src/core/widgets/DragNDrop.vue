@@ -78,22 +78,14 @@ export default {
           this.containerSize = domGeom.position(
             this.domNode.parentNode.parentNode
           );
-          this.log.log(
-            4,
-            "onDndStart",
-            "enter " + this.containerSize.w + " " + this.containerSize.h
-          );
+          this.log.log( 4,"onDndStart",  "enter " + this.containerSize.w + " " + this.containerSize.h);
         } else {
           console.warn("No container node!");
         }
       }
       if (!this.dndParentPos) {
         this.dndParentPos = this.getCanvasPosition(this.domNode.parentNode);
-        this.log.log(
-          4,
-          "onDndStart",
-          "dom " + this.dndParentPos.x + "," + this.dndParentPos.y
-        );
+        this.log.log( 4, "onDndStart", "dom " + this.dndParentPos.x + "," + this.dndParentPos.y );
       }
     },
 

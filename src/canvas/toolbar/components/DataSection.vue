@@ -606,6 +606,15 @@ export default {
 			this._renderColor('Select Background','<span class="mdi mdi-format-color-fill"></span>',model.style.selectedBackground, "selectedBackground" ,"onStyleChanged", true);
 		},
 
+		_showLockSlider (model){
+			this._setSectionLabel("Lock Slider");
+			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderColor('Icon Color','<span class="mdi mdi-format-color-fill"></span>',model.style.iconColor, "iconColor" ,"onStyleChanged", true);
+			this._renderColor('Handle Color','<span class="mdi mdi-format-color-fill"></span>',model.style.handleColor, "handleColor" ,"onStyleChanged", true);
+			this._renderColor('Foreground','<span class="mdi mdi-format-color-fill"></span>',model.style.foregroundColor, "foregroundColor" ,"onStyleChanged", true);
+		},
+
+
 		_showPaging (model){
 			this._setSectionLabel("Paging");
 			this._renderInputDropDown("Max",model, [1,5,15,20], "max", true);

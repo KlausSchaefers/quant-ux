@@ -8,8 +8,8 @@
 		 "name" : "Link",
 		 "x" : 0,
 	    "y" : 0,
-	    "w" : 100,
-	    "h" : 30,
+	    "w" : 96,
+	    "h" : 32,
 	    "z" : 0,
 	    "props" : {
 	       "label" : "Click Me"

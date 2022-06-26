@@ -47,6 +47,7 @@ import UploadPreview from 'core/widgets/UploadPreview'
 import WebLink from 'core/widgets/WebLink'
 import ProgressBar from 'core/widgets/ProgressBar'
 import ScreenSegment from 'core/widgets/ScreenSegment'
+import LockSlider from 'core/widgets/LockSlider'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -677,6 +678,12 @@ export default class RenderFactory extends Core {
 
 	_createPolyLine(parent, model) {
 		var widget = this.$new(PolyLine);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createLockSlider(parent, model) {
+		var widget = this.$new(LockSlider);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
