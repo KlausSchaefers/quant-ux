@@ -49,6 +49,7 @@ export default {
 					let defaultVariable = databinding.default
 					if (bindingsCount[defaultVariable] === 1) {
 						let props = w.props
+						console.debug(props, w.name)
 						if (props.checked === true || props.checked === false) {
 							this.logger.log(5, "initDefaultDataBinding", "set (checked):" + w.name, props.checked);
 							this.setDataBindingByKey(defaultVariable, props.checked)
@@ -61,6 +62,9 @@ export default {
 						} else if (props.active === true || props.active === false) {
 							this.logger.log(-1, "initDefaultDataBinding", "set (active): " + w.name, props.active);
 							this.setDataBindingByKey(defaultVariable, props.active)
+						} else if (props.label && !props.placeholder) {
+							this.logger.log(-1, "initDefaultDataBinding", "set (label): " + w.name, props.active);
+							this.setDataBindingByKey(defaultVariable, props.label)
 						} else {
 							// this.logger.log(6, "initDefaultDataBinding", "Could not set default: " + w.name, w.props);
 						}
@@ -75,6 +79,7 @@ export default {
 			 * Once we introduce default values via a UI configuration, we
 			 * should add that here!
 			 */
+			this.executeDataScripts()
 		},
 
 
@@ -82,6 +87,7 @@ export default {
 			if (this.dataBindingValues) {
 				JSONPath.set(this.dataBindingValues, path, value)
 				this.emit('onDataBindingChange', this.dataBindingValues)
+				this.executeDataScripts()
 			}
 		},
 
@@ -125,6 +131,7 @@ export default {
 			this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
 			this.emit('onDataBindingChange', this.dataBindingValues)
 			this.updateAllDataBindings(screenID, variable, value)
+			this.executeDataScripts()
 		},
 
 		updateAllDataBindings (screenID, variable, value) {

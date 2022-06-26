@@ -11,7 +11,8 @@ export default class ScriptEngine {
             try {
         
                 const worker = new Worker(new URL('./ScriptWorker.js', import.meta.url))
-                worker.onmessage = (m) => this.onMessage(m, resolve, reject)
+                const start = new Date().getTime()
+                worker.onmessage = (m) => this.onMessage(m, resolve, reject, start)
                 worker.postMessage({
                     code: js, 
                     model: lang.clone(model), 
@@ -41,8 +42,10 @@ export default class ScriptEngine {
         })
     }
 
-    onMessage (message, resolve) {
+    onMessage (message, resolve, reject, start) {
         Logger.log(1, 'ScriptEngine.onMessage() > enter', message.data)
+        const end = new Date().getTime()
+        Logger.log(-1, 'ScriptEngine.onMessage() > took',end - start)
         this.isDone = true
         resolve(message.data)
     }

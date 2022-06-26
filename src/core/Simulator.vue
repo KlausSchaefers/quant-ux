@@ -146,7 +146,8 @@ export default {
 			maxEventCount: 1000,
 			model: {},
 			password: '',
-			passwordError: ''
+			passwordError: '',
+			doNotExecuteScripts: false
         }
     },
     components: {},
@@ -740,7 +741,7 @@ export default {
 			this.logger.log(1,"executeLogic","enter >  " + widget.id + ' '+ widget.type );
 
 			if (widget.props.script) {
-				this.executeScript(widgetID)
+				this.executeScript(widget.id, orginalLine)
 				return
 			}
 			/**

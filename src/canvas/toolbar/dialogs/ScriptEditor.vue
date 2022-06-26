@@ -78,11 +78,14 @@ if (widget.isHidden()) {
     widget.hide()
 }
 widget.setStyle({color:'red'})
+
+To navigate to a screen, return the name
+return "myScreen"
 */
 `,
             w: 400,
             h: 500,
-            loaded: true,
+            loaded: false,
             widget: {},
             logs: [],
             errorMsg: ''
@@ -146,7 +149,7 @@ widget.setStyle({color:'red'})
             editor.setOptions({
                 enableBasicAutocompletion: false,
                 enableSnippets: false,
-                enableLiveAutocompletion: true
+                enableLiveAutocompletion: false
             });
 
         },
@@ -159,6 +162,7 @@ widget.setStyle({color:'red'})
              */
             const sim = this.renderSimulator(this.$refs.simCntr);
             sim.doNotRunOnLoadAnimation = true
+            sim.doNotExecuteScripts = false
             if (scrn) {
                 sim.setStartScreen(scrn);
             }

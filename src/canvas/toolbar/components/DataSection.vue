@@ -412,9 +412,16 @@ export default {
 			this._renderPrimaryButton("Configuration", "mdi mdi-cog", "_renderRestDialog");
 		},
 
-		_showScript (){
+		_showScript (model){
 			this._setSectionLabel("Script");
 			this._renderPrimaryButton("Edit Script", "mdi mdi-code-tags", "_renderScriptDialog");
+
+
+			this._renderLabelDropDown("Icon", model, "trigger",[
+				{ value:"databinding", icon:"mdi mdi-database-edit-outline", label : "Data Trigger"},
+				{ value:null, icon:"mdi mdi-cursor-default-click-outline", label : "Click Trigger"}
+			]);
+
 		},
 
 		_showLogicOr (model){
@@ -1057,10 +1064,12 @@ export default {
 				this.canvas.setState(0);
 			}));
 			d.onOpen(() => {
+		
 				settings.placeAt(cntr);
 				settings.setHash(this.hash);
 				settings.setWidget(this.widget);
 				settings.setModel(this.model);
+				
 			})
 			d.popup(popup, e.target);
 		},
