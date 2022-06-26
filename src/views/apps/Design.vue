@@ -7,8 +7,9 @@
 
 <style lang="css">
   @import url("../../style/matc.css");
-  @import url('../../style/toolbar/all.css');
   @import url("../../style/canvas/all.css");
+  @import url('../../style/toolbar/all.css');
+
 </style>
 <style lang="sass">
   @import "../../style/bulma.sass"
@@ -143,6 +144,7 @@ export default {
 
       this.tempOwn(on(toolbar, "onNewLogicObject", lang.hitch(canvas, "addLogicGroup")));
       this.tempOwn(on(toolbar, "onNewRestObject", lang.hitch(canvas, "addRestObject")));
+      this.tempOwn(on(toolbar, "onNewScriptObject", lang.hitch(canvas, "addScriptObject")));
 
       /**
        * last set the model

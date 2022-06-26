@@ -53,7 +53,7 @@
 	padding-bottom: 30px;
 }
 
-.MatcLayerListFadeOut .MatcToobarPropertiesSection{
+.MatcLayerListFadeOut {
 	opacity: 0.1;
 	transition: opacity 0.2s;
 }

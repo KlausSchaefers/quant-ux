@@ -246,6 +246,16 @@
 	color: #3787f2;
 }
 
+.MatcMultiActionDropDown {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.MatcToobarPropertiesSection .MatcAction .MatcMultiActionDropDown.MatcToolbarDropDownButton:hover {
+	border: none;
+}
+
 .MatcMultiActionDropDown .MatcButtonIconLabel{
 	vertical-align: middle;
 }

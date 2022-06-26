@@ -61,7 +61,7 @@ export default {
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'LockSlider',
-						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker'],
+						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 'Script'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
@@ -70,7 +70,7 @@ export default {
 							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging', 'Timeline', 'LabeledIconToggle', 'VisualPicker', 'LockSlider'],
-			hasLogic2: ["LogicOr", "Rest"],
+			hasLogic2: ["LogicOr", "Rest", "Script"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", "TypeAheadTextBox"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
@@ -85,7 +85,7 @@ export default {
 	},
     components: {},
     methods: {
-        onModeChange:function(){
+        onModeChange (){
 
 			if (this.domNode && this.selectBtn){
 				css.remove(this.selectBtn, "MatcToolbarItemActive");
@@ -98,6 +98,7 @@ export default {
 				css.remove(this.rectangleTool, "MatcToolbarItemActive" );
 				css.remove(this.addLogicSection, "MatcToolbarItemActive" );
 				css.remove(this.addRestSection, "MatcToolbarItemActive" );
+				css.remove(this.addScriptSection, "MatcToolbarItemActive" );
 
 
 				if(this.mode == "select"){
@@ -129,6 +130,9 @@ export default {
 				}
 				if(this.mode == "addRest"){
 					css.add(this.addRestSection, "MatcToolbarItemActive" );
+				}
+				if(this.mode == "addScript"){
+					css.add(this.addScriptSection, "MatcToolbarItemActive" );
 				}
 			} else {
 				console.error("Toolvar_Render.onModeChange() > View Destoyed...")
@@ -181,6 +185,8 @@ export default {
 
 			this.own(on(this.addLogicSection, touch.release, lang.hitch(this, "onNewLogicObject")));
 			this.own(on(this.addRestSection, touch.release, lang.hitch(this, "onNewRestObject")));
+			this.own(on(this.addScriptSection, touch.release, lang.hitch(this, "onNewScriptObject")));
+			
 
 			/**
 			* set model
@@ -369,7 +375,8 @@ export default {
 			this.addTooltip(this.textTool, "Create Text (T)", "vommondToolTipLeft");
 			this.addTooltip(this.rectangleTool, "Create Rectangle (R)", "vommondToolTipLeft");
 			this.addTooltip(this.addLogicSection, "Create Logic Element to split links", "vommondToolTipLeft");
-			this.addTooltip(this.addRestSection, "Web Service (BETA)", "vommondToolTipLeft");
+			this.addTooltip(this.addRestSection, "Web Service", "vommondToolTipLeft");
+			this.addTooltip(this.addScriptSection, "Script (BETA)", "vommondToolTipLeft");
 			this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
 
 			this.addTooltip(this.undo, "Undo (CTRL+Z)");
@@ -762,6 +769,7 @@ export default {
 			this.dataWidget.setMode(this.mode);
 			this.dataWidget.setUser(this.user);
 			this.dataWidget.setJwtToken(this.jwtToken);
+			this.dataWidget.setHash(this.hash)
 			this.dataWidget.setCanvas(this.canvas);
 			this.dataWidget.placeAt(dataDiv);
 			this.dataWidget.setSectionHeader(parent);

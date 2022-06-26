@@ -37,6 +37,14 @@ export default {
 			this.controller.addMultiScreens(clonedScreens, true);
 		},
 
+		addScriptObject (params) {
+			this.logger.log(1,"addScriptObject", "enter");
+
+			this._createAddCommand("addScriptObject", params);
+
+			this._addWidget(params, params.obj, "addScript");
+		},
+
 		addRestObject (params){
 			this.logger.log(1,"addRestObject", "enter");
 
@@ -471,6 +479,9 @@ export default {
 					if (widget.type === "LogicOr") {
 						this._addLineActionTargets.push(widget)
 					}		
+					if (widget.type === "Script") {
+						this._addLineActionTargets.push(widget)
+					}	
 				}
 			}
 
@@ -643,22 +654,21 @@ export default {
 					 */
 					let widget = this.model.widgets[id];
 					if(this.hasLogic(widget)){
-						let fromWidget = this.model.widgets[this._addLineModel.from];
-						if(!this.hasLogic(fromWidget)){
+						//let fromWidget = this.model.widgets[this._addLineModel.from];
+						//if(!this.hasLogic(fromWidget)){
 							let model = this._addLineModel;
 							model.to = widget.id;
 							this.controller.addLine(model, e);
 							this._onAddDone();
-						} else {
-							this.showError("You cannot connect two logic nodes!");
-						}
-					} else if (this.hasRest(widget)) {
+						//} else {
+						//	this.showError("You cannot connect two logic nodes!");
+						//}
+					} else if (this.hasRest(widget) || this.hasScript(widget)) {
 						let model = this._addLineModel;
 						model.to = widget.id;
 						this.controller.addLine(model, e);
 						this._onAddDone();
 					} else {
-
 						this.showError("You have to select a screen, logic or cloud element!");
 					}
 				}

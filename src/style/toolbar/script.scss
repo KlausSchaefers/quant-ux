@@ -1,8 +1,14 @@
 @import '../variables.scss';
 
+.MatcScriptEditorDialog {
+    height: 640px;
+    width: 980px;
+    padding: 20px;
+}
+
 .MatcScriptEditor {
 
-    height: 600px;
+    height: 540px;
     width: 940px;
 
     .ace_editor,
@@ -13,6 +19,7 @@
     .MatcScriptColumns {
         display: flex;
         gap: 32px;
+        height: 100%;
     }
 
     .MatcScriptEditorSimulator {
@@ -37,7 +44,7 @@
         padding-left: 32px;
 
         .MatcScriptEditorContent {
-            flex-grow: 1;
+            height: 400px;
         }
     }
 

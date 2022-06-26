@@ -29,8 +29,8 @@
 
 <style lang="css">
   @import url("../../style/matc.css");
-  @import url('../../style/toolbar/all.css');
   @import url("../../style/canvas/all.css");
+  @import url('../../style/toolbar/all.css');
 </style>
 
 <script>

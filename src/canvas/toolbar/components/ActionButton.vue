@@ -100,31 +100,40 @@ export default {
 							icon = "MatcToolbarIconAddLogic mdi mdi-checkbox-blank"
 						}
 						if(this.hasRest(to)){
-							icon = "MatcToolbarIconAddLogic mdi mdi-cloud"
+							icon = "mdi mdi-cloud"
 						}
+						if(this.hasScript(to)){
+							icon = "mdi mdi-code-tags"
+						}
+					
 						let item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr").build(parent);
 						db.span(icon + " MatcToolbarSmallIcon").build(item);
 						db.span("MatcToolbarItemLabel", to.name).build(item);
 						let btn = db.span("MatcToobarRemoveBtn ").span("mdi mdi-close-circle").build(item);
 						this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveLineByID", line.id)));
 
-						if (widget.props && !widget.props.isRandom){ // new since 6
-							if(line.rule){
-								let lbl = this.getRuleLabel(line.rule);
-								let row = db.div("MatcToobarRow").build(parent);
-								let item= db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
-								db.span("MatcActionRuleLabel", lbl).build(item);
-								this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
-							} else {
-								let row = db.div("MatcToobarRow").build(parent);
-								let item= db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
-								let span = db.label("MatcToolbarItemIcon").build(item);
-								db.span("mdi mdi-plus-circle MatcToolbarSmallIcon").build(span);
-								db.span("MatcToolbarDropDownButtonLabel", "Add Rule").build(span);
-								this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
+					
+
+						if (!this.hasScript(widget)) {
+							if (widget.props && !widget.props.isRandom){ // new since 6
+								if(line.rule){
+									let lbl = this.getRuleLabel(line.rule);
+									let row = db.div("MatcToobarRow").build(parent);
+									let item= db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
+									db.span("MatcActionRuleLabel", lbl).build(item);
+									this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
+								} else {
+									let row = db.div("MatcToobarRow").build(parent);
+									let item= db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
+									let span = db.label("MatcToolbarItemIcon").build(item);
+									db.span("mdi mdi-plus-circle MatcToolbarSmallIcon").build(span);
+									db.span("MatcToolbarDropDownButtonLabel", "Add Rule").build(span);
+									this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
+								}
 							}
 						}
 
+					
 						if (i < lines.length - 1) {
 							db.div("MatcToolbarSeparator").build(parent);
 						}
@@ -133,10 +142,18 @@ export default {
 
 				}
 
-				let btn = db.div("MatcToolbarItem MatcToolbarGridFull").div(" MatcToolbarButton MatcButton").tooltip("Add Link to other screen").build(parent);
-				db.span("mdi mdi-link-variant MatcButtonIcon").build(btn);
-				db.span("MatcButtonIconLabel", "Add Link").build(btn);
-				this.tempOwn(on(btn, touch.press, lang.hitch(this, "onNewLine")));
+				// script does only allow one line!
+				if (!this.hasScript(widget) || lines.length ===0 ) {
+					let btn = db
+						.div("MatcToolbarItem MatcToolbarGridFull")
+						.div(" MatcToolbarButton MatcButton MatcToolbarButtonPrimary")
+						.tooltip("Add Link to other screen")
+						.build(parent);
+						
+					db.span("mdi mdi-link-variant MatcButtonIcon").build(btn);
+					db.span("MatcButtonIconLabel", "Add Link").build(btn);
+					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onNewLine")));
+				}
 
 			} else {
 				let line = this.getLineFrom(widget);

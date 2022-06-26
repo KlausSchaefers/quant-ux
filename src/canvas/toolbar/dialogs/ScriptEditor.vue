@@ -10,10 +10,11 @@
                 <div class="MatcToolbarTabs MatcToolbarTabsBig">
                     <a @click="tab='editor'" :class="{'MatcToolbarTabActive': tab === 'editor'}">Editor</a>
                     <a @click="tab='console'" :class="{'MatcToolbarTabActive': tab === 'console'}">Console</a>
+                    <a @click="tab='help'" :class="{'MatcToolbarTabActive': tab === 'help'}" v-if="false">Help</a>
                 </div>
                 <div class="MatcScriptEditorContent" v-if="tab === 'editor'" ref="ideCntr">
                     <Ace
-                        v-if="loaded && script"
+                        v-if="loaded"
                         ref="aceEditor"
                         v-model="script"
                         @init="editorInit"
@@ -26,6 +27,9 @@
                     <div :class="'MatcScriptEditorConsoleLine ' + l.type " v-for="(l, i) in logs" :key="i">
                         {{l.args}}
                     </div>
+                </div>
+                <div class="MatcScriptEditorContent MatcScriptEditorConsole" v-if="tab === 'help'">
+                   Help is coming soon
                 </div>
                 <div class="MatcButtonBar"> 
                     <div class="MatcButton" @click="run"> Run </div> 
@@ -43,10 +47,7 @@
 
 <script>
 import DojoWidget from 'dojo/DojoWidget'
-//import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
-//import on from 'dojo/on'
-//import touch from 'dojo/touch'
 import domGeom from 'dojo/domGeom'
 import Logger from 'core/Logger'
 import DomBuilder from 'common/DomBuilder'
@@ -64,7 +65,21 @@ export default {
             jwtToken: 'NoTokenComposer',
             hash: "NoHashComposer",
             tab: 'editor',
-            script: '',
+            script: `/* 
+Use the "data" property to read and write data
+data.sum = data.a + data.b
+
+The qux object let's you manipulate the prototype styles
+let screen = qux.getScreen('myScreen')
+let widget = screen.getWidget('myWidget') 
+if (widget.isHidden()) {    
+    widget.show()
+} else {
+    widget.hide()
+}
+widget.setStyle({color:'red'})
+*/
+`,
             w: 400,
             h: 500,
             loaded: true,
@@ -100,6 +115,7 @@ export default {
             this.orgModel = lang.clone(m);
             this.model = this.createInheritedModel(m);
             this.model = Core.addContainerChildrenToModel(this.model);
+            this.render()
         },
 
         setType (type){
@@ -143,7 +159,6 @@ export default {
              */
             const sim = this.renderSimulator(this.$refs.simCntr);
             sim.doNotRunOnLoadAnimation = true
-            sim.setHash(this.hash)
             if (scrn) {
                 sim.setStartScreen(scrn);
             }
@@ -179,6 +194,7 @@ export default {
 
             const s = this.$new(Simulator, {mode : "debug", logData : false, runTimerLinesOnScreenLoad : false, isDesktopTest:true, isWiringEvents:true});
             s.scrollListenTarget = "parent";
+            s.setHash(this.hash)
             /**
              * We do not want to resize the parent.
              * Therefore we replace the method with an empty one
@@ -213,7 +229,7 @@ export default {
 
 
         getValue (){
-            this.script
+            return this.script
         },
 
         destroy (){
@@ -224,14 +240,15 @@ export default {
     },
     mounted () {
         Logger.log(-1, 'ScriptEditor.mounted()', this.app)
-        if (this.app) {
-            this.setModel(this.app)
-        }
+       
         if (this.value) {
             this.setWidget(this.value)
         }
 
-        this.render()
+        if (this.app) {
+            this.setModel(this.app)
+        }
+       
     }
 }
 </script>

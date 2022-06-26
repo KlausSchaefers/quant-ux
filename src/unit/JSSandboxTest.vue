@@ -52,6 +52,7 @@
 import SandBoxService from '../core/engines/ScriptEngine'
 import app from './data/scriptTest.json'
 import ScriptEdior from '../canvas/toolbar/dialogs/ScriptEditor.vue'
+import * as DojoUtil from 'dojo/DojoUtil'
 
 //app.type = 'desktop'
 
@@ -128,6 +129,8 @@ if (hide.isHidden()) {
     if (localStorage.getItem('jsSandBoxTest')) {
        this.js = localStorage.getItem('jsSandBoxTest')
     }
+    var settings = DojoUtil.$new(ScriptEdior);
+    console.debug(settings)
     this.selectedWidget = {
       props: {
         script: this.js

@@ -32,6 +32,8 @@ import ImageRotate from './ImageRotate'
 import DataBindingButton from './DataBindingButton'
 import BoxShadow from './BoxShadow2'
 import DomUtil from 'core/DomUtil'
+import ScriptEdior from '../dialogs/ScriptEditor.vue'
+
 
 export default {
     name: 'DataSection',
@@ -67,6 +69,10 @@ export default {
 
 		setJwtToken(t) {
 			this.jwtToken = t
+		},
+
+		setHash(h) {
+			this.hash = h
 		},
 
 		setCanvas (canvas){
@@ -404,6 +410,11 @@ export default {
 		_showRest (){
 			this._setSectionLabel("Rest");
 			this._renderPrimaryButton("Configuration", "mdi mdi-cog", "_renderRestDialog");
+		},
+
+		_showScript (){
+			this._setSectionLabel("Script");
+			this._renderPrimaryButton("Edit Script", "mdi mdi-code-tags", "_renderScriptDialog");
 		},
 
 		_showLogicOr (model){
@@ -1026,23 +1037,58 @@ export default {
 		},
 
 		/**********************************************************************
-		 * Table
+		 * Script
+		 **********************************************************************/
+
+		_renderScriptDialog (e) {
+
+			const popup = this.db.div("MatcScriptEditorDialog MatcPadding").build();
+			const cntr = this.db.div("").build(popup);
+			const settings = this.$new(ScriptEdior);
+			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const write = this.db.div("MatcButton", "Ok").build(bar);
+			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+
+			const d = this.canvas.createDialog();
+			d.own(on(write, touch.press, lang.hitch(this,"setScript", d, settings)));
+			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, settings)));
+			d.own(on(d, "close", () => {
+				settings.destroy();
+				this.canvas.setState(0);
+			}));
+			d.onOpen(() => {
+				settings.placeAt(cntr);
+				settings.setHash(this.hash);
+				settings.setWidget(this.widget);
+				settings.setModel(this.model);
+			})
+			d.popup(popup, e.target);
+		},
+
+		setScript (d, settings) {
+			let value = settings.getValue()
+			console.debug('value', value)
+			this.onProperyChanged('script', value)
+			d.close()
+		},
+
+		/**********************************************************************
+		 * REST
 		 **********************************************************************/
 
 
 		_renderRestDialog (e) {
 
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
-			var cntr = this.db.div("").build(popup);
-			var settings = this.$new(RestSettings);
+			const popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			const cntr = this.db.div("").build(popup);
+			const settings = this.$new(RestSettings);
 			settings.setWidget(this.widget);
 			settings.setModel(this.model);
 			settings.placeAt(cntr);
-			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var write = this.db.div("MatcButton", "Ok").build(bar);
-			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
-
-			var d = this.canvas.createDialog();
+			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const write = this.db.div("MatcButton", "Ok").build(bar);
+			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+			const d = this.canvas.createDialog();
 			d.own(on(write, touch.press, lang.hitch(this,"setRest", d, settings)));
 			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, settings)));
 			d.own(on(d, "close", () => {
@@ -1746,7 +1792,7 @@ export default {
 		_renderPrimaryButton (lbl, icon, callback){
 			var row = this.db.div("MatcToobarRow ").build(this.cntr);
 			var item = this.db.div("MatcToolbarItem MatcToolbarGridFull").build(row);
-			var btn = this.db.span("MatcToolbarButton MatcButton").build(item);
+			var btn = this.db.span("MatcToolbarButton MatcButton MatcToolbarButtonPrimary").build(item);
 			this.db.span(icon + ' MatcButtonIcon').build(btn)
 			this.db.span("MatcButtonIconLabel", lbl).build(btn);
 			this.tempOwn(on(row, touch.press, lang.hitch(this, callback)));

@@ -29,7 +29,7 @@ class ModelUtil {
     }
 
     isLogicWidget(widget) {
-        return widget && (widget.type === 'LogicOr' || widget.type === "Rest")
+        return widget && (widget.type === 'LogicOr' || widget.type === "Rest" || widget.type === 'Script')
     }
 
     inlineAllTemplateVariants (model) {

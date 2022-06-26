@@ -72,6 +72,12 @@
 	color:#fff;
 }
 
+.MatcToolbarButtonPrimary {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+
 .MatcToolbarButton:HOVER{
 	background: #1251a3;
 	border-color:#1251a3;

@@ -98,7 +98,7 @@ class QScreen extends QModel {
                 return new QWidget(widget, this.api)
             }
         }
-
+        throw new Error(`Widget "${name}" in screen "${this.qModel.name}" not found.`)
         
     }
 }
@@ -116,6 +116,7 @@ export default class ScriptAPI {
         if (found.length === 1) {
             return new QScreen(found[0], this)
         }
+        throw new Error(`Screen "${name}" not found.`)
     }
 
     getAppDeltas () {

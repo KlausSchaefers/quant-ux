@@ -43,6 +43,12 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
+			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addScriptSection" v-show="showScriptTool">
+				<span class="mdi mdi-code-tags" ></span>
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
+			</div>
+
+
 			<div class="MatcToolbarItem MatcToolbarMove" data-dojo-attach-point="moveTool" >
 				<span class="mdi mdi-cursor-move" ></span>
 			</div>
@@ -193,6 +199,7 @@ export default {
 			active: true,
 			redirectAfterExit: true,
 			showRestTool: true,
+			showScriptTool: false,
 			hasViewConfigVtn: true,
 			canvasViewConfig: {},
 			settings: {},
@@ -710,6 +717,31 @@ export default {
 		/**********************************************************************
 		 * Add & Remove Events
 		 **********************************************************************/
+
+		onNewScriptObject (e) {
+			this.logger.log(-1,"onNewLogicObject", "entry > ");
+
+				var obj = {
+				"id" : "Script",
+				"name" : "Script",
+				"type":"Script",
+				"x": 0,
+				"y": 0,
+				"w": 80,
+				"h": 90,
+				"props" : {
+					"label" : "Script",
+					"script": ''
+				},
+				"has" :{
+					"script" : true
+				},
+				"style" : {
+			        "background": "#777"
+				}
+			};
+			this.emit("onNewScriptObject", {"obj" : obj, "event":e});
+		},
 
 		onNewRestObject (e) {
 			this.logger.log(-1,"onNewLogicObject", "entry > ");
@@ -1899,6 +1931,11 @@ export default {
 		setSettings (v){
 			this.logger.log(1,"setSettings", "entry > ", v);
 			this.settings = v;
+			if (this.settings.hasProtoMoto) {
+				this.showScriptTool = true
+			} else {
+				this.showScriptTool = false
+			}
 		},
 
 

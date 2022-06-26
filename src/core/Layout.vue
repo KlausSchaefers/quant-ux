@@ -617,6 +617,14 @@ export default {
       return false;
     },
 
+
+    hasScript: function(box) {
+      if (box) {
+        return box.type == "Script";
+      }
+      return false;
+    },
+
     hasOnClick: function(model) {
       if (model && model.has.onclick) {
         return true;
