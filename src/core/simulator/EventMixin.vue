@@ -237,8 +237,16 @@ export default {
 
 		},
 
+		onWidgetRerended (screenID, widgetID) {
+			this.logger.log(-1,"onWidgetRerended","enter >  sreen:" + screenID + " > widget:" + widgetID);
+			const widget = this.model.widgets[widgetID]
+			if (widget) {
+				this.wireContainer(widget, screenID)
+			}
+		},
 
-				/**********************************************************
+
+		/**********************************************************
 		 * On Resize
 		 **********************************************************/
 

@@ -132,6 +132,7 @@ export default {
 				this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
 				this.emit('onDataBindingChange', this.dataBindingValues)
 				this.updateAllDataBindings(screenID, variable, value)
+				
 			} else {
 				this.logger.log(-1, "onUIWidgetDataBinding","exit > No change");
 			}

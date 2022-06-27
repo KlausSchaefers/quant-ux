@@ -22,13 +22,13 @@ export default class ScriptEngine {
 
 
                 setTimeout(() => {
-                    Logger.log(-5, 'ScriptEngine.run() > isDone:', this.isDone)
+                    Logger.log(5, 'ScriptEngine.run() > isDone:', this.isDone)
                     if (!this.isDone) {
                         resolve({
                             status: 'error',
                             error: 'Running too long'
                         })
-                        Logger.error('ScriptEngine.run() > need to termiate script')
+                        Logger.error('ScriptEngine.run() > need to terminate script')
                         worker.terminate()
                         worker = new Worker(new URL('./ScriptWorker.js', import.meta.url))
                     }
@@ -51,6 +51,5 @@ export default class ScriptEngine {
         Logger.log(-1, 'ScriptEngine.onMessage() > took',end - start)
         this.isDone = true
         resolve(message.data)
-        console.debug('end', this.isDone)
     }
 }

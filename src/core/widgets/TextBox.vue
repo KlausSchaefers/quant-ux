@@ -137,7 +137,7 @@ export default {
     },
 
     onBlur (e) {
-      this.log.log(-1, "onBlur", "enter");
+      this.log.log(1, "onBlur", "enter");
       this.stopPropagation(e);
 
       var v = this._readValue();

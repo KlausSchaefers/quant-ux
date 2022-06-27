@@ -262,6 +262,9 @@ export default {
                         copy.id = childWidget.id + '-' + i
                         copy.dataBingingIndex = i
                         copy.isRepeaterChild = true
+                        this.rewriteDataBinding(i, copy)
+
+                        // we need to rewrite the data binding here!!
 
                         let top = (childWidget.y - cntrBox.y) + offsetTop
                         let left = (childWidget.x - cntrBox.x) + offsetLeft
@@ -301,7 +304,61 @@ export default {
       }
     },
 
+    rewriteDataBinding (i, child) {
+        if (child?.props?.databinding?.default) {
+            if (this.model.props.databinding && this.model.props.databinding.default) {
+                const parentPath = this.model.props.databinding.default
+                const path = child.props.databinding.default
+                const childPath = this.cutOffParentPath(path, parentPath)
+                const newPath = `${parentPath}[${i}].${childPath}`
+                child.props.databinding.default = newPath
+                child.props.databinding.defaultRelativ = childPath
+            }
+        }
+    },
+
+    cutOffParentPath (path, parentPath)  {
+       
+        if (path.indexOf(parentPath) === 0) {
+            path = path.substring(parentPath.length)
+            
+            /**
+             * We might have a path from the auto suggestion with '[0].' We cut it off
+             */
+            if (path.indexOf('[0]') === 0) {
+                path = path.substring(3)
+            }
+            /**
+             * We might have also a path starting with '.', we cut it off as well
+             */
+            if (path.indexOf('.') === 0) {
+                path = path.substring(1)
+            }
+        }
+       
+        return path
+    },
+
     getDataBindingValue (i, child) {
+        if (this.dataBindingValues) {
+            if (child.props.databinding && child.props.databinding.defaultRelativ){
+                let key = child.props.databinding.default
+                let path = child.props.databinding.defaultRelativ
+                let row = this.dataBindingValues[i]
+                let value = JSONPath.get(row, path)
+                if (value !== null && value != undefined) {
+                    return {
+                        variable: key,
+                        value: value
+                    }
+                } else {
+                    this.logger.warn('getDataBindingValue()', 'Cannot find ' + path)
+                }
+            }
+        }
+    },
+
+    getDataBindingValueOld (i, child) {
      
         if (this.dataBindingValues) {
             if (child.props.databinding && child.props.databinding.default){
@@ -460,6 +517,7 @@ export default {
       this.dataBindingValues = v
       this.dataBindingFromExternal = true
       this.render(this.model, this.style, this._scaleX, this._scaleY)
+      this.emit('rerender', this)
     },
 
     getOutputDataBindingValue (index) {

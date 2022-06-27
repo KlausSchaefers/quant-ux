@@ -680,7 +680,7 @@ export default {
 		},
 
 		onTransition (screenID, widgetID, line, e){
-			this.logger.log(0,"onTransition","enter >  sreen:" + screenID + " > widget:" + widgetID);
+			this.logger.log(1,"onTransition","enter >  sreen:" + screenID + " > widget:" + widgetID);
 			this.stopEvent(e);
 			this.log("WidgetClick",screenID, widgetID, e);
 			this.executeLine(screenID, widgetID, line);

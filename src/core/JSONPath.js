@@ -24,7 +24,7 @@ class JSONPath {
         let current = elements.shift()
         let node = data
         let i = 0
-        while (current && i < 100) {
+        while (current !== undefined && current !== null && i < 100) {
             i++
             if (elements.length > 0) {
                 if (!node[current]) {

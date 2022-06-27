@@ -417,13 +417,15 @@ export default {
 				this.initDataBinding(uiWidget, screen);
 			}
 
-		
-
 			/**
 			* For container widgets we wire all the children and add
 			* them to the model.
 			*/
+			this.wireContainer(widget)
+			
+		},
 
+		wireContainer (widget, screenId) {
 			if (widget.isContainer){
 				let cntrWidget = this.renderFactory.getUIWidget(widget);
 				if (cntrWidget){
@@ -444,7 +446,7 @@ export default {
 						this.model.widgets[child.widget.id] = child.widget
 					})
 				} else {
-					this.log.warn('createWidget', 'Could not find UI widgte for ', widget)
+					this.log.warn('wireContainer', 'Could not find UI widgte for ', widget)
 				}
 			}
 		},
@@ -541,6 +543,10 @@ export default {
 				this.tempOwn(uiWidget.on("mouseover", lang.hitch(this, "onWidgetMouseOver", screenId, widget.id)));
 				this.tempOwn(uiWidget.on("mouseout", lang.hitch(this, "onWidgetMouseOut", screenId, widget.id)));
 
+				/**
+				 * Some containers can rewire
+				 */
+				this.tempOwn(uiWidget.on("rerender", lang.hitch(this, "onWidgetRerended", screenId, widget.id)));
 			} else {
 				/**
 				* Wire normal widget as *CLICK* so that scrolling still works
