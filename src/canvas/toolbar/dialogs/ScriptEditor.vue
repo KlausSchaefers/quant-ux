@@ -88,7 +88,8 @@ return "myScreen"
             loaded: false,
             widget: {},
             logs: [],
-            errorMsg: ''
+            errorMsg: '',
+            model: false
         }
     },
     components: {
@@ -96,7 +97,7 @@ return "myScreen"
     },
     computed: {
         screenType () {
-            if (this.app && (this.app.type === 'desktop' || this.app.type === 'tablet')) {
+            if (this.model && (this.model.type === 'desktop' || this.model.type === 'tablet')) {
                 return 'MatcScriptEditorDesktop'
             }
             return 'MatcScriptEditorMobile'
@@ -118,7 +119,9 @@ return "myScreen"
             this.orgModel = lang.clone(m);
             this.model = this.createInheritedModel(m);
             this.model = Core.addContainerChildrenToModel(this.model);
-            this.render()
+            this.$nextTick(() => {
+                this.render()
+            })
         },
 
         setType (type){
@@ -187,6 +190,7 @@ return "myScreen"
             const pos = domGeom.position(cntr);
             pos.w -=30;
             pos.h = domPos.h;
+            console.debug(pos)
 
             const container = db.div("MatchSimulatorContainer MatcAnimationComposerSimulator")
                 .h(pos.h)

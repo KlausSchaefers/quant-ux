@@ -1,7 +1,9 @@
 import Logger from '../Logger'
 import lang from '../../dojo/_base/lang'
+let worker = new Worker(new URL('./ScriptWorker.js', import.meta.url))
 
 export default class ScriptEngine {
+    
 
     run (js, model, viewModel) {
         Logger.log(1, 'ScriptEngine.run()')
@@ -9,8 +11,7 @@ export default class ScriptEngine {
         return new Promise((resolve, reject) => {
 
             try {
-        
-                const worker = new Worker(new URL('./ScriptWorker.js', import.meta.url))
+                // TDOD: we could compress the model and just remove everything like styles etc...
                 const start = new Date().getTime()
                 worker.onmessage = (m) => this.onMessage(m, resolve, reject, start)
                 worker.postMessage({
@@ -27,8 +28,11 @@ export default class ScriptEngine {
                             status: 'error',
                             error: 'Running too long'
                         })
+                        Logger.error('ScriptEngine.run() > need to termiate script')
+                        worker.terminate()
+                        worker = new Worker(new URL('./ScriptWorker.js', import.meta.url))
                     }
-                    worker.terminate()
+                   
                 }, 1000)
             
             } catch (error) {
@@ -43,7 +47,7 @@ export default class ScriptEngine {
     }
 
     onMessage (message, resolve, reject, start) {
-        Logger.log(1, 'ScriptEngine.onMessage() > enter', message.data)
+        Logger.log(-3, 'ScriptEngine.onMessage() > enter', message.data)
         const end = new Date().getTime()
         Logger.log(-1, 'ScriptEngine.onMessage() > took',end - start)
         this.isDone = true

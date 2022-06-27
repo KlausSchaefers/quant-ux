@@ -87,7 +87,6 @@ export default {
 			if (this.dataBindingValues) {
 				JSONPath.set(this.dataBindingValues, path, value)
 				this.emit('onDataBindingChange', this.dataBindingValues)
-				this.executeDataScripts()
 			}
 		},
 
@@ -131,7 +130,6 @@ export default {
 			this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
 			this.emit('onDataBindingChange', this.dataBindingValues)
 			this.updateAllDataBindings(screenID, variable, value)
-			this.executeDataScripts()
 		},
 
 		updateAllDataBindings (screenID, variable, value) {
@@ -155,6 +153,7 @@ export default {
 					this.log("WidgetInit", screenID, id, null, state);
 				}
 			}
+			this.executeDataScripts()
 		},
 
 		initDataBinding (uiWidget, screen){
@@ -208,7 +207,16 @@ export default {
 
 		replaceDataBinding (newValues) {
 			this.logger.log(4,"replaceDataBinding","enter  > ", newValues);
+
+			console.debug('replaceDataBinding', newValues, this.currentScreen)
+
 			this.dataBindingValues = newValues
+
+			if (!this.currentScreen) {
+				this.logger.log(-4,"replaceDataBinding","exit  > No screen");
+				return
+			}
+			// update all visible widgets
 			const screenID = this.currentScreen.id
 			const widgets = this.renderFactory.getAllUIWidgets();
 			for(let id in widgets){

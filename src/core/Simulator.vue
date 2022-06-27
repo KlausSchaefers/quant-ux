@@ -80,7 +80,7 @@
         This is a usability test and your interaction will be stored to make the design better.
         We <u>do not store</u> any personal information about you.
       </div>
-      <div class="MatcSimulatorVersion">v4.0.92</div>
+      <div class="MatcSimulatorVersion">v4.0.93</div>
     </div>
   </div>
 </template>
@@ -111,7 +111,6 @@ import EventMixin from 'core/simulator/EventMixin'
 import TemplateMixin from 'core/simulator/TemplateMixin'
 import ScriptMixin from 'core/simulator/ScriptMixin'
 import ModelUtil from 'core/ModelUtil'
-// import TaskMixin from 'core/simulator/TaskMixin'
 
 import Gestures from 'core/Gestures'
 
@@ -466,12 +465,13 @@ export default {
 			}
 		},
 
-		startSimilator (model){
+		async startSimilator (model){
 			this.logger.log(2,"startSimilator","enter >" + model.id);
 
 			this.initScale();
 			this.initLiveUpdate();
 			this.initScroll();
+			await this.initLoadScripts()
 
 			this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 			this.model = Core.addContainerChildrenToModel(this.model);

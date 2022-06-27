@@ -15,7 +15,6 @@ self.addEventListener('message', e => {
     let result = undefined
     try {
         result = code(qux,viewModel, console)
-  
         self.postMessage({
             to: result,
             viewModel: viewModel,

@@ -10,21 +10,42 @@ export default {
   name: 'ScriptMixin',
   methods: {
 
+    async initLoadScripts () {
+        this.logger.log(-2,"initLoadScripts","enter >" );
+
+        if (this.doNotExecuteScripts) {
+            return
+        }
+
+        const widgets = this.getLoadScripts()
+        let all = []
+        widgets.forEach(widget => {
+            if (widget.props.script) {
+                all.push(this.runScript(widget.props.script, widget))
+            }
+        })
+        await Promise.all(all)
+        this.logger.log(2,"initLoadScripts","exit" );
+    },
+
+    getLoadScripts () {
+        return Object
+            .values(this.model.widgets)
+            .filter(w => w.type === 'Script' && w.props.trigger === 'load')
+    },
+
     executeDataScripts () {
         this.logger.log(-2,"executeDataScripts","enter >" );
 
         if (this.doNotExecuteScripts) {
             return
         }
-
         const widgets = this.getDataBindingScripts()
-        console.debug(widgets)
         widgets.forEach(widget => {
             if (widget.props.script) {
                 this.runScript(widget.props.script, widget)
             }
         })
-        
     },
 
     getDataBindingScripts () {
@@ -45,27 +66,28 @@ export default {
 
         let widget = this.model.widgets[widgetID]
         if (widget && widget.props.script) {
-            // make sure that all data bindings are flushed??
-            this.runScript(widget.props.script, widget, orginalLine)
+            return this.runScript(widget.props.script, widget, orginalLine)
         } else {
             this.logger.error("runScript","executeScript > could not find " + widgetID);
         }
-
     },
     async runScript (script, widget, orginalLine) {
         this.logger.log(2,"runScript","enter >");
 
-        const engine = new ScriptEngine()
-        let result = await engine.run(script, this.model, this.dataBindingValues).then()
- 
-        if (result.status === 'ok') {     
-            requestAnimationFrame( () => {
-                this.renderAppChanges(result)
-                this.renderScriptDataBinding(result)  
-                this.renderScriptTo(result, widget, orginalLine)
-            })
-        }
-        return result
+        return new Promise(async(resolve) => {
+            const engine = new ScriptEngine()
+            let result = await engine.run(script, this.model, this.dataBindingValues).then()
+    
+            if (result.status === 'ok') {     
+                requestAnimationFrame( () => {
+                    this.renderAppChanges(result)
+                    this.renderScriptDataBinding(result)  
+                    this.renderScriptTo(result, widget, orginalLine)
+                    this.logger.log(2,"runScript","exit" );
+                    resolve(result)
+                })
+            }
+        }) 
     },
     renderAppChanges (result) {
         this.logger.log(-1,"renderAppChanges","enter >", result.appDeltas);

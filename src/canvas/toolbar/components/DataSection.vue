@@ -418,8 +418,9 @@ export default {
 
 
 			this._renderLabelDropDown("Icon", model, "trigger",[
+				{ value:null, icon:"mdi mdi-cursor-default-click-outline", label : "Click Trigger"},
 				{ value:"databinding", icon:"mdi mdi-database-edit-outline", label : "Data Trigger"},
-				{ value:null, icon:"mdi mdi-cursor-default-click-outline", label : "Click Trigger"}
+				{ value:"load", icon:"mdi mdi mdi-progress-download", label : "Loaded Trigger"}
 			]);
 
 		},
@@ -1049,7 +1050,8 @@ export default {
 
 		_renderScriptDialog (e) {
 
-			const popup = this.db.div("MatcScriptEditorDialog MatcPadding").build();
+   			const dialogCSS = (this.model.type === 'desktop' || this.model.type === 'tablet') ? 'MatcScriptEditorDialogXL' : ''
+			const popup = this.db.div("MatcScriptEditorDialog MatcPadding " + dialogCSS).build();
 			const cntr = this.db.div("").build(popup);
 			const settings = this.$new(ScriptEdior);
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
