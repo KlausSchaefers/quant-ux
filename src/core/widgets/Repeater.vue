@@ -261,6 +261,8 @@ export default {
                         copy.inherited = childWidget.id
                         copy.id = childWidget.id + '-' + i
                         copy.dataBingingIndex = i
+                        copy.isRepeaterChild = true
+
                         let top = (childWidget.y - cntrBox.y) + offsetTop
                         let left = (childWidget.x - cntrBox.x) + offsetLeft
 
@@ -279,7 +281,7 @@ export default {
                         /**
                          * We also set the databinging value here!
                          */
-                        let uiWidget =  this.factory.getUIWidgetByID(copy.id)
+                        let uiWidget = this.factory.getUIWidgetByID(copy.id)
                         if (uiWidget) {
                             let dbValue = this.getDataBindingValue(i, copy, widget)
                             if (dbValue) {

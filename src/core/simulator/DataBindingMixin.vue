@@ -127,9 +127,14 @@ export default {
 		},
 
 		onUIWidgetDataBinding (screenID, widgetID, variable, value){
-			this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
-			this.emit('onDataBindingChange', this.dataBindingValues)
-			this.updateAllDataBindings(screenID, variable, value)
+			let oldValue = JSONPath.get(this.dataBindingValues, variable)
+			if (oldValue !== value) {
+				this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
+				this.emit('onDataBindingChange', this.dataBindingValues)
+				this.updateAllDataBindings(screenID, variable, value)
+			} else {
+				this.logger.log(-1, "onUIWidgetDataBinding","exit > No change");
+			}
 		},
 
 		updateAllDataBindings (screenID, variable, value) {
@@ -163,6 +168,7 @@ export default {
 					var variable = databinding[key];
 					var value = this.getDataBindingByPath(variable);
 					if (value !== null && value !== undefined){
+						// we need to add the key here as well to allow options or so...
 						var changed = uiWidget.setDataBinding(variable, value, this);
 						if (changed){
 							var state = uiWidget.getState();
@@ -208,8 +214,6 @@ export default {
 		replaceDataBinding (newValues) {
 			this.logger.log(4,"replaceDataBinding","enter  > ", newValues);
 
-			console.debug('replaceDataBinding', newValues, this.currentScreen)
-
 			this.dataBindingValues = newValues
 
 			if (!this.currentScreen) {
@@ -221,21 +225,27 @@ export default {
 			const widgets = this.renderFactory.getAllUIWidgets();
 			for(let id in widgets){
                 const uiWidget = widgets[id];
-              	const databinding = this.getDataBinding(uiWidget.model);
-				if (databinding) {
-                    for (let key in databinding) {
-                        const variable = databinding[key]
-                        const value = JSONPath.get(this.dataBindingValues, variable)
-                        this.logger.log(4,"replaceDataBinding","set  > " +  variable + ': ' , value);
-                        const changed = uiWidget.setDataBinding(variable, value, this);
-                        if(changed){
-                            const state = uiWidget.getState();
-                            this.log("WidgetInit", screenID, id, null, state);
-                        }
-                    }
-                }
+				if (!this.isRepaterChild(uiWidget)) {
+					const databinding = this.getDataBinding(uiWidget.model);
+					if (databinding) {
+						for (let key in databinding) {
+							const variable = databinding[key]
+							const value = JSONPath.get(this.dataBindingValues, variable)
+							this.logger.log(4,"replaceDataBinding","set  > " +  variable + ': ' , value);
+							const changed = uiWidget.setDataBinding(variable, value, this);
+							if(changed){
+								const state = uiWidget.getState();
+								this.log("WidgetInit", screenID, id, null, state);
+							}
+						}
+					}
+				}
             }
 			this.emit('onDataBindingChange', this.dataBindingValues)
+		},
+
+		isRepaterChild (uiWidget) {
+			return uiWidget?.model?.isRepeaterChild === true
 		}
     }
 }

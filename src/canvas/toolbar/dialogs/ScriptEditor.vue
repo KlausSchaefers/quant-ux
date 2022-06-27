@@ -165,7 +165,7 @@ return "myScreen"
              */
             const sim = this.renderSimulator(this.$refs.simCntr);
             sim.doNotRunOnLoadAnimation = true
-            sim.doNotExecuteScripts = false
+            sim.doNotExecuteScripts = true
             if (scrn) {
                 sim.setStartScreen(scrn);
             }

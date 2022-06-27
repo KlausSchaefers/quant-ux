@@ -36,7 +36,6 @@ export default {
 
     executeDataScripts () {
         this.logger.log(-2,"executeDataScripts","enter >" );
-
         if (this.doNotExecuteScripts) {
             return
         }

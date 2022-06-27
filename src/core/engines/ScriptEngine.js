@@ -22,7 +22,7 @@ export default class ScriptEngine {
 
 
                 setTimeout(() => {
-                    Logger.log(5, 'ScriptEngine.run() > isDone:', this.isDone)
+                    Logger.log(-5, 'ScriptEngine.run() > isDone:', this.isDone)
                     if (!this.isDone) {
                         resolve({
                             status: 'error',
@@ -47,10 +47,10 @@ export default class ScriptEngine {
     }
 
     onMessage (message, resolve, reject, start) {
-        Logger.log(-3, 'ScriptEngine.onMessage() > enter', message.data)
         const end = new Date().getTime()
         Logger.log(-1, 'ScriptEngine.onMessage() > took',end - start)
         this.isDone = true
         resolve(message.data)
+        console.debug('end', this.isDone)
     }
 }
