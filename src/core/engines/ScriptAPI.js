@@ -30,10 +30,6 @@ class QModel {
         })
     }
 
-    setLabel (msg) {
-        this.setProp({label: msg})
-    }
-
     hide () {
         this.setStyle({display: 'none'})
     }
@@ -44,6 +40,14 @@ class QModel {
 
     show () {
         this.setStyle({display: 'block'})
+    }
+
+    toggle () {
+        if (this.isHidden()) {
+            this.show()
+        } else {
+            this.hide()
+        }
     }
 }
 
@@ -61,6 +65,40 @@ class QGroup extends QModel {
         super(model, api, 'Group')
     }
 
+    forEachChild (callback) {
+        this.qModel.children.forEach(callback)
+    }
+
+    setStyle(newStyleDelta) {
+        this.forEachChild(id => {
+            this.api.appDeltas.push({
+                type: 'Widget',
+                key: 'style',
+                id: id,
+                style: newStyleDelta
+            })
+        })
+    }
+
+    setProp(newStyleDelta) {
+        this.forEachChild(id => {
+            this.api.appDeltas.push({
+                type: 'Widget',
+                key: 'props',
+                id: id,
+                props: newStyleDelta
+            })
+        })
+    }
+
+    isHidden () {
+        let hidden = this.qModel.children.filter(id => {
+            let widget = this.api.app.widgets[id]
+            return widget?.style?.display === 'none'
+        })
+        return hidden.length === this.qModel.children.length
+    }
+
 }
 
 
@@ -75,8 +113,7 @@ class QScreen extends QModel {
         if (this.api.app.groups) {
             const groups = this.api.app.groups
             const screenChildren = this.qModel.children
-            let group = Object.values(groups)
-            .find(g => { 
+            let group = Object.values(groups).find(g => { 
                 if (g.name === name) {
                     const groupChildren = g.children
                     const contained = groupChildren.filter(groupChild => screenChildren.indexOf(groupChild) >=0)
@@ -84,8 +121,11 @@ class QScreen extends QModel {
                 }
                 return false
             })
-            return new QGroup(group, this.api)
-        }
+            if (group) {
+                return new QGroup(group, this.api)
+            }
+        } 
+        throw new Error(`Widget "${name}" in screen "${this.qModel.name}" not found.`)
     }
 
     getWidget(name) {
