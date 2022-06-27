@@ -1,0 +1,315 @@
+{
+    "title": "Quant-UX",
+    "header": {
+        "my-prototypes": "Meus protótipos",
+        "my-account": "Minha conta",
+        "logout": "Logout"
+    },
+    "common": {
+        "register": "Por favor, registe-se para guardar as alterações..",
+        "guest": "Convidado",
+        "loading": "Carregando...",
+        "language-changed": "A língua foi alterada"
+    },
+    "toolbar": {
+        "menu": {
+            "start": "Iniciar Simulador",
+            "settings": "Configurações",
+            "shortcuts": "Teclas de atalho",
+            "share": "Compartilhar",
+            "import": "Importar",
+            "export": "Exportar",
+            "change-screen-size": "Alterar o tamanho da tela",
+            "save-as": "Salvar como",
+            "exit": "Voltar para os protótipos"
+        },
+        "simulate": "Simular",
+        "group": "Groupo",
+        "sign-up": "Inscrever-se para salvar",
+        "templates": {
+            "new": "Novo Template"
+        }
+    },
+    "table": {
+        "action": "Ação"
+    },
+    "table-action": "Ação X",
+    "btn": {
+        "login": "Login",
+        "cancel": "Cancelar",
+        "save": "Salvar",
+        "delete": "Deletar",
+        "download": "Download",
+        "edit": "Editar",
+        "continue": "Continuar",
+        "post": "Publicar",
+        "close": "Fechar",
+        "import": "Importar",
+        "export": "Exportar"
+    },
+    "dialog": {
+        "import": {
+            "images-title": "Importar de imagens",
+            "figma-title": "Importar do Figma",
+            "tab-images": "Imagens",
+            "tab-figma": "Figma", 
+            "tab-zip": "Zip",
+            "tab-github": "Github",
+            "tab-open-api": "Swagger (OpenAPI)",
+            "images-drop-msg": "Soltar as imagens aqui",
+            "zip-drop-msg": "Soltar o ZIP aqui",
+            "image-progress": "Enviando...",
+            "figma-key": "Chave de acesso",
+            "figma-select-page": "Páginas",
+            "figma-url": "Url",
+            "figma-progress-file": "Carregando arquivo do Figma...",
+            "error-too-big": "O arquivo é grande. O tamanho máximo é 5MB",
+            "error-wrong-type": "Apenas JPG, PNG e GIF são suportados",
+            "error-figma-key": "Por favor forneça a chave de acesso",
+            "error-figma-url": "Copiar a url do protótipo do Figma",
+            "error-figma-load": "Algo deu errado ao carregar o arquivo do Figma",
+            "error-figma-page": "Selecione a página que pretende importar e clique em 'Importar'",
+            "error-public": "A importação não funciona no modo Try-Out. Por favor, registe-se para importar elementos.",
+            "error-swagger-no-url": "Por favor introduza uma URL com um arquivo swagger.",
+            "error-no-file": "Nenhum arquivo selecionado",
+            "error-zip-no-file": "Tipo de arquivo errado",
+            "open-api-url": "URL"
+        },
+        "export": {
+            "tab-images": "Imagens",
+            "tab-github": "Github",
+            "tab-zip": "Arquivo Zip",
+            "github-token": "Token de acesso do Github",
+            "github-user": "Usuário",
+            "github-repo": "Repositorio",
+            "github-branch": "Branch",
+            "github-folder": "Pasta"
+        },
+        "login": {
+            "password": {
+                "label": "Senha",
+                "placeholder": "Sua senha",
+                "reset": "Esqueceu a senha?",
+                "error": "A senha deve ter 6 caracteres."
+            },
+            "email": {
+                "placeholder": "Seu email",
+                "error": "Por favor entre com seu email"
+            },
+            "btn": {
+                "create": "Criar uma conta gratuita"
+            },
+            "tos": {
+                "1": "Eu li os",
+                "2": "Termos de Serviço &amp; Política de Privacidade",
+                "3": ".",
+                "error": "Você deve aceitar os termos do serviço &amp; Política de Privacidade!"
+            },
+            "privacy": {
+                "1": "Eu li os ",
+                "2": "Termos de privacidade",
+                "error": "Você deve aceitar os termos de privacidade"
+            }
+        }
+    },
+    "test": {
+        "welcome": {
+            "headline": "Bem-vindo!",
+            "intro": {
+                "1": "Você foi convidado para um teste de usabilidade da",
+                "2": "aplicação.",
+                "tasks": "Você pode experimentar o protótipo e executar certas tarefas. Ao clicar no botão <b>Mostrar Tarefas</b>, vocêr receber instruções detalhadas.",
+                "no-tasks": "Você pode experimentar o protótipo, clicando no botão <b>Iniciar protótipo</b>. ",
+                "privacy": "Esteja ciente de que a sua interação será registada para tornar o sedinng melhor. Não armazenamos qualquer informação pessoal sobre você."
+            },
+            "next": "Mostrar Tarefas",
+            "start": "Iniciar protótipo",
+            "privacy": "Este é um teste de usabilidade e a sua interação será armazenada para tornar o desenho melhor. Não armazenamos qualquer informação pessoal sobre você."
+        },
+        "task": {
+            "headline": "Tarefas",
+            "description": "No escopo deste teste de usabilidade solicitado gentilmente que execute as tarefas listadas abaixo. Não se preocupe se não conseguir cumprir todas as tarefas. Isto é apenas um sinal de que o protótipo necessita de mais melhorias. As tarefas são:",
+            "footer": "Você pode experimentar o protótipo, clicando no botão <b>Iniciar protótipo</b>."
+        },
+        "qr": {
+            "headline": "Ler código QR com seu dispositivo móvel."
+        },
+        "splash": {
+            "upload": "Carregar imagem de fundo",
+            "uploading": "Carregando..."
+        }
+    },
+    "user": {
+        "retire": {
+            "hi": "Oi ",
+            "msg": "tem a certeza de que deseja <b>deletar</b> sua conta? Você perderá todos os seus dados.",
+            "cusoon": "Obrigado por utilizar Quant-UX. Esperamos vê-lo em breve novamente."
+        }
+    },
+    "app": {
+        "error": {
+            "server-offline-title": "Ooops",
+            "server-offline-msg": "Você ficou ausente por mais de 30 minutos. Para continuar a trabalhar, faça novamente o login."
+        },
+        "overview": {
+            "design": "Design",
+            "test": "Teste",
+            "dash": "Painel de controle",
+            "heat": "Mapa de calor",
+            "settings": "Configurações",
+            "team": "Equipe",
+            "run-test": "Teste de funcionamento",
+            "share": "Compartilhe"
+        }
+    },
+    "survey": {
+        "header": "Respostas da pesquisa",
+        "download": "Download das respostas da pesquisa",
+        "no-data": "Nenhum campo de pesquisa. Certifique-se de marcar os campos de pesquisa na tela."
+    },
+    "analytic-task-list": {
+        "header": "Resultados da tarefa",
+        "download": "Download do resumo da tarefa"
+    },
+    "canvas": {
+
+    },
+    "comments": {
+        "title": "Comentários",
+        "post": "Poste um comentário"
+    },
+    "applist": {
+        "add": "Criar novo protótipo",
+        "sign-in": "Inscreva-se para criar um novo protótipo"
+    },
+    "analytics": {
+        "header": {
+            "user": "Teste",
+            "duration": "Duração do teste",
+            "coverage": "Cobertura do teste"
+        },
+        "canvas": {
+            "dropoff": {
+                "hintNoTasksDefined": "Nenhuma tarefa definida",
+                "errorNoTask": "Por favor selecione uma tarefa"
+            },
+            "heatamp": {
+                "hintAll": "Encontre as áreas ocupadas no seu desing onde os usuários mais clicaram.",
+                "hintFirst": "Descobra quais os elementos que chamam mais a atenção dos usuários logo após um painel ter sido carregado.",
+                "hintFirstThree": "Elementos que não são clicados com três interações, podem ser difíceis de serem descobertos pelo o usuário.",
+                "hintMissed": "Cliques em elementos passivos, tais como fundos, podem indicar que os usuários cometeram um erro e não conseguiram compreender a interação pretendida."
+            }
+        }
+    },
+    "dashScreenList": {
+        "views": "Visualizações",
+        "dwel": "Tempo de Permanência",
+        "clicks": "Interações",
+        "table-action": "Analisar"
+    },
+    "share": {
+        "Headline": "Compartilhar este aplicativo",
+        "Test": "Teste",
+        "Comment": "Compartilhar & Comentar",
+        "Embed": "Integrar",
+        "Code": "Geração de código"
+    },
+    "notification": {
+        "more": "Mais..."
+    },
+    "dash": {
+        "perf": {
+            "scatter": {
+                "yLabel": "Interações",
+                "xLabel": "Duração"
+            },
+            "dropoff": {
+                "xLabel": "Taxa de sucesso",
+                "step": "Etapa "
+            },
+            "details": {
+                "yLabel": "Interações",
+                "yLabelEast": "Duração",
+                "xLabel": "Interações | Duração",
+                "bottom25Label": "Interações",
+                "bottom75Label": "Duração"
+            },
+            "tab": {
+                "scatter": "Gráfico de dispersão",
+                "dropoff": "Drop Off",
+                "duration": "Duração",
+                "interactions": "Interações",
+                "details": "Diagrama de caixa",
+                "funnelDurartion": "Passo-Duração",
+                "funnelInteraction": "Passo-Interação"
+            },
+            "hint": {
+                "scatter": "Cada ponto apresenta um teste de usuário bem sucedido. Selecione-os para obter mais informações.",
+                "session-msg": "Para reproduzir a sessão de gravação pressione ",
+                "session-play": "aqui"
+            },
+            "no-flow-title": "Não há fluxo",
+            "no-flow-msg": "<p>Por favor, defina um fluxo com <b>dois ou mais </b> passos. Caso contrário, não podemos mostrar detalhes sobre o desempenho da tarefa.</p>"
+        }
+    },
+
+    "testSettingsDescription": "Descrição",
+    "testSettingsTasks": "Tarefas",
+    "testSettingsTaskName": "Nome",
+    "testSettingsTaskDescription": "Descrição",
+    "testSettingsTaskAddHint": "Clique em 'Adicionar Tarefa' no botão para criar uma nova tarefa. As tarefas a mostrar aos utilizadores antes do teste.",
+    "testSettingsRegister": "Por favor, registe-se para guardar as alterações.",
+    "testSettingsShowTaskInTest": "Mostrar tarefas durante o teste.",
+    "testSettingsNoFlow": "Não há fluxo",
+    "testSettingsFlow1": "Fluxo: ",
+    "testSettingsFlow2": " passos",
+    "testSettingsAddTask": "Adicionar Tarefa'",
+    "testSettingTaskDeskPlaceholder": "Insira aqui uma descrição",
+    "testSettingDesPlaceholder": "Adicione uma breve descrição para os utilizadores aqui dentro",
+    "testSettingTaskDeleteTitle": "Deletar Tarefa",
+    "testSettingTaskDelete1": "Deseja apagar a tarefa '",
+    "testSettingTaskDelete2": "'?",
+    "testSettingsSaved": "Configurações de teste atualizadas...",
+    "testSettingsUpgradePlan": "Plano de Atualização",
+
+    "dashTaskEmpty": "Pode criar tarefas no tabuleiro 'Teste'. ",
+    "dashTaskTableName": "Nome",
+    "dashTaskTableSuccess": "Sucesso",
+    "dashTaskTableStart": "Iniciar",
+    "dashTaskTableDuration": "Duração",
+    "dashTaskTableEvents": "Innterações",
+    "dashTaskTableEditFlow": "Editar",
+    "dashTaskFunnel": "Funil",
+    "dashTaskDurDis": "Duração da Distribuição",
+    "dashTaskEventDis": "Eventos de Distribuição",
+    "dashTaskDesPlaceholder": "Entre com a descrição aqui",
+    "dashTaskPerfHeadline": "Tarefa: ",
+
+    "taskRecorder1": "Um fluxo é a sequência de interacções que os usuários têm de realizar para completar uma tarefa. ",
+    "taskRecorder2": "Por exemplo, têm de visitar o 'Tela A' e navegar para o 'Tela C'. Também podem marcar subeventos importantes, como clicar num botão, ou visitar uma tela no meio.",
+    "taskRecorderStep0": "Pressione <b>Começar</b> para iniciar o simulador.",
+    "taskRecorderStep1": "Realize as interações que os seus usuários devem realizar",
+    "taskRecorderStep2": "Você pode pressionar <b>Pausar</b> para fazer uma pausa na gravação",
+    "taskRecorderStep3": "Pressione <b>Feito</b> quando o fluxo estiver completo.",
+    "taskRecorderStep4": "<b>Selecione</b> todos os passos que são importantes para a tarefa.",
+    "taskRecorderPauseHint": "Clique em Pausar para pausar a gravação",
+    "taskRecorderPauseBtn": "Pausar",
+    "taskRecorderPauseDes": "Interação na gravação ...",
+    "taskRecorderRecordBtn": "Gravar",
+    "taskRecorderRecordDes": "Clique em Gravar para continuar a gravação",
+    "taskRecorderError1": "Não registou qualquer fluxo. Carregou no botão Gravar?",
+    "taskRecorderDoNotAllow": "Não permitir eventos no meio.",
+    "taskRecorderEvent": "Evento",
+    "taskRecorderScreen": "Tela",
+    "taskRecorderWidget": "Widget",
+    "taskRecorderAction": "Importante",
+
+    "videoTableStatus": "Status",
+    "videoTableUser": "Usuário",
+    "videoTableDuration": "Duração",
+    "videoTableScreens": "Telas",
+    "videoTableEvents": "Eventos",
+    "videoTableDate": "Data",
+    "videoTableStatusNotPayed": "Bloqueado",
+    "videoTablePlanUpdateMsg": "Para ver todos os vídeos, atualize o seu plano."
+}
