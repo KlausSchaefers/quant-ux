@@ -246,7 +246,7 @@ export default {
                    marginRight = 0;
                }
                let marginBottom = distanceY
-               if (i % rows === rows -1) {
+               if (i % rows === rows -1 && !this.dataBindingFromExternal) {
                    marginBottom = 0;
                }
                let cellDiv = db.div('MatcWidgetTypeRepeaterElement')

@@ -18,7 +18,7 @@ export default {
 		/**
 		 * Since 3.0.17 we set default values to data binding
 		 */
-		initDefaultDataBinding (model) {
+		async initDefaultDataBinding (model) {
 			this.logger.log(3, "initDefaultDataBinding","enter ");
 
 			let bindingsCount = {}
@@ -79,7 +79,7 @@ export default {
 			 * Once we introduce default values via a UI configuration, we
 			 * should add that here!
 			 */
-			this.executeDataScripts()
+			await this.executeDataScripts()
 		},
 
 
@@ -126,19 +126,18 @@ export default {
 			}
 		},
 
-		onUIWidgetDataBinding (screenID, widgetID, variable, value){
+		onUIWidgetDataBinding (screenID, widgetID, variable, value, runDataScripts = true){
 			let oldValue = JSONPath.get(this.dataBindingValues, variable)
 			if (oldValue !== value) {
 				this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
 				this.emit('onDataBindingChange', this.dataBindingValues)
-				this.updateAllDataBindings(screenID, variable, value)
-				
+				this.updateAllDataBindings(screenID, variable, value, runDataScripts)
 			} else {
-				this.logger.log(-1, "onUIWidgetDataBinding","exit > No change");
+				this.logger.log(1, "onUIWidgetDataBinding","exit > No change");
 			}
 		},
 
-		updateAllDataBindings (screenID, variable, value) {
+		updateAllDataBindings (screenID, variable, value, runDataScripts = true) {
 			/**
 			 * Find all widgets that are bound to this variable then
 			 *
@@ -159,7 +158,12 @@ export default {
 					this.log("WidgetInit", screenID, id, null, state);
 				}
 			}
-			this.executeDataScripts()
+			if (runDataScripts) {
+				this.executeDataScripts()
+			} else {
+				this.logger.log(-1, "updateAllDataBindings","exit > Do not run scripts");
+			}
+			
 		},
 
 		initDataBinding (uiWidget, screen){
@@ -182,7 +186,7 @@ export default {
 			}
 		},
 
-		flushOutputDataBinding (screenID, widgetID) {
+		flushOutputDataBinding (screenID, widgetID, runDataScripts = false) {
 
 			/**
 			 * This is needed for clicks in containers. As containers can have
@@ -205,7 +209,7 @@ export default {
 					if (uiWidget && databindingSettings && databindingSettings.output) {
 						let value = uiWidget.getOutputDataBindingValue(widget.dataBingingIndex)
 						if (value != null && value !== undefined) {
-							this.onUIWidgetDataBinding(screenID, widgetID, databindingSettings.output, value)
+							this.onUIWidgetDataBinding(screenID, widgetID, databindingSettings.output, value, runDataScripts)
 						}
 					}
 				}

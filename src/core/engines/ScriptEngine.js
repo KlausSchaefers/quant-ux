@@ -13,7 +13,7 @@ export default class ScriptEngine {
             try {
                 // TDOD: we could compress the model and just remove everything like styles etc...
                 const start = new Date().getTime()
-                worker.onmessage = (m) => this.onMessage(m, resolve, reject, start)
+                worker.onmessage = (m) => this.onMessage(m, resolve, reject, start, js)
                 worker.postMessage({
                     code: js, 
                     model: lang.clone(model), 

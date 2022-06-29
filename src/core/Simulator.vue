@@ -347,7 +347,6 @@ export default {
 			} else {
 				this.logger.log(1,"setModel","enter >" + model.id + " > splash : "+ this._splashTime);
 				this.model = model;
-				this.initDefaultDataBinding(model)
 				this.initRootTemplateLines(model)
 				if(this.hash){
 					this.preloadImages();
@@ -472,6 +471,8 @@ export default {
 			this.initLiveUpdate();
 			this.initScroll();
 			await this.initLoadScripts()
+			await this.initDefaultDataBinding(model)
+	
 
 			this.model = this.createZoomedModel(this._scaleX, this._scaleY);
 			this.model = Core.addContainerChildrenToModel(this.model);
@@ -689,7 +690,10 @@ export default {
 		executeLine (screenID, widgetID, line){
 			/**
 			 * Make sure we flush the output binding in case
-			 * the widget is in a container
+			 * the widget is in a container. 
+			 * 
+			 * FIXME: For now now dataScript are run. 
+			 * We need to make sure
 			 */
 			this.flushOutputDataBinding(screenID, widgetID)
 
@@ -740,22 +744,28 @@ export default {
 		async executeLogic (screenID, widgetID, widget, orginalLine){
 			this.logger.log(1,"executeLogic","enter >  " + widget.id + ' '+ widget.type );
 
+			/**
+			 * Script are fired and then we return
+			 */
 			if (widget.props.script) {
-				this.executeScript(widget.id, orginalLine)
+				await this.executeScript(widget.id, orginalLine)
 				return
 			}
-			/**
-			 * Get all line sin the correct order
+
+		
+			/** 
+			 *  Fire REST, but inspect result for rule (lines)
 			 */
-			const lines = this.getFromLines(widget);
-			let matchedLine = null;
 			let restSuccess = false
 			if (widget.props && widget.props.rest) {
 				restSuccess = await this.executeRest(screenID, widgetID, widget, orginalLine)
 			}
 
-		
-
+			/**
+			 * Get all lines in the correct order
+			 */
+			let matchedLine = null;
+			const lines = this.getFromLines(widget);
 			if (widget.props && widget.props.isRandom){
 				/**
 				 * Since 4.0. the test dialog can inject a method
