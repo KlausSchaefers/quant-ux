@@ -154,6 +154,10 @@ return "myScreen"
                 enableLiveAutocompletion: false
             });
 
+            setTimeout(()=> {
+                editor.focus()
+            }, 500)
+
         },
 
         render (scrn){
@@ -189,7 +193,6 @@ return "myScreen"
             const pos = domGeom.position(cntr);
             pos.w -=30;
             pos.h = domPos.h;
-            console.debug(pos)
 
             const container = db.div("MatchSimulatorContainer MatcAnimationComposerSimulator")
                 .h(pos.h)

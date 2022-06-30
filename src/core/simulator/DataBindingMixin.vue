@@ -44,12 +44,11 @@ export default {
 			 * if we have two widhets pointing to the same value
 			 */
 			Object.values(model.widgets).forEach(w => {
-				let databinding = this.getDataBinding(w)
+				const databinding = this.getDataBinding(w)
 				if (databinding && databinding.default && w.props) {
-					let defaultVariable = databinding.default
+					const defaultVariable = databinding.default
 					if (bindingsCount[defaultVariable] === 1) {
-						let props = w.props
-						console.debug(props, w.name)
+						const props = w.props
 						if (props.checked === true || props.checked === false) {
 							this.logger.log(5, "initDefaultDataBinding", "set (checked):" + w.name, props.checked);
 							this.setDataBindingByKey(defaultVariable, props.checked)
