@@ -6,6 +6,11 @@
         "my-account": "My Account",
         "logout": "Logout"
     },
+    "script": {
+        "edit": "Edit",
+        "console": "Console",
+        "run": "Run"
+    },
     "common": {
         "register": "Please register to save changes...",
         "guest": "Guest",

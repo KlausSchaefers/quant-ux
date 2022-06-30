@@ -270,8 +270,8 @@ data.sum = sum</pre>
                 Now edit the script and add the following code:
 
                 <pre class="MatcHelpCode">
-let screen = qux.getScreen('ToggleScreen')
-let widget = screen.getWidget('ToggleCntr')
+let toggleScreen = qux.getScreen('ToggleScreen')
+let widget = toggleScreen.getWidget('ToggleCntr')
 widget.toggle()                
                 </pre>
 
@@ -293,6 +293,15 @@ widget.toggle()
                     You can also use the <b>hide()</b> and <b>show()</b> methods to 
                     set the visiblity depending on a value!
                 </p>
+
+                If you want to hide several elements, you need to group them and use the 
+                <b>getGroup()</b> method.
+
+                <pre class="MatcHelpCode">
+let toggleScreen = qux.getScreen('ToggleScreen')
+let group = toggleScreen.getGroup('ToggleGroup')
+group.toggle()           
+                </pre>
                   
                 `
             },

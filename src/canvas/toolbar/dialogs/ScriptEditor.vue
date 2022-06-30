@@ -8,9 +8,8 @@
             <div ref="editCntr" class="MatcScriptEditorIDE">
 
                 <div class="MatcToolbarTabs MatcToolbarTabsBig">
-                    <a @click="tab='editor'" :class="{'MatcToolbarTabActive': tab === 'editor'}">Editor</a>
-                    <a @click="tab='console'" :class="{'MatcToolbarTabActive': tab === 'console'}">Console</a>
-                    <a @click="tab='help'" :class="{'MatcToolbarTabActive': tab === 'help'}" v-if="false">Help</a>
+                    <a @click="tab='editor'" :class="{'MatcToolbarTabActive': tab === 'editor'}">{{getNLS('script.edit')}}</a>
+                    <a @click="tab='console'" :class="{'MatcToolbarTabActive': tab === 'console'}">{{getNLS('script.console')}}</a>
                 </div>
                 <div class="MatcScriptEditorContent" v-if="tab === 'editor'" ref="ideCntr">
                     <Ace
@@ -32,7 +31,7 @@
                    Help is coming soon
                 </div>
                 <div class="MatcButtonBar"> 
-                    <div class="MatcButton" @click="run"> Run </div> 
+                    <div class="MatcButton" @click="run"> {{getNLS('script.run')}} </div> 
                     <span class="MatcError">{{errorMsg}}</span>
                 </div>
         
