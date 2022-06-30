@@ -24,11 +24,12 @@ self.addEventListener('message', e => {
         })
     } catch (error) {
         Logger.error(1, 'ScriptWorker.message() > Error', error)
-        console.error(error.message)
+        console.error(error)
         self.postMessage({
             status: 'error',
             console: console.messages,
-            error: error.message
+            error: error.message,
+            stack: error.stack
         })
     }
       

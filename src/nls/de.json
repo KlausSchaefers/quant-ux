@@ -3,6 +3,7 @@
   "header": {
       "my-prototypes": "Meine Prototypes",
       "my-account": "Mein Account",
+      "documentation": "Hilfe",
       "logout": "Logout"
   },
   "common": {

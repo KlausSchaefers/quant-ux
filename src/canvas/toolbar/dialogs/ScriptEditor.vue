@@ -224,6 +224,8 @@ return "myScreen"
                 if (result) {
                     if (result.console) {
                         this.logs = result.console
+                    } else {
+                        this.logs = []
                     }
                     if (result.status === 'error') {
                         this.errorMsg = result.error

@@ -28,9 +28,11 @@ x
                                 {{topic.name}}
                             </a>
                             <template v-if="topic.id === selected">
-                                <a  v-for="(p, i) in topic.paragraphs" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'" >
-                                    {{p.title}}
-                                </a>
+                                <template v-for="(p, i) in topic.paragraphs"  >
+                                    <a  v-if="p.title" :key="i"  :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'" >
+                                        {{p.title}}
+                                    </a>
+                                </template>
                             </template>
                         </template>
                     </div>
@@ -42,6 +44,11 @@ x
             <div v-else class="MatcHelpContentCntr">
                 <h2>{{current.title}}</h2>
                 <p v-html="current.body" class="MatcHelpContentParagraph"></p>
+
+
+                <div v-if="current.image" class="MatcHelpContenImage">
+                    <img :src="current.image.src"/>
+                </div>
 
                 <div class="MatcHelpContentVideo" >
                     <iframe
@@ -84,6 +91,10 @@ x
                         {{p.title}}
                     </h3>
                     <p v-html="p.body"></p>
+
+                    <div v-if="p.image" class="MatcHelpContenImage">
+                        <img :src="p.image.src"/>
+                    </div>
 
                      <iframe
                         v-if="p.video"

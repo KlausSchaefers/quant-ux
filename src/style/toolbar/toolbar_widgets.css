@@ -1155,11 +1155,6 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 
-.MatcToolbar .MatcToolbarDropDownButton li:HOVER,
-.MatcToolbarDropDownButtonPopup li:hover{
-	background: #cecece;
-}
-
 
 
 .MatcToolbarPopupSelected{

@@ -19,6 +19,7 @@ class HelpService  {
 
                     import(/* webpackChunkName: "help" */ 'help/en/screen_segments.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/rest.js'),
+                    import(/* webpackChunkName: "help" */ 'help/en/script.js'),
                     import(/* webpackChunkName: "help" */ 'help/en/other.js'),
 
                     //import(/* webpackChunkName: "help" */ 'help/en/design_system.js'),

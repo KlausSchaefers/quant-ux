@@ -2,6 +2,7 @@
     "title": "Quant-UX",
     "header": {
         "my-prototypes": "My Prototypes",
+        "documentation": "Documentation",
         "my-account": "My Account",
         "logout": "Logout"
     },

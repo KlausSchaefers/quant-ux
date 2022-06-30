@@ -7,6 +7,7 @@
             <div class="row" v-if="user && user.role !== 'guest'">
               <div class="col-md-7">
                 <a class="MatcMainMenuItem" href="#/">{{$t('header.my-prototypes')}}</a>
+                 <a class="MatcMainMenuItem" href="#/help.html">{{$t('header.documentation')}}</a>
               </div>
               <div class="col-md-5 MatcRight">
                 <a class="MatcMainMenuItem" href="#/my-account.html">{{$t('header.my-account')}}</a>

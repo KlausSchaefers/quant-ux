@@ -68,14 +68,14 @@ export default {
             const result = await this.runScript(widget.props.script, widget, orginalLine)
             // for user triggers scripts, we must ensure that we call
             // also all the data scripts
-            await this.executeDataScripts()
+            //await this.executeDataScripts()
             return result
         } else {
             this.logger.error("executeScript","exit > could not find " + widgetID);
         }
     },
     async runScript (script, widget, orginalLine) {
-        this.logger.log(-2,"runScript","enter", widget.name);
+        this.logger.log(-2,"runScript","enter", widget?.name);
 
         return new Promise(async(resolve) => {
             const engine = new ScriptEngine()
