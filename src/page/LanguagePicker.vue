@@ -42,6 +42,10 @@ export default {
         {
           label: "Deutsch",
           value: "de"
+        },
+        {
+          label: "Portuguese Brazil",
+          value: "pt-br"
         }
       ]
     };

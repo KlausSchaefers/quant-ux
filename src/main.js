@@ -29,6 +29,7 @@ async function start() {
         'en-us': require('./nls/en.json'),
         'cn': require('./nls/cn.json'),
         'de': require('./nls/de.json'),
+        'pt-br': require('./nls/pt_br.json'),
       }
     }),
     render: h => h(App)
