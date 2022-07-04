@@ -3,7 +3,7 @@ import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 
 import topic from 'dojo/topic'
-
+//import ModelUtil from '../core/ModelUtil'
 
  export default {
     name: 'Select',
@@ -514,15 +514,19 @@ import topic from 'dojo/topic'
 		allignToKeyBoard (pos){
 			/**
 			 * If shift was pressed
+			 * FIXME: Move to GridAndRuler
 			 */
 			if(this._currentKeyPressed === 16){
-				var min = Math.min(pos.w, pos.h);
-				pos.h = min;
-				pos.w = min;
+				/*
+				const scalledPos = ModelUtil.scaleToSelection(this._resizeModel, pos)
+				pos.w = scalledPos.w
+				pos.h = scalledPos.h
+				pos.x = scalledPos.x
+				pos.y = scalledPos.y
 				if(pos.snapp){
-					pos.snapp.square = true;
+					pos.snapp.scale = true;
 				}
-				//delete pos.snapp;
+				*/
 			}
 			return pos;
 		}

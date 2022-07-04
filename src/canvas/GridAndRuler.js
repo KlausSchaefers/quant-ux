@@ -3,6 +3,7 @@ import css from 'dojo/css'
 import topic from 'dojo/topic'
 import Logger from 'common/Logger'
 import Core from 'core/Core'
+import ModelUtil from '../core/ModelUtil'
 
 export default class GridAndRuler extends Core {
 
@@ -291,6 +292,24 @@ export default class GridAndRuler extends Core {
 		}
 
 		this.snapp(absPos, diff, this.activePoint);
+
+		/**
+		 * Check SHIFT
+		 */
+	
+		if (e.shiftKey) {
+			
+			const scalledPos = ModelUtil.scaleToSelection(this.selectedModel, absPos)
+			absPos.w = scalledPos.w
+			absPos.h = scalledPos.h
+			absPos.x = scalledPos.x
+			absPos.y = scalledPos.y
+			if(absPos.snapp){
+				absPos.snapp.scale = true;
+			}
+			console.debug(absPos.snapp)
+		}
+
 
 		/**
 		 * Ensure we do not have negative snapping

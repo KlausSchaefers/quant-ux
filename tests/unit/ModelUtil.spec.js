@@ -1,5 +1,17 @@
 import ModelUtil from '../../src/core/ModelUtil'
 
+
+test('Test ModelUtil.scaleToSelection() >  ', async () => {
+    const result = ModelUtil.scaleToSelection({w:100, h: 200, x:1000, y:1000}, {w:200, h: 200, snapp:{type: 'South'}})
+    expect(result.w).toBe(200)
+    expect(result.h).toBe(400)
+
+
+    const result2 = ModelUtil.scaleToSelection({w:200, h: 100, x:1000, y:1000}, {w:100, h: 200, snapp:{type: 'RightDown'}})
+    expect(result2.h).toBe(200)
+    expect(result2.w).toBe(400)
+})
+
 test('Test ModelUtil.getViewModeStyle() >  No Template', async () => {
 
     const app = {
