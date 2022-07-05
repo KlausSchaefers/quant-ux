@@ -29,20 +29,34 @@ class ModelUtil {
     }
 
     scaleToSelection(box, pos, type = '') {
-        const scale = pos.w / box.w
-        const h =  Math.round(box.h * scale)
-        const offset = (type === 'LeftUp' || type === 'RightUp' )? (h - pos.h) : 0   
-        return {
-            x: pos.x,
-            y: pos.y - offset,
-            w: pos.w,
-            h: h
+        
+        if (type === 'North' || type === 'South') {
+            const scale = pos.h / box.h
+            const w =  Math.round(box.w * scale)
+            const offset = (type === 'LeftUp' || type === 'LeftDown') ? (w - pos.w) : 0
+            return {
+                x: pos.x - offset,
+                y: pos.y,
+                w: w,
+                h: pos.h
+            }
+        } else {
+            const scale = pos.w / box.w
+            const h =  Math.round(box.h * scale)
+            const offset = (type === 'LeftUp' || type === 'RightUp' )? (h - pos.h) : 0   
+            return {
+                x: pos.x,
+                y: pos.y - offset,
+                w: pos.w,
+                h: h
+            }
         }
     }
 
     scaleToSelectionWidthOrHeight(box, pos, type = '') {
         const difW = Math.abs(box.w - pos.w)
         const difH = Math.abs(box.h - pos.h)
+        // Or should we just make for north and south the heigth scalling
         if (difW > difH) {
             const scale = pos.w / box.w
             const h =  Math.round(box.h * scale)
