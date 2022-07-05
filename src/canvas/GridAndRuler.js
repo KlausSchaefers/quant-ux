@@ -3,6 +3,7 @@ import css from 'dojo/css'
 import topic from 'dojo/topic'
 import Logger from 'common/Logger'
 import Core from 'core/Core'
+import ModelUtil from '../core/ModelUtil'
 
 export default class GridAndRuler extends Core {
 
@@ -123,6 +124,18 @@ export default class GridAndRuler extends Core {
 		}
 
 		/**
+		 * If SHIFT is pressed, we already rescale the selection, so snapping
+		 * can work.
+		 */
+		if (e.shiftKey) {
+			const scalledPos = ModelUtil.scaleToSelection(this.selectedModel, absPos, this.activePoint)
+			absPos.w = scalledPos.w
+			absPos.h = scalledPos.h
+			absPos.x = scalledPos.x
+			absPos.y = scalledPos.y
+		}
+
+		/**
 		 * When the user presses CTRL during dnd or resize
 		 * we ignore the snapping
 		 */
@@ -223,6 +236,7 @@ export default class GridAndRuler extends Core {
 			y: 0
 		};
 
+
 		/**
 		 * Snapp X : Pattern lines have prio
 		 */
@@ -291,6 +305,21 @@ export default class GridAndRuler extends Core {
 		}
 
 		this.snapp(absPos, diff, this.activePoint);
+
+		/**
+		 * Correct the finall snapping if SHIFT was pressed
+		 */
+		if (e.shiftKey) {
+			const scalledPos = ModelUtil.scaleToSelection(this.selectedModel, absPos, absPos.snapp.type)
+			absPos.w = scalledPos.w
+			absPos.h = scalledPos.h
+			absPos.x = scalledPos.x
+			absPos.y = scalledPos.y
+			if(absPos.snapp){
+				absPos.snapp.scale = true;
+			}
+		}
+
 
 		/**
 		 * Ensure we do not have negative snapping
@@ -1501,6 +1530,7 @@ export default class GridAndRuler extends Core {
 	 * Line rending
 	 */
 	_renderLineX(lines, x, y, w, l, clazz, hasEndLines) {
+		console.debug('_renderLineX', lines)
 
 		const key = "X" + y + w + x;
 

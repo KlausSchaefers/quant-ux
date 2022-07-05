@@ -4,7 +4,6 @@ import css from 'dojo/css'
 
 import topic from 'dojo/topic'
 
-
  export default {
     name: 'Select',
     mixins:[],
@@ -512,19 +511,7 @@ import topic from 'dojo/topic'
 		 **********************************************************************/
 
 		allignToKeyBoard (pos){
-			/**
-			 * If shift was pressed
-			 */
-			if(this._currentKeyPressed === 16){
-				var min = Math.min(pos.w, pos.h);
-				pos.h = min;
-				pos.w = min;
-				if(pos.snapp){
-					pos.snapp.square = true;
-				}
-				//delete pos.snapp;
-			}
-			return pos;
+			console.error('allignToKeyBoard() > DECRECTAED', pos)
 		}
 
 

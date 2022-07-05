@@ -1,4 +1,5 @@
 import Screen from './Screen'
+import ModelUtil from '../../core/ModelUtil'
 
 export default class Snapp extends Screen {
 
@@ -12,9 +13,9 @@ export default class Snapp extends Screen {
 			/**
 			 * Group snapps do not have a .snapp object
 			 */
-			var snapp = pos.snapp;
-			var screen = this.getHoverScreen(pos);
-			var widget = this.model.widgets[id];
+			const snapp = pos.snapp;
+			const screen = this.getHoverScreen(pos);
+			const widget = this.model.widgets[id];
 			if(screen && widget) {
 				if(snapp.type=="All"){
 					this.snappAll(widget,screen, pos, snapp);
@@ -28,26 +29,25 @@ export default class Snapp extends Screen {
 
 	snappResize (widget,screen, pos, snapp){
 		this.logger.log(0,"snappResize", "enter > " + snapp.type);
-		var type = snapp.type;
+		const type = snapp.type;
 
-
-		if(snapp.x || snapp.y){
+		if (snapp.x || snapp.y) {
 			/**
 			 * We have snapping, so we ensure here that the all not changed values stay the same.
 			 * hence we copy the values form the unzoomed model and update only the snapped
 			 * values
 			 */
 			if(snapp.x){
-				let line = snapp.x;
-				let x = this.getSnappXValue(line, screen);
+				const line = snapp.x;
+				const x = this.getSnappXValue(line, screen);
 
-				if(type=="RightDown" || type=="RightUp" || type =="East"){
+				if (type === "RightDown" || type === "RightUp" || type === "East") {
 					pos.w = x - widget.x;
 					/**
 					 * Snapp pos.x to old x to avoid jumps
 					 */
 					pos.x = widget.x;
-				} else if(type=="LeftUp" || type=="LeftDown" || type =="West"){
+				} else if (type === "LeftUp" || type === "LeftDown" || type === "West"){
 					pos.w = widget.w+ (widget.x -x);
 					pos.x = x;
 				} else {
@@ -58,15 +58,15 @@ export default class Snapp extends Screen {
 			}
 
 			if(snapp.y){
-				let line = snapp.y;
-				let y = this.getSnappYValue(line, screen);
-				if(type=="RightDown" || type=="South" || type =="LeftDown"){
+				const line = snapp.y;
+				const y = this.getSnappYValue(line, screen);
+				if (type === "RightDown" || type === "South" || type === "LeftDown") {
 					pos.h = y - widget.y;
 					/**
 					 * Snapp pos.y to old y to avoid jumps
 					 */
 					pos.y = widget.y;
-				} else if(type=="LeftUp" || type=="RightUp" || type =="North"){
+				} else if (type === "LeftUp" || type === "RightUp" || type === "North") {
 					pos.h = widget.h+ (widget.y -y);
 					pos.y = y;
 				} else {
@@ -89,9 +89,17 @@ export default class Snapp extends Screen {
 		}
 
 		if(snapp.square){
-			var min = Math.min(pos.w, pos.h);
+			const min = Math.min(pos.w, pos.h);
 			pos.h = min;
 			pos.w = min;
+		}
+
+		if(snapp.scale){
+			const scalledPos = ModelUtil.scaleToSelection(widget, pos, snapp.type)
+			pos.h = scalledPos.h;
+			pos.w = scalledPos.w;
+			pos.x = scalledPos.x
+			pos.y = scalledPos.y
 		}
 	}
 
@@ -199,9 +207,9 @@ export default class Snapp extends Screen {
 	}
 
 	getSnappYValue (line, screen){
-		if("Grid" == line.type){
+		if ("Grid" == line.type) {
 			return (screen.y + (this.model.grid.h * line.line));
-		}else if("Screen" == line.type || "Widget" == line.type){
+		} else if ("Screen" == line.type || "Widget" == line.type){
 			let box = this.getBoxById(line.id);
 			return this.getSnappValue(box, line);
 		} else if ("Mirror" == line.type) {

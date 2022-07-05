@@ -94,20 +94,23 @@ export default {
     },
 
     tempOwn (listener) {
+      if (!listener.remove) {
+          console.error('tempOwn() > wrong object passed!', new Error().stack)
+      }
       if(!this._dojoTempListener){
         this._dojoTempListener = []
       }
       this._dojoTempListener.push(listener)
     },
 
-    cleanUpTempListener:function(){
+    cleanUpTempListener (){
+ 
 			if(this._dojoTempListener){
-        for(var i=0; i < this._dojoTempListener.length; i++){
+        for(let i=0; i < this._dojoTempListener.length; i++){
           try {
 					  this._dojoTempListener[i].remove();
           } catch (e) {
-            console.error('cleanUpTemp,', this.name, e.stack
-            )
+            console.error('cleanUpTemp,', this.name, e.stack)
           }
 				}
 				this._dojoTempListener = null;
