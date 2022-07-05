@@ -10,7 +10,7 @@ export default class Templates extends BaseController{
 	 * Auto template update
 	 **********************************************************************/
 	checkTemplateAutoUpdate () {
-		this.logger.log(-1,"checkTemplateAutoUpdate", "enter > ");
+		this.logger.log(3,"checkTemplateAutoUpdate", "enter > ");
 	}
 
 

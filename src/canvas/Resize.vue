@@ -482,7 +482,7 @@ export default {
          */
         var pos = this._getResizePosition(this._resizeNewPosition, this._resizeModel, this._resizeType);
         pos = this.allignPosition(pos, e);
-        pos = this.allignToKeyBoard(pos,e);
+        //pos = this.allignToKeyBoard(pos,e);
 
         /**
          * Copy new pos, so DND will correctly be updated.
@@ -585,7 +585,7 @@ export default {
 			 * anymore. Otherwise we have some stupid jumpy effects...
 			 */
 			pos = this.allignPosition(pos, e);
-			pos = this.allignToKeyBoard(pos,e);
+			//pos = this.allignToKeyBoard(pos,e);
 			return pos;
 		},
 

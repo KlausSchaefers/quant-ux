@@ -28,38 +28,43 @@ class ModelUtil {
         ].map(t => 'dt-' + t)
     }
 
-    scaleToSelection(box, pos) {
-        if (pos.snapp) {
-            const difW = Math.abs(box.w - pos.w)
-            const difH = Math.abs(box.h - pos.h)
-            const type = pos.snapp.type;
-         
-            if (difW > difH) {
-                const scale = pos.w / box.w
-                const h =  Math.round(box.h * scale)
-                const dif = (type === 'LeftUp' || type === 'RightUp' )? (h - pos.h) : 0   
-                return {
-                    x: pos.x,
-                    y: pos.y - dif,
-                    w: pos.w,
-                    h: h
-                }
-                
-            } else {
-                const scale = pos.h / box.h
-                const w =  Math.round(box.w * scale)
-                const dif = (type === 'LeftUp' || type === 'LeftDown') ? (w - pos.w) : 0
-                return {
-                    x: pos.x - dif,
-                    y: pos.y,
-                    w: w,
-                    h: pos.h
-                }
-            }
-           
+    scaleToSelection(box, pos, type = '') {
+        const scale = pos.w / box.w
+        const h =  Math.round(box.h * scale)
+        const offset = (type === 'LeftUp' || type === 'RightUp' )? (h - pos.h) : 0   
+        return {
+            x: pos.x,
+            y: pos.y - offset,
+            w: pos.w,
+            h: h
         }
-       
-        return pos
+    }
+
+    scaleToSelectionWidthOrHeight(box, pos, type = '') {
+        const difW = Math.abs(box.w - pos.w)
+        const difH = Math.abs(box.h - pos.h)
+        if (difW > difH) {
+            const scale = pos.w / box.w
+            const h =  Math.round(box.h * scale)
+            const offset = (type === 'LeftUp' || type === 'RightUp' )? (h - pos.h) : 0   
+            return {
+                x: pos.x,
+                y: pos.y - offset,
+                w: pos.w,
+                h: h
+            }
+            
+        } else {
+            const scale = pos.h / box.h
+            const w =  Math.round(box.w * scale)
+            const offset = (type === 'LeftUp' || type === 'LeftDown') ? (w - pos.w) : 0
+            return {
+                x: pos.x - offset,
+                y: pos.y,
+                w: w,
+                h: pos.h
+            }
+        }
     }
 
     isLogicWidget(widget) {

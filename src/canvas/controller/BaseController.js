@@ -306,7 +306,7 @@ export default class BaseController extends Core {
 					 * compute changes and send them to server
 					 */
 					const changes = CollabUtil.getModelDelta(this.oldModel, this.model);
-					this.logger.log(-4,"saveModelChanges", "Save changes " + changes.length);
+					this.logger.log(4,"saveModelChanges", "Save changes " + changes.length);
 					if (changes.length > 0) {
 						/**
 						 * We start a transaction, and we will close it.

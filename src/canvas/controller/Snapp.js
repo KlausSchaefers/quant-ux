@@ -5,8 +5,6 @@ export default class Snapp extends Screen {
 
 	correctPostion (id, pos, fromToolbar){
 
-		console.debug('correctPostion', pos)
-
 		if(!fromToolbar){
 			pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 		}
@@ -33,10 +31,7 @@ export default class Snapp extends Screen {
 		this.logger.log(0,"snappResize", "enter > " + snapp.type);
 		const type = snapp.type;
 
-
-
-
-		if(snapp.x || snapp.y){
+		if (snapp.x || snapp.y) {
 			/**
 			 * We have snapping, so we ensure here that the all not changed values stay the same.
 			 * hence we copy the values form the unzoomed model and update only the snapped
@@ -100,7 +95,7 @@ export default class Snapp extends Screen {
 		}
 
 		if(snapp.scale){
-			const scalledPos = ModelUtil.scaleToSelection(widget, pos)
+			const scalledPos = ModelUtil.scaleToSelection(widget, pos, snapp.type)
 			pos.h = scalledPos.h;
 			pos.w = scalledPos.w;
 			pos.x = scalledPos.x
@@ -212,9 +207,9 @@ export default class Snapp extends Screen {
 	}
 
 	getSnappYValue (line, screen){
-		if("Grid" == line.type){
+		if ("Grid" == line.type) {
 			return (screen.y + (this.model.grid.h * line.line));
-		}else if("Screen" == line.type || "Widget" == line.type){
+		} else if ("Screen" == line.type || "Widget" == line.type){
 			let box = this.getBoxById(line.id);
 			return this.getSnappValue(box, line);
 		} else if ("Mirror" == line.type) {

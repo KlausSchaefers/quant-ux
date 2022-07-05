@@ -749,8 +749,9 @@ export default {
       
       let selectedSessions = this.analyticParams.sessions;
       let graph = {};
+      let maxCount = 0;
+      let maxMeanDuration = 0
     
-
       for (let sessionID in selectedSessions) {
         if (selectedSessions[sessionID] === true) {
           let session = sessions[sessionID];
@@ -769,8 +770,7 @@ export default {
        * session count (maxCount). This messes up the graph. To make it
        * nice again, we update maxCount
        */
-      let maxCount = 0;
-      let maxMeanDuration = 0
+  
       for (let id in graph) {
         const l = graph[id]
         if (l.count > maxCount) {
@@ -1263,7 +1263,7 @@ export default {
       div.style.top = -1 * Math.round(r / 2) + "px";
       div.style.left = -1 * Math.round(r / 2) + "px";
       div.style.background = color
-      this.tempOwn(on, div, 'click', (e) => this.selectDropOffPoint(e))
+      this.tempOwn(on(div, 'click', (e) => this.selectDropOffPoint(e)))
     
       if (unit) {
         db.span('MatcAnalyticCanvasEventLabel', p + unit).build(div)

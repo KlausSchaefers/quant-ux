@@ -1,13 +1,23 @@
 import ModelUtil from '../../src/core/ModelUtil'
 
-
 test('Test ModelUtil.scaleToSelection() >  ', async () => {
-    const result = ModelUtil.scaleToSelection({w:100, h: 200, x:1000, y:1000}, {w:200, h: 200, snapp:{type: 'South'}})
+    const result = ModelUtil.scaleToSelection({w:100, h: 200, x:1000, y:1000}, {w:200, h: 200}, 'South')
     expect(result.w).toBe(200)
     expect(result.h).toBe(400)
 
 
-    const result2 = ModelUtil.scaleToSelection({w:200, h: 100, x:1000, y:1000}, {w:100, h: 200, snapp:{type: 'RightDown'}})
+    const result2 = ModelUtil.scaleToSelection({w:200, h: 100, x:1000, y:1000}, {w:100, h: 200, snapp:{type: 'RightDown'}}, 'RightDown')
+    expect(result2.h).toBe(50)
+    expect(result2.w).toBe(100)
+})
+
+test('Test ModelUtil.scaleToSelectionWidthOrHeight() >  ', async () => {
+    const result = ModelUtil.scaleToSelectionWidthOrHeight({w:100, h: 200, x:1000, y:1000}, {w:200, h: 200}, 'South')
+    expect(result.w).toBe(200)
+    expect(result.h).toBe(400)
+
+
+    const result2 = ModelUtil.scaleToSelectionWidthOrHeight({w:200, h: 100, x:1000, y:1000}, {w:100, h: 200, snapp:{type: 'RightDown'}}, 'RightDown')
     expect(result2.h).toBe(200)
     expect(result2.w).toBe(400)
 })
