@@ -1530,7 +1530,6 @@ export default class GridAndRuler extends Core {
 	 * Line rending
 	 */
 	_renderLineX(lines, x, y, w, l, clazz, hasEndLines) {
-		console.debug('_renderLineX', lines)
 
 		const key = "X" + y + w + x;
 

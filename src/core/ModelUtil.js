@@ -29,7 +29,7 @@ class ModelUtil {
     }
 
     scaleToSelection(box, pos, type = '') {
-        
+        // for top and bottom we scale by height, otherwise by width
         if (type === 'North' || type === 'South') {
             const scale = pos.h / box.h
             const w =  Math.round(box.w * scale)
