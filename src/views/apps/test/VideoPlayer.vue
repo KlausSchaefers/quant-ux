@@ -992,10 +992,12 @@ export default {
 		
 
 			if (this.dialog) {
-				this.logger.log(-1,'layout', 'enter', domPos.h, domPos.w)
+				this.logger.log(-1,'layout', 'dialog >> ' +  domPos.h + ' x ' +  domPos.w)
 				domPos.w += 0
 				domPos.h += 0
-				this.dialog.resize(domPos)
+				setTimeout(() => {
+					this.dialog.resize(domPos)
+				}, 30)
 			}		
 		},
 

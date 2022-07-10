@@ -235,11 +235,13 @@ export default {
 						for (let key in databinding) {
 							const variable = databinding[key]
 							const value = JSONPath.get(this.dataBindingValues, variable)
-							this.logger.log(4,"replaceDataBinding","set  > " +  variable + ': ' , value);
-							const changed = uiWidget.setDataBinding(variable, value, this);
-							if(changed){
-								const state = uiWidget.getState();
-								this.log("WidgetInit", screenID, id, null, state);
+							if (value !== null && value !== undefined) {
+								this.logger.log(4,"replaceDataBinding","set  > " +  variable + ': ' , value);
+								const changed = uiWidget.setDataBinding(variable, value, this);
+								if(changed){
+									const state = uiWidget.getState();
+									this.log("WidgetInit", screenID, id, null, state);
+								}
 							}
 						}
 					}

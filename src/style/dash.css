@@ -1021,7 +1021,7 @@
 
 .MatcPlayerDialog.MatcDialog{
 	width:1200px;
-	height:750px;
+	height:600px;
 	padding: 0px; /*  keep in sync with VideoPlayer.layout() method*/
 	background-color: #1a1f23;
 }

@@ -261,7 +261,6 @@ export default class Dialog extends Evented {
 	}
 
 	toggleFullScreen (node) {
-		console.debug('toggleFullScreen', node)
 		this.isFullScreen = !this.isFullScreen
 		if (this.fullScreenListener) {
 			this.fullScreenListener(this.isFullScreen)

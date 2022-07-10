@@ -451,6 +451,10 @@ export default {
       }
     },
 
+    isHidden () {
+      return this.model?.style?.display === 'none'
+    },
+
     /**
      * Gets called on transitions and so on. Returns true if
      * the input is valid, otherwise false.

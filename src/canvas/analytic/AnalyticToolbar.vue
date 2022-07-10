@@ -1573,34 +1573,33 @@ export default {
 		showSession(session,e){
 			//console.debug("showSession", session.session, this.events.length);
 
-			var sessionID = session.session;
+			const sessionID = session.session;
+			const dialog = new Dialog();
+		
+			const db = new DomBuilder();
 
+			const div = db.div("MatcDialog MatcPlayerDialog ").build();
+			const cntr = db.div("").build(div);
 
-			var d = new Dialog();
-			d.hasCSSAnimation = false;
+			dialog.onOpen(() => {
+				if (this.isPublic){
+					Promise.all([
+						this.modelService.findPublicTagAnnotations(this.model.id),
+						this.modelService.findPublicMouseBySession(this.model.id, sessionID)
+					]).then(values => {
+						this._showSession(sessionID, cntr, dialog, values);
+					});
+				} else {
+					Promise.all([
+						this.modelService.findTagAnnotations(this.model.id),
+						this.modelService.findMouseBySession(this.model.id, sessionID)
+					]).then(values => {
+						this._showSession(sessionID, cntr, dialog, values);
+					});
+				}
+			})
 
-			var db = new DomBuilder();
-
-			var div = db.div("MatcDialog MatcPlayerDialog ").build();
-			var cntr = db.div("").build(div);
-
-			d.popup(div, e.target);
-
-			if (this.isPublic){
-				Promise.all([
-					this.modelService.findPublicTagAnnotations(this.model.id),
-					this.modelService.findPublicMouseBySession(this.model.id, sessionID)
-				]).then(values => {
-					this._showSession(sessionID, cntr, d, values);
-				});
-			} else {
-				Promise.all([
-					this.modelService.findTagAnnotations(this.model.id),
-					this.modelService.findMouseBySession(this.model.id, sessionID)
-				]).then(values => {
-					this._showSession(sessionID, cntr, d, values);
-				});
-			}
+			dialog.popup(div, e.target);
 		},
 
 		_showSession(sessionID, cntr, dialog, data) {
