@@ -17,7 +17,7 @@ services:
       - QUX_KEYCLOAK_REALM=
       - QUX_KEYCLOAK_CLIENT=
       - QUX_KEYCLOAK_URL=
-      - QUX_WS_URL=
+      - QUX_WS_URL=ws://127.0.0.1:8086        # change to where the websocket server is deployed for external access
     links:
       - mongo
       - qux-be
@@ -51,3 +51,16 @@ services:
       - QUX_USER_ALLOWED_DOMAINS=* # comma separated list of domains, e.g. 'my-server.com' or '*' for all
     depends_on:
       - mongo
+  qux-ws:
+    restart: always
+    container_name: quant-ux-websocket-server
+    image: klausenschaefersinho/quant-ux-websocket
+    environment:
+      - QUX_SERVER=http://quant-ux-backend:8080/
+      - QUX_SERVER_PORT=8086
+    ports:
+      - 8086:8086
+    links:
+      - qux-be
+    depends_on:
+      - qux-be
