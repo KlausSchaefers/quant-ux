@@ -20,8 +20,8 @@ import ShareCanvas from 'canvas/share/ShareCanvas'
 import ShareController from 'canvas/share/ShareController'
 import ModelFactory from 'core/ModelFactory'
 import RenderFactory from 'core/RenderFactory'
-import lang from 'dojo/_base/lang'
-import on from 'dojo/on'
+//import lang from 'dojo/_base/lang'
+//import on from 'dojo/on'
 import Services from 'services/Services'
 import Logger from "common/Logger";
 
@@ -92,8 +92,7 @@ export default {
       canvas.setUser(this.user)
       canvas.setHash(this.$route.query.h);
 
-      // wire shit together
-      this.tempOwn(on(toolbar, "newComment", lang.hitch(canvas, "addComment")));
+  
 
       var startScreen = null;
       for(var screenID in model.screens){

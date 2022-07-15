@@ -94,7 +94,7 @@ export default {
     },
 
     tempOwn (listener) {
-      if (!listener.remove) {
+      if (!listener || !listener.remove) {
           console.error('tempOwn() > wrong object passed!', new Error().stack)
       }
       if(!this._dojoTempListener){

@@ -1248,15 +1248,21 @@ input.MatcToobarInlineEditDisabled:focus{
  }
 
  .MatcBoxSize input{
-	width: 60px;
+	width: 50px;
+ }
+
+ .MatcBoxSizeLink {
+	padding: 5px 0px;
+	width: 24px;
  }
 
 .MatcBoxSize span{
- 		display: inline-block;
+ 	display: inline-block;
     font-size: 12px;
     text-align: left;
     width: 20px;
  }
+
 
 /****************************************************
  * Image upload
@@ -1460,15 +1466,15 @@ input.MatcToobarInlineEditDisabled:focus{
 	width: 35px;
 	padding-left: 5px;
 	vertical-align: middle;
-	border-color:transparent;
+	border:1px solid transparent;
+	background: transparent;
 }
 
-.MatcToolbarSection .MatcToolbarSlider input:hover {
-	border-color: #999;
-}
+.MatcToolbarSection .MatcToolbarSlider input:hover,
 .MatcToolbarSection .MatcToolbarSlider input:focus{
-	border-color:#555;
+	border:1px solid #777;
 }
+
 
 .MatcToolbarSlider .MatcToolbarSliderCntr{
 	height:40px;

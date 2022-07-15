@@ -195,6 +195,8 @@
  .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarItemSmall{
 	min-width: 16.665%;
 	height:30px;
+	display: flex;
+	align-items: center;
  }
 
  .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton{
