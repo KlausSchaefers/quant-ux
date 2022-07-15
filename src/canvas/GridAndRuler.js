@@ -35,6 +35,13 @@ export default class GridAndRuler extends Core {
 		}
 	}
 
+	setReference (ref) {
+		this.referenceID = ref
+		if (this.referenceID) {
+			delete this._lastScreen
+		}
+	}
+
 	/**
 	 * called when widget drag and drop starts
 	 *
@@ -1048,7 +1055,7 @@ export default class GridAndRuler extends Core {
 		let length = boxes.length
 		for (let i = 0; i < length; i++) {
 			const widget = boxes[i]
-			if (widget && widget.id != this.selectedID) {
+			if (widget && (widget.id != this.selectedID) ) {
 
 				if (this.isOverLappingX(absPos, widget)) {
 					let widgetDistance = {
@@ -1321,7 +1328,7 @@ export default class GridAndRuler extends Core {
 		for (let i = 0; i < length; i++) {
 			const widget = boxes[i]
 			const sourceWidget = this.getSourceBox(widget)
-			if (widget && widget.id != this.selectedID) {
+			if (widget && (widget.id != this.selectedID || this.referenceID === widget.id)) {
 
 				/**
 				 * For all x overlapping boxes
@@ -1482,6 +1489,10 @@ export default class GridAndRuler extends Core {
 			}
 		}
 
+		if (this.referenceID) {
+			selectedIDs[this.referenceID] = false
+		}
+
 		const length = children.length;
 		for (let i = 0; i < length; i++) {
 			const id = children[i];
@@ -1501,6 +1512,7 @@ export default class GridAndRuler extends Core {
 				}
 			}
 		}
+
 		return result;
 	}
 
@@ -1751,7 +1763,6 @@ export default class GridAndRuler extends Core {
 
 			default:
 				console.warn("Type not supported!");
-
 				break;
 		}
 
@@ -1958,8 +1969,11 @@ export default class GridAndRuler extends Core {
 		/**
 		 * Ignore elements in the same group right...
 		 */
-		var ignore = {};
-		ignore[this.selectedID] = true;
+		const ignore = {};
+		if (this.selectedID !== this.referenceID) {
+			ignore[this.selectedID] = true;
+		}
+	
 		var group = this.getParentGroup(this.selectedID);
 		if (group && !this.ignoreGroup) {
 			for (let i = 0; i < group.children.length; i++) {

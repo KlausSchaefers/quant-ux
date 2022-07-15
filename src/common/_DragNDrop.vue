@@ -77,7 +77,7 @@ export default {
 
 				if (this[this._dragnDropStartCallback]){
 					try {
-						var modelPos = this[this._dragnDropStartCallback](this._dragnDropID, this._dragNDropNode, this._dragNDropStartPos,e);
+						const modelPos = this[this._dragnDropStartCallback](this._dragnDropID, this._dragNDropNode, this._dragNDropStartPos,e);
 
 						if(modelPos){
 							this._dragNDropStartPos = modelPos;
@@ -131,15 +131,11 @@ export default {
 					return;
 				}
 
-
-				var pos = this._getMousePosition(e);
-
-				var difX = pos.x - this._dragnDropMousePos.x;
-				var difY = pos.y - this._dragnDropMousePos.y;
-				var x = this._dragNDropStartPos.x + difX;
-				var y = this._dragNDropStartPos.y + difY;
-
-
+				const pos = this._getMousePosition(e);
+				const difX = pos.x - this._dragnDropMousePos.x;
+				const difY = pos.y - this._dragnDropMousePos.y;
+				const x = this._dragNDropStartPos.x + difX;
+				const y = this._dragNDropStartPos.y + difY;
 
 				/**
 				 * Only start DND if there was a real mouse movement.
@@ -176,13 +172,13 @@ export default {
 				/**
 				 * Alt Key will ensure that we move on one line!
 				 */
-				if(e.altKey){
-					if(Math.abs(difX) > Math.abs(difY)){
-						newPos.y = this._dragNDropStartPos.y;
-					} else {
-						newPos.x = this._dragNDropStartPos.x;
-					}
-				}
+				//if(e.altKey){
+				//	if(Math.abs(difX) > Math.abs(difY)){
+				//		newPos.y = this._dragNDropStartPos.y;
+				//	} else {
+				//		newPos.x = this._dragNDropStartPos.x;
+				//	}
+				//}
 
 				/**
 				 * calculate new position on
@@ -207,7 +203,7 @@ export default {
 				if (this[this._dragnDropMoveCallback]){
 					try {
 						//console.debug("move callback", this._dragnDropMoveCallback)
-						isInArea = this[this._dragnDropMoveCallback](this._dragnDropID, this._dragNDropNode, newPos, dif);
+						isInArea = this[this._dragnDropMoveCallback](this._dragnDropID, this._dragNDropNode, newPos, dif, e);
 					} catch (e) {
 						if(this.logger){
 							this.logger.error("onDragMove", "Error invoking " + this._dragnDropMoveCallback, e);
