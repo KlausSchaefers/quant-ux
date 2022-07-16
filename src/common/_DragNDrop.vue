@@ -168,18 +168,6 @@ export default {
 					w: this._dragNDropStartPos.w
 				};
 
-
-				/**
-				 * Alt Key will ensure that we move on one line!
-				 */
-				//if(e.altKey){
-				//	if(Math.abs(difX) > Math.abs(difY)){
-				//		newPos.y = this._dragNDropStartPos.y;
-				//	} else {
-				//		newPos.x = this._dragNDropStartPos.x;
-				//	}
-				//}
-
 				/**
 				 * calculate new position on
 				 * grid or ruler
@@ -271,7 +259,7 @@ export default {
 				var pos = job.pos;
 				if(div){
 					this.domUtil.setPos(div, pos)
-					/**
+					/**addDragNDropRenderJob
 					 * check if have to update also the resize handlers
 					 */
 					//console.debug(this._resizeHandlerBox.id, id)
@@ -413,15 +401,7 @@ export default {
 				}
 				this._dragNDropListeners = null;
 			}
-		},
-
-		// stopEvent (e){
-		//	if(e){
-		//		event.stop(e);
-		//		e.preventDefault();
-		//		e.stopPropagation();
-		//	}
-		//}
+		}
     }
 }
 </script>

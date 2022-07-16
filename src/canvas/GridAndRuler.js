@@ -35,9 +35,9 @@ export default class GridAndRuler extends Core {
 		}
 	}
 
-	setReference (ref) {
-		this.referenceID = ref
-		if (this.referenceID) {
+	setCopyReference (ref) {
+		this.copyReferenceID = ref
+		if (this.copyReferenceID) {
 			delete this._lastScreen
 		}
 	}
@@ -1328,7 +1328,7 @@ export default class GridAndRuler extends Core {
 		for (let i = 0; i < length; i++) {
 			const widget = boxes[i]
 			const sourceWidget = this.getSourceBox(widget)
-			if (widget && (widget.id != this.selectedID || this.referenceID === widget.id)) {
+			if (widget && (widget.id != this.selectedID || this.copyReferenceID === widget.id)) {
 
 				/**
 				 * For all x overlapping boxes
@@ -1477,20 +1477,20 @@ export default class GridAndRuler extends Core {
 		let children = this._lastScreen.children;
 
 		let selectedIDs = {};
-		if (this.selectedIDs) {
-			selectedIDs = lang.clone(this.selectedIDs);
-		}
-		selectedIDs[this.selectedID] = true
+		
 
-		if (this.selectedModel && this.selectedModel.children) {
-			children = this.selectedModel.children;
-			for (let i = 0; i < children.length; i++) {
-				selectedIDs[children[i]] = true;
+		if (!this.copyReferenceID) {
+			if (this.selectedIDs) {
+				selectedIDs = lang.clone(this.selectedIDs);
 			}
-		}
-
-		if (this.referenceID) {
-			selectedIDs[this.referenceID] = false
+			selectedIDs[this.selectedID] = true
+	
+			if (this.selectedModel && this.selectedModel.children) {
+				children = this.selectedModel.children;
+				for (let i = 0; i < children.length; i++) {
+					selectedIDs[children[i]] = true;
+				}
+			}
 		}
 
 		const length = children.length;
@@ -1966,47 +1966,10 @@ export default class GridAndRuler extends Core {
 
 	initScreen(screen, onlyX, onlyY) {
 
-		/**
-		 * Ignore elements in the same group right...
-		 */
-		const ignore = {};
-		if (this.selectedID !== this.referenceID) {
-			ignore[this.selectedID] = true;
-		}
-	
-		var group = this.getParentGroup(this.selectedID);
-		if (group && !this.ignoreGroup) {
-			for (let i = 0; i < group.children.length; i++) {
-				ignore[group.children[i]] = true;
-			}
-		}
-
-		/**
-		 * ignore multi
-		 */
-		if (this.selectedModel && this.selectedModel.children) {
-			let children = this.selectedModel.children;
-			for (let i = 0; i < children.length; i++) {
-				ignore[children[i]] = true;
-			}
-		}
-
-		/**
-		 * Just get group lines and ignore the children!
-		 */
-		for (let i = 0; i < screen.children.length; i++) {
-			let id = screen.children[i];
-			if (!ignore[id]) {
-				let group = this.getParentGroup(id);
-				if (group) {
-					this.addGroupLines(group)
-					var groupChildren = group.children;
-					for (var j = 0; j < groupChildren.length; j++) {
-						let groupChildID = groupChildren[j];
-						ignore[groupChildID] = true;
-					}
-				}
-			}
+		
+		let ignore = {};
+		if (!this.copyReferenceID) {
+			ignore = this.getSnappIgnores(screen)
 		}
 
 		/**
@@ -2014,7 +1977,8 @@ export default class GridAndRuler extends Core {
 		 */
 		for (let i = 0; i < screen.children.length; i++) {
 			let id = screen.children[i];
-			if (!this.ignoreIds || this.ignoreIds.indexOf(id) < 0) {
+			const snappToBox = !this.ignoreIds || this.ignoreIds.indexOf(id) < 0 || this.copyReferenceID
+			if (snappToBox) {
 				if (!ignore[id]) {
 					const box = this.model.widgets[id];
 					if (box) {
@@ -2050,6 +2014,48 @@ export default class GridAndRuler extends Core {
 
 	}
 
+
+	getSnappIgnores(screen) {
+		const ignore = []
+		/**
+		 * Ignore elements in the same group right...
+		 */
+		var group = this.getParentGroup(this.selectedID)
+		if (group && !this.ignoreGroup) {
+			for (let i = 0; i < group.children.length; i++) {
+				ignore[group.children[i]] = true
+			}
+		}
+
+		/**
+		 * ignore multi
+		 */
+		if (this.selectedModel && this.selectedModel.children) {
+			let children = this.selectedModel.children
+			for (let i = 0; i < children.length; i++) {
+				ignore[children[i]] = true
+			}
+		}
+
+		/**
+		 * Just get group lines and ignore the children!
+		 */
+		for (let i = 0; i < screen.children.length; i++) {
+			let id = screen.children[i]
+			if (!ignore[id]) {
+				let group = this.getParentGroup(id)
+				if (group) {
+					this.addGroupLines(group)
+					var groupChildren = group.children
+					for (var j = 0; j < groupChildren.length; j++) {
+						let groupChildID = groupChildren[j]
+						ignore[groupChildID] = true
+					}
+				}
+			}
+		}
+		return ignore
+	}
 
 	/**
 	 * We do not want to show middle lines, for boxes that have the same size!

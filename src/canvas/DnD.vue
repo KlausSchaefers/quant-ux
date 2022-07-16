@@ -225,17 +225,17 @@ export default {
     },
 
     _updateChildWidget (widgetID, pos, dif) {
-      var widget = this.model.widgets[widgetID];
+      const widget = this.model.widgets[widgetID];
       if (widget) {
-        var div = this.widgetDivs[widgetID];
-        var widgetPos = {
+        const div = this.widgetDivs[widgetID];
+        const widgetPos = {
           x: dif.x + widget.x,
           y: dif.y + widget.y,
           h: widget.h,
           w: widget.w
         };
 
-        var job = {
+        const job = {
           div: div,
           pos: widgetPos,
           id: widgetID
@@ -256,10 +256,10 @@ export default {
     },
 
     _updateWidgetBackground (widgetID, pos) {
-      var backgroundDiv = this.widgetBackgroundDivs[widgetID];
+      const backgroundDiv = this.widgetBackgroundDivs[widgetID];
 
       if (backgroundDiv) {
-        var job = {
+        const job = {
           zoom: true,
           div: backgroundDiv,
           pos: this.getBackgroundPos(pos),
@@ -271,6 +271,20 @@ export default {
       }
     },
 
+    _updateWidgetDND (widgetID, pos) {
+        const dndDiv = this.widgetDivs[widgetID];
+        if (dndDiv) {
+          // we do not call a job, because
+          // on Dnd end, the jobs are not executed...
+          requestAnimationFrame(() => {
+            this.domUtil.setPos(dndDiv, pos)
+          })
+        } else {
+         console.warn("_updateWidgetDND", "No DND", widgetID);
+        }
+    },
+
+  
     getBackgroundPos(pos) {
       return CoreUtil.getUnZoomedBoxCopy(pos, this.zoom, this.zoom);
     },
@@ -416,12 +430,14 @@ export default {
 
         // reset dnd position
         this._updateWidgetBackground(id, startPos);
+        this._updateWidgetDND(id, startPos)
         this.updateChildren(widget, startPos, {x:0, y:0});
-
+       
+   
         // set reference so we can also snapp the copy
         // to itself
-        if(this._alignmentTool && this._alignmentTool.setReference){ 
-          this._alignmentTool.setReference(id)
+        if(this._alignmentTool && this._alignmentTool.setCopyReference){ 
+          this._alignmentTool.setCopyReference(id)
         }
       }
 
@@ -501,7 +517,7 @@ export default {
             boundingBox.id = id;
             this.alignmentStart("boundingbox", boundingBox, "All", this._selectMulti);
           } else if (group && !this._dragNDropIgnoreGroup && this._dragNDropChildren) {
-             /**
+              /**
              * Since 2.1.3 we have nested groups. The bounding box
              * is already determined bz the _dragNDropChildren children
              * which were initlized before!
@@ -555,10 +571,12 @@ export default {
 
     onWidgetDndEnd (id, div, pos, dif, e) {
       this.logger.log(0, "onWidgetDndEnd", "enter > x:" + pos.x + " y:" + pos.y);
-
+      const startPos = this._dragNDropBoxWidgetStart
       this.cleanUpAlignment();
 
       if (this.isWidgetDNDCopy(e)) {
+          
+          this._updateWidgetDND(id, startPos);
         
           if (this._selectWidget) {
             const copy = this.controller.onCopyWidget(id, pos);
@@ -891,8 +909,8 @@ export default {
     },
 
     cleanUpDNDCopyPlaceHolder () {
-      if (this._alignmentTool && this._alignmentTool.setReference) {
-          this._alignmentTool.setReference(null)
+      if (this._alignmentTool && this._alignmentTool.setCopyReference) {
+          this._alignmentTool.setCopyReference(null)
       }
       if (this._dragNDropCopyPlaceHolder) {
         const parent = this._dragNDropCopyPlaceHolder.parentNode
