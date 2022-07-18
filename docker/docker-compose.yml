@@ -17,7 +17,7 @@ services:
       - QUX_KEYCLOAK_REALM=
       - QUX_KEYCLOAK_CLIENT=
       - QUX_KEYCLOAK_URL=
-      - QUX_WS_URL=
+      - QUX_WS_URL=ws://127.0.0.1:8086        # change to where the websocket server is deployed for external access
     links:
       - mongo
       - qux-be
@@ -29,6 +29,8 @@ services:
     restart: always
     container_name: quant-ux-backend
     image: klausenschaefersinho/quant-ux-backend
+    volumes:
+      - ./quant-ux-data:/app-data
     environment:
       - QUX_HTTP_HOST=http://quant-ux-frontend:8082        # this is the path the backend uses to talk to the front end
       - QUX_HTTP_PORT=8080        # This is the port the backend will use
@@ -39,8 +41,8 @@ services:
       - QUX_MAIL_PASSWORD=sTr0ngPa55w0Rd        # this should be your smtp email password
       - QUX_MAIL_HOST=mail.example.com        # this should be your smtp host address
       - QUX_JWT_PASSWORD=some-long-string-of-mix-case-chars-and-nums        # you should change this to a real JWT secret
-      - QUX_IMAGE_FOLDER_USER=/qux-images        # just a folder name, change if you like
-      - QUX_IMAGE_FOLDER_APPS=/qux-image-apps        # just a folder name, change if you like
+      - QUX_IMAGE_FOLDER_USER=/app-data/qux-images        # this folder should mapped in the volume
+      - QUX_IMAGE_FOLDER_APPS=/app-data/qux-image-apps        # this folder should mapped in the volume
       - TZ=America/Chicago        # change to your timezone
       - QUX_AUTH_SERVICE=qux
       - QUX_KEYCLOAK_SERVER= # just the keycloak host & port
@@ -49,3 +51,16 @@ services:
       - QUX_USER_ALLOWED_DOMAINS=* # comma separated list of domains, e.g. 'my-server.com' or '*' for all
     depends_on:
       - mongo
+  qux-ws:
+    restart: always
+    container_name: quant-ux-websocket-server
+    image: klausenschaefersinho/quant-ux-websocket
+    environment:
+      - QUX_SERVER=http://quant-ux-backend:8080/
+      - QUX_SERVER_PORT=8086
+    ports:
+      - 8086:8086
+    links:
+      - qux-be
+    depends_on:
+      - qux-be
