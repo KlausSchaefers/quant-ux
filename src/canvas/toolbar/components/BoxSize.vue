@@ -231,7 +231,6 @@ export default {
 		},
 
 		setValue (box){
-			console.debug('setValue', box)
 			this._dirty = false;
 
 			/**
