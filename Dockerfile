@@ -1,33 +1,35 @@
-FROM node:16-alpine
+FROM node:16-alpine AS builder
 
-RUN apk --no-cache add git
-RUN apk --no-cache add bash
+RUN apk --no-cache add make python3 g++
 
-RUN mkdir -p /usr/src/quant-ux
+USER node
+WORKDIR /home/node
 
-WORKDIR /usr/src/quant-ux
+COPY --chown=node:node ["package.json", "package-lock.json", "./"]
+RUN npm install
+COPY --chown=node:node . .
+RUN npm run build
 
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-ENV TZ=America/Chicago
 
-## Set ENV vars here
-ENV QUX_PROXY_URL=http://qux-be.quantux.com:8080 \
-    QUX_WS_URL=wss://qux-ws.quantux.com:8086 \
-    QUX_AUTH=qux \ 
-    QUX_KEYCLOAK_REALM="qux" \ 
-    QUX_KEYCLOAK_CLIENT="qux" \ 
-    QUX_KEYCLOAK_URL=https://kezcloak.quantux.com:8180
+FROM node:16-alpine AS deps
 
-## Clone the frontend repo
-RUN git clone https://github.com/KlausSchaefers/quant-ux.git
+USER node
+WORKDIR /home/node
 
-RUN cd quant-ux && npm install && npm run build
+COPY --chown=node:node ["package.json", "package-lock.json", "./"]
+RUN npm install --omit=dev
 
-RUN cd
 
-# Expose the Web Port
-EXPOSE 8082
 
-## Start the server running
-CMD [ "node", "quant-ux/server/start.js" ]
+FROM node:16-alpine AS runner
+
+USER node
+WORKDIR /home/node
+
+COPY --chown=node:node --from=deps ["/home/node/node_modules", "node_modules/"]
+COPY --chown=node:node --from=builder ["/home/node/dist", "dist/"]
+COPY --chown=node:node ["server/", "./server"]
+COPY --chown=node:node ["public/", "./public"]
+
+CMD [ "node", "server/start.js" ]
