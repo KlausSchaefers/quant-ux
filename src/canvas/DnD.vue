@@ -324,7 +324,7 @@ export default {
        * we must avoid touchpad based misplacements. Thereore we set *only* for
        * the widgets some delay
        */
-      var ids = this.getSelectedIds();
+      const ids = this.getSelectedIds();
       if (ids == null) {
         this.setDnDMinTime(0);
       }
@@ -342,11 +342,14 @@ export default {
       /**
        * make sure lines are also updated for groups!
        */
-      var group = this.getTopParentGroup(id);
+      const group = this.getTopParentGroup(id);
       if (group) {
-        // widget has no line??
         this._dragNDropLineFromBox = group;
         this._dragNDropBoundingBox = this.getBoundingBox(group.children);
+        this._dragNDropOffset = {
+          x: this._dragNDropBoundingBox.x - pos.x,
+          y: this._dragNDropBoundingBox.y - pos.y
+        }
       }
 
       /**
@@ -441,17 +444,27 @@ export default {
         }
       }
 
+      const correctedPOs = this.getCorrectedCopyPosition(pos)
+     
+
       // render new position of the placeholder
       const job = {
         zoom: true,
         div: this._dragNDropCopyPlaceHolder,
-        pos: pos,
+        pos: correctedPOs,
         id: "dndCopyPlaceHolder"
       };
       this.addDragNDropRenderJob(job);
 
+    },
 
-     
+    getCorrectedCopyPosition (pos) {
+      if (this._dragNDropOffset) {
+          pos = lang.clone(pos)
+          pos.x = pos.x + this._dragNDropOffset.x
+          pos.y = pos.y + this._dragNDropOffset.y
+        }
+      return pos
     },
 
     renderWidgetDND (id, temp, widget, dif, pos) {
@@ -535,23 +548,19 @@ export default {
     },
 
     updateLines (box) {
-      for (var id in this.model.lines) {
-        var line = this.model.lines[id];
+      for (let id in this.model.lines) {
+        const line = this.model.lines[id];
         if (line.to == box.id || line.from == box.id) {
-          var from = this._dragNDropBoxPositions[line.from];
+          let from = this._dragNDropBoxPositions[line.from];
           if (!from) {
             from = this.getFromBox(line);
           }
-          var to = this._dragNDropBoxPositions[line.to];
+          let to = this._dragNDropBoxPositions[line.to];
           if (!to) {
             to = this.getToBox(line); //this.model.screens[line.to];
           }
-
           this.updateLine(line, from, to);
         }
-        /**
-         * We have an issue here with group lines. They are not updated
-         */
       }
     },
 
@@ -575,25 +584,24 @@ export default {
       this.cleanUpAlignment();
 
       if (this.isWidgetDNDCopy(e)) {
-          
+          const correctedPOs = this.getCorrectedCopyPosition(pos)
           this._updateWidgetDND(id, startPos);
-        
           if (this._selectWidget) {
-            const copy = this.controller.onCopyWidget(id, pos);
+            const copy = this.controller.onCopyWidget(id, correctedPOs);
             requestAnimationFrame( () => {
               this.onWidgetSelected(copy.id, true);
             })
           }
       
           if (this._selectMulti) {
-            const copies = this.getController().onMultiCopyWidget(this._selectMulti, pos)
+            const copies = this.getController().onMultiCopyWidget(this._selectMulti, correctedPOs)
             requestAnimationFrame( () => {
               this.onMutliSelected(copies, true);
             })
           }
 
           if (this._selectGroup) {
-            const group = this.getController().onCopyGroup(this._selectGroup, pos)
+            const group = this.getController().onCopyGroup(this._selectGroup, correctedPOs)
             requestAnimationFrame( () => {
               this.onGroupSelected(group.id, true);
             })
@@ -900,7 +908,7 @@ export default {
         css.remove(this._dndMoveDiv, "MatcBoxMoving");
         delete this._dndMoveDiv;
       }
-
+      delete this._dragNDropOffset;
       delete this._dragNDropBoxPositions;
       delete this._dragNDropChildren;
       delete this._dragNDropLineFromBox;
