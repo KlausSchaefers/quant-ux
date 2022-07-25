@@ -63,10 +63,10 @@ export default class SimpleGrid extends Core{
 			 *
 			 * FIXME: Check for lastScreen, if has changed search in all other screens
 			 */
-			var screen = this.getHoverScreen(absPos);
+			const screen = this.getHoverScreen(absPos);
 			if (screen){
 
-				var relPos = {
+				const relPos = {
 					x : absPos.x -screen.x,
 					y : absPos.y -screen.y,
 					w : absPos.w,
@@ -76,6 +76,18 @@ export default class SimpleGrid extends Core{
 			}
 		}
 
+		// IF SHIFT is pressed, we will squaire the selection
+		if (this.allowShift && this.startPos && e.shiftKey) {
+			const w = absPos.x - this.startPos.x
+			const h = absPos.y - this.startPos.y
+			if (w < h) {
+				absPos.x = this.startPos.x + h
+			} else {
+				absPos.y = this.startPos.y + w
+			}
+		}
+
+
 		if (this.showDimensions){
 			try{
 				this.renderDimension(absPos, mouse)
@@ -84,21 +96,27 @@ export default class SimpleGrid extends Core{
 				console.error(e.stack);
 			}
 		}
+
 		return absPos;
 	}
 
 	renderDimension (pos, mouse) {
-		if (!this.dimDiv) {
-			var div = document.createElement("div");
-			css.add(div, "MatcRulerDimensionLabel");
-			this.container.appendChild(div);
-			this.dimDiv = div;
+		if (this.startPos) {
+			if (!this.dimDiv) {
+				var div = document.createElement("div");
+				css.add(div, "MatcRulerDimensionLabel");
+				this.container.appendChild(div);
+				this.dimDiv = div;
+			}
+	
+			const w = pos.x - this.startPos.x
+			const h = pos.y - this.startPos.y
+			this.dimDiv.style.left = (mouse.x + 10) + "px";
+			this.dimDiv.style.top = (mouse.y + 10)+ "px";
+			this.dimDiv.innerText = this._getHackedUnZoomed(w, this.zoom)  + " x " +this._getHackedUnZoomed(h, this.zoom);
+	
 		}
-
-		this.dimDiv.style.left = (mouse.x + 10) + "px";
-		this.dimDiv.style.top = (mouse.y + 10)+ "px";
-		this.dimDiv.innerHTML = this._getHackedUnZoomed(pos.w, this.zoom)  + " x " +this._getHackedUnZoomed(pos.h, this.zoom);
-
+		
 	}
 
 	/**
