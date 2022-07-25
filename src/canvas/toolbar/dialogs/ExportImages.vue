@@ -13,7 +13,7 @@ import on from 'dojo/on'
 import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
 import Preview from 'page/Preview'
-
+import * as htmlToImage from 'html-to-image';
 import { saveAs } from 'file-saver'
 
 export default {
@@ -49,8 +49,7 @@ export default {
 			},
 
 			async render (model) {
-				this.domtoimage = await import(/* webpackChunkName: "dom-to-image" */ '../../../util/dom-to-image')
-
+		
 				this.wrapper = {};
 				this.previews = {};
 				for (let id in model.screens) {
@@ -63,13 +62,13 @@ export default {
 						.build(this.cntr);
 					this.wrapper[id] = wrapper;
 					this.db.span("", "Loading...").build(wrapper);
-					this.renderScreen(model, screen, this.domtoimage);
+					this.renderScreen(model, screen);
 				}
 			},
 
-			renderScreen (model, screen, domtoimage) {
-				this.logger.log(0, "download", "enter > " + screen.id + " > f:" + f);
-				var f = 2;
+			renderScreen (model, screen) {
+				this.logger.log(0, "download", "enter > " + screen.id);
+				const f = 2;
 
 				/**
 				 * On focus this method might be called again, do not render twice
@@ -80,23 +79,22 @@ export default {
 				}
 
 				try {
-					var db = new DomBuilder();
-					var cntrNode = db.div("MatcDownloaderCntr").build(this.renderCntr);
-					var wrapper = db.div("MatcDownloaderWrapper")
+					const db = new DomBuilder();
+					const cntrNode = db.div("MatcDownloaderCntr").build(this.renderCntr);
+					const wrapper = db.div("MatcDownloaderWrapper")
 							.w(screen.w * f).h(screen.h * f)
 							.build(cntrNode);
 
 					this.previews[screen.id] = cntrNode;
 
-					var s = this.$new(Preview);
+					const s = this.$new(Preview);
 					s.placeAt(wrapper);
 					s.setJwtToken(this.jwtToken);
 					s.setModel(model, screen.id);
 
-					domtoimage.toBlob(s.domNode)
+					htmlToImage.toBlob(s.domNode)
 							.then(lang.hitch(this, "onBlobReady", screen))
 							.catch(lang.hitch(this, "onImageError", screen));
-
 
 				} catch (e) {
 					this.logger.error("download", "Something went wrong", e);
@@ -109,7 +107,7 @@ export default {
 				if (blob) {
 					this.blobs[screen.id] = blob;
 					try {
-						let a = new FileReader();
+						const a = new FileReader();
 						a.onload = lang.hitch(this, "onDataUrl", screen)
 						a.readAsDataURL(blob);
 					} catch (e){
@@ -124,16 +122,16 @@ export default {
 			},
 
 			onDataUrl (screen, e) {
-				var wrapper = this.wrapper[screen.id];
+				const wrapper = this.wrapper[screen.id];
 				if (wrapper) {
 					wrapper.innerHTML = "";
-					var img = this.db.img().build(wrapper);
+					const img = this.db.img().build(wrapper);
 					img.src = e.target.result;
 
 					this.db.span("", screen.name).build(wrapper);
 					this.tempOwn(on(wrapper, "click", lang.hitch(this, "download", screen)));
 				}
-				var preview = this.previews[screen.id];
+				const preview = this.previews[screen.id];
 				if (preview) {
 					this.renderCntr.removeChild(preview)
 				}
@@ -142,7 +140,7 @@ export default {
 
 			onImageError (screen, e) {
 				this.logger.error("download", "Something went wrong", e);
-				var wrapper = this.wrapper[screen.id];
+				const wrapper = this.wrapper[screen.id];
 				if (wrapper) {
 					wrapper.innerHTML="";
 					this.db.span("", "Error").build(wrapper);
@@ -151,7 +149,7 @@ export default {
 
 			download (screen){
 				this.logger.log(-1, "download", "enter > " + screen.id);
-				var blob = this.blobs[screen.id];
+				const blob = this.blobs[screen.id];
 				if (blob) {
 					saveAs(blob, screen.name + '.png');
 				} else {
@@ -164,8 +162,8 @@ export default {
 			}
     },
     mounted () {
-				this.logger = new Logger("ExportImages");
-				this.db = new DomBuilder();
+		this.logger = new Logger("ExportImages");
+		this.db = new DomBuilder();
     }
 }
 </script>

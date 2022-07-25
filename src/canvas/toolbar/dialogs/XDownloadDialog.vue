@@ -14,8 +14,7 @@ import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
 import Preview from 'page/Preview'
 
-// import domtoimage from 'dom-to-image-more'
-import domtoimage from '../../../util/dom-to-image';
+import * as htmlToImage from 'html-to-image';
 import { saveAs } from 'file-saver'
 
 export default {
@@ -30,7 +29,7 @@ export default {
     components: {},
     methods: {
 
-			postCreate: function(){
+			postCreate (){
 				this.logger = new Logger("DownloadDialog");
 				if (!window.saveAs) {
 					this.cntr.innerHTML = '<span class="MatcToolbarItemLabel">Not supported browser</span>';
@@ -39,7 +38,7 @@ export default {
 				this.db = new DomBuilder();
 			},
 
-			setModel:function(m){
+			setModel (m){
 				this.model = m;
 				this.height = (m.screenSize.h /  m.screenSize.w) * this.width;
 				this.render(m);
@@ -49,13 +48,13 @@ export default {
 				this.jwtToken = t
 			},
 
-			render:function(model) {
+			render (model) {
 				this.wrapper = {};
 				this.blobs = {};
 				this.previews = {};
-				for (var id in model.screens) {
-					var screen = model.screens[id];
-					var wrapper = this.db
+				for (let id in model.screens) {
+					const screen = model.screens[id];
+					const wrapper = this.db
 						.div("MatcToolbarScreenListPreviewWrapper MatcCreateBtnElement MatcToolbarDropDownButtonItem")
 						.div("MatcDownloadDialogPreview")
 						.w(this.width)
@@ -68,24 +67,24 @@ export default {
 				}
 			},
 
-			renderScreen:function (model, screen) {
+			renderScreen (model, screen) {
 				this.logger.log(0, "download", "enter > " + screen.id + " > f:" + f);
-				var f = 2;
+				const f = 2;
 				try {
-					var db = new DomBuilder();
-					var cntrNode = db.div("MatcDownloaderCntr").build(this.renderCntr);
-					var wrapper = db.div("MatcDownloaderWrapper")
+					const db = new DomBuilder();
+					const cntrNode = db.div("MatcDownloaderCntr").build(this.renderCntr);
+					const wrapper = db.div("MatcDownloaderWrapper")
 							.w(screen.w * f).h(screen.h * f)
 							.build(cntrNode);
 
 					this.previews[screen.id] = cntrNode;
 
-					var s = this.$new(Preview);
+					const s = this.$new(Preview);
 					s.placeAt(wrapper);
 					s.setJwtToken(this.jwtToken);
 					s.setModel(model, screen.id);
 
-					domtoimage.toBlob(s.domNode)
+					htmlToImage.toBlob(s.domNode)
 							.then(lang.hitch(this, "onBlobReady", screen))
 							.catch(lang.hitch(this, "onImageError", screen));
 
@@ -98,12 +97,12 @@ export default {
 
 			},
 
-			onBlobReady:function(screen, blob){
+			onBlobReady (screen, blob){
 				this.blobs[screen.id] = blob;
 				try {
-					var a = new FileReader();
-						a.onload = lang.hitch(this, "onDataUrl", screen)
-						a.readAsDataURL(blob);
+					const a = new FileReader();
+					a.onload = lang.hitch(this, "onDataUrl", screen)
+					a.readAsDataURL(blob);
 				} catch (e){
 					console.error("onPngReady", e)
 					console.error(blob)
@@ -111,43 +110,40 @@ export default {
 				}
 			},
 
-			onPngReady:function(screen, url) {
-				var wrapper = this.wrapper[screen.id];
+			onPngReady (screen, url) {
+				const wrapper = this.wrapper[screen.id];
 				if (wrapper) {
 					wrapper.innerHTML = "";
-					var img = this.db.img().build(wrapper);
+					const img = this.db.img().build(wrapper);
 					img.src = url;
-
 					this.db.div("MatcDownloadDialogPreviewMSG")
 						.span("", "Download").build(wrapper);
-
 					this.tempOwn(on(wrapper, "click", lang.hitch(this, "download", screen)));
 				}
-				var preview = this.previews[screen.id];
+				const preview = this.previews[screen.id];
 				if (preview) {
 					this.renderCntr.removeChild(preview)
 				}
 			},
 
-			onDataUrl:function(screen, e) {
-				var wrapper = this.wrapper[screen.id];
+			onDataUrl (screen, e) {
+				const wrapper = this.wrapper[screen.id];
 				if (wrapper) {
 					wrapper.innerHTML = "";
-					var img = this.db.img().build(wrapper);
+					const img = this.db.img().build(wrapper);
 					img.src = e.target.result;
 
 					this.db.span("", screen.name).build(wrapper);
-	//
 					this.tempOwn(on(wrapper, "click", lang.hitch(this, "download", screen)));
 				}
-				var preview = this.previews[screen.id];
+				const preview = this.previews[screen.id];
 				if (preview) {
 					this.renderCntr.removeChild(preview)
 				}
 			},
 
 
-			onImageError:function(screen, e) {
+			onImageError (screen, e) {
 				this.logger.error("download", "Something went wrong", e);
 				var wrapper = this.wrapper[screen.id];
 				if (wrapper) {
@@ -156,9 +152,9 @@ export default {
 				}
 			},
 
-			download:function(screen){
+			download (screen){
 				this.logger.log(-1, "download", "enter > " + screen.id);
-				var blob = this.blobs[screen.id];
+				const blob = this.blobs[screen.id];
 				if (blob) {
 					saveAs(blob, screen.name + '.png');
 				} else {

@@ -17,8 +17,7 @@ import DomBuilder from 'common/DomBuilder'
 import _Tooltip from 'common/_Tooltip'
 import Preview from 'page/Preview'
 
-// import domtoimage from 'dom-to-image-more'
-import domtoimage from '../../../util/dom-to-image';
+import * as htmlToImage from 'html-to-image';
 
 export default {
     name: 'Downloader',
@@ -70,7 +69,7 @@ export default {
 					s.setJwtToken(this.jwtToken);
 					s.setModel(this.model, this.screenID);
 
-					domtoimage.toBlob(s.domNode)
+					htmlToImage.toBlob(s.domNode)
 			    		.then(lang.hitch(this, "onPngReady", screen))
 			    		.catch(lang.hitch(this, "onImageError"));
 
