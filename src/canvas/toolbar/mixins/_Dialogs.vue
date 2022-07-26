@@ -559,17 +559,7 @@ export default {
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
 
-			/**
-			 * Mouse Wheel
-			 */
-			db.label("MatcMarginTop","Mouse Wheel / Touchpad Scroll :").build(cntr);
-			var mouseWheelList = this.$new(RadioBoxList);
-			mouseWheelList.setOptions([
-			   {value:"scroll", label: "Scroll Canvas"},
-			   {value:"zoom", label:"Zoom Canvas"}
-			]);
-			mouseWheelList.setValue(settings.mouseWheelMode);
-			mouseWheelList.placeAt(cntr);
+		
 
 			/**
 			 * Keep color boxes open
@@ -581,6 +571,12 @@ export default {
 			selectMoveBox.setLabel("Select to move");
 			selectMoveBox.setValue(settings.selectMove);
 			selectMoveBox.placeAt(selectMoveCntr);
+
+			var selectScreenCntr = db.div("form-group").build(cntr);
+			var selectScreenCheckBox = this.$new(CheckBox);
+			selectScreenCheckBox.setLabel("Click on screen will select");
+			selectScreenCheckBox.setValue(settings.hasSelectOnScreen);
+			selectScreenCheckBox.placeAt(selectScreenCntr);
 
 			var colorCntr = db.div("form-group").build(cntr);
 			var colorPicker = this.$new(CheckBox);
@@ -624,7 +620,8 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
-				this, "onSaveSettings", dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox
+				this, "onSaveSettings", dialog, themeList, colorPicker, zoomChkBox, 
+				protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox, selectScreenCheckBox
 			)));
 
 			dialog.popup(popup, this.template);
@@ -635,16 +632,16 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 
-		onSaveSettings (dialog, themeList, mouseWheelList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox){
+		onSaveSettings (dialog, themeList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox, selectScreenCheckBox){
 			var settings = {
 				canvasTheme: themeList.getValue(),
-				mouseWheelMode: mouseWheelList.getValue(),
 				keepColorWidgetOpen: colorPicker.getValue(),
 				zoomSnapp: zoomChkBox.getValue(),
 				hasProtoMoto: protoMotoCheckBox.getValue(),
 				snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue(),
 				selectMove: selectMoveBox.getValue(),
-				hasDesignToken: designTokenCheckBox.getValue()
+				hasDesignToken: designTokenCheckBox.getValue(),
+				hasSelectOnScreen: selectScreenCheckBox.getValue()
 			};
 
 			this.canvas.setSettings(settings);

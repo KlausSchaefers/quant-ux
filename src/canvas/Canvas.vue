@@ -365,6 +365,7 @@ export default {
 				storePropView : true,
 				moveMode : "ps",
 				startToolsOnKeyDown : true,
+				hasSelectOnScreen: false,
 				mouseWheelMode : "scroll",
 				renderLines : false,
 				snapGridOnlyToTopLeft: true,
@@ -410,6 +411,9 @@ export default {
 			}
 			if(s.startToolsOnKeyDown!=null){
 				this.settings.startToolsOnKeyDown = s.startToolsOnKeyDown;
+			}
+			if (s.hasSelectOnScreen !== null) {
+				this.settings.hasSelectOnScreen = s.hasSelectOnScreen
 			}
 			if(s.mouseWheelMode!=null){
 				this.settings.mouseWheelMode = s.mouseWheelMode;
@@ -457,12 +461,9 @@ export default {
 				this.moveMode = s.moveMode;
 			}
 
-			/**
-			 * Since 4.0.0 we ignore the setting. Only the EditModeButton determines line visiboility
-			 */
-			//if(s.renderLines!=null){
-				//this.renderLines = s.renderLines;
-			//}
+			if (s.hasSelectOnScreen !== null) {
+				this.hasSelectOnScreen = s.hasSelectOnScreen
+			}
 
 			if(s.showDistance!=null){
 				this.showDistance = s.showDistance;

@@ -72,7 +72,7 @@ export default {
 			this.stopEvent(e);
 
 			var now = new Date().getTime();
-			if(this.mouseWheelMode === "zoom" || e.metaKey || e.ctrlKey) {
+			if(e.metaKey || e.ctrlKey) {
 				if (Math.abs(this.lastMouseWheel -  now) > 10) {
 
 					this._preZoomRelPos = this.getRelCanvasMousePosition(e)

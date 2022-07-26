@@ -14,8 +14,8 @@ export let texts = [
             </p>
             
         `,
-        "videoX": {
-            "src": "https://www.youtube.com/embed/RXxzpK7hFck"
+        "video": {
+            "src": "https://www.youtube.com/embed/NyqgRo79vfU"
         },
         "paragraphs": [
             {

@@ -114,9 +114,7 @@ export default class SimpleGrid extends Core{
 			this.dimDiv.style.left = (mouse.x + 10) + "px";
 			this.dimDiv.style.top = (mouse.y + 10)+ "px";
 			this.dimDiv.innerText = this._getHackedUnZoomed(w, this.zoom)  + " x " +this._getHackedUnZoomed(h, this.zoom);
-	
 		}
-		
 	}
 
 	/**

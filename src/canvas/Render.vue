@@ -46,23 +46,23 @@ export default {
 			 * 11 = StandAlone
 		 	 */
       return {
-					state: 0,
-					isSinglePage: false,
-					defaultFontSize: 12,
-					canvasFlowWidth: 20000,
-					canvasFlowHeight: 10000,
-					canvasStartX: -1000,
-					canvasStartY: -1000,
-					canvasMargin: 0.6,
-					moveMode: "ps",
-					renderDND: true,
-					renderLines: false,
-					showDistance: true,
-					wireInheritedWidgets: false,
-					showAnimation: false,
-					showRuler: true,
-					hasSelectOnScreen: false,
-					gridBackground: {}
+			state: 0,
+			isSinglePage: false,
+			defaultFontSize: 12,
+			canvasFlowWidth: 20000,
+			canvasFlowHeight: 10000,
+			canvasStartX: -1000,
+			canvasStartY: -1000,
+			canvasMargin: 0.6,
+			moveMode: "ps",
+			renderDND: true,
+			renderLines: false,
+			showDistance: true,
+			wireInheritedWidgets: false,
+			showAnimation: false,
+			showRuler: true,
+			hasSelectOnScreen: false,
+			gridBackground: {}
         }
     },
     components: {},
@@ -644,14 +644,17 @@ export default {
 
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");
-			var div = this.createBox(screen);
-			div._screenID = screen.id
+			const div = this.createBox(screen);
+			// since 4.1.02 we do not allow selection on screens
+			if (this.hasSelectOnScreen) {
+				div._screenID = screen.id
+			}
 			css.add(div, "MatcScreenDnD");
 			return div;
 		},
 
 		createScreenLabel(screen) {
-			let lbl =document.createElement("div");
+			const lbl =document.createElement("div");
 			css.add(lbl, "MatcScreenLabel");
 			lbl._screenLabel = true
 			lbl._screenID = screen.id
@@ -661,7 +664,7 @@ export default {
 
 		createScreen (screen){
 			this.logger.log(4,"createScreen", "enter");
-			var div = this.createBox(screen);
+			const div = this.createBox(screen);
 			css.add(div, "MatcScreen");
 			return div;
 		},
@@ -669,7 +672,7 @@ export default {
 
 		createWidgetDnD (widget){
 			this.logger.log(4,"createWidgetDnD", "enter");
-			var div = this.createBox(widget);
+			const div = this.createBox(widget);
 			div._widgetID = widget.id
 			css.add(div, "MatcWidgetDND");
 			if (this.hasLogic(widget)){
