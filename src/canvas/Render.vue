@@ -650,10 +650,7 @@ export default {
 			this.logger.log(4,"createScreenDnD", "enter");
 			const div = this.createBox(screen);
 			div._screenID = screen.id
-			// since 4.1.02 we do not allow selection on screens
-			if (this.hasSelectOnScreen) {
-				//div._screenID = screen.id
-			}
+			div._screenDND = true		
 			css.add(div, "MatcScreenDnD");
 			return div;
 		},

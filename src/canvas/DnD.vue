@@ -372,12 +372,34 @@ export default {
 
       this._dragNDropBoxWidgetStart = pos;
 
+      this.registerKeyBoardListener(e => this.onWidgetDNDKeyDown(e))
       var widget = this.model.widgets[id];
+
+
       return widget;
+    },
+
+    onWidgetDNDKeyDown (e, isUp= false) {
+      this.logger.log(-1, "onWidgetDNDKeyDown", "enter", isUp)
+      if (!this._dragNDropBoxWidgetStart) {
+        this.logger.error("onWidgetDNDKeyDown", "no start")
+        this.cleanUpKeyBoardListener()
+        return
+      }
+
+      const synthEvent = {
+        pageX: this._lastMouseMoveEvent.pageX,
+        pageY: this._lastMouseMoveEvent.pageY,
+        altKey: e.altKey
+      }
+      this.onDragMove(synthEvent)
+      
     },
 
     onWidgetDndMove (id, div, pos, dif, e) {
       topic.publish("matc/canvas/click", "", "");
+
+      console.debug("onWidgetDndMove", this.isWidgetDNDCopy(e))
 
    
       if (!this._alignmentToolInited) {
@@ -899,6 +921,7 @@ export default {
     },
 
     cleanUpWidgetDnD () {
+      this.cleanUpKeyBoardListener()
       this.cleanUpDNDCopyPlaceHolder()
       if (this._resizeCursor) {
         css.remove(this.container, this._resizeCursor);

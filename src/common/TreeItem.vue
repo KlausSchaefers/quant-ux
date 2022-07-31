@@ -241,8 +241,11 @@ export default {
       // somehow not called
       if (this.value.editable) {
         setTimeout(() => {
-          this.$refs.lblNode.select()
-          this.$refs.lblNode.focus()
+          if (this.$refs.lblNode) {
+            this.$refs.lblNode.select()
+            this.$refs.lblNode.focus()
+          }
+  
         }, 100)
       }
     },

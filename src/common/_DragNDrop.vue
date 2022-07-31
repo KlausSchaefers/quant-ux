@@ -113,7 +113,7 @@ export default {
 			try {
 				this.stopEvent(e);
 
-				var now = new Date().getTime();
+				const now = new Date().getTime();
 				/**
 				 * We prevent any dnd action for the first 250 ms to avoid unwanted
 				 * movements that can happen due to the touchpad
@@ -161,7 +161,7 @@ export default {
 				/**
 				 * compute new model(!!!) position
 				 */
-				var newPos = {
+				let newPos = {
 					x: x,
 					y: y,
 					h: this._dragNDropStartPos.h,
@@ -179,7 +179,7 @@ export default {
 				/**
 				 * calculate the dif now based on the corrected value
 				 */
-				var dif = {
+				const dif = {
 					x : difX - (x-newPos.x),
 					y : difY - (y-newPos.y)
 				};
@@ -187,7 +187,7 @@ export default {
 				/**
 				 * if there a callback check if the move is ok.
 				 */
-				var isInArea = true;
+				let isInArea = true;
 				if (this[this._dragnDropMoveCallback]){
 					try {
 						//console.debug("move callback", this._dragnDropMoveCallback)
@@ -202,12 +202,12 @@ export default {
 					}
 				}
 
-				if(isInArea !== false){
+				if (isInArea !== false){
 					/**
 					 * we have a render queue, and have to put a new
 					 * job in the queue
 					 */
-					var job = {
+					const job = {
 						div : this._dragNDropNode,
 						pos : newPos,
 						id : this._dragnDropID
@@ -237,8 +237,6 @@ export default {
 			this._dragNDropRenderJobs[job.id] = job;
 		},
 
-
-
 		/**
 		 * runs async as requestAnimationFrame...
 		 */
@@ -252,11 +250,11 @@ export default {
 			/**
 			 * update all
 			 */
-			var updateResizeHandlers = false;
+			let updateResizeHandlers = false;
 			for(let id in this._dragNDropRenderJobs){
-				var job = this._dragNDropRenderJobs[id];
-				var div = job.div;
-				var pos = job.pos;
+				const job = this._dragNDropRenderJobs[id];
+				const div = job.div;
+				const pos = job.pos;
 				if(div){
 					this.domUtil.setPos(div, pos)
 					/**addDragNDropRenderJob

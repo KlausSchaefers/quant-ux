@@ -245,7 +245,7 @@ export default {
 				return true
 			},
 
-			dispatchMouseDownScreen (e, id) {
+			dispatchMouseDownScreen (e, id, target) {
 				this.logger.log(1,"dispatchMouseDownScreen", "enter", id);
 
 				let dndDiv = this.screenDivs[id];
@@ -258,6 +258,15 @@ export default {
 				if (this.mode == "addLine") {
 					this.onLineEndSelected(id, e)
 					return
+				}
+
+				// since 4.1.02 we allow to 
+				// screen selection only on labels
+				if (!this.hasSelectOnScreen) {
+					if (target._screenDND) {
+						this.onSelectionStarted(e);
+						return
+					}
 				}
 
 				if (this.isElementLocked(screen)) {

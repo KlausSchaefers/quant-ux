@@ -24,6 +24,14 @@ export default {
 			  this.own(on(win.body(), "keyup", lang.hitch(this,"onKeyUp")));
       },
 
+      registerKeyBoardListener (listener) {
+        this._keyBoardKeyBoardListener = listener
+      },
+
+      cleanUpKeyBoardListener () {
+        delete this._keyBoardKeyBoardListener
+      },
+
       onKeyPress (e){
 
         this._currentKeyEvent = e;
@@ -41,6 +49,10 @@ export default {
           topic.publish("matc/canvas/esc");
           this.stopEvent(e);
           return
+        }
+
+        if (this._keyBoardKeyBoardListener) {
+          this._keyBoardKeyBoardListener(e, false)
         }
 
         /**
@@ -325,6 +337,10 @@ export default {
         var target = e.target;
         if(css.contains(target, "MatcIgnoreOnKeyPress")){
           return
+        }
+
+       if (this._keyBoardKeyBoardListener) {
+          this._keyBoardKeyBoardListener(e, true)
         }
 
         var k = e.keyCode ? e.keyCode : e.which;
