@@ -456,27 +456,23 @@ export default {
     },
 
     getAllGroupChildren (group) {
+      // FIXME: Use ModelUtil.getAllGroupChildren(group, this.model)
+     
       if (!group.children) {
         return []
       }
       let result = group.children.slice(0)
-      /**
-       * Check all sub groups
-       */
       if (group.groups) {
         group.groups.forEach(subId => {
-          let sub = this.model.groups[subId]
+          const sub = this.model.groups[subId]
           if (sub) {
-            let children = this.getAllGroupChildren(sub)
+            const children = this.getAllGroupChildren(sub)
             result = result.concat(children)
           } else {
             console.warn('getAllGroupChildren() No sub group', subId)
           }
         })
       }
-      /**
-       * check if we have a parent group
-       */
       return result
     },
 

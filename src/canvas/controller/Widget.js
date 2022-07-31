@@ -747,9 +747,8 @@ export default class Widget extends Snapp {
 	}
 
 	/**********************************************************************
-		* Widget add
-		**********************************************************************/
-
+	 * Widget add
+	 **********************************************************************/
 	addWidget (model, pos, fromTool){
 		this.logger.log(0,"addWidget", "enter > " + fromTool);
 
@@ -791,8 +790,7 @@ export default class Widget extends Snapp {
 		this.modelAddWidget(widget);
 
 		this.render();
-
-		var screen = this.getHoverScreen(widget);
+		const screen = this.getHoverScreen(widget);
 		if(screen){
 			this.showSuccess("Great! A new widget was added to screen "+ screen.id);
 		} else {
@@ -806,9 +804,9 @@ export default class Widget extends Snapp {
 
 	_createAddWidgetCommand (widget){
 		/**
-			* create the command
-			*/
-		var command = {
+		 * create the command
+		 */
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "AddWidget",
 			model : widget
@@ -846,13 +844,10 @@ export default class Widget extends Snapp {
 		/**
 		* also check if we have dropped on a screen
 		*/
-		var screen = this.getHoverScreen(widget);
+		const screen = this.getHoverScreen(widget);
 		if (screen){
 			screen.children.push(widget.id);
 		}
-
-		// this.setParentWidgets(widget)
-
 		if(!ignoreModelChange){
 			this.onModelChanged([{type: 'widget', action:"add", id: widget.id}]) // pass teh screen as well?
 		}
@@ -873,14 +868,14 @@ export default class Widget extends Snapp {
 
 	undoAddWidget (command){
 		this.logger.log(3,"undoAddWidget", "enter > " + command.id);
-		var widget = command.model;
+		const widget = command.model;
 		this.modelRemoveWidget(widget);
 		this.render();
 	}
 
 	redoAddWidget (command){
 		this.logger.log(3,"redoAddWidget", "enter > " + command.id);
-		var widget = command.model;
+		const widget = command.model;
 		this.modelAddWidget(widget);
 		this.render();
 	}

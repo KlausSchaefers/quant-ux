@@ -54,9 +54,7 @@ export default {
 
     wireEvents () {
       if (!this.wired) {
-        this.own(
-          this.addClickListener(this.domNode, lang.hitch(this, "onInputClick"))
-        );
+        this.own(this.addClickListener(this.domNode, lang.hitch(this, "onInputClick")));
         this.own(on(this.input, "focus", lang.hitch(this, "onFocus")));
         if (this.mode == "simulator") {
           this.own(on(this.input, "blur", lang.hitch(this, "onBlur")));
@@ -88,7 +86,8 @@ export default {
       this.log.log(0, "onFocus", "enter >" + this.lastValidation);
       this.stopPropagation(e);
 
-      this.keyListener = on(this.input,"keyup", lang.hitch(this, "onKeyPress"));
+      this.keyUpListener = on(this.input,"keyup", lang.hitch(this, "onKeyUp"));
+      this.keyDownListener = on(this.input,"keydown", lang.hitch(this, "onKeyDown"));
       if (this.model.focus && this.lastValidation) {
         this.emitAnimation(this.model.id, 0, this.model.focus);
       }
@@ -101,21 +100,27 @@ export default {
       this.initCompositeState(this._readValue());
     },
 
-    onKeyPress (e) {
-      this.log.log(3, "onKeyPress", "enter > ");
+    onKeyUp () {
+      this.log.log(3, "onKeyUp", "enter > ");
       this.addCompositeSubState(this._readValue());
       this.value = this._readValue();
+      this.emit("keyUp", this._readValue());
+    },
 
-      /**
-       * Make sure the keyboard is closed in
-       *
-       */
-      var key = e.which || e.keyCode;
+    onKeyDown(e) {
+      this.log.log(3, "onKeyDown", "enter > ");
+      const key = e.which || e.keyCode;
       if (13 == key) {
         this.onEnterPressed();
-      } else {
-        this.emit("keyUp", this._readValue());
       }
+    },
+
+    onEnterPressed () {
+      this.input.blur();
+      var gesture = {
+        type: "KeyboardEnter"
+      };
+      this.emit("gesture", gesture);
     },
 
     onChange () {
@@ -128,13 +133,7 @@ export default {
       this.emit("gesture", gesture);
     }, 
 
-    onEnterPressed () {
-      this.input.blur();
-      var gesture = {
-        type: "KeyboardEnter"
-      };
-      this.emit("gesture", gesture);
-    },
+   
 
     onBlur (e) {
       this.log.log(1, "onBlur", "enter");
@@ -221,10 +220,14 @@ export default {
     afterSetState () {},
 
     cleanUp () {
-      if (this.keyListener) {
-        this.keyListener.remove();
+      if (this.keyUpListener) {
+        this.keyUpListener.remove();
       }
-      delete this.keyListener;
+      delete this.keyUpListener;
+      if (this.keyDownListener) {
+        this.keyDownListener.remove();
+      }
+      delete this.keyDownListener;
     },
 
     render (model, style, scaleX, scaleY) {

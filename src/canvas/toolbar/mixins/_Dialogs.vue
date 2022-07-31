@@ -559,8 +559,6 @@ export default {
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
 
-		
-
 			/**
 			 * Keep color boxes open
 			 */

@@ -113,25 +113,30 @@ export default {
 				const widgets = this.getOrderedWidgets(sourceModel.widgets);
 				for (let i=0; i< widgets.length; i++){
 					let widget = widgets[i];
-					let zoomedWidget = zoomedModel.widgets[widget.id]
-					/**
-					 * FIXME: we have to check here which for hidden stuff.
-					 * 1) If stuff was hidden, and is now not hidden, the wiring will fail!
-					 * 2) If stuff was visible and is not hidden, we have to remove the node
-					 */
+					if (!this.isElementHidden(widget)) {
+						let zoomedWidget = zoomedModel.widgets[widget.id]
+						/**
+						 * FIXME: we have to check here which for hidden stuff.
+						 * 1) If stuff was hidden, and is now not hidden, the wiring will fail!
+						 * 2) If stuff was visible and is not hidden, we have to remove the node
+						 */
 
-					/**
-					 * We assume that for the first rendering we do not need to
-					 * set the zIndex. For the updates we need, thus we pass i.
-					 */
-					if (!this.widgetBackgroundDivs[widget.id]) {
-						this.renderWidget(widget, zoomedWidget);
-						this.updateWidgetZ(widget, i)
-						this.renderedModels[widget.id] = widget
-						this.renderCreateCounter++;
+						/**
+						 * We assume that for the first rendering we do not need to
+						 * set the zIndex. For the updates we need, thus we pass i.
+						 */
+						if (!this.widgetBackgroundDivs[widget.id]) {
+							this.renderWidget(widget, zoomedWidget);
+							this.updateWidgetZ(widget, i)
+							this.renderedModels[widget.id] = widget
+							this.renderCreateCounter++;
+						} else {
+							this.updateWidget(widget, zoomedWidget, i, isResize);
+						}
 					} else {
-						this.updateWidget(widget, zoomedWidget, i, isResize);
+						this.deleteWidget(widget.id)
 					}
+					
 				}
 
 				if (this.renderLines){
@@ -390,7 +395,7 @@ export default {
 				 * if the widget was rendered!
 				 */
 				var div = null;
-				if (!this.widgetBackgroundDivs[widget.id] && !this.isElementHidden(widget)){
+				if (!this.widgetBackgroundDivs[widget.id]){
 
 					/**
 					 * create dnd from zoomedWidget

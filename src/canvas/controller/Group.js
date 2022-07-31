@@ -3,6 +3,60 @@ import Layer from './Layer'
 export default class Group extends Layer {
 
 
+	/**********************************************************************
+	 * Set visibility
+	 **********************************************************************/
+	setGroupHide (id, hidden) {
+		this.logger.log(-1,"setGroupHide", "enter > " + id, hidden);
+
+		const group = this.model.groups[id]
+		if (group) {
+			const old = group.props ? group.props.hidden : false
+
+			const command = {
+				timestamp : new Date().getTime(),
+				type : "HideGroup",
+				groupId: id,
+				n: hidden,
+				o: old
+			};
+
+			this.modelUpdateGroupHidden(id, hidden)
+			this.addCommand(command);
+		} else {
+			this.logger.warn("updateGroup", "could not find group > " + id);
+		}
+
+		
+	}
+
+	modelUpdateGroupHidden (id, value) {
+		const group = this.model.groups[id]
+		if (group) {
+			
+			const children = this.getAllGroupChildren(group)
+			children.forEach(childId => {
+				if (this.model.widgets[childId]) {
+					const child = this.model.widgets[childId]
+					child.props.hidden = value
+				}	
+			})
+
+			//let childGrou
+		}
+		this.onModelChanged([{type: 'group', action:"change", id: id}])
+		this.render()
+	}
+
+	undoHideGroup(command) {
+		this.logger.log(0,"undoUpdateGroup", "enter > " + command.id);
+		this.modelUpdateGroup(command.groupId, command.o)
+	}
+
+	redoHideGroup (command) {
+		this.logger.log(0,"undoUpdateGroup", "enter > " +command.id);
+		this.modelUpdateGroup(command.groupId, command.n)
+	}
 
 
 	/**********************************************************************
@@ -13,14 +67,11 @@ export default class Group extends Layer {
 	updateGroup (id, type, key, value) {
 		this.logger.log(-1,"updateGroup", "enter > " + id, type);
 
-		/**
-		 * 1) create multi command
-		 */
-		let group = this.model.groups[id]
+		const group = this.model.groups[id]
 		if (group) {
-			let old = group[type] ? group[type][key] : null
+			const old = group[type] ? group[type][key] : null
 
-			var command = {
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "UpdateGroup",
 				groupId: id,
@@ -31,11 +82,12 @@ export default class Group extends Layer {
 			};
 
 			this.modelUpdateGroup(id, type, key, value)
+			this.addCommand(command);
 		} else {
 			this.logger.warn("updateGroup", "could not find group > " + id);
 		}
 
-		this.addCommand(command);
+	
 
 	}
 

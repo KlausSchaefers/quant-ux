@@ -41,6 +41,7 @@ export default {
 			trees: [],
 			nodes: {},
 			isVisible: true,
+			hasOptions: true,
 			isDebug: false
         }
     },
@@ -104,6 +105,9 @@ export default {
 					if (type == "widget") {
 						this.controller.updateWidgetProperties(id, {'hidden': value}, 'props', true, true)
 					}
+					if (type == "group") {
+						this.controller.setGroupHide(id, value)
+					}
 				}
 			}
 		},
@@ -126,6 +130,9 @@ export default {
 						}
 						if (type === 'group') {
 							this.canvas.onGroupSelected(node.id, true);
+						}
+						if (type === 'screen') {
+							this.canvas.onScreenSelected(node.id);
 						}
 					}
 				} else {
@@ -394,12 +401,30 @@ export default {
 				open: this.openNodes[box.id],
 				inherited: box.inherited,
 				fixed: false,
-				z: box.z
+				z: box.z,
+				hasOptions: this.hasOptions
 			}
 
 			if (box.props) {
 				node.locked = box.props.locked === true
 				node.hidden = box.props.hidden === true
+			}
+
+			if (box.children) {
+				// for groups we compute the hidden property.
+				const allChildren = ModelUtil.getAllGroupChildren(box, this.model)
+				const hiddenChildren = allChildren.filter(childId => {
+					let child = this.model.widgets[childId]
+					if (child) {
+						if (child.props.hidden === true) {
+							return true
+						}
+					}	
+					return false
+				})
+				if (hiddenChildren.length === allChildren.length) {
+					node.hidden = true
+				}
 			}
 
 			if (box.style && box.style.fixed) {

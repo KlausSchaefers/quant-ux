@@ -351,10 +351,14 @@ export default {
 
 			try {
 				/**
-				 * The sourceModel is used to draw tge elements on the zoomable
+				 * The sourceModel is used to draw the elements on the zoomable
 				 * background, whereas the model is used to handle DND
 				 */
 				this.sourceModel = ModelUtil.updateTemplateModifies(sourceModel);
+
+				/**
+				 * Use to render drag and drop nodes
+				 */
 				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
 
 				this.renderFlowViewFast(this.sourceModel, this.model, isResize);
@@ -645,9 +649,10 @@ export default {
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");
 			const div = this.createBox(screen);
+			div._screenID = screen.id
 			// since 4.1.02 we do not allow selection on screens
 			if (this.hasSelectOnScreen) {
-				div._screenID = screen.id
+				//div._screenID = screen.id
 			}
 			css.add(div, "MatcScreenDnD");
 			return div;

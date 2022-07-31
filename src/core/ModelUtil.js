@@ -28,6 +28,27 @@ class ModelUtil {
         ].map(t => 'dt-' + t)
     }
 
+    
+    getAllGroupChildren (group, model) {
+        if (!group.children) {
+          return []
+        }
+        let result = group.children.slice(0)
+        if (group.groups) {
+          group.groups.forEach(subId => {
+            const sub = model.groups[subId]
+            if (sub) {
+              const children = this.getAllGroupChildren(sub, model)
+              result = result.concat(children)
+            } else {
+              console.warn('ModelUtil.getAllGroupChildren() No sub group', subId)
+            }
+          })
+        }
+        return result
+    }
+  
+
     scaleToSelection(box, pos, type = '') {
         // for top and bottom we scale by height, otherwise by width
         if (type === 'North' || type === 'South') {

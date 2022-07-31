@@ -35,8 +35,8 @@
             ref="lblNode"
             @keydown.enter="onBlur" :value="value.label"/>
 
-          <div class="MatcTreeItemOptions" v-if="hasOptions">
-            <span :class="lockIcon" @click.stop="toggleLocked"></span>
+          <div class="MatcTreeItemOptions" v-if="value.hasOptions">
+            <span :class="lockIcon" @click.stop="toggleLocked" v-if="hasLock"></span>
             <span :class="hiddenIcon" @click.stop="toggleHidden"></span>
           </div>
 
@@ -59,13 +59,13 @@
 </template>
 <script>
 
-
 export default {
   name: "TreeItem",
   props:['value', 'level'],
   mixins: [],
   data: function() {
     return {
+      hasLock: false,
       hasOptions: false,
       isOpen: true,
       isDragOver: false
