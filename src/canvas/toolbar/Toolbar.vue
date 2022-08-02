@@ -144,7 +144,11 @@
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
 							</div>
 							<div class="MatcToolbarSection">
-								<EditModeButton :value="canvasViewConfig" @change="onChangeCanvasViewConfig"  @canvasViewMode="setCanvasViewMode"/>
+								<EditModeButton 
+									:value="canvasViewConfig" 
+									@change="onChangeCanvasViewConfig" 
+									@canvasViewMode="setCanvasViewMode" 
+									ref="editModeButton"/>
 							</div>
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
@@ -350,6 +354,13 @@ export default {
 		onChangeCanvasViewConfig (key, value) {
 			if (this.canvas) {
 				this.canvas.setCanvasViewConfig(key, value)
+			}
+		},
+
+		startPrototypingView () {
+			this.logger.log(-1,"startPrototypingView", "entry > ");
+			if (this.$refs.editModeButton) {
+				this.$refs.editModeButton.setPrototype()
 			}
 		},
 

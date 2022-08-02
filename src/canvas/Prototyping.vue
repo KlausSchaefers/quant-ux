@@ -13,6 +13,11 @@ export default {
     },
     components: {},
     methods: {
+        startPrototypingView () {
+            if (this.toolbar) {
+              this.toolbar.startPrototypingView()
+            }
+        },
         setPrototypingView (value) {
             this.logger.log(-1,"setPrototypingView", "enter", value);
             if (value === true) {
