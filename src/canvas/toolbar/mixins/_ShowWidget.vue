@@ -78,6 +78,9 @@ export default {
 			if (this.condStyleDiv){
 				css.remove(this.condStyleDiv, 'MatcToolbarSectionHidden')
 			}
+
+			css.remove(this.tooltipDiv, "MatcToolbarSectionHidden");
+			this.tooltipSettings.setWidget(model)
 		},
 
 		showWidgetDesignProperties (model) {

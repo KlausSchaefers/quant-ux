@@ -276,7 +276,7 @@ export default {
 				css.add(this.rulerSectionDIV, "MatcToolbarSectionHidden");
 			}
 
-
+			css.add(this.tooltipDiv, "MatcToolbarSectionHidden");
 			css.add(this.developerDiv, "MatcToolbarSectionHidden");
 			css.add(this.templateDiv, "MatcToolbarSectionHidden");
 			css.add(this.multiPositionDiv, "MatcToolbarSectionHidden");

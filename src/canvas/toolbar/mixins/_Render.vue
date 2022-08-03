@@ -43,6 +43,7 @@ import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
 import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
+import TooltipSettings from 'canvas/toolbar/components/TooltipSettings'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -280,6 +281,8 @@ export default {
 			this._renderInheritedWidget()
 
 			this._renderWidgetLine();
+
+			this._renderWidgetToolTip();
 
 			this._renderData();
 
@@ -834,6 +837,22 @@ export default {
 
 			this.properties.appendChild(parent);
 			this.lineDiv = parent;
+		},
+
+		_renderWidgetToolTip () {
+
+			var parent = this.createSection("Tooltip");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.tooltipSettings = this.$new(TooltipSettings)
+			this.tooltipSettings.setModel(this.model)
+			this.tooltipSettings.placeAt(content)
+
+			this.properties.appendChild(parent);
+			this.tooltipDiv = parent;
 		},
 
 
