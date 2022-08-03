@@ -26,9 +26,6 @@ export default function on (node, event, callback, options) {
                 'options': options,
                 'remove': function () {
                     this.node.removeEventListener(this.event, this.callback, options)
-                },
-                'activate': function () {
-                    this.node.addEventListener(this.event, this.callback, options)
                 }
             }
         } else {

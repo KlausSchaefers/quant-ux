@@ -365,7 +365,7 @@ export default {
 				storePropView : true,
 				moveMode : "ps",
 				startToolsOnKeyDown : true,
-				hasSelectOnScreen: false,
+				hasSelectOnScreen: true,
 				mouseWheelMode : "scroll",
 				renderLines : false,
 				snapGridOnlyToTopLeft: true,
@@ -376,10 +376,11 @@ export default {
 				hasProtoMoto: false,
 				zoomSnapp: true,
 				selectMove: true,
-				hasDesignToken: true
+				hasDesignToken: true,
+				hasQRCode: true
 			};
 
-			var s = this._getStatus("matcSettings");
+			const s = this._getStatus("matcSettings");
 			if (s){
 				this.mergeSettings(s)
 			} else {
@@ -412,8 +413,11 @@ export default {
 			if(s.startToolsOnKeyDown!=null){
 				this.settings.startToolsOnKeyDown = s.startToolsOnKeyDown;
 			}
-			if (s.hasSelectOnScreen !== null) {
+			if (s.hasSelectOnScreen !== null && s.hasSelectOnScreen !== undefined) {
 				this.settings.hasSelectOnScreen = s.hasSelectOnScreen
+			}
+			if (s.hasQRCode !== null && s.hasQRCode !== undefined) {
+				this.settings.hasQRCode = s.hasQRCode
 			}
 			if(s.mouseWheelMode!=null){
 				this.settings.mouseWheelMode = s.mouseWheelMode;

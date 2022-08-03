@@ -576,6 +576,12 @@ export default {
 			selectScreenCheckBox.setValue(settings.hasSelectOnScreen);
 			selectScreenCheckBox.placeAt(selectScreenCntr);
 
+			var qrCodeCheckBoxCntr = db.div("form-group").build(cntr);
+			var qrCodeCheckBox = this.$new(CheckBox);
+			qrCodeCheckBox.setLabel("Show QR Code in simulator");
+			qrCodeCheckBox.setValue(settings.hasQRCode);
+			qrCodeCheckBox.placeAt(qrCodeCheckBoxCntr);
+
 			var colorCntr = db.div("form-group").build(cntr);
 			var colorPicker = this.$new(CheckBox);
 			colorPicker.setLabel("Keep colorpicker open");
@@ -619,7 +625,8 @@ export default {
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
 				this, "onSaveSettings", dialog, themeList, colorPicker, zoomChkBox, 
-				protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox, selectScreenCheckBox
+				protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox, selectScreenCheckBox,
+				qrCodeCheckBox
 			)));
 
 			dialog.popup(popup, this.template);
@@ -630,8 +637,9 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 
-		onSaveSettings (dialog, themeList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox, selectScreenCheckBox){
-			var settings = {
+		onSaveSettings (dialog, themeList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, 
+			selectMoveBox, designTokenCheckBox, selectScreenCheckBox, qrCodeCheckBox) {
+			const settings = {
 				canvasTheme: themeList.getValue(),
 				keepColorWidgetOpen: colorPicker.getValue(),
 				zoomSnapp: zoomChkBox.getValue(),
@@ -639,7 +647,8 @@ export default {
 				snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue(),
 				selectMove: selectMoveBox.getValue(),
 				hasDesignToken: designTokenCheckBox.getValue(),
-				hasSelectOnScreen: selectScreenCheckBox.getValue()
+				hasSelectOnScreen: selectScreenCheckBox.getValue(),
+				hasQRCode: qrCodeCheckBox.getValue()
 			};
 
 			this.canvas.setSettings(settings);
@@ -837,6 +846,7 @@ export default {
 
 		startSimilator () {
 			this.logger.log(0,"startSimilator", "entry");
+			
 			var pos = domGeom.position(win.body());
 			let maxHeight = pos.h - 100
 			/**
@@ -930,19 +940,17 @@ export default {
 
 
 		_showMobileTest (model, pos, clazz, maxHeight){
-
-			var dialog = document.createElement("div");
+			const dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
 
-
-			var wrapper = document.createElement("div");
+			const wrapper = document.createElement("div");
 			css.add(wrapper, "MatchSimulatorWrapper ");
 			if(clazz){
 				css.add(wrapper, clazz);
 			}
 			dialog.appendChild(wrapper);
 
-			var container = document.createElement("div");
+			const container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 
 			pos = this.getScaledSize(pos, "width", this.model);
@@ -960,22 +968,32 @@ export default {
 			css.add(wrapper, 'MatcSimulatorFadeOut')
 			wrapper.appendChild(container);
 
-			var scroller = this.$new(ScrollContainer,{canDestroy:true});
+			const scroller = this.$new(ScrollContainer,{canDestroy:true});
 			scroller.placeAt(container);
 
-			var s = this.$new(Simulator,{mode : "debug", logData : false});
+			const s = this.$new(Simulator,{mode : "debug", logData : false});
 			s.scrollListenTarget = "parent";
 			s.isDesktopTest = true
 			s.setScrollContainer(scroller);
 			s.setHash(this.hash)
 
 
-			var img = document.createElement("img");
-			QR.getQRCode(this.hash, false, true).then(url => {
-				img.src = url
-			})
-			css.add(img, "MatcSimulatorQR");
-			dialog.appendChild(img);
+			// sinde 4.1.03 the qr code can be hidden in the settings.
+			const settings = this.getSettings()
+			if (settings.hasQRCode !== false) {
+				const qrCodeWrapper = document.createElement("div")
+				css.add(qrCodeWrapper, "MatcSimulatorQRWrapper");
+				dialog.appendChild(qrCodeWrapper);
+
+				const img = document.createElement("img");
+				QR.getQRCode(this.hash, false, true).then(url => {
+					img.src = url
+				})
+				css.add(img, "MatcSimulatorQR");
+				qrCodeWrapper.appendChild(img);
+			}
+
+		
 
 			/**
 			 * FIXME: We have here some flickering. Because of the fixed
@@ -986,7 +1004,7 @@ export default {
 			 *
 			 * 1) Do not add screen pos whne flag is set?
 			 */
-			var d = new Dialog();
+			const d = new Dialog();
 			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 
@@ -1002,7 +1020,7 @@ export default {
 			 */
 			model = this.model;
 
-			var screen = this._getSimulatorScreen();
+			const screen = this._getSimulatorScreen();
 			s.setStartScreen(screen);
 			setTimeout(() => {
 				scroller.wrap(s.domNode);

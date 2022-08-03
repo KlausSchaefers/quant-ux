@@ -399,9 +399,6 @@ export default {
     onWidgetDndMove (id, div, pos, dif, e) {
       topic.publish("matc/canvas/click", "", "");
 
-      console.debug("onWidgetDndMove", this.isWidgetDNDCopy(e))
-
-   
       if (!this._alignmentToolInited) {
         this.startAligmentToolForWidget(id)
       }
