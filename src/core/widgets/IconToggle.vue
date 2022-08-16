@@ -8,8 +8,6 @@
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
 import lang from "dojo/_base/lang";
-import on from "dojo/on";
-import touch from "dojo/touch";
 import UIWidget from "core/widgets/UIWidget";
 
 export default {
@@ -33,11 +31,7 @@ export default {
       this.own(
         this.addClickListener(this.domNode, lang.hitch(this, "onChange"))
       );
-      //this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
-      this.own(
-        on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver"))
-      );
-      this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
+      this.wireHover()
     },
 
     getLabelNode: function() {

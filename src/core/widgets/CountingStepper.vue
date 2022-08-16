@@ -20,22 +20,21 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._paddingNodes = [this.domNode];
     },
 
-    wireEvents: function() {
+    wireEvents() {
       this.wired = true;
       this.own(this.addClickListener(this.plusBtn, lang.hitch(this, "onPlus")));
-      this.own(
-        this.addClickListener(this.minusBtn, lang.hitch(this, "onMinus"))
-      );
+      this.own(this.addClickListener(this.minusBtn, lang.hitch(this, "onMinus")));
+      this.wireHover()
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
 
       if (model.min) {
@@ -53,8 +52,7 @@ export default {
       var db = new DomBuilder();
 
       this.removeAllChildren(this.domNode)
-      //this.domNode.innerHTML = "";
-
+     
 
       this.minusBtn = db.div("MatcWidgetTypeStepperBtn").build(this.domNode);
       this.minusLbl = db.div("MatcWidgetTypeStepperLabel", "-").build(this.minusBtn);
@@ -103,7 +101,7 @@ export default {
         this.minusBtn.style.borderRadius = r
     },
 
-    onPlus: function(e) {
+    onPlus (e) {
       this.stopEvent(e);
       if (this.max === false || this.value < this.max) {
         var v = this.value + 1;
@@ -113,7 +111,7 @@ export default {
       this.emitStateChange("select", this.value, e);
     },
 
-    onMinus: function(e) {
+    onMinus (e) {
       this.stopEvent(e);
       if (this.min === false || this.min > this.value) {
         var v = this.value - 1;
@@ -123,11 +121,11 @@ export default {
       this.emitStateChange("select", this.value, e);
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       v = v * 1;
       if (!isNaN(v)) {
         this.setValue(v);
@@ -136,7 +134,7 @@ export default {
       }
     },
 
-    setValue: function(value, doNoUpdate) {
+    setValue (value, doNoUpdate) {
       this.value = value;
       this.lblBtn.innerHTML = this.value
       if (!doNoUpdate) {

@@ -12,7 +12,7 @@ import DomBuilder from "common/DomBuilder";
 export default {
   name: "CheckBoxGroup",
   mixins: [UIWidget, DojoWidget],
-  data: function() {
+  data() {
     return {
       value: [],
       options: []
@@ -20,7 +20,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate() {
       this._borderNodes = [];
       this._backgroundNodes = [];
       this._shadowNodes = [];
@@ -29,7 +29,7 @@ export default {
       this._rowNodes = [];
     },
 
-    cleanupRender: function() {
+    cleanupRender () {
       this.removeAllChildren(this.domNode)
       // this.domNode.innerHTML = "";
       this._borderNodes = [];
@@ -40,25 +40,22 @@ export default {
       this._rowNodes = [];
     },
 
-    wireEvents: function() {
-      for (var i = 0; i < this._borderNodes.length; i++) {
-        var back = this._borderNodes[i];
-        var row = this._rowNodes[i];
-        var option = this.options[i];
-        this.own(
-          this.addClickListener(back, lang.hitch(this, "onChange", option))
-        );
-        this.own(
-          this.addClickListener(row, lang.hitch(this, "onChange", option))
-        );
+    wireEvents () {
+      for (let i = 0; i < this._borderNodes.length; i++) {
+        const back = this._borderNodes[i];
+        const row = this._rowNodes[i];
+        const option = this.options[i];
+        this.own(this.addClickListener(back, lang.hitch(this, "onChange", option)));
+        this.own(this.addClickListener(row, lang.hitch(this, "onChange", option)));
       }
+      this.wireHover()
     },
 
-    resize: function(box) {
+    resize(box) {
       this.setChildSize(box, this.style, this.scaleX, this.scaleY);
     },
 
-    arraysEqual: function(arr1, arr2) {
+    arraysEqual(arr1, arr2) {
       if (arr1.length !== arr2.length) return false;
       for (var i = arr1.length; i--; ) {
         if (arr1[i] !== arr2[i]) return false;
@@ -66,7 +63,7 @@ export default {
       return true;
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render(model, style, scaleX, scaleY) {
       if (!this.arraysEqual(this.options, model.props.options)) {
         this.cleanupRender();
       }
@@ -86,7 +83,7 @@ export default {
       this.setValue(model.props.selected, true);
     },
 
-    setChildStyles: function(model) {
+    setChildStyles(model) {
       for (var i = 0; i < this._hookNodes.length; i++) {
         var hook = this._hookNodes[i];
         if (model.style.colorButton) {
@@ -96,7 +93,7 @@ export default {
       }
     },
 
-    setChildSize: function(model, style) {
+    setChildSize(model, style) {
       var w = this._getBorderWidth(style.boxHeight);
       var length = this._borderNodes.length;
       var top = (model.h - length * w) / (length - 1);
@@ -120,7 +117,7 @@ export default {
       }
     },
 
-    renderChildren: function(options) {
+    renderChildren(options) {
       if (this._borderNodes.length === 0) {
         var db = new DomBuilder();
         var cntr = db.div().build();
@@ -132,7 +129,7 @@ export default {
       }
     },
 
-    renderChild: function(option, i, cntr, db) {
+    renderChild(option, i, cntr, db) {
       var row = db.div("MatcWidgetTypeCheckBoxRow").build(cntr);
       var back = db.div("MatcWidgetTypeCheckBox").build(row);
       var hook = db.span("MatcWidgetTypeCheckBoxHook").build(back);
@@ -148,21 +145,21 @@ export default {
       this._labelNodes.push(label);
     },
 
-    getValue: function() {
+    getValue() {
       return this.value;
     },
 
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue(v) {
       if (!v) {
         v = [];
       }
       this.setValue(v);
     },
 
-    setValue: function(value, ignoreValidation) {
+    setValue(value, ignoreValidation) {
       if (!value) {
         value = [];
       }
@@ -191,20 +188,20 @@ export default {
       }
     },
 
-    getState: function() {
+    getState() {
       return {
         type: "checked",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState(state) {
       if (state && state.type == "checked") {
         this.setValue(state.value);
       }
     },
 
-    _validateValue: function(value) {
+    _validateValue(value) {
       var validation = this.model.props.validation;
       if (validation) {
         if (validation.required && (!value || value.length === 0)) {
@@ -214,11 +211,11 @@ export default {
       return true;
     },
 
-    isValid: function(showError) {
+    isValid(showError) {
       return this.validate(this.value, showError);
     },
 
-    onChange: function(option, i, e) {
+    onChange(option, i, e) {
       this.stopEvent(e);
 
       if (!this.value) {

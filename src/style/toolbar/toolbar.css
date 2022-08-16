@@ -544,6 +544,16 @@
 	align-items: center;
 }
 
+/****************************************************
+ * Tooltip Section
+ ****************************************************/
+
+.MatcTooltipSettings  span.caret{
+	display: none;
+}
+.MatcToolbar .MatcTooltipSettings .MatcToolbarInputDropDownButton input{
+	width:100%;
+}
 
 /****************************************************
  * Data Section

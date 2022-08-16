@@ -41,6 +41,7 @@ export default {
       this.tempOwn(
         this.addTouchStart(this.domNode, lang.hitch(this, "onDndStart"))
       );
+      this.wireHover()
     },
 
     onDndStart: function (e) {

@@ -55,6 +55,7 @@ export default {
           this.own(this.addClickListener(action.div, (e) => this.onActionClick(e, action)))
         })
       }
+      this.wireHover()
     },
 
     onClick (e) {

@@ -20,26 +20,21 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [];
       this._backgroundNodes = [];
       this._shadowNodes = [];
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.wired = true;
-      for (var i = 0; i < this.elements.length; i++) {
-        this.own(
-          this.addClickListener(
-            this.elements[i],
-            lang.hitch(this, "onSelect", i)
-          )
-        );
-        //this.tempOwn(on(this.elements[i], touch.press, lang.hitch(this, "onSelect", i)));
+      for (let i = 0; i < this.elements.length; i++) {
+        this.own(this.addClickListener(this.elements[i],lang.hitch(this, "onSelect", i)))
       }
+      this.wireHover()
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;

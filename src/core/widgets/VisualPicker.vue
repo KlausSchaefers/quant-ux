@@ -21,8 +21,6 @@
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
-import on from "dojo/on";
-import touch from "dojo/touch";
 import topic from "dojo/topic";
 import UIWidget from "core/widgets/UIWidget";
 
@@ -76,9 +74,8 @@ export default {
     wireEvents () {
       this.isWired = true
       this.own(this.addClickListener(this.domNode, lang.hitch(this, 'onChange')));
-      this.own(on(this.domNode, touch.over, lang.hitch(this, 'onDomMouseOver')));
-      this.own(on(this.domNode, touch.out, lang.hitch(this, 'onDomMouseOut')));
       this.own(topic.subscribe(this.topic, lang.hitch(this, "onOtherChecked")));
+      this.wireHover()
     },
   
     onOtherChecked (event) {

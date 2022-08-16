@@ -32,25 +32,14 @@ export default {
   },
   components: {},
   methods: {
-    setScreenScroll: function(scrollTop) {
+    setScreenScroll (scrollTop) {
       this.screenScrollTop = scrollTop;
     },
 
-    wireEvents: function() {
-      this.own(
-        this.addClickListener(this.domNode, lang.hitch(this, "onOpenPopup"))
-      );
-      //	this.own(on(this.domNode, touch.press, lang.hitch(this, "onOpenPopup")));
-      this.own(
-        on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver"))
-      );
-      this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
-      this.own(
-        topic.subscribe(
-          "MatcSimulatorScrollEvent",
-          lang.hitch(this, "setScreenScroll")
-        )
-      );
+    wireEvents () {
+      this.own(this.addClickListener(this.domNode, lang.hitch(this, "onOpenPopup")));
+      this.own(topic.subscribe("MatcSimulatorScrollEvent", lang.hitch(this, "setScreenScroll")));
+      this.wireHover()
       this.wired = true;
     },
 

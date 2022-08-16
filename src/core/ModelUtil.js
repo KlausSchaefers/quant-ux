@@ -196,7 +196,7 @@ class ModelUtil {
          * We set the template modfied date, so in RenderFlow we 
          * can recognize that we have to update the widget.
          */
-        if (model.templates) {
+        if (model && model.templates) {
             for (let widgetID in model.widgets) {
                 const widget = model.widgets[widgetID]
                 if (widget.template) {

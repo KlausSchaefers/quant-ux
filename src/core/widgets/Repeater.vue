@@ -55,6 +55,7 @@ export default {
     },
 
     wireEvents () {
+        this.wireHover()
       //this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
       //this.own(topic.subscribe(this.topic, lang.hitch(this, "onOtherChecked")));
     },

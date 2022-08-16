@@ -38,6 +38,7 @@ export default {
         this.own(on(element.div, touch.over,lang.hitch(this, "onElementOver", i, element)));
         this.own(on(element.div, touch.out,lang.hitch(this, "onElementOut", i, element)));
       }
+      this.wireHover()
     },
 
     onElementOver (i, element) {

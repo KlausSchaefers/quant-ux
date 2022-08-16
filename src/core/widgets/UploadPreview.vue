@@ -6,8 +6,6 @@
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
-import on from "dojo/on";
-import touch from "dojo/touch";
 import UIWidget from "core/widgets/UIWidget";
 
 export default {
@@ -69,7 +67,7 @@ export default {
       }
   },
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
@@ -77,10 +75,9 @@ export default {
       this._labelNodes = [this.domNode];
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.own(this.addClickListener(this.domNode, lang.hitch(this, "onClick")));
-      this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));
-      this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
+      this.wireHover()
     },
 
     render (model, style, scaleX, scaleY) {
@@ -98,7 +95,7 @@ export default {
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {        
+    _setDataBindingValue (v) {        
         /**
          * We can have normal urls and data ulrs
          */

@@ -5,8 +5,6 @@
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
 import lang from "dojo/_base/lang";
-import on from "dojo/on";
-import touch from "dojo/touch";
 import domGeom from "dojo/domGeom";
 import domStyle from "dojo/domStyle";
 import win from "dojo/_base/win";
@@ -25,7 +23,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this.log = new Logger("DragNDrop");
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
@@ -34,22 +32,16 @@ export default {
       this.log.log(4, "postrCreate", "enter");
     },
 
-    wireEvents: function() {
-      this.own(
-        this.addTouchStart(this.domNode, lang.hitch(this, "onDndStart"))
-      );
-
-      this.own(
-        on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver"))
-      );
-      this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
+    wireEvents () {
+      this.own(this.addTouchStart(this.domNode, lang.hitch(this, "onDndStart")));
+      this.wireHover()
     },
 
-    getLabelNode: function() {
+    getLabelNode () {
       return this.domNode;
     },
 
-    onDndStart: function(e) {
+    onDndStart (e) {
       this.stopEvent(e);
       this.emitClick(e);
       this.cleanUp();
@@ -58,9 +50,6 @@ export default {
       css.add(this.domNode, "MatcWidgetDragNDropMove");
 
       this.dndStartPos = this.getMouse(e);
-
-      //this.moveListener = on(win.body(),touch.move, lang.hitch(this,"onDnDMove"));
-      //this.releaseListener = on(win.body(),touch.release, lang.hitch(this,"onDndEnd"));
 
       this.moveListener = this.addTouchMove(win.body(),lang.hitch(this, "onDnDMove"));
       this.releaseListener = this.addTouchRelease(win.body(),lang.hitch(this, "onDndEnd"));
@@ -72,7 +61,7 @@ export default {
       }
     },
 
-    initDnd: function() {
+    initDnd () {
       if (!this.containerSize) {
         if (this.domNode.parentNode.parentNode) {
           this.containerSize = domGeom.position(
@@ -89,7 +78,7 @@ export default {
       }
     },
 
-    onDnDMove: function(e) {
+    onDnDMove (e) {
       this.stopEvent(e);
       var pos = this.getMouse(e);
       this.emitMouseMove(e, true);
@@ -108,7 +97,7 @@ export default {
       this.renderPosition();
     },
 
-    renderPosition: function() {
+    renderPosition () {
       if (this.dndCurrentDelta) {
         this.updateValue(this.dndCurrentDelta);
         this.addCompositeSubState(this.value);
@@ -116,14 +105,14 @@ export default {
       delete this.dndCurrentDelta;
     },
 
-    onDndEnd: function(e) {
+    onDndEnd (e) {
       this.stopEvent(e);
       this.emitCompositeState("dnd", this.value);
       this.cleanUp();
       this.dndParentPos = this._lastDndPositon;
     },
 
-    updateValue: function(value) {
+    updateValue (value) {
       if (this.containerSize) {
         /**
          * Do some bounds checking...

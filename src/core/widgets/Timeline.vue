@@ -29,9 +29,10 @@ export default {
     },
 
     wireEvents() {
-      this.own(this.addClickListener(this.domNode, e => {
-        this.onClick(e)
-      }));
+        this.own(this.addClickListener(this.domNode, e => {
+          this.onClick(e)
+        }));
+        this.wireHover()
     },
 
     render(model, style, scaleX, scaleY) {

@@ -24,27 +24,25 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
     },
 
-    wireEvents: function() {
-      //this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
-      this.own(
-        this.addClickListener(this.domNode, lang.hitch(this, "onChange"))
-      );
+    wireEvents () {
+      this.own(this.addClickListener(this.domNode, lang.hitch(this, "onChange")));
       this.own(topic.subscribe(this.topic, lang.hitch(this, "onOtherChecked")));
+      this.wireHover()
     },
 
-    onOtherChecked: function(event) {
+    onOtherChecked (event) {
       if (event && this.model && event.id != this.model.id) {
         this.setValue(false);
       }
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;

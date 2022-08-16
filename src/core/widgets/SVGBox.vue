@@ -47,6 +47,7 @@ export default {
       this.own(this.addClickListener(this.domNode, e => {
         this.onClick(e)
       }));
+      this.wireHover()
     },
 
     resize (box) {

@@ -29,20 +29,18 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.cntr, this.backgroundDiv];
       this._backgroundNodes = [this.backgroundDiv];
       this._shadowNodes = [this.handle];
     },
 
-    wireEvents: function() {
-      //this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
-      this.own(
-        this.addClickListener(this.domNode, lang.hitch(this, "onChange"))
-      );
+    wireEvents () {
+        this.own(this.addClickListener(this.domNode, lang.hitch(this, "onChange")))
+        this.wireHover()
     },
 
-    resize: function(box) {
+    resize (box) {
       this._setBorderRadius(this.foregroundDiv, this.style);
       this._setBorderRadius(this.handle, this.style);
       this._setBorderRadius(this.button, this.style);

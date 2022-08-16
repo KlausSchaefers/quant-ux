@@ -23,26 +23,21 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
     },
 
-    wireEvents: function() {
-      this.wired = true;
-      for (var i = 0; i < this.options.length; i++) {
-        this.tempOwn(
-          this.addTouchStart(
-            this.options[i],
-            lang.hitch(this, "onDndStart", this.values[i], i)
-          )
-        );
-        //this.tempOwn(on(this.options[i], touch.press, lang.hitch(this, "onDndStart", this.values[i], i)));
-      }
+    wireEvents () {
+        this.wired = true;
+        for (let i = 0; i < this.options.length; i++) {
+          this.tempOwn(this.addTouchStart(this.options[i],lang.hitch(this, "onDndStart", this.values[i], i)))
+        }
+        this.wireHover()
     },
 
-    onDndStart: function(value, pos, e) {
+    onDndStart (value, pos, e) {
       this.stopEvent(e);
       this.dndStartPos = this.getMouse(e);
       this.dndStartTime = new Date().getTime();

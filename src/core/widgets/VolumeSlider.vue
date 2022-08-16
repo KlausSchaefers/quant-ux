@@ -20,30 +20,22 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [];
       this._backgroundNodes = [];
       this._shadowNodes = [];
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.wired = true;
-      for (var i = 0; i < this.elements.length; i++) {
-        this.own(
-          this.addClickListener(
-            this.elements[i],
-            lang.hitch(this, "onSelect", i)
-          )
-        );
-        //this.tempOwn(on(this.elements[i], touch.press, lang.hitch(this, "onSelect", i)));
+      for (let i = 0; i < this.elements.length; i++) {
+        this.own(this.addClickListener(this.elements[i],lang.hitch(this, "onSelect", i)))
       }
-      //this.tempOwn(on(this.domNode, touch.press, lang.hitch(this, "onBodyClick")));
-      this.own(
-        this.addClickListener(this.domNode, lang.hitch(this, "onBodyClick"))
-      );
+      this.own(this.addClickListener(this.domNode, lang.hitch(this, "onBodyClick")));
+      this.wireHover()
     },
 
-    cleanUp: function() {
+    cleanUp () {
       if (this.moveListener) {
         this.moveListener.remove();
       }
@@ -58,7 +50,7 @@ export default {
       delete this.dndStartTime;
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -90,13 +82,13 @@ export default {
       this.setValue(model.props.selected);
     },
 
-    onSelect: function(pos, e) {
+    onSelect (pos, e) {
       this.stopPropagation(e);
       this.emitStateChange("select", pos, e);
       this.setValue(pos);
     },
 
-    onBodyClick: function(e) {
+    onBodyClick (e) {
       var mouse = this.getMouse(e);
       var domPos = domGeom.position(this.domNode);
       var p = (mouse.x - domPos.x) / domPos.w;
@@ -111,7 +103,7 @@ export default {
       this.setValue(pos);
     },
 
-    setValue: function(value) {
+    setValue (value) {
       if (value !== this.value) {
         var active = this.model.active;
         var passive = this.model.style;
@@ -150,31 +142,31 @@ export default {
       }
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
-    getMouse: function(e) {
-      var result = {};
+    getMouse (e) {
+      const result = {};
       result.x = e.pageX;
       result.y = e.pageY;
       return result;
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "select",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       if (state && state.type == "select") {
         this.setValue(state.value);
       }
     },
 
-    destroy: function() {
+    destroy () {
       if (this._compositeState) {
         this.emitCompositeState();
       }

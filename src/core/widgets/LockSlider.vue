@@ -65,6 +65,7 @@ export default {
        this.own(
         this.addTouchStart(handle, lang.hitch(this, "onDndStart"))
       );
+      this.wireHover()
     },
 
     onDndStart (e) {

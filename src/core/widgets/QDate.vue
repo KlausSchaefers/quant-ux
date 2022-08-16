@@ -60,6 +60,7 @@ export default {
       this.own(
         this.addClickListener(this.nextButton, lang.hitch(this, "onNext"))
       );
+      this.wireHover()
     },
 
     onLast: function(e) {

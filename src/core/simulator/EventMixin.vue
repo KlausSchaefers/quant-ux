@@ -60,9 +60,14 @@ export default {
 				 * Since 4.0.60 we have template transitions
 				 */
 				this.fireTemplateLineIfNeeded(screenID, widgetID, "mouseover")
+
+				/**
+				 * Since 4.1.06 we have tooltips
+				 */
+				this.showTooltip(screenID, widgetID)
 				
 			} else {
-				console.warn('Repeater,could not find', widgetID)
+				console.warn('EventMixin could not find', widgetID)
 			}
 			this.onMouseMove(e);
 		},
@@ -96,6 +101,11 @@ export default {
 				 * Since 4.0.60 we have template transitions
 				 */
 				this.fireTemplateLineIfNeeded(screenID, widgetID, "mouseout")
+
+				/**
+				 * Since 4.1.06 we have tooltips
+				 */
+				this.hideTooltip(screenID, widgetID)
 			}
 
 			this.onMouseMove(e);
@@ -143,12 +153,23 @@ export default {
 					 * Since 4.0.60 we have template transitions
 					 */
 					this.fireTemplateLineIfNeeded(screenID, widgetID, "mouseover")
+
 				}
 			}
+
+			/**
+			 * Since 4.1.06 we have tooltips
+			 */
+			this.showTooltip(screenID, widgetID)
 		},
 
 		onWidgetMouseOut (screenID, widgetID,e){
 			this.onMouseMove(e);
+
+			/**
+			 * Since 4.1.06 we have tooltips
+			 */
+			this.hideTooltip(screenID, widgetID)
 		},
 
 		onWidgetGesture (screenID, widgetID, lines, gesture, startEvent, endEvent){

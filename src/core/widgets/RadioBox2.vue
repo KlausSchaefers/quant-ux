@@ -11,7 +11,6 @@ import css from "dojo/css";
 import lang from "dojo/_base/lang";
 import topic from "dojo/topic";
 import UIWidget from 'core/widgets/UIWidget'
-// import RadioBox from "core/widgets/RadioBox";
 
 export default {
   name: "RadioBox2",
@@ -24,20 +23,19 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
     },
 
-    wireEvents: function() {
-      this.own(
-        this.addClickListener(this.domNode, lang.hitch(this, "onChange"))
-      );
+    wireEvents () {
+      this.own(this.addClickListener(this.domNode, lang.hitch(this, "onChange")));
       this.own(topic.subscribe(this.topic, lang.hitch(this, "onOtherChecked")));
+      this.wireHover()
     },
 
-    onOtherChecked: function(event) {
+    onOtherChecked (event) {
       if (event && this.model && event.id != this.model.id) {
         if (this.getFormGroup(this.model) === event.formGroup) {
           this.setValue(false);
@@ -45,7 +43,7 @@ export default {
       }
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;

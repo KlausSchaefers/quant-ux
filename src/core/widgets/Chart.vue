@@ -28,8 +28,8 @@ export default {
 		},
 
 		wireEvents (){
-			//this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
 			this.own(this.addClickListener(this.domNode, lang.hitch(this, "_onClick")));
+			this.wireHover()
 		},
 
 		_onClick (e){

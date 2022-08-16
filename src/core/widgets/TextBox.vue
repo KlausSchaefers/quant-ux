@@ -65,6 +65,7 @@ export default {
       this.afterWiredEvents();
       this.wired = true;
       this.setAutoFocus(this.input);
+      this.wireHover()
     },
 
     /**

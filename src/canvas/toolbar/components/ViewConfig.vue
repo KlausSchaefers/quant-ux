@@ -120,11 +120,9 @@ export default {
     computed: {
         gridLabel () {
             if (this.value && this.value.grid) {
-                console.debug('grid', this.value.grid)
                 if (this.value.grid.type === 'grid') {
                     return `${this.value.grid.w} x ${this.value.grid.h}`
                 }
-
             }
             return ''
         },

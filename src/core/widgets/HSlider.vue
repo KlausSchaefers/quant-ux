@@ -34,6 +34,7 @@ export default {
       this.own(this.slider.on("change", lang.hitch(this, "onSliderChange")));
       this.own(this.slider.on("press", lang.hitch(this, "onSliderPress")));
       this.own(this.slider.on("release", lang.hitch(this, "onSliderRelease")));
+      this.wireHover()
     },
 
     onSliderChange: function(w, e) {

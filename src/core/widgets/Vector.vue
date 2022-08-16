@@ -18,19 +18,20 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [];
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.own(this.addClickListener(this.domNode, e => {
         this.onClick(e)
       }));
+      this.wireHover()
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -51,15 +52,15 @@ export default {
       }
     },
 
-    getValue: function() {},
+    getValue () {},
 
-    setValue: function() {},
+    setValue () {},
 
-    getState: function() {
+    getState () {
       return {};
     },
 
-    setState: function() {}
+    setState () {}
   },
   mounted() {
     this.logger = new Logger('Vector')

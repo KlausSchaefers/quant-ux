@@ -59,6 +59,7 @@ export default {
         var btn = this.btns[i].b;
         this.own(this.addClickListener(btn, lang.hitch(this, "onSelect", option)));
       }
+      this.wireHover()
     },
 
     render (model, style, scaleX, scaleY) {

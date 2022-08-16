@@ -10,8 +10,6 @@
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
-import on from "dojo/on";
-import touch from "dojo/touch";
 import UIWidget from "core/widgets/UIWidget";
 
 export default {
@@ -59,8 +57,7 @@ export default {
 
     wireEvents() {
       this.own(this.addClickListener(this.domNode, lang.hitch(this, "onClick")));
-      this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));
-      this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
+      this.wireHover()
     },
 
     getLabelNode() {

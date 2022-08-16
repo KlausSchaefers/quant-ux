@@ -76,7 +76,7 @@ export default {
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload'],
-			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", 
+			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker"],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton", "SegmentPicker"],
@@ -282,11 +282,11 @@ export default {
 
 			this._renderWidgetLine();
 
-			this._renderWidgetToolTip();
-
 			this._renderData();
 
 			this._renderValidation();
+
+			this._renderWidgetToolTip();
 
 			this._renderWidgetView();
 
@@ -429,14 +429,11 @@ export default {
 			css.add(content, "");
 			parent.appendChild(content);
 
-
-
 			this.designTokenList = this.$new(DesignTokenList)
 			this.designTokenList.placeAt(content)
 			this.own(on(this.designTokenList, "change", lang.hitch(this, "changeDesignToken")));
 			this.own(on(this.designTokenList, "remove", lang.hitch(this, "removeDesignToken")));
 			this.designTokenList.setFontFamilies(this._getFontFamilies());
-
 
 			this.properties.appendChild(parent);
 			this.designTokenDiv = parent;
@@ -451,13 +448,10 @@ export default {
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
-
 			this.designTokenExport = this.$new(CSSExporter);
 			this.designTokenExport.setHash(this.hash);
 			this.designTokenExport.setModel(this.model);
 			this.designTokenExport.placeAt(content);
-
-
 
 			this.properties.appendChild(parent);
 			this.designTokenDownloadDiv = parent;
@@ -850,6 +844,8 @@ export default {
 			this.tooltipSettings = this.$new(TooltipSettings)
 			this.tooltipSettings.setModel(this.model)
 			this.tooltipSettings.placeAt(content)
+			this.own(on(this.tooltipSettings, "onChangeStyle", lang.hitch(this, "setWidgetMultiStyle")));
+			this.own(on(this.tooltipSettings, "onChangeText", lang.hitch(this, "setWidgetProps", "tooltipText")));
 
 			this.properties.appendChild(parent);
 			this.tooltipDiv = parent;

@@ -11,6 +11,8 @@ import _Touch from "common/_Touch";
 import Layout from "core/Layout";
 import Gestures from "core/Gestures";
 import Logger from 'common/Logger'
+import on from "dojo/on";
+import touch from "dojo/touch";
 
 const styleKeysForResize = [
 			'fontSize',
@@ -45,10 +47,20 @@ export default {
   },
   components: {},
   methods: {
+
+  
+
     /**
      * Is called when in simulator to wire only when needed.
      */
     wireEvents () {},
+
+    wireHover () {
+      this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));
+      this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
+    },
+
+   
 
     /**
      * Nmae to be shown in property sections
@@ -91,6 +103,7 @@ export default {
       this._scaleY = scaleY;
       this.setStyle(style, model);
     },
+
 
     /*
      * should be called when the widget was scalled, e.g. by

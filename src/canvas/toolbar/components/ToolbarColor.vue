@@ -381,6 +381,9 @@ export default {
 						this._countColor(box.style.cicleActiveBackground, result);
 						this._countColor(box.style.cicleActiveTextColor, result);
 						this._countColor(box.style.cicleActiveBorderColor, result);
+
+						this._countColor(box.style.tooltipBackground, result);
+						this._countColor(box.style.tooltipColor, result);
 					}
 					
 					if (box.active) {
@@ -581,14 +584,14 @@ export default {
 			}
 		},
 	watch: {
-			color (v) {
-				this.setValue(v)
-			},
-			app (v) {
-				this.setModel(v)
-			}
+		color (v) {
+			this.setValue(v)
 		},
-  mounted () {
+		app (v) {
+			this.setModel(v)
+		}
+	},
+  	mounted () {
 		this.logger = new Logger('ToolbarColor')
 		if (this.isDialog) {
 			this.reposition = true

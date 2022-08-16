@@ -32,6 +32,7 @@ export default {
 
     wireEvents () {
       this.own(this.addClickListener(this.domNode, lang.hitch(this, "onChange")));
+      this.wireHover()
     },
 
     resize (box) {
