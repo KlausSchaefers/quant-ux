@@ -555,6 +555,9 @@
 	width:100%;
 }
 
+.MatcTooltipSettings .MatcToolbarGridFull {
+	padding: 8px 5px;
+}
 /****************************************************
  * Data Section
  ****************************************************/

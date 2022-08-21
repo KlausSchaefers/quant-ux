@@ -453,21 +453,28 @@
  * input
  ****************************************************/
 
-.MatcToobarPropertiesSection input{
+.MatcToobarPropertiesSection input,
+.MatcToobarPropertiesSection textarea{
 	background: none;
-  color: #ddd;
-  font-size: 12px;
-  line-height: 1em;
+	color: #ddd;
+	font-size: 12px;
+	line-height: 1em;
 	padding: 5px;
 	padding-left: 0px;
-  vertical-align: middle;
+ 	vertical-align: middle;
 	outline: none;
 	width: 100%;
 	padding: 3px;
 	border: 1px solid #555;
 }
 
-.MatcToobarPropertiesSection input:focus{
+.MatcToobarPropertiesSection textarea{
+	height: 80px;
+}
+
+
+.MatcToobarPropertiesSection input:focus,
+.MatcToobarPropertiesSection textarea:focus{
 	border-color: #777;
 }
 

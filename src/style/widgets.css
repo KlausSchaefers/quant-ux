@@ -1,4 +1,34 @@
 /*******************************
+ * Tooltip
+ *******************************/
+
+@keyframes tooltipFadeIn {
+	from {opacity: 0}
+	to {opacity: 1}
+}
+
+
+.MatcWidgetTooltip {
+	position: absolute;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid transparent;
+	padding: 2px 8px;
+    background: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+	animation-name: tooltipFadeIn;
+	animation-delay: 0.5s;
+	animation-duration: 0.25s;
+	animation-fill-mode: forwards;
+	opacity: 0;
+	line-height: 1;
+}
+
+
+/*******************************
  * LockSlider
  *******************************/
 .MatcWidgetTypeLockSlider {

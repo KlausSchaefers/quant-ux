@@ -536,7 +536,7 @@ export default class FigmaService {
           style.borderRightWidth = element.strokeWeight
         }
 
-        if (element.strokeAlign !== 'INSIDE' && element.strokeWeight) {
+        if (widget && element.strokeAlign !== 'INSIDE' && element.strokeWeight) {
           widget.x -= element.strokeWeight
           widget.w += element.strokeWeight * 2
           widget.y -= element.strokeWeight

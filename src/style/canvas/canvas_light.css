@@ -229,7 +229,8 @@
 	border: 1px solid #777;
 }
 
-.MatcLight .MatcToobarPropertiesSection input {
+.MatcLight .MatcToobarPropertiesSection input , 
+.MatcLight .MatcToobarPropertiesSection textarea {
 	border: 1px solid transparent;
 	border-top:1px solid transparent;
 	border-left:1px solid transparent;
@@ -237,7 +238,8 @@
 	color:#555;
 }
 
-.MatcLight .MatcToobarPropertiesSection input:FOCUS{
+.MatcLight .MatcToobarPropertiesSection input:focus,
+.MatcLight .MatcToobarPropertiesSection textarea:focus{
 	color:#333;
 }
 
