@@ -23,7 +23,7 @@ import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'BoxPadding',
-		props: ['isChildDropDown'],
+	props: ['isChildDropDown'],
     mixins:[BoxBorder, _DesignToken, DojoWidget],
     data: function () {
         return {

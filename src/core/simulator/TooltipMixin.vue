@@ -29,12 +29,16 @@ export default {
                         div.style.color = widget.style.tooltipColor
                     }
 
-                    if (widget.style.tooltipFontSize) {
-                        if (widget.style.tooltipFontSize !== 'Auto') {
-                            div.style.fontSize = widget.style.tooltipFontSize + 'px'
-                        }
-                    }
+                    let tooltipFontSize = 12
+                    if (widget.style.tooltipFontSize && widget.style.tooltipFontSize !== 'Auto') {
+                        tooltipFontSize = Math.round(widget.style.tooltipFontSize * this._scaleX)
+                    } 
+                    div.style.fontSize = Math.round(tooltipFontSize * this._scaleX) + 'px'
 
+                    if (widget?.style?.fontFamily) {
+                        div.style.fontFamily = widget.style.fontFamily
+                    }
+                
                     this.currentScreenDiv.appendChild(div)
                     this._tooltipDiv = div
                 }

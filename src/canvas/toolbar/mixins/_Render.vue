@@ -43,7 +43,7 @@ import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
 import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
-import TooltipSettings from 'canvas/toolbar/components/TooltipSettings'
+import TooltipSection from 'canvas/toolbar/components/TooltipSection'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -833,17 +833,22 @@ export default {
 			this.lineDiv = parent;
 		},
 
-		_renderWidgetToolTip () {
+		_renderWidgetToolTip (cssProps = ['tooltipBackground', 'tooltipColor', 'tooltipFontSize']) {
 
-			var parent = this.createSection("Tooltip");
+
+
+			this.designTokenTooltipBtn = this.createDesignTokenBtn('tooltip', cssProps)
+
+			var parent = this.createSection("Tooltip", true, this.designTokenTooltipBtn);
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
-			this.tooltipSettings = this.$new(TooltipSettings)
+			this.tooltipSettings = this.$new(TooltipSection)
 			this.tooltipSettings.setModel(this.model)
 			this.tooltipSettings.placeAt(content)
+			this.tooltipSettings.setCssProps(cssProps);
 			this.own(on(this.tooltipSettings, "onChangeStyle", lang.hitch(this, "setWidgetMultiStyle")));
 			this.own(on(this.tooltipSettings, "onChangeText", lang.hitch(this, "setWidgetProps", "tooltipText")));
 

@@ -1,6 +1,7 @@
 
 <template>
     <div class="MatcDesignTokenButton"  @mousedown.stop="" >
+
       <span class="mdi mdi-dots-horizontal" v-show="isVisible"/>
     	<ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
 
@@ -55,6 +56,7 @@ export default {
            tokenType: '',
            tokenLabel: 'XX',
            tokenLabels: {
+             'tooltip': 'Tooltip',
              'color': 'Color',
              'boxShadow': 'Shadow',
              'stroke': 'Border',
@@ -110,7 +112,6 @@ export default {
         this.hideDropDown()
       },
       onSelectToken (designtoken) {
-        console.debug('onSelect', designtoken)
         this.emit('link', designtoken, this.cssProps)
       },
       onUnLink () {

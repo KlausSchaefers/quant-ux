@@ -707,6 +707,10 @@ export default {
 			if(this.widgetSize.isDirty()){
 				this.widgetSize.update();
 			}
+
+			if (this.tooltipSettings) {
+				this.tooltipSettings.blur()
+			}
 		},
 
 		/**

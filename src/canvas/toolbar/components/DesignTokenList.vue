@@ -27,6 +27,14 @@
                   </div>
               </div>
 
+              <div class=" MatcDesignTokenListSection" v-show="tooltipTokens.length > 0">
+                  <label>Tooltip Styles</label>
+                  <div class="MatcDesignTokenListSectionContent">
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in tooltipTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  </div>
+              </div>
+
+
 
               <div class=" MatcDesignTokenListSection" v-show="shadowTokens.length > 0">
                   <label>Shadow Styles</label>
@@ -75,6 +83,9 @@
             <div class="MatcDesignTokenListPopupSection MatcDesignTokenListPopupPadding" v-show="selectedDesignToken && selectedDesignToken.type === 'padding'">
               <BoxPadding ref="paddingSettings" @resize="onResize" @change="onPaddingChange" :isChildDropDown="true"/>
             </div>
+            <div class="MatcDesignTokenListPopupSection " v-show="selectedDesignToken && selectedDesignToken.type === 'tooltip'">
+              <TooltipSettings ref="tooltipSettings" @change="onTooltipChange" :isChildDropDown="true"/>
+            </div>
              <div class="MatcDesignTokenListPopupSection">
                <a class="MatcButton" @click="onSave">Save</a>    <a class="MatcLinkButton" @click="onCancel">Cancel</a>
             </div>
@@ -95,6 +106,7 @@ import Logger from 'common/Logger'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BoxBorder from 'canvas/toolbar/components/BoxBorder'
 import BoxPadding from 'canvas/toolbar/components/BoxPadding'
+import TooltipSettings from './TooltipSettings'
 import css from 'dojo/css'
 import topic from 'dojo/topic'
 //import Input from '../../../common/Input.vue'
@@ -111,6 +123,7 @@ export default {
             padding: 'mdi mdi-select-all',
             stroke: 'mdi mdi-border-color',
             boxShadow: 'mdi mdi-box-shadow',
+            tooltip: 'mdi mdi-cursor-default-click-outline'
           },
           visible: true,
           designtokens: null,
@@ -127,7 +140,8 @@ export default {
       'TextProperties': TextProperties,
       'BoxBorder': BoxBorder,
       'BoxPadding': BoxPadding,
-      'GradientPicker': GradientPicker
+      'GradientPicker': GradientPicker,
+      'TooltipSettings': TooltipSettings
     },
     computed: {
 
@@ -172,6 +186,18 @@ export default {
           for (let id in this.model.designtokens) {
             let token = this.model.designtokens[id]
             if (token.type === 'boxShadow') {
+              result.push(token)
+            }
+          }
+        }
+        return result
+      },
+      tooltipTokens () {
+        let result = []
+        if (this.model && this.model.designtokens) {
+          for (let id in this.model.designtokens) {
+            let token = this.model.designtokens[id]
+            if (token.type === 'tooltip') {
               result.push(token)
             }
           }
@@ -257,6 +283,13 @@ export default {
         this.$refs.paddingSettings.setValue(this.selectedDesignToken.value)
       },
 
+      onTooltipChange (style) {
+        this.logger.log(-2, 'onTooltipChange', 'enter', style)
+        for (let key in style) {
+            this.selectedDesignToken.value[key] = style[key]
+        }
+      },
+
       onChangeText (key, value) {
         this.logger.log(2, 'onChangeText', 'enter', key, value)
         this.selectedDesignToken.value[key] = value
@@ -333,6 +366,11 @@ export default {
 
         if (this.selectedDesignToken.type === 'padding') {
           this.$refs.paddingSettings.setValue(this.selectedDesignToken.value)
+        }
+
+        if (this.selectedDesignToken.type === 'tooltip') {
+          this.$refs.tooltipSettings.setModel(this.model)
+          this.$refs.tooltipSettings.setValue(this.selectedDesignToken.value)
         }
 
         /**

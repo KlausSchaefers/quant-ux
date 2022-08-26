@@ -551,12 +551,20 @@
 .MatcTooltipSettings  span.caret{
 	display: none;
 }
-.MatcToolbar .MatcTooltipSettings .MatcToolbarInputDropDownButton input{
+.MatcToolbar .MatcTooltipSection .MatcTooltipSettings input,
+.MatcDesignTokenListPopup .MatcDesignTokenListPopupSection .MatcTooltipSettings input{
 	width:100%;
+	text-align: left;
 }
 
-.MatcTooltipSettings .MatcToolbarGridFull {
+.MatcTooltipSection .MatcToolbarGridFull {
 	padding: 8px 5px;
+}
+
+.MatcTooltipSettings .MatcToolbarItemLabel {
+    margin-left: 7px;
+    margin-right: 10px;
+    line-height: 1;
 }
 /****************************************************
  * Data Section

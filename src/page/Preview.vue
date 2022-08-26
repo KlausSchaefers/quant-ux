@@ -354,6 +354,9 @@ export default {
         node.parentNode.removeChild(node);
       }
       this.domNode.appendChild(node);
+      if (!this._fixedPopups) {
+        this._fixedPopups = []
+      }
       this._fixedPopups.push(node);
     },
 

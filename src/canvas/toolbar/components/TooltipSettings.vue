@@ -1,12 +1,12 @@
 
 <template>
      <div class="MatcTooltipSettings">
-        <div class=" MatcToolbarGridFull" >
-            <textarea class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" placeholder="Tooltip text" v-model="tooltipText" @change="onChangeText"/>
-        </div>
-        <div >
+        <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
+
+        <div v-show="!hasDesignToken">
             <div class="MatcToobarRow" >
                 <ToolbarColor
+                    :qIsDropDown="isChildDropDown"
                     :app="model"
                     lbl="Background"
                     :color="tooltipBackground"
@@ -15,13 +15,15 @@
             </div>
             <div class="MatcToobarRow" >
                 <ToolbarColor
+                    :qIsDropDown="isChildDropDown"
                     :app="model"
                     lbl="Color"
                     :color="tooltipColor"
                     @change="onChangeColor($event)"/>
             </div>
-            <div class="MatcToobarRow" v-if="hasDesignDetails">
+            <div class="MatcToobarRow">
                 <InputDropDownButton
+                    :qIsDropDown="isChildDropDown"
                     class="MatcToolbarGridFull"
                     qPostfix=" (Font Size)"
                     @change="onChangeFontSize($event)"
@@ -37,21 +39,22 @@
 import DojoWidget from 'dojo/DojoWidget'
 import ToolbarColor from './ToolbarColor'
 import InputDropDownButton from './InputDropDownButton'
+import _DesignToken from './_DesignToken'
+import DesignTokenView from './DesignTokenView'
 
 export default {
     name: 'TooltipSettings',
-    mixins:[DojoWidget],
+    mixins:[_DesignToken, DojoWidget],
+    props:['isChildDropDown'],
     data: function () {
         return {
-            hasDesignDetails: false,
-			tooltipText: '',
             tooltipBackground: '#333333',
             tooltipColor: '#ffffff',
             tooltipFontSize: 'Auto',
             model: {}
         }
     },
-    components: {ToolbarColor, InputDropDownButton},
+    components: {ToolbarColor, InputDropDownButton, DesignTokenView},
 	computed: {
 	},
     methods: {
@@ -59,16 +62,10 @@ export default {
             this.model = m
         },
 
-        setWidget (w) {
-            this.widget = w
-            if (this.widget.props.tooltipText) {
-                this.tooltipText = this.widget.props.tooltipText
-            } else {
-                this.tooltipText = ""
-            }
-            this.tooltipBackground = this.widget?.style?.tooltipBackground ? this.widget.style.tooltipBackground : "#333333" 
-            this.tooltipColor = this.widget?.style?.tooltipColor ? this.widget.style.tooltipColor : "#ffffff" 
-            this.tooltipFontSize = this.widget?.style?.tooltipFontSize ? this.widget.style.tooltipFontSize : 'Auto'
+        setValue (style) {
+            this.tooltipBackground = style?.tooltipBackground ? style.tooltipBackground : "#333333" 
+            this.tooltipColor = style?.tooltipColor ? style.tooltipColor : "#ffffff" 
+            this.tooltipFontSize = style?.tooltipFontSize ? style.tooltipFontSize : 'Auto'
         },
 
         onChangeBackground (c) {
@@ -87,18 +84,12 @@ export default {
         },
 
         onChangeStyle () {
-            this.emit("onChangeStyle", {
+            this.emit("change", {
                 'tooltipBackground': this.tooltipBackground,
                 'tooltipColor': this.tooltipColor,
                 'tooltipFontSize': this.tooltipFontSize
             })
-        },
-
-        onChangeText () {
-            this.emit("onChangeText", this.tooltipText)
         }
-
-
     },
     mounted () {
 

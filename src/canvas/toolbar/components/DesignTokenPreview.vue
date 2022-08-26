@@ -16,6 +16,9 @@
       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'boxShadow'">
   			  <span :class="icons[designtoken.type]" />
       </span>
+      <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'tooltip'">
+  			  <span :class="icons[designtoken.type]" />
+      </span>
 
       <span class="MatcToolbarItemLabel" :style="textStyle">{{designtoken.name}}</span>
 
@@ -38,6 +41,7 @@ export default {
             text: 'mdi mdi-format-text-variant',
             padding: 'mdi mdi-select-all',
             stroke: 'mdi mdi-border-all-variant',
+            tooltip: 'mdi mdi-cursor-default-click-outline',
             boxShadow: 'mdi mdi mdi-box-shadow', //'mdi mdi-box-shadow',
           },
           visible: true,

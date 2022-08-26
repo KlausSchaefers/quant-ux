@@ -8,7 +8,7 @@ export default {
     mixins:[_Tooltip, DojoWidget],
     data: function () {
         return {
-					colorWidgets: []
+			colorWidgets: []
       }
 	},
     components: {},
@@ -45,34 +45,33 @@ export default {
 			this.logger.log(2,"showScreenProperties", "exit");
 		},
 
-      showScreenPrototypeProperties (model) {
-			this.logger.log(-1,"showScreenPrototypeProperties", "entry");
+		showScreenPrototypeProperties (model) {
+				this.logger.log(-1,"showScreenPrototypeProperties", "entry");
 
+				if(model.name){
+					this.screenName.value = model.name;
+				} else {
+					this.screenName.value = "";
+				}
+				this.screenName.blur();
 
-			if(model.name){
-				this.screenName.value = model.name;
-			} else {
-				this.screenName.value = "";
-			}
-			this.screenName.blur();
+				css.add(this.screenSize.domNode, 'MatcHidden')
+				css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
 
-			css.add(this.screenSize.domNode, 'MatcHidden')
-			css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
+				if(this.screenActionDiv){
+					css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
+					this.screenActionBTN.setScreen(model);
+				}
+				if(this.screenAnimationDiv){
+					css.remove(this.screenAnimationDiv, "MatcToolbarSectionHidden")
+				}
+		},
 
-			if(this.screenActionDiv){
-				css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
-				this.screenActionBTN.setScreen(model);
-			}
-			if(this.screenAnimationDiv){
-				css.remove(this.screenAnimationDiv, "MatcToolbarSectionHidden")
-			}
-      },
-
-      showScreenDesignProperties (model) {
+		showScreenDesignProperties (model) {
 
 				this.showDesignTokenBtns(model, 'screen')
 
-        if(this.screenDIV){
+				if(this.screenDIV){
 					css.remove(this.screenDIV, "MatcToolbarSectionHidden");
 				}
 
@@ -81,15 +80,6 @@ export default {
 				css.remove(this.screenImageDiv, "MatcToolbarSectionHidden");
 				css.remove(this.screenParentsDiv, "MatcToolbarSectionHidden");
 				css.remove(this.screenDownloadDiv, "MatcToolbarSectionHidden");
-
-
-				/**
-				 	* Since 4.0.0 we do not show the prototyping properties in the deisgn view
-				 	*/
-        //if(this.screenActionDiv){
-				//	css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
-				//	this.screenActionBTN.setScreen(model);
-				//}
 
 				var style = model.style;
 				if (style) {
@@ -150,24 +140,24 @@ export default {
 					this.screenSize.setValue(model);
 				}
 
-      },
+		},
 
 
-			showScreenDataProperties (model) {
-				this.showProperties();
+		showScreenDataProperties (model) {
+			this.showProperties();
 
-				if(model.name){
-					this.screenName.value = model.name;
-				} else {
-					this.screenName.value = "";
-				}
-				this.screenName.blur();
-
-				css.add(this.screenSize.domNode, 'MatcHidden')
-				css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
-				css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
-				this.callbackSection.setValue(model, 'screen')
+			if(model.name){
+				this.screenName.value = model.name;
+			} else {
+				this.screenName.value = "";
 			}
+			this.screenName.blur();
+
+			css.add(this.screenSize.domNode, 'MatcHidden')
+			css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
+			css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
+			this.callbackSection.setValue(model, 'screen')
+		}
 
     },
     mounted () {
