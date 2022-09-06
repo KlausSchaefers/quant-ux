@@ -102,7 +102,7 @@ export default {
 			this.logger.log(0,"onToolTextEnd", "enter > ");
 			this.stopEvent(e);
 
-			var pos = this._getSelectionToolBox();
+			let pos = this._getSelectionToolBox();
 			let noBox = false
 			if (!pos) {
 				/**
@@ -112,7 +112,7 @@ export default {
 				pos = this.getCanvasMousePosition(e);
 				pos.w = this.getZoomed(1000, this.zoom);
 				pos.h = this.getZoomed(20, this.zoom);
-				var lastText = this.controller.getLastChangedWidget("Label");
+				const lastText = this.controller.getLastChangedWidget("Label");
 				if (lastText) {
 					pos.h = this.getZoomed(lastText.h, this.zoom);
 				}
@@ -170,7 +170,7 @@ export default {
 				};
 
 				if (this.controller){
-					var lastText = this.controller.getLastChangedWidget("Label");
+					const lastText = this.controller.getLastChangedWidget("Label");
 					if (lastText && lastText.style){
 						if (lastText.style.color){
 							widget.style.color = lastText.style.color;
@@ -181,7 +181,7 @@ export default {
 					}
 				}
 
-				var newWidget = this.controller.addWidget(widget, pos, true);
+				const newWidget = this.controller.addWidget(widget, pos, true);
 				if (newWidget) {
 
 					if (noBox !== true) {

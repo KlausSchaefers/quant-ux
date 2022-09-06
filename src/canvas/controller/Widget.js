@@ -451,14 +451,11 @@ export default class Widget extends Snapp {
 	updateWidgetLabel(id, label){
 		this.logger.log(5,"updateWidgetLabel", "enter > " + id);
 
-		/**
-		 * make command
-		 */
-		var widget = this.model.widgets[id];
+		const widget = this.model.widgets[id];
 		if (widget) {
 			let width = TextUtil.getTextWidth(label, widget)
-			this.logger.log(-1,"updateWidgetLabel", "enter > " + label + ' == ' + width);
-			var command = {
+			this.logger.log(-1,"updateWidgetLabel", "enter > " + label + ' => ' + width + 'px');
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "WidgetLabel",
 				o: {
@@ -474,19 +471,21 @@ export default class Widget extends Snapp {
 
 			this.modelUpdateWidgetText(id, label, width)
 			this.render();
+
+			this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'props', action:'change'}])
+			return command;
+		} else {
+			this.logger.log(-1,"updateWidgetLabel", "no widget: ", id);
 		}
-		this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'props', action:'change'}])
-		return command;
 	}
 
 	modelUpdateWidgetText(id, label, width) {
-		var widget = this.model.widgets[id];
+		const widget = this.model.widgets[id];
 		if (widget) {
 			widget.props.label = label
 			widget.w = width
 			this.onModelChanged([{type: 'widget', action:"change", id: id}])
 		}
-
 	}
 
 	undoWidgetLabel (command){

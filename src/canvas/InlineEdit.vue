@@ -12,57 +12,51 @@ export default {
     },
     components: {},
     methods: {
-      inlineEditInit (widget, resizeToWidth = false){
-				this.logger.log(-1,"inlineEditInit", "enter", resizeToWidth);
-				this.cleanUpInlineEdit();
+      	inlineEditInit (widget, resizeToWidth = false){
+			this.logger.log(-1,"inlineEditInit", "enter", resizeToWidth);
+			this.cleanUpInlineEdit();
+			const div = this.renderFactory.getLabelNode(widget);
+			if(div){
+				this._inlineEditWidget = widget;
+				this._inlineEditDiv = div;
+				this._inlineEditResizeToWidth = resizeToWidth
+				this._inlineFocus(null, false, resizeToWidth);
+			}
+		},
 
-				var div = this.renderFactory.getLabelNode(widget);
-				if(div){
-					this._inlineEditWidget = widget;
-					this._inlineEditDiv = div;
-					this._inlineEditResizeToWidth = resizeToWidth
-					this._inlineFocus(null, false, resizeToWidth);
-
-					// this._inlineEditWidgetDiv = this.widgetDivs[widget.id]
-					// console.debug('iniline', this._inlineEditWidgetDiv)
-					// if (this._inlineEditWidgetDiv) {
-					//	css.add(this._inlineEditWidgetDiv, 'MatcBoxInlineEditing')
-					// }
-				}
-			},
-
-			inlineEditKeyPress (e){
-				if(!this._inlineEditStarted){
-					if(this._selectWidget){
-						var div = this.renderFactory.getLabelNode(this._selectWidget);
-						if(div){
-							this.logger.log(0,"inlineEditKeyPress", "enter");
-							this._inlineEditWidget = this._selectWidget;
-							this._inlineEditDiv = div;
-							this._inlineFocus(e, false);
-						}
-					}
-				}
-			},
-
-			inlineEditGetCurrent (){
-				if(this._inlineEditWidget && this._inlineEditStarted){
-					var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
+		inlineEditKeyPress (e){
+			if(!this._inlineEditStarted){
+				if(this._selectWidget){
+					var div = this.renderFactory.getLabelNode(this._selectWidget);
 					if(div){
-						var txt = div.innerHTML;
-						txt = txt.replace(/<div><br>/g, "\n");
-						txt = txt.replace(/<div>/g, "\n");
-						txt = txt.replace(/<br>/g, "\n");
-						txt = txt.replace(/<\/?[^>]+(>|$)/g, "");
-						txt = txt.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
-						if(txt != this._inlineInnerHTML){
-							return txt;
-						}
+						this.logger.log(0,"inlineEditKeyPress", "enter");
+						this._inlineEditWidget = this._selectWidget;
+						this._inlineEditDiv = div;
+						this._inlineFocus(e, false);
 					}
 				}
-			},
+			}
+		},
+
+		inlineEditGetCurrent (){
+			if(this._inlineEditWidget && this._inlineEditStarted){
+				var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
+				if(div){
+					var txt = div.innerHTML;
+					txt = txt.replace(/<div><br>/g, "\n");
+					txt = txt.replace(/<div>/g, "\n");
+					txt = txt.replace(/<br>/g, "\n");
+					txt = txt.replace(/<\/?[^>]+(>|$)/g, "");
+					txt = txt.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
+					if(txt != this._inlineInnerHTML){
+						return txt;
+					}
+				}
+			}
+		},
 
 		inlineEditStop (){
+			this.logger.log(-2,"inlineEditStop", "enter");
 
 			if(this._inlineEditWidget && this._inlineEditStarted){
 				var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
@@ -79,8 +73,12 @@ export default {
 					txt = txt.replace(/<\/?[^>]+(>|$)/g, "");
 					txt = txt.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
 
-					if (txt != this._inlineInnerHTML){
-						var id  = this._inlineEditWidget.id;
+					const resizeToWidth = this._inlineEditResizeToWidth
+					
+					// only chnag ethe widget label when there was a real change, or
+					// we need to resize (because we a created a new widget with default message)
+					if (txt != this._inlineInnerHTML || resizeToWidth){
+						const id  = this._inlineEditWidget.id;
 
 						/**
 						 * In case of zoom we might flush the value, which will
@@ -97,11 +95,10 @@ export default {
 						 * trigger an rerender > onChangedSelection > etc recursive
 						 * loop!
 						 */
-						let resizeToWidth = this._inlineEditResizeToWidth
-						let noWrap = this._inlineEditWidget.style.nowrap
+						const noWrap = this._inlineEditWidget.style.nowrap
 						this.cleanUpInlineEdit();
 
-						this.logger.log(1,"inlineEditStop", "exit > FLUSH > " + txt);
+						this.logger.log(-2,"inlineEditStop", "exit > FLUSH > " + txt, resizeToWidth);
 						if (resizeToWidth || noWrap === true) {
 							this.controller.updateWidgetLabel(id, txt);
 						} else {
