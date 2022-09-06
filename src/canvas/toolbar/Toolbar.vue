@@ -1746,14 +1746,10 @@ export default {
 
 		setTempWidgetStyle (key, value){
 			this.logger.log(2,"setTempWidgetStyle", "entry > " + key + " - "+ value);
-			var modelKey = this._getViewStyleModelKey();
-			if ("style" == modelKey) {
-				var newStyle = {};
+			const modelKey = this._getViewStyleModelKey();
+			if ("style" === modelKey) {
+				const newStyle = {};
 				newStyle[key] = value;
-				/**
-				 * FIXME: What does this do?
-				 */
-				modelKey = this._getViewStyleModelKey();
 				if(this._selectedWidget && this._selectedWidget.style){
 					this.canvas.setTempWidgetStyle(this._selectedWidget.id, newStyle);
 				} else if(this._selectedMulti){
@@ -1767,12 +1763,14 @@ export default {
 
 		setTempMultiWidgetStyle (newStyle){
 			this.logger.log(0,"setTempMultiWidgetStyle", "entry > " + newStyle);
-
-			if(this._selectedWidget && this._selectedWidget.style){
-				this.canvas.setTempWidgetStyle(this._selectedWidget.id, newStyle);
-			} else if(this._selectedMulti){
-				for (var i=0; i < this._selectedMulti.length; i++){
-					this.canvas.setTempWidgetStyle(this._selectedMulti[i], newStyle);
+			const modelKey = this._getViewStyleModelKey();
+			if ("style" === modelKey) {
+				if(this._selectedWidget && this._selectedWidget.style){
+					this.canvas.setTempWidgetStyle(this._selectedWidget.id, newStyle);
+				} else if(this._selectedMulti){
+					for (var i=0; i < this._selectedMulti.length; i++){
+						this.canvas.setTempWidgetStyle(this._selectedMulti[i], newStyle);
+					}
 				}
 			}
 			return false;
