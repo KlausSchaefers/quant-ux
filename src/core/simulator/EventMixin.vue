@@ -64,7 +64,7 @@ export default {
 				/**
 				 * Since 4.1.06 we have tooltips
 				 */
-				this.showTooltip(screenID, widgetID)
+				this.showTooltip(widgetID)
 				
 			} else {
 				console.warn('EventMixin could not find', widgetID)
@@ -160,7 +160,7 @@ export default {
 			/**
 			 * Since 4.1.06 we have tooltips
 			 */
-			this.showTooltip(screenID, widgetID)
+			this.showTooltip(widgetID)
 		},
 
 		onWidgetMouseOut (screenID, widgetID,e){
