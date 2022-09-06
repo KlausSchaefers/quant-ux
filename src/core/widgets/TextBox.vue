@@ -30,6 +30,7 @@ export default {
         this.input.type = "text";
       } else {
         this.input = document.createElement("div");
+        css.add(this.input, "MatcWidgetTypeTextBoxPreview");
       }
       css.add(this.input, "MatcWidgetTypeTextBoxInput");
       this.domNode.appendChild(this.input);
@@ -232,6 +233,7 @@ export default {
     },
 
     render (model, style, scaleX, scaleY) {
+      console.debug('render', model.props.placeholder)
       this.model = model;
       this.style = style;
       this._validStyle = lang.clone(style);
@@ -261,8 +263,8 @@ export default {
       }
 
       if (model.props.validation && this.mode == "simulator") {
-        var validation = model.props.validation;
-        var type = validation.type;
+        const validation = model.props.validation;
+        let type = validation.type;
         if (type == "custom") {
           type = validation.subtype;
         }
@@ -294,9 +296,9 @@ export default {
          * stuff
          *
          */
-        var selector = model.id + "" + new Date().getTime();
+        const selector = model.id + "" + new Date().getTime();
 
-        var placeholderStyle = {
+        const placeholderStyle = {
           color: this.getPlaceHolderColor(style)
         };
 
@@ -322,7 +324,7 @@ export default {
     beforeSetStyle () {},
 
     getPlaceHolderColor (style) {
-      var c = new Color(style.color);
+      const c = new Color(style.color);
       c.a = 0.5;
       return c.toString();
     },
@@ -331,11 +333,11 @@ export default {
       if (!this._styleNode) {
         this._styleNode = [];
       }
-      var style = document.createElement("style");
+      const style = document.createElement("style");
       style.type = "text/css";
       style.setAttribute("matc", "true");
-      var s = "." + selector + "{";
-      for (var key in styles) {
+      let s = "." + selector + "{";
+      for (let key in styles) {
         s += key + " :" + styles[key] + ";";
       }
       s += "}";
@@ -348,15 +350,29 @@ export default {
       return this.value;
     },
 
+    unsetPlaceHolder () {
+      css.remove(this.input, "MatcWidgetTypeTextBoxInputPlaceholder");
+      this.input.style.color = this.style.color;
+    },
+
+    setPlaceholder (msg) {
+      if (this.mode == "simulator") {
+        this.input.placeholder = msg;
+      } else {
+        css.add(this.input, "MatcWidgetTypeTextBoxInputPlaceholder");
+        this.input.innerHTML = msg;
+        this.input.style.color = this.getPlaceHolderColor(this.style);
+      }
+    },
+
     setValue (value, ignoreValidation) {
+      this.unsetPlaceHolder()
       if (value != null && value != undefined && this.value != value) {
         this.value = value;
-        css.remove(this.input, "MatcWidgetTypeTextBoxInputPlaceholder");
         if (this.mode == "simulator") {
           this.input.value = value;
         } else {
           this.input.innerHTML = value;
-
           if (this.model.props.placeholder) {
             if (this.model.props.label != value) {
               this.input.style.color = this.style.color;
@@ -373,9 +389,9 @@ export default {
     },
 
     _validateValue (value) {
-      var validation = this.model.props.validation;
+      const validation = this.model.props.validation;
       if (validation) {
-        var type = validation.type;
+        let type = validation.type;
         if (type == "custom") {
           type = validation.subtype;
         }
@@ -468,7 +484,7 @@ export default {
             }
 
             if (operator == "length") {
-              var validString = true;
+              let validString = true;
               if (validation.min != null && validation.min != undefined) {
                 validString = validString && value.length >= validation.min;
               }
@@ -495,17 +511,9 @@ export default {
       this.setValue(v);
     },
 
-    setPlaceholder: function(msg) {
-      if (this.mode == "simulator") {
-        this.input.placeholder = msg;
-      } else {
-        css.add(this.input, "MatcWidgetTypeTextBoxInputPlaceholder");
-        this.input.innerHTML = msg;
-        this.input.style.color = this.getPlaceHolderColor(this.style);
-      }
-    },
+  
 
-    beforeDestroy: function() {
+    beforeDestroy () {
       if (this._compositeState) {
         this.emitCompositeState("text", this.input.value);
       }

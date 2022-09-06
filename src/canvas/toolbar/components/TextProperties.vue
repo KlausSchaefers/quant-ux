@@ -92,10 +92,10 @@ export default {
 
       postCreate() {
 
-        let row1 = this.$refs.row1
-		let row2 = this.$refs.row2
-		let row3 = this.$refs.row3
-		let row4 = this.$refs.row4
+        const row1 = this.$refs.row1
+		const row2 = this.$refs.row2
+		const row3 = this.$refs.row3
+		const row4 = this.$refs.row4
 
 
 		this.family = this.$new(ToolbarDropDownButton);

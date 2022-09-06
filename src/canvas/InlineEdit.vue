@@ -56,7 +56,7 @@ export default {
 		},
 
 		inlineEditStop (){
-			this.logger.log(-2,"inlineEditStop", "enter");
+			this.logger.log(2,"inlineEditStop", "enter");
 
 			if(this._inlineEditWidget && this._inlineEditStarted){
 				var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
