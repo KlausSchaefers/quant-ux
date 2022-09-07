@@ -1970,10 +1970,7 @@ export default class GridAndRuler extends Core {
 		let ignore = {};
 		if (!this.copyReferenceID) {
 			ignore = this.getSnappIgnores(screen)
-			console.debug('ignore', ignore)
 		}
-
-	
 
 		/**
 		 * now create the snapp lines for all other widgets in the screen
