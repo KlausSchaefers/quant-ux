@@ -1750,6 +1750,21 @@
 /*******************************
  * TextBox
  *******************************/
+
+ .MatchWidgetTypeTextBox {
+	overflow: hidden;
+ }
+
+ .MatcWidgetTypeTextBoxWrapper {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	border-style: solid;
+	left: 0px;
+    top: 0px;
+    border-style: solid;
+    overflow: hidden;
+ }
  
 .MatcWidgetTypeTextBoxPreview {
 	display: flex;
@@ -1759,16 +1774,17 @@
 }
 
 
-.MatcWidgetTypeTextBox .MatcWidgetTypeTextBoxInput{
+.MatcWidgetTypeTextBoxWrapper .MatcWidgetTypeTextBoxInput{
 	background: none;
 	width: 100%;
 	height:100%;
-	color:inherit;
 	position: absolute;
 	top :0px;
 	left:0px;
+	color:inherit;
 	border-style: solid;
 	outline: none;
+	border: none;
 }
 
 .MatcWidgetTypeTextBoxInputForm{

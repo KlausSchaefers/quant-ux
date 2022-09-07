@@ -1,5 +1,5 @@
 <template>
-  <div class="MatcWidgetTypeTextBox"></div>
+  <div class="MatcWidgetTypeTextBoxWrapper"></div>
 </template>
 <script>
 import DojoWidget from "dojo/DojoWidget";
@@ -34,7 +34,7 @@ export default {
       }
       css.add(this.input, "MatcWidgetTypeTextBoxInput");
       this.domNode.appendChild(this.input);
-      this._borderNodes = [this.input];
+      this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.input];
       this._paddingNodes = [this.input];
       this._shadowNodes = [this.input];
@@ -233,7 +233,7 @@ export default {
     },
 
     render (model, style, scaleX, scaleY) {
-      console.debug('render', model.props.placeholder)
+
       this.model = model;
       this.style = style;
       this._validStyle = lang.clone(style);

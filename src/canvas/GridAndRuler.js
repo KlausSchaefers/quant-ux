@@ -1970,7 +1970,10 @@ export default class GridAndRuler extends Core {
 		let ignore = {};
 		if (!this.copyReferenceID) {
 			ignore = this.getSnappIgnores(screen)
+			console.debug('ignore', ignore)
 		}
+
+	
 
 		/**
 		 * now create the snapp lines for all other widgets in the screen
@@ -2016,15 +2019,22 @@ export default class GridAndRuler extends Core {
 
 
 	getSnappIgnores(screen) {
-		const ignore = []
+		const ignore = {}
 		/**
 		 * Ignore elements in the same group right...
 		 */
-		var group = this.getParentGroup(this.selectedID)
+		const group = this.getParentGroup(this.selectedID)
 		if (group && !this.ignoreGroup) {
 			for (let i = 0; i < group.children.length; i++) {
 				ignore[group.children[i]] = true
 			}
+		}
+
+		/** 
+		 * Do not snapp on itself
+		 */
+		if (this.selectedModel && this.selectedModel.id) {
+			ignore[this.selectedModel.id] = true
 		}
 
 		/**
