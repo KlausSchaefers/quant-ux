@@ -562,21 +562,21 @@ export default {
 				let z = '1'
 				if (this.model.grid.type === "columns"){
 
-					let h = this.model.grid.h * 1
-					let w = this.model.grid.w * 1
+					const h = this.model.grid.h * 1
+					const w = this.model.grid.w * 1
 				
 					if (!this.gridBackground[z]){
-						let columnCount = this.model.grid.columnCount * 1;
-						let columnOffset = this.model.grid.columnOffset * 1;
-						let columnGutter = this.model.grid.columnGutter * 1;
-						let columnWidth = this.model.grid.columnWidth * 1;
+						const columnCount = this.model.grid.columnCount * 1;
+						const columnOffset = this.model.grid.columnOffset * 1;
+						const columnGutter = this.model.grid.columnGutter * 1;
+						const columnWidth = this.model.grid.columnWidth * 1;
 					
-						let c = document.createElement("canvas");
+						const c = document.createElement("canvas");
 						c.width = this.sourceModel.screenSize.w;
 						c.height = 1;
-						let context = c.getContext("2d");
+						const context = c.getContext("2d");
 
-						var lastX = columnOffset;
+						let lastX = columnOffset;
 						for (let i=0; i< columnCount; i++){
 							let x = lastX + columnWidth;
 						
@@ -611,14 +611,14 @@ export default {
 					 * We render with double resolution and let the broser sort it out. Wr could call
 					 * this on zoom and adopt z to the zoom
 					 */
-					let z = 2
-					let h = this.model.grid.h * z;
-					let w = this.model.grid.w * z;
+					const z = 2
+					const h = this.model.grid.h * z;
+					const w = this.model.grid.w * z;
 
 					if (w > 0 && h > 0 && w < this.sourceModel.screenSize.w && h < this.sourceModel.screenSize.h ){
 
 						if (!this.gridBackground[z]){
-							let c= document.createElement("canvas");
+							let c = document.createElement("canvas");
 							c.width=w;
 							c.height=h;
 							let context = c.getContext("2d");
@@ -693,38 +693,31 @@ export default {
 
 		createZoomedWidget (widget) {
 			this.logger.log(-1,"createZoomedWidget", "enter");
-
-			var div = this.createBox(widget);
+			const div = this.createBox(widget);
 			css.add(div, "MatcWidget");
-
 			this.renderFactory.setScaleFactor(this.zoom, this.zoom)
 			this.renderFactory.createWidgetHTML(div, widget);
 			this.renderFactory.setScaleFactor(1, 1)
-
 			if(this.hasLine(widget)){
 				css.add(div, "MatcWidgetWithTransition");
 			}
-
 			return div;
 		},
 
 		createWidget (widget){
 			this.logger.log(4,"createWidget", "enter");
-			var div = this.createBox(widget);
+			const div = this.createBox(widget);
 			css.add(div, "MatcWidget");
-
 			this.renderFactory.createWidgetHTML(div, widget);
-
 			if(this.hasLine(widget)){
 				css.add(div, "MatcWidgetWithTransition");
 			}
-
 			return div;
 		},
 
 		createBox (box){
 			this.logger.log(6,"createBox", "enter");
-			var div = document.createElement("div");
+			const div = document.createElement("div");
 			this.domUtil.setBox(div, box)
 			css.add(div, "MatcBox");
 			return div;
@@ -929,14 +922,14 @@ export default {
 			***************************************************************************/
 
 		getCanvasMousePosition (e){
-			var pos = this._getMousePosition(e);
+			const pos = this._getMousePosition(e);
 			pos.x -= (this.domPos.x + this.canvasPos.x);
 			pos.y-= (this.domPos.y + this.canvasPos.y);
 			return pos;
 		},
 
 		getRelCanvasMousePosition (e){
-			var pos = this.getCanvasMousePosition(e);
+			const pos = this.getCanvasMousePosition(e);
 			pos.x = pos.x / this.getZoomed(this.canvasPos.w, this.zoom);
 			pos.y = pos.y / this.getZoomed(this.canvasPos.h, this.zoom);
 			return pos;
@@ -944,7 +937,7 @@ export default {
 
 
 		getAbsCanvasMousePosition (e){
-			var pos = this._getMousePosition(e);
+			const pos = this._getMousePosition(e);
 			return pos;
 		},
 
@@ -1006,14 +999,11 @@ export default {
 
 		cleanUpAlignment (){
 			this.logger.log(4,"cleanUpAlignment","enter");
-
 			if(this._alignmentTool){
 				this._alignmentTool.cleanUp();
 				delete this._alignmentTool;
 			}
-
 			this._alignmentToolInited = false;
-
 		},
 
 		getModelPosition (){
@@ -1025,11 +1015,11 @@ export default {
 		 * Cancel stuff
 		 ***************************************************************************/
 		/**
-			* Register a call back that will be called in case
-			* an cancel action is executed. The name of the
-			* method has to be passed. The methods can return true,
-			* to request an rerendering.
-			*/
+		 * Register a call back that will be called in case
+		 * an cancel action is executed. The name of the
+		 * method has to be passed. The methods can return true,
+		 * to request an rerendering.
+		 */
 		setCanvasCancelCallback (l){
 			this._cancelCallback = l;
 		},
@@ -1039,33 +1029,25 @@ export default {
 		},
 
 		onCancelAction (){
-
 			this.logger.log(0,"onCancelAction", "enter > " + this._cancelCallback);
-
-			if(this._cancelCallback && this[this._cancelCallback]){
-
-				var rerender = this[this._cancelCallback]();
+			if (this._cancelCallback && this[this._cancelCallback]){
+				const rerender = this[this._cancelCallback]();
 				if(rerender){
 					this.rerender();
 				}
 			} else {
 				this.rerender();
 			}
-
 			this._cancelCallback = null;
 		},
 
-
-
 		/***************************************************************************
-			* Helper
-			***************************************************************************/
-		getColor: function(value){
-
+		* Helper
+		***************************************************************************/
+		getColor (value){
 			if(value == 0){
 				return this.defaultLineColor;
 			}
-
 			return this.mixColor(value);
 		},
 

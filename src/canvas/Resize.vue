@@ -31,9 +31,9 @@ export default {
          * FIXME: here is a bug! We have an issue, if no widget is in the upper left corner alone,
          * for instance the cross.
          */
-        var boundingBox = this.getBoundingBox(children);
-        for(var i=0; i< children.length; i++){
-          var id = children[i];
+        const boundingBox = this.getBoundingBox(children);
+        for(let i=0; i< children.length; i++){
+          const id = children[i];
           // var widget = this.model.widgets[id];
           //if(widget.x == boundingBox.x  widget.y == boundingBox.y){
             boundingBox.id = id;
@@ -45,14 +45,14 @@ export default {
 
 
       _updateGroupResizeHandlers (children,groupID, type) {
-          var boundingBox = this.getBoundingBox(children);
+          const boundingBox = this.getBoundingBox(children);
           this._updateResizeHandlers(boundingBox,groupID, null, type, true);
       },
 
 
 
       showResizeHandles (box, id, parent, modelType, drawLines) {
-
+ 
         if (!this.resizeEnabled){
           return;
         }
@@ -65,7 +65,7 @@ export default {
          * add corners. For screen we have only the south handler...
          */
         if (modelType != "inheritedWidget") {
-          var l = (this.resizeButtonSize * 2) +1;
+          const l = (this.resizeButtonSize * 2) +1;
           if (modelType == "screen"){
             this._renderResizeHandler('South', l, parent, id, modelType);
 
@@ -74,8 +74,8 @@ export default {
             }
 
           } else {
-            var locked = box.style && box.style.locked;
-            var noResize = box.has && box.has.noresize;
+            const locked = box.style && box.style.locked;
+            const noResize = box.has && box.has.noresize;
             if(!noResize && !locked){
               this._renderResizeHandler('RightUp', l, parent, id, modelType);
               this._renderResizeHandler('LeftUp', l, parent, id, modelType);
@@ -138,7 +138,7 @@ export default {
           }
         }
 
-        var div = document.createElement("div");
+        const div = document.createElement("div");
         div.style.width = l + "px";
         div.style.height = l + "px";
         css.add(div, "MatcResizeHandle MatcPrototypingHandle ");
@@ -149,7 +149,7 @@ export default {
       },
 
       _renderResizeHandler (type, l, parent, id, modelType){
-        var div = document.createElement("div");
+        const div = document.createElement("div");
         div.style.width = l + "px";
         div.style.height = l + "px";
         css.add(div, "MatcResizeHandle MatchResize"+type);
@@ -160,7 +160,7 @@ export default {
       },
 
       _renderResizeLine (type){
-        var div = document.createElement("div");
+        const div = document.createElement("div");
         div.style.height="1px"
         div.style.width="1px"
         css.add(div, "MatcResizeBorder MatcResizeBorder"+type);
@@ -168,7 +168,24 @@ export default {
         this.dndContainer.appendChild(div);
       },
 
-      _updateResizeHandlers (box){
+      getPresionBox (box)  {
+        if (box.id) {
+          const zoom = this.getZoomFactor()
+          const sourceBox = this.sourceModel.widgets[box.id]
+          box = {
+            x: sourceBox.x * zoom,
+            w: sourceBox.w * zoom,
+            h: sourceBox.h * zoom,
+            y: sourceBox.y * zoom,
+            id: box.id
+          }
+        }
+        return box
+      },
+
+      _updateResizeHandlers (boundingBox){
+
+        const box = this.getPresionBox(boundingBox)
        
         if (this.handlers && box && this.resizeEnabled) {
           if (this.handlers['LeftUp']) {

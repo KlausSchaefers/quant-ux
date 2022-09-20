@@ -17,94 +17,92 @@ import topic from 'dojo/topic'
     components: {},
     methods: {
 
-			isScreenSelected (id) {
-				if (this._selectedScreen) {
-					return this._selectedScreen.id === id
-				}
-				if (this._selectMulti) {
-					return this._selectMulti.indexOf(id) > -1
-				}
-				return false
-			},
+		isScreenSelected (id) {
+			if (this._selectedScreen) {
+				return this._selectedScreen.id === id
+			}
+			if (this._selectMulti) {
+				return this._selectMulti.indexOf(id) > -1
+			}
+			return false
+		},
 
-			isWidgetSelected (id) {
-				if (this._selectWidget) {
-					return this._selectWidget.id === id
-				}
-				if (this._selectMulti) {
-					return this._selectMulti.indexOf(id) > -1
-				}
-				if (this._selectGroup && this._selectGroup.children) {
-					return this._selectGroup.children.indexOf(id) > -1
-				}
-				return false
-			},
+		isWidgetSelected (id) {
+			if (this._selectWidget) {
+				return this._selectWidget.id === id
+			}
+			if (this._selectMulti) {
+				return this._selectMulti.indexOf(id) > -1
+			}
+			if (this._selectGroup && this._selectGroup.children) {
+				return this._selectGroup.children.indexOf(id) > -1
+			}
+			return false
+		},
 
-      
-	 
-	 		onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
-				this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
+	
+	
+		onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
+			this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 
-				/**
-				 * Check here if the widget was select a second time. In this case
-				 * trigger the inline edit unless the forceSelection flag is set. This happens
-				 * normally only after a complete rendering. Check this.renderSelection() for
-				 * more details.
-				 */
-				if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
-					topic.publish("matc/canvas/click", "", "");
-					this.inlineEditInit(this._selectWidget);
-				} else {
-					this.onSelectionChanged(id, "widget");
-					if (this.model.widgets[id]){
-						this._selectWidget = this.model.widgets[id];
+			/**
+			 * Check here if the widget was select a second time. In this case
+			 * trigger the inline edit unless the forceSelection flag is set. This happens
+			 * normally only after a complete rendering. Check this.renderSelection() for
+			 * more details.
+			 */
+			if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
+				topic.publish("matc/canvas/click", "", "");
+				this.inlineEditInit(this._selectWidget);
+			} else {
+				this.onSelectionChanged(id, "widget");
+				if (this.model.widgets[id]){
+					this._selectWidget = this.model.widgets[id];
 
-						if (ignoreParentGroups === true) {
-							this._dragNDropIgnoreGroup = true
-						}
-
-						var parent = this.widgetDivs[id];
-						if (parent){
-							if (this.showCustomHandlers) {
-								this.showCustomHandlers(this._selectWidget, parent)
-							}
-							this.showResizeHandles(this._selectWidget,id, parent, "widget", true);
-							this.selectBox(parent);
-							this.selectDnDBox(id);
-						}
-						this.controller.onWidgetSelected(id);
-					} else {
-						console.warn("onWidgetSelected() > No widget with id", id);
+					if (ignoreParentGroups === true) {
+						this._dragNDropIgnoreGroup = true
 					}
-				}
-				css.add(this.domNode, "MatcCanvasSelection");
-				try {
-					if (this.selectionListener) {
-						this.selectionListener.selectWidget(id);
+
+					const parent = this.widgetDivs[id];
+					if (parent){
+						if (this.showCustomHandlers) {
+							this.showCustomHandlers(this._selectWidget, parent)
+						}
+						this.showResizeHandles(this._selectWidget,id, parent, "widget", true);
+						this.selectBox(parent);
+						this.selectDnDBox(id);
 					}
-				} catch (e){
-					console.debug(e)
-					this.logger.error("onWidgetSelected", "could not call selectionListener > ", e);
-				}
-			},
-
-			onInheritedWidgetSelected (id) {
-				this.logger.log(-3,"onInheritedWidgetSelected", "enter > "+id);
-			
-				let widget = this.model.widgets[id];
-				if (widget){
-
-					this.onSelectionChanged(id, "inheritedWidget");
-					this.controller.onInheritedWidgetSelected(widget);
-					var parent  = this.widgetDivs[widget.id];
-					this._selectInheritedWidget = widget
-					this.selectBox(parent);
-					this.showResizeHandles(widget, widget.id, parent, "inheritedWidget", true);
+					this.controller.onWidgetSelected(id);
 				} else {
-					this.logger.log(-3,"onInheritedWidgetSelected", "cannot find > " + id);
+					console.warn("onWidgetSelected() > No widget with id", id);
 				}
-				
-			},
+			}
+			css.add(this.domNode, "MatcCanvasSelection");
+			try {
+				if (this.selectionListener) {
+					this.selectionListener.selectWidget(id);
+				}
+			} catch (e){
+				console.debug(e)
+				this.logger.error("onWidgetSelected", "could not call selectionListener > ", e);
+			}
+		},
+
+		onInheritedWidgetSelected (id) {
+			this.logger.log(-3,"onInheritedWidgetSelected", "enter > "+id);
+		
+			const widget = this.model.widgets[id];
+			if (widget){
+				this.onSelectionChanged(id, "inheritedWidget");
+				this.controller.onInheritedWidgetSelected(widget);
+				var parent  = this.widgetDivs[widget.id];
+				this._selectInheritedWidget = widget
+				this.selectBox(parent);
+				this.showResizeHandles(widget, widget.id, parent, "inheritedWidget", true);
+			} else {
+				this.logger.log(-3,"onInheritedWidgetSelected", "cannot find > " + id);
+			}	
+		},
 
 
 		onScreenSelected (id){
@@ -118,7 +116,7 @@ import topic from 'dojo/topic'
 			if(this.model.screens[id]){
 				this._selectedScreen = this.model.screens[id];
 
-				var parent = this.screenDivs[id];
+				const parent = this.screenDivs[id];
 				this.showResizeHandles(this._selectedScreen, id, parent, "screen", true);
 				this.selectBox(parent);
 
