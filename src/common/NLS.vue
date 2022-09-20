@@ -16,6 +16,14 @@ export default {
   },
   components: {},
   methods: {
+    getNlSWithReplacement (key, values) {
+      let translated = this.getNLS(key)
+      for (let key in values) {
+        const value = values[key]
+        translated = translated.replace(new RegExp(`\{\{${key}\}\}`), value)
+      }
+      return translated
+    },
     getNLS (key) {
       if (this.$i18n) {
         let result = this.$i18n.t(key)
@@ -26,7 +34,7 @@ export default {
       /**
        * This can happen for elements that are mounted with DojoWidget.$new
        */
-      let result = JSONPath.get(nls, key)
+      const result = JSONPath.get(nls, key)
       if (result) {
         return result
       }

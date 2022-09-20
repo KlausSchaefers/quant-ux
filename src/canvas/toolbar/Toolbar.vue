@@ -260,17 +260,17 @@ export default {
 		getMainMenu   () {
 
 			var options = [
- 			  {label : this.$i18n.t('toolbar.menu.start'), callback:lang.hitch(this, "startSimilator") },
-			  {label : this.$i18n.t('toolbar.menu.settings'), callback:lang.hitch(this, "onShowSettings")},
-			  {label : this.$i18n.t('toolbar.menu.shortcuts'), callback:lang.hitch(this, "showShortCuts")},
-			  {label : this.$i18n.t('toolbar.menu.share'), callback:lang.hitch(this, "showSharing")},
-			  {label : this.$i18n.t('toolbar.menu.import'), callback:lang.hitch(this, "showImportDialog")},
-			  {label : this.$i18n.t('toolbar.menu.export'), callback:lang.hitch(this, "showDownloadDialog")},
+ 			  {label : this.getNLS('toolbar.menu.start'), callback:lang.hitch(this, "startSimilator") },
+			  {label : this.getNLS('toolbar.menu.settings'), callback:lang.hitch(this, "onShowSettings")},
+			  {label : this.getNLS('toolbar.menu.shortcuts'), callback:lang.hitch(this, "showShortCuts")},
+			  {label : this.getNLS('toolbar.menu.share'), callback:lang.hitch(this, "showSharing")},
+			  {label : this.getNLS('toolbar.menu.import'), callback:lang.hitch(this, "showImportDialog")},
+			  {label : this.getNLS('toolbar.menu.export'), callback:lang.hitch(this, "showDownloadDialog")},
 			  {css:"MatcToolbarPopUpLine"},
-			  {label : this.$i18n.t('toolbar.menu.change-screen-size'), callback:lang.hitch(this, "onChangeScreenSize")},
-			  {label :this.$i18n.t('toolbar.menu.save-as'), callback:lang.hitch(this, "onSaveAs")},
+			  {label : this.getNLS('toolbar.menu.change-screen-size'), callback:lang.hitch(this, "onChangeScreenSize")},
+			  {label :this.getNLS('toolbar.menu.save-as'), callback:lang.hitch(this, "onSaveAs")},
 			  {css:"MatcToolbarPopUpLine"},
-			  {label : this.$i18n.t('toolbar.menu.exit'), callback:lang.hitch(this, "onExit")},
+			  {label : this.getNLS('toolbar.menu.exit'), callback:lang.hitch(this, "onExit")},
 			]
 			return options
 		},
@@ -1197,7 +1197,7 @@ export default {
 			this.stopEvent(e);
 			this.logger.log(1,"onToolCreateTemplate", "entry : " + this._selectedWidget);
 
-			var name = this.$i18n.t("toolbar.templates.new");
+			let name = this.getNLS("toolbar.templates.new");
 			if(this._selectedWidget && this._selectedWidget.name){
 				name = this._selectedWidget.name;
 			}

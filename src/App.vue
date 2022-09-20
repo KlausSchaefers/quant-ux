@@ -65,6 +65,10 @@ export default {
 			this.$router.push('/')
 			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)
 		}
+	},
+	initNLS () {
+		let language = Services.getUserService().getLanguage()
+		this.$root.$i18n.locale = language
 	}
   },
   async mounted () {
@@ -84,9 +88,7 @@ export default {
 		Services.getUserService().setUser(user)
 	})
 	css.remove(win.body(), 'MatcPublic')
-
-	let language = Services.getUserService().getLanguage()
-	this.$root.$i18n.locale = language
+	this.initNLS()
   }
 }
 </script>

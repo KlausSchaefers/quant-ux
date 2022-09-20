@@ -6,7 +6,6 @@ import VueI18n from 'vue-i18n'
 import Services from 'services/Services'
 
 
-
 async function start() {
   await Services.initConfig()
   let conf = await Services.getConfig()
@@ -30,6 +29,7 @@ async function start() {
         'cn': require('./nls/cn.json'),
         'de': require('./nls/de.json'),
         'pt-br': require('./nls/pt_br.json'),
+        'pt': require('./nls/pt_br.json')
       }
     }),
     render: h => h(App)

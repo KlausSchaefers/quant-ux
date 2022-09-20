@@ -24,7 +24,24 @@
           "exit": "Exit"
       }
   },
-
+  "simulator": {
+    "welcome": {
+        "title": "Willkommen",
+        "msg": 	"Sie wurden eingeladen den <b>{{name}}</b> Prototypen zu testen. Klicken Sie auf <b>Starten</b>, um den Test zu beginnen.",
+        "privacy": "Dies ist ein Usabilitytest und ihre Interaktionen werden gespeichert. Es werden <u>keine persönlichen Informationen</u> gespeichert.",
+        "start": "Starten",
+        "showTasks": "Aufgaben zeigen"
+    },
+    "tasks": {
+        "title": "Aufgaben",
+        "msg": "Bitte versuchen Sie die folgenden Aufgaben zu erfüllen."
+    },
+    "password": {
+        "title": "Passwort",
+        "msg": "Bitte geben Sie das Passwort ein und klicken Sie auf <b>Weiter</b>",
+        "next": "Weiter"
+    }
+  },
   "table": {
       "action": "Action"
   },

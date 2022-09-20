@@ -9,16 +9,15 @@
      		<transition name="fade">
 						<div class="MatcSimulatorContent" v-if="step === 6">
 							<div class="MatcSimulatorContentCntr">
-								<h2>Password</h2>
-								<p>
-									To test this prototype you need a password. Please enter
-									the password and press 	&quot;Next	&quot;
+								<h2>{{getNLS("simulator.password.title")}} </h2>
+								<p v-html="getNLS('simulator.password.msg')">
+									
 								</p>
 								<input v-model="password" class="form-control MatcMarginTop" @keypress.enter="setPassword"/>
 
 								<div class="MatcMarginTop">
 									<div  class="MatcButton MatcSimulatorStartBtn" @click="setPassword()">
-										Next
+										{{getNLS("simulator.password.next")}}
 									</div>
 									<span class="MatcError" style="margin-left:20px">
 										{{passwordError}}
@@ -29,58 +28,53 @@
 						</div>
 						<div class="MatcSimulatorContent" v-if="step === 2">
 							<div class="MatcSimulatorContentCntr">
-								<h2>Welcome!</h2>
-								<p v-if="settings.description">
-									{{settings.description}}
-								</p>
-								<p v-else>
-									You were invited for a usability test of the "{{model.name}}" application.
-									You can try out the prototype by clicking on the <b>Start Prototype</b> button.
-								</p>
-								<p>
-									This is a usability test and your interaction will be stored to make the design better.
-											We <u>do not store</u> any personal information about you.
-								</p>
-							</div>
-							<div class="MatcMarginTop">
-								<div  class="MatcButton MatcSimulatorStartBtn" @click="onStart()" v-if="getUserTasks().length === 0">
-									Start Prototype
+								<h2> {{getNLS("simulator.welcome.title")}} !</h2>
+									<p v-if="settings.description" >
+										{{settings.description}}
+									</p>
+									<p v-else v-html="getNlSWithReplacement('simulator.welcome.msg', {'name': model.name})"></p>
+									<p v-html="getNLS('simulator.welcome.privacy')"></p>
 								</div>
-								<div class="MatcButton MatcSimulatorStartBtn" @click="step = 3" v-else>
-									Show Tasks
+								<div class="MatcMarginTop">
+									<div  class="MatcButton MatcSimulatorStartBtn" @click="onStart()" v-if="getUserTasks().length === 0">
+										{{getNLS("simulator.welcome.start")}}
+									</div>
+									<div class="MatcButton MatcSimulatorStartBtn" @click="step = 3" v-else>
+										{{getNLS("simulator.welcome.showTasks")}}
+									</div>
 								</div>
-							</div>
 						</div>
 						<div class="MatcSimulatorContent" v-if="step === 3">
 							<div class="MatcSimulatorContentCntr">
-							<h2>Tasks!</h2>
-							<p>
-								Please perform the following steps!
-							</p>
-							<div v-for="t in getUserTasks()" :key="t.id">
-								<h3>{{t.name}}</h3>
-								<div class="MatcTestTaskDescription">
-									{{t.description}}
+								<h2>{{getNLS("simulator.tasks.title")}} !</h2>
+								<p>
+									{{getNLS("simulator.tasks.msg")}}
+								</p>
+								<div v-for="t in getUserTasks()" :key="t.id">
+									<h3>{{t.name}}</h3>
+									<div class="MatcTestTaskDescription">
+										{{t.description}}
+									</div>
 								</div>
-							</div>
 							</div>
 
 							<div class="MatcMarginTop">
 							<div class="MatcButton MatcSimulatorStartBtn" @click="onStart()">
-								Start Prototype
+								{{getNLS("simulator.welcome.start")}}
 							</div>
 						</div>
 					</div>
      		</transition>
 
-        <div class="MatcSimulatorStartBtn" data-dojo-attach-point="startNode" v-show="step === 4">Test Prototype</div>
+        <div class="MatcSimulatorStartBtn" data-dojo-attach-point="startNode" v-show="step === 4">
+			{{getNLS("simulator.welcome.start")}}
+		</div>
 
       </div>
-      <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4">
-        This is a usability test and your interaction will be stored to make the design better.
-        We <u>do not store</u> any personal information about you.
+      <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
+       
       </div>
-      <div class="MatcSimulatorVersion">v4.1.09 </div>
+      <div class="MatcSimulatorVersion">v4.1.15</div>
     </div>
   </div>
 </template>
@@ -186,8 +180,6 @@ export default {
 				// FIXME: On reloads this may cause issues because we get several screens
 				this.baseURI = uri
 
-			
-
 				if(params.live == "true"){
 					this.live = true;
 				}
@@ -219,7 +211,11 @@ export default {
 						this.setInvitation(params.h);
 						Services.getModelService().findAppByHash(params.h).then(app => this.loadSettings(app))
 					}
+				}
 
+				if (params.ln) {
+					this.logger.log(-1,"postCreate", "Set custom language " + params.ln);
+					this.$root.$i18n.locale = params.ln
 				}
 
 			} else {

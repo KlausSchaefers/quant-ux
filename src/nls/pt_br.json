@@ -12,6 +12,24 @@
         "loading": "Carregando...",
         "language-changed": "A língua foi alterada"
     },
+    "simulator": {
+        "welcome": {
+            "title": "Benvindo",
+            "msg": 	"You were invited for a usability test of the <b>{{name}}</b> application. You can try out the prototype by clicking on the <b>Start Prototype</b> button.",
+            "privacy": "This is a usability test. Please be aware that your interaction will be recored to make the design better. We do not store any personal information about you.",
+            "start": "Start Prototype",
+            "showTasks": "Show Tasks"
+        },
+        "tasks": {
+            "title": "Title",
+            "msg": "Please perform the following tasks."
+        },
+        "password": {
+            "title": "Password",
+            "msg": "To test this prototype you need a password. Please enter the password and press <b>Next</b>",
+            "next": "Next"
+        }
+    },
     "toolbar": {
         "menu": {
             "start": "Iniciar Simulador",
