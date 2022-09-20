@@ -45,7 +45,7 @@ function addLine (result, line, id, attach, max) {
 
 
 function getBoundingBox (model, ids) {
-    var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
+    var result = { x: 100000000, y: 100000000, w: 0, h: 0 , isBoundingBox: true, ids: ids};
 
     for (var i = 0; i < ids.length; i++) {
       var id = ids[i];

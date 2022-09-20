@@ -7,11 +7,11 @@ class ModelGeom {
 
     getBoundingBox (ids, model) {
         // console.debug('ModelGeom.getBoundingBox', ids, model)
-        var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
+        const result = { x: 100000000, y: 100000000, w: 0, h: 0 , isBoundingBox: true, ids: ids};
 
-        for (var i = 0; i < ids.length; i++) {
-            var id = ids[i];
-            var box = this.getBoxById(id, model);
+        for (let i = 0; i < ids.length; i++) {
+            const id = ids[i];
+            const box = this.getBoxById(id, model);
             if (box) {
                 result.x = Math.min(result.x, box.x);
                 result.y = Math.min(result.y, box.y);
@@ -27,10 +27,10 @@ class ModelGeom {
     }
 
     getBoundingBoxByBoxes (boxes) {
-        var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
+        const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true};
 
-        for (var i = 0; i < boxes.length; i++) {
-            var box = boxes[i];
+        for (let i = 0; i < boxes.length; i++) {
+            const box = boxes[i];
             result.x = Math.min(result.x, box.x);
             result.y = Math.min(result.y, box.y);
             result.w = Math.max(result.w, box.x + box.w);

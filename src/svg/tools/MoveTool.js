@@ -22,10 +22,10 @@ export default class MoveTool extends Tool{
     }
 
     getBoundingBoxByBoxes (boxes) {
-        var result = { x: 100000000, y: 100000000, w: 0, h: 0 };
+        const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true};
 
-        for (var i = 0; i < boxes.length; i++) {
-            var box = boxes[i];
+        for (let i = 0; i < boxes.length; i++) {
+            const box = boxes[i];
             result.x = Math.min(result.x, box.x);
             result.y = Math.min(result.y, box.y);
             result.w = Math.max(result.w, box.x + box.width);
