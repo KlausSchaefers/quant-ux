@@ -46,6 +46,7 @@ export default {
 			 * 11 = StandAlone
 		 	 */
       return {
+			roundCoordinates: false,
 			state: 0,
 			isSinglePage: false,
 			defaultFontSize: 12,
@@ -312,14 +313,14 @@ export default {
 		renderPartial (sourceModel, changes) {
 			this.logger.log(1,"renderPartial", "enter", changes);
 			this.sourceModel = sourceModel;
-			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
+			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom, this.roundCoordinates)
 		},
 
 		renderZoom () {
 			this.setContainerPos()
 			if (this.model) {
 				this.cleanUpScreenButtons()
-				this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom)
+				this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom, this.roundCoordinates)
 				this.updateDnD(this.model)
 				/**
 				 * 4.0.40: We do not call renderSelection(),as this would also update the 
@@ -338,7 +339,7 @@ export default {
 		onWidgetPositionChange (sourceModel) {
 			this.logger.log(1,"onWidgetPositionChange", "enter", sourceModel);
 			this.sourceModel = sourceModel;
-			this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
+			this.model = ModelUtil.createScalledModel(sourceModel, this.zoom, this.roundCoordinates)
 			this.renderFactory.setZoomedModel(sourceModel);
 			this.renderFactory.updatePositions(sourceModel)
 			this.renderLayerList(sourceModel);
@@ -359,7 +360,7 @@ export default {
 				/**
 				 * Use to render drag and drop nodes
 				 */
-				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom)
+				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom, this.roundCoordinates)
 
 				this.renderFlowViewFast(this.sourceModel, this.model, isResize);
 

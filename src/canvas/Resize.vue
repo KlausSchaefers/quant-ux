@@ -168,28 +168,10 @@ export default {
         this.dndContainer.appendChild(div);
       },
 
-      getPresionBox (box)  {
-        if (box.id && !box.isBoundingBox) {
-          const zoom = this.getZoomFactor()
-          const sourceBox = this.sourceModel.widgets[box.id]
-          box = {
-            x: sourceBox.x * zoom,
-            w: sourceBox.w * zoom,
-            h: sourceBox.h * zoom,
-            y: sourceBox.y * zoom,
-            id: box.id
-          }
-        }
-        return box
-      },
-
+     
       _updateResizeHandlers (boundingBox){
 
-        // FIXME: The resize box is sometimes a little bit off, 
-        // because we have a rounding issue> it would be great of we could
-        // use the source box and scale it witjoutr rounding. However this
-        // does not work for resizing, because the sourceModel is not updated..
-        const box = boundingBox //this.getPresionBox(boundingBox)
+        const box = boundingBox
        
         if (this.handlers && box && this.resizeEnabled) {
           if (this.handlers['LeftUp']) {

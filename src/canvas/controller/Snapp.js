@@ -4,7 +4,7 @@ import ModelUtil from '../../core/ModelUtil'
 export default class Snapp extends Screen {
 
 	correctPostion (id, pos, fromToolbar){
-
+		this.logger.log(4,"correctPostion", "enter > " , pos);
 		if(!fromToolbar){
 			pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 		}
@@ -24,6 +24,7 @@ export default class Snapp extends Screen {
 				}
 			}
 		}
+		this.logger.log(4,"correctPostion", "exit > " , pos);
 		return pos;
 	}
 

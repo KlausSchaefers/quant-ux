@@ -1,4 +1,5 @@
 import lang from '../dojo/_base/lang'
+import Logger from './Logger'
 
 class ModelUtil {
 
@@ -319,22 +320,27 @@ class ModelUtil {
         return Object.values(model.templates).filter(t => t.variantOf === template.id)
     } 
 
-    createScalledModel(model, zoom) {
+    createScalledModel(model, zoom, round = true) {
+
+        if (!round) {
+            Logger.log(1, 'ModelUtil.createScalledModel() > do not round!')
+        }
 
         const zoomedModel = lang.clone(model);
         zoomedModel.isZoomed = true;
 
-        this.getZoomedBox(zoomedModel.screenSize, zoom, zoom);
+        this.getZoomedBox(zoomedModel.screenSize, zoom, zoom, round);
 
         for (let id in zoomedModel.widgets) {
-            this.getZoomedBox(zoomedModel.widgets[id], zoom, zoom);
+            this.getZoomedBox(zoomedModel.widgets[id], zoom, zoom, round);
         }
 
         for (let id in zoomedModel.screens) {
-            var zoomedScreen = this.getZoomedBox(
+            const zoomedScreen = this.getZoomedBox(
                 zoomedModel.screens[id],
                 zoom,
-                zoom
+                zoom,
+                round
             );
 
             /**
@@ -354,8 +360,8 @@ class ModelUtil {
                      * When we copy a screen we might not have the org widget yet
                      */
                     var orgScreen = model.screens[zoomedScreen.id];
-                    var difX = this.getZoomed(orgWidget.x - orgScreen.x, zoom);
-                    var difY = this.getZoomed(orgWidget.y - orgScreen.y, zoom);
+                    var difX = this.getZoomed(orgWidget.x - orgScreen.x, zoom, round);
+                    var difY = this.getZoomed(orgWidget.y - orgScreen.y, zoom, round);
                     if (orgWidget.parentWidget) {
                         if (zoomWidget.x >= 0) {
                             zoomWidget.x = zoomedScreen.x + difX;
@@ -374,15 +380,14 @@ class ModelUtil {
         for (let id in zoomedModel.lines) {
             let line = zoomedModel.lines[id];
             for (let i = 0; i < line.points.length; i++) {
-                this.getZoomedBox(line.points[i], zoom, zoom);
+                this.getZoomedBox(line.points[i], zoom, zoom, round);
             }
         }
-
 
         return zoomedModel;
     }
 
-
+   
     getZoomedBox(box, zoomX, zoomY, round = true) {
         if (box.x) {
             box.x = this.getZoomed(box.x, zoomX, round);
