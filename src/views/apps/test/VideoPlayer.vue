@@ -1121,7 +1121,7 @@ export default {
 				}
 
 			} catch (err) {
-				console.warn("Simualtor.setTime() > Error", err)
+				console.warn("VideoPlayer.setTime() > Error", err)
 			}
 			
 

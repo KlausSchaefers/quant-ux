@@ -6,7 +6,7 @@
 	 "subcategory" : "AAA",
 	 "_type" : "Widget",
 	 "name" : "Hotspot",
-	 "description": "Use Hotspot to define clickable areas in images. The red border is not shown in the simualtor.",
+	 "description": "Use Hotspot to define clickable areas in images. The red border is not shown in the simulator.",
 	 "x" : 0,
      "y" : 0,
      "w" : 100,

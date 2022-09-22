@@ -1203,7 +1203,7 @@ export default class Animation extends Core{
 	 * 1) startTime is set
 	 *
 	 * 2) run() can optional be called called. If no startTime is set, the current time is used. Run call requestAnimationFrame()
-	 * unil the duration is finished. Run is for the simualtor basically.
+	 * unil the duration is finished. Run is for the simulator basically.
 	 *
 	 * 3) time() is called, weather by code or run(). The method calculates the percentage of the
 	 * animation and calls the renderCalback.

@@ -5,17 +5,29 @@
 <script>
 import nls from '../nls/en.json'
 import JSONPath from 'core/JSONPath'
+import Logger from 'core/Logger'
 
 export default {
   name: "NLS",
   mixins: [],
   data: function() {
     return {
-      nls: nls
+      nls: nls,
+      nlsLanguage: ''
     }
   },
   components: {},
   methods: {
+    getLanguage () {
+      return this.nlsLanguage
+    },
+    initNLS () {
+	    if (this.$route && this.$route.query.ln) {
+        Logger.log(-1,"NLS.initNLS() > set by query: ", this.$route.query.ln);
+				this.$root.$i18n.locale = this.$route.query.ln
+        this.nlsLanguage = this.$route.query.ln
+			}
+    },
     getNlSWithReplacement (key, values) {
       let translated = this.getNLS(key)
       for (let key in values) {

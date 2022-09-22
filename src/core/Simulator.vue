@@ -161,9 +161,12 @@ export default {
 			this._animations = {};
 			this.animationFactory = new Css3Animation();
 
-			var uri = location.hash;
-			var query = uri.substring(uri.indexOf("?") + 1, uri.length);
-			var params = io.queryToObject(query);
+			const uri = location.hash;
+			const query = uri.substring(uri.indexOf("?") + 1, uri.length);
+			const params = io.queryToObject(query);
+
+			this.initNLS()
+		
 
 			/** Since 2.4 we allow to pass a user */
 			if (params.u && params.u.length > 0) {
@@ -213,10 +216,7 @@ export default {
 					}
 				}
 
-				if (params.ln) {
-					this.logger.log(-1,"postCreate", "Set custom language " + params.ln);
-					this.$root.$i18n.locale = params.ln
-				}
+			
 
 			} else {
 				if(this.hash) {
@@ -285,14 +285,14 @@ export default {
 		},
 
 		async checkLiveUpdate (){
-			let app = await Services.getModelService().checkAppUpdateByHash(this.hash)
+			const app = await Services.getModelService().checkAppUpdateByHash(this.hash)
 			this.setLiveUpdate(app)
 			// this._doGet("rest/invitation/"+ this.hash + "/update.json", lang.hitch(this, "setLiveUpdate"));
 		},
 
 		async setLiveUpdate (app){
 			if (app && app.lastUpdate && this.model && this.model.lastUpdate < app.lastUpdate){
-				let app = await Services.getModelService().findAppByHash(this.hash)
+				const app = await Services.getModelService().findAppByHash(this.hash)
 				this.doLiveUpdate(app)
 				// this._doGet("rest/invitation/"+ this.hash + "/app.json", lang.hitch(this, "doLiveUpdate"));
 			} else {
@@ -330,7 +330,7 @@ export default {
 
 		async loadSettings (model) {
 			if (this.hash && this.qr) {
-				let settings = await Services.getModelService().findTestByHash(model, this.hash)
+				const settings = await Services.getModelService().findTestByHash(model, this.hash)
 				this.settings = settings;
 				this.logger.log(-1,"loadSettings","enter >", this.settings);
 			}
@@ -421,12 +421,12 @@ export default {
 
 
 		onPopState (){
-			var hash = location.hash;
+			const hash = location.hash;
 			if(hash && hash.length > 1){
-				var uri = location.hash;
-				var query = uri.substring(uri.indexOf("?") + 1, uri.length);
-				var params = io.queryToObject(query);
-				var screenId = params.s
+				const uri = location.hash;
+				const query = uri.substring(uri.indexOf("?") + 1, uri.length);
+				const params = io.queryToObject(query);
+				const screenId = params.s
 				if(this.currentScreen &&  this.currentScreen.id != screenId){
 					this.logger.log(0,"onPopState","back detected! >> " + screenId);
 					this.setScreenId(screenId);
@@ -567,8 +567,7 @@ export default {
 
 		setScreenId (screenID){
 			this.logger.log(3,"setScreen","enter >" + screenID);
-
-			var screen = this.model.screens[screenID];
+			const screen = this.model.screens[screenID];
 			if(screen){
 				this.renderScreen(screen, null);
 			} else {
@@ -593,14 +592,14 @@ export default {
 		 **********************************************************/
 
 		getMatchingLine (screenID, widgetID, line, value) {
-			var logic = this.model.widgets[line.to];
+			const logic = this.model.widgets[line.to];
 			if (logic) {
 				/**
 				 * FIXME: Here is a bug, if the first line dos not have a rule, but the second has...
 				 */
 				var matchedLine = null;
-				var lines = this.getFromLines(logic);
-				for(var i=0; i< lines.length; i++){
+				const lines = this.getFromLines(logic);
+				for(let i=0; i< lines.length; i++){
 					line = lines[i];
 					if(line.rule){
 						if(this.isValueMatchingRule(value, true, line.rule)){
@@ -633,21 +632,21 @@ export default {
 			this.logger.log(0,"onTransitionBack","enter >  sreen:" + screenID + " > widget:" + widgetID);
 			this.stopEvent(e);
 			this.log("WidgetClick",screenID, widgetID, e);
-			var lastScreenLine = this.screenHistory.pop();
+			const lastScreenLine = this.screenHistory.pop();
 			if(lastScreenLine){
 
 				if(this.currentOverlay){
 					this.popOverlay();
 				} else {
 
-					var lastScreenID  = lastScreenLine.screenID;
-					var screen = this.model.screens[lastScreenID];
+					const lastScreenID  = lastScreenLine.screenID;
+					const screen = this.model.screens[lastScreenID];
 					if(screen){
 
 						/**
 						 * We create here a virtual line...
 						 */
-						var backLine = {
+						const backLine = {
 							id:"back",
 							from : screenID,
 							to : lastScreenID
@@ -656,9 +655,9 @@ export default {
 						/**
 						 * We copy and inverse the animation if there is
 						 */
-						var lastLine = lastScreenLine.line;
+						const lastLine = lastScreenLine.line;
 						if(lastLine){
-							var inverse = this.animationFactory.getInverseAnimation(lastLine.animation);
+							const inverse = this.animationFactory.getInverseAnimation(lastLine.animation);
 							backLine.animation = inverse;
 							backLine.duration = lastLine.duration;
 							backLine.easing = lastLine.easing;
@@ -717,7 +716,7 @@ export default {
 					/**
 					 * We might have a logic widget in here
 					 */
-					let widget = this.model.widgets[line.to];
+					const widget = this.model.widgets[line.to];
 					if(widget){
 						this.logLine(line, screenID);
 						this.executeLogic(screenID, widgetID, widget, line);
@@ -924,7 +923,7 @@ export default {
 			 * We should have an "in" operation
 			 */
 			if (value && Array.isArray(value) && value.length > 0){
-				console.debug("Simualtor.isRuleMatching.isArray", value)
+				console.debug("Simulator.isRuleMatching.isArray", value)
 				value = value[0]
 			}
 

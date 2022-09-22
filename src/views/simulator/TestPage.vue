@@ -177,10 +177,12 @@ export default {
     methods: {
       	postCreate () {
 			this.logger = new Logger('TestPage');
-			var hash = this.getHashFromUri();
+			const hash = this.getHashFromUri();
 			this.logger.log(2,"postCreate","enter", hash);
-			let log = this.$route.query.log
+			const log = this.$route.query.log
 			this.analytics = new Analytics()
+
+			this.initNLS()
 
 			/**
 			 * If test is loaded from mobile, dispatch the simulator.html
@@ -193,7 +195,7 @@ export default {
 				 *
 				 * keep in sync with qr
 				 */
-				var target = "/#/simulate.html?qr=true&h=" + hash;
+				let target = "/#/simulate.html?qr=true&h=" + hash;
 				if(log == "false"){
 					target+="&log=false";
 				} else {
@@ -208,11 +210,7 @@ export default {
 				this.skipSplash = true;
 			}
 
-			if (this.$route.query.ln) {
-				this.logger.log(-1,"postCreate", "Set custom language " + this.$route.query.ln);
-				this.$root.$i18n.locale = this.$route.query.ln
-			}
-
+			
 			/**
 			 * Load the model a little later to avoid any flickering
 			 */

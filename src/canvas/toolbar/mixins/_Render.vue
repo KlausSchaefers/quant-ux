@@ -511,7 +511,7 @@ export default {
 
 			this.groupPositionCheckBox = this.$new(CheckBox);
 			this.groupPositionCheckBox.setLabel("Fixed In Simulator");
-			this.addTooltip(this.groupPositionCheckBox.domNode, "The element will not scroll in the simualtor.")
+			this.addTooltip(this.groupPositionCheckBox.domNode, "The element will not scroll in the simulator.")
 			css.add(this.groupPositionCheckBox.domNode, "MatcToolbarItem");
 			this.own(on(this.groupPositionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.groupPositionCheckBox.placeAt(content)
@@ -670,9 +670,9 @@ export default {
 
 		_renderWidgetResponsive (){
 
-			var parent = this.createSection("Constraints", true);
+			const parent = this.createSection("Constraints", true);
 
-			var content = document.createElement("div");
+			const content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
@@ -684,7 +684,7 @@ export default {
 
 			this.positionCheckBox = this.$new(CheckBox);
 			this.positionCheckBox.setLabel("Fixed In Simulator");
-			this.addTooltip(this.positionCheckBox.domNode, "The element will not scroll in the simualtor.")
+			this.addTooltip(this.positionCheckBox.domNode, "The element will not scroll in the simulator.")
 			css.add(this.positionCheckBox.domNode, "MatcToolbarItem");
 			this.own(on(this.positionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.positionCheckBox.placeAt(content)
@@ -698,8 +698,8 @@ export default {
 			/**
 			* LowCode
 			*/
-			var parent = this.createSection("Rendering", true);
-			var content = document.createElement("div");
+			let parent = this.createSection("Rendering", true);
+			let content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
@@ -1145,7 +1145,7 @@ export default {
 
 			this.multiPositionCheckBox = this.$new(CheckBox);
 			this.multiPositionCheckBox.setLabel("Fixed In Simulator");
-			this.addTooltip(this.multiPositionCheckBox.domNode, "The element will not scroll in the simualtor.")
+			this.addTooltip(this.multiPositionCheckBox.domNode, "The element will not scroll in the simulator.")
 			css.add(this.multiPositionCheckBox.domNode, "MatcToolbarItem");
 			this.own(on(this.multiPositionCheckBox, "change", lang.hitch(this, "setWidgetStyle", "fixed")));
 			this.multiPositionCheckBox.placeAt(content)
@@ -1362,7 +1362,7 @@ export default {
 
 			this.screenFixedOverlayCheckBox = this.$new(CheckBox);
 			this.screenFixedOverlayCheckBox.setLabel("Fixed as overlay");
-			this.addTooltip(this.screenFixedOverlayCheckBox.domNode, "The element will not scroll in the simualtor when shows as overlay")
+			this.addTooltip(this.screenFixedOverlayCheckBox.domNode, "The element will not scroll in the simulator when shows as overlay")
 			css.add(this.screenFixedOverlayCheckBox.domNode, "MatcToolbarItem");
 			this.own(on(this.screenFixedOverlayCheckBox, "change", lang.hitch(this, "setScreenStyle", "fixed")));
 			this.screenFixedOverlayCheckBox.placeAt(item)

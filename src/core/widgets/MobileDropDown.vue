@@ -161,7 +161,7 @@ export default {
            *
            * 4) log scrolling
            *
-           * 5) Disable scrolling in simualtor!
+           * 5) Disable scrolling in simulator!
            */
           var app = this.factory.model;
           var screenHeight = app.screenSize.h;

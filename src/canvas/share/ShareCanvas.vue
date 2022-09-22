@@ -355,8 +355,8 @@ export default {
 			 * Since 2.1.7 we have better scalling. Keep in
 			 * sync with _Dialogs.startSimilator()
 			 */
-			var pos = domGeom.position(win.body());
-			let maxHeight = pos.h - 100
+			const pos = domGeom.position(win.body());
+			const maxHeight = pos.h - 100
 			css.add(win.body(), 'MatcCanvasSimulatorVisible')
 			if( model.type == "desktop"){
 				pos.w = pos.w * 0.75;
@@ -382,10 +382,10 @@ export default {
 
 		_showDesktopSimulator (model, pos, maxHeight){
 
-			var dialog = document.createElement("div");
+			const dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
 
-			var container = document.createElement("div");
+			const container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 			dialog.appendChild(container);
 
@@ -399,19 +399,19 @@ export default {
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
 
-			var s = this.$new(Simulator,{mode : "debug", logData: false, hash: this.hash});
+			const s = this.$new(Simulator,{mode : "debug", logData: false, hash: this.hash});
 			s.scrollListenTarget = "parent";
 
-			var scroller = this.$new(ScrollContainer,{canDestroy:false});
+			const scroller = this.$new(ScrollContainer,{canDestroy:false});
 			scroller.placeAt(container);
 			s.setScrollContainer(scroller);
 
 
-			var d = new Dialog();
+			const d = new Dialog();
 			d.popup(dialog, this.simulatorButton);
 			d.own(d.on("close", lang.hitch(this, "stopSimulator",s, scroller)));
 
-			var screen = this._getSimulatorScreen();
+			const screen = this._getSimulatorScreen();
 			setTimeout(function(){
 				scroller.wrap(s.domNode);
 				s.setStartScreen(screen);
@@ -430,19 +430,19 @@ export default {
 		resizeSimualtor (container, model, factor, dialog) {
 			container.innerHTML = ""
 
-			var screen = this._getSimulatorScreen();
-			var pos = domGeom.position(win.body());
+			const screen = this._getSimulatorScreen();
+			let pos = domGeom.position(win.body());
 			pos.w = pos.w * factor;
 			pos.h = pos.h * factor;
 			pos = this.getScaledSize(pos, "width", model);
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
 
-			var s = this.$new(Simulator,{mode : "debug", logData: false, hash: this.hash});
+			const s = this.$new(Simulator,{mode : "debug", logData: false, hash: this.hash});
 			s.scrollListenTarget = "parent";
 			s.setStartScreen(screen);
 
-			var scroller = this.$new(ScrollContainer,{canDestroy:false});
+			const scroller = this.$new(ScrollContainer,{canDestroy:false});
 			scroller.placeAt(container);
 			s.setScrollContainer(scroller);
 			scroller.wrap(s.domNode);
