@@ -21,7 +21,7 @@
             "showTasks": "Mostrar Tarefas"
         },
         "tasks": {
-            "title": "Título",
+            "title": "Tarefas",
             "msg": "Por favor, execute as seguintes tarefas."
         },
         "password": {
