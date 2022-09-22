@@ -80,7 +80,7 @@ export default {
 				if(oldScreen){
 					this.removeScreen(oldScreen);
 				} else {
-					console.debug("Simulator.render() > No old screen" );
+					console.debug("Simualtor.render() > No old screen" );
 				}
 
 				this.checkEndScreen(screen);
@@ -88,7 +88,7 @@ export default {
 				this.afterScreenRendered(screen)
 			} catch (err) {
 				console.error(err)
-				console.warn("Simulator.render() >", err.message);
+				console.warn("Simualtor.render() >", err.message);
 				console.warn(err.stack);
 				this.logger.sendError(err);
 			}
@@ -130,7 +130,7 @@ export default {
 				this.destroyUiWidgets();
 
 			} catch (err) {
-				console.warn("Simulator.renderScreenOverlay() >", err.message);
+				console.warn("Simualtor.renderScreenOverlay() >", err.message);
 				console.debug(err.stack);
 				this.logger.sendError(err)
 			}
@@ -177,7 +177,7 @@ export default {
 			/**
 			* create screen box
 			*/
-			const div = document.createElement("div");
+			var div = document.createElement("div");
 			div.style.width = screen.w + "px";
 
 			div.style.height = screen.h + "px";
@@ -189,7 +189,7 @@ export default {
 			div.setAttribute('screenID', screen.id)
 			this.renderFactory.setStyle(div, screen);
 
-			let screenId = screen.id;
+			var screenId = screen.id;
 			if (isOverlay){
 				/**
 				 * Since 2.4 we can have overlays with screens
@@ -205,9 +205,9 @@ export default {
 			/**
 			* Now render all widgets in their correct z-value order...
 			*/
-			const widgets = this.sortChildren(screen.children);
-			for(let i=0; i< widgets.length; i++){
-				const widget = widgets[i];
+			var widgets = this.sortChildren(screen.children);
+			for(var i=0; i< widgets.length; i++){
+				var widget = widgets[i];
 				/**
 				* we do not render contained widgets!
 				*/

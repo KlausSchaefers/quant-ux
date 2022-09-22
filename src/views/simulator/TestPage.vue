@@ -434,14 +434,13 @@ export default {
 
 			const dialog = this.db
 				.div("MatchTestQRDialog MatcPadding")
-				.build(dialog);
+				.build();
 
 			const img = this.db.img().build(dialog)
 			css.add(img, "MatcSimulatorQR");
 			QR.getQRCode(this.hash, true, false, this.getLanguage()).then(url => {
 				img.src = url
 			})
-
 			this.db.div("MatcHint MatchTestQRDialogHint", this.getNLS("test.qr.headline"))
 				.build(dialog);
 
