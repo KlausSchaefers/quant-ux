@@ -1340,7 +1340,7 @@ export default {
 
 			this.screenSegmentCheckbox = this.$new(CheckBox);
 			this.screenSegmentCheckbox.setLabel("Segment");
-			this.addTooltip(this.screenSegmentCheckbox.domNode, "The screen can be imcluded in others")
+			this.addTooltip(this.screenSegmentCheckbox.domNode, "The screen can be included in others")
 			css.add(this.screenSegmentCheckbox.domNode, "MatcToolbarItem");
 			this.own(on(this.screenSegmentCheckbox, "change", lang.hitch(this, "setScreenSegement", "segment")));
 			this.screenSegmentCheckbox.placeAt(item)
