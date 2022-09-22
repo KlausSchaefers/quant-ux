@@ -74,13 +74,13 @@ export default {
 				this.setScreenBackground(screen);
 
 				if(this.qr){
-					hash(`#/simulate.html?qr=${this.qr}&h=${this.hash}&s=${screen.id}&log=${this.logData}&live=${this.live}`);
+					hash(`#/simulate.html?qr=${this.qr}&h=${this.hash}&s=${screen.id}&log=${this.logData}&live=${this.live}&ln=${this.getLanguage()}`);
 				}
 
 				if(oldScreen){
 					this.removeScreen(oldScreen);
 				} else {
-					console.debug("Simualtor.render() > No old screen" );
+					console.debug("Simulator.render() > No old screen" );
 				}
 
 				this.checkEndScreen(screen);
@@ -88,7 +88,7 @@ export default {
 				this.afterScreenRendered(screen)
 			} catch (err) {
 				console.error(err)
-				console.warn("Simualtor.render() >", err.message);
+				console.warn("Simulator.render() >", err.message);
 				console.warn(err.stack);
 				this.logger.sendError(err);
 			}
@@ -130,7 +130,7 @@ export default {
 				this.destroyUiWidgets();
 
 			} catch (err) {
-				console.warn("Simualtor.renderScreenOverlay() >", err.message);
+				console.warn("Simulator.renderScreenOverlay() >", err.message);
 				console.debug(err.stack);
 				this.logger.sendError(err)
 			}
@@ -177,7 +177,7 @@ export default {
 			/**
 			* create screen box
 			*/
-			var div = document.createElement("div");
+			const div = document.createElement("div");
 			div.style.width = screen.w + "px";
 
 			div.style.height = screen.h + "px";
@@ -189,7 +189,7 @@ export default {
 			div.setAttribute('screenID', screen.id)
 			this.renderFactory.setStyle(div, screen);
 
-			var screenId = screen.id;
+			let screenId = screen.id;
 			if (isOverlay){
 				/**
 				 * Since 2.4 we can have overlays with screens
@@ -205,9 +205,9 @@ export default {
 			/**
 			* Now render all widgets in their correct z-value order...
 			*/
-			var widgets = this.sortChildren(screen.children);
-			for(var i=0; i< widgets.length; i++){
-				var widget = widgets[i];
+			const widgets = this.sortChildren(screen.children);
+			for(let i=0; i< widgets.length; i++){
+				const widget = widgets[i];
 				/**
 				* we do not render contained widgets!
 				*/
