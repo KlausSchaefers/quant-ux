@@ -12,7 +12,7 @@
               <div class="col-md-5 MatcRight">
                 <a class="MatcMainMenuItem" href="#/my-account.html">{{$t('header.my-account')}}</a>
                 <a class="MatcMainMenuItem MatcRightMenuLast" @click="logout">{{$t('header.logout')}}</a>
-                <LanguagePicker/>
+                <LanguagePicker @change="setLanguage"/>
               </div>
             </div> <!-- Logged in user -->
           </div> <!-- Desktop -->
@@ -53,6 +53,14 @@ export default {
     'LanguagePicker': LanguagePicker
   },
   methods: {
+    setLanguage (language) {
+      this.logger.log(-1, "setLanguage", "entry", language);
+      Services.getUserService().setLanguage(language)
+      this.$root.$i18n.locale = language
+      this.$root.$emit('Success',  this.$i18n.t('common.language-changed'))
+   
+    },
+
     logout() {
       this.logger.log(2, "logout", "entry");
       Services.getUserService().logout()

@@ -1,6 +1,7 @@
 
 <template>
   <div class="MatcShareDialog" @keydown.stop @keyup.stop @keypress.stop>
+    <LanguagePicker @change="setLanguage"  :hasLabel="true"/>
     <div class="field MatcShareRow">
       <label>Test</label>
       <input type="text" class="input" :value="testLink" @focus="select" />
@@ -24,6 +25,15 @@
         <span class="mdi mdi-content-copy" />
       </a>
     </div>
+
+  <!--
+    <div class="field MatcShareRow">
+      <label>Language</label>
+      <div class=" form-group">
+        <DropDownButton :options="languageOptions" :value="language" @change="setLanguage"/>
+      </div>
+    </div>
+    -->
 
     <div class="MatcMarginTop MatcShareRow MatcSharePasswordRow" v-if="hasPassword">
       <CheckBox v-model="needPassword" label="Require Password" />
@@ -58,6 +68,8 @@
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import CheckBox from "common/CheckBox";
+//import DropDownButton from 'page/DropDownButton'
+import LanguagePicker from "page/LanguagePicker";
 
 export default {
   name: "ShareForm",
@@ -67,11 +79,19 @@ export default {
       isPublic: false,
       needPassword: false,
       hasPassword: false,
+      language: 'en',
+      languageOptions: [
+        {value: 'en', label: 'English'},
+        {value: 'de', label: 'German'},
+        {value: 'pt', label: 'Portuguese'},
+        {value: 'cn', label: 'Chinese'}
+      ],
       invitation: "--- Loading ---"
     };
   },
   components: {
-    CheckBox: CheckBox
+    CheckBox: CheckBox,
+    LanguagePicker: LanguagePicker
   },
   computed: {
     base() {
@@ -98,6 +118,10 @@ export default {
       if (this.isPublic) {
         testURL += "&log=false";
       }
+      if (this.language) {
+         testURL += "&ln=" + this.language;
+      }
+      console.debug(testURL)
       return testURL;
     },
     shareLink() {
@@ -109,6 +133,9 @@ export default {
     }
   },
   methods: {
+    setLanguage (ln) {
+      this.language = ln
+    },
     setInvitation(inv) {
       this.invitation = inv;
     },

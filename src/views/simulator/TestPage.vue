@@ -236,11 +236,11 @@ export default {
 		async setPassword () {
 			this.logger.log(1,"setPassword","enter", this.password);
 
-			var hash = this.getHashFromUri();
-			let newHash = hash + this.password
+			const hash = this.getHashFromUri();
+			const newHash = hash + this.password
 
 			try {
-				let app = await Services.getModelService().findAppByHash(newHash)
+				const app = await Services.getModelService().findAppByHash(newHash)
 				if (app) {
 					this.passwordError = ''
 					this.loadModelFromHash(newHash)
@@ -344,7 +344,7 @@ export default {
 		},
 
 		getUserTasks (){
-			var tasks = [];
+			const tasks = [];
 			if (this.settings.tasks && this.settings.tasks){
 				for(var i=0; i< this.settings.tasks.length; i++){
 					var task = this.settings.tasks[i];
@@ -369,7 +369,7 @@ export default {
 				this.domNode.appendChild(div);
 
 				for(let id in model.screens){
-					let box = model.screens[id];
+					const box = model.screens[id];
 					if(box.style && box.style.backgroundImage){
 						let img = document.createElement("img");
 						img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
@@ -378,7 +378,7 @@ export default {
 				}
 
 				for(let id in model.widgets){
-					let box = model.widgets[id];
+					const box = model.widgets[id];
 					if(box.style && box.style.backgroundImage){
 						let img = document.createElement("img");
 						img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
@@ -438,7 +438,7 @@ export default {
 
 			const img = this.db.img().build(dialog)
 			css.add(img, "MatcSimulatorQR");
-			QR.getQRCode(this.hash, true, false).then(url => {
+			QR.getQRCode(this.hash, true, false, this.getLanguage()).then(url => {
 				img.src = url
 			})
 

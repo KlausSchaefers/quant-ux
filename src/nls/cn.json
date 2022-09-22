@@ -13,15 +13,15 @@
     },
     "simulator": {
         "welcome": {
-            "title": "Welcome",
-            "msg": 	"You were invited for a usability test of the <b>{{name}}</b> application. You can try out the prototype by clicking on the <b>Start Prototype</b> button.",
-            "privacy": "This is a usability test. Please be aware that your interaction will be recored to make the design better. We do not store any personal information about you.",
-            "start": "Start Prototype",
-            "showTasks": "Show Tasks"
+            "title": "欢迎",
+            "msg": 	"您被邀请参加 <b>{{name}}</b> 应用程序的可用性测试。 您可以通过单击<b>开始原型</b> 按钮来试用原型。",
+            "privacy": "这是一个可用性测试。 请注意，您的交互将被记录以使设计更好。 我们不存储有关您的任何个人信息。",
+            "start": "开始原型",
+            "showTasks": "显示任务"
         },
         "tasks": {
-            "title": "Title",
-            "msg": "Please perform the following tasks."
+            "title": "任务",
+            "msg": "请执行以下任务。"
         },
         "password": {
             "title": "Password",

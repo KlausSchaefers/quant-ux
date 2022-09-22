@@ -142,7 +142,7 @@ body.MatcBody{
 }
 
  /****************************************************
- * Infitation
+ * Share
  ****************************************************/
 
 .MatcInfitationDialog{
@@ -151,7 +151,17 @@ body.MatcBody{
 }
 
 .MatcInfitationDialogLarge{
-	height:400px;
+	height:420px;
+}
+
+.MatcShareDialog {
+	position: relative;
+}
+
+.MatcShareDialog .MatcLanguagePicker{
+	position: absolute;
+	right: 6px;
+    top: -48px;
 }
 
  /****************************************************

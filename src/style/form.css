@@ -848,7 +848,7 @@ textarea.MatcTextAreaMedium {
 }
 
 .form-group .MatcDropDownButton:HOVER{
- 	border: 1px solid #3787f2;
+ 	border: 1px solid hsl(0deg, 0%, 71%);
  	background:none;
 }
 

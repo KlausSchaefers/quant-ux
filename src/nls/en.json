@@ -26,7 +26,7 @@
             "showTasks": "Show Tasks"
         },
         "tasks": {
-            "title": "Title",
+            "title": "Tasks",
             "msg": "Please perform the following tasks."
         },
         "password": {
