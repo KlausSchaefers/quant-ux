@@ -1,10 +1,10 @@
 <template>
   <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor" :style="{'width': width + 'px', 'height': height + 'px'}"
-    @click="onMouseClick"
-    @mousedown="onMouseDown"
-    @mouseup="onMouseUp"
-    @mousemove="onMouseMove"
-    @dblclick="onMouseDoubleClick">
+    @click.stop="onMouseClick"
+    @mousedown.stop="onMouseDown"
+    @mouseup.stop="onMouseUp"
+    @mousemove.stop="onMouseMove"
+    @dblclick.stop="onMouseDoubleClick">
     <svg id="svg" xmlns="http://www.w3.org/2000/svg" :width="width" :height="height">
         <g id="main" fill="none">
 
@@ -127,9 +127,11 @@
 </template>
 
 <style>
+  @import url("../style/qux-svg-editor.css");
 </style>
 
 <script>
+
 
 import PathTool from './tools/PathTool'
 import SelectTool from './tools/SelectTool'
@@ -263,10 +265,8 @@ export default {
         return this.value.filter(p => this.isSelected(p))
       },
       paths () {
-          // this should move into a destinct component once we
-          // have groupings and masks
-          let result = this.value.map(path => {
-              let svg = {
+            const result = this.value.map(path => {
+              const svg = {
                   id: path.id,
                   stroke: path.stroke,
                   strokeWidth: path.strokeWidth,
@@ -274,7 +274,7 @@ export default {
                   d: ''
               }
               if (path.d) {
-                  svg.d = SVGUtil.pathToSVG(path, this.offSetValue)
+                  svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
               }
               if (this.hover === path.id) {
                   svg.stroke = this.config.colorHover
@@ -304,7 +304,6 @@ export default {
     },
     onResizeMouseUp (handler, e) {
         let pos = this.getCanvasMousePosition(e)
-        e.pre
         if (this.currentTool) {
             this.currentTool.onResizeMouseUp(handler,this.boundingBox, pos)
         }
@@ -414,18 +413,18 @@ export default {
         this.$emit('qmouse', pos)
     },
     onMouseDown (e) {
-        this.logger.log(5, 'onMouseUp ', 'enter')
-         let pos = this.getCanvasMousePosition(e)
+        let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onMouseDown(pos)
         }
+        this.logger.log(-5, 'onMouseUp ', 'exit', pos)
     },
     onMouseUp (e) {
-        this.logger.log(5, 'onMouseUp ', 'enter')
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onMouseUp(pos)
         }
+        this.logger.log(-5, 'onMouseUp ', 'exit', pos)
     },
     onMouseDoubleClick (e) {
         let pos = this.getCanvasMousePosition(e)
@@ -638,8 +637,12 @@ export default {
     },
 
     getValue () {
-        // convert from relative to absolute
-        // position
+        this.logger.log(-1, 'clear', 'enter')
+        const bbox = SVGUtil.getSVGBoundingBox(this.value)
+        return {
+            paths: SVGUtil.getZeroPath(this.value, bbox),
+            pos: bbox
+        } 
     },
 
     clear () {
@@ -665,7 +668,7 @@ export default {
     },
 
     getCanvasMousePosition (e){
-        var pos = this._getMousePosition(e);
+        let pos = this._getMousePosition(e);
         pos.x -= this.pos.x;
         pos.y-= this.pos.y;
         if (this.ruler) {
@@ -675,7 +678,7 @@ export default {
     },
 
     _getMousePosition (e){
-        var result = {x: 0, y: 0};
+        const result = {x: 0, y: 0};
         if (e) {
             if (e.touches && e.touches.length > 0) {
                 e = e.touches[0]

@@ -33,6 +33,12 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
+			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="svgTool" >
+				<span class="mdi mdi-vector-curve" ></span>
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
+			</div>
+
+
 			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addLogicSection" >
 				<span class="mdi mdi-rhombus-outline" ></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
@@ -43,7 +49,7 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
-			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addScriptSection" v-show="showScriptTool">
+			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addScriptSection">
 				<span class="mdi mdi-code-tags" ></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
@@ -89,53 +95,62 @@
 							</a>
 						</div>
 
+					
 
-						<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="copyPasteDiv">
-							<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
-								<span class="mdi mdi-content-copy"></span>
-							</a>
-							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="pasteBtn">
-								<span class="mdi mdi-content-paste"></span>
-							</a>
-							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="copyStyleBtn">
-								<span class="mdi mdi-format-paint"></span>
-							</a>
-							<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
-								<span class="mdi mdi-trash-can-outline"></span>
-							</a>
-			
-						</div>
-
-
-
-
-						<div class="MatcToolbarTopCenterCntr">
-							<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
-
-							
-								<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
-									<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
-										<span class="mdi mdi-link-variant-plus" ></span>
-									</a>
-									<a class="MatcToolbarItem" data-dojo-attach-point="ungroupBTN">
-										<span class="mdi mdi-link-variant-minus"></span>
-									</a>
+						<div v-if="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">
+						
+								<div class="MatcToolbarItem">
+									<div class="MatcToolbarLabel" @click="onToolSVGEnd">
+										Close
+									</div>
 								</div>
+						</div> 
 
-								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
-								</div>
+						<template v-else>
 
-								<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
-								</div>
-
-								<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
-								</div>
-
-								<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
-								</div>
-
+							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="copyPasteDiv">
+								<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
+									<span class="mdi mdi-content-copy"></span>
+								</a>
+								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="pasteBtn">
+									<span class="mdi mdi-content-paste"></span>
+								</a>
+								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="copyStyleBtn">
+									<span class="mdi mdi-format-paint"></span>
+								</a>
+								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
+									<span class="mdi mdi-trash-can-outline"></span>
+								</a>
 							</div>
-						</div>
+
+							<div class="MatcToolbarTopCenterCntr">
+								<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
+
+								
+									<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
+										<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
+											<span class="mdi mdi-link-variant-plus" ></span>
+										</a>
+										<a class="MatcToolbarItem" data-dojo-attach-point="ungroupBTN">
+											<span class="mdi mdi-link-variant-minus"></span>
+										</a>
+									</div>
+
+									<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
+									</div>
+
+									<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
+									</div>
+
+									<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
+									</div>
+
+									<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
+									</div>
+
+								</div>
+							</div>
+						</template>
 
 
 				
@@ -209,7 +224,8 @@ export default {
 			settings: {},
 			collabUsers:[],
 			showLabels:false,
-			isDeveloperMode: false
+			isDeveloperMode: false,
+			mode: ''
         }
     },
 	components: {
@@ -221,10 +237,13 @@ export default {
 	computed: {
 		hasProtoMoto () {
 			return this.settings && this.settings.hasProtoMoto
+		},
+		svgEditorVisible () {
+			return this.mode === 'svg'
 		}
 	},
     methods: {
-      postCreate: function(){
+      postCreate (){
 			this.logger = new Logger("Toolbar");
 			this.logger.log(3, "constructor", "entry > " + this.pub);
 
@@ -245,10 +264,11 @@ export default {
 			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
 			this.own(on(this.ungroupBTN, touch.press, lang.hitch(this, "onToolGroup")));
 			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
+			this.own(on(this.svgTool, touch.press, lang.hitch(this, "onToolSVG")));
 			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
 			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
 
-			var btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
+			const btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
 			btn.updateLabel = false;
 			btn.setLabel('<span class="mdi mdi-menu"></span>');
 			btn.setOptions(this.getMainMenu());
@@ -1346,16 +1366,28 @@ export default {
 		onToolHotspot (e){
 			this.logger.log(1,"onToolHotspot", "entry >");
 			this.stopEvent(e);
-
 			topic.publish("matc/canvas/click", "");
-
-			/**
-			 * toggle between modes!
-			 */
 			if(this.mode == "hotspot"){
 				this.controller.setMode("edit");
 			} else {
 				this.controller.setMode("hotspot");
+			}
+		},
+
+		onToolSVG (e){
+			this.logger.log(1,"onToolSVG", "entry >");
+			this.stopEvent(e);
+			topic.publish("matc/canvas/click", "");
+		
+			this.controller.setMode("svg");
+			this.emit("onNewSVG", {"event":e, 'type': 'bezier'});
+			
+		},
+
+		onToolSVGEnd () {
+			this.logger.log(1,"onToolSVGEnd", "entry >");
+			if (this.canvas) {
+				this.canvas.endSVG()
 			}
 		},
 
@@ -1364,9 +1396,6 @@ export default {
 			this.stopEvent(e);
 
 			if(this._selectedGroup){
-				/**
-				 * Ungroup
-				 */
 				this.controller.removeGroup(this._selectedGroup.id);
 			}
 

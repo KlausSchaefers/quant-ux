@@ -190,6 +190,7 @@ export default {
 						this._removeCss(this.selectBtn, "MatcToolbarSectionHidden");
 						this._removeCss(this.addSection, "MatcToolbarSectionHidden");
 						this._removeCss(this.hotspotTool, "MatcToolbarSectionHidden");
+						this._removeCss(this.svgTool, "MatcToolbarSectionHidden");
 						this._removeCss(this.rectangleTool, "MatcToolbarSectionHidden");
 						this._removeCss(this.textTool, "MatcToolbarSectionHidden");
 						this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
@@ -208,6 +209,7 @@ export default {
 						this._addCss(this.selectBtn, "MatcToolbarSectionHidden");
 						this._addCss(this.addSection, "MatcToolbarSectionHidden");
 						this._addCss(this.hotspotTool, "MatcToolbarSectionHidden");
+						this._addCss(this.svgTool, "MatcToolbarSectionHidden");
 						this._addCss(this.rectangleTool, "MatcToolbarSectionHidden");
 						this._addCss(this.textTool, "MatcToolbarSectionHidden");
 						this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");

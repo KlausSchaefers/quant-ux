@@ -93,10 +93,14 @@ export default {
 
     setValue (value) {
       value += "";
+      if (value === '${pos}') {
+        value = this.model.x + ' / ' + this.model.y
+      }
       if (this.value != value) {
         this.value = value;
         this.setInnerHTML(this.domNode, value);
       }
+    
     },
 
     getState () {

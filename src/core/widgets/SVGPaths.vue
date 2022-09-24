@@ -20,10 +20,10 @@
 import DojoWidget from "dojo/DojoWidget";
 import UIWidget from "core/widgets/UIWidget";
 import Logger from 'common/Logger'
-import * as SVGUtil from './../../svg/SVGUtil'
+import * as SVGUtil from '../../svg/SVGUtil'
 
 export default {
-  name: "SVGBox",
+  name: "SVGPaths",
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
@@ -55,53 +55,38 @@ export default {
     },
 
     render (model, style, scaleX, scaleY) {
-
+     
       this.model = model;
-      this.elements = model.props.paths ? model.props.paths : model.elements
+      this.elements = model.props.paths
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
       this.renderElements(this.model, this.elements, scaleX, style)
     },
 
-    renderElements (box, elements, scale, style) {
+    renderElements (box, elements) {
+ 
       this.width = box.w
       this.height = box.h
-      let w = box.w
-      let h = box.h
-      let paths = []
-      elements.forEach(element => {
-        if (element.type === 'path') {
-          /**
-           * FIXME: Could we do this smarter and stretch and scale the SVG?
-           */
-          let d = element.d.map(p => {
-            return {
-              t: p.t,
-              x: Math.round(p.x * scale * w) + 0.5,
-              y: Math.round(p.y * scale  * h) + 0.5
+
+      const result = elements.map(path => {
+            const svg = {
+                id: path.id,
+                stroke: path.stroke,
+                strokeWidth: path.strokeWidth,
+                fill: path.fill,
+                d: ''
             }
-          })
-
-          d = SVGUtil.pathToSVG(d)
-          let path = {
-            d: d,
-            stroke: element.stroke,
-            strokeWidth: element.strokeWith
-          }
-
-          /**
-           * This is a kind of hack. we use the boder css.
-           */
-          if (style) {
-            path.stroke = style.borderTopColor
-            path.strokeWidth = style.borderTopWidth
-          }
-          paths.push(path)
-        }
-
-      });
-      this.paths = paths
+            if (path.d) {
+                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
+            }
+            if (this.hover === path.id) {
+                svg.stroke = this.config.colorHover
+            }
+            return svg
+        })
+       this.paths = result
+    
     },
 
     getValue () {},

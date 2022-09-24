@@ -46,6 +46,8 @@ export default {
 			 * 11 = StandAlone
 		 	 */
       return {
+			canvasPos: {},
+			containerSize: {},
 			roundCoordinates: false,
 			state: 0,
 			isSinglePage: false,
@@ -1022,15 +1024,17 @@ export default {
 		 * to request an rerendering.
 		 */
 		setCanvasCancelCallback (l){
+			this.logger.log(-1,"setCanvasCancelCallback", "enter");
 			this._cancelCallback = l;
 		},
 
 		cleanUpCancelCallbacks (){
+			this.logger.log(-1,"cleanUpCancelCallbacks", "enter");
 			this._cancelCallback = null;
 		},
 
 		onCancelAction (){
-			this.logger.log(0,"onCancelAction", "enter > " + this._cancelCallback);
+			this.logger.log(-1,"onCancelAction", "enter > " + this._cancelCallback);
 			if (this._cancelCallback && this[this._cancelCallback]){
 				const rerender = this[this._cancelCallback]();
 				if(rerender){

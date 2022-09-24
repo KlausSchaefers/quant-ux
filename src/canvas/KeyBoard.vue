@@ -34,6 +34,7 @@ export default {
 
       onKeyPress (e){
 
+     
         this._currentKeyEvent = e;
         const k = e.keyCode ? e.keyCode : e.which;
         const target = e.target;
@@ -41,6 +42,7 @@ export default {
         const isCntrl = e.ctrlKey || e.metaKey;
         const isShift = e.shiftKey
 
+          
         /**
          * Cancel listeners must be always fired.
          */
@@ -50,6 +52,14 @@ export default {
           this.stopEvent(e);
           return
         }
+
+        if (this.currentTool) {
+
+          return
+        }
+     
+
+      
 
         if (this._keyBoardKeyBoardListener) {
           try {

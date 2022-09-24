@@ -7,6 +7,9 @@
 				<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer MatcCanvasGridLayer"></div>
 			</div>
 			<div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
+			<div data-dojo-attach-point="svgLayer" class="MatcSVGLayer" v-if="showSVG">
+				<SVGEditor :width="containerSize.w" :height="containerSize.h" ref="svgEditor" :pos="svgCanvasPos"/>
+			</div>
 		</div>
 	</div>
 	<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
@@ -63,6 +66,7 @@ import Replicate from 'canvas/Replicate'
 import Prototyping from 'canvas/Prototyping'
 
 import FastDomUtil from 'core/FastDomUtil'
+import SVGEditor from '../svg/SVGEditor'
 
 export default {
   name: 'Canvas',
@@ -71,16 +75,27 @@ export default {
 			KeyBoard, Resize, Replicate, Prototyping, Collab],
     data: function () {
         return {
-					mode: "edit",
-					isMoveOnlySelected: true,
-          debug: false,
-          grid: null,
-          isPublic: false,
-					active: true,
-					name: 'XCanvas'
+			mode: "edit",
+			isMoveOnlySelected: true,
+			debug: false,
+			grid: null,
+			isPublic: false,
+			active: true,
+			showSVG: false,
+			name: 'XCanvas'
         }
     },
-    components: {},
+    components: {
+		SVGEditor
+	},
+	computed: {
+		svgCanvasPos () {
+			return {
+				x : (this.domPos.x + this.canvasPos.x),
+				y : (this.domPos.y + this.canvasPos.y)
+			}
+		}
+	},
     methods: {
 		postCreate (){
 
@@ -309,6 +324,7 @@ export default {
 
 		setMode (mode, forceRender){
 			this.logger.log(3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
+			this.cleanUpSVG()
 			if(mode != this.mode ){
 
 				/**

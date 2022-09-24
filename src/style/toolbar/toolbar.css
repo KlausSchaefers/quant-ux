@@ -332,6 +332,12 @@
 	gap: 8px;
  }
 
+ .MatcToolbarMaxSection {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-start;
+ }
+
  .MatcToolbarTopCenterCntr {
 	flex-grow: 1;
 	display: flex;

@@ -70,3 +70,7 @@
 .qux-svg-editor-click-line{
     cursor: pointer;
 }
+
+.qux-svg-editor{
+    background: rgba(255, 0, 0, 0.264);
+}

@@ -145,6 +145,7 @@ export default {
       this.tempOwn(on(toolbar, "onNewLogicObject", lang.hitch(canvas, "addLogicGroup")));
       this.tempOwn(on(toolbar, "onNewRestObject", lang.hitch(canvas, "addRestObject")));
       this.tempOwn(on(toolbar, "onNewScriptObject", lang.hitch(canvas, "addScriptObject")));
+      this.tempOwn(on(toolbar, "onNewSVG", lang.hitch(canvas, "addSVG")))
 
       /**
        * last set the model
