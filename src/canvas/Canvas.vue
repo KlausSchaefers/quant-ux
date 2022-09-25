@@ -8,7 +8,12 @@
 			</div>
 			<div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
 			<div data-dojo-attach-point="svgLayer" class="MatcSVGLayer" v-if="showSVG">
-				<SVGEditor :width="containerSize.w" :height="containerSize.h" ref="svgEditor" :pos="svgCanvasPos"/>
+				<SVGEditor 
+					:width="containerSize.w" 
+					:height="containerSize.h" 
+					:zoom="svgCanvasZoom"
+					ref="svgEditor" 
+					:pos="svgCanvasPos"/>
 			</div>
 		</div>
 	</div>
@@ -314,11 +319,26 @@ export default {
 			this.onChangeCanvasViewConfig()
 		},
 
+		setCanvasModeListener (listener) {
+			this._canvasModeListener = listener
+		},
+
+		clearCanvasModeListener () {
+			delete this._canvasModeListener
+		},
 
 		setMode (mode, forceRender){
-			this.logger.log(3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
-			this.closeSVGEditor()
-			if(mode != this.mode ){
+			this.logger.log(-3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
+			if (this._canvasModeListener && this[this._canvasModeListener]) {
+				try {
+					this[this._canvasModeListener](mode)
+				} catch (err) {
+					console.debug(err)
+				}
+				
+			}
+			if (mode != this.mode ){
+
 
 				/**
 				 * Toggle mode specify css class

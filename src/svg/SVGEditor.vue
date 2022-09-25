@@ -145,7 +145,20 @@ import Logger from '../common/Logger'
 export default {
   name: "SVgEditor",
   mixins: [],
-  props: ['width', 'height', 'pos'],
+  props: {
+    'width': Number, 
+    'height': Number, 
+    'pos': {
+        type: Object,
+        default() {
+            return {x:0, y:0}
+        }
+    }, 
+    'zoom': {
+        type: Number,
+        default: 1
+    }
+  },
   data: function() {
     return {
         value: [],
@@ -634,12 +647,15 @@ export default {
     },
 
     getValue () {
-        this.logger.log(-1, 'clear', 'enter')
+        this.logger.log(-1, 'clear', 'enter', this.zoom)
         const boxes = SVGUtil.getBoxes(this.$refs.paths)
         const bbox = SVGUtil.getBoundingBoxByBoxes(boxes)
+        const paths = SVGUtil.getZeroPath(this.value, bbox)
+
         return {
-            paths: SVGUtil.getZeroPath(this.value, bbox),
-            pos: bbox
+            paths: SVGUtil.getUnZoomedPaths(paths, this.zoom),
+            pos: bbox,
+            bbox: SVGUtil.getUnZoomedBox(bbox, this.zoom)
         } 
     },
     

@@ -1,3 +1,31 @@
+export function getUnZoomedPaths(paths, zoom) {
+    const result = clone(paths)
+    for (let path of result) {
+        const points = path.d
+        for (let i = 0; i < points.length; i++) {
+            const point = points[i];
+            point.x = Math.round(point.x / zoom)
+            point.y = Math.round(point.y / zoom)
+            //if (point.t === 'c') {
+                point.x1 = Math.round(point.x1 / zoom)
+                point.y1 = Math.round(point.y1 / zoom)
+                point.x2 = Math.round(point.x2 / zoom)
+                point.y2 = Math.round(point.y2 / zoom)
+            //}
+        }
+    }
+
+    return result
+}
+
+export function getUnZoomedBox(box, zoom) {
+    return {
+        x: Math.round(box.x / zoom),
+        y: Math.round(box.y / zoom),
+        w: Math.round(box.w / zoom),
+        h: Math.round(box.h / zoom)
+    }
+}
 
 export function pathToSVG (d, offsetX =0, offsetY = 0) {
   return d.map(point => {
@@ -48,10 +76,13 @@ export function getZeroPath (paths, bbox) {
             const point = points[i];
             point.x -= bbox.x
             point.y -= bbox.y
-            point.x1 -= bbox.x
-            point.y1 -= bbox.y
-            point.x2 -= bbox.x
-            point.y2 -= bbox.y
+            //if (point.t === 'c') {
+                point.x1 -= bbox.x
+                point.y1 -= bbox.y
+                point.x2 -= bbox.x
+                point.y2 -= bbox.y
+            //}
+
         }
     })   
     return result 

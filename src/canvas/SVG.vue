@@ -1,5 +1,7 @@
 <script>
 
+import css from 'dojo/css'
+// import * as SVGUtil from '../svg/SVGUtil'
 
 export default {
     name: 'SVG',
@@ -10,6 +12,9 @@ export default {
     },
     components: {},
     computed: {
+        svgCanvasZoom () {
+            return this.zoom
+        },
 		svgCanvasPos () {
 			return {
 				x : (this.domPos.x + this.canvasPos.x),
@@ -23,29 +28,46 @@ export default {
 		 * SVG
 		 **********************************************************************/
 
-        editSVG () {
-		    this.logger.log(-1,"editSVG", "enter > ");
+        editSVG (widget) {
+		    this.logger.log(-1,"editSVG", "enter > ", widget);
 
-          	if(this.toolbar){
-			    this.toolbar.setMode('svg');
-			}
+            this.showSVGEditor()
+            this._svgCurrentWidget = widget
+            //
+            const div = this.widgetBackgroundDivs[widget.id]
+            if (div) {
+                css.add(div, 'MatcHidden')
+                this._svgCurrentWidgetDiv = div
+            } else {
+                this.logger.error("editSVG", "connot find > ", div);
+            }
+
+            this.$nextTick(() => {
+                this.currentTool = this.$refs.svgEditor
+                 if (this.currentTool) {
+                    this.currentTool.setValue(widget.props.paths, widget, this.getZoomFactor())
+                 } else {
+                    this.logger.warn("editSVG", "exit > NO SVGEditor ");
+                }
+            })
+
+			
+        },
+
+        showSVGEditor() {
+            this.logger.log(-1,"showSVGEditor", "enter > ");
             this.unSelect();
             this.cleanUpSelectionListener();
-            this.setCanvasCancelCallback('cancelSVG')
             this.showSVG = true
-
-            //
-			
+            this.setMode('svg');
+            this.setCanvasCancelCallback('cancelSVG')
+            this.setCanvasModeListener('cancelSVG')
         },
 
 		addSVG (e) {
 			this.logger.log(-1,"addSVG", "enter > ", e);
 			if (!this.showSVG ) {
-				this.unSelect();
-				this.cleanUpSelectionListener();
-				this.setCanvasCancelCallback('cancelSVG')
-				this.showSVG = true
-				
+				this.showSVGEditor()
 			} 
             this.$nextTick(() => {
                 this.currentTool = this.$refs.svgEditor
@@ -58,11 +80,19 @@ export default {
         },
 
 		endSVG () {
-			this.logger.log(-1,"endSVG", "enter > ");
+			this.logger.log(-1,"endSVG", "enter > ", this._selectWidget);
+
+            if (this._svgCurrentWidget) {
+                this.closeSVGEditor()
+                return
+            }
 
 			if (this.currentTool ) {
 				const value = this.currentTool.getValue()
+                const paths = value.paths
+                const bbox = value.bbox
 				const pos = value.pos
+
 				var widget = {
 					"type" : "SVGPaths",
 					"name" : "Path",
@@ -72,10 +102,10 @@ export default {
 					"h" : pos.h,
 					"z" : 0,
 					"props" : {
-						"paths": value.paths,
+						"paths": paths,
 						"bbox": {
-							w: pos.w,
-							h: pos.h
+							w: bbox.w,
+							h: bbox.h
 						}
 					},
 					"has" : {
@@ -84,7 +114,7 @@ export default {
 					"actions":{},
 					"style" : {}
 				};
-				var newWidget = this.controller.addWidget(widget, pos, true);
+				const newWidget = this.controller.addWidget(widget, pos, true);
 				if(newWidget){
 					requestAnimationFrame( () => {
 						this.onWidgetSelected(newWidget.id, true);
@@ -93,21 +123,27 @@ export default {
 			} else {
 				this.logger.log(-1,"endSVG", "NO SVGEditor!");
 			}
-
-			// get hree the data and store
-			this.setMode('edit')
+			this.closeSVGEditor()
 		},
 
 		cancelSVG () {
 			this.logger.log(-1,"cancelSVG", "enter > ");
-			this.setMode('edit')
+            this.closeSVGEditor()
 		},
 
 		closeSVGEditor () {
 			this.logger.log(-1,"closeSVGEditor", "enter > ");
-			this.currentTool = null
-			this.showSVG = false
-			this.cleanUpCancelCallbacks();
+            if ( this._svgCurrentWidgetDiv) {
+                css.remove(this._svgCurrentWidgetDiv, 'MatcHidden')
+            }
+            delete this._svgCurrentWidget
+            delete this._svgCurrentWidgetDiv
+            delete this.currentTool
+            this.clearCanvasModeListener()
+            if (this.showSVG) {
+                this.showSVG = false  
+                this.setMode('edit');
+            }
 		}
     },
     mounted () {

@@ -79,19 +79,22 @@ export default {
     renderElements (box, paths) {
       this.width = box.w
       this.height = box.h
-      this.paths = paths.map(path => {
-          const svg = {
-              id: path.id,
-              stroke: path.stroke,
-              strokeWidth: path.strokeWidth,
-              fill: path.fill,
-              d: ''
-          }
-          if (path.d) {
-              svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
-          }
-          return svg
-        })
+      if (paths) {
+          this.paths = paths.map(path => {
+            const svg = {
+                id: path.id,
+                stroke: path.stroke,
+                strokeWidth: path.strokeWidth,
+                fill: path.fill,
+                d: ''
+            }
+            if (path.d) {
+                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
+            }
+            return svg
+          })
+      }
+     
     },
 
     getValue () {},
