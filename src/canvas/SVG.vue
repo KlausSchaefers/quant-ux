@@ -93,6 +93,8 @@ export default {
                 const bbox = value.bbox
 				const pos = value.pos
 
+                console.debug(paths, bbox)
+
 				var widget = {
 					"type" : "SVGPaths",
 					"name" : "Path",

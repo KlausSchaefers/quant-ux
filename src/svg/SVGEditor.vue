@@ -57,7 +57,7 @@
             </template>
 
 
-            <template v-if="mode === 'morph' || mode === 'add'">
+            <template v-if="showJoints">
 
                 <!-- joints-->
                 <circle v-for="joint in joints" :key="joint.id"
@@ -182,6 +182,9 @@ export default {
     };
   },
   computed: {
+      showJoints () {
+        return this.mode === 'morph'
+      },
       resizeHandles () {
           const result = []
           if (this.boundingBox) {
@@ -206,7 +209,7 @@ export default {
         return points
       },
       allBezierPoints () {
-        let result = this.value.flatMap(path => {
+        let result = this.scalledValue.flatMap(path => {
             return path.d.flatMap((point,j) => {
                 if (point.t === 'C') {
                     return [{
@@ -272,30 +275,33 @@ export default {
           }
       },
       selectedPaths () {
-        return this.value.filter(p => this.isSelected(p))
+        return this.scalledValue.filter(p => this.isSelected(p))
+      },
+      scalledValue () {
+        return SVGUtil.getZoomedPaths(this.value, this.zoom)  
       },
       paths () {
-            const result = this.value.map(path => {
-              const svg = {
-                  id: path.id,
-                  stroke: path.stroke,
-                  strokeWidth: path.strokeWidth,
-                  fill: path.fill,
-                  d: ''
-              }
-              if (path.d) {
-                  svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
-              }
-              if (this.hover === path.id) {
-                  svg.stroke = this.config.colorHover
-              }
-              // if (this.isSelected(path)) {
-              //    svg.stroke = this.config.colorSelect
-              //}
-              // console.debug(path.d.length, svg.d)
-              return svg
-          })
-          return result
+        const result = this.scalledValue.map(path => {
+            const svg = {
+                    id: path.id,
+                    stroke: path.stroke,
+                    strokeWidth: path.strokeWidth,
+                    fill: path.fill,
+                    d: ''
+            }
+            if (path.d) {
+                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
+            }
+            if (this.hover === path.id) {
+                svg.stroke = this.config.colorHover
+            }
+            // if (this.isSelected(path)) {
+            //    svg.stroke = this.config.colorSelect
+            //}
+            // console.debug(path.d.length, svg.d)
+                return svg
+        })
+        return result
       }
   },
   components: {
@@ -409,8 +415,9 @@ export default {
 
     // canvas mouse
     onMouseClick (e) {
-        this.logger.log(5, 'onMouseClick ', 'enter')
+        this.logger.log(-5, 'onMouseClick ', 'enter')
         let pos = this.getCanvasMousePosition(e)
+        console.debug(pos)
         if (this.currentTool) {
             this.currentTool.onClick(pos)
         }
@@ -442,7 +449,12 @@ export default {
             this.currentTool.onDoubleClick(pos)
         }
     },
-
+    onZoom (z) {
+        this.logger.log(-1, 'onZoom', 'enter', z)
+        if (this.currentTool) {
+            this.currentTool.onZoom()
+        }
+    },
     // keyboard
     onKeyUp (e) {
         if (e.key === 'Escape') {
@@ -649,13 +661,14 @@ export default {
     getValue () {
         this.logger.log(-1, 'clear', 'enter', this.zoom)
         const boxes = SVGUtil.getBoxes(this.$refs.paths)
-        const bbox = SVGUtil.getBoundingBoxByBoxes(boxes)
+        const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
+        const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
         const paths = SVGUtil.getZeroPath(this.value, bbox)
 
         return {
-            paths: SVGUtil.getUnZoomedPaths(paths, this.zoom),
-            pos: bbox,
-            bbox: SVGUtil.getUnZoomedBox(bbox, this.zoom)
+            paths: paths,
+            pos: zoomedPos,
+            bbox: bbox
         } 
     },
     
@@ -685,10 +698,15 @@ export default {
     getCanvasMousePosition (e){
         let pos = this._getMousePosition(e);
         pos.x -= this.pos.x;
-        pos.y-= this.pos.y;
+        pos.y -= this.pos.y;
+  
+        pos.x = Math.round(pos.x / this.zoom)
+        pos.y = Math.round(pos.y / this.zoom)
+        
         if (this.ruler) {
             pos = this.ruler.correct(pos)
         }
+        
         return pos;
     },
 
@@ -715,6 +733,10 @@ export default {
   watch: {
       pos (p) {
           this.pos = p
+      },
+      zoom (z) {
+        this.zoom = z
+        this.onZoom(z)
       }
   },
   mounted() {

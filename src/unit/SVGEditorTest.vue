@@ -5,9 +5,12 @@
       <a @click="createLine">Add Line </a>
       <a @click="createBezier">Add Curve </a>
       <a @click="clear">Clear </a>
+        <a @click="setZoom(1)">1.0 </a>
+        <a @click="setZoom(0.66)">0.66 </a>
     </div>
     <div class="MatcTReeCntr" ref="cntr">
         <SVGEditor
+          :zoom="zoom"
           :value="paths"
           @select="onSelect"
           :width="800"
@@ -79,13 +82,17 @@ export default {
     return {
         paths: [],
         pos: {x:0 ,y:0},
-        mouse: {}
+        mouse: {},
+        zoom: 1
     };
   },
   components: {
     'SVGEditor': SVGEditor
   },
   methods: {
+      setZoom (z) {
+        this.zoom = z
+      },
       onMouseMove (p) {
           this.mouse = p
       },

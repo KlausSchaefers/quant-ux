@@ -7,6 +7,8 @@ export default class Tool {
         this.editor = editor
     }
 
+    onZoom () {}
+
     onClick() {}
 
     onMove () {}
