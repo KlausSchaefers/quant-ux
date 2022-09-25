@@ -170,18 +170,15 @@ export default {
   },
   computed: {
       resizeHandles () {
-          let result = []
+          const result = []
           if (this.boundingBox) {
              return SVGUtil.getResizeHandles(this.boundingBox, this.config.handlerSize)
           }
           return result
       },
       joints () {
-        /**
-         * FIXME: Potentially also to slow!
-         */
-        let paths = this.selectedPaths
-        let points = paths.flatMap(path => {
+        const paths = this.selectedPaths
+        const points = paths.flatMap(path => {
             return path.d.map((point, i) => {
                 return {
                     parent: path.id,
@@ -638,12 +635,14 @@ export default {
 
     getValue () {
         this.logger.log(-1, 'clear', 'enter')
-        const bbox = SVGUtil.getSVGBoundingBox(this.value)
+        const boxes = SVGUtil.getBoxes(this.$refs.paths)
+        const bbox = SVGUtil.getBoundingBoxByBoxes(boxes)
         return {
             paths: SVGUtil.getZeroPath(this.value, bbox),
             pos: bbox
         } 
     },
+    
 
     clear () {
         this.logger.log(0, 'clear', 'enter')

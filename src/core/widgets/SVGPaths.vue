@@ -1,7 +1,12 @@
 
 <template>
-  <div class="MatcWidgetTypeSVGBox" >
-      <svg xmlns="http://www.w3.org/2000/svg" :width="width" :height="height" v-if="model" isNotCanvas="true">
+  <div class="MatcWidgetTypeSVGPaths" >
+      <svg xmlns="http://www.w3.org/2000/svg" 
+        :width="width" :height="height" 
+        v-if="model" isNotCanvas="true" 
+        :viewBox="`0 0 ${viewBox.w} ${viewBox.h}`" 
+        preserveAspectRatio="none"
+      >
         <g id="main" fill="none">
 
             <path v-for="p in paths"
@@ -28,9 +33,13 @@ export default {
   data: function() {
     return {
       model: null,
+      scale: 1,
       width: 0,
       height: 0,
-      paths: []
+      paths: [],
+      viewBox: {
+        w: 0, h: 0
+      }
     };
   },
   components: {},
@@ -51,42 +60,38 @@ export default {
     },
 
     resize (box) {
-      this.renderElements(box, this.elements, this._scaleX, this.style)
+      this.width = box.w
+      this.height = box.h
     },
 
     render (model, style, scaleX, scaleY) {
      
       this.model = model;
-      this.elements = model.props.paths
+      this.paths = model.props.paths
+      this.viewBox = model.props.bbox
       this.style = style;
+      this.scale = scaleX
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-      this.renderElements(this.model, this.elements, scaleX, style)
+      this.renderElements(this.model, this.paths, scaleX, style)
     },
 
-    renderElements (box, elements) {
- 
+    renderElements (box, paths) {
       this.width = box.w
       this.height = box.h
-
-      const result = elements.map(path => {
-            const svg = {
-                id: path.id,
-                stroke: path.stroke,
-                strokeWidth: path.strokeWidth,
-                fill: path.fill,
-                d: ''
-            }
-            if (path.d) {
-                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
-            }
-            if (this.hover === path.id) {
-                svg.stroke = this.config.colorHover
-            }
-            return svg
+      this.paths = paths.map(path => {
+          const svg = {
+              id: path.id,
+              stroke: path.stroke,
+              strokeWidth: path.strokeWidth,
+              fill: path.fill,
+              d: ''
+          }
+          if (path.d) {
+              svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
+          }
+          return svg
         })
-       this.paths = result
-    
     },
 
     getValue () {},
@@ -100,7 +105,7 @@ export default {
     setState () {}
   },
   mounted() {
-    this.logger = new Logger('Vector')
+    this.logger = new Logger('SVGPaths')
   }
 };
 </script>

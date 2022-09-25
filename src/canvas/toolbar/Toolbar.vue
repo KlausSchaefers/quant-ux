@@ -100,7 +100,7 @@
 						<div v-if="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">
 						
 								<div class="MatcToolbarItem">
-									<div class="MatcToolbarLabel" @click="onToolSVGEnd">
+									<div class="MatcButton MatcToolbarCloseButton" @click="onToolSVGEnd" >
 										Close
 									</div>
 								</div>

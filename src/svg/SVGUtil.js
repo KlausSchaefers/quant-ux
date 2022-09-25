@@ -8,6 +8,33 @@ export function pathToSVG (d, offsetX =0, offsetY = 0) {
   }).join(' ')
 }
 
+export function getBoxes(elements) {
+    const result = []
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i]
+        result.push(element.getBBox())
+    }
+    return result
+}
+
+
+export function getBoundingBoxByBoxes (boxes) {
+    const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true};
+
+    for (let i = 0; i < boxes.length; i++) {
+        const box = boxes[i];
+        result.x = Math.min(result.x, box.x);
+        result.y = Math.min(result.y, box.y);
+        result.w = Math.max(result.w, box.x + box.width);
+        result.h = Math.max(result.h, box.y + box.height);
+    }
+
+    result.h -= result.y;
+    result.w -= result.x;
+
+    return result;
+}
+
 function clone(obj) {
     return JSON.parse(JSON.stringify(obj))
 }
@@ -30,7 +57,7 @@ export function getZeroPath (paths, bbox) {
     return result 
 }
 
-export function getSVGBoundingBox(paths) {
+export function getSVGBoundingBoxByPaths(paths) {
     const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true};
     for (let path of paths) {
         const points = path.d

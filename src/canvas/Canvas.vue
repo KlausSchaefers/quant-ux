@@ -59,6 +59,7 @@ import DataView from 'canvas/DataView'
 import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 import Collab from 'canvas/Collab'
+import SVG from 'canvas/SVG'
 
 import KeyBoard from 'canvas/KeyBoard'
 import Resize from 'canvas/Resize'
@@ -72,7 +73,7 @@ export default {
   name: 'Canvas',
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView,
-			KeyBoard, Resize, Replicate, Prototyping, Collab],
+			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG],
     data: function () {
         return {
 			mode: "edit",
@@ -87,14 +88,6 @@ export default {
     },
     components: {
 		SVGEditor
-	},
-	computed: {
-		svgCanvasPos () {
-			return {
-				x : (this.domPos.x + this.canvasPos.x),
-				y : (this.domPos.y + this.canvasPos.y)
-			}
-		}
 	},
     methods: {
 		postCreate (){
@@ -324,7 +317,7 @@ export default {
 
 		setMode (mode, forceRender){
 			this.logger.log(3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
-			this.cleanUpSVG()
+			this.closeSVGEditor()
 			if(mode != this.mode ){
 
 				/**

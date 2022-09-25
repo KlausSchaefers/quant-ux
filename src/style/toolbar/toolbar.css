@@ -72,6 +72,15 @@
 	color:#fff;
 }
 
+.MatcToolbarCloseButton {
+	text-align: center;
+	font-size: 14px;
+	background: #3787f2;
+	text-decoration: none;
+	color:#fff;
+	margin-top: -2px;
+}
+
 .MatcToolbarButtonPrimary {
 	display: flex;
 	align-items: center;

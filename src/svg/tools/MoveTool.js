@@ -1,4 +1,5 @@
 import Tool from './Tool'
+import * as SVGUtil from '../SVGUtil'
 import Logger from '../../common/Logger'
 
 export default class MoveTool extends Tool{
@@ -6,13 +7,13 @@ export default class MoveTool extends Tool{
     constructor (editor) {
         super(editor)
         this.logger = new Logger('MoveTool')
-        let selected = this.editor.getSelectedElements()
+        const selected = this.editor.getSelectedElements()
         if (selected && selected.length > 0) {
-            let boxes = selected.map(s => {
+            const boxes = selected.map(s => {
                 let svg = this.editor.getSVGElement(s)
                 return svg.getBBox()
             })
-            let boundingBox = this.getBoundingBoxByBoxes(boxes)
+            const boundingBox = SVGUtil.getBoundingBoxByBoxes(boxes)
             this.selected = selected
             this.editor.setBoundingBox(boundingBox)
 
@@ -21,22 +22,6 @@ export default class MoveTool extends Tool{
         }
     }
 
-    getBoundingBoxByBoxes (boxes) {
-        const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true};
-
-        for (let i = 0; i < boxes.length; i++) {
-            const box = boxes[i];
-            result.x = Math.min(result.x, box.x);
-            result.y = Math.min(result.y, box.y);
-            result.w = Math.max(result.w, box.x + box.width);
-            result.h = Math.max(result.h, box.y + box.height);
-        }
-
-        result.h -= result.y;
-        result.w -= result.x;
-
-        return result;
-    }
 
     /**
      * Implement some state machine:
