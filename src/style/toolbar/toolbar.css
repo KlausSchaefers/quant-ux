@@ -72,7 +72,7 @@
 	color:#fff;
 }
 
-.MatcToolbarCloseButton {
+.MatcButton.MatcToolbarCloseButton {
 	text-align: center;
 	font-size: 14px;
 	background: #3787f2;

@@ -96,7 +96,64 @@ function clone(obj) {
     return JSON.parse(JSON.stringify(obj))
 }
 
-export function getZeroPath (paths, bbox) {
+export function isValidPaths (paths) {
+    if (paths.length === 0) {
+        return false
+    }
+    for (let path of paths) {
+        if (path.d.length === 0) {
+            return false
+        }
+    }
+    return true
+}
+
+export function strechPaths(paths, sourceBox, currentBox) {
+    const result = clone(paths)
+    const scaleW = currentBox.w / sourceBox.w
+    const scaleH = currentBox.h / sourceBox.h
+    console.debug(scaleH, scaleW)
+
+    result.forEach(path => {
+        const points = path.d
+        for (let i = 0; i < points.length; i++) {
+            const point = points[i];
+            point.x *= scaleW
+            point.y *= scaleH
+            if (point.t === 'C') {
+                point.x1 *= scaleW
+                point.y1 *= scaleH
+                point.x2 *= scaleW
+                point.y2 *= scaleH
+            }
+
+        }
+    })   
+    return result 
+}
+
+export function addBoundingBox (paths, bbox) {
+    const result = clone(paths)
+
+    result.forEach(path => {
+        const points = path.d
+        for (let i = 0; i < points.length; i++) {
+            const point = points[i];
+            point.x += bbox.x
+            point.y += bbox.y
+            if (point.t === 'C') {
+                point.x1 += bbox.x
+                point.y1 += bbox.y
+                point.x2 += bbox.x
+                point.y2 += bbox.y
+            }
+
+        }
+    })   
+    return result 
+}
+
+export function removeBoundingBox (paths, bbox) {
     const result = clone(paths)
 
     result.forEach(path => {

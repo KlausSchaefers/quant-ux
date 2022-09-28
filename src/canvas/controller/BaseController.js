@@ -1259,7 +1259,6 @@ export default class BaseController extends Core {
 			box.w = pos.w;
 		}
 
-
 		if(box.x < 0){
 			box.x = Math.abs(box.x);
 			console.warn("updateBox() > Something strange happened, box.x < 0 ...");

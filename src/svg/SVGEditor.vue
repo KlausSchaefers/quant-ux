@@ -533,11 +533,17 @@ export default {
         this.currentTool = new MorphTool(this, this.config.pointRadius)
     },
 
-    startSelectTool () {
-        this.logger.log(-1, 'startPathTool ', 'enter')
+    startSelectTool (selectDefault) {
+        this.logger.log(-1, 'startPathTool ', 'enter', selectDefault)
         this.mode = 'select'
         this.reset()
         this.currentTool = new SelectTool(this)
+        if (selectDefault) {
+            const firstPath = this.value[0]
+            if (firstPath) {
+                this.currentTool.select(firstPath.id)
+            }
+        }
     },
 
     startPathTool (pos) {
@@ -652,18 +658,20 @@ export default {
         this.$emit('change', this.value)
     },
 
-    setValue (v) {
-        this.value = v
-        // convert from relative to absolute
-        // position.
+    setValue (paths, editingBoundingBox, currentBoundingBox) {
+        this.logger.log(-1, 'setValue', 'enter')
+        const scalledPaths = SVGUtil.strechPaths(paths, editingBoundingBox, currentBoundingBox)
+        const translatedPaths = SVGUtil.addBoundingBox(scalledPaths, currentBoundingBox)
+        this.value = translatedPaths
     },
 
     getValue () {
-        this.logger.log(-1, 'clear', 'enter', this.zoom)
+        this.logger.log(-1, 'getValue', 'enter')
         const boxes = SVGUtil.getBoxes(this.$refs.paths)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
+        // FIXME: add here some extra space left and right?
         const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
-        const paths = SVGUtil.getZeroPath(this.value, bbox)
+        const paths = SVGUtil.removeBoundingBox(this.value, bbox)
 
         return {
             paths: paths,

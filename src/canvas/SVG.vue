@@ -1,7 +1,7 @@
 <script>
 
 import css from 'dojo/css'
-// import * as SVGUtil from '../svg/SVGUtil'
+import * as SVGUtil from '../svg/SVGUtil'
 
 export default {
     name: 'SVG',
@@ -32,24 +32,31 @@ export default {
 		    this.logger.log(-1,"editSVG", "enter > ", widget);
 
             this.showSVGEditor()
-            this._svgCurrentWidget = widget
-            //
-            const div = this.widgetBackgroundDivs[widget.id]
-            if (div) {
-                css.add(div, 'MatcHidden')
-                this._svgCurrentWidgetDiv = div
-            } else {
-                this.logger.error("editSVG", "connot find > ", div);
-            }
-
-            this.$nextTick(() => {
-                this.currentTool = this.$refs.svgEditor
-                 if (this.currentTool) {
-                    this.currentTool.setValue(widget.props.paths, widget, this.getZoomFactor())
-                 } else {
-                    this.logger.warn("editSVG", "exit > NO SVGEditor ");
+            const sourceWidget = this.sourceModel.widgets[widget.id]
+            if (sourceWidget) {
+                this._svgCurrentWidget = widget
+                //
+                const div = this.widgetBackgroundDivs[widget.id]
+                if (div) {
+                    css.add(div, 'MatcHidden')
+                    this._svgCurrentWidgetDiv = div
+                } else {
+                    this.logger.error("editSVG", "connot find > ", div);
                 }
-            })
+
+                this.$nextTick(() => {
+                    this.currentTool = this.$refs.svgEditor
+                    if (this.currentTool) {
+                        this.currentTool.setValue(widget.props.paths, widget.props.bbox, sourceWidget)
+                        this.$nextTick(() => {
+                            this.currentTool.startSelectTool(true)
+                        })
+                    } else {
+                        this.logger.warn("editSVG", "exit > NO SVGEditor ");
+                    }
+                })
+            }
+           
 
 			
         },
@@ -82,51 +89,83 @@ export default {
 		endSVG () {
 			this.logger.log(-1,"endSVG", "enter > ", this._selectWidget);
 
-            if (this._svgCurrentWidget) {
-                this.closeSVGEditor()
-                return
-            }
 
 			if (this.currentTool ) {
-				const value = this.currentTool.getValue()
-                const paths = value.paths
-                const bbox = value.bbox
-				const pos = value.pos
-
-                console.debug(paths, bbox)
-
-				var widget = {
-					"type" : "SVGPaths",
-					"name" : "Path",
-					"x" : pos.x,
-					"y" : pos.y,
-					"w" : pos.w,
-					"h" : pos.h,
-					"z" : 0,
-					"props" : {
-						"paths": paths,
-						"bbox": {
-							w: bbox.w,
-							h: bbox.h
-						}
-					},
-					"has" : {
-						"onclick" : true
-					},
-					"actions":{},
-					"style" : {}
-				};
-				const newWidget = this.controller.addWidget(widget, pos, true);
-				if(newWidget){
-					requestAnimationFrame( () => {
-						this.onWidgetSelected(newWidget.id, true);
-					})
-				}
+                if (this._svgCurrentWidget) {
+                  this.saveSVG()
+                } else {
+                    this.createSVG()
+                }
 			} else {
 				this.logger.log(-1,"endSVG", "NO SVGEditor!");
 			}
 			this.closeSVGEditor()
 		},
+
+
+        saveSVG () {
+            const value = this.currentTool.getValue()
+            const paths = value.paths
+            const bbox = value.bbox
+            const pos = value.pos
+            if (SVGUtil.isValidPaths(paths)) {
+                const props = {
+                    paths: paths,
+                    bbox: {
+                        w: bbox.w,
+                        h: bbox.h
+                    }
+                }
+                const updatedWidget = this.controller.updateCompleteWidget(this._svgCurrentWidget.id, pos, props);
+                if(updatedWidget){
+                    requestAnimationFrame( () => {
+                        this.onWidgetSelected(updatedWidget.id, true);
+                    })
+                }
+
+            } else {
+                this.logger.log(-1,"saveSVG", "NO Paths!");
+            }
+        },
+
+        createSVG () {
+            const value = this.currentTool.getValue()
+            const paths = value.paths
+            const bbox = value.bbox
+            const pos = value.pos
+            if (SVGUtil.isValidPaths(paths)) {
+            
+                const widget = {
+                    "type" : "SVGPaths",
+                    "name" : "Path",
+                    "x" : pos.x,
+                    "y" : pos.y,
+                    "w" : pos.w,
+                    "h" : pos.h,
+                    "z" : 0,
+                    "props" : {
+                        "paths": paths,
+                        "bbox": {
+                            w: bbox.w,
+                            h: bbox.h
+                        }
+                    },
+                    "has" : {
+                        "onclick" : true
+                    },
+                    "actions":{},
+                    "style" : {}
+                };
+                const newWidget = this.controller.addWidget(widget, pos, true);
+                if(newWidget){
+                    requestAnimationFrame( () => {
+                        this.onWidgetSelected(newWidget.id, true);
+                    })
+                }
+            } else {
+                this.logger.log(-1,"createSVG", "NO Paths!");
+            }
+        },
 
 		cancelSVG () {
 			this.logger.log(-1,"cancelSVG", "enter > ");
