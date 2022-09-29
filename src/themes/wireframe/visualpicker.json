@@ -1,0 +1,76 @@
+[
+    {
+        "id": "WireFrameVisualPicker",
+        "type": "VisualPicker",
+        "_type": "Widget",
+        "name": "Visual Picker",
+        "category" : "WireFrame",
+        "subcategory": "XSpecial",
+        "x" : 0,
+        "y" : 0,
+        "w" : 192,
+        "h" : 239,
+        "z" : 0,
+        "props" : {
+          "label": "Picker"
+        },
+        "has" : {
+          "data":true,
+          "backgroundColor" : true,
+          "onclick" : true,
+          "label" : true,
+          "border":true
+        },
+        "style" : {
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "background" : "#fff",
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "fontSize": 12,
+          "textAlign" : "center",
+          "letterSpacing": 0,
+          "lineHeight": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1,
+          "borderRightWidth": 1,
+          "borderLeftWidth": 1,
+          "borderTopColor": "#333333",
+          "borderBottomColor": "#333333",
+          "borderRightColor": "#333333",
+          "borderLeftColor": "#333333",
+          "borderTopStyle": "solid",
+          "borderBottomStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderLeftStyle": "solid",
+          "boxShadow": {
+            "v": 0,
+            "h": 0,
+            "b": 0,
+            "s": 0,
+            "i": false,
+            "c": "rgba(0,0,0,0.16)",
+            "custom": true
+          },
+          "color": "#333333",
+          "icon": "mdi-card-account-details",
+          "iconSize": 48,
+          "iconColor": "#333333",
+          "popColor": "#fff",
+          "popBackground": "rgba(0,0,0,0.16)",
+          "popIconSize": "60",
+          "popIcon": "mdi-check"
+        },
+        "hover": {
+          "borderTopColor": "#1A97FE",
+          "borderBottomColor": "#1A97FE",
+          "borderRightColor": "#1A97FE",
+          "borderLeftColor": "#1A97FE",
+          "borderTopWidth": 2,
+          "borderBottomWidth": 2,
+          "borderRightWidth": 2,
+          "borderLeftWidth": 2
+        }
+      }
+]
