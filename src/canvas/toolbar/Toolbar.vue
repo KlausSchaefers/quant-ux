@@ -158,7 +158,7 @@
 							<div class="MatcToolbarSection">
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
 							</div>
-							<div class="MatcToolbarSection">
+							<div class="MatcToolbarSection" v-if="!svgEditorVisible">
 								<EditModeButton 
 									:value="canvasViewConfig" 
 									@change="onChangeCanvasViewConfig" 
@@ -316,7 +316,7 @@ export default {
 		},
 
 		setCurrentTool (t) {
-			this.logger.log(3,"setCurrentTool", "entry");
+			this.logger.log(-3,"setCurrentTool", "entry");
 			this.currentTool = t
 		},
 
@@ -625,15 +625,13 @@ export default {
 		},
 
 
-		onSVGPathsSelected (widget, paths) {
-			this.logger.log(0,"onSVGPathsSelected", "enter", widget, paths);
+		onSVGPathsSelected (paths, bbox) {
+			this.logger.log(-1,"onSVGPathsSelected", "enter", paths);
 			try{
 				this.cleanUp();
 				this._selection = "svgPaths";
-				this._selectedWidget = widget;
-				this._selectionID = widget.id;
 				this._selectionPaths = paths
-				this.showSVGProperties(widget, paths)
+				this.showSVGProperties(paths, bbox)
 			} catch(e){
 				console.error(e);
 				this.logger.sendError(e);

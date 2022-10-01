@@ -32,7 +32,6 @@ export default class PathTool extends Tool{
 
     onClick(pos) {
         this.logger.log(-1, 'onClick', pos.x + '/'+ pos.y)
-        console.trace()
         if (this.path.d.length === 0) {
             this.path.d.push({
                 t: 'M',

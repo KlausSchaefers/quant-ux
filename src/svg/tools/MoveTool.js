@@ -252,6 +252,20 @@ export default class MoveTool extends Tool{
         this.cleanMove()
     }
 
+    onElementHover(path) {
+        this.editor.setHover(path.id)
+    }
+
+    onElementBlur() {
+        this.editor.setHover(null)
+    }
+
+    onElementClick (path) {
+        this.logger.log(-1, 'onResizeMouseClick', 'enter')
+        this.logger.log(-5, 'onElementClick', path.id)
+        this.select(path.id)
+    }
+
 
     initMove (bbox, pos) {
         this.bbox = Object. assign({}, bbox)

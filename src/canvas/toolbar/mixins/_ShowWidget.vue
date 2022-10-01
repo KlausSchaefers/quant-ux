@@ -113,7 +113,7 @@ export default {
 			this.positionCheckBox.setValue(style.fixed);
 
 
-			if (model.type !== 'Label' && model.type !== 'SVGBox' && !isLogicWidget) {
+			if (model.type !== 'Label' && model.type !== 'SVGBox' && model.type !== 'SVGPaths' && !isLogicWidget) {
 				css.remove(this.boxShadowBackgroundDiv, "MatcToolbarSectionHidden")
 				this.boxShadow.setValue(style.boxShadow);
 				this.boxShadow.setBox(model)
@@ -263,6 +263,13 @@ export default {
 				if (this.radiusBox) {
 					css.add(this.radiusBox.domNode, "hidden");
 				}
+			}
+
+		
+
+			if(this.hasSVG.indexOf(model.type) >=0) {
+				console.debug('XXX', this.hasSVG.indexOf(model.type), this.svgButtonDiv)
+				css.remove(this.svgButtonDiv,"MatcToolbarSectionHidden" );
 			}
 
 			/**

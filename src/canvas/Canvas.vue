@@ -12,10 +12,13 @@
 					:width="containerSize.w" 
 					:height="containerSize.h" 
 					:zoom="svgCanvasZoom"
+					:pos="svgCanvasPos"
+					:gird="svgGrid"
 					@select="onSVGPathSelected"
 					@unselect="onSVGPathUnSelected"
+					@change="onSVGChange"
 					ref="svgEditor" 
-					:pos="svgCanvasPos"/>
+					/>
 			</div>
 		</div>
 	</div>
@@ -180,6 +183,8 @@ export default {
 			this.currentTool = t
 			if (this.toolbar) {
 				this.toolbar.setCurrentTool(this.currentTool)
+			} else {
+				this.logger.error("setCurrentTool", "Exit no toolbar");
 			}
 		},
 

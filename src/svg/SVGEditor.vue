@@ -22,7 +22,7 @@
             <!--
                 Add here a transparent click layer to easy clicks
             -->
-            <template v-if="mode === 'select'">
+            <template v-if="showHover">
                 <path v-for="p in paths"
                     :key="p.id + 's'"
                     :d="p.d"
@@ -106,17 +106,16 @@
                     @click.stop="onBBoxMouseClick($event)"
                     class="qux-svg-editor-bounding" />
                 <!-- handlers rectangle-->
-                <rect
+                <circle
                     v-for="handler in resizeHandles"
                     :key="handler.id"
-                    :x="handler.x + offSetTools"
-                    :y="handler.y + offSetTools"
-                    :width="handler.w"
-                    :height="handler.h"
+                    :cx="handler.x + offSetTools"
+                    :cy="handler.y + offSetTools"
+                    :r="handler.r"
                     @mousedown.stop="onResizeMouseDown(handler, $event)"
                     @mouseup.stop="onResizeMouseUp(handler, $event)"
                     @click.stop="onResizeMouseClick(handler, $event)"
-                    class="qux-svg-editor-resize-handler" />
+                    :class="'qux-svg-editor-resize-handler ' + handler.type" />
             </template>
 
 
@@ -153,6 +152,12 @@ export default {
     'zoom': {
         type: Number,
         default: 1
+    },
+    'grid': {
+        type: Object,
+        default() {
+            return undefined
+        }
     }
   },
   data: function() {
@@ -170,21 +175,24 @@ export default {
         offSetValue: 0.5,
         showBezierPoints: false,
         config: {
-            pointRadius: 5,
-            colorHover: 'red',
+            pointRadius: 3,
+            colorHover: '#49C0F0',
             colorSelect: '#49C0F0',
             handlerSize: 7
         }
     };
   },
   computed: {
+      showHover () {
+        return this.mode === 'select' || this.mode === 'move'
+      },
       showJoints () {
-        return this.mode === 'morph'
+        return this.mode === 'morph' || this.mode === 'add'
       },
       resizeHandles () {
           const result = []
           if (this.boundingBox) {
-             return SVGUtil.getResizeHandles(this.boundingBox, this.config.handlerSize)
+             return SVGUtil.getResizeHandles(this.boundingBox, this.config.handlerSize, this.config.pointRadius )
           }
           return result
       },
@@ -351,7 +359,8 @@ export default {
     select (id) {
         this.logger.log(-1, 'select ', id)
         this.selection = [id]
-        this.$emit('select', this.getSelectedElements())
+        const bbox = this.getSelectedBoundingBox()
+        this.$emit('select', this.getSelectedElements(), bbox)
     },
     
     addSelect (id) {
@@ -367,6 +376,15 @@ export default {
         this.setBoundingBox()
     },
 
+    getSelectedBoundingBox () {
+        const elements = this.getSelectedSVGElements()
+        console.debug(elements)
+        const boxes = SVGUtil.getBoxes(elements)
+        const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
+        const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
+        return bbox
+    },
+
     getSVGElement (element) {
         if (this.$refs.paths) {
             let result = this.$refs.paths.find(p => {
@@ -377,6 +395,14 @@ export default {
             this.logger.warn('getSVGElement', 'paths not there')
         }
     },
+
+    getSelectedSVGElements () {
+        return this.getSelectedElements().map(path => {
+            console.debug(path)
+            return this.getSVGElement(path)
+        }).filter(e => e !== undefined)
+    },
+
 
     getSelectedElements () {
         return this.value.filter(value => this.isSelected(value))

@@ -61,6 +61,39 @@
     cursor: pointer;
 }
 
+.qux-svg-editor-resize-handler.East {
+    cursor: ew-resize;
+}
+
+.qux-svg-editor-resize-handler.West {
+    cursor: ew-resize;
+}
+
+.qux-svg-editor-resize-handler.North {
+    cursor: ns-resize;
+}
+
+.qux-svg-editor-resize-handler.South {
+    cursor: ns-resize;
+}
+
+.qux-svg-editor-resize-handler.LeftUp {
+    cursor: nw-resize;
+}
+
+.qux-svg-editor-resize-handler.LeftDown {
+    cursor: sw-resize;
+}
+
+.qux-svg-editor-resize-handler.RightUp {
+    cursor: ne-resize;
+}
+
+.qux-svg-editor-resize-handler.RighDown {
+    cursor: se-resize;
+}
+
+
 .qux-svg-editor-bounding {
     stroke-width: 1;
     stroke: #49C0F0;
@@ -72,5 +105,5 @@
 }
 
 .qux-svg-editor{
-    background: rgba(255, 0, 0, 0.264);
+    Xbackground: rgba(255, 255, 255, 0.264);
 }

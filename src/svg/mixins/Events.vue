@@ -156,7 +156,10 @@ export default {
     onZoom (z) {
         this.logger.log(-1, 'onZoom', 'enter', z)
         if (this.currentTool) {
-            this.currentTool.onZoom()
+            this.currentTool.onZoom(z)
+        }
+        if (this.ruler) {
+            this.ruler.setZoom(z)
         }
     },
     // keyboard

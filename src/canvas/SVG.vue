@@ -20,7 +20,10 @@ export default {
 				x : (this.domPos.x + this.canvasPos.x),
 				y : (this.domPos.y + this.canvasPos.y)
 			}
-		}
+		},
+        svgGrid () {
+            return this.model.grid
+        }
 	},
     methods: {
 
@@ -43,7 +46,8 @@ export default {
             css.add(div, 'MatcHidden')
             this._svgCurrentWidgetDiv = div
             this.$nextTick(() => {
-                this.currentTool = this.$refs.svgEditor
+                const svgEditor = this.$refs.svgEditor
+                this.setCurrentTool(svgEditor)
                 if (this.currentTool) {
                     this.currentTool.setValue(widget.props.paths, widget.props.bbox, sourceWidget)
                     this.$nextTick(() => {
@@ -78,6 +82,8 @@ export default {
 			if (!this.showSVG ) {
 				this.showSVGEditor()
 			} 
+
+            // we should create here a temp element?
             this.$nextTick(() => {
                 const svgEditor = this.$refs.svgEditor
                 this.setCurrentTool(svgEditor)
@@ -178,12 +184,12 @@ export default {
 
 		closeSVGEditor () {
 			this.logger.log(-1,"closeSVGEditor", "enter > ");
-            console.trace()
             if ( this._svgCurrentWidgetDiv) {
                 css.remove(this._svgCurrentWidgetDiv, 'MatcHidden')
             }
             delete this._svgCurrentWidget
             delete this._svgCurrentWidgetDiv
+            delete this._svgIsNewWidget
             this.setCurrentTool()
             this.clearCanvasModeListener()
             if (this.showSVG) {
@@ -192,11 +198,11 @@ export default {
             }
 		},
 
-        onSVGPathSelected (selectedPaths) {
-            this.logger.log(-1,"onSVGPathSelected", "enter > ", selectedPaths);
+        onSVGPathSelected (selectedPaths, bbox) {
+            this.logger.log(-1,"onSVGPathSelected", "enter > ", bbox);
 
-            if (this.controller && this._svgCurrentWidget) {
-                this.controller.onSVGPathsSelected(this._svgCurrentWidget.id, selectedPaths)
+            if (this.controller) {
+                this.controller.onSVGPathsSelected(selectedPaths, bbox)
             } else {
                 this.logger.error("onSVGPathSelected", "No widget selected > ");
             }
@@ -207,6 +213,10 @@ export default {
             if (this.controller) {
                 this.controller.onCanvasSelected()
             }
+        },
+
+        onSVGChange (paths) {
+            this.logger.log(-1,"onSVGChange", "enter", paths);
         }
     },
     mounted () {

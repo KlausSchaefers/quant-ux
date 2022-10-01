@@ -187,15 +187,10 @@ export default class BaseController extends Core {
 		}
 	}
 
-	onSVGPathsSelected (id, paths) {
-		this.logger.log(3,"onSVGPathsSelected", "enter > "+ id);
-		const widget = this.model.widgets[id];
-		if (!widget) {
-			this.logger.error("onSVGPathsSelected", "exit > No widget with id: "+ id);
-			return
-		}
+	onSVGPathsSelected (paths, bbox) {
+		this.logger.log(-3,"onSVGPathsSelected", "enter > ");
 		if(this.toolbar){
-			this.toolbar.onSVGPathsSelected(widget, paths);
+			this.toolbar.onSVGPathsSelected(paths, bbox);
 		}
 	}
 

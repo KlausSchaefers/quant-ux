@@ -53,11 +53,7 @@ export default {
           return
         }
 
-        if (this.currentTool) {
-          this.currentTool.onKeyUp(e)
-          return
-        }
-     
+       
 
         if (this._keyBoardKeyBoardListener) {
           try {
@@ -81,6 +77,12 @@ export default {
         if (css.contains(target, "MatcIgnoreOnKeyPress")){
           return;
         }
+
+        if (this.currentTool) {
+          this.currentTool.onKeyUp(e)
+          return
+        }
+     
 
         this._currentKeyPressed = k;
 

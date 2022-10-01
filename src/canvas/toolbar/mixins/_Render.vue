@@ -81,6 +81,7 @@ export default {
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton", "SegmentPicker"],
 			hasRotate: ['Image', 'Icon'],
+			hasSVG: ['SVGPaths'],
 			hideAction: ['ScreenSegment']
       }
 	},
@@ -304,6 +305,8 @@ export default {
 
 			this._renderWidgetText();
 
+			this._renderSVGEditButton()
+
 			this._renderWidgetBoxShadow()
 
 			this._renderWidgetBox();
@@ -345,7 +348,8 @@ export default {
 			this._renderDesignTokens()
 			this._renderDesignTokensDownload();
 
-
+			
+		
 			this._renderSVGBox()
 			this._renderSVGColor()
 			this._renderSVGFill()

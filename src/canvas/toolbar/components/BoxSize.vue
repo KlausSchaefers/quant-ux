@@ -51,7 +51,8 @@ export default {
 			widgetId: '',
             value: null,
             inputEvent: "change",
-            mode: "all"
+            mode: "all",
+			isHoverParent: false
         }
     },
     components: {},
@@ -140,7 +141,7 @@ export default {
 				}
 
 				if (this.mode == "all"){
-					var parent= this.getParentScreen(this.value);
+					var parent= this.getParent(this.value);
 					if (parent){
 						var x = this.inputX.value * 1 + parent.x;
 						var y = this.inputY.value * 1 + parent.y;
@@ -232,7 +233,7 @@ export default {
 
 		setValue (box){
 			this._dirty = false;
-
+		
 			/**
 			 * make a copy so we do not modify the real model!
 			 */
@@ -261,7 +262,7 @@ export default {
 				/**
 				 * x and y
 				 */
-				var parent= this.getParentScreen(this.value);
+				const parent = this.getParent(this.value);
 				if(parent){
 					this.inputX.value = this.value.x - parent.x;
 					this.inputY.value = this.value.y - parent.y;
@@ -272,8 +273,14 @@ export default {
 					this.inputX.value = "-";
 					this.inputY.value = "-";
 				}
-
 			}
+		},
+
+		getParent (value) {
+			if (this.isHoverParent === true) {
+				return this.getHoverScreen(value);
+			}
+			return this.getParentScreen(value);
 		},
 
 		blur (){

@@ -7,6 +7,19 @@ export default class Tool {
         this.editor = editor
     }
 
+
+    onElementHover () {}
+
+    onElementBlur () {}
+
+    onElementClick () {}
+
+    select (id) {
+        this.editor.setHover(null)
+        this.editor.select(id)
+        this.editor.setState('selectEnd')
+    }
+
     onZoom () {}
 
     onClick() {}
@@ -28,12 +41,6 @@ export default class Tool {
     onEnter () {}
 
     onDelete () {}
-
-    onElementHover () {}
-
-    onElementBlur () {}
-
-    onElementClick () {}
 
     onJointMouseDown() {}
 

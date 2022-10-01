@@ -212,16 +212,17 @@ export function filterDouble(d) {
 }
 
 
-export function getResizeHandles (bbox, size) {
-  let result = []
-  let offset = Math.floor(size / 2)
-  let wHalf = Math.round(bbox.w / 2)
-  let hHalf = Math.round(bbox.h / 2)
+export function getResizeHandles (bbox, size, r=2) {
+  const result = []
+  const offset = 0// Math.floor(size / 2)
+  const wHalf = Math.round(bbox.w / 2)
+  const hHalf = Math.round(bbox.h / 2)
   result.push({
       x: bbox.x - offset,
       y: bbox.y - offset,
       w: size,
       h: size,
+      r: r,
       type: 'LeftUp',
       vertical: true,
       horizontal: true
@@ -231,6 +232,7 @@ export function getResizeHandles (bbox, size) {
       y: bbox.y + bbox.h - offset,
       w: size,
       h: size,
+      r: r,
       type: 'LeftDown'
   })
   result.push({
@@ -238,6 +240,7 @@ export function getResizeHandles (bbox, size) {
       y: bbox.y - offset,
       w: size,
       h: size,
+      r: r,
       type: 'RightUp'
   })
   result.push({
@@ -245,6 +248,7 @@ export function getResizeHandles (bbox, size) {
       y: bbox.y + bbox.h - offset,
       w: size,
       h: size,
+      r: r,
       type: 'RighDown'
   })
 
@@ -253,6 +257,7 @@ export function getResizeHandles (bbox, size) {
       y: bbox.y + hHalf - offset,
       w: size,
       h: size,
+      r: r,
       type: 'East'
   })
 
@@ -261,6 +266,7 @@ export function getResizeHandles (bbox, size) {
       y: bbox.y + hHalf - offset,
       w: size,
       h: size,
+      r: r,
       type: 'West'
   })
 
@@ -269,6 +275,7 @@ export function getResizeHandles (bbox, size) {
       y: bbox.y - offset,
       w: size,
       h: size,
+      r: r,
       type: 'North'
   })
 
@@ -277,6 +284,7 @@ export function getResizeHandles (bbox, size) {
       y: bbox.y + bbox.h - offset,
       w: size,
       h: size,
+      r: r,
       type: 'South'
   })
 

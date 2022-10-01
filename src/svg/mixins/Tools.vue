@@ -100,6 +100,14 @@ export default {
     initRuler (selection) {
         this.ruler = new SVGRuler(this.value, selection)
     },
+
+    resizeSelection (bbox) {
+        this.logger.log(-1, 'resizeSelection ', 'enter', bbox)
+
+        const currentBox = this.getSelectedBoundingBox()
+        console.debug(JSON.stringify(currentBox))
+        console.debug(JSON.stringify(bbox))
+    }
   }
 };
 </script>

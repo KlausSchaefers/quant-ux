@@ -21,7 +21,7 @@ export default class BezierTool extends Tool{
         super(editor)
         let path = {
             id: 'pb' + new Date().getTime(),
-            name: 'Path',
+            name: 'Bezier',
             type: 'Path',
             stroke: '#333333',
             strokeWidth: 1,
