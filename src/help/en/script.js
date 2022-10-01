@@ -20,7 +20,7 @@ export let texts = [
         "paragraphs": [
             {
                 "id": "script.intro",
-                "title": "Basics",
+                "title": "Introduction",
                 "body": `
                     Select the <span class="mdi mdi-code-tags"/> icon in the right toolbar and drop the widget on the canvas. When you select the script
                     widget, you can see in the right menu an "Edit Script" button. Clicking it, well open the Script editor. The editor has on the right side,
@@ -45,6 +45,9 @@ export let texts = [
                         <li>
                             The <b>qux</b> object allows to change the styles for the 
                             components or to change the visibility.
+                        </li>
+                        <li>
+                            The <b>event</b> object shows from which widget the script was triggered.
                         </li>
                     </ol>
 

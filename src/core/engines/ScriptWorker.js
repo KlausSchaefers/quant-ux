@@ -9,12 +9,13 @@ self.addEventListener('message', e => {
     const js = e.data.code
     const model = e.data.model
     const viewModel = e.data.viewModel
+    const sourceEvent = e.data.sourceEvent
     const qux = new ScriptAPI(model)
-    const code = new Function('qux', 'data', 'console', js);
+    const code = new Function('qux', 'data', 'console', 'event', js);
     const console = new ScriptConsole()
     let result = undefined
     try {
-        result = code(qux,viewModel, console)
+        result = code(qux,viewModel, console, sourceEvent)
         self.postMessage({
             to: result,
             viewModel: viewModel,
