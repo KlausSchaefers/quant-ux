@@ -21,27 +21,32 @@ export default {
 		async initDefaultDataBinding (model) {
 			this.logger.log(3, "initDefaultDataBinding","enter ");
 
-			let bindingsCount = {}
+			const bindingsCount = {}
 			Object.values(model.widgets).forEach(w => {
-				let databinding = this.getDataBinding(w)
+				const databinding = this.getDataBinding(w)
 				if (databinding && databinding.default) {
-					let defaultVariable = databinding.default
-					/**
-					 * We could make this even better and check if we alswas have different states.
-					 */
-					if (!bindingsCount[defaultVariable]) {
-						bindingsCount[defaultVariable] = 1
-					} else {
-						bindingsCount[defaultVariable] = bindingsCount[defaultVariable] + 1
+					const defaultVariable = databinding.default
+					const dataBindingValue = this.getDataBindingByPath(databinding.default)
+					// If we have no value (which might have been set by a script),
+					// we increase the number of counts for this variable
+					if (dataBindingValue === undefined) {
+						if (!bindingsCount[defaultVariable]) {
+							bindingsCount[defaultVariable] = 1
+						} else {
+							bindingsCount[defaultVariable] = bindingsCount[defaultVariable] + 1
+						}
 					}
+					
 				}
 			})
 
 			this.logger.log(1, "initDefaultDataBinding","counts ", this.bindingsCount);
 
 			/**
+			 * We guess now the initial value by the widget type.
 			 * We should avoid overwriting stuff here, e.g.
-			 * if we have two widhets pointing to the same value
+			 * if we have two widhets pointing to the same value. Therefore
+			 * we only update those that have 1 bound widget.
 			 */
 			Object.values(model.widgets).forEach(w => {
 				const databinding = this.getDataBinding(w)

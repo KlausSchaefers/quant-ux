@@ -65,8 +65,12 @@ export default {
             hash: "NoHashComposer",
             tab: 'editor',
             script: `/* 
-Use the "data" property to read and write data
+Use the "data" property to read and write data, e.g.
 data.sum = data.a + data.b
+
+Use the "event" property to inspect which widget
+has triggered the execution, e.g.
+data.message = event.widget + 'was clicked'
 
 The qux object let's you manipulate the prototype styles
 let screen = qux.getScreen('myScreen')

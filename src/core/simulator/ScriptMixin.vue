@@ -13,6 +13,7 @@ export default {
     async initLoadScripts () {
         this.logger.log(-2,"initLoadScripts","enter >" );
         if (this.doNotExecuteScripts) {
+            this.logger.log(-2,"initLoadScripts","exit > Do not run" );
             return
         }
         const widgets = this.getLoadScripts()
@@ -22,7 +23,7 @@ export default {
                await this.runScript(widget.props.script, widget)
             }
         }
-        this.logger.log(2,"initLoadScripts","exit" );
+        this.logger.log(-2,"initLoadScripts","exit", this.dataBindingValues );
     },
 
     getLoadScripts () {
@@ -34,6 +35,7 @@ export default {
     async executeDataScripts () {
         this.logger.log(-2,"executeDataScripts","enter >" );
         if (this.doNotExecuteScripts) {
+            this.logger.log(-2,"executeDataScripts","exit > Do not run" );
             return
         }
         const widgets = this.getDataBindingScripts()
@@ -57,36 +59,29 @@ export default {
 
     async executeScript (widgetID, orginalLine) {
         this.logger.log(-2,"executeScript","enter >" + widgetID);
-    
-
-        if (this.doNotExecuteScripts) {
-            return
-        }
-
-        let widget = this.model.widgets[widgetID]
+        const widget = this.model.widgets[widgetID]
         if (widget && widget.props.script) {
             const result = await this.runScript(widget.props.script, widget, orginalLine)
-            // for user triggers scripts, we must ensure that we call
-            // also all the data scripts
-            //await this.executeDataScripts()
             return result
         } else {
             this.logger.error("executeScript","exit > could not find " + widgetID);
         }
     },
     async runScript (script, widget, orginalLine) {
-        this.logger.log(-2,"runScript","enter", widget?.name);
+        this.logger.log(2,"runScript","enter", widget?.name);
+
+        const event = this.getScriptSourceEvent(orginalLine)
 
         return new Promise(async(resolve) => {
             const engine = new ScriptEngine()
-            let result = await engine.run(script, this.model, this.dataBindingValues).then()
+            let result = await engine.run(script, this.model, this.dataBindingValues, event).then()
     
             if (result.status === 'ok') {     
                 requestAnimationFrame( () => {
                     this.renderAppChanges(result)
                     this.renderScriptDataBinding(result)  
                     this.renderScriptTo(result, widget, orginalLine)
-                    this.logger.log(-1,"runScript","exit");
+                    this.logger.log(1,"runScript","exit");
                     resolve(result)
                 })
             } else {
@@ -94,6 +89,32 @@ export default {
             }
         }) 
     },
+
+    getScriptSourceEvent (line) {
+        const event = {
+            type: 'None',
+            widget:'',
+            screen: ''
+        }
+        if (line) {
+            event.type = line.event
+            const widget = this.model.widgets[line.from]
+            if (widget) {
+                event.widget = widget.name
+            } else {
+                this.logger.log(-1,"getScriptSourceEvent","No widet with id ", line.from);
+            }
+
+            if (this.currentScreen) {
+                event.screen = this.currentScreen.name
+            }  else {
+                this.logger.log(-1,"getScriptSourceEvent","No current screen ");
+            }
+        }
+        this.logger.log(2,"getScriptSourceEvent","exit ", event);
+        return event
+    },
+
     renderAppChanges (result) {
         this.logger.log(2,"renderAppChanges","enter >", result.appDeltas);
         if (result.appDeltas) {
