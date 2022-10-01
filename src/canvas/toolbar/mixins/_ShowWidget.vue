@@ -268,7 +268,6 @@ export default {
 		
 
 			if(this.hasSVG.indexOf(model.type) >=0) {
-				console.debug('XXX', this.hasSVG.indexOf(model.type), this.svgButtonDiv)
 				css.remove(this.svgButtonDiv,"MatcToolbarSectionHidden" );
 			}
 

@@ -378,7 +378,11 @@ export default {
 
     getSelectedBoundingBox () {
         const elements = this.getSelectedSVGElements()
-        console.debug(elements)
+        if (elements.length === 0) {
+            return {
+                x:0, y:0, w:0, h:0
+            }
+        }
         const boxes = SVGUtil.getBoxes(elements)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
         const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
@@ -398,7 +402,6 @@ export default {
 
     getSelectedSVGElements () {
         return this.getSelectedElements().map(path => {
-            console.debug(path)
             return this.getSVGElement(path)
         }).filter(e => e !== undefined)
     },

@@ -54,13 +54,13 @@ export default {
     },
 
     startMorphTool () {
-        this.logger.log(-1, 'startPathTool ', 'enter')
+        this.logger.log(-1, 'startMorphTool ', 'enter')
         this.mode = 'morph'
         this.currentTool = new MorphTool(this, this.config.pointRadius)
     },
 
     startSelectTool (selectDefault) {
-        this.logger.log(-1, 'startPathTool ', 'enter', selectDefault)
+        this.logger.log(-1, 'startSelectTool ', 'enter', selectDefault)
         this.mode = 'select'
         this.reset()
         this.currentTool = new SelectTool(this)
@@ -99,6 +99,13 @@ export default {
 
     initRuler (selection) {
         this.ruler = new SVGRuler(this.value, selection)
+    },
+
+    deleteSelection () {
+        this.logger.log(-1, 'deleteSelection ', 'enter')
+        this.value = this.value.filter(v => !this.isSelected(v))
+        this.unSelect()
+        this.startSelectTool()
     },
 
     resizeSelection (bbox) {

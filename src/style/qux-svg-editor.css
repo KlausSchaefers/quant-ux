@@ -1,4 +1,4 @@
-.qux-svg-editor_cursor_crosshair{
+.qux-svg-editor_cursor_crosshair, .qux-svg-editor_cursor_crosshair .qux-svg-editor-joint{
     cursor: crosshair;
 }
 
@@ -106,4 +106,8 @@
 
 .qux-svg-editor{
     Xbackground: rgba(255, 255, 255, 0.264);
+}
+
+ {
+
 }

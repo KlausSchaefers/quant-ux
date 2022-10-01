@@ -261,9 +261,13 @@ export default class MoveTool extends Tool{
     }
 
     onElementClick (path) {
-        this.logger.log(-1, 'onResizeMouseClick', 'enter')
-        this.logger.log(-5, 'onElementClick', path.id)
+        this.logger.log(1, 'onResizeMouseClick', 'enter')
         this.select(path.id)
+    }
+
+    onDelete () {
+        this.logger.log(-1, 'onDelete', 'enter')
+        this.editor.deleteSelection()
     }
 
 
