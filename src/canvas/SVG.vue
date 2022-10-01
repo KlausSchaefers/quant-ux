@@ -97,9 +97,7 @@ export default {
         },
 
 		endSVG () {
-			this.logger.log(-1,"endSVG", "enter > ", this._selectWidget);
-
-
+			this.logger.log(-1,"endSVG", "enter > ", this._svgCurrentWidget);
 			if (this.currentTool ) {
                 if (this._svgCurrentWidget) {
                   this.saveSVG()
@@ -135,6 +133,7 @@ export default {
 
             } else {
                 this.logger.log(-1,"saveSVG", "NO Paths!");
+                this.controller.removeWidget(this._svgCurrentWidget.id);
             }
         },
 

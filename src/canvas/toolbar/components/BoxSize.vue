@@ -98,6 +98,7 @@ export default {
 		},
 
 		update (e){
+		
 			this.stopEvent(e);
 			this._dirty = true;
 			if (this.value){
@@ -105,7 +106,8 @@ export default {
 				var w = this.inputW.value;
 				let hasChange = false
 
-				if (h != this.value.h) {
+				if (h * 1 != this.value.h) {
+					console.debug('update h', h)
 					if (this.isPercent(h)) {
 						this.scaleValueWH(h)
 						hasChange = true
@@ -120,10 +122,8 @@ export default {
 						this.value.h = h * 1;
 						hasChange = true
 					}
-					
-				}
-
-				if (w != this.value.w) {
+				} else if (w * 1 != this.value.w) {
+					console.debug('update w', w)
 					if (this.isPercent(w)) {
 						this.scaleValueWH(w)
 						hasChange = true
@@ -133,7 +133,6 @@ export default {
 							const p = w / this.value.w
 							this.value.h = Math.round(this.value.h * p)
 							this.inputH.value = this.value.h
-							
 						}
 						this.value.w = w * 1;
 						hasChange = true
@@ -244,7 +243,7 @@ export default {
 				y: box.y,
 				id : box.id
 			};
-			this.widgetId = box.id
+			this.widgetId = box.id ? box.id : 'No'
 			if (this.linkedStatusByWidget[this.widgetId] === undefined) {
 				this.$set(this.linkedStatusByWidget, this.widgetId, true)
 			}

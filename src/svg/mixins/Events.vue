@@ -164,6 +164,7 @@ export default {
     },
     // keyboard
     onKeyUp (e) {
+
         if (e.key === 'Escape') {
             this.onEsc()
         }
@@ -172,6 +173,9 @@ export default {
         }
         if (e.key === 'Backspace' || e.key === 'Delete') {
             this.onDelete()
+        }
+        if (e.key === 'v') {
+            this.startBezierTool()
         }
     },
     onEsc () {

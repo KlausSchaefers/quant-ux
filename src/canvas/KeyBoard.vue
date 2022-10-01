@@ -42,7 +42,6 @@ export default {
         const isCntrl = e.ctrlKey || e.metaKey;
         const isShift = e.shiftKey
 
-          
         /**
          * Cancel listeners must be always fired.
          */
@@ -231,6 +230,14 @@ export default {
             this.setMode("addText");
             this.showHint("Mark the area where to create the txt...");
             this.stopEvent(e);
+          }
+
+        /**
+         * V dispatch...
+         */
+        } else if(k == 86 && !(e.altKey || e.ctrlKey || e.metaKey)){
+          if(!this._inlineEditStarted  && !this._selectionToolStart){
+            this.addSVG()
           }
         /**
          * W dispatch...
