@@ -54,12 +54,10 @@ export default {
         }
 
         if (this.currentTool) {
-
+          this.currentTool.onKeyUp(e)
           return
         }
      
-
-      
 
         if (this._keyBoardKeyBoardListener) {
           try {

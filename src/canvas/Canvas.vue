@@ -12,6 +12,8 @@
 					:width="containerSize.w" 
 					:height="containerSize.h" 
 					:zoom="svgCanvasZoom"
+					@select="onSVGPathSelected"
+					@unselect="onSVGPathUnSelected"
 					ref="svgEditor" 
 					:pos="svgCanvasPos"/>
 			</div>
@@ -171,6 +173,14 @@ export default {
 				this[this._controllerCallback]();
 			}
 			return this.controller;
+		},
+
+		setCurrentTool (t) {
+			this.logger.log(-1, "setCurrentTool", "enter");
+			this.currentTool = t
+			if (this.toolbar) {
+				this.toolbar.setCurrentTool(this.currentTool)
+			}
 		},
 
 		setControllerCallback (c){
@@ -335,7 +345,6 @@ export default {
 				} catch (err) {
 					console.debug(err)
 				}
-				
 			}
 			if (mode != this.mode ){
 

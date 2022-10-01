@@ -14,6 +14,7 @@ class ModelFixer {
 			this.logger.warn("fixCommandStack", "Pos < 0 >> pos:" + stack.pos + ' > length:' + stack.stack.length )
 			this.logger.sendError(new Error("Controller.fixCommandStack() > pos is < 0" + stack.pos ))
 			stack.pos = stack.stack.length
+			this.showDebugAlert('Stack < 0')
 			return true
 		}
 		return false
@@ -348,10 +349,15 @@ class ModelFixer {
 		if (p === "x" || p === "y") {
 			let dif = Math.abs(pos[p] - model[p])
 			if (dif === 1) {
-				if (window.location.href.indexOf("localhost") > 0) {
-					console.warn(new Error().stack)
-				}
+				this.showDebugAlert('1 PX Bug')
 			}
+		}
+	}
+
+	showDebugAlert (msg) {
+		if (window.location.href.indexOf("localhost") > 0) {
+			console.warn(new Error().stack)
+			alert(msg)
 		}
 	}
 

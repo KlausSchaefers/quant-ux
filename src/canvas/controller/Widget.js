@@ -676,7 +676,8 @@ export default class Widget extends Snapp {
 			this.addCommand(command);
 			this.modelWidgetCompleteUpdate(id, pos, props);
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
-			this.renderWidget(widget, 'props')
+			// FIXME: calling this.renderWidget(widget, 'props') will not update the bounding box
+			this.render()
 			return widget
 		}
 	}
@@ -713,6 +714,20 @@ export default class Widget extends Snapp {
 		if (widget){
 			widget.props = props
 			this.updateBox(pos, widget)
+
+			/**
+			 * remove from parent screen if set.
+			 */
+			this.cleanUpParent(widget);
+
+			/**
+			 * update parent screen
+			 */
+			const parent = this.getHoverScreen(widget);
+			if(parent){
+				parent.children.push(widget.id);
+			}
+
 			this.setLastChangedWidget(widget)
 			this.onModelChanged([{type: 'widget', action:"change", "prop": "position", id: id}])
 		}

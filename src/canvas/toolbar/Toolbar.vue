@@ -315,6 +315,11 @@ export default {
 			this.context = context;
 		},
 
+		setCurrentTool (t) {
+			this.logger.log(3,"setCurrentTool", "entry");
+			this.currentTool = t
+		},
+
 		setModelFactory (f){
 			this.logger.log(3,"setModelFactory", "entry");
 			this.factory = f;
@@ -483,7 +488,7 @@ export default {
 
 		onWidgetSelected (widget){
 			this.logger.log(1, "onWidgetSelected", "entry : active:" + this.active);
-
+	
 			/**
 			 * Make this faster. Just updating the view costs 30ms
 			 */
@@ -616,8 +621,23 @@ export default {
 
 		onCanvasSelected (){
 			this.cleanUp();
-
 			this.showCanvas()
+		},
+
+
+		onSVGPathsSelected (widget, paths) {
+			this.logger.log(0,"onSVGPathsSelected", "enter", widget, paths);
+			try{
+				this.cleanUp();
+				this._selection = "svgPaths";
+				this._selectedWidget = widget;
+				this._selectionID = widget.id;
+				this._selectionPaths = paths
+				this.showSVGProperties(widget, paths)
+			} catch(e){
+				console.error(e);
+				this.logger.sendError(e);
+			}
 		},
 
 
@@ -696,6 +716,8 @@ export default {
 			this._selectionID = null
 
 			this._selectedRuler = null
+
+			this._selectionPaths = null
 
 			/**
 			 * UGLY: Make sure the widget drop down is closed. We should have a loop for all
@@ -1630,7 +1652,6 @@ export default {
 			this.logger.log(0,"setScreenSize", "entry > "+ pos.w + "/" + pos.h);
 
 			if(this._selectedScreen){
-
 				this.controller.updateScreenWidthAndHeight(this._selectedScreen.id, pos);
 			}
 			return false;

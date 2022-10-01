@@ -26,6 +26,7 @@ export default {
 			this.logger.log(1,"showWidgetProperties", "entry > ", this.isDataView);
 
 			this.restorePropertiesState();
+
 			/**
 			* Since 2.1.6 we have a dedicated data view
 			*/

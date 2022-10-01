@@ -20,7 +20,7 @@
 import DojoWidget from "dojo/DojoWidget";
 import UIWidget from "core/widgets/UIWidget";
 import Logger from 'common/Logger'
-import * as SVGUtil from './../../svg/SVGUtil'
+import * as SVGUtil from '../../svg/SVGUtil'
 
 export default {
   name: "SVGBox",

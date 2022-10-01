@@ -345,6 +345,11 @@ export default {
 			this._renderDesignTokens()
 			this._renderDesignTokensDownload();
 
+
+			this._renderSVGBox()
+			this._renderSVGColor()
+			this._renderSVGFill()
+
 			/**
 			* Hide everything
 			*/

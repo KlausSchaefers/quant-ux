@@ -33,32 +33,27 @@ export default {
 
             this.showSVGEditor()
             const sourceWidget = this.sourceModel.widgets[widget.id]
-            if (sourceWidget) {
-                this._svgCurrentWidget = widget
-                //
-                const div = this.widgetBackgroundDivs[widget.id]
-                if (div) {
-                    css.add(div, 'MatcHidden')
-                    this._svgCurrentWidgetDiv = div
-                } else {
-                    this.logger.error("editSVG", "connot find > ", div);
-                }
-
-                this.$nextTick(() => {
-                    this.currentTool = this.$refs.svgEditor
-                    if (this.currentTool) {
-                        this.currentTool.setValue(widget.props.paths, widget.props.bbox, sourceWidget)
-                        this.$nextTick(() => {
-                            this.currentTool.startSelectTool(true)
-                        })
-                    } else {
-                        this.logger.warn("editSVG", "exit > NO SVGEditor ");
-                    }
-                })
+            const div = this.widgetBackgroundDivs[widget.id]
+            if (!sourceWidget || !div) {
+                this.logger.error("editSVG", "Cannot find > ", widget.id);
+                return
             }
-           
 
-			
+            this._svgCurrentWidget = widget
+            css.add(div, 'MatcHidden')
+            this._svgCurrentWidgetDiv = div
+            this.$nextTick(() => {
+                this.currentTool = this.$refs.svgEditor
+                if (this.currentTool) {
+                    this.currentTool.setValue(widget.props.paths, widget.props.bbox, sourceWidget)
+                    this.$nextTick(() => {
+                        this.currentTool.startSelectTool(true)
+                    })
+                } else {
+                    this.logger.warn("editSVG", "exit > NO SVGEditor ");
+                }
+            })
+            
         },
 
         showSVGEditor() {
@@ -67,8 +62,15 @@ export default {
             this.cleanUpSelectionListener();
             this.showSVG = true
             this.setMode('svg');
-            this.setCanvasCancelCallback('cancelSVG')
-            this.setCanvasModeListener('cancelSVG')
+            this.setCanvasCancelCallback('endSVG')
+            this.setCanvasModeListener('onSVGModeChange')
+        },
+
+        onSVGModeChange (mode) {
+            this.logger.log(-1,"onSVGModeChange", "enter > ");
+            if (mode !== 'svg') {
+                this.endSVG()
+            }
         },
 
 		addSVG (e) {
@@ -77,7 +79,9 @@ export default {
 				this.showSVGEditor()
 			} 
             this.$nextTick(() => {
-                this.currentTool = this.$refs.svgEditor
+                const svgEditor = this.$refs.svgEditor
+                this.setCurrentTool(svgEditor)
+                
                 if (this.currentTool) {
                     this.currentTool.startBezierTool()
                 } else {
@@ -174,18 +178,36 @@ export default {
 
 		closeSVGEditor () {
 			this.logger.log(-1,"closeSVGEditor", "enter > ");
+            console.trace()
             if ( this._svgCurrentWidgetDiv) {
                 css.remove(this._svgCurrentWidgetDiv, 'MatcHidden')
             }
             delete this._svgCurrentWidget
             delete this._svgCurrentWidgetDiv
-            delete this.currentTool
+            this.setCurrentTool()
             this.clearCanvasModeListener()
             if (this.showSVG) {
                 this.showSVG = false  
                 this.setMode('edit');
             }
-		}
+		},
+
+        onSVGPathSelected (selectedPaths) {
+            this.logger.log(-1,"onSVGPathSelected", "enter > ", selectedPaths);
+
+            if (this.controller && this._svgCurrentWidget) {
+                this.controller.onSVGPathsSelected(this._svgCurrentWidget.id, selectedPaths)
+            } else {
+                this.logger.error("onSVGPathSelected", "No widget selected > ");
+            }
+        },
+
+        onSVGPathUnSelected () {
+            this.logger.log(-1,"onSVGPathUnSelected", "enter");
+            if (this.controller) {
+                this.controller.onCanvasSelected()
+            }
+        }
     },
     mounted () {
     }

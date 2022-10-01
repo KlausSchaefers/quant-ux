@@ -4,12 +4,10 @@
       <svg xmlns="http://www.w3.org/2000/svg" 
         :width="width" :height="height" 
         v-if="model" isNotCanvas="true" 
-        :viewBox="`0 0 ${viewBox.w} ${viewBox.h}`" 
-        preserveAspectRatio="none"
       >
         <g id="main" fill="none">
 
-            <path v-for="p in paths"
+            <path v-for="p in svgPaths"
                 :key="p.id"
                 :d="p.d"
                 :stroke="p.stroke"
@@ -36,7 +34,7 @@ export default {
       scale: 1,
       width: 0,
       height: 0,
-      paths: [],
+      svgPaths: [],
       viewBox: {
         w: 0, h: 0
       }
@@ -60,12 +58,10 @@ export default {
     },
 
     resize (box) {
-      this.width = box.w
-      this.height = box.h
+      this.renderElements(box, this.paths, this.viewBox)
     },
 
     render (model, style, scaleX, scaleY) {
-     
       this.model = model;
       this.paths = model.props.paths
       this.viewBox = model.props.bbox
@@ -73,14 +69,17 @@ export default {
       this.scale = scaleX
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-      this.renderElements(this.model, this.paths, scaleX, style)
+      this.renderElements(this.model, this.paths, this.viewBox)
     },
 
-    renderElements (box, paths) {
+    renderElements (box, paths, viewBox) {
       this.width = box.w
       this.height = box.h
-      if (paths) {
-          this.paths = paths.map(path => {
+      // FIXME: If this takes too long, this could be done in the 
+      // Controller. But tehn we would need some special condition :(
+      const scalledPaths = SVGUtil.strechPaths(paths, viewBox, box)
+      if (scalledPaths) {
+          this.svgPaths = scalledPaths.map(path => {
             const svg = {
                 id: path.id,
                 stroke: path.stroke,

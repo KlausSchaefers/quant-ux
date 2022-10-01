@@ -56,6 +56,14 @@ export function getUnZoomedBox(box, zoom) {
     }
 }
 
+export function addPadding(box, padding = 1) {
+    return {
+        x: box.x - padding,
+        y: box.y - padding,
+        w: box.w + padding,
+        h: box.h + padding
+    }
+}
 export function pathToSVG (d, offsetX =0, offsetY = 0) {
   return d.map(point => {
       if (point.t === 'C') {
@@ -109,11 +117,13 @@ export function isValidPaths (paths) {
 }
 
 export function strechPaths(paths, sourceBox, currentBox) {
+    if (sourceBox.w === currentBox.w && sourceBox.h === currentBox.h) {
+        return paths
+    }
     const result = clone(paths)
     const scaleW = currentBox.w / sourceBox.w
     const scaleH = currentBox.h / sourceBox.h
-    console.debug(scaleH, scaleW)
-
+ 
     result.forEach(path => {
         const points = path.d
         for (let i = 0; i < points.length; i++) {
