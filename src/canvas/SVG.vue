@@ -132,7 +132,7 @@ export default {
                 }
 
             } else {
-                this.logger.log(-1,"saveSVG", "NO Paths!");
+                this.logger.log(-1,"saveSVG", "NO Paths > Remove");
                 this.controller.removeWidget(this._svgCurrentWidget.id);
             }
         },

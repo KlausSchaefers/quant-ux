@@ -107,7 +107,7 @@ export default {
 				let hasChange = false
 
 				if (h * 1 != this.value.h) {
-					console.debug('update h', h)
+					
 					if (this.isPercent(h)) {
 						this.scaleValueWH(h)
 						hasChange = true
@@ -123,7 +123,7 @@ export default {
 						hasChange = true
 					}
 				} else if (w * 1 != this.value.w) {
-					console.debug('update w', w)
+				
 					if (this.isPercent(w)) {
 						this.scaleValueWH(w)
 						hasChange = true
