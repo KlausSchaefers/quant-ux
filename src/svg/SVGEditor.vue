@@ -187,7 +187,7 @@ export default {
         return this.mode === 'select' || this.mode === 'move'
       },
       showJoints () {
-        return this.mode === 'morph' || this.mode === 'add'
+        return this.mode === 'morph' //|| this.mode === 'add'
       },
       resizeHandles () {
           const result = []
@@ -452,6 +452,20 @@ export default {
         this.setBoundingBox()
     },
 
+
+    /*****************************************
+     *  Model Lifecycle hooks
+     *****************************************/
+
+    beforeValueChange () {
+        this.logger.log(1, 'beforeValueChange ', 'enter')
+    },
+
+    onValueChanged (type, ids) {
+        this.logger.log(-1, 'onValueChanged ', 'enter > ' + type, ids)
+    },
+
+
     /*****************************************
      *  Helper
      *****************************************/
@@ -473,6 +487,7 @@ export default {
   
         pos.x = Math.round(pos.x / this.zoom)
         pos.y = Math.round(pos.y / this.zoom)
+        pos.zoomed = false
         
         if (this.ruler) {
             pos = this.ruler.correct(pos)

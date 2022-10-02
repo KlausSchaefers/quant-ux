@@ -17,19 +17,19 @@ export default {
      *****************************************/
 
     onResizeMouseDown (handler, e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onResizeMouseDown(handler, this.boundingBox, pos)
         }
     },
     onResizeMouseUp (handler, e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onResizeMouseUp(handler,this.boundingBox, pos)
         }
     },
     onResizeMouseClick (handler, e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onResizeMouseClick(handler, this.boundingBox, pos)
         }
@@ -37,19 +37,19 @@ export default {
 
     // bounding box
     onBBoxMouseDown (e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onBBoxMouseDown(this.boundingBox, pos)
         }
     },
     onBBoxMouseUp (e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onBBoxMouseUp(this.boundingBox, pos)
         }
     },
     onBBoxMouseClick (e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onBBoxMouseClick(this.boundingBox, pos)
         }
@@ -57,21 +57,20 @@ export default {
 
     // joints
     onJointMouseDown (joint, e) {
-        this.logger.log(6, 'onJointMouseDown ', 'enter')
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onJointMouseDown(joint, pos)
         }
     },
     onJointMouseUp (joint, e) {
         this.logger.log(6, 'onJointMouseUp ', 'enter')
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onJointMouseUp(joint, pos)
         }
     },
     onJointClick (joint, e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onJointClick(joint, pos)
         }
@@ -79,19 +78,19 @@ export default {
 
     // bezier
     onBezierMouseDown (joint, e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onBezierMouseDown(joint, pos)
         }
     },
     onBezierMouseUp (joint, e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onBezierMouseUp(joint, pos)
         }
     },
     onBezierClick (joint, e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onBezierClick(joint, pos)
         }
@@ -111,7 +110,7 @@ export default {
     },
 
     onElementClick (path, e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onElementClick(path, pos)
         }
@@ -119,15 +118,14 @@ export default {
 
     // canvas mouse
     onMouseClick (e) {
-        this.logger.log(-5, 'onMouseClick ', 'enter')
-        let pos = this.getCanvasMousePosition(e)
-        console.debug(pos)
+        this.logger.log(5, 'onMouseClick ', 'enter')
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onClick(pos)
         }
     },
     onMouseMove (e) {
-        let pos = this.getCanvasMousePosition(e)
+        const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onMove(pos)
         }
@@ -138,14 +136,14 @@ export default {
         if (this.currentTool) {
             this.currentTool.onMouseDown(pos)
         }
-        this.logger.log(-5, 'onMouseUp ', 'exit', pos)
+        this.logger.log(5, 'onMouseUp ', 'exit', pos)
     },
     onMouseUp (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onMouseUp(pos)
         }
-        this.logger.log(-5, 'onMouseUp ', 'exit', pos)
+        this.logger.log(5, 'onMouseUp ', 'exit', pos)
     },
     onMouseDoubleClick (e) {
         let pos = this.getCanvasMousePosition(e)
@@ -154,9 +152,15 @@ export default {
         }
     },
     onZoom (z) {
-        this.logger.log(-1, 'onZoom', 'enter', z)
+        this.logger.log(1, 'onZoom', 'enter', z)
         if (this.currentTool) {
-            this.currentTool.onZoom(z)
+            // some tools might use the svg.getBOX() method, e.g.
+            // to calculate that boundign box. These values
+            // might not be updated yet, therefore we wait one
+            // tick.
+            this.$nextTick(() => {
+                this.currentTool.onZoom(z)
+            })
         }
         if (this.ruler) {
             this.ruler.setZoom(z)

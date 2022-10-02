@@ -26,12 +26,12 @@ export default class PathTool extends Tool{
     }
 
     onMouseDown(pos) {
-        this.logger.log(-1, 'onMouseDown', 'enter', pos)
+        this.logger.log(1, 'onMouseDown', 'enter', pos)
         this.isMouseDown = true
     }
 
     onClick(pos) {
-        this.logger.log(-1, 'onClick', pos.x + '/'+ pos.y)
+        this.logger.log(1, 'onClick', pos.x + '/'+ pos.y)
         if (this.path.d.length === 0) {
             this.path.d.push({
                 t: 'M',
@@ -49,7 +49,7 @@ export default class PathTool extends Tool{
     }
 
     createPoint (pos, temp) {
-        this.logger.log(-1, 'createPoint', pos.x + ' ' + pos.y)
+        this.logger.log(1, 'createPoint', pos.x + ' ' + pos.y)
         let point = {
             t: 'L',
             x: pos.x,
@@ -71,7 +71,7 @@ export default class PathTool extends Tool{
     }
 
     onDoubleClick () {
-        this.logger.log(-1, 'onDoubleClick')
+        this.logger.log(1, 'onDoubleClick')
         this.path.d = this.path.d.filter(p => !p._temp)
         /** FIXME: the mouseup is called here two times, but not in the bezier. dunno why */
         this.path.d = Util.filterDouble(this.path.d)

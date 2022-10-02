@@ -102,15 +102,26 @@ export default {
     },
 
     deleteSelection () {
-        this.logger.log(-1, 'deleteSelection ', 'enter')
+        this.logger.log(2, 'deleteSelection ', 'enter')
+        this.beforeValueChange()
         this.value = this.value.filter(v => !this.isSelected(v))
         this.unSelect()
         this.startSelectTool()
     },
 
+    renameSelection (name) {
+        this.logger.log(-1, 'renameSelection ', 'enter')
+        this.beforeValueChange()
+        const selection = this.getSelectedElements()
+        selection.forEach(element => {
+            element.name = name
+        });
+        this.onValueChanged('name', selection.map(e => e.id))
+    },
+
     resizeSelection (bbox) {
         this.logger.log(-1, 'resizeSelection ', 'enter', bbox)
-
+        this.beforeValueChange()
         const currentBox = this.getSelectedBoundingBox()
         console.debug(JSON.stringify(currentBox))
         console.debug(JSON.stringify(bbox))

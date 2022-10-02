@@ -75,10 +75,8 @@ export default {
         onSVGChangePathName () {
             this.logger.log(-1,"onSVGChangePathName", "entry > ", this.svgPathName.value);
             const name = this.svgPathName.value
-            if (this._selectionPaths) {
-                this._selectionPaths.forEach(element => {
-                    element.name = name
-                });
+            if (this.currentTool) {
+                this.currentTool.renameSelection(name)
             }
         },
 

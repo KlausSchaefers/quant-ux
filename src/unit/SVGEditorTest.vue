@@ -207,7 +207,7 @@ export default {
   mounted() {
       this.pos = domGeom.position(this.$refs.cntr)
       setTimeout(() => {
-        // this.test_showBezier()
+          //this.test_showBezier()
       }, 100)
 
       this.keyBoardListener = on(win.body(), "keyup", this.onKey);

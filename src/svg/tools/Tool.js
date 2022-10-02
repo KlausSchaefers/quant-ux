@@ -5,6 +5,7 @@ export default class Tool {
             console.error('Tool.constrcutor() > No editor passed')
         }
         this.editor = editor
+        this.zoom = editor.zoom
     }
 
 
