@@ -73,7 +73,7 @@ export default {
         },
 
         onSVGChangePathName () {
-            this.logger.log(-1,"onSVGChangePathName", "entry > ", this.svgPathName.value);
+            this.logger.log(1,"onSVGChangePathName", "entry > ", this.svgPathName.value);
             const name = this.svgPathName.value
             if (this.currentTool) {
                 this.currentTool.renameSelection(name)
@@ -81,7 +81,7 @@ export default {
         },
 
         setSVGBoundingBox (value) {
-            this.logger.log(-1,"setSVGBoundingBox", "entry > ", this.currentTool);
+            this.logger.log(1,"setSVGBoundingBox", "entry > ", value);
             if (this.currentTool) {
                 this.currentTool.resizeSelection(value)
             }

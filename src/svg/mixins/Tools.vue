@@ -7,6 +7,7 @@ import MorphTool from '../tools/MorphTool'
 import MoveTool from '../tools/MoveTool'
 import BezierTool from '../tools/BezierTool'
 import SVGRuler from '../tools/SVGRuler'
+import * as SVGUtil from '../SVGUtil'
 
 export default {
   name: "Tools",
@@ -119,12 +120,21 @@ export default {
         this.onValueChanged('name', selection.map(e => e.id))
     },
 
-    resizeSelection (bbox) {
-        this.logger.log(-1, 'resizeSelection ', 'enter', bbox)
+    resizeSelection (unZoomedTargetBox) {
+        this.logger.log(-1, 'resizeSelection ', 'enter', unZoomedTargetBox)
         this.beforeValueChange()
-        const currentBox = this.getSelectedBoundingBox()
-        console.debug(JSON.stringify(currentBox))
-        console.debug(JSON.stringify(bbox))
+     
+        const unZoomedBBox = this.getSelectedUnZoomedBoundingBox()
+        const selection = this.getSelectedElements()
+
+  
+        // scalling can cause some issues with the translate after wards..
+        SVGUtil.scalePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
+        SVGUtil.translatePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
+        
+        const newBoundingBox = SVGUtil.getZoomedBox(unZoomedTargetBox, this.zoom)
+        this.setBoundingBox(newBoundingBox)
+       
     }
   }
 };

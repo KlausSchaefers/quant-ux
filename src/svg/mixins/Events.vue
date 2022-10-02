@@ -181,6 +181,10 @@ export default {
         if (e.key === 'v') {
             this.startBezierTool()
         }
+
+        if (e.key === 'l') {
+            this.startPathTool()
+        }
     },
     onEsc () {
         this.logger.log(-1, 'onEsc ', 'enter')

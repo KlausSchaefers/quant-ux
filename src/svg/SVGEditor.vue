@@ -174,7 +174,7 @@ export default {
         offSetValue: 0.5,
         showBezierPoints: false,
         config: {
-            pointRadius: 5,
+            pointRadius: 3,
             colorHover: '#49C0F0',
             colorSelect: '#49C0F0',
             handlerSize: 7
@@ -358,7 +358,7 @@ export default {
     select (id) {
         this.logger.log(-1, 'select ', id)
         this.selection = [id]
-        const bbox = this.getSelectedBoundingBox()
+        const bbox = this.getSelectedUnZoomedBoundingBox()
         this.$emit('select', this.getSelectedElements(), bbox)
     },
     
@@ -375,11 +375,11 @@ export default {
         this.setBoundingBox()
     },
 
-    getSelectedBoundingBox () {
+    getSelectedUnZoomedBoundingBox () {
         const elements = this.getSelectedSVGElements()
         if (elements.length === 0) {
             return {
-                x:0, y:0, w:0, h:0
+                x:0, y:0, w:0, h:0, zoom: this.zoom
             }
         }
         const boxes = SVGUtil.getBoxes(elements)
@@ -432,7 +432,7 @@ export default {
         const boxes = SVGUtil.getBoxes(this.$refs.paths)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
         // add here a small padding, otherwise bezier curves might be cutted off!
-        const paddedZoomedBox = SVGUtil.addPadding(zoomedPos)
+        const paddedZoomedBox = SVGUtil.addPadding(zoomedPos, 1)
         const bbox = SVGUtil.getUnZoomedBox(paddedZoomedBox, this.zoom)
         const paths = SVGUtil.removeBoundingBox(this.value, bbox)
         return {
@@ -486,7 +486,7 @@ export default {
   
         pos.x = Math.round(pos.x / this.zoom)
         pos.y = Math.round(pos.y / this.zoom)
-        pos.zoomed = false
+        pos.zoom = 1
         
         if (this.ruler) {
             pos = this.ruler.correct(pos)

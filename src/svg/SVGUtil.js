@@ -50,7 +50,8 @@ export function getZoomedBox(box, zoom) {
         x: Math.round(box.x * zoom),
         y: Math.round(box.y * zoom),
         w: Math.round(box.w * zoom),
-        h: Math.round(box.h * zoom)
+        h: Math.round(box.h * zoom),
+        zoom: zoom
     }
 }
 
@@ -59,7 +60,8 @@ export function getUnZoomedBox(box, zoom) {
         x: Math.round(box.x / zoom),
         y: Math.round(box.y / zoom),
         w: Math.round(box.w / zoom),
-        h: Math.round(box.h / zoom)
+        h: Math.round(box.h / zoom),
+        zoom: zoom
     }
 }
 
@@ -143,10 +145,63 @@ export function strechPaths(paths, sourceBox, currentBox) {
                 point.x2 *= scaleW
                 point.y2 *= scaleH
             }
-
         }
     })   
     return result 
+}
+
+export function scalePathsByBox (paths, from, to) {
+
+    if (Math.abs(from.h - to.h) <= 1 || Math.abs(from.w - to.w) <= 1) {
+        return
+    }
+    paths.forEach(element => {
+        if (element.type === 'Path') {
+            element.d.forEach(point => {
+                const relX = (point.x - from.x) / from.w
+                point.x = to.x + to.w * relX
+
+                const relY = (point.y - from.y) / from.h
+                point.y = to.y + to.h * relY
+
+                if (point.t === 'C') {
+                    const relX1 = (point.x1 - from.x) / from.w
+                    point.x1 = to.x + to.w * relX1
+
+                    const relY1 = (point.y1 - from.y) / from.h
+                    point.y1 = to.y + to.h * relY1
+
+                    const relX2 = (point.x2 - from.x) / from.w
+                    point.x2 = to.x + to.w * relX2
+
+                    const relY2 = (point.y2 - from.y) / from.h
+                    point.y2 = to.y + to.h * relY2
+                }
+            })
+        }
+    })
+}
+
+export function translatePathsByBox (paths, from, to) {
+    const difX = to.x - from.x 
+    const difY = to.y - from.y 
+
+    console.debug('translatePathsByBox', difX, difY)
+
+    paths.forEach(element => {
+        if (element.type === 'Path') {
+            element.d.forEach(point => {
+                point.x += difX
+                point.y += difY
+                if (point.t === 'C') {
+                    point.x1 += difX
+                    point.y1 += difY
+                    point.x2 += difX
+                    point.y2 += difY
+                }
+            })
+        }
+    });
 }
 
 export function addBoundingBox (paths, bbox) {
@@ -185,7 +240,6 @@ export function removeBoundingBox (paths, bbox) {
                 point.x2 -= bbox.x
                 point.y2 -= bbox.y
             }
-
         }
     })   
     return result 

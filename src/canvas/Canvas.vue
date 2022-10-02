@@ -343,7 +343,7 @@ export default {
 		},
 
 		setMode (mode, forceRender){
-			this.logger.log(-3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
+			this.logger.log(3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
 			if (this._canvasModeListener && this[this._canvasModeListener]) {
 				try {
 					this[this._canvasModeListener](mode)
@@ -351,9 +351,7 @@ export default {
 					console.debug(err)
 				}
 			}
-			if (mode != this.mode ){
-
-
+			if (mode !=- this.mode ){
 				/**
 				 * Toggle mode specify css class
 				 */
