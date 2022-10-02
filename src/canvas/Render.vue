@@ -1024,7 +1024,7 @@ export default {
 		 * to request an rerendering.
 		 */
 		setCanvasCancelCallback (l){
-			this.logger.log(-1,"setCanvasCancelCallback", "enter");
+			this.logger.log(4,"setCanvasCancelCallback", "enter");
 			this._cancelCallback = l;
 		},
 

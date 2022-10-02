@@ -264,7 +264,7 @@ export default {
 			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
 			this.own(on(this.ungroupBTN, touch.press, lang.hitch(this, "onToolGroup")));
 			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
-			this.own(on(this.svgTool, touch.press, lang.hitch(this, "onToolSVG")));
+			this.own(on(this.svgTool, touch.press, lang.hitch(this, "onToolSVG", 'bezier')));
 			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
 			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
 
@@ -1394,15 +1394,22 @@ export default {
 			}
 		},
 
-		onToolSVG (e){
-			this.logger.log(1,"onToolSVG", "entry >");
+		onToolSVG (tool, e){
+			this.logger.log(-1,"onToolSVG", "entry >", tool);
 			this.stopEvent(e);
 			topic.publish("matc/canvas/click", "");
 		
 			this.controller.setMode("svg");
-			this.emit("onNewSVG", {"event":e, 'type': 'bezier'});
-			
+			this.emit("onNewSVG", {"event":e, 'type': tool});
 		},
+
+		onToolEditSVG () {
+			if (this._selectedWidget) {
+				this.controller.setMode("svg");
+				this.emit("onEditSVG", {'id': this._selectedWidget.id});
+			}
+		},
+
 
 		onToolSVGEnd () {
 			this.logger.log(1,"onToolSVGEnd", "entry >");

@@ -331,7 +331,7 @@ export default {
 			css.add(this.svgButtonDiv, 'MatcToolbarSectionHidden')
 			css.add(this.svgBoxDiv, "MatcToolbarSectionHidden")
 			css.add(this.svgStrokeDiv, "MatcToolbarSectionHidden")
-			css.add(this.svgFillBox, "MatcToolbarSectionHidden")
+			css.add(this.svgFillDiv, "MatcToolbarSectionHidden")
 
 			css.remove(this.domNode, "MatcToolbarTemplateMarkerVisible");
 			this.hideDisButtons();

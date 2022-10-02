@@ -32,9 +32,30 @@ export default {
             topic.publish("matc/canvas/click", "", "");
         },
 
-		/**********************************************************************
-		 * SVG
-		 **********************************************************************/
+        showSVGEditor() {
+            this.logger.log(-1,"showSVGEditor", "enter > ");
+            this.unSelect();
+            this.cleanUpSelectionListener();
+            this.showSVG = true
+            this.setMode('svg');
+            this.setCanvasCancelCallback('endSVG')
+            this.setCanvasModeListener('onSVGModeChange')
+        },
+
+        onSVGModeChange (mode) {
+            this.logger.log(-1,"onSVGModeChange", "enter > ");
+            if (mode !== 'svg') {
+                this.endSVG()
+            }
+        },
+
+        openSVGEditor (event) {
+            console.debug('openSVGEditor', event)
+            const widget = this.model.widgets[event.id]
+            if (widget) {
+                this.editSVG(widget)
+            }
+        },
 
         editSVG (widget) {
 		    this.logger.log(-1,"editSVG", "enter > ", widget);
@@ -65,25 +86,9 @@ export default {
             
         },
 
-        showSVGEditor() {
-            this.logger.log(-1,"showSVGEditor", "enter > ");
-            this.unSelect();
-            this.cleanUpSelectionListener();
-            this.showSVG = true
-            this.setMode('svg');
-            this.setCanvasCancelCallback('endSVG')
-            this.setCanvasModeListener('onSVGModeChange')
-        },
-
-        onSVGModeChange (mode) {
-            this.logger.log(-1,"onSVGModeChange", "enter > ");
-            if (mode !== 'svg') {
-                this.endSVG()
-            }
-        },
 
 		addSVG (e) {
-			this.logger.log(-1,"addSVG", "enter > ", e);
+			this.logger.log(-1,"addSVG", "enter > ", e.type);
 			if (!this.showSVG ) {
 				this.showSVGEditor()
 			} 
@@ -94,7 +99,15 @@ export default {
                 this.setCurrentTool(svgEditor)
                 
                 if (this.currentTool) {
-                    this.currentTool.startBezierTool()
+
+                    if (e.type === 'bezier') {
+                        this.currentTool.startBezierTool()
+                    }
+
+                    if (e.type === 'line') {
+                        this.currentTool.startPathTool()
+                    }
+                 
                 } else {
                     this.logger.warn("addSVG", "exit > NO SVGEditor ");
                 }

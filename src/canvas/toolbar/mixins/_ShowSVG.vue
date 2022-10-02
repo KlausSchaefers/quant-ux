@@ -36,7 +36,7 @@ export default {
 				.tooltip("Edit Paths")
 				.build(content);
 
-            this.own(on(btn, 'click', lang.hitch(this, 'onToolSVG')))
+            this.own(on(btn, 'click', lang.hitch(this, 'onToolEditSVG')))
 
 
             this.properties.appendChild(parent);
@@ -87,7 +87,7 @@ export default {
         },
 
         _renderSVGFill () {
-            const parent = this.createSection("Fill");
+            const parent = this.createSection("SVG Fill");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
