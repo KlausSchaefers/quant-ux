@@ -67,14 +67,11 @@ export default {
     renderElements (box, elements, scale, style) {
       this.width = box.w
       this.height = box.h
-      let w = box.w
-      let h = box.h
-      let paths = []
+      const w = box.w
+      const h = box.h
+      const paths = []
       elements.forEach(element => {
         if (element.type === 'path') {
-          /**
-           * FIXME: Could we do this smarter and stretch and scale the SVG?
-           */
           let d = element.d.map(p => {
             return {
               t: p.t,
@@ -84,7 +81,7 @@ export default {
           })
 
           d = SVGUtil.pathToSVG(d)
-          let path = {
+          const path = {
             d: d,
             stroke: element.stroke,
             strokeWidth: element.strokeWith

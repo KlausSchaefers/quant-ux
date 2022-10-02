@@ -159,23 +159,23 @@ export function scalePathsByBox (paths, from, to) {
         if (element.type === 'Path') {
             element.d.forEach(point => {
                 const relX = (point.x - from.x) / from.w
-                point.x = to.x + to.w * relX
+                point.x = Math.round(to.x + to.w * relX)
 
                 const relY = (point.y - from.y) / from.h
-                point.y = to.y + to.h * relY
+                point.y = Math.round(to.y + to.h * relY)
 
                 if (point.t === 'C') {
                     const relX1 = (point.x1 - from.x) / from.w
-                    point.x1 = to.x + to.w * relX1
+                    point.x1 = Math.round(to.x + to.w * relX1)
 
                     const relY1 = (point.y1 - from.y) / from.h
-                    point.y1 = to.y + to.h * relY1
+                    point.y1 = Math.round(to.y + to.h * relY1)
 
                     const relX2 = (point.x2 - from.x) / from.w
-                    point.x2 = to.x + to.w * relX2
+                    point.x2 = Math.round(to.x + to.w * relX2)
 
                     const relY2 = (point.y2 - from.y) / from.h
-                    point.y2 = to.y + to.h * relY2
+                    point.y2 = Math.round(to.y + to.h * relY2)
                 }
             })
         }
@@ -183,8 +183,8 @@ export function scalePathsByBox (paths, from, to) {
 }
 
 export function translatePathsByBox (paths, from, to) {
-    const difX = to.x - from.x 
-    const difY = to.y - from.y 
+    const difX = Math.round(to.x - from.x)
+    const difY = Math.round(to.y - from.y)
 
     console.debug('translatePathsByBox', difX, difY)
 

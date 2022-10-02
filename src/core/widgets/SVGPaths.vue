@@ -2,7 +2,7 @@
 <template>
   <div class="MatcWidgetTypeSVGPaths" >
       <svg xmlns="http://www.w3.org/2000/svg" 
-        :width="width" :height="height" 
+        :width="width + 4" :height="height + 4" 
         v-if="model" isNotCanvas="true" 
       >
         <g id="main" fill="none">
@@ -34,6 +34,7 @@ export default {
       scale: 1,
       width: 0,
       height: 0,
+      offSetValue: 2.5, // 2 because we make set the svg to top and left to -2 to avoid cutoffs
       svgPaths: [],
       viewBox: {
         w: 0, h: 0
@@ -88,7 +89,7 @@ export default {
                 d: ''
             }
             if (path.d) {
-                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
+                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue )
             }
             return svg
           })

@@ -127,8 +127,7 @@ export default {
         const unZoomedBBox = this.getSelectedUnZoomedBoundingBox()
         const selection = this.getSelectedElements()
 
-  
-        // scalling can cause some issues with the translate after wards..
+        // FIXME: scalling can cause some issues with the translate after wards..
         SVGUtil.scalePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
         SVGUtil.translatePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
         

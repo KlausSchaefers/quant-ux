@@ -98,8 +98,8 @@
                 <rect
                     :x="boundingBox.x + offSetTools"
                     :y="boundingBox.y + offSetTools"
-                    :width="boundingBox.w"
-                    :height="boundingBox.h"
+                    :width="boundingBox.w + 1"
+                    :height="boundingBox.h + 1"
                     @mousedown.stop="onBBoxMouseDown($event)"
                     @mouseup.stop="onBBoxMouseUp($event)"
                     @click.stop="onBBoxMouseClick($event)"
@@ -285,14 +285,14 @@ export default {
       paths () {
         const result = this.scalledValue.map(path => {
             const svg = {
-                    id: path.id,
-                    stroke: path.stroke,
-                    strokeWidth: path.strokeWidth,
-                    fill: path.fill,
-                    d: ''
+                id: path.id,
+                stroke: path.stroke,
+                strokeWidth: path.strokeWidth,
+                fill: path.fill,
+                d: ''
             }
             if (path.d) {
-                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue)
+                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue)
             }
             if (this.hover === path.id) {
                 svg.stroke = this.config.colorHover
@@ -432,7 +432,7 @@ export default {
         const boxes = SVGUtil.getBoxes(this.$refs.paths)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
         // add here a small padding, otherwise bezier curves might be cutted off!
-        const paddedZoomedBox = SVGUtil.addPadding(zoomedPos, 1)
+        const paddedZoomedBox = SVGUtil.addPadding(zoomedPos, 0)
         const bbox = SVGUtil.getUnZoomedBox(paddedZoomedBox, this.zoom)
         const paths = SVGUtil.removeBoundingBox(this.value, bbox)
         return {
