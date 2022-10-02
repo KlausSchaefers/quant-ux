@@ -431,13 +431,11 @@ export default {
         this.logger.log(-1, 'getValue', 'enter')
         const boxes = SVGUtil.getBoxes(this.$refs.paths)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
-        // add here a small padding, otherwise bezier curves might be cutted off!
-        const paddedZoomedBox = SVGUtil.addPadding(zoomedPos, 0)
-        const bbox = SVGUtil.getUnZoomedBox(paddedZoomedBox, this.zoom)
+        const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
         const paths = SVGUtil.removeBoundingBox(this.value, bbox)
         return {
             paths: paths,
-            pos: paddedZoomedBox,
+            pos: zoomedPos,
             bbox: bbox
         } 
     },

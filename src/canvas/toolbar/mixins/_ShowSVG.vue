@@ -5,6 +5,8 @@ import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import on from 'dojo/on'
 import BoxSize from 'canvas/toolbar/components/BoxSize'
+import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
+import SVGStroke from 'canvas/toolbar/components/SVGStroke'
 import DomBuilder from 'common/DomBuilder'
 
 export default {
@@ -50,7 +52,7 @@ export default {
 			parent.appendChild(content);
 
 			this.svgPathName = this.createInput(content, "Path Name");
-			this.own(on(this.svgPathName, "change", lang.hitch(this, "onSVGChangePathName")));
+			this.own(on(this.svgPathName, "change", lang.hitch(this, "setSVGPathName")));
 
 			let scvSizeDiv = document.createElement("div");
 			content.appendChild(scvSizeDiv)
@@ -64,15 +66,104 @@ export default {
 		
         },
 
-        _renderSVGColor () {
+        _renderSVGStroke () {
 
+            const parent = this.createSection("Stroke");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+            this.svgStrokeBox = this.$new(SVGStroke);
+			this.svgStrokeBox.setModel(this.model);
+			//this.svgBackgroundColor.setCssProps(['background'])
+			this._placeAt(this.svgStrokeBox, content);
+			this.own(on(this.svgStrokeBox, "change", lang.hitch(this, "setSVGPathStyle", false)));
+			this.own(on(this.svgStrokeBox, "changing", lang.hitch(this, "setSVGPathStyle", true)));
+
+
+            this.properties.appendChild(parent);
+			this.svgStrokeDiv = parent;
         },
 
         _renderSVGFill () {
+            const parent = this.createSection("Fill");
 
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+            this.svgFillColor = this.$new(ToolbarColor, {hasGradient : true, hasPicker:true, chevron:false, hex:true});
+			this.svgFillColor.updateLabel = true;
+			this.svgFillColor.keepOpenOnTypeSelection = "svgPaths";
+			this.svgFillColor.setModel(this.model);
+			//this.svgBackgroundColor.setCssProps(['background'])
+			this._placeAt(this.svgFillColor, content);
+			this.own(on(this.svgFillColor, "change", lang.hitch(this, "setSVGFill", false)));
+			this.own(on(this.svgFillColor, "changing", lang.hitch(this, "setSVGFill", true)));
+
+
+            this.properties.appendChild(parent);
+			this.svgFillDiv = parent;
         },
 
-        onSVGChangePathName () {
+
+        showSVGProperties(paths, bbox) {
+		    this.logger.log(1,"showSVGProperties", "entry > ", bbox);
+			this.restorePropertiesState();
+            this.showProperties();
+
+            if (this._selectionPaths.length === 1) {
+                css.remove(this.svgBoxDiv, "MatcToolbarSectionHidden");
+                css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
+                css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
+
+                const path = this._selectionPaths[0]
+                this.svgPathName.value = path.name
+                this.svgFillColor.setValue(path.fill)
+                this.svgStrokeBox.setModel(this.model)
+                this.svgStrokeBox.setValue(path)
+              
+                // here is a little fuckup,, because the bounding box is scalled 
+                // on the fly
+			    this.svgPathSize.setModel(this.model);
+			    this.svgPathSize.setValue(bbox);
+                
+
+            } else {
+                css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
+            }
+
+            
+		
+        },
+
+
+        setSVGPathStyle (temp, key, value) {
+            this.logger.log(-1,"setSVGPathStyle", "entry > " +  key, value);
+            if (this.currentTool) {
+                if (temp) {
+                    this.currentTool.tempStyleSelection(key, value)   
+                } else {
+                    this.currentTool.styleSelection(key, value)
+                }
+            }
+        },
+
+       
+
+        setSVGFill (temp, color) {
+            this.logger.log(-1,"setSVGFill", "entry > ", color, temp);
+            if (this.currentTool) {
+                if (temp) {
+                    this.currentTool.tempStyleSelection('fill', color)   
+                } else {
+                    this.currentTool.styleSelection('fill', color)
+                }
+            }
+        },
+
+        setSVGPathName () {
             this.logger.log(1,"onSVGChangePathName", "entry > ", this.svgPathName.value);
             const name = this.svgPathName.value
             if (this.currentTool) {
@@ -87,30 +178,6 @@ export default {
             }
         },
 
-
-        showSVGProperties(paths, bbox) {
-		    this.logger.log(1,"showSVGProperties", "entry > ", bbox);
-			this.restorePropertiesState();
-            this.showProperties();
-
-            if (this._selectionPaths.length === 1) {
-                const path = this._selectionPaths[0]
-                this.svgPathName.value = path.name
-                css.remove(this.svgBoxDiv, "MatcToolbarSectionHidden");
-              
-                // here is a little fuckup,, because the bounding box is scalled 
-                // on the fly
-			    this.svgPathSize.setModel(this.model);
-			    this.svgPathSize.setValue(bbox);
-                
-
-            } else {
-                css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
-            }
-
-            
-		
-        }
 
 
     }

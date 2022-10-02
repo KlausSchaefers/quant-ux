@@ -14,6 +14,7 @@
 					:zoom="svgCanvasZoom"
 					:pos="svgCanvasPos"
 					:gird="svgGrid"
+					@mouselcick="onSVGClick"
 					@select="onSVGPathSelected"
 					@unselect="onSVGPathUnSelected"
 					@change="onSVGChange"

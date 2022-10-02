@@ -134,6 +134,27 @@ export default {
         const newBoundingBox = SVGUtil.getZoomedBox(unZoomedTargetBox, this.zoom)
         this.setBoundingBox(newBoundingBox)
        
+        this.onValueChanged('position', selection.map(e => e.id))
+    },
+
+    tempStyleSelection (key, value,) {
+        this.logger.log(-1, 'tempStyleSelection ', 'enter')
+     
+        const selection = this.getSelectedElements()
+        selection.forEach(element => {
+            element[key] = value
+        })
+    },
+
+    styleSelection (key, value,) {
+        this.logger.log(-1, 'styleSelection ', 'enter', key)
+        this.beforeValueChange()
+        const selection = this.getSelectedElements()
+        selection.forEach(element => {
+            element[key] = value
+        })
+
+        this.onValueChanged('style', selection.map(e => e.id))
     }
   }
 };

@@ -119,6 +119,7 @@ export default {
     // canvas mouse
     onMouseClick (e) {
         this.logger.log(5, 'onMouseClick ', 'enter')
+        this.$emit('mouselcick')
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onClick(pos)

@@ -351,7 +351,7 @@ export default {
 			
 		
 			this._renderSVGBox()
-			this._renderSVGColor()
+			this._renderSVGStroke()
 			this._renderSVGFill()
 
 			/**

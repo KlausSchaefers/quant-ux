@@ -1,6 +1,7 @@
 <script>
 
 import css from 'dojo/css'
+import topic from "dojo/topic";
 import * as SVGUtil from '../svg/SVGUtil'
 
 export default {
@@ -26,6 +27,10 @@ export default {
         }
 	},
     methods: {
+
+        onSVGClick () {
+            topic.publish("matc/canvas/click", "", "");
+        },
 
 		/**********************************************************************
 		 * SVG

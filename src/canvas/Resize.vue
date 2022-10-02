@@ -175,10 +175,10 @@ export default {
        
         if (this.handlers && box && this.resizeEnabled) {
           if (this.handlers['LeftUp']) {
-            this.handlers['LeftUp'].style.top = box.y  + (-1* this.resizeButtonSize) + "px";
+            this.handlers['LeftUp'].style.top = box.y -1 + (-1* this.resizeButtonSize) + "px";
             this.handlers['LeftUp'].style.left = box.x  + (-1* this.resizeButtonSize)+ "px";
 
-            this.handlers['RightUp'].style.top = box.y  + (-1* this.resizeButtonSize) + "px";
+            this.handlers['RightUp'].style.top = box.y -1 + (-1* this.resizeButtonSize) + "px";
             this.handlers['RightUp'].style.left = (box.x + box.w) + (-1* this.resizeButtonSize)+ "px";
 
             this.handlers['RightDown'].style.top = (box.y + box.h) - this.resizeButtonSize + "px";
@@ -191,7 +191,7 @@ export default {
           if (this.handlers['Left']) {
             this.handlers['Left'].style.height= box.h +"px"
             this.handlers['Left'].style.top = box.y + "px";
-            this.handlers['Left'].style.left = box.x -1 +"px";
+            this.handlers['Left'].style.left = box.x +"px";
 
             this.handlers['Right'].style.height= box.h +"px"
             this.handlers['Right'].style.top = box.y + "px";
@@ -207,7 +207,7 @@ export default {
           }
 
           if (this.handlers['North']) {
-            this.handlers['North'].style.top = box.y  + (-1* this.resizeButtonSize) + "px";
+            this.handlers['North'].style.top = box.y -1  + (-1* this.resizeButtonSize) + "px";
             this.handlers['North'].style.left = (box.x + box.w/2)+ (-1* this.resizeButtonSize)+ "px";
 
             this.handlers['West'].style.top = box.y +(box.h/2) + (-1* this.resizeButtonSize) + "px";

@@ -47,6 +47,7 @@
             "save-as": "Save As",
             "exit": "Back to Prototypes"
         },
+        "svgStop": "Stop Editing",
         "simulate": "Simulate",
         "group": "Group",
         "sign-up": "Sign Up To Save",

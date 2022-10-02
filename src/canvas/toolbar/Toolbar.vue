@@ -101,7 +101,7 @@
 						
 								<div class="MatcToolbarItem">
 									<div class="MatcButton MatcToolbarCloseButton" @click="onToolSVGEnd" >
-										Close
+										{{$t('toolbar.svgStop')}}
 									</div>
 								</div>
 						</div> 
