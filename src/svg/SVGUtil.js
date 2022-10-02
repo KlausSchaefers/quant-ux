@@ -1,27 +1,34 @@
-export function getUnZoomedPaths(paths, zoom) {
-    const result = clone(paths)
-    for (let path of result) {
-        const points = path.d
-        for (let i = 0; i < points.length; i++) {
-            const point = points[i];
-            point.x = Math.round(point.x / zoom)
-            point.y = Math.round(point.y / zoom)
-            if (point.t === 'C') {
-                point.x1 = Math.round(point.x1 / zoom)
-                point.y1 = Math.round(point.y1 / zoom)
-                point.x2 = Math.round(point.x2 / zoom)
-                point.y2 = Math.round(point.y2 / zoom)
-            }
-        }
-    }
 
-    return result
+export function getRelativePaths (bbox, selected) {
+    return selected.map(element => {
+        if (element.type === 'Path') {
+            return element.d.map(point => {
+                if (point.t === 'C') {
+                    return {
+                        x: (point.x - bbox.x) / bbox.w,
+                        y: (point.y - bbox.y) / bbox.h,
+                        x1: (point.x1 - bbox.x) / bbox.w,
+                        y1: (point.y1 - bbox.y) / bbox.h,
+                        x2: (point.x2 - bbox.x) / bbox.w,
+                        y2: (point.y2 - bbox.y) / bbox.h
+                    }
+                }
+                return {
+                    x: (point.x - bbox.x) / bbox.w,
+                    y: (point.y - bbox.y) / bbox.h
+                }
+            })
+        }
+        return []
+    })
 }
+
 
 export function getZoomedPaths(paths, zoom) {
     const result = clone(paths)
     for (let path of result) {
         const points = path.d
+        path.strokeWidth = path.strokeWidth * zoom
         for (let i = 0; i < points.length; i++) {
             const point = points[i];
             point.x = Math.round(point.x * zoom)

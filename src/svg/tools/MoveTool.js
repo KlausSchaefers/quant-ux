@@ -237,27 +237,7 @@ export default class MoveTool extends Tool{
        
         this.initMove(zoomedBBox, pos)
         const bbox = SVGUtil.getUnZoomedBox(zoomedBBox, this.zoom)
-        this.relativePositions = this.selected.map(element => {
-            if (element.type === 'Path') {
-                return element.d.map(point => {
-                    if (point.t === 'C') {
-                        return {
-                            x: (point.x - bbox.x) / bbox.w,
-                            y: (point.y - bbox.y) / bbox.h,
-                            x1: (point.x1 - bbox.x) / bbox.w,
-                            y1: (point.y1 - bbox.y) / bbox.h,
-                            x2: (point.x2 - bbox.x) / bbox.w,
-                            y2: (point.y2 - bbox.y) / bbox.h
-                        }
-                    }
-                    return {
-                        x: (point.x - bbox.x) / bbox.w,
-                        y: (point.y - bbox.y) / bbox.h
-                    }
-                })
-            }
-            return []
-        })
+        this.relativePositions = SVGUtil.getRelativePaths(bbox, this.selected)
         this.handler = handler
         this.isResize = true
     }

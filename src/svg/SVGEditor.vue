@@ -59,16 +59,6 @@
 
             <template v-if="showJoints">
 
-                <!-- joints-->
-                <circle v-for="joint in joints" :key="joint.id"
-                    :cx="joint.x + offSetTools"
-                    :cy="joint.y + offSetTools"
-                    @mousedown.stop="onJointMouseDown(joint, $event)"
-                    @mouseup.stop="onJointMouseUp(joint, $event)"
-                    @click.stop="onJointClick(joint, $event)"
-                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
-                    :r="joint.r" />
-
                 <!-- Bezier lines-->
                 <path v-for="p in selectedBezierElements.lines"
                     :key="p.id"
@@ -90,6 +80,15 @@
                     :class="['qux-svg-editor-bezier', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
                     />
 
+                <!-- joints-->
+                <circle v-for="joint in joints" :key="joint.id"
+                    :cx="joint.x + offSetTools"
+                    :cy="joint.y + offSetTools"
+                    @mousedown.stop="onJointMouseDown(joint, $event)"
+                    @mouseup.stop="onJointMouseUp(joint, $event)"
+                    @click.stop="onJointClick(joint, $event)"
+                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
+                    :r="joint.r" />
 
             </template>
 
@@ -175,7 +174,7 @@ export default {
         offSetValue: 0.5,
         showBezierPoints: false,
         config: {
-            pointRadius: 3,
+            pointRadius: 5,
             colorHover: '#49C0F0',
             colorSelect: '#49C0F0',
             handlerSize: 7
@@ -313,7 +312,7 @@ export default {
      *****************************************/
 
     setCursor (c = 'default') {
-         this.logger.log(-1, 'setCursor ', 'enter', c)
+        this.logger.log(5, 'setCursor ', 'enter', c)
         this.cursor = c
     },
 

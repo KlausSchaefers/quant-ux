@@ -215,7 +215,7 @@ export default {
         },
 
         onSVGChange (paths) {
-            this.logger.log(-1,"onSVGChange", "enter", paths);
+            this.logger.log(2,"onSVGChange", "enter", paths);
         }
     },
     mounted () {
