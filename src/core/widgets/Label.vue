@@ -31,6 +31,13 @@ export default {
       this.wireHover()
     },
 
+    onSimulatoStarted () {
+      this.isSimulatorStarted = true
+      if (this.isAnimated()) {
+        this.setAnimatedLabel(this.animMax)
+      }
+    },
+
     getLabelNode () {
       return this.domNode;
     },
@@ -41,10 +48,18 @@ export default {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
 
+      if (this.isAnimated()) {
+        this.animCurrent = model.props.min
+        this.animMax = model.props.max
+        this.animDuration = model.props.duration * 1
+      }
+
       this.setStyle(style, model);
       if (model.props && model.props.label) {
         this.setValue(model.props.label);
       }
+
+    
     },
 
 
@@ -78,20 +93,34 @@ export default {
           console.warn('Label._setDataBindingValue() Cannot convert JSON', v)
         }
       }
+      this.animIsRunning = false
+      if (this.isAnimated() && !isNaN(v)) {
+        this.setAnimatedLabel(v)
+        return
+      }
       if (this.model.props && this.model.props.label) {
-        var label = this.model.props.label;
-        if (label.indexOf("{0}") >= 0) {
-          v = label.replace("{0}", v);
-        }
+        const label = this.getLabelValue()
+        v = this.replaceVaribale(label, v)
       }
       this.setValue(v);
+    },
+
+    getLabelValue () {
+      return this.model.props && this.model.props.label
+    },
+
+    replaceVaribale (label, value) {
+        if (label.indexOf("{0}") >= 0) {
+           return label.replace("{0}", value);
+        }
+        return value
     },
 
     getValue () {
       return this.value;
     },
 
-    setValue (value) {
+    setValue (value) {  
       value += "";
       if (value === '${pos}') {
         value = this.model.x + ' / ' + this.model.y
@@ -100,7 +129,46 @@ export default {
         this.value = value;
         this.setInnerHTML(this.domNode, value);
       }
-    
+      
+    },
+
+    setAnimatedLabel (to) {
+      const label = this.getLabelValue()
+      const diff = to - this.animCurrent
+      const frames = (this.animDuration * 30)
+      const step = diff / frames
+      this.animSteps = []
+ 
+      let x = this.animCurrent
+      for (let i = 0; i < frames; i++) {
+        this.animSteps.push(Math.round(x))
+        x += step
+      } 
+      this.animSteps.push(to)
+      this.animIsRunning = true
+      this.runLabelAnimation(label, to)
+
+    },
+
+    runLabelAnimation (label, to) {
+        if (!this.animIsRunning) {
+          this.animCurrent = to
+          return
+        }
+        if (this.animSteps.length > 0) {
+          let value = this.animSteps.shift()
+          value = this.replaceVaribale(label, value)
+          this.setTextContent(this.domNode, value + "");
+          requestAnimationFrame(() => {
+              this.runLabelAnimation(label, to)
+          })
+        } else {
+          this.animCurrent = to
+        }
+    },
+
+    isAnimated () {
+      return this.model && this.model.props.animated
     },
 
     getState () {
