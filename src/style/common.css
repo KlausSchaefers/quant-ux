@@ -280,6 +280,12 @@ a:FOCUS {
 	display: inline-block;
 }
 
+.box.MatcWarningBox,
+.MatcWarningBox {
+	background: #f9ed8371;
+    border: 1px solid #d0c45b;
+}
+
 /****************************************************
    * Animation
    ****************************************************/

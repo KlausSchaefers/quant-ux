@@ -13,12 +13,33 @@
         </div>
 
         <HeatList :app="app" :pub="isPublic" :events="events" v-if="events && events.length > 0" />
-        <div class="MatcLoading@" v-else>
-          You have not performed any test and we could not collect any data yet. Once you start testing,
-          you can will see here the heat maps.
+
+        <div v-if="loading" class="MatcHint">
+            Loading...
+        </div>
+       
+      </div>
+    </section>
+
+
+
+    <section class="section" v-if="!loading && events.length === 0">
+      <div class="container">
+        <div class="box is-shadowless MatcWarningBox">
+          <h2 class="title">No data</h2>
+          <p>
+            You have not performed any test yet, therefore Quant-UX could not collect any data. Once you start testing,
+            you can will see here the heat maps.
+          </p>
         </div>
       </div>
     </section>
+        
+
+    
+    
+    <AnalyticPagePlugin  v-if="events && events.length === 0" :events="event" :model="app" />
+
     <section class="section">
       <div class="container">
         <div class="box is-shadowless">
@@ -43,11 +64,12 @@ import Plan from "page/Plan";
 import Util from "core/Util";
 import Comment from "page/Comment";
 import HeatList from "dash/HeatList";
+import AnalyticPagePlugin from "../../../plugins/AnalyticPagePlugin"
 
 export default {
   name: "Test",
   mixins: [DojoWidget, Plan, Util],
-  props: ["app", "test", "annotation", "events", "pub"],
+  props: ["app", "test", "annotation", "events", "pub", "loading"],
   data: function() {
     return {
       MIN_REQUIERED_USERS: 40,
@@ -56,7 +78,8 @@ export default {
   },
   components: {
     Comment: Comment,
-    HeatList: HeatList
+    HeatList: HeatList,
+    AnalyticPagePlugin: AnalyticPagePlugin
   },
   computed: {
     isPublic() {
