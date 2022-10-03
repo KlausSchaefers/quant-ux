@@ -336,7 +336,7 @@ export default class RenderFactory extends Core {
 	}
 
 	updateLabel (widget) {
-		var uiWidget = this.getUIWidgetByID(widget.id);
+		const uiWidget = this.getUIWidgetByID(widget.id);
 		if (!uiWidget) {
 			let node = this._labelNodes[widget.id]
 			if (node) {
@@ -346,7 +346,6 @@ export default class RenderFactory extends Core {
 	}
 
 	updateWidget(widget) {
-		console.debug('updateWidget', widget)
 		let parent = this._widgetNodes[widget.id];
 		if (parent) {
 			this.setStyle(parent, widget, true, false);
@@ -406,6 +405,7 @@ export default class RenderFactory extends Core {
 			var w = this._uiWidgets[model.id];
 			if (this.mode == "simulator") {
 				w.wireEvents();
+				w.onSimulatoStarted()
 			}
 			/**
 			 * In case of player or simulator set previews status
@@ -852,7 +852,7 @@ export default class RenderFactory extends Core {
 
 
 	_createLabel(parent, model) {
-		var widget = this.$new(Label);
+		var widget = this.$new(Label, {mode: this.mode});
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

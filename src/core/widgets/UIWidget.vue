@@ -83,6 +83,12 @@ export default {
     /**
      * Widget can expose here some properties
      */
+    onSimulatoStarted () {
+    },
+
+    /**
+     * Widget can expose here some properties
+     */
     getValidationProperties () {
     },
 
@@ -560,12 +566,11 @@ export default {
     },
 
     hideErrorLabel () {
-      var errorLabels = this.getErrorLabels();
+      const errorLabels = this.getErrorLabels();
 
       if (this.model.props.validation && errorLabels) {
-        for (var i = 0; i < errorLabels.length; i++) {
-          var target = errorLabels[i];
-
+        for (let i = 0; i < errorLabels.length; i++) {
+          const target = errorLabels[i];
           this.emitAnimation(target, this.erroAnimationDuration, {
             opacity: 0
           });
@@ -574,10 +579,10 @@ export default {
     },
 
     showErrorLabel () {
-      var errorLabels = this.getErrorLabels();
+      const errorLabels = this.getErrorLabels();
       if (this.model.props.validation && errorLabels) {
-        for (var i = 0; i < errorLabels.length; i++) {
-          var target = errorLabels[i];
+        for (let i = 0; i < errorLabels.length; i++) {
+          const target = errorLabels[i];
           this.emitAnimation(target, this.erroAnimationDuration, {
             opacity: 1
           });
