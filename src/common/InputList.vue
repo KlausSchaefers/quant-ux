@@ -33,7 +33,7 @@ export default {
     },
     components: {},
     methods: {
-        postCreate: function(){
+        postCreate (){
 			this.log = new Logger("InputList");
 			this.db = new DomBuilder();
 		},
@@ -43,11 +43,11 @@ export default {
 			this.hints = h
 		},
 		
-		setSelected:function(checked){
+		setSelected (checked){
 			this.selected = checked;
 		},
 		
-		blur:function(){
+		blur (){
 			if(this.newInput){
 				this.newInput.blur();
 			}
@@ -58,17 +58,17 @@ export default {
 			}
 		},
 		
-		getSelected:function(){
+		getSelected (){
 			this.blur();
 			return this.selected;
 		},
 		
-		setOptions:function(o){
+		setOptions (o){
 			this.options = lang.clone(o);
 			this.render();
 		},
 		
-		getOptions:function(){
+		getOptions (){
 			if(this.newInput){
 				if(this.newInput.value){
 					this.options.push(this.stripHTML(this.newInput.value));
@@ -77,7 +77,7 @@ export default {
 			return this.options;
 		},
 		
-		render:function(focusNewElement){
+		render (focusNewElement){
 			this.log.log(0,"render", "enter > " + this.inline);
 			
 			this.cleanUpTempListener();
@@ -162,11 +162,11 @@ export default {
 			this.domNode.appendChild(tbl);
 		},
 		
-		isSelected:function(option){
+		isSelected (option){
 			return this.selected == option;
 		},
 		
-		getLabel:function(option){
+		getLabel (option){
 			var result = option;
 			if(this.labelFCT){
 				result = this.labelFCT(option);
@@ -174,15 +174,15 @@ export default {
 			return this.unStripHTML(result);
 		},
 		
-		setLabelFct:function(fct){
+		setLabelFct (fct){
 			this.labelFCT = fct;
 		},
 		
-		onInputChanged:function(i, input){
+		onInputChanged (i, input){
 			this.options[i] = this.stripHTML(input.value);
 		},
 		
-		onCheckBoxChange:function(j, option){
+		onCheckBoxChange (j, option){
 
 			if(this.isSelected(option)){
 				this._checks[j].setValue(false);
@@ -200,7 +200,7 @@ export default {
 			}
 		},
 		
-		cleanUp:function(){
+		cleanUp (){
 			if(this._checks){
 				for(var i=0; i < this._checks.length; i++){
 					this._checks[i].destroy();
@@ -208,15 +208,14 @@ export default {
 			}
 		},
 		
-		onOptionChanged:function(input, isSelected){
+		onOptionChanged (input, isSelected){
 			if(isSelected){
 				this.selected = input.value;
 			}
 			this.render();
 		},
 		
-		onNewOption:function(input, value){
-			console.debug('onNewOption', value)
+		onNewOption (input, value){
 			if(this.checkNewOption){
 				this.selected = value;
 			}
