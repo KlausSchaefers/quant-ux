@@ -103,6 +103,40 @@
 }
 
 /*******************************
+ * Icon Toggle Button
+ *******************************/
+
+.MatcWidgetIconToggleButton {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+.MatcWidgetVisualPickerIcon {
+	position: relative;
+	width: 100%;
+	height: 70%;
+	cursor: pointer;
+	overflow: hidden;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+}
+
+.MatcWidgetIconToggleButtonLabel {
+	width: 100%;
+	height: 30%;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	overflow: hidden;
+}
+
+
+/*******************************
  * VisualPicker
  *******************************/
 
@@ -112,7 +146,6 @@
 	height: 100%;
 	outline: none;
 	border: none;
-
 }
 
 

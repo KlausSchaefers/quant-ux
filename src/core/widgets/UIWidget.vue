@@ -14,6 +14,7 @@ import Logger from 'common/Logger'
 import on from "dojo/on";
 import touch from "dojo/touch";
 
+
 const styleKeysForResize = [
 			'fontSize',
 			"borderTopLeftRadius", "borderTopRightRadius", "borderBottomRightRadius", "borderBottomLeftRadius",
@@ -55,9 +56,9 @@ export default {
      */
     wireEvents () {},
 
-    wireHover () {
-      this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));
-      this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
+    wireHover (over = touch.over, out = touch.out) {
+      this.own(on(this.domNode, over, lang.hitch(this, "onDomMouseOver")));
+      this.own(on(this.domNode, out, lang.hitch(this, "onDomMouseOut")));
     },
 
    

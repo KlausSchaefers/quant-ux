@@ -1,0 +1,55 @@
+[ {
+	"id" : "IconToggleButton",
+	"type" : "IconToggleButton",
+	"_type" : "Widget",
+	"category" : "WireFrame",
+	"subcategory" : "XFormButton",
+	"name" : "Icon Toggle Button",
+    "x" : 0,
+    "y" : 0,
+    "w" : 96,
+    "h" : 96,
+    "z" : 0,
+	"props" : {
+		"label" : "Click Me"
+	},
+	"has" : {
+		"data":true,
+		"backgroundColor" : true,
+		"onclick" : true,
+		"label" : true,
+		"border":true
+	},
+	"style" : {
+		"borderTopRightRadius" : 4,
+		"borderTopLeftRadius" : 4,
+		"borderBottomRightRadius" : 4,
+		"borderBottomLeftRadius" : 4,
+	
+		"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"fontSize": 12,
+		"textAlign" : "center",
+		"letterSpacing": 0,
+		"lineHeight": 1,
+		"borderTopWidth": 1,
+		"borderBottomWidth": 1,
+		"borderRightWidth": 1,
+		"borderLeftWidth": 1,
+		"borderTopColor": "#333",
+		"borderBottomColor": "#333",
+		"borderRightColor": "#333",
+		"borderLeftColor": "#333",
+		"borderTopStyle": "solid",
+		"borderBottomStyle": "solid",
+		"borderRightStyle": "solid",
+		"borderLeftStyle": "solid",
+		"background" : "#fff",
+		"color": "#333",
+        "icon": "mdi mdi-heart",
+		"iconSize": 48
+	},
+	"active" : {
+		"color" : "#ffffff",
+		"background" : "#333333"
+	}
+} ]

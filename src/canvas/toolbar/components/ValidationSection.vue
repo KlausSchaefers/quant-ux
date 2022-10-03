@@ -95,6 +95,10 @@ export default {
 			this._renderDataBinding(model);
 		},
 
+		_showIconToggleButton (model){
+			this._renderDataBinding(model);
+		},
+
 		_showButton (model){
 			this._renderDataBinding(model, false);
 		},

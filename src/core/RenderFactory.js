@@ -49,6 +49,7 @@ import ProgressBar from 'core/widgets/ProgressBar'
 import ScreenSegment from 'core/widgets/ScreenSegment'
 import LockSlider from 'core/widgets/LockSlider'
 import Script from 'core/widgets/Script'
+import IconToggleButton from 'core/widgets/IconToggleButton'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -639,6 +640,12 @@ export default class RenderFactory extends Core {
 	_createLogicOr(parent, model) {
 		css.add(parent, "MatcLogic");
 		var widget = this.$new(LogicOr);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createIconToggleButton(parent, model) {
+		var widget = this.$new( IconToggleButton);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

@@ -191,6 +191,19 @@ export default {
 			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
 		},
 
+		
+		_showIconToggleButton(model) {
+			this._setSectionLabel("Icon Toggle Button");
+			
+			this._renderCheck("Checked",model.props.checked, "checked" );
+			this._renderInputDropDown("Icon Size", model, [8,12,16,24,32,40, 48, 64, 96, 128], "iconSize", false);
+			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+
+			const lbl = model.props.formGroup ? model.props.formGroup + "" : "No Group";
+			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
+		},
+
+
 		_showScreenSegment  (widget) {
 			this._setSectionLabel("Screen Section");
 			// this._renderCheck("Show Scroll",widget.props.scroll, "scroll" );
@@ -379,6 +392,7 @@ export default {
 		_showIconButton(model) {
 			this._setSectionLabel("Icon Button");
 			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderInputDropDown("Space",model, [4, 8, 12, 16, 24, 320], "iconMargin", false);
 			this._renderColor('Color','<span class="mdi mdi-format-color-fill"></span>',model.style.iconColor, "iconColor", "onStyleChanged", true );
 		},
 

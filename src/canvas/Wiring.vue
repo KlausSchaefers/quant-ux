@@ -47,6 +47,7 @@ export default {
 			},
 
 			dispatchOver (e) {
+	
 				let target = e.target
 				if (target._widgetID) {
 					let widget = this.model.widgets[target._widgetID];
