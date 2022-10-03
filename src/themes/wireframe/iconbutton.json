@@ -36,6 +36,6 @@
 		"borderLeftWidth" : 1,
         "verticalAlign" : "middle",
         "icon": "mdi mdi-heart",
-        "iconColor": "#333333"
+		"iconMargin": 8
 	}
 } ]

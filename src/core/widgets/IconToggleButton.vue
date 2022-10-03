@@ -1,17 +1,12 @@
 
 <template>
-  <div class="MatcWidgetVisualPicker">
-      <div class="MatcWidgetVisualPickerIconCntr" ref="cntrNode" >
-          <div class="MatcWidgetVisualPickerBorder" ref="borderNode" >
+  <div class="MatcWidgetIconToggleButton">
+        <div class="MatcWidgetVisualPickerIcon">
              <span :class="icon" ref="iconNode"/>
-          </div>
-          <div class="MatcWidgetVisualPickerPopOver" v-show="value === true" ref="popNode">
-                <span :class="popIcon" ref="popIconNode"/>
-          </div>
-      </div>
-      <div class="MatcWidgetVisualPickerIconLabel" ref="labelNode">
+        </div>
+        <div class="MatcWidgetIconToggleButtonLabel" ref="labelNode">
           {{label}}
-      </div>
+        </div>
   </div>
 </template>
 <style>
@@ -23,9 +18,10 @@ import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import topic from "dojo/topic";
 import UIWidget from "core/widgets/UIWidget";
+import touch from "dojo/touch";
 
 export default {
-  name: "VisualPicker",
+  name: "IconToggleButton",
   mixins: [UIWidget, DojoWidget],
   data: function () {
     return {
@@ -33,7 +29,7 @@ export default {
       style: {},
       model: {},
       isWired: false,
-      topic: "MatcWidgetVisualPicker"
+      topic: "MatcWidgetIconToggleButton"
     };
   },
   components: {},
@@ -50,12 +46,6 @@ export default {
         }
         return ''
     },
-    popIcon () {
-        if (this.model && this.model.style && this.model.style.popIcon){
-            return 'mdi ' + this.model.style.popIcon
-        }
-        return ''
-    },
     size () {
       if (this.bbox) {
         return Math.round(Math.min(this.bbox.h, this.bbox.w) * 0.6) + 'px'
@@ -65,17 +55,17 @@ export default {
   },
   methods: {
     postCreate () {
-      this._borderNodes = [];
-      this._backgroundNodes = [];
-      this._shadowNodes = [];
-      this._labelNodes = [this.$refs.labelNode];
+        this._borderNodes = [this.$el];
+        this._backgroundNodes = [this.$el];
+        this._shadowNodes = [this.$el];
+        this._labelNodes = [this.$el];
     },
 
     wireEvents () {
       this.isWired = true
       this.own(this.addClickListener(this.domNode, lang.hitch(this, 'onChange')));
       this.own(topic.subscribe(this.topic, lang.hitch(this, "onOtherChecked")));
-      this.wireHover()
+      this.wireHover(touch.enter, touch.leave)
     },
   
     onOtherChecked (event) {
@@ -91,7 +81,13 @@ export default {
         this.setValue(!this.value);
         this.emit("change", this.value );
         this.emitClick(e);
-         topic.publish(this.topic, {id: this.model.id, formGroup: this.getFormGroup(this.model)});
+        topic.publish(
+            this.topic, 
+            {
+                id: this.model.id, 
+                formGroup: this.getFormGroup(this.model)
+            }
+        );
     },
 
     getLabelNode () {
@@ -103,18 +99,6 @@ export default {
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-
-      if (model.props.cntrBorder) {
-        this._borderNodes = [this.$el];
-        this._backgroundNodes = [this.$el];
-        this._shadowNodes = [this.$el];
-        this._setBorderRadiusAt(this.$refs.cntrNode, style, ["borderTopLeftRadius", "borderTopRightRadius"])
-      } else {
-        this._borderNodes = [this.$refs.borderNode];
-        this._backgroundNodes = [this.$refs.cntrNode];
-        this._shadowNodes = [this.$refs.cntrNode];
-         this._setBorderRadius(this.$refs.cntrNode, style)
-      }
 
       this.setStyle(style, model);
       if (model.props && model.props.checked !== undefined) {
@@ -129,37 +113,21 @@ export default {
         }
     },
 
-    _set_iconColor(parent, style) {
-      if (this.$refs.iconNode) {
-          this.$refs.iconNode.style.color = style.iconColor
-      }
-    },
-
-    _set_popBackground (parent, style) {
-        if (this.$refs.popNode) {
-            this.$refs.popNode.style.background = style.popBackground
-        }
-    },
-
-    _set_popColor(parent, style) {
-        if (this.$refs.popNode) {
-            this.$refs.popNode.style.color = style.popColor
-        }
-    },
-
-    _set_popIconSize(parent, style) {
-        if (this.$refs.popIconNode) {
-            const w = this._getBorderWidth(style.popIconSize);
-            this.$refs.popIconNode.style.fontSize = w + "px";
-        }
-    },
-
     getValue () {
       return this.value;
     },
 
     setValue (value) {
-      this.value = value
+      this.value = value;
+
+      if (this.value && this.model.active) {
+        const active = this.model.active
+        this.$el.style.background = active.background
+        this.$el.style.color = active.color
+      } else {
+        this.$el.style.background = this.style.background
+        this.$el.style.color = this.style.color
+      }
     },
 
     getState () {

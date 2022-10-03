@@ -23,6 +23,8 @@ class touch {
         this.click = 'click'
         this.over = 'mouseover'
         this.out = 'mouseout'
+        this.enter = 'mouseenter'
+        this.leave = 'mouseleave'
     }
 }
 
