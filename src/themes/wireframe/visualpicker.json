@@ -79,8 +79,8 @@
           "icon": "mdi-card-account-details",
           "iconSize": 48,
           "iconColor": "#fff",
-          "popColor": "#333",
-          "popBackground": "#ccc",
+          "popColor": "#fff",
+          "popBackground": "#ffffff",
           "popIconSize": "60",
           "popIcon": "mdi-check"
         },
