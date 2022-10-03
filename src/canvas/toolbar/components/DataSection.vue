@@ -178,13 +178,16 @@ export default {
 			this._setSectionLabel("Visual Picker");
 			
 			this._renderCheck("Checked",model.props.checked, "checked" );
+			this._renderInputDropDown("Icon Size", model, [8,12,16,24,32,40, 48, 64, 96, 128], "iconSize", false);
+
 			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
 			this._renderColor('Icon Color','<span class="mdi mdi-check"></span>',model.style.iconColor, "iconColor" ,"onStyleChanged", true);
-			this._renderInputDropDown("Icon Size", model, [8,12,16,24,32,40, 48, 64, 96, 128], "iconSize", false);
-			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.popColor, "popColor" ,"onStyleChanged", true);
-			this._renderColor('Hook Background','<span class="mdi mdi-format-color-fill"></span>',model.style.popBackground, "popBackground", "onStyleChanged",true );
+		
+			this._renderButton("Checked Icon", "mdi mdi-cog", (e) => this._renderIconDialog(e, 'popIcon'));
+			this._renderColor('Checked Color','<span class="mdi mdi-check"></span>',model.style.popColor, "popColor" ,"onStyleChanged", true);
+			this._renderColor('Checked Background','<span class="mdi mdi-format-color-fill"></span>',model.style.popBackground, "popBackground", "onStyleChanged",true );
 
-			const lbl=  model.props.formGroup ? model.props.formGroup + "" : "No Group";
+			const lbl = model.props.formGroup ? model.props.formGroup + "" : "No Group";
 			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
 		},
 
@@ -1574,36 +1577,46 @@ export default {
 		/**********************************************************************
 		 * Icons
 		 **********************************************************************/
-		_renderIconDialog (e){
+		_renderIconDialog (e, iconKey = 'icon'){
+			this.logger.log(-1, '_renderIconDialog', 'enter', iconKey)
 			this.stopEvent(e);
 
-			var popup = this.db.div("MatcDialogXXL MatcPadding").build();
+			const popup = this.db
+				.div("MatcDialogXXL MatcPadding")
+				.build();
 
+			const top = this.db
+				.div("MatcRight")
+				.build(popup);
+			const div = this.db
+				.div("form-group has-feedback")
+				.build(top);
+			const input = this.db
+				.input("MatcCreateSearch MatcIgnoreOnKeyPress form-control")
+				.build(div);
 
-			var bar = this.db.div("MatcRight").build(popup);
+			this.db
+				.span("mdi mdi-magnify  form-control-feedback MatcCreateSearchBtn")
+				.build(div);
 
-			var div = this.db.div("form-group has-feedback").build(bar);
-			var input = this.db.input("MatcCreateSearch MatcIgnoreOnKeyPress form-control").build(div);
 			input.type = "search";
-			this.db.span("mdi mdi-magnify  form-control-feedback MatcCreateSearchBtn").build(div);
 
 
-			var cntr = this.db.div("MatcDateSectionIconCntr", "").build(popup);
+			const cntr = this.db.div("MatcDateSectionIconCntr", "").build(popup);
+			const table = this.db.div("").build();
 
-
-			var table = this.db.div("").build();
-
-			var scroller = this.$new(ScrollContainer);
+			const scroller = this.$new(ScrollContainer);
 			scroller.placeAt(cntr);
 			scroller.wrap(table);
 
-			bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
-			var d = new Dialog();
+			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+
+			const d = new Dialog();
 			d.hasCSSAnimation = false
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
-			d.own(on(table, touch.press, lang.hitch(this, "setIcon", d)));
+			d.own(on(table, touch.press, lang.hitch(this, "setIcon", d, iconKey)));
 			d.own(on(input, touch.press, function(e){e.stopPropagation()}));
 			d.own(on(input, "keypress", function(e){e.stopPropagation()}));
 			d.own(on(input, "keydown", function(e){e.stopPropagation()}));
@@ -1611,28 +1624,31 @@ export default {
 
 			d.popup(popup, e.target);
 
-			let selected = this.getSelectedIcon()
+			const selected = this.getSelectedIcon(iconKey)
 
 			setTimeout(() => {
 				input.focus();
-				this.renderIconTable(table, "", selected);
+				this.renderIconTable(table, "", selected, iconKey);
 			},400);
 		},
 
-		getSelectedIcon () {
+		getSelectedIcon (iconKey= 'icon') {
 			if (this.widget && this.widget.style) {
-				return this.widget.style.icon
+				return this.widget.style[iconKey]
 			}
 		},
 
 		renderIconTable (table, filter, selected = false){
 			table.innerHTML="";
-			var icons = this.icons;
+			const icons = this.icons;
 
-			for (var j = 0; j < icons.length; j++) {
-				var icon = icons[j];
+			for (let j = 0; j < icons.length; j++) {
+				const icon = icons[j];
 				if(!filter || icon.indexOf(filter.toLowerCase()) >=0 ){
-					var span = this.db.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j]).build(table);
+					const span = this.db
+						.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j])
+						.build(table);
+
 					span.setAttribute("data-matc-icon", icons[j]);
 					if ('mdi mdi-' + icons[j] === selected) {
 						this.focusIcon(span)
@@ -1658,17 +1674,18 @@ export default {
 			}
 		},
 
-		setIcon (d,e){
-			d.close();
-			var node = e.target;
+		setIcon (d, iconKey, e){
+			const node = e.target;
 			if(node){
-				var icon = node.getAttribute("data-matc-icon");
+				css.add(node, 'selected')
+				const icon = node.getAttribute("data-matc-icon");
 				if(icon){
-					this.onStyleChanged("icon", "mdi mdi-" +icon);
+					this.onStyleChanged(iconKey, "mdi mdi-" +icon);
 				}
-
 			}
-
+			setTimeout(() => {
+				d.close();
+			}, 250) 
 		},
 
 		setOptions (d, scroller, list){

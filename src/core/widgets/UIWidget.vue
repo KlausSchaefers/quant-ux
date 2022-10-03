@@ -753,6 +753,14 @@ export default {
       }
     },
 
+   _setBorderRadiusAt (node, style, borderRadius = []) {
+      for (let i = 0; i < borderRadius.length; i++) {
+        const key = borderRadius[i];
+        const w = this._getBorderWidth(style[key]);
+        node.style[key] = w + "px";
+      }
+    },
+
     _setBorder (node, style) {
       this._setBorderRadius(node, style);
     },

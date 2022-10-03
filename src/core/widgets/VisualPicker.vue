@@ -65,9 +65,9 @@ export default {
   },
   methods: {
     postCreate () {
-      this._borderNodes = [this.$refs.borderNode];
-      this._backgroundNodes = [this.$refs.cntrNode];
-      this._shadowNodes = [this.$refs.cntrNode];
+      this._borderNodes = [];
+      this._backgroundNodes = [];
+      this._shadowNodes = [];
       this._labelNodes = [this.$refs.labelNode];
     },
 
@@ -103,6 +103,18 @@ export default {
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
+
+      if (model.props.cntrBorder) {
+        this._borderNodes = [this.$el];
+        this._backgroundNodes = [this.$el];
+        this._shadowNodes = [this.$el];
+        this._setBorderRadiusAt(this.$refs.cntrNode, style, ["borderTopLeftRadius", "borderTopRightRadius"])
+      } else {
+        this._borderNodes = [this.$refs.borderNode];
+        this._backgroundNodes = [this.$refs.cntrNode];
+        this._shadowNodes = [this.$refs.cntrNode];
+         this._setBorderRadius(this.$refs.cntrNode, style)
+      }
 
       this.setStyle(style, model);
       if (model.props && model.props.checked !== undefined) {
