@@ -1,0 +1,104 @@
+[
+    {
+        "id": "VisualPicker",
+        "type": "VisualPicker",
+        "_type": "Widget",
+        "name": "Visual Picker",
+        "category": "WireFrame",
+        "subcategory": "XFormButton",
+        "x" : 0,
+        "y" : 0,
+        "w" : 96,
+        "h" : 120,
+        "z" : 0,
+        "props" : {
+          "label": "Pick"
+        },
+        "has" : {
+          "data":true,
+          "backgroundColor" : true,
+          "onclick" : true,
+          "label" : true,
+          "border":true
+        },
+        "style" : {
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "background" : "#fff",
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "fontSize": 12,
+          "textAlign" : "center",
+          "letterSpacing": 0,
+          "lineHeight": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1,
+          "borderRightWidth": 1,
+          "borderLeftWidth": 1,
+          "borderTopColor": "#333",
+          "borderBottomColor": "#333",
+          "borderRightColor": "#333",
+          "borderLeftColor": "#333",
+          "borderTopStyle": "solid",
+          "borderBottomStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderLeftStyle": "solid",
+          "boxShadow": {
+            "v": 0,
+            "h": 0,
+            "b": 0,
+            "s": 0,
+            "i": false,
+            "c": "rgba(0,0,0,0.16)",
+            "custom": true
+          },
+          "color": "#333",
+          "icon": "mdi-card-account-details",
+          "iconSize": 48,
+          "iconColor": "#333",
+          "popColor": "#fff",
+          "popBackground": "#333333",
+          "popIconSize": "60",
+          "popIcon": "mdi-check"
+        },
+        "hover": {
+        }
+    },
+    {
+        "id": "VisualPicker2",
+        "type": "VisualPicker",
+        "_type": "Widget",
+        "name": "Visual Picker",
+        "category": "WireFrame",
+        "subcategory": "XFormButton",
+        "_extends" : "VisualPicker",
+        "style" : {
+          "background" : "#333",
+          "color": "#333",
+          "icon": "mdi-card-account-details",
+          "iconSize": 48,
+          "iconColor": "#fff",
+          "popColor": "#fff",
+          "popBackground": "#ffffff",
+          "popIconSize": "60",
+          "popIcon": "mdi-check"
+        },
+        "hover": {
+        }
+    },
+    {
+      "id": "VisualPicker3",
+      "type": "VisualPicker",
+      "_type": "Widget",
+      "name": "Visual Picker",
+      "category": "WireFrame",
+      "subcategory": "XFormButton",
+      "_extends" : "VisualPicker",
+      "w" : 96,
+      "h" : 96,
+      "props": {
+        "cntrBorder": true
+      }
+    }
+]

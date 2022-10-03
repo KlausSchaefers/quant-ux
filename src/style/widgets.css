@@ -110,16 +110,19 @@
 	position: absolute;
 	width:100%;
 	height: 100%;
-	overflow: hidden;
 	outline: none;
 	border: none;
+
 }
+
+
 
 .MatcWidgetVisualPickerIconCntr {
 	position: relative;
 	width: 100%;
 	height: 80%;
 	cursor: pointer;
+	overflow: hidden;
 }
 
 .MatcWidgetVisualPickerBorder {
@@ -137,6 +140,7 @@
 	display: grid;
 	justify-content: center;
 	align-content: center;
+	overflow: hidden;
 }
 
 .MatcWidgetVisualPickerPopOver {
@@ -148,6 +152,7 @@
 	display: grid;
 	justify-content: center;
 	align-content: center;
+
 }
 
 
