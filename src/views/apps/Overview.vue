@@ -67,6 +67,7 @@
       </div>
       <div v-if="tab == 'test'">
         <TestTab
+          :loading="loading"
           :app="app"
           :test="testSettings"
           :hash="hash"
@@ -79,6 +80,7 @@
       </div>
       <div v-if="tab == 'analyze'">
         <AnalyticsTab
+          :loading="loading"
           :app="app"
           :hash="hash"
           :test="testSettings"
@@ -91,6 +93,7 @@
 
       <div v-if="tab == 'heat'">
         <HeatTab
+          :loading="loading"
           :app="app"
           :test="testSettings"
           :annotation="sessionAnnotations"
@@ -101,6 +104,7 @@
 
       <div v-if="tab == 'video'">
         <VideoTab
+          :loading="loading"
           :app="app"
           :test="testSettings"
           :annotation="sessionAnnotations"
@@ -112,6 +116,7 @@
 
       <div v-if="tab == 'settings'">
         <SettingsTab
+          :loading="loading"
           :app="app"
           :user="user"
           :invitations="invitations"
@@ -148,6 +153,7 @@ export default {
   mixins: [DojoWidget],
   data: function() {
     return {
+      loading: true,
       tab: "design",
       appID: "",
       app: {
@@ -224,6 +230,7 @@ export default {
       let id = this.$route.params.id;
       this.modelService.findEvents(id).then(events => {
         this.events = events;
+        this.loading = false
         this.logger.log(-1, "loadEvents", "Found " + events.length + " events");
       });
     },

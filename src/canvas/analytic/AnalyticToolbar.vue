@@ -10,8 +10,8 @@
 				<div class="MatcToolbarTopLeftCntr" data-dojo-attach-point="screenSection">
 				</div>
 
-			
 				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
+					<ToolbarPluginSection :events="events" :user="user" :mode="model" />
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
 					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn"/>
 				</div>
@@ -63,6 +63,7 @@ import Analytics from 'dash/Analytics'
 import VideoPlayer from 'views/apps/test/VideoPlayer'
 import DataFrame from 'common/DataFrame'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
+import ToolbarPluginSection from '../../plugins/ToolbarPluginSection'
 import HelpButton from 'help/HelpButton'
 
 
@@ -71,15 +72,19 @@ export default {
     mixins:[Util,_Color,  _Tooltip, DojoWidget],
     data: function () {
         return {
-          value: false,
-          analyticMode: "HeatmapClick",
-					analyticHeatMapClicks: -1,
-					canvasViewConfig: {}
+			events: null,
+			model: null,
+			user: null,
+			value: false,
+			analyticMode: "HeatmapClick",
+			analyticHeatMapClicks: -1,
+			canvasViewConfig: {}
         }
     },
     components: {
 			'ViewConfig': ViewConfig,
-			'HelpButton': HelpButton
+			'HelpButton': HelpButton,
+			'ToolbarPluginSection': ToolbarPluginSection
 		},
     methods: {
         postCreate(){
