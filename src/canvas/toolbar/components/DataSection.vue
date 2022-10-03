@@ -1361,16 +1361,12 @@ export default {
 		_showFormGroupDialog (e){
 			this.stopEvent(e);
 
-
 			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
-
 			var cntr = this.db.div("MatcDialogTable").build(popup);
-
-
 			var scroller = this.$new(ScrollContainer);
 			scroller.placeAt(cntr);
 
-			var list = this.$new(InputList,{"check" : "single"});
+			var list = this.$new(InputList,{"check" : "single", 'checkNewOption': true});
 			if (this.widget.props){
 				list.setSelected(this.widget.props.formGroup);
 			}
@@ -1378,7 +1374,6 @@ export default {
 			scroller.wrap(list.domNode);
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-
 			var write = this.db.div("MatcButton", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
