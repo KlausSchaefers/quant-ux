@@ -158,11 +158,19 @@
 		"name": "Animated Label",
 		"x": 0,
 		"y": 0,
+<<<<<<< HEAD
 		"w": 120,
 		"h": 32,
 		"z": 0,
 		"props": {
 			"label": "# {value}",
+=======
+		"w": 80,
+		"h": 32,
+		"z": 0,
+		"props": {
+			"label": "# {0}",
+>>>>>>> 5764f84 (Animated Label)
 			"animated": true,
 			"duration": 3,
 			"min": 0,
