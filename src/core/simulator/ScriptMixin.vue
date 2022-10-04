@@ -11,9 +11,9 @@ export default {
   methods: {
 
     async initLoadScripts () {
-        this.logger.log(-2,"initLoadScripts","enter >" );
+        this.logger.log(2,"initLoadScripts","enter >" );
         if (this.doNotExecuteScripts) {
-            this.logger.log(-2,"initLoadScripts","exit > Do not run" );
+            this.logger.log(2,"initLoadScripts","exit > Do not run" );
             return
         }
         const widgets = this.getLoadScripts()
@@ -33,9 +33,9 @@ export default {
     },
 
     async executeDataScripts () {
-        this.logger.log(-2,"executeDataScripts","enter >" );
+        this.logger.log(2,"executeDataScripts","enter >" );
         if (this.doNotExecuteScripts) {
-            this.logger.log(-2,"executeDataScripts","exit > Do not run" );
+            this.logger.log(2,"executeDataScripts","exit > Do not run" );
             return
         }
         const widgets = this.getDataBindingScripts()

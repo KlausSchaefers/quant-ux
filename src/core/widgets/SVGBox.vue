@@ -61,7 +61,9 @@ export default {
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-      this.renderElements(this.model, this.elements, scaleX, style)
+      if (this.elements) {
+        this.renderElements(this.model, this.elements, scaleX, style)
+      }
     },
 
     renderElements (box, elements, scale, style) {
