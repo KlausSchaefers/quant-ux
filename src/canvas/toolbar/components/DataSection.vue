@@ -512,7 +512,7 @@ export default {
 				this._setSectionLabel("Animated Label");
 				this._renderInputDropDown("Min",model, [0,1,5,10,20, 50, 100], "min", true);
 				this._renderInputDropDown("Max",model, [0,1,5,10,20, 50, 100], "max", true);
-				this._renderInputDropDown("Duration (s)",model, [0,1,2, 3, 4, 5], "duration", true);
+				this._renderInputDropDown("Duration (s)",model, [0,1,2, 3, 4, 5], "duration", true, 'float');
 			} else {
 				this._setSectionLabel("Label");
 			}
@@ -1059,9 +1059,8 @@ export default {
 
 
 		_renderIgnoreState (widget){
-			var row = this.db.div("MatcToobarRow").build(this.cntr);
-
-			var chkBox = this.$new(CheckBox);
+			const row = this.db.div("MatcToobarRow").build(this.cntr);
+			const chkBox = this.$new(CheckBox);
 			css.add(chkBox.domNode, "MatcToolbarItem");
 			chkBox.placeAt(row);
 			chkBox.setLabel("Forget State")
@@ -1200,7 +1199,6 @@ export default {
 			if (d && d.close) {
 				d.close()
 			}
-
 			this.onProperyChanged("screenID", screenID);
 		},
 
@@ -1210,7 +1208,7 @@ export default {
 
 		_renderDataBinding (widget, hasIgnoreState = true){
 
-			let dataBindingBtn = this.$new(DataBindingButton)
+			const dataBindingBtn = this.$new(DataBindingButton)
 			dataBindingBtn.setWidget(widget)
 			dataBindingBtn.setDataView(this.isDataView)
 			dataBindingBtn.setModel(this.model)
@@ -1971,10 +1969,13 @@ export default {
 		},
 
 
-		_renderInputDropDown (lbl, model, options, property, isProp){
+		_renderInputDropDown (lbl, model, options, property, isProp, type = false){
 
-			let row = this.db.div("MatcToobarRow ").build(this.cntr);
-			var dropDown = this.$new(InputDropDownButton);
+			const row = this.db.div("MatcToobarRow ").build(this.cntr);
+			const dropDown = this.$new(InputDropDownButton);
+			if (type) {
+				dropDown.type = type
+			}
 			dropDown.reposition = true;
 			dropDown.setLabelPostfix("   (" + lbl + ")");
 			dropDown.setOptions(options);
@@ -1985,7 +1986,6 @@ export default {
 				dropDown.setValue(model.style[property])
 			}
 			dropDown.placeAt(row);
-		//	this.db.span("MatcToolbarItemLabel", lbl + "").build(row);
 			if(isProp){
 				this.tempOwn(on(dropDown, "change", lang.hitch(this, "onProperyChanged", property)));
 			} else {
