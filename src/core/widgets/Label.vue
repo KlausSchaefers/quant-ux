@@ -113,6 +113,9 @@ export default {
         if (label.indexOf("{0}") >= 0) {
            return label.replace("{0}", value);
         }
+        if (label.indexOf("{value}") >= 0) {
+           return label.replace("{value}", value);
+        }
         return value
     },
 

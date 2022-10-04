@@ -59,8 +59,14 @@ export default {
 
 		onInputChange (){
 			if(this._value != this.inputBox.value){
-				if(this.type =="int"){
-					if(this.isValid(this.inputBox.value)){
+				if(this.type =="float") {
+					if(this.isValidFloat(this.inputBox.value)){
+						this.onChange(this.inputBox.value);
+					} else {
+						this.inputBox.value=this._value;
+					}
+				} else if(this.type =="int"){
+					if(this.isValidInt(this.inputBox.value)){
 						this.onChange(this.inputBox.value);
 					} else {
 						this.inputBox.value=this._value;
@@ -91,23 +97,25 @@ export default {
 			this._value = value;
 		},
 
+		isValidFloat (value) {
+			const er = /^[0-9]+\.?[0-9]*$/;
+			const valid =  er.test(value);
+			if(!valid){
+				return false;
+			}
+			return value >= 0
+		},
 
-		isValid (value){
+		isValidInt (value){
 			if(this.allowA && (value == "a" || value == "A")){
 				return true;
 			}
-			var er = /^[0-9]+$/;
-			var valid =  er.test(value);
+			const er = /^[0-9]+$/;
+			const valid =  er.test(value);
 			if(!valid){
-				/**
-				 * FIXME: add here some kind if css class or so?
-				 */
 				return false;
 			}
-			if( value >= 0){
-				return true;
-			}
-			return false;
+			return value >= 0
 		}
     },
     mounted () {

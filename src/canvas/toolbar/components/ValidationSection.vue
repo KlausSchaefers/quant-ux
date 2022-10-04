@@ -377,10 +377,6 @@ export default {
 			this.emit("propertyChange", "validation", val);
 		},
 
-
-
-
-
 		getErrorLabels (model){
 			var errorLabels = this.getRef(model, "errorLabels");
 			if(!errorLabels){
