@@ -232,6 +232,16 @@ export default {
             }
         },
 
+
+        onSVGMove (selectedPaths, bbox) {
+            this.logger.log(2,"onSVGMove", "enter", bbox);
+            if (this.controller) {
+                this.controller.onSVGPathsMoved(selectedPaths, bbox)
+            } else {
+                this.logger.error("onSVGPathSelected", "No widget selected > ");
+            }
+        },
+
         onSVGChange (paths) {
             this.logger.log(2,"onSVGChange", "enter", paths);
         }

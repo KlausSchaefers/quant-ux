@@ -151,8 +151,10 @@ export function strechPaths(paths, sourceBox, currentBox) {
 }
 
 export function scalePathsByBox (paths, from, to) {
+    const difH = Math.abs(from.h - to.h) 
+    const difW = Math.abs(from.w - to.w)
 
-    if (Math.abs(from.h - to.h) <= 1 || Math.abs(from.w - to.w) <= 1) {
+    if (difH <= 1 &&  difW <= 1) {
         return
     }
     paths.forEach(element => {
@@ -186,7 +188,9 @@ export function translatePathsByBox (paths, from, to) {
     const difX = Math.round(to.x - from.x)
     const difY = Math.round(to.y - from.y)
 
-    console.debug('translatePathsByBox', difX, difY)
+    if (difX === 0 && difY === 0) {
+        return paths
+    }
 
     paths.forEach(element => {
         if (element.type === 'Path') {

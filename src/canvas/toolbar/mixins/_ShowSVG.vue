@@ -4,7 +4,7 @@
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import on from 'dojo/on'
-import BoxSize from 'canvas/toolbar/components/BoxSize'
+import SVGSize from 'canvas/toolbar/components/SVGSize'
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import SVGStroke from 'canvas/toolbar/components/SVGStroke'
 import DomBuilder from 'common/DomBuilder'
@@ -57,7 +57,7 @@ export default {
 			let scvSizeDiv = document.createElement("div");
 			content.appendChild(scvSizeDiv)
 
-			this.svgPathSize = this.$new(BoxSize, {isHoverParent: true});
+			this.svgPathSize = this.$new(SVGSize, {isHoverParent: true});
 			this.own(on(this.svgPathSize, "change", lang.hitch(this, "setSVGBoundingBox")));
 			this.svgPathSize.placeAt(scvSizeDiv);
 
@@ -138,6 +138,12 @@ export default {
 		
         },
 
+        onSVGPathsMoved (paths, bbox) {
+            this.logger.log(1,"onSVGPathsMoved", "entry > ", bbox);
+            //this.svgPathSize.setModel(this.model);
+			this.svgPathSize.setValue(bbox);
+        },
+
 
         setSVGPathStyle (temp, key, value) {
             this.logger.log(-1,"setSVGPathStyle", "entry > " +  key, value);
@@ -171,10 +177,10 @@ export default {
             }
         },
 
-        setSVGBoundingBox (value) {
-            this.logger.log(1,"setSVGBoundingBox", "entry > ", value);
+        setSVGBoundingBox (value, type) {
+            this.logger.log(1,"setSVGBoundingBox", "entry > " + type, value);
             if (this.currentTool) {
-                this.currentTool.resizeSelection(value)
+                this.currentTool.resizeSelection(value, type)
             }
         },
 

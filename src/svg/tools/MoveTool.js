@@ -195,6 +195,7 @@ export default class MoveTool extends Tool{
 
     onBBoxMouseDown (bbox, pos) {
         this.logger.log(1, 'onBBoxMouseDown', 'enter')
+        this.editor.setBoundingBoxVisible(false)
         this.initMove(bbox, pos)
         this.positions = this.selected.map(element => {
             if (element.type === 'Path') {
@@ -225,6 +226,7 @@ export default class MoveTool extends Tool{
         this.logger.log(1, 'onBBoxMouseUp', 'enter')
         if (this.isMove) {
             this.cleanMove()
+            this.editor.setBoundingBoxVisible(true)
             this.editor.setCursor('default')
         }
     }

@@ -187,6 +187,13 @@ export default class BaseController extends Core {
 		}
 	}
 
+	onSVGPathsMoved (paths, bbox) {
+		this.logger.log(3,"onSVGPathsMoved", "enter > ");
+		if(this.toolbar){
+			this.toolbar.onSVGPathsMoved(paths, bbox);
+		}
+	}
+
 	onSVGPathsSelected (paths, bbox) {
 		this.logger.log(-3,"onSVGPathsSelected", "enter > ");
 		if(this.toolbar){

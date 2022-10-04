@@ -1,4 +1,5 @@
-.qux-svg-editor_cursor_crosshair, .qux-svg-editor_cursor_crosshair .qux-svg-editor-joint{
+.qux-svg-editor_cursor_crosshair, 
+.qux-svg-editor_cursor_crosshair .qux-svg-editor-joint{
     cursor: crosshair;
 }
 
@@ -108,6 +109,13 @@
     Xbackground: rgba(255, 255, 255, 0.264);
 }
 
- {
-
+.qux-svg-editor-no-bbox .qux-svg-editor-resize-handler{
+    stroke: transparent;
 }
+
+.qux-svg-editor-no-bbox .qux-svg-editor-resize-handler,
+.qux-svg-editor-no-bbox .qux-svg-editor-bounding{
+    stroke: transparent;
+    fill: transparent;
+}
+

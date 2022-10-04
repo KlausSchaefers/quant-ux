@@ -23,6 +23,7 @@ export default {
     setState (state) {
         this.logger.log(1, 'setState ', 'enter', state)
         delete this.currentTool
+        this.isBoundingBoxVisible = true
         this.setCursor('default')
         this.setBoundingBox()
 
@@ -120,16 +121,20 @@ export default {
         this.onValueChanged('name', selection.map(e => e.id))
     },
 
-    resizeSelection (unZoomedTargetBox) {
-        this.logger.log(-1, 'resizeSelection ', 'enter', unZoomedTargetBox)
+    resizeSelection (unZoomedTargetBox, type) {
+        this.logger.log(-1, 'resizeSelection ', 'enter: ' + type, unZoomedTargetBox)
         this.beforeValueChange()
      
         const unZoomedBBox = this.getSelectedUnZoomedBoundingBox()
         const selection = this.getSelectedElements()
+    
+        if (type === 'x' || type === 'y') {
+            SVGUtil.translatePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
+        }
+        if (type === 'w' || type === 'h') {
+            SVGUtil.scalePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
+        }
 
-        // FIXME: scalling can cause some issues with the translate after wards..
-        SVGUtil.scalePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
-        SVGUtil.translatePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
         
         const newBoundingBox = SVGUtil.getZoomedBox(unZoomedTargetBox, this.zoom)
         this.setBoundingBox(newBoundingBox)

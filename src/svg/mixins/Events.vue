@@ -1,4 +1,5 @@
 <script>
+import * as SVGUtil from '../SVGUtil'
 
 export default {
   name: "Events",
@@ -16,6 +17,13 @@ export default {
      * Event handler
      *****************************************/
 
+    onBoundBoxChange () {
+        if (this.boundingBox) {
+            const unZoomedBounding = SVGUtil.getUnZoomedBox(this.boundingBox, this.zoom)
+            this.$emit('move', this.getSelectedElements(), unZoomedBounding)
+        }
+    },
+
     onResizeMouseDown (handler, e) {
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -27,6 +35,7 @@ export default {
         if (this.currentTool) {
             this.currentTool.onResizeMouseUp(handler,this.boundingBox, pos)
         }
+        this.onBoundBoxChange()
     },
     onResizeMouseClick (handler, e) {
         const pos = this.getCanvasMousePosition(e)
@@ -47,6 +56,7 @@ export default {
         if (this.currentTool) {
             this.currentTool.onBBoxMouseUp(this.boundingBox, pos)
         }
+        this.onBoundBoxChange()
     },
     onBBoxMouseClick (e) {
         const pos = this.getCanvasMousePosition(e)

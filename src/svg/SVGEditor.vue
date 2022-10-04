@@ -1,5 +1,5 @@
 <template>
-  <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor" :style="{'width': width + 'px', 'height': height + 'px'}"
+  <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor + (!isBoundingBoxVisible ? ' qux-svg-editor-no-bbox' : '')" :style="{'width': width + 'px', 'height': height + 'px'}"
     @click.stop="onMouseClick"
     @mousedown.stop="onMouseDown"
     @mouseup.stop="onMouseUp"
@@ -162,6 +162,7 @@ export default {
   data: function() {
     return {
         value: [],
+        isBoundingBoxVisible: true,
         mode: 'select',
         cursor: 'default',
         hover: null,
@@ -311,12 +312,17 @@ export default {
      * getters & setters
      *****************************************/
 
+    setBoundingBoxVisible (isBoundingBoxVisible) {
+        this.isBoundingBoxVisible = isBoundingBoxVisible
+    },
+
     setCursor (c = 'default') {
         this.logger.log(5, 'setCursor ', 'enter', c)
         this.cursor = c
     },
 
     reset () {
+        this.isBoundingBoxVisible = true
         this.setSplitPoint()
         this.unSelect()
     },
@@ -459,7 +465,7 @@ export default {
     },
 
     onValueChanged (type, ids) {
-        this.logger.log(-1, 'onValueChanged ', 'enter > ' + type, ids)
+        this.logger.log(1, 'onValueChanged ', 'enter > ' + type, ids)
     },
 
 
