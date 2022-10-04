@@ -351,6 +351,13 @@ export default class RenderFactory extends Core {
 		if (parent) {
 			this.setStyle(parent, widget, true, false);
 		}
+		const uiWidget = this.getUIWidgetByID(widget.id);
+		if (!uiWidget) {
+			const labelNode = this._labelNodes[widget.id]
+			if (labelNode) {
+				this.setInnerHTML(labelNode, widget.props.label)
+			}
+		}
 	}
 
 	/**********************************************************************
