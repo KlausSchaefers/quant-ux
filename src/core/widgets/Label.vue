@@ -113,12 +113,9 @@ export default {
         if (label.indexOf("{0}") >= 0) {
            return label.replace("{0}", value);
         }
-<<<<<<< HEAD
         if (label.indexOf("{value}") >= 0) {
            return label.replace("{value}", value);
         }
-=======
->>>>>>> 5764f84 (Animated Label)
         return value
     },
 
