@@ -13,16 +13,16 @@ export default {
   },
   methods: {
 
-    /******************************************
-     * Event handler
-     *****************************************/
-
     onBoundBoxChange () {
         if (this.boundingBox) {
             const unZoomedBounding = SVGUtil.getUnZoomedBox(this.boundingBox, this.zoom)
             this.$emit('move', this.getSelectedElements(), unZoomedBounding)
         }
     },
+
+    /******************************************
+     * Event handler
+     *****************************************/
 
     onResizeMouseDown (handler, e) {
         const pos = this.getCanvasMousePosition(e)

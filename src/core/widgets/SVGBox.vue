@@ -45,7 +45,7 @@ export default {
 
     wireEvents () {
       this.own(this.addClickListener(this.domNode, e => {
-        this.onClick(e)
+        this.emitClick(e)
       }));
       this.wireHover()
     },

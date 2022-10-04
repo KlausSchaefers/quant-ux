@@ -2,7 +2,7 @@
 <template>
   <div class="MatcWidgetTypeSVGPaths" >
       <svg xmlns="http://www.w3.org/2000/svg" 
-        :width="width + 4" :height="height + 4" 
+        :width="width + 10" :height="height + 10" 
         v-if="model" isNotCanvas="true" 
       >
         <g id="main" fill="none">
@@ -16,6 +16,12 @@
                 ref="paths"
                 :stroke-width="p.strokeWidth"/>
             </g>
+            <defs v-if="hasSVG">
+                <linearGradient v-for="p in gradients" :id="p.id" :key="p.id" x1="0" x2="0" y1="0" y2="1">
+                    <stop v-for="(c,i) in p.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
+                </linearGradient>
+              
+            </defs>
         </svg>
       </div>
 </template>
@@ -34,15 +40,32 @@ export default {
       scale: 1,
       width: 0,
       height: 0,
-      offSetValue: 2.5, // 2 because we make set the svg to top and left to -2 to avoid cutoffs
+      offSetValue: 5.5, // 2 because we make set the svg to top and left to -2 to avoid cutoffs
+      paths: [],
       svgPaths: [],
       viewBox: {
         w: 0, h: 0
-      }
+      },
+      hasSVG: false
     };
   },
   components: {},
   computed: {
+     gradients () {
+        const result = this.paths.map((path, i) =>{
+          if (path?.fill.gradient) {
+            return {
+              id:'Gradient' + i,
+              fill: path?.fill
+            }
+          }
+          return null
+        })
+        .filter(path => {
+            return path !== null
+        })
+        return result
+     },
   },
   methods: {
     postCreate () {
@@ -53,7 +76,7 @@ export default {
 
     wireEvents () {
       this.own(this.addClickListener(this.domNode, e => {
-        this.onClick(e)
+        this.emitClick(e);
       }));
       this.wireHover()
     },
@@ -80,7 +103,7 @@ export default {
       // Controller. But tehn we would need some special condition :(
       const scalledPaths = SVGUtil.strechPaths(paths, viewBox, box)
       if (scalledPaths) {
-          this.svgPaths = scalledPaths.map(path => {
+          this.svgPaths = scalledPaths.map((path) => {
             const svg = {
                 id: path.id,
                 stroke: path.stroke,
@@ -88,6 +111,9 @@ export default {
                 fill: path.fill,
                 d: ''
             }
+            // if (path.fill.gradient) {
+            //     svg.fill = 'url(#Gradient' + i + ')'
+            // }
             if (path.d) {
                 svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue )
             }

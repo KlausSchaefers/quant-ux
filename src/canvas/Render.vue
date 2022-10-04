@@ -384,7 +384,7 @@ export default {
 				this.logger.error("render", "ups", e);
 				this.logger.sendError(e);
 			}
-			this.logger.log(0,"render", "exit > " + (new Date().getTime() - renderStart) + 'ms');
+			this.logger.log(-1,"render", "exit > " + (new Date().getTime() - renderStart) + 'ms');
 		},
 
 

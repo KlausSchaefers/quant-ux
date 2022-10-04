@@ -93,7 +93,7 @@ export default {
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
-            this.svgFillColor = this.$new(ToolbarColor, {hasGradient : true, hasPicker:true, chevron:false, hex:true});
+            this.svgFillColor = this.$new(ToolbarColor, {hasGradient : false, hasPicker:true, chevron:false, hex:true});
 			this.svgFillColor.updateLabel = true;
 			this.svgFillColor.keepOpenOnTypeSelection = "svgPaths";
 			this.svgFillColor.setModel(this.model);
@@ -124,23 +124,16 @@ export default {
                 this.svgStrokeBox.setModel(this.model)
                 this.svgStrokeBox.setValue(path)
               
-                // here is a little fuckup,, because the bounding box is scalled 
-                // on the fly
 			    this.svgPathSize.setModel(this.model);
 			    this.svgPathSize.setValue(bbox);
                 
-
             } else {
                 css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
             }
-
-            
-		
         },
 
         onSVGPathsMoved (paths, bbox) {
             this.logger.log(1,"onSVGPathsMoved", "entry > ", bbox);
-            //this.svgPathSize.setModel(this.model);
 			this.svgPathSize.setValue(bbox);
         },
 
@@ -155,8 +148,6 @@ export default {
                 }
             }
         },
-
-       
 
         setSVGFill (temp, color) {
             this.logger.log(-1,"setSVGFill", "entry > ", color, temp);
