@@ -114,13 +114,13 @@ export default {
             })
         },
 
-		endSVG () {
-			this.logger.log(-1,"endSVG", "enter > ", this._svgCurrentWidget);
+		endSVG (selectAfterSave = true) {
+			this.logger.log(-1,"endSVG", "enter > ", selectAfterSave);
 			if (this.currentTool ) {
                 if (this._svgCurrentWidget) {
-                  this.saveSVG()
+                  this.saveSVG(selectAfterSave)
                 } else {
-                    this.createSVG()
+                    this.createSVG(selectAfterSave)
                 }
 			} else {
 				this.logger.log(-1,"endSVG", "NO SVGEditor!");
@@ -129,7 +129,7 @@ export default {
 		},
 
 
-        saveSVG () {
+        saveSVG (selectAfterSave) {
             const value = this.currentTool.getValue()
             const paths = value.paths
             const bbox = value.bbox
@@ -143,7 +143,7 @@ export default {
                     }
                 }
                 const updatedWidget = this.controller.updateCompleteWidget(this._svgCurrentWidget.id, pos, props);
-                if(updatedWidget){
+                if(updatedWidget && selectAfterSave){
                     requestAnimationFrame( () => {
                         this.onWidgetSelected(updatedWidget.id, true);
                     })
@@ -155,7 +155,7 @@ export default {
             }
         },
 
-        createSVG () {
+        createSVG (selectAfterSave) {
             const value = this.currentTool.getValue()
             const paths = value.paths
             const bbox = value.bbox
@@ -184,7 +184,7 @@ export default {
                     "style" : {}
                 };
                 const newWidget = this.controller.addWidget(widget, pos, true);
-                if(newWidget){
+                if(newWidget && selectAfterSave){
                     requestAnimationFrame( () => {
                         this.onWidgetSelected(newWidget.id, true);
                     })
@@ -216,7 +216,7 @@ export default {
 		},
 
         onSVGPathSelected (selectedPaths, bbox) {
-            this.logger.log(-1,"onSVGPathSelected", "enter > ", bbox);
+            this.logger.log(2,"onSVGPathSelected", "enter > ", bbox);
 
             if (this.controller) {
                 this.controller.onSVGPathsSelected(selectedPaths, bbox)
@@ -226,7 +226,7 @@ export default {
         },
 
         onSVGPathUnSelected () {
-            this.logger.log(-1,"onSVGPathUnSelected", "enter");
+            this.logger.log(2,"onSVGPathUnSelected", "enter");
             if (this.controller) {
                 this.controller.onCanvasSelected()
             }

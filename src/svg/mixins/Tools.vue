@@ -50,19 +50,19 @@ export default {
      *****************************************/
 
     startMoveTool () {
-        this.logger.log(-1, 'startMoveTool ', 'enter')
+        this.logger.log(1, 'startMoveTool ', 'enter')
         this.mode = 'move'
         this.currentTool = new MoveTool(this, this.selection)
     },
 
     startMorphTool () {
-        this.logger.log(-1, 'startMorphTool ', 'enter')
+        this.logger.log(1, 'startMorphTool ', 'enter')
         this.mode = 'morph'
         this.currentTool = new MorphTool(this, this.config.pointRadius)
     },
 
     startSelectTool (selectDefault) {
-        this.logger.log(-1, 'startSelectTool ', 'enter', selectDefault)
+        this.logger.log(1, 'startSelectTool ', 'enter', selectDefault)
         this.mode = 'select'
         this.reset()
         this.currentTool = new SelectTool(this)
@@ -75,7 +75,7 @@ export default {
     },
 
     startPathTool (pos) {
-        this.logger.log(-1, 'startPathTool ', 'enter', pos)
+        this.logger.log(1, 'startPathTool ', 'enter', pos)
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
@@ -87,7 +87,7 @@ export default {
     },
 
     startBezierTool (pos) {
-        this.logger.log(-1, 'startBezierTool ', 'enter', pos)
+        this.logger.log(1, 'startBezierTool ', 'enter', pos)
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')

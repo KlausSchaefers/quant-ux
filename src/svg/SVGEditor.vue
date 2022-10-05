@@ -392,20 +392,20 @@ export default {
     },
 
     select (id) {
-        this.logger.log(-1, 'select ', id)
+        this.logger.log(1, 'select ', id)
         this.selection = [id]
         const bbox = this.getSelectedUnZoomedBoundingBox()
         this.$emit('select', this.getSelectedElements(), bbox)
     },
     
     addSelect (id) {
-        this.logger.log(-1, 'addSelect ', id)
+        this.logger.log(1, 'addSelect ', id)
         this.selection.push(id)
         this.$emit('select', this.getSelectedElements())
     },
 
     unSelect () {
-        this.logger.log(-1, 'unSelect ')
+        this.logger.log(1, 'unSelect ')
         this.selection = []
         this.$emit('unselect')
         this.setBoundingBox()
@@ -452,19 +452,19 @@ export default {
     },
 
     onChange () {
-        this.logger.log(-1, 'onChange', 'enter')
+        this.logger.log(2, 'onChange', 'enter')
         this.$emit('change', this.value)
     },
 
     setValue (paths, editingBoundingBox, currentBoundingBox) {
-        this.logger.log(-1, 'setValue', 'enter')
+        this.logger.log(2, 'setValue', 'enter')
         const scalledPaths = SVGUtil.strechPaths(paths, editingBoundingBox, currentBoundingBox)
         const translatedPaths = SVGUtil.addBoundingBox(scalledPaths, currentBoundingBox)
         this.value = translatedPaths
     },
 
     getValue () {
-        this.logger.log(-1, 'getValue', 'enter')
+        this.logger.log(2, 'getValue', 'enter')
         const boxes = SVGUtil.getBoxes(this.$refs.paths)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
         const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
@@ -547,6 +547,10 @@ export default {
             }
         }
         return result;
+    },
+    stop () {
+        this.logger.log(-1, 'stop', 'enter')
+        this.$emit('stop')
     }
   },
   watch: {

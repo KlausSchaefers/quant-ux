@@ -251,7 +251,11 @@ import topic from 'dojo/topic'
 				if(this._selectChangeListener){
 					this._selectChangeListener();
 				}
+				if (this.currentTool && this.currentTool.stop) {
+					this.currentTool.stop()
+				}
 			} catch( e){
+				this.logger.error("onSelectionChanged", "enter > ", e);
 				this.logger.sendError(e);
 			}
 			if (type !== 'group') {

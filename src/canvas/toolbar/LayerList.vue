@@ -482,6 +482,11 @@ export default {
 				}
 			}
 
+
+			if (box.type === 'SVGPaths') {
+				return 'mdi mdi-vector-curve'
+			}
+
 			if (type === 'group') {
 				return 'mdi mdi-crop-free'
 			}

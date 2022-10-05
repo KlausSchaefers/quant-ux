@@ -195,7 +195,7 @@ export default class BaseController extends Core {
 	}
 
 	onSVGPathsSelected (paths, bbox) {
-		this.logger.log(-3,"onSVGPathsSelected", "enter > ");
+		this.logger.log(3,"onSVGPathsSelected", "enter > ");
 		if(this.toolbar){
 			this.toolbar.onSVGPathsSelected(paths, bbox);
 		}

@@ -15,6 +15,7 @@
 					:pos="svgCanvasPos"
 					:gird="svgGrid"
 					@mouselcick="onSVGClick"
+					@stop="endSVG(false)"
 					@move="onSVGMove"
 					@select="onSVGPathSelected"
 					@unselect="onSVGPathUnSelected"

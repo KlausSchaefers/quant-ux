@@ -626,7 +626,7 @@ export default {
 
 
 		onSVGPathsSelected (paths, bbox) {
-			this.logger.log(-1,"onSVGPathsSelected", "enter", paths);
+			this.logger.log(3,"onSVGPathsSelected", "enter", paths);
 			try{
 				this.cleanUp();
 				this._selection = "svgPaths";
