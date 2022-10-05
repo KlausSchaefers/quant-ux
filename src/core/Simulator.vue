@@ -468,7 +468,8 @@ export default {
 			this.initScale();
 			this.initLiveUpdate();
 			this.initScroll();
-			await this.initLoadScripts()
+			// this can cause issues when the script want to fix
+			await this.initLoadScripts() 
 			await this.initDefaultDataBinding(model)
 	
 
