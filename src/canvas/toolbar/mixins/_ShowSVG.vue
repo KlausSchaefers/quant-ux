@@ -93,7 +93,7 @@ export default {
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
-            this.svgFillColor = this.$new(ToolbarColor, {hasGradient : false, hasPicker:true, chevron:false, hex:true});
+            this.svgFillColor = this.$new(ToolbarColor, {hasGradient : true, hasPicker:true, chevron:false, hex:true});
 			this.svgFillColor.updateLabel = true;
 			this.svgFillColor.keepOpenOnTypeSelection = "svgPaths";
 			this.svgFillColor.setModel(this.model);

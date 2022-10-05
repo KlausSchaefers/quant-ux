@@ -2,18 +2,19 @@
   <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor + (!isBoundingBoxVisible ? ' qux-svg-editor-no-bbox' : '')" :style="{'width': width + 'px', 'height': height + 'px'}"
     @click.stop="onMouseClick"
     @mousedown.stop="onMouseDown"
-    @mouseup.stop="onMouseUp"
+    @mouseup="onMouseUp"
     @mousemove.stop="onMouseMove"
     @dblclick.stop="onMouseDoubleClick">
     <svg id="svg" xmlns="http://www.w3.org/2000/svg" :width="width" :height="height">
 
-        <defs v-if="hasSVG">
-            <linearGradient v-for="p in gradients" :id="p.id" :key="p.id" x1="0" x2="0" y1="0" y2="1">
-                <stop v-for="(c,i) in p.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
-            </linearGradient>
-        </defs>
-
         <g id="main" fill="none">
+
+            <defs v-if="hasGradient">
+                  <linearGradient v-for="g in gradients" :id="g.id" :key="g.id" :x1="g.angle.x1" :x2="g.angle.x2" :y1="g.angle.y1" :y2="g.angle.y2">
+                    <stop v-for="(c,i) in g.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
+                </linearGradient>
+            </defs>
+
 
             <path v-for="p in paths"
                 :key="p.id"
@@ -124,6 +125,7 @@
                     :class="'qux-svg-editor-resize-handler ' + handler.type" />
             </template>
 
+          
         </g>
     </svg>
   </div>
@@ -137,6 +139,7 @@
 
 
 import * as SVGUtil from './SVGUtil'
+import * as GradientUtil from './GradientUtil'
 import Logger from '../common/Logger'
 import Events from './mixins/Events.vue'
 import Tools from './mixins/Tools.vue'
@@ -185,7 +188,7 @@ export default {
             colorSelect: '#49C0F0',
             handlerSize: 7
         },
-        hasSVG: false
+        hasGradient: true
     };
   },
   computed: {
@@ -293,8 +296,11 @@ export default {
         const result = this.value.map((path, i) =>{
           if (path?.fill.gradient) {
             return {
-              id:'Gradient' + i,
-              fill: path?.fill
+              // we need to here a prefix, because the widget is hidden, and therewold be
+              // two gardients with the same number
+              id: GradientUtil.getGradientID(i, path, 'e'),
+              fill: path.fill,
+              angle: GradientUtil.getGradientAngle(path.fill)
             }
           }
           return null
@@ -305,7 +311,7 @@ export default {
         return result
       },
       paths () {
-        const result = this.scalledValue.map((path) => {
+        const result = this.scalledValue.map((path, i) => {
             const svg = {
                 id: path.id,
                 stroke: path.stroke,
@@ -313,9 +319,9 @@ export default {
                 fill: path.fill,
                 d: ''
             }
-            // if (path.fill.gradient && i >-1) {
-            //     svg.fill = 'url(#RadialGradient1)'// 'url(#Gradient' + i + ')'
-            // }
+            if (path.fill.gradient && i >-1) {
+                svg.fill = GradientUtil.getGradientURL(i, path, 'e')
+            }
             if (path.d) {
                 svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue)
             }

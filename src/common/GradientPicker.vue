@@ -77,7 +77,7 @@ export default {
     },
 
     setSelectorColor (value) {
-      var l = lang.clone(value);
+      const l = lang.clone(value);
       l.direction = 90;
       this._setGradientCSS(this.selector, l);
     },
@@ -87,7 +87,7 @@ export default {
         this.selectorButtons = [];
         this.selectorButtonsColor = [];
         this.cleanUpTempListener();
-        var db = new DomBuilder();
+        const db = new DomBuilder();
 
         this.selector.innerHTML = "";
         for (let i = 0; i < gradient.colors.length; i++) {
@@ -103,7 +103,7 @@ export default {
       }
 
       for (let i = 0; i < gradient.colors.length; i++) {
-        let color = gradient.colors[i];
+        const color = gradient.colors[i];
         this.selectorButtonsColor[i].style.background = color.c;
         this.selectorButtons[i].style.left = color.p  + "%";
       }
@@ -112,10 +112,10 @@ export default {
 		onSelectorClick (e) {
       this.cleanUp()
       this.stopEvent(e);
-			var pos = this.getMousePos(e, this.selector);
-      var p = Math.min(100, Math.max(0, Math.round((pos.x * 1000) / pos.w) / 10));
-			let distanceStart = Math.abs(this.value.colors[0].p - p)
-			let distanceEnd = Math.abs(this.value.colors[1].p - p)
+			const pos = this.getMousePos(e, this.selector);
+      const p = Math.min(100, Math.max(0, Math.round((pos.x * 1000) / pos.w) / 10));
+			const distanceStart = Math.abs(this.value.colors[0].p - p)
+			const distanceEnd = Math.abs(this.value.colors[1].p - p)
 			if (distanceStart < distanceEnd) {
 				this.value.colors[0].p = p
 			} else {
@@ -135,8 +135,8 @@ export default {
     },
 
     onSelectorMove (e) {
-      var pos = this.getMousePos(e, this.selector);
-      var p = Math.min(100, Math.max(0, Math.round((pos.x * 1000) / pos.w) / 10));
+      const pos = this.getMousePos(e, this.selector);
+      const p = Math.min(100, Math.max(0, Math.round((pos.x * 1000) / pos.w) / 10));
       if (this.selectedHandle < this.value.colors.length) {
         this.value.colors[this.selectedHandle].p = p;
         this.setValue(this.value);
@@ -160,7 +160,7 @@ export default {
 
     onColorChange (c) {
       if (this.selectedHandle < this.value.colors.length) {
-       this.value.colors[this.selectedHandle].c !== c;
+        this.value.colors[this.selectedHandle].c !== c;
         this.value.colors[this.selectedHandle].c = c;
         this.setValue(this.value);
       }
@@ -193,7 +193,7 @@ export default {
     },
 
     getMousePos (evt, div) {
-      var pos = domGeom.position(div);
+      const pos = domGeom.position(div);
       return {
         x: evt.clientX - pos.x,
         y: evt.clientY - pos.y,
@@ -203,10 +203,10 @@ export default {
     },
 
     _setGradientCSS (node, gradient, useDir = false) {
-      let direction = useDir ? gradient.direction : "0";
-      var value = "(" + direction + "deg";
-      for (var i = 0; i < gradient.colors.length; i++) {
-        var color = gradient.colors[i];
+      const direction = useDir ? gradient.direction : "0";
+      let value = "(" + direction + "deg";
+      for (let i = 0; i < gradient.colors.length; i++) {
+        const color = gradient.colors[i];
         value += "," + color.c + " " + color.p + "% ";
       }
       value + ");";

@@ -6,7 +6,11 @@
         v-if="model" isNotCanvas="true" 
       >
         <g id="main" fill="none">
-
+            <defs v-if="hasGradient">
+                <linearGradient v-for="g in gradients" :id="g.id" :key="g.id" :x1="g.angle.x1" :x2="g.angle.x2" :y1="g.angle.y1" :y2="g.angle.y2" >
+                    <stop v-for="(c,i) in g.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
+                </linearGradient>
+            </defs>
             <path v-for="p in svgPaths"
                 :key="p.id"
                 :d="p.d"
@@ -16,12 +20,7 @@
                 ref="paths"
                 :stroke-width="p.strokeWidth"/>
             </g>
-            <defs v-if="hasSVG">
-                <linearGradient v-for="p in gradients" :id="p.id" :key="p.id" x1="0" x2="0" y1="0" y2="1">
-                    <stop v-for="(c,i) in p.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
-                </linearGradient>
-              
-            </defs>
+         
         </svg>
       </div>
 </template>
@@ -30,6 +29,7 @@ import DojoWidget from "dojo/DojoWidget";
 import UIWidget from "core/widgets/UIWidget";
 import Logger from 'common/Logger'
 import * as SVGUtil from '../../svg/SVGUtil'
+import * as GradientUtil from '../../svg/GradientUtil'
 
 export default {
   name: "SVGPaths",
@@ -46,7 +46,7 @@ export default {
       viewBox: {
         w: 0, h: 0
       },
-      hasSVG: false
+      hasGradient: true
     };
   },
   components: {},
@@ -55,8 +55,9 @@ export default {
         const result = this.paths.map((path, i) =>{
           if (path?.fill.gradient) {
             return {
-              id:'Gradient' + i,
-              fill: path?.fill
+              id:GradientUtil.getGradientID(i, path, this.model.id),
+              fill: path.fill,
+              angle: GradientUtil.getGradientAngle(path.fill)
             }
           }
           return null
@@ -103,7 +104,7 @@ export default {
       // Controller. But tehn we would need some special condition :(
       const scalledPaths = SVGUtil.strechPaths(paths, viewBox, box)
       if (scalledPaths) {
-          this.svgPaths = scalledPaths.map((path) => {
+          this.svgPaths = scalledPaths.map((path,i) => {
             const svg = {
                 id: path.id,
                 stroke: path.stroke,
@@ -111,9 +112,11 @@ export default {
                 fill: path.fill,
                 d: ''
             }
-            // if (path.fill.gradient) {
-            //     svg.fill = 'url(#Gradient' + i + ')'
-            // }
+            if (path.fill.gradient) {
+              // preifx the id with the model id to avoid multiple 
+              // devs with the same ids
+              svg.fill = GradientUtil.getGradientURL(i, path, this.model.id)
+            }
             if (path.d) {
                 svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue )
             }

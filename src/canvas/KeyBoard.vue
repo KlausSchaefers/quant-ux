@@ -237,7 +237,7 @@ export default {
          */
         } else if(k == 86 && !(e.altKey || e.ctrlKey || e.metaKey)){
           if(!this._inlineEditStarted  && !this._selectionToolStart){
-            this.addSVG()
+            this.addSVG({type:'bezier'})
           }
         /**
          * W dispatch...
