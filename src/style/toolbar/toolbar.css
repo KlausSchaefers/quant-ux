@@ -218,6 +218,10 @@
 	min-width: 25px;
  }
 
+ .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive {
+	cursor: auto;
+ }
+
 
 .MatcToolbarItem:hover{
 	text-decoration: none;

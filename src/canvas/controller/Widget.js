@@ -71,10 +71,10 @@ export default class Widget extends Snapp {
 
 
 	distributeWidgets (type, widgets){
-		this.logger.log(0,"distributeWidgets", "enter > " +type);
+		this.logger.log(-1,"distributeWidgets", "enter > " +type, widgets);
 
-		var bbx = this.getBoundingBox(widgets);
-		var positions = this._distributedPositions(type, widgets, bbx).positions;
+		const bbx = this.getBoundingBox(widgets);
+		const positions = this._distributedPositions(type, widgets, bbx).positions;
 
 		this.updateMultiWidgetPosition(positions, true);
 

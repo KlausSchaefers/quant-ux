@@ -44,6 +44,7 @@ import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
 import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
 import TooltipSection from 'canvas/toolbar/components/TooltipSection'
+//import Alignment from 'canvas/toolbar/components/Alignment'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -598,6 +599,16 @@ export default {
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
+
+			// this.alignmentBtn = this.$new(Alignment)
+			// this.alignmentBtn.placeAt(content)
+			// this.alignmentBtn.on('align', o => {
+			// 	this.onToolAlignElements(o)
+			// })
+
+			// this.alignmentBtn.on('dist', o => {
+			// 	this.onToolDistributeElements(o)
+			// })
 
 			this.alignButtons = {};
 			this.distButtons = {};

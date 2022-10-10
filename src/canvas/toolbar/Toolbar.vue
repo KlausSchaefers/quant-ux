@@ -1329,11 +1329,13 @@ export default {
 
 
 		onToolDistributeElements (value, e){
-			this.logger.log(0,"onToolDistributeElements", "entry : " + this._selection);
+			this.logger.log(-1,"onToolDistributeElements", "entry : " + this._selection);
 			this.stopEvent(e);
 
-			if(this._selectedMulti){
+			if(this._selectedMulti && this._selectedMulti.length > 2){
 				this.controller.distributeWidgets(value, this._selectedMulti);
+			} else {
+				this.canvas.showError("Select more than 2 elements")
 			}
 		},
 

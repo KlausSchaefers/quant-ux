@@ -278,6 +278,7 @@ export default class Core extends Evented {
      * Distribute Tool
      **********************************************************************/
     _distributedPositions(type, ids, boundingBox) {
+       
         /**
          * 1) get all subsets (rows or columns) depending on type
          */
