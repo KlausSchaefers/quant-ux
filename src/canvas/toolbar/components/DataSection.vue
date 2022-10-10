@@ -1920,7 +1920,7 @@ export default {
 				callback ="onStyleChanged";
 			}
 
-			var row = this.db.div("MatcToobarRow").build(this.cntr);
+			var row = this.db.div("MatcToobarRow MatcToobarRowHover").build(this.cntr);
 
 			var color = this.$new(ToolbarColor, {hasPicker:true});
 			color.placeAt(row);

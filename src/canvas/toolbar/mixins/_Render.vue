@@ -504,6 +504,7 @@ export default {
 			parent.appendChild(content);
 
 			this.groupName = this.createInput(content, "Group Name");
+			css.add(this.groupName, "MatcToobarNameInput")
 			this.own(on(this.groupName, "change", lang.hitch(this, "onGroupNameChange")));
 
 			this.properties.appendChild(parent);
@@ -660,6 +661,7 @@ export default {
 			parent.appendChild(content);
 
 			this.widgetName = this.createInput(content, "Widget Name");
+			css.add(this.widgetName, "MatcToobarNameInput")
 			this.own(on(this.widgetName, "change", lang.hitch(this, "onWidgetNameChange")));
 
 			let widgetSizeDiv = document.createElement("div");
@@ -1003,6 +1005,7 @@ export default {
 			parent.appendChild(content);
 
 			let row = document.createElement("div");
+			css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 
 			this.boxShadow = this.$new(BoxShadow);
@@ -1014,6 +1017,7 @@ export default {
 
 
 			row = document.createElement("div");
+			css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 			this.backdropFilter = this.$new(BackdropFilter)
 			this.backdropFilter.setModel(this.model)
@@ -1182,6 +1186,7 @@ export default {
 			parent.appendChild(content);
 
 			this.screenName = this.createInput(content, "Screen Name");
+			css.add(this.screenName, "MatcToobarNameInput")
 			this.own(on(this.screenName, "change", lang.hitch(this, "onScreenNameChange")));
 
 

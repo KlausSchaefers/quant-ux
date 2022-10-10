@@ -47,6 +47,7 @@
 }
 
 
+
 /****************************************************
  * Preview
  ****************************************************/
@@ -161,7 +162,12 @@
 	padding: 3px;
 	border: 1px solid #ddd;
 }
-
+.MatcDesignTokenListInput:hover {
+	border: 1px solid #999;
+}
+.MatcDesignTokenListInput:focus {
+	border: 1px solid #777;
+}
 .MatcDesignTokenListPopupSection {
 	border-bottom: 1px solid #ddd;
 	padding: 16px;
@@ -255,4 +261,11 @@ label.MatcDesignTokenListPopupSection{
 .MatcDesignTokenDialog .MatcDesignTokenDialogList a:hover,
 .MatcDesignTokenDialog .MatcDesignTokenDialogList a.selected {
 	color: #3787f2;
+}
+
+
+
+
+.MatcDesignTokenListPopupSection .MatcDesignTokenMixin {
+	display: block;
 }

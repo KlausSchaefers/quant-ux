@@ -226,7 +226,7 @@
  }
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarDropDownButton:hover{
-	border: 1px solid #777;
+	border: 1px solid #999;
 }
 
 .MatcLight .MatcToobarPropertiesSection input , 
@@ -240,7 +240,7 @@
 
 .MatcLight .MatcToobarPropertiesSection input:focus,
 .MatcLight .MatcToobarPropertiesSection textarea:focus{
-	color:#333;
+	color:#555;
 }
 
 .MatcLight .MatcBoxBorder .MatcToolbarColor,
@@ -276,7 +276,7 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcToolbarToggleButton:hover{
-	color:#333;
+	color:#777;
 }
 
 
@@ -375,9 +375,18 @@
 }
 
 .MatcLight .MatcToobarPropertiesSection .MatcToobarInput{
-	background: #fff;
+	background: transparent;
 	padding: 3px;
-	border:1px solid #ddd;
+	border:1px solid transparent;
+}
+
+
+.MatcLight .MatcToobarPropertiesSection .MatcToobarInput:hover{
+	border: 1px solid #999;
+}
+
+.MatcLight .MatcToobarPropertiesSection .MatcToobarInput:focus {
+	border: 1px solid #777;
 }
 
 
@@ -454,6 +463,11 @@
 .MatcLight .MatcToolbarColorIndicator{
 	border:1px solid rgba(0,0,0, 0.15)
 }
+
+.MatcLight .MatcToolbarColorIndicator:hover{
+	border:1px solid rgba(0,0,0, 0.35)
+}
+
 .MatcLight .MatcToolbarDetailLabel{
 	color: #777;
 }

@@ -52,6 +52,7 @@ export default {
 			parent.appendChild(content);
 
 			this.svgPathName = this.createInput(content, "Path Name");
+            css.add(this.svgPathName, "MatcToobarNameInput")
 			this.own(on(this.svgPathName, "change", lang.hitch(this, "setSVGPathName")));
 
 			let scvSizeDiv = document.createElement("div");

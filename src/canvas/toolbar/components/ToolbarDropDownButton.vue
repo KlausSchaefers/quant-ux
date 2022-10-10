@@ -1,9 +1,9 @@
 
 <template>
      <div class=" MatcToolbarItem MatcToolbarDropDownButton">
-	<div type="button" data-dojo-attach-point="button">
-		<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
-		<span class="caret" ref="caret"></span>
+		<div type="button" data-dojo-attach-point="button" class="MatcToolbarDropDownButtonCntr">
+			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
+			<span class="caret" ref="caret"></span>
 		</div>
 		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
 			<ul class="" role="menu" data-dojo-attach-point="ul">

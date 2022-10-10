@@ -59,6 +59,16 @@
 	font-size: 14px;
 }
 
+.VommondColorPickerSketch .VommondColorPickerNumberInput:hover,
+.VommondColorPickerSketch .VommondColorPickerHexInput:hover {
+	border:1px solid #999;
+}
+
+.VommondColorPickerSketch .VommondColorPickerNumberInput:focus,
+.VommondColorPickerSketch .VommondColorPickerHexInput:focus {
+	border:1px solid #777;
+}
+
 .VommondColorPickerSketchControlCntr{
  	display: flex;
     width:100%;
