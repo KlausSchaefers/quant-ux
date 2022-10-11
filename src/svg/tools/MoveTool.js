@@ -68,6 +68,7 @@ export default class MoveTool extends Tool{
             } else {
                 this.moveBoundingBox(pos)
             }
+            this.editor.onChange()
         }
     }
 
@@ -265,6 +266,7 @@ export default class MoveTool extends Tool{
     onDelete () {
         this.logger.log(1, 'onDelete', 'enter')
         this.editor.deleteSelection()
+        this.editor.onChange()
     }
 
 

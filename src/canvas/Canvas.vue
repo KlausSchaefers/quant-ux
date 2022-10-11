@@ -16,9 +16,9 @@
 					:gird="svgGrid"
 					@mouselcick="onSVGClick"
 					@stop="endSVG(false)"
-					@move="onSVGMove"
-					@select="onSVGPathSelected"
-					@unselect="onSVGPathUnSelected"
+					@move="onSVGEditorMove"
+					@select="onSVGEditorPathSelected"
+					@unselect="onSVGEditorPathUnSelected"
 					@change="onSVGChange"
 					ref="svgEditor" 
 					/>

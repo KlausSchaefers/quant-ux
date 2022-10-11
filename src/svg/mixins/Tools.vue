@@ -61,17 +61,23 @@ export default {
         this.currentTool = new MorphTool(this, this.config.pointRadius)
     },
 
-    startSelectTool (selectDefault) {
-        this.logger.log(1, 'startSelectTool ', 'enter', selectDefault)
+    startSelectTool (selected) {
+        this.logger.log(1, 'startSelectTool ', 'enter', selected)
         this.mode = 'select'
         this.reset()
         this.currentTool = new SelectTool(this)
-        if (selectDefault) {
+        if (selected === true) {
             const firstPath = this.value[0]
             if (firstPath) {
                 this.currentTool.select(firstPath.id)
             }
+        } else if (selected){
+            const selectedPath = this.value.find(p => p.id === selected)
+            if (selectedPath) {
+                this.currentTool.select(selectedPath.id)
+            }
         }
+       
     },
 
     startPathTool (pos) {
@@ -109,6 +115,15 @@ export default {
         this.value = this.value.filter(v => !this.isSelected(v))
         this.unSelect()
         this.startSelectTool()
+    },
+
+
+    changePathProps(pathID, key, value) {
+        this.logger.log(-1, 'changePathProps ', 'enter')
+        const path = this.value.find(p => p.id === pathID)
+        if (path) {
+            path[key] = value
+        }
     },
 
     renameSelection (name) {

@@ -188,7 +188,8 @@ export default {
             colorSelect: '#49C0F0',
             handlerSize: 7
         },
-        hasGradient: true
+        hasGradient: true,
+        isDirty: false
     };
   },
   computed: {
@@ -454,6 +455,7 @@ export default {
     onChange () {
         this.logger.log(2, 'onChange', 'enter')
         this.$emit('change', this.value)
+        this.isDirty = true
     },
 
     setValue (paths, editingBoundingBox, currentBoundingBox) {
@@ -461,6 +463,7 @@ export default {
         const scalledPaths = SVGUtil.strechPaths(paths, editingBoundingBox, currentBoundingBox)
         const translatedPaths = SVGUtil.addBoundingBox(scalledPaths, currentBoundingBox)
         this.value = translatedPaths
+        this.isDirty = false
     },
 
     getValue () {
@@ -470,6 +473,7 @@ export default {
         const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
         const paths = SVGUtil.removeBoundingBox(this.value, bbox)
         return {
+            dirty: this.isDirty,
             paths: paths,
             pos: zoomedPos,
             bbox: bbox
@@ -496,6 +500,7 @@ export default {
 
     onValueChanged (type, ids) {
         this.logger.log(1, 'onValueChanged ', 'enter > ' + type, ids)
+        this.isDirty = true
     },
 
 

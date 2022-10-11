@@ -121,7 +121,9 @@ export default {
 
                 const path = this._selectionPaths[0]
                 this.svgPathName.value = path.name
+
                 this.svgFillColor.setValue(path.fill)
+
                 this.svgStrokeBox.setModel(this.model)
                 this.svgStrokeBox.setValue(path)
               
@@ -130,6 +132,13 @@ export default {
                 
             } else {
                 css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
+            }
+        },
+
+        showSVGPathProps (pathID, key, value) {
+            this.logger.log(1,"onSVGPathsMoved", "entry > ", value);
+            if (key === 'name') {
+                this.svgPathName.value = value
             }
         },
 
@@ -167,6 +176,7 @@ export default {
             if (this.currentTool) {
                 this.currentTool.renameSelection(name)
             }
+            // FIXME|: we shoudl also call the layer list
         },
 
         setSVGBoundingBox (value, type) {

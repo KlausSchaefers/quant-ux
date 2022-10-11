@@ -134,6 +134,9 @@ export default {
 						if (type === 'screen') {
 							this.canvas.onScreenSelected(node.id);
 						}
+						if (type === 'svg') {
+							this.canvas.onSVGPathSelected(node.widgetID, node.pathID);
+						}
 					}
 				} else {
 					this.logger.log(-1, "onSelect", "No node > ", ids);
@@ -154,10 +157,15 @@ export default {
 					const type = node.type
 					if (type == "widget"){
 						this.controller.setWidgetName(id, txt)
-					} else if (type == "screen"){
+					}  
+					if (type == "screen"){
 						this.controller.setScreenName(id, txt)
-					} else if (type == "group"){
+					}  
+					if (type == "group"){
 						this.controller.setGroupName(id, txt)
+					}  
+					if (type == "svg"){
+						this.controller.setSVGPathProps(node.widgetID, node.pathID, "name", txt)
 					}
 				} else {
 					this.logger.log(-1, "onChangeLabel", "No node > ", id);
@@ -448,9 +456,56 @@ export default {
 				node.label += ` [${node.z}]`
 			}
 			
+			if (box.type === 'SVGPaths' && box.props && box.props.paths) {
+				const paths = box.props.paths
+				paths.forEach(p => {
+					let pathNode = this.createPathNode(box, p, widgetID, screenID, groupId, defaultIsOpen)
+					node.children.push(pathNode)
+				})
+				
+			}
+
 			this.nodes[node.id] = node
 			this.lastNode = node
 			return node;
+		},
+
+		createPathNode (box, path, widgetID, screenID, groupId, defaultIsOpen = true) {
+			
+			if (this.openNodes[path.id] === undefined) {
+				this.openNodes[path.id] = defaultIsOpen
+			}
+			const id = this.getPathId(box.id, path.id)
+			let node = {
+				id: id,
+				domId: this.getScrollId(id),
+				widgetID: widgetID,
+				screenID: screenID,
+				groupID: groupId,
+				pathID: path.id,
+				label: path.name, // + ' (' + box.id + ') ' + box.z,
+				icon: this.getPathIcon(path),
+				closeIcon : this.getCloseIcon(box),
+				openIcon: this.getOpenIcon(box),
+				children:[],
+				type: 'svg',
+				locked: false,
+				hidde: false,
+				open: this.openNodes[box.id],
+				inherited: box.inherited,
+				fixed: false,
+				z: box.z,
+				hasOptions: this.hasOptions
+			}
+
+
+			this.nodes[node.id] = node
+			this.lastNode = node
+			return node;
+		},
+
+		getPathId (boxID, pathID) {
+			return pathID + "@" + boxID
 		},
 
 		getScrollId (id) {
@@ -471,6 +526,11 @@ export default {
 			return 'mdi mdi-chevron-down MatcTreeIcon'
 		},
 
+		getPathIcon () {
+			//console.debug('getPathIcon', path)
+			return 'mdi mdi-vector-curve'
+		},
+
 
 		getNodeIcon (box, type){
 			
@@ -484,6 +544,9 @@ export default {
 
 
 			if (box.type === 'SVGPaths') {
+				if (box.props && box.props.paths && box.props.paths.length > 1) {
+					return "mdi mdi-vector-combine"
+				}
 				return 'mdi mdi-vector-curve'
 			}
 
@@ -550,6 +613,11 @@ export default {
 
 		selectWidget (widgetID) {
 			this.selectNode([widgetID])
+		},
+
+		selectSVGPath (widgetID, pathID) {
+			const id = this.getPathId(widgetID, pathID)
+			this.selectNode([id])
 		},
 
 		selectMulti (ids) {

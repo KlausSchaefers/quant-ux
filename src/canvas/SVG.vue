@@ -42,22 +42,46 @@ export default {
             this.setCanvasModeListener('onSVGModeChange')
         },
 
+        onSVGPathSelected (widgetID, pathID) {
+            this.logger.log(2,"onSVGPathSelected", "enter", pathID + "@" + widgetID);
+
+            if (this._svgCurrentWidget && this.currentTool) {
+                if (this._svgCurrentWidget.id !== widgetID) {
+                    this.logger.log(2,"onSVGPathSelected", "enter > change widget> ", pathID + "@" + widgetID);
+                    this.endSVG(false)
+                    const widget = this.model.widgets[widgetID]
+                    if (widget) {
+                        this.editSVG(widget, pathID)
+                    }
+                } else {
+                    this.logger.log(2,"onSVGPathSelected", "enter > change path > ", pathID + "@" + widgetID);
+                    this.currentTool.startSelectTool(pathID)
+                }
+   
+            } else {
+                this.logger.log(2,"onSVGPathSelected", "enter > open >",pathID + "@" + widgetID);
+                const widget = this.model.widgets[widgetID]
+                if (widget) {
+                    this.editSVG(widget, pathID)
+                }
+            }
+        },
+
         onSVGModeChange (mode) {
-            this.logger.log(-1,"onSVGModeChange", "enter > ");
+            this.logger.log(1,"onSVGModeChange", "enter > ");
             if (mode !== 'svg') {
                 this.endSVG()
             }
         },
 
         openSVGEditor (event) {
-            console.debug('openSVGEditor', event)
             const widget = this.model.widgets[event.id]
             if (widget) {
                 this.editSVG(widget)
             }
         },
 
-        editSVG (widget) {
+        editSVG (widget, pathID = true) {
 		    this.logger.log(-1,"editSVG", "enter > ", widget);
 
             this.showSVGEditor()
@@ -77,7 +101,7 @@ export default {
                 if (this.currentTool) {
                     this.currentTool.setValue(widget.props.paths, widget.props.bbox, sourceWidget)
                     this.$nextTick(() => {
-                        this.currentTool.startSelectTool(true)
+                        this.currentTool.startSelectTool(pathID)
                     })
                 } else {
                     this.logger.warn("editSVG", "exit > NO SVGEditor ");
@@ -131,6 +155,17 @@ export default {
 
         saveSVG (selectAfterSave) {
             const value = this.currentTool.getValue()
+            if (value.dirty === false) {
+                this.logger.log(-1,"saveSVG", "NO CHANGE", this.svgCurrentWidget);
+                if (selectAfterSave) {
+                    const widgetID = this._svgCurrentWidget.id
+                    requestAnimationFrame(() => {
+                        this.onWidgetSelected(widgetID, true);
+                    })
+                }
+               
+                return
+            }
             const paths = value.paths
             const bbox = value.bbox
             const pos = value.pos
@@ -199,6 +234,13 @@ export default {
             this.closeSVGEditor()
 		},
 
+        changeSVGProps(widgetID, pathID, key, value){
+	        this.logger.log(-1,"changeSVGProps", "enter > ", widgetID, pathID, key, value);
+            if (this.currentTool) {
+                this.currentTool.changePathProps(pathID, key, value)
+            }
+        },
+
 		closeSVGEditor () {
 			this.logger.log(-1,"closeSVGEditor", "enter > ");
             if ( this._svgCurrentWidgetDiv) {
@@ -215,30 +257,30 @@ export default {
             }
 		},
 
-        onSVGPathSelected (selectedPaths, bbox) {
-            this.logger.log(2,"onSVGPathSelected", "enter > ", bbox);
+        onSVGEditorPathSelected (selectedPaths, bbox) {
+            this.logger.log(2,"onSVGEditorPathSelected", "enter > ", bbox);
 
             if (this.controller) {
                 this.controller.onSVGPathsSelected(selectedPaths, bbox)
             } else {
-                this.logger.error("onSVGPathSelected", "No widget selected > ");
+                this.logger.error("onSVGEditorPathSelected", "No widget selected > ");
             }
         },
 
-        onSVGPathUnSelected () {
-            this.logger.log(2,"onSVGPathUnSelected", "enter");
+        onSVGEditorPathUnSelected () {
+            this.logger.log(2,"onSVGEditorPathUnSelected", "enter");
             if (this.controller) {
                 this.controller.onCanvasSelected()
             }
         },
 
 
-        onSVGMove (selectedPaths, bbox) {
-            this.logger.log(2,"onSVGMove", "enter", bbox);
+        onSVGEditorMove (selectedPaths, bbox) {
+            this.logger.log(2,"onSVGEditorMove", "enter", bbox);
             if (this.controller) {
                 this.controller.onSVGPathsMoved(selectedPaths, bbox)
             } else {
-                this.logger.error("onSVGPathSelected", "No widget selected > ");
+                this.logger.error("onSVGEditorMove", "No widget selected > ");
             }
         },
 
