@@ -9,14 +9,14 @@ class ImageService extends AbstractService {
   }
 
   delete (model, image) {
-    this._delete("/rest/images/" + model.id + "/" + image.id + "/" + image.url)
+    return this._delete("/rest/images/" + model.id + "/" + image.id + "/" + image.url)
   }
 
   upload (url, formData, progressHandler) {
     this.logger.log(-1, "upload", "enter");
     return new Promise((resolve, reject) => {
     	// now post a new XHR request
-      var xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest();
       xhr.open('POST', url);
 
       if (progressHandler) {

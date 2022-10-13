@@ -953,6 +953,11 @@
 	line-height:1;
 }
 
+.MatchWidgetTypeIcon.MatcSimulatorClickable{
+	cursor: pointer;
+}
+
+
 /*******************************
  * HSlider
  *******************************/

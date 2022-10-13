@@ -361,6 +361,8 @@ export default class Screen extends CopyPaste {
 			}
 			screen.w = value.screenSize.w;
 			screen.h = screen.h * (value.screenSize.h / oldMinHeight);
+			screen.min.h = value.screenSize.h
+			screen.min.w = value.screenSize.w
 		}
 		this.model.screenSize.w = value.screenSize.w;
 		this.model.screenSize.h = value.screenSize.h;

@@ -1191,6 +1191,7 @@ export default class GridAndRuler extends Core {
 						let from = overlaps.minRight.from;
 						let to = overlaps.minRight.to;
 						let distance = overlaps.minRight.distance;
+						// FIXME: Add here 1 to give the impression when working with quirky
 						let lbl = this.getDistanceLabel(overlaps.minRight, useSourceLabel, 'x', 'right')
 						let yMiddle = this.getOverlayYMiddle(from, to);
 						this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
@@ -1392,9 +1393,7 @@ export default class GridAndRuler extends Core {
 						const line = lines[l];
 						const sourceLine = sourceLines[l]
 
-						/**
-						 * If it left the box check to update minTop
-						 */
+						
 						if (line <= absPos.x) {
 							let distance = absPos.x - line;
 							let label = sourceAbsPos.x - sourceLine
@@ -1410,9 +1409,7 @@ export default class GridAndRuler extends Core {
 							}
 
 						}
-						/**
-						 * If it below the box check to update minBottom
-						 */
+						
 						if (line >= (absPos.x + absPos.w)) {
 							var distance = line - (absPos.x + absPos.w);
 							let label = sourceLine - (sourceAbsPos.x + sourceAbsPos.w)
