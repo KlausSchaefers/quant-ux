@@ -3,13 +3,7 @@ import ModelUtil from "./ModelUtil";
 import ModelGeom from "./ModelGeom";
 import Logger from "./Logger";
 
-export function getDistributionMatrix(model, ids, flip) {
-    if (flip) {
-        return {
-            vertical: getDistributionSets(model, 'vertical', ids).length,
-            horizontal: getDistributionSets(model, 'horizontal', ids).length
-        }
-    }
+export function getDistributionMatrix(model, ids) {
     return {
         horizontal: getDistributionSets(model, 'vertical', ids).length,
         vertical: getDistributionSets(model, 'horizontal', ids).length
@@ -17,7 +11,7 @@ export function getDistributionMatrix(model, ids, flip) {
 }
 
 export function getDistributionSets (model, type, ids) {
-    Logger.log(-1, 'DistributionUtil.getDistributionSets() > enter')
+    Logger.log(1, 'DistributionUtil.getDistributionSets() > enter')
     /**
      * 1) get all subsets (rows or columns) depending on type
      */
@@ -46,13 +40,11 @@ export function getDistributionSets (model, type, ids) {
 }
 
 export function distributedPositions(model, type, ids, boundingBox) {
-    Logger.log(-1, 'DistributionUtil.distributedPositions() > enter')
+    Logger.log(1, 'DistributionUtil.distributedPositions() > enter')
     /**
      * 1) get all subsets (rows or columns) depending on type
      */
     const sets = getDistributionSets(model, type, ids, boundingBox)
-
-    console.debug('sets', sets.length)
 
     /**
      * Now resize for every set!
