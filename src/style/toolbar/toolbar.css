@@ -206,6 +206,10 @@
  }
 
 
+.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+  	cursor: auto;
+ }
+
 .MatcToolbarItem:hover{
 	text-decoration: none;
 	color:#FFF;

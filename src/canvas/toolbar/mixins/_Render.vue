@@ -582,13 +582,37 @@ export default {
 
 		_renderWidgetAlign (){
 
-			var content = document.createElement("div");
+			const content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 
 			this.alignButtons = {};
 			this.distButtons = {};
 
-			var values = ["vertical", "horizontal"];
+
+			let values = ["top", "bottom", "left", "right", "vertical", "horizontal"];
+			for(let i=0; i< values.length; i++){
+				let value = values[i];
+				let a = document.createElement("a");
+				css.add(a,"MatcToolbarItem MatcToolbarAlignButton");
+				content.appendChild(a);
+
+				let icon = document.createElement("span");
+				css.add(icon, 'glyphicon glyphicon-object-align-' + value);
+				a.appendChild(icon);
+
+				this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolAlignElements", value)));
+				this.alignButtons[value] = a;
+
+				//this.addTooltip(a, "Align <b>" + value + "</b>. After click select element to align to", 'vommondToolTipRightBottom');
+			}
+
+
+			let icon = document.createElement("span");
+			css.add(icon, 'MatcToolbarSpacer');
+			content.appendChild(icon);
+
+
+			values = ["vertical", "horizontal"];
 
 			for (let i=0; i< values.length; i++){
 				let value = values[i];
@@ -612,28 +636,6 @@ export default {
 				//this.addTooltip(a, "Distribute <b>" + value + "</b>. ", 'vommondToolTipRightBottom');
 			}
 
-
-			let icon = document.createElement("span");
-			css.add(icon, 'MatcToolbarSpacer');
-			content.appendChild(icon);
-
-
-			values = ["top", "bottom", "left", "right", "vertical", "horizontal"];
-			for(let i=0; i< values.length; i++){
-				let value = values[i];
-				let a = document.createElement("a");
-				css.add(a,"MatcToolbarItem MatcToolbarAlignButton");
-				content.appendChild(a);
-
-				let icon = document.createElement("span");
-				css.add(icon, 'glyphicon glyphicon-object-align-' + value);
-				a.appendChild(icon);
-
-				this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolAlignElements", value)));
-				this.alignButtons[value] = a;
-
-				//this.addTooltip(a, "Align <b>" + value + "</b>. After click select element to align to", 'vommondToolTipRightBottom');
-			}
 			this.properties.appendChild(content);
 			this.widgetAlignDiv = content;
 		},
