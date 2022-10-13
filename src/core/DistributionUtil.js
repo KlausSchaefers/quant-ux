@@ -401,13 +401,11 @@ export function distributedPositions(model, type, ids, boundingBox) {
 }
 
 export function distributedPositions(model, type, ids, boundingBox) {
-    Logger.log(-1, 'DistributionUtil.distributedPositions() > enter')
+    Logger.log(1, 'DistributionUtil.distributedPositions() > enter')
     /**
      * 1) get all subsets (rows or columns) depending on type
      */
     const sets = getDistributionSets(model, type, ids, boundingBox)
-
-    console.debug('sets', sets.length)
 
     /**
      * Now resize for every set!
