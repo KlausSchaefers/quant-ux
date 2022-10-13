@@ -141,10 +141,14 @@ export default {
             return
         }
         if (result.to) {
-            let targetScreen = Object.values(this.model.screens).find(s => s.name === result.to)
+            const targetScreen = Object.values(this.model.screens).find(s => s.name === result.to)
             if (targetScreen) {
                 const tempLine = this.createTempLine(targetScreen.id, orginalLine)
-                this.renderTransition(tempLine,this.currentScreen.id);
+                if(targetScreen.style.overlay){
+					this.renderOverlay(tempLine, this.currentScreen.id);
+                } else {
+                    this.renderTransition(tempLine,this.currentScreen.id);
+                }
             } else {
                 this.logger.log(1,"runScript","No screen with name  >" + result.to);
                 result.console.push({
