@@ -40,8 +40,8 @@ export default {
             arrowPosition: "right",
             mode: "private",
             multiSelection: false,
-						selection: [],
-						jwtToken: 'notoken',
+			selection: [],
+			jwtToken: 'notoken'
         }
     },
     components: {},
@@ -323,24 +323,26 @@ export default {
 
 		},
 
-		_deleteImage (img, e){
+		async _deleteImage (img, e){
 			this.stopEvent(e);
 			if(this.mode == "public"){
 				this.errorMsg.innerHTML="Please register to delete images...";
 				css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
 			} else {
-				/**
-				 * FIXME: Move this to model client
-				 */
-				this._doDelete("/rest/images/" + this.model.id + "/" + img.id + "/" + img.url + "?token=" + this.jwtToken+ ")")
+				const result = await Services.getImageService().delete(this.model, img)
+				
+				if (result.status !== 'ok') {
+					this.errorMsg.innerHTML= "Only the owner can delete images";
+					css.add(this.errorMsg, "MatcPopupErrorMsgVivisble");
+				}
 
 				if(this.value && this.value.url == img.url){
 					this.onChange(null);
 				}
 
-				var url = img.url;
-				if(this.multiSelection){
-					var pos = this.selection.indexOf(url);
+				const url = img.url;
+				if (this.multiSelection){
+					const pos = this.selection.indexOf(url);
 					if(pos >=0){
 						this.selection.splice(pos,1);
 					}
