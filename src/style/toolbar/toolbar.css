@@ -194,7 +194,7 @@
 .MatcToolbarItem{
 	padding: 8px;
  	color:#FFF;
- 	transition-duration: 0.5s;
+ 	transition-duration: 0.2s;
 	transition-property:opacity;
 	display: inline-block;
 	color:#ddd;

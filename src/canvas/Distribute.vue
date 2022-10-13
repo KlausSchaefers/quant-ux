@@ -1,9 +1,6 @@
 <script>
-// import on from 'dojo/on'
-// import lang from 'dojo/_base/lang'
-// import domStyle from 'dojo/domStyle'
 import css from 'dojo/css'
-// import * as DistributionUtil from 'core/DistributionUtil'
+import * as DistributionUtil from 'core/DistributionUtil'
 
 export default {
     name: 'Distribute',
@@ -32,18 +29,16 @@ export default {
 		},
 
 		onDistributeStart () {
-			this.logger.log(-3,"onDistributeStart", "enter");
+            const matrix = DistributionUtil.getDistributionMatrix(this.model, this._selectMulti, false)
+			this.logger.log(3,"onDistributeStart", "enter", matrix);
 			css.add(this.container, "MatcCanvasModeAlign");
+            if (matrix.horizontal <= 1) {
+                css.add(this.container, "MatcCanvasModeAlignNoVertical");
+            }
+            if (matrix.vertical <= 1) {
+                css.add(this.container, "MatcCanvasModeAlignNoHorizontal");
+            }
             this._distributeEnabled = true;
-            // if (this._selectMulti){
-            //    let lines = DistributionUtil.getLines(this.model, this._selectMulti)
-            //    this.distibutionHandlers = []
-            //    let xLines = lines.xLines
-            //    for (let x in xLines) {
-            //        console.debug('x', x)
-            //        this.renderDistrubutionHandler()
-            //    }
-            // }
         },
 
         renderDistrubutionHandler (icon) {
@@ -69,6 +64,8 @@ export default {
 		onDistributeEnd (){
 			this.logger.log(4, "onDistributeEnd", "enter");
 			css.remove(this.container, "MatcCanvasModeAlign");
+             css.remove(this.container, "MatcCanvasModeAlignNoVertical")
+            css.remove(this.container, "MatcCanvasModeAlignNoHorizontal")
             this._distributeEnabled = false;
             this.cleanUpDistributionHandlers()
         },

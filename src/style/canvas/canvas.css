@@ -853,6 +853,16 @@
 	display: none;
 }
 
+.MatcCanvasModeAlignNoVertical .MatchResizeWest,
+.MatcCanvasModeAlignNoVertical .MatchResizeEast{
+	display: none;
+}
+
+.MatcCanvasModeAlignNoHorizontal .MatchResizeNorth,
+.MatcCanvasModeAlignNoHorizontal .MatchResizeSouth {
+	display: none;
+}
+
 
 .MatcCanvasModeReplicate .MatcResizeBorder,
 .MatcCanvasModeReplicate .MatcCutsomerHandler,
