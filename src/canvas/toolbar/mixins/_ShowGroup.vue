@@ -112,7 +112,7 @@ export default {
 
 		},
 
-		showMultiProperties (model){
+		showMultiProperties (ids){
 
 			this.showProperties();
 
@@ -120,8 +120,8 @@ export default {
 				css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
 			}
 
-			if(model.length >2){
-				this.showDistButtons();
+			if(ids.length >2){
+				this.showDistButtons(ids);
 			}
 
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
@@ -129,8 +129,8 @@ export default {
 
 			var fixed = true;
 			var wrap = true;
-			for(var i=0; i< model.length;i++){
-				var id = model[i];
+			for(var i=0; i< ids.length;i++){
+				var id = ids[i];
 				var widget = this.model.widgets[id];
 				if(widget){
 					fixed = fixed && widget.style.fixed === true;
@@ -141,7 +141,7 @@ export default {
 
 			}
 			this.multiPositionCheckBox.setValue(fixed);
-			this._showMultiVisualProperties(model);
+			this._showMultiVisualProperties(ids);
 		},
 
 		_showMultiVisualProperties (ids){

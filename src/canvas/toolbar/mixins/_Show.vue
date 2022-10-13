@@ -6,6 +6,7 @@ import _ShowWidget from './_ShowWidget'
 import _ShowGroup from './_ShowGroup'
 import _ShowScreen from './_ShowScreen'
 import _ShowCanvas from './_ShowCanvas'
+import * as DistributionUtil from 'core/DistributionUtil'
 
 export default {
     name: '_Show',
@@ -156,9 +157,13 @@ export default {
 			}
 		},
 
-		showDistButtons (){
+		showDistButtons (ids){
+			const matrix = DistributionUtil.getDistributionMatrix(this.model, ids, false)
+			this.logger.log(-3,"showDistButtons", "entry", matrix);	
 			for (let id in this.distButtons) {
-				css.remove(this.distButtons[id], "MatcToolbarItemPassive");
+				if (matrix[id] > 1) {
+					css.remove(this.distButtons[id], "MatcToolbarItemPassive");
+				}
 			}
 		},
 

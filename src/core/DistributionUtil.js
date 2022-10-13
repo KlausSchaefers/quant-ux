@@ -3,8 +3,21 @@ import ModelUtil from "./ModelUtil";
 import ModelGeom from "./ModelGeom";
 import Logger from "./Logger";
 
-export function distributedPositions(model, type, ids, boundingBox) {
-    Logger.log(-1, 'DistributionUtil.distributedPositions() > enter')
+export function getDistributionMatrix(model, ids, flip) {
+    if (flip) {
+        return {
+            vertical: getDistributionSets(model, 'vertical', ids).length,
+            horizontal: getDistributionSets(model, 'horizontal', ids).length
+        }
+    }
+    return {
+        horizontal: getDistributionSets(model, 'vertical', ids).length,
+        vertical: getDistributionSets(model, 'horizontal', ids).length
+    }
+}
+
+export function getDistributionSets (model, type, ids) {
+    Logger.log(-1, 'DistributionUtil.getDistributionSets() > enter')
     /**
      * 1) get all subsets (rows or columns) depending on type
      */
@@ -29,6 +42,17 @@ export function distributedPositions(model, type, ids, boundingBox) {
             }
         }
     }
+    return sets
+}
+
+export function distributedPositions(model, type, ids, boundingBox) {
+    Logger.log(-1, 'DistributionUtil.distributedPositions() > enter')
+    /**
+     * 1) get all subsets (rows or columns) depending on type
+     */
+    const sets = getDistributionSets(model, type, ids, boundingBox)
+
+    console.debug('sets', sets.length)
 
     /**
      * Now resize for every set!
@@ -246,15 +270,13 @@ function _getDistributedPositions(type, boxes, boundingBox) {
 * Get widget positions and bounding boxes for groups...
 */
 function _getSelectionGroupPositions(model, ids) {
-    console.debug(model, model.widgets )
-   var groups = {};
-   for (var i = 0; i < ids.length; i++) {
-       var widgetID = ids[i];
-       var widget = model.widgets[widgetID];
-       var group = ModelUtil.getParentGroup(model, widgetID);
-       if (group) {
-            var bbx = ModelGeom.getBoundingBox(group.children, model);
-            console.debug('_getSelectionGroupPositions',group.name, bbx)
+   const groups = {};
+   for (let i = 0; i < ids.length; i++) {
+        const widgetID = ids[i];
+        const widget = model.widgets[widgetID];
+        const group = ModelUtil.getParentGroup(model, widgetID);
+        if (group) {
+            const bbx = ModelGeom.getBoundingBox(group.children, model);
             if (!groups[group.id]) {
                bbx.children = {};
                groups[group.id] = bbx;
@@ -355,3 +377,83 @@ export function _distributedPositionsBak (model, type, widgets, boundingBox) {
 
     return positions;
   }
+
+
+export function getLines(model, selection) {
+    let boundingBox = getBoundingBox(model, selection)
+    let xLines = {}
+    let yLines = {}
+    selection.forEach(id => {
+        let box = getBoxById(model, id)
+        if (box) {
+            let left = box.x - boundingBox.x
+            addLine(xLines, left, id, 'left', boundingBox.w)
+
+            let right = box.x + box.w - boundingBox.x
+            addLine(xLines, right, id, 'right', boundingBox.w)
+
+            let top = box.y - boundingBox.y
+            addLine(yLines, top, id, 'top', boundingBox.h)
+
+            let bottom = box.y + box.h - boundingBox.y
+            addLine(yLines, bottom, id, 'bottom', boundingBox.h)
+        }
+    });
+    return {
+        xLines: xLines,
+        yLines: yLines,
+        boundingBox: boundingBox
+    }
+}
+
+function addLine (result, line, id, attach, max) {
+    if (line > 0 && line < max){
+        if (!result[line]) {
+            result[line] = {
+                lines: []
+            }
+        }
+        result[line].lines.push({
+            id: id,
+            attach: attach
+        })
+    }
+    
+}
+
+
+function getBoundingBox (model, ids) {
+    var result = { x: 100000000, y: 100000000, w: 0, h: 0 , isBoundingBox: true, ids: ids};
+
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      var box = getBoxById(model, id);
+      if (box) {
+        result.x = Math.min(result.x, box.x);
+        result.y = Math.min(result.y, box.y);
+        result.w = Math.max(result.w, box.x + box.w);
+        result.h = Math.max(result.h, box.y + box.h);
+      } else {
+        console.warn("getBoundingBox() > No box with id", id);
+      }
+    }
+    result.h -= result.y;
+    result.w -= result.x;
+    return result;
+}
+
+
+function getBoxById (model, id) {
+    if (model.widgets[id]) {
+        return model.widgets[id];
+    }
+
+    if (model.screens[id]) {
+        return model.screens[id];
+    }
+
+    if (model.templates && model.templates[id]) {
+        return model.templates[id];
+    }
+    return null;
+}

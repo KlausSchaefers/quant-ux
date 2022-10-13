@@ -5,6 +5,7 @@ import ModelResizer from './ModelResizer'
 import ModelUtil from './ModelUtil'
 import * as DistributeUtil  from './DistributionUtil'
 
+// FIXME: I believe we do not need  evented
 export default class Core extends Evented {
 
     constructor() {
@@ -1236,7 +1237,7 @@ export default class Core extends Evented {
          * we have to check if style exists, because the Toolbar.onToolWidgetLayer()
          * call the method without styles.
          */
-        var isFixed = (w) => {
+        let isFixed = (w) => {
             if (w.style && w.style.fixed) {
                 return true;
             }
@@ -1244,8 +1245,8 @@ export default class Core extends Evented {
         };
 
         result.sort((a, b) => {
-            var aFix = isFixed(a);
-            var bFix = isFixed(b);
+            let aFix = isFixed(a);
+            let bFix = isFixed(b);
 
 
             /**
