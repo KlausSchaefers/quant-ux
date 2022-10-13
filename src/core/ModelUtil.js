@@ -611,6 +611,54 @@ class ModelUtil {
 		}
 	}
 
+    getParentGroup(model, widgetID) {
+
+        if (model.groups) {
+            for (let id in model.groups) {
+                const group = model.groups[id];
+                const i = group.children.indexOf(widgetID);
+                if (i > -1) {
+                    return group;
+                }
+                /**
+                 * Since 2.13 we have subgroups and check this too
+                 */
+                if (group.groups) {
+                    let i = group.groups.indexOf(widgetID);
+                    if (i > -1) {
+                        return group;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    getArrayFromObject(obj, key) {
+        const result = [];
+        for (let i in obj) {
+            const item = obj[i];
+            if (key) {
+                item[key] = i;
+            }
+            result.push(item);
+        }
+        return result;
+    }
+
+
+    getObjectFromArray (list, key) {
+        const result = {};
+        for (let i = 0; i < list.length; i++) {
+            const item = list[i];
+            const value = item[key];
+          result[value] = item;
+        }
+        return result;
+    }
+  
+  
+
 }
 
 export default new ModelUtil()

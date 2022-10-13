@@ -1,3 +1,4 @@
+
 /**
  * A class that should in the long run contain all the geometric functions
  * that are somehow scattered around, Core.js and Util.vue
@@ -6,9 +7,8 @@ class ModelGeom {
 
 
     getBoundingBox (ids, model) {
-        // console.debug('ModelGeom.getBoundingBox', ids, model)
         const result = { x: 100000000, y: 100000000, w: 0, h: 0 , isBoundingBox: true, ids: ids};
-
+     
         for (let i = 0; i < ids.length; i++) {
             const id = ids[i];
             const box = this.getBoxById(id, model);

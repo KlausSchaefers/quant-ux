@@ -9,6 +9,7 @@ import DomBuilder from "common/DomBuilder";
 import Layout from "core/Layout";
 import ModelGeom from 'core/ModelGeom'
 import ModelResizer from 'core/ModelResizer'
+import ModelUtil from 'core/ModelUtil'
 import SlideLeftButton from 'common/SlideLeftButton'
 
 var Ring = {};
@@ -103,7 +104,7 @@ export default {
     /**********************************************************************
      * Distribute Tool
      **********************************************************************/
-    _distributedPositions: function(type, ids, boundingBox) {
+    _distributedPositions (type, ids, boundingBox) {
       /**
        * 1) get all subsets (rows or columns) depending on type
        */
@@ -385,79 +386,9 @@ export default {
           };
         }
       }
-      return this.getArrayFromObject(groups, "id");
+      return ModelUtil.getArrayFromObject(groups, "id");
     },
 
-    _distributedPositionsBak: function(type, widgets, boundingBox) {
-      var positions = {};
-
-      var temp = [];
-      for (let i = 0; i < widgets.length; i++) {
-        let widgetID = widgets[i];
-        let widget = this.model.widgets[widgetID];
-        temp.push(widget);
-      }
-
-      temp.sort(function(a, b) {
-        if (type == "vertical") {
-          return a.y - b.y;
-        } else {
-          return a.x - b.x;
-        }
-      });
-
-      var sum = 0;
-      for (let i = 0; i < widgets.length; i++) {
-        let widget = temp[i];
-        if (type == "vertical") {
-          sum += widget.h;
-        } else {
-          sum += widget.w;
-        }
-      }
-      var last = temp[temp.length - 1];
-      if (type == "vertical") {
-        sum = boundingBox.h - sum;
-      } else {
-        sum = boundingBox.w - sum;
-      }
-
-      var space = sum / (widgets.length - 1);
-      last = 0;
-
-      for (let i = 0; i < temp.length; i++) {
-        let widget = temp[i];
-        var widgetPos = { x: widget.x, y: widget.y, h: widget.h, w: widget.w };
-        if (i == 0) {
-          if (type == "vertical") {
-            widgetPos.y = boundingBox.y;
-            last = widgetPos.y + widgetPos.h;
-          } else {
-            widgetPos.x = boundingBox.x;
-            last = widgetPos.x + widgetPos.w;
-          }
-        } else if (i == temp.length - 1) {
-          if (type == "vertical") {
-            widgetPos.y = Math.round(boundingBox.y + boundingBox.h - widget.h);
-          } else {
-            widgetPos.x = Math.round(boundingBox.x + boundingBox.w - widget.w);
-          }
-        } else {
-          if (type == "vertical") {
-            widgetPos.y = Math.round(last + space);
-            last = Math.round(widgetPos.y + widgetPos.h);
-          } else {
-            widgetPos.x = Math.round(last + space);
-            last = Math.round(widgetPos.x + widgetPos.w);
-          }
-        }
-        positions[widget.id] = widgetPos;
-      }
-
-      //this.logger.log(0,"calculateDistributedPositions", "enter > " +type +" > space : " + space);
-
-      return positions;
-    },
 
     /**********************************************************************
      * Clone Tool
@@ -567,27 +498,11 @@ export default {
       return ModelResizer.getGroupChildResizePosition(widget, oldGroup, newGroup, dif)
     },
 
-    getObjectFromArray: function(list, key) {
-      var result = {};
-      for (var i = 0; i < list.length; i++) {
-        var item = list[i];
-        var value = item[key];
-        result[value] = item;
-      }
-      return result;
+    getObjectFromArray (list, key) {
+      console.error('Util.vue .getObjectFromArray() > DEPRECATED!')
+      return ModelUtil.getObjectFromArray(list, key)
     },
 
-    getArrayFromObject: function(obj, key) {
-      var result = [];
-      for (var i in obj) {
-        var item = obj[i];
-        if (key) {
-          item[key] = i;
-        }
-        result.push(item);
-      }
-      return result;
-    },
 
     getWidgetsByDistanceAndType: function(widget, types) {
       var result = [];

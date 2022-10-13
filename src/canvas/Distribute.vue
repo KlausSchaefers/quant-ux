@@ -32,7 +32,7 @@ export default {
 		},
 
 		onDistributeStart () {
-			this.logger.log(3,"onDistributeStart", "enter");
+			this.logger.log(-3,"onDistributeStart", "enter");
 			css.add(this.container, "MatcCanvasModeAlign");
             this._distributeEnabled = true;
             // if (this._selectMulti){
