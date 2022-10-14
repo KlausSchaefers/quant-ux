@@ -6,6 +6,11 @@
 		<div class="MatcDownloadDialogRender" data-dojo-attach-point="renderCntr"></div>
 	</div>
 </template>
+
+<style>
+  @import url("../../../style/download.css");
+</style>
+
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import lang from 'dojo/_base/lang'
