@@ -1,0 +1,131 @@
+
+.MatcCanvasComment{
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    z-index: 999990;
+}
+
+.MatcCanvasComment textarea{
+	padding: 3px;
+	border: 1px solid transparent;
+}
+
+
+.MatcCanvasComment .MatcLinkButton{
+	font-size: 18px;
+}
+
+
+.MatcCanvasComment.MatcCanvasCommentLeft{
+	transform: translateX(-330px);
+}
+
+.MatcCanvasComment.MatcCanvasCommentTop{
+	transform: translateY(-230px);
+}
+
+.MatcCanvasComment.MatcCanvasCommentLeft.MatcCanvasCommentTop{
+	transform: translateY(-230px) translateX(-330px);
+}
+
+.MatcCanvasCommentIcon{
+ 	background: #ffbd21 none repeat scroll 0 0;
+  	border-radius:50%;
+	transition : box-shadow 0.3s, background 0.3s;
+	width: 25px;
+	height: 25px;
+	color:#fff;
+	font-size: 12px;
+	cursor: pointer;
+	z-index: 100000;
+	box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
+}
+
+.MatcCanvasCommentIcon div{
+	width: 100%;
+	text-align: center;
+}
+
+.MatcCanvasCommentFooter{
+	padding: 10px;
+}
+
+
+
+.MatcCanvasCommentIcon:Hover{
+  	box-shadow: 0px 1px 5px #333;
+}
+
+
+.MatcCanvasCommentDnD .MatcCanvasCommentIcon{
+	box-shadow: 0 1px 7px #333;
+}
+
+.MatcCanvasCommentOpen{
+	box-shadow: 0 0 25px 5px rgb(0 0 0 / 25%);
+	background: #fff;
+	border-radius:5px;
+	width: 350px;
+	height: 250px;
+	z-index: 999991;
+}
+
+.MatcCanvasComment .MatcCanvasCommentCntr{
+	display: none;
+}
+
+.MatcCanvasComment .MatcCanvasCommentDelete{
+	color:#ccc;
+	position: absolute;
+	top:10px;
+	right:10px;
+	font-size: 12px;
+	cursor:cointer;
+}
+
+.MatcCanvasComment .MatcCanvasCommentDelete:HOVER{
+	color:red;
+}
+
+.MatcCanvasCommentOpen .MatcCanvasCommentIcon{
+	display: none;
+}
+
+.MatcCanvasComment .MatcCommentMessage{
+	font-size: 14px;
+	min-height: 54px;
+	color: #333;
+}
+
+.MatcCanvasComment.MatcCanvasCommentOpen .MatcCanvasCommentCntr{
+	display: block;
+}
+
+.MatcTestCommentButton{
+ 	color:#333;
+ 	transition:all 0.3s;
+    border-radius: 50%;
+
+    font-size: 24px;
+    height: 50px;
+    right: 20px;
+    position: fixed;
+    text-align: center;
+    bottom: 20px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.MatcTestCommentButton:hover{
+	color: #fff;
+	background: #333 none repeat scroll 0 0;
+}
+
+.MatcCanvasCommentRemove{
+	position: absolute;
+	top:10px;
+	right:10px;
+}
