@@ -117,6 +117,13 @@ textarea {
     height: 200px;
 }
 </style>
+
+
+<style>
+  @import url("../style/help.css");
+</style>
+
+
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import Services from 'services/Services'

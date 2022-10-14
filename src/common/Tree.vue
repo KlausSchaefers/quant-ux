@@ -17,6 +17,9 @@
     </TreeItem>
 	</ul>
 </template>
+<style>
+  @import url("../style/tree.css");
+</style>
 <script>
 
 import TreeItem from 'common/TreeItem'

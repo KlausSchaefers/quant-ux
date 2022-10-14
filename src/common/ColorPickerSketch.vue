@@ -50,6 +50,11 @@
 		</div>
 	</div>
 </template>
+
+<style>
+  @import url("../style/color_picker_sketch.css");
+</style>
+
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
