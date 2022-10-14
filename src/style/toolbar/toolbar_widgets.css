@@ -1,10 +1,16 @@
 
 /****************************************************
- * Notification
+ * LowCode
  ****************************************************/
 .MatcToolbarLowCode .MatcToolbarDropDownButtonLabel{
 	width: 150px;
 }
+
+.MatcBoxSizeLink {
+	cursor: pointer;
+}
+
+
 
 
 /****************************************************
@@ -593,7 +599,7 @@
 
 .MatcBoxBorder .MatcDesignTokenMixin {
 	position: absolute;
-		width: 40px;
+	width: 40px;
 	height:24px;
 }
 
@@ -710,6 +716,8 @@
 /****************************************************
  * BoxShadow
  ****************************************************/
+
+
 
 .MatcBoxShadowIcon{
 	background: #ddd none repeat scroll 0 0;
@@ -1028,12 +1036,15 @@
 	border: 1px solid transparent;
 	transition-duration: 0.2s;
 	transition-property: border-color;
-
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .MatcToobarPropertiesSection .MatcToolbarToggleButton:hover{
-	border: 1px solid #555;
+	border: 1px solid #777;
 }
+
 
 
 /****************************************************
@@ -1046,12 +1057,12 @@ input.MatcToobarInlineEdit{
 }
 
 input.MatcToobarInlineEdit:hover{
-	border: 1px solid #555;
+	border: 1px solid #999;
 }
 
 input.MatcToobarInlineEditDisabled:hover{
 	border:1px solid transparent;;
-	border-bottom: 1px solid #555;
+	border-bottom: 1px solid #999;
 	cursor: default;
 }
 
@@ -1062,7 +1073,12 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 
-
+/****************************************************
+ * DropDownTree
+ ****************************************************/
+.MatcToolbarDropDownTree {
+	
+}
 /****************************************************
  * DropDown
  ****************************************************/
@@ -1071,7 +1087,7 @@ input.MatcToobarInlineEditDisabled:focus{
 	display: inline-block;
 	position: relative;
 	padding-left: 5px;
-
+	
 }
 
 .MatcToolbarDropDownButtonPopup{
@@ -1477,7 +1493,9 @@ input.MatcToobarInlineEditDisabled:focus{
 	background: transparent;
 }
 
-.MatcToolbarSection .MatcToolbarSlider input:hover,
+.MatcToolbarSection .MatcToolbarSlider input:hover {
+	border:1px solid #999;
+}
 .MatcToolbarSection .MatcToolbarSlider input:focus{
 	border:1px solid #777;
 }

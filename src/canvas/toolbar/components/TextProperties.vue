@@ -167,6 +167,16 @@ export default {
 		* advanced text stuff
 		*/
 
+		this.letterSpacing = this.$new(ToolbarDropDownButton);
+		this.letterSpacing.setOptions([0,1,2,4,5,6,7,8,9,10,20,30]);
+		this.letterSpacing.setLabel('<span class="mdi mdi-format-text-rotation-none"></span>');
+		this.letterSpacing.reposition = true;
+		this.letterSpacing.updateLabel  =false;
+		this.letterSpacing.isChildDropDown = this.isChildDropDown
+		this.own(on(this.letterSpacing, "change", lang.hitch(this, "setWidgetStyle", "letterSpacing")));
+		this._placeAt(this.letterSpacing, row4);
+		this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
+
 		this.lineHeight = this.$new(ToolbarDropDownButton);
 		this.lineHeight.setOptions([1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
 		this.lineHeight.setLabel('<span class="mdi mdi-format-line-spacing"></span>');
@@ -177,15 +187,7 @@ export default {
 		this._placeAt(this.lineHeight, row4);
 		this.addTooltip(this.lineHeight.domNode, "Line Height");
 
-		this.letterSpacing = this.$new(ToolbarDropDownButton);
-		this.letterSpacing.setOptions([0,1,2,4,5,6,7,8,9,10,20,30]);
-		this.letterSpacing.setLabel('<span class="mdi mdi-format-text-rotation-none"></span>');
-		this.letterSpacing.reposition = true;
-		this.letterSpacing.updateLabel  =false;
-		this.letterSpacing.isChildDropDown = this.isChildDropDown
-		this.own(on(this.letterSpacing, "change", lang.hitch(this, "setWidgetStyle", "letterSpacing")));
-		this._placeAt(this.letterSpacing, row4);
-		this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
+	
 
 		this.textShadow = this.$new(TextShadow);
 		this.textShadow.setModel(this.model)

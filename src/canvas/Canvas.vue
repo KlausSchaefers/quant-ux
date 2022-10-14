@@ -7,6 +7,22 @@
 				<div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer MatcCanvasGridLayer"></div>
 			</div>
 			<div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
+			<div data-dojo-attach-point="svgLayer" class="MatcSVGLayer" v-if="showSVG">
+				<SVGEditor 
+					:width="containerSize.w" 
+					:height="containerSize.h" 
+					:zoom="svgCanvasZoom"
+					:pos="svgCanvasPos"
+					:gird="svgGrid"
+					@mouselcick="onSVGClick"
+					@stop="endSVG(false)"
+					@move="onSVGEditorMove"
+					@select="onSVGEditorPathSelected"
+					@unselect="onSVGEditorPathUnSelected"
+					@change="onSVGChange"
+					ref="svgEditor" 
+					/>
+			</div>
 		</div>
 	</div>
 	<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
@@ -56,6 +72,7 @@ import DataView from 'canvas/DataView'
 import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 import Collab from 'canvas/Collab'
+import SVG from 'canvas/SVG'
 
 import KeyBoard from 'canvas/KeyBoard'
 import Resize from 'canvas/Resize'
@@ -63,24 +80,28 @@ import Replicate from 'canvas/Replicate'
 import Prototyping from 'canvas/Prototyping'
 
 import FastDomUtil from 'core/FastDomUtil'
+import SVGEditor from '../svg/SVGEditor'
 
 export default {
   name: 'Canvas',
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView,
-			KeyBoard, Resize, Replicate, Prototyping, Collab],
+			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG],
     data: function () {
         return {
-					mode: "edit",
-					isMoveOnlySelected: true,
-          debug: false,
-          grid: null,
-          isPublic: false,
-					active: true,
-					name: 'XCanvas'
+			mode: "edit",
+			isMoveOnlySelected: true,
+			debug: false,
+			grid: null,
+			isPublic: false,
+			active: true,
+			showSVG: false,
+			name: 'XCanvas'
         }
     },
-    components: {},
+    components: {
+		SVGEditor
+	},
     methods: {
 		postCreate (){
 
@@ -158,6 +179,16 @@ export default {
 				this[this._controllerCallback]();
 			}
 			return this.controller;
+		},
+
+		setCurrentTool (t) {
+			this.logger.log(-1, "setCurrentTool", "enter");
+			this.currentTool = t
+			if (this.toolbar) {
+				this.toolbar.setCurrentTool(this.currentTool)
+			} else {
+				this.logger.error("setCurrentTool", "Exit no toolbar");
+			}
 		},
 
 		setControllerCallback (c){
@@ -306,11 +337,24 @@ export default {
 			this.onChangeCanvasViewConfig()
 		},
 
+		setCanvasModeListener (listener) {
+			this._canvasModeListener = listener
+		},
+
+		clearCanvasModeListener () {
+			delete this._canvasModeListener
+		},
 
 		setMode (mode, forceRender){
 			this.logger.log(3,"setMode", "enter > " + mode +" != " + this.mode + " > forceRender : " + forceRender);
-			if(mode != this.mode ){
-
+			if (this._canvasModeListener && this[this._canvasModeListener]) {
+				try {
+					this[this._canvasModeListener](mode)
+				} catch (err) {
+					console.debug(err)
+				}
+			}
+			if (mode !=- this.mode ){
 				/**
 				 * Toggle mode specify css class
 				 */

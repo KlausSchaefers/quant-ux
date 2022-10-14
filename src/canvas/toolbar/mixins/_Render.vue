@@ -44,6 +44,7 @@ import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
 import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
 import TooltipSection from 'canvas/toolbar/components/TooltipSection'
+//import Alignment from 'canvas/toolbar/components/Alignment'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -82,6 +83,7 @@ export default {
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton", "SegmentPicker"],
 			hasRotate: ['Image', 'Icon'],
+			hasSVG: ['SVGPaths'],
 			hideAction: ['ScreenSegment']
       }
 	},
@@ -96,6 +98,7 @@ export default {
 				css.remove(this.editTool, "MatcToolbarItemActive");
 				css.remove(this.importSection, "MatcToolbarItemActive");
 				css.remove(this.hotspotTool, "MatcToolbarItemActive" );
+				css.remove(this.svgTool, "MatcToolbarItemActive" );
 				css.remove(this.textTool, "MatcToolbarItemActive");
 				css.remove(this.rectangleTool, "MatcToolbarItemActive" );
 				css.remove(this.addLogicSection, "MatcToolbarItemActive" );
@@ -120,6 +123,9 @@ export default {
 				}
 				if(this.mode == "hotspot"){
 					css.add(this.hotspotTool, "MatcToolbarItemActive" );
+				}
+				if(this.mode == "svg"){
+					css.add(this.svgTool, "MatcToolbarItemActive" );
 				}
 				if(this.mode == "addText"){
 					css.add(this.textTool, "MatcToolbarItemActive" );
@@ -301,6 +307,8 @@ export default {
 
 			this._renderWidgetText();
 
+			this._renderSVGEditButton()
+
 			this._renderWidgetBoxShadow()
 
 			this._renderWidgetBox();
@@ -341,6 +349,12 @@ export default {
 			*/
 			this._renderDesignTokens()
 			this._renderDesignTokensDownload();
+
+			
+		
+			this._renderSVGBox()
+			this._renderSVGStroke()
+			this._renderSVGFill()
 
 			/**
 			* Hide everything
@@ -491,6 +505,7 @@ export default {
 			parent.appendChild(content);
 
 			this.groupName = this.createInput(content, "Group Name");
+			css.add(this.groupName, "MatcToobarNameInput")
 			this.own(on(this.groupName, "change", lang.hitch(this, "onGroupNameChange")));
 
 			this.properties.appendChild(parent);
@@ -585,6 +600,16 @@ export default {
 			const content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 
+			// this.alignmentBtn = this.$new(Alignment)
+			// this.alignmentBtn.placeAt(content)
+			// this.alignmentBtn.on('align', o => {
+			// 	this.onToolAlignElements(o)
+			// })
+
+			// this.alignmentBtn.on('dist', o => {
+			// 	this.onToolDistributeElements(o)
+			// })
+
 			this.alignButtons = {};
 			this.distButtons = {};
 
@@ -649,6 +674,7 @@ export default {
 			parent.appendChild(content);
 
 			this.widgetName = this.createInput(content, "Widget Name");
+			css.add(this.widgetName, "MatcToobarNameInput")
 			this.own(on(this.widgetName, "change", lang.hitch(this, "onWidgetNameChange")));
 
 			let widgetSizeDiv = document.createElement("div");
@@ -992,6 +1018,7 @@ export default {
 			parent.appendChild(content);
 
 			let row = document.createElement("div");
+			css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 
 			this.boxShadow = this.$new(BoxShadow);
@@ -1003,6 +1030,7 @@ export default {
 
 
 			row = document.createElement("div");
+			css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 			this.backdropFilter = this.$new(BackdropFilter)
 			this.backdropFilter.setModel(this.model)
@@ -1171,6 +1199,7 @@ export default {
 			parent.appendChild(content);
 
 			this.screenName = this.createInput(content, "Screen Name");
+			css.add(this.screenName, "MatcToobarNameInput")
 			this.own(on(this.screenName, "change", lang.hitch(this, "onScreenNameChange")));
 
 

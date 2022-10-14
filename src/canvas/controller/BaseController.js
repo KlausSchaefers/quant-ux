@@ -177,9 +177,27 @@ export default class BaseController extends Core {
 
 	onWidgetSelected (id){
 		this.logger.log(3,"onWidgetSelected", "enter > "+ id);
-		var widget = this.model.widgets[id];
+		const widget = this.model.widgets[id];
+		if (!widget) {
+			this.logger.error("onWidgetSelected", "exit > No widget with id: "+ id);
+			return
+		}
 		if(this.toolbar){
-				this.toolbar.onWidgetSelected(widget);
+			this.toolbar.onWidgetSelected(widget);
+		}
+	}
+
+	onSVGPathsMoved (paths, bbox) {
+		this.logger.log(3,"onSVGPathsMoved", "enter > ");
+		if(this.toolbar){
+			this.toolbar.onSVGPathsMoved(paths, bbox);
+		}
+	}
+
+	onSVGPathsSelected (paths, bbox) {
+		this.logger.log(3,"onSVGPathsSelected", "enter > ");
+		if(this.toolbar){
+			this.toolbar.onSVGPathsSelected(paths, bbox);
 		}
 	}
 
@@ -571,10 +589,7 @@ export default class BaseController extends Core {
 				 * FIXME: Also add children in case it is an container widget!
 				 */
 				// let designTokenWidget = ModelUtil.inlineBoxDesignToken
-
-
 				this._canvas.setWidgetStyle(widget.id, widget.style, widget);
-
 				if (type === 'props') {
 					this._canvas.updateWidgetDataView(widget);
 				}
@@ -1258,7 +1273,6 @@ export default class BaseController extends Core {
 		if(pos.w){
 			box.w = pos.w;
 		}
-
 
 		if(box.x < 0){
 			box.x = Math.abs(box.x);

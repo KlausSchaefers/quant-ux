@@ -12,28 +12,29 @@
     "h" : 16,
     "z" : 0,
     "props" : {
-      "cssStyled": true
+      "cssStyled": true,
+      "paths": [
+        {
+          "type": "path",
+          "stroke": "#333333",
+          "strokeWidth": 1,
+          "fill": "",
+          "d": [
+            {
+              "t": "M",
+              "x": 0,
+              "y": 0.5
+            },
+            {
+              "t": "L",
+              "x": 1,
+              "y": 0.5
+            }
+          ]
+        }
+      ]
     },
-    "elements": [
-      {
-        "type": "path",
-        "stroke": "#333333",
-        "strokeWidth": 1,
-        "fill": "",
-        "d": [
-          {
-            "t": "M",
-            "x": 0,
-            "y": 0.5
-          },
-          {
-            "t": "L",
-            "x": 1,
-            "y": 0.5
-          }
-        ]
-      }
-    ],
+   
     "has" : {
       "border":true
     },

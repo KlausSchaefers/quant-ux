@@ -153,6 +153,10 @@ export default {
 			this.logger.log(2,"postCreate", "exit!!!");
 		},
 
+		closeSVGEditor () {
+
+		},
+
 		setModelService (s) {
 			this.modelService = s
 		},

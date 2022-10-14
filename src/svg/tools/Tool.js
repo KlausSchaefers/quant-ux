@@ -5,7 +5,23 @@ export default class Tool {
             console.error('Tool.constrcutor() > No editor passed')
         }
         this.editor = editor
+        this.zoom = editor.zoom
     }
+
+
+    onElementHover () {}
+
+    onElementBlur () {}
+
+    onElementClick () {}
+
+    select (id) {
+        this.editor.setHover(null)
+        this.editor.select(id)
+        this.editor.setState('selectEnd')
+    }
+
+    onZoom () {}
 
     onClick() {}
 
@@ -26,12 +42,6 @@ export default class Tool {
     onEnter () {}
 
     onDelete () {}
-
-    onElementHover () {}
-
-    onElementBlur () {}
-
-    onElementClick () {}
 
     onJointMouseDown() {}
 

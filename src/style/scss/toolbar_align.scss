@@ -1,0 +1,45 @@
+.MatcAlignment {
+
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 5px;
+
+    .MatcAlignmentElement {
+        position: relative;
+    
+        width: 14px;
+        height: 16px;
+    }
+
+    .MatcAlignmentLine1 {
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        left:0px;
+        top:0px;
+        background: #555;
+    }
+
+    .MatcAlignmentBlock1 {
+        background: #555;
+        position: absolute;
+        height: 10px;
+        width: 6px;
+        left:0px;
+        top:3px;
+    }
+
+    .MatcAlignmentBlock2 {
+        background: transparent;
+        border: 1px solid #555;
+        position: absolute;
+        height: 6px;
+        width: 6px;
+        right: 0px;
+        top:3px;
+    }
+
+    .MatcAlignmentElement:hover {
+        
+    }
+}

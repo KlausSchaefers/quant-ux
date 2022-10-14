@@ -8,6 +8,7 @@ export default class SelectTool extends Tool {
         this.logger = new Logger('SelectTool')
     }
 
+
     onElementClick (path) {
         this.logger.log(5, 'onElementClick', path.id)
         this.select(path.id)
@@ -18,12 +19,6 @@ export default class SelectTool extends Tool {
         if (this.editor.hover) {
           this.select(this.editor.hover)
         }
-    }
-
-    select (id) {
-        this.editor.setHover(null)
-        this.editor.select(id)
-        this.editor.setState('selectEnd')
     }
 
     onElementHover(path) {

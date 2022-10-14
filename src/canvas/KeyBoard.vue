@@ -34,6 +34,7 @@ export default {
 
       onKeyPress (e){
 
+     
         this._currentKeyEvent = e;
         const k = e.keyCode ? e.keyCode : e.which;
         const target = e.target;
@@ -50,6 +51,8 @@ export default {
           this.stopEvent(e);
           return
         }
+
+       
 
         if (this._keyBoardKeyBoardListener) {
           try {
@@ -73,6 +76,12 @@ export default {
         if (css.contains(target, "MatcIgnoreOnKeyPress")){
           return;
         }
+
+        if (this.currentTool) {
+          this.currentTool.onKeyUp(e)
+          return
+        }
+     
 
         this._currentKeyPressed = k;
 
@@ -221,6 +230,14 @@ export default {
             this.setMode("addText");
             this.showHint("Mark the area where to create the txt...");
             this.stopEvent(e);
+          }
+
+        /**
+         * V dispatch...
+         */
+        } else if(k == 86 && !(e.altKey || e.ctrlKey || e.metaKey)){
+          if(!this._inlineEditStarted  && !this._selectionToolStart){
+            this.addSVG({type:'bezier'})
           }
         /**
          * W dispatch...

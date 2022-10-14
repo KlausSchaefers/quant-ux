@@ -372,6 +372,8 @@ export default {
 
       this._dragNDropBoxWidgetStart = pos;
 
+      // we register here a keybaord listeners, so pressing SHIFT
+      // or OPTION will triggers the onWidetMove
       this.registerKeyBoardListener(e => this.onWidgetDNDKeyDown(e))
       var widget = this.model.widgets[id];
 

@@ -457,7 +457,7 @@ export default class Screen extends CopyPaste {
 
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
 
-		let screen = this.model.screens[id];
+		const screen = this.model.screens[id];
 		if (screen) {
 
 			/**
@@ -501,8 +501,8 @@ export default class Screen extends CopyPaste {
 			/**
 			 * create the command
 			 */
-			var delta = this.getDeltaBox(screen, pos);
-			var command = {
+			const delta = this.getDeltaBox(screen, pos);
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "ScreenPosition",
 				delta :delta,

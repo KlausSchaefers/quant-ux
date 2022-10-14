@@ -72,6 +72,15 @@
 	color:#fff;
 }
 
+.MatcButton.MatcToolbarCloseButton {
+	text-align: center;
+	font-size: 14px;
+	background: #3787f2;
+	text-decoration: none;
+	color:#fff;
+	margin-top: -2px;
+}
+
 .MatcToolbarButtonPrimary {
 	display: flex;
 	align-items: center;
@@ -116,6 +125,10 @@
 
 .MatcToobarPropertiesSection .MatcToobarInput{
 	border-radius: 0px;
+}
+
+.MatcToobarPropertiesSection .MatcToobarInput.MatcToobarNameInput {
+	margin-left: -5px;
 }
 
 .MatcToobarInputIconCntr {
@@ -205,6 +218,18 @@
 	min-width: 25px;
  }
 
+ .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive {
+	cursor: auto;
+ }
+
+
+.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+  	cursor: auto;
+ }
+
+.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+  	cursor: auto;
+ }
 
 .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
   	cursor: auto;
@@ -334,6 +359,12 @@
 	height: 40px;
 	width: calc(100% - 40px);
 	gap: 8px;
+ }
+
+ .MatcToolbarMaxSection {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-start;
  }
 
  .MatcToolbarTopCenterCntr {
@@ -864,9 +895,15 @@
 	height:10px;
 }
 
-.MatcToobarPropertiesSection .MatcToobarRow{
-
+.MatcToobarPropertiesSection .MatcToobarRowHover{
+	border: 1px solid transparent;
 }
+
+.MatcToobarPropertiesSection .MatcToobarRowHover:hover{
+	border: 1px solid #999;
+}
+
+
 
 .MatcToobarRow.MatcToobarRowSpacer{
 	margin-bottom: 8px;

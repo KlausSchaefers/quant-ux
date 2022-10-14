@@ -1,12 +1,20 @@
 <template>
-  <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor" :style="{'width': width + 'px', 'height': height + 'px'}"
-    @click="onMouseClick"
-    @mousedown="onMouseDown"
+  <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor + (!isBoundingBoxVisible ? ' qux-svg-editor-no-bbox' : '')" :style="{'width': width + 'px', 'height': height + 'px'}"
+    @click.stop="onMouseClick"
+    @mousedown.stop="onMouseDown"
     @mouseup="onMouseUp"
-    @mousemove="onMouseMove"
-    @dblclick="onMouseDoubleClick">
+    @mousemove.stop="onMouseMove"
+    @dblclick.stop="onMouseDoubleClick">
     <svg id="svg" xmlns="http://www.w3.org/2000/svg" :width="width" :height="height">
+
         <g id="main" fill="none">
+
+            <defs v-if="hasGradient">
+                  <linearGradient v-for="g in gradients" :id="g.id" :key="g.id" :x1="g.angle.x1" :x2="g.angle.x2" :y1="g.angle.y1" :y2="g.angle.y2">
+                    <stop v-for="(c,i) in g.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
+                </linearGradient>
+            </defs>
+
 
             <path v-for="p in paths"
                 :key="p.id"
@@ -22,7 +30,7 @@
             <!--
                 Add here a transparent click layer to easy clicks
             -->
-            <template v-if="mode === 'select'">
+            <template v-if="showHover">
                 <path v-for="p in paths"
                     :key="p.id + 's'"
                     :d="p.d"
@@ -57,17 +65,7 @@
             </template>
 
 
-            <template v-if="mode === 'morph' || mode === 'add'">
-
-                <!-- joints-->
-                <circle v-for="joint in joints" :key="joint.id"
-                    :cx="joint.x + offSetTools"
-                    :cy="joint.y + offSetTools"
-                    @mousedown.stop="onJointMouseDown(joint, $event)"
-                    @mouseup.stop="onJointMouseUp(joint, $event)"
-                    @click.stop="onJointClick(joint, $event)"
-                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
-                    :r="joint.r" />
+            <template v-if="showJoints">
 
                 <!-- Bezier lines-->
                 <path v-for="p in selectedBezierElements.lines"
@@ -90,6 +88,15 @@
                     :class="['qux-svg-editor-bezier', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
                     />
 
+                <!-- joints-->
+                <circle v-for="joint in joints" :key="joint.id"
+                    :cx="joint.x + offSetTools"
+                    :cy="joint.y + offSetTools"
+                    @mousedown.stop="onJointMouseDown(joint, $event)"
+                    @mouseup.stop="onJointMouseUp(joint, $event)"
+                    @click.stop="onJointClick(joint, $event)"
+                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
+                    :r="joint.r" />
 
             </template>
 
@@ -99,54 +106,71 @@
                 <rect
                     :x="boundingBox.x + offSetTools"
                     :y="boundingBox.y + offSetTools"
-                    :width="boundingBox.w"
-                    :height="boundingBox.h"
+                    :width="boundingBox.w + 1"
+                    :height="boundingBox.h + 1"
                     @mousedown.stop="onBBoxMouseDown($event)"
                     @mouseup.stop="onBBoxMouseUp($event)"
                     @click.stop="onBBoxMouseClick($event)"
                     class="qux-svg-editor-bounding" />
                 <!-- handlers rectangle-->
-                <rect
+                <circle
                     v-for="handler in resizeHandles"
                     :key="handler.id"
-                    :x="handler.x + offSetTools"
-                    :y="handler.y + offSetTools"
-                    :width="handler.w"
-                    :height="handler.h"
+                    :cx="handler.x + offSetTools"
+                    :cy="handler.y + offSetTools"
+                    :r="handler.r"
                     @mousedown.stop="onResizeMouseDown(handler, $event)"
                     @mouseup.stop="onResizeMouseUp(handler, $event)"
                     @click.stop="onResizeMouseClick(handler, $event)"
-                    class="qux-svg-editor-resize-handler" />
+                    :class="'qux-svg-editor-resize-handler ' + handler.type" />
             </template>
 
-
-
+          
         </g>
     </svg>
   </div>
 </template>
 
 <style>
+  @import url("../style/qux-svg-editor.css");
 </style>
 
 <script>
 
-import PathTool from './tools/PathTool'
-import SelectTool from './tools/SelectTool'
-import MorphTool from './tools/MorphTool'
-import MoveTool from './tools/MoveTool'
-import SVGRuler from './SVGRuler'
-import BezierTool from './tools/BezierTool'
+
 import * as SVGUtil from './SVGUtil'
+import * as GradientUtil from './GradientUtil'
 import Logger from '../common/Logger'
+import Events from './mixins/Events.vue'
+import Tools from './mixins/Tools.vue'
 
 export default {
-  name: "SVgEditor",
-  mixins: [],
-  props: ['width', 'height', 'pos'],
+  name: "SVGEditor",
+  mixins: [Events, Tools],
+  props: {
+    'width': Number, 
+    'height': Number, 
+    'pos': {
+        type: Object,
+        default() {
+            return {x:0, y:0}
+        }
+    }, 
+    'zoom': {
+        type: Number,
+        default: 1
+    },
+    'grid': {
+        type: Object,
+        default() {
+            return undefined
+        }
+    }
+  },
   data: function() {
     return {
         value: [],
+        isBoundingBoxVisible: true,
         mode: 'select',
         cursor: 'default',
         hover: null,
@@ -159,27 +183,32 @@ export default {
         offSetValue: 0.5,
         showBezierPoints: false,
         config: {
-            pointRadius: 5,
-            colorHover: 'red',
+            pointRadius: 3,
+            colorHover: '#49C0F0',
             colorSelect: '#49C0F0',
             handlerSize: 7
-        }
+        },
+        hasGradient: true,
+        isDirty: false
     };
   },
   computed: {
+      showHover () {
+        return this.mode === 'select' || this.mode === 'move'
+      },
+      showJoints () {
+        return this.mode === 'morph' //|| this.mode === 'add'
+      },
       resizeHandles () {
-          let result = []
+          const result = []
           if (this.boundingBox) {
-             return SVGUtil.getResizeHandles(this.boundingBox, this.config.handlerSize)
+             return SVGUtil.getResizeHandles(this.boundingBox, this.config.handlerSize, this.config.pointRadius )
           }
           return result
       },
       joints () {
-        /**
-         * FIXME: Potentially also to slow!
-         */
-        let paths = this.selectedPaths
-        let points = paths.flatMap(path => {
+        const paths = this.selectedPaths
+        const points = paths.flatMap(path => {
             return path.d.map((point, i) => {
                 return {
                     parent: path.id,
@@ -194,7 +223,7 @@ export default {
         return points
       },
       allBezierPoints () {
-        let result = this.value.flatMap(path => {
+        const result = this.scalledValue.flatMap(path => {
             return path.d.flatMap((point,j) => {
                 if (point.t === 'C') {
                     return [{
@@ -216,14 +245,13 @@ export default {
         return result
       },
       selectedBezierElements () {
-          console.debug('FIXME: To slow')
           /** FIXME: thi sis somehopw top slow!! should this be done by the morp tool, and we just have here a property? */
-          let points = []
-          let lines = []
+          const points = []
+          const lines = []
           if (this.selectedJoint && this.selectedPaths && this.selectedPaths.length === 1) {
-                let path = this.selectedPaths[0]
-                let pos = this.selectedJoint.id
-                let current = path.d[pos]
+                const path = this.selectedPaths[0]
+                const pos = this.selectedJoint.id
+                const current = path.d[pos]
                 if (current && current.t === 'C') {
                     points.push({
                             id: 'x2',
@@ -234,8 +262,8 @@ export default {
                             r: this.config.pointRadius
                     })
                 }
-                let next = path.d[pos + 1]
-                    if (next && next.t === 'C') {
+                const next = path.d[pos + 1]
+                if (next && next.t === 'C') {
                     points.push({
                         id: 'x1',
                         parent: pos + 1,
@@ -260,303 +288,72 @@ export default {
           }
       },
       selectedPaths () {
-        return this.value.filter(p => this.isSelected(p))
+        return this.scalledValue.filter(p => this.isSelected(p))
+      },
+      scalledValue () {
+        return SVGUtil.getZoomedPaths(this.value, this.zoom)  
+      },
+      gradients () {
+        const result = this.value.map((path, i) =>{
+          if (path?.fill.gradient) {
+            return {
+              // we need to here a prefix, because the widget is hidden, and therewold be
+              // two gardients with the same number
+              id: GradientUtil.getGradientID(i, path, 'e'),
+              fill: path.fill,
+              angle: GradientUtil.getGradientAngle(path.fill)
+            }
+          }
+          return null
+        })
+        .filter(path => {
+            return path !== null
+        })
+        return result
       },
       paths () {
-          // this should move into a destinct component once we
-          // have groupings and masks
-          let result = this.value.map(path => {
-              let svg = {
-                  id: path.id,
-                  stroke: path.stroke,
-                  strokeWidth: path.strokeWidth,
-                  fill: path.fill,
-                  d: ''
-              }
-              if (path.d) {
-                  svg.d = SVGUtil.pathToSVG(path, this.offSetValue)
-              }
-              if (this.hover === path.id) {
-                  svg.stroke = this.config.colorHover
-              }
-              // if (this.isSelected(path)) {
-              //    svg.stroke = this.config.colorSelect
-              //}
-              // console.debug(path.d.length, svg.d)
-              return svg
-          })
-          return result
+        const result = this.scalledValue.map((path, i) => {
+            const svg = {
+                id: path.id,
+                stroke: path.stroke,
+                strokeWidth: path.strokeWidth,
+                fill: path.fill,
+                d: ''
+            }
+            if (path.fill.gradient && i >-1) {
+                svg.fill = GradientUtil.getGradientURL(i, path, 'e')
+            }
+            if (path.d) {
+                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue)
+            }
+            if (this.hover === path.id) {
+                svg.stroke = this.config.colorHover
+            }
+            return svg
+        })
+        return result
       }
   },
   components: {
   },
   methods: {
 
-    /******************************************
-     * Event handler
-     *****************************************/
-
-    onResizeMouseDown (handler, e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onResizeMouseDown(handler, this.boundingBox, pos)
-        }
-    },
-    onResizeMouseUp (handler, e) {
-        let pos = this.getCanvasMousePosition(e)
-        e.pre
-        if (this.currentTool) {
-            this.currentTool.onResizeMouseUp(handler,this.boundingBox, pos)
-        }
-    },
-    onResizeMouseClick (handler, e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onResizeMouseClick(handler, this.boundingBox, pos)
-        }
-    },
-
-    // bounding box
-    onBBoxMouseDown (e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onBBoxMouseDown(this.boundingBox, pos)
-        }
-    },
-    onBBoxMouseUp (e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onBBoxMouseUp(this.boundingBox, pos)
-        }
-    },
-    onBBoxMouseClick (e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onBBoxMouseClick(this.boundingBox, pos)
-        }
-    },
-
-    // joints
-    onJointMouseDown (joint, e) {
-        this.logger.log(6, 'onJointMouseDown ', 'enter')
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onJointMouseDown(joint, pos)
-        }
-    },
-    onJointMouseUp (joint, e) {
-        this.logger.log(6, 'onJointMouseUp ', 'enter')
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onJointMouseUp(joint, pos)
-        }
-    },
-    onJointClick (joint, e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onJointClick(joint, pos)
-        }
-    },
-
-    // bezier
-    onBezierMouseDown (joint, e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onBezierMouseDown(joint, pos)
-        }
-    },
-    onBezierMouseUp (joint, e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onBezierMouseUp(joint, pos)
-        }
-    },
-    onBezierClick (joint, e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onBezierClick(joint, pos)
-        }
-    },
-
-    // element
-    onElementBlur () {
-        if (this.currentTool) {
-            this.currentTool.onElementBlur()
-        }
-    },
-
-    onElementHover (path) {
-        if (this.currentTool) {
-            this.currentTool.onElementHover(path)
-        }
-    },
-
-    onElementClick (path, e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onElementClick(path, pos)
-        }
-    },
-
-    // canvas mouse
-    onMouseClick (e) {
-        this.logger.log(5, 'onMouseClick ', 'enter')
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onClick(pos)
-        }
-    },
-    onMouseMove (e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onMove(pos)
-        }
-        this.$emit('qmouse', pos)
-    },
-    onMouseDown (e) {
-        this.logger.log(5, 'onMouseUp ', 'enter')
-         let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onMouseDown(pos)
-        }
-    },
-    onMouseUp (e) {
-        this.logger.log(5, 'onMouseUp ', 'enter')
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onMouseUp(pos)
-        }
-    },
-    onMouseDoubleClick (e) {
-        let pos = this.getCanvasMousePosition(e)
-        if (this.currentTool) {
-            this.currentTool.onDoubleClick(pos)
-        }
-    },
-
-    // keyboard
-    onKeyUp (e) {
-        if (e.key === 'Escape') {
-            this.onEsc()
-        }
-        if (e.key === 'Enter') {
-            this.onEnter()
-        }
-        if (e.key === 'Backspace' || e.key === 'Delete') {
-            this.onDelete()
-        }
-    },
-    onEsc () {
-        this.logger.log(-1, 'onEsc ', 'enter')
-        if (this.currentTool) {
-            this.currentTool.onEsc()
-        }
-    },
-    onEnter () {
-        this.logger.log(-1, 'onEnter ', 'enter')
-        if (this.currentTool) {
-            this.currentTool.onEnter()
-        }
-    },
-    onDelete () {
-        this.logger.log(-1, 'onDelete ', 'enter')
-        if (this.currentTool) {
-            this.currentTool.onDelete()
-        }
-    },
-
-    /******************************************
-     * State maschine
-     *   Implement here a simple state machine
-     *   to transition from tool to tool. This
-     *   method is usualy called from the tools
-     *   after they finished
-     *****************************************/
-    setState (state) {
-        this.logger.log(-1, 'setState ', 'enter', state)
-        delete this.currentTool
-        this.setCursor('default')
-        this.setBoundingBox()
-
-        switch (state) {
-            case 'addEnd':
-                this.startSelectTool()
-                break
-            case 'selectEnd':
-                this.startMoveTool()
-                break
-            case 'moveDoubleClick':
-                this.startMorphTool()
-                break
-            case 'morphEnd':
-                this.startSelectTool()
-                break
-            default:
-                this.startSelectTool()
-        }
-    },
-
-    /******************************************
-     * Tools
-     *****************************************/
-
-    startMoveTool () {
-        this.logger.log(-1, 'startMoveTool ', 'enter')
-        this.mode = 'move'
-        this.currentTool = new MoveTool(this, this.selection)
-    },
-
-    startMorphTool () {
-        this.logger.log(-1, 'startPathTool ', 'enter')
-        this.mode = 'morph'
-        this.currentTool = new MorphTool(this, this.config.pointRadius)
-    },
-
-    startSelectTool () {
-        this.logger.log(-1, 'startPathTool ', 'enter')
-        this.mode = 'select'
-        this.reset()
-        this.currentTool = new SelectTool(this)
-    },
-
-    startPathTool (pos) {
-        this.logger.log(-1, 'startPathTool ', 'enter', pos)
-        this.mode = 'add'
-        this.reset()
-        this.setCursor('crosshair')
-        this.currentTool = new PathTool(this)
-        if (pos) {
-            this.currentTool.onClick(pos)
-        }
-        this.initRuler(this.selection)
-    },
-
-    startBezierTool (pos) {
-        this.logger.log(-1, 'startBezierTool ', 'enter', pos)
-        this.mode = 'add'
-        this.reset()
-        this.setCursor('crosshair')
-        this.currentTool = new BezierTool(this)
-        if (pos) {
-            this.currentTool.onClick(pos)
-        }
-        this.initRuler(this.selection)
-    },
-
-    initRuler (selection) {
-        this.ruler = new SVGRuler(this.value, selection)
-    },
 
     /******************************************
      * getters & setters
      *****************************************/
 
+    setBoundingBoxVisible (isBoundingBoxVisible) {
+        this.isBoundingBoxVisible = isBoundingBoxVisible
+    },
+
     setCursor (c = 'default') {
-         this.logger.log(-1, 'setCursor ', 'enter', c)
+        this.logger.log(5, 'setCursor ', 'enter', c)
         this.cursor = c
     },
 
     reset () {
+        this.isBoundingBoxVisible = true
         this.setSplitPoint()
         this.unSelect()
     },
@@ -596,14 +393,36 @@ export default {
     },
 
     select (id) {
-        this.logger.log(-1, 'select ', id)
+        this.logger.log(1, 'select ', id)
         this.selection = [id]
+        const bbox = this.getSelectedUnZoomedBoundingBox()
+        this.$emit('select', this.getSelectedElements(), bbox)
+    },
+    
+    addSelect (id) {
+        this.logger.log(1, 'addSelect ', id)
+        this.selection.push(id)
+        this.$emit('select', this.getSelectedElements())
     },
 
     unSelect () {
-        this.logger.log(-1, 'unSelect ')
+        this.logger.log(1, 'unSelect ')
         this.selection = []
+        this.$emit('unselect')
         this.setBoundingBox()
+    },
+
+    getSelectedUnZoomedBoundingBox () {
+        const elements = this.getSelectedSVGElements()
+        if (elements.length === 0) {
+            return {
+                x:0, y:0, w:0, h:0, zoom: this.zoom
+            }
+        }
+        const boxes = SVGUtil.getBoxes(elements)
+        const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
+        const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
+        return bbox
     },
 
     getSVGElement (element) {
@@ -617,6 +436,13 @@ export default {
         }
     },
 
+    getSelectedSVGElements () {
+        return this.getSelectedElements().map(path => {
+            return this.getSVGElement(path)
+        }).filter(e => e !== undefined)
+    },
+
+
     getSelectedElements () {
         return this.value.filter(value => this.isSelected(value))
     },
@@ -627,20 +453,33 @@ export default {
     },
 
     onChange () {
-        this.logger.log(-1, 'onChange', 'enter')
+        this.logger.log(2, 'onChange', 'enter')
         this.$emit('change', this.value)
+        this.isDirty = true
     },
 
-    setValue (v) {
-        this.value = v
-        // convert from relative to absolute
-        // position.
+    setValue (paths, editingBoundingBox, currentBoundingBox) {
+        this.logger.log(2, 'setValue', 'enter')
+        const scalledPaths = SVGUtil.strechPaths(paths, editingBoundingBox, currentBoundingBox)
+        const translatedPaths = SVGUtil.addBoundingBox(scalledPaths, currentBoundingBox)
+        this.value = translatedPaths
+        this.isDirty = false
     },
 
     getValue () {
-        // convert from relative to absolute
-        // position
+        this.logger.log(2, 'getValue', 'enter')
+        const boxes = SVGUtil.getBoxes(this.$refs.paths)
+        const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
+        const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
+        const paths = SVGUtil.removeBoundingBox(this.value, bbox)
+        return {
+            dirty: this.isDirty,
+            paths: paths,
+            pos: zoomedPos,
+            bbox: bbox
+        } 
     },
+    
 
     clear () {
         this.logger.log(0, 'clear', 'enter')
@@ -649,6 +488,21 @@ export default {
         this.reset()
         this.setBoundingBox()
     },
+
+
+    /*****************************************
+     *  Model Lifecycle hooks
+     *****************************************/
+
+    beforeValueChange () {
+        this.logger.log(1, 'beforeValueChange ', 'enter')
+    },
+
+    onValueChanged (type, ids) {
+        this.logger.log(1, 'onValueChanged ', 'enter > ' + type, ids)
+        this.isDirty = true
+    },
+
 
     /*****************************************
      *  Helper
@@ -665,17 +519,23 @@ export default {
     },
 
     getCanvasMousePosition (e){
-        var pos = this._getMousePosition(e);
+        let pos = this._getMousePosition(e);
         pos.x -= this.pos.x;
-        pos.y-= this.pos.y;
+        pos.y -= this.pos.y;
+  
+        pos.x = Math.round(pos.x / this.zoom)
+        pos.y = Math.round(pos.y / this.zoom)
+        pos.zoom = 1
+        
         if (this.ruler) {
             pos = this.ruler.correct(pos)
         }
+        
         return pos;
     },
 
     _getMousePosition (e){
-        var result = {x: 0, y: 0};
+        const result = {x: 0, y: 0};
         if (e) {
             if (e.touches && e.touches.length > 0) {
                 e = e.touches[0]
@@ -692,11 +552,19 @@ export default {
             }
         }
         return result;
+    },
+    stop () {
+        this.logger.log(-1, 'stop', 'enter')
+        this.$emit('stop')
     }
   },
   watch: {
       pos (p) {
           this.pos = p
+      },
+      zoom (z) {
+        this.zoom = z
+        this.onZoom(z)
       }
   },
   mounted() {

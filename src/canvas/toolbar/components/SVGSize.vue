@@ -1,6 +1,7 @@
 
 <template>
      <div class="MatcBoxSize">
+        
 
 		<div data-dojo-attach-point="layerX" class="MatcToolbarFlexCntr">
 			<div class="MatcToolbarItem MatcToolbarItemSmall " >
@@ -37,7 +38,6 @@
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
-import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import Util from 'core/Util'
@@ -66,21 +66,15 @@ export default {
 	},
     methods: {
       postCreate: function(){
-			this.own(on( this.inputX, this.inputEvent, lang.hitch(this,"update")));
-			this.own(on( this.inputY, this.inputEvent, lang.hitch(this,"update")));
-			this.own(on( this.inputH, this.inputEvent, lang.hitch(this,"update")));
-			this.own(on( this.inputW, this.inputEvent, lang.hitch(this,"update")));
+			this.own(on( this.inputX, this.inputEvent, lang.hitch(this,"update", 'x')));
+			this.own(on( this.inputY, this.inputEvent, lang.hitch(this,"update", 'y')));
+			this.own(on( this.inputH, this.inputEvent, lang.hitch(this,"update", 'h')));
+			this.own(on( this.inputW, this.inputEvent, lang.hitch(this,"update", 'w')));
 
 			this.own(on( this.inputX, "focus", function(e) {e.target.select()}));
 			this.own(on( this.inputY, "focus", function(e) {e.target.select()}));
 			this.own(on( this.inputH, "focus", function(e) {e.target.select()}));
 			this.own(on( this.inputW, "focus", function(e) {e.target.select()}));
-
-			if(this.mode == "widthAndHeight"){
-				css.add(this.layerX, "hidden");
-				this.inputW.disabled = true;
-				css.add(this.inputW, "MatcToobarInlineEditDisabled");
-			}
 		},
 
 		toggleLinked () {
@@ -97,84 +91,77 @@ export default {
 			return this._dirty;
 		},
 
-		update (e){
+		update (type, e){
 		
 			this.stopEvent(e);
 			this._dirty = true;
 			if (this.value){
 				var h = this.inputH.value;
 				var w = this.inputW.value;
-				let hasChange = false
+	
 
-				if (h * 1 != this.value.h) {
+				if (type === 'h') {
 					
 					if (this.isPercent(h)) {
 						this.scaleValueWH(h)
-						hasChange = true
 					}
 					
 					if (this.isValid(h, this.inputH)){
-						if (this.isLinked && this.mode === 'all') {
+						if (this.isLinked) {
 							const p = h / this.value.h
 							this.value.w = Math.round(this.value.w * p)
 							this.inputW.value = this.value.w
 						}
 						this.value.h = h * 1;
-						hasChange = true
 					}
-				} else if (w * 1 != this.value.w) {
+				} 
+				 
+				if (type === 'w') {
 				
 					if (this.isPercent(w)) {
 						this.scaleValueWH(w)
-						hasChange = true
 					}
 					if (this.isValid(w, this.inputW)){
-						if (this.isLinked && this.mode === 'all') {
+						if (this.isLinked) {
 							const p = w / this.value.w
 							this.value.h = Math.round(this.value.h * p)
 							this.inputH.value = this.value.h
 						}
 						this.value.w = w * 1;
-						hasChange = true
 					}
 				}
 
-				if (this.mode == "all"){
-					var parent= this.getParent(this.value);
-					if (parent){
-						var x = this.inputX.value * 1 + parent.x;
-						var y = this.inputY.value * 1 + parent.y;
+			
+				const parent = this.getParent(this.value);
+				if (parent){
+					const x = this.inputX.value * 1 + parent.x;
+					const y = this.inputY.value * 1 + parent.y;
 
-						if (x != this.value.x) {
-							let valueX = this.inputX.value
-							if (this.isPercent(valueX)){
-								this.scaleValueXY(valueX, parent)
-								hasChange = true
-							}
-
-							if (this.isValid(x, this.inputX)) {
-								this.value.x = x * 1;
-								hasChange = true
-							}
+					if (type === 'x') {
+						const valueX = this.inputX.value
+						if (this.isPercent(valueX)){
+							this.scaleValueXY(valueX, parent)
 						}
 
-						if(y != this.value.y) {
-							let valueY = this.inputY.value
-							if (this.isPercent(valueY)){
-								this.scaleValueXY(valueY, parent)
-								hasChange = true
-							}
-							if (this.isValid(y, this.inputY)) {
-								this.value.y = y * 1;
-								hasChange = true
-							}
+						if (this.isValid(x, this.inputX)) {
+							this.value.x = x * 1;
+						}
+					}
+
+					if(type === 'y') {
+						const valueY = this.inputY.value
+						if (this.isPercent(valueY)){
+							this.scaleValueXY(valueY, parent)
+						}
+						if (this.isValid(y, this.inputY)) {
+							this.value.y = y * 1;
 						}
 					}
 				}
 
-				if (hasChange) {
-					this.emit("change", this.value);
-				}
+				
+				this.emit("change", this.value, type);
+				
 			}
 		},
 
@@ -210,20 +197,12 @@ export default {
 		},
 
 		isValid (value){
-			var er = /^-?[0-9]+$/;
-			var valid =  er.test(value);
+			const er = /^-?[0-9]+$/
+			const valid =  er.test(value)
 			if(!valid){
-				/**
-				 * FIXME: add here some kind if css class or so?
-				 */
-				return false;
+				return false
 			}
-
-			if(value > 0){
-				return true;
-			}
-
-			return false;
+			return value > 0
 		},
 
 		setModel (m){
@@ -257,22 +236,18 @@ export default {
 			this.inputH.value = this.value.h;
 			this.inputW.value = this.value.w;
 
-			if(this.mode == "all"){
-				/**
-				 * x and y
-				 */
-				const parent = this.getParent(this.value);
-				if(parent){
-					this.inputX.value = this.value.x - parent.x;
-					this.inputY.value = this.value.y - parent.y;
-				} else {
-					/**
-					 * DISABLE?
-					 */
-					this.inputX.value = "-";
-					this.inputY.value = "-";
-				}
+			/**
+			 * x and y
+			 */
+			const parent = this.getParent(this.value);
+			if(parent){
+				this.inputX.value = this.value.x - parent.x;
+				this.inputY.value = this.value.y - parent.y;
+			} else {
+				this.inputX.value = "-";
+				this.inputY.value = "-";
 			}
+			
 		},
 
 		getParent (value) {

@@ -6,11 +6,12 @@ import _ShowWidget from './_ShowWidget'
 import _ShowGroup from './_ShowGroup'
 import _ShowScreen from './_ShowScreen'
 import _ShowCanvas from './_ShowCanvas'
+import _ShowSVG from './_ShowSVG'
 import * as DistributionUtil from 'core/DistributionUtil'
 
 export default {
     name: '_Show',
-    mixins:[_ShowWidget, _ShowGroup, _ShowScreen, _ShowCanvas, _Tooltip, DojoWidget],
+    mixins:[_ShowWidget, _ShowGroup, _ShowScreen, _ShowCanvas, _ShowSVG, _Tooltip, DojoWidget],
     data: function () {
         return {
       }
@@ -25,6 +26,9 @@ export default {
 		},
 		isPrototypeView () {
 			return this.canvasViewMode === 'prototype'
+		},
+		isSVGPathsSelection () {
+			return this._selection === 'svgPaths'
 		}
 	},
     methods: {
@@ -195,6 +199,7 @@ export default {
 						this._removeCss(this.selectBtn, "MatcToolbarSectionHidden");
 						this._removeCss(this.addSection, "MatcToolbarSectionHidden");
 						this._removeCss(this.hotspotTool, "MatcToolbarSectionHidden");
+						this._removeCss(this.svgTool, "MatcToolbarSectionHidden");
 						this._removeCss(this.rectangleTool, "MatcToolbarSectionHidden");
 						this._removeCss(this.textTool, "MatcToolbarSectionHidden");
 						this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
@@ -213,6 +218,7 @@ export default {
 						this._addCss(this.selectBtn, "MatcToolbarSectionHidden");
 						this._addCss(this.addSection, "MatcToolbarSectionHidden");
 						this._addCss(this.hotspotTool, "MatcToolbarSectionHidden");
+						this._addCss(this.svgTool, "MatcToolbarSectionHidden");
 						this._addCss(this.rectangleTool, "MatcToolbarSectionHidden");
 						this._addCss(this.textTool, "MatcToolbarSectionHidden");
 						this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");
@@ -298,8 +304,6 @@ export default {
 			css.add(this.designTokenDownloadDiv, "MatcToolbarSectionHidden")
 			css.add(this.imageWidgetDiv, "MatcToolbarSectionHidden")
 
-		
-			
 			css.add(this.lowCodeDiv, "MatcToolbarSectionHidden")
 			css.add(this.callBackDiv, "MatcToolbarSectionHidden")
 			css.add(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")
@@ -321,24 +325,20 @@ export default {
 				css.add(this.condStyleDiv, 'MatcToolbarSectionHidden')
 			}
 		
-
 			css.add(this.lineDiv,"MatcToolbarSectionHidden" );
-
 			css.add(this.toolsDiv, "MatcToolbarSectionHidden");
-
 			css.add(this.widgetNameDiv, "MatcToolbarSectionHidden");
-
-
 			css.add(this.groupDIV, "MatcToolbarSectionHidden");
 			css.add(this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.add(this.groupActionDiv, "MatcToolbarSectionHidden");
-
 			css.add(this.widgetViewSection, "MatcToolbarSectionHidden");
 
+			css.add(this.svgButtonDiv, 'MatcToolbarSectionHidden')
+			css.add(this.svgBoxDiv, "MatcToolbarSectionHidden")
+			css.add(this.svgStrokeDiv, "MatcToolbarSectionHidden")
+			css.add(this.svgFillDiv, "MatcToolbarSectionHidden")
 
 			css.remove(this.domNode, "MatcToolbarTemplateMarkerVisible");
-
-
 			this.hideDisButtons();
 
 

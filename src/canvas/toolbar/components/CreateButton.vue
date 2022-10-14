@@ -113,6 +113,9 @@ export default {
 			if(	this.model.lastCategory){
 				this.selectedCategory = this.model.lastCategory;
 			}
+			// FIXME: this could be done only on demand...
+			// check if we have imports, becasue then we have to check
+			// if (this.model.imports)
 			this.importableApps = await Services.getModelService().findMyAppSummaries()
 			setTimeout(lang.hitch(this, "init"), 2000);
 		},

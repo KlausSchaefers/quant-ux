@@ -26,7 +26,10 @@ export default {
 			},
 
 			dispatchDoubleClick () {
-				this.logger.log(-1, "dispatchDoubleClick", "enter");
+				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);
+				if (this.mode === "svg") {
+					return
+				}
 				this.forceCompleteRender()
 				this.rerender()
 			},

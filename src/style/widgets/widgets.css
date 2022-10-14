@@ -1791,6 +1791,19 @@
 	left:0px;
 }
 
+.MatcWidgetTypeSVGPaths {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border: 0px solid transparent;
+}
+
+.MatcWidgetTypeSVGPaths svg{
+	position: absolute;
+	top:-5px;
+	left:-5px;
+}
 /*******************************
  * TextBox
  *******************************/

@@ -140,7 +140,12 @@
 	position: absolute;
 	width: 100%;
  	height: 100%;
+}
 
+.MatcSVGLayer {
+	position: absolute;
+	width: 100%;
+ 	height: 100%;
 }
 
 .MatcBox{
@@ -358,6 +363,11 @@
 .MatcCanvasResizeCursorAll .MatcCutsomerHandler,
 .MatcCanvasResizeCursorAll .MatcResizeBorder{
 	display: none;
+}
+
+.MatcCanvasModesvg .MatcScreenDnD, 
+.MatcCanvasModesvg .MatcWidgetDND{
+	pointer-events: none;
 }
 
 /****************************************************
@@ -894,12 +904,6 @@
 
  .MatcCanvasStateBeginLine .MatcEventedWidget:HOVER{
  	border:2px solid orange;
- }
-
- .MatcCanvasStateBeginLine .MatcScreen,
- .MatcCanvasStateBeginLine .MatcWidget,
- .MatcCanvasStateBeginLine .MatcWidget.MatcWidgetWithTransition{
-
  }
 
  .MatcCanvasStateEndLine .MatcScreenDnD{

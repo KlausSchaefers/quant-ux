@@ -57,6 +57,7 @@ import IconButton from 'core/widgets/IconButton'
 import Paging from 'core/widgets/Paging'
 import Timeline from 'core/widgets/Timeline'
 import SVGBox from 'core/widgets/SVGBox'
+import SVGPaths from 'core/widgets/SVGPaths'
 import VisualPicker from 'core/widgets/VisualPicker'
 
 import Animation from 'core/Animation'
@@ -480,6 +481,12 @@ export default class RenderFactory extends Core {
 
 	_createSVGBox(parent, model) {
 		var widget = this.$new(SVGBox);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createSVGPaths(parent, model) {
+		var widget = this.$new(SVGPaths);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

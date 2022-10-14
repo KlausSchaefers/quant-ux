@@ -5,6 +5,7 @@ import css from 'dojo/css'
 import win from 'dojo/_base/win'
 import ModelUtil from 'core/ModelUtil'
 
+
 export default {
     name: 'Add',
     mixins:[],

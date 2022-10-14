@@ -71,10 +71,10 @@ export default class Widget extends Snapp {
 
 
 	distributeWidgets (type, widgets){
-		this.logger.log(0,"distributeWidgets", "enter > " +type);
+		this.logger.log(-1,"distributeWidgets", "enter > " +type, widgets);
 
-		var bbx = this.getBoundingBox(widgets);
-		var positions = this._distributedPositions(type, widgets, bbx).positions;
+		const bbx = this.getBoundingBox(widgets);
+		const positions = this._distributedPositions(type, widgets, bbx).positions;
 
 		this.updateMultiWidgetPosition(positions, true);
 
@@ -658,8 +658,95 @@ export default class Widget extends Snapp {
 	}
 
 	/**********************************************************************
+	* Widget position and props
+	**********************************************************************/
+	updateCompleteWidget (id, pos, props){
+		this.logger.log(-1,"updateCompleteWidget", "enter > ");
+
+		const widget = this.model.widgets[id];
+		if (!widget) {
+			this.logger.log(-1,"updateCompleteWidget", "exit > no widdget with id ");
+			return 
+		}
+
+		const zoomedPos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
+		const command = this.createWidgetComplateUpdateCommand(id, zoomedPos, props);
+		
+		if(command){
+			this.addCommand(command);
+			this.modelWidgetCompleteUpdate(id, pos, props);
+			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
+			// FIXME: calling this.renderWidget(widget, 'props') will not update the bounding box
+			this.render()
+			return widget
+		}
+	}
+
+	createWidgetComplateUpdateCommand (id, pos, props) {
+	
+		const widget = this.model.widgets[id];
+		if (widget){
+			const command = {
+				timestamp : new Date().getTime(),
+				type : "WidgetCompleteUpdate",
+				oldProps : lang.clone(widget.props),
+				newProps : lang.clone(props),
+				oldPos: {
+					x: widget.x,
+					y: widget.y,
+					w: widget.w,
+					h: widget.h
+				},
+				newPos: {
+					x: pos.x,
+					y: pos.y,
+					w: pos.w,
+					h: pos.h
+				},
+				modelId : id
+			};
+			return command;
+		}
+	}
+
+	modelWidgetCompleteUpdate (id, pos, props) {
+		const widget = this.model.widgets[id];
+		if (widget){
+			widget.props = props
+			this.updateBox(pos, widget)
+
+			/**
+			 * remove from parent screen if set.
+			 */
+			this.cleanUpParent(widget);
+
+			/**
+			 * update parent screen
+			 */
+			const parent = this.getHoverScreen(widget);
+			if(parent){
+				parent.children.push(widget.id);
+			}
+
+			this.setLastChangedWidget(widget)
+			this.onModelChanged([{type: 'widget', action:"change", "prop": "position", id: id}])
+		}
+	}
+
+	undoWidgetCompleteUpdate(command) {
+		this.modelWidgetCompleteUpdate(command.modelId, command.oldPos, command.oldProps)
+		this.render()
+	}
+
+	redoWidgetCompleteUpdate(command) {
+		this.modelWidgetCompleteUpdate(command.modelId, command.newPos, command.newProps)
+		this.render()
+	}
+
+	/**********************************************************************
 	* Widget props
 	**********************************************************************/
+
 	updateWidgetProperties (id, props, type, doNotRender, forceCompleteRender = false){
 		this.logger.log(-1,"updateWidgetProperties", "enter > " + type+ " > doNotRender: "+ doNotRender);
 

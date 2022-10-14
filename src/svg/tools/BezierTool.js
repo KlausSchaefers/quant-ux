@@ -21,7 +21,7 @@ export default class BezierTool extends Tool{
         super(editor)
         let path = {
             id: 'pb' + new Date().getTime(),
-            name: 'Path',
+            name: 'Bezier',
             type: 'Path',
             stroke: '#333333',
             strokeWidth: 1,
@@ -75,6 +75,7 @@ export default class BezierTool extends Tool{
             this.path.d.push(newPoint)
         }
         this.isMouseDown = false
+        this.editor.onChange()
         this.editor.setSelectedJoint()
     }
 
@@ -100,6 +101,7 @@ export default class BezierTool extends Tool{
                 }
             }
        }
+       this.editor.onChange()
        // this.logger.log(-1, 'onMove', 'exit', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(' '))
     }
 
@@ -145,6 +147,7 @@ export default class BezierTool extends Tool{
          * FIXME: remove all _ props
          */
         this.editor.setState('addEnd')
+        this.editor.onChange()
     }
 
     getLast () {

@@ -7,6 +7,21 @@
   color: #333;
 }
 
+.MatcTextProperties .MatcToolbarSectionContent, 
+.MatcTextProperties .MatcToolbarSectionContent .MatcToolbarSelector{
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.MatcToolbarItem.MatcTextShadow {
+	border: 1px solid transparent;
+}
+
+.MatcToolbarItem.MatcTextShadow:hover {
+	border: 1px solid #555;
+}
+
 
 
 /****************************************************

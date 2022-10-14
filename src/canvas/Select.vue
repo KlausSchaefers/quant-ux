@@ -52,8 +52,7 @@ import topic from 'dojo/topic'
 			 * more details.
 			 */
 			if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
-				topic.publish("matc/canvas/click", "", "");
-				this.inlineEditInit(this._selectWidget);
+				this.onWidgetDoubleClick(this._selectWidget)
 			} else {
 				this.onSelectionChanged(id, "widget");
 				if (this.model.widgets[id]){
@@ -85,6 +84,16 @@ import topic from 'dojo/topic'
 			} catch (e){
 				console.debug(e)
 				this.logger.error("onWidgetSelected", "could not call selectionListener > ", e);
+			}
+		},
+
+		onWidgetDoubleClick (widget) {
+			this.logger.log(-3,"onWidgetDoubleClick", "enter > "+ widget.id);
+			topic.publish("matc/canvas/click", "", "");
+			if (widget.type === 'SVGPaths') {
+				this.editSVG(widget)
+			} else {
+				this.inlineEditInit(widget)	
 			}
 		},
 
@@ -242,7 +251,11 @@ import topic from 'dojo/topic'
 				if(this._selectChangeListener){
 					this._selectChangeListener();
 				}
+				if (this.currentTool && this.currentTool.stop) {
+					this.currentTool.stop()
+				}
 			} catch( e){
+				this.logger.error("onSelectionChanged", "enter > ", e);
 				this.logger.sendError(e);
 			}
 			if (type !== 'group') {

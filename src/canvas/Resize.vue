@@ -172,7 +172,7 @@ export default {
       _updateResizeHandlers (boundingBox){
 
         const box = boundingBox
-       
+     
         if (this.handlers && box && this.resizeEnabled) {
           if (this.handlers['LeftUp']) {
             this.handlers['LeftUp'].style.top = box.y  + (-1* this.resizeButtonSize) + "px";

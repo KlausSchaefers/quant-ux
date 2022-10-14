@@ -6,6 +6,7 @@
 
  .MatcToolbarColor{
 	position: relative;
+	display: flex;
 }
 
 .MatcToolbarColorIndicator{
