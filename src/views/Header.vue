@@ -28,6 +28,11 @@
     </div>
 </template>
 
+<style>
+  @import url("../style/menu.css");
+</style>
+
+
 <script>
 
 import Services from 'services/Services'

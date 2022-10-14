@@ -29,6 +29,11 @@
     </div>
   </div>
 </template>
+
+<style>
+  @import url("../style/header.css");
+</style>
+
 <script>
 import Service from 'services/Services'
 export default {

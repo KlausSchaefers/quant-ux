@@ -79,6 +79,7 @@
   </div>
 </template>
 <style>
+  @import url("../style/simulator.css");
   @import url("../style/widgets/all.css");
 </style>
 <script>

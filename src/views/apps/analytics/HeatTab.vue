@@ -38,7 +38,7 @@
 
     
     
-    <AnalyticPagePlugin  v-if="events && events.length === 0" :events="event" :model="app" />
+    <AnalyticPagePlugin  v-if="events && events.length === 0" :events="events" :model="app" />
 
     <section class="section">
       <div class="container">
