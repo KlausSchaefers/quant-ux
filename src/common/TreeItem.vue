@@ -184,6 +184,10 @@ export default {
       }
     },
     onDragStart (e) {
+      if (this.value.hasDND === false) {
+        e.preventDefault()
+        return
+      }
       if (this.value && !this.value.disabled) {
         e.dataTransfer.setData("text", this.value.id)
       } else {

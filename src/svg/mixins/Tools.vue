@@ -119,10 +119,12 @@ export default {
 
 
     changePathProps(pathID, key, value) {
-        this.logger.log(-1, 'changePathProps ', 'enter')
+        this.logger.log(1, 'changePathProps ', 'enter')
         const path = this.value.find(p => p.id === pathID)
         if (path) {
             path[key] = value
+        } else {
+            this.logger.warn('changePathProps ', 'No path with id', pathID)
         }
     },
 

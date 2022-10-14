@@ -33,7 +33,7 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="svgTool" >
+			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="svgTool"  v-if="false">
 				<span class="mdi mdi-vector-curve" ></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
@@ -264,9 +264,13 @@ export default {
 			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
 			this.own(on(this.ungroupBTN, touch.press, lang.hitch(this, "onToolGroup")));
 			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
-			this.own(on(this.svgTool, touch.press, lang.hitch(this, "onToolSVG", 'bezier')));
+		
 			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
 			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
+
+			if (this.svgTool) {
+				this.own(on(this.svgTool, touch.press, lang.hitch(this, "onToolSVG", 'bezier')));
+			}
 
 			const btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
 			btn.updateLabel = false;

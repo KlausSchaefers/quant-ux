@@ -495,7 +495,8 @@ export default {
 				inherited: box.inherited,
 				fixed: false,
 				z: box.z,
-				hasOptions: this.hasOptions
+				hasOptions: false,
+				hasDND: false
 			}
 
 
