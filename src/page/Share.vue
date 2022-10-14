@@ -48,6 +48,13 @@
     </div>
   </div>
 </template>
+
+<style>
+  @import url("../style/share.css");
+</style>
+
+
+
 <style scoped>
 .MatcSharePasswordRow {
   display: flex;
