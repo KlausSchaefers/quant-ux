@@ -134,7 +134,7 @@ export default {
     },
     renderScriptTo (result, widget, orginalLine) {
         this.logger.log(2,"renderScriptResult","enter >" ,  orginalLine);
-        if (!this.currentScreen) {
+        if (!this.currentScreen && result.to) {
             // FIXME: This happens when a load script fires returns
             // before the page was rendered. Maybe change the ordering??
             this.logger.error("renderScriptResult","no currentscreen");

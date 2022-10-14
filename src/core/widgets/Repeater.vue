@@ -307,6 +307,7 @@ export default {
 
     rewriteDataBinding (i, child) {
         if (child?.props?.databinding?.default) {
+            // only of the repeater has a data binding
             if (this.model.props.databinding && this.model.props.databinding.default) {
                 const parentPath = this.model.props.databinding.default
                 const path = child.props.databinding.default
@@ -314,6 +315,9 @@ export default {
                 const newPath = `${parentPath}[${i}].${childPath}`
                 child.props.databinding.default = newPath
                 child.props.databinding.defaultRelativ = childPath
+            } else {
+                // set still the relative one, so the data bindng can work
+                child.props.databinding.defaultRelativ = child.props.databinding.default
             }
         }
     },
@@ -341,7 +345,7 @@ export default {
     },
 
     getDataBindingValue (i, child) {
-        if (this.dataBindingValues) {
+         if (this.dataBindingValues) {
             if (child.props.databinding && child.props.databinding.defaultRelativ){
                 let key = child.props.databinding.default
                 let path = child.props.databinding.defaultRelativ
@@ -355,6 +359,8 @@ export default {
                 } else {
                     this.logger.warn('getDataBindingValue()', 'Cannot find ' + path)
                 }
+            } else {
+                this.logger.warn('getDataBindingValue()', 'No defaultRelativ ', child.props)
             }
         }
     },
