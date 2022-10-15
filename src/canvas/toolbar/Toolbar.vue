@@ -33,7 +33,7 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="svgTool"  v-if="false">
+			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="svgTool"  v-if="hasProtoMoto">
 				<span class="mdi mdi-vector-curve" ></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>

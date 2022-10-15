@@ -6,6 +6,7 @@ import SelectTool from '../tools/SelectTool'
 import MorphTool from '../tools/MorphTool'
 import MoveTool from '../tools/MoveTool'
 import BezierTool from '../tools/BezierTool'
+import CopyTool from '../tools/CopyTool'
 import SVGRuler from '../tools/SVGRuler'
 import * as SVGUtil from '../SVGUtil'
 
@@ -216,6 +217,47 @@ export default {
 
         this.afterValueChanged('style', selection.map(e => e.id))
         this.onChange()
+    },
+
+    copySelection () {
+        this.logger.log(-1, 'copySelection ', 'enter')
+
+        const selection = this.getSelectedElements()
+        CopyTool.copy(this.lastCanvasMousePosition, selection)
+
+    },
+
+    pasteSelection () {
+        this.logger.log(-1, 'pasteSelection ', 'enter')
+
+        if (!this.lastCanvasMousePosition) {
+            this.logger.log(-1, 'pasteSelection ', 'No lastCanvasMousePosition')
+        }
+
+        const source = CopyTool.paste()
+        if (source) {
+            this.beforeValueChange()
+            const paths = source.value
+            const bbox = SVGUtil.getSVGBoundingBoxByPaths(paths)
+            SVGUtil.translatePathsByBox(paths, bbox, this.lastCanvasMousePosition)
+            paths.forEach(p => {
+                p.copyOf = p.id
+                p.id = 'pb' + new Date().getTime()
+                p.name = CopyTool.getUniquePathName(this.value, p.name)
+                this.value.push(p)
+            })
+
+            this.afterValueChanged('paste', paths.map(p => p.id))
+            this.onChange()
+            this.onTempChange()
+
+            this.$nextTick(() => {
+                this.startSelectTool(paths[0].id)
+            })
+        }
+
+  
+
     }
   }
 };

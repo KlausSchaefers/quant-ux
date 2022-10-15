@@ -64,7 +64,6 @@
                     />
             </template>
 
-
             <template v-if="showJoints">
 
                 <!-- Bezier lines-->

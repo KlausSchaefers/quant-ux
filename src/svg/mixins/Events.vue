@@ -140,6 +140,7 @@ export default {
         if (this.currentTool) {
             this.currentTool.onMove(pos)
         }
+        this.lastCanvasMousePosition = pos
         this.$emit('qmouse', pos)
     },
     onMouseDown (e) {
