@@ -20,6 +20,7 @@
 					@select="onSVGEditorPathSelected"
 					@unselect="onSVGEditorPathUnSelected"
 					@change="onSVGChange"
+					@tempChange="onSVGTempChange"
 					ref="svgEditor" 
 					/>
 			</div>

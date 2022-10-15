@@ -218,9 +218,23 @@ export default {
 		},
 
 		render (model){
-			this.logger.log(2,"render", "render > ", model);
+			this.logger.log(2,"render", "enter > ", model);
 			this.model = model;
 			this.createNestedModel(model);
+		},
+
+		renderNodeUpdate (box) {
+			this.logger.log(2,"renderNodeUpdate", "enter > ", box.id);
+
+			let node = this.nodes[box.id]
+			if (!node) {
+				return
+			}
+
+			if (box.type === 'SVGPaths') {
+				node.children = []
+				this.addPathNodes(node, box, node.widgetID, node.screenID, node.groupId)
+			}
 		},
 
 
@@ -406,6 +420,7 @@ export default {
 			}
 			let node = {
 				id: box.id,
+				widgetType: box.type,
 				domId: this.getScrollId(box.id),
 				widgetID: widgetID,
 				screenID: screenID,
@@ -469,18 +484,25 @@ export default {
 				node.label += ` [${node.z}]`
 			}
 			
-			if (box.type === 'SVGPaths' && box.props && box.props.paths) {
-				const paths = box.props.paths
-				for (let i = paths.length-1; i >= 0; i--) {
-					const p = paths[i]
-					const pathNode = this.createPathNode(box, p, widgetID, screenID, groupId, defaultIsOpen)
-					node.children.push(pathNode)
-				}
+			if (box.type === 'SVGPaths') {
+				this.addPathNodes(node, box, widgetID, screenID, groupId, defaultIsOpen)
 			}
 
 			this.nodes[node.id] = node
 			this.lastNode = node
 			return node;
+		},
+
+		addPathNodes (node, box, widgetID, screenID, groupId, defaultIsOpen) {
+			if (!box.props || !box.props.paths) {
+				return
+			}
+			const paths = box.props.paths
+			for (let i = paths.length-1; i >= 0; i--) {
+				const p = paths[i]
+				const pathNode = this.createPathNode(box, p, widgetID, screenID, groupId, defaultIsOpen)
+				node.children.push(pathNode)
+			}
 		},
 
 		createPathNode (box, path, widgetID, screenID, groupId, defaultIsOpen = true) {
@@ -642,6 +664,7 @@ export default {
 			this.selectNode([screenID])
 		},
 
+
 		selectNode (ids) {
 			this.unSelectNodes()
 			this.$nextTick(() => {
@@ -674,14 +697,6 @@ export default {
 				this.$set(node, 'selected', false)
 				//this.$set(node, 'scroll', false)
 			}
-		},
-
-		setSelectedWidget (){
-			console.warn('setSelectedWidget() DEPRCATED', new Error().stack)
-		},
-
-		setSelectedGroup (){
-			console.warn('setSelectedGroup() DEPRCATED', new Error().stack)
 		},
 
 		hide () {

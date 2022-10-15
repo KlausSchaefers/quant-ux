@@ -177,26 +177,6 @@ export default {
             this.ruler.setZoom(z)
         }
     },
-    // keyboard
-    onKeyUp (e) {
-
-        if (e.key === 'Escape') {
-            this.onEsc()
-        }
-        if (e.key === 'Enter') {
-            this.onEnter()
-        }
-        if (e.key === 'Backspace' || e.key === 'Delete') {
-            this.onDelete()
-        }
-        if (e.key === 'v') {
-            this.startBezierTool()
-        }
-
-        if (e.key === 'l') {
-            this.startPathTool()
-        }
-    },
     onEsc () {
         this.logger.log(-1, 'onEsc ', 'enter')
         if (this.currentTool) {

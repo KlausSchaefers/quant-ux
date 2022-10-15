@@ -139,6 +139,30 @@ export default {
         }
     },
 
+    moveSelectedPathToTop(isCallChange = false) {
+        this.logger.log(-1, 'moveSelectedPathToTop ', 'enter')
+        this.beforeValueChange()
+        const selection = this.getSelectedElements()
+        this.value = SVGUtil.moveSelectedPathToTop(this.value, selection.map(e => e.id))
+        this.afterValueChanged(selection.map(e => e.id))
+        if (isCallChange) {
+            this.onChange()
+        }
+        this.onTempChange()
+    },
+
+    moveSelectedPathToBottom (isCallChange = false) {
+        this.logger.log(-1, 'moveSelectedPathToTop ', 'enter')
+        this.beforeValueChange()
+        const selection = this.getSelectedElements()
+        this.value = SVGUtil.moveSelectedPathToBottom(this.value, selection.map(e => e.id))
+        this.afterValueChanged(selection.map(e => e.id))
+        if (isCallChange) {
+            this.onChange()
+        }
+        this.onTempChange()
+    },
+
     renameSelection (name) {
         this.logger.log(-1, 'renameSelection ', 'enter')
         this.beforeValueChange()
@@ -146,7 +170,9 @@ export default {
         selection.forEach(element => {
             element.name = name
         });
-        this.onValueChanged('name', selection.map(e => e.id))
+        this.afterValueChanged('name', selection.map(e => e.id))
+        this.onChange()
+        this.onTempChange()
     },
 
     resizeSelection (unZoomedTargetBox, type) {
@@ -167,7 +193,8 @@ export default {
         const newBoundingBox = SVGUtil.getZoomedBox(unZoomedTargetBox, this.zoom)
         this.setBoundingBox(newBoundingBox)
        
-        this.onValueChanged('position', selection.map(e => e.id))
+        this.afterValueChanged('position', selection.map(e => e.id))
+        this.onChange()
     },
 
     tempStyleSelection (key, value,) {
@@ -187,7 +214,8 @@ export default {
             element[key] = value
         })
 
-        this.onValueChanged('style', selection.map(e => e.id))
+        this.afterValueChanged('style', selection.map(e => e.id))
+        this.onChange()
     }
   }
 };

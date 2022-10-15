@@ -148,6 +148,7 @@ export default class BezierTool extends Tool{
          */
         this.editor.setState('addEnd')
         this.editor.onChange()
+        this.editor.onTempChange()
     }
 
     getLast () {

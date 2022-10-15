@@ -2,6 +2,7 @@
 
 import css from 'dojo/css'
 import topic from "dojo/topic";
+import lang from 'dojo/_base/lang'
 import * as SVGUtil from '../svg/SVGUtil'
 
 export default {
@@ -264,6 +265,15 @@ export default {
             }
 		},
 
+        onSVGTempChange (paths) {
+            this.logger.log(-2,"onSVGTempChange", "enter > ", paths);
+            if (this.layerList && this._svgCurrentWidget) {
+                const update = lang.clone(this._svgCurrentWidget)
+                update.props.paths = paths
+                this.layerList.renderNodeUpdate(update)
+            }
+        },
+
         onSVGEditorPathSelected (selectedPaths, bbox) {
             this.logger.log(2,"onSVGEditorPathSelected", "enter > ", bbox);
 
@@ -271,6 +281,12 @@ export default {
                 this.controller.onSVGPathsSelected(selectedPaths, bbox)
             } else {
                 this.logger.error("onSVGEditorPathSelected", "No widget selected > ");
+            }
+
+            if (this.layerList && this._svgCurrentWidget) {
+                selectedPaths.forEach(p => {
+                    this.layerList.selectSVGPath(this._svgCurrentWidget.id, p.id)
+                })
             }
         },
 

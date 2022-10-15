@@ -143,10 +143,11 @@ import * as GradientUtil from './GradientUtil'
 import Logger from '../common/Logger'
 import Events from './mixins/Events.vue'
 import Tools from './mixins/Tools.vue'
+import KeyBoardDispatcher from './mixins/KeyBoardDispatcher.vue'
 
 export default {
   name: "SVGEditor",
-  mixins: [Events, Tools],
+  mixins: [Events, KeyBoardDispatcher, Tools],
   props: {
     'width': Number, 
     'height': Number, 
@@ -452,11 +453,7 @@ export default {
         return this.value.find(value => value.id === id)
     },
 
-    onChange () {
-        this.logger.log(2, 'onChange', 'enter')
-        this.$emit('change', this.value)
-        this.isDirty = true
-    },
+
 
     setValue (paths, editingBoundingBox, currentBoundingBox) {
         this.logger.log(2, 'setValue', 'enter')
@@ -494,13 +491,23 @@ export default {
      *  Model Lifecycle hooks
      *****************************************/
 
+    onChange () {
+        this.logger.log(2, 'onChange', 'enter')
+        this.$emit('change', this.value)
+        this.isDirty = true
+    },
+
+    onTempChange () {
+        this.$emit('tempChange', this.value)
+    },
+
     beforeValueChange () {
         this.logger.log(1, 'beforeValueChange ', 'enter')
     },
 
-    onValueChanged (type, ids) {
-        this.logger.log(1, 'onValueChanged ', 'enter > ' + type, ids)
-        this.isDirty = true
+    afterValueChanged (type, ids) {
+        this.logger.log(1, 'afterValueChanged ', 'enter > ' + type, ids)
+        //this.isDirty = true
     },
 
 
