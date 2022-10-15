@@ -33,18 +33,21 @@ export default class MorphTool extends Tool{
      *
      */
     onClick() {
-        this.logger.log(3, 'onClick', 'enter', this.splitPoint)
+        this.logger.log(-3, 'onClick', 'enter', this.selectedJoint)
         if (this.splitPoint) {
             this.split(this.splitPoint, this.selectedElement, this.svgPath)
         } else if (this.selectedJoint) {
             delete this.selectedJoint
             this.editor.setSelectedJoint()
         } else if (!this.selectedJoint) {
-            this.editor.setState('morphEnd')
+            delete this.selectedJoint
+            this.editor.setSelectedJoint()
+            // this.editor.setState('morphEnd')
         }
     }
 
     onDoubleClick () {
+        this.logger.log(-3, 'onClick', 'enter', this.selectedJoint)
         this.editor.setState('morphEnd')
     }
 
@@ -246,7 +249,7 @@ export default class MorphTool extends Tool{
     onJointClick (joint) {
         this.logger.log(3, 'onJointClick', 'enter', joint)
         //this.selectedJoint = joint
-        this.editor.setSelectedJoint(joint)
+        //this.editor.setSelectedJoint(joint)
     }
 
 
