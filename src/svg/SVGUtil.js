@@ -122,11 +122,9 @@ export function closePath (d, snapp = 5) {
     const difX = first.x - last.x
     const difY = first.y - last.y
     if (difX <= snapp && difY <= snapp) {
-
+        console.debug('closePath', difX, difY)
         last.t = 'Z'
-        console.debug('SNapp', d)
     }
-
 }
 
 export function pathToSVG (d, offsetX =0, offsetY = 0) {

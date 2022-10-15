@@ -84,16 +84,6 @@
                     :stroke-width="1"/>
       
 
-                <!-- joints-->
-                <circle v-for="joint in joints" :key="joint.id"
-                    :cx="joint.x + offSetTools"
-                    :cy="joint.y + offSetTools"
-                    @mousedown.stop="onJointMouseDown(joint, $event)"
-                    @mouseup.stop="onJointMouseUp(joint, $event)"
-                    @click.stop="onJointClick(joint, $event)"
-                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
-                    :r="joint.r" />
-
                 <!-- Bezier points-->
                 <rect v-for="bezierpoint in selectedBezierElements.points"
                     :key="bezierpoint.id"
@@ -107,6 +97,17 @@
                     @click.stop="onBezierClick(bezierpoint, $event)"
                     :class="['qux-svg-editor-bezier', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
                     />
+
+
+                <!-- joints-->
+                <circle v-for="joint in joints" :key="joint.id"
+                    :cx="joint.x + offSetTools"
+                    :cy="joint.y + offSetTools"
+                    @mousedown.stop="onJointMouseDown(joint, $event)"
+                    @mouseup.stop="onJointMouseUp(joint, $event)"
+                    @click.stop="onJointClick(joint, $event)"
+                    :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
+                    :r="joint.r" />
 
             </template>
 
@@ -386,6 +387,7 @@ export default {
     },
 
     setSelectedJointId (id) {
+
         if (!this.selectedJoint || this.selectedJoint.id !== id) {
             this.selectedJoint = {id: id}
         }
