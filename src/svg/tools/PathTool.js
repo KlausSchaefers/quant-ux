@@ -76,6 +76,8 @@ export default class PathTool extends Tool{
         /** FIXME: the mouseup is called here two times, but not in the bezier. dunno why */
         this.path.d = Util.filterDouble(this.path.d)
         this.editor.setState('addEnd')
+        this.editor.onChange()
+        this.editor.onTempChange()
     }
 
     getLast () {

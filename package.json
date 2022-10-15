@@ -31,6 +31,8 @@
     "vue2-ace-editor": "^0.0.15"
   },
   "devDependencies": {
+    "jest": "^27.5.1",
+    "jest-environment-jsdom": "^29.2.0",
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",

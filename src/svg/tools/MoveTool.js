@@ -68,7 +68,6 @@ export default class MoveTool extends Tool{
             } else {
                 this.moveBoundingBox(pos)
             }
-            this.editor.onChange()
         }
     }
 
@@ -229,6 +228,7 @@ export default class MoveTool extends Tool{
             this.cleanMove()
             this.editor.setBoundingBoxVisible(true)
             this.editor.setCursor('default')
+            this.editor.onChange()
         }
     }
 
@@ -243,6 +243,10 @@ export default class MoveTool extends Tool{
         this.relativePositions = SVGUtil.getRelativePaths(bbox, this.selected)
         this.handler = handler
         this.isResize = true
+    }
+
+    onResizeMouseUp () {
+        this.editor.onChange()
     }
 
     onResizeMouseClick () {
@@ -266,7 +270,6 @@ export default class MoveTool extends Tool{
     onDelete () {
         this.logger.log(1, 'onDelete', 'enter')
         this.editor.deleteSelection()
-        this.editor.onChange()
     }
 
 

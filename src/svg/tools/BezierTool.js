@@ -75,7 +75,6 @@ export default class BezierTool extends Tool{
             this.path.d.push(newPoint)
         }
         this.isMouseDown = false
-        this.editor.onChange()
         this.editor.setSelectedJoint()
     }
 
@@ -101,8 +100,7 @@ export default class BezierTool extends Tool{
                 }
             }
        }
-       this.editor.onChange()
-       // this.logger.log(-1, 'onMove', 'exit', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(' '))
+        // this.logger.log(-1, 'onMove', 'exit', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(' '))
     }
 
     createPoint (pos, temp = false) {

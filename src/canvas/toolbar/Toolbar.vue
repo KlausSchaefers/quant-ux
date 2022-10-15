@@ -1976,6 +1976,10 @@ export default {
 
 		onUndo (){
 			this.logger.log(1,"onUndo", "entry");
+			if (this.currentTool) {
+				this.currentTool.undo()
+				return
+			}
 			this.controller.undo();
 			return false;
 		},
@@ -1990,6 +1994,10 @@ export default {
 
 		onRedo (){
 			this.logger.log(1,"onRedo", "entry");
+			if (this.currentTool) {
+				this.currentTool.redo()
+				return
+			}
 			this.controller.redo();
 			return false;
 		},

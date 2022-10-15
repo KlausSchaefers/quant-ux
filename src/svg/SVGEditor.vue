@@ -142,11 +142,13 @@ import * as GradientUtil from './GradientUtil'
 import Logger from '../common/Logger'
 import Events from './mixins/Events.vue'
 import Tools from './mixins/Tools.vue'
+import Actions from './mixins/Actions.vue'
+import CommandStack from './CommandStack'
 import KeyBoardDispatcher from './mixins/KeyBoardDispatcher.vue'
 
 export default {
   name: "SVGEditor",
-  mixins: [Events, KeyBoardDispatcher, Tools],
+  mixins: [Events, KeyBoardDispatcher, Tools, Actions],
   props: {
     'width': Number, 
     'height': Number, 
@@ -460,6 +462,7 @@ export default {
         const translatedPaths = SVGUtil.addBoundingBox(scalledPaths, currentBoundingBox)
         this.value = translatedPaths
         this.isDirty = false
+        this.commandStack.init(this.value)
     },
 
     getValue () {
@@ -493,6 +496,7 @@ export default {
     onChange () {
         this.logger.log(2, 'onChange', 'enter')
         this.$emit('change', this.value)
+        this.commandStack.push(this.value)
         this.isDirty = true
     },
 
@@ -500,13 +504,33 @@ export default {
         this.$emit('tempChange', this.value)
     },
 
-    beforeValueChange () {
-        this.logger.log(1, 'beforeValueChange ', 'enter')
+
+    /******************************************
+     * Undo / Redo
+     *****************************************/
+
+    undo () {
+        this.logger.log(1, 'undo ', 'enter')
+        if (this.commandStack.hasUndo()) {
+            const lastValue =  this.commandStack.undo()
+            this.$set(this, 'value', lastValue)
+            this.unSelect()
+            this.startSelectTool()
+        } else {
+            this.logger.log(-1, 'undo ', 'No undo')
+        }
     },
 
-    afterValueChanged (type, ids) {
-        this.logger.log(1, 'afterValueChanged ', 'enter > ' + type, ids)
-        //this.isDirty = true
+    redo () {
+        this.logger.log(1, 'redo ', 'enter')
+        if (this.commandStack.hasRedo()) {
+            const lastValue =  this.commandStack.redo()
+            this.$set(this, 'value', lastValue)
+            this.unSelect()
+            this.startSelectTool()
+        } else {
+            this.logger.log(-1, 'undo ', 'No redo')
+        }
     },
 
 
@@ -575,6 +599,7 @@ export default {
   },
   mounted() {
     this.logger = new Logger('SVGEditor')
+    this.commandStack = new CommandStack()
   }
 };
 </script>
