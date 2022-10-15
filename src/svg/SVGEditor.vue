@@ -52,15 +52,23 @@
                 class="qux-svg-editor-splitpoint"
                 :r="splitPoint.r" />
 
-            <template v-if="showBezierPoints">
-                   <circle v-for="bezierpoint in allBezierPoints" :key="bezierpoint.id"
-                    :cx="bezierpoint.x"
-                    :cy="bezierpoint.y"
-                    :r="bezierpoint.r"
-                    @mousedown.stop="onBezierMouseDown(bezierpoint, $event)"
-                    @mouseup.stop="onBezierMouseUp(bezierpoint, $event)"
-                    @click.stop="onBezierClick(bezierpoint, $event)"
-                    :class="['qux-svg-editor-bezier-debug', { 'qux-svg-editor-bezier-debug-x1' : bezierpoint.isX1}]"
+            <template v-if="showAllBezierPoints">
+                <path v-for="p in allBezierPoints.lines"
+                    :key="p.id"
+                    :d="p.d"
+                    stroke="rgba(0,0,0,0.4)"
+                    class="qux-svg-editor-beziee-line qux-svg-editor-beziee-line-debug"
+                    fill=""
+                    :stroke-width="1"/>
+      
+
+                <rect v-for="bezierpoint in allBezierPoints.points"
+                    :key="bezierpoint.id"              
+                    :x="bezierpoint.x - bezierpoint.o"
+                    :y="bezierpoint.y - bezierpoint.o"
+                    :width="bezierpoint.w"
+                    :height="bezierpoint.h"     
+                    :class="['qux-svg-editor-bezier qux-svg-editor-bezier-debug', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
                     />
             </template>
 
@@ -74,18 +82,7 @@
                     class="qux-svg-editor-beziee-line"
                     fill=""
                     :stroke-width="1"/>
-
-                <!-- Bezier points-->
-                <circle v-for="bezierpoint in selectedBezierElements.points"
-                    :key="bezierpoint.id"
-                    :cx="bezierpoint.x"
-                    :cy="bezierpoint.y"
-                    :r="bezierpoint.r"
-                    @mousedown.stop="onBezierMouseDown(bezierpoint, $event)"
-                    @mouseup.stop="onBezierMouseUp(bezierpoint, $event)"
-                    @click.stop="onBezierClick(bezierpoint, $event)"
-                    :class="['qux-svg-editor-bezier', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
-                    />
+      
 
                 <!-- joints-->
                 <circle v-for="joint in joints" :key="joint.id"
@@ -96,6 +93,20 @@
                     @click.stop="onJointClick(joint, $event)"
                     :class="['qux-svg-editor-joint', {'qux-svg-editor-joint-selected': joint.selected}]"
                     :r="joint.r" />
+
+                <!-- Bezier points-->
+                <rect v-for="bezierpoint in selectedBezierElements.points"
+                    :key="bezierpoint.id"
+              
+                    :x="bezierpoint.x - bezierpoint.o"
+                    :y="bezierpoint.y - bezierpoint.o"
+                    :width="bezierpoint.w"
+                    :height="bezierpoint.h"
+                    @mousedown.stop="onBezierMouseDown(bezierpoint, $event)"
+                    @mouseup.stop="onBezierMouseUp(bezierpoint, $event)"
+                    @click.stop="onBezierClick(bezierpoint, $event)"
+                    :class="['qux-svg-editor-bezier', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
+                    />
 
             </template>
 
@@ -183,7 +194,7 @@ export default {
         boundingBox: null,
         offSetTools: 0,
         offSetValue: 0.5,
-        showBezierPoints: false,
+        showAllBezierPoints: false,
         config: {
             pointRadius: 3,
             colorHover: '#49C0F0',
@@ -211,7 +222,9 @@ export default {
       joints () {
         const paths = this.selectedPaths
         const points = paths.flatMap(path => {
-            return path.d.map((point, i) => {
+            return path.d.filter(point => {
+                return point.t !== 'Z'
+            }).map((point, i) => {
                 return {
                     parent: path.id,
                     x: point.x,
@@ -225,64 +238,72 @@ export default {
         return points
       },
       allBezierPoints () {
-        const result = this.scalledValue.flatMap(path => {
-            return path.d.flatMap((point,j) => {
-                if (point.t === 'C') {
-                    return [{
-                        id: path.id + '_' + j + 'x1',
-                        r: this.config.pointRadius - 2,
-                        x: point.x1,
-                        y: point.y1,
-                        isX1: true
-                    }, {
-                        id: path.id + '_' + j + 'x2',
-                        r: this.config.pointRadius - 2,
-                        x: point.x2,
-                        y: point.y2
-                    }]
+        const points = []
+        const lines = []
+        const offset = this.config.pointRadius
+        const witdhHeight = offset * 2
+        if (this.selectedJoint) {
+           return {
+              points: points,
+              lines: lines
+          }
+        }
+        this.selectedPaths.forEach(path => {
+            path.d.forEach((current, pos) => {
+                
+                const tempPoints = []
+
+                if (current && current.t === 'C') {
+                    tempPoints.push({
+                            id: 'x2' + path.id + pos,
+                            parent: pos,
+                            isX2: true,
+                            o: offset,
+                            x: current.x2,
+                            y: current.y2,
+                            h: witdhHeight,
+                            w: witdhHeight
+                    })
                 }
-                return []
+                const next = path.d[pos + 1]
+                if (next && next.t === 'C') {
+                    tempPoints.push({
+                        id: 'x1' + path.id + pos,
+                        parent: pos + 1,
+                        isX1: true,
+                        o: offset,
+                        x: next.x1,
+                        y: next.y1,
+                        h: witdhHeight,
+                        w: witdhHeight
+                    })
+                }
+
+                 /** add lines */
+                 tempPoints.forEach(point => {
+                    points.push(point)
+                    lines.push({
+                        id: point.id + '_line' + path.id,
+                        d: `M ${current.x} ${current.y} L ${point.x} ${point.y}`
+                    })
+                })
             })
         })
-        return result
+        return {
+              points: points,
+              lines: lines
+          }
       },
       selectedBezierElements () {
           /** FIXME: thi sis somehopw top slow!! should this be done by the morp tool, and we just have here a property? */
           const points = []
           const lines = []
-          if (this.selectedJoint && this.selectedPaths && this.selectedPaths.length === 1) {
+        
+          if (this.selectedJoint && this.selectedPaths && this.selectedPaths.length === 1) {                  
                 const path = this.selectedPaths[0]
                 const pos = this.selectedJoint.id
                 const current = path.d[pos]
-                if (current && current.t === 'C') {
-                    points.push({
-                            id: 'x2',
-                            parent: pos,
-                            isX2: true,
-                            x: current.x2,
-                            y: current.y2,
-                            r: this.config.pointRadius
-                    })
-                }
-                const next = path.d[pos + 1]
-                if (next && next.t === 'C') {
-                    points.push({
-                        id: 'x1',
-                        parent: pos + 1,
-                        isX1: true,
-                        x: next.x1,
-                        y: next.y1,
-                        r: this.config.pointRadius
-                    })
-                }
-
-                /** add lines */
-                points.forEach(point => {
-                    lines.push({
-                        id: point.id + '_line',
-                        d: `M ${current.x} ${current.y} L ${point.x} ${point.y}`
-                    })
-                })
+                SVGUtil.addBezierPoints(points, lines, path, pos, current, this.config.pointRadius)
           }
           return {
               points: points,
@@ -410,6 +431,7 @@ export default {
     unSelect () {
         this.logger.log(1, 'unSelect ')
         this.selection = []
+        this.selectedJoint = null
         this.$emit('unselect')
         this.setBoundingBox()
     },

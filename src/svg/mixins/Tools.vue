@@ -82,27 +82,21 @@ export default {
        
     },
 
-    startPathTool (pos) {
-        this.logger.log(1, 'startPathTool ', 'enter', pos)
+    startPathTool (closePathAtTheEnd) {
+        this.logger.log(1, 'startPathTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
-        this.currentTool = new PathTool(this)
-        if (pos) {
-            this.currentTool.onClick(pos)
-        }
+        this.currentTool = new PathTool(this, closePathAtTheEnd)
         this.initRuler(this.selection)
     },
 
-    startBezierTool (pos) {
-        this.logger.log(1, 'startBezierTool ', 'enter', pos)
+    startBezierTool (closePathAtTheEnd = false) {
+        this.logger.log(1, 'startBezierTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
-        this.currentTool = new BezierTool(this)
-        if (pos) {
-            this.currentTool.onClick(pos)
-        }
+        this.currentTool = new BezierTool(this, closePathAtTheEnd)
         this.initRuler(this.selection)
     },
 

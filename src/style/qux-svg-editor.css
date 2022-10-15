@@ -31,28 +31,33 @@
 
 .qux-svg-editor-bezier{
     stroke-width: 1;
-    stroke: red;
-    fill: red;
+    stroke: #49C0F0;
+    fill: #fff;
     cursor: pointer;
 }
+
+.qux-svg-editor-bezier-debug {
+    stroke: #e849f0;
+    fill: #fff;
+}
+
+.qux-svg-editor-beziee-line-debug {
+    stroke: #e849f04f;
+}
+
+.qux-svg-editor-bezier:hover{
+    stroke-width: 1;
+    stroke: #49C0F0;
+    fill: #49C0F0;
+    cursor: pointer;
+}
+
 
 .qux-svg-editor-bezier-selected{
     stroke-width: 1;
     stroke: green;
     fill: green;
     cursor: move;
-}
-
-.qux-svg-editor-bezier-debug{
-    stroke-width: 1;
-    stroke: #888;
-    fill: #888;
-}
-
-.qux-svg-editor-bezier-debug-x1{
-    stroke-width: 1;
-    stroke: orange;
-    fill: orange;
 }
 
 .qux-svg-editor-resize-handler {

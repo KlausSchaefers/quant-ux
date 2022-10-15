@@ -83,7 +83,7 @@ export default {
         },
 
         editSVG (widget, pathID = true) {
-		    this.logger.log(-1,"editSVG", "enter > ", widget);
+		    this.logger.log(1,"editSVG", "enter > ", widget);
 
             this.showSVGEditor()
             const sourceWidget = this.sourceModel.widgets[widget.id]
@@ -140,7 +140,7 @@ export default {
         },
 
 		endSVG (selectAfterSave = true) {
-			this.logger.log(-1,"endSVG", "enter > ", selectAfterSave);
+			this.logger.log(1,"endSVG", "enter > ", selectAfterSave);
 			if (this.currentTool ) {
                 if (this._svgCurrentWidget) {
                   this.saveSVG(selectAfterSave)
@@ -157,7 +157,7 @@ export default {
         saveSVG (selectAfterSave) {
             const value = this.currentTool.getValue()
             if (value.dirty === false) {
-                this.logger.log(-1,"saveSVG", "NO CHANGE", this.svgCurrentWidget);
+                this.logger.log(1,"saveSVG", "NO CHANGE", this.svgCurrentWidget);
                 if (selectAfterSave) {
                     const widgetID = this._svgCurrentWidget.id
                     requestAnimationFrame(() => {

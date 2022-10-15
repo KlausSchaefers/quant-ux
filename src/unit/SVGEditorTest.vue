@@ -24,7 +24,6 @@
     <div class="tests">
       <a @click="test_createLine" class="MatcButton"> Test Create Line </a>
       <a @click="test_createLineAndSelect" class="MatcButton"> Test Select Line </a>
-      <a @click="test_showBezier" class="MatcButton"> Test Curved Line </a>
     </div>
 
   </div>
@@ -100,10 +99,10 @@ export default {
           this.selection = d
       },
       createBezier () {
-        this.$refs.editor.startBezierTool()
+        this.$refs.editor.startBezierTool(true)
       },
       createLine () {
-        this.$refs.editor.startPathTool()
+        this.$refs.editor.startPathTool(true)
       },
       clear () {
         this.$refs.editor.clear()
@@ -136,43 +135,6 @@ export default {
           this.assertEquals(path.id, e.selection[0])
         }, 100)
 
-      },
-      test_showBezier () {
-        let e = this.$refs.editor
-        e.setValue([{
-            id: 'pbezier',
-            name: 'Path',
-            type: 'Path',
-            stroke: '#333333',
-            strokeWidth: 1,
-            fill:'',
-            d: [{
-              t: 'M',
-              x: 100,
-              y: 100
-            }, {
-              t: 'C',
-              x: 500,
-              y: 100,
-              x1: 200,
-              y1: 200,
-              x2: 400,
-              y2: 200
-            }, {
-              t: 'C',
-              x: 700,
-              y: 100,
-              x1: 550,
-              y1: 200,
-              x2: 650,
-              y2: 200
-            }]
-        }])
-        setTimeout( () => {
-          e.startSelectTool()
-          e.select('pbezier')
-          e.setState('moveDoubleClick')
-        }, 300)
       },
       // helper methods
       e (x,y) {

@@ -112,12 +112,32 @@ export function addPadding(box, padding = 1) {
         h: box.h + padding
     }
 }
+
+export function closePath (d, snapp = 5) {
+    if (d.length < 2) {
+        return
+    }
+    const first = d[0]
+    const last = d[d.length-1]
+    const difX = first.x - last.x
+    const difY = first.y - last.y
+    if (difX <= snapp && difY <= snapp) {
+
+        last.t = 'Z'
+        console.debug('SNapp', d)
+    }
+
+}
+
 export function pathToSVG (d, offsetX =0, offsetY = 0) {
   return d.map(point => {
       if (point.t === 'C') {
         return `C ${point.x1 + offsetX} ${point.y1 + offsetY}, ${point.x2 + offsetX} ${point.y2 + offsetY}, ${point.x + offsetX} ${point.y + offsetY}`
       }
-      return `${point.t}${point.x + offsetX} ${point.y + offsetY}`
+      if (point.t === 'Z') {
+        return `Z`
+      }
+      return `${point.t} ${point.x + offsetX} ${point.y + offsetY}`
   }).join(' ')
 }
 
@@ -309,6 +329,9 @@ export function filterDouble(d) {
     return d.filter((p, i) => {
         let next = d[i+1]
         if (next) {
+            if (!(next.x !== p.x && next.y !== p.y)) {
+                console.warn('remove',i)
+            }
             return next.x !== p.x && next.y !== p.y
         }
         return true
@@ -393,4 +416,42 @@ export function getResizeHandles (bbox, size, r=2) {
   })
 
   return result
+}
+
+export function addBezierPoints (points, lines, path, pos, current, offset) {
+    const witdhHeight = offset * 2
+
+    if (current && current.t === 'C') {
+        points.push({
+                id: 'x2',
+                parent: pos,
+                isX2: true,
+                o: offset,
+                x: current.x2,
+                y: current.y2,
+                h: witdhHeight,
+                w: witdhHeight
+        })
+    }
+    const next = path.d[pos + 1]
+    if (next && next.t === 'C') {
+        points.push({
+            id: 'x1',
+            parent: pos + 1,
+            isX1: true,
+            o: offset,
+            x: next.x1,
+            y: next.y1,
+            h: witdhHeight,
+            w: witdhHeight
+        })
+    }
+
+    /** add lines */
+    points.forEach(point => {
+        lines.push({
+            id: point.id + '_line',
+            d: `M ${current.x} ${current.y} L ${point.x} ${point.y}`
+        })
+    })
 }

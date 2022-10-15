@@ -3,7 +3,7 @@ import Logger from 'common/Logger'
 import * as Util from '../SVGUtil'
 export default class PathTool extends Tool{
 
-    constructor (editor) {
+    constructor (editor, closePathAtTheEnd = false) {
         super(editor)
         let path = {
             id: 'p' + new Date().getTime(),
@@ -18,6 +18,7 @@ export default class PathTool extends Tool{
         this.editor.value.push(path)
         this.editor.select(path.id)
         this.isMouseDown = false
+        this.closePathAtTheEnd = closePathAtTheEnd
         this.logger = new Logger('PathTool')
     }
 
@@ -40,12 +41,17 @@ export default class PathTool extends Tool{
             })
             this.path.d.push(this.createPoint(pos, true))
         } else {
-            let last = this.getLast()
-            delete last._temp
-            this.path.d.push(this.createPoint(pos, true))
+            const previous = this.path.d[this.path.d.length-2]
+            if (previous.x === pos.x && previous.y === pos.y) {
+                this.logger.log(1, 'onClick', 'ignore')              
+            } else {
+                let last = this.getLast()
+                delete last._temp
+                this.path.d.push(this.createPoint(pos, true))
+            }
         }
         this.isMouseDown = false
-        this.logger.log(-1, 'onClick', 'exit', this.path.d.map(p => p.t + '' + p.x + '.' + p.y).join(', '))
+        this.logger.log(1, 'onClick', 'exit')
     }
 
     createPoint (pos, temp) {
@@ -73,8 +79,10 @@ export default class PathTool extends Tool{
     onDoubleClick () {
         this.logger.log(1, 'onDoubleClick')
         this.path.d = this.path.d.filter(p => !p._temp)
-        /** FIXME: the mouseup is called here two times, but not in the bezier. dunno why */
         this.path.d = Util.filterDouble(this.path.d)
+        if (this.closePathAtTheEnd) {
+            Util.closePath(this.path.d)
+        }
         this.editor.setState('addEnd')
         this.editor.onChange()
         this.editor.onTempChange()
