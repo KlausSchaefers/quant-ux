@@ -59,6 +59,9 @@
 </template>
 <script>
 
+import Logger from '../core/Logger'
+import TreeDND from './TreeDND'
+
 export default {
   name: "TreeItem",
   props:['value', 'level'],
@@ -190,11 +193,17 @@ export default {
       }
       if (this.value && !this.value.disabled) {
         e.dataTransfer.setData("text", this.value.id)
+        TreeDND.start(this.value)
       } else {
         e.preventDefault()
       }
     },
     onDragOver (e) {
+      const source = TreeDND.get()
+      if (source && source.dndType !== this.value.dndType) {
+        this.isDragOver = false;
+        return
+      }
       e.preventDefault()
       this.isDragOver = true
     },
@@ -204,9 +213,15 @@ export default {
     },
     onDrop (e) {
       e.preventDefault()
-      let id = e.dataTransfer.getData('text')
+      const source = TreeDND.get()
+      const id = e.dataTransfer.getData('text')
       this.isDragOver = false
-      this.$emit('dnd', id, this.value.id, 'top')
+      TreeDND.end()
+      if (source && source.dndType === this.value.dndType) {
+        this.$emit('dnd', id, this.value.id, 'top')
+      } else {
+        Logger.log(-1, 'TreeItem.onDrop() > ignore')
+      }
     },
     onChildDnd (from, to, position) {
       this.$emit('dnd', from, to, position)

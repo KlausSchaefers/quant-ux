@@ -118,13 +118,24 @@ export default {
     },
 
 
-    changePathProps(pathID, key, value) {
+    changePathProps(pathID, key, value, isCallChange = false) {
         this.logger.log(1, 'changePathProps ', 'enter')
         const path = this.value.find(p => p.id === pathID)
         if (path) {
             path[key] = value
         } else {
             this.logger.warn('changePathProps ', 'No path with id', pathID)
+        }
+        if (isCallChange) {
+            this.onChange()
+        }
+    },
+
+    changePathOrder (fromPathId, toPathId, isCallChange = false) {
+        this.logger.log(-1, 'changePathOrder ', 'enter')
+        SVGUtil.changePathOrder(this.value, fromPathId, toPathId)
+        if (isCallChange) {
+            this.onChange()
         }
     },
 

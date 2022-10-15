@@ -1,3 +1,22 @@
+export function changePathOrder(paths, fromPathId, toPathId) {
+
+    const fromIndex = paths.findIndex(p => p.id === fromPathId)
+    let toIndex = paths.findIndex(p => p.id === toPathId)
+
+ 
+    if (fromIndex < 0 || toIndex < 0) {
+        console.warn('SVGUtil.changePathOrder() > could not find noth paths', fromIndex, toIndex)
+        return paths
+    }
+
+
+    const fromPath = paths.splice(fromIndex, 1)[0]
+    toIndex = paths.findIndex(p => p.id === toPathId)
+    paths.splice(toIndex +1 , 0 , fromPath)
+
+    return paths
+}
+
 
 export function getRelativePaths (bbox, selected) {
     return selected.map(element => {

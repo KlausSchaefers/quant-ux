@@ -1,7 +1,66 @@
 import DesignToken from './DesignToken'
+import lang from '../../dojo/_base/lang'
+import * as SVGUtil from '../../svg/SVGUtil'
 
 export default class SVGController extends DesignToken {
+
+    changeSVGLayer (widgetID, fromPathId, toPathId) {
+        this.logger.log(-1, "changeSVGLayer", "enter > widget:" + widgetID + " > path: " + fromPathId + ' -> ' + toPathId);
+
+        const widget = this.model.widgets[widgetID];
+		if(!widget || !widget?.props?.paths){
+            this.logger.warn("changeSVGLayer", "exit > NO WIDGET OR PATHS > ", widgetID);
+            return
+        }
+
+        const command = {
+            timestamp : new Date().getTime(),
+            type : "SVGPathLayer",
+            widgetID : widgetID,
+            fromPathId: fromPathId,
+            toPathId: toPathId
+        };
+        this.addCommand(command);
+        this.modelSVGPathLayer(widgetID, fromPathId, toPathId, 'top');
+    }
+
+    modelSVGPathLayer (widgetID, fromPathId, toPathId, direction) {
+
+        const widget = this.model.widgets[widgetID];
+        if(!widget || !widget?.props?.paths){
+            this.logger.warn("modelSVGPathLayer", "exit > NO WIDGET OR PATHS > ", widgetID);
+            return
+        }
+
+        SVGUtil.changePathOrder(widget.props.paths, fromPathId, toPathId, direction)
+
+        this.onModelChanged([{type: 'widget', action:"change", id: widgetID}])
+        this.onSVGPathOrderChange(widgetID, fromPathId, toPathId )
+        this.render()
+    }
+
+    onSVGPathOrderChange (widgetID, fromPathId, toPathId) {
+        if (this._canvas) {
+            this._canvas.changeSVGPathOrder(widgetID, fromPathId, toPathId)
+        }
+    }
+
+
+
+    undoSVGPathLayer(command){
+		this.modelSVGPathLayer(command.widgetID, command.toPathId, command.fromPathId, 'top');
+	}
+
+
+	redoSVGPathLayer(command){
+		this.modelSVGPathLayer(command.widgetID, command.fromPathId, command.toPathId, 'top');
+	}
    
+    /**********************************************************************
+	 * Clip Props
+	 **********************************************************************/
+
+
 	setSVGPathProps (widgetID, pathID, key, value){
         this.logger.log(1, "setSVGPathProps", "enter > widget:" + widgetID + " > path: " + pathID);
 		if (value === '') {
@@ -11,7 +70,7 @@ export default class SVGController extends DesignToken {
 
 		const widget = this.model.widgets[widgetID];
 		if(!widget || !widget?.props?.paths){
-            this.logger.warn("setSVGPathName", "exit > NO WIDGET OR PATHS > ", widget);
+            this.logger.warn("setSVGPathName", "exit > NO WIDGET OR PATHS > ", widgetID);
             return
         }
 
@@ -28,7 +87,7 @@ export default class SVGController extends DesignToken {
 
         const command = {
             timestamp : new Date().getTime(),
-            type : "SVGPathName",
+            type : "SVGPathProps",
             o : path.name,
             n : value,
             key: key,
@@ -36,18 +95,18 @@ export default class SVGController extends DesignToken {
             pathID: pathID
         };
         this.addCommand(command);
-        this.modelSVGPathName(widgetID, pathID,key, value);
+        this.modelSVGPathProps(widgetID, pathID,key, value);
 	}
 
-	modelSVGPathName (widgetID, pathID, key, value){
+	modelSVGPathProps (widgetID, pathID, key, value){
 		const widget = this.model.widgets[widgetID];
         if(!widget || !widget?.props?.paths){
-            this.logger.warn("modelSVGPathName", "exit > NO WIDGET OR PATHS > " + widgetID);
+            this.logger.warn("modelSVGPathProps", "exit > NO WIDGET OR PATHS > " + widgetID);
             return
         }
         const path = widget.props.paths.find(p => p.id === pathID)
         if (!path) {
-            this.logger.warn("modelSVGPathName", "exit NO PATH > " + pathID);
+            this.logger.warn("modelSVGPathProps", "exit NO PATH > " + pathID);
             return
         }
 		path[key] = value;
@@ -65,13 +124,106 @@ export default class SVGController extends DesignToken {
         }
     }
 
-	undoSVGPathName (command){
-		this.modelSVGPathName(command.widgetID, command.pathID, command.key, command.o);
-
+	undoSVGPathProps(command){
+		this.modelSVGPathProps(command.widgetID, command.pathID, command.key, command.o);
 	}
 
 
-	redoSVGPathName(command){
-		this.modelSVGPathName(command.widgetID, command.pathID, command.key, command.n);
+	redoSVGPathProps(command){
+		this.modelSVGPathProps(command.widgetID, command.pathID, command.key, command.n);
+	}
+
+    /**********************************************************************
+	* Widget position and props
+	**********************************************************************/
+	updateSVGWidget (id, pos, props){
+		this.logger.log(-1,"updateSVGWidget", "enter > ");
+
+		const widget = this.model.widgets[id];
+		if (!widget) {
+			this.logger.log(-1,"updateSVGWidget", "exit > no widdget with id ");
+			return 
+		}
+
+		const zoomedPos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
+        if (this.isPositionEqual(widget, zoomedPos) && this.objectEquals(widget.props, props)) {
+            this.logger.log(-1,"updateSVGWidget", "exit > No change");
+            return
+        }
+      
+		const command = this.createSVGWidgeUpdateCommand(id, zoomedPos, props);
+		if(command){
+			this.addCommand(command);
+			this.modelSVGWidgetUpdate(id, pos, props);
+			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
+			// FIXME: calling this.renderWidget(widget, 'props') will not update the bounding box
+			this.render()
+			return widget
+		}
+	}
+
+    isPositionEqual (source, target) {
+        return source.w === target.w && source.h === target.h && source.x === target.x &&  source.y === target.y
+    }
+
+	createSVGWidgeUpdateCommand (id, pos, props) {
+	
+		const widget = this.model.widgets[id];
+		if (widget){
+			const command = {
+				timestamp : new Date().getTime(),
+				type : "SVGWidgetUpdate",
+				oldProps : lang.clone(widget.props),
+				newProps : lang.clone(props),
+				oldPos: {
+					x: widget.x,
+					y: widget.y,
+					w: widget.w,
+					h: widget.h
+				},
+				newPos: {
+					x: pos.x,
+					y: pos.y,
+					w: pos.w,
+					h: pos.h
+				},
+				modelId : id
+			};
+			return command;
+		}
+	}
+
+	modelSVGWidgetUpdate (id, pos, props) {
+		const widget = this.model.widgets[id];
+		if (widget){
+			widget.props = props
+			this.updateBox(pos, widget)
+
+			/**
+			 * remove from parent screen if set.
+			 */
+			this.cleanUpParent(widget);
+
+			/**
+			 * update parent screen
+			 */
+			const parent = this.getHoverScreen(widget);
+			if(parent){
+				parent.children.push(widget.id);
+			}
+
+			this.setLastChangedWidget(widget)
+			this.onModelChanged([{type: 'widget', action:"change", "prop": "position", id: id}])
+		}
+	}
+
+	undoSVGWidgetUpdate(command) {
+		this.modelSVGWidgetUpdate(command.modelId, command.oldPos, command.oldProps)
+		this.render()
+	}
+
+	redoSVGWidgetUpdate(command) {
+		this.modelSVGWidgetUpdate(command.modelId, command.newPos, command.newProps)
+		this.render()
 	}
 }

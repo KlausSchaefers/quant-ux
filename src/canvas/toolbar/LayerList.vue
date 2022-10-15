@@ -142,6 +142,7 @@ export default {
 					this.logger.log(-1, "onSelect", "No node > ", ids);
 				}
 			} else {
+				// check here fore SVG
 				if (this.canvas) {
 					this.canvas.onMutliSelected(ids, true);
 				}
@@ -176,33 +177,44 @@ export default {
 		onDnd (from, to) {
 			this.logger.log(-1, "onDnd", "entry > ", from + ' -> ' + to);
 
-			let fromNode = this.nodes[from]
-			let toNode = this.nodes[to]
+			const fromNode = this.nodes[from]
+			const toNode = this.nodes[to]
 			if (fromNode && toNode) {
 				if (this.controller) {
-					this.controller.changeLayer({
-						source: fromNode.id,
-						widgetID: fromNode.widgetID,
-						screenID: fromNode.screenID,
-						groupID: fromNode.groupID,
-						type: fromNode.type
-					}, {
-						source: toNode.id,
-						widgetID: toNode.widgetID,
-						screenID: toNode.screenID,
-						groupID: toNode.groupID,
-						type: toNode.type
-					});
+					if (this.isPathDnD(fromNode, toNode)) {
+						this.controller.changeSVGLayer(
+							fromNode.widgetID,
+							fromNode.pathID,
+							toNode.pathID
+						)
+					} else {
+						this.controller.changeLayer({
+							source: fromNode.id,
+							widgetID: fromNode.widgetID,
+							screenID: fromNode.screenID,
+							groupID: fromNode.groupID,
+							type: fromNode.type
+						}, {
+							source: toNode.id,
+							widgetID: toNode.widgetID,
+							screenID: toNode.screenID,
+							groupID: toNode.groupID,
+							type: toNode.type
+						})
+					}
 				} else {
-					console.warn('No controller')
+					this.logger.warn('onDnd', 'No controller')
 				}
-
 				if (fromNode.fixed === true && this.canvas) {
 					setTimeout (() => {
 						this.canvas.showHint('Fixed widgets are always rendered on top.')
 					}, 1000)
 				}
 			}
+		},
+
+		isPathDnD (fromNode, toNode) {
+			return fromNode.widgetID === toNode.widgetID && fromNode.pathID && toNode.pathID
 		},
 
 		render (model){
@@ -410,6 +422,7 @@ export default {
 				inherited: box.inherited,
 				fixed: false,
 				z: box.z,
+				dndType: 'box',
 				hasOptions: this.hasOptions
 			}
 
@@ -458,11 +471,11 @@ export default {
 			
 			if (box.type === 'SVGPaths' && box.props && box.props.paths) {
 				const paths = box.props.paths
-				paths.forEach(p => {
-					let pathNode = this.createPathNode(box, p, widgetID, screenID, groupId, defaultIsOpen)
+				for (let i = paths.length-1; i >= 0; i--) {
+					const p = paths[i]
+					const pathNode = this.createPathNode(box, p, widgetID, screenID, groupId, defaultIsOpen)
 					node.children.push(pathNode)
-				})
-				
+				}
 			}
 
 			this.nodes[node.id] = node
@@ -496,7 +509,7 @@ export default {
 				fixed: false,
 				z: box.z,
 				hasOptions: false,
-				hasDND: false
+				dndType: 'svg_' + box.id 
 			}
 
 

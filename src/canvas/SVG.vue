@@ -177,7 +177,7 @@ export default {
                         h: bbox.h
                     }
                 }
-                const updatedWidget = this.controller.updateCompleteWidget(this._svgCurrentWidget.id, pos, props);
+                const updatedWidget = this.controller.updateSVGWidget(this._svgCurrentWidget.id, pos, props);
                 if(updatedWidget && selectAfterSave){
                     requestAnimationFrame( () => {
                         this.onWidgetSelected(updatedWidget.id, true);
@@ -230,19 +230,26 @@ export default {
         },
 
 		cancelSVG () {
-			this.logger.log(-1,"cancelSVG", "enter > ");
+			this.logger.log(1,"cancelSVG", "enter > ");
             this.closeSVGEditor()
 		},
 
+        changeSVGPathOrder(widgetID, fromPathId, toPathId){
+            this.logger.log(1,"changeSVGPathOrder", "enter > ", widgetID, fromPathId + ' -> ' + toPathId);
+            if (this.currentTool) {
+                this.currentTool.changePathOrder(fromPathId, toPathId)
+            }
+        },
+
         changeSVGProps(widgetID, pathID, key, value){
-	        this.logger.log(-1,"changeSVGProps", "enter > ", widgetID, pathID, key, value);
+	        this.logger.log(1,"changeSVGProps", "enter > ", widgetID, pathID, key, value);
             if (this.currentTool) {
                 this.currentTool.changePathProps(pathID, key, value)
             }
         },
 
 		closeSVGEditor () {
-			this.logger.log(-1,"closeSVGEditor", "enter > ");
+			this.logger.log(1,"closeSVGEditor", "enter > ");
             if ( this._svgCurrentWidgetDiv) {
                 css.remove(this._svgCurrentWidgetDiv, 'MatcHidden')
             }
