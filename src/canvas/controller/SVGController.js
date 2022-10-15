@@ -226,4 +226,29 @@ export default class SVGController extends DesignToken {
 		this.modelSVGWidgetUpdate(command.modelId, command.newPos, command.newProps)
 		this.render()
 	}
+
+	/**********************************************************************
+	* Toolbar delegates
+	**********************************************************************/
+
+	onSVGPathsMoved (paths, bbox) {
+		this.logger.log(3,"onSVGPathsMoved", "enter > ");
+		if(this.toolbar){
+			this.toolbar.onSVGPathsMoved(paths, bbox);
+		}
+	}
+
+	onSVGPathsSelected (paths, bbox) {
+		this.logger.log(3,"onSVGPathsSelected", "enter > ");
+		if(this.toolbar){
+			this.toolbar.onSVGPathsSelected(paths, bbox);
+		}
+	}
+
+	onSVGCommandStackChange (hasUndo, hasRedo) {
+		this.logger.log(3,"onSVGPathsSelected", "enter > ");
+		if(this.toolbar){
+			this.toolbar.onSVGCommandStackChange(hasUndo, hasRedo);
+		}
+	}
 }

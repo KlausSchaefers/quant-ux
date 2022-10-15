@@ -21,6 +21,7 @@
 					@unselect="onSVGEditorPathUnSelected"
 					@change="onSVGChange"
 					@tempChange="onSVGTempChange"
+					@changeCommandStack="onSVGCommandStackChange"
 					ref="svgEditor" 
 					/>
 			</div>

@@ -463,6 +463,7 @@ export default {
         this.value = translatedPaths
         this.isDirty = false
         this.commandStack.init(this.value)
+        this.$emit('changeCommandStack', this.commandStack.hasUndo(), this.commandStack.hasRedo())
     },
 
     getValue () {
@@ -497,6 +498,7 @@ export default {
         this.logger.log(2, 'onChange', 'enter')
         this.$emit('change', this.value)
         this.commandStack.push(this.value)
+        this.$emit('changeCommandStack', this.commandStack.hasUndo(), this.commandStack.hasRedo())
         this.isDirty = true
     },
 
@@ -519,6 +521,7 @@ export default {
         } else {
             this.logger.log(-1, 'undo ', 'No undo')
         }
+        this.$emit('changeCommandStack', this.commandStack.hasUndo(), this.commandStack.hasRedo())
     },
 
     redo () {
@@ -531,6 +534,7 @@ export default {
         } else {
             this.logger.log(-1, 'undo ', 'No redo')
         }
+        this.$emit('changeCommandStack', this.commandStack.hasUndo(), this.commandStack.hasRedo())
     },
 
 

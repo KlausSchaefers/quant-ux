@@ -86,18 +86,18 @@
 								<span class="MatcToolbarLabel MatcToolbarResponsiveLabel">{{ $t('toolbar.simulate')}}</span>
 							</a>
 						</div>
-						<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="undoSection">
-							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
-								<span class="mdi mdi-undo"></span>
-							</a>
-							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="redo">
-								<span class="mdi mdi-redo"></span>
-							</a>
-						</div>
+					
 
 					
 
 						<div v-if="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">
+
+								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgUndo" @click="onSVGUndo">
+									<span class="mdi mdi-undo"></span>
+								</a>
+								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgRedo" @click="onSVGRedo">
+									<span class="mdi mdi-redo"></span>
+								</a>
 						
 								<div class="MatcToolbarItem">
 									<div class="MatcButton MatcToolbarCloseButton" @click="onToolSVGEnd" >
@@ -107,6 +107,15 @@
 						</div> 
 
 						<template v-else>
+
+							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="undoSection">
+								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
+									<span class="mdi mdi-undo"></span>
+								</a>
+								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="redo">
+									<span class="mdi mdi-redo"></span>
+								</a>
+							</div>
 
 							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="copyPasteDiv">
 								<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
@@ -1976,10 +1985,6 @@ export default {
 
 		onUndo (){
 			this.logger.log(1,"onUndo", "entry");
-			if (this.currentTool) {
-				this.currentTool.undo()
-				return
-			}
 			this.controller.undo();
 			return false;
 		},
@@ -1994,10 +1999,6 @@ export default {
 
 		onRedo (){
 			this.logger.log(1,"onRedo", "entry");
-			if (this.currentTool) {
-				this.currentTool.redo()
-				return
-			}
 			this.controller.redo();
 			return false;
 		},

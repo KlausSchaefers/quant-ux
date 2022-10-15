@@ -265,8 +265,17 @@ export default {
             }
 		},
 
+        onSVGCommandStackChange (hasUndo, hasRedo) {
+            this.logger.log(2,"onSVGCommandStackChange", "enter > ", hasUndo, hasRedo);
+            if (this.controller) {
+                this.controller.onSVGCommandStackChange(hasUndo, hasRedo)
+            } else {
+                this.logger.error("onSVGEditorPathSelected", "No widget selected > ");
+            }
+        },
+
         onSVGTempChange (paths) {
-            this.logger.log(-2,"onSVGTempChange", "enter > ", paths);
+            this.logger.log(2,"onSVGTempChange", "enter > ", paths);
             if (this.layerList && this._svgCurrentWidget) {
                 const update = lang.clone(this._svgCurrentWidget)
                 update.props.paths = paths

@@ -19,14 +19,11 @@ export default class CommandStack {
         if (this.stack[this.stack.length - 1] === json) {
             return
         }
-
         if (this.pos < this.stack.length-1) {
             this.stack = this.stack.slice(0, this.pos+1)
         }
-
         this.stack.push(json)
         this.pos++
-        console.debug('push', this.pos)
     }
 
     get(p) {
@@ -50,9 +47,7 @@ export default class CommandStack {
                 return JSON.parse(data)
             }
         }
-
     }
-
 
     hasRedo () {
         return this.pos < this.stack.length - 1

@@ -186,6 +186,38 @@ export default {
             }
         },
 
+        onSVGCommandStackChange (hasUndo, hasRedo) {
+            this.logger.log(1,"onSVGCommandStackChange", "entry > ");
+            if (this.$refs.svgUndo) {
+                if (hasUndo) {
+                    css.remove(this.$refs.svgUndo, 'MatcToolbarItemDisbaled')
+                } else {
+                    css.add(this.$refs.svgUndo, 'MatcToolbarItemDisbaled')
+                }
+            }
+
+            if (this.$refs.svgRedo) {
+                if (hasRedo) {
+                    css.remove(this.$refs.svgRedo, 'MatcToolbarItemDisbaled')
+                } else {
+                    css.add(this.$refs.svgRedo, 'MatcToolbarItemDisbaled')
+                }
+            }
+        },
+
+        onSVGUndo () {
+            if (this.currentTool) {
+				this.currentTool.undo()
+				return
+			}
+        },
+
+        onSVGRedo () {
+            if (this.currentTool) {
+				this.currentTool.redo()
+				return
+			}
+        }
 
 
     }
