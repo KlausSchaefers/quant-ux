@@ -1,6 +1,6 @@
 {
   "name": "quant-ux",
-  "version": "4.0.83",
+  "version": "4.1.23",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
