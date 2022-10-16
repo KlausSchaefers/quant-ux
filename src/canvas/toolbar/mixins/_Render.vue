@@ -395,6 +395,7 @@ export default {
 			this.addTooltip(this.addLogicSection, "Create Logic Element to split links", "vommondToolTipLeft");
 			this.addTooltip(this.addRestSection, "Web Service", "vommondToolTipLeft");
 			this.addTooltip(this.addScriptSection, "Script (BETA)", "vommondToolTipLeft");
+			this.addTooltip(this.addVectorSection, "Vector Tools (Beta)", "vommondToolTipLeft");
 			this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
 
 			this.addTooltip(this.undo, "Undo (CTRL+Z)");

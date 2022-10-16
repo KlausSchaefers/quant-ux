@@ -1,7 +1,7 @@
 
 <template>
-    <div class="MatcToolbarItem MatcCreateVectorBtn MatcMultiIcon MatcToolbarDropDownButton">
-		<div type="button" data-dojo-attach-point="button">
+    <div class=" MatcCreateVectorBtn  MatcToolbarDropDownButton">
+		<div class="MatcToolbarItem MatcMultiIcon" type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="">
 				<span class="mdi mdi-vector-curve"></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>

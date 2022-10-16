@@ -1,7 +1,13 @@
 .MatcCreateVectorBtn .MatcToolbarPopUp{
     background: #fff;
-    width: 120px;
+    width: 160px;
     top:-48px
+}
+
+.MatcCreateVectorBtn.MatcToolbarDropDownButton{
+    margin: 0;
+    padding: 0px;
+    position: relative;
 }
 
 .MatcCreateVectorBtn .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {

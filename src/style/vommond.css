@@ -108,7 +108,7 @@
 	opacity: 0;
 	text-align:left;
 	font-size: 12px;
-	width: 200px;
+	width: 240px;
 	left:0px;
 	bottom: -70px;
 	height:60px;
@@ -164,7 +164,7 @@
 	left: auto;
 	top:0px;
 	bottom:auto;
-	right: -210px;
+	right: -250px;
 }
 
 .vommondToolTipLeft .vommondToolTipArrow{

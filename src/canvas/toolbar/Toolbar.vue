@@ -33,7 +33,9 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
-			<CreateVectorButton v-if="hasProtoMoto" @add="onToolSVG"/>
+			<div class="" data-dojo-attach-point="addVectorSection" >
+				<CreateVectorButton v-if="hasProtoMoto" @add="onToolSVG" />
+			</div>
 
 			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addLogicSection" >
 				<span class="mdi mdi-rhombus-outline" ></span>

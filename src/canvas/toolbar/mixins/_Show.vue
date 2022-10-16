@@ -204,9 +204,11 @@ export default {
 						this._removeCss(this.textTool, "MatcToolbarSectionHidden");
 						this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
 						this._removeCss(this.addRestSection, "MatcToolbarSectionHidden");
-
+						this._removeCss(this.addScriptSection, "MatcToolbarSectionHidden");
 						this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
-			
+						this._removeCss(this.addVectorSection, "MatcToolbarSectionHidden");
+						
+						this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
 
 					} else {
 						this._addCss(this.simulatorSection, "MatcToolbarSectionHidden");
@@ -223,7 +225,8 @@ export default {
 						this._addCss(this.textTool, "MatcToolbarSectionHidden");
 						this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");
 						this._addCss(this.addRestSection, "MatcToolbarSectionHidden");
-
+						this._addCss(this.addScriptSection, "MatcToolbarSectionHidden");
+						this._addCss(this.addVectorSection, "MatcToolbarSectionHidden");
 						if(!this.controller.canUndo()){
 							this._addCss(this.undoSection, "MatcToolbarSectionHidden");
 						}
