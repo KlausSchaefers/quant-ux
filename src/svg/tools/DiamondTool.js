@@ -12,6 +12,7 @@ export default class DiamondTool extends Tool{
             stroke: '#333333',
             strokeWidth: 1,
             fill:'',
+            closed: true,
             d: []
         }
         this.path = path
@@ -34,7 +35,6 @@ export default class DiamondTool extends Tool{
        d.push({t: 'L', x: 0, y: 0})
        d.push({t: 'L', x: 0, y: 0})
        d.push({t: 'L', x: 0, y: 0})
-       d.push({t: 'Z', x: 0, y: 0})
     }
     
     onMove (point) {

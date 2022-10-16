@@ -364,7 +364,7 @@ export default {
                 svg.fill = GradientUtil.getGradientURL(i, path, 'e')
             }
             if (path.d) {
-                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue)
+                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue, path.closed)
             }
             if (this.hover === path.id) {
                 svg.stroke = this.config.colorHover

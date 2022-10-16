@@ -138,8 +138,8 @@ export function closePath (d, snapp = 5) {
     }
 }
 
-export function pathToSVG (d, offsetX =0, offsetY = 0) {
-  return d.map(point => {
+export function pathToSVG (d, offsetX =0, offsetY = 0, closed = false) {
+  let path = d.map(point => {
       if (point.t === 'C') {
         return `C ${point.x1 + offsetX} ${point.y1 + offsetY}, ${point.x2 + offsetX} ${point.y2 + offsetY}, ${point.x + offsetX} ${point.y + offsetY}`
       }
@@ -148,6 +148,10 @@ export function pathToSVG (d, offsetX =0, offsetY = 0) {
       }
       return `${point.t} ${point.x + offsetX} ${point.y + offsetY}`
   }).join(' ')
+  if (closed) {
+    path += ' Z'
+  }
+  return path
 }
 
 export function getBoxes(elements) {

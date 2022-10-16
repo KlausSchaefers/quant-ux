@@ -118,7 +118,7 @@ export default {
               svg.fill = GradientUtil.getGradientURL(i, path, this.model.id)
             }
             if (path.d) {
-                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue )
+                svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue, path.closed)
             }
             return svg
           })
