@@ -67,7 +67,8 @@ export default class SelectTool extends Tool {
     onSelectMove (point) {
         if (this._isSelectStarted && this._selectStart) {
             this._selectBox = this.getBox(this._selectStart, point)
-            this.editor.setSelectBox(this._selectBox)
+            const zoomedBox = SVGUtil.getZoomedBox(this._selectBox, this.zoom)
+            this.editor.setSelectBox(zoomedBox)
         }
     }
 
@@ -76,6 +77,8 @@ export default class SelectTool extends Tool {
         if (this._isSelectStarted && this._selectBox) {
             const selectBox = this._selectBox 
             const paths = this.editor.value
+            console.debug(paths)
+            console.debug(selectBox)
             const inBox = paths.filter(path => SVGUtil.isPathInBox(path, selectBox))
             if (inBox.length === 0) {
                 this.editor.unSelect()

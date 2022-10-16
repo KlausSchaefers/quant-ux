@@ -7,6 +7,8 @@
       <a @click="createRect"> Rect </a>
       <a @click="createTriangle"> Triangle </a>
       <a @click="createEllipse"> Ellipse </a>
+      <a @click="createDiamond"> Diamond </a>
+      
       <a @click="clear">Clear </a>
         <a @click="setZoom(1)">1.0 </a>
         <a @click="setZoom(0.66)">0.66 </a>
@@ -23,6 +25,8 @@
           @qmouse="onMouseMove"/>
     </div>
     {{mouse}}
+
+    {{svgs}}
 
     <div class="tests">
       <a @click="test_createLine" class="MatcButton"> Test Create Line </a>
@@ -85,6 +89,7 @@ export default {
         paths: [],
         pos: {x:0 ,y:0},
         mouse: {},
+        svgs: [],
         zoom: 1
     };
   },
@@ -100,6 +105,10 @@ export default {
       },
       onSelect (d) {
           this.selection = d
+          this.svgs = JSON.stringify(d, null, 2)
+      },
+      createDiamond () {
+        this.$refs.editor.startDiamondTool()
       },
       createRect () {
         this.$refs.editor.startRectangleTool(true)

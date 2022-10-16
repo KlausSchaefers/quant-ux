@@ -23,7 +23,9 @@ export default class Tool {
         this.editor.setState('selectEnd')
     }
 
-    onZoom () {}
+    onZoom (zoom) {
+        this.zoom = zoom
+    }
 
     onClick() {}
 

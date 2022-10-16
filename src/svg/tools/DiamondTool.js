@@ -1,9 +1,9 @@
 import Tool from './Tool'
 import Logger from 'common/Logger'
 //import * as Util from '../SVGUtil'
-export default class TriangleTool extends Tool{
+export default class DiamondTool extends Tool{
 
-    constructor (editor, closePathAtTheEnd = false) {
+    constructor (editor) {
         super(editor)
         let path = {
             id: 'p' + new Date().getTime(),
@@ -18,17 +18,20 @@ export default class TriangleTool extends Tool{
         this.editor.value.push(path)
         this.editor.select([path.id])
         this.isMouseDown = false
-        this.closePathAtTheEnd = closePathAtTheEnd
-        this.logger = new Logger('TriangleTool')
+        this.logger = new Logger('DiamondTool')
     }
 
     onMouseDown(pos) {
         this.logger.log(1, 'onMouseDown', 'enter', pos)
+
         this._startPos = pos
+
+       
     }
 
     initBox(d) {
        d.push({t: 'M', x: 0, y: 0})
+       d.push({t: 'L', x: 0, y: 0})
        d.push({t: 'L', x: 0, y: 0})
        d.push({t: 'L', x: 0, y: 0})
        d.push({t: 'Z', x: 0, y: 0})
@@ -41,16 +44,22 @@ export default class TriangleTool extends Tool{
             if (d.length === 0) {
                 this.initBox(d)
             }
-            d[0].x = box.x + box.w /2
+            d[0].x = box.x + box.w / 2
             d[0].y = box.y
 
             d[1].x = box.x + box.w
-            d[1].y = box.y + box.h
+            d[1].y = box.y + box.h / 2
 
-            d[2].x = box.x
+            d[2].x = box.x + box.w / 2
             d[2].y = box.y + box.h
+
+            d[3].x = box.x
+            d[3].y = box.y + box.h / 2
        }
+    
     }
+
+
 
     onClick () {
         this.logger.log(1, 'onClick')
@@ -60,4 +69,10 @@ export default class TriangleTool extends Tool{
         this.editor.onChange()
         this.editor.onTempChange()
     }
+
+    getLast () {
+        return this.path.d[this.path.d.length-1]
+    }
+
+
 }

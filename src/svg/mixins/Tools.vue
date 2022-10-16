@@ -10,6 +10,7 @@ import SVGRuler from '../tools/SVGRuler'
 import RectangleTool from '../tools/RectangleTool'
 import TriangleTool from '../tools/TriangleTool'
 import EllipseTool from '../tools/EllipseTool'
+import DiamondTool from '../tools/DiamondTool'
 
 export default {
   name: "Tools",
@@ -132,6 +133,15 @@ export default {
         this.reset()
         this.setCursor('crosshair')
         this.currentTool = new EllipseTool(this, closePathAtTheEnd)
+        this.initRuler(this.selection)
+    },
+
+    startDiamondTool (closePathAtTheEnd = false) {
+        this.logger.log(1, 'startDiamondTool ', 'enter')
+        this.mode = 'add'
+        this.reset()
+        this.setCursor('crosshair')
+        this.currentTool = new DiamondTool(this, closePathAtTheEnd)
         this.initRuler(this.selection)
     },
 

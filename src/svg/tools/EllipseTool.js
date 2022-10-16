@@ -31,28 +31,35 @@ export default class EllipseTool extends Tool{
 
     initBox(d) {
        d.push({t: 'M', x: 0, y: 0})
-       d.push({t: 'L', x: 0, y: 0})
-       d.push({t: 'L', x: 0, y: 0})
-       d.push({t: 'L', x: 0, y: 0})
-       d.push({t: 'Z', x: 0, y: 0})
+       d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'Z', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
     }
     
     onMove (point) {
        if (this._startPos){
             const box = this.getBox(this._startPos, point)
-            console.debug(box)
             const d = this.path.d
             if (d.length === 0) {
                 this.initBox(d)
             }
-            d[0].x = box.x
+            d[0].x = box.x + box.w / 2
             d[0].y = box.y
+
             d[1].x = box.x + box.w
-            d[1].y = box.y
-            d[2].x = box.x + box.w
+            d[1].y = box.y + box.h / 2
+            d[1].x1 = box.x
+            d[2].y1 = box.y
+            d[1].x1 = box.x + box.w
+            d[2].y1 = box.y + box.h
+
+
+            d[2].x = box.x + box.w / 2
             d[2].y = box.y + box.h
+
             d[3].x = box.x
-            d[3].y = box.y + box.h
+            d[3].y = box.y + box.h / 2
        }
     
     }
