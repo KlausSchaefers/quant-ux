@@ -6,8 +6,7 @@
 				<span class="mdi mdi-puzzle-outline"></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</label>
-
-			</div>
+		</div>
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 				<div class="MatcCreateBtnCntr MatcPadding">
 					<div class="container-fluid">

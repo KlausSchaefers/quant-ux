@@ -129,8 +129,16 @@ export default {
                         this.currentTool.startBezierTool()
                     }
 
-                    if (e.type === 'line') {
+                    if (e.type === 'path') {
                         this.currentTool.startPathTool()
+                    }
+
+                    if (e.type === 'rectangle') {
+                        this.currentTool.startRectangleTool()
+                    }
+
+                    if (e.type === 'triangle') {
+                        this.currentTool.startTriangleTool()
                     }
                  
                 } else {

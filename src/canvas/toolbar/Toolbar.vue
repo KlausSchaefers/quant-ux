@@ -33,11 +33,7 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="svgTool"  v-if="hasProtoMoto">
-				<span class="mdi mdi-vector-curve" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
+			<CreateVectorButton v-if="hasProtoMoto" @add="onToolSVG"/>
 
 			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addLogicSection" >
 				<span class="mdi mdi-rhombus-outline" ></span>
@@ -214,6 +210,7 @@ import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButt
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
 import CollabUser from "canvas/toolbar/components/CollabUser"
+import CreateVectorButton from 'canvas/toolbar/components/CreateVectorButton'
 import HelpButton from 'help/HelpButton'
 
 
@@ -244,7 +241,8 @@ export default {
 		'ViewConfig': ViewConfig,
 		'HelpButton': HelpButton,
 		'EditModeButton': EditModeButton,
-		'CollabUser': CollabUser
+		'CollabUser': CollabUser,
+		'CreateVectorButton': CreateVectorButton
 	},
 	computed: {
 		hasProtoMoto () {
@@ -279,10 +277,6 @@ export default {
 		
 			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
 			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
-
-			if (this.svgTool) {
-				this.own(on(this.svgTool, touch.press, lang.hitch(this, "onToolSVG", 'bezier')));
-			}
 
 			const btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
 			btn.updateLabel = false;
@@ -1418,7 +1412,7 @@ export default {
 			topic.publish("matc/canvas/click", "");
 		
 			this.controller.setMode("svg");
-			this.emit("onNewSVG", {"event":e, 'type': tool});
+			this.emit("onNewSVG", {"event":e, 'type': tool.value});
 		},
 
 		onToolEditSVG () {

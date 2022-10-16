@@ -1,0 +1,26 @@
+.MatcCreateVectorBtn .MatcToolbarPopUp{
+    background: #fff;
+    width: 120px;
+    top:-48px
+}
+
+.MatcCreateVectorBtn .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {
+    left: auto;
+    right: -10px;
+}
+
+.MatcCreateVectorBtn .MatcToolbarPopUpArrowCntr {
+    top: 56px;
+    left: auto;
+    right: 100%;
+}
+
+.MatcCreateVectorBtn ul li:hover{
+    width: 100%;
+    padding: 4;
+}
+
+.MatcCreateVectorBtn ul li:hover{
+    background: #333;
+    color: #fff;
+}

@@ -148,8 +148,8 @@ export function pathToSVG (d, offsetX =0, offsetY = 0, closed = false) {
       }
       return `${point.t} ${point.x + offsetX} ${point.y + offsetY}`
   }).join(' ')
-  if (closed) {
-    path += ' Z'
+  if (closed && d.length > 0) {
+    path += 'Z'
   }
   return path
 }
