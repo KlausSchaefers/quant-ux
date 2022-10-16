@@ -18,8 +18,6 @@ export default class SelectTool extends Tool {
 
     onClick() {
         this.logger.log(-5, 'onClick', this.editor.hover)
-
-        console.debug('isSelectionStarted() > ', this.isSelectionStarted())
         // somehow the mouseip event is not always fired
         if (this.isSelectionStarted()) {
             this.onSelectEnd()

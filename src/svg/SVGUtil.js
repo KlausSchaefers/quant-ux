@@ -128,8 +128,8 @@ export function closePath (d, snapp = 5) {
     }
     const first = d[0]
     const last = d[d.length-1]
-    const difX = first.x - last.x
-    const difY = first.y - last.y
+    const difX = Math.abs(first.x - last.x)
+    const difY = Math.abs(first.y - last.y)
     if (difX <= snapp && difY <= snapp) {
         console.debug('closePath', difX, difY)
         last.t = 'Z'

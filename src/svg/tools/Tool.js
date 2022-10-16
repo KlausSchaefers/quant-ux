@@ -91,12 +91,13 @@ export default class Tool {
 
 
     isSelectionStarted () {
-        this.logger.log(-5, 'isSelectionStarted', 'enter', this._isSelectStarted)
+        //this.logger.log(5, 'isSelectionStarted', 'enter', this._isSelectStarted)
         return this._isSelectStarted
     }
 
     onSelectStart(point) {
         this.logger.log(-5, 'onSelectStart', 'enter')
+        this.editor.unSelect()
         this._isSelectStarted = true
         this._selectStart = point
         this._selectionToolUpListener = on(win.body(),"mouseup", () => this.onMouseUp() );
@@ -110,7 +111,7 @@ export default class Tool {
     }
 
     onSelectEnd () {
-        this.logger.log(-5, 'onSelectEnd', 'enter')
+        this.logger.log(5, 'onSelectEnd', 'enter')
 
         if (this._isSelectStarted && this._selectBox) {
             const selectBox = this._selectBox 
@@ -128,7 +129,7 @@ export default class Tool {
 
 
     clearSelect () {
-        console.debug('clearSelect')
+        this.logger.log(5, 'clearSelect', 'enter')
         if (this._isSelectStarted) {
             this.editor.setSelectBox()
             delete this._selectStart
