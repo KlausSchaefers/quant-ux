@@ -108,6 +108,8 @@
 
 .qux-svg-editor-click-line{
     cursor: pointer;
+    stroke: #be49f000;
+    stroke-width: 10;
 }
 
 .qux-svg-editor-no-bbox .qux-svg-editor-resize-handler{

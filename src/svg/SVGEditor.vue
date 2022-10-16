@@ -21,6 +21,23 @@
             </defs>
 
 
+            <!--
+                Add here a transparent click layer to easy clicks
+            -->
+            <template v-if="showHover">
+                <path v-for="p in paths"
+                    :key="p.id + 's'"
+                    :d="p.d"
+          
+                    class="qux-svg-editor-click-line"
+                    @mouseover="onElementHover(p, $event)"
+                    @mouseout="onElementBlur(p, $event)"
+                    @click.stop="onElementClick(p, $event)"
+                    fill=""
+                    :stroke-width="p.strokeWidth + 5"/>
+
+            </template>
+
             <path v-for="p in paths"
                 :key="p.id"
                 :d="p.d"
@@ -33,22 +50,7 @@
 
                 :stroke-width="p.strokeWidth"/>
 
-            <!--
-                Add here a transparent click layer to easy clicks
-            -->
-            <template v-if="showHover">
-                <path v-for="p in paths"
-                    :key="p.id + 's'"
-                    :d="p.d"
-                    stroke="rgba(0,0,0,0.0)"
-                    class="qux-svg-editor-click-line"
-                    @mouseover="onElementHover(p, $event)"
-                    @mouseout="onElementBlur(p, $event)"
-                    @click.stop="onElementClick(p, $event)"
-                    fill=""
-                    :stroke-width="p.strokeWidth + 5"/>
-
-            </template>
+     
 
             <!-- in morph mode we show all the points -->
 
@@ -128,10 +130,10 @@
             <template v-if="boundingBox">
                 <!-- Bounding box rectangle-->
                 <rect
-                    :x="boundingBox.x + offSetTools"
-                    :y="boundingBox.y + offSetTools"
-                    :width="boundingBox.w + 1"
-                    :height="boundingBox.h + 1"
+                    :x="boundingBox.x + offSetTools -1"
+                    :y="boundingBox.y + offSetTools - 1"
+                    :width="boundingBox.w + 2"
+                    :height="boundingBox.h + 2"
                     @mousedown.stop="onBBoxMouseDown($event)"
                     @mouseup.stop="onBBoxMouseUp($event)"
                     @click.stop="onBBoxMouseClick($event)"
@@ -436,7 +438,7 @@ export default {
     },
 
     select (ids) {
-        this.logger.log(1, 'select ', ids)
+        this.logger.log(-1, 'select ', 'enter', ids)
         if (!ids) {
             this.logger.warn('select', 'Should use NULL')
             ids = []
@@ -457,7 +459,7 @@ export default {
     },
 
     unSelect () {
-        this.logger.log(1, 'unSelect ')
+        this.logger.log(-1, 'unSelect ')
         this.selection = []
         this.selectedJoint = null
         this.$emit('unselect')

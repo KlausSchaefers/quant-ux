@@ -2,8 +2,11 @@
   <div class="MatcLight">
     <h1>SVg Editor Test</h1>
     <div class="toolbar">
-      <a @click="createLine">Add Line </a>
-      <a @click="createBezier">Add Curve </a>
+      <a @click="createLine">Line </a>
+      <a @click="createBezier"> Curve </a>
+      <a @click="createRect"> Rect </a>
+      <a @click="createTriangle"> Triangle </a>
+      <a @click="createEllipse"> Ellipse </a>
       <a @click="clear">Clear </a>
         <a @click="setZoom(1)">1.0 </a>
         <a @click="setZoom(0.66)">0.66 </a>
@@ -98,11 +101,20 @@ export default {
       onSelect (d) {
           this.selection = d
       },
+      createRect () {
+        this.$refs.editor.startRectangleTool(true)
+      },
       createBezier () {
         this.$refs.editor.startBezierTool(true)
       },
       createLine () {
         this.$refs.editor.startPathTool(true)
+      },
+      createEllipse () {
+        this.$refs.editor.startEllipseTool(true)
+      },
+      createTriangle () {
+        this.$refs.editor.startTriangleTool(true)
       },
       clear () {
         this.$refs.editor.clear()

@@ -7,7 +7,9 @@ import MorphTool from '../tools/MorphTool'
 import MoveTool from '../tools/MoveTool'
 import BezierTool from '../tools/BezierTool'
 import SVGRuler from '../tools/SVGRuler'
-
+import RectangleTool from '../tools/RectangleTool'
+import TriangleTool from '../tools/TriangleTool'
+import EllipseTool from '../tools/EllipseTool'
 
 export default {
   name: "Tools",
@@ -29,7 +31,10 @@ export default {
         this.setBoundingBox()
         switch (state) {
             case 'addEnd':
-                this.startSelectTool()
+                // select, but we need to make sure the SVG elements are drawn
+                this.$nextTick(() => {
+                    this.startMoveTool()
+                })             
                 break
             case 'selectEnd':
                 this.startMoveTool()
@@ -54,6 +59,8 @@ export default {
     /******************************************
      * Tools
      *****************************************/
+
+  
 
     startMoveTool () {
         this.logger.log(1, 'startMoveTool ', 'enter')
@@ -83,6 +90,15 @@ export default {
        
     },
 
+    startRectangleTool () {
+        this.logger.log(1, 'startRectangleTool ', 'enter')
+        this.mode = 'add'
+        this.reset()
+        this.setCursor('crosshair')
+        this.currentTool = new RectangleTool(this, this.selection)
+        this.initRuler(this.selection)
+    },
+
     startPathTool (closePathAtTheEnd) {
         this.logger.log(1, 'startPathTool ', 'enter')
         this.mode = 'add'
@@ -98,6 +114,24 @@ export default {
         this.reset()
         this.setCursor('crosshair')
         this.currentTool = new BezierTool(this, closePathAtTheEnd)
+        this.initRuler(this.selection)
+    },
+
+    startTriangleTool (closePathAtTheEnd = false) {
+        this.logger.log(1, 'startTriangleTool ', 'enter')
+        this.mode = 'add'
+        this.reset()
+        this.setCursor('crosshair')
+        this.currentTool = new TriangleTool(this, closePathAtTheEnd)
+        this.initRuler(this.selection)
+    },
+
+    startEllipseTool (closePathAtTheEnd = false) {
+        this.logger.log(1, 'startEllipseTool ', 'enter')
+        this.mode = 'add'
+        this.reset()
+        this.setCursor('crosshair')
+        this.currentTool = new EllipseTool(this, closePathAtTheEnd)
         this.initRuler(this.selection)
     },
 
