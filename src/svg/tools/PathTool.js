@@ -16,7 +16,7 @@ export default class PathTool extends Tool{
         }
         this.path = path
         this.editor.value.push(path)
-        this.editor.select(path.id)
+        this.editor.select([path.id])
         this.isMouseDown = false
         this.closePathAtTheEnd = closePathAtTheEnd
         this.logger = new Logger('PathTool')

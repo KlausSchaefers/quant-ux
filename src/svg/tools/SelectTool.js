@@ -1,6 +1,7 @@
 import Tool from './Tool'
 import Logger from 'common/Logger'
 
+
 export default class SelectTool extends Tool {
 
     constructor (editor) {
@@ -10,15 +11,25 @@ export default class SelectTool extends Tool {
 
 
     onElementClick (path) {
-        this.logger.log(5, 'onElementClick', path.id)
-        this.select(path.id)
+        this.logger.log(-5, 'onElementClick', path.id)
+        this.select([path.id])
+        this.clearSelect()
     }
 
     onClick() {
-        this.logger.log(5, 'onClick', this.editor.hover)
-        if (this.editor.hover) {
-          this.select(this.editor.hover)
+        this.logger.log(-5, 'onClick', this.editor.hover)
+
+        console.debug('isSelectionStarted() > ', this.isSelectionStarted())
+        // somehow the mouseip event is not always fired
+        if (this.isSelectionStarted()) {
+            this.onSelectEnd()
+            return
         }
+      
+        if (this.editor.hover) {
+          this.select([this.editor.hover])
+        }
+        this.clearSelect()
     }
 
     onElementHover(path) {
@@ -28,4 +39,15 @@ export default class SelectTool extends Tool {
     onElementBlur() {
         this.editor.setHover(null)
     }
+
+    onMouseDown (point) {
+        this.logger.log(5, 'onMouseDown', 'enter', point)
+        this.onSelectStart(point)
+    }
+
+    onMove (point) {
+       this.onSelectMove(point)
+    }
+
+
 }

@@ -128,12 +128,12 @@ export default {
 
     // canvas mouse
     onMouseClick (e) {
-        this.logger.log(-5, 'onMouseClick ', 'enter')
-        this.$emit('mouselcick')
+        this.$emit('mouseclick')
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onClick(pos)
         }
+        this.logger.log(5, 'onMouseClick ', 'enter', pos)
     },
     onMouseMove (e) {
         const pos = this.getCanvasMousePosition(e)
@@ -146,14 +146,20 @@ export default {
     onMouseDown (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onMouseDown(pos)
+            const stop = this.currentTool.onMouseDown(pos, e)
+            if (stop === true) {
+                this.stopEvent(e)
+            }
         }
-        this.logger.log(5, 'onMouseUp ', 'exit', pos)
+        this.logger.log(5, 'onMouseDown ', 'exit', pos)
     },
     onMouseUp (e) {
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onMouseUp(pos)
+            const stop = this.currentTool.onMouseUp(pos, e)
+            if (stop === true) {
+                this.stopEvent(e)
+            }
         }
         this.logger.log(5, 'onMouseUp ', 'exit', pos)
     },

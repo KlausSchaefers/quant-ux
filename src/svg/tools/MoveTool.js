@@ -278,6 +278,14 @@ export default class MoveTool extends Tool{
         this.startPos = pos
     }
 
+
+    onMouseDown (point) {
+        this.logger.log(5, 'onMouseDown', 'enter', point)
+        //this.onSelectStart(point)
+    }
+
+
+
     cleanMove () {
         delete this.bbox
         delete this.startPos

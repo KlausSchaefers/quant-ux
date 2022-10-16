@@ -1,7 +1,12 @@
 <template>
-  <div :class="'qux-svg-editor qux-svg-editor_cursor_' + cursor + (!isBoundingBoxVisible ? ' qux-svg-editor-no-bbox' : '')" :style="{'width': width + 'px', 'height': height + 'px'}"
+  <div 
+    :class="
+        'qux-svg-editor qux-svg-editor_cursor_' + 
+        cursor + 
+        (!isBoundingBoxVisible ? ' qux-svg-editor-no-bbox' : '')" 
+    :style="{'width': width + 'px', 'height': height + 'px'}"
     @click.stop="onMouseClick"
-    @mousedown.stop="onMouseDown"
+    @mousedown="onMouseDown"
     @mouseup="onMouseUp"
     @mousemove.stop="onMouseMove"
     @dblclick.stop="onMouseDoubleClick">
@@ -10,7 +15,7 @@
         <g id="main" fill="none">
 
             <defs v-if="hasGradient">
-                  <linearGradient v-for="g in gradients" :id="g.id" :key="g.id" :x1="g.angle.x1" :x2="g.angle.x2" :y1="g.angle.y1" :y2="g.angle.y2">
+                <linearGradient v-for="g in gradients" :id="g.id" :key="g.id" :x1="g.angle.x1" :x2="g.angle.x2" :y1="g.angle.y1" :y2="g.angle.y2">
                     <stop v-for="(c,i) in g.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
                 </linearGradient>
             </defs>
@@ -25,6 +30,7 @@
                 ref="paths"
                 @mouseover="onElementHover(p, $event)"
                 @mouseout="onElementBlur(p, $event)"
+
                 :stroke-width="p.strokeWidth"/>
 
             <!--
@@ -111,6 +117,13 @@
 
             </template>
 
+            <rect v-if="selectBox"
+                    :x="selectBox.x + offSetTools"
+                    :y="selectBox.y + offSetTools"
+                    :width="selectBox.w + 1"
+                    :height="selectBox.h + 1"
+                    class="qux-svg-editor-select-box" />
+
 
             <template v-if="boundingBox">
                 <!-- Bounding box rectangle-->
@@ -193,6 +206,7 @@ export default {
         selectedJoint: null,
         selectedBezier: null,
         boundingBox: null,
+        selectBox: null,
         offSetTools: 0,
         offSetValue: 0.5,
         showAllBezierPoints: false,
@@ -378,6 +392,7 @@ export default {
 
     reset () {
         this.isBoundingBoxVisible = true
+        this.isBoundingBoxHandlersVisible = true
         this.setSplitPoint()
         this.unSelect()
     },
@@ -387,7 +402,6 @@ export default {
     },
 
     setSelectedJointId (id) {
-
         if (!this.selectedJoint || this.selectedJoint.id !== id) {
             this.selectedJoint = {id: id}
         }
@@ -399,6 +413,10 @@ export default {
 
     setBoundingBox (bbox) {
         this.boundingBox = bbox
+    },
+
+    setSelectBox (bbox) {
+        this.selectBox = bbox
     },
 
     setSplitPoint (pos) {
@@ -417,9 +435,17 @@ export default {
         this.hover = id
     },
 
-    select (id) {
-        this.logger.log(1, 'select ', id)
-        this.selection = [id]
+    select (ids) {
+        this.logger.log(1, 'select ', ids)
+        if (!ids) {
+            this.logger.warn('select', 'Should use NULL')
+            ids = []
+        }
+        if (!Array.isArray(ids)) {
+            this.logger.warn('select', 'Should use array', ids)
+            ids = [ids]
+        }
+        this.selection = ids
         const bbox = this.getSelectedUnZoomedBoundingBox()
         this.$emit('select', this.getSelectedElements(), bbox)
     },

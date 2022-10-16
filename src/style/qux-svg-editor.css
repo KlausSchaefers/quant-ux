@@ -110,10 +110,6 @@
     cursor: pointer;
 }
 
-.qux-svg-editor{
-    Xbackground: rgba(255, 255, 255, 0.264);
-}
-
 .qux-svg-editor-no-bbox .qux-svg-editor-resize-handler{
     stroke: transparent;
 }
@@ -124,3 +120,9 @@
     fill: transparent;
 }
 
+
+.qux-svg-editor-select-box{
+    stroke-width: 1;
+    stroke: #49C0F0;
+	fill:rgba(73,192,240,0.3);
+}

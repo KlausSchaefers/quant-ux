@@ -110,7 +110,9 @@ export default {
       test_createLine () {
         this.clear()
         let e = this.$refs.editor
-        e.startPathTool(this.p(30, 30))
+        e.startPathTool()
+        e.onMouseMove(this.e(30, 30))
+        e.onMouseClick(this.e(30, 30))
         /** we need move */
         e.onMouseMove(this.e(60, 200))
         e.onMouseClick(this.e(60, 200))
@@ -169,7 +171,7 @@ export default {
   mounted() {
       this.pos = domGeom.position(this.$refs.cntr)
       setTimeout(() => {
-          //this.test_showBezier()
+          this.test_createLine()
       }, 100)
 
       this.keyBoardListener = on(win.body(), "keyup", this.onKey);

@@ -135,7 +135,7 @@ export default {
 							this.canvas.onScreenSelected(node.id);
 						}
 						if (type === 'svg') {
-							this.canvas.onSVGPathSelected(node.widgetID, node.pathID);
+							this.canvas.onSVGPathsSelected(node.widgetID, [node.pathID]);
 						}
 					}
 				} else {

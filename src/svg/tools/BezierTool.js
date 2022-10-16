@@ -29,7 +29,7 @@ export default class BezierTool extends Tool{
             d: []
         }
         this.editor.value.push(path)
-        this.editor.select(path.id)
+        this.editor.select([path.id])
         this.path = path
         this.isMouseDown = false
         this.closePathAtTheEnd = closePathAtTheEnd

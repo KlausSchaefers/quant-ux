@@ -43,27 +43,27 @@ export default {
             this.setCanvasModeListener('onSVGModeChange')
         },
 
-        onSVGPathSelected (widgetID, pathID) {
-            this.logger.log(2,"onSVGPathSelected", "enter", pathID + "@" + widgetID);
+        onSVGPathsSelected (widgetID, pathIDs) {
+            this.logger.log(2,"onSVGPathsSelected", "enter", pathIDs + "@" + widgetID);
 
             if (this._svgCurrentWidget && this.currentTool) {
                 if (this._svgCurrentWidget.id !== widgetID) {
-                    this.logger.log(2,"onSVGPathSelected", "enter > change widget> ", pathID + "@" + widgetID);
+                    this.logger.log(2,"onSVGPathSelected", "enter > change widget> ", pathIDs + "@" + widgetID);
                     this.endSVG(false)
                     const widget = this.model.widgets[widgetID]
                     if (widget) {
-                        this.editSVG(widget, pathID)
+                        this.editSVG(widget, pathIDs)
                     }
                 } else {
-                    this.logger.log(2,"onSVGPathSelected", "enter > change path > ", pathID + "@" + widgetID);
-                    this.currentTool.startSelectTool(pathID)
+                    this.logger.log(2,"onSVGPathSelected", "enter > change path > ", pathIDs + "@" + widgetID);
+                    this.currentTool.startSelectTool(pathIDs)
                 }
    
             } else {
-                this.logger.log(2,"onSVGPathSelected", "enter > open >",pathID + "@" + widgetID);
+                this.logger.log(2,"onSVGPathSelected", "enter > open >",pathIDs + "@" + widgetID);
                 const widget = this.model.widgets[widgetID]
                 if (widget) {
-                    this.editSVG(widget, pathID)
+                    this.editSVG(widget, pathIDs)
                 }
             }
         },
@@ -82,7 +82,7 @@ export default {
             }
         },
 
-        editSVG (widget, pathID = true) {
+        editSVG (widget, pathIDs = true) {
 		    this.logger.log(1,"editSVG", "enter > ", widget);
 
             this.showSVGEditor()
@@ -102,7 +102,7 @@ export default {
                 if (this.currentTool) {
                     this.currentTool.setValue(widget.props.paths, widget.props.bbox, sourceWidget)
                     this.$nextTick(() => {
-                        this.currentTool.startSelectTool(pathID)
+                        this.currentTool.startSelectTool(pathIDs)
                     })
                 } else {
                     this.logger.warn("editSVG", "exit > NO SVGEditor ");

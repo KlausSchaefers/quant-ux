@@ -114,6 +114,8 @@ export default {
 			this.restorePropertiesState();
             this.showProperties();
 
+            this.svgStrokeBox.setModel(this.model)
+		    this.svgPathSize.setModel(this.model);
             if (this._selectionPaths.length === 1) {
                 css.remove(this.svgBoxDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
@@ -122,16 +124,22 @@ export default {
                 const path = this._selectionPaths[0]
                 this.svgPathName.value = path.name
 
-                this.svgFillColor.setValue(path.fill)
-
-                this.svgStrokeBox.setModel(this.model)
-                this.svgStrokeBox.setValue(path)
-              
-			    this.svgPathSize.setModel(this.model);
+                this.svgFillColor.setValue(path.fill)             
+                this.svgStrokeBox.setValue(path)              
+	
 			    this.svgPathSize.setValue(bbox);
                 
-            } else {
+            } else if (this._selectionPaths.length > 1){
                 css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
+                css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
+                css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
+
+                const path = this._selectionPaths[0]
+                this.svgFillColor.setValue(path.fill)             
+                this.svgStrokeBox.setValue(path)     
+
+            } else {
+                this.logger.log(1,"showSVGProperties", "wrong selected paths ");
             }
         },
 

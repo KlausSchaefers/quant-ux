@@ -22,11 +22,11 @@ export default {
      *****************************************/
     setState (state) {
         this.logger.log(1, 'setState ', 'enter', state)
+  
         delete this.currentTool
         this.isBoundingBoxVisible = true
         this.setCursor('default')
         this.setBoundingBox()
-
         switch (state) {
             case 'addEnd':
                 this.startSelectTool()
@@ -74,10 +74,7 @@ export default {
                 this.currentTool.select(firstPath.id)
             }
         } else if (selected){
-            const selectedPath = this.value.find(p => p.id === selected)
-            if (selectedPath) {
-                this.currentTool.select(selectedPath.id)
-            }
+            this.currentTool.select(selected)
         }
        
     },

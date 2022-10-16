@@ -113,6 +113,15 @@ export function addPadding(box, padding = 1) {
     }
 }
 
+export function isPathInBox (path, box) {
+    return path.d.every(p => {
+        return p.x >= box.x && 
+                p.x <= box.x + box.w && 
+                p.y >= box.y && 
+                p.y <= box.y + box.h
+    })
+}
+
 export function closePath (d, snapp = 5) {
     if (d.length < 2) {
         return
