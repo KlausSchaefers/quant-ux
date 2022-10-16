@@ -12,7 +12,6 @@ export default class SelectTool extends Tool {
         this.logger = new Logger('SelectTool')
     }
 
-
     onElementClick (path) {
         this.logger.log(-5, 'onElementClick', path.id)
         this.select([path.id])
@@ -21,7 +20,9 @@ export default class SelectTool extends Tool {
 
     onClick() {
         this.logger.log(-5, 'onClick', this.editor.hover)
-        // somehow the mouseip event is not always fired
+        // We need to ue click and not mouseUp, because
+        // otherwise the moveTool gets started before and will
+        // shut down because it receives the click.
         if (this.isSelectionStarted()) {
             this.onSelectEnd()
             return
@@ -52,12 +53,11 @@ export default class SelectTool extends Tool {
 
 
     isSelectionStarted () {
-        //this.logger.log(5, 'isSelectionStarted', 'enter', this._isSelectStarted)
         return this._isSelectStarted
     }
 
     onSelectStart(point) {
-        this.logger.log(-5, 'onSelectStart', 'enter')
+        this.logger.log(5, 'onSelectStart', 'enter')
         this.editor.unSelect()
         this._isSelectStarted = true
         this._selectStart = point
@@ -73,12 +73,10 @@ export default class SelectTool extends Tool {
 
     onSelectEnd () {
         this.logger.log(5, 'onSelectEnd', 'enter')
-
         if (this._isSelectStarted && this._selectBox) {
             const selectBox = this._selectBox 
             const paths = this.editor.value
             const inBox = paths.filter(path => SVGUtil.isPathInBox(path, selectBox))
-            //console.debug('onSelectEnd', inBox.map(p => p.id))
             if (inBox.length === 0) {
                 this.editor.unSelect()
             } else {
@@ -87,7 +85,6 @@ export default class SelectTool extends Tool {
         }
         this.clearSelect()
     }
-
 
     clearSelect () {
         this.logger.log(5, 'clearSelect', 'enter')
@@ -102,6 +99,4 @@ export default class SelectTool extends Tool {
         }
         delete this._selectionToolUpListener
     }
-
-
 }

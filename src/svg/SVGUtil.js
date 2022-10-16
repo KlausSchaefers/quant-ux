@@ -131,7 +131,6 @@ export function closePath (d, snapp = 5) {
     const difX = Math.abs(first.x - last.x)
     const difY = Math.abs(first.y - last.y)
     if (difX <= snapp && difY <= snapp) {
-        console.debug('closePath', difX, difY)
         last.t = 'Z'
     }
 }
