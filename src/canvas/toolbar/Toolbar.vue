@@ -87,18 +87,21 @@
 							</a>
 						</div>
 					
-
-					
-
-						<div v-if="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">
-
-								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgUndo" @click="onSVGUndo">
+						
+						<div class="MatcToolbarSection MatcToolbarDenseSection" v-show="svgEditorVisible" >
+							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgUndo" @click="onSVGUndo">
 									<span class="mdi mdi-undo"></span>
 								</a>
 								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgRedo" @click="onSVGRedo">
 									<span class="mdi mdi-redo"></span>
-								</a>
-						
+								</a>						
+						</div>
+
+					
+
+						<div v-show="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">
+
+							
 								<div class="MatcToolbarItem">
 									<div class="MatcButton MatcToolbarCloseButton" @click="onToolSVGEnd" >
 										{{$t('toolbar.svgStop')}}
@@ -106,9 +109,9 @@
 								</div>
 						</div> 
 
-						<template v-else>
+					
 
-							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="undoSection">
+							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="undoSection"  v-show="!svgEditorVisible" >
 								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
 									<span class="mdi mdi-undo"></span>
 								</a>
@@ -117,7 +120,7 @@
 								</a>
 							</div>
 
-							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="copyPasteDiv">
+							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="copyPasteDiv"  v-show="!svgEditorVisible" >
 								<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
 									<span class="mdi mdi-content-copy"></span>
 								</a>
@@ -132,7 +135,7 @@
 								</a>
 							</div>
 
-							<div class="MatcToolbarTopCenterCntr">
+							<div class="MatcToolbarTopCenterCntr"  v-show="!svgEditorVisible" >
 								<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 
 								
@@ -159,7 +162,7 @@
 
 								</div>
 							</div>
-						</template>
+					
 
 
 				
