@@ -20,7 +20,7 @@ export default {
      *   method is usualy called from the tools
      *   after they finished
      *****************************************/
-    setState (state) {
+    setState (state, point) {
         this.logger.log(1, 'setState ', 'enter', state)
   
         delete this.currentTool
@@ -39,6 +39,10 @@ export default {
                 break
             case 'morphEnd':
                 this.startSelectTool()
+                break
+            case 'moveCanvasMouseDown':
+                this.startSelectTool()
+                this.currentTool.onMouseDown(point)
                 break
             default:
                 this.startSelectTool()

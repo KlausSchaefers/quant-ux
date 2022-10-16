@@ -46,15 +46,6 @@ export default class MoveTool extends Tool{
      */
     onClick() {
         this.logger.log(1, 'onClick', 'enter')
-        // FIXME: Click might be called if we release
-        // on canvas an not the handler. Do we have to have some kind
-        // of timeout?
-        if (this.isSelectionStarted()) {
-            this.onSelectEnd()
-            return
-        }
-        this.clearSelect()
-
         if (this.isResize) {
             this.cleanMove()
             return
@@ -67,10 +58,7 @@ export default class MoveTool extends Tool{
     }
 
 
-    onMove (pos) {
-        if (!this.bbox && this.isSelectionStarted()) {
-            this.onSelectMove(pos)
-        }
+    onMove (pos) {     
         if (this.bbox) {
             if (this.handler) {
                this.resizeBoundingBox(this.bbox, pos)
@@ -291,11 +279,9 @@ export default class MoveTool extends Tool{
     onMouseDown (point) {
         this.logger.log(5, 'onMouseDown', 'enter', point)
         if (!this.isMove) {
-            this.onSelectStart(point)
+            this.editor.setState('moveCanvasMouseDown', point)
         }
     }
-
-
 
     cleanMove () {
         delete this.bbox
