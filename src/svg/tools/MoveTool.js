@@ -68,11 +68,14 @@ export default class MoveTool extends Tool{
         }
     }
 
-    resizeBoundingBox (unZoomedBoundingBox, pos) {
- 
-        const newUnZoomedBoundingBox = this.getResizedBundingBox(unZoomedBoundingBox, this.handler.type, pos)
-        const newBoundingBox = SVGUtil.getUnZoomedBox(newUnZoomedBoundingBox, this.zoom)
-     
+    resizeBoundingBox (zoomedBoundingBox, pos) {   
+        // resize bounding box!
+        let newZoomedBoundingBox = this.getResizedBundingBox(zoomedBoundingBox, this.handler.type, pos)
+        if (pos.shiftKey) {
+            newZoomedBoundingBox = this.scaleToSelection(zoomedBoundingBox, newZoomedBoundingBox, this.handler.type)
+        }
+        const newBoundingBox = SVGUtil.getUnZoomedBox(newZoomedBoundingBox, this.zoom)
+      
         // scale paths
         this.selected.forEach((element,i) => {
             const relativePositions = this.relativePositions[i]
@@ -95,7 +98,35 @@ export default class MoveTool extends Tool{
             }
         })
 
-        this.editor.setBoundingBox(newUnZoomedBoundingBox)
+        this.editor.setBoundingBox(newZoomedBoundingBox)
+    }
+
+    scaleToSelection(source, target, type = '') {       
+        if (type === 'North' || type === 'South') {
+            const scale = target.h / source.h
+            const w =  Math.round(target.w * scale)
+            const offset = (type === 'LeftUp' || type === 'LeftDown') ? (w - target.w) : 0
+            return {
+                x: target.x - offset,
+                y: target.y,
+                w: w,
+                h: target.h
+            }
+        }
+        if (type === 'East' || type === 'West') {
+            const scale = target.w / source.w
+            const h =  Math.round(target.h * scale)
+            const offset = (type === 'LeftUp' || type === 'RightUp' )? (h - target.h) : 0   
+            //console.debug('scale', scale, ' >> ',source.w, source.h, target.h, '==', h)
+            return {
+                x: target.x,
+                y: target.y - offset,
+                w: target.w,
+                h: h
+            }
+        }
+        // FIXME: here is still a bug for the corners
+        return target
     }
 
     getResizedBundingBox (box, type, pos) {

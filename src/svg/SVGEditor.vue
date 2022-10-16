@@ -606,6 +606,7 @@ export default {
         let pos = this._getMousePosition(e);
         pos.x -= this.pos.x;
         pos.y -= this.pos.y;
+        pos.shiftKey = e.shiftKey
   
         pos.x = Math.round(pos.x / this.zoom)
         pos.y = Math.round(pos.y / this.zoom)
