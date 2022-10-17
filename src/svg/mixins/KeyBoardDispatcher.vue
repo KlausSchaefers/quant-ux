@@ -12,53 +12,54 @@ export default {
   methods: {
     onKeyUp (e) {
         //const isMeta = e.altKey || e.ctrlKey || e.metaKey;
-        const isCntrl = e.ctrlKey || e.metaKey;
+      
         //const isShift = e.shiftKey
 
 
         if (e.key === 'Escape') {
             this.onEsc()
-            return
+            return true
         }
         if (e.key === 'Enter') {
             this.onEnter()
-            return
+            return true
         }
         if (e.key === 'Backspace' || e.key === 'Delete') {
             this.onDelete()
-            return
+            return true
         }
       
+        //const isCntrl = e.ctrlKey || e.metaKey;
+        // if (isCntrl) {
+        //     this.stopEvent(e)
+        //     if (e.key === 'ArrowUp') {
+        //         this.moveSelectedPathToTop(true)
+        //         return
+        //     }
+        //     if (e.key === 'ArrowDown') {
+        //         this.moveSelectedPathToBottom(true)
+        //         return
+        //     }
+        //     if (e.key === 'c') {
+        //         this.copySelection()
+        //         return
+        //     }
 
-        if (isCntrl) {
-            this.stopEvent(e)
-            if (e.key === 'ArrowUp') {
-                this.moveSelectedPathToTop(true)
-                return
-            }
-            if (e.key === 'ArrowDown') {
-                this.moveSelectedPathToBottom(true)
-                return
-            }
-            if (e.key === 'c') {
-                this.copySelection()
-                return
-            }
+        //     if (e.key === 'v') {
+        //         this.pasteSelection()
+        //         return
+        //     }
+        // }
 
-            if (e.key === 'v') {
-                this.pasteSelection()
-                return
-            }
-        }
-
-        if (e.key === 'v') {
-            this.startBezierTool()
-            return
-        }
-        if (e.key === 'l') {
-            this.startPathTool()
-            return
-        }
+        // if (e.key === 'v') {
+        //     this.startBezierTool()
+        //     return
+        // }
+        // if (e.key === 'l') {
+        //     this.startPathTool()
+        //     return
+        // }
+        return false
     }
   },
   mounted() {

@@ -25,7 +25,49 @@ export default {
      *****************************************/
     setState (state, point) {
         this.logger.log(1, 'setState ', 'enter', state)
-  
+
+        if (this.isMultiPath) {
+            this.setMultiPathState(state, point)
+        } else {
+            this.setSinglePathState(state, point)
+        }
+
+    },
+
+    setSinglePathState(state, point) {
+        this.logger.log(1, 'setSinglePathState ', 'enter', state)
+        delete this.currentTool
+        this.isBoundingBoxVisible = true
+        this.setCursor('default')
+        this.setBoundingBox()
+        switch (state) {
+            case 'addEnd':
+                // select, but we need to make sure the SVG elements are drawn
+                this.$nextTick(() => {
+                    this.startMorphTool()
+                })             
+                break
+            case 'selectEnd':
+                this.startMoveTool()
+                break
+            case 'moveDoubleClick':
+                this.startMorphTool()
+                break
+            case 'morphEnd':
+                this.logger.log(-1, 'setState ', 'END', state)
+                this.$emit('stop')              
+                break
+            case 'moveCanvasMouseDown':
+                this.startSelectTool()
+                this.currentTool.onMouseDown(point)
+                break
+            default:
+                this.startSelectTool()
+        }
+    },
+
+    setMultiPathState (state, point) {
+        this.logger.log(1, 'setMultiPathState ', 'enter', state)
         delete this.currentTool
         this.isBoundingBoxVisible = true
         this.setCursor('default')
@@ -43,13 +85,8 @@ export default {
             case 'moveDoubleClick':
                 this.startMorphTool()
                 break
-            case 'morphEnd':
-                if (!this.isMultiPath) {
-                    this.logger.log(-1, 'setState ', 'END', state)
-                    this.$emit('stop')
-                } else {
-                    this.startSelectTool()
-                }
+            case 'morphEnd':             
+                this.startSelectTool()
                 break
             case 'moveCanvasMouseDown':
                 this.startSelectTool()

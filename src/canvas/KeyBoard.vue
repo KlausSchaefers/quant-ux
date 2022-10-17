@@ -78,8 +78,11 @@ export default {
         }
 
         if (this.currentTool) {
-          this.currentTool.onKeyUp(e)
-          return
+          const stop = this.currentTool.onKeyUp(e)
+          if (stop) {
+            return
+          }
+
         }
      
 

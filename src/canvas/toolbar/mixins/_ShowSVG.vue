@@ -229,7 +229,7 @@ export default {
 		},
 
         setTempSVGWidgetProps (key, value){
-			this.logger.log(-2,"setTempSVGWidgetProps", "entry > " + key + " - "+ value);
+			this.logger.log(2,"setTempSVGWidgetProps", "entry > " + key + " - "+ value);
 			const modelKey = this._getViewStyleModelKey();
 			if ("style" === modelKey) {			
 				if(this._selectedWidget){

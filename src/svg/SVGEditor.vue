@@ -442,7 +442,7 @@ export default {
     },
 
     select (ids) {
-        this.logger.log(-1, 'select ', 'enter', ids)
+        this.logger.log(3, 'select ', 'enter', ids)
         if (!ids) {
             this.logger.warn('select', 'Should use NULL')
             ids = []

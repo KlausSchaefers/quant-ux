@@ -185,7 +185,7 @@ export default {
 		},
 
 		setCurrentTool (t) {
-			this.logger.log(-1, "setCurrentTool", "enter");
+			this.logger.log(2, "setCurrentTool", "enter");
 			this.currentTool = t
 			if (this.toolbar) {
 				this.toolbar.setCurrentTool(this.currentTool)

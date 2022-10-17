@@ -330,7 +330,7 @@ export default {
 		},
 
 		setCurrentTool (t) {
-			this.logger.log(-3,"setCurrentTool", "entry");
+			this.logger.log(3,"setCurrentTool", "entry");
 			this.currentTool = t
 		},
 

@@ -114,9 +114,13 @@ export default {
 
 		addSVG (e) {
 			this.logger.log(-1,"addSVG", "enter > ", e.type);
+
 			if (!this.showSVG ) {
 				this.showSVGEditor()
 			} 
+            if (!this.isSVGMultiPath) {
+               this.flushSVGEditor()         
+            }
 
             // we should create here a temp element?
             this.$nextTick(() => {
@@ -160,6 +164,19 @@ export default {
 			}
 			this.closeSVGEditor()
 		},
+
+        flushSVGEditor () {
+            this.logger.log(-1,"flushSVGEditor", "enter > ");
+            if (this.currentTool) {
+                if (this._svgCurrentWidget) {
+                    this.saveSVG(false)
+                } else {
+                    this.createSVG(false)
+                }
+                this.currentTool.clear()
+                this.cleanUpSVGEditor()
+            }
+        },
 
 
         saveSVG (selectAfterSave) {
@@ -258,13 +275,8 @@ export default {
         },
 
 		closeSVGEditor () {
-			this.logger.log(1,"closeSVGEditor", "enter > ");
-            if ( this._svgCurrentWidgetDiv) {
-                css.remove(this._svgCurrentWidgetDiv, 'MatcHidden')
-            }
-            delete this._svgCurrentWidget
-            delete this._svgCurrentWidgetDiv
-            delete this._svgIsNewWidget
+            this.logger.log(1,"closeSVGEditor", "enter > ");
+			this.cleanUpSVGEditor()
             this.setCurrentTool()
             this.clearCanvasModeListener()
             if (this.showSVG) {
@@ -272,6 +284,16 @@ export default {
                 this.setMode('edit');
             }
 		},
+
+        cleanUpSVGEditor () {
+            this.logger.log(1,"closeSVGEditor", "enter > ");
+            if ( this._svgCurrentWidgetDiv) {
+                css.remove(this._svgCurrentWidgetDiv, 'MatcHidden')
+            }
+            delete this._svgCurrentWidget
+            delete this._svgCurrentWidgetDiv
+            delete this._svgIsNewWidget
+        },
 
         onSVGCommandStackChange (hasUndo, hasRedo) {
             this.logger.log(2,"onSVGCommandStackChange", "enter > ", hasUndo, hasRedo);
