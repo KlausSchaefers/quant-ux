@@ -15,6 +15,13 @@
 	position: relative;
 	height: 18px;
 }
+.MatcToolbar .MatcMultiIcon.MatcIconDanger:hover {
+	color: #f83a3a;
+}
+
+.MatcToolbar .MatcMultiIcon.MatcIconDanger .MatcTinyIcon.mdi {
+	opacity: 1;
+}
 
 .MatcToolbar .mdi{
 	font-size: 18px;
@@ -23,10 +30,14 @@
 }
 
 .MatcToolbar .MatcTinyIcon.mdi{
-	bottom: 8px;
+	bottom: 6px;
   	font-size: 12px;
   	position: absolute;
 	right: 4px;
+	opacity: 1;
+}
+
+.MatcToolbar .MatcTinyIcon.MatcTinyIconAnimated.mdi{
 	opacity: 0;
 }
 

@@ -4,7 +4,7 @@
 							<div type="button" data-dojo-attach-point="button">
 								<label data-dojo-attach-point="label" class="">
 									<span data-dojo-attach-point="icon" class=""></span>
-									<span class="mdi mdi-plus-circle MatcTinyIcon"></span>
+									<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 								</label>
 
 							 </div>

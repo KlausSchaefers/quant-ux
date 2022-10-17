@@ -138,11 +138,13 @@
 
 								
 									<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
-										<a class="MatcToolbarItem" data-dojo-attach-point="groupBTN">
-											<span class="mdi mdi-link-variant-plus" ></span>
+										<a class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="groupBTN">
+											<span class="mdi mdi-crop-free" ></span>
+											<span class="mdi mdi-plus-circle MatcTinyIcon "></span>
 										</a>
-										<a class="MatcToolbarItem" data-dojo-attach-point="ungroupBTN">
-											<span class="mdi mdi-link-variant-minus"></span>
+										<a class="MatcToolbarItem MatcMultiIcon MatcIconDanger" data-dojo-attach-point="ungroupBTN">
+											<span class="mdi mdi-crop-free"></span>
+											<span class="mdi mdi-minus-circle MatcTinyIcon "></span>
 										</a>
 									</div>
 
