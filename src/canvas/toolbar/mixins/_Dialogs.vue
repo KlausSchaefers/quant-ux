@@ -1037,14 +1037,17 @@ export default {
 
 		},
 
-		_getSimulatorScreen:function(){
+		_getSimulatorScreen (){
 			if(this._selectedScreen){
 				return this._selectedScreen;
+			}
+			if(this._selectedGroup){
+				const childId = this._selectedGroup.children[0]
+				return this.getParentScreen({id:childId});
 			}
 			if(this._selectedWidget){
 				return this.getParentScreen(this._selectedWidget);
 			}
-
 		},
 
 

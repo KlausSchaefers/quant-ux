@@ -50,19 +50,18 @@ export default {
     },
 
 
-    getParentScreen: function(widget) {
-      for (var id in this.model.screens) {
-        var screen = this.model.screens[id];
-        var i = screen.children.indexOf(widget.id);
+    getParentScreen (widget) {
+      for (let id in this.model.screens) {
+        const screen = this.model.screens[id];
+        const i = screen.children.indexOf(widget.id);
         if (i > -1) {
           return screen;
         }
       }
-
       return null;
     },
 
-    getWidgetPostionInScreen: function(widget) {
+    getWidgetPostionInScreen (widget) {
       var screen = this.getParentScreen(widget);
       if (screen) {
         return {

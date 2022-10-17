@@ -9,10 +9,13 @@ export default class Ruler extends Core{
 		this.logger.log(1,"constructor", "entry");
 		this.displayDistance = 20
 		this.snapDistance = 10
+		this.showDimensions = true
 	}
 
-	start ( canvas,selectedType, selectedModel, activePoint){
+	start ( canvas,selectedType, selectedModel, activePoint, grid = {enabled:false}, zoom = 1){
 		this.model = canvas.model;
+		this.grid = grid
+		this.zoom = zoom
 		this.container = canvas.dndContainer;
 		this.selectedModel = selectedModel;
 		this.selectedID = selectedModel.id;
@@ -22,13 +25,31 @@ export default class Ruler extends Core{
 		this._lines = {};
 		this._linesDivs = {};
 
+		if (grid && grid.enabled) {
+			this.gridHeight = (grid.h * zoom);
+			this.gridWidth = (grid.w * zoom);
+		} else{
+			this.gridHeight = 1;
+			this.gridWidth = 1;
+		}
 		this.logger.log(3,"start", "exit > type :" +  this.selectedType +">  id :"+ this.selectedID + " > activePoint : " + activePoint);
 	}
 
-	correct (box){
-		// console.debug('correct', box)
+	correct (box, e, mouse){
+	
 
-		var result = box;
+		let result = box;
+
+		// if we have a grid, the screens should 
+		// be a multiple of the grid height
+		if (this.activePoint === 'South' && this.gridHeight > 1) {
+			const mod = box.h % this.gridHeight
+			if (mod > this.gridHeight / 2) {
+				box.h += (this.gridHeight - mod)
+			} else {
+				box.h -= mod
+			}
+		}
 
 		/**
 		 * only work if we have the last box,
@@ -37,26 +58,26 @@ export default class Ruler extends Core{
 		 */
 		if(this._lastBox){
 
-			var corners = this.getActiveCorners(box, this._lastBox);
+			const corners = this.getActiveCorners(box, this._lastBox);
 
 			/**
 			 * get all elements that are close
 			 */
-			var lines = this.getCloseLines(corners);
+			 const lines = this.getCloseLines(corners);
 
 			/**
 			 * remove not used lines
 			 */
 			this.removeNotUsedLines(lines);
 
-			var closeX = 10000000;
-			var cornerX = null;
-			var closeY = 10000000;
-			var cornerY = null;
+			let closeX = 10000000;
+			let cornerX = null;
+			let closeY = 10000000;
+			let cornerY = null;
 
-			for(var id in lines){
+			for(let id in lines){
 
-				var line = lines[id];
+				const line = lines[id];
 
 				/**
 				 * render line
@@ -66,8 +87,8 @@ export default class Ruler extends Core{
 				/**
 				 * check what are the closest lines
 				 */
-				for (var c=0; c < corners.length; c++){
-					var corner = corners[c];
+				for (let c=0; c < corners.length; c++){
+					const corner = corners[c];
 					if (line.x && (Math.abs(corner.x - line.x) < this.snapDistance) && (line.x < closeX)){
 						closeX = line.x;
 						cornerX = corner;
@@ -89,7 +110,29 @@ export default class Ruler extends Core{
 
 		this._lastBox = box;
 
+		if (this.showDimensions) {
+			try {
+				this.renderDimension(box, mouse)
+			} catch (e) {
+				console.error(e);
+				console.error(e.stack);
+			}
+		}
+
 		return result;
+	}
+
+	renderDimension(pos, mouse) {
+		if (!this.dimDiv) {
+			var div = document.createElement("div");
+			css.add(div, "MatcRulerDimensionLabel");
+			this.container.appendChild(div);
+			this.dimDiv = div;
+		}
+		this.dimDiv.style.left = (mouse.x + 10) + "px";
+		this.dimDiv.style.top = (mouse.y + 10) + "px";
+		const height = Math.ceil(pos.h / this.zoom)
+		this.dimDiv.innerHTML = height;
 	}
 
 
@@ -181,7 +224,7 @@ export default class Ruler extends Core{
 	 */
 	getActiveCorners (n){
 
-		var corners = [];
+		const corners = [];
 
 		/**
 		 * If we drag n drop a widget activePoint is "All". If we do resize
@@ -189,8 +232,7 @@ export default class Ruler extends Core{
 		 *
 		 */
 		if( this.activePoint !== "All") {
-
-			var result = {
+			const result = {
 					x: 0,
 					y: 0
 			};
@@ -356,17 +398,6 @@ export default class Ruler extends Core{
 					boxes.push(p);
 				}
 			}
-
-			/**
-			 * get also the anchor points.
-			 *
-			 * FIXME: we should call the real anchor point methods here,
-			 * because we have a reference to the intitial points!
-			 */
-			//var fromPos = this.getFromBox(line);
-			//var toPos = this.getToBox(line);
-			//boxes.push(fromPos);
-			//boxes.push(toPos);
 		}
 
 		return boxes;
@@ -440,7 +471,7 @@ export default class Ruler extends Core{
 	removeNotUsedLines (lines){
 		for(let id in this._linesDivs){
 			if(!lines[id]){
-				let div = this._linesDivs[id];
+				const div = this._linesDivs[id];
 				if (div && div.parentNode){
 					div.parentNode.removeChild(div);
 				}
@@ -452,11 +483,17 @@ export default class Ruler extends Core{
 	cleanUp () {
 		this.logger.log(3,"cleanUp", "entry");
 		for (let id in this._linesDivs) {
-			var div = this._linesDivs[id];
+			const div = this._linesDivs[id];
 			if (div && div.parentNode) {
 				div.parentNode.removeChild(div);
 			}
 		}
+
+		if (this.dimDiv && this.dimDiv.parentNode) {
+			this.dimDiv.parentNode.removeChild(this.dimDiv);
+		}
+
+		this.dimDiv = null
 		this._linesDivs = null;
 	}
 }

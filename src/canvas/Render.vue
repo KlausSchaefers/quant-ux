@@ -981,12 +981,11 @@ export default {
 					this._alignmentTool.showDimensions = showDimensions;
 				} else {
 					this._alignmentTool = new Ruler();
-					this._alignmentTool.start(this,selectedType, selectedModel,activePoint);
+					this._alignmentTool.start(this, selectedType, selectedModel, activePoint, this.model.grid, this.zoom);
 				}
 			} else  {
-
 				this._alignmentTool = new Ruler();
-				this._alignmentTool.start(this,selectedType, selectedModel,activePoint);
+				this._alignmentTool.start(this, selectedType, selectedModel, activePoint, this.model.grid, this.zoom);
 			}
 			this._alignmentToolInited = true;
 		},
