@@ -189,6 +189,10 @@ export default {
         type: Number,
         default: 1
     },
+    'isMultiPath': {
+        type: Boolean,
+        default: true
+    },
     'grid': {
         type: Object,
         default() {

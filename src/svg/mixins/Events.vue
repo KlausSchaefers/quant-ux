@@ -164,6 +164,7 @@ export default {
         this.logger.log(5, 'onMouseUp ', 'exit', pos)
     },
     onMouseDoubleClick (e) {
+        this.stopEvent(e)
         let pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
             this.currentTool.onDoubleClick(pos)

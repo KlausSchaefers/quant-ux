@@ -114,6 +114,7 @@ export default {
         this.$refs.editor.startRectangleTool(true)
       },
       createBezier () {
+        this.$refs.editor.showAllBezierPoints = true
         this.$refs.editor.startBezierTool(true)
       },
       createLine () {

@@ -14,6 +14,7 @@
 					:zoom="svgCanvasZoom"
 					:pos="svgCanvasPos"
 					:gird="svgGrid"
+					:isMultiPath="isSVGMultiPath"
 					@mouselcick="onSVGClick"
 					@stop="endSVG(false)"
 					@move="onSVGEditorMove"

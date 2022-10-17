@@ -773,6 +773,27 @@ export default {
 			}
 		},
 
+		setTempWidgetProps(id, props){
+			const sourceWidget = this.getUpdatedSourceWidgetProps(id, props)
+			const div = this.widgetBackgroundDivs[id];
+			if(div && sourceWidget){
+				this.renderFactory.setStyle(div, sourceWidget, true);
+			} else {
+				console.warn("setTempWidgetProps() > Cannot set widget style", id, props);
+			}
+		},
+
+		getUpdatedSourceWidgetProps (id, props) {
+			const sourceWidget = this.sourceModel.widgets[id];
+			if (sourceWidget) {
+				for (let k in props) {
+					sourceWidget.props[k] = props[k];
+				}
+			}
+			return sourceWidget
+		},
+
+
 		getUpdatedSourceWidget (id, style) {
 			const sourceWidget = this.sourceModel.widgets[id];
 			if (sourceWidget) {

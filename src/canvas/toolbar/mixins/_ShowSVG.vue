@@ -14,7 +14,7 @@ export default {
     mixins:[],
     data: function () {
     	return {
-			colorWidgets: []
+
       	}
 	},
     components: {},
@@ -68,7 +68,6 @@ export default {
         },
 
         _renderSVGStroke () {
-
             const parent = this.createSection("Stroke");
 
 			var content = document.createElement("div");
@@ -109,15 +108,48 @@ export default {
         },
 
 
+        onSVGPathsSelected (paths, bbox) {
+			this.logger.log(3,"onSVGPathsSelected", "enter", paths);
+			try{
+				this.cleanUp();
+				this._selection = "svgPaths";
+				this._selectionPaths = paths
+				this.showSVGProperties(paths, bbox)
+			} catch(e){
+				console.error(e);
+				this.logger.sendError(e);
+			}
+		},
+
+
+        showSVGWidgetProperties (model) {
+            this.logger.log(1,"showSVGWidgetProperties", "entry > ", model);
+
+            //css.remove(this.svgButtonDiv,"MatcToolbarSectionHidden" );
+            css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
+            css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
+
+            this.svgStrokeBox.setModel(this.model)
+		    this.svgPathSize.setModel(this.model);
+
+            if (model.props.paths) {
+                const path = model.props.paths[0]
+                this.svgFillColor.setValue(path.fill)             
+                this.svgStrokeBox.setValue(path)     
+            }
+   
+        },
+
         showSVGProperties(paths, bbox) {
 		    this.logger.log(1,"showSVGProperties", "entry > ", bbox);
-			this.restorePropertiesState();
+
+            this.showWidgetTools();
             this.showProperties();
 
             this.svgStrokeBox.setModel(this.model)
 		    this.svgPathSize.setModel(this.model);
             if (this._selectionPaths.length === 1) {
-                css.remove(this.svgBoxDiv, "MatcToolbarSectionHidden");
+                css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
 
@@ -155,33 +187,82 @@ export default {
 			this.svgPathSize.setValue(bbox);
         },
 
+        setSVGFill (temp, color) {
+            this.logger.log(-1,"setSVGFill", "entry > ", color, temp);
+            this.setSVGPathStyle(temp, 'fill', color)
+        },
 
         setSVGPathStyle (temp, key, value) {
-            this.logger.log(-1,"setSVGPathStyle", "entry > " +  key, value);
-            if (this.currentTool) {
+            if (this.currentTool && this._selectionPaths) {
+                this.logger.log(1,"setSVGPathStyle", "entry > PATHS" +  key, value);
                 if (temp) {
                     this.currentTool.tempStyleSelection(key, value)   
                 } else {
                     this.currentTool.styleSelection(key, value)
                 }
-            }
-        },
-
-        setSVGFill (temp, color) {
-            this.logger.log(-1,"setSVGFill", "entry > ", color, temp);
-            if (this.currentTool) {
+            } else {
+                this.logger.log(1,"setSVGPathStyle", "entry > WIDGET" +  key, value);
                 if (temp) {
-                    this.currentTool.tempStyleSelection('fill', color)   
+                    this.setTempSVGWidgetProps(key, value)
                 } else {
-                    this.currentTool.styleSelection('fill', color)
+                    this.setSVGWidgetProps(key, value)
                 }
             }
         },
 
+        setSVGWidgetProps (key, value){
+			this.logger.log(2,"setSVGWidgetProps", "entry > " + key + " - "+ value);
+            if(this._selectedWidget){
+                const newProps = this.updateSVGPathsProps(this._selectedWidget, key, value)
+                this.controller.updateSVGWidgetProps(this._selectedWidget.id, newProps)
+            } else if(this._selectedMulti){
+                for (var i=0; i < this._selectedMulti.length; i++){
+                    const widgetID = this._selectedMulti[i]
+                    const widget = this.model.widgets[widgetID]
+                    if (widget) {
+                        const newProps = this.updateSVGPathsProps(widget, key, value)
+                        this.controller.updateSVGWidgetProps(widgetID, newProps)
+                    }
+                }
+            }
+			return false;
+		},
+
+        setTempSVGWidgetProps (key, value){
+			this.logger.log(-2,"setTempSVGWidgetProps", "entry > " + key + " - "+ value);
+			const modelKey = this._getViewStyleModelKey();
+			if ("style" === modelKey) {			
+				if(this._selectedWidget){
+                    const newProps = this.updateSVGPathsProps(this._selectedWidget, key, value)
+					this.canvas.setTempWidgetProps(this._selectedWidget.id, newProps);
+				} else if(this._selectedMulti){
+					for (var i=0; i < this._selectedMulti.length; i++){
+                        const widgetID = this._selectedMulti[i]
+                        const widget = this.model.widgets[widgetID]
+                        if (widget) {
+                            const newProps = this.updateSVGPathsProps(widget, key, value)
+        					this.canvas.setTempWidgetProps(widgetID, newProps);
+                        }
+					}
+				}
+			}
+			return false;
+		},
+
+        updateSVGPathsProps (widget, key, value) {
+            const result = lang.clone(widget.props)
+            result.paths.forEach(p => {
+                p[key] = value
+            })
+            return result
+        },
+
+      
+
         setSVGPathName () {
             this.logger.log(1,"onSVGChangePathName", "entry > ", this.svgPathName.value);
             const name = this.svgPathName.value
-            if (this.currentTool) {
+            if (this.currentTool && this._selectionPaths) {
                 this.currentTool.renameSelection(name)
             }
             // FIXME|: we shoudl also call the layer list
@@ -189,7 +270,7 @@ export default {
 
         setSVGBoundingBox (value, type) {
             this.logger.log(1,"setSVGBoundingBox", "entry > " + type, value);
-            if (this.currentTool) {
+            if (this.currentTool && this._selectionPaths) {
                 this.currentTool.resizeSelection(value, type)
             }
         },

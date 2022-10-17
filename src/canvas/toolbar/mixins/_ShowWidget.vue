@@ -34,8 +34,8 @@ export default {
 				return this.showWidgetDataProperties(model)
 			}
 
-			if (this.isDesignView) {
-				this.showWidgetDesignProperties(model)
+			if (this.isDesignView) {			
+				this.showWidgetDesignProperties(model)			
 			}
 
 			if (this.isPrototypeView) {
@@ -88,6 +88,8 @@ export default {
 		},
 
 		showWidgetDesignProperties (model) {
+
+			
 
 			this.setWidgetViewModes(model);
 			const widgetViewMode = this.widgetViewModeBtn.getValue();
@@ -268,7 +270,7 @@ export default {
 		
 
 			if(this.hasSVG.indexOf(model.type) >=0) {
-				css.remove(this.svgButtonDiv,"MatcToolbarSectionHidden" );
+				this.showSVGWidgetProperties(model)
 			}
 
 			/**

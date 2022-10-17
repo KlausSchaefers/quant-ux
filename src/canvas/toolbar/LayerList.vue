@@ -498,10 +498,12 @@ export default {
 				return
 			}
 			const paths = box.props.paths
-			for (let i = paths.length-1; i >= 0; i--) {
-				const p = paths[i]
-				const pathNode = this.createPathNode(box, p, widgetID, screenID, groupId, defaultIsOpen)
-				node.children.push(pathNode)
+			if (paths.length > 1) {
+				for (let i = paths.length-1; i >= 0; i--) {
+					const p = paths[i]
+					const pathNode = this.createPathNode(box, p, widgetID, screenID, groupId, defaultIsOpen)
+					node.children.push(pathNode)
+				}
 			}
 		},
 

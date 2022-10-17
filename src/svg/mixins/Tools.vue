@@ -44,7 +44,12 @@ export default {
                 this.startMorphTool()
                 break
             case 'morphEnd':
-                this.startSelectTool()
+                if (!this.isMultiPath) {
+                    this.logger.log(-1, 'setState ', 'END', state)
+                    this.$emit('stop')
+                } else {
+                    this.startSelectTool()
+                }
                 break
             case 'moveCanvasMouseDown':
                 this.startSelectTool()
@@ -69,9 +74,16 @@ export default {
         this.currentTool = new MoveTool(this, this.selection)
     },
 
-    startMorphTool () {
-        this.logger.log(1, 'startMorphTool ', 'enter')
+    startMorphTool (selected) {
+        this.logger.log(1, 'startMorphTool ', 'enter', selected)
         this.mode = 'morph'
+        if (selected === true) {
+            const firstPath = this.value[0]
+            this.select([firstPath.id])
+        }
+        if (Array.isArray(selected)) {
+            this.select(selected)
+        }
         this.currentTool = new MorphTool(this, this.config.pointRadius)
     },
 
@@ -85,7 +97,8 @@ export default {
             if (firstPath) {
                 this.currentTool.select(firstPath.id)
             }
-        } else if (selected){
+        } 
+        if (Array.isArray(selected)) {
             this.currentTool.select(selected)
         }
        

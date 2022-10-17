@@ -227,6 +227,63 @@ export default class SVGController extends DesignToken {
 		this.render()
 	}
 
+
+	/**********************************************************************
+	* Widget Props
+	**********************************************************************/
+	updateSVGWidgetProps (id, props){
+		this.logger.log(-1,"updateSVGWidgetProps", "enter > ");
+
+		const widget = this.model.widgets[id];
+		if (!widget) {
+			this.logger.log(-1,"updateSVGWidgetProps", "exit > no widdget with id ");
+			return 
+		}
+      
+		const command = this.createSVGWidgePropstUpdateCommand(id, props);
+		if(command){
+			this.addCommand(command);
+			this.modelSVGWidgetPropsUpdate(id, props);
+			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
+			this.render()
+			return widget
+		}
+	}
+
+	createSVGWidgePropstUpdateCommand (id, props) {
+	
+		const widget = this.model.widgets[id];
+		if (widget){
+			const command = {
+				timestamp : new Date().getTime(),
+				type : "SVGWidgePropstUpdate",
+				oldProps : lang.clone(widget.props),
+				newProps : lang.clone(props),				
+				modelId : id
+			};
+			return command;
+		}
+	}
+
+	modelSVGWidgetPropsUpdate (id, props) {
+		const widget = this.model.widgets[id];
+		if (widget){
+			widget.props = props
+			this.setLastChangedWidget(widget)
+			this.onModelChanged([{type: 'widget', action:"change", "prop": "position", id: id}])
+		}
+	}
+
+	undoSVGWidgePropstUpdate(command) {
+		this.modelSVGWidgetPropsUpdate(command.modelId, command.oldProps)
+		this.render()
+	}
+
+	redoSVGWidgePropstUpdate(command) {
+		this.modelSVGWidgetPropsUpdate(command.modelId, command.newProps)
+		this.render()
+	}
+
 	/**********************************************************************
 	* Toolbar delegates
 	**********************************************************************/

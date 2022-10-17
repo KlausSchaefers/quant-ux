@@ -637,18 +637,6 @@ export default {
 		},
 
 
-		onSVGPathsSelected (paths, bbox) {
-			this.logger.log(3,"onSVGPathsSelected", "enter", paths);
-			try{
-				this.cleanUp();
-				this._selection = "svgPaths";
-				this._selectionPaths = paths
-				this.showSVGProperties(paths, bbox)
-			} catch(e){
-				console.error(e);
-				this.logger.sendError(e);
-			}
-		},
 
 
 		/**

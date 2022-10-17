@@ -184,6 +184,7 @@ export default {
 
 		hideNotNeededButtons (){
 			this.logger.log(3,"hideNotNeededButtons", "entry");
+	
 
 			try{
 				if (this.model && this.model.screens) {					

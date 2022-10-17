@@ -89,7 +89,9 @@ export default {
     },
 
     getLabelNode () {
-      return this.domNode;
+      if (!this.icon) {
+        return this.$refs.labelNode
+      }
     },
 
     render (model, style, scaleX, scaleY) {

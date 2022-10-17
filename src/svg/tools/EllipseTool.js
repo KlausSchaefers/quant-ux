@@ -1,6 +1,7 @@
 import Tool from './Tool'
 import Logger from 'common/Logger'
-//import * as Util from '../SVGUtil'
+
+//https://www.smashingmagazine.com/2019/03/svg-circle-decomposition-paths/
 export default class EllipseTool extends Tool{
 
     constructor (editor) {
@@ -32,9 +33,11 @@ export default class EllipseTool extends Tool{
     initBox(d) {
        d.push({t: 'M', x: 0, y: 0})
        d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
-       d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
-       d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
-       d.push({t: 'Z', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'L', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'L', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'L', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       //d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       //d.push({t: 'Z', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
     }
     
     onMove (point) {
@@ -44,22 +47,37 @@ export default class EllipseTool extends Tool{
             if (d.length === 0) {
                 this.initBox(d)
             }
+            const f = 0.25
+            const offset = Math.min(box.w, box.h) * f
+
             d[0].x = box.x + box.w / 2
             d[0].y = box.y
 
             d[1].x = box.x + box.w
             d[1].y = box.y + box.h / 2
-            d[1].x1 = box.x
-            d[2].y1 = box.y
-            d[1].x1 = box.x + box.w
-            d[2].y1 = box.y + box.h
-
-
+      
             d[2].x = box.x + box.w / 2
             d[2].y = box.y + box.h
 
             d[3].x = box.x
             d[3].y = box.y + box.h / 2
+
+            d[4].x = box.x + box.w / 2
+            d[4].y = box.y
+
+
+            d[1].x1 = d[0].x + offset
+            d[1].y1 = d[0].y
+            d[1].x2 = d[1].x
+            d[1].y2 = d[1].y - offset
+
+            // d[2].x1 = box.x
+            // d[2].y1 = box.y
+            // d[2].x1 = box.x + box.w / 2
+            // d[2].y1 = box.y + box.h
+
+            //d[0].x = box.x + box.w / 2
+            //d[0].y = box.y
        }
     
     }

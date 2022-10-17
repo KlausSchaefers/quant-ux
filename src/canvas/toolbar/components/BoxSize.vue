@@ -245,7 +245,7 @@ export default {
 			};
 			this.widgetId = box.id ? box.id : 'No'
 			if (this.linkedStatusByWidget[this.widgetId] === undefined) {
-				this.$set(this.linkedStatusByWidget, this.widgetId, true)
+				this.$set(this.linkedStatusByWidget, this.widgetId, false)
 			}
 			this.render();
 		},

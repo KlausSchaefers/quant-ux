@@ -313,6 +313,11 @@ export default {
 
 			this._renderWidgetBox();
 
+			this._renderSVGBox()
+			this._renderSVGStroke()
+			this._renderSVGFill()
+
+
 			//this._renderConditionalStyle()
 
 			/**
@@ -352,9 +357,6 @@ export default {
 
 			
 		
-			this._renderSVGBox()
-			this._renderSVGStroke()
-			this._renderSVGFill()
 
 			/**
 			* Hide everything
@@ -1475,13 +1477,11 @@ export default {
 		},
 
 		hideProperties (){
-			//console.trace()
 			css.add(this.propertiesCntr, "MatcToolbarSectionHidden");
 			if(this.canvas){
 				css.remove(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
 			}
 			css.remove(this.widgetViewSection, "MatcToobarViewSectionVisible");
-
 		},
 
 

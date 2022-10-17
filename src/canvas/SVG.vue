@@ -10,6 +10,7 @@ export default {
     mixins:[],
     data: function () {
         return {
+            isSVGMultiPath: false
         }
     },
     components: {},
@@ -56,7 +57,7 @@ export default {
                     }
                 } else {
                     this.logger.log(2,"onSVGPathSelected", "enter > change path > ", pathIDs + "@" + widgetID);
-                    this.currentTool.startSelectTool(pathIDs)
+                    this.currentTool.startMorphTool(pathIDs)
                 }
    
             } else {
@@ -102,13 +103,12 @@ export default {
                 if (this.currentTool) {
                     this.currentTool.setValue(widget.props.paths, widget.props.bbox, sourceWidget)
                     this.$nextTick(() => {
-                        this.currentTool.startSelectTool(pathIDs)
+                        this.currentTool.startMorphTool(pathIDs)
                     })
                 } else {
                     this.logger.warn("editSVG", "exit > NO SVGEditor ");
                 }
             })
-            
         },
 
 
@@ -292,8 +292,8 @@ export default {
         },
 
         onSVGEditorPathSelected (selectedPaths, bbox) {
-            this.logger.log(2,"onSVGEditorPathSelected", "enter > ", bbox);
-
+            this.logger.log(-2,"onSVGEditorPathSelected", "enter > ", bbox);
+           
             if (this.controller) {
                 this.controller.onSVGPathsSelected(selectedPaths, bbox)
             } else {
@@ -308,7 +308,7 @@ export default {
         },
 
         onSVGEditorPathUnSelected () {
-            this.logger.log(2,"onSVGEditorPathUnSelected", "enter");
+            this.logger.log(2,"onSVGEditorPathUnSelected", "enter");           
             if (this.controller) {
                 this.controller.onCanvasSelected()
             }
