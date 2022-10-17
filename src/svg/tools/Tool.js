@@ -71,7 +71,7 @@ export default class Tool {
 
     onBezierClick () {}
 
-    getBox (start, end) {
+    getBox (start, end, isShift) {
         const box = {x:0, y:0, w: 5, h : 5};
         if(start.x < end.x){
             box.x = start.x;
@@ -85,6 +85,13 @@ export default class Tool {
         }
         box.w = Math.abs(start.x - end.x);
         box.h = Math.abs(start.y - end.y);
+
+        if (isShift) {
+            // here is a bug if we have negative...
+            const max = Math.max(box.w, box.h)
+            box.h = max
+            box.w = max
+        }
         return box;
     }
 

@@ -114,13 +114,14 @@ export default {
         this.$refs.editor.startRectangleTool(true)
       },
       createBezier () {
-        this.$refs.editor.showAllBezierPoints = true
+        this.$refs.editor.setShowAllBezier(true)
         this.$refs.editor.startBezierTool(true)
       },
       createLine () {
         this.$refs.editor.startPathTool(true)
       },
       createEllipse () {
+        this.$refs.editor.setShowAllBezier(true)
         this.$refs.editor.startEllipseTool(true)
       },
       createTriangle () {

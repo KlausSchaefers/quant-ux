@@ -29,36 +29,38 @@ export default {
             return true
         }
       
-        //const isCntrl = e.ctrlKey || e.metaKey;
-        // if (isCntrl) {
-        //     this.stopEvent(e)
-        //     if (e.key === 'ArrowUp') {
-        //         this.moveSelectedPathToTop(true)
-        //         return
-        //     }
-        //     if (e.key === 'ArrowDown') {
-        //         this.moveSelectedPathToBottom(true)
-        //         return
-        //     }
-        //     if (e.key === 'c') {
-        //         this.copySelection()
-        //         return
-        //     }
+        if (this.isMultiPath) {
+            const isCntrl = e.ctrlKey || e.metaKey;
+            if (isCntrl) {
+                this.stopEvent(e)
+                if (e.key === 'ArrowUp') {
+                    this.moveSelectedPathToTop(true)
+                    return true
+                }
+                if (e.key === 'ArrowDown') {
+                    this.moveSelectedPathToBottom(true)
+                    return true
+                }
+                if (e.key === 'c') {
+                    this.copySelection()
+                    return true
+                }
 
-        //     if (e.key === 'v') {
-        //         this.pasteSelection()
-        //         return
-        //     }
-        // }
+                if (e.key === 'v') {
+                    this.pasteSelection()
+                    return true
+                }
+            }
 
-        // if (e.key === 'v') {
-        //     this.startBezierTool()
-        //     return
-        // }
-        // if (e.key === 'l') {
-        //     this.startPathTool()
-        //     return
-        // }
+            if (e.key === 'v') {
+                this.startBezierTool()
+                return true
+            }
+            if (e.key === 'l') {
+                this.startPathTool()
+                return true
+            }
+        }
         return false
     }
   },

@@ -140,7 +140,7 @@ export function closePath (d, snapp = 5) {
 
 export function pathToSVG (d, offsetX =0, offsetY = 0, closed = false) {
   let path = d.map(point => {
-      if (point.t === 'C') {
+      if (point.t === 'C' || point.t === 'CZ') {
         return `C ${point.x1 + offsetX} ${point.y1 + offsetY}, ${point.x2 + offsetX} ${point.y2 + offsetY}, ${point.x + offsetX} ${point.y + offsetY}`
       }
       if (point.t === 'Z') {

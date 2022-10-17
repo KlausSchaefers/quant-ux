@@ -244,7 +244,7 @@ export default {
         const paths = this.selectedPaths
         const points = paths.flatMap(path => {
             return path.d.filter(point => {
-                return point.t !== 'Z'
+                return point.t !== 'Z' && point.t !== 'CZ'
             }).map((point, i) => {
                 return {
                     parent: path.id,
@@ -286,6 +286,7 @@ export default {
                             w: witdhHeight
                     })
                 }
+               
                 const next = path.d[pos + 1]
                 if (next && next.t === 'C') {
                     tempPoints.push({
@@ -299,6 +300,20 @@ export default {
                         w: witdhHeight
                     })
                 }
+
+                // if (next.t === 'CZ') {
+                //     const last = path.d[1]
+                //     tempPoints.push({
+                //         id: 'x1' + path.id + pos,
+                //         parent: pos - 1,
+                //         isX2: false,
+                //         o: offset,
+                //         x: last.x1,
+                //         y: last.y1,
+                //         h: witdhHeight,
+                //         w: witdhHeight
+                //     })
+                // }
 
                  /** add lines */
                  tempPoints.forEach(point => {
@@ -389,6 +404,11 @@ export default {
 
     setBoundingBoxVisible (isBoundingBoxVisible) {
         this.isBoundingBoxVisible = isBoundingBoxVisible
+    },
+
+    setShowAllBezier (v) {
+        this.showAllBezierPoints = v
+        this.logger.log(-5, 'setShowAllBezier ', 'enter', this.showAllBezierPoints)
     },
 
     setCursor (c = 'default') {

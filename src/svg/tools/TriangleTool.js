@@ -36,7 +36,7 @@ export default class TriangleTool extends Tool{
     
     onMove (point) {
        if (this._startPos){
-            const box = this.getBox(this._startPos, point)
+            const box = this.getBox(this._startPos, point, point.shiftKey)
             const d = this.path.d
             if (d.length === 0) {
                 this.initBox(d)

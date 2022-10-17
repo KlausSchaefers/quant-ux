@@ -87,7 +87,6 @@ export default class MorphTool extends Tool{
             } else {
                 this.logger.log(-1, 'onMove', 'No point in selected path', this.selectedBezier)
             }
-
             return
         } 
         
@@ -95,6 +94,14 @@ export default class MorphTool extends Tool{
             this.selectedJoint.x = pos.x
             this.selectedJoint.y = pos.y
             this.canAdd = false
+
+            if (this.selectedJointId === 0) {
+                const last = this.selectedElement.d[this.selectedElement.d.length-1]
+                if (last.t == 'CZ') {
+                    last.x = pos.x
+                    last.y = pos.y
+                }
+            }         
             return
             /** FIXME: update the bezier points */
         } 
@@ -222,13 +229,14 @@ export default class MorphTool extends Tool{
     }
 
     onJointMouseDown(joint){
-        this.logger.log(3, 'onJointMouseDown', 'enter',joint)
+        this.logger.log(-3, 'onJointMouseDown', 'enter',joint)
         const path = this.editor.getElementById(joint.parent)
         if (path) {
             const point = path.d[joint.id]
             this.editor.setSelectedJoint(joint)
             if (point) {
                 this.selectedJoint = point
+                this.selectedJointId = joint.id
                 this.editor.setCursor('move')
             } else {
                 this.logger.error('onJointMouseDown', 'not point',joint)
@@ -241,6 +249,7 @@ export default class MorphTool extends Tool{
     onJointMouseUp(joint){
         this.logger.log(3, 'onJointMouseUp', 'enter', joint)
         delete this.selectedJoint
+        delete this.selectedJointId
         this.editor.onChange()
         this.editor.setCursor('default')
     }

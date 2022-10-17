@@ -87,8 +87,8 @@ export default {
             SVGUtil.scalePathsByBox(selection, unZoomedBBox, unZoomedTargetBox)
         }
 
-        const newBoundingBox = SVGUtil.getZoomedBox(unZoomedTargetBox, this.zoom)
-        this.setBoundingBox(newBoundingBox)
+        //const newBoundingBox = SVGUtil.getZoomedBox(unZoomedTargetBox, this.zoom)
+        //this.setBoundingBox(newBoundingBox)
         this.onChange()
     },
 

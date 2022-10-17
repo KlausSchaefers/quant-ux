@@ -33,21 +33,21 @@ export default class EllipseTool extends Tool{
     initBox(d) {
        d.push({t: 'M', x: 0, y: 0})
        d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
-       d.push({t: 'L', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
-       d.push({t: 'L', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
-       d.push({t: 'L', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
+       d.push({t: 'CZ', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
        //d.push({t: 'C', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
        //d.push({t: 'Z', x: 0, y: 0, x1:0, y1: 0, x2:0, y2:0})
     }
     
     onMove (point) {
        if (this._startPos){
-            const box = this.getBox(this._startPos, point)
+            const box = this.getBox(this._startPos, point, point.shiftKey)
             const d = this.path.d
             if (d.length === 0) {
                 this.initBox(d)
             }
-            const f = 0.25
+            const f = 0.27
             const offset = Math.min(box.w, box.h) * f
 
             d[0].x = box.x + box.w / 2
@@ -70,6 +70,23 @@ export default class EllipseTool extends Tool{
             d[1].y1 = d[0].y
             d[1].x2 = d[1].x
             d[1].y2 = d[1].y - offset
+
+
+            d[2].x1 = d[1].x
+            d[2].y1 = d[1].y + offset
+            d[2].x2 = d[2].x + offset
+            d[2].y2 = d[2].y
+
+            d[3].x1 = d[2].x - offset
+            d[3].y1 = d[2].y 
+            d[3].x2 = d[3].x 
+            d[3].y2 = d[3].y + offset
+
+            d[4].x1 = d[3].x 
+            d[4].y1 = d[3].y - offset
+            d[4].x2 = d[4].x - offset
+            d[4].y2 = d[4].y
+
 
             // d[2].x1 = box.x
             // d[2].y1 = box.y

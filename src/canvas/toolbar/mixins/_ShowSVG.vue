@@ -51,9 +51,9 @@ export default {
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
-			this.svgPathName = this.createInput(content, "Path Name");
-            css.add(this.svgPathName, "MatcToobarNameInput")
-			this.own(on(this.svgPathName, "change", lang.hitch(this, "setSVGPathName")));
+			// this.svgPathName = this.createInput(content, "Path Name");
+            // css.add(this.svgPathName, "MatcToobarNameInput")
+			// this.own(on(this.svgPathName, "change", lang.hitch(this, "setSVGPathName")));
 
 			let scvSizeDiv = document.createElement("div");
 			content.appendChild(scvSizeDiv)
@@ -149,16 +149,15 @@ export default {
             this.svgStrokeBox.setModel(this.model)
 		    this.svgPathSize.setModel(this.model);
             if (this._selectionPaths.length === 1) {
-                css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
+                css.remove(this.svgBoxDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
 
                 const path = this._selectionPaths[0]
-                this.svgPathName.value = path.name
 
+                //this.svgPathName.value = path.name
                 this.svgFillColor.setValue(path.fill)             
-                this.svgStrokeBox.setValue(path)              
-	
+                this.svgStrokeBox.setValue(path)
 			    this.svgPathSize.setValue(bbox);
                 
             } else if (this._selectionPaths.length > 1){

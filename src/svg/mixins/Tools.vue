@@ -76,7 +76,7 @@ export default {
             case 'addEnd':
                 // select, but we need to make sure the SVG elements are drawn
                 this.$nextTick(() => {
-                    this.startMoveTool()
+                    this.startMorphTool()
                 })             
                 break
             case 'selectEnd':
