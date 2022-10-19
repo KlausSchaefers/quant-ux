@@ -52,7 +52,7 @@ export default {
       	postCreate (){
 			this.logger = new Logger("LayerList");
 			this.logger.log(2,"constructor", "entry > " + this.mode);
-			this.isDebug = location.hostname.indexOf('localhost') >= 0
+			this.isDebug = false //location.hostname.indexOf('localhost') >= 0
 		},
 
 		setController (c){

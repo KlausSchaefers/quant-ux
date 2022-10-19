@@ -69,7 +69,7 @@ export default {
     },
     clearEdit () {
        for (let id in this.nodes){
-        let node = this.nodes[id]
+        const node = this.nodes[id]
         this.$set(node, 'editable', false)
       }
     },
@@ -78,20 +78,24 @@ export default {
         this.clearSelection()
       }
       if (this.nodes[id]) {
-        let node = this.nodes[id]
-        this.$set(node, 'selected', true)
+        const node = this.nodes[id]
+        if (node.selected === true) {
+          this.$set(node, 'selected', false)
+        } else {
+          this.$set(node, 'selected', true)
+        }
         this.emitSelection()
       }
     },
     emitSelection () {
-      let selection = Object.values(this.nodes)
+      const selection = Object.values(this.nodes)
         .filter(n => n.selected)
         .map(n => n.id)
       this.$emit('select', selection)
     },
     clearSelection () {
       for (let id in this.nodes){
-        let node = this.nodes[id]
+        const node = this.nodes[id]
         this.$set(node, 'selected', false)
       }
     },
@@ -99,7 +103,7 @@ export default {
       this.clearSelection()
       for (let id in ids) {
         if (this.nodes[id]) {
-          let node = this.nodes[id]
+          const node = this.nodes[id]
           this.$set(node, 'selected', true)
         } else {
           console.warn('setSelection(), No node with id', id)
@@ -107,7 +111,7 @@ export default {
       }
     },
     initTree () {
-      let nodes = this.getNodes(this.value, {})
+      const nodes = this.getNodes(this.value, {})
       this.nodes = nodes
     },
     getNodes (node, result) {

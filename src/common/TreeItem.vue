@@ -87,7 +87,7 @@ export default {
           let hint  = this.unStripHTML(this.value.hint)
           return this.short(hint) + ' (' + this.value.label + ')'
         }
-        return this.value.label
+        return this.short(this.value.label)
       }
       return ''
     },
@@ -145,7 +145,7 @@ export default {
   methods: {
     unStripHTML:function(s) {
 			if(!s){
-				s="";
+				s = '';
 			}
       s = s.replace(/(\r\n|\n|\r)/gm, '')
       s = s.replace(/<br>/g, "");
@@ -153,7 +153,7 @@ export default {
 			s = s.replace(/\$perc;/g, "%");
 			return s;
 		},
-    short (s, maxLendth = 20) {
+    short (s, maxLendth = 16) {
       s = this.unStripHTML(s)
       if (s.length > maxLendth) {
         return s.substring(0, maxLendth) + '...'

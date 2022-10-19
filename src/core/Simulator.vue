@@ -210,7 +210,7 @@ export default {
 					this.qr = true;
 				}
 
-				if(params.h){
+				if (params.h){
 					let hash = params.h
 					if (hash.length < 60) {
 						this.showPassword(hash)
@@ -219,8 +219,6 @@ export default {
 						Services.getModelService().findAppByHash(params.h).then(app => this.loadSettings(app))
 					}
 				}
-
-			
 
 			} else {
 				if(this.hash) {

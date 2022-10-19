@@ -999,8 +999,7 @@ export default {
 		},
 
 		createBox (box, parentBox){
-
-			var div = document.createElement("div");
+			const div = document.createElement("div");
 			div.style.width = box.w + "px";
 			div.style.height = box.h + "px";
 
@@ -1022,6 +1021,8 @@ export default {
 				if (parentBox) {
 
 					if (this.isPinnedDown(box)) {
+					
+
 						/**
 						 * Since 4.0.60 pinned to bottom is also supported in simulator
 						 */

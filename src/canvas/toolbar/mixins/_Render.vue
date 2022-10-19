@@ -501,7 +501,7 @@ export default {
 		****************************************************************************************************/
 
 		_renderGroupName (){
-			var parent = this.createSection("Group Name");
+			var parent = this.createSection("Group");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");

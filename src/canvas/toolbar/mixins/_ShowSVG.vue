@@ -137,8 +137,29 @@ export default {
                 this.svgFillColor.setValue(path.fill)             
                 this.svgStrokeBox.setValue(path)     
             }
-   
         },
+
+
+        showMultiSVGWidgetProperties (ids) {
+            this.logger.log(1,"showSVGWidgetProperties", "entry > ", ids);
+
+            //css.remove(this.svgButtonDiv,"MatcToolbarSectionHidden" );
+            css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
+            css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
+
+            this.svgStrokeBox.setModel(this.model)
+		    this.svgPathSize.setModel(this.model);
+
+            // TODO: this could be somehopw nice, now
+            // we just take the color of the first element
+            const model = this.model.widgets[ids[0]]
+            if (model && model.props.paths) {
+                const path = model.props.paths[0]
+                this.svgFillColor.setValue(path.fill)             
+                this.svgStrokeBox.setValue(path)     
+            }
+        },
+
 
         showSVGProperties(paths, bbox) {
 		    this.logger.log(1,"showSVGProperties", "entry > ", bbox);

@@ -127,11 +127,11 @@ export default {
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 			css.remove(this.multiPositionDiv, "MatcToolbarSectionHidden");
 
-			var fixed = true;
-			var wrap = true;
+			let fixed = true;
+			let wrap = true;
 			for(var i=0; i< ids.length;i++){
-				var id = ids[i];
-				var widget = this.model.widgets[id];
+				const id = ids[i];
+				const widget = this.model.widgets[id];
 				if(widget){
 					fixed = fixed && widget.style.fixed === true;
 					wrap = wrap && widget.style.wrap === true;
@@ -148,13 +148,14 @@ export default {
 
 			this.showDesignTokenBtns(ids, 'multi')
 
-			var widgetViewMode = "style";
-			var style = null;
-			var widgets = [];
-			var hasLabel = true;
-			var hasPadding = true;
-			var hasBorder = true;
-			var hasBackground = true;
+			let widgetViewMode = "style";
+			let style = null;
+			let widgets = [];
+			let hasLabel = true;
+			let hasPadding = true;
+			let hasBorder = true;
+			let hasBackground = true;
+			let isAllSVG = true
 			for(var i=0; i< ids.length;i++){
 				var id = ids[i];
 				var widget = this.model.widgets[id];
@@ -173,7 +174,15 @@ export default {
 						}
 					}
 				}
+				isAllSVG = widget.type === 'SVGPaths' && isAllSVG
 			}
+
+			if (isAllSVG) {
+				this.showMultiSVGWidgetProperties(ids)
+				return
+			}
+
+			
 
 			if(style){
 

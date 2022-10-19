@@ -111,23 +111,78 @@ export default class GridAndRuler extends Core {
 
 		this.cleanupDistanceLines();
 
+
 		/**
-		 * No determine the direction of move... We buffer
+		 * For bounding boxes we might get in case of dnd the pos is the
+		 * selected widget, not the entire box, so the width and height
+		 * are wrong. we correct this here.
+		 * *ATTENTION* This might not work for resize
+		 */
+		if (this.selectedType == "boundingbox") {
+			absPos.w = this.selectedModel.w;
+			absPos.h = this.selectedModel.h;
+		}
+
+		absPos.type = this.selectedType;
+		absPos.source = this.selectedID;
+
+		/**
+		 * 1) get the screen. Check if the last screen is still ok. If screen
+		 * change we compute all lines for the screen
+		 */
+		if (!this._lastScreen || !this._isBoxChild(absPos, this._lastScreen)) {
+			this.initLines(absPos);
+		}
+
+
+		/**
+		 * 1.a) If no screen, no snapping...
+		 */
+		 if (!this._lastScreen) {
+			return absPos;
+		}
+
+
+
+		/**
+		 * 2) No determine the direction of move... We buffer
 		 * the last directions to make the thing less jumpy...
 		 */
 		this.updateMovements(absPos);
 		var left = this.getMovementDir(this.xMovements);
 		var top = this.getMovementDir(this.yMovements);
-
+ 
 		let showDistanceXLeft = left
 		let showDistanceYTop = top
 
+		 
 		/**
 		 * Since 3.0.43 we snapp grid on top left corner
+		 * 
+		 * Since 4.1.24 we allow to snapp to the screen bottom
+		 * or right corner
 		 */
 		if (this.snapGridOnlyToTopLeft && this.grid.enabled) {
+
 			left = true
 			top = true
+		
+			if (this._lastScreen && !showDistanceXLeft) {
+				const screenRight = this._lastScreen.x + this._lastScreen.w
+				const posRight = absPos.x + absPos.w
+				if (Math.abs(screenRight - posRight) < this.snappDistance) {
+					left = false
+				}
+			}
+
+			if (this._lastScreen && !showDistanceYTop) {
+				const screenBottom = this._lastScreen.y + this._lastScreen.h
+				const posBottom = absPos.y + absPos.h
+				if (Math.abs(screenBottom - posBottom) < this.snappDistance) {
+					top = false
+				}
+			}
+
 		}
 
 		/**
@@ -160,35 +215,6 @@ export default class GridAndRuler extends Core {
 			return absPos;
 		}
 
-		/**
-		 * For bounding boxes we might get in case of dnd the pos is the
-		 * selected widget, not the entire box, so the width and height
-		 * are wrong. we correct this here.
-		 * *ATTENTION* This might not work for resize
-		 */
-		if (this.selectedType == "boundingbox") {
-			absPos.w = this.selectedModel.w;
-			absPos.h = this.selectedModel.h;
-		}
-
-		absPos.type = this.selectedType;
-		absPos.source = this.selectedID;
-
-		/**
-		 * 1) get the screen. Check if the last screen is still ok. If screen
-		 * change we compute all lines for the screen
-		 */
-		if (!this._lastScreen || !this._isBoxChild(absPos, this._lastScreen)) {
-			this.initLines(absPos);
-		}
-
-		/**
-		 * If no screen, no snapping...
-		 */
-		if (!this._lastScreen) {
-			return absPos;
-		}
-
 
 		/**
 		 * now compare all lines in the direction of and the middle
@@ -196,9 +222,10 @@ export default class GridAndRuler extends Core {
 		 * FIXME: If we do dnd, for the grid we should only snapp
 		 * on north-west corner
 		 */
-		var corners = this.getCorners(absPos, left, top);
-		let closeXLine = this.getCloseLines(this._linesX, "x", corners.x);
-		let closeYLine = this.getCloseLines(this._linesY, "y", corners.y);
+		const corners = this.getCorners(absPos, left, top);
+		const closeXLine = this.getCloseLines(this._linesX, "x", corners.x);
+		const closeYLine = this.getCloseLines(this._linesY, "y", corners.y);
+
 
 		/**
 		 * Get close middle lines. We handle this a little special:
@@ -206,10 +233,17 @@ export default class GridAndRuler extends Core {
 		 * 1) We ignore grid lines
 		 *
 		 * 2) New in 0.9973 => We just compare middle with middle!!
+		 * 
+		 * 3) Since 4.1.24 we do not snapp to the middle of the grid is enabled
 		 *
 		 */
-		let closeXMiddle = this.getCloseLines(this._linesXMiddle, "x", corners.mx, "Grid");
-		let closeYMiddle = this.getCloseLines(this._linesYMiddle, "y", corners.my, "Grid");
+		let closeXMiddle = null
+		let closeYMiddle = null
+		if (!this.grid.enabled) {
+			closeXMiddle = this.getCloseLines(this._linesXMiddle, "x", corners.mx, "Grid");
+			closeYMiddle = this.getCloseLines(this._linesYMiddle, "y", corners.my, "Grid");
+		}
+
 
 		/**
 		 * Get patterns and create *virtual* lines (that are no rendered)
@@ -238,7 +272,7 @@ export default class GridAndRuler extends Core {
 			left: left,
 			top: top
 		};
-		var diff = {
+		const diff = {
 			x: 0,
 			y: 0
 		};
@@ -1680,7 +1714,7 @@ export default class GridAndRuler extends Core {
 
 	getCorners(pos, left, top) {
 
-		var corners = {
+		const corners = {
 			x: [],
 			y: [],
 			mx: [],
