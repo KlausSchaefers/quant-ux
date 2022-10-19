@@ -1,3 +1,5 @@
+const includeStroke = true
+
 export function changePathOrder(paths, fromPathId, toPathId) {
     const fromIndex = paths.findIndex(p => p.id === fromPathId)
     let toIndex = paths.findIndex(p => p.id === toPathId)
@@ -154,11 +156,15 @@ export function pathToSVG (d, offsetX =0, offsetY = 0, closed = false) {
   return path
 }
 
-export function getBoxes(elements) {
+export function getBBox(element) {
+    return element.getBBox({stroke: includeStroke}) // does not have an effect
+}
+
+export function getBBoxes(elements) {
     const result = []
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i]
-        result.push(element.getBBox())
+        result.push(getBBox(element))
     }
     return result
 }

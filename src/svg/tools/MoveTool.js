@@ -16,7 +16,7 @@ export default class MoveTool extends Tool{
         if (selected && selected.length > 0) {
             const boxes = selected.map(s => {
                 const svg = this.editor.getSVGElement(s)
-                return svg.getBBox()
+                return SVGUtil.getBBox(svg)
             })
             const boundingBox = SVGUtil.getBoundingBoxByBoxes(boxes)
             this.selected = selected

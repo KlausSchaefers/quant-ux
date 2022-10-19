@@ -10,6 +10,23 @@ export default {
      * Actions
      *****************************************/
 
+    rotateSelection (angle, isCallChange = false) {
+        this.logger.log(-1, 'rotateSelection ', 'enter', angle)
+
+
+        const selection = this.getSelectedElements()
+        selection.forEach(path => {
+            console.debug(path.name, angle)
+            path.angle = angle
+        }) 
+
+        if (isCallChange) {
+            this.onChange()
+        }
+    },
+
+ 
+
 
     deleteSelection () {
         this.logger.log(2, 'deleteSelection ', 'enter')

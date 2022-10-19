@@ -497,7 +497,7 @@ export default {
                 x:0, y:0, w:0, h:0, zoom: this.zoom
             }
         }
-        const boxes = SVGUtil.getBoxes(elements)
+        const boxes = SVGUtil.getBBoxes(elements)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
         const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
         return bbox
@@ -544,7 +544,7 @@ export default {
 
     getValue () {
         this.logger.log(2, 'getValue', 'enter')
-        const boxes = SVGUtil.getBoxes(this.$refs.paths)
+        const boxes = SVGUtil.getBBoxes(this.$refs.paths)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
         const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
         const paths = SVGUtil.removeBoundingBox(this.value, bbox)

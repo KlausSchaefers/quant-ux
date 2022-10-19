@@ -314,6 +314,7 @@ export default {
 			this._renderWidgetBox();
 
 			this._renderSVGBox()
+			this._renderSVGTransform()
 			this._renderSVGStroke()
 			this._renderSVGFill()
 

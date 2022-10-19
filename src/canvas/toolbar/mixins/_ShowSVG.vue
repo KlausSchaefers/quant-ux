@@ -7,6 +7,7 @@ import on from 'dojo/on'
 import SVGSize from 'canvas/toolbar/components/SVGSize'
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import SVGStroke from 'canvas/toolbar/components/SVGStroke'
+import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import DomBuilder from 'common/DomBuilder'
 
 export default {
@@ -64,6 +65,9 @@ export default {
 
 			this.properties.appendChild(parent);
 			this.svgBoxDiv = parent;
+
+          
+
 		
         },
 
@@ -84,6 +88,29 @@ export default {
 
             this.properties.appendChild(parent);
 			this.svgStrokeDiv = parent;
+        },
+
+        _renderSVGTransform () {
+
+            const parent = this.createSection("Transform");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+            let svgRotateDiv = document.createElement("div");
+			content.appendChild(svgRotateDiv)
+
+            this.svgRotate = this.$new(ImageRotate);
+			this.own(on(this.svgRotate, "change", lang.hitch(this, "setSVGPathRotation", false)));
+			this.own(on(this.svgRotate, "changing", lang.hitch(this, "setSVGPathRotation", true)));
+			this._placeAt(this.svgRotate, svgRotateDiv);
+		
+
+         
+
+            this.properties.appendChild(parent);
+			this.svgTransformDiv = parent;
         },
 
         _renderSVGFill () {
@@ -128,7 +155,7 @@ export default {
             //css.remove(this.svgButtonDiv,"MatcToolbarSectionHidden" );
             css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
             css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
-
+        
             this.svgStrokeBox.setModel(this.model)
 		    this.svgPathSize.setModel(this.model);
 
@@ -173,6 +200,7 @@ export default {
                 css.remove(this.svgBoxDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
+                css.remove(this.svgTransformDiv, "MatcToolbarSectionHidden")
 
                 const path = this._selectionPaths[0]
 
@@ -180,11 +208,13 @@ export default {
                 this.svgFillColor.setValue(path.fill)             
                 this.svgStrokeBox.setValue(path)
 			    this.svgPathSize.setValue(bbox);
+                this.svgRotate.setValue(path.angle);
                 
             } else if (this._selectionPaths.length > 1){
                 css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
                 css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
+                css.remove(this.svgTransformDiv, "MatcToolbarSectionHidden")
 
                 const path = this._selectionPaths[0]
                 this.svgFillColor.setValue(path.fill)             
@@ -227,6 +257,13 @@ export default {
                 } else {
                     this.setSVGWidgetProps(key, value)
                 }
+            }
+        },
+
+        setSVGPathRotation (temp, value) {
+            this.logger.log(1,"setSVGPathRotation", "entry > ", value);
+            if (this.currentTool && this._selectionPaths) {
+                this.currentTool.rotateSelection(value , !temp)
             }
         },
 

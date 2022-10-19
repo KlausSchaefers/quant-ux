@@ -16,7 +16,7 @@
 					:gird="svgGrid"
 					:isMultiPath="isSVGMultiPath"
 					@mouselcick="onSVGClick"
-					@stop="endSVG(false)"
+					@stop="endSVG(true)"
 					@move="onSVGEditorMove"
 					@select="onSVGEditorPathSelected"
 					@unselect="onSVGEditorPathUnSelected"
