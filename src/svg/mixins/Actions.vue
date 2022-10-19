@@ -13,10 +13,13 @@ export default {
     rotateSelection (angle, isCallChange = false) {
         this.logger.log(-1, 'rotateSelection ', 'enter', angle)
 
-
+        // FIXME: Here is a bug, because we change all the time the
+        // bounding box...
         const selection = this.getSelectedElements()
         selection.forEach(path => {
-            console.debug(path.name, angle)
+            const difAngle = path.angle - angle
+            //SVGUtil.rotate(path, angle - path.angle)
+            SVGUtil.rotate(path, difAngle)
             path.angle = angle
         }) 
 

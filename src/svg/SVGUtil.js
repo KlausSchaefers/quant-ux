@@ -1,5 +1,34 @@
 const includeStroke = true
 
+export function rotate(path, angle) {
+    let bbox = getSVGBoundingBox(path)
+    const centerY = bbox.y + bbox.h/2
+    const centerX = bbox.x + bbox.w / 2
+    const matrix = new DOMMatrix()
+        .translate(centerX, centerY, 0)
+        .rotate(angle)
+        .translate(-1 * centerX, -1 * centerY, 0)
+   
+    path.d.forEach(p => {
+        const point = new DOMPoint(p.x, p.y)
+        const newPoint = matrix.transformPoint(point)
+        p.x = newPoint.x
+        p.y = newPoint.y
+        if (p.t === 'C') {
+            const point1 = new DOMPoint(p.x1, p.y1)
+            const newPoint1 = matrix.transformPoint(point1)
+            p.x1 = Math.round(newPoint1.x) 
+            p.y1 = Math.round(newPoint1.y) 
+
+            const point2 = new DOMPoint(p.x2, p.y2)
+            const newPoint2 = matrix.transformPoint(point2)
+            p.x2 = Math.round(newPoint2.x) 
+            p.y2 = Math.round(newPoint2.y) 
+        }
+    })
+}
+
+
 export function changePathOrder(paths, fromPathId, toPathId) {
     const fromIndex = paths.findIndex(p => p.id === fromPathId)
     let toIndex = paths.findIndex(p => p.id === toPathId)
@@ -343,6 +372,22 @@ export function getSVGBoundingBoxByPaths(paths) {
     result.w -= result.x;
     return result
 }
+
+export function getSVGBoundingBox(path) {
+    const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true};
+    const points = path.d
+    for (let i = 0; i < points.length; i++) {
+        const point = points[i];
+        result.x = Math.min(result.x, point.x);
+        result.y = Math.min(result.y, point.y);
+        result.w = Math.max(result.w, point.x);
+        result.h = Math.max(result.h, point.y);
+    }
+    result.h -= result.y;
+    result.w -= result.x;
+    return result
+}
+
 
 export function filterDouble(d) {
     return d.filter((p, i) => {
