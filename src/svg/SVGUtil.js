@@ -1,9 +1,7 @@
 const includeStroke = true
 
 export function rotate(path, angle) {
-    let bbox = getSVGBoundingBox(path)
-    const centerY = bbox.y + bbox.h/2
-    const centerX = bbox.x + bbox.w / 2
+    const [centerX, centerY] = getRotationCenter(path)
     const matrix = new DOMMatrix()
         .translate(centerX, centerY, 0)
         .rotate(angle)
@@ -14,18 +12,32 @@ export function rotate(path, angle) {
         const newPoint = matrix.transformPoint(point)
         p.x = newPoint.x
         p.y = newPoint.y
+        
         if (p.t === 'C') {
             const point1 = new DOMPoint(p.x1, p.y1)
             const newPoint1 = matrix.transformPoint(point1)
             p.x1 = Math.round(newPoint1.x) 
             p.y1 = Math.round(newPoint1.y) 
-
+         
             const point2 = new DOMPoint(p.x2, p.y2)
             const newPoint2 = matrix.transformPoint(point2)
             p.x2 = Math.round(newPoint2.x) 
             p.y2 = Math.round(newPoint2.y) 
         }
     })
+}
+
+export function getRotationCenter (path) {
+    // compute the centroid of all points
+    let sumX = 0
+    let sumY = 0
+    path.d.forEach(p => { 
+        sumX += p.x
+        sumY += p.y
+    })
+    const centerY = sumY / path.d.length 
+    const centerX = sumX / path.d.length
+    return [centerX, centerY]
 }
 
 
