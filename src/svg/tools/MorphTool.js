@@ -7,7 +7,7 @@ import * as SVGUtil from '../SVGUtil'
 
 export default class MorphTool extends Tool{
 
-    constructor (editor, minSplitDistance = 5, minShowSplitDistance = 10) {
+    constructor (editor, minSplitDistance = 8, minShowSplitDistance = 16) {
         super(editor)
         this.minSplitDistance = minSplitDistance
         this.minShowSplitDistance = minShowSplitDistance
@@ -66,7 +66,7 @@ export default class MorphTool extends Tool{
             this.moveSelect(pos)
         }
         
-        this.showSplit()
+        this.showSplit(pos)
    
 
         if (this.canAdd) {
@@ -229,13 +229,13 @@ export default class MorphTool extends Tool{
             if (splitPoint && splitPoint.distance < this.minShowSplitDistance) {
                 const minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
                 if (minDistance > this.minSplitDistance) {
-                    this.editor.setSplitPoint(splitPoint)
+                    this.editor.setSplitPoints([splitPoint])
                     this.splitPoint = splitPoint
                     this.canAdd = false
                     return
                 }
             }
-            this.editor.setSplitPoint()
+            this.editor.setSplitPoints()
             this.splitPoint = null
         }
     }
@@ -254,10 +254,10 @@ export default class MorphTool extends Tool{
                 x: Math.round(pos.x),
                 y: Math.round(pos.y)
             })
-            this.editor.setSplitPoint()
-            this.editor.setSelectedJoint({
+            this.editor.setSplitPoints()
+            this.editor.setSelectedJoints([{
                 id: start + 1
-            })
+            }])
         }
         this.editor.onChange()
     }
@@ -340,6 +340,7 @@ export default class MorphTool extends Tool{
         // we could for instance take bigger steps (8),
         // save these as candidates and the look for each
         // of the candidates 8 forward and backwards...
+        // https://bl.ocks.org/mbostock/8027637
         for (let i = 0; i < length; i++) {
             const p = svg.getPointAtLength(i)
             const d = distance(p, pos)

@@ -121,7 +121,7 @@ export default {
         if (Array.isArray(selected)) {
             this.select(selected)
         }
-        this.currentTool = new MorphTool(this, this.config.pointRadius)
+        this.currentTool = new MorphTool(this)
     },
 
     startSelectTool (selected) {

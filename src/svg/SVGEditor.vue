@@ -54,11 +54,13 @@
 
             <!-- in morph mode we show all the points -->
 
-            <circle v-if="splitPoint"
-                :cx="splitPoint.x + offSetTools"
-                :cy="splitPoint.y + offSetTools"
-                class="qux-svg-editor-splitpoint"
-                :r="splitPoint.r" />
+            <template v-if="splitPoints">
+                <circle v-for="(splitPoint,i) in splitPoints" :key="'sp' + i"
+                    :cx="splitPoint.x + offSetTools"
+                    :cy="splitPoint.y + offSetTools"
+                    class="qux-svg-editor-splitpoint"
+                    :r="splitPoint.r" />
+            </template>
 
             <template v-if="showAllBezierPoints">
                 <path v-for="p in allBezierPoints.lines"
@@ -208,7 +210,7 @@ export default {
         cursor: 'default',
         hover: null,
         selection: [],
-        splitPoint: null,
+        splitPoints: null,
         selectedJoints: null,
         selectedBezier: null,
         boundingBox: null,
@@ -409,7 +411,7 @@ export default {
     reset () {
         this.isBoundingBoxVisible = true
         this.isBoundingBoxHandlersVisible = true
-        this.setSplitPoint()
+        this.setSplitPoints()
         this.unSelect()
     },
 
@@ -436,15 +438,17 @@ export default {
         this.selectBox = bbox
     },
 
-    setSplitPoint (pos) {
-        if (pos) {
-            this.splitPoint = {
-                x: pos.x,
-                y: pos.y,
-                r: this.config.pointRadius
-            }
+    setSplitPoints (positions) {
+        if (positions) {
+            this.splitPoints = positions.map(pos => {
+                return {
+                    x: pos.x,
+                    y: pos.y,
+                    r: this.config.pointRadius
+                }
+            })
         } else {
-            this.splitPoint = null
+            this.splitPoints = null
         }
     },
 
