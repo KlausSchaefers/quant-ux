@@ -494,9 +494,37 @@ export function getResizeHandles (bbox, size, r=2) {
   return result
 }
 
-export function addBezierPoints (points, lines, path, pos, current, offset) {
-    const witdhHeight = offset * 2
 
+export function getBezierPoints (path, jointIds, radius) {
+    const points = []
+    const lines = []
+  
+    jointIds.forEach(pos => {
+        const current = path.d[pos]
+        const tempPoints = addBezierPoints(path, pos, radius)
+        tempPoints.forEach(point => {
+            point.id += '_' + points.length
+            points.push(point)
+            lines.push({
+                id: point.id + '_line' + path.id,
+                d: `M ${current.x} ${current.y} L ${point.x} ${point.y}`
+            })
+        })
+    })
+
+    return {
+        points: points,
+        lines: lines
+    }
+
+}
+
+export function addBezierPoints (path, pos, offset) {
+
+    const points = []
+
+    const witdhHeight = offset * 2
+    const current = path.d[pos]
     if (current && current.t === 'C') {
         points.push({
                 id: 'x2',
@@ -523,11 +551,5 @@ export function addBezierPoints (points, lines, path, pos, current, offset) {
         })
     }
 
-    /** add lines */
-    points.forEach(point => {
-        lines.push({
-            id: point.id + '_line',
-            d: `M ${current.x} ${current.y} L ${point.x} ${point.y}`
-        })
-    })
+    return points
 }

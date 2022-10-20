@@ -33,77 +33,34 @@ export default class MorphTool extends Tool{
      *
      */
     onClick() {
-        this.logger.log(3, 'onClick', 'enter', this.selectedJoint)
+        this.logger.log(3, 'onClick', 'enter', this.selectedJoints)
         if (this.splitPoint) {
             this.split(this.splitPoint, this.selectedElement, this.svgPath)
-        } else if (this.selectedJoint) {
-            delete this.selectedJoint
-            this.editor.setSelectedJoint()
-        } else if (!this.selectedJoint) {
-            delete this.selectedJoint
-            this.editor.setSelectedJoint()
+        } else {
+            delete this.selectedJoints
+            this.editor.setSelectedJoints()
         }
     }
 
     onDoubleClick () {
-        this.logger.log(-3, 'onDoubleClick', 'enter', this.selectedJoint)
+        this.logger.log(-3, 'onDoubleClick', 'enter', this.selectedJoints)
         this.editor.setState('morphEnd')
     }
 
-    split (pos, path, svg) {
-        this.logger.log(5, 'split', 'enter' , pos, path)
-
-        // now scan once backwards to find point before.
-        const start =  this.getSplitStart(path, pos, svg)
-        if (start >= 0) {
-            // add *after* the start
-            this.logger.log(-1, 'split', 'exit > add at' , start + 1)
-            /** FIXME: If we have a curve we should to other splitting */
-            path.d.splice(start + 1, 0, {
-                t: 'L',
-                x: Math.round(pos.x),
-                y: Math.round(pos.y)
-            })
-            this.editor.setSplitPoint()
-            this.editor.setSelectedJoint({
-                id: start + 1
-            })
-        }
-        this.editor.onChange()
-    }
 
 
     onMove (pos) {
         if (this.selectedBezier) {
-            const point = this.selectedElement.d[this.selectedBezier.parent]
-            if (point) {
-                if (this.selectedBezier.isX1) {
-                    point.x1 = pos.x
-                    point.y1 = pos.y
-                } else {
-                    point.x2 = pos.x
-                    point.y2 = pos.y
-                }
-            } else {
-                this.logger.log(-1, 'onMove', 'No point in selected path', this.selectedBezier)
-            }
-            return
+           this.moveBezier(pos)
         } 
         
-        if (this.selectedJoint) {
-            this.selectedJoint.x = pos.x
-            this.selectedJoint.y = pos.y
+        if (this.isJointDown && this.selectedJoints) {
+            this.selectedJoints.forEach(joint => {
+                joint.x = pos.x
+                joint.y = pos.y
+            })
             this.canAdd = false
-
-            if (this.selectedJointId === 0) {
-                const last = this.selectedElement.d[this.selectedElement.d.length-1]
-                if (last.t == 'CZ') {
-                    last.x = pos.x
-                    last.y = pos.y
-                }
-            }         
             return
-            /** FIXME: update the bezier points */
         } 
         
         if (this.showSplitPoint) {
@@ -134,38 +91,101 @@ export default class MorphTool extends Tool{
        //
     }
 
-    getDistanceToOtherPoints (pos, path) {
-        return path.d.map(p => {
-            const dx = p.x - pos.x
-            const dy = p.y - pos.y
-            return dx * dx + dy * dy;
-        })
+    moveBezier (pos) {
+        const point = this.selectedElement.d[this.selectedBezier.parent]
+        if (point) {
+            if (this.selectedBezier.isX1) {
+                point.x1 = pos.x
+                point.y1 = pos.y
+            } else {
+                point.x2 = pos.x
+                point.y2 = pos.y
+            }
+        } else {
+            this.logger.log(-1, 'onMove', 'No point in selected path', this.selectedBezier)
+        }
+        return
+    }
+  
+
+
+    onJointMouseDown(joint, pos){
+        this.logger.log(-3, 'onJointMouseDown', 'enter',joint)
+        const path = this.editor.getElementById(joint.parent)
+        this.isJointDown = true
+        if (path) {
+            const point = path.d[joint.id]
+            if (point) {
+                this.editor.setCursor('move')
+                if (pos.shiftKey && this.selectedJoints && this.selectedJoints.length > 0) {
+                    this.selectedJoints.push(point)
+                    this.editor.addSelectedJoint(joint)   
+                } else {
+                    this.selectedJoints = [point]
+                    this.editor.setSelectedJoints([joint])     
+                }
+
+                
+
+            } else {
+                this.logger.error('onJointMouseDown', 'not point',joint)
+                this.setSelectedBezier()
+            }
+        } else {
+            this.logger.error('onJointMouseDown', 'not parent',joint)
+        }
     }
 
-    getClosesetPoint (pos, svg) {
-        const length = svg.getTotalLength()
-        let minDistance =  Infinity
-        let minIndex = -1
-        let result = null
+    onJointMouseUp(joint){
+        this.logger.log(3, 'onJointMouseUp', 'enter', joint)
+        this.isJointDown = false
+        this.editor.onChange()
+        this.editor.setCursor('default')
+    }
 
-        // FIXME: this is brute force.
-        // we could for instance take bigger steps (8),
-        // save these as candidates and the look for each
-        // of the candidates 8 forward and backwards...
-        for (let i = 0; i < length; i++) {
-            const p = svg.getPointAtLength(i)
-            const d = distance(p, pos)
-            if (d < minDistance) {
-                minIndex = i
-                minDistance = d
-                result = p
-            }
+    onJointClick (joint) {
+        this.logger.log(3, 'onJointClick', 'enter', joint)
+    }
+
+
+    onBezierMouseDown (bezierPoint) {
+        this.logger.log(3, 'onBezierMouseDown', 'enter', bezierPoint)
+        this.selectedBezier = bezierPoint
+        this.editor.setSelectedBezier(bezierPoint)
+        this.editor.setCursor('move')
+    }
+
+    onBezierMouseUp () {
+        this.logger.log(3, 'onBezierMouseUp', 'enter', this.selectedJoint)
+        delete this.selectedBezier
+        this.editor.onChange()
+        this.editor.setSelectedBezier()
+        this.editor.setCursor('default')
+    }
+
+    onBezierClick () {}
+
+
+    split (pos, path, svg) {
+        this.logger.log(5, 'split', 'enter' , pos, path)
+
+        // now scan once backwards to find point before.
+        const start =  this.getSplitStart(path, pos, svg)
+        if (start >= 0) {
+            // add *after* the start
+            this.logger.log(-1, 'split', 'exit > add at' , start + 1)
+            /** FIXME: If we have a curve we should to other splitting */
+            path.d.splice(start + 1, 0, {
+                t: 'L',
+                x: Math.round(pos.x),
+                y: Math.round(pos.y)
+            })
+            this.editor.setSplitPoint()
+            this.editor.setSelectedJoint({
+                id: start + 1
+            })
         }
-
-        result.distance = Math.sqrt(minDistance)
-        result.index = minIndex
-
-        return result
+        this.editor.onChange()
     }
 
     getSplitStart (path, pos, svg) {
@@ -228,56 +248,39 @@ export default class MorphTool extends Tool{
         return start
     }
 
-    onJointMouseDown(joint){
-        this.logger.log(-3, 'onJointMouseDown', 'enter',joint)
-        const path = this.editor.getElementById(joint.parent)
-        if (path) {
-            const point = path.d[joint.id]
-            this.editor.setSelectedJoint(joint)
-            if (point) {
-                this.selectedJoint = point
-                this.selectedJointId = joint.id
-                this.editor.setCursor('move')
-            } else {
-                this.logger.error('onJointMouseDown', 'not point',joint)
+    getDistanceToOtherPoints (pos, path) {
+        return path.d.map(p => {
+            const dx = p.x - pos.x
+            const dy = p.y - pos.y
+            return dx * dx + dy * dy;
+        })
+    }
+
+    getClosesetPoint (pos, svg) {
+        const length = svg.getTotalLength()
+        let minDistance =  Infinity
+        let minIndex = -1
+        let result = null
+
+        // FIXME: this is brute force.
+        // we could for instance take bigger steps (8),
+        // save these as candidates and the look for each
+        // of the candidates 8 forward and backwards...
+        for (let i = 0; i < length; i++) {
+            const p = svg.getPointAtLength(i)
+            const d = distance(p, pos)
+            if (d < minDistance) {
+                minIndex = i
+                minDistance = d
+                result = p
             }
-        } else {
-            this.logger.error('onJointMouseDown', 'not parent',joint)
         }
+
+        result.distance = Math.sqrt(minDistance)
+        result.index = minIndex
+
+        return result
     }
-
-    onJointMouseUp(joint){
-        this.logger.log(3, 'onJointMouseUp', 'enter', joint)
-        delete this.selectedJoint
-        delete this.selectedJointId
-        this.editor.onChange()
-        this.editor.setCursor('default')
-    }
-
-    onJointClick (joint) {
-        this.logger.log(3, 'onJointClick', 'enter', joint)
-        //this.selectedJoint = joint
-        //this.editor.setSelectedJoint(joint)
-    }
-
-
-    onBezierMouseDown (bezierPoint) {
-        this.logger.log(3, 'onBezierMouseDown', 'enter', bezierPoint)
-        this.selectedBezier = bezierPoint
-        this.editor.setSelectedBezier(bezierPoint)
-        this.editor.setCursor('move')
-    }
-
-    onBezierMouseUp () {
-        this.logger.log(3, 'onBezierMouseUp', 'enter', this.selectedJoint)
-        delete this.selectedBezier
-        this.editor.onChange()
-        this.editor.setSelectedBezier()
-        this.editor.setCursor('default')
-    }
-
-    onBezierClick () {}
-
 
 }
 

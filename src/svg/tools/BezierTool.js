@@ -85,7 +85,7 @@ export default class BezierTool extends Tool{
            
         }
         this.isMouseDown = false
-        this.editor.setSelectedJoint()
+        this.editor.setSelectedJoints()
     }
 
     onMove (pos) {

@@ -209,7 +209,7 @@ export default {
         hover: null,
         selection: [],
         splitPoint: null,
-        selectedJoint: null,
+        selectedJoints: null,
         selectedBezier: null,
         boundingBox: null,
         selectBox: null,
@@ -251,7 +251,7 @@ export default {
                     x: point.x,
                     y: point.y,
                     id:i,
-                    selected: this.selectedJoint ? this.selectedJoint.id === i : false,
+                    selected: this.isSelectedJoint(i),
                     r: this.config.pointRadius
                 }
             })
@@ -263,7 +263,7 @@ export default {
         const lines = []
         const offset = this.config.pointRadius
         const witdhHeight = offset * 2
-        if (this.selectedJoint) {
+        if (this.selectedJoints) {
            return {
               points: points,
               lines: lines
@@ -301,20 +301,6 @@ export default {
                     })
                 }
 
-                // if (next.t === 'CZ') {
-                //     const last = path.d[1]
-                //     tempPoints.push({
-                //         id: 'x1' + path.id + pos,
-                //         parent: pos - 1,
-                //         isX2: false,
-                //         o: offset,
-                //         x: last.x1,
-                //         y: last.y1,
-                //         h: witdhHeight,
-                //         w: witdhHeight
-                //     })
-                // }
-
                  /** add lines */
                  tempPoints.forEach(point => {
                     points.push(point)
@@ -331,19 +317,14 @@ export default {
           }
       },
       selectedBezierElements () {
-          /** FIXME: thi sis somehopw top slow!! should this be done by the morp tool, and we just have here a property? */
-          const points = []
-          const lines = []
-        
-          if (this.selectedJoint && this.selectedPaths && this.selectedPaths.length === 1) {                  
+          if (this.selectedJoints && this.selectedPaths && this.selectedPaths.length === 1) {                  
                 const path = this.selectedPaths[0]
-                const pos = this.selectedJoint.id
-                const current = path.d[pos]
-                SVGUtil.addBezierPoints(points, lines, path, pos, current, this.config.pointRadius)
+                const joints = this.selectedJoints.map(j => j.id)
+                return SVGUtil.getBezierPoints(path, joints, this.config.pointRadius)
           }
           return {
-              points: points,
-              lines: lines
+              points: [],
+              lines: []
           }
       },
       selectedPaths () {
@@ -397,6 +378,15 @@ export default {
   },
   methods: {
 
+    isSelectedJoint (jointId) {
+        if (this.selectedJoints) {
+            const pos = this.selectedJoints.findIndex(j => {
+                return j.id === jointId
+            })
+            return pos >= 0
+        }
+        return false
+    },
 
     /******************************************
      * getters & setters
@@ -423,15 +413,16 @@ export default {
         this.unSelect()
     },
 
-    setSelectedJoint (joint) {
-        this.selectedJoint = joint
+    setSelectedJoints (joints) {
+        this.selectedJoints = joints
     },
 
-    setSelectedJointId (id) {
-        if (!this.selectedJoint || this.selectedJoint.id !== id) {
-            this.selectedJoint = {id: id}
+    addSelectedJoint (joint) {
+        if (this.selectedJoints) {
+            this.selectedJoints.push(joint)
         }
     },
+
 
     setSelectedBezier (bezier) {
         this.selectedBezier = bezier
@@ -485,7 +476,7 @@ export default {
     unSelect () {
         this.logger.log(-1, 'unSelect ')
         this.selection = []
-        this.selectedJoint = null
+        this.selectedJoints = []
         this.$emit('unselect')
         this.setBoundingBox()
     },
@@ -560,7 +551,7 @@ export default {
     clear () {
         this.logger.log(0, 'clear', 'enter')
         this.value = []
-        this.setSelectedJoint()
+        this.setSelectedJoints()
         this.reset()
         this.setBoundingBox()
     },
