@@ -7,7 +7,8 @@ export default class TriangleTool extends Tool{
         super(editor)
         let path = {
             id: 'p' + new Date().getTime(),
-            name: 'Path',
+            name: 'Triangle',
+            hint: 'Triangle',
             type: 'Path',
             stroke: '#333333',
             strokeWidth: 1,

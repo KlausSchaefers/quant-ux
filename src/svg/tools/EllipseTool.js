@@ -8,7 +8,8 @@ export default class EllipseTool extends Tool{
         super(editor)
         let path = {
             id: 'p' + new Date().getTime(),
-            name: 'Path',
+            name: 'Ellipse',
+            hint: 'Ellipse',
             type: 'Path',
             stroke: '#333333',
             strokeWidth: 1,

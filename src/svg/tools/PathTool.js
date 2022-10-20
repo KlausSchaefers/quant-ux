@@ -8,6 +8,7 @@ export default class PathTool extends Tool{
         let path = {
             id: 'p' + new Date().getTime(),
             name: 'Path',
+            hint: 'Path',
             type: 'Path',
             stroke: '#333333',
             strokeWidth: 1,

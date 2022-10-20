@@ -1,5 +1,9 @@
 import Tool from './Tool'
 import Logger from 'common/Logger'
+import on from 'dojo/on'
+import win from 'dojo/_base/win'
+import * as SVGUtil from '../SVGUtil'
+
 
 export default class MorphTool extends Tool{
 
@@ -55,31 +59,15 @@ export default class MorphTool extends Tool{
         } 
         
         if (this.isJointDown && this.selectedJoints) {
-            this.selectedJoints.forEach(joint => {
-                joint.x = pos.x
-                joint.y = pos.y
-            })
-            this.canAdd = false
-            return
+            this.moveJoint(pos)
         } 
         
-        if (this.showSplitPoint) {
-            const distanceToOherPoints = this.getDistanceToOtherPoints(pos, this.selectedElement)
-            if (this.svgPath) {
-                const splitPoint = this.getClosesetPoint(pos, this.svgPath, this.selectedElement)
-                if (splitPoint && splitPoint.distance < this.minShowSplitDistance) {
-                    const minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
-                    if (minDistance > this.minSplitDistance) {
-                        this.editor.setSplitPoint(splitPoint)
-                        this.splitPoint = splitPoint
-                        this.canAdd = false
-                        return
-                    }
-                }
-                this.editor.setSplitPoint()
-                this.splitPoint = null
-            }
+        if (this.isSelectionStarted()) {
+            this.moveSelect(pos)
         }
+        
+        this.showSplit()
+   
 
         if (this.canAdd) {
             // check her also
@@ -89,6 +77,15 @@ export default class MorphTool extends Tool{
         //console.debug('onMove', point)
        // calculate the closest point
        //
+    }
+
+    moveJoint (pos) {
+        this.selectedJoints.forEach(joint => {
+            joint.x = pos.x
+            joint.y = pos.y
+        })
+        this.canAdd = false
+        return
     }
 
     moveBezier (pos) {
@@ -106,6 +103,15 @@ export default class MorphTool extends Tool{
         }
         return
     }
+
+
+    moveSelect (point) {
+        if (this._isSelectStarted && this._selectStart) {
+            this._selectBox = this.getBox(this._selectStart, point)
+            const zoomedBox = SVGUtil.getZoomedBox(this._selectBox, this.zoom)
+            this.editor.setSelectBox(zoomedBox)
+        }
+    }
   
 
 
@@ -116,6 +122,7 @@ export default class MorphTool extends Tool{
         if (path) {
             const point = path.d[joint.id]
             if (point) {
+                // add here some stuff to move mutli selection
                 this.editor.setCursor('move')
                 if (pos.shiftKey && this.selectedJoints && this.selectedJoints.length > 0) {
                     this.selectedJoints.push(point)
@@ -124,9 +131,6 @@ export default class MorphTool extends Tool{
                     this.selectedJoints = [point]
                     this.editor.setSelectedJoints([joint])     
                 }
-
-                
-
             } else {
                 this.logger.error('onJointMouseDown', 'not point',joint)
                 this.setSelectedBezier()
@@ -165,6 +169,76 @@ export default class MorphTool extends Tool{
 
     onBezierClick () {}
 
+    onMouseDown (point) {
+        this.logger.log(5, 'onMouseDown', 'enter', point)
+        this._isSelectStarted = true
+        this._selectStart = point
+        this._selectionToolUpListener = on(win.body(),"mouseup", () => this.onMouseUp() );
+    }
+
+    onMouseUp(point) {
+        this.logger.log(5, 'onMouseUp', 'enter', point)
+        if (this._isSelectStarted && this._selectBox) {
+            const selectBox = this._selectBox
+            const inBox = this.selectedElement.d
+                .map((p,i) => {
+                    return {
+                        joint :p,
+                        x: p.x,
+                        y: p.y,
+                        id: i
+                    }
+                })
+                .filter(p => SVGUtil.isPointInBox(p, selectBox))
+     
+            if (inBox.length > 0) {
+                this.editor.setSelectedJoints(inBox)
+                this.selectedJoints = inBox.map(p => p.joint)
+            }
+        }
+        this.clearSelect()
+    }
+
+
+    isSelectionStarted () {
+        return this._isSelectStarted
+    }
+
+
+    clearSelect () {
+        this.logger.log(5, 'clearSelect', 'enter')
+        if (this._isSelectStarted) {
+            this.editor.setSelectBox()
+            delete this._selectStart
+            delete this._selectBox
+        }
+        this._isSelectStarted = false
+        if (this._selectionToolUpListener) {
+            this._selectionToolUpListener.remove()
+        }
+        delete this._selectionToolUpListener
+    }
+
+    showSplit(pos) {
+        if (!this.showSplitPoint) {
+            return
+        }
+        const distanceToOherPoints = this.getDistanceToOtherPoints(pos, this.selectedElement)
+        if (this.svgPath) {
+            const splitPoint = this.getClosesetPoint(pos, this.svgPath, this.selectedElement)
+            if (splitPoint && splitPoint.distance < this.minShowSplitDistance) {
+                const minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
+                if (minDistance > this.minSplitDistance) {
+                    this.editor.setSplitPoint(splitPoint)
+                    this.splitPoint = splitPoint
+                    this.canAdd = false
+                    return
+                }
+            }
+            this.editor.setSplitPoint()
+            this.splitPoint = null
+        }
+    }
 
     split (pos, path, svg) {
         this.logger.log(5, 'split', 'enter' , pos, path)
@@ -281,6 +355,8 @@ export default class MorphTool extends Tool{
 
         return result
     }
+
+    
 
 }
 

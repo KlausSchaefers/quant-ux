@@ -7,7 +7,8 @@ export default class DiamondTool extends Tool{
         super(editor)
         let path = {
             id: 'p' + new Date().getTime(),
-            name: 'Path',
+            name: 'Diamond',
+            hint: 'Diamond',
             type: 'Path',
             stroke: '#333333',
             strokeWidth: 1,
