@@ -49,6 +49,9 @@ export default class Ruler extends Core{
 			} else {
 				box.h -= mod
 			}
+			if (this.selectedModel.min && this.selectedModel.min.h > box.h) {
+				box.h = this.selectedModel.min.h
+			}
 		}
 
 		/**
