@@ -150,7 +150,7 @@ export default {
       test_createBezier () {
         this.clear()
         let e = this.$refs.editor
-        this.$refs.editor.setShowAllBezier(true)
+        //this.$refs.editor.setShowAllBezier(true)
         e.startBezierTool()
         e.onMouseMove(this.e(30, 30))
         e.onMouseClick(this.e(30, 30))
@@ -158,8 +158,8 @@ export default {
         e.onMouseMove(this.e(60, 200))
         e.onMouseClick(this.e(60, 200))
 
-        e.onMouseDown(this.e(120, 200))
-        e.onMouseMove(this.e(150, 220))
+        e.onMouseDown(this.e(70, 220))
+        e.onMouseMove(this.e(70, 220))
 
 
         e.onMouseMove(this.e(200, 250))

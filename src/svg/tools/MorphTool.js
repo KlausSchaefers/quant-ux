@@ -39,7 +39,7 @@ export default class MorphTool extends Tool{
      *
      */
     onClick() {
-        this.logger.log(3, 'onClick', 'enter', this.selectedJoints)
+        this.logger.log(-3, 'onClick', 'enter', this.selectedJoints)
         if (this.splitPoint) {
             this.split(this.splitPoint, this.selectedElement, this.svgPath)
         } else {
@@ -89,19 +89,20 @@ export default class MorphTool extends Tool{
         this.selectedJoints.forEach(joint => {
             const point = path.d[joint.id]
             const start = startPath.d[joint.id]
-            if (point) {
+            if (point && start) {
                 point.x = start.x - difX
                 point.y = start.y - difY
           
                 // FIXME: should we somehow save this?
-                if (point.t === 'C' && !pos.altKey) {
-                    point.x2 = start.x2 - difX
-                    point.y2 = start.y2 - difY
-                    
+
+                if (!pos.altKey) {
+                    if (point.t === 'C') {
+                        point.x2 = start.x2 - difX
+                        point.y2 = start.y2 - difY
+                    }
                     const next = path.d[joint.id + 1]
                     const nextStart = startPath.d[joint.id + 1] 
-
-                    if (next && nextStart) {
+                    if (next && next.t === 'C' && nextStart) {
                         next.x1 = nextStart.x1 - difX
                         next.y1 = nextStart.y1 - difY
                     }
