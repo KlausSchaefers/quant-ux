@@ -36,6 +36,11 @@
     cursor: pointer;
 }
 
+.qux-svg-editor-bezier-x1 {
+    stroke: #000;
+    fill: rgba(0, 0, 0, 0.652);
+}
+
 .qux-svg-editor-bezier-debug {
     stroke: #e849f0;
     fill: #fff;
@@ -43,6 +48,7 @@
 
 .qux-svg-editor-beziee-line-debug {
     stroke: #e849f04f;
+    stroke-width: 3;
 }
 
 .qux-svg-editor-bezier:hover{

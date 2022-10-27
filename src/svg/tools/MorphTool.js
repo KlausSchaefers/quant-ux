@@ -7,13 +7,15 @@ import * as SVGUtil from '../SVGUtil'
 
 export default class MorphTool extends Tool{
 
-    constructor (editor, minSplitDistance = 8, minShowSplitDistance = 16) {
+    constructor (editor, minSplitDistance = 8, minShowSplitDistance = 16, syncBezier = true) {
         super(editor)
+        this.logger = new Logger('MorphTool')
         this.minSplitDistance = minSplitDistance
         this.minShowSplitDistance = minShowSplitDistance
-        this.logger = new Logger('MorphTool')
-        let selectedElements = this.editor.getSelectedElements()
         this.showSplitPoint = false
+        this.isSyncBezier = syncBezier
+
+        let selectedElements = this.editor.getSelectedElements()
         if (selectedElements.length === 1) {
             this.selectedElement = selectedElements[0]
             this.svgPath = this.editor.getSVGElement(this.selectedElement)
@@ -42,7 +44,20 @@ export default class MorphTool extends Tool{
             this.split(this.splitPoint, this.selectedElement, this.svgPath)
         } else {
             delete this.selectedJoints
+            delete this.selectedJointsIds
             this.editor.setSelectedJoints()
+        }
+    }
+
+    onDelete () {
+        if (this.selectedJointsIds) {
+            const ids = new Set(this.selectedJointsIds)
+            this.selectedElement.d = this.selectedElement.d.filter((p,i) => {
+                return !ids.has(i)
+            })
+            if (this.selectedElement.d.length < 2) {
+                this.editor.deleteSelection()
+            }
         }
     }
 
@@ -98,6 +113,30 @@ export default class MorphTool extends Tool{
                 point.x2 = pos.x
                 point.y2 = pos.y
             }
+
+            if (this.isSyncBezier) {
+                const previous = this.selectedElement.d[this.selectedBezier.parent-1]
+                const next = this.selectedElement.d[this.selectedBezier.parent+1]
+                // in case of X1, we have to get the previous X2
+                if (this.selectedBezier.isX1 && previous && this.selectedBezierDistance.x2) {
+                    const difX1 = point.x1 - previous.x
+                    const difY1 = point.y1 - previous.y
+                    const len1 = Math.sqrt(difX1 * difX1 + difY1 * difY1)
+                    const f = this.selectedBezierDistance.x2 / len1
+                    previous.x2 = Math.round(previous.x - difX1 * f)
+                    previous.y2 = Math.round(previous.y - difY1 * f)
+                }
+                // in case of X2 , we move the next X1 around the current point
+                if (this.selectedBezier.isX2 && next && this.selectedBezierDistance.x1) {
+                    const difX2 = point.x2 - point.x
+                    const difY2 = point.y2 - point.y
+                    const len2 = Math.sqrt(difX2 * difX2 + difY2 * difY2)
+                    const f = this.selectedBezierDistance.x1 / len2
+                    next.x1 = point.x - Math.round(difX2 * f)
+                    next.y1 = point.y - Math.round(difY2 * f)
+                }
+            
+            }
         } else {
             this.logger.log(-1, 'onMove', 'No point in selected path', this.selectedBezier)
         }
@@ -126,9 +165,11 @@ export default class MorphTool extends Tool{
                 this.editor.setCursor('move')
                 if (pos.shiftKey && this.selectedJoints && this.selectedJoints.length > 0) {
                     this.selectedJoints.push(point)
+                    this.selectedJointsIds.push(joint.id)
                     this.editor.addSelectedJoint(joint)   
                 } else {
                     this.selectedJoints = [point]
+                    this.selectedJointsIds = [joint.id]
                     this.editor.setSelectedJoints([joint])     
                 }
             } else {
@@ -155,13 +196,20 @@ export default class MorphTool extends Tool{
     onBezierMouseDown (bezierPoint) {
         this.logger.log(3, 'onBezierMouseDown', 'enter', bezierPoint)
         this.selectedBezier = bezierPoint
+        this.selectedBezierDistance = SVGUtil.getBezierDistance(this.selectedElement, bezierPoint)
         this.editor.setSelectedBezier(bezierPoint)
         this.editor.setCursor('move')
     }
 
+    // onBezierMouseOver (bezierPoint) {
+    //     let distances = SVGUtil.getBezierDistance(this.selectedElement, bezierPoint)
+    //     console.debug(' => len2 :',distances)
+    // }
+
     onBezierMouseUp () {
         this.logger.log(3, 'onBezierMouseUp', 'enter', this.selectedJoint)
         delete this.selectedBezier
+        delete this.selectedBezierDistance
         this.editor.onChange()
         this.editor.setSelectedBezier()
         this.editor.setCursor('default')
@@ -194,6 +242,7 @@ export default class MorphTool extends Tool{
             if (inBox.length > 0) {
                 this.editor.setSelectedJoints(inBox)
                 this.selectedJoints = inBox.map(p => p.joint)
+                this.selectedJointsIds = inBox.map(p => p.id)
             }
         }
         this.clearSelect()

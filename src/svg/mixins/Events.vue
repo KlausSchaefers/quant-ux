@@ -87,22 +87,29 @@ export default {
     },
 
     // bezier
-    onBezierMouseDown (joint, e) {
+    onBezierMouseDown (bezierpoint, e) {
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onBezierMouseDown(joint, pos)
+            this.currentTool.onBezierMouseDown(bezierpoint, pos)
         }
     },
-    onBezierMouseUp (joint, e) {
+    onBezierMouseUp (bezierpoint, e) {
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onBezierMouseUp(joint, pos)
+            this.currentTool.onBezierMouseUp(bezierpoint, pos)
         }
     },
-    onBezierClick (joint, e) {
+    onBezierClick (bezierpoint, e) {
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onBezierClick(joint, pos)
+            this.currentTool.onBezierClick(bezierpoint, pos)
+        }
+    },
+
+    onBezierMouseOver (bezierpoint, e) {
+        const pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onBezierMouseOver(bezierpoint, pos)
         }
     },
 

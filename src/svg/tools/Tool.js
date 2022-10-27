@@ -71,6 +71,8 @@ export default class Tool {
 
     onBezierClick () {}
 
+    onBezierMouseOver () {}
+
     getBox (start, end, isShift) {
         const box = {x:0, y:0, w: 5, h : 5};
         if(start.x < end.x){

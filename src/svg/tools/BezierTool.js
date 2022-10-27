@@ -78,7 +78,7 @@ export default class BezierTool extends Tool{
                     newPoint.x1 = last.x + (last.x - last.x2)
                     newPoint.y1 = last.y + (last.y - last.y2)
                     delete last._moved
-                    newPoint._isCurved = true
+                    newPoint.isCurved = true
                 }
                 this.logger.log(-1, 'onClick', 'add')
                 this.path.d.push(newPoint)
@@ -121,7 +121,8 @@ export default class BezierTool extends Tool{
         const current = {
             t: 'C',
             x: pos.x,
-            y: pos.y
+            y: pos.y,
+            sb: true
         }
         this.updateCurvePoint(pos, last, current)
         if (temp) {
@@ -133,7 +134,7 @@ export default class BezierTool extends Tool{
     updateCurvePoint (pos, last, current) {
         const difX = pos.x - last.x
         const difY = pos.y - last.y
-        if (!current._isCurved) {
+        if (!current.isCurved) {
             current.x1 = Math.round(last.x + difX * 0.33)
             current.y1 =  Math.round(last.y + difY * 0.33)
         }
@@ -148,7 +149,15 @@ export default class BezierTool extends Tool{
     onDoubleClick () {
         this.logger.log(-1, 'onDoubleClick')
         this.path.d = this.path.d.filter(p => !p._temp)
+        // make straigt curves into lines
+        this.path.d.forEach(p => {
+            if (p.t === 'C' && !p.isCurved) {
+                //p.t = 'L'
+            }
+            delete p.isCurved
+        })
         this.path.d = Util.filterDouble(this.path.d)
+
         if (this.closePathAtTheEnd) {
             Util.closePath(this.path.d)
         }

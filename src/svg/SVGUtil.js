@@ -558,3 +558,26 @@ export function addBezierPoints (path, pos, offset) {
 
     return points
 }
+
+export function getBezierDistance (path, bezierPoint) {
+    let jointPosition = bezierPoint.parent
+    if (bezierPoint.isX1) {
+        jointPosition--
+    }
+
+    const result = {}
+    const joint = path.d[jointPosition]
+    const nexJoint = path.d[jointPosition + 1]
+
+    if (nexJoint) {
+        const difX1 = nexJoint.x1 - joint.x
+        const difY1 = nexJoint.y1 - joint.y
+        result.x1 = Math.sqrt(difX1 * difX1 + difY1 * difY1)
+    }
+  
+    const difX2 = joint.x2 - joint.x
+    const difY2 = joint.y2 - joint.y
+    result.x2 = Math.sqrt(difX2 * difX2 + difY2 * difY2)
+
+    return result
+}

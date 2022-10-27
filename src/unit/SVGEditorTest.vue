@@ -147,6 +147,36 @@ export default {
         e.onMouseDoubleClick(this.e(300, 200))
         this.assertEquals(1, e.value.length)
       },
+      test_createBezier () {
+        this.clear()
+        let e = this.$refs.editor
+        this.$refs.editor.setShowAllBezier(true)
+        e.startBezierTool()
+        e.onMouseMove(this.e(30, 30))
+        e.onMouseClick(this.e(30, 30))
+        /** we need move */
+        e.onMouseMove(this.e(60, 200))
+        e.onMouseClick(this.e(60, 200))
+
+        e.onMouseDown(this.e(120, 200))
+        e.onMouseMove(this.e(150, 220))
+
+
+        e.onMouseMove(this.e(200, 250))
+        e.onMouseClick(this.e(200, 250))
+
+        e.onMouseDown(this.e(250, 220))
+        e.onMouseMove(this.e(280, 210))
+        
+        e.onMouseMove(this.e(300, 200))
+        e.onMouseClick(this.e(300, 200))
+
+        e.onMouseMove(this.e(350, 350))
+        e.onMouseClick(this.e(350, 350))
+
+        e.onMouseDoubleClick(this.e(300, 200))
+        this.assertEquals(1, e.value.length)
+      },
       test_createLineAndSelect () {
         this.test_createLine()
         let e = this.$refs.editor
@@ -194,7 +224,8 @@ export default {
   mounted() {
       this.pos = domGeom.position(this.$refs.cntr)
       setTimeout(() => {
-          this.test_createLine()
+          //this.test_createLine()
+          this.test_createBezier()
       }, 100)
 
       this.keyBoardListener = on(win.body(), "keyup", this.onKey);

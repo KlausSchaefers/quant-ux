@@ -76,6 +76,7 @@
                     :key="bezierpoint.id"              
                     :x="bezierpoint.x - bezierpoint.o"
                     :y="bezierpoint.y - bezierpoint.o"
+                    @mouseover="onBezierMouseOver(bezierpoint, $event)"
                     :width="bezierpoint.w"
                     :height="bezierpoint.h"     
                     :class="['qux-svg-editor-bezier qux-svg-editor-bezier-debug', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
@@ -104,8 +105,13 @@
                     :height="bezierpoint.h"
                     @mousedown.stop="onBezierMouseDown(bezierpoint, $event)"
                     @mouseup.stop="onBezierMouseUp(bezierpoint, $event)"
+                    @mouseover="onBezierMouseOver(bezierpoint, $event)"
                     @click.stop="onBezierClick(bezierpoint, $event)"
-                    :class="['qux-svg-editor-bezier', {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}]"
+                    :class="[
+                        'qux-svg-editor-bezier ', 
+                        {'qux-svg-editor-bezier-x1': bezierpoint.isX1}, 
+                        {'qux-svg-editor-bezier-selected': selectedBezier && bezierpoint.id === selectedBezier.id}
+                    ]"
                     />
 
 
@@ -417,6 +423,10 @@ export default {
 
     setSelectedJoints (joints) {
         this.selectedJoints = joints
+    },
+
+    getSelectedJoints () {
+        return this.selectedJoints
     },
 
     addSelectedJoint (joint) {
