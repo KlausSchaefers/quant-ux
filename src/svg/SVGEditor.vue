@@ -638,7 +638,9 @@ export default {
         pos.x -= this.pos.x;
         pos.y -= this.pos.y;
         pos.shiftKey = e.shiftKey
-  
+        pos.altKey = e.altKey
+        pos.metaKey = e.metaKey
+     
         pos.x = Math.round(pos.x / this.zoom)
         pos.y = Math.round(pos.y / this.zoom)
         pos.zoom = 1

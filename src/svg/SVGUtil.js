@@ -233,7 +233,7 @@ export function getBoundingBoxByBoxes (boxes) {
     return result;
 }
 
-function clone(obj) {
+export function clone(obj) {
     return JSON.parse(JSON.stringify(obj))
 }
 
@@ -532,14 +532,14 @@ export function addBezierPoints (path, pos, offset) {
     const current = path.d[pos]
     if (current && current.t === 'C') {
         points.push({
-                id: 'x2',
-                parent: pos,
-                isX2: true,
-                o: offset,
-                x: current.x2,
-                y: current.y2,
-                h: witdhHeight,
-                w: witdhHeight
+            id: 'x2',
+            parent: pos,
+            isX2: true,
+            o: offset,
+            x: current.x2,
+            y: current.y2,
+            h: witdhHeight,
+            w: witdhHeight
         })
     }
     const next = path.d[pos + 1]
@@ -578,6 +578,32 @@ export function getBezierDistance (path, bezierPoint) {
     const difX2 = joint.x2 - joint.x
     const difY2 = joint.y2 - joint.y
     result.x2 = Math.sqrt(difX2 * difX2 + difY2 * difY2)
+
+    return result
+}
+
+export function getBezierSlopes(path, bezierPoint) {
+    let jointPosition = bezierPoint.parent
+    if (bezierPoint.isX1) {
+        jointPosition--
+    }
+
+    const result = {
+        x1: Infinity,
+        x2: Infinity
+    }
+    const joint = path.d[jointPosition]
+    const nexJoint = path.d[jointPosition + 1]
+
+    if (nexJoint) {
+        const difX1 = nexJoint.x1 - joint.x
+        const difY1 = nexJoint.y1 - joint.y
+        result.x1 = difX1 / difY1
+    }
+  
+    const difX2 = joint.x2 - joint.x
+    const difY2 = joint.y2 - joint.y
+    result.x2 = difX2 / difY2
 
     return result
 }
