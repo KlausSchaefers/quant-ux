@@ -2,22 +2,28 @@
 <template>
   <div class="MatcWidgetTypeSVGPaths" >
       <svg xmlns="http://www.w3.org/2000/svg" 
-        :width="width + 10" :height="height + 10" 
-        v-if="model" isNotCanvas="true" 
+        :width="width + overflowOffset * 2" :height="height + overflowOffset * 2" 
+        v-if="model" isNotCanvas="true"
+        :style="`top:${overflowOffset *-1}px; left:${overflowOffset * -1}px`"
       >
         <g id="main" fill="none">
             <defs v-if="hasGradient">
                 <linearGradient v-for="g in gradients" :id="g.id" :key="g.id" :x1="g.angle.x1" :x2="g.angle.x2" :y1="g.angle.y1" :y2="g.angle.y2" >
                     <stop v-for="(c,i) in g.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
                 </linearGradient>
+
+           
             </defs>
             <path v-for="p in svgPaths"
                 :key="p.id"
                 :d="p.d"
                 :stroke="p.stroke"
+                :stroke-dasharray="p.strokeDash"
+                :stroke-linecap="p.strokeLineCap"
                 :fill="p.fill"
                 :id="p.id"
                 ref="paths"
+           
                 :stroke-width="p.strokeWidth"/>
             </g>
          
@@ -40,7 +46,8 @@ export default {
       scale: 1,
       width: 0,
       height: 0,
-      offSetValue: 5.5, // 2 because we make set the svg to top and left to -2 to avoid cutoffs
+      overflowOffset: 20, // avoid cutoffs. Maybe make it flexible?
+      offSetValue: 20.5, // add here the overflowOffset + 0.5
       paths: [],
       svgPaths: [],
       viewBox: {
@@ -100,6 +107,7 @@ export default {
     renderElements (box, paths, viewBox) {
       this.width = box.w
       this.height = box.h
+      const zoom = this._scaleX
       // FIXME: If this takes too long, this could be done in the 
       // Controller. But tehn we would need some special condition :(
       const scalledPaths = SVGUtil.strechPaths(paths, viewBox, box)
@@ -108,12 +116,20 @@ export default {
             const svg = {
                 id: path.id,
                 stroke: path.stroke,
-                strokeWidth: path.strokeWidth,
+                strokeWidth: path.strokeWidth * zoom,
+                strokeDash: path.strokeDash,
+                strokeLineCap: path.strokeLineCap,
                 fill: path.fill,
                 d: ''
             }
+            if (svg.strokeDash) {
+                svg.strokeDash = path.strokeDash
+                    .split(',')
+                    .map(v => v * zoom)
+                    .join(',')
+            }
             if (path.fill.gradient) {
-              // preifx the id with the model id to avoid multiple 
+              // prefix the id with the model id to avoid multiple 
               // devs with the same ids
               svg.fill = GradientUtil.getGradientURL(i, path, this.model.id)
             }

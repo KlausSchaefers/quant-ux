@@ -28,7 +28,6 @@
                 <path v-for="p in paths"
                     :key="p.id + 's'"
                     :d="p.d"
-          
                     class="qux-svg-editor-click-line"
                     @mouseover="onElementHover(p, $event)"
                     @mouseout="onElementBlur(p, $event)"
@@ -42,15 +41,15 @@
                 :key="p.id"
                 :d="p.d"
                 :stroke="p.stroke"
+                :stroke-width="p.strokeWidth"
+                :stroke-dasharray="p.strokeDash"
+                :stroke-linecap="p.strokeLineCap"
                 :fill="p.fill"
                 :id="p.id"
                 ref="paths"
                 @mouseover="onElementHover(p, $event)"
                 @mouseout="onElementBlur(p, $event)"
-
-                :stroke-width="p.strokeWidth"/>
-
-     
+                />
 
             <!-- in morph mode we show all the points -->
 
@@ -365,6 +364,8 @@ export default {
                 id: path.id,
                 stroke: path.stroke,
                 strokeWidth: path.strokeWidth,
+                strokeDash: path.strokeDash,
+                strokeLineCap: path.strokeLineCap,
                 fill: path.fill,
                 d: ''
             }

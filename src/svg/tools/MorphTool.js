@@ -176,7 +176,7 @@ export default class MorphTool extends Tool{
         if (path) {
             const point = path.d[joint.id]
             if (point) {
-                // add here some stuff to move mutli selection
+                // FIXME: add here some stuff to move mutli selection
                 const startPoint = {
                     id: joint.id
                 }

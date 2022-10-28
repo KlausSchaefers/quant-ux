@@ -152,7 +152,7 @@ export default class BezierTool extends Tool{
         // make straigt curves into lines
         this.path.d.forEach(p => {
             if (p.t === 'C' && !p.isCurved) {
-                //p.t = 'L'
+                p.t = 'L'
             }
             delete p.isCurved
         })

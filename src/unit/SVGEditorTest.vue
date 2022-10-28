@@ -217,7 +217,7 @@ export default {
       onKey (event) {
         let e = this.$refs.editor
         if (e) {
-          e.onKeyUp(event)
+          e.onKeyDown(event)
         }
       }
   },
@@ -228,7 +228,7 @@ export default {
           this.test_createBezier()
       }, 100)
 
-      this.keyBoardListener = on(win.body(), "keyup", this.onKey);
+      this.keyBoardListener = on(win.body(), "keydown", this.onKey);
   }
 };
 </script>

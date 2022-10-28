@@ -1801,8 +1801,6 @@
 
 .MatcWidgetTypeSVGPaths svg{
 	position: absolute;
-	top:-5px;
-	left:-5px;
 }
 /*******************************
  * TextBox

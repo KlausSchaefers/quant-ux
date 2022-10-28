@@ -1416,6 +1416,10 @@ export default class BaseController extends Core {
 		 */
 
 		// this.commandStack.stack.push(result.command);
+
+		if (this.commandStack.pos !== result.pos) {
+			this.logger.error("onCommandAdded", "Not match pos > server: "+ result.pos +  " > local: " + this.commandStack.pos);
+		}
 		this.commandStack.pos = result.pos;
 		this.commandStack.lastUUID = result.lastUUID;
 

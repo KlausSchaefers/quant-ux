@@ -111,20 +111,30 @@ export function getZoomedPaths(paths, zoom) {
     for (let path of result) {
         const points = path.d
         path.strokeWidth = path.strokeWidth * zoom
+        if (path.strokeDash) {
+            path.strokeDash = path.strokeDash
+                .split(',')
+                .map(v => v * zoom)
+                .join(',')
+        }
         for (let i = 0; i < points.length; i++) {
             const point = points[i];
-            point.x = Math.round(point.x * zoom)
-            point.y = Math.round(point.y * zoom)
+            point.x = round(point.x * zoom)
+            point.y = round(point.y * zoom)
             if (point.t === 'C') {
-                point.x1 = Math.round(point.x1 * zoom)
-                point.y1 = Math.round(point.y1 * zoom)
-                point.x2 = Math.round(point.x2 * zoom)
-                point.y2 = Math.round(point.y2 * zoom)
+                point.x1 = round(point.x1 * zoom)
+                point.y1 = round(point.y1 * zoom)
+                point.x2 = round(point.x2 * zoom)
+                point.y2 = round(point.y2 * zoom)
             }
         }
     }
 
     return result
+}
+
+function round (v) {
+    return Math.round(v)
 }
 
 export function getZoomedBox(box, zoom) {

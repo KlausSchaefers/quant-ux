@@ -8,6 +8,8 @@ import SVGSize from 'canvas/toolbar/components/SVGSize'
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import SVGStroke from 'canvas/toolbar/components/SVGStroke'
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
+//import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
+import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import DomBuilder from 'common/DomBuilder'
 
 export default {
@@ -78,12 +80,52 @@ export default {
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
+
+
+            const row = document.createElement("div");
+            css.add(row, 'MatcToobarRow')
+            content.appendChild(row)
+
             this.svgStrokeBox = this.$new(SVGStroke);
 			this.svgStrokeBox.setModel(this.model);
-			//this.svgBackgroundColor.setCssProps(['background'])
-			this._placeAt(this.svgStrokeBox, content);
+			this._placeAt(this.svgStrokeBox, row);
 			this.own(on(this.svgStrokeBox, "change", lang.hitch(this, "setSVGPathStyle", false)));
 			this.own(on(this.svgStrokeBox, "changing", lang.hitch(this, "setSVGPathStyle", true)));
+
+            
+            const row2 = document.createElement("div");
+            css.add(row2, 'MatcToobarRow')
+            content.appendChild(row2)
+
+
+            this.svgStrokeDashArray = this.$new(ToolbarDropDownButton,  {maxLabelLength:15});
+            css.add(this.svgStrokeDashArray.domNode, "MatcToolbarGridFull")
+            this.svgStrokeDashArray.reposition = true;
+            this.svgStrokeDashArray.setPopupCss("MatcActionAnimProperties");
+		    this.svgStrokeDashArray.setOptions([
+                { value:null, label: 'Solid'},
+                { value:"5,5", label:'Small Dash'},
+                { value:"10,10", label:"Medium Dash"},
+                { value:"20,20", label:"Long Dash"}
+            ]);
+            this.own(on(this.svgStrokeDashArray, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeDash")));
+            this._placeAt(this.svgStrokeDashArray, row2);
+
+           
+            const row3 = document.createElement("div");
+            css.add(row3, 'MatcToobarRow')
+            content.appendChild(row3)
+
+            this.svgStrokeCap = this.$new(ToolbarDropDownButton,  {maxLabelLength:25});
+            css.add(this.svgStrokeCap.domNode, "MatcToolbarGridFull")
+            this.svgStrokeCap.reposition = true;
+            this.svgStrokeCap.setPopupCss("MatcActionAnimProperties");
+		    this.svgStrokeCap.setOptions([
+                { value:null, label: 'Square Line Caps'},
+                { value:"round", label:'Round Line Caps'}
+            ]);
+            this.own(on(this.svgStrokeCap, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeLineCap")));
+            this._placeAt(this.svgStrokeCap, row3);
 
 
             this.properties.appendChild(parent);
@@ -159,10 +201,15 @@ export default {
             this.svgStrokeBox.setModel(this.model)
 		    this.svgPathSize.setModel(this.model);
 
+ 
+
             if (model.props.paths) {
                 const path = model.props.paths[0]
+           
                 this.svgFillColor.setValue(path.fill)             
                 this.svgStrokeBox.setValue(path)     
+                this.svgStrokeDashArray.setValue(path.strokeDash)
+                this.svgStrokeCap.setValue(path.strokeLineCap)
             }
         },
 
@@ -209,6 +256,9 @@ export default {
                 this.svgStrokeBox.setValue(path)
 			    this.svgPathSize.setValue(bbox);
                 this.svgRotate.setValue(path.angle);
+
+                this.svgStrokeDashArray.setValue(path.strokeDash)
+                this.svgStrokeCap.setValue(path.strokeLineCap)
                 
             } else if (this._selectionPaths.length > 1){
                 css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
@@ -219,6 +269,9 @@ export default {
                 const path = this._selectionPaths[0]
                 this.svgFillColor.setValue(path.fill)             
                 this.svgStrokeBox.setValue(path)     
+
+                this.svgStrokeDashArray.setValue(path.strokeDash)
+                this.svgStrokeCap.setValue(path.strokeLineCap)
 
             } else {
                 this.logger.log(1,"showSVGProperties", "wrong selected paths ");

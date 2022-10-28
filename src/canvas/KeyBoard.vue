@@ -52,8 +52,6 @@ export default {
           return
         }
 
-       
-
         if (this._keyBoardKeyBoardListener) {
           try {
             this._keyBoardKeyBoardListener(e, false)
@@ -78,11 +76,10 @@ export default {
         }
 
         if (this.currentTool) {
-          const stop = this.currentTool.onKeyUp(e)
+          const stop = this.currentTool.onKeyDown(e)
           if (stop) {
             return
           }
-
         }
      
 
@@ -369,6 +366,13 @@ export default {
             this._keyBoardKeyBoardListener(e, true)
           } catch (err) {
              this.logger.log(1 ,"onKeyUp", "error in listener", err);
+          }
+        }
+
+        if (this.currentTool) {
+          const stop = this.currentTool.onKeyUp(e)
+          if (stop) {
+            return
           }
         }
 

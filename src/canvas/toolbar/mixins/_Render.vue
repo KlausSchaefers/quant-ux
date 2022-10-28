@@ -42,7 +42,7 @@ import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
-import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
+//import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
 import TooltipSection from 'canvas/toolbar/components/TooltipSection'
 //import Alignment from 'canvas/toolbar/components/Alignment'
 
@@ -917,7 +917,7 @@ export default {
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
-			this.condStyle = this.$new(ConditionalStyleButton)
+			//this.condStyle = this.$new(ConditionalStyleButton)
 			this.condStyle.placeAt(content)
 
 					

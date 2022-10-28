@@ -11,10 +11,12 @@ export default {
   },
   methods: {
     onKeyUp (e) {
-        //const isMeta = e.altKey || e.ctrlKey || e.metaKey;
-      
-        //const isShift = e.shiftKey
-
+        if (e.key === 'Alt') {
+            return true
+        }
+        return true
+    },
+    onKeyDown (e) {
 
         if (e.key === 'Escape') {
             this.onEsc()
@@ -26,6 +28,10 @@ export default {
         }
         if (e.key === 'Backspace' || e.key === 'Delete') {
             this.onDelete()
+            return true
+        }
+
+        if (e.key === 'Alt') {
             return true
         }
       

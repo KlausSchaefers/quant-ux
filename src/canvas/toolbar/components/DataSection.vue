@@ -1862,9 +1862,8 @@ export default {
 			drpDwn.setOptions(options);
 			drpDwn.setValue(model.props[prop])
 			drpDwn.setPopupCss("MatcActionAnimProperties");
-				this.own(on(drpDwn, "change", lang.hitch(this, "onProperyChanged", prop)));
-
-				drpDwn.placeAt(row);
+			this.own(on(drpDwn, "change", lang.hitch(this, "onProperyChanged", prop)));
+			drpDwn.placeAt(row);
 
 			this._addChildWidget(drpDwn);
 		},
