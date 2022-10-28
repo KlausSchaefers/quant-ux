@@ -315,8 +315,9 @@ export default {
 
 			this._renderSVGBox()
 			this._renderSVGTransform()
-			this._renderSVGStroke()
 			this._renderSVGFill()
+			this._renderSVGStroke()
+		
 
 
 			//this._renderConditionalStyle()

@@ -113,7 +113,7 @@ export default class Ruler extends Core{
 
 		this._lastBox = box;
 
-		if (this.showDimensions) {
+		if (this.showDimensions && this.activePoint === 'South' ) {
 			try {
 				this.renderDimension(box, mouse)
 			} catch (e) {

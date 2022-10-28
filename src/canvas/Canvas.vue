@@ -93,7 +93,7 @@ export default {
     data: function () {
         return {
 			mode: "edit",
-			isMoveOnlySelected: true,
+			isMoveOnlySelected: false,
 			debug: false,
 			grid: null,
 			isPublic: false,
@@ -412,7 +412,7 @@ export default {
 				storePropView : true,
 				moveMode : "ps",
 				startToolsOnKeyDown : true,
-				hasSelectOnScreen: true,
+				hasSelectOnScreen: false,
 				mouseWheelMode : "scroll",
 				renderLines : false,
 				snapGridOnlyToTopLeft: true,
@@ -422,7 +422,7 @@ export default {
 				fastRender: false,
 				hasProtoMoto: false,
 				zoomSnapp: true,
-				selectMove: true,
+				selectMove: false,
 				hasDesignToken: true,
 				hasQRCode: true
 			};

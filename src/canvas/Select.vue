@@ -273,6 +273,14 @@ import topic from 'dojo/topic'
 			}
 		},
 
+		hasSelection () {
+			return (this._selectedScreen !== null  && this._selectedScreen !== undefined ) ||
+					(this._selectWidget !== null  && this._selectWidget !== undefined ) ||
+					(this._selectMulti !== null  && this._selectMulti !== undefined ) ||
+					(this._selectGroup !== null  && this._selectGroup !== undefined ) ||
+					(this._selectInheritedWidget !== null  && this._selectInheritedWidget !== undefined )
+		},
+
 		unSelect (){
 			this.logger.log(3,"unSelect", "enter > ");
 
