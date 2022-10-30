@@ -916,6 +916,13 @@
 
 
 
+.MatcToobarRowFlex {
+	display: flex;
+	gap: 8px;
+}
+
+
+
 .MatcToobarRow.MatcToobarRowSpacer{
 	margin-bottom: 8px;
 }

@@ -1087,7 +1087,6 @@ input.MatcToobarInlineEditDisabled:focus{
 	display: inline-block;
 	position: relative;
 	padding-left: 5px;
-	
 }
 
 .MatcToolbarDropDownButtonPopup{
@@ -1168,7 +1167,6 @@ input.MatcToobarInlineEditDisabled:focus{
 
 }
 
-
 .MatcToolbar .MatcToolbarDropDownButton .MatcToolbarPopUpLine,
 .MatcToolbarDropDownButtonPopup .MatcToolbarPopUpLine{
 	border-top: 1px solid  #ccc;
@@ -1176,9 +1174,6 @@ input.MatcToobarInlineEditDisabled:focus{
 	padding: 0px;
 	border-left: none;
 }
-
-
-
 
 .MatcToolbarPopupSelected{
 	background: #3787f2;
@@ -1199,7 +1194,6 @@ input.MatcToobarInlineEditDisabled:focus{
     vertical-align: middle;
     width: 0;
 }
-
 
 .MatcToolbarSelector{
 	display: inline-block;
@@ -1259,9 +1253,18 @@ input.MatcToobarInlineEditDisabled:focus{
 
 }
 
+/****************************************************
+ * DropDown Icon Button
+ ****************************************************/
 
+.MatcToolbarDropDownButton.MatcToolbarIconDropDownButton {
+	width: 60px;
+	text-align: left;
+}
 
-
+.MatcToolbarIconDropDownButton .MatcToolbarItemIcon .MatcToolbarDropDownButtonLabel {
+	display: none;
+}
 
 /****************************************************
  *  BoxSize

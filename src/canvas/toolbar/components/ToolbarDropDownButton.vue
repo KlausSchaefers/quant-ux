@@ -1,6 +1,6 @@
 
 <template>
-     <div class=" MatcToolbarItem MatcToolbarDropDownButton">
+     <div :class="['MatcToolbarItem MatcToolbarDropDownButton', {'MatcToolbarIconDropDownButton': isIconButton}]">
 		<div type="button" data-dojo-attach-point="button" class="MatcToolbarDropDownButtonCntr">
 			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
 			<span class="caret" ref="caret"></span>
@@ -27,6 +27,7 @@ export default {
     data: function () {
         return {
             value: false,
+			isIconButton: false,
             hasObjects: false,
 			hasCaret:true,
             updateLabel: true,
