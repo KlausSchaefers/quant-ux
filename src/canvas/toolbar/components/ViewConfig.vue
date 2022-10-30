@@ -198,68 +198,68 @@ export default {
         onChangeVisibleGrid (value) {
             this.log.log(-1, 'onChangeVisibleGrid', 'enter', value)
             this.value.hasVisibleGrid = value
-            this.hideMaybe()
+            //this.hideMaybe()
             this.$emit('change', 'hasVisibleGrid', value)
         },
 
         onChangeGrid (value) {
             this.log.log(-1, 'onChangeGrid', 'enter', value)
             this.value.hasGrid = value
-            this.hideMaybe()
+            //this.hideMaybe()
             this.$emit('change', 'hasGrid', value)
         },
 
         onChangeBW (value) {
             this.log.log(-1, 'onChangeBW', 'enter', value)
             this.value.isBlackAndWhite = value
-            this.hideMaybe()
+            //this.hideMaybe()
             this.$emit('change', 'isBlackAndWhite', value)
         },
 
         onChangeLayer (value) {
             this.log.log(-1, 'onChangeLayer', 'enter', value)
             this.value.layerListVisible = value
-            this.hideMaybe()
+            //this.hideMaybe()
             this.$emit('change', 'layerListVisible', value)
         },
 
         onChangeLines (value) {
             this.log.log(-1, 'onChangeLines', 'enter', value)
             this.value.renderLines = value
-             this.hideMaybe()
+            // this.hideMaybe()
             this.$emit('change', 'renderLines', value)
         },
 
         onChangeDistance (value) {
             this.log.log(-1, 'onChangeDistance', 'enter', value)
             this.value.showDistance = value
-             this.hideMaybe()
+            // this.hideMaybe()
             this.$emit('change', 'showDistance', value)
         },
 
         onChangeRuler (value) {
             this.log.log(-1, 'onChangeRuler', 'enter', value)
             this.value.showRuler = value
-             this.hideMaybe()
+            // this.hideMaybe()
             this.$emit('change', 'showRuler', value)
         },
 
         onChangeComments (value) {
             this.log.log(-1, 'onChangeRuler', 'enter', value)
             this.value.showComments = value
-             this.hideMaybe()
+            // this.hideMaybe()
             this.$emit('change', 'showComments', value)
         },
 
         onChangeData (value) {
             this.log.log(-1, 'onChangeData', 'enter', value)
             this.value.hasDataView = value
-            this.hideMaybe()
+           // this.hideMaybe()
             this.$emit('change', 'hasDataView', value)
         },
 
         onZoom (pos) {
-            this.hideMaybe()
+            //this.hideMaybe()
             this.zoomLevelPos = pos
             this.value.zoom = this.zoomLevels[this.zoomLevelPos];
             this.$emit('change', 'zoom', this.value.zoom)
@@ -267,29 +267,30 @@ export default {
 
         onZoomMinus () {
             this.log.log(-1, 'onZoomMinus', 'enter')
-            if (this.zoomLevelPos >= 1){
+            //if (this.zoomLevelPos >= 1){
                 this.zoomLevelPos--;
                 let zoom = Math.round((this.value.zoom - 0.05) * 100)
                 zoom -= zoom % 5
                 zoom /= 100
                 this.value.zoom = zoom
                 this.$emit('change', 'zoom', this.value.zoom)
-            }
-             this.hideMaybe()
+            //}
+           // this.hideMaybe()
             return false
 		},
 
 		onZoomPlus (){
             this.log.log(-1, 'onZoomPlus', 'enter')
-            if (this.zoomLevelPos < this.zoomLevels.length -1){
+            //if (this.zoomLevelPos < this.zoomLevels.length -1){
                 this.zoomLevelPos++;
                 let zoom = Math.round((this.value.zoom + 0.05) * 100)
                 zoom -= zoom % 5
                 zoom /= 100
+                console.debug(zoom)
                 this.value.zoom = zoom
                 this.$emit('change', 'zoom', this.value.zoom)
-            }
-             this.hideMaybe()
+            //}
+           // this.hideMaybe()
             return false
         },
 

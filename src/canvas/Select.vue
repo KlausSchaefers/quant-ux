@@ -273,6 +273,23 @@ import topic from 'dojo/topic'
 			}
 		},
 
+		isInSelection (id) {
+			if (this._selectedScreen) {
+				return this._selectedScreen.id === id 
+			}
+			if (this._selectWidget) {
+				return this._selectWidget.id === id 
+			}
+			if (this._selectMulti) {
+				return this._selectMulti.indexOf(id) >= 0
+			}
+			if (this._selectGroup) {
+				const children = this.getAllGroupChildren(this._selectGroup)
+				return children.indexOf(id) >= 0
+			}
+			return false
+		},
+
 		hasSelection () {
 			return (this._selectedScreen !== null  && this._selectedScreen !== undefined ) ||
 					(this._selectWidget !== null  && this._selectWidget !== undefined ) ||

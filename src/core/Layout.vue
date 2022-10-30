@@ -455,24 +455,7 @@ export default {
     },
 
     getAllGroupChildren (group) {
-      // FIXME: Use ModelUtil.getAllGroupChildren(group, this.model)
-     
-      if (!group.children) {
-        return []
-      }
-      let result = group.children.slice(0)
-      if (group.groups) {
-        group.groups.forEach(subId => {
-          const sub = this.model.groups[subId]
-          if (sub) {
-            const children = this.getAllGroupChildren(sub)
-            result = result.concat(children)
-          } else {
-            console.warn('getAllGroupChildren() No sub group', subId)
-          }
-        })
-      }
-      return result
+      return ModelUtil.getAllGroupChildren(group, this.model) 
     },
 
     getParentGroup (widgetID) {

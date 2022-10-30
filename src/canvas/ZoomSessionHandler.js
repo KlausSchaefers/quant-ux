@@ -31,7 +31,7 @@ export default class ZoomSessionHandler {
 
     plus (speed) {
       this.reset()
-      let v = Math.min(3, this._tempZoom + this.getStep(speed))
+      let v = Math.min(5, this._tempZoom + this.getStep(speed))
       return this.snapp(v, speed)
     }
 

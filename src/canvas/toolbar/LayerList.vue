@@ -488,6 +488,10 @@ export default {
 				this.addPathNodes(node, box, widgetID, screenID, groupId, defaultIsOpen)
 			}
 
+			if (this.selection && this.selection.indexOf(node.id) >= 0) {
+				node.selected = true
+			}
+
 			this.nodes[node.id] = node
 			this.lastNode = node
 			return node;
@@ -536,6 +540,10 @@ export default {
 				dndType: 'svg_' + box.id 
 			}
 
+
+			if (this.selection && this.selection.indexOf(node.id) >= 0) {
+				node.selected = true
+			}
 
 			this.nodes[node.id] = node
 			this.lastNode = node
@@ -671,13 +679,16 @@ export default {
 			this.unSelectNodes()
 			this.$nextTick(() => {
 				ids.forEach(id => {
-					let node = this.nodes[id]
+					const node = this.nodes[id]
 					if (node) {
 						this.$set(node, 'selected', true)
+					} else {
+						this.logger.warn('selectNode', 'No node with id: ' + id)
 					}
 				})
 				this.selection = ids
 				this.scrollToSelection(ids)
+				this.$forceUpdate()
 			})			
 		},
 

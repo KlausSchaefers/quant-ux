@@ -648,8 +648,8 @@ export default {
               this.logger.sendError(new Error("No widget with id >" + id));
             }
           }
-          
-          if (!this.hasSelection()) {
+ 
+          if (!this.isInSelection(id)) {
             this.onWidgetSelected(id, true)
           } else {
             this.onSelectionMoved(pos, dif, id);
