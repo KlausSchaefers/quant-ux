@@ -650,7 +650,7 @@ export default {
           }
  
           if (!this.isInSelection(id)) {
-            this.onWidgetSelected(id, true)
+            this._setSelectionById(id)
           } else {
             this.onSelectionMoved(pos, dif, id);
           }       
@@ -728,7 +728,17 @@ export default {
        * 2) If SHIFT, CTRL or ALT is pressed, we add things to an selection
        */
       if (e && e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
-        /**
+        this._expandSelectionById(id)
+      } else {
+        this._setSelectionById(id)
+      }
+
+      this.cleanUpWidgetDnD();
+      this.setState(0);
+    },
+
+    _expandSelectionById (id) {
+           /**
          * FIXME: This is an evil bug! This open in FireFox an popup!
          * Maybe we have to listen to RMC and stop it..
          */
@@ -765,8 +775,10 @@ export default {
         }
 
         this.onMutliSelected(this._selectMulti);
-      } else {
-        /**
+    },
+
+    _setSelectionById (id) {
+      /**
          * Since 2.1.3
          */
         let group = this.getTopParentGroup(id);
@@ -831,10 +843,6 @@ export default {
            */
           this.onWidgetSelected(id);
         }
-      }
-
-      this.cleanUpWidgetDnD();
-      this.setState(0);
     },
 
     _addDnDChildren (id) {
