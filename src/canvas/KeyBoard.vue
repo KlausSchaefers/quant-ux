@@ -278,6 +278,13 @@ export default {
           if(removed){
             this.stopEvent(e);
           }
+        } else if (e.ctrlKey + e.shiftKey) {
+          if(!this._inlineEditStarted) {
+            if(k == 90){// ctrl+shift+z
+              this.controller.redo();
+              this.stopEvent(e);
+            }
+          }
         } else if (e.altKey || e.ctrlKey || e.metaKey){
 
           this.logger.log(1,"onKeyPress", "enter > " + k + " > ctrl : " +e.ctrlKey + " > meta :" +(e.ctrlKey || e.metaKey));
@@ -302,10 +309,10 @@ export default {
               this.controller.undo();
               this.stopEvent(e);
             }
-            if(k == 89){// ctrl-y
-              this.controller.redo();
-              this.stopEvent(e);
-            }
+            // if(k == 89){// ctrl-y
+            //   this.controller.redo();
+            //   this.stopEvent(e);
+            // }
 
             if(k == 68){ // ctrl-d
               this.onDuplicate();
