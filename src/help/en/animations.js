@@ -4,9 +4,9 @@ export let texts = [
         "name":"Animations",
         "title": "Animations",
         "body": `
-            Quant-UX supports two kind of annimations. Widget animations change the style of a widget, depending on the
-            user interactions. For instance you can define a hover color of a button, or an error color for a text box.
-            In addtion, you can also create screen animations, that are shown once a screen is loaded. These include entrance
+            Quant-UX supports two kinds of animations. Widget animations change the style of a widget, depending on the
+            user interactions. For instance, you can define a hover color for a button, or an error color for a text box.
+            In addition, you can also create screen animations, that are shown once a screen is loaded. These include entrance
             animations, such as slide in effects, and more complex animations that are defined for every widget.
 
             
@@ -19,9 +19,9 @@ export let texts = [
                 "id": "animations.widget",
                 "title": "Widget Animations",
                 "body": `
-                    To create a widget animation select a widget. If the widget supports animations you can see in the 
+                    To add an animation to a widget, select a widget, and if the widget supports animations you can see in the 
                     lower right corner a tab bar with the different widget states, e.g. <strong>Normal</strong>
-                    and <strong>Hover</strong>. 
+                    and <strong>Hover</strong>. Note that this is only visible in Design view.
                     
                     <br> <br> 
                     If you press Hover, the properties panel will change and only show the properties 
