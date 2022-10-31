@@ -278,9 +278,9 @@ export default {
           if(removed){
             this.stopEvent(e);
           }
-        } else if (e.ctrlKey + e.shiftKey) {
+        } else if (e.ctrlKey + e.shiftKey) { // This is added separately since two modifier keys are used
           if(!this._inlineEditStarted) {
-            if(k == 90){// ctrl+shift+z
+            if(k == 90){// ctrl+shift+z is the shortcut for redo
               this.controller.redo();
               this.stopEvent(e);
             }
@@ -309,11 +309,6 @@ export default {
               this.controller.undo();
               this.stopEvent(e);
             }
-            // if(k == 89){// ctrl-y
-            //   this.controller.redo();
-            //   this.stopEvent(e);
-            // }
-
             if(k == 68){ // ctrl-d
               this.onDuplicate();
               this.stopEvent(e);
