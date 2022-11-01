@@ -244,6 +244,7 @@ export default {
 		},
 
 		hideDropDown (){
+			console.trace()
 			this.isOpen = false;
 			if(this._ignoreHide){
 				return;

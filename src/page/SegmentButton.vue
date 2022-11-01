@@ -22,7 +22,7 @@ export default {
     },
     components: {},
     methods: {  
-		setOptions:function(list){
+		setOptions (list){
 			this._lis = {};			
 			var first = list.slice(0, 6);			
 			for(var i=0; i < first.length; i++){
@@ -43,7 +43,7 @@ export default {
 			}		
 		},
 		
-		setValue:function(v){
+		setValue (v){
 			this.selected = v;
 			for (var id in this._lis){
 				var li = this._lis[id];
@@ -54,11 +54,11 @@ export default {
 			}
 		},
 		
-		getValue:function(){
+		getValue (){
 			return this.selected;
 		},
 		
-		onChange:function(o){
+		onChange (o){
 			this.setValue(o.value);
 			this.emit("change", this.selected );
 			this.emit("input", this.selected );
@@ -73,7 +73,7 @@ export default {
 		if (this.options) {
 			this.setOptions(this.options)
 		}
-		if (this.value) {
+		if (this.value !== undefined) {
 			this.setValue(this.value)
 		}
     }

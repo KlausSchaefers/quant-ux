@@ -944,6 +944,10 @@
 	border-bottom:1px solid #ccc;
 }
 
+.MatcToolbarPopUpSection:last-child {
+	border: none;
+}
+
 .MatcToolbarPopUpArrowCntr{
 	height: 30px;
 	width: 10px;
@@ -1258,7 +1262,7 @@ input.MatcToobarInlineEditDisabled:focus{
  ****************************************************/
 
 .MatcToolbarDropDownButton.MatcToolbarIconDropDownButton {
-	width: 60px;
+	width: 52px;
 	text-align: left;
 }
 

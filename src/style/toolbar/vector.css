@@ -30,3 +30,35 @@
     background: #333;
     color: #fff;
 }
+
+.MatcVectorStrokeProps {
+
+}
+
+.MatcVectorStrokePropsPopup {
+    width: 200px;
+    min-height: 160px;
+    padding-bottom: 16px;
+}
+
+.MatcVectorStrokePropsPopupBig {
+    height: 300px;
+}
+
+.MatcVectorStrokePropsPopup .MatcToolbarPopUpSection {
+    padding: 8px 16px;
+    margin: 0px;
+
+}
+
+
+.MatcVectorStrokePropsPopup .MatcToolbarPopUpLabel {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+
+.MatcVectorStrokePropsPopup .MatcSegmentButton .MatcButton {
+    font-size: 14px;
+}

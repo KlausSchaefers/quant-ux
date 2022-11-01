@@ -10,6 +10,7 @@ import SVGStroke from 'canvas/toolbar/components/SVGStroke'
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 //import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
+import SVGStrokeStyle from '../components/SVGStrokeStyle'
 import DomBuilder from 'common/DomBuilder'
 
 export default {
@@ -97,49 +98,57 @@ export default {
             css.add(row2, 'MatcToobarRow MatcToobarRowFlex')
             content.appendChild(row2)
 
-
-            this.svgStrokeDashArray = this.$new(ToolbarDropDownButton,  {isIconButton: true});
-            //css.add(this.svgStrokeDashArray.domNode, "MatcToolbarIconDropDownButton")
-            this.svgStrokeDashArray.reposition = true;
-            this.svgStrokeDashArray.setPopupCss("MatcActionAnimProperties");
-		    this.svgStrokeDashArray.setOptions([
-                { value:null, label: 'Solid', icon: 'mdi mdi-current-dc'},
-                { value:"5,5", label:'Small Dash', icon: 'mdi mdi-current-dc'},
-                { value:"10,10", label:"Medium Dash", icon: 'mdi mdi-current-dc'},
-                { value:"20,20", label:"Long Dash", icon: 'mdi mdi-current-dc'}
+            this.svgStrokeArrowLeft = this.$new(ToolbarDropDownButton,  {isIconButton:true});
+            this.svgStrokeArrowLeft.reposition = true;
+            this.svgStrokeArrowLeft.setPopupCss("MatcActionAnimProperties");
+		    this.svgStrokeArrowLeft.setOptions([
+                { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
+                { value:"round", label:'Arrow', icon: 'mdi mdi-arrow-left'},
+                { value:"square", label:'Circle', icon: 'mdi mdi-circle-medium'}
             ]);
-            this.own(on(this.svgStrokeDashArray, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeDash")));
-            this._placeAt(this.svgStrokeDashArray, row2);
+            this.own(on(this.svgStrokeArrowLeft, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeArrowLeft")));
+            this._placeAt(this.svgStrokeArrowLeft, row2);
 
-           
-            //const row3 = document.createElement("div");
-            //css.add(row3, 'MatcToobarRow')
-            //content.appendChild(row3)
 
-            this.svgStrokeCap = this.$new(ToolbarDropDownButton,  {isIconButton:true});
-            //css.add(this.svgStrokeCap.domNode, "MatcToolbarIconDropDownButton")
-            this.svgStrokeCap.reposition = true;
-            this.svgStrokeCap.setPopupCss("MatcActionAnimProperties");
-		    this.svgStrokeCap.setOptions([
-                { value:null, label: 'Square Line Caps', icon: 'mdi mdi-close-circle-outline'},
-                { value:"round", label:'Round Line Caps', icon: 'mdi mdi-close-circle-outline'}
+            this.svgStrokeArrowRight = this.$new(ToolbarDropDownButton,  {isIconButton:true});
+            this.svgStrokeArrowRight.reposition = true;
+            this.svgStrokeArrowRight.setPopupCss("MatcActionAnimProperties");
+		    this.svgStrokeArrowRight.setOptions([
+            { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
+                { value:"round", label:'Round Line Caps', icon: 'mdi mdi-arrow-left'},
+                { value:"square", label:'Square Line Caps', icon: 'mdi mdi-arrow-left'}
             ]);
-            this.own(on(this.svgStrokeCap, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeLineCap")));
-            this._placeAt(this.svgStrokeCap, row2);
+            this.own(on(this.svgStrokeArrowRight, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeArrowRight")));
+            this._placeAt(this.svgStrokeArrowRight, row2);
+            
+
+            // this.svgStrokeDashArray = this.$new(ToolbarDropDownButton,  {isIconButton: true});
+            // this.svgStrokeDashArray.reposition = true;
+            // this.svgStrokeDashArray.setPopupCss("MatcActionAnimProperties");
+		    // this.svgStrokeDashArray.setOptions([
+            //     { value:null, label: 'Solid', icon: 'SVGStrokeIcon SVGStrokeIconStyle SVGStrokeIconStyleSolid'},
+            //     { value:"5,5", label:'Small Dash', icon: 'SVGStrokeIcon SVGStrokeIconStyle SVGStrokeIconStyleDashSmall'},
+            //     { value:"10,10", label:"Long Dash", icon: 'SVGStrokeIcon SVGStrokeIconStyle SVGStrokeIconStyleDashMedium'}
+            // ]);
+            // this.own(on(this.svgStrokeDashArray, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeDash")));
+            // this._placeAt(this.svgStrokeDashArray, row2);
+
+            
+            // this.svgStrokeCap = this.$new(ToolbarDropDownButton,  {isIconButton:true});
+            // this.svgStrokeCap.reposition = true;
+            // this.svgStrokeCap.setPopupCss("MatcActionAnimProperties");
+		    // this.svgStrokeCap.setOptions([
+            //     { value:null, label: 'Square Line Caps', icon: 'SVGStrokeIcon SVGStrokeIconJointRound'},
+            //     { value:"round", label:'Round Line Caps', icon: 'SVGStrokeIcon SVGStrokeIconJointSquare'},
+            // ]);
+            // this.own(on(this.svgStrokeCap, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeLineCap")));
+            // this._placeAt(this.svgStrokeCap, row2);
 
 
-
-            this.svgStrokeArrow = this.$new(ToolbarDropDownButton,  {isIconButton:true});
-            this.svgStrokeArrow.reposition = true;
-            this.svgStrokeArrow.setPopupCss("MatcActionAnimProperties");
-		    this.svgStrokeArrow.setOptions([
-                { value:null, label: 'Square Line Caps', icon: 'mdi mdi-arrow-left'},
-                { value:"round", label:'Round Line Caps', icon: 'mdi mdi-arrow-left'}
-            ]);
-            this.own(on(this.svgStrokeArrow, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeArrow")));
-            this._placeAt(this.svgStrokeArrow, row2);
-
-
+            this.svgStrokeStyle = this.$new(SVGStrokeStyle)
+            this.own(on(this.svgStrokeStyle, "changeDash", lang.hitch(this, "setSVGPathStyle", false, "strokeDash")));
+            this.own(on(this.svgStrokeStyle, "changeCap", lang.hitch(this, "setSVGPathStyle", false, "strokeLineCap")));
+            this._placeAt(this.svgStrokeStyle, row2);
 
             this.properties.appendChild(parent);
 			this.svgStrokeDiv = parent;
@@ -176,7 +185,6 @@ export default {
 			this.svgFillColor.updateLabel = true;
 			this.svgFillColor.keepOpenOnTypeSelection = "svgPaths";
 			this.svgFillColor.setModel(this.model);
-			//this.svgBackgroundColor.setCssProps(['background'])
 			this._placeAt(this.svgFillColor, content);
 			this.own(on(this.svgFillColor, "change", lang.hitch(this, "setSVGFill", false)));
 			this.own(on(this.svgFillColor, "changing", lang.hitch(this, "setSVGFill", true)));
@@ -204,22 +212,21 @@ export default {
         showSVGWidgetProperties (model) {
             this.logger.log(1,"showSVGWidgetProperties", "entry > ", model);
 
-            //css.remove(this.svgButtonDiv,"MatcToolbarSectionHidden" );
             css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
             css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
         
             this.svgStrokeBox.setModel(this.model)
 		    this.svgPathSize.setModel(this.model);
 
- 
-
             if (model.props.paths) {
                 const path = model.props.paths[0]
            
                 this.svgFillColor.setValue(path.fill)             
                 this.svgStrokeBox.setValue(path)     
-                this.svgStrokeDashArray.setValue(path.strokeDash)
-                this.svgStrokeCap.setValue(path.strokeLineCap)
+                // this.svgStrokeDashArray.setValue(path.strokeDash)
+                // this.svgStrokeCap.setValue(path.strokeLineCap)
+                this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
+                this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
             }
         },
 
@@ -227,7 +234,6 @@ export default {
         showMultiSVGWidgetProperties (ids) {
             this.logger.log(1,"showSVGWidgetProperties", "entry > ", ids);
 
-            //css.remove(this.svgButtonDiv,"MatcToolbarSectionHidden" );
             css.remove(this.svgFillDiv, "MatcToolbarSectionHidden");
             css.remove(this.svgStrokeDiv, "MatcToolbarSectionHidden");
 
@@ -240,7 +246,11 @@ export default {
             if (model && model.props.paths) {
                 const path = model.props.paths[0]
                 this.svgFillColor.setValue(path.fill)             
-                this.svgStrokeBox.setValue(path)     
+                this.svgStrokeBox.setValue(path)
+                // this.svgStrokeDashArray.setValue(path.strokeDash)
+                // this.svgStrokeCap.setValue(path.strokeLineCap)
+                this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
+                this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
             }
         },
 
@@ -267,8 +277,10 @@ export default {
 			    this.svgPathSize.setValue(bbox);
                 this.svgRotate.setValue(path.angle);
 
-                this.svgStrokeDashArray.setValue(path.strokeDash)
-                this.svgStrokeCap.setValue(path.strokeLineCap)
+                // this.svgStrokeDashArray.setValue(path.strokeDash)
+                // this.svgStrokeCap.setValue(path.strokeLineCap)
+                this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
+                this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
                 
             } else if (this._selectionPaths.length > 1){
                 css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
@@ -280,8 +292,10 @@ export default {
                 this.svgFillColor.setValue(path.fill)             
                 this.svgStrokeBox.setValue(path)     
 
-                this.svgStrokeDashArray.setValue(path.strokeDash)
-                this.svgStrokeCap.setValue(path.strokeLineCap)
+                // this.svgStrokeDashArray.setValue(path.strokeDash)
+                // this.svgStrokeCap.setValue(path.strokeLineCap)
+                this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
+                this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
 
             } else {
                 this.logger.log(1,"showSVGProperties", "wrong selected paths ");

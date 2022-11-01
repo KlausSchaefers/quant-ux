@@ -329,12 +329,13 @@ input:focus{
 }
 
 .MatcSegmentButtonCntr{
-	 display: flex;
-	 flex-wrap: nowrap;
-	 justify-content: flex-start;
-	 align-content: stretch;
-		border-radius:3px;
-	  overflow:hidden;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-content: stretch;
+	border-radius:3px;
+	overflow:hidden;
+	border:1px solid #3787f2;
 }
 
 .MatcSegmentButton {
@@ -344,19 +345,17 @@ input:focus{
 
 .MatcSegmentButton .MatcButton{
 	margin: 0px;
-	border:1px solid #3787f2;
+	
 	border-left:0px;
 	border-radius:0px;
 	padding:3px 5px;
-  flex-grow: 1;
-  text-align: center;
+	flex-grow: 1;
+	text-align: center;
 	background: #fff;
 	color: #3787f2;
 }
 
-.MatcSegmentButton .MatcButton:first-child {
-	border-left:1px solid #3787f2
-}
+
 
 .MatcSegmentButton .MatcButton.MatcDropDownButtonSelected,
 .MatcSegmentButton .MatcButton.MatcButtonActive{
