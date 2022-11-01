@@ -675,7 +675,7 @@ export default {
 		},
 
 
-		selectNode (ids) {
+	selectNode (ids) {
 			this.unSelectNodes()
 			this.$nextTick(() => {
 				ids.forEach(id => {
