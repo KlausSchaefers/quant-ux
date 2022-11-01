@@ -403,7 +403,7 @@ export default {
 			this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
 
 			this.addTooltip(this.undo, "Undo (CTRL+Z)");
-			this.addTooltip(this.redo, "Redo (CTRL+Y)");
+			this.addTooltip(this.redo, "Redo (CTRL+Shift+Z)");
 
 			this.addTooltip(this.copyBtn, "Copy (CTRL+C)");
 			this.addTooltip(this.pasteBtn, "Paste (CTRL+V)");
