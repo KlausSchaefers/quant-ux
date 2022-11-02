@@ -617,3 +617,11 @@ export function getBezierSlopes(path, bezierPoint) {
 
     return result
 }
+
+export function getMarkerURL (i, path, type, prefix) {
+    return `url(#${prefix}_${type}_${path.id})`
+}
+
+export function getMarkerID (i, path, type, prefix) {
+    return `${prefix}_${type}_${path.id}`
+}

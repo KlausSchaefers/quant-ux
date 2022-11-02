@@ -103,11 +103,11 @@ export default {
             this.svgStrokeArrowLeft.setPopupCss("MatcActionAnimProperties");
 		    this.svgStrokeArrowLeft.setOptions([
                 { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
-                { value:"arrow", label:'Arrow', icon: 'mdi mdi-arrow-left'},
-                { value:"triangle", label:'Triangle', icon: 'mdi mdi-menu-left'},
+                { value:"arrowStart", label:'Arrow', icon: 'mdi mdi-arrow-left'},
+                { value:"triangleStart", label:'Triangle', icon: 'mdi mdi-menu-left'},
                 { value:"circle", label:'Circle', icon: 'mdi mdi-circle-medium'}
             ]);
-            this.own(on(this.svgStrokeArrowLeft, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeArrowLeft")));
+            this.own(on(this.svgStrokeArrowLeft, "change", lang.hitch(this, "setSVGPathStyle", false, "markerStart")));
             this._placeAt(this.svgStrokeArrowLeft, row2);
 
 
@@ -116,11 +116,11 @@ export default {
             this.svgStrokeArrowRight.setPopupCss("MatcActionAnimProperties");
 		    this.svgStrokeArrowRight.setOptions([
                 { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
-                { value:"arrow", label:'Round Line Caps', icon: 'mdi mdi-arrow-right'},
-                { value:"triangle", label:'Triangle', icon: 'mdi mdi-menu-right'},
+                { value:"arrowEnd", label:'Arrow', icon: 'mdi mdi-arrow-right'},
+                { value:"triangleEnd", label:'Triangle', icon: 'mdi mdi-menu-right'},
                 { value:"circle", label:'Circle', icon: 'mdi mdi-circle-medium'}
             ]);
-            this.own(on(this.svgStrokeArrowRight, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeArrowRight")));
+            this.own(on(this.svgStrokeArrowRight, "change", lang.hitch(this, "setSVGPathStyle", false, "markerEnd")));
             this._placeAt(this.svgStrokeArrowRight, row2);
             
 
@@ -289,8 +289,8 @@ export default {
             // this.svgStrokeDashArray.setValue(path.strokeDash)
             this.svgStrokeStyle.setValue(path.strokeDash)
             this.svgStrokeCap.setValue(path.strokeLineCap)
-            this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
-            this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
+            this.svgStrokeArrowRight.setValue(path.markerEnd)
+            this.svgStrokeArrowLeft.setValue(path.markerStart)
         },
 
         showSVGPathProps (pathID, key, value) {

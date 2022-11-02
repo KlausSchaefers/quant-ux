@@ -18,6 +18,31 @@
                 <linearGradient v-for="g in gradients" :id="g.id" :key="g.id" :x1="g.angle.x1" :x2="g.angle.x2" :y1="g.angle.y1" :y2="g.angle.y2">
                     <stop v-for="(c,i) in g.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
                 </linearGradient>
+
+
+                <template v-for="m in markers" >
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" orient="auto-start-reverse" v-if="m.type === 'triangleStart'">
+                        <polygon points="0 0, 3 1.5, 0 3" :fill="m.stroke"/>
+                    </marker>
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" orient="auto" v-if="m.type === 'triangleEnd'">
+                        <polygon points="0 0, 3 1.5, 0 3" :fill="m.stroke"/>
+                    </marker>
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="3" refY="1.5" orient="auto-start-reverse" v-if="m.type === 'arrowStart'">
+                        <path d="M0,0 L3,1.5, L0,3"  :stroke="m.stroke"/>
+                    </marker>
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="3" refY="1.5" orient="auto" v-if="m.type === 'arrowEnd'">
+                        <path d="M0,0 L3,1.5, L0,3"  :stroke="m.stroke"/>
+                    </marker>
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="1.5" refY="1.5" orient="auto" v-if="m.type === 'circle'">
+                        <circle cx="1.5" cy="1.5" r="1.5"  :fill="m.stroke"/>
+                    </marker>
+
+                </template>
             </defs>
 
 
@@ -44,6 +69,8 @@
                 :stroke-width="p.strokeWidth"
                 :stroke-dasharray="p.strokeDash"
                 :stroke-linecap="p.strokeLineCap"
+                :marker-end="p.markerEnd"
+                :marker-start="p.markerStart"
                 :fill="p.fill"
                 :id="p.id"
                 ref="paths"
@@ -375,13 +402,41 @@ export default {
             if (path.d) {
                 svg.d = SVGUtil.pathToSVG(path.d, this.offSetValue, this.offSetValue, path.closed)
             }
+            if (path.markerStart) {
+              svg.markerStart = SVGUtil.getMarkerURL(i, path, 'start', 'e')
+            }
+            if (path.markerEnd) {
+              svg.markerEnd = SVGUtil.getMarkerURL(i, path,'end', 'e')
+            }
             if (this.hover === path.id) {
                 svg.stroke = this.config.colorHover
             }
             return svg
         })
         return result
-      }
+      },
+    markers () {
+      const markers = []
+      this.value.forEach((path, i) =>{
+
+        if (path.markerStart) {
+          markers.push({
+            id: SVGUtil.getMarkerID(i, path, 'start', 'e'),
+            stroke:path.stroke,
+            type: path.markerStart
+          })
+        }
+        if (path.markerEnd) {
+          markers.push({
+            id: SVGUtil.getMarkerID(i, path, 'end', 'e'),
+            stroke: path.stroke,
+            type: path.markerEnd
+          })
+        }
+        return markers
+      })
+      return markers
+    },
   },
   components: {
   },

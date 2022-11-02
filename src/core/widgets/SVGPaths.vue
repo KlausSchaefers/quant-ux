@@ -12,14 +12,42 @@
                     <stop v-for="(c,i) in g.fill.colors" :key="i" :offset="Math.round(c.p) + '%'" :stop-color="c.c" />
                 </linearGradient>
 
-           
+                  <template v-for="m in markers" >
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" orient="auto-start-reverse" v-if="m.type === 'triangleStart'">
+                      <polygon points="0 0, 3 1.5, 0 3" :fill="m.stroke"/>
+                    </marker>
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" orient="auto" v-if="m.type === 'triangleEnd'">
+                      <polygon points="0 0, 3 1.5, 0 3" :fill="m.stroke"/>
+                    </marker>
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="3" refY="1.5" orient="auto-start-reverse" v-if="m.type === 'arrowStart'">
+                      <path d="M0,0 L3,1.5, L0,3"  :stroke="m.stroke"/>
+                    </marker>
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="3" refY="1.5" orient="auto" v-if="m.type === 'arrowEnd'">
+                      <path d="M0,0 L3,1.5, L0,3"  :stroke="m.stroke"/>
+                    </marker>
+
+                    <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="1.5" refY="1.5" orient="auto" v-if="m.type === 'circle'">
+                      <circle cx="1.5" cy="1.5" r="1.5"  :fill="m.stroke"/>
+                    </marker>
+
+                  </template>
+               
+
             </defs>
+
+  
             <path v-for="p in svgPaths"
                 :key="p.id"
                 :d="p.d"
                 :stroke="p.stroke"
                 :stroke-dasharray="p.strokeDash"
                 :stroke-linecap="p.strokeLineCap"
+                :marker-end="p.markerEnd"
+                :marker-start="p.markerStart"
                 :fill="p.fill"
                 :id="p.id"
                 ref="paths"
@@ -27,6 +55,7 @@
                 :stroke-width="p.strokeWidth"/>
             </g>
          
+            
         </svg>
       </div>
 </template>
@@ -46,8 +75,8 @@ export default {
       scale: 1,
       width: 0,
       height: 0,
-      overflowOffset: 20, // avoid cutoffs. Maybe make it flexible?
-      offSetValue: 20.5, // add here the overflowOffset + 0.5
+      overflowOffset: 40, // avoid cutoffs. Maybe make it flexible?
+      offSetValue: 40.5, // add here the overflowOffset + 0.5
       paths: [],
       svgPaths: [],
       viewBox: {
@@ -58,7 +87,29 @@ export default {
   },
   components: {},
   computed: {
-     gradients () {
+    markers () {
+      const markers = []
+      this.paths.forEach((path, i) =>{
+
+        if (path.markerStart) {
+          markers.push({
+            id: SVGUtil.getMarkerID(i, path, 'start', this.model.id),
+            stroke:path.stroke,
+            type: path.markerStart
+          })
+        }
+        if (path.markerEnd) {
+          markers.push({
+            id: SVGUtil.getMarkerID(i, path, 'end', this.model.id),
+            stroke: path.stroke,
+            type: path.markerEnd
+          })
+        }
+        return markers
+      })
+      return markers
+    },
+    gradients () {
         const result = this.paths.map((path, i) =>{
           if (path?.fill.gradient) {
             return {
@@ -121,6 +172,12 @@ export default {
                 strokeLineCap: path.strokeLineCap,
                 fill: path.fill,
                 d: ''
+            }
+            if (path.markerStart) {
+              svg.markerStart = SVGUtil.getMarkerURL(i, path, 'start', this.model.id)
+            }
+            if (path.markerEnd) {
+              svg.markerEnd = SVGUtil.getMarkerURL(i, path,'end', this.model.id)
             }
             if (svg.strokeDash) {
                 svg.strokeDash = path.strokeDash

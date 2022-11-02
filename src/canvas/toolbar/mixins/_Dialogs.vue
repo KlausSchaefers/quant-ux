@@ -263,6 +263,7 @@ export default {
 			this._renderShortCut(db, tbl,"T", "Create Text");
 			this._renderShortCut(db, tbl,"S", "Create Screen");
 			this._renderShortCut(db, tbl,"W", "Create Widget");
+			this._renderShortCut(db, tbl,"V", "Create Vector");
 			this._renderShortCut(db, tbl,"D", "Distribute Selection");
 			this._renderShortCut(db, tbl,"C", "Clone Selection");
 		
