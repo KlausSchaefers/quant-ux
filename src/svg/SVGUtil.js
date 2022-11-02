@@ -204,6 +204,9 @@ export function pathToSVG (d, offsetX =0, offsetY = 0, closed = false) {
       if (point.t === 'Z') {
         return `Z`
       }
+      if (point.t === 'A') {
+        return `A ${point.rx} ${point.ry}  ${point.xar} ${point.laf} ${point.sf} ${point.x} ${point.y}`
+      }
       return `${point.t} ${point.x + offsetX} ${point.y + offsetY}`
   }).join(' ')
   if (closed && d.length > 0) {

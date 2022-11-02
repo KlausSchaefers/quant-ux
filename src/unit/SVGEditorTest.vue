@@ -4,6 +4,7 @@
     <div class="toolbar">
       <a @click="createLine">Line </a>
       <a @click="createBezier"> Curve </a>
+      <a @click="createArc"> Arc </a>
       <a @click="createRect"> Rect </a>
       <a @click="createTriangle"> Triangle </a>
       <a @click="createEllipse"> Ellipse </a>
@@ -119,6 +120,9 @@ export default {
       },
       createLine () {
         this.$refs.editor.startPathTool(true)
+      },
+      createArc () {
+        this.$refs.editor.startArcTool(true)
       },
       createEllipse () {
         this.$refs.editor.setShowAllBezier(true)

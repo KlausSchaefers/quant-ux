@@ -198,7 +198,7 @@ export default class MorphTool extends Tool{
     }
 
     onJointMouseUp(joint){
-        this.logger.log(-3, 'onJointMouseUp', 'enter', joint)
+        this.logger.log(3, 'onJointMouseUp', 'enter', joint)
         this.isJointDown = false
         delete this.selectedJointStartPos
         delete this.selectedJointStartPath
@@ -216,7 +216,8 @@ export default class MorphTool extends Tool{
         this.selectedBezier = bezierPoint
         this.selectedBezierDistance = SVGUtil.getBezierDistance(this.selectedElement, bezierPoint)
         const slopes = SVGUtil.getBezierSlopes(this.selectedElement, bezierPoint)
-        this.selectedBezierSlopeIsDifferent = Math.abs(slopes.x1 - slopes.x2) < 0.01
+        console.debug(slopes )
+        this.selectedBezierSlopeIsDifferent = Math.abs(slopes.x1 - slopes.x2) < 0.05
         this.editor.setSelectedBezier(bezierPoint)
         this.editor.setCursor('move')
     }

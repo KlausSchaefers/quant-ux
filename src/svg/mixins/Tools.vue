@@ -11,6 +11,7 @@ import RectangleTool from '../tools/RectangleTool'
 import TriangleTool from '../tools/TriangleTool'
 import EllipseTool from '../tools/EllipseTool'
 import DiamondTool from '../tools/DiamondTool'
+import ArcTool from '../tools/ArcTool'
 
 export default {
   name: "Tools",
@@ -139,6 +140,15 @@ export default {
             this.currentTool.select(selected)
         }
        
+    },
+
+    startArcTool () {
+        this.logger.log(1, 'startRectangleTool ', 'enter')
+        this.mode = 'add'
+        this.reset()
+        this.setCursor('crosshair')
+        this.currentTool = new ArcTool(this, this.selection)
+        this.initRuler(this.selection)
     },
 
     startRectangleTool () {

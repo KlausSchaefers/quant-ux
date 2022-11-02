@@ -20,7 +20,7 @@ export default class SimpleGrid extends Core{
 	start (canvas, grid, zoom, activePoint){
 		this.grid = grid;
 		this.model = canvas.model;
-		this.container = canvas.widgetContainer;
+		this.container = canvas.dndContainer;
 
 		this.activePoint = activePoint;
 		if (grid.enabled) {

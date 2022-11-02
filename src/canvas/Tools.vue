@@ -768,10 +768,15 @@ export default {
 				if (topGroups.length === 1 && elementsWidthGroup.length === 0) {
 					this._selectGroup = topGroups[0];
 					this.controller.setMode("edit", false);
-				} else if(selectedScreens.length >= 1){
+				} else if(selectedScreens.length === 1){
 					this._selectedScreen = selectedScreens[0];
 					this.controller.setMode("edit", false);
-				} else if(selection.length > 1){
+				}  else if(selectedScreens.length >= 1){
+					console.warn('Multi Screen selection not supported')
+					this._selectedScreen = selectedScreens[0];
+					this.controller.setMode("edit", false);
+				}
+				else if(selection.length > 1){
 					this._selectMulti = selection;
 					this.controller.setMode("edit", false);
 				} else if(selection.length == 1){

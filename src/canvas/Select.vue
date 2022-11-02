@@ -371,7 +371,7 @@ import topic from 'dojo/topic'
 			 * Since 4.0.40 we can just update the resizeHandlers for zooms etc.
 			 * We still provide a call to renderSelection() as fallback
 			 */
-			let box = this.getSelectedBox()
+			const box = this.getSelectedBox()
 			if (box) {
 				this._updateResizeHandlers(box)
 			} else {
