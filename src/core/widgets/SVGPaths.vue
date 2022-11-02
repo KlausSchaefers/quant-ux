@@ -22,12 +22,12 @@
                       <polygon points="0 0, 3 1.5, 0 3" :fill="m.stroke"/>
                     </marker>
 
-                    <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="3" refY="1.5" orient="auto-start-reverse" v-if="m.type === 'arrowStart'">
-                      <path d="M0,0 L3,1.5, L0,3"  :stroke="m.stroke"/>
+                    <marker :key="m.id"  :id="m.id" markerWidth="10" markerHeight="8" refX="4" refY="3.5" orient="auto-start-reverse" v-if="m.type === 'arrowStart'">
+                      <polyline points="1 2, 4 3.5, 1 5" :stroke="m.stroke"        :stroke-linecap="m.strokeLineCap" />
                     </marker>
 
-                    <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="3" refY="1.5" orient="auto" v-if="m.type === 'arrowEnd'">
-                      <path d="M0,0 L3,1.5, L0,3"  :stroke="m.stroke"/>
+                    <marker :key="m.id"  :id="m.id" markerWidth="10" markerHeight="8" refX="4" refY="3.5" orient="auto" v-if="m.type === 'arrowEnd'">
+                      <polyline points="1 2, 4 3.5, 1 5" :stroke="m.stroke"        :stroke-linecap="m.strokeLineCap"/>
                     </marker>
 
                     <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="1.5" refY="1.5" orient="auto" v-if="m.type === 'circle'">
@@ -95,6 +95,7 @@ export default {
           markers.push({
             id: SVGUtil.getMarkerID(i, path, 'start', this.model.id),
             stroke:path.stroke,
+            strokeLineCap: path.strokeLineCap,
             type: path.markerStart
           })
         }
@@ -102,6 +103,7 @@ export default {
           markers.push({
             id: SVGUtil.getMarkerID(i, path, 'end', this.model.id),
             stroke: path.stroke,
+            strokeLineCap: path.strokeLineCap,
             type: path.markerEnd
           })
         }
