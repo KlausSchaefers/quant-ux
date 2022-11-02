@@ -1093,6 +1093,16 @@ input.MatcToobarInlineEditDisabled:focus{
 	padding-left: 5px;
 }
 
+.MatcToolbarDropDownButton .caret {
+	opacity: 0.5;
+	transition: all 0.25s;
+}
+
+.MatcToolbarDropDownButton:hover .caret {
+	opacity: 1;
+}
+
+
 .MatcToolbarDropDownButtonPopup{
 	font-size: 14px;
 }

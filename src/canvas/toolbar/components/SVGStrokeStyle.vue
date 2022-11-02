@@ -8,27 +8,27 @@
 		</div>
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcVectorStrokePropsPopup" role="menu" data-dojo-attach-point="popup">
             <div class="" @click.stop="" @mousedown.stop="">
+               
                 <div class="MatcToolbarPopUpSection">
-                    <label class="MatcToolbarPopUpLabel">Stroke style</label>
-                    <SegmentButton :options="styles" @change="setStyle" :value="selectedStyle"/>
-                </div>
-                <div class="MatcToolbarPopUpSection" v-if="selectedStyle === 'dash'">
-                    <div>
-                        <label class="MatcToolbarPopUpLabel">Dash</label>
-                        <input @change="onDash"/> 
+                                   
+                    <div class="MatcShadowSettings">
+                        <h3>Stroke Style</h3>
+                        <div ref="dashSliderCntr" class="MatcBoxShadowSliderCntr">
+                            <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Dash</span>
+                        </div>
+                        <div ref="gapSliderCntr" class="MatcBoxShadowSliderCntr">
+                            <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Gap</span>
+                        </div>                      
                     </div>
 
-                    <div>
-                        <label class="MatcToolbarPopUpLabel">Gap</label>
-                        <input @change="onDash"/> 
-                    </div>
-                  
                 </div>
-                <div class="MatcToolbarPopUpSection">
-                    <label class="MatcToolbarPopUpLabel">Joint Style</label>
-                    <SegmentButton :options="caps" @change="setCap" :value="selectedCap"/>
-                </div>
-            </div>           
+              
+            </div>        
+            
+            <div class="MatcToolbarPopupFooter" @click.stop="onReset" @mousedown.stop="">
+                <span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span>
+                <span class="MatcToolbarPopupFooterLabel">Reset to Solid</span>
+            </div>
 
            
         </div>
@@ -40,16 +40,21 @@
 </style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
-import css from 'dojo/css'
 import Util from 'core/Util'
 import _DropDown from './_DropDown'
-import SegmentButton from 'page/SegmentButton'
+import ToolbarSlider from './ToolbarSlider'
+import lang from 'dojo/_base/lang'
+import on from 'dojo/on'
 
 export default {
     name: 'SVgStrokeStyle',
     mixins:[Util, DojoWidget, _DropDown],
     data: function () {
         return {
+            value: {
+                dash:0,
+                gap:0
+            },
             reposition: true,
             arrowPosition: true,
             selectedStyle: null,
@@ -64,38 +69,61 @@ export default {
             ]
         }
     },
-    components: {
-        SegmentButton
+    components: {        
     },
     methods: {
 
-        setCap (s) {
-            this.selectedCap = s
-            this.emit("changeCap", s)
-            this.hideDropDown()
-        },
-    
-        setStyle (s) {
-            this.selectedStyle = s
-            //this.updatePosition()
-            //this.emit("changeDash", s)
-            //this.hideDropDown()
+        renderIntBox (parent, param, min = 0, max = 24, center = false){
+            const input = this.$new(ToolbarSlider,{max:max, min:min, center: center});
+            input.placeAt(parent);
+            input.render();
+            this.own(on(input, "change", lang.hitch(this, "setIntValue", param)));
+            this.own(on(input, "changing", lang.hitch(this, "setIntValue", param)));
+            return input;
         },
 
-        onDash () {
+        setIntValue (key, value) {
+            this.isDirty = true
+            this.value[key] = value
+            this.emit('changing', 'strokeDash', `${this.value.dash},${this.value.gap}`)
+        },
 
+        onReset () {
+            console.debug('onReset')
+            this.value.dash = 0
+            this.value.gap = 0
+            this.isDirty = true
+            this.dashSlider.setValue(0)
+            this.gapSlider.setValue(0)    
+            this.emit('changing', 'strokeDash', `${this.value.dash},${this.value.gap}`)
+        },
+
+        setValue (value) {
+            this.dashSlider.setValue(0)
+            this.gapSlider.setValue(0)    
+            if (!value || !value.split) {
+                return
+            }
+            const parts = value.split(',')
+            if (parts.length !== 2) {
+                return
+            }
+
+            this.dashSlider.setValue(parts[0] * 1)
+            this.gapSlider.setValue(parts[1] * 1)         
+            this.isDirty = false
         },
 
 		onHide (){
-			css.remove(this.domNode,"MatcToolbarItemActive");
-		},
-
-		async init (){
-			
+			if (this.isDirty) {
+                this.emit('change', 'strokeDash', `${this.value.dash},${this.value.gap}`)
+            }
 		},
 
     },
     mounted () {
+        this.dashSlider = this.renderIntBox(this.$refs.dashSliderCntr, 'dash')
+        this.gapSlider = this.renderIntBox(this.$refs.gapSliderCntr, 'gap')
     }
 }
 </script>

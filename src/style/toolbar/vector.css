@@ -36,9 +36,13 @@
 }
 
 .MatcVectorStrokePropsPopup {
-    width: 200px;
-    min-height: 160px;
-    padding-bottom: 16px;
+    width: 320px;
+    min-height: 52px;
+}
+
+.MatcVectorStrokePropsPopup h3 {
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
 .MatcVectorStrokePropsPopupBig {
@@ -46,17 +50,10 @@
 }
 
 .MatcVectorStrokePropsPopup .MatcToolbarPopUpSection {
-    padding: 8px 16px;
+    padding: 16px 8px;
     margin: 0px;
-
 }
 
-
-.MatcVectorStrokePropsPopup .MatcToolbarPopUpLabel {
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 8px;
-}
 
 
 .MatcVectorStrokePropsPopup .MatcSegmentButton .MatcButton {

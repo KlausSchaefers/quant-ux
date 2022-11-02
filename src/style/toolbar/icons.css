@@ -7,13 +7,13 @@
 }
 
 .SVGStrokeIconJointRound {
-    border: 2px solid #555;
+    border: 2px solid currentColor;
     border-right: 0px;
 
 }
 
 .SVGStrokeIconJointSquare{
-    border: 2px solid #555;
+    border: 2px solid currentColor;
     border-right: 0px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
@@ -27,7 +27,7 @@
     content: "";
     height: 6px;
     width: 100%;
-    border-bottom: 2px #555 solid;
+    border-bottom: 2px solid currentColor;
     display: block; 
 }
 

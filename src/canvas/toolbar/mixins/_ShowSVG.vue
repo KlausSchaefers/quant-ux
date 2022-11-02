@@ -103,8 +103,9 @@ export default {
             this.svgStrokeArrowLeft.setPopupCss("MatcActionAnimProperties");
 		    this.svgStrokeArrowLeft.setOptions([
                 { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
-                { value:"round", label:'Arrow', icon: 'mdi mdi-arrow-left'},
-                { value:"square", label:'Circle', icon: 'mdi mdi-circle-medium'}
+                { value:"arrow", label:'Arrow', icon: 'mdi mdi-arrow-left'},
+                { value:"triangle", label:'Triangle', icon: 'mdi mdi-menu-left'},
+                { value:"circle", label:'Circle', icon: 'mdi mdi-circle-medium'}
             ]);
             this.own(on(this.svgStrokeArrowLeft, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeArrowLeft")));
             this._placeAt(this.svgStrokeArrowLeft, row2);
@@ -114,9 +115,10 @@ export default {
             this.svgStrokeArrowRight.reposition = true;
             this.svgStrokeArrowRight.setPopupCss("MatcActionAnimProperties");
 		    this.svgStrokeArrowRight.setOptions([
-            { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
-                { value:"round", label:'Round Line Caps', icon: 'mdi mdi-arrow-left'},
-                { value:"square", label:'Square Line Caps', icon: 'mdi mdi-arrow-left'}
+                { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
+                { value:"arrow", label:'Round Line Caps', icon: 'mdi mdi-arrow-right'},
+                { value:"triangle", label:'Triangle', icon: 'mdi mdi-menu-right'},
+                { value:"circle", label:'Circle', icon: 'mdi mdi-circle-medium'}
             ]);
             this.own(on(this.svgStrokeArrowRight, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeArrowRight")));
             this._placeAt(this.svgStrokeArrowRight, row2);
@@ -134,20 +136,20 @@ export default {
             // this._placeAt(this.svgStrokeDashArray, row2);
 
             
-            // this.svgStrokeCap = this.$new(ToolbarDropDownButton,  {isIconButton:true});
-            // this.svgStrokeCap.reposition = true;
-            // this.svgStrokeCap.setPopupCss("MatcActionAnimProperties");
-		    // this.svgStrokeCap.setOptions([
-            //     { value:null, label: 'Square Line Caps', icon: 'SVGStrokeIcon SVGStrokeIconJointRound'},
-            //     { value:"round", label:'Round Line Caps', icon: 'SVGStrokeIcon SVGStrokeIconJointSquare'},
-            // ]);
-            // this.own(on(this.svgStrokeCap, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeLineCap")));
-            // this._placeAt(this.svgStrokeCap, row2);
+            this.svgStrokeCap = this.$new(ToolbarDropDownButton,  {isIconButton:true});
+            this.svgStrokeCap.reposition = true;
+            this.svgStrokeCap.setPopupCss("MatcActionAnimProperties");
+		    this.svgStrokeCap.setOptions([
+                { value:null, label: 'Square Line Caps', icon: 'SVGStrokeIcon SVGStrokeIconJointRound'},
+                { value:"round", label:'Round Line Caps', icon: 'SVGStrokeIcon SVGStrokeIconJointSquare'},
+            ]);
+            this.own(on(this.svgStrokeCap, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeLineCap")));
+            this._placeAt(this.svgStrokeCap, row2);
 
 
             this.svgStrokeStyle = this.$new(SVGStrokeStyle)
-            this.own(on(this.svgStrokeStyle, "changeDash", lang.hitch(this, "setSVGPathStyle", false, "strokeDash")));
-            this.own(on(this.svgStrokeStyle, "changeCap", lang.hitch(this, "setSVGPathStyle", false, "strokeLineCap")));
+            this.own(on(this.svgStrokeStyle, "change", lang.hitch(this, "setSVGPathStyle", false)));
+            this.own(on(this.svgStrokeStyle, "changing", lang.hitch(this, "setSVGPathStyle", true)));
             this._placeAt(this.svgStrokeStyle, row2);
 
             this.properties.appendChild(parent);
@@ -219,14 +221,8 @@ export default {
 		    this.svgPathSize.setModel(this.model);
 
             if (model.props.paths) {
-                const path = model.props.paths[0]
-           
-                this.svgFillColor.setValue(path.fill)             
-                this.svgStrokeBox.setValue(path)     
-                // this.svgStrokeDashArray.setValue(path.strokeDash)
-                // this.svgStrokeCap.setValue(path.strokeLineCap)
-                this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
-                this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
+                const path = model.props.paths[0]           
+                this._setPathProps(path)
             }
         },
 
@@ -245,12 +241,7 @@ export default {
             const model = this.model.widgets[ids[0]]
             if (model && model.props.paths) {
                 const path = model.props.paths[0]
-                this.svgFillColor.setValue(path.fill)             
-                this.svgStrokeBox.setValue(path)
-                // this.svgStrokeDashArray.setValue(path.strokeDash)
-                // this.svgStrokeCap.setValue(path.strokeLineCap)
-                this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
-                this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
+                this._setPathProps(path)
             }
         },
 
@@ -272,15 +263,11 @@ export default {
                 const path = this._selectionPaths[0]
 
                 //this.svgPathName.value = path.name
-                this.svgFillColor.setValue(path.fill)             
-                this.svgStrokeBox.setValue(path)
+  
 			    this.svgPathSize.setValue(bbox);
                 this.svgRotate.setValue(path.angle);
-
-                // this.svgStrokeDashArray.setValue(path.strokeDash)
-                // this.svgStrokeCap.setValue(path.strokeLineCap)
-                this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
-                this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
+                this._setPathProps(path)
+             
                 
             } else if (this._selectionPaths.length > 1){
                 css.add(this.svgBoxDiv, "MatcToolbarSectionHidden");
@@ -289,17 +276,21 @@ export default {
                 css.remove(this.svgTransformDiv, "MatcToolbarSectionHidden")
 
                 const path = this._selectionPaths[0]
-                this.svgFillColor.setValue(path.fill)             
-                this.svgStrokeBox.setValue(path)     
-
-                // this.svgStrokeDashArray.setValue(path.strokeDash)
-                // this.svgStrokeCap.setValue(path.strokeLineCap)
-                this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
-                this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
+                this._setPathProps(path)
 
             } else {
                 this.logger.log(1,"showSVGProperties", "wrong selected paths ");
             }
+        },
+
+        _setPathProps (path) {
+            this.svgFillColor.setValue(path.fill)             
+            this.svgStrokeBox.setValue(path)
+            // this.svgStrokeDashArray.setValue(path.strokeDash)
+            this.svgStrokeStyle.setValue(path.strokeDash)
+            this.svgStrokeCap.setValue(path.strokeLineCap)
+            this.svgStrokeArrowRight.setValue(path.strokeArrowRight)
+            this.svgStrokeArrowLeft.setValue(path.strokeArrowLeft)
         },
 
         showSVGPathProps (pathID, key, value) {
