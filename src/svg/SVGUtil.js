@@ -225,6 +225,17 @@ export function getBBoxes(elements) {
     return result
 }
 
+export function getMinBBox(bbox, min = 20) {
+    if (bbox.h < min) {
+        bbox.h += min
+        bbox.y -= Math.round(min / 2)
+    }
+    if (bbox.w < min) {
+        bbox.w += min
+        bbox.x -= Math.round(min / 2)
+    }
+    return bbox
+}
 
 export function getBoundingBoxByBoxes (boxes) {
     const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true};

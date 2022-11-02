@@ -607,7 +607,8 @@ export default {
         this.logger.log(2, 'getValue', 'enter')
         const boxes = SVGUtil.getBBoxes(this.$refs.paths)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
-        const bbox = SVGUtil.getUnZoomedBox(zoomedPos, this.zoom)
+        const minZoomPos = SVGUtil.getMinBBox(zoomedPos)
+        const bbox = SVGUtil.getUnZoomedBox(minZoomPos, this.zoom)      
         const paths = SVGUtil.removeBoundingBox(this.value, bbox)
         return {
             dirty: this.isDirty,

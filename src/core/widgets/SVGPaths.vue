@@ -107,6 +107,7 @@ export default {
         }
         return markers
       })
+
       return markers
     },
     gradients () {
