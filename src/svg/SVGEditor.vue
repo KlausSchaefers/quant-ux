@@ -109,6 +109,10 @@
                     />
             </template>
 
+            <line :x1="zoomedSnappLineX" y1="0" :x2="zoomedSnappLineX" :y2="height" class="qux-svg-snapp-line-x"  v-if="zoomedSnappLineX > 0"/>
+            
+            <line :x1="0" :y1="zoomedSnappLineY" :x2="width" :y2="zoomedSnappLineY" class="qux-svg-snapp-line-y"  v-if="zoomedSnappLineY > 0"/>
+
             <template v-if="showJoints">
 
                 <!-- Bezier lines-->
@@ -232,6 +236,12 @@ export default {
         default() {
             return undefined
         }
+    },
+    'app': {
+        type: Object,
+        default() {
+            return undefined
+        }
     }
   },
   data: function() {
@@ -250,6 +260,8 @@ export default {
         offSetTools: 0,
         offSetValue: 0.5,
         showAllBezierPoints: false,
+        snapLineX: -1,
+        snapLineY: -1,
         config: {
             pointRadius: 3,
             colorHover: '#49C0F0',
@@ -261,6 +273,12 @@ export default {
     };
   },
   computed: {
+      zoomedSnappLineX () {
+        return Math.round(this.snapLineX * this.zoom) + 0.5
+      },
+      zoomedSnappLineY () {
+        return Math.round(this.snapLineY * this.zoom) + 0.5
+      },
       showHover () {
         return this.mode === 'select' || this.mode === 'move'
       },
@@ -416,29 +434,9 @@ export default {
         return result
       },
     markers () {
-      const markers = []
-      this.value.forEach((path, i) =>{
-
-        if (path.markerStart) {
-          markers.push({
-            id: SVGUtil.getMarkerID(i, path, 'start', 'e'),
-            stroke:path.stroke,
-            strokeLineCap: path.strokeLineCap,
-            type: path.markerStart
-          })
-        }
-        if (path.markerEnd) {
-          markers.push({
-            id: SVGUtil.getMarkerID(i, path, 'end', 'e'),
-            stroke: path.stroke,
-            strokeLineCap: path.strokeLineCap,
-            type: path.markerEnd
-          })
-        }
-        return markers
-      })
+      const markers =  SVGUtil.getMarkers(this.value, 'e')
       return markers
-    },
+    }
   },
   components: {
   },
@@ -627,6 +625,8 @@ export default {
         this.setSelectedJoints()
         this.reset()
         this.setBoundingBox()
+        this.hideSnappLineX()
+        this.hideSnappLineY()
     },
 
 
@@ -646,6 +646,7 @@ export default {
         this.$emit('tempChange', this.value)
     },
 
+  
 
     /******************************************
      * Undo / Redo
@@ -681,6 +682,22 @@ export default {
     /*****************************************
      *  Helper
      *****************************************/
+    showSnappLineX (x) {
+        this.snapLineX = x
+    },
+
+    hideSnappLineX () {
+        this.snapLineX = -1
+    },
+
+    hideSnappLineY () {
+        this.snapLineY = -1
+    },
+
+    showSnappLineY (y) {
+        this.snapLineY = y
+    },
+
     isSelected (element) {
         return this.selection.indexOf(element.id) >=0
     },

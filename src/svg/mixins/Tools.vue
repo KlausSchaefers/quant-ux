@@ -110,6 +110,7 @@ export default {
         this.logger.log(1, 'startMoveTool ', 'enter')
         this.mode = 'move'
         this.currentTool = new MoveTool(this, this.selection)
+        this.initRuler(this.selection)
     },
 
     startMorphTool (selected) {
@@ -123,6 +124,7 @@ export default {
             this.select(selected)
         }
         this.currentTool = new MorphTool(this)
+        this.initRuler(this.selection)
     },
 
     startSelectTool (selected) {
@@ -139,7 +141,7 @@ export default {
         if (Array.isArray(selected)) {
             this.currentTool.select(selected)
         }
-       
+        this.initRuler(this.selection)
     },
 
     startArcTool () {
@@ -205,9 +207,31 @@ export default {
         this.initRuler(this.selection)
     },
 
+    startRuler (path, points) {
+        if (this.ruler) {
+            this.ruler.start(path, points)
+        } else {
+            this.logger.warn('startRuler ', 'No ruler')
+        }
+    },
+
+    endRuler () {
+        if (this.ruler) {
+            this.ruler.end()
+        } else {
+            this.logger.warn('endRuler ', 'No ruler')
+        }
+    },
 
     initRuler (selection) {
-        this.ruler = new SVGRuler(this.value, selection)
+        this.ruler = new SVGRuler(
+            this,
+            this.value, 
+            selection, 
+            this.zoom, 
+            this.grid, 
+            this.app
+        )
     }
   }
 };

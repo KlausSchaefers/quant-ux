@@ -432,12 +432,12 @@ export function getSVGBoundingBox(path) {
 
 export function filterDouble(d) {
     return d.filter((p, i) => {
-        let next = d[i+1]
-        if (next) {
-            if (!(next.x !== p.x && next.y !== p.y)) {
-                console.warn('remove',i)
+        const next = d[i+1]
+        if (next) {      
+            if ((next.x === p.x && next.y === p.y)) {
+                console.warn('SVGUtil.filterDouble() > remove ',i)
             }
-            return next.x !== p.x && next.y !== p.y
+            return !(next.x === p.x && next.y === p.y)
         }
         return true
     })
@@ -638,4 +638,29 @@ export function getMarkerURL (i, path, type, prefix) {
 
 export function getMarkerID (i, path, type, prefix) {
     return `${prefix}_${type}_${path.id}`
+}
+
+export function getMarkers(paths, prefix) {
+    const markers = []
+    paths.forEach((path, i) =>{
+        if (path.markerStart) {
+            const start = {
+                id: getMarkerID(i, path, 'start', prefix),
+                stroke:path.stroke,
+                strokeLineCap: path.strokeLineCap,
+                type: path.markerStart
+            }
+            markers.push(start)
+        }
+        if (path.markerEnd) {
+            const end = {
+                id: getMarkerID(i, path, 'end', prefix),
+                stroke: path.stroke,
+                strokeLineCap: path.strokeLineCap,
+                type: path.markerEnd
+            }
+            markers.push(end)
+        }
+    })
+    return markers
 }

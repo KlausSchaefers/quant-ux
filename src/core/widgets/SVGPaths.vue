@@ -88,27 +88,7 @@ export default {
   components: {},
   computed: {
     markers () {
-      const markers = []
-      this.paths.forEach((path, i) =>{
-
-        if (path.markerStart) {
-          markers.push({
-            id: SVGUtil.getMarkerID(i, path, 'start', this.model.id),
-            stroke:path.stroke,
-            strokeLineCap: path.strokeLineCap,
-            type: path.markerStart
-          })
-        }
-        if (path.markerEnd) {
-          markers.push({
-            id: SVGUtil.getMarkerID(i, path, 'end', this.model.id),
-            stroke: path.stroke,
-            strokeLineCap: path.strokeLineCap,
-            type: path.markerEnd
-          })
-        }
-        return markers
-      })
+      const markers = SVGUtil.getMarkers(this.paths, this.model.id, false)
 
       return markers
     },

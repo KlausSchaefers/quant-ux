@@ -45,6 +45,7 @@ export default class BezierTool extends Tool{
     onMouseDown(pos) {
         this.logger.log(1, 'onMouseDown', 'enter', pos)
         this.isMouseDown = true
+        this.endRuler()
     }
 
     onJointClick (pos) {
@@ -65,6 +66,7 @@ export default class BezierTool extends Tool{
           })
           this.logger.log(-1, 'onClick', 'start')
           this.path.d.push(this.createPoint(pos, true))
+          this.updateRuler()
         } else {
             const previous = this.path.d[this.path.d.length-2]
             // avoid two points at the same space
@@ -82,6 +84,7 @@ export default class BezierTool extends Tool{
                 }
                 this.logger.log(-1, 'onClick', 'add')
                 this.path.d.push(newPoint)
+                this.updateRuler()
             }
            
         }
@@ -164,6 +167,7 @@ export default class BezierTool extends Tool{
         this.editor.setState('addEnd')
         this.editor.onChange()
         this.editor.onTempChange()
+        this.endRuler()
     }
 
     getLast () {

@@ -46,6 +46,7 @@ export default {
 			 * 11 = StandAlone
 		 	 */
       return {
+			sourceModel: null,
 			canvasPos: {},
 			containerSize: {},
 			roundCoordinates: false,

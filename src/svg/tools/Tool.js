@@ -73,6 +73,15 @@ export default class Tool {
 
     onBezierMouseOver () {}
 
+    updateRuler() {
+        this.editor.startRuler(this.path, [this.path.d.length-1])
+    }
+
+    endRuler () {
+        this.editor.endRuler()
+    }
+
+
     getBox (start, end, isShift) {
         const box = {x:0, y:0, w: 5, h : 5};
         if(start.x < end.x){

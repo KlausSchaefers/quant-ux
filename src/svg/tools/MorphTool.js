@@ -46,6 +46,7 @@ export default class MorphTool extends Tool{
             delete this.selectedJoints
             this.editor.setSelectedJoints()
         }
+        this.endRuler()
     }
 
     onDelete () {
@@ -82,6 +83,9 @@ export default class MorphTool extends Tool{
     }
 
     moveJoint (pos) {
+        if (!this.selectedJointStartPos) {
+            return
+        }
         const difX = this.selectedJointStartPos.x - pos.x
         const difY = this.selectedJointStartPos.y - pos.y
         const path = this.selectedElement
@@ -171,10 +175,14 @@ export default class MorphTool extends Tool{
         this.logger.log(3, 'onJointMouseDown', 'enter',joint)
         const path = this.editor.getElementById(joint.parent)
         this.isJointDown = true
-        this.selectedJointStartPos = pos
+ 
         this.selectedJointStartPath = SVGUtil.clone(this.selectedElement)
         if (path) {
             const point = path.d[joint.id]
+            this.selectedJointStartPos = {
+                x: point.x,
+                y: point.y
+            }
             if (point) {
                 // FIXME: add here some stuff to move mutli selection
                 const startPoint = {
@@ -183,10 +191,12 @@ export default class MorphTool extends Tool{
                 this.editor.setCursor('move')
                 if (pos.shiftKey && this.selectedJoints && this.selectedJoints.length > 0) {
                     this.selectedJoints.push(startPoint)
-                    this.editor.addSelectedJoint(joint)   
+                    this.editor.addSelectedJoint(joint)
+                    this.editor.startRuler(path, [joint.id])
                 } else {
                     this.selectedJoints = [startPoint]
-                    this.editor.setSelectedJoints([joint])     
+                    this.editor.setSelectedJoints([joint])
+                    this.editor.startRuler(path, [joint.id])
                 }
             } else {
                 this.logger.error('onJointMouseDown', 'not point',joint)
@@ -203,6 +213,7 @@ export default class MorphTool extends Tool{
         delete this.selectedJointStartPos
         delete this.selectedJointStartPath
         this.editor.onChange()
+        this.editor.endRuler()
         this.editor.setCursor('default')
     }
 

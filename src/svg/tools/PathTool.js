@@ -41,6 +41,7 @@ export default class PathTool extends Tool{
                 y: pos.y
             })
             this.path.d.push(this.createPoint(pos, true))
+            this.updateRuler()
         } else {
             const previous = this.path.d[this.path.d.length-2]
             if (previous.x === pos.x && previous.y === pos.y) {
@@ -49,6 +50,7 @@ export default class PathTool extends Tool{
                 let last = this.getLast()
                 delete last._temp
                 this.path.d.push(this.createPoint(pos, true))
+                this.updateRuler()
             }
         }
         this.isMouseDown = false
@@ -87,6 +89,7 @@ export default class PathTool extends Tool{
         this.editor.setState('addEnd')
         this.editor.onChange()
         this.editor.onTempChange()
+        this.editor.endRuler()
     }
 
     getLast () {

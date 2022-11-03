@@ -105,6 +105,13 @@
     cursor: se-resize;
 }
 
+.qux-svg-snapp-line-x {
+    stroke: red;
+}
+
+.qux-svg-snapp-line-y {
+    stroke: red;
+}
 
 .qux-svg-editor-bounding {
     stroke-width: 1;
