@@ -109,9 +109,9 @@
                     />
             </template>
 
-            <line :x1="zoomedSnappLineX" y1="0" :x2="zoomedSnappLineX" :y2="height" class="qux-svg-snapp-line-x"  v-if="zoomedSnappLineX > 0"/>
+            <line :x1="zoomedSnappLineX" y1="0" :x2="zoomedSnappLineX" :y2="height" class="qux-svg-snapp-line-x"  v-if="hasSnappLineX"/>
             
-            <line :x1="0" :y1="zoomedSnappLineY" :x2="width" :y2="zoomedSnappLineY" class="qux-svg-snapp-line-y"  v-if="zoomedSnappLineY > 0"/>
+            <line :x1="0" :y1="zoomedSnappLineY" :x2="width" :y2="zoomedSnappLineY" class="qux-svg-snapp-line-y"  v-if="hasSnappLineY"/>
 
             <template v-if="showJoints">
 
@@ -231,12 +231,6 @@ export default {
         type: Boolean,
         default: true
     },
-    'grid': {
-        type: Object,
-        default() {
-            return undefined
-        }
-    },
     'app': {
         type: Object,
         default() {
@@ -273,6 +267,12 @@ export default {
     };
   },
   computed: {
+      hasSnappLineX () {
+        return this.snapLineX > 0
+      },
+      hasSnappLineY () {
+        return this.snapLineY > 0
+      },
       zoomedSnappLineX () {
         return Math.round(this.snapLineX * this.zoom) + 0.5
       },
@@ -605,6 +605,12 @@ export default {
 
     getValue () {
         this.logger.log(2, 'getValue', 'enter')
+        
+        this.value.forEach(path => {
+            path.d = SVGUtil.filterTempPoints(path.d)
+        })
+        // FIXME: here is a bug. We should rerender to make sure the 
+        // temp nodes are not in the bounding box
         const boxes = SVGUtil.getBBoxes(this.$refs.paths)
         const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
         const minZoomPos = SVGUtil.getMinBBox(zoomedPos)
@@ -750,7 +756,14 @@ export default {
     stop () {
         this.logger.log(-1, 'stop', 'enter')
         this.$emit('stop')
+    },
+
+    setGrid(grid) {
+        this.logger.log(-1, 'setGrid', 'enter', grid)
+        this.grid = grid
     }
+
+
   },
   watch: {
       pos (p) {
@@ -759,6 +772,9 @@ export default {
       zoom (z) {
         this.zoom = z
         this.onZoom(z)
+      },
+      grid (g) {
+        this.grid = g
       }
   },
   mounted() {

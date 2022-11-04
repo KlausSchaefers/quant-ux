@@ -429,6 +429,10 @@ export function getSVGBoundingBox(path) {
     return result
 }
 
+export function filterTempPoints(d) {
+    return d.filter(p => !p._temp)
+}
+
 
 export function filterDouble(d) {
     return d.filter((p, i) => {

@@ -7,7 +7,7 @@ export default class SVGRuler {
         this.zoom = zoom
         this.grid = grid
         this.app = app
-        this.snappDistance = 16
+        this.snappDistance = 8
         this.showDistance = 8
     }
 
@@ -44,12 +44,17 @@ export default class SVGRuler {
 
     correct (pos) {
 
-        if (pos.altKey || !this.selecedPath) {
+        if (pos.shiftKey || !this.selecedPath) {
             this.editor.hideSnappLineX()
             this.editor.hideSnappLineY()
             return pos
         }
 
+        return this.correctByMinLines(pos)
+      
+    }
+
+    correctByMinLines (pos, show=true) {
         const min = {
             x: 100000,
             correctX: 0,
@@ -77,7 +82,7 @@ export default class SVGRuler {
             }
         })
 
-        if (min.x < this.showDistance) {
+        if (min.x < this.showDistance && show) {
             this.editor.showSnappLineX(min.showX)
         } else {
             this.editor.hideSnappLineX()
@@ -87,7 +92,7 @@ export default class SVGRuler {
             pos.x = min.showX
         }
 
-        if (min.y < this.showDistance) {
+        if (min.y < this.showDistance && show) {
             this.editor.showSnappLineY(min.showY)
         } else {
             this.editor.hideSnappLineY()

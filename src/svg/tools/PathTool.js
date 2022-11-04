@@ -81,7 +81,7 @@ export default class PathTool extends Tool{
 
     onDoubleClick () {
         this.logger.log(1, 'onDoubleClick')
-        this.path.d = this.path.d.filter(p => !p._temp)
+        this.path.d = Util.filterTempPoints(this.path.d)
         this.path.d = Util.filterDouble(this.path.d)
         if (this.closePathAtTheEnd) {
             Util.closePath(this.path.d)

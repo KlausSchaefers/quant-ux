@@ -7,6 +7,7 @@ import MorphTool from '../tools/MorphTool'
 import MoveTool from '../tools/MoveTool'
 import BezierTool from '../tools/BezierTool'
 import SVGRuler from '../tools/SVGRuler'
+import SVGGridRuler from '../tools/SVGGridRuler'
 import RectangleTool from '../tools/RectangleTool'
 import TriangleTool from '../tools/TriangleTool'
 import EllipseTool from '../tools/EllipseTool'
@@ -224,14 +225,26 @@ export default {
     },
 
     initRuler (selection) {
-        this.ruler = new SVGRuler(
-            this,
-            this.value, 
-            selection, 
-            this.zoom, 
-            this.grid, 
-            this.app
-        )
+        this.logger.log(-1, 'initRuler ', 'enter', this.grid?.enabled)
+        if (this.grid && this.grid.enabled) {
+            this.ruler = new SVGGridRuler(
+                this,
+                this.value, 
+                selection, 
+                this.zoom, 
+                this.grid, 
+                this.app
+            )
+        } else {
+            this.ruler = new SVGRuler(
+                this,
+                this.value, 
+                selection, 
+                this.zoom, 
+                this.grid, 
+                this.app
+            )
+        }
     }
   }
 };

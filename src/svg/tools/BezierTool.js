@@ -35,6 +35,7 @@ export default class BezierTool extends Tool{
         this.isMouseDown = false
         this.closePathAtTheEnd = closePathAtTheEnd
         this.logger = new Logger('BezierTool')
+        this.updateRuler()
     }
 
     onJointMouseDown (pos) {
@@ -151,7 +152,7 @@ export default class BezierTool extends Tool{
 
     onDoubleClick () {
         this.logger.log(-1, 'onDoubleClick')
-        this.path.d = this.path.d.filter(p => !p._temp)
+        this.path.d = Util.filterTempPoints(this.path.d)
         // make straigt curves into lines
         this.path.d.forEach(p => {
             if (p.t === 'C' && !p.isCurved) {
