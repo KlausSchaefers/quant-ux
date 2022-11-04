@@ -125,8 +125,7 @@ export default class BezierTool extends Tool{
         const current = {
             t: 'C',
             x: pos.x,
-            y: pos.y,
-            sb: true
+            y: pos.y
         }
         this.updateCurvePoint(pos, last, current)
         if (temp) {

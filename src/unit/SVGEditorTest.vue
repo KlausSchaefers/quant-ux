@@ -104,6 +104,23 @@ export default {
       onMouseMove (p) {
           this.mouse = p
       },
+      test_split () {
+        const paths = [
+          {
+            "id": "pb1667599071427",
+            "name": "Bezier", "hint": "Bezier", "type": "Path", "stroke": "#333333", "strokeWidth": 1, "fill": "", "d": 
+              [
+                { "t": "M", "x": 149, "y": 196 }, 
+                { "t": "C", "x": 342, "y": 196, "x1": 217, "y1": 107, "x2": 270, "y2": 103 
+              }]
+          }]
+          this.$refs.editor.value = paths
+          this.$nextTick(() => {
+            //this.$refs.editor.setShowAllBezier(true)
+            this.$refs.editor.startMorphTool(true)
+          })
+       
+      },
       onSelect (d) {
           this.selection = d
           this.svgs = JSON.stringify(d, null, 2)
@@ -229,7 +246,8 @@ export default {
       this.pos = domGeom.position(this.$refs.cntr)
       setTimeout(() => {
           //this.test_createLine()
-          this.test_createBezier()
+          //this.test_createBezier()
+          this.test_split()
       }, 100)
 
       this.keyBoardListener = on(win.body(), "keydown", this.onKey);

@@ -61,8 +61,8 @@
 
 .qux-svg-editor-bezier-selected{
     stroke-width: 1;
-    stroke: green;
-    fill: green;
+    stroke: #49C0F0;
+    fill: #49C0F0;
     cursor: move;
 }
 
@@ -106,11 +106,11 @@
 }
 
 .qux-svg-snapp-line-x {
-    stroke: red;
+    stroke: #92c500;
 }
 
 .qux-svg-snapp-line-y {
-    stroke: red;
+    stroke: #92c500;
 }
 
 .qux-svg-editor-bounding {

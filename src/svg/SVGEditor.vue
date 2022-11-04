@@ -46,6 +46,11 @@
             </defs>
 
 
+            <line :x1="zoomedSnappLineX" y1="0" :x2="zoomedSnappLineX" :y2="height" class="qux-svg-snapp-line-x"  v-if="hasSnappLineX"/>
+            
+            <line :x1="0" :y1="zoomedSnappLineY" :x2="width" :y2="zoomedSnappLineY" class="qux-svg-snapp-line-y"  v-if="hasSnappLineY"/>
+
+
             <!--
                 Add here a transparent click layer to easy clicks
             -->
@@ -109,10 +114,7 @@
                     />
             </template>
 
-            <line :x1="zoomedSnappLineX" y1="0" :x2="zoomedSnappLineX" :y2="height" class="qux-svg-snapp-line-x"  v-if="hasSnappLineX"/>
-            
-            <line :x1="0" :y1="zoomedSnappLineY" :x2="width" :y2="zoomedSnappLineY" class="qux-svg-snapp-line-y"  v-if="hasSnappLineY"/>
-
+   
             <template v-if="showJoints">
 
                 <!-- Bezier lines-->
@@ -604,7 +606,7 @@ export default {
     },
 
     getValue () {
-        this.logger.log(2, 'getValue', 'enter')
+        this.logger.log(-2, 'getValue', 'enter', this.isDirty)
         
         this.value.forEach(path => {
             path.d = SVGUtil.filterTempPoints(path.d)

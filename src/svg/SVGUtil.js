@@ -285,13 +285,13 @@ export function strechPaths(paths, sourceBox, currentBox) {
         const points = path.d
         for (let i = 0; i < points.length; i++) {
             const point = points[i];
-            point.x *= scaleW
-            point.y *= scaleH
+            point.x = Math.round(point.x * scaleW)
+            point.y = Math.round(point.y * scaleH)
             if (point.t === 'C') {
-                point.x1 *= scaleW
-                point.y1 *= scaleH
-                point.x2 *= scaleW
-                point.y2 *= scaleH
+                point.x1 = Math.round(point.x1 * scaleW)
+                point.y1 = Math.round(point.y1 * scaleH)
+                point.x2 = Math.round(point.x2 * scaleW)
+                point.y2 = Math.round(point.y2 * scaleH)
             }
         }
     })   
@@ -667,4 +667,63 @@ export function getMarkers(paths, prefix) {
         }
     })
     return markers
+}
+
+export function splitPathAt(path, index, splitPoint, slopeApSplitPoint, allowBezier = false) {
+    const endPoint = path.d[index +1]
+    // here is still some bug. The split point might be some rounded thing. 
+    // I dially 
+    const newPoint = {
+        t: 'L',
+        x: Math.round(splitPoint.x),
+        y: Math.round(splitPoint.y)
+    }
+    path.d.splice(index + 1, 0,newPoint)
+
+    if (endPoint && endPoint.t === 'C' && allowBezier) {
+        makeBezierPoint(path, index + 1, slopeApSplitPoint)
+    }
+    return path
+}
+
+export function makeBezierPoint(path, index, slopeApSplitPoint, factor = 0.66) {
+    const point = path.d[index]
+    const before = path.d[index - 1]
+    const next = path.d[index + 1]
+    point.t = 'C'
+    if (before) {
+        const difX1 = next.x1 - before.x
+        const difY1 = next.y1 - before.y
+        point.x1 = before.x + difX1 * factor
+        point.y1 = before.y + difY1 * factor
+
+        //const difX2 = point.x - before.x
+        //const difY2 = point.y - before.y
+        point.x2 = point.x - 20
+        point.y2 = point.y
+    }
+
+    if (next) {
+
+        next.x1 = point.x + 20
+        next.y1 = point.y
+
+        const difX2 = next.x2 - next.x
+        const difY2 = next.y2 - next.y
+        next.x2 = next.x + difX2 * factor
+        next.y2 = next.y + difY2 * factor
+
+    }
+
+   
+
+}
+
+export function getBezierSlope(svg, index) {
+    const a = svg.getPointAtLength(index - 1)
+    const b = svg.getPointAtLength(index + 1)
+    return {
+        x: (b.x - a.x),
+        y: (b.y - a.y) 
+    }
 }
