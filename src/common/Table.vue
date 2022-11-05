@@ -115,10 +115,10 @@ export default {
           if (this.sortBy == column.query) {
             if (this.order) {
               span.innerHTML =
-                '<span class="glyphicon glyphicon-chevron-up"></span>';
+                '<span class="mdi mdi-chevron-up"></span>';
             } else {
               span.innerHTML =
-                '<span class="glyphicon glyphicon-chevron-down"></span';
+                '<span class="mdi mdi-chevron-down"></span';
             }
           } else {
             span.innerHTML = " ";

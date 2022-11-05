@@ -270,7 +270,7 @@ export default {
 				this.tempOwn(on(cancel, touch.press, lang.hitch(this, "canceImageSelection")));
 
 			} else {
-				this.footer.innerHTML = '<span class="MatcToolbarPopupFooterNone glyphicon glyphicon-remove-sign"></span> No Background Image ';
+				this.footer.innerHTML = '<span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span> No Background Image ';
 				this.tempOwn(on(this.footer, touch.press, lang.hitch(this, "_removeImage")));
 			}
 		},

@@ -194,14 +194,15 @@
 }
 
 
-.VommondSlideLeftButton .glyphicon{
+.VommondSlideLeftButton .mdi{
 	cursor: pointer;
 	color:#777;
+	font-size: 16px;
 	transition-duration: 0.2s;
 	transition-property: all;
 }
 
-.VommondSlideLeftButtonLabel:hover .glyphicon, .VommondSlideLeftPopupOpenItem:hover .glyphicon{
+.VommondSlideLeftButtonLabel:hover .mdi, .VommondSlideLeftPopupOpenItem:hover .mdi{
 	color:#333;
 }
 

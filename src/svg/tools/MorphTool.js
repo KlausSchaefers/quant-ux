@@ -41,8 +41,6 @@ export default class MorphTool extends Tool{
     onZoom (zoom) {
         this.zoom = zoom
         this.initSplitSegments()
-        // FIXME get lates SVG ?
-        // init split lines?
     }
 
 

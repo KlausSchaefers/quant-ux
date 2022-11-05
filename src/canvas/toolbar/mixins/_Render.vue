@@ -605,30 +605,32 @@ export default {
 			const content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 
-			// this.alignmentBtn = this.$new(Alignment)
-			// this.alignmentBtn.placeAt(content)
-			// this.alignmentBtn.on('align', o => {
-			// 	this.onToolAlignElements(o)
-			// })
-
-			// this.alignmentBtn.on('dist', o => {
-			// 	this.onToolDistributeElements(o)
-			// })
+		
 
 			this.alignButtons = {};
 			this.distButtons = {};
 
 
-			let values = ["top", "bottom", "left", "right", "vertical", "horizontal"];
+			let values = [
+				{value: 'top', icon: 'mdi mdi-align-vertical-top'},
+				{value: 'bottom', icon: 'mdi mdi-align-vertical-bottom'},
+				{value: 'left', icon: 'mdi mdi-align-horizontal-left'},
+				{value: 'right', icon: 'mdi mdi-align-horizontal-right'},
+				{value: 'vertical', icon: 'mdi mdi-align-horizontal-center'},
+				{value: 'horizontal', icon: 'mdi mdi-align-vertical-center'}
+			];
+
+	
 			for(let i=0; i< values.length; i++){
-				let value = values[i];
-				let a = document.createElement("a");
+				const value = values[i].value;
+				const icon = values[i].icon
+				const a = document.createElement("a");
 				css.add(a,"MatcToolbarItem MatcToolbarAlignButton");
 				content.appendChild(a);
 
-				let icon = document.createElement("span");
-				css.add(icon, 'glyphicon glyphicon-object-align-' + value);
-				a.appendChild(icon);
+				const span = document.createElement("span");
+				css.add(span, icon);
+				a.appendChild(span);
 
 				this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolAlignElements", value)));
 				this.alignButtons[value] = a;

@@ -20,20 +20,7 @@
 				<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
 			</div>
 		</div>
-		<div class="MatcStatus MatcHidden" data-dojo-attach-point="status">' +
-
-			<div class="MatcStatusItem">' +
-				<span class="MatcStatusButtom glyphicon glyphicon-minus" data-dojo-attach-point="zoomMinus" @click="onZoomMinusClick">
-				</span>
-				<span class="MatcStatusItemLabel" data-dojo-attach-point="zoomLabel">
-				</span>
-				<span class="MatcStatusButtom glyphicon glyphicon-plus" data-dojo-attach-point="zoomPlus" @click="onZoomPlusClick">
-				</span>
-			</div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="commentCntr"></div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="lineCntr"></div>
-			<div class="MatcStatusItem MatcStatusItemXXL" data-dojo-attach-point="bwCntr"></div>
-		</div>
+		
 
 		<div class="MatcMessage" data-dojo-attach-point="message">
 		</div>

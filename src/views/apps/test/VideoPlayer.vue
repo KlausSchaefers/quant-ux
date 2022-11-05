@@ -767,8 +767,8 @@ export default {
 
 		start(){
 			this.running = true;
-			css.add(this.iconPlay, "glyphicon-pause");
-			css.remove(this.iconPlay, "glyphicon-play");
+			css.add(this.iconPlay, "mdi-pause");
+			css.remove(this.iconPlay, "mdi-play");
 			this.lastLoop = new Date().getTime();
 			requestAnimationFrame(lang.hitch(this, "loop"));
 		},
@@ -777,8 +777,8 @@ export default {
 
 		stop(){
 			this.running = false;
-			css.remove(this.iconPlay, "glyphicon-pause");
-			css.add(this.iconPlay, "glyphicon-play");
+			css.remove(this.iconPlay, "mdi-pause");
+			css.add(this.iconPlay, "mdi-play");
 		},
 
 
@@ -966,7 +966,7 @@ export default {
 					this.tempOwn(on(item, touch.press, lang.hitch(this, "onEvent", e)));
 
 					let del = document.createElement("span");
-					css.add(del, "glyphicon glyphicon-remove MatcPlayerEventRemove");
+					css.add(del, "mdi mdi-close-circle MatcPlayerEventRemove");
 					item.appendChild(del);
 					this.tempOwn(on(del, touch.press, lang.hitch(this, "removeTag", e)));
 				}

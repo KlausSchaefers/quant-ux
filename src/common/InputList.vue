@@ -21,7 +21,7 @@ export default {
         return {
             inline: true, 
             placeholder: "Enter a new value", 
-            removeIcon: "glyphicon glyphicon-remove-circle", 
+            removeIcon: "mdi mdi-close-circle", 
             remove: true, 
             check: "none", 
             add: true, 
@@ -121,7 +121,7 @@ export default {
 							
 				if(this.remove){
 					var remove = this.db.td().div("VommondInputListRemove")
-						.span("glyphicon glyphicon-remove","")
+						.span("mdi mdi-close-circle","")
 						.build(row);
 					this.tempOwn(on(remove,touch.press, lang.hitch(this, "onInputRemove", i, option)));
 				}						

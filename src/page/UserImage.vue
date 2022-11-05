@@ -28,18 +28,18 @@ export default {
   },
   components: {},
   methods: {
-    constructor: function() {
+    constructor () {
       this.logger = new Logger({ className: "de.vommond.matc.page.User" });
       this.logger.log(2, "constructor", "entry");
     },
 
-    postCreate: function() {
+    postCreate() {
       this._initFileDnD(document.documentElement);
       this.value = this.user;
       this.render(this.value);
     },
 
-    render: function(user) {
+    render (user) {
       this.cleanUp();
 
       var db = new DomBuilder();
@@ -56,7 +56,7 @@ export default {
         this.tempOwn(on(del, touch.press, lang.hitch(this, "_deleteImage")));
       } else {
         var plus = db
-          .span("glyphicon glyphicon-plus-sign", "")
+          .span(" mdi mdi-plus-circle", "")
           .build(this.imageCntr);
         this.file = db.file("MatcImageUploadFile").build(plus);
         this.tempOwn(on(this.file, "change", lang.hitch(this, "_onFileChange")));
@@ -66,7 +66,7 @@ export default {
       }
     },
 
-    cleanUp: function() {
+    cleanUp () {
       this.imageCntr.innerHTML = "";
       this.imageActions.innerHTML = "";
 
@@ -79,7 +79,7 @@ export default {
      * File Upload Handling
      ***************************************************/
 
-    _stop: function(leave, e) {
+    _stop (leave, e) {
       e.preventDefault;
       e.preventDefault();
       if (leave) {
@@ -90,7 +90,7 @@ export default {
       return false;
     },
 
-    onFileDropped: function(e) {
+    onFileDropped (e) {
       e.preventDefault;
       e.preventDefault();
       this.stopEvent(e);
@@ -101,7 +101,7 @@ export default {
       return false;
     },
 
-    _onFileChange: function(e) {
+    _onFileChange (e) {
       this.stopEvent(e);
       this._files = this.file.files;
       css.remove(this.domNode, "MatcImageUploadDND");
@@ -147,14 +147,14 @@ export default {
       this.setUser(u)
     },
 
-    setUser: function(u) {
+    setUser (u) {
       this.value = u;
       this.render(u);
     },
 
     onUploadError: function() {},
 
-    _initFileDnD: function(node) {
+    _initFileDnD (node) {
       this._fileDnDListeners = [];
 
       this._fileDnDListeners.push(

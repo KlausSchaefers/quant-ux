@@ -1159,6 +1159,12 @@ textarea.MatcContentWidgetAbs{
     border-radius: 50%;
 }
 
+.MatcImageUploadAdd .mdi:hover{
+	transform: all 0.2s;
+	color:#92c500
+}
+
+
 
 .MatcUserImageCntrSmall{
 	height: 60px;
@@ -1247,8 +1253,14 @@ textarea.MatcContentWidgetAbs{
 
 .MatcCommentGuest{
 	background: none repeat scroll 0 0 #cecece;
-    font-size: 60px;
+    font-size: 72px;
+
     color: #999;
+}
+
+.MatcCommentGuest > span {
+    transform: translate(-7px, -18px);
+    display: inline-block;
 }
 
 .MatcCommentPic.MatcUserImageCntr{

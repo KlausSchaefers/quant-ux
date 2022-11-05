@@ -40,7 +40,7 @@ export default {
         console.warn('ScreenList.load() > No app')
       }
     },
-    setValue: function(value) {
+    setValue (value) {
       this.model = value;
       this.value = this.getScreens();
       if (this.value.length == 0) {
@@ -49,11 +49,11 @@ export default {
       this.render(this.value, this.animate);
     },
 
-    setInvitation: function(h) {
+    setInvitation (h) {
       this.hash = h;
     },
 
-    setMethod: function(phone, screen) {
+    setMethod (phone, screen) {
       if (this.pub) {
         phone.href = "#/examples/" + this.model.id + "/design/" + screen.id + ".html";
       } else {
@@ -61,12 +61,12 @@ export default {
       }
     },
 
-    onTest: function(id, e) {
+    onTest (id, e) {
       this.stopEvent(e);
       this.emit("test", id);
     },
 
-    onRenderAdd: function(item) {
+    onRenderAdd (item) {
       css.add(item, " MatcContentBox MatcAppListBox ");
 
       var phone = document.createElement("a");
@@ -83,7 +83,7 @@ export default {
       wrapper.appendChild(add);
 
       var span = document.createElement("span");
-      css.add(span, "glyphicon glyphicon-pencil");
+      css.add(span, "mdi mdi-border-colo");
       add.appendChild(span);
 
       var p = document.createElement("p");
@@ -95,7 +95,7 @@ export default {
       item.appendChild(p);
     },
 
-    createScreenWidget: function() {
+    createScreenWidget () {
       var heatmap = this.$new(Preview);
       heatmap.isFillBackground = true
       heatmap.setJwtToken(this.jwtToken);
@@ -106,7 +106,7 @@ export default {
       return heatmap;
     },
 
-    renderDescription: function(app, item) {
+    renderDescription (app, item) {
       var des = this.getDescription(app);
       var p = document.createElement("p");
       p.innerHTML = des;
@@ -114,7 +114,7 @@ export default {
       item.appendChild(p);
     },
 
-    getDescription: function(screen) {
+    getDescription (screen) {
       var des = "";
       if (screen.name) {
         des += screen.name;
@@ -124,9 +124,9 @@ export default {
       return des;
     },
 
-    onRenderDone: function() {
-      for (var i = 0; i < this.value.length; i++) {
-        var screen = this.value[i];
+    onRenderDone () {
+      for (let i = 0; i < this.value.length; i++) {
+        const screen = this.value[i];
         if (this.widgets[i]) {
           this.widgets[i].setModel(this.model, screen.id);
         }

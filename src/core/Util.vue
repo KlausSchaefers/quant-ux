@@ -602,7 +602,7 @@ export default {
       if (!user || user.role == "guest") {
         let img = document.createElement("div");
         css.add(img, "MatcCommentGuest");
-        img.innerHTML = '<span class="glyphicon glyphicon-user"></span>';
+        img.innerHTML = '<span class="mdi mdi-account"></span>';
         imgCntr.appendChild(img);
       } else if (user.image) {
         css.add(imgCntr, "MatcUserImageCntrTrans");
@@ -743,7 +743,7 @@ export default {
           s.setOptions([
             {
               value: "edit",
-              icon: "glyphicon glyphicon-edit",
+              icon: "mdi mdi-comment-edit-outline",
               callback: function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -753,7 +753,7 @@ export default {
             },
             {
               value: "delete",
-              icon: "glyphicon glyphicon-trash",
+              icon: "mdi mdi-trash-can-outline",
               callback: lang.hitch(this, "onDeleteComment", comment)
             }
           ]);
@@ -770,7 +770,7 @@ export default {
           s.setOptions([
             {
               value: "delete",
-              icon: "glyphicon glyphicon-trash",
+              icon: "mdi mdi-trash-can-outline",
               callback: lang.hitch(this, "onDeleteComment", comment)
             }
           ]);

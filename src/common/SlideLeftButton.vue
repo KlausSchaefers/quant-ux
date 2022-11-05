@@ -2,7 +2,7 @@
 <template>
   <div class="VommondSlideLeftButton">
 		<div type="button" class="VommondSlideLeftButtonLabel" data-dojo-attach-point="button"> 
-			<span data-dojo-attach-point="label" class="glyphicon glyphicon-option-horizontal"></span> 
+			<span data-dojo-attach-point="label" class="MatcPointer mdi mdi-dots-horizontal"></span> 
 		</div>
 		<div class="VommondSlideLeftPopup" data-dojo-attach-point="popup">
 			<div class="VommondSlideLeftPopupCntr" data-dojo-attach-point="cntr">

@@ -352,7 +352,8 @@ export default {
 
 
 		showRemoveButton (callback){
-			this._removeBTN = this.createToolBarItem('<span class="glyphicon glyphicon-trash"></span>', callback, "MatcToolbarItemRemove");
+			console.warn('DEPRECATED > showRemoveButton')
+			this._removeBTN = this.createToolBarItem('<span class="mdi mdi-trash-can-outline"></span>', callback, "MatcToolbarItemRemove");
 		},
 
 		showDesignTokenBtns (selection, type) {

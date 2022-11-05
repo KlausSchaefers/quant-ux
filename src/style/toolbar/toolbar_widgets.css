@@ -1001,10 +1001,6 @@
 	margin-right: 5px;
 }
 
-.MatcToolbarPopupFooter .glyphicon.glyphicon-remove-sign {
-	font-size: 14px;
-}
-
 .MatcToolbarPopupFooterLabel{
 	display: inline-block;
 
@@ -1135,10 +1131,6 @@ input.MatcToobarInlineEditDisabled:focus{
 
 .MatcToolbarDropDownButton .mdi{
 	vertical-align: middle;
-}
-
-.MatcToolbarDropDownButton .MatcToolbarItemIcon .glyphicon{
-
 }
 
 .MatcToolbarDropDownButton ul, .MatcToolbarDropDownButtonPopup ul{
@@ -1397,14 +1389,16 @@ input.MatcToobarInlineEditDisabled:focus{
 }
 
 
-.MatcImageUploadPreview.MatcImageUploadAdd .glyphicon{
+.MatcImageUploadPreview.MatcImageUploadAdd .mdi{
 	padding-top:10px;
 	font-size: 60px;
 	color:#cecece;
 	cursor: pointer;
 }
 
-.MatcImageUploadAdd:HOVER, .MatcImageUploadDND .MatcImageUploadAdd, .MatcToolbar .MatcImageUploadPreview.MatcImageUploadAdd:hover .glyphicon{
+.MatcImageUploadAdd:HOVER, 
+.MatcImageUploadDND .MatcImageUploadAdd, 
+.MatcToolbar .MatcImageUploadPreview.MatcImageUploadAdd:hover .mdi{
 	color:#92c500
 }
 
