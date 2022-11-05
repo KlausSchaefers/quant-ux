@@ -1159,13 +1159,6 @@ textarea.MatcContentWidgetAbs{
     border-radius: 50%;
 }
 
-.MatcImageUploadAdd .mdi:hover{
-	transform: all 0.2s;
-	color:#92c500
-}
-
-
-
 .MatcUserImageCntrSmall{
 	height: 60px;
 	width: 60px;
@@ -1180,8 +1173,6 @@ textarea.MatcContentWidgetAbs{
 	height: auto;
 }
 
-
-
 .MatcUserNoImage{
 	color:#999;
 }
@@ -1189,7 +1180,24 @@ textarea.MatcContentWidgetAbs{
 .MatcUser .MatcImageUploadAdd{
 	font-size: 100px;
 	cursor: pointer;
+	position: relative;
 }
+
+.MatcUser .MatcImageUploadAdd{
+	font-size: 100px;
+	cursor: pointer;
+	position: relative;
+}
+.MatcUser .MatcImageUploadAdd .mdi {
+	transition: all 0.2s;
+	cursor: pointer;
+	display: inline-block;
+}
+.MatcUser .MatcImageUploadAdd .mdi:hover{
+	color:#92c500;
+	transform: scale(1.1);
+}
+
 
 .MatcUserImageAnnotation{
 	position: absolute;
