@@ -25,7 +25,6 @@ export default class MorphTool extends Tool{
                 this.logger.log(-1, 'constructor', 'No SVG path')
             }
             this.isBezier = this.selectedElement.d.every(p => p.t === 'C' || p.t === 'M')
-            console.debug(this.isBezier)
             // what happends if this is not a path?
         } else {
             this.logger.error('constructor', 'Selection is not 1')
