@@ -91,7 +91,7 @@ export default {
         pos: {x:0 ,y:0},
         mouse: {},
         svgs: [],
-        zoom: 1
+        zoom: 0.8
     };
   },
   components: {

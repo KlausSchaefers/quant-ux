@@ -73,6 +73,12 @@ export default class Tool {
 
     onBezierMouseOver () {}
 
+    onSplitPointMouseDown () {}
+
+    onSplitPointMouseUp () {}
+
+    onSplitPointClick () {}
+
     updateRuler() {
         this.editor.startRuler(this.path, [this.path.d.length-1])
     }

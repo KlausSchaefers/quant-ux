@@ -86,6 +86,27 @@ export default {
         }
     },
 
+    // split points
+    onSplitPointMouseDown (splitPoint, e) {
+        const pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onSplitPointMouseDown(splitPoint, pos)
+        }
+    },
+    onSplitPointMouseUp (splitPoint, e) {
+        const pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onSplitPointMouseUp(splitPoint, pos)
+        }
+    },
+    onSplitPointClick (splitPoint, e) {
+        const pos = this.getCanvasMousePosition(e)
+        if (this.currentTool) {
+            this.currentTool.onSplitPointClick(splitPoint, pos)
+        }
+    },
+
+
     // bezier
     onBezierMouseDown (bezierpoint, e) {
         const pos = this.getCanvasMousePosition(e)

@@ -89,6 +89,9 @@
                 <circle v-for="(splitPoint,i) in splitPoints" :key="'sp' + i"
                     :cx="splitPoint.x + offSetTools"
                     :cy="splitPoint.y + offSetTools"
+                    @mousedown.stop="onSplitPointMouseDown(splitPoint, $event)"
+                    @mouseup.stop="onSplitPointMouseUp(splitPoint, $event)"
+                    @click.stop="onSplitPointClick(splitPoint, $event)"
                     class="qux-svg-editor-splitpoint"
                     :r="splitPoint.r" />
             </template>

@@ -669,14 +669,14 @@ export function getMarkers(paths, prefix) {
     return markers
 }
 
-export function splitPathAt(path, index, splitPoint, slopeApSplitPoint, allowBezier = false) {
+export function splitPathAt(path, index, pos, slopeApSplitPoint, allowBezier = false) {
     const endPoint = path.d[index +1]
     // here is still some bug. The split point might be some rounded thing. 
     // I dially 
     const newPoint = {
         t: 'L',
-        x: Math.round(splitPoint.x),
-        y: Math.round(splitPoint.y)
+        x: Math.round(pos.x),
+        y: Math.round(pos.y)
     }
     path.d.splice(index + 1, 0,newPoint)
 

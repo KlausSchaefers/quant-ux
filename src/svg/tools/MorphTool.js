@@ -4,12 +4,12 @@ import on from 'dojo/on'
 import win from 'dojo/_base/win'
 import * as SVGUtil from '../SVGUtil'
 
-let showSplitPoint = false
+let showSplitPoint = true
 
 
 export default class MorphTool extends Tool{
 
-    constructor (editor, minSplitDistance = 8, minShowSplitDistance = 8, syncBezier = true) {
+    constructor (editor, minSplitDistance = 16, minShowSplitDistance = 8, syncBezier = true) {
         super(editor)
         this.logger = new Logger('MorphTool')
         this.minSplitDistance = minSplitDistance
@@ -38,6 +38,14 @@ export default class MorphTool extends Tool{
     }
 
 
+    onZoom (zoom) {
+        this.zoom = zoom
+        this.initSplitSegments()
+        // FIXME get lates SVG ?
+        // init split lines?
+    }
+
+
     /**
      * Implement some state machine:
      *
@@ -48,7 +56,7 @@ export default class MorphTool extends Tool{
      * 3) If we have no selectedJoint, end the tool
      *
      */
-    onClick(pos) {
+    onClick() {
         this.logger.log(3, 'onClick', 'enter > split:', this.splitPoint + ' > joint:' + this.isJointDown)
         
         this.endRuler()
@@ -57,10 +65,7 @@ export default class MorphTool extends Tool{
             return
         }
 
-        if (this.splitPoint) {
-            this.split(pos, this.splitPoint, this.selectedElement, this.svgPath)
-            return
-        } 
+       
         
         delete this.selectedJoints
         this.editor.setSelectedJoints()
@@ -332,39 +337,49 @@ export default class MorphTool extends Tool{
         if (!showSplitPoint || this.isBezier) {
             return
         }
+
         const distanceToOherPoints = this.getDistanceToOtherPoints(pos, this.selectedElement)
-        if (this.svgPath) {
-            const splitPoint = this.getClosesetPoint(pos, this.svgPath, this.selectedElement)
-            if (splitPoint && splitPoint.distance < this.minShowSplitDistance) {
-                const minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
-                if (minDistance > this.minSplitDistance) {
-                    this.editor.setSplitPoints([splitPoint])
-                    this.splitPoint = splitPoint
-                    this.canAdd = false
-                    return
+        const minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
+        // check that we are not close to one of the joints
+        if (minDistance > this.minSplitDistance) {
+            // do the chekcing on zoomed space
+            const zoomedPos = SVGUtil.getZoomedBox(pos, this.zoom)  
+            if (this.svgPath) {
+                const splitPoint = this.getClosesetPoint(zoomedPos, this.svgPath, this.selectedElement)
+                if (splitPoint && splitPoint.distance < this.minShowSplitDistance) {               
+                        this.editor.setSplitPoints([splitPoint])
+                        this.splitPoint = splitPoint
+                        this.canAdd = false
+                        return                
                 }
+                this.editor.setSplitPoints()
+                this.splitPoint = null
             }
+        } else {
             this.editor.setSplitPoints()
             this.splitPoint = null
         }
+
+      
     }
 
+    onSplitPointClick (splitPoint, pos) {
+        this.logger.log(-2, 'onSplitPointClick', 'enter' , splitPoint, pos)
+        this.split(pos, this.splitPoint, this.selectedElement, this.svgPath)     
+        
+    }
    
     split (pos, splitPoint, path, svg) {
         this.logger.log(5, 'split', 'enter' , splitPoint, path)
-
-        if (Math.abs(pos.x - splitPoint.x) > 3 || Math.abs(pos.y - splitPoint.y) > 3) {
-            this.logger.log(-5, 'split', 'exit > Too far')
-            return
-        }
 
         // now scan once backwards to find point before.
         const start =  this.getSplitStart(path, splitPoint, svg)
         if (start >= 0) {
             this.logger.log(-1, 'split', 'exit > add at' , start + 1)
             const slope = SVGUtil.getBezierSlope(svg, splitPoint.index)
-            SVGUtil.splitPathAt(path, start, splitPoint, slope)
-    
+            // unzoom the split point. 
+            const unZoomedSplitPoint = SVGUtil.getUnZoomedBox(splitPoint, this.zoom)
+            SVGUtil.splitPathAt(path, start, unZoomedSplitPoint, slope)
             this.editor.setSplitPoints()
             this.editor.setSelectedJoints([{
                 id: start + 1
@@ -379,12 +394,13 @@ export default class MorphTool extends Tool{
     getSplitStart (path, pos, svg) {
         /**
          * Build lookup map to check fast for all points
-         * which was the split start
+         * which was the split start. Because of rounding
+         * errors we also set +/- 1
          */
         const points = {}
         path.d.forEach((p,i) => {
-            const x = Math.round(p.x)
-            const y = Math.round(p.y)
+            const x = Math.round(p.x * this.zoom)
+            const y = Math.round(p.y * this.zoom)
             if (!points[x]) {
                 points[x] = {}
             }
@@ -453,6 +469,7 @@ export default class MorphTool extends Tool{
         // we cache here already the segments in the path, 
         // so the realtime lookup is faster
         this.logger.log(2, 'initSplitSegments', 'enter')
+        this.svgPath = this.editor.getSVGElement(this.selectedElement)   
         const length = this.svgPath.getTotalLength()
         this.splitSegements = []
         for (let i = 0; i < length; i+= this.splitSegmentSize) {       
