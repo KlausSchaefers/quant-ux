@@ -1,8 +1,9 @@
 <template>
     <div class="MatcIFrameWidget">
         <div class="MatcIFrameWidgetCover">
-            <span class="" v-if="url && !isValidURL"> The URL must start with https://</span>
-            <span class="" v-if="!url" >Set the URL to show</span>            
+            <span class="" v-if="url && !isValidURL"> The URL must start with https://www.youtube.com/embed/</span>
+            <span class="mdi mdi-youtube" v-if="!url" :style="'fontSize:' + fontSize">
+            </span>            
         </div>
         <iframe width="100%" height="100%" v-if="url && isValidURL" :src="url" title="" class="MatcIFrameWidgetFrame" sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
@@ -32,13 +33,21 @@ export default {
       value: this.value,
       style: {},
       model: {},
+      height: 0,
       url: '',
     };
   },
   components: {},
   computed: {
+    fontSize () {
+        if (this.model) {
+            return Math.round(this.height * 0.8 * this._scaleX) + 'px'
+        }
+
+        return '60px'
+    },
     isValidURL () {
-      return this.url.indexOf('https://') === 0 && this.url.indexOf('Javascript') < 0
+      return this.url.indexOf('https://www.youtube.com/embed/') === 0 && this.url.indexOf('Javascript') < 0
     }
   },
   methods: {
@@ -52,71 +61,11 @@ export default {
       this._paddingNodes = [this.domNode];
       this._labelNodes = [this.domNode];
     },
-    getCreateTemplates () {
-      return [
-        {
-          "id" : "Iframe",
-          "type" : "Iframe", // must be the same as tghe name used in the SymbolService
-          "_type" : "Widget",
-          "category" : "WireFrame",
-          "subcategory" : "AAAAAA",
-          "name" : "Iframe",
-            "x" : 0,
-            "y" : 0,
-            "w" : 100,
-            "h" : 30,
-            "z" : 0,
-            "props" : {
-              "label" : "Iframe",
-              "link" : "url"
-            },
-            "has" : {
-              "backgroundColor" : true,
-              "data": true,
-              "border": true,
-              "label" : true,
-              "padding" : true,
-              "advancedText" : true
-            },
-            "style" : {
-              "fontSize" : 20,
-              "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-              "textAlign" : "left",
-              "letterSpacing" : 0,
-              "lineHeight" : 1,
-              "color": "#333333",
-              "borderTopRightRadius" : 0,
-              "borderTopLeftRadius" : 0,
-              "borderBottomRightRadius" : 0,
-              "borderBottomLeftRadius" : 0,
-              "borderTopWidth" : 0,
-              "borderBottomWidth" : 0,
-              "borderRightWidth" : 0,
-              "borderLeftWidth" : 0,
-              "borderTopStyle" : "solid",
-              "borderBottomStyle" : "solid",
-              "borderRightStyle" : "solid",
-              "borderLeftStyle" : "solid",
-              "borderTopColor" : "#333333",
-              "borderBottomColor" : "#333333",
-              "borderRightColor" : "#333333",
-              "borderLeftColor" : "#333333",
-              "background": null
-            }
-        }
-      ]
+    resize (box) {
+      var h = Math.min(box.h, box.w);
+      this.height = h
     },
-    getDataProperties () {
-      return [
-        {
-          label: "URL Link",
-          type: "String",
-          value: "add your link here",
-          key: "link",
-          isProp:false,
-        },
-      ]
-    },
+
     wireEvents () {
       this.own(this.addClickListener(this.domNode, lang.hitch(this, 'onClick')));
       this.own(on(this.domNode, touch.over, lang.hitch(this, 'onDomMouseOver')));
@@ -133,6 +82,7 @@ export default {
         const url = model.props.url    
         this.url = url         
       }
+      this.resize(model)
     },
     getValue () {
       return this.value;
@@ -143,8 +93,6 @@ export default {
     getState () {
     },
     setState () {
-    },
-    resize () {
     },
     onClick: function(e) {
       this.stopEvent(e);

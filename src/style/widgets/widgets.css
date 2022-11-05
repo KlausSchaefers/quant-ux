@@ -54,6 +54,10 @@
     color:#ccc;
 	text-align: center;
 }
+.MatcIFrameWidgetCover .mdi {
+	line-height: 1;
+}
+
 
 .MatcSimulator .MatcIFrameWidgetCover {
 	display: none;
