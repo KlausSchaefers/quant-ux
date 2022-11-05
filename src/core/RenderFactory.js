@@ -50,6 +50,7 @@ import ScreenSegment from 'core/widgets/ScreenSegment'
 import LockSlider from 'core/widgets/LockSlider'
 import Script from 'core/widgets/Script'
 import IconToggleButton from 'core/widgets/IconToggleButton'
+import IFrameWidget from 'core/widgets/IFrameWidget'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -465,6 +466,12 @@ export default class RenderFactory extends Core {
 
 		this._uiWidgets[model.id] = segement;
 		this._containerWidgets[model.id] = segement;
+	}
+
+	_createIFrameWidget(parent, model) {
+		const widget = this.$new(IFrameWidget)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
 	}
 
 	_createIconButton(parent, model) {

@@ -203,6 +203,11 @@ export default {
 			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
 		},
 
+		_showIFrameWidget(model) {
+			this._setSectionLabel("IFrame");
+			this._renderInput(model.props, "url", "The URL to link", "https://yourlink.com");
+			
+		},
 
 		_showScreenSegment  (widget) {
 			this._setSectionLabel("Screen Section");
@@ -590,8 +595,8 @@ export default {
 			if(model.props.cleartext){
 				this._renderCheck("Is visible", model.props.cleartextVisible, "cleartextVisible", "By default the password is visible" );
 				this._renderColor('Color','<span class="mdi mdi-format-text"></span>',model.style.cleartextColor, "cleartextColor", "onStyleChanged" , true);
-				this._renderInput(model.props, "cleartextHideLabel", "The label to hide the characters");
-				this._renderInput(model.props, "cleartextShowLabel", "The label to show the characters");
+				this._renderInput(model.props, "cleartextHideLabel", "The label to hide the characters", 'e.g. Hide');
+				this._renderInput(model.props, "cleartextShowLabel", "The label to show the characters", 'e.g. Show');
 			}
 			this._renderCheck("Focus on load",model.props.focus, "focus" );
 
@@ -1946,13 +1951,14 @@ export default {
 		},
 
 
-		_renderInput (model, property, tt){
+		_renderInput (model, property, tt, placeholder=""){
 
 			let row = this.db.div("MatcToobarRow MatcToolbarItem  MatcToolbarGridFull").build(this.cntr);
 			//this.db.span("MatcToolbarItemLabel",lbl ).build(row);
 
 			var input = this.db.input("MatcIgnoreOnKeyPress MatcToobarInlineEdit").build(row);
 			input.value = model[property];
+			input.placeholder = placeholder
 
 			var callback = lang.hitch(this, "onProperyChanged", property);
 			this.tempOwn(on(input, "change", function(){

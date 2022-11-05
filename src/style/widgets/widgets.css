@@ -26,7 +26,46 @@
 	opacity: 0;
 	line-height: 1;
 }
+/*******************************
+ * IFrame
+ *******************************/
+.MatcIFrameWidget {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+}
 
+.MatcIFrameWidgetCover {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	padding: 24px;
+}
+
+.MatcIFrameWidgetCover span {
+    font-size: 200%;
+    color:#ccc;
+	text-align: center;
+}
+
+.MatcSimulator .MatcIFrameWidgetCover {
+	display: none;
+}
+
+.MatcIFrameWidgetCover iframe {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+}
 
 /*******************************
  * LockSlider
