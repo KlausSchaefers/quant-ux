@@ -337,11 +337,13 @@ export default {
        */
       this.inlineEditStop();
 
+
+      this.bechGroupChangeBeforeWidgetDND(id)
       this._addDnDChildren(id);
 
       /**
        * make sure lines are also updated for groups!
-       */
+       */      
       const group = this.getTopParentGroup(id);
       if (group) {
         this._dragNDropLineFromBox = group;
@@ -379,6 +381,23 @@ export default {
 
 
       return widget;
+    },
+
+    bechGroupChangeBeforeWidgetDND (id) {
+      const group = this.getTopParentGroup(id);
+      if (!group) {
+        return
+      }
+      if (this._selectGroup && this._selectGroup.id !== group.id) {
+        delete this._dragNDropGroupChildren
+      }
+
+      if (this._dragNDropIgnoreGroup && this._selectWidget && this._selectWidget.id !== id) {
+          const otherGroup = this.getTopParentGroup(this._selectWidget?.id );
+          if (otherGroup?.id !== group.id) {
+            this._dragNDropIgnoreGroup = false
+          }
+      }
     },
 
     onWidgetDNDKeyDown (e, isUp= false) {
@@ -846,7 +865,7 @@ export default {
     },
 
     _addDnDChildren (id) {
-      // console.debug('_addDnDChildren', id, this._dragNDropIgnoreGroup, this._dragNDropGroupChildren)
+      //console.debug('_addDnDChildren', id, this._dragNDropIgnoreGroup, this._dragNDropGroupChildren, this._selectGroup)
       if (this._dragNDropIgnoreGroup) {
         return;
       }
@@ -870,7 +889,7 @@ export default {
         /**
          * Since 2.1.3 we have subgroups!
          */
-        let group = this.getTopParentGroup(id);
+        const group = this.getTopParentGroup(id);
         if (group) {
           this._dragNDropChildren = group.children;
           this._addDNDChildrenCopies();
@@ -879,14 +898,14 @@ export default {
         /**
          * Since 2.1.3 we need also subgroups
          */
-        let group = this.getTopParentGroup(id);
+        const group = this.getTopParentGroup(id);
         if (group) {
           /**
            * Prevent that if there is a group selection,
            * but the moved widget is not form the group, we
            * do not add the groups children.
            */
-          if (this._selectGroup.id == group.id) {
+          if (this._selectGroup.id === group.id) {
             this._dragNDropChildren = this._selectGroup.children;
           } else {
             this._dragNDropChildren = group.children;
