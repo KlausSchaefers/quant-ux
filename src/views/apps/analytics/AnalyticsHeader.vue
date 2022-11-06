@@ -33,7 +33,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this.log = new Logger("AnalyticsHeader");
 
       this.userRing = this.$new(Ring, {
@@ -69,17 +69,17 @@ export default {
       this.log.log(0, "postCreate", "exit");
     },
 
-    setUser: function(v, p) {
+    setUser (v, p) {
       this.userRing.setValue(v);
       this.userRing.setPs(p);
     },
 
-    setDuration: function(v, std) {
+    setDuration (v, std) {
       this.durLabel.innerHTML = v + "s";
       this.durSTDLabel.innerHTML = "+/- " + std;
     },
 
-    setCovergae: function(v) {
+    setCovergae (v) {
       this.covRing.setValue(Math.round(v * 100) + "%");
       this.covRing.setPs(v);
     },
@@ -93,7 +93,6 @@ export default {
   },
   watch: {
     value(data) {
-      console.debug("AnalyticsHeader.watch()", data);
       this.value = data;
       this.setValue(data);
     }

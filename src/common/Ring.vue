@@ -33,7 +33,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate() {
       this.log = new Logger("Ring");
 
       this._canvas = document.createElement("canvas");
@@ -63,70 +63,70 @@ export default {
       }
     },
 
-    setValue: function(v) {
+    setValue(v) {
       this.value.innerHTML = v;
     },
 
-    setLabel: function(l) {
+    setLabel(l) {
       this.label.innerHTML = l;
     },
 
-    setHelp: function() {
+    setHelp() {
       var span = document.createElement("span");
       css.add(span, "mdi mdi-help-circle MatcHelpIcon");
       this.label.appendChild(span);
       this.own(on(span, touch.press, lang.hitch(this, "onHelp")));
     },
 
-    setAction: function(icon) {
+    setAction(icon) {
       var span = document.createElement("span");
       css.add(span, icon + " MatcHelpIcon");
       this.label.appendChild(span);
       this.own(on(span, touch.press, lang.hitch(this, "onAction")));
     },
 
-    onHelp: function(e) {
+    onHelp(e) {
       this.emit("help", e);
     },
 
-    onAction: function(e) {
+    onAction(e) {
       this.emit("action", e);
     },
 
-    setColor: function(c) {
+    setColor(c) {
       this.color = c;
     },
 
-    hideLabel: function() {
+    hideLabel() {
       this.domNode.removeChild(this.label);
     },
 
-    setSize: function(size) {
+    setSize(size) {
       this.domNode.style.height = size + "px";
       this.domNode.style.width = size + "px";
       this.container.style.height = size + "px";
       this.container.style.width = size + "px";
     },
 
-    setDomSize: function(w, h) {
+    setDomSize(w, h) {
       this.domNode.style.height = h + "px";
       this.domNode.style.width = w + "px";
     },
 
-    setPercent: function(p) {
+    setPercent(p) {
       var x = this.size / 2;
       var radius = x - this.width / 2;
       this.clearProgress();
       this.drawArc(x, radius, p, this.getForeGroundColor(p));
     },
 
-    setPercent2: function(p) {
+    setPercent2(p) {
       var x = this.size / 2;
       var radius = x - this.width / 2 - (this.width + 4);
       this.drawArc(x, radius, p, this.getForeGroundColor2(p));
     },
 
-    setPercent3: function(p) {
+    setPercent3(p) {
       var x = this.size / 2;
       var radius = x - this.width / 2 - (this.width + 4);
       this.drawArc(x, radius, p, this.getForeGroundColor3(p));
@@ -135,7 +135,7 @@ export default {
     /**
      * HD rendering for perfect quality!
      */
-    setPs: function(p1, p2) {
+    setPs(p1, p2) {
       var x = this.size;
       var w = this.width * 2;
       var canvas = document.createElement("canvas");
@@ -202,14 +202,14 @@ export default {
     /**
      * Render cool graph like this
      */
-    setPs2: function(p1, p2) {
+    setPs2(p1, p2) {
       var x = this.size;
       var w = this.width * 2;
 
       var canvas = document.createElement("canvas");
       canvas.height = this.size * 2;
       canvas.width = this.size * 2;
-	  var ctx = canvas.getContext("2d");
+	    var ctx = canvas.getContext("2d");
 	  
       if (this.backgroundColor) {
         let radius = x - w - w;
@@ -253,7 +253,7 @@ export default {
         "url(" + canvas.toDataURL("image/png") + ")";
     },
 
-    drawArc: function(x, radius, p, color, scale) {
+    drawArc(x, radius, p, color, scale) {
       let c = this._canvas;
       let ctx = c.getContext("2d");
       if (scale) {
@@ -279,51 +279,51 @@ export default {
       ctx.stroke();
     },
 
-    getForeGroundColor: function(p) {
+    getForeGroundColor(p) {
       if (this.color) {
         return this.color;
       }
       return this.greenToRed(p);
     },
 
-    getForeGroundColor2: function(p) {
+    getForeGroundColor2(p) {
       if (this.color2) {
         return this.color2;
       }
       return this.greenToRed(p);
     },
 
-    getForeGroundColor3: function(p) {
+    getForeGroundColor3(p) {
       if (this.color3) {
         return this.color3;
       }
       return this.greenToRed(p);
     },
 
-    clearProgress: function() {
+    clearProgress() {
       var c = this._canvas;
       var ctx = c.getContext("2d");
       ctx.clearRect(0, 0, c.width, c.height);
     },
 
-    degreesToRadians: function(degrees) {
+    degreesToRadians(degrees) {
       return degrees * (Math.PI / 180) - Math.PI / 2;
     },
 
-    startAnimation: function() {
+    startAnimation() {
       this.animationRunning = true;
       this.animationState = 0;
       this.animate();
       css.add(this.domNode, "MatcRingLoading");
     },
 
-    stopAnimation: function() {
+    stopAnimation() {
       this.animationRunning = false;
       this.clearProgress();
       css.remove(this.domNode, "MatcUploaderLoading");
     },
 
-    animate: function() {
+    animate() {
       if (this.animationRunning) {
         this.setPercent(this.animationState);
 
