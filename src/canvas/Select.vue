@@ -222,6 +222,7 @@ import topic from 'dojo/topic'
 			this.onSelectionChanged(null);
 			this.controller.onCanvasSelected();
 
+			this._dragNDropIgnoreGroup = false
 			try {
 				if (this.selectionListener) {
 					this.selectionListener.unSelect();
