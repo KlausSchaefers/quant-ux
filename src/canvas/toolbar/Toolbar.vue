@@ -1287,15 +1287,15 @@ export default {
 
 
 		onToolAlignElements (value, e){
-			this.logger.log(1,"onAlignElements", "entry : " + this._selection);
+			this.logger.log(-1,"onAlignElements", "entry : " + this._selection + ' > ' + e.ctrlKey);
 			this.stopEvent(e);
-
+			const ignoreGroups = e.shiftKey
 
 			if(this._selectedMulti){
 				/**
 				 * in case we are in a selction we will align to the selection!
 				 */
-				this.controller.alignWidgets(value, this._selectedMulti, this._selectedMulti);
+				this.controller.alignWidgets(value, this._selectedMulti, this._selectedMulti, ignoreGroups);
 
 			} else if (this._selectedWidget) {
 				/**
@@ -1317,16 +1317,19 @@ export default {
 				const widgetID = this._selectedGroup.children[0]
 				const widget = this.model.widgets[widgetID]
 				if (widget) {
-					var parentScreen = this.getParentScreen(widget);
+					const parentScreen = this.getParentScreen(widget);
 					if (parentScreen) {
-						this.controller.alignWidgets(value, this._selectedGroup.children, [parentScreen.id]);
+						if (ignoreGroups) {
+							this.controller.alignWidgets(value, this._selectedGroup.children, this._selectedGroup.children, true);
+						} else {
+							this.controller.alignWidgets(value, this._selectedGroup.children, [parentScreen.id]);
+						}
+				
 					} else {
 						this.logger.log(1,"onAlignElements", "exit not parent : ", this._selectedGroup);
 					}
 				}
 			}
-
-
 		},
 
 

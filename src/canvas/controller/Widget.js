@@ -88,15 +88,15 @@ export default class Widget extends Snapp {
 	 * Alignment
 	 **********************************************************************/
 
-	alignWidgets (direction, source, target) {
-		this.logger.log(-1, "alignWidgets", "enter > " + direction, target);
+	alignWidgets (direction, source, target, ignoreGroups = false) {
+		this.logger.log(-1, "alignWidgets", "enter > " + direction + ' > ignore: ' + ignoreGroups, target, ignoreGroups);
 
-		var targetBox = this.getBoundingBox(target);
-		var positions = {};
+		const targetBox = this.getBoundingBox(target);
+		const positions = {};
 
-		for (var i=0; i < source.length; i++){
-			var widgetID = source[i];
-			var widget = this.model.widgets[widgetID];
+		for (let i=0; i < source.length; i++){
+			const widgetID = source[i];
+			const widget = this.model.widgets[widgetID];
 
 			if (widget) {
 				/**
@@ -110,8 +110,8 @@ export default class Widget extends Snapp {
 				 * In case there is a group, we set an offset!
 				 *
 				 */
-				 const group = this.getParentGroup(widgetID);
-				if (group){
+				const group = this.getParentGroup(widgetID);
+				if (group && !ignoreGroups){
 					const boundingBox = this.getBoundingBox(group.children);
 					offset.x = widgetPos.x - boundingBox.x;
 					offset.y = widgetPos.y - boundingBox.y;
@@ -787,8 +787,8 @@ export default class Widget extends Snapp {
 		this.addCommand(command);
 
 		/**
-			* Update model
-			*/
+		 * Update model
+		 */
 		this.modelAddWidget(widget);
 
 		this.render();
@@ -839,6 +839,7 @@ export default class Widget extends Snapp {
 		if(!this.model.widgets[widget.id]){
 			widget.created = new Date().getTime()
 			this.model.widgets[widget.id] = widget;
+			this.onElementCreated(widget)
 		} else {
 			console.warn("Could not add widget because id wxists", widget);
 		}

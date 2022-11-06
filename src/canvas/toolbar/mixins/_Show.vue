@@ -163,7 +163,7 @@ export default {
 
 		showDistButtons (ids){
 			const matrix = DistributionUtil.getDistributionMatrix(this.model, ids, false)
-			this.logger.log(-3,"showDistButtons", "entry", matrix);	
+			this.logger.log(3,"showDistButtons", "entry", matrix);	
 			for (let id in this.distButtons) {
 				if (matrix[id] > 1) {
 					css.remove(this.distButtons[id], "MatcToolbarItemPassive");

@@ -1494,6 +1494,7 @@ export default class Screen extends CopyPaste {
 
 		if(!this.model.screens[screen.id] ){
 			this.model.screens[screen.id] = screen;
+			this.onElementCreated(screen)
 			this.onModelChanged([])
 			this.render();
 		} else {
@@ -1592,6 +1593,7 @@ export default class Screen extends CopyPaste {
 
 		if(!this.model.screens[screen.id] ){
 			this.model.screens[screen.id] = screen;
+			this.onElementCreated(screen)
 		} else {
 			console.warn("Could not add screen because id exists!", screen);
 		}
@@ -1601,6 +1603,7 @@ export default class Screen extends CopyPaste {
 				let widget = widgets[i];
 				if(!this.model.widgets[widget.id]){
 					this.model.widgets[widget.id] = widget;
+					this.onElementCreated(widget)
 				} else {
 					console.warn("Could not add widget", widget);
 				}
