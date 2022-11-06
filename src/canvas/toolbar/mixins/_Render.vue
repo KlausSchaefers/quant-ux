@@ -98,7 +98,7 @@ export default {
 				css.remove(this.editTool, "MatcToolbarItemActive");
 				css.remove(this.importSection, "MatcToolbarItemActive");
 				css.remove(this.hotspotTool, "MatcToolbarItemActive" );
-				css.remove(this.svgTool, "MatcToolbarItemActive" );
+				//css.remove(this.svgTool, "MatcToolbarItemActive" );
 				css.remove(this.textTool, "MatcToolbarItemActive");
 				css.remove(this.rectangleTool, "MatcToolbarItemActive" );
 				css.remove(this.addLogicSection, "MatcToolbarItemActive" );
@@ -125,7 +125,7 @@ export default {
 					css.add(this.hotspotTool, "MatcToolbarItemActive" );
 				}
 				if(this.mode == "svg"){
-					css.add(this.svgTool, "MatcToolbarItemActive" );
+					//css.add(this.svgTool, "MatcToolbarItemActive" );
 				}
 				if(this.mode == "addText"){
 					css.add(this.textTool, "MatcToolbarItemActive" );

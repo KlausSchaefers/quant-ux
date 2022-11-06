@@ -39,8 +39,9 @@ export default class Logger {
 	}
 
 
-	sendError (){
-		
+	sendError (e){
+		console.error('Error', e)
+		console.trace()
 	}
 
 	error (meth, message, error) {
