@@ -192,7 +192,6 @@
 
 			<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
 			</div>
-
 		</div>
 
 </template>

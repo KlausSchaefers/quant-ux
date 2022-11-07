@@ -69,7 +69,7 @@ export default class Screen extends CopyPaste {
 		if(screen && screen.rulers) {
 			let oldRuler = screen.rulers.find(r => r.id === rulerID)
 			if (oldRuler){
-				var command = {
+				const command = {
 					timestamp : new Date().getTime(),
 					type : "ScreenRulerUpdate",
 					o: oldRuler.v,

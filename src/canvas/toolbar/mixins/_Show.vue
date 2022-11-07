@@ -345,7 +345,6 @@ export default {
 			css.remove(this.domNode, "MatcToolbarTemplateMarkerVisible");
 			this.hideDisButtons();
 
-
 			this.logger.log(3,"hideAllSections", "exit");
 		},
 

@@ -1403,10 +1403,7 @@ export default class BaseController extends Core {
 				this.logger.sendError("postCommand", err);
 			}
 		}
-
-	
 	}
-
 
 	onCommandAdded (result){
 		if(result.errors){

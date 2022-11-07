@@ -2,7 +2,6 @@ import Snapp from './Snapp'
 import lang from '../../dojo/_base/lang'
 import * as TextUtil from '../../core/TextUtil'
 
-
 export default class Widget extends Snapp {
 
 	enableInheritedWidget (widget){
