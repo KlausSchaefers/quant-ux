@@ -299,7 +299,7 @@ export default {
               this.stopEvent(e);
             }
             if(k == 90){// ctrl-z
-              if (e.ctrlKey && e.shiftKey) { //// ctrl+shift+z is the shortcut for redo
+              if ((e.ctrlKey || e.metaKey) && e.shiftKey) { //// ctrl+shift+z is the shortcut for redo
                 this.controller.redo(); 
                 this.stopEvent(e);
               } else {
