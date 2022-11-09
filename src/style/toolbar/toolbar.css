@@ -647,6 +647,10 @@
 
 .MatcDateSectionIconCntr{
 	width: 100%;
+	
+}
+
+.MatcDateSectionIconCntrOverflow {
 	height: 450px;
 	overflow: auto;
 }

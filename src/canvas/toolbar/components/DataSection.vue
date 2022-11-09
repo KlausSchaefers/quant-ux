@@ -1624,7 +1624,7 @@ export default {
 			input.type = "search";
 
 
-			const cntr = this.db.div("MatcDateSectionIconCntr", "").build(popup);
+			const cntr = this.db.div("MatcDateSectionIconCntr MatcDateSectionIconCntrOverflow ", "").build(popup);
 			const table = this.db.div("").build();
 
 			const scroller = this.$new(ScrollContainer);
