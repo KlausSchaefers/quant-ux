@@ -489,14 +489,14 @@ export default class Group extends Layer {
 		 * Since 2.1.3 we have sub groups:
 		 * Check that we do not have group of group!
 		 */
-		let subGroups = []
-		let children = []
+		const subGroups = []
+		const children = []
 		for (let i = 0; i < selection.length; i++) {
-			let widgetID = selection[i];
+			const widgetID = selection[i];
 			/**
 			 * We always take the top group!
 			 */
-			let group = this.getTopParentGroup(widgetID);
+			const group = this.getTopParentGroup(widgetID);
 			if (group) {
 				if (subGroups.indexOf(group.id) < 0) {
 					subGroups.push(group.id)
@@ -505,8 +505,8 @@ export default class Group extends Layer {
 				children.push(widgetID)
 			}
 		}
-		var length = this.getObjectLength(this.model.groups);
-		var name = "Group"
+		const length = this.getObjectLength(this.model.groups);
+		let name = "Group"
 		if (length) {
 			name += ' ' + length;
 		}
@@ -517,17 +517,27 @@ export default class Group extends Layer {
 			groups: subGroups,
 			name : name
 		};
+
+		/**
+		 * Since 4.2.5 we will move them all to consequtiv Z-Layers
+		 */
+		const [newZ, oldZ] = this.getGroupZChanges(selection)
+	
+
 		/**
 		 * create the command
 		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "AddGroup",
-			model : group
+			model : group,
+			newZ: newZ,
+			oldZ: oldZ
 		};
 		this.addCommand(command);
 
 		this.modelAddGroup(group);
+		this.modelWidgetLayers(newZ)
 
 		// console.debug("Group.add() ", JSON.stringify(this.model.groups, null, 2))
 
@@ -536,6 +546,41 @@ export default class Group extends Layer {
 		this.showSuccess("Group was created!");
 
 		return group;
+	}
+
+	getGroupZChanges (selection) {
+
+		const widgets = this.model.widgets
+
+		let maxZ = 0
+		for (let i = 0; i < selection.length; i++) {
+			const widgetID = selection[i];
+			const widget = widgets[widgetID]
+			if (widget) {
+				maxZ = Math.max(maxZ, widget.z)
+			}
+		}
+
+		const oldValues = this.getZValues(widgets);
+		for (let i = 0; i < selection.length; i++) {
+			const widgetID = selection[i];
+			oldValues[widgetID] = maxZ - i * 0.00001
+		}
+
+		const newValues = this.getNormalizeWidgetZValues(oldValues);
+
+		const newZ = {}
+		const oldZ = {}
+		for(let id in widgets){
+			const z = newValues[id];
+			const widget = widgets[id];
+			if(widget && widget.z != z){
+				oldZ[id] = widget.z;
+				newZ[id] = z
+			}
+		}
+		
+		return [newZ, oldZ]
 	}
 
 
@@ -557,11 +602,17 @@ export default class Group extends Layer {
 
 	undoAddGroup (command){
 		this.modelRemoveGroup(command.model);
+		if (command.oldZ) {
+			this.modelWidgetLayers(command.oldZ)
+		}
 		this.render();
 	}
 
 	redoAddGroup (command){
 		this.modelAddGroup(command.model);
+		if (command.newZ) {
+			this.modelWidgetLayers(command.newZ)
+		}
 		this.render();
 	}
 

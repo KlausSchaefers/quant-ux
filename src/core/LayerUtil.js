@@ -1,10 +1,12 @@
+import Logger from './Logger'
 
 class LayerUtil {
 
 
     getGroupChanges (from, to) {
-        var newGroup = [];
-        var oldGroup = [];
+		//Logger.log(-1,"getGroupChanges() ", from, to);
+        const newGroup = [];
+        const oldGroup = [];
         
         /**
 		 * We have the following cases
@@ -13,6 +15,7 @@ class LayerUtil {
 		 * 2) Widget movement in same group
 		 * 2.a) Move before group
 		 * 3) Widget movement from screen to group
+		 * 3.a) Widget movement before other group
 		 * 4) Widget movement from group to screen
 		 * 5) Widget movement between groups
 		 * 6) Group movement to other groups (make child)
@@ -24,7 +27,7 @@ class LayerUtil {
 		// 1) Widget movement without groups (under screen) 
 		// => not need for changes in group structure
 		if (!from.groupID && !to.groupID) {
-			console.debug("createChangeLayerCommand() > 1) Widget movement without groups (under screen)");
+			Logger.log(-1,"getGroupChanges() > 1) Widget movement without groups (under screen)");
 		}
 
 
@@ -32,32 +35,36 @@ class LayerUtil {
 		// 2) Widget movement without same group
 		// => no need for channge in group structure
 		if (from.groupID && to.groupID && from.groupID === to.groupID) {
-			// console.debug("createChangeLayerCommand() > 2) Widget movement without same group!");
+			// Logger.log(-1,"createChangeLayerCommand() > 2) Widget movement without same group!");
 			// 5)  Widget movement before group
 			if (to.type === 'group') {
-				console.debug("createChangeLayerCommand() > 2.a) Widget movement before group");
-
+				Logger.log(1,"getGroupChanges() > 2.a) Widget movement before group");
 			}
 		}
 
 		// 3) Widget movement from screen to group
 		if (!from.groupID && to.groupID && to.widgetID != undefined && from.type === 'widget'){
-			// console.debug("createChangeLayerCommand() >  3) Widget movement from screen to group!");
-			newGroup.push({
-				type: "add",
-				groupID: to.groupID,
-				widgetID: from.widgetID
-			});
-			oldGroup.push({
-				type: "remove",
-				groupID: to.groupID,
-				widgetID: from.widgetID
-			})
+			if (to.type === 'widget') {
+				Logger.log(-1,"getGroupChanges() >  3) Widget movement from screen to group!");
+				newGroup.push({
+					type: "add",
+					groupID: to.groupID,
+					widgetID: from.widgetID
+				});
+				oldGroup.push({
+					type: "remove",
+					groupID: to.groupID,
+					widgetID: from.widgetID
+				})
+			} else {
+				Logger.log(1,"getGroupChanges() >  3a) Move above group!");
+			}
+			
 		}
 
 		// 4) Widget movement from group to screen
 		if (from.groupID && !to.groupID && from.type === 'widget'){
-			// console.debug("createChangeLayerCommand() > 4) Widget movement from group to screen!");
+			Logger.log(1,"getGroupChanges() > 4) Widget movement from group to screen!");
 			newGroup.push({
 				type: "remove",
 				groupID: from.groupID,
@@ -72,7 +79,7 @@ class LayerUtil {
 			
 		// 5)  Widget movement between group
 		if (from.groupID && to.groupID && from.groupID !== to.groupID && from.type === 'widget'){
-			// console.debug("createChangeLayerCommand() > 5) Widget movement between group", from.groupID , to.groupID);
+			Logger.log(1,"getGroupChanges() > 5) Widget movement between group", from.groupID , to.groupID);
 		
 			newGroup.push({
 				type: "remove",
@@ -97,10 +104,12 @@ class LayerUtil {
 		
 		}
 
-		//* 6) Group movement to other groups (make child)
+		//* 6) Group movement to other group (make child)
 		if (from.type === 'group' && to.type === 'widget' && from.groupID !== to.groupID && to.groupID) {
-            // console.debug("createChangeLayerCommand() > 6)  Group movement in other groups");
+            Logger.log(1,"getGroupChanges() > 6)  Group movement in other groups");
             
+			// FIXME we fire here too many channges
+
             newGroup.push({
 				type: "removeSubGroup",
 				groupID: from.groupID,
@@ -126,7 +135,7 @@ class LayerUtil {
 
 		//* 7) Group before group
 		if (from.type === 'group' && to.type === 'group' && from.groupID && to.groupID && from.groupID !== to.groupID) {
-            // console.debug("createChangeLayerCommand() > 7)  Group movement before group");
+            Logger.log(1,"getGroupChanges() > 7)  Group movement before group");
             // some how handled well be the bz case 8
 		}
 
@@ -134,7 +143,7 @@ class LayerUtil {
 		 * 8) Group out of group to screen
 		 */
 		if (from.type === 'group' && to.type === 'group' && !to.groupID && from.groupID && from.source) {
-            // console.debug("createChangeLayerCommand() > 8)  Group out of group to screen");
+            Logger.log(1,"getGroupChanges() > 8)  Group out of group to screen");
             newGroup.push({
 				type: "removeSubGroup",
 				groupID: from.groupID,
@@ -155,7 +164,7 @@ class LayerUtil {
     }
 
     getNewZValuePositions (beforePosition, selection, oldZValues){
-    
+
         const insertZ = oldZValues[beforePosition]
         const offset = selection.length
         const selectedZ = selection.map(id => {
@@ -166,18 +175,20 @@ class LayerUtil {
         }).sort((a,b) => {
             return a.z - b.z
         })
-        // this.logger.log(2, 'getNewZValuePositions()', `insertZ : ${insertZ}, offset: ${offset}`)
+	
+        //this.logger.log(2, 'getNewZValuePositions()', `insertZ : ${insertZ}, offset: ${offset}`)
 
-        var zValues = []
 
         /**
          * 1) move all the seclted stuff above the insertZ. Make sure we 
-         * keep the order of the selection!
+         * keep the order of the selection! We just move by 
+		 * fractions to avoid stupid overflow issues
          */
+		const zValues = []
         selectedZ.forEach((value, i) => {
             zValues.push({
                 id: value.id,
-                z: insertZ + i
+                z: insertZ + ((i+1) * 0.001)
             })
         })
 
@@ -186,9 +197,9 @@ class LayerUtil {
          * under down bythe offset!
          */
         for (let id in oldZValues) {
-            let isSelected = selection.indexOf(id) > -1
+            const isSelected = selection.indexOf(id) > -1
             if (!isSelected) {
-                let oldZ = oldZValues[id]
+                const oldZ = oldZValues[id]
                 if (oldZ <= insertZ) {
                     zValues.push({
                         id: id,
@@ -202,15 +213,21 @@ class LayerUtil {
                 }
             } 
         }
+
         
         /**
          * 3) we build the final result with nice ints starting from 1
          */
-        let result = {}
+        const result = {}
         zValues.sort((a,b) => a.z - b.z)
         zValues.forEach((zPos, i) => {
-            result[zPos.id] = i + 1
+			const newZ = i + 1	
+			const oldZ = oldZValues[zPos.id]
+			if (oldZ !== newZ) {
+				result[zPos.id] = newZ
+			}
         })
+
         return result
     }
 }

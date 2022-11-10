@@ -1273,11 +1273,11 @@ export default {
      * Method to make the z-values pretty and ensure that the z values
      * are consequtive!
      */
-    getNormalizeWidgetZValues: function(values) {
+    getNormalizeWidgetZValues (values) {
       /**
        * convert values to a sorted list!
        */
-      var list = [];
+      const list = [];
       for (var id in values) {
         list.push({
           id: id,
@@ -1286,11 +1286,11 @@ export default {
       }
       this.sortWidgetList(list);
 
-      var z = -1;
-      var lastZ = null;
-      var result = {};
-      for (var i = 0; i < list.length; i++) {
-        var w = list[i];
+      let z = 0;
+      let lastZ = null;
+      const result = {};
+      for (let i = 0; i < list.length; i++) {
+        let w = list[i];
         if (lastZ === null || lastZ != w.z) {
           z++;
           lastZ = w.z;

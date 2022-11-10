@@ -52,7 +52,7 @@ export default {
       	postCreate (){
 			this.logger = new Logger("LayerList");
 			this.logger.log(2,"constructor", "entry > " + this.mode);
-			this.isDebug = false //location.hostname.indexOf('localhost') >= 0
+			this.isDebug = location.href.indexOf('debug=true') >= 0
 		},
 
 		setController (c){
@@ -179,6 +179,7 @@ export default {
 
 			const fromNode = this.nodes[from]
 			const toNode = this.nodes[to]
+
 			if (fromNode && toNode) {
 				if (this.controller) {
 					if (this.isPathDnD(fromNode, toNode)) {
@@ -193,7 +194,8 @@ export default {
 							widgetID: fromNode.widgetID,
 							screenID: fromNode.screenID,
 							groupID: fromNode.groupID,
-							type: fromNode.type
+							type: fromNode.type,
+							selection: this.getSelectedWidgetIds()
 						}, {
 							source: toNode.id,
 							widgetID: toNode.widgetID,
@@ -405,7 +407,7 @@ export default {
 					let parentNode = this.getOrCreateGroup(parentGroup, screenId, groupNodes, parentGroups, tree, widget)
 					parentNode.children.push(newGroupNode)
 				} else {
-					let newGroupNode = this.createNode(group, widget.id, screenId, null, 'group');
+					let newGroupNode = this.createNode(group, widget.id, screenId, null, 'group'); // group must be null, otherwise we will merge on DND
 					groupNodes[group.id] = newGroupNode;
 
 					tree.children.push(newGroupNode);
@@ -675,7 +677,7 @@ export default {
 		},
 
 
-	selectNode (ids) {
+		selectNode (ids) {
 			this.unSelectNodes()
 			this.$nextTick(() => {
 				ids.forEach(id => {
@@ -690,6 +692,37 @@ export default {
 				this.scrollToSelection(ids)
 				this.$forceUpdate()
 			})			
+		},
+
+		getSelectedWidgetIds () {
+			const result = new Set()
+			if (this.selection) {
+				this.selection.forEach(id => {
+					let node = this.nodes[id]
+		
+					if (node.type === 'widget') {
+						result.add(node.widgetID)
+					}
+					if (node.type === 'group') {
+						this._getGroupChildren(node, result)
+					}
+				})
+			}
+			return Array.from(result)
+		},
+
+		_getGroupChildren(node, result) {
+			if (node.children) {
+				node.children.forEach(child => {
+		
+					if (child.type === 'widget') {
+						result.add(child.widgetID)
+					}
+					if (child.type === 'group') {
+						this._getGroupChildren(child, result)
+					}
+				})
+			}
 		},
 
 		scrollToSelection(ids) {

@@ -464,7 +464,7 @@ export default class BaseController extends Core {
 		 */
 		if (this.transactions[id]) {
 			this.logger.log(1, "checkTransaction", "enter #" + number, this.transactions[id].ts);
-			if (number < 4) {
+			if (number < 10) {
 				/**
 				 * For now we just log that that a transaction failed.
 				 * We should consoder resending!

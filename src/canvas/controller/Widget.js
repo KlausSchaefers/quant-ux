@@ -1092,8 +1092,8 @@ export default class Widget extends Snapp {
 
 
 	/**********************************************************************
-		* Add Multi Widgets (from uplaod)
-		**********************************************************************/
+	 * Add Multi Widgets (from uplaod)
+	 **********************************************************************/
 
 	addMultiImageWidgets (widgets, parentScreen){
 		this.logger.log(0,"addMultiImageWidgets", "enter > " + parentScreen.name);
@@ -1158,8 +1158,8 @@ export default class Widget extends Snapp {
 	setWidgetLayers (zValues){
 		this.logger.log(0,"setWidgetLayers", "enter > ");
 
-		var old = {};
-		var widgets = this.model.widgets;
+		const old = {};
+		const widgets = this.model.widgets;
 		for(var id in widgets){
 			var newZ = zValues[id];
 			var widget = widgets[id];
@@ -1168,7 +1168,7 @@ export default class Widget extends Snapp {
 			}
 		}
 
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "WidgetLayers",
 			o : old,

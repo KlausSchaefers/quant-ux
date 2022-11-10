@@ -1103,7 +1103,7 @@ export default class Core extends Evented {
         }
         this.sortWidgetList(list);
 
-        let z = -1;
+        let z = 0;
         let lastZ = null;
         let result = {};
         for (let i = 0; i < list.length; i++) {
@@ -1119,10 +1119,10 @@ export default class Core extends Evented {
     }
 
     getMinZValue(widgets) {
-        var min = 100000;
-        var l = 0;
-        for (var id in widgets) {
-            var w = widgets[id];
+        let min = 100000;
+        let l = 0;
+        for (let id in widgets) {
+            const w = widgets[id];
             min = Math.min(w.z, min);
             l++;
         }
@@ -1134,10 +1134,10 @@ export default class Core extends Evented {
     }
 
     getMaxZValue(widgets) {
-        var max = -10000;
-        var l = 0;
-        for (var id in widgets) {
-            var w = widgets[id];
+        let max = -10000;
+        let l = 0;
+        for (let id in widgets) {
+            const w = widgets[id];
             max = Math.max(w.z, max);
             l++;
         }
@@ -1149,9 +1149,9 @@ export default class Core extends Evented {
     }
 
     getZValues(widgets) {
-        var values = {};
-        for (var id in widgets) {
-            var widget = widgets[id];
+        const values = {};
+        for (let id in widgets) {
+            const widget = widgets[id];
             this.fixMissingZValue(widget);
             values[id] = widget.z;
         }

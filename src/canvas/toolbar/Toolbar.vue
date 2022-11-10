@@ -1446,7 +1446,7 @@ export default {
 
 
 		onToolWidgetLayer (value){
-			this.logger.log(1,"onToolWidgetLayer", "entry > "+ value);
+			this.logger.log(-1,"onToolWidgetLayer", "entry > "+ value);
 
 			let selection = this._getSelectedWidgets();
 			if (selection.length > 0) {
@@ -1472,27 +1472,28 @@ export default {
 				const offset = this._getZOffset(selection, oldValues);
 				const max = this.getMaxZValue(widgets);
 				const min = this.getMinZValue(widgets);
+
 				switch(value) {
 				    case "front":
 				    	for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
-				    		oldValues[id] = max +1 + offset[id];
+				    		oldValues[id] = max + 1 + offset[id];
 				    	}
 				    	break;
 				    case "forward":
 				    	for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
-				    		oldValues[id]+=1;
+				    		oldValues[id]+=1.1; // we add a little more than one, to make sure we do not collide with other
 				    	}
 				        break;
 				    case "backward":
 				    	for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
-				    		oldValues[id]-=1;
+				    		oldValues[id]-=1.1;  // we add a little more than one, to make sure we do not collide with other
 				    	}
 				    	break;
 				    default:
-				    	var l = selection.length;
+				    	var l = selection.length + max;				
 					    for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
 				    		oldValues[id] = min - l + offset[id];
@@ -1509,7 +1510,7 @@ export default {
 						oldValues[topId] = max + 10 + selection.length
 					}
 					if (value === 'back') {
-						oldValues[topId] = min - 10 + selection.length
+						oldValues[topId] = min - 10 - (selection.length +max)
 					}
 				}
 				
@@ -1524,17 +1525,17 @@ export default {
 		},
 
 		_getZOffset (selection, values){
-			var offsets = {};
+			const offsets = {};
 
-			var min = 100000;
+			let min = 100000;
 
 			for(let i=0;i< selection.length; i++){
-		    	let id =selection[i];
+		    	const id =selection[i];
 		    	min = Math.min(min, values[id]);
 			}
 
 			for(let i=0;i< selection.length; i++){
-			    let id =selection[i];
+			    const id =selection[i];
 			    offsets[id] = values[id] - min;
 			}
 
@@ -1542,7 +1543,7 @@ export default {
 		},
 
 		_getSelectedWidgets (){
-			var selection = [];
+			let selection = [];
 			if(this._selectedWidget){
 				selection.push(this._selectedWidget.id);
 			} else if(this._selectedGroup){
@@ -1564,8 +1565,6 @@ export default {
 
 		toggleLineHide (value){
 			this.logger.log(3,"toggleLineHide", "entry >" + value);
-
-
 			if(this._selectedWidget){
 				let line = this.getLineFrom(this._selectedWidget);
 				if(line){

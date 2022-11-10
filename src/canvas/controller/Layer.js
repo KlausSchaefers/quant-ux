@@ -81,8 +81,9 @@ export default class Layer extends Templates {
 
 	createChangeLayerCommand (from, to){
 
-		var beforePosition = to.widgetID
-		var selectedElements = [from.widgetID]
+
+		const beforePosition = to.widgetID
+		let selectedElements = [from.widgetID]
 
 		/**
 		 * If we have a group, expand the selection to the group
@@ -94,15 +95,26 @@ export default class Layer extends Templates {
 		}
 
 		/**
+		 * Since 4.2.5 we also update grop selected chidlren
+		 */
+		if (from.selection) {
+			from.selection.forEach(id => {
+				if (id != from.widgetID) {
+					selectedElements.push(id)
+				}
+			})
+		}
+
+		/**
 		 * Get old and new Z Values
 		 */
-		var oldValues = this.getZValuesForScreen(this.model, from.screenID);
-		var newValues = LayerUtil.getNewZValuePositions(beforePosition, selectedElements, oldValues);
+		const oldValues = this.getZValuesForScreen(this.model, from.screenID);
+		const newValues = LayerUtil.getNewZValuePositions(beforePosition, selectedElements, oldValues);
 
 		/**
 		 * Get group changes
 		 */
-		let groupChanges = LayerUtil.getGroupChanges(from, to, this.model)
+		const groupChanges = LayerUtil.getGroupChanges(from, to, this.model)
 
 		return {
 			timestamp : new Date().getTime(),
@@ -161,23 +173,32 @@ export default class Layer extends Templates {
 					this.removeNewWidgetInTemplateGroup(delta.widgetID, group)
 				}
 				if (delta.type == "addSubGroup") {
-					if (!group.groups) {
-						group.groups = []
+					if (group.id !== delta.subGroupID) {
+						if (!group.groups) {
+							group.groups = []
+						}
+						group.groups.push(delta.subGroupID);
+					} else {
+						this.logger.warn("_modelChangeLayer", "Add subgroup tpo subgroup");
 					}
-					group.groups.push(delta.subGroupID);
+
 				}
 				if (delta.type == "removeSubGroup") {
 					if (group.groups) {
 						let index = group.groups.indexOf(delta.subGroupID);
 						if (index > -1) {
 							group.groups.splice(index, 1);
+						} else {
+							this.logger.warn("_modelChangeLayer", "Cannot find subgroup", delta.subGroupID)
 						}
 					}
 				}
 			} else {
-				console.warn("LayerController._modelChangerLayer() > No group", delta);
+				this.logger.warn("LayerController._modelChangerLayer() > No group" + delta.groupID, delta);
 			}
 		}
+
+
 	}
 
 	addNewWidgetInTemplateGroup(widgetID, group) {
