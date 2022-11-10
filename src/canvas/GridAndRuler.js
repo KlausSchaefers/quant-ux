@@ -201,7 +201,7 @@ export default class GridAndRuler extends Core {
 		 * When the user presses CTRL during dnd or resize
 		 * we ignore the snapping
 		 */
-		if (e.ctrlKey) {
+		if (e.ctrlKey || e.metaKey) {
 			this.hideLines();
 			this.hideBoxes();
 
