@@ -246,14 +246,16 @@ export default {
 			this._renderShortCut(db, tbl,"CTRL D", "Duplicate");
 			this._renderShortCut(db, tbl,"CTRL G", "Group / Ungroup");
 			this._renderShortCut(db, tbl,"CTRL &uarr;", "Bring to Front ");
-			this._renderShortCut(db, tbl,"CTRL &darr;", "Send Back");
+			this._renderShortCut(db, tbl,"CTRL &darr;", "Send to Back");
+			this._renderShortCut(db, tbl,"CTRL [", "Send Backward");
+			this._renderShortCut(db, tbl,"CTRL ]", "Bring Forward");
 			this._renderShortCut(db, tbl,"SHIFT CLICK", "Multi Selection");
 			this._renderShortCut(db, tbl,"SHIFT I", "Select Text Color");
 			this._renderShortCut(db, tbl,"CTRL I", "Select Border Color");
 			this._renderShortCut(db, tbl,"I", "Select Background Color");
-			this._renderShortCut(db, tbl,"SPACE", "Move Tool");
-		
+			
 			tbl = db.table().build(right);
+			this._renderShortCut(db, tbl,"SPACE", "Move Tool");
 			this._renderShortCut(db, tbl,"ALT", "Measure Tool");
 			this._renderShortCut(db, tbl,"L", "Create Line");
 			this._renderShortCut(db, tbl,"+", "Zoom In");

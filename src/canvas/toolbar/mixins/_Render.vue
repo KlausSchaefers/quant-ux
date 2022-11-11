@@ -209,10 +209,10 @@ export default {
 			css.add(this.layer.domNode, "MatcToolbarDropDownButtonWide");
 			this.layer.updateLabel = false;
 			this.layer.setOptions([
-				{value: "front", label: "Bring to front (CTRL-&uarr;)", icon:"mdi mdi-arrange-bring-to-front"},
-				{value: "forward", label: "Bring forward", icon:"mdi mdi-arrange-bring-forward"},
-				{value: "backward", label: "Send backward", icon:"mdi mdi-arrange-send-backward"},
-				{value: "back", label: "Send back (CTRL-&darr;)", icon:"mdi mdi-arrange-send-to-back"}
+				{value: "front", label: "Bring to front: CTRL + &uarr;", icon:"mdi mdi-arrange-bring-to-front"},
+				{value: "forward", label: "Bring forward: CTRL + ]", icon:"mdi mdi-arrange-bring-forward"},
+				{value: "backward", label: "Send backward: CTRL + [", icon:"mdi mdi-arrange-send-backward"},
+				{value: "back", label: "Send to back: CTRL + &darr;", icon:"mdi mdi-arrange-send-to-back"}
 			]);
 			this.layer.updateSelection = false;
 			this.layer.hideCaret()

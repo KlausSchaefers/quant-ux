@@ -1481,7 +1481,7 @@ export default {
 				    	}
 				    	break;
 				    case "forward":
-				    	for(let i=0;i< selection.length; i++){
+						for(let i=0;i< selection.length; i++){
 				    		let id =selection[i];
 				    		oldValues[id]+=1.1; // we add a little more than one, to make sure we do not collide with other
 				    	}

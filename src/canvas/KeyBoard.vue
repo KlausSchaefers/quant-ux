@@ -331,6 +331,20 @@ export default {
               this.onGroup();
               this.stopEvent(e);
             }
+            
+            if(k == 221) { // ] : to send layer forward  
+              if(this.toolbar){
+                this.stopEvent(e);
+                this.toolbar.onToolWidgetLayer("forward");
+              }
+            }
+
+            if(k == 219)  { // [ : to send layer backward
+              if(this.toolbar){
+                this.stopEvent(e);
+                this.toolbar.onToolWidgetLayer("backward");
+              }  
+            }
           }
 
         } else {
