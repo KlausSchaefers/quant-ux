@@ -4,7 +4,7 @@ export let texts = [
         "name":"Screen Segments",
         "title": "Screen Segments",
         "body": `
-            Screen Segments allow you to embed a screen in another screen, for instance to allow
+            Screen Segments allow you to embed a screen in another screen, for instance, to allow
             vertical or horizontal scrolling. To create a screen segment perform the following steps:
             <br>
                 <ol>

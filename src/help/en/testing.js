@@ -23,12 +23,12 @@ export let texts = [
             "id": "testing.landing",
             "title": "Landing Page",
             "body": `
-                When the users load the shared link, they will come to a landing page. On this page they will
-                see a welcome message with an explanation as well as the list of tasks. You can customize the following settings:
+                When the users load the shared link, they will come to a landing page. On this page, they will
+                see a welcome message with an explanation as well as a list of tasks. You can customize the following settings:
 
                 <ol>
                     <li>
-                        <b>Welcome Messsage</b>: You can customize the welcome message that will be shown to the users. Make sure 
+                        <b>Welcome Message</b>: You can customize the welcome message that will be shown to the users. Make sure 
                         the welcome message encourages them to start the test, but also explains what is the purpose of the test,
                         and what is expected from them.
                     </li>
@@ -44,10 +44,10 @@ export let texts = [
             "title": "Creating Tasks",
             "css": "",
             "body": `
-                Often you want your users to fulfill one or more tasks. You can tell your users about the tasks,
+                Often you want your users to fulfil one or more tasks. You can tell your users about the tasks,
                 by creating a Task. A task has a name and description, that will be shown to the users before the
-                prototype is launched. In addition, you can also specify a number of steps that make up the test, for example
-                the users should click on the 'Start' button, and navigate the the 'SignUp' screen. To create a task,
+                prototype is launched. In addition, you can also specify the number of steps that make up the test, for example,
+                the users should click on the 'Start' button, and navigate to the 'SignUp' screen. To create a task,
                 follow these steps:
 
                 <ol>
@@ -65,7 +65,7 @@ export let texts = [
                     </li>
                     <li>
                         If you want to create steps, use the prototype on the right side. Simply perform the
-                        task that the users should do. The relevant steps will be show in the lower left side.
+                        task that the users should do. The relevant steps will be shown on the lower left side.
                         You can remove not needed steps, by clicking on them.
                     </li>
                     <li>

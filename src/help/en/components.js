@@ -15,14 +15,14 @@ export let texts = [
           "id": "components.create",
           "title": "Create a component",
           "body": `
-             To create a component perform the following steps:
+             To create a component follow these steps:
 
              <ol>
                 <li>
-                   Create an UI element and style it as you like. You can also group several elements.
+                   Create a UI element and style it as you like. You can also group several elements.
                 </li>
                 <li>
-                    Select the element. In the toolbar on top, click on the 'Create Component'.
+                    Select the element. In the toolbar on top, click on 'Create Component'.
                 </li>
                 <li>
                     Enter the name of the component in the dialog.

@@ -5,7 +5,7 @@ export let texts = [
         "title": "Form Validation",
         "body": `
             Quant-UX supports form validation. You can specify for most of 
-            the widgets if the user input is <strong>required</strong>. For text boxes you 
+            the widgets if the user input is <strong>required</strong>. For text boxes, you 
             can even specify different input formats. You can, for instance, 
             define that a certain input field requires valid email addresses, 
             whereas another widget requires numbers larger than zero. Quant-UX ships 
@@ -21,7 +21,7 @@ export let texts = [
                 "title": "When to use",
                 "body": `
                     When you are designing a complex workflow, data validation is mandatory to
-                    prevent the users from entering wrong data. Thus, validation is also 
+                    prevent users from entering the wrong data. Thus, validation is also 
                     crucial during prototyping, if you want to create a realistic prototype.
                 `
             },
@@ -29,7 +29,7 @@ export let texts = [
                 "id": "validation.enable",
                 "title": "Enable Validation",
                 "body": `
-                    To enable validation select a widget and select the <strong>Required</strong> checkbox 
+                    To enable validation, select a widget and select the <strong>Required</strong> checkbox 
                     in the <strong>Data & Validation</strong> section of the property panel. You can also
                     set for certain types of widgets the required input pattern. To change this, click on the
                     <strong>No Validation</strong> button to select the type of pattern that is allowed.
@@ -39,7 +39,7 @@ export let texts = [
                 "id": "validation.feedback",
                 "title": "User Feedback",
                 "body": `
-                    Of course simply validating the input is not enough. In case the input is wrong, 
+                    Of course, simply validating the input is not enough. In case the input is wrong, 
                     you want to give some feedback to the user. With Quant-UX you can do this in two ways. 
                     First, you can define a special <strong>error style</strong> of the error case, 
                     and customize the appearance of the widget in case the input is wrong. 
@@ -53,7 +53,7 @@ export let texts = [
                 "id": "validation.links",
                 "title": "Block Navigation",
                 "body": `
-                    In most scenarios you don’t want the user to progress in the workflow 
+                    In most scenarios, you don’t want the user to progress in the workflow 
                     when the input is wrong. For example, the user should only be able 
                     to move on in the sign-up process, when he has entered a valid 
                     email address. Therefore, you can also <strong>enforce data validation on links</strong>. 

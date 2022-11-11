@@ -6,9 +6,9 @@ export let texts = [
         "body": `
             You can create A / B tests with the help of the Logic Flows. Simply place a
             logic operator <span class="mdi mdi-rhombus-outline"> on the canvas and add a wire from the
-            source widget that should trigger the screen transition. Afterwards select the logic
+            source widget that should trigger the screen transition. Afterwards, select the logic
             operator and tick the <strong>A/B Test</strong> checkbox. Now wire the target screens. During a
-            test the operator will send the users randomly along one of the links.
+            test, the operator will send the users randomly along one of the links.
         `,
         "video": {
             "src": "https://www.youtube.com/embed/0DCUbyaG1Qw"
@@ -30,10 +30,10 @@ export let texts = [
             },
             {
                 "id": "ab-testing.stats",
-                "title": "Statistic Signficance",
+                "title": "Statistic Significance",
                 "body": `
 
-                If you run A / B tests you should aim for a large number of tests, otherwise 
+                If you run A / B tests you should aim for a large number of tests, otherwise, 
                 the differences in the KPIs might be statistically not significant. 
                 For instance, a single user, that did not understand the design, might skew the KPIs quite a lot.
 
