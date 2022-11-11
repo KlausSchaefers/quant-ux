@@ -278,7 +278,22 @@ export default {
           if(removed){
             this.stopEvent(e);
           }
-        } else if (e.altKey || e.ctrlKey || e.metaKey){
+        } else if(k == 219)  { // [ : to send layer backward
+          if(!this._inlineEditStarted){
+            if(this.toolbar){
+              this.stopEvent(e);
+              this.toolbar.onToolWidgetLayer("backward");
+            }
+          }
+        } else if(k == 221) { // ] : to send layer forward
+          if(!this._inlineEditStarted) {  
+            if(this.toolbar){
+              this.stopEvent(e);
+              this.toolbar.onToolWidgetLayer("forward");
+            }
+          }
+        }
+ else if (e.altKey || e.ctrlKey || e.metaKey){
 
           this.logger.log(1,"onKeyPress", "enter > " + k + " > ctrl : " +e.ctrlKey + " > meta :" +(e.ctrlKey || e.metaKey));
 
