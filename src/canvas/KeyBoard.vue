@@ -278,13 +278,6 @@ export default {
           if(removed){
             this.stopEvent(e);
           }
-        } else if (e.ctrlKey + e.shiftKey) { // This is added separately since two modifier keys are used
-          if(!this._inlineEditStarted) {
-            if(k == 90){// ctrl+shift+z is the shortcut for redo
-              this.controller.redo();
-              this.stopEvent(e);
-            }
-          }
         } else if(k == 219)  { // [ : to send layer backward
           if(!this._inlineEditStarted){
             if(this.toolbar){
