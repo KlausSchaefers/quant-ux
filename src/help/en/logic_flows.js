@@ -4,7 +4,7 @@ export let texts = [
         "name":"Logic Flows",
         "title": "Logic Flows",
         "body": `
-            Logic Flows enaBle you to create conditional navigations that allow you to model real world
+            Logic Flows enable you to create conditional navigations that allow you to model real world
             workflows in your prototypes.
         `,
         "video": {
@@ -16,12 +16,12 @@ export let texts = [
                 "title": "When to use",
                 "body": `
                     Sometimes, a prototype has to react to the user input. Imagine you are testing a checkout 
-                    process, and the user must choose between several payment options, for instance bank 
+                    process, and the user must choose between several payment options, for instance, bank 
                     transfer and credit card. Depending on the selection, the next page should show 
                     the different information and input fields. 
                     <br>
-                    For these kind of scenarios Quant-UX supports <strong>Logic Flows</strong>. In addition 
-                    to linking two pages you can also add a logical operator 
+                    For these kinds of scenarios, Quant-UX supports <strong>Logic Flows</strong>. In addition 
+                    to linking two pages, you can also add a logical operator 
                     to dynamically decide which screen to show next.
                     <br>
                 `

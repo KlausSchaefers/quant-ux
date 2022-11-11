@@ -5,7 +5,7 @@ export let texts = [
         "title": "Master Screens",
         "body": `
             Integrating repeating elements such as navigation bars into a design system is tricky, as these elements 
-            usually need a slight modification in each screen. To ease this task, 
+            usually need a slight modification on each screen. To ease this task, 
             Quant-UX supports Master Screens.
         `,
         "video": {
@@ -41,7 +41,7 @@ export let texts = [
                 "id": "logic.setmaster",
                 "title": "Set a master screen",
                 "body": `
-                    First you have to create a master screen. This contains for instance a navigation bar that should be shared
+                    First, you have to create a master screen. This contains for instance a navigation bar that should be shared
                     with all other screens.
                     <br>
                     Once it is created, you can create a new screen and place it on the canvas. After selecting the screen,
@@ -56,7 +56,7 @@ export let texts = [
                     When you want to change the style of an element that is copied from a master screen, you have
                     to explicitly enable editing. Select the element, and click <span class="MatcButton">Enable Editing</span>.
                     In the properties panel on the right side, you have to enable editing. 
-                    Once editing is enabled, you can change the font color to give the visual 
+                    Once editing is enabled, you can change the font color to give a visual 
                     indication. 
                 `
             },

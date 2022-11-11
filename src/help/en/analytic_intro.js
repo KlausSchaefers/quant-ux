@@ -6,7 +6,7 @@ export let texts = [
         "css": "MatcHelpTopicSpacer",
         "body": `
             Quant-UX provides a rich selection of analytic tools and KPIs that help you understand how your users have interacted
-            with your prototype. The "<strong>Dashboard</strong>" tab shows the most important KPIs about the tests. In addition you can 
+            with your prototype. The "<strong>Dashboard</strong>" tab shows the most important KPIs about the tests. In addition, you can 
             define analytic tasks to better understand the user behavior. The "<strong>Heatmap</strong>" tab shows the click heat maps 
             for each screen and allows you to launch the <strong>Analytic Canvas</strong> which gives you access to the most fine grained
             information.
@@ -18,8 +18,8 @@ export let texts = [
                     "id": "analytics.dash.users",
                     "title": "Users",
                     "body": `
-                        The question of how many users should participate in trails is heavily discussed in the scientific 
-                        community. The bare minimum is <strong>5 users</strong>, which allows you to get some qualitative insights into the 
+                        The question of how many users should participate in trials is heavily discussed in the scientific 
+                        community. The bare minimum is <strong>5 users</strong>, which allows you to get some qualitative insights into 
                         user behaviour. You should be able to spot if the users understand the design or if they do errors. 
                         The best tool is in such a case the video recordings, which allow you to review each testing session. 
                         <br>
@@ -50,7 +50,7 @@ export let texts = [
                         The test coverage is calculated as the fraction of screens that have been seen by the testers. 
                         The test coverage gives you a quick hint if your testers understood your prototype.
                         <p class="MatcHelpExample">
-                            <b>Example</b>: If your prototype has 3 screens, and all user have only 
+                            <b>Example</b>: If your prototype has 3 screens, and all users have only 
                             managed to see 2 of them, the test coverage is 66%
                         </p>
                         `

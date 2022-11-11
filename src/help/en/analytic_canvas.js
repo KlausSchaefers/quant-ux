@@ -4,9 +4,9 @@ export let texts = [
         "name": "Analytic Canvas",
         "title": "Analytic Canvas",
         "body": `
-            To open the analytic canvas select the "Heatmaps" tab in the prototype overview page. Now select one of
-            the heap maps or click "Analytic Canvas" button in the right corner. In the toolbar of the analytic canvas
-            you can select the different kind of tools to vizualize the user behavior.
+            To open the analytic canvas select the "Heatmaps" tab on the prototype overview page. Now select one of
+            the heap maps or click the "Analytic Canvas" button in the right corner. In the toolbar of the analytic canvas,
+            you can select different kinds of tools to visualize user behavior.
         `,
         "paragraphs": [
             {
@@ -22,7 +22,7 @@ export let texts = [
                 "id": "analytics.canvas.click",
                 "title": "Click Heatmaps",
                 "body": `
-                    When you review click heat maps, you should analyze them in the context of your
+                    When you review Click Heatmaps, you should analyze them in the context of your
                     use cases. Before you created the interface, you identified and 
                     prioritized user tasks and designed the interface accordingly. The primary 
                     elements should be easy to find and you expect them to be used a lot.
@@ -36,17 +36,17 @@ export let texts = [
                     There are five different types of click heatmaps supported:
                     <ol>
                         <li>
-                            <b>All Clicks</b> gives you a good understanding on
-                            busy areas of your design, but also makes it easy to spot areas 
-                            that did not catch the users attention.
+                            <b>All Clicks</b> gives you a good understanding of
+                            busy areas of your design but also makes it easy to spot areas 
+                            that did not catch the users' attention.
                         </li>
                         <li>
-                            <b>First Click</b> help you to uncover which 
-                            elements draw the most attention from the users, and were 
+                            <b>First Click</b> helps you to uncover which 
+                            elements draw the most attention from the users and where they 
                             clicked right after a screen was loaded.
                         </li>
                         <li>
-                            <b>First three Clicks</b> extends the first clicks to three clicks. 
+                            <b>First three Clicks</b> extend the first clicks to three clicks. 
                             Elements that are not touched within three 
                             clicks, may be hard to discover for the user.
                         </li>
@@ -63,9 +63,9 @@ export let texts = [
                 "id": "analytics.canvas.mouse",
                 "title": "Mouse Heatmaps",
                 "body": `
-                    Cursor heat maps work different than click heat maps. The longer the cursor 
+                    Cursor heat maps work differently than click heat maps. The longer the cursor 
                     is over a certain screen area, the hotter it gets. Research shows some 
-                    correlation between the cursor movement and eye gaze. This means long hover 
+                    correlation between cursor movement and eye gaze. This means long hover 
                     times over a specific area can indicate strong user interest, but it can also mean 
                     that the user simply didn’t move the mouse. 
                    
@@ -102,9 +102,9 @@ export let texts = [
                 "id": "analytics.canvas.scroll-time",
                 "title": "Scroll Time",
                 "body": `
-                    The scroll time shows on which parts of the screen the users have spend 
+                    The scroll time shows on which parts of the screen the users have spent 
                     most of their time. The more time the users spend on a given 
-                    section, the warmer is the color.          
+                    section, the warmer the color gets.          
                 `
             },
             {
@@ -139,11 +139,11 @@ export let texts = [
                 "title": "Widget Clicks",
                 "body": `
                     The widget clicks tell you how many times a certain widget was clicked. 
-                    This kpi relates directly to the heat maps. The gauge shows the absolute 
-                    number of clicks, the position of the ring shows the relation to all 
+                    This KPI relates directly to the heat maps. The gauge shows the absolute 
+                    number of clicks, and the position of the ring shows the relation to all 
                     other widgets in the prototype.
                     <p class="MatcHelpExample">
-                        <b>Example</b>: During test 100 clicks were recorded by 5 users. 
+                        <b>Example</b>: During the test 100 clicks were recorded by 5 users. 
                         Widget A was clicked 20 times. The relative frequency is therefore 20%.
                     </p>
                     
@@ -153,7 +153,7 @@ export let texts = [
                 "id": "analytics.canvas.kpi.first-clicks",
                 "title": "First Clicks",
                 "body": `
-                    The widget first clicks tells you how many times a certain widget <strong>was clicked directly 
+                    The Widget First Clicks tells you how many times a certain widget <strong>was clicked directly 
                     after a screen was loaded</strong>. The first clicks show which elements catch the most 
                     attention of the users. The gauge shows the absolute number, and the position 
                     visualizes the relation to the screen loads.
@@ -203,7 +203,7 @@ export let texts = [
                 "id": "analytics.canvas.kpi.dwell",
                 "title": "Dwell Time",
                 "body": `
-                    The average dwell time tells you how much time the users have spend, in average, 
+                    The average dwell time tells you how much time the users have spent, on average, 
                     on a screen. A high number might indicate that the users had to perform a lot of 
                     interactions, e.g. fill out a form. However, it can also indicate that the 
                     users had some problems, for instance finding the right elements.
@@ -212,7 +212,7 @@ export let texts = [
              
                     <p class="MatcHelpExample">
                         <b>Example</b>: Five tests were done, each taking exactly 60 seconds. 
-                        The users spend 20, 30, 30, 30 and 40 seconds in the first screen. 
+                        The users spend 20, 30, 30, 30 and 40 seconds on the first screen. 
                         The average dwell time is 30 seconds, and the relative dwell 
                         time 50% ((20 + 30 + 30 +30 + 40) / (5*60)).
                     </p>
@@ -258,7 +258,7 @@ export let texts = [
                     The gauge shows the absolute number, and the position indicates the relative 
                     frequency with respect to all clicks on the screen.
                     <p class="MatcHelpExample">
-                        <b>Example</b>:  During the test, 100 events were recorded by three users in screen A. 
+                        <b>Example</b>:  During the test, 100 events were recorded by three users on screen A. 
                         90 events were on the five widgets of the screen. The relative frequency is therefore 90%.
                     </p>
                 `

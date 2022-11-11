@@ -4,7 +4,7 @@ export let texts = [
       "name":"Design Tokens",
       "title": "Design Tokens",
       "body": `
-          A design token is a global style, such as a color, border or shadow. You can 'link' the tokens to your
+          A design token is a global style, such as color, border or shadow. You can 'link' the tokens to your
           widgets. Updates on the design tokens will be visible on all
           widgets that are lined to the particular style.
       `,
@@ -16,7 +16,7 @@ export let texts = [
                   To create a design token follow these steps:
                   <ol>
                       <li>
-                          Create a widget and style it as you like. For instance define a background color.
+                          Create a widget and style it as you like. For instance, define a background color.
                       </li>
                       <li>
                           Click the <span class="mdi mdi-dots-horizontal"></span> icon and select 'Create Token'. Enter a

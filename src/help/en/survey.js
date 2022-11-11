@@ -22,7 +22,7 @@ export let texts = [
 
              <ol>
                 <li>
-                    Add a new screen to your prototype, and link it such as it is the last screen in the flow.
+                    Add a new screen to your prototype, and link it as the last screen in the flow.
                 </li>
                 <li>
                     Add a Star Rating element to the screen

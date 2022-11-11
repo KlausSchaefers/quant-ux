@@ -5,11 +5,11 @@ export let texts = [
         "title": "Scripts",
         "body": `
             Script components allow you to run small JavaScripts to make your prototypes even more interactive. You can for example
-            use them to set databinding values, load or send data to a server, or calculate dynamic values, like the sum
+            use them to set data binding values, load or send data to a server, or calculate dynamic values, like the sum
             of two input fields.
         
             <p class="MatcHelpCallout">
-                Scripts are  currently in beta phase. You need to enable them in the settings menu. Click on the menu ( <span class="mdi mdi-menu"/> ) ,
+                Scripts are  currently in the beta phase. You need to enable them in the settings menu. Click on the menu ( <span class="mdi mdi-menu"/> ) ,
                 select "Settings" and tick the "Enable Beta Features" checkbox.
             </p>
             
@@ -23,8 +23,8 @@ export let texts = [
                 "title": "Introduction",
                 "body": `
                     Select the <span class="mdi mdi-code-tags"/> icon in the right toolbar and drop the widget on the canvas. When you select the script
-                    widget, you can see in the right menu an "Edit Script" button. Clicking it, well open the Script editor. The editor has on the right side,
-                    the simulator and on the left a simple JavaScript editor. You can enter you scripts in there. Click on "Run" to execute and test the script.
+                    widget, you can see in the right menu an "Edit Script" button. Clicking it will open the Script editor. The editor has on the right side,
+                    the simulator and on the left a simple JavaScript editor. You can enter your scripts there. Click on "Run" to execute and test the script.
                     In the "Console" tab, you can see the output of the script.
                 `,
                 "image": {
@@ -43,7 +43,7 @@ export let texts = [
                             and write data through the data binding that is defined for the components in your prototype.
                         </li>
                         <li>
-                            The <b>qux</b> object allows to change the styles for the 
+                            The <b>qux</b> object allows you to change the styles for the 
                             components or to change the visibility.
                         </li>
                         <li>
@@ -61,7 +61,7 @@ export let texts = [
                             to trigger the actions only on explicit user interactions.
                         </li>
                         <li>
-                            On <b>data-binding</b> changes. For instance the user changes the value of a text field. Use
+                            On <b>data-binding</b> changes. For instance, the user changes the value of a text field. Use
                             this to update other components are set dynamic data-binding values.
                         </li>
                         <li>
@@ -89,13 +89,13 @@ export let texts = [
                            Create two text fields and a label to show the sum.
                         </li>
                         <li>
-                            Select the first text field and set the data bining to "valueA"
+                            Select the first text field and set the data binding to "valueA"
                         </li>
                         <li>
-                             Select the second text field and set the data bining to "valueB"
+                             Select the second text field and set the data binding to "valueB"
                         </li>
                         <li>
-                            Select the label and set the data bining to "sum"
+                            Select the label and set the data binding to "sum"
                         </li>
                         <li>
                             Add a script component to the canvas 
@@ -105,7 +105,7 @@ export let texts = [
                         </li>
                     </ol>
 
-                    Your prototype could look like:
+                    Your prototype could look like this:
                 
                     
                 `,
@@ -123,7 +123,7 @@ export let texts = [
                    <pre class="MatcHelpCode">data.sum = data.valueA * 1 + data.valueB * 1</pre>
 
                    The script will
-                   read the user inout from the first text field, which is saved in "data.valueA" and add
+                   read the user input from the first text field, which is saved in "data.valueA" and add
                    the value of the second field ("data.valueB"). The result is written to  "data.sum" and thus shown
                    in the label.
                 
@@ -138,8 +138,8 @@ export let texts = [
                 "id": "script.programmatic",
                 "title": "Programmatic Navigation",
                 "body": `
-                    To navigate after the exuction of a script to a specific screen just return the name of the screen. You can
-                    also use it with the data binding to build conditional navigation. The follwoing example will show "Screen A"
+                    To navigate after the execution of a script to a specific screen just return the name of the screen. You can
+                    also use it with the data binding to build conditional navigation. The following example will show "Screen A"
                     if 'a' is entered into a text box, and otherwise "Screen B"
                   
                     <pre class="MatcHelpCode">
@@ -164,7 +164,7 @@ if (data.valueA === 'a') {
                        Create a "Grid" elements, which can repeat the child elements.
                     </li>
                     <li>
-                        Add a single text field into the grid.
+                        Add a single text field to the grid.
                     </li>
                     <li>
                        Create a label and set the text to "Sum: {0}". The {0} is a placeholder
@@ -184,7 +184,7 @@ if (data.valueA === 'a') {
                     </li>
                 </ol>
 
-                The prototype coould look like this:
+                The prototype could look like this:
 
 
                 `,
@@ -207,10 +207,10 @@ data.items = [
 
                 To execute the script on load, change the trigger in the right properties panel to "Loaded Trigger".
 
-                Now the script is excuted when the simualator is launched. It will set the "items" variable to the 
+                Now the script is executed when the simulator is launched. It will set the "items" variable to the 
                 list of objects. The "Grid" will now loop over the list and create a text field for each element in the list, 
                 because it is bound to "items". The text fields
-                will be bound to the "value". So the the first element is bound to "items[0].value", while the second
+                will be bound to the "value". So the first element is bound to "items[0].value", while the second
                 is bound to "items[1].value" and so on.
                 
 
@@ -229,7 +229,7 @@ data.items.forEach(item => {
 })
 data.sum = sum</pre>
 
-                To execute the script on any input change, select  the trigger the "Data Trigger" in the properties.
+                To execute the script on any input change, select  the trigger "Data Trigger" in the properties.
 
                 When the user changes the value (and after the first load), the script will calculate the sum and set it to the "data" object.
                 
@@ -241,7 +241,7 @@ data.sum = sum</pre>
                 "id": "script.toggle1",
                 "title": "Toggle Visibility",
                 "body": `
-                    To toggle the visiblity of an element you need to:
+                    To toggle the visibility of an element you need to:
 
 
                     <ol>
@@ -254,7 +254,7 @@ data.sum = sum</pre>
                         <li>
                             Create an element to toggle, e.g. a rectangle. Call it "ToggleCntr"
                         </li>
-                            Add a Script components and wire it to the button
+                            Add a Script component and wire it to the button
                         </li>
                     </ol>
                   
@@ -282,13 +282,13 @@ widget.toggle()
 
                 <ol>
                     <li> 
-                       In the first line it well get the screen by it's name.
+                       In the first line, it will get the screen by its name.
                     </li>
                     <li>
                        In the second line, we get the "ToggleCntr"
                     </li>
                     <li>
-                       In the last line we will toggle() it's visibility.
+                       In the last line, we will toggle() its visibility.
                 </ol>
 
 
@@ -314,7 +314,7 @@ group.toggle()
                 "title": "Styles",
                 "body": `
                     You can also set the style of an object. Let's assume we want to
-                    make an element red, if the value is too low. The code would look like:
+                    make an element red if the value is too low. The code would look like this:
 
                     <pre class="MatcHelpCode">
 let screen = qux.getScreen('Screen')
@@ -327,12 +327,12 @@ if (data.valueA * 1 < 100) {
                  
                     </pre>
 
-                    The script uses the <b>setStyle()</b> method to set a new style. You simple need to pass
+                    The script uses the <b>setStyle()</b> method to set a new style. You simply need to pass
                     a JavaScript object of key-value pairs. The keys are the CSS property you want to change,
                     the value is the corresponding CSS value. You can also pass several properties in one call. 
                     
                     <p class="MatcHelpCallout">
-                        Quant-UX follows the standard JavaScript way of set CSS styles. For instance the 
+                        Quant-UX follows the standard JavaScript way of set CSS styles. For instance, the 
                         "border-top-color" would have the key "borderTopColor"
                     </p>
 

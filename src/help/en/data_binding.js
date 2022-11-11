@@ -4,7 +4,7 @@ export let texts = [
         "name":"Data Binding",
         "title": "Data Binding",
         "body": `
-            Some times you want to carry over user data from one screen to another. For these kind of scenarios
+            Sometimes you want to carry over user data from one screen to another. For these kinds of scenarios,
             you can use the data binding functionality. You can also use data binding in the Logic Operators.
         `,
         "video": {
@@ -21,7 +21,7 @@ export let texts = [
 
                     <br><br>
                     Imagine you build a form for the users to sign up for a service. They need
-                    to enter their email, name, lastname and address. The data could might look 
+                    to enter their email, name, last name and address. The data might look 
                     like this:
 
                     <div class="MatcHelpExample">
@@ -58,7 +58,7 @@ export let texts = [
                             Select the element
                         </li>
                         <li>
-                            Click on <span class="MatcButton">Prototype</span> in the top
+                            Click on <span class="MatcButton">Prototype</span> at the top
                         </li>
                         <li>
                             In the data section click on "<b>Add Data Binding</b>"
@@ -74,8 +74,8 @@ export let texts = [
 
                     <p class="MatcHelpCallout">
                         Most UI elements have only one variable that is used for input and output.
-                        An example is a simple textbox, which reads or writes text. Some elements have
-                        more variables, for example a Dropdown element. It has an input and output as well as  
+                        An example is a simple textbox, which reads or writes the text. Some elements have
+                        more variables, for example, a Dropdown element. It has an input and output as well as  
                         a list of menu items. These could also be read from the data model or even a web service.
                     </p>
                 `

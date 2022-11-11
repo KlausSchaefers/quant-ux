@@ -58,7 +58,7 @@ export let texts = [
                             Select the "Figma" tab
                         </li>
                         <li>
-                            Enter your access key and copy the url of the Figma project.
+                            Enter your access key and copy the URL of the Figma project.
                         </li>
                         <li>
                             Click on "Import"
