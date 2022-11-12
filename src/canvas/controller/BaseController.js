@@ -648,8 +648,7 @@ export default class BaseController extends Core {
 		/**
 		 * Create a new version
 		 */
-		let app = await this.modelService.copyApp(oldModel, newName)
-		// var app = this._doPost("rest/apps/copy/" +oldModel.id, {"name" : newName});
+		const app = await this.modelService.copyApp(oldModel, newName)
 		this.logger.log(0, "onSaveAs", "New app" + app.id);
 		return app;
 	}
@@ -677,7 +676,7 @@ export default class BaseController extends Core {
 		 * We have to do a hard save here, because the delta somehow produces
 		 * on the server null elements
 		 */
-		let res = await this.modelService.saveApp(this.model)
+		const res = await this.modelService.saveApp(this.model)
 		if (res) {
 			if (this._canvas){
 				this._canvas.setFonts(fonts);
@@ -699,7 +698,7 @@ export default class BaseController extends Core {
 		 * We have to do a hard save here, because the delta somehow produces
 		 * on the server null elements
 		 */
-		let res = await this.modelService.saveApp(this.model)
+		const res = await this.modelService.saveApp(this.model)
 		if (res) {
 			if (this.toolbar){
 				this.toolbar.updateImports()
@@ -712,20 +711,14 @@ export default class BaseController extends Core {
 	 **********************************************************************/
 
 	removeGrid (){
-
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "SetGrid",
 			n : null,
 			o : this.model.grid
 		};
 		this.addCommand(command);
-
-		/**
-		 * update model
-		 */
 		this.modelSetGrid(null);
-
 		this.render();
 	}
 
@@ -734,7 +727,7 @@ export default class BaseController extends Core {
 		/**
 		 * create the command
 		 */
-		var grid = {
+		 const grid = {
 			w : width,
 			h : height,
 			color : color,
@@ -742,21 +735,14 @@ export default class BaseController extends Core {
 			visible:visible,
 			enabled:enabled
 		};
-
-
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "SetGrid",
 			n : grid,
 			o : this.model.grid
 		};
 		this.addCommand(command);
-
-		/**
-		 * update model
-		 */
 		this.modelSetGrid(grid);
-
 		this.render();
 	}
 
@@ -767,20 +753,14 @@ export default class BaseController extends Core {
 		 */
 		grid.color = color;
 		grid.style = style;
-
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "SetGrid",
 			n : grid,
 			o : this.model.grid
 		};
 		this.addCommand(command);
-
-		/**
-		 * update model
-		 */
 		this.modelSetGrid(grid);
-
 		this.render();
 	}
 
@@ -804,10 +784,8 @@ export default class BaseController extends Core {
 	 * Add Action
 	 **********************************************************************/
 
-
-
 	addAction (widgetID, action, isGroup){
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "AddAction",
 			model : action,
@@ -815,20 +793,19 @@ export default class BaseController extends Core {
 			isGroup: isGroup
 		};
 		this.addCommand(command);
-
 		this.modelAddAction(widgetID, action, isGroup);
 	}
 
 	modelAddAction (widgetID, action, isGroup){
 		if(isGroup){
-			var group = this.model.groups[widgetID];
+			const group = this.model.groups[widgetID];
 			if(group){
 				group.action = action;
 			} else {
 				console.warn("modelRemoveAction() > No group with ID", widgetID)
 			}
 		} else {
-			var widget = this.model.widgets[widgetID];
+			const widget = this.model.widgets[widgetID];
 			if(widget){
 				widget.action = action;
 			} else {
@@ -839,15 +816,15 @@ export default class BaseController extends Core {
 	}
 
 	undoAddAction (command){
-		var action = command.model;
-		var id = command.modelID;
+		const action = command.model;
+		const id = command.modelID;
 		this.modelRemoveAction(id, action, command.isGroup);
 		this.render();
 	}
 
 	redoAddAction (command){
-		var action = command.model;
-		var id = command.modelID;
+		const action = command.model;
+		const id = command.modelID;
 		this.modelAddAction(id, action, command.isGroup);
 		this.render();
 	}
@@ -858,7 +835,7 @@ export default class BaseController extends Core {
 
 
 	removeAction (widgetID, action, isGroup){
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveAction",
 			model : action,
@@ -866,42 +843,39 @@ export default class BaseController extends Core {
 			isGroup: isGroup
 		};
 		this.addCommand(command);
-
 		this.modelRemoveAction(widgetID, action, isGroup);
 	}
 
 	modelRemoveAction (widgetID, action, isGroup){
-
-		if(isGroup){
-			var group = this.model.groups[widgetID];
+		if (isGroup) {
+			const group = this.model.groups[widgetID];
 			if(group){
 				delete group.action;
 			} else {
 				console.warn("modelRemoveAction() > No group with ID", widgetID)
 			}
 		} else {
-			var widget = this.model.widgets[widgetID];
+			const widget = this.model.widgets[widgetID];
 			if(widget){
 				delete widget.action;
 			} else {
 				console.warn("modelRemoveAction() > No widgte with ID", widgetID)
 			}
 		}
-
 		this.onModelChanged([{type: 'grid', action:"remove"}]);
 	}
 
 
 	undoRemoveAction (command){
-		var action = command.model;
-		var id = command.modelID;
+		const action = command.model;
+		const id = command.modelID;
 		this.modelAddAction(id, action, command.isGroup);
 		this.render();
 	}
 
 	redoRemoveAction (command){
-		var action = command.model;
-		var id = command.modelID;
+		const action = command.model;
+		const id = command.modelID;
 		this.modelRemoveAction(id, action, command.isGroup);
 		this.render();
 	}
@@ -910,7 +884,7 @@ export default class BaseController extends Core {
 	 * update Action
 	 **********************************************************************/
 	updateAction (widgetID, action, isGroup) {
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "ActionAction",
 			modelID: widgetID,
@@ -919,30 +893,29 @@ export default class BaseController extends Core {
 			isGroup: isGroup
 		};
 		this.addCommand(command);
-
 		this.modelUpdateAction(widgetID, action, isGroup);
 	}
 
 	getActionById (id, isGroup) {
 		if (isGroup){
-			var group = this.model.groups[id];
+			const group = this.model.groups[id];
 			return group.action;
 		} else {
-			var widget = this.model.widgets[id];
+			const widget = this.model.widgets[id];
 			return widget.action;
 		}
 	}
 
 	modelUpdateAction (widgetID, action, isGroup) {
 		if(isGroup){
-			var group = this.model.groups[widgetID];
+			const group = this.model.groups[widgetID];
 			if(group){
 				group.action = action;
 			} else {
 				console.warn("modelUpdateAction() > No group with ID", widgetID)
 			}
 		} else {
-			var widget = this.model.widgets[widgetID];
+			const widget = this.model.widgets[widgetID];
 			if(widget){
 				widget.action = action;
 			} else {
@@ -954,15 +927,15 @@ export default class BaseController extends Core {
 	}
 
 	undoActionAction (command){
-		var action = command.o;
-		var id = command.modelID;
+		const action = command.o;
+		const id = command.modelID;
 		this.modelUpdateAction(id, action, command.isGroup);
 		this.render();
 	}
 
 	redoActionAction (command){
-		var action = command.n;
-		var id = command.modelID;
+		const action = command.n;
+		const id = command.modelID;
 		this.modelUpdateAction(id, action, command.isGroup);
 		this.render();
 	}
@@ -980,7 +953,7 @@ export default class BaseController extends Core {
 		 * just add an uuid
 		 */
 		line.id = "l"+this.getUUID();
-		var zoom = this._canvas.getZoomFactor();
+		const zoom = this._canvas.getZoomFactor();
 		for(var i=0; i< line.points.length; i++){
 			this.getUnZoomedBox(line.points[i], zoom);
 		}
@@ -988,7 +961,7 @@ export default class BaseController extends Core {
 		/**
 		 * create the command
 		 */
-		var command = {
+		 const command = {
 			timestamp : new Date().getTime(),
 			type : "AddLine",
 			model : line
@@ -1008,7 +981,7 @@ export default class BaseController extends Core {
 	}
 
 	modelAddLine (line){
-		if(!this.model.lines[line.id]){
+		if (!this.model.lines[line.id]) {
 			this.model.lines[line.id] = line;
 			this.onModelChanged([{type: 'line', action:"add", id:line.id}]);
 		} else {
@@ -1018,8 +991,7 @@ export default class BaseController extends Core {
 
 
 	modelRemoveLine (line){
-
-		if(this.model.lines[line.id]){
+		if (this.model.lines[line.id]) {
 			delete this.model.lines[line.id];
 			this.onModelChanged([{type: 'line', action:"remove", id:line.id}]);
 		} else {
@@ -1028,13 +1000,13 @@ export default class BaseController extends Core {
 	}
 
 	undoAddLine (command){
-		var line = command.model;
+		const line = command.model;
 		this.modelRemoveLine(line);
 		this.render();
 	}
 
 	redoAddLine (command){
-		var line = command.model;
+		const line = command.model;
 		this.modelAddLine(line);
 		this.render();
 	}
@@ -1049,7 +1021,7 @@ export default class BaseController extends Core {
 		/**
 		 * create the command
 		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveLine",
 			model : line
@@ -1065,13 +1037,13 @@ export default class BaseController extends Core {
 	}
 
 	undoRemoveLine (command){
-		var line = command.model;
+		const line = command.model;
 		this.modelAddLine(line);
 		this.render();
 	}
 
 	redoRemoveLine (command){
-		var line = command.model;
+		const line = command.model;
 		this.modelRemoveLine(line);
 		this.render();
 	}
@@ -1089,28 +1061,23 @@ export default class BaseController extends Core {
 		/**
 		 * create the command
 		 */
-		var line = this.model.lines[id];
-		if(line.points[i]){
-			var point = line.points[i];
-			var command = {
-					timestamp : new Date().getTime(),
-					type : "LinePointPosition",
-					delta :{
-						o : point,
-						n : pos
-					},
-					i : i,
-					modelId : id
+		const line = this.model.lines[id];
+		if (line.points[i]) {
+			const point = line.points[i];
+			const command = {
+				timestamp : new Date().getTime(),
+				type : "LinePointPosition",
+				delta :{
+					o : point,
+					n : pos
+				},
+				i : i,
+				modelId : id
 			};
 			this.addCommand(command);
+			this.modelLinePointPosition(id, i, pos);
 		}
-
-
-
-		/**
-		 * update model!
-		 */
-		this.modelLinePointPosition(id, i, pos);
+	
 	}
 
 	modelLinePointPosition (id, i, pos){
@@ -1140,11 +1107,8 @@ export default class BaseController extends Core {
 	updateLineProperties (id, key, value){
 		this.logger.log(0,"updateLineProperties", "enter >key : " + key +  " > value : " + value);
 
-		var line = this.model.lines[id];
-
-
-		if(line){
-
+		const line = this.model.lines[id];
+		if (line) {
 			var command = {
 				timestamp : new Date().getTime(),
 				type : "LineProperties",
@@ -1156,14 +1120,11 @@ export default class BaseController extends Core {
 				modelId : id
 			};
 			this.addCommand(command);
-
 			this.modelLineProperties(id, key, value);
-
 			this.render();
 		} else {
 			console.warn("updateLineProperties() > No line with id " + id);
 		}
-
 	}
 
 
@@ -1196,13 +1157,9 @@ export default class BaseController extends Core {
 
 	updateLineAllProperties (id, newLine){
 		this.logger.log(0,"updateLineAllProperties", "enter >key : " + id );
-
-		var line = this.model.lines[id];
-
-
+		const line = this.model.lines[id];
 		if(line){
-
-			var command = {
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "LineAllProperties",
 				delta :{
@@ -1212,10 +1169,7 @@ export default class BaseController extends Core {
 				modelId : id
 			};
 			this.addCommand(command);
-
-
 			this.modelLineAllProperties(id, newLine);
-
 			this.render();
 		} else {
 			console.warn("updateLineAllProperties() > No line with id " + id);
@@ -1224,16 +1178,13 @@ export default class BaseController extends Core {
 
 
 	modelLineAllProperties (id, newLine){
-
-		var line = this.model.lines[id];
-
-		if(line){
+		const line = this.model.lines[id];
+		if (line){
 			this.model.lines[id] = newLine;
 			this.onModelChanged([{type: 'line', action:"change", id:id}]);
 		} else {
 			console.warn("modelLineProperties() > No line with id " + id);
 		}
-
 	}
 
 	undoLineAllProperties (command){
@@ -1335,7 +1286,7 @@ export default class BaseController extends Core {
 			if(this.mode == "public"){
 				this.onCommandDeleted(command);
 			} else {
-				var count = (this.commandStack.stack.length - this.commandStack.pos);
+				const count = (this.commandStack.stack.length - this.commandStack.pos);
 				this.modelService.deleteCommand(this.model, count).then(res => {
 					this.logger.log(0,"addCommand", "cut off future! > " + count + " >> "  + res.pos);
 					this.onCommandDeleted(command)
@@ -1750,7 +1701,6 @@ export default class BaseController extends Core {
 
 
 	getDelta (model, pos){
-
 		var delta = {n:{}, o:{}};
 		for(var p in pos){
 			if(pos[p] != model[p]){
