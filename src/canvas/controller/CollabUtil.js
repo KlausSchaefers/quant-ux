@@ -45,7 +45,7 @@ export function getMiniChange(change, options = {}) {
  * - parent: The name of the parent node in case of widgets or so
  */
 export function getModelDelta(objOld, objNew) {
-	const changes = []
+	let changes = []
 
 	/**
 	 * some children have to looked deeper into..
@@ -98,7 +98,7 @@ export function getModelDelta(objOld, objNew) {
 }
 
 function getChanges(objOld, objNew, parentPath) {
-	var changes = []
+	let changes = []
 
 	/**
 	 * check which things have changed in the new model
@@ -166,7 +166,7 @@ function getChange(key, vOld, vNew) {
 }
 
 function countProps(obj) {
-	const count = 0
+	let count = 0
 	for (let k in obj) {
 		if (obj.hasOwnProperty(k)) {
 			count++
