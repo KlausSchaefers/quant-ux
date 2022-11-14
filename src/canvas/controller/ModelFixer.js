@@ -12,7 +12,7 @@ class ModelFixer {
 		this.logger.log(2, "fixCommandStack", "enter")
 		if (stack.pos < 0) {
 			this.logger.warn("fixCommandStack", "Pos < 0 >> pos:" + stack.pos + ' > length:' + stack.stack.length )
-			this.logger.sendError(new Error("Controller.fixCommandStack() > pos is < 0" + stack.pos ))
+			this.logger.sendError(new Error("Controller.fixCommandStack() > pos is < 0" + stack.pos  + " > length: " + stack.stack.length))
 			stack.pos = stack.stack.length
 			this.showDebugAlert('Stack < 0')
 			return true

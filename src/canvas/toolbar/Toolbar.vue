@@ -1462,7 +1462,7 @@ export default {
 						let parentGroup = this.getTopParentGroup(widget.id)
 						topId = widget.id
 						if (parentGroup) {
-							selection= this.getAllGroupChildren(parentGroup)
+							selection = this.getAllGroupChildren(parentGroup)
 						}
 					}
 				}

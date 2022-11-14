@@ -124,8 +124,8 @@ export default class CollabService {
         Logger.log(1, 'CollabService.applyInParent() >  update', change)
         if (parent[change.id]) {
 
-          let oldValue = parent[change.id]
-          let newValue = MergeUtil.applyDelta(oldValue, change.value)
+          const oldValue = parent[change.id]
+          const newValue = MergeUtil.applyDelta(oldValue, change.value)
           parent[change.id] = newValue
 
         } else {

@@ -45,12 +45,12 @@ export function getMiniChange(change, options = {}) {
  * - parent: The name of the parent node in case of widgets or so
  */
 export function getModelDelta(objOld, objNew) {
-	var changes = []
+	const changes = []
 
 	/**
 	 * some children have to looked deeper into..
 	 */
-	var specialChildren = {
+	const specialChildren = {
 		screens: true,
 		widgets: true,
 		lines: true,
@@ -66,8 +66,8 @@ export function getModelDelta(objOld, objNew) {
 	 * check which things have changed in the new model
 	 */
 	for (let key in objOld) {
-		let vOld = objOld[key]
-		let vNew = objNew[key]
+		const vOld = objOld[key]
+		const vNew = objNew[key]
 		if (specialChildren[key]) {
 			let childChanges = getChanges(vOld, vNew, key)
 			changes = changes.concat(childChanges)
@@ -83,10 +83,10 @@ export function getModelDelta(objOld, objNew) {
 	 * check which things were added
 	 */
 	for (let key in objNew) {
-		let vOld = objOld[key]
-		let vNew = objNew[key]
+		const vOld = objOld[key]
+		const vNew = objNew[key]
 		if (vOld === undefined || vOld === null) {
-			let change = {
+			const change = {
 				name: key,
 				type: "add",
 				object: vNew,
@@ -104,10 +104,9 @@ function getChanges(objOld, objNew, parentPath) {
 	 * check which things have changed in the new model
 	 */
 	for (let key in objOld) {
-		let vOld = objOld[key]
-		let vNew = objNew[key]
-
-		let change = getChange(key, vOld, vNew)
+		const vOld = objOld[key]
+		const vNew = objNew[key]
+		const change = getChange(key, vOld, vNew)
 		if (change) {
 			change.parent = parentPath
 			changes.push(change)
@@ -118,9 +117,8 @@ function getChanges(objOld, objNew, parentPath) {
 	 * check which things were added
 	 */
 	for (let key in objNew) {
-		let vOld = objOld[key]
-		let vNew = objNew[key]
-
+		const vOld = objOld[key]
+		const vNew = objNew[key]
 		if (vOld === undefined || vOld === null) {
 			let change = {
 				name: key,
@@ -168,7 +166,7 @@ function getChange(key, vOld, vNew) {
 }
 
 function countProps(obj) {
-	var count = 0
+	const count = 0
 	for (let k in obj) {
 		if (obj.hasOwnProperty(k)) {
 			count++
@@ -190,7 +188,7 @@ function objectEquals(v1, v2) {
 		if (countProps(v1) !== countProps(v2)) {
 			return false
 		}
-		var r = true
+		let r = true
 		for (let k in v1) {
 			r = objectEquals(v1[k], v2[k])
 			if (!r) {
