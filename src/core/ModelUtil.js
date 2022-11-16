@@ -657,6 +657,26 @@ class ModelUtil {
         return result;
     }
   
+    getZValuesForScreen (model, screenID) {
+		const result = {};
+		const screen = model.screens[screenID];
+		if (screen) {
+			for (let i=0; i < screen.children.length; i++){
+				const widgetID = screen.children[i];
+				const widget = model.widgets[widgetID];
+				if (widget) {
+					result[widgetID] = widget.z;
+				}
+			}
+		} else {
+			// for stuff on canvas we need to get all
+			const canvasChildren = this.getCanvasWidgets(model)
+			canvasChildren.forEach(widget => {
+				result[widget.id] = widget.z;
+			})
+		}
+		return result;
+	}
   
 
 }

@@ -108,7 +108,7 @@ export default class Layer extends Templates {
 		/**
 		 * Get old and new Z Values
 		 */
-		const oldValues = this.getZValuesForScreen(this.model, from.screenID);
+		const oldValues = ModelUtil.getZValuesForScreen(this.model, from.screenID);
 		const newValues = LayerUtil.getNewZValuePositions(beforePosition, selectedElements, oldValues);
 
 		/**
@@ -245,26 +245,5 @@ export default class Layer extends Templates {
 	redoChangeLayer (command){
 		this.modelChangeLayer(command.n, command.ng);
 		this.render();
-	}
-
-	getZValuesForScreen (model, screenID) {
-		const result = {};
-		const screen = model.screens[screenID];
-		if (screen) {
-			for (let i=0; i < screen.children.length; i++){
-				const widgetID = screen.children[i];
-				const widget = model.widgets[widgetID];
-				if (widget) {
-					result[widgetID] = widget.z;
-				}
-			}
-		} else {
-			// for stuff on canvas we need to get all
-			const canvasChildren = ModelUtil.getCanvasWidgets(model)
-			canvasChildren.forEach(widget => {
-				result[widget.id] = widget.z;
-			})
-		}
-		return result;
 	}
 }

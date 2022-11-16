@@ -214,6 +214,7 @@ import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
 import CollabUser from "canvas/toolbar/components/CollabUser"
 import CreateVectorButton from 'canvas/toolbar/components/CreateVectorButton'
+import ModelUtil from '../../core/ModelUtil';
 import HelpButton from 'help/HelpButton'
 
 
@@ -1455,7 +1456,7 @@ export default {
 				 * Since 4.0.60 we have a single selection in a group, 
 				 * can we boost the entire group to top?
 				 */
-
+				let parent
 				if (selection.length === 1 && (value === 'front' || value === 'back')) {
 					const widget = this.model.widgets[selection[0]];
 					if (widget) {
@@ -1464,11 +1465,14 @@ export default {
 						if (parentGroup) {
 							selection = this.getAllGroupChildren(parentGroup)
 						}
+						if (!parent) {
+							parent = this.getParentScreen(widget, this.model)
+						}
 					}
 				}
 				
 				const widgets = this.model.widgets;
-				const oldValues = this.getZValues(widgets);
+				const oldValues =  ModelUtil.getZValuesForScreen(this.model, parent?.id); //this.getZValues(widgets); // can we scope this to a screen. Check layer list
 				const offset = this._getZOffset(selection, oldValues);
 				const max = this.getMaxZValue(widgets);
 				const min = this.getMinZValue(widgets);

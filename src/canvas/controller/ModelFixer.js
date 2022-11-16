@@ -1,7 +1,7 @@
 import Logger from "../../common/Logger"
 import lang from "../../dojo/_base/lang"
 import ModelGeom from "../../core/ModelGeom"
-import CoreUtil from "../../core/CoreUtil"
+//import CoreUtil from "../../core/CoreUtil"
 
 class ModelFixer {
 	constructor() {
@@ -23,14 +23,15 @@ class ModelFixer {
 	fixZValues(m) {
 		this.logger.log(2, "fixZValues", "enter")
 
+		// this should work in the screen level!!
 		let zValues = Object.values(m.widgets).map(w => w.z)
 		if (this.hasDoublicate(zValues)) {
 			this.logger.warn("fixZValues", "Double z values", zValues)
-			const ordered = CoreUtil.getOrderedWidgets(m.widgets, true)
-			for (let i = 0; i< ordered.length; i++) {
-				let widget = ordered[i]
-				widget.z = i
-			}
+			// const ordered = CoreUtil.getOrderedWidgets(m.widgets, true)
+			// for (let i = 0; i< ordered.length; i++) {
+			// 	let widget = ordered[i]
+			// 	widget.z = i
+			// }
 		}
 
 		return false
