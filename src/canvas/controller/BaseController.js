@@ -76,11 +76,13 @@ export default class BaseController extends Core {
 
 		/**
 		 * Apply model fixes here that might happen
-		 *due to this crappy software
+		 * due to this crappy software
 		 */
 		ModelFixer.fixNegativeCoords(m);
 		ModelFixer.fixZValues(m);
 		ModelFixer.fixModelCount(m);
+		ModelFixer.fixRecursiveGroups(this.model)
+		ModelFixer.fixMissingSubgroups(this.model)
 
 		this.render(screenID);
 
@@ -259,32 +261,58 @@ export default class BaseController extends Core {
 		}
 		if (this.active) {
 
-			/**
-			 * Update the view model too! This is super important
-			 * for all child widgets that might other wise not be
-			 * correctly updated. This should normally
-			 * not require a new rendering!
-			 */
-			if (this._canvas){
-				let inheritedModel = CoreUtil.createInheritedModel(this.model)
-				this._canvas.renderPartial(inheritedModel, changes);
+			// We have some issues here that in case of undos, render might be called
+			// much to often.
+			if (this._updateModelChangeCallbackID) {
+				cancelAnimationFrame(this._updateModelChangeCallbackID)
+				delete this._updateModelChangeCallbackID
 			}
 
-			if (this.toolbar){
-				this.toolbar.updatePropertiesView();
-			}
-
-			this.model.lastUpdate = new Date().getTime();
-
-			var s = JSON.stringify(this.model);
-			this.model.size = s.length;
-
-			this.setDirty();
-
-			this.emit('change', this.model)
+			this._updateModelChangeCallbackID = requestAnimationFrame(() => {
+				this.updateModelChanges(changes)
+			})
+	
 		} else {
 			this.logger.log(1,"onModelChanged", "Exit because not active");
 		}
+	}
+
+	updateModelChanges (changes) {
+		this.logger.log(-1,"updateModelChanges", "enter");
+		
+		/**
+		 * Update the view model too! This is super important
+		 * for all child widgets that might other wise not be
+		 * correctly updated. This should normally
+		 * not require a new rendering!
+		 */
+		if (this._canvas){
+			const inheritedModel = this.getInheritedModel(this.model)
+			this._canvas.updateSourceModel(inheritedModel, changes);
+		}
+
+		if (this.toolbar){
+			this.toolbar.updatePropertiesView();
+		}
+
+		this.model.lastUpdate = new Date().getTime();
+
+		const s = JSON.stringify(this.model);
+		this.model.size = s.length;
+
+		this.setDirty();
+
+		delete this._updateModelChangeCallbackID
+
+		this.emit('change', this.model)
+	}
+
+	getInheritedModel (model) {
+		//console.trace()
+		//console.time("getInheritedModel")
+		const result =  CoreUtil.createInheritedModel(model)
+		//console.timeEnd("getInheritedModel")
+		return result
 	}
 
 	setDirty (){
@@ -302,17 +330,18 @@ export default class BaseController extends Core {
 			this.showSuccess("Please register to save changes...");
 			ModelFixer.validateAndFixModel(this.model);
 			ModelFixer.fixRecursiveGroups(this.model)
+			ModelFixer.fixMissingSubgroups(this.model)
 			this.emit("notSavedWarningShow", this.model);
 		} else {
 			if (this._dirty){
 				if (this.oldModel) {
 
-				
 					/**
 					 * Validate and fix model
 					 */
 					ModelFixer.validateAndFixModel(this.model);
 					ModelFixer.fixRecursiveGroups(this.model)
+					ModelFixer.fixMissingSubgroups(this.model)
 
 					/**
 					 * compute changes and send them to server
@@ -409,21 +438,15 @@ export default class BaseController extends Core {
 		this.logger.log(1, "collabRecieveChanges", "enter " , event);
 
 		/**
-		 * Apply changes
+		 * Called from CollabSession with other users event.
+		 * 1) Apply changes and set the model as the old model to 
+		 * avoid recursve calls or double saves
+		 * 2) Render
 		 */
 		this.model = this.collabService.applyEvent(this.model, event)
 		this.setOldModel(this.model)
-
-		/**
-		 * Rerender
-		 */
 		this.render();
-
-
-		/**
-		 * What about updating import and such?
-		 */
-		 this.logger.log(-1, "collabRecieveChanges", "exit " , this.model.lastUUID);
+		this.logger.log(-1, "collabRecieveChanges", "exit " , this.model.lastUUID);
 	}
 
 
@@ -517,15 +540,22 @@ export default class BaseController extends Core {
 	render (screenID, isResize = false){
 		this.logger.log(2,"render", "enter > screenID : " + screenID);
 		if(this._canvas){
+
+			// We have some issues here that in case of undos, render might be called
+			// much to often
+			if (this._renderCallbackID) {
+				cancelAnimationFrame(this._renderCallbackID)
+			}
 			/**
 			 * resize the model.
 			 */
-			let inheritedModel = CoreUtil.createInheritedModel(this.model)
-			requestAnimationFrame(() => {
+			this._renderCallbackID = requestAnimationFrame(() => {
+				let inheritedModel = this.getInheritedModel(this.model)
 				this._canvas.render(inheritedModel, isResize);
 				if(screenID){
 					this._canvas.moveToScreen(screenID);
 				}
+				delete this._renderCallbackID
 			});
 		}
 	}
@@ -538,9 +568,8 @@ export default class BaseController extends Core {
 		if(this._canvas){
 			/**
 			 * resize the model
-			 *
 			 */
-			let inheritedModel = CoreUtil.createInheritedModel(this.model)
+			const inheritedModel = this.getInheritedModel(this.model)
 			requestAnimationFrame(() => {
 				this._canvas.onWidgetPositionChange(inheritedModel);
 			});
@@ -548,9 +577,9 @@ export default class BaseController extends Core {
 	}
 
 	onLayerListChange () {
-		this.logger.log(2,"onLayerListChange", "enter");
+		this.logger.log(-2,"onLayerListChange", "enter");
 		if(this._canvas){
-			let inheritedModel = CoreUtil.createInheritedModel(this.model)
+			const inheritedModel = this.getInheritedModel(this.model)
 			requestAnimationFrame(() => {
 				this._canvas.onWidgetPositionChange(inheritedModel);
 			});
@@ -1374,7 +1403,7 @@ export default class BaseController extends Core {
 		// this.commandStack.stack.push(result.command);
 
 		if (this.commandStack.pos !== result.pos) {
-			this.logger.error("onCommandAdded", "Not match pos > server: "+ result.pos +  " > local: " + this.commandStack.pos);
+			this.logger.error("onCommandAdded", "Not match pos > server: "+ result.pos +  " > local: " + this.commandStack.pos, result);
 		}
 		this.commandStack.pos = result.pos;
 		this.commandStack.lastUUID = result.lastUUID;
