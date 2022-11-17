@@ -8,21 +8,30 @@ class RestEngine {
 
     run (request, data) {
 
-        if (request.method === "POST" && (request.input.type === 'JSON' || request.input.type === 'FORM')) {
+        if (request.method === "GET") {
+            return this.get(request, data)
+        }
+        
+        if (request.method === "POST" && request.input.type === 'FORM') {
+            return this.postOrPutForm(request, data)
+        }
+        if (request.method === "POST" && request.input.type === 'JSON') {
             return this.postOrPut(request, data)
         }
         if (request.method === "POST" && (request.input.type === 'IMAGE' || request.input.type === 'FILE')) {
             return this.postOrPostImage(request, data)
         }
-        if (request.method === "GET") {
-            return this.get(request, data)
-        }
+     
         if (request.method === "PUT" && request.input.type === 'JSON') {
             return this.postOrPut(request, data)
+        }
+        if (request.method === "PUT" && request.input.type === 'FORM') {
+            return this.postOrPutForm(request, data)
         }
         if (request.method === "PUT" && (request.input.type === 'IMAGE' || request.input.type === 'FILE')) {
             return this.postOrPostImage(request, data)
         }
+
         if (request.method === "DELETE") {
             return this.delete(request, data)
         }
@@ -32,6 +41,15 @@ class RestEngine {
         let url = await this.fillString(request.url, values, false);
         this.logger.log(11, "buildURL", "exit" ,url)
         return url;
+    }
+
+    async buildFormData (request, values) {
+        let data = await this.fillString(request.input.template, values, true);
+        if (request) {
+            throw new Error('NOT IMPLEMENETD')
+        }
+        this.logger.log(1, "buildData", "exit", data)
+        return data;
     }
 
     async buildData (request, values) {
@@ -193,6 +211,31 @@ class RestEngine {
                 redirect: 'follow',
                 referrer: 'no-referrer',
                 body: formData
+            })
+            .then(response => {
+                this.handleOutput(resolve, request, response)
+            }).catch (e => {
+                reject(e)
+                throw e;
+            });
+        })
+    }
+
+    postOrPutForm (request, values) {
+        return new Promise( async (resolve, reject) => {
+
+            let url = await this.buildURL(request, values)
+            let data = await this.buildFormData(request, values)
+            let header = await this.createDefaultHeader(request, values)
+
+            fetch(url, {
+                method: request.method,
+                mode: 'cors',
+                cache: 'no-cache',
+                headers: header,
+                redirect: 'follow',
+                referrer: 'no-referrer',
+                body: data
             })
             .then(response => {
                 this.handleOutput(resolve, request, response)

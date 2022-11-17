@@ -313,8 +313,8 @@ export default {
 			this.render(this.sourceModel);
 		},
 
-		renderPartial (sourceModel, changes) {
-			this.logger.log(1,"renderPartial", "enter", changes);
+		updateSourceModel (sourceModel, changes) {
+			this.logger.log(1,"updateSourceModel", "enter", changes);
 			this.sourceModel = sourceModel;
 			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom, this.roundCoordinates)
 		},

@@ -523,7 +523,6 @@ export default class Group extends Layer {
 		 */
 		const [newZ, oldZ] = this.getGroupZChanges(selection)
 	
-
 		/**
 		 * create the command
 		 */
@@ -553,6 +552,7 @@ export default class Group extends Layer {
 		const widgets = this.model.widgets
 
 		let maxZ = 0
+		
 		for (let i = 0; i < selection.length; i++) {
 			const widgetID = selection[i];
 			const widget = widgets[widgetID]
@@ -564,7 +564,8 @@ export default class Group extends Layer {
 		const oldValues = this.getZValues(widgets);
 		for (let i = 0; i < selection.length; i++) {
 			const widgetID = selection[i];
-			oldValues[widgetID] = maxZ - i * 0.00001
+			const offSet = maxZ - oldValues[widgetID]
+			oldValues[widgetID] = maxZ - (offSet * 0.00001)
 		}
 
 		const newValues = this.getNormalizeWidgetZValues(oldValues);

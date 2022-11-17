@@ -228,8 +228,8 @@ export default class Widget extends Snapp {
 	}
 
 	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies){
-		this.logger.log(1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
-
+		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
+	
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
@@ -239,7 +239,7 @@ export default class Widget extends Snapp {
 
 		let correctPosition = true;
 
-		if(boundingbox && boundingbox.snapp && boundingbox.type=="boundingbox"){
+		if (boundingbox && boundingbox.snapp && boundingbox.type=="boundingbox"){
 
 			/**
 			 * So we got the position of the bounding box.
@@ -258,8 +258,8 @@ export default class Widget extends Snapp {
 			 *
 			 * 7) surpress the normal position correction...
 			 */
-			 const snapp = boundingbox.snapp;
-			if(snapp.type=="All"){
+			const snapp = boundingbox.snapp;
+			if (snapp.type=="All"){
 
 				/**
 				 * Get bounding box in model and also the offset
@@ -318,13 +318,16 @@ export default class Widget extends Snapp {
 				}
 				correctPosition = false;
 			}
+
+			
 		}
 
+		// fixme. Here something is super slow
 		for(let id in positions){
 			const pos = positions[id];
 			const child = this.createWidgetPositionCommand(id, pos, fromToolbar, correctPosition);
 			command.children.push(child);
-			this.modelWidgetUpdate(id, pos);
+			this.modelWidgetUpdate(id, pos, false);
 		}
 
 		this.addCommand(command);
@@ -339,10 +342,17 @@ export default class Widget extends Snapp {
 		} else {
 			this.onWidgetPositionChange()
 		}
+	
 
 		this.checkTemplateAutoUpdate(Object.keys(positions).map(id => {
 			return {id: id, type:'widget', prop:'position', action:'change'} 
+		}))	
+
+		
+		this.onModelChanged(Object.keys(positions).map(id => {
+			return {type: 'widget', action:"change", "prop": "position", id: id}
 		}))
+
 		return positions
 	}
 
@@ -397,12 +407,12 @@ export default class Widget extends Snapp {
 		/**
 		 * check first if there was really a change. This method might get called alot.
 		 */
-		var widget = this.model.widgets[id];
+		const widget = this.model.widgets[id];
 		if(widget && widget.name!= value){
 
 			this.logger.log(-1,"setWidgetName", "enter > " + id + " > " + value);
 
-			var command = {
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "WidgetName",
 				o :widget.name,
@@ -509,14 +519,14 @@ export default class Widget extends Snapp {
 	updateWidgetPosition (id, pos, fromToolbar, hasCopies){
 		this.logger.log(1,"updateWidgetPosition", "enter > " + id );
 
-		var command = this.createWidgetPositionCommand(id, pos,fromToolbar, true);
+		const command = this.createWidgetPositionCommand(id, pos,fromToolbar, true);
 		this.addCommand(command);
 
 		/**
 		 * get the old screen
 		 */
-		var widget = this.model.widgets[id];
-		var oldScreen = this.getHoverScreen(widget);
+		const widget = this.model.widgets[id];
+		const oldScreen = this.getHoverScreen(widget);
 
 		/**
 		 * Update the model
@@ -526,7 +536,7 @@ export default class Widget extends Snapp {
 		/**
 		 * show message
 		 */
-		var newScreen = this.getHoverScreen(widget);
+		const newScreen = this.getHoverScreen(widget);
 		if(newScreen){
 			if(!oldScreen || (oldScreen && oldScreen.id != newScreen.id)){
 				this.showSuccess("Great! A new widget was added to screen "+ newScreen.id);
@@ -570,9 +580,9 @@ export default class Widget extends Snapp {
 		/**
 		 * make command
 		 */
-		var widget = this.model.widgets[id];
-		var delta = this.getDeltaBox(widget, pos);
-		var command = {
+		const widget = this.model.widgets[id];
+		const delta = this.getDeltaBox(widget, pos);
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "WidgetPosition",
 			delta :delta,
@@ -583,8 +593,8 @@ export default class Widget extends Snapp {
 	}
 
 	
-	modelWidgetUpdate (id, pos){
-		var widget = this.model.widgets[id];
+	modelWidgetUpdate (id, pos, callModelChange = true){
+		const widget = this.model.widgets[id];
 		widget.modified = new Date().getTime()
 
 		/**
@@ -610,7 +620,7 @@ export default class Widget extends Snapp {
 		/**
 		 * update parent screen
 		 */
-		var screen = this.getHoverScreen(widget);
+		const screen = this.getHoverScreen(widget);
 		if(screen){
 			screen.children.push(widget.id);
 		}
@@ -618,7 +628,10 @@ export default class Widget extends Snapp {
 		/**
 		 * call model change
 		 */
-		this.onModelChanged([{type: 'widget', action:"change", "prop": "position", id: id}])
+		if (callModelChange) {
+			this.onModelChanged([{type: 'widget', action:"change", "prop": "position", id: id}])
+		}
+
 	}
 
 	undoWidgetPosition (command){

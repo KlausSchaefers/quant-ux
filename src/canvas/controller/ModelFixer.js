@@ -8,6 +8,8 @@ class ModelFixer {
 		this.logger = new Logger("ModelFixer")
 	}
 
+	
+
 	fixCommandStack(stack) {
 		this.logger.log(2, "fixCommandStack", "enter")
 		if (stack.pos < 0) {
@@ -24,9 +26,9 @@ class ModelFixer {
 		this.logger.log(2, "fixZValues", "enter")
 
 		// this should work in the screen level!!
-		let zValues = Object.values(m.widgets).map(w => w.z)
+		const zValues = Object.values(m.widgets).map(w => w.z)
 		if (this.hasDoublicate(zValues)) {
-			this.logger.warn("fixZValues", "Double z values", zValues)
+			//this.logger.warn("fixZValues", "Double z values", zValues)
 			// const ordered = CoreUtil.getOrderedWidgets(m.widgets, true)
 			// for (let i = 0; i< ordered.length; i++) {
 			// 	let widget = ordered[i]
@@ -38,9 +40,9 @@ class ModelFixer {
 	}
 
 	hasDoublicate (arr) {
-		let values = {}
+		const values = {}
 		for (let i = 0; i< arr.length; i++) {
-			let v = arr[i]
+			const v = arr[i]
 			if (values[v]) {
 				return true
 			}
@@ -312,6 +314,30 @@ class ModelFixer {
 		return errors
 	}
 
+	fixMissingSubgroups (model) {
+		
+		if (model.groups) {
+			for (let groupID in model.groups) {
+				const group = model.groups[groupID]
+		
+				if (group.groups) {		
+					const missing = {}
+					group.groups.forEach(id => {
+						if (!model.groups[id]) {
+							missing[id] = true
+						}
+					})
+					
+					if (Object.values(missing).length > 0) {
+						console.debug(JSON.stringify(group.groups))
+						group.groups = group.groups.filter(id => !missing[id])
+						this.logger.error("fixMissingSubgroups", "fix() > " + group.id)
+						console.debug(JSON.stringify(group.groups))
+					}
+				}
+			}
+		}
+	}
 
 	fixRecursiveGroups (model) {
 

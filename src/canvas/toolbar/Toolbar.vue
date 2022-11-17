@@ -1456,7 +1456,7 @@ export default {
 				 * Since 4.0.60 we have a single selection in a group, 
 				 * can we boost the entire group to top?
 				 */
-				let parent
+		
 				if (selection.length === 1 && (value === 'front' || value === 'back')) {
 					const widget = this.model.widgets[selection[0]];
 					if (widget) {
@@ -1465,9 +1465,15 @@ export default {
 						if (parentGroup) {
 							selection = this.getAllGroupChildren(parentGroup)
 						}
-						if (!parent) {
-							parent = this.getParentScreen(widget, this.model)
-						}
+						
+					}
+				}
+
+				let parent
+				for(let i=0;i< selection.length; i++){
+					const widget = this.model.widgets[selection[i]];
+					if (widget) {
+						parent = this.getParentScreen(widget, this.model)
 					}
 				}
 				

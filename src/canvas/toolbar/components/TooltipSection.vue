@@ -4,13 +4,13 @@
         <div class=" MatcToolbarGridFull">
             <textarea 
                 class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" 
-                placeholder="Tooltip text" 
+                placeholder="Enter tooltip text" 
                 ref="innputField"
                 v-model="tooltipText" 
                 @change="onChangeText"
             />
         </div>
-        <TooltipSettings ref="settings" @change="onChangeStyle"/>
+        <TooltipSettings ref="settings" @change="onChangeStyle" v-show="tooltipText"/>
        
 	</div>
 </template>

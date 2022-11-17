@@ -163,9 +163,10 @@
                                 v-model="databingValues[key]"
                                 class="form-control"
                                 ref="dbInputs"
-                                v-if="rest.input.type === 'JSON'" />
+                                v-if="rest.input.type === 'JSON' || rest.input.type === 'FORM'" />
+
                             <FileButton
-                                v-if="rest.input.type === 'JSON'"
+                                v-if="rest.input.type === 'JSON' || rest.input.type === 'FORM'"
                                 class="MatcToolbarRestDataBindingIcon"
                                 @change="onDataBingingFileChange(key, $event)"
                                 icon="mdi mdi-cloud-upload"/>

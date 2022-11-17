@@ -51,8 +51,6 @@ export default class CollabService {
         return model
       }
 
-      console.debug('before', model.templates)
-
       try {
         let changes = event.changes
         changes.forEach(change => {

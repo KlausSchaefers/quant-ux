@@ -25,6 +25,8 @@ export default class CollabSession {
           controller.setModelChangeListener(changeEvent => {
             this.sendChange(changeEvent)
           })
+
+          // FIXME: all also the command stack??
         })
 
         this.websocket = websocket
