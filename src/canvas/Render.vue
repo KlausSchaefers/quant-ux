@@ -46,7 +46,6 @@ export default {
 			 * 11 = StandAlone
 		 	 */
       return {
-			sourceModel: null,
 			canvasPos: {},
 			containerSize: {},
 			roundCoordinates: false,
@@ -318,6 +317,7 @@ export default {
 			console.time('updateSourceModel')
 			this.sourceModel = sourceModel;
 			
+			console.timeLog('updateSourceModel')
 			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom, this.roundCoordinates)
 			console.timeEnd('updateSourceModel')
 		},
