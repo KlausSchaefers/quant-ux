@@ -254,7 +254,7 @@ class ModelUtil {
               }
               return merged;
             } else {
-              console.warn("Layout.getStyle() > No template found for widget",widget.id, " with template ",  widget.template);
+              console.warn("ModelUtil.getStyle() > No template found for widget",widget.id, " with template ",  widget.template);
             }
           }
         }
@@ -326,7 +326,9 @@ class ModelUtil {
             Logger.log(1, 'ModelUtil.createScalledModel() > do not round!')
         }
 
+        //console.time('createScalledModel')
         const zoomedModel = lang.clone(model);
+        //console.timeEnd('createScalledModel')
         zoomedModel.isZoomed = true;
 
         this.getZoomedBox(zoomedModel.screenSize, zoom, zoom, round);
@@ -352,16 +354,16 @@ class ModelUtil {
              * As an alternative we could stop using Math.round() ...
              */
             for (let i = 0; i < zoomedScreen.children.length; i++) {
-                let wid = zoomedScreen.children[i];
-                let zoomWidget = zoomedModel.widgets[wid];
-                let orgWidget = model.widgets[wid];
+                const wid = zoomedScreen.children[i];
+                const zoomWidget = zoomedModel.widgets[wid];
+                const orgWidget = model.widgets[wid];
                 if (orgWidget) {
                     /**
                      * When we copy a screen we might not have the org widget yet
                      */
-                    var orgScreen = model.screens[zoomedScreen.id];
-                    var difX = this.getZoomed(orgWidget.x - orgScreen.x, zoom, round);
-                    var difY = this.getZoomed(orgWidget.y - orgScreen.y, zoom, round);
+                    const orgScreen = model.screens[zoomedScreen.id];
+                    const difX = this.getZoomed(orgWidget.x - orgScreen.x, zoom, round);
+                    const difY = this.getZoomed(orgWidget.y - orgScreen.y, zoom, round);
                     if (orgWidget.parentWidget) {
                         if (zoomWidget.x >= 0) {
                             zoomWidget.x = zoomedScreen.x + difX;

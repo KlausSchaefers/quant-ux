@@ -12,26 +12,7 @@ export default class Core extends Evented {
         super()
     }
 
-    getContainedChildWidgets(container, model) {
-        let result = []
-        /*
-         * Loop over sorted list
-         */
-        let sortedWidgets = this.getOrderedWidgets(model.widgets)
-        let found = false
-        for (let i = 0; i < sortedWidgets.length; i++) {
-            let widget = sortedWidgets[i]
-            if (container.id != widget.id) {
-                if (found && this._isContainedInBox(widget, container)) {
-                    widget.container = container.id
-                    result.push(widget)
-                }
-            } else {
-                found = true
-            }
-        }
-        return result;
-    }
+
 
     /**
      * Gets all teh widgets that are in the container! The method
@@ -629,7 +610,7 @@ export default class Core extends Evented {
         if (!zoomY) {
             zoomY = zoomX;
         }
-        var zoomedModel = lang.clone(model);
+        const zoomedModel = lang.clone(model);
         zoomedModel.isZoomed = true;
 
         this.getZoomedBox(zoomedModel.screenSize, zoomX, zoomY);
@@ -639,7 +620,7 @@ export default class Core extends Evented {
         }
 
         for (let id in zoomedModel.screens) {
-            var zoomedScreen = this.getZoomedBox(
+            const zoomedScreen = this.getZoomedBox(
                 zoomedModel.screens[id],
                 zoomX,
                 zoomY
@@ -654,16 +635,16 @@ export default class Core extends Evented {
              * As an alternative we could stop using Math.round() ...
              */
             for (let i = 0; i < zoomedScreen.children.length; i++) {
-                let wid = zoomedScreen.children[i];
-                let zoomWidget = zoomedModel.widgets[wid];
-                let orgWidget = model.widgets[wid];
+                const wid = zoomedScreen.children[i];
+                const zoomWidget = zoomedModel.widgets[wid];
+                const orgWidget = model.widgets[wid];
                 if (orgWidget) {
                     /**
                      * When we copy a screen we might not have the org widget yet
                      */
-                    var orgScreen = model.screens[zoomedScreen.id];
-                    var difX = this.getZoomed(orgWidget.x - orgScreen.x, zoomX);
-                    var difY = this.getZoomed(orgWidget.y - orgScreen.y, zoomY);
+                    const orgScreen = model.screens[zoomedScreen.id];
+                    const difX = this.getZoomed(orgWidget.x - orgScreen.x, zoomX);
+                    const difY = this.getZoomed(orgWidget.y - orgScreen.y, zoomY);
                     if (orgWidget.parentWidget) {
                         if (zoomWidget.x >= 0) {
                             zoomWidget.x = zoomedScreen.x + difX;
@@ -680,7 +661,7 @@ export default class Core extends Evented {
         }
 
         for (let id in zoomedModel.lines) {
-            let line = zoomedModel.lines[id];
+            const line = zoomedModel.lines[id];
             for (let i = 0; i < line.points.length; i++) {
                 this.getZoomedBox(line.points[i], zoomX, zoomY);
             }
@@ -689,7 +670,7 @@ export default class Core extends Evented {
         /**
          * Now do inheritance here
          */
-        var inheritedModel = this.createInheritedModel(zoomedModel);
+        const inheritedModel = this.createInheritedModel(zoomedModel);
 
         return inheritedModel;
     }
@@ -699,7 +680,7 @@ export default class Core extends Evented {
         /**
          * Build lookup map for overwrites
          */
-        var overwritenWidgets = {};
+        const overwritenWidgets = {};
         for (let screenID in model.screens) {
             let screen = model.screens[screenID];
             overwritenWidgets[screenID] = {};
@@ -713,7 +694,7 @@ export default class Core extends Evented {
         }
 
 
-        var inModel = lang.clone(model);
+        let inModel = lang.clone(model);
         inModel.inherited = true;
 
 
@@ -814,6 +795,7 @@ export default class Core extends Evented {
 
                                         if (overwritenWidget) {
                                             //console.debug("inheried() ",overwritenWidgetID,  overwritenWidget.style.background)
+                               
                                             overwritenWidget.props = this.mixin(lang.clone(parentWidget.props), overwritenWidget.props, true);
                                             overwritenWidget.style = this.mixin(lang.clone(parentWidget.style), overwritenWidget.style, true);
                                             //console.debug("   ->", overwritenWidget.style.background, overwritenWidget.style._mixed.background)
@@ -899,12 +881,18 @@ export default class Core extends Evented {
     }
 
     createScreenSegmentModel(inModel) {
+        // TODO: why not build a lookup map (screenID, List[Widgets]), so 
+        // we don't have to do the forEach loop down?
         let screenSegments = []
         for (let widgetID in inModel.widgets) {
             let widget = inModel.widgets[widgetID]
             if (widget.type === 'ScreenSegment') {
                 screenSegments.push(widget)
             }
+        }
+        if (screenSegments.length < 0) {
+            // we could already step out in here
+            // return
         }
         for (let screenID in inModel.screens) {
             let screen = inModel.screens[screenID];
@@ -935,23 +923,44 @@ export default class Core extends Evented {
 
     createContaineredModel(inModel) {
         for (let screenID in inModel.screens) {
-            let screen = inModel.screens[screenID];
+            const screen = inModel.screens[screenID];
             for (let i = 0; i < screen.children.length; i++) {
-                let widgetID = screen.children[i];
-                let widget = inModel.widgets[widgetID];
+                const widgetID = screen.children[i];
+                const widget = inModel.widgets[widgetID];
                 if (widget) {
                     if (widget.isContainer) {
-                        let children = this.getContainedChildWidgets(widget, inModel)
+                        let children = this.getContainedChildWidgets(widget, inModel, screen)
                         widget.children = children.map(w => w.id)
                     }
-                } else {
-                    /**
-                     * FIXME: This can happen for screen copies...
-                     */
-                    // console.warn('Core.createContaineredModel() > cannot find widgte', widgetID)
                 }
             }
         }
+        // containers do not work on canvas???
+    }
+
+    getContainedChildWidgets(container, model) {
+        const result = []
+        /*
+         * Loop over sorted list.
+         * TODO: make this faster. We could get the screen of the container,
+         * and then just loop over the screen children
+         * 
+         * //sortChildren(screen.children, model)
+         */
+        const sortedWidgets = this.getOrderedWidgets(model.widgets) ////sortChildren(screen.children, model)
+        let found = false
+        for (let i = 0; i < sortedWidgets.length; i++) {
+            const widget = sortedWidgets[i]
+            if (container.id != widget.id) {
+                if (found && this._isContainedInBox(widget, container)) {
+                    widget.container = container.id
+                    result.push(widget)
+                }
+            } else {
+                found = true
+            }
+        }
+        return result;
     }
 
     static addContainerChildrenToModel(model) {
@@ -1178,11 +1187,10 @@ export default class Core extends Evented {
     /**
      * Get children
      */
-
     getOrderedWidgets(widgets, useIds = true) {
-        var result = [];
-        for (var id in widgets) {
-            var widget = widgets[id];
+        const result = [];
+        for (let id in widgets) {
+            const widget = widgets[id];
             if (widget) {
                 this.fixMissingZValue(widget);
                 result.push(widget);
@@ -1201,10 +1209,10 @@ export default class Core extends Evented {
         if (!model) {
             model = this.model
         }
-        var result = [];
-        for (var i = 0; i < children.length; i++) {
-            var widgetID = children[i];
-            var widget = model.widgets[widgetID];
+        const result = [];
+        for (let i = 0; i < children.length; i++) {
+            const widgetID = children[i];
+            const widget = model.widgets[widgetID];
             if (widget) {
                 this.fixMissingZValue(widget);
                 result.push(widget);

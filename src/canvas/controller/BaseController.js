@@ -263,15 +263,16 @@ export default class BaseController extends Core {
 
 			// We have some issues here that in case of undos, render might be called
 			// much to often.
-			if (this._updateModelChangeCallbackID) {
-				cancelAnimationFrame(this._updateModelChangeCallbackID)
-				delete this._updateModelChangeCallbackID
-			}
+			// if (this._updateModelChangeCallbackID) {
+			// 	cancelAnimationFrame(this._updateModelChangeCallbackID)
+			// 	delete this._updateModelChangeCallbackID
+			// }
 
-			this._updateModelChangeCallbackID = requestAnimationFrame(() => {
-				this.updateModelChanges(changes)
-			})
-	
+			// this._updateModelChangeCallbackID = requestAnimationFrame(() => {
+			// 	this.updateModelChanges(changes)
+			// })
+			
+			this.updateModelChanges(changes)
 		} else {
 			this.logger.log(1,"onModelChanged", "Exit because not active");
 		}
@@ -287,7 +288,9 @@ export default class BaseController extends Core {
 		 * not require a new rendering!
 		 */
 		if (this._canvas){
+			console.time('updateModelChanges')
 			const inheritedModel = this.getInheritedModel(this.model)
+			console.timeEnd('updateModelChanges')
 			this._canvas.updateSourceModel(inheritedModel, changes);
 		}
 

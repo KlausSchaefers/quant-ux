@@ -168,7 +168,7 @@ export default {
 
             this.$refs.colorCntr.innerHTML = ''
             let cntr = this._renderColorWidgets(this.$refs.colorCntr)
-            this.renderRemovePopupFooter("No Color", () => this, "setTransparent");
+            this.renderRemovePopupFooter("No Color", () => this.setNoColor());
             this.setColorValues()
             this.onSelectTab(0, true)
             this.resizeAndRepositon(cntr)
@@ -199,6 +199,10 @@ export default {
 
         setModel (m) {
             this.model = m
+        },
+
+        setNoColor () {
+            this.onChange('transparent')
         },
 
         onChange (value) {

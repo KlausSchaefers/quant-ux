@@ -473,10 +473,13 @@ export default {
 
 		elementHasChanged (element) {
 			if (this.renderedModels[element.id]){
-				let old = this.renderedModels[element.id]
+				const old = this.renderedModels[element.id]
 				if (old.modified !== element.modified) {
 					return true
 				}
+
+				// TODO: Maybe we could just check here _templateModified and skip the 
+				// deep inspection?? What about container widgets like the repeater?
 				return !this.objectEquals(old, element)
 			}
 			return true
@@ -484,7 +487,7 @@ export default {
 
 		elementHasLabelChange (element) {
 			if (this.renderedModels[element.id]){
-				let old = this.renderedModels[element.id]
+				const old = this.renderedModels[element.id]
 				if (element?.props?.label !== old?.props?.label) {
 					return true
 				}
@@ -494,11 +497,11 @@ export default {
 
 
 		deleteWidget (id) {
-			let dnd = this.widgetDivs[id]
+			const dnd = this.widgetDivs[id]
 			if (dnd && dnd.parentNode) {
 				dnd.parentNode.removeChild(dnd);
 			}
-			let background = this.widgetBackgroundDivs[id]
+			const background = this.widgetBackgroundDivs[id]
 			if (background && background.parentNode) {
 				background.parentNode.removeChild(background);
 			}
