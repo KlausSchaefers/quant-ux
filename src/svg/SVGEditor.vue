@@ -235,12 +235,6 @@ export default {
     'isMultiPath': {
         type: Boolean,
         default: true
-    },
-    'app': {
-        type: Object,
-        default() {
-            return undefined
-        }
     }
   },
   data: function() {
@@ -766,6 +760,11 @@ export default {
     setGrid(grid) {
         this.logger.log(-1, 'setGrid', 'enter', grid)
         this.grid = grid
+    },
+
+    setApp(app) {
+        this.logger.log(-1, 'setApp', 'enter', app)
+        this.app = app
     }
 
 
@@ -785,6 +784,7 @@ export default {
   mounted() {
     this.logger = new Logger('SVGEditor')
     this.commandStack = new CommandStack()
+    this.app = {} // not responsive because huge!!
   }
 };
 </script>

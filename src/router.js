@@ -160,6 +160,10 @@ export default new VueRouter({
     {
       path: '/test/JS.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/JSSandboxTest.vue')
+    },
+    {
+      path: '/test/Perf.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/PerfTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',

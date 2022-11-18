@@ -685,7 +685,7 @@ export default {
 					if (node) {
 						this.$set(node, 'selected', true)
 					} else {
-						this.logger.warn('selectNode', 'No node with id: ' + id)
+						this.logger.log(4, 'selectNode', 'No node with id: ' + id)
 					}
 				})
 				this.selection = ids
@@ -732,7 +732,7 @@ export default {
 				if (element) {
 					element.scrollIntoViewIfNeeded(true)
 				} else {
-					this.logger.warn('scrollToSelection', 'No node with id: ' + this.getScrollId(id))
+					this.logger.log(4,'scrollToSelection', 'No node with id: ' + this.getScrollId(id))
 				}
 			}
 		},

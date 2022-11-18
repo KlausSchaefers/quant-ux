@@ -389,6 +389,27 @@ class ModelUtil {
         return zoomedModel;
     }
 
+    getZoomedPointFast(box, zoomX, zoomY) {
+        box.x = box.x * zoomX;
+        box.y = box.y * zoomY;
+        box.isZoomed = true;
+        return box;
+    }
+
+    getZoomedBoxFast(box, zoomX, zoomY) {
+
+        box.x = box.x * zoomX;
+        box.y = box.y * zoomY;
+        box.w = Math.ceil(box.w * zoomX)
+        box.h = Math.ceil(box.h * zoomY)
+        
+        if (box.min) {
+            box.min.h = box.min.h * zoomY
+            box.min.w = box.min.w * zoomX;
+        }
+        box.isZoomed = true;
+        return box;
+    }
    
     getZoomedBox(box, zoomX, zoomY, round = true) {
         if (box.x) {

@@ -101,8 +101,10 @@ export default {
                 const svgEditor = this.$refs.svgEditor
                 this.setCurrentTool(svgEditor)
                 if (this.currentTool) {
+                    this.currentTool.setApp(this.sourceModel)
                     this.currentTool.setValue(widget.props.paths, widget.props.bbox, sourceWidget)
                     this.currentTool.setGrid(this.sourceModel.grid)
+                    
                     this.$nextTick(() => {
                         this.currentTool.startMorphTool(pathIDs)
                     })
@@ -129,6 +131,7 @@ export default {
                 this.setCurrentTool(svgEditor)
                 
                 if (this.currentTool) {
+                    this.currentTool.setApp(this.sourceModel)
                     this.currentTool.setGrid(this.sourceModel.grid)
                     if (e.type === 'bezier') {
                         this.currentTool.startBezierTool()
