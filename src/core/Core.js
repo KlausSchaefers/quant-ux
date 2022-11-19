@@ -938,7 +938,7 @@ export default class Core extends Evented {
         // containers do not work on canvas???
     }
 
-    getContainedChildWidgets(container, model) {
+    getContainedChildWidgets(container, model, scrn) {
         const result = []
         /*
          * Loop over sorted list.
@@ -947,7 +947,7 @@ export default class Core extends Evented {
          * 
          * //sortChildren(screen.children, model)
          */
-        const sortedWidgets = this.getOrderedWidgets(model.widgets) ////sortChildren(screen.children, model)
+        const sortedWidgets = this.sortChildren(scrn.children, model) //this.getOrderedWidgets(model.widgets) ////sortChildren(screen.children, model)
         let found = false
         for (let i = 0; i < sortedWidgets.length; i++) {
             const widget = sortedWidgets[i]

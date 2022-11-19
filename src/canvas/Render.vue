@@ -314,12 +314,11 @@ export default {
 
 		updateSourceModel (sourceModel, changes) {
 			this.logger.log(1,"updateSourceModel", "enter", changes);
-			console.time('updateSourceModel')
+		
 			this.sourceModel = sourceModel;
-			
-			console.timeLog('updateSourceModel')
+			console.time('createScalledModel')
 			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom, this.roundCoordinates)
-			console.timeEnd('updateSourceModel')
+			console.timeEnd('createScalledModel')
 		},
 
 		renderZoom () {

@@ -288,9 +288,7 @@ export default class BaseController extends Core {
 		 * not require a new rendering!
 		 */
 		if (this._canvas){
-			console.time('updateModelChanges')
 			const inheritedModel = this.getInheritedModel(this.model)
-			console.timeEnd('updateModelChanges')
 			this._canvas.updateSourceModel(inheritedModel, changes);
 		}
 
@@ -312,9 +310,9 @@ export default class BaseController extends Core {
 
 	getInheritedModel (model) {
 		//console.trace()
-		//console.time("getInheritedModel")
+		console.time("getInheritedModel")
 		const result =  CoreUtil.createInheritedModel(model)
-		//console.timeEnd("getInheritedModel")
+		console.timeEnd("getInheritedModel")
 		return result
 	}
 

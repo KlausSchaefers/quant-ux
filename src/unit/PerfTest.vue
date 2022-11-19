@@ -16,7 +16,7 @@
 
 import bigApp from './data/bigApp.json'
 import ModelUtil from 'core/ModelUtil'
-
+import CoreUtil from 'core/CoreUtil'
 
 export default {
   name: "ResizeTest",
@@ -32,6 +32,7 @@ export default {
   },
   methods: {
     runScale () {
+        console.debug("runScale() ", Object.values(bigApp.widgets).length)
         console.time("runScale")
         ModelUtil.createScalledModel(bigApp)
 
@@ -39,7 +40,7 @@ export default {
     },
     runInherit () {
         console.time("runInherit")
-        console.debug(bigApp)
+        CoreUtil.createInheritedModel(bigApp)
 
         console.timeEnd("runInherit")
     }
