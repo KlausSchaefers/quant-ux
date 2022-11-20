@@ -22,6 +22,8 @@ export default class BaseController extends Core {
 		this.debug = false
 		this.active = true
 		this.transactions = {}
+		this._modelRenderJobs = {}
+		this._modelChanges = []
 		this.modelDB = new ModelDB()
 		this.collabService = new CollabService()
 
@@ -84,7 +86,7 @@ export default class BaseController extends Core {
 		ModelFixer.fixRecursiveGroups(this.model)
 		ModelFixer.fixMissingSubgroups(this.model)
 
-		this.render(screenID);
+		this.initCanvas(screenID);
 
 		if(this.toolbar){
 			this.toolbar.setModel(m);
@@ -260,19 +262,8 @@ export default class BaseController extends Core {
 			console.warn('onModelChanged()', 'No Changes')
 		}
 		if (this.active) {
-
-			// We have some issues here that in case of undos, render might be called
-			// much to often.
-			// if (this._updateModelChangeCallbackID) {
-			// 	cancelAnimationFrame(this._updateModelChangeCallbackID)
-			// 	delete this._updateModelChangeCallbackID
-			// }
-
-			// this._updateModelChangeCallbackID = requestAnimationFrame(() => {
-			// 	this.updateModelChanges(changes)
-			// })
-			
-			this.updateModelChanges(changes)
+			this._modelHasChanged = true
+			this._modelChanges = this._modelChanges.concat(changes)
 		} else {
 			this.logger.log(1,"onModelChanged", "Exit because not active");
 		}
@@ -281,17 +272,6 @@ export default class BaseController extends Core {
 	updateModelChanges (changes) {
 		this.logger.log(1,"updateModelChanges", "enter");
 		
-		/**
-		 * Update the view model too! This is super important
-		 * for all child widgets that might other wise not be
-		 * correctly updated. This should normally
-		 * not require a new rendering!
-		 */
-		if (this._canvas){
-			const inheritedModel = this.getInheritedModel(this.model)
-			this._canvas.updateSourceModel(inheritedModel, changes);
-		}
-
 		if (this.toolbar){
 			this.toolbar.updatePropertiesView();
 		}
@@ -305,14 +285,53 @@ export default class BaseController extends Core {
 		delete this._updateModelChangeCallbackID
 
 		this.emit('change', this.model)
+
+		if (this._canvas){
+			const inheritedModel = this.getInheritedModel(this.model)
+			this._canvas.updateSourceModel(inheritedModel, changes);
+		}
 	}
 
 	startModelChange () {
 		this._modelChanges = []
+		this._modelRenderJobs = {}
+		this._modelHasChanged = false
 	}
 
-	commitModelChange () {
-		this.logger.log(-1,"commitModelChange", "enter");
+	commitModelChange (render = true) {
+		this.logger.log(-1,"commitModelChange", "enter  > render: "+ render + "> changes: " + this._modelHasChanged);
+
+		const inheritedModel = this.getInheritedModel(this.model)
+
+		if (this._modelHasChanged) {
+			if (this.toolbar){
+				this.toolbar.updatePropertiesView();
+			}
+			this.model.lastUpdate = new Date().getTime();
+			this.model.screenCount = Object.keys(this.model.screens).length
+			this.model.widgetCount = Object.keys(this.model.widgets).length
+			this.setDirty();
+			this.emit('change', this.model)
+
+			if (this._canvas){
+				this._canvas.updateSourceModel(inheritedModel);
+			}
+		}
+
+		if (this._modelRenderJobs['position'] === true) {
+			requestAnimationFrame(() => {
+				this._canvas.onWidgetPositionChange(inheritedModel);
+			})			
+		} else {
+			requestAnimationFrame(() => {
+				const isResize = this._modelRenderJobs['all']
+				this._canvas.render(inheritedModel, isResize);				
+			})
+		}
+				
+		this._modelChanges = []
+		this._modelRenderJobs = {}
+		this._modelHasChanged = false
 	}
 
 	getInheritedModel (model) {
@@ -322,6 +341,92 @@ export default class BaseController extends Core {
 		console.timeEnd("getInheritedModel")
 		return result
 	}
+
+	/***************************************************************************************
+	 *  Rendering
+	 ***************************************************************************************/
+
+	initCanvas (screenID){
+		this.logger.log(-2,"initCanvas", "enter > screenID : " + screenID);
+		if(this._canvas){
+			const inheritedModel = this.getInheritedModel(this.model)
+			requestAnimationFrame(() => {
+				this._canvas.render(inheritedModel);
+				if(screenID){
+					this._canvas.moveToScreen(screenID);
+				}
+			});
+		}		
+	}
+
+	 render (screenID, isResize = false){
+		this.logger.log(-2,"render", "enter > screenID : " + screenID);	
+		this._modelRenderJobs['all'] = isResize		
+	}
+
+	/**
+	 * Notify the canvas that there has been some changes in widget positions!
+	 */
+	onWidgetPositionChange () {
+		this.logger.log(-2,"onWidgetPositionChange", "enter");
+		
+		this._modelRenderJobs['position'] = true
+	}
+
+	onLayerListChange () {
+		this.logger.log(-2,"onLayerListChange", "enter");
+		this._modelRenderJobs['position'] = true
+	}
+
+
+	renderWidget (widget, type){
+		this.logger.log(-1,"renderWidget", "enter > type : ", type);
+		if (widget) {
+
+			/**
+				* In case we have a templated or design token widget, we
+				* kick of a complete rendering. This is to make sure that we
+				* merge in all the style. This does not hurt too much, because
+				* we have the partical rendering now.
+				* TODO: We could use the ModelUtil and inline the template and
+				*  the design tokens
+			 */
+			if (widget.template || widget.designtokens){
+				this._modelRenderJobs['all'] = false
+			} else {
+				/**
+				 * W have to set a zoomed model! Otherwise so UI widgets that use the
+				 * box size to compute some layout stuff ( e.g. icon size) have issues.
+				 *
+				 * FIXME: Also, there seems to be an issues when (data) props are updated!
+				 * e.g. table or spinner do not update!
+				 *
+				 * FIXME: Also add children in case it is an container widget!
+				 */
+				// let designTokenWidget = ModelUtil.inlineBoxDesignToken
+				this._canvas.setWidgetStyle(widget.id, widget.style, widget);
+				if (type === 'props') {
+					this._canvas.updateWidgetDataView(widget);
+				}
+			}
+		} else {
+			this.logger.error("renderWidget", "No widget passed for type" + type);
+			this.logger.sendError(new Error("Controller.renderWidget() No widget"));
+		}
+	}
+
+	renderScreen (screen){
+		/**
+		 * Suppose the model was already updated
+		 */
+		if(this._canvas){
+			this._canvas.setScreenStyle(screen.id, screen.style);
+		}
+	}
+
+	/***************************************************************************************
+	 *  Model saving
+	 ***************************************************************************************/
 
 	setDirty (){
 		this._dirty = true;
@@ -539,99 +644,6 @@ export default class BaseController extends Core {
 	onGroupNameChange (group) {
 		if (this._canvas) {
 			this._canvas.setGroupName(group)
-		}
-	}
-
-	/**
-	 * Since 3.0.29 we have a sepcial isResize to maake the fast render faster
-	 */
-	render (screenID, isResize = false){
-		this.logger.log(2,"render", "enter > screenID : " + screenID);
-		if(this._canvas){
-			if(this._canvas){
-				/**
-				 * resize the model.
-				 */
-				let inheritedModel = CoreUtil.createInheritedModel(this.model)
-				requestAnimationFrame(() => {
-					this._canvas.render(inheritedModel, isResize);
-					if(screenID){
-						this._canvas.moveToScreen(screenID);
-					}
-				});
-			}
-		}
-	}
-
-	/**
-	 * Notify the canvas that there has been some changes in widget positions!
-	 */
-	onWidgetPositionChange () {
-		this.logger.log(2,"onWidgetPositionChange", "enter");
-		if(this._canvas){
-			/**
-			 * resize the model
-			 */
-			const inheritedModel = this.getInheritedModel(this.model)
-			requestAnimationFrame(() => {
-				this._canvas.onWidgetPositionChange(inheritedModel);
-			});
-		}
-	}
-
-	onLayerListChange () {
-		this.logger.log(-2,"onLayerListChange", "enter");
-		if(this._canvas){
-			const inheritedModel = this.getInheritedModel(this.model)
-			requestAnimationFrame(() => {
-				this._canvas.onWidgetPositionChange(inheritedModel);
-			});
-		}
-	}
-
-
-	renderWidget (widget, type){
-		this.logger.log(0,"renderWidget", "enter > type : ", type);
-		if (widget) {
-
-			/**
-				* In case we have a templated or design token widget, we
-				* kick of a complete rendering. This is to make sure that we
-				* merge in all the style. This does not hurt too much, because
-				* we have the partical rendering now.
-				* TODO: We could use the ModelUtil and inline the template and
-				*  the design tokens
-			 */
-			if (widget.template || widget.designtokens){
-				this.render();
-			} else {
-				/**
-				 * W have to set a zoomed model! Otherwise so UI widgets that use the
-				 * box size to compute some layout stuff ( e.g. icon size) have issues.
-				 *
-				 * FIXME: Also, there seems to be an issues when (data) props are updated!
-				 * e.g. table or spinner do not update!
-				 *
-				 * FIXME: Also add children in case it is an container widget!
-				 */
-				// let designTokenWidget = ModelUtil.inlineBoxDesignToken
-				this._canvas.setWidgetStyle(widget.id, widget.style, widget);
-				if (type === 'props') {
-					this._canvas.updateWidgetDataView(widget);
-				}
-			}
-		} else {
-			this.logger.error("renderWidget", "No widget passed for type" + type);
-			this.logger.sendError(new Error("Controller.renderWidget() No widget"));
-		}
-	}
-
-	renderScreen (screen){
-		/**
-		 * Suppose the model was already updated
-		 */
-		if(this._canvas){
-			this._canvas.setScreenStyle(screen.id, screen.style);
 		}
 	}
 
