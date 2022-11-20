@@ -50,7 +50,9 @@ export default {
 
 		renderLayerList (model){
 			if (this.layerList){
-				this.layerList.render(model);
+				requestAnimationFrame(() => {
+					this.layerList.render(model);
+				})
 			}
 		}
     },

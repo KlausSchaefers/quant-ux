@@ -269,29 +269,6 @@ export default class BaseController extends Core {
 		}
 	}
 
-	updateModelChanges (changes) {
-		this.logger.log(1,"updateModelChanges", "enter");
-		
-		if (this.toolbar){
-			this.toolbar.updatePropertiesView();
-		}
-
-		this.model.lastUpdate = new Date().getTime();
-		this.model.screenCount = Object.keys(this.model.screens).length
-		this.model.widgetCount = Object.keys(this.model.widgets).length
-
-		this.setDirty();
-
-		delete this._updateModelChangeCallbackID
-
-		this.emit('change', this.model)
-
-		if (this._canvas){
-			const inheritedModel = this.getInheritedModel(this.model)
-			this._canvas.updateSourceModel(inheritedModel, changes);
-		}
-	}
-
 	startModelChange () {
 		this._modelChanges = []
 		this._modelRenderJobs = {}
@@ -300,7 +277,7 @@ export default class BaseController extends Core {
 
 	commitModelChange (render = true) {
 		this.logger.log(-1,"commitModelChange", "enter  > render: "+ render + "> changes: " + this._modelHasChanged);
-
+		console.time("commitModelChange")
 		const inheritedModel = this.getInheritedModel(this.model)
 
 		if (this._modelHasChanged) {
@@ -320,25 +297,26 @@ export default class BaseController extends Core {
 
 		if (this._modelRenderJobs['position'] === true) {
 			requestAnimationFrame(() => {
-				this._canvas.onWidgetPositionChange(inheritedModel);
+				this._canvas.onWidgetPositionChange(inheritedModel);	
 			})			
 		} else {
 			requestAnimationFrame(() => {
 				const isResize = this._modelRenderJobs['all']
-				this._canvas.render(inheritedModel, isResize);				
+				this._canvas.render(inheritedModel, isResize);			
 			})
 		}
 				
 		this._modelChanges = []
 		this._modelRenderJobs = {}
 		this._modelHasChanged = false
+		console.timeEnd("commitModelChange")
 	}
 
 	getInheritedModel (model) {
 		//console.trace()
-		console.time("getInheritedModel")
+		//console.time("getInheritedModel")
 		const result =  CoreUtil.createInheritedModel(model)
-		console.timeEnd("getInheritedModel")
+		//console.timeEnd("getInheritedModel")
 		return result
 	}
 

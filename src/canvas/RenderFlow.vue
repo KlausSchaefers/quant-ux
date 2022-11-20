@@ -170,7 +170,9 @@ export default {
 			this.renderSelection();
 			this.renderDistance();
 
-			this.logger.log(1, "renderFlowViewFast", "exit > #update: " + this.renderChangeCounter + ' > #new : '+ this.renderCreateCounter + ' > label ' + this.renderLabelCounter, (new Date().getTime() - this.renderStartTime) +'ms');
+			let prio = (new Date().getTime() - this.renderStartTime) > 30 ? -1 :1
+
+			this.logger.log(prio, "renderFlowViewFast", "exit > #update: " + this.renderChangeCounter + ' > #new : '+ this.renderCreateCounter + ' > label ' + this.renderLabelCounter, (new Date().getTime() - this.renderStartTime) +'ms');
 		},
 
 	
