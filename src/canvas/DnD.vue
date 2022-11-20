@@ -797,7 +797,7 @@ export default {
     },
 
     _setSelectionById (id) {
-      /**
+        /**
          * Since 2.1.3
          */
         let group = this.getTopParentGroup(id);

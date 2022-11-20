@@ -665,6 +665,7 @@ export default {
 
 		createScreenDnD (screen){
 			this.logger.log(4,"createScreenDnD", "enter");
+
 			const div = this.createBox(screen);
 			div._screenID = screen.id
 			div._screenDND = true		
@@ -673,7 +674,7 @@ export default {
 		},
 
 		createScreenLabel(screen) {
-			const lbl =document.createElement("div");
+			const lbl = document.createElement("div");
 			css.add(lbl, "MatcScreenLabel");
 			lbl._screenLabel = true
 			lbl._screenID = screen.id

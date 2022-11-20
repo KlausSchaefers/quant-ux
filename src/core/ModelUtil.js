@@ -320,9 +320,11 @@ class ModelUtil {
         return Object.values(model.templates).filter(t => t.variantOf === template.id)
     } 
 
+    /**
+     * Create a minimal scalled version
+     */
     createScalledModelFast(model, zoom, round = true) {
 
-   
         const zoomedModel = {
             screenSize: {},
             grid: lang.clone(model.grid),
@@ -336,21 +338,19 @@ class ModelUtil {
         zoomedModel.screenSize = this.getZoomedBoxFast(model.screenSize, zoom, zoom, round);
 
         for (let id in model.widgets) {
-            const zoomedWidget = this.getZoomedBoxFast(
-                model.widgets[id], 
-                zoom, 
-                zoom
-            )
+            const widget = model.widgets[id]
+            const zoomedWidget = this.getZoomedBoxFast(widget,zoom, zoom)
+            if (widget.style.locked) {
+                zoomedWidget.style = {
+                    locked: widget.style.locked
+                }
+            }
             zoomedModel.widgets[id] = zoomedWidget
         }
 
         for (let id in model.screens) {
             const scrn = model.screens[id]
-            const zoomedScreen = this.getZoomedBox(
-                scrn,
-                zoom,
-                zoom
-            )
+            const zoomedScreen = this.getZoomedBoxFast(scrn,zoom,zoom)
             zoomedScreen.children = scrn.children.slice()
             zoomedScreen.rulers = lang.clone(scrn.rulers)
             zoomedModel.screens[id] = zoomedScreen  
@@ -367,12 +367,12 @@ class ModelUtil {
             }
             for (let i = 0; i < line.points.length; i++) {
                 const zoomedPoint = this.getZoomedPointFast(line.points[i], zoom, zoom, round);
-                zoomedLine.lines.push(zoomedPoint)
+                zoomedLine.points.push(zoomedPoint)
             }
             zoomedModel.lines[id] = zoomedLine
         }
 
-        zoomedModel.groups = lang.clone(zoomedModel.groups)
+        zoomedModel.groups = lang.clone(model.groups)
 
         return zoomedModel;
     }
@@ -388,10 +388,12 @@ class ModelUtil {
 
     getZoomedBoxFast(box, zoomX, zoomY) {
         const result = {
+            id: box.id,
+            name: box.name,
             x: box.x * zoomX,
             y: box.y * zoomY,
-            w: Math.ceil(box.w * zoomX),
-            h: Math.ceil(box.h * zoomY),
+            w: box.w * zoomX,
+            h: box.h * zoomY,
             isZoomed: true
         }
 

@@ -236,7 +236,7 @@ export default {
 			},
 
 			widgetCanMove(widget) {
-				if (widget.style.locked) {
+				if (widget?.style?.locked) {
 					return false
 				}
 				if (this.isMoveOnlySelected) {

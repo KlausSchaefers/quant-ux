@@ -481,9 +481,9 @@ export default class GridAndRuler extends Core {
 	showScreenDistance(widget) {
 		this.cleanupDistanceLines();
 		this.distanceLines = {};
-		var screen = this.getParentScreen(widget);
-		if (screen) {
-			this.renderBoxDistance(widget, screen);
+		const scrn = this.getParentScreen(widget);
+		if (scrn) {
+			this.renderBoxDistance(widget, scrn);
 			this.renderDistanceHighLight(widget.id);
 		}
 	}
