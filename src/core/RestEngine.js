@@ -44,12 +44,21 @@ class RestEngine {
     }
 
     async buildFormData (request, values) {
-        let data = await this.fillString(request.input.template, values, true);
-        if (request) {
-            throw new Error('NOT IMPLEMENETD')
+        const formData = new FormData()      
+        const lines = request.input.template.split('\n')
+        for (let line of lines) {
+            const parts = line.split(':')
+            if (parts.length === 2) {
+                const key = parts[0]
+                const value = parts[1]
+                const data = await this.fillString(value, values, true);
+                formData.append(key, data)
+            } else {
+                throw new Error("buildFormData() > template not ok") 
+            }
         }
-        this.logger.log(1, "buildData", "exit", data)
-        return data;
+        this.logger.log(-1, "buildFormData", "exit", formData)
+        return formData;
     }
 
     async buildData (request, values) {
@@ -195,9 +204,8 @@ class RestEngine {
 
     postOrPostImage (request, values) {
         return new Promise( async (resolve, reject) => {
-            let url = await this.buildURL(request, values)
-            let header = await this.createDefaultHeader(request, values)
-
+            const url = await this.buildURL(request, values)
+            const header = await this.createDefaultHeader(request, values)
             const formData = new FormData()
             for (let key in values) {
                 formData.append(key, values[key])
@@ -222,11 +230,12 @@ class RestEngine {
     }
 
     postOrPutForm (request, values) {
+        this.logger.log(1, "postOrPutForm", "enter >")
         return new Promise( async (resolve, reject) => {
 
-            let url = await this.buildURL(request, values)
-            let data = await this.buildFormData(request, values)
-            let header = await this.createDefaultHeader(request, values)
+            const url = await this.buildURL(request, values)
+            const formData = await this.buildFormData(request, values)
+            const header = await this.createDefaultHeader(request, values)
 
             fetch(url, {
                 method: request.method,
@@ -235,7 +244,7 @@ class RestEngine {
                 headers: header,
                 redirect: 'follow',
                 referrer: 'no-referrer',
-                body: data
+                body: formData
             })
             .then(response => {
                 this.handleOutput(resolve, request, response)
@@ -303,9 +312,8 @@ class RestEngine {
             headers['Accept'] = 'application/json'
         }
 
-        if(request.input.type === 'FORM') {
-            headers['Content-Type'] = 'application/x-www-form-urlencoded'
-        }
+        // if(request.input.type === 'FORM') {
+        // }
 
         if (token) {
             headers['Authorization'] = `${authType} ${token}`

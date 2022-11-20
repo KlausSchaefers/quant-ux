@@ -105,7 +105,7 @@
                             @init="editorInit"
                             lang="json"
                             theme="chrome"
-                            width="740"
+                            width="800"
                             height="180"></Ace>
 
                         <p class="MatcHint">
@@ -122,20 +122,15 @@
                             @init="editorInit"
                             lang="text"
                             theme="chrome"
-                            width="740"
+                            width="800"
                             height="180"></Ace>
 
                         <p class="MatcHint">
-                            Use the ${databinding} notation to send data from the prototype.
+                            Insert a list of line separated key:value pairs. Use the ${databinding} notation to send data from the prototype.
                         </p>
                     </div>
 
-                    <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'FORM' " >
-                        <p class="MatcHint">
-                            Form data will send all databings collected so far.
-                        </p>
-                    </div>
-
+             
                     <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'FILE' " >
                         <div class="form-group"  v-if="rest.method === 'POST' || rest.method === 'PUT'" >
                             <label>File DataBinding</label>

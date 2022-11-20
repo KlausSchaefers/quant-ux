@@ -5,7 +5,7 @@
       <SegmentButton :options="options" v-model="selectedTest" style="width:600px; display: inline-block"/>
 
 
-    <div class="" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px;">
+    <div class="MatcDialog" style="display: inline-block; width:auto; vertical-align: top; margin-left:30px;">
         <RestSettings :app="app" @change="onChange" :value="selectedWidget"/>
     </div>
 
@@ -23,13 +23,7 @@
 
 <style>
   @import url("../style/matc.css");
-  .MatcToolbarRestSettings {
-      background: white;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-      padding:20px;
-      width: 840px;
-      display: inline-block;
-  }
+  @import url("../style/toolbar/all.css");
 </style>
 
 <script>
@@ -153,14 +147,35 @@ export default {
               "type": "JSON",
               "hints": []
           }
-        }
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8083/api/form",
+          "token": "",
+          "input": {
+            "type": "FORM",
+            "fileDataBinding": "selfie",
+            "template": "a: 'ABC\nb: ${text}"
+            
+          },
+          "output": {
+              "databinding": "FORM",
+              "template": "",
+              "type": "JSON",
+              "hints": []
+          },
+          header: [
+              {key: 'a', value: 'b'}
+            ]
+        },
       ],
       options : [
         {label: "JSON Get", value: 0},
         {label: "JSON Post", value: 1},
         {label: "Image Get", value: 2},
         {label: "Image Post", value: 3},
-        {label: "Goolge Vision", value: 4}
+        {label: "Goolge Vision", value: 4},
+        {label: "FORM Post", value: 5},
       ],
       selectedTest: 0
     };
