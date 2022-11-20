@@ -296,7 +296,7 @@ export default {
 			},
 
 			screenCanMove(screen) {
-				if (screen.style.locked) {
+				if (screen?.style?.locked) {
 					return false
 				}
 				if (this.isMoveOnlySelected) {

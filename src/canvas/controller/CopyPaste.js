@@ -256,7 +256,7 @@ export default class CopyPaste extends Group{
 	}
 
 	onPasteClipBoard (clipBoard, pos) {
-		this.logger.log(2,"onPasteClipBoard", "enter > "+ pos);
+		this.logger.log(-2,"onPasteClipBoard", "enter > "+ pos);
 		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
@@ -270,6 +270,8 @@ export default class CopyPaste extends Group{
 			widget.id = id
 			widget.x += pos.x
 			widget.y += pos.y
+			delete widget.isRootTemplate
+			delete widget.isNewTemplateChild
 		})
 		clipBoard.screens.forEach(screen => {
 			let id = "s" + this.getUUID()
@@ -810,7 +812,7 @@ export default class CopyPaste extends Group{
 	}
 
 	_copyWidget (w, targetScreen){
-		this.logger.log(3,"_copyWidget", "enter > ", targetScreen);
+		this.logger.log(-3,"_copyWidget", "enter > ", targetScreen);
 		if (!targetScreen){
 			console.debug("_copyWidget() > No screen");
 			targetScreen = this.getHoverScreen(w);

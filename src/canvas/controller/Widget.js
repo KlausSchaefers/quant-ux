@@ -571,7 +571,7 @@ export default class Widget extends Snapp {
 		}
 
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'position', action:'change'}])
-		this.commitModelChange(true, true)
+		this.commitModelChange(true, true)		
 		return pos;
 	}
 

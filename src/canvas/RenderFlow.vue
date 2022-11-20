@@ -480,9 +480,15 @@ export default {
 					return true
 				}
 
+				if (old._templateModified !== element._templateModified) {
+					return true
+				}
+
+				return !this.objectEquals(old, element)
+
 				// TODO: Maybe we could just check here _templateModified and skip the 
 				// deep inspection?? What about container widgets like the repeater?
-				return !this.objectEquals(old, element)
+				//return //!this.objectEquals(old, element)
 			}
 			return true
 		},

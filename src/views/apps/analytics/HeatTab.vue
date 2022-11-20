@@ -26,10 +26,10 @@
     <section class="section" v-if="!loading && events.length === 0">
       <div class="container">
         <div class="box is-shadowless MatcWarningBox">
-          <h2 class="title">No data</h2>
+          <h3 class="title">No data</h3>
           <p>
             You have not performed any test yet, therefore Quant-UX could not collect any data. Once you start testing,
-            you can will see here the heat maps.
+            you will see here the heat maps.
           </p>
         </div>
       </div>
