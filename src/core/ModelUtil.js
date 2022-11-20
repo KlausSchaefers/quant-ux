@@ -320,6 +320,92 @@ class ModelUtil {
         return Object.values(model.templates).filter(t => t.variantOf === template.id)
     } 
 
+    createScalledModelFast(model, zoom, round = true) {
+
+   
+        const zoomedModel = {
+            screenSize: {},
+            grid: lang.clone(model.grid),
+            screens: {},
+            widgets: {},
+            groups: {},
+            lines: {},
+            designtokens: {}
+        }
+
+        zoomedModel.screenSize = this.getZoomedBoxFast(model.screenSize, zoom, zoom, round);
+
+        for (let id in model.widgets) {
+            const zoomedWidget = this.getZoomedBoxFast(
+                model.widgets[id], 
+                zoom, 
+                zoom
+            )
+            zoomedModel.widgets[id] = zoomedWidget
+        }
+
+        for (let id in model.screens) {
+            const scrn = model.screens[id]
+            const zoomedScreen = this.getZoomedBox(
+                scrn,
+                zoom,
+                zoom
+            )
+            zoomedScreen.children = scrn.children.slice()
+            zoomedScreen.rulers = lang.clone(scrn.rulers)
+            zoomedModel.screens[id] = zoomedScreen  
+        }
+
+        for (let id in model.lines) {
+            const line = model.lines[id];
+            const zoomedLine = {
+                id: line.id,
+                from: line.from,
+                to: line.to,
+                event: line.event,
+                points: []
+            }
+            for (let i = 0; i < line.points.length; i++) {
+                const zoomedPoint = this.getZoomedPointFast(line.points[i], zoom, zoom, round);
+                zoomedLine.lines.push(zoomedPoint)
+            }
+            zoomedModel.lines[id] = zoomedLine
+        }
+
+        zoomedModel.groups = lang.clone(zoomedModel.groups)
+
+        return zoomedModel;
+    }
+
+    getZoomedPointFast(box, zoomX, zoomY) {
+        const result = {
+            x: box.x * zoomX,
+            y: box.y * zoomY,
+            isZoomed: true
+        }
+        return result;
+    }
+
+    getZoomedBoxFast(box, zoomX, zoomY) {
+        const result = {
+            x: box.x * zoomX,
+            y: box.y * zoomY,
+            w: Math.ceil(box.w * zoomX),
+            h: Math.ceil(box.h * zoomY),
+            isZoomed: true
+        }
+
+        if (box.min) {
+            result.min = {
+                h: box.min.h * zoomY,
+                w: box.min.w * zoomX
+            }
+        }
+        box.isZoomed = true;
+        return result;
+    }
+   
+
     createScalledModel(model, zoom, round = true) {
 
         if (!round) {
@@ -389,28 +475,7 @@ class ModelUtil {
         return zoomedModel;
     }
 
-    getZoomedPointFast(box, zoomX, zoomY) {
-        box.x = box.x * zoomX;
-        box.y = box.y * zoomY;
-        box.isZoomed = true;
-        return box;
-    }
 
-    getZoomedBoxFast(box, zoomX, zoomY) {
-
-        box.x = box.x * zoomX;
-        box.y = box.y * zoomY;
-        box.w = Math.ceil(box.w * zoomX)
-        box.h = Math.ceil(box.h * zoomY)
-        
-        if (box.min) {
-            box.min.h = box.min.h * zoomY
-            box.min.w = box.min.w * zoomX;
-        }
-        box.isZoomed = true;
-        return box;
-    }
-   
     getZoomedBox(box, zoomX, zoomY, round = true) {
         if (box.x) {
             box.x = this.getZoomed(box.x, zoomX, round);

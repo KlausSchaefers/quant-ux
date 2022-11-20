@@ -681,16 +681,17 @@ export default class Widget extends Snapp {
 		/**
 		* make command
 		*/
-		var widget = this.model.widgets[id];
-		var command = this.createWidgetPropertiesCommand(id, props, type);
-		var inlineEdit = this.getInlineEdit();
-
+		const widget = this.model.widgets[id];
+		const command = this.createWidgetPropertiesCommand(id, props, type);
+		const inlineEdit = this.getInlineEdit();
 		if(command){
-			this.addCommand(command);
+			this.addCommand(command);	
 			this.modelWidgetPropertiesUpdate(id, props, type, doNotRender);
 		}
+	
 
 		if(!doNotRender){
+			// fast if not templates
 			this.renderWidget(widget, type);
 		}
 
@@ -705,6 +706,7 @@ export default class Widget extends Snapp {
 		}
 
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
+
 	}
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){

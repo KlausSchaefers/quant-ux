@@ -312,20 +312,31 @@ export default {
 			this.render(this.sourceModel);
 		},
 
+
+		updateScalledModel () {
+			console.time('updateScalledModel')
+			// Super BUGGY
+			this.model = ModelUtil.createScalledModelFast(this.sourceModel, this.zoom, this.roundCoordinates)
+			console.timeEnd('updateScalledModel')
+		},
+
 		updateSourceModel (sourceModel, changes) {
 			this.logger.log(1,"updateSourceModel", "enter", changes);
-		
 			this.sourceModel = sourceModel;
-			console.time('createScalledModel')
-			this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom, this.roundCoordinates)
-			console.timeEnd('createScalledModel')
+			this.updateScalledModel()
 		},
 
 		renderZoom () {
+
 			this.setContainerPos()
 			if (this.model) {
 				this.cleanUpScreenButtons()
-				this.model = ModelUtil.createScalledModel(this.sourceModel, this.zoom, this.roundCoordinates)
+				
+				/**
+				 * This method gets called to often when zooming. We should find a way to debounce this
+				 * without flickering labels or rulers
+				 */
+				this.updateScalledModel()
 				this.updateDnD(this.model)
 				/**
 				 * 4.0.40: We do not call renderSelection(),as this would also update the 
@@ -344,7 +355,7 @@ export default {
 		onWidgetPositionChange (sourceModel) {
 			this.logger.log(1,"onWidgetPositionChange", "enter", sourceModel);
 			this.sourceModel = sourceModel;
-			this.model = ModelUtil.createScalledModel(sourceModel, this.zoom, this.roundCoordinates)
+			this.updateScalledModel()
 			this.renderFactory.setZoomedModel(sourceModel);
 			this.renderFactory.updatePositions(sourceModel)
 			this.renderLayerList(sourceModel);
@@ -365,7 +376,7 @@ export default {
 				/**
 				 * Use to render drag and drop nodes
 				 */
-				this.model = ModelUtil.createScalledModel(sourceModel, this.zoom, this.roundCoordinates)
+				this.updateScalledModel()
 
 				this.renderFlowViewFast(this.sourceModel, this.model, isResize);
 

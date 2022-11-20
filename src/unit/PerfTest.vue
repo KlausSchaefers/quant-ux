@@ -4,6 +4,8 @@
 
     <button class="MatcButton" @click="runScale">Run scale</button>
 
+    <button class="MatcButton" @click="runScaleFast">Run scale fast</button>
+
     <button class="MatcButton" @click="runInherit">Run inherit</button>
   </div>
 </template>
@@ -38,10 +40,17 @@ export default {
 
         console.timeEnd("runScale")
     },
+
+    runScaleFast () {
+        console.debug("runScaleFast() ", Object.values(bigApp.widgets).length)
+        console.time("runScaleFast")
+        ModelUtil.createScalledModelFast(bigApp)
+
+        console.timeEnd("runScaleFast")
+    },
     runInherit () {
         console.time("runInherit")
         CoreUtil.createInheritedModel(bigApp)
-
         console.timeEnd("runInherit")
     }
   },

@@ -279,7 +279,7 @@ export default class BaseController extends Core {
 	}
 
 	updateModelChanges (changes) {
-		this.logger.log(-1,"updateModelChanges", "enter");
+		this.logger.log(1,"updateModelChanges", "enter");
 		
 		/**
 		 * Update the view model too! This is super important
@@ -297,9 +297,8 @@ export default class BaseController extends Core {
 		}
 
 		this.model.lastUpdate = new Date().getTime();
-
-		const s = JSON.stringify(this.model);
-		this.model.size = s.length;
+		this.model.screenCount = Object.keys(this.model.screens).length
+		this.model.widgetCount = Object.keys(this.model.widgets).length
 
 		this.setDirty();
 
@@ -541,23 +540,18 @@ export default class BaseController extends Core {
 	render (screenID, isResize = false){
 		this.logger.log(2,"render", "enter > screenID : " + screenID);
 		if(this._canvas){
-
-			// We have some issues here that in case of undos, render might be called
-			// much to often
-			if (this._renderCallbackID) {
-				cancelAnimationFrame(this._renderCallbackID)
+			if(this._canvas){
+				/**
+				 * resize the model.
+				 */
+				let inheritedModel = CoreUtil.createInheritedModel(this.model)
+				requestAnimationFrame(() => {
+					this._canvas.render(inheritedModel, isResize);
+					if(screenID){
+						this._canvas.moveToScreen(screenID);
+					}
+				});
 			}
-			/**
-			 * resize the model.
-			 */
-			this._renderCallbackID = requestAnimationFrame(() => {
-				let inheritedModel = this.getInheritedModel(this.model)
-				this._canvas.render(inheritedModel, isResize);
-				if(screenID){
-					this._canvas.moveToScreen(screenID);
-				}
-				delete this._renderCallbackID
-			});
 		}
 	}
 

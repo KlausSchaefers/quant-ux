@@ -312,9 +312,6 @@ class RestEngine {
             headers['Accept'] = 'application/json'
         }
 
-        // if(request.input.type === 'FORM') {
-        // }
-
         if (token) {
             headers['Authorization'] = `${authType} ${token}`
         }

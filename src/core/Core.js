@@ -693,7 +693,7 @@ export default class Core extends Evented {
             }
         }
 
-
+        // Todo: we could check if the model is zoomed and not clone...
         let inModel = lang.clone(model);
         inModel.inherited = true;
 

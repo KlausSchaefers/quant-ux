@@ -23,18 +23,18 @@ class ModelFixer {
 	}
 
 	fixZValues(m) {
-		this.logger.log(2, "fixZValues", "enter")
+		this.logger.log(2, "fixZValues", "enter", m)
 
 		// this should work in the screen level!!
-		const zValues = Object.values(m.widgets).map(w => w.z)
-		if (this.hasDoublicate(zValues)) {
+		//const zValues = Object.values(m.widgets).map(w => w.z)
+		//if (this.hasDoublicate(zValues)) {
 			//this.logger.warn("fixZValues", "Double z values", zValues)
 			// const ordered = CoreUtil.getOrderedWidgets(m.widgets, true)
 			// for (let i = 0; i< ordered.length; i++) {
 			// 	let widget = ordered[i]
 			// 	widget.z = i
 			// }
-		}
+		//}
 
 		return false
 	}

@@ -160,8 +160,6 @@ export default class Group extends Layer {
 					const child = this.createWidgetPropertiesCommand(id, props, type);
 					this.modelWidgetPropertiesUpdate(id, props, type);
 					command.children.push(child);
-				} else {
-					console.debug(" - x", widget);
 				}
 			}
 		}
