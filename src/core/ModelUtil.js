@@ -326,6 +326,7 @@ class ModelUtil {
     createScalledModelFast(model, zoom, round = true) {
 
         const zoomedModel = {
+            id: model.id, 
             screenSize: {},
             grid: lang.clone(model.grid),
             screens: {},
@@ -340,15 +341,12 @@ class ModelUtil {
         for (let id in model.widgets) {
             const widget = model.widgets[id]
             const zoomedWidget = this.getZoomedBoxFast(widget,zoom, zoom)
-            zoomedWidget.style = {}
-            zoomedWidget.props = {
-                label: widget?.props.label
+            zoomedWidget.style = {
+                locked: widget?.style.locked
             }
+            zoomedWidget.props = widget.props
             zoomedWidget.z = widget.z
-            if (widget.style.locked) {
-                zoomedWidget.style.locked = widget.style.locked
-            }
-
+            zoomedWidget.type = widget.type
             zoomedModel.widgets[id] = zoomedWidget
         }
 
@@ -357,12 +355,10 @@ class ModelUtil {
             const zoomedScreen = this.getZoomedBoxFast(scrn,zoom,zoom)
             zoomedScreen.children = scrn.children.slice()
             zoomedScreen.rulers = lang.clone(scrn.rulers)
-            zoomedScreen.style = {}
-            zoomedScreen.props = {}
-            if (scrn.style.locked) {
-                zoomedScreen.style.locked = scrn.style.locked                
+            zoomedScreen.style = {
+                locked: scrn?.style.locked
             }
-
+            zoomedScreen.props = {}    
             zoomedModel.screens[id] = zoomedScreen  
         }
 

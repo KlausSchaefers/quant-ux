@@ -256,7 +256,7 @@ export default class CopyPaste extends Group{
 	}
 
 	onPasteClipBoard (clipBoard, pos) {
-		this.logger.log(-2,"onPasteClipBoard", "enter > "+ pos);
+		this.logger.log(2,"onPasteClipBoard", "enter > "+ pos);
 		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
@@ -800,24 +800,24 @@ export default class CopyPaste extends Group{
 
 	undoCopyWidget (command){
 		this.logger.log(3,"undoCopyWidget", "enter > " + command.id);
-		var widget = command.model;
+		const widget = command.model;
 		this.modelRemoveWidget(widget);
 		this.render();
 	}
 	redoCopyWidget (command){
 		this.logger.log(3,"redoCopyWidget", "enter > " + command.id);
-		var widget = command.model;
+		const widget = command.model;
 		this.modelAddWidget(widget);
 		this.render();
 	}
 
 	_copyWidget (w, targetScreen){
-		this.logger.log(-3,"_copyWidget", "enter > ", targetScreen);
+		this.logger.log(3,"_copyWidget", "enter > ", targetScreen);
 		if (!targetScreen){
 			console.debug("_copyWidget() > No screen");
 			targetScreen = this.getHoverScreen(w);
 		}
-		var copy = lang.clone(w);
+		const copy = lang.clone(w);
 		copy.copyOf = w.id;
 		delete copy.isRootTemplate
 		delete copy.isNewTemplateChild
