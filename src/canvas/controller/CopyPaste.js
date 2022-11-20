@@ -25,7 +25,7 @@ export default class CopyPaste extends Group{
 
 	replicateWidgets (ids, pos, selectedGroup, fromToolbar){
 		this.logger.log(0,"replicateWidgets", "enter > ");
-
+		this.startModelChange()
 		
 		pos = this.correctPostion(ids, pos, fromToolbar);
 
@@ -45,6 +45,7 @@ export default class CopyPaste extends Group{
 
 		this.addCommand(command);
 		this.render();
+		this.commitModelChange()
 		return cloneIds;
 	}
 
@@ -256,6 +257,7 @@ export default class CopyPaste extends Group{
 
 	onPasteClipBoard (clipBoard, pos) {
 		this.logger.log(2,"onPasteClipBoard", "enter > "+ pos);
+		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
 		/**
@@ -316,7 +318,7 @@ export default class CopyPaste extends Group{
 		};
 		this.addCommand(command);
 		this.modelPasteClipBoard(clipBoard)
-
+		this.commitModelChange()
 	}
 
 	modelPasteClipBoard (clipBoard) {
@@ -383,6 +385,7 @@ export default class CopyPaste extends Group{
 		const to = this.getBoxById(target);
 
 		if(from && to){
+			this.startModelChange()
 			const isSameType = from.type == to.type;
 
 			/**
@@ -498,6 +501,7 @@ export default class CopyPaste extends Group{
 			this.modelWidgetPropertiesUpdate(target, props, "props");
 
 			this.renderWidget(to);
+			this.commitModelChange(false, true)
 		} else {
 			this.logger.error("onCopyWidgetStyle", "Could not copy > " +source + " > " + target);
 		}
@@ -514,6 +518,7 @@ export default class CopyPaste extends Group{
 
 	onMultiCopyWidget (selection, pos){
 		this.logger.log(-2,"onMultiCopyWidget", "enter > "+pos);
+		this.startModelChange()
 
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 		var targetScreen = this.getHoverScreen(pos);
@@ -585,6 +590,7 @@ export default class CopyPaste extends Group{
 
 		this.addCommand(command);
 		this.render();
+		this.commitModelChange()
 		return newSelection;
 	}
 
@@ -592,7 +598,7 @@ export default class CopyPaste extends Group{
 
 	onCopyGroup (group, pos){
 		this.logger.log(-1,"onCopyGroup", "enter > ", pos);
-
+		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
 		/**
@@ -673,6 +679,7 @@ export default class CopyPaste extends Group{
 		 */
 		this.onGroupSelected(newGroup.id);
 		this.render();
+		this.commitModelChange()
 		return newGroup;
 	}
 
@@ -746,6 +753,7 @@ export default class CopyPaste extends Group{
 		const widget = this.model.widgets[id];
 
 		if (widget) {
+			this.startModelChange()
 			pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 			const targetScreen = this.getHoverScreen(pos);
 			// for copies to other screens, we take the position from the unzoomed model.
@@ -779,6 +787,7 @@ export default class CopyPaste extends Group{
 			 */
 			this.modelAddWidget(newWidget);
 			this.render();
+			this.commitModelChange()
 			return newWidget;
 		} else {
 			console.warn("No Widget with id", id);
@@ -848,6 +857,7 @@ export default class CopyPaste extends Group{
 		const screen = this.model.screens[id];
 
 		if(screen){
+			this.startModelChange()
 			if(this._canvas){
 				pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 			}
@@ -914,6 +924,7 @@ export default class CopyPaste extends Group{
 			this.modelAddScreenAndWidgetsAndLines(newScreen, children, null, groups);
 
 			this.render();
+			this.commitModelChange()
 
 			return newScreen;
 		} else {

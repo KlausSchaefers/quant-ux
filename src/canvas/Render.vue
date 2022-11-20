@@ -314,10 +314,9 @@ export default {
 
 
 		updateScalledModel () {
-			console.time('updateScalledModel')
-			// Super BUGGY
+			//console.time('updateScalledModel')
 			this.model = ModelUtil.createScalledModelFast(this.sourceModel, this.zoom, this.roundCoordinates)
-			console.timeEnd('updateScalledModel')
+			//console.timeEnd('updateScalledModel')
 		},
 
 		updateSourceModel (sourceModel, changes) {

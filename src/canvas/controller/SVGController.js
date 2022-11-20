@@ -6,7 +6,7 @@ export default class SVGController extends DesignToken {
 
     changeSVGLayer (widgetID, fromPathId, toPathId) {
         this.logger.log(-1, "changeSVGLayer", "enter > widget:" + widgetID + " > path: " + fromPathId + ' -> ' + toPathId);
-
+		this.startModelChange()
         const widget = this.model.widgets[widgetID];
 		if(!widget || !widget?.props?.paths){
             this.logger.warn("changeSVGLayer", "exit > NO WIDGET OR PATHS > ", widgetID);
@@ -22,6 +22,7 @@ export default class SVGController extends DesignToken {
         };
         this.addCommand(command);
         this.modelSVGPathLayer(widgetID, fromPathId, toPathId, 'top');
+		this.commitModelChange(true, true)
     }
 
     modelSVGPathLayer (widgetID, fromPathId, toPathId, direction) {
@@ -61,7 +62,7 @@ export default class SVGController extends DesignToken {
 	 **********************************************************************/
 
 
-	setSVGPathProps (widgetID, pathID, key, value){
+	setSVGPathProps (widgetID, pathID, key, value){		
         this.logger.log(1, "setSVGPathProps", "enter > widget:" + widgetID + " > path: " + pathID);
 		if (value === '') {
 			this.logger.warn("setSVGPathProps", "exit EMPYT name > " + widgetID);
@@ -85,6 +86,7 @@ export default class SVGController extends DesignToken {
             return
         }
 
+		this.startModelChange()
         const command = {
             timestamp : new Date().getTime(),
             type : "SVGPathProps",
@@ -96,6 +98,7 @@ export default class SVGController extends DesignToken {
         };
         this.addCommand(command);
         this.modelSVGPathProps(widgetID, pathID,key, value);
+		this.commitModelChange(true, true)
 	}
 
 	modelSVGPathProps (widgetID, pathID, key, value){
@@ -150,14 +153,16 @@ export default class SVGController extends DesignToken {
             this.logger.log(-1,"updateSVGWidget", "exit > No change");
             return
         }
-      
+	
 		const command = this.createSVGWidgeUpdateCommand(id, zoomedPos, props);
 		if(command){
+			this.startModelChange()
 			this.addCommand(command);
 			this.modelSVGWidgetUpdate(id, pos, props);
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
 			// FIXME: calling this.renderWidget(widget, 'props') will not update the bounding box
 			this.render()
+			this.commitModelChange(true, true)
 			return widget
 		}
 	}
@@ -242,10 +247,12 @@ export default class SVGController extends DesignToken {
       
 		const command = this.createSVGWidgePropstUpdateCommand(id, props);
 		if(command){
+			this.startModelChange()
 			this.addCommand(command);
 			this.modelSVGWidgetPropsUpdate(id, props);
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
 			this.render()
+			this.commitModelChange()
 			return widget
 		}
 	}

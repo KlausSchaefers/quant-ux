@@ -33,6 +33,7 @@ export default class Widget extends Snapp {
 	addInheritedWidget (widget, pos, targetScreen){
 		this.logger.log(-1,"addInheritedWidget", "enter > "+ widget.id) ;
 
+		this.startModelChange()
 		// like onCopyWidget
 		var newWidget = this._copyWidget(widget, targetScreen);
 		newWidget.copyOf = widget.id;
@@ -61,6 +62,7 @@ export default class Widget extends Snapp {
 
 		this.modelAddWidget(newWidget);
 		this.render();
+		this.commitModelChange(true, true)
 		return newWidget;
 	}
 
@@ -230,6 +232,7 @@ export default class Widget extends Snapp {
 	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies){
 		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
 	
+		this.startModelChange()
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
@@ -353,12 +356,15 @@ export default class Widget extends Snapp {
 			return {type: 'widget', action:"change", "prop": "position", id: id}
 		}))
 
+		this.commitModelChange(true, true)
+
 		return positions
 	}
 
 	removeMultiWidget (selection){
 		this.logger.log(1,"removeMultiWidget", "enter > ", selection);
 		this.unSelect();
+		this.startModelChange()
 
 		let command = {
 			timestamp: new Date().getTime(),
@@ -390,6 +396,7 @@ export default class Widget extends Snapp {
 		
 		this.addCommand(command);
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 	/**********************************************************************
@@ -411,7 +418,7 @@ export default class Widget extends Snapp {
 		if(widget && widget.name!= value){
 
 			this.logger.log(-1,"setWidgetName", "enter > " + id + " > " + value);
-
+			this.startModelChange()
 			const command = {
 				timestamp : new Date().getTime(),
 				type : "WidgetName",
@@ -425,6 +432,7 @@ export default class Widget extends Snapp {
 			 * do the model update
 			 */
 			this.modelWidgetName(id, value);
+			this.commitModelChange(false, true)
 		}
 
 	}
@@ -519,6 +527,7 @@ export default class Widget extends Snapp {
 	updateWidgetPosition (id, pos, fromToolbar, hasCopies){
 		this.logger.log(1,"updateWidgetPosition", "enter > " + id );
 
+		this.startModelChange()
 		const command = this.createWidgetPositionCommand(id, pos,fromToolbar, true);
 		this.addCommand(command);
 
@@ -562,6 +571,7 @@ export default class Widget extends Snapp {
 		}
 
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'position', action:'change'}])
+		this.commitModelChange(true, true)
 		return pos;
 	}
 
@@ -677,10 +687,8 @@ export default class Widget extends Snapp {
 
 	updateWidgetProperties (id, props, type, doNotRender, forceCompleteRender = false){
 		this.logger.log(-1,"updateWidgetProperties", "enter > " + type+ " > doNotRender: "+ doNotRender);
+		this.startModelChange()
 
-		/**
-		* make command
-		*/
 		const widget = this.model.widgets[id];
 		const command = this.createWidgetPropertiesCommand(id, props, type);
 		const inlineEdit = this.getInlineEdit();
@@ -689,7 +697,6 @@ export default class Widget extends Snapp {
 			this.modelWidgetPropertiesUpdate(id, props, type, doNotRender);
 		}
 	
-
 		if(!doNotRender){
 			// fast if not templates
 			this.renderWidget(widget, type);
@@ -706,7 +713,7 @@ export default class Widget extends Snapp {
 		}
 
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
-
+		this.commitModelChange(true, true)
 	}
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){
@@ -768,6 +775,7 @@ export default class Widget extends Snapp {
 	addWidget (model, pos, fromTool){
 		this.logger.log(0,"addWidget", "enter > " + fromTool);
 
+		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 		const targetScreen = this.getHoverScreen(pos);
 
@@ -814,7 +822,7 @@ export default class Widget extends Snapp {
 				this.showError("Great! A new widget was added, but is does not belong to any screen! It will not be shown in the simulator.");
 			}
 		}
-
+		this.commitModelChange(true, true)
 		return widget;
 	}
 
@@ -906,12 +914,14 @@ export default class Widget extends Snapp {
 		this.logger.log(3,"removeWidget", "enter > " +id);
 		const widget = this.model.widgets[id];
 		if (widget) {
+			this.startModelChange()
 			const command = this.createWidgetRemoveCommand(id);
 			this.addCommand(command);
 			this.unSelect();
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'remove'}])
 			this.modelRemoveWidgetAndLines(command.model, command.lines, command.refs, false, command.group);
 			this.render();
+			this.commitModelChange(true, true)
 		}
 		
 	}
@@ -1113,6 +1123,7 @@ export default class Widget extends Snapp {
 	addMultiImageWidgets (widgets, parentScreen){
 		this.logger.log(0,"addMultiImageWidgets", "enter > " + parentScreen.name);
 
+		this.startModelChange()
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
@@ -1125,10 +1136,10 @@ export default class Widget extends Snapp {
 			/**
 				* Set id
 				*/
-			var widget = widgets[i];
+			const widget = widgets[i];
 
-			var img = widget.style.backgroundImage;
-			var scaleRatio = img.h / img.w;
+			const img = widget.style.backgroundImage;
+			const scaleRatio = img.h / img.w;
 
 			widget.id = "w"+this.getUUID();
 			widget.z = z + 1 + i
@@ -1143,27 +1154,19 @@ export default class Widget extends Snapp {
 
 			widget.h = Math.floor(widget.w * scaleRatio);
 
-
-			/**
-				* Create Child Command
-				*/
-			var child = {
+			const child = {
 				timestamp : new Date().getTime(),
 				type : "AddWidget",
 				model : widget
 			};
 			command.children.push(child);
-
-			/**
-				* update model
-				*/
 			this.modelAddWidget(widget);
 		}
 
 		this.addCommand(command);
 
 		this.render();
-
+		this.commitModelChange(true, true)
 	}
 
 	/**********************************************************************
@@ -1172,7 +1175,7 @@ export default class Widget extends Snapp {
 
 	setWidgetLayers (zValues){
 		this.logger.log(0,"setWidgetLayers", "enter > ");
-
+		this.startModelChange()
 		const old = {};
 		const widgets = this.model.widgets;
 		for(var id in widgets){
@@ -1193,6 +1196,7 @@ export default class Widget extends Snapp {
 		this.addCommand(command);
 		this.modelWidgetLayers(zValues);
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 	modelWidgetLayers (zValues){

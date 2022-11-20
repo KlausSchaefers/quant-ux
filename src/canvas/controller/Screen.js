@@ -13,13 +13,13 @@ export default class Screen extends CopyPaste {
 	updateScreenRulerProps (screenID, rulerID, props) {
 		this.logger.log(0,"updateScreenRulerProps", "enter > screen : " + rulerID + "@" + screenID + " > " + props.sticky);
 
-		var screen = this.model.screens[screenID];
+		const screen = this.model.screens[screenID];
 
 		if(screen && screen.rulers) {
 			let oldRuler = screen.rulers.find(r => r.id === rulerID)
 			if (oldRuler){
-
-				var command = {
+				this.startModelChange()
+				const command = {
 					timestamp : new Date().getTime(),
 					type : "ScreenRulerPropertyUpdate",
 					o: oldRuler.props,
@@ -30,6 +30,7 @@ export default class Screen extends CopyPaste {
 				this.addCommand(command);
 				this.modelScreenRulerPropsUpdate(screenID, rulerID, props);
 				this.render();
+				this.commitModelChange(true, true)
 			}
 		}
 	}
@@ -69,6 +70,7 @@ export default class Screen extends CopyPaste {
 		if(screen && screen.rulers) {
 			let oldRuler = screen.rulers.find(r => r.id === rulerID)
 			if (oldRuler){
+				this.startModelChange()
 				const command = {
 					timestamp : new Date().getTime(),
 					type : "ScreenRulerUpdate",
@@ -80,6 +82,7 @@ export default class Screen extends CopyPaste {
 				this.addCommand(command);
 				this.modelScreenRulerUpdate(screenID, rulerID, v);
 				this.render();
+				this.commitModelChange(true, true)
 			}
 		}
 	}
@@ -92,6 +95,7 @@ export default class Screen extends CopyPaste {
 		if(screen && screen.rulers) {
 			let oldRuler = screen.rulers.find(r => r.id === ruler.id)
 			if (oldRuler){
+				this.startModelChange()
 				let v = 0
 				if (ruler.type === 'y') {
 					v = pos.y - screen.y
@@ -109,6 +113,7 @@ export default class Screen extends CopyPaste {
 				};
 				this.addCommand(command);
 				this.modelScreenRulerUpdate(screenID, ruler.id, v);
+				this.commitModelChange(true, true)
 				return this.getInheredRulers(screen)
 			}
 		}
@@ -162,9 +167,10 @@ export default class Screen extends CopyPaste {
 
 	removeScreenRuler (screenID, ruler) {
 		this.logger.log(0,"removeScreenRuler", "enter > screen : " + screenID + " > " + ruler.type);
-		var screen = this.model.screens[screenID];
+		const screen = this.model.screens[screenID];
 		if(screen && screen.rulers) {
-			var command = {
+			this.startModelChange()
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "ScreenRulerRemove",
 				ruler: ruler,
@@ -172,6 +178,7 @@ export default class Screen extends CopyPaste {
 			};
 			this.addCommand(command);
 			this.modelScreenRulerRemove(screenID, ruler);
+			this.commitModelChange(true, true)
 			return this.getInheredRulers(screen)
 		} else {
 			this.logger.error("removeScreenRuler", "enter > No screen : " + screenID + " > " + ruler.type);
@@ -196,21 +203,22 @@ export default class Screen extends CopyPaste {
 		this.logger.log(0,"addScreenRuler", "enter > screen : " + screenID + " > " + pos.y);
 
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
-		var screen = this.model.screens[screenID];
+		const screen = this.model.screens[screenID];
 
 		if(screen){
+			this.startModelChange()
 			let v = 0
 			if (type === 'y') {
 				v = pos.y - screen.y
 			} else {
 				v = pos.x - screen.x
 			}
-			let ruler = {
+			const ruler = {
 				id: 'sg' + this.getUUID(),
 				type: type,
 				v: v
 			}
-			var command = {
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "ScreenRulerAdd",
 				ruler : ruler,
@@ -218,6 +226,7 @@ export default class Screen extends CopyPaste {
 			};
 			this.addCommand(command);
 			this.modelScreenRulerAdd(screenID, ruler);
+			this.commitModelChange(true, true)
 			return this.getInheredRulers(screen)
 		}
 	}
@@ -284,11 +293,11 @@ export default class Screen extends CopyPaste {
 
 	setScreenAnimation (screenID, eventType, animation){
 		this.logger.log(0,"setScreenAnimation", "enter > screen : " +screenID + " >" +eventType);
-		var screen = this.model.screens[screenID];
+		const screen = this.model.screens[screenID];
 		if(screen){
-
-			var oldAnimation = this.getScreenAnimation(screen, eventType);
-			var command = {
+			this.startModelChange()
+			const oldAnimation = this.getScreenAnimation(screen, eventType);
+			const command = {
 				timestamp : new Date().getTime(),
 				type : "ScreenAnimation",
 				o : oldAnimation,
@@ -298,6 +307,7 @@ export default class Screen extends CopyPaste {
 			};
 			this.addCommand(command);
 			this.modelScreenAnimation(screenID, eventType, animation);
+			this.commitModelChange(false, true)
 		}
 	}
 	modelScreenAnimation (screenID, eventType, animation){
@@ -327,16 +337,16 @@ export default class Screen extends CopyPaste {
 	 **********************************************************************/
 	setScreenSize (newScreenSize){
 		this.logger.log(0,"setScreenSize", "enter > screen : " + newScreenSize.screenSize.w + "x" + newScreenSize.screenSize.h);
+		this.startModelChange()
 
-
-		var oldScreenSize =  {
+		const oldScreenSize =  {
 			type : this.model.type,
 			screenSize : {
 				w : this.model.screenSize.w,
 				h : this.model.screenSize.h
 			}
 		};
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "ScreenSize",
 			o : oldScreenSize,
@@ -344,11 +354,8 @@ export default class Screen extends CopyPaste {
 		};
 
 		this.addCommand(command);
-
-		/**
-		 * do the model update
-		 */
 		this.modelScreenSize(newScreenSize, false);
+		this.commitModelChange(false, true)
 	}
 
 	modelScreenSize (value, updateWidgets){
@@ -416,6 +423,7 @@ export default class Screen extends CopyPaste {
 
 		const screen = this.model.screens[id];
 		if(screen && screen.name!= value){
+			this.startModelChange()
 			this.logger.log(0,"setScreenName", "enter > screen.id : " + id + " > "+ value);
 			const command = {
 				timestamp : new Date().getTime(),
@@ -432,6 +440,7 @@ export default class Screen extends CopyPaste {
 			this.modelScreenName(id, value);
 
 			this.renderScreen(screen);
+			this.commitModelChange(true, true)
 		}
 	}
 
@@ -459,7 +468,7 @@ export default class Screen extends CopyPaste {
 
 		const screen = this.model.screens[id];
 		if (screen) {
-
+			this.startModelChange()
 			/**
 			 * Resizing might cause the stupid 1px bug. If we do not move,
 			 * we keep x and y stable
@@ -515,13 +524,15 @@ export default class Screen extends CopyPaste {
 			 * do the model update
 			 */
 			this.modelScreenUpdate(id, pos, isMove);
+			this.commitModelChange(true, true)
 		}
 	}
 
 	updateScreenWidthAndHeight (id, pos) {
 		this.logger.log(0,"updateScreenWidthAndHeight", "enter > screen.id : " + id + " > " +pos.w + "/"+pos.h);
 
-		var screen = this.model.screens[id];
+		this.startModelChange()
+		const screen = this.model.screens[id];
 
 		/**
 		 * zooming can make width or height to small.
@@ -542,8 +553,8 @@ export default class Screen extends CopyPaste {
 		/**
 		 * create the command
 		 */
-		var delta = this.getDeltaBox(screen, pos);
-		var command = {
+		const delta = this.getDeltaBox(screen, pos);
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "ScreenPosition",
 			delta :delta,
@@ -558,6 +569,7 @@ export default class Screen extends CopyPaste {
 		this.modelScreenUpdate(id, pos, false);
 
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 	modelScreenUpdate (id, pos, updateChildren){
@@ -613,9 +625,9 @@ export default class Screen extends CopyPaste {
 
 	setScreenSegment (id, isSegment) {
 		this.logger.log(-1, "setScreenSegment", "enter > " + id + " > " +  isSegment);
-
-		var screen = this.model.screens[id];
-		var command = {
+		this.startModelChange()
+		const screen = this.model.screens[id];
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "ScreenSegement",
 			delta : {
@@ -628,6 +640,7 @@ export default class Screen extends CopyPaste {
 		this.modelScreenSegement(id, isSegment);
 		this.onModelChanged([{type: 'screen', action:"change", id: id}])
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 	modelScreenSegement (id, isSegment) {
@@ -665,11 +678,9 @@ export default class Screen extends CopyPaste {
 
 	setScreenParent (id, parents){
 		this.logger.log(0,"setScreenParent", "enter > " + id + " > " +  parents.length);
-
-
-
-		var screen = this.model.screens[id];
-		var command = {
+		this.startModelChange()
+		const screen = this.model.screens[id];
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "ScreenParent",
 			delta : {
@@ -680,8 +691,7 @@ export default class Screen extends CopyPaste {
 		};
 		this.addCommand(command);
 		this.modelScreenParentUpdate(id, parents);
-
-
+		this.commitModelChange(true, true)
 	}
 
 	modelScreenParentUpdate (id, parents){
@@ -713,10 +723,10 @@ export default class Screen extends CopyPaste {
 	 **********************************************************************/
 	updateScreenProperties (id, props, type){
 		this.logger.log(0,"updateScreenProperties", "enter > " + props);
-
-		var screen = this.model.screens[id];
-		var delta = this.getDelta(screen[type], props);
-		var command = {
+		this.startModelChange()
+		const screen = this.model.screens[id];
+		const delta = this.getDelta(screen[type], props);
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "ScreenProperties",
 			delta :delta,
@@ -728,6 +738,7 @@ export default class Screen extends CopyPaste {
 		if(type == "style"){
 			this.renderScreen(screen);
 		}
+		this.commitModelChange(true, true)
 	}
 
 	modelScreenPropertiesUpdate (id, props, type){
@@ -763,7 +774,7 @@ export default class Screen extends CopyPaste {
 
 	updateScreenStart (id, props){
 		this.logger.log(0,"updateScreenStart", "enter > " + id);
-
+		this.startModelChange()
 
 		/**
 		 * make command
@@ -786,6 +797,7 @@ export default class Screen extends CopyPaste {
 
 		this.addCommand(command);
 		this.modelScreenStartUpdate(id, props.start);
+		this.commitModelChange(false, true)
 	}
 
 	modelScreenStartUpdate (id,start){
@@ -831,8 +843,8 @@ export default class Screen extends CopyPaste {
 
 	addMultiScreens (screens, fitToBackground){
 		this.logger.log(0,"addMultiScreens", "enter > " + fitToBackground);
-
-		var command = {
+		this.startModelChange()
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "MultiCommand",
 			label : "AddMultiScreens",
@@ -885,7 +897,7 @@ export default class Screen extends CopyPaste {
 			/**
 			 * Create Child Command
 			 */
-			var child = {
+			const child = {
 				timestamp : new Date().getTime(),
 				type : "AddScreen",
 				model : screen
@@ -901,6 +913,7 @@ export default class Screen extends CopyPaste {
 		}
 		this.addCommand(command);
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 	/**********************************************************************
@@ -975,6 +988,7 @@ export default class Screen extends CopyPaste {
 
 	updateScreensAndWidgets (result){
 		this.logger.log(0,"updateScreensAndWidgets", "enter > ");
+		this.startModelChange()
 
 		var importedWidgets = this.getImportedWidget(this.model);
 		var importedScreens = this.getImportedScreens(this.model);
@@ -1085,7 +1099,7 @@ export default class Screen extends CopyPaste {
 		/**
 		 * 5) add new stuff create the command
 		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "AddAndUpdateScreenAndWidgets",
 			app : app,
@@ -1102,6 +1116,7 @@ export default class Screen extends CopyPaste {
 		this.modelAddAndUpdateScreenAndWidgets(app, updateWidgets,updateScreens,updateGroups );
 
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 	modelAddAndUpdateScreenAndWidgets (app, updateWidgets,updateScreens, updateGroups ){
@@ -1185,9 +1200,8 @@ export default class Screen extends CopyPaste {
 
 	addScreensAndWidgets (result, pos){
 		this.logger.log(-1,"addScreensAndWidgets", "enter > ", pos);
-
-		var app = this._createScreenAndWidgets(result);
-
+		this.startModelChange()
+		const app = this._createScreenAndWidgets(result);
 		if (pos) {
 			this.logger.log(-1,"addScreensAndWidgets", "fix position", pos);
 			pos = this.getUnZoomedBox(pos, this.getZoomFactor());
@@ -1207,20 +1221,15 @@ export default class Screen extends CopyPaste {
 				})
 			}
 		}
-
-		/**
-		 * create the command
-		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "AddScreenAndWidgets",
 			model : app
 		};
 		this.addCommand(command);
-
 		this.modelAddScreenAndWidgets(app);
-
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 
@@ -1445,7 +1454,7 @@ export default class Screen extends CopyPaste {
 	 **********************************************************************/
 
 	addScreen (screen, pos){
-
+		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
 
 		screen.id = "s"+this.getUUID();
@@ -1456,7 +1465,7 @@ export default class Screen extends CopyPaste {
 				h : this.model.screenSize.h
 		};
 
-		var count =  Object.keys(this.model.screens).length
+		const count =  Object.keys(this.model.screens).length
 
 		screen.name ="Screen " + count;
 
@@ -1473,7 +1482,7 @@ export default class Screen extends CopyPaste {
 		/**
 		 * create the command
 		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "AddScreen",
 			model : screen
@@ -1484,8 +1493,7 @@ export default class Screen extends CopyPaste {
 		 * update model
 		 */
 		this.modelAddScreen(screen);
-
-
+		this.commitModelChange(true, true)
 
 		return screen;
 	}
@@ -1532,16 +1540,13 @@ export default class Screen extends CopyPaste {
 
 	removeScreen (id){
 		this.logger.log(3,"removeScreen", "enter > " +id);
+		this.startModelChange()
 
-		var screen = this.model.screens[id];
-
-		var lines = this.getLines(screen, true);
-
-		var widgets = this.getModelChildren(screen);
-
-		var groups = this.getGroupsForWidgets(widgets);
-
-		var command = {
+		const screen = this.model.screens[id];
+		const lines = this.getLines(screen, true);
+		const widgets = this.getModelChildren(screen);
+		const groups = this.getGroupsForWidgets(widgets);
+		const command = {
 				timestamp : new Date().getTime(),
 				type : "RemoveScreen",
 				screen :screen,
@@ -1554,6 +1559,7 @@ export default class Screen extends CopyPaste {
 		this.unSelect();
 		this.modelRemoveScreenAndWidgetAndLines(screen, widgets, lines, groups);
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 
@@ -1668,9 +1674,9 @@ export default class Screen extends CopyPaste {
 
 	 importApp (importModel, pos){
 		this.logger.log(-1,"importApp", "enter > ", pos);
-
-		let changes = ImportUtil.mergeModel(this.model, importModel, pos)
-		var command = {
+		this.startModelChange()
+		const changes = ImportUtil.mergeModel(this.model, importModel, pos)
+		const command = {
 				timestamp : new Date().getTime(),
 				type : "ImportApp",
 				changes: changes
@@ -1679,6 +1685,7 @@ export default class Screen extends CopyPaste {
 		this.addCommand(command);
 		this.onModelChanged(changes);
 		this.render();
+		this.commitModelChange(true, true)
 	}
 
 	modelRemoveImportedChanges (changes) {

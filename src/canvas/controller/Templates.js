@@ -25,7 +25,7 @@ export default class Templates extends BaseController{
 		if (this.model.groups && this.model.groups[groupId]){ 
 			const group = this.model.groups[groupId]
 			if (group.template && this.model.templates[group.template]) {
-			
+				this.startModelChange()
 				const groupTemplate = this.model.templates[group.template]
 
 				const command = {
@@ -63,7 +63,7 @@ export default class Templates extends BaseController{
 				this.onLayerListChange()
 				this.showSuccess("The template "  + groupTemplate.name + " was updated.");
 				this.render()
-
+				this.commitModelChange()
 			} else {
 				this.logger.log(-1,"updateGroupTemplateStyle", "Group is not template > " + groupId, group);
 			}
@@ -486,6 +486,7 @@ export default class Templates extends BaseController{
 		if (this.model.widgets[id]){
 			const widget = this.model.widgets[id]
 			if (widget.template && this.model.templates[widget.template]) {
+				this.startModelChange()
 				const template = this.model.templates[widget.template];
 				const resizes = this.getWidgetTemplateResize(updatePositons, template, widget)
 				const command = {
@@ -500,6 +501,7 @@ export default class Templates extends BaseController{
 				this.addCommand(command);
 				this.modelUpdateTemplate(command, true);
 				this.showSuccess("The template "  + template.name + " was updated.");
+				this.commitModelChange()
 			} else {
 				this.logger.error("updateTemplateStyle", "No template > " + widget.template);
 			}
@@ -802,10 +804,10 @@ export default class Templates extends BaseController{
 
 	addTemplateWidget (widget, name, description){
 		this.logger.log(0,"addTemplateWidget", "enter > " + name);
+		this.startModelChange()
+		const template = this._createWidgetTemplate(widget, true, name, description);
 
-		var template = this._createWidgetTemplate(widget, true, name, description);
-
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "CreateTemplate",
 			models : [template],
@@ -815,7 +817,7 @@ export default class Templates extends BaseController{
 		this.modelAddTemplate([template],[widget.id]);
 		this.updateCreateWidget();
 		this.onLayerListChange()
-
+		this.commitModelChange(true, true)
 		this.showSuccess("The template "  + name + " was created. You can find it in the Create menu");
 	}
 
@@ -943,6 +945,7 @@ export default class Templates extends BaseController{
 		this.logger.log(-1,"addNestedTemplateGroup", "enter > " + name);
 		// keep this method, because of legacy commands!
 
+		this.startModelChange()
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "CreateTemplate",
@@ -998,6 +1001,7 @@ export default class Templates extends BaseController{
 		this.modelAddTemplate(command.models,command.widgets,command.group, command.groupID);
 		this.updateCreateWidget();
 		this.onLayerListChange()
+		this.commitModelChange(true, true)
 	}
 
 	_createSubGroupTemplates (template, group, parentID, name, template2Widget) {
@@ -1249,6 +1253,7 @@ export default class Templates extends BaseController{
 			this.logger.log(-1,"unlinkTemplate", "No template with id  ", element.template);
 			return
 		}
+		this.startModelChange()
 
 		let childrenTemplateIds = []
 		let childGroupTemplateIds = []
@@ -1307,6 +1312,7 @@ export default class Templates extends BaseController{
 		this.addCommand(command);
 
 		this.render()
+		this.commitModelChange(true, true)
 	}
 
 	modelUnlinkTemplate (id, isGroup = false, childrenTemplateIds, childGroupTemplateIds) {
@@ -1494,11 +1500,12 @@ export default class Templates extends BaseController{
 			this.logger.log(0,"removeAndUnlinkTemplate", "No template with id  " + id);
 			return
 		}
-
+		this.startModelChange()
 		const command = this.createRemoveAndUnlinkTemplateCommand(id)
 		this.modelRemoveAndUnlinkTemplate(command.templates)
 		this.addCommand(command);
 		this.render()
+		this.commitModelChange(true, true)
 	}
 
 	createRemoveAndUnlinkTemplateCommand (id) {

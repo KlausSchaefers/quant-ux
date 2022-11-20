@@ -340,6 +340,7 @@ class ModelUtil {
         for (let id in model.widgets) {
             const widget = model.widgets[id]
             const zoomedWidget = this.getZoomedBoxFast(widget,zoom, zoom)
+            zoomedWidget.z = widget.z
             if (widget.style.locked) {
                 zoomedWidget.style = {
                     locked: widget.style.locked
@@ -409,6 +410,7 @@ class ModelUtil {
    
 
     createScalledModel(model, zoom, round = true) {
+        console.error('DEPRECATED: ModelUtil.createScalledModel()')
 
         if (!round) {
             Logger.log(1, 'ModelUtil.createScalledModel() > do not round!')

@@ -10,15 +10,17 @@ export default class DesignToken extends Widget{
 	addDesignToken (id, tokenType, cssProps, cssState, name, modelType) {
 		this.logger.log(-1,"addDesignToken", "enter > " + id, tokenType, cssProps);
 
+	
 		let token = this.modelAddDesignToken(id, tokenType, cssProps,cssState, name, modelType)
 		if (!token) {
 			return
 		}
+		this.startModelChange()
 
 		/**
 		 * make command
 		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "AddDesignToken",
 			modelId: id,
@@ -32,6 +34,7 @@ export default class DesignToken extends Widget{
 
 		this.addCommand(command);
 		this.render();
+		this.commitModelChange()
 
 		this.logger.log(-1,"addDesignToken", "exit");
 	}
@@ -108,7 +111,7 @@ export default class DesignToken extends Widget{
 
 	unlinkDesignToken (id, tokenId, cssState, modelType) {
 		this.logger.log(-1,"unlinkDesignToken", "enter > " + id, tokenId);
-
+		this.startModelChange()
 		let cssProps = this.modelUnLinkDesignToken(id, tokenId, cssState, modelType)
 		/**
 		 * make command
@@ -125,6 +128,7 @@ export default class DesignToken extends Widget{
 
 		this.addCommand(command);
 		this.render();
+		this.commitModelChange()
 		this.logger.log(-1,"unlinkDesignToken", "exit");
 	}
 
@@ -195,13 +199,13 @@ export default class DesignToken extends Widget{
 	linkDesignToken (id, tokenId, cssState, cssProps, modelType) {
 		this.logger.log(-1,"linkDesignToken", "enter > " + id, tokenId);
 
-
+		this.startModelChange()
 		this.modelLinkDesignToken(id, tokenId, cssState, cssProps, modelType)
 
 		/**
 		 * make command
 		 */
-		 var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "LinkDesignToken",
 			modelId: id,
@@ -213,7 +217,7 @@ export default class DesignToken extends Widget{
 
 		this.addCommand(command);
 		this.render();
-
+		this.commitModelChange()
 		this.logger.log(-1,"unlinkDesignToken", "exit");
 	}
 
@@ -280,12 +284,9 @@ export default class DesignToken extends Widget{
 			return
 		}
 
-		let token = this.model.designtokens[id]
-
-		/**
-		 * make command
-		 */
-		 var command = {
+		this.startModelChange()
+		const token = this.model.designtokens[id]
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "UpdateDesignToken",
 			modelId: id,
@@ -302,6 +303,7 @@ export default class DesignToken extends Widget{
 		this.modelUpdateDesignToken(id, name, value)
 		this.addCommand(command);
 		this.render();
+		this.commitModelChange()
 
 		this.logger.log(-1,"updateDesignToken", "exit");
 	}

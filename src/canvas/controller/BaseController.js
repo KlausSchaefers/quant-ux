@@ -307,6 +307,14 @@ export default class BaseController extends Core {
 		this.emit('change', this.model)
 	}
 
+	startModelChange () {
+		this._modelChanges = []
+	}
+
+	commitModelChange () {
+		this.logger.log(-1,"commitModelChange", "enter");
+	}
+
 	getInheritedModel (model) {
 		//console.trace()
 		console.time("getInheritedModel")
@@ -735,6 +743,7 @@ export default class BaseController extends Core {
 	 **********************************************************************/
 
 	removeGrid (){
+		this.startModelChange()
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "SetGrid",
@@ -744,10 +753,11 @@ export default class BaseController extends Core {
 		this.addCommand(command);
 		this.modelSetGrid(null);
 		this.render();
+		this.commitModelChange()
 	}
 
 	setGrid (width, height, color, style,visible, enabled){
-
+		this.startModelChange()
 		/**
 		 * create the command
 		 */
@@ -768,10 +778,11 @@ export default class BaseController extends Core {
 		this.addCommand(command);
 		this.modelSetGrid(grid);
 		this.render();
+		this.commitModelChange()
 	}
 
 	setGrid2 (grid, color, style){
-
+		this.startModelChange()
 		/**
 		 * mixing color
 		 */
@@ -786,6 +797,7 @@ export default class BaseController extends Core {
 		this.addCommand(command);
 		this.modelSetGrid(grid);
 		this.render();
+		this.commitModelChange()
 	}
 
 	modelSetGrid (grid){
@@ -809,6 +821,7 @@ export default class BaseController extends Core {
 	 **********************************************************************/
 
 	addAction (widgetID, action, isGroup){
+		this.startModelChange()
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "AddAction",
@@ -818,6 +831,7 @@ export default class BaseController extends Core {
 		};
 		this.addCommand(command);
 		this.modelAddAction(widgetID, action, isGroup);
+		this.commitModelChange()
 	}
 
 	modelAddAction (widgetID, action, isGroup){
@@ -859,6 +873,7 @@ export default class BaseController extends Core {
 
 
 	removeAction (widgetID, action, isGroup){
+		this.startModelChange()
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveAction",
@@ -868,6 +883,7 @@ export default class BaseController extends Core {
 		};
 		this.addCommand(command);
 		this.modelRemoveAction(widgetID, action, isGroup);
+		this.commitModelChange(false, false)
 	}
 
 	modelRemoveAction (widgetID, action, isGroup){
@@ -908,6 +924,7 @@ export default class BaseController extends Core {
 	 * update Action
 	 **********************************************************************/
 	updateAction (widgetID, action, isGroup) {
+		this.startModelChange()
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "ActionAction",
@@ -918,6 +935,7 @@ export default class BaseController extends Core {
 		};
 		this.addCommand(command);
 		this.modelUpdateAction(widgetID, action, isGroup);
+		this.commitModelChange(false, false)
 	}
 
 	getActionById (id, isGroup) {
@@ -970,7 +988,7 @@ export default class BaseController extends Core {
 	 **********************************************************************/
 
 	addLine (line){
-
+		this.startModelChange()
 		/**
 		 * here comes already the correct model.
 		 * we do not have to do anything more,
@@ -996,12 +1014,8 @@ export default class BaseController extends Core {
 		 * update model
 		 */
 		this.modelAddLine(line);
-
 		this.render();
-
-		if(this.toolbar){
-			//this.toolbar.showLineAction(line)
-		}
+		this.commitModelChange()
 	}
 
 	modelAddLine (line){
@@ -1041,23 +1055,16 @@ export default class BaseController extends Core {
 	 **********************************************************************/
 
 	removeLine (line){
-
-		/**
-		 * create the command
-		 */
+		this.startModelChange()
 		const command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveLine",
 			model : line
 		};
 		this.addCommand(command);
-
-		/**
-		 * update model
-		 */
 		this.modelRemoveLine(line);
-
 		this.render();
+		this.commitModelChange()
 	}
 
 	undoRemoveLine (command){
@@ -1087,6 +1094,7 @@ export default class BaseController extends Core {
 		 */
 		const line = this.model.lines[id];
 		if (line.points[i]) {
+			this.startModelChange()
 			const point = line.points[i];
 			const command = {
 				timestamp : new Date().getTime(),
@@ -1100,6 +1108,7 @@ export default class BaseController extends Core {
 			};
 			this.addCommand(command);
 			this.modelLinePointPosition(id, i, pos);
+			this.commitModelChange()
 		}
 	
 	}
@@ -1133,6 +1142,7 @@ export default class BaseController extends Core {
 
 		const line = this.model.lines[id];
 		if (line) {
+			this.startModelChange()
 			var command = {
 				timestamp : new Date().getTime(),
 				type : "LineProperties",
@@ -1146,6 +1156,7 @@ export default class BaseController extends Core {
 			this.addCommand(command);
 			this.modelLineProperties(id, key, value);
 			this.render();
+			this.commitModelChange()
 		} else {
 			console.warn("updateLineProperties() > No line with id " + id);
 		}
@@ -1183,6 +1194,7 @@ export default class BaseController extends Core {
 		this.logger.log(0,"updateLineAllProperties", "enter >key : " + id );
 		const line = this.model.lines[id];
 		if(line){
+			this.startModelChange()
 			const command = {
 				timestamp : new Date().getTime(),
 				type : "LineAllProperties",
@@ -1195,6 +1207,7 @@ export default class BaseController extends Core {
 			this.addCommand(command);
 			this.modelLineAllProperties(id, newLine);
 			this.render();
+			this.commitModelChange()
 		} else {
 			console.warn("updateLineAllProperties() > No line with id " + id);
 		}
@@ -1434,6 +1447,7 @@ export default class BaseController extends Core {
 				pos : this.commandStack.pos - 1
 			}
 			this.onUndoCompleted(result);
+
 		}
 		if(this.commandStack.pos <= 0){
 			if(this.toolbar){
@@ -1451,7 +1465,9 @@ export default class BaseController extends Core {
 			this.logger.log(0,"onUndoCompleted", "enter > "+ command.id);
 			if (this["undo" + command.type]) {
 				try{
+					this.startModelChange()
 					this["undo"+ command.type](command);
+					this.commitModelChange()
 				} catch(e){
 					console.debug(e.stack);
 				}
@@ -1504,7 +1520,9 @@ export default class BaseController extends Core {
 		this.logger.log(2,"unRedoCompleted", "enter > "+ command.id);
 		if(this["redo" + command.type]){
 			try{
+				this.startModelChange()
 				this["redo"+ command.type](command);
+				this.commitModelChange()
 			}catch(e){
 				console.debug(e.stack);
 			}

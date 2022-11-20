@@ -10,12 +10,13 @@ export default class Layer extends Templates {
 
 	normalilizeZvalues () {
 		this.logger.log(-1,"normalilizeZvalues", "entry > Widgets: ");
-
+		this.startModelChange()
 		let command = this.createNormalizeZValuesCommand()
 		this.modelWidgetLayers(command.n)
 		this.addCommand(command)
 		this.onModelChanged([]); // FIXME
 		this.render()
+		this.commitModelChange(true, true)
 	}
 
 	createNormalizeZValuesCommand (model) {
@@ -61,7 +62,7 @@ export default class Layer extends Templates {
 
 	changeLayer (from, to){
 		this.logger.log(1,"changeLayer", "entry > Widgets: ", from, to);
-
+		this.startModelChange()
 		if (from.screenID != to.screenID){
 			this.logger.error("changeLayer", "Screen ids not equal");
 			this.showError('Widgets can be moved only in the same screen!')
@@ -77,6 +78,7 @@ export default class Layer extends Templates {
 
 		const changes = this.getLayerChanges(command.n, command.ng)
 		this.checkTemplateAutoUpdate(changes)
+		this.commitModelChange(false, true)
 	}
 
 	createChangeLayerCommand (from, to){

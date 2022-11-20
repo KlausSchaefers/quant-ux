@@ -11,6 +11,7 @@ export default class Group extends Layer {
 
 		const group = this.model.groups[id]
 		if (group) {
+			this.startModelChange()
 			const old = group.props ? group.props.hidden : false
 
 			const command = {
@@ -23,6 +24,7 @@ export default class Group extends Layer {
 
 			this.modelUpdateGroupHidden(id, hidden)
 			this.addCommand(command);
+			this.commitModelChange()
 		} else {
 			this.logger.warn("updateGroup", "could not find group > " + id);
 		}
@@ -69,6 +71,7 @@ export default class Group extends Layer {
 
 		const group = this.model.groups[id]
 		if (group) {
+			this.startModelChange()
 			const old = group[type] ? group[type][key] : null
 
 			const command = {
@@ -83,6 +86,7 @@ export default class Group extends Layer {
 
 			this.modelUpdateGroup(id, type, key, value)
 			this.addCommand(command);
+			this.commitModelChange(false, true)
 		} else {
 			this.logger.warn("updateGroup", "could not find group > " + id);
 		}
@@ -119,7 +123,7 @@ export default class Group extends Layer {
 	updateMultiProperties (ids, props, type){
 		this.logger.log(1,"updateMultiProperties", "enter > " + type, props);
 
-
+		this.startModelChange()
 		/**
 		 * 1) create multi command
 		 */
@@ -170,7 +174,7 @@ export default class Group extends Layer {
 		this.checkTemplateAutoUpdate(ids.map(id => {
 			return {id: id, type:'widget', prop:'props', action:'change'}
 		}))
-
+		this.commitModelChange()
 	}
 
 	alignGroup (direction){
@@ -184,7 +188,7 @@ export default class Group extends Layer {
 
 	addGroupByTheme (themedGroup, pos){
 		this.logger.log(0,"addGroupByTheme", "enter > "+ themedGroup.id);
-
+		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
 
@@ -252,7 +256,7 @@ export default class Group extends Layer {
 
 		this.onModelChanged([]);
 		this.render();
-
+		this.commitModelChange()
 	}
 
 	/**********************************************************************
@@ -268,7 +272,7 @@ export default class Group extends Layer {
 		const groupTemplate = this.model.templates[group.template];
 	
 		if(groupTemplate){
-
+			this.startModelChange()
 			/**
 			 * 1) create mutli command
 			 */
@@ -368,6 +372,7 @@ export default class Group extends Layer {
 
 			this.onModelChanged([]);
 			this.render();
+			this.commitModelChange()
 		}
 	}
 
@@ -422,9 +427,9 @@ export default class Group extends Layer {
 		}
 
 		if(this.model.groups && this.model.groups[id]){
-
-			var group = this.model.groups[id];
+			const group = this.model.groups[id];
 			if(group.name != value){
+				this.startModelChange()
 				this.logger.log(4,"setGroupName", "enter " + id+ " " + value);
 				var command = {
 					timestamp : new Date().getTime(),
@@ -439,6 +444,7 @@ export default class Group extends Layer {
 				 * do the model update
 				 */
 				this.modelGroupName(id, value);
+				this.commitModelChange(false, true)
 			}
 
 		} else {
@@ -483,6 +489,7 @@ export default class Group extends Layer {
 	addGroup (selection){
 		this.logger.log(0,"addGroup", "enter ");
 
+		this.startModelChange()
 		/**
 		 * Since 2.1.3 we have sub groups:
 		 * Check that we do not have group of group!
@@ -539,6 +546,7 @@ export default class Group extends Layer {
 		// console.debug("Group.add() ", JSON.stringify(this.model.groups, null, 2))
 
 		this.render();
+		this.commitModelChange(false, true)
 
 		this.showSuccess("Group was created!");
 
@@ -623,12 +631,14 @@ export default class Group extends Layer {
 		this.logger.log(1, "removeGroup", "enter >> " + id);
 
 		if(this.model.groups && this.model.groups[id]) {
+			this.startModelChange()
 			var group = this.model.groups[id];
 			var command = this.createRemoveGroupCommand(group);
 			this.addCommand(command);
 			this.unSelect();
 			this.modelRemoveGroup(group, command.line);
 			this.render();
+			this.commitModelChange(false, true)
 		} else {
 			console.debug(this.model.groups);
 			console.warn("Could not remove group with " , id);
@@ -698,6 +708,7 @@ export default class Group extends Layer {
 
 
 		if(this.model.groups && this.model.groups[id]){
+			this.startModelChange()
 			const group = this.model.groups[id];
 
 			const command = {
@@ -752,6 +763,7 @@ export default class Group extends Layer {
 			this.unSelect();
 			this.onModelChanged([]);
 			this.render();
+			this.commitModelChange(true, true)
 		}
 	}
 }
