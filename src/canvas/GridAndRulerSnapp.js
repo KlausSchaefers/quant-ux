@@ -5,11 +5,11 @@ import Logger from 'common/Logger'
 import Core from 'core/Core'
 import ModelUtil from '../core/ModelUtil'
 
-export default class GridAndRuler extends Core {
+export default class GridAndRulerSnapp extends Core {
 
 	constructor() {
 		super()
-		this.logger = new Logger('GridAndRuler');
+		this.logger = new Logger('GridAndRulerSnapp');
 		this.logger.log(2, "constructor", "entry");
 		this.snappDistance = 8
 		this.fastSnappMouseVelcity = 10
@@ -60,7 +60,7 @@ export default class GridAndRuler extends Core {
 			this.adjustSnappDistanceToMouseSpeed = false
 			this.gridEnabled = true
 		}
-		this.logger.log(1, "start", "snappDistance " + this.snappDistance);
+		this.logger.log(-1, "start", "snappDistance " + this.snappDistance);
 
 		this.grid = grid;
 		this.model = canvas.model;
@@ -94,7 +94,7 @@ export default class GridAndRuler extends Core {
 		this._lines = {};
 		this._linesDivs = {};
 
-		this.logger.log(1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
+		this.logger.log(-1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
 	}
 
 	correct(absPos, e, mouse) {
@@ -215,15 +215,26 @@ export default class GridAndRuler extends Core {
 
 
 		/**
-		 * now compare all lines in the direction of and the middle
-		 *
-		 * FIXME: If we do dnd, for the grid we should only snapp
-		 * on north-west corner
+		 * now compare all lines. For grid we just take to top left corner
 		 */
-		const corners = this.getCorners(absPos, left, top);
+		const corners = this.getCorners(absPos, this.grid.enabled);
 		const closeXLine = this.getCloseLines(this._linesX, "x", corners.x);
 		const closeYLine = this.getCloseLines(this._linesY, "y", corners.y);
 
+		/**
+		 * Since 4.3.0 we include for none grid both sides. We have
+		 * to correct left and top, to make the snapping work in the controller
+		 */
+		if (!this.grid.enabled) {
+			if (closeXLine?.pos === 0) {	
+				left = true
+			}
+	
+			if (closeYLine?.pos === 0) {
+				top = true
+			}	
+		}
+	
 
 		/**
 		 * Get close middle lines. We handle this a little special:
@@ -262,6 +273,7 @@ export default class GridAndRuler extends Core {
 		this.hideLines();
 		this.hideBoxes();
 
+
 		/**
 		 * No show lines to snapp to
 		 */
@@ -275,13 +287,12 @@ export default class GridAndRuler extends Core {
 			y: 0
 		};
 
-
 		/**
 		 * Snapp X : Pattern lines have prio
 		 */
 		if (closeXPattern && closeXLine) {
 			let isBiggerX = Math.abs(closeXLine.dist) - Math.abs(closeXPattern.dist);
-			if (isBiggerX > 2) {
+			if (isBiggerX > 0) {
 				delete closeXPattern.snapp;
 				this.correctX(absPos, diff, closeXPattern);
 			} else {
@@ -317,7 +328,7 @@ export default class GridAndRuler extends Core {
 			// if we have a pattern and a close line, and the close line is
 			// < 2 we choose the close line, else we go for the pattern.
 			let isBiggerX = Math.abs(closeYLine.dist) - Math.abs(closeYPattern.dist);
-			if (isBiggerX > 2) {
+			if (isBiggerX > 0) {
 				delete closeYPattern.snapp;
 				this.correctY(absPos, diff, closeYPattern);
 			} else {
@@ -343,6 +354,7 @@ export default class GridAndRuler extends Core {
 			this.correctY(absPos, diff, closeYLine)
 		}
 
+
 		this.snapp(absPos, diff, this.activePoint);
 
 		/**
@@ -358,7 +370,6 @@ export default class GridAndRuler extends Core {
 				absPos.snapp.scale = true;
 			}
 		}
-
 
 		/**
 		 * Ensure we do not have negative snapping
@@ -397,6 +408,50 @@ export default class GridAndRuler extends Core {
 		this._lastTop = top;
 		this._lastLeft = left;
 		return absPos;
+	}
+
+
+	getCloseLines(lines, key, vales, ignoreType) {
+
+		let result = null;
+		let min = this.showDistance;
+		const weights = {
+			"Grid": 0,
+			"Widget": 0,
+			"Screen": 0,
+			"Pattern": 0
+		};
+
+		for (let id in lines) {
+			const line = lines[id];
+			if (!ignoreType || ignoreType != line.type) {
+				line.dist = 1000;
+				for (let i = 0; i < vales.length; i++) {
+					const v = vales[i];
+
+					/**
+					 * We add here a penalty of 10 pixel for Grid lines to avoid that the user
+					 * "fight" the grid. For example the snapp line of another widget is 5px away,
+					 * but the nearest grid is 4. Normally we would snapp to the grid and then on the
+					 * next mouse move only to the other widget. This is stupid. Therefore we add a penalty
+					 * of 10 px to the grid line. This means in "white" space the grid works, close to widgets
+					 * not.
+					 *
+					 * TODO: Also we should have here some kind of penalty of the widget that causes the line is
+					 * very far in the other axis...
+					 */
+					const cost = Math.abs(v - line[key]) + weights[line.type];
+					if (cost >= 0 && cost < min) {
+						min = cost;
+						result = line;
+						result.pos = i
+						result.dist = line[key] - v;
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 
 
@@ -1710,7 +1765,7 @@ export default class GridAndRuler extends Core {
 		return sum > 0;
 	}
 
-	getCorners(pos, left, top) {
+	getCorners(pos, isGrid) {
 
 		const corners = {
 			x: [],
@@ -1733,10 +1788,20 @@ export default class GridAndRuler extends Core {
 			 */
 			case "All":
 
-				var x = left ? pos.x : pos.x + pos.w;
-				corners.x.push(x);
-				var y = top ? pos.y : pos.y + pos.h;
-				corners.y.push(y);
+				/**
+				 * Since 4.3.0 we include for none grid both sides
+				 */
+				if (isGrid) {				
+					corners.x.push(pos.x);		
+					corners.y.push(pos.y);
+	
+				} else {
+					corners.x.push(pos.x);
+					corners.x.push(pos.x + pos.w)
+					corners.y.push(pos.y);
+					corners.y.push(pos.y + pos.h);
+				}
+
 
 				/**
 				 * Middle. Floor like in the controller Widget.js snappAll()
@@ -1888,48 +1953,6 @@ export default class GridAndRuler extends Core {
 		return absPos;
 	}
 
-
-	getCloseLines(lines, key, vales, ignoreType) {
-
-		let result = null;
-		let min = this.showDistance;
-		const weights = {
-			"Grid": 0,
-			"Widget": 0,
-			"Screen": 0,
-			"Pattern": 0
-		};
-
-		for (let id in lines) {
-			const line = lines[id];
-			if (!ignoreType || ignoreType != line.type) {
-				line.dist = 1000;
-				for (let i = 0; i < vales.length; i++) {
-					const v = vales[i];
-
-					/**
-					 * We add here a penalty of 10 pixel for Grid lines to avoid that the user
-					 * "fight" the grid. For example the snapp line of another widget is 5px away,
-					 * but the nearest grid is 4. Normally we would snapp to the grid and then on the
-					 * next mouse move only to the other widget. This is stupid. Therefore we add a penalty
-					 * of 10 px to the grid line. This means in "white" space the grid works, close to widgets
-					 * not.
-					 *
-					 * TODO: Also we should have here some kind of penalty of the widget that causes the line is
-					 * very far in the other axis...
-					 */
-					const cost = Math.abs(v - line[key]) + weights[line.type];
-					if (cost >= 0 && cost < min) {
-						min = cost;
-						result = line;
-						result.dist = line[key] - v;
-					}
-				}
-			}
-		}
-
-		return result;
-	}
 
 	initLines(absPos) {
 		const screen = this.getHoverScreen(absPos);
@@ -2122,8 +2145,7 @@ export default class GridAndRuler extends Core {
 	 */
 	canShowMiddleLines(box) {
 		if (this.selectedModel && box) {
-			// we could calculate the distance and check
-
+			// we could calculate the distance and check that its close???
 			if ((Math.abs(box.w - this.selectedModel.w) < 10) || Math.abs(box.h - this.selectedModel.h) < 10) {
 				return false;
 			}
