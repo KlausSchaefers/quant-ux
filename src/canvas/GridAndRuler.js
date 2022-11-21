@@ -27,6 +27,7 @@ export default class GridAndRuler extends Core {
 		this.yMovements = [];
 		this.mousePositions = []
 		this.selectedIDs = {};
+		this.isDebug = location.href.indexOf('debug=true') >= 0
 	}
 
 	setSelectedIDs(ids) {
@@ -1963,9 +1964,17 @@ export default class GridAndRuler extends Core {
 			this.initRulers(screen)
 
 			this.renderLines();
+
+			this.initDebuglines()
 		}
 		this._lastScreen = screen;
 		this._initLinesCalled += 1
+	}
+
+	initDebuglines () {
+		if (this.isDebug) {
+			css.add(this.container, 'MatcRulerLineDebuger')			
+		}
 	}
 
 	initRulers (screen) {
@@ -2485,15 +2494,15 @@ export default class GridAndRuler extends Core {
 			this.renderLine(this._linesY[id], id);
 		}
 		for (let id in this._linesXMiddle) {
-			this.renderLine(this._linesXMiddle[id], id);
+			this.renderLine(this._linesXMiddle[id], id, 'MatcRulerLineMiddle');
 		}
 		for (let id in this._linesYMiddle) {
-			this.renderLine(this._linesYMiddle[id], id);
+			this.renderLine(this._linesYMiddle[id], id, 'MatcRulerLineMiddle');
 		}
 	}
 
 
-	renderLine(line, id) {
+	renderLine(line, id, middle = '') {
 
 		if (this._linesDivs[id]) {
 			/**
@@ -2508,7 +2517,7 @@ export default class GridAndRuler extends Core {
 		if (this._gridType != line.type) {
 			if (line.x) {
 				let div = document.createElement("div");
-				css.add(div, "MatcRulerLine MatcRulerLineHidden MatcRulerLine" + line.type);
+				css.add(div, "MatcRulerLine MatcRulerLineHidden MatcRulerLine" + line.type + ' ' + middle);
 				if (line.snapp) {
 					css.add(div, "MatcRulerLineSnapp" + line.snapp.pos);
 				}
@@ -2523,7 +2532,7 @@ export default class GridAndRuler extends Core {
 
 			if (line.y) {
 				let div = document.createElement("div");
-				css.add(div, "MatcRulerLine MatcRulerLineHidden MatcRulerLine" + line.type);
+				css.add(div, "MatcRulerLine MatcRulerLineHidden MatcRulerLine" + line.type + ' ' + middle);
 				if (line.snapp) {
 					css.add(div, "MatcRulerLineSnapp" + line.snapp.pos);
 				}
@@ -2577,6 +2586,12 @@ export default class GridAndRuler extends Core {
 			}
 		}
 		this.distributionLines = {};
+	}
+
+	cleanUpDebugLines () {
+		if (this.isDebug) {
+			css.remove(this.container, 'MatcRulerLineDebuger')			
+		}
 	}
 
 	/**
@@ -2637,6 +2652,7 @@ export default class GridAndRuler extends Core {
 
 		this.cleanupDistanceLines();
 		this.cleanupDistributionLines();
+		this.cleanUpDebugLines();
 
 		this._linesDivs = {};
 		this._linesX = {};
@@ -2649,4 +2665,6 @@ export default class GridAndRuler extends Core {
 		delete this.dimDiv;
 		this.logger.log(4, "cleanUp", "exit");
 	}
+
+	
 }

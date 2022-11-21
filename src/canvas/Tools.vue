@@ -971,7 +971,7 @@ export default {
 					/**
 					 * Store last paste for pattern paste
 					 */
-					var lastPaste = {
+					const lastPaste = {
 						ts: new Date().getTime(),
 						source: this._copied,
 						target: {}
@@ -988,7 +988,7 @@ export default {
 
 					if (this._copied.widget){
 						// TODO: Add a pasteClipBoardMethod, which would somehow to return a copy...
-						var copy = this.controller.onCopyWidget(this._copied.widget.id, pos);
+						const copy = this.controller.onCopyWidget(this._copied.widget.id, pos);
 						if(copy){
 							requestAnimationFrame( () => {
 								this.onWidgetSelected(copy.id, true);
@@ -997,7 +997,7 @@ export default {
 						}
 						this.showSuccess("Widget was pasted!");
 					} else if(this._copied.screen){
-						let newScreen = this.controller.onCopyScreen(this._copied.screen.id, pos);
+						const newScreen = this.controller.onCopyScreen(this._copied.screen.id, pos);
 						if (newScreen) {
 							requestAnimationFrame( () => {
 								this.onScreenSelected(newScreen.id, true);
@@ -1009,7 +1009,7 @@ export default {
 						this.showSuccess("Widgets were pasted!");
 						lastPaste.target.multi = this._selectMulti;
 					} else if(this._copied.group){
-						let copy = this.controller.onCopyGroup(this._copied.group, pos);
+						const copy = this.controller.onCopyGroup(this._copied.group, pos);
 						if (copy) {
 							this.showSuccess("Group were pasted!");
 							requestAnimationFrame( () => {
@@ -1039,9 +1039,9 @@ export default {
 						/**
 						 * FIXME! We should get here the widget from the source and copy that
 						 */
-						let widget = this.getZoomedSourceWidget(this._copied.widget)
+						const widget = this.getZoomedSourceWidget(this._copied.widget)
 						widget.id = "_temp";
-						let div = this.createZoomedWidget(widget);
+						const div = this.createZoomedWidget(widget);
 						if(!this._alignmentToolInited){
 							this.alignmentStart("widget", widget, "All");
 						}
@@ -1050,11 +1050,11 @@ export default {
 					}
 
 					if(this._copied.screen){
-						let screen = lang.clone(this._copied.screen);
+						const screen = lang.clone(this._copied.screen);
 						screen.id="_temp";
 						screen.x = 0
 						screen.y = 0
-						let div = this.createScreen(screen);
+						const div = this.createScreen(screen);
 						if(!this._alignmentToolInited){
 							this.alignmentStart("screen", screen, "All");
 						}
@@ -1064,27 +1064,27 @@ export default {
 
 					if(this._copied.multi){
 
-						let selection = this._copied.multi;
-						let boundingBox = this.getBoundingBox(selection);
-						let div = this.createBox(boundingBox);
+						const selection = this._copied.multi;
+						const boundingBox = this.getBoundingBox(selection);
+						const div = this.createBox(boundingBox);
 
 						// add in right order!
 						let widgets = [];
 						for(let i=0; i < selection.length; i++){
-							let id = selection[i];
-							let widget = this.model.widgets[id];
+							const id = selection[i];
+							const widget = this.model.widgets[id];
 							widgets.push(widget);
 						}
 						widgets = this.getOrderedWidgets(widgets);
 
 						for (let i=0; i< widgets.length; i++){
-							let widget = widgets[i];
-							let cloned = lang.clone(widget);
+							const widget = widgets[i];
+							const cloned = lang.clone(widget);
 							cloned.id="_temp"+i;
 							// add children relative to bounding box!
 							cloned.x =  cloned.x - boundingBox.x;
 							cloned.y =  cloned.y - boundingBox.y;
-							let clonedDiv = this.createZoomedWidget(cloned);
+							const clonedDiv = this.createZoomedWidget(cloned);
 							div.appendChild(clonedDiv);
 						}
 

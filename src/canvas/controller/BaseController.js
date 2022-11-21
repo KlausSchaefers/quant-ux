@@ -270,6 +270,7 @@ export default class BaseController extends Core {
 	}
 
 	startModelChange () {
+		console.time("startModelChange")
 		this._modelChanges = []
 		this._modelRenderJobs = {}
 		this._modelHasChanged = false
@@ -310,6 +311,7 @@ export default class BaseController extends Core {
 		this._modelRenderJobs = {}
 		this._modelHasChanged = false
 		console.timeEnd("commitModelChange")
+		console.timeEnd("startModelChange")
 	}
 
 	getInheritedModel (model) {

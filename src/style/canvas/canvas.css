@@ -977,6 +977,20 @@
  	opacity:0.5;
  }
 
+ .MatcRulerLineDebug {
+	background: #aa37b9;
+ }
+
+ .MatcRulerLineDebuger .MatcRulerLine{
+	display: block;
+	background: #aa37b9;
+ }
+
+ .MatcRulerLineDebuger .MatcRulerLine.MatcRulerLineMiddle{
+	display: block;
+	background: #e4cd1c;
+ }
+
 
  .MatcRulerDistanceLine{
  	position: absolute;
