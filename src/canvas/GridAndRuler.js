@@ -135,7 +135,6 @@ export default class GridAndRuler extends Core {
 			this.initLines(absPos);
 		}
 
-
 		/**
 		 * 1.a) If no screen, no snapping...
 		 */
@@ -143,15 +142,13 @@ export default class GridAndRuler extends Core {
 			return absPos;
 		}
 
-
-
 		/**
 		 * 2) No determine the direction of move... We buffer
 		 * the last directions to make the thing less jumpy...
 		 */
 		this.updateMovements(absPos);
-		var left = this.getMovementDir(this.xMovements);
-		var top = this.getMovementDir(this.yMovements);
+		let left = this.getMovementDir(this.xMovements);
+		let top = this.getMovementDir(this.yMovements);
  
 		let showDistanceXLeft = left
 		let showDistanceYTop = top
@@ -284,7 +281,7 @@ export default class GridAndRuler extends Core {
 		 */
 		if (closeXPattern && closeXLine) {
 			let isBiggerX = Math.abs(closeXLine.dist) - Math.abs(closeXPattern.dist);
-			if (isBiggerX > 2) {
+			if (isBiggerX > 0) {
 				delete closeXPattern.snapp;
 				this.correctX(absPos, diff, closeXPattern);
 			} else {
@@ -320,7 +317,7 @@ export default class GridAndRuler extends Core {
 			// if we have a pattern and a close line, and the close line is
 			// < 2 we choose the close line, else we go for the pattern.
 			let isBiggerX = Math.abs(closeYLine.dist) - Math.abs(closeYPattern.dist);
-			if (isBiggerX > 2) {
+			if (isBiggerX > 0) {
 				delete closeYPattern.snapp;
 				this.correctY(absPos, diff, closeYPattern);
 			} else {
@@ -1903,14 +1900,12 @@ export default class GridAndRuler extends Core {
 			"Pattern": 0
 		};
 
-
-		for (var id in lines) {
-			var line = lines[id];
-
+		for (let id in lines) {
+			const line = lines[id];
 			if (!ignoreType || ignoreType != line.type) {
 				line.dist = 1000;
 				for (let i = 0; i < vales.length; i++) {
-					let v = vales[i];
+					const v = vales[i];
 
 					/**
 					 * We add here a penalty of 10 pixel for Grid lines to avoid that the user
@@ -1937,7 +1932,7 @@ export default class GridAndRuler extends Core {
 	}
 
 	initLines(absPos) {
-		var screen = this.getHoverScreen(absPos);
+		const screen = this.getHoverScreen(absPos);
 		if (screen) {
 			this.logger.log(2, "initLines", "entry > " + screen.id);
 
@@ -1963,12 +1958,30 @@ export default class GridAndRuler extends Core {
 
 			this.initRulers(screen)
 
+			this.removeCloseLines()
+
 			this.renderLines();
 
 			this.initDebuglines()
 		}
 		this._lastScreen = screen;
 		this._initLinesCalled += 1
+	}
+
+	removeCloseLines () {
+		// remove here to close lines???
+		// for (let id in this._linesX) {
+		// 	let line = this._linesX[id]
+		// }
+		// for (let id in this._linesY) {
+		// 	this.renderLine(this._linesY[id], id);
+		// }
+		// for (let id in this._linesXMiddle) {
+		// 	this.renderLine(this._linesXMiddle[id], id, 'MatcRulerLineMiddle');
+		// }
+		// for (let id in this._linesYMiddle) {
+		// 	this.renderLine(this._linesYMiddle[id], id, 'MatcRulerLineMiddle');
+		// }
 	}
 
 	initDebuglines () {
@@ -2101,8 +2114,6 @@ export default class GridAndRuler extends Core {
 				}
 			}
 		}
-
-		console.debug(ignore, this.ignoreGroup)
 		return ignore
 	}
 
@@ -2111,7 +2122,8 @@ export default class GridAndRuler extends Core {
 	 */
 	canShowMiddleLines(box) {
 		if (this.selectedModel && box) {
-			if ((box.w == this.selectedModel.w) || (box.h == this.selectedModel.h)) {
+			// we could calculate the distance and check that its close???
+			if ((Math.abs(box.w - this.selectedModel.w) < 10) || Math.abs(box.h - this.selectedModel.h) < 10) {
 				return false;
 			}
 		}
