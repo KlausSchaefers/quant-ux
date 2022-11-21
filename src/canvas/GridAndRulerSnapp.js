@@ -226,13 +226,23 @@ export default class GridAndRulerSnapp extends Core {
 		 * to correct left and top, to make the snapping work in the controller
 		 */
 		if (!this.grid.enabled) {
-			if (closeXLine?.pos === 0) {	
+			// THis is buggy. If the
+			//console.debug(closeXLine?.pos, closeXLine?.snapp)
+			if (left == false && closeXLine?.pos === 0) {	
 				left = true
 			}
+
+			if (left == true && closeXLine?.pos === 1) {	
+				left = false
+			}
 	
-			if (closeYLine?.pos === 0) {
+			if (top === false && closeYLine?.pos === 0) {
 				top = true
 			}	
+
+			if (top === true && closeYLine?.pos === 1) {
+				top = false
+			}
 		}
 	
 
