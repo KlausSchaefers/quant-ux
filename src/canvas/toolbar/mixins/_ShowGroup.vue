@@ -129,10 +129,10 @@ export default {
 
 			let fixed = true;
 			let wrap = true;
-			for(var i=0; i< ids.length;i++){
+			for(let i=0; i< ids.length;i++){
 				const id = ids[i];
 				const widget = this.model.widgets[id];
-				if(widget){
+				if(widget && widget.style){
 					fixed = fixed && widget.style.fixed === true;
 					wrap = wrap && widget.style.wrap === true;
 				} else {
@@ -148,17 +148,17 @@ export default {
 
 			this.showDesignTokenBtns(ids, 'multi')
 
-			let widgetViewMode = "style";
+			const widgetViewMode = "style";
 			let style = null;
-			let widgets = [];
-			let hasLabel = true;
-			let hasPadding = true;
-			let hasBorder = true;
-			let hasBackground = true;
+			const widgets = [];
+			const hasLabel = true;
+			const hasPadding = true;
+			const hasBorder = true;
+			const hasBackground = true;
 			let isAllSVG = true
-			for(var i=0; i< ids.length;i++){
-				var id = ids[i];
-				var widget = this.model.widgets[id];
+			for(let i=0; i< ids.length;i++){
+				const id = ids[i];
+				const widget = this.model.widgets[id];
 				if(widget){
 					widgets.push(widget);
 					if(!style){
@@ -167,12 +167,17 @@ export default {
 					/**
 					* Fill up missing values..
 					*/
-					var widgetStyle = lang.clone(widget[widgetViewMode]);
-					for(var key in widgetStyle){
-						if(!style[key]){
-							style[key] = widgetStyle[key];
+					if (style) {
+						const widgetStyle = lang.clone(widget[widgetViewMode]);
+						for(let key in widgetStyle){
+							if(!style[key]){
+								style[key] = widgetStyle[key];
+							}
 						}
+					} else {
+						console.erro('_showMultiVisualProperties() No style for widget', widget)
 					}
+					
 				}
 				isAllSVG = widget.type === 'SVGPaths' && isAllSVG
 			}

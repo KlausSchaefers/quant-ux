@@ -344,7 +344,7 @@ class ModelUtil {
             zoomedWidget.style = {
                 locked: widget?.style.locked
             }
-            zoomedWidget.props = widget.props
+            zoomedWidget.props = widget.props // this is ok, because edits will go through the controller
             zoomedWidget.z = widget.z
             zoomedWidget.type = widget.type
             zoomedModel.widgets[id] = zoomedWidget
