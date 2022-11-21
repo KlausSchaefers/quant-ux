@@ -2060,10 +2060,10 @@ export default class GridAndRuler extends Core {
 		/**
 		 * Ignore elements in the same group right...
 		 */
-		const group = this.getParentGroup(this.selectedID)
-		if (group && !this.ignoreGroup) {
-			for (let i = 0; i < group.children.length; i++) {
-				ignore[group.children[i]] = true
+		const selectedGroup = this.getParentGroup(this.selectedID)
+		if (selectedGroup && !this.ignoreGroup) {
+			for (let i = 0; i < selectedGroup.children.length; i++) {
+				ignore[selectedGroup.children[i]] = true
 			}
 		}
 
@@ -2088,19 +2088,21 @@ export default class GridAndRuler extends Core {
 		 * Just get group lines and ignore the children!
 		 */
 		for (let i = 0; i < screen.children.length; i++) {
-			let id = screen.children[i]
+			const id = screen.children[i]
 			if (!ignore[id]) {
-				let group = this.getParentGroup(id)
-				if (group) {
+				const group = this.getParentGroup(id)
+				if (group && group.id !== selectedGroup?.id) {
 					this.addGroupLines(group)
-					var groupChildren = group.children
-					for (var j = 0; j < groupChildren.length; j++) {
-						let groupChildID = groupChildren[j]
+					const groupChildren = group.children
+					for (let j = 0; j < groupChildren.length; j++) {
+						const groupChildID = groupChildren[j]
 						ignore[groupChildID] = true
 					}
 				}
 			}
 		}
+
+		console.debug(ignore, this.ignoreGroup)
 		return ignore
 	}
 
@@ -2130,15 +2132,15 @@ export default class GridAndRuler extends Core {
 			if (this.grid.type === "columns") {
 
 
-				var columnCount = this.grid.columnCount;
-				var columnOffset = (this.zoom * this.grid.columnOffset);
-				var columnGutter = (this.zoom * this.grid.columnGutter);
-				var columnWidth = (this.zoom * this.grid.columnWidth);
+				const columnCount = this.grid.columnCount;
+				const columnOffset = (this.zoom * this.grid.columnOffset);
+				const columnGutter = (this.zoom * this.grid.columnGutter);
+				const columnWidth = (this.zoom * this.grid.columnWidth);
 
 
-				var lastX = columnOffset;
-				var count = 0;
-				for (var i = 0; i < columnCount; i++) {
+				let lastX = columnOffset;
+				let count = 0;
+				for (let i = 0; i < columnCount; i++) {
 					this.addXLine(Math.round(screen.x + lastX), {
 						id: screen.id,
 						pos: "x",
@@ -2148,7 +2150,7 @@ export default class GridAndRuler extends Core {
 						column: true
 					}, "Grid");
 					count++;
-					var x = lastX + columnWidth;
+					let x = lastX + columnWidth;
 					this.addXLine(Math.round(screen.x + x), {
 						id: screen.id,
 						pos: "x",
