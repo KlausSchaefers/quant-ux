@@ -352,33 +352,14 @@ export default class GridAndRulerSnapp extends Core {
 	getCloseLines(lines, key, vales, ignoreType = false, lineType) {
 
 		let result = null;
-		let min = this.showDistance;
-		const weights = {
-			"Grid": 0,
-			"Widget": 0,
-			"Screen": 0,
-			"Pattern": 0
-		};
-
+		let min = this.showDistance;	
 		for (let id in lines) {
 			const line = lines[id];
 			if (!ignoreType || ignoreType != line.type) {
 				line.dist = 1000;
 				for (let i = 0; i < vales.length; i++) {
 					const v = vales[i];
-
-					/**
-					 * We add here a penalty of 10 pixel for Grid lines to avoid that the user
-					 * "fight" the grid. For example the snapp line of another widget is 5px away,
-					 * but the nearest grid is 4. Normally we would snapp to the grid and then on the
-					 * next mouse move only to the other widget. This is stupid. Therefore we add a penalty
-					 * of 10 px to the grid line. This means in "white" space the grid works, close to widgets
-					 * not.
-					 *
-					 * TODO: Also we should have here some kind of penalty of the widget that causes the line is
-					 * very far in the other axis...
-					 */
-					const cost = Math.abs(v - line[key]) + weights[line.type];
+					const cost = Math.abs(v - line[key])
 					if (cost >= 0 && cost < min) {
 						min = cost;
 						result = line;
