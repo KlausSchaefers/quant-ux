@@ -3,6 +3,7 @@ import css from 'dojo/css'
 import topic from 'dojo/topic'
 import Logger from 'common/Logger'
 import Core from 'core/Core'
+import * as SnappUtil from 'core/SnappUtil'
 import ModelUtil from '../core/ModelUtil'
 
 export default class GridAndRulerSnapp extends Core {
@@ -218,31 +219,16 @@ export default class GridAndRulerSnapp extends Core {
 		 * now compare all lines. For grid we just take to top left corner
 		 */
 		const corners = this.getCorners(absPos, this.grid.enabled);
-		const closeXLine = this.getCloseLines(this._linesX, "x", corners.x);
-		const closeYLine = this.getCloseLines(this._linesY, "y", corners.y);
+		const closeXLine = this.getCloseLines(this._linesX, "x", corners.x, false, 'corner');
+		const closeYLine = this.getCloseLines(this._linesY, "y", corners.y, false, 'corner');
 
 		/**
 		 * Since 4.3.0 we include for none grid both sides. We have
 		 * to correct left and top, to make the snapping work in the controller
 		 */
 		if (!this.grid.enabled) {
-			// THis is buggy. If the
-			//console.debug(closeXLine?.pos, closeXLine?.snapp)
-			if (left == false && closeXLine?.pos === 0) {	
-				left = true
-			}
-
-			if (left == true && closeXLine?.pos === 1) {	
-				left = false
-			}
-	
-			if (top === false && closeYLine?.pos === 0) {
-				top = true
-			}	
-
-			if (top === true && closeYLine?.pos === 1) {
-				top = false
-			}
+			left = SnappUtil.correctSnappDirection(closeXLine, left)
+			top = SnappUtil.correctSnappDirection(closeYLine, top)			
 		}
 	
 
@@ -259,8 +245,8 @@ export default class GridAndRulerSnapp extends Core {
 		let closeXMiddle = null
 		let closeYMiddle = null
 		if (!this.grid.enabled) {
-			closeXMiddle = this.getCloseLines(this._linesXMiddle, "x", corners.mx, "Grid");
-			closeYMiddle = this.getCloseLines(this._linesYMiddle, "y", corners.my, "Grid");
+			closeXMiddle = this.getCloseLines(this._linesXMiddle, "x", corners.mx, "Grid", 'middle');
+			closeYMiddle = this.getCloseLines(this._linesYMiddle, "y", corners.my, "Grid", 'middle');
 		}
 
 
@@ -273,8 +259,8 @@ export default class GridAndRulerSnapp extends Core {
 		let closeYPattern = null
 		if (!this.grid.enabled) {
 			let linesPattern = this.renderOverLapDistance(absPos, top, left);
-			closeXPattern = this.getCloseLines(linesPattern.x, "x", corners.l);
-			closeYPattern = this.getCloseLines(linesPattern.y, "y", corners.t);
+			closeXPattern = this.getCloseLines(linesPattern.x, "x", corners.l, false, 'pattern');
+			closeYPattern = this.getCloseLines(linesPattern.y, "y", corners.t, false, 'pattern');
 		}
 
 		/**
@@ -285,85 +271,26 @@ export default class GridAndRulerSnapp extends Core {
 
 
 		/**
-		 * No show lines to snapp to
+		 * Now show lines to snapp to
 		 */
 		absPos.snapp = {
 			type: this.activePoint,
 			left: left,
 			top: top
 		};
-		const diff = {
-			x: 0,
-			y: 0
-		};
 
 		/**
-		 * Snapp X : Pattern lines have prio
+		 * Determine which lines to snapp too and correct X and Y values
 		 */
-		if (closeXPattern && closeXLine) {
-			let isBiggerX = Math.abs(closeXLine.dist) - Math.abs(closeXPattern.dist);
-			if (isBiggerX > 0) {
-				delete closeXPattern.snapp;
-				this.correctX(absPos, diff, closeXPattern);
-			} else {
-				this.correctX(absPos, diff, closeXLine);
-			}
-		} else if (closeXPattern) {
-
-			delete closeXPattern.snapp;
-			this.correctX(absPos, diff, closeXPattern);
-
-		} else if (closeXLine && closeXMiddle) {
-			let isBiggerX = Math.abs(closeXLine.dist) - Math.abs(closeXMiddle.dist);
-			if (isBiggerX > 0) {
-				closeXMiddle.snapp.middle = true;
-				this.correctX(absPos, diff, closeXMiddle);
-			} else {
-				this.correctX(absPos, diff, closeXLine);
-			}
-		} else if (closeXMiddle) {
-			closeXMiddle.snapp.middle = true;
-			this.correctX(absPos, diff, closeXMiddle);
-		} else if (closeXLine) {
-			this.correctX(absPos, diff, closeXLine);
+		const diff = {x: 0, y: 0};
+		const minLineX = SnappUtil.getMinLine([closeXLine, closeXMiddle, closeXPattern])
+		if (minLineX) {			
+			this.correctX(absPos, diff, minLineX);
 		}
-
-
-		/**
-		 * Snapp Y: Pattern lines have prio in general, except we
-		 * are super close
-		 */
-		if (closeYLine && closeYPattern) {
-			// To ensure that we snapp to close lines...
-			// if we have a pattern and a close line, and the close line is
-			// < 2 we choose the close line, else we go for the pattern.
-			let isBiggerX = Math.abs(closeYLine.dist) - Math.abs(closeYPattern.dist);
-			if (isBiggerX > 0) {
-				delete closeYPattern.snapp;
-				this.correctY(absPos, diff, closeYPattern);
-			} else {
-				this.correctY(absPos, diff, closeYLine);
-			}
-		} else if (closeYPattern) {
-			// FIXME: Do not delete the snapp, if we have it implemented in the
-			delete closeYPattern.snapp;
-			this.correctY(absPos, diff, closeYPattern);
-		} else if (closeYLine && closeYMiddle) {
-
-			let isBiggerY = Math.abs(closeYLine.dist) - Math.abs(closeYMiddle.dist);
-			if (isBiggerY > 0) {
-				closeYMiddle.snapp.middle = true;
-				this.correctY(absPos, diff, closeYMiddle);
-			} else {
-				this.correctY(absPos, diff, closeYLine);
-			}
-		} else if (closeYMiddle) {
-			closeYMiddle.snapp.middle = true;
-			this.correctY(absPos, diff, closeYMiddle)
-		} else if (closeYLine) {
-			this.correctY(absPos, diff, closeYLine)
+		const minLineY = SnappUtil.getMinLine([closeYLine, closeYPattern, closeYMiddle])
+		if (minLineY) {			
+			this.correctY(absPos, diff, minLineY);
 		}
-
 
 		this.snapp(absPos, diff, this.activePoint);
 
@@ -421,7 +348,8 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 
-	getCloseLines(lines, key, vales, ignoreType) {
+
+	getCloseLines(lines, key, vales, ignoreType = false, lineType) {
 
 		let result = null;
 		let min = this.showDistance;
@@ -456,6 +384,7 @@ export default class GridAndRulerSnapp extends Core {
 						result = line;
 						result.pos = i
 						result.dist = line[key] - v;
+						result.lineType = lineType
 					}
 				}
 			}
@@ -598,7 +527,7 @@ export default class GridAndRulerSnapp extends Core {
 				{
 					let top = from.y - to.y - to.h;
 					let lblTop = sourceFrom.y - sourceTo.y - sourceTo.h;
-					let xMiddle = this.getOverlayXMiddle(from, to);
+					let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
 					this._renderDistanceLineY(xMiddle, to.y + to.h, top, lblTop);
 					break;
 				}
@@ -607,7 +536,7 @@ export default class GridAndRulerSnapp extends Core {
 				{
 					let top = to.y - from.y - from.h;
 					let lblTop = sourceTo.y - sourceFrom.y - sourceFrom.h;
-					let xMiddle = this.getOverlayXMiddle(from, to);
+					let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
 					this._renderDistanceLineY(xMiddle, from.y + from.h, top, lblTop);
 					break;
 				}
@@ -616,7 +545,7 @@ export default class GridAndRulerSnapp extends Core {
 				{
 					let left = from.x - to.x - to.w;
 					let lbl = sourceFrom.x - sourceTo.x - sourceTo.w;
-					let yMiddle = this.getOverlayYMiddle(from, to);
+					let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 					this._renderDistanceLineX(to.x + to.w, yMiddle, left, lbl);
 					break;
 				}
@@ -626,7 +555,7 @@ export default class GridAndRulerSnapp extends Core {
 				{
 					let left = to.x - from.x - from.w;
 					let lbl = sourceTo.x - sourceFrom.x - sourceFrom.w;
-					let yMiddle = this.getOverlayYMiddle(from, to);
+					let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 					this._renderDistanceLineX(from.x + from.w, yMiddle, left, lbl);
 					break;
 				}
@@ -702,43 +631,6 @@ export default class GridAndRulerSnapp extends Core {
 		this.renderDistanceHighLight(from.id);
 		this.renderDistanceHighLight(to.id);
 	}
-
-
-
-	getOverlayXMiddle(from, to) {
-		const xDif = to.x - from.x;
-		if (to.x >= from.x && to.x + to.w <= from.x + from.w) {
-			return to.x + Math.round(to.w / 2);
-		} else if (from.x >= to.x && from.x + from.w <= to.x + to.w) {
-			return from.x + Math.round(from.w / 2);
-		} else if (to.x <= from.x) {
-			let s = to.x - xDif;
-			let e = to.x + to.w;
-			return s + Math.round((e - s) / 2);
-		} else {
-			let s = from.x + xDif;
-			let e = from.x + from.w;
-			return s + Math.round((e - s) / 2);
-		}
-	}
-
-	getOverlayYMiddle(from, to) {
-		const yDif = to.y - from.y;
-		if (to.y >= from.y && to.y + to.h <= from.y + from.h) {
-			return to.y + Math.round(to.h / 2);
-		} else if (from.y >= to.y && from.y + from.h <= to.y + to.h) {
-			return from.y + Math.round(from.h / 2);
-		} else if (to.y <= from.y) {
-			let s = to.y - yDif;
-			let e = to.y + to.h;
-			return s + Math.round((e - s) / 2);
-		} else {
-			let s = from.y + yDif;
-			let e = from.y + from.h;
-			return s + Math.round((e - s) / 2);
-		}
-	}
-
 
 	getRelPosition(from, to) {
 		const left = this.isLeft(from, to);
@@ -843,7 +735,7 @@ export default class GridAndRulerSnapp extends Core {
 		};
 		if (this.showDndDistance) {
 			try {
-				const overlaps = this._getOverLappingWidgetsSmart(absPos)
+				const overlaps = this._getOverLappingWidgetsSmart(absPos)		
 				if (this.activePoint != "West" && this.activePoint != "East") {
 					pattern.y = this.renderOverLapDistanceY(overlaps, absPos, top, left);
 				}
@@ -858,27 +750,7 @@ export default class GridAndRulerSnapp extends Core {
 		return pattern;
 	}
 
-	/**
-	 * Calculates the similarity between two widgets.
-	 */
-	isSimilar(a, b) {
-		let score = 0;
-		if (Math.abs(a.w - b.w) < 5) {
-			score++;
-		}
-		if (Math.abs(a.h - b.h) < 5) {
-			score++;
-		}
-		if (a.style && b.style && a.style.background === b.style.background) {
-			score++;
-		}
-		if (a.type === b.type) {
-			score++;
-		}
-		// TODO: We should also check if we have some kind of container or so.
-		//console.debug(a.name, b.name, " ", score)
-		return score > 1; // or what is a good similarity threshold;
-	}
+
 
 	/**
 	 * Get all boxes that are somehow similar. If the number is to small,
@@ -889,9 +761,7 @@ export default class GridAndRulerSnapp extends Core {
 		if (selectedBox) {
 			for (let i = 0; i < boxes.length; i++) {
 				const box = boxes[i];
-				if (this.isSimilar(selectedBox, box)) {
-					simBoxes.push(box);
-				}
+				simBoxes.push(box);				
 			}
 		}
 		if (simBoxes.length < 1) {
@@ -915,14 +785,16 @@ export default class GridAndRulerSnapp extends Core {
 				xBoxes.push(box);
 			}
 		}
-		xBoxes.sort(function (a, b) {
+		xBoxes.sort((a, b) => {
 			return (a.y) - (b.y);
 		});
 
+
+		
 		/**
 		 * FIXME: why not take the entire design??
 		 */
-		const simBoxes = this.getSimilarBoxes(this.selectedModel, xBoxes);
+		const simBoxes = xBoxes; //this.getSimilarBoxes(this.selectedModel, xBoxes);
 
 		// var temp = {};
 		/**
@@ -962,7 +834,7 @@ export default class GridAndRulerSnapp extends Core {
 				// FIXME: if we have similarity, we should somehow compute the distance again...
 				//console.debug("top", from.name, "=>", topBox.name, topMinDistance )
 				const lbl = this._getHackedUnZoomed(topMinDistance, this.zoom);
-				const xMiddle = this.getOverlayXMiddle(from, topBox);
+				const xMiddle = SnappUtil.getOverlayXMiddle(from, topBox);
 				const line = {
 					x: xMiddle,
 					y: 0,
@@ -1012,7 +884,7 @@ export default class GridAndRulerSnapp extends Core {
 			if (result[key].count > minCount) {
 				const lines = result[key].lines;
 				for (let i = 0; i < lines.length; i++) {
-					let line = lines[i]
+					const line = lines[i]
 					this._renderDistanceLineY(line.x, line.y, line.l, line.lbl, "", true)
 				}
 			}
@@ -1038,8 +910,8 @@ export default class GridAndRulerSnapp extends Core {
 			return (a.x - b.x);
 		});
 
-		const simBoxes = this.getSimilarBoxes(this.selectedModel, yBoxes);
-		//console.debug("simBoxes X", simBoxes);
+		const simBoxes = yBoxes
+
 		/**
 		 * Loop over all overlaps and compute the shortest RIGHT
 		 * distance.
@@ -1068,7 +940,7 @@ export default class GridAndRulerSnapp extends Core {
 			if (rightBox) {
 				//console.debug("right", from.name, " => ", rightBox.name, ": ", rightMinDistance)
 				let lbl = this._getHackedUnZoomed(rightMinDistance, this.zoom);
-				let YMiddle = this.getOverlayYMiddle(from, rightBox);
+				let YMiddle = SnappUtil.getOverlayYMiddle(from, rightBox);
 				let line = {
 					x: 0,
 					y: YMiddle,
@@ -1113,12 +985,12 @@ export default class GridAndRulerSnapp extends Core {
 		/**
 		 * Since 3.0.2 we have a min count that depends in the similar boxes above
 		 */
-		let minCount = this.getSnappLineMinCount(simBoxes.length)
+		const minCount = this.getSnappLineMinCount(simBoxes.length)
 		for (let key in result) {
 			if (result[key].count > minCount) {
-				let lines = result[key].lines;
+				const lines = result[key].lines;
 				for (let i = 0; i < lines.length; i++) {
-					let line = lines[i]
+					const line = lines[i]
 					this._renderDistanceLineX(line.x, line.y, line.l, line.lbl, "", true)
 				}
 			}
@@ -1276,7 +1148,7 @@ export default class GridAndRulerSnapp extends Core {
 						let to = overlaps.minLeft.to;
 						let distance = overlaps.minLeft.distance;
 						let lbl = this.getDistanceLabel(overlaps.minLeft, useSourceLabel, 'x', 'left')
-						let yMiddle = this.getOverlayYMiddle(from, to);
+						let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 						if (overlaps.minLeft.left == 0) {
 							this._renderDistanceLineX(to.x, yMiddle, distance, lbl, "", true);
 						} else {
@@ -1290,7 +1162,7 @@ export default class GridAndRulerSnapp extends Core {
 						let distance = overlaps.minRight.distance;
 						// FIXME: Add here 1 to give the impression when working with quirky
 						let lbl = this.getDistanceLabel(overlaps.minRight, useSourceLabel, 'x', 'right')
-						let yMiddle = this.getOverlayYMiddle(from, to);
+						let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 						this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
 					}
 				}
@@ -1301,7 +1173,7 @@ export default class GridAndRulerSnapp extends Core {
 						let to = overlaps.minTop.to;
 						let distance = overlaps.minTop.distance;
 						let lbl = this.getDistanceLabel(overlaps.minTop, useSourceLabel, 'y', 'top')
-						let xMiddle = this.getOverlayXMiddle(from, to);
+						let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
 						if (overlaps.minTop.top == 0) {
 							this._renderDistanceLineY(xMiddle, to.y, distance, lbl, "", true);
 						} else {
@@ -1315,7 +1187,7 @@ export default class GridAndRulerSnapp extends Core {
 						let to = overlaps.minBottom.to;
 						let distance = overlaps.minBottom.distance;
 						let lbl = this.getDistanceLabel(overlaps.minBottom, useSourceLabel, 'y', 'bottom')
-						let xMiddle = this.getOverlayXMiddle(from, to);
+						let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
 						this._renderDistanceLineY(xMiddle, from.y + from.h, distance, lbl, "", true);
 					}
 				}
@@ -1336,7 +1208,7 @@ export default class GridAndRulerSnapp extends Core {
 				let to = overlaps.minTop.to;
 				let distance = overlaps.minTop.distance;
 				let lbl = this.getDistanceLabel(overlaps.minTop, useSourceLabel, 'y', 'top')
-				let xMiddle = this.getOverlayXMiddle(from, to);
+				let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
 				if (overlaps.minTop.top == 0) {
 					this._renderDistanceLineY(xMiddle, to.y, distance, lbl, "", true);
 				} else {
@@ -1348,7 +1220,7 @@ export default class GridAndRulerSnapp extends Core {
 				let to = overlaps.minBottom.to;
 				let distance = overlaps.minBottom.distance;
 				let lbl = this.getDistanceLabel(overlaps.minBottom, useSourceLabel, 'y', 'bottom')
-				let xMiddle = this.getOverlayXMiddle(from, to);
+				let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
 				this._renderDistanceLineY(xMiddle, from.y + from.h, distance, lbl, "", true);
 			}
 			if (isLeftHandle && overlaps.minLeft) {
@@ -1356,7 +1228,7 @@ export default class GridAndRulerSnapp extends Core {
 				let to = overlaps.minLeft.to;
 				let distance = overlaps.minLeft.distance;
 				let lbl = this.getDistanceLabel(overlaps.minLeft, useSourceLabel, 'x', 'left')
-				let yMiddle = this.getOverlayYMiddle(from, to);
+				let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 				if (overlaps.minLeft.left == 0) {
 					this._renderDistanceLineX(to.x, yMiddle, distance, lbl, "", true);
 				} else {
@@ -1368,7 +1240,7 @@ export default class GridAndRulerSnapp extends Core {
 				let to = overlaps.minRight.to;
 				let distance = overlaps.minRight.distance;
 				let lbl = this.getDistanceLabel(overlaps.minRight, useSourceLabel, 'x', 'right')
-				let yMiddle = this.getOverlayYMiddle(from, to);
+				let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 				this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
 			}
 
@@ -1714,7 +1586,7 @@ export default class GridAndRulerSnapp extends Core {
 	 ***********************************************************************/
 
 	correctX(absPos, diff, closeXLine) {
-		let snappDistance = this.getSnappDictance()
+		const snappDistance = this.getSnappDictance()
 		this.showLine(closeXLine, "x");
 		if (Math.abs(closeXLine.dist) < snappDistance) {
 			diff.x = closeXLine.dist;
@@ -1723,7 +1595,7 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	correctY(absPos, diff, closeYLine) {
-		let snappDistance = this.getSnappDictance()
+		const snappDistance = this.getSnappDictance()
 		this.showLine(closeYLine, "y");
 		if (Math.abs(closeYLine.dist) < snappDistance) {
 			diff.y = closeYLine.dist;

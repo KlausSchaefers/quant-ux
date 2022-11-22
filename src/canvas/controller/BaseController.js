@@ -339,8 +339,8 @@ export default class BaseController extends Core {
 		}		
 	}
 
-	 render (screenID, isResize = false){
-		this.logger.log(-2,"render", "enter > screenID : " + screenID);	
+	render (screenID, isResize = false){
+		this.logger.log(2,"render", "enter > screenID : " + screenID);	
 		this._modelRenderJobs['all'] = isResize		
 	}
 
@@ -348,21 +348,19 @@ export default class BaseController extends Core {
 	 * Notify the canvas that there has been some changes in widget positions!
 	 */
 	onWidgetPositionChange () {
-		this.logger.log(-2,"onWidgetPositionChange", "enter");
-		
+		this.logger.log(2,"onWidgetPositionChange", "enter");		
 		this._modelRenderJobs['position'] = true
 	}
 
 	onLayerListChange () {
-		this.logger.log(-2,"onLayerListChange", "enter");
+		this.logger.log(2,"onLayerListChange", "enter");
 		this._modelRenderJobs['position'] = true
 	}
 
 
 	renderWidget (widget, type){
-		this.logger.log(-1,"renderWidget", "enter > type : ", type);
-		if (widget) {
-
+		this.logger.log(1,"renderWidget", "enter > type : ", type);
+		if (widget && this._canvas) {
 			/**
 				* In case we have a templated or design token widget, we
 				* kick of a complete rendering. This is to make sure that we
@@ -374,31 +372,15 @@ export default class BaseController extends Core {
 			if (widget.template || widget.designtokens){
 				this._modelRenderJobs['all'] = false
 			} else {
-				/**
-				 * W have to set a zoomed model! Otherwise so UI widgets that use the
-				 * box size to compute some layout stuff ( e.g. icon size) have issues.
-				 *
-				 * FIXME: Also, there seems to be an issues when (data) props are updated!
-				 * e.g. table or spinner do not update!
-				 *
-				 * FIXME: Also add children in case it is an container widget!
-				 */
-				// let designTokenWidget = ModelUtil.inlineBoxDesignToken
 				this._canvas.setWidgetStyle(widget.id, widget.style, widget);
 				if (type === 'props') {
 					this._canvas.updateWidgetDataView(widget);
 				}
 			}
-		} else {
-			this.logger.error("renderWidget", "No widget passed for type" + type);
-			this.logger.sendError(new Error("Controller.renderWidget() No widget"));
 		}
 	}
 
 	renderScreen (screen){
-		/**
-		 * Suppose the model was already updated
-		 */
 		if(this._canvas){
 			this._canvas.setScreenStyle(screen.id, screen.style);
 		}

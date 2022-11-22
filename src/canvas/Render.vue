@@ -8,7 +8,6 @@ import topic from 'dojo/topic'
 import _Color from 'common/_Color'
 // import CheckBox from 'common/CheckBox'
 import Ruler from 'canvas/Ruler'
-import GridAndRuler from 'canvas/GridAndRuler'
 import GridAndRulerSnapp from 'canvas/GridAndRulerSnapp'
 import SimpleGrid from 'canvas/SimpleGrid'
 import RenderFlow from 'canvas/RenderFlow'
@@ -90,9 +89,7 @@ export default {
 			this.lineSVGs = {};
 			this.linePoints = {}
 			this.gridBackground = {};
-			this.renderedModels = {};
-
-			this.isSnappyRuler = location.href.indexOf('debug=true') >= 0
+			this.renderedModels = {};		
 
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));
@@ -1003,7 +1000,7 @@ export default {
 			 */
 			if (this.model.grid) {
 				if ("widget" == selectedType || "boundingbox" == selectedType || "group" == selectedType ||  "multi" == selectedType) {
-					this._alignmentTool = this.isSnappyRuler ? new GridAndRulerSnapp() : new GridAndRuler();
+					this._alignmentTool = new GridAndRulerSnapp();
 					this._alignmentTool.ignoreGroup = this._dragNDropIgnoreGroup;
 					this._alignmentTool.showDndDistance = this.showDistance;
 					this._alignmentTool.snapGridOnlyToTopLeft = this.settings.snapGridOnlyToTopLeft
