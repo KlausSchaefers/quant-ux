@@ -1,8 +1,7 @@
 <template>
   <div class="MatcComment">
     <div class="MatcCommentBar " data-dojo-attach-point="btnBar">
-      <span class="MatcCommentBarLabel" data-dojo-attach-point="collapseLbl"></span>
-      <span class="mdi mdi-comment-outline" data-dojo-attach-point="collapseBtn"></span>
+   
     </div>
     <div class="MatcCommentContainer" data-dojo-attach-point="cntr"></div>
   </div>
@@ -57,13 +56,6 @@ export default {
       if (this.collapsed) {
         css.remove(this.btnBar, "hidden");
         css.add(this.cntr, "MatcHidden");
-        this.own(
-          on(
-            this.collapseBtn,
-            touch.press,
-            lang.hitch(this, "onToggleCollapse")
-          )
-        );
       }
     },
 
@@ -113,8 +105,6 @@ export default {
     },
 
     render: function(comments) {
-      this.collapseLbl.innerHTML = comments.length;
-
       if (this.insertPosition == "top") {
         comments.sort(function(a, b) {
           return b.created - a.created;

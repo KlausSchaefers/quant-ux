@@ -511,7 +511,7 @@ export default {
 			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
-			ScrollUtil.addScrollIfNeeded(container)
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container)
 
 			const s = this.createSimulator();
 			s.setResizeListener(size => {
@@ -524,7 +524,11 @@ export default {
 			})
 			s.setInvitation(this.hash);
 			s.isDesktopTest = true;
-			s.scrollListenTarget = "parent";
+			if (hasSimpleBar) {
+				s.scrollListenTarget = "simpleBar";
+			} else {
+				s.scrollListenTarget = "parent";
+			}
 			s.placeAt(container)
 			s.setModel(this.model);
 		
@@ -558,7 +562,7 @@ export default {
 			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
-			ScrollUtil.addScrollIfNeeded(container)
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container)
 
 
 			const s = this.createSimulator();
@@ -577,10 +581,16 @@ export default {
 			s.isDesktopTest = true;
 			s.setInvitation(this.hash);
 			s.placeAt(container);
-			s.scrollListenTarget = "parent";
+			if (hasSimpleBar) {
+				s.scrollListenTarget = "simpleBar";
+			} else {
+				s.scrollListenTarget = "parent";
+			}
+
 
 			s.startup();
 			s.setModel(this.model);
+		
 
 			this.logger.log(2,"renderDesktopSimulator","exit" );
 			return s;

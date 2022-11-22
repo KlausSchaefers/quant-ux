@@ -28,7 +28,7 @@
     "welcome": {
         "title": "Willkommen",
         "msg": 	"Sie wurden eingeladen den <b>{{name}}</b> Prototypen zu testen. Klicken Sie auf <b>Starten</b>, um den Test zu beginnen.",
-        "privacy": "Dies ist ein Usabilitytest und ihre Interaktionen werden gespeichert. Es werden <u>keine persönlichen Informationen</u> gespeichert.",
+        "privacy": "Dies ist ein Usabilitytest und ihre Interaktionen werden gespeichert. Es werden <u>keine persönlichen Informationen</u> gespeichert. Sie finden mehr informationen auf unserer <a target='quxPrivacy' href='#/privacy.html'>Privacy Seite</a>.",
         "start": "Starten",
         "showTasks": "Aufgaben zeigen"
     },

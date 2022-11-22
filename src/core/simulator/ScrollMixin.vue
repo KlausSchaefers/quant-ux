@@ -13,19 +13,29 @@ export default {
 	name: 'ScrollMixin',
     methods: {
         initScroll (){
-
 			/**
 			 * Hook in window scroll listener if the simulator is launched in the
 			 * mobile.
 			 */
 			if(!this.scrollListenerInited){
-				if(this.scrollListenTarget == "window"){
+				if(this.scrollListenTarget === "window"){
 					this.own(on(window, "scroll", lang.hitch(this, "onScrollWindow")));
-				} else {
+				} else if (this.scrollListenTarget === 'simpleBar'){
+					// we have to wait for the simple scroll to change the DOM
+					setTimeout(() => {
+						const parent = this.domNode?.parentNode?.parentNode
+						if (parent) {
+							this.logger.log(-1,"initScroll","enter > simpleBar");
+							this.own(on(parent, "scroll", lang.hitch(this, "onScrollParent" )));
+						} else {
+							this.logger.warn("initScroll","enter > could not find simpleBbar");
+						}
+					}, 300)				
+			 	} else {
 					if (this.domNode.parentNode) {
 						this.own(on(this.domNode.parentNode, "scroll", lang.hitch(this, "onScrollParent" )));
 					} else {
-						console.warn('initScroll() > no parent,, wait 200')
+						this.logger.warn("initScroll"," no parent");
 						return
 					}
 				}
@@ -55,7 +65,7 @@ export default {
 				return false;
 			}
 
-			var scrollTop = (window.pageYOffset !== undefined)
+			const scrollTop = (window.pageYOffset !== undefined)
 				? window.pageYOffset
 				: (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
@@ -63,22 +73,21 @@ export default {
 		},
 
 		onScrollParent (e){
-
-			var node = e.target;
-			var scrollTop = (node.pageYOffset !== undefined) ? node.pageYOffset : node.scrollTop;
+			const node = e.target;
+			const scrollTop = (node.pageYOffset !== undefined) ? node.pageYOffset : node.scrollTop;
 			this.onScroll(scrollTop);
 		},
 
 		onScroll (scrollTop){
 
-			var p = (scrollTop / this.currentScreen.h);
-			var now = new Date().getTime();
+			const p = (scrollTop / this.currentScreen.h);
+			const now = new Date().getTime();
 			if(this.logScroll){
 				/**
 				 * We do not want to record all scroll events. We stick to
 				 * every 30ms...
 				 */
-				var event = {
+				const event = {
 					time : now,
 					value : p
 				};
