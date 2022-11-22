@@ -24,17 +24,17 @@ export default class CopyPaste extends Group{
 	}
 
 	replicateWidgets (ids, pos, selectedGroup, fromToolbar){
-		this.logger.log(0,"replicateWidgets", "enter > ");
+		this.logger.log(-1,"replicateWidgets", "enter > ");
 		this.startModelChange()
 		
 		pos = this.correctPostion(ids, pos, fromToolbar);
 
-		var cloneIds = this.modelAddClonedWidgets(ids, pos, selectedGroup)
+		const cloneIds = this.modelAddClonedWidgets(ids, pos, selectedGroup)
 
 		/**
 		 * make command
 		 */
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "WidgetReplicate",
 			sourceIds: ids,
@@ -50,26 +50,28 @@ export default class CopyPaste extends Group{
 	}
 
 	modelAddClonedWidgets (ids, pos,selectedGroup, undoIds) {
-		var clonedIds = {
+		const clonedIds = {
 			widgets: [],
 			groups: [],
 		};
 
-		var targetScreen = this.getHoverScreen(pos);
+		const targetScreen = this.getHoverScreen(pos);
 
 		/**
 		 * FIXME: copy the group stuff as well!
 		 */
-		var groups = []
+		let groups = []
 		let changes = []
-		var clonePos = this.getClones(ids, pos).clones;
+		let clonePos = this.getClones(ids, pos).clones;
+		clonePos.sort((a,b) => a.z - b.z)
 		let z = this.getMaxZValue(this.model.widgets)
 		for (let i = 0; i < clonePos.length; i++) {
-			var cPos = clonePos[i];
+			const cPos = clonePos[i];
+			console.debug(cPos)
 			if(this.model.widgets[cPos.cloneOff]){
-				var widget = this.model.widgets[cPos.cloneOff];
+				const widget = this.model.widgets[cPos.cloneOff];
 
-				var clonedWidget = this._copyWidget(widget, targetScreen);
+				const clonedWidget = this._copyWidget(widget, targetScreen);
 				changes.push({type:"widget", action:'add', id: clonedWidget.id})
 
 				/**

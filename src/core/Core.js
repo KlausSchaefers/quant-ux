@@ -102,9 +102,9 @@ export default class Core extends Evented {
                     let id;
                     for (let i = 0; i < ids.length; i++) {
                         id = ids[i];
-                        var offset = offSets[id];
+                        const offset = offSets[id];
                         //console.debug(id,offset.x, offset.y , offset.box.h + ySpace + offset.y)
-                        var clone = {
+                        const clone = {
                             w: boudingBox.w,
                             h: boudingBox.h,
                             x: boudingBox.x + (x * (boudingBox.w + xSpace) + offset.x) * xFactor,
@@ -118,7 +118,7 @@ export default class Core extends Evented {
                     /**
                      * FIXME: Should this be in the loop?
                      */
-                    var preview = {
+                    const preview = {
                         w: boudingBox.w,
                         h: boudingBox.h,
                         x: boudingBox.x + x * (boudingBox.w + xSpace) * xFactor,

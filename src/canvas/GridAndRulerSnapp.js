@@ -388,7 +388,7 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	/***********************************************************************
-	 * Snapping Distabce
+	 * Snapping Distance
 	 ***********************************************************************/
 
 	getSnappDictance () {
