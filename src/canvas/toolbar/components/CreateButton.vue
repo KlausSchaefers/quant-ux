@@ -131,6 +131,7 @@ export default {
 				this.renderTemplates();
 			}
 			setTimeout( () => {
+				this.searchBox.select();
 				this.searchBox.focus();
 			}, 250)
 			css.add(this.domNode,"MatcToolbarItemActive");
