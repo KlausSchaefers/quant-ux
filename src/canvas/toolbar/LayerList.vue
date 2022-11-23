@@ -361,6 +361,9 @@ export default {
 					}
 				}
 			}
+			const lastWidget = sorted[sorted.length-1]
+			const end = this.createEndNode(screen.id, lastWidget?.id)
+			tree.children.push(end)
 			return tree
 		},
 
@@ -416,11 +419,26 @@ export default {
 			return groupNodes[group.id]
 		},
 
+		createEndNode (screenID, widgetID) {
+			const node = {
+				id: screenID +'end',
+				type:'end',
+				screenID: screenID,
+				widgetID: widgetID,
+				widgetType: 'box.type',
+				domId: screenID+'End',
+				dndType: 'box',
+				isEnd:true	
+			}
+			this.nodes[node.id] = node
+			return node
+		},
+
 		createNode (box, widgetID, screenID, groupId, type = 'widget', defaultIsOpen = true) {
 			if (this.openNodes[box.id] === undefined) {
 				this.openNodes[box.id] = defaultIsOpen
 			}
-			let node = {
+			const node = {
 				id: box.id,
 				widgetType: box.type,
 				domId: this.getScrollId(box.id),
@@ -482,7 +500,7 @@ export default {
 				node.label += ' *' // keep this for debugging
 			}
 
-			if (this.isDebug) {
+			if (this.isDebug && node.z !== undefined) {
 				node.label += ` [${node.z}]`
 			}
 			

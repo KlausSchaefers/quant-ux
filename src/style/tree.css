@@ -19,6 +19,17 @@
   align-items: center;
 }
 
+.MatcTree .MatcTreeItemEnd .MatcTreeItemRow {
+  height: 4px;
+}
+
+.MatcTree .MatcTreeItemEnd .MatcTreeIcon,
+.MatcTree .MatcTreeItemEnd .MatcTreeItemLabel{
+  display: none;
+}
+
+
+
 .MatcTreeItemRow:hover{
   color: #111;
 }
@@ -127,7 +138,7 @@ input.MatcTreeItemLabel {
 
 .MatcTree ul.MatcTreeItemLevel0{
   margin-left: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 }
 
 .MatcTreeItemLevel1 .MatcTreeItemRow {

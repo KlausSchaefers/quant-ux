@@ -1,7 +1,7 @@
 
 <template>
 <!-- :xScroll="scrollToItem()" Add this to enbale scrolling...  HSould be fixed to only tricker when seelction was changes from canvas-->
-	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem', 'MatcTreeItemLevel' + level]" :xScroll="scrollToItem()"  >
+	<ul :class="[{'MatcTreeItemDragOver': isDragOver},{'MatcTreeItemEnd': value.isEnd}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem', 'MatcTreeItemLevel' + level]" :xScroll="scrollToItem()"  >
     <li >
         <div
             :class="'MatcTreeItemRow ' + rowStyle"

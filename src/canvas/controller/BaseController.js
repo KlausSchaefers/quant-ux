@@ -277,8 +277,8 @@ export default class BaseController extends Core {
 	}
 
 	commitModelChange (render = true) {
-		this.logger.log(-1,"commitModelChange", "enter  > render: "+ render + "> changes: " + this._modelHasChanged);
-		console.time("commitModelChange")
+		this.logger.log(1,"commitModelChange", "enter  > render: "+ render + "> changes: " + this._modelHasChanged);
+		//console.time("commitModelChange")
 		const inheritedModel = this.getInheritedModel(this.model)
 
 		if (this._modelHasChanged) {
@@ -310,7 +310,7 @@ export default class BaseController extends Core {
 		this._modelChanges = []
 		this._modelRenderJobs = {}
 		this._modelHasChanged = false
-		console.timeEnd("commitModelChange")
+		//console.timeEnd("commitModelChange")
 		console.timeEnd("startModelChange")
 	}
 

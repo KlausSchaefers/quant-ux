@@ -105,8 +105,8 @@ class LayerUtil {
 		}
 
 		//* 6) Group movement to other group (make child)
-		if (from.type === 'group' && to.type === 'widget' && from.groupID !== to.groupID && to.groupID) {
-            Logger.log(1,"getGroupChanges() > 6)  Group movement in other groups");
+		if (from.type === 'group' && (to.type === 'widget' ) && from.groupID !== to.groupID && to.groupID) {
+            Logger.log(-1,"getGroupChanges() > 6)  Group movement in other groups");
             
 			// FIXME we fire here too many channges
 
@@ -139,10 +139,10 @@ class LayerUtil {
             // some how handled well be the bz case 8
 		}
 
-		/**
+	    /**
 		 * 8) Group out of group to screen
 		 */
-		if (from.type === 'group' && to.type === 'group' && !to.groupID && from.groupID && from.source) {
+		if (from.type === 'group'  && !to.groupID && from.groupID && from.source) {
             Logger.log(1,"getGroupChanges() > 8)  Group out of group to screen");
             newGroup.push({
 				type: "removeSubGroup",
@@ -163,10 +163,10 @@ class LayerUtil {
 
     }
 
-    getNewZValuePositions (beforePosition, selection, oldZValues){
+    getNewZValuePositions (beforePosition, selection, oldZValues, before = true){
 
         const insertZ = oldZValues[beforePosition]
-        const offset = selection.length
+        const offset = before ? selection.length : 0
         const selectedZ = selection.map(id => {
             return {
                 id: id,
@@ -176,7 +176,7 @@ class LayerUtil {
             return a.z - b.z
         })
 	
-        //this.logger.log(2, 'getNewZValuePositions()', `insertZ : ${insertZ}, offset: ${offset}`)
+        Logger.log(2, 'LayerUtil.getNewZValuePositions()', `insertZ : ${insertZ}, offset: ${offset}, before: ${before}`)
 
 
         /**
@@ -185,12 +185,14 @@ class LayerUtil {
 		 * fractions to avoid stupid overflow issues
          */
 		const zValues = []
+		const f = before? 1: -1 // if we are before we substract...
         selectedZ.forEach((value, i) => {
             zValues.push({
                 id: value.id,
-                z: insertZ + ((i+1) * 0.001)
+                z: insertZ + ((i+1) * 0.001 * f)
             })
         })
+
 
         /**
          * 2) Now move all the widgets (that are not selected) 

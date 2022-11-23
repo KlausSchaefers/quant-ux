@@ -83,7 +83,7 @@ export default class Layer extends Templates {
 
 	createChangeLayerCommand (from, to){
 
-
+		const before = to.type !== 'end'
 		const beforePosition = to.widgetID
 		let selectedElements = [from.widgetID]
 
@@ -97,12 +97,14 @@ export default class Layer extends Templates {
 		}
 
 		/**
-		 * Since 4.2.5 we also update grop selected chidlren
+		 * Since 4.2.5 we also update group selected chidlren
 		 */
 		if (from.selection) {
 			from.selection.forEach(id => {
 				if (id != from.widgetID) {
-					selectedElements.push(id)
+					if (selectedElements.indexOf(id) === -1) {
+						selectedElements.push(id)
+					}		
 				}
 			})
 		}
@@ -111,7 +113,7 @@ export default class Layer extends Templates {
 		 * Get old and new Z Values
 		 */
 		const oldValues = ModelUtil.getZValuesForScreen(this.model, from.screenID);
-		const newValues = LayerUtil.getNewZValuePositions(beforePosition, selectedElements, oldValues);
+		const newValues = LayerUtil.getNewZValuePositions(beforePosition, selectedElements, oldValues, before);
 
 		/**
 		 * Get group changes
