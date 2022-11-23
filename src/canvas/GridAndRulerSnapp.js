@@ -219,8 +219,8 @@ export default class GridAndRulerSnapp extends Core {
 		 * now compare all lines. For grid we just take to top left corner
 		 */
 		const corners = this.getCorners(absPos, this.grid.enabled);
-		const closeXLine = this.getCloseLines(this._linesX, "x", corners.x, false, 'corner');
-		const closeYLine = this.getCloseLines(this._linesY, "y", corners.y, false, 'corner');
+		const closeXLine = SnappUtil.getCloseLines(this.showDistance, this._linesX, "x", corners.x, false, 'corner');
+		const closeYLine = SnappUtil.getCloseLines(this.showDistance, this._linesY, "y", corners.y, false, 'corner');
 
 		/**
 		 * Since 4.3.0 we include for none grid both sides. We have
@@ -245,8 +245,8 @@ export default class GridAndRulerSnapp extends Core {
 		let closeXMiddle = null
 		let closeYMiddle = null
 		if (!this.grid.enabled) {
-			closeXMiddle = this.getCloseLines(this._linesXMiddle, "x", corners.mx, "Grid", 'middle');
-			closeYMiddle = this.getCloseLines(this._linesYMiddle, "y", corners.my, "Grid", 'middle');
+			closeXMiddle = SnappUtil.getCloseLines(this.showDistance, this._linesXMiddle, "x", corners.mx, "Grid", 'middle');
+			closeYMiddle = SnappUtil.getCloseLines(this.showDistance, this._linesYMiddle, "y", corners.my, "Grid", 'middle');
 		}
 
 
@@ -259,8 +259,8 @@ export default class GridAndRulerSnapp extends Core {
 		let closeYPattern = null
 		if (!this.grid.enabled) {
 			let linesPattern = this.renderOverLapDistance(absPos, top, left);
-			closeXPattern = this.getCloseLines(linesPattern.x, "x", corners.l, false, 'pattern');
-			closeYPattern = this.getCloseLines(linesPattern.y, "y", corners.t, false, 'pattern');
+			closeXPattern = SnappUtil.getCloseLines(this.showDistance, linesPattern.x, "x", corners.l, false, 'pattern');
+			closeYPattern = SnappUtil.getCloseLines(this.showDistance, linesPattern.y, "y", corners.t, false, 'pattern');
 		}
 
 		/**
@@ -292,7 +292,7 @@ export default class GridAndRulerSnapp extends Core {
 			this.correctY(absPos, diff, minLineY);
 		}
 
-		this.snapp(absPos, diff, this.activePoint);
+		SnappUtil.snapp(absPos, diff, this.activePoint);
 
 		/**
 		 * Correct the finall snapping if SHIFT was pressed
@@ -318,6 +318,8 @@ export default class GridAndRulerSnapp extends Core {
 		if (absPos.h < 0) {
 			absPos.h = 1
 		}
+
+		this.renderSnappLines(absPos)
 
 		if (this.showDndDistance && this.selectedType != "Xboundingbox") {
 			try {
@@ -347,33 +349,34 @@ export default class GridAndRulerSnapp extends Core {
 		return absPos;
 	}
 
-
-
-	getCloseLines(lines, key, vales, ignoreType = false, lineType) {
-
-		let result = null;
-		let min = this.showDistance;	
-		for (let id in lines) {
-			const line = lines[id];
-			if (!ignoreType || ignoreType != line.type) {
-				line.dist = 1000;
-				for (let i = 0; i < vales.length; i++) {
-					const v = vales[i];
-					const cost = Math.abs(v - line[key])
-					if (cost >= 0 && cost < min) {
-						min = cost;
-						result = line;
-						result.pos = i
-						result.dist = line[key] - v;
-						result.lineType = lineType
-					}
-				}
-			}
+	renderSnappLines (pos) {
+		if (this.activePoint !== 'All') {
+			return
 		}
 
-		return result;
-	}
+		if (this.grid.enabled) {
+			return
+		}
 
+		const x1 = 'x' + pos.x
+		const x2 = 'x' + (pos.x + pos.w)
+		const y1 = 'y' + pos.y
+		const y2 = 'y' + (pos.y + pos.h)
+
+
+		if (this._linesX[x1]) {
+			this.showLine(this._linesX[x1], 'x', true)
+		}
+		if (this._linesX[x2]) {
+			this.showLine(this._linesX[x2], 'x', true)
+		}
+		if (this._linesY[y1]) {
+			this.showLine(this._linesY[y1], 'y', true)
+		}
+		if (this._linesY[y2]) {
+			this.showLine(this._linesY[y2], 'y', true)
+		}
+	}
 
 	renderDimension(pos, mouse) {
 		if (!this.dimDiv) {
@@ -1750,71 +1753,6 @@ export default class GridAndRulerSnapp extends Core {
 
 
 
-	snapp(absPos, diff, type) {
-		//this.logger.log(0,"snapp", "enter " +diff.x + " " + diff.y + " > " + type);
-
-		switch (type) {
-
-			case "All":
-				/**
-				 * Simply substract the difference
-				 */
-				absPos.x += diff.x;
-				absPos.y += diff.y;
-				break;
-
-			case "LeftUp":
-				absPos.x += diff.x;
-				absPos.w -= diff.x;
-				absPos.y += diff.y;
-				absPos.h -= diff.y;
-				break;
-
-
-			case "RightUp":
-				absPos.w += diff.x;
-				absPos.y += diff.y;
-				absPos.h -= diff.y;
-				break;
-
-			case "RightDown":
-				absPos.w += diff.x;
-				absPos.h += diff.y;
-				break;
-
-			case "LeftDown":
-				absPos.x += diff.x;
-				absPos.w -= diff.x;
-				absPos.h += diff.y;
-				break;
-
-
-			case "North":
-				absPos.y += diff.y;
-				absPos.h -= diff.y;
-				break;
-
-			case "South":
-				absPos.h += diff.y;
-				break;
-
-			case "West":
-				absPos.x += diff.x;
-				absPos.w -= diff.x;
-				break;
-
-			case "East":
-				absPos.w += diff.x;
-				break;
-
-			default:
-				// leftup
-				console.warn("Type not supported!");
-				break;
-		}
-
-		return absPos;
-	}
 
 
 	initLines(absPos) {
@@ -2176,13 +2114,13 @@ export default class GridAndRulerSnapp extends Core {
 				type: type,
 				pos: "left",
 				_sourceV: sourceBox.x
-			}, type, box);
+			}, type, box, 0);
 			this.addXLine(box.x + box.w, {
 				id: box.id,
 				type: type,
 				pos: "right",
 				_sourceV: sourceBox.x + sourceBox.w
-			}, type, box);
+			}, type, box, -1);
 		}
 		if (addY) {
 			this.addYLine(box.y, {
@@ -2190,13 +2128,13 @@ export default class GridAndRulerSnapp extends Core {
 				type: type,
 				pos: "top",
 				_sourceV: sourceBox.y
-			}, type, box);
+			}, type, box, 0);
 			this.addYLine(box.y + box.h, {
 				id: box.id,
 				type: type,
 				pos: "bottom",
 				_sourceV: sourceBox.y + sourceBox.h
-			}, type, box);
+			}, type, box, -1);
 		}
 
 		if (addMiddle) {
@@ -2233,7 +2171,7 @@ export default class GridAndRulerSnapp extends Core {
 		}
 	}
 
-	addXLine(x, snapp, type, box) {
+	addXLine(x, snapp, type, box, offset=0) {
 		if (!this._linesX["x" + x]) {
 			this._linesX["x" + x] = {
 				x: x,
@@ -2242,6 +2180,7 @@ export default class GridAndRulerSnapp extends Core {
 				id: "x" + x,
 				snapp: snapp,
 				count: 0,
+				offset: offset,
 				boxes: []
 			};
 		}
@@ -2251,7 +2190,7 @@ export default class GridAndRulerSnapp extends Core {
 		}
 	}
 
-	addYLine(y, snapp, type, box) {
+	addYLine(y, snapp, type, box, offset = 0) {
 		if (!this._linesY["y" + y]) {
 			this._linesY["y" + y] = {
 				y: y,
@@ -2260,6 +2199,7 @@ export default class GridAndRulerSnapp extends Core {
 				id: "y" + y,
 				snapp: snapp,
 				count: 0,
+				offset: offset,
 				boxes: []
 			};
 		}
@@ -2306,7 +2246,7 @@ export default class GridAndRulerSnapp extends Core {
 		}
 	}
 
-	showLine(line, direction) {
+	showLine(line, direction, forceHighlight = false) {
 
 		if ("y" === direction && (this.activePoint === "West" || this.activePoint === "East")) {
 			return;
@@ -2320,7 +2260,7 @@ export default class GridAndRulerSnapp extends Core {
 			if (this._linesDivs[line.id]) {
 				css.remove(this._linesDivs[line.id], "MatcRulerLineHidden");
 				let snappDistance = this.getSnappDictance()
-				if (Math.abs(line.dist) < snappDistance) {
+				if (forceHighlight || Math.abs(line.dist) < snappDistance) {
 					css.add(this._linesDivs[line.id], "MatcRulerLineSelected");
 					if (this.highlightBoxes) {
 						if (line.boxes) {
@@ -2423,7 +2363,7 @@ export default class GridAndRulerSnapp extends Core {
 				}
 				div.style.width = "1px";
 				div.style.height = "100%";
-				div.style.left = line.x + "px";
+				div.style.left = (line.x + line.offset) + "px";
 				div.style.top = "0px";
 				this.container.appendChild(div);
 				this._linesDivs[id] = div;
@@ -2438,7 +2378,7 @@ export default class GridAndRulerSnapp extends Core {
 				}
 				div.style.height = "1px";
 				div.style.width = "100%";
-				div.style.top = line.y + "px";
+				div.style.top = (line.y + line.offset) + "px";
 				div.style.left = "0px";
 				this.container.appendChild(div);
 				this._linesDivs[id] = div;

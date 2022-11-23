@@ -21,13 +21,13 @@ export default class Core extends Evented {
      * @param {*} container
      */
     getParentWidgets(widget, model) {
-        let result = []
+        const result = []
         /*
          * Loop over sorted list
          */
-        let sortedWidgets = this.getOrderedWidgets(model.widgets)
+        const sortedWidgets = this.getOrderedWidgets(model.widgets)
         for (let i = 0; i < sortedWidgets.length; i++) {
-            let container = sortedWidgets[i]
+            const container = sortedWidgets[i]
             //console.debug('Repeater.core', container.name, container.isContainer, container.id, widget.id)
             /**
              * if the widget is the potential container, we can stop,
@@ -61,29 +61,29 @@ export default class Core extends Evented {
      **********************************************************************/
     getClones(ids, target) {
 
-        var result = [];
-        var previews = [];
+        const result = [];
+        const previews = [];
 
         // 1) get bounding box
-        var boudingBox = this.getBoundingBox(ids);
+        const boudingBox = this.getBoundingBox(ids);
 
-        var xFactor = 1;
+        let xFactor = 1;
         if (boudingBox.x > target.x) {
             xFactor = -1;
         }
 
-        var yFactor = 1;
+        let yFactor = 1;
         if (boudingBox.y > target.y) {
             yFactor = -1;
         }
 
-        var xCount = Math.floor(target.w / boudingBox.w);
-        var yCount = Math.floor(target.h / boudingBox.h);
-        var xSpace = Math.round((target.w - xCount * boudingBox.w) / Math.max(1, xCount - 1));
-        var ySpace = Math.round((target.h - yCount * boudingBox.h) / Math.max(1, yCount - 1));
+        const xCount = Math.floor(target.w / boudingBox.w);
+        const yCount = Math.floor(target.h / boudingBox.h);
+        const xSpace = Math.round((target.w - xCount * boudingBox.w) / Math.max(1, xCount - 1));
+        const ySpace = Math.round((target.h - yCount * boudingBox.h) / Math.max(1, yCount - 1));
         //console.debug("getClones > x: ", xCount,xSpace, " y:", yCount, ySpace, " >> bb: ", boudingBox.w, boudingBox.h, boudingBox.y)
 
-        var offSets = {};
+        const offSets = {};
         for (let i = 0; i < ids.length; i++) {
             let id = ids[i];
             var box = this.getBoxById(id);
@@ -95,7 +95,7 @@ export default class Core extends Evented {
         }
 
         // now create grid but not at 0,0
-        var count = 0;
+        let count = 0;
         for (let x = 0; x < xCount; x++) {
             for (let y = 0; y < yCount; y++) {
                 if (x != 0 || y != 0) {

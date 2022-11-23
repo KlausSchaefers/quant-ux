@@ -5,7 +5,7 @@
     <li >
         <div
             :class="'MatcTreeItemRow ' + rowStyle"
-            @click.stop="onClick($event)"
+            @mousedown="onClick($event)"
             @dragstart="onDragStart"
             @dragover="onDragOver"
             @dragleave="onDragLeave"
