@@ -890,15 +890,17 @@
 }
 
 .MatcHeapMapWidget:HOVER{
-	border:1px solid #f83a3a;
-	background:rgba(73,192,240,0.3);
+    border: 1px solid #49C0F0;
+    background: rgba(73,192,240,0.3);
 }
 
 
 
-.MatcHeapMapWidget.MatcHeapMapWidgetSelected, .MatcHeapMapWidgetSelected {
-	border:1px solid #f83a3a;
-	background:rgba(73,192,240,0.5);
+.MatcHeapMapWidget.MatcHeapMapWidgetSelected, 
+.MatcWidgetDND.MatcHeapMapWidgetSelected, 
+.MatcHeapMapWidgetSelected {
+    border: 1px solid #49C0F0;
+    background: rgba(73,192,240,0.3);
 }
 
 .MatcHeatMapScreen.MatcHeapMapWidgetSelected{

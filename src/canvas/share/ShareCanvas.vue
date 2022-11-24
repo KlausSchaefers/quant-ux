@@ -521,8 +521,8 @@ export default {
 		},
 
 		_getSimulatorScreen (){
-			if(this._selectedScreen){
-				return this._selectedScreen;
+			if(this.getSelectedScreen()){
+				return this.getSelectedScreen();
 			}
 			if(this._selectedWidget){
 				return this.getParentScreen(this._selectedWidget);

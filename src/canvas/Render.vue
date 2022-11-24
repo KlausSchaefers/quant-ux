@@ -89,7 +89,8 @@ export default {
 			this.lineSVGs = {};
 			this.linePoints = {}
 			this.gridBackground = {};
-			this.renderedModels = {};		
+			this.renderedModels = {};
+			this.resetCanvasSelection()
 
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));

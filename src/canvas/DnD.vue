@@ -4,6 +4,7 @@ import topic from "dojo/topic";
 import domGeom from "dojo/domGeom";
 import css from "dojo/css";
 import CoreUtil from 'core/CoreUtil'
+//import SelectionUtil from 'core/SelectionUtil'
 
 export default {
   name: "DnD",
@@ -297,6 +298,7 @@ export default {
 
       this._dragNDropBoxPositions = null;
       this.onSelectionMoved(pos, dif, id);
+      this.setSelectedScreens([id]);
       this.setState(0);
     },
 
@@ -308,8 +310,7 @@ export default {
         return;
       }
 
-      this.onScreenSelected(id);
-
+      this.setSelectedScreens([id]);
       this.setState(0);
     },
 
@@ -757,7 +758,8 @@ export default {
     },
 
     _expandSelectionById (id) {
-           /**
+        
+        /**
          * FIXME: This is an evil bug! This open in FireFox an popup!
          * Maybe we have to listen to RMC and stop it..
          */
@@ -797,6 +799,9 @@ export default {
     },
 
     _setSelectionById (id) {
+
+
+
         /**
          * Since 2.1.3
          */
@@ -822,7 +827,7 @@ export default {
                * Since 2.1.3 we have sub group and we want the top group, but here
                * we stull want to allow sub selection
                */
-              var widgetGroup = this.getParentGroup(this._selectWidget.id);
+              const widgetGroup = this.getParentGroup(this._selectWidget.id);
               if (widgetGroup && widgetGroup.id == group.id) {
                 /**
                  * Widget change in current group

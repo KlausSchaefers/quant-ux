@@ -17,9 +17,71 @@ import topic from 'dojo/topic'
     components: {},
     methods: {
 
+		setSelectedScreens (screenIDs, expand = false, force = false) {
+			this.logger.log(1, 'setSelectedScreens', screenIDs, expand, force)
+
+			// we need to call unselect to make sure 
+			// legacy selections are cleaned up
+			this.unSelect()
+			if (!expand) {
+				this.resetCanvasSelection()				
+			}
+	
+			screenIDs.forEach(id => {
+				const scrn = this.model.screens[id];
+				if (scrn) {
+					this._canvasSelection.screens.push(scrn)
+				}
+			})
+
+			//console.debug('setSelectedScreens', this._canvasSelection.screens.map(s => s.name))
+
+			this.renderScreenSelection()
+		},
+
+		hasScreenSelection() {
+			return this._canvasSelection.screens.length > 0
+		},
+
+		renderScreenSelection () {
+			this.logger.log(-1, "renderScreenSelection", "enter > ");
+	
+			if (this._canvasSelection.screens.length === 1) {
+				const scrn = this._canvasSelection.screens[0]
+				const id = scrn.id
+				this.onSelectionChanged(id, "screen", false);
+
+				if (this.model.screens[id]) {			
+					const parent = this.screenDivs[id];
+					this.showResizeHandles(scrn, id, parent, "screen", true);
+					this.selectBox(parent);
+
+					this.controller.onScreenSelected(id);
+					css.add(this.domNode, "MatcCanvasSelection");
+				}
+
+				try {
+					if (this.selectionListener) {
+						this.selectionListener.selectScreen(id);
+					}
+				} catch (e){
+					this.logger.error("_selectSingleScreen", "could not call selectionListener > ", e);
+				}
+			} else {
+				this.logger.error("_selectSingleScreen", "Multi screen selection not supported ");
+			}
+		},
+
+		getSelectedScreen () {
+			if (this._canvasSelection.screens.length === 1) {
+				return this._canvasSelection.screens[0]
+			}
+			return null
+		},
+
 		isScreenSelected (id) {
-			if (this._selectedScreen) {
-				return this._selectedScreen.id === id
+			if (this.getSelectedScreen()) {
+				return this.getSelectedScreen().id === id
 			}
 			if (this._selectMulti) {
 				return this._selectMulti.indexOf(id) > -1
@@ -113,35 +175,6 @@ import topic from 'dojo/topic'
 			}	
 		},
 
-
-		onScreenSelected (id){
-			this.logger.log(3,"onScreenSelected", "enter > "+ id);
-
-			this.onSelectionChanged(id, "screen");
-
-			/**
-			 * The screen could have just been deleted!
-			 */
-			if(this.model.screens[id]){
-				this._selectedScreen = this.model.screens[id];
-
-				const parent = this.screenDivs[id];
-				this.showResizeHandles(this._selectedScreen, id, parent, "screen", true);
-				this.selectBox(parent);
-
-				this.controller.onScreenSelected(id);
-				css.add(this.domNode, "MatcCanvasSelection");
-			}
-
-			try {
-				if (this.selectionListener) {
-					this.selectionListener.selectScreen(id);
-				}
-			} catch (e){
-				this.logger.error("onGroupSelected", "could not call selectionListener > ", e);
-			}
-
-		},
 
 
 		onLineSelected (id){
@@ -243,7 +276,7 @@ import topic from 'dojo/topic'
 		},
 
 
-		onSelectionChanged (id, type){
+		onSelectionChanged (id, type, needUnSelect = true){
 			this.logger.log(1,"onSelectionChanged", "enter > " + id + " >" + type);
 			try{
 				if(this._selectWidget && this._selectWidget.id!= id){
@@ -268,15 +301,19 @@ import topic from 'dojo/topic'
 				 * make sure all popups are closed!
 				 */
 				topic.publish("matc/canvas/click", id, type);
-				this.unSelect();
+				if (needUnSelect) {
+					// FIXME: This is super shit
+					console.warn('unSelect() called')
+					this.unSelect();
+				}
 			} catch( e){
 				this.logger.sendError(e);
 			}
 		},
 
 		isInSelection (id) {
-			if (this._selectedScreen) {
-				return this._selectedScreen.id === id 
+			if (this.getSelectedScreen()) {
+				return this.this.getSelectedScreen().id === id 
 			}
 			if (this._selectWidget) {
 				return this._selectWidget.id === id 
@@ -292,21 +329,33 @@ import topic from 'dojo/topic'
 		},
 
 		hasSelection () {
-			return (this._selectedScreen !== null  && this._selectedScreen !== undefined ) ||
+			return (this.getSelectedScreen() !== null  && this.getSelectedScreen() !== undefined ) ||
 					(this._selectWidget !== null  && this._selectWidget !== undefined ) ||
 					(this._selectMulti !== null  && this._selectMulti !== undefined ) ||
 					(this._selectGroup !== null  && this._selectGroup !== undefined ) ||
 					(this._selectInheritedWidget !== null  && this._selectInheritedWidget !== undefined )
 		},
 
+		resetCanvasSelection () {
+			//console.debug('resetCanvasSelection')
+			this._canvasSelection = {
+				screens: [],
+				groups: [],
+				lines: [],
+				widgets: [],
+				count:0
+			}	
+		},
+
 		unSelect (){
 			this.logger.log(3,"unSelect", "enter > ");
 
-			this._selectedScreen = null;
 			this._selectWidget = null;
 			this._selectMulti = null;
 			this._selectGroup = null;
-			this._selectInheritedWidget = null
+			this._selectInheritedWidget = null		
+			this.resetCanvasSelection()
+
 
 			css.remove(this.domNode, "MatcCanvasSelection");
 
@@ -348,11 +397,11 @@ import topic from 'dojo/topic'
 				this.onWidgetSelected(this._selectWidget.id, true);
 			}
 
-			if(this._selectedScreen){
-				this.onScreenSelected(this._selectedScreen.id, true);
+			if(this.hasScreenSelection()){
+				this.renderScreenSelection()
 			}
 
-			if(this._selectMulti){
+			if (this._selectMulti){
 				this.onMutliSelected(this._selectMulti, true);
 			}
 
@@ -388,9 +437,10 @@ import topic from 'dojo/topic'
 				}
 			}
 
-			if(this._selectedScreen){
-				if(this.model.screens[this._selectedScreen.id]){
-					return this.model.screens[this._selectedScreen.id]
+			if(this.getSelectedScreen()){
+				const screenID = this.getSelectedScreen().id
+				if(this.model.screens[screenID]){
+					return this.model.screens[screenID]
 				}
 			}
 
@@ -502,8 +552,8 @@ import topic from 'dojo/topic'
 				return true;
 			}
 
-			if(this._selectedScreen){
-				let id = this._selectedScreen.id;
+			if(this.getSelectedScreen()){
+				let id = this.getSelectedScreen().id;
 				this.unSelect();
 				this.controller.removeScreen(id);
 				return true;
