@@ -202,22 +202,22 @@ export default {
 
 			this.setMode("add");
 
-			var z = this.getZoomFactor();
+			const z = this.getZoomFactor();
 
 			/**
 			 * create div
 			 */
-			var boundingBox = this.getBoundingBox(group.children);
+			let boundingBox = this.getBoundingBox(group.children);
 			boundingBox = this.getZoomedBox(boundingBox,z,z);
-			var div = this.createBox(boundingBox);
+			const div = this.createBox(boundingBox);
 			css.add(div, "MatcAddBox")
 
-			var children = this.getTemplateGroupOrderChildren(group);
+			const children = this.getTemplateGroupOrderChildren(group);
 			for(var i=0; i< children.length; i++){
-				var child = children[i];
-				var widget = this.factory.createTemplatedModel(child);
+				const child = children[i];
+				let widget = this.factory.createTemplatedModel(child);
 				widget = this.getZoomedBox(widget,z,z);
-				var widgetDIV = this.createZoomedWidget(widget);
+				const widgetDIV = this.createZoomedWidget(widget);
 				div.appendChild(widgetDIV);
 			}
 

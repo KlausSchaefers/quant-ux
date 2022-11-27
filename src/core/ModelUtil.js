@@ -333,7 +333,8 @@ class ModelUtil {
             widgets: {},
             groups: {},
             lines: {},
-            designtokens: {}
+            designtokens: {},
+            templates: {}
         }
 
         zoomedModel.screenSize = this.getZoomedBoxFast(model.screenSize, zoom, zoom, round);
@@ -362,6 +363,22 @@ class ModelUtil {
             zoomedModel.screens[id] = zoomedScreen  
         }
 
+        if (model.templates) {
+            zoomedModel.templates = model.templates
+            // for (let id in model.templates) {
+            //     const template = model.templates[id]
+            //     const zoomedTemplate = this.getZoomedBoxFast(template,zoom, zoom)
+            //     console.debug(template, zoomedTemplate)
+            //     zoomedTemplate.style = {
+            //         locked: template?.style.locked
+            //     }
+            //     zoomedTemplate.props = template.props // this is ok, because edits will go through the controller
+            //     zoomedTemplate.z = template.z
+            //     zoomedTemplate.type = template.type
+            //     zoomedModel.templates[id] = zoomedTemplate
+            // }
+        }
+
         for (let id in model.lines) {
             const line = model.lines[id];
             const zoomedLine = {
@@ -378,7 +395,7 @@ class ModelUtil {
             zoomedModel.lines[id] = zoomedLine
         }
 
-        zoomedModel.groups = lang.clone(model.groups)
+        zoomedModel.groups = model.groups
 
         return zoomedModel;
     }
