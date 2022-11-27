@@ -57,6 +57,7 @@ import topic from 'dojo/topic'
 					this.selectBox(parent);
 
 					this.controller.onScreenSelected(id);
+					// select in layerList???s
 					css.add(this.domNode, "MatcCanvasSelection");
 				}
 
