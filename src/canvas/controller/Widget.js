@@ -203,8 +203,7 @@ export default class Widget extends Snapp {
 
 			const modelBoundingBox = this.getBoundingBox(ids);
 
-			let boundingBox = this.getUnZoomedBox(lang.clone(pos), this._canvas.getZoomFactor());
-			boundingBox = this._correctBoundindBox(boundingBox, modelBoundingBox);
+			const boundingBox = this.getUnZoomedBox(lang.clone(pos), this._canvas.getZoomFactor());
 
 			const dif ={
 				x: boundingBox.x *1.0 / modelBoundingBox.x,
@@ -289,11 +288,7 @@ export default class Widget extends Snapp {
 				 * Unzoomed
 				 */
 				boundingbox = this.getUnZoomedBox(lang.clone(boundingbox), this._canvas.getZoomFactor());
-				/**
-				 * FIXME, here was a bug that the corect* methdo was writting to a different variable
-				 */
-				boundingbox = this._correctBoundindBox(boundingbox, modelBoundingBox);
-
+			
 				/**
 				 * Get hover screen
 				 */
@@ -578,6 +573,7 @@ export default class Widget extends Snapp {
 
 	createWidgetPositionCommand (id, pos,fromToolbar, correctPosition){
 
+	
 		/**
 		 * get the correct coordinates in the
 		 * un-zoomed model or do the snapping to

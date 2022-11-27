@@ -61,7 +61,7 @@ export default class GridAndRulerSnapp extends Core {
 			this.adjustSnappDistanceToMouseSpeed = false
 			this.gridEnabled = true
 		}
-		this.logger.log(-1, "start", "snappDistance " + this.snappDistance);
+		this.logger.log(1, "start", "snappDistance " + this.snappDistance);
 
 		this.grid = grid;
 		this.model = canvas.model;
@@ -95,7 +95,7 @@ export default class GridAndRulerSnapp extends Core {
 		this._lines = {};
 		this._linesDivs = {};
 
-		this.logger.log(-1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
+		this.logger.log(1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
 	}
 
 	correct(absPos, e, mouse) {

@@ -5,8 +5,15 @@ export default class Snapp extends Screen {
 
 	correctPostion (id, pos, fromToolbar){
 		this.logger.log(4,"correctPostion", "enter > " , pos);
+
+		const z = this._canvas.getZoomFactor()
+		// if (z === 1) {
+		// 	this.logger.log(1,"correctPostion", "DO NOT SNAPP  > " , pos);
+		// 	return pos
+		// }
+
 		if(!fromToolbar){
-			pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
+			pos = this.getUnZoomedBox(pos, z);
 		}
 
 		if(pos.snapp){

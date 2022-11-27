@@ -198,18 +198,6 @@ export default {
      * Bounding Box
      **********************************************************************/
 
-    _correctBoundindBox: function(boundingbox, modelBoundingBox) {
-      if (Math.abs(boundingbox.x - modelBoundingBox.x) <= 2) {
-        this.logger.log(2, "_correctBoundindBox", "Correct X");
-        boundingbox.x = modelBoundingBox.x;
-      }
-
-      if (Math.abs(boundingbox.y - modelBoundingBox.y) <= 2) {
-        this.logger.log(2, "_correctBoundindBox", "Correct Y");
-        boundingbox.y = modelBoundingBox.y;
-      }
-      return boundingbox;
-    },
 
     /**
      * Gets the new position for a group child

@@ -186,17 +186,6 @@ export default class Core extends Evented {
         }
     }
 
-    _correctBoundindBox(boundingbox, modelBoundingBox) {
-        if (Math.abs(boundingbox.x - modelBoundingBox.x) <= 2) {
-            boundingbox.x = modelBoundingBox.x;
-        }
-
-        if (Math.abs(boundingbox.y - modelBoundingBox.y) <= 2) {
-            boundingbox.y = modelBoundingBox.y;
-        }
-        return boundingbox;
-    }
-
     /**
      * Gets the new position for a group child
      */
