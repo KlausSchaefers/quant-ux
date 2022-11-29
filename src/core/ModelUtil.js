@@ -354,6 +354,7 @@ class ModelUtil {
         for (let id in model.screens) {
             const scrn = model.screens[id]
             const zoomedScreen = this.getZoomedBoxFast(scrn,zoom,zoom)
+            zoomedScreen.segment = scrn.segment
             zoomedScreen.children = scrn.children.slice()
             zoomedScreen.rulers = lang.clone(scrn.rulers)
             zoomedScreen.style = {
