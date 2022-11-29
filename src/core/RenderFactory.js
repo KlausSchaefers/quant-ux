@@ -292,8 +292,8 @@ export default class RenderFactory extends Core {
 	 */
 	updatePositions (model) {
 		for (let id in this._containerWidgets){
-			let uiWidget = this._containerWidgets[id];
-			let widget = model.widgets[id];
+			const uiWidget = this._containerWidgets[id];
+			const widget = model.widgets[id];
 			if (uiWidget && widget) {
 				try {
 					uiWidget.setZoomedModel(model);

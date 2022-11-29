@@ -89,20 +89,20 @@ export default {
 
       this.domNode.innerHTML = ""
       this._childWidgets = []
-      let db = new DomBuilder()
+      const db = new DomBuilder()
 
       if (!this.isSymbol && this.app && widget.props.screenID) {
           this.logger.log(2, 'render', 'enter > full render')
           this._screenID = widget.props.screenID
-          let screen = this.app.screens[widget.props.screenID]
+          const screen = this.app.screens[widget.props.screenID]
           if (screen) {
 
-            let core = new Core()
+            const core = new Core()
             core.model = this.app
 
-            let parentScreen = core.getParentScreen(widget, this.app)
+            const parentScreen = core.getParentScreen(widget, this.app)
 
-            let cntr = db
+            const cntr = db
                 .div('MatcWidgetTypeScreenSegementCntr')
                 .w(screen.w)
                 .h(screen.h)
@@ -112,17 +112,18 @@ export default {
              * Attention: The core.sortedList is somehow reversed... So, we
              * prevent this by passing a new parameter.
              */
-            var widgets = core.getSortedScreenChildren(this.app, screen, false)
+             const widgets = core.getSortedScreenChildren(this.app, screen, false)
 
 			      for (let i=0; i< widgets.length; i++){
-                let childWidget = widgets[i];
-                let copy = lang.clone(childWidget)
+                const childWidget = widgets[i];
+                const copy = lang.clone(childWidget)
                 copy.inherited = childWidget.id
-                copy.id = childWidget.id + '@' + parentScreen.name
-                let div = this.renderWidget(copy, screen, db)
+                copy.id = childWidget.id + '@' + parentScreen?.name
+                
+                const div = this.renderWidget(copy, screen, db)
                 cntr.appendChild(div)
 
-                let child = {
+                const child = {
                     parent: childWidget.id,
                     widget: copy,
                     div: div
