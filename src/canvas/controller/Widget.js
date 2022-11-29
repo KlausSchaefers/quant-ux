@@ -522,6 +522,12 @@ export default class Widget extends Snapp {
 	updateWidgetPosition (id, pos, fromToolbar, hasCopies){
 		this.logger.log(1,"updateWidgetPosition", "enter > " + id );
 
+		const widget = this.model.widgets[id];
+		if (!widget) {
+			this.logger.error("updateWidgetPosition", "No widget with id > " + id );
+			return
+		}
+
 		this.startModelChange()
 		const command = this.createWidgetPositionCommand(id, pos,fromToolbar, true);
 		this.addCommand(command);
@@ -529,7 +535,6 @@ export default class Widget extends Snapp {
 		/**
 		 * get the old screen
 		 */
-		const widget = this.model.widgets[id];
 		const oldScreen = this.getHoverScreen(widget);
 
 		/**
