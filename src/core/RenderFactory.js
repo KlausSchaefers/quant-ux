@@ -295,8 +295,13 @@ export default class RenderFactory extends Core {
 			let uiWidget = this._containerWidgets[id];
 			let widget = model.widgets[id];
 			if (uiWidget && widget) {
-				uiWidget.setZoomedModel(model);
-				uiWidget.update(widget)
+				try {
+					uiWidget.setZoomedModel(model);
+					uiWidget.update(widget)
+				} catch (err){
+					this.logger.error('updatePositions', 'Cannot render', + widget?.type)
+					this.logger.sendError(err)
+				}
 			}
 		}
 	}
