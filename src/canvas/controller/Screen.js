@@ -333,11 +333,21 @@ export default class Screen extends CopyPaste {
 	}
 
 	/**********************************************************************
-	 * Screen Size (Resiying)
+	 * Screen Size (Resizing)
 	 **********************************************************************/
 	setScreenSize (newScreenSize){
 		this.logger.log(0,"setScreenSize", "enter > screen : " + newScreenSize.screenSize.w + "x" + newScreenSize.screenSize.h);
 		this.startModelChange()
+
+		const newScreenHeight = newScreenSize.screenSize.h 
+
+		let newScreenHeights = {}
+		let oldScreenHeights = {}
+		for (let id in this.model.screens) {
+			const scrn = this.model.screens[id]
+			oldScreenHeights[id] = scrn.h
+			newScreenHeights[id] = Math.max(scrn.h, newScreenHeight)
+		}
 
 		const oldScreenSize =  {
 			type : this.model.type,
@@ -350,26 +360,25 @@ export default class Screen extends CopyPaste {
 			timestamp : new Date().getTime(),
 			type : "ScreenSize",
 			o : oldScreenSize,
-			n : newScreenSize
+			n : newScreenSize,
+			newScreenHeights: newScreenHeights,
+			oldScreenHeights: oldScreenHeights
 		};
 
 		this.addCommand(command);
-		this.modelScreenSize(newScreenSize, false);
+		this.modelScreenSize(newScreenSize, newScreenHeights);
 		this.commitModelChange(false, true)
 	}
 
-	modelScreenSize (value, updateWidgets){
-		var oldMinHeight = this.model.screenSize.h;
-
-		for(var id in this.model.screens){
-			var screen = this.model.screens[id];
-			if(updateWidgets) {
-				this.modelScreenSizeWidgets(screen, value.screenSize.w, value.screenSize.h, oldMinHeight)
-			}
+	modelScreenSize (value, screenHeights = {}){
+		for(let id in this.model.screens){
+			const screen = this.model.screens[id];
+			this.modelScreenSizeWidgets(screen, value.screenSize.w, value.screenSize.h)
 			screen.w = value.screenSize.w;
-			screen.h = screen.h * (value.screenSize.h / oldMinHeight);
+			screen.h = screenHeights[id] ? screenHeights[id] : value.screenSize.h
 			screen.min.h = value.screenSize.h
 			screen.min.w = value.screenSize.w
+	
 		}
 		this.model.screenSize.w = value.screenSize.w;
 		this.model.screenSize.h = value.screenSize.h;
@@ -382,32 +391,39 @@ export default class Screen extends CopyPaste {
 	 * We simply scale...
 	 * FIXME: This is super buggy!
 	 */
-	modelScreenSizeWidgets (screen, newW, newH) { // oldMinHeight
-		var difX = screen.w / newW;
-		var difY = screen.h / newH;
-
-		for(var i=0; i < screen.children.length; i++){
-			var widgetID = screen.children[i];
-
-			var widget = this.model.widgets[widgetID];
+	modelScreenSizeWidgets (screen, newW) { // oldMinHeight
+		const difX = screen.w / newW;
+		
+		for(let i=0; i < screen.children.length; i++){
+			const widgetID = screen.children[i];
+			const widget = this.model.widgets[widgetID];
 			if(widget){
-				var left = widget.x - screen.x;
-				var top = widget.y - screen.y;
-				widget.x = Math.round(widget.x -left + (left / difX))
-				widget.y = Math.round(widget.y - top + (top / difY))
-				widget.h = Math.round(widget.h / difY)
-				widget.w = Math.round(widget.w / difX)
+				const left = widget.x - screen.x;
+				const screenRight = screen.x + screen.w
+				// store old distance to right border
+				const right = screenRight -  (widget.x  + widget.w)
+				// first resize width if needed
+				if (widget?.props?.resize?.fixedHorizontal !== true) {
+					widget.w = Math.round(widget.w / difX)
+				}
+				if (widget?.props?.resize?.left === true) {
+					// do nothing. just here for readiblity
+				} else if (widget?.props?.resize?.right === true) {
+					widget.x = screen.x + (newW - (right + widget.w))
+				} else {
+					widget.x = Math.round(widget.x - left + (left / difX))
+				}
 			}
 		}
 	}
 
 	undoScreenSize (command){
-		this.modelScreenSize(command.o, true);
+		this.modelScreenSize(command.o, command.oldScreenHeights);
 	}
 
 
 	redoScreenSize (command){
-		this.modelScreenSize(command.n, true);
+		this.modelScreenSize(command.n, command.newScreenHeights);
 	}
 
 	/**********************************************************************

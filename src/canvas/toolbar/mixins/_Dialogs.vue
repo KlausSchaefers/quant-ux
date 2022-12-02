@@ -185,8 +185,8 @@ export default {
 			d.popup(div, e.target);
 		},
 
-		_changeScreenSize:function(d, selector){
-			var newSize = selector.getValue();
+		_changeScreenSize (d, selector){
+			const newSize = selector.getValue();
 			d.close();
 			this.controller.setScreenSize(newSize, false);
 		},
