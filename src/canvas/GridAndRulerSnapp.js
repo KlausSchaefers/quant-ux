@@ -1570,6 +1570,7 @@ export default class GridAndRulerSnapp extends Core {
 	 ***********************************************************************/
 
 	correctX(absPos, diff, closeXLine) {
+	
 		const snappDistance = this.getSnappDictance()
 		this.showLine(closeXLine, "x");
 		if (Math.abs(closeXLine.dist) < snappDistance) {
@@ -2218,6 +2219,7 @@ export default class GridAndRulerSnapp extends Core {
 				visible: false,
 				id: "x" + x,
 				snapp: snapp,
+				offset:0,
 				count: 0,
 				boxes: []
 			};
@@ -2236,6 +2238,7 @@ export default class GridAndRulerSnapp extends Core {
 				visible: false,
 				id: "y" + y,
 				snapp: snapp,
+				offset:0,
 				count: 0,
 				boxes: []
 			};
@@ -2334,6 +2337,7 @@ export default class GridAndRulerSnapp extends Core {
 			this.renderLine(this._linesY[id], id);
 		}
 		for (let id in this._linesXMiddle) {
+			//console.debug('render Miggle', this._linesXMiddle[id])
 			this.renderLine(this._linesXMiddle[id], id, 'MatcRulerLineMiddle');
 		}
 		for (let id in this._linesYMiddle) {
