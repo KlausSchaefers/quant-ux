@@ -201,7 +201,7 @@ class KeyCloakService extends AbstractService{
             }).join(''));
             return JSON.parse(jsonPayload);
         } catch (e) {
-            this.this.logger.error('parseJwt', 'error > could not parse token', e)
+            this.logger.error('parseJwt', 'error > could not parse token', e)
         }
         return null
     }

@@ -17,26 +17,28 @@ import topic from 'dojo/topic'
     components: {},
     methods: {
 
-		setSelectedScreens (screenIDs, expand = false, force = false) {
-			this.logger.log(1, 'setSelectedScreens', screenIDs, expand, force)
-
-			// we need to call unselect to make sure 
-			// legacy selections are cleaned up
-	
-			if (!expand) {
-				this.unSelect()		
-			}
-	
-			screenIDs.forEach(id => {
-				const scrn = this.model.screens[id];
-				if (scrn) {
-					this._canvasSelection.screens.push(scrn)
+		setSelectedScreens (screenIDs, expand = false, render = true) {
+			this.logger.log(-1, 'setSelectedScreens', screenIDs, expand, render)
+			// on case of extension save the old selection
+			const oldScreens = expand ? this._canvasSelection.screens : []
+			this.unSelect()					
+			this._canvasSelection.screens = oldScreens	
+			screenIDs.forEach(id => {	
+				// check if we need to unselect	
+				if (expand && this._canvasSelection.screens.findIndex(scrn => scrn.id === id) >=0 ) {
+					this._canvasSelection.screens = this._canvasSelection.screens.filter(scrn => scrn.id !== id)
+				} else {
+					const scrn = this.model.screens[id];
+					if (scrn) {
+						this._canvasSelection.screens.push(scrn)
+					}
 				}
 			})
-
-			//console.debug('setSelectedScreens', this._canvasSelection.screens.map(s => s.name))
-
-			this.renderScreenSelection()
+			if (render) {
+				this.renderScreenSelection()
+			} else  {
+				console.warn('setSelectedScreens do not render')
+			}
 		},
 
 		hasScreenSelection() {
@@ -56,7 +58,7 @@ import topic from 'dojo/topic'
 		},
 
 		renderMultiScreenSelection () {
-			this.logger.log(-1, "renderMultiScreenSelection", "enter > ");
+			this.logger.log(1, "renderMultiScreenSelection", "enter > ");
 
 			let divs = []
 			let ids = []
@@ -87,36 +89,34 @@ import topic from 'dojo/topic'
 		},
 
 		renderSingleScreenSelection () {
-			this.logger.log(-1, "renderSingleScreenSelection", "enter > ");
-	
-			if (this._canvasSelection.screens.length === 1) {
-				const scrn = this._canvasSelection.screens[0]
-				const id = scrn.id
-				this.onSelectionChanged(id, "screen", false);
+			this.logger.log(1, "renderSingleScreenSelection", "enter > ");
 
-				if (this.model.screens[id]) {			
-					const parent = this.screenDivs[id];
-					this.showResizeHandles(scrn, id, parent, "screen", true);
-					this.selectBox(parent);
+			const scrn = this._canvasSelection.screens[0]
+			const id = scrn.id
+			this.onSelectionChanged(id, "screen", false);
 
-					this.controller.onScreenSelected(id);
-					// select in layerList???s
-					css.add(this.domNode, "MatcCanvasSelection");
-				}
+			if (this.model.screens[id]) {			
+				const parent = this.screenDivs[id];
+				this.showResizeHandles(scrn, id, parent, "screen", true);
+				this.selectBox(parent);
 
-				try {
-					/** 
-					 * this is the layerlist...
-					 */
-					if (this.selectionListener) {
-						this.selectionListener.selectScreens([id]);
-					}
-				} catch (e){
-					this.logger.error("_selectSingleScreen", "could not call selectionListener > ", e);
-				}
-			} else {
-				this.logger.error("_selectSingleScreen", "Multi screen selection not supported ");
+				this.controller.onScreenSelected(id);
+				// select in layerList???s
+				css.add(this.domNode, "MatcCanvasSelection");
 			}
+
+			try {
+				/** 
+				 * this is the layerlist...
+				 */
+				if (this.selectionListener) {
+					console.debug('selectLayer')
+					this.selectionListener.selectScreens([id]);
+				}
+			} catch (e){
+				this.logger.error("_selectSingleScreen", "could not call selectionListener > ", e);
+			}
+		
 		},
 
 		getSelectedScreen () {
@@ -330,7 +330,7 @@ import topic from 'dojo/topic'
 
 
 		onSelectionChanged (id, type){
-			this.logger.log(-1,"onSelectionChanged", "enter > " + id + " >" + type);
+			this.logger.log(1,"onSelectionChanged", "enter > " + id + " >" + type);
 			try{
 				if(this._selectWidget && this._selectWidget.id!= id){
 					this.inlineEditStop();
@@ -360,7 +360,7 @@ import topic from 'dojo/topic'
 
 		isInSelection (id) {
 			if (this.getSelectedScreen()) {
-				return this.this.getSelectedScreen().id === id 
+				return this.getSelectedScreen().id === id 
 			}
 			if (this._selectWidget) {
 				return this._selectWidget.id === id 
@@ -394,8 +394,7 @@ import topic from 'dojo/topic'
 			}	
 		},
 
-		unSelect (){
-		
+		unSelect (){		
 			this.logger.log(-3,"unSelect", "enter > ");
 			this.cleanUpResizeHandles();
 			this._selectWidget = null;

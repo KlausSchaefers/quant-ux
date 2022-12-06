@@ -107,7 +107,12 @@ export default {
       this.logger.log(3, "onScreenDndStart", "entry");
       this.beforeDND();
       this._dragNDropBoxPositions = {};
-      var screen = this.model.screens[id];
+
+
+      this._resizeCursor = "MatcCanvasScreenDND";
+      css.add(this.container, this._resizeCursor);
+
+      const screen = this.model.screens[id];
       return screen;
     },
 
@@ -115,15 +120,42 @@ export default {
       topic.publish("matc/canvas/click", "", "");
       this.setState(1);
       this.cleanUpDebugLines();
+      
 
       if (!this._alignmentToolInited) {
-        let screen = this.model.screens[id];
-        this.alignmentStart("screen", screen, "All");
+
+        /**
+         * Check only on move if we have to change the selection
+         */
+        if (this._canvasSelection.screens.length === 0) {
+          this.setSelectedScreens([id], false, false)
+        } else if (this._canvasSelection.screens.findIndex(scrn => scrn.id === id) < 0) {
+          this.setSelectedScreens([id], false, false)
+        }
+
+
+        let screenIDs = this._canvasSelection.screens.map(s => s.id)
+        const screen = this.model.screens[id];
+        this.alignmentStart("screen", screen, "All", screenIDs);
       }
 
-      let screen = this.model.screens[id];
-      let temp = { x: pos.x, y: pos.y, h: screen.h, w: screen.w };
+  		this._canvasSelection.screens.forEach(scrn => {
+        this.renderScreenDND(scrn.id, pos, dif)
+      })
 
+      
+      return true;
+    },
+
+    renderScreenDND(id, pos, dif) {
+      const screen = this.model.screens[id];
+
+      const temp = { 
+        x: screen.x + dif.x, 
+        y: screen.y + dif.y, 
+        h: screen.h, 
+        w: screen.w 
+      };
 
       if (this.isInContainer(temp)) {
         this._dragNDropBoxPositions[id] = temp;
@@ -131,9 +163,9 @@ export default {
         /**
          * update also the background screen & grid
          */
-        let zoomedPos = this.getBackgroundPos(temp, this.zoom, this.zoom);
-        let backgroundDiv = this.screenBackgroundDivs[id];
-        let job = {
+        const zoomedPos = this.getBackgroundPos(temp, this.zoom, this.zoom);
+        const backgroundDiv = this.screenBackgroundDivs[id];
+        const job = {
           zoom: true,
           div: backgroundDiv,
           pos: zoomedPos,
@@ -141,15 +173,23 @@ export default {
         };
         this.addDragNDropRenderJob(job);
 
-
-        let gridDiv = this.screenGridDivs[id];
-        let job2 = {
+        const gridDiv = this.screenGridDivs[id];
+        const job2 = {
           zoom: true,
           div: gridDiv,
           pos: zoomedPos,
-          id: id + "grud"
+          id: id + "grid"
         };
         this.addDragNDropRenderJob(job2);
+
+        const dndDiv = this.screenDivs[id];
+        const job3 = {
+          zoom: false,
+          div: dndDiv,
+          pos: temp,
+          id: id + "DND"
+        };
+        this.addDragNDropRenderJob(job3);
 
         /**
          * Also update resize handlers. The _DragNDrop._dragNDropUpDateUI()
@@ -158,7 +198,7 @@ export default {
          * resizeHnalder.
          */
         if (this._resizeHandlerBox) {
-          let resizePos = {
+          const resizePos = {
             w: this._resizeHandlerBox.w,
             h: this._resizeHandlerBox.h,
             x: this._resizeHandlerBox.x + dif.x,
@@ -184,7 +224,6 @@ export default {
 
         return true;
       }
-      return false;
     },
 
     /**
@@ -290,27 +329,40 @@ export default {
       return CoreUtil.getUnZoomedBoxCopy(pos, this.zoom, this.zoom);
     },
 
-    onScreenDndEnd (id, div, pos, dif) {
+    onScreenDndEnd (id, div, pos) {
       this.logger.log(3, "onScreenDndEnd", "enter > x:" + pos.x + " y:" + pos.y);
 
+      if (this._resizeCursor) {
+        css.remove(this.container, this._resizeCursor);
+      }
       this.cleanUpAlignment();
-      this.getController().updateScreenPosition(id, lang.clone(pos), true);
+
+      let screenIDs = this._canvasSelection.screens.map(s => s.id)
+
+      if (screenIDs.length === 1) {
+        this.getController().updateScreenPosition(id, lang.clone(pos), true);
+      } else {
+        this.getController().updateMultiScreenPosition(id, lang.clone(pos), screenIDs);
+      }
+
 
       this._dragNDropBoxPositions = null;
-      this.onSelectionMoved(pos, dif, id);
-      this.setSelectedScreens([id]);
+      //this.onSelectionMoved(pos, dif, id);
+      requestAnimationFrame( () => {
+        this.setSelectedScreens(screenIDs);
+      })
       this.setState(0);
     },
 
     onScreenDndClick (id, div, pos, e) {
-      this.logger.log(2, "onScreenDndClick", "entry > " + id);
+      this.logger.log(-2, "onScreenDndClick", "entry > " + id);
 
       if (this._boxClickCallback) {
         this.dispatchBoxClickCallback(id, div, pos, e);
         return;
       }
 
-      this.setSelectedScreens([id]);
+      this.setSelectedScreens([id], e.shiftKey);
       this.setState(0);
     },
 

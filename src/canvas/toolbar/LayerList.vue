@@ -147,7 +147,8 @@ export default {
 					let node = this.nodes[id]
 					return node?.type === 'screen'
 				})
-				if (screenIDs.length > 1) {
+
+				if (screenIDs.length > 0) {
 					this.canvas.setSelectedScreens(screenIDs);
 				} else {				
 					this.canvas.onMutliSelected(ids, true);					
@@ -697,7 +698,6 @@ export default {
 		},
 
 		selectScreen(screenID) {
-			console.warn('LayerList.setScreen() is DEPRECATED')
 			this.selectNode([screenID])
 		},
 
@@ -707,6 +707,7 @@ export default {
 
 
 		selectNode (ids) {
+			console.debug('LayerList.selectNode() is ', ids)
 			this.unSelectNodes()
 			this.$nextTick(() => {
 				ids.forEach(id => {

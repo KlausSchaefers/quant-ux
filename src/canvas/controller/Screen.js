@@ -619,6 +619,81 @@ export default class Screen extends CopyPaste {
 	}
 
 	/**********************************************************************
+	 * Multi Screen Move
+	 **********************************************************************/
+
+	updateMultiScreenPosition (id, pos, ids) {
+		this.logger.log(-3,"updateMultiScreenPosition", "enter > " + id);
+
+		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
+
+		const screen = this.model.screens[id];
+		if (screen) {
+			this.startModelChange()
+			
+			const dif = {
+				x: Math.round(screen.x - pos.x),
+				y: Math.round(screen.y - pos.y)
+			}
+			const command = {
+				timestamp : new Date().getTime(),
+				type : "MultiScreenPosition",
+				dif:dif,
+				ids : ids
+			};
+			this.addCommand(command);
+			this.modelMultiScreenUpdate(ids, dif, true);
+			this.commitModelChange(true, true)
+		}
+	}
+
+	modelMultiScreenUpdate (ids, dif, isRedo) {
+		const modified = new Date().getTime()
+		ids.forEach(id => {
+			const scrn = this.model.screens[id];
+			if (scrn) {
+				scrn.modified = modified
+				if (isRedo) {			
+					scrn.x -= dif.x					
+					scrn.y -= dif.y						
+				} else {
+					scrn.x += dif.x					
+					scrn.y += dif.y		
+				}		
+				for (let i=0; i < scrn.children.length; i++){
+					const widgetID = scrn.children[i];
+					const widget = this.model.widgets[widgetID];
+					widget.modified = modified
+					if (widget){
+						if (isRedo) {			
+							widget.x -= dif.x					
+							widget.y -= dif.y						
+						} else {
+							widget.x += dif.x					
+							widget.y += dif.y		
+						}					
+					}
+				}
+			}			
+		})
+		this.onModelChanged(ids.map(id => {
+			return {type: 'screen', action:"change", id: id}
+		}))
+	}
+
+	undoMultiScreenPosition (command){
+		this.logger.log(3,"undoMultiScreenPosition", "enter > " + command.id);
+		this.modelMultiScreenUpdate(command.ids, command.dif, false);
+		this.render();
+	}
+
+	redoMultiScreenPosition (command){
+		this.logger.log(3,"redoMultiScreenPosition", "enter > " + command.id);
+		this.modelMultiScreenUpdate(command.ids, command.dif, true);
+		this.render();
+	}
+
+	/**********************************************************************
 	 * Screen setScreenSegemnt
 	 **********************************************************************/
 

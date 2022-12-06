@@ -1012,17 +1012,16 @@ export default {
 					}
 					this._alignmentTool.start(this, selectedType, selectedModel, activePoint, this.model.grid, this.zoom);
 				} else if("grid" == selectedType ) {
-
 					this._alignmentTool = new SimpleGrid();
 					this._alignmentTool.start(this, this.model.grid, this.zoom, "RightDown");
 					this._alignmentTool.showDimensions = showDimensions;
 				} else {
 					this._alignmentTool = new Ruler();
-					this._alignmentTool.start(this, selectedType, selectedModel, activePoint, this.model.grid, this.zoom);
+					this._alignmentTool.start(this, selectedType, selectedModel, activePoint, this.model.grid, this.zoom, ignoreIds);
 				}
 			} else  {
 				this._alignmentTool = new Ruler();
-				this._alignmentTool.start(this, selectedType, selectedModel, activePoint, this.model.grid, this.zoom);
+				this._alignmentTool.start(this, selectedType, selectedModel, activePoint, this.model.grid, this.zoom, ignoreIds);
 			}
 			this._alignmentToolInited = true;
 		},

@@ -248,7 +248,7 @@ export default {
       },
 
       cleanUpResizeHandles (){
-        console.debug('cleanUpResizeHandles', this.handlers)
+          //console.debug('cleanUpResizeHandles', this.handlers)
         
           if(this.handlers){
               for(let id in this.handlers){
