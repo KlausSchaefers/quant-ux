@@ -22,9 +22,9 @@ import topic from 'dojo/topic'
 
 			// we need to call unselect to make sure 
 			// legacy selections are cleaned up
-			this.unSelect()
+	
 			if (!expand) {
-				this.resetCanvasSelection()				
+				this.unSelect()		
 			}
 	
 			screenIDs.forEach(id => {
@@ -47,6 +47,49 @@ import topic from 'dojo/topic'
 			this.logger.log(-1, "renderScreenSelection", "enter > ");
 	
 			if (this._canvasSelection.screens.length === 1) {
+				this.renderSingleScreenSelection()
+			} 
+			if (this._canvasSelection.screens.length > 1) {
+				this.renderMultiScreenSelection()
+			}
+		
+		},
+
+		renderMultiScreenSelection () {
+			this.logger.log(-1, "renderMultiScreenSelection", "enter > ");
+
+			let divs = []
+			let ids = []
+			for (let i = 0; i < this._canvasSelection.screens.length; i++) {
+				const scrn = this._canvasSelection.screens[i]
+				const id = scrn.id
+				ids.push(id)
+				if (this.model.screens[id]) {			
+					const parent = this.screenDivs[id];
+					divs.push(parent)		
+				}
+			}
+			this.onSelectionChanged(null, "screens", false);
+			this.selectMultiBoxes(divs)
+
+			try {
+				/** 
+				 * this is the layerlist...
+				 */
+				if (this.selectionListener) {
+					this.selectionListener.selectScreens(ids);
+				}
+			} catch (e){
+				this.logger.error("_selectSingleScreen", "could not call selectionListener > ", e);
+			}
+			
+			css.add(this.domNode, "MatcCanvasSelection");
+		},
+
+		renderSingleScreenSelection () {
+			this.logger.log(-1, "renderSingleScreenSelection", "enter > ");
+	
+			if (this._canvasSelection.screens.length === 1) {
 				const scrn = this._canvasSelection.screens[0]
 				const id = scrn.id
 				this.onSelectionChanged(id, "screen", false);
@@ -62,8 +105,11 @@ import topic from 'dojo/topic'
 				}
 
 				try {
+					/** 
+					 * this is the layerlist...
+					 */
 					if (this.selectionListener) {
-						this.selectionListener.selectScreen(id);
+						this.selectionListener.selectScreens([id]);
 					}
 				} catch (e){
 					this.logger.error("_selectSingleScreen", "could not call selectionListener > ", e);
@@ -117,7 +163,8 @@ import topic from 'dojo/topic'
 			if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
 				this.onWidgetDoubleClick(this._selectWidget)
 			} else {
-				this.onSelectionChanged(id, "widget");
+				this.unSelect()
+				this.onSelectionChanged(id, "widget", false);
 				if (this.model.widgets[id]){
 					this._selectWidget = this.model.widgets[id];
 
@@ -165,7 +212,8 @@ import topic from 'dojo/topic'
 		
 			const widget = this.model.widgets[id];
 			if (widget){
-				this.onSelectionChanged(id, "inheritedWidget");
+				this.unSelect()
+				this.onSelectionChanged(id, "inheritedWidget", false);
 				this.controller.onInheritedWidgetSelected(widget);
 				var parent  = this.widgetDivs[widget.id];
 				this._selectInheritedWidget = widget
@@ -180,7 +228,8 @@ import topic from 'dojo/topic'
 
 		onLineSelected (id){
 			this.logger.log(-1,"onLineSelected", "enter ");
-			this.onSelectionChanged(id, "line");
+			this.unSelect()
+			this.onSelectionChanged(id, "line", false);
 			this._selectedLine = this.model.lines[id];
 			this.setLineColor(id, "orange");
 			this.controller.onLineSelected(id);
@@ -190,7 +239,8 @@ import topic from 'dojo/topic'
 		onMutliSelected (selection){
 			this.logger.log(1,"onMutliSelected", "enter ", selection);
 
-			this.onSelectionChanged(null, "multi");
+			this.unSelect()
+			this.onSelectionChanged(null, "multi", false);
 			this._dragNDropIgnoreGroup = false;
 
 			this._selectMulti = selection;
@@ -210,7 +260,8 @@ import topic from 'dojo/topic'
 
 		onGroupSelected (groupID, fromLayerList) {
 			this.logger.log(2,"onGroupSelected", "enter > " + groupID);
-			this.onSelectionChanged(null, "group");
+			this.unSelect()
+			this.onSelectionChanged(null, "group", false);
 			/**
 			 * This can be triggered from the LayerList. If a widget was before
 			 * selectd we migh tbe weird stuff
@@ -252,8 +303,9 @@ import topic from 'dojo/topic'
 		},
 
 		onCanvasSelected (){
-			this.logger.log(3,"onCanvasSelected", "enter ");
-			this.onSelectionChanged(null);
+			this.logger.log(-3,"onCanvasSelected", "enter ");
+			this.unSelect()
+			this.onSelectionChanged(null, 'canvas', false);
 			this.controller.onCanvasSelected();
 
 			this._dragNDropIgnoreGroup = false
@@ -277,8 +329,8 @@ import topic from 'dojo/topic'
 		},
 
 
-		onSelectionChanged (id, type, needUnSelect = true){
-			this.logger.log(1,"onSelectionChanged", "enter > " + id + " >" + type);
+		onSelectionChanged (id, type){
+			this.logger.log(-1,"onSelectionChanged", "enter > " + id + " >" + type);
 			try{
 				if(this._selectWidget && this._selectWidget.id!= id){
 					this.inlineEditStop();
@@ -289,6 +341,8 @@ import topic from 'dojo/topic'
 				if (this.currentTool && this.currentTool.stop) {
 					this.currentTool.stop()
 				}
+
+				topic.publish("matc/canvas/click", id, type);
 			} catch( e){
 				this.logger.error("onSelectionChanged", "enter > ", e);
 				this.logger.sendError(e);
@@ -297,19 +351,11 @@ import topic from 'dojo/topic'
 				this.logger.log(1,"onSelectionChanged", "clear group children > ");
 				delete this._dragNDropGroupChildren;
 			}
-			try{
-				/**
-				 * make sure all popups are closed!
-				 */
-				topic.publish("matc/canvas/click", id, type);
-				if (needUnSelect) {
-					// FIXME: This is super shit
-					console.warn('unSelect() called')
-					this.unSelect();
-				}
-			} catch( e){
-				this.logger.sendError(e);
-			}
+
+			/**
+			 * FIXME: Why is this needed?
+			 */
+			this.cleanUpResizeHandles()		
 		},
 
 		isInSelection (id) {
@@ -349,8 +395,9 @@ import topic from 'dojo/topic'
 		},
 
 		unSelect (){
-			this.logger.log(3,"unSelect", "enter > ");
-
+		
+			this.logger.log(-3,"unSelect", "enter > ");
+			this.cleanUpResizeHandles();
 			this._selectWidget = null;
 			this._selectMulti = null;
 			this._selectGroup = null;
@@ -362,15 +409,21 @@ import topic from 'dojo/topic'
 
 			if(this._selectedLine){
 				this.setLineColor(this._selectedLine.id);
-			}
-			this._selectedLine = null;
-			this.cleanUpResizeHandles();
+			}		
 			if(this._selectedDiv){
 				css.remove(this._selectedDiv, "MatcBoxSelected");
 			}
 			if(this._selectedDnDDiv){
 				css.remove(this._selectedDnDDiv, "MatcBoxSelected");
 			}
+			if (this._selectedDivList) {
+				this._selectedDivList.forEach(div => {
+					css.remove(div, "MatcMultiBoxSelected");
+				})
+			}
+
+			delete this._selectedLine
+			delete this._selectedDivList
 			delete this._selectedDiv;
 			delete this._selectedDnDDiv;
 			delete this._selectChangeListener;
@@ -393,25 +446,31 @@ import topic from 'dojo/topic'
 		 */
 		renderSelection (){
 			this.logger.log(5,"renderSelection", "enter > ", this._selectWidget);
+	
 
 			if(this._selectWidget){
 				this.onWidgetSelected(this._selectWidget.id, true);
+				return
 			}
 
 			if(this.hasScreenSelection()){
 				this.renderScreenSelection()
+				return
 			}
 
 			if (this._selectMulti){
 				this.onMutliSelected(this._selectMulti, true);
+				return
 			}
 
 			if(this._selectGroup){
 				this.onGroupSelected(this._selectGroup.id, true);
+				return
 			}
 
 			if (this._selectInheritedWidget) {
 				this.onInheritedWidgetSelected(this._selectInheritedWidget.id, true);
+				return
 			}
 		},
 
@@ -505,6 +564,14 @@ import topic from 'dojo/topic'
 			css.add(div, "MatcBoxSelected");
 		},
 
+
+		selectMultiBoxes (divList){
+			divList.forEach(div => {
+				css.add(div, "MatcMultiBoxSelected");
+			})
+			this._selectedDivList = divList;
+		},
+
 		selectDnDBox (id){
 			if(this.widgetDivs[id]){
 				this._selectedDnDDiv = this.widgetDivs[id];
@@ -513,9 +580,9 @@ import topic from 'dojo/topic'
 		},
 
 
-    /**********************************************************************
-     * Remove
-     **********************************************************************/
+		/**********************************************************************
+		 * Remove
+		 **********************************************************************/
 
 		onRemoveSelected (){
 			this.logger.log(3,"onRemoveSelected", "enter");

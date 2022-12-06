@@ -624,7 +624,7 @@ export default {
 
 
 		onSelectionStarted (e){
-			this.logger.log(2,"onSelectionStarted", "enter > ");
+			this.logger.log(-2,"onSelectionStarted", "enter > ");
 
 			/**
 			 * In case something is added (screen, widht or comment) we do not

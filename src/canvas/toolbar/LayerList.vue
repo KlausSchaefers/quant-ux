@@ -119,33 +119,39 @@ export default {
 
 		onSelect (ids) {
 			this.logger.log(1, "onSelect", "entry > ", ids);
+			if (!this.canvas) {
+				return
+			}
 			
 			if (ids.length === 1) {
-				let node = this.nodes[ids[0]]
-				if (node) {
-					if (this.canvas) {
-						let type = node.type
-						if (type === 'widget') {
-							this.canvas.onWidgetSelected(node.id, true, true);
-						}
-						if (type === 'group') {
-							this.canvas.onGroupSelected(node.id, true);
-						}
-						if (type === 'screen') {
-							this.canvas.onScreenSelected(node.id);
-						}
-						if (type === 'svg') {
-							this.canvas.onSVGPathsSelected(node.widgetID, [node.pathID]);
-						}
+				const node = this.nodes[ids[0]]
+				if (node) {	
+					const type = node.type
+					if (type === 'widget') {
+						this.canvas.onWidgetSelected(node.id, true, true);
 					}
+					if (type === 'group') {
+						this.canvas.onGroupSelected(node.id, true);
+					}
+					if (type === 'screen') {
+						this.canvas.setSelectedScreens([node.id]);
+					}
+					if (type === 'svg') {
+						this.canvas.onSVGPathsSelected(node.widgetID, [node.pathID]);
+					}				
 				} else {
 					this.logger.log(-1, "onSelect", "No node > ", ids);
 				}
 			} else {
-				// check here fore SVG
-				if (this.canvas) {
-					this.canvas.onMutliSelected(ids, true);
-				}
+				const screenIDs = ids.filter(id => {
+					let node = this.nodes[id]
+					return node?.type === 'screen'
+				})
+				if (screenIDs.length > 1) {
+					this.canvas.setSelectedScreens(screenIDs);
+				} else {				
+					this.canvas.onMutliSelected(ids, true);					
+				}			
 			}
 		},
 
@@ -691,7 +697,12 @@ export default {
 		},
 
 		selectScreen(screenID) {
+			console.warn('LayerList.setScreen() is DEPRECATED')
 			this.selectNode([screenID])
+		},
+
+		selectScreens(screenIDs) {
+			this.selectNode(screenIDs)
 		},
 
 

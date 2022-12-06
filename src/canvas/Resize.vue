@@ -52,7 +52,7 @@ export default {
 
 
       showResizeHandles (box, id, parent, modelType, drawLines) {
- 
+       
         if (!this.resizeEnabled){
           return;
         }
@@ -242,37 +242,40 @@ export default {
        * add some invisible touch handler to make it easier to grap it.
        */
       _addSizeHandlerTouch (node){
-        var t = document.createElement("div");
+        const t = document.createElement("div");
         css.add(t, "MatcResizeHandleTouch");
         node.appendChild(t);
       },
 
       cleanUpResizeHandles (){
-
-        if(this.handlers){
-          for(var id in this.handlers){
-            var node = this.handlers[id];
-            var parent = node.parentNode;
-            if(parent){
-              parent.removeChild(node);
-            }
+        console.debug('cleanUpResizeHandles', this.handlers)
+        
+          if(this.handlers){
+              for(let id in this.handlers){
+                  const node = this.handlers[id];
+                  const parent = node.parentNode;
+                  if(parent){
+                    parent.removeChild(node);
+                  } else {
+                    console.debug('no parent')
+                  }
+              }
           }
-        }
-        this.handlers = null;
-        this._selectedParent = null;
+          this.handlers = null;
+          this._selectedParent = null;
 
-        if(this._resizeHandleListeners){
-          for(var i=0; i < this._resizeHandleListeners.length; i++){
-            this._resizeHandleListeners[i].remove();
+          if(this._resizeHandleListeners){
+              for(let i=0; i < this._resizeHandleListeners.length; i++){
+                this._resizeHandleListeners[i].remove();
+              }
           }
-        }
 
-        delete this._resizeHandleListeners;
-        delete this._resizeHandlerBox;
-        this.onResizeDnDCleanUp();
-        if (this.cleanUpCustomHandlers) {
-          this.cleanUpCustomHandlers();
-        }
+          delete this._resizeHandleListeners;
+          delete this._resizeHandlerBox;
+          this.onResizeDnDCleanUp();
+          if (this.cleanUpCustomHandlers) {
+              this.cleanUpCustomHandlers();
+          }
       },
 
 
