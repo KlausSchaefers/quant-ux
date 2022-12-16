@@ -358,7 +358,7 @@ export default {
 					console.debug(err)
 				}
 			}
-			if (mode !=- this.mode ){
+			if (mode !== this.mode ){
 				/**
 				 * Toggle mode specify css class
 				 */

@@ -177,9 +177,9 @@ export default {
 					} else {
 						console.erro('_showMultiVisualProperties() No style for widget', widget)
 					}
-					
+					isAllSVG = widget.type === 'SVGPaths' && isAllSVG
 				}
-				isAllSVG = widget.type === 'SVGPaths' && isAllSVG
+	
 			}
 
 			if (isAllSVG) {

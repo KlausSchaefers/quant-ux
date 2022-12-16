@@ -624,7 +624,7 @@ export default {
 
 
 		onSelectionStarted (e){
-			this.logger.log(2,"onSelectionStarted", "enter > ");
+			this.logger.log(-2,"onSelectionStarted", "enter > ");
 
 			/**
 			 * In case something is added (screen, widht or comment) we do not
@@ -710,18 +710,18 @@ export default {
 			this.logger.log(2,"onSelectionEnd", "enter > ");
 			this.stopEvent(e);
 
-			var selection = [];
-			var selectedScreens = [];
-			var pos = this._getSelectionToolBox();
+			let selection = [];
+			const selectedScreensIds = [];
+			const pos = this._getSelectionToolBox();
 
 			if(pos && pos.w > 3 && pos.h > 3 ){
 				/**
 				 * Check Screens
 				 */
 				for(let id in this.model.screens){
-					let screen = this.model.screens[id];
-					if(this._isContainedInBox(screen, pos)){
-						selectedScreens.push(screen);
+					const scrn = this.model.screens[id];
+					if(this._isContainedInBox(scrn, pos)){
+						selectedScreensIds.push(scrn.id);
 					}
 				}
 
@@ -768,12 +768,9 @@ export default {
 				if (topGroups.length === 1 && elementsWidthGroup.length === 0) {
 					this._selectGroup = topGroups[0];
 					this.controller.setMode("edit", false);
-				} else if(selectedScreens.length === 1){
-					this._selectedScreen = selectedScreens[0];
-					this.controller.setMode("edit", false);
-				}  else if(selectedScreens.length >= 1){
-					console.warn('Multi Screen selection not supported')
-					this._selectedScreen = selectedScreens[0];
+				} 
+				else if(selectedScreensIds.length > 0){
+					this.setSelectedScreens(selectedScreensIds);
 					this.controller.setMode("edit", false);
 				}
 				else if(selection.length > 1){
@@ -838,14 +835,14 @@ export default {
 			/**
 			 * We can only copy the style of an widget
 			 */
-			if(this._selectWidget || this._selectedScreen ){
+			if(this._selectWidget || this.getSelectedScreen() ){
 
 				if(this._selectWidget){
 					this._copiedStyle = this._selectWidget.id;
 				}
 
-				if( this._selectedScreen){
-					this._copiedStyle = this._selectedScreen.id;
+				if( this.getSelectedScreen()){
+					this._copiedStyle = this.getSelectedScreen().id;
 				}
 
 				this.setBoxClickCallback("onPasteStyle");
@@ -881,10 +878,12 @@ export default {
 		onCopy (isDuplicate){
 			this.logger.log(-1,"onCopy", "enter > " + isDuplicate);
 
-			if(this._selectWidget || this._selectedScreen || this._selectMulti || this._selectGroup){
+			console.debug('copy', this.getSelectedScreen())
+
+			if(this._selectWidget || this.getSelectedScreen() || this._selectMulti || this._selectGroup){
 				this._copied ={
 					widget : this._selectWidget,
-					screen : this._selectedScreen,
+					screen : this.getSelectedScreen(),
 					multi : this._selectMulti,
 					group  :this._selectGroup
 				};
@@ -896,7 +895,7 @@ export default {
 
 			if(this._selectWidget){
 				this.showSuccess("The widget was copied!");
-			} else if(this._selectedScreen){
+			} else if(this.getSelectedScreen()){
 				this.showSuccess("The screen was copied!");
 			} else if(this._selectMulti || this._selectGroup){
 				this.showSuccess("The widgets were copied!");
@@ -915,8 +914,8 @@ export default {
 		},
 
 		_setClipBoard (){
-			this.logger.log(-1,"_setClipBoard", "enter > ", this._selectedScreen);
-			this.controller.setClipBoard (this._selectWidget, this._selectedScreen, this._selectMulti, this._selectGroup)
+			this.logger.log(-1,"_setClipBoard", "enter > ", this.getSelectedScreen());
+			this.controller.setClipBoard (this._selectWidget, this.getSelectedScreen(), this._selectMulti, this._selectGroup)
 		},
 
 
@@ -1000,7 +999,7 @@ export default {
 						const newScreen = this.controller.onCopyScreen(this._copied.screen.id, pos);
 						if (newScreen) {
 							requestAnimationFrame( () => {
-								this.onScreenSelected(newScreen.id, true);
+								this.setSelectedScreens([newScreen.id], false, true);
 							})
 						}
 						this.showSuccess("Screen was pasted!");

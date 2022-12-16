@@ -292,27 +292,27 @@ export default {
 					this.onDragCleanup();
 					return;
 				}
-				var pos = this._getMousePosition(e);
-				var difX = pos.x - this._dragnDropMousePos.x;
-				var difY = pos.y - this._dragnDropMousePos.y;
-				var x = this._dragNDropStartPos.x + difX;
-				var y = this._dragNDropStartPos.y + difY;
+				const pos = this._getMousePosition(e);
+				const difX = pos.x - this._dragnDropMousePos.x;
+				const difY = pos.y - this._dragnDropMousePos.y;
+				const x = this._dragNDropStartPos.x + difX;
+				const y = this._dragNDropStartPos.y + difY;
 
 				/**
 				 * Take the last dnd position, in because otherwise
 				 * the aligner might make trouble
 				 */
-				var newPos = this._dragNDropLastPos;
+				let newPos = this._dragNDropLastPos;
 				if(!newPos){
 					newPos = {
 						x: x,
 						y: y,
 						h: this._dragNDropStartPos.h,
-						w:this._dragNDropStartPos.w
+						w: this._dragNDropStartPos.w
 					};
 				}
 
-				var dif = {
+				const dif = {
 					x : difX - (x-newPos.x),
 					y : difY - (y-newPos.y)
 				};

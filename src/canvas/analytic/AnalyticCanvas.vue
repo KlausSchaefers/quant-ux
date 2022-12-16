@@ -458,7 +458,7 @@ export default {
     onScreenDndClick(id, div, pos, e) {
       this.logger.log(2, "onScreenDndClick", "entry > " + id);
       this.stopEvent(e);
-      this.onScreenSelected(id);
+      this.setSelectedScreens([id]);
       this.selectAnalyticDiv(id);
       this.setState(0);
     },

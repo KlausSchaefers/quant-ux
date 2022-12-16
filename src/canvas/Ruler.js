@@ -10,9 +10,10 @@ export default class Ruler extends Core{
 		this.displayDistance = 20
 		this.snapDistance = 10
 		this.showDimensions = true
+		this.ignore
 	}
 
-	start ( canvas,selectedType, selectedModel, activePoint, grid = {enabled:false}, zoom = 1){
+	start ( canvas,selectedType, selectedModel, activePoint, grid = {enabled:false}, zoom = 1, ignoreIds = []){
 		this.model = canvas.model;
 		this.grid = grid
 		this.zoom = zoom
@@ -21,6 +22,15 @@ export default class Ruler extends Core{
 		this.selectedID = selectedModel.id;
 		this.selectedType = selectedType;
 		this.activePoint = activePoint;
+		this.ignoreIds = {}
+		this.ignoreIds[selectedModel.id] = true
+		if (ignoreIds) {
+			ignoreIds.forEach(id => {
+				this.ignoreIds[id] = true
+			})
+		}
+
+
 
 		this._lines = {};
 		this._linesDivs = {};
@@ -32,7 +42,7 @@ export default class Ruler extends Core{
 			this.gridHeight = 1;
 			this.gridWidth = 1;
 		}
-		this.logger.log(3,"start", "exit > type :" +  this.selectedType +">  id :"+ this.selectedID + " > activePoint : " + activePoint);
+		this.logger.log(-1,"start", "exit > type :" +  this.selectedType +">  id :"+ this.selectedID + " > activePoint : " + activePoint);
 	}
 
 	correct (box, e, mouse){
@@ -347,7 +357,7 @@ export default class Ruler extends Core{
 		 */
 		if(this.selectedType == "screen"){
 			for(let id in this.model.screens){
-				if(this.selectedID != id){
+				if (!this.ignoreIds[id]){
 					let box =  this.model.screens[id];
 					boxes.push(box);
 				}

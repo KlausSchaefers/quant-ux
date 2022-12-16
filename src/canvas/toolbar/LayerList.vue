@@ -118,34 +118,41 @@ export default {
 		},
 
 		onSelect (ids) {
-			this.logger.log(1, "onSelect", "entry > ", ids);
+			this.logger.log(-1, "onSelect", "entry > ", ids);
+			if (!this.canvas) {
+				return
+			}
 			
 			if (ids.length === 1) {
-				let node = this.nodes[ids[0]]
-				if (node) {
-					if (this.canvas) {
-						let type = node.type
-						if (type === 'widget') {
-							this.canvas.onWidgetSelected(node.id, true, true);
-						}
-						if (type === 'group') {
-							this.canvas.onGroupSelected(node.id, true);
-						}
-						if (type === 'screen') {
-							this.canvas.onScreenSelected(node.id);
-						}
-						if (type === 'svg') {
-							this.canvas.onSVGPathsSelected(node.widgetID, [node.pathID]);
-						}
+				const node = this.nodes[ids[0]]
+				if (node) {	
+					const type = node.type
+					if (type === 'widget') {
+						this.canvas.onWidgetSelected(node.id, true, true);
 					}
+					if (type === 'group') {
+						this.canvas.onGroupSelected(node.id, true);
+					}
+					if (type === 'screen') {
+						this.canvas.setSelectedScreens([node.id]);
+					}
+					if (type === 'svg') {
+						this.canvas.onSVGPathsSelected(node.widgetID, [node.pathID]);
+					}				
 				} else {
 					this.logger.log(-1, "onSelect", "No node > ", ids);
 				}
 			} else {
-				// check here fore SVG
-				if (this.canvas) {
-					this.canvas.onMutliSelected(ids, true);
-				}
+				const screenIDs = ids.filter(id => {
+					let node = this.nodes[id]
+					return node?.type === 'screen'
+				})
+
+				if (screenIDs.length > 0) {
+					this.canvas.setSelectedScreens(screenIDs);
+				} else {				
+					this.canvas.onMutliSelected(ids, true);					
+				}			
 			}
 		},
 
@@ -322,6 +329,10 @@ export default {
 				children: []
 			};
 			this.nodes[id] = tree
+
+			if (this.selection && this.selection.indexOf(tree.id) >= 0) {
+				tree.selected = true
+			}
 
 			let groupNodes = {};
 			let masterNodes = {}
@@ -694,9 +705,14 @@ export default {
 			this.selectNode([screenID])
 		},
 
+		selectScreens(screenIDs) {
+			this.selectNode(screenIDs)
+		},
+
 
 		selectNode (ids) {
 			this.unSelectNodes()
+			this.selection = ids
 			this.$nextTick(() => {
 				ids.forEach(id => {
 					const node = this.nodes[id]
@@ -706,7 +722,6 @@ export default {
 						this.logger.log(4, 'selectNode', 'No node with id: ' + id)
 					}
 				})
-				this.selection = ids
 				this.scrollToSelection(ids)
 				this.$forceUpdate()
 			})			

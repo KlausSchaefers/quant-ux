@@ -10,6 +10,7 @@ export default {
 			try{
 				if (this.getSettings().layerListVisible){
 					this.buildLayerList()
+					this.setLayerListScrollBar(true)
 				}
 			} catch (e){
 				console.debug(e)
@@ -29,7 +30,18 @@ export default {
 				this.buildLayerList();
 			}
 
+			this.setLayerListScrollBar(v)
+
 			this.setSettings({layerListVisible: v})
+		},
+
+		setLayerListScrollBar(v) {
+		
+			if (v) {
+				css.add(this.scrollBottom, "MatcCanvasScrollBarBottomLayerList");
+			} else {
+				css.add(this.scrollBottom, "MatcCanvasScrollBarBottomLayerList");
+			}
 		},
 
 		buildLayerList (){

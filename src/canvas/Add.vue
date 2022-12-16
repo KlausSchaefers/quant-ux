@@ -416,9 +416,9 @@ export default {
 					event:this._lastMouseMoveEvent
 				})
 			}
-			if (this._selectedScreen && this._lastMouseMoveEvent) {
+			if (this.getSelectedScreen() && this._lastMouseMoveEvent) {
 				this.addLine({
-					from : this._selectedScreen.id,
+					from : this.getSelectedScreen().id,
 					event:this._lastMouseMoveEvent
 				})
 			}

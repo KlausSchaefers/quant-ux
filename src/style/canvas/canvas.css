@@ -100,27 +100,6 @@
 	transform-origin: 0% 0%;
 }
 
-
-.MatcCanvasWelcome{
-	position: fixed;
-	top:0px;
-	left:0px;
-	width:100%;
-	height:100%;
-	text-align: center;
-	color:#999;
-	font-size: 30px;
-}
-
-.MatcCanvasWelcomeCntr{
-	display: inline-block;
-	width: 60%;
-	text-align:left;
-	line-height: 2;
-}
-
-
-
 .MatcCanvasContainerAnimate{
  	transition: transform 0.35s;
 }
@@ -174,6 +153,10 @@
 	z-index: 10008;
 }
 
+.MatcMultiBoxSelected {
+	outline:1px solid #49C0F0;
+}
+
 .MatcWidgetDND{
 	position: absolute;
 	z-index: 10009;
@@ -190,11 +173,6 @@
 .MatcInlineEditableStarted{
 	z-index:90010;
 	outline: none;
-}
-
-
-.MatcWidgetDND.MatcWidgetDNDInherited{
-
 }
 
 .MatcCanvasModeedit .MatcWidgetDND:hover{
@@ -369,6 +347,16 @@
 .MatcCanvasModesvg .MatcWidgetDND{
 	pointer-events: none;
 }
+
+.MatcCanvasScreenDND .MatcMultiBoxSelected{
+	outline: none;
+}
+.MatcCanvasScreenDND .MatcResizeHandle,
+.MatcCanvasScreenDND .MatcCutsomerHandler,
+.MatcCanvasScreenDND .MatcResizeBorder{
+	display: none;
+}
+
 
 /****************************************************
 * Custom Handlers
@@ -607,6 +595,10 @@
 	width:100%;
 	height: 10px;
 	bottom:0px;
+}
+
+.MatcCanvasScrollBarBottom.MatcCanvasScrollBarBottomLayerList {
+	padding-left:340px;
 }
 
 .MatcCanvasScrollBarBottomOpen.MatcCanvasScrollBarBottom{

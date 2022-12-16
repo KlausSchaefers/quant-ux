@@ -478,7 +478,7 @@ export default class Screen extends CopyPaste {
 	}
 
 	updateScreenPosition (id, pos, isMove = false){
-		this.logger.log(-1,"updateScreenPosition", "enter > screen.id : " + id + " > isMove: "+ isMove);
+		this.logger.log(1,"updateScreenPosition", "enter > screen.id : " + id + " > isMove: "+ isMove);
 
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
 
@@ -545,7 +545,7 @@ export default class Screen extends CopyPaste {
 	}
 
 	updateScreenWidthAndHeight (id, pos) {
-		this.logger.log(0,"updateScreenWidthAndHeight", "enter > screen.id : " + id + " > " +pos.w + "/"+pos.h);
+		this.logger.log(1,"updateScreenWidthAndHeight", "enter > screen.id : " + id + " > " +pos.w + "/"+pos.h);
 
 		this.startModelChange()
 		const screen = this.model.screens[id];
@@ -589,7 +589,7 @@ export default class Screen extends CopyPaste {
 	}
 
 	modelScreenUpdate (id, pos, updateChildren){
-		this.logger.log(-1,"modelScreenUpdate", "enter > id: " + id + " > updateChildren: " + updateChildren);
+		this.logger.log(1,"modelScreenUpdate", "enter > id: " + id + " > updateChildren: " + updateChildren);
 
 		let modified = new Date().getTime()
 		var screen = this.model.screens[id];
@@ -631,6 +631,81 @@ export default class Screen extends CopyPaste {
 	redoScreenPosition (command){
 		this.logger.log(3,"redoScreenPosition", "enter > " + command.id);
 		this.modelScreenUpdate(command.modelId, command.delta.n, command.updateChildren);
+		this.render();
+	}
+
+	/**********************************************************************
+	 * Multi Screen Move
+	 **********************************************************************/
+
+	updateMultiScreenPosition (id, pos, ids) {
+		this.logger.log(-3,"updateMultiScreenPosition", "enter > " + id);
+
+		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
+
+		const screen = this.model.screens[id];
+		if (screen) {
+			this.startModelChange()
+			
+			const dif = {
+				x: Math.round(screen.x - pos.x),
+				y: Math.round(screen.y - pos.y)
+			}
+			const command = {
+				timestamp : new Date().getTime(),
+				type : "MultiScreenPosition",
+				dif:dif,
+				ids : ids
+			};
+			this.addCommand(command);
+			this.modelMultiScreenUpdate(ids, dif, true);
+			this.commitModelChange(true, true)
+		}
+	}
+
+	modelMultiScreenUpdate (ids, dif, isRedo) {
+		const modified = new Date().getTime()
+		ids.forEach(id => {
+			const scrn = this.model.screens[id];
+			if (scrn) {
+				scrn.modified = modified
+				if (isRedo) {			
+					scrn.x -= dif.x					
+					scrn.y -= dif.y						
+				} else {
+					scrn.x += dif.x					
+					scrn.y += dif.y		
+				}		
+				for (let i=0; i < scrn.children.length; i++){
+					const widgetID = scrn.children[i];
+					const widget = this.model.widgets[widgetID];
+					widget.modified = modified
+					if (widget){
+						if (isRedo) {			
+							widget.x -= dif.x					
+							widget.y -= dif.y						
+						} else {
+							widget.x += dif.x					
+							widget.y += dif.y		
+						}					
+					}
+				}
+			}			
+		})
+		this.onModelChanged(ids.map(id => {
+			return {type: 'screen', action:"change", id: id}
+		}))
+	}
+
+	undoMultiScreenPosition (command){
+		this.logger.log(3,"undoMultiScreenPosition", "enter > " + command.id);
+		this.modelMultiScreenUpdate(command.ids, command.dif, false);
+		this.render();
+	}
+
+	redoMultiScreenPosition (command){
+		this.logger.log(3,"redoMultiScreenPosition", "enter > " + command.id);
+		this.modelMultiScreenUpdate(command.ids, command.dif, true);
 		this.render();
 	}
 
