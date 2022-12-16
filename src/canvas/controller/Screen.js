@@ -462,7 +462,7 @@ export default class Screen extends CopyPaste {
 	}
 
 	updateScreenPosition (id, pos, isMove = false){
-		this.logger.log(-1,"updateScreenPosition", "enter > screen.id : " + id + " > isMove: "+ isMove);
+		this.logger.log(1,"updateScreenPosition", "enter > screen.id : " + id + " > isMove: "+ isMove);
 
 		pos = this.getUnZoomedBox(pos, this.getZoomFactor());
 
@@ -529,7 +529,7 @@ export default class Screen extends CopyPaste {
 	}
 
 	updateScreenWidthAndHeight (id, pos) {
-		this.logger.log(0,"updateScreenWidthAndHeight", "enter > screen.id : " + id + " > " +pos.w + "/"+pos.h);
+		this.logger.log(1,"updateScreenWidthAndHeight", "enter > screen.id : " + id + " > " +pos.w + "/"+pos.h);
 
 		this.startModelChange()
 		const screen = this.model.screens[id];
@@ -573,7 +573,7 @@ export default class Screen extends CopyPaste {
 	}
 
 	modelScreenUpdate (id, pos, updateChildren){
-		this.logger.log(-1,"modelScreenUpdate", "enter > id: " + id + " > updateChildren: " + updateChildren);
+		this.logger.log(1,"modelScreenUpdate", "enter > id: " + id + " > updateChildren: " + updateChildren);
 
 		let modified = new Date().getTime()
 		var screen = this.model.screens[id];

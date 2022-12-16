@@ -346,11 +346,10 @@ export default {
       }
 
 
-      this._dragNDropBoxPositions = null;
-      //this.onSelectionMoved(pos, dif, id);
-      requestAnimationFrame( () => {
-        this.setSelectedScreens(screenIDs);
-      })
+      this._dragNDropBoxPositions = null;  
+      // we do not need to render, because the model change will trigger
+      // a rerender
+      this.setSelectedScreens(screenIDs, false, false);
       this.setState(0);
     },
 

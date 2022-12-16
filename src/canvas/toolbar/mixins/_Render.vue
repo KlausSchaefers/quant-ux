@@ -1476,6 +1476,7 @@ export default {
 			css.remove(this.propertiesCntr, "MatcToolbarSectionHidden");
 			if(this.canvas){
 				css.add(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
+				css.add(this.canvas.scrollBottom, "MatcCanvasScrollBarBottomOpen");
 			}
 			css.add(this.widgetViewSection, "MatcToobarViewSectionVisible");
 		},
@@ -1484,6 +1485,7 @@ export default {
 			css.add(this.propertiesCntr, "MatcToolbarSectionHidden");
 			if(this.canvas){
 				css.remove(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
+				css.remove(this.canvas.scrollBottom, "MatcCanvasScrollBarBottomOpen");
 			}
 			css.remove(this.widgetViewSection, "MatcToobarViewSectionVisible");
 		},

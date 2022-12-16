@@ -597,6 +597,10 @@
 	bottom:0px;
 }
 
+.MatcCanvasScrollBarBottom.MatcCanvasScrollBarBottomLayerList {
+	padding-left:340px;
+}
+
 .MatcCanvasScrollBarBottomOpen.MatcCanvasScrollBarBottom{
 	padding-right:230px;
 }

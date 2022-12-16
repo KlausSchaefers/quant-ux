@@ -36,8 +36,6 @@ import topic from 'dojo/topic'
 			})
 			if (render) {
 				this.renderScreenSelection()
-			} else  {
-				console.warn('setSelectedScreens do not render')
 			}
 		},
 
@@ -47,7 +45,6 @@ import topic from 'dojo/topic'
 
 		renderScreenSelection () {
 			this.logger.log(-1, "renderScreenSelection", "enter > ");
-	
 			if (this._canvasSelection.screens.length === 1) {
 				this.renderSingleScreenSelection()
 			} 
@@ -110,7 +107,6 @@ import topic from 'dojo/topic'
 				 * this is the layerlist...
 				 */
 				if (this.selectionListener) {
-					console.debug('selectLayer')
 					this.selectionListener.selectScreens([id]);
 				}
 			} catch (e){

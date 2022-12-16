@@ -118,7 +118,7 @@ export default {
 		},
 
 		onSelect (ids) {
-			this.logger.log(1, "onSelect", "entry > ", ids);
+			this.logger.log(-1, "onSelect", "entry > ", ids);
 			if (!this.canvas) {
 				return
 			}
@@ -329,6 +329,10 @@ export default {
 				children: []
 			};
 			this.nodes[id] = tree
+
+			if (this.selection && this.selection.indexOf(tree.id) >= 0) {
+				tree.selected = true
+			}
 
 			let groupNodes = {};
 			let masterNodes = {}
@@ -707,8 +711,8 @@ export default {
 
 
 		selectNode (ids) {
-			console.debug('LayerList.selectNode() is ', ids)
 			this.unSelectNodes()
+			this.selection = ids
 			this.$nextTick(() => {
 				ids.forEach(id => {
 					const node = this.nodes[id]
@@ -718,7 +722,6 @@ export default {
 						this.logger.log(4, 'selectNode', 'No node with id: ' + id)
 					}
 				})
-				this.selection = ids
 				this.scrollToSelection(ids)
 				this.$forceUpdate()
 			})			
