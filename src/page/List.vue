@@ -133,7 +133,7 @@ export default {
       if (this.maxElementsToRender < list.length) {
         var db = new DomBuilder();
         var more = db
-          .div("MatcCenter")
+          .div("MatcCenter MatcMarginBottom")
           .a("MatcButton", "Show More...")
           .build(parent);
         this.tempOwn(on(more, "click", lang.hitch(this, "showMore", list)));

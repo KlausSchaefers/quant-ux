@@ -574,7 +574,8 @@ export default {
 			this.dropOffTaskBtn = this.$new(RadioBoxList, {maxLabelLength:20});
 
 			let tasks = []
-			if (this.testSettings.tasks && this.testSettings.tasks.length > 1) {
+
+			if (this.testSettings.tasks && this.testSettings.tasks.length >= 1) {
 				tasks = this.testSettings.tasks.map((task,i) => {
 					return {value: i, label: task.name}
 				})	

@@ -1,0 +1,89 @@
+[
+    {
+        "session": "S1671483640428_4924",
+        "user": {
+            "id": "U1671483640428_72",
+            "name": "tester"
+        },
+        "screen": "s10004_44385",
+        "widget": null,
+        "type": "SessionStart",
+        "time": 1671483640428,
+        "x": -1,
+        "y": -1,
+        "device": {
+            "w": 203,
+            "h": 362,
+            "qr": false
+        }
+    },
+    {
+        "session": "S1671483640428_4924",
+        "user": {
+            "id": "U1671483640428_72",
+            "name": "tester"
+        },
+        "screen": "s10004_44385",
+        "widget": null,
+        "type": "ScreenLoaded",
+        "time": 1671483640429,
+        "x": -1,
+        "y": -1
+    },
+    {
+        "session": "S1671483640428_4924",
+        "user": {
+            "id": "U1671483640428_72",
+            "name": "tester"
+        },
+        "screen": "s10004_44385",
+        "widget": "w10036_92453",
+        "type": "WidgetClick",
+        "time": 1671483643009,
+        "scrollTop": 0,
+        "x": 0.074,
+        "y": 0.01
+    },
+    {
+        "session": "S1671483640428_4924",
+        "user": {
+            "id": "U1671483640428_72",
+            "name": "tester"
+        },
+        "screen": "s10005_76053",
+        "widget": null,
+        "type": "ScreenLoaded",
+        "time": 1671483643011,
+        "scrollTop": 0,
+        "x": -1,
+        "y": -1
+    },
+    {
+        "session": "S1671483640428_4924",
+        "user": {
+            "id": "U1671483640428_72",
+            "name": "tester"
+        },
+        "screen": "s10005_76053",
+        "widget": "w10038_22584",
+        "type": "WidgetClick",
+        "time": 1671483644737,
+        "scrollTop": 0,
+        "x": 0.074,
+        "y": 0.032
+    },
+    {
+        "session": "S1671483640428_4924",
+        "user": {
+            "id": "U1671483640428_72",
+            "name": "tester"
+        },
+        "screen": "s10004_44385",
+        "widget": null,
+        "type": "ScreenLoaded",
+        "time": 1671483644739,
+        "scrollTop": 0,
+        "x": -1,
+        "y": -1
+    }
+]

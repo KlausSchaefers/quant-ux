@@ -220,6 +220,7 @@ export default class {
 			startTime: 0,
 			strict: strict,
 			taskName: "",
+			usePartialMatches: false,
 
 			init(e) {
 				this.start = e;
@@ -249,7 +250,6 @@ export default class {
 				 * step in the flow
 				 */
 				if (this._match(this.step, e)) {
-
 					/**
 					 * create a match object
 					 */
@@ -323,32 +323,33 @@ export default class {
 					 */
 					this.flowPos++;
 					this.step = this.flow[this.flowPos];
-
-					
-
 				}
 
 				/**
 				 * check if we have a partial match. The last step must not be like the
 				 * current step.
+				 * 
+				 * Since 4.3.8 We disabled partical Matches. Not sure if they are needed anywhere???
 				 */
-				if (this.match != null && !this._match(this.step, this.endStep) && this._match(this.endStep, e)) {
+				if (this.usePartialMatches) {
+					if (this.match != null && !this._match(this.step, this.endStep) && this._match(this.endStep, e)) {
+					
+						this.match.endTime = e.time;
+						this.match.endPosition = i;
+						this.match.duration = this.match.endTime - this.match.startTime;
+						/**
+						 * count on extra. because we start at event 2, than do two more step
+						 * and we are at 4. But the user did three steps...
+						 */
+						this.match.count = (this.match.endPosition - this.match.startPosition) + 1;
+						this.match.partial = true;
+						result = this.match;
 
-					this.match.endTime = e.time;
-					this.match.endPosition = i;
-					this.match.duration = this.match.endTime - this.match.startTime;
-					/**
-					 * count on extra. because we start at event 2, than do two more step
-					 * and we are at 4. But the user did three steps...
-					 */
-					this.match.count = (this.match.endPosition - this.match.startPosition) + 1;
-					this.match.partial = true;
-					result = this.match;
-
-					/**
-					 * reset
-					 */
-					this.reset();
+						/**
+						 * reset
+						 */
+						this.reset();
+					}
 				}
 
 				return result;
@@ -371,10 +372,7 @@ export default class {
 			 * b: event from stream
 			 */
 			_match(a, b) {
-
-
 				if ((a.screen == b.screen && a.widget == b.widget && a.type == b.type)) {
-
 					if ((a.type == "ScreenGesture" && b.type == "ScreenGesture") ||
 						(a.type == "WidgetGesture" && b.type == "WidgetGesture")) {
 						if (a.gesture && b.gesture) {
@@ -413,6 +411,7 @@ export default class {
 					if ((a.state && !b.state) || (!a.state && b.state)) {
 						return false;
 					}
+			
 					return true;
 				}
 				return false;
@@ -435,22 +434,20 @@ export default class {
 	 */
 	matchFlowInSession(df, flow, taskID, strict) {
 
-		var result = [];
+		const result = [];
 
-		var matcher = this.createMatcher(taskID, flow, strict)
+		const matcher = this.createMatcher(taskID, flow, strict)
 
 		df.sortBy("time");
-		var events = df.as_array();
+		const events = df.as_array();
 
-		var l = events.length;
+		const l = events.length;
 		matcher.init(events[0]);
-		for (var i = 0; i < l; i++) {
-			var e = events[i];
-			var m = matcher.next(e, i);
+		for (let i = 0; i < l; i++) {
+			const e = events[i];
+			const m = matcher.next(e, i);
 			if (m) {
-
 				if (strict) {
-					//console.debug("matchFlowInSession() > Strict", flow.length, m.count);
 					if (flow.length == m.count) {
 						result.push(m);
 					}
@@ -580,32 +577,33 @@ export default class {
 			 */
 			const events = session.as_array();
 			const l = events.length;
-
+		
 			/**
 			 * reset all matchers
 			 */
 			for (let m = 0; m < matcherLength; m++) {
-				let matcher = matchers[m];
+				const matcher = matchers[m];
 				matcher.reset();
 				matcher.init(events[0]);
 				matcher.disabled = false;
 			}
 
 			for (let i = 0; i < l; i++) {
-				let e = events[i];
-
+				const e = events[i];
+			
 				/**
 				 * run all matchers
 				 */
 				for (let m = 0; m < matcherLength; m++) {
-					let matcher = matchers[m];
+					const matcher = matchers[m];
+			
 					/**
 					 * Usually we want to match each task max once!
 					 * If we have a match, the corresponding
 					 * matched will be disabled
 					 */
 					if (!matcher.disabled) {
-						let match = matcher.next(e, i);
+						const match = matcher.next(e, i);
 						if (match) {
 							if ((match.partial && allowPartial) || !match.partial) {
 								/**

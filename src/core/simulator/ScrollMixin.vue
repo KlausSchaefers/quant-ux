@@ -4,7 +4,6 @@
 </template>
 <script>
 
-// import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import topic from 'dojo/topic'

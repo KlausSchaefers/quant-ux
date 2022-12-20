@@ -532,7 +532,6 @@ export default {
 			s.placeAt(container)
 			s.setModel(this.model);
 		
-
 			this.logger.log(0,"renderMobileSimulator","exit", pos);
 			return s;
 		},

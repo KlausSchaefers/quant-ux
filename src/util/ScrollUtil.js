@@ -10,4 +10,3 @@ export function addScrollIfNeeded(node, force = false) {
     }
     return false
 }
-

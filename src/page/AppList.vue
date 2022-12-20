@@ -212,7 +212,7 @@ export default {
       }
     },
 
-    setApps: function(value) {
+    setApps (value) {
       this.log.log(0, "setApps", "enter > " + value.length);
       value.sort(function(a, b) {
         return b.lastUpdate - a.lastUpdate;
@@ -230,7 +230,7 @@ export default {
       this._list = value;
     },
 
-    filterApps: function(apps) {
+    filterApps (apps) {
       var result = [];
       for (var i = 0; i < apps.length; i++) {
         var app = apps[i];
@@ -243,7 +243,7 @@ export default {
       return result;
     },
 
-    setValue: function(value) {
+    setValue (value) {
       value.sort(function(a, b) {
         return b.lastUpdate - a.lastUpdate;
       });
@@ -251,7 +251,7 @@ export default {
       this.render(value, false);
     },
 
-    onRenderAdd: function(item) {
+    onRenderAdd (item) {
       css.add(
         item,
         " MatcContentBox MatcShadowBox MatcAppListBox MatcAppListAddBox"
@@ -289,7 +289,7 @@ export default {
       item.appendChild(p);
     },
 
-    renderItem: function(item, app, i) {
+    renderItem (item, app, i) {
       if (!this.widgets) {
         this.widgets = {};
       }
@@ -337,7 +337,7 @@ export default {
       this.renderDescription(app, item);
     },
 
-    setPreviewWrapperSize: function(wrapper) {
+    setPreviewWrapperSize (wrapper) {
       if (this.resizePreview) {
         var scale = this.colWidth / this.model.screenSize.w;
         /**
@@ -353,14 +353,14 @@ export default {
       }
     },
 
-    renderPopover: function(popoverContent) {
+    renderPopover (popoverContent) {
       var popoverBtn = document.createElement("span");
       css.add(popoverBtn, " MatcPopoverBtn MatcVerticleCenter");
       popoverBtn.innerHTML = this.popoverButtonLabel;
       popoverContent.appendChild(popoverBtn);
     },
 
-    renderDescription: function(app, item) {
+    renderDescription (app, item) {
       var des = this.getDescription(app);
       var p = document.createElement("p");
       p.innerHTML = des;
@@ -368,7 +368,7 @@ export default {
       item.appendChild(p);
     },
 
-    onBeforeResize: function() {
+    onBeforeResize () {
       this.log.log(4, "onBeforeResize", "enter");
       if (this.widgets) {
         for (var i = 0; i < this.widgets.length; i++) {
@@ -378,7 +378,7 @@ export default {
       this.widgets = [];
     },
 
-    createScreenWidget: function() {
+    createScreenWidget () {
       let preview = this.$new(Preview);
       preview.mode = 'preview';
       preview.isFillBackground = true
@@ -387,7 +387,7 @@ export default {
       return preview;
     },
 
-    setMethod: function(phone, app) {
+    setMethod (phone, app) {
       if (!this.pub) {
         if (this.isMobile) {
           phone.href = "#/test/mobile/" + app.id + ".html";
@@ -399,7 +399,7 @@ export default {
       }
     },
 
-    getDescription: function(app) {
+    getDescription (app) {
       var des = "";
       if (app.name) {
         des += this.stripHTML(app.name);
@@ -407,7 +407,7 @@ export default {
       return des;
     },
 
-    onRenderDone: function(value) {
+    onRenderDone (value) {
       for (var i = 0; i < value.length; i++) {
         var app = value[i];
         if (this.widgets[i]) {
