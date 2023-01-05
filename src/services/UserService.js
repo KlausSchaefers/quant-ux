@@ -38,7 +38,7 @@ class UserService extends AbstractService{
     }
 
     logout () {
-        //localStorage.removeItem('quxUser');
+        localStorage.removeItem('quxUser');
         Cookies.remove('quxUserLoggedIn')
         return this._delete('rest/login/')
     }
@@ -64,7 +64,11 @@ class UserService extends AbstractService{
     load () {
         if (!this.user) {
             this.logger.info('getUser()', 'load')
-            const s = Cookies.get('quxUserLoggedIn')//localStorage.getItem('quxUser')
+            let s = Cookies.get('quxUserLoggedIn')
+            if (s == undefined || s === null || s === '') {
+                this.logger.info('getUser()', 'from localstorage')
+                s = localStorage.getItem('quxUser')
+            }
             if (s) {
                 try {
                     const user = JSON.parse(s)
@@ -181,7 +185,7 @@ class UserService extends AbstractService{
     setUser (u) {
         this.setTTL(u)
         this.user = u
-       // localStorage.setItem('quxUser', JSON.stringify(u));
+        localStorage.setItem('quxUser', JSON.stringify(u));
         if (location.hostname === 'quant-ux') {
             Cookies.set('quxUserLoggedIn', JSON.stringify(u), { expires: 7, secure: true, domain: 'quant-ux.com'}) 
         } else {

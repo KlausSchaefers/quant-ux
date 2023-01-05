@@ -20,7 +20,6 @@ export default {
 		 */
 		async initDefaultDataBinding (model) {
 			this.logger.log(3, "initDefaultDataBinding","enter ");
-
 			const bindingsCount = {}
 			Object.values(model.widgets).forEach(w => {
 				const databinding = this.getDataBinding(w)
@@ -86,6 +85,20 @@ export default {
 			await this.executeDataScripts()
 		},
 
+		initDataFromURL (params) {
+			this.logger.log(1, "initDataFromURL","enter ", params);
+
+			for (let key in params) {
+				if (key.indexOf('data_') === 0) {
+					const variable = key.substring(5)
+					const value = params[key]
+					this.setDataBindingByKey(variable, value)
+					this.logger.log(-1, "initDataFromURL","set ", variable + '=' + value);
+				}
+			}
+
+			this.logger.log(-1, "initDataFromURL","exit ", this.dataBindingValues);
+		},
 
 		setDataBindingByKey (path, value) {
 			if (this.dataBindingValues) {

@@ -74,7 +74,7 @@
       <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
        
       </div>
-      <div class="MatcSimulatorVersion">v4.2.0</div>
+      <div class="MatcSimulatorVersion">v4.2.1</div>
     </div>
   </div>
 </template>
@@ -168,6 +168,7 @@ export default {
 			const uri = location.hash;
 			const query = uri.substring(uri.indexOf("?") + 1, uri.length);
 			const params = io.queryToObject(query);
+			this.initDataFromURL(params)
 
 			this.initNLS()
 		
