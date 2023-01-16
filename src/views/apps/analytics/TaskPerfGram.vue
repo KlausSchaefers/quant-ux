@@ -47,6 +47,10 @@
 
 	</div>
 </template>
+<style lang="css">
+  @import url('../../../style/toolbar/toolbar.css');
+</style>
+
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import on from 'dojo/on'

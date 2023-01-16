@@ -1757,16 +1757,26 @@
 	bottom:0px;
 }
 
-.MatcInlineEditVAlign-Top-Left{
-
+.MatcInlineEditVAlign-top-left{
+	position:absolute;
+	top:0px;
+	left:0px;
 }
 
-.MatcInlineEditVAlign-Top-Center{
-
+.MatcInlineEditVAlign-top-center{
+	position:absolute;
+	top:0%;
+	left:50%;
+	width:100%;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
 }
 
-.MatcInlineEditVAlign-Top-Right{
 
+.MatcInlineEditVAlign-top-right{
+	position:absolute;
+	top:0px;
+	right:0px;
 }
 
 
