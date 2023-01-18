@@ -139,6 +139,30 @@ export default class FigmaService {
     return model
   }
 
+  async getPreviews (id, fModel, importChildren, screenSize, selectedPages = []) {
+    Logger.log(1, 'getPreviews() > enter importChildren:' + importChildren)
+    let model = this.createApp(id, fModel, screenSize)
+    let fDoc = fModel.document
+
+    if (fDoc.children) {
+      fDoc.children.forEach(page => {
+        if (page.children && selectedPages.indexOf(page.id) >= 0 || selectedPages.length === 0) {
+          Logger.log(1, 'parse() > enter page:' + page.id, page.id)
+          page.children.forEach(screen => {
+            if (screen.visible !== false) {
+              this.parseScreen(screen, model, fModel, screenSize)
+            } else {
+              Logger.log(-1, 'parse() >ignore screen:' + screen.id, screen.name)
+            }     
+          })
+        }
+      })
+    }
+
+    await this.addBackgroundImages(id, model, importChildren)
+    return model.screens
+  }
+
   setLineTos (model) {
     let widgetMapping = {}
     Object.values(model.widgets).forEach(w => {
