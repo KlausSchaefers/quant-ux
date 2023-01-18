@@ -24,14 +24,20 @@ class ZipService {
         for (let i=0; i < images.length; i++) {
           let image = images[i]
           let url = `/rest/images/${image.url}?token=${jwtToken}`
-          let imgData = await this.getBlob(url)
-          let filename = 'image' + i + '.' + this.getFileType(image.url)
-          baseZip.file(filename, imgData)
-          this.logger.log(-1, 'writeZipToBlob', 'image', filename)
-          /**
-           * Do not forget to update the url
-           */
-          image.url = filename
+          try {
+   
+            let imgData = await this.getBlob(url)
+            let filename = 'image' + i + '.' + this.getFileType(image.url)
+            baseZip.file(filename, imgData)
+            this.logger.log(-1, 'writeZipToBlob', 'image', filename)
+            /**
+             * Do not forget to update the url
+             */
+            image.url = filename
+          } catch (err) {
+            this.logger.error('writeZipToBlob', 'Could not load image > ' + url)
+          }
+       
         }
 
         /**

@@ -713,7 +713,13 @@ export default {
             const widget = this.model.widgets[id];
             if (widget) {
               const sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
-              pos = this.updateZoomedPosition(widget, sourcePos)
+              if (sourcePos) {
+                pos = this.updateZoomedPosition(widget, sourcePos)
+              } else {
+                this.logger.error("onWidgetDndEnd", "No sourcePos for "+ id);
+                this.logger.sendError(new Error("No sourcePos with id >" + id));
+              }
+
             } else {
               this.logger.error("onWidgetDndEnd", "No widget with id >" + id);
               this.logger.sendError(new Error("No widget with id >" + id));

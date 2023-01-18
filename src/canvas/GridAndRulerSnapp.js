@@ -222,15 +222,18 @@ export default class GridAndRulerSnapp extends Core {
 		const closeXLine = SnappUtil.getCloseLines(this.showDistance, this._linesX, "x", corners.x, false, 'corner');
 		const closeYLine = SnappUtil.getCloseLines(this.showDistance, this._linesY, "y", corners.y, false, 'corner');
 
+	
 		/**
 		 * Since 4.3.0 we include for none grid both sides. We have
 		 * to correct left and top, to make the snapping work in the controller
+		 * 
+		 * Since 4.3.11 we also do this in case of the grid, we removed
+		 * if (!this.grid.enabled) {
 		 */
-		if (!this.grid.enabled) {
-			left = SnappUtil.correctSnappDirection(closeXLine, left)
-			top = SnappUtil.correctSnappDirection(closeYLine, top)			
-		}
-	
+		//if (!this.grid.enabled) {
+		left = SnappUtil.correctSnappDirection(closeXLine, left)
+		top = SnappUtil.correctSnappDirection(closeYLine, top)	
+		//}
 
 		/**
 		 * Get close middle lines. We handle this a little special:
@@ -1659,8 +1662,11 @@ export default class GridAndRulerSnapp extends Core {
 				 * Since 4.3.0 we include for none grid both sides
 				 */
 				if (isGrid) {				
-					corners.x.push(pos.x);		
+					corners.x.push(pos.x);
+					corners.x.push(pos.x + pos.w)
+					// Since 4.3.11 we aslso include for grid both sides
 					corners.y.push(pos.y);
+					corners.y.push(pos.y + pos.h);
 	
 				} else {
 					corners.x.push(pos.x);
