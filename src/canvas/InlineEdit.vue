@@ -56,12 +56,12 @@ export default {
 		},
 
 		inlineEditStop (){
-			this.logger.log(2,"inlineEditStop", "enter");
+			this.logger.log(2,"inlineEditStop", "enter", this._inlineEditResizeToWidth);
 
 			if(this._inlineEditWidget && this._inlineEditStarted){
-				var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
+				const div = this.renderFactory.getLabelNode(this._inlineEditWidget);
 				if(div){
-					var txt = div.innerHTML;
+					let txt = div.innerHTML;
 
 					/**
 					 * This is some weird shit with inline editing. Sometimes
@@ -98,7 +98,7 @@ export default {
 						const noWrap = this._inlineEditWidget.style.nowrap
 						this.cleanUpInlineEdit();
 
-						this.logger.log(-2,"inlineEditStop", "exit > FLUSH > " + txt, resizeToWidth);
+						this.logger.log(2,"inlineEditStop", "exit > FLUSH > " + txt, resizeToWidth);
 						if (resizeToWidth || noWrap === true) {
 							this.controller.updateWidgetLabel(id, txt);
 						} else {

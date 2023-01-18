@@ -465,6 +465,7 @@ export default class Widget extends Snapp {
 
 		const widget = this.model.widgets[id];
 		if (widget) {
+			this.startModelChange()
 			let width = TextUtil.getTextWidth(label, widget)
 			this.logger.log(-1,"updateWidgetLabel", "enter > " + label + ' => ' + width + 'px');
 			const command = {
@@ -485,6 +486,7 @@ export default class Widget extends Snapp {
 			this.render();
 
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'props', action:'change'}])
+			this.commitModelChange(true, true)	
 			return command;
 		} else {
 			this.logger.log(-1,"updateWidgetLabel", "no widget: ", id);
@@ -496,6 +498,7 @@ export default class Widget extends Snapp {
 		if (widget) {
 			widget.props.label = label
 			widget.w = width
+			this.logger.log(-1,"modelUpdateWidgetText", "width ", widget.w);
 			this.onModelChanged([{type: 'widget', action:"change", id: id}])
 		}
 	}
@@ -520,7 +523,7 @@ export default class Widget extends Snapp {
 
 
 	updateWidgetPosition (id, pos, fromToolbar, hasCopies){
-		this.logger.log(1,"updateWidgetPosition", "enter > " + id );
+		this.logger.log(-1,"updateWidgetPosition", "enter > " + id );
 
 		const widget = this.model.widgets[id];
 		if (!widget) {

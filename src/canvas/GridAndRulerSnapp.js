@@ -151,10 +151,10 @@ export default class GridAndRulerSnapp extends Core {
 		let left = this.getMovementDir(this.xMovements);
 		let top = this.getMovementDir(this.yMovements);
  
-		let showDistanceXLeft = left
-		let showDistanceYTop = top
+		const showDistanceXLeft = left
+		const showDistanceYTop = top
 
-		 
+	 
 		/**
 		 * Since 3.0.43 we snapp grid on top left corner
 		 * 
