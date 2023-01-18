@@ -151,10 +151,10 @@ export default {
 			const widgetViewMode = "style";
 			let style = null;
 			const widgets = [];
-			const hasLabel = true;
-			const hasPadding = true;
-			const hasBorder = true;
-			const hasBackground = true;
+			let hasLabel = true;
+			let hasPadding = true;
+			let hasBorder = true;
+			let hasBackground = true;
 			const hasColor = true
 			let isAllSVG = true
 			for(let i=0; i< ids.length;i++){
@@ -179,6 +179,10 @@ export default {
 						console.erro('_showMultiVisualProperties() No style for widget', widget)
 					}
 					isAllSVG = widget.type === 'SVGPaths' && isAllSVG
+					hasBackground = hasBackground && widget?.has?.backgroundColor
+					hasPadding =  hasPadding && this.hasPadding.indexOf(widget.type) >=0
+					hasBorder = hasBorder && widget?.has?.border
+					hasLabel = hasLabel && widget?.has?.label
 				}
 	
 			}
