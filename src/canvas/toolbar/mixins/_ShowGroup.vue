@@ -155,6 +155,7 @@ export default {
 			const hasPadding = true;
 			const hasBorder = true;
 			const hasBackground = true;
+			const hasColor = true
 			let isAllSVG = true
 			for(let i=0; i< ids.length;i++){
 				const id = ids[i];
@@ -222,6 +223,12 @@ export default {
 					this.textProperties.setValue(style)
 				}
 
+				if(hasColor){
+					css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
+					this.color.setValue(style.color)
+					this.color.setModel(this.model)
+					this.color.setBox(null)
+				}
 
 				if(hasPadding){
 					css.remove(this.boxDiv, "MatcToolbarSectionHidden");
