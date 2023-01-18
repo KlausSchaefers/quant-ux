@@ -19,7 +19,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this.slider = this.$new(HSlider, {wire: false})
       this.slider.wire = false;
       this.slider.placeAt(this.domNode);
@@ -29,7 +29,7 @@ export default {
       this._shadowNodes = [this.slider.cntr];
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.slider.wireEvents();
       this.own(this.slider.on("change", lang.hitch(this, "onSliderChange")));
       this.own(this.slider.on("press", lang.hitch(this, "onSliderPress")));
@@ -37,8 +37,8 @@ export default {
       this.wireHover()
     },
 
-    onSliderChange: function(w, e) {
-      if (!this. sliderPressed) {
+    onSliderChange (w, e) {
+      if (!this.sliderPressed) {
         this.emitStateChange("select", this.slider.getValue(), e);
       } else {
         this.addCompositeSubState(this.slider.getValue());
@@ -47,25 +47,29 @@ export default {
       var v = this.slider.getValue();
       this.emitDataBinding(v);
       this.setValueLabel(v);
+
+     
     },
 
-    onSliderPress: function(e) {
-      this. sliderPressed = true;
+    onSliderPress (e) {
+      this.sliderPressed = true;
       this.initCompositeState(this.slider.getValue(), e);
     },
 
-    onSliderRelease: function() {
-      //console.debug("onSliderRelease", w);
-      this. sliderPressed = false;
+    onSliderRelease (e) {
+      this.sliderPressed = false;
       this.emitCompositeState("select", this.slider.getValue());
+      setTimeout(() => {
+        this.emitStateChange("select", this.slider.getValue(), e);
+      }, 250)
     },
 
-    cleanUp: function() {
+    cleanUp () {
       this.slider.cleanup();
-      this. sliderPressed = false;
+      this.sliderPressed = false;
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -92,7 +96,7 @@ export default {
       this.resize(model);
     },
 
-    resize: function(model) {
+    resize (model) {
       var barHeight = Math.round(model.h / 3);
 
       if (this.style.barHeight) {
@@ -150,7 +154,7 @@ export default {
       }
     },
 
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       v = v * 1;
       if (!isNaN(v)) {
         this.setValue(v);
