@@ -1626,6 +1626,62 @@ export default class Screen extends CopyPaste {
 	}
 
 	/**********************************************************************
+	 * Multi Screen remove
+	 **********************************************************************/
+
+	
+	removeMultiScreen (ids) {
+		this.logger.log(1,"removeMultiScreen", "enter > " +ids);
+		this.startModelChange()
+
+		const command = {
+			timestamp : new Date().getTime(),
+			type : "RemoveMultiScreen",
+			children:[]
+		};
+
+		ids.forEach(id => {
+			const screen = this.model.screens[id];
+			const lines = this.getLines(screen, true);
+			const widgets = this.getModelChildren(screen);
+			const groups = this.getGroupsForWidgets(widgets);
+			const childCommand = {
+				timestamp : new Date().getTime(),
+				type : "RemoveScreen",
+				screen :screen,
+				lines : lines,
+				groups : groups,
+				widgets : widgets,
+				modelId : id
+			};
+			command.children.push(childCommand)
+			this.modelRemoveScreenAndWidgetAndLines(screen, widgets, lines, groups);
+		})
+	
+		this.unSelect();
+		this.addCommand(command);
+		this.commitModelChange(true, true)
+		this.render();
+	}
+
+	undoRemoveMultiScreen(parentCommand) {
+		this.logger.log(-1,"undoRemoveMultiScreen", "enter > ");
+		parentCommand.children.forEach(command => {
+			this.modelAddScreenAndWidgetsAndLines(command.screen, command.widgets, command.lines, command.groups);
+		})
+		this.render();
+
+	}
+
+	redoRemoveMultiScreen(parentCommand) {
+		this.logger.log(-1,"redoRemoveMultiScreen", "enter > ");
+		parentCommand.children.forEach(command => {
+			this.modelRemoveScreenAndWidgetAndLines(command.screen, command.widgets, command.lines, command.groups);
+		})
+		this.render();
+	}
+
+	/**********************************************************************
 	 * Screen remove
 	 **********************************************************************/
 

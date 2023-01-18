@@ -134,7 +134,7 @@ export default {
         }
 
 
-        let screenIDs = this._canvasSelection.screens.map(s => s.id)
+        const screenIDs = this._canvasSelection.screens.map(s => s.id)
         const screen = this.model.screens[id];
         this.alignmentStart("screen", screen, "All", screenIDs);
       }
@@ -337,7 +337,7 @@ export default {
       }
       this.cleanUpAlignment();
 
-      let screenIDs = this._canvasSelection.screens.map(s => s.id)
+      const screenIDs = this._canvasSelection.screens.map(s => s.id)
 
       if (screenIDs.length === 1) {
         this.getController().updateScreenPosition(id, lang.clone(pos), true);

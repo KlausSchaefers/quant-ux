@@ -87,60 +87,65 @@ export default {
         return
       }
 
-      this.domNode.innerHTML = ""
-      this._childWidgets = []
-      const db = new DomBuilder()
-
       if (!this.isSymbol && this.app && widget.props.screenID) {
           this.logger.log(2, 'render', 'enter > full render')
-          this._screenID = widget.props.screenID
-          const screen = this.app.screens[widget.props.screenID]
-          if (screen) {
-
-            const core = new Core()
-            core.model = this.app
-
-            const parentScreen = core.getParentScreen(widget, this.app)
-
-            const cntr = db
-                .div('MatcWidgetTypeScreenSegementCntr')
-                .w(screen.w)
-                .h(screen.h)
-                .build()
-
-            /**
-             * Attention: The core.sortedList is somehow reversed... So, we
-             * prevent this by passing a new parameter.
-             */
-             const widgets = core.getSortedScreenChildren(this.app, screen, false)
-
-			      for (let i=0; i< widgets.length; i++){
-                const childWidget = widgets[i];
-                const copy = lang.clone(childWidget)
-                copy.inherited = childWidget.id
-                copy.id = childWidget.id + '@' + parentScreen?.name
-                
-                const div = this.renderWidget(copy, screen, db)
-                cntr.appendChild(div)
-
-                const child = {
-                    parent: childWidget.id,
-                    widget: copy,
-                    div: div
-                }
-
-                this._childWidgets.push(child)
-            }
-            this.cntr = cntr
-            this.domNode.appendChild(cntr)
-          } else {
-               db.div('MatcWidgetTypeScreenSegementHint', 'Screen segment does not exist').build(this.domNode)
-          }
-
+          this.renderScreen(widget, widget.props.screenID)
       } else {
         this._screenID = ''
+        const db = new DomBuilder()
         db.div('MatcWidgetTypeScreenSegementHint', 'Select a screen segment').build(this.domNode)
       }
+    },
+
+    renderScreen(widget, screenID) {
+        
+        this.domNode.innerHTML = ""
+        this._childWidgets = []
+
+        const db = new DomBuilder()
+        this._screenID = screenID
+        const screen = this.app.screens[screenID]
+        if (screen) {
+
+          const core = new Core()
+          core.model = this.app
+
+          const parentScreen = core.getParentScreen(widget, this.app)
+
+          const cntr = db
+              .div('MatcWidgetTypeScreenSegementCntr')
+              .w(screen.w)
+              .h(screen.h)
+              .build()
+
+          /**
+           * Attention: The core.sortedList is somehow reversed... So, we
+           * prevent this by passing a new parameter.
+           */
+          const widgets = core.getSortedScreenChildren(this.app, screen, false)
+
+          for (let i=0; i< widgets.length; i++){
+              const childWidget = widgets[i];
+              const copy = lang.clone(childWidget)
+              copy.inherited = childWidget.id
+              copy.id = childWidget.id + '@' + parentScreen?.name
+              
+              const div = this.renderWidget(copy, screen, db)
+              cntr.appendChild(div)
+
+              const child = {
+                  parent: childWidget.id,
+                  widget: copy,
+                  div: div
+              }
+
+              this._childWidgets.push(child)
+          }
+          this.cntr = cntr
+          this.domNode.appendChild(cntr)
+        } else {
+            db.div('MatcWidgetTypeScreenSegementHint', 'Screen segment does not exist').build(this.domNode)
+        }
     },
 
     renderWidget (widget, screen, db) {
@@ -154,11 +159,20 @@ export default {
 
       this.factory.createWidgetHTML(div, widget);
       return div
+    },
+
+    setValue (value) {
+      const newScreen = Object.values(this.app.screens).find(s => s.name === value)
+      if (newScreen) {
+        this.renderScreen(this.model, newScreen.id)
+      } else {
+        this.logger.error('setValue', 'Screen with name ' + value + ' does not exist')
+        this.renderScreen(this.model, this.model?.props?.screenID)
+      }
     }
   },
   mounted() {
       this.logger = new Logger('ScreenSegment')
-
   }
 };
 </script>

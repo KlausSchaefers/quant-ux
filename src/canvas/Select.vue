@@ -622,6 +622,13 @@ import topic from 'dojo/topic'
 				return true;
 			}
 
+			if(this._canvasSelection.screens.length > 1){
+				const ids = this._canvasSelection.screens.map(s => s.id)
+				this.unSelect();
+				this.controller.removeMultiScreen(ids);
+				return true;
+			}
+
 			if(this._selectedLine){
 				let line = this._selectedLine;
 				this.unSelect();

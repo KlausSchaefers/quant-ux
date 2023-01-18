@@ -42,6 +42,10 @@ export default {
 			this.model = model;
 		},
 
+		_showScreenSegment  (model) {
+			this._renderDataBinding(model, false);
+		},
+
 		_showProgressBar (model){
 			this._renderDataBinding(model, false);
 		},
