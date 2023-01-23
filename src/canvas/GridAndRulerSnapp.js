@@ -1090,7 +1090,6 @@ export default class GridAndRulerSnapp extends Core {
 	 *
 	 */
 	renderNNDistance(absPos, top, left) {
-
 		/**
 		 * We have to fix bounding box offset in here
 		 */
@@ -1106,7 +1105,7 @@ export default class GridAndRulerSnapp extends Core {
 		if (this._lastScreen) {
 
 			const overlaps = this._getNNDistance(absPos, top, left);
-			let useSourceLabel = true
+			let useSourceLabel = false
 			/**
 			 *
 			 *
@@ -1128,12 +1127,16 @@ export default class GridAndRulerSnapp extends Core {
 				const disLeft = overlaps.minLeft ? overlaps.minLeft.distance : 100000
 				const disRight = overlaps.minRight ? overlaps.minRight.distance : 100000
 
+
+
 			
 				if (left || disLeft < disRight) {
 					if (overlaps.minLeft && disLeft) {
 						let from = overlaps.minLeft.from;
 						let to = overlaps.minLeft.to;
 						let distance = overlaps.minLeft.distance;
+
+						
 						let lbl = this.getDistanceLabel(overlaps.minLeft, useSourceLabel, 'x', 'left')
 						let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 						if (overlaps.minLeft.left == 0) {
@@ -1147,7 +1150,6 @@ export default class GridAndRulerSnapp extends Core {
 						let from = overlaps.minRight.from;
 						let to = overlaps.minRight.to;
 						let distance = overlaps.minRight.distance;
-						// FIXME: Add here 1 to give the impression when working with quirky
 						let lbl = this.getDistanceLabel(overlaps.minRight, useSourceLabel, 'x', 'right')
 						let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 						this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
