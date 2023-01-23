@@ -79,9 +79,9 @@ export default {
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload', 'IconToggleButton'],
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
-								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton'],
+								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 'DragNDropTarget'],
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown"],
-			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton", "SegmentPicker"],
+			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", "ToggleButton", "SegmentButton", "SegmentPicker", "DragNDrop", "DragNDropTarget"],
 			hasRotate: ['Image', 'Icon'],
 			hasSVG: ['SVGPaths'],
 			hideAction: ['ScreenSegment']
@@ -297,9 +297,9 @@ export default {
 
 			this._renderWidgetView();
 
-			this._renderWidgetBackground();
-
 			this._renderWidgetImage()
+
+			this._renderWidgetBackground();
 
 			this._renderWidgetBorder();
 
@@ -1013,6 +1013,7 @@ export default {
 
 			this.imageWidgetDiv = parent;
 			this.imageWidgetDeatilsDiv = imageDetailsDiv
+			this.imageWidgetRotateDiv = row
 			this.properties.appendChild(parent);
 		},
 

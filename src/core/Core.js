@@ -157,9 +157,9 @@ export default class Core extends Evented {
         if (!model) {
             model = this.model
         }
-        for (var id in model.screens) {
-            var screen = model.screens[id];
-            var i = screen.children.indexOf(widget.id);
+        for (let id in model.screens) {
+            const screen = model.screens[id];
+            const i = screen.children.indexOf(widget.id);
             if (i > -1) {
                 return screen;
             }
@@ -168,7 +168,7 @@ export default class Core extends Evented {
     }
 
     getWidgetPostionInScreen(widget, model) {
-        var screen = this.getParentScreen(widget, model);
+        const screen = this.getParentScreen(widget, model);
         if (screen) {
             return {
                 x: widget.x - screen.x,
@@ -252,16 +252,16 @@ export default class Core extends Evented {
      **********************************************************************/
 
     getGroupBoundingBox(ids) {
-        var result = {
+        const result = {
             x: 100000000,
             y: 100000000,
             w: 0,
             h: 0
         };
 
-        for (var i = 0; i < ids.length; i++) {
-            var id = ids[i];
-            var box = this.model.widgets[id];
+        for (let i = 0; i < ids.length; i++) {
+            const id = ids[i];
+            const box = this.model.widgets[id];
             if (box) {
                 result.x = Math.min(result.x, box.x);
                 result.y = Math.min(result.y, box.y);

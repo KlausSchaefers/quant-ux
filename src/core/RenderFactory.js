@@ -15,6 +15,7 @@ import TextBox from 'core/widgets/TextBox'
 import Password from 'core/widgets/Password'
 import TextArea from 'core/widgets/TextArea'
 import DragNDrop from 'core/widgets/DragNDrop'
+import DragNDropTarget from 'core/widgets/DragNDropTarget'
 import Spinner from 'core/widgets/Spinner'
 import QDate from 'core/widgets/QDate'
 import QDateDropDown from 'core/widgets/QDateDropDown'
@@ -376,8 +377,8 @@ export default class RenderFactory extends Core {
 	}
 
 	$new (cls) {
-		var ComponentClass = Vue.extend(cls);
-		var instance = new ComponentClass();
+		const ComponentClass = Vue.extend(cls);
+		const instance = new ComponentClass();
 		instance.mode = this.mode
 		instance.$mount(); // pass nothing
 		/**
@@ -542,6 +543,18 @@ export default class RenderFactory extends Core {
 		repeater.setSymbol(this.isSymbol)
 		this._uiWidgets[model.id] = repeater;
 		this._containerWidgets[model.id] = repeater;
+	}
+
+	_createDragNDropTarget (parent, model) {
+		const dnd = this.$new(DragNDropTarget);
+		if (this.zoomedModel){
+			dnd.setZoomedModel(this.zoomedModel)
+		} else {
+			dnd.setZoomedModel(this.model)
+		}
+
+		dnd.placeAt(parent);
+		this._uiWidgets[model.id] = dnd;
 	}
 
 	_createWebLink (parent, model) {

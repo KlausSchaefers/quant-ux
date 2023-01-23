@@ -335,6 +335,15 @@ export default {
 				]
 			}
 
+
+			if (this.widget && (this.widget.type == "DragNDropTarget")){
+				return [
+					{value:"click", label:"Drop", icon:"mdi mdi-cursor-default"},
+					{value:"hover", label:"Hover", icon:"mdi mdi-cursor-default-outline"}
+				]
+			}
+
+
 			if (this.widget && (this.widget.type == "TextBox" || this.widget.type == "Password" )){ //
 				return [
 					{value:"click", label:"Click", icon:"mdi mdi-cursor-default"},

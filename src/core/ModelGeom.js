@@ -129,11 +129,11 @@ class ModelGeom {
     }
 
     getParentScreen (widget, model) {
-        for (var id in model.screens) {
-            var screen = model.screens[id];
-            var i = screen.children.indexOf(widget.id);
+        for (let id in model.screens) {
+            const screen = model.screens[id];
+            const i = screen.children.indexOf(widget.id);
             if (i > -1) {
-            return screen;
+                return screen;
             }
         }
         return null;

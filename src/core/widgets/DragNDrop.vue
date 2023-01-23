@@ -1,5 +1,8 @@
 <template>
-  <div class="MatcWidgetDragNDrop"></div>
+  <div class="MatcWidgetDragNDrop">
+    <div class="MatcInlineEditable MatcWidgetTypeLabelInlineEditable" ref="lblNode">
+      </div>
+  </div>
 </template>
 <script>
 import DojoWidget from "dojo/DojoWidget";
@@ -10,12 +13,14 @@ import domStyle from "dojo/domStyle";
 import win from "dojo/_base/win";
 import Logger from "common/Logger";
 import UIWidget from "core/widgets/UIWidget";
+import topic from 'dojo/topic'
 
 export default {
   name: "DragNDrop",
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
+      label: '',
       value: null,
       dndX: true,
       dndY: true
@@ -29,6 +34,8 @@ export default {
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
       this._paddingNodes = [this.domNode];
+      this._imageNodes = [this.domNode]
+      this._labelNodes = [this.$refs.lblNode];
       this.log.log(4, "postrCreate", "enter");
     },
 
@@ -38,7 +45,7 @@ export default {
     },
 
     getLabelNode () {
-      return this.domNode;
+      return this.$refs.lblNode;
     },
 
     onDndStart (e) {
@@ -80,9 +87,9 @@ export default {
 
     onDnDMove (e) {
       this.stopEvent(e);
-      var pos = this.getMouse(e);
+      const pos = this.getMouse(e);
       this.emitMouseMove(e, true);
-      var delta = {
+      const delta = {
         x: 0,
         y: 0
       };
@@ -93,8 +100,11 @@ export default {
         delta.y = Math.round(pos.y - this.dndStartPos.y);
       }
       this.dndCurrentDelta = delta;
+  
       // Fixme: requestAnimationFrame works slow on android..
       this.renderPosition();
+      this._lastAbsPos.event = e
+      topic.publish('DragNDrop.Move', this._lastAbsPos)
     },
 
     renderPosition () {
@@ -110,6 +120,8 @@ export default {
       this.emitCompositeState("dnd", this.value);
       this.cleanUp();
       this.dndParentPos = this._lastDndPositon;
+      this._lastAbsPos.event = e
+      topic.publish('DragNDrop.End', this._lastAbsPos)
     },
 
     updateValue (value) {
@@ -117,8 +129,8 @@ export default {
         /**
          * Do some bounds checking...
          */
-        var x = this.dndParentPos.x + value.x;
-        var y = this.dndParentPos.y + value.y;
+        let x = this.dndParentPos.x + value.x;
+        let y = this.dndParentPos.y + value.y;
 
         if (x + this.model.w > this.containerSize.w) {
           x = this.containerSize.w - this.model.w;
@@ -136,11 +148,15 @@ export default {
         /**
          * save relative position
          */
-        var newValue = {
+        const newValue = {
           x: x / this.containerSize.w,
           y: y / this.containerSize.h
         };
         this.setValue(newValue);
+
+        this._lastAbsPos = {x:x, y:y, w: this.model.w, h: this.model.h, z: this.model.z, id: this.model.id}
+      
+       
       } else {
         console.warn("No container Size");
       }
@@ -149,14 +165,14 @@ export default {
     /**
      * returns the current position
      */
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
     /**
      * set the current position
      */
-    setValue: function(value) {
+    setValue (value, retry = true) {
       if (value) {
         this.initDnd();
         this.value = value;
@@ -192,6 +208,12 @@ export default {
           };
         } else {
           console.warn("setValue() > No container...");
+          if (retry) {
+            this.$nextTick(() => {
+              this.setValue(value, false)
+            })
+          }
+         
         }
 
         //this.domNode.parentNode.style.top = value.y*100 +"%";
@@ -199,16 +221,17 @@ export default {
       }
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "pos",
         value: this.value
       };
     },
 
-    setState: function(state, t) {
+    setState (state, t) {
+
       if (state && state.type == "pos") {
-        this.setValue(state.value);
+        //this.setValue(state.value);
       }
       if (state && state.type == "dnd") {
         var substate = this.getLastSubState(state, t);
@@ -219,7 +242,7 @@ export default {
       }
     },
 
-    cleanUp: function() {
+    cleanUp () {
       if (this.moveListener) {
         this.moveListener.remove();
       }
@@ -238,7 +261,7 @@ export default {
       }
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
 
       this.style = style;
@@ -246,8 +269,9 @@ export default {
       this._scaleY = scaleY;
       this.setStyle(style, model);
       if (model.props.label) {
-        this.domNode.innerHTML = model.props.label;
+        this.label = model.props.label;
       }
+      this.setInnerHTML(this.$refs.lblNode, this.label);
 
       if (this.model.props) {
         this.dndX = this.model.props.dndX;

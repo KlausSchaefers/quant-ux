@@ -156,12 +156,13 @@ export default {
 				this.backgroundColor.setWidgetViewMode(widgetViewMode)
 			}
 
+	
 			if (this.hasRotate.indexOf(model.type) >= 0) {
-					css.remove(this.backgroundImageRotation.domNode, "MatcToolbarSectionHidden");
-					this.backgroundImageRotation.setValue(style.backgroundImageRotation);
+				css.remove(this.imageWidgetRotateDiv, "MatcToolbarSectionHidden");
+				this.backgroundImageRotation.setValue(style.backgroundImageRotation);
 			} else {
-					css.add(this.backgroundImageRotation.domNode, "MatcToolbarSectionHidden");
-					this.backgroundImageRotation.setValue(style.backgroundImageRotation);
+				css.add(this.imageWidgetRotateDiv, "MatcToolbarSectionHidden");
+				this.backgroundImageRotation.setValue(style.backgroundImageRotation);
 			}
 
 			if(model.has.label){

@@ -1,5 +1,5 @@
 [ {
-	"id" : "WireFrame",
+	"id" : "WireFrame DragNDrop",
 	"type" : "DragNDrop",
 	"name" : "DragNDrop",
 	"category" : "WireFrame",
@@ -44,6 +44,60 @@
 		"paddingRight" : 3,
 		"fontSize" : 14,
 	    "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-	    "textAlign" : "center"
+	    "textAlign" : "center",
+		"verticalAlign" : "middle"
 	}
-} ]
+},
+{
+	"id" : "WireFrame DragNDropTarget",
+	"type" : "DragNDropTarget",
+	"name" : "DragNDrop Target",
+	"category" : "WireFrame",
+	"subcategory" : "FormSpecial",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 200,
+	"z" : 0,
+	"props" : {
+		"label" : "Drop here",
+		"dndY" : true,
+		"dndX" : true
+	},
+	"has" : {
+		"padding" : true,
+		"border" : true,
+		"backgroundColor" : true,
+		"backgroundImage" : true,
+		"label" : true
+	},
+	"style" : {
+		"borderTopRightRadius" : 3,
+		"borderTopLeftRadius" : 3,
+		"borderBottomRightRadius" : 3,
+		"borderBottomLeftRadius" : 3,
+		"borderTopWidth" : 2,
+		"borderBottomWidth" : 2,
+		"borderRightWidth" : 2,
+		"borderLeftWidth" : 2,
+		"borderTopColor" : "#999999",
+		"borderBottomColor" : "#999999",
+		"borderRightColor" : "#999999",
+		"borderLeftColor" : "#999999",
+		"borderTopStyle" : "dashed",
+		"borderBottomStyle" : "dashed",
+		"borderRightStyle" : "dashed",
+		"borderLeftStyle" : "dashed",
+		"background" : "#ffffff",
+		"color" : "#999999",
+		"paddingTop" : 3,
+		"paddingBottom" : 3,
+		"paddingLeft" : 3,
+		"paddingRight" : 3,
+		"fontSize" : 14,
+	    "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+	    "textAlign" : "center",
+		"verticalAlign" : "middle"
+	}
+}  ]
