@@ -45,3 +45,18 @@ export function fromString (str) {
 export function toString(color) {
   return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
 }
+
+
+export function getGradientCSS(gradient) {
+  let value = "(" + gradient.direction + "deg";
+  const sortedColors = gradient.colors.slice()
+  sortedColors.sort((a, b) => {
+    return a.p - b.p
+  })
+  for (let i = 0; i < sortedColors.length; i++) {
+    const color = sortedColors[i];
+    value += "," + color.c + " " + color.p + "% ";
+  }
+  value + ");";
+  return value;
+}

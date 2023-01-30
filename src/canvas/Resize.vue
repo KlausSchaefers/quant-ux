@@ -256,8 +256,6 @@ export default {
                   const parent = node.parentNode;
                   if(parent){
                     parent.removeChild(node);
-                  } else {
-                    console.debug('no parent')
                   }
               }
           }

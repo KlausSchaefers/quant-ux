@@ -27,6 +27,7 @@ import DomBuilder from 'common/DomBuilder'
 import _DropDown from './_DropDown'
 import _Color from 'common/_Color'
 import Util from 'core/Util'
+import * as ColorUtil from 'core/code/ColorUtil'
 import _DesignToken from './_DesignToken'
 import DesignTokenView from './DesignTokenView'
 
@@ -342,7 +343,7 @@ export default {
 					var box = boxes[id];
 					let back = box.style.background;
 					if (back != undefined && this.isGradient(back)) {
-						let css = this._getGradientCSS(back)
+						let css = ColorUtil.getGradientCSS(back)
 						this._countGradient(css, back, result);
 					}
 				}
@@ -464,11 +465,15 @@ export default {
 				if (v === 'None' || v === 'transparent' || !v) {
 					v = '';
 				}
-				if (this.isGradient(v)) {
-					v = "linear-gradient"  + this._getGradientCSS(v)
-				}
 				if (this.icon && this.icon.style) {
-					this.icon.style.background = v;
+					if (this.isGradient(v)) {
+						const gradient = ColorUtil.getGradientCSS(v)
+		
+						this.icon.style.background = "linear-gradient"  + gradient
+						this.icon.style.background = "-webkit-linear-gradient" + gradient;
+					} else {
+						this.icon.style.background = v;
+					}
 				}
 			},
 
@@ -530,18 +535,9 @@ export default {
 				parent.appendChild(table);
 			},
 
-			_getGradientCSS (gradient) {
-				var value = "(" + gradient.direction + "deg";
-				for(var i=0; i < gradient.colors.length; i++){
-					var color = gradient.colors[i];
-					value +="," + color.c + " " + color.p + "% ";
-				}
-				value + ");";
-				return value;
-			},
-
+			
 			_setGradientCSS  (node, gradient){
-				let value = this._getGradientCSS(gradient)
+				const value = ColorUtil.getGradientCSS(gradient)
 				node.style.background = "linear-gradient" + value;
 				node.style.background = "-webkit-linear-gradient" + value;
 				return value;

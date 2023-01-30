@@ -1106,9 +1106,25 @@ export default {
     _set_background: function(parent, style) {
       if (this._backgroundNodes) {
         for (var i = 0; i < this._backgroundNodes.length; i++) {
-          var node = this._backgroundNodes[i];
+          const node = this._backgroundNodes[i];
+          const background = style.background;
           if (node) {
-            node.style.background = style.background;
+            if (background && background.colors) {
+              let value = "(" + background.direction + "deg";
+              const sortedColors = background.colors.slice()
+              sortedColors.sort((a, b) => {
+                return a.p - b.p
+              })
+              for (let i = 0; i < sortedColors.length; i++) {
+                const color = sortedColors[i];
+                value += "," + color.c + " " + color.p + "% ";
+              }
+              value + ");";
+              node.style.background = "linear-gradient" + value;
+              node.style.background = "-webkit-linear-gradient" + value;
+            } else {
+              node.style.background = style.background;
+            }
           } else {
             console.warn("UIWidget._set_background() > No node ", this.model);
           }

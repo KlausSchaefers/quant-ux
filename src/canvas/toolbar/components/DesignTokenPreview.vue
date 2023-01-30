@@ -2,7 +2,7 @@
 <template>
     <div class="MatcDesignTokenPreView" v-if="designtoken">
       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'color'">
-  				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background': getBackgroundColor(designtoken.value)}" />
+  				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator" :style="{'background': getBackgroundColor(designtoken.value), 'background': getBackgroundColor2(designtoken.value)}" />
       </span>
        <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'stroke'">
   				  <span :class="icons[designtoken.type]" :style="{'color': designtoken.value.borderTopColor}" />
@@ -29,6 +29,7 @@
     </div>
 </template>
 <script>
+import * as ColorUtil from 'core/code/ColorUtil'
 export default {
     name: 'DesignTokenPreview',
     props: ['designtoken', 'edit'],
@@ -64,19 +65,21 @@ export default {
 				}
 
 				if (v.colors) {
-					v = "linear-gradient"  + this._getGradientCSS(v)
+          const gradient = ColorUtil.getGradientCSS(v)
+					v = "linear-gradient"  + gradient
 				}
 				return v
       },
-      _getGradientCSS (gradient) {
-				var value = "(" + gradient.direction + "deg";
-				for(var i=0; i < gradient.colors.length; i++){
-					var color = gradient.colors[i];
-					value +="," + color.c + " " + color.p + "% ";
+      getBackgroundColor2 (v) {
+				if (v === 'None' || v === 'transparent' || !v) {
+					v = '';
 				}
-				value + ");";
-				return value;
-			},
+				if (v.colors) {
+          const gradient = ColorUtil.getGradientCSS(v)
+					v = "-webkit-linear-gradient" + gradient
+				}
+				return v
+      },
       onEdit (e) {
         this.$emit('edit', this.designtoken, this.$el, e)
       }

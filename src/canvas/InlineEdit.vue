@@ -1,6 +1,7 @@
 <script>
 import domAttr from 'dojo/domAttr'
 import css from 'dojo/css'
+import on from 'dojo/on'
 
 export default {
     name: 'InlineEdit',
@@ -164,6 +165,21 @@ export default {
 				css.add(this.domNode, "MatcCanvasModeInlineEdit");
 			}
 
+			// make sure we just past raw text
+			this._inlineCopyEventListener = on(this._inlineEditDiv, 'paste', e => {
+				try {
+					const paste = (e.clipboardData || window.clipboardData).getData('text');
+					const selection = window.getSelection();
+					if (!selection.rangeCount) return;
+					selection.deleteFromDocument();
+					selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+					selection.collapseToEnd();
+					e.preventDefault()
+				} catch (err) {
+					this.logger.error("_inlineFocus", "Some error on paste", err);
+				}
+			})
+
 			this._inlineEditStarted = true;
 
 			return true;
@@ -187,6 +203,10 @@ export default {
 			if (this._inlineEditWidgetDiv) {
 				css.remove(this._inlineEditWidgetDiv, 'MatcBoxInlineEditing')
 				this._inlineEditWidgetDiv = null;
+			}
+
+			if (this._inlineCopyEventListener) {
+				this._inlineCopyEventListener.remove()
 			}
 
 			if(this._inlineEditDiv){

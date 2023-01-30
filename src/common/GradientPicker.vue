@@ -205,8 +205,12 @@ export default {
     _setGradientCSS (node, gradient, useDir = false) {
       const direction = useDir ? gradient.direction : "0";
       let value = "(" + direction + "deg";
-      for (let i = 0; i < gradient.colors.length; i++) {
-        const color = gradient.colors[i];
+      const sortedColors = gradient.colors.slice()
+      sortedColors.sort((a, b) => {
+        return a.p - b.p
+      })
+      for (let i = 0; i < sortedColors.length; i++) {
+        const color = sortedColors[i];
         value += "," + color.c + " " + color.p + "% ";
       }
       value + ");";

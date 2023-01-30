@@ -1474,9 +1474,13 @@ export default class RenderFactory extends Core {
 		}
 		var background = style.background;
 		if (background && background.colors) {
-			var value = "(" + background.direction + "deg";
-			for (var i = 0; i < background.colors.length; i++) {
-				var color = background.colors[i];
+			let value = "(" + background.direction + "deg";
+			const sortedColors = background.colors.slice()
+			sortedColors.sort((a, b) => {
+				return a.p - b.p
+			})
+			for (let i = 0; i < sortedColors.length; i++) {
+				const color = sortedColors[i];
 				value += "," + color.c + " " + color.p + "% ";
 			}
 			value + ");";

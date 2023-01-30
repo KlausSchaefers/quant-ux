@@ -417,6 +417,19 @@
 	pointer-events: none;
 }
 
+.MatcCanvasModeInlineEdit .MatcResizeBorderDown {
+	border-bottom: 1px dashed #49C0F0;
+}
+.MatcCanvasModeInlineEdit .MatcResizeBorderLeft {
+	border-left: 1px dashed #49C0F0;
+}
+.MatcCanvasModeInlineEdit .MatcResizeBorderUp {
+	border-top: 1px dashed #49C0F0;
+}
+.MatcCanvasModeInlineEdit .MatcResizeBorderRight {
+	border-right: 1px dashed #49C0F0;
+}
+.
 
 
 
