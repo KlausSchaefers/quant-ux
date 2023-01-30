@@ -28,7 +28,7 @@ export default {
 		inlineEditKeyPress (e){
 			if(!this._inlineEditStarted){
 				if(this._selectWidget){
-					var div = this.renderFactory.getLabelNode(this._selectWidget);
+					const div = this.renderFactory.getLabelNode(this._selectWidget);
 					if(div){
 						this.logger.log(0,"inlineEditKeyPress", "enter");
 						this._inlineEditWidget = this._selectWidget;
@@ -41,9 +41,9 @@ export default {
 
 		inlineEditGetCurrent (){
 			if(this._inlineEditWidget && this._inlineEditStarted){
-				var div = this.renderFactory.getLabelNode(this._inlineEditWidget);
+				const div = this.renderFactory.getLabelNode(this._inlineEditWidget);
 				if(div){
-					var txt = div.innerHTML;
+					let txt = div.innerHTML;
 					txt = txt.replace(/<div><br>/g, "\n");
 					txt = txt.replace(/<div>/g, "\n");
 					txt = txt.replace(/<br>/g, "\n");
