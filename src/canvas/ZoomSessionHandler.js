@@ -1,7 +1,9 @@
 
 /**
- * This class smoothes and snapps the mouse wheel events, which can by some how tricky in MacOS. Small strockes might still
- * send mouse events after wards. Sometimes even the direction changes! To make mouse wheel more usable, this class will
+ * This class smoothes and snapps the mouse wheel events, which can by 
+ * some how tricky in MacOS. Small strockes might still
+ * send mouse events after wards. Sometimes even the direction 
+ * changes! To make mouse wheel more usable, this class will
  * snapp temp calues in certain ranges...
  */
 export default class ZoomSessionHandler {
@@ -25,7 +27,7 @@ export default class ZoomSessionHandler {
 
     minus (speed) {
       this.reset()
-      let v = Math.max(0.05, this._tempZoom - this.getStep(speed))
+      let v = Math.max(0.02, this._tempZoom - this.getStep(speed))
       return this.snapp(v, speed)
     }
 

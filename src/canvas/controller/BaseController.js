@@ -278,7 +278,6 @@ export default class BaseController extends Core {
 
 	commitModelChange (render = true) {
 		this.logger.log(1,"commitModelChange", "enter  > render: "+ render + "> changes: " + this._modelHasChanged);
-		//console.time("commitModelChange")
 		const inheritedModel = this.getInheritedModel(this.model)
 
 		if (this._modelHasChanged) {
@@ -296,7 +295,12 @@ export default class BaseController extends Core {
 			}
 		}
 
-		if (this._modelRenderJobs['position'] === true) {
+		if (this._modelRenderJobs['complete'] === true) {
+			requestAnimationFrame(() => {
+				const isResize = this._modelRenderJobs['complete']
+				this._canvas.render(inheritedModel, isResize);			
+			})
+		} else if (this._modelRenderJobs['position'] === true) {
 			requestAnimationFrame(() => {
 				this._canvas.onWidgetPositionChange(inheritedModel);	
 			})			
@@ -342,6 +346,11 @@ export default class BaseController extends Core {
 	render (screenID, isResize = false){
 		this.logger.log(2,"render", "enter > screenID : " + screenID);	
 		this._modelRenderJobs['all'] = isResize		
+	}
+
+	completeRender () {
+		this.logger.warn("completeRender", "enter");	
+		this._modelRenderJobs['complete'] = true		
 	}
 
 	/**

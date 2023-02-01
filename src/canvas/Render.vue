@@ -6,7 +6,6 @@ import domGeom from 'dojo/domGeom'
 import win from 'dojo/win'
 import topic from 'dojo/topic'
 import _Color from 'common/_Color'
-// import CheckBox from 'common/CheckBox'
 import Ruler from 'canvas/Ruler'
 import GridAndRulerSnapp from 'canvas/GridAndRulerSnapp'
 import SimpleGrid from 'canvas/SimpleGrid'
@@ -52,8 +51,8 @@ export default {
 			state: 0,
 			isSinglePage: false,
 			defaultFontSize: 12,
-			canvasFlowWidth: 20000,
-			canvasFlowHeight: 10000,
+			canvasFlowWidth: 40000,
+			canvasFlowHeight: 20000,
 			canvasStartX: -1000,
 			canvasStartY: -1000,
 			canvasMargin: 0.6,

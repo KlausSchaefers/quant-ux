@@ -127,6 +127,7 @@ export default {
 			this._setCenterPos();
 			this.zoom = Math.round((this.zoom - 0.05) * 100)
 			this.zoom -= this.zoom % 5
+			this.zoom = Math.max(2, this.zoom)
 			this.zoom /= 100
 			this.onZoomChange();
 		},

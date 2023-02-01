@@ -62,7 +62,7 @@ export default class Templates extends BaseController{
 				this.onModelChanged(changes)
 				this.onLayerListChange()
 				this.showSuccess("The template "  + groupTemplate.name + " was updated.");
-				this.render()
+				this.completeRender()
 				this.commitModelChange()
 			} else {
 				this.logger.log(-1,"updateGroupTemplateStyle", "Group is not template > " + groupId, group);

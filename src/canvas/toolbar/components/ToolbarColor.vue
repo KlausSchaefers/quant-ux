@@ -304,23 +304,23 @@ export default {
 			},
 
 			getCustomColors () {
-				var colors = [];
+				const colors = [];
 				if(this.model){
-					var temp = {}
+					const temp = {}
 					this.getBoxColors(this.model.screens,temp)
 					this.getBoxColors(this.model.widgets,temp)
 					if (this.model.templates) {
 						this.getBoxColors(this.model.templates,temp)
 					}
 		
-					var list = []
-					for(var color in temp){
+					const list = []
+					for(let color in temp){
 						list.push({
 							color: color,
 							count: temp[color]
 						});
 					}
-					for(var i=0; i < list.length; i++){
+					for(let i=0; i < list.length; i++){
 						colors.push(list[i].color);
 					}
 				}
@@ -328,9 +328,9 @@ export default {
 			},
 
 			getCustomGradients () {
-				var colors = [];
+				let colors = [];
 				if(this.model){
-					var temp = {}
+					const temp = {}
 					this.getBoxGradient(this.model.screens,temp);
 					this.getBoxGradient(this.model.widgets,temp);
 					colors = Object.values(temp)
@@ -406,7 +406,18 @@ export default {
 			},
 
 			_countColor  (color, result){
-				if (color && color!="transparent" && color!="none"){
+				if (color && color.colors) {
+					for (let i = 0; i < color.colors.length; i++) {
+						const gradienColor = color.colors[i]?.c
+						if (gradienColor && gradienColor !== "transparent" && color !== "none"){
+							if (!result[gradienColor]){
+								result[gradienColor] = 0
+							}
+							result[gradienColor]++;
+						}
+					}
+				}
+				if (color && color !== "transparent" && color !== "none"){
 					if (!result[color]){
 						result[color] = 0
 					}

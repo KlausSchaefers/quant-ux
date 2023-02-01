@@ -271,6 +271,7 @@ export default {
                 this.zoomLevelPos--;
                 let zoom = Math.round((this.value.zoom - 0.05) * 100)
                 zoom -= zoom % 5
+                zoom = Math.max(2, zoom)
                 zoom /= 100
                 this.value.zoom = zoom
                 this.$emit('change', 'zoom', this.value.zoom)
