@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="MatcWidgetTypeTextBox"></div>
 </template>
@@ -13,6 +11,7 @@ import win from "dojo/_base/win";
 import DomBuilder from "common/DomBuilder";
 import TextBox from "core/widgets/TextBox";
 
+
 export default {
   name: "TypeAheadTextBox",
   mixins: [TextBox],
@@ -23,28 +22,36 @@ export default {
   },
   components: {},
   methods: {
-    onKeyPress: function(e) {
-      this.log.log(2, "onKeyPress", "enter > ");
+    onTextBoxRendered (model) {
+      if (model?.props?.options) {
+        this.hints = model?.props?.options
+      }
+      this.log.log(4, "onTextBoxRendered", "exit > ", this.hints);
+    },
+    onKeyUp (e) { 
+      this.log.log(1, "onKeyUp", "enter > ", e);
+    },
+    onKeyDown (e) {
+      this.log.log(-1, "onKeyPress", "enter > ");
 
       /**
        * Check for key codes and update selection if needed
        */
 
       if (this.suggestions) {
-        var key = e.which || e.keyCode;
-
+        const key = e.which || e.keyCode;
 
         this.log.log(-1, "onKeyPress", "enter > ", key);
 
         if (40 == key) {
-          let selected = Math.min(this.suggestions.length - 1,this.selected + 1);
+          const selected = Math.min(this.suggestions.length - 1,this.selected + 1);
           this.setSelectedOption(selected);
           this.addCompositeSubState(this.getStateOptions());
           return;
         }
 
         if (38 == key) {
-          var selected = Math.max(-1, this.selected - 1);
+          const selected = Math.max(-1, this.selected - 1);
           this.setSelectedOption(selected);
           this.addCompositeSubState(this.getStateOptions());
           return;
@@ -56,6 +63,7 @@ export default {
             return;
           }
         }
+
       }
 
       this.value = this._readValue();
@@ -65,8 +73,8 @@ export default {
       this.addCompositeSubState(this.getStateOptions());
     },
 
-    setTypeAhead: function(value) {
-      var suggestions = this.getSuggestions(value);
+    setTypeAhead (value) {
+      const suggestions = this.getSuggestions(value);
       if (suggestions.length > 0) {
         if (value != this.currentTypeAheadValue) {
           this.showTypeAhead(suggestions);
@@ -77,13 +85,13 @@ export default {
       }
     },
 
-    getSuggestions: function(value) {
+    getSuggestions (value) {
       value = value.toLowerCase();
-      var suggestions = [];
+      const suggestions = [];
       if (value.length > 2) {
-        for (var i = 0; i < this.hints.length; i++) {
-          var hint = this.hints[i];
-          let h = hint.toLowerCase();
+        for (let i = 0; i < this.hints.length; i++) {
+          const hint = this.hints[i];
+          const h = hint.toLowerCase();
           if (h.indexOf(value) == 0) {
             suggestions.push(hint);
           }
@@ -92,45 +100,37 @@ export default {
       return suggestions;
     },
 
-    showTypeAhead: function(suggestions) {
+    showTypeAhead (suggestions) {
       this.renderTypeAhead(suggestions);
     },
 
-    renderTypeAhead: function(suggestions) {
+    renderTypeAhead (suggestions) {
       this.hideTypeAhead();
 
-      var db = new DomBuilder();
+      const db = new DomBuilder();
 
-      this.popup = db.div("MatcWidgetTypeDropDownPopUp").build();
+      this.popup = db.div("MatcWidgetTypeDropDownPopUp ").build();
       this.optionNodes = [];
       this.suggestions = suggestions;
 
-      var length = Math.min(10, suggestions.length);
-      for (var i = 0; i < length; i++) {
-        var option = suggestions[i];
-        var node = db
+      const length = Math.min(10, suggestions.length);
+      for (let i = 0; i < length; i++) {
+        const option = suggestions[i];
+        const node = db
           .div("MatcWidgetTypeDropDownOption", option)
           .build(this.popup);
 
         /**
          * Render the options like the entire drop down...
          */
-        node.style.paddingTop =
-          this._getBorderWidth(this.style["paddingTop"]) + "px";
-        node.style.paddingLeft =
-          this._getBorderWidth(this.style["paddingLeft"]) + "px";
-        node.style.paddingRight =
-          this._getBorderWidth(this.style["paddingRight"]) + "px";
-        node.style.paddingBottom =
-          this._getBorderWidth(this.style["paddingBottom"]) + "px";
+        node.style.paddingTop = this._getBorderWidth(this.style["paddingTop"]) + "px";
+        node.style.paddingLeft = this._getBorderWidth(this.style["paddingLeft"]) + "px";
+        node.style.paddingRight = this._getBorderWidth(this.style["paddingRight"]) + "px";
+        node.style.paddingBottom = this._getBorderWidth(this.style["paddingBottom"]) + "px";
         //node.style.height = this.model.h + "px";
         if (this.wired) {
-          this.tempOwn(
-            on(node, touch.press, lang.hitch(this, "onSelect", option))
-          );
-          this.tempOwn(
-            on(node, touch.over, lang.hitch(this, "onMouseOverOption", i))
-          );
+          this.tempOwn(on(node, touch.press, lang.hitch(this, "onSelect", option)));
+          this.tempOwn(on(node, touch.over, lang.hitch(this, "onMouseOverOption", i)));
         }
         this.optionNodes.push(node);
       }
@@ -157,27 +157,74 @@ export default {
 
       this.domNode.appendChild(this.popup);
 
-      this._set_popupShadow(this.popup, this.style, this.model);
-      this._set_popupBorderColor(this.popup, this.style, this.model);
-      this._set_popupBorderWidth(this.popup, this.style, this.model);
-      this._set_popupBackground(this.popup, this.style, this.model);
-      this._set_popupColor(this.popup, this.style, this.model);
+   
+      this.set_popupShadow(this.popup, this.style, this.model);
+      this.set_popupBorderColor(this.popup, this.style, this.model);
+      this.set_popupBorderWidth(this.popup, this.style, this.model);
+      this.set_popupBackground(this.popup, this.style, this.model);
+      this.set_popupColor(this.popup, this.style, this.model);
+      this.set_popupMargin(this.popup, this.style, this.model);
     },
 
-    onMouseOverOption: function(selected, e) {
+    set_popupMargin (parent, style, model) {
+      if (model?.props?.hideUpperBorder) {
+        const borderBottomWidth = this._getBorderWidth(style.borderBottomWidth) + 1
+        parent.style.top = `calc(100% - ${borderBottomWidth}px)`
+        parent.style.borderTopWidth = '0px'
+        parent.style.borderTopRightRadius = '0px'
+        parent.style.borderTopLeftRadius = '0px'
+      }
+    },
+
+    set_popupShadow (parent, style) {
+      if (style.popupShadow) {
+        this._setShadow(this.popup, style.popupShadow);
+      }
+    },
+
+    set_popupBorderColor (parent, style) {
+      if (style.popupBorderColor) {
+        this.popup.style.borderColor = style.popupBorderColor;
+      } else {
+        this.popup.style.borderColor = style.borderBottomColor;
+      }
+    },
+
+    set_popupBorderWidth (parent, style) {
+      var w = Math.max(1,this.getZoomed(style.borderBottomWidth, this._scaleY));
+      if (style.popupBorderWidth) {
+         w = Math.max(1, this.getZoomed(style.popupBorderWidth, this._scaleY));
+      }
+      this.popup.style.borderWidth = w + "px";
+    },
+
+    set_popupBackground (parent, style) {
+      if (style.popupBackground) {
+        this.popup.style.background = style.popupBackground;
+      } else {
+        this.popup.style.background = style.background;
+      }
+  
+    },
+
+    set_popupColor (parent, style) {
+      this.popup.style.color = style.color;
+    },
+
+    onMouseOverOption (selected, e) {
       this.stopEvent(e);
       this.setSelectedOption(selected);
       this.addCompositeSubState(this.getStateOptions());
     },
 
-    onMouseOutOption: function() {
+    onMouseOutOption () {
       if (this.selected != -1) {
         this.setSelectedOption(-1);
         this.addCompositeSubState(this.getStateOptions());
       }
     },
 
-    setSelectedOption: function(selected) {
+    setSelectedOption (selected) {
       if (this.optionNodes) {
         if (this.selected != selected) {
           var style = this.style;
@@ -200,7 +247,7 @@ export default {
       }
     },
 
-    onSelect: function(value, e) {
+    onSelect (value, e) {
       this.stopEvent(e);
       this.hideTypeAhead();
       this.cleanUp();
@@ -217,7 +264,7 @@ export default {
       this.input.blur();
     },
 
-    hideTypeAhead: function() {
+    hideTypeAhead () {
       if (this.popup) {
         this.domNode.removeChild(this.popup);
         delete this.popup;
@@ -232,7 +279,7 @@ export default {
      * Overwrites
      *****************************************************************************************************/
 
-    setState: function(state, t) {
+    setState (state, t) {
       if (state && state.type == "text") {
         /**
          * If we have children its an animation...
@@ -258,7 +305,7 @@ export default {
       }
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "text",
         value: this._readValue(),
@@ -266,7 +313,7 @@ export default {
       };
     },
 
-    getStateOptions: function() {
+    getStateOptions () {
       var txt = this._readValue();
       var status = {
         txt: txt,
@@ -278,7 +325,7 @@ export default {
       return status;
     },
 
-    cleanUp: function() {
+    cleanUp () {
       this.hideTypeAhead();
       if (this.keyListener) {
         this.keyListener.remove();
@@ -286,7 +333,7 @@ export default {
       delete this.keyListener;
     },
 
-    afterFocus: function() {
+    afterFocus () {
       // call getStateOptions()!
       this.initCompositeState(this.getStateOptions());
     },
@@ -295,7 +342,7 @@ export default {
      * Helper Methods
      *****************************************************************************************************/
 
-    onSimulatorEvent: function(type, screenID, widgetID) {
+    onSimulatorEvent (type, screenID, widgetID) {
       if (
         type != "ScreenScroll" &&
         type != "Animation" &&
@@ -311,35 +358,9 @@ export default {
       }
     },
 
-    _set_popupShadow: function(parent, style) {
-      if (style.popupShadow) {
-        this._setShadow(this.popup, style.popupShadow);
-      }
-    },
+    
 
-    _set_popupBorderColor: function(parent, style) {
-      if (style.popupBorderColor) {
-        this.popup.style.borderColor = style.popupBorderColor;
-      } else {
-        this.popup.style.borderColor = style.borderBottomColor;
-      }
-    },
 
-    _set_popupBorderWidth: function(parent, style) {
-      var w = Math.max(1,this.getZoomed(style.borderBottomWidth, this._scaleY));
-      if (style.popupBorderWidth) {
-         w = Math.max(1, this.getZoomed(style.popupBorderWidth, this._scaleY));
-      }
-      this.popup.style.borderWidth = w + "px";
-    },
-
-    _set_popupBackground: function(parent, style) {
-      this.popup.style.background = style.background;
-    },
-
-    _set_popupColor: function(parent, style) {
-      this.popup.style.color = style.color;
-    }
   },
   mounted() {}
 };

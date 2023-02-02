@@ -33,7 +33,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [this.button, this.popup];
       this._shadowNodes = [this.button];
       this._backgroundNodes = [this.button];
@@ -42,16 +42,14 @@ export default {
       this._isOpen = false;
     },
 
-    wireEvents: function() {
-      this.own(
-        this.addClickListener(this.domNode, lang.hitch(this, "onOpenPopup"))
-      );
+    wireEvents () {
+      this.own(this.addClickListener(this.domNode, lang.hitch(this, "onOpenPopup")));
       this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));
       this.own(on(this.domNode, touch.out, lang.hitch(this, "onDomMouseOut")));
       this.wired = true;
     },
 
-    onDomMouseOver: function(e) {
+    onDomMouseOver (e) {
       if (this.lastValidation) {
         if (this.model.hover && !this._isOpen) {
           this.emitAnimation(
@@ -65,7 +63,7 @@ export default {
       this.emitMouseOver(e);
     },
 
-    onDomMouseOut: function(e) {
+    onDomMouseOut (e) {
       if (this.lastValidation) {
         if (this.model.hover && !this._isOpen) {
           if (this.value && this.model.active) {
@@ -86,14 +84,14 @@ export default {
       this.emitMouseOut(e);
     },
 
-    resize: function(box) {
-      var s = 4;
+    resize (box) {
+      let s = 4;
       if (this.style.fontSize) {
         s = Math.floor(this.style.fontSize / 3);
       }
 
       if (this.caret && !this.model.props.icon) {
-        var w = this._getBorderWidth(s) + "px";
+        const w = this._getBorderWidth(s) + "px";
         this.caret.style.borderLeftWidth = w;
         this.caret.style.borderRightWidth = w;
         this.caret.style.borderTopWidth = w;
@@ -109,12 +107,12 @@ export default {
        */
       if (this.caretCnr) {
         // var border = this._getBorderWidth(s);
-        var width = this._getBorderWidth(40);
+        const width = this._getBorderWidth(40);
         this.caretCnr.style.width = width + "px";
       }
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -144,12 +142,13 @@ export default {
       this.resize(model);
 
       if (style.iconSize && this.caret) {
-        var s = Math.max(1, this.getZoomed(style.iconSize, this._scaleY));
+        const s = Math.max(1, this.getZoomed(style.iconSize, this._scaleY));
         this.caret.style.fontSize = s + "px";
       }
+      this.set_popupMargin(this.popup, style, model)
     },
 
-    renderIcon: function(model) {
+    renderIcon (model) {
       if (model.props.icon) {
         if (model.props.hidetext) {
           this.labelCntr.innerHTML = "";
@@ -178,7 +177,7 @@ export default {
       }
     },
 
-    onOpenPopup: function(e) {
+    onOpenPopup (e) {
       this.stopEvent(e);
       /**
        * We will collect the hover events in the copmposite events
@@ -192,11 +191,11 @@ export default {
       return false;
     },
 
-    flushOpen: function() {
+    flushOpen () {
       this.emitCompositeState("openWithHover", this.getStateOptions());
     },
 
-    onSimulatorEvent: function(type, screenID, widgetID) {
+    onSimulatorEvent (type, screenID, widgetID) {
       if (
         type != "ScreenScroll" &&
         type != "Animation" &&
@@ -208,14 +207,14 @@ export default {
       }
     },
 
-    onSelect: function(value, e) {
+    onSelect (value, e) {
       this.stopEvent(e);
 
       this.emitDataBinding(value);
       this.setValue(value);
       this.cleanUp();
 
-      var event = {
+      const event = {
         type: "select",
         value: value,
         runTransition: true,
@@ -225,21 +224,21 @@ export default {
       this.emit("stateChange", event);
     },
 
-    onClose: function(e) {
+    onClose (e) {
       this.stopEvent(e);
       this.cleanUp();
       this.emitNoTransitionStateChange("close", "", e);
     },
 
-    renderPopup: function() {
+    renderPopup () {
       if (!this._isOpen) {
-        var db = new DomBuilder();
+        const db = new DomBuilder();
         this.optionNodes = [];
-        var options = this.model.props.options;
-        var style = this.style;
-        for (var i = 0; i < options.length; i++) {
-          var option = options[i];
-          var node = db
+        const options = this.model.props.options;
+        const style = this.style;
+        for (let i = 0; i < options.length; i++) {
+          const option = options[i];
+          const node = db
             .div("MatcWidgetTypeDropDownOption", option)
             .build(this.popup);
 
@@ -283,7 +282,69 @@ export default {
       }
     },
 
-    onMouseOverOption: function(hover, e) {
+    _set_caretBackground (parent, style) {
+      if (this.caretCnr) {
+        this.caretCnr.style.background = style.caretBackground;
+      }
+    },
+
+    _set_caretColor (parent, style) {
+      if (this.caret) {
+        this.caret.style.color = style.caretColor;
+      }
+      if (this.icon) {
+        this.icon.style.color = style.caretColor;
+      }
+    },
+
+    _set_popupShadow (parent, style) {
+      this._setShadow(this.popup, style.popupShadow);
+    },
+
+    _set_popupBorderColor (parent, style) {
+      this.popup.style.borderColor = style.popupBorderColor;
+    },
+
+    _set_popupBorderWidth (parent, style) {
+      if (style.popupBorderWidth) {
+        var w = Math.max(
+          1,
+          this.getZoomed(style.popupBorderWidth, this._scaleY)
+        );
+        this.popup.style.borderWidth = w + "px";
+      } else {
+        this.popup.style.borderWidth = "0px";
+      }
+    },
+
+    _set_popupBackground (parent, style) {
+      this.popup.style.background = style.popupBackground;
+    },
+
+    _set_popupColor (parent, style) {
+      this.popup.style.color = style.popupColor;
+    },
+
+    set_popupMargin (parent, style, model) {
+      if (model?.props?.hideUpperBorder) {
+        
+        if (model.props.popupPosition === 'MatcWidgetTypeDropDownPopUber') {
+          const borderTopWidth = this._getBorderWidth(style.borderTopWidth) + 1
+          parent.style.bottom = `calc(100% - ${borderTopWidth}px)`
+          parent.style.borderBottomWidth = '0px'
+          parent.style.borderBottomRightRadius = '0px'
+          parent.style.borderBottomLeftRadius = '0px'
+        } else {
+          const borderBottomWidth = this._getBorderWidth(style.borderBottomWidth) + 1
+          parent.style.top = `calc(100% - ${borderBottomWidth}px)`
+          parent.style.borderTopWidth = '0px'
+          parent.style.borderTopRightRadius = '0px'
+          parent.style.borderTopLeftRadius = '0px'
+        }
+      }
+    },
+
+    onMouseOverOption (hover, e) {
       this.stopEvent(e);
       if (this.hover != hover) {
         this.setHoverOption(hover);
@@ -291,14 +352,14 @@ export default {
       }
     },
 
-    onMouseOutOption: function() {
+    onMouseOutOption () {
       if (this.selected != -1) {
         this.setHoverOption(-1);
         this.addCompositeSubState(this.getStateOptions());
       }
     },
 
-    setHoverOption: function(hover) {
+    setHoverOption (hover) {
       if (this.optionNodes) {
         if (this.hover != hover) {
           var style = this.style;
@@ -332,7 +393,7 @@ export default {
       }
     },
 
-    cleanUp: function() {
+    cleanUp () {
       this.cleanUpTempListener();
 
       this.cleanUpPopup();
@@ -342,7 +403,7 @@ export default {
       }
     },
 
-    cleanUpPopup: function() {
+    cleanUpPopup () {
       if (this._isOpen) {
         /**
          * After some changes in the canvas this can somehow fail
@@ -368,14 +429,14 @@ export default {
       }
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       var options = this.model.props.options;
       if (options) {
         if (isNaN(v)) {
@@ -393,7 +454,7 @@ export default {
       }
     },
 
-    setValue: function(value, ignoreValidation) {
+    setValue (value, ignoreValidation) {
       this.value = value;
       if (!ignoreValidation) {
         this.validate(this.value, true);
@@ -403,22 +464,22 @@ export default {
       }
     },
 
-    getStateOptions: function() {
+    getStateOptions () {
       return {
         hover: this.hover
       };
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "select",
         value: this.value
       };
     },
 
-    setState: function(state, t) {
+    setState (state, t) {
       if (state) {
-        var type = state.type;
+        const type = state.type;
 
         switch (type) {
           case "select":
@@ -457,8 +518,8 @@ export default {
       }
     },
 
-    _validateValue: function(value) {
-      var validation = this.model.props.validation;
+    _validateValue (value) {
+      const validation = this.model.props.validation;
       if (validation) {
         if (validation.required && value === this.model.props.options[0]) {
           return false;
@@ -467,54 +528,11 @@ export default {
       return true;
     },
 
-    isValid: function(showError) {
+    isValid (showError) {
       return this.validate(this.value, showError);
     },
 
-    _set_caretBackground: function(parent, style) {
-      if (this.caretCnr) {
-        this.caretCnr.style.background = style.caretBackground;
-      }
-    },
-
-    _set_caretColor: function(parent, style) {
-      if (this.caret) {
-        this.caret.style.color = style.caretColor;
-      }
-      if (this.icon) {
-        this.icon.style.color = style.caretColor;
-      }
-    },
-
-    _set_popupShadow: function(parent, style) {
-      this._setShadow(this.popup, style.popupShadow);
-    },
-
-    _set_popupBorderColor: function(parent, style) {
-      this.popup.style.borderColor = style.popupBorderColor;
-    },
-
-    _set_popupBorderWidth: function(parent, style) {
-      if (style.popupBorderWidth) {
-        var w = Math.max(
-          1,
-          this.getZoomed(style.popupBorderWidth, this._scaleY)
-        );
-        this.popup.style.borderWidth = w + "px";
-      } else {
-        this.popup.style.borderWidth = "0px";
-      }
-    },
-
-    _set_popupBackground: function(parent, style) {
-      this.popup.style.background = style.popupBackground;
-    },
-
-    _set_popupColor: function(parent, style) {
-      this.popup.style.color = style.popupColor;
-    },
-
-    beforeDestroy: function() {
+    beforeDestroy () {
       this.cleanUp();
     }
   },

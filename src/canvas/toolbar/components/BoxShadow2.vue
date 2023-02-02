@@ -46,9 +46,10 @@ export default {
             value: false,
             tempValue: false,
             label: '',
+            activeLabel: '',
             reposition: true,
 						arrowPosition: "right",
-            labelPostFix: ''
+            labelPrefixFix: ''
         }
     },
     components: {
@@ -56,6 +57,10 @@ export default {
       'ShadowSettings': ShadowSettings
     },
     methods: {
+
+      setLabelPrefixFix (l) {
+        this.labelPrefixFix = l
+      },
 
       setLabelPostFix (l) {
         this.labelPostFix = l
@@ -100,6 +105,7 @@ export default {
           if (this.icon) {
             this.icon.style.background = v.c
           }
+          
           if (!v.i) {
             this.label = 'Drop Shadow'
           } else {
@@ -112,6 +118,10 @@ export default {
             this.icon.style.background = ''
           }
           this.label = 'No Shadow'
+        }
+
+        if (this.labelPrefixFix) {
+          this.label = this.labelPrefixFix + ' ' + this.label;
         }
 
         if (this.labelPostFix) {

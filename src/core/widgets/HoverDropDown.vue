@@ -29,7 +29,7 @@ export default {
     },
     components: {},
     methods: {
-        wireEvents:function(){
+        wireEvents (){
 			this.own(this.addClickListener(this.domNode, lang.hitch(this, "onOpenHoverPopup", true)));
 			this.own(on(this.domNode, touch.over, lang.hitch(this, "onOpenHoverPopup", false)));	
 			this.own(on(this.domNode, touch.over, lang.hitch(this, "onDomMouseOver")));	
@@ -37,8 +37,8 @@ export default {
 			this.wired = true;
 		},
 		
-		onOpenHoverPopup:function(isClick, e){
-			
+		onOpenHoverPopup (isClick, e){
+			console.debug('onOpenHoverPopup')
 
 			/**
 			 * We add here a stupid div to catch mouse out events
@@ -50,7 +50,6 @@ export default {
 				css.add(this.domNode, "MatcWidgetTypeHoverDropDownOpen");
 				this.tempOwn(on(this.popupBackDrop, touch.over, lang.hitch(this, "onCloseHover" )));	
 			}
-			
 			
 			this.stopEvent(e);
 			this.emitOpenPopup();
@@ -69,8 +68,9 @@ export default {
 		},
 		
 		
-		onCloseHover:function(e){
+		onCloseHover (e){
 			this.stopEvent(e);
+			this.cleanUpBackDrop();
 			this.cleanUp();
 			/**
 			 * In contrast to the we do not pass the event to not have a click...
@@ -79,8 +79,7 @@ export default {
 		},
 	
 		
-		cleanUpBackDrop:function(){
-		
+		cleanUpBackDrop (){
 			if(this.popupBackDrop){
 				var parent = this.popupBackDrop.parentNode;
 				if(parent){
@@ -90,11 +89,11 @@ export default {
 			delete this.popupBackDrop;
 			css.remove(this.domNode, "MatcWidgetTypeHoverDropDownOpen");
 		},
-		
-		
-		cleanUp:function(){
+
+		beforeDestroy () {
 			this.cleanUpBackDrop();
-		}
+      		this.cleanUp();
+   		}
     }, 
     mounted () {
     }

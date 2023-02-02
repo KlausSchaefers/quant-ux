@@ -4,7 +4,7 @@
 	"_type" : "Widget",
 	"category" : "WireFrame",
 	"subcategory" : "FormInput",
-	"name" : "ComboBox",
+	"name" : "Auto Complete",
 	"x" : 0,
 	"y" : 0,
 	"w" : 200,
@@ -12,6 +12,7 @@
 	"z" : 0,
 	"props" : {
 		"label" : "Enter a value",
+		"hideUpperBorder": true,
 		"placeholder" : true,
 		"options" : [ "Hint 1", "Hint 2", "Hint 3", "Hint 4" ]
 	},
@@ -56,6 +57,10 @@
 		"paddingRight" : 5,
 		"textAlign" : "left",
 		"selectedOptionColor" : "#333",
-		"selectedOptionBackground" : "#f2f2f2"
+		"selectedOptionBackground" : "#f2f2f2",
+		"popupBorderColor" : "#333333",
+		"popupBorderWidth" : 1,
+		"popupColor" : "#333",
+		"popupBackground" : "#fff"
 	}
 } ]

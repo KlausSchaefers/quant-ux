@@ -316,6 +316,11 @@ export default {
       this.beforeSetStyle(style, model);
 
       this.setStyle(style, model);
+      this.onTextBoxRendered(model)
+    },
+
+    onTextBoxRendered () {
+
     },
 
     /**

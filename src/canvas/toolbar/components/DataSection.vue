@@ -545,6 +545,12 @@ export default {
 			this._renderCheck("Text is placeholder",model.props.placeholder, "placeholder" );
 			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
+
+			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
+			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
+			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
+			this._renderCheck("Merge borders",model.props.hideUpperBorder, "hideUpperBorder" );
+			this._renderShadowPicker("Popup",model, "popupShadow");
 		},
 
 		_showRating (model){
@@ -615,11 +621,15 @@ export default {
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
 
-			this._renderLabelDropDown("Popup Position", model,"popupPosition",[
-								{ value:"MatcWidgetTypeDropDownPopUber", icon:"mdi mdi-arrow-up-bold-circle", label : "Popup Over"},
-								{ value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
-			]);
+		
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
+			this._renderCheck("Merge borders",model.props.hideUpperBorder, "hideUpperBorder" );
+		
+			this._renderLabelDropDown("Popup Position", model,"popupPosition",[
+					{ value:"MatcWidgetTypeDropDownPopUber", icon:"mdi mdi-arrow-up-bold-circle", label : "Popup Over"},
+					{ value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
+			]);
+			this._renderShadowPicker("Popup",model, "popupShadow");
 
 		},
 
@@ -628,12 +638,15 @@ export default {
 			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
-
+			this._renderCheck("Merge borders",model.props.hideUpperBorder, "hideUpperBorder" );
+		
 			this._renderLabelDropDown("Popup Position", model,"popupPosition",[
 				{ value:"MatcWidgetTypeDropDownPopUber", icon:"mdi mdi-arrow-up-bold-circle", label : "Popup Over"},
 				{ value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
 			]);
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
+			this._renderShadowPicker("Popup",model, "popupShadow");
+
 		},
 
 		_showMobileDropDown (model){
@@ -1754,7 +1767,7 @@ export default {
 		
 			let picker = this.$new(BoxShadow)
 			picker.placeAt(radius)
-			picker.setLabelPostFix(label)
+			//picker.setLabelPrefixFix(label)
 			picker.setValue(model.style[prop])
 			this.tempOwn(on(picker, "change", lang.hitch(this, "onStyleChanged", prop)));
 			this.tempOwn(on(picker, "changing", lang.hitch(this, "onTempStyleChanged", prop)));

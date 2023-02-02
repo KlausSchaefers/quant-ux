@@ -746,6 +746,10 @@
 	background: #f2f2f2;
 }
 
+.MatcBoxShadow2 .MatcToolbarItemLabel {
+	text-align: left;
+}
+
 
 /****************************************************
  * Shadow Dialog
