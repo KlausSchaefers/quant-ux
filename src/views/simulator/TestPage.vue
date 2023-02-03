@@ -202,7 +202,7 @@ export default {
 					target+="&log=true";
 				}
 				
-				const dataItems = Object.entries(this.$route.query).filter(function(record){return record[0].slice(0, 4) == "data"});
+				const dataItems = Object.entries(this.$route.query).filter(function(record){return record[0].slice(0, 5) == "data_"});
 				for (let item of dataItems) {
 				    target += "&" + item[0] + "=" + item[1];
 				}
