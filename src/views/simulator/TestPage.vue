@@ -201,6 +201,12 @@ export default {
 				} else {
 					target+="&log=true";
 				}
+				
+				const dataItems = Object.entries(this.$route.query).filter(function(record){return record[0].slice(0, 4) == "data"});
+				for (let item of dataItems) {
+				    target += "&" + item[0] + "=" + item[1];
+				}
+				
 				location = target;
 				return;
 			}
