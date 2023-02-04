@@ -1,17 +1,19 @@
 [ {
-	"id" : "WireFrameProgressBar",
-	"type" : "ProgressBar",
-	"name" : "Progress",
+	"id" : "WireFrameProgessSegments",
+	"type" : "ProgessSegments",
+	"name" : "Progress Steps",
 	"category" : "WireFrame",
 	"subcategory" : "FormSpecial",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
 	"w" : 200,
-	"h" : 24,
+	"h" : 8,
 	"z" : 0,
 	"props" : {
-		"value" : 50
+		"value" : 1,
+        "max": 5,
+        "gap": 8
 	},
 	"has" : {
 		"onclick" : true,
@@ -28,10 +30,10 @@
 		"paddingBottom" : 0,
 		"paddingLeft" : 0,
 		"paddingRight" : 0,
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
+		"borderTopRightRadius" : 4,
+		"borderTopLeftRadius" : 4,
+		"borderBottomRightRadius" : 4,
+		"borderBottomLeftRadius" : 4,
 		"borderTopWidth" : 1,
 		"borderBottomWidth" : 1,
 		"borderRightWidth" : 1,
@@ -41,6 +43,8 @@
 		"borderRightColor" : "#333333",
 		"borderLeftColor" : "#333333",
 		"background" : "#ffffff",
-		"foreground": "#333333"
+		"foreground": "#333333",
+        "activeBackground": "#333333",
+        "activeBorderColor": "#333333"
 	}
 } ]

@@ -74,7 +74,7 @@
       <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
        
       </div>
-      <div class="MatcSimulatorVersion">v4.2.1</div>
+      <div class="MatcSimulatorVersion">v4.3.21</div>
     </div>
   </div>
 </template>
@@ -384,36 +384,35 @@ export default {
 		preloadImages (){
 			this.logger.log(2,"preloadImages","enter");
 
-			var div = document.createElement("div");
+			const div = document.createElement("div");
 			css.add(div, "MatcSimulatorImagePreloader");
 			this.domNode.appendChild(div);
 
 			for(let id in this.model.screens){
-				let box = this.model.screens[id];
+				const box = this.model.screens[id];
 				if(box.style && box.style.backgroundImage){
-					let img = document.createElement("img");
+					const img = document.createElement("img");
 					img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
 					div.appendChild(img);
 				}
 			}
 
 			for(let id in this.model.widgets){
-				let box = this.model.widgets[id];
+				const box = this.model.widgets[id];
 				if(box.style && box.style.backgroundImage){
-					let img = document.createElement("img");
+					const img = document.createElement("img");
 					img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
 					div.appendChild(img);
 				}
-				
 			}
 
 			// since 4.0.81 we preload the icon webfont as well
-			let icons = Object
+			const icons = Object
 				.values(this.model.widgets)
 				.filter(w => w.type === 'Icon')
 			
 			if (icons.length > 0) {
-				let span = document.createElement("span");
+				const span = document.createElement("span");
 				span.className = 'mdi mdi-android'
 				div.appendChild(span);
 				this.logger.log(-1,"preloadImages","load icons", span);
@@ -1066,9 +1065,13 @@ export default {
 		 * http://www.html5rocks.com/en/mobile/fullscreen/
 		 */
 		toggleFullScreen (e) {
-			this.logger.log(-1,"toggleFullScreen","enter");
+			this.logger.log(2,"toggleFullScreen","enter");
 			try{
 				this.stopEvent(e);
+				if (location.href.indexOf('localhost') > 0) {
+					this.logger.log(-1,"toggleFullScreen","exit local host");
+					return
+				}
 				if((has("android") || !has("ios"))){
 					var doc = window.document;
 					var docEl = doc.documentElement;

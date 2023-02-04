@@ -52,6 +52,8 @@ import LockSlider from 'core/widgets/LockSlider'
 import Script from 'core/widgets/Script'
 import IconToggleButton from 'core/widgets/IconToggleButton'
 import IFrameWidget from 'core/widgets/IFrameWidget'
+import ProgessSegments from 'core/widgets/ProgessSegments'
+import ImagePaging from 'core/widgets/ImagePaging'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -474,6 +476,12 @@ export default class RenderFactory extends Core {
 		this._containerWidgets[model.id] = segement;
 	}
 
+	_createProgessSegments(parent, model) {
+		const widget = this.$new(ProgessSegments)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
 	_createIFrameWidget(parent, model) {
 		const widget = this.$new(IFrameWidget)
 		widget.placeAt(parent);
@@ -482,6 +490,12 @@ export default class RenderFactory extends Core {
 
 	_createIconButton(parent, model) {
 		var widget = this.$new(IconButton);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createImagePaging(parent, model) {
+		const widget = this.$new(ImagePaging)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

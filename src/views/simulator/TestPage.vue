@@ -371,7 +371,7 @@ export default {
 				for(let id in model.screens){
 					const box = model.screens[id];
 					if(box.style && box.style.backgroundImage){
-						let img = document.createElement("img");
+						const img = document.createElement("img");
 						img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
 						div.appendChild(img);
 					}
@@ -380,7 +380,7 @@ export default {
 				for(let id in model.widgets){
 					const box = model.widgets[id];
 					if(box.style && box.style.backgroundImage){
-						let img = document.createElement("img");
+						const img = document.createElement("img");
 						img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
 						div.appendChild(img);
 					}
@@ -388,12 +388,12 @@ export default {
 				}
 
 				// since 4.0.81 we preload the icon webfont as well
-				let icons = Object
+				const icons = Object
 					.values(model.widgets)
 					.filter(w => w.type === 'Icon')
 				
 				if (icons.length > 0) {
-					let span = document.createElement("span");
+					const span = document.createElement("span");
 					span.className = 'mdi mdi-android'
 					div.appendChild(span);
 					this.logger.log(-1,"preloadImages","load icons", span);

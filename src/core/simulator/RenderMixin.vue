@@ -1004,7 +1004,7 @@ export default {
 			div.style.height = box.h + "px";
 
 			// templated elements have no style...
-			var style = this.getStyle(box)
+			let style = this.getStyle(box)
 			if (!style) {
 				style = box.style;
 			}
@@ -1022,7 +1022,6 @@ export default {
 
 					if (this.isPinnedDown(box)) {
 					
-
 						/**
 						 * Since 4.0.60 pinned to bottom is also supported in simulator
 						 */
@@ -1038,10 +1037,17 @@ export default {
 
 					} else {
 						/**
-						 * Other stuff is just pinned to top
+						 * Other stuff is just pinned to top. 
+						 * Since 4.3.21 we make sure we do not include 
+						 * scrolls (negative y). If issues continue, 
+						 * do branch in this.isDesktopTest
 						 */
-						div.style.top = (box.y - parentBox.y) + screenPos.y + "px";
-						div.style.left = (box.x - parentBox.x) + screenPos.x + "px";
+						const screenPosY = Math.max(0, screenPos.y)
+						const screenPosX = Math.max(0, screenPos.x)
+						const top = Math.max(0, (box.y - parentBox.y) + screenPosY)
+						const left = Math.max(0, (box.x - parentBox.x) + screenPosX)
+						div.style.top = top + "px";
+						div.style.left = left + "px";
 					}
 				} else {
 					console.warn("createBox() > no screenPos or parentBox for fixed box!")

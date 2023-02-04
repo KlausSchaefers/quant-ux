@@ -5,17 +5,12 @@ export default class ModelFactory {
 	constructor() {
 	}
 
-
 	setModel(model) {
 		this.model = model;
 		this.screenWidth = model.screenSize.w;
 		this.screenHeight = model.screenSize.h;
 	}
 
-
-	/**********************************************************************
-	 *  Templated Model
-	 **********************************************************************/
 	createTemplatedModel(param) {
 
 		if (this.model.templates && this.model.templates[param.id]) {
@@ -23,7 +18,7 @@ export default class ModelFactory {
 			/**
 			 * get the template from somewhere, in this case the model
 			 */
-			var template = this.model.templates[param.id];
+			const template = this.model.templates[param.id];
 
 			if (this["createTemplated" + template.templateType]) {
 				return this["createTemplated" + template.templateType](template);
@@ -37,7 +32,7 @@ export default class ModelFactory {
 	}
 
 	createTemplatedWidget(t) {
-		var model = {
+		const model = {
 			id: t.id,
 			name: t.name,
 			w: t.w,
@@ -55,7 +50,7 @@ export default class ModelFactory {
 	}
 
 	createTemplatedGroup(t) {
-		var model = {
+		const model = {
 			id: t.id,
 			name: t.name,
 			template: t.id,
@@ -77,8 +72,8 @@ export default class ModelFactory {
 			};
 		}
 
-		var grid = 8;
-		var model = {
+		const grid = 8;
+		const model = {
 			version: 2.1,
 			name: name,
 			description: des,
@@ -112,7 +107,7 @@ export default class ModelFactory {
 	 **********************************************************************/
 
 	createScreenModel() {
-		var screen = {
+		const screen = {
 			id: null,
 			name: "",
 			x: 0,
@@ -142,7 +137,7 @@ export default class ModelFactory {
 	 **********************************************************************/
 
 	createLineModel() {
-		var line = {
+		const line = {
 			id: null,
 			from: null,
 			to: null,

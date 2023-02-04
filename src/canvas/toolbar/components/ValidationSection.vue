@@ -90,8 +90,15 @@ export default {
 			this._renderDataBinding(model, false);
 		},
 
+		_showProgessSegments (model) {
+			this._renderDataBinding(model, false);
+		},
 
 		_showImageCarousel(model){
+			this._renderDataBinding(model, false);
+		},
+
+		_showImagePaging (model) {
 			this._renderDataBinding(model, false);
 		},
 

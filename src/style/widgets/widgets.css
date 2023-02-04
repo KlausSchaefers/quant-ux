@@ -374,7 +374,7 @@
 }
 
 /*******************************
- * Upload / Camera
+ * Progress Bar
  *******************************/
 
 .MatcWidgetTypeProgressBar{
@@ -391,6 +391,57 @@
 	height: 100%;
 	top:0px;
 	left:0px;
+}
+
+/*******************************
+ * Progress Segments
+ *******************************/
+
+ .MatcWidgetTypeProgressSegments{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border:none;
+}
+
+.MatcWidgetTypeProgressSegmentsCntr {
+
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	justify-content: space-between;
+}
+
+.MatcWidgetTypeProgressSegmentsElement{
+	flex-grow: 1;
+	border: 0px solid #333;
+}
+
+/*******************************
+ * Image paging
+ *******************************/
+
+.MatcWidgetTypeImagePaging{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border:none;
+}
+
+.MatcWidgetTypeImagePagingCntr {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.MatcWidgetTypeImagePagingElement{
+	border: 0px solid #333;
 }
 
 /*******************************

@@ -174,7 +174,7 @@ export default {
 
 		onWidgetGesture (screenID, widgetID, lines, gesture, startEvent, endEvent){
 			this.logger.log(2,"onWidgetGesture","enter >  sreen:" + screenID + " > widget:" + widgetID + " > "+ gesture.type);
-
+		
 			if(gesture && lines){
 				const line = this.getLineForGesture(lines, gesture.type);
 				if(line){
@@ -654,10 +654,10 @@ export default {
 			this.fixGestureCoords(gesture, startEvent, endEvent)
 
 			if(this.currentScreen){
-				var lines = this.getFromLines(this.currentScreen);
+				const lines = this.getFromLines(this.currentScreen);
 				if(gesture && lines){
-					var line = this.getLineForGesture(lines, gesture.type);
-					if(line){
+					const line = this.getLineForGesture(lines, gesture.type);
+					if (line){
 						/**
 						 * Make gesture pos relative
 						 */
