@@ -116,7 +116,7 @@ export default {
     data: function () {
         return {
           viewOptions:{
-            showTasksSucess: true,
+            showTasksSucess: false,
             showTaskDetails: false,
             showId: false
           }
@@ -225,6 +225,9 @@ export default {
     },
     mounted () {
       this.logger = new Logger('SurveyTable')
+      if (this.test && this.test.tasks.length > 0) {
+        this.viewOptions.showTasksSucess = true
+      }
     }
 }
 </script>
