@@ -12,7 +12,7 @@
 	"z" : 0,
 	"props" : {
 		"label" : "Enter a value",
-		"hideUpperBorder": true,
+		"hideUpperBorder": false,
 		"placeholder" : true,
 		"options" : [ "Hint 1", "Hint 2", "Hint 3", "Hint 4" ]
 	},

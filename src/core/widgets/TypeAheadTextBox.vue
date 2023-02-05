@@ -141,18 +141,9 @@ export default {
       }
 
       if (this.wired) {
-        this.tempOwn(
-          on(win.body(), touch.over, lang.hitch(this, "onMouseOutOption"))
-        );
-        this.tempOwn(
-          on(win.body(), touch.press, lang.hitch(this, "hideTypeAhead"))
-        );
-        this.tempOwn(
-          topic.subscribe(
-            "MatcSimulatorEvent",
-            lang.hitch(this, "onSimulatorEvent")
-          )
-        );
+        this.tempOwn(on(win.body(), touch.over, lang.hitch(this, "onMouseOutOption")));
+        this.tempOwn(on(win.body(), touch.press, lang.hitch(this, "hideTypeAhead")));
+        this.tempOwn(topic.subscribe("MatcSimulatorEvent",lang.hitch(this, "onSimulatorEvent")));
       }
 
       this.domNode.appendChild(this.popup);
@@ -227,13 +218,18 @@ export default {
     setSelectedOption (selected) {
       if (this.optionNodes) {
         if (this.selected != selected) {
-          var style = this.style;
-          for (var i = 0; i < this.optionNodes.length; i++) {
-            let node = this.optionNodes[i];
+          const style = this.style;
+          for (let i = 0; i < this.optionNodes.length; i++) {
+            const node = this.optionNodes[i];
             node.style.color = style.color;
-            node.style.background = style.background;
+            if (style.popupBackground) {
+              node.style.background = style.popupBackground;
+            } else {
+              node.style.background = style.background;
+            }
+        
           }
-          let node = this.optionNodes[selected];
+          const node = this.optionNodes[selected];
           if (node) {
             if (style.selectedOptionColor) {
               node.style.color = style.selectedOptionColor;
