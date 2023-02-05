@@ -251,7 +251,7 @@ export default {
         boundingBox: null,
         selectBox: null,
         offSetTools: 0,
-        offSetValue: 0.5,
+        offSetValue: 0,
         showAllBezierPoints: false,
         snapLineX: -1,
         snapLineY: -1,
@@ -611,12 +611,12 @@ export default {
         // FIXME: here is a bug. We should rerender to make sure the 
         // temp nodes are not in the bounding box
         const boxes = SVGUtil.getBBoxes(this.$refs.paths)
-        const zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
+        let zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
+        zoomedPos = SVGUtil.addStrokeBBox(zoomedPos, this.value, this.zoom)  
         const minZoomPos = SVGUtil.getMinBBox(zoomedPos)
-        let bbox = SVGUtil.getUnZoomedBox(minZoomPos, this.zoom)    
-        //bbox = SVGUtil.addStrokeBBox(bbox, this.value)  
+        const bbox = SVGUtil.getUnZoomedBox(minZoomPos, this.zoom)    
         const paths = SVGUtil.removeBoundingBox(this.value, bbox)
-   
+    
         return {
             dirty: this.isDirty,
             paths: paths,

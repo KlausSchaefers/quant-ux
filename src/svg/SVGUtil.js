@@ -228,14 +228,15 @@ export function getBBoxes(elements) {
     return result
 }
 
-export function addStrokeBBox(bbox, paths) {
-    const max = Math.max(paths.map(p => p.strokeWidth))
-    const padding = Math.ceil(max / 2)
+export function addStrokeBBox(bbox, paths, zoom) {
+    const max = Math.max(paths.map(p => p.strokeWidth)) * zoom
+    console.debug(max)
+    const padding = max / 2
     const result = {
-        x: bbox.x - padding, 
-        y: bbox.y - padding, 
-        w: bbox.w + padding, 
-        h: bbox.h + padding, 
+        x: Math.round(bbox.x - padding), 
+        y: Math.round(bbox.y - padding), 
+        w: Math.round(bbox.w + max), 
+        h: Math.round(bbox.h + max), 
         zoom: bbox.zoom
     }
     return result
@@ -392,7 +393,7 @@ export function addBoundingBox (paths, bbox) {
 
 export function removeBoundingBox (paths, bbox) {
     const result = clone(paths)
-
+   
     result.forEach(path => {
         const points = path.d
         for (let i = 0; i < points.length; i++) {

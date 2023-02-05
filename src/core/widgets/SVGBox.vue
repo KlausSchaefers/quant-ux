@@ -27,6 +27,7 @@ export default {
   mixins: [UIWidget, DojoWidget],
   data: function() {
     return {
+      offset: 0,
       model: null,
       width: 0,
       height: 0,
@@ -77,8 +78,8 @@ export default {
           let d = element.d.map(p => {
             return {
               t: p.t,
-              x: Math.round(p.x * scale * w) + 0.5,
-              y: Math.round(p.y * scale  * h) + 0.5
+              x: Math.round(p.x * scale * w) + this.offset,
+              y: Math.round(p.y * scale  * h) + this.offset
             }
           })
 
