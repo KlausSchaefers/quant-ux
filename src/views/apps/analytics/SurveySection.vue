@@ -9,15 +9,19 @@
             topic="survey.intro"
             :hasNotifications="false"
           />
+
+       
         </h2>
       </div>
       <div class="level-right">
        
       
-        <DropDownSelect 
+        <DropDownSelect
+          v-if="isLoaded"
+          ref="dropDown"
           :options="tableOptions" :l="$t('survey.options')" 
           @select="onChangeView" 
-          @fullscreen="onFullScreen"
+          @fullscreen="onFullScreen($event)"
           @download="downloadCVS"></DropDownSelect>
    
       </div>
@@ -25,78 +29,21 @@
 
      <div class="MatcSurveySectionTableCntr">
 
-       <table class="table" v-if="table.rows.length > 0 && table.cols.length > 0">
-          <thead>
-            <tr>
-              <th class="MatcSurveySectionTableNumber">
-                #
-              </th>
-              <th v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
-                {{$t('survey.id')}}
-              </th>
-              <template v-for="(col, c) in table.cols">
-                <th  v-if="table.meta[col].hidden !== true" :key="c">
-                  <span class="MatcSurveySectionTableColLabel">
-                    {{col}}
-                  </span>
-               
-                </th>
-              </template>
-              <th v-if="hasTasks" class="MatcSurveySectionTableBorderLeft">
-                {{$t('survey.tasks')}}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(row, r) in table.rows" :key="r">
-              <td class="MatcSurveySectionTableNumber">
-                {{r+1}}
-              </td>
-              <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
-                {{table.ids[r]}}
-              </td>
-              <template v-for="(col, c) in table.cols" >
-                <td :key="c"  v-if="table.meta[col].hidden !== true" >
-                  {{row[col]}}
-                </td>
-              </template>
-              <td v-if="hasTasks" class="MatcSurveySectionTableBorderLeft  MatcTagCntr">
-          
-                 <span v-for="task in table.tasks[r]" :key="task.task" class="tag">
-                    
-                    {{task.taskName}}
-
-                    <span v-if="viewOptions.showTaskDetails">
-                      ({{Math.round(task.duration /1000)}}s  | #{{task.interactions}})
-                    </span>
-
-                  
-                  </span>
-
-              </td>
-            </tr>
-            <tr class="MatcSurveySectionTableSummary">
-              <td class="MatcSurveySectionTableNumber">
-                =
-              </td>
-              <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
-               
-              </td>
-              <td v-for="(value, i) in summary" :key="i">
-                {{value}}
-              </td>
-              <td v-if="hasTasks" class="MatcSurveySectionTableBorderLeft">
-                
-              </td>
-            </tr>
-          </tbody>
-       </table>
+      <SurveyTable 
+          v-if="table.rows.length > 0 && table.cols.length > 0" 
+          :app="app"
+          :events="events"
+          :viewOptions="viewOptions"
+          :annotation="annotation"
+          :test="test"/>
 
        <span class="MatcHint" v-else>
          {{$t('survey.no-data')}}
        </span>
     </div>
+    <SurveyDialog ref="dialog">
 
+    </SurveyDialog>
 	</div>
 </template>
 <style lang="scss">
@@ -108,13 +55,17 @@ import DropDownSelect from 'page/DropDownSelect'
 import HelpButton from "help/HelpButton";
 import Analytics from "dash/Analytics";
 import lang from 'dojo/_base/lang'
+import SurveyTable from './SurveyTable'
+import SurveyDialog from './SurveyDialog'
+
 
 export default {
-    name: 'SurveyTable',
+    name: 'SurveySection',
     mixins:[],
     props: ['test', 'app', 'events', 'annotation'],
     data: function () {
         return {
+          isLoaded: false,
           viewOptions:{
             showTasksSucess: false,
             showTaskDetails: false,
@@ -124,17 +75,18 @@ export default {
     },
     components: {
       'HelpButton': HelpButton,
-      'DropDownSelect': DropDownSelect
+      'DropDownSelect': DropDownSelect,
+      'SurveyTable': SurveyTable,
+      'SurveyDialog': SurveyDialog
     },
     computed: {
       tableOptions () {
-      
         return [
             {value: 'showTasksSucess', label: this.$t('survey.taskSuccess'), check:true, selected: this.viewOptions.showTasksSucess},
-            {value: 'showTaskDetails', label: this.$t('survey.taskDetails'), check:true, selected: this.viewOptions.showTaskDetails},
+            //{value: 'showTaskDetails', label: this.$t('survey.taskDetails'), check:true, selected: this.viewOptions.showTaskDetails},
             {value: 'showId', label:this.$t('survey.ids'), check:true},
             //{css:"MatcDropDownButtonLine"},
-            //{value: 'fullscreen', label: this.$t('survey.fullscreen'), event:'fullscreen', icon:'mdi mdi-fullscreen'},
+            //{value: 'fullscreen', label: this.$t('survey.fullscreen'), event:'fullscreen', icon:' mdi mdi-chart-bar'},
             {css:"MatcDropDownButtonLine"},
             {value: 'download', label: this.$t('survey.download'), event:'download', icon:'mdi mdi-download-outline'}
           ]
@@ -193,7 +145,9 @@ export default {
     },
     methods: {
       onFullScreen () {
-
+        if (this.$refs.dialog && this.$refs.dropDown) {
+          this.$refs.dialog.show(this.$refs.dropDown.$el)
+        }
       },
       onChangeView (selection) {
         for (let key in selection) {
@@ -224,10 +178,11 @@ export default {
         },
     },
     mounted () {
-      this.logger = new Logger('SurveyTable')
+      this.logger = new Logger('SurveySection')
       if (this.test && this.test.tasks.length > 0) {
         this.viewOptions.showTasksSucess = true
       }
+      this.isLoaded = true
     }
 }
 </script>

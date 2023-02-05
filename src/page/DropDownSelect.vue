@@ -73,11 +73,6 @@ import touch from "dojo/touch";
                 if (o.css) {
                     css.add(li, o.css)
                 }
-
-            
-       
-              
-         
                 this.ul.appendChild(li);
             }
         },
@@ -91,6 +86,8 @@ import touch from "dojo/touch";
             }
            
         }
+    },
+    watch:{
     }
   };
   </script>

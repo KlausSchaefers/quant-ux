@@ -628,14 +628,22 @@ input:focus{
  .MatcDropDownSelect.MatcDropDownSelect{
 	display: inline-block;
 	position: relative;
-	background: #3787f2;
+	color: #3787f2;
 	border:1px solid #3787f2;
+}
+
+.MatcDropDownSelect.MatcDropDownSelect:hover{
+	color: #fff;
 }
 
 .MatcDropDownSelect .MatcDropDownPopUp{
 	left: auto;
 	right: 0px;
 	width: 200px;
+}
+
+.MatcDropDownSelect .MatcDropDownSelectCheck .VommondCheckBoxWrapper {
+	width: 100%;
 }
 
 .MatcDropDownSelectCheck {

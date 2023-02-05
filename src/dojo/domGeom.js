@@ -9,7 +9,7 @@ class domGeom {
 
     position (node, includeScroll) {
 			if (node && node.toLowerCase) {
-					node = document.getElementById(node)
+				node = document.getElementById(node)
 			}
 			let ret = node.getBoundingClientRect();
 			ret = {x: ret.left, y: ret.top, w: ret.right - ret.left, h: ret.bottom - ret.top};
