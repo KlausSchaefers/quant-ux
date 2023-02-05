@@ -442,6 +442,7 @@
 
 .MatcWidgetTypeImagePagingElement{
 	border: 0px solid #333;
+	cursor: pointer;
 }
 
 /*******************************
