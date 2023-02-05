@@ -201,11 +201,7 @@ export default {
 				} else {
 					target+="&log=true";
 				}
-				
-				const dataItems = Object.entries(this.$route.query).filter(function(record){return record[0].slice(0, 5) == "data_"});
-				for (let item of dataItems) {
-				    target += "&" + item[0] + "=" + item[1];
-				}
+				target += this.getDataQuery()
 				
 				location = target;
 				return;
@@ -216,12 +212,22 @@ export default {
 				this.skipSplash = true;
 			}
 
-			
 			/**
 			 * Load the model a little later to avoid any flickering
 			 */
 			setTimeout(lang.hitch(this, "loadModel"), 1);
 			this.logger.log(1,"postCreate","exit");
+		},
+
+		getDataQuery () {
+			let result = ''
+			const dataItems = Object.entries(this.$route.query).filter(record => {
+				return record[0].slice(0, 5) == "data_"}
+			);
+			for (let item of dataItems) {
+				result += "&" + item[0] + "=" + item[1];
+			}
+			return result
 		},
 
 		async loadModel (){
@@ -442,12 +448,17 @@ export default {
 				.div("MatchTestQRDialog MatcPadding")
 				.build();
 
-			const img = this.db.img().build(dialog)
+			const img = this.db
+				.img()
+				.build(dialog)
+
 			css.add(img, "MatcSimulatorQR");
-			QR.getQRCode(this.hash, true, false, this.getLanguage()).then(url => {
+			QR.getQRCode(this.hash, true, false, this.getLanguage(), this.getDataQuery()).then(url => {
 				img.src = url
 			})
-			this.db.div("MatcHint MatchTestQRDialogHint", this.getNLS("test.qr.headline"))
+
+			this.db
+				.div("MatcHint MatchTestQRDialogHint", this.getNLS("test.qr.headline"))
 				.build(dialog);
 
 			const d = new Dialog();
