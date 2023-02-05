@@ -228,6 +228,19 @@ export function getBBoxes(elements) {
     return result
 }
 
+export function addStrokeBBox(bbox, paths) {
+    const max = Math.max(paths.map(p => p.strokeWidth))
+    const padding = Math.ceil(max / 2)
+    const result = {
+        x: bbox.x - padding, 
+        y: bbox.y - padding, 
+        w: bbox.w + padding, 
+        h: bbox.h + padding, 
+        zoom: bbox.zoom
+    }
+    return result
+}
+
 export function getMinBBox(bbox, min = 20) {
     if (bbox.h < min) {
         bbox.h += min

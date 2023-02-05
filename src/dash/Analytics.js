@@ -23,11 +23,35 @@ export default class {
 		return temp;
 	}
 
-	getSurveyAnswers (events, app) {
-		let result = {
+	getSurveyAnswers (events, app, test, options) {
+		const showId = options.showId
+		const showTasksSucess = options.showTasksSucess
+		const showTasksDuration = options.showTaskDetails
+		const showTasksInteraction = options.showTaskDetails
+
+
+		const result = {
+			ids: [],
 			rows: [],
-			cols: []
+			cols: [],
+			tasks: [],
+			meta: {}
 		}
+
+		const eventsDF = new DataFrame(events);
+		eventsDF.sortBy("time");
+
+		let taskPer = {}
+		if (test.tasks) {
+			const taskPerDF = this.getTaskPerformance(eventsDF, test.tasks)
+			taskPerDF.foreach(row => {
+				if (!taskPer[row.session]) {
+					taskPer[row.session] = {}
+				}
+				taskPer[row.session][row.task] = row
+			})
+		}
+
 
 		let widgetDataBindings = {}
 		let widgetTypes = {}
@@ -42,32 +66,107 @@ export default class {
 		result.cols.sort((a, b) => {
 			return a.localeCompare(b)
 		})
+		
+		result.cols.forEach(col => {
+			result.meta[col] = {
+				type: 'data'
+			}
+		}) 
 
-		var eventsDF = new DataFrame(events);
-		eventsDF.sortBy("time");
-		var sessionGrouping = eventsDF.groupBy("session");
+		if (showId) {
+			result.cols.unshift('id')
+			result.meta['id'] = {
+				type: 'id',
+				hidden: true,
+			}
+		}
+
+		if (test.tasks) {
+			test.tasks.forEach(task => {
+				if (showTasksSucess) {
+					result.cols.push(task.name)
+					result.meta[task.name] = {
+						type: 'task',
+						hidden: true,
+					}
+				}
+				if (showTasksDuration) {
+					result.cols.push(task.name + '_Duration')
+					result.meta[task.name + '_Duration'] = {
+						type: 'task',
+						hidden: true,
+						header: false
+					}
+				}
+				if (showTasksInteraction) {
+					result.cols.push(task.name + '_Interactions')
+					result.meta[task.name + '_Interactions'] = {
+						type: 'task',
+						hidden: true,
+						header: false
+					}
+				}
+			
+			})
+		}
+
+
+		const sessionGrouping = eventsDF.groupBy("session");
 
 		/**
 		 * sort by start??
 		 */
-		sessionGrouping.foreach(df => {
-			let row = {}
+		sessionGrouping.foreach((df, sessionID) => {
+			
+			const row = {}
+			const taskRow = []
 			result.cols.forEach(c => row[c] = '-')
+			
 			df.sortBy("time");
-			var sessionEvents = df.as_array();
+			const sessionEvents = df.as_array();
 			sessionEvents.forEach(e => {
 				delete e.user
 				if (app.widgets[e.widget]) {
 					if (e.widget && e.state && widgetDataBindings[e.widget]) {
-						let col = widgetDataBindings[e.widget]
+						const col = widgetDataBindings[e.widget]
 						if (widgetTypes[e.widget] === 'Rating') {
 							row[col] = (e.state.value * 1) + 1
 						} else {
-							row[col] = e.state.value
+							const value = e.state.value
+							if (Array.isArray(value)) {
+								row[col] = value.join(', ')
+							} else {
+								row[col] = value
+							}
+							
 						}
 					}
 				}
 			})
+
+			if (showId) {
+				row['id'] = sessionID
+			}
+
+			if (test.tasks) {
+				test.tasks.forEach(task => {
+					if (taskPer[sessionID] && taskPer[sessionID][task.id]) {
+						const taskData = taskPer[sessionID][task.id]
+						taskRow.push(taskData)
+						if (showTasksSucess) {
+							row[task.name] = 'Completed'
+						}
+						if (showTasksSucess) {
+							row[task.name + '_Duration'] = Math.round(taskData.duration / 1000)
+						}
+						if (showTasksSucess) {
+							row[task.name + 'Interactions'] = taskData.interactions
+						}
+					}
+				})
+			}
+			result.tasks.push(taskRow)
+			result.ids.push(sessionID)
 			result.rows.push(row)
 		})
 

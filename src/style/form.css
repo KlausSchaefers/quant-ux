@@ -621,6 +621,26 @@ input:focus{
 .vommondTable .vommondInlineEdit{
   margin-left:-16px;
 }
+
+/****************************************************
+ * DropDown Select
+ ****************************************************/
+ .MatcDropDownSelect.MatcDropDownSelect{
+	display: inline-block;
+	position: relative;
+	background: #3787f2;
+	border:1px solid #3787f2;
+}
+
+.MatcDropDownSelect .MatcDropDownPopUp{
+	left: auto;
+	right: 0px;
+	width: 200px;
+}
+
+.MatcDropDownSelectCheck {
+}
+
 /****************************************************
  * DropDown
  ****************************************************/
@@ -630,7 +650,12 @@ input:focus{
 	position: relative;
 	background: #fff;
 	border:1px solid #3787f2;
+}
 
+.MatcDropDownButtonLine {
+	padding-top: 4px;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 4px;
 }
 
 .MatcDropDownButton.MatcButtonGreen{

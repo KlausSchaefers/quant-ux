@@ -194,7 +194,14 @@
     },
     "survey": {
         "header": "Survey Answers",
-        "download": "Download Survey Answers",
+        "download": "Download CSV",
+        "id": "id",
+        "tasks": "Tasks",
+        "taskSuccess": "Tasks Success",
+        "taskDetails": "Task Details",
+        "taskDuration": "Tasks Duration",
+        "taskInteractions": "Tasks Interactions",
+        "ids": "Show IDs",
         "no-data": "No survey fields. Make sure that you have to marked the survey fields in the canvas."
     },
     "analytic-task-list": {
