@@ -12,12 +12,14 @@
         </h2>
       </div>
       <div class="level-right">
-        <a v-if="false"
-          class="button is-primary is-outlined level-item"
-          data-nls="btn.download"
-          @click="downloadCVS"
-        >{{$t('survey.download')}}</a>
-        <DropDownSelect :options="tableOptions" l="Options" @select="onChangeView" @download="downloadCVS"></DropDownSelect>
+       
+      
+        <DropDownSelect 
+          :options="tableOptions" :l="$t('survey.options')" 
+          @select="onChangeView" 
+          @fullscreen="onFullScreen"
+          @download="downloadCVS"></DropDownSelect>
+   
       </div>
     </div>
 
@@ -113,13 +115,6 @@ export default {
     props: ['test', 'app', 'events', 'annotation'],
     data: function () {
         return {
-          tableOptions: [
-            {value: 'showTasksSucess', label: this.$t('survey.taskSuccess'), check:true, selected: true},
-            {value: 'showTaskDetails', label: this.$t('survey.taskDetails'), check:true},
-            {value: 'showId', label:this.$t('survey.ids'), check:true},
-            {css:"MatcDropDownButtonLine"},
-            {value: 'download', label: this.$t('survey.download'), event:'download', icon:'mdi mdi-download-outline'}
-          ],
           viewOptions:{
             showTasksSucess: true,
             showTaskDetails: false,
@@ -132,6 +127,18 @@ export default {
       'DropDownSelect': DropDownSelect
     },
     computed: {
+      tableOptions () {
+      
+        return [
+            {value: 'showTasksSucess', label: this.$t('survey.taskSuccess'), check:true, selected: this.viewOptions.showTasksSucess},
+            {value: 'showTaskDetails', label: this.$t('survey.taskDetails'), check:true, selected: this.viewOptions.showTaskDetails},
+            {value: 'showId', label:this.$t('survey.ids'), check:true},
+            //{css:"MatcDropDownButtonLine"},
+            //{value: 'fullscreen', label: this.$t('survey.fullscreen'), event:'fullscreen', icon:'mdi mdi-fullscreen'},
+            {css:"MatcDropDownButtonLine"},
+            {value: 'download', label: this.$t('survey.download'), event:'download', icon:'mdi mdi-download-outline'}
+          ]
+      },
       hasID () {
         return this.viewOptions.showId
       },
@@ -185,6 +192,9 @@ export default {
       }
     },
     methods: {
+      onFullScreen () {
+
+      },
       onChangeView (selection) {
         for (let key in selection) {
           this.$set(this.viewOptions, key, selection[key])

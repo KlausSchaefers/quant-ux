@@ -195,6 +195,8 @@
     "survey": {
         "header": "Survey Answers",
         "download": "Download CSV",
+        "options": "Options",
+        "fullscreen": "Fullscreen",
         "id": "id",
         "tasks": "Tasks",
         "taskSuccess": "Tasks Success",
