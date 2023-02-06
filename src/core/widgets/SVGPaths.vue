@@ -76,7 +76,7 @@ export default {
       width: 0,
       height: 0,
       overflowOffset: 40, // avoid cutoffs. Maybe make it flexible?
-      offSetValue: 40.5, // add here the overflowOffset + 0.5
+      offSetValue: 40, // add here the overflowOffset + 0.5
       paths: [],
       svgPaths: [],
       viewBox: {

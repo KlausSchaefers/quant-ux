@@ -22,9 +22,9 @@ export default {
   computed: {
     label () {
       if (this.model && this.model && this.model.props) {
-        return this.model.props.label
+        return this.model.name
       }
-      return 'Rest'
+      return 'Script'
     }
   },
   methods: {

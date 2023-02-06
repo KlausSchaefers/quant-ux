@@ -216,7 +216,7 @@ export function pathToSVG (d, offsetX =0, offsetY = 0, closed = false) {
 }
 
 export function getBBox(element) {
-    return element.getBBox({stroke: includeStroke}) // does not have an effect
+    return element.getBBox({stroke: includeStroke, marker: true}) // does not have an effect
 }
 
 export function getBBoxes(elements) {

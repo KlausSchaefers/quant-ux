@@ -15,6 +15,25 @@
       border-bottom-width: 1px;
     }
 
+    a {
+      color:#333;
+      display: flex;
+      gap: 16px;
+
+
+      .mdi{
+        opacity: 0;
+      }
+
+      &:hover{
+        color:$main_color;
+
+        .mdi{
+          opacity: 1;
+        }
+      }
+    }
+
     .MatcSurveySectionTableNumber{
       width: 40px;
     }

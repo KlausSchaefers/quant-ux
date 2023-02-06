@@ -787,7 +787,6 @@ export default {
 				"w": 80,
 				"h": 90,
 				"props" : {
-					"label" : "Script",
 					"script": ''
 				},
 				"has" :{
@@ -812,7 +811,6 @@ export default {
 				"w": 80,
 				"h": 90,
 				"props" : {
-					"label" : "Rest",
 					"rest": {
 						"method": "GET",
 						"url": "",
@@ -2018,6 +2016,22 @@ export default {
 				this.showScriptTool = true
 			} else {
 				this.showScriptTool = false
+			}
+		},
+
+		showScriptDialog (widget) {
+			this.logger.log(-1,"showScriptDialog", "entry > ", widget);
+			if (this.dataWidget) {
+				this.dataWidget.setValue(widget);
+				this.dataWidget._renderScriptDialog()
+			}
+		},
+
+		showRestDialog (widget) {
+			this.logger.log(-1,"showRestDialog", "entry > ", widget);
+			if (this.dataWidget) {
+				this.dataWidget.setValue(widget);
+				this.dataWidget._renderRestDialog()
 			}
 		},
 

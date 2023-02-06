@@ -150,6 +150,8 @@ import topic from 'dojo/topic'
 		onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
 			this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 
+			const now = new Date().getTime()
+		
 			/**
 			 * Check here if the widget was select a second time. In this case
 			 * trigger the inline edit unless the forceSelection flag is set. This happens
@@ -157,7 +159,13 @@ import topic from 'dojo/topic'
 			 * more details.
 			 */
 			if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
-				this.onWidgetDoubleClick(this._selectWidget)
+		
+				if (now - this._lastWidgetSelected < 3000) {
+					this.onWidgetDoubleClick(this._selectWidget)
+				} else {
+					this.logger.log(1,"onWidgetSelected", "ignore double > ");
+				}
+			
 			} else {
 				this.unSelect()
 				this.onSelectionChanged(id, "widget", false);
@@ -191,16 +199,29 @@ import topic from 'dojo/topic'
 				console.debug(e)
 				this.logger.error("onWidgetSelected", "could not call selectionListener > ", e);
 			}
+			this._lastWidgetSelected = now
 		},
 
 		onWidgetDoubleClick (widget) {
 			this.logger.log(-3,"onWidgetDoubleClick", "enter > "+ widget.id);
 			topic.publish("matc/canvas/click", "", "");
+			if (widget.type === 'Script') {
+				if (this.toolbar) {
+					this.toolbar.showScriptDialog(widget)
+				}
+				return
+			}
+			if (widget.type === 'Rest') {
+				if (this.toolbar) {
+					this.toolbar.showRestDialog(widget)
+				}
+				return
+			}
 			if (widget.type === 'SVGPaths') {
 				this.editSVG(widget)
-			} else {
-				this.inlineEditInit(widget)	
+				return
 			}
+			this.inlineEditInit(widget)	
 		},
 
 		onInheritedWidgetSelected (id) {

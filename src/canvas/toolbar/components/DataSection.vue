@@ -1131,14 +1131,17 @@ export default {
 				this.canvas.setState(0);
 			}));
 			d.onOpen(() => {
-		
 				settings.placeAt(cntr);
 				settings.setHash(this.hash);
 				settings.setWidget(this.widget);
 				settings.setModel(this.model);
-				
 			})
-			d.popup(popup, e.target);
+			if (e && e.target) {
+				d.popup(popup, e.target);
+			} else {
+				d.popup(popup, this.domNode);
+			}
+			
 		},
 
 		setScript (d, settings) {
@@ -1171,7 +1174,11 @@ export default {
 				settings.destroy();
 				this.canvas.setState(0);
 			}));
-			d.popup(popup, e.target);
+			if (e && e.target) {
+				d.popup(popup, e.target);
+			} else {
+				d.popup(popup, this.domNode);
+			}
 		},
 
 		setRest (d, settings) {

@@ -25,9 +25,10 @@ export default {
 				this.own(on(this.container, "mousedown", (e) => this.dispatchBackroundClick(e)));
 			},
 
-			dispatchDoubleClick () {
+			dispatchDoubleClick (e) {
 				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);
-				if (this.mode === "svg") {
+				const target = e.target
+				if (this.mode === "svg" || target._widgetID) {
 					return
 				}
 				this.forceCompleteRender()
@@ -43,7 +44,6 @@ export default {
 					}
 					this.dispatchMouseDownCanvas(e, target)
 				}
-			
 			},
 
 			dispatchOver (e) {

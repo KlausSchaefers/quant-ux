@@ -96,6 +96,9 @@
 		<div class="MatcTest" ref="cntr">
 		</div>
 	</div>
+	<div class="MatcTestVersion" v-if="step <= 1">
+		4.3.24
+	</div>
 </div>
 </template>
 <style>

@@ -21,8 +21,8 @@ export default {
   components: {},
   computed: {
     label () {
-      if (this.model && this.model && this.model.props) {
-        return this.model.props.label
+      if (this.model) {
+        return this.model.name
       }
       return 'Rest'
     }

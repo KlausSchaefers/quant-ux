@@ -29,7 +29,11 @@
                 {{r+1}}
               </td>
               <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
-                {{table.ids[r]}}
+                <a :href="getVideoURL(table.ids[r])" target="_QUXvideo">
+                  {{table.ids[r]}}
+                  <span class="mdi mdi-play-circle-outline"></span>
+                </a>
+            
               </td>
               <template v-for="(col, c) in table.cols" >
                 <td :key="c"  v-if="table.meta[col].hidden !== true" >
@@ -73,7 +77,7 @@ import lang from 'dojo/_base/lang'
 export default {
     name: 'SurveyTable',
     mixins:[],
-    props: ['test', 'app', 'events', 'annotation', 'viewOptions'],
+    props: ['test', 'app', 'events', 'annotation', 'viewOptions', 'pub'],
     data: function () {
         return {
         }
@@ -127,8 +131,17 @@ export default {
           this.viewOptions
         )
       },
+      urlPrefix() {
+        if (this.pub) {
+          return "examples";
+        }
+        return "apps";
+      },
     },
     methods: {
+      getVideoURL (id) {
+        return "#/" +  this.urlPrefix + "/" +  this.app.id + "/replay/" + id + ".html";
+      },
     },
     mounted () {
       this.logger = new Logger('SurveyTable')

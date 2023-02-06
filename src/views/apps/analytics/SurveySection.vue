@@ -32,6 +32,7 @@
       <SurveyTable 
           v-if="table.rows.length > 0 && table.cols.length > 0" 
           :app="app"
+          :pub="pub"
           :events="events"
           :viewOptions="viewOptions"
           :annotation="annotation"
@@ -62,7 +63,7 @@ import SurveyDialog from './SurveyDialog'
 export default {
     name: 'SurveySection',
     mixins:[],
-    props: ['test', 'app', 'events', 'annotation'],
+    props: ['test', 'app', 'events', 'annotation', 'pub'],
     data: function () {
         return {
           isLoaded: false,
@@ -180,7 +181,7 @@ export default {
     mounted () {
       this.logger = new Logger('SurveySection')
       if (this.test && this.test.tasks.length > 0) {
-        this.viewOptions.showTasksSucess = true
+        //this.viewOptions.showTasksSucess = true
       }
       this.isLoaded = true
     }
