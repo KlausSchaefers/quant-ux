@@ -117,6 +117,7 @@ import RadioBoxList from 'common/RadioBoxList'
 
 import ZipSevice from 'services/ZipService'
 import FigmaService from 'services/FigmaService'
+import SwaggerService from 'services/SwaggerService'
 
 export default {
     name: 'ImportDialog',
@@ -209,7 +210,15 @@ export default {
         async loadSwagger () {
             this.logger.log(-1, 'loadSwagger', 'enter', this.swaggerURL)
             if (this.swaggerURL) {
-                console.debug()
+                localStorage.setItem('quxSwaggerURL', this.swaggerURL)
+                try {
+                    const swaggerService = new SwaggerService()
+                    const [items, schemas] = await swaggerService.parseURL(this.swaggerURL)
+                    console.debug(items, schemas)
+                } catch (err) {
+                    this.errorMSG = this.getNLS('dialog.import.error-swagger-wrong_url') + ` (${err.message})`
+                }
+             
             } else {
                 this.errorMSG = this.getNLS('dialog.import.error-swagger-no-url')
             }
@@ -306,7 +315,7 @@ export default {
                 console.debug(err.stack)
                 this.logger.error('importFigma', 'Cannot import figma')
                 this.logger.sendError(err)
-                this.errorMSG = this.getNLS('dialog.import.error-figma-load')
+                this.errorMSG = this.getNLS('dialog.import.error-figma-load') + ` (${err.message})`
                 this.tab = 'figma'
             }
         },
@@ -634,6 +643,12 @@ export default {
         this.logger = new Logger("ImportDialog");
         this.figmaAcccessKey = localStorage.getItem('quxFigmaAccessKey')
         this.figmaUrl = localStorage.getItem('quxFigmaUrl')
+        this.swaggerURL = localStorage.getItem('quxSwaggerURL')
+        if (location.href.indexOf('localhost') > 0) {
+            this.hasSwagger = true
+            this.tab = 'swagger'
+        }
+
     }
 }
 </script>
