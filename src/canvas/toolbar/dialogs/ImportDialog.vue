@@ -645,8 +645,8 @@ export default {
         this.figmaUrl = localStorage.getItem('quxFigmaUrl')
         this.swaggerURL = localStorage.getItem('quxSwaggerURL')
         if (location.href.indexOf('localhost') > 0) {
-            this.hasSwagger = true
-            this.tab = 'swagger'
+            //this.hasSwagger = true
+            //this.tab = 'swagger'
         }
 
     }

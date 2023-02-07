@@ -74,7 +74,7 @@
       <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
        
       </div>
-      <div class="MatcSimulatorVersion">v4.3.24 </div>
+      <div class="MatcSimulatorVersion">v4.3.25</div>
     </div>
   </div>
 </template>
@@ -226,6 +226,8 @@ export default {
 					this.renderFactory.hash = this.hash;
 				}
 			}
+
+		
 			this.own(this.addTouchStart(this.domNode,lang.hitch(this, "onScreenPress")));
 			this.own(this.addTouchRelease(this.domNode, lang.hitch(this, "onScreenRelease")));
 			this.own(topic.subscribe("MatcSimulatorRenderFixedPopup", lang.hitch(this, "addFixedPopup")));
@@ -335,9 +337,22 @@ export default {
 			if (this.hash && this.qr) {
 				const settings = await Services.getModelService().findTestByHash(model, this.hash)
 				this.settings = settings;
+				this.applyTestSettings(settings)
 				this.logger.log(-1,"loadSettings","enter >", this.settings);
 			}
 			this.setModel(model)
+		},
+
+		applyTestSettings (settings) {
+			if (settings.recordOneTestPerUser === true) {
+				const key = 'quxSession' + settings.appID
+				const userHasTested = localStorage.getItem(key)
+				if (userHasTested === 'true') {
+					this.logData = false
+					this.logger.log(-1,"applyTestSettings","DO NOT LOG DATA >> " + key);
+				}
+				localStorage.setItem(key, 'true')
+			}
 		},
 
 		setModel (model){

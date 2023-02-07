@@ -386,7 +386,7 @@ export default {
 		},
 
 		onScreenGestureMove (e){
-			this.logger.log(0,"onScreenGestureMove","enter");
+			this.logger.log(1,"onScreenGestureMove","enter");
 			if(!this._screenGestureStart){
 				console.warn("onScreenGestureMove() > Exit no start event");
 				this.cleanUpGestureScreenAnim();
@@ -666,7 +666,7 @@ export default {
 						}
 						this.executeLine(this.currentScreen.id, "", line);
 					} else {
-						console.debug("onScreenGesture > no line ", gesture, lines)
+						this.logger.log(-1, "onScreenGesture > no line ", gesture, lines)
 					}
 				}
 			}

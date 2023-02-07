@@ -21,12 +21,13 @@
       <div class="container">
         <div class="box is-shadowless ">
 
-            <h2 class="title">Landing Page   
-             <HelpButton topic="testing" subtopic="testing.landing" :hasNotifications="false"/>
+            <h2 class="title">
+              {{getNLS('testSettingsHeader')}}  
+              <HelpButton topic="testing" subtopic="testing.landing" :hasNotifications="false"/>
             </h2>
 
           
-            <div class="MatcLayoutCols">
+            <div class="MatcLayoutCols mb-32">
                 <textarea
                     class="input MatcTextAreaMedium MatcLayoutColGrow"
                     v-model="test.description"
@@ -48,6 +49,11 @@
                       </div>
                   </div>
             </div>
+
+            <div class="form-group ">
+            <CheckBox :value="test.recordOneTestPerUser" :label="getNLS('testSettingsRecordOneTestPerUser')" @change="setRecordOnePerUser"/>
+          </div>
+
         
         </div>
       </div>
@@ -117,6 +123,7 @@ import HelpButton from "help/HelpButton"
 import Dialog from "common/Dialog"
 import touch from "dojo/touch"
 import DomBuilder from "common/DomBuilder"
+import CheckBox from "common/CheckBox";
 
 export default {
   name: "Test",
@@ -153,7 +160,8 @@ export default {
     'BulletGraph': BulletGraph,
     'TestSettings': TestSettings,
     'Comment': Comment,
-    'HelpButton': HelpButton
+    'HelpButton': HelpButton,
+    'CheckBox': CheckBox
   },
   computed: {
     pub() {
@@ -230,10 +238,15 @@ export default {
     onTaskChange(test) {
       this.$emit("change", lang.clone(test));
     },
+    setRecordOnePerUser(value) {
+      this.test.recordOneTestPerUser = value
+      this.onTestChange()
+    },
     async onTestChange() {
       if (this.pub) {
         this.showSuccess("Saved");
       } else {
+        console.debug(this.test)
         let res = await this.modelService.saveTestSettings(
           this.app.id,
           this.test

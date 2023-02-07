@@ -97,7 +97,7 @@
 		</div>
 	</div>
 	<div class="MatcTestVersion" v-if="step <= 1">
-		4.3.24
+		v4.3.25 
 	</div>
 </div>
 </template>
@@ -330,7 +330,7 @@ export default {
 		},
 		
 		setCustomSplash (settings) {
-			this.logger.log(-1,"setCustomSplash","enter > ", settings);
+			this.logger.log(1,"setCustomSplash","enter > ", settings);
 			if (settings.splash) {
 				this.splashImage = settings.splash
 			}
@@ -502,7 +502,6 @@ export default {
 			} else {
 				this.simulator = this.renderMobileSimulator(cntr, screenPos);
 			}
-
 			return cntr;
 		},
 
@@ -633,6 +632,7 @@ export default {
 				sim.on('event', (e) => this.onSimulatorEvent(e))
 				sim.mode = "debug"
 				sim.logData = this.logging
+				sim.applyTestSettings(this.settings)
 				return sim
 			}
 		}

@@ -1143,6 +1143,10 @@ tr:hover .VommondInputListRemove {
 	cursor: pointer;
 }
 
+.VommondCheckBoxWrapper:hover .VommondCheckBox{
+	border-color: hsl(0deg, 0%, 71%);
+}
+
 
 .VommondCheckBoxLabel {
 	margin-left: 10px;

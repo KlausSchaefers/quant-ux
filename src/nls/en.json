@@ -167,7 +167,7 @@
             "headline": "Scan the QR code with your mobile device."
         },
         "splash": {
-            "upload": "Upload background image",
+            "upload": "Upload splash image",
             "uploading": "Uploading..."
         }
     },
@@ -295,7 +295,7 @@
             "no-flow-msg": "<p>Please define a flow with <b>two or more </b> steps. Otherwise we cannot show details about the task performance.</p>"
         }
     },
-
+    "testSettingsHeader": "Test Settings",
     "testSettingsDescription": "Description",
     "testSettingsTasks": "Tasks",
     "testSettingsTaskName": "Name",
@@ -314,6 +314,7 @@
     "testSettingTaskDelete2": "'?",
     "testSettingsSaved": "Test settings updated...",
     "testSettingsUpgradePlan": "Upgrade Plan",
+    "testSettingsRecordOneTestPerUser": "Record data only for the first time a user tests the prototype.",
 
     "dashTaskEmpty": "You can create tasks in the 'Test' tab. ",
     "dashTaskTableName": "Name",

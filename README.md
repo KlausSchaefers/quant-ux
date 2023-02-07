@@ -128,6 +128,10 @@ Update `QUX_HTTP_HOST`, `QUX_MAIL_USER`, `QUX_MAIL_PASSWORD` and `QUX_MAIL_HOST`
 docker compose up
 ```
 
+## Kubernets
+
+You can find a kubernets configuration here https://github.com/engmsilva/quant-ux-k8s/tree/master/k8s
+
 ### Backend
 
 - Install Mongo DB (> 4.4)

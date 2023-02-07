@@ -11,7 +11,7 @@ export default {
     methods: {
 
 		setSystemVariable (key, value) {
-			this.logger.log(-1, "setSystemVariable","enter " + key, value);
+			this.logger.log(1, "setSystemVariable","enter " + key, value);
 			this.setDataBindingByKey('_qux.' + key, value)
 		},
 
