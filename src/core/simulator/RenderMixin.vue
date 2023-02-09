@@ -446,13 +446,13 @@ export default {
 						this.model.widgets[child.widget.id] = child.widget
 					})
 				} else {
-					this.log.warn('wireContainer', 'Could not find UI widgte for ', widget)
+					this.logger.warn('wireContainer', 'Could not find UI widgte for ', widget)
 				}
 			}
 		},
 
 		wireWidget (widget, screen, screenId, w) {
-			const lines = this.getLinesForWidget(widget);
+			let lines = this.getLinesForWidget(widget);
 
 			const action = this.getActionsForWidget(widget);
 			const uiWidget = this.renderFactory.getUIWidget(widget);
@@ -466,6 +466,13 @@ export default {
 					if (rootLines && rootLines.length > 0) {
 						css.add(w, "MatcSimulatorClickable");
 					}
+					if (!lines) {
+						this.logger.log(1, 'wireWidget', 'Add root template lines ', widget.name )
+						/**
+						 * Since 4.2.26 we also use root template lines
+						 */
+						lines = rootLines
+					}				
 				}
 			}
 
@@ -481,7 +488,7 @@ export default {
 				*/
 				uiWidget.setGestures(hasGestures);
 
-				var line = null;
+				let line = null;
 				if(lines){
 					/**
 					* To not break the api we check if we have a click line.

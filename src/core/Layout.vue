@@ -413,16 +413,16 @@ export default {
      * The lines are ordered by id, which might be wrong...
      */
     getFromLines (box) {
-      var result = [];
-      for (var id in this.model.lines) {
-        var line = this.model.lines[id];
+      const result = [];
+      for (let id in this.model.lines) {
+        const line = this.model.lines[id]
         if (line.from == box.id) {
-          result.push(line);
+          result.push(line)
         }
       }
-      result.sort(function(a, b) {
-        return a.id.localeCompare(b.id);
-      });
+      result.sort((a, b) => {
+        return a.id.localeCompare(b.id)
+      })
       return result;
     },
 

@@ -4,7 +4,6 @@
 </template>
 <script>
 
-
 export default {
 	name: 'TemplateMixin',
   methods: {
@@ -29,17 +28,17 @@ export default {
         }
       },
 
-      initRootTemplateLines () {
+      initRootTemplateLines (model) {
         this.logger.log(2,"initRootTemplateLines","enter > ");
         this._rootTemplateLines = {}
         Object
-          .values(this.model.widgets)
+          .values(model.widgets)
           .filter(w => w.isRootTemplate)
           .forEach(w => {
               const lines = this.getLinesForWidget(w)
               this._rootTemplateLines[w.template] = lines
           })
-        
+ 
       },
 
       getRootTemplateLines (templateId) {

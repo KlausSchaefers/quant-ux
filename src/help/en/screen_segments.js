@@ -37,6 +37,13 @@ export let texts = [
                 Please note that the screen background will not be copied. 
                 Set the background on the segment widget instead.
             </p>
+
+            You can also bind a screen segment to a data variable, to enbale dynamic chaning of the content.
+            In this case, the screen segment will load the screen, where the name matches the 
+            value in the variable. If the value is set to "Start", the start screen
+            will be loaded, if the value is "Welcome", the welcome screen will be loaded. 
+            <br>
+           
             
         `
     }

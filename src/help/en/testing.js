@@ -21,7 +21,7 @@ export let texts = [
           },
           {
             "id": "testing.landing",
-            "title": "Landing Page",
+            "title": "Test Settings",
             "body": `
                 When the users load the shared link, they will come to a landing page. On this page, they will
                 see a welcome message with an explanation as well as a list of tasks. You can customize the following settings:
@@ -33,8 +33,13 @@ export let texts = [
                         and what is expected from them.
                     </li>
                     <li>
-                        <b>Background Image</b>: You can upload a custom background image for the landing page. This allows you to keep
+                        <b>Splash Image</b>: You can upload a custom background image for the landing page. This allows you to keep
                         the test experience close to your brand.
+                    </li>
+                    <li>
+                        <b>Single Test per user</b>: Sometimes users open the prototype several times, which can mess up the 
+                        collected data. You can avoid the this, by enabling the checkbox "Record data only for the 
+                        first time a user tests the prototype." If checked, only the first test session is recorded.
                     </li>
                 </ol>
             `
