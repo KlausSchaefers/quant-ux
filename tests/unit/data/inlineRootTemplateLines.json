@@ -29,7 +29,7 @@
         "props" : {
           "start" : true
         },
-        "children" : [ "w10010_64394", "w10011_99144", "w10012_64177" ],
+        "children" : [ "w10020_45447", "w10042_65909", "w10043_77993", "w10044_37073", "w10045_59956", "w10046_39700" ],
         "id" : "s10000_30036"
       },
       "s10001_48270" : {
@@ -52,8 +52,31 @@
         "props" : {
           "start" : false
         },
-        "children" : [ "w10014_83450", "w10015_93355", "w10016_2505" ],
+        "children" : [ "w10021_92950", "w10048_69279", "w10049_83724", "w10050_49500", "w10051_92201", "w10058_6248" ],
         "id" : "s10001_48270"
+      },
+      "s10022_96174" : {
+        "x" : 2185,
+        "y" : 1070,
+        "h" : 667,
+        "w" : 375,
+        "name" : "Screen 2",
+        "type" : "Screen",
+        "style" : {
+          "background" : "#ffffff"
+        },
+        "min" : {
+          "w" : 375,
+          "h" : 667
+        },
+        "has" : {
+          "image" : true
+        },
+        "props" : {
+          "start" : false
+        },
+        "children" : [ "w10024_21981", "w10053_21535", "w10054_89367", "w10055_22261", "w10056_46766", "w10059_8122" ],
+        "id" : "s10022_96174"
       }
     },
     "widgets" : {
@@ -79,7 +102,7 @@
         "style" : { },
         "id" : "w10002_51920",
         "created" : 1675970660381,
-        "modified" : 1675970709148,
+        "modified" : 1675972576457,
         "template" : "tw10007_88301",
         "isRootTemplate" : true
       },
@@ -105,7 +128,7 @@
         "actions" : { },
         "style" : { },
         "created" : 1675970664301,
-        "modified" : 1675970709148,
+        "modified" : 1675972576457,
         "template" : "tw10008_36345",
         "isRootTemplate" : true
       },
@@ -113,7 +136,7 @@
         "id" : "w10004_11122",
         "type" : "Button",
         "name" : "Button 1",
-        "x" : 1376,
+        "x" : 1360,
         "y" : 926,
         "w" : 100,
         "h" : 40,
@@ -131,19 +154,188 @@
         "actions" : { },
         "style" : { },
         "created" : 1675970690717,
-        "modified" : 1675970709148,
+        "modified" : 1675972576458,
         "copyOf" : "w10003_11460",
         "template" : "tw10009_39989",
         "isRootTemplate" : true
       },
-      "w10010_64394" : {
+      "w10020_45447" : {
+        "type" : "Label",
+        "name" : "Label",
+        "x" : 1369,
+        "y" : 1235,
+        "w" : 102,
+        "h" : 100,
+        "z" : 10,
+        "props" : {
+          "label" : "1"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : "Auto",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#333333",
+          "textShadow" : null
+        },
+        "id" : "w10020_45447",
+        "created" : 1675971525944,
+        "modified" : 1675971526794
+      },
+      "w10021_92950" : {
+        "type" : "Label",
+        "name" : "Label",
+        "x" : 1820,
+        "y" : 1217,
+        "w" : 84,
+        "h" : 105,
+        "z" : 11,
+        "props" : {
+          "label" : "2"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : "Auto",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#333333",
+          "textShadow" : null
+        },
+        "id" : "w10021_92950",
+        "created" : 1675971527996,
+        "modified" : 1675971528810
+      },
+      "w10024_21981" : {
+        "type" : "Label",
+        "name" : "Label",
+        "x" : 2246,
+        "y" : 1259,
+        "w" : 108,
+        "h" : 80,
+        "z" : 12,
+        "props" : {
+          "label" : "3"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : "Auto",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#333333",
+          "textShadow" : null
+        },
+        "id" : "w10024_21981",
+        "created" : 1675971687277,
+        "modified" : 1675971688628
+      },
+      "w10031_99867" : {
+        "id" : "w10031_99867",
+        "type" : "DropDown",
+        "name" : "MasterDropDown",
+        "x" : 1475,
+        "y" : 927,
+        "w" : 104,
+        "h" : 40,
+        "z" : 4,
+        "props" : {
+          "options" : [ "1", "2", "3" ],
+          "databinding" : {
+            "default" : "dropdown",
+            "options" : "xxx"
+          }
+        },
+        "has" : {
+          "onclick" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "data" : true,
+          "padding" : true,
+          "label" : true
+        },
+        "style" : { },
+        "created" : 1675972114400,
+        "modified" : 1675972576458,
+        "template" : "tw10032_84953",
+        "isRootTemplate" : true
+      },
+      "w10036_82794" : {
+        "id" : "w10036_82794",
+        "name" : "Or",
+        "type" : "LogicOr",
+        "x" : 1733,
+        "y" : 895,
+        "w" : 80,
+        "h" : 80,
+        "props" : {
+          "label" : "Or"
+        },
+        "has" : {
+          "logic" : true
+        },
+        "style" : {
+          "background" : "#777"
+        },
+        "z" : 17,
+        "created" : 1675972171988
+      },
+      "w10042_65909" : {
+        "type" : "Label",
+        "name" : "Label 1",
+        "x" : 1222,
+        "y" : 1150,
+        "w" : 114,
+        "h" : 33,
+        "z" : 18,
+        "props" : {
+          "label" : "v:&nbsp;{0}",
+          "databinding" : {
+            "default" : "dropdown"
+          }
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : "Auto",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#333333",
+          "textShadow" : null
+        },
+        "id" : "w10042_65909",
+        "created" : 1675972329648,
+        "modified" : 1675972344376
+      },
+      "w10043_77993" : {
         "type" : "Button",
         "name" : "Box",
         "x" : 1185,
         "y" : 1059,
         "w" : 375,
         "h" : 58,
-        "z" : 4,
+        "z" : 19,
         "props" : {
           "label" : ""
         },
@@ -156,21 +348,21 @@
         },
         "actions" : { },
         "style" : { },
-        "id" : "w10010_64394",
-        "created" : 1675970711916,
-        "modified" : 1675970714783,
+        "id" : "w10043_77993",
+        "created" : 1675972453256,
+        "modified" : 1675972456270,
         "template" : "tw10007_88301",
         "copyOf" : "w10002_51920"
       },
-      "w10011_99144" : {
-        "id" : "w10011_99144",
+      "w10044_37073" : {
+        "id" : "w10044_37073",
         "type" : "Button",
         "name" : "Button",
         "x" : 1213,
         "y" : 1068,
         "w" : 100,
         "h" : 40,
-        "z" : 5,
+        "z" : 20,
         "props" : {
           "label" : "Page 1"
         },
@@ -183,20 +375,20 @@
         },
         "actions" : { },
         "style" : { },
-        "created" : 1675970711916,
-        "modified" : 1675970714783,
+        "created" : 1675972453256,
+        "modified" : 1675972456270,
         "template" : "tw10008_36345",
         "copyOf" : "w10003_11460"
       },
-      "w10012_64177" : {
-        "id" : "w10012_64177",
+      "w10045_59956" : {
+        "id" : "w10045_59956",
         "type" : "Button",
         "name" : "Button 1",
-        "x" : 1341,
+        "x" : 1325,
         "y" : 1068,
         "w" : 100,
         "h" : 40,
-        "z" : 6,
+        "z" : 21,
         "props" : {
           "label" : "Page 2"
         },
@@ -209,19 +401,48 @@
         },
         "actions" : { },
         "style" : { },
-        "created" : 1675970711916,
-        "modified" : 1675970714783,
+        "created" : 1675972453257,
+        "modified" : 1675972456270,
         "copyOf" : "w10004_11122",
         "template" : "tw10009_39989"
       },
-      "w10014_83450" : {
+      "w10046_39700" : {
+        "id" : "w10046_39700",
+        "type" : "DropDown",
+        "name" : "MasterDropDown",
+        "x" : 1440,
+        "y" : 1069,
+        "w" : 104,
+        "h" : 40,
+        "z" : 22,
+        "props" : {
+          "options" : [ "1", "2", "3" ],
+          "databinding" : {
+            "default" : "dropdown"
+          }
+        },
+        "has" : {
+          "onclick" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "data" : true,
+          "padding" : true,
+          "label" : true
+        },
+        "style" : { },
+        "created" : 1675972453257,
+        "modified" : 1675972456271,
+        "template" : "tw10032_84953",
+        "copyOf" : "w10031_99867"
+      },
+      "w10048_69279" : {
         "type" : "Button",
-        "name" : "Box 1",
+        "name" : "Box",
         "x" : 1699,
         "y" : 1070,
         "w" : 375,
         "h" : 58,
-        "z" : 7,
+        "z" : 23,
         "props" : {
           "label" : ""
         },
@@ -234,21 +455,21 @@
         },
         "actions" : { },
         "style" : { },
-        "id" : "w10014_83450",
-        "created" : 1675970715860,
-        "modified" : 1675970717869,
+        "id" : "w10048_69279",
+        "created" : 1675972473301,
+        "modified" : 1675972475237,
         "template" : "tw10007_88301",
-        "copyOf" : "w10010_64394"
+        "copyOf" : "w10002_51920"
       },
-      "w10015_93355" : {
-        "id" : "w10015_93355",
+      "w10049_83724" : {
+        "id" : "w10049_83724",
         "type" : "Button",
-        "name" : "Button 2",
+        "name" : "Button",
         "x" : 1727,
         "y" : 1079,
         "w" : 100,
         "h" : 40,
-        "z" : 8,
+        "z" : 24,
         "props" : {
           "label" : "Page 1"
         },
@@ -261,20 +482,20 @@
         },
         "actions" : { },
         "style" : { },
-        "created" : 1675970715860,
-        "modified" : 1675970717869,
+        "created" : 1675972473301,
+        "modified" : 1675972475237,
         "template" : "tw10008_36345",
-        "copyOf" : "w10011_99144"
+        "copyOf" : "w10003_11460"
       },
-      "w10016_2505" : {
-        "id" : "w10016_2505",
+      "w10050_49500" : {
+        "id" : "w10050_49500",
         "type" : "Button",
-        "name" : "Button 2",
-        "x" : 1855,
+        "name" : "Button 1",
+        "x" : 1839,
         "y" : 1079,
         "w" : 100,
         "h" : 40,
-        "z" : 9,
+        "z" : 25,
         "props" : {
           "label" : "Page 2"
         },
@@ -287,10 +508,212 @@
         },
         "actions" : { },
         "style" : { },
-        "created" : 1675970715860,
-        "modified" : 1675970717869,
-        "copyOf" : "w10012_64177",
+        "created" : 1675972473301,
+        "modified" : 1675972475237,
+        "copyOf" : "w10004_11122",
         "template" : "tw10009_39989"
+      },
+      "w10051_92201" : {
+        "id" : "w10051_92201",
+        "type" : "DropDown",
+        "name" : "MasterDropDown",
+        "x" : 1954,
+        "y" : 1080,
+        "w" : 104,
+        "h" : 40,
+        "z" : 26,
+        "props" : {
+          "options" : [ "1", "2", "3" ],
+          "databinding" : {
+            "default" : "dropdown"
+          }
+        },
+        "has" : {
+          "onclick" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "data" : true,
+          "padding" : true,
+          "label" : true
+        },
+        "style" : { },
+        "created" : 1675972473301,
+        "modified" : 1675972475237,
+        "template" : "tw10032_84953",
+        "copyOf" : "w10031_99867"
+      },
+      "w10053_21535" : {
+        "type" : "Button",
+        "name" : "Box",
+        "x" : 2185,
+        "y" : 1070,
+        "w" : 375,
+        "h" : 58,
+        "z" : 27,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : { },
+        "id" : "w10053_21535",
+        "created" : 1675972477727,
+        "modified" : 1675972479492,
+        "template" : "tw10007_88301",
+        "copyOf" : "w10002_51920"
+      },
+      "w10054_89367" : {
+        "id" : "w10054_89367",
+        "type" : "Button",
+        "name" : "Button",
+        "x" : 2213,
+        "y" : 1079,
+        "w" : 100,
+        "h" : 40,
+        "z" : 28,
+        "props" : {
+          "label" : "Page 1"
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "actions" : { },
+        "style" : { },
+        "created" : 1675972477727,
+        "modified" : 1675972479492,
+        "template" : "tw10008_36345",
+        "copyOf" : "w10003_11460"
+      },
+      "w10055_22261" : {
+        "id" : "w10055_22261",
+        "type" : "Button",
+        "name" : "Button 1",
+        "x" : 2325,
+        "y" : 1079,
+        "w" : 100,
+        "h" : 40,
+        "z" : 29,
+        "props" : {
+          "label" : "Page 2"
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "actions" : { },
+        "style" : { },
+        "created" : 1675972477727,
+        "modified" : 1675972479492,
+        "copyOf" : "w10004_11122",
+        "template" : "tw10009_39989"
+      },
+      "w10056_46766" : {
+        "id" : "w10056_46766",
+        "type" : "DropDown",
+        "name" : "MasterDropDown",
+        "x" : 2440,
+        "y" : 1080,
+        "w" : 104,
+        "h" : 40,
+        "z" : 30,
+        "props" : {
+          "options" : [ "1", "2", "3" ],
+          "databinding" : {
+            "default" : "dropdown"
+          }
+        },
+        "has" : {
+          "onclick" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "data" : true,
+          "padding" : true,
+          "label" : true
+        },
+        "style" : { },
+        "created" : 1675972477727,
+        "modified" : 1675972479492,
+        "template" : "tw10032_84953",
+        "copyOf" : "w10031_99867"
+      },
+      "w10058_6248" : {
+        "type" : "Label",
+        "name" : "Label 1",
+        "x" : 1736,
+        "y" : 1161,
+        "w" : 114,
+        "h" : 33,
+        "z" : 31,
+        "props" : {
+          "label" : "v:&nbsp;{0}",
+          "databinding" : {
+            "default" : "dropdown"
+          }
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : "Auto",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#333333",
+          "textShadow" : null
+        },
+        "id" : "w10058_6248",
+        "created" : 1675972497241,
+        "modified" : 1675972344376,
+        "copyOf" : "w10042_65909"
+      },
+      "w10059_8122" : {
+        "type" : "Label",
+        "name" : "Label 1",
+        "x" : 2222,
+        "y" : 1161,
+        "w" : 114,
+        "h" : 33,
+        "z" : 32,
+        "props" : {
+          "label" : "v:&nbsp;{0}",
+          "databinding" : {
+            "default" : "dropdown"
+          }
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : "Auto",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#333333",
+          "textShadow" : null
+        },
+        "id" : "w10059_8122",
+        "created" : 1675972497903,
+        "modified" : 1675972344376,
+        "copyOf" : "w10042_65909"
       }
     },
     "lines" : {
@@ -307,32 +730,95 @@
         "to" : "s10001_48270",
         "points" : [ ],
         "event" : "click"
+      },
+      "l10037_3694" : {
+        "id" : "l10037_3694",
+        "from" : "w10031_99867",
+        "to" : "w10036_82794",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "l10040_49684" : {
+        "id" : "l10040_49684",
+        "from" : "w10036_82794",
+        "to" : "s10000_30036",
+        "points" : [ ],
+        "event" : "click",
+        "rule" : {
+          "restResponseStatus" : "200",
+          "databinding" : "dropdown",
+          "widget" : null,
+          "operation" : null,
+          "value" : "1",
+          "type" : "databinding",
+          "operator" : "=="
+        }
+      },
+      "l10041_22819" : {
+        "id" : "l10041_22819",
+        "from" : "w10036_82794",
+        "to" : "s10001_48270",
+        "points" : [ ],
+        "event" : "click",
+        "rule" : {
+          "restResponseStatus" : "200",
+          "databinding" : "dropdown",
+          "widget" : null,
+          "operation" : null,
+          "value" : "2",
+          "type" : "databinding",
+          "operator" : "=="
+        }
+      },
+      "l10060_12492" : {
+        "id" : "l10060_12492",
+        "from" : "w10036_82794",
+        "to" : "s10022_96174",
+        "points" : [ ],
+        "event" : "click",
+        "rule" : {
+          "restResponseStatus" : "200",
+          "databinding" : "dropdown",
+          "widget" : null,
+          "operation" : null,
+          "value" : "3",
+          "type" : "databinding",
+          "operator" : "=="
+        }
       }
     },
     "groups" : {
       "g10005_49713" : {
         "id" : "g10005_49713",
-        "children" : [ "w10002_51920", "w10003_11460", "w10004_11122" ],
+        "children" : [ "w10002_51920", "w10003_11460", "w10004_11122", "w10031_99867" ],
         "groups" : [ ],
         "name" : "Group",
         "template" : "tg10006_8465",
         "isRootTemplate" : true
       },
-      "g10013_84976" : {
-        "id" : "g10013_84976",
-        "children" : [ "w10010_64394", "w10011_99144", "w10012_64177" ],
+      "g10047_8825" : {
+        "id" : "g10047_8825",
+        "children" : [ "w10043_77993", "w10044_37073", "w10045_59956", "w10046_39700" ],
         "groups" : [ ],
         "copyOf" : "g10005_49713",
         "template" : "tg10006_8465",
         "name" : "Group"
       },
-      "g10017_99212" : {
-        "id" : "g10017_99212",
-        "children" : [ "w10014_83450", "w10015_93355", "w10016_2505" ],
+      "g10052_34065" : {
+        "id" : "g10052_34065",
+        "children" : [ "w10048_69279", "w10049_83724", "w10050_49500", "w10051_92201" ],
         "groups" : [ ],
-        "copyOf" : "g10013_84976",
+        "copyOf" : "g10005_49713",
         "template" : "tg10006_8465",
-        "name" : "Group 1"
+        "name" : "Group"
+      },
+      "g10057_2292" : {
+        "id" : "g10057_2292",
+        "children" : [ "w10053_21535", "w10054_89367", "w10055_22261", "w10056_46766" ],
+        "groups" : [ ],
+        "copyOf" : "g10005_49713",
+        "template" : "tg10006_8465",
+        "name" : "Group"
       }
     },
     "templates" : {
@@ -342,7 +828,7 @@
         "templateType" : "Group",
         "visible" : true,
         "name" : "Navbar",
-        "children" : [ "tw10007_88301", "tw10008_36345", "tw10009_39989" ],
+        "children" : [ "tw10007_88301", "tw10008_36345", "tw10009_39989", "tw10032_84953" ],
         "groups" : [ ],
         "w" : 375,
         "h" : 58
@@ -394,7 +880,7 @@
         "type" : "Button",
         "visible" : false,
         "name" : "Box",
-        "modified" : 1675970709147,
+        "modified" : 1675972576457,
         "created" : 1675970709147
       },
       "tw10008_36345" : {
@@ -444,7 +930,7 @@
         "type" : "Button",
         "visible" : false,
         "name" : "Button",
-        "modified" : 1675970709147,
+        "modified" : 1675972576457,
         "created" : 1675970709147
       },
       "tw10009_39989" : {
@@ -488,19 +974,71 @@
         "w" : 100,
         "h" : 40,
         "z" : 2,
-        "x" : 156,
+        "x" : 140,
         "y" : 9,
         "templateType" : "Widget",
         "type" : "Button",
         "visible" : false,
         "name" : "Button 1",
-        "modified" : 1675970709147,
+        "modified" : 1675972576458,
         "created" : 1675970709147
+      },
+      "tw10032_84953" : {
+        "id" : "tw10032_84953",
+        "style" : {
+          "borderTopRightRadius" : 3,
+          "borderTopLeftRadius" : 3,
+          "borderBottomRightRadius" : 3,
+          "borderBottomLeftRadius" : 3,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "background" : "#ffffff",
+          "popupBackground" : "#ffffff",
+          "popupColor" : "#333333",
+          "color" : "#333333",
+          "fontSize" : 18,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "paddingTop" : 5,
+          "paddingBottom" : 5,
+          "paddingLeft" : 6,
+          "paddingRight" : 6,
+          "selectedOptionColor" : "#333333",
+          "selectedOptionBackground" : "#f2f2f2"
+        },
+        "has" : {
+          "onclick" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "data" : true,
+          "padding" : true,
+          "label" : true
+        },
+        "props" : {
+          "options" : [ "Option 1", "Option 2", "Option 3" ]
+        },
+        "w" : 104,
+        "h" : 40,
+        "z" : 3,
+        "x" : 255,
+        "y" : 10,
+        "templateType" : "Widget",
+        "type" : "DropDown",
+        "visible" : false,
+        "name" : "MasterDropDown",
+        "modified" : 1675972576458,
+        "created" : 1675972141959
       }
     },
     "designtokens" : { },
-    "lastUUID" : 10020,
-    "lastUpdate" : 1675970726233,
+    "lastUUID" : 10061,
+    "lastUpdate" : 1675972576462,
     "created" : 1675970648903,
     "startScreen" : "",
     "grid" : {
@@ -513,8 +1051,8 @@
     },
     "domain" : "Quant-UX.com",
     "isDirty" : true,
-    "screenCount" : 2,
-    "widgetCount" : 9,
+    "screenCount" : 3,
+    "widgetCount" : 23,
     "lastCategory" : "WireFrame",
     "id" : "63e5485805d72326567f5139"
   }

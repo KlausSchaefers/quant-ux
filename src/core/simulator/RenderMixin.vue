@@ -465,14 +465,14 @@ export default {
 					const rootLines = this.getRootTemplateLines(widget.template)
 					if (rootLines && rootLines.length > 0) {
 						css.add(w, "MatcSimulatorClickable");
-					}
-					if (!lines) {
-						this.logger.log(1, 'wireWidget', 'Add root template lines ', widget.name )
 						/**
 						 * Since 4.2.26 we also use root template lines
 						 */
-						lines = rootLines
-					}				
+						if (!lines) {
+							this.logger.log(1, 'wireWidget', 'Add root template lines ', widget.name)						
+							lines = rootLines
+						}		
+					}
 				}
 			}
 
