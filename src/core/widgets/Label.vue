@@ -85,8 +85,9 @@ export default {
     _setDataBindingValue (v) {
       if (this.isQDate(v)) {
         v = this.convertQDateToString(v);
-      }
-      if (typeof v === 'object' && !Array.isArray(v) && v !== null) {
+      } else if (this.isQDateRange(v)) {
+        v = this.convertQDateToString(v.from) + ' - ' + this.convertQDateToString(v.to);
+      } else if (typeof v === 'object' && !Array.isArray(v) && v !== null) {
         try {
           v = JSON.stringify(v, '  ', 2)
         } catch (err) {

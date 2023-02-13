@@ -707,6 +707,11 @@ export default {
       return d && d.d != null && d.m != null && d.y != null;
     },
 
+    isQDateRange: function(d) {
+      return d && this.isQDate(d.from) && this.isQDate(d.to)
+    },
+
+
     createNow: function() {
       return this.convertDateToQdate(new Date());
     },
