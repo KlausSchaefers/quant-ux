@@ -74,7 +74,7 @@
       <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
        
       </div>
-      <div class="MatcSimulatorVersion">v4.3.26 </div>
+      <div class="MatcSimulatorVersion">v4.3.30</div>
     </div>
   </div>
 </template>
@@ -109,6 +109,7 @@ import EventMixin from 'core/simulator/EventMixin'
 import TemplateMixin from 'core/simulator/TemplateMixin'
 import ScriptMixin from 'core/simulator/ScriptMixin'
 import TooltipMixin from 'core/simulator/TooltipMixin'
+import Preloader from 'core/simulator/Preloader'
 
 import ModelUtil from 'core/ModelUtil'
 
@@ -399,39 +400,7 @@ export default {
 		preloadImages (){
 			this.logger.log(2,"preloadImages","enter");
 
-			const div = document.createElement("div");
-			css.add(div, "MatcSimulatorImagePreloader");
-			this.domNode.appendChild(div);
-
-			for(let id in this.model.screens){
-				const box = this.model.screens[id];
-				if(box.style && box.style.backgroundImage){
-					const img = document.createElement("img");
-					img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
-					div.appendChild(img);
-				}
-			}
-
-			for(let id in this.model.widgets){
-				const box = this.model.widgets[id];
-				if(box.style && box.style.backgroundImage){
-					const img = document.createElement("img");
-					img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
-					div.appendChild(img);
-				}
-			}
-
-			// since 4.0.81 we preload the icon webfont as well
-			const icons = Object
-				.values(this.model.widgets)
-				.filter(w => w.type === 'Icon')
-			
-			if (icons.length > 0) {
-				const span = document.createElement("span");
-				span.className = 'mdi mdi-android'
-				div.appendChild(span);
-				this.logger.log(-1,"preloadImages","load icons", span);
-			}
+			Preloader.load(this.model, this.hash, this.domNode)	
 
 			this.logger.log(3,"preloadImages","exit");
 		},
@@ -550,8 +519,24 @@ export default {
 
 		getRootNode () {
 			if (this.isDesktopTest) {
-				return this.domNode.parentNode;
+				if (this.scrollListenTarget === 'simpleBar'){
+					let node = this.domNode.parentNode;
+					while (node) {
+						if (node && node.classList?.contains('MatchSimulatorContainer')) {
+							this.logger.log(1,"getRootNode","SimpleBar >>", node);
+							return node
+						}
+						node = node.parentNode
+					}
+					this.logger.error("getRootNode"," no simplebar root >> ");
+					return this.domNode.parentNode;
+				} else {
+					this.logger.log(1,"getRootNode"," parentNode >> ", this.domNode.parentNode);
+					return this.domNode.parentNode;
+				}
+		
 			} else {
+				this.logger.log(1,"getRootNode"," modeNode >> ", this.domNode);
 				return this.domNode;
 			}
 		},

@@ -1026,9 +1026,10 @@ export default {
 				div.style.position = "fixed";
 
 				if (parentBox) {
-
-					if (this.isPinnedDown(box)) {
+					const screenPosY = Math.max(0, screenPos.y)
+					const screenPosX = Math.max(0, screenPos.x)
 					
+					if (this.isPinnedDown(box)) {
 						/**
 						 * Since 4.0.60 pinned to bottom is also supported in simulator
 						 */
@@ -1036,10 +1037,10 @@ export default {
 							const distanceFromBottom = this.getDistanceFromScreenBottom(box, parentBox, this.model)
 							div.style.bottom = distanceFromBottom + "px";
 						} else {
-							const distanceToTop =  this.getDistanceFromScreenTop(box, parentBox, this.model) + screenPos.y
+							const distanceToTop =  this.getDistanceFromScreenTop(box, parentBox, this.model) + screenPosY
 							div.style.top = distanceToTop + "px";
 						}
-						div.style.left = (box.x - parentBox.x) + screenPos.x + "px";
+						div.style.left = (box.x - parentBox.x) + screenPosX + "px";
 						this.logger.log(2,"createBOx","isPinnedDown > " + box.name);
 
 					} else {
@@ -1049,8 +1050,6 @@ export default {
 						 * scrolls (negative y). If issues continue, 
 						 * do branch in this.isDesktopTest
 						 */
-						const screenPosY = Math.max(0, screenPos.y)
-						const screenPosX = Math.max(0, screenPos.x)
 						const top = Math.max(0, (box.y - parentBox.y) + screenPosY)
 						const left = Math.max(0, (box.x - parentBox.x) + screenPosX)
 						div.style.top = top + "px";

@@ -43,26 +43,26 @@ export default {
       this.wired = true;
     },
 
-    onOpenPopup: function(e) {
+    onOpenPopup (e) {
       this.stopEvent(e);
       this.emitNoTransitionStateChange("open", this.screenScrollTop, e);
       this.renderMobilePopup(this.screenScrollTop);
       return false;
     },
 
-    renderMobilePopup: function() {
+    renderMobilePopup () {
       if (!this._isMobileOpen) {
-        var screen = this.getScreenDiv();
+        const screen = this.getScreenDiv();
 
         if (screen) {
-          var db = new DomBuilder();
+          const db = new DomBuilder();
           this.mobileBackGround = db
             .div("MatchWidgetTypeDropDownMobilePopupBackground")
             .build(screen);
 
-          var style = this.style;
+          const style = this.style;
 
-          var popup = db.div("MatchWidgetTypeDropDownMobilePopup").build();
+          const popup = db.div("MatchWidgetTypeDropDownMobilePopup").build();
           if (style.popupShadow) {
             this._setShadow(popup, style.popupShadow);
           }
@@ -91,16 +91,16 @@ export default {
             popup.style.borderRadius = this._getBorderWidth(10) + "px";
           }
 
-          var cntr = db
+          const cntr = db
             .div("MatchWidgetTypeDropDownMobilePopupCntr")
             .build(popup);
 
-          var fontSize = this._getBorderWidth(20) + "px";
-          var padding = this._getBorderWidth(20) + "px";
-          var radioSize = this._getBorderWidth(20) + "px";
+          const fontSize = this._getBorderWidth(20) + "px";
+          const padding = this._getBorderWidth(20) + "px";
+          const radioSize = this._getBorderWidth(20) + "px";
 
-          var optionNodes = [];
-          var options = this.model.props.options;
+          const optionNodes = [];
+          const options = this.model.props.options;
           for (let i = 0; i < options.length; i++) {
             let option = options[i];
             let node = db.div("MatcWidgetTypeDropDownMobileOption", option).build(cntr);
@@ -148,9 +148,9 @@ export default {
           /**
            *  Set position of the popup...
            */
-          var popPos = domGeom.position(popup);
+          const popPos = domGeom.position(popup);
           // var screenPos = domGeom.position(screen);
-          var cntrPos = Math.round(domGeom.position(cntr).h) + "px";
+          const cntrPos = Math.round(domGeom.position(cntr).h) + "px";
 
           /**
            * 1) Get offset from top and 10% or around center
@@ -163,11 +163,11 @@ export default {
            *
            * 5) Disable scrolling in simulator!
            */
-          var app = this.factory.model;
-          var screenHeight = app.screenSize.h;
+          const app = this.factory.model;
+          const screenHeight = app.screenSize.h;
           // var offsetY = Math.round(screenPos.h * scrollTop);
-          var popupHeight = Math.round(Math.min(popPos.h, screenHeight * 0.8));
-          var top = Math.round((screenHeight - popupHeight) / 2);
+          const popupHeight = Math.round(Math.min(popPos.h, screenHeight * 0.8));
+          const top = Math.round((screenHeight - popupHeight) / 2);
           popup.style.height = popupHeight + "px";
           popup.style.top = top + "px";
 
@@ -203,15 +203,15 @@ export default {
 
           topic.publish("MatcSimulatorRenderFixedPopup", this.mobileBackGround);
 
-          setTimeout(function() {
+          setTimeout(() =>  {
             //css.add(popup, "MatchWidgetTypeDropDownMobilePopupShadow");
           }, 50);
         }
       }
     },
 
-    onPopupScroll: function() {
-      var value = this.getPopupScroll();
+    onPopupScroll () {
+      const value = this.getPopupScroll();
       if (!this._mobilePopupScrollInited) {
         this.initCompositeState(value);
         this._mobilePopupScrollInited = true;
@@ -220,7 +220,7 @@ export default {
       }
     },
 
-    onMobileOptionPress: function(option, e) {
+    onMobileOptionPress (option, e) {
       this.stopPropagation(e);
       this._mobilePressStart = this.getMouse(e);
 
@@ -237,7 +237,7 @@ export default {
       return false;
     },
 
-    onMobileOptionRelease: function(option, nodes, selected, e) {
+    onMobileOptionRelease (option, nodes, selected, e) {
       this.stopPropagation(e);
       var end = this.getMouse(e);
       if (this._mobilePressStart) {
@@ -256,7 +256,7 @@ export default {
       return false;
     },
 
-    cleanUpMobilePopup: function() {
+    cleanUpMobilePopup () {
       if (this._isMobileOpen) {
         this.emitCompositeState("popupScroll", this.getPopupScroll(), null);
         if (this.mobileBackGround && this.mobileBackGround.parentNode) {
@@ -278,7 +278,7 @@ export default {
       this._isMobileOpen = false;
     },
 
-    getPopupScroll: function() {
+    getPopupScroll () {
       if (this._mobileCntr && this._mobilePopupHeight) {
         var node = this._mobileCntr;
         var scrolTopInPX =
@@ -288,7 +288,7 @@ export default {
       return 0;
     },
 
-    setPopupScroll: function(value) {
+    setPopupScroll (value) {
       this.renderMobilePopup(this._mobileLastScrollTop);
       if (this._mobileCntr && this._mobilePopupHeight) {
         this._mobileCntr.style.top =
@@ -296,7 +296,7 @@ export default {
       }
     },
 
-    cleanUp: function() {
+    cleanUp () {
       this.cleanUpPopup();
 
       this.cleanUpMobilePopup();
@@ -308,9 +308,9 @@ export default {
       }
     },
 
-    setState: function(state, t) {
+    setState (state, t) {
       if (state) {
-        var type = state.type;
+        const type = state.type;
 
         switch (type) {
           case "select":
@@ -347,7 +347,7 @@ export default {
       }
     },
 
-    beforeDestroy: function() {
+    beforeDestroy () {
       this.cleanUp();
     }
   },

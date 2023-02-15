@@ -97,7 +97,7 @@ export default {
 				}
 			}
 
-			this.logger.log(-1, "initDataFromURL","exit ", this.dataBindingValues);
+			this.logger.log(2, "initDataFromURL","exit ", this.dataBindingValues);
 		},
 
 		setDataBindingByKey (path, value) {

@@ -14,8 +14,7 @@ export default {
 		 * Log animation events. Pos is relative for correct playback!
 		 */
 		logAnimationEvent (screenID, widgetID, anim, triggerType){
-
-			var event = lang.clone(anim.event);
+			const event = lang.clone(anim.event);
 			event.triggerType = triggerType;
 			if(event.to.pos){
 				event.to.pos = this.getRelativePosition(event.to.pos);
@@ -40,14 +39,13 @@ export default {
 		},
 
 		logSessionStart (screenID){
-
-				this.log("SessionStart",screenID, null, null, {
-					"device" : {
-						"w" : this.screenPos.w,
-						"h" : this.screenPos.h,
-						"qr" : this.qr
-					}
-				});
+			this.log("SessionStart",screenID, null, null, {
+				"device" : {
+					"w" : this.screenPos.w,
+					"h" : this.screenPos.h,
+					"qr" : this.qr
+				}
+			});
 		},
 
 		log (type, screenID, widgetID, e, widgetEvent){
@@ -55,9 +53,9 @@ export default {
 
 			topic.publish("MatcSimulatorEvent", type, screenID, widgetID);
 
-			var event = this.createBaseEvent(type, screenID, widgetID);
+			const event = this.createBaseEvent(type, screenID, widgetID);
 
-			var mouse = this.getMouse(e,this.isFixedPosition(widgetID));
+			const mouse = this.getMouse(e,this.isFixedPosition(widgetID));
 			event.x = mouse.x,
 			event.y = mouse.y;
 
@@ -113,7 +111,7 @@ export default {
 				this.sendEvent(event);
 			} else {
 				if (type!="Animation" && type!="MouseOut" && type!="MouseOver"){
-					console.debug("log() > NOT SAVED >> " , type, " > s:" , screenID, " > w:", widgetID, " > state:", event.state, " > anim:", event.animation, " > overlay:", event.overlay);
+					//console.debug("log() > NOT SAVED >> " , type, " > s:" , screenID, " > w:", widgetID, " > state:", event.state, " > anim:", event.animation, " > overlay:", event.overlay);
 				}
 			}
 
@@ -130,7 +128,7 @@ export default {
 		},
 
 		isFixedPosition (widgetID){
-			var widget = this.model.widgets[widgetID];
+			const widget = this.model.widgets[widgetID];
 			if(widget && widget.style.fixed){
 				return true;
 			}
@@ -149,9 +147,9 @@ export default {
 		 **********************************************************/
 
 		createBaseEvent (type, screenID, widgetID){
-			var user = this.getUser();
-			var session = this.getSession();
-			var event = {
+			const user = this.getUser();
+			const session = this.getSession();
+			const event = {
 				session : session,
 				user : user,
 				screen : screenID,
@@ -173,7 +171,7 @@ export default {
 			 * depending on the mode, we have to use different REST end points :-(
 			 */
 			if(this.qr || this.hash){
-				let res = await Services.getModelService().saveEvent(this.model.id, this.hash, event)
+				const res = await Services.getModelService().saveEvent(this.model.id, this.hash, event)
 				this.onSaved(res)
 			}
 			event = false

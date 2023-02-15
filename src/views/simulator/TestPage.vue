@@ -1,6 +1,6 @@
 
 <template>
-<div class="MatcPublic">
+<div :class="['MatcPublic', {'MatcWindows': hasWindows}]">
 	<div :class="['MatcTest', {'MatcTestCustomSplash': hasSplash}]" v-if="step < 10">
 		<div v-if="hasSplash" class="MatcTestCustomSplashPowered">Powered by Quant-UX</div> 
 
@@ -97,7 +97,7 @@
 		</div>
 	</div>
 	<div class="MatcTestVersion" v-if="step <= 1">
-		v4.3.25 
+		v4.3.30
 	</div>
 </div>
 </template>
@@ -124,6 +124,7 @@ import Dialog from 'common/Dialog'
 import has from 'dojo/has'
 import Services from 'services/Services'
 import Simulator from 'core/Simulator'
+import Preloader from 'core/simulator/Preloader'
 import QR from 'core/QR'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
@@ -147,11 +148,15 @@ export default {
 			passwordError: '',
 			simulatorEvents: [],
 			taskDone: {},
-			splashImage: null
+			splashImage: null,
+			forceSimpleBar: false,
         }
     },
     components: {},
 	computed: {
+		hasWindows () {
+			return navigator.platform.indexOf('Win') > -1
+		},
 		hasSplash () {
 			return this.splashImage !== null
 		},
@@ -205,7 +210,6 @@ export default {
 					target+="&log=true";
 				}
 				target += this.getDataQuery()
-				
 				location = target;
 				return;
 			}
@@ -274,7 +278,7 @@ export default {
 		async loadModelFromHash (hash) {
 			this.hash = hash;
 			if(hash){
-				let app = await Services.getModelService().findAppByHash(hash)
+				const app = await Services.getModelService().findAppByHash(hash)
 				this.setModel(app)
 			} else {
 				console.debug("loadModel() > Hash is missing in url")
@@ -377,52 +381,7 @@ export default {
 
 		preloadImages (model) {
 			this.logger.log(-1,"preloadImages","enter");
-
-			try {
-				const div = document.createElement("div");
-				css.add(div, "MatcSimulatorImagePreloader");
-				this.domNode.appendChild(div);
-
-				for(let id in model.screens){
-					const box = model.screens[id];
-					if(box.style && box.style.backgroundImage){
-						const img = document.createElement("img");
-						img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
-						div.appendChild(img);
-					}
-				}
-
-				for(let id in model.widgets){
-					const box = model.widgets[id];
-					if(box.style && box.style.backgroundImage){
-						const img = document.createElement("img");
-						img.style.backgroundImage = "url(/rest/images/" + this.hash + "/"  + box.style.backgroundImage.url +")";
-						div.appendChild(img);
-					}
-					
-				}
-
-				// since 4.0.81 we preload the icon webfont as well
-				const icons = Object
-					.values(model.widgets)
-					.filter(w => w.type === 'Icon')
-				
-				if (icons.length > 0) {
-					const span = document.createElement("span");
-					span.className = 'mdi mdi-android'
-					div.appendChild(span);
-					this.logger.log(-1,"preloadImages","load icons", span);
-				}
-
-				setTimeout(() => {
-					this.domNode.removeChild(div)
-					this.logger.log(-1,"preloadImages","exit & clean");
-				}, 1000)
-			} catch (e) {
-				this.logger.error("preloadImages","exit > error", e);
-			}
-
-		
+			Preloader.load(model, this.hash, this.domNode)	
 		},
 
 		renderTest (){
@@ -530,7 +489,7 @@ export default {
 			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
-			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container)
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, this.forceSimpleBar)
 
 			const s = this.createSimulator();
 			s.setResizeListener(size => {
@@ -580,7 +539,7 @@ export default {
 			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
-			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container)
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, this.forceSimpleBar)
 
 
 			const s = this.createSimulator();
@@ -622,13 +581,13 @@ export default {
 
 		createSimulator (){
 			if(this.debug){
-				let sim = this.$new(Simulator);
+				const sim = this.$new(Simulator);
 				sim.on('event', (e) => this.onSimulatorEvent(e))
-				sim.mode = "debug" // realy?
+				sim.mode = "debug"
 				sim.logData = false
 				return sim
 			} else {
-				let sim = this.$new(Simulator);
+				const sim = this.$new(Simulator);
 				sim.on('event', (e) => this.onSimulatorEvent(e))
 				sim.mode = "debug"
 				sim.logData = this.logging
@@ -639,6 +598,9 @@ export default {
     },
     mounted () {
 		css.add(win.body(), 'MatcPublic')
+		if (this.forceSimpleBar) {
+			console.error('forceSimpleBar')
+		}
     }
 }
 </script>

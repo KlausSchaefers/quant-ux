@@ -22,7 +22,7 @@ export default {
 				} else if (this.scrollListenTarget === 'simpleBar'){
 					// we have to wait for the simple scroll to change the DOM
 					setTimeout(() => {
-						const parent = this.domNode?.parentNode?.parentNode
+						const parent = this.getSimpleBarScrollParent()
 						if (parent) {
 							this.logger.log(-1,"initScroll","enter > simpleBar");
 							this.own(on(parent, "scroll", lang.hitch(this, "onScrollParent" )));
@@ -46,11 +46,15 @@ export default {
 			}
 		},
 
+		getSimpleBarScrollParent () {
+			const parent = this.domNode?.parentNode?.parentNode
+			return parent
+		},
+
 		/**********************************************************
 		 * Scrolling
 		 **********************************************************/
 		onVommondScroll (p, scrollTop){
-
 			this.onScroll(scrollTop);
 		},
 
@@ -213,25 +217,45 @@ export default {
 
 
 		scrollToTop (){
-			if(this.mode != "debug" && this.mode!= "recordFlow"){
-				this.logger.log(-1,"scrollToTop","enter");
+			this.logger.log(-1,"scrollToTop","enter > " + this.mode, this.scrollListenTarget);
+		
+			/**
+			 * In 4.2.30: Cleaned this up to be related to scroll target
+			 */
+			if (this.scrollListenTarget === "window") {
 				window.scrollTo(0, 0);
-				/**
-				 * Also set last scroll, so the onScroll() method will
-				 * ignore the event from this forced scrolling
-				 */
-				this.lastScroll = new Date().getTime();
-			} else {
-				if(this.scrollListenTarget !== "window"){
-					this.logger.log(-1,"scrollToTop","enter > parent");
-					this.domNode.parentNode.scrollTop = 0
+			} 
+			if (this.scrollListenTarget === 'parent'){
+				this.domNode.parentNode.scrollTop = 0
+			}
+			if (this.scrollListenTarget === 'simpleBar') {
+				const parent = this.getSimpleBarScrollParent()
+				if (parent) {
+					parent.scrollTop = 0
+				} else {
+					this.logger.error("scrollToTop","No simple bar");
 				}
 			}
+			// if(this.mode != "debug" && this.mode!= "recordFlow"){
+			// 	this.logger.log(-1,"scrollToTop","enter");
+			// 	window.scrollTo(0, 0);
+			// 	/**
+			// 	 * Also set last scroll, so the onScroll() method will
+			// 	 * ignore the event from this forced scrolling
+			// 	 */
+				
+			// } else {
+			// 	if(this.scrollListenTarget !== "window"){
+			// 		this.logger.log(-1,"scrollToTop","enter > parent");
+			// 		this.domNode.parentNode.scrollTop = 0
+			// 	}
+			// }
 
 			/**
 			 * Notify the ScrollContainer
 			 */
 			topic.publish("VommondScrollContainerScrollToTop");
+			this.lastScroll = new Date().getTime();
 			this.currentScrollTop = 0;
 			this.currentScrollTopRelative = 0;
 		}

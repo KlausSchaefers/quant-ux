@@ -771,6 +771,76 @@ export default {
 				this._setSectionLabel("Date Picker");
 			}
 
+			// const options = [
+			// 	{
+			// 		label: "Header Background",
+			// 		type: "color",
+			// 		value: style.headerBackground,
+			// 		key:'headerBackground',
+			// 		icon: 'mdi mdi-format-color-fill',
+			// 		isStyle: true
+			// 	},
+			// 	{
+			// 		label: "Header Color",
+			// 		type: "color",
+			// 		value: style.headerColor,
+			// 		key:'headerColor',
+			// 		icon: 'mdi mdi-pound',
+			// 		isStyle: true
+			// 	},
+
+			// 	{
+			// 		label: "Table Background",
+			// 		type: "color",
+			// 		value: style.tableHeaderBackground,
+			// 		key:'tableHeaderBackground',
+			// 		icon: 'mdi mdi-format-color-fill',
+			// 		isStyle: true
+			// 	},
+			// 	{
+			// 		label: "Table Color",
+			// 		type: "color",
+			// 		value: style.tableHeaderColor,
+			// 		key:'tableHeaderColor',
+			// 		icon: 'mdi mdi-pound',
+			// 		isStyle: true
+			// 	},
+
+				
+			// 	{
+			// 		label: "Popup Border",
+			// 		type: "color",
+			// 		value: style.popupBorderColor,
+			// 		key:'popupBorderColor',
+			// 		icon: 'mdi mdi-pound',
+			// 		isStyle: true
+			// 	}
+			// ]
+
+
+			// if(model.props.range){
+			// 	//this._renderBoxColor("Range", model, "selectedInRangeBackground", "selectedInRangeColor");
+			// 	options.push({
+			// 		label: "Range Background",
+			// 		type: "color",
+			// 		value: style.selectedInRangeBackground,
+			// 		key:'selectedInRangeBackground',
+			// 		icon: 'mdi mdi-pound',
+			// 		isStyle: true
+			// 	})
+			// 	options.push({
+			// 		label: "Range Color",
+			// 		type: "color",
+			// 		value: style.selectedInRangeColor,
+			// 		key:'selectedInRangeColor',
+			// 		icon: 'mdi mdi-pound',
+			// 		isStyle: true
+			// 	})
+			// }
+
+			// this._renderDropDownTree("Colors", "mdi mdi-format-color-fill", options)
+	
+
 			/**
 			 * FIXME: This should all go into a dialog!
 			 */
