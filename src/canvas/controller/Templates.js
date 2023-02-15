@@ -519,6 +519,7 @@ export default class Templates extends BaseController{
 					if (widget.id !== updatedWidget.id && widget?.props.label === template.props.label ) {
 						result.push({id: widget.id, type:'label', n: updatedWidget.props.label, o: widget.props.label})
 					}
+					// TODO: Update data binding props as well?
 				})
 			}
 		}
@@ -586,6 +587,8 @@ export default class Templates extends BaseController{
 		ModelUtil.updateTemplateStyle(widget, template, 'focus')
 		ModelUtil.updateTemplateStyle(widget, template, 'active')
 		ModelUtil.updateTemplateStyle(widget, template, 'hover')
+
+		// We should also update props??
 
 		// update modified on all variants, to rendering can pick up changes
 		this.modelUpdateTemplateVariants(template, this.model, modified)
