@@ -24,6 +24,7 @@ export default {
 				"ToggleButton" : "active",
 				"SegmentButton" : "options",
 				"DropDown" : "options",
+				"MobileDropDown" : "options",
 				"TextBox" : "string",
 				"TextArea" : "string",
 				"Password" : "string",
@@ -209,6 +210,7 @@ export default {
 
 
 		renderValue (rule){
+			console.debug('renderValue', rule)
 			if (rule.widget && rule.operator && rule.operator != "isValid") {
 				let widget = this.model.widgets[rule.widget];
 				if (widget) {
@@ -223,8 +225,7 @@ export default {
 				} else {
 					console.debug("renderValue() > No widget with id", rule.widget);
 				}
-			}
-			else if (rule.databinding && rule.operator) {
+			} else if (rule.databinding && rule.operator) {
 				let row = this.db.div("form-group").build(this.domNode);
 				let text = this.db.formGroup("MatcIgnoreOnKeyPress", "Value", rule.value, "").build(row);
 				this.tempOwn(on(text, "keyup", lang.hitch(this, "setRuleValueText", text)));
@@ -232,8 +233,6 @@ export default {
 				let rowCheckBox = this.db.div("form-group").build(this.domNode);
 				this.renderValue_isBinding(rowCheckBox, rule)
 			}
-
-
 		},
 
 		renderValue_options (row, widget, rule){
@@ -437,6 +436,7 @@ export default {
 			this.value.operator = null;
 			this.value.value = null;
 			this.value.databinding = null;
+			this.value.widget = null;
 			this.render(this.value);
 			this._onChange();
 		},
