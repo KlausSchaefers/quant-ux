@@ -82,14 +82,16 @@ export default {
 			}
 			this.groupName.blur();
 
-			var fixed = true;
-			for(var i=0; i< model.children.length;i++){
-				var id = model.children[i];
-				var widget = this.model.widgets[id];
+			let fixed = true;
+			const children = this.getAllGroupChildren(model)
+			for(let i=0; i< children.length;i++){
+				const id = children[i];
+				const widget = this.model.widgets[id];
 				if (widget) {
 					fixed = fixed && widget.style.fixed === true;
 				}
 			}
+	
 
 			if(this.screenExport && this.screenDownloadDiv) {
 				css.remove(this.screenDownloadDiv, "MatcToolbarSectionHidden");
@@ -99,31 +101,25 @@ export default {
 		},
 
 		showGroupDataProperties (model) {
-
 			css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
 			css.remove(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")
-
 			this.groupActionBTN.setValue(model);
 			this.groupName.value = model.name ? model.name : "";
 			this.groupName.blur();
 			this.lowCodeSection.setValue(model, true)
 			this.lowCodeResponsiveSection.setValue(model, true)
-
 		},
 
 		showMultiProperties (ids){
 
 			this.showProperties();
-
 			if(this.widgetAlignDiv){
 				css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
 			}
-
-			if(ids.length >2){
+			if(ids.length > 2){
 				this.showDistButtons(ids);
 			}
-
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 			css.remove(this.multiPositionDiv, "MatcToolbarSectionHidden");
 

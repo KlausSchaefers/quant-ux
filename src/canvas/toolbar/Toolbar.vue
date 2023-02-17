@@ -1716,7 +1716,8 @@ export default {
 			} else if(this._selectedMulti){
 				this.controller.updateMultiProperties(this._selectedMulti, newSytle, modelKey);
 			}else if(this._selectedGroup){
-				this.controller.updateMultiProperties(this._selectedGroup.children, newSytle, modelKey);
+				const children = this.getAllGroupChildren(this._selectedGroup)
+				this.controller.updateMultiProperties(children, newSytle, modelKey);
 			}
 			return false;
 		},

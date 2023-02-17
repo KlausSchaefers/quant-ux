@@ -512,7 +512,8 @@ export default {
 			}
 
 			if (this.isDebug && node.z !== undefined) {
-				node.label += ` [${node.z}]`
+				const suffix = box.style.fixed ? '*': ''
+				node.label += ` [${node.z}${suffix}]`
 			}
 			
 			if (box.type === 'SVGPaths') {

@@ -337,15 +337,15 @@ export default {
 				widget = this.model.widgets[widget.inherited];
 			}
 
-			var widgetID = widget.id;
-			var lines = this.getFromLines(widget);
+			const widgetID = widget.id;
+			const lines = this.getFromLines(widget);
 			if(lines && lines.length > 0){
 				return lines;
 			}
 
-			var group = this.getParentGroup(widgetID);
+			const group = this.getParentGroup(widgetID);
 			if(group){
-				let groupLine = this.getFromLines(group);
+				const groupLine = this.getFromLines(group);
 				if(groupLine && groupLine.length > 0){
 					return groupLine;
 				}
@@ -353,9 +353,9 @@ export default {
 			/**
 			* Since 2.1.3 we use might have sub groups.
 			*/
-			var topGroup = this.getTopParentGroup(widgetID);
+			const topGroup = this.getTopParentGroup(widgetID);
 			if(topGroup){
-				let groupLine = this.getFromLines(topGroup);
+				const groupLine = this.getFromLines(topGroup);
 				if(groupLine && groupLine.length > 0){
 					return groupLine;
 				}
@@ -381,7 +381,7 @@ export default {
 			if(widget.action){
 				return widget.action;
 			}
-			var group = this.getParentGroup(widget.id);
+			const group = this.getParentGroup(widget.id);
 			if(group && group.action){
 				return group.action;
 			}
@@ -392,7 +392,7 @@ export default {
 			/**
 			* Create the widget container and call render factory
 			*/
-			var w = this.renderWidget(screen, widget);
+			const w = this.renderWidget(screen, widget);
 			div.appendChild(w);
 
 			/**
@@ -412,7 +412,7 @@ export default {
 			* 2.1.1 Do the data binding here, so that the repeater will
 			* return the correct children
 			*/
-			let uiWidget = this.renderFactory.getUIWidget(widget);
+			const uiWidget = this.renderFactory.getUIWidget(widget);
 			if (uiWidget){
 				this.initDataBinding(uiWidget, screen);
 			}
@@ -427,16 +427,17 @@ export default {
 
 		wireContainer (widget, screenId) {
 			if (widget.isContainer){
+				this.logger.log(2,'wireContainer', 'enter', widget)
 				let cntrWidget = this.renderFactory.getUIWidget(widget);
 				if (cntrWidget){
+
 					/**
 					* Get list of 'virtual' elements, plus the div so
 					* we can wire stuff together
 					*/
-					let children = cntrWidget.getChildren()
+					const children = cntrWidget.getChildren()
 					children.forEach(child => {
 						this.wireWidget(child.widget, screen, screenId, child.div)
-
 						/**
 						* Extend here the model with the child elements,
 						* so we can find the widgets later on the event listeners
@@ -445,6 +446,25 @@ export default {
 						*/
 						this.model.widgets[child.widget.id] = child.widget
 					})
+
+					/**
+					 * Since 4.3.31 we also add data binding if needed.
+					 * The repeater does it's own thing, so this is mainly needed
+					 * for all the screen segment
+					 */
+					if (cntrWidget.getDataBindingChildren) {
+						const dataBindingChildren = cntrWidget.getDataBindingChildren()
+						const screen = this.model.screens[screenId]
+						if (dataBindingChildren && screen) {
+							dataBindingChildren.forEach(child => {
+								const uiWidget = this.renderFactory.getUIWidget(child.widget);
+								if (uiWidget){
+									this.initDataBinding(uiWidget, screen);
+								}
+							})
+						}
+					}
+					
 				} else {
 					this.logger.warn('wireContainer', 'Could not find UI widgte for ', widget)
 				}

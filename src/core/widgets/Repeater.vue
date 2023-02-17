@@ -155,6 +155,10 @@ export default {
        return this._childWidgets
     },
 
+    getDataBindingChildren () {
+        return null
+    },
+
     update (widget) {
 
         /**

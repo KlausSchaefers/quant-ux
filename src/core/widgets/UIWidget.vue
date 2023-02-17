@@ -100,6 +100,7 @@ export default {
       this.isPublic = p
     },
 
+
     /**
      * Gets called from the RenderFactory. Simple classes do not need to overwrite
      */

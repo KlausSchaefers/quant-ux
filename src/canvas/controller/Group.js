@@ -96,14 +96,39 @@ export default class Group extends Layer {
 	}
 
 	modelUpdateGroup (id, type, key, value) {
-		let group = this.model.groups[id]
+		const group = this.model.groups[id]
 		if (group) {
 			if (!group[type]) {
 				group[type] = {}
 			}
 			group[type][key] = value
+
+			/** 
+			 * This is a little ugly. Resize props are attached
+			 * to the group, not like 'fixed', which is attached to 
+			 * the style of all children. 
+			 * This leads to minor undo redo issues.
+			 */
+			if (this.isGroupChildrenChange(type, key)) {
+				this.logger.log(-1,"modelUpdateGroup", "Change children > ");
+				const children = this.getAllGroupChildren(group)
+				children.forEach(id => {
+					const widget = this.model.widgets[id]
+					if (widget) {
+						if (!widget[type]) {
+							widget[type] = {}
+						}
+						widget[type][key] = value
+					}
+				})
+			}
+			
 		}
 		this.onModelChanged([{type: 'group', action:"change", id: id}])
+	}
+
+	isGroupChildrenChange (type, key) {
+		return type === 'props' && key === 'resize'
 	}
 
 	undoUpdateGroup(command) {

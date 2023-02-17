@@ -1,7 +1,7 @@
 
 <template>
-  <div :class="['MatcWidgetTypeScreenSegement', {'MatcWidgetTypeScreenSegementOverFlow': hasOverflow}]">
-      Segement
+  <div :class="['MatcWidgetTypeScreenSegement', {'MatcWidgetTypeScreenSegementOverFlow': hasOverflow}, {'MatcWidgetTypeScreenSegementSnapp': hasSnapp}]">
+      
   </div>
 </template>
 <script>
@@ -27,6 +27,9 @@ export default {
   computed: {
     hasOverflow () {
         return true
+    },
+    hasSnapp () {
+      return this.model?.props?.snapp === true
     }
   },
   methods: {
@@ -47,6 +50,10 @@ export default {
 
     getChildren() {
        return this._childWidgets
+    },
+
+    getDataBindingChildren () {
+        return this._childWidgets
     },
 
     update (widget) {
@@ -98,12 +105,16 @@ export default {
     },
 
     renderScreen(widget, screenID) {
-        
+        if (this._screenID === screenID) {
+          return
+        }
+        this._screenID = screenID
         this.domNode.innerHTML = ""
         this._childWidgets = []
 
+      
         const db = new DomBuilder()
-        this._screenID = screenID
+        
         const screen = this.app.screens[screenID]
         if (screen) {
 
@@ -143,14 +154,15 @@ export default {
           }
           this.cntr = cntr
           this.domNode.appendChild(cntr)
+
+     
         } else {
             db.div('MatcWidgetTypeScreenSegementHint', 'Screen segment does not exist').build(this.domNode)
         }
     },
 
     renderWidget (widget, screen, db) {
-
-	    let div = db.div('MatcBox MatcWidget')
+	    const div = db.div('MatcBox MatcWidget')
                 .w(widget.w)
                 .h(widget.h)
                 .top(widget.y - screen.y)
@@ -158,6 +170,7 @@ export default {
                 .build()
 
       this.factory.createWidgetHTML(div, widget);
+
       return div
     },
 
@@ -165,6 +178,7 @@ export default {
       const newScreen = Object.values(this.app.screens).find(s => s.name === value)
       if (newScreen) {
         this.renderScreen(this.model, newScreen.id)
+        this.emit('rerender', this)
       } else {
         this.logger.error('setValue', 'Screen with name ' + value + ' does not exist')
         this.renderScreen(this.model, this.model?.props?.screenID)
