@@ -22,6 +22,7 @@ export default class Ruler extends Core{
 		this.selectedID = selectedModel.id;
 		this.selectedType = selectedType;
 		this.activePoint = activePoint;
+		this.widgetDivs = canvas.widgetDivs;
 		this.ignoreIds = {}
 		this.ignoreIds[selectedModel.id] = true
 		if (ignoreIds) {
@@ -42,12 +43,39 @@ export default class Ruler extends Core{
 			this.gridHeight = 1;
 			this.gridWidth = 1;
 		}
+		this.initScreenSegments()
 		this.logger.log(-1,"start", "exit > type :" +  this.selectedType +">  id :"+ this.selectedID + " > activePoint : " + activePoint);
 	}
 
-	correct (box, e, mouse){
+	initScreenSegments () {
 	
+		this._screenSegementTargets = []
+		if (this.selectedModel.segment === true && this.activePoint !== "All") {
+			this.logger.log(-1,"initScreenSegments", "");
+			for(let id in this.model.widgets){
+				const widget = this.model.widgets[id]
+				if (widget.type === 'ScreenSegment') {
+					if (widget?.props?.screenID === this.selectedModel.id) {
+						this._screenSegementTargets.push({
+							type: 'screen',
+							name: widget.name + 'Fake',
+							widgetReference: widget.id,
+							x: this.selectedModel.x,
+							y: this.selectedModel.y,
+							h: widget.h,
+							w: widget.w,
+						})
+					}
+				}
+			}
+		}
 
+
+	}
+
+	correct (box, e, mouse){
+
+	
 		let result = box;
 
 		// if we have a grid, the screens should 
@@ -73,6 +101,7 @@ export default class Ruler extends Core{
 
 			const corners = this.getActiveCorners(box, this._lastBox);
 
+		
 			/**
 			 * get all elements that are close
 			 */
@@ -82,6 +111,7 @@ export default class Ruler extends Core{
 			 * remove not used lines
 			 */
 			this.removeNotUsedLines(lines);
+			this.cleanUpHighLight()
 
 			let closeX = 10000000;
 			let cornerX = null;
@@ -95,7 +125,8 @@ export default class Ruler extends Core{
 				/**
 				 * render line
 				 */
-				this.renderLine(line,id, box);
+				this.renderLine(line, id, box);
+				this.renderHighlight(line, id, box);
 
 				/**
 				 * check what are the closest lines
@@ -123,7 +154,7 @@ export default class Ruler extends Core{
 
 		this._lastBox = box;
 
-		if (this.showDimensions && this.activePoint === 'South' ) {
+		if (this.showDimensions && (this.activePoint === 'South' || this.activePoint === 'East') ) {
 			try {
 				this.renderDimension(box, mouse)
 			} catch (e) {
@@ -144,8 +175,13 @@ export default class Ruler extends Core{
 		}
 		this.dimDiv.style.left = (mouse.x + 10) + "px";
 		this.dimDiv.style.top = (mouse.y + 10) + "px";
-		const height = Math.ceil(pos.h / this.zoom)
-		this.dimDiv.innerHTML = height;
+		if (this.activePoint === 'East' ) {
+			const width = Math.ceil(pos.w / this.zoom)
+			this.dimDiv.innerHTML = width;
+		} else {
+			const height = Math.ceil(pos.h / this.zoom)
+			this.dimDiv.innerHTML = height;
+		}
 	}
 
 
@@ -161,7 +197,7 @@ export default class Ruler extends Core{
 		 *
 		 * We also store the element we have snapped to!
 		 */
-		var snappedBox = {
+		const snappedBox = {
 			x : box.x,
 			y : box.y,
 			w : box.w,
@@ -236,7 +272,7 @@ export default class Ruler extends Core{
 	 * use this corner, other wise check direction and select the best corner.
 	 */
 	getActiveCorners (n){
-
+	
 		const corners = [];
 
 		/**
@@ -282,6 +318,18 @@ export default class Ruler extends Core{
 					result.y = n.y;
 					result.r = false;
 					result.d = false;
+					break;
+				case "South":
+					result.x = n.x + n.w;
+					result.y = n.y + n.h;
+					result.r = true;
+					result.d = true;
+					break;
+				case "East":
+					result.x = n.x + n.w;
+					result.y = n.y + n.h;
+					result.r = true;
+					result.d = true;
 					break;
 				default:
 					//console.warn("No supported",this.activePoint );
@@ -333,23 +381,59 @@ export default class Ruler extends Core{
 	}
 
 	getCloseLines (corners){
-		var lines = {};
-		var boxes = this.getPotentialBoxes();
+	
+		const lines = {};
+		const boxes = this.getPotentialBoxes();
 		/**
 		 * maybe exclude some stuff depending on the type
 		 */
 		for(let c=0; c < corners.length; c++){
-			let corner = corners[c];
+			const corner = corners[c];
 			for(let i=0; i < boxes.length; i++){
 				this._getCloseLinesForBox(corner, boxes[i], lines);
 			}
 		}
 
+	
+
 		return lines;
 	}
 
+	_getCloseLinesForBox (pos, box, lines){
+
+		// left border
+		if(Math.abs(box.x - pos.x) < this.displayDistance){
+			lines["x"+box.x] = {x : box.x , box  : box};
+		}
+
+		// top border
+		if(Math.abs(box.y - pos.y) < this.displayDistance){
+			lines["y"+(box.y)] = {y :box.y, box: box};
+		}
+
+
+		/**
+		 * if not a line also try right and bottom
+		 */
+		if(this.selectedType != "line"){
+
+			// right border: only check this if the min height is larger than the
+			// line points
+			if(Math.abs((box.x + box.w) - pos.x) < this.displayDistance){
+				lines["x"+(box.x+box.w)] = {x :box.x + box.w, box: box};
+			}
+
+			// bottom: only check this if the min height is larger than the
+			// line points
+			if(Math.abs((box.y + box.h)- pos.y) < this.displayDistance){
+				lines["y"+(box.y + box.h)] = {y :(box.y + box.h), box: box};
+			}
+		}
+	}
+
+
 	getPotentialBoxes (){
-		var boxes = [];
+		const boxes = [];
 
 		/**
 		 * TODO: think about caching this! This would have some issues
@@ -358,11 +442,18 @@ export default class Ruler extends Core{
 		if(this.selectedType == "screen"){
 			for(let id in this.model.screens){
 				if (!this.ignoreIds[id]){
-					let box =  this.model.screens[id];
+					const box =  this.model.screens[id];
 					boxes.push(box);
 				}
 			}
+
+			if (this._screenSegementTargets) {
+				this._screenSegementTargets.forEach(box => {
+					boxes.push(box);
+				})
+			}
 		}
+
 
 		if(this.selectedType == "widget"){
 			let parent = this.getParentScreen(this.selectedModel);
@@ -416,40 +507,28 @@ export default class Ruler extends Core{
 		return boxes;
 	}
 
-	_getCloseLinesForBox (pos, box, lines){
-
-		// left border
-		if(Math.abs(box.x - pos.x) < this.displayDistance){
-			lines["x"+box.x] = {x : box.x , box  : box};
-		}
-
-		// top border
-		if(Math.abs(box.y - pos.y) < this.displayDistance){
-			lines["y"+(box.y)] = {y :box.y, box: box};
-		}
-
-
-		/**
-		 * if not a line also try right and bottom
-		 */
-		if(this.selectedType != "line"){
-
-			// right border: only check this if the min height is larger than the
-			// line points
-			if(Math.abs((box.x + box.w) - pos.x) < this.displayDistance){
-				lines["x"+(box.x+box.w)] = {x :box.x + box.w, box: box};
-			}
-
-			// bottom: only check this if the min height is larger than the
-			// line points
-			if(Math.abs((box.y + box.h)- pos.y) < this.displayDistance){
-				lines["y"+(box.y + box.h)] = {y :(box.y + box.h), box: box};
+	renderHighlight (line) {
+		this._highlightDivs = []
+		if (line.box && line.box.widgetReference) {
+			let div = this.widgetDivs[line.box.widgetReference]
+			if (div) {
+				css.add(div, "MatcRulerBoxSelectedBorder");
+				this._highlightDivs.push(div)
 			}
 		}
 	}
 
+	cleanUpHighLight () {
+		if (this._highlightDivs) {
+			this._highlightDivs.forEach(div => {
+				css.remove(div, "MatcRulerBoxSelectedBorder");
+			})
+		}
+	}
+	
 	renderLine (line, id){
 
+	
 		/**
 		 * only draw a line if there is none
 		 */
@@ -457,6 +536,9 @@ export default class Ruler extends Core{
 			if(line.x){
 				let div = document.createElement("div");
 				css.add(div, "MatcRulerLine");
+				if (line.box && line.box.widgetReference) {
+					css.add(div, "MatcRulerLineReference");
+				}
 				div.style.width="1px";
 				div.style.height ="100%";
 				div.style.left = line.x +"px";
@@ -468,6 +550,9 @@ export default class Ruler extends Core{
 			if(line.y){
 				let div = document.createElement("div");
 				css.add(div, "MatcRulerLine");
+				if (line.box && line.box.widgetReference) {
+					css.add(div, "MatcRulerLineReference");
+				}
 				div.style.height="1px";
 				div.style.width ="100%";
 				div.style.top = line.y +"px";
@@ -505,6 +590,7 @@ export default class Ruler extends Core{
 		if (this.dimDiv && this.dimDiv.parentNode) {
 			this.dimDiv.parentNode.removeChild(this.dimDiv);
 		}
+		this.cleanUpHighLight()
 
 		this.dimDiv = null
 		this._linesDivs = null;

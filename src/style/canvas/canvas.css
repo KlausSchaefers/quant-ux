@@ -982,6 +982,10 @@
  	opacity:0.5;
  }
 
+ .MatcRulerLine.MatcRulerLineReference{
+	background: #92c500;
+ }
+
  .MatcRulerLineDebug {
 	background: #aa37b9;
  }
