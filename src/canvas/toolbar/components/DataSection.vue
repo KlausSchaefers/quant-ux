@@ -482,12 +482,13 @@ export default {
 			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
 
 			if(model.props.data && model.props.data[0]){
-				var row = model.props.data[0];
-				for(var i =0; i< row.length; i++){
-					var key = "background" + i;
+				const row = model.props.data[0];
+				for(let i = 0; i < row.length; i++){
+					const key = "background" + i;
 					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true);
 				}
 			}
+			//this._renderChartAnimation(model)
 		},
 
 
@@ -496,11 +497,17 @@ export default {
 
 			this._renderInputDropDown("Value",model, [0,10,20,30,40,50,60,70,80,90, 100], "value", true);
 			this._renderInputDropDown("Width",model, [0, 4, 8, 12, 16, 24, 32, 40, 64], "lineWidth", false);
-
-
 			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged" , true);
 			this._renderColor("Foreground",'<span class="mdi mdi-format-color-fill"></span>',model.style.color, "color", "onStyleChanged" , true);
 
+			this._renderChartAnimation(model)
+		},
+
+		_renderChartAnimation(model) {
+			this._renderCheck("Animate",model.props.animate, "animate" );
+			if (model.props.animate) {
+				this._renderInputDropDown("Duration",model, [0.5,1,1.5,2,2.5,3,4,5,10], "duration", true);
+			}
 		},
 
 

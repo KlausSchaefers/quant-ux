@@ -16,12 +16,12 @@ export default {
     mixins:[UIWidget, DojoWidget],
     data: function () {
         return {
-            value: false
+            value: 0
         }
     },
     components: {},
     methods: {
-        postCreate: function(){
+        postCreate (){
 			this._borderNodes = [this.domNode];
 			this._backgroundNodes = [];
 			this._shadowNodes = [];
@@ -47,13 +47,56 @@ export default {
 			let value = model.props.value
 
 			this.renderChart(model, style, data, value)
+			this.setValue(value)
 			this.setStyle(style, model);
 		},
 
 		renderChart (model, style, data, value) {
-			this.removeAllChildren(this.domNode)
-			// this.domNode.innerHTML="";
 
+			const steps = []
+			if (this.isSimulator && model.props.animate && model.props.duration > 0) {
+				
+				if (data !== null && data!== undefined) {
+					
+					//
+
+
+				} else {
+					let count = (model.props.duration *1000) / 30
+					let stepSize = (value - this.value) / count
+					for (let i=0; i < count; i++) {
+						let v = this.value + (i * stepSize)
+						if (v < 0) {
+							v = 0
+						}
+						steps.push(v)
+					}
+					steps.push(value)
+				}
+			}
+
+		
+			if (data !== null && data!== undefined) {
+				steps.push(data)
+			} else {
+				steps.push(value)
+			}
+		
+		
+			this.animationRunning = true
+			this.renderChartType(model, style, data, value, steps)
+		},
+
+
+		renderChartType (model, style, data, value, steps) {
+			if (data !== null && data!== undefined) {
+				data = steps.shift()
+			} else {
+				value = steps.shift()
+			}
+			
+			this.removeAllChildren(this.domNode)
+		
 			if (this.type == "bar") {
 
 				css.add(this.domNode, "MatcWidgetTypeBarChart");
@@ -66,7 +109,7 @@ export default {
 				}
 
 			} else if (this.type == "ring") {
-
+			
 				this.renderRing(model, style, data, value);
 
 			} else if (this.type == "multiring") {
@@ -83,12 +126,20 @@ export default {
 			} else {
 				console.warn("render() > Not supported type : " + this.type);
 			}
+
+			if (steps && steps.length > 0 && this.animationRunning) {
+				
+				requestAnimationFrame(() => {
+					this.renderChartType(model, style, data, value, steps)
+				})
+			} else {
+				this.animationRunning = false
+			}
 		},
 
 
 		renderRing (model, style, data, p){
-
-			if (p > 1) {
+			if (p >= 0) {
 				p = p / 100
 			}
 
@@ -109,6 +160,7 @@ export default {
 			ctx.beginPath();
 			let s = this.degreesToRadians(p * 360);
 			let e = this.degreesToRadians(360);
+		
 			ctx.arc(x,x, (x-width/2), s, e );
 			ctx.strokeStyle= style.background;
 			ctx.lineWidth=width;
@@ -390,6 +442,7 @@ export default {
 		 * Can be overwritten by children to have proper type conversion
 		 */
 		_setDataBindingValue (v) {
+			this.animationRunning = false
 
 			let data = this.model.props.data
 			let value = this.model.props.value
@@ -436,8 +489,8 @@ export default {
 			return result
 		},
 
-		setValue (){
-
+		setValue (v){
+			this.value = v
 		},
 
 		getState (){

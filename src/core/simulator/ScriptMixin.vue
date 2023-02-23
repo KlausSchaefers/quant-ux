@@ -45,7 +45,7 @@ export default {
                 await this.runScript(widget.props.script, widget)
             }
         }
-        this.logger.log(-2,"executeDataScripts","exit");
+        this.logger.log(2,"executeDataScripts","exit");
     },
 
     getDataBindingScripts () {
