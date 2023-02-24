@@ -55,73 +55,49 @@ export default {
 
 			const steps = []
 			if (this.isSimulator && model.props.animate && model.props.duration > 0) {
-				
-				if (data !== null && data!== undefined) {
-					
-					//
-
-
-				} else {
-					let count = (model.props.duration *1000) / 30
-					let stepSize = (value - this.value) / count
-					for (let i=0; i < count; i++) {
-						let v = this.value + (i * stepSize)
-						if (v < 0) {
-							v = 0
-						}
-						steps.push(v)
-					}
-					steps.push(value)
-				}
+				let count = (model.props.duration *1000) / 30
+				let stepSize = 1 / count
+				for (let i=0; i < count; i++) {
+					let v = (i * stepSize)
+					steps.push(v)
+				}			
 			}
-
-		
-			if (data !== null && data!== undefined) {
-				steps.push(data)
-			} else {
-				steps.push(value)
-			}
-		
-		
+			steps.push(1)
 			this.animationRunning = true
 			this.renderChartType(model, style, data, value, steps)
 		},
 
 
 		renderChartType (model, style, data, value, steps) {
-			if (data !== null && data!== undefined) {
-				data = steps.shift()
-			} else {
-				value = steps.shift()
-			}
+			const progress = steps.shift()
 			
 			this.removeAllChildren(this.domNode)
 		
-			if (this.type == "bar") {
+			if (this.type === "bar") {
 
 				css.add(this.domNode, "MatcWidgetTypeBarChart");
 				if (model.props.isHorizontal){
-					this.renderHorizontal(model, style, data, value);
+					this.renderHorizontal(model, style, data, value, progress);
 				} else if(model.props.isLine){
-					this.renderLine(model, style, data, value);
+					this.renderLine(model, style, data, value, progress);
 				} else {
-					this.renderVertical(model, style, data, value);
+					this.renderVertical(model, style, data, value, progress);
 				}
 
-			} else if (this.type == "ring") {
+			} else if (this.type === "ring") {
 			
-				this.renderRing(model, style, data, value);
+				this.renderRing(model, style, data, value, progress);
 
-			} else if (this.type == "multiring") {
+			} else if (this.type === "multiring") {
 
-				var r = Math.round(Math.min(model.w, model.h) / 2) ;
-				var width = Math.min(r, this.getZoomed(style.lineWidth * 2, this._scaleY));
-				this.renderPie(model, style, data, width);
+				const r = Math.round(Math.min(model.w, model.h) / 2) ;
+				const width = Math.min(r, this.getZoomed(style.lineWidth * 2, this._scaleY));
+				this.renderPie(model, style, data, width, progress);
 
-			} else if(this.type == "pie") {
+			} else if(this.type === "pie") {
 
-				let width = Math.min(model.w,model.h)
-				this.renderPie(model, style, data, width);
+				const width = Math.min(model.w,model.h)
+				this.renderPie(model, style, data, width, progress);
 
 			} else {
 				console.warn("render() > Not supported type : " + this.type);
@@ -138,24 +114,26 @@ export default {
 		},
 
 
-		renderRing (model, style, data, p){
-			if (p >= 0) {
-				p = p / 100
-			}
+		renderRing (model, style, data, value, progress){
+			// to allow continues the following formalia should
+			// work, if the this.value would not be updated to early...
+			// const p = (this.value + ((value - this.value) * progress)) / 100
+			
+			const p = (value * progress) / 100
+			
+			const db = new DomBuilder();
+			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
 
-			var db = new DomBuilder();
-			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
+			const w = model.w * 2;
+			const h = model.h * 2;
+			const x = Math.round(Math.min(w,h) / 2) ;
 
-			var w = model.w * 2;
-			var h = model.h * 2;
-			var canvas= document.createElement("canvas");
-			canvas.width=w;
-			canvas.height=h;
-			// var n = 0.5;
-			var x = Math.round(Math.min(w,h) / 2) ;
-			var width = Math.min(x, this.getZoomed(style.lineWidth *2, this._scaleY));
+			const canvas = document.createElement("canvas");
+			canvas.width = w;
+			canvas.height = h;
+			const width = Math.min(x, this.getZoomed(style.lineWidth *2, this._scaleY));
 
-			var ctx = canvas.getContext("2d");
+			const ctx = canvas.getContext("2d");
 
 			ctx.beginPath();
 			let s = this.degreesToRadians(p * 360);
@@ -177,54 +155,55 @@ export default {
 			cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
 
 			this.removeAllChildren(this.domNode)
-			//this.domNode.innerHTML="";
 			this.domNode.appendChild(cntr);
 		},
 
 
 
-		renderPie (model, style, data, width){
-
-			var db = new DomBuilder();
-			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
-			var w = model.w * 2;
-			var h = model.h * 2;
-			var canvas= document.createElement("canvas");
-			canvas.width=w;
-			canvas.height=h;
-			var x = Math.round(Math.min(w,h) / 2) ;
+		renderPie (model, style, data, width, progress = 1){
 
 			/**
 			 * ToDo: Check if array of arrays or simple array
 			 */
-			var row = data[0];
-			var sum = 0;
+			let row = data[0];
+			let sum = 0;
 			for (let i=0; i< row.length; i++){
 				sum += row[i]*1;
 			}
 
-			var ctx = canvas.getContext("2d");
-			var lastP = 0;
+			data = this.scaleData(data, progress)
+			row = data[0];
+
+			const w = model.w * 2;
+			const h = model.h * 2;
+			const x = Math.round(Math.min(w,h) / 2) 
+
+			const db = new DomBuilder();
+			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
+			const canvas= document.createElement("canvas");
+			canvas.width=w;
+			canvas.height=h;
+
+			const ctx = canvas.getContext("2d")
+			let lastP = 0
 			for(let i=0; i< row.length; i++){
-				let v = row[i];
-				let p = (v/ sum) +lastP;
-
-				ctx.beginPath();
-				let s = this.degreesToRadians(lastP* 360);
-				let e = this.degreesToRadians(360 * p);
-				ctx.arc(x,x, (x- width/2), s, e );
-
-				if(style["background" + i]){
-					ctx.strokeStyle= style["background" + i];
+				const v = row[i]
+				const p = (v/ sum) + lastP;
+				const s = this.degreesToRadians(lastP * 360)
+				const e = this.degreesToRadians(360 * p)
+			
+				ctx.beginPath()
+				ctx.arc(x,x, (x- width/2), s, e) 
+				if (style["background" + i]) {
+					ctx.strokeStyle = style["background" + i]
 				}
-				ctx.strokeStyle = style.color;
-				ctx.lineWidth = width;
-				ctx.stroke();
-				lastP += (v/ sum);
+				ctx.strokeStyle = style.color
+				ctx.lineWidth = width
+				ctx.stroke()
+				lastP += (v/ sum)
 			}
 			cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
 			this.removeAllChildren(this.domNode)
-			//this.domNode.innerHTML="";
 			this.domNode.appendChild(cntr);
 		},
 
@@ -234,35 +213,37 @@ export default {
 		},
 
 
-		renderLine (model, style, data){
+		renderLine (model, style, data, value, progress){
 			data = this.flip(data);
+			data = this.scaleData(data, progress)
 
-			var db = new DomBuilder();
-			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
+		
+			const w = model.w * 2;
+			const h = model.h * 2;
+			const n = 0.5;
 
-			var w = model.w * 2;
-			var h = model.h *2;
-			var canvas= document.createElement("canvas");
+			const db = new DomBuilder();
+			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
+			const canvas= document.createElement("canvas");
 			canvas.width=w;
 			canvas.height=h;
-			var n=0.5;
-
-			var ctx = canvas.getContext("2d");
+		
+			const ctx = canvas.getContext("2d");
 
 			/**
 			 * Render lines
 			 */
 			for(let r =0; r< data.length; r++){
-				let row = data[r];
-				let step =  Math.round(w / (row.length -1)) ;
+				const row = data[r];
+				const step =  Math.round(w / (row.length -1)) ;
 
 				ctx.beginPath();
 
-				var y =0;
+				let y = 0;
 				for(let c=0; c < row.length; c++){
-					let v = row[c];
+					const v = row[c];
 					y = h - Math.round((v*1 / this.max) * h) ;
-					if(c ==0){
+					if (c === 0) {
 						ctx.moveTo(n,y +n);
 					} else {
 						ctx.lineTo(c*step +n, y +n);
@@ -291,15 +272,15 @@ export default {
 			}
 
 			if(model.has.circle){
-				var radius = this.getZoomed(style.lineWidth*3, this._scaleY);
+				const radius = this.getZoomed(style.lineWidth*3, this._scaleY);
 				for(let r =0; r< data.length; r++){
-					let row = data[r];
-					let step =  Math.round(w / (row.length -1)) +n;
+					const row = data[r];
+					const step =  Math.round(w / (row.length -1)) +n;
 
 					for(let c=1; c < row.length-1; c++){
-						let v = row[c];
-						let y = h - Math.round((v*1 / this.max) * h);
-						let x = c*step;
+						const v = row[c];
+						const y = h - Math.round((v*1 / this.max) * h);
+						const x = c*step;
 						ctx.beginPath();
 						ctx.arc(x+n,y+n,radius,0,2*Math.PI);
 						if(style["background" + r]){
@@ -317,31 +298,31 @@ export default {
 
 
 
-		renderVertical (model, style, data){
-
-			var db = new DomBuilder();
+		renderVertical (model, style, data, value, progress){
+			const db = new DomBuilder();
 
 			data = this.prepareData(data);
+			data = this.scaleData(data, progress)
 
-			var groupWidth = 100/(this.groups);
-			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
-			for(var r =0; r < data.length; r++){
-				var group = data[r];
+			const groupWidth = 100/(this.groups);
+			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
+			for(let r =0; r < data.length; r++){
+				const group = data[r];
 
-				var grp = db.div("MatcWidgetTypeBarChartGroup").build(cntr);
+				const grp = db.div("MatcWidgetTypeBarChartGroup").build(cntr);
 				grp.style.width = groupWidth + "%";
 				grp.style.left = groupWidth * r + "%";
 
-				var w =  100/(group.length+1);
-				var o = w/2;
-				if(w ==100){
+				let w =  100/(group.length+1);
+				let o = w / 2;
+				if (w === 100){
 					w = 50;
 					o = 25;
 				}
 
-				for(var c=0; c < group.length; c++){
-					var v = group[c];
-					var bar = db.div("MatcWidgetTypeBarChartBar").build(grp);
+				for(let c=0; c < group.length; c++){
+					const v = group[c];
+					const bar = db.div("MatcWidgetTypeBarChartBar").build(grp);
 					bar.style.height = v*100 / this.max + "%";
 					bar.style.width = w + "%";
 					bar.style.left = c * w  +o  + "%";
@@ -356,31 +337,32 @@ export default {
 
 		},
 
-		renderHorizontal (model, style, data){
+		renderHorizontal (model, style, data, value, progress){
 
-			var db = new DomBuilder();
+			const db = new DomBuilder();
 
 			data = this.prepareData(data);
+			data = this.scaleData(data, progress)
 
-			var groupHeight = 100/(this.groups);
-			var cntr = db.div("MatcWidgetTypeBarChartCntr").build();
-			for(var r =0; r < data.length; r++){
-				var group = data[r];
+			const groupHeight = 100/(this.groups);
+			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
+			for(let r =0; r < data.length; r++){
+				const group = data[r];
 
-				var grp = db.div("MatcWidgetTypeBarChartHorizontalGroup").build(cntr);
+				const grp = db.div("MatcWidgetTypeBarChartHorizontalGroup").build(cntr);
 				grp.style.height = groupHeight + "%";
 				grp.style.top = groupHeight * r + "%";
 
-				var w =  100/(group.length+1);
-				var o = w/2;
+				let w =  100/(group.length+1);
+				let o = w/2;
 				if(w ==100){
 					w = 50;
 					o = 25;
 				}
 
-				for(var c=0; c < group.length; c++){
-					var v = group[c];
-					var bar = db.div("MatcWidgetTypeBarChartHorizontalBar").build(grp);
+				for(let c=0; c < group.length; c++){
+					const v = group[c];
+					const bar = db.div("MatcWidgetTypeBarChartHorizontalBar").build(grp);
 					bar.style.width = v*100 / this.max + "%";
 					bar.style.height = w + "%";
 					bar.style.top = c * w  +o  + "%";
@@ -400,38 +382,50 @@ export default {
 			this.max = -10000000;
 			this.groups = 0;
 			this.groups = data.length;
-			for(var r =0; r < data.length; r++){
-				var row = data[r];
-				for(var c=0; c < row.length; c++){
+			for(let r =0; r < data.length; r++){
+				const row = data[r];
+				for(let c=0; c < row.length; c++){
 					this.max = Math.max(this.max, row[c]);
 				}
 			}
 			return data;
 		},
 
+		scaleData (data, p) {
+			let result = []
+			for(let r =0; r < data.length; r++){
+				const v = data[r];
+				if (Array.isArray(v)){
+					result[r] = []
+					const row = v
+					for(let c = 0; c < row.length; c++){
+						result[r][c] = row[c] * p
+					}
+				} else {
+					result[r] = v * p
+				}
+			}
+			return result
+		},
+
 		flip (data){
 			this.max = -10000000;
 			this.groups = 0;
 			this.count = 0;
-			var flipped = [];
-			for(var r =0; r < data.length; r++){
-				var row = data[r];
-
-				for(var c=0; c < row.length; c++){
+			const flipped = [];
+			for(let r =0; r < data.length; r++){
+				const row = data[r];
+				for(let c = 0; c < row.length; c++){
 					if(!flipped[c]){
 						flipped[c] = [];
 					}
 					flipped[c][r] = row[c];
 					this.max = Math.max(this.max, row[c]);
-
 					this.count++;
 				}
 			}
 			return flipped;
 		},
-
-
-
 
 		getValue (){
 			return this.value;
