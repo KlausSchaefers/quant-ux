@@ -94,6 +94,10 @@ export default {
 				const width = Math.min(r, this.getZoomed(style.lineWidth * 2, this._scaleY));
 				this.renderPie(model, style, data, width, progress);
 
+			} else if (this.type === "stackedring") {
+
+				this.renderStackedRings(model, style, data, value, progress);
+
 			} else if(this.type === "pie") {
 
 				const width = Math.min(model.w,model.h)
@@ -111,6 +115,49 @@ export default {
 			} else {
 				this.animationRunning = false
 			}
+		},
+
+		renderStackedRings (model, style, data, value, progress) {
+
+			data = this.scaleData(data, progress)
+			const row = data[0];
+			
+			const db = new DomBuilder();
+			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
+
+			
+			const w = model.w * 2;
+			const h = model.h * 2;
+			const x = Math.round(Math.min(w,h) / 2) ;
+
+			const canvas = document.createElement("canvas");
+			canvas.width = w;
+			canvas.height = h;
+			const width = Math.min(x, this.getZoomed(style.lineWidth *2, this._scaleY));
+
+		 	const ctx = canvas.getContext("2d");
+
+			 for(let i=0; i< row.length; i++){
+				const v = row[i]
+				const p = v / 100
+				const s = this.degreesToRadians(0)
+				const e = this.degreesToRadians(360 * p)
+				const r = (x- width/2) - (i * width)
+			
+				ctx.beginPath()
+				ctx.arc(x,x, r, s, e) 
+				if (style["background" + i]) {
+					ctx.strokeStyle = style["background" + i]
+				}
+				ctx.strokeStyle = style.color
+				ctx.lineWidth = width
+				ctx.stroke()
+			
+			}
+			cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
+			this.removeAllChildren(this.domNode)
+			this.domNode.appendChild(cntr);
+
 		},
 
 

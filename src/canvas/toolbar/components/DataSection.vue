@@ -497,6 +497,22 @@ export default {
 			this._renderChartAnimation(model)
 		},
 
+		_showStackedRingChart(model) {
+			this._setSectionLabel("Chart");
+
+			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderInputDropDown("Width",model, [0, 1, 2, 3, 4, 5, 8, 16, 24, 32], "lineWidth", false);
+
+			if (model.props.data && model.props.data[0]){
+				const row = model.props.data[0];
+				for(let i = 0; i < row.length; i++){
+					const key = "background" + i;
+					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true);
+				}
+			}
+			this._renderChartAnimation(model)
+		},
+
 
 		_showRingChart (model){
 			this._setSectionLabel("Chart");

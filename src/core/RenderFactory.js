@@ -730,6 +730,12 @@ export default class RenderFactory extends Core {
 		this._uiWidgets[model.id] = widget;
 	}
 
+	_createStackedRingChart(parent, model) {
+		var widget = this.$new(Chart)
+		widget.type =  "stackedring";
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
 
 	_createVolumeSlider(parent, model) {
 		var widget = this.$new(VolumeSlider);

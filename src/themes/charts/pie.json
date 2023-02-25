@@ -85,5 +85,31 @@
 	"style" : {
 		"lineWidth" : 10
 	}
+},
+{
+	"id" : "StackedRingChart",
+	"type" : "StackedRingChart",
+	"name" : "Stacked Ring Chart",
+	"_type" : "Widget",
+	"category" : "Charts",
+	"subcategory" : "Ring",
+	"x" : 0,
+	"y" : 0,
+	"w" : 200,
+	"h" : 200,
+	"z" : 0,
+	"props" : {
+		"data" : [[20, 40, 60]]
+	},
+	"has" : {
+		
+	},
+	"style" : {
+		"background0" : "#333333",
+		"background1" : "#999999",
+		"background2" : "#d9d9d9",
+		"background3" : "#fefefe",
+		"lineWidth" : 10
+	}
 }
 ]
