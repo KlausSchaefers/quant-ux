@@ -264,9 +264,13 @@ export default {
 			data = this.flip(data);
 			data = this.scaleData(data, progress)
 
+			const isCurve = model?.props?.isCurve
+			console.debug(isCurve)
+
 		
 			const w = model.w * 2;
 			const h = model.h * 2;
+			const max = this.max
 			const n = 0.5;
 
 			const db = new DomBuilder();
@@ -286,15 +290,36 @@ export default {
 
 				ctx.beginPath();
 
-				let y = 0;
-				for(let c=0; c < row.length; c++){
-					const v = row[c];
-					y = h - Math.round((v*1 / this.max) * h) ;
-					if (c === 0) {
-						ctx.moveTo(n,y +n);
+				let y = 0
+				let lastX = 0
+				let lastY = 0
+				for(let c = 0; c < row.length; c++){
+					let v = row[c];
+					v *= 0.95
+					y = h - Math.round((v*1 / max) * h) ;
+					const x = c * step
+					if (isCurve) {
+						if (c === 0) {
+							ctx.moveTo(n,y +n);
+						} else {
+							const difX = (x - lastX) / 2;
+							ctx.bezierCurveTo(
+								lastX + difX, lastY,
+							 	x - difX, y,
+							 	x, y
+							)
+						}
 					} else {
-						ctx.lineTo(c*step +n, y +n);
+						if (c === 0) {
+							ctx.moveTo(n,y +n);
+						} else {
+							ctx.lineTo(x + n, y + n);
+						}
 					}
+
+					lastY = y
+					lastX = x
+					
 				}
 
 				if(model.has.fill){

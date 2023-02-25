@@ -2,7 +2,7 @@
 	"id" : "ChartLegend",
 	"type" : "Group",
 	"_type" : "Group",
-	"name" : "Group 0",
+	"name" : "Legend",
 	"category" : "Charts",
 	"subcategory" : "XLegend",
 	"children" : [ {

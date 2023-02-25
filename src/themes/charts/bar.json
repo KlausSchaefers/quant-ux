@@ -226,7 +226,6 @@
 			}
 		},
 		{
-
 			"id" : "BarChartLine6",
 			"type" : "BarChart",
 			"name" : "Line Chart",
@@ -250,7 +249,58 @@
 			"style" : {
 		        "lineWidth" : 3
 			}
-			
+		},
+		{
+			"id" : "BarChartLine7",
+			"type" : "BarChart",
+			"name" : "Curve Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isCurve": true,
+				"isLine" : true,
+				"data" : [ [ "4", "1" ], [ "12", "5" ], [ "6", "12" ],
+						[ "10", "5" ], [ "8", "4" ]]
+			},
+			"has" : {
+		
+			},
+			"style" : {
+		        "lineWidth" : 3
+			}
+		},
+		{
+			"id" : "BarChartLine8",
+			"type" : "BarChart",
+			"name" : "Curve Chart",
+			"_type" : "Widget",
+			"category" : "Charts",
+			"subcategory" : "Bar",
+			"_extends" : "BarChart",
+			"x" : 0,
+			"y" : 0,
+			"w" : 200,
+			"h" : 200,
+			"z" : 0,
+			"props" : {
+				"isCurve": true,
+				"isLine" : true,
+				"data" : [ [ "4", "1" ], [ "12", "5" ], [ "6", "12" ],
+						[ "10", "5" ], [ "8", "4" ]]
+			},
+			"has" : {
+				"fill" : true
+			},
+			"style" : {
+		        "lineWidth" : 3
+			}
 		}
 
 ]
