@@ -31,11 +31,13 @@ export default {
 			value: null,
 			inputEvent: "change",
 			rows: 100,
-			columns: 10,
+			columns: 26,
+			defaultColWidth: 100,
 			maxWidth: 1000,
 			columnWidths: [],
 			rowHeight: 30,
-			columnNames: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"],
+			countRowWidth: 30,
+			columnNames: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
 			data: [],
 			widthDirty: false,
 			dataDirty: false,
@@ -66,25 +68,25 @@ export default {
 			this.widget = widget;
 			this.hasHeader = this.widgetsWithHeader.indexOf(widget.type) >= 0
 
+			let defaultColWidth = Math.max(
+				this.defaultColWidth, 
+				this.maxWidth / this.columns
+			)
+
 			this.render();
 
-			if (widget.props.widths){
-				var widths = widget.props.widths;
-				var sum =0;
-				for(let i = 0; i < widths.length; i++){
-					this.columnWidths[i] = widths[i];
-					sum+= widths[i];
-				}
-				var w = Math.floor((this.maxWidth - sum) / (this.columns-widths.length));
-				for(let i = widths.length; i < this.columns; i++){
-					this.columnWidths[i] = w;
-				}
-			} else {
-				for(let c = 0; c < this.columns; c++){
-					this.columnWidths[c] = this.maxWidth / this.columns;
-				}
+			for(let c = 0; c < this.columns; c++){
+				this.columnWidths[c] = defaultColWidth;
 			}
 
+			if (widget.props.widths){
+				const widths = widget.props.widths;
+				for(let i = 0; i < widths.length; i++){
+					if (widths[i]) {
+						this.columnWidths[i] = widths[i];
+					}
+				}
+			}
 			if(widget.props.data){
 				this.data = lang.clone(widget.props.data);
 			}
@@ -95,21 +97,21 @@ export default {
 		},
 
 		getWidths (){
-			var result = [];
-			var columns = this.getDimensions().c;
-			for(var i=0; i< columns;i++){
+			const result = [];
+			const columns = this.getDimensions().c;
+			for(let i=0; i< columns;i++){
 				result[i] = this.columnWidths[i];
 			}
 			return result;
 		},
 
 		getData (){
-			var data = [];
+			const data = [];
 
-			var maxC = 0;
+			let maxC = 0;
 			for(let r=0; r < this.inputs.length; r++){
-				var inputRow = this.inputs[r];
-				var row = [];
+				const inputRow = this.inputs[r];
+				const row = [];
 				for(let c=0; c < inputRow.length; c++){
 					var value = this.inputs[r][c].value;
 					if(value){
@@ -139,9 +141,9 @@ export default {
 
 		clearData (){
 			if(this.inputs){
-				for(var r=0; r < this.inputs.length; r++){
-					var row = this.inputs[r];
-					for(var c=0; c < row.length; c++){
+				for(let r=0; r < this.inputs.length; r++){
+					const row = this.inputs[r];
+					for(let c=0; c < row.length; c++){
 						row[c].value ="";
 					}
 				}
@@ -152,13 +154,17 @@ export default {
 		renderData (data){
 			data = this.parseData(data);
 
-			for(var r=0; r < data.length; r++){
+			for(let r=0; r < data.length; r++){
 				if(this.inputs[r]){
-					var row = data[r];
+					const row = data[r];
 					if(row){
-						for(var c=0; c < row.length; c++){
+						for(let c=0; c < row.length; c++){
 							if(row[c] != undefined && row[c] != null){
-								this.inputs[r][c].value = row[c];
+								if (this.inputs[r][c]) {
+									this.inputs[r][c].value = row[c];
+								} else {
+									console.warn("ToolbarTable.renderData() > no input for " + c + ', ' + r)
+								}
 							}
 						}
 					}
@@ -172,33 +178,33 @@ export default {
 			this.tds = [];
 			this.inputs = [];
 			this.columnTDs = [];
-			var db = new DomBuilder();
 
-			var table = db.table("").build();
-			var tbody = db.tbody().build(table);
+			const db = new DomBuilder()
+			const table = db.table("").build()
+			const tbody = db.tbody().build(table)
 
 			/**
 			 * header
 			 */
-			var thead = db.element("thead").build(table)
-			var tr = db.element("tr", 'MatcToolbarTableHead').build(thead);
-
-			var td = db.element("td").build(tr);
-			td.style.width = "30px";
-
+			const thead = db.element("thead").build(table)
+			const tr = db.element("tr", 'MatcToolbarTableHead').build(thead);
+			let td = db.element("td").build(tr);
+			td.style.width = this.countRowWidth  + "px";
 			for(let c =0; c < this.columns; c++){
-				let td = db.element("td").build(tr);
+				const td = db.element("td").build(tr);
 				td.style.width = this.columnWidths[c] + "px";
-				var lbl = db.div("MatcToolbarTableLabel", this.columnNames[c]).build(td);
-				var handle  = db.div("MatcToolbarTableColumnHandle").build(lbl);
+				const lbl = db.div("MatcToolbarTableLabel", this.columnNames[c]).build(td);
+				const handle  = db.div("MatcToolbarTableColumnHandle").build(lbl);
 				this.tempOwn(on(handle, touch.press, lang.hitch(this, "onBarPress",c, handle)));
 				this.columnTDs[c] = td;
 			}
 
-
+			/**
+			 * Body
+			 */
 			for(let r = 0; r < this.rows; r++){
-				let tr = db.element("tr").build(tbody);
-				let td = db.element("td").build(tr);
+				const tr = db.element("tr").build(tbody);
+				td = db.element("td").build(tr);
 				td.style.height = this.rowHeight + "px";
 
 				if (r === 0 && this.hasHeader) {
@@ -214,7 +220,7 @@ export default {
 				for(let c =0; c < this.columns; c++){
 					td = db.element("td").build(tr);
 					td.style.height = this.rowHeight + "px";
-					let input = db.element("input","MatcIgnoreOnKeyPress").build(td);
+					const input = db.element("input","MatcIgnoreOnKeyPress").build(td);
 					this.tempOwn(on(input, "focus", lang.hitch(this, "onFocus", r, c, input)));
 					this.tempOwn(on(input, "blur", lang.hitch(this, "onBlur", r, c, input)));
 					this.tempOwn(on(input, touch.press, lang.hitch(this, "onClick", r, c, input)));
@@ -222,16 +228,17 @@ export default {
 					this.inputs[r].push(input);
 				}
 			}
+			this._table = table
 			this.cntr.appendChild(table)
 		},
 
 
 		onBodyKeyDown (e){
 
-			 var isCntrl = e.altKey || e.ctrlKey || e.metaKey;
-			 var k = e.keyCode ? e.keyCode : e.which;
-			 var row = this.selection.r*1;
-			 var column = this.selection.c*1;
+			let isCntrl = e.altKey || e.ctrlKey || e.metaKey;
+			let k = e.keyCode ? e.keyCode : e.which;
+			let row = this.selection.r*1;
+			let column = this.selection.c*1;
 
 
 			 if(k == 86  && isCntrl){ // ctrl -v
@@ -262,15 +269,15 @@ export default {
 
 				 	case keys.DELETE:
 				 		 if(this.inputs[row] && this.inputs[row][column]){
-							input = this.inputs[row][column];
+							let input = this.inputs[row][column];
 							input.value = "";
 				 		 }
 				 		 this.stopEvent();
 				 		 break;
 				 	case keys.BACKSPACE:
 				 		 if(this.inputs[row] && this.inputs[row][column]){
-								input = this.inputs[row][column];
-								input.value = "";
+							let input = this.inputs[row][column];
+							input.value = "";
 					     }
 				 		 this.stopEvent();
 				 		 break;
@@ -283,9 +290,9 @@ export default {
 
 			 } else {
 
-				 var pos = 0;
-				 var length = 0;
-				 var input = null;
+				 let pos = 0;
+				 let length = 0;
+				 let input = null;
 				 if(this.inputs[row] && this.inputs[row][column]){
 					input = this.inputs[row][column];
 					length = input.value.length
@@ -365,7 +372,7 @@ export default {
 
 		focusInput (r,c){
 			if(this.inputs[r] && this.inputs[r][c]){
-				 var input = this.inputs[r][c];
+				 let input = this.inputs[r][c];
 				 input.value.length;
 				 input.focus();
 				 // input.value = input.value;
@@ -385,7 +392,7 @@ export default {
 			this.unselectAll();
 
 			if(this.inputs[r] && this.inputs[r][c]){
-				 var input = this.inputs[r][c];
+				 let input = this.inputs[r][c];
 				 css.add(input, "MatcToolbarTableInputFocus");
 				 if(input.scrollIntoViewIfNeeded){
 					 input.scrollIntoViewIfNeeded();
@@ -394,9 +401,9 @@ export default {
 		},
 
 		unselectAll (){
-			for(var row=0; row < this.inputs.length; row++){
-				var inputRow = this.inputs[row];
-				for(var col=0; col < inputRow.length; col++){
+			for(let row=0; row < this.inputs.length; row++){
+				const inputRow = this.inputs[row];
+				for(let col=0; col < inputRow.length; col++){
 					inputRow[col].blur();
 					css.remove(inputRow[col], "MatcToolbarTableInputFocus");
 				}
@@ -411,8 +418,8 @@ export default {
 		     } else if (document.selection) {
 	            // IE
 	            // input.focus();
-	            var sel = document.selection.createRange();
-	            var selLen = document.selection.createRange().text.length;
+	            const sel = document.selection.createRange();
+	            const selLen = document.selection.createRange().text.length;
 	            sel.moveStart('character', -input.value.length);
 	            return sel.text.length - selLen;
 		     }
@@ -463,31 +470,43 @@ export default {
 		onBarMove (c, e){
 			this.stopEvent(e);
 
-			var pos = this.getMouse(e);
-			var dif = this.dndStartPos.x - pos.x;
-			var w = this.columnWidths[c] - dif;
-
+			const pos = this.getMouse(e);
+			const dif = this.dndStartPos.x - pos.x;
+			const w = this.columnWidths[c] - dif;
+		
 			if(this.columnTDs[c]){
 				this.columnTDs[c].style.width = w+"px";
 			}
-			if(this.columnTDs[c+1]){
-				dif = this.columnWidths[c] - w;
-				var nextWidth = this.columnWidths[c+1] + dif;
-				this.columnTDs[c+1].style.width = nextWidth+"px";
-			}
 
+			let sum = w
+			for(let i=0; i< this.columns; i++){
+				if (this.columnWidths[i] && i !== c) {
+					sum += this.columnWidths[i]
+				}
+			}
+			// if (sum < this.maxWidth) {
+			// 	const last = this.columnWidths.length - 1
+			// 	this.columnWidths[last] = this.maxWidth - sum
+			// 	this.columnTDs[last].style.width = (this.maxWidth - sum) +"px";
+			// }
+			
+			if (sum > this.maxWidth) {
+				this._table.style.width = sum + 'px'
+			} else {
+				this._table.style.width = '100%'
+			}
+		
+			
+	
 			return false;
 		},
 
 		onBarRelase (c, handle, e){
-			var pos = this.getMouse(e);
-			var dif = this.dndStartPos.x - pos.x;
-			var w = this.columnWidths[c] - dif;
+			const pos = this.getMouse(e);
+			const dif = this.dndStartPos.x - pos.x;
+			const w = this.columnWidths[c] - dif;
 			this.columnWidths[c] = w;
-			if(this.columnTDs[c+1]){
-				this.columnWidths[c+1] += dif;
-			}
-
+		
 			this.renderColumnWidths();
 
 			this.stopEvent(e);
@@ -508,13 +527,22 @@ export default {
 
 
 		renderColumnWidths (){
-			for(var i=0; i< this.columns; i++){
-				this.columnTDs[i].style.width = this.columnWidths[i]+"px";
+			let sum = 0
+			for(let i=0; i< this.columns; i++){
+				if (this.columnWidths[i]) {
+					this.columnTDs[i].style.width = this.columnWidths[i]+"px";
+					sum += this.columnWidths[i]
+				}
+			}
+			if (sum > this.maxWidth) {
+				this._table.style.width = sum + 'px'
+			} else {
+				this._table.style.width = '100%'
 			}
 		},
 
 		getMouse (e){
-		     var result = {};
+		     const result = {};
 		     result.x = e.pageX;
 		     result.y = e.pageY;
 		     return result;

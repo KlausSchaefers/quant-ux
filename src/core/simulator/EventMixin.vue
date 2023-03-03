@@ -666,7 +666,7 @@ export default {
 						}
 						this.executeLine(this.currentScreen.id, "", line);
 					} else {
-						this.logger.log(-1, "onScreenGesture > no line ", gesture, lines)
+						this.logger.log(2, "onScreenGesture > no line ", gesture, lines)
 					}
 				}
 			}

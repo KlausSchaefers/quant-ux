@@ -10,6 +10,8 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import DomBuilder from 'common/DomBuilder'
 import UIWidget from 'core/widgets/UIWidget'
+import * as Easing from  'core/Easing'
+import * as CanvasUtil from  'core/CanvasUtil'
 
 export default {
     name: 'Chart',
@@ -54,17 +56,26 @@ export default {
 		renderChart (model, style, data, value) {
 
 			const steps = []
-			if (this.isSimulator && model.props.animate && model.props.duration > 0) {
-				let count = (model.props.duration *1000) / 30
-				let stepSize = 1 / count
+			if (this.isSimulator && this.hasAnimation(model)) {
+				const duration = model.props.animation.duration
+				const easingFunction = Easing.getEasing(model.props.animation.easing)
+				const count = (duration *1000) / 30
+				const stepSize = 1 / count
 				for (let i=0; i < count; i++) {
-					let v = (i * stepSize)
+					const v = easingFunction((i * stepSize))
 					steps.push(v)
 				}			
 			}
 			steps.push(1)
 			this.animationRunning = true
 			this.renderChartType(model, style, data, value, steps)
+		},
+
+
+
+
+		hasAnimation (model) {
+			return model?.props?.animation && model?.props?.animation.type && model?.props?.animation.duration > 0
 		},
 
 
@@ -119,7 +130,9 @@ export default {
 
 		renderStackedRings (model, style, data, value, progress) {
 
-			data = this.scaleData(data, progress)
+			data = this.flip(data);
+			data = this.scaleData(data, progress, model)
+			data = this.flip(data);
 			const row = data[0];
 			
 			const db = new DomBuilder();
@@ -147,9 +160,10 @@ export default {
 				ctx.beginPath()
 				ctx.arc(x,x, r, s, e) 
 				if (style["background" + i]) {
-					ctx.strokeStyle = style["background" + i]
+					//ctx.strokeStyle = style["background" + i]
+					this.setStrokeColor(ctx, style["background" + i], w, h)
 				}
-				ctx.strokeStyle = style.color
+				//ctx.strokeStyle = style.color
 				ctx.lineWidth = width
 				ctx.stroke()
 			
@@ -187,7 +201,8 @@ export default {
 			let e = this.degreesToRadians(360);
 		
 			ctx.arc(x,x, (x-width/2), s, e );
-			ctx.strokeStyle= style.background;
+			this.setStrokeColor(ctx, style.background, w, h)
+			//ctx.strokeStyle = style.background;
 			ctx.lineWidth=width;
 			ctx.stroke();
 
@@ -195,7 +210,8 @@ export default {
 			s = this.degreesToRadians(0);
 			e = this.degreesToRadians(360 * p);
 			ctx.arc(x,x, (x- width/2), s, e );
-			ctx.strokeStyle = style.color;
+			this.setStrokeColor(ctx, style.color, w, h)
+			//ctx.strokeStyle = style.color;
 			ctx.lineWidth = width;
 			ctx.stroke();
 
@@ -218,7 +234,9 @@ export default {
 				sum += row[i]*1;
 			}
 
-			data = this.scaleData(data, progress)
+			data = this.flip(data);
+			data = this.scaleData(data, progress, model)
+			data = this.flip(data);
 			row = data[0];
 
 			const w = model.w * 2;
@@ -242,7 +260,8 @@ export default {
 				ctx.beginPath()
 				ctx.arc(x,x, (x- width/2), s, e) 
 				if (style["background" + i]) {
-					ctx.strokeStyle = style["background" + i]
+					//ctx.strokeStyle = style["background" + i]
+					this.setFillColor(ctx, style["background" + i], w, h)
 				}
 				ctx.strokeStyle = style.color
 				ctx.lineWidth = width
@@ -261,12 +280,11 @@ export default {
 
 
 		renderLine (model, style, data, value, progress){
+
 			data = this.flip(data);
-			data = this.scaleData(data, progress)
+			data = this.scaleData(data, progress, model)
 
 			const isCurve = model?.props?.isCurve
-			console.debug(isCurve)
-
 		
 			const w = model.w * 2;
 			const h = model.h * 2;
@@ -334,9 +352,10 @@ export default {
 				}
 
 				if(style["background" + r]){
-					ctx.strokeStyle= style["background" + r];
+					this.setStrokeColor(ctx, style["background" + r], w, h)
 					if(model.has.fill){
-						ctx.fillStyle = style["background" + r];
+						this.setFillColor(ctx, style["background" + r], w, h)
+						//ctx.fillStyle = style["background" + r];
 						ctx.fill();
 					}
 				}
@@ -351,12 +370,13 @@ export default {
 
 					for(let c=1; c < row.length-1; c++){
 						const v = row[c];
-						const y = h - Math.round((v*1 / this.max) * h);
-						const x = c*step;
+						const y = (h - Math.round((v*1 / this.max) * h)) + (radius / 2);
+						const x = c * step;
 						ctx.beginPath();
 						ctx.arc(x+n,y+n,radius,0,2*Math.PI);
 						if(style["background" + r]){
-							ctx.fillStyle = style["background" + r];
+							this.setFillColor(ctx, style["background" + r], w, h)
+							//ctx.fillStyle = style["background" + r];
 						}
 						ctx.fill();
 					}
@@ -374,7 +394,7 @@ export default {
 			const db = new DomBuilder();
 
 			data = this.prepareData(data);
-			data = this.scaleData(data, progress)
+			data = this.scaleData(data, progress, model)
 
 			const groupWidth = 100/(this.groups);
 			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
@@ -414,7 +434,7 @@ export default {
 			const db = new DomBuilder();
 
 			data = this.prepareData(data);
-			data = this.scaleData(data, progress)
+			data = this.scaleData(data, progress, model)
 
 			const groupHeight = 100/(this.groups);
 			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
@@ -463,8 +483,67 @@ export default {
 			return data;
 		},
 
-		scaleData (data, p) {
-			let result = []
+		scaleData (data, p, model) {
+			if (p === 1) {
+				return data
+			}
+			const type = model?.props?.animation?.type
+			if (type === 'slide') {
+				return this.scaleDataSlide(data, p)
+			} else {
+				return this.scaleDataGrow(data, p)
+			}
+		},
+
+		scaleDataSlide (data, p) {
+			const result = []
+			const buckets = []
+			/**
+			 * 
+			 * We basically fill up by the entries in data
+			 * each bucket can be growing, not started (0) 
+			 * or full (1).
+			 * 
+			 * Example:
+			 * 
+			 * 5 buckets -> width 0.2
+			 * Boundaries: 0 - 0.2, 0.2 - 0.4, ...
+			 * p: 0.1 -> [grow, 0, 0, 0, 0]
+			 * p: 0.3 -> [1, grow, 0, 0 ,0]
+			 * p: 0.5 -> [1, 1, grow, 0 ,0]
+			 */
+
+			const bucketWidth = 1 / data.length
+			for(let r =0; r < data.length; r++) {
+				buckets[r] = 0
+				const lowerBound = bucketWidth * r
+				const upperBound = bucketWidth * (r + 1)
+				if (p > lowerBound) {
+					let scalledP = (p - lowerBound) / bucketWidth
+					buckets[r] = scalledP
+				}
+				if (p > upperBound) {
+					buckets[r] = 1
+				}
+			}
+			for(let r =0; r < data.length; r++) {
+				const v = data[r];
+				const bucketP = buckets[r]
+				if (Array.isArray(v)){
+					result[r] = []
+					const row = v
+					for(let c = 0; c < row.length; c++){
+						result[r][c] = row[c] * bucketP
+					}
+				} else {
+					result[r] = v * bucketP
+				}
+			}
+			return result
+		},
+
+		scaleDataGrow (data, p,) {
+			const result = []
 			for(let r =0; r < data.length; r++){
 				const v = data[r];
 				if (Array.isArray(v)){
@@ -498,6 +577,26 @@ export default {
 			}
 			return flipped;
 		},
+
+		setFillColor (ctx, color, w, h) {
+			if (color.colors) {
+				const gradient = CanvasUtil.getGradient(ctx, color, w, h)
+				ctx.fillStyle = gradient
+			} else {
+				ctx.fillStyle = color;
+			}
+		},
+
+		setStrokeColor (ctx, color, w, h) {
+			if (color.colors) {
+				const gradient = CanvasUtil.getGradient(ctx, color, w, h)
+				ctx.strokeStyle = gradient
+			} else {
+				ctx.strokeStyle = color;
+			}	
+		},
+
+
 
 		getValue (){
 			return this.value;
@@ -565,6 +664,10 @@ export default {
 		},
 
 		setState (){
+		},
+
+		beforeDestroy () {
+			this.animationRunning = false
 		}
     },
     mounted () {

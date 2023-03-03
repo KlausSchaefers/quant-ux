@@ -29,6 +29,7 @@ import Preview from 'page/Preview'
 import TableSettings from './TableSettings'
 import DropDownTree from './DropDownTree'
 import ImageRotate from './ImageRotate'
+import ChartAnimationSettings from './ChartAnimationSettings'
 import DataBindingButton from './DataBindingButton'
 import BoxShadow from './BoxShadow2'
 import DomUtil from 'core/DomUtil'
@@ -489,7 +490,7 @@ export default {
 				const row = model.props.data[0];
 				for(let i = 0; i < row.length; i++){
 					const key = "background" + i;
-					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true);
+					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
 				}
 			}
 
@@ -507,7 +508,7 @@ export default {
 				const row = model.props.data[0];
 				for(let i = 0; i < row.length; i++){
 					const key = "background" + i;
-					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true);
+					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
 				}
 			}
 			this._renderChartAnimation(model)
@@ -519,17 +520,20 @@ export default {
 
 			this._renderInputDropDown("Value",model, [0,10,20,30,40,50,60,70,80,90, 100], "value", true);
 			this._renderInputDropDown("Width",model, [0, 4, 8, 12, 16, 24, 32, 40, 64], "lineWidth", false);
-			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged" , true);
-			this._renderColor("Foreground",'<span class="mdi mdi-format-color-fill"></span>',model.style.color, "color", "onStyleChanged" , true);
+			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged" , true, true);
+			this._renderColor("Foreground",'<span class="mdi mdi-format-color-fill"></span>',model.style.color, "color", "onStyleChanged" , true, true);
 
 			this._renderChartAnimation(model)
 		},
 
-		_renderChartAnimation(model) {
-			this._renderCheck("Animate",model.props.animate, "animate" );
-			if (model.props.animate) {
-				this._renderInputDropDown("Duration",model, [0.5,1,1.5,2,2.5,3,4,5,10], "duration", true);
-			}
+		_renderChartAnimation() {
+			// this._renderCheck("Animate",model.props.animate, "animate" );
+			// if (model.props.animate) {
+			// 	this._renderInputDropDown("Duration",model, [0.5,1,1.5,2,2.5,3,4,5,10], "duration", true);
+			// }
+
+			this._renderButton("Animation", "mdi mdi-video", "_renderChartAnimationDialog");
+		
 		},
 
 
@@ -538,10 +542,10 @@ export default {
 			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
 
 			if(model.props.data && model.props.data[0]){
-				var row = model.props.data[0];
-				for(var i =0; i< row.length; i++){
-					var key = "background" + i;
-					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true);
+				const row = model.props.data[0];
+				for(let i =0; i< row.length; i++){
+					const key = "background" + i;
+					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
 				}
 			}
 			this._renderChartAnimation(model)
@@ -554,10 +558,10 @@ export default {
 			this._renderInputDropDown("Width",model, [0, 4, 8, 12, 16, 24, 32, 40, 64], "lineWidth", false);
 
 			if(model.props.data && model.props.data[0]){
-				var row = model.props.data[0];
-				for(var i =0; i< row.length; i++){
-					var key = "background" + i;
-					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true);
+				const row = model.props.data[0];
+				for(let i =0; i< row.length; i++){
+					const key = "background" + i;
+					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
 				}
 			}
 			this._renderChartAnimation(model)
@@ -565,8 +569,6 @@ export default {
 
 
 		_showLabel (model){
-		
-
 			if (model?.props?.animated) {
 				this._setSectionLabel("Animated Label");
 				this._renderInputDropDown("Min",model, [0,1,5,10,20, 50, 100], "min", true);
@@ -575,7 +577,6 @@ export default {
 			} else {
 				this._setSectionLabel("Label");
 			}
-
 		},
 
 		_showToggleButton (model) {
@@ -762,10 +763,6 @@ export default {
 			this._renderInputDropDown("Handle Width",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleWidth");
 			this._renderInputDropDown("Handle Radius",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleRadius");
 			this._renderShadowPicker("Handle",model, "handleShadow");
-
-
-	
-
 
 			//this._renderReferenceButton(model,"valueLabel", "No Label", "mdi mdi-label");
 		},
@@ -1259,6 +1256,40 @@ export default {
 		 **********************************************************************/
 
 
+		_renderChartAnimationDialog (e){
+			this.stopEvent(e);
+			let db = new DomBuilder();
+			let popup = db.div(" MatcPadding").build();
+			let cntr = db.div("").build(popup);
+
+			let settings = this.$new(ChartAnimationSettings);
+			settings.setWidget(this.widget);
+			settings.placeAt(cntr);
+
+			let bar = db.div("MatcButtonBar MatcButtonBarRelative MatcMarginTop").build(popup);
+			let write = db.div("MatcButton", "Save").build(bar);
+			let cancel = db.a("MatcLinkButton", "Cancel").build(bar);
+			
+			let d = new Dialog({overflow:true});
+
+			d.own(on(write, touch.press, lang.hitch(this,"setChartAnimation", d, settings, this.widget)));
+			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
+			d.own(on(d, "close", () => {
+				settings.destroy();
+			}));
+			d.popup(popup, e.target);
+		
+		},
+
+		setChartAnimation (d, settings) {
+			const newAnimation = settings.getValue()
+			console.debug('setChartAnimation', newAnimation)
+			this.onProperyChanged('animation', newAnimation),
+			d.close()
+		},
+
+
+
 		_renderRestDialog (e) {
 
 			const popup = this.db.div("MatcOptionDialog MatcPadding").build();
@@ -1470,15 +1501,14 @@ export default {
 		},
 
 		_renderStyledTableDialog (e) {
-			this._renderTableDialog(e)
-			
+			this._renderTableDialog(e, 26)
 		},
 
-		_renderTableDialog (e){
+		_renderTableDialog (e, maxColumns = 6){
 		
 			const popup = this.db.div("MatcOptionDialog MatcPadding").build();
 			const cntr = this.db.div("").build(popup);
-			const table = this.$new(Table);
+			const table = this.$new(Table, {columns: maxColumns});
 			table.placeAt(cntr);
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
 			const write = this.db.div("MatcButton", "Ok").build(bar);
@@ -2062,7 +2092,7 @@ export default {
 
 		},
 
-		_renderColor (lbl, icon, value, property, callback, updateColor){
+		_renderColor (lbl, icon, value, property, callback, updateColor, hasGradient = false){
 
 			if(!callback){
 				callback ="onStyleChanged";
@@ -2070,7 +2100,7 @@ export default {
 
 			var row = this.db.div("MatcToobarRow MatcToobarRowHover").build(this.cntr);
 
-			var color = this.$new(ToolbarColor, {hasPicker:true});
+			var color = this.$new(ToolbarColor, {hasPicker:true, hasGradient: hasGradient});
 			color.placeAt(row);
 			if(updateColor){
 				color.updateColor = true;

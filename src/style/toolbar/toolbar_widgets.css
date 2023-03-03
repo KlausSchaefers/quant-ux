@@ -150,6 +150,41 @@
 }
 
 
+/****************************************************
+ * Chart Settings
+ ****************************************************/
+
+.MatcChartAnimationSettings{
+	width: 500px;
+	height: 150px;
+}
+
+.MatcChartAnimationSettings .container{
+  	margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.MatcChartAnimationSettingsCntr{
+	width: 150px;
+	height: 150px;
+	border:1px solid #fff;
+    cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.MatcChartAnimationSettingsWrapper {
+	height: 100%;
+	width: 100%;
+    position: relative;
+}
+
+.MatcActionSettingsAnimCntrPlaying, .MatcActionSettingsAnimCntr:hover{
+	border:1px solid #3787f2;
+}
+
 
 /****************************************************
  * Action Settings
