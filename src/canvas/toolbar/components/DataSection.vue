@@ -489,13 +489,39 @@ export default {
 			if (model.props.data && model.props.data[0]){
 				const row = model.props.data[0];
 				for(let i = 0; i < row.length; i++){
-					const key = "background" + i;
-					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
+				
+				
+					if (model.has.fill) {
+
+						const key = "background" + i;
+						this._renderColor('' + this.getNiceNumber(i+1) + " Fill-Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
+				
+
+						const key2 = "color" + i;
+						this._renderColor('' + this.getNiceNumber(i+1) + " Line-Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key2], key2, "onStyleChanged" , true, true);
+				
+					} else {
+						const key = "background" + i;
+						this._renderColor('' + this.getNiceNumber(i+1) + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
+					}
 				}
 			}
 
 
 			this._renderChartAnimation(model)
+		},
+
+		getNiceNumber(n) {
+			if (n === 1) {
+				return '1st'
+			}
+			if (n === 1) {
+				return '2nd'
+			}
+			if (n === 3) {
+				return '3rd'
+			}
+			return n + 'th'
 		},
 
 		_showStackedRingChart(model) {
@@ -508,7 +534,7 @@ export default {
 				const row = model.props.data[0];
 				for(let i = 0; i < row.length; i++){
 					const key = "background" + i;
-					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
+					this._renderColor('' + this.getNiceNumber(i+1) + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
 				}
 			}
 			this._renderChartAnimation(model)
@@ -527,13 +553,7 @@ export default {
 		},
 
 		_renderChartAnimation() {
-			// this._renderCheck("Animate",model.props.animate, "animate" );
-			// if (model.props.animate) {
-			// 	this._renderInputDropDown("Duration",model, [0.5,1,1.5,2,2.5,3,4,5,10], "duration", true);
-			// }
-
-			this._renderButton("Animation", "mdi mdi-video", "_renderChartAnimationDialog");
-		
+			this._renderButton("Animation", "mdi mdi-video", "_renderChartAnimationDialog");		
 		},
 
 
@@ -545,7 +565,7 @@ export default {
 				const row = model.props.data[0];
 				for(let i =0; i< row.length; i++){
 					const key = "background" + i;
-					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
+					this._renderColor('' + this.getNiceNumber(i+1) + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
 				}
 			}
 			this._renderChartAnimation(model)
@@ -561,7 +581,7 @@ export default {
 				const row = model.props.data[0];
 				for(let i =0; i< row.length; i++){
 					const key = "background" + i;
-					this._renderColor('Bar ' + i+1 + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
+					this._renderColor('' + this.getNiceNumber(i+1) + " Color",'<span class="mdi mdi-format-color-fill"></span>',model.style[key], key, "onStyleChanged" , true, true);
 				}
 			}
 			this._renderChartAnimation(model)

@@ -261,9 +261,9 @@ export default {
 				ctx.arc(x,x, (x- width/2), s, e) 
 				if (style["background" + i]) {
 					//ctx.strokeStyle = style["background" + i]
-					this.setFillColor(ctx, style["background" + i], w, h)
+					this.setStrokeColor(ctx, style["background" + i], w, h)
 				}
-				ctx.strokeStyle = style.color
+				//ctx.strokeStyle = style.color
 				ctx.lineWidth = width
 				ctx.stroke()
 				lastP += (v/ sum)
@@ -351,13 +351,15 @@ export default {
 					ctx.lineWidth = this.getZoomed(style.lineWidth*2, this._scaleY);
 				}
 
-				if(style["background" + r]){
+				if (style["color" + r]) {
+					this.setStrokeColor(ctx, style["color" + r], w, h)
+				} else if(style["background" + r]){
 					this.setStrokeColor(ctx, style["background" + r], w, h)
-					if(model.has.fill){
-						this.setFillColor(ctx, style["background" + r], w, h)
-						//ctx.fillStyle = style["background" + r];
-						ctx.fill();
-					}
+				}
+
+				if(style["background" + r] && model.has.fill){
+					this.setFillColor(ctx, style["background" + r], w, h)
+					ctx.fill();
 				}
 				ctx.stroke();
 			}
@@ -419,7 +421,9 @@ export default {
 					bar.style.width = w + "%";
 					bar.style.left = c * w  +o  + "%";
 					if(style["background" + c]){
-						bar.style.background = style["background" + c];
+						this.setBackgroundColor(bar, style["background" + c], model.w, model.h)
+						bar.style.backgroundSize = `100% ${model.h}px`
+						bar.style.backgroundPosition = 'bottom'
 					}
 					this._shadowNodes.push(bar);
 				}
@@ -438,6 +442,7 @@ export default {
 
 			const groupHeight = 100/(this.groups);
 			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
+
 			for(let r =0; r < data.length; r++){
 				const group = data[r];
 
@@ -447,7 +452,7 @@ export default {
 
 				let w =  100/(group.length+1);
 				let o = w/2;
-				if(w ==100){
+				if(w === 100){
 					w = 50;
 					o = 25;
 				}
@@ -457,9 +462,12 @@ export default {
 					const bar = db.div("MatcWidgetTypeBarChartHorizontalBar").build(grp);
 					bar.style.width = v*100 / this.max + "%";
 					bar.style.height = w + "%";
-					bar.style.top = c * w  +o  + "%";
+					bar.style.top = c * w  + o  + "%";
 					if(style["background" + c]){
-						bar.style.background = style["background" + c];
+						//bar.style.background = style["background" + c];
+						this.setBackgroundColor(bar, style["background" + c], model.w, model.h)
+						bar.style.backgroundSize = `${model.w}px 100%`
+						bar.style.backgroundPosition = 'left'
 					}
 					this._shadowNodes.push(bar);
 				}
@@ -596,7 +604,13 @@ export default {
 			}	
 		},
 
-
+		setBackgroundColor (node, color) {
+			if (color.colors) {
+				this._set_background_gradient(node, color)
+			} else {
+				node.style.background = color
+			}
+		},
 
 		getValue (){
 			return this.value;

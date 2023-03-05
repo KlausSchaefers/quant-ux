@@ -1133,6 +1133,25 @@ export default {
       }
     },
 
+    _set_background_gradient(node, background) {
+        if (background && background.colors) {
+          let value = "(" + background.direction + "deg";
+          const sortedColors = background.colors.slice()
+          sortedColors.sort((a, b) => {
+            return a.p - b.p
+          })
+          for (let i = 0; i < sortedColors.length; i++) {
+            const color = sortedColors[i];
+            value += "," + color.c + " " + color.p + "% ";
+          }
+          value + ");";
+          node.style.backgroundImage = "linear-gradient" + value;
+          node.style.backgroundImage = "-webkit-linear-gradient" + value;
+        } else {
+          node.style.background = background;
+        }
+    },
+
 
     _set_backgroundImageRotation (parent, style) {
       if (this._iconNodes) {

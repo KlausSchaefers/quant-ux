@@ -29,7 +29,8 @@ export default {
    mixins:[_Tooltip, DojoWidget],
    data: function () {
        return {
-           arrowSize: 10
+           arrowSize: 10,
+           scaleFactor: 0
        }
    },
    components: {},
@@ -45,6 +46,10 @@ export default {
         
         setWidget (widget){
             this.widget = lang.clone(widget);
+            this.scaleFactor = (150 / widget.w)
+            this.widget.h = this.scaleFactor * widget.h
+            this.widget.w = this.scaleFactor * widget.w
+
             if (!this.widget.props.animation) {
                 this.widget.props.animation = {
                     type: null,
@@ -136,7 +141,7 @@ export default {
                 type: this.getType(widget)
             })
             this.chart.placeAt(wrapper)
-            this.chart.render(widget, widget.style, 1, 1)
+            this.chart.render(widget, widget.style, this.scaleFactor, this.scaleFactor)
             this.display.appendChild(wrapper)
         },
 
@@ -144,7 +149,7 @@ export default {
         showAnimation () {
             if (this.chart) {
                 const widget = this.widget
-                this.chart.render(widget, widget.style, 1, 1)
+                this.chart.render(widget, widget.style, this.scaleFactor, this.scaleFactor)
             }
         },
 
