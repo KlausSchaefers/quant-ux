@@ -148,6 +148,7 @@ export default {
       this.initSettings();
       this.initWiring();
       this.initKeys();
+      this.initMouseTracker()
 
       this.db = new DomBuilder();
 
@@ -284,7 +285,6 @@ export default {
           color = this.mixColor(p)
         }
       }
-      console.debug('DarwLine', id)
 			return this.drawSVGLine(id, line, color, width, 1);
 		},
 
@@ -1910,20 +1910,12 @@ export default {
         // space
 
         if (!this._inlineEditStarted) {
-          this.setMode("move");
           this.stopEvent(e);
-          /**
-           * start the dnd already
-           */
-          this.onDragStart(
-            this.container,
-            "container",
-            "onCanvasDnDStart",
-            "onCanvasDnDMove",
-            "onCanvasDnDEnd",
-            null,
-            this._lastMouseMoveEvent
-          );
+          if(this.getMode() != "move"){
+              this.setMode("move");
+              this.showHint("Move the mouse to move canvas...");
+              this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, this._lastMouseMoveEvent, true);
+            }
         }
 
         /**
@@ -1954,6 +1946,10 @@ export default {
       }
     },
 
+    getMode (){
+			return this.mode;
+		},
+
     onKeyUp(e) {
       var k = e.keyCode ? e.keyCode : e.which;
       if (k == 32) {
@@ -1968,7 +1964,9 @@ export default {
      * Helper Functons
      ***************************************************************************/
 
-    initMouseTracker() {},
+    initMouseTracker() {
+      this.own(on(win.body(),"mousemove", lang.hitch(this,"onMouseMove")));
+    },
 
     onMouseMove(e) {
       var pos2 = this.getCanvasMousePosition(e, true);
