@@ -647,7 +647,6 @@ export default {
 		 * Can be overwritten by children to have proper type conversion
 		 */
 		_setDataBindingValue (v) {
-			console.debug('_setDataBindingValue', JSON.stringify(v))
 			this.animationRunning = false
 
 			let data = this.model.props.data
