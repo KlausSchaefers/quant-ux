@@ -160,7 +160,8 @@ class RestEngine {
 
     handleOutput (resolve, request, response) {
         this.logger.log(2, "handleOutput", "enter" ,response)
-        if (response.status == 200) {
+     
+        if (response.status == 200 || response.status == 201) {
             if (request.output.type === "JSON") {
                 try {
                     resolve(response.json())
