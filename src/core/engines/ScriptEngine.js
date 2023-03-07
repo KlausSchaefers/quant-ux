@@ -49,7 +49,7 @@ export default class ScriptEngine {
 
     onMessage (message, resolve, reject, start) {
         const end = new Date().getTime()
-        Logger.log(-1, 'ScriptEngine.onMessage() > took',end - start)
+        Logger.log(2, 'ScriptEngine.onMessage() > took',end - start)
         this.isDone = true
         resolve(message.data)
     }

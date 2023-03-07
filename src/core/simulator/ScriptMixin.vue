@@ -32,6 +32,43 @@ export default {
             .filter(w => w.type === 'Script' && w.props.trigger === 'load')
     },
 
+    async initRepeatScripts () {
+        this.logger.log(2,"initRepeatScripts","enter >" );
+        if (this.doNotExecuteScripts) {
+            this.logger.log(2,"initRepeatScripts","exit > Do not run" );
+            return
+        }
+        const widgets = this.getRepeatScripts()
+        this._repeatScriptIntervals = []
+        for (let i=0; i< widgets.length; i++) {
+            const widget = widgets[i]
+            if (widget.props.script && widget.props.delay) {
+                let id = setInterval(() => {
+                    this.logger.log(-1,"initRepeatScripts","run > ", widget.name );
+                    this.runScript(widget.props.script, widget)
+                }, widget.props.delay * 1000)
+                this._repeatScriptIntervals.push(id)
+            }
+        }
+        this.logger.log(-2,"initRepeatScripts","exit", this.dataBindingValues );
+    },
+
+    cleanUpRepeatScripts () {
+        this.logger.log(-2,"cleanUpRepeatScripts","enter" );
+        if (this._repeatScriptIntervals) {
+            this._repeatScriptIntervals.forEach(id => {
+                clearInterval(id)
+            })
+        }
+    },
+
+    getRepeatScripts () {
+        return Object
+            .values(this.model.widgets)
+            .filter(w => w.type === 'Script' && w.props.trigger === 'repeat')
+    },
+ 
+
     async executeDataScripts () {
         this.logger.log(2,"executeDataScripts","enter >" );
         if (this.doNotExecuteScripts) {

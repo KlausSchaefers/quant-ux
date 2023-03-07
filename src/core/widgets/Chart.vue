@@ -27,6 +27,7 @@ export default {
 			this._borderNodes = [this.domNode];
 			this._backgroundNodes = [];
 			this._shadowNodes = [];
+			
 		},
 
 		wireEvents (){
@@ -44,9 +45,12 @@ export default {
 			this.style = style;
 			this._scaleX = scaleX;
 			this._scaleY = scaleY;
+		
 
 			let data = model.props.data
 			let value = model.props.value
+
+			this.lastValue = 0
 
 			this.renderChart(model, style, data, value)
 			this.setValue(value)
@@ -119,12 +123,13 @@ export default {
 			}
 
 			if (steps && steps.length > 0 && this.animationRunning) {
-				
 				requestAnimationFrame(() => {
 					this.renderChartType(model, style, data, value, steps)
 				})
 			} else {
 				this.animationRunning = false
+				this.lastValue = value
+				this.lastData = data
 			}
 		},
 
@@ -176,11 +181,8 @@ export default {
 
 
 		renderRing (model, style, data, value, progress){
-			// to allow continues the following formalia should
-			// work, if the this.value would not be updated to early...
-			// const p = (this.value + ((value - this.value) * progress)) / 100
-			
-			const p = (value * progress) / 100
+	
+			const p = (this.lastValue + ((value - this.lastValue) * progress)) / 100
 			
 			const db = new DomBuilder();
 			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
@@ -220,8 +222,6 @@ export default {
 			this.removeAllChildren(this.domNode)
 			this.domNode.appendChild(cntr);
 		},
-
-
 
 		renderPie (model, style, data, width, progress = 1){
 
@@ -397,7 +397,7 @@ export default {
 
 			data = this.prepareData(data);
 			data = this.scaleData(data, progress, model)
-
+	
 			const groupWidth = 100/(this.groups);
 			const cntr = db.div("MatcWidgetTypeBarChartCntr").build();
 			for(let r =0; r < data.length; r++){
@@ -541,10 +541,22 @@ export default {
 					result[r] = []
 					const row = v
 					for(let c = 0; c < row.length; c++){
-						result[r][c] = row[c] * bucketP
+						if (this.lastData && this.lastData[r] && this.lastData[r][c] !== undefined) {
+							const value = row[c]
+							const lastValue = this.lastData[r][c] * 1
+							result[r][c] = lastValue + (value - lastValue) * bucketP
+						} else {
+							result[r][c] = row[c] * bucketP
+						}
 					}
 				} else {
-					result[r] = v * bucketP
+					if (this.lastData && this.lastData[r] !== undefined) {
+						const lastValue = this.lastData[r] * 1
+						result[r] = lastValue + (v - lastValue) * bucketP
+					} else {
+						result[r] = v * bucketP
+					}
+					
 				}
 			}
 			return result
@@ -558,10 +570,24 @@ export default {
 					result[r] = []
 					const row = v
 					for(let c = 0; c < row.length; c++){
-						result[r][c] = row[c] * p
+					
+						if (this.lastData && this.lastData[r] && this.lastData[r][c] !== undefined) {
+							const value = row[c]
+							const lastValue = this.lastData[r][c] * 1
+							result[r][c] = lastValue + (value - lastValue) * p
+						} else {
+							result[r][c] = row[c] * p
+						}
+						
 					}
 				} else {
-					result[r] = v * p
+					if (this.lastData && this.lastData[r] !== undefined) {
+						const lastValue = this.lastData[r] * 1
+						result[r] = lastValue + (v - lastValue) * p
+					} else {
+						result[r] = v * p
+					}
+					
 				}
 			}
 			return result
@@ -621,6 +647,7 @@ export default {
 		 * Can be overwritten by children to have proper type conversion
 		 */
 		_setDataBindingValue (v) {
+			console.debug('_setDataBindingValue', JSON.stringify(v))
 			this.animationRunning = false
 
 			let data = this.model.props.data
@@ -644,23 +671,31 @@ export default {
 				 * Expect columns wise array of arrays
 				 * [ [1,2], [11, 22]...]
 				 */
-				data = []
-				let temp = this.objectToArray(v)
-				for (let r in temp) {
-					let row = this.objectToArray(temp[r])
-					for (let c in row){
-						if (!data[c]) {
-							data[c] = []
+				if (Array.isArray(v)) {
+					data = v
+				} else {
+					data = []
+					const temp = this.objectToArray(v)
+					for (let r in temp) {
+						const row = this.objectToArray(temp[r])
+						for (let c in row){
+							if (!data[c]) {
+								data[c] = []
+							}
+							data[c].push(row[c])
 						}
-						data[c].push(row[c])
-					}
-				}		}
+					}	
+				}
+			}
 
 			this.renderChart(this.model, this.style, data, value)
 			this.setValue(v);
 		},
 
 		objectToArray (v) {
+			if (Array.isArray(v)) {
+				return v
+			}
 			let result = []
 			for (let key in v) {
 				result.push(v[key])

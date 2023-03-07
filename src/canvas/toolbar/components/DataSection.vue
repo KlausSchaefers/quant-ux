@@ -454,9 +454,20 @@ export default {
 
 		},
 
-		_showRest (){
+		_showRest (model){
 			this._setSectionLabel("Rest");
 			this._renderPrimaryButton("Configuration", "mdi mdi-cog", "_renderRestDialog");
+
+			this._renderLabelDropDown("Icon", model, "trigger",[
+				{ value:null, icon:"mdi mdi-cursor-default-click-outline", label : "Click Trigger"},
+				{ value:"load", icon:"mdi mdi mdi-progress-download", label : "Loaded Trigger"},
+				{ value:"repeat", icon:"mdi mdi-clock-fast", label : "Repeat Trigger"}
+			]);
+
+			if (model?.props?.trigger === 'repeat') {
+				this._renderInputDropDown("Seconds",model, [1, 2, 3, 4, 5, 10, 64, 80, 120], "delay", true);
+			}
+
 		},
 
 		_showScript (model){
@@ -467,8 +478,13 @@ export default {
 			this._renderLabelDropDown("Icon", model, "trigger",[
 				{ value:null, icon:"mdi mdi-cursor-default-click-outline", label : "Click Trigger"},
 				{ value:"databinding", icon:"mdi mdi-database-edit-outline", label : "Data Trigger"},
-				{ value:"load", icon:"mdi mdi mdi-progress-download", label : "Loaded Trigger"}
+				{ value:"load", icon:"mdi mdi mdi-progress-download", label : "Loaded Trigger"},
+				{ value:"repeat", icon:"mdi mdi-clock-fast", label : "Repeat Trigger"}
 			]);
+
+			if (model?.props?.trigger === 'repeat') {
+				this._renderInputDropDown("Seconds",model, [1, 2, 3, 4, 5, 10, 64, 80, 120], "delay", true);
+			}
 
 		},
 
@@ -2034,7 +2050,7 @@ export default {
 		},
 
 		_renderPrimaryButton (lbl, icon, callback){
-			var row = this.db.div("MatcToobarRow ").build(this.cntr);
+			var row = this.db.div("MatcToobarRow MatcMarginBottomXS").build(this.cntr);
 			var item = this.db.div("MatcToolbarItem MatcToolbarGridFull").build(row);
 			var btn = this.db.span("MatcToolbarButton MatcButton MatcToolbarButtonPrimary").build(item);
 			this.db.span(icon + ' MatcButtonIcon').build(btn)

@@ -74,7 +74,7 @@
       <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
        
       </div>
-      <div class="MatcSimulatorVersion">v4.3.30</div>
+      <div class="MatcSimulatorVersion">v4.3.35</div>
     </div>
   </div>
 </template>
@@ -456,7 +456,10 @@ export default {
 			this.initScroll();
 			// this can cause issues when the script want to fix
 			await this.initLoadScripts() 
+			await this.initRepeatScripts() 
 			await this.initDefaultDataBinding(model)
+			await this.initLoadRest()
+			await this.initRepeatRest()
 	
 
 			this.model = this.createZoomedModel(this._scaleX, this._scaleY);
@@ -758,7 +761,7 @@ export default {
 			 */
 			let restSuccess = false
 			if (widget.props && widget.props.rest) {
-				restSuccess = await this.executeRest(screenID, widgetID, widget, orginalLine)
+				restSuccess = await this.executeRest(widget, orginalLine)
 			}
 
 			/**
@@ -847,7 +850,7 @@ export default {
 			const rule = line.rule;
 			let uiWidget = this.renderFactory.getUIWidgetByID(rule.widget);
 			if (!uiWidget) {
-				var copyId = rule.widget + "@" + screenID;
+				const copyId = rule.widget + "@" + screenID;
 				uiWidget = this.renderFactory.getUIWidgetByID(copyId);
 			}
 			if (uiWidget){
@@ -880,7 +883,7 @@ export default {
 					/**
 					 * Since 2.1.4 we support chaining of logic widgets
 					 */
-					let widget = this.model.widgets[matchedLine.to];
+					const widget = this.model.widgets[matchedLine.to];
 					if(widget){
 						this.logLine(matchedLine, screenID);
 						this.executeLogic(screenID, matchedLine.from, widget, matchedLine);
@@ -895,9 +898,9 @@ export default {
 
 
 		isRuleMatching (rule, uiWidget){
-			var value = uiWidget.getValue()
-			var valid = uiWidget.isValid(false);
-			var result = this.isValueMatchingRule(value, valid, rule);
+			const value = uiWidget.getValue()
+			const valid = uiWidget.isValid(false);
+			const result = this.isValueMatchingRule(value, valid, rule);
 			this.logger.log(-1,"isRuleMatching","enter > " ,	rule.value + " " + rule.operator + " " + value + " / " + valid + " =>" + result);
 			return result;
 		},
@@ -905,7 +908,7 @@ export default {
 		getRuleValue (rule) {
 			let result = rule.value
 			if (result && result.indexOf('${') === 0 && result.indexOf('}') === result.length-1) {
-				let path = result.substring(2, result.length - 1)
+				const path = result.substring(2, result.length - 1)
 				result = this.getDataBindingByPath(path)
 				this.logger.log(-1,'getRuleValue', 'WITH PATH ' +  path,  ` >${result}<`)
 			}
@@ -920,7 +923,7 @@ export default {
 				value = this.convertQDateToIsoString(value)
 			}
 
-			var operator = rule.operator;
+			const operator = rule.operator;
 			/**
 			 * Special handling for checkbox group.
 			 * We should have an "in" operation
@@ -930,8 +933,8 @@ export default {
 				value = value[0]
 			}
 
-			var result = false;
-			let ruleValue = this.getRuleValue(rule)
+			let result = false;
+			const ruleValue = this.getRuleValue(rule)
 			switch(operator){
 				case "contains":
 					if (value.toLowerCase && ruleValue.toLowerCase) {
@@ -1166,6 +1169,8 @@ export default {
 			this.cleanUpTempListener();
 			this.cleanUpGestureScreenAnim();
 			this.cleanUpAnimations();
+			this.cleanUpRepeatScripts()
+			this.cleanUpRepeatRests()
 			/**
 			 * Do not to allow scrolling again!!!
 			 */
