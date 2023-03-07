@@ -149,7 +149,7 @@ export default {
 			simulatorEvents: [],
 			taskDone: {},
 			splashImage: null,
-			forceSimpleBar: false,
+			forceSimpleBar: false ,
         }
     },
     components: {},
