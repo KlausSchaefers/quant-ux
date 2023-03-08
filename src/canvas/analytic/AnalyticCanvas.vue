@@ -644,16 +644,25 @@ export default {
     },
 
     _render_pixel_screen_heatmap(actionEvents, screen, ctx) {
-      const events = [];
-      for (let i = 0; i < actionEvents.length; i++) {
-        const e = actionEvents[i];
-        const screenID = this.getEventScreenId(e);
-        if (screenID == screen.id) {
-          events.push(e);
-        }
+      if (screen.w <= 0 || screen.h <= 0) {
+        this.logger.error("_render_pixel_screen_heatmap", "Error > bad screen dimension: " + screen.name);
+        return
       }
-      const dist = this.computeClickDistribution(events, screen.w, screen.h);
-      this.draw(ctx, dist.values, dist.max, screen.w, screen.h);
+      try {
+        const events = [];
+        for (let i = 0; i < actionEvents.length; i++) {
+          const e = actionEvents[i];
+          const screenID = this.getEventScreenId(e);
+          if (screenID == screen.id) {
+            events.push(e);
+          }
+        }
+        const dist = this.computeClickDistribution(events, screen.w, screen.h);
+        this.draw(ctx, dist.values, dist.max, screen.w, screen.h);
+      } catch (err) {
+        this.logger.error("_render_pixel_screen_heatmap", "Error > " + screen.name);
+      }
+  
     },
 
     _render_HeatmapScrollView(screenEvents, screen, ctx) {

@@ -246,6 +246,10 @@ export default class FigmaService {
   parseScreen (fScreen, model, fModel, screenSize) {
     Logger.log(1, 'parseScreen()', fScreen.name)
     let pos = this.getPosition(fScreen)
+    if (pos.w == 0 || pos.h == 0) {
+      Logger.error('parseScreen() > Wrong dimension:', fScreen.name)
+      return
+    }
     let qScreen = {
       id: 's' + this.getUUID(model),
       figmaId: fScreen.id,
