@@ -181,6 +181,12 @@ export default {
 		 *   Collab Mouse
 		 ********************************************************/
 
+		renderAllCollabMousePositions(){
+			if (this.collabMousePositions) {
+				this._renderCollabMousePosition(this.collabMousePositions)
+			}
+		},
+
 		renderCollabMousePosition (positions) {
 			this.logger.log(4,"renderCollabMousePosition", "enter");
 
@@ -190,7 +196,6 @@ export default {
 		},
 
 		_renderCollabMousePosition (positions) {
-
 
 			if (!this.mouseDivs) {
 				this.mouseDivs = {}
@@ -527,7 +532,8 @@ export default {
 
 			this.cleanUpLines()
 			this.cleanUpSVGPoints()
-			this.cleanUpCollabMouse()
+			// Why did we call this?
+			//this.cleanUpCollabMouse()
 
 			/**
 			 * Make sure inline edit is flushed
@@ -576,6 +582,7 @@ export default {
 			this.cleanUpNode(this.widgetContainer)
 			this.cleanUpNode(this.dndContainer)
 			this.cleanUpSVG()
+			this.cleanUpCollabMouse()
 			this.renderFactory.cleanUp();
 
 			this.widgetDivs = {};

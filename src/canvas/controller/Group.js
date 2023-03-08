@@ -521,6 +521,11 @@ export default class Group extends Layer {
 		 */
 		const subGroups = []
 		const children = []
+		/**
+		 * Special case: We have n elements of the same group,
+		 * then we need to create a new subgroup
+		 */
+		
 		for (let i = 0; i < selection.length; i++) {
 			const widgetID = selection[i];
 			/**

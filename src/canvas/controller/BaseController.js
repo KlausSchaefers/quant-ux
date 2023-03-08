@@ -519,7 +519,7 @@ export default class BaseController extends Core {
 	}
 
 	collabRecieveChanges (user, event) {
-		this.logger.log(1, "collabRecieveChanges", "enter " , event);
+		this.logger.log(-1, "collabRecieveChanges", "enter " , event);
 
 		/**
 		 * Called from CollabSession with other users event.
@@ -529,7 +529,13 @@ export default class BaseController extends Core {
 		 */
 		this.model = this.collabService.applyEvent(this.model, event)
 		this.setOldModel(this.model)
-		this.render();
+		
+		const inheritedModel = this.getInheritedModel(this.model)
+		requestAnimationFrame(() => {
+			this._canvas.render(inheritedModel, false);
+			//this._canvas.renderAllCollabMousePositions()
+		})
+	
 		this.logger.log(-1, "collabRecieveChanges", "exit " , this.model.lastUUID);
 	}
 

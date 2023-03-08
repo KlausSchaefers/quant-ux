@@ -22,6 +22,7 @@ export default {
         this.renderCollabMousePosition(this.collabMousePositions)
       },
 
+
       addCollabUser (user) {
         const found = this.collabUsers.find(u => u.id === user.id)
         if (!found) {

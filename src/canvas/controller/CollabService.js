@@ -66,9 +66,7 @@ export default class CollabService {
         Logger.error('CollabService.applyEvent() > Opoops', event.changes)        
       }
 
-      console.debug('after', model.templates)
-
-
+     
       this.pushEvent(event)
 
 
