@@ -26,3 +26,7 @@ export function createController (model) {
 
     return [controller, model]
 }
+
+export function clone(obj) {
+    return JSON.parse(JSON.stringify(obj))
+}

@@ -74,7 +74,7 @@
       <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
        
       </div>
-      <div class="MatcSimulatorVersion">v4.3.35</div>
+      <div class="MatcSimulatorVersion">v4.3.38</div>
     </div>
   </div>
 </template>
@@ -799,6 +799,8 @@ export default {
 		},
 
 		getRuleMatchingLine (lines, screenID, restSuccess) {
+
+			
 			let matchedLine;
 			for(let i=0; i< lines.length; i++){
 				const line = lines[i];
@@ -833,14 +835,14 @@ export default {
 		},
 
 		checkDataBindingRule (line) {
-			let rule = line.rule
+			const rule = line.rule
 			let value = this.getDataBindingByPath(rule.databinding)
 			if (!value) {
 				// Since 3.0.17 this should not happen
 				this.logger.warn('checkDataBindingRule', 'No databinding value for ', rule.databinding)
 				value = this.getDefaultDatabinding(rule.databinding)
 			}
-			var result = this.isValueMatchingRule(value, true, rule);
+			const result = this.isValueMatchingRule(value, true, rule);
 			if (result) {
 				return line
 			}
@@ -912,6 +914,14 @@ export default {
 				result = this.getDataBindingByPath(path)
 				this.logger.log(-1,'getRuleValue', 'WITH PATH ' +  path,  ` >${result}<`)
 			}
+
+			if (result === 'true') {
+				result = true
+			}
+			if (result === 'false') {
+				result = false
+			}
+
 			return result
 		},
 
@@ -924,6 +934,8 @@ export default {
 			}
 
 			const operator = rule.operator;
+
+
 			/**
 			 * Special handling for checkbox group.
 			 * We should have an "in" operation
@@ -935,11 +947,12 @@ export default {
 
 			let result = false;
 			const ruleValue = this.getRuleValue(rule)
+
 			switch(operator){
 				case "contains":
 					if (value.toLowerCase && ruleValue.toLowerCase) {
-						var lowerValue = value.toLowerCase();
-						var lowerRule = ruleValue.toLowerCase();
+						const lowerValue = value.toLowerCase();
+						const lowerRule = ruleValue.toLowerCase();
 						result = lowerValue.indexOf(lowerRule) >= 0;
 					} else {
 						result = false;
@@ -951,23 +964,23 @@ export default {
 					break;
 
 				case "checked":
-					result = (value === true);
+					result = (value == true);
 					break;
 
 				case "notchecked":
-					result = (value === false);
+					result = (value == false);
 					break;
 
 				case "active":
-					result = (value === true);
+					result = (value == true);
 					break;
 
 				case "notactive":
-					result = (value === false) || (value === null) || (value === undefined);
+					result = (value == false) || (value == null) || (value == undefined);
 					break;
 
 				case "==":
-					result = (value === ruleValue);
+					result = (value == ruleValue);
 					break;
 
 				case "!=":
@@ -978,28 +991,28 @@ export default {
 					if(!value){
 						value = 0;
 					}
-					result = (value*1 > ruleValue *1);
+					result = (value * 1 > ruleValue *1);
 					break;
 
 				case "<":
 					if(!value){
 						value = 0;
 					}
-					result = (value*1 < ruleValue *1);
+					result = (value * 1 < ruleValue *1);
 					break;
 
 				case ">=":
 					if(!value){
 						value = 0;
 					}
-					result = (value*1 >= ruleValue *1);
+					result = (value * 1 >= ruleValue *1);
 					break;
 
 				case "<=":
 					if(!value){
 						value = 0;
 					}
-					result = (value*1 <= ruleValue *1);
+					result = (value * 1 <= ruleValue *1);
 					break;
 
 				default:

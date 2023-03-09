@@ -294,13 +294,13 @@ export default {
 			}
 
 
-			var chkBox = this.$new(CheckBox);
-			chkBox.setLabel("Hide Link");
-			css.add(chkBox.domNode, "MatcToolbarItem");
-			this.addTooltip(chkBox.domNode, "Do not show the link on the canvas");
-			chkBox.placeAt(parent);
-			chkBox.setValue(line.hidden);
-			this.tempOwn(on(chkBox, "change", lang.hitch(this, "onLineHideByID", line.id)));
+			// var chkBox = this.$new(CheckBox);
+			// chkBox.setLabel("Hide Link");
+			// css.add(chkBox.domNode, "MatcToolbarItem");
+			// this.addTooltip(chkBox.domNode, "Do not show the link on the canvas");
+			// chkBox.placeAt(parent);
+			// chkBox.setValue(line.hidden);
+			// this.tempOwn(on(chkBox, "change", lang.hitch(this, "onLineHideByID", line.id)));
 
 
 			/**

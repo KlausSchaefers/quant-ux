@@ -512,19 +512,30 @@ export default class Group extends Layer {
 	 **********************************************************************/
 
 	addGroup (selection){
-		this.logger.log(0,"addGroup", "enter ");
+		this.logger.log(1,"addGroup", "enter ");
+
+		/**
+		 * Since 4.3.39 we check also if we need to create
+		 * sub groups. We just check if the selection has a common group,
+		 * if so, we create a sub group
+		 */
+		const commonParentGroup = this.getCommonParentGroup(selection)
+		if (commonParentGroup) {
+			return this.addSubGroup(selection, commonParentGroup)
+		} else {
+			return this.addWrappingGroup(selection)
+		}
+	}
+
+	
+
+	addWrappingGroup(selection) {
+		this.logger.log(-1,"addWrappingGroup", "enter ");
 
 		this.startModelChange()
-		/**
-		 * Since 2.1.3 we have sub groups:
-		 * Check that we do not have group of group!
-		 */
+
 		const subGroups = []
 		const children = []
-		/**
-		 * Special case: We have n elements of the same group,
-		 * then we need to create a new subgroup
-		 */
 		
 		for (let i = 0; i < selection.length; i++) {
 			const widgetID = selection[i];
@@ -541,12 +552,10 @@ export default class Group extends Layer {
 			}
 		}
 		const length = this.getObjectLength(this.model.groups);
-		let name = "Group"
-		if (length) {
-			name += ' ' + length;
-		}
+		const name = "Group" + (length > 0 ? ' ' + length : '')
+		
 		this.logger.log(-1,"addGroup", "add subgroups", subGroups);
-		let group = {
+		const group = {
 			id : "g"+this.getUUID(),
 			children : children,
 			groups: subGroups,
@@ -581,6 +590,28 @@ export default class Group extends Layer {
 		this.showSuccess("Group was created!");
 
 		return group;
+	}
+
+	getCommonParentGroup(selection) {
+		const parentGroups = new Set()
+		let result = null
+		for (let i = 0; i < selection.length; i++) {
+			const widgetID = selection[i];
+			const group = this.getParentGroup(widgetID);
+			if (group) {
+				result = group
+				parentGroups.add(group.id)
+			} else {
+				// no group, we need to create a new parent group
+				return
+			}
+			
+		}
+		// if we have one parentGroup we need to create a 
+		// new sub group
+		if(parentGroups.size === 1) {
+			return result
+		}
 	}
 
 	getGroupZChanges (selection) {
@@ -654,6 +685,117 @@ export default class Group extends Layer {
 	}
 
 	/**********************************************************************
+	 * Add Sub Group
+	 **********************************************************************/
+
+	addSubGroup (selection, commonParentGroup) {
+		this.logger.log(-1,"addSubGroup", "enter", commonParentGroup);
+
+		this.startModelChange()
+	
+		const length = this.getObjectLength(this.model.groups);
+		const name =  "Group" + (length > 0 ? ' ' + length : '')
+		const group = {
+			id : "g" + this.getUUID(),
+			children : selection,
+			groups: [],
+			name : name
+		};
+
+		/**
+		 * Since 4.2.5 we will move them all to consequtiv Z-Layers
+		 */
+		const [newZ, oldZ] = this.getGroupZChanges(selection)
+	
+		/**
+		 * create the command
+		 */
+		const command = {
+			timestamp : new Date().getTime(),
+			type : "AddSubGroup",
+			parentGroupId: commonParentGroup.id,
+			model : group,
+			newZ: newZ,
+			oldZ: oldZ
+		};
+		this.addCommand(command);
+
+		this.modelAddSubGroup(group, command.parentGroupId);
+		this.modelWidgetLayers(newZ)
+
+		this.render();
+		this.commitModelChange(false, true)
+
+		this.showSuccess("Sub Group was created!");
+
+		return group;
+	}
+
+	modelAddSubGroup (group, parentId){
+
+		if(!this.model.groups){
+			this.model.groups = {};
+		}
+
+		this.model.groups[group.id] = group;
+		const parentGroup = this.model.groups[parentId]
+		if (parentGroup) {
+			// add subgroup to parentGroup
+			if (!parentGroup.groups) {
+				parentGroup.groups = []
+			}
+			parentGroup.groups.push(group.id)
+			// remove children from parent group
+			parentGroup.children = parentGroup.children.filter(childId => {
+				return group.children.indexOf(childId) < 0
+			})
+		}
+		this.onModelChanged([{type: 'group', action:"change", id: group.id}])
+	}
+
+	modelRemoveSubGroup (group, parentId){
+		const groupId = group.id;
+		if (this.model.groups && this.model.groups[groupId]){
+			delete this.model.groups[groupId];
+			const parentGroup = this.model.groups[parentId]
+			if (parentGroup) {
+				console.debug(JSON.stringify(group))
+				console.debug(JSON.stringify(parentGroup))
+				if (parentGroup.groups) {
+					parentGroup.groups = parentGroup.groups.filter(id => id != groupId)
+				}
+				group.children.forEach(childId => {
+					parentGroup.children.push(childId)
+				}) 
+				console.debug(JSON.stringify(parentGroup))
+			}
+			
+			this.onModelChanged([{type: 'group', action:"change", id: groupId}])
+		} else {
+			console.warn("Could not delete group:", this.model.groups);
+			console.warn("Could not delete group: " + group.id, group);
+		}
+	}
+
+	undoAddSubGroup (command){
+		this.logger.log(-1,"undoAddSubGroup", "enter");
+		this.modelRemoveSubGroup(command.model,command.parentGroupId);
+		if (command.oldZ) {
+			this.modelWidgetLayers(command.oldZ)
+		}
+		this.render();
+	}
+
+	redoAddSubGroup (command){
+		this.logger.log(-1,"redoAddSubGroup", "enter");
+		this.modelAddSubGroup(command.model, command.parentGroupId);
+		if (command.newZ) {
+			this.modelWidgetLayers(command.newZ)
+		}
+		this.render();
+	}
+
+	/**********************************************************************
 	 * Group Remove
 	 **********************************************************************/
 
@@ -689,7 +831,7 @@ export default class Group extends Layer {
 	}
 
 	modelRemoveGroup (group, line, doNotCallModelChanged){
-		var id = group.id;
+		const id = group.id;
 		if (this.model.groups && this.model.groups[id]){
 			delete this.model.groups[id];
 			if (line){

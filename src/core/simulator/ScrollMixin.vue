@@ -217,7 +217,7 @@ export default {
 
 
 		scrollToTop (){
-			this.logger.log(-1,"scrollToTop","enter > " + this.mode, this.scrollListenTarget);
+			this.logger.log(1,"scrollToTop","enter > " + this.mode, this.scrollListenTarget);
 		
 			/**
 			 * In 4.2.30: Cleaned this up to be related to scroll target

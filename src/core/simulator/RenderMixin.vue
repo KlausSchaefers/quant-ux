@@ -80,7 +80,7 @@ export default {
 				if(oldScreen){
 					this.removeScreen(oldScreen);
 				} else {
-					console.debug("Simualtor.render() > No old screen" );
+					//console.debug("Simualtor.render() > No old screen" );
 				}
 
 				this.checkEndScreen(screen);

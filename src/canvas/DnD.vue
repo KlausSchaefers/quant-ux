@@ -389,8 +389,13 @@ export default {
        */
       this.inlineEditStop();
 
+      /**
+       * Detect here if a single widget was selected
+       * and now a new one is selected.
+       */
+      this.getGroupChangeBeforeWidgetDND(id, ids)
 
-      this.bechGroupChangeBeforeWidgetDND(id)
+      
       this._addDnDChildren(id);
 
       /**
@@ -435,7 +440,12 @@ export default {
       return widget;
     },
 
-    bechGroupChangeBeforeWidgetDND (id) {
+    getGroupChangeBeforeWidgetDND (id ) { // ids = []
+  
+      /**
+       * Here we need some smart stuff to know when to 
+       * change the selection
+       */
       const group = this.getTopParentGroup(id);
       if (!group) {
         return
