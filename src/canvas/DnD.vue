@@ -372,10 +372,8 @@ export default {
     onWidgetDndStart (id, div, pos, e) {
       this.logger.log(1, "onWidgetDndStart", "entry > " + id);
 
-      /**
-       * we must avoid touchpad based misplacements. Thereore we set *only* for
-       * the widgets some delay
-       */
+      // FIXME: First thing we should do, is to check if the selection has changed.
+
       const ids = this.getSelectedIds();
       if (ids == null) {
         this.setDnDMinTime(0);
@@ -395,7 +393,9 @@ export default {
        */
       this.getGroupChangeBeforeWidgetDND(id, ids)
 
-      
+      /**
+       * Now add all elements
+       */
       this._addDnDChildren(id);
 
       /**

@@ -191,40 +191,37 @@ export default {
 			dispatchMouseDownWidget (e, id) {
 				this.logger.log(1,"dispatchMouseDownWidget", "enter", id);
 
-				let widget = this.model.widgets[id];
-
+				const widget = this.model.widgets[id];
 				if (!widget) {
 					return
 				}
-
 				if(this.mode == "addLine") {
 					this.onLineEndSelected(id, e)
 					return
 				}
-
 				if (this.isElementLocked(widget) || this.isElementHidden(widget)) {
 					return
 				}
-
-				let div = this.widgetDivs[widget.id];
+				const div = this.widgetDivs[widget.id];
 				if (widget.inherited){
 					this.onInheritedWidgetSelected(widget.id);
 					return
 				}
 
 				if (this.mode == "edit" || this.mode == "addLine"){
+					/**
+					 * we check if the widget can move. This is not the case,
+					 * if it is locked, or if it not selected in case we have the Slected2Move mode on
+					 */
+					if(this.widgetCanMove(widget)){
+						
+						this.onDragStart(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick", e);
+					} else {
 						/**
-						 * we check if the widget can move. This is not the case,
-						 * if it is locked, or if it not selected in case we have the Slected2Move mode on
+						 * shouldbe mouse up...
 						 */
-						if(this.widgetCanMove(widget)){
-							this.onDragStart(div, widget.id, "onWidgetDndStart", "onWidgetDndMove", "onWidgetDndEnd", "onWidgetDndClick", e);
-						} else {
-							/**
-							 * shouldbe mouse up...
-							 */
-							this.onWidgetDndClick(id, div, null, e)
-						}
+						this.onWidgetDndClick(id, div, null, e)
+					}
 					return
 				}
 

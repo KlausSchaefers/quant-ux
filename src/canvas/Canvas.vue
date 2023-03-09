@@ -129,6 +129,7 @@ export default {
 			/**
 			 * Init remaining sub components
 			 */
+			this.initSelection()
 			this.initSettings();
 			this.initRender();
 			this.initMouseTracker();

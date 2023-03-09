@@ -122,6 +122,7 @@ export default {
 			/**
 			 * Init remaining sub components
 			 */
+			this.initSelection()
 			this.initRender();
 			this.initZoom();
 			this.initScrollBars();

@@ -3,6 +3,7 @@ import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 
 import topic from 'dojo/topic'
+import CanvasSelection from './CanvasSelection'
 
  export default {
     name: 'Select',
@@ -17,23 +18,14 @@ import topic from 'dojo/topic'
     components: {},
     methods: {
 
+		initSelection () {
+			this._canvasSelection = new CanvasSelection()
+		},
+
 		setSelectedScreens (screenIDs, expand = false, render = true) {
 			this.logger.log(-1, 'setSelectedScreens', screenIDs, expand, render)
-			// on case of extension save the old selection
-			const oldScreens = expand ? this._canvasSelection.screens : []
 			this.unSelect()					
-			this._canvasSelection.screens = oldScreens	
-			screenIDs.forEach(id => {	
-				// check if we need to unselect	
-				if (expand && this._canvasSelection.screens.findIndex(scrn => scrn.id === id) >=0 ) {
-					this._canvasSelection.screens = this._canvasSelection.screens.filter(scrn => scrn.id !== id)
-				} else {
-					const scrn = this.model.screens[id];
-					if (scrn) {
-						this._canvasSelection.screens.push(scrn)
-					}
-				}
-			})
+			this._canvasSelection.setSelectedScreens(this.model, screenIDs, expand)
 			if (render) {
 				this.renderScreenSelection()
 			}
@@ -51,14 +43,13 @@ import topic from 'dojo/topic'
 			if (this._canvasSelection.screens.length > 1) {
 				this.renderMultiScreenSelection()
 			}
-		
 		},
 
 		renderMultiScreenSelection () {
 			this.logger.log(1, "renderMultiScreenSelection", "enter > ");
 
-			let divs = []
-			let ids = []
+			const divs = []
+			const ids = []
 			for (let i = 0; i < this._canvasSelection.screens.length; i++) {
 				const scrn = this._canvasSelection.screens[i]
 				const id = scrn.id
@@ -401,14 +392,7 @@ import topic from 'dojo/topic'
 		},
 
 		resetCanvasSelection () {
-			//console.debug('resetCanvasSelection')
-			this._canvasSelection = {
-				screens: [],
-				groups: [],
-				lines: [],
-				widgets: [],
-				count:0
-			}	
+			this._canvasSelection.reset()
 		},
 
 		unSelect (){		
