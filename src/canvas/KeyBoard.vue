@@ -129,7 +129,7 @@ export default {
           if(!this._inlineEditStarted && !this._resizeStartPos && !this._dragNDropBoxWidgetStart){
             if(this.mode == "edit"){
               this.setMode("distance");
-              if(this._selectWidget){
+              if(this.getSelectedWidget()){
                 this.renderScreenDistance();
               }	else {
                 if(this._lastHoverWidget){
@@ -193,7 +193,7 @@ export default {
          */
         } else if(k == 67 && !isMeta){
           if(!this._inlineEditStarted  && !this._selectionToolStart){
-            if (this._selectWidget || this._selectGroup || this._selectMulti) { // _selectGroup
+            if (this.getSelectedWidget() || this._selectGroup || this._selectMulti) { // _selectGroup
               this.onReplicate();
               this.stopEvent(e);
               e.cancelBubble = true

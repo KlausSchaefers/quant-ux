@@ -453,9 +453,9 @@ export default {
       if (this._selectGroup && this._selectGroup.id !== group.id) {
         delete this._dragNDropGroupChildren
       }
-
-      if (this._dragNDropIgnoreGroup && this._selectWidget && this._selectWidget.id !== id) {
-          const otherGroup = this.getTopParentGroup(this._selectWidget?.id );
+      const selectedWidget = this.getSelectedWidget()
+      if (this._dragNDropIgnoreGroup && selectedWidget && selectedWidget.id !== id) {
+          const otherGroup = this.getTopParentGroup(selectedWidget?.id );
           if (otherGroup?.id !== group.id) {
             this._dragNDropIgnoreGroup = false
           }

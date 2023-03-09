@@ -404,7 +404,7 @@ export default {
 
 		renderDistance (){
 			if(this.mode == "distance"){
-				if(this._selectWidget){
+				if(this.getSelectedWidget()){
 					this.renderScreenDistance();
 				}
 			}

@@ -27,11 +27,11 @@ export default {
 
 		inlineEditKeyPress (e){
 			if(!this._inlineEditStarted){
-				if(this._selectWidget){
-					const div = this.renderFactory.getLabelNode(this._selectWidget);
+				if(this.getSelectedWidget()){
+					const div = this.renderFactory.getLabelNode(this.getSelectedWidget());
 					if(div){
 						this.logger.log(0,"inlineEditKeyPress", "enter");
-						this._inlineEditWidget = this._selectWidget;
+						this._inlineEditWidget = this.getSelectedWidget();
 						this._inlineEditDiv = div;
 						this._inlineFocus(e, false);
 					}

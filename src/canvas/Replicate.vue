@@ -30,8 +30,8 @@ export default {
           if (this._selectGroup){
             this._selectCloneIds = this._selectGroup.children
           }
-          if (this._selectWidget){
-            this._selectCloneIds.push(this._selectWidget.id)
+          if (this.getSelectedWidget()){
+            this._selectCloneIds.push(this.getSelectedWidget().id)
           }
           if (this._selectMulti){
             this._selectCloneIds = this._selectMulti;
