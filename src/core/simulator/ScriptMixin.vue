@@ -20,10 +20,11 @@ export default {
         for (let i=0; i< widgets.length; i++) {
             const widget = widgets[i]
             if (widget.props.script) {
-               await this.runScript(widget.props.script, widget)
+                this.logger.log(-1,"initLoadScripts","run >", widget.name );
+                await this.runScript(widget.props.script, widget)
             }
         }
-        this.logger.log(-2,"initLoadScripts","exit", this.dataBindingValues );
+        this.logger.log(2,"initLoadScripts","exit", this.dataBindingValues );
     },
 
     getLoadScripts () {
@@ -50,7 +51,7 @@ export default {
                 this._repeatScriptIntervals.push(id)
             }
         }
-        this.logger.log(-2,"initRepeatScripts","exit", this.dataBindingValues );
+        this.logger.log(2,"initRepeatScripts","exit", this.dataBindingValues );
     },
 
     cleanUpRepeatScripts () {

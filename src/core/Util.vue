@@ -654,6 +654,7 @@ export default {
     },
 
     resizeSimulatorContainer: function(model, container, factor) {
+      console.error('Util.resizeSimulatorContainer() > DEPRECATED')
       css.add(container, "MatchSimulatorContainer");
 
       var pos;

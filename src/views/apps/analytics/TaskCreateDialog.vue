@@ -82,7 +82,7 @@ import Util from "core/Util";
 import domGeom from "dojo/domGeom";
 
 export default {
-  name: "TaskRecorder",
+  name: "TaskCreateDialog",
   props: ['model'],
   mixins: [Util, DojoWidget],
   data: function() {
@@ -138,7 +138,7 @@ export default {
     },
 
     postCreate () {
-      this.logger = new Logger("TaskRecorder");
+      this.logger = new Logger("TaskCreateDialog");
       this.logger.log(-1, "postCreate", "enter > " + this.appID + "> " + this.hash);
       setTimeout(() => {
         this.createSimulator()
@@ -146,8 +146,8 @@ export default {
     },
 
     createSimulator () {
-      let wrapper = this.$refs.wrapper
-      var pos = this.resizeSimulatorContainer(this.model, this.$refs.simCntr, 0.7);
+      const wrapper = this.$refs.wrapper
+      const pos = this.resizeSimulatorContainer(this.model, this.$refs.simCntr, 0.7);
       wrapper.style.width = pos.w + 'px'
       wrapper.style.height = pos.h + 'px'
       this.simulator = this.$new(Simulator, {
@@ -196,8 +196,17 @@ export default {
         let pos = domGeom.position(node)
         pos.h = 600
         if (app.type == 'smartphone') {
-            pos = this.getScaledSize(pos, "height", app);
+            // there might be wide screen apps
+            if (app.screenSize.h < app.screenSize.w) {
+              this.logger.log(-1,  'resizeSimulatorContainer', 'Wide screen')
+ 
+              pos = this.getScaledSize(pos, "width", app);
+            } else {
+              pos = this.getScaledSize(pos, "height", app);
+            }
+            
         } else {
+        
             pos = this.getScaledSize(pos, "width", app);
         }
         return pos

@@ -8,11 +8,10 @@
   .TaskCreateDialogCntr {
     display: flex;
     height: 650px;
-    gap: 16px;
+    gap: 48px;
 
     .FormCntr{
-      width: 500px;
-
+      width: 600px;
       textarea{
         height: 100px;
       }
@@ -39,6 +38,7 @@
       justify-content: center;
       position: relative;
 
+
       .ABSelector {
         position: absolute;
         width: 100%;
@@ -53,19 +53,15 @@
           display: inline;
           font-size: 20px;
         }
-
       }
-
 
       .SimWrapper {
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        border-radius: 3px;
         overflow: auto;
       }
-
     }
-
   }
-
 }
 
 .StepCntr {
