@@ -136,6 +136,9 @@ import CanvasSelection from './CanvasSelection'
 			return false
 		},
 
+		getSelectedWidget() {
+			return this._selectWidget
+		},
 	
 	
 		onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){

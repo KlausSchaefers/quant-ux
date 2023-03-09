@@ -1431,9 +1431,10 @@ export default class Core extends Evented {
             /**
              * no widget, must be a group
              */
-            var group = this.model.groups[line.from];
+            const group = this.model.groups[line.from];
             if (group) {
-                fromPos = this.getBoundingBox(group.children);
+                const children = this.getAllGroupChildren(group)
+                fromPos = this.getBoundingBox(children);
             }
         }
 

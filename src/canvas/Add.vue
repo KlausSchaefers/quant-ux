@@ -395,15 +395,15 @@ export default {
 		addLineAtSelected (e, isLineDndStarted = false) {
 			this.logger.log(-1,"addLineAtSelected", "enter > isLineDnd: " + isLineDndStarted);
 
+			const selectedWidget = this.getSelectedWidget()
 
-
-			if (this._selectWidget && this._lastMouseMoveEvent) {
+			if (selectedWidget && this._lastMouseMoveEvent) {
 
 				/**
 				 * Check if there is a line
 				 */
-				if (!ModelUtil.isLogicWidget(this._selectWidget)) {
-						let lines = this.getFromLines(this._selectWidget)
+				if (!ModelUtil.isLogicWidget(selectedWidget)) {
+						let lines = this.getFromLines(selectedWidget)
 						if (lines.length > 0) {
 							this.logger.log(-1,"addLineAtSelected", "EXIT because line exists");
 							this.showError('The widget has already a link')
@@ -412,7 +412,7 @@ export default {
 				}
 
 				this.addLine({
-					from : this._selectWidget.id,
+					from : selectedWidget.id,
 					event:this._lastMouseMoveEvent
 				})
 			}
@@ -630,7 +630,6 @@ export default {
 					this.controller.addLine(model, e);
 					this._onAddDone();
 
-					console.debug(widget, parentGroup)
 				} else {
 					this.showError("You have to select a component on the canvas!");
 				}
@@ -697,20 +696,20 @@ export default {
 				this._onAddCleanup();
 			}
 
-			var from = this.getFromBox(this._addLineModel);
-			var to = this.getCanvasMousePosition(e);
+			const from = this.getFromBox(this._addLineModel);
+			let to = this.getCanvasMousePosition(e);
 			to.h = 2;
 			to.w = 2;
 
 			/**
 			 * check if we are hovering over anything
 			 */
-			var screen = this.getHoverScreen(to);
+		 	const screen = this.getHoverScreen(to);
 			if(screen && !this._addLineStartedFromTemplate){
 				/**
 				 * Do not snapp to same screen
 				 */
-				let startWidget = this.model.widgets[this._addLineStartId]
+				const startWidget = this.model.widgets[this._addLineStartId]
 				if (startWidget) {
 					let startParent = this.getParentScreen(startWidget);
 					if (!startParent || startParent.id !== screen.id) {
@@ -726,7 +725,7 @@ export default {
 				 */
 				if (this._addLineActionTargets) {
 					for (let i=0; i < this._addLineActionTargets.length; i++) {
-						let action = this._addLineActionTargets[i]
+						const action = this._addLineActionTargets[i]
 						if (this._isContainedInBox(to, action)) {
 							to = action
 							break;
@@ -735,7 +734,7 @@ export default {
 				}
 			}
 
-			var layoutedLine = this.layoutLine(from, to, this._addLineModel);
+			const layoutedLine = this.layoutLine(from, to, this._addLineModel);
 
 			if(!this._addLineSVG){
 				this._addLineSVG = this.drawLine(this._addLineModel.id, layoutedLine);
