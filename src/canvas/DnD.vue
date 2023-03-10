@@ -688,7 +688,7 @@ export default {
       if (this.isWidgetDNDCopy(e)) {
           const correctedPOs = this.getCorrectedCopyPosition(pos)
           this._updateWidgetDND(id, startPos);
-          if (this._selectWidget) {
+          if (this.getSelectedWidget()) {
             const copy = this.controller.onCopyWidget(id, correctedPOs);
             requestAnimationFrame( () => {
               this.onWidgetSelected(copy.id, true);
@@ -840,8 +840,8 @@ export default {
         if (this._selectGroup) {
           this._selectMulti = this._selectMulti.concat(this._selectGroup.children);
         }
-        if (this._selectWidget) {
-          this._selectMulti.push(this._selectWidget.id);
+        if (this.this.getSelectedWidget()) {
+          this._selectMulti.push(this.getSelectedWidget().id);
         }
 
         /**
@@ -873,18 +873,19 @@ export default {
          * Since 2.1.3
          */
         let group = this.getTopParentGroup(id);
+        const selectedWidget = this.getSelectedWidget()
         /**
          * If we have a group, we have to dispatch the clicks like follows
          */
         if (group) {
           if (!this._selectGroup) {
-            if (this._selectWidget && this._selectWidget.id == id) {
+            if (selectedWidget && selectedWidget.id == id) {
               /**
                * 3) Click => Start in line editing (force parameter not set)
                */
               this.onWidgetSelected(id);
               this._dragNDropIgnoreGroup = true;
-            } else if (this._selectWidget && this._selectWidget.id != id) {
+            } else if (selectedWidget && selectedWidget != id) {
               /**
                * We have to to check if we have already a widget from the current
                * group selected. This means the selectedGroup is null.
@@ -894,7 +895,7 @@ export default {
                * Since 2.1.3 we have sub group and we want the top group, but here
                * we stull want to allow sub selection
                */
-              const widgetGroup = this.getParentGroup(this._selectWidget.id);
+              const widgetGroup = this.getParentGroup(selectedWidget.id);
               if (widgetGroup && widgetGroup.id == group.id) {
                 /**
                  * Widget change in current group

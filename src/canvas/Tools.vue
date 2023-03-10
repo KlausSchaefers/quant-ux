@@ -15,20 +15,22 @@ export default {
 				this.showError('Color Selection is not supported on your browser. Try Chrome?')
 			}
 
-			if (!this._selectWidget) {
+			const selectedWidget = this.getSelectedWidget()
+			if (!selectedWidget) {
 				this.showHint('Select an element to use the color selection')
 				return
 			}
+			
 			const eyeDropper = new window.EyeDropper()
 			eyeDropper.open().then(result => {
 				const color = result.sRGBHex
-				if (this._selectWidget.type === 'Label' || isShift) {
-					this.controller.updateWidgetProperties(this._selectWidget.id, {color: color}, 'style');
+				if (selectedWidget.type === 'Label' || isShift) {
+					this.controller.updateWidgetProperties(selectedWidget.id, {color: color}, 'style');
 					return
 				} 
 				
 				if (isCntrl) {
-					this.controller.updateWidgetProperties(this._selectWidget.id, { 
+					this.controller.updateWidgetProperties(selectedWidget.id, { 
 						borderTopColor: color, 
 						borderBottomColor: color,
 						borderRightColor: color,
@@ -37,7 +39,7 @@ export default {
 					return
 				}
 				
-				this.controller.updateWidgetProperties(this._selectWidget.id, {background: color}, 'style');
+				this.controller.updateWidgetProperties(selectedWidget.id, {background: color}, 'style');
 				
 			}).catch(e => {
 				this.showError('Oooppps.. Something wenr wrong')
@@ -49,8 +51,8 @@ export default {
       	renderScreenDistance (){
 			this.cleanUpAlignment();
 			if(!this._alignmentToolInited){
-				this.alignmentStart("widget", this._selectWidget, "All");
-				this._alignmentTool.showScreenDistance(this._selectWidget);
+				this.alignmentStart("widget", this.getSelectedWidget(), "All");
+				this._alignmentTool.showScreenDistance(this.getSelectedWidget());
 			}
 		},
 
@@ -64,10 +66,11 @@ export default {
 			if (!this._alignmentToolInited && widget){
 				this.alignmentStart("widget", widget, "All");
 			}
-			if(this._selectWidget && widget && this._selectWidget.id != widget.id){
-				this._alignmentTool.showWidgetDistance(this._selectWidget, widget);
-			} else if(this._selectWidget){
-				this._alignmentTool.showScreenDistance(this._selectWidget);
+			const selectedWidget = this.getSelectedWidget()
+			if(selectedWidget && widget && selectedWidget.id != widget.id){
+				this._alignmentTool.showWidgetDistance(selectedWidget, widget);
+			} else if(selectedWidget){
+				this._alignmentTool.showScreenDistance(selectedWidget);
 			} else if(widget){
 				this._alignmentTool.showScreenDistance(widget);
 			}
@@ -562,12 +565,13 @@ export default {
 			/**
 			 * We can only copy the style of an widget
 			 */
-			if(this._selectWidget || this._selectGroup ){
+			const selelectedWidget = this.getSelectedWidget()
+			if(selelectedWidget || this._selectGroup ){
 
 				this._alignSource = [];
 				this.alignDirection = direction;
-				if(this._selectWidget){
-					this._alignSource.push(this._selectWidget.id);
+				if(selelectedWidget){
+					this._alignSource.push(selelectedWidget.id);
 				}
 				if(this._selectGroup){
 					this._alignSource = this._selectGroup.children;
@@ -778,7 +782,8 @@ export default {
 					this.controller.setMode("edit", false);
 				} else if(selection.length == 1){
 					let id = selection[0];
-					this._selectWidget = this.model.widgets[id];
+					this.setSelectedWidget(id)
+					//this._selectWidget = this.model.widgets[id];
 					this.controller.setMode("edit", false);
 				} else {
 					this.onCanvasSelected();
@@ -830,19 +835,21 @@ export default {
 		 **********************************************************************/
 
 		onCopyStyle (){
-			this.logger.log(0,"onCopyStyle", "enter > " + this._selectWidget);
+			this.logger.log(0,"onCopyStyle", "enter > ");
 
 			/**
 			 * We can only copy the style of an widget
 			 */
-			if(this._selectWidget || this.getSelectedScreen() ){
+			const selectedWidget = this.getSelectedWidget()
+			const selectedScreen = this.getSelectedScreen()
+			if(selectedWidget ||  selectedScreen){
 
-				if(this._selectWidget){
-					this._copiedStyle = this._selectWidget.id;
+				if(selectedWidget){
+					this._copiedStyle = selectedWidget.id;
 				}
 
-				if( this.getSelectedScreen()){
-					this._copiedStyle = this.getSelectedScreen().id;
+				if(selectedScreen){
+					this._copiedStyle = selectedScreen.id;
 				}
 
 				this.setBoxClickCallback("onPasteStyle");
@@ -878,12 +885,12 @@ export default {
 		onCopy (isDuplicate){
 			this.logger.log(-1,"onCopy", "enter > " + isDuplicate);
 
-			console.debug('copy', this.getSelectedScreen())
-
-			if(this._selectWidget || this.getSelectedScreen() || this._selectMulti || this._selectGroup){
+			const selectedWidget = this.getSelectedWidget()
+			const selectedScreen = this.getSelectedScreen()
+			if(selectedWidget || selectedScreen || this._selectMulti || this._selectGroup){
 				this._copied ={
-					widget : this._selectWidget,
-					screen : this.getSelectedScreen(),
+					widget : selectedWidget,
+					screen : selectedScreen,
 					multi : this._selectMulti,
 					group  :this._selectGroup
 				};
@@ -893,9 +900,9 @@ export default {
 				this._setClipBoard();
 			}
 
-			if(this._selectWidget){
+			if(selectedWidget){
 				this.showSuccess("The widget was copied!");
-			} else if(this.getSelectedScreen()){
+			} else if(selectedScreen){
 				this.showSuccess("The screen was copied!");
 			} else if(this._selectMulti || this._selectGroup){
 				this.showSuccess("The widgets were copied!");
@@ -915,7 +922,7 @@ export default {
 
 		_setClipBoard (){
 			this.logger.log(-1,"_setClipBoard", "enter > ", this.getSelectedScreen());
-			this.controller.setClipBoard (this._selectWidget, this.getSelectedScreen(), this._selectMulti, this._selectGroup)
+			this.controller.setClipBoard (this.getSelectedWidget(), this.getSelectedScreen(), this._selectMulti, this._selectGroup)
 		},
 
 

@@ -22,6 +22,10 @@ import CanvasSelection from './CanvasSelection'
 			this._canvasSelection = new CanvasSelection()
 		},
 
+		/**********************************************************************
+		 * Screen Select
+		 **********************************************************************/
+
 		setSelectedScreens (screenIDs, expand = false, render = true) {
 			this.logger.log(-1, 'setSelectedScreens', screenIDs, expand, render)
 			this.unSelect()					
@@ -123,6 +127,11 @@ import CanvasSelection from './CanvasSelection'
 			return false
 		},
 
+		/**********************************************************************
+		 * Widget Select
+		 **********************************************************************/
+
+
 		isWidgetSelected (id) {
 			if (this._selectWidget) {
 				return this._selectWidget.id === id
@@ -135,6 +144,16 @@ import CanvasSelection from './CanvasSelection'
 			}
 			return false
 		},
+
+		setSelectedWidget (id, expand = false, render = true) {
+			const w = this.model.widgets[id]
+			if (w) {
+				this._selectWidget = w
+			} else {
+				this.logger.error("setSelectedScreens", "No widget with id"+ id, expand, render);
+			}
+		},
+	
 
 		getSelectedWidget() {
 			return this._selectWidget
