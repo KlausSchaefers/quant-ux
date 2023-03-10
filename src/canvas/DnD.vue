@@ -4,8 +4,7 @@ import topic from "dojo/topic";
 import domGeom from "dojo/domGeom";
 import css from "dojo/css";
 import CoreUtil from 'core/CoreUtil'
-import * as CanvasUtil from './CanvasUtil'
-//import SelectionUtil from 'core/SelectionUtil'
+import * as SelectionUtil from 'core/SelectionUtil'
 
 export default {
   name: "DnD",
@@ -389,6 +388,8 @@ export default {
       this.inlineEditStop();
 
       /**
+       * FIXME: This is super buggy!
+       * 
        * Detect here if a single widget was selected
        * and now a new one is selected.
        */
@@ -851,14 +852,44 @@ export default {
         this.onMutliSelected(this.getMultiSelection());
     },
 
+   
+    _setSelectionByIdNew (id) {
+      /**
+       * Since 4.4.0 we have a new smart algorithm
+       * 
+       */
+      const selectedWidget = this.getSelectedWidget()
+      const selectedGroup = this.getSelectedGroup()
+      SelectionUtil.updateSelection(this.model, id, selectedWidget?.id, selectedGroup?.id)
+    
+    },
+
     _setSelectionById (id) {
 
+        const selectedWidget = this.getSelectedWidget()
+        const selectedGroup = this.getSelectedGroup()
+      
+        if (this.settings?.hasProtoMoto) {
+          const [selectedWidgetID, selectedGroupId] = SelectionUtil
+            .updateSelection(this.model, id, selectedWidget?.id, selectedGroup?.id)
+
+          if (selectedWidgetID) {
+              this.onWidgetSelected(id);
+              this._dragNDropIgnoreGroup = true;
+          }
+          if (selectedGroupId) {
+            this.onGroupSelected(selectedGroupId, true);
+          }
+         
+          return
+        }
+
+     
         /**
          * Since 2.1.3
          */
         const topGroup = this.getTopParentGroup(id);
-        const selectedWidget = this.getSelectedWidget()
-        const selectedGroup = this.getSelectedGroup()
+      
         /**
          * If we have a group, we have to dispatch the clicks like follows
          */
@@ -901,6 +932,9 @@ export default {
               this.onGroupSelected(topGroup.id);
             }
           } else {
+            /**
+             * we have a top group
+             */
             if (selectedGroup.id == topGroup.id) {
               /**
                * 2 Click => Select the widget and make sure the group is not included in the dnd.
@@ -925,8 +959,6 @@ export default {
 
     _updateDNDGroupSelection (id , ids = []) { // ids = []
    
-      CanvasUtil.getX()
-  
       if (ids) {
 
         /**
@@ -949,7 +981,6 @@ export default {
         */
         const commonParentGroup = this.getCommonParentGroup(ids)
         if (commonParentGroup) {
-          console.debug(' >>. Common Parent')
           return
         }
       }
@@ -959,6 +990,15 @@ export default {
        * change the selection
        */
       const topParentGroup = this.getTopParentGroup(id);
+      const groupHierarchy = this.getGroupHierarchy(id)
+      const selectedGroup = this.getSelectedGroup()
+      const selectedWidget = this.getSelectedWidget()
+
+      /**
+       * FIXME Here is still some super shitt bug. Maybe we should
+       * just set the selection correctly??
+       */
+    
       if (!topParentGroup) {
         return
       }
@@ -968,12 +1008,16 @@ export default {
        * we do not want to have the children included, and we
        * delete this
        */
-      if (this.getSelectedGroup() && this.getSelectedGroup().id !== topParentGroup.id) {
+      if (selectedGroup && groupHierarchy.indexOf(selectedGroup.id) === -1) {
         delete this._dragNDropGroupChildren
       }
-      const selectedWidget = this.getSelectedWidget()
+     
+  
       if (this._dragNDropIgnoreGroup && selectedWidget && selectedWidget.id !== id) {
           const otherGroup = this.getTopParentGroup(selectedWidget?.id );
+          /**
+           * FIXME, Here is a bug
+           */
           if (otherGroup?.id !== topParentGroup.id) {
             this._dragNDropIgnoreGroup = false
           }
@@ -1002,6 +1046,7 @@ export default {
        * 1) check if there is a group we have to drag
        */
       const selectedGroup = this.getSelectedGroup()
+      const topGroup = this.getTopParentGroup(id);
       if (!selectedGroup) {
         /**
          * Since 2.1.3 we have subgroups!
@@ -1015,17 +1060,17 @@ export default {
         /**
          * Since 2.1.3 we need also subgroups
          */
-        const group = this.getTopParentGroup(id);
-        if (group) {
+   
+        if (topGroup) {
           /**
            * Prevent that if there is a group selection,
            * but the moved widget is not form the group, we
            * do not add the groups children.
            */
-          if (selectedGroup.id === group.id) {
+          if (selectedGroup.id === topGroup.id) {
             this._dragNDropChildren = selectedGroup.children;
           } else {
-            this._dragNDropChildren = group.children;
+            this._dragNDropChildren = topGroup.children;
           }
           //this._addDNDChildrenCopies();
         }

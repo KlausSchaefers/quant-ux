@@ -447,6 +447,21 @@ export default {
       }
     },
 
+    getGroupHierarchy (id) {
+        const result = []
+        let group = this.getParentGroup(id)
+        if (group) {
+          result.push(group.id)
+          while (group) {
+            group = this.getParentGroup(group.id)
+            if (group) {
+              result.unshift(group.id)
+            }
+          }
+        }
+        return result
+    },
+
     getTopParentGroup (id) {
       let group = this.getParentGroup(id)
       if (group) {
