@@ -357,8 +357,8 @@ export default {
           this._resizeModel = this.getBoundingBox(this.getSelectedGroup().children);
           this._resizeModel.children = this.getSelectedGroup().children;
         } else if(this._resizeModelType == "multi"){
-          this._resizeModel = this.getBoundingBox(this._selectMulti);
-          this._resizeModel.children = this._selectMulti;
+          this._resizeModel = this.getBoundingBox(this.getMultiSelection());
+          this._resizeModel.children = this.getMultiSelection();
         }
       },
 

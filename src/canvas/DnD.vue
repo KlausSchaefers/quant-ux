@@ -623,14 +623,15 @@ export default {
          * just use the widget
          */
         const widget = this.model.widgets[id];
+        const selectedMutli = this.getMultiSelection()
         if (widget) {
           const group = this.getParentGroup(id);
           // We only want to move the bounding box, if the moving widgets
           // as acutually part of the selection!
-          if (this._selectMulti && this._selectMulti.indexOf(id) >= 0) {
-            const boundingBox = this.getBoundingBox(this._selectMulti);
+          if (selectedMutli && selectedMutli.indexOf(id) >= 0) {
+            const boundingBox = this.getBoundingBox(selectedMutli);
             boundingBox.id = id;
-            this.alignmentStart("boundingbox", boundingBox, "All", this._selectMulti);
+            this.alignmentStart("boundingbox", boundingBox, "All", selectedMutli);
           } else if (group && !this._dragNDropIgnoreGroup && this._dragNDropChildren) {
               /**
              * Since 2.1.3 we have nested groups. The bounding box
@@ -695,8 +696,11 @@ export default {
             })
           }
       
-          if (this._selectMulti) {
-            const copies = this.getController().onMultiCopyWidget(this._selectMulti, correctedPOs)
+          if (this.getMultiSelection()) {
+            const copies = this.getController().onMultiCopyWidget(
+                this.getMultiSelection(), 
+                correctedPOs
+            )
             requestAnimationFrame( () => {
               this.onMutliSelected(copies, true);
             })
@@ -830,7 +834,7 @@ export default {
          * FIXME: This is an evil bug! This open in FireFox an popup!
          * Maybe we have to listen to RMC and stop it..
          */
-        if (!this._selectMulti) {
+        if (!this.getMultiSelection()) {
           this._selectMulti = [];
         }
 
@@ -857,8 +861,6 @@ export default {
             /**
              * FIXME: remove from selected...
              */
-            //console.debug("remove", id, this._selectMulti.indexOf(id));
-            //this._selectMulti = this._selectMulti.splice(this._selectMulti.indexOf(id),1);
           }
         }
 
@@ -870,7 +872,7 @@ export default {
         /**
          * Since 2.1.3
          */
-        let group = this.getTopParentGroup(id);
+        const group = this.getTopParentGroup(id);
         const selectedWidget = this.getSelectedWidget()
         const selectedGroup = this.getSelectedGroup()
         /**

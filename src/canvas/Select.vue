@@ -263,6 +263,19 @@ import CanvasSelection from './CanvasSelection'
 			css.add(this.domNode, "MatcCanvasSelection");
 		},
 
+		/**********************************************************************
+		 * Multi Select
+		 **********************************************************************/
+
+		setMultiSelection(ids) {
+			console.warn('setMultiSelection', ids)
+			this._selectMulti = ids
+		},
+	
+		getMultiSelection() {
+			return this._selectMulti
+		},
+
 		onMutliSelected (selection){
 			this.logger.log(1,"onMutliSelected", "enter ", selection);
 
@@ -345,6 +358,10 @@ import CanvasSelection from './CanvasSelection'
 			}
 		},
 
+		/**********************************************************************
+		 * Canvas Select
+		 **********************************************************************/
+	
 		onCanvasSelected (){
 			this.logger.log(-3,"onCanvasSelected", "enter ");
 			this.unSelect()

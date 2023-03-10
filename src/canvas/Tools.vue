@@ -541,8 +541,8 @@ export default {
 			this.logger.log(3,"onGroup", "enter > ");
 			if(this.getSelectedGroup()){
 				this.controller.removeGroup(this.getSelectedGroup().id);
-			} else if(this._selectMulti){
-				const group = this.controller.addGroup(this._selectMulti);
+			} else if(this.getMultiSelection()){
+				const group = this.controller.addGroup(this.getMultiSelection());
 				if(group){
 					this.onGroupSelected(group.id);
 				}
@@ -776,7 +776,7 @@ export default {
 					this.controller.setMode("edit", false);
 				}
 				else if(selection.length > 1){
-					this._selectMulti = selection;
+					this.setMultiSelection(selection)
 					this.controller.setMode("edit", false);
 				} else if(selection.length == 1){
 					let id = selection[0];
@@ -886,11 +886,12 @@ export default {
 			const selectedWidget = this.getSelectedWidget()
 			const selectedScreen = this.getSelectedScreen()
 			const selectedGroup = this.getSelectedGroup()
-			if(selectedWidget || selectedScreen || this._selectMulti || selectedGroup){
+			const selectedMulti = this.getMultiSelection()
+			if(selectedWidget || selectedScreen || selectedMulti || selectedGroup){
 				this._copied ={
 					widget: selectedWidget,
 					screen: selectedScreen,
-					multi: this._selectMulti,
+					multi: selectedMulti,
 					group: selectedGroup
 				};
 
@@ -903,7 +904,7 @@ export default {
 				this.showSuccess("The widget was copied!");
 			} else if(selectedScreen){
 				this.showSuccess("The screen was copied!");
-			} else if(this._selectMulti || selectedGroup){
+			} else if(selectedMulti || selectedGroup){
 				this.showSuccess("The widgets were copied!");
 			} else {
 				this.showHint("Nothing selected to copy");
@@ -924,7 +925,7 @@ export default {
 			this.controller.setClipBoard (
 				this.getSelectedWidget(), 
 				this.getSelectedScreen(), 
-				this._selectMulti, 
+				this.getMultiSelection(), 
 				this.getSelectedGroup()
 			)
 		},
@@ -1015,9 +1016,10 @@ export default {
 						}
 						this.showSuccess("Screen was pasted!");
 					} else if(this._copied.multi){
-						this._selectMulti = this.controller.onMultiCopyWidget(this._copied.multi,pos);
+						const newIds = this.controller.onMultiCopyWidget(this._copied.multi,pos);
+						this.setMultiSelection(newIds)
 						this.showSuccess("Widgets were pasted!");
-						lastPaste.target.multi = this._selectMulti;
+						lastPaste.target.multi = newIds;
 					} else if(this._copied.group){
 						const copy = this.controller.onCopyGroup(this._copied.group, pos);
 						if (copy) {
@@ -1291,7 +1293,8 @@ export default {
 		onMultiPaste (pos){
 			if(this._copied){
 				if(this._copied.multi){
-					this._selectMulti = this.controller.onMultiCopyWidget(this._copied.multi,pos);
+					const newIds = this.controller.onMultiCopyWidget(this._copied.multi,pos);
+					this.setMultiSelection(newIds)
 					this.showSuccess("Widgets were pasted!");
 				}
 			}

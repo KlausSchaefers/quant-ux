@@ -33,8 +33,8 @@ export default {
           if (this.getSelectedWidget()){
             this._selectCloneIds.push(this.getSelectedWidget().id)
           }
-          if (this._selectMulti){
-            this._selectCloneIds = this._selectMulti;
+          if (this.getMultiSelection()){
+            this._selectCloneIds = this.getMultiSelection();
           }
 
         } else {
