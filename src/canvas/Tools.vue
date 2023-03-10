@@ -1085,7 +1085,8 @@ export default {
 						for(let i=0; i < selection.length; i++){
 							const id = selection[i];
 							const widget = this.model.widgets[id];
-							widgets.push(widget);
+							const zoomedWidget = this.getZoomedSourceWidget(widget)
+							widgets.push(zoomedWidget);
 						}
 						widgets = this.getOrderedWidgets(widgets);
 
@@ -1098,6 +1099,7 @@ export default {
 							cloned.y =  cloned.y - boundingBox.y;
 							const clonedDiv = this.createZoomedWidget(cloned);
 							div.appendChild(clonedDiv);
+							
 						}
 
 						if(!this._alignmentToolInited){
@@ -1109,26 +1111,27 @@ export default {
 					}
 
 					if(this._copied.group){
-						let group = this._copied.group;
-						let boundingBox = this.getBoundingBox(group.children);
-						let div = this.createBox(boundingBox);
+						const group = this._copied.group;
+						const boundingBox = this.getBoundingBox(group.children);
+						const div = this.createBox(boundingBox);
 
 						// add in right order!
-						var widgets = [];
+						let widgets = [];
 						for(let i=0; i < group.children.length; i++){
 							let id = group.children[i];
 							let widget = this.model.widgets[id];
-							widgets.push(widget);
+							const zoomedWidget = this.getZoomedSourceWidget(widget)
+							widgets.push(zoomedWidget);
 						}
 						widgets = this.getOrderedWidgets(widgets);
 
 						for (let i=0; i< widgets.length; i++){
-							let widget = widgets[i];
-							let cloned = lang.clone(widget);
+							const widget = widgets[i];
+							const cloned = lang.clone(widget);
 							cloned.id="_temp"+i;
 							cloned.x =  cloned.x - boundingBox.x;
 							cloned.y =  cloned.y - boundingBox.y;
-							let clonedDiv = this.createWidget(cloned);
+							let clonedDiv = this.createZoomedWidget(cloned);
 							div.appendChild(clonedDiv);
 						}
 

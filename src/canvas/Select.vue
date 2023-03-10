@@ -267,9 +267,22 @@ import CanvasSelection from './CanvasSelection'
 		 * Multi Select
 		 **********************************************************************/
 
-		setMultiSelection(ids) {
-			console.warn('setMultiSelection', ids)
-			this._selectMulti = ids
+		setMultiSelection(ids, expand = false) {
+			if (!Array.isArray(ids)) {
+				this.logger.error("setMultiSelection", "no array ");
+				console.trace()
+				ids = [ids]
+			}
+			//console.warn('setMultiSelection', ids)
+			if (expand) {
+				if (!this._selectMulti) {
+					this._selectMulti = []
+				}
+				this._selectMulti = this._selectMulti.concat(ids)
+			} else {
+				this._selectMulti = ids
+			}
+			
 		},
 	
 		getMultiSelection() {

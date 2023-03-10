@@ -834,18 +834,21 @@ export default {
          * FIXME: This is an evil bug! This open in FireFox an popup!
          * Maybe we have to listen to RMC and stop it..
          */
-        if (!this.getMultiSelection()) {
-          this._selectMulti = [];
+        const selectedMulti = this.getMultiSelection()
+        const selectedWidget = this.getSelectedWidget()
+        if (!selectedMulti) {
+          this.setMultiSelection([])
         }
 
         /**
          * Expand exiting selections
          */
         if (this.getSelectedGroup()) {
-          this._selectMulti = this._selectMulti.concat(this.getSelectedGroup().children);
+          this.setMultiSelection(selectedMulti.concat(this.getSelectedGroup().children))  
         }
-        if (this.getSelectedWidget()) {
-          this._selectMulti.push(this.getSelectedWidget().id);
+
+        if (selectedWidget) {
+          this.setMultiSelection([selectedWidget.id])  
         }
 
         /**
@@ -853,18 +856,18 @@ export default {
          */
         let group = this.getTopParentGroup(id);
         if (group) {
-          this._selectMulti = this._selectMulti.concat(group.children);
+          this.setMultiSelection(selectedMulti.concat(group.children))  
         } else {
-          if (this._selectMulti.indexOf(id) < 0) {
-            this._selectMulti.push(id);
+          if (this.getMultiSelection().indexOf(id) < 0) {
+            this.setMultiSelection([id], true) 
           } else {
             /**
              * FIXME: remove from selected...
              */
           }
         }
-
-        this.onMutliSelected(this._selectMulti);
+      
+        this.onMutliSelected(this.getMultiSelection());
     },
 
     _setSelectionById (id) {
