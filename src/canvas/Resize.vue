@@ -354,8 +354,8 @@ export default {
         } else if(this._resizeModelType == "widget"){
           this._resizeModel = this.model.widgets[id];
         } else if(this._resizeModelType == "group"){
-          this._resizeModel = this.getBoundingBox(this._selectGroup.children);
-          this._resizeModel.children = this._selectGroup.children;
+          this._resizeModel = this.getBoundingBox(this.getSelectedGroup().children);
+          this._resizeModel.children = this.getSelectedGroup().children;
         } else if(this._resizeModelType == "multi"){
           this._resizeModel = this.getBoundingBox(this._selectMulti);
           this._resizeModel.children = this._selectMulti;

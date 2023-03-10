@@ -450,7 +450,7 @@ export default {
       if (!group) {
         return
       }
-      if (this._selectGroup && this._selectGroup.id !== group.id) {
+      if (this.getSelectedGroup() && this.getSelectedGroup().id !== group.id) {
         delete this._dragNDropGroupChildren
       }
       const selectedWidget = this.getSelectedWidget()
@@ -702,8 +702,8 @@ export default {
             })
           }
 
-          if (this._selectGroup) {
-            const group = this.getController().onCopyGroup(this._selectGroup, correctedPOs)
+          if (this.getSelectedGroup()) {
+            const group = this.getController().onCopyGroup(this.getSelectedGroup(), correctedPOs)
             requestAnimationFrame( () => {
               this.onGroupSelected(group.id, true);
             })
@@ -837,10 +837,10 @@ export default {
         /**
          * Expand exiting selections
          */
-        if (this._selectGroup) {
-          this._selectMulti = this._selectMulti.concat(this._selectGroup.children);
+        if (this.getSelectedGroup()) {
+          this._selectMulti = this._selectMulti.concat(this.getSelectedGroup().children);
         }
-        if (this.this.getSelectedWidget()) {
+        if (this.getSelectedWidget()) {
           this._selectMulti.push(this.getSelectedWidget().id);
         }
 
@@ -867,18 +867,17 @@ export default {
 
     _setSelectionById (id) {
 
-
-
         /**
          * Since 2.1.3
          */
         let group = this.getTopParentGroup(id);
         const selectedWidget = this.getSelectedWidget()
+        const selectedGroup = this.getSelectedGroup()
         /**
          * If we have a group, we have to dispatch the clicks like follows
          */
         if (group) {
-          if (!this._selectGroup) {
+          if (!selectedGroup) {
             if (selectedWidget && selectedWidget.id == id) {
               /**
                * 3) Click => Start in line editing (force parameter not set)
@@ -915,7 +914,7 @@ export default {
               this.onGroupSelected(group.id);
             }
           } else {
-            if (this._selectGroup.id == group.id) {
+            if (selectedGroup.id == group.id) {
               /**
                * 2 Click => Select the widget and make sure the group is not included in the dnd.
                * Also, set force parameter to true to avoid inline editing
@@ -938,7 +937,6 @@ export default {
     },
 
     _addDnDChildren (id) {
-      //console.debug('_addDnDChildren', id, this._dragNDropIgnoreGroup, this._dragNDropGroupChildren, this._selectGroup)
       if (this._dragNDropIgnoreGroup) {
         return;
       }
@@ -958,7 +956,8 @@ export default {
       /**
        * 1) check if there is a group we have to drag
        */
-      if (!this._selectGroup) {
+      const selectedGroup = this.getSelectedGroup()
+      if (!selectedGroup) {
         /**
          * Since 2.1.3 we have subgroups!
          */
@@ -978,8 +977,8 @@ export default {
            * but the moved widget is not form the group, we
            * do not add the groups children.
            */
-          if (this._selectGroup.id === group.id) {
-            this._dragNDropChildren = this._selectGroup.children;
+          if (selectedGroup.id === group.id) {
+            this._dragNDropChildren = selectedGroup.children;
           } else {
             this._dragNDropChildren = group.children;
           }

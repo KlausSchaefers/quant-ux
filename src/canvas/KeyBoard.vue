@@ -193,7 +193,7 @@ export default {
          */
         } else if(k == 67 && !isMeta){
           if(!this._inlineEditStarted  && !this._selectionToolStart){
-            if (this.getSelectedWidget() || this._selectGroup || this._selectMulti) { // _selectGroup
+            if (this.getSelectedWidget() || this.getSelectedGroup() || this._selectMulti) { // _selectGroup
               this.onReplicate();
               this.stopEvent(e);
               e.cancelBubble = true

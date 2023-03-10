@@ -27,8 +27,8 @@ export default {
           css.add(this.container, "MatcCanvasModeReplicate");
 
           this._selectCloneIds = []
-          if (this._selectGroup){
-            this._selectCloneIds = this._selectGroup.children
+          if (this.getSelectedGroup()){
+            this._selectCloneIds = this.getSelectedGroup().children
           }
           if (this.getSelectedWidget()){
             this._selectCloneIds.push(this.getSelectedWidget().id)
@@ -78,8 +78,8 @@ export default {
         /**
          * Create models
          */
-        var pos = this._getSizePos(e);
-        var cloneIDs = this.getController().replicateWidgets(this._selectCloneIds, pos, this._selectGroup);
+        const pos = this._getSizePos(e);
+        const cloneIDs = this.getController().replicateWidgets(this._selectCloneIds, pos, this.getSelectedGroup());
 
         /**
          * Select everything
@@ -87,7 +87,7 @@ export default {
          * @FIXME: IF we have copied groups the distrubute does not
          * work properly
          */
-        var selection = cloneIDs.widgets.concat(this._selectCloneIds);
+        const selection = cloneIDs.widgets.concat(this._selectCloneIds);
         this.onMutliSelected(selection)
         this.onResizeDnDCleanUp();
         this.renderSelection();

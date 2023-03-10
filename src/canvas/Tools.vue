@@ -539,13 +539,10 @@ export default {
 
 		onGroup (){
 			this.logger.log(3,"onGroup", "enter > ");
-
-			if(this._selectGroup){
-				this.logger.log(0,"onGroup", "Remove group " + this._selectGroup.id);
-				this.controller.removeGroup(this._selectGroup.id);
+			if(this.getSelectedGroup()){
+				this.controller.removeGroup(this.getSelectedGroup().id);
 			} else if(this._selectMulti){
-				this.logger.log(0,"onGroup", "Create Group");
-				var group = this.controller.addGroup(this._selectMulti);
+				const group = this.controller.addGroup(this._selectMulti);
 				if(group){
 					this.onGroupSelected(group.id);
 				}
@@ -566,15 +563,16 @@ export default {
 			 * We can only copy the style of an widget
 			 */
 			const selelectedWidget = this.getSelectedWidget()
-			if(selelectedWidget || this._selectGroup ){
+			const selectedGroup = this.getSelectedGroup()
+			if(selelectedWidget || selectedGroup ){
 
 				this._alignSource = [];
 				this.alignDirection = direction;
 				if(selelectedWidget){
 					this._alignSource.push(selelectedWidget.id);
 				}
-				if(this._selectGroup){
-					this._alignSource = this._selectGroup.children;
+				if(selectedGroup){
+					this._alignSource = selectedGroup.children;
 				}
 
 				this.setState(10);
@@ -593,7 +591,7 @@ export default {
 
 			if(this._alignSource){
 				var group = this.getParentGroup(id);
-				if(this._selectGroup){
+				if(this.getSelectedGroup()){
 					if(group){
 						this.controller.alignGroup(this.alignDirection, this._alignSource, group.children);
 					} else {
@@ -770,7 +768,7 @@ export default {
 				 */
 				topGroups = Object.values(topGroups)
 				if (topGroups.length === 1 && elementsWidthGroup.length === 0) {
-					this._selectGroup = topGroups[0];
+					this.setSelectedGroup(topGroups[0].id)
 					this.controller.setMode("edit", false);
 				} 
 				else if(selectedScreensIds.length > 0){
@@ -887,12 +885,13 @@ export default {
 
 			const selectedWidget = this.getSelectedWidget()
 			const selectedScreen = this.getSelectedScreen()
-			if(selectedWidget || selectedScreen || this._selectMulti || this._selectGroup){
+			const selectedGroup = this.getSelectedGroup()
+			if(selectedWidget || selectedScreen || this._selectMulti || selectedGroup){
 				this._copied ={
-					widget : selectedWidget,
-					screen : selectedScreen,
-					multi : this._selectMulti,
-					group  :this._selectGroup
+					widget: selectedWidget,
+					screen: selectedScreen,
+					multi: this._selectMulti,
+					group: selectedGroup
 				};
 
 				this.toolbar.showCopyPaste();
@@ -904,7 +903,7 @@ export default {
 				this.showSuccess("The widget was copied!");
 			} else if(selectedScreen){
 				this.showSuccess("The screen was copied!");
-			} else if(this._selectMulti || this._selectGroup){
+			} else if(this._selectMulti || selectedGroup){
 				this.showSuccess("The widgets were copied!");
 			} else {
 				this.showHint("Nothing selected to copy");
@@ -922,7 +921,12 @@ export default {
 
 		_setClipBoard (){
 			this.logger.log(-1,"_setClipBoard", "enter > ", this.getSelectedScreen());
-			this.controller.setClipBoard (this.getSelectedWidget(), this.getSelectedScreen(), this._selectMulti, this._selectGroup)
+			this.controller.setClipBoard (
+				this.getSelectedWidget(), 
+				this.getSelectedScreen(), 
+				this._selectMulti, 
+				this.getSelectedGroup()
+			)
 		},
 
 
@@ -1297,7 +1301,10 @@ export default {
 		onGroupPaste (pos){
 			if(this._copied){
 				if(this._copied.group){
-					this._selectGroup = this.controller.onCopyGroup(this._copied.group, pos);
+					const newGroup = this.controller.onCopyGroup(this._copied.group, pos);
+					if (newGroup) {
+						this.setSelectedGroup(newGroup.id)
+					}
 					this.showSuccess("Group was pasted!");
 				}
 				delete this._lastPaste;

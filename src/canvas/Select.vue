@@ -131,7 +131,6 @@ import CanvasSelection from './CanvasSelection'
 		 * Widget Select
 		 **********************************************************************/
 
-
 		isWidgetSelected (id) {
 			if (this._selectWidget) {
 				return this._selectWidget.id === id
@@ -245,7 +244,7 @@ import CanvasSelection from './CanvasSelection'
 				this.unSelect()
 				this.onSelectionChanged(id, "inheritedWidget", false);
 				this.controller.onInheritedWidgetSelected(widget);
-				var parent  = this.widgetDivs[widget.id];
+				const parent  = this.widgetDivs[widget.id];
 				this._selectInheritedWidget = widget
 				this.selectBox(parent);
 				this.showResizeHandles(widget, widget.id, parent, "inheritedWidget", true);
@@ -253,8 +252,6 @@ import CanvasSelection from './CanvasSelection'
 				this.logger.log(-3,"onInheritedWidgetSelected", "cannot find > " + id);
 			}	
 		},
-
-
 
 		onLineSelected (id){
 			this.logger.log(-1,"onLineSelected", "enter ");
@@ -286,6 +283,22 @@ import CanvasSelection from './CanvasSelection'
 			} catch (e){
 				this.logger.error("onGroupSelected", "could not call selectionListener > ", e);
 			}
+		},
+
+		/**********************************************************************
+		 * Group Select
+		 **********************************************************************/
+		setSelectedGroup(id, expand = false, render = false) {
+			const g = this.model.groups[id]
+			if (g) {
+				this._selectGroup = g
+			} else {
+				this.logger.error("setSelectedGroups", "No widget with id"+ id, expand, render);
+			}
+		},
+
+		getSelectedGroup() {
+			return this._selectGroup
 		},
 
 		onGroupSelected (groupID, fromLayerList) {

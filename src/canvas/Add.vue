@@ -422,9 +422,9 @@ export default {
 					event:this._lastMouseMoveEvent
 				})
 			}
-			if (this._selectGroup && this._lastMouseMoveEvent) {
+			if (this.getSelectedGroup() && this._lastMouseMoveEvent) {
 				this.addLine({
-					from : this._selectGroup.id,
+					from : this.getSelectedGroup().id,
 					event:this._lastMouseMoveEvent
 				})
 			}
