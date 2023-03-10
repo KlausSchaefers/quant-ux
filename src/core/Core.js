@@ -416,6 +416,28 @@ export default class Core extends Evented {
         return result;
     }
 
+    getCommonParentGroup(selection) {
+		const parentGroups = new Set()
+		let result = null
+		for (let i = 0; i < selection.length; i++) {
+			const widgetID = selection[i];
+			const group = this.getParentGroup(widgetID);
+			if (group) {
+				result = group
+				parentGroups.add(group.id)
+			} else {
+				// no group, we need to create a new parent group
+				return
+			}
+			
+		}
+		// if we have one parentGroup we need to create a 
+		// new sub group
+		if(parentGroups.size === 1) {
+			return result
+		}
+	}
+
     getTopParentGroup(id) {
         let group = this.getParentGroup(id)
         if (group) {

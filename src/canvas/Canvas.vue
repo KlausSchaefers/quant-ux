@@ -155,7 +155,7 @@ export default {
 			 * Set correct mode
 			 */
 			css.add(this.domNode, "MatcCanvasMode"+ this.mode);
-			this.logger.log(-1,"postCreate", "exit > " + this.mode);
+			this.logger.log(3,"postCreate", "exit > " + this.mode);
 		},
 
 		setUser (u){

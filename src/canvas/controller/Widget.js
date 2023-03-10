@@ -10,7 +10,6 @@ export default class Widget extends Snapp {
 		if(widget.inherited) {
 			const source = this.model.widgets[widget.inherited];
 			const targetScreen = this.model.screens[widget.inheritedScreen];
-			console.debug(source, targetScreen, widget)
 			if (source && targetScreen) {
 
 				const sourcePos = this.getWidgetPostionInScreen(source);
@@ -36,7 +35,7 @@ export default class Widget extends Snapp {
 
 		this.startModelChange()
 		// like onCopyWidget
-		var newWidget = this._copyWidget(widget, targetScreen);
+		const newWidget = this._copyWidget(widget, targetScreen);
 		newWidget.copyOf = widget.id;
 		newWidget.name = widget.name // make sure we get the same name! Otherwise we would get box1 or so...
 		newWidget.id = "w"+this.getUUID();

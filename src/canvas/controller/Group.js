@@ -592,27 +592,6 @@ export default class Group extends Layer {
 		return group;
 	}
 
-	getCommonParentGroup(selection) {
-		const parentGroups = new Set()
-		let result = null
-		for (let i = 0; i < selection.length; i++) {
-			const widgetID = selection[i];
-			const group = this.getParentGroup(widgetID);
-			if (group) {
-				result = group
-				parentGroups.add(group.id)
-			} else {
-				// no group, we need to create a new parent group
-				return
-			}
-			
-		}
-		// if we have one parentGroup we need to create a 
-		// new sub group
-		if(parentGroups.size === 1) {
-			return result
-		}
-	}
 
 	getGroupZChanges (selection) {
 
@@ -759,8 +738,6 @@ export default class Group extends Layer {
 			delete this.model.groups[groupId];
 			const parentGroup = this.model.groups[parentId]
 			if (parentGroup) {
-				console.debug(JSON.stringify(group))
-				console.debug(JSON.stringify(parentGroup))
 				if (parentGroup.groups) {
 					parentGroup.groups = parentGroup.groups.filter(id => id != groupId)
 				}

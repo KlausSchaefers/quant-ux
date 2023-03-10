@@ -392,7 +392,7 @@ export default {
        * Detect here if a single widget was selected
        * and now a new one is selected.
        */
-      this.getGroupChangeBeforeWidgetDND(id, ids)
+      this._updateDNDGroupSelection(id, ids)
 
       /**
        * Now add all elements
@@ -441,29 +441,7 @@ export default {
       return widget;
     },
 
-    getGroupChangeBeforeWidgetDND (id ) { // ids = []
-
-      CanvasUtil.getX()
-  
-      /**
-       * Here we need some smart stuff to know when to 
-       * change the selection
-       */
-      const group = this.getTopParentGroup(id);
-      if (!group) {
-        return
-      }
-      if (this.getSelectedGroup() && this.getSelectedGroup().id !== group.id) {
-        delete this._dragNDropGroupChildren
-      }
-      const selectedWidget = this.getSelectedWidget()
-      if (this._dragNDropIgnoreGroup && selectedWidget && selectedWidget.id !== id) {
-          const otherGroup = this.getTopParentGroup(selectedWidget?.id );
-          if (otherGroup?.id !== group.id) {
-            this._dragNDropIgnoreGroup = false
-          }
-      }
-    },
+   
 
     onWidgetDNDKeyDown (e, isUp= false) {
       this.logger.log(-1, "onWidgetDNDKeyDown", "enter", isUp)
@@ -878,13 +856,13 @@ export default {
         /**
          * Since 2.1.3
          */
-        const group = this.getTopParentGroup(id);
+        const topGroup = this.getTopParentGroup(id);
         const selectedWidget = this.getSelectedWidget()
         const selectedGroup = this.getSelectedGroup()
         /**
          * If we have a group, we have to dispatch the clicks like follows
          */
-        if (group) {
+        if (topGroup) {
           if (!selectedGroup) {
             if (selectedWidget && selectedWidget.id == id) {
               /**
@@ -903,7 +881,8 @@ export default {
                * we stull want to allow sub selection
                */
               const widgetGroup = this.getParentGroup(selectedWidget.id);
-              if (widgetGroup && widgetGroup.id == group.id) {
+             
+              if (widgetGroup && widgetGroup.id == topGroup.id) {
                 /**
                  * Widget change in current group
                  */
@@ -913,16 +892,16 @@ export default {
                 /**
                  * Change to other group
                  */
-                this.onGroupSelected(group.id);
+                this.onGroupSelected(topGroup.id);
               }
             } else {
               /**
                * 1 Click => Select the Group
                */
-              this.onGroupSelected(group.id);
+              this.onGroupSelected(topGroup.id);
             }
           } else {
-            if (selectedGroup.id == group.id) {
+            if (selectedGroup.id == topGroup.id) {
               /**
                * 2 Click => Select the widget and make sure the group is not included in the dnd.
                * Also, set force parameter to true to avoid inline editing
@@ -933,7 +912,7 @@ export default {
               /**
                * Selection of other group
                */
-              this.onGroupSelected(group.id);
+              this.onGroupSelected(topGroup.id);
             }
           }
         } else {
@@ -944,7 +923,65 @@ export default {
         }
     },
 
+    _updateDNDGroupSelection (id , ids = []) { // ids = []
+   
+      CanvasUtil.getX()
+  
+      if (ids) {
+
+        /**
+         * if we have a new id, that is not selected yet,
+         * we should just add its parent??
+         */
+        if (ids.indexOf(id) === -1) {
+          delete this._dragNDropGroupChildren
+          // we could still select the next group
+          // const newParentGroup = this.getParentGroup(id);
+          // if (newParentGroup) {
+          //   this._dragNDropGroupChildren = newParentGroup.children
+          // }
+          return
+        }
+
+        /**
+        * If they ids have a common parent group, we move
+        * the group
+        */
+        const commonParentGroup = this.getCommonParentGroup(ids)
+        if (commonParentGroup) {
+          console.debug(' >>. Common Parent')
+          return
+        }
+      }
+
+      /**
+       * Here we need some smart stuff to know when to 
+       * change the selection
+       */
+      const topParentGroup = this.getTopParentGroup(id);
+      if (!topParentGroup) {
+        return
+      }
+
+      /**
+       * If the selection is from another group, 
+       * we do not want to have the children included, and we
+       * delete this
+       */
+      if (this.getSelectedGroup() && this.getSelectedGroup().id !== topParentGroup.id) {
+        delete this._dragNDropGroupChildren
+      }
+      const selectedWidget = this.getSelectedWidget()
+      if (this._dragNDropIgnoreGroup && selectedWidget && selectedWidget.id !== id) {
+          const otherGroup = this.getTopParentGroup(selectedWidget?.id );
+          if (otherGroup?.id !== topParentGroup.id) {
+            this._dragNDropIgnoreGroup = false
+          }
+      }
+    },
+
     _addDnDChildren (id) {
+      // This is set when a group is selected. Check Select.onWidgetSelected()
       if (this._dragNDropIgnoreGroup) {
         return;
       }
@@ -952,7 +989,7 @@ export default {
       /**
        * Since 2.1.3 we have sub groups. If the seletion is from the laylerList,
        * we just take the _dragNDropGroupChildren which must be passed the the
-       * Select.seltGroup() method,
+       * Select.onGroupSelected() method,
        */
       if (this._dragNDropGroupChildren) {
         if (this._dragNDropGroupChildren.indexOf(id) > -1) {

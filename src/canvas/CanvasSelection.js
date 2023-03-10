@@ -6,7 +6,7 @@ export default class CanvasSelection {
     }
 
     reset () {
-        Logger.log(-1, 'CanvasSelection.reset()' )
+        Logger.log(1, 'CanvasSelection.reset()' )
         this.lastScreens = this.screens
         this.screens = []
         this.groups = []
@@ -23,7 +23,7 @@ export default class CanvasSelection {
     }
 
     setSelectedScreens (model, screenIDs, expand = false) {
-        Logger.log(-1, 'CanvasSelection.setSelectedScreens() > ' + expand )
+        Logger.log(1, 'CanvasSelection.setSelectedScreens() > ' + expand )
         if (expand) {
             this.screens = this.lastScreens	
         }
