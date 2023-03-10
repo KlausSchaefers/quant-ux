@@ -8,18 +8,19 @@ export default class Widget extends Snapp {
 		this.logger.log(-1,"enableInheritedWidget", "enter > " +widget.id);
 
 		if(widget.inherited) {
-			var source = this.model.widgets[widget.inherited];
-			var targetScreen = this.model.screens[widget.inheritedScreen];
+			const source = this.model.widgets[widget.inherited];
+			const targetScreen = this.model.screens[widget.inheritedScreen];
+			console.debug(source, targetScreen, widget)
 			if (source && targetScreen) {
 
-				var sourcePos = this.getWidgetPostionInScreen(source);
-				var targetPos = {
+				const sourcePos = this.getWidgetPostionInScreen(source);
+				const targetPos = {
 					x: targetScreen.x + sourcePos.x,
 					y: targetScreen.y + sourcePos.y,
 					w: sourcePos.w,
 					h: sourcePos.h
 				}
-				var newWidget = this.addInheritedWidget(source, targetPos, targetScreen);
+				const newWidget = this.addInheritedWidget(source, targetPos, targetScreen);
 				this.logger.log(4,"enableInheritedWidget", "enter > " +widget.id + " -> " + newWidget.id);
 				return newWidget
 			} else {

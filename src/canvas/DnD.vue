@@ -4,6 +4,7 @@ import topic from "dojo/topic";
 import domGeom from "dojo/domGeom";
 import css from "dojo/css";
 import CoreUtil from 'core/CoreUtil'
+import * as CanvasUtil from './CanvasUtil'
 //import SelectionUtil from 'core/SelectionUtil'
 
 export default {
@@ -441,6 +442,8 @@ export default {
     },
 
     getGroupChangeBeforeWidgetDND (id ) { // ids = []
+
+      CanvasUtil.getX()
   
       /**
        * Here we need some smart stuff to know when to 
@@ -994,13 +997,14 @@ export default {
       /**
        * 2) check if there is a multi selection
        */
-      if (this._selectMulti) {
+      const selectedMulti = this.getMultiSelection()
+      if (selectedMulti) {
         /**
          * only move multi selection in case the clicked
          * widget is patr of it
          */
-        if (this._selectMulti.indexOf(id) > -1) {
-          this._dragNDropChildren = this._selectMulti;
+        if (selectedMulti.indexOf(id) > -1) {
+          this._dragNDropChildren = selectedMulti;
         }
         //this._addDNDChildrenCopies();
       }
@@ -1008,22 +1012,22 @@ export default {
 
     _addDNDChildrenCopies () {
       if (this._dragNDropChildren) {
-        var children = [];
-        for (var i = 0; i < this._dragNDropChildren.length; i++) {
-          var id = this._dragNDropChildren[i];
-          var widget = this.model.widgets[id];
-          if (widget) {
-            if (widget.copies) {
-              children = children.concat(widget.copies);
+        let children = [];
+        for (let i = 0; i < this._dragNDropChildren.length; i++) {
+            const id = this._dragNDropChildren[i];
+            const widget = this.model.widgets[id];
+            if (widget) {
+                if (widget.copies) {
+                    children = children.concat(widget.copies);
+                }
+                if (widget.inheritedCopies) {
+                    children = children.concat(widget.inheritedCopies);
+                }
             }
-            if (widget.inheritedCopies) {
-              children = children.concat(widget.inheritedCopies);
-            }
-          }
         }
         if (children.length > 0 && children.length < 20) {
-          // do not overload thread
-          this._dragNDropChildren = this._dragNDropChildren.concat(children);
+            // do not overload thread
+            this._dragNDropChildren = this._dragNDropChildren.concat(children);
         }
       }
     },

@@ -1652,7 +1652,7 @@ export default {
 		enableInheritedWidget () {
 			this.logger.log(1,"enableInheritedWidget", "entry > ");
 			if(this._selectedWidget){
-				var newWidget = this.controller.enableInheritedWidget(this._selectedWidget);
+				const newWidget = this.controller.enableInheritedWidget(this._selectedWidget);
 				if(newWidget){
 					/**
 					 * Trigger Selecion in Canvas which will also trigger back the selection

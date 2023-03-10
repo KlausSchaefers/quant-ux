@@ -1096,19 +1096,18 @@ export default {
 		},
 
 		_renderInheritedWidget (){
+			const db = new DomBuilder();
+			const parent = this.createSection('Inherited Widget', true);
 
-			var parent = this.createSection('Inherited Widget', true);
-
-			var content = document.createElement("div");
+			const content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
-
-			var db = new DomBuilder();
+			
 			db.div("MatcToolbarGridFull MatcToolbarItem ").h(80)
 				.span("", "This widget is inherited form a master screen. To change it, you have to enbale editing.")
 				.build(content);
 
-			var enable = db
+				const enable = db
 				.div("MatcToolbarGridFull MatcToolbarItem")
 				.div("MatcToolbarButton MatcButton", "Enable Editing")
 				.build(content);

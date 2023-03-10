@@ -348,6 +348,14 @@ class ModelUtil {
             zoomedWidget.props = widget.props // this is ok, because edits will go through the controller
             zoomedWidget.z = widget.z
             zoomedWidget.type = widget.type
+            zoomedWidget.inheritedCopies = widget.inheritedCopies
+            zoomedWidget.copies = widget.copies
+            if (widget.inherited) {
+                zoomedWidget.inherited = widget.inherited
+                zoomedWidget.inheritedScreen = widget.inheritedScreen
+                zoomedWidget.masterScreen = widget.masterScreen
+            }
+    
             zoomedModel.widgets[id] = zoomedWidget
         }
 

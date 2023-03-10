@@ -236,6 +236,9 @@ export default {
 				if (widget?.style?.locked) {
 					return false
 				}
+				if (widget.inherited) {
+					return false
+				}
 				if (this.isMoveOnlySelected) {
 					/**
 					 * check if teh widget is selected. This can be because,
