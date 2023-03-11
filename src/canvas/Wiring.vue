@@ -26,7 +26,7 @@ export default {
 			},
 
 			dispatchDoubleClick (e) {
-				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);
+				this.logger.log(1, "dispatchDoubleClick", "enter", this.mode);
 				const target = e.target
 				if (this.mode === "svg" || target._widgetID) {
 					return

@@ -477,7 +477,7 @@ export default {
              */
             let result = lang.clone(group)
             result.children = this.getAllGroupChildren(group)
-            result._isTopParentGroup = true
+            result._isVirtual = true
             return result
           }
           i++

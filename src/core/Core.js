@@ -1458,7 +1458,7 @@ export default class Core extends Evented {
      * group the bounding box!
      */
     getFromBox(line) {
-        var fromPos = this.model.widgets[line.from];
+        let fromPos = this.model.widgets[line.from];
 
         if (!fromPos) {
             fromPos = this.model.screens[line.from];

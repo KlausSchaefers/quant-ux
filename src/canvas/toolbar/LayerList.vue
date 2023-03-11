@@ -118,7 +118,7 @@ export default {
 		},
 
 		onSelect (ids) {
-			this.logger.log(-1, "onSelect", "entry > ", ids);
+			this.logger.log(1, "onSelect", "entry > ", ids);
 			if (!this.canvas) {
 				return
 			}

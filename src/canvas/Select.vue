@@ -348,6 +348,7 @@ import CanvasSelection from './CanvasSelection'
 					 */
 					let allChildren = this.getAllGroupChildren(this._selectGroup)
 					this._selectGroup = lang.clone(this._selectGroup)
+					this._selectGroup._isVirtual = true
 					this._selectGroup.children = allChildren
 					this.showGroupResizeHandlers(this._selectGroup.children, groupID, "group", true);
 					this.controller.onGroupSelected(groupID);
@@ -461,7 +462,7 @@ import CanvasSelection from './CanvasSelection'
 		},
 
 		unSelect (){		
-			this.logger.log(-3,"unSelect", "enter > ");
+			this.logger.log(3,"unSelect", "enter > ");
 			this.cleanUpResizeHandles();
 			this._selectWidget = null;
 			this._selectMulti = null;
