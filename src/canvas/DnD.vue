@@ -103,7 +103,7 @@ export default {
      * Screen DnD
      **********************************************************************/
 
-    onScreenDndStart (id) {
+    onScreenDndStart (id, div, pos) {
       this.logger.log(3, "onScreenDndStart", "entry");
       this.beforeDND();
       this._dragNDropBoxPositions = {};
@@ -113,6 +113,8 @@ export default {
       css.add(this.container, this._resizeCursor);
 
       const screen = this.model.screens[id];
+      this._addDNGroups(screen?.children, pos)
+
       return screen;
     },
 
@@ -221,6 +223,8 @@ export default {
          * also update all lines
          */
         this.updateLines(screen);
+
+        this.updateGroupLines(pos)
 
         return true;
       }
@@ -336,6 +340,7 @@ export default {
         css.remove(this.container, this._resizeCursor);
       }
       this.cleanUpAlignment();
+      this.cleanUpScreenDnD();
 
       const screenIDs = this._canvasSelection.screens.map(s => s.id)
 
@@ -351,6 +356,10 @@ export default {
       // a rerender
       this.setSelectedScreens(screenIDs, false, false);
       this.setState(0);
+    },
+
+    cleanUpScreenDnD () {
+      delete this._dragNDropLineGroups
     },
 
     onScreenDndClick (id, div, pos, e) {
