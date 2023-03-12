@@ -17,6 +17,7 @@ export default {
 			bendFactorX : 0.5,
 			bendFactorY : 0.5,
 			lineEventType :"receives", // emits
+			lineFromCorrect: 1
         }
     },
     components: {},
@@ -79,11 +80,11 @@ export default {
 		renderLine (line){
 			// this.logger.log(6,"renderLine", "entry > " + this.mode);
 
-			var fromPos = this.getFromBox(line);
-			var toPos = this.getToBox(line);
+			const fromPos = this.getFromBox(line);
+			const toPos = this.getToBox(line);
 
 			if (fromPos && toPos){
-				let layoutedLine = this.layoutLine(fromPos, toPos, line);
+				const layoutedLine = this.layoutLine(fromPos, toPos, line);
 				if (layoutedLine){
 					/**
 					 * render line
@@ -93,17 +94,17 @@ export default {
 						/**
 						 * create new line
 						 */
-						let svg = this.drawLine(line.id, layoutedLine);
+						 const svg = this.drawLine(line.id, layoutedLine);
 						this.lineSVGs[line.id] = svg;
 
 						/**
 						 * render support point
 						 */
 						if (this.mode === "edit") {
-							let l = layoutedLine.length;
+							const l = layoutedLine.length;
 							for (let i =1; i < l-1; i++) {
-								let p = layoutedLine[i];
-								let div = this.drawPoint(p,line.id, i);
+								const p = layoutedLine[i];
+								const div = this.drawPoint(p,line.id, i);
 								this.dndContainer.appendChild(div);
 								this.linePoints[`${line.id}_${i}`] = div
 							}
@@ -113,14 +114,14 @@ export default {
 						/**
 						 * update line
 						 */
-						let svg = this.lineSVGs[line.id];
+						 const svg = this.lineSVGs[line.id];
 						svg.attr("d", this.lineFunction(layoutedLine));
 
 						if (this.mode === "edit") {
-							let l = layoutedLine.length;
+							const l = layoutedLine.length;
 							for (let i =1; i < l-1; i++) {
-								let p = layoutedLine[i];
-								let div =	this.linePoints[`${line.id}_${i}`]
+								const p = layoutedLine[i];
+								const div =	this.linePoints[`${line.id}_${i}`]
 								if (div) {
 									this.domUtil.setPos(div, p)
 								} else {
@@ -148,10 +149,7 @@ export default {
 				this._lineUpdateJobs = {};
 			}
 
-			/**
-			 * FIXME: here is a bug with group lines!
-			 */
-			var layoutedLine = this.layoutLine(from, to, line);
+			const layoutedLine = this.layoutLine(from, to, line);
 
 			if(layoutedLine){
 				var job = {
@@ -174,12 +172,9 @@ export default {
 		_lineUpdateUI (){
 			if (this._lineUpdateJobs){
 				for (let id in this._lineUpdateJobs){
-					var job = this._lineUpdateJobs[id];
-					/**
-					 * update line graph
-					 */
-					var line = job.line;
-					var svg = this.lineSVGs[id];
+					const job = this._lineUpdateJobs[id];
+					const line = job.line;
+					const svg = this.lineSVGs[id];
 					if(svg){
 						svg.attr("d", this.lineFunction(line));
 					}
@@ -210,7 +205,10 @@ export default {
 		 */
 		checkIfLineWasCLicked (pos){
 			if(this._lineMouseOver){
-				var distance = Math.sqrt( Math.pow(this._lineMouseOverPos.x - pos.x, 2) + Math.pow(this._lineMouseOverPos.y - pos.y, 2));
+				const distance = Math.sqrt( 
+					Math.pow(this._lineMouseOverPos.x - pos.x, 2) + 
+					Math.pow(this._lineMouseOverPos.y - pos.y, 2)
+				);
 				if(distance < this.touchLineWidth){
 					this.onLineSelected(this._lineMouseOver);
 					return true;
@@ -227,27 +225,30 @@ export default {
 			/**
 			 * add support points that guide the line
 			 */
-			var supportedLine = this.layoutAddSupportPoints(fromPos, toPos, line);
+			const supportedLine = this.layoutAddSupportPoints(fromPos, toPos, line);
 			/**
 			 * set anchor points
 			 */
-			var correctedLine = this.layoutCorrectAnchorPoints(supportedLine);
+			const correctedLine = this.layoutCorrectAnchorPoints(supportedLine);
 			/**
 			 * correct last node for arrow
 			 */
-			var result = this.layoutCorrectArrow(correctedLine);
+			let result = this.layoutCorrectArrow(correctedLine);
+			// if the item is selected, we should reduce one, because
+			// the border is outside
+			//result = this.layoutCorrectFrom(correctedLine);
 			return result;
 		},
 
 
 		layoutCorrectAnchorPoints (supportedLine) {
-			var l = supportedLine.length;
+			const l = supportedLine.length;
 
 			/**
 			 * get "real" line with the correct anchor points
 			 */
-			var a1 = this.getAnchorLine(supportedLine[0], supportedLine[1]);
-			var a2 = this.getAnchorLine(supportedLine[l-2], supportedLine[l-1]);
+			const a1 = this.getAnchorLine(supportedLine[0], supportedLine[1]);
+			const a2 = this.getAnchorLine(supportedLine[l-2], supportedLine[l-1]);
 
 			/**
 			 * update line
@@ -266,11 +267,11 @@ export default {
 		 * assemble line with support points
 		 */
 		layoutAddSupportPoints (from, to, line){
-			var result = [from];
-			var l = line.points.length;
-			for(var i=0; i < l; i++){
-				var x = line.points[i];
-				var p = {
+			const result = [from];
+			const l = line.points.length;
+			for(let i=0; i < l; i++){
+				const x = line.points[i];
+				const p = {
 					x : x.x,
 					y : x.y,
 					w : 1,
@@ -282,6 +283,25 @@ export default {
 			return result;
 		},
 
+		layoutCorrectFrom (line) {
+			const p = line[0];
+			if (p) {
+				if(p.d =="left"){
+					p.x -= this.lineFromCorrect;
+				}
+				if(p.d == "right"){
+					p.x += this.lineFromCorrect;
+				}
+				if(p.d == "top"){
+					p.y -= this.lineFromCorrect;
+				}
+				if(p.d == "bottom"){
+					p.y += this.lineFromCorrect;
+				}
+				p.corrected=true;
+			}
+			return line;
+		},
 
 		/**
 		 * A very ugly method that has to be used
@@ -290,20 +310,20 @@ export default {
 		 */
 		layoutCorrectArrow ( line){
 
-			var p = line[line.length-1];
+			const p = line[line.length-1];
 
-			if(p){
+			if (p) {
 				if(p.d=="left"){
 					p.x -= this.arrowCorrect;
 				}
 				if(p.d=="right"){
-					p.x+= this.arrowCorrect;
+					p.x += this.arrowCorrect;
 				}
 				if(p.d=="top"){
 					p.y -= this.arrowCorrect;
 				}
 				if(p.d=="bottom"){
-					p.y+= this.arrowCorrect;
+					p.y += this.arrowCorrect;
 				}
 				p.corrected=true;
 			}
@@ -314,14 +334,14 @@ export default {
 			if(!from || !to){
 				return null;
 			}
-			var f = null;
-			var t = null;
-			var left = this.isLeft(from,to);
-			var top = this.isTop(from, to);
-			var fromIsLogic = this.hasLogic(from);
-			var toIsLogic = this.hasLogic(to);
-			var yOverlap = ((to.y <= from.y) && ((to.y + to.h) > from.y)) || ( (from.y <= to.y) && ( (from.y + from.h) > to.y));
-			var xOverlap = ((to.x <= from.x) && ((to.x + to.w) > from.x)) || ( (from.x <= to.x) && ( (from.x + from.w) > to.x));
+			let f = null;
+			let t = null;
+			const left = this.isLeft(from,to);
+			const top = this.isTop(from, to);
+			const fromIsLogic = this.hasLogic(from);
+			const toIsLogic = this.hasLogic(to);
+			const yOverlap = ((to.y <= from.y) && ((to.y + to.h) > from.y)) || ( (from.y <= to.y) && ( (from.y + from.h) > to.y));
+			const xOverlap = ((to.x <= from.x) && ((to.x + to.w) > from.x)) || ( (from.x <= to.x) && ( (from.x + from.w) > to.x));
 
 			if(yOverlap){
 				if(!left){
@@ -403,7 +423,7 @@ export default {
 
 		getAnchorPoint (box, pos) {
 
-			var a = {
+			const a = {
 					x : box.x + box.w/2,
 					y :box.y + box.h/2,
 					d : pos,

@@ -189,12 +189,12 @@ export default {
           }
 
           if (this.handlers['Left']) {
-            this.handlers['Left'].style.height= box.h +"px"
-            this.handlers['Left'].style.top = box.y + "px";
-            this.handlers['Left'].style.left = box.x -1 +"px";
+            this.handlers['Left'].style.height= (box.h + 2) +"px"
+            this.handlers['Left'].style.top = (box.y - 1)+ "px";
+            this.handlers['Left'].style.left = (box.x - 1) +"px";
 
-            this.handlers['Right'].style.height= box.h +"px"
-            this.handlers['Right'].style.top = box.y + "px";
+            this.handlers['Right'].style.height= (box.h +2) +"px"
+            this.handlers['Right'].style.top = (box.y - 1) + "px";
             this.handlers['Right'].style.left = (box.x + box.w) +"px";
 
             this.handlers['Up'].style.width= box.w +"px"
@@ -379,7 +379,7 @@ export default {
         }
 
         // get snapped position
-        var pos = this._getSizePos(e);
+        const pos = this._getSizePos(e);
 
 
         if (modelType !== "group" && modelType !== "multi"){
@@ -395,12 +395,12 @@ export default {
             /**
              * Distribute
              */
-            let dir = this.isHorinzontalDistribution()
-            let temp = this._distributedPositions(dir, this._resizeModel.children, pos);
-            let positions = temp.positions;
+            const dir = this.isHorinzontalDistribution()
+            const temp = this._distributedPositions(dir, this._resizeModel.children, pos);
+            const positions = temp.positions;
             for(let id in positions){
-              let newPos = positions[id]
-              let div = this.widgetDivs[id];
+              const newPos = positions[id]
+              const div = this.widgetDivs[id];
               this._resizeRenderJobs[id] = {
                 "pos" : newPos,
                 "div" : div
@@ -411,19 +411,19 @@ export default {
             /**
              * Calculate relative changes in size.
              */
-            let dif ={
+            const dif ={
               x: pos.x *1.0 / this._resizeModel.x,
               y: pos.y *1.0 / this._resizeModel.y,
               w: pos.w *1.0 / this._resizeModel.w,
               h: pos.h *1.0 / this._resizeModel.h
             };
 
-            let children = this._resizeModel.children;
+            const children = this._resizeModel.children;
             for(let i=0; i< children.length; i++){
-              let id = children[i];
-              let widget = this.model.widgets[id];
-              let div = this.widgetDivs[id];
-              let newPos = this._getGroupChildResizePosition(widget,this._resizeModel,pos, dif)
+              const id = children[i];
+              const widget = this.model.widgets[id];
+              const div = this.widgetDivs[id];
+              const newPos = this._getGroupChildResizePosition(widget,this._resizeModel,pos, dif)
               this._resizeRenderJobs[id] = {
                 "pos" : newPos,
                 "div" : div
@@ -455,8 +455,8 @@ export default {
           console.warn("No requestAnimationFrame()");
             this._resizeDndUpDateUI();
           } else {
-            var callback = lang.hitch(this, "_resizeDndUpDateUI");
-              requestAnimationFrame(callback);
+            const callback = lang.hitch(this, "_resizeDndUpDateUI");
+            requestAnimationFrame(callback);
           }
         return false;
       },
@@ -578,7 +578,7 @@ export default {
       },
 
   	_getSizePos (e){
-			var pos = this.getCanvasMousePosition(e);
+			let pos = this.getCanvasMousePosition(e);
 			pos.x -= this._resizeStartPos.x;
 			pos.y -= this._resizeStartPos.y;
 
@@ -589,7 +589,6 @@ export default {
 			 * anymore. Otherwise we have some stupid jumpy effects...
 			 */
 			pos = this.allignPosition(pos, e);
-			//pos = this.allignToKeyBoard(pos,e);
 			return pos;
 		},
 
@@ -602,10 +601,10 @@ export default {
 				return;
 			}
 
-			for(var id in this._resizeRenderJobs){
-				var job = this._resizeRenderJobs[id];
-				var pos = job.pos;
-        let sourcePos = CoreUtil.getUnZoomedBoxCopy(pos, this.zoom, this.zoom);
+			for(let id in this._resizeRenderJobs){
+				const job = this._resizeRenderJobs[id];
+				const pos = job.pos;
+        const sourcePos = CoreUtil.getUnZoomedBoxCopy(pos, this.zoom, this.zoom);
 				let div = job.div;
 				if(div){
 					/**
@@ -681,14 +680,11 @@ export default {
 		 */
 		resizeUpdateLines (box){
 			if(box.id){
-				for(var id in this.model.lines){
-					var line = this.model.lines[id];
-					if(line.to == box.id || line.from == box.id){
-						//var from = this.model.widgets[line.from];
-						//var to = this.model.screens[line.to];
-
-						var from =  this.getFromBox(line);
-						var to = this.getToBox(line);
+				for(let id in this.model.lines){
+					const line = this.model.lines[id];
+					if (line.to == box.id || line.from == box.id){
+						let from =  this.getFromBox(line);
+						let to = this.getToBox(line);
 						/**
 						 * Here we switch he
 						 */
@@ -701,12 +697,7 @@ export default {
 						this.updateLine(line, from, to);
 					}
 				}
-
-				/**
-				 * Check also for groups children or so
-				 */
 			}
-
 		},
 
 

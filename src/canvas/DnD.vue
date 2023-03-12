@@ -438,13 +438,22 @@ export default {
       if (!ids) {
         return
       }
-  
+
+      const lookupLines = {}
+      for (let id in this.model.lines) {
+        const line = this.model.lines[id]
+        lookupLines[line.from] = line
+      }
+
       ids.forEach(id => {
         /** FIXME: This could does not work for vertain multi selections */
         const parentGroup = this.getParentGroup(id)
-        if (parentGroup) {
-          this._addDNGroup(parentGroup, pos)
+        if (lookupLines[parentGroup.id]) {
+          if (parentGroup) {
+            this._addDNGroup(parentGroup, pos)
+          }
         }
+       
       })
     },
 
