@@ -438,7 +438,6 @@ export default {
       if (!ids) {
         return
       }
-
       const lookupLines = {}
       for (let id in this.model.lines) {
         const line = this.model.lines[id]
@@ -449,9 +448,7 @@ export default {
         /** FIXME: This could does not work for vertain multi selections */
         const parentGroup = this.getParentGroup(id)
         if (parentGroup && lookupLines[parentGroup.id]) {
-          if (parentGroup) {
-            this._addDNGroup(parentGroup, pos)
-          }
+          this._addDNGroup(parentGroup, pos)
         }
       })
     },
