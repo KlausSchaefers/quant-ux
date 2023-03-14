@@ -448,12 +448,11 @@ export default {
       ids.forEach(id => {
         /** FIXME: This could does not work for vertain multi selections */
         const parentGroup = this.getParentGroup(id)
-        if (lookupLines[parentGroup.id]) {
+        if (parentGroup && lookupLines[parentGroup.id]) {
           if (parentGroup) {
             this._addDNGroup(parentGroup, pos)
           }
         }
-       
       })
     },
 
