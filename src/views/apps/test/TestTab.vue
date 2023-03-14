@@ -291,8 +291,9 @@ export default {
           label: "Successful Tasks",
           fct: function(td, row) {
             var names = row.taskNames;
-            css.add(td, "MatcTagCntr");
+         
             let cntr = document.createElement('div')
+            css.add(cntr, "MatcTagCntr");
             if (names && names.length > 0) {
               for (var r = 0; r < names.length; r++) {
                 var span = document.createElement("span");

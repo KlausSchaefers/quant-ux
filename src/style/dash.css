@@ -1514,9 +1514,13 @@
 
 .MatcTagCntr {
 	max-width: 200px;
+	display: flex;
+	align-items: center;
 }
 
 .MatcTagCntr .tag{
 	margin-left: 4px;
 	margin-bottom: 4px;
+	background: rgba(55, 136, 242, 0.2549019608);
+    color: #3787f2;
 }
