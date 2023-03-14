@@ -118,7 +118,7 @@ export default class Snapp extends Screen {
 			pos.x = widget.x;
 			pos.w = widget.w;
 			let line = snapp.x;
-			let x = this.getSnappXValue(line, screen);
+			let x = this.getSnappXValue(line, screen, pos);
 			if (x > 0) {
 				if(snapp.x.middle){
 					/**
@@ -140,7 +140,7 @@ export default class Snapp extends Screen {
 			let line = snapp.y;
 			pos.y = widget.y;
 			pos.h = widget.h;
-			let y = this.getSnappYValue(line, screen);
+			let y = this.getSnappYValue(line, screen, pos);
 			if (y > 0) {
 				if(snapp.y.middle){
 					/**
@@ -158,10 +158,13 @@ export default class Snapp extends Screen {
 		}
 	}
 
-	getSnappXValue (line, screen){
+	getSnappXValue (line, screen, pos){
 		if("Grid" == line.type){
 
-			if (line.column === true){
+			if (line.line === -1) {
+				this.logger.log(-1, "snappAll", " getSnappXValue > right");
+				return (screen.x + screen.w - pos.w);
+			} else if (line.column === true){
 
 				var columnCount = this.model.grid.columnCount * 1;
 				var columnOffset = this.model.grid.columnOffset * 1;
@@ -214,9 +217,15 @@ export default class Snapp extends Screen {
 		return 0;
 	}
 
-	getSnappYValue (line, screen){
+	getSnappYValue (line, screen, pos){
 		if ("Grid" == line.type) {
-			return (screen.y + (this.model.grid.h * line.line));
+			if (line.line === -1) {
+				this.logger.log(-1, "snappAll", " getSnappYValue > bottom");
+				return (screen.y + screen.h - pos.h);
+			} else {
+				return (screen.y + (this.model.grid.h * line.line));
+			}
+	
 		} else if ("Screen" == line.type || "Widget" == line.type){
 			let box = this.getBoxById(line.id);
 			return this.getSnappValue(box, line);

@@ -1665,11 +1665,13 @@ export default class GridAndRulerSnapp extends Core {
 				 */
 				if (isGrid) {				
 					corners.x.push(pos.x);
-					corners.x.push(pos.x + pos.w)
-					// Since 4.3.11 we aslso include for grid both sides
 					corners.y.push(pos.y);
-					corners.y.push(pos.y + pos.h);
-	
+
+					if (!this.snapGridOnlyToTopLeft) {
+						corners.x.push(pos.x + pos.w)
+						corners.y.push(pos.y + pos.h);
+					}
+		
 				} else {
 					corners.x.push(pos.x);
 					corners.x.push(pos.x + pos.w)
@@ -2022,6 +2024,22 @@ export default class GridAndRulerSnapp extends Core {
 							type: "Grid"
 						}, "Grid");
 					}
+
+					/**
+					 * Since 4.4.3 we add bottom line.
+					 */
+					if (this.snapGridOnlyToTopLeft) {
+						const w = this.selectedModel.w
+						const x = screen.x + screen.w - w
+						this.addXLine(Math.round(x), {
+							id: screen.id,
+							pos: "x",
+							_v: x,
+							line: -1, // This is the magic key!!! Check Snapp.js
+							type: "Grid"
+						}, "Grid");
+					}
+
 				}
 
 
@@ -2038,6 +2056,23 @@ export default class GridAndRulerSnapp extends Core {
 							_sourceV: sourceScreen.y + i * sourceGridHeight,
 						}, "Grid");
 					}
+
+					/**
+					 * Since 4.4.3 we add bottom line.
+					 */
+					if (this.snapGridOnlyToTopLeft) {
+						const h = this.selectedModel.h
+						const y = (screen.y + screen.h) - h
+						this.addYLine(Math.round(y), {
+							id: screen.id,
+							pos: "y",
+							line: -1, // This is the magic key!!! Check Snapp.js
+							_v: y,
+							type: "Grid"
+						}, "Grid");
+					}
+
+
 				}
 			}
 
