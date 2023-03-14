@@ -76,7 +76,7 @@ export default {
 							'ProgessSegments', 'ImagePaging'],
 			hasLogic2: ["LogicOr", "Rest", "Script"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", 
-								"TypeAheadTextBox", "CheckBoxGroup"],
+								"TypeAheadTextBox", "CheckBoxGroup", "RadioGroup"],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload', 'IconToggleButton'],

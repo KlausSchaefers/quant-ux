@@ -410,7 +410,9 @@ export default {
 
 			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
 			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
-			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+			if (!model.has?.backgroundColor) {
+				this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+			}
 			this._renderInputDropDown("Height",model, [8, 12, 16, 24, 32, 40, 64, 80, 120], "boxHeight", false);
 
 		},
@@ -449,7 +451,10 @@ export default {
 
 			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
 			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );
-			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+		
+			if (!model.has?.backgroundColor) {
+				this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+			}
 			this._renderInputDropDown("Height",model, [8, 12, 16, 24, 32, 40, 64, 80, 120], "boxHeight", false);
 
 		},

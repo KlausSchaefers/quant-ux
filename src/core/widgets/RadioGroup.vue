@@ -22,10 +22,10 @@ export default {
      
     renderChildren (options) {
       if (this._borderNodes.length === 0) {
-        var db = new DomBuilder();
-        var cntr = db.div().build();
-        for (var i = 0; i < options.length; i++) {
-          var o = options[i];
+        const db = new DomBuilder();
+        const cntr = db.div().build();
+        for (let i = 0; i < options.length; i++) {
+          const o = options[i];
           this.renderChild(o, i, cntr, db);
         }
         this.domNode.appendChild(cntr);
@@ -33,8 +33,8 @@ export default {
     },
 
     setChildStyles (model) {
-      for (var i = 0; i < this._hookNodes.length; i++) {
-        var hook = this._hookNodes[i];
+      for (let i = 0; i < this._hookNodes.length; i++) {
+        const hook = this._hookNodes[i];
         if (model.style.colorButton) {
           hook.style.background = model.style.colorButton;
         }
@@ -42,12 +42,12 @@ export default {
     },
 
     renderChild (option, i, cntr, db) {
-      var row = db.div("MatcWidgetTypeCheckBoxRow").build(cntr);
-      var back = db
+      const row = db.div("MatcWidgetTypeCheckBoxRow").build(cntr);
+      const back = db
         .div("MatcWidgetTypeRadioBox MatcWidgetTypeRadioBox2")
         .build(row);
-      var hook = db.span("MatcWidgetTypeRadioBoxCircle").build(back);
-      var label = db
+      const hook = db.span("MatcWidgetTypeRadioBoxCircle").build(back);
+      const label = db
         .div("MatcWidgetTypeCheckBoxLabel")
         .span(null, option)
         .build(row);
@@ -72,22 +72,18 @@ export default {
 
     setValue (value, ignoreValidation) {
       this.value = value;
-      var valid = true;
+      let valid = true;
       if (!ignoreValidation) {
         valid = this.validate(this.value, true);
       }
 
-      for (var i = 0; i < this._borderNodes.length; i++) {
-        var back = this._borderNodes[i];
-        var option = this.options[i];
-        var checked = option === value;
+      for (let i = 0; i < this._borderNodes.length; i++) {
+        const back = this._borderNodes[i];
+        const option = this.options[i];
+        const checked = option === value;
         if (checked && valid) {
           css.add(back, "MatcWidgetTypeRadioBoxChecked");
         } else {
-          //					if(valid || !this.model.error){
-          //						back.style.background = this.model.style.background;
-          //						this.setBorderColor();
-          //					}
           css.remove(back, "MatcWidgetTypeRadioBoxChecked");
         }
       }
@@ -107,10 +103,10 @@ export default {
     },
 
     _validateValue (value) {
-      var validation = this.model.props.validation;
+      const validation = this.model.props.validation;
       if (validation) {
         if (validation.required && this.options) {
-          var pos = this.options.indexOf(value);
+          const pos = this.options.indexOf(value);
           return pos >= 0;
         }
       }

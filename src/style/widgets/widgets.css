@@ -1306,8 +1306,9 @@
  	height:100%;
  	position: absolute;
  	border-style:solid;
- 	vertical-align: middle;
  	cursor: pointer;
+	display: flex;
+	align-items: center;
 }
 
 .MatchWidgetTypeDropDown{

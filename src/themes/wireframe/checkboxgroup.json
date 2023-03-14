@@ -16,6 +16,7 @@
 	    	"selected": ["Option 1"]
 		 },
 	     "has" : {
+			"backgroundColor" : true,
 	        "onclick" : true,
 	        "border" : true,
 			"label" : true,
