@@ -1366,3 +1366,9 @@
 	 
 	 
 }
+
+textarea.MatcContentWidgetEditor{
+	min-height: 400px;
+	font-size: 12px;
+	background: #eee;
+}

@@ -48,7 +48,15 @@
 			 "paddingRight" : 6,
 			 "selectedOptionColor" : "#333333",
 		     "selectedOptionBackground": "#f2f2f2"		   
-	     }
+	     },
+		 "error": {
+			"borderTopColor": "#cc0000",
+			"borderBottomColor": "#cc0000",
+			"borderRightColor": "#cc0000",
+			"borderLeftColor": "#cc0000",
+			"background": "#ffcaca",
+			"color": "#cc0000"
+		  }
 	},
 	
 	{

@@ -44,6 +44,13 @@
 	         "colorButton" : "#333333",
 	         "boxHeight": 40,
 	         "boxMarginRight": 10
-	     }
+	    },
+		"error" : {
+			"borderTopColor" : "#cc0000",
+			"borderBottomColor" : "#cc0000",
+			"borderRightColor" : "#cc0000",
+			"borderLeftColor" : "#cc0000",
+			"color": "#cc0000"
+		}
 	}
 ]

@@ -701,11 +701,6 @@ body.MatcBody{
 	cursor: pointer;
 }
 
-textarea.MatcContentWidgetEditor{
-	min-height: 400px;
-	font-size: 12px;
-	background: #eee;
-}
 
 textarea.MatcContentWidgetAbs{
 	height: 200px;
