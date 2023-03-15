@@ -61,12 +61,12 @@ export default {
         return this.color
       },
 
-      hasVerticalAlign (has) {
-        if (has) {
-          css.remove(this.verticalAlign.domNode, 'hidden')
-        } else {
-           css.add(this.verticalAlign.domNode, 'hidden')
-        }
+      hasVerticalAlign () {
+        // if (has) {
+        //   css.remove(this.verticalAlign.domNode, 'hidden')
+        // } else {
+        //    css.add(this.verticalAlign.domNode, 'hidden')
+        // }
       },
 
       setValue (style) {

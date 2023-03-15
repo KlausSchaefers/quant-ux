@@ -1,126 +1,180 @@
-[ {
-	"id" : "Button",
-	"type" : "Button",
-	"_type" : "Widget",
-	"category" : "WireFrame",
-	"subcategory" : "XFormButton",
-	"name" : "Border Button",
-	"_extends" : "Box",
-	"w" : 100,
-	"props" : {
-		"label" : "Click Me"
+[
+	{
+		"id": "Button",
+		"type": "Button",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "XFormButton",
+		"name": "Border Button",
+		"_extends": "Box",
+		"w": 96,
+		"props": {
+			"label": "Click Me"
+		},
+		"has": {
+			"onclick": true,
+			"label": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": 14,
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign": "center",
+			"letterSpacing": 0,
+			"lineHeight": 1,
+			"color": "#333333",
+			"paddingTop": 0,
+			"paddingBottom": 0,
+			"paddingLeft": 0,
+			"paddingRight": 0,
+			"borderTopRightRadius": 3,
+			"borderTopLeftRadius": 3,
+			"borderBottomRightRadius": 3,
+			"borderBottomLeftRadius": 3,
+			"borderTopWidth": 1,
+			"borderBottomWidth": 1,
+			"borderRightWidth": 1,
+			"borderLeftWidth": 1,
+			"verticalAlign": "middle"
+		}
 	},
-	"has" : {
-		"onclick" : true,
-		"label" : true,
-		"padding" : true
+	{
+		"id": "BlackButton",
+		"type": "Button",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "AAFormButton",
+		"name": "Button",
+		"_extends": "Box",
+		"w": 96,
+		"props": {
+			"label": "Click Me"
+		},
+		"has": {
+			"onclick": true,
+			"label": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": 14,
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign": "center",
+			"letterSpacing": 0,
+			"lineHeight": 1,
+			"color": "#ffffff",
+			"background": "#333333",
+			"paddingTop": 0,
+			"paddingBottom": 0,
+			"paddingLeft": 0,
+			"paddingRight": 0,
+			"borderTopRightRadius": 3,
+			"borderTopLeftRadius": 3,
+			"borderBottomRightRadius": 3,
+			"borderBottomLeftRadius": 3,
+			"borderTopColor": "#333333",
+			"borderBottomColor": "#333333",
+			"borderRightColor": "#333333",
+			"borderLeftColor": "#333333",
+			"verticalAlign": "middle"
+		}
 	},
-	"style" : {
-		"fontSize" : 14,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"textAlign" : "center",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"color" : "#333333",
-		"paddingTop" : 0,
-		"paddingBottom" : 0,
-		"paddingLeft" : 0,
-		"paddingRight" : 0,
-		"borderTopRightRadius" : 3,
-		"borderTopLeftRadius" : 3,
-		"borderBottomRightRadius" : 3,
-		"borderBottomLeftRadius" : 3,
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1,
-		"verticalAlign" : "middle"
+	{
+		"id": "ToggleButton",
+		"type": "ToggleButton",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "AFormButton",
+		"name": "Toggle Button",
+		"_extends": "Box",
+		"w":96,
+		"props": {
+			"label": "Toggle Me",
+			"active": false
+		},
+		"has": {
+			"onclick": true,
+			"label": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": 14,
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign": "center",
+			"letterSpacing": 0,
+			"lineHeight": 1,
+			"color": "#333333",
+			"paddingTop": 0,
+			"paddingBottom": 0,
+			"paddingLeft": 0,
+			"paddingRight": 0,
+			"borderTopRightRadius": 3,
+			"borderTopLeftRadius": 3,
+			"borderBottomRightRadius": 3,
+			"borderBottomLeftRadius": 3,
+			"borderTopWidth": 1,
+			"borderBottomWidth": 1,
+			"borderRightWidth": 1,
+			"borderLeftWidth": 1,
+			"valign": "top",
+			"borderTopColor": "#333333",
+			"borderBottomColor": "#333333",
+			"borderRightColor": "#333333",
+			"borderLeftColor": "#333333",
+			"verticalAlign": "middle"
+		},
+		"active": {
+			"color": "#ffffff",
+			"background": "#333333"
+		}
+	},
+	{
+		"id": "ImageToggleButton",
+		"type": "ToggleButton",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "ImageCarousel",
+		"name": "Image Toggle",
+		"_extends": "Box",
+		"w":96,
+		"h":96,
+		"props": {
+			"isImageToggle": true,
+			"label": "",
+			"active": false
+		},
+		"has": {
+			"backgroundImage": true,
+			"onclick": true
+		},
+		"style": {
+			"fontSize": 14,
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign": "center",
+			"letterSpacing": 0,
+			"lineHeight": 1,
+			"color": "#333333",
+			"paddingTop": 0,
+			"paddingBottom": 0,
+			"paddingLeft": 0,
+			"paddingRight": 0,
+			"borderTopRightRadius": 0,
+			"borderTopLeftRadius": 0,
+			"borderBottomRightRadius": 0,
+			"borderBottomLeftRadius": 0,
+			"borderTopWidth": 0,
+			"borderBottomWidth": 0,
+			"borderRightWidth": 0,
+			"borderLeftWidth": 0,
+			"valign": "top",
+			"borderTopColor": "#333333",
+			"borderBottomColor": "#333333",
+			"borderRightColor": "#333333",
+			"borderLeftColor": "#333333",
+			"verticalAlign": "middle"
+		},
+		"active": {
+			"color": "#ffffff",
+			"background": "#333333"
+		}
 	}
-}, {
-	"id" : "BlackButton",
-	"type" : "Button",
-	"_type" : "Widget",
-	"category" : "WireFrame",
-	"subcategory" : "AAFormButton",
-	"name" : "Button",
-	"_extends" : "Box",
-	"w" : 100,
-	"props" : {
-		"label" : "Click Me"
-	},
-	"has" : {
-		"onclick" : true,
-		"label" : true,
-		"padding" : true
-	},
-	"style" : {
-		"fontSize" : 14,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"textAlign" : "center",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"color" : "#ffffff",
-		"background" : "#333333",
-		"paddingTop" : 0,
-		"paddingBottom" : 0,
-		"paddingLeft" : 0,
-		"paddingRight" : 0,
-		"borderTopRightRadius" : 3,
-		"borderTopLeftRadius" : 3,
-		"borderBottomRightRadius" : 3,
-		"borderBottomLeftRadius" : 3,
-		"borderTopColor" : "#333333",
-		"borderBottomColor" : "#333333",
-		"borderRightColor" : "#333333",
-		"borderLeftColor" : "#333333",
-		"verticalAlign" : "middle"
-	}
-}, {
-	"id" : "ToggleButton",
-	"type" : "ToggleButton",
-	"_type" : "Widget",
-	"category" : "WireFrame",
-	"subcategory" : "AFormButton",
-	"name" : "Toggle Button",
-	"_extends" : "Box",
-	"props" : {
-		"label" : "Toggle Me",
-		"active": false
-	},
-	"has" : {
-		"onclick" : true,
-		"label" : true,
-		"padding" : true
-	},
-	"style" : {
-		"fontSize" : 14,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"textAlign" : "center",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"color" : "#333333",
-		"paddingTop" : 0,
-		"paddingBottom" : 0,
-		"paddingLeft" : 0,
-		"paddingRight" : 0,
-		"borderTopRightRadius" : 3,
-		"borderTopLeftRadius" : 3,
-		"borderBottomRightRadius" : 3,
-		"borderBottomLeftRadius" : 3,
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1,
-		"valign" : "top",
-		"borderTopColor" : "#333333",
-		"borderBottomColor" : "#333333",
-		"borderRightColor" : "#333333",
-		"borderLeftColor" : "#333333",
-		"verticalAlign" : "middle"
-	},
-	"active" : {
-		"color" : "#ffffff",
-		"background" : "#333333"
-	}
-
-} ]
+]

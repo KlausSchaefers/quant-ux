@@ -1183,7 +1183,7 @@ export default {
       /**
        * With the new update of the RemderFacory, this should be set in the image node...
        */
-      var img = style.backgroundImage;
+      const img = style.backgroundImage;
       if (img) {
         if (this._imageNodes) {
             this._imageNodes.forEach(node => {
@@ -1192,10 +1192,9 @@ export default {
               }
             })
         } else {
-          console.warn('UIWidget._set_backgroundImage() > no image nodes passed...')
+          //console.warn('UIWidget._set_backgroundImage() > no image nodes passed...')
           this._set_backgroundImageInNode(parent, style, model)
         }
-
       }
     },
 
@@ -1217,7 +1216,7 @@ export default {
           if (!this.isPublic) {
             this.logger.sendError(new Error('No hash for image'))
           }
-          var url = "url(/rest/images/" + img.url + ")";
+          const url = "url(/rest/images/" + img.url + ")";
           parent.style.backgroundImage = url;
         }
 
@@ -1228,7 +1227,7 @@ export default {
         }
 
         if (style.backgroundPosition && this.model) {
-          var pos = style.backgroundPosition;
+          const pos = style.backgroundPosition;
           parent.style.backgroundPosition = Math.round(pos.left * this.model.w) + "px " + Math.round(pos.top * this.model.h) + "px";
           parent.style.webkitBackgroundPosition = Math.round(pos.left * this.model.w) + "px " + Math.round(pos.top * this.model.h) + "px";
         } else {

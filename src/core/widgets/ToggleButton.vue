@@ -33,6 +33,9 @@ export default {
     },
 
     getLabelNode () {
+      if (this.model.props.isImageToggle) {
+        return
+      }
       return this.labelNode;
     },
 
@@ -46,6 +49,39 @@ export default {
 
       this.setInnerHTML(this.labelNode, this.model.props.label);
       this.setValue(model.props.active, true);
+      if (this.model.props.isImageToggle) {
+        if (!style.backgroundImage) {
+          this.renderDefaultImage(model)
+        }
+      }
+    },
+
+    renderDefaultImage (model) {
+      let w = model.w * 2;
+      let h = model.h * 2;
+
+      const c = document.createElement("canvas");
+      const context = c.getContext("2d");
+      c.width = w;
+      c.height = h;
+      h += 0.5;
+      w += 0.5;
+      const n = 0.5;
+      context.moveTo(n, n);
+      context.lineTo(w, h);
+      context.moveTo(w, n);
+      context.lineTo(n, h);
+      context.strokeStyle = "#333";
+      context.strokeWidth = 2;
+      context.imageSmoothingEnabled = false;
+      context.stroke();
+      
+      this.domNode.style.backgroundSize = "100% 100%"
+      this.domNode.style.backgroundImage = "url(" + c.toDataURL("image/png") + ")";
+      const borderWidth = this._getBorderWidth(model.style.borderTopWidth)
+      this.domNode.style.border = borderWidth + "px solid #777";
+
+
     },
 
     getValue () {
@@ -58,7 +94,7 @@ export default {
       }
 
       this.value = value;
-      var valid = true;
+      let valid = true;
       if (!ignoreValidation) {
         valid = this.validate(this.value, true);
       }
@@ -67,7 +103,6 @@ export default {
         if (this.model.active && valid) {
           this.setStyle(this.model.active);
         }
-        //	console.debug(this.model.props.label);
         this.setInnerHTML(this.labelNode, this.model.props.label);
       } else {
         if (valid) {

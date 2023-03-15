@@ -216,7 +216,6 @@ export default {
           this.elements.push(element);
         }
       }
-
       this.setStyle(style);
       this.resize(this.model);
       this.setValue(0);

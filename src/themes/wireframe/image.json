@@ -33,40 +33,5 @@
 	         "borderLeftColor" : "#333333",
 	    	 "backgroundImage" : null
 	     }
-	 },
-	 	{
-		 "id" : "Image2",
-		 "type" : "Image",
-		 "category" : "WireFrame",
-		 "subcategory" : "Image",
-		 "_type" : "Widget",
-		 "name" : "Image",
-		 "x" : 0,
-	     "y" : 0,
-	     "w" : 100,
-	     "h" : 100,
-	     "z" : 0,
-	     "props" : {},
-	     "has" : {
-	        "onclick" : true,
-					"backgroundImage" : true,
-					"borderRadus" : true
-	     },
-	     "actions":{},
-	     "style" : {
-	    	 "borderTopRightRadius" : 500,
-				"borderTopLeftRadius" : 500,
-				"borderBottomRightRadius" : 500,
-				"borderBottomLeftRadius" : 500,
-				"borderTopWidth" : 0,
-				"borderBottomWidth" : 0,
-				"borderRightWidth" : 0,
-				"borderLeftWidth" : 0,
-				"borderTopColor" : "#333333",
-				"borderBottomColor" : "#333333",
-				"borderRightColor" : "#333333",
-				"borderLeftColor" : "#333333",
-	    	 "backgroundImage" : null
-	     }
 	 }
  ]

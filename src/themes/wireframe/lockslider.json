@@ -4,7 +4,7 @@
         "type": "LockSlider",
         "_type": "Widget",
         "category": "WireFrame",
-        "subcategory": "FormPopUpSelect",
+        "subcategory": "FormSpecialSlider",
         "name": "Lock Slider",
         "x": 0,
         "y": 0,

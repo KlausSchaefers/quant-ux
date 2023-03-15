@@ -3,7 +3,7 @@
     "id": "WireFramePaging",
     "type": "Paging",
     "name": "Paging",
-    "subcategory": "Menu",
+    "subcategory": "FormSpecialPaging",
     "category": "WireFrame",
     "_type": "Widget",
     "x": 0,
