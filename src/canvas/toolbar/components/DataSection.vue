@@ -428,15 +428,15 @@ export default {
 		_showProgessSegments (model) {
 			this._setSectionLabel("Progress Steps");
 
-			this._renderColor('Border','<span class="mdi mdi-format-color-fill"></span>',model.style.borderTopColor, "borderTopColor" ,"onStyleChanged", true);
-			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
-
 			this._renderInputDropDown("Border Width",model, [0, 1, 2, 3, 4, 8], "borderTopWidth", false);
-
-			this._renderColor('Active Border','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBorderColor, "activeBorderColor" ,"onStyleChanged", true);
+			this._renderColor('Border','<span class="mdi mdi-format-color-fill"></span>',model.style.borderTopColor, "borderTopColor" ,"onStyleChanged", true);
 			this._renderColor('Active Background','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBackground, "activeBackground", "onStyleChanged",true );
+			
+			this._renderSubSection()
+			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+			this._renderColor('Active Border','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBorderColor, "activeBorderColor" ,"onStyleChanged", true);
 
-
+			this._renderSubSection()
 			this._renderInputDropDown("Progress", model, [0, 1, 2, 3, 4, 5], "value", true);
 			this._renderInputDropDown("# Elements", model, [1, 2, 3, 4, 5, 10], "max", true);
 			this._renderInputDropDown("Gap", model, [4, 8, 16, 32], "gap", true);
@@ -445,14 +445,15 @@ export default {
 		_showImagePaging (model) {
 			this._setSectionLabel("Paging");
 
-			this._renderColor('Border','<span class="mdi mdi-format-color-fill"></span>',model.style.borderTopColor, "borderTopColor" ,"onStyleChanged", true);
-			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
-
 			this._renderInputDropDown("Border Width",model, [0, 1, 2, 3, 4, 8], "borderTopWidth", false);
-
+			this._renderColor('Border','<span class="mdi mdi-format-color-fill"></span>',model.style.borderTopColor, "borderTopColor" ,"onStyleChanged", true);
 			this._renderColor('Active Border','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBorderColor, "activeBorderColor" ,"onStyleChanged", true);
+			
+			this._renderSubSection()					
+			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
 			this._renderColor('Active Background','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBackground, "activeBackground", "onStyleChanged",true );
 
+			this._renderSubSection()		
 			this._renderInputDropDown("Selected", model, [1, 2, 3, 4, 5], "value", true);
 			this._renderInputDropDown("# Elements", model, [1, 2, 3, 4, 5, 10], "max", true)
 		},
@@ -807,11 +808,11 @@ export default {
 			this._renderInputDropDown("Min",model, [0,1,5,10,20,50,100, 200], "min", true);
 			this._renderInputDropDown("Max",model, [0,1,5,10,20,50,100, 200], "max", true);
 		
-			this._renderSpacer()
+			this._renderSubSection()
 			this._renderColor('Handle Color','<span class="mdi mdi-format-color-fill"></span>',model.style.handleColor, "handleColor" ,"onStyleChanged", true);
 			this._renderColor('Foreground Color','<span class="mdi mdi-format-color-fill"></span>',model.style.barColor, "barColor" ,"onStyleChanged", true);
 
-			this._renderSpacer()
+		
 			this._renderInputDropDown("Handle Width",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleWidth");
 			this._renderInputDropDown("Handle Radius",model, [4, 8, 12, 16, 24, 32, 40, 64, 80, 120], "handleRadius");
 			this._renderShadowPicker("Handle",model, "handleShadow");
@@ -2025,6 +2026,10 @@ export default {
 
 		_renderSpacer () {
 			this.db.div("MatcToobarRow MatcToobarRowSpacer ").build(this.cntr);
+		},
+
+		_renderSubSection() {
+			this.db.div("MatcToobarRow MatcToobarSubSection ").build(this.cntr);
 		},
 
 		_renderButton (lbl, icon, callback){

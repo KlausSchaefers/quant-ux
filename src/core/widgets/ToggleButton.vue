@@ -78,7 +78,7 @@ export default {
       
       this.domNode.style.backgroundSize = "100% 100%"
       this.domNode.style.backgroundImage = "url(" + c.toDataURL("image/png") + ")";
-      const borderWidth = this._getBorderWidth(model.style.borderTopWidth)
+      const borderWidth = Math.max(1,this._getBorderWidth(model.style.borderTopWidth))
       this.domNode.style.border = borderWidth + "px solid #777";
 
 

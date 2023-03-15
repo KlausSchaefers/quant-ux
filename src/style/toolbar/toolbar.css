@@ -929,8 +929,17 @@
 
 
 .MatcToobarRow.MatcToobarRowSpacer{
-	margin-bottom: 8px;
+	margin-bottom: 16px;
 }
+
+.MatcToobarRow.MatcToobarSubSection{
+	padding-top: 8px;
+	border-top: 1px solid rgba(0,0,0, 0.15);
+	margin-top: 8px;
+	margin-left: -10px;
+	margin-right: -10px;
+}
+
 
 
 .MatcToobarPropertiesSection .MatcToolbarSectionContent{
