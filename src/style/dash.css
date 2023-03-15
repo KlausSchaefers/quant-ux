@@ -11,6 +11,9 @@
 .MatcDashTaskPerfGram{
 	width:800px;
 }
+.MatcDashTaskPerfGramFull{
+	width: calc(100% - 60px);
+}
 
 
 .MatcDashTaskPerfGramCntr{

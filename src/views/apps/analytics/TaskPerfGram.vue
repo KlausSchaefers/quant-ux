@@ -75,7 +75,7 @@ export default {
         return {
             x_prefix: "",
             paddingFactor: 1.1,
-            tab: "scatter",// "scatter",
+            tab: "funnelDurartion",// "scatter",
             tabs: {},
             dialog: false,
 			includeDropOff: false,
@@ -113,10 +113,10 @@ export default {
 
 		init (){
 			this.db = new DomBuilder();
-			this.addTab("scatter", "MatcToolbarTabActive");
-			this.addTab("details", "");
+			//this.addTab("scatter", "MatcToolbarTabActive");
+			//this.addTab("details", "");
 			//this.addTab("dropoff", "");
-			this.addTab("funnelDurartion", "");
+			this.addTab("funnelDurartion", "MatcToolbarTabActive");
 			this.addTab("funnelInteraction", "");
 			this._scatterPoints = {};
 		},

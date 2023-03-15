@@ -443,7 +443,6 @@ export default {
         const line = this.model.lines[id]
         lookupLines[line.from] = line
       }
-
       ids.forEach(id => {
         /** FIXME: This could does not work for vertain multi selections */
         const parentGroup = this.getParentGroup(id)

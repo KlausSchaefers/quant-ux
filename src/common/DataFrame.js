@@ -710,4 +710,13 @@ export default class DataFrame {
 		}, column)
 	}
 
+	merge (other) {
+		if (Array.isArray(this.data) && Array.isArray(other.data)) {
+			let newData = this.data.concat(other.data)
+			return new DataFrame(newData)
+		}
+		console.error('DataFrame.merge() > Cannot merge to object frames')
+		return new DataFrame([])
+	}
+
 }

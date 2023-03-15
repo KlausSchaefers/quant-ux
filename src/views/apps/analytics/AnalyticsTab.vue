@@ -5,7 +5,9 @@
         <div class="box is-shadowless">
           <div class="level">
             <div class="level-left">
-              <h2 class="level-item title">Dashboard</h2>
+              <h2 class="level-item title">
+                  Dashboard <HelpButton topic="analytics"  :hasNotifications="false"
+            /></h2>
             </div>
             <div class="level-right">
               <div class="level-item">
@@ -34,6 +36,20 @@
         </div>
       </div>
     </section>
+
+    <section class="section" data-dojo-attach-point="sectionScatter">
+      <div class="container">
+        <div class="box is-shadowless">
+          <ScatterSection
+            :pub="pub"
+            :test="test"
+            :app="app"
+            :events="events"
+            :annotation="annotation"/>
+        </div>
+      </div>
+    </section>
+
 
      <section class="section" data-dojo-attach-point="sectionTask">
       <div class="container">
@@ -77,7 +93,9 @@ import PerformanceMonitor from 'core/PerformanceMonitor'
 import AnalyticsHeader from "views/apps/analytics/AnalyticsHeader";
 import AnalyticTaskList from "views/apps/analytics/AnalyticTaskList";
 import SurveySection from "views/apps/analytics/SurveySection";
+import ScatterSection from "views/apps/analytics/ScatterSection";
 import Comment from "page/Comment";
+import HelpButton from "help/HelpButton";
 
 export default {
   name: "Test",
@@ -93,7 +111,9 @@ export default {
     'Comment': Comment,
     'AnalyticsHeader': AnalyticsHeader,
     'AnalyticTaskList': AnalyticTaskList,
-    'SurveySection': SurveySection
+    'SurveySection': SurveySection,
+    'ScatterSection': ScatterSection,
+    'HelpButton': HelpButton
   },
   computed: {
     imageHash () {

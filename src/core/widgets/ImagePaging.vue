@@ -68,13 +68,11 @@ export default {
                 this.elements.push(element)
             }
             this.domNode.appendChild(cntr)
-
             this.resize(model);
             this.setStyle(style, model);
             if (model.props && model.props.value !== null && model.props.value !== undefined) {
                 this.setValue(model.props.value);
             }
-
         },
 
         resize(model) {

@@ -397,6 +397,7 @@ export default {
 
       const analytics = new Analytics();
       const taskCount = testSettings.tasks.length;
+      // merge in annotation overwrites
       const tasksPerformance = analytics.getMergedTaskPerformance(
         actionDF,
         testSettings.tasks,

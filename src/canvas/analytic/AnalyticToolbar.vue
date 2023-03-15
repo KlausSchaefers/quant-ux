@@ -1463,15 +1463,15 @@ export default {
 
 
 		/********************************************************
-		 * Mian menu handlers
+		 * Main menu handlers
 		 ********************************************************/
 
 		onExit(){
 			this.logger.log(0,"onExit", "entry", this.isPublic);
 			if(this.isPublic){
-				hash("#/examples/"+ this.model.id + "/heat.html");
+				hash("#/examples/"+ this.model.id + "/design.html");
 			} else {
-				hash("#/apps/"+ this.model.id + "/heat.html");
+				hash("#/apps/"+ this.model.id + "/design.html");
 			}
 		},
 

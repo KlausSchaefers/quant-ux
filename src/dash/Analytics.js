@@ -647,7 +647,7 @@ export default class {
 		return result
 	}
 
-
+	
 	/**
 	 * allowPartial is for funnel??
 	 */

@@ -144,8 +144,7 @@ export default {
       });
     },
     onLoaded(events, mouse) {
-      console.debug("onLoaded", events.length, mouse.length);
-      if (events.length < 2000) {
+       if (events.length < 2000) {
         this.eventsWithAnnimations = events;
         this.mouseEvents = mouse;
       } else {

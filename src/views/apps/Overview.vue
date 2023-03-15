@@ -29,7 +29,7 @@
                   <a :href="`#/${urlPrefix}/${appID}/analyze.html`">{{ $t('app.overview.dash')}}</a>
                 </li>
                 <li :class="[{'is-active': tab == 'heat'}]">
-                  <a :href="`#/${urlPrefix}/${appID}/heat.html`">{{ $t('app.overview.heat')}}</a>
+                  <a :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`">{{ $t('app.overview.heat')}}</a>
                 </li>
                 <li :class="[{'is-active': tab == 'settings'}]">
                   <a :href="`#/${urlPrefix}/${appID}/settings.html`" v-if="!isPublic">{{ $t('app.overview.settings')}}</a>

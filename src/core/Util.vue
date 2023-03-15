@@ -357,7 +357,6 @@ export default {
      * Returns all actionable events
      */
     getActionEvents (df) {
-
       PerformanceMonitor.start('Util.getActionEvents()')
       const result = df.select("type", "in", [
         "ScreenClick",

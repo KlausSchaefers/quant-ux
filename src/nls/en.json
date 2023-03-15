@@ -226,6 +226,12 @@
         "sign-in": "Sign up to create a new Prototype"
     },
     "analytics": {
+        "scatter": {
+            "title" : "Data Distribution",
+            "play": "To replay the session recording press ",
+            "here": "here",
+            "hint": "Select a dot to replay the screen recording"
+        },
         "header": {
             "user": "Tests",
             "duration": "Test Duration",

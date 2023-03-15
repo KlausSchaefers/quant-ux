@@ -629,7 +629,7 @@ export default {
 			}
 
 			if (type === 'group') {
-				return 'mdi mdi-crop-free'
+				return 'mdi mdi-vector-union'
 			}
 			if (box.type == "Master") {
 				return "mdi mdi-content-duplicate";
