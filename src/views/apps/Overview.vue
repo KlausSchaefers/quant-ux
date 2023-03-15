@@ -295,7 +295,7 @@ export default {
         this.loadEvents();
     },
     initFocusListener () {
-       this.logger.log(-1, "initFocusListener", "enter > ");
+       this.logger.log(1, "initFocusListener", "enter > ");
       this._focusListner = () => {
         this.onWindowFocus()
       } 

@@ -39,10 +39,20 @@ export default class DataFrame {
 
 	select(column, operator, value) {
 
-		var result = [];
+		const result = [];
+		let inLookup = null
+		if (operator === 'in') {
+			if (Array.isArray(value)) {
+				inLookup = {}
+				value.forEach(v => {
+					inLookup[v] = true
+				})				
+			}
+		}
+
 		this.foreach(function (row) {
 
-			var v = row[column];
+			const v = row[column];
 
 			switch (operator) {
 				case "==":
@@ -76,7 +86,9 @@ export default class DataFrame {
 					}
 					break;
 				case "in":
-					if (value.indexOf(v) >= 0) {
+					if (inLookup && inLookup[v]) {
+						result.push(row);
+					} else if (value.indexOf(v) >= 0) {
 						result.push(row);
 					}
 					break;
@@ -99,8 +111,6 @@ export default class DataFrame {
 		}
 		return new DataFrame(result);
 	}
-
-
 
 	shape() {
 		var l = this.size();

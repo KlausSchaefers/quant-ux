@@ -4,6 +4,7 @@ import lang from '../../dojo/_base/lang'
 import Core from '../../core/Core'
 import CoreUtil from '../../core/CoreUtil'
 import Logger from '../../common/Logger'
+import PerformanceMonitor from '../../core/PerformanceMonitor'
 import ModelDB from './ModelDB'
 import * as CollabUtil from './CollabUtil'
 import CollabService from './CollabService'
@@ -270,7 +271,7 @@ export default class BaseController extends Core {
 	}
 
 	startModelChange () {
-		console.time("startModelChange")
+		PerformanceMonitor.start("BaseController.startModelChange()")
 		this._modelChanges = []
 		this._modelRenderJobs = {}
 		this._modelHasChanged = false
@@ -314,15 +315,15 @@ export default class BaseController extends Core {
 		this._modelChanges = []
 		this._modelRenderJobs = {}
 		this._modelHasChanged = false
-		//console.timeEnd("commitModelChange")
-		console.timeEnd("startModelChange")
+
+		PerformanceMonitor.end("BaseController.startModelChange()")
 	}
 
 	getInheritedModel (model) {
 		//console.trace()
-		//console.time("getInheritedModel")
+		PerformanceMonitor.start("BaseController.getInheritedModel()")
 		const result =  CoreUtil.createInheritedModel(model)
-		//console.timeEnd("getInheritedModel")
+		PerformanceMonitor.end("BaseController.getInheritedModel()", 2)
 		return result
 	}
 

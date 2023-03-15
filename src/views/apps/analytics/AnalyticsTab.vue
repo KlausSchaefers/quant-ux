@@ -73,6 +73,7 @@ import lang from "dojo/_base/lang";
 import DataFrame from "common/DataFrame";
 import Plan from "page/Plan";
 import Util from "core/Util";
+import PerformanceMonitor from 'core/PerformanceMonitor'
 import AnalyticsHeader from "views/apps/analytics/AnalyticsHeader";
 import AnalyticTaskList from "views/apps/analytics/AnalyticTaskList";
 import SurveySection from "views/apps/analytics/SurveySection";
@@ -152,6 +153,7 @@ export default {
       }
     },
     show() {
+      PerformanceMonitor.start('AnalyticsTab.show()')
       /**
        * remove all sessions that are invalid!
        */
@@ -160,23 +162,23 @@ export default {
       /**
        * Just use actionable events
        */
-      var actionEvents = this.getActionEvents(new DataFrame(events));
+      const actionEvents = this.getActionEvents(new DataFrame(events));
       events = actionEvents.as_array();
-      var df = new DataFrame(events);
+
+      const df = new DataFrame(events);
       df.sortBy("time");
 
       this._addTestKPI(df, this.app);
-      // does any body use this?
-      // this._addTagData(tags,df);
-      // this._addScreenData(df,app);
-      // this._addScreenList(events, app);
+
+      PerformanceMonitor.end('AnalyticsTab.show()')
     },
 
-    _addTestKPI: function(df, app) {
-      var sessionGroup = df.groupBy("session");
-      var count = df.count("session");
-      var min = sessionGroup.min("time");
-      var max = sessionGroup.max("time");
+    _addTestKPI (df, app) {
+      PerformanceMonitor.start('AnalyticsTab._addTestKPI()')
+      const sessionGroup = df.groupBy("session");
+      const count = df.count("session");
+      const min = sessionGroup.min("time");
+      const max = sessionGroup.max("time");
       max.minus(min);
 
       /**
@@ -184,7 +186,7 @@ export default {
        */
 
 
-      let summary = {};
+      const summary = {};
       summary.sessionCount = count.size();
       summary.sessionCountMean = Math.round(count.mean());
       summary.sessionCountStd = Math.round(count.std());
@@ -198,9 +200,9 @@ export default {
         summary.sessionDurationStd = 0;
       }
 
-      var screenCount = this.getObjectLength(app.screens);
-      var uniqueScreenPerSession = sessionGroup.unique("screen");
-      var expRate = uniqueScreenPerSession.mean() / screenCount;
+      const screenCount = this.getObjectLength(app.screens);
+      const uniqueScreenPerSession = sessionGroup.unique("screen");
+      let expRate = uniqueScreenPerSession.mean() / screenCount;
       if (isNaN(expRate)) {
         expRate = 0;
       }
@@ -209,6 +211,7 @@ export default {
       }
       summary.expRate = expRate;
       this.summary = summary;
+      PerformanceMonitor.end('AnalyticsTab._addTestKPI()')
     }
   },
   watch: {

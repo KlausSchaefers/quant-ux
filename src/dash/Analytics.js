@@ -1,10 +1,12 @@
 import lang from '../dojo/_base/lang'
 import DataFrame from '../common/DataFrame'
 import Grouping from '../common/Grouping'
+import PerformanceMonitor from '../core/PerformanceMonitor'
 
 export default class {
 
 	filterEvents (events, anno) {
+		PerformanceMonitor.start('Analytics.filterEvents()',events.length)
 		const bad = {};
 		for (let i = 0; i < anno.length; i++) {
 			let a = anno[i];
@@ -20,10 +22,12 @@ export default class {
 				temp.push(e);
 			}
 		}
+		PerformanceMonitor.end('Analytics.filterEvents()')
 		return temp;
 	}
 
 	getSurveyAnswers (events, app, test, options) {
+		PerformanceMonitor.start('Analytics.getSurveyAnswers()',events.length)
 		const showId = options.showId
 		const showTasksSucess = options.showTasksSucess
 		const showTasksDuration = options.showTaskDetails
@@ -170,7 +174,7 @@ export default class {
 			result.rows.push(row)
 		})
 
-
+		PerformanceMonitor.end('Analytics.getSurveyAnswers()')
 		return result
 	}
 
@@ -534,7 +538,6 @@ export default class {
 	matchFlowInSession(df, flow, taskID, strict) {
 
 		const result = [];
-
 		const matcher = this.createMatcher(taskID, flow, strict)
 
 		df.sortBy("time");
@@ -649,7 +652,7 @@ export default class {
 	 * allowPartial is for funnel??
 	 */
 	getTaskPerformance(df, tasks, allowMultiMatch, allowPartial) {
-
+		PerformanceMonitor.start('Analytics.getTaskPerformance()')
 		const result = [];
 		const matchers = [];
 		for (var t = 0; t < tasks.length; t++) {
@@ -730,7 +733,7 @@ export default class {
 				}
 			}
 		});
-
+		PerformanceMonitor.end('Analytics.getTaskPerformance()')
 		return new DataFrame(result);
 	}
 
@@ -1175,6 +1178,9 @@ export default class {
 
 
 	_getParentScreenID(model, widgetID) {
+		/**
+		 * FIXME: This could be faster
+		 */
 		for (var id in model.screens) {
 			var screen = model.screens[id];
 			var i = screen.children.indexOf(widgetID);

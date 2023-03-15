@@ -10,6 +10,7 @@ import Layout from "core/Layout";
 import ModelGeom from 'core/ModelGeom'
 import ModelResizer from 'core/ModelResizer'
 import ModelUtil from 'core/ModelUtil'
+import PerformanceMonitor from 'core/PerformanceMonitor'
 import * as DistributeUtil from 'core/DistributionUtil'
 import SlideLeftButton from 'common/SlideLeftButton'
 
@@ -355,8 +356,10 @@ export default {
     /**
      * Returns all actionable events
      */
-    getActionEvents: function(df) {
-      return df.select("type", "in", [
+    getActionEvents (df) {
+
+      PerformanceMonitor.start('Util.getActionEvents()')
+      const result = df.select("type", "in", [
         "ScreenClick",
         "WidgetClick",
         "WidgetChange",
@@ -368,6 +371,8 @@ export default {
         "ScreenGesture",
         "WidgetGesture"
       ]);
+      PerformanceMonitor.end('Util.getActionEvents()')
+      return result
     },
 
     /**
