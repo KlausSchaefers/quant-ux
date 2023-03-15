@@ -1,10 +1,7 @@
 
 <template>
   <div class="MatcWidgetTypeImageCarousel">
-    <div
-      class="MatcWidgetTypeImageCarouselCntr"
-      data-dojo-attach-point="cntr"
-    ></div>
+    <div class="MatcWidgetTypeImageCarouselCntr" data-dojo-attach-point="cntr"></div>
   </div>
 </template>
 <script>
@@ -30,13 +27,13 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function () {
+    postCreate() {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [];
       this._shadowNodes = [this.domNode];
     },
 
-    wireEvents: function () {
+    wireEvents() {
       this.wired = true;
       this.tempOwn(
         this.addTouchStart(this.domNode, lang.hitch(this, "onDndStart"))
@@ -44,7 +41,7 @@ export default {
       this.wireHover()
     },
 
-    onDndStart: function (e) {
+    onDndStart(e) {
       this.stopEvent(e);
 
       this.cleanUp();
@@ -65,7 +62,7 @@ export default {
       return false;
     },
 
-    onDnDMove: function (e) {
+    onDnDMove(e) {
       this.stopEvent(e);
       var pos = this.getMouse(e);
       this.emitMouseMove(e, true);
@@ -85,7 +82,7 @@ export default {
       this.addCompositeSubState(-1 + p);
     },
 
-    onDndEnd: function (e) {
+    onDndEnd(e) {
       this.stopEvent(e);
 
       var pos = this.getMouse(e);
@@ -135,38 +132,30 @@ export default {
       }
     },
 
-    _setDataBindingValue: function (v) {
-      let value = v * 1;
-      console.debug("_setDataBindingValue", v, value);
-      if (
-        !isNaN(value) &&
-        this.model &&
-        this.model.props &&
-        this.model.props.images
-      ) {
+    _setDataBindingValue(v) {
+      const value = (v * 1) -1;
+      if (!isNaN(value) && this.model && this.model.props && this.model.props.images) {
         this.setValue(value);
       } else {
         console.debug("_setDataBindingValue() > not int value" + v);
       }
     },
 
-    cleanUp: function () {
+    cleanUp() {
       if (this.moveListener) {
         this.moveListener.remove();
       }
-
       if (this.releaseListener) {
         this.releaseListener.remove();
       }
-
       delete this.moveListener;
       delete this.releaseListener;
       delete this.dndStartPos;
       delete this.dndStartTime;
     },
 
-    onScreenRendered: function () {
-      var leftButton = this.getRef("backButton");
+    onScreenRendered() {
+      let leftButton = this.getRef("backButton");
       if (leftButton) {
         leftButton = leftButton[0];
         let btn = this.factory.getUIWidgetByID(leftButton);
@@ -185,7 +174,7 @@ export default {
           }
         }
       }
-      var rightButton = this.getRef("nextButton");
+      let rightButton = this.getRef("nextButton");
       if (rightButton) {
         rightButton = rightButton[0];
         let btn = this.factory.getUIWidgetByID(rightButton);
@@ -206,22 +195,22 @@ export default {
       }
     },
 
-    render: function (model, style, scaleX, scaleY) {
+    render(model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
       this._vertical = this.model.props.vertical;
 
-      var db = new DomBuilder();
+      const db = new DomBuilder();
       this.elements = [];
 
       if (this.mode == "edit") {
-        let element = db.div("MatcWidgetTypeImageCarouselBox").build(this.cntr);
+        const element = db.div("MatcWidgetTypeImageCarouselBox").build(this.cntr);
         this.elements.push(element);
       } else {
         for (var i = 0; i < 3; i++) {
-          let element = db
+          const element = db
             .div("MatcWidgetTypeImageCarouselBox")
             .build(this.cntr);
           this.elements.push(element);
@@ -233,19 +222,19 @@ export default {
       this.setValue(0);
     },
 
-    resize: function (box) {
+    resize(box) {
       if (this.mode != "edit") {
         if (this._vertical) {
           this.cntr.style.height = box.h * 3 + "px";
           for (let i = 0; i < 3; i++) {
-            let element = this.elements[i];
+            const element = this.elements[i];
             element.style.height = box.h + "px";
             element.style.top = i * box.h + "px";
           }
         } else {
           this.cntr.style.width = box.w * 3 + "px";
           for (let i = 0; i < 3; i++) {
-            let element = this.elements[i];
+            const element = this.elements[i];
             element.style.width = box.w + "px";
             element.style.left = i * box.w + "px";
           }
@@ -255,9 +244,9 @@ export default {
       }
     },
 
-    setCntrPos: function (p) {
+    setCntrPos(p) {
       //console.debug("setCntrPos", p, p*this.model.w);
-      var trans;
+      let trans;
       if (this._vertical) {
         trans = "translateY(" + p * this.model.h + "px)";
       } else {
@@ -269,81 +258,78 @@ export default {
       this.scrollPos = p;
     },
 
-    onBack: function (widgetID, e) {
-      var pos = this.value - 1;
-
-      var anim = new Animation().createAnimation();
+    onBack(widgetID, e) {
+      const pos = this.value - 1;
+      const anim = new Animation().createAnimation();
       anim.duration = this.animationDuration;
       anim.onRender(lang.hitch(this, "renderSlideLeft", 0));
       anim.onEnd(lang.hitch(this, "onSlideDone", pos, e, widgetID, -2));
       anim.run();
-
       this.initCompositeState(-1);
       return false;
     },
 
-    onNext: function (widgetID, e) {
-      var pos = this.value + 1;
-
-      var anim = new Animation().createAnimation();
+    onNext(widgetID, e) {
+      const pos = this.value + 1;
+      const anim = new Animation().createAnimation();
       anim.duration = this.animationDuration;
       anim.onRender(lang.hitch(this, "renderSlideRight", 0));
       anim.onEnd(lang.hitch(this, "onSlideDone", pos, e, widgetID, 0));
       anim.run();
-
       this.initCompositeState(-1);
       return false;
     },
 
-    renderSlideLeft: function (offset, p) {
+    renderSlideLeft(offset, p) {
       p = Math.min(p + offset, 1);
       this.setCntrPos(-1 + p);
       this.addCompositeSubState(-1 + p);
     },
 
-    renderSlideRight: function (offset, p) {
+    renderSlideRight(offset, p) {
       p = Math.min(p + offset, 1);
       this.setCntrPos(-1 * (1 + p));
       this.addCompositeSubState(-1 * (1 + p));
     },
 
-    onSlideDone: function (pos, e, widgetID, finalValue) {
+    onSlideDone(pos, e, widgetID, finalValue) {
       this.setValue(pos);
       this.stopPropagation(e);
       this.emitCompositeState("slide", finalValue);
       this.emitStateChange("select", pos, e);
+      this.emitDataBinding(pos + 1);
     },
 
-    renderSlideLeftCenter: function (offset, p) {
+    renderSlideLeftCenter(offset, p) {
       p = offset * (1 - p);
       this.setCntrPos(-1 + p);
       this.addCompositeSubState(-1 + p);
     },
 
-    renderSlideRightCenter: function (offset, p) {
+    renderSlideRightCenter(offset, p) {
       p = offset * (1 - p);
       this.setCntrPos(-1 + p);
       this.addCompositeSubState(-1 + p);
     },
 
-    onSlideCenterDone: function (e) {
+    onSlideCenterDone(e) {
       this.emitCompositeState("slide", -1);
       this.setCntrPos(-1);
       this.emitClick(e);
     },
 
-    getImage: function (pos) {
-      var images = this.model.props.images;
-      var length = images.length;
-      var p = pos % length;
+    getImage(pos) {
+      const images = this.model.props.images;
+      const length = images.length;
+      let p = pos % length;
       if (p < 0) {
         p += length;
       }
       return images[p];
     },
 
-    setImage: function (pos, image) {
-      var element = this.elements[pos];
+    setImage(pos, image) {
+      const element = this.elements[pos];
       if (element) {
         if (image) {
           if (this.hash) {
@@ -360,16 +346,16 @@ export default {
             element.style.backgroundImage = url;
           }
         } else {
-          var w = this.model.w * 2;
-          var h = this.model.h * 2;
+          let w = this.model.w * 2;
+          let h = this.model.h * 2;
 
-          var c = document.createElement("canvas");
-          var context = c.getContext("2d");
+          const c = document.createElement("canvas");
+          const context = c.getContext("2d");
           c.width = w;
           c.height = h;
           h += 0.5;
           w += 0.5;
-          var n = 0.5;
+          const n = 0.5;
           context.moveTo(n, n);
           context.lineTo(w, h);
           context.moveTo(w, n);
@@ -384,11 +370,11 @@ export default {
       }
     },
 
-    getValue: function () {
+    getValue() {
       return this.value;
     },
 
-    setValue: function (pos) {
+    setValue(pos) {
       //console.debug("setValue", pos);
 
       if (this.mode == "edit") {
@@ -403,25 +389,25 @@ export default {
       this.value = pos;
     },
 
-    getMouse: function (e) {
-      var result = {};
+    getMouse(e) {
+      const result = {};
       result.x = e.pageX;
       result.y = e.pageY;
       return result;
     },
 
-    getState: function () {
+    getState() {
       return {
         type: "select",
         value: this.value,
       };
     },
 
-    setState: function (state, t) {
+    setState(state, t) {
       if (state && state.type == "select") {
         this.setValue(state.value);
       } else if (state && state.type == "slide") {
-        var p = this.getLastSubState(state, t);
+        const p = this.getLastSubState(state, t);
         if (p) {
           this.setCntrPos(p.value);
         } else {
@@ -430,7 +416,7 @@ export default {
       }
     },
 
-    destroy: function () {
+    destroy() {
       if (this._compositeState) {
         this.emitCompositeState();
       }

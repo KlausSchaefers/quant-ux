@@ -401,7 +401,6 @@
 	position: absolute;
 	width:100%;
 	height: 100%;
-	overflow: hidden;
 	outline: none;
 	border:none;
 }
@@ -428,7 +427,6 @@
 	position: absolute;
 	width:100%;
 	height: 100%;
-	overflow: hidden;
 	outline: none;
 	border:none;
 }
@@ -443,6 +441,7 @@
 .MatcWidgetTypeImagePagingElement{
 	border: 0px solid #333;
 	cursor: pointer;
+	transition: all 0.25s;
 }
 
 /*******************************

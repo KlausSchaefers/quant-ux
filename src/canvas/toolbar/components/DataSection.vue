@@ -428,10 +428,16 @@ export default {
 		_showProgessSegments (model) {
 			this._setSectionLabel("Progress Steps");
 
+			this._renderColor('Border','<span class="mdi mdi-format-color-fill"></span>',model.style.borderTopColor, "borderTopColor" ,"onStyleChanged", true);
+			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+
+			this._renderInputDropDown("Border Width",model, [0, 1, 2, 3, 4, 8], "borderTopWidth", false);
+
 			this._renderColor('Active Border','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBorderColor, "activeBorderColor" ,"onStyleChanged", true);
 			this._renderColor('Active Background','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBackground, "activeBackground", "onStyleChanged",true );
-			const max = model?.props?.max ? model.props.max : 0
-			this._renderInputDropDown("Progress", model, [0, 1, 2, 3, 4, 5, max], "value", true);
+
+
+			this._renderInputDropDown("Progress", model, [0, 1, 2, 3, 4, 5], "value", true);
 			this._renderInputDropDown("# Elements", model, [1, 2, 3, 4, 5, 10], "max", true);
 			this._renderInputDropDown("Gap", model, [4, 8, 16, 32], "gap", true);
 		},
@@ -439,10 +445,15 @@ export default {
 		_showImagePaging (model) {
 			this._setSectionLabel("Paging");
 
+			this._renderColor('Border','<span class="mdi mdi-format-color-fill"></span>',model.style.borderTopColor, "borderTopColor" ,"onStyleChanged", true);
+			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+
+			this._renderInputDropDown("Border Width",model, [0, 1, 2, 3, 4, 8], "borderTopWidth", false);
+
 			this._renderColor('Active Border','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBorderColor, "activeBorderColor" ,"onStyleChanged", true);
 			this._renderColor('Active Background','<span class="mdi mdi-format-color-fill"></span>',model.style.activeBackground, "activeBackground", "onStyleChanged",true );
-			const max = model?.props?.max ? model.props.max : 0
-			this._renderInputDropDown("Progress", model, [0, 1, 2, 3, 4, 5, max], "value", true);
+
+			this._renderInputDropDown("Selected", model, [1, 2, 3, 4, 5], "value", true);
 			this._renderInputDropDown("# Elements", model, [1, 2, 3, 4, 5, 10], "max", true)
 		},
 

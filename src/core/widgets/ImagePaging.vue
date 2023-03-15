@@ -1,24 +1,24 @@
 
 <template>
     <div class="MatcWidgetTypeImagePaging">
-     
+
     </div>
-  </template>
-  <script>
-  import DojoWidget from "dojo/DojoWidget";
-  import lang from "dojo/_base/lang";
-  import UIWidget from "core/widgets/UIWidget";
-  import DomBuilder from "common/DomBuilder";
-  
-  export default {
+</template>
+<script>
+import DojoWidget from "dojo/DojoWidget";
+import lang from "dojo/_base/lang";
+import UIWidget from "core/widgets/UIWidget";
+import DomBuilder from "common/DomBuilder";
+
+export default {
     name: "ImagePaging",
     mixins: [UIWidget, DojoWidget],
     data() {
-      return {
-        value: 1,
-        max: 5, 
-        model: null
-      };
+        return {
+            value: 1,
+            max: 5,
+            model: null
+        };
     },
     components: {},
     computed: {
@@ -29,17 +29,16 @@
             this._backgroundNodes = [];
             this._shadowNodes = [];
         },
-    
+
         wireEvents() {
             this.wired = true;
-            for (var i = 0; i < this.elements.length; i++) {
-                let element = this.elements[i]
-                this.own(this.addClickListener(element ,lang.hitch(this, 'onSelect', i+1)) );
-        
+            for (let i = 0; i < this.elements.length; i++) {
+                const element = this.elements[i]
+                this.own(this.addClickListener(element, lang.hitch(this, 'onSelect', i + 1)));
             }
         },
 
-        onSelect (pos, e) {
+        onSelect(pos, e) {
             /**
              * This could be better and we coudl skip forwards when we are one before the arrow
              */
@@ -49,7 +48,7 @@
             this.emitDataBinding(pos);
             this.emitStateChange("select", pos, e);
         },
-    
+
         render(model, style, scaleX, scaleY) {
             this.model = model;
             this.max = model.props.max
@@ -69,51 +68,52 @@
                 this.elements.push(element)
             }
             this.domNode.appendChild(cntr)
-    
+
             this.resize(model);
             this.setStyle(style, model);
             if (model.props && model.props.value !== null && model.props.value !== undefined) {
-            this.setValue(model.props.value);
+                this.setValue(model.props.value);
             }
-    
+
         },
-    
-        resize (model) {
+
+        resize(model) {
             this.elements.forEach((node) => {
                 node.style.width = model.h + 'px'
             })
         },
-        
-        _setDataBindingValue (v) {
+
+        _setDataBindingValue(v) {
             this.setValue(v);
         },
-  
-        setValue (value) {
+
+        setValue(value) {
             this.value = value * 1
             const style = this.style
             this.elements.forEach((node, i) => {
+                node.style.borderWidth = style.borderTopWidth + 'px'
                 if (i + 1 == this.value) {
                     node.style.background = style.activeBackground
-                    node.style.borderColor = style.activeBorderColor
+                    node.style.borderColor = style.activeBorderColor                 
                 } else {
                     node.style.background = style.background
                     node.style.borderColor = style.borderTopColor
                 }
             })
         },
-  
-        getValue () {
+
+        getValue() {
             return this.value;
         },
-    
-        getState () {
+
+        getState() {
             return {
                 type: "select",
                 value: this.value
             };
         },
 
-        setState: function(state) {
+        setState: function (state) {
             if (state && state.type == "select") {
                 this.setValue(state.value);
             }
@@ -125,6 +125,6 @@
         },
 
     },
-    mounted() {}
-  };
-  </script>
+    mounted() { }
+};
+</script>

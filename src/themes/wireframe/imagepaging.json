@@ -16,8 +16,7 @@
         "gap": 8
 	},
 	"has" : {
-		"onclick" : true,
-		"border" : true
+		"onclick" : true
 	},
 	"style" : {
 		"fontSize" : 14,
