@@ -13,7 +13,7 @@ class PerformanceMonitor {
         this.payloads[key] = payload
     }
 
-    end (key, logLevel = -1) {
+    end (key, logLevel = 2) {
         if (!this.data[key]) {
             Logger.warn('PerformanceMonitor.end() > no key', key)
             return

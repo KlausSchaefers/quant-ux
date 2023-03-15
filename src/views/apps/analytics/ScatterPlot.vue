@@ -76,11 +76,8 @@ export default {
     props: ['test', 'app', 'events', 'annotation', 'pub'],
     data: function () {
         return {
-            mode: 'Scatter',
-   
+            mode: 'Scatter',   
             paddingFactor: 1.1,
-            tab: "scatter",// "scatter",
-
             dialog: false,
             includeDropOff: false,
             colors: ["#56A9FC", "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],
@@ -96,7 +93,7 @@ export default {
     },
     methods: {
         postCreate() {
-            this.log = new Logger("TaskPerfGram");
+            this.log = new Logger("ScatterPlot");
             this.init();
             this._scatterPoints = {}
         },
@@ -107,23 +104,22 @@ export default {
         },
 
         setValue(test, app, events, annotations) {
+
             const filteredEvents = this.filterEvents(events, annotations);
             const df = this.getActionEvents(new DataFrame(filteredEvents));
-            //const events = actionEvents.as_array();
-            //const df = new DataFrame(events);
             df.sortBy("time");
 
             this.model = app
             this.df = df
+
             this.annotations = annotations;
-            this.tasks = lang.clone(test.tasks);
-            this.task = this.tasks[0]
+            this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);
             this.tasks.unshift({
                 name: 'All',
                 id: '_all',
                 isAll: true,
                 flow: []
-            })
+            })       
 
             const analytics = new Analytics();
             const taskPerformance = analytics.getTaskPerformance(df, this.tasks);
@@ -151,7 +147,7 @@ export default {
 	    },
 
         renderTasks(tasks) {
-            this.log.log(-1, "renderTasks", "enter");
+            this.log.log(1, "renderTasks", "enter");
             this.taskDivs = {};
             this.taskCircles = {};
             this.selectedTasks = {};
@@ -184,6 +180,9 @@ export default {
         },
 
         selectTask(task) {
+            // for (let id in this.selectedTasks) {
+            //     this.selectedTasks[id] = false
+            // }
             this.selectedTasks[task.id] = !this.selectedTasks[task.id];
             for (let id in this.selectedTasks) {
                 const circle = this.taskCircles[id];
@@ -204,19 +203,17 @@ export default {
         },
 
         render(changeTask) {
-            this.log.log(-1, "render", "enter > " + changeTask);
-            this.cleanUpTempListener()
-            if (this.task.flow && (this.task.flow.length >= 2 || this.task.isAll)) {
-                if (!changeTask && this["clean_" + this.lastTab]) {
-                    this["clean_" + this.lastTab](lang.hitch(this, "renderTab", changeTask));
-                } else {
-                    this.renderTab(changeTask);
-                }
-            }
+            this.log.log(-1, "render", "enter > ", this.task);
+            this.cleanUpTempListener()           
+            if (!changeTask && this["clean_" + this.lastMode]) {
+                this["clean_" + this.lastMode](lang.hitch(this, "renderTab", changeTask));
+            } else {
+                this.renderTab(changeTask);
+            }            
         },
 
         renderTab(changeTask) {
-          
+            this.log.log(-1, "renderTab", "enter > " + this.mode);
             if (this["render_" + this.mode]) {
                 this["render_" + this.mode](this.df, this.task, this.annotations, this.tasks, changeTask);
             } else {
@@ -429,6 +426,8 @@ export default {
                 }
             }
 
+            console.debug(max_duration, max_count)
+
             this.xMaxLabel.innerHTML = Math.ceil(max_duration / 1000) + " s";
             this.yMaxLabel.innerHTML = Math.ceil(max_count);
 
@@ -546,7 +545,7 @@ export default {
                 const hint = this.db.span("MatcHint", this.getNLS("analytics.scatter.play")).build();
                 const a = this.db.a("", this.getNLS("analytics.scatter.here")).build(hint);
                 a.href = url
-                a.target = "_matcSessionReplay"
+                a.target = "_matcSessionReplay" + id
                 this.setHint(hint);
             }
         },

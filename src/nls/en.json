@@ -230,7 +230,7 @@
             "title" : "Data Distribution",
             "play": "To replay the session recording press ",
             "here": "here",
-            "hint": "Select a dot to replay the screen recording"
+            "hint": "Select a dot to replay the screen recording. Select multiple tasks for comparision."
         },
         "header": {
             "user": "Tests",

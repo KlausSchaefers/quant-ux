@@ -142,6 +142,7 @@
 		opacity: 0.7;
 		border-radius: 100%;
 		cursor: pointer;
+		z-index: 10;
 
 		&:hover {
 			opacity: 1;
