@@ -31,7 +31,7 @@
 					<span class="MatxAxisLabel MatxAxisLabelCntr" data-dojo-attach-point="xAxisLabelCntr"></span>
 
 
-					<div class="MatcDashTaskPerfTaskCntr" data-dojo-attach-point="taskCntr">
+					<div class="MatcDashTaskPerfTaskCntr" data-dojo-attach-point="taskCntr" v-show="hasTaskSelector">
 					</div>
 
 					<div class="MatcDashTaskPerfDropCntr" data-dojo-attach-point="dropoffCntr">
@@ -48,7 +48,11 @@
 	</div>
 </template>
 <style lang="css">
-  @import url('../../../style/toolbar/toolbar.css');
+  @import url('../../../style/toolbar/tab.css');
+</style>
+
+<style lang="scss">
+    @import '../../../style/task_perf_gram.scss';
 </style>
 
 <script>
@@ -56,7 +60,6 @@ import DojoWidget from 'dojo/DojoWidget'
 import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
-import domGeom from 'dojo/domGeom'
 import Logger from 'common/Logger'
 import _Color from 'common/_Color'
 import DomBuilder from 'common/DomBuilder'
@@ -75,7 +78,7 @@ export default {
         return {
             x_prefix: "",
             paddingFactor: 1.1,
-            tab: "funnelDurartion",// "scatter",
+            tab: "scatter",// "scatter",
             tabs: {},
             dialog: false,
 			includeDropOff: false,
@@ -98,7 +101,8 @@ export default {
 			canvasPos:{
 				w:800,
 				h:450
-			}
+			},
+			hasTaskSelector: true
         }
     },
     components: {
@@ -113,10 +117,9 @@ export default {
 
 		init (){
 			this.db = new DomBuilder();
-			//this.addTab("scatter", "MatcToolbarTabActive");
-			//this.addTab("details", "");
-			//this.addTab("dropoff", "");
-			this.addTab("funnelDurartion", "MatcToolbarTabActive");
+			this.addTab("scatter", "MatcToolbarTabActive");
+			this.addTab("details", "");
+			this.addTab("funnelDurartion", "");
 			this.addTab("funnelInteraction", "");
 			this._scatterPoints = {};
 		},
@@ -189,15 +192,15 @@ export default {
 			for (let id in this.selectedTasks){
 				const circle = this.taskCircles[id];
 				const div = this.taskDivs[id];
-				if (div){
+				
+				if (div &&  circle){
 					if (this.selectedTasks[id]){
 						css.add(div, "MatcDashTaskPerfTaskSelected");
 						circle.style.background = this.taskColors[id];
-						circle.style.border = "";
+			
 					} else {
 						css.remove(div, "MatcDashTaskPerfTaskSelected");
-						circle.style.background = "";
-						circle.style.border = "1px solid #777";
+						circle.style.background = ""; 					
 					}
 				}
 			}
@@ -758,8 +761,11 @@ export default {
 			var perf = analytics.getTaskPerformance(df, tasks);
 
 			// loop to get the max
-			var max_duration = 1;
-			var max_count = 1;
+			let max_duration = 1;
+			let max_count = 1;
+			let mean_duration = 0
+			let mean_count = 0
+			let maxDelay = 0;
 			for (let id in this.selectedTasks){
 				if (this.selectedTasks[id]){
 					let taskDF = perf.select("task", "==", id);
@@ -778,9 +784,9 @@ export default {
 				});
 
 				if (this.selectedTasks[id]){
-					var mean_duration = taskDF.mean("duration");
-					var mean_count = taskDF.mean("interactions");
-					var maxDelay = 0;
+					mean_duration = taskDF.mean("duration");
+					mean_count = taskDF.mean("interactions");
+			
 					for (let i=0; i< sessions.length; i++){
 						let s = sessions[i];
 						let key = s.session + " " + id;
@@ -789,6 +795,7 @@ export default {
 
 						if (this._scatterPoints[key]){
 							let p = this._scatterPoints[key];
+							this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
 							setTimeout(lang.hitch(this, "animateScatterPoint",p, s, max_duration, max_count), ms);
 						} else {
 							let p = db.span("MatxScatterPoint").build(this.canvas);
@@ -796,9 +803,8 @@ export default {
 							p.style.left = (((s.duration / max_duration) * 100))+ "%";
 							p.style.background = this.taskColors[id];
 							this._scatterPoints[key] = p;
-							this.tempOwn(on(p, "mousedown", lang.hitch(this, "selectPoint", p, s, i)));
-							this.tempOwn(on(p, "mouseover", lang.hitch(this, "hoverPoint", p)));
-							this.tempOwn(on(p, "mouseout", lang.hitch(this, "clearPoint")));
+							this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
+							
 							setTimeout(lang.hitch(this, "animateScatterPoint",p, s, max_duration, max_count), ms);
 						}
 					}
@@ -881,45 +887,11 @@ export default {
 				const hint = this.db.span("MatcHint", this.getNLS("dash.perf.hint.session-msg")).build();
 				const a = this.db.a("", this.getNLS("dash.perf.hint.session-play")).build(hint);
 				a.href = url
-				a.target = "_matcSessionReplay"
+				a.target = "_matcSessionReplay" + id
 				this.setHint(hint);
 			}
 		},
 
-		render_user_journey (s, max_duration, max_count){
-			var pos = domGeom.position(this.cntr);
-			var w = pos.w;
-			var h = pos.h;
-			var canvas= document.createElement("canvas");
-			canvas.width=w;
-			canvas.height=h;
-			var ctx = canvas.getContext("2d");
-			this._render_line(w,h, s, ctx, max_duration, max_count)
-			this.cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
-		},
-
-		_render_line(w,h, s, ctx, max_duration, max_count){
-			var n = 0.5;
-			var events = this.df.select("session", "==", s.session);
-			var min = events.min("time");
-
-			ctx.beginPath();
-			ctx.moveTo(0, h);
-
-			var data = events.data;
-			for (var i =0; i < data.length && i < max_count; i++){
-				var e = data[i];
-				var time = e.time - min;
-				if (time <= (s.duration + 100)){
-					var y = Math.round((i / max_count) * h) + n;
-					var x = Math.round((time / max_duration) * w) +n ;
-					ctx.lineTo(x, h - y);
-				}
-			}
-			ctx.strokeStyle= "#ccc";
-			ctx.lineWidth=1;
-			ctx.stroke();
-		},
 
 
 		/*********************************************************************

@@ -242,7 +242,7 @@ export default {
       if (task) {
         var db = new DomBuilder();
         var dialog = new Dialog();
-        var d = db.div("MatcPadding MatcDashTaskPerfGramDialog").build();
+        var d = db.div("MatcPadding MatcDashTaskPerfGramDialog MatcDialog").build();
         var gram = this.$new(TaskPerfGram, {
           model: this.app,
           dialog: dialog,

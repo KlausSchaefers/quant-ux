@@ -1,0 +1,61 @@
+/****************************************************
+* Tab Container
+****************************************************/
+.MatcToolbarTabContainer{
+	padding: 8px;
+	padding-top: 0px;
+}
+
+.MatcToolbarTabs{
+	text-align: center;
+}
+
+.MatcToolbarTabs a{
+	margin-right: 5px;
+	font-size: 12px;
+	padding: 5px;
+	display: inline-block;
+	cursor: pointer;
+	color: #ddd;
+	text-decoration: none;
+	border-bottom: 1px solid transparent;
+}
+
+.MatcToolbarTabsBig.MatcToolbarTabs{
+	text-align: left;
+}
+
+.MatcToolbarTabsBig a{
+	margin-right: 5px;
+	font-size: 18px;
+	padding: 5px;
+	border-bottom-width: 2px;
+}
+
+.MatcToolbarTabs a:HOVER{
+	color: #fff;
+}
+
+.MatcToolbarTabs a.MatcToolbarTabActive{
+	border-bottom-color: #3787f2;
+	color: #333;
+}
+
+
+
+
+.MatcDialog .MatcToolbarTabs a {
+    color:#333;
+	font-size: 18px;
+	margin-right: 20px;
+    border-bottom: 2px solid transparent;
+}
+
+.MatcDialog .MatcToolbarTabs a.MatcToolbarTabActive {
+    border-bottom-width: 2px;
+    border-bottom: 2px solid #3787f2;
+}
+
+.MatcDialog .MatcToolbarTabs a:hover{
+	color:#3787f2;
+}

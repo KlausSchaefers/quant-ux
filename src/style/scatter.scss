@@ -306,13 +306,19 @@
 	}
 
 	.MatcScatterPlotfTaskCntr span {
-		height: 14px;
-		width: 14px;
+		height: 16px;
+		width: 16px;
 		border-radius: 50%;
 		display: inline-block;
 		margin-right: 10px;
 		cursor: pointer;
 		vertical-align: middle;
+		border: 1px solid #777;
+		position: relative;
+	}
+
+	.MatcScatterPlotfTaskCntr .MatcScatterPlotfTaskSelected span {
+		border: none
 	}
 
 	.MatcScatterPlotfTaskCntr label {
@@ -323,5 +329,21 @@
 		cursor: pointer;
 		width: 70px;
 		height: 14px;
+
+		&:hover{
+			color: #777;
+		}
 	}
+
+	.MatcScatterPlotfTaskCntr .MatcScatterPlotfTaskSelected {
+
+		span {
+			border: none;
+		}
+
+		label {
+			color: #777;
+		}
+	}
+
 }

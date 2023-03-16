@@ -59,11 +59,9 @@
 import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
-import domGeom from 'dojo/domGeom'
 import Logger from 'common/Logger'
 import _Color from 'common/_Color'
 import DomBuilder from 'common/DomBuilder'
-//import CheckBox from 'common/CheckBox'
 import Util from 'core/Util'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
@@ -80,7 +78,8 @@ export default {
             paddingFactor: 1.1,
             dialog: false,
             includeDropOff: false,
-            colors: ["#56A9FC", "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],
+            defaultColor: "#56A9FC",
+            colors: [ "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],
             bins: 3,
             canvasPos: {
                 w: 800,
@@ -114,20 +113,25 @@ export default {
 
             this.annotations = annotations;
             this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);
-            this.tasks.unshift({
-                name: 'All',
-                id: '_all',
-                isAll: true,
-                flow: []
-            })       
+            if (this.scatterMode === 'task') {
+                this.tasks.unshift({
+                    name: 'All',
+                    id: '_all',
+                    isAll: true,
+                    flow: []
+                })       
+            }
 
             const analytics = new Analytics();
             const taskPerformance = analytics.getTaskPerformance(df, this.tasks);
             const sessionSummary = this.getSessionSummary(df, this.tasks[0])
+            this.sessionSummary = sessionSummary
             this.taskPerformance = taskPerformance.merge(sessionSummary)
 
             this.renderTasks(this.tasks);
-            this.selectTask(this.tasks[0]); // will call render
+            if (this.scatterMode === 'task') {
+                this.selectTask(this.tasks[0]);
+            }
             this.render();
         },
 
@@ -154,7 +158,7 @@ export default {
             this.taskColors = {};        
             for (let i = 0; i < tasks.length; i++) {
                 const task = tasks[i];
-                if (task.flow.length >= 2 || task.isAll) {
+                if (task.flow.length >= 2 ) {
                     this.renderTaskBubble(task, i)
                 }
             }
@@ -180,22 +184,23 @@ export default {
         },
 
         selectTask(task) {
-            // for (let id in this.selectedTasks) {
-            //     this.selectedTasks[id] = false
-            // }
             this.selectedTasks[task.id] = !this.selectedTasks[task.id];
+            for (let id in this.selectedTasks) {
+                if (id !== task.id) {
+                    this.selectedTasks[id] = false
+                }
+            }
+      
             for (let id in this.selectedTasks) {
                 const circle = this.taskCircles[id];
                 const div = this.taskDivs[id];
                 if (div) {
                     if (this.selectedTasks[id]) {
                         css.add(div, "MatcScatterPlotfTaskSelected");
-                        circle.style.background = this.taskColors[id];
-                        circle.style.border = "";
+                        circle.style.background = this.taskColors[id];                  
                     } else {
                         css.remove(div, "MatcScatterPlotfTaskSelected");
                         circle.style.background = "";
-                        circle.style.border = "1px solid #777";
                     }
                 }
             }
@@ -203,13 +208,19 @@ export default {
         },
 
         render(changeTask) {
-            this.log.log(-1, "render", "enter > ", this.task);
+            this.log.log(-1, "render", "enter > ");
             this.cleanUpTempListener()           
-            if (!changeTask && this["clean_" + this.lastMode]) {
+            try {
+                if (!changeTask && this["clean_" + this.lastMode]) {
                 this["clean_" + this.lastMode](lang.hitch(this, "renderTab", changeTask));
-            } else {
-                this.renderTab(changeTask);
-            }            
+                } else {
+                    this.renderTab(changeTask);
+                }      
+            } catch (err) {
+                this.log.error("render", "error > ");
+                this.log.sendError(err)
+            }
+                
         },
 
         renderTab(changeTask) {
@@ -231,7 +242,7 @@ export default {
          *********************************************************************/
 
 
-        render_details() {
+        render_BoxPlot() {
             this.log.log(-1, "render_duration", "enter > changeTask:");
             const perf = this.taskPerformance
 
@@ -358,7 +369,7 @@ export default {
             bar.style.height = height;
         },
 
-        clean_details(callback) {
+        clean_BoxPlot(callback) {
             this.log.log(-1, "clean_duration", "enter");
             css.remove(this.domNode, "MatcScatterPlotDetails");
             this.setHint();
@@ -378,7 +389,7 @@ export default {
         },
 
 
-        removeBoxplots: function () {
+        removeBoxplots  () {
             if (this._bars) {
                 for (var id in this._bars) {
                     var b = this._bars[id];
@@ -394,27 +405,110 @@ export default {
          * Scatter
          *********************************************************************/
 
-        render_Scatter(df, task, annotations, tasks, changeTask) {
-            this.log.log(-1, "render_Scatter", "enter > changeTask:" + changeTask);
+     
 
-            const perf = this.taskPerformance
-            const db = new DomBuilder();
+        render_Scatter() {
+            this.log.log(-1, "render_Scatter", "enter > changeTask:" + this.scatterMode);
 
-            /**
-             * reset some stuff
-             */
             delete this._selectedScatterPoint;
-
-
             this.onBackgroundClick()
+
             css.add(this.domNode, "MatcScatterPlotScatter");
             this.xLabel.innerHTML = this.getNLS("dash.perf.scatter.xLabel");
             this.yLabel.innerHTML = this.getNLS("dash.perf.scatter.yLabel");
             this.minLabel.innerHTML = "0 s"
             this.yMinLabel.innerHTML = "0"
 
+            if (this.scatterMode === 'task') {
+                this.render_Scatter_Tasks()
+            } else {
+                this.render_Scatter_Session()
+            }
+        },
 
+        render_Scatter_Session () {
+            this.log.log(-1, "render_Scatter_Tasks", "enter" );
 
+            const db = new DomBuilder();
+            const sessionSummaryDF = this.sessionSummary
+            const perf = this.taskPerformance
+            let mean_duration = 0
+            let mean_count = 0
+            let maxDelay = 0;
+        
+        
+            let max_duration = Math.max(1, Math.ceil(sessionSummaryDF.max("duration") * this.paddingFactor));
+            let max_count = Math.max(1, Math.ceil(sessionSummaryDF.max("interactions") * this.paddingFactor));
+       
+            this.xMaxLabel.innerHTML = Math.ceil(max_duration / 1000) + " s";
+            this.yMaxLabel.innerHTML = Math.ceil(max_count);
+     
+            const sessions = sessionSummaryDF.data;
+            sessions.sort((a, b) => {
+                return b.interactions - a.interactions;
+            });
+
+            
+            mean_duration = sessionSummaryDF.mean("duration");
+            mean_count = sessionSummaryDF.mean("interactions");
+
+            for (let i = 0; i < sessions.length; i++) {
+                const s = sessions[i]
+                const key = s.session;
+                const ms = Math.min(i * 10, 300);
+                maxDelay = Math.max(maxDelay, ms)
+
+                if (this._scatterPoints[key]) {
+                    const p = this._scatterPoints[key];
+                    p.style.background = this.defaultColor
+                    this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));        
+                    setTimeout(lang.hitch(this, "animateScatterPoint", p, s, max_duration, max_count), ms);
+                } else {
+                    const p = db.span("MatxScatterPoint").build(this.canvas);
+                    p.style.bottom = "-5%";
+                    p.style.left = (((s.duration / max_duration) * 100)) + "%";
+                    p.style.background = this.defaultColor
+                    this._scatterPoints[key] = p;
+                    this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
+            
+                    setTimeout(lang.hitch(this, "animateScatterPoint", p, s, max_duration, max_count), ms);
+                }
+            }
+
+            for (let id in this.selectedTasks) {
+                const taskDF = perf.select("task", "==", id);
+                const sessions = taskDF.data;
+                sessions.sort((a, b) => {
+                    return b.interactions - a.interactions;
+                });
+                if (this.selectedTasks[id]) {
+                    for (let i = 0; i < sessions.length; i++) {
+                        const s = sessions[i];
+                        console.debug(s)
+                        const key = s.session;
+                        const p = this._scatterPoints[key];
+                        p.style.background = this.taskColors[id];
+                    }
+                }
+            }
+                
+            
+
+            // save values for select events
+            this.max_interactions = max_count;
+            this.max_duration = max_duration;
+
+            // FIXME: Should be per task...
+            setTimeout(lang.hitch(this, "setMiddle", mean_count, max_count, mean_duration, max_duration), 200);
+
+        },
+
+        render_Scatter_Tasks () {
+            this.log.log(-1, "render_Scatter_Tasks", "enter" );
+            const perf = this.taskPerformance
+            const db = new DomBuilder();
+
+ 
             // loop to get the max
             var max_duration = 1;
             var max_count = 1;
@@ -426,7 +520,6 @@ export default {
                 }
             }
 
-            console.debug(max_duration, max_count)
 
             this.xMaxLabel.innerHTML = Math.ceil(max_duration / 1000) + " s";
             this.yMaxLabel.innerHTML = Math.ceil(max_count);
@@ -548,41 +641,6 @@ export default {
                 a.target = "_matcSessionReplay" + id
                 this.setHint(hint);
             }
-        },
-
-        render_user_journey(s, max_duration, max_count) {
-            var pos = domGeom.position(this.cntr);
-            var w = pos.w;
-            var h = pos.h;
-            var canvas = document.createElement("canvas");
-            canvas.width = w;
-            canvas.height = h;
-            var ctx = canvas.getContext("2d");
-            this._render_line(w, h, s, ctx, max_duration, max_count)
-            this.cntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png") + ")";
-        },
-
-        _render_line(w, h, s, ctx, max_duration, max_count) {
-            var n = 0.5;
-            var events = this.df.select("session", "==", s.session);
-            var min = events.min("time");
-
-            ctx.beginPath();
-            ctx.moveTo(0, h);
-
-            var data = events.data;
-            for (var i = 0; i < data.length && i < max_count; i++) {
-                var e = data[i];
-                var time = e.time - min;
-                if (time <= (s.duration + 100)) {
-                    var y = Math.round((i / max_count) * h) + n;
-                    var x = Math.round((time / max_duration) * w) + n;
-                    ctx.lineTo(x, h - y);
-                }
-            }
-            ctx.strokeStyle = "#ccc";
-            ctx.lineWidth = 1;
-            ctx.stroke();
         },
 
         /*********************************************************************
