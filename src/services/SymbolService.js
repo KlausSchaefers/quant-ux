@@ -196,6 +196,8 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/tab.json'),
             import(/* webpackChunkName: "themes" */ 'themes/bootstrap4/table.json'),
 
+            //import(/* webpackChunkName: "themes" */ 'themes/survey/all.json'),
+
           ]).then(values => {
             this.themes = []
             values.forEach(v => {

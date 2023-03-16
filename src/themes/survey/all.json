@@ -1,0 +1,92 @@
+[
+    {
+        "id": "SurveyStarRating",
+        "type": "Rating",
+        "name": "Star Rating",
+        "category": "Survey",
+        "subcategory": "ABox",
+        "_type": "Widget",
+        "w": 200,
+        "h": 40,
+        "props": {
+            "elementCount": 5,
+            "selected": 0,
+            "isSurveyElement": true
+        },
+        "has": {
+            "onclick": true
+        },
+        "style": {
+            "color": "#333333"
+        }
+    },
+    {
+        "id": "SurveyStarNPS",
+        "type": "SegmentButton",
+        "name": "NPS Score",
+        "category": "Survey",
+        "subcategory": "ABox",
+        "_type": "Widget",
+        "x": 0,
+        "y": 0,
+        "w": 300,
+        "h": 40,
+        "z": 0,
+        "props": {
+            "options": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10
+            ],
+            "selected": []
+        },
+        "has": {
+            "onclick": true,
+            "backgroundColor": true,
+            "border": true,
+            "label": true
+        },
+        "style": {
+            "borderTopWidth": 1,
+            "borderBottomWidth": 1,
+            "borderRightWidth": 1,
+            "borderLeftWidth": 1,
+            "borderTopColor": "#333333",
+            "borderBottomColor": "#333333",
+            "borderRightColor": "#333333",
+            "borderLeftColor": "#333333",
+            "background": "#ffffff",
+            "color": "#333333",
+            "fontSize": 14,
+            "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+            "textAlign": "center",
+            "letterSpacing": 0,
+            "lineHeight": 1,
+            "borderTopRightRadius": 3,
+            "borderTopLeftRadius": 3,
+            "borderBottomRightRadius": 3,
+            "borderBottomLeftRadius": 3,
+            "verticalAlign": "middle"
+        },
+        "active": {
+            "color": "#ffffff",
+            "background": "#333333",
+            "borderTopColor": "#333333",
+            "borderBottomColor": "#333333",
+            "borderRightColor": "#333333",
+            "borderLeftColor": "#333333",
+            "borderTopWidth": 1,
+            "borderBottomWidth": 1,
+            "borderRightWidth": 1,
+            "borderLeftWidth": 1
+        }
+    }
+]

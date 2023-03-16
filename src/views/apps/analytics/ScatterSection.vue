@@ -6,7 +6,7 @@
           <h2 class="title level-item">
             <span data-nls="testSettingsTasks">{{$t('analytics.scatter.title')}}</span>
             <HelpButton
-              topic="analytics.scatter"
+              topic="analytics.dist"
               :hasNotifications="false"
             />
   

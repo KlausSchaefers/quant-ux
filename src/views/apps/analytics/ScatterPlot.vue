@@ -124,6 +124,7 @@ export default {
 
             const analytics = new Analytics();
             const taskPerformance = analytics.getTaskPerformance(df, this.tasks);
+
             const sessionSummary = this.getSessionSummary(df, this.tasks[0])
             this.sessionSummary = sessionSummary
             this.taskPerformance = taskPerformance.merge(sessionSummary)
@@ -135,15 +136,15 @@ export default {
             this.render();
         },
 
-        getSessionSummary (df, task) {
+        getSessionSummary (df, taskName = 'All', taskID = -1) {
             const result = []
             const sessions = df.groupBy("session");
             sessions.foreach((session, id) => {
                 result.push({
                     interactions: session.size(),
                     session: id, 
-                    task: task.id,
-                    taskName: task.name,
+                    task: taskID,
+                    taskName: taskName,
                     duration:  Math.ceil((session.max("time") - session.min("time")))
                 })
             })
@@ -435,6 +436,7 @@ export default {
             let mean_duration = 0
             let mean_count = 0
             let maxDelay = 0;
+
         
         
             let max_duration = Math.max(1, Math.ceil(sessionSummaryDF.max("duration") * this.paddingFactor));
@@ -483,8 +485,7 @@ export default {
                 });
                 if (this.selectedTasks[id]) {
                     for (let i = 0; i < sessions.length; i++) {
-                        const s = sessions[i];
-                        console.debug(s)
+                        const s = sessions[i];          
                         const key = s.session;
                         const p = this._scatterPoints[key];
                         p.style.background = this.taskColors[id];
@@ -492,15 +493,10 @@ export default {
                 }
             }
                 
-            
-
-            // save values for select events
             this.max_interactions = max_count;
             this.max_duration = max_duration;
 
-            // FIXME: Should be per task...
             setTimeout(lang.hitch(this, "setMiddle", mean_count, max_count, mean_duration, max_duration), 200);
-
         },
 
         render_Scatter_Tasks () {
@@ -647,15 +643,6 @@ export default {
          * Helper
          *********************************************************************/
 
-
-        showSessionReplay(url, i, e) {
-            this.stopEvent(e);
-            if (this.dialog) {
-                this.dialog.close();
-            }
-            location.href = url;
-        },
-
         hoverPoint(p) {
             if (this._selectedScatterPoint == p) {
                 css.add(this.cntr, "MatcScatterPlotCntrHover");
@@ -695,34 +682,6 @@ export default {
         animateScatterPoint(p, s, max_duration, max_interactions) {
             p.style.bottom = (((s.interactions / max_interactions) * 100)) + "%";
             p.style.left = (((s.duration / max_duration) * 100)) + "%";
-        },
-
-        getNiceEventLabel(event, i, includeScreenForWidgets = true) {
-            if (this.model) {
-                const screenName = this.getScreenName(event.screen, true)
-                const widgetName = this.getWidgetName(event.widget, true)
-
-                var row = [];
-                if (event.widget) {
-                    const screenLabel = includeScreenForWidgets ? ' @ ' + screenName : ''
-                    if (event.type == "WidgetGesture" && event.gesture) {
-                        let gesture = event.gesture;
-                        row = [this.getGestureLabel(gesture.type), widgetName];
-                    } else if (event.state && (event.type == "WidgetClick" || event.type == "WidgetChange")) {
-
-                        return this.getEventStateLabel(event.state) + ` -  ` + widgetName + screenLabel;
-                    } else {
-                        return this.getEventLabel(event.type) + ` -  ` + widgetName + screenLabel;
-                    }
-                } else if (event.type == "ScreenGesture" && event.gesture) {
-                    let gesture = event.gesture;
-                    row = ["Screen " + this.getGestureLabel(gesture.type), screenName];
-                } else {
-                    row = [this.getEventLabel(event.type), screenName];
-                }
-                return row[0] + " - " + row[1] + "";
-            }
-            return this.getNLS("dash.perf.dropoff.step") + i;
         }
     },
     mounted() {        

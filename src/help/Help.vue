@@ -16,9 +16,12 @@ x
                                 {{topic.name}}
                             </a>
                             <template v-if="topic.id === selected">
-                                <a  v-for="(p, i) in topic.paragraphs" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" >
-                                    {{p.title}}
-                                </a>
+                                <template v-for="(p, i) in topic.paragraphs"  >
+                                    <a  v-if="p.title" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" >
+                                        {{p.title}}
+                                    </a>
+                                </template>
+                               
                             </template>
                         </template>
                     </div>
@@ -48,7 +51,9 @@ x
 
                 <div v-if="current.image" class="MatcHelpContenImage">
                     <img :src="current.image.src"/>
+  
                 </div>
+                <caption v-if="current.image && current.image.caption">{{current.image.caption}}</caption>
 
                 <div class="MatcHelpContentVideo" >
                     <iframe
@@ -94,7 +99,9 @@ x
 
                     <div v-if="p.image" class="MatcHelpContenImage">
                         <img :src="p.image.src"/>
+                
                     </div>
+                    <caption v-if="p.image && p.image.caption">{{p.image.caption}}</caption>
 
                      <iframe
                         v-if="p.video"

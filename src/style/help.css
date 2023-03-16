@@ -14,6 +14,16 @@
     margin-top: 5px;
 }
 
+.MatcHelp caption {
+    display: block;
+    font-size: 14px;
+    font-style: italic;
+    color:#555;
+    text-align: center;
+    padding: 0px;
+    margin-bottom: 16px;
+}
+
 .MatcHelp a.MatcHelpLink {
     display: inline;
     color:#3787f2;
@@ -42,7 +52,8 @@
 
 .MatcHelpContent{
     display: inline-block;
-    width: 800px;
+    min-width: 800px;
+    max-width: 1200px;
     padding-right: 20px;
     margin-right: 20px;
     height: 100%;
