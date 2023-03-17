@@ -164,6 +164,14 @@ export default new VueRouter({
     {
       path: '/test/Perf.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/PerfTest.vue')
+    },
+    {
+      path: '/test/BigData.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/BigDataTest.vue')
+    },
+    {
+      path: '/test/HTMLImporter.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/HTMlImporterTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',
