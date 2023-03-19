@@ -189,6 +189,8 @@ export default {
 			this.tempOwn(this.screenCreateBtn.on( "onAdd", lang.hitch(this, "onNewThemeObject")));
 			this.tempOwn(this.screenCreateBtn.on("onUpload", lang.hitch(this, "onThemedMultiScreen")));
 			this.tempOwn(this.screenCreateBtn.on("onImport", lang.hitch(this, "showImportDialog")));
+			this.tempOwn(this.screenCreateBtn.on("onDesignGPT", lang.hitch(this, "showDesignGPT")));
+
 
 			css.add(this.screenCreateBtn.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
 			this.screenCreateBtn.placeAt(this.addScreenSection);
@@ -196,7 +198,7 @@ export default {
 			this.own(on(this.addLogicSection, touch.release, lang.hitch(this, "onNewLogicObject")));
 			this.own(on(this.addRestSection, touch.release, lang.hitch(this, "onNewRestObject")));
 			this.own(on(this.addScriptSection, touch.release, lang.hitch(this, "onNewScriptObject")));
-			
+			//this.own(on(this.addGPTSection, touch.release, lang.hitch(this, "showDesignGPT")));
 
 			/**
 			* set model

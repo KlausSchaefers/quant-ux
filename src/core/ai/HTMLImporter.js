@@ -43,7 +43,9 @@ function parseNode (node, parent, prefx='') {
     if (isLeafNode(node)) {
         const label = node.nodeValue
         if (label && label.trim()) {
-            console.debug(prefx, 'Leaf >', label.trim(), '<')   
+            //console.debug(prefx, 'Leaf >', label.trim(), '<')   
+            //parent.props.label = label.trim()
+            // create a label
         }
     }
 
@@ -56,6 +58,8 @@ function parseNode (node, parent, prefx='') {
             parent.children.push(widget)
             console.debug(prefx, 'DOM >>> ', child.tagName)
             parseNode(child, widget, prefx + '  ')
+        } else {
+            parseNode(child, parent, prefx + '  ')
         }
         // if (type ===  3) {
         //     console.debug(prefx, 'TEXT >>> ', child.data)
@@ -79,6 +83,10 @@ function createWidget(node) {
      * get positon
      * 
      * get style
+     * 
+     * from placeholder
+     * 
+     * labeled checkbox?
      */
     const widgetType = 'box'
     return {

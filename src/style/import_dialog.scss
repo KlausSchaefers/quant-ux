@@ -17,8 +17,6 @@
     }
   }
 
-
-
   .MatcToolbarTabsBig {
     margin-bottom: 20px;
   }
@@ -125,3 +123,56 @@
 
 
 }
+
+.MatchImportOpenAIDialog {
+
+  .MatchImportOpenAIDialogCntr {
+    display: flex;
+    gap:40px;
+    align-items: stretch;
+
+    .MatchImportDialogCntr {
+      height: 350px;
+    }
+
+    .MatchImportOpenAIDialogInput {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;    
+    }
+
+   
+  }
+
+  textarea {
+    height: 300px;
+  }
+
+  .MatchImportDialogPreviewCntr {
+    width: 300px;
+    border: transparent 1px dashed;
+    position: relative;
+
+    .MatcHint {
+      color: $text_color_passive;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: 0.2s all;
+      font-size: 24px;
+      text-align: center;
+
+    }
+
+  }
+
+  .MatcScriptEditorSimulator {
+    width: 300px;
+  }
+
+
+
+
+}
+

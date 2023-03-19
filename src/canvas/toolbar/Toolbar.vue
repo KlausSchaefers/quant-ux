@@ -52,6 +52,12 @@
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
 
+			<!--
+			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="addGPTSection" >
+				<span class="mdi mdi-robot-outline" ></span>
+				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
+			</div>
+			-->
 
 			<div class="MatcToolbarItem MatcToolbarMove" data-dojo-attach-point="moveTool" >
 				<span class="mdi mdi-cursor-move" ></span>
@@ -66,7 +72,6 @@
 			<div class="" data-dojo-attach-point="commentSection">
 				<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="commentBtn">
 					<span class="mdi mdi-comment-outline"></span>
-
 				</div>
 			</div>
 

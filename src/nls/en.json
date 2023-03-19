@@ -1,5 +1,15 @@
 {
     "title": "Quant-UX",
+    "scatter": {
+        "no-data": "No test data was recorded."
+    },
+    "design-gpt": {
+        "prompt": "Describe the page here",
+        "error-public": "You need to sign up to use DesignGPT",
+        "preview": "Run AI",
+        "no-preview": "No Preview",
+        "busy": "Running AI..."
+    },
     "header": {
         "my-prototypes": "My Prototypes",
         "documentation": "Documentation",
@@ -74,13 +84,14 @@
     },
     "dialog": {
         "import": {
-            
+   
             "images-title": "Import from Images",
             "figma-title": "Import from Figma",
             "tab-images": "Images",
             "tab-figma": "Figma",
             "tab-zip": "Zip",
             "tab-github": "Github",
+            "tab-open-ai": "OpenAI - GPT",
             "tab-open-api": "Swagger (OpenAPI)",
             "images-drop-msg": "Drop images here",
             "zip-drop-msg": "Drop ZIP here",
@@ -104,7 +115,10 @@
             "error-swagger-wrong_url": "Could not load URL",
             "error-no-file": "No file selected",
             "error-zip-no-file": "Wrong file type",
-            "open-api-url": "URL"
+            "open-api-url": "URL",
+            "open-ai-prompt": "Describe your page here",
+            "open-ai-prompt-hint": "Please create a login screen",
+            "open-ai-generate": "Generate Preview"
         },
         "export": {
             "tab-images": "Images",

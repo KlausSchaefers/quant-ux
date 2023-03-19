@@ -24,6 +24,7 @@ import Help from 'help/Help'
 import Share from 'page/Share'
 
 import ImportDialog from 'canvas/toolbar/dialogs/ImportDialog'
+import DesignGPTDialog from 'canvas/toolbar/dialogs/DesignGPTDialog'
 import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
 import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
@@ -68,6 +69,31 @@ export default {
 				this.controller.setFonts(customFonts.getFonts());
 
 				dialog.close()
+		},
+
+		showDesignGPT (e) {
+			const dialog = new Dialog()
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog MatchImportDialog MatcPadding").build();
+      		dialog.popup(popup, e.target);
+      		
+			const aiDialog = this.$new(DesignGPTDialog)
+			aiDialog.placeAt(popup)
+
+			aiDialog.setPublic(this.isPublic)
+			aiDialog.setJwtToken(this.jwtToken)
+			aiDialog.setModel(this.model)
+			aiDialog.setController(this.controller)
+			aiDialog.setCanvas(this.canvas)
+			aiDialog.setZoom(this.canvas.getZoomFactor())
+			aiDialog.$on('save', data => {
+					this.logger.log(-1,"showImportDialog", "save > ", data);
+					dialog.close()
+			})
+			aiDialog.$on('cancel', () => {
+					this.logger.log(-1,"showImportDialog", "cancel > ");
+					dialog.close()
+			})
 		},
 
 		showImportDialog (e, zipFiles = null) {
