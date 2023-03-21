@@ -11,6 +11,10 @@ export function updateSelection(model, newId, selectedWidgetId, selectedGroupId)
      * top parent group.
      */
     if (!selectedGroupId) {
+        if (selectedWidgetId === newId) {
+            Logger.log(-1, 'SelectionUtil.updateSelection() > exit > Re-select widget', newId)
+            return [newId, null, false]
+        }
         const topGroup = util.getTopParentGroup(newId);
         if (topGroup) {
             Logger.log(1, 'SelectionUtil.updateSelection() > exit > Top Groupd', topGroup)
@@ -58,11 +62,6 @@ export function updateSelection(model, newId, selectedWidgetId, selectedGroupId)
             }
         }  
     }
-
-    
-
-    //const groupHierarchy = util.getGroupHierarchy(newId)
-   // console.debug(topGroup, selectedWidget, selectedGroup, groupHierarchy)
 
     return [null, null, false]
 }

@@ -927,17 +927,6 @@ export default {
         this.onMutliSelected(this.getMultiSelection());
     },
 
-   
-    _setSelectionByIdNew (id) {
-      /**
-       * Since 4.4.0 we have a new smart algorithm
-       * 
-       */
-      const selectedWidget = this.getSelectedWidget()
-      const selectedGroup = this.getSelectedGroup()
-      SelectionUtil.updateSelection(this.model, id, selectedWidget?.id, selectedGroup?.id)
-    
-    },
 
     _setSelectionById (id) {
         const selectedWidget = this.getSelectedWidget()
@@ -947,6 +936,7 @@ export default {
           selectedWidget?.id, 
           selectedGroup?.id
         )
+        console.debug('_setSelectionById', selectedGroup, selectedWidget)
         if (selectedWidgetID) {
             this.onWidgetSelected(id);
             this._dragNDropIgnoreGroup = true;
