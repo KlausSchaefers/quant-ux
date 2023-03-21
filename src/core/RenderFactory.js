@@ -905,6 +905,7 @@ export default class RenderFactory extends Core {
 
 
 	_createBox(parent, model) {
+		console.debug('createBix', model)
 		var border = this._createBorder(parent, model);
 		return border;
 	}

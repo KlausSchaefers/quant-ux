@@ -1924,6 +1924,10 @@
  .MatchWidgetTypeTextBox {
 	overflow: hidden;
  }
+
+ .MatcWidgetTypeTextBox {
+	height: 100%;
+ }
  
 .MatcWidgetTypeTextBoxPreview {
 	display: flex;

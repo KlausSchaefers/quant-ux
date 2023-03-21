@@ -1675,7 +1675,7 @@ export default class BaseController extends Core {
 		 * be better, hwoever the Core.getOrderedWidgets() relies for old prototypes
 		 * on the id to establish order.
 		 */
-		var uuid = this.model.lastUUID++ + "_" + Math.round(Math.random() * 100000);
+		const uuid = this.model.lastUUID++ + "_" + Math.round(Math.random() * 100000);
 		return uuid
 	}
 
