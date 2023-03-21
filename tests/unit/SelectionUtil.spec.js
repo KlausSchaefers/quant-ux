@@ -67,3 +67,10 @@ test('SelectionUtil.updateSelection() >  Nested Group Selected, Single Widget ->
     expect(selectedWidgetID).toBe('w10137_20407')
     expect(selectedGroupId).toBe(null)
 })
+
+test('SelectionUtil.updateSelection() >  Leaf Widget Selected, Single Widget ->  Single Widget', async () => {
+    const [selectedWidgetID, selectedGroupId] =  SelectionUtil.updateSelection(model, 'w10088_54007', 'w10088_54007', null)
+    console.debug(selectedWidgetID, selectedGroupId)
+    expect(selectedWidgetID).toBe('w10088_54007')
+    expect(selectedGroupId).toBe(null)
+})

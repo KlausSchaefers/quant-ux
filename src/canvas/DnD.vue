@@ -936,7 +936,6 @@ export default {
           selectedWidget?.id, 
           selectedGroup?.id
         )
-        console.debug('_setSelectionById', selectedGroup, selectedWidget)
         if (selectedWidgetID) {
             this.onWidgetSelected(id);
             this._dragNDropIgnoreGroup = true;
