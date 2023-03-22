@@ -1,6 +1,10 @@
 <template>
   <div class="MatcPadding" id="">
-    <h1>HTML Importer <input  type="checkbox" v-model="hasJSON"> </h1>
+    <h1>HTML Importer 
+      <input  type="checkbox" v-model="hasJSON"> 
+      <input  type="checkbox" v-model="isRemoveContainers" @change="run()">
+      <input  type="checkbox" v-model="isDefaultStyle" @change="run()">
+    </h1>
 
     <div class="panel">
       <textarea v-model="html" style="">
@@ -56,7 +60,7 @@ pre {
 }
 
 .sim-cntr {
-  width: 400px;
+  width: 430px;
   height: 600px;
   border: 1px solid red;
 
@@ -67,7 +71,7 @@ pre {
     Xoutline: 1px solid green;
   }
 
-  .MatcWidgetTypeTextBox {
+  .XMatcWidgetTypeTextBox {
     height: 100%;
   }
 
@@ -76,7 +80,7 @@ pre {
 <script>
 
 import HTMLImporter from '../core/ai/HTMLImporter'
-import { html } from './data/htmlLogin'
+import { html, htmlSmall } from './data/htmlLogin'
 import DomBuilder from 'common/DomBuilder'
 import domGeom from 'dojo/domGeom'
 import ScrollContainer from 'common/ScrollContainer'
@@ -89,8 +93,11 @@ export default {
   data: function () {
     return {
       hasJSON: false,
+      isRemoveContainers: false,
+      isDefaultStyle: true,
       result: {},
-      html: html
+      isSmall: false,
+      html: ''
     };
   },
   components: {
@@ -99,7 +106,39 @@ export default {
 
     async run() {
       const importer = new HTMLImporter()
-      let result = await importer.html2QuantUX(this.html, this.$refs.inner, 400, 600)
+      let defaultStyle = null
+      if (this.isDefaultStyle) {
+        defaultStyle = {
+          "fontSize": 14,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "left",
+          "letterSpacing": 0,
+          "lineHeight": 1,
+          "color": "#333333",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "borderTopRightRadius": 3,
+          "borderTopLeftRadius": 3,
+          "borderBottomRightRadius": 3,
+          "borderBottomLeftRadius": 3,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1,
+          "borderRightWidth": 1,
+          "borderLeftWidth": 1,
+          "verticalAlign": "middle",
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "background" : "#ffffff"
+        }
+      }
+      let result = await importer.html2QuantUX(this.html, this.$refs.inner, 400, 600, {
+        isRemoveContainers: this.isRemoveContainers,
+        defaultStyle: defaultStyle
+      })
       this.result = JSON.stringify(result, null, 2)
       if (!this.hasJSON) {
 
@@ -145,6 +184,12 @@ export default {
 
   },
   mounted() {
+
+    if (this.isSmall) {
+      this.html = htmlSmall
+    } else {
+      this.html = html
+    }
     this.run()
   }
 };

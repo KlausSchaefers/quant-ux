@@ -889,7 +889,7 @@ export default class RenderFactory extends Core {
 	 */
 	_createButton(parent, model) {
 		css.add(parent, "MatcEventedWidget");
-		var border = this._createBorder(parent, model);
+		const border = this._createBorder(parent, model);
 		this._createInlineEdit(border, model);
 	}
 
@@ -897,7 +897,7 @@ export default class RenderFactory extends Core {
 	 * Using a VUE widget is much slower!
 	 */
 	_createButtonSlow(parent, model) {
-		var widget = this.$new(Button)
+		const widget = this.$new(Button)
 		widget.mode = this.mode
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
@@ -905,14 +905,13 @@ export default class RenderFactory extends Core {
 
 
 	_createBox(parent, model) {
-		console.debug('createBix', model)
-		var border = this._createBorder(parent, model);
+		const border = this._createBorder(parent, model);
 		return border;
 	}
 
 
 	_createLabel(parent, model) {
-		var widget = this.$new(Label, {mode: this.mode});
+		const widget = this.$new(Label, {mode: this.mode});
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
@@ -921,7 +920,7 @@ export default class RenderFactory extends Core {
 		/**
 		 * Since 3.0.41 we add another div so we can rotate
 		 */
-		let imgCntr =  document.createElement("div")
+		const imgCntr =  document.createElement("div")
 		css.add(imgCntr, 'MatchWidgetTypeImageCntr')
 		parent.appendChild(imgCntr)
 		this._imageNodes[model.id] = imgCntr
@@ -930,8 +929,8 @@ export default class RenderFactory extends Core {
 
 	_createIcon(parent, model) {
 		//css.add(parent, "MatcEventedWidget");
-		var border = this._createBorder(parent, model);
-		var icon = document.createElement("span");
+		const border = this._createBorder(parent, model);
+		const icon = document.createElement("span");
 		this._iconNodes[model.id] = icon;
 		border.appendChild(icon);
 	}

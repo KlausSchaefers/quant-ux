@@ -10,7 +10,7 @@ export default {
   methods: {
 
     async initLoadRest() {
-      this.logger.log(-1,"initLoadRest","enter");
+      this.logger.log(2,"initLoadRest","enter");
 
       if (this.doNotExecuteScripts) {
           this.logger.log(2,"initLoadRest","exit > Do not run" );
@@ -31,7 +31,7 @@ export default {
     },
 
     async initRepeatRest() {
-      this.logger.log(-1,"initRepeatRest","enter");
+      this.logger.log(2,"initRepeatRest","enter");
 
       if (this.doNotExecuteScripts) {
           this.logger.log(2,"initRepeatRest","exit > Do not run" );

@@ -172,6 +172,10 @@ export default new VueRouter({
     {
       path: '/test/HTMLImporter.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/HTMlImporterTest.vue')
+    },
+    {
+      path: '/test/DesignGPT.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/DesignGPTTest.vue')
     }
     //{
     //  path: '/test/Sketch.html',

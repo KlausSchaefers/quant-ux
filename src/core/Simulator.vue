@@ -236,7 +236,7 @@ export default {
 		},
 
 		setHash (h) {
-			this.logger.log(-1,"setHash","enter");
+			this.logger.log(2,"setHash","enter");
 			this.setInvitation(h)
 		},
 
@@ -555,7 +555,6 @@ export default {
 				this.screenPos = this._externScreenPos
 				console.warn('Simulator.initSclae() > Use external screenPOS', this.screenPos)
 			}
-
 			this._scaleX = (this.screenPos.w / this.model.screenSize.w );
 			this._scaleY = this._scaleX;
 			this.logger.log(-1,"initScale","exit > h:" + this.screenPos.h + " x w:" + this.screenPos.w + " * " + this._scaleX + " > desk : " + this.isDesktopTest);

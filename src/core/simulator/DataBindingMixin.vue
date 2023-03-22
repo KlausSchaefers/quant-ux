@@ -60,23 +60,23 @@ export default {
 							this.logger.log(5, "initDefaultDataBinding", "set (selected): " + w.name, props.selected);
 							this.setDataBindingByKey(defaultVariable, props.selected)
 						} else if (props.value) {
-							this.logger.log(-1, "initDefaultDataBinding", "set (value): " + w.name, props.value);
+							this.logger.log(1, "initDefaultDataBinding", "set (value): " + w.name, props.value);
 							this.setDataBindingByKey(defaultVariable, props.value)
 						} else if (props.active === true || props.active === false) {
-							this.logger.log(-1, "initDefaultDataBinding", "set (active): " + w.name, props.active);
+							this.logger.log(1, "initDefaultDataBinding", "set (active): " + w.name, props.active);
 							this.setDataBindingByKey(defaultVariable, props.active)
 						} else if (props.label && !props.placeholder) {
-							this.logger.log(-1, "initDefaultDataBinding", "set (label): " + w.name, props.active);
+							this.logger.log(1, "initDefaultDataBinding", "set (label): " + w.name, props.active);
 							this.setDataBindingByKey(defaultVariable, props.label)
 						} else {
 							// this.logger.log(6, "initDefaultDataBinding", "Could not set default: " + w.name, w.props);
 						}
 					} else {
-						this.logger.log(-1, "initDefaultDataBinding","do not init ", defaultVariable);
+						this.logger.log(1, "initDefaultDataBinding","do not init ", defaultVariable);
 					}
 				}
 			})
-			this.logger.log(-1, "initDefaultDataBinding","exit ", this.dataBindingValues);
+			this.logger.log(1, "initDefaultDataBinding","exit ", this.dataBindingValues);
 
 			/**
 			 * Once we introduce default values via a UI configuration, we
