@@ -132,7 +132,7 @@
     align-items: stretch;
 
     .MatchImportDialogCntr {
-      height: 350px;
+      height: 290px;
     }
 
     .MatchImportOpenAIDialogInput {
@@ -145,7 +145,7 @@
   }
 
   textarea {
-    height: 300px;
+    height: 250px;
   }
 
   .MatchImportDialogPreviewCntr {
@@ -167,12 +167,18 @@
 
   }
 
-  .MatcScriptEditorSimulator {
+  .MatchImportOpenAIDialogSimulator {
     width: 300px;
+    height: 360px;
+    overflow: hidden;
+    border: 1px dashed #333;
+
+    .MatchSimulatorContainer {
+      //box-shadow: rgba($color: #000000, $alpha: .2) 0 0 16px;
+      //border-radius: 8px;
+    }
+  
   }
-
-
-
 
 }
 

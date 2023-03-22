@@ -45,7 +45,7 @@ export default {
   },
   mounted() {
     this.$refs.dialog.setModel(designToken1)
-    this.$refs.dialog.setValue()
+
 
   }
 };

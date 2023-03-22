@@ -7,6 +7,7 @@ import HelpService from './HelpService'
 import ImageService from './ImageService'
 import WebSocketService from './WebSocketService'
 import KeyCloakService from './KeyCloakService'
+import AIService from './AIService'
 
 class Services {
 
@@ -61,6 +62,11 @@ class Services {
             return ws
         }
         return null
+    }
+
+    getAIService () {
+        AIService.setToken(UserService.getToken())
+        return AIService   
     }
 
     getUserService () {

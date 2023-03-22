@@ -1,6 +1,10 @@
 import Logger from '../Logger'
 
-const labelTypes = new Set(['LABEL', 'H1', 'H2', 'H3', 'H4', 'P'])
+const TEXT_NODE = 3
+
+const ELEMENT_NODE = 1
+
+const labelTypes = new Set(['LABEL', 'H1', 'H2', 'H3', 'H4', 'P', 'A'])
 
 const pixelStyles = {
     'border-bottom-left-radius': 'borderBottomLeftRadius',
@@ -39,7 +43,7 @@ const stringStyles = {
 
 
     'text-align': 'textAlign',
-    'font-family': 'fontFamily',
+    //'font-family': 'fontFamily',
     'font-weight': 'fontWeight',
     'text-decoration': 'textDecoration'
 }
@@ -117,10 +121,23 @@ export default class HTMLImporter {
         const tree = this.createWidget(body)
         this.parseNode(body, tree)
         this.propagateCSS(tree)
+        //this.printTree(tree)
         const app = this.flattenTree(tree, width, height, options)
         this.cleanUpModel(app)
         const scalledApp = this.scalledApp(app)
-        return scalledApp
+        return [scalledApp, tree]
+    }
+
+    printTree(node, prefix=''){
+        if (node.children.length > 0) {
+            console.debug(prefix, '+', '<' + node._tag + '>', node.type, ' >> '+ node.props.label)
+            node.children.forEach(child => {
+                this.printTree(child, prefix + '   ')
+            })
+        } else {
+            console.debug(prefix, '-', '<' + node._tag + '>', node.type, ' >> '+ node.props.label)
+        }
+       
     }
 
     scalledApp (app) {
@@ -219,8 +236,7 @@ export default class HTMLImporter {
     }
 
     cleanUpWidget (w) {
-        // this is a evil hack
-        if (w.type === 'Label' || w._tag === 'B' || w._tag === 'I') {
+        if (w.type === 'Label') {
             for (let key of borderKeys) {
                 delete w.style[key]
             }
@@ -288,28 +304,39 @@ export default class HTMLImporter {
         })
     }
 
-    parseNode (node, parent, prefx='') {
-        //console.debug(prefx, node, isLeafNode(node))
-
-        if (isLeafNode(node)) {
-            const label = node.nodeValue
-             if (label && label.trim()) {
-                const widget = this.createWidget(node)
-                widget.props.label = label.trim()
-                parent.children.push(widget)
-            }
-        }
-
+    parseNode (node, parent, prefx='BODY.', logLevel = 1) {
+       
         const children = node.childNodes;
+
         for (let i = 0; i < children.length; i++) {
             const child = children[i]
-            if (child.nodeType === 1) {
-                const widget = this.createWidget(child)
-                parent.children.push(widget)
-                this.parseNode(child, widget, prefx + '  ')
-            } else {
-                this.parseNode(child, parent, prefx + '  ')
-            }
+            const isLeaf = isLeafNode(child)
+            if (child.nodeType === ELEMENT_NODE) {
+                if (!isLeaf) {
+                    const widget = this.createWidget(child, prefx)
+                    Logger.log(logLevel, 'HTMLImpoter.createWidget() > CNTR', `${prefx}${child.tagName} > ${widget.type}`)
+                    parent.children.push(widget)
+                    this.parseNode(child, widget, prefx + child.tagName + '.' )
+                } else {
+                    const label = getLeafNodeLabel(child)
+                    const widget = this.createWidget(child, prefx)
+                    Logger.log(logLevel, 'HTMLImpoter.createWidget() > Leave', `${prefx}${child.tagName} > ${widget.type} : ${label}`)
+                    parent.children.push(widget)
+                    if (label && label.trim()) {
+                        widget.props.label = label.trim()
+                    }
+                }
+           } 
+           
+           if (child.nodeType === TEXT_NODE) {
+                const label = getLeafNodeLabel(child)
+                if (label && label.trim()) {
+                    const widget = this.createWidget(child, prefx)
+                    widget.props.label = label.trim()
+                    Logger.log(logLevel, 'HTMLImpoter.createWidget() > Text Leave', `${prefx}${child.tagName} > ${widget.type} : ${label}`)
+                    parent.children.push(widget)
+                }
+           }
         }
     }
 
@@ -349,13 +376,9 @@ export default class HTMLImporter {
             children: []
         }
 
-        if (getActivePseudo(node)) {
-            widget.active = this.getDifStyle(style, this.getStyle(node, getActivePseudo(node)))
-        }
-
-      
-        widget.hover = this.getDifStyle(style, this.getStyle(node, ':hover'))
-        
+        widget.active = {} // this.getDifStyle(style, this.getStyle(node, getActivePseudo(node)))
+        widget.hover = {} //this.getDifStyle(style, this.getStyle(node, '::hover'))
+        widget.error = {}
 
         return widget
     }
@@ -381,11 +404,16 @@ export default class HTMLImporter {
                     default : node.name
                 }
             }
-            // FIXME: add validation for input types
+
+            if (isSubmit(node)) {
+                result.label = node.value
+            }
+          
             if (isCheckBox(node)) {
                 result.checked = node.checked
             }           
         }
+      
         return result
     }
 
@@ -419,11 +447,13 @@ export default class HTMLImporter {
     }
 
     getCurrentStyle(node, pseudoElt) {
-        const result = {}
+        const result = {
+            fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif'
+        }
         try {
 
             const compStyle = pseudoElt ? getComputedStyle(node, pseudoElt) : getComputedStyle(node)
-        
+          
             for (let key in pixelStyles) {
                 let value = compStyle[key]
                 if (value && value != 'none') {
@@ -504,7 +534,8 @@ export default class HTMLImporter {
     }
 
     getWidgetType (node) {
-        if (node.nodeType === 3) {
+        //console.debug('getWidgetType >> ', node.nodeType, node.tagName, labelTypes.has(node.tagName), node)
+        if (node.nodeType === TEXT_NODE) {
             return 'Label'
         }
         if (labelTypes.has(node.tagName)) {
@@ -520,7 +551,10 @@ export default class HTMLImporter {
             if (isCheckBox(node)) {
                 return 'CheckBox'
             }
-            if (node.type && node.type.toLowerCase() === 'password') {
+            if (isSubmit(node)) {
+                return 'Button'
+            }
+            if (isPassword(node)) {
                 return 'Password'
             }
             return 'TextBox'
@@ -560,33 +594,56 @@ function parsePixel(value) {
     return Math.round(value * 1)
 }
 
+function isSubmit(node) {
+    return node.type && node.type.toLowerCase() === 'submit'
+}
+
+function isPassword(node) {
+    node.type && node.type.toLowerCase() === 'password'
+}
+
 function isCheckBox (node) {
     return node.type && node.type.toLowerCase() === 'checkbox'
 }
 
-function isLeafNode(node) {
+function isLeafNode(node, debug=false) {
+    if (node.nodeType === TEXT_NODE) {
+        return true
+    }
     const children = node.childNodes;
+  
+    let counts = 0
     for (let i = 0; i < children.length; i++) {
         const child = children[i]
         const type = child.nodeType
-        // const tagName = child.tagName
-        // if (type === 1 && tagName === 'B') {
-        //     console.debug(type, tagName, child)
-        //     return true
-        // }
-        if (type === 3) {
-            return false
+        const tagName = child.tagName
+        if (type === ELEMENT_NODE && (tagName === 'B' || tagName === 'I')) {
+            counts++
+        }
+        if (type === TEXT_NODE) { // TEXT_NODE
+            counts++
         }
     }
-    return true
+    if (debug)
+        console.debug(node.tagName, counts, children.length)
+    return children.length === counts
 }
 
-function getActivePseudo(node) {
-    if (isCheckBox(node)) {
-        return ':checked'
+function getLeafNodeLabel (node) {
+
+    if (node.nodeType === TEXT_NODE) {
+     
+        return node.nodeValue
     }
-    return ''
+    return node.innerText
 }
+ 
+// function getActivePseudo(node) {
+//     if (isCheckBox(node)) {
+//         return ':checked'
+//     }
+//     return ''
+// }
 
 function getScreenHeight (scrn, app) {
     let maxY = 0
@@ -596,7 +653,7 @@ function getScreenHeight (scrn, app) {
             maxY = Math.max(maxY, widget.y + widget.h)
         }
     })
-    return maxY
+    return Math.max(app.screenSize.h,maxY)
 }
 
 function getScreenWidth(scrn, app) {

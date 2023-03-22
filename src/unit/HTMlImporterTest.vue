@@ -1,10 +1,18 @@
 <template>
   <div class="MatcPadding" id="">
     <h1>HTML Importer 
-      <input  type="checkbox" v-model="hasJSON"> 
-      <input  type="checkbox" v-model="isRemoveContainers" @change="run()">
-      <input  type="checkbox" v-model="isDefaultStyle" @change="run()">
+    
     </h1>
+
+    <div class="config">
+      <ul>
+        <li><input  type="checkbox" v-model="hasJSON"> Show JSON</li>
+        <li><input  type="checkbox" v-model="isRemoveContainers" @change="run()"> Remove Container</li>
+        <li><input  type="checkbox" v-model="isDefaultStyle" @change="run()"> Default style</li>
+        
+     
+      </ul>
+    </div>
 
     <div class="panel">
       <textarea v-model="html" style="">
@@ -38,6 +46,7 @@ pre {
   border: 1px solid #333;
   height: 600px;
   flex-grow: 1;
+  font-size: 12px;
 }
 
 .inner {
@@ -75,6 +84,36 @@ pre {
     height: 100%;
   }
 
+.config {
+  position: fixed; 
+  top:0px;
+  right: 0px;
+  background: orange;
+  padding: 8px;
+  font-size: 10px;
+  text-align: left;
+  height: 24px;
+  width: 24px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.config:hover {
+  height: auto;
+  width: auto;
+}
+
+.config ul {
+  opacity: 0;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.config:hover ul {
+  opacity: 1;
+}
+
 </style>
     
 <script>
@@ -94,9 +133,9 @@ export default {
     return {
       hasJSON: false,
       isRemoveContainers: false,
-      isDefaultStyle: true,
+      isDefaultStyle: false,
       result: {},
-      isSmall: false,
+      isSmall: true,
       html: ''
     };
   },
@@ -135,11 +174,12 @@ export default {
           "background" : "#ffffff"
         }
       }
-      let result = await importer.html2QuantUX(this.html, this.$refs.inner, 400, 600, {
+      const [result, tree] = await importer.html2QuantUX(this.html, this.$refs.inner, 400, 600, {
         isRemoveContainers: this.isRemoveContainers,
         defaultStyle: defaultStyle
       })
-      this.result = JSON.stringify(result, null, 2)
+      //this.result = JSON.stringify(result, null, 2)
+      this.result = JSON.stringify(tree, null, 2)
       if (!this.hasJSON) {
 
         const sim = this.renderSimulator(this.$refs.simCntr)

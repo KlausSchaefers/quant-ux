@@ -7,6 +7,11 @@ module.exports = {
         target: 'https://v1.quant-ux.com',
         ws: true,
         changeOrigin: true
+      },
+      '^/ai': {
+        target:  'http://localhost:8082',
+        ws: true,
+        changeOrigin: true
       }
     }
   },

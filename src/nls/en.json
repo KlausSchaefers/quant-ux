@@ -4,6 +4,15 @@
         "no-data": "No test data was recorded."
     },
     "design-gpt": {
+        "error-server": "Something went wrong on the server",
+        "error-no-html": "The server returned a wrong result",
+        "error-no-content": "The server returned no result",
+        "error-no-idea": "Something went wrong",
+        "tab-prompt": "Design GPT",
+        "tab-settings": "Settings",
+        "key-title": "Your OpenAI API key",
+        "key-hint": "We use ChatGPT from OpenAI to power our AI engine. However, using the service is not cheap. Therefore we kindly ask you to bring your own account key.",
+        "show-key": "API",
         "prompt": "Describe the page here",
         "error-public": "You need to sign up to use DesignGPT",
         "preview": "Run AI",
