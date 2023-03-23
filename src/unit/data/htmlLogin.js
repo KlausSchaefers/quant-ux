@@ -1,4 +1,4 @@
-export const html = `
+export const html1 = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,7 +111,7 @@ export const html = `
 </html>
 `
 
-export const htmlSmall = `
+export const html2 = `
 
 <!DOCTYPE html>
 <html>
@@ -170,13 +170,14 @@ export const htmlSmall = `
 	-->
 	<button>Click2</button>
 	<input type="submit" value="Login">
+	<input type="reset" value="Reset">
 	
 
 </body>
 </html>
 `
 
-export const htmlLogin = `
+export const html3 = `
 <html>
 
 <head>
@@ -284,3 +285,65 @@ export const html4 = `
 		<a href="#">Forget Password?</a>
 	</form>
 </body>`
+
+
+export const html5 = `
+<html>
+
+  <head>
+    <title>Login Page</title>
+    <style>
+      input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+      button {
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 12px 20px;
+        margin-top: 10px;
+      }
+      button:hover {
+        opacity: 0.8;
+      }
+      a {
+        color: red;
+        text-decoration: none;
+      }
+      form {
+        margin: 0 auto;
+        padding: 50px;
+        width: 400px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      h2 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Login Page</h2>
+    <form>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password">
+      <button type="submit">Login</button>
+      <a href="#">Forget password?</a>
+    </form>
+  </body>
+</html>`

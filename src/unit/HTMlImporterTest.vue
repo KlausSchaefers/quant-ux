@@ -119,7 +119,7 @@ pre {
 <script>
 
 import HTMLImporter from '../core/ai/HTMLImporter'
-import { html, htmlSmall } from './data/htmlLogin'
+import { html1, html2 } from './data/htmlLogin'
 import DomBuilder from 'common/DomBuilder'
 import domGeom from 'dojo/domGeom'
 import ScrollContainer from 'common/ScrollContainer'
@@ -195,9 +195,7 @@ export default {
 
       const db = new DomBuilder();
 
-      const pos = domGeom.position(cntr);
-      pos.w -= 30;
-    
+      const pos = domGeom.position(cntr);  
 
       const container = db.div("MatchSimulatorContainer MatcAnimationComposerSimulator")
         .h(pos.h)
@@ -226,9 +224,9 @@ export default {
   mounted() {
 
     if (this.isSmall) {
-      this.html = htmlSmall
+      this.html = html2
     } else {
-      this.html = html
+      this.html = html1
     }
     this.run()
   }

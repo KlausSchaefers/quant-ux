@@ -12,14 +12,12 @@
 			<div class="MatcScreenAddCntr MatcPadding">
 					<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-4 MatcCenter" data-dojo-attach-point="addCntr">
+						<div class="col-md-6 MatcCenter" data-dojo-attach-point="addCntr">
 						</div>
-						<div class="col-md-4 MatcCenter" data-dojo-attach-point="uploadCntr">
+						<div class="col-md-6 MatcCenter" data-dojo-attach-point="uploadCntr">
 							
 						</div>
-						<div class="col-md-4 MatcCenter" data-dojo-attach-point="chatGPTCntr">
-							
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -106,11 +104,6 @@ export default {
 				db.div("MatcUploaderIcon MatcMiddle mdi mdi-cloud-upload").build(upload);
 				db.div("MatcHint MatcMarginTop", "Import Screens").build(this.uploadCntr);
 				this.own(on(upload, touch.press, lang.hitch(this, "onImportScreen")));
-
-				var gpt = db.div("MatcUploader").build(this.chatGPTCntr);
-				db.div("MatcUploaderIcon MatcMiddle mdi mdi-robot-outline").build(gpt);
-				db.div("MatcHint MatcMarginTop", "Design GPT").build(this.chatGPTCntr);
-				this.own(on(gpt, touch.press, lang.hitch(this, "onDesignGPT")));
 
 			},
 

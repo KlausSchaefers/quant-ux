@@ -198,6 +198,7 @@ export default {
 			this.own(on(this.addLogicSection, touch.release, lang.hitch(this, "onNewLogicObject")));
 			this.own(on(this.addRestSection, touch.release, lang.hitch(this, "onNewRestObject")));
 			this.own(on(this.addScriptSection, touch.release, lang.hitch(this, "onNewScriptObject")));
+			
 			//this.own(on(this.addGPTSection, touch.release, lang.hitch(this, "showDesignGPT")));
 
 			/**
@@ -403,6 +404,8 @@ export default {
 			this.addTooltip(this.addLogicSection, "Create Logic Element to split links", "vommondToolTipLeft");
 			this.addTooltip(this.addRestSection, "Web Service", "vommondToolTipLeft");
 			this.addTooltip(this.addScriptSection, "Script (BETA)", "vommondToolTipLeft");
+			this.addTooltip(this.addGPTSection, "Design GPT (BETA)", "vommondToolTipLeft");
+			
 			this.addTooltip(this.addVectorSection, "Vector Tools (Beta)", "vommondToolTipLeft");
 			this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
 

@@ -1,7 +1,7 @@
 <template>
     <div class="MatcLight">
       <h1>Import Test</h1>
-      <div class="MatcDialog MatchImportDialog MatcPadding">
+      <div class="MatcDialog MatchImportDialog MatchImportOpenAIDialog MatcPadding">
         <DesignGPTDialog ref="importDialog"/>
       </div>
     </div>

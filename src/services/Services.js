@@ -65,8 +65,9 @@ class Services {
     }
 
     getAIService () {
-        AIService.setToken(UserService.getToken())
-        return AIService   
+        const aiService = new AIService()
+        aiService.setToken(UserService.getToken())
+        return aiService   
     }
 
     getUserService () {

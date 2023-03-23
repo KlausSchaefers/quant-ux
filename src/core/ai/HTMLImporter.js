@@ -405,7 +405,7 @@ export default class HTMLImporter {
                 }
             }
 
-            if (isSubmit(node)) {
+            if (isSubmit(node) || isReset(node)) {
                 result.label = node.value
             }
           
@@ -554,6 +554,9 @@ export default class HTMLImporter {
             if (isSubmit(node)) {
                 return 'Button'
             }
+            if (isReset(node)) {
+                return 'Button'
+            }
             if (isPassword(node)) {
                 return 'Password'
             }
@@ -596,6 +599,10 @@ function parsePixel(value) {
 
 function isSubmit(node) {
     return node.type && node.type.toLowerCase() === 'submit'
+}
+
+function isReset(node) {
+    return node.type && node.type.toLowerCase() === 'reset'
 }
 
 function isPassword(node) {

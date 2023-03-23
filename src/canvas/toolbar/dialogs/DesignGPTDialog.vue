@@ -1,11 +1,8 @@
 
 <template>
-    <div class="MatchImportDialog MatchImportOpenAIDialog">
+    <div class="">
 
-        <div class="MatcToolbarTabs MatcToolbarTabsBig">
-            <a @click="tab='openai'" :class="{'MatcToolbarTabActive': tab === 'openai'}">{{ getNLS('design-gpt.tab-prompt')}}</a>
-            <a @click="tab='settings'" :class="{'MatcToolbarTabActive': tab === 'settings'}">{{ getNLS('design-gpt.tab-settings')}}</a>
-        </div>
+     
         <div v-if="isPublic">
             <div class="MatchImportDialogCntr">
                 {{ getNLS('design-gpt.error-public') }}
@@ -14,6 +11,10 @@
         <div v-else class="MatchImportOpenAIDialogCntr">
 
             <div class="MatchImportOpenAIDialogInput">
+                <div class="MatcToolbarTabs MatcToolbarTabsBig">
+                    <a @click="tab='openai'" :class="{'MatcToolbarTabActive': tab === 'openai'}">{{ getNLS('design-gpt.tab-prompt')}}</a>
+                    <a @click="tab='settings'" :class="{'MatcToolbarTabActive': tab === 'settings'}">{{ getNLS('design-gpt.tab-settings')}}</a>
+                </div>
 
                 <div v-if="tab === 'settings'">
                     <div class="MatchImportDialogCntr ">
@@ -25,6 +26,12 @@
 
                         <div class="">
                             {{ getNLS('design-gpt.key-hint') }}
+                          
+                        </div>
+                        <div class="MatcMarginTop">
+                            <b>
+                                {{ getNLS('design-gpt.key-security') }}
+                            </b>
                         </div>
                     </div>
                 </div>
@@ -33,22 +40,20 @@
                     <div class="MatchImportDialogCntr ">
                         <div class="field">
                             <label>{{ getNLS('design-gpt.prompt') }}</label>
-                            <textarea type="text" class="input" v-model="openAIPrompt"></textarea>
+                            <textarea type="text" class="input" v-model="prompt"></textarea>
                         </div>
+
+                        <div class="MatchImportDialogCntrConfig">
+                            <CheckBox 
+                                :value="isWireFrame" 
+                                :label="getNLS('design-gpt.is-wireframe')" 
+                                @change="onChangeSettings"/>
+                        </div>
+              
                     </div>
                 </div>
 
-                <div v-if="tab === 'progress'">
-                    <div class="MatchImportDialogCntr">
-                        <span class="MatcHint">
-                            {{ progressMSG }}
-                            <span class="MatcUploadProgressCnr">
-                                <span class="MatcUploadProgress" ref="progressBar"
-                                    :style="'width:' + progessPercent + '%'" />
-                            </span>
-                        </span>
-                    </div>
-                </div>
+              
 
 
                 <div class="MatcError">
@@ -111,6 +116,9 @@ import ScrollContainer from 'common/ScrollContainer'
 import Simulator from 'core/Simulator'
 import Services from 'services/Services'
 import HTMLImporter from 'core/ai/HTMLImporter'
+import * as StyleImporter from 'core/ai/StyleImporter'
+//import SegmentButton from 'page/SegmentButton'
+import CheckBox from 'common/CheckBox'
 
 export default {
     name: 'OpenAIDialog',
@@ -127,26 +135,22 @@ export default {
             progressMSG: '',
             progessPercent: 0,
             isPublic: false,
-            openAIPrompt: 'Create a simple login page with a forget password link. make the buttons red. put the labels above the input elements.',
+            prompt: 'Create a simple login page with a forget password link. make the buttons red. put the labels above the input elements.',
             openAIKey: '',
             preview: null,
-            hint: this.getNLS('design-gpt.no-preview')
+            hint: this.getNLS('design-gpt.no-preview'),
+            promptHistory: [],
+            isWireFrame: false,
+            fidelityOptions: [
+                {value: 'high', label: 'High Fidelity'},
+                {value: 'low', label: 'Low Fidelity'}
+            ]
         }
     },
     components: {
-
+        CheckBox
     },
     computed: {
-        previewWidth() {
-            return '100px'
-        },
-        previewHeight() {
-            if (this.model) {
-                let factor = this.model.screenSize.w / 100
-                return this.model.screenSize.h / factor + 'px'
-            }
-            return '200px'
-        }
     },
     methods: {
         setModel(m) {
@@ -191,9 +195,9 @@ export default {
             /**
              * Set to correct position
              */
-            let pos = this.getCanvasCenter()
-            let offsetX = pos.x - minX
-            let offsetY = pos.y - minY
+            const pos = this.getCanvasCenter()
+            const offsetX = pos.x - minX
+            const offsetY = pos.y - minY
             Object.values(model.screens).forEach(screen => {
                 screen.x += offsetX
                 screen.y += offsetY
@@ -222,9 +226,10 @@ export default {
                 this.errorMSG = 'No model'
             }
            
+            this.promptHistory.push(this.prompt)
            
             const aiService = Services.getAIService()
-            const result = await aiService.run(this.openAIPrompt, this.openAIKey)
+            const result = await aiService.runGPT35Turbo(this.prompt, this.openAIKey)
             if (result.error) {
                 this.errorMSG = this.getNLS(result.error)
             } else {
@@ -243,18 +248,31 @@ export default {
             this.$refs.simCntr.innerHTML = ''
         },
 
+        onChangeSettings (v) {
+            this.isWireFrame = v
+            this.cleanUp()
+            this.buildApp(this.html)
+        },
+
         async buildApp (html) {
             const width = this.model.screenSize.w
             const height = this.model.screenSize.h
             const importer = new HTMLImporter(this.model.lastUUID)
             const [result] = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
-                    isRemoveContainers: false,
-                    defaultStyle: null
+                    isRemoveContainers: this.isWireFrame,
+                    defaultStyle: this.getDefaultStyle()
             })
             if (result) {
                 this.preview = result
                 this.buildPreview(result)
             }
+        },
+
+        getDefaultStyle () {
+            if (this.isWireFrame) {
+                return StyleImporter.getDefaultStyle(this.model)
+            }
+            return null
         },
 
         async buildPreview () {
@@ -271,7 +289,6 @@ export default {
 
             const domPos = domGeom.position(this.domNode);
             const pos = domGeom.position(cntr);
-            pos.w -= 30;
             pos.h = domPos.h;
 
             const container = db.div("MatchSimulatorContainer MatcAnimationComposerSimulator")
@@ -318,6 +335,8 @@ export default {
         if (!this.openAIKey) {
             this.tab = 'settings'
         }
+
+        console.debug(domGeom.position(this.$refs.simCntr))
 
     }
 }

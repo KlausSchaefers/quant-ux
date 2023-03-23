@@ -74,7 +74,7 @@ export default {
 		showDesignGPT (e) {
 			const dialog = new Dialog()
 			const db = new DomBuilder();
-			const popup = db.div("MatcDialog MatchImportDialog MatcPadding").build();
+			const popup = db.div("MatcDialog MatchImportDialog MatchImportOpenAIDialog MatcPadding").build();
       		dialog.popup(popup, e.target);
       		
 			const aiDialog = this.$new(DesignGPTDialog)

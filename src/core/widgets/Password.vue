@@ -25,9 +25,14 @@ export default {
     postCreate: function() {
       this.log = new Logger("Password");
 
-      this.input = document.createElement("input");
-      this.input.type = "password";
-      this.input.autocomplete = "off";
+      if (this.mode == "simulator") {
+        this.input = document.createElement("input");
+        this.input.type = "password";
+        this.input.autocomplete = "off";
+      } else {
+        this.input = document.createElement("div");
+        css.add(this.input, "MatcWidgetTypeTextBoxPreview");
+      }
       css.add(this.input, "MatcWidgetTypeTextBoxInput");
 
       var formElement = document.createElement("form");
