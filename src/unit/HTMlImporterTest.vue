@@ -1,7 +1,7 @@
 <template>
   <div class="MatcPadding" id="">
     <h1>HTML Importer 
-    
+      <input v-model="selectedPage" @change="onChangeSelectedPage()"/>
     </h1>
 
     <div class="config">
@@ -92,8 +92,7 @@ pre {
   padding: 8px;
   font-size: 10px;
   text-align: left;
-  height: 24px;
-  width: 24px;
+
   border-radius: 8px;
   overflow: hidden;
 }
@@ -104,7 +103,7 @@ pre {
 }
 
 .config ul {
-  opacity: 0;
+
   list-style: none;
   margin: 0px;
   padding: 0px;
@@ -119,18 +118,21 @@ pre {
 <script>
 
 import HTMLImporter from '../core/ai/HTMLImporter'
-import { html1, html2 } from './data/htmlLogin'
+import { html1, html2, html3, html4, html5, html6, html7, html8} from './data/htmlImport'
 import DomBuilder from 'common/DomBuilder'
 import domGeom from 'dojo/domGeom'
 import ScrollContainer from 'common/ScrollContainer'
 import Simulator from 'core/Simulator'
 import * as DojoUtil from 'dojo/DojoUtil';
+import * as StyleImporter from 'core/ai/StyleImporter'
 
 export default {
   name: "home",
   mixins: [],
   data: function () {
     return {
+      testPages: [html1, html2, html3, html4, html5, html6, html7, html8],
+      selectedPage: 0,
       hasJSON: false,
       isRemoveContainers: false,
       isDefaultStyle: false,
@@ -147,39 +149,18 @@ export default {
       const importer = new HTMLImporter()
       let defaultStyle = null
       if (this.isDefaultStyle) {
-        defaultStyle = {
-          "fontSize": 14,
-          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
-          "textAlign": "left",
-          "letterSpacing": 0,
-          "lineHeight": 1,
-          "color": "#333333",
-          "paddingTop": 0,
-          "paddingBottom": 0,
-          "paddingLeft": 0,
-          "paddingRight": 0,
-          "borderTopRightRadius": 3,
-          "borderTopLeftRadius": 3,
-          "borderBottomRightRadius": 3,
-          "borderBottomLeftRadius": 3,
-          "borderTopWidth": 1,
-          "borderBottomWidth": 1,
-          "borderRightWidth": 1,
-          "borderLeftWidth": 1,
-          "verticalAlign": "middle",
-          "borderTopColor" : "#333333",
-          "borderBottomColor" : "#333333",
-          "borderRightColor" : "#333333",
-          "borderLeftColor" : "#333333",
-          "background" : "#ffffff"
-        }
+          defaultStyle = StyleImporter.getDefaultStyle()
       }
-      const [result, tree] = await importer.html2QuantUX(this.html, this.$refs.inner, 400, 600, {
+      const result = await importer.html2QuantUX(this.html, this.$refs.inner, 400, 600, {
+        grid: {
+          w:8,
+          h: 8
+        },
         isRemoveContainers: this.isRemoveContainers,
         defaultStyle: defaultStyle
       })
       //this.result = JSON.stringify(result, null, 2)
-      this.result = JSON.stringify(tree, null, 2)
+      this.result = JSON.stringify(result, null, 2)
       if (!this.hasJSON) {
 
         const sim = this.renderSimulator(this.$refs.simCntr)
@@ -219,16 +200,20 @@ export default {
       cntr.appendChild(container);
       return s;
     },
-
+    onChangeSelectedPage () {
+      localStorage.setItem('quxHTMLImpoterPage', this.selectedPage)
+    },
+    setHTML () {
+      this.html = this.testPages[this.selectedPage]
+      this.run()
+    }
   },
   mounted() {
-
-    if (this.isSmall) {
-      this.html = html2
-    } else {
-      this.html = html1
+    if (localStorage.getItem('quxHTMLImpoterPage')) {
+      this.selectedPage = localStorage.getItem('quxHTMLImpoterPage') * 1
     }
-    this.run()
+    this.setHTML()
+
   }
 };
 </script>

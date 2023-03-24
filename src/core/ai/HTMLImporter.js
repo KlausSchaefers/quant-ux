@@ -16,16 +16,33 @@ const pixelStyles = {
     'border-left-width': 'borderLeftWidth',
     'border-top-width': 'borderTopWidth',
 
-
-  
     'padding-top': 'paddingTop',
     'padding-bottom': 'paddingBottom',
     'padding-right': 'paddingRight',
     'padding-left': 'paddingLeft',
 
     'font-size': 'fontSize',
-  
 }
+
+const borderWidthKeys = [
+    'borderBottomWidth',
+    'borderRightWidth',
+    'borderLeftWidth',
+    'borderTopWidth',
+]
+const borderColorKeys = [
+    'borderTopColor',
+    'borderRightColor',
+    'borderBottomColor',
+    'borderLeftColor'
+]
+
+const paddingKeys = [
+    'paddingTop',
+    'paddingBottom',
+    'paddingRight',
+    'paddingLeft'
+]
 
 const stringStyles = {
     'border-top-style': 'borderTopStyle',
@@ -41,11 +58,11 @@ const stringStyles = {
     'letter-spacing': 'letterSpacing',
 	'line-height': 'lineHeight',
 
-
     'text-align': 'textAlign',
-    //'font-family': 'fontFamily',
     'font-weight': 'fontWeight',
-    'text-decoration': 'textDecoration'
+    'text-decoration': 'textDecoration',
+
+    'opacity': 'opacity'
 }
 
 const colorStyles = {
@@ -58,26 +75,6 @@ const shadowStyles = {
     'box-shadow': 'boxShadow',
 }
 
-const borderKeys = [
-    'borderBottomLeftRadius',
-    'borderBottomRightRadius',
-    'borderTopLeftRadius',
-    'borderTopRightRadius',
-    'borderBottomWidth',
-    'borderRightWidth',
-    'borderLeftWidth',
-    'borderTopWidth',
-
-    'borderTopStyle',
-    'borderBottomStyle',
-    'borderRightStyle',
-    'borderLeftStyle',
-
-    'borderTopColor',
-    'borderRightColor',
-    'borderBottomColor',
-    'borderLeftColor'
-]
 
 
 export default class HTMLImporter {
@@ -87,6 +84,8 @@ export default class HTMLImporter {
         this.isRemoveScreenOffset = false
         this.isRemoveContainers = false
         this.defaultStyle = false
+        this.isParseTable = true
+        this.grid = false
     }
 
     getUUID (){
@@ -99,6 +98,7 @@ export default class HTMLImporter {
         this.isRemoveNonLeafs = options.isRemoveNonLeafs
         this.isRemoveContainers = options.isRemoveContainers
         this.defaultStyle = options.defaultStyle
+        this.grid = options.grid
 
 
         node.innerText = ''
@@ -121,11 +121,14 @@ export default class HTMLImporter {
         const tree = this.createWidget(body)
         this.parseNode(body, tree)
         this.propagateCSS(tree)
+        this.cleanTree(tree)
         //this.printTree(tree)
         const app = this.flattenTree(tree, width, height, options)
-        this.cleanUpModel(app)
+     
         const scalledApp = this.scalledApp(app)
-        return [scalledApp, tree]
+        const layedOutApp = this.layoutApp(scalledApp)
+        this.cleanUpModel(app)
+        return layedOutApp
     }
 
     printTree(node, prefix=''){
@@ -140,6 +143,13 @@ export default class HTMLImporter {
        
     }
 
+    layoutApp (app) {
+        if (this.grid) {
+            Logger.log(-1, 'HTMLImporter.layoutApp() > grid ', this.grid)
+        }
+        return app
+    }
+
     scalledApp (app) {
         const width = app.screenSize.w
        
@@ -152,8 +162,11 @@ export default class HTMLImporter {
 
                 s.children.forEach(id => {
                     const widget = app.widgets[id]
-                    widget.y *= f
-                    widget.w *= f
+                    widget.y = Math.floor(widget.y * f)
+                    widget.w = Math.ceil(widget.w * f)
+                    if (widget.style.fontSize) {
+                        widget.style.fontSize = Math.floor(widget.style.fontSize  * f)
+                    }
                 })
             }
         })
@@ -217,10 +230,41 @@ export default class HTMLImporter {
         })
 
         Object.values(app.widgets).forEach(w => {
+            this.setDefaultStyle(w)
             this.cleanUpWidget(w)
         })
 
         return app
+    }
+
+    setDefaultStyle (w) {
+        if (this.defaultStyle) {
+            let overwrites = this.getDefaultOverwrites(w)
+            for (let key in overwrites) {
+                w.style[key] = overwrites[key]
+            }
+        }
+    }
+
+    getDefaultOverwrites (w) {
+        const type = w.type
+        if (type === "Button") {
+            if (w.children.length > 0) {
+                return this.defaultStyle['Container']
+            }
+            return this.defaultStyle['Button']
+        }
+        if (type === "Label") {
+            return this.defaultStyle['Label']
+        }
+        if (type === "TextBox") {
+            return this.defaultStyle['TextBox']
+        }
+        if (type === "Table") {
+            return this.defaultStyle['Table']
+        }
+        return this.defaultStyle['Default']
+        
     }
 
     cleanUpScreen(s, app) {
@@ -229,19 +273,33 @@ export default class HTMLImporter {
         s.w = app.screenSize.w
         s.x = 0
         s.y = 0
-        
-        s.style = {
-            background: s.style.background
+        if (this.defaultStyle) {
+            s.style = {
+                background: this.defaultStyle['Screen'].background
+            }
+        } else {
+            s.style = {
+                background: s.style.background
+            }
         }
+        
     }
 
     cleanUpWidget (w) {
-        if (w.type === 'Label') {
-            for (let key of borderKeys) {
+
+        for (let key in w.style) {
+            const value = w.style[key]
+            if (value === null) {
                 delete w.style[key]
             }
-            delete w.style.background
         }
+
+        if (!this.isParseTable) {
+            //we could add here some table groups
+            // and remove all the TR, THEAD and TBODY
+        }
+      
+        delete w._parent
         delete w.children
         delete w._tag
         delete w._className
@@ -262,8 +320,16 @@ export default class HTMLImporter {
     }
 
     isHiddenElement(widget) {
-        if (widget._tag === 'FORM') {
-            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > FORM' , widget)
+
+        if (isInvisibleButton(widget)) {
+            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > Invisble' , widget)
+            return true
+        }
+        if (widget.style.opacity === 0) {
+            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > Opacity' , widget)
+            /** 
+             * We should also remove all the children.
+             */
             return true
         }
         if (widget.type === 'Label' && !widget.props.label) {
@@ -291,8 +357,6 @@ export default class HTMLImporter {
             app.widgets[child.id] = child
             scrn.children.push(child.id)
        
-            // check if we need to inline a label
-            // FIXME: we can have here weird shitty stuff like <span><b>lala
             if (child.children.length === 1 && child.children[0].type === 'Label') {
                 Logger.log(1, 'HTMLImporter.flattenNode()' , child.children[0].props.label)
                 child.props.label = child.children[0].props.label
@@ -304,24 +368,43 @@ export default class HTMLImporter {
         })
     }
 
+    cleanTree(node) {
+        node.children.forEach(child => {
+            if (child.style.opacity === 0) {
+                Logger.log(-1, 'HTMLImporter.cleanTree() > Opacity' , child)
+                child.children = []
+            }
+            this.cleanTree(child)
+        })
+    }
+
     parseNode (node, parent, prefx='BODY.', logLevel = 1) {
        
         const children = node.childNodes;
+
+        const addChild = (child) => {
+            parent.children.push(child)
+            child._parent = parent
+        }
 
         for (let i = 0; i < children.length; i++) {
             const child = children[i]
             const isLeaf = isLeafNode(child)
             if (child.nodeType === ELEMENT_NODE) {
-                if (!isLeaf) {
+                if (isTable(child) && this.isParseTable) {
+                    const table = this.createTableWidget(child)
+                    Logger.log(logLevel, 'HTMLImpoter.createWidget() > TABLE', `${prefx}${child.tagName}}`)
+                    addChild(table)
+                } else if (!isLeaf) {
                     const widget = this.createWidget(child, prefx)
                     Logger.log(logLevel, 'HTMLImpoter.createWidget() > CNTR', `${prefx}${child.tagName} > ${widget.type}`)
-                    parent.children.push(widget)
+                    addChild(widget)
                     this.parseNode(child, widget, prefx + child.tagName + '.' )
                 } else {
                     const label = getLeafNodeLabel(child)
                     const widget = this.createWidget(child, prefx)
                     Logger.log(logLevel, 'HTMLImpoter.createWidget() > Leave', `${prefx}${child.tagName} > ${widget.type} : ${label}`)
-                    parent.children.push(widget)
+                    addChild(widget)
                     if (label && label.trim()) {
                         widget.props.label = label.trim()
                     }
@@ -334,10 +417,115 @@ export default class HTMLImporter {
                     const widget = this.createWidget(child, prefx)
                     widget.props.label = label.trim()
                     Logger.log(logLevel, 'HTMLImpoter.createWidget() > Text Leave', `${prefx}${child.tagName} > ${widget.type} : ${label}`)
-                    parent.children.push(widget)
+                    addChild(widget)
                 }
            }
         }
+    }
+
+    createTableWidget (node, importPadding=true) {
+        Logger.log(1, 'HTMLImpoter.createTableWidget() > ')
+
+        const data = this.getTableData(node)
+       
+        const widget = this.createWidget(node)
+        widget.type = 'Table'
+        widget.props.data = data
+        widget.children = []
+        widget.style.paddingTop = 1
+		widget.style.paddingBottom = 1
+        widget.style.paddingLeft = 1
+		widget.style.paddingRight = 1
+		widget.style.headerSticky = true
+	    widget.style.headerColor = "#fff"
+        widget.style.headerFontWeight = "800"
+		widget.style.headerBackground = "#333333"
+		widget.style.headerSticky = true
+	    widget.style.headerColor = "#fff"
+		widget.style.checkBox = false
+		widget.style.checkBoxHookColor = "#333333"
+		widget.style.checkBoxBackground = "#ffffff"
+		widget.style.checkBoxBorderColor = "#333333"
+		widget.style.checkBoxBorderRadius = 2
+		widget.style.checkBoxBorderWidth = 1
+
+        // guess border && padding
+        const td = node.getElementsByTagName('td')[0]
+        if (td) {
+            const compStyle = getComputedStyle(td)
+            const w = parsePixel(compStyle.borderTopWidth)
+            borderWidthKeys.forEach(key => {
+                widget.style[key] = w
+            })
+            const c = compStyle.borderTopColor
+            borderColorKeys.forEach(key => {
+                widget.style[key] = c
+            })
+
+            if (importPadding) {
+                paddingKeys.forEach(key => {
+                    const padding = parsePixel(compStyle[key])
+                    widget.style[key] = padding
+                })
+            }  
+        }
+        
+        // guess header
+        const th = node.getElementsByTagName('th')[0]
+        widget.style.headerBackground = 
+            this.getTableHeaderStyle(th, 'backgroundColor', '#333333')
+        widget.style.headerColor = 
+            this.getTableHeaderStyle(th, 'color', '#333333')
+      
+
+
+        return widget
+    }
+
+    getTableHeaderStyle(node, style, defaultValue) {
+        const compStyle = getComputedStyle(node)
+        const value = compStyle[style]
+        if (isTranparent(value)) {
+            const parent = node.parentNode
+            if (parent && !isTable(parent)) {
+                return this.getTableHeaderStyle(parent, style, defaultValue)
+            }
+            return defaultValue
+        }
+        return value
+    }
+
+    getTableData (table, data = []) {
+
+        const addRow = () => {
+            const newRow = []
+            data.push(newRow)
+            return newRow
+        }
+
+        const header = table.getElementsByTagName('th');
+        if (header.length) {
+            const dataRow = addRow()
+            for (let c= 0; c < header.length; c++) {
+                const cell = header[c]
+                dataRow[c] = cell.innerText
+            }
+        }
+      
+        const trs = table.getElementsByTagName('tr');
+        for (let r= 0; r < trs.length; r++) {
+            const tr = trs[r]
+            const tds = tr.getElementsByTagName('td');
+            if (tds.length > 0) {
+                const dataRow = addRow()
+                for (let c = 0; c < tds.length; c++) {
+                    const td = tds[c]
+                    dataRow[c] = td.innerText
+                }
+            }
+            
+        }
+        return data
     }
 
     createWidget(node) {
@@ -357,7 +545,7 @@ export default class HTMLImporter {
         const widgetType = this.getWidgetType(node)
         const pos = this.getPosition(node)
         const style = this.getStyle(node)
-        const has = this.getHas(node)
+        const has = this.getHas(widgetType)
         const props = this.getProps(node)
 
         const widget = {
@@ -417,7 +605,15 @@ export default class HTMLImporter {
         return result
     }
 
-    getHas() {
+    getHas(type) {
+        if (type === 'Label') {
+            return {
+                "label": true,
+                "padding": true,
+                "advancedText": true
+            }
+        }
+        
         return {
             "label" : true,
             "backgroundColor" : true,
@@ -429,21 +625,10 @@ export default class HTMLImporter {
     }
 
     getStyle(node, pseudoElt = '') {
-       
         if (node.nodeType != 1) {
             return {}
         }
-
-        if (this.defaultStyle) {
-            return this.getDefaultStyle(node, pseudoElt)
-        } else {
-            return this.getCurrentStyle(node, pseudoElt)
-        }
-    }
-
-    getDefaultStyle () {
-        // make this much smarter depending on the type
-        return JSON.parse(JSON.stringify(this.defaultStyle))
+        return this.getCurrentStyle(node, pseudoElt)
     }
 
     getCurrentStyle(node, pseudoElt) {
@@ -485,6 +670,8 @@ export default class HTMLImporter {
                 }
             }
 
+            result.opacity = compStyle.opacity * 1
+
         
         } catch(err) {
             Logger.error('HTMLImporter.getStyle()', err)
@@ -497,9 +684,10 @@ export default class HTMLImporter {
                 result.borderBottomWidth = 1
                 result.borderLeftWidth = 1
                 result.borderRightWidth = 1
-                result.colorButton = result.color
+                result.colorButton = result.borderTopColor
             }
         }
+
         return result
     }
 
@@ -591,14 +779,46 @@ function parseShadow(value) {
 
 
 function parsePixel(value) {
+    if (!value) {
+        return 0
+    }
     if (value.indexOf('px')) {
         value = value.slice(0, -2);
     }
     return Math.round(value * 1)
 }
 
+function isInvisibleButton(widget) {
+    if (widget.type !== "Button") {
+       return false
+    }
+    if (isTranparent(widget.style.background) && isNoBorder(widget)) {
+        return true
+    }
+    return false
+}
+
+function isNoBorder(widget) {
+    const style = widget.style
+    let sum = 0
+    borderWidthKeys.forEach(key => {
+        sum += style[key]
+    })
+    return sum === 0
+}
+
+
+
+function isTranparent(color) {
+    return !color || color === 'rgba(0, 0, 0, 0)' || color === 'transparent'
+}
+
 function isSubmit(node) {
     return node.type && node.type.toLowerCase() === 'submit'
+}
+
+function isTable(node) {
+    return node.tagName === 'TABLE'
 }
 
 function isReset(node) {

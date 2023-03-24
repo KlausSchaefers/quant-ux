@@ -9,6 +9,7 @@
         "error-no-content": "The server returned no result",
         "error-no-idea": "Something went wrong",
         "is-wireframe": "Create as wireframe",
+        "is-minimal": "Minimize elements",
         "tab-prompt": "Design GPT",
         "tab-settings": "Settings",
         "key-title": "Your OpenAI API key",

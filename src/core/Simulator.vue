@@ -564,7 +564,7 @@ export default {
 			if (this.model.screenSize.h > this.screenPos.h) {
 				// sometimes we might need to rescale the screenPos, because the "this.model.screenSize.h "
 				// is not correclty rounded
-				this.logger.warn("updateScale","exit > h:" + this.screenPos.h + " < " + this.model.screenSize.h  );
+				this.logger.log(-1, "updateScale","exit > h:" + this.screenPos.h + " < " + this.model.screenSize.h  );
 				this.screenPos.h = this.model.screenSize.h
 			}
 		},

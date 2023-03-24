@@ -347,3 +347,237 @@ export const html5 = `
     </form>
   </body>
 </html>`
+
+
+export const html6 = `
+<html>
+
+<head>
+	<title>Login Page</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+		h1 {
+			text-align: center;
+			color: #555;
+		}
+		form {
+			max-width: 400px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0,0,0,0.3);
+		}
+		input[type=text], input[type=password] {
+			width: 100%;
+			padding: 12px 20px;
+			margin: 8px 0;
+			display: inline-block;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+		button {
+			background-color: red;
+			color: #fff;
+			padding: 14px 20px;
+			margin: 8px 0;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		button:hover {
+			background-color: #d70000;
+		}
+		a {
+			color: #555;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<h1>Login Page</h1>
+	<form>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" required>
+
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required>
+
+		<button type="submit">Login</button>
+	</form>
+	<p>Forgot your password? <a href="#">Reset it here</a>.</p>
+</body>
+</html>`
+
+
+
+export const html7 = `
+<html>
+
+<head>
+	<title>Login Page</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		.red th{
+			background:red;
+			color:#fff
+		}
+
+		.green {
+			border-collapse: collapse;
+			border-spacing: 0;
+			color: green
+		}
+
+		.green th, .green td{
+			border:1px solid green;
+			padding:10px
+		}
+		.green thead{
+			background:green;
+			color:black
+			
+		}
+
+		.blue .header{
+			background:blue;
+			color:#fff
+		}
+	</style>
+</head>
+<body>
+	<h1>Table Page</h1>
+	
+	<table class="red">
+		<tr>
+			<th>Person 1</th>
+			<th>Person 2</th>
+			<th>Person 3</th>
+		</tr>
+		<tr>
+			<td>Emil</td>
+			<td>Tobias</td>
+			<td>Linus</td>
+		</tr>
+		<tr>
+			<td>16</td>
+			<td>14</td>
+			<td>10</td>
+		</tr>
+		</table>
+
+
+		<table class="blue">
+		<tr class="header">
+			<th>Person 1</th>
+			<th>Person 2</th>
+			<th>Person 3</th>
+		</tr>
+		<tr>
+			<td>Emil</td>
+			<td>Tobias</td>
+			<td>Linus</td>
+		</tr>
+		<tr>
+			<td>16</td>
+			<td>14</td>
+			<td>10</td>
+		</tr>
+		</table>
+
+
+		<table class="green">
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Savings</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>January</td>
+      <td>$100</td>
+    </tr>
+    <tr>
+      <td>February</td>
+      <td>$80</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>Sum</td>
+      <td>$180</td>
+    </tr>
+  </tfoot>
+</table>
+</body>
+</html>`
+
+
+export const html8 = `
+<html>
+
+<head>
+	<title>Login Page</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		div {
+			outline: solid blue;
+			padding:20px
+		}
+
+		.border{
+			border:1px solid red;
+	
+			outline: none;
+		}
+
+		.opac {
+			opacity:0;
+			border:1px solid yellow
+		}
+
+
+	
+	</style>
+</head>
+<body>
+	<h1>Remove invisible Page</h1>
+
+	<div class="border">
+
+		<div class="invisble">
+
+		<div class="invisble">
+
+			<div class="border">
+				<button>Click</button>
+			</div>
+
+		</div>
+
+		</div>
+
+	
+	</div>
+
+	<div class="opac">
+		Should not be seen
+
+	<div>
+	
+
+</body>
+</html>`

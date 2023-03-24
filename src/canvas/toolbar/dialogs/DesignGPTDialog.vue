@@ -47,7 +47,12 @@
                             <CheckBox 
                                 :value="isWireFrame" 
                                 :label="getNLS('design-gpt.is-wireframe')" 
-                                @change="onChangeSettings"/>
+                                @change="onChangeWireFrame"/>
+
+                            <CheckBox 
+                                :value="isMinimal" 
+                                :label="getNLS('design-gpt.is-minimal')" 
+                                @change="onChangeMinimal"/>
                         </div>
               
                     </div>
@@ -141,6 +146,7 @@ export default {
             hint: this.getNLS('design-gpt.no-preview'),
             promptHistory: [],
             isWireFrame: false,
+            isMinimal: false,
             fidelityOptions: [
                 {value: 'high', label: 'High Fidelity'},
                 {value: 'low', label: 'Low Fidelity'}
@@ -248,18 +254,30 @@ export default {
             this.$refs.simCntr.innerHTML = ''
         },
 
-        onChangeSettings (v) {
+        onChangeWireFrame (v) {
             this.isWireFrame = v
-            this.cleanUp()
-            this.buildApp(this.html)
+            localStorage.setItem('quxOpenAIIsWireFrame', v)
+            if (this.html) {
+                //this.cleanUp()
+                this.buildApp(this.html)
+            }
+        },
+
+        onChangeMinimal(v) {
+            this.isMinimal = v
+            localStorage.setItem('quxOpenAIIsMinimal', v)
+            if (this.html) {
+                //this.cleanUp()
+                this.buildApp(this.html)
+            }
         },
 
         async buildApp (html) {
             const width = this.model.screenSize.w
             const height = this.model.screenSize.h
             const importer = new HTMLImporter(this.model.lastUUID)
-            const [result] = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
-                    isRemoveContainers: this.isWireFrame,
+            const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
+                    isRemoveContainers: this.isMinimal,
                     defaultStyle: this.getDefaultStyle()
             })
             if (result) {
@@ -276,11 +294,13 @@ export default {
         },
 
         async buildPreview () {
-            const sim = this.renderSimulator(this.$refs.simCntr);
-            sim.doNotRunOnLoadAnimation = true
-            sim.doNotExecuteScripts = true
-            sim.setModel(this.preview);
-            this.simulator = sim;
+            if (!this.simulator) {
+                const sim = this.renderSimulator(this.$refs.simCntr);
+                sim.doNotRunOnLoadAnimation = true
+                sim.doNotExecuteScripts = true
+                this.simulator = sim;
+            }
+            this.simulator.setModel(this.preview);
         },
 
         renderSimulator(cntr) {
@@ -332,6 +352,8 @@ export default {
     mounted() {
         this.logger = new Logger("DesignGPTDialog");
         this.openAIKey = localStorage.getItem('quxOpenAIKey')
+        this.isWireFrame = localStorage.getItem('quxOpenAIIsWireFrame')=== 'true' ? true : false
+        this.isMinimal = localStorage.getItem('quxOpenAIIsMinimal') === 'true' ? true : false
         if (!this.openAIKey) {
             this.tab = 'settings'
         }
