@@ -518,6 +518,44 @@ export const html7 = `
     </tr>
   </tfoot>
 </table>
+
+<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User table</title>
+</head>
+<body>
+    <h1>List of Users</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date of birth</th>
+                <th>Job</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Doe</td>
+                <td>01/01/1990</td>
+                <td>Web Developer</td>
+            </tr>
+            <tr>
+                <td>Jane Smith</td>
+                <td>04/15/1985</td>
+                <td>Graphic Designer</td>
+            </tr>
+            <tr>
+                <td>James Johnson</td>
+                <td>11/25/1978</td>
+                <td>Project Manager</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+
 </body>
 </html>`
 

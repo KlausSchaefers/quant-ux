@@ -179,6 +179,46 @@ export function getDefaultStyle () {
 
 }
 
+export function getCustomStyles (app) {
+    const result = {
+    }
+
+    getMostUsedStyles(Object.values(app.screens))
+
+    return result
+}
+
+function getMostUsedStyles (elements, keys = ['background', 'color']) {
+    const counts = {}
+    elements.forEach(e => {
+        const style = e.style
+        keys.forEach(key => {
+            const value = style[key]
+            if (value) {
+                if (!counts[key]) {
+                    counts[key] = {}
+                }
+                if (!counts[key][value]) {
+                    counts[key][value] = 0
+                }
+    
+                counts[key][value]++
+            }
+          
+        })
+    })
+    console.debug(counts)
+    keys.forEach(key => {
+        const keyCounts = counts[key]
+        const pairs = Object.keys(keyCounts).map(key => {
+            return {key: key, value: keyCounts[key]}
+        })
+        console.debug(key, pairs)
+    })
+   
+    
+}
+
 
 
 /**

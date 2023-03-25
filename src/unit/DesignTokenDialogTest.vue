@@ -22,7 +22,7 @@
 <script>
 
 import DesignTokenDialog from 'canvas/toolbar/dialogs/DesignTokenDialog'
-import designToken1 from './data/designToken1.json'
+import designGPT from './data/designGPT.json'
 
 export default {
   name: "DataSettingsTest",
@@ -44,7 +44,7 @@ export default {
       }
   },
   mounted() {
-    this.$refs.dialog.setModel(designToken1)
+    this.$refs.dialog.setModel(designGPT)
 
 
   }

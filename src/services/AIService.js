@@ -62,8 +62,9 @@ export default class AIService extends AbstractService {
             error: 'design-gpt.error-no-idea'
         }
     }
+    
 
-    async runGPT35Turbo (message, key) {
+    async runGPT35Turbo (message, key, app) {
         const prompt =`
             Please create a HTML page for the following
             description:
@@ -80,7 +81,11 @@ export default class AIService extends AbstractService {
             'openAIPayload': {
                 "model": "gpt-3.5-turbo",
                 "messages": [
-                    {"role": "system", "content": "You are HTMLGPT, a masterful webdeveloper."},
+                    {"role": "system", "content": "You are HTMLGPT, a masterful webdeveloper skillful in HTML and CSS"},
+                    {"role": "system", "content": `
+                        The website you generate should run on a ${app.type} device.
+                        The screen with is ${app.screenSize.w} pixel
+                    `},
                     {"role": "user", "content": prompt}
                 ]
             }

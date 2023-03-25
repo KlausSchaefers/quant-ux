@@ -99,6 +99,7 @@ export default class HTMLImporter {
         this.isRemoveContainers = options.isRemoveContainers
         this.defaultStyle = options.defaultStyle
         this.grid = options.grid
+        this.z = 1
 
 
         node.innerText = ''
@@ -558,11 +559,14 @@ export default class HTMLImporter {
             y: pos.y,
             w: pos.w,
             h: pos.h,
+            z: this.z,
             props: props,
             has:has,
             style: style,
             children: []
         }
+
+        this.z++
 
         widget.active = {} // this.getDifStyle(style, this.getStyle(node, getActivePseudo(node)))
         widget.hover = {} //this.getDifStyle(style, this.getStyle(node, '::hover'))

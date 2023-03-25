@@ -40,7 +40,12 @@
                     <div class="MatchImportDialogCntr ">
                         <div class="field">
                             <label>{{ getNLS('design-gpt.prompt') }}</label>
-                            <textarea type="text" class="input" v-model="prompt"></textarea>
+                            <textarea 
+                                type="text" 
+                                class="input" 
+                                v-model="prompt" 
+                                @keyup="onKeyUp($event)" 
+                                ref="promptBox"></textarea>
                         </div>
 
                         <div class="MatchImportDialogCntrConfig">
@@ -187,6 +192,20 @@ export default {
             this.$emit('cancel')
         },
 
+        onKeyUp (e) {
+            if (e.key === '#') {
+                this.logger.log(-1, 'onKeyUp', '#')
+                // show color selector..
+                //this.insertAtCursor(this.$refs.promptBox, '333333')
+            }
+        },
+
+        insertAtCursor(el, newText) {
+            const [start, end] = [el.selectionStart, el.selectionEnd];
+            el.setRangeText(newText, start, end, 'select');
+            el.setSelectionRange(start + newText.length, start + newText.length);
+        },
+
         async onSave() {
             this.logger.log(-1, 'onSave', 'enter')
 
@@ -235,7 +254,7 @@ export default {
             this.promptHistory.push(this.prompt)
            
             const aiService = Services.getAIService()
-            const result = await aiService.runGPT35Turbo(this.prompt, this.openAIKey)
+            const result = await aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model)
             if (result.error) {
                 this.errorMSG = this.getNLS(result.error)
             } else {
@@ -357,9 +376,6 @@ export default {
         if (!this.openAIKey) {
             this.tab = 'settings'
         }
-
-        console.debug(domGeom.position(this.$refs.simCntr))
-
     }
 }
 </script>
