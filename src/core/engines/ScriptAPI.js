@@ -159,6 +159,10 @@ export default class ScriptAPI {
         throw new Error(`Screen "${name}" not found.`)
     }
 
+    vibrate (pattern) {
+        this.vibratePattern = pattern
+    }
+
     getAppDeltas () {
         return this.appDeltas
     }

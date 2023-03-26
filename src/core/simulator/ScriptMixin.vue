@@ -113,9 +113,12 @@ export default {
         return new Promise(async(resolve) => {
             const engine = new ScriptEngine()
             let result = await engine.run(script, this.model, this.dataBindingValues, event).then()
+
+
     
             if (result.status === 'ok') {     
                 requestAnimationFrame( () => {
+                    this.vibrate(result)
                     this.renderAppChanges(result)
                     this.renderScriptDataBinding(result)  
                     this.renderScriptTo(result, widget, orginalLine)
@@ -126,6 +129,17 @@ export default {
                 resolve(result)
             }
         }) 
+    },
+
+    vibrate(result) {
+        if (result.vibratePattern) {
+            this.logger.log(-1,"vibrate","enter", result.vibratePattern);
+            try {
+                navigator.vibrate(result.vibratePattern)
+            } catch (err) {
+                this.logger.error("vibrate","Err", err);
+            }        
+        }
     },
 
     getScriptSourceEvent (line) {

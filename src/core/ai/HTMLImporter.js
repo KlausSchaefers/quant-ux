@@ -1,10 +1,13 @@
 import Logger from '../Logger'
+import * as Layouter from './Layouter'
 
 const TEXT_NODE = 3
 
 const ELEMENT_NODE = 1
 
-const labelTypes = new Set(['LABEL', 'H1', 'H2', 'H3', 'H4', 'P', 'A'])
+const labelTypes = new Set(['LABEL', 'H1', 'H2', 'H3', 'H4', 'P', 'A', 'CAPTION'])
+
+const nullableStyles = new Set(['backgroundImage'])
 
 const pixelStyles = {
     'border-bottom-left-radius': 'borderBottomLeftRadius',
@@ -123,7 +126,6 @@ export default class HTMLImporter {
         this.parseNode(body, tree)
         this.propagateCSS(tree)
         this.cleanTree(tree)
-        //this.printTree(tree)
         const app = this.flattenTree(tree, width, height, options)
      
         const scalledApp = this.scalledApp(app)
@@ -145,9 +147,11 @@ export default class HTMLImporter {
     }
 
     layoutApp (app) {
-        if (this.grid) {
-            Logger.log(-1, 'HTMLImporter.layoutApp() > grid ', this.grid)
+        Logger.log(1, 'HTMLImporter.layoutApp() > grid ', this.grid)
+        if (this.grid && this.defaultStyle) {
+            app = Layouter.gridify(app, this.grid.w, this.grid.h)
         }
+        app = Layouter.layout(app)
         return app
     }
 
@@ -264,6 +268,18 @@ export default class HTMLImporter {
         if (type === "Table") {
             return this.defaultStyle['Table']
         }
+        if (type === "RadioBox2") {
+            return this.defaultStyle['RadioBox']
+        }
+        if (type === "CheckBox") {
+            return this.defaultStyle['CheckBox']
+        }
+        if (type === "DropDown") {
+            return this.defaultStyle['DropDown']
+        }
+        if (type === "Image") {
+            return this.defaultStyle['Image']
+        }
         return this.defaultStyle['Default']
         
     }
@@ -289,10 +305,12 @@ export default class HTMLImporter {
     cleanUpWidget (w) {
 
         for (let key in w.style) {
-            const value = w.style[key]
-            if (value === null) {
-                delete w.style[key]
-            }
+            if (!nullableStyles.has(key)){
+                const value = w.style[key]
+                if (value === null) {
+                    delete w.style[key]
+                }
+            }         
         }
 
         if (!this.isParseTable) {
@@ -323,22 +341,22 @@ export default class HTMLImporter {
     isHiddenElement(widget) {
 
         if (isInvisibleButton(widget)) {
-            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > Invisble' , widget)
+            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Invisble' , widget)
             return true
         }
         if (widget.style.opacity === 0) {
-            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > Opacity' , widget)
+            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Opacity' , widget)
             /** 
              * We should also remove all the children.
              */
             return true
         }
         if (widget.type === 'Label' && !widget.props.label) {
-            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > Empty Label' , widget)
+            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Empty Label' , widget)
             return true
         }
         if (this.isRemoveContainers && widget.children.length > 0) {
-            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > Container' , widget)
+            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Container' , widget)
             return true
         }
         return false
@@ -392,7 +410,11 @@ export default class HTMLImporter {
             const child = children[i]
             const isLeaf = isLeafNode(child)
             if (child.nodeType === ELEMENT_NODE) {
-                if (isTable(child) && this.isParseTable) {
+                if (isDropDown(child)) {
+                    const table = this.createDropDownWidget(child)
+                    Logger.log(logLevel, 'HTMLImpoter.createWidget() > DropDown', `${prefx}${child.tagName}}`)
+                    addChild(table)
+                } else if (isTable(child) && this.isParseTable) {
                     const table = this.createTableWidget(child)
                     Logger.log(logLevel, 'HTMLImpoter.createWidget() > TABLE', `${prefx}${child.tagName}}`)
                     addChild(table)
@@ -422,6 +444,42 @@ export default class HTMLImporter {
                 }
            }
         }
+    }
+
+    createDropDownWidget (node) {
+
+        Logger.log(1, 'HTMLImpoter.createDropDownWidget() > ')
+
+        const widget = this.createWidget(node)
+        widget.type = 'DropDown'
+        widget.children = []
+        widget.has = {
+            "onclick" : true,
+            "border" : true,
+            "backgroundColor" : true,
+            "data" : true,
+            "padding":true,
+            "label":true
+        }
+        widget.style.paddingTop = 1
+		widget.style.paddingBottom = 1
+        widget.style.paddingLeft = 1
+		widget.style.paddingRight = 1
+        widget.style.popupBackground = "#ffffff"
+        widget.style.popupColor = "#333333"
+        widget.style.selectedOptionColor= "#333333"
+        widget.style.selectedOptionBackground = "#f2f2f2"		
+
+        const options = []
+        const children = node.getElementsByTagName('option');
+        for (let c= 0; c < children.length; c++) {
+            const opt = children[c]
+            options.push(opt.innerText)
+        }
+
+
+        widget.props.options = options
+        return widget
     }
 
     createTableWidget (node, importPadding=true) {
@@ -609,8 +667,7 @@ export default class HTMLImporter {
                 result.formGroup = node.name
                 result.checked = node.checked
             }
-        }
-      
+        }      
         return result
     }
 
@@ -620,6 +677,14 @@ export default class HTMLImporter {
                 "label": true,
                 "padding": true,
                 "advancedText": true
+            }
+        }
+
+        if (type === 'Image') {
+            return {
+                "onclick" : true,
+                "backgroundImage" : true,
+                "borderRadus" : true
             }
         }
         
@@ -709,6 +774,24 @@ export default class HTMLImporter {
 
         }
 
+        if (isImg(node)) {
+            return {
+                "borderTopRightRadius" : 0,
+                "borderTopLeftRadius" : 0,
+                "borderBottomRightRadius" : 0,
+                "borderBottomLeftRadius" : 0,
+                "borderTopWidth" : 0,
+                "borderBottomWidth" : 0,
+                "borderRightWidth" : 0,
+                "borderLeftWidth" : 0,
+                "borderTopColor" : "#333333",
+                "borderBottomColor" : "#333333",
+                "borderRightColor" : "#333333",
+                "borderLeftColor" : "#333333",
+                "backgroundImage" : null
+            }
+        }
+
         return result
     }
 
@@ -756,6 +839,9 @@ export default class HTMLImporter {
         if (node.tagName === 'TEXTAREA') {
             return 'TextArea'
         }
+        if (isImg(node)) {
+            return 'Image'
+        }
         if (node.tagName === 'INPUT') {
             if (isCheckBox(node)) {
                 return 'CheckBox'
@@ -771,7 +857,7 @@ export default class HTMLImporter {
             }
             if (isPassword(node)) {
                 return 'Password'
-            }
+            }           
             return 'TextBox'
         }
         return 'Button'
@@ -841,6 +927,10 @@ function isSubmit(node) {
     return node.type && node.type.toLowerCase() === 'submit'
 }
 
+function isImg(node) {
+    return node.tagName === 'IMG'
+}
+
 function isTable(node) {
     return node.tagName === 'TABLE'
 }
@@ -855,6 +945,10 @@ function isPassword(node) {
 
 function isCheckBox (node) {
     return node.type && node.type.toLowerCase() === 'checkbox'
+}
+
+function isDropDown(node) {
+    return node.tagName === 'SELECT'
 }
 
 function isRadio (node) {

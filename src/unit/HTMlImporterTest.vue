@@ -9,7 +9,7 @@
         <li><input  type="checkbox" v-model="hasJSON"> Show JSON</li>
         <li><input  type="checkbox" v-model="isRemoveContainers" @change="run()"> Remove Container</li>
         <li><input  type="checkbox" v-model="isDefaultStyle" @change="run()"> Default style</li>
-        
+        <li><input  type="checkbox" v-model="isGridEnabled" @change="run()"> Grid</li>
      
       </ul>
     </div>
@@ -118,7 +118,7 @@ pre {
 <script>
 
 import HTMLImporter from '../core/ai/HTMLImporter'
-import { html1, html2, html3, html4, html5, html6, html7, html8, html9} from './data/htmlImport'
+import { html1, html2, html3, html4, html5, html6, html7, html8, html9, html10} from './data/htmlImport'
 import DomBuilder from 'common/DomBuilder'
 import domGeom from 'dojo/domGeom'
 import ScrollContainer from 'common/ScrollContainer'
@@ -131,11 +131,12 @@ export default {
   mixins: [],
   data: function () {
     return {
-      testPages: [html1, html2, html3, html4, html5, html6, html7, html8, html9],
+      testPages: [html1, html2, html3, html4, html5, html6, html7, html8, html9, html10],
       selectedPage: 0,
       hasJSON: false,
       isRemoveContainers: false,
       isDefaultStyle: false,
+      isGridEnabled: false, 
       result: {},
       isSmall: true,
       html: ''
@@ -153,7 +154,8 @@ export default {
       }
       const result = await importer.html2QuantUX(this.html, this.$refs.inner, 400, 600, {
         grid: {
-          w:8,
+          enabled: this.isGridEnabled,
+          w: 8,
           h: 8
         },
         isRemoveContainers: this.isRemoveContainers,

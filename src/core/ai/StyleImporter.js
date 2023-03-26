@@ -92,6 +92,22 @@ const defaultStyle = {
     "boxShadow": null
 }
 
+const defaultImage = {
+    "borderTopRightRadius" : 0,
+    "borderTopLeftRadius" : 0,
+    "borderBottomRightRadius" : 0,
+    "borderBottomLeftRadius" : 0,
+    "borderTopWidth" : 0,
+    "borderBottomWidth" : 0,
+    "borderRightWidth" : 0,
+    "borderLeftWidth" : 0,
+    "borderTopColor" : "#333333",
+    "borderBottomColor" : "#333333",
+    "borderRightColor" : "#333333",
+    "borderLeftColor" : "#333333",
+    "backgroundImage" : null
+}
+
 
 
 export const screenStyle = {
@@ -163,6 +179,54 @@ const tableStyle = {
     "checkBoxBorderWidth": 1
 }
 
+const dropdownStyle = {
+    "borderTopRightRadius" : 3,
+    "borderTopLeftRadius" : 3,
+    "borderBottomRightRadius" : 3,
+    "borderBottomLeftRadius" : 3,
+    "borderTopWidth" : 1,
+    "borderBottomWidth": 1,
+    "borderRightWidth" : 1,
+    "borderLeftWidth" : 1,
+    "borderTopColor" : "#333333",
+    "borderBottomColor" : "#333333",
+    "borderRightColor" : "#333333",
+    "borderLeftColor" : "#333333",
+    "background" : "#ffffff",
+    "popupBackground" : "#ffffff",
+    "popupColor" : "#333333",
+    "color":"#333333",
+    "fontSize" : 18,
+    "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+    "textAlign" : "left",
+    "paddingTop" : 5,
+    "paddingBottom" : 5,
+    "paddingLeft" : 6,
+    "paddingRight" : 6,
+    "selectedOptionColor" : "#333333",
+    "selectedOptionBackground": "#f2f2f2"	
+}
+
+const checkboxStyle = {
+    "borderTopRightRadius": 5,
+    "borderTopLeftRadius": 5,
+    "borderBottomRightRadius": 5,
+    "borderBottomLeftRadius": 5,
+    "borderTopWidth": 1,
+    "borderBottomWidth": 1,
+    "borderRightWidth": 1,
+    "borderLeftWidth": 1,
+    "borderTopColor": "#333333",
+    "borderBottomColor": "#333333",
+    "borderRightColor": "#333333",
+    "borderLeftColor": "#333333",
+    "background": "#ffffff",
+    "color": "#333333",
+    "colorButton": "#333333"
+}
+
+const radioBoxStyle = checkboxStyle
+
 
 
 export function getDefaultStyle () {
@@ -174,7 +238,11 @@ export function getDefaultStyle () {
         Default: defaultStyle,
         Screen: screenStyle,
         TextBox: textboxStyle,
-        Table: tableStyle
+        Table: tableStyle,
+        Image: defaultImage,
+        DropDown: dropdownStyle,
+        CheckBox: checkboxStyle,
+        RadioBox: radioBoxStyle
     }
 
 }

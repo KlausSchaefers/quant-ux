@@ -140,9 +140,28 @@ export const html2 = `
 		input{
 			border: 1px solid red;
 		}
+
+		img {
+			height:100px;
+			width:100px;
+		}
+
+		select {
+			padding:5px;
+			border:1px solid orange;
+			width: 100px
+		}
+
+		.orange {
+			background:orange;
+			color: white
+		}
 	</style>
 </head>
 <body>
+
+	<img />
+
 
 
 	<div>
@@ -161,7 +180,7 @@ export const html2 = `
 		</div>
 
 	
-			<div>
+	<div>
 	<label>
 		<input type="radio" checked="checked" name="radio "> AAA
 	</label>
@@ -169,6 +188,27 @@ export const html2 = `
 	<label>
 		<input type="radio" checked="" name="radio "> BBB
 	</label>
+	</div>
+
+
+	<div>
+		<select id="cars">
+			<option value="volvo">Volvo</option>
+			<option value="saab">Saab</option>
+			<option value="opel">Opel</option>
+			<option value="audi">Audi</option>
+		</select>
+
+	</div>
+
+	<div>
+		<select class="orange">
+			<option value="volvo">Volvo</option>
+			<option value="saab">Saab</option>
+			<option value="opel">Opel</option>
+			<option value="audi">Audi</option>
+		</select>
+
 	</div>
 
 
@@ -742,4 +782,103 @@ export const html9 = `
     </div>
 </div>
 </body>
+</html>`
+
+
+export const html10 = `
+	<html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Login Page</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: sans-serif;
+			}
+
+			.container {
+				width: 100%;
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #F2F2F2;
+			}
+
+			.login-box {
+				width: 320px;
+				padding: 40px;
+				border-radius: 10px;
+				background-color: #fff;
+				box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+			}
+
+			.login-box h2 {
+				font-size: 24px;
+				font-weight: 500;
+				margin: 0 0 20px 0;
+				text-align: center;
+			}
+
+			.login-box label {
+				display: block;
+				font-size: 16px;
+				font-weight: 500;	
+			}
+
+			.login-box input[type="email"],
+			.login-box input[type="password"] {
+				width: 100%;
+				font-size: 16px;
+				padding: 10px;
+				border: none;
+				border-radius: 5px;
+				background-color: #F5F5F5;
+			}
+
+			.login-box input[type="submit"] {
+				width: 100%;		
+				font-size: 16px;
+				font-weight: 500;
+				padding: 10px;
+				border: none;
+				border-radius: 5px;
+				color: #fff;
+				background-color: #ff0000;
+				cursor: pointer;
+			}
+
+			.login-box a {
+				display: block;
+				font-size: 14px;
+				text-align: center;		
+				color: #333;
+			}
+
+			.login-box a:hover {
+				color: #ff0000;
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+	<body>
+	<div class="container">
+		<div class="login-box">
+			<h2>Login</h2>
+			<form>
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" required>
+
+				<label for="password">Password</label>
+				<input type="password" name="password" id="password" required>
+
+				<input type="submit" value="Login">
+
+				<a href="#">Forget Password?</a>
+			</form>
+		</div>
+	</div>
+	</body>
 </html>`
