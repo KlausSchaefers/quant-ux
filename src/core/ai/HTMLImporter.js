@@ -609,7 +609,7 @@ export default class HTMLImporter {
 
         const widget = {
             id: 'w' + this.getUUID(),
-            name: 'Widget',
+            name: this.getWidgetName(widgetType),
             _className: node.className,
             _tag: node.tagName,
             type: widgetType,
@@ -631,6 +631,10 @@ export default class HTMLImporter {
         widget.error = {}
 
         return widget
+    }
+
+    getWidgetName (type) {
+        return type
     }
 
     getDifStyle(style, otherStyle)  {
