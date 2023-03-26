@@ -269,6 +269,7 @@ export default {
             this.preview = null
             if (this.simulator) {
                 this.simulator.destroy()
+                this.simulator = null
             }
             this.$refs.simCntr.innerHTML = ''
         },

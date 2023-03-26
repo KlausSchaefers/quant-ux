@@ -54,6 +54,8 @@ import IconToggleButton from 'core/widgets/IconToggleButton'
 import IFrameWidget from 'core/widgets/IFrameWidget'
 import ProgessSegments from 'core/widgets/ProgessSegments'
 import ImagePaging from 'core/widgets/ImagePaging'
+import LabeledRadioBox from 'core/widgets/LabeledRadioBox'
+import LabeledCheckBox from 'core/widgets/LabeledCheckBox'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -915,6 +917,19 @@ export default class RenderFactory extends Core {
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
+
+	_createLabeledRadioBox(parent, model) {
+		const widget = this.$new(LabeledRadioBox, {mode: this.mode});
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createLabeledCheckBox(parent, model) {
+		const widget = this.$new(LabeledCheckBox, {mode: this.mode});
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
 
 	_createImage(parent, model) {
 		/**

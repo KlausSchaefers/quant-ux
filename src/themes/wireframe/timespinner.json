@@ -5,7 +5,7 @@
 	  "_type": "Group",
 	  "name": "Spinner (Time)",
 	  "category" : "WireFrame",
-	  "subcategory" : "Form",
+	  "subcategory" : "FormSpinner",
 	  "children": [
 	    {
 	      "id": "TimerPickerEurope1",

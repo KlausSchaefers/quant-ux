@@ -144,11 +144,34 @@ export const html2 = `
 </head>
 <body>
 
-	<!--
+
+	<div>
+		<label>
+			<input type="checkbox" checked="checked" name="remember"> Remember me
+		</label>
+
+		<label>
+			<input type="checkbox" checked name="remember"> Remember me
+		</label>
+
+		<label>
+			<input type="checkbox" name="remember"> Not checked
+		</label>
+
+		</div>
+
+	
+			<div>
+	<label>
+		<input type="radio" checked="checked" name="radio "> AAA
+	</label>
 
 	<label>
-				<input type="checkbox" checked="checked" name="remember"> Remember me
-			</label>
+		<input type="radio" checked="" name="radio "> BBB
+	</label>
+	</div>
+
+
 
 
 
@@ -167,7 +190,7 @@ export const html2 = `
 	<div>
 		<button>Click</button>
 	</div>
-	-->
+
 	<button>Click2</button>
 	<input type="submit" value="Login">
 	<input type="reset" value="Reset">
@@ -617,5 +640,106 @@ export const html8 = `
 	<div>
 	
 
+</body>
+</html>`
+
+export const html9 = `
+<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #F2F2F2;
+        }
+
+        .login-box {
+            width: 320px;
+            padding: 40px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-box h2 {
+            font-size: 24px;
+            font-weight: 500;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .login-box label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .login-box input[type="email"],
+        .login-box input[type="password"] {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #F5F5F5;
+        }
+
+        .login-box input[type="submit"] {
+            width: 100%;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #ff0000;
+            cursor: pointer;
+        }
+
+        .login-box a {
+            display: block;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .login-box a:hover {
+            color: #ff0000;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="login-box">
+        <h2>Login</h2>
+        <form>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+
+            <input type="submit" value="Login">
+
+            <a href="#">Forget Password?</a>
+        </form>
+    </div>
+</div>
 </body>
 </html>`

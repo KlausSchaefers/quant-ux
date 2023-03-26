@@ -63,6 +63,90 @@ export default class AIService extends AbstractService {
         }
     }
     
+    runFake() {
+        return {html:`
+            <html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Login Page</title>
+                    <style>
+                        *{
+                            box-sizing: border-box;
+                            font-family: Arial, sans-serif;
+                        }
+                        body{
+                            background-color: #f1f1f1;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .container{
+                            width: 90%;
+                            max-width: 720px;
+                            margin: 0 auto;
+                            padding: 20px;
+                            background-color: #fff;
+                            border-radius: 10px;
+                            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+                        }
+                        form{
+                            display: flex;
+                            flex-direction: column;
+                        }
+                        label{
+                            margin-bottom: 5px;
+                            font-weight: bold;
+                        }
+                        input{
+                            height: 40px;
+                            padding: 5px;
+                            margin-bottom: 10px;
+                            border: none;
+                            border-radius: 5px;
+                            font-size: 18px;
+                            outline: none;
+                        }
+                        button{
+                            height: 40px;
+                            background-color: red;
+                            color: #fff;
+                            border: none;
+                            border-radius: 5px;
+                            font-size: 18px;
+                            cursor: pointer;
+                        }
+                        .forgot-password{
+                            margin-top: 10px;
+                            text-align: center;
+                        }
+                        .forgot-password a{
+                            color: red;
+                            font-weight: bold;
+                            text-decoration: none;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h1>Login Page</h1>
+                        <form>
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required>
+
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+
+                            <button type="submit">Login</button>
+                        </form>
+                        <div class="forgot-password">
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                    </div>
+                </body>
+                </html>
+        `}
+    }
 
     async runGPT35Turbo (message, key, app) {
         const prompt =`

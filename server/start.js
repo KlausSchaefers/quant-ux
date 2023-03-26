@@ -63,6 +63,11 @@ app.use('/rest/', proxyMiddleware.createProxyMiddleware({
     changeOrigin: true
 }))
 
+app.use('/ai/', proxyMiddleware.createProxyMiddleware({
+  target: proxyUrl,
+  changeOrigin: true
+}))
+
 
 /**
  * Setup static to serve all html, js and images from server/dist

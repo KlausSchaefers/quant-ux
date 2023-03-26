@@ -602,8 +602,13 @@ export default class HTMLImporter {
             }
           
             if (isCheckBox(node)) {
+                result.checked = node.checked 
+            }  
+            
+            if (isRadio(node)) {
+                result.formGroup = node.name
                 result.checked = node.checked
-            }           
+            }
         }
       
         return result
@@ -690,6 +695,18 @@ export default class HTMLImporter {
                 result.borderRightWidth = 1
                 result.colorButton = result.borderTopColor
             }
+            if (isRadio(node)) {
+                result.borderBottomLeftRadius = 50
+                result.borderBottomRightRadius = 50
+                result.borderTopLeftRadius = 50
+                result.borderTopRightRadius = 50
+                result.borderTopWidth = 1
+                result.borderBottomWidth = 1
+                result.borderLeftWidth = 1
+                result.borderRightWidth = 1
+                result.colorButton = result.borderTopColor
+            }
+
         }
 
         return result
@@ -742,6 +759,9 @@ export default class HTMLImporter {
         if (node.tagName === 'INPUT') {
             if (isCheckBox(node)) {
                 return 'CheckBox'
+            }
+            if (isRadio(node)) {
+                return 'RadioBox2'
             }
             if (isSubmit(node)) {
                 return 'Button'
@@ -835,6 +855,10 @@ function isPassword(node) {
 
 function isCheckBox (node) {
     return node.type && node.type.toLowerCase() === 'checkbox'
+}
+
+function isRadio (node) {
+    return node.type && node.type.toLowerCase() === 'radio'
 }
 
 function isLeafNode(node, debug=false) {
