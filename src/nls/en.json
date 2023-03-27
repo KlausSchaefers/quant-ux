@@ -19,7 +19,7 @@
         "key-security": "Your key is save! It is stored in your browser and not on our server.",
         "show-key": "API",
         "prompt": "Describe the page here",
-        "prompt-placeholder": "Create a login bad with red buttons",
+        "prompt-placeholder": "Descripe your page here, e.g. 'Create a login bad with red buttons...'",
         "error-public": "You need to sign up to use DesignGPT",
         "preview": "Run AI",
         "no-preview": "No Preview",
