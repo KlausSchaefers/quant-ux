@@ -843,17 +843,17 @@ export default {
     },
 
     _set_boxShadow: function(parent, style) {
-      var shadow = style.boxShadow;
+      const shadow = style.boxShadow;
       if (shadow) {
-        var v = this.getZoomed(shadow.v, this._scaleY);
-        var h = this.getZoomed(shadow.h, this._scaleX);
-        var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
+        const v = this.getZoomed(shadow.v, this._scaleY);
+        const h = this.getZoomed(shadow.h, this._scaleX);
+        const b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
         var s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
-        var inset = shadow.i ? "inset" : "";
-        var value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
+        const inset = shadow.i ? "inset" : "";
+        const value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
         if (this._shadowNodes) {
-          for (var i = 0; i < this._shadowNodes.length; i++) {
-            var node = this._shadowNodes[i];
+          for (let i = 0; i < this._shadowNodes.length; i++) {
+            const node = this._shadowNodes[i];
             node.style.boxShadow = value;
           }
         } else {
@@ -866,12 +866,12 @@ export default {
 
     _setShadow (parent, shadow) {
       if (shadow) {
-        var v = this.getZoomed(shadow.v, this._scaleY);
-        var h = this.getZoomed(shadow.h, this._scaleX);
-        var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
-        var s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
-        var inset = shadow.i ? "inset" : "";
-        var value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
+        const v = this.getZoomed(shadow.v, this._scaleY);
+        const h = this.getZoomed(shadow.h, this._scaleX);
+        const b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
+        const s = this.getZoomed(shadow.s, Math.max(this._scaleY, this._scaleX));
+        const inset = shadow.i ? "inset" : "";
+        const value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
         parent.style.boxShadow = value;
       } else {
         console.debug('UIWidget._setShadow() > Error : Shadow is null', shadow)
@@ -880,11 +880,11 @@ export default {
     },
 
     _set_textShadow: function(parent, style) {
-      var shadow = style.textShadow;
+      const shadow = style.textShadow;
       if (shadow) {
-        var v = this.getZoomed(shadow.v, this._scaleY);
-        var h = this.getZoomed(shadow.h, this._scaleX);
-        var b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
+        const v = this.getZoomed(shadow.v, this._scaleY);
+        const h = this.getZoomed(shadow.h, this._scaleX);
+        const b = this.getZoomed(shadow.b, Math.max(this._scaleY, this._scaleX));
         parent.style.textShadow = h + "px " + v + "px " + b + "px " + shadow.c;
       } else {
         parent.style.textShadow = "none";
@@ -1108,6 +1108,7 @@ export default {
       if (this._backgroundNodes) {
         for (var i = 0; i < this._backgroundNodes.length; i++) {
           const node = this._backgroundNodes[i];
+     
           const background = style.background;
           if (node) {
             if (background && background.colors) {

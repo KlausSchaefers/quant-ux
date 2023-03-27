@@ -141,6 +141,7 @@ export default {
       this.tempOwn(on(toolbar, "newThemedWidget", lang.hitch(canvas, "addThemedWidget")));
       this.tempOwn(on(toolbar, "newMultiThemedScreen", lang.hitch(canvas, "addMultiThemedScreens")));
       this.tempOwn(on(toolbar, "newThemedScreenAndWidget", lang.hitch(canvas, "addThemedScreenAndWidgets")));
+      this.tempOwn(on(toolbar, "newImportApp", lang.hitch(canvas, "addImportedApp")));
 
       this.tempOwn(on(toolbar, "onNewLogicObject", lang.hitch(canvas, "addLogicGroup")));
       this.tempOwn(on(toolbar, "onNewRestObject", lang.hitch(canvas, "addRestObject")));

@@ -970,8 +970,16 @@ export default {
 			this._renderCheck("Checked",model.props.checked, "checked" );
 			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
 			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
-
 		},
+
+		_showLabeledCheckBox (model){
+			this._setSectionLabel("CheckBox");
+			this._renderCheck("Checked",model.props.checked, "checked" );
+			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
+			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+			this._renderInputDropDown("Gap", model, [4, 8, 16, 32], "gap", true);
+		},
+
 
 		_showRadioBox (model){
 			this._setSectionLabel("RadioBox");
@@ -979,6 +987,17 @@ export default {
 			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );
 			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
 
+		},
+
+		_showLabeledRadioBox (model){
+			this._setSectionLabel("RadioBox");
+			this._renderCheck("Checked",model.props.checked, "checked" );
+			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
+			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
+			this._renderInputDropDown("Gap", model, [4, 8, 16, 32], "gap", true);
+
+			const lbl=  model.props.formGroup ? model.props.formGroup + "" : "No Group";
+			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
 		},
 
 		_showRadioBox2 (model){

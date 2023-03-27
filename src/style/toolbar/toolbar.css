@@ -415,7 +415,7 @@
 .MatcToobarLeft .MatcToolbarItem{
 	display: inline-block;
 	cursor: pointer;
-	margin-bottom: 10px;
+	margin-bottom: 4px;
 }
 
 .MatcToobarLeft .MatcCreateBtn .MatcToolbarLabel{

@@ -31,8 +31,6 @@
     "vue2-ace-editor": "^0.0.15"
   },
   "devDependencies": {
-    "jest": "^27.5.1",
-    "jest-environment-jsdom": "^29.2.0",
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
@@ -48,6 +46,9 @@
     "core-js": "^3.22.8",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "jest": "^27.5.1",
+    "jest-environment-jsdom": "^29.2.0",
+    "node-fetch": "^2.6.9",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
     "vue-jest": "^3.0.7",

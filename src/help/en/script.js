@@ -337,6 +337,27 @@ if (data.valueA * 1 < 100) {
                     </p>
 
                 `,
+            },
+            {
+                "id": "script.vibrate",
+                "title": "Haptic Feedback",
+                "body": `
+                    To give haptic feedback, use the <b>vibrate()</b> method. You can pass a number or an
+                    array of numbers to define the pattern. For more details see the 
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate" target="_mozilla" class="MatcHelpLink">Mozilla</a>
+                    website.
+
+                    <pre class="MatcHelpCode">
+qux.vibrate(200)    
+qux.vibrate([100, 30, 100, 30, 100])                 
+                    </pre>
+
+                    
+                    <p class="MatcHelpCallout">
+                        Vibrations work only on mobile devices
+                    </p>
+
+                `,
             }
         ]
     }

@@ -305,6 +305,21 @@ export default {
 		},
 
 
+		_showLabeledRadioBox (model){
+			this._renderDataBinding(model);
+			const validation = this.getValidationModel(model);
+			this._renderRequired(validation);
+			this._renderValidationLabels(validation, model);
+		},
+
+
+		_showLabeledCheckBox (model){
+			this._renderDataBinding(model);
+			const validation = this.getValidationModel(model);
+			this._renderRequired(validation);
+			this._renderValidationLabels(validation, model);
+		},
+
 
 		/**********************************************************************
 		 * data bining => moved to DataSection.vue

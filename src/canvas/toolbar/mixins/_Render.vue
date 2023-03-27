@@ -64,7 +64,7 @@ export default {
 						"IconToggle","HoverDropDown", "ImageCarousel", "Stepper", "TypeAheadTextBox", "BarChart", "RingChart", "PieChart", "MultiRingChart",
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'LockSlider', "StackedRingChart",
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
-						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging'],
+						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
@@ -73,10 +73,10 @@ export default {
 							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging', 'Timeline', 'LabeledIconToggle', 'VisualPicker', 'LockSlider', 'IconToggleButton', 'ScreenSegment', 
-							'ProgessSegments', 'ImagePaging'],
+							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox'],
 			hasLogic2: ["LogicOr", "Rest", "Script"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", 
-								"TypeAheadTextBox", "CheckBoxGroup", "RadioGroup"],
+								"TypeAheadTextBox", "CheckBoxGroup", "RadioGroup", 'LabeledCheckBox', 'LabeledRadioBox'],
 			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox"],
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 'Paging', 'Upload', 'IconToggleButton'],
@@ -189,6 +189,8 @@ export default {
 			this.tempOwn(this.screenCreateBtn.on( "onAdd", lang.hitch(this, "onNewThemeObject")));
 			this.tempOwn(this.screenCreateBtn.on("onUpload", lang.hitch(this, "onThemedMultiScreen")));
 			this.tempOwn(this.screenCreateBtn.on("onImport", lang.hitch(this, "showImportDialog")));
+			this.tempOwn(this.screenCreateBtn.on("onDesignGPT", lang.hitch(this, "showDesignGPT")));
+
 
 			css.add(this.screenCreateBtn.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
 			this.screenCreateBtn.placeAt(this.addScreenSection);
@@ -197,6 +199,7 @@ export default {
 			this.own(on(this.addRestSection, touch.release, lang.hitch(this, "onNewRestObject")));
 			this.own(on(this.addScriptSection, touch.release, lang.hitch(this, "onNewScriptObject")));
 			
+			//this.own(on(this.addGPTSection, touch.release, lang.hitch(this, "showDesignGPT")));
 
 			/**
 			* set model
@@ -401,6 +404,8 @@ export default {
 			this.addTooltip(this.addLogicSection, "Create Logic Element to split links", "vommondToolTipLeft");
 			this.addTooltip(this.addRestSection, "Web Service", "vommondToolTipLeft");
 			this.addTooltip(this.addScriptSection, "Script (BETA)", "vommondToolTipLeft");
+			this.addTooltip(this.addGPTSection, "Design GPT (BETA)", "vommondToolTipLeft");
+			
 			this.addTooltip(this.addVectorSection, "Vector Tools (Beta)", "vommondToolTipLeft");
 			this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
 

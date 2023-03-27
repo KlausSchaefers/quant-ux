@@ -38,7 +38,7 @@
 	"type" : "HSlider",
 	"_type" : "Widget",
 	"category" : "WireFrame",
-	"subcategory" : "Form",
+	"subcategory" : "FormSlider",
 	"name" : "Labeled Slider",
 	"x" : 0,
 	"y" : 0,

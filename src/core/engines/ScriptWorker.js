@@ -21,6 +21,7 @@ self.addEventListener('message', e => {
             viewModel: viewModel,
             appDeltas: qux.getAppDeltas(),
             console: console.messages,
+            vibratePattern: qux.vibratePattern,
             status : 'ok'
         })
     } catch (error) {

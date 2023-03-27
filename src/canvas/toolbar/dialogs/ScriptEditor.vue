@@ -65,14 +65,13 @@ export default {
             hash: "NoHashComposer",
             tab: 'editor',
             script: `/* 
-Use the "data" property to read and write data, e.g.
+Use the "data" property to read and write data:
 data.sum = data.a + data.b
 
-Use the "event" property to inspect which widget
-has triggered the execution, e.g.
+Use the "event" property to get the source widget:
 data.message = event.widget + 'was clicked'
 
-The qux object let's you manipulate the prototype styles
+The "qux" object let's you manipulate the prototype styles:
 let screen = qux.getScreen('myScreen')
 let widget = screen.getWidget('myWidget') 
 if (widget.isHidden()) {    
@@ -82,7 +81,10 @@ if (widget.isHidden()) {
 }
 widget.setStyle({color:'red'})
 
-To navigate to a screen, return the name
+The "qux" object can also trigger (phone) vibrations
+qux.vibrate([100, 30, 100])
+
+To navigate to a screen, return the name:
 return "myScreen"
 */
 `,

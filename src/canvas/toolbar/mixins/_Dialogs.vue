@@ -24,59 +24,78 @@ import Help from 'help/Help'
 import Share from 'page/Share'
 
 import ImportDialog from 'canvas/toolbar/dialogs/ImportDialog'
+import DesignGPTDialog from 'canvas/toolbar/dialogs/DesignGPTDialog'
 import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
 import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
 
 export default {
-    name: '_Dialogs',
-    mixins:[Plan, DojoWidget],
-    data: function () {
-        return {
+	name: '_Dialogs',
+	mixins: [Plan, DojoWidget],
+	data: function () {
+		return {
 
-        }
-    },
-    components: {},
-    methods: {
-		showFontDialog (e) {
-			this.logger.log(0,"showFontDialog", "entry > ", this.isPublic);
+		}
+	},
+	components: {},
+	methods: {
+		showFontDialog(e) {
+			this.logger.log(0, "showFontDialog", "entry > ", this.isPublic);
 
-			var db = new DomBuilder();
-			var popup = db.div("MatcFontDialog  MatcPadding").build();
-
-
-			let customFonts = this.$new(CustomFonts);
+			const db = new DomBuilder();
+			const popup = db.div("MatcFontDialog  MatcPadding").build();
+			const customFonts = this.$new(CustomFonts);
 			customFonts.placeAt(popup);
 			customFonts.setModel(this.model)
-
-			let row = db.div("row MatcMarginTop").build(popup);
-			let right = db.div("col-md-12 MatcButtonBar").build(row);
-			var save = db.div("MatcButton", "Save").build(right);
-			var close = db.div("MatcLinkButton", "Close").build(right);
-
-			var d = new Dialog();
-			d.own(on(close, touch.press, lang.hitch(d,"close")));
-			d.own(on(save, touch.press, lang.hitch(this,"saveFonts", d, customFonts)));
-
-
+			const row = db.div("row MatcMarginTop").build(popup);
+			const right = db.div("col-md-12 MatcButtonBar").build(row);
+			const save = db.div("MatcButton", "Save").build(right);
+			const close = db.div("MatcLinkButton", "Close").build(right);
+			const d = new Dialog();
+			d.own(on(close, touch.press, lang.hitch(d, "close")));
+			d.own(on(save, touch.press, lang.hitch(this, "saveFonts", d, customFonts)));
 			d.popup(popup, e.target);
 		},
 
-		saveFonts (dialog, customFonts) {
-				this.logger.log(0,"saveFonts", "entry > ");
-
-				this.controller.setFonts(customFonts.getFonts());
-
-				dialog.close()
+		saveFonts(dialog, customFonts) {
+			this.logger.log(0, "saveFonts", "entry > ");
+			this.controller.setFonts(customFonts.getFonts());
+			dialog.close()
 		},
 
-		showImportDialog (e, zipFiles = null) {
-			this.logger.log(-1,"showImportDialog", "entry > " + this.isPublic);
+		showDesignGPT() {
+			const dialog = new Dialog()
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog MatchImportDialog MatchImportOpenAIDialog MatcPadding").build();
+			dialog.popup(popup, this.addGPTSection);
+
+			const aiDialog = this.$new(DesignGPTDialog)
+			aiDialog.placeAt(popup)
+
+			aiDialog.setPublic(this.isPublic)
+			aiDialog.setJwtToken(this.jwtToken)
+			aiDialog.setModel(this.model)
+			aiDialog.setController(this.controller)
+			aiDialog.setCanvas(this.canvas)
+			aiDialog.setZoom(this.canvas.getZoomFactor())
+			aiDialog.$on('save', data => {
+				this.logger.log(-1, "showImportDialog", "save > ", data);
+				this.emit("newImportApp", { "obj": data, "event": this._lastMouseMoveEvent });
+				dialog.close()
+			})
+			aiDialog.$on('cancel', () => {
+				this.logger.log(-1, "showImportDialog", "cancel > ");
+				dialog.close()
+			})
+		},
+
+		showImportDialog(e, zipFiles = null) {
+			this.logger.log(-1, "showImportDialog", "entry > " + this.isPublic);
 			let dialog = new Dialog()
-      		var db = new DomBuilder();
+			var db = new DomBuilder();
 			var popup = db.div("MatcDialog MatchImportDialog MatcPadding").build();
-      		dialog.popup(popup, e.target);
-      		
+			dialog.popup(popup, e.target);
+
 			let importDialog = this.$new(ImportDialog)
 			importDialog.placeAt(popup)
 
@@ -90,41 +109,41 @@ export default {
 				importDialog.onZipFileDropped(zipFiles)
 			}
 			importDialog.$on('save', data => {
-					this.logger.log(-1,"showImportDialog", "save > ", data);
-					dialog.close()
+				this.logger.log(-1, "showImportDialog", "save > ", data);
+				dialog.close()
 			})
 			importDialog.$on('cancel', () => {
-					this.logger.log(-1,"showImportDialog", "cancel > ");
-					dialog.close()
+				this.logger.log(-1, "showImportDialog", "cancel > ");
+				dialog.close()
 			})
 		},
 
-	showHelp (e) {
-		let dialog = new Dialog()
-    	var db = new DomBuilder();
-		let popup = db.div("MatcDialog MatcHelpDialog MatcPadding").build();
-      	dialog.popup(popup, e.target);
-     	let help = this.$new(Help)
-     	help.placeAt(popup)
-	},
+		showHelp(e) {
+			let dialog = new Dialog()
+			var db = new DomBuilder();
+			let popup = db.div("MatcDialog MatcHelpDialog MatcPadding").build();
+			dialog.popup(popup, e.target);
+			let help = this.$new(Help)
+			help.placeAt(popup)
+		},
 
-    async showSharing (e){
-			this.logger.log(-1,"showSharing", "entry > ", this.isPublic);
+		async showSharing(e) {
+			this.logger.log(-1, "showSharing", "entry > ", this.isPublic);
 
-			var invitation = await Services.getModelService(this.$route).findInvitation(this.model.id)
-			var temp = {};
-			for(var key in invitation){
+			const invitation = await Services.getModelService(this.$route).findInvitation(this.model.id)
+			const temp = {};
+			for (let key in invitation) {
 				temp[invitation[key]] = key;
 			}
 
-			var db = new DomBuilder();
-			var popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
-			var cntr = db.div("container").build(popup);
-			var row = db.div("row").build(cntr);
-			var right = db.div("col-md-12").build(row);
-			db.h3("",this.getNLS("share.Headline")).build(right);
+			const db = new DomBuilder();
+			const popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
+			const cntr = db.div("container").build(popup);
+			let row = db.div("row").build(cntr);
+			let right = db.div("col-md-12").build(row);
+			db.h3("", this.getNLS("share.Headline")).build(right);
 
-			let share = this.$new(Share)
+			const share = this.$new(Share)
 			share.placeAt(right)
 			share.setInvitation(temp[1])
 			share.setPublic(this.isPublic)
@@ -132,83 +151,67 @@ export default {
 			row = db.div("row MatcMarginTop").build(cntr);
 			right = db.div("col-md-12 MatcButtonBar").build(row);
 
-			var write = db.div("MatcButton", "Close").build(right);
+			const write = db.div("MatcButton", "Close").build(right);
 
-			var d = new Dialog();
-			d.own(on(write, touch.press, lang.hitch(d,"close")));
+			const d = new Dialog();
+			d.own(on(write, touch.press, lang.hitch(d, "close")));
 			d.popup(popup, e.target);
 		},
 
 
-		showDownloadDialog (e){
-
-			var d = new Dialog();
-
-			var db = new DomBuilder();
-
-			var div = db.div("").build();
-
-			var exportDialog = this.$new(ExportDialog);
+		showDownloadDialog(e) {
+			const d = new Dialog();
+			const db = new DomBuilder();
+			const div = db.div("").build();
+			const exportDialog = this.$new(ExportDialog);
 			exportDialog.setJwtToken(this.jwtToken);
 			exportDialog.placeAt(div);
 			setTimeout(() => {
 				exportDialog.setModel(this.model);
 			}, 500)
-
-
 			d.own(on(exportDialog, 'cancel', lang.hitch(d, "close")));
 			d.popup(div, e.target);
-
 		},
 
+		onChangeScreenSize  (e) {
 
-		onChangeScreenSize:function(e){
+			const d = new Dialog();
+			const db = new DomBuilder();
+			const div = db.div("MatcDialog MatcResizeDialog ").build();
 
-			var d = new Dialog();
-			var db = new DomBuilder();
-			var div = db.div("MatcDialog MatcResizeDialog ").build();
-
-			var cntr = db.div("form-group").build(div);
-			var selector = this.$new(ScreenSizeSelector);
+			const cntr = db.div("form-group").build(div);
+			const selector = this.$new(ScreenSizeSelector);
 			selector.setValue(this.model);
 			selector.placeAt(cntr);
 
-			var bar = db.div(" MatcMarginTop row").build(div);
-
-			var left = db.div("col-md-6 MatcButtonBar").build(bar);
-
-			var change = db.a("MatcButton", "Change").build(left);
-			var cancel = db.a("MatcLinkButton", "Close").build(left);
+			const bar = db.div(" MatcMarginTop row").build(div);
+			const left = db.div("col-md-6 MatcButtonBar").build(bar);
+			const change = db.a("MatcButton", "Change").build(left);
+			const cancel = db.a("MatcLinkButton", "Close").build(left);
 
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.own(on(change, touch.release, lang.hitch(this, "_changeScreenSize", d, selector, div)));
 			d.popup(div, e.target);
 		},
 
-		_changeScreenSize (d, selector){
+		_changeScreenSize(d, selector) {
 			const newSize = selector.getValue();
 			d.close();
 			this.controller.setScreenSize(newSize, false);
 		},
 
-		showOutOFSyncError (localApp, callback) {
-
-			let db = new DomBuilder();
-			var popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
-
-			var cntr = db.div().build(popup);
-
+		showOutOFSyncError(localApp, callback) {
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
+			const cntr = db.div().build(popup);
 			db.h3("MatcDialogHeader", "Error Detected").build(cntr);
 			db.p("", "We found that there is a newer version stored on your computer. This can happen when there are networking issues.").build(cntr);
 			db.p("", "Do you want to use the local version, or the version from the server.").build(cntr);
-
-			var dialog = new Dialog();
+			const dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
-
-			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			var fix = db.div("MatcButton", "Keep local version").build(bar);
-			var stay = db.a("MatcButton ", "Keep online version").build(bar);
-
+			const bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
+			const fix = db.div("MatcButton", "Keep local version").build(bar);
+			const stay = db.a("MatcButton ", "Keep online version").build(bar);
 			dialog.own(on(fix, touch.press, () => {
 				dialog.close()
 				callback(true)
@@ -223,76 +226,80 @@ export default {
 		},
 
 
-		showShortCuts:function(e){
+		showShortCuts (e) {
 
-			var d = new Dialog();
+			const d = new Dialog();
 
-			var db = new DomBuilder();
+			const db = new DomBuilder();
 
-			var div = db.div("MatcDialog MatcShortCutDialog").build();
+			const div = db.div("MatcDialog MatcShortCutDialog").build();
 
-			var tblCntr =  db.div("MatcToolbarHelpKeyCntr container").build(div);
+			const tblCntr = db.div("MatcToolbarHelpKeyCntr container").build(div);
 
-			var row = db.div("row").build(tblCntr);
-			var left = db.div("col-md-6").build(row);
-			var right = db.div("col-md-6").build(row);
+			const row = db.div("row").build(tblCntr);
+			const left = db.div("col-md-6").build(row);
+			const right = db.div("col-md-6").build(row);
 
 
 			let tbl = db.table().build(left);
 
-			this._renderShortCut(db, tbl,"CTRL", " Disable Snapping");
-			this._renderShortCut(db, tbl,"CTRL C", "Copy");
-			this._renderShortCut(db, tbl,"CTRL V", "Paste");
-			this._renderShortCut(db, tbl,"CTRL D", "Duplicate");
-			this._renderShortCut(db, tbl,"CTRL G", "Group / Ungroup");
-			this._renderShortCut(db, tbl,"CTRL &uarr;", "Bring to Front ");
-			this._renderShortCut(db, tbl,"CTRL &darr;", "Send to Back");
-			this._renderShortCut(db, tbl,"CTRL [", "Send Backward");
-			this._renderShortCut(db, tbl,"CTRL ]", "Bring Forward");
-			this._renderShortCut(db, tbl,"SHIFT CLICK", "Multi Selection");
-			this._renderShortCut(db, tbl,"SHIFT I", "Select Text Color");
-			this._renderShortCut(db, tbl,"CTRL I", "Select Border Color");
-			this._renderShortCut(db, tbl,"I", "Select Background Color");
-			
-			tbl = db.table().build(right);
-			this._renderShortCut(db, tbl,"SPACE", "Move Tool");
-			this._renderShortCut(db, tbl,"ALT", "Measure Tool");
-			this._renderShortCut(db, tbl,"L", "Create Line");
-			this._renderShortCut(db, tbl,"+", "Zoom In");
-			this._renderShortCut(db, tbl,"-", "Zoom Out");
-			this._renderShortCut(db, tbl,"R", "Create Rectangle");
-			this._renderShortCut(db, tbl,"H", "Create Hotspot");
-			this._renderShortCut(db, tbl,"T", "Create Text");
-			this._renderShortCut(db, tbl,"S", "Create Screen");
-			this._renderShortCut(db, tbl,"W", "Create Widget");
-			this._renderShortCut(db, tbl,"V", "Create Vector");
-			this._renderShortCut(db, tbl,"D", "Distribute Selection");
-			this._renderShortCut(db, tbl,"C", "Clone Selection");
-		
+			this._renderShortCut(db, tbl, "SPACE", "Move Tool");
+			this._renderShortCut(db, tbl, "ALT", "Measure Tool");
+			this._renderShortCut(db, tbl, "ALT MOVE", "Copy");
+			this._renderShortCut(db, tbl, "TAB", "Design GPT");
+			this._renderShortCut(db, tbl, "CTRL", " Disable Snapping");
+			this._renderShortCut(db, tbl, "CTRL C", "Copy");
+			this._renderShortCut(db, tbl, "CTRL V", "Paste");
+			this._renderShortCut(db, tbl, "CTRL D", "Duplicate");
+			this._renderShortCut(db, tbl, "CTRL G", "Group / Ungroup");
+			this._renderShortCut(db, tbl, "CTRL &uarr;", "Bring to Front ");
+			this._renderShortCut(db, tbl, "CTRL &darr;", "Send to Back");
+			this._renderShortCut(db, tbl, "CTRL [", "Send Backward");
+			this._renderShortCut(db, tbl, "CTRL ]", "Bring Forward");
+			this._renderShortCut(db, tbl, "SHIFT CLICK", "Multi Selection");
 
-			var scroller = this.$new(ScrollContainer);
+
+			tbl = db.table().build(right);
+		
+			this._renderShortCut(db, tbl, "L", "Create Line");
+			this._renderShortCut(db, tbl, "+", "Zoom In");
+			this._renderShortCut(db, tbl, "-", "Zoom Out");
+			this._renderShortCut(db, tbl, "R", "Create Rectangle");
+			this._renderShortCut(db, tbl, "H", "Create Hotspot");
+			this._renderShortCut(db, tbl, "T", "Create Text");
+			this._renderShortCut(db, tbl, "S", "Create Screen");
+			this._renderShortCut(db, tbl, "W", "Create Widget");
+			this._renderShortCut(db, tbl, "V", "Create Vector");
+			this._renderShortCut(db, tbl, "D", "Distribute Selection");
+			this._renderShortCut(db, tbl, "C", "Clone Selection");
+			this._renderShortCut(db, tbl, "I", "Select Background Color");
+			this._renderShortCut(db, tbl, "SHIFT I", "Select Text Color");
+			this._renderShortCut(db, tbl, "CTRL I", "Select Border Color");	
+
+
+			const scroller = this.$new(ScrollContainer);
 			scroller.placeAt(tblCntr);
 			scroller.wrap(row);
 
-			var bar = db.div("MatcButtonBar MatcMarginTop").build(div);
-			var cancel = db.a("MatcButton", "Close").build(bar);
+			const bar = db.div("MatcButtonBar MatcMarginTop").build(div);
+			const cancel = db.a("MatcButton", "Close").build(bar);
 
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.popup(div, e.target);
 		},
 
-		_renderShortCut:function(db, tbl, keys, txt){
+		_renderShortCut: function (db, tbl, keys, txt) {
 			var tr = db.tr().build(tbl);
 			var td = db.td().build(tr);
 			var parts = keys.split(" ");
-			for(var i=0; i < parts.length; i++){
-				db.span("MatcToolbarHelpKeyBlock",parts[i] ).build(td);
+			for (var i = 0; i < parts.length; i++) {
+				db.span("MatcToolbarHelpKeyBlock", parts[i]).build(td);
 			}
 			db.td("MatcHint MatcToolbarHelpKeyBlockTxt", txt).build(tr);
 		},
 
 
-		showSignUpReminderDialog:function(node){
+		showSignUpReminderDialog: function (node) {
 
 			var d = new Dialog();
 
@@ -312,7 +319,7 @@ export default {
 			d.own(on(d, "close", lang.hitch(this, "closeDialog")));
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			var me = this;
-			d.own(on(save, touch.press, function(){
+			d.own(on(save, touch.press, function () {
 				div.innerHTML = "";
 				me._createSignUpForm(d, div);
 				d.resize(div);
@@ -322,7 +329,7 @@ export default {
 		},
 
 
-		showSignUpDialog:function(e){
+		showSignUpDialog: function (e) {
 			var d = new Dialog();
 			var db = new DomBuilder();
 			var div = db.div("MatcDialog ").build();
@@ -330,7 +337,7 @@ export default {
 			d.popup(div, e.target);
 		},
 
-		_createSignUpForm:function(d, div){
+		_createSignUpForm: function (d, div) {
 			let f = this.$new(Form);
 			f.render([{
 				label: "Email",
@@ -372,7 +379,7 @@ export default {
 			});
 		},
 
-		async _signUpAndSave (dialog, form, data){
+		async _signUpAndSave(dialog, form, data) {
 			var valid = form.validateForm(null, true);
 
 			if (valid) {
@@ -418,7 +425,7 @@ export default {
 			}
 		},
 
-		showThemeCreateDialog (e){
+		showThemeCreateDialog(e) {
 
 			var db = new DomBuilder();
 			var div = db.div("MatcDialogXL MatcPadding").build();
@@ -426,20 +433,20 @@ export default {
 
 			let category = this.model.lastCategory ? this.model.lastCategory : 'XXX'
 
-			if (this._selectedGroup){
+			if (this._selectedGroup) {
 
 				let boundingBox = this.getBoundingBox(this._selectedGroup.children);
 				let group = {
-					 "id" : "XXX",
-					 "type" : "Group",
-					 "_type" : "Group",
-					 "name" : this._selectedGroup.name,
-					 "category" : category,
-					 "subcategory" : "XXX",
-					 "children":[]
+					"id": "XXX",
+					"type": "Group",
+					"_type": "Group",
+					"name": this._selectedGroup.name,
+					"category": category,
+					"subcategory": "XXX",
+					"children": []
 				}
 				let children = this.sortChildren(this._selectedGroup.children);
-				for (let i=0; i< children.length; i++){
+				for (let i = 0; i < children.length; i++) {
 					var org = children[i];
 					let widget = lang.clone(org);
 					delete widget.created
@@ -451,15 +458,15 @@ export default {
 					widget.style = this.getStyle(org);
 					widget.x = widget.x - boundingBox.x;
 					widget.y = widget.y - boundingBox.y;
-					widget.id =this._selectedGroup.name+i;
+					widget.id = this._selectedGroup.name + i;
 					widget.z = null;
 					widget.template = null;
 					// delete copyOf;
 					group.children.push(widget);
 				}
-				txt.value = JSON.stringify(group,null, '  ');
+				txt.value = JSON.stringify(group, null, '  ');
 			}
-			if(this._selectedWidget){
+			if (this._selectedWidget) {
 				let widget = lang.clone(this._selectedWidget)
 				widget._type = "Widget"
 				widget.category = category
@@ -471,10 +478,10 @@ export default {
 				delete widget.z
 				delete widget.template
 				delete widget.copyOf
-				txt.value = JSON.stringify(widget,null, '  ');
+				txt.value = JSON.stringify(widget, null, '  ');
 			}
 
-			if (this._selectedScreen){
+			if (this._selectedScreen) {
 				let app = {
 					type: 'ScreenAndWidget',
 					_type: 'ScreenAndWidget',
@@ -501,7 +508,7 @@ export default {
 				app.screens[screen.id] = (screen)
 
 				let children = this.sortChildren(this._selectedScreen.children);
-				for (let i=0; i< children.length; i++){
+				for (let i = 0; i < children.length; i++) {
 					let org = children[i];
 					let widget = lang.clone(org);
 					delete widget.created
@@ -513,7 +520,7 @@ export default {
 					widget.style = this.getStyle(org);
 					widget.x = widget.x - screen.x;
 					widget.y = widget.y - screen.y;
-					widget.id = this._selectedScreen.name+i;
+					widget.id = this._selectedScreen.name + i;
 					widget.z = null;
 					widget.template = null;
 					screen.children.push(widget.id);
@@ -527,7 +534,7 @@ export default {
 				delete screen.min
 				delete screen.template
 				delete screen.copyOf
-				txt.value = JSON.stringify(app,null, '  ');
+				txt.value = JSON.stringify(app, null, '  ');
 			}
 
 			var bar = db.div("MatcButtonBar MatcMarginTop").build(div);
@@ -536,14 +543,14 @@ export default {
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.popup(div, e.target);
 
-			this.logger.log(0,"showThemeCreateDialog", "exit > ");
+			this.logger.log(0, "showThemeCreateDialog", "exit > ");
 		},
 
 		/**********************************************************************
 		 * Settings
 		 **********************************************************************/
 
-		onShowSettings:function(){
+		onShowSettings: function () {
 
 			var db = new DomBuilder();
 			var popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
@@ -553,11 +560,11 @@ export default {
 			/**
 			 * Themes
 			 */
-			db.label("","Theme :").build(cntr);
+			db.label("", "Theme :").build(cntr);
 			var themeList = this.$new(RadioBoxList);
 			themeList.setOptions([
-			  {value:"MatcLight", label: "Light"},
-			  {value:"MatcDark", label:"Dark"}
+				{ value: "MatcLight", label: "Light" },
+				{ value: "MatcDark", label: "Dark" }
 			]);
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
@@ -565,7 +572,7 @@ export default {
 			/**
 			 * Keep color boxes open
 			 */
-			db.label("MatcMarginTop","Other:").build(cntr);
+			db.label("MatcMarginTop", "Other:").build(cntr);
 
 			var selectMoveCntr = db.div("form-group").build(cntr);
 			var selectMoveBox = this.$new(CheckBox);
@@ -627,7 +634,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
-				this, "onSaveSettings", dialog, themeList, colorPicker, zoomChkBox, 
+				this, "onSaveSettings", dialog, themeList, colorPicker, zoomChkBox,
 				protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox, selectScreenCheckBox,
 				qrCodeCheckBox
 			)));
@@ -637,10 +644,10 @@ export default {
 			this.canvas.enableMouseZoom(false);
 			this.canvas.setState("simulate");
 
-			this.logger.log(0,"onShowSettings", "exit > ");
+			this.logger.log(0, "onShowSettings", "exit > ");
 		},
 
-		onSaveSettings (dialog, themeList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox, 
+		onSaveSettings(dialog, themeList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox,
 			selectMoveBox, designTokenCheckBox, selectScreenCheckBox, qrCodeCheckBox) {
 			const settings = {
 				canvasTheme: themeList.getValue(),
@@ -663,7 +670,7 @@ export default {
 		 * Histroy
 		 **********************************************************************/
 
-		async onShowHistory(){
+		async onShowHistory() {
 
 			var db = new DomBuilder();
 
@@ -682,22 +689,22 @@ export default {
 			var team = await Services.getModelService(this.$route).findTeam(this.model.id) //this._doGet("/rest/apps/" + this.model.id +"/team.json");
 			var users = this.getObjectFromArray(team, "id");
 
-			var tblCntr =  db.div("MatcDialogTable").build(cntr);
+			var tblCntr = db.div("MatcDialogTable").build(cntr);
 
 			var tbl = db.table().build();
 			db.thead(["Date", "User", "Type"]).build(tbl);
 			var tbody = db.tbody().build(tbl)
-			for(var i=0; i <stack.length; i++){
+			for (var i = 0; i < stack.length; i++) {
 				var command = stack[i];
-				var name ="Unknown";
-				if(users[command.userID]){
+				var name = "Unknown";
+				if (users[command.userID]) {
 					var user = users[command.userID];
 					name = this.getUserName(user);
 				}
 				var date = this.formatDate(command.timestamp);
-				var row =  [date, name, command.type];
+				var row = [date, name, command.type];
 				var tr = db.tr(row).build(tbody);
-				if(i>= pos){
+				if (i >= pos) {
 					css.add(tr, "MatcDialogTableInvalidRow")
 				}
 			}
@@ -720,15 +727,15 @@ export default {
 			this.canvas.enableMouseZoom(false);
 			this.canvas.setState("simulate");
 
-			this.logger.log(0,"onShowHistory", "exit > " + pos);
+			this.logger.log(0, "onShowHistory", "exit > " + pos);
 		},
 
 		/**********************************************************************
 		 * Create Template
 		 **********************************************************************/
 
-		showTemplateCreateDialog:function(name){
-			this.logger.log(0,"showTemplateCreateDialog", "entry");
+		showTemplateCreateDialog: function (name) {
+			this.logger.log(0, "showTemplateCreateDialog", "entry");
 
 			var db = new DomBuilder();
 
@@ -759,25 +766,25 @@ export default {
 			dialog.popup(popup, this.template);
 
 
-			setTimeout(function(){inputName.focus()}, 400);
+			setTimeout(function () { inputName.focus() }, 400);
 			this.canvas.setState("simulate");
 
 		},
 
-		_createTemplate:function(input, dialog){
+		_createTemplate: function (input, dialog) {
 
 			dialog.hide(this.template);
 			this.closeDialog();
 
-			if(this._selectedWidget){
+			if (this._selectedWidget) {
 				this.controller.addTemplateWidget(this._selectedWidget, input.value);
 			}
 
-			if(this._selectedScreen){
+			if (this._selectedScreen) {
 				this.controller.addeTemplateScreen(this._selectedScreen, input.value);
 			}
 
-			if(this._selectedGroup){
+			if (this._selectedGroup) {
 				this.controller.addNestedTemplateGroup(this._selectedGroup, input.value);
 			}
 		},
@@ -787,14 +794,14 @@ export default {
 		 * Save As
 		 **********************************************************************/
 
-		onSaveAs:function(){
-			this.logger.log(0,"onSaveAs", "entry");
+		onSaveAs: function () {
+			this.logger.log(0, "onSaveAs", "entry");
 
 			var dialog = new Dialog();
 			var db = new DomBuilder();
 			let popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
 
-			if(this.user.role=="guest"){
+			if (this.user.role == "guest") {
 				/**
 				 * FIXME: Show here the login screen?
 				 */
@@ -808,7 +815,7 @@ export default {
 			} else {
 				let cntr = db.div().build(popup);
 				db.h3("MatcDialogHeader", "Save as").build(cntr);
-				let inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", "Copy of " + this.model.name , "Name of the template").build(cntr);
+				let inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", "Copy of " + this.model.name, "Name of the template").build(cntr);
 				dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 				let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 				let write = db.div("MatcButton", "Save As").build(bar);
@@ -825,17 +832,17 @@ export default {
 			this.canvas.setState("simulate");
 		},
 
-		async _saveAs (inputName, dialog){
+		async _saveAs(inputName, dialog) {
 			dialog.close();
 			this.closeDialog();
 			var app = await this.controller.onSaveAs(this.model, inputName.value);
-			if (app){
+			if (app) {
 				this.redirectAfterExit = false;
-				hash("#/apps/" +app.id +".html");
+				hash("#/apps/" + app.id + ".html");
 			}
 		},
 
-		closeDialog:function(){
+		closeDialog: function () {
 			this.canvas.enableMouseZoom(true);
 			this.canvas.setState(0);
 		},
@@ -847,9 +854,9 @@ export default {
 
 
 
-		startSimilator () {
-			this.logger.log(0,"startSimilator", "entry");
-			
+		startSimilator() {
+			this.logger.log(0, "startSimilator", "entry");
+
 			var pos = domGeom.position(win.body());
 			let maxHeight = pos.h - 100
 			/**
@@ -859,12 +866,12 @@ export default {
 			 * FIXME: This could be still a litte bit better. We could max the height and with factors
 			 */
 			css.add(win.body(), 'MatcCanvasSimulatorVisible')
-			if (this.model.type === "desktop"){
+			if (this.model.type === "desktop") {
 				pos.w = pos.w * 0.75;
 				pos.h = pos.h * 0.75;
 				this._showDesktopSimulator(this.model, pos, maxHeight);
-			} else if(this.model.type === "tablet") {
-				if (this.model.screenSize.w > this.model.screenSize.h){
+			} else if (this.model.type === "tablet") {
+				if (this.model.screenSize.w > this.model.screenSize.h) {
 					pos.w = pos.w * 0.65;
 					pos.h = pos.h * 0.65;
 					this._showMobileTest(this.model, pos, "MatchSimulatorWrapperTablet", maxHeight);
@@ -876,12 +883,12 @@ export default {
 			} else {
 				pos.w = pos.w * 0.25;
 				pos.h = pos.h * 0.25;
-				this._showMobileTest(this.model, pos , "MatchSimulatorWrapperMobile", maxHeight);
+				this._showMobileTest(this.model, pos, "MatchSimulatorWrapperMobile", maxHeight);
 			}
 		},
 
 
-		_showDesktopSimulator (model, pos, maxHeight){
+		_showDesktopSimulator(model, pos, maxHeight) {
 
 			var dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
@@ -899,12 +906,12 @@ export default {
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
 
-			var s = this.$new(Simulator,{mode : "debug", logData : false});
+			var s = this.$new(Simulator, { mode: "debug", logData: false });
 			s.scrollListenTarget = "parent";
 			s.isDesktopTest = true
 			s.setHash(this.hash)
 
-			var scroller = this.$new(ScrollContainer,{canDestroy:true});
+			var scroller = this.$new(ScrollContainer, { canDestroy: true });
 			scroller.placeAt(container);
 			s.setScrollContainer(scroller);
 
@@ -913,7 +920,7 @@ export default {
 			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 
-			d.own(d.on("close", lang.hitch(this, "stopSimulator",s, scroller)));
+			d.own(d.on("close", lang.hitch(this, "stopSimulator", s, scroller)));
 			d.own(on(dialog, 'click', (e) => {
 				if (e.target === dialog) {
 					d.close()
@@ -926,7 +933,7 @@ export default {
 			model = this.model;
 			var screen = this._getSimulatorScreen();
 			s.setStartScreen(screen);
-			setTimeout(function(){
+			setTimeout(function () {
 				scroller.wrap(s.domNode);
 				s.setModel(model);
 			}, 500);
@@ -942,13 +949,13 @@ export default {
 
 
 
-		_showMobileTest (model, pos, clazz, maxHeight){
+		_showMobileTest(model, pos, clazz, maxHeight) {
 			const dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
 
 			const wrapper = document.createElement("div");
 			css.add(wrapper, "MatchSimulatorWrapper ");
-			if(clazz){
+			if (clazz) {
 				css.add(wrapper, clazz);
 			}
 			dialog.appendChild(wrapper);
@@ -964,17 +971,17 @@ export default {
 			}
 
 			container.style.width = Math.ceil(pos.w) + "px";
-			container.style.height = Math.ceil(pos.h)+ "px";
+			container.style.height = Math.ceil(pos.h) + "px";
 
 			wrapper.style.width = Math.ceil(pos.w) + "px";
 			wrapper.style.height = Math.ceil(pos.h) + "px";
 			css.add(wrapper, 'MatcSimulatorFadeOut')
 			wrapper.appendChild(container);
 
-			const scroller = this.$new(ScrollContainer,{canDestroy:true});
+			const scroller = this.$new(ScrollContainer, { canDestroy: true });
 			scroller.placeAt(container);
 
-			const s = this.$new(Simulator,{mode : "debug", logData : false});
+			const s = this.$new(Simulator, { mode: "debug", logData: false });
 			s.scrollListenTarget = "parent";
 			s.isDesktopTest = true
 			s.setScrollContainer(scroller);
@@ -996,7 +1003,7 @@ export default {
 				qrCodeWrapper.appendChild(img);
 			}
 
-		
+
 
 			/**
 			 * FIXME: We have here some flickering. Because of the fixed
@@ -1040,21 +1047,21 @@ export default {
 
 		},
 
-		_getSimulatorScreen (){
-			if(this._selectedScreen){
+		_getSimulatorScreen() {
+			if (this._selectedScreen) {
 				return this._selectedScreen;
 			}
-			if(this._selectedGroup){
+			if (this._selectedGroup) {
 				const childId = this._selectedGroup.children[0]
-				return this.getParentScreen({id:childId});
+				return this.getParentScreen({ id: childId });
 			}
-			if(this._selectedWidget){
+			if (this._selectedWidget) {
 				return this.getParentScreen(this._selectedWidget);
 			}
 		},
 
 
-		_showAnimationComposer:function(screen, type, node){
+		_showAnimationComposer: function (screen, type, node) {
 
 			var d = new Dialog();
 			var db = new DomBuilder();
@@ -1084,9 +1091,9 @@ export default {
 			d.own(on(write, touch.press, lang.hitch(this, "_setScreenAnimation", composer, d, screen, type)));
 
 
-			setTimeout(function(){
+			setTimeout(function () {
 				composer.setScreen(screen);
-			},500);
+			}, 500);
 
 
 			d.popup(dialog, node);
@@ -1096,7 +1103,7 @@ export default {
 			this.canvas.setState("simulate");
 		},
 
-		_setScreenAnimation:function(composer, dialog, screen, type){
+		_setScreenAnimation: function (composer, dialog, screen, type) {
 			var anim = composer.getValue();
 			composer.destroy();
 			dialog.close();
@@ -1105,19 +1112,19 @@ export default {
 		},
 
 
-		stopSimulator:function(s, scroller){
+		stopSimulator: function (s, scroller) {
 			this.canvas.enableMouseZoom(true);
 			this.canvas.setState(0);
 			css.remove(win.body(), 'MatcCanvasSimulatorVisible')
-			if(s){
+			if (s) {
 				s.destroy();
 			}
-			if(scroller){
+			if (scroller) {
 				scroller.destroy();
 			}
 		}
-    },
-    mounted () {
-    }
+	},
+	mounted() {
+	}
 }
 </script>

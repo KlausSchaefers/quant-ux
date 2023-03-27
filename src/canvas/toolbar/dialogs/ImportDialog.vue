@@ -5,7 +5,9 @@
             <a @click="tab='images'" :class="{'MatcToolbarTabActive': tab === 'images'}">{{ getNLS('dialog.import.tab-images')}}</a>
             <a @click="tab='figma'" :class="{'MatcToolbarTabActive': tab === 'figma'}">{{ getNLS('dialog.import.tab-figma')}}</a>
             <a @click="tab='zip'" :class="{'MatcToolbarTabActive': tab === 'zip'}">{{ getNLS('dialog.import.tab-zip')}}</a>
-            <a @click="tab='swagger'" :class="{'MatcToolbarTabActive': tab === 'swagger'}" v-if="hasSwagger">{{ getNLS('dialog.import.tab-open-api')}}</a>
+            <a @click="tab='swagger'" :class="{'MatcToolbarTabActive': tab === 'swagger'}" v-if="hasSwagger">{{ getNLS('dialog.import.')}}</a>
+            <a @click="tab='openai'" :class="{'MatcToolbarTabActive': tab === 'openai'}" v-if="hasOpenAI">{{ getNLS('dialog.import.tab-open-ai')}}</a>
+ 
         </div>
         <div v-if="isPublic">
              <div class="MatchImportDialogCntr">
@@ -65,6 +67,30 @@
                 </div>
             </div>
 
+            <div v-if="tab=== 'swagger'">
+                <div class="MatchImportDialogCntr">
+                      <div class="field">
+                            <label>{{ getNLS('dialog.import.open-api-url')}}</label>
+                            <input type="text" class="input" v-model="swaggerURL" />
+                        </div>
+                </div>
+            </div>
+
+            <div v-if="tab=== 'openai'">
+                <div class="MatchImportDialogCntr">
+                      <div class="field">
+                            <label>{{ getNLS('dialog.import.open-ai-prompt')}}</label>
+                            <textarea type="text" class="input" v-model="openAIPrompt">
+                            </textarea>
+                        </div>
+
+                        <div class=" MatcButtonBar MatcMarginTop">
+                            <a class="MatcButton"
+                                @click.stop="onContinueFigma">{{ getNLS('dialog.import.open-ai-generate')}}
+                            </a>
+                        </div>
+                </div>
+            </div>
 
             <div v-if="tab=== 'progress'">
                 <div class="MatchImportDialogCntr">
@@ -78,14 +104,7 @@
             </div>
 
 
-            <div v-if="tab=== 'swagger'">
-                <div class="MatchImportDialogCntr">
-                      <div class="field">
-                            <label>{{ getNLS('dialog.import.open-api-url')}}</label>
-                            <input type="text" class="input" v-model="swaggerURL" />
-                        </div>
-                </div>
-            </div>
+          
 
 
         </div>
@@ -141,7 +160,9 @@ export default {
             figmaSelectedPage: null,
             swaggerURL: '',
             isPublic: false,
-            hasSwagger: false
+            hasSwagger: false,
+            hasOpenAI: false,
+            openAIPrompt: ''
         }
     },
     components: {
@@ -205,8 +226,14 @@ export default {
             if (this.tab === 'swagger') {
                 await this.loadSwagger()
             }
+            if (this.tab === 'openai') {
+                await this.importOpenAI()
+            }
         },
 
+        async importOpenAI () {
+            this.logger.log(-1, 'loadSwagger', 'enter', this.openAIPrompt)
+        },
         async loadSwagger () {
             this.logger.log(-1, 'loadSwagger', 'enter', this.swaggerURL)
             if (this.swaggerURL) {

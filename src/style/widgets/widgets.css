@@ -1,4 +1,23 @@
 /*******************************
+ * Labeled CheckBox
+ *******************************/
+.MatcLabeledCheckBox{
+	display: flex;
+	height: 100%;
+	width: 100%;
+	border: none;
+	gap: 8px;
+	cursor: pointer;
+}
+
+.MatcLabeledCheckBox .MatchWidgetTypeLabel{
+	position: relative;
+	flex-grow: 1;
+	height: 100%;
+}
+
+
+/*******************************
  * Tooltip
  *******************************/
 
@@ -1922,7 +1941,11 @@
  *******************************/
 
  .MatchWidgetTypeTextBox {
-	overflow: hidden;
+
+ }
+
+ .MatcWidgetTypeTextBox {
+	height: 100%;
  }
  
 .MatcWidgetTypeTextBoxPreview {

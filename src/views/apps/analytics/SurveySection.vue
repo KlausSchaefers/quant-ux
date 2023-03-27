@@ -39,7 +39,7 @@
           :test="test"/>
 
        <span class="MatcHint" v-else>
-         {{$t('survey.no-data')}}
+         {{$t('scatter.no-data')}}
        </span>
     </div>
     <SurveyDialog ref="dialog">
