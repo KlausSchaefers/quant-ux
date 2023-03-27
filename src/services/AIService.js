@@ -153,6 +153,60 @@ export default class AIService extends AbstractService {
         })
     }
 
+    async runGPT4 (message, key, app) {
+        const prompt =`
+            Please create a HTML page for the following
+            description:
+
+            ${message}
+
+            Please output a a HTML page.
+        `
+
+        const data = {
+            'openAIModel': '/v1/chat/completions',
+            'openAIToken': key,
+            'openAIOrgID': 'Klaus',
+            'openAIPayload': {
+                "model": "gpt-4",
+                "messages": [
+                    {"role": "system", "content": "You are HTMLGPT, a masterful webdeveloper skillful in HTML and CSS"},
+                    {"role": "system", "content": `
+                        The website you generate should run on a ${app.type} device.
+                        The screen with is ${app.screenSize.w} pixel
+                    `},
+                    {"role": "user", "content": prompt}
+                ]
+            }
+        }
+        try {
+            const res = await this._post('/ai/openai.json', data)
+            if (res.choices && res.choices.length > 0) {
+                const choice = res.choices[0]
+                const content = choice?.message?.content
+                return this.extractHTML(content)
+            }
+            if (res.error) { 
+                if (res.error.code === 'invalid_api_key') {
+                    return {
+                        error: 'design-gpt.error-server-key'
+                    }
+                }
+
+            }
+        } catch (err){
+            return {
+                error: 'design-gpt.error-server'
+            }
+        }
+        return {
+            error: 'design-gpt.error-no-idea'
+        }
+       
+    }
+
+
+
     async runGPT35Turbo (message, key, app) {
         const prompt =`
             Please create a HTML page for the following

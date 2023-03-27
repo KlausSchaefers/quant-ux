@@ -13,7 +13,7 @@ import RadioBox from 'common/RadioBox'
 export default {
 	name: 'RadioBoxList',
 	mixins: [DojoWidget],
-	props: ['qOptions'],
+	props: ['qOptions', 'qValue'],
 	data: function () {
 		return {
 			value: false,
@@ -92,6 +92,10 @@ export default {
 		if (this.qOptions) {
 			this.setOptions(this.qOptions)
 		}
+		if (this.qValue) {
+			this.setValue(this.qValue)
+		}
+		console.debug(this.qValue,this.value)
 	}
 }
 </script>

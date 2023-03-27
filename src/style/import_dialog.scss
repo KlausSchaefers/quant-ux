@@ -146,6 +146,20 @@
     height: 220px;
   }
 
+  .VommondRadioBoxList > div {
+    display: flex;
+    flex-direction: column;
+
+    .VommondRadioBoxListItem {
+      width: auto;
+    }
+  }
+
+  .MatchImportOpenAIDialogHint {
+    font-size: 14px;
+    margin-top: 16px;
+  }
+
   .MatchImportDialogCntrConfig {
     height: 48px;
     display: flex;

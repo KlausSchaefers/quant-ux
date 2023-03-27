@@ -22,17 +22,26 @@
                         <div class="field">
                             <label>{{ getNLS('design-gpt.key-title') }}</label>
                             <input type="text" class="input" v-model="openAIKey" @change="onChangeOpenAIKey"/>
+
+                            <p class="MatchImportOpenAIDialogHint">
+                                {{ getNLS('design-gpt.key-hint') }}                          
+                                {{ getNLS('design-gpt.key-security') }}
+                    
+                            </p>
+
                         </div>
 
-                        <div class="">
-                            {{ getNLS('design-gpt.key-hint') }}
-                          
+                     
+        
+                        <div class="field MatcMarginTop">
+                            <label>{{ getNLS('design-gpt.gpt-model') }}</label>
+                            <div>
+                                <RadioBoxList :qOptions="gptModels" :qValue="gptVersion" @change="onChangeModelType"/>
+                            </div>
+                           
                         </div>
-                        <div class="MatcMarginTop">
-                            <b>
-                                {{ getNLS('design-gpt.key-security') }}
-                            </b>
-                        </div>
+                     
+
                     </div>
                 </div>
 
@@ -70,12 +79,15 @@
                 </div>
 
                 <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'openai'">
-                    
+                 
                     <a class=" MatcButton" @click.stop="onCreatePreview">
                         {{getNLS('design-gpt.preview') }}
-                    </a>
-                    <a class=" MatcButton" v-if="preview" @click.stop="onSave">{{ getNLS('btn.import') }}</a>
-                    <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
+                    </a>     
+                    <a class=" MatcButton" v-if="preview" @click.stop="onSave">
+                        {{ getNLS('btn.import') }}
+                    </a>       
+                    <a class=" MatcLinkButton" @click.stop="onCancel">
+                        {{ getNLS('btn.cancel') }}</a>
                 </div>
 
                 <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'settings'">
@@ -141,7 +153,7 @@ import Simulator from 'core/Simulator'
 import Services from 'services/Services'
 import HTMLImporter from 'core/ai/HTMLImporter'
 import * as StyleImporter from 'core/ai/StyleImporter'
-//import SegmentButton from 'page/SegmentButton'
+import RadioBoxList from 'common/RadioBoxList'
 import CheckBox from 'common/CheckBox'
 
 export default {
@@ -170,6 +182,11 @@ export default {
             isMinimal: false,
             isRunningAI: false,
             hasRobo: true,
+            gptVersion: 'gpt3',
+            gptModels: [
+                {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
+                {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')}   
+            ],
             robo: {
                 icon:'mdi mdi-robot-outline',
                 messages: [],
@@ -177,7 +194,7 @@ export default {
         }
     },
     components: {
-        CheckBox
+        CheckBox,RadioBoxList
     },
     computed: {
         isDesktop () {
@@ -276,11 +293,10 @@ export default {
             } 
             this.promptHistory.push(this.prompt)
            
-            const aiService = Services.getAIService()
             this.isRunningAI = true
             this.showRunning()
+            const result = await this.runGTPT()
             //const result = await aiService.runFake(this.prompt, this.openAIKey, this.model)
-            const result = await aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model) // await aiService.runFake(this.prompt, this.openAIKey, this.model) //
             this.isRunningAI = false
             if (result.error) {
                 this.hint = this.getNLS('design-gpt.no-preview'),
@@ -290,6 +306,15 @@ export default {
                 console.debug(this.html)
                 this.buildApp(this.html)
             }
+        },
+
+        runGTPT () {
+            this.logger.log(-1, 'runGTPT', 'enter', this.gptVersion )
+            const aiService = Services.getAIService()
+            if (this.gptVersion === 'gpt4') {
+                return aiService.runGPT4(this.prompt, this.openAIKey, this.model)
+            }
+            return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model)
         },
 
         showRunning () {
@@ -337,6 +362,7 @@ export default {
                 this.getNLS('design-gpt.robo-waiting-6'),
                 this.getNLS('design-gpt.robo-waiting-7'),
                 this.getNLS('design-gpt.robo-waiting-8'),
+                this.getNLS('design-gpt.robo-waiting-9'),
             ]
             waitingMessages = waitingMessages
                 .map(value => ({ value, sort: Math.random() }))
@@ -476,6 +502,12 @@ export default {
             }
         },
 
+        onChangeModelType (v) {
+            console.debug('onChangeModelType', v)
+            this.gptVersion = v
+            localStorage.setItem('quxOpenAIGPTVersion', v)
+        },
+
         onChangeMinimal(v) {
             this.isMinimal = v
             localStorage.setItem('quxOpenAIIsMinimal', v)
@@ -505,6 +537,7 @@ export default {
         this.openAIKey = localStorage.getItem('quxOpenAIKey')
         this.isWireFrame = localStorage.getItem('quxOpenAIIsWireFrame')=== 'true' ? true : false
         this.isMinimal = localStorage.getItem('quxOpenAIIsMinimal') === 'true' ? true : false
+        this.gptVersion = localStorage.getItem('quxOpenAIGPTVersion') ? localStorage.getItem('quxOpenAIGPTVersion') : 'gpt3'
         if (!this.openAIKey) {
             this.tab = 'settings'
         }

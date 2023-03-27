@@ -882,3 +882,51 @@ export const html10 = `
 	</div>
 	</body>
 </html>`
+
+export const html11 = `
+<html>
+
+  <head>
+    <title>Cooking App - Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to the Cooking App</h1>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Recipes</a></li>
+          <li><a href="#">Search</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <main>
+      <section>
+        <h2>About the App</h2>
+        <p>Our cooking app is your go-to source for delicious recipes and meal ideas. Browse our collection of recipes, discover new ingredients and cooking techniques, and create your own recipe collections for easy access.</p>
+      </section>
+      
+      <section>
+        <h2>Featured Recipes</h2>
+        <ul>
+          <li><a href="#">Spaghetti and Meatballs</a></li>
+          <li><a href="#">Chocolate Cake</a></li>
+          <li><a href="#">Grilled Chicken Sandwich</a></li>
+        </ul>
+      </section>
+      
+      <section>
+        <h2>Testimonials</h2>
+        <p>"This app has revolutionized the way I cook!" - Jane</p>
+        <p>"I use this app every day and have learned so much!" - Tom</p>
+      </section>
+    </main>
+    
+    <footer>
+      <p>&copy; 2021 Cooking App</p>
+    </footer>
+  </body>
+</html>`
