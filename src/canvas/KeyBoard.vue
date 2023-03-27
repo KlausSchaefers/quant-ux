@@ -42,6 +42,8 @@ export default {
         const isCntrl = e.ctrlKey || e.metaKey;
         const isShift = e.shiftKey
 
+ 
+
         /**
          * Cancel listeners must be always fired.
          */
@@ -90,6 +92,13 @@ export default {
          */
         if (this._inlineEditStarted ){
           this.onSelectionKeyPress(e);
+        /**
+         * TAB for DesignGPT
+         */
+        } else if (k == keys.TAB){ 
+          if (this.toolbar) {
+            this.toolbar.showDesignGPT(e)
+          }
         /**
          * Arrow dispatch if cntrl is not pressed
          */

@@ -126,6 +126,8 @@
 
 .MatcDialog.MatchImportDialog.MatchImportOpenAIDialog {
 
+
+
   .MatchImportOpenAIDialogCntr {
     display: flex;
     gap:40px;
@@ -143,6 +145,7 @@
 
    
   }
+
 
   textarea {
     height: 200px;
@@ -162,6 +165,7 @@
     .MatcHint {
       color: $text_color_passive;
       position: absolute;
+      width: 60%;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -173,19 +177,122 @@
 
   }
 
+  .MatchImportOpenAIDialogDesktop {
+      .MatchImportDialogPreviewCntr {
+        width: 520px;
+      }
+  }
+
+
+  .MatchImportDialogProgressCntr {
+    display: block;
+    margin-top: 24px;
+    opacity: 0;
+    width: 100%;
+    height: 8px;
+ 
+    overflow: hidden;
+  }
+
+  .MatchImportDialogProgress {
+    height: 100%;
+    width: 100%;
+    background: $main_color;
+    border-radius: 4px;
+  }
+
+  .MatchImportDialogAIRunning {
+
+    .MatcHint {
+      color: $main_color;
+      font-size: 16px;
+    }
+
+    .MatchImportDialogProgressCntr {
+      opacity: 1;
+    }
+
+    .MatchImportDialogProgress{
+      animation-name: aiRunning;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    .MatchImportOpenAIDialogSimulator {
+      border-color: $main_color;
+    }
+  }
+
+
+ 
   .MatchImportOpenAIDialogSimulator {
-    width: 300px;
+    width: 100%;
     height: 100%;
     overflow: hidden;
     border-radius: 4px;
     border: 1px dashed hsl(0deg, 0%, 86%);
+    position: absolute;
+  }
 
-    .MatchSimulatorContainer {
-      //box-shadow: rgba($color: #000000, $alpha: .2) 0 0 16px;
-      //border-radius: 8px;
+  .MatcDesignRoboCntr {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: 0px dashed hsl(0deg, 0%, 86%);
+    border-radius: 4px;
+
+    .MatcDesignRoboBubblez {
+      position: absolute;
+      width: calc(100% - 48px);
+ 
+      height: calc(100% - 64px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-end;
+      gap: 16px;
+      overflow: auto;
+      padding-left: 16px; 
     }
+
+    .MatcDesignRoboBubble {
+      border: 1px solid  #333;
+      color: #333;
+      padding: 8px;
+      border-radius: 8px;
+      border-bottom-right-radius: 0px;
+      font-size: 14px;
+    }
+
+    .MatcDesignRoboIcon {
+      position: absolute;
+      bottom: 0px;
+      right: 8px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 32px;
   
+      .mdi{
+        color:#333;
+        font-size: 48px;
+      }
+    }
+  }
+
+  .MatcDesignRoboError {
+      .MatcDesignRoboBubble{
+        border: 1px solid  $color-danger;
+        color: $color-danger;
+      }
   }
 
 }
 
+
+@keyframes aiRunning {
+  0%   {width: 1%;}
+  100% {width: 100%}
+}

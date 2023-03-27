@@ -51,8 +51,6 @@
 				<span class="mdi mdi-code-tags" ></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
-
-		
 		
 
 			<div class="MatcToolbarItem MatcToolbarMove" data-dojo-attach-point="moveTool" >

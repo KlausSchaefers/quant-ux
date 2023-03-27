@@ -1,6 +1,6 @@
 
 <template>
-    <div :class="{'MatchImportOpenAIDialogDesktop':isDesktop}">
+    <div class="">
 
      
         <div v-if="isPublic">
@@ -41,7 +41,6 @@
                         <div class="field">
                             <label>{{ getNLS('design-gpt.prompt') }}</label>
                             <textarea 
-                                :placeholder="promptPlaceholder"
                                 type="text" 
                                 class="input" 
                                 v-model="prompt" 
@@ -68,7 +67,7 @@
 
 
                 <div class="MatcError">
-                    <span v-if="!hasRobo">{{errorMSG}}</span>
+                    {{ errorMSG }}
                 </div>
 
                 <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'openai'">
@@ -90,19 +89,19 @@
             </div>
 
             <div :class="['MatchImportDialogPreviewCntr' ,{'MatchImportDialogAIRunning': isRunningAI}]">
-                <div class="MatcHint" v-if="!preview && !hasRobo">
+                <!-- <div class="MatcHint" v-if="!preview">
                     {{ hint }}
                     <div class="MatchImportDialogProgressCntr"> 
                         <div class="MatchImportDialogProgress"></div>
                     </div>
-                </div>
+                </div> -->
 
               
              
-                <div ref="simCntr" class="MatchImportOpenAIDialogSimulator" v-show="preview || !hasRobo">
+                <div ref="simCntr" class="MatchImportOpenAIDialogSimulator" v-show="preview">
                 </div>
 
-                <div :class="['MatcDesignRoboCntr', {'MatcDesignRoboError': this.errorMSG}]" v-if="!preview && hasRobo">
+                <div class="MatcDesignRoboCntr" v-if="!preview">
                     <div class="MatcDesignRoboBubblez">                        
                         <div class="MatcDesignRoboBubble" v-for="m in robo.messages" :key="m">
                             {{m}}
@@ -154,7 +153,6 @@ export default {
     data: function () {
         return {
             tab: "openai",
-            model: null,
             hasContinue: false,
             uploadFiles: [],
             uploadPreviews: [],
@@ -164,8 +162,7 @@ export default {
             progressMSG: '',
             progessPercent: 0,
             isPublic: false,
-            prompt: '',
-            promptPlaceholder: this.getNLS('design-gpt.prompt-placeholder'),
+            prompt: 'Create a simple login page with a forget password link. make the buttons red. put the labels above the input elements.',
             openAIKey: '',
             preview: null,
             hint: this.getNLS('design-gpt.no-preview'),
@@ -173,7 +170,6 @@ export default {
             isWireFrame: false,
             isMinimal: false,
             isRunningAI: false,
-            hasRobo: true,
             robo: {
                 icon:'mdi mdi-robot-outline',
                 messages: [],
@@ -184,12 +180,6 @@ export default {
         CheckBox
     },
     computed: {
-        isDesktop () {
-            if (this.model && this.model.screenSize.w >= 768) {
-                return true
-            }
-            return false
-        }
     },
     methods: {
         setModel(m) {
@@ -265,29 +255,25 @@ export default {
 
         async onCreatePreview() {
             this.logger.log(-1, 'onCreatePreview', 'enter')
-            this.cleanUp()         
+
+            this.cleanUp()
+            this.hint = this.getNLS('design-gpt.busy')
             this.runDesignGPT()
         },
 
         async runDesignGPT() {
             if (!this.model) {
-                this.logger.error('runDesignGPT', 'No model')
-                return
-            }          
-            if (this.prompt.length < 5) {
-                this.setError('design-gpt.error-prompt-too-short')
-                return
-            } 
+                this.errorMSG = 'No model'
+            }
+           
             this.promptHistory.push(this.prompt)
            
             const aiService = Services.getAIService()
             this.isRunningAI = true
-            this.showRunning()
-            const result = await aiService.runFake(this.prompt, this.openAIKey, this.model)
-            //const result = await aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model) // await aiService.runFake(this.prompt, this.openAIKey, this.model) //
+            this.startRobo()
+            const result = await aiService.runFake(this.prompt, this.openAIKey, this.model) // await aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model)
             this.isRunningAI = false
             if (result.error) {
-                this.hint = this.getNLS('design-gpt.no-preview'),
                 this.setError(result.error)
             } else {
                 this.html = result.html
@@ -296,42 +282,8 @@ export default {
             }
         },
 
-        showRunning () {
-            if (this.hasRobo) {
-                this.startRobo()
-            } else {
-                this.startHints()
-            }
-        },
-
-        startHints () {
-            this.hint = this.getNLS('design-gpt.robo-running-1')
-            const [waitingMessages, delayedMessages] = this.getWaitingMessages()
-            this.updateHint(waitingMessages, delayedMessages, 0)
-        },
-
-        updateHint (waitingMessages, delayedMessages, call = 0, delayedTheshold = 2) {
-            this.updateTimeout = setTimeout(() => {
-                const m = call > delayedTheshold ? 
-                    delayedMessages.pop() : 
-                    waitingMessages.pop()   
-
-                if (!this.isRunningAI || !m) {
-                    return
-                }     
-                this.hint = m
-                this.updateHint(waitingMessages, delayedMessages, call+1)
-            }, 4000 + Math.round(Math.random() * 2000))
-        },
-        
         startRobo () {
             this.robo.messages = [this.getNLS('design-gpt.robo-running-1')]
-            const [waitingMessages, delayedMessages] = this.getWaitingMessages()
-            this.robo.icon = 'mdi mdi-robot-excited'
-            this.updateRobo(waitingMessages, delayedMessages, 0)
-        },
-
-        getWaitingMessages () {
             let waitingMessages = [
                 this.getNLS('design-gpt.robo-waiting-1'),
                 this.getNLS('design-gpt.robo-waiting-2'),
@@ -366,11 +318,12 @@ export default {
 
 
             waitingMessages.push(this.getNLS('design-gpt.robo-running-2'))
-            return [waitingMessages, delayedMessages]
+            this.robo.icon = 'mdi mdi-robot-excited'
+            this.updateRobo(waitingMessages, delayedMessages, 0)
         },
 
         updateRobo (waitingMessages, delayedMessages, call = 0, delayedTheshold = 2) {
-            this.updateTimeout = setTimeout(() => {
+            setTimeout(() => {
                 const m = call > delayedTheshold ? 
                     delayedMessages.pop() : 
                     waitingMessages.pop()   
@@ -394,8 +347,6 @@ export default {
         setError (errorKey) {
             this.errorMSG = this.getNLS(errorKey)
             this.robo.icon = "mdi mdi-robot-dead"
-            this.robo.messages = [this.errorMSG]
-            clearTimeout(this.updateTimeout)
         },
 
 
@@ -404,14 +355,15 @@ export default {
             const height = this.model.screenSize.h
             const importer = new HTMLImporter(this.model.lastUUID)
             const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
-                isRemoveContainers: this.isMinimal,
-                defaultStyle: this.getDefaultStyle()
+                    isRemoveContainers: this.isMinimal,
+                    defaultStyle: this.getDefaultStyle()
             })
             if (result) {
                 this.preview = result
                 this.$nextTick(() => {
                     this.buildPreview(result)
-                })              
+                })
+              
             }
         },
 
@@ -460,9 +412,6 @@ export default {
 
         cleanUp() {
             this.errorMSG = ''
-            this.hint = this.getNLS('design-gpt.no-preview'),
-            clearTimeout(this.updateTimeout)
-            this.stopRobo()
             this.preview = null
             if (this.simulator) {
                 this.simulator.destroy()

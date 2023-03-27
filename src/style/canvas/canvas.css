@@ -264,6 +264,11 @@
 	z-index: 999999;
 }
 
+.MatcImportBox.MatcAddBox {
+	border:1px dashed #92c500;
+	background:rgba(146,197,0,0.4);
+	box-shadow: none;
+}
 /****************************************************
  * Collab
  ****************************************************/
@@ -429,9 +434,6 @@
 .MatcCanvasModeInlineEdit .MatcResizeBorderRight {
 	border-right: 1px dashed #49C0F0;
 }
-.
-
-
 
  /****************************************************
  * Upload

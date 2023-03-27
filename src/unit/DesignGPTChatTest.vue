@@ -1,8 +1,8 @@
 <template>
     <div class="MatcLight">
-      <h1>DesignGPTDialog Test</h1>
+      <h1>DesignGPTChat Test</h1>
       <div class="MatcDialog MatchImportDialog MatchImportOpenAIDialog MatcPadding">
-        <DesignGPTDialog ref="importDialog"/>
+        <DesignGPTChat ref="importDialog"/>
       </div>
     </div>
   </template>
@@ -26,7 +26,7 @@
   
   <script>
   
-  import DesignGPTDialog from 'canvas/toolbar/dialogs/DesignGPTDialog'
+  import DesignGPTChat from 'canvas/toolbar/dialogs/DesignGPTChat'
   import app from './data/export_snack.json'
   
   export default {
@@ -41,7 +41,7 @@
       };
     },
     components: {
-      'DesignGPTDialog': DesignGPTDialog
+      'DesignGPTChat': DesignGPTChat
     },
     computed: {
       screens () {

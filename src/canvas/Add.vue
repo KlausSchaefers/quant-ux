@@ -80,6 +80,14 @@ export default {
 			this.addThemedWidget(params, "distance");
 		},
 
+
+		addImportedApp (params) {
+			this.logger.log(-1,"addThemedScreenAndWidgets", "enter", params);
+			this._createAddCommand("addImportedApp", params);
+			this._addScreensAndWidgets(params, params.obj, 'MatcImportBox');
+		},
+
+		
 		/**********************************************************************
 		 * Add  from Theme. Themes are essentially the same as templates, but we
 		 * do not assume there is a template defined in the model. Instead, there
@@ -275,25 +283,30 @@ export default {
 		/**********************************************************************
 		 * Add Screens && Widget
 		 **********************************************************************/
-		_addScreensAndWidgets (params, app) {
+		_addScreensAndWidgets (params, app, cls) {
 
-			let screens = Object.values(app.screens)
+			const screens = Object.values(app.screens)
 			if (screens.length !== 1) {
 				this.logger.warn("_addScreensAndWidgets", "Not 1 screen!!");
 				return
 			}
-			let screen = screens[0]
+			const screen = screens[0]
 			if(!this._alignmentToolInited){
 				var zoomedModel = this.getZoomedBox(lang.clone(screen), this.getZoomFactor(), this.getZoomFactor());
 				this.alignmentStart("screen", zoomedModel, "All");
 			}
 			this.setMode("add");
 
-			var z = this.getZoomFactor();
-			var zoomedScreen = this.getZoomedBox(lang.clone(screen),z,z);
-			var div = this.createScreen(zoomedScreen);
+			const z = this.getZoomFactor();
+			const zoomedScreen = this.getZoomedBox(lang.clone(screen),z,z);
+			const div = this.createScreen(zoomedScreen);
 			css.add(div, "MatcAddBox")
-			this.renderFactory.setStyle(div, zoomedScreen);
+			if (cls) {
+				css.add(div, 'MatcImportBox')
+			} else {
+				this.renderFactory.setStyle(div, zoomedScreen);
+			}
+
 			this._onAddNDropStart(div, app, params.event, "onScreensAndWidgetsAdded");
 			this.setState(3);
 		},
