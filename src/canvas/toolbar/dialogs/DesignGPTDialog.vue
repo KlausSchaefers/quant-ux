@@ -1,6 +1,10 @@
 
 <template>
     <div :class="{'MatchImportOpenAIDialogDesktop':isDesktop}">
+        <div class="MatcToolbarTabs MatcToolbarTabsBig">
+                    <a @click="tab='openai'" :class="{'MatcToolbarTabActive': tab === 'openai'}">{{ getNLS('design-gpt.tab-prompt')}}</a>
+                    <a @click="tab='settings'" :class="{'MatcToolbarTabActive': tab === 'settings'}">{{ getNLS('design-gpt.tab-settings')}}</a>
+                </div>
 
      
         <div v-if="isPublic">
@@ -11,11 +15,7 @@
         <div v-else class="MatchImportOpenAIDialogCntr">
 
             <div class="MatchImportOpenAIDialogInput">
-                <div class="MatcToolbarTabs MatcToolbarTabsBig">
-                    <a @click="tab='openai'" :class="{'MatcToolbarTabActive': tab === 'openai'}">{{ getNLS('design-gpt.tab-prompt')}}</a>
-                    <a @click="tab='settings'" :class="{'MatcToolbarTabActive': tab === 'settings'}">{{ getNLS('design-gpt.tab-settings')}}</a>
-                </div>
-
+                
                 <div v-if="tab === 'settings'">
                     <div class="MatchImportDialogCntr ">
                         
@@ -39,7 +39,7 @@
                 <div v-if="tab === 'openai'">
                     <div class="MatchImportDialogCntr ">
                         <div class="field">
-                            <label>{{ getNLS('design-gpt.prompt') }}</label>
+                      
                             <textarea 
                                 :placeholder="promptPlaceholder"
                                 type="text" 
@@ -64,11 +64,9 @@
                     </div>
                 </div>
 
-              
-
 
                 <div class="MatcError">
-                    <span v-if="!hasRobo">{{errorMSG}}</span>
+                    <span v-if="!isRunningAI">{{errorMSG}}</span>
                 </div>
 
                 <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'openai'">
@@ -89,20 +87,18 @@
 
             </div>
 
-            <div :class="['MatchImportDialogPreviewCntr' ,{'MatchImportDialogAIRunning': isRunningAI}]">
-                <div class="MatcHint" v-if="!preview && !hasRobo">
+            <div :class="['MatchImportDialogPreviewCntr' ,{'XXX_MatchImportDialogAIRunning': isRunningAI}]" v-if="tab === 'openai'">
+                <div class="MatcHint" v-if="!preview && !isRunningAI">
                     {{ hint }}
                     <div class="MatchImportDialogProgressCntr"> 
                         <div class="MatchImportDialogProgress"></div>
                     </div>
                 </div>
 
-              
-             
-                <div ref="simCntr" class="MatchImportOpenAIDialogSimulator" v-show="preview || !hasRobo">
+                <div ref="simCntr" class="MatchImportOpenAIDialogSimulator">
                 </div>
 
-                <div :class="['MatcDesignRoboCntr', {'MatcDesignRoboError': this.errorMSG}]" v-if="!preview && hasRobo">
+                <div :class="['MatcDesignRoboCntr', {'MatcDesignRoboError': this.errorMSG}]" v-if="!preview && isRunningAI">
                     <div class="MatcDesignRoboBubblez">                        
                         <div class="MatcDesignRoboBubble" v-for="m in robo.messages" :key="m">
                             {{m}}
@@ -283,8 +279,8 @@ export default {
             const aiService = Services.getAIService()
             this.isRunningAI = true
             this.showRunning()
-            const result = await aiService.runFake(this.prompt, this.openAIKey, this.model)
-            //const result = await aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model) // await aiService.runFake(this.prompt, this.openAIKey, this.model) //
+            //const result = await aiService.runFake(this.prompt, this.openAIKey, this.model)
+            const result = await aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model) // await aiService.runFake(this.prompt, this.openAIKey, this.model) //
             this.isRunningAI = false
             if (result.error) {
                 this.hint = this.getNLS('design-gpt.no-preview'),
