@@ -121,7 +121,7 @@
 
             </div>
 
-            <div :class="['MatchImportDialogPreviewCntr' ,{'XXX_MatchImportDialogAIRunning': isRunningAI}]" v-if="tab === 'openai'">
+            <div :class="['MatchImportDialogPreviewCntr' ,{'MatchImportDialogAIRunning': isRunningAI}]" v-if="tab === 'openai'">
                 <div class="MatcHint" v-if="!preview && !isRunningAI">
                     {{ hint }}
                     <div class="MatchImportDialogProgressCntr"> 
@@ -206,7 +206,7 @@ export default {
             isCustomStyles: false,
             isToggleWireFrameAndCustom: false,
             hasRobo: true,
-            openAITemperature: 0.8,
+            openAITemperature: 2,
             gptVersion: 'gpt3',
             gptModels: [
                 {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
@@ -321,7 +321,7 @@ export default {
             this.isRunningAI = true
             this.showRunning()
             const result = await this.runGTPT()
-            //const result = await Services.getAIService().runFake(this.prompt, this.openAIKey, this.model)
+            //const result = await Services.getAIService().runFake(20)
             this.isRunningAI = false
             if (result.error) {
                 this.hint = this.getNLS('design-gpt.no-preview'),
@@ -378,33 +378,20 @@ export default {
         },
 
         getWaitingMessages () {
-            let waitingMessages = [
-                this.getNLS('design-gpt.robo-waiting-1'),
-                this.getNLS('design-gpt.robo-waiting-2'),
-                this.getNLS('design-gpt.robo-waiting-3'),
-                this.getNLS('design-gpt.robo-waiting-4'),
-                this.getNLS('design-gpt.robo-waiting-5'),
-                this.getNLS('design-gpt.robo-waiting-6'),
-                this.getNLS('design-gpt.robo-waiting-7'),
-                this.getNLS('design-gpt.robo-waiting-8'),
-                this.getNLS('design-gpt.robo-waiting-9'),
-            ]
+            let waitingMessages = []
+            for (let i = 1; i <= 20; i++) {
+                waitingMessages.push(this.getNLS('design-gpt.robo-waiting-' + i))
+            }
             waitingMessages = waitingMessages
                 .map(value => ({ value, sort: Math.random() }))
                 .sort((a, b) => a.sort - b.sort)
                 .map(({ value }) => value)
 
         
-            let delayedMessages = [
-                this.getNLS('design-gpt.robo-delayed-1'),
-                this.getNLS('design-gpt.robo-delayed-2'),
-                this.getNLS('design-gpt.robo-delayed-3'),
-                this.getNLS('design-gpt.robo-delayed-4'),
-                this.getNLS('design-gpt.robo-delayed-5'),
-                this.getNLS('design-gpt.robo-delayed-6'),
-                this.getNLS('design-gpt.robo-delayed-7'),
-                this.getNLS('design-gpt.robo-delayed-8'),
-            ]
+            let delayedMessages = []
+            for (let i = 1; i <= 16; i++) {
+                delayedMessages.push(this.getNLS('design-gpt.robo-delayed-' + i))
+            }
             delayedMessages = delayedMessages
                 .map(value => ({ value, sort: Math.random() }))
                 .sort((a, b) => a.sort - b.sort)
@@ -416,7 +403,7 @@ export default {
             return [waitingMessages, delayedMessages]
         },
 
-        updateRobo (waitingMessages, delayedMessages, call = 0, delayedTheshold = 2) {
+        updateRobo (waitingMessages, delayedMessages, call = 0, delayedTheshold = 4) {
             this.updateTimeout = setTimeout(() => {
                 const m = call > delayedTheshold ? 
                     delayedMessages.pop() : 
@@ -426,6 +413,14 @@ export default {
                     return
                 }     
                 this.robo.messages.push(m)
+
+                if (call % 2 === 0) {
+                    this.robo.icon = 'mdi mdi-robot-excited'
+                } else {
+                    this.robo.icon = 'mdi mdi-robot'
+                }
+                    
+                
                 if (call > delayedTheshold) {
                     this.robo.icon = 'mdi mdi-robot-confused'
                 }

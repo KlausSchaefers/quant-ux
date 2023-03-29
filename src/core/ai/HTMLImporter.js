@@ -5,7 +5,7 @@ const TEXT_NODE = 3
 
 const ELEMENT_NODE = 1
 
-const labelTypes = new Set(['LABEL', 'H1', 'H2', 'H3', 'H4', 'P', 'A', 'CAPTION'])
+const labelTypes = new Set(['LABEL', 'H1', 'H2', 'H3', 'H4', 'P', 'A', 'CAPTION', 'LI'])
 
 const nullableStyles = new Set(['backgroundImage'])
 

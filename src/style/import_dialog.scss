@@ -168,7 +168,7 @@
   }
 
   textarea {
-    height: 270px;
+    height: 260px;
   }
 
   .VommondRadioBoxList > div {
@@ -285,12 +285,14 @@
     }
 
     .MatcDesignRoboBubble {
-      border: 1px solid  #333;
+      border: 1px solid  #3787f2;
       color: #333;
       padding: 8px;
       border-radius: 8px;
       border-bottom-right-radius: 0px;
       font-size: 14px;
+      background: rgba(55, 136, 242, 0.2549019608);
+      color: #3787f2;
     }
 
     .MatcDesignRoboIcon {
@@ -302,9 +304,9 @@
       align-items: center;
       justify-content: center;
       border-radius: 32px;
-  
+       
       .mdi{
-        color:#333;
+        color: rgba(55, 136, 242, 0.8);
         font-size: 48px;
       }
     }
@@ -314,10 +316,28 @@
       .MatcDesignRoboBubble{
         border: 1px solid  $color-danger;
         color: $color-danger;
+
       }
   }
 
 }
+
+
+@keyframes rob1 {
+  0%   {transform: translate(0, 0);}
+  33%   {transform: translate(2px, 0px);}
+  66%   {transform: translate(2px, 2px);}
+  100%   {transform: translate(0px, 2px);}
+}
+
+@keyframes robo {
+  0%   {transform: rotate(10deg);}
+  33%   {transform: rotate(0deg)}
+  66%   {transform: rotate(-10deg);}
+  100%   {transform: rotate(0deg);}
+}
+
+
 
 
 @keyframes aiRunning {

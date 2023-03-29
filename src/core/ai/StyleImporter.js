@@ -248,6 +248,11 @@ const defaultStyleKeys = [
     'borderBottomColor',
     'borderLeftColor',
 
+    'textAlign',
+    "verticalAlign"
+]
+
+const paddingKeys = [
     'paddingTop',
     'paddingBottom',
     'paddingRight',
@@ -334,7 +339,7 @@ export function getCustomStyleCounts(app, topN = 2) {
     result.Button = getMostUsedStyles(getButtons(app), ['background', 'color',... defaultStyleKeys], topN)
     result.Default = getMostUsedStyles(Object.values(app.widgets), ['color', 'background', ...defaultStyleKeys], topN)
     result.Screen = getMostUsedStyles(Object.values(app.screens), ['background'], topN)
-    result.TextBox = getMostUsedStyles(getInputs(app), ['background', 'color', ...defaultStyleKeys], topN)
+    result.TextBox = getMostUsedStyles(getInputs(app), ['background', 'color', ...defaultStyleKeys, ...paddingKeys], topN)
     result.Table = getMostUsedStyles(getTable(app), ['background', 'color', 'headerBackground', 'headerColor', ...defaultStyleKeys], topN) 
     result.CheckBox = getMostUsedStyles(getCheckBox(app), ['color', 'colorButton', 'background', ...defaultStyleKeys], topN)
     result.RadioBox = getMostUsedStyles(getRadioBox(app), ['color', 'colorButton', 'background', ...defaultStyleKeys], topN)

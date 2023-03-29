@@ -171,6 +171,7 @@ export default class AIService extends AbstractService {
 
             ${message}
 
+            
             Please output as a HTML page.
         `
 
@@ -184,6 +185,7 @@ export default class AIService extends AbstractService {
                     {"role": "system", "content": `
                         You are HTMLGPT, a masterful webdeveloper skillful in HTML and CSS. 
                         You have a great experiences designing beautiful websites that delight their users.
+                        Make sure that some CSS is included and the page is well styled.
                     `},
                     {"role": "system", "content": `
                         The website you generate should run on a ${app.type} device.

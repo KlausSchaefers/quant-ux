@@ -118,7 +118,7 @@ pre {
 <script>
 
 import HTMLImporter from '../core/ai/HTMLImporter'
-import { html1, html2, html3, html4, html5, html6, html7, html8, html9, html10} from './data/htmlImport'
+import { html1, html2, html3, html4, html5, html6, html7, html8, html9, html10, html11} from './data/htmlImport'
 import DomBuilder from 'common/DomBuilder'
 import domGeom from 'dojo/domGeom'
 import ScrollContainer from 'common/ScrollContainer'
@@ -131,7 +131,7 @@ export default {
   mixins: [],
   data: function () {
     return {
-      testPages: [html1, html2, html3, html4, html5, html6, html7, html8, html9, html10],
+      testPages: [html1, html2, html3, html4, html5, html6, html7, html8, html9, html10, html11],
       selectedPage: 0,
       hasJSON: false,
       isRemoveContainers: false,
