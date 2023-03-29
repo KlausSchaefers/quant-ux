@@ -1,6 +1,6 @@
 <template>
     <div class="MatcLight">
-      <h1>DesignGPTDialog Test</h1>
+      <h1>DesignGPTDialog Test XXX</h1>
       <div class="MatcDialog MatchImportDialog MatchImportOpenAIDialog MatcPadding">
         <DesignGPTDialog ref="importDialog"/>
       </div>
@@ -27,7 +27,7 @@
   <script>
   
   import DesignGPTDialog from 'canvas/toolbar/dialogs/DesignGPTDialog'
-  import app from './data/export_snack.json'
+  import app from './data/designGPT.json'
   
   export default {
     name: "FigmaTest",

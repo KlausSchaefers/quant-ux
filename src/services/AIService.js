@@ -1,5 +1,6 @@
 import Logger from 'common/Logger'
 import AbstractService from './AbstractService'
+import * as StyleImporter from 'core/ai/StyleImporter'
 
 export default class AIService extends AbstractService {
 
@@ -63,7 +64,7 @@ export default class AIService extends AbstractService {
         }
     }
     
-    runFake() {
+    runFake(ms = 200) {
         return new Promise (resolve => {
             setTimeout(() => {
                 resolve( {
@@ -149,18 +150,28 @@ export default class AIService extends AbstractService {
                         </div>
                     </body>
                     </html>`})
-            }, 20000)
+            }, ms)
         })
     }
 
-    async runGPT4 (message, key, app) {
+    async runGPT4 (message, key, app, options) {
+        return this.runChat('gpt-4', message, key, app, options)       
+    }
+
+    async runGPT35Turbo(message, key, app, options) {
+        return this.runChat('gpt-3.5-turbo', message, key, app, options)
+    }
+
+
+
+    async runChat (model, message, key, app) {
         const prompt =`
             Please create a HTML page for the following
             description:
 
             ${message}
 
-            Please output a a HTML page.
+            Please output as a HTML page.
         `
 
         const data = {
@@ -168,17 +179,23 @@ export default class AIService extends AbstractService {
             'openAIToken': key,
             'openAIOrgID': 'Klaus',
             'openAIPayload': {
-                "model": "gpt-4",
+                "model": model,
                 "messages": [
-                    {"role": "system", "content": "You are HTMLGPT, a masterful webdeveloper skillful in HTML and CSS"},
+                    {"role": "system", "content": `
+                        You are HTMLGPT, a masterful webdeveloper skillful in HTML and CSS. 
+                        You have a great experiences designing beautiful websites that delight their users.
+                    `},
                     {"role": "system", "content": `
                         The website you generate should run on a ${app.type} device.
                         The screen with is ${app.screenSize.w} pixel
                     `},
+                    //{"role": "system", "content": this.getStylePrompt(app, options)},
                     {"role": "user", "content": prompt}
                 ]
             }
         }
+
+     
         try {
             const res = await this._post('/ai/openai.json', data)
             if (res.choices && res.choices.length > 0) {
@@ -205,58 +222,35 @@ export default class AIService extends AbstractService {
        
     }
 
-
-
-    async runGPT35Turbo (message, key, app) {
-        const prompt =`
-            Please create a HTML page for the following
-            description:
-
-            ${message}
-
-            Please output a a HTML page.
-        `
-
-        const data = {
-            'openAIModel': '/v1/chat/completions',
-            'openAIToken': key,
-            'openAIOrgID': 'Klaus',
-            'openAIPayload': {
-                "model": "gpt-3.5-turbo",
-                "messages": [
-                    {"role": "system", "content": "You are HTMLGPT, a masterful webdeveloper skillful in HTML and CSS"},
-                    {"role": "system", "content": `
-                        The website you generate should run on a ${app.type} device.
-                        The screen with is ${app.screenSize.w} pixel
-                    `},
-                    {"role": "user", "content": prompt}
-                ]
-            }
+    getStylePrompt (app, options) {
+        if (!options.isCustomStyles) {
+            return ''
         }
         try {
-            const res = await this._post('/ai/openai.json', data)
-            if (res.choices && res.choices.length > 0) {
-                const choice = res.choices[0]
-                const content = choice?.message?.content
-                return this.extractHTML(content)
-            }
-            if (res.error) { 
-                if (res.error.code === 'invalid_api_key') {
-                    return {
-                        error: 'design-gpt.error-server-key'
-                    }
-                }
 
-            }
-        } catch (err){
-            return {
-                error: 'design-gpt.error-server'
-            }
+            const customStyles = StyleImporter.getCustomStyles(app)
+            return `
+                Unless further specified, use the following colors and backgrounds for the HTML elements:
+                Screens should have one of the following background colors: ${this.join(customStyles?.screen?.background)}.
+                Buttons should have one of the following background colors: ${this.join(customStyles?.button?.background)}.
+                Buttons should have one of the following colors: ${this.join(customStyles?.button?.color)}.
+                Labels, P and normal text should have one of the following colors: ${this.join(customStyles?.label?.color)}.
+                INPUT elements should have one of the following background colors: ${this.join(customStyles?.input?.background)}.
+                INPUT elements should have one of the following colors: ${this.join(customStyles?.input?.color)}.
+                INPUT elements should have one of the following border color : ${this.join(customStyles?.input?.borderTopColor)}.
+            `
+        } catch (err) {
+            this.logger.error('getStylePrompt', 'Error', err)
         }
-        return {
-            error: 'design-gpt.error-no-idea'
+
+        return ''
+    }
+
+    join(arr) {
+        if (arr) {
+            return arr.join(', ')
         }
-       
+        return ''
     }
 
     extractHTML (content) {

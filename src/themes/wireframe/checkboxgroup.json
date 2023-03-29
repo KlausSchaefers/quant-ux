@@ -4,7 +4,7 @@
 		 "type" : "CheckBoxGroup",
 		 "name" : "CheckBoxGroup",
 		 "category" : "WireFrame",
-		 "subcategory" : "Form",
+		 "subcategory" : "FormCheckBox",
 		 "_type" : "Widget",
 		 "x" : 0,
 	     "y" : 0,

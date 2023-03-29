@@ -4,7 +4,7 @@
 		"type": "CheckBox",
 		"name": "CheckBox",
 		"category": "WireFrame",
-		"subcategory": "Form",
+		"subcategory": "FormCheckBox",
 		"_type": "Widget",
 		"x": 0,
 		"y": 0,
@@ -51,7 +51,7 @@
 		"name": "CheckBox",
 		"_extends": "CheckBox",
 		"category": "WireFrame",
-		"subcategory": "Form",
+		"subcategory": "FormSpecialLabeledX",
 		"_type": "Widget",
 		"props": {
 			"checked": false
@@ -62,7 +62,7 @@
 		"type": "LabeledCheckBox",
 		"name": "Label CheckBox",
 		"category": "WireFrame",
-		"subcategory": "FormSpecialLabeledX",
+		"subcategory": "FormCheckBox",
 		"_type": "Widget",
 		"x": 0,
 		"y": 0,
@@ -71,7 +71,8 @@
 		"z": 0,
 		"props": {
 			"checked": true,
-			"label": "Label"
+			"label": "Label",
+			"gap": 8
 		},
 		"has": {
 			"label": true,
@@ -101,8 +102,7 @@
 			"background": "#ffffff",
 			"color": "#333333",
 			"colorButton": "#333333",
-			"verticalAlign": "middle",
-			"gap": 8
+			"verticalAlign": "middle"
 		},
 		"error": {
 			"borderTopColor": "#cc0000",

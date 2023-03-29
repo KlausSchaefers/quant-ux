@@ -14,6 +14,7 @@ const pixelStyles = {
     'border-bottom-right-radius': 'borderBottomRightRadius',
     'border-top-left-radius': 'borderTopLeftRadius',
     'border-top-right-radius': 'borderTopRightRadius',
+
     'border-bottom-width': 'borderBottomWidth',
     'border-right-width': 'borderRightWidth',
     'border-left-width': 'borderLeftWidth',
@@ -101,6 +102,7 @@ export default class HTMLImporter {
         this.isRemoveNonLeafs = options.isRemoveNonLeafs
         this.isRemoveContainers = options.isRemoveContainers
         this.defaultStyle = options.defaultStyle
+        this.customStyle = options.customStyle
         this.grid = options.grid
         this.z = 1
 
@@ -236,6 +238,7 @@ export default class HTMLImporter {
 
         Object.values(app.widgets).forEach(w => {
             this.setDefaultStyle(w)
+            this.setCustomStyle(w)
             this.cleanUpWidget(w)
         })
 
@@ -244,46 +247,59 @@ export default class HTMLImporter {
 
     setDefaultStyle (w) {
         if (this.defaultStyle) {
-            let overwrites = this.getDefaultOverwrites(w)
+            const overwrites = this.getStyleOverWrites(w, this.defaultStyle)
             for (let key in overwrites) {
                 w.style[key] = overwrites[key]
             }
         }
     }
 
-    getDefaultOverwrites (w) {
+    setCustomStyle (w) {
+        if (this.customStyle) {
+            const overwrites = this.getStyleOverWrites(w, this.customStyle)
+            if (overwrites) {
+                for (let key in overwrites) {
+                    w.style[key] = overwrites[key]
+                }
+            }          
+        }
+    }
+
+
+    getStyleOverWrites (w, defaultStyle) {
         const type = w.type
         if (type === "Button") {
             if (w.children.length > 0) {
-                return this.defaultStyle['Container']
+                return defaultStyle['Container']
             }
-            return this.defaultStyle['Button']
+            return defaultStyle['Button']
         }
         if (type === "Label") {
-            return this.defaultStyle['Label']
+            return defaultStyle['Label']
         }
         if (type === "TextBox") {
-            return this.defaultStyle['TextBox']
+            return defaultStyle['TextBox']
         }
         if (type === "Table") {
-            return this.defaultStyle['Table']
+            return defaultStyle['Table']
         }
         if (type === "RadioBox2") {
-            return this.defaultStyle['RadioBox']
+            return defaultStyle['RadioBox']
         }
         if (type === "CheckBox") {
-            return this.defaultStyle['CheckBox']
+            return defaultStyle['CheckBox']
         }
         if (type === "DropDown") {
-            return this.defaultStyle['DropDown']
+            return defaultStyle['DropDown']
         }
         if (type === "Image") {
-            return this.defaultStyle['Image']
+            return defaultStyle['Image']
         }
-        return this.defaultStyle['Default']
+        return defaultStyle['Default']
         
     }
 
+    
     cleanUpScreen(s, app) {
         this.removeHiddenElements(s, app)
         s.h = getScreenHeight(s, app)

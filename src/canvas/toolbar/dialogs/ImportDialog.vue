@@ -43,11 +43,13 @@
 
                         <div class="field ">
                             <label>{{ getNLS('dialog.import.figma-key')}}
-                            <a  target="figma" href="https://www.figma.com/developers/api#access-tokens">
+                            <a target="figma" href="https://www.figma.com/developers/api#access-tokens">
                                 <span class="mdi mdi-help-circle"></span>
                             </a>
                             </label>
-                            <input type="text" class="input" v-model="figmaAcccessKey" />
+                            <form autocomplete="off">
+                                <input type="password" autocomplete="off" class="input" v-model="figmaAcccessKey" />
+                            </form>
                         </div>
 
                         <div class="field">

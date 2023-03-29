@@ -17,28 +17,44 @@
             <div class="MatchImportOpenAIDialogInput">
                 
                 <div v-if="tab === 'settings'">
-                    <div class="MatchImportDialogCntr ">
-                        
-                        <div class="field">
-                            <label>{{ getNLS('design-gpt.key-title') }}</label>
-                            <input type="text" class="input" v-model="openAIKey" @change="onChangeOpenAIKey"/>
+                    <div class="MatchImportDialogCntr MatchImportOpenAIDialogSettingsCntr ">
+                        <div class="MatchImportOpenAIDialogSettings">
+                            <div class="field">
+                                <label>{{ getNLS('design-gpt.key-title') }}</label>
+                                <form autocomplete="off">
+                                    <input type="password" autocomplete="off" class="input" v-model="openAIKey" @change="onChangeOpenAIKey"/>
+                                </form>
+                            </div>
 
-                            <p class="MatchImportOpenAIDialogHint">
-                                {{ getNLS('design-gpt.key-hint') }}                          
-                                {{ getNLS('design-gpt.key-security') }}
-                    
-                            </p>
+                            <!-- <div class="field">
+                                <label>{{ getNLS('design-gpt.gpt-temperature') }}</label>
+                                <form autocomplete="off">
+                                    <input type="number" autocomplete="off"  class="input"  v-model="openAITemperature" @change="onChangeOpenAITemperature"/>
+                                </form>
+                            </div> -->
+            
+        
+                            <div class="field MatcMarginTop">
+                                <label>{{ getNLS('design-gpt.gpt-model') }}</label>
+                                <div>
+                                    <RadioBoxList :qOptions="gptModels" :qValue="gptVersion" @change="onChangeModelType"/>
+                                </div>                
+                            </div>
 
                         </div>
+                        <div class="MatchImportOpenAIDialogSettingsHint">
 
-                     
-        
-                        <div class="field MatcMarginTop">
-                            <label>{{ getNLS('design-gpt.gpt-model') }}</label>
-                            <div>
-                                <RadioBoxList :qOptions="gptModels" :qValue="gptVersion" @change="onChangeModelType"/>
-                            </div>
-                           
+                            <p class="MatchImportOpenAIDialogHint">
+                                {{ getNLS('design-gpt.key-hint-1') }}
+                                <br><br>     
+                                {{ getNLS('design-gpt.key-hint-2') }}
+                
+                                {{ getNLS('design-gpt.key-hint-3') }}
+                                <a href="https://platform.openai.com/">openai.com</a>.
+                                <br><br> 
+                                {{ getNLS('design-gpt.key-hint-5') }}
+                    
+                            </p>
                         </div>
                      
 
@@ -59,10 +75,16 @@
                         </div>
 
                         <div class="MatchImportDialogCntrConfig">
+
                             <CheckBox 
                                 :value="isWireFrame" 
                                 :label="getNLS('design-gpt.is-wireframe')" 
                                 @change="onChangeWireFrame"/>
+
+                            <CheckBox 
+                                :value="isCustomStyles" 
+                                :label="getNLS('design-gpt.is-custom-styles')" 
+                                @change="onChangeCustomStyles"/>
 
                             <CheckBox 
                                 :value="isMinimal" 
@@ -91,7 +113,7 @@
                 </div>
 
                 <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'settings'">
-                    <a class=" MatcButton" @click.stop="tab = 'openai'">
+                    <a class=" MatcButton" @click.stop="saveSettings">
                         {{getNLS('btn.save') }}
                     </a>
                     <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
@@ -181,7 +203,10 @@ export default {
             isWireFrame: false,
             isMinimal: false,
             isRunningAI: false,
+            isCustomStyles: false,
+            isToggleWireFrameAndCustom: false,
             hasRobo: true,
+            openAITemperature: 0.8,
             gptVersion: 'gpt3',
             gptModels: [
                 {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
@@ -296,7 +321,7 @@ export default {
             this.isRunningAI = true
             this.showRunning()
             const result = await this.runGTPT()
-            //const result = await aiService.runFake(this.prompt, this.openAIKey, this.model)
+            //const result = await Services.getAIService().runFake(this.prompt, this.openAIKey, this.model)
             this.isRunningAI = false
             if (result.error) {
                 this.hint = this.getNLS('design-gpt.no-preview'),
@@ -312,9 +337,9 @@ export default {
             this.logger.log(-1, 'runGTPT', 'enter', this.gptVersion )
             const aiService = Services.getAIService()
             if (this.gptVersion === 'gpt4') {
-                return aiService.runGPT4(this.prompt, this.openAIKey, this.model)
+                return aiService.runGPT4(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
-            return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model)
+            return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
         },
 
         showRunning () {
@@ -427,6 +452,7 @@ export default {
             const importer = new HTMLImporter(this.model.lastUUID)
             const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
                 isRemoveContainers: this.isMinimal,
+                customStyle: this.getCustomerStyles(html),
                 defaultStyle: this.getDefaultStyle()
             })
             if (result) {
@@ -435,6 +461,13 @@ export default {
                     this.buildPreview(result)
                 })              
             }
+        },
+
+        getCustomerStyles () {
+            if (this.isCustomStyles) {
+                return StyleImporter.getCustomStyle(this.model)
+            }
+            return null
         },
 
         getDefaultStyle () {
@@ -493,29 +526,53 @@ export default {
             this.$refs.simCntr.innerHTML = ''
         },
 
-        onChangeWireFrame (v) {
-            this.isWireFrame = v
-            localStorage.setItem('quxOpenAIIsWireFrame', v)
-            if (this.html) {
-                //this.cleanUp()
-                this.buildApp(this.html)
-            }
+        onChangeOpenAITemperature () {        
         },
 
         onChangeModelType (v) {
-            console.debug('onChangeModelType', v)
             this.gptVersion = v
-            localStorage.setItem('quxOpenAIGPTVersion', v)
+        },
+
+        onChangeOpenAIKey () {
+        },
+
+        onChangeWireFrame (v) {
+            this.isWireFrame = v
+            if (this.isWireFrame && this.isToggleWireFrameAndCustom) {
+                this.isCustomStyles = false
+            }
+            this.saveOptions()
+        },
+
+        onChangeCustomStyles (v) {
+            this.isCustomStyles = v
+            if (this.isCustomStyles && this.isToggleWireFrameAndCustom) {
+                this.isWireFrame = false
+            }
+            this.saveOptions()
         },
 
         onChangeMinimal(v) {
             this.isMinimal = v
-            localStorage.setItem('quxOpenAIIsMinimal', v)
+            this.saveOptions()           
+        },
+
+        saveOptions () {
+            localStorage.setItem('quxOpenAIIsWireFrame', this.isWireFrame)
+            localStorage.setItem('quxOpenAIIsMinimal', this.isMinimal)
+            localStorage.setItem('quxOpenAIIsCustomStyles', this.isCustomStyles)
             if (this.html) {
-                //this.cleanUp()
                 this.buildApp(this.html)
             }
         },
+
+        saveSettings() {
+            localStorage.setItem('quxOpenAITemperature', this.openAITemperature)
+            localStorage.setItem('quxOpenAIGPTVersion', this.gptVersion)
+            localStorage.setItem('quxOpenAIKey', this.openAIKey)
+            this.tab = 'openai'
+        },
+
 
         getCanvasCenter() {
             if (this.canvas) {
@@ -526,10 +583,7 @@ export default {
             }
             return { x: 0, y: 0 }
         },
-        onChangeOpenAIKey () {
-            localStorage.setItem('quxOpenAIKey', this.openAIKey)
-        }
-
+  
 
     },
     mounted() {
@@ -537,9 +591,14 @@ export default {
         this.openAIKey = localStorage.getItem('quxOpenAIKey')
         this.isWireFrame = localStorage.getItem('quxOpenAIIsWireFrame')=== 'true' ? true : false
         this.isMinimal = localStorage.getItem('quxOpenAIIsMinimal') === 'true' ? true : false
+        this.isCustomStyles = localStorage.getItem('quxOpenAIIsCustomStyles') === 'true' ? true : false
+
         this.gptVersion = localStorage.getItem('quxOpenAIGPTVersion') ? localStorage.getItem('quxOpenAIGPTVersion') : 'gpt3'
         if (!this.openAIKey) {
             this.tab = 'settings'
+        }
+        if (location.href.indexOf('localhost') > 0) {
+            this.prompt = 'Create a signup page with a funny message'
         }
         this.stopRobo()
     }

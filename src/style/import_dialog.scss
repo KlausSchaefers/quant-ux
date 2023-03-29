@@ -125,6 +125,8 @@
 }
 
 .MatcDialog.MatchImportDialog.MatchImportOpenAIDialog {
+  width: 1200px;
+  height: 550px;
 
   .MatchImportOpenAIDialogCntr {
     display: flex;
@@ -132,7 +134,7 @@
     align-items: stretch;
 
     .MatchImportDialogCntr {
-      height: 290px;
+      height: 340px;
     }
 
     .MatchImportOpenAIDialogInput {
@@ -142,8 +144,31 @@
     }   
   }
 
+  .MatchImportOpenAIDialogSettingsCntr {
+    display: flex;
+    gap: 40px;
+   
+    .MatchImportOpenAIDialogSettings{
+      flex-grow: 1;
+    }
+
+    .MatchImportOpenAIDialogSettingsHint{
+      width: 320px;
+
+      > p {
+ 
+        padding: 16px;
+        background: #f9ed8371;
+        border: 1px solid #f9ed83;
+        height: 100%;
+      }
+
+
+    }
+  }
+
   textarea {
-    height: 220px;
+    height: 270px;
   }
 
   .VommondRadioBoxList > div {
@@ -153,11 +178,6 @@
     .VommondRadioBoxListItem {
       width: auto;
     }
-  }
-
-  .MatchImportOpenAIDialogHint {
-    font-size: 14px;
-    margin-top: 16px;
   }
 
   .MatchImportDialogCntrConfig {

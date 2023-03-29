@@ -246,7 +246,7 @@ export default {
 			this._renderShortCut(db, tbl, "SPACE", "Move Tool");
 			this._renderShortCut(db, tbl, "ALT", "Measure Tool");
 			this._renderShortCut(db, tbl, "ALT MOVE", "Copy");
-			this._renderShortCut(db, tbl, "TAB", "Design GPT");
+			this._renderShortCut(db, tbl, "TAB", "Change View Mode");
 			this._renderShortCut(db, tbl, "CTRL", " Disable Snapping");
 			this._renderShortCut(db, tbl, "CTRL C", "Copy");
 			this._renderShortCut(db, tbl, "CTRL V", "Paste");
@@ -259,11 +259,11 @@ export default {
 			this._renderShortCut(db, tbl, "SHIFT CLICK", "Multi Selection");
 
 
-			tbl = db.table().build(right);
-		
-			this._renderShortCut(db, tbl, "L", "Create Line");
+			tbl = db.table().build(right);		
+
 			this._renderShortCut(db, tbl, "+", "Zoom In");
 			this._renderShortCut(db, tbl, "-", "Zoom Out");
+			this._renderShortCut(db, tbl, "L", "Create Line");
 			this._renderShortCut(db, tbl, "R", "Create Rectangle");
 			this._renderShortCut(db, tbl, "H", "Create Hotspot");
 			this._renderShortCut(db, tbl, "T", "Create Text");

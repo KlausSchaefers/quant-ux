@@ -394,6 +394,13 @@ export default {
 			this.canvasViewConfig = viewConfig
 		},
 
+		setNextCanvasViewConfig() {
+			this.logger.log(1,"setNextCanvasViewConfig", "entry > ");
+			if (this.$refs.editModeButton) {
+				this.$refs.editModeButton.nextView()
+			}
+		},
+
 		onChangeCanvasViewConfig (key, value) {
 			if (this.canvas) {
 				this.canvas.setCanvasViewConfig(key, value)
@@ -401,14 +408,14 @@ export default {
 		},
 
 		startPrototypingView () {
-			this.logger.log(-1,"startPrototypingView", "entry > ");
+			this.logger.log(1,"startPrototypingView", "entry > ");
 			if (this.$refs.editModeButton) {
 				this.$refs.editModeButton.setPrototype()
 			}
 		},
 
 		setCanvasViewMode (mode) {
-			this.logger.log(-1,"setCanvasViewMode", "entry > " + mode);
+			this.logger.log(1,"setCanvasViewMode", "entry > " + mode);
 			this.canvasViewMode = mode
 			if (this.canvas) {
 				this.canvas.setViewMode(mode)

@@ -97,7 +97,9 @@ export default {
          */
         } else if (k == keys.TAB){ 
           if (this.toolbar) {
-            this.toolbar.showDesignGPT(e)
+            // move to next view mode
+            this.stopEvent(e);
+            this.toolbar.setNextCanvasViewConfig(e)
           }
         /**
          * Arrow dispatch if cntrl is not pressed
