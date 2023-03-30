@@ -95,10 +95,11 @@ export default {
 		setValue (widget, isDataView = false){
 
 			this.isDataView = isDataView
+			const type = widget.type;
 
 			if (this.widget && this.widget.id === widget.id){
-				this.logger.log(0, "setValue", "exit because same widget");
-				if(this["_update"+type]){
+				this.logger.log(-1, "setValue", "exit because same widget", type);
+				if (this["_update"+type]){
 					this["_update"+type](widget);
 					this.logger.log(0, "setValue", "exit() >> Update ");
 					return;
@@ -113,7 +114,7 @@ export default {
 				.div("MatcToolbarSectionContent")
 				.build(this.domNode);
 
-			const type = widget.type;
+	
 			if(this["_show"+type]){
 				this.beforeShow()
 				this["_show"+type](widget);
@@ -2362,11 +2363,19 @@ export default {
 		},
 
 		blur () {
-			this.logger.log(-1, "blur", "enter");
+			this.logger.log(1, "blur", "enter");
 			if(this._blurListener){
-				for(var i=0; i< this._blurListener.length; i++){
-					this._blurListener[i].blur();
+				try {
+					for(let i=0; i< this._blurListener.length; i++){
+						if (this._blurListener[i].blur) {
+							this._blurListener[i].blur();
+						}				
+					}
+				} catch (err) {
+					this.logger.error("blur", "Some error", err);
+					this.logger.sendError(err)
 				}
+				
 			}
 		},
 
