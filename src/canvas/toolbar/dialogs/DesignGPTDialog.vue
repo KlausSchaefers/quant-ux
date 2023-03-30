@@ -316,6 +316,12 @@ export default {
                 this.setError('design-gpt.error-prompt-too-short')
                 return
             } 
+            if (this.openAIKey.length < 5) {
+                this.setError('design-gpt.error-server-no-key')
+                this.tab = 'settings'
+                return
+            }
+
             this.promptHistory.push(this.prompt)
            
             this.isRunningAI = true
