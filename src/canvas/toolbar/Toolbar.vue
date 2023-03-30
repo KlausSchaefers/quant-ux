@@ -34,7 +34,7 @@
 			</div>
 
 			<div class="" data-dojo-attach-point="addVectorSection" >
-				<CreateVectorButton v-if="hasProtoMoto" @add="onToolSVG" />
+				<CreateVectorButton @add="onToolSVG" />
 			</div>
 
 			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addLogicSection" >
@@ -69,7 +69,7 @@
 				</div>
 			</div>
 
-			<div class="MatcToolbarItem MatcToolbarItemChat MatcMultiIcon" data-dojo-attach-point="addGPTSection" @click.stop="showDesignGPT">
+			<div class="MatcToolbarItem MatcToolbarItemChat MatcMultiIcon" data-dojo-attach-point="addGPTSection" @click.stop="showDesignGPT" v-show="hasProtoMoto">
 				<span class="mdi mdi-robot-outline" ></span>
 				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
 			</div>
@@ -763,6 +763,10 @@ export default {
 
 			if (this.tooltipSettings) {
 				this.tooltipSettings.blur()
+			}
+
+			if (this.validationWidget) {
+				this.validationWidget.blur()
 			}
 		},
 

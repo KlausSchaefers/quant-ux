@@ -109,14 +109,16 @@ export default {
 			this._cleanUpChildWidgets();
 			this.cleanUpTempListener();
 			this.domUtil.removeAllChildNodes(this.domNode)
-			// this.domNode.innerHTML="";
-			this.cntr = this.db.div("MatcToolbarSectionContent").build(this.domNode);
+			this.cntr = this.db
+				.div("MatcToolbarSectionContent")
+				.build(this.domNode);
 
-			var type = widget.type;
+			const type = widget.type;
 			if(this["_show"+type]){
+				this.beforeShow()
 				this["_show"+type](widget);
 			} else {
-				let props = SymbolService.getWidgetDataProps(type)
+				const props = SymbolService.getWidgetDataProps(type)
 				if (props) {
 					this.showWidgetByProps(widget, props)
 				} else {
@@ -126,11 +128,12 @@ export default {
 
 		},
 
+		beforeShow () {
+			// template method for validate
+		},
+
 		_setSectionLabel (lbl){
 			this.header.firstChild.innerHTML=lbl;
-			//var chev = document.createElement("span");
-			//css.add(chev, "MatcToolbarSectionChevron mdi mdi-chevron-down");
-			//this.header.firstChild.appendChild(chev);
 		},
 
 		showWidgetByProps (widget, props) {
@@ -2047,8 +2050,16 @@ export default {
 			this.db.div("MatcToobarRow MatcToobarRowSpacer ").build(this.cntr);
 		},
 
-		_renderSubSection() {
-			this.db.div("MatcToobarRow MatcToobarSubSection ").build(this.cntr);
+		_renderSubSection(lbl) {
+			this.db
+				.div("MatcToobarRow MatcToobarSubSection ")
+				.build(this.cntr);
+
+			if (lbl) {
+				this.db
+					.div("MatcToobarSubSectionLabel", lbl)
+					.build(this.cntr);
+			}
 		},
 
 		_renderButton (lbl, icon, callback){
@@ -2214,13 +2225,38 @@ export default {
 			this.tempOwn(on(input, "change", function(){
 				callback(input.value);
 			}));
+			if(tt){
+				this.addTooltip(row, tt);
+			}
+		},
 
+		_renderTextArea (model, property, tt, placeholder=""){
+
+			const row = this.db
+				.div("MatcToobarRow MatcToolBarTextArea MatcToolbarItem  MatcToolbarGridFull")
+				.build(this.cntr);
+			
+			const textarea = this.db
+				.textarea("MatcIgnoreOnKeyPress MatcToobarInlineEdit")
+				.build(row);
 
 			if(tt){
 				this.addTooltip(row, tt);
 			}
 
+			const value = model[property]
+			textarea.value = model[property];
+			textarea.placeholder = placeholder
 
+			const onChangeListener = () => {
+				if (value !== textarea.value) {
+					this.onProperyChanged(property, textarea.value);
+				}		
+			}
+			this._addBlurListener(textarea)		
+			this.tempOwn(on(textarea, "blur", onChangeListener));
+	
+		
 		},
 
 
@@ -2307,7 +2343,7 @@ export default {
 		},
 
 		onTempStyleChanged  (key, value){
-			this.logger.log(0, "onTempStyleChanged", "enter > "+ key + " > " + value);
+			this.logger.log(2, "onTempStyleChanged", "enter > "+ key + " > " + value);
 			this.emit("stypeChanging", key, value);
 		},
 
@@ -2318,14 +2354,30 @@ export default {
 			this._childWidgets.push(w);
 		},
 
+		_addBlurListener (input) { // must of blur()
+			if (!this._blurListener) {
+				this._blurListener = []
+			}
+			this._blurListener.push(input)
+		},
+
+		blur () {
+			this.logger.log(-1, "blur", "enter");
+			if(this._blurListener){
+				for(var i=0; i< this._blurListener.length; i++){
+					this._blurListener[i].blur();
+				}
+			}
+		},
+
 		_cleanUpChildWidgets (){
 			if(this._childWidgets){
 				for(var i=0; i< this._childWidgets.length; i++){
 					this._childWidgets[i].destroy();
 				}
 			}
-
 			delete this._childWidgets;
+			delete this._blurListener
 		}
     },
     mounted () {

@@ -230,7 +230,7 @@ export default class AIService extends AbstractService {
         }
         try {
 
-            const customStyles = StyleImporter.getCustomStyles(app)
+            const customStyles = StyleImporter.getCustomStyle(app)
             return `
                 Unless further specified, use the following colors and backgrounds for the HTML elements:
                 Screens should have one of the following background colors: ${this.join(customStyles?.screen?.background)}.

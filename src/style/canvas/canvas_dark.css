@@ -1,9 +1,12 @@
-.MatcDark .MatcToobarPropertiesSection input{
+.MatcDark .MatcToobarPropertiesSection input,
+.MatcDark .MatcToobarPropertiesSection textarea{
     border: 1px solid transparent;
 }
 
 .MatcDark .MatcToobarPropertiesSection input:hover,
-.MatcDark .MatcToobarPropertiesSection input:focus{
+.MatcDark .MatcToobarPropertiesSection input:focus,
+.MatcDark .MatcToobarPropertiesSection textarea:hover,
+.MatcDark .MatcToobarPropertiesSection textarea:focus{
     border: 1px solid #555;
 }
 

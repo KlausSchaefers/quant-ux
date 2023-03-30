@@ -216,6 +216,10 @@
 	vertical-align: top;
  }
 
+ .MatcToobarPropertiesSection .MatcToolBarTextArea.MatcToolbarItem {
+	height: auto;
+ }
+
  .MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarItemSmall{
 	min-width: 16.665%;
 	height:30px;
@@ -940,6 +944,14 @@
 	margin-right: -10px;
 }
 
+.MatcToobarSubSectionLabel {
+	padding: 3px 0px;
+	display: block;
+	font-weight: 400;
+	font-size: 12px;
+	cursor: pointer;
+}
+
 
 
 .MatcToobarPropertiesSection .MatcToolbarSectionContent{
@@ -1064,7 +1076,8 @@
 	display: inline-block;
 }
 
-.MatcToolbarSectionCollabsed .MatcToolbarSectionContent{
+.MatcToolbarSectionCollabsed .MatcToolbarSectionContent,
+.MatcToolbarSectionCollabsed .MatcDesignTokenMixin{
 	display: none;
 }
 
@@ -1078,6 +1091,7 @@
 	color:#ddd;
 	cursor: pointer;
 }
+
 
 
 .MatcToolbarSectionMarker{

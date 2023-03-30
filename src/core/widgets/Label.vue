@@ -57,6 +57,8 @@ export default {
       this.setStyle(style, model);
       if (model.props && model.props.label) {
         this.setValue(model.props.label);
+      } else {
+        this.setValue('');
       }
 
     

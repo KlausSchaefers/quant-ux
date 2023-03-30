@@ -42,6 +42,10 @@ export default {
 			this.model = model;
 		},
 
+		beforeShow () {
+			this._setSectionLabel('Data')
+		},
+
 		_showScreenSegment  (model) {
 			this._renderDataBinding(model, false);
 		},
@@ -111,7 +115,8 @@ export default {
 		},
 
 		_showButton (model){
-			this._renderDataBinding(model, false);
+			this._setSectionLabel('Content')
+			this._renderTextArea(model.props, 'label', 'Label value', 'Enter a message')
 		},
 
 		_showStepper (model){
@@ -124,6 +129,8 @@ export default {
 
 		_showLabel (model){
 			this._renderDataBinding(model);
+			this._renderSubSection('Content')
+			this._renderTextArea(model.props, 'label', 'Label value', 'Enter a message')
 		},
 
 		_showSpinner (model){
@@ -320,17 +327,9 @@ export default {
 			this._renderValidationLabels(validation, model);
 		},
 
-
-		/**********************************************************************
-		 * data bining => moved to DataSection.vue
-		 **********************************************************************/
-
-
-
 		/**********************************************************************
 		 * Validation
 		 **********************************************************************/
-
 
 		_renderDateValidation (validation){
 

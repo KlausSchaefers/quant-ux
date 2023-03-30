@@ -610,11 +610,6 @@ export default {
 			designTokenCheckBox.setValue(settings.hasDesignToken);
 			designTokenCheckBox.placeAt(designTokenCntr);
 
-			var protoMotoCntr = db.div("form-group").build(cntr);
-			var protoMotoCheckBox = this.$new(CheckBox);
-			protoMotoCheckBox.setLabel("Enable Beta Features");
-			protoMotoCheckBox.setValue(settings.hasProtoMoto);
-			protoMotoCheckBox.placeAt(protoMotoCntr);
 
 			/**
 			 * Since 3.0.43 we snapp by default to top left corner
@@ -624,6 +619,13 @@ export default {
 			gridSnapTopLeftChkBox.setLabel("Snap grid to top left corner");
 			gridSnapTopLeftChkBox.setValue(settings.snapGridOnlyToTopLeft);
 			gridSnapTopLeftChkBox.placeAt(gridSnapTopLeftCntr);
+
+
+			var protoMotoCntr = db.div("form-group").build(cntr);
+			var protoMotoCheckBox = this.$new(CheckBox);
+			protoMotoCheckBox.setLabel("Enable Beta Features");
+			protoMotoCheckBox.setValue(settings.hasProtoMoto);
+			protoMotoCheckBox.placeAt(protoMotoCntr);
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 

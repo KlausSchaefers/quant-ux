@@ -73,7 +73,7 @@ export default {
 							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging', 'Timeline', 'LabeledIconToggle', 'VisualPicker', 'LockSlider', 'IconToggleButton', 'ScreenSegment', 
-							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox'],
+							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button'],
 			hasLogic2: ["LogicOr", "Rest", "Script"],
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", 
 								"TypeAheadTextBox", "CheckBoxGroup", "RadioGroup", 'LabeledCheckBox', 'LabeledRadioBox'],
