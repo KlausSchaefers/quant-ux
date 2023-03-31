@@ -1,6 +1,6 @@
 import CommandStack from '../../src/svg/CommandStack'
 
-test('Test CommandStack >  ', async () => {
+test('Test SVGCommandStack >  ', async () => {
 
     const stack = new CommandStack()
     stack.push({'id': 'a'})

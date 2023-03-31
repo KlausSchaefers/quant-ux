@@ -13,6 +13,10 @@
     overflow: auto;
 }
 
+.MatcCanvas .MatcWidgetTypeScreenSegement.MatcWidgetTypeScreenSegementOverFlow {
+    overflow: none;
+}
+
 .MatcWidgetTypeRepeaterHasBorder.MatcWidgetTypeScreenSegement{
     outline: none;
 }
@@ -21,6 +25,10 @@
     position: absolute;
     top:0px;
     left:0px;
+}
+
+.MatcSimulator .simplebar-wrapper .MatcWidgetTypeScreenSegementCntr{
+    position: static;
 }
 
 .MatcSimulator .MatcWidgetTypeScreenSegement{

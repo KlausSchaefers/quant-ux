@@ -1,0 +1,36 @@
+{
+    "_id" : "6252d6cc406f8516a77158b4",
+    "version" : 2.1,
+    "name" : "TemplateUndo",
+    "description" : "",
+    "screenSize" : {
+      "w" : 375,
+      "h" : 812
+    },
+    "type" : "smartphone",
+    "screens" : {  
+    },
+    "widgets" : {
+    },
+    "lines" : { },
+    "groups" : { },
+    "templates" : {
+    },
+    "designtokens" : { },
+    "lastUUID" : 10003,
+    "lastUpdate" : 1649596117626,
+    "created" : 1649596108642,
+    "startScreen" : "",
+    "grid" : {
+      "w" : 8,
+      "h" : 8,
+      "style" : "line",
+      "color" : "#cecece",
+      "visible" : false,
+      "enabled" : false
+    },
+    "domain" : "Quant-UX.com",
+    "size" : 1901,
+    "isDirty" : true,
+    "id" : "6252d6cc406f8516a77158b4"
+  }

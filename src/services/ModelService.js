@@ -89,6 +89,10 @@ export class ModelService extends AbstractService{
         return this._delete(`/rest/commands/${model.id}/pop/${count}`)
     }
 
+    shiftStack (model, count) {
+        return this._delete(`/rest/commands/${model.id}/shift/${count}`)
+    }
+
     undoCommand (model, command) {
         return this._post(`/rest/commands/${model.id}/undo`, command)
     }

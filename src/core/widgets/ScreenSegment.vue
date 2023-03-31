@@ -1,7 +1,8 @@
 
 <template>
-  <div :class="['MatcWidgetTypeScreenSegement', {'MatcWidgetTypeScreenSegementOverFlow': hasOverflow}, {'MatcWidgetTypeScreenSegementSnapp': hasSnapp}]">
-      
+  <div
+    :class="['MatcWidgetTypeScreenSegement', { 'MatcWidgetTypeScreenSegementOverFlow': hasOverflow }, { 'MatcWidgetTypeScreenSegementSnapp': hasSnapp }]">
+
   </div>
 </template>
 <script>
@@ -11,70 +12,80 @@ import DomBuilder from 'common/DomBuilder'
 import Core from 'core/Core'
 import Logger from 'common/Logger'
 import lang from 'dojo/_base/lang'
+import * as ScrollUtil from '../../util/ScrollUtil'
 
 export default {
   name: "ScreenSegment",
   mixins: [UIWidget, DojoWidget],
-  data: function() {
+  data: function () {
     return {
-        model: {
-            props:{}
-        },
-        hasXOverFlow: false,
-        dataBindingValues: null
+      model: {
+        props: {}
+      },
+      hasXOverFlow: false,
+      dataBindingValues: null
     };
   },
   computed: {
-    hasOverflow () {
-        return true
+    hasOverflow() {
+      return true
     },
-    hasSnapp () {
+    hasSnapp() {
       return this.model?.props?.snapp === true
     }
   },
   methods: {
 
-    postCreate () {
+    postCreate() {
       this._borderNodes = [this.domNode];
       this._backgroundNodes = [this.domNode];
       this._shadowNodes = [this.domNode];
     },
 
-    setSymbol (s) {
-        this.isSymbol = s
+    wireEvents() {
+      if (this.domNode) {
+        /**
+         * In Simulator mode we add scroll hacks if needed
+         */
+        ScrollUtil.addScrollIfNeeded(this.domNode, false)
+      }
     },
 
-    setZoomedModel (m) {
-        this.app = m;
+    setSymbol(s) {
+      this.isSymbol = s
+    },
+
+    setZoomedModel(m) {
+      this.app = m;
     },
 
     getChildren() {
-       return this._childWidgets
+      return this._childWidgets
     },
 
-    getDataBindingChildren () {
-        return this._childWidgets
+    getDataBindingChildren() {
+      return this._childWidgets
     },
 
-    update (widget) {
-        /**
-         * FIXME: we shoukd have here some kind of fast rendering!
-         */
-        this.render(widget, this.style, this._scaleX, this._scaleY)
+    update(widget) {
+      /**
+       * FIXME: we shoukd have here some kind of fast rendering!
+       */
+      this.render(widget, this.style, this._scaleX, this._scaleY)
     },
 
-    updateChild (widget) {
-       if (this._childWidgets) {
-           let childWidget = this._childWidgets.find(c => c.parent === widget.id)
-           if (childWidget) {
-               	childWidget.widget.style = widget.style;
-				        childWidget.widget.props = widget.props;
-                this.factory.setStyle(childWidget.div, childWidget.widget);
-           }
-       }
+    updateChild(widget) {
+      if (this._childWidgets) {
+        let childWidget = this._childWidgets.find(c => c.parent === widget.id)
+        if (childWidget) {
+          childWidget.widget.style = widget.style;
+          childWidget.widget.props = widget.props;
+          this.factory.setStyle(childWidget.div, childWidget.widget);
+        }
+      }
     },
 
-    render (widget, style, scaleX, scaleY, isUpdate = false) {
+    render(widget, style, scaleX, scaleY, isUpdate = false) {
       /**
        * This is super slow for fast rendering, as we will redraw everzthing. We must
        * therefore reuse the items or have some kind of rerender() method if the
@@ -95,8 +106,8 @@ export default {
       }
 
       if (!this.isSymbol && this.app && widget.props.screenID) {
-          this.logger.log(2, 'render', 'enter > full render')
-          this.renderScreen(widget, widget.props.screenID)
+        this.logger.log(2, 'render', 'enter > full render')
+        this.renderScreen(widget, widget.props.screenID)
       } else {
         this._screenID = ''
         const db = new DomBuilder()
@@ -105,76 +116,76 @@ export default {
     },
 
     renderScreen(widget, screenID) {
-        if (this._screenID === screenID) {
-          return
-        }
-        this._screenID = screenID
-        this.domNode.innerHTML = ""
-        this._childWidgets = []
+      if (this._screenID === screenID) {
+        return
+      }
+      this._screenID = screenID
+      this.domNode.innerHTML = ""
+      this._childWidgets = []
 
-      
-        const db = new DomBuilder()
-        
-        const screen = this.app.screens[screenID]
-        if (screen) {
 
-          const core = new Core()
-          core.model = this.app
+      const db = new DomBuilder()
 
-          const parentScreen = core.getParentScreen(widget, this.app)
+      const screen = this.app.screens[screenID]
+      if (screen) {
 
-          const cntr = db
-              .div('MatcWidgetTypeScreenSegementCntr')
-              .w(screen.w)
-              .h(screen.h)
-              .build()
+        const core = new Core()
+        core.model = this.app
 
-          /**
-           * Attention: The core.sortedList is somehow reversed... So, we
-           * prevent this by passing a new parameter.
-           */
-          const widgets = core.getSortedScreenChildren(this.app, screen, false)
+        const parentScreen = core.getParentScreen(widget, this.app)
 
-          for (let i=0; i< widgets.length; i++){
-              const childWidget = widgets[i];
-              const copy = lang.clone(childWidget)
-              copy.inherited = childWidget.id
-              copy.id = childWidget.id + '@' + parentScreen?.name
-              
-              const div = this.renderWidget(copy, screen, db)
-              cntr.appendChild(div)
+        const cntr = db
+          .div('MatcWidgetTypeScreenSegementCntr')
+          .w(screen.w)
+          .h(screen.h)
+          .build()
 
-              const child = {
-                  parent: childWidget.id,
-                  widget: copy,
-                  div: div
-              }
+        /**
+         * Attention: The core.sortedList is somehow reversed... So, we
+         * prevent this by passing a new parameter.
+         */
+        const widgets = core.getSortedScreenChildren(this.app, screen, false)
 
-              this._childWidgets.push(child)
+        for (let i = 0; i < widgets.length; i++) {
+          const childWidget = widgets[i];
+          const copy = lang.clone(childWidget)
+          copy.inherited = childWidget.id
+          copy.id = childWidget.id + '@' + parentScreen?.name
+
+          const div = this.renderWidget(copy, screen, db)
+          cntr.appendChild(div)
+
+          const child = {
+            parent: childWidget.id,
+            widget: copy,
+            div: div
           }
-          this.cntr = cntr
-          this.domNode.appendChild(cntr)
 
-     
-        } else {
-            db.div('MatcWidgetTypeScreenSegementHint', 'Screen segment does not exist').build(this.domNode)
+          this._childWidgets.push(child)
         }
+        this.cntr = cntr
+        this.domNode.appendChild(cntr)
+
+
+      } else {
+        db.div('MatcWidgetTypeScreenSegementHint', 'Screen segment does not exist').build(this.domNode)
+      }
     },
 
-    renderWidget (widget, screen, db) {
-	    const div = db.div('MatcBox MatcWidget')
-                .w(widget.w)
-                .h(widget.h)
-                .top(widget.y - screen.y)
-                .left(widget.x - screen.x)
-                .build()
+    renderWidget(widget, screen, db) {
+      const div = db.div('MatcBox MatcWidget')
+        .w(widget.w)
+        .h(widget.h)
+        .top(widget.y - screen.y)
+        .left(widget.x - screen.x)
+        .build()
 
       this.factory.createWidgetHTML(div, widget);
 
       return div
     },
 
-    setValue (value) {
+    setValue(value) {
       const newScreen = Object.values(this.app.screens).find(s => s.name === value)
       if (newScreen) {
         this.renderScreen(this.model, newScreen.id)
@@ -186,7 +197,7 @@ export default {
     }
   },
   mounted() {
-      this.logger = new Logger('ScreenSegment')
+    this.logger = new Logger('ScreenSegment')
   }
 };
 </script>

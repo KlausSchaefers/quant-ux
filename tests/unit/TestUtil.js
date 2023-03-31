@@ -23,6 +23,14 @@ export function createController (model) {
         "id" : "6252c2bd406f8516a771585a"
     });
     controller.setModel(model)
+    controller._canvas = {
+        getZoomFactor () {
+            return 1
+        },
+        updateSourceModel () {
+            
+        }
+    }
 
     return [controller, model]
 }

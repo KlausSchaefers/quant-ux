@@ -19,7 +19,8 @@ export default class BaseController extends Core {
 		if(params && params.mode){
 			this.mode = params.mode;
 		}
-
+		this.stackMaxLength = 300
+		this.stackElementToRemove = 150
 		this.debug = false
 		this.active = true
 		this.transactions = {}
@@ -1383,7 +1384,7 @@ export default class BaseController extends Core {
 		}
 	}
 
-	onCommandAdded (result){
+	async onCommandAdded (result){
 		if(result.errors){
 			this.logger.sendError("onCommandAdded", new Error("Server returned error"));
 		}
@@ -1398,7 +1399,6 @@ export default class BaseController extends Core {
 		 * Can`t we use the normal lastUUID? Or just created with Date()
 		 */
 
-		// this.commandStack.stack.push(result.command);
 
 		if (this.commandStack.pos !== result.pos) {
 			this.logger.error("onCommandAdded", "Not match pos > server: "+ result.pos +  " > local: " + this.commandStack.pos, result);
@@ -1406,12 +1406,27 @@ export default class BaseController extends Core {
 		this.commandStack.pos = result.pos;
 		this.commandStack.lastUUID = result.lastUUID;
 
+		/**
+		 * Since 4.5.4 we shift to large command stacks,
+		 * to make them small again
+		 */		
+		if (this.commandStack.stack.length > this.stackMaxLength) {
+
+			const oldLength = this.commandStack.stack.length
+			const oldPos = this.commandStack.pos
+
+			this.commandStack.stack = this.commandStack.stack.slice(this.stackElementToRemove);
+			this.commandStack.pos = Math.max(0, this.commandStack.pos - this.stackElementToRemove)
+
+			this.modelService.saveCommands(this.model.id, this.commandStack)
+			this.logger.log(-1, "onCommandAdded", `Shift stack > stack: ${oldLength} to ${this.commandStack.stack.length} > pos:  ${oldPos} > ${this.commandStack.pos}` );
+		}
+
 		if(this.toolbar){
 			this.toolbar.enbaleUndo();
 		}
 		this.logger.log(1,"onCommandAdded", "exit > id: "+ result.command.id + " > lastUUID: " + this.commandStack.lastUUID + " > pos: " + this.commandStack.pos);
 	}
-
 
 	canUndo (){
 		return 	this.commandStack.pos > 0;

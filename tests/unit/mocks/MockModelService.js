@@ -195,6 +195,8 @@ export default class MockModelService{
     saveTestSettings (id, test) {
     }
 
+    saveCommands () {}
+
 
     /**
      * Examples
