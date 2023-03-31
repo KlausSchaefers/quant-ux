@@ -70,7 +70,7 @@ export default {
 				/**
 				 * Show data binding etc in prototypiung mode
 				 */
-				if(this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
+				if(this.hasValidation.indexOf(model.type) >= 0 || model?.has?.validation){
 					css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
 					this.validationWidget.setValue(model, false);
 				}
@@ -93,7 +93,15 @@ export default {
 
 			this.setWidgetViewModes(model);
 			const widgetViewMode = this.widgetViewModeBtn.getValue();
-			const style = this.getViewModeStyle(model, widgetViewMode);
+			let style = this.getViewModeStyle(model, widgetViewMode);
+
+			if (!style) {
+				/**
+				 * This can maybe happen of teh wrong viewMode is open?
+				 */
+				this.logger.error('showWidgetDesignProperties', 'No style > mode: ' + widgetViewMode + " > type: " + model?.type)
+				style = {}
+			}
 		
 			this.showProperties();
 			this.showWidgetTools();

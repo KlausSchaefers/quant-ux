@@ -1419,6 +1419,7 @@ export default class BaseController extends Core {
 			this.commandStack.pos = Math.max(0, this.commandStack.pos - this.stackElementToRemove)
 
 			this.modelService.saveCommands(this.model.id, this.commandStack)
+			// FIXME: this should be also posted to the collabService
 			this.logger.log(-1, "onCommandAdded", `Shift stack > stack: ${oldLength} to ${this.commandStack.stack.length} > pos:  ${oldPos} > ${this.commandStack.pos}` );
 		}
 
