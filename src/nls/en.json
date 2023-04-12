@@ -26,6 +26,7 @@
         "key-hint-3": "To get a key, create an account at",
         "key-hint-5": "Your API key is stored in your browser and not on our server.",
         "show-key": "API",
+        "welcome-design-msg": "Hello, I am DesignGPT. I can create a design for you",
         "prompt": "Describe the page here",
         "prompt-placeholder": "Descripe your page here, e.g. 'Create a login bad with red buttons...'",
         "error-public": "You need to sign up to use DesignGPT",

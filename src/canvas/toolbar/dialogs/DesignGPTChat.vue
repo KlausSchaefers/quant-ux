@@ -1,81 +1,79 @@
 
 <template>
-    <div class="">
+    <div class="MatcFlexDialog">
 
-     
-        <div v-if="isPublic">
-            <div class="MatchImportDialogCntr">
-                {{ getNLS('design-gpt.error-public') }}
-            </div>
-        </div>
-        <div v-else class="MatchImportOpenAIDialogCntr">
+        <div class="MatcFlexDialogWrapper">
 
-            <div class="MatchImportOpenAIDialogInput">
+           
                 <div class="MatcToolbarTabs MatcToolbarTabsBig">
                     <a @click="tab='openai'" :class="{'MatcToolbarTabActive': tab === 'openai'}">{{ getNLS('design-gpt.tab-prompt')}}</a>
                     <a @click="tab='settings'" :class="{'MatcToolbarTabActive': tab === 'settings'}">{{ getNLS('design-gpt.tab-settings')}}</a>
                 </div>
 
-                <div v-if="tab === 'settings'">
-                    <div class="MatchImportDialogCntr ">
-                        
+            
+                <div v-if="tab === 'settings'" class="MatcFlexDialogMain">
+                  
                         <div class="field">
                             <label>{{ getNLS('design-gpt.key-title') }}</label>
-                            <input type="text" class="input" v-model="openAIKey" @change="onChangeOpenAIKey"/>
+                            <form autocomplete="off">
+                                <input type="password" autocomplete="off" class="input" v-model="openAIKey" @change="onChangeOpenAIKey"/>
+                            </form>
                         </div>
 
-                        <div class="">
-                            {{ getNLS('design-gpt.key-hint') }}
-                          
+                        <p class="MatchOpenAIChatDialogHint">
+                            {{ getNLS('design-gpt.key-hint-1') }}
+                            {{ getNLS('design-gpt.key-hint-2') }}
+                            {{ getNLS('design-gpt.key-hint-3') }}
+                            <a href="https://platform.openai.com/">openai.com</a>.
+                            {{ getNLS('design-gpt.key-hint-5') }}
+                        </p>
+
+                        <div class="field MatcMarginTop">
+                            <label>{{ getNLS('design-gpt.gpt-model') }}</label>
+                            <div>
+                                <RadioBoxList :qOptions="gptModels" :qValue="gptVersion" @change="onChangeModelType"/>
+                            </div>                
                         </div>
-                        <div class="MatcMarginTop">
-                            <b>
-                                {{ getNLS('design-gpt.key-security') }}
-                            </b>
-                        </div>
-                    </div>
+
                 </div>
 
-                <div v-if="tab === 'openai'">
-                    <div class="MatchImportDialogCntr ">
-                        <div class="field">
-                            <label>{{ getNLS('design-gpt.prompt') }}</label>
+                <div v-if="tab === 'openai'" class="MatcFlexDialogMain">
+                    <div class="MatchOpenAIChatCntr ">
+                        <div class="MatchOpenAIChatMessages" ref="messages">
+
+                            <template v-for="m in messages">
+                                <div :key="m.content" :class="'MatchOpenAIChatMessage ' + m.role ">
+                                    <div class="MatchOpenAIChatMessageUser">
+
+                                    </div>
+                                    <div class="MatchOpenAIChatMessageContent">
+                                        {{m.content}}
+                                    </div>
+                                   
+                                </div>
+
+                            </template>
+
+                        </div>
+                         <div class="MatchOpenAIChatPrompt">
                             <textarea 
+                                :placeholder="promptPlaceholder"
                                 type="text" 
                                 class="input" 
                                 v-model="prompt" 
                                 @keyup="onKeyUp($event)" 
                                 ref="promptBox"></textarea>
-                        </div>
 
-                        <div class="MatchImportDialogCntrConfig">
-                            <CheckBox 
-                                :value="isWireFrame" 
-                                :label="getNLS('design-gpt.is-wireframe')" 
-                                @change="onChangeWireFrame"/>
-
-                            <CheckBox 
-                                :value="isMinimal" 
-                                :label="getNLS('design-gpt.is-minimal')" 
-                                @change="onChangeMinimal"/>
+                                <a class=" MatcButton" @click.stop="onCreatePreview"> {{getNLS('design-gpt.preview') }}</a>
                         </div>
               
                     </div>
                 </div>
 
-              
-
-
-                <div class="MatcError">
-                    {{ errorMSG }}
-                </div>
 
                 <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'openai'">
-                    
-                    <a class=" MatcButton" @click.stop="onCreatePreview">
-                        {{getNLS('design-gpt.preview') }}
-                    </a>
-                    <a class=" MatcButton" v-if="preview" @click.stop="onSave">{{ getNLS('btn.import') }}</a>
+                  
+                    <a class=" MatcButton" v-show="preview" @click.stop="onSave">{{ getNLS('btn.import') }}</a>
                     <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
                 </div>
 
@@ -88,35 +86,6 @@
 
             </div>
 
-            <div :class="['MatchImportDialogPreviewCntr' ,{'MatchImportDialogAIRunning': isRunningAI}]">
-                <!-- <div class="MatcHint" v-if="!preview">
-                    {{ hint }}
-                    <div class="MatchImportDialogProgressCntr"> 
-                        <div class="MatchImportDialogProgress"></div>
-                    </div>
-                </div> -->
-
-              
-             
-                <div ref="simCntr" class="MatchImportOpenAIDialogSimulator" v-show="preview">
-                </div>
-
-                <div class="MatcDesignRoboCntr" v-if="!preview">
-                    <div class="MatcDesignRoboBubblez">                        
-                        <div class="MatcDesignRoboBubble" v-for="m in robo.messages" :key="m">
-                            {{m}}
-                        </div>
-                    </div>
-                    <div class="MatcDesignRoboIcon">
-                        <span :class="robo.icon"></span>
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-
 
         <div ref="iframeCntr" class="iframeCntr"></div>
 
@@ -125,7 +94,10 @@
     </div>
 </template>
 <style lang="scss">
-@import '../../../style/import_dialog.scss';
+
+@import '../../../style/gpt_chat_dialog.scss';
+@import '../../../style/scss/flex_dialog.scss';
+
 
 .iframeCntr {
     width: 0px;
@@ -144,8 +116,8 @@ import Simulator from 'core/Simulator'
 import Services from 'services/Services'
 import HTMLImporter from 'core/ai/HTMLImporter'
 import * as StyleImporter from 'core/ai/StyleImporter'
-//import SegmentButton from 'page/SegmentButton'
-import CheckBox from 'common/CheckBox'
+import RadioBoxList from 'common/RadioBoxList'
+//import CheckBox from 'common/CheckBox'
 
 export default {
     name: 'OpenAIDialog',
@@ -153,6 +125,7 @@ export default {
     data: function () {
         return {
             tab: "openai",
+            model: null,
             hasContinue: false,
             uploadFiles: [],
             uploadPreviews: [],
@@ -162,7 +135,8 @@ export default {
             progressMSG: '',
             progessPercent: 0,
             isPublic: false,
-            prompt: 'Create a simple login page with a forget password link. make the buttons red. put the labels above the input elements.',
+            prompt: '',
+            promptPlaceholder: this.getNLS('design-gpt.prompt-placeholder'),
             openAIKey: '',
             preview: null,
             hint: this.getNLS('design-gpt.no-preview'),
@@ -170,14 +144,22 @@ export default {
             isWireFrame: false,
             isMinimal: false,
             isRunningAI: false,
-            robo: {
-                icon:'mdi mdi-robot-outline',
-                messages: [],
-            }
+            isCustomStyles: false,
+            isToggleWireFrameAndCustom: false,
+            hasRobo: true,
+            openAITemperature: 2,
+            gptVersion: 'gpt3',
+            gptModels: [
+                {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
+                {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')}   
+            ],
+            messages: [
+                {"role": "qux", "content": this.getNLS('design-gpt.welcome-design-msg')}
+            ]
         }
     },
     components: {
-        CheckBox
+       RadioBoxList
     },
     computed: {
     },
@@ -229,101 +211,82 @@ export default {
             this.$emit('save', this.preview)
         },
 
-        saveInScreenCenter() {
-            const model = this.preview
-            let minX = 1000000
-            let minY = 1000000
-            Object.values(model.screens).forEach(screen => {
-                minX = Math.min(minX, screen.x)
-                minY = Math.min(minY, screen.y)
-            })
-            const pos = this.getCanvasCenter()
-            const offsetX = pos.x - minX
-            const offsetY = pos.y - minY
-            Object.values(model.screens).forEach(screen => {
-                screen.x += offsetX
-                screen.y += offsetY
-                return screen
-            })
-            Object.values(model.widgets).forEach(widget => {
-                widget.x += offsetX
-                widget.y += offsetY
-                return widget
-            })            
-            this.controller.addScreensAndWidgets(model);
-        },
 
         async onCreatePreview() {
             this.logger.log(-1, 'onCreatePreview', 'enter')
-
-            this.cleanUp()
-            this.hint = this.getNLS('design-gpt.busy')
+            this.cleanUp()         
             this.runDesignGPT()
         },
 
+        scrollDown () {
+            this.$nextTick(() => {
+                const nodes = this.$refs.messages.getElementsByClassName('MatchOpenAIChatMessage')
+                const node = nodes[nodes.length-1]
+                if (node) {
+                    node.scrollIntoView({ block: 'start',  behavior: 'smooth' })
+                }
+            })
+        },
+
         async runDesignGPT() {
+            console.debug('runDesignGPT')
             if (!this.model) {
-                this.errorMSG = 'No model'
+                this.logger.error('runDesignGPT', 'No model')
+                return
+            }          
+            if (!this.prompt || this.prompt.length < 5) {
+                this.setError('design-gpt.error-prompt-too-short')
+                return
+            } 
+            if (!this.openAIKey || this.openAIKey.length < 5) {
+                this.setError('design-gpt.error-server-no-key')
+                this.tab = 'settings'
+                return
             }
+
+            this.messages.push({"role": "user", "content": this.prompt})
+            this.scrollDown()
            
-            this.promptHistory.push(this.prompt)
-           
-            const aiService = Services.getAIService()
             this.isRunningAI = true
-            this.startRobo()
-            const result = await aiService.runFake(this.prompt, this.openAIKey, this.model) // await aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model)
+            this.showRunning()
+            //const result = await this.runGTPT()
+            const result = await Services.getAIService().runFake(20)
             this.isRunningAI = false
             if (result.error) {
+                this.hint = this.getNLS('design-gpt.no-preview'),
                 this.setError(result.error)
             } else {
                 this.html = result.html
                 console.debug(this.html)
-                this.buildApp(this.html)
+                //this.buildApp(this.html)
             }
         },
 
-        startRobo () {
-            this.robo.messages = [this.getNLS('design-gpt.robo-running-1')]
-            let waitingMessages = [
-                this.getNLS('design-gpt.robo-waiting-1'),
-                this.getNLS('design-gpt.robo-waiting-2'),
-                this.getNLS('design-gpt.robo-waiting-3'),
-                this.getNLS('design-gpt.robo-waiting-4'),
-                this.getNLS('design-gpt.robo-waiting-5'),
-                this.getNLS('design-gpt.robo-waiting-6'),
-                this.getNLS('design-gpt.robo-waiting-7'),
-                this.getNLS('design-gpt.robo-waiting-8'),
-            ]
-            waitingMessages = waitingMessages
-                .map(value => ({ value, sort: Math.random() }))
-                .sort((a, b) => a.sort - b.sort)
-                .map(({ value }) => value)
-
-        
-            let delayedMessages = [
-                this.getNLS('design-gpt.robo-delayed-1'),
-                this.getNLS('design-gpt.robo-delayed-2'),
-                this.getNLS('design-gpt.robo-delayed-3'),
-                this.getNLS('design-gpt.robo-delayed-4'),
-                this.getNLS('design-gpt.robo-delayed-5'),
-                this.getNLS('design-gpt.robo-delayed-6'),
-                this.getNLS('design-gpt.robo-delayed-7'),
-                this.getNLS('design-gpt.robo-delayed-8'),
-            ]
-            delayedMessages = delayedMessages
-                .map(value => ({ value, sort: Math.random() }))
-                .sort((a, b) => a.sort - b.sort)
-                .map(({ value }) => value)
-
-
-
-            waitingMessages.push(this.getNLS('design-gpt.robo-running-2'))
-            this.robo.icon = 'mdi mdi-robot-excited'
-            this.updateRobo(waitingMessages, delayedMessages, 0)
+        runGTPT () {
+            this.logger.log(-1, 'runGTPT', 'enter', this.gptVersion )
+            const aiService = Services.getAIService()
+            if (this.gptVersion === 'gpt4') {
+                return aiService.runGPT4(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+            }
+            return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
         },
 
-        updateRobo (waitingMessages, delayedMessages, call = 0, delayedTheshold = 2) {
-            setTimeout(() => {
+        showRunning () {
+            // if (this.hasRobo) {
+            //     this.startRobo()
+            // } else {
+            //     this.startHints()
+            // }
+        },
+
+        startHints () {
+            this.hint = this.getNLS('design-gpt.robo-running-1')
+            const [waitingMessages, delayedMessages] = this.getWaitingMessages()
+            this.updateHint(waitingMessages, delayedMessages, 0)
+        },
+
+        updateHint (waitingMessages, delayedMessages, call = 0, delayedTheshold = 2) {
+            this.updateTimeout = setTimeout(() => {
                 const m = call > delayedTheshold ? 
                     delayedMessages.pop() : 
                     waitingMessages.pop()   
@@ -331,22 +294,52 @@ export default {
                 if (!this.isRunningAI || !m) {
                     return
                 }     
-                this.robo.messages.push(m)
-                if (call > delayedTheshold) {
-                    this.robo.icon = 'mdi mdi-robot-confused'
-                }
-                this.updateRobo(waitingMessages, delayedMessages, call+1)
+                this.hint = m
+                this.updateHint(waitingMessages, delayedMessages, call+1)
             }, 4000 + Math.round(Math.random() * 2000))
         },
+        
+        // startRobo () {
+        //     this.robo.messages = [this.getNLS('design-gpt.robo-running-1')]
+        //     const [waitingMessages, delayedMessages] = this.getWaitingMessages()
+        //     this.robo.icon = 'mdi mdi-robot-excited'
+        //     this.updateRobo(waitingMessages, delayedMessages, 0)
+        // },
 
-        stopRobo() {
-            this.robo.messages = [this.getNLS('design-gpt.robo-start-1')]
-            this.robo.icon = 'mdi mdi-robot'
-        },
+        // getWaitingMessages () {
+        //     let waitingMessages = []
+        //     for (let i = 1; i <= 20; i++) {
+        //         waitingMessages.push(this.getNLS('design-gpt.robo-waiting-' + i))
+        //     }
+        //     waitingMessages = waitingMessages
+        //         .map(value => ({ value, sort: Math.random() }))
+        //         .sort((a, b) => a.sort - b.sort)
+        //         .map(({ value }) => value)
+
+        
+        //     let delayedMessages = []
+        //     for (let i = 1; i <= 16; i++) {
+        //         delayedMessages.push(this.getNLS('design-gpt.robo-delayed-' + i))
+        //     }
+        //     delayedMessages = delayedMessages
+        //         .map(value => ({ value, sort: Math.random() }))
+        //         .sort((a, b) => a.sort - b.sort)
+        //         .map(({ value }) => value)
+
+
+
+        //     waitingMessages.push(this.getNLS('design-gpt.robo-running-2'))
+        //     return [waitingMessages, delayedMessages]
+        // },
+
+       
+      
 
         setError (errorKey) {
             this.errorMSG = this.getNLS(errorKey)
             this.robo.icon = "mdi mdi-robot-dead"
+            this.robo.messages = [this.errorMSG]
+            clearTimeout(this.updateTimeout)
         },
 
 
@@ -355,16 +348,23 @@ export default {
             const height = this.model.screenSize.h
             const importer = new HTMLImporter(this.model.lastUUID)
             const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
-                    isRemoveContainers: this.isMinimal,
-                    defaultStyle: this.getDefaultStyle()
+                isRemoveContainers: this.isMinimal,
+                customStyle: this.getCustomerStyles(html),
+                defaultStyle: this.getDefaultStyle()
             })
             if (result) {
                 this.preview = result
                 this.$nextTick(() => {
                     this.buildPreview(result)
-                })
-              
+                })              
             }
+        },
+
+        getCustomerStyles () {
+            if (this.isCustomStyles) {
+                return StyleImporter.getCustomStyle(this.model)
+            }
+            return null
         },
 
         getDefaultStyle () {
@@ -411,32 +411,65 @@ export default {
         },
 
         cleanUp() {
-            this.errorMSG = ''
-            this.preview = null
-            if (this.simulator) {
-                this.simulator.destroy()
-                this.simulator = null
-            }
-            this.$refs.simCntr.innerHTML = ''
+            // this.errorMSG = ''
+            // this.hint = this.getNLS('design-gpt.no-preview'),
+            // clearTimeout(this.updateTimeout)
+        
+            // this.preview = null
+            // if (this.simulator) {
+            //     this.simulator.destroy()
+            //     this.simulator = null
+            // }
+            // this.$refs.simCntr.innerHTML = ''
+        },
+
+        onChangeOpenAITemperature () {        
+        },
+
+        onChangeModelType (v) {
+            this.gptVersion = v
+        },
+
+        onChangeOpenAIKey () {
         },
 
         onChangeWireFrame (v) {
             this.isWireFrame = v
-            localStorage.setItem('quxOpenAIIsWireFrame', v)
-            if (this.html) {
-                //this.cleanUp()
-                this.buildApp(this.html)
+            if (this.isWireFrame && this.isToggleWireFrameAndCustom) {
+                this.isCustomStyles = false
             }
+            this.saveOptions()
+        },
+
+        onChangeCustomStyles (v) {
+            this.isCustomStyles = v
+            if (this.isCustomStyles && this.isToggleWireFrameAndCustom) {
+                this.isWireFrame = false
+            }
+            this.saveOptions()
         },
 
         onChangeMinimal(v) {
             this.isMinimal = v
-            localStorage.setItem('quxOpenAIIsMinimal', v)
+            this.saveOptions()           
+        },
+
+        saveOptions () {
+            localStorage.setItem('quxOpenAIIsWireFrame', this.isWireFrame)
+            localStorage.setItem('quxOpenAIIsMinimal', this.isMinimal)
+            localStorage.setItem('quxOpenAIIsCustomStyles', this.isCustomStyles)
             if (this.html) {
-                //this.cleanUp()
                 this.buildApp(this.html)
             }
         },
+
+        saveSettings() {
+            localStorage.setItem('quxOpenAITemperature', this.openAITemperature)
+            localStorage.setItem('quxOpenAIGPTVersion', this.gptVersion)
+            localStorage.setItem('quxOpenAIKey', this.openAIKey)
+            this.tab = 'openai'
+        },
+
 
         getCanvasCenter() {
             if (this.canvas) {
@@ -447,10 +480,7 @@ export default {
             }
             return { x: 0, y: 0 }
         },
-        onChangeOpenAIKey () {
-            localStorage.setItem('quxOpenAIKey', this.openAIKey)
-        }
-
+  
 
     },
     mounted() {
@@ -458,10 +488,16 @@ export default {
         this.openAIKey = localStorage.getItem('quxOpenAIKey')
         this.isWireFrame = localStorage.getItem('quxOpenAIIsWireFrame')=== 'true' ? true : false
         this.isMinimal = localStorage.getItem('quxOpenAIIsMinimal') === 'true' ? true : false
+        this.isCustomStyles = localStorage.getItem('quxOpenAIIsCustomStyles') === 'true' ? true : false
+
+        this.gptVersion = localStorage.getItem('quxOpenAIGPTVersion') ? localStorage.getItem('quxOpenAIGPTVersion') : 'gpt3'
         if (!this.openAIKey) {
             this.tab = 'settings'
         }
-        this.stopRobo()
+        if (location.href.indexOf('localhost') > 0) {
+            this.prompt = 'Create a signup page with a funny message'
+        }
+        
     }
 }
 </script>

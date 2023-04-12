@@ -1,7 +1,7 @@
 <template>
     <div class="MatcLight">
       <h1>DesignGPTChat Test</h1>
-      <div class="MatcDialog MatchImportDialog MatchImportOpenAIDialog MatcPadding">
+      <div class="MatcDialog MatchOpenAIChatDialog MatcPadding">
         <DesignGPTChat ref="importDialog"/>
       </div>
     </div>

@@ -71,6 +71,7 @@
                                 class="input" 
                                 v-model="prompt" 
                                 @keyup="onKeyUp($event)" 
+                                @
                                 ref="promptBox"></textarea>
                         </div>
 
@@ -308,15 +309,16 @@ export default {
         },
 
         async runDesignGPT() {
+            console.debug('runDesignGPT')
             if (!this.model) {
                 this.logger.error('runDesignGPT', 'No model')
                 return
             }          
-            if (this.prompt.length < 5) {
+            if (!this.prompt || this.prompt.length < 5) {
                 this.setError('design-gpt.error-prompt-too-short')
                 return
             } 
-            if (this.openAIKey.length < 5) {
+            if (!this.openAIKey || this.openAIKey.length < 5) {
                 this.setError('design-gpt.error-server-no-key')
                 this.tab = 'settings'
                 return

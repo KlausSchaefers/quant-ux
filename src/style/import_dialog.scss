@@ -124,9 +124,11 @@
 
 }
 
+
+
 .MatcDialog.MatchImportDialog.MatchImportOpenAIDialog {
   width: 1200px;
-  height: 550px;
+  height: 550px;  
 
   .MatchImportOpenAIDialogCntr {
     display: flex;
@@ -154,17 +156,14 @@
 
     .MatchImportOpenAIDialogSettingsHint{
       width: 320px;
-
-      > p {
- 
-        padding: 16px;
-        background: #f9ed8371;
-        border: 1px solid #f9ed83;
-        height: 100%;
-      }
-
-
     }
+
+    .MatchImportOpenAIDialogHint {
+      padding: 16px;
+      background: #f9ed8371;
+      border: 1px solid #f9ed83;
+    }
+
   }
 
   textarea {
