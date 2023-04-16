@@ -704,7 +704,7 @@ export default class HTMLImporter {
             return {
                 "onclick" : true,
                 "backgroundImage" : true,
-                "borderRadus" : true
+                "borderRadius" : true
             }
         }
         

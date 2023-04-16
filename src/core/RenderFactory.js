@@ -421,17 +421,22 @@ export default class RenderFactory extends Core {
 		this.setStyle(parent, model, false);
 
 		if (this._uiWidgets[model.id]) {
-			var w = this._uiWidgets[model.id];
+			const w = this._uiWidgets[model.id];
 			if (this.mode == "simulator") {
-				w.wireEvents();
-				w.onSimulatoStarted()
+				try {
+					w.wireEvents();
+					w.onSimulatoStarted()
+				} catch (err) {
+					this.logger.error("createWidgetHTML", "Could not wire events for " + w.type);
+					this.logger.sendError(err)
+				}
 			}
 			/**
 			 * In case of player or simulator set previews status
 			 */
 			if (this.mode == "simulator" || this.mode == "view") {
 				if (model.inherited) {
-					var orgModel = this.model.widgets[model.inherited];
+					const orgModel = this.model.widgets[model.inherited];
 					if (orgModel) {
 						if (this._uiWidgetsStates[orgModel.id] != null && this._uiWidgetsStates[orgModel.id] != undefined) {
 							w.setState(this._uiWidgetsStates[orgModel.id]);
@@ -455,13 +460,13 @@ export default class RenderFactory extends Core {
 	}
 
 	createWidgetByClass (parent, model, cls) {
-		var checkBox = this.$new(cls);
+		const checkBox = this.$new(cls);
 		checkBox.placeAt(parent);
 		this._uiWidgets[model.id] = checkBox;
 	}
 
 	_createScreenSegment (parent, model) {
-		let segement = this.$new(ScreenSegment)
+		const segement = this.$new(ScreenSegment)
 		segement.placeAt(parent);
 		/**
 		 * In the simulator the zoomedModel is not set,
@@ -503,49 +508,49 @@ export default class RenderFactory extends Core {
 	}
 
 	_createVisualPicker(parent, model) {
-		var widget = this.$new(VisualPicker);
+		const widget = this.$new(VisualPicker);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createSVGBox(parent, model) {
-		var widget = this.$new(SVGBox);
+		const widget = this.$new(SVGBox);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createSVGPaths(parent, model) {
-		var widget = this.$new(SVGPaths);
+		const widget = this.$new(SVGPaths);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createTree(parent, model) {
-		var widget = this.$new(Tree);
+		const widget = this.$new(Tree);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createTimeline (parent, model) {
-		var widget = this.$new(Timeline)
+		const widget = this.$new(Timeline)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createVerticalNavigation(parent, model) {
-		var widget = this.$new(Tree);
+		const widget = this.$new(Tree);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createCountingStepper (parent, model) {
-		let stepper = this.$new(CountingStepper)
+		const stepper = this.$new(CountingStepper)
 		stepper.placeAt(parent);
 		this._uiWidgets[model.id] = stepper;
 	}
 
 	_createRepeater (parent, model) {
-		var repeater = this.$new(Repeater);
+		const repeater = this.$new(Repeater);
 		repeater.placeAt(parent);
 		/**
 		 * In the simulator the zoomedModel is not set,
@@ -574,68 +579,68 @@ export default class RenderFactory extends Core {
 	}
 
 	_createWebLink (parent, model) {
-		var upload = this.$new(WebLink);
+		const upload = this.$new(WebLink);
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
 	}
 
 	_createProgressBar(parent, model) {
-		var upload = this.$new(ProgressBar);
+		const upload = this.$new(ProgressBar);
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
 	}
 
 	_createUpload (parent, model) {
-		var upload = this.$new(Upload);
+		const upload = this.$new(Upload);
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
 	}
 
 	_createUploadPreview(parent, model) {
-		var upload = this.$new(UploadPreview);
+		const upload = this.$new(UploadPreview);
 		upload.hash = this.hash
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
 	}
 
 	_createCamera (parent, model) {
-		var upload = this.$new(Upload);
+		const upload = this.$new(Upload);
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
 	}
 
 	_createCheckBox (parent, model) {
-		var checkBox = this.$new(CheckBoxWidget);
+		const checkBox = this.$new(CheckBoxWidget);
 		checkBox.placeAt(parent);
 		this._uiWidgets[model.id] = checkBox;
 	}
 
 	_createCheckBoxGroup(parent, model) {
-		var checkBox = this.$new(CheckBoxGroup);
+		const checkBox = this.$new(CheckBoxGroup);
 		checkBox.placeAt(parent);
 		this._uiWidgets[model.id] = checkBox;
 	}
 
 	_createRest(parent, model) {
-		var widget = this.$new(Rest);
+		const widget = this.$new(Rest);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createRadioBox(parent, model) {
-		var widget = this.$new(RadioBox);
+		const widget = this.$new(RadioBox);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createRadioBox2(parent, model) {
-		var widget = this.$new(RadioBox2);
+		const widget = this.$new(RadioBox2);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
 
 	_createRadioGroup(parent, model) {
-		var widget = this.$new(RadioGroup);
+		const widget = this.$new(RadioGroup);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

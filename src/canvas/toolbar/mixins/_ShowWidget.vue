@@ -89,8 +89,6 @@ export default {
 
 		showWidgetDesignProperties (model) {
 
-			
-
 			this.setWidgetViewModes(model);
 			const widgetViewMode = this.widgetViewModeBtn.getValue();
 			let style = this.getViewModeStyle(model, widgetViewMode);
@@ -101,6 +99,10 @@ export default {
 				 */
 				this.logger.error('showWidgetDesignProperties', 'No style > mode: ' + widgetViewMode + " > type: " + model?.type)
 				style = {}
+			}
+
+			if (!model.has) {
+				this.logger.error('showWidgetDesignProperties', 'No has > mode: ' + widgetViewMode + " > type: " + model?.type)
 			}
 		
 			this.showProperties();
@@ -142,7 +144,7 @@ export default {
 			}
 
 
-			if (model.has.backgroundImage){
+			if (model?.has?.backgroundImage){
 				css.remove(this.imageWidgetDiv, "MatcToolbarSectionHidden")
 				this.backgroundImage.setValue(style.backgroundImage);
 				this.backgroundImage.setModel(this.model);
@@ -156,7 +158,7 @@ export default {
 				}
 			}
 
-			if(model.has.backgroundColor ){
+			if(model?.has?.backgroundColor ){
 				css.remove(this.backgroundColorDiv, "MatcToolbarSectionHidden");
 				this.backgroundColor.setValue(style.background);
 				this.backgroundColor.setModel(this.model)
@@ -173,7 +175,7 @@ export default {
 				this.backgroundImageRotation.setValue(style.backgroundImageRotation);
 			}
 
-			if(model.has.label){
+			if(model?.has?.label){
 				css.remove(this.textDiv, "MatcToolbarSectionHidden");
 				css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
 
@@ -245,7 +247,7 @@ export default {
 			/**
 			* Must come at last so radius container is visible...
 			*/
-			if (model.has.border){
+			if (model?.has?.border){
 
 				css.remove(this.borderDiv, "MatcToolbarSectionHidden");
 				this.boxBorder.setValue(style);
@@ -263,7 +265,7 @@ export default {
 					this.boxBorder2.setWidgetViewMode(widgetViewMode)
 				}
 
-			} else if (model.has.borderRadus){
+			} else if (model?.has?.borderRadus || model?.has?.borderRadius){
 
 				if (this.radiusBox){
 					css.remove(this.radiusBox.domNode, "hidden");

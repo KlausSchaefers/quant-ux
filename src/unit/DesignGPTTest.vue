@@ -26,7 +26,7 @@
   
   <script>
   
-  import DesignGPTDialog from 'canvas/toolbar/dialogs/DesignGPTDialog'
+  import DesignGPTDialog from 'canvas/toolbar/dialogs/DesignGPTDialogSmall'
   import app from './data/designGPT.json'
   
   export default {
