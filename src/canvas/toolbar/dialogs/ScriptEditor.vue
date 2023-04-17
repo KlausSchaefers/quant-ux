@@ -138,7 +138,7 @@ return "myScreen"
             this.widget = w;
             if (this.widget?.props?.script) {
                 this.script = this.widget.props.script
-                Logger.log(-1,"ScriptEditor.setWidget", "exit > " + this.script);
+                Logger.log(1,"ScriptEditor.setWidget", "exit > " + this.script);
             }
         },
 

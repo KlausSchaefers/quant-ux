@@ -1321,8 +1321,7 @@ export default {
 		},
 
 		setScript (d, settings) {
-			let value = settings.getValue()
-			console.debug('value', value)
+			const value = settings.getValue()
 			this.onProperyChanged('script', value)
 			d.close()
 		},

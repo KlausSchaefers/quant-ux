@@ -28,13 +28,10 @@ export default class BaseController extends Core {
 		this._modelChanges = []
 		this.modelDB = new ModelDB()
 		this.collabService = new CollabService()
-
-
 		this.logger.log(1,"constructor", "entry > " + this.mode);
 		this.commandStack =  {stack : [], pos : 0, id:0};
 		this._lastChangedWidgets = {};
 	}
-
 
 	/**********************************************************************
 	 * Dependencies

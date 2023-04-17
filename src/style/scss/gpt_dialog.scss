@@ -2,7 +2,7 @@
 @import '../variables.scss';
 
 .MatcDialog.MatchImportDialog.MatchImportOpenAIDialog {
-    width: 840px;
+    width: 720px;
     height: 640px;  
 
     .MatcToolbarTabs a {
@@ -18,13 +18,75 @@
     }
     
   
-    .MatchImportOpenAIDialogHint {
+    .MatchImportOpenAIDialogWarn {
         padding: 16px;
         background: #f9ed8371;
         border: 1px solid #f9ed83;
+        border-radius: 4px;
     }
 
+    .MatchImportOpenAIDialogWaiting {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      align-items: center;
+      padding-top: 32px;
+
+      .MatcHintCntr {
+        width: 80%;
+   
+      }
+
+      .MatcHint {
+        width: 100%;
+      }
+
+      .MatchImportDialogProgressCntr {
+        display: block;
+        width: 100%;
+        height: 10px;
+        overflow: hidden;
+        
+      }
+    
+      .MatchImportDialogProgress {
+        height: 100%;
+        width: 100%;
+        background: $main_color;
+        border-radius: 16px;
+  
+        animation-name: aiRunning;
+        animation-duration: 60s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+
+      .MatchImportOpenAIDialogHint {
+        border-radius: 4px;
+        padding: 32px;
+        background: #d6e5f86c;
+        border: 1px solid #d6e5f8;
+        width: 100%;
+
+  
+        h1 {
+          font-size: 16px;
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 32px;
+        }
+
+        p {
+          font-style: italic;
+          margin-top: 16px;
+        }
+      }
+    }
+
+  
+
     .MatcError {
+        margin-top: 16px;
         height: 32px;
     }
   
@@ -84,29 +146,6 @@
           width: 520px;
         }
     }
-  
-  
-    .MatchImportDialogProgressCntr {
-      display: block;
-      opacity: 0;
-      width: 100%;
-      height: 8px;
-      overflow: hidden;
-    }
-  
-    .MatchImportDialogProgress {
-      height: 100%;
-      width: 100%;
-      background: $main_color;
-      border-radius: 4px;
-
-      animation-name: aiRunning;
-      animation-duration: 40s;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-    }
-  
-
   
    
     .MatchImportOpenAIDialogSimulator {

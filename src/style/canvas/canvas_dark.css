@@ -11,16 +11,22 @@
 }
 
 
-.MatcDark .MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
-    border-bottom-color: #3787f2;
-    color: #fff;
-}
+
 
 .MatcDialog .MatcToolbarTabs a {
 	color: #333;
 }
 
+.MatcDialog .MatcToolbarTabs a.MatcToolbarTabDisabled, 
+.MatcDialog .MatcToolbarTabs a.MatcToolbarTabDisabled:hover{
+	color: #777;
+    cursor: auto;
+}
 
+.MatcDark .MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
+    border-bottom-color: #3787f2;
+    color: #fff;
+}
 
 .MatcDark .MatcToolbar .MatcToolbarDropDownButton li:HOVER,
 .MatcDark .MatcToolbarDropDownButtonPopup li:hover{

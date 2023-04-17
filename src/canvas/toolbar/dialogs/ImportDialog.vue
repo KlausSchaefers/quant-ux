@@ -104,13 +104,7 @@
                     </span>
                 </div>
             </div>
-
-
-          
-
-
         </div>
-
 
         <div class="MatcError">
             {{errorMSG}}
@@ -121,7 +115,6 @@
             <a class=" MatcButton" v-if="!isPublic && !hasContinue" @click.stop="onSave">{{ getNLS('btn.import')}}</a>
             <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel')}}</a>
         </div>
-
 
 
 	</div>

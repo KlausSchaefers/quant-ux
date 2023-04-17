@@ -95,7 +95,6 @@ export default {
 		if (this.qValue) {
 			this.setValue(this.qValue)
 		}
-		console.debug(this.qValue,this.value)
 	}
 }
 </script>

@@ -209,7 +209,7 @@ export default {
 				}
 
 
-				if(this.hasData.indexOf(model.type) >=0 || model.has.data) {
+				if(this.hasData.indexOf(model.type) >=0 || model?.has?.data) {
 					css.remove(this.dataDiv,"MatcToolbarSectionHidden" );
 					this.dataWidget.setValue(model);
 				}

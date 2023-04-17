@@ -56,8 +56,6 @@
                     
                             </p>
                         </div>
-                     
-
                     </div>
                 </div>
 
@@ -71,7 +69,6 @@
                                 class="input" 
                                 v-model="prompt" 
                                 @keyup="onKeyUp($event)" 
-                                @
                                 ref="promptBox"></textarea>
                         </div>
 

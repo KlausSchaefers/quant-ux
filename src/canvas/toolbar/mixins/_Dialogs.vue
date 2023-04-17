@@ -24,7 +24,7 @@ import Help from 'help/Help'
 import Share from 'page/Share'
 
 import ImportDialog from 'canvas/toolbar/dialogs/ImportDialog'
-import DesignGPTDialog from 'canvas/toolbar/dialogs/DesignGPTDialog'
+import DesignGPTDialogSmall from 'canvas/toolbar/dialogs/DesignGPTDialogSmall'
 import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
 import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
@@ -69,7 +69,7 @@ export default {
 			const popup = db.div("MatcDialog MatchImportDialog MatchImportOpenAIDialog MatcPadding").build();
 			dialog.popup(popup, this.addGPTSection);
 
-			const aiDialog = this.$new(DesignGPTDialog)
+			const aiDialog = this.$new(DesignGPTDialogSmall)
 			aiDialog.placeAt(popup)
 
 			aiDialog.setPublic(this.isPublic)
