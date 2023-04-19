@@ -135,18 +135,17 @@ export default {
       this.emit("gesture", gesture);
     }, 
 
-   
 
     onBlur (e) {
       this.log.log(1, "onBlur", "enter");
       this.stopPropagation(e);
 
-      var v = this._readValue();
+      const v = this._readValue();
 
       this.emitCompositeState("text", v);
       this.emitDataBinding(v);
 
-      var valid = this.validate(this._readValue(), true);
+      const valid = this.validate(this._readValue(), true);
       if (valid) {
         if (this.model.focus) {
           this.emitAnimation(this.model.id, 0, this.style);
@@ -302,9 +301,6 @@ export default {
           color: this.getPlaceHolderColor(style)
         };
 
-        /**
-         * FIXME: Add other browsers as well
-         */
         this.addCssClass(selector + "::-webkit-input-placeholder", placeholderStyle);
 
         /**

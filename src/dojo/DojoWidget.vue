@@ -349,16 +349,15 @@ export default {
       if (!this.$options.name) {
         console.warn('No name for widget', this)
       }
-      // this.logger = new Logger(this.$options.name);
     },
     /**
      * Message sending stuff
      */
     showHint (msg) {
-      this.$root.$emit('hint', msg)
+      this.$root.$emit('Hint', msg)
     },
     showError (msg) {
-      this.$root.$emit('error', msg)
+      this.$root.$emit('Error', msg)
     },
     showSuccess (msg) {
       this.$root.$emit('Success', msg)

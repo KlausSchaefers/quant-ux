@@ -644,6 +644,7 @@ export default {
 		_showTextBox (model){
 			this._setSectionLabel("TextBox");
 			this._renderCheck("Text is placeholder",model.props.placeholder, "placeholder" );
+			//this._renderCheck("Animate placeholder",model.props.animate, "animate" );
 			this._renderCheck("Focus on load",model.props.focus, "focus" );
 			this._renderLabelDropDown("Normal", model,"stringCase",[
 				{ value: null, icon:"mdi mdi-briefcase-check", label : "Normal"},

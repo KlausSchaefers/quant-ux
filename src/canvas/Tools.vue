@@ -1181,50 +1181,48 @@ export default {
 
 			if (oldScreen && newScreen && oldScreen.id != newScreen.id) {
 				/**
-			 * If we paste to new screen, we do not want have the last paste
-			 * function active! We paste at same postion if it fits, otherwise
-				 * teh current mouse position
+				 * If we paste to new screen, we do not want have the last paste
+				 * function active! We paste at same postion if it fits, otherwise
+				 * the current mouse position
 				 */
 				pos = this.getPastePositionInScreen(pos, oldScreen, newScreen, boundingBox)
-
-
 			} else {
 				/**
 				 * Paste on same screen. Now check if we have a paste pattern...
 				 */
 				if (this._lastPaste ){
-					var now = new Date().getTime()
+					const now = new Date().getTime()
 					if (now - this._lastPaste.ts < 20000) {
 
-							var targetBBX = this.getPasteBoundingBox(this._lastPaste.target);
-							var sourceBBX = this.getPasteBoundingBox(this._lastPaste.source);
+						const targetBBX = this.getPasteBoundingBox(this._lastPaste.target);
+						const sourceBBX = this.getPasteBoundingBox(this._lastPaste.source);
 
-							if(targetBBX && sourceBBX){
+						if(targetBBX && sourceBBX){
 
-								var targetScreen = this.getHoverScreen(targetBBX);
-								var sourceScreen = this.getHoverScreen(sourceBBX);
+							const targetScreen = this.getHoverScreen(targetBBX);
+							const sourceScreen = this.getHoverScreen(sourceBBX);
 
-								if (targetScreen && sourceScreen && sourceScreen.id === targetScreen.id){
-									var difX = targetBBX.x - sourceBBX.x;
-									var difY = targetBBX.y - sourceBBX.y;
-									/**
-									 * FIXME: In some situations it can happen, that we would paste
-									 * super far from the current point of view. In such a case both difs
-									 * are large. We do not want that an stop.
-									 */
-									if (Math.abs(difY) < 5 || Math.abs(difX) < 5){
-										return {
-											x: targetBBX.x + difX,
-											y: targetBBX.y + difY
-										}
-									} else {
-										console.debug("Not aligned", difX, difY)
+							if (targetScreen && sourceScreen && sourceScreen.id === targetScreen.id){
+								const difX = targetBBX.x - sourceBBX.x;
+								const difY = targetBBX.y - sourceBBX.y;
+								/**
+								 * FIXME: In some situations it can happen, that we would paste
+								 * super far from the current point of view. In such a case both difs
+								 * are large. We do not want that an stop.
+								 */
+								if (Math.abs(difY) < 5 || Math.abs(difX) < 5){
+									return {
+										x: targetBBX.x + difX,
+										y: targetBBX.y + difY
 									}
-
 								} else {
-									console.debug("Pattern paste on new screen!")
+									console.debug("getPastePostion() > Not aligned", difX, difY)
 								}
+
+							} else {
+								console.debug("getPastePostion() > Pattern paste on new screen!")
 							}
+						}
 					} else {
 						console.debug("Timeout!");
 					}

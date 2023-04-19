@@ -35,22 +35,25 @@ export default {
     },
 
     render (model, style, scaleX, scaleY) {
+
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-
-      var db = new DomBuilder();
       this.elements = [];
       this.icons = [];
-      var elementCount = this.model.props.elementCount;
-      var cntr = db.div("MatcWidgetTypeRatingCntr").build();
 
-      for (var i = 0; i < elementCount; i++) {
-        var element = db.div("MatcWidgetTypeRatingElement").build(cntr);
+      const db = new DomBuilder();
+      const elementCount = this.model.props.elementCount;
+      const cntr = db.div("MatcWidgetTypeRatingCntr").build();
+
+      for (let i = 0; i < elementCount; i++) {
+        const element = db.div("MatcWidgetTypeRatingElement").build(cntr);
         element.style.height = "100%";
-        var icon = db.span("mdi mdi-star-outline").build(element);
+        
+        const icon = db.span("mdi mdi-star-outline").build(element);
         icon.style.color = style.color;
+        
         this.icons.push(icon);
         this.elements.push(element);
       }
@@ -59,28 +62,23 @@ export default {
       this.domNode.appendChild(cntr);
 
       this.resize(model);
-
-      /**
-       * Selected is the visible starts
-       */
       this.setValue(model.props.selected - 1)
     },
 
-    resize: function(model) {
-      var elementCount = this.elements.length;
-      // var h = (model.h / model.w) * this.model.h;
-      var w = (model.h / model.w) * 100;
-      var m = (100 - w * elementCount) / (elementCount - 1);
-      for (var i = 0; i < elementCount; i++) {
-        var element = this.elements[i];
+    resize (model) {
+      const elementCount = this.elements.length;
+      const w = (model.h / model.w) * 100;
+      const m = (100 - w * elementCount) / (elementCount - 1);
+      for (let i = 0; i < elementCount; i++) {
+        const element = this.elements[i];
         element.style.width = w + "%";
         element.style.left = w * i + m * i + "%";
-        var icon = this.icons[i];
+        const icon = this.icons[i];
         icon.style.fontSize = model.h + "px";
       }
     },
 
-    onSelect: function(pos, e) {
+    onSelect (pos, e) {
       this.stopPropagation(e);
       this.setValue(pos);
       this.emitDataBinding(pos + 1);
@@ -90,14 +88,17 @@ export default {
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
-      this.setValue(v - 1);
+    _setDataBindingValue (v) {
+      this.setValue((v * 1) - 1);
     },
 
-    setValue: function(value) {
-      if (value !== this.value) {
-        for (var i = 0; i < this.elements.length; i++) {
-          var icon = this.icons[i];
+    setValue (value) {
+      // Here is somekind of bug, that sometimes the render() method is
+      // called and the this.value is already set, but no 
+      // inital rendering was done. Forcing a redraw fixes the issue
+      //if (value !== this.value) {
+        for (let i = 0; i < this.elements.length; i++) {
+          const icon = this.icons[i];
           if (i < value + 1) {
             css.remove(icon, "mdi-star-outline");
             css.add(icon, "mdi-star");
@@ -106,29 +107,28 @@ export default {
             css.remove(icon, "mdi-star");
           }
         }
-
         this.value = value;
-      }
+      //}
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "select",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       if (state && state.type == "select") {
         this.setValue(state.value);
       }
     },
 
-    destroy: function() {
+    destroy () {
       if (this._compositeState) {
         this.emitCompositeState();
       }

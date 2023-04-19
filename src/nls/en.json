@@ -82,7 +82,7 @@
         "hint-1-prompt": "Create a form with a red button. The text color should be black.",
         "hint-2": "You can ask to create forms? For instance ask:",
         "hint-2-prompt": "Create a form with an email, password and age field.",
-        "hint-3": "OpenAI can create data table for you. No need to invent names, places, birthdays and so on. The prompt could look like:",
+        "hint-3": "OpenAI can create data tables for you. No need to invent names, places, birthdays and so on. The prompt could look like:",
         "hint-3-prompt": "Please create a table containing data of 5 persons. Include the name, age, weight and profession.",
         "hint-4": "You can influence the style of texts used in the design. For example ask:",
         "hint-4-prompt": "Create a funny headline about designers.",
