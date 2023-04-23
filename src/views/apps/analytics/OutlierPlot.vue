@@ -5,26 +5,38 @@
         <div class="MatcScatterPlotfActionCntr" data-dojo-attach-point="actionCntr">
         </div>
         <div class="MatcScatterPlotCntr" data-dojo-attach-point="cntr" @click="onBackgroundClick">
-            <span class="MatxAxisXLine MatcScatterPlotfScatternVisible MatcScatterPlotDurationHidden" data-dojo-attach-point="xLine"></span>
-            <span class="MatxAxisYLine MatcScatterPlotfScatternVisible MatcScatterPlotDurationHidden" data-dojo-attach-point="yLine"></span>
-           
+            <span class="MatxAxisXLine MatcScatterPlotfScatternVisible MatcScatterPlotDurationHidden"
+                data-dojo-attach-point="xLine"></span>
+            <span class="MatxAxisYLine MatcScatterPlotfScatternVisible MatcScatterPlotDurationHidden"
+                data-dojo-attach-point="yLine"></span>
             <div class="MatcScatterPlotCanvas" data-dojo-attach-point="canvas">
             </div>
-
             <span class="MatxAxisLabel xMaxLabel" data-dojo-attach-point="xMaxLabel"></span>
-            <span class="MatxAxisLabel MatcScatterPlotDropOffHidden yMaxLabel" data-dojo-attach-point="yMaxLabel"></span>
-            <span class="MatxAxisLabel MatcScatterPlotfScatternVisible MatcScatterPlotDurationHidden xMiddleLabel" data-dojo-attach-point="xMiddleLabel"></span>
-            <span class="MatxAxisLabel MatcScatterPlotfScatternVisible MatcScatterPlotDurationHidden yMiddleLabel" data-dojo-attach-point="yMiddleLabel"></span>
+            <span class="MatxAxisLabel MatcScatterPlotDropOffHidden yMaxLabel"
+                data-dojo-attach-point="yMaxLabel"></span>
+            <span class="MatxAxisLabel MatcScatterPlotfScatternVisible MatcScatterPlotDurationHidden xMiddleLabel"
+                data-dojo-attach-point="xMiddleLabel"></span>
+            <span class="MatxAxisLabel MatcScatterPlotfScatternVisible MatcScatterPlotDurationHidden yMiddleLabel"
+                data-dojo-attach-point="yMiddleLabel"></span>
             <span class="MatxAxisLabel minLabel" data-dojo-attach-point="minLabel">0</span>
             <span class="MatxAxisLabel xLabel " data-dojo-attach-point="xLabel">X</span>
             <span class="MatxAxisLabel yLabel MatcScatterPlotDropOffHidden" data-dojo-attach-point="yLabel">Y</span>
-            <span class="MatxAxisLabel yLabelEast MatcScatterPlotfDetailsVisible" data-dojo-attach-point="yLabelEast">Y</span>
-            <span class="MatxAxisLabel yMinLabelEast MatcScatterPlotfDetailsVisible" data-dojo-attach-point="yMinLabelEast">0</span>
-            <span class="MatxAxisLabel yMaxLabelEast MatcScatterPlotfDetailsVisible" data-dojo-attach-point="yMaxLabelEast">100</span>
+
+            <span class="MatxAxisLabel yLabelEast MatcScatterPlotfDetailsVisible"
+                data-dojo-attach-point="yLabelEast">Y</span>
+            <span class="MatxAxisLabel yMinLabelEast MatcScatterPlotfDetailsVisible"
+                data-dojo-attach-point="yMinLabelEast">0</span>
+            <span class="MatxAxisLabel yMaxLabelEast MatcScatterPlotfDetailsVisible"
+                data-dojo-attach-point="yMaxLabelEast">100</span>
             <span class="MatxAxisLabel yMinLabel" data-dojo-attach-point="yMinLabel"></span>
-            <span class="MatxAxisLabel bottom25Label MatcScatterPlotfDetailsVisible" data-dojo-attach-point="bottom25Label"></span>
-            <span class="MatxAxisLabel bottom75Label MatcScatterPlotfDetailsVisible" data-dojo-attach-point="bottom75Label"></span>
+
+            <span class="MatxAxisLabel bottom25Label MatcScatterPlotfDetailsVisible"
+                data-dojo-attach-point="bottom25Label"></span>
+            <span class="MatxAxisLabel bottom75Label MatcScatterPlotfDetailsVisible"
+                data-dojo-attach-point="bottom75Label"></span>
+
             <span class="MatxAxisLabel MatxAxisLabelCntr" data-dojo-attach-point="xAxisLabelCntr"></span>
+
 
             <div class="MatcScatterPlotfTaskCntr" data-dojo-attach-point="taskCntr">
             </div>
@@ -54,12 +66,15 @@ import Util from 'core/Util'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
 
+
+
 export default {
-    name: 'ScatterPlot',
+    name: 'OutlierPlot',
     mixins: [_Color, Util],
-    props: ['test', 'app', 'events', 'annotation', 'pub', 'mode'],
+    props: ['test', 'app', 'events', 'annotation', 'pub'],
     data: function () {
         return {
+            mode: 'Scatter',   
             paddingFactor: 1.1,
             dialog: false,
             includeDropOff: false,
@@ -196,13 +211,202 @@ export default {
         render(changeTask) {
             this.log.log(-1, "render", "enter > ");
             this.cleanUpTempListener()           
-            this.render_Scatter(this.df, this.task, this.annotations, this.tasks, changeTask);
+            try {
+                if (!changeTask && this["clean_" + this.lastMode]) {
+                this["clean_" + this.lastMode](lang.hitch(this, "renderTab", changeTask));
+                } else {
+                    this.renderTab(changeTask);
+                }      
+            } catch (err) {
+                this.log.error("render", "error > ");
+                this.log.sendError(err)
+            }
+                
         },
 
-      
-        onBackgroundClick () {
-            this.setHint(this.db.span("MatcHint", this.getNLS("analytics.distribution.hint")).build());
+        renderTab(changeTask) {
+            this.log.log(-1, "renderTab", "enter > " + this.mode);
+            if (this["render_" + this.mode]) {
+                this["render_" + this.mode](this.df, this.task, this.annotations, this.tasks, changeTask);
+            } else {
+                this.log.error("render", "No render for " + this.tab);
+            }
         },
+
+        onBackgroundClick () {
+            this.setHint(this.db.span("MatcHint", this.getNLS("analytics.scatter.hint")).build());
+        },
+
+
+        /*********************************************************************
+         * BoxPlot
+         *********************************************************************/
+
+
+        render_BoxPlot() {
+            this.log.log(-1, "render_duration", "enter > changeTask:");
+            const perf = this.taskPerformance
+
+            css.add(this.domNode, "MatcScatterPlotDetails");
+            this.xLabel.innerHTML = ""; //this.getNLS("dash.perf.details.xLabel");
+            this.yLabel.innerHTML = "";//this.getNLS("dash.perf.details.yLabel");
+            this.yLabelEast.innerHTML = ""; //this.getNLS("dash.perf.details.yLabelEast");
+            this.bottom25Label.innerHTML = this.getNLS("dash.perf.details.bottom25Label");
+            this.bottom75Label.innerHTML = this.getNLS("dash.perf.details.bottom75Label");
+            this.xMaxLabel.innerHTML = "";
+            this.yMinLabel.innerHTML = ""
+            this.minLabel.innerHTML = ""
+
+            // loop to get the max
+            var max_duration = 1;
+            var max_count = 1;
+            var selectCount = 0;
+            for (let id in this.selectedTasks) {
+                if (this.selectedTasks[id]) {
+                    let taskDF = perf.select("task", "==", id);
+                    max_duration = Math.max(max_duration, Math.ceil(taskDF.max("duration") * this.paddingFactor));
+                    max_count = Math.max(max_count, Math.ceil(taskDF.max("interactions") * this.paddingFactor));
+                    selectCount++;
+                }
+            }
+
+            this.yMaxLabel.innerHTML = max_count;
+            this.yMaxLabelEast.innerHTML = Math.ceil(max_duration / 1000) + " s";
+
+
+            /**
+             * Now render selected tasks and remove not selected tasks
+             */
+            var i = 0;
+            var w = 2;
+            var slots = (selectCount * 2) - 1;
+            for (let id in this.selectedTasks) {
+                if (this.selectedTasks[id]) {
+                    let taskDF = perf.select("task", "==", id);
+
+                    /**
+                     * Create interactions box plot
+                     */
+                    let max = Math.ceil(taskDF.max("interactions"));
+                    let min = Math.ceil(taskDF.min("interactions"));
+                    let mean = Math.ceil(taskDF.mean("interactions"));
+                    let std = Math.ceil(taskDF.std("interactions"));
+                    let left = (25 - ((w * slots) / 2)) + (i * 2 * w) + "%";
+                    this.createBoxPlot(id, "i", i, left, w, max, min, mean, std, max_count, this.taskColors[id]);
+
+                    /**
+                     * Create duration box plot
+                     */
+                    max = Math.ceil(taskDF.max("duration"));
+                    min = Math.ceil(taskDF.min("duration"));
+                    mean = Math.ceil(taskDF.mean("duration"));
+                    std = Math.ceil(taskDF.std("duration"));
+                    left = (75 - ((w * slots) / 2)) + (i * 2 * w) + "%";
+                    this.createBoxPlot(id, "d", i, left, w, max, min, mean, std, max_duration, this.taskColors[id]);
+
+                    i++;
+                } else {
+                    /**
+                     * Remove not needed box plots
+                     */
+                    if (this._bars) {
+                        if (this._bars[id + "i"]) {
+                            let bar = this._bars[id + "i"];
+                            bar.parentNode.removeChild(bar);
+                            delete this._bars[id + "i"]
+                        }
+                        if (this._bars[id + "d"]) {
+                            let bar = this._bars[id + "d"];
+                            bar.parentNode.removeChild(bar);
+                            delete this._bars[id + "d"]
+                        }
+                    }
+                }
+            }
+        },
+
+        createBoxPlot(id, prefix, i, left, width, max, min, mean, std, total, color, widthUnit = '%') {
+
+            if (!this._bars) {
+                this._bars = {}
+            }
+
+            var height = (((max - min) / total) * 100) + "%";
+            var ms = Math.min(i * 60, 500);
+            if (!this._bars[id + prefix]) {
+                /**
+                 * Create new
+                 */
+                let cntr = this.db.div("MatcScatterPlotBoxPlotCntr").build(this.canvas);
+                cntr.style.bottom = ((min / total) * 100) + "%"
+                cntr.style.left = left;
+                cntr.style.height = "0px";
+                cntr.style.width = width + widthUnit
+
+                this.db.div("MatcScatterPlotBoxPlotLine").build(cntr);
+
+                var bar = this.db.div("MatcScatterPlotBoxPlot").build(cntr);
+                bar.style.bottom = Math.max(0, ((((mean - std) - min) / (max - min)))) * 100 + "%";
+                bar.style.height = ((std * 2) / (max - min)) * 100 + "%";
+                bar.style.background = color
+
+                var centre = this.db.div("MatcScatterPlotBoxPlotMean").build(cntr);
+                centre.style.bottom = (((mean - min) / (max - min))) * 100 + "%"
+
+                setTimeout(lang.hitch(this, "animateBoxplot", cntr, height), ms);
+                this._bars[id + prefix] = cntr;
+
+            } else {
+                /**
+                 * Update exiting ones
+                 */
+                let cntr = this._bars[id + prefix];
+                cntr.style.left = left;
+                setTimeout(lang.hitch(this, "animateBoxplot", cntr, height), ms);
+            }
+        },
+
+        animateBoxplot(bar, height) {
+            bar.style.height = height;
+        },
+
+        clean_BoxPlot(callback) {
+            this.log.log(-1, "clean_duration", "enter");
+            css.remove(this.domNode, "MatcScatterPlotDetails");
+            this.setHint();
+
+            if (this._bars) {
+                for (var id in this._bars) {
+                    var b = this._bars[id];
+                    b.style.height = "0%";
+                    b.style.bottom = "0%";
+                }
+            }
+            setTimeout(lang.hitch(this, "removeBoxplots"), 200);
+
+            if (callback) {
+                setTimeout(callback, 200);
+            }
+        },
+
+
+        removeBoxplots  () {
+            if (this._bars) {
+                for (var id in this._bars) {
+                    var b = this._bars[id];
+                    this.canvas.removeChild(b)
+                }
+            }
+            delete this._bars;
+        },
+
+
+
+        /*********************************************************************
+         * Scatter
+         *********************************************************************/
+
+     
 
         render_Scatter() {
             this.log.log(-1, "render_Scatter", "enter > changeTask:" + this.scatterMode);
@@ -380,7 +584,7 @@ export default {
             }
         },
 
-        clean_Scatter(callback) {
+        clean_scatter(callback) {
             this.log.log(-1, "clean_scatter", "enter");
             css.remove(this.domNode, "MatcScatterPlotScatter");
             this.setHint();
@@ -427,8 +631,8 @@ export default {
                 if (this.mode == "public") {
                     url = "#/examples/" + this.model.id + "/replay/" + id + ".html";
                 }
-                const hint = this.db.span("MatcHint", this.getNLS("analytics.distribution.play")).build();
-                const a = this.db.a("", this.getNLS("analytics.distribution.here")).build(hint);
+                const hint = this.db.span("MatcHint", this.getNLS("analytics.scatter.play")).build();
+                const a = this.db.a("", this.getNLS("analytics.scatter.here")).build(hint);
                 a.href = url
                 a.target = "_matcSessionReplay" + id
                 this.setHint(hint);
@@ -479,8 +683,6 @@ export default {
             p.style.bottom = (((s.interactions / max_interactions) * 100)) + "%";
             p.style.left = (((s.duration / max_duration) * 100)) + "%";
         }
-    },
-    watch: {
     },
     mounted() {        
         this.setValue(this.test, this.app, this.events, this.annotation)

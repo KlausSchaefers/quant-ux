@@ -30,7 +30,7 @@ export default {
 
 		onDistributeStart () {
             const matrix = DistributionUtil.getDistributionMatrix(this.model, this.getMultiSelection(), false)
-			this.logger.log(3,"onDistributeStart", "enter", matrix);
+			this.logger.log(-3,"onDistributeStart", "enter", matrix);
 			css.add(this.container, "MatcCanvasModeAlign");
             if (matrix.horizontal <= 1) {
                 css.add(this.container, "MatcCanvasModeAlignNoVertical");

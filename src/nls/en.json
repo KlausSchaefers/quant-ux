@@ -333,8 +333,17 @@
         "sign-in": "Sign up to create a new Prototype"
     },
     "analytics": {
-        "scatter": {
+        "outlier": {
+            "title" : "Outliers",
+            "no-data": "No data"
+        },
+        "distribution": {
             "title" : "Data Distribution",
+            "viewScatter": "Scatter Plot",
+            "viewBoxPlot": "BoxPlot",
+            "viewOutlier": "Outlier",
+            "options": "Options",
+            "no-data": "No data",
             "play": "To replay the session recording press ",
             "here": "here",
             "hint": "Tip: Select a dot to replay the screen recording or select a task to indicate task completion."

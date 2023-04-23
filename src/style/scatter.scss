@@ -288,7 +288,8 @@
 		position: absolute;
 		bottom: 0px;
 		right: 0px;
-		width: 100px;
+		min-width: 100px;
+		max-width: 200px;
 		min-height: 30px;
 		max-height: 200px;
 		overflow: auto;
@@ -303,6 +304,9 @@
 		cursor: pointer;
 		height: 30px;
 		overflow: hidden;
+		display: flex;
+		align-items: center;
+		padding-right: 8px;
 	}
 
 	.MatcScatterPlotfTaskCntr span {
@@ -324,10 +328,9 @@
 	.MatcScatterPlotfTaskCntr label {
 		color: #999;
 		font-size: 14px;
-		vertical-align: middle;
 		font-weight: 400;
 		cursor: pointer;
-		width: 70px;
+
 		height: 14px;
 
 		&:hover{

@@ -180,6 +180,10 @@ export default new VueRouter({
     {
       path: '/test/DesignGPTChat.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/DesignGPTChatTest.vue')
+    },
+    {
+      path: '/test/Outlier.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/OutlierTest.vue')
     }
   ]
 })

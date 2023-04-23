@@ -40,7 +40,7 @@
     <section class="section" data-dojo-attach-point="sectionScatter">
       <div class="container">
         <div class="box is-shadowless">
-          <ScatterSection
+          <DistributionSection
             :pub="pub"
             :test="test"
             :app="app"
@@ -93,7 +93,7 @@ import PerformanceMonitor from 'core/PerformanceMonitor'
 import AnalyticsHeader from "views/apps/analytics/AnalyticsHeader";
 import AnalyticTaskList from "views/apps/analytics/AnalyticTaskList";
 import SurveySection from "views/apps/analytics/SurveySection";
-import ScatterSection from "views/apps/analytics/ScatterSection";
+import DistributionSection from "views/apps/analytics/DistributionSection";
 import Comment from "page/Comment";
 import HelpButton from "help/HelpButton";
 
@@ -112,7 +112,7 @@ export default {
     'AnalyticsHeader': AnalyticsHeader,
     'AnalyticTaskList': AnalyticTaskList,
     'SurveySection': SurveySection,
-    'ScatterSection': ScatterSection,
+    'DistributionSection': DistributionSection,
     'HelpButton': HelpButton
   },
   computed: {
