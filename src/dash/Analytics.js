@@ -669,6 +669,7 @@ export default class {
 		events.sortBy("time");
 		const sessions = this.getSessionSummary(events)
 		Object.values(sessions).forEach(session => {
+			session.tasks = 0
 			for (let t = 0; t < tasks.length; t++) {
 				const task = tasks[t];
 				session[task.id] = {
@@ -684,6 +685,7 @@ export default class {
 		taskPerformance.forEach(perf => {
 			const session = sessions[perf.session]
 			if (session) {
+				session.tasks++
 				const t = session[perf.task]
 				t.success = 1
 				t.duration = perf.duration

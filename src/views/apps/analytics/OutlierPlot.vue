@@ -3,7 +3,7 @@
     <div :class="'MatcScatterPlot MatcOutlierPlot MatcScatterPlot' + mode  ">
        
      
-        <div class="MatcScatterPlotCntr" data-dojo-attach-point="cntr" @click="onBackgroundClick">
+        <div class="MatcScatterPlotCntr" data-dojo-attach-point="cntr" @click="onBackgroundClick" @dblclick="onDoubelClick">
             <div class="MatcScatterPlotCanvas" data-dojo-attach-point="canvas">
             </div>
         </div>
@@ -36,6 +36,7 @@ export default {
     data: function () {
         return {
             mode: 'Scatter',   
+            offset: 5,
             paddingFactor: 1.1,
             dialog: false,
             includeDropOff: false,
@@ -72,10 +73,11 @@ export default {
             this.df = df
             this.annotations = annotations;        
             this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);
-            //const taskIDs = this.tasks.map(t => t.id)
+            const taskIDs = this.tasks.map(t => t.id)
             
             const data = Outlier.getBaseData(df, this.tasks)
-            const matrix = Outlier.getMatrix(data, ["interactions", "duration"])
+  
+            const matrix = Outlier.getMatrix(data, ["interactions", "duration", "screens", "tasks", ...taskIDs])
     
             const zMatrix = Outlier.getZScore(matrix)
 
@@ -84,12 +86,18 @@ export default {
    
 
             const distance = Outlier.getPairwiseDistance(zMatrix)
-            const points = Outlier.project2D(distance, 30, 10)
-            const scaledPOints = Outlier.getMinMaxScore(points, 100)
+            //const points = Outlier.tsne(distance, 30, 10)
+            const points = Outlier.umap(distance, 0.95)
+            const scaledPOints = Outlier.getMinMaxScore(points, 100 - 2 * this.offset)
 
 
 
             this.render(data, scaledPOints);
+            this.onBackgroundClick()
+        },
+
+        onDoubelClick () {
+            this.setValue(this.test, this.app, this.events, this.annotation)
         },
 
         onBackgroundClick () {
@@ -100,20 +108,23 @@ export default {
 
         render (sessions, points) {
 
+            this.canvas.innerText = ''
+
             for (let i = 0; i < sessions.length; i++) {
                 const s = sessions[i]
                 const point = points[i] 
-      
-                const ms = Math.min(i * 10, 300);
+
+                const ms = Math.min(i * 10, 300) + 100;
                 
                 const p = this.db.span("MatxScatterPoint").build(this.canvas);
-                p.style.bottom = "-5%";
-                p.style.left = point[0] + "%";
+                p.style.bottom = (49 + Math.random() * 2) + "%";
+                p.style.left = (49.5 + Math.random() * 1) + "%";
+                p.style.opacity = 0
                 p.style.background = this.defaultColor
                 this._scatterPoints[i] = p;
                 this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
         
-                setTimeout(lang.hitch(this, "animateScatterPoint", p, s, point[0], point[1]), ms);
+                setTimeout(lang.hitch(this, "animateScatterPoint", p, s, point[0] + this.offset, point[1] + this.offset), ms);
                 
             }
 
@@ -154,8 +165,6 @@ export default {
 
         selectPoint(p, s, i, e) { 
             this.stopEvent(e);
-            this.setXMiddle(s.duration, this.max_duration);
-            this.setYMiddle(s.interactions, this.max_interactions);
             css.add(this.cntr, "MatcScatterPlotCntrHover");
             this._selectedScatterPoint = p;
             this.showSessionReplayHint(s.session)
@@ -167,8 +176,8 @@ export default {
                 if (this.mode == "public") {
                     url = "#/examples/" + this.model.id + "/replay/" + id + ".html";
                 }
-                const hint = this.db.span("MatcHint", this.getNLS("analytics.scatter.play")).build();
-                const a = this.db.a("", this.getNLS("analytics.scatter.here")).build(hint);
+                const hint = this.db.span("MatcHint", this.getNLS("analytics.distribution.play")).build();
+                const a = this.db.a("", this.getNLS("analytics.distribution.here")).build(hint);
                 a.href = url
                 a.target = "_matcSessionReplay" + id
                 this.setHint(hint);
@@ -202,6 +211,7 @@ export default {
         animateScatterPoint(p, s, bottom, left) {
             p.style.bottom = bottom + "%";
             p.style.left = left + "%";
+            p.style.opacity = 1
         }
     },
     mounted() {        

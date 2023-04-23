@@ -2,18 +2,25 @@
  * based on https://github.com/karpathy/tsnejs/blob/master/tsne.js
  */
 
+let tsneRandom = Math.random
+
 export default class tSNE {
 
-    constructor (opt = {}) {
+    constructor(opt = {}) {
         this.perplexity = getopt(opt, "perplexity", 30); // effective number of nearest neighbors
         this.dim = getopt(opt, "dim", 2); // by default 2-D tSNE
         this.epsilon = getopt(opt, "epsilon", 10); // learning rate
+        if (opt.random) {
+            tsneRandom = opt.random
+        } else {
+            tsneRandom = Math.random
+        }
         this.iter = 0;
     }
 
-     // this function takes a set of high-dimensional points
+    // this function takes a set of high-dimensional points
     // and creates matrix P from them using gaussian kernel
-    initDataRaw (X) {
+    initDataRaw(X) {
         var N = X.length;
         var D = X[0].length;
         assert(N > 0, " X is empty? You must have some data!");
@@ -27,7 +34,7 @@ export default class tSNE {
     // this function takes a given distance matrix and creates
     // matrix P from them.
     // D is assumed to be provided as a list of lists, and should be symmetric
-    initDataDist (D) {
+    initDataDist(D) {
         var N = D.length;
         assert(N > 0, " X is empty? You must have some data!");
         // convert D to a (fast) typed array version
@@ -45,7 +52,7 @@ export default class tSNE {
     }
 
     // (re)initializes the solution to random
-    initSolution () {
+    initSolution() {
         // generate random solution to t-SNE
         this.Y = randn2d(this.N, this.dim); // the solution
         this.gains = randn2d(this.N, this.dim, 1.0); // step gains to accelerate progress in unchanging directions
@@ -54,12 +61,12 @@ export default class tSNE {
     }
 
     // return pointer to current solution
-    getSolution () {
+    getSolution() {
         return this.Y;
     }
 
     // perform a single step of optimization to improve the embedding
-    step () {
+    step() {
         this.iter += 1;
         const N = this.N;
 
@@ -104,7 +111,7 @@ export default class tSNE {
     }
 
     // for debugging: gradient check
-    debugGrad () {
+    debugGrad() {
         const N = this.N;
 
         const cg = this.costGrad(this.Y); // evaluate gradient
@@ -132,7 +139,7 @@ export default class tSNE {
     }
 
     // return cost and gradient, given an arrangement
-    costGrad  (Y) {
+    costGrad(Y) {
         const N = this.N;
         const dim = this.dim; // dim of output space
         const P = this.P;
@@ -158,8 +165,8 @@ export default class tSNE {
         // normalize Q distribution to sum to 1
         const NN = N * N;
         const Q = zeros(NN);
-        for (let q = 0; q < NN; q++) { 
-            Q[q] = Math.max(Qu[q] / qsum, 1e-100); 
+        for (let q = 0; q < NN; q++) {
+            Q[q] = Math.max(Qu[q] / qsum, 1e-100);
         }
 
         let cost = 0.0;
@@ -207,8 +214,8 @@ function gaussRandom() {
         return_v = false;
         return v_val;
     }
-    var u = 2 * Math.random() - 1;
-    var v = 2 * Math.random() - 1;
+    var u = 2 * tsneRandom() - 1;
+    var v = 2 * tsneRandom() - 1;
     var r = u * u + v * v;
     if (r == 0 || r > 1) return gaussRandom();
     var c = Math.sqrt(-2 * Math.log(r) / r);
@@ -342,8 +349,8 @@ function d2p(D, perplexity, tol) {
 
         // console.log('data point ' + i + ' gets precision ' + beta + ' after ' + num + ' binary search steps.');
         // copy over the final prow to P at row i
-        for (let j = 0; j < N; j++) { 
-            P[i * N + j] = prow[j]; 
+        for (let j = 0; j < N; j++) {
+            P[i * N + j] = prow[j];
         }
 
     } // end loop over examples i

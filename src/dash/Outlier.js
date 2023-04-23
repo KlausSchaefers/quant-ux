@@ -1,5 +1,7 @@
 import Analytics from "./Analytics";
 import tSNE from './TSNE'
+import { UMAP } from 'umap-js';
+import Prando from 'prando';
 
 export function getBaseData (events, tasks) {
     const analytics = new Analytics()
@@ -110,18 +112,35 @@ export function l2 (a, b) {
     return Math.sqrt(d);
 }
 
-export function project2D(distance, perplexity = 30, epsilon =10 ) {
+export function tsne(distance, perplexity = 30, epsilon =10 ) {
 
     const tsne = new tSNE({
+        //random: getRandom(distance),
         epsilon: perplexity,
         perplexity: epsilon,
         dim: 2
     });
     tsne.initDataDist(distance);
-    for (var k = 0; k < 5000; k++) {
+    for (var k = 0; k < 500; k++) {
         tsne.step(); 
     }
     return tsne.getSolution();
+}
+
+export function umap(distance, neighborsFactor = 0.9) {   
+    const umap = new UMAP({
+        random: getRandom(distance),
+        nComponents: 2,
+        nEpochs: 400,
+        nNeighbors: Math.round(distance.length * neighborsFactor),
+      });
+    return umap.fit(distance);
+}
+
+export function getRandom(distance) {
+    const prando = new Prando(distance.length);
+    const random = () => prando.next();
+    return random
 }
 
 export function getMinMaxScore(matrix, f = 1) {
