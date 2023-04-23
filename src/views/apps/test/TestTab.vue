@@ -246,14 +246,12 @@ export default {
       if (this.pub) {
         this.showSuccess("Saved");
       } else {
-        console.debug(this.test)
-        let res = await this.modelService.saveTestSettings(
+        const res = await this.modelService.saveTestSettings(
           this.app.id,
           this.test
         );
         if (res.status === "ok") {
           this.showSuccess("Saved");
-          // clone to make sure changes are propagated?
           this.$emit("change", lang.clone(this.test));
         } else {
           this.showError("Could not save test settings");
@@ -262,21 +260,18 @@ export default {
     },
     showBullet() {
       this.logger.log(-2, "show", "entry >");
-      var df = new DataFrame(this.events);
+      const df = new DataFrame(this.events);
       this.sessionCount = df.unique("session");
       this.logger.log(0, "show", "exit", this.sessionCount);
     },
     showSessions() {
       this.logger.log(-1, "showSessions", "enter " + this.planGetTestCount());
-      
-      //var maxTestsToShow = this.planGetTestCount();
-      let app = this.app;
 
-      var list = this._getTestList(lang.clone(this.events), this.annotation, this.test);
-      var urlPrefix = this.urlPrefix;
+      const app = this.app;
+      const list = this._getTestList(lang.clone(this.events), this.annotation, this.test);
+      const urlPrefix = this.urlPrefix;
 
-
-      var tbl = this.$new(Table);
+      const tbl = this.$new(Table);
       tbl.setColumns([
         {
           query: "id",
@@ -326,19 +321,18 @@ export default {
       tbl.setActions([
         {
           render: (node, row) => {
-            var group = document.createElement("div");
+            const group = document.createElement("div");
             group.style.width = '120px'
             group.style.display = 'inline-block'
             node.appendChild(group);
 
-            let play = document.createElement("a");
+            const play = document.createElement("a");
             play.href = "#/" +  urlPrefix + "/" +  app.id + "/replay/" + row.session + ".html";
             css.add(play, "button is-primary");
             play.innerHTML = '<span class="mdi mdi-play"></span>';
             group.appendChild(play);
 
-
-            let remove = document.createElement("a");
+            const remove = document.createElement("a");
             this.own(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
             css.add(remove, "button is-danger");
             remove.innerHTML = '<span class="mdi mdi-close"></span>';
@@ -355,14 +349,14 @@ export default {
 
     showDeleteSessionDialog (e, session) {
       this.logger.warn("showDeleteSessionDialog", "enter >", session.session);
-      let db = new DomBuilder()
-      var div = db.div("box MatcDeleteDialog").build();
+      const db = new DomBuilder()
+      const div = db.div("box MatcDeleteDialog").build();
       db.h3("title is-4", 'Delete Test').build(div);
       db.p('', "Do you want to delete the test? You will loose all data related to this test!").build(div)
-      var bar = db.div("buttons").build(div);
-      var write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
-      var cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
-      var d = new Dialog();
+      const bar = db.div("buttons").build(div);
+      const write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
+      const cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
+      const d = new Dialog();
       d.own(on(write, touch.press, lang.hitch(this, "deleteSession", session, d)));
       d.own(on(cancel, touch.press, lang.hitch(d, "close")));
       d.popup(div, e.target);

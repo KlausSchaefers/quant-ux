@@ -647,6 +647,55 @@ export default class {
 		return result
 	}
 
+	getSessionSummary(events) {
+		const result = {}
+		const sessions = events.groupBy("session");
+		sessions.foreach((session, id) => {
+			const count = session.count('type')
+			result[id] = {
+				session: id,
+				interactions: session.size(),
+				start: session.max("time"),
+				duration:  Math.ceil((session.max("time") - session.min("time"))),
+				screens: count.get('ScreenLoaded', null, 0) + count.get('OverlayLoaded', null, 0),
+				errors: count.get('ValidationError', null, 0)
+			}
+		})
+		return result
+	}
+
+
+	getSessionDetails (events, tasks) {
+		events.sortBy("time");
+		const sessions = this.getSessionSummary(events)
+		Object.values(sessions).forEach(session => {
+			for (let t = 0; t < tasks.length; t++) {
+				const task = tasks[t];
+				session[task.id] = {
+					name: task.name,
+					success: 0,
+					duration: -1,
+					interactions: -1
+				}
+			}
+		})
+		
+		const taskPerformance = this.getTaskPerformance(events, tasks).data
+		taskPerformance.forEach(perf => {
+			const session = sessions[perf.session]
+			if (session) {
+				const t = session[perf.task]
+				t.success = 1
+				t.duration = perf.duration
+				t.interactions = perf.interactions
+			} else {
+				console.error('Analytics.getSessionDetails() > No session ??')
+			}
+		})
+
+		return new DataFrame(Object.values(sessions))
+	}
+
 	
 	/**
 	 * allowPartial is for funnel??
@@ -655,11 +704,11 @@ export default class {
 		PerformanceMonitor.start('Analytics.getTaskPerformance()')
 		const result = [];
 		const matchers = [];
-		for (var t = 0; t < tasks.length; t++) {
-			var task = tasks[t];
-			var flow = task.flow;
+		for (let t = 0; t < tasks.length; t++) {
+			const task = tasks[t];
+			const flow = task.flow;
 			if (flow && flow.length > 0) {
-				var matcher = this.createMatcher(task.id, flow, task.strict);
+				const matcher = this.createMatcher(task.id, flow, task.strict);
 				matcher.taskName = task.name;
 				matchers.push(matcher);
 			}

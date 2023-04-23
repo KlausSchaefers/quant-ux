@@ -200,7 +200,7 @@ export default class DataFrame {
 
 		}
 	}
-
+	
 	col(column) {
 		var result = [];
 		this.foreach(function (value, id) {

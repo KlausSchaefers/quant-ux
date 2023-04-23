@@ -159,6 +159,8 @@ export default {
  
       var me = this;
       var tbl = this.$new(Table);
+      tbl.actionLabel = 'Details'
+    
       tbl.setColumns([
         {
           query: "label",

@@ -13,7 +13,7 @@
         </div>
         <div class="level-right">
           <DropDownSelect
-            v-if="false"
+            v-if="hasOutlier"
             ref="dropDown"
             :options="viewOptions"
             @scatter="showScatter"
@@ -30,26 +30,24 @@
 
         <template v-if="events && events.length > 0">
   
-        <ScatterPlot 
-            v-if="viewMode === 'Scatter'" 
-            :mode="viewMode"
-            :app="app"
-            :pub="pub"
-            :events="events"
-            :annotation="annotation"
-            :test="test"/>
+          <ScatterPlot 
+              v-if="viewMode === 'Scatter'" 
+              :mode="viewMode"
+              :app="app"
+              :pub="pub"
+              :events="events"
+              :annotation="annotation"
+              :test="test"/>
 
-        <div 
-            v-if="viewMode === 'Outlier'" 
-            :mode="viewMode"
-            :app="app"
-            :pub="pub"
-            :events="events"
-            :annotation="annotation"
-            :test="test">
+          <OutlierPlot 
+              v-if="viewMode === 'Outlier'" 
+              :mode="viewMode"
+              :app="app"
+              :pub="pub"
+              :events="events"
+              :annotation="annotation"
+              :test="test"/>
           
-          Out</div>
-
           </template>
   
   
@@ -69,12 +67,14 @@
   import HelpButton from "help/HelpButton";
   import ScatterPlot from './ScatterPlot'
   
+  
   export default {
       name: 'DistributionSection',
       mixins:[],
       props: ['test', 'app', 'events', 'annotation', 'pub'],
       data: function () {
           return {
+            hasOutlier: false,
             isLoaded: false,
             viewMode: 'Scatter',
             viewOptions:[
@@ -86,7 +86,8 @@
       components: {
         'HelpButton': HelpButton,
         'DropDownSelect': DropDownSelect,
-        'ScatterPlot': ScatterPlot
+        'ScatterPlot': ScatterPlot,
+        'OutlierPlot':() => import(/* webpackChunkName: "outlier" */ './OutlierPlot')
       },
       computed: {
        
@@ -107,6 +108,10 @@
       mounted () {
         this.logger = new Logger('DistributionSection')
         this.isLoaded = true
+        this.hasOutlier = location.href.indexOf('localhost') >= 0
+        if (this.hasOutlier) {
+          this.viewMode = 'Outlier'
+        }
       }
   }
   </script>
