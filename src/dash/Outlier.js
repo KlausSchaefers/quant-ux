@@ -2,6 +2,7 @@ import Analytics from "./Analytics";
 import tSNE from './TSNE'
 import { UMAP } from 'umap-js';
 import Prando from 'prando';
+import DBScan from './DBScan';
 
 export function getBaseData (events, tasks) {
     const analytics = new Analytics()
@@ -81,10 +82,53 @@ export function getZScore(matrix) {
 }
 
 
+export function gerRankScore(matrix) {
+
+    const cols = matrix[0].length;
+    const rows = matrix.length
+    const result = []
+    for (let row = 0; row < rows; row++) {
+        result.push([])
+    }
+
+    /**
+     * For each column
+     */
+    for (let col = 0; col < cols; col++) {
+        /**
+         * calculate mean, variance and standard deviation
+         */
+        let sum = 0
+        let variance = 0
+        for (let row = 0; row < rows; row++) {
+            const v = matrix[row][col]
+            sum += v
+        }
+        const mean = sum / rows  
+        for (let row = 0; row < rows; row++) {
+            const value = matrix[row][col]
+            const dif = mean - value;
+			variance += (dif * dif);
+        }
+        const std = Math.sqrt(variance)
+    
+        // calculate z-score
+        for (let row = 0; row < rows; row++) {
+            const x = matrix[row][col]
+            const z = (x - mean) / std
+            result[row][col] = z
+        }
+        
+    }    
+    return result
+}
+
+
 
 export function getPairwiseDistance(matrix, distanceFunction = l2) {
     const result = []
     const length = matrix.length;
+    // FIXME: Speed this up and calculate one triangle matrix
     for (let current = 0; current < length; current++) {
         let distances = []
         for (let other = 0; other < length; other++) {
@@ -127,12 +171,13 @@ export function tsne(distance, perplexity = 30, epsilon =10 ) {
     return tsne.getSolution();
 }
 
-export function umap(distance, neighborsFactor = 0.9) {   
+export function umap(distance, neighborsFactor = 0.9, minDist=0.1) {   
     const umap = new UMAP({
         random: getRandom(distance),
         nComponents: 2,
+        minDist: minDist,
         nEpochs: 400,
-        nNeighbors: Math.round(distance.length * neighborsFactor),
+        nNeighbors: Math.floor(distance.length * neighborsFactor),
       });
     return umap.fit(distance);
 }
@@ -177,3 +222,22 @@ export function getMinMaxScore(matrix, f = 1) {
     return result
 }
 
+export function getClusterMinDistance(distances, percentile = 0.2) {
+    const values = distances.flatMap(x =>x).sort((a,b) => a-b)
+    return values[Math.floor(values.length * percentile)]
+}
+
+export function cluster(matrix, epsilon = 1, minPts = 2) {
+    const dbscan = new DBScan(epsilon, minPts)
+    const clusters = dbscan.run(matrix)
+    const result = {}
+    matrix.forEach((row, i) => {
+        result[i] = -1
+    })
+    clusters.forEach((cluster, i) => {
+        cluster.forEach(sessionID => {
+            result[sessionID] = i
+        })
+    })
+    return result
+}
