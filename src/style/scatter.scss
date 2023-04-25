@@ -51,10 +51,10 @@
 	}
 
 	.MatxAxisLabel.yLabel {
-		top: 50%;
-		left: -22px;
+		top: 60%;
 		transform: translateY(-50%) rotate(270deg);
 		color: #999;
+		transform-origin: top left;
 	}
 
 	.MatxAxisLabel.yLabelEast {
@@ -288,7 +288,7 @@
 		position: absolute;
 		bottom: 0px;
 		right: 0px;
-		min-width: 100px;
+		min-width: 24px;
 		max-width: 200px;
 		min-height: 30px;
 		max-height: 200px;

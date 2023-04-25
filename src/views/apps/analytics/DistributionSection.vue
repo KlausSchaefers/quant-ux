@@ -12,6 +12,15 @@
           </h2>
         </div>
         <div class="level-right">
+       
+          <!-- <DropDownButton
+            class="MatcButtonTrans MatcDropDownRight"
+            :value="scatterMode"
+            @change="setScatterMode"
+            :options="scatterOptions"         
+          /> -->
+
+
           <DropDownButton
             class="MatcButtonTrans MatcDropDownRight"
             v-if="hasOutlier"
@@ -31,7 +40,8 @@
       
               <ScatterPlot 
                   v-if="viewMode === 'Scatter'" 
-                  :mode="viewMode"
+                  :yAxis="yAxis"
+                  :xAxis="xAxis"
                   :app="app"
                   :pub="pub"
                   :events="events"
@@ -96,8 +106,17 @@
       props: ['test', 'app', 'events', 'annotation', 'pub'],
       data: function () {
           return {
+            xAxis: 'duration',
+            yAxis: 'interactions',
             hasOutlier: false,
             isLoaded: false,
+            scatterMode: 'duration,interactions',
+            scatterOptions:[
+              {value:'duration,interactions', label: this.$t('analytics.distribution.scatterModeInteractionXDuration')},
+              {value:'duration,screens', label: this.$t('analytics.distribution.scatterModeDurationXScreen')},
+              {value:'duration,tasks', label: this.$t('analytics.distribution.scatterModeDurationXTasks')},
+              {value:'errors,screens', label: this.$t('analytics.distribution.scatterModeErrorsXScreen')}
+            ],
             viewMode: 'Scatter',
             viewOptions:[
               {value:'Scatter', label: this.$t('analytics.distribution.viewScatter'), event:'scatter'},
@@ -124,6 +143,14 @@
        
       },
       methods: {
+        setScatterMode (m) {
+          if (m) {
+            let parts = m.split(',')
+            this.xAxis = parts[0]
+            this.yAxis = parts[1]
+          } 
+          this.scatterMode = m
+        },
         setViewMode (m) {
           this.viewMode = m
           this.selection = []

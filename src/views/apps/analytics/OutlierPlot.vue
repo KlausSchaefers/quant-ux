@@ -251,8 +251,11 @@ export default {
             p.style.opacity = 1
         }
     },
-    mounted() {        
-        this.setValue(this.test, this.app, this.events, this.annotation)
+    mounted() {     
+        this.$nextTick(() => {
+            this.setValue(this.test, this.app, this.events, this.annotation)
+        })   
+    
     }
 }
 </script>

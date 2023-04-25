@@ -70,7 +70,7 @@ import * as Outlier from 'dash/Outlier'
 export default {
     name: 'ScatterPlot',
     mixins: [_Color, Util],
-    props: ['test', 'app', 'events', 'annotation', 'pub', 'mode'],
+    props: ['test', 'app', 'events', 'annotation', 'pub', 'mode', 'yAxis', 'xAxis'],
     data: function () {
         return {
             tasks: [],
@@ -122,24 +122,20 @@ export default {
 
         setValue(test, app, events, annotations) {
 
-            const filteredEvents = this.filterEvents(events, annotations);
-            const df = this.getActionEvents(new DataFrame(filteredEvents));      
-            df.sortBy("time");
-
-            this.model = app
-            this.df = df
-
             this.annotations = annotations;
-            this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);
-        
-   
-            this.sessionDetails = this.analytics.getSessionDetails(df, this.tasks)
-      
+            this.model = app
+
+            const filteredEvents = this.filterEvents(events, annotations);
+            this.df = this.getActionEvents(new DataFrame(filteredEvents));      
+            this.df.sortBy("time");
+     
+            this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);  
+            this.initTasks(this.tasks);       
+
+            this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)      
            
-            this.setClusters4d(this.sessionDetails)               
-            
-        
-            this.initTasks(this.tasks);           
+            this.setClusters4d(this.sessionDetails)     
+             
             this.render();
         },
 
@@ -211,73 +207,79 @@ export default {
       
         onBackgroundClick () {
             this.setHint(this.db.span("MatcHint", this.getNLS("analytics.distribution.hint")).build());
-            setTimeout(lang.hitch(this, "setMiddle", this.mean_count, this.max_interactions, this.mean_duration, this.max_duration), 200);
+            this.unSelectPoint()
         },
 
         render_Scatter() {
-            this.log.log(-1, "render_Scatter", "enter > changeTask:" + this.scatterMode);
+            this.log.log(-1, "render_Scatter", "enter", this.mode);
 
-            delete this._selectedScatterPoint;            
-            this.xLabel.innerHTML = this.getNLS("dash.perf.scatter.xLabel");
-            this.yLabel.innerHTML = this.getNLS("dash.perf.scatter.yLabel");
+            delete this._selectedScatterPoint;           
+         
+            this.xLabel.innerHTML = this.getNLS("analytics.distribution.axis." + this.xAxis);
+            this.yLabel.innerHTML = this.getNLS("analytics.distribution.axis." + this.yAxis);
             this.minLabel.innerHTML = "0 s"
             this.yMinLabel.innerHTML = "0"    
-            this.render_Scatter_Session()            
+            this.render_Scatter_Points(this.xAxis, this.yAxis)            
+
         },
 
-        render_Scatter_Session () {
-            this.log.log(-1, "render_Scatter_Tasks", "enter" );
+        render_Scatter_Points (xAxis, yAxis) {
+            this.log.log(-1, "render_Scatter_Points", "enter > " + xAxis + " X " + yAxis );
 
-            const db = new DomBuilder();
+  
             const sessionSummaryDF = this.sessionDetails
-
-            let mean_duration = 0
-            let mean_count = 0
-            let maxDelay = 0;
+                  
+            const maxXAxis = Math.max(1, Math.ceil(sessionSummaryDF.max(xAxis) * this.paddingFactor));
+            const maxYAxis = Math.max(1, Math.ceil(sessionSummaryDF.max(yAxis) * this.paddingFactor));
+            const meanXAxis = sessionSummaryDF.mean(xAxis);
+            const meanYAxis = sessionSummaryDF.mean(yAxis);
 
         
-            let max_duration = Math.max(1, Math.ceil(sessionSummaryDF.max("duration") * this.paddingFactor));
-            let max_count = Math.max(1, Math.ceil(sessionSummaryDF.max("interactions") * this.paddingFactor));
-       
-            this.xMaxLabel.innerHTML = Math.ceil(max_duration / 1000) + " s";
-            this.yMaxLabel.innerHTML = Math.ceil(max_count);
+            this.xMaxLabel.innerHTML = Math.ceil(maxXAxis / 1000) + " s";
+            this.yMaxLabel.innerHTML = Math.ceil(maxYAxis);
      
             const sessions = sessionSummaryDF.data;
                       
-            mean_duration = sessionSummaryDF.mean("duration");
-            mean_count = sessionSummaryDF.mean("interactions");
-
             for (let i = 0; i < sessions.length; i++) {
-                const s = sessions[i]
-                const key = s.session;
-                const ms = Math.min(i * 10, 300);
-                maxDelay = Math.max(maxDelay, ms)
-
-                const color = this.getPointColor(s, i)
-
-                if (this._scatterPoints[key]) {
-                    const p = this._scatterPoints[key];
-                    p.style.background = color
-                    this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));        
-                    setTimeout(lang.hitch(this, "animateScatterPoint", p, s, max_duration, max_count), ms);
-                } else {
-                    const p = db.span("MatxScatterPoint").build(this.canvas);
-                    p.style.bottom = "-5%";
-                    p.style.left = (((s.duration / max_duration) * 100)) + "%";
-                    p.style.background = color
-                    this._scatterPoints[key] = p;
-                    this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
-            
-                    setTimeout(lang.hitch(this, "animateScatterPoint", p, s, max_duration, max_count), ms);
-                }
+                const s = sessions[i]        
+                const x = s[xAxis]
+                const y = s[yAxis]            
+                this.renderScatterPoint(i,s, x, y, maxXAxis, maxYAxis)               
             }
                 
-            this.max_interactions = max_count;
-            this.max_duration = max_duration;
-            this.mean_count = mean_count
-            this.mean_duration = mean_duration
+            this.maxYAxis = maxYAxis;
+            this.maxXAxis = maxXAxis;
+            this.meanYAxis = meanYAxis
+            this.meanXAxis = meanXAxis
 
-            setTimeout(lang.hitch(this, "setMiddle", mean_count, max_count, mean_duration, max_duration), 200);
+            this.unSelectPoint()
+        },
+
+        renderScatterPoint(i, s, x, y , maxXAxis, maxYAxis) {
+            const key = s.session;
+            const ms = Math.min(i * 10, 300);
+
+            if (!this._scatterPoints[key]) {
+                const p = this.db.span("MatxScatterPoint").build(this.canvas);
+                p.style.bottom = "-5%";
+                p.style.left = (((x / maxXAxis) * 100)) + "%";
+                this._scatterPoints[key] = p;
+            }
+
+            const color = this.getPointColor(s, i)
+            const p = this._scatterPoints[key];
+            p.style.background = color
+            this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, x, y, i)));        
+            setTimeout(lang.hitch(this, "animateScatterPoint", p, x,y, maxXAxis, maxYAxis), ms);
+        },
+
+        animateScatterPoint(p, x, y, maxXAxis, maxYAxis) {
+            p.style.bottom = (((y / maxYAxis) * 100)) + "%";
+            p.style.left = (((x / maxXAxis) * 100)) + "%";
+        },
+
+        unSelectPoint() {
+            setTimeout(lang.hitch(this, "setMiddle", this.meanYAxis, this.maxYAxis, this.meanXAxis, this.maxXAxis), 200);
         },
 
         getPointColor (session, i) {       
@@ -292,10 +294,10 @@ export default {
             return this.defaultColor
         },
 
-        selectPoint(p, s, i, e) { 
+        selectPoint(p, s, x, y, i, e) { 
             this.stopEvent(e);
-            this.setXMiddle(s.duration, this.max_duration);
-            this.setYMiddle(s.interactions, this.max_interactions);
+            this.setXMiddle(x, this.maxXAxis);
+            this.setYMiddle(y, this.maxYAxis);
             css.add(this.cntr, "MatcScatterPlotCntrHover");
             this._selectedScatterPoint = p;
             this.showSessionReplayHint(s.session)
@@ -333,37 +335,45 @@ export default {
         },
 
         clearPoint() {
-            //this.setMiddle(mean_count, max_count, mean_duration, max_duration);
+            //this.setMiddle(meanYAxis, maxYAxis, meanXAxis, maxXAxis);
             css.remove(this.cntr, "MatcScatterPlotCntrHover");
         },
 
-        setMiddle(mean_count, max_count, mean_duration, max_duration) {
-            this.setXMiddle(mean_duration, max_duration);
-            this.setYMiddle(mean_count, max_count);
+        setMiddle(meanYAxis, maxYAxis, meanXAxis, maxXAxis) {
+            this.setXMiddle(meanXAxis, maxXAxis);
+            this.setYMiddle(meanYAxis, maxYAxis);
             css.remove(this.cntr, "MatcScatterPlotCntrHover");
         },
 
-        setYMiddle(count, max_count) {
+        setYMiddle(count, maxYAxis) {
             this.yMiddleLabel.innerHTML = Math.ceil(count);
-            this.yMiddleLabel.style.bottom = ((count / max_count) * 100) + "%";
-            this.yLine.style.bottom = ((count / max_count) * 100) + "%";
+            this.yMiddleLabel.style.bottom = ((count / maxYAxis) * 100) + "%";
+            this.yLine.style.bottom = ((count / maxYAxis) * 100) + "%";
         },
 
-        setXMiddle(duration, max_duration) {
+        setXMiddle(duration, maxXAxis) {
             this.xMiddleLabel.innerHTML = Math.ceil(duration / 1000) + " s";
-            this.xMiddleLabel.style.left = (((duration / max_duration) * 100)) + "%";
-            this.xLine.style.left = (((duration / max_duration) * 100)) + "%";
-        },
-
-        animateScatterPoint(p, s, max_duration, max_interactions) {
-            p.style.bottom = (((s.interactions / max_interactions) * 100)) + "%";
-            p.style.left = (((s.duration / max_duration) * 100)) + "%";
+            this.xMiddleLabel.style.left = (((duration / maxXAxis) * 100)) + "%";
+            this.xLine.style.left = (((duration / maxXAxis) * 100)) + "%";
         }
     },
     watch: {
+        mode (v) {
+            this.mode = v
+            this.render();
+        },
+        yAxis (v) {
+            this.yAxis = v
+            this.render()
+        },
+        xAxis (v) {
+            this.xAxis = v
+            this.render()
+        }
     },
     mounted() {        
         this.analytics = new Analytics();
+        this.db = new DomBuilder();
         this.setValue(this.test, this.app, this.events, this.annotation)
     }
 }

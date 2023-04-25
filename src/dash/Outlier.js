@@ -1,5 +1,4 @@
 import Analytics from "./Analytics";
-import tSNE from './TSNE'
 import { UMAP } from 'umap-js';
 import Prando from 'prando';
 import DBScan from './DBScan';
@@ -145,20 +144,20 @@ export function l2 (a, b) {
     return Math.sqrt(d);
 }
 
-export function tsne(distance, perplexity = 30, epsilon =10 ) {
+// export function tsne(distance, perplexity = 30, epsilon =10 ) {
 
-    const tsne = new tSNE({
-        //random: getRandom(distance),
-        epsilon: perplexity,
-        perplexity: epsilon,
-        dim: 2
-    });
-    tsne.initDataDist(distance);
-    for (var k = 0; k < 500; k++) {
-        tsne.step(); 
-    }
-    return tsne.getSolution();
-}
+//     const tsne = new tSNE({
+//         //random: getRandom(distance),
+//         epsilon: perplexity,
+//         perplexity: epsilon,
+//         dim: 2
+//     });
+//     tsne.initDataDist(distance);
+//     for (var k = 0; k < 500; k++) {
+//         tsne.step(); 
+//     }
+//     return tsne.getSolution();
+// }
 
 export function umap(distance, neighborsFactor = 0.9, minDist=0.1) {   
     const umap = new UMAP({
@@ -229,6 +228,5 @@ export function cluster(matrix, epsilon = 1, minPts = 2) {
             result[sessionID] = i
         })
     })
-    console.debug('cluser() > Outliers', Object.keys(result).filter(key => result[key] === -1))
     return result
 }

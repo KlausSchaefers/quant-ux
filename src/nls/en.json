@@ -339,6 +339,10 @@
         },
         "distribution": {
             "title" : "Data Distribution",
+            "scatterModeInteractionXDuration": "Duration X Interaction",
+            "scatterModeDurationXScreen": "Duration X Screen Views",
+            "scatterModeErrorsXScreen": "Errors X Screen Views",
+            "scatterModeDurationXTasks": "Duration X Tasks",
             "viewScatter": "Scatter Plot",
             "viewBoxPlot": "BoxPlot",
             "viewOutlier": "Outlier",
@@ -346,7 +350,14 @@
             "no-data": "No data",
             "play": "To replay the session recording press ",
             "here": "here",
-            "hint": "Tip: Select a dot to replay the screen recording or select a task to indicate task completion."
+            "hint": "Tip: Select a dot to replay the screen recording or select a task to indicate task completion.",
+            "axis": {
+                "duration": "Duration",
+                "interactions": "Interactions",
+                "screens": "Screen Views",
+                "errors": "Errors",
+                "tasks": "Successful Tasks"
+            }
         },
         "header": {
             "user": "Tests",

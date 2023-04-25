@@ -396,7 +396,7 @@ export default class DataFrame {
 	}
 
 	median(column) {
-		var list = []
+		let list = []
 		this.foreach(function (value) {
 			list.push(value)
 		}, column);
@@ -410,13 +410,16 @@ export default class DataFrame {
 	}
 
 	mean(column) {
-		var sum = this.sum(column);
+		const sum = this.sum(column);
+		if (this.size() === 0) {
+			return 0
+		}
 		return sum * 1.0 / this.size();
 	}
 
 
 	max(column) {
-		var max = Number.MIN_VALUE;
+		let max = Number.MIN_VALUE;
 		this.foreach(function (value) {
 			max = Math.max(max, value);
 		}, column);
@@ -425,7 +428,7 @@ export default class DataFrame {
 
 
 	min(column) {
-		var min = Number.MAX_VALUE;
+		let min = Number.MAX_VALUE;
 		this.foreach(function (value) {
 			min = Math.min(min, value);
 		}, column);
