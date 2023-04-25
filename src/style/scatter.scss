@@ -25,6 +25,20 @@
 		color: #3787f2;
 	}
 
+	.MatcScatterPlotDetails {
+		position: absolute;
+		padding: 16px;
+		font-size: 12px;
+		background: #000;
+		color: #fff;
+		border-radius: 8px;
+		z-index: 9999;
+
+		td{
+			padding: 4px;
+		}
+	}
+
 
 	.MatcScatterPlotCntr {
 		width: 100%;

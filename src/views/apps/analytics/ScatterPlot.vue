@@ -42,6 +42,48 @@
             </div>
 
 
+            <div v-if="hoverDetails" class="MatcScatterPlotDetails" :style="'bottom: ' + hoverDetails.y +'%; left:' + hoverDetails.x +'%'">
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                Duration:
+                            </td>
+                            <td>
+                                {{Math.round(hoverDetails.s.duration / 1000)}} s
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Interactions:
+                            </td>
+                            <td>
+                                {{hoverDetails.s.interactions}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Errors:
+                            </td>
+                            <td>
+                                {{hoverDetails.s.errors}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tasks:
+                            </td>
+                            <td>
+                                {{hoverDetails.s.tasks}}
+                            </td>
+                        </tr>
+                    </table>
+
+                
+                </div>
+            </div>
+
+
 
         </div>
 
@@ -84,10 +126,7 @@ export default {
             clusters: [],
             colors: [ "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],
             bins: 3,
-            canvasPos: {
-                w: 800,
-                h: 450
-            }
+            hoverDetails: null,
         }
     },
     components: {
@@ -269,7 +308,9 @@ export default {
             const color = this.getPointColor(s, i)
             const p = this._scatterPoints[key];
             p.style.background = color
-            this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, x, y, i)));        
+            this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, x, y, i))); 
+            this.tempOwn(on(p, "mouseover", lang.hitch(this, "hoverPoint", p, s, x, y, i)));
+            this.tempOwn(on(p, "mouseout", lang.hitch(this, "leavePoint")));   
             setTimeout(lang.hitch(this, "animateScatterPoint", p, x,y, maxXAxis, maxYAxis), ms);
         },
 
@@ -292,6 +333,18 @@ export default {
                 }          
             }
             return this.defaultColor
+        },
+
+        hoverPoint (p, s, x, y) {
+            this.hoverDetails = {
+                x: x * 100 / this.maxXAxis,
+                y: y * 100 / this.maxYAxis,
+                s: s
+            }
+        },
+
+        leavePoint () {
+            this.hoverDetails = null
         },
 
         selectPoint(p, s, x, y, i, e) { 
@@ -321,11 +374,6 @@ export default {
          * Helper
          *********************************************************************/
 
-        hoverPoint(p) {
-            if (this._selectedScatterPoint == p) {
-                css.add(this.cntr, "MatcScatterPlotCntrHover");
-            }
-        },
 
         setHint(hintNode) {
             this.hintCntr.innerHTML = "";
