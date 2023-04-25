@@ -1327,12 +1327,10 @@ export default class BaseController extends Core {
 	}
 
 	onCommandDeleted (command){
-
 		/**
 		 * just remove the command. also update the pos, altough it should be updated
 		 * in the next step
 		 */
-		// var count = (this.commandStack.stack.length - this.commandStack.pos);
 		this.commandStack.stack = this.commandStack.stack.slice(0,this.commandStack.pos );
 		this.logger.log(2,"onCommandDeleted", "enter > pos : " + this.commandStack.pos + " > stack : " +	this.commandStack.stack.length);
 
@@ -1347,7 +1345,7 @@ export default class BaseController extends Core {
 		this.logPageEvent("addCommand", command.type)
 		
 		/**
-		 * Since 2.1.3 we put stuff and the stack, without waiting
+		 * Since 2.1.3 we put stuff on the stack, without waiting
 		 * for the backend.
 		 */
 		const result = {
@@ -1386,6 +1384,10 @@ export default class BaseController extends Core {
 			this.logger.sendError("onCommandAdded", new Error("Server returned error"));
 		}
 
+		if (result.pos < 0) {
+			this.logger.sendError("onCommandAdded", new Error("Server negative pos"));
+		}
+
 		/**
 		 * Since 2.1.3 we put stuff and the stack. here we just update the
 		 * lastUUID ans pos with the server one, in case we would have
@@ -1395,11 +1397,12 @@ export default class BaseController extends Core {
 		 * the one we have in browser. Question: Do we need the last UUID on the stack?
 		 * Can`t we use the normal lastUUID? Or just created with Date()
 		 */
-
-
 		if (this.commandStack.pos !== result.pos) {
-			this.logger.error("onCommandAdded", "Not match pos > server: "+ result.pos +  " > local: " + this.commandStack.pos, result);
+			this.logger.log(1, "onCommandAdded", "Not match pos > server: "+ result.pos +  " > local: " + this.commandStack.pos, result);
 		}
+		/**
+		 * This is needed when we cut pop the stack
+		 */
 		this.commandStack.pos = result.pos;
 		this.commandStack.lastUUID = result.lastUUID;
 

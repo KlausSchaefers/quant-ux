@@ -27,6 +27,18 @@
             <span class="MatxAxisLabel MatxAxisLabelCntr" data-dojo-attach-point="xAxisLabelCntr"></span>
 
             <div class="MatcScatterPlotfTaskCntr" data-dojo-attach-point="taskCntr">
+                <div @click="toggleOutlier()" :class="{'MatcScatterPlotfTaskSelected': hasOutliers}">
+                    <span :style="getOutlierStyle()"></span>
+                    <label> {{getNLS("dash.perf.scatter.outlier")}}</label>
+                </div> 
+                <!-- <div @click="clickTask()" v-if="Object.values(selectedTasks).length">
+                    <span></span>
+                    <label> {{getNLS("dash.perf.scatter.no-task")}}</label>
+                </div> -->
+                <!-- <div v-for="task in tasks" :key="task.id" @click="clickTask(task)">
+                    <span :style="getTaskStyle(task)"></span>
+                    <label>{{task.name}}</label>
+                </div> -->
             </div>
 
 
@@ -53,6 +65,7 @@ import DomBuilder from 'common/DomBuilder'
 import Util from 'core/Util'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
+import * as Outlier from 'dash/Outlier'
 
 export default {
     name: 'ScatterPlot',
@@ -60,10 +73,15 @@ export default {
     props: ['test', 'app', 'events', 'annotation', 'pub', 'mode'],
     data: function () {
         return {
+            tasks: [],
+            selectedTasks: {},
+            hasOutliers: true,
             paddingFactor: 1.1,
             dialog: false,
             includeDropOff: false,
             defaultColor: "#56A9FC",
+            outlierColor: '#f83a3a',
+            clusters: [],
             colors: [ "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],
             bins: 3,
             canvasPos: {
@@ -76,6 +94,21 @@ export default {
 
     },
     methods: {
+
+        getOutlierStyle () {
+            if (this.hasOutliers) {
+                return `background:${this.outlierColor}; border:none`
+            }
+            return ''
+        },
+
+        getTaskStyle (task) {      
+            if (this.selectedTasks[task.id]) {
+                return `background:${task.color}; border:none`
+            }
+            return ''
+        },
+
         postCreate() {
             this.log = new Logger("ScatterPlot");
             this.init();
@@ -90,7 +123,7 @@ export default {
         setValue(test, app, events, annotations) {
 
             const filteredEvents = this.filterEvents(events, annotations);
-            const df = this.getActionEvents(new DataFrame(filteredEvents));
+            const df = this.getActionEvents(new DataFrame(filteredEvents));      
             df.sortBy("time");
 
             this.model = app
@@ -98,142 +131,110 @@ export default {
 
             this.annotations = annotations;
             this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);
-            if (this.scatterMode === 'task') {
-                this.tasks.unshift({
-                    name: 'All',
-                    id: '_all',
-                    isAll: true,
-                    flow: []
-                })       
-            }
-
-            const analytics = new Analytics();
-            const taskPerformance = analytics.getTaskPerformance(df, this.tasks);
-
-            const sessionSummary = this.getSessionSummary(df, this.tasks[0])
-            this.sessionSummary = sessionSummary
-            this.taskPerformance = taskPerformance.merge(sessionSummary)
-
-            this.renderTasks(this.tasks);
-            if (this.scatterMode === 'task') {
-                this.selectTask(this.tasks[0]);
-            }
+        
+   
+            this.sessionDetails = this.analytics.getSessionDetails(df, this.tasks)
+      
+           
+            this.setClusters4d(this.sessionDetails)               
+            
+        
+            this.initTasks(this.tasks);           
             this.render();
         },
 
-        getSessionSummary (df, taskName = 'All', taskID = -1) {
-            const result = []
-            const sessions = df.groupBy("session");
-            sessions.foreach((session, id) => {
-                result.push({
-                    interactions: session.size(),
-                    session: id, 
-                    task: taskID,
-                    taskName: taskName,
-                    duration:  Math.ceil((session.max("time") - session.min("time")))
-                })
-            })
-            return new DataFrame(result);
-	    },
+        setClusters4d (sessionDetails) {
+           
+            const data = this.analytics.convertSessionDetails(sessionDetails)
+  
+            let matrix = Outlier.getMatrix(data, ["interactions", "duration", "screens", "tasks"]) //,  // ...this.tasks.map(t => t.id)
+            matrix = Outlier.getZScore(matrix)
+            const distance = Outlier.getPairwiseDistance(matrix)
+            const minDistance = Outlier.getClusterMinDistance(distance)          
+            this.clusters = Outlier.cluster(matrix, minDistance, 3)
+        },
 
-        renderTasks(tasks) {
-            this.log.log(1, "renderTasks", "enter");
-            this.taskDivs = {};
-            this.taskCircles = {};
-            this.selectedTasks = {};
+        setClusters2D (sessionSummary) {
+            
+            let matrix = Outlier.getMatrix(sessionSummary.data, ["interactions", "duration"])
+            matrix = Outlier.getZScore(matrix)
+
+            const distance = Outlier.getPairwiseDistance(matrix)
+            const minDistance = Outlier.getClusterMinDistance(distance, 0.5)
+           
+            const clusters = Outlier.cluster(matrix, minDistance, 3)
+            this.clusters = clusters
+        },
+
+        initTasks(tasks) {
+            this.log.log(1, "initTasks", "enter");
             this.taskColors = {};        
             for (let i = 0; i < tasks.length; i++) {
                 const task = tasks[i];
                 if (task.flow.length >= 2 ) {
-                    this.renderTaskBubble(task, i)
+                    this.selectedTasks[task.id] = false;
+                    const color = this.colors[i % this.colors.length];
+                    this.taskColors[task.id] = color
+                    task.color = color
                 }
             }
-        },
-
-        renderTaskBubble(task, i ) {
-            this.selectedTasks[task.id] = false;
-            this.taskColors[task.id] = this.colors[i % this.colors.length];
-
-            const div = this.db.div().build(this.taskCntr);
-            const circle = this.db.span("").build(div);
-
-            this.db.label("", task.name).build(div);
-            this.taskCircles[task.id] = circle;
-            this.taskDivs[task.id] = div;
-
-            this.own(on(div, "click", lang.hitch(this, "clickTask", task, i)));
         },
 
         clickTask(task) {
             this.selectTask(task);
-            this.render(true);
+            this.render();
+            this.$forceUpdate()
+        },
+
+        toggleOutlier () {
+            this.hasOutliers = !this.hasOutliers
+            this.render();
+            this.$forceUpdate()
         },
 
         selectTask(task) {
-            this.selectedTasks[task.id] = !this.selectedTasks[task.id];
+            this.selectedTasks[task?.id] = !this.selectedTasks[task?.id];
             for (let id in this.selectedTasks) {
-                if (id !== task.id) {
+                if (id !== task?.id) {
                     this.selectedTasks[id] = false
                 }
             }
-      
-            for (let id in this.selectedTasks) {
-                const circle = this.taskCircles[id];
-                const div = this.taskDivs[id];
-                if (div) {
-                    if (this.selectedTasks[id]) {
-                        css.add(div, "MatcScatterPlotfTaskSelected");
-                        circle.style.background = this.taskColors[id];                  
-                    } else {
-                        css.remove(div, "MatcScatterPlotfTaskSelected");
-                        circle.style.background = "";
-                    }
-                }
-            }
-
         },
 
-        render(changeTask) {
+        render() {
             this.log.log(-1, "render", "enter > ");
-            this.cleanUpTempListener()           
-            this.render_Scatter(this.df, this.task, this.annotations, this.tasks, changeTask);
+            this.cleanUpTempListener()    
+            this.onBackgroundClick()       
+            this.render_Scatter();
         },
 
       
         onBackgroundClick () {
             this.setHint(this.db.span("MatcHint", this.getNLS("analytics.distribution.hint")).build());
+            setTimeout(lang.hitch(this, "setMiddle", this.mean_count, this.max_interactions, this.mean_duration, this.max_duration), 200);
         },
 
         render_Scatter() {
             this.log.log(-1, "render_Scatter", "enter > changeTask:" + this.scatterMode);
 
-            delete this._selectedScatterPoint;
-            this.onBackgroundClick()
-
-            css.add(this.domNode, "MatcScatterPlotScatter");
+            delete this._selectedScatterPoint;            
             this.xLabel.innerHTML = this.getNLS("dash.perf.scatter.xLabel");
             this.yLabel.innerHTML = this.getNLS("dash.perf.scatter.yLabel");
             this.minLabel.innerHTML = "0 s"
-            this.yMinLabel.innerHTML = "0"
-
-            if (this.scatterMode === 'task') {
-                this.render_Scatter_Tasks()
-            } else {
-                this.render_Scatter_Session()
-            }
+            this.yMinLabel.innerHTML = "0"    
+            this.render_Scatter_Session()            
         },
 
         render_Scatter_Session () {
             this.log.log(-1, "render_Scatter_Tasks", "enter" );
 
             const db = new DomBuilder();
-            const sessionSummaryDF = this.sessionSummary
-            const perf = this.taskPerformance
+            const sessionSummaryDF = this.sessionDetails
+
             let mean_duration = 0
             let mean_count = 0
             let maxDelay = 0;
 
-        
         
             let max_duration = Math.max(1, Math.ceil(sessionSummaryDF.max("duration") * this.paddingFactor));
             let max_count = Math.max(1, Math.ceil(sessionSummaryDF.max("interactions") * this.paddingFactor));
@@ -242,11 +243,7 @@ export default {
             this.yMaxLabel.innerHTML = Math.ceil(max_count);
      
             const sessions = sessionSummaryDF.data;
-            sessions.sort((a, b) => {
-                return b.interactions - a.interactions;
-            });
-
-            
+                      
             mean_duration = sessionSummaryDF.mean("duration");
             mean_count = sessionSummaryDF.mean("interactions");
 
@@ -256,160 +253,43 @@ export default {
                 const ms = Math.min(i * 10, 300);
                 maxDelay = Math.max(maxDelay, ms)
 
+                const color = this.getPointColor(s, i)
+
                 if (this._scatterPoints[key]) {
                     const p = this._scatterPoints[key];
-                    p.style.background = this.defaultColor
+                    p.style.background = color
                     this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));        
                     setTimeout(lang.hitch(this, "animateScatterPoint", p, s, max_duration, max_count), ms);
                 } else {
                     const p = db.span("MatxScatterPoint").build(this.canvas);
                     p.style.bottom = "-5%";
                     p.style.left = (((s.duration / max_duration) * 100)) + "%";
-                    p.style.background = this.defaultColor
+                    p.style.background = color
                     this._scatterPoints[key] = p;
                     this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
             
                     setTimeout(lang.hitch(this, "animateScatterPoint", p, s, max_duration, max_count), ms);
                 }
             }
-
-            for (let id in this.selectedTasks) {
-                const taskDF = perf.select("task", "==", id);
-                const sessions = taskDF.data;
-                sessions.sort((a, b) => {
-                    return b.interactions - a.interactions;
-                });
-                if (this.selectedTasks[id]) {
-                    for (let i = 0; i < sessions.length; i++) {
-                        const s = sessions[i];          
-                        const key = s.session;
-                        const p = this._scatterPoints[key];
-                        p.style.background = this.taskColors[id];
-                    }
-                }
-            }
                 
             this.max_interactions = max_count;
             this.max_duration = max_duration;
+            this.mean_count = mean_count
+            this.mean_duration = mean_duration
 
             setTimeout(lang.hitch(this, "setMiddle", mean_count, max_count, mean_duration, max_duration), 200);
         },
 
-        render_Scatter_Tasks () {
-            this.log.log(-1, "render_Scatter_Tasks", "enter" );
-            const perf = this.taskPerformance
-            const db = new DomBuilder();
-
- 
-            // loop to get the max
-            var max_duration = 1;
-            var max_count = 1;
-            for (let id in this.selectedTasks) {
-                if (this.selectedTasks[id]) {
-                    let taskDF = perf.select("task", "==", id);
-                    max_duration = Math.max(max_duration, Math.ceil(taskDF.max("duration") * this.paddingFactor));
-                    max_count = Math.max(max_count, Math.ceil(taskDF.max("interactions") * this.paddingFactor));
-                }
+        getPointColor (session, i) {       
+            if (this.clusters[i] === -1 && this.hasOutliers) {
+                return this.outlierColor
             }
-
-
-            this.xMaxLabel.innerHTML = Math.ceil(max_duration / 1000) + " s";
-            this.yMaxLabel.innerHTML = Math.ceil(max_count);
-
-            let mean_duration = 0
-            let mean_count = 0
-            for (let id in this.selectedTasks) {
-                const taskDF = perf.select("task", "==", id);
-                const sessions = taskDF.data;
-                sessions.sort((a, b) => {
-                    return b.interactions - a.interactions;
-                });
-
-                if (this.selectedTasks[id]) {
-                    mean_duration = taskDF.mean("duration");
-                    mean_count = taskDF.mean("interactions");
-                    var maxDelay = 0;
-                    for (let i = 0; i < sessions.length; i++) {
-                        const s = sessions[i];
-                        const key = s.session + " " + id;
-                        const ms = Math.min(i * 10, 300);
-                        maxDelay = Math.max(maxDelay, ms)
-
-                        if (this._scatterPoints[key]) {
-                            const p = this._scatterPoints[key];
-                            this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
-               
-                            setTimeout(lang.hitch(this, "animateScatterPoint", p, s, max_duration, max_count), ms);
-                        } else {
-                            const p = db.span("MatxScatterPoint").build(this.canvas);
-                            p.style.bottom = "-5%";
-                            p.style.left = (((s.duration / max_duration) * 100)) + "%";
-                            p.style.background = this.taskColors[id];
-                            this._scatterPoints[key] = p;
-                            this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
-                   
-                            setTimeout(lang.hitch(this, "animateScatterPoint", p, s, max_duration, max_count), ms);
-                        }
-                    }
-                } else {
-                    // remove all not needed elements
-                    for (let i = 0; i < sessions.length; i++) {
-                        let s = sessions[i];
-                        let key = s.session + " " + id;
-                        if (this._scatterPoints[key]) {
-                            let p = this._scatterPoints[key];
-                            p.style.opacity = 0;
-                            setTimeout(lang.hitch(this, "fadeOutPoint", p), 300);
-                            delete this._scatterPoints[key]
-                        }
-                    }
-                }
+            for (let taskID in this.selectedTasks) {      
+                if (this.selectedTasks[taskID] && session[taskID] && session[taskID].success) {
+                    return this.taskColors[taskID];
+                }          
             }
-
-            // save values for select events
-            this.max_interactions = max_count;
-            this.max_duration = max_duration;
-
-            // FIXME: Should be per task...
-            setTimeout(lang.hitch(this, "setMiddle", mean_count, max_count, mean_duration, max_duration), 200);
-        },
-
-        fadeOutPoint(p) {
-            if (p.parentNode) {
-                p.parentNode.removeChild(p);
-            }
-        },
-
-        clean_Scatter(callback) {
-            this.log.log(-1, "clean_scatter", "enter");
-            css.remove(this.domNode, "MatcScatterPlotScatter");
-            this.setHint();
-            if (this._scatterPoints) {
-                for (var sessionID in this._scatterPoints) {
-                    var p = this._scatterPoints[sessionID];
-                    p.style.bottom = "-5%";
-                }
-            }
-            setTimeout(lang.hitch(this, "removePoints"), 200);
-            if (callback) {
-                setTimeout(callback, 200);
-            }
-            this.yMinLabel.innerHTML = ""
-            this.minLabel.innerHTML = ""
-        },
-
-        removePoints() {
-            if (this._scatterPoints) {
-                for (var sessionID in this._scatterPoints) {
-                    var p = this._scatterPoints[sessionID];
-                    if (p.parentNode) {
-                        p.parentNode.removeChild(p)
-                    }
-
-                }
-            }
-            delete this._scatterPoints;
-            this._scatterPoints = {};
+            return this.defaultColor
         },
 
         selectPoint(p, s, i, e) { 
@@ -483,6 +363,7 @@ export default {
     watch: {
     },
     mounted() {        
+        this.analytics = new Analytics();
         this.setValue(this.test, this.app, this.events, this.annotation)
     }
 }

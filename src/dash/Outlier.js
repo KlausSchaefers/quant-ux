@@ -8,20 +8,8 @@ export function getBaseData (events, tasks) {
     const analytics = new Analytics()
 
     const sessions = analytics.getSessionDetails(events, tasks)
-    return sessions.data.map(r => {
-        const result = {}
-        for (let key in r) {
-            if (key !== 'start') {
-                const value = r[key]
-                if (value.name) {
-                    result[key] = value.success
-                } else {
-                    result[key] = value
-                }
-            }
-        }
-        return result
-    })
+    return analytics.convertSessionDetails(sessions)
+    
 }
 
 export function getMatrix(sessions, columns) {
@@ -82,7 +70,7 @@ export function getZScore(matrix) {
 }
 
 
-export function gerRankScore(matrix) {
+export function getRankScore(matrix) {
 
     const cols = matrix[0].length;
     const rows = matrix.length
@@ -95,28 +83,29 @@ export function gerRankScore(matrix) {
      * For each column
      */
     for (let col = 0; col < cols; col++) {
-        /**
-         * calculate mean, variance and standard deviation
-         */
-        let sum = 0
-        let variance = 0
+        let list = []
         for (let row = 0; row < rows; row++) {
             const v = matrix[row][col]
-            sum += v
+            list.push({
+                row: row,
+                value: v
+            })
         }
-        const mean = sum / rows  
+      
+        list.sort((a, b) => {
+            return a.value - b.value
+        })
+        
+        // calculate score
+        let x = 0
+        let lastValue = undefined
         for (let row = 0; row < rows; row++) {
-            const value = matrix[row][col]
-            const dif = mean - value;
-			variance += (dif * dif);
-        }
-        const std = Math.sqrt(variance)
-    
-        // calculate z-score
-        for (let row = 0; row < rows; row++) {
-            const x = matrix[row][col]
-            const z = (x - mean) / std
-            result[row][col] = z
+            const rank = list[row]
+            if (rank.value !== lastValue && lastValue !== undefined) {
+                x++
+            }
+            result[rank.row][col] = x           
+            lastValue = rank.value
         }
         
     }    
@@ -188,6 +177,7 @@ export function getRandom(distance) {
     return random
 }
 
+
 export function getMinMaxScore(matrix, f = 1) {
     const cols = matrix[0].length;
     const rows = matrix.length
@@ -203,8 +193,8 @@ export function getMinMaxScore(matrix, f = 1) {
         /**
          * calculate mean, variance and standard deviation
          */
-        let min = 1000000
-        let max = 0
+        let min = 10000000
+        let max = -10000000
         for (let row = 0; row < rows; row++) {
             const v = matrix[row][col]
             max = Math.max(max, v)
@@ -239,5 +229,6 @@ export function cluster(matrix, epsilon = 1, minPts = 2) {
             result[sessionID] = i
         })
     })
+    console.debug('cluser() > Outliers', Object.keys(result).filter(key => result[key] === -1))
     return result
 }

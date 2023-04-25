@@ -2,6 +2,7 @@ import * as outlier from '../../src/dash/Outlier'
 import DataFrame from '../../src/common/DataFrame'
 import tests from './data/outlierTest.json'
 import events from './data/outlierEvents.json'
+import umapResult from './data/umapResult.json'
 
 test('Test Outlier.getBaseData() > ', async () => {
 
@@ -35,6 +36,32 @@ test('Test Outlier.getZScore() > ', async () => {
 
 })
 
+test('Test Outlier.getRankScore() > ', async () => {
+
+    const m = [
+        [1, 1, 6],
+        [2, 3, 6],
+        [3, 2, 1],
+        [4, 9, 1]
+    ]
+    const result = outlier.getRankScore(m)
+
+    expect(result[0][0]).toBe(0)
+    expect(result[1][0]).toBe(1)
+    expect(result[2][0]).toBe(2)
+    expect(result[3][0]).toBe(3)
+
+    expect(result[0][1]).toBe(0)
+    expect(result[1][1]).toBe(2)
+    expect(result[2][1]).toBe(1)
+    expect(result[3][1]).toBe(3)
+
+    expect(result[0][2]).toBe(1)
+    expect(result[1][2]).toBe(1)
+    expect(result[2][2]).toBe(0)
+    expect(result[3][2]).toBe(0)
+})
+
 test('Test Outlier.getMinMaxScore() > ', async () => {
 
     let m = [
@@ -48,11 +75,12 @@ test('Test Outlier.getMinMaxScore() > ', async () => {
     expect(result[2][0]).toBe(0)
 
     m = [
-        [10, 0],
-        [5, 10],
-        [0, 20]
+        [10, 0, 100],
+        [5, 10, 900],
+        [0, 20, 450]
     ]
     result = outlier.getMinMaxScore(m)
+    
 
     expect(result[0][0]).toBe(1)
     expect(result[1][0]).toBe(0.5)
@@ -72,6 +100,12 @@ test('Test Outlier.getMinMaxScore() > ', async () => {
     expect(result[0][1]).toBe(0)
     expect(result[1][1]).toBe(50)
     expect(result[2][1]).toBe(100)
+
+
+    result = outlier.getMinMaxScore(umapResult, 100)
+    expect(Math.max(...result.map(x => x[0]))).toBe(100)
+    expect(Math.max(...result.map(x => x[1]))).toBe(100)
+    console.debug(Math.max(...result.map(x => x[1])))
 
 })
 

@@ -12,49 +12,71 @@
           </h2>
         </div>
         <div class="level-right">
-          <DropDownSelect
+          <DropDownButton
+            class="MatcButtonTrans MatcDropDownRight"
             v-if="hasOutlier"
             ref="dropDown"
-            :options="viewOptions"
-            @scatter="showScatter"
-            @outlier="showOutlier"
-            @boxplot="showBoxPlot"
-            :l="$t('analytics.distribution.options')" 
+            :value="viewMode"
+            @change="setViewMode"
+            :options="viewOptions"         
           />
         
     
         </div>
       </div>
   
-       <div class="MatcSurveySectionTableCntr">
+          <div class="MatcSurveySectionTableCntr">
 
-        <template v-if="events && events.length > 0">
-  
-          <ScatterPlot 
-              v-if="viewMode === 'Scatter'" 
-              :mode="viewMode"
-              :app="app"
-              :pub="pub"
-              :events="events"
-              :annotation="annotation"
-              :test="test"/>
+            <template v-if="events && events.length > 0">
+      
+              <ScatterPlot 
+                  v-if="viewMode === 'Scatter'" 
+                  :mode="viewMode"
+                  :app="app"
+                  :pub="pub"
+                  :events="events"
+                  :annotation="annotation"
+                  :test="test"/>
 
-          <OutlierPlot 
-              v-if="viewMode === 'Outlier'" 
-              :mode="viewMode"
-              :app="app"
-              :pub="pub"
-              :events="events"
-              :annotation="annotation"
-              :test="test"/>
-          
-          </template>
-  
-  
-         <span class="MatcHint" v-else>
-           {{$t('analytics.distribution.no-data')}}
-         </span>
-      </div>
+              <OutlierPlot 
+                  v-if="viewMode === 'Outlier'" 
+                  @selected="showSelection"
+                  :mode="viewMode"
+                  :app="app"
+                  :pub="pub"
+                  :events="events"
+                  :annotation="annotation"
+                  :test="test"/>
+              
+              </template>
+      
+      
+            <span class="MatcHint" v-else>
+              {{$t('analytics.distribution.no-data')}}
+            </span>
+          </div>
+          <div v-if="selection.length > 0" style="padding:30px">        
+            <table class="table">
+                <thead>
+                  <tr>
+                    
+                      <th  v-for="(col, c) in cols" :key="c">
+                        <span class="MatcSurveySectionTableColLabel">
+                          {{col.label}}
+                        </span>                    
+                      </th>  
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(row, r) in selection" :key="r">   
+                      <td :key="c" v-for="(col, c) in cols">
+                        {{row[col.key]}}
+                      </td>     
+                  </tr>                 
+                </tbody>
+            </table>
+          </div>
      
       </div>
   </template>
@@ -63,7 +85,7 @@
   </style>
   <script>
   import Logger from 'common/Logger'
-  import DropDownSelect from 'page/DropDownSelect'
+  import DropDownButton from 'page/DropDownButton'
   import HelpButton from "help/HelpButton";
   import ScatterPlot from './ScatterPlot'
   
@@ -78,14 +100,23 @@
             isLoaded: false,
             viewMode: 'Scatter',
             viewOptions:[
-              {label: this.$t('analytics.distribution.viewScatter'), event:'scatter'},
-              {label: this.$t('analytics.distribution.viewOutlier'), event:'outlier'}
+              {value:'Scatter', label: this.$t('analytics.distribution.viewScatter'), event:'scatter'},
+              {value:'Outlier', label: this.$t('analytics.distribution.viewOutlier'), event:'outlier'}
+            ],
+            selection: [],
+            cols: [
+              {key: "interactions", label: "Interactions"},
+              {key: "duration", label: "Duration"},
+              {key: "screens", label: "Test Coverage"},
+              {key: "tasks", label: "Tasks"},
+              {key: "outlierRaw", label: "Outlier Raw"},
+              {key: "outlierUmap", label: "Outlier Umap"},
             ]
           }
       },
       components: {
         'HelpButton': HelpButton,
-        'DropDownSelect': DropDownSelect,
+        'DropDownButton': DropDownButton,
         'ScatterPlot': ScatterPlot,
         'OutlierPlot':() => import(/* webpackChunkName: "outlier" */ './OutlierPlot')
       },
@@ -93,16 +124,12 @@
        
       },
       methods: {
-        showScatter () {
-          console.debug('showScatter()')
-          this.viewMode = 'Scatter'
+        setViewMode (m) {
+          this.viewMode = m
+          this.selection = []
         },
-        showOutlier () {
-          console.debug('showOutlier()')
-          this.viewMode = 'Outlier'
-        },
-        showBoxPlot () {
-          this.viewMode = 'BoxPlot'
+        showSelection (selection) {
+          this.selection = selection
         }
       },
       mounted () {
@@ -110,7 +137,7 @@
         this.isLoaded = true
         this.hasOutlier = location.href.indexOf('localhost') >= 0
         if (this.hasOutlier) {
-          this.viewMode = 'Outlier'
+          //this.viewMode = 'Outlier'
         }
       }
   }

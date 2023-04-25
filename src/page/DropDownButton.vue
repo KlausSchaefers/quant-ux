@@ -5,11 +5,7 @@
       <label data-dojo-attach-point="label" class="MatcDropDownLabel"></label>
       <span class="caret"></span>
     </div>
-    <div
-      class="MatcDropDownPopUp MatcDropDownButtonWidth"
-      role="menu"
-      data-dojo-attach-point="popup"
-    >
+    <div class="MatcDropDownPopUp MatcDropDownButtonWidth" role="menu" data-dojo-attach-point="popup" >
       <ul class role="menu" data-dojo-attach-point="ul"></ul>
     </div>
   </div>

@@ -698,6 +698,24 @@ export default class {
 		return new DataFrame(Object.values(sessions))
 	}
 
+	convertSessionDetails (sessions) {
+		return sessions.data.map(r => {
+			const result = {}
+			for (let key in r) {
+				if (key !== 'start') {
+					const value = r[key]
+					if (value.name) {
+						result[key] = value.success
+					} else {
+						result[key] = value
+					}
+				}
+			}
+			return result
+		})
+		
+	}
+
 	
 	/**
 	 * allowPartial is for funnel??

@@ -1327,38 +1327,6 @@ textarea.MatcContentWidgetAbs{
 	margin-left: 10px;
 }
 
-
-
-/****************************************************
- * App Settings
- ****************************************************/
-
-.MatcAppSettings{
-   display: inline-block;
-
-}
-
-.MatcAppSettings .MatcToolbarDropDownButtonLabel {
-    width: 190px;
-}
-
-.MatcAppSettings .MatcDropDownButtonWidth{
-	font-size: 26px;
-    width: 383px;
-}
-
-.MatcAppSettings .MatcToolbarDropDownButton li{
-	padding: 3px;
-	padding-left: 10px;
-	padding-right: 10px;
-	width: 190px;
-}
-
-.MatcAppSettings .MatcToolbarDropDownButton li:HOVER{
-	background: #cecece;
-}
-
-
  /****************************************************
  * Screen Size
  ****************************************************/

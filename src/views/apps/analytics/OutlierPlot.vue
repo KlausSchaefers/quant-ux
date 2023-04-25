@@ -37,10 +37,15 @@ export default {
         return {
             mode: 'Scatter',   
             offset: 5,
+            umapClusters: [],
+            rawClusters: [],
             paddingFactor: 1.1,
             dialog: false,
             includeDropOff: false,
+            outlierColor: '#f83a3a',
+            outlierColor2: '#e63ffb',
             defaultColor: "#56A9FC",
+            selection: {},
             colors: [ "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],
             bins: 3,
             canvasPos: {
@@ -73,31 +78,47 @@ export default {
             this.df = df
             this.annotations = annotations;        
             this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);
-            const taskIDs = this.tasks.map(t => t.id)
+       
             
             const data = Outlier.getBaseData(df, this.tasks)
-  
-            const matrix = Outlier.getMatrix(data, ["interactions", "duration", "screens", "tasks", ...taskIDs])
-    
-            const zMatrix = Outlier.getZScore(matrix)
+            this.sessionData = data
+            
+            let matrix = Outlier.getMatrix(data, ["interactions", "duration", "screens", "tasks"]) //,  // ...this.tasks.map(t => t.id)
+            matrix = Outlier.getZScore(matrix)
 
-            // const s = zMatrix.map(row => row.join(',')).join('\n')
-            // console.debug(s)
-   
+            const distance = Outlier.getPairwiseDistance(matrix)
 
-            const distance = Outlier.getPairwiseDistance(zMatrix)
             //const points = Outlier.tsne(distance, 30, 10)
-            const points = Outlier.umap(distance, 0.95)
+            const points = Outlier.umap(distance, 0.8, 0.7)
             const scaledPOints = Outlier.getMinMaxScore(points, 100 - 2 * this.offset)
 
+            this.umapClusters = Outlier.cluster(scaledPOints, 70, 30)
+      
+            const minDistance = Outlier.getClusterMinDistance(distance)
+            this.rawClusters = Outlier.cluster(matrix, minDistance, 3)
 
+            this.sessionData.forEach((session, index) => {
+                if (this.rawClusters[index] === -1) {
+                    session.outlierRaw = true
+                } else {
+                    session.outlierRaw = false
+                }
+                if (this.umapClusters[index] === -1) {
+                    session.outlierUmap = true
+                } else {
+                    session.outlierUmap = false
+                }
+            })
+  
 
             this.render(data, scaledPOints);
             this.onBackgroundClick()
         },
 
         onDoubelClick () {
-            this.setValue(this.test, this.app, this.events, this.annotation)
+            //this.setValue(this.test, this.app, this.events, this.annotation)
+            this.selection = []
+            this.$emit('selected', Object.values(this.selection))
         },
 
         onBackgroundClick () {
@@ -113,14 +134,21 @@ export default {
             for (let i = 0; i < sessions.length; i++) {
                 const s = sessions[i]
                 const point = points[i] 
-
                 const ms = Math.min(i * 10, 300) + 100;
-                
+                let color = this.defaultColor
+                if (this.umapClusters[i] === -1) {
+                    color = this.outlierColor
+                }
+
+                if (this.rawClusters[i] === -1) {
+                    color = this.outlierColor2
+                }
+
                 const p = this.db.span("MatxScatterPoint").build(this.canvas);
                 p.style.bottom = (49 + Math.random() * 2) + "%";
                 p.style.left = (49.5 + Math.random() * 1) + "%";
                 p.style.opacity = 0
-                p.style.background = this.defaultColor
+                p.style.background = color
                 this._scatterPoints[i] = p;
                 this.tempOwn(on(p, "click", lang.hitch(this, "selectPoint", p, s, i)));
         
@@ -171,6 +199,15 @@ export default {
         },
 
         showSessionReplayHint(id) {
+
+            if (this.selection[id]) {
+                delete this.selection[id]
+            } else {
+                this.selection[id] = this.sessionData.find(r => r.session === id)
+            }
+            this.$emit('selected', Object.values(this.selection))
+            
+
             if (this.model) {
                 let url = "#/apps/" + this.model.id + "/replay/" + id + ".html";
                 if (this.mode == "public") {
