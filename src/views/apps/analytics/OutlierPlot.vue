@@ -83,7 +83,7 @@ export default {
             const data = Outlier.getBaseData(df, this.tasks)
             this.sessionData = data
             
-            let matrix = Outlier.getMatrix(data, ["interactions", "duration", "screens", "tasks"]) //,  // ...this.tasks.map(t => t.id)
+            let matrix = Outlier.getMatrix(data, ["interactions", "duration", "screenLoads", "tasks"]) //,  // ...this.tasks.map(t => t.id)
             matrix = Outlier.getZScore(matrix)
 
             const distance = Outlier.getPairwiseDistance(matrix)

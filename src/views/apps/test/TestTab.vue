@@ -309,10 +309,10 @@ export default {
             td.innerHTML = row.duration + ' sec'
           }
         },
-        {
-          query: "size",
-          label: this.getNLS("videoTableEvents")
-        },
+        // {
+        //   query: "size",
+        //   label: this.getNLS("videoTableEvents")
+        // },
         {
           query: "date",
           label: this.getNLS("videoTableDate")

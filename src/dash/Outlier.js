@@ -116,20 +116,23 @@ export function getRankScore(matrix) {
 export function getPairwiseDistance(matrix, distanceFunction = l2) {
     const result = []
     const length = matrix.length;
-    // FIXME: Speed this up and calculate one triangle matrix
+    for (let row = 0; row < length; row++) {
+        result.push([])
+    }
+
     for (let current = 0; current < length; current++) {
-        let distances = []
-        for (let other = 0; other < length; other++) {
+        for (let other = current; other < length; other++) {
+            let distance = 0
             if (current !== other) {
                 const a = matrix[current]
                 const b = matrix[other]
-                distances.push(distanceFunction(a, b))
-            } else {
-                distances.push(1)
+                distance = distanceFunction(a, b)
             }
+            result[current][other] = distance
+            result[other][current] = distance  
         }
-        result.push(distances)
     }    
+
     return result
 }
 

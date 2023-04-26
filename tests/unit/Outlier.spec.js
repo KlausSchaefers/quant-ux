@@ -111,45 +111,25 @@ test('Test Outlier.getMinMaxScore() > ', async () => {
 
 
 test('Test Outlier.getPairwiseDistance() > ', async () => {
-    const sessions = [
-        {
-          "session": "S1682027294746_1077",
-          "interactions": 5,
-          "duration": 4,
-          "screens":2,
-          "errors": 0,
-          "t1682028415961": 1,
-          "t1682268100433": 1,
-          "t1682268114645": 0
-        },
-        {
-          "session": "S1682027311457_808",
-          "interactions": 3,
-          "duration": 2,
-          "screens": 2,
-          "errors": 0,
-          "t1682028415961": 1,
-          "t1682268100433": 1,
-          "t1682268114645": 0
-        },
-        {
-          "session": "S1682027326890_6650",
-          "interactions": 0,
-          "duration": 0,
-          "screens": 2,
-          "errors": 0,
-          "t1682028415961": 1,
-          "t1682268100433": 0,
-          "t1682268114645": 0
-        }
-      ]
-    const matrix = outlier.getMatrix(sessions, ['interactions', 'duration'])
+    const matrix = [
+        [1, 1, 1],
+        [2, 2, 2],
+        [3, 3, 3]
+    ]
     const dist = outlier.getPairwiseDistance(matrix)
+    console.table(dist)
     expect(dist.length).toBe(3)
-    expect(dist[0][0]).toBe(1)
-    expect(dist[1][1]).toBe(1)
-    expect(dist[2][2]).toBe(1)
+    expect(dist[0][0]).toBe(0)
+    expect(dist[1][1]).toBe(0)
+    expect(dist[2][2]).toBe(0)
 
-    expect(dist[0][1]).toBe(Math.sqrt(8)) // (5-3 * 5 - 3) + (4-2 * 4 - 2) = 8
 
+    expect(dist[0][1]).toBe(Math.sqrt(3)) // [1,1,1] [2,2,2]
+    expect(dist[1][0]).toBe(Math.sqrt(3))
+
+    expect(dist[0][2]).toBe(Math.sqrt(12))
+    expect(dist[2][0]).toBe(Math.sqrt(12))
+
+    expect(dist[1][2]).toBe(Math.sqrt(3)) // [1,1,1] [2,2,2]
+    expect(dist[2][1]).toBe(Math.sqrt(3))
 })

@@ -29,7 +29,7 @@
             <div class="MatcScatterPlotfTaskCntr" data-dojo-attach-point="taskCntr">
                 <div @click="toggleOutlier()" :class="{'MatcScatterPlotfTaskSelected': hasOutliers}">
                     <span :style="getOutlierStyle()"></span>
-                    <label> {{getNLS("dash.perf.scatter.outlier")}}</label>
+                    <label> {{getNLS("analytics.distribution.outlier")}}</label>
                 </div> 
                 <!-- <div @click="clickTask()" v-if="Object.values(selectedTasks).length">
                     <span></span>
@@ -42,12 +42,13 @@
             </div>
 
 
-            <div v-if="hoverDetails" class="MatcScatterPlotDetails" :style="'bottom: ' + hoverDetails.y +'%; left:' + hoverDetails.x +'%'">
-                <div>
+            <div v-if="hoverDetails" :class="'MatcScatterPlotDetails ' + hoverDetails.cls" :style="'bottom: ' + hoverDetails.y +'%; left:' + hoverDetails.x +'%'">
+                <span class="MatcScatterPlotDetailsArrow"></span>
+                <div class="MatcScatterPlotDetailsContainer">
                     <table>
                         <tr>
                             <td>
-                                Duration:
+                                {{getNLS("analytics.distribution.details.duration")}}:
                             </td>
                             <td>
                                 {{Math.round(hoverDetails.s.duration / 1000)}} s
@@ -55,7 +56,7 @@
                         </tr>
                         <tr>
                             <td>
-                                Interactions:
+                                {{getNLS("analytics.distribution.details.interactions")}}:
                             </td>
                             <td>
                                 {{hoverDetails.s.interactions}}
@@ -63,7 +64,7 @@
                         </tr>
                         <tr>
                             <td>
-                                Errors:
+                                {{getNLS("analytics.distribution.details.errors")}}:
                             </td>
                             <td>
                                 {{hoverDetails.s.errors}}
@@ -71,12 +72,21 @@
                         </tr>
                         <tr>
                             <td>
-                                Tasks:
+                                {{getNLS("analytics.distribution.details.tasks")}}:
                             </td>
                             <td>
                                 {{hoverDetails.s.tasks}}
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                {{getNLS("analytics.distribution.details.screens")}} :
+                            </td>
+                            <td>
+                                {{hoverDetails.s.screens}} / {{hoverDetails.s.screenLoads}}
+                            </td>
+                        </tr>
+                       
                     </table>
 
                 
@@ -182,7 +192,7 @@ export default {
            
             const data = this.analytics.convertSessionDetails(sessionDetails)
   
-            let matrix = Outlier.getMatrix(data, ["interactions", "duration", "screens", "tasks"]) //,  // ...this.tasks.map(t => t.id)
+            let matrix = Outlier.getMatrix(data, ["interactions", "duration", "screenLoads", "tasks"]) //,  // ...this.tasks.map(t => t.id)
             matrix = Outlier.getZScore(matrix)
             const distance = Outlier.getPairwiseDistance(matrix)
             const minDistance = Outlier.getClusterMinDistance(distance)          
@@ -336,9 +346,24 @@ export default {
         },
 
         hoverPoint (p, s, x, y) {
+            let posX = x * 100 / this.maxXAxis
+            let posY = y * 100 / this.maxYAxis
+            let cls = ''
+            if (posX > 50) {
+                cls += 'left '
+            } else {
+                cls += 'right '
+            }
+            if (posY > 50) {
+                cls += 'bottom '
+            } else {
+                cls += 'top '
+            }
+
             this.hoverDetails = {
-                x: x * 100 / this.maxXAxis,
-                y: y * 100 / this.maxYAxis,
+                x: posX,
+                y: posY,
+                cls: cls,
                 s: s
             }
         },

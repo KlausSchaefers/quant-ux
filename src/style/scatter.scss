@@ -27,15 +27,73 @@
 
 	.MatcScatterPlotDetails {
 		position: absolute;
-		padding: 16px;
-		font-size: 12px;
-		background: #000;
-		color: #fff;
+		height: 0px;
+		width: 0px;
+		background: green;
 		border-radius: 8px;
+		transform: translateY(50%) translateX(-50%);
 		z-index: 9999;
 
 		td{
-			padding: 4px;
+			padding: 1px;
+		}
+		td:first-child {
+			padding-right: 8px;
+		}
+
+		.MatcScatterPlotDetailsContainer {
+			width: 240px;
+			position: absolute;
+			padding: 5px 10px;
+			background: #333;
+			color: #fff;
+			border-radius: 3px;
+			box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+		
+			font-size: 12px;
+
+		}
+
+		.MatcScatterPlotDetailsArrow {
+			width: 16px;
+			height: 16px;
+			position: absolute;
+			transform: rotate(45deg);
+			background: #333;
+		}
+
+		&.left {
+			.MatcScatterPlotDetailsContainer{
+				right: 16px
+			}
+			.MatcScatterPlotDetailsArrow{
+				right:12px
+			}	
+		}
+		&.right {
+			.MatcScatterPlotDetailsContainer{
+				left: 16px
+			}
+			.MatcScatterPlotDetailsArrow{
+				left:12px
+			}	
+		}
+
+		&.top {
+			.MatcScatterPlotDetailsContainer{
+				bottom: -16px
+			}
+			.MatcScatterPlotDetailsArrow{
+				bottom: -8px;
+			}		
+		}
+		&.bottom {
+			.MatcScatterPlotDetailsContainer{
+				top: -16px
+			}
+			.MatcScatterPlotDetailsArrow{
+				top: -8px;
+			}	
 		}
 	}
 

@@ -12,8 +12,8 @@
           </h2>
         </div>
         <div class="level-right">
-       
-          <!-- <DropDownButton
+<!--        
+          <DropDownButton
             class="MatcButtonTrans MatcDropDownRight"
             :value="scatterMode"
             @change="setScatterMode"
@@ -113,9 +113,10 @@
             scatterMode: 'duration,interactions',
             scatterOptions:[
               {value:'duration,interactions', label: this.$t('analytics.distribution.scatterModeInteractionXDuration')},
-              {value:'duration,screens', label: this.$t('analytics.distribution.scatterModeDurationXScreen')},
-              {value:'duration,tasks', label: this.$t('analytics.distribution.scatterModeDurationXTasks')},
-              {value:'errors,screens', label: this.$t('analytics.distribution.scatterModeErrorsXScreen')}
+              {value:'screens,interactions', label: this.$t('analytics.distribution.scatterModeScreensXDuration')},
+              // {value:'duration,screens', label: this.$t('analytics.distribution.scatterModeDurationXScreen')},
+              // {value:'duration,tasks', label: this.$t('analytics.distribution.scatterModeDurationXTasks')},
+              // {value:'errors,screens', label: this.$t('analytics.distribution.scatterModeErrorsXScreen')}
             ],
             viewMode: 'Scatter',
             viewOptions:[

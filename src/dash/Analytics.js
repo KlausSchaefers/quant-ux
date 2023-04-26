@@ -657,7 +657,8 @@ export default class {
 				interactions: session.size(),
 				start: session.max("time"),
 				duration:  Math.ceil((session.max("time") - session.min("time"))),
-				screens: count.get('ScreenLoaded', null, 0) + count.get('OverlayLoaded', null, 0),
+				screenLoads: count.get('ScreenLoaded', null, 0) + count.get('OverlayLoaded', null, 0),
+				screenUnique: session.unique('screen'),
 				errors: count.get('ValidationError', null, 0)
 			}
 		})

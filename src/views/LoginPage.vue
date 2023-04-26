@@ -87,11 +87,12 @@
     </div>
 </template>
 
-<style lang="css">
-    @import '../style/toolbar/toolbar.css';
-</style>
+
 <style lang="scss">
     @import "../style/scss/login.scss";
+</style>
+<style lang="css">
+    @import '../style/toolbar/tab.css';
 </style>
 <script>
 
