@@ -57,6 +57,7 @@ export default {
     setValue: function(data) {
       this.logger.log(8, "setValue", "entry");
       this.rows = data;
+      this.totalCount = data.length
       this.render();
       this.logger.log(10, "setValue", "exit");
     },
@@ -84,6 +85,7 @@ export default {
 
       this.domNode.appendChild(table);
 
+      console.debug(this.hasPaging, this.itemsPerPage, this.rows)
       // add paging...
       if (this.hasPaging) {
         this.createPagging();
@@ -218,7 +220,7 @@ export default {
 
     createPagging: function() {
       this.logger.log(
-        3,
+        -3,
         "createPagging",
         "entry > total : " +
           this.totalCount +

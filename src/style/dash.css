@@ -254,10 +254,14 @@
 	font-weight:700;
 }
 
-.MatcDashTable .table>thead>tr>td,
 .MatcDashTable .table>tbody>tr>td{
 	vertical-align: middle;
 }
+
+.MatcDashTable .table>thead>tr>td{
+	vertical-align: baseline;
+}
+
 
 .MatcDashTable  tbody td.action{
 	opacity: 1;

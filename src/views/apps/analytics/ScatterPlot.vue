@@ -42,57 +42,7 @@
             </div>
 
 
-            <div v-if="hoverDetails" :class="'MatcScatterPlotDetails ' + hoverDetails.cls" :style="'bottom: ' + hoverDetails.y +'%; left:' + hoverDetails.x +'%'">
-                <span class="MatcScatterPlotDetailsArrow"></span>
-                <div class="MatcScatterPlotDetailsContainer">
-                    <table>
-                        <tr>
-                            <td>
-                                {{getNLS("analytics.distribution.details.duration")}}:
-                            </td>
-                            <td>
-                                {{Math.round(hoverDetails.s.duration / 1000)}} s
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{getNLS("analytics.distribution.details.interactions")}}:
-                            </td>
-                            <td>
-                                {{hoverDetails.s.interactions}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{getNLS("analytics.distribution.details.errors")}}:
-                            </td>
-                            <td>
-                                {{hoverDetails.s.errors}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{getNLS("analytics.distribution.details.tasks")}}:
-                            </td>
-                            <td>
-                                {{hoverDetails.s.tasks}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{getNLS("analytics.distribution.details.screens")}} :
-                            </td>
-                            <td>
-                                {{hoverDetails.s.screens}} / {{hoverDetails.s.screenLoads}}
-                            </td>
-                        </tr>
-                       
-                    </table>
-
-                
-                </div>
-            </div>
-
+            <ScatterPlotDetails v-if="hoverDetails" :value="hoverDetails"/>
 
 
         </div>
@@ -117,6 +67,7 @@ import DomBuilder from 'common/DomBuilder'
 import Util from 'core/Util'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
+import ScatterPlotDetails from './ScatterPlotDetails'
 import * as Outlier from 'dash/Outlier'
 
 export default {
@@ -140,7 +91,7 @@ export default {
         }
     },
     components: {
-
+        ScatterPlotDetails
     },
     methods: {
 

@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcSurveySection">
+    <div class="">
         <div class="level">
         <div class="level-left">
           <h2 class="title level-item">
@@ -22,8 +22,7 @@
 
 
           <DropDownButton
-            class="MatcButtonTrans MatcDropDownRight"
-            v-if="hasOutlier"
+            class="MatcButtonTrans MatcDropDownRight"       
             ref="dropDown"
             :value="viewMode"
             @change="setViewMode"
@@ -57,6 +56,15 @@
                   :events="events"
                   :annotation="annotation"
                   :test="test"/>
+
+              <DistributionTable            
+                v-if="viewMode === 'Details'"
+                :mode="viewMode"
+                :app="app"
+                :pub="pub"
+                :events="events"
+                :annotation="annotation"
+                :test="test" />
               
               </template>
       
@@ -98,7 +106,7 @@
   import DropDownButton from 'page/DropDownButton'
   import HelpButton from "help/HelpButton";
   import ScatterPlot from './ScatterPlot'
-  
+  import DistributionTable from './DistributionTable.vue'
   
   export default {
       name: 'DistributionSection',
@@ -118,10 +126,11 @@
               // {value:'duration,tasks', label: this.$t('analytics.distribution.scatterModeDurationXTasks')},
               // {value:'errors,screens', label: this.$t('analytics.distribution.scatterModeErrorsXScreen')}
             ],
-            viewMode: 'Scatter',
+            viewMode: 'Details',
             viewOptions:[
               {value:'Scatter', label: this.$t('analytics.distribution.viewScatter'), event:'scatter'},
-              {value:'Outlier', label: this.$t('analytics.distribution.viewOutlier'), event:'outlier'}
+              {value:'Details', label: this.$t('analytics.distribution.viewDetails'), event:'outlier'}
+              //{value:'Outlier', label: this.$t('analytics.distribution.viewOutlier'), event:'outlier'}
             ],
             selection: [],
             cols: [
@@ -138,6 +147,7 @@
         'HelpButton': HelpButton,
         'DropDownButton': DropDownButton,
         'ScatterPlot': ScatterPlot,
+        'DistributionTable': DistributionTable,
         'OutlierPlot':() => import(/* webpackChunkName: "outlier" */ './OutlierPlot')
       },
       computed: {
@@ -162,11 +172,7 @@
       },
       mounted () {
         this.logger = new Logger('DistributionSection')
-        this.isLoaded = true
-        this.hasOutlier = location.href.indexOf('localhost') >= 0
-        if (this.hasOutlier) {
-          //this.viewMode = 'Outlier'
-        }
+        this.isLoaded = true       
       }
   }
   </script>

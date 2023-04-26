@@ -655,7 +655,7 @@ export default class {
 			result[id] = {
 				session: id,
 				interactions: session.size(),
-				start: session.max("time"),
+				date: session.min("time"),
 				duration:  Math.ceil((session.max("time") - session.min("time"))),
 				screenLoads: count.get('ScreenLoaded', null, 0) + count.get('OverlayLoaded', null, 0),
 				screenUnique: session.unique('screen'),
