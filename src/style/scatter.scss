@@ -25,6 +25,11 @@
 		color: #3787f2;
 	}
 
+	 @keyframes detailsFadeIn {
+		0% {opacity: 0;}
+		100% {opacity: 1;}
+		
+	 }
 	.MatcScatterPlotDetails {
 		position: absolute;
 		height: 0px;
@@ -33,6 +38,7 @@
 		border-radius: 8px;
 		transform: translateY(50%) translateX(-50%);
 		z-index: 9999;
+		animation: detailsFadeIn 0.2s;
 
 		td{
 			padding: 1px;

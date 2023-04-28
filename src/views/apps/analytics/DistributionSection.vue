@@ -126,7 +126,7 @@
               // {value:'duration,tasks', label: this.$t('analytics.distribution.scatterModeDurationXTasks')},
               // {value:'errors,screens', label: this.$t('analytics.distribution.scatterModeErrorsXScreen')}
             ],
-            viewMode: 'Details',
+            viewMode: 'Scatter',
             viewOptions:[
               {value:'Scatter', label: this.$t('analytics.distribution.viewScatter'), event:'scatter'},
               {value:'Details', label: this.$t('analytics.distribution.viewDetails'), event:'outlier'}

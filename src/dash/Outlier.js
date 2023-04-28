@@ -233,3 +233,89 @@ export function cluster(matrix, epsilon = 1, minPts = 2) {
     })
     return result
 }
+
+
+export function getWeirdness(df) {
+    const encoded = encodeSessions(df)
+    const matrix = Object.values(encoded)
+    const distance = getPairwiseDistance(matrix, editDistance)
+    const sessionDistanceSum = distance.map(row => {
+        let sum = 0
+        for (let i=0; i < row.length; i++) {
+            sum += row[i]
+        }
+        return [sum]
+    })
+
+    const minMaxScore = getMinMaxScore(sessionDistanceSum)
+
+
+    const result = {}
+    Object.keys(encoded).forEach((key, i) => {
+        result[key] = minMaxScore[i][0]
+    })
+    return result
+
+}
+
+export function encodeSessions(df, allowedEvents = new Set(['ScreenClick', 'WidgetClick', 'ScreenLoaded', 'WidgetChange', 'OverlayLoaded'])) {
+    const encoding = new EventEncoding()
+    const result = {}
+
+    const sessionGroup = df.groupBy("session");
+    sessionGroup.foreach((session, id)  => {
+        session.sortBy("time");
+        const row = []
+        session.foreach(event => {
+            if (allowedEvents.has(event.type)) {
+                row.push(getEventKey(event, encoding))
+            }
+            
+        })
+        result[id] = row
+    })
+    return result
+}
+
+export function getEventKey(event, encoding) {
+    const key = `${event.screen}.${event.widget}.${event.type}`
+   return encoding.get(key)
+}
+
+class EventEncoding {
+    constructor () {
+        this.codes = {}
+        this.count = 1
+    }
+
+    get(key) {
+        if (!this.codes[key]) {
+            this.codes[key] = this.count
+            this.count++
+        }
+        return this.codes[key]
+    }
+}
+
+export function editDistance (events1 , events2) {
+    const track = Array(events2.length + 1).fill(null).map(() =>
+        Array(events1.length + 1).fill(null)
+    );
+    for (let i = 0; i <= events1.length; i += 1) {
+       track[0][i] = i;
+    }
+    for (let j = 0; j <= events2.length; j += 1) {
+       track[j][0] = j;
+    }
+    for (let j = 1; j <= events2.length; j += 1) {
+       for (let i = 1; i <= events1.length; i += 1) {
+          const k = events1[i - 1] === events2[j - 1] ? 0 : 1;
+          track[j][i] = Math.min(
+             track[j][i - 1] + 1,
+             track[j - 1][i] + 1,
+             track[j - 1][i - 1] + k
+          );
+       }
+    }
+    return track[events2.length][events1.length];
+ };

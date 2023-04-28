@@ -1,0 +1,1825 @@
+[ {
+    "_id" : "6441b32903e7a20038a68bc8",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027305046,
+    "scrollTop" : 0,
+    "x" : 0.447,
+    "y" : 0.773,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32903e7a20038a68bc8"
+  }, {
+    "_id" : "6441b32903e7a20038a68bc9",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027305246,
+    "scrollTop" : 0,
+    "x" : 0.447,
+    "y" : 0.773,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32903e7a20038a68bc9"
+  }, {
+    "_id" : "6441b33403e7a20038a68bda",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027315613,
+    "scrollTop" : 0,
+    "x" : 0.504,
+    "y" : 0.832,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33403e7a20038a68bda"
+  }, {
+    "_id" : "6441b33903e7a20038a68bea",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027320864,
+    "scrollTop" : 0,
+    "x" : 0.26,
+    "y" : 0.784,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33903e7a20038a68bea"
+  }, {
+    "_id" : "6441b34803e7a20038a68c0a",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027336246,
+    "scrollTop" : 0,
+    "x" : 0.251,
+    "y" : 0.843,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34803e7a20038a68c0a"
+  }, {
+    "_id" : "6441b34903e7a20038a68c0c",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027336412,
+    "scrollTop" : 0,
+    "x" : 0.251,
+    "y" : 0.843,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34903e7a20038a68c0c"
+  }, {
+    "_id" : "6441b35803e7a20038a68c29",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027352446,
+    "scrollTop" : 0,
+    "x" : 0.482,
+    "y" : 0.844,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35803e7a20038a68c29"
+  }, {
+    "_id" : "6441b35803e7a20038a68c2a",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027352630,
+    "scrollTop" : 0,
+    "x" : 0.482,
+    "y" : 0.844,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35803e7a20038a68c2a"
+  }, {
+    "_id" : "6441b36803e7a20038a68c49",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027368212,
+    "scrollTop" : 0,
+    "x" : 0.246,
+    "y" : 0.803,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36803e7a20038a68c49"
+  }, {
+    "_id" : "6441b36803e7a20038a68c4a",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682027368029,
+    "scrollTop" : 0,
+    "x" : 0.246,
+    "y" : 0.803,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36803e7a20038a68c4a"
+  }, {
+    "_id" : "6445602003e7a20038a74b5f",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682268192105,
+    "scrollTop" : 0,
+    "x" : 0.493,
+    "y" : 0.884,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445602003e7a20038a74b5f"
+  }, {
+    "_id" : "6445602003e7a20038a74b61",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenClick",
+    "time" : 1682268192272,
+    "scrollTop" : 0,
+    "x" : 0.493,
+    "y" : 0.884,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445602003e7a20038a74b61"
+  }, {
+    "_id" : "6441b31f03e7a20038a68bad",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027294747,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b31f03e7a20038a68bad"
+  }, {
+    "_id" : "6441b32403e7a20038a68bbc",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027299632,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32403e7a20038a68bbc"
+  }, {
+    "_id" : "6441b32f03e7a20038a68bce",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027311458,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32f03e7a20038a68bce"
+  }, {
+    "_id" : "6441b33503e7a20038a68bdf",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027316333,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33503e7a20038a68bdf"
+  }, {
+    "_id" : "6441b33f03e7a20038a68bec",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027326892,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33f03e7a20038a68bec"
+  }, {
+    "_id" : "6441b34303e7a20038a68bfd",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027331114,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34303e7a20038a68bfd"
+  }, {
+    "_id" : "6441b34f03e7a20038a68c10",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027342444,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34f03e7a20038a68c10"
+  }, {
+    "_id" : "6441b35503e7a20038a68c1b",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027348966,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35503e7a20038a68c1b"
+  }, {
+    "_id" : "6441b35f03e7a20038a68c2e",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027359408,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35f03e7a20038a68c2e"
+  }, {
+    "_id" : "6441b36303e7a20038a68c3f",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682027363680,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36303e7a20038a68c3f"
+  }, {
+    "_id" : "6441be4703e7a20038a68fb7",
+    "session" : "S1682030151534_2466",
+    "user" : {
+      "id" : "U1682030151534_655",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682030151536,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be4703e7a20038a68fb7"
+  }, {
+    "_id" : "6441be5203e7a20038a68fc1",
+    "session" : "S1682030162151_6362",
+    "user" : {
+      "id" : "U1682030162151_301",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682030162152,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be5203e7a20038a68fc1"
+  }, {
+    "_id" : "6445601503e7a20038a74b32",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682268181866,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601503e7a20038a74b32"
+  }, {
+    "_id" : "6445601c03e7a20038a74b50",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : null,
+    "type" : "ScreenLoaded",
+    "time" : 1682268188871,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601c03e7a20038a74b50"
+  }, {
+    "_id" : "6441b31f03e7a20038a68bae",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "SessionStart",
+    "time" : 1682027294746,
+    "x" : -1,
+    "y" : -1,
+    "device" : {
+      "w" : 352,
+      "h" : 763,
+      "qr" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b31f03e7a20038a68bae"
+  }, {
+    "_id" : "6441b32f03e7a20038a68bcc",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "SessionStart",
+    "time" : 1682027311457,
+    "x" : -1,
+    "y" : -1,
+    "device" : {
+      "w" : 352,
+      "h" : 763,
+      "qr" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32f03e7a20038a68bcc"
+  }, {
+    "_id" : "6441b33f03e7a20038a68bed",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "SessionStart",
+    "time" : 1682027326890,
+    "x" : -1,
+    "y" : -1,
+    "device" : {
+      "w" : 352,
+      "h" : 763,
+      "qr" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33f03e7a20038a68bed"
+  }, {
+    "_id" : "6441b34e03e7a20038a68c0d",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "SessionStart",
+    "time" : 1682027342442,
+    "x" : -1,
+    "y" : -1,
+    "device" : {
+      "w" : 352,
+      "h" : 763,
+      "qr" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34e03e7a20038a68c0d"
+  }, {
+    "_id" : "6441b36003e7a20038a68c30",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "SessionStart",
+    "time" : 1682027359407,
+    "x" : -1,
+    "y" : -1,
+    "device" : {
+      "w" : 352,
+      "h" : 763,
+      "qr" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36003e7a20038a68c30"
+  }, {
+    "_id" : "6441be4703e7a20038a68fb5",
+    "session" : "S1682030151534_2466",
+    "user" : {
+      "id" : "U1682030151534_655",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "SessionStart",
+    "time" : 1682030151534,
+    "x" : -1,
+    "y" : -1,
+    "device" : {
+      "w" : 352,
+      "h" : 763,
+      "qr" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be4703e7a20038a68fb5"
+  }, {
+    "_id" : "6441be5203e7a20038a68fc2",
+    "session" : "S1682030162151_6362",
+    "user" : {
+      "id" : "U1682030162151_301",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "SessionStart",
+    "time" : 1682030162151,
+    "x" : -1,
+    "y" : -1,
+    "device" : {
+      "w" : 352,
+      "h" : 763,
+      "qr" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be5203e7a20038a68fc2"
+  }, {
+    "_id" : "6445601503e7a20038a74b30",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : null,
+    "type" : "SessionStart",
+    "time" : 1682268181864,
+    "x" : -1,
+    "y" : -1,
+    "device" : {
+      "w" : 375,
+      "h" : 812,
+      "qr" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601503e7a20038a74b30"
+  }, {
+    "_id" : "6445601a03e7a20038a74b41",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10014_59289",
+    "type" : "ValidationError",
+    "time" : 1682268186472,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "state" : {
+      "type" : "value",
+      "value" : false
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601a03e7a20038a74b41"
+  }, {
+    "_id" : "6445601a03e7a20038a74b44",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10012_3980",
+    "type" : "ValidationErrorLine",
+    "time" : 1682268186473,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601a03e7a20038a74b44"
+  }, {
+    "_id" : "6445601b03e7a20038a74b4b",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10014_59289",
+    "type" : "ValidationOk",
+    "time" : 1682268187804,
+    "scrollTop" : 0,
+    "x" : -1,
+    "y" : -1,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601b03e7a20038a74b4b"
+  }, {
+    "_id" : "6441b32003e7a20038a68bb2",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10001_87523",
+    "type" : "WidgetClick",
+    "time" : 1682027295913,
+    "scrollTop" : 0,
+    "x" : 0.379,
+    "y" : 0.135,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32003e7a20038a68bb2"
+  }, {
+    "_id" : "6441b32103e7a20038a68bb3",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10002_27889",
+    "type" : "WidgetClick",
+    "time" : 1682027296579,
+    "scrollTop" : 0,
+    "x" : 0.354,
+    "y" : 0.253,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32103e7a20038a68bb3"
+  }, {
+    "_id" : "6441b32203e7a20038a68bb5",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10003_70313",
+    "type" : "WidgetClick",
+    "time" : 1682027297346,
+    "scrollTop" : 0,
+    "x" : 0.345,
+    "y" : 0.404,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32203e7a20038a68bb5"
+  }, {
+    "_id" : "6441b32203e7a20038a68bb6",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10004_19898",
+    "type" : "WidgetClick",
+    "time" : 1682027297964,
+    "scrollTop" : 0,
+    "x" : 0.334,
+    "y" : 0.531,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32203e7a20038a68bb6"
+  }, {
+    "_id" : "6441b32203e7a20038a68bb7",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10005_24663",
+    "type" : "WidgetClick",
+    "time" : 1682027298531,
+    "scrollTop" : 0,
+    "x" : 0.334,
+    "y" : 0.678,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32203e7a20038a68bb7"
+  }, {
+    "_id" : "6441b32403e7a20038a68bbb",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10012_3980",
+    "type" : "WidgetClick",
+    "time" : 1682027299631,
+    "scrollTop" : 0,
+    "x" : 0.822,
+    "y" : 0.855,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32403e7a20038a68bbb"
+  }, {
+    "_id" : "6441b32503e7a20038a68bbf",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10007_38690",
+    "type" : "WidgetClick",
+    "time" : 1682027300847,
+    "scrollTop" : 0,
+    "x" : 0.68,
+    "y" : 0.119,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32503e7a20038a68bbf"
+  }, {
+    "_id" : "6441b32503e7a20038a68bc0",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10008_11896",
+    "type" : "WidgetClick",
+    "time" : 1682027301467,
+    "scrollTop" : 0,
+    "x" : 0.629,
+    "y" : 0.265,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32503e7a20038a68bc0"
+  }, {
+    "_id" : "6441b32603e7a20038a68bc2",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10009_94031",
+    "type" : "WidgetClick",
+    "time" : 1682027302097,
+    "scrollTop" : 0,
+    "x" : 0.561,
+    "y" : 0.406,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32603e7a20038a68bc2"
+  }, {
+    "_id" : "6441b32603e7a20038a68bc4",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10010_49576",
+    "type" : "WidgetClick",
+    "time" : 1682027302630,
+    "scrollTop" : 0,
+    "x" : 0.55,
+    "y" : 0.566,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32603e7a20038a68bc4"
+  }, {
+    "_id" : "6441b32703e7a20038a68bc5",
+    "session" : "S1682027294746_1077",
+    "user" : {
+      "id" : "U1682027294746_2241",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10011_13845",
+    "type" : "WidgetClick",
+    "time" : 1682027303130,
+    "scrollTop" : 0,
+    "x" : 0.55,
+    "y" : 0.689,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b32703e7a20038a68bc5"
+  }, {
+    "_id" : "6441b33103e7a20038a68bd0",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10001_87523",
+    "type" : "WidgetClick",
+    "time" : 1682027312331,
+    "scrollTop" : 0,
+    "x" : 0.646,
+    "y" : 0.106,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33103e7a20038a68bd0"
+  }, {
+    "_id" : "6441b33103e7a20038a68bd1",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10002_27889",
+    "type" : "WidgetClick",
+    "time" : 1682027312797,
+    "scrollTop" : 0,
+    "x" : 0.572,
+    "y" : 0.266,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33103e7a20038a68bd1"
+  }, {
+    "_id" : "6441b33203e7a20038a68bd4",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10003_70313",
+    "type" : "WidgetClick",
+    "time" : 1682027313412,
+    "scrollTop" : 0,
+    "x" : 0.555,
+    "y" : 0.402,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33203e7a20038a68bd4"
+  }, {
+    "_id" : "6441b33203e7a20038a68bd6",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10004_19898",
+    "type" : "WidgetClick",
+    "time" : 1682027313897,
+    "scrollTop" : 0,
+    "x" : 0.553,
+    "y" : 0.535,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33203e7a20038a68bd6"
+  }, {
+    "_id" : "6441b33303e7a20038a68bd7",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10005_24663",
+    "type" : "WidgetClick",
+    "time" : 1682027314380,
+    "scrollTop" : 0,
+    "x" : 0.547,
+    "y" : 0.658,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33303e7a20038a68bd7"
+  }, {
+    "_id" : "6441b33403e7a20038a68bdb",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10012_3980",
+    "type" : "WidgetClick",
+    "time" : 1682027316331,
+    "scrollTop" : 0,
+    "x" : 0.828,
+    "y" : 0.855,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33403e7a20038a68bdb"
+  }, {
+    "_id" : "6441b33503e7a20038a68be1",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10007_38690",
+    "type" : "WidgetClick",
+    "time" : 1682027317697,
+    "scrollTop" : 0,
+    "x" : 0.595,
+    "y" : 0.136,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33503e7a20038a68be1"
+  }, {
+    "_id" : "6441b33603e7a20038a68be2",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10008_11896",
+    "type" : "WidgetClick",
+    "time" : 1682027318163,
+    "scrollTop" : 0,
+    "x" : 0.581,
+    "y" : 0.29,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33603e7a20038a68be2"
+  }, {
+    "_id" : "6441b33603e7a20038a68be4",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10009_94031",
+    "type" : "WidgetClick",
+    "time" : 1682027318713,
+    "scrollTop" : 0,
+    "x" : 0.57,
+    "y" : 0.402,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33603e7a20038a68be4"
+  }, {
+    "_id" : "6441b33703e7a20038a68be7",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10010_49576",
+    "type" : "WidgetClick",
+    "time" : 1682027319197,
+    "scrollTop" : 0,
+    "x" : 0.567,
+    "y" : 0.55,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33703e7a20038a68be7"
+  }, {
+    "_id" : "6441b33703e7a20038a68be8",
+    "session" : "S1682027311457_808",
+    "user" : {
+      "id" : "U1682027311457_1848",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10011_13845",
+    "type" : "WidgetClick",
+    "time" : 1682027319630,
+    "scrollTop" : 0,
+    "x" : 0.57,
+    "y" : 0.706,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b33703e7a20038a68be8"
+  }, {
+    "_id" : "6441b34003e7a20038a68bf1",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10001_87523",
+    "type" : "WidgetClick",
+    "time" : 1682027327979,
+    "scrollTop" : 0,
+    "x" : 0.598,
+    "y" : 0.106,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34003e7a20038a68bf1"
+  }, {
+    "_id" : "6441b34003e7a20038a68bf2",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10002_27889",
+    "type" : "WidgetClick",
+    "time" : 1682027328679,
+    "scrollTop" : 0,
+    "x" : 0.567,
+    "y" : 0.277,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34003e7a20038a68bf2"
+  }, {
+    "_id" : "6441b34103e7a20038a68bf4",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10004_19898",
+    "type" : "WidgetClick",
+    "time" : 1682027329279,
+    "scrollTop" : 0,
+    "x" : 0.55,
+    "y" : 0.507,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34103e7a20038a68bf4"
+  }, {
+    "_id" : "6441b34203e7a20038a68bf7",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10005_24663",
+    "type" : "WidgetClick",
+    "time" : 1682027329779,
+    "scrollTop" : 0,
+    "x" : 0.55,
+    "y" : 0.671,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34203e7a20038a68bf7"
+  }, {
+    "_id" : "6441b34303e7a20038a68bfb",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10012_3980",
+    "type" : "WidgetClick",
+    "time" : 1682027331113,
+    "scrollTop" : 0,
+    "x" : 0.814,
+    "y" : 0.864,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34303e7a20038a68bfb"
+  }, {
+    "_id" : "6441b34403e7a20038a68c00",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10007_38690",
+    "type" : "WidgetClick",
+    "time" : 1682027332164,
+    "scrollTop" : 0,
+    "x" : 0.598,
+    "y" : 0.088,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34403e7a20038a68c00"
+  }, {
+    "_id" : "6441b34503e7a20038a68c01",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10008_11896",
+    "type" : "WidgetClick",
+    "time" : 1682027332630,
+    "scrollTop" : 0,
+    "x" : 0.575,
+    "y" : 0.233,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34503e7a20038a68c01"
+  }, {
+    "_id" : "6441b34503e7a20038a68c04",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10009_94031",
+    "type" : "WidgetClick",
+    "time" : 1682027333046,
+    "scrollTop" : 0,
+    "x" : 0.567,
+    "y" : 0.381,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34503e7a20038a68c04"
+  }, {
+    "_id" : "6441b34503e7a20038a68c06",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10010_49576",
+    "type" : "WidgetClick",
+    "time" : 1682027333712,
+    "scrollTop" : 0,
+    "x" : 0.544,
+    "y" : 0.56,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34503e7a20038a68c06"
+  }, {
+    "_id" : "6441b34603e7a20038a68c08",
+    "session" : "S1682027326890_6650",
+    "user" : {
+      "id" : "U1682027326890_2076",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10011_13845",
+    "type" : "WidgetClick",
+    "time" : 1682027334146,
+    "scrollTop" : 0,
+    "x" : 0.527,
+    "y" : 0.691,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b34603e7a20038a68c08"
+  }, {
+    "_id" : "6441b35003e7a20038a68c11",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10001_87523",
+    "type" : "WidgetClick",
+    "time" : 1682027343330,
+    "scrollTop" : 0,
+    "x" : 0.55,
+    "y" : 0.126,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35003e7a20038a68c11"
+  }, {
+    "_id" : "6441b35003e7a20038a68c13",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10002_27889",
+    "type" : "WidgetClick",
+    "time" : 1682027344129,
+    "scrollTop" : 0,
+    "x" : 0.518,
+    "y" : 0.263,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35003e7a20038a68c13"
+  }, {
+    "_id" : "6441b35103e7a20038a68c15",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10003_70313",
+    "type" : "WidgetClick",
+    "time" : 1682027345112,
+    "scrollTop" : 0,
+    "x" : 0.513,
+    "y" : 0.397,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35103e7a20038a68c15"
+  }, {
+    "_id" : "6441b35303e7a20038a68c17",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10005_24663",
+    "type" : "WidgetClick",
+    "time" : 1682027346746,
+    "scrollTop" : 0,
+    "x" : 0.521,
+    "y" : 0.679,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35303e7a20038a68c17"
+  }, {
+    "_id" : "6441b35403e7a20038a68c18",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10004_19898",
+    "type" : "WidgetClick",
+    "time" : 1682027347996,
+    "scrollTop" : 0,
+    "x" : 0.564,
+    "y" : 0.543,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35403e7a20038a68c18"
+  }, {
+    "_id" : "6441b35503e7a20038a68c1f",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10012_3980",
+    "type" : "WidgetClick",
+    "time" : 1682027348963,
+    "scrollTop" : 0,
+    "x" : 0.822,
+    "y" : 0.862,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35503e7a20038a68c1f"
+  }, {
+    "_id" : "6441b35603e7a20038a68c20",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10007_38690",
+    "type" : "WidgetClick",
+    "time" : 1682027349945,
+    "scrollTop" : 0,
+    "x" : 0.584,
+    "y" : 0.13,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35603e7a20038a68c20"
+  }, {
+    "_id" : "6441b35603e7a20038a68c21",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10008_11896",
+    "type" : "WidgetClick",
+    "time" : 1682027350397,
+    "scrollTop" : 0,
+    "x" : 0.558,
+    "y" : 0.242,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35603e7a20038a68c21"
+  }, {
+    "_id" : "6441b35703e7a20038a68c25",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10010_49576",
+    "type" : "WidgetClick",
+    "time" : 1682027351312,
+    "scrollTop" : 0,
+    "x" : 0.544,
+    "y" : 0.547,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35703e7a20038a68c25"
+  }, {
+    "_id" : "6441b35703e7a20038a68c26",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10009_94031",
+    "type" : "WidgetClick",
+    "time" : 1682027350846,
+    "scrollTop" : 0,
+    "x" : 0.544,
+    "y" : 0.385,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35703e7a20038a68c26"
+  }, {
+    "_id" : "6441b35803e7a20038a68c28",
+    "session" : "S1682027342442_5203",
+    "user" : {
+      "id" : "U1682027342442_8858",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10011_13845",
+    "type" : "WidgetClick",
+    "time" : 1682027351797,
+    "scrollTop" : 0,
+    "x" : 0.544,
+    "y" : 0.696,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b35803e7a20038a68c28"
+  }, {
+    "_id" : "6441b36103e7a20038a68c33",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10005_24663",
+    "type" : "WidgetClick",
+    "time" : 1682027360830,
+    "scrollTop" : 0,
+    "x" : 0.436,
+    "y" : 0.68,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36103e7a20038a68c33"
+  }, {
+    "_id" : "6441b36103e7a20038a68c35",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10004_19898",
+    "type" : "WidgetClick",
+    "time" : 1682027361296,
+    "scrollTop" : 0,
+    "x" : 0.47,
+    "y" : 0.541,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36103e7a20038a68c35"
+  }, {
+    "_id" : "6441b36203e7a20038a68c37",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10003_70313",
+    "type" : "WidgetClick",
+    "time" : 1682027361779,
+    "scrollTop" : 0,
+    "x" : 0.504,
+    "y" : 0.38,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36203e7a20038a68c37"
+  }, {
+    "_id" : "6441b36203e7a20038a68c38",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10002_27889",
+    "type" : "WidgetClick",
+    "time" : 1682027362230,
+    "scrollTop" : 0,
+    "x" : 0.51,
+    "y" : 0.224,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36203e7a20038a68c38"
+  }, {
+    "_id" : "6441b36303e7a20038a68c3a",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10001_87523",
+    "type" : "WidgetClick",
+    "time" : 1682027362663,
+    "scrollTop" : 0,
+    "x" : 0.516,
+    "y" : 0.087,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36303e7a20038a68c3a"
+  }, {
+    "_id" : "6441b36303e7a20038a68c3e",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10012_3980",
+    "type" : "WidgetClick",
+    "time" : 1682027363679,
+    "scrollTop" : 0,
+    "x" : 0.822,
+    "y" : 0.849,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36303e7a20038a68c3e"
+  }, {
+    "_id" : "6441b36403e7a20038a68c40",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10007_38690",
+    "type" : "WidgetClick",
+    "time" : 1682027364612,
+    "scrollTop" : 0,
+    "x" : 0.626,
+    "y" : 0.09,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36403e7a20038a68c40"
+  }, {
+    "_id" : "6441b36503e7a20038a68c42",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10008_11896",
+    "type" : "WidgetClick",
+    "time" : 1682027365445,
+    "scrollTop" : 0,
+    "x" : 0.578,
+    "y" : 0.241,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36503e7a20038a68c42"
+  }, {
+    "_id" : "6441b36603e7a20038a68c44",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10009_94031",
+    "type" : "WidgetClick",
+    "time" : 1682027365996,
+    "scrollTop" : 0,
+    "x" : 0.564,
+    "y" : 0.38,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36603e7a20038a68c44"
+  }, {
+    "_id" : "6441b36703e7a20038a68c45",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10010_49576",
+    "type" : "WidgetClick",
+    "time" : 1682027366462,
+    "scrollTop" : 0,
+    "x" : 0.564,
+    "y" : 0.567,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36703e7a20038a68c45"
+  }, {
+    "_id" : "6441b36703e7a20038a68c47",
+    "session" : "S1682027359407_7096",
+    "user" : {
+      "id" : "U1682027359407_968",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10011_13845",
+    "type" : "WidgetClick",
+    "time" : 1682027366863,
+    "scrollTop" : 0,
+    "x" : 0.547,
+    "y" : 0.697,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441b36703e7a20038a68c47"
+  }, {
+    "_id" : "6441be4903e7a20038a68fb8",
+    "session" : "S1682030151534_2466",
+    "user" : {
+      "id" : "U1682030151534_655",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10001_87523",
+    "type" : "WidgetClick",
+    "time" : 1682030152788,
+    "scrollTop" : 0,
+    "x" : 0.328,
+    "y" : 0.13,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be4903e7a20038a68fb8"
+  }, {
+    "_id" : "6441be4903e7a20038a68fba",
+    "session" : "S1682030151534_2466",
+    "user" : {
+      "id" : "U1682030151534_655",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10002_27889",
+    "type" : "WidgetClick",
+    "time" : 1682030153205,
+    "scrollTop" : 0,
+    "x" : 0.308,
+    "y" : 0.282,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be4903e7a20038a68fba"
+  }, {
+    "_id" : "6441be4a03e7a20038a68fbb",
+    "session" : "S1682030151534_2466",
+    "user" : {
+      "id" : "U1682030151534_655",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10003_70313",
+    "type" : "WidgetClick",
+    "time" : 1682030153621,
+    "scrollTop" : 0,
+    "x" : 0.311,
+    "y" : 0.423,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be4a03e7a20038a68fbb"
+  }, {
+    "_id" : "6441be4a03e7a20038a68fbd",
+    "session" : "S1682030151534_2466",
+    "user" : {
+      "id" : "U1682030151534_655",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10004_19898",
+    "type" : "WidgetClick",
+    "time" : 1682030154172,
+    "scrollTop" : 0,
+    "x" : 0.342,
+    "y" : 0.587,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be4a03e7a20038a68fbd"
+  }, {
+    "_id" : "6441be4b03e7a20038a68fbe",
+    "session" : "S1682030151534_2466",
+    "user" : {
+      "id" : "U1682030151534_655",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10005_24663",
+    "type" : "WidgetClick",
+    "time" : 1682030154755,
+    "scrollTop" : 0,
+    "x" : 0.325,
+    "y" : 0.672,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be4b03e7a20038a68fbe"
+  }, {
+    "_id" : "6441be5303e7a20038a68fc6",
+    "session" : "S1682030162151_6362",
+    "user" : {
+      "id" : "U1682030162151_301",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10001_87523",
+    "type" : "WidgetClick",
+    "time" : 1682030162972,
+    "scrollTop" : 0,
+    "x" : 0.564,
+    "y" : 0.109,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be5303e7a20038a68fc6"
+  }, {
+    "_id" : "6441be5303e7a20038a68fc8",
+    "session" : "S1682030162151_6362",
+    "user" : {
+      "id" : "U1682030162151_301",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10002_27889",
+    "type" : "WidgetClick",
+    "time" : 1682030163654,
+    "scrollTop" : 0,
+    "x" : 0.524,
+    "y" : 0.269,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be5303e7a20038a68fc8"
+  }, {
+    "_id" : "6441be5403e7a20038a68fca",
+    "session" : "S1682030162151_6362",
+    "user" : {
+      "id" : "U1682030162151_301",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10003_70313",
+    "type" : "WidgetClick",
+    "time" : 1682030164388,
+    "scrollTop" : 0,
+    "x" : 0.47,
+    "y" : 0.397,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6441be5403e7a20038a68fca"
+  }, {
+    "_id" : "6445601703e7a20038a74b35",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10001_87523",
+    "type" : "WidgetClick",
+    "time" : 1682268183598,
+    "scrollTop" : 0,
+    "x" : 0.341,
+    "y" : 0.105,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601703e7a20038a74b35"
+  }, {
+    "_id" : "6445601803e7a20038a74b39",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10002_27889",
+    "type" : "WidgetClick",
+    "time" : 1682268184131,
+    "scrollTop" : 0,
+    "x" : 0.403,
+    "y" : 0.227,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601803e7a20038a74b39"
+  }, {
+    "_id" : "6445601803e7a20038a74b3b",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10003_70313",
+    "type" : "WidgetClick",
+    "time" : 1682268184681,
+    "scrollTop" : 0,
+    "x" : 0.421,
+    "y" : 0.409,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601803e7a20038a74b3b"
+  }, {
+    "_id" : "6445601903e7a20038a74b3d",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10004_19898",
+    "type" : "WidgetClick",
+    "time" : 1682268185131,
+    "scrollTop" : 0,
+    "x" : 0.395,
+    "y" : 0.548,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601903e7a20038a74b3d"
+  }, {
+    "_id" : "6445601903e7a20038a74b3f",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10005_24663",
+    "type" : "WidgetClick",
+    "time" : 1682268185532,
+    "scrollTop" : 0,
+    "x" : 0.432,
+    "y" : 0.688,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601903e7a20038a74b3f"
+  }, {
+    "_id" : "6445601a03e7a20038a74b42",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10012_3980",
+    "type" : "WidgetClick",
+    "time" : 1682268186466,
+    "scrollTop" : 0,
+    "x" : 0.816,
+    "y" : 0.861,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601a03e7a20038a74b42"
+  }, {
+    "_id" : "6445601b03e7a20038a74b49",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10014_59289",
+    "type" : "WidgetClick",
+    "time" : 1682268187805,
+    "scrollTop" : 0,
+    "x" : 0.168,
+    "y" : 0.799,
+    "state" : {
+      "type" : "checked",
+      "value" : true
+    },
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601b03e7a20038a74b49"
+  }, {
+    "_id" : "6445601c03e7a20038a74b4f",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10000_37943",
+    "widget" : "w10012_3980",
+    "type" : "WidgetClick",
+    "time" : 1682268188868,
+    "scrollTop" : 0,
+    "x" : 0.837,
+    "y" : 0.855,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601c03e7a20038a74b4f"
+  }, {
+    "_id" : "6445601d03e7a20038a74b55",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10007_38690",
+    "type" : "WidgetClick",
+    "time" : 1682268189786,
+    "scrollTop" : 0,
+    "x" : 0.56,
+    "y" : 0.111,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601d03e7a20038a74b55"
+  }, {
+    "_id" : "6445601e03e7a20038a74b57",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10008_11896",
+    "type" : "WidgetClick",
+    "time" : 1682268190186,
+    "scrollTop" : 0,
+    "x" : 0.499,
+    "y" : 0.288,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601e03e7a20038a74b57"
+  }, {
+    "_id" : "6445601e03e7a20038a74b59",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10009_94031",
+    "type" : "WidgetClick",
+    "time" : 1682268190687,
+    "scrollTop" : 0,
+    "x" : 0.507,
+    "y" : 0.393,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601e03e7a20038a74b59"
+  }, {
+    "_id" : "6445601f03e7a20038a74b5b",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10010_49576",
+    "type" : "WidgetClick",
+    "time" : 1682268191171,
+    "scrollTop" : 0,
+    "x" : 0.496,
+    "y" : 0.552,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601f03e7a20038a74b5b"
+  }, {
+    "_id" : "6445601f03e7a20038a74b5d",
+    "session" : "S1682268181864_8641",
+    "user" : {
+      "id" : "U1682268181864_2470",
+      "name" : "tester"
+    },
+    "screen" : "s10006_2763",
+    "widget" : "w10011_13845",
+    "type" : "WidgetClick",
+    "time" : 1682268191604,
+    "scrollTop" : 0,
+    "x" : 0.483,
+    "y" : 0.706,
+    "appID" : "6441b28203e7a20038a68b9e",
+    "id" : "6445601f03e7a20038a74b5d"
+  } ]
