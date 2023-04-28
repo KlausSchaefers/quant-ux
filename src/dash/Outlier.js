@@ -235,24 +235,35 @@ export function cluster(matrix, epsilon = 1, minPts = 2) {
 }
 
 
-export function getWeirdness(df) {
+export function getWeirdness(df, f=1.5) {
     const encoded = encodeSessions(df)
     const matrix = Object.values(encoded)
     const distance = getPairwiseDistance(matrix, editDistance)
+    //let distanceSum = 0
     const sessionDistanceSum = distance.map(row => {
         let sum = 0
         for (let i=0; i < row.length; i++) {
             sum += row[i]
         }
-        return [sum]
+        //distanceSum += sum
+        return sum
     })
+    //const distanceMean = distanceSum / distance.length
+    const distanceMedian = sessionDistanceSum.slice().sort()[Math.floor(sessionDistanceSum.length /2)]
+    //console.debug(distanceMedian)
+    //console.debug(distanceMean, '=> ', sessionDistanceSum.join(','), ' => ', distanceMedian)
 
-    const minMaxScore = getMinMaxScore(sessionDistanceSum)
+    // console.debug(distance.map(r => r.join(',')).join('\n'))
+    // console.debug(sessionDistanceSum)
+    // console.debug(getZScore(sessionDistanceSum))
+
+    //const minMaxScore = getMinMaxScore(sessionDistanceSum)
 
 
     const result = {}
     Object.keys(encoded).forEach((key, i) => {
-        result[key] = minMaxScore[i][0]
+        const v = sessionDistanceSum[i]
+        result[key] =  v >= distanceMedian * f ? 1 : 0
     })
     return result
 
@@ -261,7 +272,6 @@ export function getWeirdness(df) {
 export function encodeSessions(df, allowedEvents = new Set(['ScreenClick', 'WidgetClick', 'ScreenLoaded', 'WidgetChange', 'OverlayLoaded'])) {
     const encoding = new EventEncoding()
     const result = {}
-
     const sessionGroup = df.groupBy("session");
     sessionGroup.foreach((session, id)  => {
         session.sortBy("time");
@@ -309,7 +319,7 @@ export function editDistance (events1 , events2) {
     }
     for (let j = 1; j <= events2.length; j += 1) {
        for (let i = 1; i <= events1.length; i += 1) {
-          const k = events1[i - 1] === events2[j - 1] ? 0 : 1;
+          const k = events1[i - 1] === events2[j - 1] ? 0 : 1
           track[j][i] = Math.min(
              track[j][i - 1] + 1,
              track[j - 1][i] + 1,
@@ -318,4 +328,4 @@ export function editDistance (events1 , events2) {
        }
     }
     return track[events2.length][events1.length];
- };
+ }

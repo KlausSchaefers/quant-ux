@@ -127,7 +127,14 @@ test('Test Outlier.encodeSessions() > ', async () => {
     expect(scores['3'] < scores['2']).toBe(true)
 })
 
-test('Test Outlier.encodeSessions() > ', async () => {
+test('Test Outlier.encodeSessions2() > ', async () => {
+    const df = new DataFrame(outlierPattern)
+    const scores = outlier.getWeirdness(df)
+    expect(Object.values(scores).length).toBe(8)
+    console.debug(scores)
+})
+
+test('Test Outlier.editDistance() > ', async () => {
 
     expect(outlier.editDistance([1,2,3,4],[1,2,3,4])).toBe(0)
     expect(outlier.editDistance([1,2,3,4],[1,2,3,5])).toBe(1)
