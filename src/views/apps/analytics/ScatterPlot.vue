@@ -133,21 +133,10 @@ export default {
             this.initTasks(this.tasks);       
 
             this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)      
-           
-            this.setClusters4d(this.sessionDetails)     
+            const data = this.analytics.convertSessionDetails(this.sessionDetails)
+            this.clusters = Outlier.cluster(data)
              
             this.render();
-        },
-
-        setClusters4d (sessionDetails) {
-           
-            const data = this.analytics.convertSessionDetails(sessionDetails)
-  
-            let matrix = Outlier.getMatrix(data, ["interactions", "duration", "screenLoads", "tasks"]) //,  // ...this.tasks.map(t => t.id)
-            matrix = Outlier.getZScore(matrix)
-            const distance = Outlier.getPairwiseDistance(matrix)
-            const minDistance = Outlier.getClusterMinDistance(distance)          
-            this.clusters = Outlier.cluster(matrix, minDistance, 3)
         },
 
         setClusters2D (sessionSummary) {

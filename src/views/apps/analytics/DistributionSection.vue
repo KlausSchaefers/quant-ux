@@ -20,14 +20,14 @@
             :options="scatterOptions"         
           /> -->
 
-
+<!-- 
           <DropDownButton
             class="MatcButtonTrans MatcDropDownRight"       
             ref="dropDown"
             :value="viewMode"
             @change="setViewMode"
             :options="viewOptions"         
-          />
+          /> -->
         
     
         </div>
@@ -73,28 +73,6 @@
               {{$t('analytics.distribution.no-data')}}
             </span>
           </div>
-          <div v-if="selection.length > 0" style="padding:30px">        
-            <table class="table">
-                <thead>
-                  <tr>
-                    
-                      <th  v-for="(col, c) in cols" :key="c">
-                        <span class="MatcSurveySectionTableColLabel">
-                          {{col.label}}
-                        </span>                    
-                      </th>  
-                   
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(row, r) in selection" :key="r">   
-                      <td :key="c" v-for="(col, c) in cols">
-                        {{row[col.key]}}
-                      </td>     
-                  </tr>                 
-                </tbody>
-            </table>
-          </div>
      
       </div>
   </template>
@@ -103,7 +81,7 @@
   </style>
   <script>
   import Logger from 'common/Logger'
-  import DropDownButton from 'page/DropDownButton'
+  //import DropDownButton from 'page/DropDownButton'
   import HelpButton from "help/HelpButton";
   import ScatterPlot from './ScatterPlot'
   import DistributionTable from './DistributionTable.vue'
@@ -145,7 +123,7 @@
       },
       components: {
         'HelpButton': HelpButton,
-        'DropDownButton': DropDownButton,
+       // 'DropDownButton': DropDownButton,
         'ScatterPlot': ScatterPlot,
         'DistributionTable': DistributionTable,
         'OutlierPlot':() => import(/* webpackChunkName: "outlier" */ './OutlierPlot')

@@ -85,7 +85,6 @@ export default {
 
       this.domNode.appendChild(table);
 
-      console.debug(this.hasPaging, this.itemsPerPage, this.rows)
       // add paging...
       if (this.hasPaging) {
         this.createPagging();

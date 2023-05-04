@@ -3,12 +3,55 @@ import { UMAP } from 'umap-js';
 import Prando from 'prando';
 import DBScan from './DBScan';
 
+
+export function computeOutliers (df, tasks) {
+    const analytics = new Analytics()
+    const sessionDetails = analytics.getSessionDetails(df, tasks)     
+    const data = analytics.convertSessionDetails(sessionDetails)
+
+    const weirdness = getLevensteinWeirdness(df)
+    data.forEach((session) => {
+        session.outlierWeirdness = false
+        if (weirdness[session.session]) {
+            session.weirdness = weirdness[session.session]
+            if (weirdness[session.session] === 1) {
+                session.outlierWeirdness = true
+            }
+        } else {
+            session.weirdness = 0
+        }
+    })
+
+    const clusters = cluster(data)
+    data.forEach((session, index) => {
+        if (clusters[index] === -1) {
+            session.outlierCluster = true
+        } else {
+            session.outlierCluster = false
+        }
+    })
+  
+    return data
+}
+
+
+export function cluster (data) {
+    let matrix = getMatrix(data, ["interactions", "duration", "screenLoads", "tasks"]) //,  // ...this.tasks.map(t => t.id)
+    matrix = getZScore(matrix)
+    const distance = getPairwiseDistance(matrix)
+    const minDistance = getClusterMinDistance(distance, 0.2)
+    const minNeighbour = getMinNeighbour(data)
+    return dbscan(matrix, minDistance, minNeighbour)
+}
+
+export function getMinNeighbour() {
+    return 2
+}
+
 export function getBaseData (events, tasks) {
     const analytics = new Analytics()
-
     const sessions = analytics.getSessionDetails(events, tasks)
     return analytics.convertSessionDetails(sessions)
-    
 }
 
 export function getMatrix(sessions, columns) {
@@ -56,14 +99,17 @@ export function getZScore(matrix) {
 			variance += (dif * dif);
         }
         const std = Math.sqrt(variance)
-    
+      
         // calculate z-score
         for (let row = 0; row < rows; row++) {
-            const x = matrix[row][col]
-            const z = (x - mean) / std
-            result[row][col] = z
+            if (std === 0) {
+                result[row][col] = 0
+            } else {
+                const x = matrix[row][col]
+                const z = (x - mean) / std
+                result[row][col] = z
+            }
         }
-        
     }    
     return result
 }
@@ -219,7 +265,7 @@ export function getClusterMinDistance(distances, percentile = 0.2) {
     return values[Math.floor(values.length * percentile)]
 }
 
-export function cluster(matrix, epsilon = 1, minPts = 2) {
+export function dbscan(matrix, epsilon = 1, minPts = 2) {
     const dbscan = new DBScan(epsilon, minPts)
     const clusters = dbscan.run(matrix)
     const result = {}
@@ -235,7 +281,7 @@ export function cluster(matrix, epsilon = 1, minPts = 2) {
 }
 
 
-export function getWeirdness(df, f=1.5) {
+export function getLevensteinWeirdness(df, f=1.5) {
     const encoded = encodeSessions(df)
     const matrix = Object.values(encoded)
     const distance = getPairwiseDistance(matrix, editDistance)

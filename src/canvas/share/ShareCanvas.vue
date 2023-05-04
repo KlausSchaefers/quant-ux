@@ -201,7 +201,7 @@ export default {
 		 * Button render
 		 **********************************************************************/
 		renderLayerList (){
-			this.logger.log(-1,"renderLayerList", "entry > ");
+			this.logger.log(1,"renderLayerList", "entry > ");
 		},
 
 
