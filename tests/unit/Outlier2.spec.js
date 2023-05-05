@@ -131,7 +131,25 @@ test('Test Outlier.getLevensteinWeirdness() 2> ', async () => {
     const df = new DataFrame(outlierPattern)
     const scores = outlier.getLevensteinWeirdness(df)
     expect(Object.values(scores).length).toBe(8)
-   
+})
+
+test('Test Outlier.getGraphSessionScores() > ', async () => {
+    const df = new DataFrame(events)
+    const scores = outlier.getGraphSessionScores(df)
+    expect(Object.values(scores).length).toBe(3)
+    expect(scores['1'] > scores['2']).toBe(true)
+    expect(scores['3'] > scores['2']).toBe(true)
+})
+
+
+
+
+test('Test Outlier.getGraphWeirdness() > ', async () => {
+    const df = new DataFrame(events)
+    const scores = outlier.getGraphWeirdness(df)
+    expect(Object.values(scores).length).toBe(3)
+    expect(scores['1'] < scores['2']).toBe(true)
+    expect(scores['3'] < scores['2']).toBe(true)
 })
 
 test('Test Outlier.editDistance() > ', async () => {

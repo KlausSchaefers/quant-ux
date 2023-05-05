@@ -4,12 +4,13 @@ import Prando from 'prando';
 import DBScan from './DBScan';
 
 
-export function computeOutliers (df, tasks) {
+export function computeOutliers(df, tasks) {
     const analytics = new Analytics()
-    const sessionDetails = analytics.getSessionDetails(df, tasks)     
+    const sessionDetails = analytics.getSessionDetails(df, tasks)
     const data = analytics.convertSessionDetails(sessionDetails)
 
-    const weirdness = getLevensteinWeirdness(df)
+    //const weirdness = getLevensteinWeirdness(df)
+    const weirdness = getGraphWeirdness(df)
     data.forEach((session) => {
         session.outlierWeirdness = false
         if (weirdness[session.session]) {
@@ -30,12 +31,12 @@ export function computeOutliers (df, tasks) {
             session.outlierCluster = false
         }
     })
-  
+
     return data
 }
 
 
-export function cluster (data) {
+export function cluster(data) {
     let matrix = getMatrix(data, ["interactions", "duration", "screenLoads", "tasks"]) //,  // ...this.tasks.map(t => t.id)
     matrix = getZScore(matrix)
     const distance = getPairwiseDistance(matrix)
@@ -48,7 +49,7 @@ export function getMinNeighbour() {
     return 2
 }
 
-export function getBaseData (events, tasks) {
+export function getBaseData(events, tasks) {
     const analytics = new Analytics()
     const sessions = analytics.getSessionDetails(events, tasks)
     return analytics.convertSessionDetails(sessions)
@@ -92,14 +93,14 @@ export function getZScore(matrix) {
             const v = matrix[row][col]
             sum += v
         }
-        const mean = sum / rows  
+        const mean = sum / rows
         for (let row = 0; row < rows; row++) {
             const value = matrix[row][col]
             const dif = mean - value;
-			variance += (dif * dif);
+            variance += (dif * dif);
         }
         const std = Math.sqrt(variance)
-      
+
         // calculate z-score
         for (let row = 0; row < rows; row++) {
             if (std === 0) {
@@ -110,7 +111,7 @@ export function getZScore(matrix) {
                 result[row][col] = z
             }
         }
-    }    
+    }
     return result
 }
 
@@ -136,11 +137,11 @@ export function getRankScore(matrix) {
                 value: v
             })
         }
-      
+
         list.sort((a, b) => {
             return a.value - b.value
         })
-        
+
         // calculate score
         let x = 0
         let lastValue = undefined
@@ -149,11 +150,11 @@ export function getRankScore(matrix) {
             if (rank.value !== lastValue && lastValue !== undefined) {
                 x++
             }
-            result[rank.row][col] = x           
+            result[rank.row][col] = x
             lastValue = rank.value
         }
-        
-    }    
+
+    }
     return result
 }
 
@@ -175,14 +176,14 @@ export function getPairwiseDistance(matrix, distanceFunction = l2) {
                 distance = distanceFunction(a, b)
             }
             result[current][other] = distance
-            result[other][current] = distance  
+            result[other][current] = distance
         }
-    }    
+    }
 
     return result
 }
 
-export function l2 (a, b) {
+export function l2(a, b) {
     const length = a.length;
     let d = 0;
     for (let i = 0; i < length; i++) {
@@ -208,14 +209,14 @@ export function l2 (a, b) {
 //     return tsne.getSolution();
 // }
 
-export function umap(distance, neighborsFactor = 0.9, minDist=0.1) {   
+export function umap(distance, neighborsFactor = 0.9, minDist = 0.1) {
     const umap = new UMAP({
         random: getRandom(distance),
         nComponents: 2,
         minDist: minDist,
         nEpochs: 400,
         nNeighbors: Math.floor(distance.length * neighborsFactor),
-      });
+    });
     return umap.fit(distance);
 }
 
@@ -249,19 +250,19 @@ export function getMinMaxScore(matrix, f = 1) {
             min = Math.min(min, v)
         }
         const dif = max - min
-        
+
         // calculate score
         for (let row = 0; row < rows; row++) {
             const x = matrix[row][col]
-            result[row][col] = ((x -  min) / dif) * f
+            result[row][col] = ((x - min) / dif) * f
         }
-        
-    }    
+
+    }
     return result
 }
 
 export function getClusterMinDistance(distances, percentile = 0.2) {
-    const values = distances.flatMap(x =>x).sort((a,b) => a-b)
+    const values = distances.flatMap(x => x).sort((a, b) => a - b)
     return values[Math.floor(values.length * percentile)]
 }
 
@@ -281,21 +282,75 @@ export function dbscan(matrix, epsilon = 1, minPts = 2) {
 }
 
 
-export function getLevensteinWeirdness(df, f=1.5) {
+export function getGraphWeirdness(df) {
+    // here the idea is that outliers will have low scores, because the
+    // walk on uncommon paths
+    const scores = getGraphSessionScores(df)
+    const q1 = getQuantile(Object.values(scores), 0.1)
+
+    const result = {}
+    Object.keys(scores).forEach((key) => {
+        const v = scores[key]
+        result[key] = v <= q1 ? 1 : 0
+    })
+    return result
+}
+
+export function getQuantile(values, q = 0.5) {
+    const sorted = values.sort((a,b) => a - b)
+    const pos = (sorted.length - 1) * q;
+    const base = Math.floor(pos);
+    const rest = pos - base;
+    if (sorted[base + 1] !== undefined) {
+        return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+    } else {
+        return sorted[base];
+    }
+}
+
+export function getGraphSessionScores(df) {
+    const encoded = encodeSessions(df)
+    const counts = new CountDoubkeKeySet()
+    Object.values(encoded).forEach(session => {
+        for (let i = 0; i < session.length-1; i++) {
+            const current = session[i]
+            const next = session[i+1]
+            counts.count(current, next)
+        }
+    })
+  
+    const scores = {}
+    Object.keys(encoded).forEach(sessionId => {
+        const session = encoded[sessionId]
+        let sum = 0
+        for (let i = 0; i < session.length-1; i++) {
+            const current = session[i]
+            const next = session[i+1]
+            sum += counts.get(current, next)
+        }
+        scores[sessionId] = sum
+    })
+    return scores
+}
+
+
+
+
+export function getLevensteinWeirdness(df, f = 1.5) {
     const encoded = encodeSessions(df)
     const matrix = Object.values(encoded)
     const distance = getPairwiseDistance(matrix, editDistance)
     //let distanceSum = 0
     const sessionDistanceSum = distance.map(row => {
         let sum = 0
-        for (let i=0; i < row.length; i++) {
+        for (let i = 0; i < row.length; i++) {
             sum += row[i]
         }
         //distanceSum += sum
         return sum
     })
     //const distanceMean = distanceSum / distance.length
-    const distanceMedian = sessionDistanceSum.slice().sort()[Math.floor(sessionDistanceSum.length /2)]
+    const distanceMedian = sessionDistanceSum.slice().sort()[Math.floor(sessionDistanceSum.length / 2)]
     //console.debug(distanceMedian)
     //console.debug(distanceMean, '=> ', sessionDistanceSum.join(','), ' => ', distanceMedian)
 
@@ -309,7 +364,7 @@ export function getLevensteinWeirdness(df, f=1.5) {
     const result = {}
     Object.keys(encoded).forEach((key, i) => {
         const v = sessionDistanceSum[i]
-        result[key] =  v >= distanceMedian * f ? 1 : 0
+        result[key] = v >= distanceMedian * f ? 1 : 0
     })
     return result
 
@@ -319,14 +374,14 @@ export function encodeSessions(df, allowedEvents = new Set(['ScreenClick', 'Widg
     const encoding = new EventEncoding()
     const result = {}
     const sessionGroup = df.groupBy("session");
-    sessionGroup.foreach((session, id)  => {
+    sessionGroup.foreach((session, id) => {
         session.sortBy("time");
         const row = []
         session.foreach(event => {
             if (allowedEvents.has(event.type)) {
                 row.push(getEventKey(event, encoding))
             }
-            
+
         })
         result[id] = row
     })
@@ -335,11 +390,35 @@ export function encodeSessions(df, allowedEvents = new Set(['ScreenClick', 'Widg
 
 export function getEventKey(event, encoding) {
     const key = `${event.screen}.${event.widget}.${event.type}`
-   return encoding.get(key)
+    return encoding.get(key)
 }
 
+export function editDistance(events1, events2) {
+    const track = Array(events2.length + 1).fill(null).map(() =>
+        Array(events1.length + 1).fill(null)
+    );
+    for (let i = 0; i <= events1.length; i += 1) {
+        track[0][i] = i;
+    }
+    for (let j = 0; j <= events2.length; j += 1) {
+        track[j][0] = j;
+    }
+    for (let j = 1; j <= events2.length; j += 1) {
+        for (let i = 1; i <= events1.length; i += 1) {
+            const k = events1[i - 1] === events2[j - 1] ? 0 : 1
+            track[j][i] = Math.min(
+                track[j][i - 1] + 1,
+                track[j - 1][i] + 1,
+                track[j - 1][i - 1] + k
+            );
+        }
+    }
+    return track[events2.length][events1.length];
+}
+
+
 class EventEncoding {
-    constructor () {
+    constructor() {
         this.codes = {}
         this.count = 1
     }
@@ -353,25 +432,27 @@ class EventEncoding {
     }
 }
 
-export function editDistance (events1 , events2) {
-    const track = Array(events2.length + 1).fill(null).map(() =>
-        Array(events1.length + 1).fill(null)
-    );
-    for (let i = 0; i <= events1.length; i += 1) {
-       track[0][i] = i;
+class CountDoubkeKeySet {
+
+    constructor () {
+        this.value = {}
     }
-    for (let j = 0; j <= events2.length; j += 1) {
-       track[j][0] = j;
+
+    count(a, b) {
+        if (!this.value[a]) {
+            this.value[a] = {}
+        }
+        if (!this.value[a][b]) {
+            this.value[a][b] = 0
+        }
+        this.value[a][b]++
     }
-    for (let j = 1; j <= events2.length; j += 1) {
-       for (let i = 1; i <= events1.length; i += 1) {
-          const k = events1[i - 1] === events2[j - 1] ? 0 : 1
-          track[j][i] = Math.min(
-             track[j][i - 1] + 1,
-             track[j - 1][i] + 1,
-             track[j - 1][i - 1] + k
-          );
-       }
+
+    get(a,b) {
+        if (this.value[a] && this.value[a][b]) {
+            return this.value[a][b]
+        }
+        return 0
     }
-    return track[events2.length][events1.length];
- }
+}
+
