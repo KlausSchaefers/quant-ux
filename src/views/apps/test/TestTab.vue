@@ -218,7 +218,7 @@ export default {
 				  formData.append('file', file);
           let result = await this.imageService.upload(url, formData)
           result = JSON.parse(result)
-          console.debug(result)
+     
           if (result.uploads && result.uploads.length === 1) {
             this.test.splash = result.uploads[0]
             this.onTestChange()

@@ -2,6 +2,7 @@ import Analytics from "./Analytics";
 import { UMAP } from 'umap-js';
 import Prando from 'prando';
 import DBScan from './DBScan';
+import Logger from '../core/Logger'
 
 
 export function computeOutliers(df, tasks) {
@@ -35,12 +36,30 @@ export function computeOutliers(df, tasks) {
     return data
 }
 
+export function addWeirdness (sessionDetailsDF, eventsDF) {
+    const weirdness = getGraphSessionScores(eventsDF)
+    sessionDetailsDF.foreach((session) => {
+        session.outlierWeirdness = false
+        if (weirdness[session.session]) {
+            session.weirdness = weirdness[session.session]
+            if (weirdness[session.session] === 1) {
+                session.outlierWeirdness = true
+            }
+        } else {
+            session.weirdness = 0
+        }
+    })
+    return sessionDetailsDF
+}
 
-export function cluster(data) {
-    let matrix = getMatrix(data, ["interactions", "duration", "screenLoads", "tasks"]) //,  // ...this.tasks.map(t => t.id)
+export function cluster(data, cols = ["interactions", "duration", "screenLoads", "tasks"]) {
+    Logger.log(-1, 'Outlier.cluster() > ',cols)
+    let matrix = getMatrix(data, cols) //,  // ...this.tasks.map(t => t.id)
     matrix = getZScore(matrix)
     const distance = getPairwiseDistance(matrix)
-    const minDistance = getClusterMinDistance(distance, 0.2)
+    const minDistance = getClusterMinDistance(distance, 0.3)
+    console.debug(minDistance, distance)
+
     const minNeighbour = getMinNeighbour(data)
     return dbscan(matrix, minDistance, minNeighbour)
 }
@@ -262,8 +281,20 @@ export function getMinMaxScore(matrix, f = 1) {
 }
 
 export function getClusterMinDistance(distances, percentile = 0.2) {
-    const values = distances.flatMap(x => x).sort((a, b) => a - b)
-    return values[Math.floor(values.length * percentile)]
+    // FIXME: take a look here https://www.datanovia.com/en/lessons/dbscan-density-based-clustering-essentials/
+    Logger.log(-1, 'Outlier.getClusterMinDistance() > ', percentile)
+    const flat = distances.flatMap(x => x)
+    const sorted = flat.sort((a, b) => a - b)
+    const max = flat.reduce((a,v) => Math.max(a,v))
+    const sum = flat.reduce((a,v) => a + v)
+    const mean = sum / flat.length
+    const q = sorted[Math.floor(sorted.length * percentile)]
+
+
+    console.debug('getClusterMinDistance', flat)
+    Logger.log(-1, 'Outlier.getClusterMinDistance() > ',[ max, max * percentile, mean, mean * percentile, q])
+    
+    return mean
 }
 
 export function dbscan(matrix, epsilon = 1, minPts = 2) {
@@ -286,13 +317,17 @@ export function getGraphWeirdness(df) {
     // here the idea is that outliers will have low scores, because the
     // walk on uncommon paths
     const scores = getGraphSessionScores(df)
-    const q1 = getQuantile(Object.values(scores), 0.1)
+    return getOutlierByQuantile(scores)
+}
 
+export function getOutlierByQuantile(scores, q = 0.1){
+    const q1 = getQuantile(Object.values(scores), q)
     const result = {}
     Object.keys(scores).forEach((key) => {
         const v = scores[key]
-        result[key] = v <= q1 ? 1 : 0
+        result[key] = v < q1 ? 1 : 0
     })
+    Logger.log(2, 'Outlier.getOutlierByQuantile() > ', q1)
     return result
 }
 
@@ -336,38 +371,35 @@ export function getGraphSessionScores(df) {
 
 
 
-export function getLevensteinWeirdness(df, f = 1.5) {
+export function getEditDistanceWeirdness(df, f = 1.5) {
+    const scores = getEditDistanceSessionScores(df)
+   const q2 = getQuantile(Object.values(scores))
+    //console.debug(q2)
+    const result = {}
+    Object.keys(scores).forEach((key) => {
+        const v = scores[key]
+        result[key] = v >= q2 * f ? 1 : 0
+    })
+    return result
+}
+
+export function getEditDistanceSessionScores (df) {
     const encoded = encodeSessions(df)
     const matrix = Object.values(encoded)
     const distance = getPairwiseDistance(matrix, editDistance)
-    //let distanceSum = 0
     const sessionDistanceSum = distance.map(row => {
         let sum = 0
         for (let i = 0; i < row.length; i++) {
             sum += row[i]
         }
-        //distanceSum += sum
         return sum
     })
-    //const distanceMean = distanceSum / distance.length
-    const distanceMedian = sessionDistanceSum.slice().sort()[Math.floor(sessionDistanceSum.length / 2)]
-    //console.debug(distanceMedian)
-    //console.debug(distanceMean, '=> ', sessionDistanceSum.join(','), ' => ', distanceMedian)
-
-    // console.debug(distance.map(r => r.join(',')).join('\n'))
-    // console.debug(sessionDistanceSum)
-    // console.debug(getZScore(sessionDistanceSum))
-
-    //const minMaxScore = getMinMaxScore(sessionDistanceSum)
-
-
     const result = {}
     Object.keys(encoded).forEach((key, i) => {
         const v = sessionDistanceSum[i]
-        result[key] = v >= distanceMedian * f ? 1 : 0
+        result[key] = v
     })
     return result
-
 }
 
 export function encodeSessions(df, allowedEvents = new Set(['ScreenClick', 'WidgetClick', 'ScreenLoaded', 'WidgetChange', 'OverlayLoaded'])) {

@@ -753,13 +753,14 @@ input:focus{
 	list-style: none;
 	cursor: pointer;
 	color:#333;
-	padding: 3px 10px;
+	padding: 5px 10px;
 	cursor: pointer;
 	white-space: nowrap;
+	font-size: 16px;
 }
 
 .MatcDropDownButton li:HOVER{
-	background: #cecece;
+	background: #d6e5f8;
 }
 
 .MatcDropDownPopUp li.MatcDropDownButtonSelected{

@@ -70,6 +70,7 @@ export default {
           viewOptions:{
             showTasksSucess: false,
             showTaskDetails: false,
+            showVideo: false,
             showId: false
           }
         }
@@ -84,8 +85,8 @@ export default {
       tableOptions () {
         return [
             {value: 'showTasksSucess', label: this.$t('survey.taskSuccess'), check:true, selected: this.viewOptions.showTasksSucess},
-            //{value: 'showTaskDetails', label: this.$t('survey.taskDetails'), check:true, selected: this.viewOptions.showTaskDetails},
-            {value: 'showId', label:this.$t('survey.ids'), check:true},
+            {value: 'showVideo', label: this.$t('survey.showVideo'), check:true, selected: this.viewOptions.showVideo},
+            //{value: 'showId', label:this.$t('survey.ids'), check:true},
             //{css:"MatcDropDownButtonLine"},
             //{value: 'fullscreen', label: this.$t('survey.fullscreen'), event:'fullscreen', icon:' mdi mdi-chart-bar'},
             {css:"MatcDropDownButtonLine"},

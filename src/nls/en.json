@@ -302,6 +302,7 @@
         }
     },
     "survey": {
+        "video": "Video",
         "header": "Survey Answers",
         "download": "Download CSV",
         "options": "Options",
@@ -309,6 +310,7 @@
         "id": "id",
         "tasks": "Tasks",
         "taskSuccess": "Show Tasks",
+        "showVideo": "Show Video",
         "taskDetails": "Task Details",
         "taskDuration": "Tasks Duration",
         "taskInteractions": "Tasks Interactions",
@@ -348,6 +350,7 @@
             "viewBoxPlot": "BoxPlot",
             "viewOutlier": "Outlier",
             "viewDetails": "Details",
+            "cluster-vars": "Options",
             "options": "Options",
             "no-data": "No data",
             "play": "To replay the session recording press ",
@@ -360,16 +363,10 @@
                 "screenUnique": "Unique Screens",
                 "screenLoads": "Visited Screen",
                 "errors": "Validation Errors",
-                "tasks": "Successful Tasks"
+                "tasks": "Successful Tasks",
+                "weirdness": "Navigation"
             },
-            "hint": "Select a dot to replay the screen recording.",
-            "axis": {
-                "duration": "Duration",
-                "interactions": "Interactions",
-                "screens": "Screen Views",
-                "errors": "Validation Errors",
-                "tasks": "Successful Tasks"
-            }
+            "hint": "Select a dot to replay the screen recording."
         },
         "header": {
             "user": "Tests",

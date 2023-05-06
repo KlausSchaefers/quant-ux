@@ -119,38 +119,37 @@ const events = [
     }
 ]
 
-test('Test Outlier.getLevensteinWeirdness() > ', async () => {
+test('Test Outlier.getEditDistanceWeirdness() > ', async () => {
     const df = new DataFrame(events)
-    const scores = outlier.getLevensteinWeirdness(df)
+    const scores = outlier.getEditDistanceWeirdness(df)
     expect(Object.values(scores).length).toBe(3)
     expect(scores['1'] < scores['2']).toBe(true)
     expect(scores['3'] < scores['2']).toBe(true)
 })
 
-test('Test Outlier.getLevensteinWeirdness() 2> ', async () => {
+test('Test Outlier.getEditDistanceWeirdness() 2> ', async () => {
     const df = new DataFrame(outlierPattern)
-    const scores = outlier.getLevensteinWeirdness(df)
+    const scores = outlier.getEditDistanceWeirdness(df)
     expect(Object.values(scores).length).toBe(8)
 })
 
-test('Test Outlier.getGraphSessionScores() > ', async () => {
-    const df = new DataFrame(events)
-    const scores = outlier.getGraphSessionScores(df)
-    expect(Object.values(scores).length).toBe(3)
-    expect(scores['1'] > scores['2']).toBe(true)
-    expect(scores['3'] > scores['2']).toBe(true)
+
+test('Test Outlier.getEditDistanceSessionScores()', async () => {
+    const df = new DataFrame(outlierPattern)
+    const scores = outlier.getEditDistanceSessionScores(df)
+    expect(Object.values(scores).length).toBe(8)
+    expect(scores.S1682030162151_6362).toBe(72)
 })
 
 
+test('Test Outlier.editDistance() > ', async () => {
 
-
-test('Test Outlier.getGraphWeirdness() > ', async () => {
-    const df = new DataFrame(events)
-    const scores = outlier.getGraphWeirdness(df)
-    expect(Object.values(scores).length).toBe(3)
-    expect(scores['1'] < scores['2']).toBe(true)
-    expect(scores['3'] < scores['2']).toBe(true)
+    expect(outlier.editDistance([1,2,3,4],[1,2,3,4])).toBe(0)
+    expect(outlier.editDistance([1,2,3,4],[1,2,3,5])).toBe(1)
+    expect(outlier.editDistance([1,2,3,4],[1,2,3,4,5])).toBe(1)
+    expect(outlier.editDistance([1,2,3,4,3],[1,3,4,5,3])).toBe(2)
 })
+
 
 test('Test Outlier.editDistance() > ', async () => {
 
@@ -169,3 +168,74 @@ test('Test Outlier.encodeSessions() > ', async () => {
     expect(encoded['2'].join(',')).toBe('1,3,4,5,3')
     expect(encoded['3'].join(',')).toBe('1,2,3,4,3')
 })
+
+
+
+test('Test Outlier.getGraphSessionScores() > ', async () => {
+    const df = new DataFrame(events)
+    const scores = outlier.getGraphSessionScores(df)
+    expect(Object.values(scores).length).toBe(3)
+    expect(scores['1'] > scores['2']).toBe(true)
+    expect(scores['3'] > scores['2']).toBe(true)
+})
+
+
+test('Test Outlier.getGraphWeirdness() > Simple', async () => {
+    const df = new DataFrame(events)
+    const scores = outlier.getGraphWeirdness(df)
+    expect(Object.values(scores).length).toBe(3)
+    expect(scores['1'] < scores['2']).toBe(true)
+    expect(scores['3'] < scores['2']).toBe(true)
+})
+
+test('Test Outlier.getGraphWeirdness() >  Same', async () => {
+
+    let sameSessions = []
+    for (let i=0; i < 5; i++) {
+        for (let j=0; j < 10; j++) {
+            sameSessions.push({
+                time: j,
+                session: i,
+                screen: 's1',
+                widget: 'w'+j,
+                type: 'WidgetClick'
+            })
+        }
+    }
+    const df = new DataFrame(sameSessions)
+    const scores = outlier.getGraphWeirdness(df)
+    expect(Object.values(scores).length).toBe(5)
+    expect(Object.values(scores).filter(score => score === 1).length).toBe(0)
+})
+
+test('Test Outlier.getOutlierByQuantile() > ', async () => {
+
+    let result = outlier.getOutlierByQuantile({a: 10, b: 10, c:10}, 0.1);
+    expect(Object.values(result).length).toBe(3)
+    expect(Object.values(result).filter(score => score === 1).length).toBe(0)
+ 
+    result = outlier.getOutlierByQuantile({a: 10, b: 11, c:10}, 0.1);
+    expect(Object.values(result).length).toBe(3)
+    expect(Object.values(result).filter(score => score === 1).length).toBe(0)
+
+    // here the value is too high for our real world example
+    // we would set much lower quantile values
+    result = outlier.getOutlierByQuantile({a: 10, b: 11, c:10}, 0.6);
+    expect(result.a).toBe(1)
+    expect(result.b).toBe(0)
+    expect(result.c).toBe(1)
+   
+
+    result = outlier.getOutlierByQuantile({a: 10, b: 11, c:10,d: 10, e: 12, f:10, h:9, j: 2}, 0.1);
+    expect(result.j).toBe(1)
+    expect(Object.values(result).filter(score => score === 1).length).toBe(1)
+    
+
+    result = outlier.getOutlierByQuantile({a: 10, b: 11, c:10,d: 10, e: 12, f:10, h:9, j: 8}, 0.1);
+    expect(result.j).toBe(1)
+    expect(Object.values(result).filter(score => score === 1).length).toBe(1)
+
+})
+
+
+

@@ -46,6 +46,14 @@
                                 {{value.s.screenUnique}} / {{value.s.screenLoads}}
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                {{getNLS("analytics.distribution.details.weirdness")}} :
+                            </td>
+                            <td>
+                                {{value.s.weirdness}}
+                            </td>
+                        </tr>
                        
                     </table>
 

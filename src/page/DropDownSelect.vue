@@ -51,6 +51,8 @@ import touch from "dojo/touch";
                     check.on('change', lang.hitch(this, "onSelect", o))
                     this._lis[o.value] = li;
 
+                    this.selected[o.value] = o.selected
+
                 } else if (o.label || o.icon) {
                     this.hasObjects = true;
                     if (o.icon) {

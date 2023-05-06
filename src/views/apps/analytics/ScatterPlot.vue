@@ -73,7 +73,7 @@ import * as Outlier from 'dash/Outlier'
 export default {
     name: 'ScatterPlot',
     mixins: [_Color, Util],
-    props: ['test', 'app', 'events', 'annotation', 'pub', 'mode', 'yAxis', 'xAxis'],
+    props: ['test', 'app', 'events', 'annotation', 'pub', 'mode', 'yAxis', 'xAxis', 'clusterVars'],
     data: function () {
         return {
             tasks: [],
@@ -132,9 +132,11 @@ export default {
             this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);  
             this.initTasks(this.tasks);       
 
-            this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)      
-            const data = this.analytics.convertSessionDetails(this.sessionDetails)
-            this.clusters = Outlier.cluster(data)
+            this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)     
+            this.sessionDetails = Outlier.addWeirdness(this.sessionDetails, this.df) 
+            let data = this.analytics.convertSessionDetails(this.sessionDetails)
+        
+            this.clusters = Outlier.cluster(data, this.clusterVars)
              
             this.render();
         },
@@ -204,8 +206,8 @@ export default {
 
             delete this._selectedScatterPoint;           
          
-            this.xLabel.innerHTML = this.getNLS("analytics.distribution.axis." + this.xAxis);
-            this.yLabel.innerHTML = this.getNLS("analytics.distribution.axis." + this.yAxis);
+            this.xLabel.innerHTML = this.getNLS("analytics.distribution.details." + this.xAxis);
+            this.yLabel.innerHTML = this.getNLS("analytics.distribution.details." + this.yAxis);
             this.minLabel.innerHTML = "0 s"
             this.yMinLabel.innerHTML = "0"    
             this.render_Scatter_Points(this.xAxis, this.yAxis)            
@@ -299,7 +301,6 @@ export default {
             } else {
                 cls += 'top '
             }
-
             this.hoverDetails = {
                 x: posX,
                 y: posY,
@@ -382,6 +383,10 @@ export default {
         xAxis (v) {
             this.xAxis = v
             this.render()
+        },
+        clusterVars (v) {
+            this.clusterVars = v
+            this.setValue(this.test, this.app, this.events, this.annotation)
         }
     },
     mounted() {        

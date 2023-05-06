@@ -4,8 +4,9 @@
        <table class="table" v-if="table.rows.length > 0 && table.cols.length > 0">
           <thead>
             <tr>
-              <th class="MatcSurveySectionTableNumber">
+              <th class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">
                 #
+                
               </th>
               <th v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
                 {{$t('survey.id')}}
@@ -21,11 +22,14 @@
               <th v-if="hasTasks" class="MatcSurveySectionTableBorderLeft">
                 {{$t('survey.tasks')}}
               </th>
+              <th  class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">
+                {{$t('survey.video')}}
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(row, r) in table.rows" :key="r">
-              <td class="MatcSurveySectionTableNumber">
+              <td class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">
                 {{r+1}}
               </td>
               <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
@@ -48,6 +52,12 @@
                     </span>
                   </span>
               </td>
+
+              <td class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">
+                <a :href="getVideoURL(table.ids[r])" class="button is-primary" target="_QUXvideo">
+                  <span class="mdi mdi-play"></span>
+                </a>
+              </td>
             </tr>
             <tr class="MatcSurveySectionTableSummary">
               <td class="MatcSurveySectionTableNumber">
@@ -59,6 +69,8 @@
                 {{value}}
               </td>
               <td v-if="hasTasks" class="MatcSurveySectionTableBorderLeft">
+              </td>
+              <td  class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">
               </td>
             </tr>
           </tbody>
@@ -86,6 +98,9 @@ export default {
     
     },
     computed: {
+      hasVideo () {
+        return this.viewOptions.showVideo
+      },
       hasID () {
         return this.viewOptions.showId
       },

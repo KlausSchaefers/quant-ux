@@ -3,9 +3,11 @@
  * Original author: Lukasz Krawczyk <contact@lukaszkrawczyk.eu>, 
  * copyright MIT
  */
+import * as distance from './Distance'
+
 export default class DBScan {
 
-    constructor(epsilon = 1, minPts = 2, distanceFunction = this.l2) {
+    constructor(epsilon = 1, minPts = 2, distanceFunction = distance.l2) {
         this.dataset = [];
         this.epsilon = epsilon;
         this.minPts = minPts;
@@ -93,15 +95,6 @@ export default class DBScan {
             }
         }
         return a;
-    }
-
-    l2(p, q) {
-        let sum = 0;
-        let i = Math.min(p.length, q.length);
-        while (i--) {
-            sum += (p[i] - q[i]) * (p[i] - q[i]);
-        }
-        return Math.sqrt(sum);
     }
 
 }

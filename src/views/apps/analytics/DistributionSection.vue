@@ -28,6 +28,14 @@
             @change="setViewMode"
             :options="viewOptions"         
           /> -->
+
+          <DropDownSelect
+            v-if="hasConfig"
+            ref="dropDown"
+            :options="clusterOptions" 
+            :l="$t('analytics.distribution.cluster-vars')" 
+            @select="onChangeCluster" 
+           />
         
     
         </div>
@@ -43,6 +51,7 @@
                   :xAxis="xAxis"
                   :app="app"
                   :pub="pub"
+                  :clusterVars="clusterVars"
                   :events="events"
                   :annotation="annotation"
                   :test="test"/>
@@ -82,6 +91,7 @@
   <script>
   import Logger from 'common/Logger'
   //import DropDownButton from 'page/DropDownButton'
+  import DropDownSelect from 'page/DropDownSelect'
   import HelpButton from "help/HelpButton";
   import ScatterPlot from './ScatterPlot'
   import DistributionTable from './DistributionTable.vue'
@@ -95,20 +105,14 @@
             xAxis: 'duration',
             yAxis: 'interactions',
             hasOutlier: false,
+            hasConfig: false,
             isLoaded: false,
             scatterMode: 'duration,interactions',
-            scatterOptions:[
-              {value:'duration,interactions', label: this.$t('analytics.distribution.scatterModeInteractionXDuration')},
-              {value:'screens,interactions', label: this.$t('analytics.distribution.scatterModeScreensXDuration')},
-              // {value:'duration,screens', label: this.$t('analytics.distribution.scatterModeDurationXScreen')},
-              // {value:'duration,tasks', label: this.$t('analytics.distribution.scatterModeDurationXTasks')},
-              // {value:'errors,screens', label: this.$t('analytics.distribution.scatterModeErrorsXScreen')}
-            ],
             viewMode: 'Scatter',
             viewOptions:[
               {value:'Scatter', label: this.$t('analytics.distribution.viewScatter'), event:'scatter'},
-              {value:'Details', label: this.$t('analytics.distribution.viewDetails'), event:'outlier'}
-              //{value:'Outlier', label: this.$t('analytics.distribution.viewOutlier'), event:'outlier'}
+              {value:'Details', label: this.$t('analytics.distribution.viewDetails'), event:'outlier'},
+              {value:'Outlier', label: this.$t('analytics.distribution.viewOutlier'), event:'outlier'}
             ],
             selection: [],
             cols: [
@@ -118,11 +122,21 @@
               {key: "tasks", label: "Tasks"},
               {key: "outlierRaw", label: "Outlier Raw"},
               {key: "outlierUmap", label: "Outlier Umap"},
-            ]
+            ],
+            clusterOptions: [
+                {value: 'duration', label: this.$t('analytics.distribution.details.duration'), check:true, selected: true},
+                {value: 'interactions', label: this.$t('analytics.distribution.details.interactions'), check:true, selected: true},
+                {value: 'screenLoads', label: this.$t('analytics.distribution.details.screenLoads'), check:true, selected: true},
+                {value: 'tasks', label: this.$t('analytics.distribution.details.tasks'), check:true, selected: true},
+                {value: 'weirdness', label: this.$t('analytics.distribution.details.weirdness'), check:true, selected: false},
+                {value: 'errors', label: this.$t('analytics.distribution.details.errors'), check:true, selected: false},
+            ],
+            clusterVars : ["interactions", "duration", "screenLoads", "tasks"]
           }
       },
       components: {
         'HelpButton': HelpButton,
+        'DropDownSelect': DropDownSelect,
        // 'DropDownButton': DropDownButton,
         'ScatterPlot': ScatterPlot,
         'DistributionTable': DistributionTable,
@@ -132,6 +146,16 @@
        
       },
       methods: {
+        onChangeCluster (d) {
+          let clusterVars = []
+          Object.keys(d).forEach(key => {
+            const selected = d[key]
+            if (selected) {
+              clusterVars.push(key)
+            }
+          })
+          this.clusterVars = clusterVars
+        },
         setScatterMode (m) {
           if (m) {
             let parts = m.split(',')
@@ -150,6 +174,7 @@
       },
       mounted () {
         this.logger = new Logger('DistributionSection')
+        this.hasConfig = location.href.indexOf('localhost') >= 0
         this.isLoaded = true       
       }
   }
