@@ -2,6 +2,8 @@ import Analytics from "./Analytics";
 import { UMAP } from 'umap-js';
 import Prando from 'prando';
 import DBScan from './DBScan';
+import Optics from './Optics';
+import * as Distance from './Distance';
 import Logger from '../core/Logger'
 
 
@@ -179,7 +181,7 @@ export function getRankScore(matrix) {
 
 
 
-export function getPairwiseDistance(matrix, distanceFunction = l2) {
+export function getPairwiseDistance(matrix, distanceFunction = Distance.l2) {
     const result = []
     const length = matrix.length;
     for (let row = 0; row < length; row++) {
@@ -202,16 +204,16 @@ export function getPairwiseDistance(matrix, distanceFunction = l2) {
     return result
 }
 
-export function l2(a, b) {
-    const length = a.length;
-    let d = 0;
-    for (let i = 0; i < length; i++) {
-        const x1i = a[i];
-        const x2i = b[i];
-        d += (x1i - x2i) * (x1i - x2i);
-    }
-    return Math.sqrt(d);
-}
+// export function l2(a, b) {
+//     const length = a.length;
+//     let d = 0;
+//     for (let i = 0; i < length; i++) {
+//         const x1i = a[i];
+//         const x2i = b[i];
+//         d += (x1i - x2i) * (x1i - x2i);
+//     }
+//     return Math.sqrt(d);
+// }
 
 // export function tsne(distance, perplexity = 30, epsilon =10 ) {
 
@@ -298,9 +300,22 @@ export function getClusterMinDistance(distances, percentile = 0.2) {
 }
 
 export function dbscan(matrix, epsilon = 1, minPts = 2) {
+    Logger.log(1, 'Outlier.dbscan() > ',[epsilon, minPts])
     const dbscan = new DBScan(epsilon, minPts)
     const clusters = dbscan.run(matrix)
-    const result = {}
+    return flattenClusters(matrix, clusters)
+}
+
+export function optics(matrix, epsilon = 1, minPts = 2) {
+    Logger.log(1, 'Outlier.optics() > ',[epsilon, minPts])
+    const optics = new Optics(epsilon, minPts)
+    const clusters = optics.run(matrix)
+    return flattenClusters(matrix, clusters)
+}
+
+
+export function flattenClusters(matrix, clusters){
+    const result = []
     matrix.forEach((row, i) => {
         result[i] = -1
     })

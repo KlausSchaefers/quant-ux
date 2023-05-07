@@ -1,4 +1,5 @@
 import * as outlier from '../../src/dash/Outlier'
+import * as Distance from '../../src/dash/Distance'
 import DataFrame from '../../src/common/DataFrame'
 import tests from './data/outlierTest.json'
 import events from './data/outlierEvents.json'
@@ -14,13 +15,13 @@ test('Test Outlier.getBaseData() > ', async () => {
 
 test('Test Outlier.l2() > ', async () => {
 
-    let d = outlier.l2([1,1], [1,1])
+    let d = Distance.l2([1,1], [1,1])
     expect(d).toBe(0)
 
-    d = outlier.l2([0,0], [1,1])
+    d = Distance.l2([0,0], [1,1])
     expect(d).toBe(Math.sqrt(2))
 
-    d = outlier.l2([0,0], [3,3])
+    d = Distance.l2([0,0], [3,3])
     expect(d).toBe(Math.sqrt(18))
 })
 
