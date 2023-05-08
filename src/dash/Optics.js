@@ -1,5 +1,6 @@
+// based on https://en.wikipedia.org/wiki/OPTICS_algorithm
 import * as Distance from './Distance'
-import Heap from './Heap'
+import PriorityQueue from './PriorityQueue'
 
 export default class OPTICS {
    
@@ -7,16 +8,12 @@ export default class OPTICS {
         this.epsilon = epsilon;
         this.minPts = minPts;
         this.distancefunction = distanceFunction;
-       
-        this._rows = []
         return ;
     }
 
     run(matrix) {
         this.init(matrix)
-   
         let cluster_index = 0;
-    
         this._rows.forEach(p => {
             if (!p.processed) {
 
@@ -28,13 +25,16 @@ export default class OPTICS {
                 this._orderedlist.push(p)
 
                 if (this.coreDistance(p) != undefined) {
-                    const seeds = new Heap(d => d.reachabilityDistance, "min")
-                    this.updateQueue(p, seeds)
-                    this.expandCluster(seeds, this._clusters[cluster_index])
+                    const priorityQueue = new PriorityQueue("min")
+                    this.updateQueue(p, priorityQueue)
+                    this.expandCluster(priorityQueue, this._clusters[cluster_index])
                 }
             }
         })
-        
+        return this.filterOutliers()
+    }
+
+    filterOutliers () {
         return this._clusters.filter(cluster => {
             return cluster.length >= this.minPts
         })
@@ -48,18 +48,43 @@ export default class OPTICS {
         })
     }
     
-    getNeighbors(p) {
+    getNeighborsUnsorted(p, epsilon = this.epsilon) {
         if (p.neighbors) {
             return p.neighbors
         } 
         const neighbors = [];
         this._rows.forEach(q => {
             if (q.index !== p.index){
-                if (this.distancefunction(p.value, q.value) < this.epsilon) {
+                let distance = this.distancefunction(p.value, q.value)
+                if (distance < epsilon) {
                     neighbors.push(q)
                 }
             }
         })
+        return neighbors;
+    }
+
+    getNeighbors(p, epsilon = this.epsilon) {
+        if (p.neighbors) {
+            return p.neighbors
+        } 
+        const temp = [];
+        this._rows.forEach(q => {
+            if (q.index !== p.index){
+                let distance = this.distancefunction(p.value, q.value)
+                if (distance < epsilon) {
+                    temp.push({
+                        row: q,
+                        distance: distance
+                    })
+                }
+            }
+        })
+        temp.sort((a, b) => {
+            return a.distance - b.distance
+        })
+        const neighbors = temp.map(t => t.row)
+        p.neighbors = neighbors
         return neighbors;
     }
 
@@ -69,8 +94,19 @@ export default class OPTICS {
         }
         return this.distancefunction(p.value, p.neighbors[this.minPts].value)
     }
+
+    coreDistanceDynamic(p) {
+        const l = this.epsilon;
+        for (let coreDistCand = 0; coreDistCand < l; coreDistCand++) {
+            const neighbors = this.getNeighbors(p, coreDistCand);
+            if (neighbors.length >= this.minPts) {
+                return coreDistCand
+            }
+        }
+        return
+    }
     
-    updateQueue(p, seeds) {
+    updateQueue(p, priorityQueue) {
 
         const coreDistance = this.coreDistance(p)
         const neighbors = this.getNeighbors(p)
@@ -78,31 +114,31 @@ export default class OPTICS {
         for (const q of neighbors) {
             if (!q.processed) {
                 const new_reachabilityDistance = Math.max(coreDistance, this.distancefunction(p.value, q.value))
-                if (seeds.contains(q)) {
+                if (priorityQueue.contains(q)) {
                     q.reachabilityDistance = new_reachabilityDistance
-                    seeds.push(q)
+                    priorityQueue.push(q, q.reachabilityDistance)
                 } else {
                     if (new_reachabilityDistance < q.reachabilityDistance) {
-                        // add new diatance and sort heap
+                        // add new diatance and re-sort queue
                         q.reachabilityDistance = new_reachabilityDistance
-                        seeds = Heap.heapify(seeds.getData(), d => d.reachabilityDistance, "min")
+                        priorityQueue = PriorityQueue.heapify(priorityQueue.getElements(), priorityQueue.getValues(), "min")
                     }
                 }
             }
         }
     }
     
-    expandCluster(seeds, cluster) {
-        const ordered_list = this._orderedlist
-        while (!seeds.empty()) {
-            const q = seeds.pop().element
+    expandCluster(priorityQueue, cluster) {
+        const orderedlist = this._orderedlist
+        while (!priorityQueue.empty()) {
+            const q = priorityQueue.pop().element
             q.neighbors = this.getNeighbors(q)
             q.processed = true
             cluster.push(q.index)
-            ordered_list.push(q)
+            orderedlist.push(q)
             if (this.coreDistance(q) != undefined) {
-                this.updateQueue(q, seeds)
-                this.expandCluster(seeds, cluster)
+                this.updateQueue(q, priorityQueue)
+                this.expandCluster(priorityQueue, cluster)
             }
         }
     }

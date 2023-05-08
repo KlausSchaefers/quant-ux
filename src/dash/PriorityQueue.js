@@ -1,100 +1,107 @@
-/**
- * Based from https://github.com/uhho/density-clustering/blob/master/lib/DBSCAN.js
- * Original author: Lukasz Krawczyk <contact@lukaszkrawczyk.eu>, 
- * copyright MIT
- */
-
 export default class PriorityQueue {
-
-    constructor(elements, priorities, sorting) {
-        this._queue = [];
-        this._priorities = [];
-        this._sorting = 'desc';
-        this.init(elements, priorities, sorting);
+    
+    constructor(comparator = "min") {
+        this.elements = [];
+        if (comparator == "min") {
+            this._comparator = (a, b) => a < b;
+        } else if (comparator == "max") {
+            this._comparator = (a, b) => a > b;
+        } else {
+            this._comparator = comparator;
+        }        
     }
 
-    init(elements, priorities, sorting) {
-        if (elements && priorities) {
-            this._queue = [];
-            this._priorities = [];
-            if (elements.length !== priorities.length) {
-                throw new Error('Arrays must have the same length');
-            }
-            for (let i = 0; i < elements.length; i++) {
-                this.insert(elements[i], priorities[i]);
-            }
+    contains (q) {
+        return this.elements.findIndex(d => d.element == q) < 0
+    }
+  
+    static heapify(elements, values,  comparator = "min") {
+        const heap = new PriorityQueue(comparator);
+        const l = elements.length
+        for (let i = 0; i< l; i++) {
+            const element = elements[i]
+            const value = values[i]
+            heap.push(element, value)
         }
-
-        if (sorting) {
-            this._sorting = sorting;
-        }
+        return heap;
     }
 
-    insert(ele, priority) {
-        let indexToInsert = this._queue.length;
-        let index = indexToInsert;
-
-        while (index--) {
-            const priority2 = this._priorities[index];
-            if (this._sorting === 'desc') {
-                if (priority > priority2) {
-                    indexToInsert = index;
-                }
-            } else {
-                if (priority < priority2) {
-                    indexToInsert = index;
-                }
-            }
-        }
-
-        this.insertAt(ele, priority, indexToInsert);
+    swap(index_a, index_b) {
+        const elements = this.elements;
+        [elements[index_b], elements[index_a]] = [elements[index_a], elements[index_b]];
+        return;
     }
 
-    remove(ele) {
-        let index = this._queue.length;
-        while (index--) {
-            const ele2 = this._queue[index];
-            if (ele === ele2) {
-                this._queue.splice(index, 1);
-                this._priorities.splice(index, 1);
+    heapifyUp() {
+        const elements = this.elements;
+        let index = elements.length - 1;
+        while (index > 0) {
+            const parentIndex = Math.floor((index - 1) / 2);
+            if (!this._comparator(this.elements[index].value, this.elements[parentIndex].value)) {
                 break;
+            } else {
+                this.swap(parentIndex, index)
+                index = parentIndex;
             }
         }
     }
 
-    forEach(func) {
-        this._queue.forEach(func);
+    push(element, value) {
+        this.elements.push(new PriorityQueueElement(element, value));
+        this.heapifyUp();
+    }
+
+    heapifyDown(start_index=0) {
+        const elements = this.elements;
+        const comparator = this._comparator;
+        const length = elements.length;
+        let left = 2 * start_index + 1;
+        let right = 2 * start_index + 2;
+        let index = start_index;
+        if (left < length && comparator(elements[left].value, elements[index].value)) {
+            index = left;
+        }
+        if (right < length && comparator(elements[right].value, elements[index].value)) {
+            index = right;
+        }
+        if (index !== start_index) {
+            this.swap(start_index, index);
+            this.heapifyDown(index);
+        }
+    }
+
+    pop() {
+        if (this.elements.length === 0) {
+            return null;
+        } else if (this.elements.length === 1) {
+            return this.elements.pop();
+        }
+        this.swap(0, this.elements.length - 1);
+        const item = this.elements.pop();
+        this.heapifyDown();
+        return item;
     }
 
     getElements() {
-        return this._queue;
+        return this.elements.map(d => d.element)
     }
 
-    getElementPriority(index) {
-        return this._priorities[index];
+    getValues() {
+        return this.elements.map(d => d.value)
     }
 
-    getElementsWithPriorities() {
-        const result = [];
-        const l = this._queue.length;
-        for (let i = 0; i < l; i++) {
-            result.push([this._queue[i], this._priorities[i]]);
-        }
-        return result;
+    length() {
+        return this.elements.length;
     }
 
-    getPriorities() {
-        return this._priorities;
+    empty() {
+        return this.elements.length === 0;
     }
+}
 
-    insertAt(ele, priority, index) {
-        if (this._queue.length === index) {
-            this._queue.push(ele);
-            this._priorities.push(priority);
-        } else {
-            this._queue.splice(index, 0, ele);
-            this._priorities.splice(index, 0, priority);
-        }
+class PriorityQueueElement {
+    constructor (element, value) {
+        this.element = element
+        this.value = value
     }
-
 }
