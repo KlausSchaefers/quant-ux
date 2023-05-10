@@ -119,17 +119,17 @@ const events = [
     }
 ]
 
-test('Test Outlier.getEditDistanceWeirdness() > ', async () => {
+test('Test Outlier.getEditDistanceOutliers() > ', async () => {
     const df = new DataFrame(events)
-    const scores = outlier.getEditDistanceWeirdness(df)
+    const scores = outlier.getEditDistanceOutliers(df)
     expect(Object.values(scores).length).toBe(3)
     expect(scores['1'] < scores['2']).toBe(true)
     expect(scores['3'] < scores['2']).toBe(true)
 })
 
-test('Test Outlier.getEditDistanceWeirdness() 2> ', async () => {
+test('Test Outlier.getEditDistanceOutliers() 2> ', async () => {
     const df = new DataFrame(outlierPattern)
-    const scores = outlier.getEditDistanceWeirdness(df)
+    const scores = outlier.getEditDistanceOutliers(df)
     expect(Object.values(scores).length).toBe(8)
 })
 
@@ -170,43 +170,6 @@ test('Test Outlier.encodeSessions() > ', async () => {
 })
 
 
-
-test('Test Outlier.getGraphSessionScores() > ', async () => {
-    const df = new DataFrame(events)
-    const scores = outlier.getGraphSessionScores(df)
-    expect(Object.values(scores).length).toBe(3)
-    expect(scores['1'] > scores['2']).toBe(true)
-    expect(scores['3'] > scores['2']).toBe(true)
-})
-
-
-test('Test Outlier.getGraphWeirdness() > Simple', async () => {
-    const df = new DataFrame(events)
-    const scores = outlier.getGraphWeirdness(df)
-    expect(Object.values(scores).length).toBe(3)
-    expect(scores['1'] < scores['2']).toBe(true)
-    expect(scores['3'] < scores['2']).toBe(true)
-})
-
-test('Test Outlier.getGraphWeirdness() >  Same', async () => {
-
-    let sameSessions = []
-    for (let i=0; i < 5; i++) {
-        for (let j=0; j < 10; j++) {
-            sameSessions.push({
-                time: j,
-                session: i,
-                screen: 's1',
-                widget: 'w'+j,
-                type: 'WidgetClick'
-            })
-        }
-    }
-    const df = new DataFrame(sameSessions)
-    const scores = outlier.getGraphWeirdness(df)
-    expect(Object.values(scores).length).toBe(5)
-    expect(Object.values(scores).filter(score => score === 1).length).toBe(0)
-})
 
 test('Test Outlier.getOutlierByQuantile() > ', async () => {
 

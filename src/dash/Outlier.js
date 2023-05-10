@@ -6,14 +6,13 @@ import Optics from './Optics';
 import * as Distance from './Distance';
 import Logger from '../core/Logger'
 
-
 export function computeOutliers(df, tasks) {
     const analytics = new Analytics()
     const sessionDetails = analytics.getSessionDetails(df, tasks)
     const data = analytics.convertSessionDetails(sessionDetails)
 
     //const weirdness = getLevensteinWeirdness(df)
-    const weirdness = getGraphWeirdness(df)
+    const weirdness = getGraphOutliers(df)
     data.forEach((session) => {
         session.outlierWeirdness = false
         if (weirdness[session.session]) {
@@ -54,14 +53,25 @@ export function addWeirdness (sessionDetailsDF, eventsDF) {
     return sessionDetailsDF
 }
 
-export function cluster(data, cols = ["interactions", "duration", "screenLoads", "tasks"]) {
+export function cluster(data, cols = ["interactions", "duration", "screenLoads", "tasks"], normalize='zScore', method='dbscan') {
     Logger.log(-1, 'Outlier.cluster() > ',cols)
-    let matrix = getMatrix(data, cols) //,  // ...this.tasks.map(t => t.id)
-    matrix = getZScore(matrix)
+    let matrix = getMatrix(data, cols)
+    if (normalize ==='zScore') {
+        matrix = getZScore(matrix)
+    } else {
+        matrix = getMinMaxScore(matrix)
+    }
+
     const distance = getPairwiseDistance(matrix)
     const minDistance = getClusterMinDistance(distance, 0.2)
     const minNeighbour = getMinNeighbour(data)
-    return dbscan(matrix, minDistance, minNeighbour)
+
+    if (method === 'dbscan') {
+        return dbscan(matrix, minDistance, minNeighbour)
+    } else {
+        return optics(matrix, minDistance, minNeighbour)
+    }
+
 }
 
 export function getMinNeighbour() {
@@ -202,31 +212,6 @@ export function getPairwiseDistance(matrix, distanceFunction = Distance.l2) {
     return result
 }
 
-// export function l2(a, b) {
-//     const length = a.length;
-//     let d = 0;
-//     for (let i = 0; i < length; i++) {
-//         const x1i = a[i];
-//         const x2i = b[i];
-//         d += (x1i - x2i) * (x1i - x2i);
-//     }
-//     return Math.sqrt(d);
-// }
-
-// export function tsne(distance, perplexity = 30, epsilon =10 ) {
-
-//     const tsne = new tSNE({
-//         //random: getRandom(distance),
-//         epsilon: perplexity,
-//         perplexity: epsilon,
-//         dim: 2
-//     });
-//     tsne.initDataDist(distance);
-//     for (var k = 0; k < 500; k++) {
-//         tsne.step(); 
-//     }
-//     return tsne.getSolution();
-// }
 
 export function umap(distance, neighborsFactor = 0.9, minDist = 0.1) {
     const umap = new UMAP({
@@ -324,39 +309,36 @@ export function flattenClusters(matrix, clusters){
 }
 
 
-export function getGraphWeirdness(df) {
-    // here the idea is that outliers will have low scores, because the
-    // walk on uncommon paths
-    const scores = getGraphSessionScores(df)
-    // Check Inter Quartile Range (IQR) > https://www.analyticsvidhya.com/blog/2022/10/outliers-detection-using-iqr-z-score-lof-and-dbscan/
- 
-    return getOutlierByQuantile(scores)
+export function getGraphOutliers(df, f = .5, normalize = true) {
+    const scores = getGraphSessionScores(df, normalize)
+    // we assume here a low f score, because the values are normalized
+    return getIRQOutlier(scores, f)
 }
 
-export function getOutlierByQuantile(scores, q = 0.1){
-    const q1 = getQuantile(Object.values(scores), q)
+/**
+ * https://www.analyticsvidhya.com/blog/2022/10/outliers-detection-using-iqr-z-score-lof-and-dbscan/
+ */
+export function getIRQOutlier (scores, f = 1.5) {
+    const values = Object.values(scores)
+    const q1 = getQuantile(values, 0.25)
+    const q3 = getQuantile(values, 0.75)
+    const irq = q3-q1
+    const min = q1 - (f * irq)
+    const max = q3 + (f * irq)
+
     const result = {}
     Object.keys(scores).forEach((key) => {
         const v = scores[key]
-        result[key] = v < q1 ? 1 : 0
+        result[key] = (v <= min || v >= max) ? 1 : 0
     })
-    Logger.log(2, 'Outlier.getOutlierByQuantile() > ', q1)
+    Logger.log(-2, 'Outlier.getOutlierByQuantile() > ' , values)
+    Logger.log(-2, 'Outlier.getOutlierByQuantile() > ' + f, [q1, q3, min, max])
     return result
 }
 
-export function getQuantile(values, q = 0.5) {
-    const sorted = values.sort((a,b) => a - b)
-    const pos = (sorted.length - 1) * q;
-    const base = Math.floor(pos);
-    const rest = pos - base;
-    if (sorted[base + 1] !== undefined) {
-        return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
-    } else {
-        return sorted[base];
-    }
-}
 
-export function getGraphSessionScores(df) {
+
+export function getGraphSessionScores(df, normalize = true) {
     const encoded = encodeSessions(df)
     const counts = new CountDoubkeKeySet()
     Object.values(encoded).forEach(session => {
@@ -368,6 +350,7 @@ export function getGraphSessionScores(df) {
     })
   
     const scores = {}
+ 
     Object.keys(encoded).forEach(sessionId => {
         const session = encoded[sessionId]
         let sum = 0
@@ -377,24 +360,48 @@ export function getGraphSessionScores(df) {
             sum += counts.get(current, next)
         }
         scores[sessionId] = sum
+
     })
+
+    return normalizeGraphScores(scores, normalize)
+}
+
+export function normalizeGraphScores (scores, normalize=true) {
+    let maxSum = Number.MIN_VALUE
+    let minSum = Number.MAX_VALUE
+
+    for (let key in scores) {
+        const value = scores[key]
+        maxSum = Math.max(maxSum, value)
+        minSum = Math.min(minSum, value)
+    }
+
+    const dif = maxSum - minSum
+
+    if (normalize) {
+        for (let key in scores) {
+            const x = scores[key]
+            // scale between 0 & 1
+            const scalled = (x - minSum )/ dif
+            // flip because the lower values are the most weird ones
+            const flipped = Math.max(0, -1 *(scalled-1))
+            scores[key] = flipped
+        }
+    } else {
+        for (let key in scores) {
+            const x = scores[key]
+            const flipped = Math.max(0, -1 *(x - maxSum))
+            scores[key] = flipped
+        }
+    }
+    Logger.log(-2, 'Outlier.normalizeGraphScores() > ' + normalize, [minSum, maxSum] )
     return scores
 }
 
 
-
-
-export function getEditDistanceWeirdness(df, f = 1.5) {
+export function getEditDistanceOutliers(df, f = 1.5) {
     const scores = getEditDistanceSessionScores(df)
-    // Check Inter Quartile Range (IQR) > https://www.analyticsvidhya.com/blog/2022/10/outliers-detection-using-iqr-z-score-lof-and-dbscan/
-   const q2 = getQuantile(Object.values(scores))
-    //console.debug(q2)
-    const result = {}
-    Object.keys(scores).forEach((key) => {
-        const v = scores[key]
-        result[key] = v >= q2 * f ? 1 : 0
-    })
-    return result
+    return getIRQOutlier(scores, f)
 }
 
 export function getEditDistanceSessionScores (df) {
@@ -499,6 +506,41 @@ class CountDoubkeKeySet {
             return this.value[a][b]
         }
         return 0
+    }
+}
+
+
+export function normCDF (x, mean, std) {
+   
+    x = (x - mean) / std
+    let t = 1 / (1 + .2315419 * Math.abs(x))
+    let d =.3989423 * Math.exp( -x * x / 2)
+    let prob = d * t * (.3193815 + t * ( -.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))))
+    if( x > 0 ) prob = 1 - prob
+    return prob
+
+ }
+
+ export function getOutlierByQuantile(scores, q = 0.1){
+    const q1 = getQuantile(Object.values(scores), q)
+    const result = {}
+    Object.keys(scores).forEach((key) => {
+        const v = scores[key]
+        result[key] = v < q1 ? 1 : 0
+    })
+    Logger.log(2, 'Outlier.getOutlierByQuantile() > ', q1)
+    return result
+}
+
+export function getQuantile(values, q = 0.5) {
+    const sorted = values.sort((a,b) => a - b)
+    const pos = (sorted.length - 1) * q;
+    const base = Math.floor(pos);
+    const rest = pos - base;
+    if (sorted[base + 1] !== undefined) {
+        return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+    } else {
+        return sorted[base];
     }
 }
 
