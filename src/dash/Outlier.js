@@ -59,9 +59,7 @@ export function cluster(data, cols = ["interactions", "duration", "screenLoads",
     let matrix = getMatrix(data, cols) //,  // ...this.tasks.map(t => t.id)
     matrix = getZScore(matrix)
     const distance = getPairwiseDistance(matrix)
-    const minDistance = getClusterMinDistance(distance, 0.3)
-    console.debug(minDistance, distance)
-
+    const minDistance = getClusterMinDistance(distance, 0.2)
     const minNeighbour = getMinNeighbour(data)
     return dbscan(matrix, minDistance, minNeighbour)
 }
@@ -284,7 +282,7 @@ export function getMinMaxScore(matrix, f = 1) {
 
 export function getClusterMinDistance(distances, percentile = 0.2) {
     // FIXME: take a look here https://www.datanovia.com/en/lessons/dbscan-density-based-clustering-essentials/
-    Logger.log(-1, 'Outlier.getClusterMinDistance() > ', percentile)
+    Logger.log(1, 'Outlier.getClusterMinDistance() > ', percentile)
     const flat = distances.flatMap(x => x)
     const sorted = flat.sort((a, b) => a - b)
     const max = flat.reduce((a,v) => Math.max(a,v))
@@ -292,11 +290,9 @@ export function getClusterMinDistance(distances, percentile = 0.2) {
     const mean = sum / flat.length
     const q = sorted[Math.floor(sorted.length * percentile)]
 
-
-    console.debug('getClusterMinDistance', flat)
     Logger.log(-1, 'Outlier.getClusterMinDistance() > ',[ max, max * percentile, mean, mean * percentile, q])
     
-    return mean
+    return q
 }
 
 export function dbscan(matrix, epsilon = 1, minPts = 2) {
