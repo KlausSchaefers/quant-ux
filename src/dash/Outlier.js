@@ -328,6 +328,8 @@ export function getGraphWeirdness(df) {
     // here the idea is that outliers will have low scores, because the
     // walk on uncommon paths
     const scores = getGraphSessionScores(df)
+    // Check Inter Quartile Range (IQR) > https://www.analyticsvidhya.com/blog/2022/10/outliers-detection-using-iqr-z-score-lof-and-dbscan/
+ 
     return getOutlierByQuantile(scores)
 }
 
@@ -384,6 +386,7 @@ export function getGraphSessionScores(df) {
 
 export function getEditDistanceWeirdness(df, f = 1.5) {
     const scores = getEditDistanceSessionScores(df)
+    // Check Inter Quartile Range (IQR) > https://www.analyticsvidhya.com/blog/2022/10/outliers-detection-using-iqr-z-score-lof-and-dbscan/
    const q2 = getQuantile(Object.values(scores))
     //console.debug(q2)
     const result = {}
