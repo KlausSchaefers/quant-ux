@@ -121,7 +121,8 @@ const events = [
 
 test('Test Outlier.getEditDistanceOutliers() > ', async () => {
     const df = new DataFrame(events)
-    const scores = outlier.getEditDistanceOutliers(df)
+    const scores = outlier.getEditDistanceOutliers(df, 0.5)
+    console.debug(scores)
     expect(Object.values(scores).length).toBe(3)
     expect(scores['1'] < scores['2']).toBe(true)
     expect(scores['3'] < scores['2']).toBe(true)

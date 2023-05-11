@@ -73,7 +73,7 @@ import * as Outlier from 'dash/Outlier'
 export default {
     name: 'ScatterPlot',
     mixins: [_Color, Util],
-    props: ['test', 'app', 'events', 'annotation', 'pub', 'mode', 'yAxis', 'xAxis', 'clusterVars'],
+    props: ['test', 'app', 'events', 'annotation', 'pub', 'mode', 'yAxis', 'xAxis', 'clusterVars', 'clusterAlgo', 'clusterNorm'],
     data: function () {
         return {
             tasks: [],
@@ -130,42 +130,30 @@ export default {
             this.df.sortBy("time");
      
             this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);  
-            this.initTasks(this.tasks);       
+            // this.initTasks(this.tasks);       
 
             this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)     
             this.sessionDetails = Outlier.addWeirdness(this.sessionDetails, this.df) 
             let data = this.analytics.convertSessionDetails(this.sessionDetails)
         
-            this.clusters = Outlier.cluster(data, this.clusterVars)
+            this.clusters = Outlier.cluster(data, this.clusterVars, this.clusterNorm, this.clusterAlgo)
              
             this.render();
         },
 
-        setClusters2D (sessionSummary) {
-            
-            let matrix = Outlier.getMatrix(sessionSummary.data, ["interactions", "duration"])
-            matrix = Outlier.getZScore(matrix)
-
-            const distance = Outlier.getPairwiseDistance(matrix)
-            const minDistance = Outlier.getClusterMinDistance(distance, 0.5)
-           
-            const clusters = Outlier.cluster(matrix, minDistance, 3)
-            this.clusters = clusters
-        },
-
-        initTasks(tasks) {
-            this.log.log(1, "initTasks", "enter");
-            this.taskColors = {};        
-            for (let i = 0; i < tasks.length; i++) {
-                const task = tasks[i];
-                if (task.flow.length >= 2 ) {
-                    this.selectedTasks[task.id] = false;
-                    const color = this.colors[i % this.colors.length];
-                    this.taskColors[task.id] = color
-                    task.color = color
-                }
-            }
-        },
+        // initTasks(tasks) {
+        //     this.log.log(1, "initTasks", "enter");
+        //     this.taskColors = {};        
+        //     for (let i = 0; i < tasks.length; i++) {
+        //         const task = tasks[i];
+        //         if (task.flow.length >= 2 ) {
+        //             this.selectedTasks[task.id] = false;
+        //             const color = this.colors[i % this.colors.length];
+        //             this.taskColors[task.id] = color
+        //             task.color = color
+        //         }
+        //     }
+        // },
 
         clickTask(task) {
             this.selectTask(task);
@@ -202,7 +190,7 @@ export default {
         },
 
         render_Scatter() {
-            this.log.log(-1, "render_Scatter", "enter", this.mode);
+            this.log.log(1, "render_Scatter", "enter", this.mode);
 
             delete this._selectedScatterPoint;           
          
@@ -215,7 +203,7 @@ export default {
         },
 
         render_Scatter_Points (xAxis, yAxis) {
-            this.log.log(-1, "render_Scatter_Points", "enter > " + xAxis + " X " + yAxis );
+            this.log.log(1, "render_Scatter_Points", "enter > " + xAxis + " X " + yAxis );
 
   
             const sessionSummaryDF = this.sessionDetails
@@ -386,6 +374,14 @@ export default {
         },
         clusterVars (v) {
             this.clusterVars = v
+            this.setValue(this.test, this.app, this.events, this.annotation)
+        },
+        clusterAlgo (v) {
+            this.clusterAlgo = v
+            this.setValue(this.test, this.app, this.events, this.annotation)
+        },
+        clusterNorm (v) {
+            this.clusterNorm = v
             this.setValue(this.test, this.app, this.events, this.annotation)
         }
     },

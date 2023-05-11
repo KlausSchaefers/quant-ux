@@ -11,7 +11,7 @@
             />
           </h2>
         </div>
-        <div class="level-right">
+        <div class="level-right level-options">
 <!--        
           <DropDownButton
             class="MatcButtonTrans MatcDropDownRight"
@@ -29,12 +29,17 @@
             :options="viewOptions"         
           /> -->
 
+          <CheckBox @change="onChangeNorm" :value="false" label="zScore" v-if="hasConfig"/>
+
+          <CheckBox @change="onChangeAlgo" :value="false" label="DBSCAN" v-if="hasConfig"/>
+
           <DropDownSelect
             v-if="hasConfig"
             ref="dropDown"
             :options="clusterOptions" 
             :l="$t('analytics.distribution.cluster-vars')" 
             @select="onChangeCluster" 
+            @algo="onChangeAlgo"
            />
         
     
@@ -52,6 +57,8 @@
                   :app="app"
                   :pub="pub"
                   :clusterVars="clusterVars"
+                  :clusterAlgo="clusterAlgo"
+                  :clusterNorm="clusterNorm"
                   :events="events"
                   :annotation="annotation"
                   :test="test"/>
@@ -91,6 +98,7 @@
   <script>
   import Logger from 'common/Logger'
   //import DropDownButton from 'page/DropDownButton'
+  import CheckBox from 'common/CheckBox'
   import DropDownSelect from 'page/DropDownSelect'
   import HelpButton from "help/HelpButton";
   import ScatterPlot from './ScatterPlot'
@@ -129,8 +137,10 @@
                 {value: 'screenLoads', label: this.$t('analytics.distribution.details.screenLoads'), check:true, selected: true},
                 {value: 'tasks', label: this.$t('analytics.distribution.details.tasks'), check:true, selected: true},
                 {value: 'weirdness', label: this.$t('analytics.distribution.details.weirdness'), check:true, selected: false},
-                {value: 'errors', label: this.$t('analytics.distribution.details.errors'), check:true, selected: false},
+                //{value: 'errors', label: this.$t('analytics.distribution.details.errors'), check:true, selected: false}
             ],
+            clusterAlgo: 'optics', //dbscan
+            clusterNorm: 'minmax', //zScore
             clusterVars : ["interactions", "duration", "screenLoads", "tasks"]
           }
       },
@@ -140,12 +150,19 @@
        // 'DropDownButton': DropDownButton,
         'ScatterPlot': ScatterPlot,
         'DistributionTable': DistributionTable,
+        'CheckBox': CheckBox,
         'OutlierPlot':() => import(/* webpackChunkName: "outlier" */ './OutlierPlot')
       },
       computed: {
        
       },
       methods: {
+        onChangeNorm (d) {
+          this.clusterNorm = d ? 'zScore' : 'minmax'
+        },
+        onChangeAlgo (d) {
+          this.clusterAlgo = d ? 'dbscan' : 'optics'
+        },
         onChangeCluster (d) {
           let clusterVars = []
           Object.keys(d).forEach(key => {

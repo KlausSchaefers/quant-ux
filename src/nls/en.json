@@ -364,7 +364,8 @@
                 "screenLoads": "Visited Screen",
                 "errors": "Validation Errors",
                 "tasks": "Successful Tasks",
-                "weirdness": "Navigation"
+                "weirdness": "Navigation",
+                "dbscan": "DBCAN"
             },
             "hint": "Select a dot to replay the screen recording."
         },

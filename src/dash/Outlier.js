@@ -53,8 +53,13 @@ export function addWeirdness (sessionDetailsDF, eventsDF) {
     return sessionDetailsDF
 }
 
-export function cluster(data, cols = ["interactions", "duration", "screenLoads", "tasks"], normalize='zScore', method='dbscan') {
-    Logger.log(-1, 'Outlier.cluster() > ',cols)
+export function cluster(data, cols = ["interactions", "duration", "screenLoads", "tasks"], normalize='zScore', method='dbscan', clusterSensitivity = 0.2) {
+    Logger.log(-1, 'Outlier.cluster() > ' + method + ' > ' + normalize + ' > ' + clusterSensitivity,cols)
+
+    if (cols.length === 0) {
+       return {}
+    }
+
     let matrix = getMatrix(data, cols)
     if (normalize ==='zScore') {
         matrix = getZScore(matrix)
@@ -63,7 +68,7 @@ export function cluster(data, cols = ["interactions", "duration", "screenLoads",
     }
 
     const distance = getPairwiseDistance(matrix)
-    const minDistance = getClusterMinDistance(distance, 0.2)
+    const minDistance = getClusterMinDistance(distance, clusterSensitivity)
     const minNeighbour = getMinNeighbour(data)
 
     if (method === 'dbscan') {
@@ -275,7 +280,7 @@ export function getClusterMinDistance(distances, percentile = 0.2) {
     const mean = sum / flat.length
     const q = sorted[Math.floor(sorted.length * percentile)]
 
-    Logger.log(-1, 'Outlier.getClusterMinDistance() > ',[ max, max * percentile, mean, mean * percentile, q])
+    Logger.log(1, 'Outlier.getClusterMinDistance() > ',[ max, max * percentile, mean, mean * percentile, q])
     
     return q
 }
@@ -323,16 +328,18 @@ export function getIRQOutlier (scores, f = 1.5) {
     const q1 = getQuantile(values, 0.25)
     const q3 = getQuantile(values, 0.75)
     const irq = q3-q1
+    // FIXME: could we make this adaptive to some range?
     const min = q1 - (f * irq)
     const max = q3 + (f * irq)
+
 
     const result = {}
     Object.keys(scores).forEach((key) => {
         const v = scores[key]
         result[key] = (v <= min || v >= max) ? 1 : 0
     })
-    Logger.log(-2, 'Outlier.getOutlierByQuantile() > ' , values)
-    Logger.log(-2, 'Outlier.getOutlierByQuantile() > ' + f, [q1, q3, min, max])
+    Logger.log(2, 'Outlier.getIRQOutlier() > ' , values)
+    Logger.log(2, 'Outlier.getIRQOutlier() > ' + f, [q1, q3, min, max])
     return result
 }
 
@@ -399,7 +406,7 @@ export function normalizeGraphScores (scores, normalize=true) {
 }
 
 
-export function getEditDistanceOutliers(df, f = 1.5) {
+export function getEditDistanceOutliers(df, f = .5) {
     const scores = getEditDistanceSessionScores(df)
     return getIRQOutlier(scores, f)
 }

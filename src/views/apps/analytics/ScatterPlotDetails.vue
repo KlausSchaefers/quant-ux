@@ -51,7 +51,7 @@
                                 {{getNLS("analytics.distribution.details.weirdness")}} :
                             </td>
                             <td>
-                                {{value.s.weirdness}}
+                                {{Math.round(value.s.weirdness * 100)}}
                             </td>
                         </tr>
                        
