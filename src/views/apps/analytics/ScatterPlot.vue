@@ -69,6 +69,7 @@ import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
 import ScatterPlotDetails from './ScatterPlotDetails'
 import * as Outlier from 'dash/Outlier'
+import PerformanceMonitor from 'core/PerformanceMonitor'
 
 export default {
     name: 'ScatterPlot',
@@ -121,7 +122,7 @@ export default {
         },
 
         setValue(test, app, events, annotations) {
-
+            PerformanceMonitor.start('ScatterPlot.setValue()')
             this.annotations = annotations;
             this.model = app
 
@@ -130,7 +131,7 @@ export default {
             this.df.sortBy("time");
      
             this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);  
-            // this.initTasks(this.tasks);       
+  
 
             this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)     
             this.sessionDetails = Outlier.addWeirdness(this.sessionDetails, this.df) 
@@ -139,21 +140,8 @@ export default {
             this.clusters = Outlier.cluster(data, this.clusterVars, this.clusterNorm, this.clusterAlgo)
              
             this.render();
+            PerformanceMonitor.end('ScatterPlot.setValue()')
         },
-
-        // initTasks(tasks) {
-        //     this.log.log(1, "initTasks", "enter");
-        //     this.taskColors = {};        
-        //     for (let i = 0; i < tasks.length; i++) {
-        //         const task = tasks[i];
-        //         if (task.flow.length >= 2 ) {
-        //             this.selectedTasks[task.id] = false;
-        //             const color = this.colors[i % this.colors.length];
-        //             this.taskColors[task.id] = color
-        //             task.color = color
-        //         }
-        //     }
-        // },
 
         clickTask(task) {
             this.selectTask(task);

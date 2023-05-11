@@ -21,6 +21,39 @@
     },
     components: {},
     methods: {
+
+      highlightSession (sessionID = false) {
+        if (!this.analyticParams.tree) {
+          this.highlightAnalyticLine(sessionID)
+        }
+      },
+
+
+      highlightAnalyticLine(sessionID) {
+        this.logger.log(-1, "highlightAnalyticLine", "entry > ", sessionID);
+          if (this.analyticLines) {
+            for (let id in this.analyticLines) {
+              let line = this.analyticLines[id]
+              if (!sessionID || sessionID === id) {
+                // somebug when tasks are selected
+                line.style('opacity', 1)
+              } else {
+                line.style('opacity', 0)
+              }
+
+              if (this.analyticCircles[id]) {
+                let divs = this.analyticCircles[id]             
+                divs.forEach(div => {
+                  if (!sessionID || sessionID === id) {
+                    div.style.opacity = 1                  
+                  } else {
+                    div.style.opacity = 0
+                  }
+                })   
+              }
+            }
+          }
+      },
     
   
       _render_global_UserJourney(screenEvents, screen, ctx, div) {
@@ -106,7 +139,6 @@
           }
   
           this.drawAnalyticLine(id, line, color, width, this.taskLineOpacity);
-                  this.analyticLines[id] = line
         }
       },
   
@@ -142,9 +174,7 @@
         if (this.analyticParams.task !== false && this.analyticParams.task >= 0) {
           task = this.testSettings.tasks[this.analyticParams.task];
         }
-  
-      
-  
+
         const selectedSessions = this.analyticParams.sessions;
         for (let sessionID in selectedSessions) {
           if (selectedSessions[sessionID] === true) {
@@ -153,7 +183,7 @@
             const outlierScore = outlierScores[sessionID]
            
             if (session) {
-              this._renderUserGraph(session, db, task, matches, outlierScore);
+              this._renderUserGraph(sessionID, session, db, task, matches, outlierScore);
             } else {
               console.debug( "_render_global_UserJourney() > No session for ", sessionID   );
             }
@@ -163,7 +193,7 @@
   
       
   
-      _renderUserGraph(session, db, task, matches, outlierScore) {
+      _renderUserGraph(sessionID, session, db, task, matches, outlierScore) {
     
         const sessionEvents = session.data;
         const line = [];
@@ -225,12 +255,12 @@
             }
         }
   
-       
+        this.analyticCircles[sessionID] = []
         // draw all points
         for (let i = 0; i < line.length; i++) {
           const p = line[i]
           const width = Math.round(40 * (p.duration / maxDuration)) + 25
-          const [div, halo] = this._renderScreenEvent(p.x,p.y, p.type, "",db, p.session, width);
+          const [div, halo, cntr] = this._renderScreenEvent(p.x,p.y, p.type, "",db, p.session, width);
           if (i == line.length -1) {
             css.add(div, "MatcAnalyticCanvasEventSessionEnd");
             div.style.background = this.userJourneyEndColor
@@ -253,6 +283,10 @@
               halo.style.borderColor = this.analyticParams.color;
             }
           }
+          this.analyticCircles[sessionID].push(cntr)
+      
+
+
         }
     
         /**
@@ -274,10 +308,10 @@
         
         if (task) {
           lineOpacity = this.taskLineOpacity * 0.5
-          this.drawStraightAnalyticLine(session.session, line, lineColor, lineWidth, lineOpacity);
-          this.drawStraightAnalyticLine(session.session, matchLines,this.analyticParams.taskColor, 4 ,this.taskLineOpacity);
+          this.drawStraightAnalyticLine(sessionID, line, lineColor, lineWidth, lineOpacity);
+          this.drawStraightAnalyticLine(sessionID, matchLines,this.analyticParams.taskColor, 4 ,this.taskLineOpacity);
         } else {
-          this.drawStraightAnalyticLine(session.session,line, lineColor, lineWidth, lineOpacity);
+          this.drawStraightAnalyticLine(sessionID,line, lineColor, lineWidth, lineOpacity);
         }
   
         return false;
@@ -312,7 +346,7 @@
   
         this.tempOwn(on(div, "click", lang.hitch(this, "onScreenEventClick", screenID)));
   
-        return [div, halo];
+        return [div, halo, cntr];
       },
   
       onScreenEventClick(id, e) {

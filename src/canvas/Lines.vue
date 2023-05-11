@@ -534,7 +534,7 @@ export default {
 					.attr("fill", color)
 					.style("opacity", op);
 
-			var lineGraph = this.svg.append("path")
+			const lineGraph = this.svg.append("path")
 						.attr("d", this.lineFunction(line))
 						.attr("stroke", color)
 						.attr("stroke-width", width )

@@ -11,13 +11,15 @@ export function computeOutliers(df, tasks) {
     const sessionDetails = analytics.getSessionDetails(df, tasks)
     const data = analytics.convertSessionDetails(sessionDetails)
 
-    //const weirdness = getLevensteinWeirdness(df)
-    const weirdness = getGraphOutliers(df)
+    //const weirdness = getEditDistanceSessionScores(df)
+    const weirdness = getGraphSessionScores(df)
+    let weirdnessOutlier = getIRQOutlier(weirdness, 1.5)
     data.forEach((session) => {
         session.outlierWeirdness = false
-        if (weirdness[session.session]) {
+        if (weirdness[session.session] !== undefined) {
             session.weirdness = weirdness[session.session]
-            if (weirdness[session.session] === 1) {
+            if (weirdnessOutlier[session.session] === 1) {
+  
                 session.outlierWeirdness = true
             }
         } else {
@@ -25,17 +27,27 @@ export function computeOutliers(df, tasks) {
         }
     })
 
-    const clusters = cluster(data)
-    data.forEach((session, index) => {
-        if (clusters[index] === -1) {
-            session.outlierCluster = true
-        } else {
-            session.outlierCluster = false
-        }
-    })
+    // const clusters = cluster(data, ['weirdness'], )
+    // data.forEach((session, index) => {
+    //     if (clusters[index] === -1) {
+    //         session.outlierWeirdness = true
+    //     } else {
+    //         session.outlierWeirdness = false
+    //     }
+    // })
 
     return data
 }
+
+export function dictSum(dict) {
+    let sum = 0
+    for (let k in dict) {
+        sum += dict[k]
+    }
+    return sum
+}
+
+
 
 export function addWeirdness (sessionDetailsDF, eventsDF) {
     const weirdness = getGraphSessionScores(eventsDF)
@@ -53,7 +65,7 @@ export function addWeirdness (sessionDetailsDF, eventsDF) {
     return sessionDetailsDF
 }
 
-export function cluster(data, cols = ["interactions", "duration", "screenLoads", "tasks"], normalize='zScore', method='dbscan', clusterSensitivity = 0.2) {
+export function cluster(data, cols = ["interactions", "duration", "screenLoads", "tasks"], normalize='minmax', method='optics', clusterSensitivity = 0.2) {
     Logger.log(-1, 'Outlier.cluster() > ' + method + ' > ' + normalize + ' > ' + clusterSensitivity,cols)
 
     if (cols.length === 0) {

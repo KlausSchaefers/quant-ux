@@ -128,6 +128,7 @@ export default {
       this.moveMode = "classic";
       this.domUtil = new FastDomUtil();
 			this.analyticLines = {}
+      this.analyticCircles = {}
 
       this.logger.log(2, "postCreate", "entry");
       this.initSize();
@@ -278,6 +279,7 @@ export default {
 				this.analyticSVG.selectAll("*").remove();
 			}
 			this.analyticLines = {}
+      this.analyticCircles = {}
 		},
 
     drawLine (id, line){
@@ -297,26 +299,26 @@ export default {
 		},
 
 		drawAnalyticLine(id, line, color, width, opacity) {
-			this.analyticSVG.append("path")
+			const svg = this.analyticSVG.append("path")
 							.attr("d", this.lineFunction(line))
 							.attr("stroke", color)
 							.attr("stroke-width", width )
 							.attr("fill", "none")
 							.style("opacity", opacity);
 
-			this.analyticLines[id] = line
+			this.analyticLines[id] = svg
 		},
 
 
 		drawStraightAnalyticLine(id, line, color, width, opacity) {
-			this.analyticSVG.append("path")
+			const svg = this.analyticSVG.append("path")
 							.attr("d", this.straightLineFunction(line))
 							.attr("stroke", color)
 							.attr("stroke-width", width )
 							.attr("fill", "none")
 							.style("opacity", opacity);
 
-			this.analyticLines[id] = line
+			this.analyticLines[id] = svg
 		},
 
     

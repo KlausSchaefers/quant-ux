@@ -645,7 +645,7 @@ export default {
 			this.sessionOutlierCheckbox.setValue(false);
 			this.sessionOutlierCheckbox.setLabel("Show Outlier");
 			this.sessionOutlierCheckbox.placeAt(row);
-			this.own(on(this.sessionOutlierCheckbox, "change", lang.hitch(this, "showUserJourney")));
+			this.own(on(this.sessionOutlierCheckbox, "change", lang.hitch(this, "showUserJourneyOutlier")));
 
 
 			this.sessionOutlierDiv = this.createSection("Colors");
@@ -655,7 +655,7 @@ export default {
 	
 			this.sessionLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
 			this.sessionLineColor.placeAt(row);
-			this.sessionLineColor.setLabel('Graph Color');
+			this.sessionLineColor.setLabel('Graph');
 			this.sessionLineColor.setModel(this.model);
 			this.sessionLineColor.setValue("#33b5e5");
 			css.add(this.sessionLineColor.domNode ,"MatcToolbarGridFull hidden");
@@ -663,7 +663,7 @@ export default {
 
 			this.sessionTaskLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
 			this.sessionTaskLineColor.placeAt(row);
-			this.sessionTaskLineColor.setLabel('Task Color');
+			this.sessionTaskLineColor.setLabel('Task');
 			this.sessionTaskLineColor.setModel(this.model);
 			this.sessionTaskLineColor.setValue("#92c500");
 			css.add(this.sessionTaskLineColor.domNode ,"MatcToolbarGridFull");
@@ -672,7 +672,7 @@ export default {
 
 			this.sessionOutlierColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
 			this.sessionOutlierColor.placeAt(row);
-			this.sessionOutlierColor.setLabel('Outlier Color');
+			this.sessionOutlierColor.setLabel('Outlier');
 			this.sessionOutlierColor.setModel(this.model);
 			this.sessionOutlierColor.setValue("#ffb61c");
 			css.add(this.sessionOutlierColor.domNode ,"MatcToolbarGridFull");
@@ -723,9 +723,9 @@ export default {
 
 			this.sessionOrderBrn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
 			this.sessionOrderBrn.setOptions([
-				{value:'duration', label:"Sort by Duration"},
+				{value: 'duration', label:"Sort by Duration"},
 				{value: 'events', label:"Sort by Events"},
-				{value:'date', label:"Sort by Date"}
+				{value: 'date', label:"Sort by Date"}
 			]);
 			this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties");
 			this.sessionOrderBrn.updateLabel = true;
@@ -798,12 +798,41 @@ export default {
 
 				this.sessionCheckBoxes[session.session] = chk;
 				this.own(on(chk,"change", lang.hitch(this,"selectSession")));
+				this.own(on(row, "mouseover", lang.hitch(this, "hoverSession", session)))
+				this.own(on(row, "mouseout", lang.hitch(this, "hoverSession", null)))
 
 				var play = db.div("MatcToobarRowRightIcon").span("mdi mdi-play").build(row)
 				this.own(on(play,"click", lang.hitch(this,"showSession", session)));
 			}
 		},
 
+		hoverSession (session) {
+			if(this.canvas){
+				this.canvas.highlightSession(session?.session)
+			}
+		},
+
+		showUserJourneyOutlier (showOutlier) {
+			if (showOutlier) {
+				let outliers = this.canvas.getOutlierScores();
+				for (let session in this.sessionCheckBoxes){
+					let chkBx = this.sessionCheckBoxes[session];
+					if (outliers[session] && outliers[session].outlierWeirdness){
+						css.remove(chkBx.domNode, "MatcToolbarItemStrikeThrough");	
+					} else {		
+						css.add(chkBx.domNode, "MatcToolbarItemStrikeThrough");
+					}
+				}
+
+			} else {
+				for (let session in this.sessionCheckBoxes){
+					let chkBx = this.sessionCheckBoxes[session];
+					css.remove(chkBx.domNode, "MatcToolbarItemPassive");
+					css.remove(chkBx.domNode, "MatcToolbarItemStrikeThrough");
+				}
+			}
+			this.showUserJourney();
+		},
 		/**
 		 * Update the UI according the selected task. Show task color selector
 		 * and also fade out not matching sessions
