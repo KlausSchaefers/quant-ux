@@ -359,12 +359,13 @@
             "details": {
                 "duration": "Duration",
                 "interactions": "Interactions",
-                "screens": "Unique / Visited Screen",
+                "screens": "Unique / Visited Screens",
                 "screenUnique": "Unique Screens",
                 "screenLoads": "Visited Screen",
+                "screenRatio": "Unique / Visited Screens",
                 "errors": "Validation Errors",
                 "tasks": "Successful Tasks",
-                "weirdness": "Navigation",
+                "weirdness": "Navigation Anomaly",
                 "dbscan": "DBCAN"
             },
             "hint": "Select a dot to replay the screen recording."

@@ -34,11 +34,30 @@
 		position: absolute;
 		height: 0px;
 		width: 0px;
-		background: green;
 		border-radius: 8px;
 		transform: translateY(50%) translateX(-50%);
 		z-index: 9999;
 		animation: detailsFadeIn 0.2s;
+
+		.MatcScatterPlotDetailsTaskCntr {
+			display: flex;
+			gap: 8px;
+			align-items: flex-start;
+		} 
+
+		.MatcScatterPlotDetailsTask {
+			background: rgba(255, 255, 255, 0.255);
+			color: #fff;
+			padding: 2px 8px;
+			max-height: 30px;
+			border-radius: 4px;
+			max-width: 64px;
+			display: block;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			font-size: 10px;
+		}
 
 		td{
 			padding: 1px;
@@ -48,13 +67,13 @@
 		}
 
 		.MatcScatterPlotDetailsContainer {
-			width: 240px;
+			min-width: 320px;
 			position: absolute;
 			padding: 5px 10px;
 			background: #333;
 			color: #fff;
 			border-radius: 3px;
-			box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+			box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.25);
 		
 			font-size: 12px;
 

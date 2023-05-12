@@ -131,7 +131,6 @@ export default {
             this.df.sortBy("time");
      
             this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);  
-  
 
             this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)     
             this.sessionDetails = Outlier.addWeirdness(this.sessionDetails, this.df) 
@@ -277,11 +276,18 @@ export default {
             } else {
                 cls += 'top '
             }
+            const tasks = []
+            this.tasks.forEach(t => {
+                if (s[t.id]?.success === 1) {
+                    tasks.push(t.name)
+                }
+            })
             this.hoverDetails = {
                 x: posX,
                 y: posY,
                 cls: cls,
-                s: s
+                s: s,
+                tasks: tasks
             }
         },
 

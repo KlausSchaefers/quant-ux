@@ -30,14 +30,7 @@
                                 {{value.s.errors}}
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                {{getNLS("analytics.distribution.details.tasks")}}:
-                            </td>
-                            <td>
-                                {{value.s.tasks}}
-                            </td>
-                        </tr>
+                     
                         <tr>
                             <td>
                                 {{getNLS("analytics.distribution.details.screens")}} :
@@ -52,6 +45,19 @@
                             </td>
                             <td>
                                 {{Math.round(value.s.weirdness * 100)}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                {{getNLS("analytics.distribution.details.tasks")}}:
+                            </td>
+                            <td>
+                                <div class="MatcScatterPlotDetailsTaskCntr">
+                                    <span v-for="t in value.tasks" :key="t" class="MatcScatterPlotDetailsTask">
+                                        {{t}}
+                                    </span>
+                                </div>
                             </td>
                         </tr>
                        

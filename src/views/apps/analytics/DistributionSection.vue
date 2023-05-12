@@ -135,6 +135,8 @@
                 {value: 'duration', label: this.$t('analytics.distribution.details.duration'), check:true, selected: true},
                 {value: 'interactions', label: this.$t('analytics.distribution.details.interactions'), check:true, selected: true},
                 {value: 'screenLoads', label: this.$t('analytics.distribution.details.screenLoads'), check:true, selected: true},
+                {value: 'screenRatio', label: this.$t('analytics.distribution.details.screenRatio'), check:true, selected: false},
+                
                 {value: 'tasks', label: this.$t('analytics.distribution.details.tasks'), check:true, selected: true},
                 {value: 'weirdness', label: this.$t('analytics.distribution.details.weirdness'), check:true, selected: false},
                 //{value: 'errors', label: this.$t('analytics.distribution.details.errors'), check:true, selected: false}

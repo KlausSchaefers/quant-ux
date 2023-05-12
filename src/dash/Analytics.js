@@ -652,13 +652,16 @@ export default class {
 		const sessions = events.groupBy("session");
 		sessions.foreach((session, id) => {
 			const count = session.count('type')
+			const screenLoads = count.get('ScreenLoaded', null, 0) + count.get('OverlayLoaded', null, 0)
+			const uniqueScreens =  session.unique('screen')
 			result[id] = {
 				session: id,
 				interactions: session.size(),
 				date: session.min("time"),
 				duration:  Math.ceil((session.max("time") - session.min("time"))),
-				screenLoads: count.get('ScreenLoaded', null, 0) + count.get('OverlayLoaded', null, 0),
-				screenUnique: session.unique('screen'),
+				screenLoads: screenLoads,
+				screenUnique: uniqueScreens,
+				screenRatio: uniqueScreens / screenLoads,
 				errors: count.get('ValidationError', null, 0)
 			}
 		})

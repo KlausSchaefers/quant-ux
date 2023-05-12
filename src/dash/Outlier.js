@@ -306,11 +306,20 @@ export function flattenClusters(matrix, clusters){
     matrix.forEach((row, i) => {
         result[i] = -1
     })
+
+    if (clusters.length === 0) {
+        matrix.forEach((row, i) => {
+            result[i] = 0
+        })
+        return result
+    }
     clusters.forEach((cluster, i) => {
         cluster.forEach(sessionID => {
             result[sessionID] = i
         })
     })
+
+
     return result
 }
 
