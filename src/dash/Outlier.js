@@ -306,7 +306,7 @@ export function flattenClusters(matrix, clusters){
     matrix.forEach((row, i) => {
         result[i] = -1
     })
-
+    // we do not want to return all outliers
     if (clusters.length === 0) {
         matrix.forEach((row, i) => {
             result[i] = 0
@@ -335,7 +335,6 @@ export function getIRQOutlier (scores, f = 1.5, includeMin = false) {
     const min = q1 - (f * irq)
     const max = q3 + (f * irq)
 
-
     const result = {}
     Object.keys(scores).forEach((key) => {
         const v = scores[key]
@@ -351,6 +350,10 @@ export function getIRQOutlier (scores, f = 1.5, includeMin = false) {
     return result
 }
 
+/**
+ * https://en.wikipedia.org/wiki/Median_absolute_deviation
+ * https://dipot.ulb.ac.be/dspace/bitstream/2013/139499/1/Leys_MAD_final-libre.pdf
+ */
 export function getMADOutlier(scores, f=2) {
     const values = Object.values(scores)
     const median = getQuantile(values, 0.5)
