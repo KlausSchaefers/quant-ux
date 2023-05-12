@@ -817,7 +817,7 @@ export default {
 				let outliers = this.canvas.getOutlierScores();
 				for (let session in this.sessionCheckBoxes){
 					let chkBx = this.sessionCheckBoxes[session];
-					if (outliers[session] && outliers[session].outlierWeirdness){
+					if (outliers[session]){
 						css.remove(chkBx.domNode, "MatcToolbarItemStrikeThrough");	
 					} else {		
 						css.add(chkBx.domNode, "MatcToolbarItemStrikeThrough");

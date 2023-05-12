@@ -181,6 +181,7 @@
             const session = sessions[sessionID];
             const matches = taskPerformance[sessionID];
             const outlierScore = outlierScores[sessionID]
+            console.debug('XX', outlierScore)
            
             if (session) {
               this._renderUserGraph(sessionID, session, db, task, matches, outlierScore);
@@ -193,7 +194,7 @@
   
       
   
-      _renderUserGraph(sessionID, session, db, task, matches, outlierScore) {
+      _renderUserGraph(sessionID, session, db, task, matches, isOutlier) {
     
         const sessionEvents = session.data;
         const line = [];
@@ -271,7 +272,7 @@
               div.style.background = this.analyticParams.taskColor;
               halo.style.background = this.analyticParams.taskColor + 28;
               halo.style.borderColor = this.analyticParams.taskColor;
-            } else if (outlierScore.outlierWeirdness && this.analyticParams.outlier) {
+            } else if (isOutlier && this.analyticParams.outlier) {
             
               div.style.background = this.analyticParams.outlierColor
               halo.style.background = this.analyticParams.outlierColor + 28;
@@ -297,7 +298,7 @@
         let lineWidth = 2
 
         if (this.analyticParams.outlier) {
-          if (outlierScore.outlierWeirdness) {
+          if (isOutlier) {
             lineColor = this.analyticParams.outlierColor
             lineOpacity = this.taskLineOpacity
             lineWidth = 4

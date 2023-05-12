@@ -30,13 +30,8 @@
       if (!this.cache["outliers"]) {
         const tasks = this.testSettings.tasks.filter(task => task.flow.length >= 2);
         const df = new DataFrame(this.events);
-        const outliers = Outlier.computeOutliers(df, tasks);
-        console.table(outliers)
-        const result = {}
-        outliers.forEach(o => {
-          result[o.session] = o
-        })
-        this.cache["outliers"] = result
+        const outliers = Outlier.computeOutliersIRQ(df, tasks);
+        this.cache["outliers"] = outliers
       }
       return this.cache["outliers"];
     },

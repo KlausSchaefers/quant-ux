@@ -6,37 +6,29 @@ import Optics from './Optics';
 import * as Distance from './Distance';
 import Logger from '../core/Logger'
 
-export function computeOutliers(df, tasks) {
-    const analytics = new Analytics()
-    const sessionDetails = analytics.getSessionDetails(df, tasks)
-    const data = analytics.convertSessionDetails(sessionDetails)
 
-    //const weirdness = getEditDistanceSessionScores(df)
-    const weirdness = getGraphSessionScores(df)
-    let weirdnessOutlier = getIRQOutlier(weirdness, 1.5)
-    data.forEach((session) => {
-        session.outlierWeirdness = false
-        if (weirdness[session.session] !== undefined) {
-            session.weirdness = weirdness[session.session]
-            if (weirdnessOutlier[session.session] === 1) {
-  
-                session.outlierWeirdness = true
-            }
-        } else {
-            session.weirdness = 0
-        }
-    })
+export function computeOutliersCluster (df) {
+    const scores = getGraphSessionScores(df, false, true)
 
-    // const clusters = cluster(data, ['weirdness'], )
-    // data.forEach((session, index) => {
-    //     if (clusters[index] === -1) {
-    //         session.outlierWeirdness = true
-    //     } else {
-    //         session.outlierWeirdness = false
-    //     }
-    // })
+    const matrix = Object.values(scores).map(v => [v])
+    const minDistance = getQuantile(Object.values(scores))
+    const cluster = optics(matrix, minDistance)
+    const outliers = clusterToDict(Object.keys(scores), cluster)
+    return outliers
+}
 
-    return data
+function clusterToDict(keys, cluster) {
+    const result = {}
+    for (let i=0; i < keys.length; i++) {
+        result[keys[i]] = cluster[i] === -1 ? 1 : 0
+    }
+    return result
+}
+
+export function computeOutliersIRQ(df) {
+    const weirdness = getGraphSessionScores(df, true, false)
+    let weirdnessOutlier = getIRQOutlier(weirdness, .5)
+    return weirdnessOutlier
 }
 
 export function dictSum(dict) {
@@ -46,8 +38,6 @@ export function dictSum(dict) {
     }
     return sum
 }
-
-
 
 export function addWeirdness (sessionDetailsDF, eventsDF) {
     const weirdness = getGraphSessionScores(eventsDF)
@@ -335,7 +325,7 @@ export function getGraphOutliers(df, f = .5, normalize = true) {
 /**
  * https://www.analyticsvidhya.com/blog/2022/10/outliers-detection-using-iqr-z-score-lof-and-dbscan/
  */
-export function getIRQOutlier (scores, f = 1.5) {
+export function getIRQOutlier (scores, f = 1.5, includeMin = false) {
     const values = Object.values(scores)
     const q1 = getQuantile(values, 0.25)
     const q3 = getQuantile(values, 0.75)
@@ -348,7 +338,12 @@ export function getIRQOutlier (scores, f = 1.5) {
     const result = {}
     Object.keys(scores).forEach((key) => {
         const v = scores[key]
-        result[key] = (v <= min || v >= max) ? 1 : 0
+        if (includeMin) {
+            result[key] = (v <= min || v >= max) ? 1 : 0
+        } else {
+            result[key] = (v >= max) ? 1 : 0 
+        }
+       
     })
     Logger.log(2, 'Outlier.getIRQOutlier() > ' , values)
     Logger.log(2, 'Outlier.getIRQOutlier() > ' + f, [q1, q3, min, max])
@@ -357,7 +352,12 @@ export function getIRQOutlier (scores, f = 1.5) {
 
 
 
-export function getGraphSessionScores(df, normalize = true) {
+export function getGraphSessionScores(df, normalize = true, sqrt = false) {
+    const scores = getGraphSessionCounts(df, sqrt)
+    return normalizeGraphScores(scores, normalize)
+}
+
+export function getGraphSessionCounts(df, sqrt = false) {
     const encoded = encodeSessions(df)
     const counts = new CountDoubkeKeySet()
     Object.values(encoded).forEach(session => {
@@ -372,17 +372,20 @@ export function getGraphSessionScores(df, normalize = true) {
  
     Object.keys(encoded).forEach(sessionId => {
         const session = encoded[sessionId]
+     
         let sum = 0
         for (let i = 0; i < session.length-1; i++) {
             const current = session[i]
             const next = session[i+1]
             sum += counts.get(current, next)
         }
-        scores[sessionId] = sum
-
+        if (sqrt) {
+            scores[sessionId] = sum / session.length
+        } else {
+            scores[sessionId] = sum
+        }
     })
-
-    return normalizeGraphScores(scores, normalize)
+    return scores
 }
 
 export function normalizeGraphScores (scores, normalize=true) {
@@ -413,7 +416,7 @@ export function normalizeGraphScores (scores, normalize=true) {
             scores[key] = flipped
         }
     }
-    Logger.log(-2, 'Outlier.normalizeGraphScores() > ' + normalize, [minSum, maxSum] )
+    Logger.log(2, 'Outlier.normalizeGraphScores() > ' + normalize, [minSum, maxSum] )
     return scores
 }
 
