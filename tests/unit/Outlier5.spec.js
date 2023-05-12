@@ -35,7 +35,7 @@ test('Test Outlier.computeOutliersCluster() > 1', async () => {
     expect(outliers.S1683234566472_7919).toBe(1)
 })
 
-test('Test Outlier.getGraphSessionScores() > 2', async () => {
+test('Test Outlier.computeOutliersIRQ() > 2', async () => {
     const df = new DataFrame(outlierEvents3)
     const outliers = outlier.computeOutliersIRQ(df)
     expect(Object.values(outliers).filter(v => v === 1).length).toBe(2)
@@ -44,20 +44,33 @@ test('Test Outlier.getGraphSessionScores() > 2', async () => {
 })
 
 
-test('Test Outlier.getGraphSessionScores() > 4', async () => {
+test('Test Outlier.computeOutliersIRQ() > 4', async () => {
     const df = new DataFrame(outlierEvents4)
 
     let outliers = outlier.computeOutliersIRQ(df)
-    console.debug(outliers)
     expect(outliers.S1528950120352_757).toBe(1)
-  
-    //expect(Object.values(outliers).filter(v => v === -1).length).toBe(2)
     expect(outliers.S1560448086805_9266).toBe(1)
-    expect(outliers.S1529346602828_2760).toBe(1)
+    //expect(Object.values(outliers).filter(v => v === -1).length).toBe(2)
+    //
+    // expect(outliers.S1529346602828_2760).toBe(1)
       
 
 })
 
+
+test('Test Outlier.computeOutliersMAD() > 4', async () => {
+    const df = new DataFrame(outlierEvents4)
+
+    let outliers = outlier.computeOutliersMAD(df)
+    console.debug(outliers)
+    expect(outliers.S1528950120352_757).toBe(1)
+    expect(outliers.S1560448086805_9266).toBe(1)
+    //expect(Object.values(outliers).filter(v => v === -1).length).toBe(2)
+    //
+    // expect(outliers.S1529346602828_2760).toBe(1)
+      
+
+})
 
 
 

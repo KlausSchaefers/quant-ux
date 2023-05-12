@@ -28,9 +28,9 @@
 
     getOutlierScores() {
       if (!this.cache["outliers"]) {
-        const tasks = this.testSettings.tasks.filter(task => task.flow.length >= 2);
         const df = new DataFrame(this.events);
-        const outliers = Outlier.computeOutliersIRQ(df, tasks);
+        //const outliers = Outlier.computeOutliersIRQ(df);
+        const outliers = Outlier.computeOutliersMAD(df, 2)
         this.cache["outliers"] = outliers
       }
       return this.cache["outliers"];

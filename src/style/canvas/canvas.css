@@ -57,6 +57,12 @@
 	background: #f03131;
 }
 
+.MatcAnalyticCanvasEventSessionEnd .MatcAnalyticCanvasEventHalo,
+.MatcAnalyticCanvasEventSessionEnd .MatcAnalyticCanvasEvent {
+	border-radius: 2px;
+	transform: rotate(45deg);
+}
+
 .UserJourney .MatcScreenDnD,
 .UserJourney .MatcWidgetDND{
 	display: none;

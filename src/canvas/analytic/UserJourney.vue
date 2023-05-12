@@ -167,6 +167,7 @@
       _renderUserSingleLines() {
         const sessions = this.getUserJourney();
         const outlierScores = this.getOutlierScores()
+
         const taskPerformance = this.getTaskPerformance();
         const db = new DomBuilder();
   
@@ -181,14 +182,16 @@
             const session = sessions[sessionID];
             const matches = taskPerformance[sessionID];
             const outlierScore = outlierScores[sessionID]
-            console.debug('XX', outlierScore)
-           
             if (session) {
               this._renderUserGraph(sessionID, session, db, task, matches, outlierScore);
             } else {
               console.debug( "_render_global_UserJourney() > No session for ", sessionID   );
             }
           }
+        }
+
+        if (this.analyticParams.outlier) {
+          this.showHint(`Found ${Object.values(outlierScores).filter(v => v ===1).length} outliers`)
         }
       },
   
@@ -263,7 +266,7 @@
           const width = Math.round(40 * (p.duration / maxDuration)) + 25
           const [div, halo, cntr] = this._renderScreenEvent(p.x,p.y, p.type, "",db, p.session, width);
           if (i == line.length -1) {
-            css.add(div, "MatcAnalyticCanvasEventSessionEnd");
+            css.add(cntr, "MatcAnalyticCanvasEventSessionEnd");
             div.style.background = this.userJourneyEndColor
             halo.style.background = this.userJourneyEndColor + 28;
             halo.style.borderColor = this.userJourneyEndColor;

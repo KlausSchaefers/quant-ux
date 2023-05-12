@@ -27,20 +27,20 @@ function clusterToDict(keys, cluster) {
 
 export function computeOutliersIRQ(df) {
     const weirdness = getGraphSessionScores(df, true, false)
-    let weirdnessOutlier = getIRQOutlier(weirdness, .5)
+    //const weirdness = getEditDistanceSessionScores(df, true, false)
+    let weirdnessOutlier = getIRQOutlier(weirdness, .75)
     return weirdnessOutlier
 }
 
-export function dictSum(dict) {
-    let sum = 0
-    for (let k in dict) {
-        sum += dict[k]
-    }
-    return sum
+export function computeOutliersMAD(df, f= 2) {
+    const weirdness = getGraphSessionScores(df, true, false)
+    //const weirdness = getEditDistanceSessionScores(df, true, false)
+    let weirdnessOutlier = getMADOutlier(weirdness, f)
+    return weirdnessOutlier
 }
 
 export function addWeirdness (sessionDetailsDF, eventsDF) {
-    const weirdness = getGraphSessionScores(eventsDF)
+    const weirdness = getGraphSessionScores(eventsDF, true, false)
     sessionDetailsDF.foreach((session) => {
         session.outlierWeirdness = false
         if (weirdness[session.session]) {
@@ -315,13 +315,6 @@ export function flattenClusters(matrix, clusters){
     return result
 }
 
-
-export function getGraphOutliers(df, f = .5, normalize = true) {
-    const scores = getGraphSessionScores(df, normalize)
-    // we assume here a low f score, because the values are normalized
-    return getIRQOutlier(scores, f)
-}
-
 /**
  * https://www.analyticsvidhya.com/blog/2022/10/outliers-detection-using-iqr-z-score-lof-and-dbscan/
  */
@@ -350,6 +343,27 @@ export function getIRQOutlier (scores, f = 1.5, includeMin = false) {
     return result
 }
 
+export function getMADOutlier(scores, f=2) {
+    const values = Object.values(scores)
+    const median = getQuantile(values, 0.5)
+    const mad = values.map(v => Math.abs(v - median))
+    const medianMAD = getQuantile(mad, 0.5)
+    const threshold = medianMAD * f
+    let result = {}
+    for (let key in scores) {
+        const x = scores[key]
+        if ((x - median) > threshold) {
+          result[key] = 1  
+        } else {
+            result[key] = 0
+        }
+    }
+    Logger.log(-2, 'Outlier.getMADOutlier() > ' , values)
+    Logger.log(-2, 'Outlier.getMADOutlier() > ' , mad)
+    Logger.log(-2, 'Outlier.getMADOutlier() > ' + f, [median, medianMAD, threshold])
+    return result
+}
+
 
 
 export function getGraphSessionScores(df, normalize = true, sqrt = false) {
@@ -359,6 +373,10 @@ export function getGraphSessionScores(df, normalize = true, sqrt = false) {
 
 export function getGraphSessionCounts(df, sqrt = false) {
     const encoded = encodeSessions(df)
+    return computeRawGraphScores(encoded, sqrt)
+}
+
+export function computeRawGraphScores(encoded, sqrt = false) {
     const counts = new CountDoubkeKeySet()
     Object.values(encoded).forEach(session => {
         for (let i = 0; i < session.length-1; i++) {
@@ -372,13 +390,20 @@ export function getGraphSessionCounts(df, sqrt = false) {
  
     Object.keys(encoded).forEach(sessionId => {
         const session = encoded[sessionId]
-     
+        const seen = new Set()
         let sum = 0
         for (let i = 0; i < session.length-1; i++) {
             const current = session[i]
             const next = session[i+1]
-            sum += counts.get(current, next)
+            const key = current + '->' + next
+            if (!seen.has(key)) {
+                sum += counts.get(current, next)
+            } else {
+                //sum -= counts.get(current, next)
+            }
+            seen.add(key)
         }
+        //sum = Math.max(session.length, sum)
         if (sqrt) {
             scores[sessionId] = sum / session.length
         } else {

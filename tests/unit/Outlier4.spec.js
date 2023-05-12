@@ -176,31 +176,13 @@ test('Test Outlier.getIRQOutlier() > ', async () => {
     expect(scores[5]).toBe(1)
 })
 
-
-test('Test Outlier.getGraphOutliers() > Simple', async () => {
-    const df = new DataFrame(events)
-    const scores = outlier.getGraphOutliers(df, .5)
-    expect(Object.values(scores).length).toBe(3)
-    expect(scores['1'] < scores['2']).toBe(true)
-    expect(scores['3'] < scores['2']).toBe(true)
+test('Test Outlier.getMADOutlier() > ', async () => {
+    
+    const scores = outlier.getMADOutlier({1: 20, 2:23, 3: 21, 4:20, 5:40})
+    console.debug(scores)
+    expect(Object.values(scores).length).toBe(5)
+    expect(Object.values(scores).filter(score => score === 1).length).toBe(1)
+    expect(scores[5]).toBe(1)
 })
 
-// test('Test Outlier.getGraphOutliers() >  Same', async () => {
 
-//     let sameSessions = []
-//     for (let i=0; i < 5; i++) {
-//         for (let j=0; j < 10; j++) {
-//             sameSessions.push({
-//                 time: j,
-//                 session: i,
-//                 screen: 's1',
-//                 widget: 'w'+j,
-//                 type: 'WidgetClick'
-//             })
-//         }
-//     }
-//     const df = new DataFrame(sameSessions)
-//     const scores = outlier.getGraphOutliers(df)
-//     expect(Object.values(scores).length).toBe(5)
-//     expect(Object.values(scores).filter(score => score === 1).length).toBe(0)
-// })
