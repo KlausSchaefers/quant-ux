@@ -30,7 +30,7 @@
 
 
       highlightAnalyticLine(sessionID) {
-        this.logger.log(-1, "highlightAnalyticLine", "entry > ", sessionID);
+        this.logger.log(1, "highlightAnalyticLine", "entry > ", sessionID);
           if (this.analyticLines) {
             for (let id in this.analyticLines) {
               let line = this.analyticLines[id]
@@ -59,6 +59,7 @@
       _render_global_UserJourney(screenEvents, screen, ctx, div) {
         this.logger.log(1, "_render_global_UserJourney", "entry > ");
         this.setBW(true);
+        this.cleanUpAnalytics()
         if (!this.analyticParams.tree) {
           this._renderUserSingleLines(screenEvents, screen, ctx, div);
         } else {

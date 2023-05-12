@@ -27,14 +27,13 @@ function clusterToDict(keys, cluster) {
 
 export function computeOutliersIRQ(df) {
     const weirdness = getGraphSessionScores(df, true, false)
-    //const weirdness = getEditDistanceSessionScores(df, true, false)
     let weirdnessOutlier = getIRQOutlier(weirdness, .75)
     return weirdnessOutlier
 }
 
 export function computeOutliersMAD(df, f= 2) {
-    const weirdness = getGraphSessionScores(df, true, false)
-    //const weirdness = getEditDistanceSessionScores(df, true, false)
+    // this seem to work will with normalizing the 
+    const weirdness = getGraphSessionScores(df, true, true)
     let weirdnessOutlier = getMADOutlier(weirdness, f)
     return weirdnessOutlier
 }
@@ -358,25 +357,26 @@ export function getMADOutlier(scores, f=2) {
             result[key] = 0
         }
     }
-    Logger.log(-2, 'Outlier.getMADOutlier() > ' , values)
-    Logger.log(-2, 'Outlier.getMADOutlier() > ' , mad)
-    Logger.log(-2, 'Outlier.getMADOutlier() > ' + f, [median, medianMAD, threshold])
+    Logger.log(2, 'Outlier.getMADOutlier() > ' , values)
+    Logger.log(2, 'Outlier.getMADOutlier() > ' , mad)
+    Logger.log(2, 'Outlier.getMADOutlier() > ' + f, [median, medianMAD, threshold])
     return result
 }
 
 
 
-export function getGraphSessionScores(df, normalize = true, sqrt = false) {
-    const scores = getGraphSessionCounts(df, sqrt)
-    return normalizeGraphScores(scores, normalize)
+export function getGraphSessionScores(df, minMaxScores = true, normalizeRawScores = false) {
+    const scores = getGraphSessionCounts(df, normalizeRawScores)
+    return normalizeGraphScores(scores, minMaxScores)
 }
 
-export function getGraphSessionCounts(df, sqrt = false) {
+export function getGraphSessionCounts(df, normalizeRawScores = false) {
     const encoded = encodeSessions(df)
-    return computeRawGraphScores(encoded, sqrt)
+    return computeRawGraphScores(encoded, normalizeRawScores)
 }
 
-export function computeRawGraphScores(encoded, sqrt = false) {
+export function computeRawGraphScores(encoded, normalizeRawScores = false) {
+    Logger.log(-2, 'Outlier.computeRawGraphScores() > ' , normalizeRawScores)
     const counts = new CountDoubkeKeySet()
     Object.values(encoded).forEach(session => {
         for (let i = 0; i < session.length-1; i++) {
@@ -404,7 +404,7 @@ export function computeRawGraphScores(encoded, sqrt = false) {
             seen.add(key)
         }
         //sum = Math.max(session.length, sum)
-        if (sqrt) {
+        if (normalizeRawScores) {
             scores[sessionId] = sum / session.length
         } else {
             scores[sessionId] = sum

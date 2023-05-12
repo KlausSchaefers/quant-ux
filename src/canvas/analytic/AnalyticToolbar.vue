@@ -1,6 +1,10 @@
 
 <template>
      <div class="MatcToolbar MatcAnalyticsToolbar">
+<!-- 
+		<div class="MatcToobarLeft MatcAnalyticsToolbarTestCntr MatcToobarPropertiesSection" data-dojo-attach-point="testListCntr">
+
+		</div> -->
 
 		<div class="MatcToolbarTop ">
 			<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
@@ -725,7 +729,8 @@ export default {
 			this.sessionOrderBrn.setOptions([
 				{value: 'duration', label:"Sort by Duration"},
 				{value: 'events', label:"Sort by Events"},
-				{value: 'date', label:"Sort by Date"}
+				{value: 'date', label:"Sort by Date"},
+				{value: 'weirdness', label:"Sort by Outlier"}
 			]);
 			this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties");
 			this.sessionOrderBrn.updateLabel = true;
@@ -771,6 +776,9 @@ export default {
 				if (order === 'date')  {
 					return a.start - b.start
 				}
+				if (order === 'weirdness') {
+					return b.weirdness - a.weirdness
+				}
 				return b.size - a.size
 			})
 		
@@ -792,6 +800,10 @@ export default {
 				}
 				if (order === 'events') {
 					chk.setLabel("Test " + (session.id) + " ("  + session.size + ")"); // + session.taskPerformance +" Tasks - "
+				}
+
+				if (order === 'weirdness') {
+					chk.setLabel("Test " + (session.id) + " ("  + session.weirdness + ")"); // + session.taskPerformance +" Tasks - "
 				}
 			
 				chk.placeAt(db.div().build(row));
@@ -913,6 +925,8 @@ export default {
 			const tasksPerformance = analytics.getMergedTaskPerformance(df, testSettings.tasks, annotatation );
 			const tasksBySession = tasksPerformance.count("session");
 
+			const outliers = this.canvas.getOutlierScores()
+
 			let id = 1;
 			for(let sessionID in sessions){
 
@@ -940,6 +954,7 @@ export default {
 				const item = {
 					session : sessionID,
 					taskPerformance : taskSuccess + " / " + taskCount,
+					weirdness: outliers[sessionID],
 					duration : (Math.ceil( (session.max("time") - session.min("time")) / 1000 )),
 					date : date,
 					start : session.min("time"),

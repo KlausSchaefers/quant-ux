@@ -1,30 +1,27 @@
 
 <template>
-    <div class="MatcCanvas MatcAnalyticCanvas">
-     
-    </div>
-  </template>
+  <div class="MatcCanvas MatcAnalyticCanvas">
+
+  </div>
+</template>
   
   
-  <script>
+<script>
 
-  import DataFrame from "common/DataFrame";
-  import Analytics from "dash/Analytics";
-  import * as Outlier from 'dash/Outlier'
- 
-  export default {
-    name: "DataProcessing",
-    mixins: [],
-    data: function () {
-      return {
-      };
-    },
-    components: {},
-    methods: {
+import DataFrame from "common/DataFrame";
+import Analytics from "dash/Analytics";
+import * as Outlier from 'dash/Outlier'
 
-       /**********************************************************************
-     * Analytic Cached method
-     **********************************************************************/
+export default {
+  name: "DataProcessing",
+  mixins: [],
+  data: function () {
+    return {
+    };
+  },
+  components: {},
+  methods: {
+
 
     getOutlierScores() {
       if (!this.cache["outliers"]) {
@@ -292,8 +289,8 @@
       return this.cache["screenClicksOnBackground"];
     },
 
-    getMissedClicks () {
-       if (!this.cache["missedClicks"]) {
+    getMissedClicks() {
+      if (!this.cache["missedClicks"]) {
         /** 
          * Get all screens that do not have a line
          */
@@ -328,7 +325,7 @@
         let clickEvents = this.df
           .select("type", "in", ["ScreenClick", "WidgetClick"])
           .as_array();
-        
+
 
         let missedClicks = clickEvents.filter(e => {
           if (e.type === "ScreenClick" && passiveScreens[e.screen] === true) {
@@ -337,7 +334,7 @@
           if (e.type === "WidgetClick" && passiveWidgets[e.widget] === true) {
             return true
           }
-        
+
           return false
         })
 
@@ -435,21 +432,21 @@
       return this.cache["overlayWidgetCicks"];
     },
 
-    getLineWidgetData () {
+    getLineWidgetData() {
       if (!this.cache["lineWidgetData"]) {
         let result = {}
         let allWidetData = this.getWidgetData()
         let maxClicksAbs = 0
         // filter only for clicks on lines, and calcuate the clicksRel
         for (let id in this.model.lines) {
-           let from = this.model.lines[id].from
+          let from = this.model.lines[id].from
           if (allWidetData[from]) {
-              const clicksAbs = allWidetData[from].clicksAbs
-              result[from] = {
-                clicksAbs : clicksAbs
-              }
-              maxClicksAbs = Math.max(maxClicksAbs, clicksAbs)
-          } 
+            const clicksAbs = allWidetData[from].clicksAbs
+            result[from] = {
+              clicksAbs: clicksAbs
+            }
+            maxClicksAbs = Math.max(maxClicksAbs, clicksAbs)
+          }
           Object.values(result).forEach(v => {
             v.clicksRel = v.clicksAbs / maxClicksAbs
           })
@@ -480,9 +477,9 @@
       }
       return this.cache[key];
     },
-     
-  
-    },
-    mounted() {},
-  };
-  </script>
+
+
+  },
+  mounted() { },
+};
+</script>
