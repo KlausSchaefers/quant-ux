@@ -948,7 +948,9 @@ export default {
 					taskSuccess = 0;
 				}
 
-   				const actionsEvents = this.getActionEvents(new DataFrame(session.data));
+				const df = new DataFrame(session.data)
+   				//const actionsEvents = this.getActionEvents(df);
+				const clicks = df.select("type", "in",["ScreenClick","WidgetClick","WidgetChange", "ScreenGesture", "WidgetGesture"])
 
 
 				const item = {
@@ -958,7 +960,7 @@ export default {
 					duration : (Math.ceil( (session.max("time") - session.min("time")) / 1000 )),
 					date : date,
 					start : session.min("time"),
-					size : actionsEvents.size(),
+					size : clicks.size(),
 					status :status,
 					isValid : isValid,
 					id : id,
