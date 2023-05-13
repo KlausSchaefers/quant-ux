@@ -73,11 +73,3 @@ test('Test Outlier.computeOutliersIRQ() > 2', async () => {
 // })
 
 
-
-function clusterToDict(keys, cluster) {
-    const result = {}
-    for (let i=0; i < keys.length; i++) {
-        result[keys[i]] = cluster[i]
-    }
-    return result
-}

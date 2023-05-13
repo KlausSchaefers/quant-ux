@@ -2,6 +2,7 @@ import Analytics from "./Analytics";
 import { UMAP } from 'umap-js';
 import Prando from 'prando';
 import DBScan from './DBScan';
+import LOF from './LOF';
 import Optics from './Optics';
 import * as Distance from './Distance';
 import Logger from '../core/Logger'
@@ -285,6 +286,14 @@ export function getClusterMinDistance(distances, percentile = 0.2) {
     
     return q
 }
+
+export function lof(matrix, epsilon = 0.5, minPts = 2) {
+    Logger.log(1, 'Outlier.LOF() > ',[epsilon, minPts])
+    const lof = new LOF(epsilon, minPts)
+    const result = lof.run(matrix)
+    return result.map(x => x * -1)
+}
+
 
 export function dbscan(matrix, epsilon = 1, minPts = 2) {
     Logger.log(1, 'Outlier.dbscan() > ',[epsilon, minPts])
