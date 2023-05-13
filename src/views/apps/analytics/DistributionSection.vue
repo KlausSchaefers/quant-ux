@@ -1,10 +1,10 @@
 
 <template>
-    <div class="">
+    <div class="MatcDistributionSection">
         <div class="level">
         <div class="level-left">
           <h2 class="title level-item">
-            <span data-nls="testSettingsTasks">{{$t('analytics.distribution.title')}}</span>
+            <span >{{$t('analytics.distribution.title')}}</span>
             <HelpButton
               topic="analytics.dist"
               :hasNotifications="false"
@@ -31,7 +31,7 @@
 
           <CheckBox @change="onChangeNorm" :value="false" label="zScore" v-if="hasConfig"/>
 
-          <CheckBox @change="onChangeAlgo" :value="false" label="DBSCAN" v-if="hasConfig"/>
+          <DropDownButton @change="onChangeAlgo" :value="clusterAlgo" :options="clusterAlgoOptions" v-if="hasConfig"/>
 
           <DropDownSelect
             v-if="hasConfig"
@@ -62,7 +62,7 @@
                   :events="events"
                   :annotation="annotation"
                   :test="test"/>
-
+<!-- 
               <OutlierPlot 
                   v-if="viewMode === 'Outlier'" 
                   @selected="showSelection"
@@ -80,7 +80,7 @@
                 :pub="pub"
                 :events="events"
                 :annotation="annotation"
-                :test="test" />
+                :test="test" /> -->
               
               </template>
       
@@ -94,15 +94,24 @@
   </template>
   <style lang="scss">
       //@import '../../../style/survey_section.scss';
+
+      .MatcDistributionSection .MatcDropDownButtonWidth{
+        min-width: auto;
+        color: #3787f2;
+      }
+
+      .MatcDistributionSection .MatcDropDownButtonWidth:hover{
+        min-width: auto;
+        color: #fff;
+      }
   </style>
   <script>
   import Logger from 'common/Logger'
-  //import DropDownButton from 'page/DropDownButton'
+  import DropDownButton from 'page/DropDownButton'
   import CheckBox from 'common/CheckBox'
   import DropDownSelect from 'page/DropDownSelect'
   import HelpButton from "help/HelpButton";
   import ScatterPlot from './ScatterPlot'
-  import DistributionTable from './DistributionTable.vue'
   
   export default {
       name: 'DistributionSection',
@@ -131,8 +140,13 @@
               {key: "outlierRaw", label: "Outlier Raw"},
               {key: "outlierUmap", label: "Outlier Umap"},
             ],
+            clusterAlgoOptions: [
+                {value: 'optics', label: 'Optics'},
+                {value: 'dbscan', label: 'DBScan'},
+                {value: 'lof', label:' LOF'}
+            ],
             clusterOptions: [
-                {value: 'duration', label: this.$t('analytics.distribution.details.duration'), check:true, selected: true},
+                {value: 'duration', label: this.$t('analytics.distribution.details.duration'), check:true,  selected: true},
                 {value: 'interactions', label: this.$t('analytics.distribution.details.interactions'), check:true, selected: true},
                 {value: 'screenLoads', label: this.$t('analytics.distribution.details.screenLoads'), check:true, selected: true},
                 {value: 'screenRatio', label: this.$t('analytics.distribution.details.screenRatio'), check:true, selected: false},
@@ -149,11 +163,11 @@
       components: {
         'HelpButton': HelpButton,
         'DropDownSelect': DropDownSelect,
-       // 'DropDownButton': DropDownButton,
+        'DropDownButton': DropDownButton,
         'ScatterPlot': ScatterPlot,
-        'DistributionTable': DistributionTable,
         'CheckBox': CheckBox,
-        'OutlierPlot':() => import(/* webpackChunkName: "outlier" */ './OutlierPlot')
+        // 'OutlierPlot':() => import(/* webpackChunkName: "outlier" */ './OutlierPlot'),
+        // 'DistributionTable': import(/* webpackChunkName: "outlier" */'./DistributionTable.vue'),
       },
       computed: {
        
@@ -162,8 +176,8 @@
         onChangeNorm (d) {
           this.clusterNorm = d ? 'zScore' : 'minmax'
         },
-        onChangeAlgo (d) {
-          this.clusterAlgo = d ? 'dbscan' : 'optics'
+        onChangeAlgo (a) {
+          this.clusterAlgo = a
         },
         onChangeCluster (d) {
           let clusterVars = []
@@ -193,7 +207,7 @@
       },
       mounted () {
         this.logger = new Logger('DistributionSection')
-        this.hasConfig = location.href.indexOf('localhost') >= 0
+        //this.hasConfig = location.href.indexOf('localhost') >= 0
         this.isLoaded = true       
       }
   }

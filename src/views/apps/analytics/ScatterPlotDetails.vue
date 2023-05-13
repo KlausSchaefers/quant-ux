@@ -22,14 +22,14 @@
                                 {{value.s.interactions}}
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>
                                 {{getNLS("analytics.distribution.details.errors")}}:
                             </td>
                             <td>
                                 {{value.s.errors}}
                             </td>
-                        </tr>
+                        </tr> -->
                      
                         <tr>
                             <td>

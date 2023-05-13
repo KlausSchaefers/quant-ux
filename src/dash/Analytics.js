@@ -654,9 +654,11 @@ export default class {
 			const count = session.count('type')
 			const screenLoads = count.get('ScreenLoaded', null, 0) + count.get('OverlayLoaded', null, 0)
 			const uniqueScreens =  session.unique('screen')
+			const clicks = session.select("type", "in",["ScreenClick","WidgetClick","WidgetChange", "ScreenGesture", "WidgetGesture"])
 			result[id] = {
 				session: id,
-				interactions: session.size(),
+				size: session.size(),
+				interactions: clicks.size(),
 				date: session.min("time"),
 				duration:  Math.ceil((session.max("time") - session.min("time"))),
 				screenLoads: screenLoads,

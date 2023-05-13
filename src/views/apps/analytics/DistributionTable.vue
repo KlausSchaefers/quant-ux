@@ -58,6 +58,7 @@ export default {
 
 
             this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)
+         
 
             const data = this.analytics.convertSessionDetails(this.sessionDetails)
 
