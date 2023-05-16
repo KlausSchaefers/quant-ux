@@ -47,7 +47,7 @@ export default {
 
 			this.gridCntr = db.div(" container").build(this.domNode);
 			row = db.div("row").build(this.gridCntr)
-			var left = db.div("col-md-6").build(row);
+			var left = db.div("col-md-12").build(row);
 			this.gridHeight = db.formGroup("", "Height", 0).build(left);
 			this.gridWidth = db.formGroup("", "Width", 0).build(left);
 

@@ -1308,15 +1308,17 @@ export default class BaseController extends Core {
 		 * if a new command comes, we throw away all newer commands.
 		 */
 		if(this.commandStack.pos < this.commandStack.stack.length){
+			const count = Math.max(0, (this.commandStack.stack.length - this.commandStack.pos))
+			this.logger.log(-1,"addCommand", "cut off future! > stack: " + this.commandStack.stack.length + " > pos"  + this.commandStack.pos + ' > ' + count);
+	
 			if(this.mode == "public"){
 				this.onCommandDeleted(command);
-			} else {
-				const count = (this.commandStack.stack.length - this.commandStack.pos);
+			} else {	
 				this.modelService.deleteCommand(this.model, count).then(res => {
-					this.logger.log(0,"addCommand", "cut off future! > " + count + " >> "  + res.pos);
+					this.logger.log(-1,"addCommand", "cut off future! >> server pos:"  + res.pos + " >> client pos: " + this.commandStack.pos );
 					this.onCommandDeleted(command)
 				}).catch(err => {
-					this.logger.error("addCommand", "ERROR deleteing", err);
+					this.logger.error("addCommand", "ERROR deleting", err);
 					this.showError('Could not reach server! Changes not saved')
 				})
 			}
@@ -1331,8 +1333,8 @@ export default class BaseController extends Core {
 		 * just remove the command. also update the pos, altough it should be updated
 		 * in the next step
 		 */
-		this.commandStack.stack = this.commandStack.stack.slice(0,this.commandStack.pos );
-		this.logger.log(2,"onCommandDeleted", "enter > pos : " + this.commandStack.pos + " > stack : " +	this.commandStack.stack.length);
+		this.commandStack.stack = this.commandStack.stack.slice(0, this.commandStack.pos);
+		this.logger.log(-1,"onCommandDeleted", "enter > pos : " + this.commandStack.pos + " > stack : " +	this.commandStack.stack.length);
 
 		if(this.toolbar){
 			this.toolbar.disableRedo();
@@ -1541,7 +1543,7 @@ export default class BaseController extends Core {
 	}
 
 	setCommandStack (s){
-		this.logger.log(2,"setCommandStack", "enter");
+		this.logger.log(-1,"setCommandStack", "enter > length: " + s.stack.length + " > pos: " + s.pos);
 		/**
 		 * In some rare cases teh position might be < 0. We fix it, and store 
 		 * the entire command stack!
