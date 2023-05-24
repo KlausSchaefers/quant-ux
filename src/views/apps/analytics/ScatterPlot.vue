@@ -111,7 +111,6 @@ export default {
         },
 
         postCreate() {
-            this.log = new Logger("ScatterPlot");
             this.init();
             this._scatterPoints = {}
         },
@@ -122,23 +121,34 @@ export default {
         },
 
         setValue(test, app, events, annotations) {
+            this.logger.log(-1, "setValue", "enter");
             PerformanceMonitor.start('ScatterPlot.setValue()')
             this.annotations = annotations;
             this.model = app
 
-            const filteredEvents = this.filterEvents(events, annotations);
-            this.df = this.getActionEvents(new DataFrame(filteredEvents));      
-            this.df.sortBy("time");
-     
-            this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);  
-
-            this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)     
-            this.sessionDetails = Outlier.addWeirdness(this.sessionDetails, this.df) 
-            let data = this.analytics.convertSessionDetails(this.sessionDetails)
+            try {
+                const filteredEvents = this.filterEvents(events, annotations);
+                this.df = this.getActionEvents(new DataFrame(filteredEvents));      
+                this.df.sortBy("time");
         
-            this.clusters = Outlier.cluster(data, this.clusterVars, this.clusterNorm, this.clusterAlgo)
+                this.tasks = lang.clone(test.tasks).filter(task => task.flow.length >= 2);  
+
+                this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)     
+                this.sessionDetails = Outlier.addWeirdness(this.sessionDetails, this.df) 
+                let data = this.analytics.convertSessionDetails(this.sessionDetails)
+
+                if (data.length < 200) {
+                    this.clusters = Outlier.cluster(data, this.clusterVars, this.clusterNorm, this.clusterAlgo)
+                } else {
+                    this.logger.error("setValue", "Too many events");
+                    this.hasOutliers = false
+                }
              
-            this.render();
+                this.render();
+            } catch (e) {
+                this.logger.error("setValue", "Error");
+                this.logger.sendError(e);
+            }
             PerformanceMonitor.end('ScatterPlot.setValue()')
         },
 
@@ -164,7 +174,7 @@ export default {
         },
 
         render() {
-            this.log.log(-1, "render", "enter > ");
+            this.logger.log(-1, "render", "enter > ");
             this.cleanUpTempListener()    
             this.onBackgroundClick()       
             this.render_Scatter();
@@ -177,7 +187,7 @@ export default {
         },
 
         render_Scatter() {
-            this.log.log(1, "render_Scatter", "enter", this.mode);
+            this.logger.log(1, "render_Scatter", "enter", this.mode);
 
             delete this._selectedScatterPoint;           
          
@@ -190,7 +200,7 @@ export default {
         },
 
         render_Scatter_Points (xAxis, yAxis) {
-            this.log.log(1, "render_Scatter_Points", "enter > " + xAxis + " X " + yAxis );
+            this.logger.log(1, "render_Scatter_Points", "enter > " + xAxis + " X " + yAxis );
 
   
             const sessionSummaryDF = this.sessionDetails
@@ -381,6 +391,7 @@ export default {
     },
     mounted() {        
         this.analytics = new Analytics();
+        this.logger = new Logger("Overview");
         this.db = new DomBuilder();
         this.setValue(this.test, this.app, this.events, this.annotation)
     }

@@ -216,9 +216,9 @@ export function addGridColumns(columns, x, e, start) {
 		}
 	}
 	if (start) {
-		columns[x].start.push(e)
+		columns[x].start.push(e.id)
 	} else {
-		columns[x].end.push(e)
+		columns[x].end.push(e.id)
 	}
 	/**
 	 * If we have a min max, we will
@@ -241,8 +241,8 @@ export function addGridRow(rows, y, e, start) {
 		}
 	}
 	if (start) {
-		rows[y].start.push(e)
+		rows[y].start.push(e.id)
 	} else {
-		rows[y].end.push(e)
+		rows[y].end.push(e.id)
 	}
 }

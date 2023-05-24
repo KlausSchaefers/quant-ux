@@ -36,9 +36,9 @@ export default {
 
     wireEvents () {
       this.wired = true;
-      for (var i = 0; i < this.btns.length; i++) {
-        var option = this.btns[i].o;
-        var btn = this.btns[i].b;
+      for (let i = 0; i < this.btns.length; i++) {
+        const option = this.btns[i].o;
+        const btn = this.btns[i].b;
         this.own(this.addClickListener(btn, lang.hitch(this, "onSelect", option)));
       }
       this.wireHover()
@@ -50,23 +50,23 @@ export default {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
 
-      var db = new DomBuilder();
+      const db = new DomBuilder();
 
       this.removeAllChildren(this.domNode)
       // this.domNode.innerHTML = "";
-      var options = this.model.props.options;
+      const options = this.model.props.options;
 
-      var width = 100 / options.length;
+      const width = 100 / options.length;
       this.btns = [];
-      for (var i = 0; i < options.length; i++) {
-        var option = options[i];
-        var btn = db
+      for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+        const btn = db
           .div("MatcWidgetTypeSegmentButtonChild")
           .build(this.domNode);
 
         btn.style.width = width + "%";
 
-        let label = db.span("", option).build(btn);
+        const label = db.span("", option).build(btn);
         this._labelNodes.push(label)
 
 
@@ -92,14 +92,21 @@ export default {
          * case we must pass and array to setValue
          */
         if (this.isMulti) {
-          this.setValue([this.model.props.selected], true);
+          let selected = this.model.props.selected     
+          this.setValue(selected, true);
         } else {
           this.setValue(this.model.props.selected, true);
+        }
+      } else {
+        if (this.isMulti) {
+          this.setValue([], true);
+        } else {
+          this.setValue('', true);
         }
       }
     },
 
-    setDomStyle: function(btn, style, i) {
+    setDomStyle (btn, style, i) {
       if (style.borderLeftColor) {
         btn.style.borderLeftColor = style.borderLeftColor;
       }
@@ -142,8 +149,8 @@ export default {
         /**
          * Compensate missing border with padding is well!
          */
-        var p = this.getZoomed(style.paddingLeft, this._scaleX);
-        var b = this.getZoomed(style.borderLeftWidth, this._scaleX);
+        const p = this.getZoomed(style.paddingLeft, this._scaleX);
+        const b = this.getZoomed(style.borderLeftWidth, this._scaleX);
         btn.style.paddingLeft = p + b + "px";
       } else {
         btn.style.paddingLeft =
@@ -153,7 +160,7 @@ export default {
       btn.style.color = style.color;
     },
 
-    onSelect: function(option, e) {
+    onSelect (option, e) {
       this.stopEvent(e);
 
       /**
@@ -161,46 +168,55 @@ export default {
        */
       let value = option
       if (this.isMulti) {
-        let pos = this.value.indexOf(value)
+        let selected = this.value.slice()
+        const pos = selected.indexOf(value)
         if (pos < 0) {
-          value = [option].concat(this.value)
+          selected.push(value)
         } else {
-          this.value.splice(pos, 1);
-          value = this.value
+          selected.splice(pos, 1);
         }
+        value = selected
       }
 
-      this.value = value;
+      this.value = value
       this.emitDataBinding(value);
       this.setValue(value);
       this.emitStateChange("select", value, e);
     },
 
-    getValue: function() {
+    getValue() {
       return this.value;
     },
 
-    setValue: function(value) {
-      var active = this.model.active;
-      var style = this.style;
+    setValue(value) {
+      const active = this.model.active;
+      const style = this.style;
 
+      /**
+       * Since 2.2.6 we can have optionally multi select. We expect an array here
+       */
       if (this.isMulti) {
         /**
-         * Since 2.2.6 we can have optionally multi select. We expect an array here
+         * Sometimes the value is not an array..
          */
+        if (!Array.isArray(value)) {
+          value = [value]
+        }
+       
         for (let i = 0; i < this.btns.length; i++) {
-          let option = this.btns[i].o;
-          let btn = this.btns[i].b;
+          const option = this.btns[i].o;
+          const btn = this.btns[i].b;
           if (value.indexOf(option) >= 0 && active) {
             this.setDomStyle(btn, active, 0);
           } else {
             this.setDomStyle(btn, style, i);
           }
         }
+              
       } else {
         for (let i = 0; i < this.btns.length; i++) {
-          var option = this.btns[i].o;
-          var btn = this.btns[i].b;
+          const option = this.btns[i].o;
+          const btn = this.btns[i].b;
           if (option == value && active) {
             this.setDomStyle(btn, active, 0);
           } else {
@@ -211,14 +227,14 @@ export default {
       this.value = value;
     },
 
-    getState: function() {
+    getState() {
       return {
         type: "select",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState(state) {
       if (state) {
         if (state.type == "select") {
           this.setValue(state.value);

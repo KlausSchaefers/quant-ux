@@ -216,23 +216,34 @@ export default {
     },
     async loadApp() {
       let id = this.$route.params.id;
-      if (id) {
-        this.app = await this.modelService.findApp(id);
-        this.appLoaded = true;
-        this.loadRest();
-        this.loadEvents();
-      } else {
-        this.logger.error("loadApp", "No id ");
-        this.logger.sendError(new Error());
+      try {
+        if (id) {
+          this.app = await this.modelService.findApp(id);
+          this.appLoaded = true;
+          this.loadRest();
+          this.loadEvents();
+        } else {
+          this.logger.error("loadApp", "No id ");
+          this.logger.sendError(new Error());
+        }
+      } catch (e) {
+          this.logger.error("loadApp", "Some error");
+          this.logger.sendError(e);
       }
+     
     },
     loadEvents() {
       let id = this.$route.params.id;
-      this.modelService.findEvents(id).then(events => {
-        this.events = events;
-        this.loading = false
-        this.logger.log(-1, "loadEvents", "Found " + events.length + " events");
-      });
+      try {
+        this.modelService.findEvents(id).then(events => {
+          this.events = events;
+          this.loading = false
+          this.logger.log(-1, "loadEvents", "Found " + events.length + " events");
+        });
+      } catch (e) {
+          this.logger.error("loadEvents", "Some error");
+          this.logger.sendError(e);
+      }
     },
     loadRest() {
       let id = this.$route.params.id;

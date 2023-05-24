@@ -136,7 +136,7 @@ function layoutTree(screen) {
 	 * We add lines, because for wrapped groups we need the rows!
 	 * Attention: In the UI we can not configure this anymore!
 	 */
-	// screen = Rows.addRows(screen)
+	//screen = Rows.addRows(screen)
 
 	/**
 	 * First we determine the type of layout

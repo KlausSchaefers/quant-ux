@@ -184,6 +184,10 @@ export default new VueRouter({
     {
       path: '/test/Outlier.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/OutlierTest.vue')
+    },
+    {
+      path: '/test/Responsive.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/ResponsiveTest.vue')
     }
   ]
 })

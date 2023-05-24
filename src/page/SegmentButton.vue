@@ -24,9 +24,9 @@ export default {
     methods: {  
 		setOptions (list){
 			this._lis = {};			
-			var first = list.slice(0, 6);			
-			for(var i=0; i < first.length; i++){
-				var o = list[i];
+			const first = list.slice(0, 6);			
+			for(let i=0; i < first.length; i++){
+				const o = list[i];
 				var li = document.createElement("span");	
 				css.add(li, "MatcButton");
 				if (o.label){

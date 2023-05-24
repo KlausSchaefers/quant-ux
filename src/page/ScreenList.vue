@@ -125,12 +125,17 @@ export default {
     },
 
     onRenderDone () {
-      for (let i = 0; i < this.value.length; i++) {
-        const screen = this.value[i];
-        if (this.widgets[i]) {
-          this.widgets[i].setModel(this.model, screen.id);
+      try {
+        for (let i = 0; i < this.value.length; i++) {
+          const scrn = this.value[i];
+          if (this.widgets[i]) {
+            this.widgets[i].setModel(this.model, scrn?.id);
+          }
         }
+      } catch (e) {
+        console.error(e)
       }
+     
     }
   },
   mounted() {}
