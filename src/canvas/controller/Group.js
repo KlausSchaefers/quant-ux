@@ -512,7 +512,7 @@ export default class Group extends Layer {
 	 **********************************************************************/
 
 	addGroup (selection){
-		this.logger.log(1,"addGroup", "enter ");
+		this.logger.log(-1,"addGroup", "enter ", selection);
 
 		/**
 		 * Since 4.3.39 we check also if we need to create
@@ -520,6 +520,7 @@ export default class Group extends Layer {
 		 * if so, we create a sub group
 		 */
 		const commonParentGroup = this.getCommonParentGroup(selection)
+
 		if (commonParentGroup) {
 			return this.addSubGroup(selection, commonParentGroup)
 		} else {
@@ -538,19 +539,28 @@ export default class Group extends Layer {
 		const children = []
 		
 		for (let i = 0; i < selection.length; i++) {
-			const widgetID = selection[i];
+			const selectionID = selection[i];
+			const orgGroup = this.model.groups[selectionID]
 			/**
-			 * We always take the top group!
+			 * The selection can also contain groups!!!
 			 */
-			const group = this.getTopParentGroup(widgetID);
-			if (group) {
-				if (subGroups.indexOf(group.id) < 0) {
-					subGroups.push(group.id)
-				}
+			if (orgGroup) {
+				subGroups.push(orgGroup.id)
 			} else {
-				children.push(widgetID)
-			}
+				/**
+				 * We always take the top group!
+				 */
+				const group = this.getTopParentGroup(selectionID);
+				if (group) {
+					if (subGroups.indexOf(group.id) < 0) {
+						subGroups.push(group.id)
+					}
+				} else {
+					children.push(selectionID)
+				}
+			}			
 		}
+		
 		const length = this.getObjectLength(this.model.groups);
 		const name = "Group" + (length > 0 ? ' ' + length : '')
 		

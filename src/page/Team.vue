@@ -52,18 +52,23 @@ export default {
     },
 
     render  () {
-      this.cleanUp();
-      var div = document.createElement("div");
+      try {
+        this.cleanUp();
+        var div = document.createElement("div");
 
-      this.plus = this.renderPlus(div);
-      this.tempOwn(on(this.plus, touch.press, lang.hitch(this, "showAdd", this.plus)));
+        this.plus = this.renderPlus(div);
+        this.tempOwn(on(this.plus, touch.press, lang.hitch(this, "showAdd", this.plus)));
 
-      for (var i = 0; i < this.team.length; i++) {
-        var user = this.team[i];
-        this.renderUser(div, user);
+        for (var i = 0; i < this.team.length; i++) {
+          var user = this.team[i];
+          this.renderUser(div, user);
+        }
+
+        this.cntr.appendChild(div);
+      } catch (err) {
+        this.logger.sendError(err)
       }
 
-      this.cntr.appendChild(div);
     },
 
     renderPlus (div) {

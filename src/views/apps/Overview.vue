@@ -257,37 +257,39 @@ export default {
           this.sessionAnnotations = values[1];
           this.restLoaded = true;
           this.invitations = values[2];
-          var temp = {};
-          for (var key in this.invitations) {
+          const temp = {};
+          for (let key in this.invitations) {
             temp[this.invitations[key]] = key;
           }
           this.hash = temp[1];
         })
         .catch(e => {
-          console.error(e);
+          this.logger.error("loadRest", "Some error");
+          this.logger.sendError(e);
         });
     },
     showShareDialog() {
-      var db = new DomBuilder();
-      var popup = db
+      const db = new DomBuilder();
+      const popup = db
         .div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding")
         .build();
-      var cntr = db.div("container").build(popup);
-      var row = db.div("row").build(cntr);
-      var right = db.div("col-md-12").build(row);
+
+      let cntr = db.div("container").build(popup);
+      let row = db.div("row").build(cntr);
+      let right = db.div("col-md-12").build(row);
 
       db.h3("", this.getNLS("share.Headline")).build(right);
 
-      let share = this.$new(Share);
+      const share = this.$new(Share);
       share.placeAt(right);
       share.setInvitation(this.hash);
       share.setPublic(this.isPublic);
 
       row = db.div("row MatcMarginTop").build(cntr);
       right = db.div("col-md-12 MatcButtonBar").build(row);
-      var write = db.div("MatcButton", "Close").build(right);
+      let write = db.div("MatcButton", "Close").build(right);
 
-      var d = new Dialog();
+      const d = new Dialog();
       d.own(on(write, touch.press, lang.hitch(d, "close")));
 
       d.popup(popup, this.$refs.shareButton);
