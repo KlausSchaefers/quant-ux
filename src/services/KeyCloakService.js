@@ -23,17 +23,23 @@ class KeyCloakService extends AbstractService{
         this.logger = new Logger('KeyCloakService')
     }
 
-    init(conf) {
+    setConf(conf) {
+        this.initOptions = {
+            url: conf.keycloak.url, 
+            realm: conf.keycloak.realm, 
+            clientId: conf.keycloak.clientId
+        }
+    }
+
+    init() {
+        if (this.isInited) {
+            return
+        }
         return new Promise((resolve) => {
             this.logger.log(-1, 'init() > enter')
-            let initOptions = {
-                url: conf.keycloak.url, 
-                realm: conf.keycloak.realm, 
-                clientId: conf.keycloak.clientId
-            }
-            
-          
-            let keycloak = Keycloak(initOptions);
+         
+                      
+            const keycloak = Keycloak(this.initOptions);
             keycloak.init({
               onLoad: 'check-sso',
               silentCheckSsoRedirectUri: window.location.origin + '/sso.html'
@@ -48,13 +54,14 @@ class KeyCloakService extends AbstractService{
                 this.logger.log(-1, 'init() > user logged in')
                 keycloak.loadUserProfile().then(async user => {
                   this.logger.log(-1, 'init()', 'user loaded', user)
-                  let quxUser = {
+                  const quxUser = {
                     id:user.id,
                     name: user.username,
                     lastname: user.lastname,
                     email: user.username,
                     token: keycloak.token
                   }
+                  this.isInited = true
                   this.setUser(quxUser)
                   await this._post('/rest/user/external', quxUser)
                   resolve()
@@ -63,7 +70,7 @@ class KeyCloakService extends AbstractService{
                     await keycloak.updateToken(300).catch(() => {
                       Logger.error('Keycloak failed to refresh token')
                     })
-                    let quxUser = {
+                    const quxUser = {
                         id:user.id,
                         name: user.username,
                         lastname: user.lastname,
@@ -119,7 +126,8 @@ class KeyCloakService extends AbstractService{
       
     }
 
-    load () {
+    async load () {
+       await this.init()
        return this.user
     }
 
