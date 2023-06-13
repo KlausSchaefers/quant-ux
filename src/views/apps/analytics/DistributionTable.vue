@@ -1,7 +1,7 @@
 
 <template>
     <div class="MatcDashTable MatcDistributionTable">
-
+XXX
         <div data-dojo-attach-point="tableCntr" class="MatcDistributionTableCntr"></div>
 
     </div>
@@ -21,11 +21,12 @@ import Analytics from "dash/Analytics";
 import * as Outlier from 'dash/Outlier'
 import DataFrame from 'common/DataFrame'
 import DomBuilder from 'common/DomBuilder'
+import Logger from 'common/Logger'
 
 export default {
     name: "DistributionTable",
     mixins: [Util],
-    props: ['test', 'app', 'events', 'annotation', 'pub'],
+    props: ['test', 'app', 'events', 'annotation', 'pub',  'clusterVars', 'clusterAlgo', 'clusterNorm'],
     data: function () {
         return {
             appID: "",
@@ -50,25 +51,29 @@ export default {
         render() {
             this.cleanUpTempListener();      
 
-            const filteredEvents = this.filterEvents(this.events, this.annotation);
-            this.df = this.getActionEvents(new DataFrame(filteredEvents));
-            this.df.sortBy("time");
+            try {
+                const filteredEvents = this.filterEvents(this.events, this.annotation);
+                this.df = this.getActionEvents(new DataFrame(filteredEvents));      
+                this.df.sortBy("time");
+        
+                this.tasks = lang.clone(this.test.tasks).filter(task => task.flow.length >= 2);  
 
-            this.tasks = lang.clone(this.test.tasks).filter(task => task.flow.length >= 2);
+                this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)     
+                this.sessionDetails = Outlier.addWeirdness(this.sessionDetails, this.df) 
+                let data = this.analytics.convertSessionDetails(this.sessionDetails)
+
+                let matrix = Outlier.getMatrix(data, this.clusterVars)
+                matrix = Outlier.getZScore(matrix)
+
+                console.debug(data, matrix)
+
+                this.renderTaskTable(data)
+            } catch (e) {
+                this.logger.error("render", e);
+                this.logger.sendError(e);
+            }
 
 
-            this.sessionDetails = this.analytics.getSessionDetails(this.df, this.tasks)
-         
-
-            const data = this.analytics.convertSessionDetails(this.sessionDetails)
-
-            let matrix = Outlier.getMatrix(data, ["interactions", "duration", "screenLoads", "tasks"]) //,  // ...this.tasks.map(t => t.id)
-            matrix = Outlier.getZScore(matrix)
-            const distance = Outlier.getPairwiseDistance(matrix)
-            const minDistance = Outlier.getClusterMinDistance(distance)
-            this.clusters = Outlier.cluster(matrix, minDistance, 3)
-
-            this.renderTaskTable(data)
         },
 
         renderTaskTable(data) {
@@ -141,10 +146,11 @@ export default {
     },
     watch: {
         events() {
-            this.render();
+           this.render();
         }
     },
     mounted() {
+        this.logger = new Logger("DsiTable");
         this.analytics = new Analytics();
         this.db = new DomBuilder();
         this.render()

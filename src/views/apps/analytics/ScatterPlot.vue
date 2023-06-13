@@ -391,7 +391,7 @@ export default {
     },
     mounted() {        
         this.analytics = new Analytics();
-        this.logger = new Logger("Overview");
+        this.logger = new Logger("ScatterPlot");
         this.db = new DomBuilder();
         this.setValue(this.test, this.app, this.events, this.annotation)
     }
