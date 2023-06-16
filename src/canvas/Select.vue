@@ -172,11 +172,11 @@ import CanvasSelection from './CanvasSelection'
 			 */
 			if(this._selectWidget && this._selectWidget.id == id && !forceSelection){
 		
-				if (now - this._lastWidgetSelected < 3000) {
-					this.onWidgetDoubleClick(this._selectWidget)
-				} else {
-					this.logger.log(1,"onWidgetSelected", "ignore double > ");
-				}
+				// if (now - this._lastWidgetSelected < 3000) {
+				// 	this.onWidgetDoubleClick(this._selectWidget)
+				// } else {
+				// 	this.logger.log(1,"onWidgetSelected", "ignore double > ");
+				// }
 			
 			} else {
 				this.unSelect()
@@ -214,8 +214,16 @@ import CanvasSelection from './CanvasSelection'
 			this._lastWidgetSelected = now
 		},
 
-		onWidgetDoubleClick (widget) {
-			this.logger.log(-3,"onWidgetDoubleClick", "enter > "+ widget.id);
+		onWidgetDoubleClick (widgetID) {
+			this.logger.log(-3,"onWidgetDoubleClick", "enter > "+ widgetID);
+
+			// Since 4.6.0 we listen to real double clicks. We must make sure
+			// this works only on the selected widget
+			if (!this._selectWidget ?? this._selectWidget.id !== widgetID) {
+				return
+			}
+			const widget = this.model.widgets[widgetID]
+		
 			topic.publish("matc/canvas/click", "", "");
 			if (widget.type === 'Script') {
 				if (this.toolbar) {

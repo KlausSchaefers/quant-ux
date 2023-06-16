@@ -26,9 +26,15 @@ export default {
 			},
 
 			dispatchDoubleClick (e) {
-				this.logger.log(1, "dispatchDoubleClick", "enter", this.mode);
+				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);
+			
 				const target = e.target
-				if (this.mode === "svg" || target._widgetID) {
+				
+				if (this.mode === "svg") {
+					return
+				}
+				if (target._widgetID) {
+					this.onWidgetDoubleClick(target._widgetID)
 					return
 				}
 				this.forceCompleteRender()
@@ -103,10 +109,14 @@ export default {
 					let target = e.target
 					if (target._widgetID) {
 						this.onLineEndSelected(target._widgetID, e)
+						return
 					}
 					if (target._screenID) {
 						this.onLineEndSelected(target._screenID, e)
+						return
 					}
+					this.onLineSuggestEnd(e)
+					
 				}
 			},
 

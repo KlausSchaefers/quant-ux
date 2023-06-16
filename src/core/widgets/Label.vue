@@ -34,7 +34,15 @@ export default {
     onSimulatoStarted () {
       this.isSimulatorStarted = true
       if (this.isAnimated()) {
-        this.setAnimatedLabel(this.animMax)
+        if (this.isChatAnimation()) {
+          if (this.model.props.animationDots) {
+            this.startChatAnimation('... ', 0.5, true)
+          } else {
+            this.startChatAnimation(this.model.props.label, this.animDuration)
+          }
+        } else {
+          this.startNumberAnimation(this.animMax)
+        }
       }
     },
 
@@ -97,8 +105,12 @@ export default {
         }
       }
       this.animIsRunning = false
+      if (this.isAnimated() && this.isChatAnimation()) {
+        this.startChatAnimation(v, this.animDuration, false)
+        return
+      }
       if (this.isAnimated() && !isNaN(v)) {
-        this.setAnimatedLabel(v)
+        this.startNumberAnimation(v)
         return
       }
       if (this.model.props && this.model.props.label) {
@@ -132,10 +144,34 @@ export default {
         this.value = value;
         this.setInnerHTML(this.domNode, value);
       }
-      
     },
 
-    setAnimatedLabel (to) {
+    startChatAnimation (txt, animDuration, repeat) {
+      //console.debug('Label.startChatAnimation() > enter', txt, animDuration, repeat)
+      let durationPerChar = 1 / (animDuration * 3);
+      const length = txt.length
+      const frames = Math.round(durationPerChar * length * 30)
+      const framesPerChar = frames / length
+      clearTimeout(this.animationRepeat)
+
+      this.animSteps = []
+      for (let i = 0; i < frames; i++) {
+        const end = Math.floor(i / framesPerChar)
+        this.animSteps.push(txt.slice(0, end))
+      }
+      this.animSteps.push(txt)
+
+      this.animIsRunning = true
+      this.runLabelAnimation("", txt)
+      // if (repeat && !this._isDestroyed) {
+      //   this.animationRepeat = setTimeout(() => {
+      //     this.startChatAnimation(txt, animDuration, repeat)
+      //   }, frames * 30)
+      // }
+     
+    },
+
+    startNumberAnimation (to) {
       const label = this.getLabelValue()
       const diff = to - this.animCurrent
       const frames = (this.animDuration * 30)
@@ -153,7 +189,7 @@ export default {
 
     },
 
-    runLabelAnimation (label, to) {
+    runLabelAnimation (label, to, callback) {
         if (!this.animIsRunning) {
           this.animCurrent = to
           return
@@ -163,15 +199,22 @@ export default {
           value = this.replaceVaribale(label, value)
           this.setTextContent(this.domNode, value + "");
           requestAnimationFrame(() => {
-              this.runLabelAnimation(label, to)
+              this.runLabelAnimation(label, to, callback)
           })
         } else {
           this.animCurrent = to
+          if (callback) {
+            callback()
+          }
         }
     },
 
     isAnimated () {
       return this.model && this.model.props.animated
+    },
+
+    isChatAnimation () {
+      return this.model && this.model.props.animation === 'chat'
     },
 
     getState () {
@@ -214,7 +257,15 @@ export default {
     onClick (e) {
       this.stopEvent(e);
       this.emitClick(e);
+    },
+
+    beforeDestroy () {
+      this._isDestroyed = true
+      clearTimeout(this.animationRepeat)
     }
+
+  
+   
   },
   mounted() {}
 };

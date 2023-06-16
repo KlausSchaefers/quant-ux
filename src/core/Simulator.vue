@@ -74,7 +74,7 @@
       <div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
        
       </div>
-      <div class="MatcSimulatorVersion">v4.5.4</div>
+      <div class="MatcSimulatorVersion">v4.6.0</div>
     </div>
   </div>
 </template>
@@ -1183,6 +1183,7 @@ export default {
 			this.cleanUpAnimations();
 			this.cleanUpRepeatScripts()
 			this.cleanUpRepeatRests()
+			this.renderFactory.cleanUp()
 			/**
 			 * Do not to allow scrolling again!!!
 			 */
@@ -1190,9 +1191,9 @@ export default {
 		}
     },
     mounted () {
-			if (this.app) {
-				this.setModel(this.app)
-			}
+		if (this.app) {
+			this.setModel(this.app)
+		}
     }
 }
 </script>

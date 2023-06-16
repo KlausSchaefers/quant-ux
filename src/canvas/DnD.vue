@@ -852,8 +852,8 @@ export default {
      *
      */
     onWidgetDndClick (id, div, pos, e) {
-      this.logger.log(1, "onWidgetDndClick", "entry > " + id);
-
+      this.logger.log(-1, "onWidgetDndClick", "entry > " + id);
+      
       this.stopEvent(e);
 
       /**

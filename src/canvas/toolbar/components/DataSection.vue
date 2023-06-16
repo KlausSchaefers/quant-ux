@@ -627,10 +627,17 @@ export default {
 
 		_showLabel (model){
 			if (model?.props?.animated) {
-				this._setSectionLabel("Animated Label");
-				this._renderInputDropDown("Min",model, [0,1,5,10,20, 50, 100], "min", true);
-				this._renderInputDropDown("Max",model, [0,1,5,10,20, 50, 100], "max", true);
-				this._renderInputDropDown("Duration (s)",model, [0,1,2, 3, 4, 5], "duration", true, 'float');
+				if (model.props.animation === 'chat') {
+					this._setSectionLabel("Chat Label");
+					this._renderInputDropDown("Speed", model, [1, 2, 3, 4, 5], "duration", true, 'float');
+					this._renderCheck("Show dots (...)",model.props.animationDots, "animationDots" );
+				} else {
+					this._setSectionLabel("Animated Label");
+					this._renderInputDropDown("Min",model, [0,1,5,10,20, 50, 100], "min", true);
+					this._renderInputDropDown("Max",model, [0,1,5,10,20, 50, 100], "max", true);
+					this._renderInputDropDown("Duration (s)",model, [0,1,2, 3, 4, 5], "duration", true, 'float');
+				}
+		
 			} else {
 				this._setSectionLabel("Label");
 			}

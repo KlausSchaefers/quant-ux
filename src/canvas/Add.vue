@@ -610,11 +610,11 @@ export default {
 				this._onAddCleanup();
 			}
 
-			let pos = this.getCanvasMousePosition(e);
+			const pos = this.getCanvasMousePosition(e);
 			pos.w = 1;
 			pos.h = 1;
 
-			let point = this.drawPoint(pos);
+			const point = this.drawPoint(pos);
 			this.dndContainer.appendChild(point);
 			this._addLinePoints.push(point);
 
@@ -622,7 +622,7 @@ export default {
 		},
 
 		onLineEndSelected (id, e){
-			this.logger.log(0,"onLineEndSelected", "enter > "+ id);
+			this.logger.log(-1,"onLineEndSelected", "enter > "+ id);
 			
 			if (this._addLineStartedFromTemplate) {
 				let widget = this.model.widgets[id];
@@ -691,6 +691,11 @@ export default {
 			this.setMode(this._oldMode);
 			this._onAddDone();
 			this.setState(0);
+		},
+
+		onLineSuggestEnd (e) {
+			this.logger.log(-1,"onLineSuggestEnd", "enter > ", e);
+			// TODO: add here some cool "create new element" stuff?
 		},
 
 		_updateAddLineMove (e){
