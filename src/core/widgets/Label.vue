@@ -146,7 +146,7 @@ export default {
       }
     },
 
-    startChatAnimation (txt, animDuration, repeat) {
+    startChatAnimation (txt, animDuration) {
       //console.debug('Label.startChatAnimation() > enter', txt, animDuration, repeat)
       let durationPerChar = 1 / (animDuration * 3);
       const length = txt.length
