@@ -131,6 +131,20 @@ export default {
 			this._renderDataBinding(model);
 			this._renderSubSection('Content')
 			this._renderTextArea(model.props, 'label', 'Label value', 'Enter a message')
+
+			if (model?.props?.animated) {		
+				if (model.props.animation === 'chat') {
+					this._renderSubSection('Animated Text')
+					this._setSectionLabel("Chat Label");
+					this._renderInputDropDown("Typing Speed", model, [1, 2, 3, 4, 5], "duration", true, 'float');
+					//this._renderCheck("Show dots (...)",model.props.animationDots, "animationDots" );
+				} else {
+					this._renderSubSection('Animation Number')
+					this._renderInputDropDown("Min",model, [0,1,5,10,20, 50, 100], "min", true);
+					this._renderInputDropDown("Max",model, [0,1,5,10,20, 50, 100], "max", true);
+					this._renderInputDropDown("Duration (s)",model, [0,1,2, 3, 4, 5], "duration", true, 'float');
+				}		
+			}
 		},
 
 		_showSpinner (model){

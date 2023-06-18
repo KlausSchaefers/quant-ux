@@ -35,11 +35,7 @@ export default {
       this.isSimulatorStarted = true
       if (this.isAnimated()) {
         if (this.isChatAnimation()) {
-          if (this.model.props.animationDots) {
-            this.startChatAnimation('... ', 0.5, true)
-          } else {
-            this.startChatAnimation(this.model.props.label, this.animDuration)
-          }
+          this.startChatAnimation(this.model.props.label, this.animDuration)          
         } else {
           this.startNumberAnimation(this.animMax)
         }
@@ -162,13 +158,7 @@ export default {
       this.animSteps.push(txt)
 
       this.animIsRunning = true
-      this.runLabelAnimation("", txt)
-      // if (repeat && !this._isDestroyed) {
-      //   this.animationRepeat = setTimeout(() => {
-      //     this.startChatAnimation(txt, animDuration, repeat)
-      //   }, frames * 30)
-      // }
-     
+      this.runLabelAnimation("", txt)     
     },
 
     startNumberAnimation (to) {
@@ -261,6 +251,7 @@ export default {
 
     beforeDestroy () {
       this._isDestroyed = true
+      this.animIsRunning = false
       clearTimeout(this.animationRepeat)
     }
 

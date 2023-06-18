@@ -155,7 +155,7 @@
 		"_type": "Widget",
 		"category": "WireFrame",
 		"subcategory": "XFormButton",
-		"name": "Animated Label",
+		"name": "Animated Number",
 		"x": 0,
 		"y": 0,
 		"w": 120,
@@ -171,9 +171,7 @@
 		"has": {
 			"label": true,
 			"padding": true,
-			"advancedText": true,
-			"data": true
-		},
+			"advancedText": true		},
 		"style": {
 			"fontSize": "Auto",
 			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
@@ -190,14 +188,14 @@
 		"_type": "Widget",
 		"category": "WireFrame",
 		"subcategory": "XFormButton",
-		"name": "Chat Label",
+		"name": "Animated Text",
 		"x": 0,
 		"y": 0,
 		"w": 120,
 		"h": 32,
 		"z": 0,
 		"props": {
-			"label": "Your message",
+			"label": "Loading...",
 			"animated": true,
 			"animation": "chat",
 			"duration": 3
@@ -205,8 +203,7 @@
 		"has": {
 			"label": true,
 			"padding": true,
-			"advancedText": true,
-			"data": true
+			"advancedText": true
 		},
 		"style": {
 			"fontSize": "24",
