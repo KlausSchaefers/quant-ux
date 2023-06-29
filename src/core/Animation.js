@@ -57,7 +57,8 @@ export default class Animation extends Core{
 			"weekendColor": true,
 			"headerBackground": true,
 			"headerColor": true,
-			"headerBorderColor": true
+			"headerBorderColor": true,
+			"labelColor": true
 		}
 
 		this._txtAttribs = {
@@ -71,7 +72,8 @@ export default class Animation extends Core{
 			"textDecoration": true,
 			"fontWeight": true,
 			"backgroundImage": true,
-			"verticalAlign": true
+			"verticalAlign": true,
+			"labelFontWeight": true
 		}
 
 		this._shadowAttribs = {
