@@ -6,6 +6,15 @@
 .MatcCanvasPage .MatcCanvas{
 }
 
+.MatcVisualEditor .caret{
+	border: none;
+	border-bottom: 1px solid;
+	border-left: 1px solid;
+	transform: rotate(-45deg);
+	width: 5px;
+	height: 5px;
+}
+
 /****************************************************
  * AnalyticCanvas
  ****************************************************/
