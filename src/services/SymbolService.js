@@ -118,6 +118,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/iframe.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/progesssegments.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/imagepaging.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/labeledtextbox.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/button2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/calender.json'),

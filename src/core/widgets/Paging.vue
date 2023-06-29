@@ -21,7 +21,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this._borderNodes = [];
       this._backgroundNodes = [];
       this._shadowNodes = [];
@@ -29,7 +29,7 @@ export default {
       this._labelNodes = []
     },
 
-    wireEvents: function() {
+    wireEvents () {
       this.wired = true;
       for (var i = 0; i < this.elements.length; i++) {
         let element = this.elements[i]
@@ -38,10 +38,13 @@ export default {
         this.own(on(element.div, touch.over,lang.hitch(this, "onElementOver", i, element)));
         this.own(on(element.div, touch.out,lang.hitch(this, "onElementOut", i, element)));
       }
-      this.wireHover()
+      //this.wireHover()
     },
 
     onElementOver (i, element) {
+      if (this.value - 1 === i) {
+        return
+      }
       if (this.model.hover) {
         let div = element.div
         div.style.color = this.model.hover.color

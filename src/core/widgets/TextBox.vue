@@ -253,13 +253,7 @@ export default {
         css.remove(this.domNode, "MatcWidgetTypeTextBoxLowerCase");
       }
 
-      if (model.props.label) {
-        if (model.props.placeholder) {
-          this.setPlaceholder(model.props.label);
-        } else {
-          this.setValue(model.props.label, true);
-        }
-      }
+      this.initLabel(model)
 
       if (model.props.validation && this.mode == "simulator") {
         const validation = model.props.validation;
@@ -313,6 +307,16 @@ export default {
 
       this.setStyle(style, model);
       this.onTextBoxRendered(model)
+    },
+
+    initLabel (model) {
+      if (model.props.label) {
+        if (model.props.placeholder) {
+          this.setPlaceholder(model.props.label);
+        } else {
+          this.setValue(model.props.label, true);
+        }
+      }
     },
 
     onTextBoxRendered () {

@@ -147,6 +147,16 @@ export default {
 			}
 		},
 
+
+		_showLabeledTextBox (model){
+			this._renderDataBinding(model);
+			var validation = this.getValidationModel(model);
+			this._renderRequired(validation);
+			this._renderTextBoxValidation(validation);
+			this._renderValidationLabels(validation, model);
+		},
+
+
 		_showSpinner (model){
 			this._renderDataBinding(model);
 		},
