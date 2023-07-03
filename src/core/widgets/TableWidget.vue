@@ -180,11 +180,11 @@ export default {
     renderTable (db, style , borderStyle) {
       const table = db.table("MatcWidgetTypeTableBorder" + borderStyle).build();
       if ("Out" == borderStyle || "Cell" == borderStyle) {
-        this.domNode.style.borderColor = style.borderBottomColor;
-        this.domNode.style.borderWidth = this._getBorderWidth(style.borderBottomWidth) + "px";
-        this.domNode.style.borderStyle = "solid";
+        table.style.borderColor = style.borderBottomColor;
+        table.style.borderWidth = this._getBorderWidth(style.borderBottomWidth) + "px";
+        table.style.borderStyle = "solid";
       } else {
-        this.domNode.style.border='none'
+        table.style.border='none'
       }
       return table
     },
