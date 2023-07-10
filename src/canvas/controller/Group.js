@@ -182,14 +182,16 @@ export default class Group extends Layer {
 				let isIncluded = true;
 				for(let key in props){
 					if(ignoreStyles.indexOf(key) < 0 ){
-						isIncluded = isIncluded &&  (org[key] !=null && org[key]!=undefined);
+						isIncluded = isIncluded && (org[key] !=null && org[key]!=undefined);
 					}
 				}
-				if(isIncluded){
+				if(isIncluded || type === 'props'){
 					const child = this.createWidgetPropertiesCommand(id, props, type);
 					this.modelWidgetPropertiesUpdate(id, props, type);
 					command.children.push(child);
 				}
+			} else {
+				this.logger.error("updateMultiProperties", "No widget with ID > " + id);
 			}
 		}
 		this.addCommand(command);

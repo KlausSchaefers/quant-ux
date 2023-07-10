@@ -153,6 +153,14 @@ export default {
 			let hasBackground = true;
 			const hasColor = true
 			let isAllSVG = true
+			let resize = {		
+				"right" : true,
+				"up" : true,
+				"left" : true,
+				"down" : true,
+				"fixedHorizontal" : true,
+				"fixedVertical" : true					
+			}
 			for(let i=0; i< ids.length;i++){
 				const id = ids[i];
 				const widget = this.model.widgets[id];
@@ -179,9 +187,27 @@ export default {
 					hasPadding =  hasPadding && this.hasPadding.indexOf(widget.type) >=0
 					hasBorder = hasBorder && widget?.has?.border
 					hasLabel = hasLabel && widget?.has?.label
+
+					if (widget?.props?.resize) {
+						const r = widget?.props?.resize
+						resize.right  = resize.right & r.right
+						resize.up  = resize.up & r.up
+						resize.left  = resize.left & r.left
+						resize.down  = resize.down & r.down
+						resize.fixedHorizontal  = resize.fixedHorizontal & r.fixedHorizontal
+						resize.fixedVertical  = resize.fixedVertical & r.fixedVertical
+					} else {
+						resize.right = false
+						resize.up  = false
+						resize.left  = false
+						resize.down  = false
+						resize.fixedHorizontal = false
+						resize.fixedVertical = false
+					}
 				}
 	
 			}
+
 
 			if (isAllSVG) {
 				this.showMultiSVGWidgetProperties(ids)
@@ -189,6 +215,14 @@ export default {
 			}
 
 			
+			if (this.responsiveDiv) {
+				css.remove(this.responsiveDiv, "MatcToolbarSectionHidden")
+				this.responsiveWidget.setValue({
+					props: {
+						resize: resize
+					}
+				})
+			}
 
 			if(style){
 

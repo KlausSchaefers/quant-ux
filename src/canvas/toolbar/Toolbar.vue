@@ -1763,6 +1763,11 @@ export default {
 					this.controller.updateWidgetProperties(this._selectedWidget.id, newProps, "props");
 				}
 			}
+			if(this._selectedMulti) {	
+				const newProps = {};
+				newProps[key] = value;
+				this.controller.updateMultiProperties(this._selectedMulti, newProps, "props");			
+			}
 			return false;
 		},
 
