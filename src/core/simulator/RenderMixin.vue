@@ -579,6 +579,11 @@
 				  this.tempOwn(uiWidget.on("mouseout", lang.hitch(this, "onWidgetMouseOut", screenId, widget.id)));
   
 				  /**
+				   * 
+				   */
+				  this.tempOwn(uiWidget.on("navigation", lang.hitch(this, "onWidgetNavigation", screenId, widget.id)));
+
+				  /**
 				   * Some containers can rewire
 				   */
 				  this.tempOwn(uiWidget.on("rerender", lang.hitch(this, "onWidgetRerended", screenId, widget.id)));

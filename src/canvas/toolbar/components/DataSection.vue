@@ -34,7 +34,7 @@ import DataBindingButton from './DataBindingButton'
 import BoxShadow from './BoxShadow2'
 import DomUtil from 'core/DomUtil'
 import ScriptEdior from '../dialogs/ScriptEditor.vue'
-
+import NavidationEditor from './NavigationTable.vue'
 
 export default {
     name: 'DataSection',
@@ -1300,6 +1300,40 @@ export default {
 			this.addTooltip(row, "Do not load previous state when showing the widget again.");
 		},
 
+		_showNavBar (model){
+			this._setSectionLabel("NavBar");
+
+			this._renderButton("Navigation", "mdi mdi-arrow-decision-outline", "_renderNavBarDialog");
+
+			this._renderInputDropDown("Spacing",model, [
+				{value: -1, label: 'Auto'},
+				{value: 0, label: 'None'},
+				{value: 8, label: '8'},
+				{value: 12, label: '12'},
+				{value: 16, label: '16'},
+				{value: 18, label: '18'},
+				{value: 20, label: '20'},
+				{value: 24, label: '24'},
+				{value: 32, label: '32'},
+				{value: 40, label: '40'}
+			], "gap", false);
+
+			if (model.props.type === 'MobileBottom') {
+				this._renderInputDropDown("Icon Size",model, [
+				{value: 8, label: '8'},
+				{value: 12, label: '12'},
+				{value: 16, label: '16'},
+				{value: 18, label: '18'},
+				{value: 20, label: '20'},
+				{value: 24, label: '24'},
+				{value: 28, label: '28'},
+				{value: 32, label: '32'},
+				{value: 40, label: '40'}
+			], "iconSize", false);
+			}
+	
+		},
+
 		/**********************************************************************
 		 * Script
 		 **********************************************************************/
@@ -1339,6 +1373,43 @@ export default {
 			const value = settings.getValue()
 			this.onProperyChanged('script', value)
 			d.close()
+		},
+
+		/**********************************************************************
+		 * NavBar
+		 **********************************************************************/
+
+		 _renderNavBarDialog (e) {
+
+			const popup = this.db.div("MatcOptionDialog MatcPadding").build();
+
+			const cntr = this.db.div("").build(popup);
+
+			const editor = this.$new(NavidationEditor);
+			const screens = Object.values(this.model.screens).map(s => {
+				return {label: s.name, value: s.id}
+			})
+			screens.push({
+				label: 'None', value: '', css: "passive"
+			})
+			editor.setScreens(screens);
+			editor.setWidget(this.widget);
+			editor.placeAt(cntr)
+
+			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const write = this.db.div("MatcButton", "Ok").build(bar);
+			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+
+			const d = new Dialog();
+			d.own(on(write, touch.press, lang.hitch(this,"setNavBar", d, editor)));
+			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, editor)));
+			d.popup(popup, e.target);
+		},
+
+		setNavBar (d, editor) {
+			d.close()
+			const navigation = editor.getValue()
+			this.onProperyChanged("navigation", navigation);
 		},
 
 		/**********************************************************************

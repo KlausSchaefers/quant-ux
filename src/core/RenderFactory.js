@@ -57,6 +57,7 @@ import ImagePaging from 'core/widgets/ImagePaging'
 import LabeledRadioBox from 'core/widgets/LabeledRadioBox'
 import LabeledCheckBox from 'core/widgets/LabeledCheckBox'
 import LabeledTextBox from 'core/widgets/LabeledTextBox'
+import Navigation from 'core/widgets/Navigation'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -534,6 +535,12 @@ export default class RenderFactory extends Core {
 
 	_createTree(parent, model) {
 		const widget = this.$new(Tree);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createNavBar(parent, model) {		
+		const widget = this.$new(Navigation);
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

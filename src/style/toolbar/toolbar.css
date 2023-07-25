@@ -341,6 +341,7 @@
 }
 
 
+
 /****************************************************
  * Header / ItemBig
  ****************************************************/
@@ -769,6 +770,18 @@
 .MatcToolbarDropDownButtonItem:HOVER,
 .MatcCreateBtnElementSelected.MatcToolbarDropDownButtonItem{
 	border:1px solid #3787f2;
+}
+
+.MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove {
+	background: var(--danger-color-light);
+	border-color: var(--danger-color);
+	color: #fff;
+}
+
+.MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove:hover{
+	background: var(--danger-color-light);
+	border-color: var(--danger-color-dark);
+	color: #fff;
 }
 
 /****************************************************

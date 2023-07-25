@@ -1,0 +1,132 @@
+[
+	{
+		"id": "NavbarTop",
+		"type": "NavBar",
+		"_type": "Widget",
+		"category": "Advanced",
+		"subcategory": "AButtons",
+		"name": "Top NavBar",
+		"x": 0,
+        "y": 0,
+        "w": "$100%",
+        "h": "40",
+        "z": 0,
+		"props": {
+			"type": "Top",
+			"navigation": [
+				{"id": 1, "label": "Screen 1", "icon": "", "to": "", "selected": true},
+				{"id": 2, "label": "Screen 2", "icon": "", "to": ""},
+				{"id": 3, "label": "Screen 3", "icon": "", "to": ""},
+				{"id": 4, "label": "Screen 4", "icon": "", "to": ""}
+			]
+		},
+		"has": {
+			"backgroundColor": true,
+            "border": true,
+			"onclick": true,
+			"label": true,
+			"padding": true
+		},
+		"style": {
+			"borderTopRightRadius" : 0,
+			"borderTopLeftRadius" : 0,
+			"borderBottomRightRadius" : 0,
+			"borderBottomLeftRadius" : 0,
+			"borderTopWidth" : 0,
+			"borderBottomWidth": 0,
+			"borderRightWidth" : 0,
+			"borderLeftWidth" : 0,
+			"borderTopColor" : "#333333",
+			"borderBottomColor" : "#333333",
+			"borderRightColor" : "#333333",
+			"borderLeftColor" : "#333333",
+			"background" : "#ffffff",	
+
+			"color":"#777777",
+			"fontSize" : 14,
+			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"textAlign" : "left",
+
+			"paddingBottom": 4,
+			"paddingTop": 4,
+			"paddingLeft": 16,
+			"paddingRight": 16,
+
+			"gap": -1,
+			"itemGap": 8
+		},
+		"hover": {
+			"background": "#ffffff",
+			"color": "#333333"	
+		},
+		"active": {
+			"background": "#ffffff",
+			"color": "#333333"	
+		}
+	},
+	{
+		"id": "NavbarMobile",
+		"type": "NavBar",
+		"_type": "Widget",
+		"category": "Advanced",
+		"subcategory": "AButtons",
+		"name": "NavBar Mobile",
+		"_extends":"NavbarTop",
+		"x": 0,
+        "y": 0,
+        "w": "$100%",
+        "h": 72,
+        "z": 0,
+		"props": {
+			"type": "MobileBottom",
+			"navigation": [
+				{"id": 1, "label": "Home", "icon": "mdi mdi-home", "to": "", "selected": true},
+				{"id": 2, "label": "Search", "icon": "mdi mdi-magnify", "to": ""},
+				{"id": 3, "label": "Account", "icon": "mdi mdi-account-outline", "to": ""}
+				
+			]
+		},
+		"style": {
+			"gap": -1,
+			"paddingBottom": 4,
+			"paddingTop": 4,
+			"paddingLeft": 16,
+			"paddingRight": 16,
+			"iconSize": 24,
+			"itemGap": 4,
+			"fontSize": 12
+		}
+	},
+	{
+		"id": "NavbarSide",
+		"type": "NavBar",
+		"_type": "Widget",
+		"category": "Advanced",
+		"subcategory": "AButtons",
+		"name": "Side NavBar",
+		"_extends":"NavbarTop",
+		"x": 0,
+        "y": 0,
+        "w": 256,
+        "h": "$100%",
+        "z": 0,
+		"props": {
+			"type": "Side",
+			"navigation": [
+				{"id": 1, "label": "Screen 1", "icon": "", "to": "", "selected": true},
+				{"id": 2, "label": "Screen 2", "icon": "", "to": ""},
+				{"id": 3, "label": "Screen 3", "icon": "", "to": ""},
+				{"id": 4, "label": "Screen 4", "icon": "", "to": ""},
+				{"id": 5, "label": "Screen 5", "icon": "", "to": ""}
+			]
+		},
+		"style": {
+			"gap": 0,
+			"paddingBottom": 16,
+			"paddingTop": 16,
+			"paddingLeft": 4,
+			"paddingRight": 4
+		}
+	}
+
+]

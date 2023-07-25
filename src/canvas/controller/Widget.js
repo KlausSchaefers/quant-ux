@@ -192,6 +192,75 @@ export default class Widget extends Snapp {
 	 * Align
 	 **********************************************************************/
 
+	updateWidgetDataBinding (id, databinding, schema, data) {
+		this.logger.log(-1,"updateWidgetDataBinding", "enter > " + id, JSON.stringify(databinding));
+
+		const widget = this.model.widgets[id]
+		if (!widget) {
+			this.logger.log(-1,"updateWidgetDataBinding", "Error NO Widget > ", id);
+			return
+		}
+
+
+		this.startModelChange()
+		const command = {
+			timestamp : new Date().getTime(),
+			type : "UpdateDataBinding",
+			modelId : id,
+			n: {
+				databinding: lang.clone(databinding),
+				schema: lang.clone(schema),
+				data: lang.clone(data)
+			},
+			o: {
+				databinding: lang.clone(widget.props.databinding),
+				schema: lang.clone(this.model.schema),
+				data: lang.clone(this.model.data)
+			}
+		};
+
+		this.modelUpdateDataBindingAndSchema(id, databinding, schema, data)
+
+
+		//console.debug('updateWidgetDataBinding() > exit', JSON.stringify(this.model.widgets, null, 2))
+
+
+		this.addCommand(command);
+		this.render();
+		this.commitModelChange(true, true)
+
+		//console.debug('updateWidgetDataBinding() > exit', JSON.stringify(this.model.widgets, null, 2))
+	}
+
+	modelUpdateDataBindingAndSchema (id, databinding, schema, data) {
+		const widget = this.model.widgets[id]
+		if (!widget) {
+			this.logger.log(-1,"modelUpdateDataBindingAndSchema", "Error NO Widget > ", id);
+			return
+		}
+
+		if (!widget.props) {
+			widget.props = {}
+		}
+
+		widget.props.databinding = databinding
+		this.model.schema = schema
+		this.model.data = data
+
+		this.onModelChanged([{type: 'widget', action:"change", id: id}])
+	}
+
+	redoUpdateDataBinding(command) {
+		this.logger.log(-3,"redoUpdateDataBinding", "enter > " + command.id);
+		this.modelUpdateDataBindingAndSchema(command.modelId, command.n.databinding, command.n.schema, command.n.data);
+		this.render();
+	}
+
+	undoUpdateDataBinding(command) {
+		this.logger.log(-3,"undeUpdateDataBinding", "enter > " + command.id);
+		this.modelUpdateDataBindingAndSchema(command.modelId, command.o.databinding, command.o.schema, command.o.data);
+		this.render()
+	}
 
 
 	/**********************************************************************
@@ -745,7 +814,7 @@ export default class Widget extends Snapp {
 	}
 
 	modelWidgetPropertiesUpdate (id, props, type){
-		this.logger.log(1,"modelWidgetPropertiesUpdate", "enter > " + id+ " > " + type);
+		this.logger.log(1,"modelWidgetPropertiesUpdate", "enter > " + id+ " > " + type, props);
 
 		const widget = this.model.widgets[id];
 		if(widget && widget[type]){

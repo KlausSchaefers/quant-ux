@@ -1,0 +1,34 @@
+:root {
+	--primary-color: #3787f2;
+	--primary-color-hover: #1251a3;
+	--secundary-color: #f2b637;
+	--hightlight-soft: #d6e5f8;
+	--hightlight-soft-xl: #f2f2f2;
+	--primary-color-dark: #04152c;
+	--danger-color-light: #f7dddd;
+	--danger-color: #f83a3a;
+	--danger-color-dark: #b90505;
+	--form-color: #04152c;
+	--form-color-hover: #000;
+	--form-input-hover:hsl(0deg, 0%, 71%);
+	--form-color-focus: #000;
+	--from-button-color: #ffffffe2;
+	--from-button-color-hover: #fff;
+	--form-border: #ccc;
+	--form-border-focus: #b5b5b5;
+	--form-font-size: 14px;
+	--form-height: 34px;
+
+	--form-padding: 6px 12px;
+	--form-padding-wrapped: 4px 12px;
+
+	--toolbar-dropdown-hover: #ccc;
+
+	--home-color: #3787f2;
+	--home-color-hover: #1251a3;
+	--layer-list-selection: #d6e5f8;
+
+	--from-radius:2px;
+	--border-radius-preview:2px;
+	--border-color-soft: rgba(0, 0, 0, 0.15);
+}

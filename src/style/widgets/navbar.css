@@ -1,0 +1,32 @@
+.MatcWidgetTypeNavBar{
+    position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+}
+
+.MatcWidgetTypeNavBar .MatcWidgetTypeNavBarCntr {
+	height: 100%;
+	width: 100%;
+	display: flex;
+}
+
+.MatcWidgetTypeNavBar.Side .MatcWidgetTypeNavBarCntr{
+	flex-direction: column;
+}
+
+.MatcWidgetTypeNavBarItem {
+    display: flex;
+    align-items: center;
+	cursor: pointer;
+}
+
+.MatcWidgetTypeNavBarIcon{
+	line-height: 1;
+}
+
+.MatcWidgetTypeNavBar.MobileBottom .MatcWidgetTypeNavBarItem{
+	flex-direction: column;
+	justify-content: center;
+	flex-grow: 1;
+}
