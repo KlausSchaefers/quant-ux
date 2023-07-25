@@ -275,7 +275,6 @@ export default {
 				}
 			}
 		}
-
     },
     mounted () {
     }

@@ -528,7 +528,6 @@ export default {
 
      getColumns (data, style) {
       let columns = data.columns
-
       // if we have a checkbox we need to add
       // an empty row and also some adjustments to the table
       if (style.checkBox) {

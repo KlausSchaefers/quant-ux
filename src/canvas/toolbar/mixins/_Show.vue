@@ -195,6 +195,7 @@ export default {
 						this._removeCss(this.commentSection, "MatcToolbarSectionHidden");
 						this._removeCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
 						this._removeCss(this.editTool,"MatcToolbarSectionHidden");
+					
 						this._removeCss(this.moveTool,"MatcToolbarSectionHidden");
 						this._removeCss(this.commentBtn,"MatcToolbarSectionHidden");
 						this._removeCss(this.selectBtn, "MatcToolbarSectionHidden");

@@ -867,7 +867,6 @@ export default class Group extends Layer {
 	removeGroupAndWidgets (id) {
 		this.logger.log(-1, "removeGroupAndWidget", "enter > " + id);
 
-
 		if(this.model.groups && this.model.groups[id]){
 			this.startModelChange()
 			const group = this.model.groups[id];
