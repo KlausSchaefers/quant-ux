@@ -94,11 +94,21 @@
     font-size: 14px;
 }
 
-
-
-
 .MatcToolbarTableSettings .MatcFormRow > td{
     padding-bottom: 10px;
     vertical-align: middle;
+}
+
+.MatcFormRowDND{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.MatcFormRowDND .mdi{
+    margin-left: -5x;
+    font-size: 18px;
+    cursor: ns-resize;
+    line-height: 1;
 }
 

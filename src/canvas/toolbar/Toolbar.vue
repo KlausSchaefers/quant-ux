@@ -1738,6 +1738,7 @@ export default {
 		},
 
 
+		
 		setWidgetMultiStyle (newStyle){
 			this.logger.log(2,"setWidgetMultiStyle", "entry");
 			var modelKey = this._getViewStyleModelKey();
@@ -1748,6 +1749,23 @@ export default {
 			}
 			return false;
 		},
+
+		setWidgetMultiProps (newProps){
+			this.logger.log(-1,"setWidgetMultiProps", "entry", JSON.stringify(newProps));
+			if(this._selectedWidget && this._selectedWidget.style){
+				this.controller.updateWidgetProperties(this._selectedWidget.id, newProps, "props");
+			}
+			return false;
+		},
+
+		setWidgetDataBinding (dataBinding, schema, data){
+			this.logger.log(-1,"setWidgetDataBinding", "entry > ", dataBinding, schema);
+			if(this._selectedWidget){
+				this.controller.updateWidgetDataBinding(this._selectedWidget.id, dataBinding, schema, data)
+			}
+			return false;
+		},
+
 
 		_getViewStyleModelKey (){
 			return this.widgetViewModeBtn.getValue();

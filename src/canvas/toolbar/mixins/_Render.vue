@@ -819,6 +819,7 @@ export default {
 			this.dataWidget.placeAt(dataDiv);
 			this.dataWidget.setSectionHeader(parent);
 			this.own(on(this.dataWidget, "propertyChange", lang.hitch(this, "setWidgetProps")));
+			this.own(on(this.dataWidget, "propertyMultiChange", lang.hitch(this, "setWidgetMultiProps")));
 			this.own(on(this.dataWidget, "stypeChange", lang.hitch(this, "setWidgetStyle")));
 			this.own(on(this.dataWidget, "stypeChanging", lang.hitch(this, "setTempWidgetStyle")));
 			this.own(on(this.dataWidget, "stypeMutlitChange", lang.hitch(this, "setWidgetMultiStyle")));
@@ -845,8 +846,11 @@ export default {
 			this.validationWidget.placeAt(dataDiv);
 			this.validationWidget.setSectionHeader(parent);
 			this.own(on(this.validationWidget, "propertyChange", lang.hitch(this, "setWidgetProps")));
+			this.own(on(this.validationWidget, "propertyMultiChange", lang.hitch(this, "setWidgetMultiProps")));
+			this.own(on(this.validationWidget, "dataBindingChange", lang.hitch(this, "setWidgetDataBinding")));
 			this.own(on(this.validationWidget, "stypeChange", lang.hitch(this, "setWidgetStyle")));
 			this.own(on(this.validationWidget, "stypeMutlitChange", lang.hitch(this, "setWidgetMultiStyle")));
+
 
 			this.properties.appendChild(parent);
 			this.validationDiv = parent;
