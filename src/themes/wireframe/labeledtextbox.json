@@ -9,7 +9,7 @@
 		 "x" : 0,
 	     "y" : 0,
 	     "w" : 200,
-	     "h" : 56,
+	     "h" : 64,
 	     "z" : 0,
 	     "props" : {
 		     "label" : "Enter a value",
@@ -50,7 +50,8 @@
 		      "paddingBottom" : 5,
 		      "paddingLeft" : 5,
 		      "paddingRight" : 5,
-		      "textAlign":"left"
+		      "textAlign":"left",
+			  "inputHeight":40
 	     },
 	     "error" : {
 	    	 "borderTopColor" : "#cc0000",

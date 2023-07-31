@@ -82,8 +82,7 @@
 			"navigation": [
 				{"id": 1, "label": "Home", "icon": "mdi mdi-home", "to": "", "selected": true},
 				{"id": 2, "label": "Search", "icon": "mdi mdi-magnify", "to": ""},
-				{"id": 3, "label": "Account", "icon": "mdi mdi-account-outline", "to": ""}
-				
+				{"id": 3, "label": "Account", "icon": "mdi mdi-account-outline", "to": ""}				
 			]
 		},
 		"style": {

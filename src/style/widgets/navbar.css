@@ -4,6 +4,7 @@
 	height: 100%;
 	outline: none;
 	overflow: hidden;
+	border-style: solid;
 }
 
 .MatcWidgetTypeNavBar .MatcWidgetTypeNavBarCntr {

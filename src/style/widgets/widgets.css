@@ -1495,6 +1495,10 @@
 	cursor: pointer;
 }
 
+.MatcWidgetTypeDropDownNoText .MatcWidgetTypeDropDownIcon.mdi{
+	line-height: 1;
+}
+
 .MatcWidgetTypeDropDownNoText .MatcWidgetTypeDropDownLabelCntr {
 	width: 100%;
 	height: 100%;

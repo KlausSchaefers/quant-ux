@@ -662,6 +662,17 @@ export default {
 				{value: 24, label: '24'},
 				{value: 32, label: '32'},
 			], "labelFontSize", false);
+			this._renderInputDropDown("Input Size",model, [
+				{value: -1, label: 'Auto'},
+				{value: 16, label: '16'},
+				{value: 18, label: '18'},
+				{value: 20, label: '20'},
+				{value: 24, label: '24'},
+				{value: 32, label: '32'},
+				{value: 40, label: '40'},
+				{value: 56, label: '56'},
+				{value: 64, label: '64'},
+			], "inputHeight", false);
 			this._renderInputDropDown("Horizontal Offset",model, [0,4, 8, 12, 16, 20], "labelOffset", false);
 			this._renderInput(model.props, "placeholderLabel", "", 'Placeholder');
 		},
@@ -1333,6 +1344,28 @@ export default {
 			}
 	
 		},
+
+
+		_showNavMenu (model){
+			this._setSectionLabel("Navigation Menu");
+
+			this._renderButton("Navigation", "mdi mdi-arrow-decision-outline", "_renderNavBarDialog");
+
+			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
+			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
+			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
+			this._renderCheck("Merge borders",model.props.hideUpperBorder, "hideUpperBorder" );
+			this._renderLabelDropDown("Popup Position", model,"popupPosition",[
+					{ value:"MatcWidgetTypeDropDownPopUber", icon:"mdi mdi-arrow-up-bold-circle", label : "Popup Over"},
+					{ value:null, icon:"mdi mdi-arrow-down-bold-circle", label : "Popup Under"},
+			]);
+			this._renderShadowPicker("Popup",model, "popupShadow");
+	
+		},
+
+
+
+
 
 		/**********************************************************************
 		 * Script

@@ -1,7 +1,7 @@
 <template>
     <div class="MatcWidgetTypeLabeledTextBox ">
         <div ref="labelNode" class="MatcWidgetTypeLabeledTextBoxLabel">{{ label }}</div>
-        <div ref="inputNode" class="MatcWidgetTypeLabeledTextBoxInputCntr MatcWidgetTypeTextBox">{{ label }}</div>
+        <div ref="inputNode" class="MatcWidgetTypeLabeledTextBoxInputCntr MatcWidgetTypeTextBox"></div>
     </div>
 </template>
 <script>
@@ -15,7 +15,7 @@ import touch from "dojo/touch";
 import TextBox from "core/widgets/TextBox";
 
 export default {
-    name: "TextBox",
+    name: "LabeledTextBox",
     mixins: [TextBox, DojoWidget],
     data: function () {
         return {
@@ -112,13 +112,20 @@ export default {
 
         setInputSize(style) {
             //console.debug(style.fontSize, style.paddingBottom, style.paddingTop, style.borderBottomWidth, style.borderTopWidth, this._scaleY)
-            let h = style.fontSize +
-                style.paddingBottom +
-                style.paddingTop +
-                style.borderTopWidth +
-                style.borderBottomWidth
-            h = this.getZoomed(h , this._scaleY);
-            this.inputNode.style.height = h + 'px'
+            if (style.inputHeight && style.inputHeight > 0) {
+                const h = this.getZoomed(style.inputHeight , this._scaleY);
+                this.inputNode.style.height = h + 'px'
+            } else {
+                let h = style.fontSize +
+                    style.paddingBottom +
+                    style.paddingTop +
+                    style.borderTopWidth +
+                    style.borderBottomWidth
+                h = this.getZoomed(h , this._scaleY);
+                this.inputNode.style.height = h + 'px'
+            }
+
+
         },
 
         _set_labelOffset(parent, style) {

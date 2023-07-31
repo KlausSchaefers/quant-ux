@@ -58,6 +58,7 @@ import LabeledRadioBox from 'core/widgets/LabeledRadioBox'
 import LabeledCheckBox from 'core/widgets/LabeledCheckBox'
 import LabeledTextBox from 'core/widgets/LabeledTextBox'
 import Navigation from 'core/widgets/Navigation'
+import NavMenu from 'core/widgets/NavMenu'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -544,6 +545,12 @@ export default class RenderFactory extends Core {
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}
+
+	_createNavMenu(parent, model) {		
+		const widget = this.$new(NavMenu);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}	
 
 	_createTimeline (parent, model) {
 		const widget = this.$new(Timeline)

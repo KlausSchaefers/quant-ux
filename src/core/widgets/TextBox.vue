@@ -69,6 +69,42 @@ export default {
       this.wireHover()
     },
 
+    onDomMouseOver (e) {
+      if (this.hasFocus || this.lastValidation === false) {
+        return
+      }
+      if (this.model.hover) {
+        this.emitAnimation(
+          this.model.id,
+          this.hoverAnimationDuration,
+          this.model.hover
+        );
+      }
+      this.emitMouseOver(e);
+    },
+
+    onDomMouseOut (e) {
+      if (this.hasFocus || this.lastValidation === false) {
+        return
+      }
+      if (this.model.hover) {
+        if (this.value && this.model.active) {
+          this.emitAnimation(
+            this.model.id,
+            this.hoverAnimationDuration,
+            this.model.active
+          );
+        } else {
+          this.emitAnimation(
+            this.model.id,
+            this.hoverAnimationDuration,
+            this.model.style
+          );
+        }
+      }
+      this.emitMouseOut(e);
+    },
+
     /**
      * For child classes to hook in
      */
@@ -87,13 +123,14 @@ export default {
     onFocus (e) {
       this.log.log(0, "onFocus", "enter >" + this.lastValidation);
       this.stopPropagation(e);
-
+      this.hasFocus = true;
       this.keyUpListener = on(this.input,"keyup", lang.hitch(this, "onKeyUp"));
       this.keyDownListener = on(this.input,"keydown", lang.hitch(this, "onKeyDown"));
       if (this.model.focus && this.lastValidation) {
-        this.emitAnimation(this.model.id, 0, this.model.focus);
+        console.debug("onFocus", this.model.focus.color)
+        this.emitAnimation(this.model.id, 200, this.model.focus);
       }
-      this.hasFocus = true;
+
       this.emit("focus", {});
       this.afterFocus();
     },

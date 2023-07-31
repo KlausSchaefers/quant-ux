@@ -546,7 +546,7 @@
 .MatcToobarPropertiesSection .MatcToobarViewSection .MatcToolbarItem{
 	margin:0px;
 	height: 24px;
-	padding: 2px 15px;
+	padding: 2px 8px;
 }
 
 .MatcToobarViewSection .MatcToolbarItem:hover{

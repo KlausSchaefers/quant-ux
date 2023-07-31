@@ -1,249 +1,251 @@
 [
 	{
-		 "id" : "TextBox",
-		 "type" : "TextBox",
-		 "_type" : "Widget",
-		 "category" : "WireFrame",
-		 "subcategory" : "AFormInput",
-		 "name" : "Text Box",
-		 "x" : 0,
-	     "y" : 0,
-	     "w" : 200,
-	     "h" : 40,
-	     "z" : 0,
-	     "props" : {
-		     "label" : "Enter a value",
-		     "placeholder" : true
-	     },
-	     "has" : {
-	        "label" : true,
-	        "backgroundColor" : true,
-	        "border" : true,
-	        "editable" : true,
-	        "onclick" : true,
-	        "padding" : true
-	     },
-	     "style" : { 
-	    	  "color" : "#333333",
-		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		      "borderTopRightRadius" : 3,
-		      "borderTopLeftRadius" : 3,
-		      "borderBottomRightRadius" : 3,
-		      "borderBottomLeftRadius" : 3,
-		      "borderTopWidth" : 1,
-		      "borderBottomWidth" : 1,
-		      "borderRightWidth" : 1,
-		      "borderLeftWidth" : 1,
-		      "fontSize" : 18,
-		      "borderTopColor" : "#333333",
-		      "borderBottomColor" : "#333333",
-		      "borderRightColor" : "#333333",
-		      "borderLeftColor" : "#333333",
-		      "background" : "#ffffff",
-		      "paddingTop" : 5,
-		      "paddingBottom" : 5,
-		      "paddingLeft" : 5,
-		      "paddingRight" : 5,
-		      "textAlign":"left"
-	     },
-	     "error" : {
-	    	 "borderTopColor" : "#cc0000",
-		     "borderBottomColor" : "#cc0000",
-		     "borderRightColor" : "#cc0000",
-		     "borderLeftColor" : "#cc0000",
-		     "background" : "#ffcaca"
-	     },
-	     "focus" : {
-		     "background" : "#f2f2f2"
-	     }
-	     
-	 },
-	 {
-		 "id" : "TextBoxInt",
-		 "type" : "TextBox",
-		 "_type" : "Widget",
-		 "category" : "WireFrame",
-		 "subcategory" : "FormInput",
-		 "name" : "Text Box (Number)",
-		 "_extends" : "TextBox",
-		 "x" : 0,
-	     "y" : 0,
-	     "w" : 200,
-	     "h" : 40,
-	     "z" : 0,
-	     "props" : {
-		     "label" : "Enter a number",
-		     "placeholder" : true,
-		     "validation" :{
-		    	 "type" : "int"
-		     }
-	     }
-	 },
-	 {
-		 "id" : "TextBoxEmail",
-		 "type" : "TextBox",
-		 "_type" : "Widget",
-		 "category" : "WireFrame",
-		 "subcategory" : "FormInput",
-		 "name" : "Text Box (Email)",
-		 "_extends" : "TextBox",
-		 "x" : 0,
-	     "y" : 0,
-	     "w" : 200,
-	     "h" : 40,
-	     "z" : 0,
-	     "props" : {
-		     "label" : "Enter an email",
-		     "placeholder" : true,
-		     "validation" :{
-		    	 "type" : "email"
-		     }
-	     }
-	 },
-	 {
-		 "id" : "TextArea",
-		 "type" : "TextArea",
-		 "_type" : "Widget",
-		 "category" : "WireFrame",
-		 "subcategory" : "FormInput2",
-		 "name" : "Text Area",
-		 "x" : 0,
-	     "y" : 0,
-	     "w" : 200,
-	     "h" : 100,
-	     "z" : 0,
-	     "props" : {
-		     "label" : "Enter a value"
-	     },
-	     "has" : {
-	        "label" : true,
-	        "backgroundColor" : true,
-	        "border" : true,
-	        "editable" : true,
-	        "onclick" : true,
-	        "padding" : true
-	     },
-	     "style" : { 
-	    	  "color" : "#333333",
-		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		      "borderTopRightRadius" : 3,
-		      "borderTopLeftRadius" : 3,
-		      "borderBottomRightRadius" : 3,
-		      "borderBottomLeftRadius" : 3,
-		      "borderTopWidth" : 1,
-		      "borderBottomWidth" : 1,
-		      "borderRightWidth" : 1,
-		      "borderLeftWidth" : 1,
-		      "fontSize" : 18,
-		      "borderTopColor" : "#333333",
-		      "borderBottomColor" : "#333333",
-		      "borderRightColor" : "#333333",
-		      "borderLeftColor" : "#333333",
-		      "background" : "#ffffff",
-		      "paddingTop" : 5,
-		      "paddingBottom" : 5,
-		      "paddingLeft" : 5,
-		      "paddingRight" : 5,
-		      "textAlign":"left"
-	     }
-	 },
-	 {
-		 "id" : "PasswordBox",
-		 "type" : "Password",
-		 "_type" : "Widget",
-		 "category" : "WireFrame",
-		 "subcategory" : "FormInput",
-		 "name" : "Password",
-		 "x" : 0,
-	     "y" : 0,
-	     "w" : 200,
-	     "h" : 40,
-	     "z" : 0,
-	     "props" : {
-		     "label" : "",
-		     "cleartextHideLabel" : "Hide",
-		     "cleartextShowLabel" : "Show"
-	     },
-	     "has" : {
-	        "label" : true,
-	        "backgroundColor" : true,
-	        "border" : true,
-	        "editable" : true,
-	        "onclick" : true,
-	        "padding" : true
-	     },
-	     "style" : { 
-	    	  "color" : "#333333",
-		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		      "borderTopRightRadius" : 3,
-		      "borderTopLeftRadius" : 3,
-		      "borderBottomRightRadius" : 3,
-		      "borderBottomLeftRadius" : 3,
-		      "borderTopWidth" : 1,
-		      "borderBottomWidth" : 1,
-		      "borderRightWidth" : 1,
-		      "borderLeftWidth" : 1,
-		      "fontSize" : 18,
-		      "borderTopColor" : "#333333",
-		      "borderBottomColor" : "#333333",
-		      "borderRightColor" : "#333333",
-		      "borderLeftColor" : "#333333",
-		      "background" : "#ffffff",
-		      "paddingTop" : 5,
-		      "paddingBottom" : 5,
-		      "paddingLeft" : 5,
-		      "paddingRight" : 5,
-		      "textAlign":"left"
-	     }
-	 },
-	 {
-		 "id" : "PasswordBox2",
-		 "type" : "Password",
-		 "_type" : "Widget",
-		 "category" : "WireFrame",
-		 "subcategory" : "FormInput",
-		 "name" : "Password  (Hide & Show)",
-		 "x" : 0,
-	     "y" : 0,
-	     "w" : 200,
-	     "h" : 40,
-	     "z" : 0,
-	     "props" : {
-		     "label" : "",
-		     "cleartext" : true,
-		     "cleartextHideLabel" : "Hide",
-		     "cleartextShowLabel" : "Show"
-	     },
-	     "has" : {
-	        "label" : true,
-	        "backgroundColor" : true,
-	        "border" : true,
-	        "editable" : true,
-	        "onclick" : true,
-	        "padding" : true
-	     },
-	     "style" : { 
-	    	  "color" : "#333333",
-		      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		      "borderTopRightRadius" : 3,
-		      "borderTopLeftRadius" : 3,
-		      "borderBottomRightRadius" : 3,
-		      "borderBottomLeftRadius" : 3,
-		      "borderTopWidth" : 1,
-		      "borderBottomWidth" : 1,
-		      "borderRightWidth" : 1,
-		      "borderLeftWidth" : 1,
-		      "fontSize" : 18,
-		      "borderTopColor" : "#333333",
-		      "borderBottomColor" : "#333333",
-		      "borderRightColor" : "#333333",
-		      "borderLeftColor" : "#333333",
-		      "background" : "#ffffff",
-		      "paddingTop" : 5,
-		      "paddingBottom" : 5,
-		      "paddingLeft" : 5,
-		      "paddingRight" : 5,
-		      "textAlign":"left"
-	     }
-	 }
+		"id": "TextBox",
+		"type": "TextBox",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "AFormInput",
+		"name": "Text Box",
+		"x": 0,
+		"y": 0,
+		"w": 200,
+		"h": 40,
+		"z": 0,
+		"props": {
+			"label": "Enter a value",
+			"placeholder": true
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+			"color": "#333333",
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"borderTopRightRadius": 3,
+			"borderTopLeftRadius": 3,
+			"borderBottomRightRadius": 3,
+			"borderBottomLeftRadius": 3,
+			"borderTopWidth": 1,
+			"borderBottomWidth": 1,
+			"borderRightWidth": 1,
+			"borderLeftWidth": 1,
+			"fontSize": 18,
+			"borderTopColor": "#333333",
+			"borderBottomColor": "#333333",
+			"borderRightColor": "#333333",
+			"borderLeftColor": "#333333",
+			"background": "#ffffff",
+			"paddingTop": 5,
+			"paddingBottom": 5,
+			"paddingLeft": 5,
+			"paddingRight": 5,
+			"textAlign": "left"
+		},
+		"error": {
+			"borderTopColor": "#cc0000",
+			"borderBottomColor": "#cc0000",
+			"borderRightColor": "#cc0000",
+			"borderLeftColor": "#cc0000",
+			"background": "#ffcaca"
+		},
+		"focus": {
+			"background": "#f2f2f2"
+		},
+		"hover": {
+			"background": "#f2f2f2"
+		}
+	},
+	{
+		"id": "TextBoxInt",
+		"type": "TextBox",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "FormInput",
+		"name": "Text Box (Number)",
+		"_extends": "TextBox",
+		"x": 0,
+		"y": 0,
+		"w": 200,
+		"h": 40,
+		"z": 0,
+		"props": {
+			"label": "Enter a number",
+			"placeholder": true,
+			"validation": {
+				"type": "int"
+			}
+		}
+	},
+	{
+		"id": "TextBoxEmail",
+		"type": "TextBox",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "FormInput",
+		"name": "Text Box (Email)",
+		"_extends": "TextBox",
+		"x": 0,
+		"y": 0,
+		"w": 200,
+		"h": 40,
+		"z": 0,
+		"props": {
+			"label": "Enter an email",
+			"placeholder": true,
+			"validation": {
+				"type": "email"
+			}
+		}
+	},
+	{
+		"id": "TextArea",
+		"type": "TextArea",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "FormInput2",
+		"name": "Text Area",
+		"x": 0,
+		"y": 0,
+		"w": 200,
+		"h": 100,
+		"z": 0,
+		"props": {
+			"label": "Enter a value"
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+			"color": "#333333",
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"borderTopRightRadius": 3,
+			"borderTopLeftRadius": 3,
+			"borderBottomRightRadius": 3,
+			"borderBottomLeftRadius": 3,
+			"borderTopWidth": 1,
+			"borderBottomWidth": 1,
+			"borderRightWidth": 1,
+			"borderLeftWidth": 1,
+			"fontSize": 18,
+			"borderTopColor": "#333333",
+			"borderBottomColor": "#333333",
+			"borderRightColor": "#333333",
+			"borderLeftColor": "#333333",
+			"background": "#ffffff",
+			"paddingTop": 5,
+			"paddingBottom": 5,
+			"paddingLeft": 5,
+			"paddingRight": 5,
+			"textAlign": "left"
+		}
+	},
+	{
+		"id": "PasswordBox",
+		"type": "Password",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "FormInput",
+		"name": "Password",
+		"x": 0,
+		"y": 0,
+		"w": 200,
+		"h": 40,
+		"z": 0,
+		"props": {
+			"label": "",
+			"cleartextHideLabel": "Hide",
+			"cleartextShowLabel": "Show"
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+			"color": "#333333",
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"borderTopRightRadius": 3,
+			"borderTopLeftRadius": 3,
+			"borderBottomRightRadius": 3,
+			"borderBottomLeftRadius": 3,
+			"borderTopWidth": 1,
+			"borderBottomWidth": 1,
+			"borderRightWidth": 1,
+			"borderLeftWidth": 1,
+			"fontSize": 18,
+			"borderTopColor": "#333333",
+			"borderBottomColor": "#333333",
+			"borderRightColor": "#333333",
+			"borderLeftColor": "#333333",
+			"background": "#ffffff",
+			"paddingTop": 5,
+			"paddingBottom": 5,
+			"paddingLeft": 5,
+			"paddingRight": 5,
+			"textAlign": "left"
+		}
+	},
+	{
+		"id": "PasswordBox2",
+		"type": "Password",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "FormInput",
+		"name": "Password  (Hide & Show)",
+		"x": 0,
+		"y": 0,
+		"w": 200,
+		"h": 40,
+		"z": 0,
+		"props": {
+			"label": "",
+			"cleartext": true,
+			"cleartextHideLabel": "Hide",
+			"cleartextShowLabel": "Show"
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+			"color": "#333333",
+			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"borderTopRightRadius": 3,
+			"borderTopLeftRadius": 3,
+			"borderBottomRightRadius": 3,
+			"borderBottomLeftRadius": 3,
+			"borderTopWidth": 1,
+			"borderBottomWidth": 1,
+			"borderRightWidth": 1,
+			"borderLeftWidth": 1,
+			"fontSize": 18,
+			"borderTopColor": "#333333",
+			"borderBottomColor": "#333333",
+			"borderRightColor": "#333333",
+			"borderLeftColor": "#333333",
+			"background": "#ffffff",
+			"paddingTop": 5,
+			"paddingBottom": 5,
+			"paddingLeft": 5,
+			"paddingRight": 5,
+			"textAlign": "left"
+		}
+	}
 ]

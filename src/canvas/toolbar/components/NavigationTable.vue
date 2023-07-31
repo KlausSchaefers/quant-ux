@@ -15,8 +15,8 @@
                 <thead>
                     <tr class="MatcFormRow">
                         <th style="width:60px;">Selected</th>
-                        <th style="width:260px;">Label</th>
-                        <th style="width:260px;">Screen</th>
+                        <th >Label</th>
+                        <th >Screen</th>
                         <th style="width:50px;">Icon</th>
                         <th style=""></th>
                     </tr>
