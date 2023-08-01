@@ -28,30 +28,59 @@ export default {
 			}
 
 			for (let id in zoomedModel.screens){
-				let zoomedScreen = zoomedModel.screens[id]
+				const zoomedScreen = zoomedModel.screens[id]
 				this.updateScreenDnd(zoomedScreen)
 				this.updateCommentDnd(zoomedScreen)
 			}
 
 			for (let id in zoomedModel.widgets){
-				let zoomedWidget = zoomedModel.widgets[id]
+				const zoomedWidget = zoomedModel.widgets[id]
 				if (zoomedWidget && this.widgetDivs[id]) {
-					let dnd = this.widgetDivs[id]
+					const dnd = this.widgetDivs[id]
 					this.updateBox(zoomedWidget, dnd)
 				}
 			}
 
 			if (this.renderLines){
 				for (let id in zoomedModel.lines){
-					let line = zoomedModel.lines[id];
+					const line = zoomedModel.lines[id];
 					if (!line.hidden){
 						this.renderLine(line);
 					}
 				}
+
+				this._renderNavigationLines(zoomedModel)
+
 			}
 
 			this._updateDNDRendered = true
 
+		},
+
+		_renderNavigationLines (zoomedModel) {
+			if (!this.renderNavLines) {
+				return
+			}
+			for (let id in zoomedModel.widgets){
+				const zoomedWidget = zoomedModel.widgets[id]
+				if (zoomedWidget.props?.navigation) {
+					const navigation = zoomedWidget.props.navigation
+					for (let i=0; i < navigation.length; i++) {
+						const item = navigation[i]
+						if (item.to) {
+							const tempLine = {
+								id: i +'@' + zoomedWidget.id,
+								from: zoomedWidget.id,
+								to: item.to,
+								style: 'dashed',
+								points:[]
+							}
+							this.renderLine(tempLine);
+						}
+					}
+		
+				}
+			}
 		},
 
 		afterUpdateDnd () {
@@ -149,6 +178,8 @@ export default {
 						this.renderLine(zoomedModel.lines[id]);
 					}
 				}
+
+				this._renderNavigationLines(zoomedModel)
 			}
 
 			/**

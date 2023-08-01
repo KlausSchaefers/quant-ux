@@ -17,7 +17,8 @@ export default {
 			bendFactorX : 0.5,
 			bendFactorY : 0.5,
 			lineEventType :"receives", // emits
-			lineFromCorrect: 1
+			lineFromCorrect: 1,
+			renderNavLines: false,
         }
     },
     components: {},
@@ -94,7 +95,7 @@ export default {
 						/**
 						 * create new line
 						 */
-						 const svg = this.drawLine(line.id, layoutedLine);
+						const svg = this.drawLine(line.id, layoutedLine, line.style);
 						this.lineSVGs[line.id] = svg;
 
 						/**
@@ -114,7 +115,7 @@ export default {
 						/**
 						 * update line
 						 */
-						 const svg = this.lineSVGs[line.id];
+						const svg = this.lineSVGs[line.id];
 						svg.attr("d", this.lineFunction(layoutedLine));
 
 						if (this.mode === "edit") {
@@ -502,8 +503,8 @@ export default {
 		},
 
 
-		drawLine (id, line){
-			return this.drawSVGLine(id, line,this.defaultLineColor, this.defaultLineWidth, 1);
+		drawLine (id, line, style){
+			return this.drawSVGLine(id, line,this.defaultLineColor, this.defaultLineWidth, 1, style);
 		},
 
 		drawSVGLineWidthArrow (id, line, color, width, op) {
@@ -512,14 +513,14 @@ export default {
 						.attr("d", this.lineFunction(line))
 						.attr("stroke", color)
 						.attr("stroke-width", width )
-						.attr("fill", "none")
+						.attr("fill", "none")				
 						.style("opacity", op);
 
 			return line
 		},
 
 
-		drawSVGLine (id, line, color, width, op){
+		drawSVGLine (id, line, color, width, op, style){
 
 			this.svg.append("defs").append("marker")
 					.attr("id", "arrowhead_"+id)
@@ -541,6 +542,11 @@ export default {
 						.attr("fill", "none")
 						.style("opacity", op)
 						.attr("marker-end", "url(#" + "arrowhead_"+id +")");
+
+			if (style === 'dashed') {
+				lineGraph.attr("stroke-dasharray", 4)
+			}
+
 
 			return lineGraph;
 		},
