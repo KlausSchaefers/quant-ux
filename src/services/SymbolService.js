@@ -82,7 +82,6 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/image.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/label.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/link.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/wireframe/navmenu.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/mobile_drop_down.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/radiobox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/radiogroup.json'),
@@ -120,6 +119,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/imagepaging.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/labeledtextbox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/navbar.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/navmenu.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/button2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/OpenUI/calender.json'),
