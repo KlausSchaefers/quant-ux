@@ -444,13 +444,13 @@ export default {
       };
     },
 
-    getAppTypeIcon: function(model) {
+    getAppTypeIcon (model) {
       if (model.type == "smartphone") {
-        return "mdi mdi-cellphone";
+        return "mdi mdi-crop-portrait";
       } else if (model.type == "tablet") {
-        return "mdi mdi-tablet-ipad";
+        return "mdi mdi-crop-landscape";
       }
-      return "mdi mdi-laptop";
+      return "mdi mdi-crop-landscape";
     },
 
     getDomain: function() {

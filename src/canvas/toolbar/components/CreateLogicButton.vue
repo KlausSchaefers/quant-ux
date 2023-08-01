@@ -3,8 +3,8 @@
     <div class=" MatcToolbarArrowDropDown  MatcToolbarDropDownButton">
 		<div class="MatcToolbarItem MatcMultiIcon" type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="">
-				<span class="mdi mdi-vector-curve"></span>
-
+                <span class="ri ri-cloud-line" ></span>
+				<!-- <span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> -->
 			</label>
 
 		</div>
@@ -38,18 +38,16 @@ export default {
     data: function () {
         return {
             tools: [
-                {value: 'bezier', icon: 'mdi mdi-vector-bezier', label: 'Curve'},
-                {value: 'path', icon: 'mdi mdi-vector-line', label: 'Path'},
-                {value: 'rectangle', icon: 'mdi mdi-vector-rectangle', label: 'Rectangle'},
-                {value: 'triangle', icon: 'mdi mdi-vector-triangle', label: 'Triangle'}
+                {value: 'rest', icon: 'mdi mdi-cloud-outline', label: 'Rest'},
+                {value: 'logic', icon: 'mdi mdi-rhombus-outline', label: 'OR'},
+                {value: 'script', icon: 'mdi mdi mdi-code-tags', label: 'Script'}
             ]
         }
     },
     components: {},
     methods: {
     
-        onSelect (t) {
-            console.debug('onSelect', t)
+        onSelect (t) {          
             this.$emit('add', t)
         },
 

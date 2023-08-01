@@ -191,50 +191,50 @@ export default {
 					var screenCount = this.getObjectLength(this.model.screens);
 					if(screenCount > 0) {
 						this._removeCss(this.simulatorSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.undoSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.commentSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
-						this._removeCss(this.editTool,"MatcToolbarSectionHidden");
+						// this._removeCss(this.undoSection, "MatcToolbarSectionHidden");
+						// this._removeCss(this.commentSection, "MatcToolbarSectionHidden");
+						// this._removeCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
+						// this._removeCss(this.editTool,"MatcToolbarSectionHidden");
 					
-						this._removeCss(this.moveTool,"MatcToolbarSectionHidden");
-						this._removeCss(this.commentBtn,"MatcToolbarSectionHidden");
-						this._removeCss(this.selectBtn, "MatcToolbarSectionHidden");
-						this._removeCss(this.addSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.hotspotTool, "MatcToolbarSectionHidden");
+						// this._removeCss(this.moveTool,"MatcToolbarSectionHidden");
+						// this._removeCss(this.commentBtn,"MatcToolbarSectionHidden");
+						// this._removeCss(this.selectBtn, "MatcToolbarSectionHidden");
+						// this._removeCss(this.addSection, "MatcToolbarSectionHidden");
+						// this._removeCss(this.hotspotTool, "MatcToolbarSectionHidden");
 		
-						this._removeCss(this.rectangleTool, "MatcToolbarSectionHidden");
-						this._removeCss(this.textTool, "MatcToolbarSectionHidden");
-						this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.addRestSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.addScriptSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
-						this._removeCss(this.addVectorSection, "MatcToolbarSectionHidden");
+						// this._removeCss(this.rectangleTool, "MatcToolbarSectionHidden");
+						// this._removeCss(this.textTool, "MatcToolbarSectionHidden");
+						// this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
+						// this._removeCss(this.addRestSection, "MatcToolbarSectionHidden");
+						// this._removeCss(this.addScriptSection, "MatcToolbarSectionHidden");
+						// this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
+						// this._removeCss(this.addVectorSection, "MatcToolbarSectionHidden");
 						
-						this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
+						//this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
 
 					} else {
-						this._addCss(this.simulatorSection, "MatcToolbarSectionHidden");
-						this._addCss(this.commentSection, "MatcToolbarSectionHidden");
-						this._addCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
-						this._addCss(this.editTool,"MatcToolbarSectionHidden");
-						this._addCss(this.moveTool,"MatcToolbarSectionHidden");
-						this._addCss(this.commentBtn,"MatcToolbarSectionHidden");
-						this._addCss(this.selectBtn, "MatcToolbarSectionHidden");
-						this._addCss(this.addSection, "MatcToolbarSectionHidden");
-						this._addCss(this.hotspotTool, "MatcToolbarSectionHidden");
-						this._addCss(this.rectangleTool, "MatcToolbarSectionHidden");
-						this._addCss(this.textTool, "MatcToolbarSectionHidden");
-						this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");
-						this._addCss(this.addRestSection, "MatcToolbarSectionHidden");
-						this._addCss(this.addScriptSection, "MatcToolbarSectionHidden");
-						this._addCss(this.addVectorSection, "MatcToolbarSectionHidden");
-						if(!this.controller.canUndo()){
-							this._addCss(this.undoSection, "MatcToolbarSectionHidden");
-						}
+						// this._addCss(this.simulatorSection, "MatcToolbarSectionHidden");
+						// this._addCss(this.commentSection, "MatcToolbarSectionHidden");
+						// this._addCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
+						// this._addCss(this.editTool,"MatcToolbarSectionHidden");
+						// this._addCss(this.moveTool,"MatcToolbarSectionHidden");
+						// this._addCss(this.commentBtn,"MatcToolbarSectionHidden");
+						// this._addCss(this.selectBtn, "MatcToolbarSectionHidden");
+						// this._addCss(this.addSection, "MatcToolbarSectionHidden");
+						// this._addCss(this.hotspotTool, "MatcToolbarSectionHidden");
+						// this._addCss(this.rectangleTool, "MatcToolbarSectionHidden");
+						// this._addCss(this.textTool, "MatcToolbarSectionHidden");
+						// this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");
+						// this._addCss(this.addRestSection, "MatcToolbarSectionHidden");
+						// this._addCss(this.addScriptSection, "MatcToolbarSectionHidden");
+						// this._addCss(this.addVectorSection, "MatcToolbarSectionHidden");
+						// if(!this.controller.canUndo()){
+						// 	this._addCss(this.undoSection, "MatcToolbarSectionHidden");
+						// }
 
 						this.screenCreateBtn.showDropDown();
 
-						this._addCss(this.layerListCntr, "MatcToolbarSectionHidden");
+						//this._addCss(this.layerListCntr, "MatcToolbarSectionHidden");
 					}
 				} else {
 					this.logger.error('hideNotNeededButtons', 'No screens', this.model)

@@ -23,7 +23,8 @@
 	opacity: 1;
 }
 
-.MatcToolbar .mdi{
+.MatcToolbar .mdi,
+.MatcToolbar .ri {
 	font-size: 18px;
 	vertical-align: middle;
 	line-height:1;
@@ -725,25 +726,41 @@
  * Create Button
  ****************************************************/
 
-.MatcCreateBtnCntr{
+ .MatcCreateBtnCntr{
 	width: 75vw;;
 	max-width: 1200px;
+}
+
+.MatcToolbarArrowDropDown {
+	display: inline-block;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUp{
+	top: calc(100% + 12px);
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpWrapper{
+	z-index: 2;
+	position: relative;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpArrowCntr{
+	top: -8px;
+	left: 12px;
+	right:100%;
+	height: 30px;
+	width: 30px;
+	z-index: 1;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {
+	left: 0px;
+	top: 3px;
 }
 
 .MatcScreenImportAdd .MatcScreenAddCntr{
 	min-width: 600px;
 
-}
-
-.MatcScreenImportAdd .MatcToolbarPopUpArrowCntr{
-	top:15px;
-	left: auto;
-	right:100%;
-}
-
-.MatcScreenImportAdd .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow{
-	left: auto;
-	right:-10px;
 }
 
 .MatcScreenAddCntr .MatcHint{
@@ -754,7 +771,6 @@
 .MatcScreenAddCntr .MatcUploader{
 	margin-top: 30px;
 }
-
 
 /****************************************************
  * Item DropDown

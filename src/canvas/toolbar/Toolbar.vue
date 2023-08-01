@@ -6,75 +6,7 @@
 		</div>
 
 
-		<div class="MatcToobarLeft" data-dojo-attach-point="toolsSection">
 
-			<div class="hidden" data-dojo-attach-point="importSection"></div>
-
-			<div class="MatcToolbarItem MatcToolbarItemActive" data-dojo-attach-point="editTool">
-				<span class="mdi mdi-cursor-default"></span>
-			</div>
-
-			<div class="" data-dojo-attach-point="addScreenSection"></div>
-
-			<div class="" data-dojo-attach-point="addSection"></div>
-
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="rectangleTool" >
-				<span class="mdi mdi-square-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="textTool" >
-				<span class="mdi mdi-format-text" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="hotspotTool" >
-				<span class="mdi mdi-select" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="" data-dojo-attach-point="addVectorSection" >
-				<CreateVectorButton @add="onToolSVG" />
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addLogicSection" >
-				<span class="mdi mdi-rhombus-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addRestSection" v-show="showRestTool">
-				<span class="mdi mdi-cloud-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addScriptSection">
-				<span class="mdi mdi-code-tags" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-		
-
-			<div class="MatcToolbarItem MatcToolbarMove" data-dojo-attach-point="moveTool" >
-				<span class="mdi mdi-cursor-move" ></span>
-			</div>
-
-
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="selectBtn">
-				<span class="mdi mdi-selection"></span>
-				<span class="mdi mdi-cursor-default MatcTinyIcon"></span>
-			</div>
-
-			<div class="" data-dojo-attach-point="commentSection">
-				<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="commentBtn">
-					<span class="mdi mdi-comment-outline"></span>
-				</div>
-			</div>
-
-			<div class="MatcToolbarItem MatcToolbarItemChat MatcMultiIcon" data-dojo-attach-point="addGPTSection" @click.stop="showDesignGPT" v-show="hasProtoMoto">
-				<span class="mdi mdi-robot-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-		</div>
 
 		<div class="MatcToolbarTop">
 				<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
@@ -82,27 +14,16 @@
 				<div class="MatcToolbarTopCntr">
 
 						
-						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
-							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
-								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span>
-								<span class="MatcToolbarLabel MatcToolbarResponsiveLabel">{{ $t('toolbar.simulate')}}</span>
-							</a>
-						</div>
-					
-						
-						<div class="MatcToolbarSection MatcToolbarDenseSection" v-show="svgEditorVisible" >
+						<!-- <div class="MatcToolbarSection MatcToolbarDenseSection" v-show="svgEditorVisible" >
 							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgUndo" @click="onSVGUndo">
 									<span class="mdi mdi-undo"></span>
 								</a>
 								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgRedo" @click="onSVGRedo">
 									<span class="mdi mdi-redo"></span>
 								</a>						
-						</div>
-
-					
+						</div> -->
 
 						<div v-show="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">
-
 							
 								<div class="MatcToolbarItem">
 									<div class="MatcButton MatcToolbarCloseButton" @click="onToolSVGEnd" >
@@ -111,31 +32,31 @@
 								</div>
 						</div> 
 
+						<div class="MatcToolbarSection MatcToolbarDenseSection">
+
+				
+							<div class="MatcToolbarItem MatcToolbarItemActive" data-dojo-attach-point="editTool"  @click="onEdit">
+									<span class="mdi mdi-cursor-default"></span>
+								</div>
+
+								<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="addScreenSection"></div>
+
+								<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="addSection"></div>
+
+								<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest"/>
+										
+								<CreateVectorButton @add="onToolSVG" />
+
+				
+								<div class="MatcToolbarItem MatcToolbarItemChat MatcMultiIcon" data-dojo-attach-point="addGPTSection" @click.stop="showDesignGPT" v-show="hasProtoMoto">
+									<span class="mdi mdi-robot-outline" ></span>
+							
+								</div>
+										
+						</div>
 					
 
-							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="undoSection"  v-show="!svgEditorVisible" >
-								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
-									<span class="mdi mdi-undo"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="redo">
-									<span class="mdi mdi-redo"></span>
-								</a>
-							</div>
-
-							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="copyPasteDiv"  v-show="!svgEditorVisible" >
-								<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
-									<span class="mdi mdi-content-copy"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="pasteBtn">
-									<span class="mdi mdi-content-paste"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="copyStyleBtn">
-									<span class="mdi mdi-format-paint"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
-									<span class="mdi mdi-trash-can-outline"></span>
-								</a>
-							</div>
+			
 
 							<div class="MatcToolbarTopCenterCntr"  v-show="!svgEditorVisible" >
 								<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
@@ -181,6 +102,14 @@
 									@canvasViewMode="setCanvasViewMode" 
 									ref="editModeButton"/>
 							</div>
+
+							<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
+								<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
+									<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span>
+					 
+								</a>
+							</div>
+					
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
 						</div>
@@ -220,6 +149,7 @@ import CollabUser from "canvas/toolbar/components/CollabUser"
 import CreateVectorButton from 'canvas/toolbar/components/CreateVectorButton'
 import ModelUtil from '../../core/ModelUtil';
 import HelpButton from 'help/HelpButton'
+import CreateLogicButton from './components/CreateLogicButton'
 
 
 
@@ -250,7 +180,8 @@ export default {
 		'HelpButton': HelpButton,
 		'EditModeButton': EditModeButton,
 		'CollabUser': CollabUser,
-		'CreateVectorButton': CreateVectorButton
+		'CreateVectorButton': CreateVectorButton,
+		'CreateLogicButton': CreateLogicButton
 	},
 	computed: {
 		hasProtoMoto () {
@@ -265,26 +196,26 @@ export default {
 			this.logger = new Logger("Toolbar");
 			this.logger.log(3, "constructor", "entry > " + this.pub);
 
-			this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
-			this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
+			// this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
+			// this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
 
-			this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
-			this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
-			this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
-			this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
-			this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
+			// this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
+			// this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
+			// this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
+			// this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
+			// this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
 
 			this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
-			this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
-			this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
+			// this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
+			// this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
 
-			this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
-			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-			this.own(on(this.ungroupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
+			// this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
+			// this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
+			// this.own(on(this.ungroupBTN, touch.press, lang.hitch(this, "onToolGroup")));
+			// this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
 		
-			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
-			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
+			// this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
+			// this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
 
 			const btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
 			btn.updateLabel = false;
@@ -789,6 +720,28 @@ export default {
 		/**********************************************************************
 		 * Add & Remove Events
 		 **********************************************************************/
+
+
+		onToolLogicAndRest (v, e) {
+			this.logger.log(-1,"onToolLogicAndRest", "entry >", v.value, e);
+			this.stopEvent(e);
+			topic.publish("matc/canvas/click", "");
+
+			if (v.value === 'rest') {
+				this.onNewRestObject(e)
+				return		
+			}
+	
+			if (v.value === 'logic') {
+				this.onNewLogicObject(e)
+				return
+			}
+
+			if (v.value === 'script') {
+				this.onNewScriptObject(e)
+				return
+			}
+		},
 
 		onNewScriptObject (e) {
 			this.logger.log(-1,"onNewLogicObject", "entry > ");

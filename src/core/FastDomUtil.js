@@ -5,6 +5,11 @@ export default class FastDomUtil {
   constructor () {
     this.logger = new Logger('FastDomUtil')
     this.logger.log(1, 'constructor', 'enter')
+    // we need abs because of some z-Index issues
+    // FIXME: can we translate the properties section to come 
+    // to the same stacking context?
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_positioned_layout/Understanding_z-index/Stacking_context
+    this.isAbs = true 
   }
 
   removeAllChildNodes(node) {
@@ -14,11 +19,18 @@ export default class FastDomUtil {
   }
 
   setBox (div, box) {
-    div.style.width = box.w + "px",
-    div.style.height = box.h + "px",
-    div.style.left = "0px";
-    div.style.top = "0px";
-    div.style.transform = `translate(${box.x}px, ${box.y}px)`;
+    div.style.width = box.w + "px"
+    div.style.height = box.h + "px"
+
+    if (this.isAbs) {
+      div.style.left = box.x + "px";
+      div.style.top = box.y + "px";
+      div.style.transform = ''
+    } else {
+      div.style.left = "0px";
+      div.style.top = "0px";
+      div.style.transform = `translate(${box.x}px, ${box.y}px)`;
+    }
     div.pos_x = box.x;
     div.pos_y = box.y
   }
@@ -27,29 +39,35 @@ export default class FastDomUtil {
     div.style.transform = `scale(${scale}) `;
   }
 
-  setPosAndScale (div, pos, scale = 1) {
-    div.style.left = "0px";
-    div.style.top = "0px";
-    div.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${scale}) `;
-    div.pos_x = pos.x;
-    div.pos_y = pos.y
-  }
-
-
-  setPos (div, pos) {
-    div.style.left = "0px";
-    div.style.top = "0px";
-    div.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+  setPos (div, pos, isABS = false) {
+    //console.debug('setPos', isABS)
+    if (this.isAbs || isABS === true) {
+      div.style.left = pos.x + "px";
+      div.style.top = pos.y + "px";
+      div.style.transform = ''
+    } else {
+      div.style.left = "0px";
+      div.style.top = "0px";
+      div.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+    }
     div.pos_x = pos.x;
     div.pos_y = pos.y
   }
 
   setXY (div, x, y) {
-    div.style.left = "0px";
-    div.style.top = "0px";
+
+    if (this.isAbs) {
+      div.style.left = x + "px";
+      div.style.top = y + "px";
+      div.style.transform = ''
+    } else {
+      div.style.left = "0px";
+      div.style.top = "0px";
+      div.style.transform = `translate(${x}px, ${y}px)`;
+    }
     div.pos_x = x;
     div.pos_y = y
-    div.style.transform = `translate(${x}px, ${y}px)`
+
   }
 
   getPos (div) {

@@ -133,16 +133,6 @@
 }
 
 
-.MatcCreateBtn .MatcToolbarPopUpArrowCntr{
-	top:75px;
-	left: auto;
-	right:100%;
-}
-
-.MatcCreateBtn .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow{
-	left: auto;
-	right:-10px;
-}
 
 .MatcCreateBtnRemove{
 	position: absolute;

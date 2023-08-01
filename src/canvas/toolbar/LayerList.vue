@@ -656,11 +656,11 @@ export default {
 			if (screen.type === 'canvas') {
 				return "mdi mdi-border-none-variant MatcTreeIconRoot";
 			} else if (model.type == "smartphone") {
-				return "mdi mdi-cellphone MatcTreeIconRoot";
+				return "mdi mdi-crop-portrait MatcTreeIconRoot";
 			} else if (model.type == "tablet") {
-				return "mdi mdi-tablet-ipad MatcTreeIconRoot";
+				return "mdi mdi-crop-landscape MatcTreeIconRoot";
 			}
-			return "mdi mdi-laptop MatcTreeIconRoot";
+			return "mdi  mdi mdi-crop-landscape MatcTreeIconRoot";
 		},
 
 		changeName (box) {

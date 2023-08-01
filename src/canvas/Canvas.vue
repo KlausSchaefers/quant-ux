@@ -419,7 +419,7 @@ export default {
 				renderLines : false,
 				snapGridOnlyToTopLeft: true,
 				keepColorWidgetOpen: true,
-				layerListVisible: false,
+				layerListVisible: true,
 				showRuler: true,
 				fastRender: false,
 				hasProtoMoto: false,
