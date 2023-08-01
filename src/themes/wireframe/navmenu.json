@@ -17,20 +17,20 @@
 				{
 					"id": 1,
 					"label": "Home",
-					"icon": "mdi mdi-home",
+					"icon": "",
 					"to": "",
 					"selected": true
 				},
 				{
 					"id": 2,
 					"label": "Search",
-					"icon": "mdi mdi-magnify",
+					"icon": "",
 					"to": ""
 				},
 				{
 					"id": 3,
 					"label": "Account",
-					"icon": "mdi mdi-account-outline",
+					"icon": "",
 					"to": ""
 				}
 			]

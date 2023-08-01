@@ -98,6 +98,7 @@ export default {
     props: ["options", "value"],
     data: function () {
         return {
+            hasSelect: true,
             isDraggable: false,
             tab: 'settings',
             screens: [],

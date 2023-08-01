@@ -1395,6 +1395,18 @@
 	position: relative;
 }
 
+.MatcWidgetTypeDropDownOptionRow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.MatcWidgetTypeDropDownOptionRow .MatcWidgetTypeDropDownOptionLabel{
+	flex-grow: 1;
+}
+
+
+
 .MatcWidgetTypeDropDownLabelCntr{
 	position: relative;
 }

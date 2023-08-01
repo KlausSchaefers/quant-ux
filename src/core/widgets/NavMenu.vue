@@ -239,9 +239,17 @@ export default {
                 for (let i = 0; i < navigation.length; i++) {
 
                     const item = navigation[i];
+
                     const node = db
-                        .div("MatcWidgetTypeDropDownOption", item.label)
+                        .div("MatcWidgetTypeDropDownOptionRow")
                         .build(this.popup);
+
+
+                    if (item.icon) {
+                        db.span('MatcWidgetTypeDropDownOptionIcon '+ item.icon).build(node)
+                    }
+                    db.div('MatcWidgetTypeDropDownOptionLabel', item.label).build(node)
+             
 
                     node.style.paddingTop = this._getBorderWidth(this.style["paddingTop"]) + "px";
                     node.style.paddingLeft = this._getBorderWidth(this.style["paddingLeft"]) + "px";
