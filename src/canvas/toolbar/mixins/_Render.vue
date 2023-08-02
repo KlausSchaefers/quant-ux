@@ -21,10 +21,10 @@ import BoxSize from 'canvas/toolbar/components/BoxSize'
 import BoxBorder from 'canvas/toolbar/components/BoxBorder'
 import BoxBorder2 from 'canvas/toolbar/components/BoxBorder2'
 import BoxPadding from 'canvas/toolbar/components/BoxPadding'
-import CreateButton from 'canvas/toolbar/components/CreateButton'
+
 import ActionButton from 'canvas/toolbar/components/ActionButton'
 import DataSection from 'canvas/toolbar/components/DataSection'
-import ScreenImportAdd from 'canvas/toolbar/components/ScreenImportAdd'
+//import ScreenImportAdd from 'canvas/toolbar/components/ScreenImportAdd'
 import ScreenList from 'canvas/toolbar/components/ScreenList'
 import ValidationSection from 'canvas/toolbar/components/ValidationSection'
 
@@ -185,33 +185,14 @@ export default {
 			* now we have to factory and create a menu
 			* for the widgets
 			*/
-			this.createBTN = this.$new(CreateButton);
+			this.createBTN = this.$refs.createButton
 			this.createBTN.setUser(this.user);
 			this.createBTN.setModel(this.model);
 			this.createBTN.setJwtToken(this.jwtToken)
 			this.tempOwn(on(this.createBTN, "change", lang.hitch(this, "onNewThemeObject")));
 			this.tempOwn(on(this.createBTN, "importsChange", lang.hitch(this, "onImportChange")));
 			this.tempOwn(on(this.createBTN, "removeTemplate", lang.hitch(this, "onRemoveTemplate")));
-			css.add(this.createBTN.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
-			this.createBTN.placeAt(this.addSection);
-
-
-			this.screenCreateBtn = this.$new(ScreenImportAdd, {mode: this.mode});
-			this.screenCreateBtn.setModel(this.model);
-			this.tempOwn(this.screenCreateBtn.on( "onAdd", lang.hitch(this, "onNewThemeObject")));
-			this.tempOwn(this.screenCreateBtn.on("onUpload", lang.hitch(this, "onThemedMultiScreen")));
-			this.tempOwn(this.screenCreateBtn.on("onImport", lang.hitch(this, "showImportDialog")));
-			this.tempOwn(this.screenCreateBtn.on("onDesignGPT", lang.hitch(this, "showDesignGPT")));
-
-
-			css.add(this.screenCreateBtn.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
-			this.screenCreateBtn.placeAt(this.addScreenSection);
-
-			// this.own(on(this.addLogicSection, touch.release, lang.hitch(this, "onNewLogicObject")));
-			// this.own(on(this.addRestSection, touch.release, lang.hitch(this, "onNewRestObject")));
-			// this.own(on(this.addScriptSection, touch.release, lang.hitch(this, "onNewScriptObject")));
-			
-			// //this.own(on(this.addGPTSection, touch.release, lang.hitch(this, "showDesignGPT")));
+			//css.add(this.createBTN.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
 
 			/**
 			* set model

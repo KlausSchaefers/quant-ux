@@ -3,16 +3,14 @@
     <div class=" MatcToolbarArrowDropDown  MatcToolbarDropDownButton">
 		<div class="MatcToolbarItem MatcMultiIcon" type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="">
-                <span class="ri ri-cloud-line" ></span>
-				<!-- <span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span> -->
+                <QIcon icon="Cloud" />     
 			</label>
-
 		</div>
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
             <div class="MatcToolbarPopUpWrapper">
                 <ul class="" role="menu" data-dojo-attach-point="ul">
                     <li v-for="t in tools" :key="t.id" @click="onSelect(t)">
-                        <span :class="'MatcToolbarPopUpIcon ' + t.icon"/>
+                        <QIcon class="MatcToolbarPopUpIcon" :icon="t.icon" />
                         <label class="MatcToolbarPopUpLabel">{{t.label}}</label>
                     </li>
                   
@@ -30,6 +28,7 @@
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import Util from 'core/Util'
+import QIcon from 'page/QIcon'
 import _DropDown from './_DropDown'
 
 export default {
@@ -38,13 +37,15 @@ export default {
     data: function () {
         return {
             tools: [
-                {value: 'rest', icon: 'mdi mdi-cloud-outline', label: 'Rest'},
-                {value: 'logic', icon: 'mdi mdi-rhombus-outline', label: 'OR'},
-                {value: 'script', icon: 'mdi mdi mdi-code-tags', label: 'Script'}
+                {value: 'rest', icon: 'Cloud', label: 'Rest'},
+                {value: 'logic', icon: 'OR', label: 'OR'},
+                {value: 'script', icon: 'JS', label: 'Script'}
             ]
         }
     },
-    components: {},
+    components: {
+        'QIcon':QIcon
+    },
     methods: {
     
         onSelect (t) {          

@@ -1,8 +1,8 @@
 <template>
-    <div class="MatcToolbarItem MatcCreateBtn MatcMultiIcon MatcToolbarDropDownButton">
+    <div class="MatcToolbarItem MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton">
 		<div type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="" style="margin-right: -3px;">
-				<span class="mdi mdi-rhombus-split"></span>
+				<QIcon icon="Component" />
 
 			</label>
 		</div>
@@ -56,6 +56,7 @@ import _DropDown from './_DropDown'
 import Services from 'services/Services'
 import CheckBox from 'common/CheckBox'
 import ModelUtil from 'core/ModelUtil'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'CreateButton2',
@@ -86,7 +87,7 @@ export default {
 			importableApps: []
         }
     },
-    components: {},
+    components: {QIcon},
     methods: {
       setIcons (icons) {
 			this.icons = icons

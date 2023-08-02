@@ -35,24 +35,20 @@
 						<div class="MatcToolbarSection MatcToolbarDenseSection">
 
 				
-							<div class="MatcToolbarItem MatcToolbarItemActive" data-dojo-attach-point="editTool"  @click="onEdit">
-									<span class="mdi mdi-cursor-default"></span>
+								<div class="MatcToolbarItem" data-dojo-attach-point="editTool"  @click="onEdit">
+									<QIcon icon="Edit" />
 								</div>
 
-								<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="addScreenSection"></div>
+								<CreateBasicButton @add="onToolBasic" />
 
-								<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="addSection"></div>
+								<CreateButton ref="createButton"/>
 
-								<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest"/>
+								<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>
 										
-								<CreateVectorButton @add="onToolSVG" />
+								<CreateVectorButton @add="onToolSVG" v-if="false" />
 
 				
-								<div class="MatcToolbarItem MatcToolbarItemChat MatcMultiIcon" data-dojo-attach-point="addGPTSection" @click.stop="showDesignGPT" v-show="hasProtoMoto">
-									<span class="mdi mdi-robot-outline" ></span>
 							
-								</div>
-										
 						</div>
 					
 
@@ -104,21 +100,18 @@
 							</div>
 
 							<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
-								<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
-									<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span>
-					 
-								</a>
+								<div class="MatcToolbarItem" data-dojo-attach-point="simulatorButton">
+									<div class="MatcToobarPrimaryButton">									
+										<QIcon icon="Play" />					
+									</div>
+								</div>
 							</div>
 					
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
 						</div>
 
-						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
-							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
-							<span class="MatcToolbarLabel">{{ $t('toolbar.sign-up')}}</span>
-							</a>
-						</div>
+					
 
 				</div>
 			</div>
@@ -146,11 +139,14 @@ import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButt
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
 import CollabUser from "canvas/toolbar/components/CollabUser"
-import CreateVectorButton from 'canvas/toolbar/components/CreateVectorButton'
 import ModelUtil from '../../core/ModelUtil';
 import HelpButton from 'help/HelpButton'
+import CreateVectorButton from './components/CreateVectorButton'
 import CreateLogicButton from './components/CreateLogicButton'
+import CreateBasicButton from './components/CreateBasicButton'
+import CreateButton from './components/CreateButton.vue'
 
+import QIcon from 'page/QIcon'
 
 
 export default {
@@ -181,7 +177,10 @@ export default {
 		'EditModeButton': EditModeButton,
 		'CollabUser': CollabUser,
 		'CreateVectorButton': CreateVectorButton,
-		'CreateLogicButton': CreateLogicButton
+		'CreateLogicButton': CreateLogicButton,
+		'CreateBasicButton': CreateBasicButton,
+		'CreateButton': CreateButton,
+		'QIcon': QIcon
 	},
 	computed: {
 		hasProtoMoto () {
@@ -721,6 +720,55 @@ export default {
 		 * Add & Remove Events
 		 **********************************************************************/
 
+		onToolBasic (v, e) {
+			this.logger.log(-1,"onToolBasic", "entry >", v.value, e);
+			this.stopEvent(e);
+			topic.publish("matc/canvas/click", "");
+
+
+			if (v.value === 'screen') {
+				let scrn = this.createEmptyScreen(0, 0, 'Screen')
+				this.emit("newThemedScreen", {"obj" : scrn, "event" : e});
+				return		
+			}
+	
+			if (v.value === 'box') {
+				this.onToolBox(e)
+				return
+			}
+
+			if (v.value === 'text') {
+				this.onToolText(e)
+				return
+			}
+
+			if (v.value === 'designgpt') {
+				this.showDesignGPT(e)
+				return
+			}
+
+			if (v.value === 'rest') {
+				this.onNewRestObject(e)
+				return		
+			}
+	
+			if (v.value === 'logic') {
+				this.onNewLogicObject(e)
+				return
+			}
+
+			if (v.value === 'script') {
+				this.onNewScriptObject(e)
+				return
+			}
+
+			if (v.type === 'vector') {
+				this.onToolSVG(v)
+				return
+			}
+
+
+		},
 
 		onToolLogicAndRest (v, e) {
 			this.logger.log(-1,"onToolLogicAndRest", "entry >", v.value, e);

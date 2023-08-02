@@ -9,7 +9,6 @@
   @import url("../../style/matc.css");
   @import url("../../style/canvas/all.css");
   @import url('../../style/toolbar/all.css');
-  @import 'remixicon/fonts/remixicon.css';
 </style>
 <style lang="sass">
   @import "../../style/bulma.sass"

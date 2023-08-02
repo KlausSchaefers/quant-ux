@@ -3,8 +3,8 @@
      <div class="MatcToolbarItem  MatcMultiIcon MatcScreenImportAdd MatcToolbarDropDownButton">
 		<div type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="">
-				<span data-dojo-attach-point="icon" class=""></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
+				<QIcon icon="DeviceMobile" />
+
 			</label>
 
 			</div>
@@ -40,6 +40,7 @@ import DomBuilder from 'common/DomBuilder'
 import Util from 'core/Util'
 import RenderFactory from 'core/RenderFactory'
 import _DropDown from './_DropDown'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'ScreenImportAdd',
@@ -62,7 +63,7 @@ export default {
 			}
         }
     },
-    components: {},
+    components: {QIcon},
     methods: {
 			setModel (m){
 				this.model = m;
@@ -70,7 +71,9 @@ export default {
 				this.screenHeight = m.screenSize.h;
 				this.renderFactory = new RenderFactory();
 				this.renderFactory.setModel(m);
-				css.add(this.icon, this.getAppTypeIcon(m));
+				if (this.icon){
+					css.add(this.icon, this.getAppTypeIcon(m));
+				}
 
 			},
 

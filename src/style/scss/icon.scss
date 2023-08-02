@@ -1,0 +1,25 @@
+.MatcQIcon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+
+   .MatcQIconSVG{
+        stroke-width: 1.5;
+   }
+
+   &.MatcToolbarPopUpIcon{
+
+        .MatcQIconSVG{
+            width: 18px;
+            height: 18px;
+        }
+
+    }
+}
+
+.MatcToolbar .MatcQIcon{
+    height: 24px;
+    width: 24px;
+}
