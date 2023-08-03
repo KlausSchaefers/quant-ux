@@ -61,7 +61,7 @@
                    </div>
 
                     <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
-                       <span class="ri-equalizer-line MatcNewIcon" style="margin-right:4px"/>
+                       <span class=" mdi mdi-cog" style="margin-right:4px"/>
                        <span class="MatcStatusItemLabel" >Configure Grid</span>
                    </div>
 

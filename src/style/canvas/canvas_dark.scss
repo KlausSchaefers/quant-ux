@@ -1,38 +1,38 @@
-.MatcDark .MatcToobarPropertiesSection input,
-.MatcDark .MatcToobarPropertiesSection textarea{
-    border: 1px solid transparent;
-}
+.MatcDark {
 
-.MatcDark .MatcToobarPropertiesSection input:hover,
-.MatcDark .MatcToobarPropertiesSection input:focus,
-.MatcDark .MatcToobarPropertiesSection textarea:hover,
-.MatcDark .MatcToobarPropertiesSection textarea:focus{
-    border: 1px solid #555;
-}
+    .MatcToobarPropertiesSection input,
+    .MatcToobarPropertiesSection textarea {
+        border: 1px solid transparent;
+    }
 
+    .MatcToobarPropertiesSection input:hover,
+    .MatcToobarPropertiesSection input:focus,
+    .MatcToobarPropertiesSection textarea:hover,
+    .MatcToobarPropertiesSection textarea:focus {
+        border: 1px solid #555;
+    }
 
+    .MatcDialog .MatcToolbarTabs a {
+        color: #333;
+    }
 
+    .MatcDialog .MatcToolbarTabs a.MatcToolbarTabDisabled,
+    .MatcDialog .MatcToolbarTabs a.MatcToolbarTabDisabled:hover {
+        color: #777;
+        cursor: auto;
+    }
 
-.MatcDialog .MatcToolbarTabs a {
-	color: #333;
-}
+    .MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
+        border-bottom-color: #3787f2;
+        color: #fff;
+    }
 
-.MatcDialog .MatcToolbarTabs a.MatcToolbarTabDisabled, 
-.MatcDialog .MatcToolbarTabs a.MatcToolbarTabDisabled:hover{
-	color: #777;
-    cursor: auto;
-}
+    .MatcToolbar .MatcToolbarDropDownButton li:HOVER,
+    .MatcToolbarDropDownButtonPopup li:hover {
+        background: #cecece;
+    }
 
-.MatcDark .MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
-    border-bottom-color: #3787f2;
-    color: #fff;
-}
-
-.MatcDark .MatcToolbar .MatcToolbarDropDownButton li:HOVER,
-.MatcDark .MatcToolbarDropDownButtonPopup li:hover{
-    background: #cecece;
-}
-
-.MatcDark .MatcToobarRow.MatcToobarSubSection{
-	border-top: 1px solid rgba(255, 255, 255, 0.15);
+    .MatcToobarRow.MatcToobarSubSection {
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
 }

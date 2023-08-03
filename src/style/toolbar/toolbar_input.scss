@@ -1,0 +1,148 @@
+.MatcToolbarLabel {
+	font-size: 14px;
+	font-weight: 400;
+	margin-left: 10px;
+	margin-bottom: 0px;
+	vertical-align: middle;
+}
+
+.MatcToobarPropertiesSection .MatcToolbarSectionLabel {
+	position: relative;
+	text-align: left;
+	padding-left: 16px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.MatcToolbarSectionLabel {
+	border-bottom: 1px solid transparent;
+	padding: 3px 0px;
+	display: block;
+	text-align: center;
+	font-weight: 400;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.MatcToobarSubSectionLabel {
+	padding: 3px 0px;
+	display: block;
+	font-weight: 400;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.MatcToolbarButton, 
+.MatcToolbar .MatcToolbarButton {
+	width:100%;
+	text-align: center;
+	font-size: 14px;
+	background: #3787f2;
+	text-decoration: none;
+	color:#fff;
+}
+
+.MatcButton.MatcToolbarCloseButton {
+	text-align: center;
+	font-size: 14px;
+	background: #3787f2;
+	text-decoration: none;
+	color:#fff;
+	margin-top: -2px;
+}
+
+.MatcToolbarButtonPrimary {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+
+.MatcToolbarButton:HOVER{
+	background: #1251a3;
+	border-color:#1251a3;
+}
+
+
+.MatcToobarPropertiesSection .MatcToobarInput::placeholder{
+	font-style: italic;
+	color: rgba(255, 255, 255, 0.35)
+}
+
+.MatcToobarPropertiesSection .MatcToobarInput{
+	border-radius: 0px;
+}
+
+.MatcToobarPropertiesSection .MatcToobarInput.MatcToobarNameInput {
+	margin-left: -5px;
+}
+
+
+.MatcToobarInputIconCntr {
+	position: relative;
+}
+
+.MatcToobarInputIconCntr .MatcToobarInputIcon {
+	position: absolute;
+	top: 8px;
+	right: 10px;
+	font-size: 16px;
+}
+
+/****************************************************
+ * Combo
+ ****************************************************/
+
+ .MatcToobarPropertiesSection .VommondInput ul{
+  border-radius:0px;
+}
+
+.MatcToobarPropertiesSection .VommondInput ul li{
+	padding: 3px;
+}
+
+.MatcToobarPropertiesSection .VommondInput ul li.VommonInputSelected {
+	background-color: #3787f2;
+	color:#fff
+}
+
+.MatcToobarPropertiesSection .VommondInput ul li.MatcToobarInputAction {
+	font-style: italic;
+	color:#ccc;
+}
+
+/****************************************************
+ * Align Button
+ ****************************************************/
+.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton{
+    width:25px;
+  height:30px;
+  min-width: 25px;
+}
+
+
+.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive {
+	cursor: auto;
+ }
+
+
+.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+  	cursor: auto;
+ }
+
+.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+  	cursor: auto;
+ }
+
+.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+  	cursor: auto;
+ }
+
+ 
+ /****************************************************
+ * ScreenImportButton
+ ****************************************************/
+.MatcScreenImportCntr {
+	width: 250px;
+	height: 250px;
+	text-align: center;
+}

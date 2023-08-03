@@ -1,0 +1,23 @@
+.MatcToolbarEditMode {
+	display: inline-block;
+}
+
+.MatcToolbarEditMode a.MatcToolbarItem {
+	font-size: 14px;
+	display: inline-block;
+	padding: 4px 8px;
+	height: 26px;
+	border-radius: 3px;
+	height: auto;
+	transition: all 0.2s;
+}
+
+.MatcToolbarEditMode a.MatcToolbarEditModeActive {
+	background-color: #3787f2;
+	color: #fff;
+}
+
+.MatcToolbar .MatcToolbarEditMode a.MatcToolbarEditModeActive:hover {
+	background-color: #1251a3;
+	color: #fff;
+}
