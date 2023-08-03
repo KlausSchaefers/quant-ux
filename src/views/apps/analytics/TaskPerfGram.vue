@@ -48,12 +48,14 @@
 	</div>
 </template>
 <style lang="css">
-  @import url('../../../style/toolbar/tab.css');
+  
 </style>
 
 <style lang="scss">
     @import '../../../style/task_perf_gram.scss';
+	@import '../../../style/toolbar/tab.scss';
 </style>
+
 
 <script>
 import DojoWidget from 'dojo/DojoWidget'

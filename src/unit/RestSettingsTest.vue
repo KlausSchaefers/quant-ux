@@ -23,7 +23,10 @@
 
 <style>
   @import url("../style/matc.css");
-  @import url("../style/toolbar/all.css");
+</style>
+
+<style lang="scss">
+@import '../style/toolbar/tab.scss';
 </style>
 
 <script>

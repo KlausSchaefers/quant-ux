@@ -1,0 +1,345 @@
+.MatcLight {
+
+    .MatcToolbar,
+    .MatcStatus,
+    .MatcStatusItem,
+    .MatcToolbarTop {
+        background: #fff;
+        font-size: 12px;
+        color: #777;
+    }
+
+    .MatcToobarLeft .MatcToolbarItem:hover,
+    .MatcToolbarTop .MatcToolbarItem:hover {
+        color: #3787f2;
+    }
+
+    .MatcToobarPropertiesSection .MatcDashLabel,
+    .MatcToobarPropertiesSection .MatcToolbarItem,
+    .MatcToobarPropertiesSection .MatcDashRingValue {
+        color: #555;
+    }
+
+    .MatcToobarPropertiesSection {
+        background: #fff;
+        color: #777;
+    }
+
+    .MatcToobarLeft {
+        background: #fff;
+        border-right: 1px solid rgba(0, 0, 0, 0.15)
+    }
+
+    .MatcStatusCntr {
+        border-top: 1px solid rgba(0, 0, 0, 0.15)
+    }
+
+
+    .MatcToobarPropertiesSection {
+        border-left: 1px solid rgba(0, 0, 0, 0.15)
+    }
+
+    .MatcToolbarLayerList.MatcToobarPropertiesSection {
+        border-left: none;
+        border-right: 1px solid rgba(0, 0, 0, 0.15);
+        padding-top: 39px;
+        background: #fff;
+        /*rgb(245, 245, 245); */
+    }
+
+    .MatcToolbarTopCntr {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .MatcScreenLabel {
+        color: #333;
+    }
+
+    .MatcToolbarBigLabel {
+        color: #555;
+    }
+
+
+    .MatcBorderStyleDashed,
+    .MatcBorderStyleDotted,
+    .MatcBorderStyleSolid {
+        border-color: #555;
+    }
+
+    .MatcToolbarItem {
+        color: #333;
+    }
+
+    .MatcToolbarItem:HOVER {
+        color: #333;
+    }
+
+    .MatcToolbarItemDisbaled,
+    .MatcToolbarItem.MatcToolbarItemDisbaled:HOVER {
+        color: #ddd;
+        cursor: auto;
+    }
+
+    .MatcToolbarAddSection {
+        background-color: #333;
+    }
+
+    .MatcToolbar .MatcToolbarAddSection:HOVER {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .MatcToobarItemBig .MatcToolbarItem:HOVER {
+        color: #fff;
+    }
+
+    .MatcToolbarSection,
+    .MatcToolbarSeperator {
+        border-right: 1px solid transparent;
+
+    }
+
+    .MatcStatusItem {
+        border-left: 1px solid #ccc;
+    }
+
+    .MatcToobarPropertiesSection .MatcToolbarSection {
+        margin-bottom: 10px;
+    }
+
+    .MatcToobarPropertiesSection .MatcToolbarSectionCollabsed.MatcToolbarSection {
+        margin-bottom: 0px;
+    }
+
+    .MatcToobarPropertiesSection .MatcToolbarSectionLabel {
+        background: none;
+        color: #333;
+        border-top: 1px solid rgba(0, 0, 0, 0.15);
+        border-bottom: 1px solid transparent;
+        text-align: left;
+        padding-left: 16px;
+        font-weight: 700;
+    }
+
+    .MatcToobarPropertiesSection .MatcToobarSubSectionLabel {
+        color: #333;
+        text-align: left;
+        padding-left: 5px;
+        font-weight: 700;
+    }
+
+    .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel,
+    .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToobarSubSectionLabel,
+    .MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel:hover,
+    .MatcToobarPropertiesSection .MatcToolbarSectionLabel:HOVER,
+    .MatcToobarPropertiesSection .MatcToolbarSection:HOVER .MatcToolbarSectionLabel {
+        background: none;
+        color: #333;
+    }
+
+    .MatcToolbarSectionCollabsed .MatcToolbarSectionLabel {
+        border-bottom: none;
+    }
+
+    .MatcAction .MatcToolbarSeparator {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .MatcLineSupportPointTouch {
+        background: #777;
+        border-color: rgb(230, 230, 230);
+    }
+
+
+
+
+    .MatcToobarPropertiesSection .VommondCheckBoxLabel,
+    .MatcToobarPropertiesSection .MatcToolbarItemLabel,
+    .MatcToobarPropertiesSection .VommondRadioBoxLabel {
+        color: #555;
+    }
+
+    .MatcToolbarTabs a {
+        color: #555;
+    }
+
+    .MatcToolbarTabs a:HOVER {
+        color: #333;
+    }
+
+    .MatcToolbarPopUp {
+        box-shadow: 0 3px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .MatcToobarRemoveBtn {
+        color: #f83a3a;
+    }
+
+    .MatcToobarRemoveBtn:HOVER {
+        color: #cc0000;
+    }
+
+    .MatcBoxShadowIcon {
+        background: #777;
+    }
+
+    .MatcToobarPropertiesSection .MatcToolbarDropDownButton:hover {
+        border: 1px solid #999;
+    }
+
+    .MatcToobarPropertiesSection input,
+    .MatcToobarPropertiesSection textarea {
+        border: 1px solid transparent;
+        border-top: 1px solid transparent;
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
+        color: #555;
+    }
+
+    .MatcToobarPropertiesSection input:focus,
+    .MatcToobarPropertiesSection textarea:focus {
+        color: #555;
+    }
+
+    .MatcBoxBorder .MatcToolbarColor,
+    .MatcBoxBorder .MatcToolbarInputDropDownButton,
+    .MatcBoxBorder .MatcToolbarDropDownButton {
+        background: #FDFDFD;
+        color: #777;
+        border: 1px solid #777;
+        background: #fff;
+    }
+
+    .MatcToolbar .MatcToolbarInputDropDownButton input {
+        color: #333;
+    }
+
+    .MatcToolbarItemActive {
+        background: none;
+        color: #3787f2;
+    }
+
+    .MatcToobarPropertiesSection .MatcToolbarItemActive {
+        background: none;
+        color: #3787f2;
+    }
+
+
+    .MatcToolbarItemActive:HOVER {
+        color: #fff;
+    }
+
+    .MatcToobarPropertiesSection .MatcToolbarToggleButton.MatcToolbarItemActive:hover {
+        color: #3787f2;
+    }
+
+    .MatcToobarPropertiesSection .MatcToolbarToggleButton:hover {
+        color: #777;
+    }
+
+
+    .MatcToobarViewSection {
+        background: #fff;
+        border-top: 1px solid #ddd;
+        border-left: 1px solid rgba(0, 0, 0, 0.25);
+    }
+
+
+    .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive,
+    .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive:hover {
+        background: #3787f2;
+        color: #fff;
+    }
+
+
+    .MatcToolbarDropDownButtonItem {
+        background-color: #f2f2f2;
+    }
+
+    .MatcToobarPropertiesSection .MatcToolbarDropDownButton li:HOVER,
+    .MatcToolbarDropDownButtonPopup li:hover {
+        background: #333;
+        color: #fff;
+    }
+
+    .MatchCanvasScrollHandle {
+        background: #777;
+    }
+
+    .MatcCanvasScrollBarCntr:hover .MatchCanvasScrollHandle,
+    .MatcCanvasScrollBarHandlerActive .MatchCanvasScrollHandle {
+        background: #333;
+    }
+
+    .MatcBoxBorder .MatcToolbarColor.MatcToolbarItem,
+    .MatcBoxBorder .MatcToolbarInputDropDownButton.MatcToolbarItem {
+        border: 1px solid #777;
+    }
+
+    .MatcBoxBorderContainer {
+        border: 1px solid #777;
+    }
+
+    .MatcBoxBorder:HOVER .MatcBoxBorderContainer,
+    .MatcBoxBorder:HOVER .MatcToolbarColor.MatcToolbarItem,
+    .MatcBoxBorder:HOVER .MatcToolbarInputDropDownButton.MatcToolbarItem,
+    .MatcBoxBorder:HOVER .MatcToolbarDropDownButton {
+        border: 1px solid #777;
+    }
+
+    .MatcToobarPropertiesSection .MatcToobarInput::placeholder {
+        font-style: italic;
+        color: rgba(0, 0, 0, 0.35)
+    }
+
+
+    .MatcToolbarValignTop {
+        border-top: 1px solid #777;
+    }
+
+    .MatcToolbarValignMiddle {
+        border-left: 1px solid #777;
+    }
+
+    .MatcToolbarValignBottom {
+        border-bottom: 1px solid #777;
+    }
+
+    .MatcToolbarIcon-vertical {
+        border-top: 1px solid #555;
+        border-bottom: 1px solid #555;
+    }
+
+    .MatcToolbarIcon-vertical-bar {
+        background-color: #555;
+    }
+
+    .MatcToolbarIcon-horizontal {
+        border-left: 1px solid #555;
+        border-right: 1px solid #555;
+    }
+
+    .MatcToolbarIcon-horizontal-bar {
+        background-color: #555;
+    }
+
+    .MatcToobarPropertiesSection .MatcToobarInput {
+        background: transparent;
+        padding: 3px;
+        border: 1px solid transparent;
+    }
+
+
+    .MatcToobarPropertiesSection .MatcToobarInput:hover {
+        border: 1px solid #999;
+    }
+
+    .MatcToobarPropertiesSection .MatcToobarInput:focus {
+        border: 1px solid #777;
+    }
+
+
+    .MatcToobarPropertiesSection .MatcToobarInput:disabled {
+        background: none;
+    }
+}

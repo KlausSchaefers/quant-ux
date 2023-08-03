@@ -90,10 +90,9 @@
 
 <style lang="scss">
     @import "../style/scss/login.scss";
+    @import '../style/toolbar/tab.scss';
 </style>
-<style lang="css">
-    @import '../style/toolbar/tab.css';
-</style>
+
 <script>
 
 
