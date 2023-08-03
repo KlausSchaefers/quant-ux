@@ -46,7 +46,7 @@ import QIcon from 'page/QIcon'
 import _DropDown from './_DropDown'
 
 export default {
-    name: 'CreateButton2',
+    name: 'CreateBasicButton',
     mixins:[Util, DojoWidget, _DropDown],
     data: function () {
         return {
@@ -69,7 +69,7 @@ export default {
                     {value: 'triangle', icon: 'VectorTriangle', label: 'Triangle', type:'vector'}
                 ]},
                 {value: 2, css:'MatcToolbarPopUpLine'},
-                {value: 'designgpt', icon: 'AI', label: 'Design GPT'},
+                {value: 'designgpt', icon: 'Robot', label: 'Design GPT'},
             ]
         }
     },

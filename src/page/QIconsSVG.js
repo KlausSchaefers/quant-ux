@@ -13,13 +13,12 @@ export const icons = {
         <path d="M7.5 8h3v8l-2 -1"></path>
         <path d="M16.5 8h-2.5a.5 .5 0 0 0 -.5 .5v3a.5 .5 0 0 0 .5 .5h1.423a.5 .5 0 0 1 .495 .57l-.418 2.93l-2 .5"></path>
     `,
-    'Robot': ` <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M7 7h10a2 2 0 0 1 2 2v1l1 1v3l-1 1v3a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-3l-1 -1v-3l1 -1v-1a2 2 0 0 1 2 -2z"></path>
-        <path d="M10 16h4"></path>
-        <circle cx="8.5" cy="11.5" r=".5" fill="currentColor"></circle>
-        <circle cx="15.5" cy="11.5" r=".5" fill="currentColor"></circle>
-        <path d="M9 7l-1 -4"></path>
-        <path d="M15 7l1 -4"></path>
+    'Robot': ` 
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"></path>
+        <path d="M9.5 15a3.5 3.5 0 0 0 5 0"></path>
+        <path d="M15 11l.01 0"></path>
+        <path d="M9 11l.01 0"></path>
     `,
     'AI': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -39,6 +38,18 @@ export const icons = {
         <path d="M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14z"></path>
         <path d="M11 4h2"></path>
         <path d="M12 17v.01"></path>
+    `,
+    'DeviceTablet':`
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-12z"></path>
+        <path d="M9 17h6"></path>
+    `,
+    'DeviceDesktop':`
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 5a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10z"></path>
+        <path d="M7 20h10"></path>
+        <path d="M9 16v4"></path>
+        <path d="M15 16v4"></path>
     `,
     'Component': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -111,7 +122,7 @@ export const icons = {
         <path d="M9 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
         <path d="M9 15v6"></path>
         <path d="M11.5 9.5l6.5 -6.5"></path>
-        <path d="M13 3h5v5"></path>
+
     `,
     'Play': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -127,6 +138,18 @@ export const icons = {
         <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
         <path d="M12 16v.01"></path>
         <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path>
+    `,
+    'Artboard': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 8m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z"></path>
+        <path d="M3 8l1 0"></path>
+        <path d="M3 16l1 0"></path>
+        <path d="M8 3l0 1"></path>
+        <path d="M16 3l0 1"></path>
+        <path d="M20 8l1 0"></path>
+        <path d="M20 16l1 0"></path>
+        <path d="M8 20l0 1"></path>
+        <path d="M16 20l0 1"></path>
     `
 }
 
