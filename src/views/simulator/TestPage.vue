@@ -103,8 +103,11 @@
 </template>
 <style>
   @import url("../../style/matc.css");
-  @import url("../../style/canvas/all.css");
+
   @import url("../../style/test.css");
+</style>
+<style lang="scss">
+  @import "../../style/canvas/all.scss";
 </style>
 <style lang="sass">
   @import "../../style/bulma.sass"

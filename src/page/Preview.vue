@@ -4,7 +4,9 @@
 </template>
 <style>
   @import url("../style/simulator.css");
-  @import url("../style/widgets/all.css");
+</style>
+<style lang="scss">
+  @import "../style/canvas/all.scss";
 </style>
 <script>
 import DojoWidget from "dojo/DojoWidget";
