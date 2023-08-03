@@ -751,6 +751,11 @@ export default {
 				this.onNewRestObject(e)
 				return		
 			}
+
+			if (v.value === 'hotspot') {
+				this.onToolHotspot(e)
+				return		
+			}
 	
 			if (v.value === 'logic') {
 				this.onNewLogicObject(e)

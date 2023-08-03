@@ -55,6 +55,7 @@ export default {
                 {value: 'screen', icon: 'DeviceMobile', label: 'Screen (S)'},
                 {value: 'box', icon: 'BoxWide', label: 'Rectangle (R)'},
                 {value: 'text', icon: 'Text', label: 'Text (T)'},
+                {value: 'hotspot', icon: 'Hotspot', label: 'Hotspot (H)'},
                 {value: 1, css:'MatcToolbarPopUpLine'},
                 {value: 'logic', icon: 'Cloud', label: 'Logic', children:[
                     {value: 'rest', icon: 'Cloud', label: 'Rest'},
