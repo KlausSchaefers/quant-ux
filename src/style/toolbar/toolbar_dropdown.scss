@@ -1,0 +1,123 @@
+
+.MatcToolbarArrowDropDown {
+
+}
+
+
+.MatcToolbarArrowDropDown .MatcToolbarItem{
+	display: flex;
+	align-items: center;
+    justify-content: center;
+	gap: 4px;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarItem .caret{
+	opacity: 1;
+}
+
+.MatcToolbarItemActive.MatcToolbarItem .caret{
+	transform: rotate(135deg);
+}
+
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUp {
+	top: calc(100% + 12px);
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpLabel {
+	min-width: 100px;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpWrapper {
+	z-index: 2;
+	position: relative;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpArrowCntr {
+	top: -8px;
+	left: 12px;
+	right: 100%;
+	height: 30px;
+	width: 30px;
+	z-index: 1;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {
+	left: 0px;
+	top: 3px;
+}
+
+.MatcScreenImportAdd .MatcScreenAddCntr {
+	min-width: 600px;
+
+}
+
+.MatcScreenAddCntr .MatcHint {
+	margin-bottom: 20px;
+	font-size: 20px;
+}
+
+.MatcScreenAddCntr .MatcUploader {
+	margin-top: 30px;
+}
+
+.MatcToolbarArrowDropDown li {
+	position: relative;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarDropDownButtonPopup ul {
+	overflow: visible;
+}
+
+.MatcToolbarArrowDropDown li .MatcToolbarPopUpSubMenu {
+	color: #333;
+	position: absolute;
+	left: calc(100% + 10px);
+	top: 0px;
+	background: #fff;
+	box-shadow: 0 3px 25px rgba(0, 0, 0, 0.35);
+	z-index: 4;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpSubMenu .MatcToolbarPopUpArrowCntr {
+	left: -7px;
+	top: 6px;
+}
+
+.MatcToolbarArrowDropDown li.Seperator {
+	border-top: 1px solid #333;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpSubMenu .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {
+	left: 3px
+}
+
+/****************************************************
+ * Item DropDown
+ ****************************************************/
+
+.MatcToolbarDropDownButtonItem {
+	border: 1px solid transparent;
+	transition: all 0.2s;
+	border-radius: 3px;
+	background: #f2f2f2;
+}
+
+.MatcToolbarDropDownButtonItem:HOVER,
+.MatcCreateBtnElementSelected.MatcToolbarDropDownButtonItem {
+	border: 1px solid $primary_color;
+}
+
+.MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove {
+	background: $color-red-light;
+	border-color: $color-red;
+	color: $color-red;
+}
+
+.MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove:hover {
+	background: $color-red;
+	border-color: $color-red-dark;
+	color: #fff;
+}
+
+

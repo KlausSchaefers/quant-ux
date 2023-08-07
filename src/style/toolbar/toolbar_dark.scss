@@ -1,70 +1,12 @@
+
 .MatcDark {
-
-    .MatcToolbarItem {
-        color:#FFF;
-    }
-
-    .MatcToolbarItem:hover{
-        color:#FFF;
-    }
-
-    .MatcToobarLeft .MatcToolbarItem:hover,
-    .MatcToolbarTop .MatcToolbarItem:hover{
-        color:#fff;
-    }
-
-    .MatcToolbarItemDisbaled{
-        color:#555;
-    }
-
-    .MatcToolbarItemActive{
-        background: rgba(0,0,0,0.4);
-        color: #eee;
-    }
-    
-
-    .MatcToobarPropertiesSection .MatcToolbarItemActive{
-        background: #242a30;
-    }
-
-    .MatcToolbarItem.MatcToolbarItemDisbaled:HOVER{
-        color:#555;
-    }
-    
-    .MatcToobarPropertiesSection {
-        background: #242a30;
-        background: #1a1f23;
-    }
-
-    .MatcToobarLeft {
-        background: #242a30;
-    }
-
-    .MatcToobarItemBig {
-        color: #fff;
-    }
-    
-    .MatcToobarViewSection {
-        background: #242a30;
-        border-top: 1px solid #1a1f23;
-    }
-    
-    .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive {
-        background: #3787f2;
-        color: #fff;
-    }
-    
-    .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive:hover {
-        background: #3787f2;
-        color: #fff;
-    }
 
     .MatcToobarViewSection .MatcToolbarItem:hover {
         color: #ccc;
     }
 
     .MatcToobarPropertiesSection .MatcToolbarSectionLabel {
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        border-top: 1px solid $toolbar_border;
         background: none;
         color: #777;
     }
@@ -84,17 +26,13 @@
     }
 
     .MatcToolbarSeperator {
-        border-right: 1px solid #555;
+
     }
 
     .MatcToolbarSectionLabel {
         color: #ddd;
     }
-    
-    .MatcToolbarSection {
-        border-right: 1px solid #555;
-    }
-    
+
     
     
     

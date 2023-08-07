@@ -26,6 +26,7 @@ export default {
     mixins:[DojoWidget, _DropDown],
     data: function () {
         return {
+			icon: '',
             value: false,
 			isIconButton: false,
             hasObjects: false,
@@ -40,6 +41,11 @@ export default {
     },
     components: {},
     methods: {
+
+		setIcon (icon) {
+			console.debug(icon)
+		},
+
       	setLabelPostfix (postfix){
 			this.postfix = postfix;
 		},

@@ -380,8 +380,8 @@ export default {
 
 		renderToolTips:function(){
 
-			this.addTooltip(this.home, "Click here to exit");
-			this.addTooltip(this.simulatorButton, "Start Simulation (No data will be stored)");
+			// this.addTooltip(this.home, "Click here to exit");
+			// this.addTooltip(this.simulatorButton, "Start Simulation (No data will be stored)");
 
 
 			// this.addTooltip(this.addScreenSection, "Add / Import Screens (S)", "vommondToolTipLeft");
@@ -603,7 +603,7 @@ export default {
 		_renderWidgetAlign (){
 
 			const content = document.createElement("div");
-			css.add(content, "MatcToolbarSectionContent");
+			css.add(content, "MatcToolbarSectionContent MatcToolbarAlignButtonGroup");
 
 		
 
@@ -637,11 +637,6 @@ export default {
 
 				//this.addTooltip(a, "Align <b>" + value + "</b>. After click select element to align to", 'vommondToolTipRightBottom');
 			}
-
-
-			let icon = document.createElement("span");
-			css.add(icon, 'MatcToolbarSpacer');
-			content.appendChild(icon);
 
 
 			values = ["vertical", "horizontal"];

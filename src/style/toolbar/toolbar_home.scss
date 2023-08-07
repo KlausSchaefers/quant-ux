@@ -1,0 +1,32 @@
+/****************************************************
+ * Home Section
+ ****************************************************/
+
+ .MatcToolbarDropDownButton.MatcToobarHomeSection {
+	background: $primary_color;
+	transition-duration: 0.25s;
+	height: $toolbar_height;
+	width: $toolbar_height;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.MatcToobarHomeSection .MatcToolbarItem{
+	height: $toolbar_height;
+	width: $toolbar_height;
+}
+
+.MatcToobarHomeSection img{
+    width: 24px;
+    height: 24px;
+}
+
+.MatcToobarHomeSection:HOVER {
+	background:  $primary_color-hover;
+}
+
+.MatcToobarHomeSection .MatcToolbarPopUp {
+	width: 200px;
+}
+

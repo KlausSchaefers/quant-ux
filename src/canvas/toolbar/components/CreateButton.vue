@@ -1,10 +1,10 @@
 <template>
-    <div class="MatcToolbarItem MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton">
-		<div type="button" data-dojo-attach-point="button">
+    <div class=" MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton">
+	<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarPrimaryItem">
 			<label data-dojo-attach-point="label" class="" style="margin-right: -3px;">
 				<QIcon icon="Component" />
-
 			</label>
+			<span class="caret"></span>
 		</div>
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 				<div class="MatcCreateBtnCntr MatcPadding">
@@ -134,11 +134,11 @@ export default {
 				this.searchBox.select();
 				this.searchBox.focus();
 			}, 250)
-			css.add(this.domNode,"MatcToolbarItemActive");
+			css.add(this.button,"MatcToolbarItemActive");
 		},
 
 		onHide (){
-			css.remove(this.domNode,"MatcToolbarItemActive");
+			css.remove(this.button,"MatcToolbarItemActive");
 		},
 
 		async init (){

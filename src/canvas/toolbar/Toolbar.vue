@@ -9,46 +9,27 @@
 
 
 		<div class="MatcToolbarTop">
-				<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
+				<HomeMenu @select="onHomeMenu"/>
 
 				<div class="MatcToolbarTopCntr">
 
-						
-						<!-- <div class="MatcToolbarSection MatcToolbarDenseSection" v-show="svgEditorVisible" >
-							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgUndo" @click="onSVGUndo">
-									<span class="mdi mdi-undo"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgRedo" @click="onSVGRedo">
-									<span class="mdi mdi-redo"></span>
-								</a>						
-						</div> -->
-
-						<div v-show="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">
-							
-								<div class="MatcToolbarItem">
-									<div class="MatcButton MatcToolbarCloseButton" @click="onToolSVGEnd" >
-										{{$t('toolbar.svgStop')}}
-									</div>
+			
+						<div v-show="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">							
+							<div class="MatcToolbarItem">
+								<div class="MatcButton MatcToolbarCloseButton" @click="onToolSVGEnd" >
+									{{$t('toolbar.svgStop')}}
 								</div>
+							</div>
 						</div> 
 
-						<div class="MatcToolbarSection MatcToolbarDenseSection">
-
-				
-								<div class="MatcToolbarItem" data-dojo-attach-point="editTool"  @click="onEdit">
-									<QIcon icon="Edit" />
-								</div>
-
-								<CreateBasicButton @add="onToolBasic" />
-
-								<CreateButton ref="createButton"/>
-
-								<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>
-										
-								<CreateVectorButton @add="onToolSVG" v-if="false" />
-
-				
-							
+						<div class="MatcToolbarSection MatcToolbarDenseSection">				
+							<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="editTool"  @click="onEdit">
+								<QIcon icon="Edit" />
+							</div>
+							<CreateBasicButton @add="onToolBasic" />
+							<CreateButton ref="createButton"/>
+							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
+							<CreateVectorButton @add="onToolSVG" v-if="false" />			
 						</div>
 					
 
@@ -70,9 +51,6 @@
 									</div>
 
 									<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
-									</div>
-
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
 									</div>
 
 									<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
@@ -99,16 +77,26 @@
 									ref="editModeButton"/>
 							</div>
 
+					
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
+							
 							<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
 								<div class="MatcToolbarItem" data-dojo-attach-point="simulatorButton">
-									<div class="MatcToobarPrimaryButton">									
+									<div class="">									
 										<QIcon icon="Play" />					
 									</div>
 								</div>
 							</div>
+
+							<div class=" MatcToobarSimulatorSection MatcToolbarSection" >
+								<div class="MatcToolbarItem" @click="showSharing">
+									<div class="MatcToobarPrimaryButton">									
+										Share				
+									</div>
+								</div>
+							</div>
 					
-							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
-							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
+							<HelpButton :hasNotifications="true" :hasToolbar="true" v-if="false"/>
 						</div>
 
 					
@@ -121,6 +109,7 @@
 		</div>
 
 </template>
+
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
@@ -135,7 +124,7 @@ import _Tools from 'canvas/toolbar/mixins/_Tools'
 import _Render from 'canvas/toolbar/mixins/_Render'
 import _Dialogs from 'canvas/toolbar/mixins/_Dialogs'
 import _Show from 'canvas/toolbar/mixins/_Show'
-import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
+//import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
 import CollabUser from "canvas/toolbar/components/CollabUser"
@@ -145,6 +134,7 @@ import CreateVectorButton from './components/CreateVectorButton'
 import CreateLogicButton from './components/CreateLogicButton'
 import CreateBasicButton from './components/CreateBasicButton'
 import CreateButton from './components/CreateButton.vue'
+import HomeMenu from './components/HomeMenu'
 
 import QIcon from 'page/QIcon'
 
@@ -180,6 +170,7 @@ export default {
 		'CreateLogicButton': CreateLogicButton,
 		'CreateBasicButton': CreateBasicButton,
 		'CreateButton': CreateButton,
+		'HomeMenu': HomeMenu,
 		'QIcon': QIcon
 	},
 	computed: {
@@ -216,33 +207,22 @@ export default {
 			// this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
 			// this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
 
-			const btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
-			btn.updateLabel = false;
-			btn.setLabel('<span class="mdi mdi-menu"></span>');
-			btn.setOptions(this.getMainMenu());
-			btn.placeAt(this.home);
-			css.add(btn.domNode, "MatcToolbarItem");
+			// const btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
+			// btn.updateLabel = false;
+			// btn.setLabel('<span class="MatcMainMenuButton"></span>');
+			// btn.setOptions(this.getMainMenu());
+			// btn.placeAt(this.home);
+			// css.add(btn.domNode, "MatcToolbarItem");
 		},
 
-
-		getMainMenu   () {
-
-			var options = [
- 			  {label : this.getNLS('toolbar.menu.start'), callback:lang.hitch(this, "startSimilator") },
-			  {label : this.getNLS('toolbar.menu.settings'), callback:lang.hitch(this, "onShowSettings")},
-			  {label : this.getNLS('toolbar.menu.shortcuts'), callback:lang.hitch(this, "showShortCuts")},
-			  {label : this.getNLS('toolbar.menu.share'), callback:lang.hitch(this, "showSharing")},
-			  {label : this.getNLS('toolbar.menu.import'), callback:lang.hitch(this, "showImportDialog")},
-			  {label : this.getNLS('toolbar.menu.export'), callback:lang.hitch(this, "showDownloadDialog")},
-			  {css:"MatcToolbarPopUpLine"},
-			  {label : this.getNLS('toolbar.menu.change-screen-size'), callback:lang.hitch(this, "onChangeScreenSize")},
-			  {label :this.getNLS('toolbar.menu.save-as'), callback:lang.hitch(this, "onSaveAs")},
-			  {css:"MatcToolbarPopUpLine"},
-			  {label : this.getNLS('toolbar.menu.exit'), callback:lang.hitch(this, "onExit")},
-			]
-			return options
+		onHomeMenu (option, e) {
+			this.logger.log(-1,"onHomeMenu", "entry", e);
+			if (this[option.value]) {
+				this[option.value](e)
+			}
 		},
 
+	
 		setController (c){
 			this.logger.log(3,"setController", "entry");
 			this.controller = c;

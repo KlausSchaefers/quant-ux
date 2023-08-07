@@ -1,10 +1,11 @@
 
 <template>
-    <div class=" MatcToolbarArrowDropDown  MatcToolbarDropDownButton">
-		<div class="MatcToolbarItem MatcMultiIcon" type="button" data-dojo-attach-point="button">
+    <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton">
+		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="">
                 <QIcon icon="Plus" />               
 			</label>
+            <span class="caret"></span>
 
 		</div>
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>

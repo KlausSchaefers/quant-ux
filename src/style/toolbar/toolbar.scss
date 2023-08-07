@@ -2,13 +2,17 @@
  *  Toolbar
  ****************************************************/
 
+ .MatcToolbar {
+
+ }
+
 .MatcToolbar .vommondToolTip {
 	z-index: 90010;
 }
 
 .MatcToolbar .vommondToolTipLabel,
 .MatcToolbar .vommondToolTipArrow {
-	background: #3787f2;
+	background: $primary_color;
 }
 
 .MatcToolbarHintCntr {
@@ -143,7 +147,7 @@
 }
 
 .MatcDateSectionIconCntr .selected {
-	background: #3787f2;
+	background: $primary_color;
 	color: #fff;
 }
 
@@ -171,137 +175,6 @@
 	width: 75vw;
 	max-width: 1200px;
 }
-
-.MatcToolbarArrowDropDown {
-	display: inline-block;
-}
-
-.MatcToolbarArrowDropDown .MatcToolbarPopUp {
-	top: calc(100% + 12px);
-}
-
-.MatcToolbarArrowDropDown .MatcToolbarPopUpLabel {
-	width: 100px;
-}
-
-.MatcToolbarArrowDropDown .MatcToolbarPopUpWrapper {
-	z-index: 2;
-	position: relative;
-}
-
-.MatcToolbarArrowDropDown .MatcToolbarPopUpArrowCntr {
-	top: -8px;
-	left: 12px;
-	right: 100%;
-	height: 30px;
-	width: 30px;
-	z-index: 1;
-}
-
-.MatcToolbarArrowDropDown .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {
-	left: 0px;
-	top: 3px;
-}
-
-.MatcScreenImportAdd .MatcScreenAddCntr {
-	min-width: 600px;
-
-}
-
-.MatcScreenAddCntr .MatcHint {
-	margin-bottom: 20px;
-	font-size: 20px;
-}
-
-.MatcScreenAddCntr .MatcUploader {
-	margin-top: 30px;
-}
-
-.MatcToolbarArrowDropDown li {
-	position: relative;
-}
-
-.MatcToolbarArrowDropDown .MatcToolbarDropDownButtonPopup ul {
-	overflow: visible;
-}
-
-.MatcToolbarArrowDropDown li .MatcToolbarPopUpSubMenu {
-	color: #333;
-	position: absolute;
-	left: calc(100% + 10px);
-	top: 0px;
-	background: #fff;
-	box-shadow: 0 3px 25px rgba(0, 0, 0, 0.35);
-	z-index: 4;
-}
-
-.MatcToolbarArrowDropDown .MatcToolbarPopUpSubMenu .MatcToolbarPopUpArrowCntr {
-	left: -7px;
-	top: 6px;
-}
-
-.MatcToolbarArrowDropDown li.Seperator {
-	border-top: 1px solid #333;
-}
-
-.MatcToolbarArrowDropDown .MatcToolbarPopUpSubMenu .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {
-	left: 3px
-}
-
-/****************************************************
- * Item DropDown
- ****************************************************/
-
-.MatcToolbarDropDownButtonItem {
-	border: 1px solid transparent;
-	transition: all 0.2s;
-	border-radius: 3px;
-	background: #f2f2f2;
-}
-
-.MatcToolbarDropDownButtonItem:HOVER,
-.MatcCreateBtnElementSelected.MatcToolbarDropDownButtonItem {
-	border: 1px solid #3787f2;
-}
-
-.MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove {
-	background: $color-red-light;
-	border-color: $color-red;
-	color: $color-red;
-}
-
-.MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove:hover {
-	background: $color-red;
-	border-color: $color-red-dark;
-	color: #fff;
-}
-
-
-/****************************************************
- * Home Section
- ****************************************************/
-
-.MatcToobarHomeSection {
-	background: #3787f2;
-	transition-duration: 0.25s;
-}
-
-.MatcToobarHomeSection:HOVER {
-	background: #1251a3;
-}
-
-.MatcToobarHomeSection .MatcToolbarPopUp {
-	width: 200px;
-}
-
-.MatcToolbar .MatcToobarHomeSection .MatcToolbarPopUp li {
-	padding: 10px;
-}
-
-.MatcToolbar .MatcToobarHomeSection .MatcToolbarPopUp li.MatcToolbarPopUpLine {
-	padding: 0px;
-}
-
 
 
 /****************************************************
@@ -332,7 +205,7 @@
 }
 
 .MatcToobarRowRightIcon:HOVER {
-	color: #3787f2;
+	color: $primary_color;
 }
 
 .MatcToolBarNumberCntr {
@@ -380,17 +253,17 @@
 }
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a:HOVER {
-	border-bottom: 2px solid #3787f2;
+	border-bottom: 2px solid $primary_color;
 }
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a:HOVER {
-	color: #3787f2;
+	color: $primary_color;
 }
 
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a.MatcToolbarTabActive,
 .MatcCode.MatcToolbarTabContainer a.MatcToolbarTabActive {
-	border-bottom: 2px solid #3787f2;
+	border-bottom: 2px solid $primary_color;
 	color: #555;
 }
 
@@ -413,7 +286,7 @@
  ****************************************************/
 
 .MatcToobarSimulatorSection .MatcToobarPrimaryButton {
-	background: #3787f2;
+	background: $primary_color;
 	color: #fff;
 	padding: 4px 8px;
 	border-radius: 3px;
@@ -424,4 +297,8 @@
 
 .MatcToobarSimulatorSection .MatcToobarPrimaryButton:hover {
 	background: #1251a3;
+}
+
+.MatcMainMenuButton {
+	//background-image: url('../img/QUXLogo5.svg');
 }

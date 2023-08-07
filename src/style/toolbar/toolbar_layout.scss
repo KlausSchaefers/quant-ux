@@ -1,7 +1,8 @@
+
+
 .MatcToolbar {
     font-size: 14px;
-    background: #242a30;
-    height: 40px;
+    height: $toolbar_height;
     user-select: none;
 }
 
@@ -10,24 +11,24 @@
 	transition-duration: 0.2s;
 	transition-property: opacity;
 	display: inline-block;
-	color: #ddd;
 	min-width: 40px;
 	height: 40px;
 	text-align: center;
 	cursor: pointer;
-	vertical-align: top;
+	display: flex;
+    align-items: center;
 }
 
 .MatcToolbarItem:hover {
 	text-decoration: none;
 }
 
-.MatcIconBox {
-	height: 20px;
-	width: 20px;
-	display: inline-block;
-	border-radius: 2px;
+
+.MatcToolbarPrimaryItem {
+    padding: 16px 4px;
+	overflow: hidden;
 }
+
 
 .MatcToolbarSpacer {
 	width: 10px;
@@ -37,10 +38,6 @@
 
 .MatcToolbarHelpSection {
 	font-size: 12px;
-}
-
-.MatcToolbarInfo {
-	padding-left: 20px;
 }
 
 
@@ -53,11 +50,18 @@
 	left: 0px;
 	position: fixed;
 	top: 0;
-	background: #242a30;
 	width: 100%;
+	height: $toolbar_height;
 	display: flex;
 	justify-content: flex-start;
 	flex-direction: row;
+	align-items: center;
+
+	.MatcToolbarItem{
+		height: 32px;
+		border: 1px solid transparent;
+		padding: 1px 8px;
+	}
 }
 
 .MatcToolbarNotificationSection {
@@ -71,7 +75,6 @@
 .MatcToolbarTopCntr {
 	display: flex;
 	justify-content: space-between;
-	height: 40px;
 	width: calc(100% - 40px);
 	gap: 8px;
 }
@@ -197,7 +200,7 @@
 }
 
 .MatcToobarPropertiesSection .MatcToolbarSectionContent {
-	padding: 5px 10px;
+	padding: 4px 8px;
 	width: 230px;
 }
 
@@ -287,14 +290,10 @@
 	display: inline-block;
 	transition-duration: 0.5s;
 	transition-property: opacity;
-	height: 40px;
+	height: $toolbar_height;
 	display: flex;
 	align-items: center;
-}
-
-.MatcToolbarDenseSection .MatcToolbarItem {
-	padding: 8px 4px;
-	min-width: 32px;
+	gap: 8px;
 }
 
 .MatcToolbarSectionContent {
@@ -315,8 +314,9 @@
 }
 
 .MatcToolbarSubSection {
-	display: inline-block;
-	vertical-align: top;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
 .MatcToolbarSectionHidden,

@@ -113,27 +113,38 @@
 /****************************************************
  * Align Button
  ****************************************************/
-.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton{
-    width:25px;
-  height:30px;
-  min-width: 25px;
+
+ .MatcToolbarAlignButtonGroup {
+	display: flex;
+	gap: 2px;
+	align-items: center;
+	justify-content: center;
+	padding: 8px;
+	height: 48px;
+ }
+.MatcToolbarAlignButtonGroup .MatcToolbarItem.MatcToolbarAlignButton{
+  width:24px;
+  height:24px;
+  padding: 0px;
+  margin: 0px;
+  min-width: 24px;
 }
 
 
-.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive {
+.MatcToolbarAlignButtonGroup .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive {
 	cursor: auto;
  }
 
 
-.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+.MatcToolbarAlignButtonGroup .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
   	cursor: auto;
  }
 
-.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+.MatcToolbarAlignButtonGroup .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
   	cursor: auto;
  }
 
-.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
+.MatcToolbarAlignButtonGroup .MatcToolbarItem.MatcToolbarAlignButton.MatcToolbarItemPassive{
   	cursor: auto;
  }
 

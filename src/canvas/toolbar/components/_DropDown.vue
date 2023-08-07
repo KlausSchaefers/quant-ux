@@ -135,6 +135,10 @@ export default {
 				return;
 			}
 
+			if (this.button) {
+				css.add(this.button, "MatcToolbarItemActive");
+			}
+
 			css.add(this.popup, "MatcToolbarPopUpOpen");
 
 			this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this,"hideDropDown"));
@@ -149,7 +153,7 @@ export default {
 			this.onVisible();
 
 			if (this.reposition) {
-					this.teleportToBody(forceUpdatePosition)
+				this.teleportToBody(forceUpdatePosition)
 			}
 			this.renderArrow();
 			if(this.showListener){
@@ -250,8 +254,14 @@ export default {
 				return;
 			}
 
+			if (this.button) {
+				css.remove(this.button, "MatcToolbarItemActive");
+			}
+
+
 			if(this.popup){
 				css.remove(this.popup, "MatcToolbarPopUpOpen");
+				
 			} else {
 				/**
 				 * FIXME: This is a stupid bug that happens all the time. Not sure why exactly, m
