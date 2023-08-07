@@ -5,6 +5,48 @@
         color: #ccc;
     }
 
+    .MatcToolbarArrowDropDown .MatcToolbarPopUp li.MatcToolbarArrowDropDownItem:hover {
+        background: $primary_color;
+        color: #fff;
+    }
+
+    .XMatcToolbarArrowDropDown .MatcToolbarPopUp {
+        background: #000;
+        color:#fff;
+        border: 1px solid $toolbar_border;
+        overflow: hidden;
+        .MatcToolbarPopUpArrow{
+            background: $toolbar_selected_background;
+
+        }
+
+        .MatcToolbarPopUpWrapper {
+
+        }
+
+        .MatcToolbarPopUpLine {
+            border-top: 1px solid $toolbar_border;
+        }
+        
+        li:hover {
+            background: $primary_color;
+        }
+
+        .MatcToolbarPopUpSubMenu {
+            background: $toolbar_selected_background;
+            color:#fff;
+            border-top: 1px solid $toolbar_border;
+        
+            .MatcToolbarPopUpArrow{
+                background: $toolbar_selected_background;
+    
+            }
+        }
+    }
+
+
+
+
     .MatcToobarPropertiesSection .MatcToolbarSectionLabel {
         border-top: 1px solid $toolbar_border;
         background: none;

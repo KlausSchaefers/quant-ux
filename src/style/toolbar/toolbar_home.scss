@@ -22,9 +22,12 @@
     height: 24px;
 }
 
-.MatcToobarHomeSection:HOVER {
+.MatcToobarHomeSection:HOVER, 
+.MatcToobarHomeSection .MatcToolbarItemActive {
 	background:  $primary_color-hover;
 }
+
+
 
 .MatcToobarHomeSection .MatcToolbarPopUp {
 	width: 200px;

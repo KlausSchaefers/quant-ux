@@ -4,7 +4,7 @@
 }
 
 .MatcToolbarItemActive{
-    background: $toolbar_icon_selected;
+    background: $toolbar_selected_background
 }
 
 .MatcToolbarTop {
@@ -17,8 +17,8 @@
     }
     
     .MatcToolbarPrimaryItem:hover {
-        background: $toolbar_icon_selected;
-        border-bottom: 1px solid $toolbar_icon_selected;
+        background: $toolbar_selected_background;
+        border-bottom: 1px solid $toolbar_selected_background;
     }
     
 }

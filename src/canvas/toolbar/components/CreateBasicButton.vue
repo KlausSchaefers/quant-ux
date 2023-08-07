@@ -11,7 +11,7 @@
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">
                 <ul class="" role="menu">
-                    <li v-for="i in items" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css">
+                    <li v-for="i in items" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css" class="MatcToolbarArrowDropDownItem">
                         <QIcon class="MatcToolbarPopUpIcon" :icon="i.icon" />
                         <label class="MatcToolbarPopUpLabel">{{i.label}}</label>
 
