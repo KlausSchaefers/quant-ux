@@ -39,8 +39,39 @@
         }
 
         .MatcCreateBtnElement {
-            background: rgba($color: #fff, $alpha: 0.1);
+            background: $toolbar_background;
         }
+
+        .MatcCreateSearch {
+            background: none;
+            border-radius: $button-radius;
+            border-color: $toolbar_border;
+        }
+
+        .MatcCreateSearch:focus {
+            background: $toolbar_background;
+            color: #fff;
+        }
+
+        .MatcCreateCatCntr li {
+            border-radius: $button-radius;
+            padding: 8px;
+        }
+
+        .MatcCreateCatCntr li a{
+           color: #fff; 
+        }
+
+        .MatcCreateCatCntr li.MatcSelected{
+            background: $toolbar_background;
+        }
+        .MatcCreateCatCntr li.MatcSelected a{
+            color: $primary_color;
+        }
+
+        .MatcCreateCatCntr li a:hover{
+            color: $primary_color-hover
+         }
     
         .MatcCreateBtnElementLabel {
             color:#fff;

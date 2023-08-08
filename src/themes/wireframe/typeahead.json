@@ -35,7 +35,7 @@
 		"background" : "#f2f2f2"
 	},
 	"style" : {
-		"color" : "#333333",
+		"color" : "#000000",
 		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
 		"borderTopRightRadius" : 3,
 		"borderTopLeftRadius" : 3,
@@ -46,10 +46,10 @@
 		"borderRightWidth" : 1,
 		"borderLeftWidth" : 1,
 		"fontSize" : 18,
-		"borderTopColor" : "#333333",
-		"borderBottomColor" : "#333333",
-		"borderRightColor" : "#333333",
-		"borderLeftColor" : "#333333",
+		"borderTopColor" : "#000000",
+		"borderBottomColor" : "#000000",
+		"borderRightColor" : "#000000",
+		"borderLeftColor" : "#000000",
 		"background" : "#ffffff",
 		"paddingTop" : 5,
 		"paddingBottom" : 5,
@@ -58,7 +58,7 @@
 		"textAlign" : "left",
 		"selectedOptionColor" : "#333",
 		"selectedOptionBackground" : "#f2f2f2",
-		"popupBorderColor" : "#333333",
+		"popupBorderColor" : "#000000",
 		"popupBorderWidth" : 1,
 		"popupColor" : "#333",
 		"popupBackground" : "#fff"

@@ -439,7 +439,7 @@ export default {
 
 		
 			const li = db.span().build(ul);
-			db.a("MatcButton MatcButtonFullWidth MatcButtonSignUp", "Import").build(li);
+			db.a("MatcButton MatcButtonFullWidth", "Import").build(li);
 			this._lis["Import"] = li;
 			this.own(on(li, touch.press, lang.hitch(this, "showImportSection") ));
 

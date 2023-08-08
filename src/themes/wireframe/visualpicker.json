@@ -58,7 +58,7 @@
           "iconSize": 48,
           "iconColor": "#333",
           "popColor": "#fff",
-          "popBackground": "#333333",
+          "popBackground": "#000000",
           "popIconSize": "60",
           "popIcon": "mdi-check"
         },

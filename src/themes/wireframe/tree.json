@@ -43,12 +43,12 @@
 		"borderBottomWidth" : 0,
 		"borderRightWidth" : 0,
 		"borderLeftWidth" : 0,
-		"borderTopColor" : "#333333",
-		"borderBottomColor" : "#333333",
-		"borderRightColor" : "#333333",
-		"borderLeftColor" : "#333333",
+		"borderTopColor" : "#000000",
+		"borderBottomColor" : "#000000",
+		"borderRightColor" : "#000000",
+		"borderLeftColor" : "#000000",
 		"background" : "transparent",
-		"color" : "#333333",
+		"color" : "#000000",
 		"paddingTop" : 8,
 		"paddingBottom": 8,
 		"paddingLeft" : 24,
@@ -58,7 +58,7 @@
 	},
 	"active": {
 		"background": "#f1f1f1",
-		"color": "#333333"
+		"color": "#000000"
 	},
 	"hover": {
 		"background": "#f3f2f2",

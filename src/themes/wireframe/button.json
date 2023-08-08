@@ -22,7 +22,7 @@
 			"textAlign": "center",
 			"letterSpacing": 0,
 			"lineHeight": 1,
-			"color": "#333333",
+			"color": "#000000",
 			"paddingTop": 0,
 			"paddingBottom": 0,
 			"paddingLeft": 0,
@@ -62,7 +62,7 @@
 			"letterSpacing": 0,
 			"lineHeight": 1,
 			"color": "#ffffff",
-			"background": "#333333",
+			"background": "#000000",
 			"paddingTop": 0,
 			"paddingBottom": 0,
 			"paddingLeft": 0,
@@ -71,10 +71,10 @@
 			"borderTopLeftRadius": 3,
 			"borderBottomRightRadius": 3,
 			"borderBottomLeftRadius": 3,
-			"borderTopColor": "#333333",
-			"borderBottomColor": "#333333",
-			"borderRightColor": "#333333",
-			"borderLeftColor": "#333333",
+			"borderTopColor": "#000000",
+			"borderBottomColor": "#000000",
+			"borderRightColor": "#000000",
+			"borderLeftColor": "#000000",
 			"verticalAlign": "middle"
 		}
 	},
@@ -102,7 +102,7 @@
 			"textAlign": "center",
 			"letterSpacing": 0,
 			"lineHeight": 1,
-			"color": "#333333",
+			"color": "#000000",
 			"paddingTop": 0,
 			"paddingBottom": 0,
 			"paddingLeft": 0,
@@ -116,15 +116,15 @@
 			"borderRightWidth": 1,
 			"borderLeftWidth": 1,
 			"valign": "top",
-			"borderTopColor": "#333333",
-			"borderBottomColor": "#333333",
-			"borderRightColor": "#333333",
-			"borderLeftColor": "#333333",
+			"borderTopColor": "#000000",
+			"borderBottomColor": "#000000",
+			"borderRightColor": "#000000",
+			"borderLeftColor": "#000000",
 			"verticalAlign": "middle"
 		},
 		"active": {
 			"color": "#ffffff",
-			"background": "#333333"
+			"background": "#000000"
 		}
 	},
 	{
@@ -152,7 +152,7 @@
 			"textAlign": "center",
 			"letterSpacing": 0,
 			"lineHeight": 1,
-			"color": "#333333",
+			"color": "#000000",
 			"paddingTop": 0,
 			"paddingBottom": 0,
 			"paddingLeft": 0,
@@ -166,15 +166,15 @@
 			"borderRightWidth": 0,
 			"borderLeftWidth": 0,
 			"valign": "top",
-			"borderTopColor": "#333333",
-			"borderBottomColor": "#333333",
-			"borderRightColor": "#333333",
-			"borderLeftColor": "#333333",
+			"borderTopColor": "#000000",
+			"borderBottomColor": "#000000",
+			"borderRightColor": "#000000",
+			"borderLeftColor": "#000000",
 			"verticalAlign": "middle"
 		},
 		"active": {
 			"color": "#ffffff",
-			"background": "#333333"
+			"background": "#000000"
 		}
 	}
 ]

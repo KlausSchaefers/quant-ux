@@ -24,7 +24,7 @@
 	      "textAlign" : "center",
 	      "letterSpacing" : 0,
 	      "lineHeight" : 1,
-	   	  "color" : "#333333",
+	   	  "color" : "#000000",
 	   	  "textDecoration":"underline",
 	   	  "background":"transparent"
 	    }

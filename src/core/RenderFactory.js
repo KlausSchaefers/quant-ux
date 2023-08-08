@@ -1658,12 +1658,12 @@ export default class RenderFactory extends Core {
 				context.lineTo(w, h);
 				context.moveTo(w, n);
 				context.lineTo(n, h);
-				context.strokeStyle = "#333";
+				context.strokeStyle = "#000";
 				context.strokeWidth = 2;
 				context.imageSmoothingEnabled = false;
 				context.stroke();
 				parent.style.backgroundImage = "url(" + c.toDataURL("image/png") + ")";
-				parent.style.border = "1px solid #777";
+				parent.style.border = "1px solid #000";
 			}
 
 		}

@@ -1,3 +1,4 @@
+@import './vars.css';
 
 .form-control{
 	box-shadow:none;
@@ -103,7 +104,7 @@ input:focus{
 }
 
 .MatcInlineEdit:focus{
-	border: 1px #3787f2 dashed;
+	border: 1px var(--primary-color) dashed;
 }
 
 /****************************************************
@@ -143,7 +144,7 @@ input:focus{
 }
 
 .MatcLinkButton:hover{
-	color:#3787f2;
+	color:var(--primary-color);
 	text-decoration: underline;
 }
 
@@ -157,27 +158,27 @@ input:focus{
 	text-align: left;
 	font-size: 18px;
 	font-weight: 400;
-	background-color: #3787f2;
-  border-color: transparent;
-  color: #fff;
+	background-color: var(--primary-color);
+	border-color: transparent;
+	color: #fff;
 }
 
 .MatcButton:HOVER{
- 	background: #3787f2;
+ 	background: var(--primary-color-hover);
 	text-decoration: none;
 	color:#fff;
 }
 
 
 .MatcButtonSignUp{
-	background: #3787f2;
+	background: var(--primary-color);
 	text-decoration: none;
 	color:#fff;
 }
 
 .MatcButtonSignUp:hover{
-	background: #3787f2;
-	border-color:#3787f2;
+	background: var(--primary-color);
+	border-color:var(--primary-color);
 }
 
 
@@ -196,7 +197,7 @@ input:focus{
 	margin-left: 3px;
 }
 .MatcButtonActive{
- 	background: #3787f2;
+ 	background: var(--primary-color);
 	text-decoration: none;
 	color:#fff;
 }
@@ -335,7 +336,7 @@ input:focus{
 	align-content: stretch;
 	border-radius:3px;
 	overflow:hidden;
-	border:1px solid #3787f2;
+	border:1px solid var(--primary-color);
 }
 
 .MatcSegmentButton {
@@ -352,14 +353,14 @@ input:focus{
 	flex-grow: 1;
 	text-align: center;
 	background: #fff;
-	color: #3787f2;
+	color: var(--primary-color);
 }
 
 
 
 .MatcSegmentButton .MatcButton.MatcDropDownButtonSelected,
 .MatcSegmentButton .MatcButton.MatcButtonActive{
-	background: #3787f2;
+	background: var(--primary-color);
 	color:#FFF;
 }
 
@@ -580,7 +581,7 @@ input:focus{
 	margin: 0px;
 	padding:3px 10px;
 	border-radius:0px;
-	border-bottom:1px solid #3787f2;
+	border-bottom:1px solid var(--primary-color);
 }
 
 .MatcVerticalButtonGroup .MatcButton:HOVER{
@@ -595,7 +596,7 @@ input:focus{
 .MatcVerticalButtonGroup .MatcButton:last-child{
 	border-bottom-right-radius:3px;
 	border-bottom-left-radius:3px;
-	border-bottom: 2px solid #3787f2;
+	border-bottom: 2px solid var(--primary-color);
 }
 
 .MatcVerticalButtonGroup .MatcButton:last-child:HOVER{
@@ -628,8 +629,8 @@ input:focus{
  .MatcDropDownSelect.MatcDropDownSelect{
 	display: inline-block;
 	position: relative;
-	color: #3787f2;
-	border:1px solid #3787f2;
+	color: var(--primary-color);
+	border:1px solid var(--primary-color);
 }
 
 .MatcDropDownSelect.MatcDropDownSelect:hover{
@@ -657,7 +658,7 @@ input:focus{
 	display: inline-block;
 	position: relative;
 	background: #fff;
-	border:1px solid #3787f2;
+	border:1px solid var(--primary-color);
 }
 
 .MatcDropDownButtonLine {
@@ -682,8 +683,8 @@ input:focus{
 }
 
 .MatcDropDownButton.MatcButtonTrans{
-	border-color:#3787f2;
-	color: #3787f2;
+	border-color:var(--primary-color);
+	color: var(--primary-color);
 }
 
 
@@ -764,7 +765,7 @@ input:focus{
 }
 
 .MatcDropDownPopUp li.MatcDropDownButtonSelected{
-	background: #3787f2;
+	background: var(--primary-color);
 	color: #fff;
 }
 
@@ -787,19 +788,19 @@ input:focus{
 }
 
 .MatcForm .VommondSliderBar{
-	background: #3787f2;
+	background: var(--primary-color);
 }
 
 .MatcForm .VommondSliderHandle{
-	background: #3787f2;
+	background: var(--primary-color);
 	border-radius: 2px;
     height: 21px;
-    border-color:#3787f2;
+    border-color:var(--primary-color);
 }
 
 .MatcForm .VommondSliderHandle:hover{
-	background: #3787f2;
-    border-color:#3787f2;
+	background: var(--primary-color);
+    border-color:var(--primary-color);
 }
 
 .MatcForm .vommondLegendBarItem{
@@ -812,7 +813,7 @@ input:focus{
 
 
 .MatcForm  .VommondRadioBoxMark{
-	background:#3787f2;
+	background:var(--primary-color);
 }
 
 
@@ -896,7 +897,7 @@ textarea.MatcTextAreaMedium {
 }
 
 .form-control:focus {
-	border-color: #3787f2;
+	border-color: var(--primary-color);
 }
 
 
@@ -906,7 +907,7 @@ textarea.MatcTextAreaMedium {
 
 .VommondInput:hover .VommondInputDropButton {
 	width: 30px;
-	background: #3787f2;
+	background: var(--primary-color);
 }
 
 .VommondInput:hover .VommondInputDropButton .caret{

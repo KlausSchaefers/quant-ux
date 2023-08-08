@@ -25,11 +25,11 @@
 		"borderBottomWidth" : 0,
 		"borderRightWidth" : 0,
 		"borderLeftWidth" : 0,
-		"borderTopColor" : "#333333",
-		"borderBottomColor" : "#333333",
-		"borderRightColor" : "#333333",
-		"borderLeftColor" : "#333333",
-		"color" : "#333333",
+		"borderTopColor" : "#000000",
+		"borderBottomColor" : "#000000",
+		"borderRightColor" : "#000000",
+		"borderLeftColor" : "#000000",
+		"color" : "#000000",
 		"icon" : "mdi mdi-android"
 	}
 }, {
@@ -51,8 +51,8 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#333333",
-		"passiveColor" : "#333333"
+		"activeColor" : "#000000",
+		"passiveColor" : "#000000"
 	}
 }, {
 	"id" : "WireFrameIconToggleLock",
@@ -73,8 +73,8 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#333333",
-		"passiveColor" : "#333333"
+		"activeColor" : "#000000",
+		"passiveColor" : "#000000"
 	}
 }, {
 	"id" : "WireFrameIconToggleLock2",
@@ -95,8 +95,8 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#333333",
-		"passiveColor" : "#333333"
+		"activeColor" : "#000000",
+		"passiveColor" : "#000000"
 	}
 }, {
 	"id" : "WireFrameIconToggleLike",
@@ -117,8 +117,8 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#333333",
-		"passiveColor" : "#333333"
+		"activeColor" : "#000000",
+		"passiveColor" : "#000000"
 	}
 }, {
 	"id" : "WireFrameIconToggleDislike",
@@ -139,8 +139,8 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#333333",
-		"passiveColor" : "#333333"
+		"activeColor" : "#000000",
+		"passiveColor" : "#000000"
 	}
 },{
 	
@@ -162,8 +162,8 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#333333",
-		"passiveColor" : "#333333"
+		"activeColor" : "#000000",
+		"passiveColor" : "#000000"
 	}
 	
 }, 
@@ -201,8 +201,8 @@
 		"paddingRight" : 0,
 		"color": "transparent",
 		"verticalAlign" : "middle",
-		"activeColor" : "#333333",
-		"passiveColor" : "#333333"
+		"activeColor" : "#000000",
+		"passiveColor" : "#000000"
 	}
 }
 ]

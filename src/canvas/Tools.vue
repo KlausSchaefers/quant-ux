@@ -167,7 +167,7 @@ export default {
 						"textAlign" : "left",
 						"letterSpacing" : 0,
 						"lineHeight" : 1,
-						"color": "#333333",
+						"color": "#000000",
 						"textShadow": null
 					}
 				};
@@ -302,11 +302,11 @@ export default {
 								"borderBottomWidth" : 0,
 								"borderRightWidth" : 0,
 								"borderLeftWidth" : 0,
-								"borderTopColor" : "#333333",
-								"borderBottomColor" : "#333333",
-								"borderRightColor" : "#333333",
-								"borderLeftColor" : "#333333",
-								"background" : "#333333",
+								"borderTopColor" : "#000000",
+								"borderBottomColor" : "#000000",
+								"borderRightColor" : "#000000",
+								"borderLeftColor" : "#000000",
+								"background" : "#000000",
 								"paddingTop" : 0,
 								"paddingBottom" : 0,
 								"paddingLeft" : 0,
