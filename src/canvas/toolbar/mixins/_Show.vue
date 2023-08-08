@@ -7,7 +7,7 @@ import _ShowGroup from './_ShowGroup'
 import _ShowScreen from './_ShowScreen'
 import _ShowCanvas from './_ShowCanvas'
 import _ShowSVG from './_ShowSVG'
-import * as DistributionUtil from 'core/DistributionUtil'
+
 
 export default {
     name: '_Show',
@@ -50,28 +50,31 @@ export default {
 		* Twemplate properties
 		****************************************************************************************************/
 
-		showTemplate (model){
+		showTemplate (widget){
 			css.remove(this.templateDiv, "MatcToolbarSectionHidden");
 
-			if(model.template){
-						
-				if (model.isRootTemplate) {
-					this.templateDropBox.setOptions([
-						{value: "update", label: "Update all instances", icon:"mdi mdi-pencil"}, // show only when needed???
-						{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
-					]);
-				} else {
-					this.templateDropBox.setOptions([
-						{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
-					]);
-				}
+			const btn = this.$refs.templateBTN
+			btn.setWidget(widget)
 
-				css.remove(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
-				css.add(this.template, "MatcToolbarItemDisbaled hidden");
-			} else {
-				css.remove(this.template, "MatcToolbarItemDisbaled hidden");
-				css.add(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
-			}
+			// if(model.template){
+						
+			// 	if (model.isRootTemplate) {
+			// 		this.templateDropBox.setOptions([
+			// 			{value: "update", label: "Update all instances", icon:"mdi mdi-pencil"}, // show only when needed???
+			// 			{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
+			// 		]);
+			// 	} else {
+			// 		this.templateDropBox.setOptions([
+			// 			{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
+			// 		]);
+			// 	}
+
+			// 	css.remove(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
+			// 	css.add(this.template, "MatcToolbarItemDisbaled hidden");
+			// } else {
+			// 	css.remove(this.template, "MatcToolbarItemDisbaled hidden");
+			// 	css.add(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
+			// }
 
 		},
 
@@ -156,19 +159,11 @@ export default {
 
 
 		hideDisButtons (){
-			for (let id in this.distButtons) {
-				css.add(this.distButtons[id], "MatcToolbarItemPassive");
-			}
+			this.alignmentBtn.hideDistribution()
 		},
 
 		showDistButtons (ids){
-			const matrix = DistributionUtil.getDistributionMatrix(this.model, ids, false)
-			this.logger.log(3,"showDistButtons", "entry", matrix);	
-			for (let id in this.distButtons) {
-				if (matrix[id] > 1) {
-					css.remove(this.distButtons[id], "MatcToolbarItemPassive");
-				}
-			}
+			this.alignmentBtn.showDistribution(ids)		
 		},
 
 		hideCopyPaste (){
@@ -188,9 +183,9 @@ export default {
 
 			try{
 				if (this.model && this.model.screens) {					
-					var screenCount = this.getObjectLength(this.model.screens);
+					const screenCount = this.getObjectLength(this.model.screens);
 					if(screenCount > 0) {
-						this._removeCss(this.simulatorSection, "MatcToolbarSectionHidden");
+						this._removeCss(this.simulatorButton, "MatcToolbarSectionHidden");
 						// this._removeCss(this.undoSection, "MatcToolbarSectionHidden");
 						// this._removeCss(this.commentSection, "MatcToolbarSectionHidden");
 						// this._removeCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
@@ -213,7 +208,7 @@ export default {
 						//this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
 
 					} else {
-						// this._addCss(this.simulatorSection, "MatcToolbarSectionHidden");
+						this._addCss(this.simulatorButton, "MatcToolbarSectionHidden");
 						// this._addCss(this.commentSection, "MatcToolbarSectionHidden");
 						// this._addCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
 						// this._addCss(this.editTool,"MatcToolbarSectionHidden");

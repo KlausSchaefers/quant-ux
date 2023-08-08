@@ -26,26 +26,11 @@ export default {
 				css.remove(this.copyStyleBtn,"MatcToolbarItemActive");
 			},
 
-			toolAlignStart (value){
+			toolAlignStart (){
 				this.toolAlignEnd();
-				if(this.align){
-					css.add(this.align.domNode,"MatcToolbarItemActive");
-				} else {
-					var node = this.alignButtons[value];
-					if(node){
-						css.add(node,"MatcToolbarItemActive");
-					}
-				}
-			},
+			},		
 
-			toolAlignEnd (){
-				if(this.align){
-					css.remove(this.align.domNode,"MatcToolbarItemActive");
-				} else {
-					for(var key in this.alignButtons){
-						css.remove(this.alignButtons[key],"MatcToolbarItemActive");
-					}
-				}
+			toolAlignEnd (){		
 			},
 
 			toolUpdateWidgetButton (){

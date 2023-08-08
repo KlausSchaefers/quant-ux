@@ -736,7 +736,7 @@ export default {
 		 * Create Template
 		 **********************************************************************/
 
-		showTemplateCreateDialog: function (name) {
+		showTemplateCreateDialog (name) {
 			this.logger.log(0, "showTemplateCreateDialog", "entry");
 
 			var db = new DomBuilder();
@@ -773,7 +773,7 @@ export default {
 
 		},
 
-		_createTemplate: function (input, dialog) {
+		_createTemplate (input, dialog) {
 
 			dialog.hide(this.template);
 			this.closeDialog();

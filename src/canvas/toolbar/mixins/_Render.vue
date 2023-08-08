@@ -10,7 +10,7 @@ import CheckBox from 'common/CheckBox'
 
 import DomBuilder from 'common/DomBuilder'
 import ScrollContainer from 'common/ScrollContainer'
-import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
+//import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
@@ -44,7 +44,7 @@ import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
 //import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
 import TooltipSection from 'canvas/toolbar/components/TooltipSection'
-//import Alignment from 'canvas/toolbar/components/Alignment'
+import Alignment from 'canvas/toolbar/components/Alignment'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
@@ -197,49 +197,11 @@ export default {
 			/**
 			* set model
 			*/
-			this.own(on(this.simulatorButton, touch.press, lang.hitch(this, "startSimilator")));
+		
+			this.template = this.$refs.templateBTN.domNode
 
-			/**
-			* Tools section
-			*/
-			this.layer = this.$new(ToolbarDropDownButton, {arrowPosition:false, hasCaret: true});
-			this.layer.setLabel('<span class="mdi mdi-layers-outline"></span>');
-			css.add(this.layer.domNode, "MatcToolbarDropDownButtonWide");
-			this.layer.updateLabel = false;
-			this.layer.setOptions([
-				{value: "front", label: "Bring to front (CTRL + &uarr;)", icon:"mdi mdi-arrange-bring-to-front"},
-				{value: "forward", label: "Bring forward (CTRL + ])", icon:"mdi mdi-arrange-bring-forward"},
-				{value: "backward", label: "Send backward (CTRL + [)", icon:"mdi mdi-arrange-send-backward"},
-				{value: "back", label: "Send to back (CTRL + &darr;)", icon:"mdi mdi-arrange-send-to-back"}
-			]);
-			this.layer.updateSelection = false;
-			this.layer.hideCaret()
-			this.own(on(this.layer, "change", lang.hitch(this, "onToolWidgetLayer")));
-			this._placeAt(this.layer, this.toolsDiv);
-			this.addTooltip(this.layer.domNode, "Change the layer of the element");
-
-			this.template = this.createToolBarItem(
-				'<span class="mdi mdi-rhombus-split-outline"></span>',
-				lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv
-			);			
-			this.addTooltip(this.template, "Create a reusable component. You can find it in the widget menu.");	
-
-			this.templateDropBox = this.$new(ToolbarDropDownButton, {arrowPosition:false, hasCaret: true});
-			this.templateDropBox.setLabel('<span class="mdi mdi-rhombus-split"></span>');
-			css.add(this.templateDropBox.domNode, "MatcToolbarDropDownButtonWide");
-			this.templateDropBox.updateLabel = false;
-			this.templateDropBox.setOptions([
-				{value: "update", label: "Update all instances", icon:"mdi mdi-pencil"},
-				{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
-			]);
-			this.templateDropBox.updateSelection = false;
-			this.templateDropBox.hideCaret()
-			this.own(on(this.templateDropBox, "change", lang.hitch(this, "onToolChangeTemplate")));
-			this._placeAt(this.templateDropBox, this.templateDiv);
-			this.addTooltip(this.templateDropBox.domNode, "Change the component");
-
-			this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-view-grid-plus-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
-			this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-arrow-expand-horizontal"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
+			//this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-view-grid-plus-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
+			// this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-arrow-expand-horizontal"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
 			this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
 			
 
@@ -413,8 +375,8 @@ export default {
 
 
 
-			// this.addTooltip(this.groupBTN, "Create group (CTRL-G)");
-			// this.addTooltip(this.ungroupBTN, "Remove group (CTRL-G)");
+			this.addTooltip(this.groupBTN, "Create group (CTRL-G)");
+			this.addTooltip(this.ungroupBTN, "Remove group (CTRL-G)");
 			// this.addTooltip(this.replicateBtn, "Clone selection (C)");
 		},
 
@@ -601,67 +563,14 @@ export default {
 
 
 		_renderWidgetAlign (){
-
 			const content = document.createElement("div");
-			css.add(content, "MatcToolbarSectionContent MatcToolbarAlignButtonGroup");
+			css.add(content, "MatcToolbarSectionContent ");
 
-		
-
-			this.alignButtons = {};
-			this.distButtons = {};
-
-
-			let values = [
-				{value: 'top', icon: 'mdi mdi-align-vertical-top'},
-				{value: 'bottom', icon: 'mdi mdi-align-vertical-bottom'},
-				{value: 'left', icon: 'mdi mdi-align-horizontal-left'},
-				{value: 'right', icon: 'mdi mdi-align-horizontal-right'},
-				{value: 'vertical', icon: 'mdi mdi-align-horizontal-center'},
-				{value: 'horizontal', icon: 'mdi mdi-align-vertical-center'}
-			];
-
-	
-			for(let i=0; i< values.length; i++){
-				const value = values[i].value;
-				const icon = values[i].icon
-				const a = document.createElement("a");
-				css.add(a,"MatcToolbarItem MatcToolbarAlignButton");
-				content.appendChild(a);
-
-				const span = document.createElement("span");
-				css.add(span, icon);
-				a.appendChild(span);
-
-				this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolAlignElements", value)));
-				this.alignButtons[value] = a;
-
-				//this.addTooltip(a, "Align <b>" + value + "</b>. After click select element to align to", 'vommondToolTipRightBottom');
-			}
-
-
-			values = ["vertical", "horizontal"];
-
-			for (let i=0; i< values.length; i++){
-				let value = values[i];
-
-				let a = document.createElement("a");
-				css.add(a,"MatcToolbarItem MatcToolbarAlignButton");
-				content.appendChild(a);
-
-				let icon = document.createElement("span");
-				css.add(icon, 'MatcToolbarIcon-' + value);
-				a.appendChild(icon);
-
-				let bar = document.createElement("span");
-				css.add(bar, 'MatcToolbarIcon-' + value + "-bar");
-				icon.appendChild(bar);
-
-				this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolDistributeElements", value)));
-
-				this.alignButtons[value] = a;
-				this.distButtons[value] = a;
-				//this.addTooltip(a, "Distribute <b>" + value + "</b>. ", 'vommondToolTipRightBottom');
-			}
+			this.alignmentBtn = this.$new(Alignment)
+			this.alignmentBtn.setModel(this.model)
+			this.alignmentBtn.placeAt(content)
+			this.alignmentBtn.on('align', (v,e) => this.onToolAlignElements(v,e))
+			this.alignmentBtn.on('dist', (v,e) => this.onToolDistributeElements(v,e))
 
 			this.properties.appendChild(content);
 			this.widgetAlignDiv = content;

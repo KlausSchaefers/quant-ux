@@ -25,10 +25,16 @@
 
 
 .MatcToolbarPrimaryItem {
+	border-radius: $button-radius;
     padding: 16px 4px;
 	overflow: hidden;
 }
 
+.MatcToolbarSecondaryItem {
+	border-radius: $button-radius;
+    padding: 16px 4px;
+	overflow: hidden;
+}
 
 .MatcToolbarSpacer {
 	width: 10px;
@@ -97,7 +103,7 @@
 	width: 230px;
 	top: 0px;
 	right: 0px;
-	padding-top: 39px;
+	padding-top: $toolbar_height;
 	padding-bottom: 30px;
 	transition-duration: 0.2s;
 	opacity: 1;

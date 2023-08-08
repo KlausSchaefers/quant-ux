@@ -12,13 +12,21 @@
     border-bottom: 1px solid $toolbar_border;
 
     .MatcToolbarPrimaryItem {
-        border-radius: 8px;
         border: 1px solid $toolbar_border;
     }
     
     .MatcToolbarPrimaryItem:hover {
         background: $toolbar_selected_background;
-        border-bottom: 1px solid $toolbar_selected_background;
+        border: 1px solid $toolbar_selected_background;
+    }
+
+    .MatcToolbarSecondaryItem {
+        border: 1px solid transparent;
+    }
+
+    .MatcToolbarSecondaryItem:hover {
+        background: $toolbar_selected_background;
+        border: 1px solid $toolbar_selected_background;
     }
     
 }

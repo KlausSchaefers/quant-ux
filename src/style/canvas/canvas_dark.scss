@@ -35,4 +35,27 @@
     .MatcToobarRow.MatcToobarSubSection {
         border-top: 1px solid rgba(255, 255, 255, 0.15);
     }
+
+    /****************************************************
+ * Canvas Dark
+ ****************************************************/
+
+    .MatcScreen {
+        box-shadow: 0 0 10px #333;
+    }
+    
+    .MatcCanvasContainer {
+        background:#202427;
+        box-shadow:none;
+    }
+
+    .MatcLineSupportPointTouch {
+        border-color: #383e43;
+    }
+
+    .MatcCanvasFrame{
+        background:#000;
+    }
+
+    
 }

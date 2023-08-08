@@ -17,7 +17,7 @@
 
                         <div v-if="i.value === selectedTool" class="MatcToolbarPopUpSubMenu">
                             <ul class="MatcToolbarPopUpWrapper" role="menu" >
-                                <li v-for="c in i.children" :key="c.value" @click.stop="onSelect(c)">
+                                <li v-for="c in i.children" :key="c.value" @click.stop="onSelect(c)" class="MatcToolbarArrowDropDownItem">
                                     <QIcon class="MatcToolbarPopUpIcon" :icon="c.icon" />
                                     <label class="MatcToolbarPopUpLabel">{{c.label}}</label>
                                 </li>
@@ -61,6 +61,7 @@ export default {
                 {value: 'logic', icon: 'Cloud', label: 'Logic', children:[
                     {value: 'rest', icon: 'Cloud', label: 'Rest'},
                     {value: 'logic', icon: 'OR', label: 'OR'},
+                    {value: 'ab', icon: 'AB', label: 'AB'},
                     {value: 'script', icon: 'JS', label: 'Script'}
                 ]},
 

@@ -10,40 +10,43 @@
         color: #fff;
     }
 
-    .XMatcToolbarArrowDropDown .MatcToolbarPopUp {
-        background: #000;
+    .MatcToolbarArrowDropDown .MatcToolbarPopUp {
+        background:$popup_background_dark;
         color:#fff;
         border: 1px solid $toolbar_border;
-        overflow: hidden;
+        box-shadow: none;
+        top: calc(100% + 2px);
+
         .MatcToolbarPopUpArrow{
-            background: $toolbar_selected_background;
-
+            background: $popup_background_dark;
+            display: none;
         }
-
-        .MatcToolbarPopUpWrapper {
-
-        }
-
+        
         .MatcToolbarPopUpLine {
             border-top: 1px solid $toolbar_border;
         }
-        
-        li:hover {
-            background: $primary_color;
-        }
 
         .MatcToolbarPopUpSubMenu {
-            background: $toolbar_selected_background;
+            background:$popup_background_dark;
             color:#fff;
-            border-top: 1px solid $toolbar_border;
-        
+            border: 1px solid $toolbar_border;
+            box-shadow: none;
+            left: calc(100% + 1px);
+
             .MatcToolbarPopUpArrow{
-                background: $toolbar_selected_background;
-    
+                background: $popup_background_dark;    
             }
         }
-    }
 
+        .MatcCreateBtnElement {
+            background: rgba($color: #fff, $alpha: 0.1);
+        }
+    
+        .MatcCreateBtnElementLabel {
+            color:#fff;
+        }
+    
+    }
 
 
 

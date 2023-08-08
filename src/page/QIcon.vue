@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcQIcon">
+    <div class="MatcQIcon" @click="onClick">
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         :class="'MatcQIconSVG ' + icon"
@@ -34,6 +34,9 @@
     },
     components: {},
     methods: {
+      onClick (e) {
+        this.$emit('click', e)
+      }
     },
     mounted() {
     }

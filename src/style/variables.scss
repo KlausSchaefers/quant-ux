@@ -3,17 +3,26 @@ $main_color: #365fff;
 $primary_color: #365fff;
 $primary_color-hover: #123ef0;
 
-
-$toolbar_background: #25292F;
-$toolbar_selected_background: #202427;
-$toolbar_border: rgba(255,255,255,0.08);
-
 $toolbar_height: 48px;
+$toolbar_background: #25292F;
+$toolbar_selected_background: #16191b;
+$toolbar_border: rgba(255,255,255,0.08);
+$toolbar_padding:8px;
+
+
+$popup_background_dark: $toolbar_selected_background;
+$popup_radius: 4px;
+$popup_shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+$popup-line: 1px solid rgba(255, 255, 255, 0.08);
 
 $text-color-passive: #ccc;
 $text-color-dark: #363636;
 $color-danger: #f83a3a;
 $color-passive: #777;
+
+$button-radius: 4px;
+$button-radius-input: 2px;
+$button-radius-l: 8px;
 
 $color-black: #000;
 $color-red: #f94c4c;
@@ -49,3 +58,5 @@ $font-size-default: 18px;
 $font-size-s: 16px;
 $font-size-xs: 14px;
 $font-size-xxs: 12px;
+
+

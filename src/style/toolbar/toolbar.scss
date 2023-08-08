@@ -274,31 +274,22 @@
  * Analytics
  ****************************************************/
 
-.MatcAnalyticsToolbar .MatcToolbarTopLeftCntr {
-	gap: 16px;
-	display: flex;
-}
-
 
 
 /****************************************************
  * SIm Button
  ****************************************************/
 
-.MatcToobarSimulatorSection .MatcToobarPrimaryButton {
+.MatcToobarPrimaryButton {
 	background: $primary_color;
 	color: #fff;
 	padding: 4px 8px;
-	border-radius: 3px;
-	height: 26px;
+	border-radius: $button-radius;
+	height: 28px;
 	display: flex;
 	align-items: center;
 }
 
-.MatcToobarSimulatorSection .MatcToobarPrimaryButton:hover {
-	background: #1251a3;
-}
-
-.MatcMainMenuButton {
-	//background-image: url('../img/QUXLogo5.svg');
+.MatcToobarPrimaryButton:hover {
+	background: $primary_color-hover;
 }

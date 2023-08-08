@@ -37,23 +37,43 @@
 
 							<div class="MatcToolbarTopCenterCntr"  v-show="!svgEditorVisible" >
 								<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
-
 								
 									<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
-										<a class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="groupBTN">
-											<span class="mdi mdi-vector-union" ></span>
-											<span class="mdi mdi-plus-circle MatcTinyIcon "></span>
-										</a>
-										<a class="MatcToolbarItem MatcMultiIcon MatcIconDanger" data-dojo-attach-point="ungroupBTN">
-											<span class="mdi mdi-vector-union"></span>
-											<span class="mdi mdi-minus-circle MatcTinyIcon "></span>
-										</a>
+										<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="groupBTN" @click="onToolGroup">
+											<div class="">									
+												<QIcon icon="Group" />					
+											</div>
+										</div>
+
+										<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">
+											<div class="">									
+												<QIcon icon="UnGroup" />					
+											</div>
+										</div>
+
+
+										<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
+											<div class="">									
+												<QIcon icon="Distribute" />					
+											</div>
+										</div>
+										
+
 									</div>
 
 									<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
+										<TemplateButton ref="templateBTN" @create="onToolCreateTemplate"></TemplateButton>	
+										
+										<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">
+											<div class="">									
+												<QIcon icon="Replicate" />					
+											</div>
+										</div>
+										
 									</div>
 
 									<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
+										<LayerButton @select="onToolWidgetLayer"/>
 									</div>
 
 									<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
@@ -80,21 +100,20 @@
 					
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
 							
-							<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
-								<div class="MatcToolbarItem" data-dojo-attach-point="simulatorButton">
-									<div class="">									
-										<QIcon icon="Play" />					
-									</div>
+					
+							<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="simulatorButton" @click="startSimilator">
+								<div class="">									
+									<QIcon icon="Play" />					
 								</div>
 							</div>
-
-							<div class=" MatcToobarSimulatorSection MatcToolbarSection" >
-								<div class="MatcToolbarItem" @click="showSharing">
-									<div class="MatcToobarPrimaryButton">									
-										Share				
-									</div>
+				
+						
+							<div class="MatcToolbarItem" @click="showSharing">
+								<div class="MatcToobarPrimaryButton">									
+									Share				
 								</div>
 							</div>
+	
 					
 							<HelpButton :hasNotifications="true" :hasToolbar="true" v-if="false"/>
 						</div>
@@ -135,6 +154,8 @@ import CreateLogicButton from './components/CreateLogicButton'
 import CreateBasicButton from './components/CreateBasicButton'
 import CreateButton from './components/CreateButton.vue'
 import HomeMenu from './components/HomeMenu'
+import LayerButton from './components/LayerButton.vue'
+import TemplateButton from './components/TemplateButton.vue'
 
 import QIcon from 'page/QIcon'
 
@@ -171,6 +192,8 @@ export default {
 		'CreateBasicButton': CreateBasicButton,
 		'CreateButton': CreateButton,
 		'HomeMenu': HomeMenu,
+		'LayerButton': LayerButton,
+		'TemplateButton': TemplateButton,
 		'QIcon': QIcon
 	},
 	computed: {
@@ -738,8 +761,13 @@ export default {
 			}
 	
 			if (v.value === 'logic') {
-				this.onNewLogicObject(e)
+				this.onNewLogicObject(e, "OR", false)
 				return
+			}
+
+			if (v.value === 'ab') {
+				this.onNewLogicObject(e, "AB", true)
+				return		
 			}
 
 			if (v.value === 'script') {
@@ -777,7 +805,7 @@ export default {
 		},
 
 		onNewScriptObject (e) {
-			this.logger.log(-1,"onNewLogicObject", "entry > ");
+			this.logger.log(-1,"onNewScriptObject", "entry > ");
 
 				var obj = {
 				"id" : "Script",
@@ -841,19 +869,20 @@ export default {
 			this.emit("onNewRestObject", {"obj" : obj, "event":e});
 		},
 
-		onNewLogicObject (e){
-			this.logger.log(0,"onNewLogicObject", "entry > ");
+		onNewLogicObject (e, label="OR", isRandom=false){
+			this.logger.log(-1,"onNewLogicObject", "entry > " + isRandom);
 
 			var obj = {
 				"id" : "Or",
-				"name" : "Or",
+				"name" : label,
 				"type":"LogicOr",
 				"x": 0,
 				"y": 0,
 				"w": 80,
 				"h": 80,
 				"props" : {
-					"label" : "Or"
+					"label" : label,
+					"isRandom": isRandom
 				},
 				"has" :{
 					"logic" : true
@@ -1445,9 +1474,9 @@ export default {
 		},
 
 
-		onToolWidgetLayer (value){
-			this.logger.log(-1,"onToolWidgetLayer", "entry > "+ value);
-
+		onToolWidgetLayer (option){
+			this.logger.log(-1,"onToolWidgetLayer", "entry > "+ option.value);
+			const value = option.value
 			let selection = this._getSelectedWidgets();
 			if (selection.length > 0) {
 				let topId = false
@@ -1535,19 +1564,15 @@ export default {
 
 		_getZOffset (selection, values){
 			const offsets = {};
-
 			let min = 100000;
-
 			for(let i=0;i< selection.length; i++){
 		    	const id =selection[i];
 		    	min = Math.min(min, values[id]);
 			}
-
 			for(let i=0;i< selection.length; i++){
 			    const id =selection[i];
 			    offsets[id] = values[id] - min;
 			}
-
 			return offsets;
 		},
 

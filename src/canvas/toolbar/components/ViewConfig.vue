@@ -1,12 +1,13 @@
 
 <template>
-    <div class="MatcToolbarDropDownButton MatcToolbarArrowDropDown MatcToolbarItem MatcToolbarViewConfig"
+    <div :class="['MatcToolbarDropDownButton MatcToolbarArrowDropDown MatcToolbarViewConfig', {'MatcToolbarItemActive':hasPopup}]"
        @mousedown.stop="showPopup" @mouseup.stop="">
-        <div>
-           <span class="mdi mdi-magnify" v-if="hasIcon"></span>
-           <label class="MatcToolbarLabel"> {{zoomFactor}} %</label>
-        
-        </div>
+       
+        <div class="MatcToolbarItem MatcToolbarSecondaryItem" type="button" data-dojo-attach-point="button">
+            <label class="MatcToolbarLabel"> {{zoomFactor}} %</label>
+            <span class="caret"></span>
+		</div>
+
         <div class=" MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarViewConfigPopup" role="menu" v-if="hasPopup"
            @mouseup.stop=""
            @mousedown.stop=""
@@ -25,13 +26,13 @@
                            Zoom in (+)
                    </div>
                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(3)" @mouseup.stop="" @click.stop="">
-                           Zoom to 50%
+                           50%
                    </div>
                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(5)" @mouseup.stop="" @click.stop="">
-                           Zoom to 100%
+                           100%
                    </div>
                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(6)" @mouseup.stop="" @click.stop="">
-                           Zoom to 200%
+                           200%
                    </div>
                </div>
 
@@ -60,20 +61,14 @@
                        <CheckBox label="Show Grid" :value="hasVisibleGrid"  @change="onChangeVisibleGrid"/>
                    </div>
 
-                    <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
-                       <span class=" mdi mdi-cog" style="margin-right:4px"/>
+                    <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn">
+                       <QIcon icon="Settings"/>
                        <span class="MatcStatusItemLabel" >Configure Grid</span>
                    </div>
 
                    <div class="MatcToolbarViewConfigCntrRow">
                        <CheckBox label="Layers" :value="hasLayers"  @change="onChangeLayer"/>
                    </div>
-
-                   <!--
-                   <div class="MatcToolbarViewConfigCntrRow">
-                       <CheckBox label="Lines" :value="hasLines"  @change="onChangeLines"/>
-                   </div>
-                   -->
 
                    <div class="MatcToolbarViewConfigCntrRow">
                        <CheckBox label="Distance" :value="hasDistance"  @change="onChangeDistance"/>
@@ -86,11 +81,6 @@
                    <div class="MatcToolbarViewConfigCntrRow">
                        <CheckBox label="Comments" :value="hasComments"  @change="onChangeComments"/>
                    </div>
-                   <!--
-                   <div class="MatcToolbarViewConfigCntrRow">
-                       <CheckBox label="Data" :value="hasData"  @change="onChangeData"/>
-                   </div>
-                   -->
                </div>                
            </div> <!-- end MatcToolbarPopUpWrapper-->
 
@@ -109,6 +99,7 @@ import topic from 'dojo/topic'
 import Logger from 'common/Logger'
 import win from 'dojo/win'
 import CheckBox from 'common/CheckBox'
+import QIcon from 'page/QIcon'
 
 export default {
    name: 'ViewConfig',
@@ -193,7 +184,8 @@ export default {
        }
    },
    components: {
-       'CheckBox': CheckBox
+       'CheckBox': CheckBox,
+       'QIcon': QIcon
    },
    methods: {
        showGrid () {

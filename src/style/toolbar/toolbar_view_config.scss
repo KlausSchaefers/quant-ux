@@ -7,6 +7,12 @@
 
 }
 
+.MatcToolbarViewConfigLabel {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
 .MatcToolbarViewConfig .MatcToolbarLabel {
 	width: 56px;
 	padding: 4px;
@@ -40,8 +46,15 @@
 }
 
 .MatcToolbarViewConfigCntrRow {
-	margin-bottom: 10px;
-	padding: 0px 20px;
+	margin-bottom: $spacing-m;
+	padding: 0px $spacing-m;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+
+	.MatcQIcon {
+		justify-content: flex-start;
+	}
 }
 
 .MatcToolbarViewConfigCntrRow:last-child {
@@ -49,9 +62,9 @@
 }
 
 div.MatcToolbarViewConfigCntrSpace {
-	padding-bottom: 15px;
-	margin-bottom: 15px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	padding-bottom: $spacing-m;
+	margin-bottom: $spacing-m;
+	border-bottom: $popup-line;
 }
 
 .MatcToolbarViewConfigZoomLabel {

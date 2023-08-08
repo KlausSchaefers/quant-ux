@@ -1,0 +1,27 @@
+.MatcAlignment {
+
+    display: flex;
+    justify-content: space-between;
+	gap: 2px;
+	align-items: center;
+	justify-content: center;
+	padding: $toolbar_padding;
+	height: $toolbar_height;
+
+    .MatcQIcon {
+        height: 24px;
+        width: 24px;
+        cursor: pointer;
+        color: #fff;
+        padding: 4px;
+        border-radius: $button-radius;
+    }
+
+    .MatcQIcon.MatcQIconPassive{
+        opacity: 0.5;
+    }
+
+    .MatcQIcon:hover {
+        background: $toolbar_selected_background;
+    }
+}
