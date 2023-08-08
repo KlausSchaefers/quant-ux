@@ -550,34 +550,37 @@ class ModelUtil {
 
     updateInheritedRefs(model) {
         for (let screenId in model.screens) {
-            let screen = model.screens[screenId]
+            const scrn = model.screens[screenId]
             /**  
              * We need to update master refs only for screens
              * that have a master
              */
-            if (screen.parents && screen.parents.length > 0) {
-                this.updateErrorLabelsInScreen(screen, model)
+            if (scrn.parents && scrn.parents.length > 0) {
+                this.updateErrorLabelsInScreen(scrn, model)
             }
 
         }
         return model
     }
 
-    updateErrorLabelsInScreen(screen, model) {
-        screen.children.forEach(id => {
-            let widget = model.widgets[id]
+    updateErrorLabelsInScreen(scrn, model) {
+        if (!scrn.children) {
+            return
+        }
+        scrn.children.forEach(id => {
+            const widget = model.widgets[id]
             /**
              * Inherited input widgets might have errorLabels attached. These will
              * point to the ids in the master screen and need to be updated.
              */
-            if (widget.inherited) {
+            if (widget && widget.inherited) {
                 if (widget.props && widget.props.refs) {
-                    let errorLabels = widget.props.refs.errorLabels
+                    const errorLabels = widget.props.refs.errorLabels
                     if (errorLabels) {
                         /**
                          * Update all error labels by adding the current screen id
                          */
-                        let inheritedErrorLabels = errorLabels.map(l => l + '@' + screen.id)
+                        const inheritedErrorLabels = errorLabels.map(l => l + '@' + screen.id)
                         widget.props.refs.errorLabels = inheritedErrorLabels
                     }
                 }

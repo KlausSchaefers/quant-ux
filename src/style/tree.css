@@ -91,28 +91,6 @@ input.MatcTreeItemLabel {
   color:red;
 }
 
-.MatcDark .MatcTreeItem {
-  color:#ddd;
-}
-
-.MatcDark .MatcTreeItemRow:hover{
-  color: #ddd;
-}
-
-.MatcDark .MatcTreeItem .mdi {
-  color: #999;
-}
-
-.MatcDark .MatcTreeItem.MatcTreeItemSelected .mdi {
-  color: #fff;
-}
-
-.MatcDark .MatcTreeItem.MatcTreeItemSelected,
-.MatcDark .MatcTreeItemSelected .MatcTreeItem{
-  background: #13161B;
-
-}
-
 .MatcTreeItemRow .MatcTreeItemOptions{
   display: none;
 }
@@ -129,7 +107,10 @@ input.MatcTreeItemLabel {
   display: block;
   position: absolute;
   right: 4px;
-  top: 4px;
+  top: 0px;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .MatcTreeItemSelected .MatcTreeItemRow .MatcTreeItemOptions .mdi{

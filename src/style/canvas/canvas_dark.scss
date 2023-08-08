@@ -43,19 +43,40 @@
     .MatcScreen {
         box-shadow: 0 0 10px #333;
     }
-    
+
     .MatcCanvasContainer {
-        background:#202427;
-        box-shadow:none;
+        background: #202427;
+        box-shadow: none;
     }
 
     .MatcLineSupportPointTouch {
         border-color: #383e43;
     }
 
-    .MatcCanvasFrame{
-        background:#000;
+    .MatcCanvasFrame {
+        background: #000;
     }
 
-    
+    .MatcTreeItem {
+        color: #ddd;
+    }
+
+    .MatcTreeItemRow:hover {
+        color: #ddd;
+    }
+
+    .MatcTreeItem .mdi {
+        color: #999;
+    }
+
+    .MatcTreeItem.MatcTreeItemSelected .mdi {
+        color: #fff;
+    }
+
+    .MatcTreeItem.MatcTreeItemSelected,
+    .MatcTreeItemSelected .MatcTreeItem {
+        background: $toolbar-secondary-background;
+    }
+
+
 }

@@ -48,6 +48,11 @@
     
     }
 
+    .MatcToobarViewSection {
+        border-top: 1px solid $toolbar_border;
+        background: $toolbar_background;
+    }
+
 
 
     .MatcToobarPropertiesSection .MatcToolbarSectionLabel {

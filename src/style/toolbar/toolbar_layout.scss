@@ -249,7 +249,7 @@
 }
 
 .MatcToolbarSectionDesignSystemCntr:hover {
-	color: #3787f2;
+	color: $primary_color;
 }
 
 
@@ -300,6 +300,16 @@
 	display: flex;
 	align-items: center;
 	gap: 8px;
+
+	&.MatcToolbarDenseSection {
+		gap: 0px;
+	}
+
+
+}
+
+.MatcToolbarSectionBorder{
+	border-top: 1px solid $toolbar_border;
 }
 
 .MatcToolbarSectionContent {
@@ -322,7 +332,7 @@
 .MatcToolbarSubSection {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 0px;
 }
 
 .MatcToolbarSectionHidden,
@@ -340,6 +350,11 @@
 	margin-left: 8px;
 	margin-right: 8px;
 }
+
+.MatcToobarViewSection {
+	font-size: 12px;
+}
+
 
 /****************************************************
  * BIG

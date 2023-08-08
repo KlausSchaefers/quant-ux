@@ -1,7 +1,7 @@
 
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton">
-		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
+		<div :class="'MatcToolbarItem ' + css " type="button" data-dojo-attach-point="button">
 			<label class="">
                 <QIcon :icon="icon" />               
 			</label>
@@ -14,6 +14,7 @@
                     <li v-for="i in options" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css" class="MatcToolbarArrowDropDownItem">
                         <QIcon class="MatcToolbarPopUpIcon" :icon="i.icon" v-if="i.icon"/>
                         <label class="MatcToolbarPopUpLabel">{{i.label}}</label>
+                        <label class="MatcToolbarPopUpLabelShortCut" v-if="i.shortcut" v-html="i.shortcut"></label>
                     </li>
                   
 			    </ul>
@@ -36,7 +37,7 @@ import _DropDown from './_DropDown'
 export default {
     name: 'ArrowDropDown',
     mixins:[Util, DojoWidget, _DropDown],
-    props:['options', 'icon'],
+    props:['options', 'icon', 'css'],
     data: function () {
         return {   
         }

@@ -564,7 +564,7 @@ export default {
 
 		_renderWidgetAlign (){
 			const content = document.createElement("div");
-			css.add(content, "MatcToolbarSectionContent ");
+			css.add(content, "MatcToolbarSectionContent  MatcToolbarSectionBorder");
 
 			this.alignmentBtn = this.$new(Alignment)
 			this.alignmentBtn.setModel(this.model)

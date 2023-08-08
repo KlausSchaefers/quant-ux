@@ -22,7 +22,7 @@
 							</div>
 						</div> 
 
-						<div class="MatcToolbarSection MatcToolbarDenseSection">				
+						<div class="MatcToolbarSection">				
 							<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="editTool"  @click="onEdit">
 								<QIcon icon="Edit" />
 							</div>
@@ -35,52 +35,44 @@
 
 			
 
-							<div class="MatcToolbarTopCenterCntr"  v-show="!svgEditorVisible" >
-								<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
-								
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
-										<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="groupBTN" @click="onToolGroup">
-											<div class="">									
-												<QIcon icon="Group" />					
-											</div>
+						<div class="MatcToolbarTopCenterCntr"  v-show="!svgEditorVisible" >
+							<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
+							
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
+									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="groupBTN" @click="onToolGroup">
+										<div class="">									
+											<QIcon icon="Group" />					
 										</div>
-
-										<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">
-											<div class="">									
-												<QIcon icon="UnGroup" />					
-											</div>
+									</div>
+									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">
+										<div class="">									
+											<QIcon icon="UnGroup" />					
 										</div>
-
-
-										<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
-											<div class="">									
-												<QIcon icon="Distribute" />					
-											</div>
+									</div>
+									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
+										<div class="">									
+											<QIcon icon="Distribute" />					
 										</div>
-										
-
 									</div>
+								</div>
 
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
-										<TemplateButton ref="templateBTN" @create="onToolCreateTemplate"></TemplateButton>	
-										
-										<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">
-											<div class="">									
-												<QIcon icon="Replicate" />					
-											</div>
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
+									<TemplateButton ref="templateBTN" @create="onToolCreateTemplate"></TemplateButton>											
+									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">
+										<div class="">									
+											<QIcon icon="Replicate" />					
 										</div>
-										
-									</div>
+									</div>										
+								</div>
 
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
-										<LayerButton @select="onToolWidgetLayer"/>
-									</div>
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
+									<LayerButton @select="onToolWidgetLayer"/>
+								</div>
 
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
-									</div>
-
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
 								</div>
 							</div>
+						</div>
 					
 
 
@@ -90,11 +82,7 @@
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
 							</div>
 							<div class="MatcToolbarSection" v-if="!svgEditorVisible">
-								<EditModeButton 
-									:value="canvasViewConfig" 
-									@change="onChangeCanvasViewConfig" 
-									@canvasViewMode="setCanvasViewMode" 
-									ref="editModeButton"/>
+								
 							</div>
 
 					
@@ -124,6 +112,16 @@
 			</div>
 
 			<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
+				<div class="MatcToolbarSection">
+					<div class=" MatcToolbarSectionContent">
+					<EditModeButton 
+						:value="canvasViewConfig" 
+						@change="onChangeCanvasViewConfig" 
+						@canvasViewMode="setCanvasViewMode" 
+						ref="editModeButton"/>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 

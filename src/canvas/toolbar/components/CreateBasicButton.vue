@@ -14,12 +14,14 @@
                     <li v-for="i in items" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css" class="MatcToolbarArrowDropDownItem">
                         <QIcon class="MatcToolbarPopUpIcon" :icon="i.icon" />
                         <label class="MatcToolbarPopUpLabel">{{i.label}}</label>
+                        <label class="MatcToolbarPopUpLabelShortCut" v-if="i.shortcut">{{i.shortcut}}</label>
 
                         <div v-if="i.value === selectedTool" class="MatcToolbarPopUpSubMenu">
                             <ul class="MatcToolbarPopUpWrapper" role="menu" >
                                 <li v-for="c in i.children" :key="c.value" @click.stop="onSelect(c)" class="MatcToolbarArrowDropDownItem">
                                     <QIcon class="MatcToolbarPopUpIcon" :icon="c.icon" />
                                     <label class="MatcToolbarPopUpLabel">{{c.label}}</label>
+                                    <label class="MatcToolbarPopUpLabelShortCut" v-if="i.shortcut">{{i.shortcut}}</label>
                                 </li>
                             </ul>
                             <div class="MatcToolbarPopUpArrowCntr">
@@ -53,10 +55,10 @@ export default {
         return {
             selectedTool: null,
             tools: [
-                {value: 'screen', icon: 'DeviceMobile', label: 'Screen (S)'},
-                {value: 'box', icon: 'BoxWide', label: 'Rectangle (R)'},
-                {value: 'text', icon: 'Text', label: 'Text (T)'},
-                {value: 'hotspot', icon: 'Hotspot', label: 'Hotspot (H)'},
+                {value: 'screen', icon: 'DeviceMobile', label: 'Screen', shortcut: 'S'},
+                {value: 'box', icon: 'BoxWide', label: 'Rectangle', shortcut:'R'},
+                {value: 'text', icon: 'Text', label: 'Text', shortcut:'T'},
+                {value: 'hotspot', icon: 'Hotspot', label: 'Hotspot', shortcut:'H'},
                 {value: 1, css:'MatcToolbarPopUpLine'},
                 {value: 'logic', icon: 'Cloud', label: 'Logic', children:[
                     {value: 'rest', icon: 'Cloud', label: 'Rest'},

@@ -1,13 +1,13 @@
 
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton" v-if="!hasTemplate" @click="onCreate">
-        <div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
+        <div class="MatcToolbarItem MatcToolbarSecondaryItem" type="button" data-dojo-attach-point="button">
             <label class="">
                 <QIcon icon="Component" />
             </label>
         </div>
     </div>
-    <ArrowDropDown v-else @select="onSelect" :options="options" icon="Component"></ArrowDropDown>
+    <ArrowDropDown v-else @select="onSelect" :options="options" icon="Component" css="MatcToolbarSecondaryItem"></ArrowDropDown>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'

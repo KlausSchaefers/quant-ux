@@ -1,24 +1,26 @@
 
 <template>
   <div class="MatcToolbarEditMode">
-    <a @click="setDesign" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'design'  }]">
-      <span class="MatcToolbarResponsiveIcon mdi  mdi-file-edit-outline"/>
-      <span class="MatcToolbarResponsiveLabel">
-        Design
-      </span>
-    </a>
-     <a @click="setPrototype" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'prototype' }]">
-        <span class="MatcToolbarResponsiveIcon mdi mdi-vector-line"/>
+    <div class="MatcToolbarEditModeCntr">
+      <a @click="setDesign" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'design'  }]">
+        <span class="MatcToolbarResponsiveIcon mdi  mdi-file-edit-outline"/>
         <span class="MatcToolbarResponsiveLabel">
-          Prototype
+          Design
         </span>
-    </a>
-    <a @click="setCode" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'data'  }]">
-        <span class="MatcToolbarResponsiveIcon mdi mdi-code-tags"/>
-        <span class="MatcToolbarResponsiveLabel">
-          LowCode
-        </span>
-    </a>
+      </a>
+      <a @click="setPrototype" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'prototype' }]">
+          <span class="MatcToolbarResponsiveIcon mdi mdi-vector-line"/>
+          <span class="MatcToolbarResponsiveLabel">
+            Prototype
+          </span>
+      </a>
+      <!-- <a @click="setCode" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'data'  }]">
+          <span class="MatcToolbarResponsiveIcon mdi mdi-code-tags"/>
+          <span class="MatcToolbarResponsiveLabel">
+            LowCode
+          </span>
+      </a> -->
+    </div>
   </div>
 </template>
 <script>

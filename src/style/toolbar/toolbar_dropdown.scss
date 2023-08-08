@@ -4,15 +4,27 @@
 }
 
 
-.MatcToolbarArrowDropDown .MatcToolbarItem{
-	display: flex;
-	align-items: center;
-    justify-content: center;
-	gap: 4px;
-}
+.MatcToolbarArrowDropDown {
 
-.MatcToolbarArrowDropDown .MatcToolbarItem .caret{
-	opacity: 1;
+	.MatcToolbarItem {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+
+		.caret{
+			opacity: 1;
+		}
+	}
+
+	.MatcToolbarPopUpLabelShortCut {
+		opacity: 0.5;
+		white-space: nowrap;
+		text-align: right;
+		flex-grow: 1;
+		font-size: 12px;
+		margin-left: 24px;
+	}
 }
 
 .MatcToolbarItemActive.MatcToolbarItem .caret{
