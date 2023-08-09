@@ -118,30 +118,26 @@ export default {
 
 	  // this.createSpacer(content);
 
-	  this.fontWeight= this.$new(ToolbarToggleButton);
+	  this.fontWeight= this.$new(ToolbarToggleButton, {icon: 'TextBold'});
 	  this.fontWeight.setLabel("");
-	  this.fontWeight.setCss("mdi mdi-format-bold");
 	  this.own(on(this.fontWeight, "change", lang.hitch(this, "toggleStyle", "fontWeight", "bold")));
 	  this._placeAt(this.fontWeight, row2);
 	  this.addTooltip(this.fontWeight.domNode, "Bold");
 
-	  this.fontStyle = this.$new(ToolbarToggleButton);
+	  this.fontStyle = this.$new(ToolbarToggleButton, {icon: 'TextItalic'});
 	  this.fontStyle.setLabel("");
-	  this.fontStyle.setCss("mdi mdi-format-italic");
 	  this.own(on(this.fontStyle, "change", lang.hitch(this, "toggleStyle", "fontStyle", "italic")));
 	  this._placeAt(this.fontStyle, row2);
 	  this.addTooltip(this.fontStyle.domNode, "Italic");
 
-	  this.textDecoration = this.$new(ToolbarToggleButton);
+	  this.textDecoration = this.$new(ToolbarToggleButton, {icon: 'TextUnderline'});
 	  this.textDecoration.setLabel("");
-	  this.textDecoration.setCss("mdi mdi-format-underline");
 	  this.own(on(this.textDecoration, "change", lang.hitch(this, "toggleStyle", "textDecoration", "underline")));
 	  this._placeAt(this.textDecoration, row2);
 	  this.addTooltip(this.textDecoration.domNode, "Underline");
 
-	  this.strikeThrough = this.$new(ToolbarToggleButton);
+	  this.strikeThrough = this.$new(ToolbarToggleButton, {icon: 'TextStrike'});
 	  this.strikeThrough.setLabel('');
-	  this.strikeThrough.setCss("mdi mdi mdi-format-strikethrough-variant");
 	  this.own(on(this.strikeThrough, "change", lang.hitch(this, "toggleStyle", "textDecoration", "line-through")));
 	  this._placeAt(this.strikeThrough, row2);
 	  this.addTooltip(this.strikeThrough.domNode, "Strikethrough");
@@ -151,10 +147,10 @@ export default {
 
 	  this.textAlign = this.$new(ToolbarSelector);
 	  this.textAlign.setOptions([
-		  { value:"left", icon:"mdi mdi-format-align-left"},
-		  { value:"center", icon:"mdi mdi-format-align-center"},
-		  { value:"right", icon:"mdi mdi-format-align-right"},
-		  { value:"justify", icon:"mdi mdi-format-align-justify"}
+		  { value:"left", icon:"TextAlignLeft"},
+		  { value:"center", icon:"TextAlignCenter"},
+		  { value:"right", icon:"TextAlignRight"},
+		  { value:"justify", icon:"TextAlignJustify"}
 	  ]);
 	  this.own(on(this.textAlign, "change", lang.hitch(this, "setWidgetStyle", "textAlign")));
 	  this._placeAt(this.textAlign, row3);
@@ -167,9 +163,9 @@ export default {
 	  * advanced text stuff
 	  */
 
-	  this.letterSpacing = this.$new(ToolbarDropDownButton, {hasCaret:false});
+	  this.letterSpacing = this.$new(ToolbarDropDownButton, {hasCaret:false, icon: 'TextLetterSpacing'});
 	  this.letterSpacing.setOptions([0,1,2,4,5,6,7,8,9,10,20,30]);
-	  this.letterSpacing.setLabel('<span class="mdi mdi-format-text-rotation-none"></span>');
+	  //this.letterSpacing.setLabel('<span class="mdi mdi-format-text-rotation-none"></span>');
 	  this.letterSpacing.reposition = true;
 	  this.letterSpacing.updateLabel  =false;
 	  this.letterSpacing.isChildDropDown = this.isChildDropDown
@@ -177,9 +173,9 @@ export default {
 	  this._placeAt(this.letterSpacing, row4);
 	  this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
 
-	  this.lineHeight = this.$new(ToolbarDropDownButton, {hasCaret:false});
+	  this.lineHeight = this.$new(ToolbarDropDownButton, {hasCaret:false, icon:"TextLineHeight"});
 	  this.lineHeight.setOptions([1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
-	  this.lineHeight.setLabel('<span class="mdi mdi-format-line-spacing"></span>');
+	  //this.lineHeight.setLabel('<span class="mdi mdi-format-line-spacing"></span>');
 	  this.lineHeight.reposition = true;
 	  this.lineHeight.updateLabel  =false;
 	  this.lineHeight.isChildDropDown = this.isChildDropDown
@@ -199,11 +195,11 @@ export default {
 
 	  this.verticalAlign = this.$new(ToolbarDropDownButton, {hasCaret:false});
 	  this.verticalAlign.setOptions([
-		  { value:"top", icon:"mdi mdi-format-vertical-align-top"},
-		  { value:"middle", icon:"mdi mdi-format-vertical-align-center"},
-		  { value:"bottom", icon:"mdi mdi-format-vertical-align-bottom"},
+		  { value:"top", icon:"TextAlignTop"},
+		  { value:"middle", icon:"TextAlignMiddle"},
+		  { value:"bottom", icon:"TextAlignBottom"},
 	  ]);
-	  this.verticalAlign.setLabel('<span class="mdi mdi-format-vertical-align-top"></span>');
+	  //this.verticalAlign.setLabel('<span class="mdi mdi-format-vertical-align-top"></span>');
 	  this.verticalAlign.reposition = true;
 	  this.verticalAlign.updateLabel  = true;
 	  this.verticalAlign.isChildDropDown = this.isChildDropDown

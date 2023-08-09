@@ -27,7 +27,7 @@
 	}
 }
 
-.MatcToolbarItemActive.MatcToolbarItem .caret{
+.MatcToolbarItemActive .caret{
 	opacity: 1;
 	transform: rotate(135deg);
 }
@@ -67,6 +67,14 @@
 
 .MatcToolbarArrowDropDown .MatcToolbarDropDownButtonPopup ul {
 	overflow: visible;
+}
+
+.MatcToolbarArrowDropDownItem {
+	min-height: 40px;
+
+	&.MatcToolbarPopUpLine{
+		min-height: auto;
+	}
 }
 
 .MatcToolbarArrowDropDownItem:first-child {

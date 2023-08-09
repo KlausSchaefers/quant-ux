@@ -307,6 +307,114 @@ export const icons = {
         <path d="M16 7a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
         <path d="M18 4v1"></path>
         <path d="M18 9v11"></path>
+    `,
+    'Comment': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 9h8"></path>
+        <path d="M8 13h6"></path>
+        <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"></path>
+    `,
+    'TextBold': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 5h6a3.5 3.5 0 0 1 0 7h-6z"></path>
+        <path d="M13 12h1a3.5 3.5 0 0 1 0 7h-7v-7"></path>
+    `,
+    'TextItalic': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M11 5l6 0"></path>
+        <path d="M7 19l6 0"></path>
+        <path d="M14 5l-4 14"></path>
+    `,
+    'TextUnderline': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 5v5a5 5 0 0 0 10 0v-5"></path>
+        <path d="M5 19h14"></path>
+    `,
+    'TextStrike': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 12l14 0"></path>
+        <path d="M16 6.5a4 2 0 0 0 -4 -1.5h-1a3.5 3.5 0 0 0 0 7h2a3.5 3.5 0 0 1 0 7h-1.5a4 2 0 0 1 -4 -1.5"></path>
+    `,
+    'TextSize': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 7v-2h13v2"></path>
+        <path d="M10 5v14"></path>
+        <path d="M12 19h-4"></path>
+        <path d="M15 13v-1h6v1"></path>
+        <path d="M18 12v7"></path>
+        <path d="M17 19h2"></path>
+    `,
+    'TextAlignLeft': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 6l16 0"></path>
+        <path d="M4 12l10 0"></path>
+        <path d="M4 18l14 0"></path>
+    `,
+    'TextAlignRight': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 6l16 0"></path>
+        <path d="M10 12l10 0"></path>
+        <path d="M6 18l14 0"></path>
+    `,
+    'TextAlignCenter': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 6l16 0"></path>
+        <path d="M8 12l8 0"></path>
+        <path d="M6 18l12 0"></path>
+    `,
+    'TextAlignJustify': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 6l16 0"></path>
+        <path d="M4 12l16 0"></path>
+        <path d="M4 18l12 0"></path>
+    `,
+    'TextLetterSpacing': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 12v-5.5a2.5 2.5 0 0 1 5 0v5.5m0 -4h-5"></path>
+        <path d="M13 4l3 8l3 -8"></path>
+        <path d="M5 18h14"></path>
+        <path d="M17 20l2 -2l-2 -2"></path>
+        <path d="M7 16l-2 2l2 2"></path>
+    `,
+    'TextLineHeight': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 8l3 -3l3 3"></path>
+        <path d="M3 16l3 3l3 -3"></path>
+        <path d="M6 5l0 14"></path>
+        <path d="M13 6l7 0"></path>
+        <path d="M13 12l7 0"></path>
+        <path d="M13 18l7 0"></path>
+   `,
+   'TextShadow': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 20l3 0"></path>
+        <path d="M14 20l7 0"></path>
+        <path d="M6.9 15l6.9 0"></path>
+        <path d="M10.2 6.3l5.8 13.7"></path>
+        <path d="M5 20l6 -16l2 0l7 16"></path>
+    `,
+    'TextAlignTop': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 10l0 10"></path>
+        <path d="M12 10l4 4"></path>
+        <path d="M12 10l-4 4"></path>
+        <path d="M4 4l16 0"></path>
+    `,
+    'TextAlignBottom': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 20l16 0"></path>
+        <path d="M12 14l0 -10"></path>
+        <path d="M12 14l4 -4"></path>
+        <path d="M12 14l-4 -4"></path>
+    `,
+    'TextAlignMiddle': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 3v6l3 -3m-6 0l3 3"></path>
+        <path d="M12 21v-6l3 3m-6 0l3 -3"></path>
+        <path d="M4 12l1 0"></path>
+        <path d="M9 12l1 0"></path>
+        <path d="M14 12l1 0"></path>
+        <path d="M19 12l1 0"></path>
     `
 }
 

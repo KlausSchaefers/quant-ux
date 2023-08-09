@@ -63,7 +63,7 @@
         }
 
         .MatcCreateCatCntr li.MatcSelected{
-            background: $toolbar_background;
+           
         }
         .MatcCreateCatCntr li.MatcSelected a{
             color: $primary_color;
@@ -113,6 +113,25 @@
     .MatcToolbarSectionLabel {
         color: #ddd;
     }
+
+    .XMatcToolbarItemSelected {
+        background: $toolbar_selected_background;
+        border-color: $toolbar_selected_background;
+    }
+
+    .MatcToobarPropertiesSection {
+
+        .MatcToolbarDropDownButton:hover {
+            border: 1px solid $toolbar_border;
+        }
+        
+
+        .MatcToolbarItemActive {
+            background: $toolbar_form_background_focus;
+            border-color: $toolbar_border;
+        }
+    }
+
 
     
     

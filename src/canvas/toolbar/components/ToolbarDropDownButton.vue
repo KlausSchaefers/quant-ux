@@ -2,6 +2,7 @@
 <template>
      <div :class="['MatcToolbarItem MatcToolbarDropDownButton', {'MatcToolbarIconDropDownButton': isIconButton}]">
 		<div type="button" data-dojo-attach-point="button" class="MatcToolbarDropDownButtonCntr">
+			<QIcon :icon="icon" v-if="icon"></QIcon>
 			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
 			<span class="caret" ref="caret"></span>
 		</div>
@@ -19,6 +20,7 @@ import on from 'dojo/on'
 import touch from 'dojo/touch'
 import _DropDown from './_DropDown'
 import DomBuilder from 'common/DomBuilder'
+import QIcon from 'page/QIcon'
 
 export default {
 	name: 'ToolbarDropDownButton',
@@ -39,11 +41,13 @@ export default {
 			currentLabel: ''
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
     methods: {
 
 		setIcon (icon) {
-			console.debug(icon)
+			this.icon = icon
 		},
 
       	setLabelPostfix (postfix){
@@ -90,16 +94,22 @@ export default {
 				if((o.label || o.icon || o.css || o.value!=null)) {
 					this.hasObjects = true;
 					if(o.icon){
-						var icon = document.createElement("span");
-						css.add(icon,"MatcToolbarPopUpIcon");
-						css.add(icon, o.icon);
-						li.appendChild(icon);
+						// hacky to support SVG Icons
+						if (o.icon.indexOf('mdi') > -1) {
+							const icon = document.createElement("span");
+							css.add(icon,"MatcToolbarPopUpIcon");
+							css.add(icon, o.icon);
+							li.appendChild(icon);
 
-						if(o.icon2){
-							var icon2 = document.createElement("span");
-							css.add(icon2,"MatcToolbarPopUpIconSmall");
-							css.add(icon2, o.icon2);
-							icon.appendChild(icon2);
+							if(o.icon2){
+								const icon2 = document.createElement("span");
+								css.add(icon2,"MatcToolbarPopUpIconSmall");
+								css.add(icon2, o.icon2);
+								icon.appendChild(icon2);
+							}
+						} else {
+							const icon = this.$new(QIcon, {icon: o.icon})
+							icon.placeAt(li)
 						}
 					}
 					if(o.label){
@@ -155,31 +165,31 @@ export default {
 		},
 
 		hideChildren (){
-			for(var i=0; i < this._uls.length; i++){
-				var child = this._uls[i];
+			for(let i=0; i < this._uls.length; i++){
+				const child = this._uls[i];
 				css.remove(child, "MatcToolbarPopUpOpen");
 			}
 		},
 
 		showInputDialog (o, li,e){
 			this.stopEvent(e);
-			var dialog = o.dialog;
+			const dialog = o.dialog;
 
-			var db = new DomBuilder();
-			var div = db.div("MatcToolbarDropDownButtonDialog").build();
+			const db = new DomBuilder();
+			const div = db.div("MatcToolbarDropDownButtonDialog").build();
 			db.span("", dialog.label).build(div);
 
-			var value = dialog.value;
+			let value = dialog.value;
 			if(this.dialogValues && this.dialogValues[o.value]){
 				value = this.dialogValues[o.value];
 			}
-			var input = db.input("MatcToolbarDropDownButtonInlineEdit MatcIgnoreOnKeyPress", value).build(div);
+			const input = db.input("MatcToolbarDropDownButtonInlineEdit MatcIgnoreOnKeyPress", value).build(div);
 			db.span("", dialog.unit).build(div);
 
 			/**
 			 * Focus and select the new input
 			 */
-			setTimeout(function(){
+			setTimeout(() => {
 				input.focus();
 				input.select();
 			}, 50);
@@ -187,9 +197,9 @@ export default {
 			/**
 			 * Listen to some keyboard events..
 			 */
-			var me = this;
-			this.tempOwn(on(input, "keyup", function(e){
-				var keyCode = e.keyCode ? e.keyCode : e.which;
+
+			this.tempOwn(on(input, "keyup", (e) => {
+				const keyCode = e.keyCode ? e.keyCode : e.which;
 				/**
 				 * Close on ESC
 				 */
@@ -197,13 +207,13 @@ export default {
 					/**
 					 * Was btn before??
 					 */
-					me.hideDropDown();
+					this.hideDropDown();
 				}
 				/**
 				 * Change will not be fired if the users presses enter without changing the value!
 				 */
 				if(13 == keyCode && dialog.value == input.value){
-					me.onDialogValueChanged(input, o)
+					this.onDialogValueChanged(input, o)
 				}
 			}));
 			this.tempOwn(on(input, "change", lang.hitch(this, "onDialogValueChanged", input, o)));
@@ -259,12 +269,13 @@ export default {
 
 			if(this.hasObjects){
 				this.label.innerHTML = "";
-
-				for(var i=0; i < this._options.length; i++){
-					var o = this._options[i];
-					if (value == o.value){
-
-						if (o.icon){
+				const o = this._options.find(o => o.value == value)
+			
+				if (o){
+					
+					if (o.icon){
+						// hacky to support SVG Icons
+						if (o.icon.indexOf('mdi') > -1) {
 							var icon = document.createElement("span");
 							css.add(icon, o.icon);
 							this.label.appendChild(icon);
@@ -275,22 +286,24 @@ export default {
 								css.add(icon2, o.icon2);
 								icon.appendChild(icon2);
 							}
+						} else {
+							this.icon = o.icon
 						}
+					}
 
-						if (o.label && this.hasLabelTxt){
-							var lbl = document.createElement("span");
-							css.add(lbl, "MatcToolbarDropDownButtonLabel");
-							var l =o.label;
+					if (o.label && this.hasLabelTxt){
+						var lbl = document.createElement("span");
+						css.add(lbl, "MatcToolbarDropDownButtonLabel");
+						var l =o.label;
 
-							if(l.length > this.maxLabelLength){
-								l= l.substring(0, this.maxLabelLength) + "...";
-							}
-							lbl.innerHTML=l;
-							this.label.appendChild(lbl);
+						if(l.length > this.maxLabelLength){
+							l= l.substring(0, this.maxLabelLength) + "...";
+						}
+						lbl.innerHTML=l;
+						this.label.appendChild(lbl);
 
-							if (o.css){
-								css.add(lbl, o.css);
-							}
+						if (o.css){
+							css.add(lbl, o.css);
 						}
 					}
 				}

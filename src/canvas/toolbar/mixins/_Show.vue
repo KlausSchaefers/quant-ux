@@ -52,30 +52,8 @@ export default {
 
 		showTemplate (widget){
 			css.remove(this.templateDiv, "MatcToolbarSectionHidden");
-
 			const btn = this.$refs.templateBTN
 			btn.setWidget(widget)
-
-			// if(model.template){
-						
-			// 	if (model.isRootTemplate) {
-			// 		this.templateDropBox.setOptions([
-			// 			{value: "update", label: "Update all instances", icon:"mdi mdi-pencil"}, // show only when needed???
-			// 			{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
-			// 		]);
-			// 	} else {
-			// 		this.templateDropBox.setOptions([
-			// 			{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
-			// 		]);
-			// 	}
-
-			// 	css.remove(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
-			// 	css.add(this.template, "MatcToolbarItemDisbaled hidden");
-			// } else {
-			// 	css.remove(this.template, "MatcToolbarItemDisbaled hidden");
-			// 	css.add(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
-			// }
-
 		},
 
 		showTemplateMerge () {

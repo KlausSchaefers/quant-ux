@@ -23,13 +23,18 @@
 						</div> 
 
 						<div class="MatcToolbarSection">				
-							<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="editTool"  @click="onEdit">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
 								<QIcon icon="Edit" />
 							</div>
 							<CreateBasicButton @add="onToolBasic" />
 							<CreateButton ref="createButton"/>
 							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
-							<CreateVectorButton @add="onToolSVG" v-if="false" />			
+							<CreateVectorButton @add="onToolSVG" v-if="false" />	
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentTool"  @click="onNewComment">
+								<QIcon icon="Comment" />
+							</div>	
+							
+						
 						</div>
 					
 
@@ -131,8 +136,8 @@
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
-import on from 'dojo/on'
-import touch from 'dojo/touch'
+//import on from 'dojo/on'
+//import touch from 'dojo/touch'
 import hash from 'dojo/hash'
 import Util from 'core/Util'
 import topic from 'dojo/topic'
@@ -177,7 +182,7 @@ export default {
 			collabUsers:[],
 			showLabels:false,
 			isDeveloperMode: false,
-			mode: ''
+			mode: 'edit'
         }
     },
 	components: {
@@ -216,7 +221,7 @@ export default {
 			// this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
 			// this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
 
-			this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
+			//this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
 			// this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
 			// this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
 
@@ -227,13 +232,6 @@ export default {
 		
 			// this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
 			// this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
-
-			// const btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
-			// btn.updateLabel = false;
-			// btn.setLabel('<span class="MatcMainMenuButton"></span>');
-			// btn.setOptions(this.getMainMenu());
-			// btn.placeAt(this.home);
-			// css.add(btn.domNode, "MatcToolbarItem");
 		},
 
 		onHomeMenu (option, e) {

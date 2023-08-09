@@ -1,66 +1,59 @@
 
 <template>
-     <a class="MatcToolbarItem MatcToolbarToggleButton" >
-		<span class="MatcToolbarIcon" data-dojo-attach-point="icon">
-		</span>
+	<a class="MatcToolbarItem MatcToolbarToggleButton" @click="onChange">
+		<QIcon :icon="icon" v-if="icon"></QIcon>
 	</a>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
-import lang from 'dojo/_base/lang'
-import on from 'dojo/on'
-import touch from 'dojo/touch'
+import QIcon from 'page/QIcon'
 
 export default {
-    name: 'ToolbarToggleButton',
-    mixins:[DojoWidget],
-    data: function () {
-        return {
-            value: false
-        }
-    },
-    components: {},
-    methods: {
-        postCreate: function(){
-			this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
-			
+	name: 'ToolbarToggleButton',
+	mixins: [DojoWidget],
+	data: function () {
+		return {
+			value: false,
+			icon: ''
+		}
+	},
+	components: {
+		'QIcon': QIcon
+	},
+	methods: {
+		postCreate() {
 		},
-		
-		setLabel:function(label){
-			this.domNode.innerHTML+=label;
+
+		setLabel(label) {
+			this.domNode.innerHTML += label;
 		},
-		
-		setIcon:function(icon){
-			css.add(this.icon, icon);
+
+		setCss() {
 		},
-		
-		setCss:function(clazz){
-			css.add(this.domNode, clazz);
+
+		setIcon(icon) {
+			console.debug('setIcon', icon)
+			this.icon = icon
 		},
 
 
-		setValue:function(value){
-			
-			if(value){
+		setValue(value) {
+			if (value) {
 				css.add(this.domNode, "MatcToolbarItemActive");
 			} else {
 				css.remove(this.domNode, "MatcToolbarItemActive");
 			}
-			
 			this.value = value;
-			
 		},
-		
-		
-		onChange:function(){
-			this.setValue(!this.value);
 
-			
-			this.emit("change", this.value );
+
+		onChange() {
+			this.setValue(!this.value);
+			this.emit("change", this.value);
 		}
-    }, 
-    mounted () {
-    }
+	},
+	mounted() {
+	}
 }
 </script>

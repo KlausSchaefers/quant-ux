@@ -1077,19 +1077,22 @@
 /****************************************************
  * Toggle Button
  ****************************************************/
-.MatcToobarPropertiesSection .MatcToolbarToggleButton {
-	border: 1px solid transparent;
-	transition-duration: 0.2s;
-	transition-property: border-color;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-}
+.MatcToobarPropertiesSection {
 
-.MatcToobarPropertiesSection .MatcToolbarToggleButton:hover {
-	border: 1px solid #777;
-}
 
+	.MatcToolbarToggleButton {
+		border: 1px solid transparent;
+		transition-duration: 0.2s;
+		transition-property: border-color;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.MatcToolbarToggleButton:hover {
+		border: 1px solid $toolbar_border;
+	}
+} 
 
 
 /****************************************************
@@ -1154,11 +1157,6 @@ input.MatcToobarInlineEditDisabled:focus {
 	transition-property: border-color;
 }
 
-.MatcToobarPropertiesSection .MatcToolbarDropDownButton:hover {
-	border: 1px solid #555;
-}
-
-
 .MatcToolbarPopupChildren {
 	position: absolute;
 	left: 100%;
@@ -1221,7 +1219,6 @@ input.MatcToobarInlineEditDisabled:focus {
 
 .MatcToolbar .MatcToolbarDropDownButton .MatcToolbarPopUpLine,
 .MatcToolbarDropDownButtonPopup .MatcToolbarPopUpLine {
-	border-top: 1px solid #ccc;
 	height: 1px;
 	padding: 0px;
 	border-left: none;
