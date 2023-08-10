@@ -85,27 +85,6 @@
     }
 
 
-
-    .MatcToobarPropertiesSection .MatcToolbarSectionLabel {
-        border-top: 1px solid $toolbar_border;
-        background: none;
-        color: #777;
-    }
-    
-    .MatcToobarPropertiesSection .MatcToobarRowHover {
-        border: 1px solid transparent;
-    }
-    
-    .MatcToobarPropertiesSection .MatcToobarRowHover:hover {
-        border: 1px solid #999;
-    }
-    
-    .MatcToobarPropertiesSection .VommondCheckBoxLabel,
-    .MatcToobarPropertiesSection .MatcToolbarItemLabel,
-    .MatcToobarPropertiesSection .VommondRadioBoxLabel {
-        color: #ddd;
-    }
-
     .MatcToolbarSeperator {
 
     }
@@ -121,10 +100,43 @@
 
     .MatcToobarPropertiesSection {
 
-        .MatcToolbarDropDownButton:hover {
-            border: 1px solid $toolbar_border;
+        .MatcToolbarSectionLabel {
+            border-top: 1px solid $toolbar_border;
+            background: none;
+            color: $toolbar_sub_label_color;
+        }
+
+        .VommondCheckBoxLabel,
+        .MatcToolbarItemLabel,
+        .VommondRadioBoxLabel {
+            color: #ddd;
+        }
+
+        .MatcToobarRowHover {
+            border: 1px solid transparent;
+
+            &:hover {
+                border: 1px solid $toolbar_form_border;
+            }
         }
         
+
+        .MatcToolbarDropDownButton:hover {
+            border: 1px solid $toolbar_form_border;
+        }
+        
+        .MatcToobarInput,
+        input.MatcToobarInlineEdit,
+        .MatcToolbarSlider input {
+
+            &:hover {
+                border-color: $toolbar_form_border_hover;
+            }
+
+            &:focus {
+                border-color: $toolbar_form_border_focus;
+            }
+        }
 
         .MatcToolbarItemActive {
             background: $toolbar_form_background_focus;
@@ -132,8 +144,26 @@
         }
     }
 
+    .MatcToolbarLayerListScreenLabel{
+        border-top: 1px solid #555;
+        color: #ddd;
+    }
 
+    .MatcDesignTokenList label,
+    .MatcDesignTokenList .MatcToolbarItemIcon{
+	    color:#ddd;
+    }
     
     
+    .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive {
+        background: $primary_color;
+        color: #fff;
+    }
+
+    .MatcToobarViewSection .MatcToolbarItem.MatcToolbarItemActive:hover {
+        background: $primary_color-hover;
+        color: #fff;
+    }
+
     
 }

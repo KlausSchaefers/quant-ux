@@ -415,6 +415,75 @@ export const icons = {
         <path d="M9 12l1 0"></path>
         <path d="M14 12l1 0"></path>
         <path d="M19 12l1 0"></path>
+    `,
+    'SVGArrowLeft': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 12l14 0"></path>
+        <path d="M5 12l4 4"></path>
+        <path d="M5 12l4 -4"></path>
+    `,
+    'SVGNone': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 12l14 0"></path>
+    `,
+    'SVGArrowRight': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 12l14 0"></path>
+        <path d="M15 16l4 -4"></path>
+        <path d="M15 8l4 4"></path>
+    `,
+    'SVGCircleRight': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 3.34a10 10 0 1 1 -4.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 4.995 -8.336z" stroke-width="0" fill="currentColor"></path>
+    `,
+    'SVGCircleLeft': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 3.34a10 10 0 1 1 -4.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 4.995 -8.336z" stroke-width="0" fill="currentColor"></path>
+
+    `,
+    'BoxShadow': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+        <path d="M13 12h5"></path>
+        <path d="M13 15h4"></path>
+        <path d="M13 18h1"></path>
+        <path d="M13 9h4"></path>
+        <path d="M13 6h1"></path>
+    `,
+    'BoxShadowNone': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5.634 5.638a9 9 0 0 0 12.728 12.727m1.68 -2.32a9 9 0 0 0 -12.086 -12.088"></path>
+        <path d="M16 12h2"></path>
+        <path d="M13 15h2"></path>
+        <path d="M13 18h1"></path>
+        <path d="M13 9h4"></path>
+        <path d="M13 6h1"></path>
+        <path d="M3 3l18 18"></path>
+    `,
+    'Blur': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95"></path>
+        <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44"></path>
+        <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92"></path>
+        <path d="M8.56 20.31a9 9 0 0 0 3.44 .69"></path>
+        <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95"></path>
+        <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44"></path>
+        <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92"></path>
+        <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69"></path>
+        <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+    `,
+    'BlurNone': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8.56 3.69a9 9 0 0 0 -.577 .263"></path>
+        <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44"></path>
+        <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92"></path>
+        <path d="M8.56 20.31a9 9 0 0 0 3.44 .69"></path>
+        <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95"></path>
+        <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44"></path>
+        <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92"></path>
+        <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69"></path>
+        <path d="M10.57 10.602a2 2 0 0 0 2.862 2.795"></path>
+        <path d="M3 3l18 18"></path>
     `
 }
 

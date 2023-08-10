@@ -937,7 +937,7 @@ export default {
 			parent.appendChild(content);
 
 			let row = document.createElement("div");
-			css.add(row, 'MatcToobarRowHover')
+			//css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 
 			this.boxShadow = this.$new(BoxShadow);
@@ -949,11 +949,11 @@ export default {
 
 
 			row = document.createElement("div");
-			css.add(row, 'MatcToobarRowHover')
+			//css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 			this.backdropFilter = this.$new(BackdropFilter)
 			this.backdropFilter.setModel(this.model)
-			this.backdropFilter.setCssProps(['boxShadow'])
+			this.backdropFilter.setCssProps(['backdropFilter'])
 			this.own(on(this.backdropFilter, "change", lang.hitch(this, "setWidgetStyle", "backdropFilter")));
 			this.own(on(this.backdropFilter, "changing", lang.hitch(this, "setTempWidgetStyle", "backdropFilter")));
 			this._placeAt(this.backdropFilter,row);

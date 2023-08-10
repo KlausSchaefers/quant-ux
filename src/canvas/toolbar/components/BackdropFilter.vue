@@ -2,11 +2,9 @@
 <template>
 	  <div class="MatcDesignTokenMixin">
       <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
-      <div class=" MatcToolbarItem MatcBoxShadow2" v-show="!hasDesignToken">
-        <div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
-            <span class="MatcToolbarItemIcon ">
-              <span class="mdi mdi-blur" />
-            </span>
+      <div class="MatcBoxShadow2" v-show="!hasDesignToken">
+        <div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarDropDownButtonFlex">
+            <QIcon :icon="icon"/>
             <span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
         </div>
       </div>
@@ -41,6 +39,7 @@ import _Color from 'common/_Color'
 import _DesignToken from './_DesignToken'
 import DesignTokenView from './DesignTokenView'
 import ToolbarSlider from './ToolbarSlider'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'BackgroundBlur',
@@ -55,11 +54,13 @@ export default {
             tempValue: false,
             label: '',
             reposition: true,
-						arrowPosition: "right"
+						arrowPosition: "right",
+            icon: 'BlurNone'
         }
     },
     components: {
-      'DesignTokenView': DesignTokenView
+      'DesignTokenView': DesignTokenView,
+      'QIcon': QIcon
     },
     methods: {
 
@@ -131,9 +132,11 @@ export default {
 				if (v) {
 					this.value = lang.clone(v);
           this.label = 'Backdrop Blur (' + this.value.blur + ')'
+          this.icon = 'Blur'
 				} else {
           this.value = lang.clone(this.defaultValue)
           this.label = 'No Blur'
+          this.icon = 'BlurNone'
         }
         this.setValuesInWidgets(this.value)
 

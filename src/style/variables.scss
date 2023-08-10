@@ -8,17 +8,22 @@ $toolbar_background: #25292F;
 $toolbar_selected_background: #16191b;
 $toolbar_border: rgba(255,255,255,0.08);
 $toolbar_padding:8px;
+$toolbar_label_color: #fff;
+$toolbar_sub_label_color: #777;
 
 $toolbar_form_background: $toolbar_background;
-$toolbar_form_active_background: #16191b;
+$toolbar_form_active_background: #202427;
+$toolbar_form_background_focus: #202427;
 $toolbar_form_border: $toolbar_border;
+$toolbar_form_border_hover: $toolbar_border;
+$toolbar_form_border_focus: rgba(255,255,255,0.16);;
+$toolbar_form_radius: 2px;
+
 
 $popup_background_dark: $toolbar_selected_background;
 $popup_radius: 4px;
 $popup_shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
 $popup-line: 1px solid rgba(255, 255, 255, 0.08);
-
-$toolbar_form_background_focus: #202427;
 
 $text-color-passive: #ccc;
 $text-color-dark: #363636;

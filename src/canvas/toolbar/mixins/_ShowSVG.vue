@@ -98,12 +98,12 @@ export default {
             css.add(row2, 'MatcToobarRow MatcToobarRowFlex')
             content.appendChild(row2)
 
-            this.svgStrokeArrowLeft = this.$new(ToolbarDropDownButton,  {isIconButton:true});
+            this.svgStrokeArrowLeft = this.$new(ToolbarDropDownButton,  {isIconButton:true, hasCaret: false});
             this.svgStrokeArrowLeft.reposition = true;
             this.svgStrokeArrowLeft.setPopupCss("MatcActionAnimProperties");
 		    this.svgStrokeArrowLeft.setOptions([
-                { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
-                { value:"arrowStart", label:'Arrow', icon: 'mdi mdi-arrow-left'},
+                { value:null, label: 'None', icon: 'SVGNone'},
+                { value:"arrowStart", label:'Arrow', icon: 'SVGArrowLeft'},
                 { value:"triangleStart", label:'Triangle', icon: 'mdi mdi-menu-left'},
                 { value:"circle", label:'Circle', icon: 'mdi mdi-circle-medium'}
             ]);
@@ -111,12 +111,12 @@ export default {
             this._placeAt(this.svgStrokeArrowLeft, row2);
 
 
-            this.svgStrokeArrowRight = this.$new(ToolbarDropDownButton,  {isIconButton:true});
+            this.svgStrokeArrowRight = this.$new(ToolbarDropDownButton,  {isIconButton:true, hasCaret: false});
             this.svgStrokeArrowRight.reposition = true;
             this.svgStrokeArrowRight.setPopupCss("MatcActionAnimProperties");
 		    this.svgStrokeArrowRight.setOptions([
-                { value:null, label: 'None', icon: 'SVGStrokeIcon SVGStrokeIconArrowNone'},
-                { value:"arrowEnd", label:'Arrow', icon: 'mdi mdi-arrow-right'},
+                { value:null, label: 'None', icon: 'SVGNone'},
+                { value:"arrowEnd", label:'Arrow', icon: 'SVGArrowRight'},
                 { value:"triangleEnd", label:'Triangle', icon: 'mdi mdi-menu-right'},
                 { value:"circle", label:'Circle', icon: 'mdi mdi-circle-medium'}
             ]);
@@ -136,7 +136,7 @@ export default {
             // this._placeAt(this.svgStrokeDashArray, row2);
 
             
-            this.svgStrokeCap = this.$new(ToolbarDropDownButton,  {isIconButton:true});
+            this.svgStrokeCap = this.$new(ToolbarDropDownButton,  {isIconButton:true, hasCaret: false});
             this.svgStrokeCap.reposition = true;
             this.svgStrokeCap.setPopupCss("MatcActionAnimProperties");
 		    this.svgStrokeCap.setOptions([

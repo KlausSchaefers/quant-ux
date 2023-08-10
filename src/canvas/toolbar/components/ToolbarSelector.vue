@@ -1,8 +1,11 @@
 
 <template>
      <div class="MatcToolbarSelector">	
-		<a :class="['MatcToolbarItem MatcToolbarToggleButton', {'MatcToolbarItemActive' : o.value == value}]" v-for="o in options" :key="o.value" @click="onChange(o.value)">
-			<QIcon :icon="o.icon"></QIcon>
+		<a :class="['MatcToolbarItem MatcToolbarToggleButton', {'MatcToolbarItemActive' : o.value == value}]" v-for="o in visibleOptions" :key="o.value" @click="onChange(o.value)">
+			
+			<QIcon :icon="o.icon " v-if="o.icon"></QIcon>
+			<span v-if="o.label">{{ o.label }}</span>
+		
 		</a>
 		
 	</div>
@@ -17,30 +20,39 @@ export default {
 	props: ['options', 'selected'],
     data: function () {
         return {
-            value: false
+            value: false,
+			visibleOptions: [],
+			hidden: {}
         }
     },
     components: {
 		'QIcon':QIcon
 	},
-    methods: {
-        postCreate (){			
-		},		
+	computed: {
 		
+	},
+    methods: {
 		setOptions (list){
 			this.options = list
+			this.visibleOptions = list
 		},
 
-
-		
 		setValue (value){
 			this.value = value;
 		},
 		
-		hideOption (){
+		hideOption (value){
+			this.hidden[value] = true
+			this.setVisible()
+		},
+
+		setVisible () {
+			this.visibleOptions = this.options.filter(o => this.hidden[o.value] !== true)
 		},
 		
-		showOption (){
+		showOption (value){
+			this.hidden[value] = false
+			this.setVisible()
 		},
 		
 		getValue (){
@@ -55,7 +67,6 @@ export default {
     }, 
     mounted () {
 		if (this.options) {
-			console.debug('mounted', this.options)
 			this.setOptions(this.options)
 		}
     }

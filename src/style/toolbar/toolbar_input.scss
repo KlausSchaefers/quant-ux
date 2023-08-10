@@ -69,7 +69,7 @@
 }
 
 .MatcToobarPropertiesSection .MatcToobarInput{
-	border-radius: 0px;
+	border-radius: $toolbar_form_radius;
 }
 
 .MatcToobarPropertiesSection .MatcToobarInput.MatcToobarNameInput {
