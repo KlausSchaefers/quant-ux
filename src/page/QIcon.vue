@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcQIcon" @click="onClick">
+    <div class="MatcQIcon" @click="onClick" v-if="icons[icon]">
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         :class="'MatcQIconSVG ' + icon"
@@ -13,9 +13,9 @@
         stroke-linecap="round" 
         stroke-linejoin="round"
         v-html="icons[icon]">
-
       </svg>
     </div>
+    <span v-else :class="icon" @click="onClick"></span>
   </template>
   <style lang="scss">
   @import "../style/scss/icon.scss";
