@@ -9,7 +9,7 @@ const proxyMiddleware = require('http-proxy-middleware')
  */
 const host = '0.0.0.0'
 const assetsRoot = path.resolve(__dirname, '../dist')
-const port = (process.env.QUX_HTTP_PORT * 1) || 8082
+const port = (process.env.QUX_HTTP_PORT * 1) || 8090
 const proxyUrl = process.env.QUX_PROXY_URL || 'https://v1.quant-ux.com'
 const wsUrl = process.env.QUX_WS_URL || 'wss://ws.quant-ux.com'
 const auth = process.env.QUX_AUTH || 'qux'
