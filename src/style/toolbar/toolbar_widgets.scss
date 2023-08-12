@@ -1070,7 +1070,7 @@
 
 .MatcToolbar .MatcToolbarInputDropDownButton input {
 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-	border: 0px solid #555;
+	border: 1px solid transparent;
 	color: #ddd;
 	font-size: 12px;
 	line-height: 1em;
@@ -1331,7 +1331,13 @@ input.MatcToobarInlineEditDisabled:focus {
 /****************************************************
  *  BoxSize
  ****************************************************/
-.MatcBoxSize {}
+.MatcBoxSize {
+	padding: 8px;
+	color:$toolbar_label_color;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
 .MatcBoxSize input {
 	width: 50px;
@@ -1348,6 +1354,7 @@ input.MatcToobarInlineEditDisabled:focus {
 	text-align: left;
 	width: 20px;
 }
+
 
 
 /****************************************************
@@ -1563,8 +1570,6 @@ input.MatcToobarInlineEditDisabled:focus {
 	border: 1px solid #999;
 }
 
-
-
 .MatcToolbarSlider .MatcToolbarSliderCntr {
 	height: 40px;
 	width: 100px;
@@ -1605,4 +1610,14 @@ input.MatcToobarInlineEditDisabled:focus {
 .MatcToolbarSlider .VommondSliderMoving .VommondSliderHandle {
 	background: #3787f2;
 	border: 1px solid #3787f2;
+}
+
+.MatcToolbarRadius {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+
+	.MatcQIcon {
+		justify-content: flex-start;
+	}
 }

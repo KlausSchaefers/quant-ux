@@ -215,8 +215,6 @@ export default {
 				}
 
 				if(this.widgetName){
-					css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
-					css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")
 					if(model.name){
 						this.widgetName.value = model.name;
 					} else {
@@ -224,6 +222,9 @@ export default {
 					}
 					this.widgetName.blur();
 				}
+				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+				css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+			
 
 				/**
 				* Since 4.0.0 we do not show the prototyping properties in the deisgn view
@@ -310,8 +311,6 @@ export default {
 			* the flushing will work!
 			*/
 			if (this.widgetName){
-				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
-				css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
 				if(model.name){
 					this.widgetName.value = model.name;
 				} else {
@@ -319,6 +318,9 @@ export default {
 				}
 				this.widgetName.blur();
 			}
+			css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+			css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+				
 
 			if (this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
 				css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
@@ -460,12 +462,14 @@ export default {
 			css.add(this.widgetSize.domNode, "hidden");
 			css.add(this.radiusBox.domNode, "hidden");
 
-			if(model.name){
-				this.widgetName.value = model.name;
-			} else {
-				this.widgetName.value = "";
+			if (this.widgetName) {
+				if(model.name){
+					this.widgetName.value = model.name;
+				} else {
+					this.widgetName.value = "";
+				}
+				this.widgetName.blur();
 			}
-			this.widgetName.blur();
 
 			css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
 			css.remove(this.inheritedWidgetDiv, "MatcToolbarSectionHidden");

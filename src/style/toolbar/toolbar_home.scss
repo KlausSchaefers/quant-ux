@@ -3,29 +3,48 @@
  ****************************************************/
 
  .MatcToolbarDropDownButton.MatcToobarHomeSection {
-	background: $primary_color;
 	transition-duration: 0.25s;
-	height: $toolbar_height;
-	width: $toolbar_height;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin-left: 8px;
 }
 
-.MatcToobarHomeSection .MatcToolbarItem{
-	height: $toolbar_height;
-	width: $toolbar_height;
+.MatcToobarHomeSection.MatcToobarHomeSectionBlue {
+	background: $primary_color;
+	margin: 0px;
+
+
+	.MatcToolbarPrimaryItem {
+		border: none;
+		&:hover{
+			background:  $primary_color-hover;
+		}
+	}
+
+	.MatcToolbarItem {
+		width: $toolbar_height;
+		height: $toolbar_height;
+	}
+
+	&:HOVER, 
+	.MatcToolbarItemActive{
+		background:  $primary_color-hover;
+	}
+
+
+	img{
+		width: 24px;
+		height: 24px;
+	}
+
 }
 
 .MatcToobarHomeSection img{
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
 }
 
-.MatcToobarHomeSection:HOVER, 
-.MatcToobarHomeSection .MatcToolbarItemActive {
-	background:  $primary_color-hover;
-}
 
 
 

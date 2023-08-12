@@ -3,11 +3,11 @@
      <div class="MatcBoxSize">
 
 		<div data-dojo-attach-point="layerX" class="MatcToolbarFlexCntr">
-			<div class="MatcToolbarItem MatcToolbarItemSmall " >
+			<div class=" MatcToolbarItemSmall " >
 				<span class="MatcBoxSizeLabel">X :</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputX"/>
 			</div>
-			<div class="MatcToolbarItem MatcToolbarItemSmall" >
+			<div class=" MatcToolbarItemSmall" >
 				<span class="MatcBoxSizeLabel">Y :</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputY"/>
 			</div>
@@ -17,15 +17,15 @@
 		</div>
 
 		<div class="MatcToolbarFlexCntr" >
-			<div class="MatcToolbarItem MatcToolbarItemSmall" >
+			<div class=" MatcToolbarItemSmall" >
 				<span class="MatcBoxSizeLabel">W :</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputW"/>
 			</div>
-			<div class="MatcToolbarItem MatcToolbarItemSmall" >
+			<div class=" MatcToolbarItemSmall" >
 				<span class="MatcBoxSizeLabel">H :</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputH"/>
 			</div>
-			<div class=" MatcBoxSizeLink" @click="toggleLinked()">
+			<div class=" " @click="toggleLinked()">
 				<template v-if="mode == 'all'">
 					<span class=" mdi mdi-link" v-if="isLinked"></span>
 					<span class="mdi mdi-link-off" v-else></span>

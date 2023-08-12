@@ -313,7 +313,9 @@
 }
 
 .MatcToolbarSectionContent {
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 }
 
 .MatcToolbarSectionCollabsed .MatcToolbarSectionContent,

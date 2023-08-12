@@ -680,11 +680,17 @@ export default {
 			 * a little bit hacky. we flush the screen name now!
 			 * FIXME; This can cause errors in case of undo and redo!
 			 */
-			this.setScreenName(this.stripHTML(this.screenName.value));
+			if (this.screenName) {
+				this.setScreenName(this.stripHTML(this.screenName.value));
+			}
+			
+			if (this.widgetName) {
+				this.setWidgetName(this.stripHTML(this.widgetName.value));
+			}
 
-			this.setWidgetName(this.stripHTML(this.widgetName.value));
-
-			this.setGroupName(this.stripHTML(this.groupName.value));
+			if (this.groupName) {
+				this.setGroupName(this.stripHTML(this.groupName.value));
+			}
 
 			if(this.widgetSize.isDirty()){
 				this.widgetSize.update();
@@ -705,11 +711,18 @@ export default {
 		 */
 		onModelNameChange (id, type, txt){
 			if (type == "widget"){
-				this.widgetName.value = txt
+				if (this.widgetName) {
+					this.widgetName.value = txt
+				}
+				
 			} else if (type == "screen"){
-				this.screenName.value = txt
+				if (this.screenName) {
+					this.screenName.value = txt
+				}
 			} else if (type == "group"){
-				this.groupName.value = txt
+				if (this.groupName) {
+					this.groupName.value = txt
+				}
 			}
 		},
 

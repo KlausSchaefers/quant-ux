@@ -306,7 +306,7 @@ export default {
 			css.add(this.toolsDiv, "MatcToolbarSectionHidden");
 			css.add(this.widgetNameDiv, "MatcToolbarSectionHidden");
 			css.add(this.groupDIV, "MatcToolbarSectionHidden");
-			css.add(this.groupNameDiv, "MatcToolbarSectionHidden");
+			//css.add(this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.add(this.groupActionDiv, "MatcToolbarSectionHidden");
 			css.add(this.widgetViewSection, "MatcToolbarSectionHidden");
 

@@ -48,15 +48,18 @@ export default {
 		showScreenPrototypeProperties (model) {
 				this.logger.log(-1,"showScreenPrototypeProperties", "entry");
 
-				if(model.name){
-					this.screenName.value = model.name;
-				} else {
-					this.screenName.value = "";
+				if (this.screenName) {
+					if(model.name){
+						this.screenName.value = model.name;
+					} else {
+						this.screenName.value = "";
+					}
+					this.screenName.blur();
+					css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
 				}
-				this.screenName.blur();
 
 				css.add(this.screenSize.domNode, 'MatcHidden')
-				css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
+			
 
 				if(this.screenActionDiv){
 					css.remove(this.screenActionDiv, "MatcToolbarSectionHidden");
@@ -119,12 +122,14 @@ export default {
 				this.screenParentList.setScreen(model);
 				//this.childWidget.setScreen(model);
 
-				if(model.name){
-					this.screenName.value = model.name;
-				} else {
-					this.screenName.value = "";
+				if (this.screenName) {
+					if(model.name){
+						this.screenName.value = model.name;
+					} else {
+						this.screenName.value = "";
+					}
+					this.screenName.blur();
 				}
-				this.screenName.blur();
 
 				if(this.screenDownLoad) {
 					css.remove(this.screenDownLoad.domNode, "MatcHidden")
@@ -146,12 +151,14 @@ export default {
 		showScreenDataProperties (model) {
 			this.showProperties();
 
-			if(model.name){
-				this.screenName.value = model.name;
-			} else {
-				this.screenName.value = "";
+			if (this.screenName) {
+				if(model.name){
+					this.screenName.value = model.name;
+				} else {
+					this.screenName.value = "";
+				}
+				this.screenName.blur();
 			}
-			this.screenName.blur();
 
 			css.add(this.screenSize.domNode, 'MatcHidden')
 			css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
