@@ -1340,7 +1340,7 @@ input.MatcToobarInlineEditDisabled:focus {
 }
 
 .MatcBoxSize input {
-	width: 50px;
+	width: 40px;
 }
 
 .MatcBoxSizeLink {
@@ -1352,7 +1352,11 @@ input.MatcToobarInlineEditDisabled:focus {
 	display: inline-block;
 	font-size: 12px;
 	text-align: left;
-	width: 20px;
+	width: 32px;
+}
+
+.MatcBoxSize .MatcToolbarFlexCntr {
+	gap: 8px;
 }
 
 
@@ -1619,5 +1623,10 @@ input.MatcToobarInlineEditDisabled:focus {
 
 	.MatcQIcon {
 		justify-content: flex-start;
+	}
+
+	.MatcToolbarItem.MatcToolbarDropDownButton.MatcToolbarInputDropDownButton{
+		padding: 0px;
+		height: auto;
 	}
 }

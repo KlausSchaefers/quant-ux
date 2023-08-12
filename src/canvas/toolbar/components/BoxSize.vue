@@ -12,7 +12,8 @@
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputY"/>
 			</div>
 
-			<div class=" MatcBoxSizeLink" >
+			<div class="" >
+				<span></span>
 			</div>
 		</div>
 
