@@ -4,11 +4,11 @@
 
 		<div data-dojo-attach-point="layerX" class="MatcToolbarFlexCntr">
 			<div class=" MatcToolbarItemSmall " >
-				<span class="MatcBoxSizeLabel">X :</span>
+				<span class="MatcBoxSizeLabel">X</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputX"/>
 			</div>
 			<div class=" MatcToolbarItemSmall" >
-				<span class="MatcBoxSizeLabel">Y :</span>
+				<span class="MatcBoxSizeLabel">Y</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputY"/>
 			</div>
 
@@ -19,11 +19,11 @@
 
 		<div class="MatcToolbarFlexCntr" >
 			<div class=" MatcToolbarItemSmall" >
-				<span class="MatcBoxSizeLabel">W :</span>
+				<span class="MatcBoxSizeLabel">W</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputW"/>
 			</div>
 			<div class=" MatcToolbarItemSmall" >
-				<span class="MatcBoxSizeLabel">H :</span>
+				<span class="MatcBoxSizeLabel">H</span>
 				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputH"/>
 			</div>
 			<div class=" " @click="toggleLinked()">

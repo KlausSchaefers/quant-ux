@@ -29,6 +29,7 @@
 			</div>
 		</div>
 	</div>
+	<ContextMenu ref="contextMenu" @select="onContextSelect"/>
 	<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
 		<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr">
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div>
@@ -77,6 +78,7 @@ import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 import Collab from 'canvas/Collab'
 import SVG from 'canvas/SVG'
+import ContextMenu from './ContextMenu'
 
 import KeyBoard from 'canvas/KeyBoard'
 import Resize from 'canvas/Resize'
@@ -104,7 +106,8 @@ export default {
         }
     },
     components: {
-		SVGEditor
+		'SVGEditor': SVGEditor,
+		'ContextMenu': ContextMenu
 	},
     methods: {
 		postCreate (){

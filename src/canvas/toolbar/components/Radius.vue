@@ -1,6 +1,6 @@
 
 <template>
-     <div class="MatcToolbarRadius MatcToolbarItem">
+     <div class="MatcToolbarRadius ">
 		 <QIcon icon="BorderRadius"/>
 		</div>
 </template>

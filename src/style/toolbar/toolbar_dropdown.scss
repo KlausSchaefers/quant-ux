@@ -17,14 +17,6 @@
 		}
 	}
 
-	.MatcToolbarPopUpLabelShortCut {
-		opacity: 0.5;
-		white-space: nowrap;
-		text-align: right;
-		flex-grow: 1;
-		font-size: 12px;
-		margin-left: 24px;
-	}
 }
 
 .MatcToolbarItemActive .caret{
@@ -69,7 +61,7 @@
 	overflow: visible;
 }
 
-.MatcToolbarArrowDropDownItem {
+.MatcToolbarMenuItem {
 	min-height: 40px;
 
 	&.MatcToolbarPopUpLine{
@@ -77,12 +69,12 @@
 	}
 }
 
-.MatcToolbarArrowDropDownItem:first-child {
+.MatcToolbarMenuItem:first-child {
     border-top-left-radius: $popup_radius;
     border-top-right-radius: $popup_radius;
 }
 
-.MatcToolbarArrowDropDownItem:last-child {
+.MatcToolbarMenuItem:last-child {
     border-bottom-left-radius: $popup_radius;
     border-bottom-right-radius: $popup_radius;
 }
@@ -158,3 +150,18 @@
 	display: flex;
 	align-items: center;
 }
+
+
+.MatcToolbarMenuItem {
+
+
+	.MatcToolbarPopUpLabelShortCut {
+		opacity: 0.5;
+		white-space: nowrap;
+		text-align: right;
+		flex-grow: 1;
+		font-size: 12px;
+		margin-left: 24px;
+	}
+}
+

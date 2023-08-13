@@ -9,6 +9,33 @@ import topic from 'dojo/topic'
 export default {
     name: 'Tools',
     methods: {
+
+		onContextSelect (option) {
+			console.debug('onContextSelect', option.value)
+
+			if (option.value === 'copy') {
+				this.onCopy()
+			}
+
+			if (option.value === 'paste') {
+				this.onPaste()
+			}
+
+			if (option.value === 'remove') {
+				this.onRemoveSelected()
+			}
+
+
+			if (option.value === 'redo') {
+				this.controller.redo(); 
+			}
+
+			if (option.value === 'undo') {
+				this.controller.undo(); 
+			}
+			
+			
+		},
 		startEyeDropper (isShift, isCntrl) {
 		
 			if (!window.EyeDropper) {

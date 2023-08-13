@@ -1340,7 +1340,7 @@ input.MatcToobarInlineEditDisabled:focus {
 }
 
 .MatcBoxSize input {
-	width: 40px;
+	width: 45px;
 }
 
 .MatcBoxSizeLink {
@@ -1352,7 +1352,7 @@ input.MatcToobarInlineEditDisabled:focus {
 	display: inline-block;
 	font-size: 12px;
 	text-align: left;
-	width: 32px;
+	width: 24px;
 }
 
 .MatcBoxSize .MatcToolbarFlexCntr {
@@ -1619,7 +1619,8 @@ input.MatcToobarInlineEditDisabled:focus {
 .MatcToolbarRadius {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	color: #fff;
+	padding: 8px;
 
 	.MatcQIcon {
 		justify-content: flex-start;

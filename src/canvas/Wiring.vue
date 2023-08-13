@@ -23,8 +23,15 @@ export default {
 				this.own(on(this.dndContainer, touch.out, (e) => this.dispatchOut(e)));
 				this.own(on(this.dndContainer, 'dblclick', (e) => this.dispatchDoubleClick(e)));
 				this.own(on(this.container, "mousedown", (e) => this.dispatchBackroundClick(e)));
+				this.own(on(this.dndContainer, "contextmenu", (e) => this.dispatchContextMenu(e)));
 			},
-
+			
+			dispatchContextMenu (e) {
+				this.logger.log(-1, "dispatchContextMenu", "enter", this.mode);
+				const target = e.target
+				this.onContextMenu(e, target._widgetID, target._screenID)
+				return false
+			},
 			dispatchDoubleClick (e) {
 				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);
 			
@@ -121,7 +128,15 @@ export default {
 			},
 
 			dispatchMouseDown (e) {
-				let target = e.target
+				const target = e.target
+				const isCntrl = e.ctrlKey || e.metaKey;
+
+				/**
+				 * Since 5.0.0 we will show the context menu
+				 */
+				if (isCntrl) {
+					return false
+				}
 
 				/**
 				 * First dispatch tools
@@ -157,7 +172,7 @@ export default {
 				}
 
 				/**
-				 * Otherwise check selection on screen, widget or canbas
+				 * Otherwise check selection on screen, widget or canvas
 				 */
 				if (target._widgetID) {
 					this.dispatchMouseDownWidget(e, target._widgetID, target)

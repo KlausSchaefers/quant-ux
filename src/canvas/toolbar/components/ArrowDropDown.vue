@@ -11,7 +11,7 @@
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">
                 <ul class="" role="menu">
-                    <li v-for="i in options" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css" class="MatcToolbarArrowDropDownItem">
+                    <li v-for="i in options" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css" class="MatcToolbarMenuItem">
                         <QIcon class="MatcToolbarPopUpIcon" :icon="i.icon" v-if="i.icon"/>
                         <label class="MatcToolbarPopUpLabel">{{i.label}}</label>
                         <label class="MatcToolbarPopUpLabelShortCut" v-if="i.shortcut" v-html="i.shortcut"></label>
@@ -54,7 +54,6 @@ export default {
 		}
     },
     mounted () {
-        console.debug(this.icon)
     }
 }
 </script>

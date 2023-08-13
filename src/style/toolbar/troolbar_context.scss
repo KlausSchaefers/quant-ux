@@ -1,0 +1,20 @@
+.MatcContextMenu {
+    position: fixed;
+ 
+
+    top:0;
+    left:0;
+    height: 100%;
+    width: 100%;
+    
+    z-index: 91010;
+
+    .MatcToolbarPopUp {
+        width: 200px;
+    }
+
+    .MatcToolbarPopUpLine {
+        border-top: 1px solid $toolbar_border;
+    }
+
+}

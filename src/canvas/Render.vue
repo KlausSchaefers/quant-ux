@@ -1,6 +1,5 @@
 <script>
 import css from 'dojo/css'
-import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import domGeom from 'dojo/domGeom'
 import win from 'dojo/win'
@@ -93,7 +92,6 @@ export default {
 
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));
-			this.own(on(this.domNode, "contextmenu", lang.hitch(this, "onContextMenu")));
 			this.logger.log(2,"initRender", "exit");
 		},
 

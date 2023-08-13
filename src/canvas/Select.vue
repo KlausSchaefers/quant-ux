@@ -722,25 +722,24 @@ import CanvasSelection from './CanvasSelection'
 		 * Context Stuff
 		 **********************************************************************/
 
-		onContextMenu (e){
-			this.logger.log(-1,"onContextMenu", "enter", e.target);
+		onContextMenu (e, widgetID, screenID){
+			this.logger.log(-1,"onContextMenu", `enter . ${widgetID} > ${screenID}`);
 			this.stopEvent(e);
+			// check if we need to make a selection
+			if (!this.hasSelection()) {
+				
+				if (widgetID) {
+					this._setSelectionById(widgetID)
+				}
+				if (screenID) {
+					this.setSelectedScreens([screenID], false, true)
+				}
+			}
+			if (this.$refs.contextMenu) {
+				this.$refs.contextMenu.show(e, this.hasSelection())
+			}
 			return false;
 		},
-
-		hideContextMenu (){
-			if(this._contextMenu){
-				var listeners = this._contextMenu.listeners;
-				for(var i=0; i < listeners.length; i++){
-					listeners[i].remove();
-				}
-
-				this.domNode.removeChild(this._contextMenu.background);
-			}
-			delete this._contextMenu;
-		},
-
-
 
 		/**********************************************************************
 		 * Helper

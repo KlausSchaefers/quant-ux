@@ -42,8 +42,6 @@ export default {
         const isCntrl = e.ctrlKey || e.metaKey;
         const isShift = e.shiftKey
 
- 
-
         /**
          * Cancel listeners must be always fired.
          */
