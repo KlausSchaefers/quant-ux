@@ -4,6 +4,7 @@ import css from 'dojo/css'
 
 import topic from 'dojo/topic'
 import CanvasSelection from './CanvasSelection'
+import * as SelectionUtil from 'core/SelectionUtil'
 
  export default {
     name: 'Select',
@@ -130,6 +131,23 @@ import CanvasSelection from './CanvasSelection'
 		/**********************************************************************
 		 * Widget Select
 		 **********************************************************************/
+
+		setSelectionById (id) {
+			const selectedWidget = this.getSelectedWidget()
+			const selectedGroup = this.getSelectedGroup()
+			const [selectedWidgetID, selectedGroupId] = SelectionUtil.updateSelection(
+			this.model, id, 
+			selectedWidget?.id, 
+			selectedGroup?.id
+			)
+			if (selectedWidgetID) {
+				this.onWidgetSelected(id);
+				this._dragNDropIgnoreGroup = true;
+			}
+			if (selectedGroupId) {
+			this.onGroupSelected(selectedGroupId, true);
+			}
+		},
 
 		isWidgetSelected (id) {
 			if (this._selectWidget) {
@@ -727,9 +745,8 @@ import CanvasSelection from './CanvasSelection'
 			this.stopEvent(e);
 			// check if we need to make a selection
 			if (!this.hasSelection()) {
-				
 				if (widgetID) {
-					this._setSelectionById(widgetID)
+					this.setSelectionById(widgetID)
 				}
 				if (screenID) {
 					this.setSelectedScreens([screenID], false, true)

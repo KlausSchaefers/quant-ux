@@ -4,7 +4,7 @@ import topic from "dojo/topic";
 import domGeom from "dojo/domGeom";
 import css from "dojo/css";
 import CoreUtil from 'core/CoreUtil'
-import * as SelectionUtil from 'core/SelectionUtil'
+
 
 export default {
   name: "DnD",
@@ -793,7 +793,7 @@ export default {
           }
  
           if (!this.isInSelection(id)) {
-            this._setSelectionById(id)
+            this.setSelectionById(id)
           } else {
             this.onSelectionMoved(pos, dif, id);
             /**
@@ -877,7 +877,7 @@ export default {
       if (e && e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
         this._expandSelectionById(id)
       } else {
-        this._setSelectionById(id)
+        this.setSelectionById(id)
       }
 
       this.cleanUpWidgetDnD();
@@ -928,22 +928,7 @@ export default {
     },
 
 
-    _setSelectionById (id) {
-        const selectedWidget = this.getSelectedWidget()
-        const selectedGroup = this.getSelectedGroup()
-        const [selectedWidgetID, selectedGroupId] = SelectionUtil.updateSelection(
-          this.model, id, 
-          selectedWidget?.id, 
-          selectedGroup?.id
-        )
-        if (selectedWidgetID) {
-            this.onWidgetSelected(id);
-            this._dragNDropIgnoreGroup = true;
-        }
-        if (selectedGroupId) {
-          this.onGroupSelected(selectedGroupId, true);
-        }
-    },
+ 
 
   
 

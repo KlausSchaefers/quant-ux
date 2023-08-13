@@ -2,7 +2,7 @@ import Logger from './Logger'
 import Core from './Core'
 
 export function updateSelection(model, newId, selectedWidgetId, selectedGroupId) {
-    Logger.log(1, 'SelectionUtil.updateSelection()', newId)
+    Logger.log(-1, 'SelectionUtil.updateSelection()', `${newId}, ${selectedWidgetId}, ${selectedGroupId}`)
     const util = new Core()
     util.model = model
 
@@ -15,6 +15,8 @@ export function updateSelection(model, newId, selectedWidgetId, selectedGroupId)
             Logger.log(-1, 'SelectionUtil.updateSelection() > exit > Re-select widget', newId)
             return [newId, null, false]
         }
+        // FIXME: We should check here if they have the same parent group, and if so,
+        // just select the other widget. So we stay in the same level
         const topGroup = util.getTopParentGroup(newId);
         if (topGroup) {
             Logger.log(1, 'SelectionUtil.updateSelection() > exit > Top Groupd', topGroup)
