@@ -1,7 +1,7 @@
 
 <template>
-	<div :class="['MatcToolbarItem MatcToolbarDropDownButton', { 'MatcToolbarIconDropDownButton': isIconButton }]">
-		<div type="button" data-dojo-attach-point="button" class="MatcToolbarDropDownButtonCntr">
+	<div :class="['MatcToolbarPopUpCntr', { 'MatcToolbarIconDropDownButton': isIconButton }]">
+		<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarDropDownButtonCntr">
 			<QIcon :icon="icon" v-if="icon"></QIcon>
 			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
 			<span class="caret" ref="caret"></span>

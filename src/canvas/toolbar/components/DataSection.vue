@@ -2117,9 +2117,9 @@ export default {
 
 		_renderShadowPicker (label, model, prop) {
 
-			var row = this.db.div("MatcToobarRow MatcToobarRowHover").build(this.cntr);
+			var row = this.db.div("MatcToobarRow").build(this.cntr);
 
-			let radius = this.db.div('MatcToolbarRadius').build(row);
+			let radius = this.db.div('').build(row);
 		
 			let picker = this.$new(BoxShadow)
 			picker.placeAt(radius)
