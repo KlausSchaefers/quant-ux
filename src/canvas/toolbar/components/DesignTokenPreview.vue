@@ -23,13 +23,15 @@
       <span class="MatcToolbarItemLabel" :style="textStyle">{{designtoken.name}}</span>
 
       <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true" ref="editBtn">
-  			  <span class="mdi mdi-tune-vertical" />
+  			  <QIcon icon="Settings"></QIcon>
       </span>
 
     </div>
 </template>
 <script>
 import * as ColorUtil from 'core/code/ColorUtil'
+import QIcon from 'page/QIcon'
+
 export default {
     name: 'DesignTokenPreview',
     props: ['designtoken', 'edit'],
@@ -57,7 +59,9 @@ export default {
         return ''
       }
     },
-    components: {},
+    components: {
+      'QIcon': QIcon
+    },
     methods: {
       getBackgroundColor (v) {
 				if (v === 'None' || v === 'transparent' || !v) {

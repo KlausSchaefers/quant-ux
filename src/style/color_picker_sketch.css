@@ -156,16 +156,16 @@
 }
 
 .VommondColorPickerSketchEyeDropper {
-	text-align: center;
-
+	display: flex;
+	justify-content: center;
 }
 
-.VommondColorPickerSketchEyeDropper .mdi {
+.VommondColorPickerSketchEyeDropper .MatcQIcon {
 	cursor: pointer;
 	font-size: 20px;
 	color: #777;
 }
 
-.VommondColorPickerSketchEyeDropper .mdi:hover {
+.VommondColorPickerSketchEyeDropper .MatcQIcon:hover {
 	color: #333;
 }

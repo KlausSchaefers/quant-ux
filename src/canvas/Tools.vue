@@ -25,6 +25,10 @@ export default {
 				this.onRemoveSelected()
 			}
 
+			if (option.value === 'copyStyle') {
+				this.onCopyStyle()
+			}
+
 
 			if (option.value === 'redo') {
 				this.controller.redo(); 

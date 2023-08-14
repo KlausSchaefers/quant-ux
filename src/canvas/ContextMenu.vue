@@ -41,7 +41,7 @@ export default {
                 { value: 'copy', icon: 'Copy', label: 'Copy', shortcut: 'STRG + C' },
                 { value: 'paste', icon: 'Paste', label: 'Paste', shortcut: 'STRG + V' },
                 { value: 'remove', icon: 'Delete', label: 'Delete', shortcut: 'DEL' },
-                //{ value: 'copyStyle', icon: 'CopyStyle', label: 'Copy Style', shortcut: '' }
+                { value: 'copyStyle', icon: 'CopyStyle', label: 'Copy Style', shortcut: '' }
             ]
         }
     },

@@ -2,8 +2,10 @@
 <template>
     <div class="MatcDesignTokenButton"  @mousedown.stop="" >
 
-      <span class="mdi mdi-dots-horizontal" v-show="isVisible"/>
-    	<ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
+      <QIcon v-show="isVisible" icon="DotMenu"></QIcon>
+
+ 
+    	  <ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
 
         <template v-if="!isTemplate">
           <li @mousedown.stop="showCreateDialog" v-show="!hasDesignToken" class="MatcDesignTokenButtonHeader">
@@ -42,6 +44,7 @@ import DomBuilder from 'common/DomBuilder'
 import lang from 'dojo/_base/lang'
 import touch from 'dojo/touch'
 import on from 'dojo/on'
+import QIcon from 'page/QIcon.vue'
 
 export default {
     name: 'DesignTokenBtn',
@@ -79,7 +82,8 @@ export default {
       }
     },
     components: {
-      'DesignTokenPreview': DesignTokenPreview
+      'DesignTokenPreview': DesignTokenPreview,
+      'QIcon': QIcon
     },
     methods: {
 

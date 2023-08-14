@@ -100,6 +100,12 @@ input.MatcTreeItemLabel {
   cursor: pointer;
 }
 
+.MatcTreeItemRow .MatcTreeItemOptions .MatcQIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
 
 .MatcTreeItemRow:hover .MatcTreeItemOptions,
 .MatcTreeItemRow.MatcTreeItemOptionsVisible .MatcTreeItemOptions,

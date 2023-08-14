@@ -22,10 +22,9 @@
             <span class="MatcTreeIcon"  @click.stop=""></span>
           </template>
 
-          <span v-if="nodeIcon" :class="'MatcTreeTypeIcon ' + nodeIcon"></span>
+          <QIcon class="MatcTreeTypeIcon" v-if="nodeIcon" :icon="nodeIcon" ></QIcon>
 
          <label class="MatcTreeItemLabel" v-if="!isEditable" ref="lblNode" >
-           <!-- add here         {{value.hint}} -->
             {{hintAndLabel}}
           </label>
           <input class="MatcTreeItemLabel MatcIgnoreOnKeyPress"
@@ -36,8 +35,8 @@
             @keydown.enter="onBlur" :value="value.label"/>
 
           <div class="MatcTreeItemOptions" v-if="value.hasOptions">
-            <span :class="lockIcon" @click.stop="toggleLocked" v-if="hasLock"></span>
-            <span :class="hiddenIcon" @click.stop="toggleHidden"></span>
+            <QIcon :icon="lockIcon" @click.stop="toggleLocked" v-if="hasLock"></QIcon>
+            <QIcon :icon="hiddenIcon" @click.stop="toggleHidden" ></QIcon>
           </div>
 
 
@@ -61,6 +60,7 @@
 
 import Logger from '../core/Logger'
 import TreeDND from './TreeDND'
+import QIcon from 'page/QIcon'
 
 export default {
   name: "TreeItem",
@@ -73,6 +73,9 @@ export default {
       isOpen: true,
       isDragOver: false
     };
+  },
+  components: {
+    'QIcon': QIcon
   },
   computed: {
     customCSS () {
@@ -124,9 +127,9 @@ export default {
     },
     hiddenIcon () {
       if (this.value && this.value.hidden) {
-        return 'mdi mdi-eye-off-outline'
+        return 'Hidden'
       }
-      return 'mdi mdi-eye-outline'
+      return 'Visible'
     },
     expandIcon () {
       if (this.isOpen) {
@@ -141,7 +144,6 @@ export default {
       return 'mdi mdi-folder MatcTreeIcon MatcTreeToggleChildrenIcon'
     }
   },
-  components: {},
   methods: {
     unStripHTML:function(s) {
 			if(!s){

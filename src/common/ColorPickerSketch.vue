@@ -43,7 +43,8 @@
 					<div class="VommondColorPickerSketchPreview" data-dojo-attach-point="preview">
 					</div>
 					<div class="VommondColorPickerSketchEyeDropper" v-if="hasEyeDropper">
-						<span class="mdi mdi-eyedropper" @click.stop="openEyeDropper"/>
+						<QIcon icon="ColorPicker" @click.stop="openEyeDropper"></QIcon>
+			
 					</div>
 				</div>
 			</div>
@@ -63,6 +64,7 @@ import win from 'dojo/_base/win'
 import on from 'dojo/on'
 import touch from 'dojo/touch'
 import Color from 'dojo/_base/Color'
+import QIcon from 'page/QIcon'
 // import HSlider from 'common/HSlider'
 
 export default {
@@ -72,7 +74,9 @@ export default {
         return {
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
 	computed: {
 		hasEyeDropper () {
 			return "EyeDropper" in window
