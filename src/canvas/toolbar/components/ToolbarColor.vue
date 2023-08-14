@@ -1,9 +1,12 @@
 
 <template>
-	<div class="MatcDesignTokenMixin">
+	<div class="MatcDesignTokenMixin MatcToolbarPopUpCntr">
 		<DesignTokenView v-if="hasDesignToken" :designtoken="currentDesignToken"/>
-		<div v-show="!hasDesignToken" :class="[' MatcToolbarItem MatcToolbarColor', {'MatcToolbarGridFull': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}] ">
-			<div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
+		<div v-show="!hasDesignToken"  >
+			<div 
+				type="button" 
+				data-dojo-attach-point="button" 
+				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarColor', {'MatcToolbarGridFull': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}]">
 				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
 				<span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
 				<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInput" @mousedown.stop="" @click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput"/>

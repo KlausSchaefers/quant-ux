@@ -626,7 +626,9 @@
 	transition-property: border-color;
 }
 
-.MatcBoxBorder input {
+
+
+.MatcToolbar .MatcBoxBorder .MatcToolbarInputDropDownButton input {
 	width: 40px;
 	position: absolute;
 	background: $toolbar_form_background;
@@ -635,6 +637,7 @@
 
 .MatcBoxBorder .MatcToolbarItem {
 	position: absolute;
+	justify-content: center;
 }
 
 .MatcBoxBorder .MatcToolbarItem .mdi {
@@ -648,11 +651,10 @@
 }
 
 .MatcBoxBorder .MatcToolbarColor,
-.MatcBoxBorder .MatcToolbarInputDropDownButton {
+.MatcBoxBorder .MatcToolbarPopUpCntr {
 	position: absolute;
 	width: 40px;
 	height: 24px;
-	border: 1px solid $toolbar_form_border;
 	background: $toolbar_form_background;
 }
 
@@ -661,7 +663,7 @@
 	margin-right: 4px;
 }
 
-.MatcBoxBorder .MatcToolbarDropDownButton {
+.MatcToolbar .MatcBoxBorder .MatcToolbarDropDownButton {
 	width: 40px;
 	position: absolute;
 	background: #242a30;
@@ -959,7 +961,9 @@
  * Popup
  ****************************************************/
 
-
+.MatcToolbarPopUpCntr{
+	position: relative;
+}
 
 .MatcToolbarPopUp {
 	display: none;
@@ -1139,7 +1143,6 @@ input.MatcToobarInlineEditDisabled:focus {
  ****************************************************/
 
 .MatcToolbarDropDownButton {
-	display: inline-block;
 	position: relative;
 }
 

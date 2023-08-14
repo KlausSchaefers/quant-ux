@@ -1,7 +1,7 @@
 
 <template>
-    <div class=" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarInputDropDownButton">
-		<div data-dojo-attach-point="button">
+    <div class="MatcToolbarPopUpCntr">
+		<div data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarInputDropDownButton">
 			<span :class="'MatcToolbarInputDropDownButtonIcon ' + qIcon" v-if="qIcon"/>
 			<input type="test" data-dojo-attach-point="inputBox" class="MatcIgnoreOnKeyPress " />
 			<span class="caret" v-if="!qIcon"></span>
