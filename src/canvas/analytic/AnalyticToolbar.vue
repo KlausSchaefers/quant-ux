@@ -662,7 +662,7 @@ export default {
 			this.sessionLineColor.setLabel('Graph');
 			this.sessionLineColor.setModel(this.model);
 			this.sessionLineColor.setValue("#33b5e5");
-			css.add(this.sessionLineColor.domNode ,"MatcToolbarGridFull hidden");
+			css.add(this.sessionLineColor.domNode ," hidden");
 			this.own(on(this.sessionLineColor, "change", lang.hitch(this, "showUserJourney")));
 
 			this.sessionTaskLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
@@ -670,7 +670,7 @@ export default {
 			this.sessionTaskLineColor.setLabel('Task');
 			this.sessionTaskLineColor.setModel(this.model);
 			this.sessionTaskLineColor.setValue("#92c500");
-			css.add(this.sessionTaskLineColor.domNode ,"MatcToolbarGridFull");
+			css.add(this.sessionTaskLineColor.domNode ,"");
 			this.own(on(this.sessionTaskLineColor, "change", lang.hitch(this, "showUserJourney")));
 
 
@@ -679,7 +679,7 @@ export default {
 			this.sessionOutlierColor.setLabel('Outlier');
 			this.sessionOutlierColor.setModel(this.model);
 			this.sessionOutlierColor.setValue("#ffb61c");
-			css.add(this.sessionOutlierColor.domNode ,"MatcToolbarGridFull");
+			css.add(this.sessionOutlierColor.domNode ,"");
 			this.own(on(this.sessionOutlierColor, "change", lang.hitch(this, "showUserJourney")));
 		
 
@@ -736,7 +736,6 @@ export default {
 			this.sessionOrderBrn.updateLabel = true;
 			this.sessionOrderBrn.reposition = true;
 			this.sessionOrderBrn.setValue('duration')
-			css.add(this.sessionOrderBrn.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
 			this.sessionOrderBrn.placeAt(row);
 			this.tempOwn(on(this.sessionOrderBrn, "change", (v) => {this.onSortSessionList(v)}));
 			this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
@@ -1464,7 +1463,7 @@ export default {
 		createInput(content,placeholder){
 
 			var div = document.createElement("div");
-			css.add(div, " MatcToolbarItem MatcToolbarGridFull");
+			css.add(div, "MatcToolbarItem");
 			content.appendChild(div);
 
 			let input = document.createElement("input");

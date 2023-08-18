@@ -4,7 +4,7 @@
 
         <div class="MatcToobarRow" v-if="isContainer">
             <ToolbarDropDownButton
-                class="MatcToolbarGridFull"
+                class=""
                 qPopupCSS="MatcActionAnimProperties"
                 qMaxLabelLength="40"
                 :qOptions="layoutOptions"

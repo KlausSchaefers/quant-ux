@@ -69,6 +69,12 @@
  * Tooltip Section
  ****************************************************/
 
+ .MatcTooltipSection, .MatcTooltipSettings {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+ }
+
 .MatcTooltipSettings span.caret {
 	display: none;
 }
@@ -77,10 +83,6 @@
 .MatcDesignTokenListPopup .MatcDesignTokenListPopupSection .MatcTooltipSettings input {
 	width: 100%;
 	text-align: left;
-}
-
-.MatcTooltipSection .MatcToolbarGridFull {
-	padding: 8px 5px;
 }
 
 .MatcTooltipSettings .MatcToolbarItemLabel {

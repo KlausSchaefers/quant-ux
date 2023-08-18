@@ -221,7 +221,7 @@ export default {
 			if (widget.props.screenID) {
 				const screen = this.model.screens[widget.props.screenID]
 				if (screen) {
-					const div = this.db.div("MatcToolbarGridFull MatcToolbarItem MatcToobarActionCntr" ).build(this.cntr);
+					const div = this.db.div(" MatcToolbarItem MatcToobarActionCntr" ).build(this.cntr);
 					this.db.span("MatcToolbarSmallIcon mdi mdi-content-duplicate").build(div);
 					this.db.span("MatcToolbarItemLabel",  screen.name).build(div);
 					const btn = this.db.span("MatcToobarRemoveBtn ")
@@ -234,7 +234,7 @@ export default {
 		
 				}
 			} else {
-				const add = this.db.div("MatcToolbarGridFull MatcPointer  MatcToolbarItem").build(this.cntr);
+				const add = this.db.div(" MatcPointer  MatcToolbarItem").build(this.cntr);
 				this.db.span("MatcToolbarSmallIcon mdi mdi-plus-circle").build(add);
 				this.db.span("MatcToolbarItemLabel", "Select Segment Screen").build(add);
 				this.tempOwn(on(add, touch.press, lang.hitch(this, "_renderSegmentScreen")));
@@ -1823,7 +1823,7 @@ export default {
 
 			var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);
 
-			var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull").build(row);
+			var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton ").build(row);
 			var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
 			this.db.span(icon).build(lbl);
 			this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
@@ -2184,7 +2184,7 @@ export default {
 
 		_renderButton (lbl, icon, callback){
 			var row = this.db.div("MatcToobarRow ").build(this.cntr);
-			var item = this.db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
+			var item = this.db.div("MatcToolbarItem  MatcToolbarDropDownButton").build(row);
 			var btn = this.db.span("MatcToolbarItemIcon").build(item);
 			this.db.span(icon).build(btn)
 			this.db.span("MatcToolbarItemLabel", lbl).build(btn);
@@ -2195,7 +2195,7 @@ export default {
 			var row = this.db.div("MatcToobarRow").build(this.cntr);
 
 			var drpDwn = this.$new(DropDownTree, {hasPicker:true});
-			css.add(drpDwn.domNode, "MatcToolbarGridFull")
+			css.add(drpDwn.domNode, "")
 			drpDwn.reposition = true;
 			drpDwn.setOptions(options);
 			drpDwn.setModel(this.model)
@@ -2222,7 +2222,7 @@ export default {
 
 		_renderPrimaryButton (lbl, icon, callback){
 			var row = this.db.div("MatcToobarRow MatcMarginBottomXS").build(this.cntr);
-			var item = this.db.div("MatcToolbarItem MatcToolbarGridFull").build(row);
+			var item = this.db.div("MatcToolbarItem ").build(row);
 			var btn = this.db.span("MatcToolbarButton MatcButton MatcToolbarButtonPrimary").build(item);
 			this.db.span(icon + ' MatcButtonIcon').build(btn)
 			this.db.span("MatcButtonIconLabel", lbl).build(btn);
@@ -2232,7 +2232,7 @@ export default {
 
 		_renderInfo(lbl, icon){
 			var row = this.db.div("MatcToobarRow ").build(this.cntr);
-			var item = this.db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
+			var item = this.db.div("MatcToolbarItem  MatcToolbarDropDownButton").build(row);
 			var btn = this.db.span("MatcToolbarItemIcon").build(item);
 			this.db.span(icon).build(btn)
 			this.db.span("MatcToolbarItemLabel", lbl).build(btn);
@@ -2243,7 +2243,7 @@ export default {
 			var row = this.db.div("MatcToobarRow").build(this.cntr);
 
 			var drpDwn = this.$new(ToolbarDropDownButton, {maxLabelLength:15});
-			css.add(drpDwn.domNode, "MatcToolbarGridFull")
+			css.add(drpDwn.domNode, "")
 			drpDwn.reposition = true;
 			drpDwn.setOptions(options);
 			drpDwn.setValue(model.props[prop])
@@ -2258,7 +2258,7 @@ export default {
 
 			var row = this.db.div("MatcToobarRow").build(this.cntr);
 			var drpDwn = this.$new(ToolbarDropDownButton, {maxLabelLength:15});
-			css.add(drpDwn.domNode, "MatcToolbarGridFull")
+			css.add(drpDwn.domNode, "")
 			drpDwn.reposition = true;
 			drpDwn.setOptions(options);
 			drpDwn.setLabelPostfix(label);
@@ -2284,7 +2284,7 @@ export default {
 			var row = this.db.div("MatcToobarRow").build(this.cntr);
 
 			var imageDrpDwn = this.$new(ToolbarImage, {mode:this.mode});
-			css.add(imageDrpDwn.domNode, "MatcToolbarGridFull")
+			css.add(imageDrpDwn.domNode, "")
 			imageDrpDwn.setJwtToken(this.jwtToken)
 			imageDrpDwn.setModel(this.model);
 			imageDrpDwn.setCanvas(this.canvas);
@@ -2320,7 +2320,7 @@ export default {
 			color.setValue(value);
 			color.setBox(this.widget)
 			color.setCssProps([property])
-			css.add(color.domNode, " MatcToolbarGridFull");
+			css.add(color.domNode, " ");
 			this.tempOwn(on(color, "change", lang.hitch(this, callback, property)));
 			this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", property)));
 
@@ -2334,7 +2334,7 @@ export default {
 
 		_renderInput (model, property, tt, placeholder=""){
 
-			let row = this.db.div("MatcToobarRow MatcToolbarItem  MatcToolbarGridFull").build(this.cntr);
+			let row = this.db.div("MatcToobarRow MatcToolbarItem  ").build(this.cntr);
 			//this.db.span("MatcToolbarItemLabel",lbl ).build(row);
 
 			var input = this.db.input("MatcIgnoreOnKeyPress MatcToobarInlineEdit").build(row);
@@ -2353,11 +2353,11 @@ export default {
 		_renderTextArea (model, property, tt, placeholder=""){
 
 			const row = this.db
-				.div("MatcToobarRow MatcToolBarTextArea MatcToolbarItem  MatcToolbarGridFull")
+				.div("MatcToobarRow MatcToolBarTextArea MatcToolbarItem  ")
 				.build(this.cntr);
 			
 			const textarea = this.db
-				.textarea("MatcIgnoreOnKeyPress MatcToobarInlineEdit")
+				.textarea("MatcIgnoreOnKeyPress MatcToobarInput")
 				.build(row);
 
 			if(tt){
@@ -2390,7 +2390,7 @@ export default {
 			dropDown.reposition = true;
 			dropDown.setLabelPostfix("   (" + lbl + ")");
 			dropDown.setOptions(options);
-			css.add(dropDown.domNode, "MatcToolbarGridFull");
+			css.add(dropDown.domNode, "");
 			if(isProp){
 				dropDown.setValue(model.props[property])
 			} else {
@@ -2416,34 +2416,34 @@ export default {
 			color.setCssProps([propertyBack])
 			color.setModel(this.model);
 			color.setValue(model.style[propertyBack]);
-			css.add(color.domNode ,"MatcToolbarGridFull");
+			css.add(color.domNode ,"");
 			this.tempOwn(on(color, "change", lang.hitch(this, "onStyleChanged", propertyBack)));
 			this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", propertyBack)));
 			this._addChildWidget(color);
 
 			if(propertyColor){
-				row = this.db.div("MatcToobarRow  MatcToolbarGridFull").build(this.cntr);
+				row = this.db.div("MatcToobarRow  ").build(this.cntr);
 				color = this.$new(ToolbarColor, {hasPicker:true});
 				color.placeAt(row);
 				color.setCssProps([propertyColor])
 				color.setLabel(lbl + ' Text');
 				color.setModel(this.model);
 				color.setValue(model.style[propertyColor]);
-				css.add(color.domNode ,"MatcToolbarGridFull");
+				css.add(color.domNode ,"");
 				this.tempOwn(on(color, "change", lang.hitch(this, "onStyleChanged", propertyColor)));
 				this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", propertyColor)));
 				this._addChildWidget(color);
 			}
 
 			if(propertyBorder){
-				row = this.db.div("MatcToobarRow MatcToolbarGridFull").build(this.cntr);
+				row = this.db.div("MatcToobarRow ").build(this.cntr);
 				color = this.$new(ToolbarColor, {hasPicker:true});
 				color.placeAt(row);
 				color.setCssProps([propertyBorder])
 				color.setLabel(lbl + ' Border');
 				color.setModel(this.model);
 				color.setValue(model.style[propertyBorder]);
-				css.add(color.domNode ,"MatcToolbarGridFull");
+				css.add(color.domNode ,"");
 				this.tempOwn(on(color, "change", lang.hitch(this, "onStyleChanged", propertyBorder)));
 				this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", propertyBorder)));
 				this._addChildWidget(color);

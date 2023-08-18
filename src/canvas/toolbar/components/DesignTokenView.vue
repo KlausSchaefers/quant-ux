@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcToolbarItem MatcToolbarGridFull"  @mousedown.stop="" >
+  <div class="MatcToolbarItem"  @mousedown.stop="" >
       <DesignTokenPreview :designtoken="designtoken"/>
 	</div>
 </template>

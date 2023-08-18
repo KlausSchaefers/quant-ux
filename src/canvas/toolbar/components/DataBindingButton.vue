@@ -1,13 +1,13 @@
 
 <template>
      <div class="MatcToobarRow MatcAction" @click.stop="onOpenDialog" v-if="!isDataView">
-		<div class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull">
+		<div class="MatcToolbarItem MatcToolbarDropDownButton">
 			<span :class="'MatcToolbarSmallIcon mdi ' + icon "></span>
 			<span class="MatcToolbarDropDownButtonLabel">{{label}}</span>
 		</div>
 	</div>
     <div v-else class="">
-        <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" v-for="variable in dataBindingVars" :key="variable.value">
+        <div class="MatcToolbarItem MatcToobarInputIconCntr" v-for="variable in dataBindingVars" :key="variable.value">
 
 
             <Combo

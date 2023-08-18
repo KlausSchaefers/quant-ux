@@ -3,8 +3,8 @@
      <div class="MatcTooltipSettings">
         <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
 
-        <div v-show="!hasDesignToken">
-            <div class="MatcToobarRow" >
+     
+            <div class="MatcToobarRow" v-show="!hasDesignToken">
                 <ToolbarColor
                     :qIsDropDown="isChildDropDown"
                     :app="model"
@@ -13,7 +13,7 @@
                     @change="onChangeBackground($event)"/>
                         
             </div>
-            <div class="MatcToobarRow" >
+            <div class="MatcToobarRow" v-show="!hasDesignToken" >
                 <ToolbarColor
                     :qIsDropDown="isChildDropDown"
                     :app="model"
@@ -21,10 +21,10 @@
                     :color="tooltipColor"
                     @change="onChangeColor($event)"/>
             </div>
-            <div class="MatcToobarRow">
+            <div class="MatcToobarRow" v-show="!hasDesignToken">
                 <InputDropDownButton
                     :qIsDropDown="isChildDropDown"
-                    class="MatcToolbarGridFull"
+                    class=""
                     qPostfix=" (Font Size)"
                     @change="onChangeFontSize($event)"
                     :qValue="tooltipFontSize"
@@ -32,7 +32,6 @@
                     :qOptions="['Auto', 8, 12, 16, 20, 24, 32, 48]"
                 />
             </div>
-        </div>
 	</div>
 </template>
 <script>

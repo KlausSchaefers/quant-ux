@@ -1,10 +1,10 @@
 
 <template>
      <div class="MatcDownloader MatcCSSExporter">
-		<div data-dojo-attach-point="donwloadBtn" class=" MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton ">
+		<div data-dojo-attach-point="donwloadBtn" class="MatcToolbarItem MatcToolbarDropDownButton ">
 			<div class=" MatcToolbarItemIcon">
 				<span class="MatcToolbarSmallIcon mdi mdi-code-not-equal-variant"></span>
-				<span class="MatcToolbarItemLabel">Export Code (Beta)</span>
+				<span class="MatcToolbarItemLabel">Export Code</span>
 			</div>
 		</div>
 	</div>

@@ -365,7 +365,6 @@ export default {
 
 			var row = this.db.div("MatcToobarRow MatcAction").build(this.cntr);
 			var drpBox = this.$new(ToolbarDropDownButton, {maxLabelLength:15});
-			css.add(drpBox.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
 			drpBox.reposition=true;
 			drpBox.setOptions([
 				{"value" : null, label:"No Validation", icon:"mdi mdi-close", callback:lang.hitch(this, "removeDateValidation")},
@@ -454,7 +453,7 @@ export default {
 					txt = "Change Labels...";
 				}
 
-				var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull").build(row);
+				var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton ").build(row);
 				var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
 				this.db.span(icon).build(lbl);
 				this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
@@ -602,7 +601,7 @@ export default {
 
 			var row = this.db.div("MatcToobarRow MatcAction").build(this.cntr);
 			var drpBox = this.$new(ToolbarDropDownButton, {maxLabelLength:15});
-			css.add(drpBox.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
+			css.add(drpBox.domNode, "  MatcToolbarIconNoSmooth");
 			drpBox.reposition=true;
 			drpBox.setOptions([
 				{"value" : null, label:"No Validation", icon:"mdi mdi-close"},

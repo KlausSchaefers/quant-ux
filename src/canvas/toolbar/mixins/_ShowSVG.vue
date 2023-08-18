@@ -35,7 +35,7 @@ export default {
 
         	var db = new DomBuilder();
        		var btn = db
-				.div("MatcToolbarItem MatcToolbarGridFull")
+				.div("MatcToolbarItem")
 				.div(" MatcToolbarButton MatcButton", "Edit")
 				.tooltip("Edit Paths")
 				.build(content);

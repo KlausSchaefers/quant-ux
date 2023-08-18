@@ -66,7 +66,7 @@ export default {
 				}
 			}
 			this.domNode.appendChild(cntr);
-			var add = this.db.div("MatcToolbarGridFull MatcPointer  MatcToolbarItem").build();
+			var add = this.db.div("MatcPointer  MatcToolbarItem").build();
 			this.db.span("MatcToolbarSmallIcon mdi mdi-plus-circle").build(add);
 			this.db.span("MatcToolbarItemLabel", "Add Master Screen").build(add);
 			this.tempOwn(on(add, touch.press, lang.hitch(this, "showDialog")));

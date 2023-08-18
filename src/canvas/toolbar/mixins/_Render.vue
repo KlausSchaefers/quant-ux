@@ -1010,12 +1010,12 @@ export default {
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 			
-			db.div("MatcToolbarGridFull MatcToolbarItem ").h(80)
+			db.div(" MatcToolbarItem ").h(80)
 				.span("", "This widget is inherited form a master screen. To change it, you have to enbale editing.")
 				.build(content);
 
 				const enable = db
-				.div("MatcToolbarGridFull MatcToolbarItem")
+				.div(" MatcToolbarItem")
 				.div("MatcToolbarButton MatcButton", "Enable Editing")
 				.build(content);
 
@@ -1220,7 +1220,7 @@ export default {
 			*/
 			var db = new DomBuilder();
 
-			var add = db.div("MatcToolbarGridFull MatcPointer MatcToolbarItem ").build(content);
+			var add = db.div(" MatcPointer MatcToolbarItem ").build(content);
 			db.span("MatcToolbarSmallIcon mdi mdi-video").build(add);
 			db.span("MatcToolbarItemLabel", "Loading Animation").build(add);
 			this.tempOwn(on(add, touch.press, lang.hitch(this, "showAnimationDialog", "ScreenLoaded")));
@@ -1284,7 +1284,7 @@ export default {
 			this._placeAt(this.screenStart, content);
 
 			var item = document.createElement("div");
-			css.add(item, " MatcToolbarGridFull");
+			css.add(item, " ");
 			content.appendChild(item);
 
 
@@ -1296,7 +1296,7 @@ export default {
 			this.screenSegmentCheckbox.placeAt(item)
 
 			item = document.createElement("div");
-			css.add(item, " MatcToolbarGridFull");
+			css.add(item, " ");
 			content.appendChild(item);
 
 			this.screenOverlayCheckBox = this.$new(CheckBox);
@@ -1307,7 +1307,7 @@ export default {
 			this.screenOverlayCheckBox.placeAt(item)
 
 			item = document.createElement("div");
-			css.add(item, " MatcToolbarGridFull");
+			css.add(item, " ");
 			content.appendChild(item);
 
 			this.screenFixedOverlayCheckBox = this.$new(CheckBox);
@@ -1337,7 +1337,7 @@ export default {
 
 
 			//var db = new DomBuilder();
-			//var add = db.div("MatcToolbarGridFull MatcPointer MatcToolbarItem ").build(content);
+			//var add = db.div(" MatcPointer MatcToolbarItem ").build(content);
 			//db.span("MatcToolbarSmallIcon mdi mdi-video").build(add);
 			//db.span("MatcToolbarItemLabel", "Animations").build(add);
 			//this.tempOwn(on(add, touch.press, lang.hitch(this, "showAnimationDialog", "ScreenLoaded")));
@@ -1480,7 +1480,7 @@ export default {
 
 		createInput (content,placeholder){
 			var div = document.createElement("div");
-			css.add(div, " MatcToolbarItem MatcToolbarGridFull");
+			css.add(div, " MatcToolbarItem ");
 			content.appendChild(div);
 
 			let input = document.createElement("input");

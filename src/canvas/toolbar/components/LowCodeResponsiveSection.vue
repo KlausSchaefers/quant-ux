@@ -22,7 +22,7 @@
                         <span class="mdi mdi-unfold-more-vertical MatcToobarInputIcon" />
                 </div>
             </div>
-            <div v-else class="MatcToolbarItem MatcToolbarGridFull">
+            <div v-else class="MatcToolbarItem">
                 This element has a fixed width
             </div>
         </div>

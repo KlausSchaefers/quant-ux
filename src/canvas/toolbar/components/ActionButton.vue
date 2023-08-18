@@ -61,7 +61,7 @@ export default {
 		   }
 
 		   var btn = db
-			   .div("MatcToolbarItem MatcToolbarGridFull")
+			   .div("MatcToolbarItem")
 			   .div(" MatcToolbarButton MatcButton")
 			   .tooltip("Add Link to other screen")
 			   .build(parent);
@@ -144,7 +144,7 @@ export default {
 			   // script does only allow one line!
 			   if (!this.hasScript(widget) || lines.length ===0 ) {
 				   let btn = db
-					   .div("MatcToolbarItem MatcToolbarGridFull")
+					   .div("MatcToolbarItem")
 					   .div(" MatcToolbarButton MatcButton MatcToolbarButtonPrimary")
 					   .tooltip("Add Link to other screen")
 					   .build(parent);
@@ -235,7 +235,7 @@ export default {
 			   icon = " mdi mdi-cloud"
 		   }
 
-		   var item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr").build(parent);
+		   var item = db.div("MatcToolbarItem MatcToobarActionCntr").build(parent);
 		   db.span(icon + " MatcToolbarSmallIcon").build(item);
 		   db.span("MatcToolbarItemLabel", to.name).build(item);
 		   var btn = db.span("MatcToobarRemoveBtn ").tooltip("Remove Link", "vommondToolTipRightBottom").span("mdi mdi-close-circle").build(item);
@@ -253,7 +253,7 @@ export default {
 
 
 		   var iconAndLabel = this.getAnimationIconAndLabel(line);
-		   item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr MatcToolbarDropDownButton").build(parent);
+		   item = db.div("MatcToolbarItem MatcToobarActionCntr MatcToolbarDropDownButton").build(parent);
 		   db.span(iconAndLabel.icon + " MatcToolbarSmallIcon").build(item);
 		   db.span("MatcToolbarItemLabel", iconAndLabel.label).build(item);
 		   this.tempOwn(on(item, touch.press, lang.hitch(this, "showActionSettings", line, item)));
@@ -272,7 +272,6 @@ export default {
 			   btn.setPopupCss("MatcActionAnimProperties");
 			   btn.updateLabel = true;
 			   btn.reposition = true;
-			   css.add(btn.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
 			   btn.placeAt(parent);
 			   this.tempOwn(on(btn, "change", lang.hitch(this, "onLineValidation")));
 			   //this.addTooltip(btn.domNode, "Select an animation for the screen transition");

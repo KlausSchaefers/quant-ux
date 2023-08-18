@@ -1,7 +1,7 @@
 
 <template>
      <div class="MatcToolbarLowCode">
-         <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" v-show="!isScreen" ref="tooltipClick">
+         <div class="MatcToolbarItem MatcToobarInputIconCntr" v-show="!isScreen" ref="tooltipClick">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Click callback"
@@ -10,7 +10,7 @@
             <span class="mdi mdi-cursor-default MatcToobarInputIcon" />
 
          </div>
-        <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" v-show="!isScreen && isInput" ref="tooltipChange">
+        <div class="MatcToolbarItem MatcToobarInputIconCntr" v-show="!isScreen && isInput" ref="tooltipChange">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Change callback"
@@ -19,7 +19,7 @@
             <span class="mdi mdi-database MatcToobarInputIcon" />
 
          </div>
-         <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" v-show="isScreen" ref="tooltipLoad">
+         <div class="MatcToolbarItem MatcToobarInputIconCntr" v-show="isScreen" ref="tooltipLoad">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Load callback"
@@ -29,7 +29,7 @@
 
          </div>
 
-          <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" ref="tooltipRender">
+          <div class="MatcToolbarItem MatcToobarInputIconCntr" ref="tooltipRender">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Render callback"

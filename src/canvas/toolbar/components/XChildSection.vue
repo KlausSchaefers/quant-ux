@@ -72,7 +72,7 @@ export default {
 						lbl = lbl.replace(/\n/g, " ");
 						name+= " ( &quot;" + lbl + "&quot; )";
 					}
-					var div = this.db.div("MatcChildSectionChild MatcToolbarItem MatcToolbarGridFull", name ).build(cntr);
+					var div = this.db.div("MatcChildSectionChild MatcToolbarItem", name ).build(cntr);
 					this.tempOwn(on(div, touch.press, lang.hitch(this, "onSelect", widget)));
 				} else {
 					console.warn("render() > No widget with id "+ widgetID);
