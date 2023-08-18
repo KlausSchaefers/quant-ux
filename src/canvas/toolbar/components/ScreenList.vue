@@ -53,7 +53,7 @@ export default {
 				var screenID = parents[i];
 				if(this.model.screens[screenID]){
 					var screen = this.model.screens[screenID];
-					var div = this.db.div("MatcToolbarGridFull MatcToolbarItem MatcToobarActionCntr" ).build(cntr);
+					var div = this.db.div(" MatcToolbarItem MatcToobarActionCntr" ).build(cntr);
 					this.db.span("MatcToolbarSmallIcon mdi mdi-content-duplicate").build(div);
 					this.db.span("MatcToolbarItemLabel",  screen.name).build(div);
 					var btn = this.db.span("MatcToobarRemoveBtn ")

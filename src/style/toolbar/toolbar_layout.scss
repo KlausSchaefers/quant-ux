@@ -164,6 +164,9 @@
  * Properties
  ****************************************************/
 
+ .MatcToobarPropertiesSection {
+	font-size: 12px;
+ }
 
 .MatcToobarPropertiesSection.MatcToolbarSectionHidden {
 	overflow: hidden;
@@ -185,6 +188,10 @@
 	margin: 0px;
 	width: 100%;
 	height: 10px;
+}
+
+.MatcToobarPropertiesSection .MatcButton {
+	padding: 0px;
 }
 
 
@@ -305,7 +312,6 @@
 		gap: 0px;
 	}
 
-
 }
 
 .MatcToolbarSectionBorder{
@@ -398,11 +404,6 @@
 /****************************************************
  * Grid System
  ****************************************************/
-.MatcToolbarGridFull {
-    width: 210px;
-    display: block;
-    font-size: 12px;
-}
 
 .MatcToolbarGridHalf {
     width: 100px;

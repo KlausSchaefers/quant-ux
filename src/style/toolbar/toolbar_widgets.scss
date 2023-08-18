@@ -182,7 +182,7 @@
 
 .MatcActionSettingsAnimCntrPlaying,
 .MatcActionSettingsAnimCntr:hover {
-	border: 1px solid #3787f2;
+	border: 1px solid $primary_color;
 }
 
 
@@ -204,7 +204,7 @@
 .MatcActionSettingsAnimCntr {
 	width: 150px;
 	height: 130px;
-	border: 1px solid #3787f2;
+	border: 1px solid $primary_color;
 	overflow: hidden;
 	position: relative;
 	border-radius: 3px;
@@ -213,7 +213,7 @@
 
 .MatcActionSettingsAnimCntrPlaying,
 .MatcActionSettingsAnimCntr:hover {
-	border: 1px solid #3787f2;
+	border: 1px solid $primary_color;
 }
 
 .MatcActionSettingsPlay {
@@ -235,7 +235,7 @@
 }
 
 .MatcActionSettingsScreenNew {
-	background: #3787f2;
+	background: $primary_color;
 	height: 100%;
 	width: 100%;
 	position: absolute;
@@ -247,13 +247,36 @@
 
 .MatcAction {
 	width: 100%;
-}
 
-.MatcAction .MatcMultiActionDropDown.MatcToolbarDropDownButton {
-	text-align: center;
-	border: none;
-	padding: 5px;
-	transition: all 0.25s ease 0s;
+	.caret {
+		display: none;
+	}
+
+	.MatcMultiActionDropDown:hover {
+		.MatcToolbarDropDownButton.MatcToolbarItem:hover {
+			background: none;
+			border-color: transparent;
+		}
+	}
+
+	.MatcMultiActionDropDown .MatcToolbarDropDownButton.MatcToolbarItemActive,
+	.MatcMultiActionDropDown .MatcToolbarDropDownButton.MatcToolbarItemActive:hover {
+		background: none;
+		border-color: transparent;
+	}
+
+	.MatcMultiActionDropDown.MatcToolbarDropDownButton {
+		text-align: center;
+		border: none;
+		padding: 5px;
+		transition: all 0.25s ease 0s;
+	}
+
+	.MatcActionCntr {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
 }
 
 .MatcToobarPropertiesSection .MatcToolbarFormularLabel {
@@ -266,16 +289,16 @@
 
 .MatcMultiActionDropDownPopup.MatcToolbarPopUp {
 	width: 200px;
-	background: #3787f2;
+	background: $primary_color;
 	color: #fff;
 }
 
 .MatcMultiActionDropDownPopup.MatcToolbarPopUp .MatcToolbarPopUpArrow {
-	background: #3787f2;
+	background: $primary_color;
 }
 
 .MatcToolbarDropDownButtonPopup.MatcMultiActionDropDownPopup li:hover {
-	background: #104488;
+	background: $primary_color_hover;
 }
 
 .MatcToolbarDropDownButtonPopup .MatcToolbarPopUpBackBtn {
@@ -287,7 +310,7 @@
 }
 
 .MatcToolbarDropDownButtonPopup .MatcToolbarPopUpBackBtn:hover {
-	color: #3787f2;
+	color: $primary_color;
 }
 
 .MatcMultiActionDropDown {
@@ -526,16 +549,6 @@
 	border-color: #777;
 }
 
-.MatcToobarPropertiesSection input::-moz-selection {
-	/* Code for Firefox */
-	color: #fff;
-	background: #49c0f0;
-}
-
-.MatcToobarPropertiesSection input::selection {
-	color: #fff;
-	background: #49c0f0;
-}
 
 .MatcToobarPropertiesSection input:FOCUS {
 	color: #fff;
@@ -851,14 +864,14 @@
 .MatcSliderTable .VommondSliderBar {
 	height: 3px;
 	top: -1px;
-	background: #3787f2;
+	background: $primary_color;
 }
 
 
 
 
 .MatcSliderTable .VommondSliderMoving .VommondSliderBar {
-	background: #3787f2;
+	background: $primary_color;
 }
 
 .MatcSliderTable .VommondCheckBox {
@@ -868,7 +881,7 @@
 
 .MatcSliderTable .VommondSliderHandle {
 	background: #fff none repeat scroll 0 0;
-	border: 1px solid #3787f2;
+	border: 1px solid $primary_color;
 	border-radius: 50%;
 	height: 19px;
 	width: 19px;
@@ -877,8 +890,8 @@
 
 
 .MatcSliderTable .VommondSliderMoving .VommondSliderHandle {
-	background: #3787f2;
-	border: 1px solid #3787f2;
+	background: $primary_color;
+	border: 1px solid $primary_color;
 }
 
 
@@ -1078,7 +1091,6 @@
 	color: #ddd;
 	font-size: 12px;
 	line-height: 1em;
-	padding: 0px;
 	vertical-align: middle;
 	width: 30px;
 	height: auto;
@@ -1171,6 +1183,7 @@ input.MatcToobarInlineEditDisabled:focus {
 	border: 1px solid transparent;
 	transition-duration: 0.2s;
 	transition-property: border-color;
+
 }
 
 .MatcToolbarPopupChildren {
@@ -1241,7 +1254,7 @@ input.MatcToobarInlineEditDisabled:focus {
 }
 
 .MatcToolbarPopupSelected {
-	background: #3787f2;
+	background: $primary_color;
 	color: #fff;
 }
 
@@ -1588,11 +1601,11 @@ input.MatcToobarInlineEditDisabled:focus {
 .MatcToolbarSlider .VommondSliderBar {
 	height: 3px;
 	top: -1px;
-	background: #3787f2;
+	background: $primary_color;
 }
 
 .MatcToolbarSlider .VommondSliderMoving .VommondSliderBar {
-	background: #3787f2;
+	background: $primary_color;
 }
 
 .MatcToolbarSlider .VommondSliderMarkContainer {
@@ -1615,8 +1628,8 @@ input.MatcToobarInlineEditDisabled:focus {
 }
 
 .MatcToolbarSlider .VommondSliderMoving .VommondSliderHandle {
-	background: #3787f2;
-	border: 1px solid #3787f2;
+	background: $primary_color;
+	border: 1px solid $primary_color;
 }
 
 .MatcToolbarRadius {

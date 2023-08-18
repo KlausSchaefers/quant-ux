@@ -68,3 +68,24 @@
     background: $primary_color-hover;
     color: #fff;
 }
+
+
+.MatcToolbarResizeElement, 
+.MatcToolbarResizePreview {
+    border: 1px solid $toolbar_form_border;
+    background: $toolbar_form_background_hover;
+    border-radius: $toolbar_form_radius;
+}
+
+
+.MatcToolbarResizePin .MatcToolbarResizeActive,
+.MatcToolbarResizePin .MatcToolbarResizeActive{
+    color:$primary_color;
+    border-color: $primary_color;
+}
+
+
+.MatcToolbarButton:HOVER{
+	background: $primary_color_hover;
+	border-color: $primary_color_hover;
+}

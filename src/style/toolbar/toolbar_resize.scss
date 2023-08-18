@@ -23,29 +23,17 @@
     width: 70px;
     height: 50px;
     position: relative;
-    border: 1px solid $toolbar_form_border;
-    background: $toolbar_form_background_focus;
-    border-radius: $toolbar_form_radius;
 }
 
 .MatcToolbarResizePreview{
     width: 50px;
     height: 50px;
     position: relative;
-    border: 1px solid $toolbar_form_border;
-    background: $toolbar_form_background_focus;
-    border-radius: $toolbar_form_radius;
 }
 
 .MatcToolbarResizePin > div{
     color:#555;
     cursor: pointer;
-}
-
-.MatcToolbarResizePin .MatcToolbarResizeActive,
-.MatcToolbarResizePin .MatcToolbarResizeActive{
-    color:#3787f2;
-    border-color: #3787f2;
 }
 
 .MatcToolbarResizePinLine{

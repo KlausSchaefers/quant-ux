@@ -37,7 +37,7 @@
 	width:100%;
 	text-align: center;
 	font-size: 14px;
-	background: #3787f2;
+	background: $primary_color;
 	text-decoration: none;
 	color:#fff;
 }
@@ -45,7 +45,7 @@
 .MatcButton.MatcToolbarCloseButton {
 	text-align: center;
 	font-size: 14px;
-	background: #3787f2;
+	background: $primary_color;
 	text-decoration: none;
 	color:#fff;
 	margin-top: -2px;
@@ -55,11 +55,6 @@
 	display: flex;
 	align-items: center;
     justify-content: center;
-}
-
-.MatcToolbarButton:HOVER{
-	background: #1251a3;
-	border-color:#1251a3;
 }
 
 
@@ -101,7 +96,7 @@
 }
 
 .MatcToobarPropertiesSection .VommondInput ul li.VommonInputSelected {
-	background-color: #3787f2;
+	background-color: $primary_color;
 	color:#fff
 }
 

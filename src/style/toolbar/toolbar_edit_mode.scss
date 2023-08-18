@@ -21,11 +21,11 @@
 }
 
 .MatcToolbarEditMode a.MatcToolbarEditModeActive {
-	background: $toolbar_form_active_background;
+	background: $toolbar_form_background_hover;
 	color: #fff;
 }
 
 .MatcToolbar .MatcToolbarEditMode a.MatcToolbarEditModeActive:hover {
-	background: $toolbar_form_active_background;
+	background: $toolbar_form_background_hover;
 	color: #fff;
 }

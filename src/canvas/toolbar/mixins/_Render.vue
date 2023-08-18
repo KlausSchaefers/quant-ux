@@ -50,7 +50,7 @@ import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
 
 import Services from 'services/Services'
-
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
     name: '_Render',
@@ -1535,10 +1535,11 @@ export default {
 			}
 
 			if (settingsCallback){
-				let settings = document.createElement("span");
-				css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-cog"); //mdi-tune-vertical
-				div.appendChild(settings);
-				this.own(on(settings, touch.press, lang.hitch(this, settingsCallback)));
+				const icon = iconDOM('SettingsCog', 'MatcToolbarSectionSettingsIcon')
+				// let settings = document.createElement("span");
+				// css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-cog"); //mdi-tune-vertical
+				div.appendChild(icon);
+				this.own(on(icon, touch.press, lang.hitch(this, settingsCallback)));
 			}
 
 			if (designTokenWidget) {

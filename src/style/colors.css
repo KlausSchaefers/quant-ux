@@ -1,3 +1,5 @@
+@import 'vars.css';
+
 .MactMainGradient{
-     background: linear-gradient(30deg, #3787f2 0%,#62D0A6 100%);
+     background: linear-gradient(30deg,var(--primary-color)0%,var(--primary-color-hover) 100%);
 }

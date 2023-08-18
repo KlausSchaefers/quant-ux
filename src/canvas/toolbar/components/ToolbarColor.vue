@@ -6,7 +6,7 @@
 			<div 
 				type="button" 
 				data-dojo-attach-point="button" 
-				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarColor', {'MatcToolbarGridFull': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}]">
+				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarColor', {'': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}]">
 				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
 				<span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
 				<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInput MatcToobarInputInline" @mousedown.stop="" @click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput"/>

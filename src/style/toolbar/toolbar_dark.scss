@@ -121,9 +121,6 @@
         }
         
 
-        .MatcToolbarDropDownButton:hover {
-            border: 1px solid $toolbar_form_border;
-        }
         
         .MatcToobarInput,
         input.MatcToobarInlineEdit,
@@ -138,7 +135,14 @@
             }
         }
 
-        .MatcToolbarItemActive {
+
+        .MatcToolbarDropDownButton:hover {
+            border: 1px solid $toolbar_form_border;
+            background: $toolbar_form_background_hover ;
+        }
+        
+        .MatcToolbarItemActive,
+        .MatcToolbarItemActive:hover {
             background: $toolbar_form_background_focus;
             border-color: $toolbar_border;
         }

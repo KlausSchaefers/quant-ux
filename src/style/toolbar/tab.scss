@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 /****************************************************
 * Tab Container
 ****************************************************/
@@ -37,7 +39,7 @@
 }
 
 .MatcToolbarTabs a.MatcToolbarTabActive{
-	border-bottom-color: #3787f2;
+	border-bottom-color: $primary_color;
 	color: #333;
 }
 
@@ -53,9 +55,9 @@
 
 .MatcDialog .MatcToolbarTabs a.MatcToolbarTabActive {
     border-bottom-width: 2px;
-    border-bottom: 2px solid #3787f2;
+    border-bottom: 2px solid $primary_color;
 }
 
 .MatcDialog .MatcToolbarTabs a:hover{
-	color:#3787f2;
+	color:$primary_color-hover;
 }

@@ -9,7 +9,7 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import touch from 'dojo/touch'
-import topic from 'dojo/topic'
+//import topic from 'dojo/topic'
 import _Tooltip from 'common/_Tooltip'
 import DomBuilder from 'common/DomBuilder'
 import CheckBox from 'common/CheckBox'
@@ -81,7 +81,7 @@ export default {
 		   this.cleanUpTempListener();
 
 		   var db = new DomBuilder();
-		   var parent = db.div().build();
+		   var parent = db.div("MatcActionCntr").build();
 
 		   if (isLogicWidget){
 
@@ -106,25 +106,24 @@ export default {
 						   icon = "mdi mdi-code-tags"
 					   }
 				   
-					   let item = db.div("MatcToolbarItem MatcToolbarGridFull MatcToobarActionCntr").build(parent);
+					   let item = db.div("MatcToolbarItem MatcToobarActionCntr").build(parent);
 					   db.span(icon + " MatcToolbarSmallIcon").build(item);
 					   db.span("MatcToolbarItemLabel", to.name).build(item);
 					   let btn = db.span("MatcToobarRemoveBtn ").span("mdi mdi-close-circle").build(item);
 					   this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveLineByID", line.id)));
 
 				   
-
 					   if (!this.hasScript(widget)) {
 						   if (widget.props && !widget.props.isRandom){ // new since 6
 							   if(line.rule){
 								   let lbl = this.getRuleLabel(line.rule);
 								   let row = db.div("MatcToobarRow").build(parent);
-								   let item= db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
+								   let item= db.div("MatcToolbarItem  MatcToolbarDropDownButton").build(row);
 								   db.span("MatcActionRuleLabel", lbl).build(item);
 								   this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
 							   } else {
 								   let row = db.div("MatcToobarRow").build(parent);
-								   let item= db.div("MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton").build(row);
+								   let item= db.div("MatcToolbarItem  MatcToolbarDropDownButton").build(row);
 								   let span = db.label("MatcToolbarItemIcon").build(item);
 								   db.span("mdi mdi-plus-circle MatcToolbarSmallIcon").build(span);
 								   db.span("MatcToolbarDropDownButtonLabel", "Add Rule").build(span);
@@ -162,7 +161,7 @@ export default {
 				   /**
 					* Thing set, show drop down
 					*/
-				   let row = db.div("MatcToolbarItem MatcToolbarGridFull").build(parent);
+				   let row = db.div("MatcToolbarItem").build(parent);
 				   let btn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
 				   btn.setLabel('<span class="mdi mdi-plus-circle-outline"></span><span class="MatcButtonIconLabel">Add Action</span>');
 				   btn.updateLabel = false;
@@ -171,12 +170,12 @@ export default {
 				   btn.reposition = true;
 				   css.add(btn.domNode, "MatcMultiActionDropDown MatcToolbarButton MatcButton");
 				   btn.placeAt(row);
-				   btn.setShowListener(() => {
-					   topic.publish("matc/canvas/fadeout", {});
-				   });
-				   btn.setHideListener(() => {
-					   topic.publish("matc/canvas/fadein", {});
-				   });
+				//    btn.setShowListener(() => {
+				// 	   topic.publish("matc/canvas/fadeout", {});
+				//    });
+				//    btn.setHideListener(() => {
+				// 	   topic.publish("matc/canvas/fadein", {});
+				//    });
 
 			   } else if (action) {
 
@@ -192,10 +191,10 @@ export default {
 				   btn.setPopupCss("MatcActionAnimProperties");
 				   btn.updateLabel = true;
 				   btn.reposition = true;
-				   css.add(btn.domNode, "  MatcToolbarIconNoSmooth");
+				   css.add(btn.domNode, "");
 				   btn.placeAt(actionCntr);
 				   this.tempOwn(on(btn, "change", lang.hitch(this, "setActionType", action)));
-				   this.addTooltip(btn.domNode, "Select action type");
+				   //this.addTooltip(btn.domNode, "Select action type");
 
 				   let removeBtn = db.span("MatcToobarRemoveBtn ")
 					   .tooltip("Remove Action", "vommondToolTipRightBottom")
@@ -248,10 +247,9 @@ export default {
 		   btn.setPopupCss("MatcActionAnimProperties");
 		   btn.updateLabel = true;
 		   btn.reposition = true;
-		   css.add(btn.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
 		   btn.placeAt(parent);
 		   this.tempOwn(on(btn, "change", lang.hitch(this, "onLineEventByID", line.id)));
-		   this.addTooltip(btn.domNode, "Select event type");
+		   //this.addTooltip(btn.domNode, "Select event type");
 
 
 		   var iconAndLabel = this.getAnimationIconAndLabel(line);
@@ -277,7 +275,7 @@ export default {
 			   css.add(btn.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
 			   btn.placeAt(parent);
 			   this.tempOwn(on(btn, "change", lang.hitch(this, "onLineValidation")));
-			   this.addTooltip(btn.domNode, "Select an animation for the screen transition");
+			   //this.addTooltip(btn.domNode, "Select an animation for the screen transition");
 		   }
 
 		   /**
@@ -287,7 +285,7 @@ export default {
 			   var scrollChkBox = this.$new(CheckBox);
 			   scrollChkBox.setLabel("Keep scroll position");
 			   css.add(scrollChkBox.domNode, "MatcToolbarItem");
-			   this.addTooltip(scrollChkBox.domNode, "BETA: Scroll to same position after the new screen is loaded.");
+			   //this.addTooltip(scrollChkBox.domNode, "BETA: Scroll to same position after the new screen is loaded.");
 			   scrollChkBox.placeAt(parent);
 			   scrollChkBox.setValue(line.scroll);
 			   this.tempOwn(on(scrollChkBox, "change", lang.hitch(this, "onLineScrollByID", line.id)));
