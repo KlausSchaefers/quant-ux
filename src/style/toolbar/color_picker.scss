@@ -46,17 +46,11 @@
 
 
 
-.MatcToolbarColorButton input.MatcToobarInput.MatcToobarInputInline {
+.MatcToolbarColorButton input.MatcToobarInputInlineEdit {
 	width: 110px;
 	margin-left: 8px;
 
-	&:hover {
-		border-color: transparent;
-	}
 
-	&:focus {
-		border-color: transparent;
-	}
 }
 
 .MatcToolbarColorContainer{

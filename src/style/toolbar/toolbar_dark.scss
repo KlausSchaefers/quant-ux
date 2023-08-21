@@ -122,16 +122,27 @@
         
 
         
-        .MatcToobarInput,
-        input.MatcToobarInlineEdit,
-        .MatcToolbarSlider input {
-
+        .MatcToobarInput{
             &:hover {
                 border-color: $toolbar_form_border_hover;
+                background: $toolbar_form_background_hover;
             }
 
             &:focus {
                 border-color: $toolbar_form_border_focus;
+                background: $toolbar_form_background_focus;
+            }
+        }
+        
+        .MatcToobarInputInlineEdit{
+            &:hover {
+                border-color: transparent;
+                background: transparent;
+            }
+
+            &:focus {
+                border-color: transparent;
+                background: transparent;
             }
         }
 

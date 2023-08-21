@@ -3,29 +3,34 @@
 	justify-content: center;
 	align-items: center;
 	height: 48px;
+
 	.MatcToolbarEditModeCntr {
 		border: 1px solid $toolbar_form_border;
 		background: $toolbar_form_background;
 		border-radius: $button-radius;
 		overflow: hidden;
 	}
-}
 
-.MatcToolbarEditMode a.MatcToolbarItem {
-	font-size: 14px;
-	display: inline-block;
-	padding: 5px 16px;
-	height: auto;
-	transition: all 0.2s;
-	border: 1px solid transparent;
-}
+	a.MatcToolbarItem {
+		font-size: 14px;
+		display: inline-block;
+		padding: 5px 16px;
+		height: auto;
+		transition: all 0.2s;
+		border: 1px solid transparent;
 
-.MatcToolbarEditMode a.MatcToolbarEditModeActive {
-	background: $toolbar_form_background_hover;
-	color: #fff;
-}
+		&:hover {
+			background: $toolbar_form_background_hover;
+		}
+	}
 
-.MatcToolbar .MatcToolbarEditMode a.MatcToolbarEditModeActive:hover {
-	background: $toolbar_form_background_hover;
-	color: #fff;
+	a.MatcToolbarEditModeActive {
+		background: $toolbar_form_background_focus;
+		color: #fff;
+		
+		&:hover {
+			background: $toolbar_form_background_focus;
+			color: #fff;
+		}
+	}
 }

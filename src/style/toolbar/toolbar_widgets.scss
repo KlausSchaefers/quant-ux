@@ -528,23 +528,13 @@
 	outline: none;
 	width: 100%;
 	padding: 3px;
-	border: 1px solid #555;
+	border: 1px solid transparent;
 }
 
 .MatcToobarPropertiesSection textarea {
 	height: 48px;
 }
 
-
-.MatcToobarPropertiesSection input:focus,
-.MatcToobarPropertiesSection textarea:focus {
-	border-color: #777;
-}
-
-
-.MatcToobarPropertiesSection input:FOCUS {
-	color: #fff;
-}
 
 .MatcToolbar .VommondLabelCheckBox {
 	vertical-align: middle;

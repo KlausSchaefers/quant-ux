@@ -1,12 +1,8 @@
 
 <template>
     <div class="MatcContextMenu " v-show="isVisible" @click.stop="close">
-        <div 
-            class="MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarDropDownButtonPopup" 
-            :style="{'top': top + 'px', 'left': left + 'px'}" 
-            role="menu" 
-            ref="popup" 
-            @mousedown.stop>
+        <div class="MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarDropDownButtonPopup"
+            :style="{ 'top': top + 'px', 'left': left + 'px' }" role="menu" ref="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">
                 <ul class="" role="menu">
                     <li v-for="i in options" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css"
@@ -32,12 +28,12 @@ export default {
     data: function () {
         return {
             isVisible: false,
-            left:0,
-            top:0,
+            left: 0,
+            top: 0,
             options: [
                 { value: 'undo', icon: 'Undo', label: 'Undo', shortcut: 'STRG + Z' },
                 { value: 'redo', icon: 'Redo', label: 'Redo', shortcut: 'STRG + SHIFT + Z' },
-                {value: 1, css:'MatcToolbarPopUpLine'},
+                { value: 1, css: 'MatcToolbarPopUpLine' },
                 { value: 'copy', icon: 'Copy', label: 'Copy', shortcut: 'STRG + C' },
                 { value: 'paste', icon: 'Paste', label: 'Paste', shortcut: 'STRG + V' },
                 { value: 'remove', icon: 'Delete', label: 'Delete', shortcut: 'DEL' },
@@ -49,7 +45,7 @@ export default {
         'QIcon': QIcon
     },
     methods: {
-        close () {
+        close() {
             this.isVisible = false
         },
         show(e, hasSelection) {
@@ -59,7 +55,7 @@ export default {
                 const pos = this.getMousePosition(e)
                 const popupSize = domGeom.position(this.$refs.popup)
                 const winSize = this.getWinPosition()
-          
+
                 if (pos.x < winSize.w / 2) {
                     this.left = pos.x
                 } else {
@@ -72,15 +68,15 @@ export default {
                     this.top = pos.y - popupSize.h
                 }
             })
-   
-            topic.publish("matc/canvas/click", "", "", {isDropDown: true, isChildDropDown: this.isChildDropDown});
+
+            topic.publish("matc/canvas/click", "", "", { isDropDown: true, isChildDropDown: this.isChildDropDown });
             topic.publish("matc/toolbar/click", "");
         },
-        onSelect (item, e) {
+        onSelect(item, e) {
             this.$emit('select', item, e)
             this.close()
         },
-        getWinPosition(){
+        getWinPosition() {
             return {
                 w: window.innerWidth,
                 h: window.innerHeight
