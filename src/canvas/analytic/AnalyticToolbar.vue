@@ -7,24 +7,19 @@
 		</div> -->
 
 		<div class="MatcToolbarTop ">
-			<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
+			<HomeMenu @select="onHomeMenu"/>
 
 			<div class="MatcToolbarTopCntr" >
 
-				<div class="MatcToolbarTopLeftCntr" data-dojo-attach-point="screenSection">
+				<div class="MatcToolbarTopLeftCntr MatcToolbarSection" data-dojo-attach-point="screenSection">
 				</div>
 
 				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 					<ToolbarPluginSection :events="events" :user="user" :mode="model" />
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
-					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn"/>
+					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn" v-if="false"/>
 				</div>
-
-				<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
-					<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
-						<span class="MatcToolbarLabel">Sign Up For Free</span>
-					</a>
-				</div>
+				
 			</div>
 		</div>
 
@@ -69,6 +64,7 @@ import DataFrame from 'common/DataFrame'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import ToolbarPluginSection from '../../plugins/ToolbarPluginSection'
 import HelpButton from 'help/HelpButton'
+import HomeMenu from './AnalyticHomeMenu.vue'
 
 
 export default {
@@ -88,7 +84,8 @@ export default {
     components: {
 			'ViewConfig': ViewConfig,
 			'HelpButton': HelpButton,
-			'ToolbarPluginSection': ToolbarPluginSection
+			'ToolbarPluginSection': ToolbarPluginSection,
+			'HomeMenu': HomeMenu
 		},
     methods: {
         postCreate(){
@@ -99,18 +96,6 @@ export default {
 			this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
 
 
-			var btn = this.$new(ToolbarDropDownButton, {arrowPosition:false});
-			btn.updateLabel = false;
-			btn.setLabel('<span class="mdi mdi-menu"></span>');
-			btn.setOptions([
-				{label :"Settings", callback:lang.hitch(this, "onShowSettings")},
-				{css:"MatcToolbarPopUpLine"},
-				{label :"Exit", callback:lang.hitch(this, "onExit")},
-			]);
-			btn.setValue(this.analyticMode);
-			btn.placeAt(this.home);
-
-			css.add(btn.domNode, "MatcToolbarItem");
 			this.renderToolbar()
 		},
 
@@ -119,6 +104,14 @@ export default {
 				this.$refs.helpBtn.show('analytics.canvas', helpID)
 			}
 		},
+
+		onHomeMenu (option, e) {
+			this.logger.log(-1,"onHomeMenu", "entry", e);
+			if (this[option.value]) {
+				this[option.value](e)
+			}
+		},
+
 
 		onNewComment(e){
 			this.logger.log(2,"onNewComment", "entry");
@@ -1433,7 +1426,7 @@ export default {
 
 		createToolBarItem(label, callback, icon, parent){
 			var a = document.createElement("div");
-			css.add(a,"MatcToolbarItem");
+			css.add(a,"MatcToolbarItem MatcToolbarPrimaryItem");
 
 			if(icon){
 				var i = document.createElement("span");
