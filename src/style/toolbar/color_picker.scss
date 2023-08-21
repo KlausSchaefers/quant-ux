@@ -11,8 +11,8 @@
 
 .MatcToolbarColorIndicator{
 	display: inline-block;
-	width: 22px;
-	height: 22px;
+	width: 16px;
+    height: 16px;
 	border-radius: 2px;
 	background: red;
 	background: linear-gradient(145deg, rgba(255,255,255,1) 47%, rgba(237,0,0,1) 48%, rgba(237,0,0,1) 52%, rgba(255,255,255,1) 53%);
@@ -31,36 +31,19 @@
 	width: 16px;
 	height:16px;
 	border-radius: 50%;
-}
-
-
-.MatcToolbarColorButton{
-	display: flex;
-	align-items: center;
-	border: 1px solid transparent;
-
-	&:hover {
-		border-color: $toolbar_form_border_hover;
-	}
+	margin-right: 2px;
 }
 
 
 
 .MatcToolbarColorButton input.MatcToobarInputInlineEdit {
 	width: 110px;
-	margin-left: 8px;
-
-
 }
 
 .MatcToolbarColorContainer{
 	min-height: 300px;
 	width: 470px;
 	padding-top:0px;
-}
-
-.MatcToolbarColorCustomCntr{
-
 }
 
 .MatcToolbarColor label{

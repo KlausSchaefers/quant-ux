@@ -35,6 +35,7 @@ import BoxShadow from './BoxShadow2'
 import DomUtil from 'core/DomUtil'
 import ScriptEdior from '../dialogs/ScriptEditor.vue'
 import NavidationEditor from './NavigationTable.vue'
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
     name: 'DataSection',
@@ -185,15 +186,15 @@ export default {
 			this._renderCheck("Checked",model.props.checked, "checked" );
 			this._renderInputDropDown("Icon Size", model, [8,12,16,24,32,40, 48, 64, 96, 128], "iconSize", false);
 
-			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderButton("Icon", "Settings", "_renderIconDialog");
 			this._renderColor('Icon Color','<span class="mdi mdi-check"></span>',model.style.iconColor, "iconColor" ,"onStyleChanged", true);
 		
-			this._renderButton("Checked Icon", "mdi mdi-cog", (e) => this._renderIconDialog(e, 'popIcon'));
+			this._renderButton("Checked Icon", "Settings", (e) => this._renderIconDialog(e, 'popIcon'));
 			this._renderColor('Checked Color','<span class="mdi mdi-check"></span>',model.style.popColor, "popColor" ,"onStyleChanged", true);
 			this._renderColor('Checked Background','<span class="mdi mdi-format-color-fill"></span>',model.style.popBackground, "popBackground", "onStyleChanged",true );
 
 			const lbl = model.props.formGroup ? model.props.formGroup + "" : "No Group";
-			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
+			this._renderButton(lbl, "Settings", "_showFormGroupDialog");
 		},
 
 		
@@ -202,10 +203,10 @@ export default {
 			
 			this._renderCheck("Checked",model.props.checked, "checked" );
 			this._renderInputDropDown("Icon Size", model, [8,12,16,24,32,40, 48, 64, 96, 128], "iconSize", false);
-			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderButton("Icon", "Settings", "_renderIconDialog");
 
 			const lbl = model.props.formGroup ? model.props.formGroup + "" : "No Group";
-			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
+			this._renderButton(lbl, "Settings", "_showFormGroupDialog");
 		},
 
 		_showIFrameWidget(model) {
@@ -303,7 +304,7 @@ export default {
 		_showTimeline (model){
 			this._setSectionLabel("Timeline");
 
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 
 			let style = model.style
 
@@ -404,7 +405,7 @@ export default {
 
 		_showIconButton(model) {
 			this._setSectionLabel("Icon Button");
-			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderButton("Icon", "Settings", "_renderIconDialog");
 			this._renderInputDropDown("Space",model, [4, 8, 12, 16, 24, 320], "iconMargin", false);
 			this._renderColor('Color','<span class="mdi mdi-format-color-fill"></span>',model.style.iconColor, "iconColor", "onStyleChanged", true );
 		},
@@ -412,7 +413,7 @@ export default {
 		_showCheckBoxGroup (model){
 			this._setSectionLabel("CheckBox Group");
 
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
 			if (!model.has?.backgroundColor) {
 				this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
@@ -465,7 +466,7 @@ export default {
 		_showRadioGroup (model){
 			this._setSectionLabel("Radio Group");
 
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );
 		
 			if (!model.has?.backgroundColor) {
@@ -477,7 +478,7 @@ export default {
 
 		_showRest (model){
 			this._setSectionLabel("Rest");
-			this._renderPrimaryButton("Configuration", "mdi mdi-cog", "_renderRestDialog");
+			this._renderButton("Configuration", "Settings", "_renderRestDialog");
 
 			this._renderLabelDropDown("Icon", model, "trigger",[
 				{ value:null, icon:"mdi mdi-cursor-default-click-outline", label : "Click Trigger"},
@@ -493,7 +494,7 @@ export default {
 
 		_showScript (model){
 			this._setSectionLabel("Script");
-			this._renderPrimaryButton("Edit Script", "mdi mdi-code-tags", "_renderScriptDialog");
+			this._renderButton("Edit Script", "mdi mdi-code-tags", "_renderScriptDialog");
 
 
 			this._renderLabelDropDown("Icon", model, "trigger",[
@@ -681,7 +682,7 @@ export default {
 		_showTypeAheadTextBox (model){
 			this._setSectionLabel("ComboBox");
 			this._renderCheck("Text is placeholder",model.props.placeholder, "placeholder" );
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
 
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
@@ -754,7 +755,7 @@ export default {
 
 		_showDropDown (model){
 			this._setSectionLabel("DropDown");
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
@@ -773,7 +774,7 @@ export default {
 
 		_showHoverDropDown (model){
 			this._setSectionLabel("Hover DropDown");
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
 			this._renderCheck("Merge borders",model.props.hideUpperBorder, "hideUpperBorder" );
@@ -789,7 +790,7 @@ export default {
 
 		_showMobileDropDown (model){
 			this._setSectionLabel("Modal Select");
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 			this._renderColor('Popup Text','<span class="mdi mdi-format-text"></span>',model.style.popupColor, "popupColor", "onStyleChanged" , true);
 			this._renderColor('Popup Background','<span class="mdi mdi-format-color-fill"></span>',model.style.popupBackground, "popupBackground" ,"onStyleChanged", true);
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
@@ -797,20 +798,20 @@ export default {
 
 		_showSegmentButton (model){
 			this._setSectionLabel("Segment Button");
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 			this._renderCheck("Multi Selection", model.props.multi, "multi" );
 		},
 
 		_showSegmentPicker (model){
 			this._setSectionLabel("Segment Picker");
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 			this._renderColor('Select Text','<span class="mdi mdi-format-text"></span>',model.style.selectedColor, "selectedColor" ,"onStyleChanged", true);
 			this._renderColor('Select Background','<span class="mdi mdi-format-color-fill"></span>',model.style.selectedBackground, "selectedBackground" ,"onStyleChanged", true);
 		},
 
 		_showLockSlider (model){
 			this._setSectionLabel("Lock Slider");
-			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderButton("Icon", "Settings", "_renderIconDialog");
 			this._renderColor('Icon Color','<span class="mdi mdi-format-color-fill"></span>',model.style.iconColor, "iconColor" ,"onStyleChanged", true);
 			this._renderColor('Handle Color','<span class="mdi mdi-format-color-fill"></span>',model.style.handleColor, "handleColor" ,"onStyleChanged", true);
 			this._renderColor('Foreground','<span class="mdi mdi-format-color-fill"></span>',model.style.foregroundColor, "foregroundColor" ,"onStyleChanged", true);
@@ -871,7 +872,7 @@ export default {
 
 		_showSpinner (model){
 			this._setSectionLabel("Spinner");
-			this._renderButton("Options", "mdi mdi-cog", "_renderOptionDialog");
+			this._renderButton("Options", "Settings", "_renderOptionDialog");
 			this._renderColor('Border','<span class="mdi mdi-border-color"></span>',model.style.borderBoxColor, "borderBoxColor", "onStyleChanged", true );
 
 		},
@@ -1027,7 +1028,7 @@ export default {
 			this._renderInputDropDown("Gap", model, [4, 8, 16, 32], "gap", true);
 
 			const lbl=  model.props.formGroup ? model.props.formGroup + "" : "No Group";
-			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
+			this._renderButton(lbl, "Settings", "_showFormGroupDialog");
 		},
 
 		_showRadioBox2 (model){
@@ -1037,12 +1038,12 @@ export default {
 			this._renderColor('Background','<span class="mdi mdi-format-color-fill"></span>',model.style.background, "background", "onStyleChanged",true );
 
 			const lbl=  model.props.formGroup ? model.props.formGroup + "" : "No Group";
-			this._renderButton(lbl, "mdi mdi-cog", "_showFormGroupDialog");
+			this._renderButton(lbl, "Settings", "_showFormGroupDialog");
 		},
 
 		_showIcon (model){
 			this._setSectionLabel("Icon");
-			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderButton("Icon", "Settings", "_renderIconDialog");
 			this._renderColor('Color','<span class="mdi mdi-format-color-fill"></span>',model.style.color, "color", "onStyleChanged", true );
 
 			var row = this.db.div("MatcToobarRow").build(this.cntr);
@@ -1056,7 +1057,7 @@ export default {
 
 		_showCamera (model){
 			this._setSectionLabel("Camera");
-			this._renderButton("Icon", "mdi mdi-cog", "_renderIconDialog");
+			this._renderButton("Icon", "Settings", "_renderIconDialog");
 			this._renderColor('Color','<span class="mdi mdi-format-color-fill"></span>',model.style.color, "color", "onStyleChanged", true );
 		},
 
@@ -1295,7 +1296,7 @@ export default {
 				}
 			])
 
-			this._renderButton("Columns & Actions", "mdi mdi-cog", "_renderTableSettings");
+			this._renderButton("Columns & Actions", "Settings", "_renderTableSettings");
 		},
 
 
@@ -2183,11 +2184,12 @@ export default {
 		},
 
 		_renderButton (lbl, icon, callback){
-			var row = this.db.div("MatcToobarRow ").build(this.cntr);
-			var item = this.db.div("MatcToolbarItem  MatcToolbarDropDownButton").build(row);
-			var btn = this.db.span("MatcToolbarItemIcon").build(item);
-			this.db.span(icon).build(btn)
-			this.db.span("MatcToolbarItemLabel", lbl).build(btn);
+			const row = this.db.div("MatcToobarRow ").build(this.cntr);
+			const item = this.db.div("MatcToolbarItem  MatcToolbarIconButton").build(row);
+		
+			const i = iconDOM(icon)
+			item.appendChild(i)
+			this.db.span("MatcToolbarItemLabel", lbl).build(item);
 			this.tempOwn(on(row, touch.press, lang.hitch(this, callback)));
 		},
 
@@ -2221,9 +2223,9 @@ export default {
 		},
 
 		_renderPrimaryButton (lbl, icon, callback){
-			var row = this.db.div("MatcToobarRow MatcMarginBottomXS").build(this.cntr);
-			var item = this.db.div("MatcToolbarItem ").build(row);
-			var btn = this.db.span("MatcToolbarButton MatcButton MatcToolbarButtonPrimary").build(item);
+			const row = this.db.div("MatcToobarRow MatcMarginBottomXS").build(this.cntr);
+			const item = this.db.div("MatcToolbarItem ").build(row);
+			const btn = this.db.span("MatcToolbarButton MatcButton MatcToolbarButtonPrimary").build(item);
 			this.db.span(icon + ' MatcButtonIcon').build(btn)
 			this.db.span("MatcButtonIconLabel", lbl).build(btn);
 			this.tempOwn(on(row, touch.press, lang.hitch(this, callback)));

@@ -603,126 +603,6 @@
 
 
 /****************************************************
-* Border
-****************************************************/
-
-.MatcBoxBorder {
-	display: block;
-}
-
-.MatcBoxBorderContainer {
-	border: 1px solid $toolbar_form_border;
-	height: 70px;
-	width: 150px;
-	position: relative;
-	padding: 0px;
-	margin: 15px;
-	transition-duration: 0.2s;
-	transition-property: border-color;
-}
-
-
-
-.MatcToolbar .MatcBoxBorder .MatcToolbarInputDropDownButton input {
-	width: 40px;
-	position: absolute;
-	background: $toolbar_form_background;
-	text-align: center;
-}
-
-.MatcBoxBorder .MatcToolbarItem {
-	position: absolute;
-	justify-content: center;
-}
-
-.MatcBoxBorder .MatcToolbarItem .mdi {
-	cursor: pointer;
-}
-
-.MatcBoxBorder .MatcDesignTokenMixin {
-	position: absolute;
-	width: 40px;
-	height: 24px;
-}
-
-.MatcBoxBorder .MatcToolbarColor,
-.MatcBoxBorder .MatcToolbarPopUpCntr {
-	position: absolute;
-	width: 40px;
-	height: 24px;
-	background: $toolbar_form_background;
-}
-
-.MatcToolbarInputDropDownButton .MatcToolbarInputDropDownButtonIcon {
-	vertical-align: middle;
-	margin-right: 4px;
-}
-
-.MatcToolbar .MatcBoxBorder .MatcToolbarDropDownButton {
-	width: 40px;
-	position: absolute;
-	background: #242a30;
-	text-align: center;
-	padding: 0px;
-	height: 24px;
-	border: 1px solid $toolbar_form_border;
-}
-
-
-.MatcBoxBorder .MatcToolbarColor.MatcToolbarItem,
-.MatcBoxBorder .MatcToolbarInputDropDownButton.MatcToolbarItem {
-	width: 40px;
-	padding: 0px;
-	border: 1px solid $toolbar_form_border;
-}
-
-.MatcBoxBorder .MatcToolbarColor .caret,
-.MatcBoxBorder .MatcToolbarInputDropDownButton .caret,
-.MatcBoxBorder .MatcToolbarDropDownButton .caret {
-	display: none;
-}
-
-.MatcBoxBorder .MatcToolbarInputDropDownButton input {
-	width: 40px;
-	position: static;
-	background: $toolbar_form_background;
-	text-align: center;
-	padding: 5px;
-}
-
-.MatcBorderStyle {
-	width: 38px;
-	padding: 5px;
-	height: 14px;
-}
-
-.MatcToolbarPopUp .MatcBorderStyle {
-	width: 60px;
-}
-
-.MatcBorderStyleSolid {
-	border-top: 3px solid #ddd;
-	width: 30px;
-	height: 1px;
-}
-
-.MatcBorderStyleDashed {
-	border-top: 3px dashed #ddd;
-	width: 30px;
-	height: 1px;
-}
-
-.MatcBorderStyleDotted {
-	border-top: 3px dotted #ddd;
-	width: 30px;
-	height: 1px;
-}
-
-.MatcToolbarPopUp .MatcBorderStyle div {
-	border-top-color: #333;
-}
-
-/****************************************************
  * Input
  ****************************************************/
 .MatcToolbarItem.MatcToolbarDropDownButton.MatcToolbarInputDropDownButton input,
@@ -795,11 +675,6 @@
 .MatcBoxShadow td:HOVER {
 	background: #f2f2f2;
 }
-
-.MatcBoxShadow2 .MatcToolbarItemLabel {
-	text-align: left;
-}
-
 
 /****************************************************
  * Shadow Dialog
@@ -1140,13 +1015,6 @@ input.MatcToobarInlineEditDisabled:focus {
 	position: relative;
 }
 
-.MatcToolbarDropDownButtonFlex {
-	display: flex;
-	align-items: center;
-}
-
-
-
 .MatcToolbarDropDownButton .caret {
 	opacity: 0.5;
 	transition: all 0.25s;
@@ -1291,7 +1159,7 @@ input.MatcToobarInlineEditDisabled:focus {
 }
 
 .MatcToolbarDropDownButtonLabel:nth-child(2) {
-	margin-left: 10px;
+	margin-left: 7px;
 }
 
 .MatcToolbarDropDownButtonDialog {
@@ -1568,9 +1436,6 @@ input.MatcToobarInlineEditDisabled:focus {
 	background: transparent;
 }
 
-.MatcToolbarSection .MatcToolbarSlider input:hover {
-	border: 1px solid #999;
-}
 
 .MatcToolbarSlider .MatcToolbarSliderCntr {
 	height: 40px;
@@ -1627,5 +1492,26 @@ input.MatcToobarInlineEditDisabled:focus {
 	.MatcToolbarItem.MatcToolbarDropDownButton.MatcToolbarInputDropDownButton{
 		padding: 0px;
 		height: auto;
+	}
+}
+
+/****************************************************
+ * Iocn Button
+ ****************************************************/
+
+.MatcToolbarIconButton {
+	border: 1px solid transparent;
+	align-items: center;
+	display: flex;
+
+	gap: 8px;
+
+	.MatcToolbarColorIndicator,
+	.MatcQIcon{
+		width: 18px;
+	}
+
+	.MatcToolbarItemLabel{
+		margin: 0px;
 	}
 }

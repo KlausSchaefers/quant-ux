@@ -15,7 +15,7 @@
         v-html="icons[icon]">
       </svg>
     </div>
-    <span v-else :class="icon" @click="onClick"></span>
+    <span v-else :class="'MatcQIcon ' + icon" @click="onClick"></span>
   </template>
   <style lang="scss">
   @import "../style/scss/icon.scss";

@@ -1,9 +1,9 @@
 
 <template>
 	<div :class="['MatcToolbarPopUpCntr', { 'MatcToolbarIconDropDownButton': isIconButton }]">
-		<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarDropDownButtonCntr">
+		<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
 			<QIcon :icon="icon" v-if="icon"></QIcon>
-			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
+			<label data-dojo-attach-point="label" class="MatcToolbarItemLabel"></label>
 			<span class="caret" ref="caret"></span>
 		</div>
 		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
@@ -261,13 +261,9 @@ export default {
 
 					if (o.icon) {
 						// hacky to support SVG Icons
-						if (o.icon.indexOf('mdi') > -1) {
-							var icon = iconDOM(o.icon)
-							this.label.appendChild(icon);
-							this.icon = ''
-						} else {
-							this.icon = o.icon
-						}
+				
+						this.icon = o.icon
+						
 					}
 
 					if (o.label && this.hasLabelTxt) {

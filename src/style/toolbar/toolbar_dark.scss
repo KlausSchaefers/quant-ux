@@ -84,11 +84,6 @@
         background: $toolbar_background;
     }
 
-
-    .MatcToolbarSeperator {
-
-    }
-
     .MatcToolbarSectionLabel {
         color: #ddd;
     }
@@ -119,9 +114,7 @@
                 border: 1px solid $toolbar_form_border;
             }
         }
-        
-
-        
+                
         .MatcToobarInput{
             &:hover {
                 border-color: $toolbar_form_border_hover;
@@ -147,7 +140,9 @@
         }
 
 
-        .MatcToolbarDropDownButton:hover {
+        .MatcToolbarDropDownButton:hover, 
+        .MatcToolbarColorButton:hover,
+        .MatcToolbarIconButton:hover {
             border: 1px solid $toolbar_form_border;
             background: $toolbar_form_background_hover ;
         }
@@ -180,5 +175,9 @@
         color: #fff;
     }
 
+
+   .MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
+        color: #fff;
+    }
     
 }

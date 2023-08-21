@@ -1,11 +1,11 @@
 
 <template>
      <div class="MatcDownloader MatcCSSExporter">
-		<div data-dojo-attach-point="donwloadBtn" class="MatcToolbarItem MatcToolbarDropDownButton ">
-			<div class=" MatcToolbarItemIcon">
-				<span class="MatcToolbarSmallIcon mdi mdi-code-not-equal-variant"></span>
-				<span class="MatcToolbarItemLabel">Export Code</span>
-			</div>
+		<div data-dojo-attach-point="donwloadBtn" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
+		
+			<QIcon icon="Code"/>
+			<span class="MatcToolbarItemLabel">Export Code</span>
+	
 		</div>
 	</div>
 </template>
@@ -22,7 +22,7 @@ import Code from 'common/Code'
 import Util from 'core/Util'
 import * as LowCodeUtil from 'core/code/LowCodeUtil'
 import CSSFactory from 'core/code/CSSFactory'
-
+import QIcon from 'page/QIcon'
 //const cli = require('quant-ux-cli')
 
 export default {
@@ -34,7 +34,9 @@ export default {
 					isResponsive: true
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
     methods: {
       postCreate (){
 				this.logger = new Logger("CSSExporter");

@@ -1,16 +1,5 @@
 .MatcDark {
 
-    .MatcToobarPropertiesSection input,
-    .MatcToobarPropertiesSection textarea {
-        border: 1px solid transparent;
-    }
-
-    .MatcToobarPropertiesSection input:hover,
-    .MatcToobarPropertiesSection input:focus,
-    .MatcToobarPropertiesSection textarea:hover,
-    .MatcToobarPropertiesSection textarea:focus {
-        border: 1px solid #555;
-    }
 
     .MatcDialog .MatcToolbarTabs a {
         color: #333;
@@ -22,19 +11,6 @@
         cursor: auto;
     }
 
-    .MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
-        border-bottom-color: #3787f2;
-        color: #fff;
-    }
-
-    .MatcToolbar .MatcToolbarDropDownButton li:HOVER,
-    .MatcToolbarDropDownButtonPopup li:hover {
-        background: #cecece;
-    }
-
-    .MatcToobarRow.MatcToobarSubSection {
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-    }
 
     /****************************************************
  * Canvas Dark

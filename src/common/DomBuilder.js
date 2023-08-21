@@ -358,67 +358,67 @@ export default class DomBuilder {
 		return result;
 	}
 
-	top(h, unit="px") {
+	top(h, unit = "px") {
 		return this.setStyle("top", h + unit);
 	}
 
-	bottom(b, unit="px") {
+	bottom(b, unit = "px") {
 		return this.setStyle("bottom", b + unit);
 	}
 
-	left(h, unit="px") {
+	left(h, unit = "px") {
 		return this.setStyle("left", h + unit);
 	}
 
-	h(h, unit="px") {
+	h(h, unit = "px") {
 		return this.setStyle("height", h + unit);
 	}
 
-	w(h, unit="px") {
-		return this.setStyle("width", h + unit );
+	w(h, unit = "px") {
+		return this.setStyle("width", h + unit);
 	}
 
-	marginBottom (m) {
+	marginBottom(m) {
 		return this.setStyle("marginBottom", m + "px");
 	}
 
-	marginRight (m) {
+	marginRight(m) {
 		return this.setStyle("marginRight", m + "px");
 	}
 
-	paddingRight (m) {
+	paddingRight(m) {
 		return this.setStyle("paddingRight", m + "px");
 	}
 
-	paddingLeft (m) {
+	paddingLeft(m) {
 		return this.setStyle("paddingLeft", m + "px");
 	}
 
-	paddingTop (m) {
+	paddingTop(m) {
 		return this.setStyle("paddingTop", m + "px");
 	}
 
-	background (m) {
+	background(m) {
 		return this.setStyle("background", m);
 	}
 
-	borderWidth (m) {
+	borderWidth(m) {
 		return this.setStyle("borderWidth", m + "px");
 	}
 
-	borderColor (m) {
+	borderColor(m) {
 		return this.setStyle("borderColor", m);
 	}
 
-	borderRadius (m, unit='px') {
+	borderRadius(m, unit = 'px') {
 		return this.setStyle("borderRadius", m + unit);
 	}
 
-	paddingBottom (m) {
+	paddingBottom(m) {
 		return this.setStyle("paddingBottom", m + "px");
 	}
 
-	fontSize (m) {
+	fontSize(m) {
 		return this.setStyle("fontSize", m + "px");
 	}
 

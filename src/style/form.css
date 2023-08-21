@@ -144,7 +144,7 @@ input:focus{
 }
 
 .MatcLinkButton:hover{
-	color:var(--primary-color);
+	color:#000;
 	text-decoration: underline;
 }
 

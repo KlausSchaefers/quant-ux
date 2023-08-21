@@ -28,8 +28,7 @@ export function iconTXT(icon, clss = '', width = 18, height = 18) {
 export function iconDOM(icon, clss = '', width = 18, height = 18) {
     if (icons[icon]) {
         const div = document.createElement("div")
-        div.classList.add('MatcQIconSVG')
-        div.className = clss
+        div.className = 'MatcQIcon ' + clss
         div.innerHTML = `<svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 :class="MatcQIconSVG ${clss}"

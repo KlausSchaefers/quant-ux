@@ -48,12 +48,12 @@ export const icons = {
         <path d="M11 4h2"></path>
         <path d="M12 17v.01"></path>
     `,
-    'DeviceTablet':`
+    'DeviceTablet': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-12z"></path>
         <path d="M9 17h6"></path>
     `,
-    'DeviceDesktop':`
+    'DeviceDesktop': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M3 5a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10z"></path>
         <path d="M7 20h10"></path>
@@ -390,7 +390,7 @@ export const icons = {
         <path d="M13 12l7 0"></path>
         <path d="M13 18l7 0"></path>
    `,
-   'TextShadow': `
+    'TextShadow': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M4 20l3 0"></path>
         <path d="M14 20l7 0"></path>
@@ -516,7 +516,7 @@ export const icons = {
         <path d="M13 17v-1a1 1 0 0 1 1 -1h1m3 0h1a1 1 0 0 1 1 1v1m0 3v1a1 1 0 0 1 -1 1h-1m-3 0h-1a1 1 0 0 1 -1 -1v-1"></path>
         <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"></path>
     `,
-    'Delete' : `
+    'Delete': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M4 7h16"></path>
         <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
@@ -560,6 +560,45 @@ export const icons = {
         <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
         <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
         <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-   `
+    `,
+    'Link': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 15l6 -6"></path>
+        <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"></path>
+        <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"></path>
+    `,
+    'LinkOff': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 15l3 -3m2 -2l1 -1"></path>
+        <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"></path>
+        <path d="M3 3l18 18"></path>
+        <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"></path>
+    `,
+    'Image': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M15 8h.01"></path>
+        <path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z"></path>
+        <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5"></path>
+        <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3"></path>
+    `,
+    'Download': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4"></path>
+        <path d="M12 13l0 9"></path>
+        <path d="M9 19l3 3l3 -3"></path>
+    `,
+    'Code': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 8l-4 4l4 4"></path>
+        <path d="M17 8l4 4l-4 4"></path>
+        <path d="M14 4l-4 16"></path>
+    `,
+    'MasterScreen': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 16m0 1a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1z"></path>
+        <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-6"></path>
+        <path d="M12 8h4v4"></path>
+        <path d="M16 8l-5 5"></path>
+    `
 }
 

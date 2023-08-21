@@ -28,10 +28,11 @@
 			</div>
 			<div class=" " @click="toggleLinked()">
 				<template v-if="mode == 'all'">
-					<span class=" mdi mdi-link" v-if="isLinked"></span>
-					<span class="mdi mdi-link-off" v-else></span>
+					<QIcon icon="LinkOff" v-if="isLinked"></QIcon>
+					<QIcon icon="Link" v-else></QIcon>
 				</template>
 			</div>
+	
 		</div>
 
 	</div>
@@ -42,6 +43,7 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import Util from 'core/Util'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'BoxSize',
@@ -56,7 +58,9 @@ export default {
 			isHoverParent: false
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
 	computed: {
 		isLinked () {
 			if (this.widgetId) {

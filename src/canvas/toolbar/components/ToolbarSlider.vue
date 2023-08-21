@@ -3,7 +3,7 @@
      <div class="MatcToolbarSlider" @mousedown.stop="">
 		<div class="MatcToolbarSliderCntr MatcBoxShadowSlider" data-dojo-attach-point="cntr">
 		</div>
-		<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit" data-dojo-attach-point="input"/>
+		<input class="MatcIgnoreOnKeyPress MatcToobarInput" data-dojo-attach-point="input"/>
 	</div>
 </template>
 <script>
