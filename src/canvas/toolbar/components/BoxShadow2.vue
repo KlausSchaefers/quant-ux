@@ -12,7 +12,7 @@
         <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
           <ShadowSettings ref="settings" @changing="onTempChange" @resize="onResize"/>
            <div class="MatcToolbarPopupFooter" @click="onRemove">
-            <span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span>
+            <QIcon icon="Delete"/>
             <span class="MatcToolbarPopupFooterLabel">No Shadow</span>
           </div>
         </div>

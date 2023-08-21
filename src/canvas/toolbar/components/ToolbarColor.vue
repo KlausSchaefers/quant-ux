@@ -137,7 +137,7 @@ export default {
 
 			init () {
 				this._renderColorWidgets(this.popup)
-				this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"));
+				this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"),'ColorTrans');
 			},
 
 			_renderColorWidgets (popup) {

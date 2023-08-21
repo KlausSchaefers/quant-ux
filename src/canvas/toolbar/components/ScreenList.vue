@@ -61,7 +61,7 @@ export default {
 						.tooltip("Remove Master", "vommondToolTipRightBottom")
 						.build(div);
 					
-					btn.appendChild(iconDOM("Delete"))
+					btn.appendChild(iconDOM("DeleteX"))
 					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveParent", i)));
 				} else {
 					console.warn("render() > no screen with id" + screenID);

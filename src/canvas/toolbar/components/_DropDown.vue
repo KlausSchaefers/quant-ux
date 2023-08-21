@@ -19,6 +19,7 @@ import topic from 'dojo/topic'
 import domGeom from 'dojo/domGeom'
 import Logger from 'common/Logger'
 import win from 'dojo/win'
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
     name: 'DropDown',
@@ -75,10 +76,17 @@ export default {
 			this.hideListener = fct;
 		},
 
-		renderRemovePopupFooter (msg, callback){
-			var div = document.createElement("div");
+		renderRemovePopupFooter (msg, callback, icon='Delete'){
+			const div = document.createElement("div");
 			css.add(div, "MatcToolbarPopupFooter");
-			div.innerHTML = '<span class="MatcToolbarPopupFooterIcon mdi mdi-close-circle"></span><span class="MatcToolbarPopupFooterLabel">' + msg + '</span>';
+
+			div.appendChild(iconDOM(icon))
+
+			const lbl = document.createElement("span")
+			lbl.innerHTML = msg
+			div.appendChild(lbl)
+
+	
 			this.own(on(div, touch.press, callback));
 			this.popup.appendChild(div)
 			this.popupFooter = div

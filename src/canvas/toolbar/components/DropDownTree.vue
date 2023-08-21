@@ -1,30 +1,32 @@
 
 <template>
-    <div class="MatcToolbarDropDownButton MatcToolbarDropDownTree  MatcToolbarItem ">
-		<div type="button" data-dojo-attach-point="button" class="MatcToolbarIconButton">
-			<label data-dojo-attach-point="label" class="MatcToolbarItemIcon"></label>
+    <div class=" MatcToolbarDropDownTree MatcToolbarPopUpCntr ">
+		<div type="button" data-dojo-attach-point="button" class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarIconButton">
+            <QIcon :icon="icon"/>
+			<label data-dojo-attach-point="label" class="MatcToolbarItemLabel"></label>
 			<span data-dojo-attach-point="caret" class="caret"></span>
 		</div>
 		<div class="MatcToolbarPopUp MatcToolbarDropDownTree MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="">
             <ul v-show="view === 'options'" ref="optionCntr" style="width:200px">
-                <li v-for="(option,i) in options" :key="i" @click="selectOption(option)">
+                <li v-for="(option,i) in options" :key="i" @click="selectOption(option)" class="MatcToolbarMenuItem">
 
-                    <label v-if="option.type === 'color'" class="MatcToolbarPopUpLabel MatcToolbarLabeledColor" >
+                    <template v-if="option.type === 'color'" >
                         <span :class="'MatcToolbarColorIndicator'" :style="{'background': option.value}"/>
-                        {{option.label}}
-                    </label>
+                        <span class="MatcToolbarPopUpLabel"> {{option.label}}</span>
+                    </template>
 
                     <CheckBox v-if="option.type === 'check'" :value="option.value" :label="option.label"/>
 
-                    <label v-if="option.type === 'list'" class="MatcToolbarPopUpLabel" >
-                        <span :class="'MatcToolbarPopUpIcon ' + option.icon"/>
-                        {{option.label}}
-                    </label>
+                    <template v-if="option.type === 'list'"  >
+                        <QIcon :icon="option.icon" class="MatcToolbarPopUpIcon"/>
+                        <span class="MatcToolbarPopUpLabel"> {{option.label}}</span>
+                 
+                    </template>
 
-                    <label v-if="option.type === 'int'" class="MatcToolbarPopUpLabel" >
-                        <span :class="'MatcToolbarPopUpIcon ' + option.icon"/>
-                        {{option.label}}
-                    </label>
+                    <template v-if="option.type === 'int'">
+                        <QIcon :icon="option.icon"/>
+                        <span class="MatcToolbarPopUpLabel"> {{option.label}}</span>
+                    </template>
                 </li>
             </ul>
             <div v-show="view === 'color'" ref="colorCntr">
@@ -36,10 +38,10 @@
                         :key="i"
                         @click="selectListOption(option)"
                         :class="{'MatcToolbarPopupSelected': option.value === value}">
-                        <label class="MatcToolbarPopUpLabel" >
-                                <span :class="'MatcToolbarPopUpIcon ' + option.icon" v-if="option.icon"/>
-                                {{option.label}}
-                        </label>
+                        <template >
+                            <QIcon :icon="option.icon" class="MatcToolbarPopUpIcon" v-if="option.icon"/>
+                            <span class="MatcToolbarPopUpLabel"> {{option.label}}</span>
+                        </template>
                     </li>
                 </template>
             </ul>
@@ -66,12 +68,14 @@ import domGeom from 'dojo/domGeom'
 import CheckBox from 'common/CheckBox'
 import Logger from 'common/Logger'
 import Util from 'core/Util'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'DropDownTree',
 	mixins:[Util, DojoWidget, ToolbarColor],
     data: function () {
         return {
+            icon: null,
             value: null,
             updateColor: false,
             updateBackground: false,
@@ -89,7 +93,8 @@ export default {
         }
     },
     components: {
-        'CheckBox': CheckBox
+        'CheckBox': CheckBox,
+        'QIcon': QIcon
     },
     methods: {
 	    init (){
@@ -103,6 +108,10 @@ export default {
         closeColors () {
             this.flush()
             this.showOptions()
+        },
+
+        setIcon (icon) {
+            this.icon = icon
         },
 
         selectOption (option) {

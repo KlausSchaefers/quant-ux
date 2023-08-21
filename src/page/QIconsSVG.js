@@ -523,6 +523,11 @@ export const icons = {
         <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
         <path d="M10 12l4 4m0 -4l-4 4"></path>
     `,
+    'DeleteX': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M18 6l-12 12"></path>
+        <path d="M6 6l12 12"></path>
+    `,
     'CopyStyle': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
@@ -599,6 +604,82 @@ export const icons = {
         <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-6"></path>
         <path d="M12 8h4v4"></path>
         <path d="M16 8l-5 5"></path>
+    `,
+    'Color': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"></path>
+        <path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+    `,
+    'ColorTrans': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M15 15h-1a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25a9 9 0 0 1 -6.372 -15.356"></path>
+        <path d="M8 4c1.236 -.623 2.569 -1 4 -1c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828a4.516 4.516 0 0 1 -1.127 .73"></path>
+        <path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M3 3l18 18"></path>
+    `,
+    'Close': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M18 6l-12 12"></path>
+        <path d="M6 6l12 12"></path>
+    `,
+    'EventClick': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 12l3 0"></path>
+        <path d="M12 3l0 3"></path>
+        <path d="M7.8 7.8l-2.2 -2.2"></path>
+        <path d="M16.2 7.8l2.2 -2.2"></path>
+        <path d="M7.8 16.2l-2.2 2.2"></path>
+        <path d="M12 12l9 3l-4 2l-2 4l-3 -9"></path>
+    `,
+    'EventHover': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7.904 17.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l4.907 4.907a1.067 1.067 0 0 0 1.509 0l1.047 -1.047a1.067 1.067 0 0 0 0 -1.509l-4.907 -4.907l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563z"></path>
+    `,
+    'EventSwipeDown': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 8v13"></path>
+        <path d="M15 18l-3 3l-3 -3"></path>
+        <path d="M14.5 5.5l-2.5 -2.5l-2.5 2.5l2.5 2.5z"></path>
+    `,
+    'EventSwipeUp': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 16v-13"></path>
+        <path d="M15 6l-3 -3l-3 3"></path>
+        <path d="M14.5 18.5l-2.5 2.5l-2.5 -2.5l2.5 -2.5z"></path>
+    `,
+    'EventSwipeLeft': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M16 12h-13"></path>
+        <path d="M6 9l-3 3l3 3"></path>
+        <path d="M18.5 9.5l2.5 2.5l-2.5 2.5l-2.5 -2.5z"></path>
+    `,
+    'EventSwipeRight': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 12h13"></path>
+        <path d="M18 9l3 3l-3 3"></path>
+        <path d="M5.5 9.5l-2.5 2.5l2.5 2.5l2.5 -2.5z"></path>
+    `,
+    'Scroll': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5"></path>
+        <path d="M17 11.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47"></path>
+        <path d="M14 10.5a1.5 1.5 0 0 1 3 0v1.5"></path>
+        <path d="M11 5.5v-2a1.5 1.5 0 1 1 3 0v8.5"></path>
+    `,
+    'EventTimer': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+        <path d="M12 12l3 2"></path>
+        <path d="M12 7v5"></path>
+    `,
+    'Animation': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M15 10l4.553 -2.276a1 1 0 0 1 1.447 .894v6.764a1 1 0 0 1 -1.447 .894l-4.553 -2.276v-4z"></path>
+        <path d="M3 6m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
     `
 }
 

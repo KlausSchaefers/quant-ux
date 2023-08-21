@@ -27,6 +27,7 @@ import _DropDown from './_DropDown'
 import Uploader from 'page/Uploader'
 import Services from 'services/Services'
 import QIcon from 'page/QIcon'
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
 	name: 'ToolbarImage',
@@ -246,9 +247,9 @@ export default {
 
 
 		renderFooter() {
-
+			this.footer.innerHTML = "";
 			if (this.multiSelection) {
-				this.footer.innerHTML = "";
+		
 
 				var bar = document.createElement("div");
 				css.add(bar, "MatcButtonBar");
@@ -270,7 +271,10 @@ export default {
 				this.tempOwn(on(cancel, touch.press, lang.hitch(this, "canceImageSelection")));
 
 			} else {
-				this.footer.innerHTML = '<span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span> No Background Image ';
+				this.footer.appendChild(iconDOM('Delete'))
+				var lbl = document.createElement("span")
+				lbl.innerHTML = 'No Background Image'
+				this.footer.appendChild(lbl)
 				this.tempOwn(on(this.footer, touch.press, lang.hitch(this, "_removeImage")));
 			}
 		},

@@ -1220,8 +1220,8 @@ export default {
 			*/
 			var db = new DomBuilder();
 
-			var add = db.div(" MatcPointer MatcToolbarItem ").build(content);
-			db.span("MatcToolbarSmallIcon mdi mdi-video").build(add);
+			var add = db.div(" MatcPointer MatcToolbarItem MatcToolbarIconButton").build(content);
+			add.appendChild(iconDOM('Animation'))
 			db.span("MatcToolbarItemLabel", "Loading Animation").build(add);
 			this.tempOwn(on(add, touch.press, lang.hitch(this, "showAnimationDialog", "ScreenLoaded")));
 
