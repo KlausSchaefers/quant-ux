@@ -25,11 +25,11 @@
 						</div>
 					</div>
 					<div class="VommondColorPickerSketchControlCntr">
-						<input class="VommondColorPickerHexInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputHex" />
-						<input class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputR" value="0" />
-						<input class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputG" value="0" />
-						<input class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputB" value="0" />
-						<input class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputA" value="1" />
+						<input class="VommondColorPickerHexInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputHex" />
+						<input class="VommondColorPickerNumberInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputR" value="0" />
+						<input class="VommondColorPickerNumberInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputG" value="0" />
+						<input class="VommondColorPickerNumberInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputB" value="0" />
+						<input class="VommondColorPickerNumberInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputA" value="1" />
 					</div>
 					<div class="VommondColorPickerSketchControlLabels">
 						<span>Hex</span>

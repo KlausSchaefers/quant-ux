@@ -28,11 +28,18 @@ $layerlist_selected: $toolbar_selected_background;
 $create_element_background: #485870;
 
 $popup_color: #fff;
+$popup_color_passive: #555;
 $popup_border: $toolbar_border;
 $popup_background: $toolbar_selected_background;
 $popup_radius: 4px;
 $popup_shadow: none;
-$popup-line: 1px solid rgba(255, 255, 255, 0.08);
+$popup_line: 1px solid rgba(255, 255, 255, 0.08);
+$popup_form_border: $toolbar_border;
+$popup_form_border_hover: $toolbar_border;
+$popup_form_border_focus: $toolbar_border;
+$popup_form_background: $toolbar_form_background;
+$popup_form_background_hover: $toolbar_form_background_hover;
+$popup_form_background_focus: $toolbar_form_background_hover;
 
 $text-color-passive: #ccc;
 $text-color-dark: #363636;

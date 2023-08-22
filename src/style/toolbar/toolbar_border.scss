@@ -13,8 +13,6 @@
 		position: relative;
 		padding: 0px;
 		margin: 15px;
-		transition-duration: 0.2s;
-		transition-property: border-color;
 	}
 	.MatcToolbarItem .mdi {
 		cursor: pointer;
@@ -31,7 +29,10 @@
 		position: absolute;
 		width: 40px;
 		height: 24px;
-		background: $toolbar_form_background;
+	}
+
+    .MatcToolbarColorIndicator {
+		border: none;
 	}
 
 	.MatcToolbarInputDropDownButton input {
@@ -42,15 +43,11 @@
 		height: 100%;
 	}
 	
-	.MatcToolbarInputDropDownButton{
-		background: $toolbar_form_background;
-	}
 
 	.MatcToolbarColor.MatcToolbarItem,
 	.MatcToolbarInputDropDownButton.MatcToolbarItem {
 		width: 40px;
 		padding: 0px;
-		border: 1px solid $toolbar_form_border;
 	}
 
 	.MatcToolbarColor .caret,
@@ -72,7 +69,6 @@
 	text-align: center;
 	padding: 0px;
 	height: 24px;
-	border: 1px solid $toolbar_form_border;
 }
 
 

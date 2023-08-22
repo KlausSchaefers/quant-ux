@@ -843,6 +843,10 @@
 	text-align: left;
 	z-index: 900000;
 	padding: 0px;
+
+	input {
+		border-radius: $toolbar_form_radius;
+	}
 }
 
 .MatcToolbarPopUp.MatcToolbarPopUpDialog {
@@ -891,7 +895,6 @@
 	padding-top: 10px;
 	padding-left: 10px;
 	padding-right: 10px;
-	border-top: 1px solid #cecece;
 	color: #555;
 	margin-left: 0px;
 	margin-right: 0px;
@@ -1015,9 +1018,6 @@ input.MatcToobarInlineEditDisabled:focus {
 
 .MatcToobarPropertiesSection .MatcToolbarDropDownButton {
 	border: 1px solid transparent;
-	transition-duration: 0.2s;
-	transition-property: border-color;
-
 }
 
 .MatcToolbarPopupChildren {

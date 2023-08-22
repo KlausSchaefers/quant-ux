@@ -10,7 +10,7 @@
 
     $toolbar_form_background: $toolbar_background;
     $toolbar_form_active_background: rgba(0,0,0,0.1);
-    $toolbar_form_background_hover: rgba(0,0,0,0.1);
+    $toolbar_form_background_hover: rgba(0,0,0, .05);
     $toolbar_form_background_focus: rgba(0,0,0,0.1);
     $toolbar_form_border: $toolbar_border;
     $toolbar_form_border_hover: $toolbar_border;
@@ -27,7 +27,43 @@
     $popup_background: #fff;
     $popup_radius: 4px;
     $popup_shadow: 0 3px 25px rgba(0,0,0,.35);
-    $popup-line: 1px solid rgba(255, 255, 255, 0.08);
+    $popup_line: 1px solid rgba(255, 255, 255, 0.08);
+    $popup_form_border: rgba(0, 0, 0, 0.25);
+    $popup_form_border_hover: rgba(0, 0, 0, 0.25);
+    $popup_form_border_focus: rgba(0, 0, 0, 0.35);
+
+    $popup_form_background: $toolbar_form_background;
+    $popup_form_background_hover: $toolbar_form_background_hover;
+    $popup_form_background_focus: $toolbar_form_background_focus;
+
     @import './toolbar_theme.scss';
     @import './toolbar_edit_mode.scss';
+
+
+    .MatcToolbarEditMode {
+   
+    
+        .MatcToolbarEditModeCntr {
+            border: 1px solid $toolbar_form_border;
+            background: $toolbar_form_background;
+            border-radius: $button-radius;
+        }
+    
+        a.MatcToolbarItem {
+            background: $toolbar_form_background_hover;
+            &:hover {
+                background: $toolbar_form_background_focus;
+            }
+        }
+    
+        a.MatcToolbarEditModeActive {
+            background: $primary_color;
+            color: #fff;
+            
+            &:hover {
+                background: $primary_color_hover;
+                color: #fff;
+            }
+        }
+    }
 }

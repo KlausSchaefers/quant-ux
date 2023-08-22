@@ -47,26 +47,14 @@
 
 .VommondColorPickerSketch .VommondColorPickerNumberInput{
 	width:38px;
-	border:1px solid #cecece;
 	margin: 0px;
 	font-size: 14px;
 }
 
 .VommondColorPickerSketch .VommondColorPickerHexInput{
 	width:70px;
-	border:1px solid #cecece;
 	margin: 0px;
 	font-size: 14px;
-}
-
-.VommondColorPickerSketch .VommondColorPickerNumberInput:hover,
-.VommondColorPickerSketch .VommondColorPickerHexInput:hover {
-	border:1px solid #999;
-}
-
-.VommondColorPickerSketch .VommondColorPickerNumberInput:focus,
-.VommondColorPickerSketch .VommondColorPickerHexInput:focus {
-	border:1px solid #777;
 }
 
 .VommondColorPickerSketchControlCntr{
@@ -82,7 +70,6 @@
     justify-content: space-between;
 	text-align: center;
 	font-size: 10px;
-	color:#777;
 }
 
 .VommondColorPickerSketchControlLabels span{

@@ -16,6 +16,35 @@
     .MatcToolbarPopUpArrow {
         background: $popup_background;
     }
+
+    .MatcToolbarPopupFooter {
+        border-top: 1px solid  $toolbar_border;
+    }
+
+    input {
+        border: 1px solid $popup_form_border;
+        background: none;
+        &:hover{
+            border-color: $popup_form_border_hover;
+            background: $popup_form_background_hover;
+        }
+        &:focus{
+            border-color: $popup_form_border_focus;
+            background: $popup_form_background_focus;
+        }
+    }
+
+    .MatcToolbarSlider input {
+        border: 1px solid transparent;
+        &:hover{
+            border-color: $popup_form_border_hover;
+            background: $popup_form_background_hover;
+        }
+        &:focus{
+            border-color: $popup_form_border_focus;
+            background: $popup_form_background_focus;
+        }
+    }
 }
 
 .MatcToolbarArrowDropDown .MatcToolbarPopUp li.MatcToolbarMenuItem:hover {
@@ -172,13 +201,56 @@
 
 .MatcDesignTokenList label,
 .MatcDesignTokenList .MatcToolbarItemIcon{
-    color:#ddd;
+    color:$toolbar_color;
 }
 
 
-.MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
-    color: #fff;
+.MatcBoxBorder {
+
+    .MatcBoxBorderContainer {
+        border: 1px solid $toolbar_form_border;
+    }
+
+    .MatcToolbarColor,
+	.MatcToolbarPopUpCntr {
+		background: $toolbar_form_background;
+	}
+
+	.MatcToolbarInputDropDownButton{
+		background: $toolbar_form_background;
+	}
+
+	.MatcToolbarColor.MatcToolbarItem,
+	.MatcToolbarInputDropDownButton.MatcToolbarItem {
+		border: 1px solid $toolbar_form_border;
+	}
+
+    .MatcToolbarTabs a {
+        color: $toolbar_color;
+    }
+
+    .MatcToolbarTabs a.MatcToolbarTabActive {
+        color: $toolbar_color;
+    }
+    .MatcToolbarDropDownButton {
+	    border: 1px solid $toolbar_form_border;
+    }
+
+    .MatcToolbarInputDropDownButton input {
+        width: 40px;
+        position: absolute;
+        background: $toolbar_form_background;
+        text-align: center;
+        height: 100%;
+    }
+    
+    .MatcToolbarInputDropDownButton{
+        background: $toolbar_form_background;
+    }
 }
+
+
+
 
 .MatcToolbarLayerList{
     background: $layerlist_background;
@@ -258,4 +330,19 @@
         background: $primary_color-hover;
         color: #fff;
     }    
+}
+
+
+.VommondColorPickerSketch {
+    // .VommondColorPickerHexInput,
+    // .VommondColorPickerNumberInput{
+    //     border:1px solid #cecece;
+    //     &:hover {
+    //         border:1px solid #999;
+    //     }        
+    // }
+
+    .VommondColorPickerSketchControlLabels {
+        color:$popup_color_passive;
+    }
 }
