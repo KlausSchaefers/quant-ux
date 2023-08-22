@@ -412,19 +412,23 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+	.MatcToolbarItemSmall {
+		min-width: 16.665%;
+		height: 30px;
+		display: flex;
+		align-items: center;
+		gap:4px;
+	}
+
+	.MatcBoxSizeLabel {
+		width: 18px;
+	}
 }
 
-.MatcToobarPropertiesSection .MatcToolBarTextArea.MatcToolbarItem {
+.MatcToolbarFlexCntr .MatcToolBarTextArea.MatcToolbarItem {
     height: auto;
 }
-
-.MatcToobarPropertiesSection .MatcToolbarItem.MatcToolbarItemSmall {
-    min-width: 16.665%;
-    height: 30px;
-    display: flex;
-    align-items: center;
-}
-
 
 
 /****************************************************

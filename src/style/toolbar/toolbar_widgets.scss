@@ -1484,10 +1484,11 @@ input.MatcToobarInlineEditDisabled:focus {
 	align-items: center;
 	color: #fff;
 	padding: 8px;
-	gap: 6px;
+	gap: 4px;
 
 	.MatcQIcon {
 		justify-content: flex-start;
+		width: 18px;
 	}
 
 	.MatcToolbarItem.MatcToolbarDropDownButton.MatcToolbarInputDropDownButton{
