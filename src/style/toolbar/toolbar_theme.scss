@@ -1,0 +1,261 @@
+
+.MatcToolbarPopUp {
+	background: $popup_background;
+	box-shadow: $popup_shadow;
+	color: $popup_color;
+
+    li:hover {
+        background: $primary_color;
+        color: #fff;
+    }
+
+    .MatcToolbarPopUpLine {
+        border-top: 1px solid $toolbar_border;
+    }
+
+    .MatcToolbarPopUpArrow {
+        background: $popup_background;
+    }
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUp li.MatcToolbarMenuItem:hover {
+    background: $primary_color;
+    color: #fff;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUp {
+    background:$popup_background;
+    color: $popup_color;
+    border: 1px solid $popup_border;
+    box-shadow:  $popup_shadow;
+    top: calc(100% + 2px);
+
+    .MatcToolbarPopUpArrow{
+        background: $popup_background;
+        display: none;
+    }
+    
+    .MatcToolbarPopUpLine {
+        border-top: 1px solid $toolbar_border;
+    }
+
+    .MatcToolbarPopUpSubMenu {
+        background:$popup_background;
+        color: $popup_color;
+        border: 1px solid $toolbar_border;
+        box-shadow: none;
+        left: calc(100% + 1px);
+
+        .MatcToolbarPopUpArrow{
+            background: $popup_background;    
+        }
+    }
+
+    .MatcCreateBtnElement, 
+    .MatcToolbarDropDownButtonItem { 
+        background: $create_element_background;
+        color:$popup_color
+    }
+
+    .MatcCreateSearch {
+        background: none;
+        border-radius: $button-radius;
+        border-color: $toolbar_border;
+    }
+
+    .MatcCreateSearch:focus {
+        background: $toolbar_background;
+        color: $popup_color;
+    }
+
+    .MatcCreateCatCntr li {
+        border-radius: $button-radius;
+        padding: 8px;
+    }
+
+    .MatcCreateCatCntr li a{
+       color: $popup_color; 
+    }
+
+    .MatcCreateCatCntr li.MatcSelected{
+       
+    }
+    .MatcCreateCatCntr li.MatcSelected a{
+        color: $primary_color;
+    }
+
+    .MatcCreateCatCntr li a:hover{
+        color: $primary_color-hover
+     }
+
+    .MatcCreateBtnElementLabel {
+        color: $popup_color;
+    }
+
+}
+
+.MatcToobarPropertiesSection {
+    color:$toolbar_color;
+
+    .MatcToolbarItem {
+        color:$toolbar_color;
+
+        &:hover{
+            color: $toolbar_color_hover;
+        }    
+    }
+
+    .MatcToolbarToggleButton:hover {
+		border: 1px solid $toolbar_border;
+	}
+
+    .MatcToolbarSectionLabel {
+        border-top: 1px solid $toolbar_border;
+        background: none;
+        color: $toolbar_color_passive;
+    }
+
+    .VommondCheckBoxLabel,
+    .MatcToolbarItemLabel,
+    .VommondRadioBoxLabel {
+        color: $toolbar_color;
+    }
+
+    .MatcToobarRowHover {
+        border: 1px solid transparent;
+        &:hover {
+            border: 1px solid $toolbar_form_border;
+        }
+    }
+            
+    .MatcToobarInput{
+        color: $toolbar_color;
+        &:hover {
+            border-color: $toolbar_form_border_hover;
+            background: $toolbar_form_background_hover;
+        }
+
+        &:focus {
+            border-color: $toolbar_form_border_focus;
+            background: $toolbar_form_background_focus;
+        }
+    }
+    
+    .MatcToobarInputInlineEdit{
+        color: $toolbar_color;
+        &:hover {
+            border-color: transparent;
+            background: transparent;
+        }
+
+        &:focus {
+            border-color: transparent;
+            background: transparent;
+        }
+    }
+
+
+    .MatcToolbarDropDownButton:hover, 
+    .MatcToolbarColorButton:hover,
+    .MatcToolbarIconButton:hover {
+        border: 1px solid $toolbar_form_border;
+        background: $toolbar_form_background_hover ;
+    }
+    
+    .MatcToolbarItemActive,
+    .MatcToolbarItemActive:hover {
+        background: $toolbar_form_background_focus;
+        border-color: $toolbar_border;
+    }
+}
+
+
+.MatcDesignTokenList label,
+.MatcDesignTokenList .MatcToolbarItemIcon{
+    color:#ddd;
+}
+
+
+.MatcBoxBorder .MatcToolbarTabs a.MatcToolbarTabActive {
+    color: #fff;
+}
+
+.MatcToolbarLayerList{
+    background: $layerlist_background;
+}
+
+
+.MatcToobarPropertiesSection{
+    background: $toolbar_background;
+}
+
+
+.MatcToolbarItemDisbaled{
+    color: $toolbar_color_disabled;
+}
+
+.MatcToobarPropertiesSection .MatcToolbarItemActive{
+    background: $toolbar_selected_background;// #242a30;
+}
+
+.MatcToolbarItem.MatcToolbarItemDisbaled:HOVER{
+    color: $toolbar_color_disabled;
+}
+
+
+
+.MatcToolbarResizeElement, 
+.MatcToolbarResizePreview {
+    border: 1px solid $toolbar_form_border;
+    background: $toolbar_form_background_hover;
+    border-radius: $toolbar_form_radius;
+}
+
+
+.MatcToolbarResizePin .MatcToolbarResizeActive,
+.MatcToolbarResizePin .MatcToolbarResizeActive{
+    color:$primary_color;
+    border-color: $primary_color;
+}
+
+
+.MatcToolbarButton:HOVER{
+	background: $primary_color_hover;
+	border-color: $primary_color_hover;
+}
+
+
+.MatcToobarViewSection {
+    border-top: 1px solid $toolbar_border;
+    background: $toolbar_background;
+
+    .MatcToolbarItem {
+        border: none;
+    }
+
+
+    .MatcToolbarItem:hover {
+        color: #ccc;
+        border: none;
+    }
+
+    .MatcToolbarItem.MatcToolbarItemActive {
+        background: $primary_color;
+        color: #fff;
+        
+        .MatcToolbarItem.MatcToolbarItemActive:hover {
+            background: $primary_color-hover;
+            color: #fff;
+        }
+    }
+
+    .MatcToolbarItem.MatcToolbarItemActive {
+        background: $primary_color;
+        color: #fff;
+    }
+    
+    .MatcToolbarItem.MatcToolbarItemActive:hover {
+        background: $primary_color-hover;
+        color: #fff;
+    }    
+}

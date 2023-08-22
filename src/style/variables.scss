@@ -5,11 +5,13 @@ $primary_color-hover: #123ef0;
 
 $toolbar_height: 48px;
 $toolbar_background: #25292F;
+$toolbar_color: #fff;
+$toolbar_color_hover: #fff;
+$toolbar_color_passive: #777;
+$toolbar_color_disabled: #555;
 $toolbar_selected_background: #16191b;
 $toolbar_border: #2f353a; // rgba(255,255,255,0.08);
 $toolbar_padding:8px;
-$toolbar_label_color: #fff;
-$toolbar_sub_label_color: #777;
 
 $toolbar_form_background: $toolbar_background;
 $toolbar_form_active_background: #202427;
@@ -20,13 +22,16 @@ $toolbar_form_border_hover: $toolbar_border;
 $toolbar_form_border_focus: rgba(255,255,255,0.16);;
 $toolbar_form_radius: 2px;
 
+$layerlist_background: red;
 $layerlist_selected: $toolbar_selected_background;
 
 $create_element_background: #485870;
 
-$popup_background_dark: $toolbar_selected_background;
+$popup_color: #fff;
+$popup_border: $toolbar_border;
+$popup_background: $toolbar_selected_background;
 $popup_radius: 4px;
-$popup_shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+$popup_shadow: none;
 $popup-line: 1px solid rgba(255, 255, 255, 0.08);
 
 $text-color-passive: #ccc;

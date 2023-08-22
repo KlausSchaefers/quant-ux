@@ -1,0 +1,33 @@
+.MatcLight {
+   
+    $toolbar_background: #fff;
+    $toolbar_selected_background: rgba(0,0,0,0.1);
+    $toolbar_border: rgba(0,0,0,0.1); // rgba(255,255,255,0.08);
+ 
+    $toolbar_color: #333;
+    $toolbar_color_hover: #333;
+    $toolbar_color_passive: #777;
+
+    $toolbar_form_background: $toolbar_background;
+    $toolbar_form_active_background: rgba(0,0,0,0.1);
+    $toolbar_form_background_hover: rgba(0,0,0,0.1);
+    $toolbar_form_background_focus: rgba(0,0,0,0.1);
+    $toolbar_form_border: $toolbar_border;
+    $toolbar_form_border_hover: $toolbar_border;
+    $toolbar_form_border_focus: rgba(0,0,0,0.15);
+    $toolbar_form_radius: 2px;
+
+    $layerlist_background: #fff;
+    $layerlist_selected: $toolbar_selected_background;
+
+    $create_element_background: #f2f2f2;
+
+    $popup_color: $toolbar_color;
+    $popup_border: transparent;
+    $popup_background: #fff;
+    $popup_radius: 4px;
+    $popup_shadow: 0 3px 25px rgba(0,0,0,.35);
+    $popup-line: 1px solid rgba(255, 255, 255, 0.08);
+    @import './toolbar_theme.scss';
+    @import './toolbar_edit_mode.scss';
+}
