@@ -104,8 +104,8 @@ export default {
 		    this.svgStrokeArrowLeft.setOptions([
                 { value:null, label: 'None', icon: 'SVGNone'},
                 { value:"arrowStart", label:'Arrow', icon: 'SVGArrowLeft'},
-                { value:"triangleStart", label:'Triangle', icon: 'mdi mdi-menu-left'},
-                { value:"circle", label:'Circle', icon: 'mdi mdi-circle-medium'}
+                { value:"triangleStart", label:'Triangle', icon: 'SVGTriangle'},
+                { value:"circle", label:'Circle', icon: 'SVGCirlce'}
             ]);
             this.own(on(this.svgStrokeArrowLeft, "change", lang.hitch(this, "setSVGPathStyle", false, "markerStart")));
             this._placeAt(this.svgStrokeArrowLeft, row2);
@@ -117,8 +117,8 @@ export default {
 		    this.svgStrokeArrowRight.setOptions([
                 { value:null, label: 'None', icon: 'SVGNone'},
                 { value:"arrowEnd", label:'Arrow', icon: 'SVGArrowRight'},
-                { value:"triangleEnd", label:'Triangle', icon: 'mdi mdi-menu-right'},
-                { value:"circle", label:'Circle', icon: 'mdi mdi-circle-medium'}
+                { value:"triangleEnd", label:'Triangle', icon: 'SVGTriangle'},
+                { value:"circle", label:'Circle', icon: 'SVGCirlce'}
             ]);
             this.own(on(this.svgStrokeArrowRight, "change", lang.hitch(this, "setSVGPathStyle", false, "markerEnd")));
             this._placeAt(this.svgStrokeArrowRight, row2);
@@ -140,8 +140,8 @@ export default {
             this.svgStrokeCap.reposition = true;
             this.svgStrokeCap.setPopupCss("MatcActionAnimProperties");
 		    this.svgStrokeCap.setOptions([
-                { value:null, label: 'Square Line Caps', icon: 'SVGStrokeIcon SVGStrokeIconJointRound'},
-                { value:"round", label:'Round Line Caps', icon: 'SVGStrokeIcon SVGStrokeIconJointSquare'},
+                { value:null, label: 'Square Line Caps', icon: 'SVGStrokeSquare'},
+                { value:"round", label:'Round Line Caps', icon: 'SVGStrokeRound'},
             ]);
             this.own(on(this.svgStrokeCap, "change", lang.hitch(this, "setSVGPathStyle", false, "strokeLineCap")));
             this._placeAt(this.svgStrokeCap, row2);

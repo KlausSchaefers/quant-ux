@@ -427,6 +427,22 @@ export const icons = {
         <path d="M5 12l4 4"></path>
         <path d="M5 12l4 -4"></path>
     `,
+    'SVGTriangle': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M10.24 20.043l-8.422 -14.06a1.989 1.989 0 0 1 1.7 -2.983h16.845a1.989 1.989 0 0 1 1.7 2.983l-8.422 14.06a1.989 1.989 0 0 1 -3.4 0z"></path>
+    `,
+    'SVGCirlce': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 3.34a10 10 0 1 1 -4.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 4.995 -8.336z" stroke-width="0" fill="currentColor"></path>
+    `,
+    'SVGChevronLeft': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M15 6l-6 6l6 6"></path>
+    `,
+    'SVGChevronRight': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 6l6 6l-6 6"></path>
+    `,
     'SVGNone': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M5 12l14 0"></path>
@@ -444,7 +460,14 @@ export const icons = {
     'SVGCircleLeft': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M7 3.34a10 10 0 1 1 -4.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 4.995 -8.336z" stroke-width="0" fill="currentColor"></path>
-
+    `,
+    'SVGStrokeRound': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+    `,
+    'SVGStrokeSquare': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
     `,
     'BoxShadow': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
