@@ -44,7 +44,7 @@
    
     
         .MatcToolbarEditModeCntr {
-            border: 1px solid $toolbar_form_border;
+            border: 1px solid transparent;
             background: $toolbar_form_background;
             border-radius: $button-radius;
         }
