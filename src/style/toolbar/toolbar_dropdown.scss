@@ -61,23 +61,6 @@
 	overflow: visible;
 }
 
-.MatcToolbarMenuItem {
-	min-height: 40px;
-
-	&.MatcToolbarPopUpLine{
-		min-height: auto;
-	}
-}
-
-.MatcToolbarMenuItem:first-child {
-    border-top-left-radius: $popup_radius;
-    border-top-right-radius: $popup_radius;
-}
-
-.MatcToolbarMenuItem:last-child {
-    border-bottom-left-radius: $popup_radius;
-    border-bottom-right-radius: $popup_radius;
-}
 
 .MatcToolbarArrowDropDown li .MatcToolbarPopUpSubMenu {
 	color: #333;
@@ -149,6 +132,11 @@
 
 .MatcToolbarMenuItem {
 
+	min-height: 32px;
+
+	&.MatcToolbarPopUpLine{
+		min-height: auto;
+	}
 
 	.MatcToolbarPopUpLabelShortCut {
 		opacity: 0.5;
@@ -159,4 +147,15 @@
 		margin-left: 24px;
 	}
 }
+
+.MatcToolbarMenuItem:first-child {
+    border-top-left-radius: $popup_radius;
+    border-top-right-radius: $popup_radius;
+}
+
+.MatcToolbarMenuItem:last-child {
+    border-bottom-left-radius: $popup_radius;
+    border-bottom-right-radius: $popup_radius;
+}
+
 

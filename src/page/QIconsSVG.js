@@ -708,6 +708,196 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M9 14l-4 -4l4 -4"></path>
         <path d="M5 10h11a4 4 0 1 1 0 8h-1"></path>
-    `
+    `,
+    'Navigation': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M17 3l0 8.707"></path>
+        <path d="M13 7l4 -4l4 4"></path>
+        <path d="M7 14l-4 -4l4 -4"></path>
+        <path d="M17 21a11 11 0 0 0 -11 -11h-3"></path>
+    `,
+    'TableBorderAll': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+        <path d="M4 12l16 0"></path>
+        <path d="M12 4l0 16"></path>
+    `,
+    'TableBorderBottom': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M20 20l-16 0"></path>
+        <path d="M4 4l0 .01"></path>
+        <path d="M8 4l0 .01"></path>
+        <path d="M12 4l0 .01"></path>
+        <path d="M16 4l0 .01"></path>
+        <path d="M20 4l0 .01"></path>
+        <path d="M4 8l0 .01"></path>
+        <path d="M12 8l0 .01"></path>
+        <path d="M20 8l0 .01"></path>
+        <path d="M4 12l0 .01"></path>
+        <path d="M8 12l0 .01"></path>
+        <path d="M12 12l0 .01"></path>
+        <path d="M16 12l0 .01"></path>
+        <path d="M20 12l0 .01"></path>
+        <path d="M4 16l0 .01"></path>
+        <path d="M12 16l0 .01"></path>
+        <path d="M20 16l0 .01"></path>
+    `,
+    'TableBorderVer': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 4l0 16"></path>
+        <path d="M4 4l0 .01"></path>
+        <path d="M8 4l0 .01"></path>
+        <path d="M16 4l0 .01"></path>
+        <path d="M20 4l0 .01"></path>
+        <path d="M4 8l0 .01"></path>
+        <path d="M20 8l0 .01"></path>
+        <path d="M4 12l0 .01"></path>
+        <path d="M8 12l0 .01"></path>
+        <path d="M16 12l0 .01"></path>
+        <path d="M20 12l0 .01"></path>
+        <path d="M4 16l0 .01"></path>
+        <path d="M20 16l0 .01"></path>
+        <path d="M4 20l0 .01"></path>
+        <path d="M8 20l0 .01"></path>
+        <path d="M16 20l0 .01"></path>
+        <path d="M20 20l0 .01"></path>
+    `,
+    'TableBorderHor': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 12l16 0"></path>
+        <path d="M4 4l0 .01"></path>
+        <path d="M8 4l0 .01"></path>
+        <path d="M12 4l0 .01"></path>
+        <path d="M16 4l0 .01"></path>
+        <path d="M20 4l0 .01"></path>
+        <path d="M4 8l0 .01"></path>
+        <path d="M12 8l0 .01"></path>
+        <path d="M20 8l0 .01"></path>
+        <path d="M4 16l0 .01"></path>
+        <path d="M12 16l0 .01"></path>
+        <path d="M20 16l0 .01"></path>
+        <path d="M4 20l0 .01"></path>
+        <path d="M8 20l0 .01"></path>
+        <path d="M12 20l0 .01"></path>
+        <path d="M16 20l0 .01"></path>
+        <path d="M20 20l0 .01"></path>
+    `,
+    'TableBorderInner': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 12l16 0"></path>
+        <path d="M12 4l0 16"></path>
+        <path d="M4 4l0 .01"></path>
+        <path d="M8 4l0 .01"></path>
+        <path d="M16 4l0 .01"></path>
+        <path d="M20 4l0 .01"></path>
+        <path d="M4 8l0 .01"></path>
+        <path d="M20 8l0 .01"></path>
+        <path d="M4 16l0 .01"></path>
+        <path d="M20 16l0 .01"></path>
+        <path d="M4 20l0 .01"></path>
+        <path d="M8 20l0 .01"></path>
+        <path d="M16 20l0 .01"></path>
+        <path d="M20 20l0 .01"></path>
+    `,
+    'TableBorderNone': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 4l0 .01"></path>
+        <path d="M8 4l0 .01"></path>
+        <path d="M12 4l0 .01"></path>
+        <path d="M16 4l0 .01"></path>
+        <path d="M20 4l0 .01"></path>
+        <path d="M4 8l0 .01"></path>
+        <path d="M12 8l0 .01"></path>
+        <path d="M20 8l0 .01"></path>
+        <path d="M4 12l0 .01"></path>
+        <path d="M8 12l0 .01"></path>
+        <path d="M12 12l0 .01"></path>
+        <path d="M16 12l0 .01"></path>
+        <path d="M20 12l0 .01"></path>
+        <path d="M4 16l0 .01"></path>
+        <path d="M12 16l0 .01"></path>
+        <path d="M20 16l0 .01"></path>
+        <path d="M4 20l0 .01"></path>
+        <path d="M8 20l0 .01"></path>
+        <path d="M12 20l0 .01"></path>
+        <path d="M16 20l0 .01"></path>
+        <path d="M20 20l0 .01"></path>
+    `,
+    'TableBorderOuter': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+        <path d="M12 8l0 .01"></path>
+        <path d="M8 12l0 .01"></path>
+        <path d="M12 12l0 .01"></path>
+        <path d="M16 12l0 .01"></path>
+        <path d="M12 16l0 .01"></path>
+    `,
+    'TableBorderTop': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 4l16 0"></path>
+        <path d="M4 8l0 .01"></path>
+        <path d="M12 8l0 .01"></path>
+        <path d="M20 8l0 .01"></path>
+        <path d="M4 12l0 .01"></path>
+        <path d="M8 12l0 .01"></path>
+        <path d="M12 12l0 .01"></path>
+        <path d="M16 12l0 .01"></path>
+        <path d="M20 12l0 .01"></path>
+        <path d="M4 16l0 .01"></path>
+        <path d="M12 16l0 .01"></path>
+        <path d="M20 16l0 .01"></path>
+        <path d="M4 20l0 .01"></path>
+        <path d="M8 20l0 .01"></path>
+        <path d="M12 20l0 .01"></path>
+        <path d="M16 20l0 .01"></path>
+        <path d="M20 20l0 .01"></path>
+    `,
+    'TableData': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 21h-7a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v7"></path>
+        <path d="M3 10h18"></path>
+        <path d="M10 3v18"></path>
+        <path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+        <path d="M19.001 15.5v1.5"></path>
+        <path d="M19.001 21v1.5"></path>
+        <path d="M22.032 17.25l-1.299 .75"></path>
+        <path d="M17.27 20l-1.3 .75"></path>
+        <path d="M15.97 17.25l1.3 .75"></path>
+        <path d="M20.733 20l1.3 .75"></path>
+    `,
+    'TableHeader': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+        <path d="M4 9l16 0"></path>
+    `,
+    'EditPencil': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
+        <path d="M13.5 6.5l4 4"></path>
+    `,
+    'DataBinding': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 6m-8 0a8 3 0 1 0 16 0a8 3 0 1 0 -16 0"></path>
+        <path d="M4 6v6a8 3 0 0 0 16 0v-6"></path>
+        <path d="M4 12v6a8 3 0 0 0 16 0v-6"></path>  
+    `,
+    'DataBindingPlus': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3"></path>
+        <path d="M4 6v6c0 1.657 3.582 3 8 3c1.075 0 2.1 -.08 3.037 -.224"></path>
+        <path d="M20 12v-6"></path>
+        <path d="M4 12v6c0 1.657 3.582 3 8 3c.166 0 .331 -.002 .495 -.006"></path>
+        <path d="M16 19h6"></path>
+        <path d="M19 16v6"></path>
+    `,
+    'CheckBoxOn': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
+        <path d="M9 12l2 2l4 -4"></path>
+    `,
+    'CheckBoxOff': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
+   `
 }
 

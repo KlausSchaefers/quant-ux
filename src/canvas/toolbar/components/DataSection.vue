@@ -46,11 +46,11 @@ export default {
 			icons: [],
 			previewWidth: 150,
 			borderStyles: [
-				{ value:"Cell", icon:"mdi mdi-border-all", label : "Full Border"},
-				{ value:"HLines", icon:"mdi mdi-border-horizontal", label : "Horizontal Border"},
-				{ value:"VLines", icon:"mdi mdi-border-vertical", label : "Vertical Border"},
-				{ value:"None", icon:"mdi mdi-border-none", label : "No Border"},
-				{ value:"Out", icon:"mdi mdi-border-outside", label : "Outside Border"}
+				{ value:"Cell", icon:"TableBorderAll", label : "Full Border"},
+				{ value:"HLines", icon:"TableBorderHor", label : "Horizontal Border"},
+				{ value:"VLines", icon:"TableBorderVer", label : "Vertical Border"},
+				{ value:"None", icon:"TableBorderNone", label : "No Border"},
+				{ value:"Out", icon:"TableBorderOuter", label : "Outside Border"}
 			]
         }
     },
@@ -1074,7 +1074,7 @@ export default {
 		_showTable (model){
 			this._setSectionLabel("Table");
 
-			this._renderButton("Values", "mdi mdi-table-large", "_renderStyledTableDialog");
+			this._renderButton("Values", "TableData", "_renderStyledTableDialog");
 
 
 			let style = model.style
@@ -1137,7 +1137,7 @@ export default {
 				}
 			])
 
-			this._renderDropDownTree("Header", "mdi mdi-format-text", [
+			this._renderDropDownTree("Header", "TableHeader", [
 				{
 					label: "Sticky",
 					type: "check",
@@ -1209,7 +1209,7 @@ export default {
 					type: "list",
 					value: props.borderStyle,
 					key:'borderStyle',
-					icon: 'mdi mdi-border-all',
+					icon: 'TableBorderAll',
 					options: this.borderStyles,
 					isStyle: false
 				},
@@ -1232,7 +1232,7 @@ export default {
 				},
 			])
 
-			this._renderDropDownTree("Selectable", "mdi mdi-checkbox-multiple-marked-outline", [
+			this._renderDropDownTree("Selectable", "CheckBoxOn", [
 				{
 					label: "Show Checkbox",
 					type: "check",
@@ -1315,7 +1315,7 @@ export default {
 		_showNavBar (model){
 			this._setSectionLabel("NavBar");
 
-			this._renderButton("Navigation", "mdi mdi-arrow-decision-outline", "_renderNavBarDialog");
+			this._renderButton("Navigation", "Navigation", "_renderNavBarDialog");
 
 			this._renderInputDropDown("Spacing",model, [
 				{value: -1, label: 'Auto'},
@@ -1350,7 +1350,7 @@ export default {
 		_showNavMenu (model){
 			this._setSectionLabel("Navigation Menu");
 
-			this._renderButton("Navigation", "mdi mdi-arrow-decision-outline", "_renderNavBarDialog");
+			this._renderButton("Navigation", "Navigation", "_renderNavBarDialog");
 
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
@@ -2356,7 +2356,7 @@ export default {
 		_renderTextArea (model, property, tt, placeholder=""){
 
 			const row = this.db
-				.div("MatcToobarRow MatcToolBarTextArea MatcToolbarItem  ")
+				.div("MatcToolBarTextArea MatcToolbarItem  ")
 				.build(this.cntr);
 			
 			const textarea = this.db

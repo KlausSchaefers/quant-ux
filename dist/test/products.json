@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "name": "Shaver",
+        "description": "Best in class for low budgte",
+        "price": "100.0",
+        "img": "https://s.s-bol.com/imgbase0/imagebase3/large/FC/8/6/0/4/9000000011634068.jpg"
+    },
+    {
+        "id": "2",
+        "name": "Toothbrush",
+        "description": "Best in class for low budgte",
+        "price": "100.0",
+        "img": "https://s.s-bol.com/imgbase0/imagebase3/large/FC/8/6/0/4/9000000011634068.jpg"
+    },
+    {
+        "id": "3",
+        "name": "Airfryer",
+        "description": "Best in class for low budgte",
+        "price": "100.0",
+        "img": "https://s.s-bol.com/imgbase0/imagebase3/large/FC/8/6/0/4/9000000011634068.jpg"
+    },
+    {
+        "id": "4",
+        "name": "MRI",
+        "description": "Best in class for low budgte",
+        "price": "100.0",
+        "img": "https://s.s-bol.com/imgbase0/imagebase3/large/FC/8/6/0/4/9000000011634068.jpg"
+    }
+]

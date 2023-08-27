@@ -1,8 +1,8 @@
 
 <template>
-     <div class="MatcToobarRow MatcAction" @click.stop="onOpenDialog" v-if="!isDataView">
-		<div class="MatcToolbarItem MatcToolbarDropDownButton">
-			<span :class="'MatcToolbarSmallIcon mdi ' + icon "></span>
+     <div class="MatcToobarRow " @click.stop="onOpenDialog" v-if="!isDataView">
+		<div class="MatcToolbarItem MatcToolbarIconButton">
+			<QIcon :icon="icon"/>
 			<span class="MatcToolbarDropDownButtonLabel">{{label}}</span>
 		</div>
 	</div>
@@ -39,6 +39,7 @@ import _Tooltip from 'common/_Tooltip'
 import DataBindingService from 'services/DataBindingService'
 import Input from 'common/Input'
 import Util from 'core/Util'
+import QIcon from 'page/QIcon'
 
 
 export default {
@@ -52,7 +53,8 @@ export default {
         }
     },
     components: {
-        'Combo': Input
+        'Combo': Input,
+        'QIcon': QIcon
     },
     computed: {
         actions () {
@@ -71,9 +73,9 @@ export default {
         icon () {
             let dataBinding = this.getDataBinding(this.widget);
 			if(dataBinding && Object.keys(dataBinding).length > 0){
-				return "mdi mdi-database";
+				return "DataBinding";
             }
-            return 'mdi mdi-database-plus'
+            return 'DataBindingPlus'
         },
         label () {
             let dataBinding = this.getDataBinding(this.widget);

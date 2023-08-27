@@ -348,3 +348,10 @@
 .MatcToolbarColorSketch .MatcColorBox span:hover{
 	border: 1px solid $color_picker_border-hover;
 }
+
+.MatcAlignment {
+
+    .MatcQIcon:hover {
+        background: $toolbar_selected_background;
+    }
+}

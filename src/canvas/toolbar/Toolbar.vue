@@ -1484,16 +1484,15 @@ export default {
 
 
 		onToolWidgetLayer (option){
-			this.logger.log(-1,"onToolWidgetLayer", "entry > "+ option.value);
-			const value = option.value
+			const value = option.value ? option.value : option
+			this.logger.log(-1,"onToolWidgetLayer", "entry > "+ value);	
 			let selection = this._getSelectedWidgets();
 			if (selection.length > 0) {
 				let topId = false
 				/**
 				 * Since 4.0.60 we have a single selection in a group, 
 				 * can we boost the entire group to top?
-				 */
-		
+				 */		
 				if (selection.length === 1 && (value === 'front' || value === 'back')) {
 					const widget = this.model.widgets[selection[0]];
 					if (widget) {

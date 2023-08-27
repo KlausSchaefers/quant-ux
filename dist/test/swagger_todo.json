@@ -1,0 +1,1008 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "nocodb",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8081"
+        },
+        {
+            "url": "{customUrl}",
+            "variables": {
+                "customUrl": {
+                    "default": "http://localhost:8081",
+                    "description": "Provide custom nocodb app base url"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/api/v1/db/data/v1/Quant-UX/ToDos": {
+            "get": {
+                "summary": "ToDos list",
+                "operationId": "todos-db-table-row-list",
+                "description": "List of all rows from ToDos table and response data fields can be filtered based on query params.",
+                "tags": [
+                    "ToDos"
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Array of field names or comma separated filed names to include in the response objects. In array syntax pass it like `fields[]=field1&fields[]=field2` or alternately `fields=field1,field2`."
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "sort",
+                        "description": "Comma separated field names to sort rows, rows will sort in ascending order based on provided columns. To sort in descending order provide `-` prefix along with column name, like `-field`. Example : `sort=field1,-field2`"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "where",
+                        "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 1
+                        },
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The `limit` parameter used for pagination, the response collection size depends on limit value with default value `25` and maximum value `1000`, which can be overridden by environment variables `DB_QUERY_LIMIT_DEFAULT` and `DB_QUERY_LIMIT_MAX` respectively.",
+                        "example": 25
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "in": "query",
+                        "name": "shuffle",
+                        "description": "The `shuffle` parameter used for pagination, the response will be shuffled if it is set to 1.",
+                        "example": 0
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "in": "query",
+                        "name": "offset",
+                        "description": "The `offset` parameter used for pagination, the value helps to select collection from a certain index.",
+                        "example": 0
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ToDosResponse"
+                                            }
+                                        },
+                                        "PageInfo": {
+                                            "$ref": "#/components/schemas/Paginated"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "ToDos create",
+                "description": "Insert a new row in table by providing a key value pair object where key refers to the column alias. All the required fields should be included with payload excluding `autoincrement` and column with default value.",
+                "operationId": "todos-create",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ToDosResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ToDosRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/{rowId}": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "rowId",
+                    "in": "path",
+                    "required": true,
+                    "example": 1,
+                    "description": "Primary key of the record you want to read. If the table have composite primary key then combine them by using `___` and pass it as primary key."
+                }
+            ],
+            "get": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Array of field names or comma separated filed names to include in the response objects. In array syntax pass it like `fields[]=field1&fields[]=field2` or alternately `fields=field1,field2`."
+                    }
+                ],
+                "summary": "ToDos read",
+                "description": "Read a row data by using the **primary key** column value.",
+                "operationId": "todos-read",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ToDosResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ]
+            },
+            "patch": {
+                "summary": "ToDos update",
+                "operationId": "todos-update",
+                "description": "Partial update row in table by providing a key value pair object where key refers to the column alias. You need to only include columns which you want to update.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ToDosRequest"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "ToDos delete",
+                "operationId": "todos-delete",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ],
+                "description": "Delete a row by using the **primary key** column value."
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/count": {
+            "get": {
+                "summary": "ToDos count",
+                "operationId": "todos-count",
+                "description": "Get rows count of a table by applying optional filters.",
+                "tags": [
+                    "ToDos"
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "where",
+                        "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/find-one": {
+            "get": {
+                "summary": "ToDos find-one",
+                "operationId": "todos-db-table-row-find-one",
+                "description": "Find first record matching the conditions.",
+                "tags": [
+                    "ToDos"
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Array of field names or comma separated filed names to include in the response objects. In array syntax pass it like `fields[]=field1&fields[]=field2` or alternately `fields=field1,field2`."
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "where",
+                        "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "sort",
+                        "description": "Comma separated field names to sort rows, rows will sort in ascending order based on provided columns. To sort in descending order provide `-` prefix along with column name, like `-field`. Example : `sort=field1,-field2`"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ToDosResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/groupby": {
+            "get": {
+                "summary": "ToDos groupby",
+                "operationId": "todos-groupby",
+                "description": "Group by a column.",
+                "tags": [
+                    "ToDos"
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "column_name",
+                        "description": "Column name of the column you want to group by, eg. `column_name=column1`"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "sort",
+                        "description": "Comma separated field names to sort rows, rows will sort in ascending order based on provided columns. To sort in descending order provide `-` prefix along with column name, like `-field`. Example : `sort=field1,-field2`"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "where",
+                        "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 1
+                        },
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The `limit` parameter used for pagination, the response collection size depends on limit value with default value `25` and maximum value `1000`, which can be overridden by environment variables `DB_QUERY_LIMIT_DEFAULT` and `DB_QUERY_LIMIT_MAX` respectively.",
+                        "example": 25
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "in": "query",
+                        "name": "offset",
+                        "description": "The `offset` parameter used for pagination, the value helps to select collection from a certain index.",
+                        "example": 0
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "in": "query",
+                        "name": "shuffle",
+                        "description": "The `shuffle` parameter used for pagination, the response will be shuffled if it is set to 1.",
+                        "example": 0
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Groupby"
+                                            }
+                                        },
+                                        "PageInfo": {
+                                            "$ref": "#/components/schemas/Paginated"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/db/data/bulk/v1/Quant-UX/ToDos": {
+            "post": {
+                "summary": "ToDos bulk insert",
+                "description": "To insert large amount of data in a single api call you can use this api. It's similar to insert method but here you can pass array of objects to insert into table. Array object will be key value paired column name and value.",
+                "operationId": "todos-bulk-create",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "ToDos bulk  update",
+                "description": "To update multiple records using it's primary key you can use this api. Bulk updated api accepts array object in which each object should contain it's primary columns value mapped to corresponding alias. In addition to primary key you can include the fields which you want to update",
+                "operationId": "todos-bulk-update",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "ToDos bulk delete by IDs",
+                "description": "To delete multiple records using it's primary key you can use this api. Bulk delete api accepts array object in which each object should contain it's primary columns value mapped to corresponding alias.",
+                "operationId": "todos-bulk-delete",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/db/data/bulk/v1/Quant-UX/ToDos/all": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "query",
+                    "name": "where",
+                    "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                }
+            ],
+            "patch": {
+                "summary": "ToDos Bulk update with conditions",
+                "description": "This api helps you update multiple table rows in a single api call. You don't have to pass the record id instead you can filter records and apply the changes to filtered records. Payload is similar as normal update in which you can pass any partial row data to be updated.",
+                "operationId": "todos-bulk-update-all",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Bulk delete with conditions",
+                "description": "This api helps you delete multiple table rows in a single api call. You don't have to pass the record id instead you can filter records and delete filtered records.",
+                "operationId": "todos-bulk-delete-all",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos"
+                ]
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/export/{type}": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "csv",
+                            "excel"
+                        ]
+                    },
+                    "name": "type",
+                    "in": "path",
+                    "required": true
+                }
+            ],
+            "get": {
+                "summary": "Rows export",
+                "operationId": "todos-csv-export",
+                "description": "Export all the records from a table.Currently we are only supports `csv` export.",
+                "tags": [
+                    "ToDos"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {}
+                            }
+                        },
+                        "headers": {
+                            "nc-export-offset": {
+                                "schema": {
+                                    "type": "integer"
+                                },
+                                "description": "Offset of next set of data which will be helpful if there is large amount of data. It will returns `-1` if all set of data exported.",
+                                "example": "1000"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Helps to start export from a certain index. You can get the next set of data offset from previous response header named `nc-export-offset`.",
+                        "example": 0
+                    }
+                ]
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/views/ToDos": {
+            "get": {
+                "summary": "ToDos list",
+                "operationId": "ToDos-ToDos-row-list",
+                "description": "List of all rows from ToDos grid view and data of fields can be filtered based on query params. Data and fields in a grid view will be filtered and sorted by default based on the applied options in Dashboard.",
+                "tags": [
+                    "ToDos ( ToDos grid )"
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Array of field names or comma separated filed names to include in the response objects. In array syntax pass it like `fields[]=field1&fields[]=field2` or alternately `fields=field1,field2`."
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "sort",
+                        "description": "Comma separated field names to sort rows, rows will sort in ascending order based on provided columns. To sort in descending order provide `-` prefix along with column name, like `-field`. Example : `sort=field1,-field2`"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "where",
+                        "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ToDosToDosGridResponse"
+                                            }
+                                        },
+                                        "PageInfo": {
+                                            "$ref": "#/components/schemas/Paginated"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "ToDos create",
+                "description": "Insert a new row in table by providing a key value pair object where key refers to the column alias. All the required fields should be included with payload excluding `autoincrement` and column with default value.",
+                "operationId": "ToDos-ToDos-row-create",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos ( ToDos grid )"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ToDosToDosGridRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/views/ToDos/count": {
+            "get": {
+                "summary": "ToDos count",
+                "operationId": "ToDos-ToDos-row-count",
+                "description": "",
+                "tags": [
+                    "ToDos ( ToDos grid )"
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "where",
+                        "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/views/ToDos/{rowId}": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "rowId",
+                    "in": "path",
+                    "required": true,
+                    "example": 1,
+                    "description": "Primary key of the record you want to read. If the table have composite primary key then combine them by using `___` and pass it as primary key."
+                }
+            ],
+            "get": {
+                "summary": "ToDos read",
+                "description": "Read a row data by using the **primary key** column value.",
+                "operationId": "ToDos-ToDos-row-read",
+                "responses": {
+                    "200": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ToDosToDosGridResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos ( ToDos grid )"
+                ]
+            },
+            "patch": {
+                "summary": "ToDos update",
+                "description": "Partial update row in table by providing a key value pair object where key refers to the column alias. You need to only include columns which you want to update.",
+                "operationId": "ToDos-ToDos-row-update",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ToDos ( ToDos grid )"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ToDosToDosGridRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "ToDos delete",
+                "operationId": "ToDos-ToDos-row-delete",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "tags": [
+                    "ToDos ( ToDos grid )"
+                ],
+                "description": "Delete a row by using the **primary key** column value."
+            }
+        },
+        "/api/v1/db/data/v1/Quant-UX/ToDos/views/ToDos/export/{type}": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "csv",
+                            "excel"
+                        ]
+                    },
+                    "name": "type",
+                    "in": "path",
+                    "required": true
+                }
+            ],
+            "get": {
+                "summary": "ToDos export",
+                "operationId": "ToDos-ToDos-row-export",
+                "description": "Export all the records from a table view. Currently we are only supports `csv` export.",
+                "tags": [
+                    "ToDos ( ToDos grid )"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {}
+                            }
+                        },
+                        "headers": {
+                            "nc-export-offset": {
+                                "schema": {
+                                    "type": "integer"
+                                },
+                                "description": "Offset of next set of data which will be helpful if there is large amount of data. It will returns `-1` if all set of data exported.",
+                                "example": "1000"
+                            }
+                        }
+                    }
+                },
+                "parameters": []
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Paginated": {
+                "title": "Paginated",
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer"
+                    },
+                    "totalRows": {
+                        "type": "integer"
+                    },
+                    "isFirstPage": {
+                        "type": "boolean"
+                    },
+                    "isLastPage": {
+                        "type": "boolean"
+                    },
+                    "page": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Attachment": {
+                "title": "Attachment",
+                "type": "object",
+                "properties": {
+                    "mimetype": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Groupby": {
+                "title": "Groupby",
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "type": "number",
+                        "description": "count"
+                    },
+                    "column_name": {
+                        "type": "string",
+                        "description": "the value of the given column"
+                    }
+                }
+            },
+            "ToDosResponse": {
+                "title": "ToDos Response",
+                "type": "object",
+                "description": "",
+                "x-internal": false,
+                "properties": {
+                    "Id": {
+                        "type": "integer"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "CreatedAt": {
+                        "type": "string"
+                    },
+                    "UpdatedAt": {
+                        "type": "string"
+                    },
+                    "Description": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ToDosRequest": {
+                "title": "ToDos Request",
+                "type": "object",
+                "description": "",
+                "x-internal": false,
+                "properties": {
+                    "Id": {
+                        "type": "integer"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "CreatedAt": {
+                        "type": "string"
+                    },
+                    "UpdatedAt": {
+                        "type": "string"
+                    },
+                    "Description": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ToDosToDosGridResponse": {
+                "title": "ToDos : ToDos Response",
+                "type": "object",
+                "description": "",
+                "x-internal": false,
+                "properties": {
+                    "Id": {
+                        "type": "integer"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "CreatedAt": {
+                        "type": "string"
+                    },
+                    "UpdatedAt": {
+                        "type": "string"
+                    },
+                    "Description": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ToDosToDosGridRequest": {
+                "title": "ToDos : ToDos Request",
+                "type": "object",
+                "description": "",
+                "x-internal": false,
+                "properties": {
+                    "Id": {
+                        "type": "integer"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "CreatedAt": {
+                        "type": "string"
+                    },
+                    "UpdatedAt": {
+                        "type": "string"
+                    },
+                    "Description": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "xcAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "xc-auth",
+                "description": "JWT access token"
+            },
+            "xcToken": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "xc-token",
+                "description": "API token"
+            }
+        }
+    },
+    "security": [
+        {
+            "xcAuth": []
+        },
+        {
+            "xcToken": []
+        }
+    ]
+}

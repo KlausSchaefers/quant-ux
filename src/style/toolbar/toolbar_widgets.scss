@@ -843,6 +843,7 @@
 	text-align: left;
 	z-index: 900000;
 	padding: 0px;
+	font-size: $popup_font_size;
 
 	input {
 		border-radius: $toolbar_form_radius;
@@ -1011,11 +1012,6 @@ input.MatcToobarInlineEditDisabled:focus {
 	opacity: 1;
 }
 
-
-.MatcToolbarDropDownButtonPopup {
-	font-size: 14px;
-}
-
 .MatcToobarPropertiesSection .MatcToolbarDropDownButton {
 	border: 1px solid transparent;
 }
@@ -1068,16 +1064,13 @@ input.MatcToobarInlineEditDisabled:focus {
 
 .MatcToolbar .MatcToolbarDropDownButton li,
 .MatcToolbarDropDownButtonPopup li {
-	padding: 8px;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding: $popup_padding;
 	position: relative;
-	font-size: 14px;
+	font-size: $popup_font_size;
 	font-weight: 400;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
-
 }
 
 .MatcToolbar .MatcToolbarDropDownButton .MatcToolbarPopUpLine,
@@ -1500,4 +1493,9 @@ input.MatcToobarInlineEditDisabled:focus {
 	.MatcToolbarItemLabel{
 		margin: 0px;
 	}
+}
+
+.MatcToolBarTextArea.MatcToolbarItem {
+	height: auto;
+	min-height: auto;
 }
