@@ -1,156 +1,33 @@
 [
- {
-	 "id" : "Box",
-	 "type" : "Box",
-	 "category" : "WireFrame",
-	 "subcategory" : "ABox",
-	 "_type" : "Widget",
-	 "name" : "Rectangle",
-	 "x" : 0,
-     "y" : 0,
-     "w" : 100,
-     "h" : 40,
-     "z" : 0,
-     "props" : {},
-     "has" : {
-        "backgroundColor" : true,
-        "border" : true
-     },
-     "actions":{},
-     "style" : { 
-    	 "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-    	 "borderTopRightRadius" : 0,
-         "borderTopLeftRadius" : 0,
-         "borderBottomRightRadius" : 0,
-         "borderBottomLeftRadius" : 0,
-         "borderTopWidth" : 1,
-         "borderBottomWidth" : 1,
-         "borderRightWidth" : 1,
-         "borderLeftWidth" : 1,
-         "borderTopColor" : "#000000",
-         "borderBottomColor" : "#000000",
-         "borderRightColor" : "#000000",
-         "borderLeftColor" : "#000000",
-         "background" : "#ffffff"
-     }
- },
- {
-	 "id" : "RoundedBox",
-	 "type" : "Box",
-	 "category" : "WireFrame",
-	 "subcategory" : "YBox",
-	 "name" : "Rounded Rectangle",
-	 "_extends" : "Box",
-     "style" : { 
-    	 "borderTopRightRadius" : 10,
-         "borderTopLeftRadius" : 10,
-         "borderBottomRightRadius" : 10,
-         "borderBottomLeftRadius" : 10,
-         "borderTopWidth" :1,
-         "borderBottomWidth" : 1,
-         "borderRightWidth" : 1,
-         "borderLeftWidth" : 1,
-         "borderTopColor" : "#000000",
-         "borderBottomColor" : "#000000",
-         "borderRightColor" : "#000000",
-         "borderLeftColor" : "#000000",
-         "background" : "#ffffff"
-     }
- },
- {
-	 "id" : "RoundedBoxDark",
-	 "type" : "Box",
-	 "category" : "WireFrame",
-	 "subcategory" : "YBox",
-	 "name" : "Rounded Rectangle",
-	 "_extends" : "Box",
-     "style" : { 
-    	 "borderTopRightRadius" : 10,
-         "borderTopLeftRadius" : 10,
-         "borderBottomRightRadius" : 10,
-         "borderBottomLeftRadius" : 10,
-         "borderTopWidth" : 0,
-         "borderBottomWidth" : 0,
-         "borderRightWidth" : 0,
-         "borderLeftWidth" : 0,
-         "borderTopColor" : "#000000",
-         "borderBottomColor" : "#000000",
-         "borderRightColor" : "#000000",
-         "borderLeftColor" : "#000000",
-         "background" : "#000000"
-     }
- },
- {
-	 "id" : "BorderLessBox",
-	 "type" : "Box",
-	 "category" : "WireFrame",
-	 "name" : "Rectangle",
-	 "subcategory" : "YBox",
-	 "_extends" : "Box",
-     "style" : { 
-    	 "borderTopRightRadius" : 0,
-         "borderTopLeftRadius" : 0,
-         "borderBottomRightRadius" : 0,
-         "borderBottomLeftRadius" : 0,
-         "borderTopWidth" : 0,
-         "borderBottomWidth" : 0,
-         "borderRightWidth" : 0,
-         "borderLeftWidth" : 0,
-         "borderTopColor" : "#000000",
-         "borderBottomColor" : "#000000",
-         "borderRightColor" : "#000000",
-         "borderLeftColor" : "#000000",
-         "background" : "#000000"
-     }
- },
- {
-	 "id" : "WhiteCircle",
-	 "type" : "Box",
-	 "category" : "WireFrame",
-	 "subcategory" : "ZBox",
-	 "name" : "Circle",
-	 "_extends" : "Box",
-	  "w" : 100,
-	  "h" : 100,
-     "style" : { 
-    	 "borderTopRightRadius" : 400,
-         "borderTopLeftRadius" : 400,
-         "borderBottomRightRadius" : 400,
-         "borderBottomLeftRadius" : 400,
-         "borderTopWidth" : 1,
-         "borderBottomWidth" : 1,
-         "borderRightWidth" : 1,
-         "borderLeftWidth" : 1,
-         "borderTopColor" : "#000000",
-         "borderBottomColor" : "#000000",
-         "borderRightColor" : "#000000",
-         "borderLeftColor" : "#000000",
-         "background" : "#ffffff"
-     }
- },
- {
-	 "id" : "DarkCirle",
-	 "type" : "Box",
-	 "category" : "WireFrame",
-	 "subcategory" : "ZBox",
-	 "name" : "Circle",
-	 "_extends" : "Box",
-	  "w" : 100,
-	  "h" : 100,
-     "style" : { 
-    	 "borderTopRightRadius" : 400,
-         "borderTopLeftRadius" : 400,
-         "borderBottomRightRadius" : 400,
-         "borderBottomLeftRadius" : 400,
-         "borderTopWidth" : 0,
-         "borderBottomWidth" : 0,
-         "borderRightWidth" : 0,
-         "borderLeftWidth" : 0,
-         "borderTopColor" : "#000000",
-         "borderBottomColor" : "#000000",
-         "borderRightColor" : "#000000",
-         "borderLeftColor" : "#000000",
-         "background" : "#000000"
-     }
- }
+    {
+        "id": "Box",
+        "type": "Box",
+        "category": "WireFrame",
+        "subcategory": "XXXXBox",
+        "_type": "Widget",
+        "name": "Rectangle (R)",
+        "x": 0,
+        "y": 0,
+        "w": "@box-width-l",
+        "h": "@box-height-s",
+        "z": 0,
+        "props": {},
+        "has": {
+            "backgroundColor": true,
+            "border": true
+        },
+        "actions": {},
+        "style": {
+            "fontSize": "@font-size-m",
+			"textAlign" : "left",
+            "letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+
+            "fontFamily": "@font-family",
+            "borderRadius": "@border-radius",        
+            "borderWidth": "@border-width",       
+            "borderColor": "@button-primary-border-color",
+			"background": "@button-primary-background"
+        }
+    }
 ]

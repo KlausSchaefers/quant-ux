@@ -9,8 +9,8 @@
 
 	"x" : 0,
 	"y" : 0,
-	"w" : 80,
-	"h" : 40,
+	"w": "@box-width-m",
+	"h": "@box-height-xs",
 	"z" : 0,
 	"props" : {
 		"refs" : {
@@ -23,28 +23,22 @@
 		"label" : true
 	},
 	"style" : {
-		"fontSize" : 20,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+
+		"fontSize": "@font-size-l",
+		"fontFamily": "@font-family",
 		"textAlign" : "center",
-		"letterSpacing" : 1,
-		"lineHeight" : 1,
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1,
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000",
-		"background" : "#ffffff",
-		"color" : "#000000",
-		"borderTopRightRadius" : 2,
-		"borderTopLeftRadius" : 2,
-		"borderBottomRightRadius" : 2,
-		"borderBottomLeftRadius" : 2
+		"letterSpacing": "@letterSpacing",
+		"lineHeight": "@lineHeight",
+
+		"background": "@form-background",
+		"color": "@form-color",
+
+		"borderRadius": "@border-radius",
+		"borderWidth": "@border-width",
+		"borderStyle": "solid",
+		"borderColor": "@form-border-color"
 	},
 	"hover" : {
-		"background" : "#000000",
-		"color" : "#ffffff"
+		"color" : "@form-border-color:focus"
 	}
 } ]

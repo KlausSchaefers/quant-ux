@@ -3,12 +3,12 @@
 	"type" : "ImageCarousel",
 	"name" : "Image Carousel",
 	"_type" : "Widget",
-	"category" : "WireFrame",
-	"subcategory" : "ImageCarousel",
+	"category" : "Advanced",
+	"subcategory" : "FormImage",
 	"x" : 0,
     "y" : 0,
-    "w" : 300,
-    "h" : 200,
+	"w": "@box-width-xxl",
+	"h": "@box-height-xl",
     "z" : 0,
     "props" : {
        "images" : [],
@@ -19,17 +19,9 @@
        "onclick" : true
     },
     "style" : { 
-      "borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
-		"borderTopWidth" : 0,
-		"borderBottomWidth" : 0,
-		"borderRightWidth" : 0,
-		"borderLeftWidth" : 0,
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000"
+		"borderRadius": "@border-radius",
+		"borderWidth": "@border-width-none",
+		"borderStyle": "solid",
+		"borderColor": "@button-primary-border-color"
     }
 }]

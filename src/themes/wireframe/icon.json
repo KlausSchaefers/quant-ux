@@ -1,14 +1,14 @@
 [ {
 	"id" : "Icon",
 	"type" : "Icon",
-	"category" : "WireFrame",
-	"subcategory" : "Image",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
 	"_type" : "Widget",
 	"name" : "Icon",
 	"x" : 0,
 	"y" : 0,
-	"w" : 60,
-	"h" : 60,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
 	"z" : 0,
 	"props" : {},
 	"has" : {
@@ -25,24 +25,24 @@
 		"borderBottomWidth" : 0,
 		"borderRightWidth" : 0,
 		"borderLeftWidth" : 0,
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000",
-		"color" : "#000000",
+		"borderTopColor" : "transparent",
+		"borderBottomColor" : "transparent",
+		"borderRightColor" : "transparent",
+		"borderLeftColor" : "transparent",
+		"color" : "@color-icon",
 		"icon" : "mdi mdi-android"
 	}
 }, {
 	"id" : "WireFrameIconToggleStar",
-	"category" : "WireFrame",
-	"subcategory" : "FormSpecial",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
 	"type" : "IconToggle",
 	"name" : "Favorite Button",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
-	"w" : 40,
-	"h" : 40,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
 	"z" : 0,
 	"props" : {
 		"activeIcon" : "mdi mdi-star",
@@ -51,20 +51,21 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#000000",
-		"passiveColor" : "#000000"
+		"activeColor" : "@color-active",
+		"passiveColor" : "@color-passive"
 	}
 }, {
 	"id" : "WireFrameIconToggleLock",
-	"category" : "WireFrame",
-	"subcategory" : "FormSpecial",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
 	"type" : "IconToggle",
 	"name" : "Lock Button",
+	"_extends": "WireFrameIconToggleStar",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
-	"w" : 40,
-	"h" : 40,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
 	"z" : 0,
 	"props" : {
 		"activeIcon" : "mdi mdi-lock",
@@ -72,44 +73,41 @@
 		"active" : false
 	},
 	"has" : {},
-	"style" : {
-		"activeColor" : "#000000",
-		"passiveColor" : "#000000"
+	"style" : {	
 	}
 }, {
 	"id" : "WireFrameIconToggleLock2",
-	"category" : "WireFrame",
-	"subcategory" : "FormSpecial",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
 	"type" : "IconToggle",
 	"name" : "Lock Button",
 	"_type" : "Widget",
+	"_extends": "WireFrameIconToggleStar",
+	"z" : 0,
 	"x" : 0,
 	"y" : 0,
-	"w" : 40,
-	"h" : 40,
-	"z" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
 	"props" : {
 		"activeIcon" : "mdi mdi-lock-outline",
 		"passiveIcon" : "mdi mdi-lock-open-outline",
 		"active" : false
 	},
 	"has" : {},
-	"style" : {
-		"activeColor" : "#000000",
-		"passiveColor" : "#000000"
+	"style" : {		
 	}
 }, {
 	"id" : "WireFrameIconToggleLike",
-	"category" : "WireFrame",
-	"subcategory" : "FormSpecialSocial",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
 	"type" : "IconToggle",
 	"name" : "Like Button",
+	"_extends": "WireFrameIconToggleStar",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
-	"w" : 40,
-	"h" : 40,
-	"z" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
 	"props" : {
 		"activeIcon" : "mdi mdi-thumb-up",
 		"passiveIcon" : "mdi mdi-thumb-up-outline",
@@ -117,21 +115,20 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#000000",
-		"passiveColor" : "#000000"
 	}
 }, {
 	"id" : "WireFrameIconToggleDislike",
-	"category" : "WireFrame",
-	"subcategory" : "FormSpecialSocial",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
 	"type" : "IconToggle",
 	"name" : "Dislike Button",
-	"_type" : "Widget",
+	"_extends": "WireFrameIconToggleStar",
+	"_type" : "Widget",	
+	"z" : 0,
 	"x" : 0,
 	"y" : 0,
-	"w" : 40,
-	"h" : 40,
-	"z" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
 	"props" : {
 		"activeIcon" : "mdi mdi-thumb-down",
 		"passiveIcon" : "mdi mdi-thumb-down-outline",
@@ -139,22 +136,21 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#000000",
-		"passiveColor" : "#000000"
 	}
 },{
 	
 	"id" : "WireFrameIconToggleHeart",
-	"category" : "WireFrame",
-	"subcategory" : "FormSpecial",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
 	"type" : "IconToggle",
 	"name" : "Heart Button",
+	"_extends": "WireFrameIconToggleStar",
 	"_type" : "Widget",
+	"z" : 0,
 	"x" : 0,
 	"y" : 0,
-	"w" : 40,
-	"h" : 40,
-	"z" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
 	"props" : {
 		"activeIcon" : "mdi mdi-heart",
 		"passiveIcon" : "mdi mdi-heart-outline",
@@ -162,22 +158,20 @@
 	},
 	"has" : {},
 	"style" : {
-		"activeColor" : "#000000",
-		"passiveColor" : "#000000"
 	}
 	
 }, 
 {
 	"id" : "WireFrameLabeledIconToggleLike",
-	"category" : "WireFrame",
-	"subcategory" : "FormSpecialSocial",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
 	"type" : "LabeledIconToggle",
 	"name" : "Like Label",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
-	"w" : 140,
-	"h" : 40,
+	"w": "@box-width-xl",
+	"h": "@box-height-xs",
 	"z" : 0,
 	"props" : {
 		"activeIcon" : "mdi mdi-thumb-up",
@@ -190,19 +184,20 @@
 		"padding" : true
 	},
 	"style" : {
-		"fontSize" : "Auto",
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"fontSize": "@font-size-m",
+		"fontFamily": "@font-family",
 		"textAlign" : "left",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"paddingTop" : 0,
-		"paddingBottom" : 0,
-		"paddingLeft" : 10,
-		"paddingRight" : 0,
+		"background": "@form-background",
+
+		"paddingTop": 0,
+		"paddingBottom": 0,
+		"paddingRight": 0,
+		"paddingLeft" : "@spacing-s",
+
 		"color": "transparent",
 		"verticalAlign" : "middle",
-		"activeColor" : "#000000",
-		"passiveColor" : "#000000"
+		"activeColor" : "@form-color",
+		"passiveColor" : "@form-color"
 	}
 }
 ]

@@ -1,56 +1,38 @@
 [
-    {
-		"id": "WireframeMEnuDots",
-		"type": "NavMenu",
-		"name": "Navigation Menu ",
-		"category": "WireFrame",
-		"subcategory": "XNavigation",
-		"_type": "Widget",
-		"_extends": "WireframeMenuDropDown",
-		"x": 0,
-		"y": 0,
-		"w": 40,
-		"h": 40,
-		"z": 0,
-		"props": {
-			"hidetext" : true,
-		    "icon" : "mdi mdi-dots-vertical",
-			"navigation": [
-				{
-					"id": 1,
-					"label": "Home",
-					"icon": "mdi mdi-home",
-					"to": "",
-					"selected": true
-				},
-				{
-					"id": 2,
-					"label": "Search",
-					"icon": "mdi mdi-magnify",
-					"to": ""
-				},
-				{
-					"id": 3,
-					"label": "Account",
-					"icon": "mdi mdi-account-outline",
-					"to": ""
-				}
-			]
-		},
-		"has": {
-			"onclick": true,
-			"border": false,
-			"backgroundColor": true,
-			"data": true,
-			"padding": true,
-			"label": true,
-			"icon": true
-		},
-		"style": {
-			"borderTopWidth" : 0,
-			"borderBottomWidth":0,
-			"borderRightWidth" : 0,
-			"borderLeftWidth" : 0		   
-		}
-	}
+{
+	"id" : "WireFrameHamburger",
+	"type" : "DropDown",
+	"name" : "Hamburger Menu",
+	 "subcategory" : "Menu",
+	"category" : "Advanced",
+	"_extends": "DropDown",
+	"_type" : "Widget",
+	"x" : 0,
+    "y" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
+    "z" : 0,
+    "props" : {
+        "options" : ["Option 1", "Option 2", "Option 3"],
+	     "hidetext" : true,
+		 "icon" : "mdi mdi-menu",
+		 "hasIcon": true
+     },
+     "has" : {
+    	 "onclick" : true,
+	     "border" : false,
+	     "backgroundColor" : true,
+	     "data" : true,
+	     "padding":true,
+		 "label":true,
+		 "icon": true
+     },
+     "style" : { 
+    	 "borderRadius" : 0,
+         "borderWidth" : 0,
+		 "borderColor": "@form-border-color",	
+         "background" : "@form-background",	
+         "color":"@form-color"     
+     }
+	}	
 ]

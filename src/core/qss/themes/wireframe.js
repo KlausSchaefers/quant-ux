@@ -11,17 +11,17 @@ export default {
    "@font-size-xl": {"value": 24, "type": "fontSize"},
    "@font-size-xxl": {"value": 32, "type": "fontSize"},
 
-   "@font-family": {"value": "Comic Sans MS, cursive, sans-serif", "type": "fontFamily"},
+   "@font-family": {"value": "Helvetica Neue,Helvetica,Arial,sans-serif", "type": "fontFamily"},
    "@font-weight": {"value": "", "type": "fontWeight"},
    "@letterSpacing": {"value": 0, "type": "letterSpacing"},
    "@lineHeight": {"value": 1, "type": "lineHeight"},
 
    "@border-width-none": {"value": 0, "type": "borderWidth"},
-   "@border-width": {"value": 3, "type": "borderWidth"},
-   "@border-width:hover": {"value": 3, "type": "borderWidth"},
-   "@border-width:focus": {"value": 3, "type": "borderWidth"},
+   "@border-width": {"value": 1, "type": "borderWidth"},
+   "@border-width:hover": {"value": 1, "type": "borderWidth"},
+   "@border-width:focus": {"value": 1, "type": "borderWidth"},
 
-   "@border-radius": {"value": 8, "type": "borderRadius"},
+   "@border-radius": {"value": 4, "type": "borderRadius"},
    "@border-radius-round": {"value": 256, "type": "borderRadius"},
    "@border-radius-none": {"value": 0, "type": "borderRadius"},
 
@@ -35,12 +35,12 @@ export default {
 
    // checkboxes and co
    "@background-passive": {"value": "#CCCCCC", "type": "color"},
-   "@background-passive:hover": {"value": "#222222", "type": "color"},
+   "@background-passive:hover": {"value": "#000000", "type": "color"},
    "@color-passive": {"value": "", "type": "color"},
    "@color-passive:hover": {"value": "#FFFFFF", "type": "color"},
 
-   "@background-active": {"value": "#222222", "type": "color"},
-   "@background-active:hover": {"value": "dark#222222", "type": "color"},
+   "@background-active": {"value": "#000000", "type": "color"},
+   "@background-active:hover": {"value": "dark#000000", "type": "color"},
    "@color-active": {"value": "#FFFFFF", "type": "color"}, 
    "@color-active:hover": {"value": "#FFFFFF", "type": "color"},
 
@@ -61,7 +61,7 @@ export default {
 
    "@background-icon": {"value": "transparent", "type": "color"},
    "@background-icon:hover": {"value": "transparent", "type": "color"},
-   "@color-icon": {"value": "#222222", "type": "color"},
+   "@color-icon": {"value": "#000000", "type": "color"},
    "@color-icon:hover": {"value": "#000000", "type": "color"},
 
    // box shadows
@@ -70,10 +70,10 @@ export default {
    "@box-shadow-l": {"value": null, "type": "boxShadow"},
 
    // labels
-   "@label-color": {"value": "#222222", "type": "red"},
+   "@label-color": {"value": "#000000", "type": "red"},
    "@label-color:hover": {"value": "blue", "type": "color"},
-   "@label-color:error": {"value": "#222222", "type": "color"},
-   "@label-color-secondary": {"value": "#222222", "type": "red"},
+   "@label-color:error": {"value": "#000000", "type": "color"},
+   "@label-color-secondary": {"value": "#000000", "type": "red"},
 
    "@label-font-weight-default": {"value": "", "type": "fontWeight"},
    "@label-font-weight-bold": {"value": "bold", "type": "fontWeight"},
@@ -83,10 +83,10 @@ export default {
    "@form-padding-vertical": {"value": 2, "type": "paddingVertical"},
 
    "@form-height": {"value": 32, "type": "height"},
-   "@form-width": {"value": 256, "type": "width"},
+   "@form-width": {"value": 128, "type": "width"},
 
-   "@form-border-color": {"value": "#222222", "type": "color"},
-   "@form-color": {"value": "#222222", "type": "color"},
+   "@form-border-color": {"value": "#000000", "type": "color"},
+   "@form-color": {"value": "#000000", "type": "color"},
    "@form-background": {"value": "#FFFFFF", "type": "color"},
 
    "@form-border-color:hover": {"value": "#000000", "type": "color"},
@@ -105,22 +105,22 @@ export default {
    "@form-popup-color": {"value": "#000000", "type": "color"},
    "@form-popup-background": {"value": "#FFFFFF", "type": "color"},
    "@form-popup-backgrop": {"value": "rgba(0,0,0,0.8)", "type": "color"},
-   "@form-popup-border-width": {"value": 3, "type": "borderWidth"},
+   "@form-popup-border-width": {"value": 1, "type": "borderWidth"},
    "@form-popup-color:hover": {"value": "#000000", "type": "color"},
    "@form-popup-background:hover": {"value": "#CCCCCC", "type": "color"},
 
    // buttons
 
-   "@button-primary-border-color": {"value": "#222222", "type": "color"},
-   "@button-primary-background": {"value": "#222222", "type": "color"},
+   "@button-primary-border-color": {"value": "#000000", "type": "color"},
+   "@button-primary-background": {"value": "#000000", "type": "color"},
    "@button-primary-color": {"value": "#FFFFFF", "type": "color"},
    "@button-primary-border-color:hover": {"value": "#000000", "type": "color"},
    "@button-primary-background:hover": {"value": "#000000", "type": "color"},
    "@button-primary-color:hover": {"value": "#FFFFFF", "type": "color"},
 
-   "@button-secundary-border-color": {"value": "#222222", "type": "color"},
+   "@button-secundary-border-color": {"value": "#000000", "type": "color"},
    "@button-secundary-background": {"value": "#FFFFFF", "type": "color"},
-   "@button-secundary-color": {"value": "#222222", "type": "color"},
+   "@button-secundary-color": {"value": "#000000", "type": "color"},
    "@button-secundary-border-color:hover": {"value": "#000000", "type": "color"},
    "@button-secundary-background:hover": {"value": "#000000", "type": "color"},
    "@button-secundary-color:hover": {"value": "#FFFFFF", "type": "color"},
@@ -134,7 +134,7 @@ export default {
 
    "@button-passive-border-color": {"value": "#CCCCCC", "type": "color"},
    "@button-passive-background": {"value": "#CCCCCC", "type": "color"},
-   "@button-passive-color": {"value": "#222222", "type": "color"},
+   "@button-passive-color": {"value": "#000000", "type": "color"},
    "@button-passive-border-color:hover": {"value": "#CCCCCC", "type": "color"},
    "@button-passive-background:hover": {"value": "#CCCCCC", "type": "color"},
    "@button-passive-color:hover": {"value": "#FFFFFF", "type": "color"},

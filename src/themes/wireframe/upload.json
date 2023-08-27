@@ -1,55 +1,23 @@
 [
     {
-        "id" : "UploadFile",
-        "type" : "Upload",
-        "category" : "WireFrame",
-        "subcategory" : "XBoxCamera",
-        "_type" : "Widget",
-        "name" : "Upload",
-        "x" : 0,
-        "y" : 0,
-        "w" : 200,
-        "h" : 40,
-        "z" : 0,
-        "props" : {
-        	"label" : "Choose File"
+        "id": "UploadFile",
+        "type": "Upload",
+        "category": "WireFrame",
+        "subcategory": "XBoxCamera",
+        "_type": "Widget",
+        "name": "Upload",
+        "_extends": "TextBox",
+        "z": 0,
+        "props": {
+            "label": "Choose File"
         },
-        "has" : {
-           "backgroundColor" : true,
-           "border" : true,
-           "label" : true,
-           "padding" : true
+        "has": {
+            "backgroundColor": true,
+            "border": true,
+            "label": true,
+            "padding": true
         },
-        "actions":{},
-        "style" : { 
-            "fontSize" : 20,
-            "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-            "textAlign" : "center",
-            "letterSpacing" : 0,
-            "lineHeight" : 1,
-            "color" : "#000000",
-            "paddingTop" : 0,
-            "paddingBottom" : 0,
-            "paddingLeft" : 0,
-            "paddingRight" : 0,
-            "borderTopRightRadius" : 3,
-            "borderTopLeftRadius" : 3,
-            "borderBottomRightRadius" : 3,
-            "borderBottomLeftRadius" : 3,
-            "borderTopWidth" : 1,
-            "borderBottomWidth" : 1,
-            "borderRightWidth" : 1,
-            "borderLeftWidth" : 1,
-            "borderTopColor" : "#000000",
-            "borderBottomColor" : "#000000",
-            "borderRightColor" : "#000000",
-            "borderLeftColor" : "#000000",
-            "borderTopStyle": "solid",
-            "borderBottomStyle": "solid",
-            "borderRightStyle": "solid",
-            "borderLeftStyle": "solid",
-            "background": "#cecece",
-            "verticalAlign" : "middle"
-        }
+        "actions": {},
+        "style": {}
     }
 ]

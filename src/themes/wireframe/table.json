@@ -2,7 +2,7 @@
 	"id" : "Table",
 	"type" : "Table",
 	"name" : "Table",
-	 "_type" : "Widget",
+	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
 	"w" : 300,
@@ -25,44 +25,42 @@
 	     "label" : true
 	},
 	"style" : {
-		"fontSize" : 14,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"textAlign" : "center",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1,
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000",
-		"background" : "#fff",
-		"color" : "#000000",
-		"paddingTop" : 10,
-		"paddingBottom": 10,
-		"paddingLeft" : 5,
-		"paddingRight" : 5,
+
+		"fontSize": "@font-size-m",
+		"fontFamily": "@font-family",
+		"textAlign" : "left",
+		"letterSpacing": "@letterSpacing",
+		"lineHeight": "@lineHeight",
+
+		"background": "@form-background",
+		"color": "@form-color",
+
+		"borderRadius": "@border-radius-none",
+		"borderWidth": "@border-width",
+		"borderStyle": "solid",
+		"borderColor": "@form-border-color",	
+
+		"paddingBottom": "@form-padding-vertical",
+		"paddingTop": "@form-padding-vertical",
+		"paddingLeft": "@form-padding-horizontal",
+		"paddingRight": "@form-padding-horizontal",
+
+	
 		"headerFontWeight" : "800",
-		"headerBackground" : "#000000",
+		"headerBackground" : "@form-border-color",
 		"headerSticky": true,
-		"headerColor" : "#fff",
+		"headerColor" : "@form-background",
 		"checkBox": false,
-		"checkBoxHookColor": "#000000",
-		"checkBoxBackground": "#ffffff",
-		"checkBoxBorderColor": "#000000",
-		"checkBoxBorderRadius": 2,
+		"checkBoxHookColor": "#@background-active",
+		"checkBoxBackground": "@form-background",
+		"checkBoxBorderColor": "@form-border-color",
+		"checkBoxBorderRadius": "@border-radius",
 		"checkBoxBorderWidth": 1
 	}
 },{
 	"id" : "LineTable",
 	"type" : "Table",
-	"name" : "Line Table",
+	"name" : "Selectable Table",
 	 "_type" : "Widget",
 	 "_extends": "Table",
 	"x" : 0,
@@ -74,13 +72,15 @@
 	"z" : 0,
 	"props" : {
 		"data" : [
-		          ["col1","col2","col2"], 
-		          ["val1","val2","val3"], 
-		          ["val4","val5","val6"], 
-		          ["val7","val8","val9"]
-		         ],
+					["col1","col2","col2"], 
+					["val1","val2","val3"], 
+					["val4","val5","val6"], 
+					["val7","val8","val9"]
+					],
 		"widths" : [100, 100,100],
-		"borderStyle" : "HLines"
+		"borderStyle" : "Cell"
+	}, 
+	"style": {
+		"checkBox": true
 	}
-
 } ]

@@ -1,13 +1,56 @@
 [
 	{
-		"id": "Button",
+		"id": "PrimaryButton",
 		"type": "Button",
 		"_type": "Widget",
 		"category": "WireFrame",
-		"subcategory": "XFormButton",
-		"name": "Border Button",
-		"_extends": "Box",
-		"w": 96,
+		"subcategory": "AButtons",
+		"name": "Primary Button",
+		"x": 0,
+        "y": 0,
+        "w": "@box-width-l",
+        "h": "@form-height",
+        "z": 0,
+		"props": {
+			"label": "Click Me"
+		},
+		"has": {
+			"backgroundColor": true,
+            "border": true,
+			"onclick": true,
+			"label": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "center",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"verticalAlign": "middle",
+			"padding": 0,	
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+
+			"borderColor": "@button-primary-border-color",
+			"background": "@button-primary-background",
+			"color": "@button-primary-color"	
+		},
+		"hover": {
+			"borderColor": "@button-primary-border-color:hover",
+			"background": "@button-primary-background:hover",
+			"color": "@button-primary-color:hover"	
+		}
+	},
+	{
+		"id": "SecondayButton",
+		"type": "Button",
+		"_type": "Widget",
+		"category": "WireFrame",
+		"subcategory": "AButtons",
+		"name": "Secondary Button",
+		"_extends": "PrimaryButton",
 		"props": {
 			"label": "Click Me"
 		},
@@ -17,36 +60,24 @@
 			"padding": true
 		},
 		"style": {
-			"fontSize": 14,
-			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
-			"textAlign": "center",
-			"letterSpacing": 0,
-			"lineHeight": 1,
-			"color": "#000000",
-			"paddingTop": 0,
-			"paddingBottom": 0,
-			"paddingLeft": 0,
-			"paddingRight": 0,
-			"borderTopRightRadius": 3,
-			"borderTopLeftRadius": 3,
-			"borderBottomRightRadius": 3,
-			"borderBottomLeftRadius": 3,
-			"borderTopWidth": 1,
-			"borderBottomWidth": 1,
-			"borderRightWidth": 1,
-			"borderLeftWidth": 1,
-			"verticalAlign": "middle"
+			"borderColor": "@button-secundary-border-color",
+			"background": "@button-secundary-background",
+			"color": "@button-secundary-color"	
+		},
+		"hover": {
+			"borderColor": "@button-secundary-border-color:hover",
+			"background": "@button-secundary-background:hover",
+			"color": "@button-secundary-color:hover"	
 		}
 	},
 	{
-		"id": "BlackButton",
+		"id": "DangerButton",
 		"type": "Button",
 		"_type": "Widget",
 		"category": "WireFrame",
-		"subcategory": "AAFormButton",
-		"name": "Button",
-		"_extends": "Box",
-		"w": 96,
+		"subcategory": "ACButtons",
+		"name": "Danger Button",
+		"_extends": "PrimaryButton",
 		"props": {
 			"label": "Click Me"
 		},
@@ -56,40 +87,26 @@
 			"padding": true
 		},
 		"style": {
-			"fontSize": 14,
-			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
-			"textAlign": "center",
-			"letterSpacing": 0,
-			"lineHeight": 1,
-			"color": "#ffffff",
-			"background": "#000000",
-			"paddingTop": 0,
-			"paddingBottom": 0,
-			"paddingLeft": 0,
-			"paddingRight": 0,
-			"borderTopRightRadius": 3,
-			"borderTopLeftRadius": 3,
-			"borderBottomRightRadius": 3,
-			"borderBottomLeftRadius": 3,
-			"borderTopColor": "#000000",
-			"borderBottomColor": "#000000",
-			"borderRightColor": "#000000",
-			"borderLeftColor": "#000000",
-			"verticalAlign": "middle"
+			"borderColor": "@button-danger-border-color",
+			"background": "@button-danger-background",
+			"color": "@button-danger-color"	
+		},
+		"hover": {
+			"borderColor": "@button-danger-border-color:hover",
+			"background": "@button-danger-background:hover",
+			"color": "@button-danger-color:hover"	
 		}
 	},
 	{
-		"id": "ToggleButton",
-		"type": "ToggleButton",
+		"id": "PassiveButton",
+		"type": "Button",
 		"_type": "Widget",
 		"category": "WireFrame",
-		"subcategory": "AFormButton",
-		"name": "Toggle Button",
-		"_extends": "Box",
-		"w":96,
+		"subcategory": "ACButtons",
+		"name": "Passive Button",
+		"_extends": "PrimaryButton",
 		"props": {
-			"label": "Toggle Me",
-			"active": false
+			"label": "Click Me"
 		},
 		"has": {
 			"onclick": true,
@@ -97,46 +114,26 @@
 			"padding": true
 		},
 		"style": {
-			"fontSize": 14,
-			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
-			"textAlign": "center",
-			"letterSpacing": 0,
-			"lineHeight": 1,
-			"color": "#000000",
-			"paddingTop": 0,
-			"paddingBottom": 0,
-			"paddingLeft": 0,
-			"paddingRight": 0,
-			"borderTopRightRadius": 3,
-			"borderTopLeftRadius": 3,
-			"borderBottomRightRadius": 3,
-			"borderBottomLeftRadius": 3,
-			"borderTopWidth": 1,
-			"borderBottomWidth": 1,
-			"borderRightWidth": 1,
-			"borderLeftWidth": 1,
-			"valign": "top",
-			"borderTopColor": "#000000",
-			"borderBottomColor": "#000000",
-			"borderRightColor": "#000000",
-			"borderLeftColor": "#000000",
-			"verticalAlign": "middle"
+			"borderColor": "@button-passive-border-color",
+			"background": "@button-passive-background",
+			"color": "@button-passive-color"	
 		},
-		"active": {
-			"color": "#ffffff",
-			"background": "#000000"
+		"hover": {
+			"borderColor": "@button-passive-border-color:hover",
+			"background": "@button-passive-background:hover",
+			"color": "@button-passive-color:hover"	
 		}
 	},
 	{
 		"id": "ImageToggleButton",
 		"type": "ToggleButton",
 		"_type": "Widget",
-		"category": "WireFrame",
-		"subcategory": "ImageCarousel",
+		"category": "Advanced",
+		"subcategory": "FormImage",
 		"name": "Image Toggle",
-		"_extends": "Box",
-		"w":96,
-		"h":96,
+		"_extends": "PrimaryButton",
+		"w": "@box-height-l",
+		"h": "@box-width-m",
 		"props": {
 			"isImageToggle": true,
 			"label": "",
@@ -147,34 +144,49 @@
 			"onclick": true
 		},
 		"style": {
-			"fontSize": 14,
-			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
-			"textAlign": "center",
-			"letterSpacing": 0,
-			"lineHeight": 1,
-			"color": "#000000",
-			"paddingTop": 0,
-			"paddingBottom": 0,
-			"paddingLeft": 0,
-			"paddingRight": 0,
-			"borderTopRightRadius": 0,
-			"borderTopLeftRadius": 0,
-			"borderBottomRightRadius": 0,
-			"borderBottomLeftRadius": 0,
-			"borderTopWidth": 0,
-			"borderBottomWidth": 0,
-			"borderRightWidth": 0,
-			"borderLeftWidth": 0,
-			"valign": "top",
-			"borderTopColor": "#000000",
-			"borderBottomColor": "#000000",
-			"borderRightColor": "#000000",
-			"borderLeftColor": "#000000",
-			"verticalAlign": "middle"
+			"color": "@button-secundary-color",
+			"borderColor": "@button-secundary-border-color",
+			"borderWidth": "@border-width-none",
+			"background": null			
+		}
+	},
+
+	{
+		"id" : "BackButton",
+		"type" : "Icon",
+		"name" : "Back Button",
+		"_type": "Widget",
+		"category": "Advanced",
+		"subcategory": "AButtons",
+		"x" : 0,
+		"y" : 0,
+		"w": "@box-height-m",
+		"h": "@box-width-s",
+		"props" : { },
+		"has" : {
+		  "onclick" : true,
+		  "data" : true
 		},
-		"active": {
-			"color": "#ffffff",
-			"background": "#000000"
+		"actions" : { },
+		"style" : {
+		  "borderTopRightRadius" : 0,
+		  "borderTopLeftRadius" : 0,
+		  "borderBottomRightRadius" : 0,
+		  "borderBottomLeftRadius" : 0,
+		  "borderTopWidth" : 0,
+		  "borderBottomWidth" : 0,
+		  "borderRightWidth" : 0,
+		  "borderLeftWidth" : 0,
+		  "borderTopColor" : "transparent",
+		  "borderBottomColor" : "transparent",
+		  "borderRightColor" : "transparent",
+		  "borderLeftColor" : "transparent",
+		  "color": "@button-secundary-color",
+		  "icon" : "mdi mdi-chevron-left"
+		},
+		"created" : 1690317491971,
+		"action" : {
+		  "type" : "back"
 		}
 	}
 ]

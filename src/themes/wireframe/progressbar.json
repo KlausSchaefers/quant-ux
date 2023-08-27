@@ -2,13 +2,13 @@
 	"id" : "WireFrameProgressBar",
 	"type" : "ProgressBar",
 	"name" : "Progress",
-	"category" : "WireFrame",
+	"category" : "Advanced",
 	"subcategory" : "FormSpecial",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
-	"w" : 200,
-	"h" : 24,
+	"w": "@box-width-xxl",
+	"h": "@box-height-xxs",
 	"z" : 0,
 	"props" : {
 		"value" : 50
@@ -18,29 +18,13 @@
 		"border" : true
 	},
 	"style" : {
-		"fontSize" : 14,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"textAlign" : "center",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"color" : "#000000",
-		"paddingTop" : 0,
-		"paddingBottom" : 0,
-		"paddingLeft" : 0,
-		"paddingRight" : 0,
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1,
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000",
-		"background" : "#ffffff",
-		"foreground": "#000000"
+		
+		"borderRadius": "@border-radius",
+		"borderWidth": "@border-width",
+		"borderStyle": "solid",
+		"borderColor": "@form-border-color",	
+
+		"background" : "@background-passive",
+		"foreground": "@background-active"
 	}
 } ]

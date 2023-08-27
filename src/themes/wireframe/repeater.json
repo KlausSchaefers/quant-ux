@@ -2,7 +2,7 @@
 	"id" : "WireFrameRepeater",
 	"type" : "Repeater",
 	"name" : "Grid",
-	"category" : "WireFrame",
+	"category" : "Advanced",
 	"subcategory" : "FormSpecialContainer",
 	"_type" : "Widget",
 	"x" : 0,
@@ -25,19 +25,17 @@
 		"border":true
 	},
 	"style" : {
-		"color" : "#000000",
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
-		"borderTopWidth" : 0,
-		"borderBottomWidth" : 0,
-		"borderRightWidth" : 0,
-		"borderLeftWidth" : 0,
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000",
+		"fontSize": "@font-size-m",
+		"fontFamily": "@font-family",
+		"textAlign" : "left",
+		"letterSpacing": "@letterSpacing",
+		"lineHeight": "@lineHeight",
+
+		"borderRadius": 0,
+		"borderWidth": 0,
+		"borderStyle": "solid",
+		"borderColor": "@form-border-color",
+
 		"background" : null
 	}
 } ]

@@ -8,11 +8,11 @@
 		 "_type" : "Widget",
 		 "x" : 0,
 	     "y" : 0,
-	     "w" : 200,
-	     "h" : 100,
+		 "w": "@box-width-xxl",
+		 "h": "@box-height-l",
 	     "z" : 0,
 	     "props" : {
-	    	"options" : ["Option 1", "Option 2"],
+	    	"options" : ["Option 1", "Option 2",  "Option 3"],
 	    	"selected": ["Option 1"]
 		 },
 	     "has" : {
@@ -23,35 +23,26 @@
 	        "data" : true	   
 	     },
 	     "style" : { 
-	    	 "fontSize" : 14,
-    		 "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-    		 "textAlign" : "left",
-    		 "letterSpacing" : 0,
-    		 "lineHeight" : 1,
-    		 "color" : "#000000",
-			 "borderTopRightRadius": 3,
-			 "borderTopLeftRadius": 3,
-			 "borderBottomRightRadius": 3,
-			 "borderBottomLeftRadius": 3,
-	         "borderTopWidth" : 1,
-	         "borderBottomWidth" : 1,
-	         "borderRightWidth" : 1,
-	         "borderLeftWidth" : 1,
-	         "borderTopColor" : "#000000",
-	         "borderBottomColor" : "#000000",
-	         "borderRightColor" : "#000000",
-	         "borderLeftColor" : "#000000",
-	         "background" : "#ffffff",
-	         "colorButton" : "#000000",
-	         "boxHeight": 40,
-	         "boxMarginRight": 10
+	    	"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"background": "@form-background",
+			"color": "@form-color",
+			"colorButton": "@background-active",
+
+	        "boxHeight": "@form-height",
+	        "boxMarginRight": "@spacing-s"
 	    },
 		"error" : {
-			"borderTopColor" : "#cc0000",
-			"borderBottomColor" : "#cc0000",
-			"borderRightColor" : "#cc0000",
-			"borderLeftColor" : "#cc0000",
-			"color": "#cc0000"
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"colorButton": "@form-border-color:error"
 		}
 	}
 ]

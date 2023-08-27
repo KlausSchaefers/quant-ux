@@ -2,13 +2,13 @@
 	"id" : "IconToggleButton",
 	"type" : "IconToggleButton",
 	"_type" : "Widget",
-	"category" : "WireFrame",
+	"category" : "Advanced",
 	"subcategory" : "XFormButton",
 	"name" : "Icon Toggle Button",
     "x" : 0,
     "y" : 0,
-    "w" : 96,
-    "h" : 96,
+	"w": "@box-width-l",
+	"h": "@box-width-l",
     "z" : 0,
 	"props" : {
 		"label" : "Click Me"
@@ -21,35 +21,27 @@
 		"border":true
 	},
 	"style" : {
-		"borderTopRightRadius" : 4,
-		"borderTopLeftRadius" : 4,
-		"borderBottomRightRadius" : 4,
-		"borderBottomLeftRadius" : 4,
 	
-		"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"fontSize": 12,
-		"textAlign" : "center",
-		"letterSpacing": 0,
-		"lineHeight": 1,
-		"borderTopWidth": 1,
-		"borderBottomWidth": 1,
-		"borderRightWidth": 1,
-		"borderLeftWidth": 1,
-		"borderTopColor": "#333",
-		"borderBottomColor": "#333",
-		"borderRightColor": "#333",
-		"borderLeftColor": "#333",
-		"borderTopStyle": "solid",
-		"borderBottomStyle": "solid",
-		"borderRightStyle": "solid",
-		"borderLeftStyle": "solid",
-		"background" : "#fff",
-		"color": "#333",
+		"fontSize": "@font-size-l",
+		"fontFamily": "@font-family",
+		"textAlign" : "left",
+		"letterSpacing": "@letterSpacin",
+		"lineHeight": "@lineHeight",
+
+		"background": "@form-background",
+		"color": "@form-color",
+
+
+		"borderRadius": "@border-radius",
+		"borderWidth": "@border-width",
+		"borderStyle": "solid",
+		"borderColor": "@form-border-color",	
+
         "icon": "mdi mdi-heart",
 		"iconSize": 48
 	},
 	"active" : {
-		"color" : "#ffffff",
-		"background" : "#000000"
+		"color" : "@color-active",
+		"background" : "@background-active"
 	}
 } ]

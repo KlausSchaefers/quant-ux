@@ -8,7 +8,7 @@ class QSS {
 
     constructor () {
         this.themes =  {
-            "default": wireframe,
+            "wireframe": wireframe,
         //     "clean": clean,
         //     "wireframe": wireframe,
         //     "unter": unter,

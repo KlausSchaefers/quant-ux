@@ -2,14 +2,14 @@
  	{
 		 "id" : "Image",
 		 "type" : "Image",
-		 "category" : "WireFrame",
-		 "subcategory" : "AFormImage",
+		 "category" : "Advanced",
+		 "subcategory" : "FormImage",
 		 "_type" : "Widget",
 		 "name" : "Image",
 		 "x" : 0,
 	     "y" : 0,
-	     "w" : 100,
-	     "h" : 100,
+		 "w": "@box-width-xl",
+		 "h": "@box-height-xl",
 	     "z" : 0,
 	     "props" : {},
 	     "has" : {
@@ -19,19 +19,11 @@
 	     },
 	     "actions":{},
 	     "style" : {
-	    	 "borderTopRightRadius" : 0,
-	         "borderTopLeftRadius" : 0,
-	         "borderBottomRightRadius" : 0,
-	         "borderBottomLeftRadius" : 0,
-	         "borderTopWidth" : 0,
-	         "borderBottomWidth" : 0,
-	         "borderRightWidth" : 0,
-	         "borderLeftWidth" : 0,
-	         "borderTopColor" : "#000000",
-	         "borderBottomColor" : "#000000",
-	         "borderRightColor" : "#000000",
-	         "borderLeftColor" : "#000000",
-	    	 "backgroundImage" : null
+			"borderRadius": 0,
+			"borderWidth": 0,
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",	
+	    	"backgroundImage" : null
 	     }
 	 }
  ]

@@ -6,10 +6,8 @@
 		 "category" : "WireFrame",
 		 "subcategory" : "FormCheckBoxX",
 		 "_type" : "Widget",
-		 "x" : 0,
-	     "y" : 0,
-	     "w" : 40,
-	     "h" : 40,
+		 "_extends": "CheckBox",
+
 	     "z" : 0,
 	     "props" : {
 	        "checked" : true
@@ -21,33 +19,10 @@
 			"backgroundColor" : true
 	     },
 	     "style" : { 
-	    	 "borderTopRightRadius" : 100,
-	         "borderTopLeftRadius" : 100,
-	         "borderBottomRightRadius" : 100,
-	         "borderBottomLeftRadius" : 100,
-	         "borderTopWidth" : 1,
-	         "borderBottomWidth" : 1,
-	         "borderRightWidth" : 1,
-	         "borderLeftWidth" : 1,
-	         "borderTopColor" : "#000000",
-	         "borderBottomColor" : "#000000",
-	         "borderRightColor" : "#000000",
-	         "borderLeftColor" : "#000000",
-	         "background" : "#ffffff",
-	         "color" : "#000000",
-	         "colorButton" : "#000000"
-	     }
-	},
-	{
-		"id" : "RadioBoxOff",
-		"type" : "RadioBox2",
-		"name" : "RadioBox",
-		"_extends" : "RadioBox",
-		"category" : "WireFrame",
-		"subcategory" : "FormSpecialLabeledX",
-		"_type" : "Widget",
-		"props" : {
-			"checked" : false
+			"borderRadius": "@border-radius-round"
+	     },
+		 "checked": {
+			"background": "@form-background"
 		}
 	},
 	{
@@ -56,11 +31,12 @@
 		 "name" : "Label RadioBox",
 		 "category" : "WireFrame",
 		 "subcategory" : "FormCheckBoxX",
+		 "_extends": "CheckBox",
 		 "_type" : "Widget",
 		 "x" : 0,
 	     "y" : 0,
-	     "w" : 120,
-	     "h" : 32,
+		 "w": "@form-width",
+		 "h": "@form-height",
 	     "z" : 0,
 	     "props" : {
 	        "checked" : true,
@@ -74,28 +50,21 @@
 	        "data" : true
 	     },
 	     "style" : { 
-			"fontSize": 24,
-			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+			"borderRadius": "@border-radius-round",
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
 			"textAlign": "left",
-			"letterSpacing": 0,
-			"lineHeight": 1,
-			"textShadow": null,	 
-	    	 "borderTopRightRadius" : 100,
-	         "borderTopLeftRadius" : 100,
-	         "borderBottomRightRadius" : 100,
-	         "borderBottomLeftRadius" : 100,
-	         "borderTopWidth" : 1,
-	         "borderBottomWidth" : 1,
-	         "borderRightWidth" : 1,
-	         "borderLeftWidth" : 1,
-	         "borderTopColor" : "#000000",
-	         "borderBottomColor" : "#000000",
-	         "borderRightColor" : "#000000",
-	         "borderLeftColor" : "#000000",
-	         "background" : "#ffffff",
-	         "color" : "#000000",
-	         "colorButton" : "#000000",
-			 "verticalAlign": "middle"
-	     }
+			"letterSpacing": "@letterSpacin",
+			"lineHeight": "@lineHeight",
+			"padding": 0,	
+			"textShadow": null,
+			"verticalAlign": "middle"
+	     },
+		 "error": {
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"color": "@form-color:error",
+			"colorButton": "@form-border-color:error"		
+		}
 	}
 ]

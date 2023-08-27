@@ -1,49 +1,38 @@
-[ {
-	"id" : "WireFrameImagePaging",
-	"type" : "ImagePaging",
-	"name" : "Paging",
-	"category" : "WireFrame",
-	"subcategory" : "FormSpecialPaging",
-	"_type" : "Widget",
-	"x" : 0,
-	"y" : 0,
-	"w" : 96,
-	"h" : 16,
-	"z" : 0,
-	"props" : {
-		"value" : 1,
-        "max": 5,
-        "gap": 8
-	},
-	"has" : {
-		"onclick" : true
-	},
-	"style" : {
-		"fontSize" : 14,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"textAlign" : "center",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"color" : "#000000",
-		"paddingTop" : 0,
-		"paddingBottom" : 0,
-		"paddingLeft" : 0,
-		"paddingRight" : 0,
-		"borderTopRightRadius" : 64,
-		"borderTopLeftRadius" : 64,
-		"borderBottomRightRadius" : 64,
-		"borderBottomLeftRadius" : 64,
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1,
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000",
-		"background" : "#ffffff",
-		"foreground": "#000000",
-        "activeBackground": "#000000",
-        "activeBorderColor": "#000000"
+[
+	{
+		"id": "WireFrameImagePaging",
+		"type": "ImagePaging",
+		"name": "Image Paging",
+		"category": "Advanced",
+		"subcategory": "FormImageX",
+		"_type": "Widget",
+		"x": 0,
+		"y": 0,
+		"w": "@box-width-l",
+		"h": "@box-height-xxs",
+		"z": 0,
+		"props": {
+			"value": 1,
+			"max": 5,
+			"gap": 8
+		},
+		"has": {
+			"onclick": true
+		},
+		"style": {
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"borderRadius": "@border-radius-round",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@background-passive",
+			"padding": 0,
+			"background": "@background-passive",
+			"activeBackground": "@background-active",
+			"activeBorderColor": "@background-active"
+		}
 	}
-} ]
+]

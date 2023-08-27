@@ -57,7 +57,7 @@ import Services from 'services/Services'
 import CheckBox from 'common/CheckBox'
 import ModelUtil from 'core/ModelUtil'
 import QIcon from 'page/QIcon'
-
+import QSS from 'core/qss/QSS'
 export default {
     name: 'CreateButton2',
     mixins:[Util, DojoWidget, _DropDown],
@@ -104,7 +104,11 @@ export default {
 			this.renderFactory = new RenderFactory();
 			this.renderFactory.setModel(m);
 			this.renderFactory.setSymbol(true);
-			this.categoriesList = ["WireFrame", "Material", "IOS", "OpenUI", "Bootstrap4", "Charts" ];
+			this.categoriesList = ["WireFrame", "Advanced", "Material", "IOS", "Charts" ];
+			this.categoryToQSS = {
+				WireFrame: QSS.getTheme("wireframe"),
+				Advanced: QSS.getTheme("wireframe")
+			}
 			this._importedApps = {}
 			/**
 			 * set to last added category...
@@ -167,6 +171,7 @@ export default {
 			}
 		},
 
+
 		onSearch (e){
 			e.stopPropagation();
 			var k = e.keyCode ? e.keyCode : e.which
@@ -203,13 +208,15 @@ export default {
 			var categories = {};
 			var temp = {};
 
+
+
 			/**
 			 * sort into categories
 			 */
 			for (let i=0; i< themes.length; i++){
 				let theme = themes[i];
 				if (theme.id){
-					let category = theme.category;
+					const category = theme.category;
 					if(!categories[category]){
 						categories[category] = {};
 					}
@@ -219,7 +226,19 @@ export default {
 						this.categoriesList.push(category)
 					}
 					if(!categories[category][theme.id]){
-						categories[category][theme.id] = (theme);
+						categories[category][theme.id] = theme
+			
+						if (this.categoryToQSS[category]) {
+							console.debug(this.categoryToQSS)
+							const qssTheme = this.categoryToQSS[category]
+				
+							QSS.replaceVariables(qssTheme, theme)
+							QSS.replaceSize(qssTheme, theme)
+							QSS.replaceBorderVariables(theme)
+							console.debug("Replace", category , theme.name, qssTheme, theme)
+		
+						}
+
 						temp[theme.id] = theme;
 						this.setDefaultValues(theme);
 						this.setDefaultValues(theme.min);
@@ -276,6 +295,8 @@ export default {
 			this.render(categories)
 		},
 
+
+
 		setDefaultValues (box){
 			if(box){
 
@@ -297,6 +318,9 @@ export default {
 				if(box.w === "$75%"){
 					box.w = Math.round(this.screenWidth * 0.75);
 				}
+				if(box.w === "$80%"){
+					box.w = Math.round(this.screenWidth * 0.80);
+				}
 				if(box.w === "$90%"){
 					box.w = Math.round(this.screenWidth * 0.9);
 				}
@@ -315,7 +339,7 @@ export default {
 					box.h = Math.round(this.screenHeight * 0.33);
 				}
 				if(box.h === "$50%"){
-					box.h = Math.round(this.screenHeight *0.5);
+					box.h = Math.round(this.screenHeight * 0.5);
 				}
 				if(box.h === "$66%"){
 					box.h = Math.round(this.screenHeight *0.66);
@@ -323,12 +347,16 @@ export default {
 				if(box.h === "$75%"){
 					box.h = Math.round(this.screenHeight * 0.75);
 				}
+				if(box.h === "$80%"){
+					box.h = Math.round(this.screenHeight * 0.80);
+				}
 				if(box.h === "$90%"){
 					box.h = Math.round(this.screenHeight * 0.9);
 				}
 				if(box.h === "$100%"){
 					box.h = Math.round(this.screenHeight);
 				}
+
 
 				if (box.children){
 					for (let i = 0; i < box.children.length; i++){
