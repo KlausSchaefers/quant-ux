@@ -246,6 +246,7 @@ export default {
 			if(this.screenDIV){
 				css.add(this.screenDIV, "MatcToolbarSectionHidden");
 			}
+			css.add(this.screenShapeDiv, "MatcToolbarSectionHidden")
 			css.add(this.screenNameDiv, "MatcToolbarSectionHidden");
 			css.add(this.screenBackDiv, "MatcToolbarSectionHidden");
 			css.add(this.screenParentsDiv, "MatcToolbarSectionHidden");
@@ -305,8 +306,9 @@ export default {
 			css.add(this.lineDiv,"MatcToolbarSectionHidden" );
 			css.add(this.toolsDiv, "MatcToolbarSectionHidden");
 			css.add(this.widgetNameDiv, "MatcToolbarSectionHidden");
+			css.add(this.widgetShapeDiv, "MatcToolbarSectionHidden")
 			css.add(this.groupDIV, "MatcToolbarSectionHidden");
-			//css.add(this.groupNameDiv, "MatcToolbarSectionHidden");
+			css.add(this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.add(this.groupActionDiv, "MatcToolbarSectionHidden");
 			css.add(this.widgetViewSection, "MatcToolbarSectionHidden");
 

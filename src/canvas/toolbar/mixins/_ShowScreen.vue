@@ -78,7 +78,7 @@ export default {
 					css.remove(this.screenDIV, "MatcToolbarSectionHidden");
 				}
 
-				css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
+				css.remove(this.screenShapeDiv, "MatcToolbarSectionHidden");
 				css.remove(this.screenBackDiv, "MatcToolbarSectionHidden");
 				css.remove(this.screenImageDiv, "MatcToolbarSectionHidden");
 				css.remove(this.screenParentsDiv, "MatcToolbarSectionHidden");

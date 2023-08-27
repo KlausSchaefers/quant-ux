@@ -40,15 +40,11 @@ export default {
 		showGroupPrototypeProperties (model) {
 
 			if (this.groupName) {
-				if (model.name){
-					this.groupName.value = model.name;
-				} else {
-					this.groupName.value = "";
-				}
-				this.groupName.blur();
 				css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
+				this.groupName.value = model.name ? model.name : "";
+				this.groupName.blur();
 			}
-
+	
 			css.remove(this.groupActionDiv, "MatcToolbarSectionHidden");
 			this.groupActionBTN.setValue(model);
 
@@ -70,7 +66,6 @@ export default {
 				css.remove(this.responsiveGroupDiv, "MatcToolbarSectionHidden")
 			}
 
-			//css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 			this.responsiveGroupWidget.setValue(model)
 

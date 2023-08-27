@@ -232,7 +232,7 @@ export default {
 			/**
 			* render group and multi properties
 			*/
-			//this._renderGroupName();
+			this._renderGroupName();
 
 			this._renderGroupResponsive();
 
@@ -241,7 +241,9 @@ export default {
 			/**
 			* render widget properties;
 			*/
-			this._renderWidgetName();
+			this._renderWidgetShape();
+
+			this._renderWidgetName()
 
 			this._renderWidgetResponsive();
 
@@ -285,6 +287,9 @@ export default {
 			/**
 			* render screen properties
 			*/
+
+			this._renderScreenShape()
+
 			this._renderScreenName();
 
 			this._renderScreen();
@@ -465,7 +470,7 @@ export default {
 		****************************************************************************************************/
 
 		_renderGroupName (){
-			var parent = this.createSection("Group");
+			var parent = this.createSection("Name");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
@@ -576,17 +581,28 @@ export default {
 			this.widgetAlignDiv = content;
 		},
 
-		_renderWidgetName (){
+		_renderWidgetName () {
+			var parent = this.createSection("Name");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
+			this.widgetName = this.createInput(content, "Widget Name");
+			css.add(this.widgetName, "MatcToobarNameInput")
+			this.own(on(this.widgetName, "change", lang.hitch(this, "onWidgetNameChange")));
+
+			this.properties.appendChild(parent);
+			this.widgetNameDiv = parent;
+		},
+
+		_renderWidgetShape (){
 
 			var parent = this.createSection("Shape");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
-
-			// this.widgetName = this.createInput(content, "Widget Name");
-			// css.add(this.widgetName, "MatcToobarNameInput")
-			// this.own(on(this.widgetName, "change", lang.hitch(this, "onWidgetNameChange")));
 
 			let widgetSizeDiv = document.createElement("div");
 			content.appendChild(widgetSizeDiv)
@@ -604,7 +620,7 @@ export default {
 			this.radiusBox.placeAt(widgetSizeDiv)
 
 			this.properties.appendChild(parent);
-			this.widgetNameDiv = parent;
+			this.widgetShapeDiv = parent;
 			this.widgetSizeDiv = widgetSizeDiv
 		},
 
@@ -1110,15 +1126,27 @@ export default {
 		****************************************************************************************************/
 		_renderScreenName (){
 
-			var parent = this.createSection("Shape");
+			var parent = this.createSection("Name");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 
-			// this.screenName = this.createInput(content, "Screen Name");
-			// css.add(this.screenName, "MatcToobarNameInput")
-			// this.own(on(this.screenName, "change", lang.hitch(this, "onScreenNameChange")));
+			this.screenName = this.createInput(content, "Screen Name");
+			css.add(this.screenName, "MatcToobarNameInput")
+			this.own(on(this.screenName, "change", lang.hitch(this, "onScreenNameChange")));
+
+			this.properties.appendChild(parent);
+			this.screenNameDiv = parent;
+		},
+
+		_renderScreenShape (){
+
+			var parent = this.createSection("Shape");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
 
 
 			this.screenSize = this.$new(BoxSize, {mode:"widthAndHeight"});
@@ -1126,9 +1154,8 @@ export default {
 			this.screenSize.placeAt(content);
 
 			this.properties.appendChild(parent);
-			this.screenNameDiv = parent;
+			this.screenShapeDiv = parent;
 		},
-
 
 		_renderScreenBackground (cssProps = ['background']){
 

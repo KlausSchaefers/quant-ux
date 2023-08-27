@@ -51,9 +51,9 @@ export default {
 			this.showProperties();
 			this.showWidgetTools();
 
+
 			if (this.widgetName){
-				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
-				css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");	
 				if(model.name){
 					this.widgetName.value = model.name;
 				} else {
@@ -61,11 +61,12 @@ export default {
 				}
 				this.widgetName.blur();
 			}
-			var isLogicWidget = this.hasLogic2.indexOf(model.type) >= 0;
+
+			const isLogicWidget = this.hasLogic2.indexOf(model.type) >= 0;
 			css.remove(this.lineDiv, "MatcToolbarSectionHidden");
 			this.actionBTN.setValue(model, isLogicWidget);
 
-			var widgetViewMode = this.widgetViewModeBtn.getValue();
+			const widgetViewMode = this.widgetViewModeBtn.getValue();
 			if (widgetViewMode == "style") {
 				/**
 				 * Show data binding etc in prototypiung mode
@@ -222,7 +223,7 @@ export default {
 					}
 					this.widgetName.blur();
 				}
-				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+				css.remove(this.widgetShapeDiv, "MatcToolbarSectionHidden");
 				css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")
 			
 
@@ -471,7 +472,7 @@ export default {
 				this.widgetName.blur();
 			}
 
-			css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+			css.remove(this.widgetShapeDiv, "MatcToolbarSectionHidden");
 			css.remove(this.inheritedWidgetDiv, "MatcToolbarSectionHidden");
 		}
 

@@ -51,17 +51,17 @@ export default {
 			this.domUtil.removeAllChildNodes(this.domNode)
 			this.cleanUpTempListener();
 
-			var db = new DomBuilder();
-			var parent = db.div().build();
+			const db = new DomBuilder();
+			const parent = db.div().build();
 
-			var lines = this.getFromLines(screen);
-			for (var i = 0; i < lines.length; i++) {
-				var line = lines[i];
+			const lines = this.getFromLines(screen);
+			for (let i = 0; i < lines.length; i++) {
+				const line = lines[i];
 				this.renderNewSchool(db, parent, line, false);
 				db.div("MatcToolbarSeparator").build(parent);
 			}
 
-			var btn = db
+			const btn = db
 				.div("MatcToolbarItem")
 				.div(" MatcToolbarButton MatcButton")
 				.tooltip("Add Link to other screen")
@@ -81,51 +81,49 @@ export default {
 			this.domUtil.removeAllChildNodes(this.domNode)
 			this.cleanUpTempListener();
 
-			var db = new DomBuilder();
-			var parent = db.div("MatcActionCntr").build();
+			const db = new DomBuilder();
+			const parent = db.div("MatcActionCntr").build();
 
 			if (isLogicWidget) {
-
-
-				/**
-				 * TODO: Get all lines... start rendering
-				 */
-				let lines = this.getFromLines(widget);
+				const lines = this.getFromLines(widget);
 				for (let i = 0; i < lines.length; i++) {
-					let line = lines[i];
-					let to = this.getToBox(line);
+					const line = lines[i];
+					const to = this.getToBox(line);
 
 					if (to) {
-						let icon = "mdi mdi-link-variant"; //this.getAppTypeIcon(this.model);
+						let icon = "Link"; //this.getAppTypeIcon(this.model);
 						if (this.hasLogic(to)) {
 							icon = "MatcToolbarIconAddLogic mdi mdi-checkbox-blank"
 						}
 						if (this.hasRest(to)) {
-							icon = "mdi mdi-cloud"
+							icon = "Cloud"
 						}
 						if (this.hasScript(to)) {
-							icon = "mdi mdi-code-tags"
+							icon = "Code"
 						}
 
-						let item = db.div("MatcToolbarItem MatcToobarActionCntr MatcToolbarIconButton").build(parent);
-						db.span(icon + " MatcToolbarSmallIcon").build(item);
+						const item = db.div("MatcToolbarItem MatcToobarActionCntr MatcToolbarIconButton").build(parent);
+
+						item.appendChild(iconDOM(icon))
+
+				
 						db.span("MatcToolbarItemLabel", to.name).build(item);
-						let btn = db.span("MatcToobarRemoveBtn ").span("mdi mdi-close-circle").build(item);
+						const btn = db.span("MatcToobarRemoveBtn ").span("mdi mdi-close-circle").build(item);
 						this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveLineByID", line.id)));
 
 
 						if (!this.hasScript(widget)) {
 							if (widget.props && !widget.props.isRandom) { // new since 6
 								if (line.rule) {
-									let lbl = this.getRuleLabel(line.rule);
-									let row = db.div("MatcToobarRow").build(parent);
-									let item = db.div("MatcToolbarItem  MatcToolbarDropDownButton MatcToolbarIconButton").build(row);
+									const lbl = this.getRuleLabel(line.rule);
+									const row = db.div("MatcToobarRow").build(parent);
+									const item = db.div("MatcToolbarItem  MatcToolbarDropDownButton MatcToolbarIconButton").build(row);
 									db.span("MatcActionRuleLabel", lbl).build(item);
 									this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
 								} else {
-									let row = db.div("MatcToobarRow").build(parent);
-									let item = db.div("MatcToolbarItem  MatcToolbarDropDownButton MatcToolbarIconButton").build(row);
-									let span = db.label("MatcToolbarItemIcon").build(item);
+									const row = db.div("MatcToobarRow").build(parent);
+									const item = db.div("MatcToolbarItem  MatcToolbarDropDownButton MatcToolbarIconButton").build(row);
+									const span = db.label("MatcToolbarItemIcon").build(item);
 									db.span("mdi mdi-plus-circle MatcToolbarSmallIcon").build(span);
 									db.span("MatcToolbarDropDownButtonLabel", "Add Rule").build(span);
 									this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
@@ -144,13 +142,13 @@ export default {
 
 				// script does only allow one line!
 				if (!this.hasScript(widget) || lines.length === 0) {
-					let btn = db
+					const btn = db
 						.div("MatcToolbarItem")
 						.div(" MatcToolbarButton MatcButton MatcToolbarButtonPrimary")
 						.tooltip("Add Link to other screen")
 						.build(parent);
 
-					db.span("mdi mdi-link-variant MatcButtonIcon").build(btn);
+					btn.appendChild(iconDOM("Link"))
 					db.span("MatcButtonIconLabel", "Add Link").build(btn);
 					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onNewLine")));
 				}
@@ -184,7 +182,7 @@ export default {
 
 					let btn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20 });
 					btn.setOptions([
-						{ value: 'back', label: "Navigate Back", icon: "mdi mdi-ray-end-arrow MatcToolbarSmallIcon" },
+						{ value: 'back', label: "Navigate Back", icon: "NavigateBack" },
 						{ value: 'workflow', label: "Simple Formula", icon: "mdi mdi-flask-empty-plus-outline" }
 						//{value:'hide', label:"Hide & Show ", icon:"mdi mdi-eye-outline"},
 					]);
@@ -227,19 +225,20 @@ export default {
 				return;
 			}
 
-			var icon = "Link"; //this.getAppTypeIcon(this.model);
+			let icon = "Link"; //this.getAppTypeIcon(this.model);
 			if (this.hasLogic(to)) {
-				icon = "MatcToolbarIconAddLogic mdi mdi-checkbox-blank"
+				icon = "OR"
 			}
 
 			if (this.hasRest(to)) {
-				icon = " mdi mdi-cloud"
+				icon = "Cloud"
 			}
 
-			var item = db.div("MatcToolbarItem MatcToobarActionCntr MatcToolbarIconButton").build(parent);
+			let item = db.div("MatcToolbarItem MatcToobarActionCntr MatcToolbarIconButton").build(parent);
 			item.appendChild(iconDOM(icon))
 			db.span("MatcToolbarItemLabel", to.name).build(item);
-			var btn = db.span("MatcToobarRemoveBtn ").tooltip("Remove Link", "vommondToolTipRightBottom").build(item);
+
+			let btn = db.span("MatcToobarRemoveBtn ").tooltip("Remove Link", "vommondToolTipRightBottom").build(item);
 			btn.appendChild(iconDOM("DeleteX"))
 			this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveLineByID", line.id)));
 
@@ -254,8 +253,7 @@ export default {
 			//this.addTooltip(btn.domNode, "Select event type");
 
 
-			var iconAndLabel = this.getAnimationIconAndLabel(line);
-			console.debug(iconAndLabel)
+			const iconAndLabel = this.getAnimationIconAndLabel(line)
 			item = db.div("MatcToolbarItem MatcToobarActionCntr MatcToolbarIconButton ").build(parent);
 			item.appendChild(iconDOM(iconAndLabel.icon))
 			db.span("MatcToolbarItemLabel", iconAndLabel.label).build(item);
@@ -293,33 +291,13 @@ export default {
 				this.tempOwn(on(scrollChkBox, "change", lang.hitch(this, "onLineScrollByID", line.id)));
 			}
 
-
-			// var chkBox = this.$new(CheckBox);
-			// chkBox.setLabel("Hide Link");
-			// css.add(chkBox.domNode, "MatcToolbarItem");
-			// this.addTooltip(chkBox.domNode, "Do not show the link on the canvas");
-			// chkBox.placeAt(parent);
-			// chkBox.setValue(line.hidden);
-			// this.tempOwn(on(chkBox, "change", lang.hitch(this, "onLineHideByID", line.id)));
-
-
-			/**
-			 * Add here databinding dialog
-			 *
-			 * 1) if the line is executed, we as the uiWidgte for getValue()
-			 *
-			 * 2) the value is written to line.dataBinding
-			 *
-			 * 3) buttons need data binding! Should only work with ${} to replace text!
-			 */
-
 		},
 
 		getLineTypes() {
 			let result = [
-				{ value: false, label: "Link to other screen (L)", icon: "mdi mdi-link-variant", callback: lang.hitch(this, "onNewLine") },
-				{ value: true, label: "Navigate Back", icon: "mdi mdi-ray-end-arrow", callback: lang.hitch(this, "onActionBack") },
-				{ value: true, label: "Animation", icon: "mdi mdi-video", callback: lang.hitch(this, "onNewTransfromLine") }
+				{ value: false, label: "Link to other screen", shortcut:'L', icon: "Link", callback: lang.hitch(this, "onNewLine") },
+				{ value: true, label: "Navigate Back", icon: "NavigateBack", callback: lang.hitch(this, "onActionBack") },
+				{ value: true, label: "Animation", icon: "Animation", callback: lang.hitch(this, "onNewTransfromLine") }
 				//{value:true, label:"Simple Formuala", icon:"mdi mdi-flask-empty-plus-outline", callback:lang.hitch(this, "onActionWorkflow")}
 			]
 			return result;

@@ -228,15 +228,11 @@ export default {
 					if(!categories[category][theme.id]){
 						categories[category][theme.id] = theme
 			
-						if (this.categoryToQSS[category]) {
-							console.debug(this.categoryToQSS)
-							const qssTheme = this.categoryToQSS[category]
-				
+						if (this.categoryToQSS[category]) {					
+							const qssTheme = this.categoryToQSS[category]				
 							QSS.replaceVariables(qssTheme, theme)
 							QSS.replaceSize(qssTheme, theme)
-							QSS.replaceBorderVariables(theme)
-							console.debug("Replace", category , theme.name, qssTheme, theme)
-		
+							QSS.replaceBorderVariables(theme)		
 						}
 
 						temp[theme.id] = theme;

@@ -1086,7 +1086,7 @@ export default {
 			this.logger.log(0,"showScreenProperties", "entry");
 			this.showProperties();
 
-			css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
+			css.remove(this.screenShapeDiv, "MatcToolbarSectionHidden");
 
 
 
