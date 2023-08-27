@@ -18,7 +18,17 @@
     }
 
     .MatcToolbarPopupFooter {
+        color: $popup_color_passive;
         border-top: 1px solid  $toolbar_border;
+
+        &:hover {
+            color: $popup_color;
+        }
+
+        .MatcQIcon {
+            width: 16px;
+            height: 16px;
+        }
     }
 
     input {
@@ -354,4 +364,22 @@
     .MatcQIcon:hover {
         background: $toolbar_selected_background;
     }
+}
+
+.MatcDialog {
+
+    .MatcToolbarTabs {
+
+        a {
+            color: $dialog_color;
+        }
+        a:HOVER {
+            color: $dialog_color;
+        }
+
+        a.MatcToolbarTabActive {
+            border-bottom: 2px solid $primary_color;
+        }
+    }
+
 }

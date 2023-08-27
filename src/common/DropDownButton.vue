@@ -2,6 +2,7 @@
 <template>
   <div class="VommondDropDownButton">
     <div type="button" data-dojo-attach-point="button">
+      <QIcon :icon="icon" />
       <span data-dojo-attach-point="label"></span>
       <span class="caret"></span>
     </div>
@@ -18,6 +19,8 @@ import on from "dojo/on";
 import touch from "dojo/touch";
 import win from "dojo/_base/win";
 import Logger from "common/Logger";
+import QIcon from 'page/QIcon'
+import { iconDOM } from 'page/QIconUtil'
 
 var _openVommondDropDownButton = null;
 
@@ -25,8 +28,9 @@ export default {
   name: "DropDownButton",
   mixins: [DojoWidget],
   props: ["l", "options", "value"],
-  data: function() {
+  data: function () {
     return {
+      icon: '',
       selected: false,
       hasObjects: false,
       updateLabel: true,
@@ -34,12 +38,15 @@ export default {
       openCSS: "VommondDropDownButtonOpen",
       iconCSS: "VommondDropDownIcon",
       labelCSS: "VommondDropDownLabel",
-      selectedCSS: "VommondDropDownButtonSelected"
+      selectedCSS: "VommondDropDownButtonSelected",
+      liCSS: ''
     };
   },
-  components: {},
+  components: {
+    'QIcon': QIcon
+  },
   methods: {
-    postCreate: function() {
+    postCreate() {
       this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
       if (this.l) {
         this.setLabel(this.l);
@@ -52,7 +59,7 @@ export default {
       }
     },
 
-    showDropDown: function(e) {
+    showDropDown(e) {
       this.stopEvent(e);
 
       if (this._dropDownOpen) {
@@ -63,25 +70,18 @@ export default {
           if (_openVommondDropDownButton.hideDropDown) {
             _openVommondDropDownButton.hideDropDown();
           } else {
-            console.debug(
-              "showDropDown() Strange Open",
-              _openVommondDropDownButton
-            );
+            console.debug("showDropDown() Strange Open",_openVommondDropDownButton);
           }
         }
 
         css.add(this.domNode, this.openCSS);
-        this._mouseDownListener = on(
-          win.body(),
-          "mousedown",
-          lang.hitch(this, "hideDropDown")
-        );
+        this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this, "hideDropDown"));
         _openVommondDropDownButton = this;
         this._dropDownOpen = true;
       }
     },
 
-    hideDropDown: function() {
+    hideDropDown() {
       try {
         if (this.domNode) {
           css.remove(this.domNode, this.openCSS);
@@ -96,25 +96,23 @@ export default {
       }
     },
 
-    setOptions: function(list) {
+    setOptions(list) {
       this._lis = {};
       this.renderOptions(list);
       this._options = list;
     },
 
-    renderOptions: function(list) {
+    renderOptions(list) {
       var selectedValue = null;
       for (var i = 0; i < list.length; i++) {
         var o = list[i];
         var li = document.createElement("li");
+        css.add(li, this.liCSS)
 
         if (o.label || o.icon) {
           this.hasObjects = true;
           if (o.icon) {
-            var icon = document.createElement("span");
-            css.add(icon, this.iconCSS);
-            css.add(icon, o.icon);
-            li.appendChild(icon);
+            li.appendChild(iconDOM(o.icon));
           }
           if (o.label) {
             var lbl = document.createElement("label");
@@ -139,7 +137,7 @@ export default {
       }
     },
 
-    setLabel: function(value) {
+    setLabel(value) {
       this.label.innerHTML = "";
 
       if (this.lastCSS) {
@@ -158,12 +156,9 @@ export default {
       }
     },
 
-    _updateLabel: function(o) {
+    _updateLabel(o) {
       if (o.icon) {
-        var icon = document.createElement("span");
-        css.add(icon, this.iconCSS);
-        css.add(icon, o.icon);
-        this.label.appendChild(icon);
+        this.icon = o.icon
       }
 
       if (o.label) {
@@ -187,7 +182,7 @@ export default {
       }
     },
 
-    setValue: function(value) {
+    setValue(value) {
       if (this._selectedLi) {
         css.remove(this._selectedLi, this.selectedCSS);
       }
@@ -203,7 +198,7 @@ export default {
       this.selected = value;
     },
 
-    onChange: function(value, e) {
+    onChange(value, e) {
       this.stopEvent(e);
       this.hideDropDown();
       if (this.updateLabel) {

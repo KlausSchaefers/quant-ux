@@ -13,8 +13,8 @@
 
 
     /****************************************************
- * Canvas Dark
- ****************************************************/
+    * Canvas Dark
+    ****************************************************/
 
     .MatcScreen {
         box-shadow: 0 0 10px #333;
@@ -34,11 +34,11 @@
     }
 
     .MatcTreeItem {
-        color: #ddd;
+        color: $toolbar_color;
     }
 
     .MatcTreeItemRow:hover {
-        color: #ddd;
+        color: $toolbar_color;
     }
 
     .MatcTreeItem .mdi {

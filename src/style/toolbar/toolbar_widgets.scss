@@ -385,14 +385,13 @@
 .MatcToobarRemoveBtn {
 	position: absolute;
 	right: 5px;
-	top: 50%;
-	transform: translateY(-50%) translateX(-50%);
 	cursor: pointer;
 	transition: all 0.25s;
-	color: #ddd;
 	width: 20px;
-	height: 20px;
-	text-align: center;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .MatcToobarRemoveBtnTop {
@@ -400,7 +399,7 @@
 }
 
 .MatcToobarRemoveBtn:Hover {
-	color: red;
+	color: $color-danger;
 }
 
 .MatcToobarActionCntr:hover .MatcToobarRemoveBtn {
@@ -584,6 +583,7 @@
 	margin-bottom: 20px;
 	padding: 15px;
 	cursor: pointer;
+	border-color: $dialog_form_border;
 }
 
 .MatcToolbarScreenListPreview {
@@ -892,56 +892,18 @@
 
 .MatcToolbarPopupFooter {
 	background: none;
-	margin: 10px;
-	padding-top: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
-	color: #555;
-	margin-left: 0px;
-	margin-right: 0px;
+	padding: $spacing-s;
 	cursor: pointer;
 	text-align: center;
-	font-size: 14px;
+	font-size: 12px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-
-.MatcToolbarPopupFooter:hover {
-	color: #333;
-}
-
-.MatcToolbarPopupFooterNone,
-.MatcToolbarPopupFooterIcon {
-	height: 20px;
-	width: 14px;
-	display: inline-block;
-	margin-right: 5px;
-}
-
-.MatcToolbarPopupFooterLabel {
-	display: inline-block;
-
+	gap: 8px;
+	line-height: 1;
 }
 
 
-
-.MatcToolbarPopupFooter:hover .MatcToolbarPopupFooterNone,
-.MatcToolbarPopupFooter:hover .MatcToolbarPopupFooterIcon {
-	color: red;
-}
-
-
-.MatcToolbar .MatcToolbarInputDropDownButton input {
-	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-	border: 1px solid transparent;
-	color: #ddd;
-	font-size: 12px;
-	line-height: 1em;
-	vertical-align: middle;
-	width: 30px;
-	height: auto;
-}
 
 .MatcToolbarPopupFooter .MatcButtonBar {
 	width: 100%;
@@ -971,8 +933,6 @@
  ****************************************************/
 
 input.MatcToobarInlineEdit {
-	transition-duration: 0.2s;
-	transition-property: border-color;
 	border-radius: $toolbar_form_radius;
 }
 

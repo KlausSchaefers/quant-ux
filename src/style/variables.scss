@@ -10,7 +10,7 @@ $toolbar_color_hover: #fff;
 $toolbar_color_passive: #777;
 $toolbar_color_disabled: #555;
 $toolbar_selected_background: #16191b;
-$toolbar_border: #2f353a; // rgba(255,255,255,0.08);
+$toolbar_border: rgb(49, 55, 60); // rgba(255,255,255,0.08);
 $toolbar_padding:8px;
 
 $toolbar_form_background: $toolbar_background;
@@ -46,6 +46,9 @@ $popup_form_border_focus: $toolbar_border;
 $popup_form_background: $toolbar_form_background;
 $popup_form_background_hover: $toolbar_form_background_hover;
 $popup_form_background_focus: $toolbar_form_background_hover;
+
+$dialog_color: #333;
+$dialog_form_border: $toolbar_border;
 
 $text-color-passive: #ccc;
 $text-color-dark: #363636;

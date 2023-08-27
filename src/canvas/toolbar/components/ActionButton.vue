@@ -108,7 +108,8 @@ export default {
 
 				
 						db.span("MatcToolbarItemLabel", to.name).build(item);
-						const btn = db.span("MatcToobarRemoveBtn ").span("mdi mdi-close-circle").build(item);
+						const btn = db.span("MatcToobarRemoveBtn ").build(item);
+						btn.appendChild(iconDOM("DeleteX"))
 						this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveLineByID", line.id)));
 
 
@@ -436,57 +437,57 @@ export default {
 
 			switch (line.animation) {
 				case "slideLeft":
-					result.icon = "mdi mdi-arrow-left";
+					result.icon = "AnimationLeft";
 					result.label = "Left Slide";
 					break;
 
 				case "slideRight":
-					result.icon = "mdi mdi-arrow-right";
+					result.icon = "AnimationRight";
 					result.label = "Right Slide";
 					break;
 
 				case "slideUp":
-					result.icon = "mdi mdi-arrow-up";
+					result.icon = "AnimationUp";
 					result.label = "Up Slide";
 					break;
 
 				case "slideDown":
-					result.icon = "mdi mdi-arrow-down";
+					result.icon = "AnimationDown";
 					result.label = "Down Slide";
 					break;
 
 				case "fadeIn":
-					result.icon = "mdi mdi-blur";
+					result.icon = "AnimationFadeIn";
 					result.label = "Fade In";
 					break;
 
+				case "transform":
+					result.icon = "AnimationTransform";
+					result.label = "Transform";
+					break;
+
+				case "zoomIn":
+					result.icon = "AnimationTransform";
+					result.label = "Zoom In";
+					break;
+
+				// legacy stuff
+				case "zoomOut":
+					result.icon = "mdi mdi-select-all";
+					result.label = "Zoom Out";
+					break;
+
+				case "popup":
+					result.icon = "AnimationZoom";
+					result.label = "Popup";
+					break;
 
 				case "rotateInTopLeft":
 					result.icon = "mdi mdi-screen-rotation";
 					result.label = "Rotate (Top Left)";
 					break;
 
-				case "popup":
-					result.icon = "mdi mdi-select-all";
-					result.label = "Popup";
-					break;
-
-				case "transform":
-					result.icon = "mdi mdi-auto-fix";
-					result.label = "Transform";
-					break;
-
-				case "zoomIn":
-					result.icon = "mdi mdi-arrow-all";
-					result.label = "Zoom In";
-					break;
-
-				case "zoomOut":
-					result.icon = "mdi mdi-select-all";
-					result.label = "Zoom Out";
-					break;
-
-				case "slideLeftDown":
+					case "slideLeftDown":
 					result.icon = "mdi mdi-arrow-bottom-left";
 					result.label = "Down Left Slide";
 					break;
@@ -500,7 +501,6 @@ export default {
 					result.icon = "mdi mdi-arrow-bottom-right";
 					result.label = "Up Right Slide";
 					break;
-
 
 				case "slideRightUp":
 					result.icon = "mdi mdi-arrow-top-right";

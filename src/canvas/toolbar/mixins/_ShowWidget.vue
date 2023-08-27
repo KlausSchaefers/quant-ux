@@ -205,34 +205,20 @@ export default {
 					css.remove(this.responsiveDiv, "MatcToolbarSectionHidden")
 					this.responsiveWidget.setValue(model)
 				}
-				if(this.widgetAlignDiv){
+
+				if (this.widgetAlignDiv){
 					css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
 				}
 
-
-				if(this.hasData.indexOf(model.type) >=0 || model?.has?.data) {
+				if (this.hasData.indexOf(model.type) >=0 || model?.has?.data) {
 					css.remove(this.dataDiv,"MatcToolbarSectionHidden" );
 					this.dataWidget.setValue(model);
 				}
 
-				if(this.widgetName){
-					if(model.name){
-						this.widgetName.value = model.name;
-					} else {
-						this.widgetName.value = "";
-					}
-					this.widgetName.blur();
+				if (!isLogicWidget) {
+					css.remove(this.widgetShapeDiv, "MatcToolbarSectionHidden");
+					css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")
 				}
-				css.remove(this.widgetShapeDiv, "MatcToolbarSectionHidden");
-				css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")
-			
-
-				/**
-				* Since 4.0.0 we do not show the prototyping properties in the deisgn view
-				*/
-				//css.remove(this.lineDiv, "MatcToolbarSectionHidden");
-				//this.actionBTN.setValue(model, isLogicWidget);
-
 			} 
 			
 			if (widgetViewMode == "style"){

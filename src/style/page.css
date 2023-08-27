@@ -853,6 +853,9 @@ textarea.MatcContentWidgetAbs{
 	display: inline-block;
 	transition:all;
 	transition-duration:0.25s;
+	display:inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .MatcUploader.MatcUploaderLoading{
@@ -871,11 +874,16 @@ textarea.MatcContentWidgetAbs{
 	background-color: #92c500;
 }
 
-.MatcUploader .MatcUploaderIcon.mdi{
+.MatcUploader .MatcQIcon{
 	color:#fff;
-	font-size: 100px;
-    font-weight: 800;
+    height: 48px;
+    width: 48px;
+}
 
+.MatcUploader .MatcQIcon svg{
+	color:#fff;
+    height: 48px;
+    width: 48px;
 }
 
 .MatcUploaderCanvas{

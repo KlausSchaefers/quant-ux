@@ -18,7 +18,6 @@
 	padding: 5px;
 	display: inline-block;
 	cursor: pointer;
-	color: #ddd;
 	text-decoration: none;
 	border-bottom: 1px solid transparent;
 }
@@ -34,18 +33,11 @@
 	border-bottom-width: 2px;
 }
 
-.MatcToolbarTabs a:HOVER{
-	color: #fff;
-}
-
 .MatcToolbarTabs a.MatcToolbarTabActive{
 	border-bottom-color: $primary_color;
-	color: #333;
 }
 
-
 .MatcDialog .MatcToolbarTabs a {
-    color:#333;
 	font-size: 18px;
 	margin-right: 20px;
     border-bottom: 2px solid transparent;
@@ -53,9 +45,4 @@
 
 .MatcDialog .MatcToolbarTabs a.MatcToolbarTabActive {
     border-bottom-width: 2px;
-    border-bottom: 2px solid $primary_color;
-}
-
-.MatcDialog .MatcToolbarTabs a:hover{
-	color:$primary_color-hover;
 }

@@ -898,6 +898,130 @@ export const icons = {
     'CheckBoxOff': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
-   `
+    `,
+    'Upload': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"></path>
+        <path d="M7 9l5 -5l5 5"></path>
+        <path d="M12 4l0 12"></path>
+    `,
+    'UploadCloud': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1"></path>
+        <path d="M9 15l3 -3l3 3"></path>
+        <path d="M12 12l0 9"></path>
+    `,
+    'AnimationLeft': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v8"></path>
+        <path d="M20 18h-17"></path>
+        <path d="M6 15l-3 3l3 3"></path>
+    `,
+    'AnimationRight': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M20 12v-6a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v8"></path>
+        <path d="M4 18h17"></path>
+        <path d="M18 15l3 3l-3 3"></path>
+    `,
+    'AnimationUp': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 4h-6a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h8"></path>
+        <path d="M18 20v-17"></path>
+        <path d="M15 6l3 -3l3 3"></path>
+    `,
+    'AnimationDown': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8"></path>
+        <path d="M18 4v17"></path>
+        <path d="M15 18l3 3l3 -3"></path>
+    `,
+    'AnimationTransform': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M6 21l15 -15l-3 -3l-15 15l3 3"></path>
+        <path d="M15 6l3 3"></path>
+        <path d="M9 3a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
+        <path d="M19 13a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
+    `,
+    'AnimationFadeIn': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 21a9.01 9.01 0 0 0 2.32 -.302a9 9 0 0 0 1.74 -16.733a9 9 0 1 0 -4.06 17.035z"></path>
+        <path d="M12 3v17"></path>
+        <path d="M12 12h9"></path>
+        <path d="M12 9h8"></path>
+        <path d="M12 6h6"></path>
+        <path d="M12 18h6"></path>
+        <path d="M12 15h8"></path>
+    `,
+    'AnimationFadeOut': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 3v5m0 4v8"></path>
+        <path d="M5.641 5.631a9 9 0 1 0 12.719 12.738m1.68 -2.318a9 9 0 0 0 -12.074 -12.098"></path>
+        <path d="M16 12h5"></path>
+        <path d="M13 9h7"></path>
+        <path d="M12 6h6"></path>
+        <path d="M12 18h6"></path>
+        <path d="M12 15h3m4 0h1"></path>
+        <path d="M3 3l18 18"></path>
+    `,
+    'AnimationZoom': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M16 4l4 0l0 4"></path>
+        <path d="M14 10l6 -6"></path>
+        <path d="M8 20l-4 0l0 -4"></path>
+        <path d="M4 20l6 -6"></path>
+        <path d="M16 20l4 0l0 -4"></path>
+        <path d="M14 14l6 6"></path>
+        <path d="M8 4l-4 0l0 4"></path>
+        <path d="M4 4l6 6"></path>
+    `,
+    'AnimationDuration': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+        <path d="M12 12l3 2"></path>
+        <path d="M12 7v5"></path>
+    `,
+    'AnimationEasing': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M17 20a2 2 0 1 0 4 0a2 2 0 0 0 -4 0z"></path>
+        <path d="M17 20h-2"></path>
+        <path d="M7 4a2 2 0 1 1 -4 0a2 2 0 0 1 4 0z"></path>
+        <path d="M7 4h2"></path>
+        <path d="M14 4h-2"></path>
+        <path d="M12 20h-2"></path>
+        <path d="M3 20c8 0 10 -16 18 -16"></path>
+    `,
+    'AnimationRotate': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5"></path>
+        <path d="M5.63 7.16l0 .01"></path>
+        <path d="M4.06 11l0 .01"></path>
+        <path d="M4.63 15.1l0 .01"></path>
+        <path d="M7.16 18.37l0 .01"></path>
+        <path d="M11 19.94l0 .01"></path>
+    `,
+    'AnimationGrowRight': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 9l3 3l-3 3"></path>
+        <path d="M13 9l3 3l-3 3"></path>
+        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+    `,
+    'AniamtionGrowLeft': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M15 15l-3 -3l3 -3"></path>
+        <path d="M11 15l-3 -3l3 -3"></path>
+        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+    `,
+    'AnimationGrowDown': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M15 9l-3 3l-3 -3"></path>
+        <path d="M15 13l-3 3l-3 -3"></path>
+        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+    `,
+    'AnimationGrowUp': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 15l3 -3l3 3"></path>
+        <path d="M9 11l3 -3l3 3"></path>
+        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+    `
 }
 
