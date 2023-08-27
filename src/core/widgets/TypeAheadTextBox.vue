@@ -159,13 +159,23 @@ export default {
 
     set_popupMargin (parent, style, model) {
       if (model?.props?.hideUpperBorder) {
-        const borderBottomWidth = this._getBorderWidth(style.borderBottomWidth) + 1
-        parent.style.top = `calc(100% - ${borderBottomWidth}px)`
-        parent.style.borderTopWidth = '0px'
-        parent.style.borderTopRightRadius = '0px'
-        parent.style.borderTopLeftRadius = '0px'
+        
+        if (model.props.popupPosition === 'MatcWidgetTypeDropDownPopUber') {
+          const borderTopWidth = this._getBorderWidth(style.borderTopWidth) + 1
+          parent.style.bottom = `calc(100% - ${borderTopWidth}px)`
+          parent.style.borderBottomWidth = '0px'
+          parent.style.borderBottomRightRadius = '0px'
+          parent.style.borderBottomLeftRadius = '0px'
+        } else {
+          const borderBottomWidth = this._getBorderWidth(style.borderBottomWidth) + 1
+          parent.style.top = `calc(100% - ${borderBottomWidth}px)`
+          parent.style.borderTopWidth = '0px'
+          parent.style.borderTopRightRadius = '0px'
+          parent.style.borderTopLeftRadius = '0px'
+        }
       }
     },
+
 
     set_popupShadow (parent, style) {
       if (style.popupShadow) {
@@ -352,9 +362,7 @@ export default {
           this.input.blur();
         }
       }
-    },
-
-    
+    }
 
 
   },

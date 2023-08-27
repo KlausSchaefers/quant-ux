@@ -71,8 +71,8 @@ export default {
 
    // labels
    "@label-color": {"value": "#000000", "type": "red"},
-   "@label-color:hover": {"value": "blue", "type": "color"},
-   "@label-color:error": {"value": "#000000", "type": "color"},
+   "@label-color:hover": {"value": "#2784b1", "type": "color"},
+   "@label-color:error": {"value": "#f43535", "type": "color"},
    "@label-color-secondary": {"value": "#000000", "type": "red"},
 
    "@label-font-weight-default": {"value": "", "type": "fontWeight"},
@@ -83,7 +83,7 @@ export default {
    "@form-padding-vertical": {"value": 2, "type": "paddingVertical"},
 
    "@form-height": {"value": 32, "type": "height"},
-   "@form-width": {"value": 128, "type": "width"},
+   "@form-width": {"value": 196, "type": "width"},
 
    "@form-border-color": {"value": "#000000", "type": "color"},
    "@form-color": {"value": "#000000", "type": "color"},

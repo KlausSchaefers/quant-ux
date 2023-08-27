@@ -334,15 +334,17 @@
 
 
 .VommondColorPickerSketch {
-    // .VommondColorPickerHexInput,
-    // .VommondColorPickerNumberInput{
-    //     border:1px solid #cecece;
-    //     &:hover {
-    //         border:1px solid #999;
-    //     }        
-    // }
-
     .VommondColorPickerSketchControlLabels {
         color:$popup_color_passive;
-    }
+    }    
+}
+
+.MatcToolbarColorSketch.MatcToolbarColor td span,
+.MatcToolbarColorSketch .MatcColorBox span{
+	border: 1px solid $color_picker_border;
+}
+
+.MatcToolbarColorSketch.MatcToolbarColor td span:hover,
+.MatcToolbarColorSketch .MatcColorBox span:hover{
+	border: 1px solid $color_picker_border-hover;
 }
