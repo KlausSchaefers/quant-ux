@@ -149,7 +149,7 @@
                                        @change="onChangeColumnColor(column, 'background', $event)"/>
                                </td>
                                <td>                  
-                                   <input class="form-control vommondInlineEdit" :value="column.width" @change="setColumnWidth(column, $event)"/>                           
+                                   <input class="form-control" :value="column.width" @change="setColumnWidth(column, $event)"/>                           
                                </td>
                                <td class="MatcFormRowRemove">                     
                                     <QIcon icon="DeleteX"  @click="removeColumn(i)" ></QIcon>             
