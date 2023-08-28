@@ -72,7 +72,7 @@
                                 ref="promptBox"></textarea>
                         </div>
 
-                        <div class="MatchImportDialogCntrConfig">
+                        <div class="MatchImportDialogCntrConfig form-group ">
 
                             <CheckBox 
                                 :value="isWireFrame" 

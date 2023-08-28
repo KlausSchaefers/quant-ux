@@ -62,6 +62,13 @@
     color: #fff;
 }
 
+.MatcCreateBtnElement, 
+.MatcToolbarDropDownButtonItem { 
+    background: $create_element_background;
+    color:$popup_color
+}
+
+
 .MatcToolbarArrowDropDown .MatcToolbarPopUp {
     background:$popup_background;
     color: $popup_color;
@@ -90,11 +97,6 @@
         }
     }
 
-    .MatcCreateBtnElement, 
-    .MatcToolbarDropDownButtonItem { 
-        background: $create_element_background;
-        color:$popup_color
-    }
 
     .MatcCreateSearch {
         background: none;
@@ -390,9 +392,20 @@
     .MatcToolbarTableBody{
         background: $dialog_table_background;
         border: 1px solid $dialog_table_border;
+
+        .VommondCheckBox{
+            border: 1px solid #ccc;
+            border-radius: $toolbar_form_radius;
+            background: #fff;
+            vertical-align: baseline;
+        }
     }
 
-    .MatcToolbarTableBody .td{
+    .MatcDialogTable tr{
+        border-bottom: 1px solid $dialog_table_border;;
+   }
+
+    .MatcToolbarTableBody td{
 		border-top:1px solid  $dialog_table_border !important;
 		border-left:1px solid  $dialog_table_border;
 		padding: 0px;

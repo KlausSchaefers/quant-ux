@@ -1053,7 +1053,6 @@ textarea.MatcContentWidgetAbs{
  ****************************************************/
 
  .MatcDialog{
-	width: 600px;
 	min-height: 200px;
 	padding: 40px 40px 50px;
 }
@@ -1066,6 +1065,11 @@ textarea.MatcContentWidgetAbs{
 	width: 100%;
 	min-width:320px;
 	padding: 20px 20px 30px;
+}
+
+.MatcDialogM{
+	width: 600px;
+	min-height: 400px;
 }
 
  .MatcDialogXL{
@@ -1104,10 +1108,6 @@ textarea.MatcContentWidgetAbs{
 }
 .MatchTaskRecorderDialog{
 	padding: 20px;
-}
-
-.MatcHeaderDialog{
-
 }
 
 .MatcDialogHeader{

@@ -32,12 +32,14 @@
                     @drop="onColDrop($event, i)">
                 
                     <td>
-                        <div class="MatcFormRowDND">
-                            <span class="mdi mdi-drag-vertical" @mouseover="isDraggable = true" @mouseout="isDraggable = false"></span>
-                            <CheckBox
-                                :value="item.selected"
-                                @change="setSelected(item, $event)"
-                                label="" />
+                        <div class="">
+                            <div class="MatcFormRowDND">
+                                <QIcon icon="HandleDND"  @mouseover="isDraggable = true" @mouseout="isDraggable = false" ></QIcon>      
+                                <CheckBox
+                                    :value="item.selected"
+                                    @change="setSelected(item, $event)"
+                                    label="" />
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -91,6 +93,7 @@ import lang from 'dojo/_base/lang'
 import DropDownButton from 'page/DropDownButton'
 import IconTable from './IconTable.vue'
 import CheckBox from 'common/CheckBox'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'NavigationTable',
@@ -107,7 +110,7 @@ export default {
         }
     },
     components: {
-        DropDownButton, IconTable, CheckBox
+        DropDownButton, IconTable, CheckBox, QIcon
     },
     methods: {
         showSettings () {

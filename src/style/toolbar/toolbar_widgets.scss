@@ -988,7 +988,6 @@ input.MatcToobarInlineEditDisabled:focus {
 	cursor: pointer;
 	text-align: left;
 	margin-bottom: 0px;
-	line-height: 1;
 }
 
 .MatcToolbarDropDownButton .mdi {
@@ -1031,6 +1030,7 @@ input.MatcToobarInlineEditDisabled:focus {
 	cursor: pointer;
 	display: flex;
 	align-items: center;
+	line-height: 1.5;
 }
 
 .MatcToolbar .MatcToolbarDropDownButton .MatcToolbarPopUpLine,
@@ -1427,6 +1427,10 @@ input.MatcToobarInlineEditDisabled:focus {
 	.MatcToolbarItem.MatcToolbarDropDownButton.MatcToolbarInputDropDownButton{
 		padding: 0px;
 		height: auto;
+	}
+
+	.MatcToolbarInputDropDownButton input{
+		width: 30px;
 	}
 }
 

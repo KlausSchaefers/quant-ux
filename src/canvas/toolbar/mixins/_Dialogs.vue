@@ -553,7 +553,7 @@ export default {
 		onShowSettings: function () {
 
 			var db = new DomBuilder();
-			var popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
+			var popup = db.div("MatcDialog  MatcDialogM MatcPadding").build();
 			var cntr = db.div("").build(popup);
 			var settings = this.canvas.getSettings();
 

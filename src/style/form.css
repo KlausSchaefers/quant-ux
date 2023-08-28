@@ -123,7 +123,7 @@ input:focus{
 
 .MatcLinkButton:hover{
 	color:#000;
-	background: rgba(0,0,0,0.15);
+	background: rgba(0,0,0,0.05);
 	text-decoration: underline;
 }
 
@@ -405,7 +405,6 @@ input:focus{
  }
 
  .MatcDialogTableXL table{
-
   	min-width: 450px;
  }
 
@@ -414,8 +413,6 @@ input:focus{
 	background: rgb(230, 230, 230);
 	border-bottom: 1px solid #cecece;
 }
-
-
 
 
 .MatcDialogTable td.MatcDialogTableCheckBoxCntr{
@@ -427,10 +424,7 @@ input:focus{
 	padding:10px;
 }
 
-.MatcDialogTable tr{
- 	border-bottom: 1px solid #cecece;
 
-}
 
 .MatcDialogTable tr:HOVER{
 	background: rgb(230, 230, 230)
@@ -442,7 +436,6 @@ input:focus{
 }
 
 .MatcDialogTable td.MatcDialogTableAction {
-
 	cursor: pointer;
 }
 

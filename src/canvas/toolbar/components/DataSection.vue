@@ -1415,8 +1415,7 @@ export default {
 
 		 _renderNavBarDialog (e) {
 
-
-			const popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			const popup = this.db.div("MatcDialog MatcPadding").build();
 
 			const cntr = this.db.div("").build(popup);
 
