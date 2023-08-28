@@ -1,116 +1,123 @@
+@import '../variables.scss';
+
+.MatcToolbarTableSettingsDialog {
+    width: auto;
+}
+
 .MatcToolbarTableSettings {
-    width: 800px;
+    width: 1200px;
     height: 500px;
+
+
+    .MatcToolbarTableSettingsCntr {
+        height: 400px;
+        margin-top: 10px;
+    }
+
+   .MatcToolbarItem.MatcToolbarColor{
+        padding: 0px;
+        margin: 0px;
+        height: unset;
+        vertical-align: middle;
+    }
+
+    .MatcFormRow .MatcToolbarColorIndicator {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-top: 0px;
+    }
+
+     .MatcFormRow{
+        margin-top:10px;
+        margin-bottom: 10px;
+    }
+
+    .MatcFormRowDND{
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        height: 34px;
+    }
+
+    .MatcFormRowDND .MatcQIcon{
+        margin-left: -5px;
+        margin-top: 2px;
+        font-size: 18px;
+        cursor: grab;
+        line-height: 1;
+    }
+
+
+    label {
+        font-size: 14px;
+        font-weight: 400;
+        display: inline;
+        vertical-align: middle;
+    }
+
+
+    input.form-control{
+        display: inline-block;
+        vertical-align: middle;
+        width: 100%;
+    }
+
+
+    input.form-control.form-control-xs{
+        width: 40px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .VommondCheckBoxLabel{
+        font-size: 14px;
+    }
+
+    .MatcFormRowRemove {
+        opacity: 0;
+        text-align: right;
+    }
+
+    .MatcFormRowRemove .MatcQIcon{
+        cursor: pointer;
+    }
+
+    .MatcFormRowRemove .MatcQIcon:hover{
+        color: $color-danger
+    }
+
+    .MatcFormRow:hover .MatcFormRowRemove {
+        opacity: 1
+    }
+
+
+
+   .MatcFormRow .MatcToolbarDropDownButton{
+        margin: 0px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .MatcToolbarTableSettingsTable{
+        width: 100%;
+        font-size: 14px;
+
+    }
+
+    .MatcToolbarTableSettingsTable th{
+        font-weight: 400;
+        padding-top: 15px;
+        font-size: 14px;
+    }
+
+    .MatcFormRow > td{
+        padding-bottom: 10px;
+        vertical-align: middle;
+        font-size: 18px;
+    }
+
+    .MatcDataTable {
+        width: 100%;
+    }
 }
-
-.MatcToolbarTableSettingsCntr {
-    height: 400px;
-    margin-top: 10px;
-}
-
-
-.MatcToolbarTableSettings > .MatcToolbarTabs a{
-    margin-bottom: -1px;
-    color:#999;
-}
-
-.MatcToolbarTableSettings a.MatcToolbarTabActive{
-    color:#333;
-}
-
-.MatcToolbarTableSettings .MatcToolbarItem.MatcToolbarColor{
-    padding: 0px;
-    margin: 0px;
-    height: unset;
-    vertical-align: middle;
-}
-
-.MatcToolbarTableSettings .MatcFormRow .MatcToolbarColorIndicator {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    margin-top: 0px;
-}
-
-.MatcToolbarTableSettings .MatcFormRow{
-    margin-top:10px;
-    margin-bottom: 10px;
-}
-
-.MatcToolbarTableSettings .MatcFormRow .MatcFormRowHoverAction{
-    font-weight: 300;
-    display: none;
-}
-
-.MatcToolbarTableSettings .MatcFormRow:hover .MatcFormRowHoverAction{
-    font-weight: 700;
-    display: inline;
-    font-size: 20px;
-    color:red;
-}
-
-.MatcToolbarTableSettings label {
-    font-size: 14px;
-    font-weight: 400;
-    display: inline;
-    vertical-align: middle;
-}
-
-
-.MatcToolbarTableSettings input.form-control{
-    display: inline-block;
-    vertical-align: middle;
-    width: 250px;
-}
-
-
-.MatcToolbarTableSettings input.form-control.form-control-xs{
-    width: 40px;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.MatcToolbarTableSettings .VommondCheckBoxLabel{
-    font-size: 14px;
-}
-
-
-
-.MatcToolbarTableSettings .MatcFormRow .MatcToolbarDropDownButton{
-    margin: 0px;
-    width: 30px;
-    height: 30px;
-}
-
-.MatcToolbarTableSettings .MatcToolbarTableSettingsTable{
-    width: 100%;
-    font-size: 14px;
-
-}
-
-.MatcToolbarTableSettings .MatcToolbarTableSettingsTable th{
-    font-weight: 400;
-    padding-top: 15px;
-    font-size: 14px;
-}
-
-.MatcToolbarTableSettings .MatcFormRow > td{
-    padding-bottom: 10px;
-    vertical-align: middle;
-}
-
-.MatcFormRowDND{
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    height: 34px;
-}
-
-.MatcFormRowDND .mdi{
-    margin-left: -5px;
-    margin-top: 2px;
-    font-size: 18px;
-    cursor: ns-resize;
-    line-height: 1;
-}
-

@@ -3,6 +3,7 @@
 .MatcToolbarTable{
 	width: 1030px;
 	font-size: 14px;
+	border-radius: 3px;
 	position: relative;
 	overflow: hidden;
 
@@ -10,6 +11,19 @@
 		position: relative;
 		text-align: center;
 		color: #777;
+		display: flex;
+
+		.vommondInlineEdit{
+			border: 1px solid transparent;
+			width: auto;
+			margin: 2px 24px;
+			height: auto;
+			padding: 2px;
+			box-sizing: border-box;
+			background: none;
+			flex-grow: 1;
+			text-align: center;
+		}
 	}
 
 	table{
@@ -20,7 +34,6 @@
 	.MatcToolbarTableBody{
 		height: 400px;
 		overflow: auto;
-		border:1px solid #cecece;
 	}
 	
 	.MatcToolbarTableReizeCol td{
@@ -54,7 +67,6 @@
 		height: 100%;
 		width: 100%;
 		outline: none;
-		background: $table-selected;
 	}
 	
 	.MatcToolbarTableInputFocus{
@@ -71,7 +83,6 @@
 	tr td:FIRST-CHILD{
 		text-align: center;
 		background: $table-background;
-		color:#cecece;
 		width: 30px;
 		vertical-align: inherit;
 		color: #777;

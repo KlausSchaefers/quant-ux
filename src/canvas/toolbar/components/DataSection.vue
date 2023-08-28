@@ -282,7 +282,7 @@ export default {
 
 		_showTree (model){
 			this._setSectionLabel("Tree");
-			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderButton("Values", "SettingsTree", "_renderTableDialog");
 
 			//this._renderBoxColor("Hover", model, "hoverBackground", "hoverColor");
 			//this._renderBoxColor("Selected", model, "selectedBackground", "selectedColor");
@@ -304,7 +304,7 @@ export default {
 		_showTimeline (model){
 			this._setSectionLabel("Timeline");
 
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 
 			let style = model.style
 
@@ -413,7 +413,7 @@ export default {
 		_showCheckBoxGroup (model){
 			this._setSectionLabel("CheckBox Group");
 
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
 			if (!model.has?.backgroundColor) {
 				this._renderColor('Background','<span class="Color"></span>',model.style.background, "background", "onStyleChanged",true );
@@ -466,7 +466,7 @@ export default {
 		_showRadioGroup (model){
 			this._setSectionLabel("Radio Group");
 
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );
 		
 			if (!model.has?.backgroundColor) {
@@ -682,7 +682,7 @@ export default {
 		_showTypeAheadTextBox (model){
 			this._setSectionLabel("ComboBox");
 			this._renderCheck("Text is placeholder",model.props.placeholder, "placeholder" );
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
 
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
@@ -755,7 +755,7 @@ export default {
 
 		_showDropDown (model){
 			this._setSectionLabel("DropDown");
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
@@ -774,7 +774,7 @@ export default {
 
 		_showHoverDropDown (model){
 			this._setSectionLabel("Hover DropDown");
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 			this._renderBoxColor("Popup", model, "popupBackground", "popupColor");
 			this._renderBoxColor("Selection", model, "selectedOptionBackground", "selectedOptionColor");
 			this._renderCheck("Merge borders",model.props.hideUpperBorder, "hideUpperBorder" );
@@ -790,7 +790,7 @@ export default {
 
 		_showMobileDropDown (model){
 			this._setSectionLabel("Modal Select");
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 			this._renderColor('Popup Text','<span class="mdi mdi-format-text"></span>',model.style.popupColor, "popupColor", "onStyleChanged" , true);
 			this._renderColor('Popup Background','<span class="Color"></span>',model.style.popupBackground, "popupBackground" ,"onStyleChanged", true);
 			this._renderColor('Popup Border','<span class="mdi mdi-border-color"></span>',model.style.popupBorderColor, "popupBorderColor" ,"onStyleChanged", true);
@@ -798,13 +798,13 @@ export default {
 
 		_showSegmentButton (model){
 			this._setSectionLabel("Segment Button");
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 			this._renderCheck("Multi Selection", model.props.multi, "multi" );
 		},
 
 		_showSegmentPicker (model){
 			this._setSectionLabel("Segment Picker");
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 			this._renderColor('Select Text','<span class="mdi mdi-format-text"></span>',model.style.selectedColor, "selectedColor" ,"onStyleChanged", true);
 			this._renderColor('Select Background','<span class="Color"></span>',model.style.selectedBackground, "selectedBackground" ,"onStyleChanged", true);
 		},
@@ -872,7 +872,7 @@ export default {
 
 		_showSpinner (model){
 			this._setSectionLabel("Spinner");
-			this._renderButton("Options", "Settings", "_renderOptionDialog");
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
 			this._renderColor('Border','<span class="mdi mdi-border-color"></span>',model.style.borderBoxColor, "borderBoxColor", "onStyleChanged", true );
 
 		},
@@ -1074,7 +1074,7 @@ export default {
 		_showTable (model){
 			this._setSectionLabel("Table");
 
-			this._renderButton("Values", "TableData", "_renderStyledTableDialog");
+			this._renderButton("Settings", "TableData", "_renderTableSettings");
 
 
 			let style = model.style
@@ -1296,7 +1296,7 @@ export default {
 				}
 			])
 
-			this._renderButton("Columns & Actions", "Settings", "_renderTableSettings");
+			//this._renderButton("Columns & Actions", "Settings", "_renderTableSettings");
 		},
 
 
@@ -1665,7 +1665,7 @@ export default {
 
 		_renderTableSettings (e) {
 			var me = this;
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			var popup = this.db.div("MatcToolbarTableSettingsDialog MatcDialog MatcPadding").build();
 			var cntr = this.db.div("").build(popup);
 			var table = this.$new(TableSettings);
 			table.setModel(this.model)
@@ -1687,14 +1687,26 @@ export default {
 		},
 
 		setTableSettings (dialog, settings) {
-			let value = settings.getValue()
-
-			this.onProperyChanged("tableActions", value.tableActions);
-			this.onProperyChanged("columns", value.columns);
-
+			const value = settings.getValue()
+			this.emit("propertyMultiChange", {
+				tableActions: value.tableActions,
+				columns: value.columns,
+				data: value.data
+			})
 			settings.destroy();
 			dialog.close();
 		},
+
+
+		// setTableSettings (dialog, settings) {
+		// 	let value = settings.getValue()
+
+		// 	this.onProperyChanged("tableActions", value.tableActions);
+		// 	this.onProperyChanged("columns", value.columns);
+
+		// 	settings.destroy();
+		// 	dialog.close();
+		// },
 
 		_renderStyledTableDialog (e) {
 			this._renderTableDialog(e, 26)
@@ -1723,6 +1735,7 @@ export default {
 			})
 			d.popup(popup, e.target);
 		},
+
 
 		setTableData (d, table){
 			if(table.dataDirty){
@@ -1942,7 +1955,7 @@ export default {
 		_renderOptionDialog (e){
 			this.stopEvent(e);
 
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			var popup = this.db.div("MatcDialog MatcOptionDialog MatcPadding").build();
 
 			var cntr = this.db.div("MatcDialogTable").build(popup);
 

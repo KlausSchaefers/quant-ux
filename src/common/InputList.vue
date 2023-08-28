@@ -13,6 +13,7 @@ import Logger from 'common/Logger'
 import Input from 'common/Input'
 import CheckBox from 'common/CheckBox'
 import DomBuilder from 'common/DomBuilder'
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
 	name: 'InputList',
@@ -93,10 +94,12 @@ export default {
 			for (let i = 0; i < this.options.length; i++) {
 				let option = this.options[i];
 				let row = this.db.tr().build(tbl);
+				// make dragable
 				row.draggable = "true"
 				this.tempOwn(on(row, 'dragstart', e => this.onDragstart(e, i)))
 				this.tempOwn(on(row, 'drop', e => this.onDrop(e, i)))
 				this.tempOwn(on(row, 'dragover', e => this.onDragOver(e)))
+
 				if (this.check == "single") {
 					let checkTd = this.db.td("VommondInputListCheckCntr").build(row);
 					let chkBox = this.$new(CheckBox);
@@ -113,9 +116,11 @@ export default {
 					this.tempOwn(on(input, "keyup", lang.hitch(this, "onInputChanged", i, input)));
 					this.tempOwn(on(input, "change", lang.hitch(this, "onOptionChanged", input, this.isSelected(option))));
 					if (this.inline) {
-						css.add(input, "vommondInlineEdit");
+						css.add(input, "");
 					}
 					this._inputs.push(input);
+
+
 				} else {
 					this.db.td("VommondInputListInputCntr")
 						.div("MatcIgnoreOnKeyPress", this.getLabel(option), this.newValueMessage)
@@ -124,9 +129,10 @@ export default {
 				}
 
 				if (this.remove) {
-					var remove = this.db.td().div("VommondInputListRemove")
-						.span("mdi mdi-close-circle", "")
+					const remove = this.db.td().div("VommondInputListRemove")
 						.build(row);
+					
+					remove.appendChild(iconDOM('DeleteX'))
 					this.tempOwn(on(remove, touch.press, lang.hitch(this, "onInputRemove", i, option)));
 				}
 			}

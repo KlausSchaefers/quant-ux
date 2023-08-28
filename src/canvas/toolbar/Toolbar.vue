@@ -1770,7 +1770,7 @@ export default {
 		},
 
 		setWidgetMultiProps (newProps){
-			this.logger.log(-1,"setWidgetMultiProps", "entry", JSON.stringify(newProps));
+			this.logger.log(1,"setWidgetMultiProps", "entry", JSON.stringify(newProps));
 			if(this._selectedWidget && this._selectedWidget.style){
 				this.controller.updateWidgetProperties(this._selectedWidget.id, newProps, "props");
 			}

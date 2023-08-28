@@ -49,6 +49,8 @@ $popup_form_background_focus: $toolbar_form_background_hover;
 
 $dialog_color: #333;
 $dialog_form_border: $toolbar_border;
+$dialog_table_background: rgba(0,0,0, .05);
+$dialog_table_border: rgba(0,0,0, .1);
 
 $text-color-passive: #ccc;
 $text-color-dark: #363636;
@@ -64,7 +66,7 @@ $color-red: #f94c4c;
 $color-red-dark: #f83a3a;
 $color-red-light: #f7dddd;
 
-$table-background:rgb(245, 245, 245);
+$table-background:rgba(0,0,0, .05);
 $table-selected: #d6e5f8;
 
 $input_border: #dbdbdb;

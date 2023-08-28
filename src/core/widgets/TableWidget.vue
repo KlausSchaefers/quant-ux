@@ -161,7 +161,7 @@ export default {
       const columns = this.getColumns(data, style)
       const rows = data.rows
 
-      const widths = this.getWidths(model.props.widths, this.style, this.props );
+      const widths = this.getWidths(model.props, this.style);
       const borderStyle = this.getBorderStyle(model);
    
       const db = new DomBuilder();
@@ -313,6 +313,9 @@ export default {
             if (action.color) {
               a.style.color = action.color
             }
+            if (action.background) {
+              a.style.background = action.background
+            }
             if (action.isHover) {
               css.add(a, 'MatcWidgetTypeTableActionOnlyHover')
             }
@@ -441,11 +444,25 @@ export default {
             isSearchable: false
           }
         }),
-        rows: data.splice(1)
+        rows: data
+      }
+
+      if (this.model.props.columns) {
+
+        table.columns = this.model.props.columns
+        this.model.props.columns.forEach((c,i) => {
+          table.rows.forEach(r => {
+            if (r[i] === undefined) {
+              r[i] = "-"
+            }
+          }) 
+        })
+      } else {
+        table.rows = table.rows.splice(1)
       }
 
       // since 4.0.70 we overwrite columns
-      this.setTabelColumns(table)
+      //this.setTabelColumns(table)
       return table
     },
 
@@ -528,6 +545,7 @@ export default {
 
      getColumns (data, style) {
       let columns = data.columns
+
       // if we have a checkbox we need to add
       // an empty row and also some adjustments to the table
       if (style.checkBox) {
@@ -550,8 +568,10 @@ export default {
       return h
     },
 
-    getWidths (widths,style, props, fontFactor = 0.6) {
+    getWidths (props, style, fontFactor = 0.6) {
       const result = [];
+      
+      let widths = this.getRawWidths(props)
       if (widths) {
         let sum = 0;
         const padding = this._getBorderWidth(style.paddingLeft) + this._getBorderWidth(style.paddingRight)
@@ -573,6 +593,18 @@ export default {
         }
       }
       return result;
+    },
+
+    getRawWidths (props) {
+      let widths = []
+      if (props.columns) {
+        props.columns.forEach((col, i) => {
+          if (col.width) {
+            widths[i] = col.width * 1
+          }
+        })
+      }
+      return widths
     },
 
     setValue (value) {

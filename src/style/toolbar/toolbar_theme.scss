@@ -206,6 +206,10 @@
         background: $toolbar_form_background_focus;
         border-color: $toolbar_border;
     }
+
+    .MatcAction .MatcToolbarSeparator {
+        border-color: $toolbar_border;
+    }
 }
 
 
@@ -381,5 +385,18 @@
             border-bottom: 2px solid $primary_color;
         }
     }
+
+    .MatcDialogTable, 	
+    .MatcToolbarTableBody{
+        background: $dialog_table_background;
+        border: 1px solid $dialog_table_border;
+    }
+
+    .MatcToolbarTableBody .td{
+		border-top:1px solid  $dialog_table_border !important;
+		border-left:1px solid  $dialog_table_border;
+		padding: 0px;
+	}
+   
 
 }

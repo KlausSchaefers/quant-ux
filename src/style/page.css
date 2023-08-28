@@ -1058,6 +1058,10 @@ textarea.MatcContentWidgetAbs{
 	padding: 40px 40px 50px;
 }
 
+.MatcOptionDialog {
+	width: 480px;
+}
+
  .MatcDialogMobile{
 	width: 100%;
 	min-width:320px;

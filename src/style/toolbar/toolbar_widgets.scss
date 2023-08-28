@@ -1087,18 +1087,14 @@ input.MatcToobarInlineEditDisabled:focus {
 }
 
 .MatcToolbarPopUpIconDanger {
-	color: #f83a3a;
+	color: $color-danger;
 }
 
 .MatcToolbarDropDownButtonLabel {
 	width: 100px;
 	display: inline-block;
 	line-height: 1;
-	vertical-align: middle;
-}
-
-.MatcToolbarDropDownButtonLabel:nth-child(2) {
-	margin-left: 7px;
+	text-align: left;
 }
 
 .MatcToolbarDropDownButtonDialog {

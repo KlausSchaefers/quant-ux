@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcQIcon" @click="onClick" v-if="icons[icon]">
+    <div class="MatcQIcon" @click="onClick" @mouseover="onMouseOver" @mouseout="onMouseOut" v-if="icons[icon]">
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         :class="'MatcQIconSVG ' + icon"
@@ -15,7 +15,7 @@
         v-html="icons[icon]">
       </svg>
     </div>
-    <span v-else :class="'MatcQIcon ' + icon" @click="onClick"></span>
+    <span v-else :class="'MatcQIcon ' + icon" @click="onClick" @mouseover="onMouseOver" @mouseout="onMouseOut"></span>
   </template>
   <style lang="scss">
   @import "../style/scss/icon.scss";
@@ -34,6 +34,13 @@
     },
     components: {},
     methods: {
+      onMouseOver (e) {
+        console.debug('Mouse')
+        this.$emit('mouseover', e)
+      },
+      onMouseOut (e) {
+        this.$emit('mouseout', e)
+      },
       onClick (e) {
         this.$emit('click', e)
       }

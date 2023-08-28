@@ -313,6 +313,22 @@ export const icons = {
         <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
         <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
     `,
+    'SettingsList': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
+        <path d="M9 7l6 0"></path>
+        <path d="M9 11l6 0"></path>
+        <path d="M9 15l6 0"></path>
+    `,
+    'SettingsTree': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 6h11"></path>
+        <path d="M12 12h8"></path>
+        <path d="M15 18h5"></path>
+        <path d="M5 6v.01"></path>
+        <path d="M8 12v.01"></path>
+        <path d="M11 18v.01"></path>
+    `,
     'Comment': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M8 9h8"></path>
@@ -1022,6 +1038,16 @@ export const icons = {
         <path d="M9 15l3 -3l3 3"></path>
         <path d="M9 11l3 -3l3 3"></path>
         <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
-    `
+    `,
+    'HandleDND': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M9 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M9 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M15 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M15 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M15 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+    `,
+
 }
 
