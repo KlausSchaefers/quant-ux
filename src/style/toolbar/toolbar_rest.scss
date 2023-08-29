@@ -93,6 +93,12 @@
     border-bottom-left-radius: 0px;
     border-left: 0px;
     height: 36px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    &:hover, &:focus{
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
 }
 
 .MatcToolbarRestSettingsHeader .MatcButton{
@@ -102,8 +108,9 @@
 .MatcToolbarRestSettingsHeader .MatcDropDownButton{
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
-    background: #3787f2;
+    background: $primary_color;
     color:#fff;
+    height: 36px;
 }
 
 .MatcToolbarRestSettingsHeader .MatcDropDownButtonWidth{

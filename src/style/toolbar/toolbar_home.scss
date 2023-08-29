@@ -18,7 +18,7 @@
 	.MatcToolbarPrimaryItem {
 		border: none;
 		&:hover{
-			background:  $primary_color-hover;
+			background:  $primary_color_hover;
 		}
 	}
 
@@ -29,7 +29,7 @@
 
 	&:HOVER, 
 	.MatcToolbarItemActive{
-		background:  $primary_color-hover;
+		background:  $primary_color_hover;
 	}
 
 

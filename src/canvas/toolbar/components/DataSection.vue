@@ -1487,7 +1487,7 @@ export default {
 
 		_renderRestDialog (e) {
 
-			const popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			const popup = this.db.div("MatcDialog MatcPadding").build();
 			const cntr = this.db.div("").build(popup);
 			const settings = this.$new(RestSettings);
 			settings.setWidget(this.widget);

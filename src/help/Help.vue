@@ -1,46 +1,7 @@
 x
 <template>
     <div class="MatcHelp">
-            <div class="MatcHelpContent">
-                <div class="MatcHelpTopics" v-if="hasSideBar">
-                <div v-if="hasSearch">
-                    <input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" v-model="search"/>
-                </div>
-                <span v-if="loading" class="MatchHint">
-                    Loading...
-                </span>
-                <div class="MatcHelpTopicsCntr">
-                    <div v-if="!standalone">
-                        <template v-for="topic in topics">
-                            <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" >
-                                {{topic.name}}
-                            </a>
-                            <template v-if="topic.id === selected">
-                                <template v-for="(p, i) in topic.paragraphs"  >
-                                    <a  v-if="p.title" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" >
-                                        {{p.title}}
-                                    </a>
-                                </template>
-                               
-                            </template>
-                        </template>
-                    </div>
-                    <div v-else>
-                        <template v-for="topic in topics">
-                            <a :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :href="'#/help/' + topic.id + '.html'">
-                                {{topic.name}}
-                            </a>
-                            <template v-if="topic.id === selected">
-                                <template v-for="(p, i) in topic.paragraphs"  >
-                                    <a  v-if="p.title" :key="i"  :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'" >
-                                        {{p.title}}
-                                    </a>
-                                </template>
-                            </template>
-                        </template>
-                    </div>
-                </div>
-            </div>
+       
             <span v-if="loading" class="MatchHint">
                 Loading...
             </span>
@@ -115,6 +76,47 @@ x
                 </div>
 
             </div>
+
+            <div class="">
+                <div class="MatcHelpTopics" v-if="hasSideBar">
+                <div v-if="hasSearch">
+                    <input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" v-model="search"/>
+                </div>
+                <span v-if="loading" class="MatchHint">
+                    Loading...
+                </span>
+                <div class="MatcHelpTopicsCntr">
+                    <div v-if="!standalone">
+                        <template v-for="topic in topics">
+                            <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" >
+                                {{topic.name}}
+                            </a>
+                            <template v-if="topic.id === selected">
+                                <template v-for="(p, i) in topic.paragraphs"  >
+                                    <a  v-if="p.title" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" >
+                                        {{p.title}}
+                                    </a>
+                                </template>
+                               
+                            </template>
+                        </template>
+                    </div>
+                    <div v-else>
+                        <template v-for="topic in topics">
+                            <a :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :href="'#/help/' + topic.id + '.html'">
+                                {{topic.name}}
+                            </a>
+                            <template v-if="topic.id === selected">
+                                <template v-for="(p, i) in topic.paragraphs"  >
+                                    <a  v-if="p.title" :key="i"  :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'" >
+                                        {{p.title}}
+                                    </a>
+                                </template>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -125,9 +127,8 @@ textarea {
 }
 </style>
 
-
-<style>
-  @import url("../style/help.css");
+<style lang="scss">
+  @import "../style/help.scss" ;
 </style>
 
 

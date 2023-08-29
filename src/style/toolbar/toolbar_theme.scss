@@ -126,7 +126,7 @@
     }
 
     .MatcCreateCatCntr li a:hover{
-        color: $primary_color-hover
+        color: $primary_color_hover
      }
 
     .MatcCreateBtnElementLabel {
@@ -332,7 +332,7 @@
         color: #fff;
         
         .MatcToolbarItem.MatcToolbarItemActive:hover {
-            background: $primary_color-hover;
+            background: $primary_color_hover;
             color: #fff;
         }
     }
@@ -343,7 +343,7 @@
     }
     
     .MatcToolbarItem.MatcToolbarItemActive:hover {
-        background: $primary_color-hover;
+        background: $primary_color_hover;
         color: #fff;
     }    
 }
