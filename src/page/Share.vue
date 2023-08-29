@@ -2,38 +2,30 @@
 <template>
   <div class="MatcShareDialog" @keydown.stop @keyup.stop @keypress.stop>
     <LanguagePicker @change="setLanguage"  :hasLabel="true"/>
-    <div class="field MatcShareRow">
+    <div class="form-group MatcShareRow">
       <label>Test</label>
-      <input type="text" class="input" :value="testLink" @focus="select" />
+      <input type="text" class="form-control" :value="testLink" @focus="select" />
       <a class="MatcShareIcon" :href="testLink" target="_QuantUXTest">
         <span class="mdi mdi-share" />
       </a>
     </div>
 
-    <div class="field MatcShareRow">
+    <div class="form-group MatcShareRow">
       <label>Share and Comment</label>
-      <input type="text" class="input" :value="shareLink" @focus="select" />
+      <input type="text" class="form-control" :value="shareLink" @focus="select" />
       <a class="MatcShareIcon" :href="shareLink" target="_QuantUXShare">
         <span class="mdi mdi-share" />
       </a>
     </div>
 
-    <div class="field MatcShareRow">
+    <div class="form-group  MatcShareRow">
       <label>Low-Code Token</label>
-      <input type="text" class="input" :value="`${hash}`" @focus="select" ref="hashInput" />
+      <input type="text" class="form-control" :value="`${hash}`" @focus="select" ref="hashInput" />
       <a class="MatcShareIcon" @click="copy" target="_QuantUXShare">
         <span class="mdi mdi-content-copy" />
       </a>
     </div>
 
-  <!--
-    <div class="field MatcShareRow">
-      <label>Language</label>
-      <div class=" form-group">
-        <DropDownButton :options="languageOptions" :value="language" @change="setLanguage"/>
-      </div>
-    </div>
-    -->
 
     <div class="MatcMarginTop MatcShareRow MatcSharePasswordRow" v-if="hasPassword">
       <CheckBox v-model="needPassword" label="Require Password" />

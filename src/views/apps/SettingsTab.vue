@@ -4,10 +4,10 @@
       <div class="container">
         <div class="box is-shadowless">
           <h2 class="title">Prototype Name</h2>
-          <div class="field">
+          <div class="form-group">
             <input
               type="text"
-              class="input"
+              class="form-control"
               v-model="app.name"
               @change="setAppName"
               placeholder="Enter App name"
@@ -38,19 +38,19 @@
             </div>
           </div>
 
-          <div class="field">
+          <div class="form-group">
             <label>Test</label>
-            <input type="text" class="input" :value="`${base}/#/test.html?h=${hashes[1]}`" />
+            <input type="text" class="form-control" :value="`${base}/#/test.html?h=${hashes[1]}`" />
           </div>
 
-          <div class="field">
+          <div class="form-group">
             <label>Share and Comment</label>
-            <input type="text" class="input" :value="`${base}/#/share.html?h=${hashes[1]}`" />
+            <input type="text" class="form-control" :value="`${base}/#/share.html?h=${hashes[1]}`" />
           </div>
 
-          <div class="field">
+          <div class="form-group">
             <label>Code Generation</label>
-            <input type="text" class="input" :value="`${hashes[1]}`" />
+            <input type="text" class="form-control" :value="`${hashes[1]}`" />
           </div>
           <!--
               <div class="form-group">

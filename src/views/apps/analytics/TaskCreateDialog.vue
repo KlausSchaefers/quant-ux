@@ -4,14 +4,14 @@
     <div class="TaskCreateDialogCntr">
       <div class="FormCntr" >
 
-          <div class="field">
+          <div class="form-group">
             <label>Name</label>
-            <input  v-model="task.name" type="text" class="input" placeholder="Name"  />
+            <input  v-model="task.name" type="text" class="form-control" placeholder="Name"  />
           </div>
 
-          <div class="field">
+          <div class="form-group">
             <label>Description</label>
-            <textarea  v-model="task.description" type="text" class="input"  placeholder="An explaination for the users"  />
+            <textarea  v-model="task.description" type="text" class="form-control"  placeholder="An explaination for the users"  />
           </div>
 
 

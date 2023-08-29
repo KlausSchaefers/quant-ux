@@ -13,10 +13,10 @@
             
                 <div v-if="tab === 'settings'" class="MatcFlexDialogMain">
                   
-                        <div class="field">
+                        <div class="form-group">
                             <label>{{ getNLS('design-gpt.key-title') }}</label>
                             <form autocomplete="off">
-                                <input type="password" autocomplete="off" class="input" v-model="openAIKey" @change="onChangeOpenAIKey"/>
+                                <input type="password" autocomplete="off" class="form-control" v-model="openAIKey" @change="onChangeOpenAIKey"/>
                             </form>
                         </div>
 
@@ -59,7 +59,7 @@
                             <textarea 
                                 :placeholder="promptPlaceholder"
                                 type="text" 
-                                class="input" 
+                                class="form-control" 
                                 v-model="prompt" 
                                 @keyup="onKeyUp($event)" 
                                 ref="promptBox"></textarea>

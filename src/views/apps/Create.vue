@@ -6,9 +6,9 @@
         <div class="columns">
           <div class="column is-6">
             <form>
-              <div class="field">
+              <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="input" v-model="name" placeholder="Enter App name" ref="inputName"/>
+                <input type="text" class="form-control" v-model="name" placeholder="Enter App name" ref="inputName"/>
                 <div data-binding-error="name"></div>
               </div>
 

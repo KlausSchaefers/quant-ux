@@ -41,20 +41,20 @@
 
                     <div v-if="!figmaPages">
 
-                        <div class="field ">
+                        <div class="form-group ">
                             <label>{{ getNLS('dialog.import.figma-key')}}
                             <a target="figma" href="https://www.figma.com/developers/api#access-tokens">
                                 <span class="mdi mdi-help-circle"></span>
                             </a>
                             </label>
                             <form autocomplete="off">
-                                <input type="password" autocomplete="off" class="input" v-model="figmaAcccessKey" />
+                                <input type="password" autocomplete="off" class="form-control" v-model="figmaAcccessKey" />
                             </form>
                         </div>
 
-                        <div class="field">
+                        <div class="form-group">
                             <label>{{ getNLS('dialog.import.figma-url')}}</label>
-                            <input type="text" class="input" v-model="figmaUrl" />
+                            <input type="text" class="form-control" v-model="figmaUrl" />
                         </div>
 
                     </div>
@@ -71,18 +71,18 @@
 
             <div v-if="tab=== 'swagger'">
                 <div class="MatchImportDialogCntr">
-                      <div class="field">
+                      <div class="form-group">
                             <label>{{ getNLS('dialog.import.open-api-url')}}</label>
-                            <input type="text" class="input" v-model="swaggerURL" />
+                            <input type="text" class="form-control" v-model="swaggerURL" />
                         </div>
                 </div>
             </div>
 
             <div v-if="tab=== 'openai'">
                 <div class="MatchImportDialogCntr">
-                      <div class="field">
+                      <div class="form-group">
                             <label>{{ getNLS('dialog.import.open-ai-prompt')}}</label>
-                            <textarea type="text" class="input" v-model="openAIPrompt">
+                            <textarea type="text" class="form-control" v-model="openAIPrompt">
                             </textarea>
                         </div>
 

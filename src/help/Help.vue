@@ -28,21 +28,21 @@ x
                 </div>
 
                 <div v-if="current.hasContact">
-                    <div class="field">
+                    <div class="form-group">
                         <label>Name</label>
-                        <input class="input MatcIgnoreOnKeyPress"  v-model="contactName"/>
+                        <input class="form-control MatcIgnoreOnKeyPress"  v-model="contactName"/>
                     </div>
-                    <div class="field">
+                    <div class="form-group">
                         <label>Email</label>
-                        <input class="input MatcIgnoreOnKeyPress" v-model="contactEmail"/>
+                        <input class="form-control MatcIgnoreOnKeyPress" v-model="contactEmail"/>
                     </div>
-                    <div class="field">
+                    <div class="form-group">
                         <label>Message</label>
-                        <textarea class="input MatcIgnoreOnKeyPress" v-model="contactMessage"/>
+                        <textarea class="form-control MatcIgnoreOnKeyPress" v-model="contactMessage"/>
                     </div>
 
-                    <div class=" MatcButtonBar buttons">
-                        <div class="button is-primary" @click="sendContact">Send</div>
+                    <div class="MatcButtonBar">
+                        <div class="MatcButton" @click="sendContact">Send</div>
                         <span class="MatcError">
                             {{contactError}}
                         </span>
