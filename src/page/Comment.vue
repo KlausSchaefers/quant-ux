@@ -156,7 +156,7 @@ export default {
           meta.appendChild(cntr);
 
           var edit = document.createElement("a");
-          css.add(edit, "button is-text");
+          css.add(edit, "MatcLinkButton");
           edit.innerHTML = this.getNLS("btn.edit");
           cntr.appendChild(edit);
           this.tempOwn(
@@ -164,7 +164,7 @@ export default {
           );
 
           var del = document.createElement("a");
-          css.add(del, "button is-text");
+          css.add(del, "MatcLinkButton");
           del.innerHTML = this.getNLS("btn.delete");
           cntr.appendChild(del);
           this.tempOwn(
@@ -203,7 +203,7 @@ export default {
       txt.appendChild(bar);
 
       var btn = document.createElement("div");
-      css.add(btn, "button is-primary");
+      css.add(btn, "MatcButton");
       btn.innerHTML = this.getNLS("btn.post");
       bar.appendChild(btn);
 
@@ -240,7 +240,7 @@ export default {
         txt.appendChild(bar);
 
         var btn = document.createElement("div");
-        css.add(btn, "button is-primary mt-16");
+        css.add(btn, "MatcButton MatcMarginTop");
         btn.innerHTML = this.getNLS('comments.post');
         bar.appendChild(btn);
 

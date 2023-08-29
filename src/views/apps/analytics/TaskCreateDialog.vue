@@ -51,7 +51,7 @@
           <p class="MatcHint">
             Select the next screen to show
           </p>
-          <div v-for="box in abScreens" :key="box.id" class="button is-primary" @click="selectABLine(box)">
+          <div v-for="box in abScreens" :key="box.id" class="MatcButton" @click="selectABLine(box)">
             {{box.name}}
           </div>
         </div>
@@ -61,9 +61,9 @@
     </div>
 
 
-    <div class="buttons mt-16">
-      <a class="button is-primary" @click="onSave">Save</a>
-      <a class="button is-text" @click="onCancel" >Cancel</a>
+    <div class="MatcButtonBar">
+      <a class="MatcButton" @click="onSave">Save</a>
+      <a class="MatcLinkButton" @click="onCancel" >Cancel</a>
     </div>
 
   </div>

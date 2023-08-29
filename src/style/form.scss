@@ -151,8 +151,6 @@ input:focus{
 	text-decoration: none;
 }
 
-
-
 .MatcButton{
 	display: inline-block;
 	padding: 4px 16px;
@@ -171,6 +169,25 @@ input:focus{
  	background: $primary_color;
 	text-decoration: none;
 	color:#fff;
+}
+
+.MatcButtonSecondary {
+	background: none;
+	border: 1px solid $primary_color;
+	color: $primary_color;
+
+	&:hover{
+		background: $primary_color_hover;
+		border: 1px solid $primary_color_hover;
+		color: #fff;
+	}
+}
+
+.MatcButtonDanger {
+	background-color: $color-red;
+	&:hover {
+		background-color: $color-red-dark;
+	}
 }
 
 
@@ -646,6 +663,10 @@ input:focus{
 .MatcDropDownSelectCheck {
 }
 
+.MatcDropDownButton.MatcDropDownSelect li:HOVER {
+    background: none;
+}
+
 /****************************************************
  * DropDown
  ****************************************************/
@@ -689,6 +710,13 @@ input:focus{
 	position: absolute;
 	right:10px;
 	top:45%;
+	border: none;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    width: 5px;
+    height: 5px;
 }
 
 .MatcDropDownButtonWidth{
@@ -773,6 +801,7 @@ input:focus{
 	background: $primary_color;
 	color: #fff;
 }
+
 
 
 /****************************************************

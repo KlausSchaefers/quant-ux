@@ -40,13 +40,13 @@
           <div class="level-right">
             <div class="level-item">
               <a
-                class="button is-primary"
+                class="MatcButton"
                 target="test"
                 :href="'#/test.html?h=' + hash + '&log=' + !isPublic"
                 id="overviewHeaderRunTest">{{ $t('app.overview.run-test')}}</a>
             </div>
             <div class="level-item">
-              <a class="button is-primary" @click="showShareDialog" ref="shareButton">{{ $t('app.overview.share')}}</a>
+              <a class="MatcButton" @click="showShareDialog" ref="shareButton">{{ $t('app.overview.share')}}</a>
             </div>
           </div>
         </div>

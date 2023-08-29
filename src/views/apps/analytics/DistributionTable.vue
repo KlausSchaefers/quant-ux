@@ -128,7 +128,7 @@ export default {
                 
                         const play = document.createElement("a");
                         play.href = "#/" +  this.urlPrefix + "/" +  this.app.id + "/replay/" + row.session + ".html";
-                        css.add(play, "button is-primary");
+                        css.add(play, "MatcButton");
                         play.innerHTML = '<span class="mdi mdi-play"></span>';
                         node.appendChild(play);
                     }

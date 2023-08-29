@@ -322,19 +322,19 @@ export default {
         {
           render: (node, row) => {
             const group = document.createElement("div");
-            group.style.width = '120px'
+            group.style.width = '140px'
             group.style.display = 'inline-block'
             node.appendChild(group);
 
             const play = document.createElement("a");
             play.href = "#/" +  urlPrefix + "/" +  app.id + "/replay/" + row.session + ".html";
-            css.add(play, "button is-primary");
+            css.add(play, "MatcButton MatcButtonSecondary");
             play.innerHTML = '<span class="mdi mdi-play"></span>';
             group.appendChild(play);
 
             const remove = document.createElement("a");
             this.own(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
-            css.add(remove, "button is-danger");
+            css.add(remove, "MatcButton MatcButtonDanger");
             remove.innerHTML = '<span class="mdi mdi-close"></span>';
             group.appendChild(remove);
 
@@ -353,9 +353,9 @@ export default {
       const div = db.div("box MatcDeleteDialog").build();
       db.h3("title is-4", 'Delete Test').build(div);
       db.p('', "Do you want to delete the test? You will loose all data related to this test!").build(div)
-      const bar = db.div("buttons").build(div);
-      const write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
-      const cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
+      const bar = db.div("MatcButtonBar").build(div);
+      const write = db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
+      const cancel = db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
       const d = new Dialog();
       d.own(on(write, touch.press, lang.hitch(this, "deleteSession", session, d)));
       d.own(on(cancel, touch.press, lang.hitch(d, "close")));

@@ -54,7 +54,7 @@
               </td>
 
               <td class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">
-                <a :href="getVideoURL(table.ids[r])" class="button is-primary" target="_QUXvideo">
+                <a :href="getVideoURL(table.ids[r])" class="MatcButton" target="_QUXvideo">
                   <span class="mdi mdi-play"></span>
                 </a>
               </td>

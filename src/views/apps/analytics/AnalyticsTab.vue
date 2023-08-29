@@ -11,7 +11,7 @@
             </div>
             <div class="level-right">
               <div class="level-item">
-                <a class="button is-primary is-outlined" @click="downloadCSV">Download Test Data</a>
+                <a class="MatcButton MatcButtonSecondary" @click="downloadCSV">Download Test Data</a>
               </div>
             </div>
           </div>

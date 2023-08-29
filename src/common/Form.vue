@@ -24,12 +24,10 @@ export default {
 	},
 	components: {},
 	methods: {
-		postCreate: function() {},
-
 		/**
 		 * Must be called before Form is added to dom!
 		 */
-		render: function(elements, actions) {
+		render (elements, actions) {
 			var db = new DomBuilder()
 			var cntr = db.div().build()
 
@@ -84,7 +82,7 @@ export default {
 			this.errorLabel = db.div("VommondFormErrorLabel VommondFormErrorLabelBottom VommondFormErrorLabelHidden", "").build(cntr)
 			this.hintLabel = db.div("VommondFormHintLabel VommondFormErrorLabelHidden").build(cntr)
 
-			var bar = db.div("buttons mt-16").build(cntr)
+			var bar = db.div("MatcButtonBar").build(cntr)
 			this.actionNodes = []
 			for (let i = 0; i < actions.length; i++) {
 				var action = actions[i]
@@ -103,7 +101,7 @@ export default {
 			}
 		},
 
-		_createInput: function(element, db, grp) {
+		_createInput(element, db, grp) {
 			if (element.type != "check") {
 				db.label("", element.label).build(grp)
 
@@ -186,13 +184,13 @@ export default {
 			}
 		},
 
-		startup: function() {
+		startup () {
 			this.log = new Logger("Form")
 			this.log.log(0, "startup", "enter")
 			this._registerListeners()
 		},
 
-		_registerListeners: function() {
+		_registerListeners () {
 			this.log.log(5, "_registerListeners", "enter")
 			var me = this
 
@@ -224,7 +222,7 @@ export default {
 			})
 		},
 
-		_registerChangeListeners: function(n) {
+		_registerChangeListeners (n) {
 			var key = domAttr.get(n, "data-binding")
 
 			this.log.log(5, "_registerChangeListeners", "enter > " + key) + " > "
@@ -254,7 +252,7 @@ export default {
 			}
 		},
 
-		_registerMethodListener: function(n) {
+		_registerMethodListener (n) {
 			var key = domAttr.get(n, "data-binding-active")
 			if (key == "change") {
 				css.add(n, "VommondDataBindingPassive")
@@ -262,7 +260,7 @@ export default {
 			}
 		},
 
-		_registerErrorLabel: function(n) {
+		_registerErrorLabel (n) {
 			var key = domAttr.get(n, "data-binding-error")
 			if (key) {
 				this.log.log(5, "_registerErrorLabel", "enter > " + key)
@@ -274,7 +272,7 @@ export default {
 			}
 		},
 
-		validateForm: function(source, force) {
+		validateForm (source, force) {
 			this.log.log(3, "validateForm", "enter > " + source + " " + force)
 
 			var valid = true
@@ -316,7 +314,7 @@ export default {
 			return valid
 		},
 
-		setError: function(valid, name, msg) {
+		setError (valid, name, msg) {
 			this.log.log(5, "setError", "enter")
 			var lbl = this.errorElements[name]
 			if (lbl) {
@@ -339,20 +337,20 @@ export default {
 			}
 		},
 
-		validateInput: function(n) {
+		validateInput (n) {
 			this.log.log(5, "validateInput", "enter")
 			var value = n.value
 			return this.validate(value, n)
 		},
 
-		validateCheckBox: function(n) {
+		validateCheckBox (n) {
 			this.log.log(5, "validateCheckBox", "enter")
 
 			var value = n.checked
 			return this.validate(value, n)
 		},
 
-		validateWidget: function(w) {
+		validateWidget (w) {
 			this.log.log(5, "validateWidget", "enter")
 
 			var value = null
@@ -365,7 +363,7 @@ export default {
 			return this.validate(value, w.domNode)
 		},
 
-		validate: function(value, n) {
+		validate (value, n) {
 			if (n) {
 				var name = domAttr.get(n, "data-binding")
 				var required = domAttr.get(n, "data-binding-required")

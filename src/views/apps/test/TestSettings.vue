@@ -31,8 +31,8 @@
                     <span class="MatcHint" v-else>No steps </span>
                   </td>
                   <td class=" action">
-                    <a class=" button " @click="onEditTask(task, i, $event)">Edit</a>
-                    <a class=" button is-danger" @click="onDelete(task, i, $event)"><span class=" mdi mdi-close"></span></a>
+                    <a class="MatcButton MatcButtonSecondary" @click="onEditTask(task, i, $event)">Edit</a>
+                    <a class="MatcButton MatcButtonDanger" @click="onDelete(task, i, $event)"><span class=" mdi mdi-close"></span></a>
                   </td>
                 </tr>
             </tbody>
@@ -47,7 +47,7 @@
           </p>
         </div>
 
-        <a data-nls="testSettingsAddTask" @click="showCreateDialog" class="button is-primary">Add task</a>
+        <a data-nls="testSettingsAddTask" @click="showCreateDialog" class="MatcButton">Add task</a>
 
 
   </div>
@@ -241,9 +241,9 @@ export default {
       var div = this.db.div("box MatcDeleteDialog").build();
       this.db.h3("title is-4", this.getNLS("testSettingTaskDeleteTitle")).build(div);
       this.db.p('', this.getNLS("testSettingTaskDelete1") + name + this.getNLS("testSettingTaskDelete2")).build(div)
-      var bar = this.db.div("buttons").build(div);
-      var write = this.db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
-      var cancel = this.db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
+      var bar = this.db.div("MatcButtonBar").build(div);
+      var write = this.db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
+      var cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
       var d = new Dialog();
       d.own(on(write, touch.press, lang.hitch(this, "removeTask", i, d)));
       d.own(on(cancel, touch.press, lang.hitch(d, "close")));

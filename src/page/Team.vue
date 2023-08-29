@@ -98,18 +98,16 @@ export default {
 
       var email = this.$new(Input);
       email.setPlaceholder("Enter the email");
-      email.setCss("input");
+      email.setCss("form-control");
       email.placeAt(right);
 
       var error = this.db
         .div("MatcErrorLabel MatcErrorLabelEmpty")
         .build(right);
 
-      var bar = this.db.div("buttons MatcMarginTop").build(cntr);
-
-      var write = this.db.div("button is-primary", "Add User").build(bar);
-
-      var cancel = this.db.a("button is-text", "Cancel").build(bar);
+      var bar = this.db.div("MatcButtonBar MatcMarginTop").build(cntr);
+      var write = this.db.div("MatcButton", "Add User").build(bar);
+      var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
       var d = new Dialog({ overflow: true });
       d.own( on(write, touch.press, lang.hitch(this, "addUser", email, error, d, bar)));
@@ -199,19 +197,19 @@ export default {
 
       row = this.db.div("columns").build(cntr);
       left = this.db.div("column is-4").build(row);
-      right = this.db.div("column buttons").build(cntr);
+      right = this.db.div("MatcButtonBar").build(cntr);
 
       var d = new Dialog();
 
       if (user.permission != 3) {
-        let write = this.db.div("button is-primary", "Save").build(right);
-        let cancel = this.db.a("button is-text", "Cancel").build(right);
-        let remove = this.db.a("button is-text", "Remove").build(right);
+        let write = this.db.div("MatcButton", "Save").build(right);
+        let cancel = this.db.a("MatcLinkButton", "Cancel").build(right);
+        let remove = this.db.a("MatcLinkButton", "Remove").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
         d.own(on(write, touch.press, lang.hitch(this, "changePermission", user, radio, d)));
         d.own(on(remove, touch.press, lang.hitch(this, "removeUser", user, radio, d)));
       } else {
-        let cancel = this.db.div("button is-primary", "Close").build(right);
+        let cancel = this.db.div("MatcButton", "Close").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
       }
       d.popup(popup, item);

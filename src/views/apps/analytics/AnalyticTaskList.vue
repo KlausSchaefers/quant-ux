@@ -14,7 +14,7 @@
           </h2>
         </div>
         <div class="level-right">
-          <a class="button is-primary is-outlined level-item"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>
+          <a class="MatcButton MatcButtonSecondary level-item"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>
         </div>
       </div>
 
@@ -221,7 +221,7 @@ export default {
         {
           label: "",
           icon: "mdi mdi-chart-bar",
-          css: "button is-primary is-outlined",
+          css: "MatcButton MatcButtonSecondary",
           callback: lang.hitch(me, "_showTaskPerf")
         }
       ]);
