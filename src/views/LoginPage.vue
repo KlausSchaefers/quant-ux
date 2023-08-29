@@ -89,7 +89,7 @@
 
 
 <style lang="scss">
-    @import "../style/scss/login.scss";
+    @import "../style/components/login.scss";
     @import '../style/toolbar/tab.scss';
 </style>
 

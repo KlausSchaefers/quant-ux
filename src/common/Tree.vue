@@ -18,7 +18,7 @@
 	</ul>
 </template>
 <style lang="scss">
-  @import "../style/tree.scss";
+  @import "../style/components/tree.scss";
 </style>
 <script>
 

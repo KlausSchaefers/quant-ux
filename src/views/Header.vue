@@ -29,7 +29,7 @@
 </template>
 
 <style lang="scss">
-  @import "../style/menu.scss";
+  @import "../style/components/menu.scss";
 </style>
 
 

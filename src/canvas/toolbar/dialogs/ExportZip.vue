@@ -10,8 +10,8 @@
 	</div>
 </template>
 <style lang="scss">
-    @import '../../../style/import_dialog.scss';
-    @import '../../../style/export_dialog.scss';
+    @import '../../../style/components/import_dialog.scss';
+    @import '../../../style/components/export_dialog.scss';
 </style>
 
 <script>

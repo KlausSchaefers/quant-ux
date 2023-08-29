@@ -53,7 +53,7 @@
   </div>
 </template>
 <style lang="scss">
-  @import '../../../style/scss/task_create_dialog.scss';
+  @import '../../../style/components/task_create_dialog.scss';
 </style>
 <script>
 import DojoWidget from "dojo/DojoWidget";

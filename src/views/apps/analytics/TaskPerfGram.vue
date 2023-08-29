@@ -52,7 +52,7 @@
 </style>
 
 <style lang="scss">
-    @import '../../../style/task_perf_gram.scss';
+    @import '../../../style/components/task_perf_gram.scss';
 	@import '../../../style/toolbar/tab.scss';
 </style>
 

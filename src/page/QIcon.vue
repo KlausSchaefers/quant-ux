@@ -18,7 +18,7 @@
     <span v-else :class="'MatcQIcon ' + icon" @click="onClick" @mouseover="onMouseOver" @mouseout="onMouseOut"></span>
   </template>
   <style lang="scss">
-  @import "../style/scss/icon.scss";
+  @import "../style/components/icon.scss";
 </style>
   <script>
   import DojoWidget from "dojo/DojoWidget";

@@ -69,7 +69,7 @@
 </template>
 
 <style lang="scss">
-    @import '../../../style/scatter.scss';
+    @import '../../../style/components/scatter.scss';
 </style>
 
 <script>

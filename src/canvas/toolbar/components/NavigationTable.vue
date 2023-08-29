@@ -84,7 +84,7 @@
     </div>
 </template>
 <style lang="scss">
-@import "../../../style/scss/navigation_editor.scss";
+@import "../../../style/components/navigation_editor.scss";
 </style>
 <style></style>
 <script>

@@ -18,7 +18,7 @@
   </div>
 </template>
 <style lang="scss">
-  @import "../style/list.scss";
+  @import "../style/components/list.scss";
 </style>
 <script>
 import DojoWidget from "dojo/DojoWidget";

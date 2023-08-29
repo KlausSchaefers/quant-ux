@@ -57,7 +57,7 @@
 	</div>
 </template>
 <style lang="scss">
-  @import "../../../style/databinding.scss";
+  @import "../../../style/components/databinding.scss";
 </style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'

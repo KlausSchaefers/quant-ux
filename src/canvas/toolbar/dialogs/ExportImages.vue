@@ -8,7 +8,7 @@
 </template>
 
 <style lang="scss">
-  @import "../../../style/download.scss";
+  @import "../../../style/components/download.scss";
 </style>
 
 <script>

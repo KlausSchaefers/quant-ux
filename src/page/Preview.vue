@@ -4,6 +4,7 @@
 </template>
 <style lang="scss">
   @import "../style/simulator.scss";
+  @import "../style/widgets/all.scss";
   @import "../style/canvas/all.scss";
 </style>
 <script>

@@ -128,7 +128,7 @@ textarea {
 </style>
 
 <style lang="scss">
-  @import "../style/help.scss" ;
+  @import "../style/components/help.scss" ;
 </style>
 
 

@@ -53,7 +53,7 @@
 </template>
 
 <style lang="scss">
-  @import "../style/color_picker_sketch.scss";
+  @import "../style/components/color_picker_sketch.scss";
 </style>
 
 <script>

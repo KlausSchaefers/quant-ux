@@ -135,8 +135,8 @@
     </div>
 </template>
 <style lang="scss">
-@import '../../../style/scss/flex_dialog.scss';
-@import '../../../style/scss/gpt_dialog.scss';
+@import '../../../style/components/flex_dialog.scss';
+@import '../../../style/components/gpt_dialog.scss';
 
 
 .iframeCntr {

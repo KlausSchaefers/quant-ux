@@ -95,8 +95,8 @@
 </template>
 <style lang="scss">
 
-@import '../../../style/scss/gpt_chat_dialog.scss';
-@import '../../../style/scss/flex_dialog.scss';
+@import '../../../style/components/gpt_chat_dialog.scss';
+@import '../../../style/components/flex_dialog.scss';
 
 
 .iframeCntr {

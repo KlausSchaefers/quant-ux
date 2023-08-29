@@ -16,7 +16,7 @@
     </div>
 </template>
 <style lang="scss">
-    @import "../../../style/scss/icon_table.scss";
+    @import "../../../style/components/icon_table.scss";
 </style>
 <style></style>
 <script>

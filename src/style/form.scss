@@ -59,7 +59,7 @@ input:focus{
 
 .VommondFormErrorLabel {
     font-style: italic;
-    color: #f83a3a;
+    color: $color-red;
     font-size:14px;
 }
 
@@ -69,7 +69,7 @@ input:focus{
 }
 
 .VommondFormInputError{
-	border-color: #f83a3a;
+	border-color: $color-red;
 }
 .MatcErrorLabel.MatcErrorLabelEmpty{
 	opacity:0;
@@ -104,7 +104,7 @@ input:focus{
 }
 
 .MatcInlineEdit:focus{
-	border: 1px var(--primary-color) dashed;
+	border: 1px $primary_color dashed;
 }
 
 /****************************************************
@@ -162,27 +162,27 @@ input:focus{
 	text-align: left;
 	font-size: 18px;
 	font-weight: 400;
-	background-color: var(--primary-color);
+	background-color: $primary_color;
 	border-color: transparent;
 	color: #fff;
 }
 
 .MatcButton:HOVER{
- 	background: var(--primary-color-hover);
+ 	background: $primary_color;
 	text-decoration: none;
 	color:#fff;
 }
 
 
 .MatcButtonSignUp{
-	background: var(--primary-color);
+	background: $primary_color;
 	text-decoration: none;
 	color:#fff;
 }
 
 .MatcButtonSignUp:hover{
-	background: var(--primary-color);
-	border-color:var(--primary-color);
+	background: $primary_color;
+	border-color:$primary_color;
 }
 
 
@@ -201,7 +201,7 @@ input:focus{
 	margin-left: 3px;
 }
 .MatcButtonActive{
- 	background: var(--primary-color);
+ 	background: $primary_color;
 	text-decoration: none;
 	color:#fff;
 }
@@ -340,7 +340,7 @@ input:focus{
 	align-content: stretch;
 	border-radius:3px;
 	overflow:hidden;
-	border:1px solid var(--primary-color);
+	border:1px solid $primary_color;
 }
 
 .MatcSegmentButton {
@@ -357,14 +357,14 @@ input:focus{
 	flex-grow: 1;
 	text-align: center;
 	background: #fff;
-	color: var(--primary-color);
+	color: $primary_color;
 }
 
 
 
 .MatcSegmentButton .MatcButton.MatcDropDownButtonSelected,
 .MatcSegmentButton .MatcButton.MatcButtonActive{
-	background: var(--primary-color);
+	background: $primary_color;
 	color:#FFF;
 }
 
@@ -577,7 +577,7 @@ input:focus{
 	margin: 0px;
 	padding:3px 10px;
 	border-radius:0px;
-	border-bottom:1px solid var(--primary-color);
+	border-bottom:1px solid $primary_color;
 }
 
 .MatcVerticalButtonGroup .MatcButton:HOVER{
@@ -592,7 +592,7 @@ input:focus{
 .MatcVerticalButtonGroup .MatcButton:last-child{
 	border-bottom-right-radius:3px;
 	border-bottom-left-radius:3px;
-	border-bottom: 2px solid var(--primary-color);
+	border-bottom: 2px solid $primary_color;
 }
 
 .MatcVerticalButtonGroup .MatcButton:last-child:HOVER{
@@ -625,8 +625,8 @@ input:focus{
  .MatcDropDownSelect.MatcDropDownSelect{
 	display: inline-block;
 	position: relative;
-	color: var(--primary-color);
-	border:1px solid var(--primary-color);
+	color: $primary_color;
+	border:1px solid $primary_color;
 }
 
 .MatcDropDownSelect.MatcDropDownSelect:hover{
@@ -654,7 +654,7 @@ input:focus{
 	display: inline-block;
 	position: relative;
 	background: #fff;
-	border:1px solid var(--primary-color);
+	border:1px solid $primary_color;
 }
 
 .MatcDropDownButtonLine {
@@ -679,8 +679,8 @@ input:focus{
 }
 
 .MatcDropDownButton.MatcButtonTrans{
-	border-color:var(--primary-color);
-	color: var(--primary-color);
+	border-color:$primary_color;
+	color: $primary_color;
 }
 
 
@@ -770,7 +770,7 @@ input:focus{
 }
 
 .MatcDropDownPopUp li.MatcDropDownButtonSelected{
-	background: var(--primary-color);
+	background: $primary_color;
 	color: #fff;
 }
 
@@ -793,19 +793,19 @@ input:focus{
 }
 
 .MatcForm .VommondSliderBar{
-	background: var(--primary-color);
+	background: $primary_color;
 }
 
 .MatcForm .VommondSliderHandle{
-	background: var(--primary-color);
+	background: $primary_color;
 	border-radius: 2px;
     height: 21px;
-    border-color:var(--primary-color);
+    border-color:$primary_color;
 }
 
 .MatcForm .VommondSliderHandle:hover{
-	background: var(--primary-color);
-    border-color:var(--primary-color);
+	background: $primary_color;
+    border-color:$primary_color;
 }
 
 .MatcForm .vommondLegendBarItem{
@@ -818,7 +818,7 @@ input:focus{
 
 
 .MatcForm  .VommondRadioBoxMark{
-	background:var(--primary-color);
+	background:$primary_color;
 }
 
 
@@ -902,7 +902,7 @@ textarea.MatcTextAreaMedium {
 }
 
 .form-control:focus {
-	border-color: var(--primary-color);
+	border-color: $primary_color;
 }
 
 
@@ -912,7 +912,7 @@ textarea.MatcTextAreaMedium {
 
 .VommondInput:hover .VommondInputDropButton {
 	width: 30px;
-	background: var(--primary-color);
+	background: $primary_color;
 }
 
 .VommondInput:hover .VommondInputDropButton .caret{

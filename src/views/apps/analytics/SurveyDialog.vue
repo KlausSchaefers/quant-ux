@@ -11,7 +11,7 @@
     </ZoomDialog>
 </template>
 <style lang="scss">
-    @import '../../../style/survey_section.scss';
+    @import '../../../style/components/survey_section.scss';
 </style>
 <script>
 import Logger from 'common/Logger'

@@ -201,7 +201,7 @@
 </template>
 
 <style lang="scss">
-  @import "../style/qux-svg-editor.scss";
+  @import "../style/components/qux-svg-editor.scss";
 </style>
 
 <script>

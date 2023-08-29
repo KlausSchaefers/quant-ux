@@ -33,7 +33,7 @@
   </div>
 </template>
 <style lang="scss">
-@import "../style/code.scss";
+@import "../style/components/code.scss";
 </style>
 
 <script>

@@ -15,7 +15,7 @@
     </div>
 </template>
 <style lang="scss">
-    @import "../style/scss/zoom_dialog.scss";
+    @import "../style/components/zoom_dialog.scss";
 </style>
 <script>
 export default {
