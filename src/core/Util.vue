@@ -725,7 +725,7 @@ export default {
           /**
            * Create a save button that will only show if people start editing...
            */
-          var saveBtn = db.a("MatcButton MatcButtonAnimated ", "Update").build(bar);
+          var saveBtn = db.a("MatcButton ", "Update").build(bar);
           this.tempOwn(on(saveBtn,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
 
           let close = db.a("MatcLinkButton", "Close").build(bar);

@@ -62,7 +62,7 @@
               <UserImage :user="user" />
             </div>
               <div class="col-md-1 col-md-offset-1">
-                  <a class="MatcButton MatcButtonRed" @click="retire">Delete</a>
+                  <a class="MatcButton MatcButtonDanger" @click="retire">Delete</a>
               </div>
 
           </div>
@@ -122,7 +122,7 @@ export default {
 
 		var bar = db.div("MatcButtonBar MatcMarginTopXXL").build(dialog);
 
-		var del = db.a("MatcButton MatcButtonRed", this.getNLS("btn.delete")).build(bar);
+		var del = db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
 		var cancel = db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
 
 

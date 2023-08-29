@@ -70,7 +70,7 @@
                                 </div>
                                 <span class="MatcErrorLabel" >{{errorMessage}}</span>
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton MatcButtonRed" @click="resetPassword">Set new password</a>                                
+                                    <a class="MatcButton" @click="resetPassword">Set new password</a>                                
                                 </div>
                             </div> 
                         </div><!-- reset-->

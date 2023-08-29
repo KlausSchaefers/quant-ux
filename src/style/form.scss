@@ -81,18 +81,6 @@ input:focus{
 	opacity:0;
 }
 
-.MatcSuccessLabel{
-	color: #92c500;
-}
-
-.MatcFormRow textarea{
- 	width: 300px;
-}
-
-.MatcTableLabel{
-	padding: 20px;
-}
-
 .MatcInlineEdit{
 	border: 1px transparent solid;
 	width: 100%;
@@ -131,30 +119,6 @@ input:focus{
 	color:#000;
 	background: rgba(0,0,0,0.05);
 	text-decoration: underline;
-}
-
-
-.MatcLinkBox{
-    color: #333;
-    display: inline-block;
-}
-
-.MatcLinkBox:hover{
-	color:#333;
-	text-decoration: none;
-}
-
-.MatcLinkBoxMessage{
-	text-align: center;
-	opacity:0;
-	transition-duration:0.5s;
-	color:#999;
-	font-weight: 300;
-	text-decoration: none;
-}
-.MatcLinkBox:hover .MatcLinkBoxMessage{
-	opacity:1;
-	text-decoration: none;
 }
 
 .MatcButton{
@@ -208,21 +172,16 @@ input:focus{
 	border-color:$primary_color;
 }
 
-
-
 .MatcButtonFullWidth{
 	width: 100%;
 	text-align:center;
 }
 
 
-.MatcButtonIcon{
-
-}
-
 .MatcButtonIconLabel{
 	margin-left: 3px;
 }
+
 .MatcButtonActive{
  	background: $primary_color;
 	text-decoration: none;
@@ -230,6 +189,7 @@ input:focus{
 }
 
 .MatcButtonActive:HOVER{
+	background: $primary_color_hover
 }
 
 .MatcButtonPassive, .MatcButtonPassive:HOVER{
@@ -237,27 +197,6 @@ input:focus{
 	cursor: pointer;
 	color: #999;
 	background: none;
-}
-
-
-.MatcButtonAnimated{
-	transition: all 0.2s;
-}
-
-.MatcButtonClosed{
-	width:0px;
-	opacity:0;
-	padding: 3px 0px;
-	overflow: hidden;
-}
-
-.MatcButtonRed{
-	background:#f83a3a
-}
-
-.MatcButtonRed:HOVER{
-	background: #b90505;
-	color:#fff;
 }
 
 .MatcButtonBlack{
@@ -279,10 +218,6 @@ input:focus{
 .MatcButtonTrans:HOVER{
 	background:rgba(255,255,255,0.2);
 	border:1px solid #fff;
-}
-
-.MatcButtonRed.MatcButtonTrans{
-	color:#cc0000;
 }
 
 .MatcButtonGreen{
@@ -626,13 +561,13 @@ input:focus{
 	border-color:transparent;
 }
 
-.MatcDropDownButton.MatcButtonRed{
+.MatcDropDownButton.MatcButtonDanger{
 	border-color:transparent;
-	background: #f83a3a;
+	background: $color-danger;
 }
 
-.MatcDropDownButton.MatcButtonRed:HOVER{
-	background: #b90505;
+.MatcDropDownButton.MatcButtonDanger:HOVER{
+	background:  $color_danger_hover;
 	color:#fff;
 }
 
@@ -640,8 +575,6 @@ input:focus{
 	border-color:$primary_color;
 	color: $primary_color;
 }
-
-
 
 .MatcDropDownButton .caret{
 	position: absolute;
