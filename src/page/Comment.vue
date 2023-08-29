@@ -193,7 +193,7 @@ export default {
       txt.innerHTML = "";
 
       var input = document.createElement("textarea");
-      css.add(input, "textarea");
+      css.add(input, "form-control");
       input.placeHolder = "Leave a comment";
       input.value = comment.message;
       txt.appendChild(input);

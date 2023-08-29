@@ -140,4 +140,72 @@
 
 
 
+/****************************************************
+ * DialogTable
+ ****************************************************/
+
+ .MatcDialogTable{
+	overflow: hidden;
+	padding: 0px;
+   border-radius:3px;
+   height: 450px;
+}
+
+.MatcDialogTable.MatcDialogTableScrollable{
+   overflow: scroll;
+}
+
+.MatcDialogTransTable{
+   border: 1px solid #cecece;
+   border-radius:3px;
+   height: 350px;
+   overflow:hidden;
+}
+
+.MatcDialogTable table{
+	width: 100%;
+	min-width: 250px;
+}
+
+.MatcDialogTableXL table{
+	 min-width: 450px;
+}
+
+.MatcDialogTable thead{
+   font-weight: bold;
+   background: rgb(230, 230, 230);
+   border-bottom: 1px solid #cecece;
+}
+
+
+.MatcDialogTable td.MatcDialogTableCheckBoxCntr{
+   padding: 10px 0 10px 10px;
+   width: 40px;
+}
+
+.MatcDialogTable td.MatcDialogTableCheckBoxLabel{
+   padding:10px;
+}
+
+
+
+.MatcDialogTable tr:HOVER{
+   background: rgb(230, 230, 230)
+}
+
+.MatcDialogTable td,
+.MatcDialogTable th {
+   padding: 10px 20px;
+}
+
+.MatcDialogTable td.MatcDialogTableAction {
+   cursor: pointer;
+}
+
+.MatcDialogTableInvalidRow{
+   text-decoration: line-through;
+}
+
+
+
 

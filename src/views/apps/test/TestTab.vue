@@ -29,7 +29,7 @@
           
             <div class="MatcLayoutCols mb-32">
                 <textarea
-                    class="input MatcTextAreaMedium MatcLayoutColGrow"
+                    class="form-control MatcTextAreaMedium MatcLayoutColGrow"
                     v-model="test.description"
                     data-gramm_editor="false"
                     @change="onTestChange"

@@ -3,12 +3,18 @@
 .form-control{
 	box-shadow:none;
 	border-radius:3px;
-}
+	border-color: $form_border;
 
-.form-control:FOCUS {
-	box-shadow:none;
-	border-radius:3px;
-	box-shadow:none;
+	&:hover{
+		border-color: $form_border_hover;
+	}
+ 
+	&:FOCUS {
+		box-shadow:none;
+		border-radius:3px;
+		box-shadow:none;
+		border-color: $form_border_focus;
+	}
 }
 
 input:focus{
@@ -394,72 +400,6 @@ input:focus{
 }
 
 
-/****************************************************
- * DialogTable
- ****************************************************/
-
- .MatcDialogTable{
- 	overflow: hidden;
- 	padding: 0px;
-	border-radius:3px;
-	height: 450px;
- }
-
- .MatcDialogTable.MatcDialogTableScrollable{
-	overflow: scroll;
- }
-
- .MatcDialogTransTable{
-    border: 1px solid #cecece;
-    border-radius:3px;
-    height: 350px;
-    overflow:hidden;
- }
-
- .MatcDialogTable table{
- 	width: 100%;
- 	min-width: 250px;
- }
-
- .MatcDialogTableXL table{
-  	min-width: 450px;
- }
-
-.MatcDialogTable thead{
-	font-weight: bold;
-	background: rgb(230, 230, 230);
-	border-bottom: 1px solid #cecece;
-}
-
-
-.MatcDialogTable td.MatcDialogTableCheckBoxCntr{
-	padding: 10px 0 10px 10px;
-    width: 40px;
-}
-
-.MatcDialogTable td.MatcDialogTableCheckBoxLabel{
-	padding:10px;
-}
-
-
-
-.MatcDialogTable tr:HOVER{
-	background: rgb(230, 230, 230)
-}
-
-.MatcDialogTable td,
-.MatcDialogTable th {
-	padding: 10px 20px;
-}
-
-.MatcDialogTable td.MatcDialogTableAction {
-	cursor: pointer;
-}
-
-.MatcDialogTableInvalidRow{
-	text-decoration: line-through;
-}
-
 
 
 /****************************************************
@@ -540,9 +480,6 @@ input:focus{
 	display: inline-block;
 }
 
-.MatcButtonBar .MatcButton{
-
-}
 
 .MatcButtonBar .MatcButtonLeft{
 	position: absolute;
@@ -891,8 +828,6 @@ input:focus{
 }
 
  .MatcFormGroup{
- 	background-color: #fff;
-    background-image: none;
     border: 1px solid #ccc;
  	border-radius: 6px;
     font-size: 18px;
@@ -928,10 +863,6 @@ textarea.MatcTextAreaMedium {
 .form-group .MatcDropDownButton:HOVER{
  	border: 1px solid hsl(0deg, 0%, 71%);
  	background:none;
-}
-
-.form-control:focus {
-	border-color: $primary_color;
 }
 
 

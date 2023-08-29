@@ -7,6 +7,10 @@
  	height: 100%;
  	width: 100%;
  	background: red;
+
+	.MatcScreen {
+		box-shadow: 0 0 16px rgba(0,0,0,0.15);
+	}
  }
 
  .MatcShare{
@@ -75,36 +79,6 @@
 	overflow: visible;
 
 }
-
-
-
-.MatcShareMenuCloseBtn{
-	position: absolute;
-	top:10px;
-	left:0px;
-	height: 50px;
-	width: 40px;
-	font-size:35px;
-	background:#777;
-	border: 1px solid #ccc;
-	border:none;
-	border-radius: 0px 10px 10px 0px;
-	color: white;
-	cursor: pointer;
-
-}
-
-.MatcShareMenuCloseBtn span{
-  transition-duration: 0.2s;
-	transition-property:transform;
-}
-
-.MatcShareMenuClosed .MatcShareMenuCloseBtn span{
- 	transform: rotate(180deg);
-    transform-origin: 50% 50% 0;
-}
-
-
 
 .MatcShareMenu.MatcShareMenuCollababsed{
 	width: 200px;

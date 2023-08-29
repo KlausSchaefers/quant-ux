@@ -52,6 +52,11 @@ $dialog_form_border: $toolbar_border;
 $dialog_table_background: rgba(0,0,0, .05);
 $dialog_table_border: rgba(0,0,0, .1);
 
+
+$form_border: #dbdbdb;
+$form_border_hover: #ccc;
+$form_border_focus: $primary_color;
+
 $text-color-passive: #ccc;
 $text-color-dark: #363636;
 $color-danger: #f83a3a;
