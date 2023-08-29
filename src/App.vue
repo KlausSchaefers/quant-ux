@@ -7,6 +7,7 @@
 </template>
 
 <style>
+	@import url("./style/css/legacy.css");
 </style>
 <script>
 import css from 'dojo/css'

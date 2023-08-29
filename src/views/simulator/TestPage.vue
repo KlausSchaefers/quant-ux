@@ -102,11 +102,11 @@
 </div>
 </template>
 <style>
-  @import url("../../style/matc.css");
-
-  @import url("../../style/test.css");
+	@import url("../../style/css/legacy.css");
 </style>
 <style lang="scss">
+  @import "../../style/matc.scss";
+  @import "../../style/test.scss";
   @import "../../style/canvas/all.scss";
 </style>
 <style lang="sass">

@@ -10,9 +10,11 @@
   </div>
 </template>
 
+<style lang="scss">
+  @import "../style/matc.scss";
+  @import "../style/qux.scss";
+</style>
 <style>
-  @import url("../style/matc.css");
-  @import url("../style/qux.css");
   .dialog {
     background: #fff;
     padding: 20px;

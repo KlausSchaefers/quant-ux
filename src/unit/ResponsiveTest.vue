@@ -8,9 +8,10 @@
   
     </div>
   </template>
-  
+  <style lang="scss">
+  @import "../style/matc.scss";
+</style>
   <style>
-    @import url("../style/matc.css");
     .max {
         width: 375px;
         height: 600px;

@@ -33,8 +33,11 @@
   </div>
 </template>
     
+<style lang="scss">
+  @import "../style/matc.scss";
+</style>
 <style lang="css">
-@import url("../style/matc.css");
+
 
 .panel {
   display: flex;

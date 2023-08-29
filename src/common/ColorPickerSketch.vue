@@ -52,8 +52,8 @@
 	</div>
 </template>
 
-<style>
-  @import url("../style/color_picker_sketch.css");
+<style lang="scss">
+  @import "../style/color_picker_sketch.scss";
 </style>
 
 <script>

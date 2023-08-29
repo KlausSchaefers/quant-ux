@@ -28,11 +28,12 @@
 
 </template>
 <style lang="css">
-  @import url("../../style/matc.css");	
-  @import url("../../style/share.css");	
+
 
 </style>
 <style lang="scss">
+  @import "../../style/matc.scss";	
+  @import "../../style/share.scss";	
   @import "../../style/canvas/all.scss";
   @import '../../style/toolbar/all.scss';
 </style>

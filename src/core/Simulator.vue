@@ -78,9 +78,9 @@
 	  </div>
 	</div>
   </template>
-  <style>
-	@import url("../style/simulator.css");
-	@import url("../style/widgets/all.css");
+  <style lang="scss">
+	@import "../style/simulator.scss";
+	@import "../style/widgets/all.scss";
   </style>
   <script>
   import DojoWidget from 'dojo/DojoWidget'

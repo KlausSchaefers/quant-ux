@@ -28,8 +28,8 @@
     </div>
 </template>
 
-<style>
-  @import url("../style/menu.css");
+<style lang="scss">
+  @import "../style/menu.scss";
 </style>
 
 

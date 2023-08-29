@@ -4,9 +4,13 @@
   </div>
 </template>
 
-<style lang="css">
-  @import url("../../style/matc.css");
-  @import url("../../style/test.css");
+<style class="css">
+	@import url("../../style/css/legacy.css");
+</style>
+
+<style lang="scss">
+  @import "../../style/matc.scss";
+  @import "../../style/test.scss";
 </style>
 <style lang="sass">
   @import "../../style/bulma.sass"

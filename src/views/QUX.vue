@@ -7,9 +7,9 @@
     </div>
   </div>
 </template>
-<style>
-  @import url("../style/matc.css");
-  @import url("../style/qux.css");
+<style lang="scss">
+  @import "../style/matc.scss";
+  @import "../style/qux.scss";
 </style>
 <style lang="sass">
   @import "../style/bulma.sass"

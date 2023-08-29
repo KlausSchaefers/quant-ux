@@ -2,10 +2,8 @@
 <template>
   <div class="MatcSimulator MatcPreview"></div>
 </template>
-<style>
-  @import url("../style/simulator.css");
-</style>
 <style lang="scss">
+  @import "../style/simulator.scss";
   @import "../style/canvas/all.scss";
 </style>
 <script>

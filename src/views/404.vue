@@ -30,8 +30,8 @@
   </div>
 </template>
 
-<style>
-  @import url("../style/header.css");
+<style lang="scss">
+  @import '../style/header.scss';
 </style>
 
 <script>

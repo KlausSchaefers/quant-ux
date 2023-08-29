@@ -17,8 +17,8 @@
     <div class="MatcAppListContainer" data-dojo-attach-point="container"></div>
   </div>
 </template>
-<style>
-  @import url("../style/list.css");
+<style lang="scss">
+  @import "../style/list.scss";
 </style>
 <script>
 import DojoWidget from "dojo/DojoWidget";

@@ -21,8 +21,8 @@
   </div>
 </template>
 
-<style>
-  @import url("../style/matc.css");
+<style lang="scss">
+  @import "../style/matc.scss";
 </style>
 
 <style lang="scss">

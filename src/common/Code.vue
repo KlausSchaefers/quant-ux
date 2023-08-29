@@ -32,8 +32,8 @@
      </div>
   </div>
 </template>
-<style lang="css">
-@import url("../style/code.css");
+<style lang="scss">
+@import "../style/code.scss";
 </style>
 
 <script>

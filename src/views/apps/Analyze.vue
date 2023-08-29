@@ -5,8 +5,8 @@
   </div>
 </template>
 
-<style lang="css">
-  @import url("../../style/matc.css");
+<style lang="scss">
+  @import "../../style/matc.scss";
 </style>
 <style lang="sass">
   @import "../../style/bulma.sass"

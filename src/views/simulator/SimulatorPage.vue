@@ -3,8 +3,8 @@
     <Simulator mode="standalone"/>
   </div>
 </template>
-<style>
-  @import url("../../style/sim.css");
+<style lang="scss">
+  @import "../../style/sim.scss";
 </style>
 <script>
 import Logger from 'common/Logger'

@@ -1,0 +1,5 @@
+@import './variables.scss';
+
+.MactMainGradient{
+     background: linear-gradient(30deg,$primary_color 0%, $primary_color_hover 100%);
+}

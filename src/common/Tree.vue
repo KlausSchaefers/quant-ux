@@ -17,8 +17,8 @@
     </TreeItem>
 	</ul>
 </template>
-<style>
-  @import url("../style/tree.css");
+<style lang="scss">
+  @import "../style/tree.scss";
 </style>
 <script>
 

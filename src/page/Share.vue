@@ -49,8 +49,8 @@
   </div>
 </template>
 
-<style>
-  @import url("../style/share.css");
+<style lang="scss">
+  @import "../style/share.scss";
 </style>
 
 

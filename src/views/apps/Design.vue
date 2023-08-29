@@ -5,10 +5,8 @@
   </div>
 </template>
 
-<style lang="css">
-  @import url("../../style/matc.css");
-</style>
 <style lang="scss">
+  @import "../../style/matc.scss";
   @import "../../style/canvas/all.scss";
   @import '../../style/toolbar/all.scss';
 </style>

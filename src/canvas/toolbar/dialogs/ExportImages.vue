@@ -7,8 +7,8 @@
 	</div>
 </template>
 
-<style>
-  @import url("../../../style/download.css");
+<style lang="scss">
+  @import "../../../style/download.scss";
 </style>
 
 <script>

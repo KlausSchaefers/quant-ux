@@ -10,8 +10,10 @@
   </div>
 </template>
 
+<style lang="scss">
+  @import "../style/matc.scss";
+</style>
 <style>
-  @import url("../style/matc.css");
 
   .dialog {
     width: 1200px;
