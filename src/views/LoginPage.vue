@@ -14,12 +14,12 @@
                                 <div class="MatcLoginPageForm">
                                     <div class=" form-group">
                                         <label class="">Email</label>
-                                        <input class=" form-control input-lg" placeholder="Your email" type="text" v-model="email">
+                                        <input class=" form-control" placeholder="Your email" type="text" v-model="email">
                                     </div>
 
                                     <div class=" form-group has-feedback">
                                         <label class="">Password</label>
-                                        <input class=" form-control input-lg" placeholder="Your password" type="password" v-model="password" @keyup.enter="login">
+                                        <input class=" form-control" placeholder="Your password" type="password" v-model="password" @keyup.enter="login">
                                     </div>
                                 </div>
                                 <span class="MatcErrorLabel" v-show="errorMessage">{{errorMessage}}</span>
@@ -37,12 +37,12 @@
                                 <div class="MatcLoginPageForm">
                                     <div class=" form-group">
                                         <label class="">Email</label>
-                                        <input class=" form-control input-lg" placeholder="Your email" type="text" v-model="email">
+                                        <input class=" form-control" placeholder="Your email" type="text" v-model="email">
                                     </div>
 
                                     <div class=" form-group has-feedback">
                                         <label class="">Password</label>
-                                        <input class=" form-control input-lg" placeholder="Your password" type="password" v-model="password" @keyup.enter="signup">
+                                        <input class=" form-control" placeholder="Your password" type="password" v-model="password" @keyup.enter="signup">
                                     </div>
                                     <div class=" form-group has-feedback" >
                                         <CheckBox v-model="tos" label="I accept the term of service"/>
@@ -60,12 +60,12 @@
                                 <div class="MatcLoginPageForm">
                                     <div class=" form-group">
                                         <label class="">Email</label>
-                                        <input class=" form-control input-lg" placeholder="Your email" type="text" v-model="email">
+                                        <input class=" form-control" placeholder="Your email" type="text" v-model="email">
                                     </div>
 
                                     <div class=" form-group has-feedback">
                                         <label class="">New Password</label>
-                                        <input class=" form-control input-lg" placeholder="The new password" type="password" v-model="password">
+                                        <input class=" form-control" placeholder="The new password" type="password" v-model="password">
                                     </div>
                                 </div>
                                 <span class="MatcErrorLabel" >{{errorMessage}}</span>

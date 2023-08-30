@@ -73,10 +73,10 @@ $prompt-background-user: #f1f5fd;
             .MatchOpenAIChatMessageContent {
                 border-top-left-radius: 0px;
                 background: rgba(55, 136, 242, 0.2549019608);
-                color: #3787f2;
+                color: $primary_color;
             }
             .MatchOpenAIChatMessageUser {
-                background: #3787f2;
+                background: $primary_color;
             }
         }
 

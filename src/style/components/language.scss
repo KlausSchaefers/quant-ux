@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 .MatcLanguagePicker{
   display: inline-block;
   position: relative;
@@ -17,7 +19,7 @@
 
       &:hover{
         color: #fff;
-        background: #3787f2;
+        background: $primary_color;
       }
     }
   }

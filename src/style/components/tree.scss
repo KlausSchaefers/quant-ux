@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 .MatcTree{
   margin: 0px;
   padding:0px;
@@ -10,7 +12,7 @@
 }
 
 .MatcTreeItem.MatcTreeItemDragOver {
-  border-top: 2px solid #3787f2;
+  border-top: 2px solid $primary_color;
 }
 
 .MatcTreeItemRow{

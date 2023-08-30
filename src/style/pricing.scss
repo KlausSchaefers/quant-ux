@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .MatcPricingHeader{
 	font-size: 40px;
 
@@ -52,9 +54,9 @@
 }
 
 .MatcPricingTableHeaderPro{
-	background: #3787f2;
+	background: $primary_color;
 	color:#fff;
-	border:1px solid #3787f2;
+	border:1px solid $primary_color;
 }
 
 .MatcPricingTableHeaderEnterprise{

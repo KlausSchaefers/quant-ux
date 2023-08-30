@@ -1,4 +1,5 @@
 
+@import '../variables.scss';
 
  /****************************************************
  * Menu
@@ -82,7 +83,7 @@ a.is-logo{
 .MatcMainMenuPublic .MatcMainMenuItem:FOCUS,
 .MatcMainMenuPublic .MatcMainMenuItemSelected{
 	text-decoration: none;
-	color:#3787f2;
+	color:$primary_color;
 	background: none;
 }
 

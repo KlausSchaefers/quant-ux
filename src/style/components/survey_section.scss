@@ -10,7 +10,7 @@
   table {
 
     thead > tr > th {
-      color: $text-color-dark;
+      color: $text_color_dark;
       font-weight: 700;
       border-bottom-width: 1px;
     }
@@ -64,7 +64,7 @@
       -webkit-transition: all 0.2s;
       transition: all 0.2s;
       background: rgba(55, 136, 242, 0.2549019608);
-      color: #3787f2;
+      color: $primary_color;
       gap: 8px;
 
       span {

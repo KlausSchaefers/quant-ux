@@ -1,4 +1,4 @@
-
+@import './variables.scss';
 
 .MatchSimulatorStandAlone{
  	width: 100%;
@@ -86,7 +86,7 @@
 	padding: 3px 20px;
 	border-radius:3px;
 	border: 2px solid #fff;
-	color:#3787f2;
+	color:$primary_color;
 	background:#fff;
 	cursor: pointer;
 	transition-duration: 0.2s;
@@ -186,7 +186,7 @@
 
  .MatcSimulatorContent .MatcSimulatorStartBtn{
 	width: 100%;
-	border: 1px solid #3787f2;
+	border: 1px solid $primary_color;
 	font-size: 18px;
 	cursor: pointer;
 	transition: all 0.2s;

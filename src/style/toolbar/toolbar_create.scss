@@ -108,15 +108,15 @@
 }
 
 .MatcToolbar .MatcToolbarDropDownButton .MatcCreateBtnCntr li:HOVER a {
-	color: #3787f2;
+	color: $primary_color;
 }
 
 .MatcToolbarDropDownButton .MatcCreateBtnCntr li.MatcSelected a {
-	color: #3787f2;
+	color: $primary_color;
 }
 
 .MatcToolbarDropDownButton .MatcCreateBtnCntr li.MatcSelected {
-	color: #3787f2;
+	color: $primary_color;
 }
 
 .MatcToolbarDropDownButton .MatcCreateBtnCntr li:HOVER a,

@@ -313,21 +313,9 @@ export default {
         this.setPreviewWrapperSize(wrapper);
         widget.loadingMessage = "Loading...";
 
-        if (this.popoverVisible) {
-          var popover = document.createElement("div");
-          css.add(popover, "MatcPopoverCntr");
-          item.appendChild(popover);
-
-          var popoverContent = document.createElement("a");
-          css.add(popoverContent, "MatcPopover MatcPointer MatcCenter ");
-          popover.appendChild(popoverContent);
-
-          this.renderPopover(popoverContent, app, i);
-
-          popover.appendChild(wrapper);
-        } else {
-          item.appendChild(wrapper);
-        }
+       
+        item.appendChild(wrapper);
+        
 
         widget.placeAt(wrapper);
         this.widgets[i] = widget;

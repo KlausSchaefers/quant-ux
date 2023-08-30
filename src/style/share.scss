@@ -1,7 +1,4 @@
-
-/****************************************************
- * Share
- ****************************************************/
+@import './variables.scss';
 
  .MatcShare{
  	height: 100%;
@@ -147,5 +144,5 @@
 }
 
 .MatcShareRow .MatcShareIcon:hover{
-	color:#3787f2;
+	color:$primary_color;
 }

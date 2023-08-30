@@ -1,4 +1,4 @@
-
+@import '../variables.scss';
 
 .MatcDataBinding{
     width: 800px;
@@ -33,7 +33,7 @@
 }
 
 .MatcDialogTable tr:hover .MatcDataBindingCheckCntr .mdi {
-    color: #3787f2;
+    color: $primary_color;
 }
 
 .MatcDataBinding .MatcDropDownButtonWidth{
@@ -47,12 +47,12 @@
 }
 
 .MatcDataBinding .MatcDataBindingVariableDefault input:hover{
-    border-color: #3787f2;
+    border-color: $primary_color;
     border-style: dashed;
 }
 
 .MatcDataBinding .MatcDataBindingVariableDefault input:focus{
-    border-color: #3787f2;
+    border-color: $primary_color;
     background: #fff;
 }
 

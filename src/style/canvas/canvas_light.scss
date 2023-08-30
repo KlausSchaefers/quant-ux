@@ -75,7 +75,7 @@
 	}
 
 	.MatcToolbarResizeActive .MatcToolbarResizePinLine {
-		background: #3787f2;
+		background: $primary_color;
 	}
 
 	.MatcToolbarResizePinCenter,
@@ -91,7 +91,7 @@
 	.MatcToolbarResizeActive.MatcToolbarResizePinRight,
 	.MatcToolbarResizeActive.MatcToolbarResizePinUp,
 	.MatcToolbarResizeActive.MatcToolbarResizePinDown {
-		border-color: #3787f2;
+		border-color: $primary_color;
 	}
 
 	.MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
@@ -101,7 +101,7 @@
 
 	.MatcToolbarResizeActive.MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
 	.MatcToolbarResizeActive.MatcToolbarResizeGrowHorizontal .MatcToolbarResizeGrowLine {
-		background: #3787f2;
+		background: $primary_color;
 	}
 
 

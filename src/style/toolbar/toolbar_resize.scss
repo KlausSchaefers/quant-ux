@@ -41,7 +41,7 @@
 }
 
 .MatcToolbarResizeActive .MatcToolbarResizePinLine {
-    background: #3787f2;
+    background: $primary_color;
 }
 
 .MatcToolbarResizePinUp{
@@ -127,7 +127,7 @@
 
 
 .MatcToolbarResizePreviewBox {
-    background: #3787f2;
+    background: $primary_color;
     position: absolute;
     height: 20px;
     width: 20px;
@@ -160,7 +160,7 @@
 
 .MatcToolbarResizeGrowHorizontal:hover .MatcToolbarResizeGrowLine,
 .MatcToolbarResizeActive .MatcToolbarResizeGrowLine {
-    background: #3787f2;
+    background: $primary_color;
 }
 
 .MatcToolbarResizeGrowVertical {
@@ -185,7 +185,7 @@
 
 .MatcToolbarResizeGrowVertical:hover .MatcToolbarResizeGrowLine,
 .MatcToolbarResizeActive .MatcToolbarResizeGrowLine {
-    background: #3787f2;
+    background: $primary_color;
 }
 
 
@@ -200,7 +200,7 @@
 }
 
 .MatcLight .MatcToolbarResizeActive .MatcToolbarResizePinLine{
-    background: #3787f2;
+    background: $primary_color;
 }
 
 .MatcLight .MatcToolbarResizePinCenter,
@@ -217,7 +217,7 @@
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinRight,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinUp,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizePinDown{
-    border-color: #3787f2;
+    border-color: $primary_color;
 }
 
 .MatcLight .MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
@@ -228,5 +228,5 @@
 
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
 .MatcLight .MatcToolbarResizeActive.MatcToolbarResizeGrowHorizontal .MatcToolbarResizeGrowLine{
-    background: #3787f2;
+    background: $primary_color;
 }

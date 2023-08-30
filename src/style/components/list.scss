@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 /****************************************************
  * List Widget
  ****************************************************/
@@ -166,14 +168,14 @@
 .MatcFluidListPaging ul li{
 	display: inline-block;
 	margin:0px 5px;
-	color: #3787f2;
+	color: $primary_color;
 	cursor:pointer;
 	padding: 3px 10px;
 	border-radius:3px;
 }
 
 .MatcFluidListPaging ul li.active{
-	background: #3787f2;
+	background: $primary_color;
 	color:#fff;
 }
 
@@ -292,7 +294,7 @@
 }
 
 .MatcAppListItemAdd:HOVER{
-	border: 3px dashed #3787f2;
+	border: 3px dashed $primary_color;
 }
 
 .MatcApplListAdd{
@@ -353,7 +355,7 @@
 	transition-duration: 0.2s;
     transition-property: all;
     box-shadow: 0 0px 5px rgba(0,0,0,0.20);
-    border:1px solid #3787f2;
+    border:1px solid $primary_color;
     box-shadow: 0 2px 15px rgba(0,0,0,0.25);
 
 }
@@ -383,7 +385,7 @@
 }
 
 .MatcAppListBox.MatcListItem:HOVER .MatcApplListAdd{
-	color:#3787f2;
+	color:$primary_color;
 	transform:scale(1.05, 1.05);
 }
 

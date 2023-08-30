@@ -46,12 +46,12 @@ export default {
         db.img("rest/user/" + user.id + "/images/" + user.name + "_" + user.lastname + "/" + user.image, "MatcUserImage").build(this.imageCntr);
 
         var upload = db
-          .div("MactLinkButton MatcUploadButton", "Change")
+          .div("MatcActionBarBtn MatcUploadButton", "Change")
           .build(this.imageActions);
         this.file = db.file("MatcImageUploadFile").build(upload);
         this.tempOwn(on(this.file, "change", lang.hitch(this, "_onFileChange")));
 
-        var del = db.a("MactLinkButton", "Remove").build(this.imageActions);
+        var del = db.a("MatcActionBarBtn", "Remove").build(this.imageActions);
         this.tempOwn(on(del, touch.press, lang.hitch(this, "_deleteImage")));
       } else {
         var plus = db

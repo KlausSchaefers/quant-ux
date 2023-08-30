@@ -156,7 +156,7 @@ export default {
           meta.appendChild(cntr);
 
           var edit = document.createElement("a");
-          css.add(edit, "MatcLinkButton");
+          css.add(edit, "MatcActionBarBtn");
           edit.innerHTML = this.getNLS("btn.edit");
           cntr.appendChild(edit);
           this.tempOwn(
@@ -164,7 +164,7 @@ export default {
           );
 
           var del = document.createElement("a");
-          css.add(del, "MatcLinkButton");
+          css.add(del, "MatcActionBarBtn");
           del.innerHTML = this.getNLS("btn.delete");
           cntr.appendChild(del);
           this.tempOwn(

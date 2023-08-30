@@ -17,7 +17,7 @@
 							Forgot your password? To reset your password, enter your email and click on &quot;Reset&quot;.
 						</p>
 
-						<input type="email"  class="form-control input-lg" v-model="email" placeholder="Enter your email">
+						<input type="email"  class="form-control" v-model="email" placeholder="Enter your email">
 
 						<div class="MatcErrorLabel" v-html="error"></div>
 
@@ -40,17 +40,17 @@
 
 						<div class="form-group">
 							<label>Email</label>
-							<input type="email"  class="form-control input-lg" v-model="email" placeholder="Enter your email">
+							<input type="email"  class="form-control" v-model="email" placeholder="Enter your email">
 						</div>
 
 						<div class="form-group">
 							<label>Password</label>
-							<input type="password" class="form-control  input-lg" v-model="password1" placeholder="" data-binding-required="true">
+							<input type="password" class="form-control " v-model="password1" placeholder="" data-binding-required="true">
 						</div>
 						
 						<div class="form-group">
 							<label>Password (Repetition)</label>
-							<input type="password" class="form-control  input-lg" v-model="password2" placeholder="" >
+							<input type="password" class="form-control" v-model="password2" placeholder="" >
 							<div v-if="error">{{error}}</div>
 						</div>
 

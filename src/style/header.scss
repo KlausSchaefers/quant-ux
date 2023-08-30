@@ -1,4 +1,6 @@
- /****************************************************
+@import './variables.scss';
+
+/****************************************************
  * Header
  ****************************************************/
 
@@ -34,20 +36,18 @@
 	background: rgba(255,255,255,0.95);
 	border-color: #fff;
 	text-decoration: none;
-	color:#256987;
-}
-
-.MatcHeaderPublic .MatcButtonSignUp:hover{
-	background: rgba(255,255,255,1);
-	color:#256987;
+	color: $primary_color;
+	
+	&:hover{
+		background: rgba(255,255,255,1);
+		color: $primary_color_hover;
+	}
 }
 
 .MatcAboutDesktopHeader{
 	height: 600px;
 	margin-top: 150px;
 }
-
-
 
 .MatcHeaderSmall{
 	padding-bottom: 30px;

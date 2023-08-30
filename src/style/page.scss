@@ -1,3 +1,6 @@
+@import './variables.scss';
+
+
 body,
 body.MatcBody{
 	font-family: 'Inter', 'Helvetica Neue', -apple-system, 'BlinkMacSystemFont', "Segoe UI", 'Helvetica', sans-serif;
@@ -36,67 +39,7 @@ body.MatcBody{
     margin-right: auto;
 }
 
-
-
 /****************************************************
- * Mobile
- ****************************************************/
-
-
-.MatcHamburger .caret{
-	display: none;
-}
-
-.MatcHamburger{
-	padding: 15px;
-	font-size:18px;
- 	cursor: pointer;
-	display: inline-block;
-	font-size: 30px;
-	color:#fff;
-}
-
-
-
-.MatcHamburger .VommondDropDownPopUp ul{
-	background: #031a29 none repeat scroll 0 0;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left:-200px;
-    width: 200px;
-    display: block;
-    transition: all 0.5s;
-
-}
-
-.MatcHamburger.VommondDropDownButtonOpen .VommondDropDownPopUp{
-	box-shadow: 0px 0px 25px 5px rgba(0,0,0,0.35)
-}
-.MatcHamburger.VommondDropDownButtonOpen .VommondDropDownPopUp ul{
-    left:0px;
-    width: 300px;
-}
-
-
-.MatcHamburger .VommondDropDownPopUp li{
-	font-size: 24px;
-	padding: 20px 15px;
-	cursor: pointer;
-	color:#fefefe;
-}
-
-.MatcHamburger .VommondDropDownPopUp li:HOVER{
-	color:#fff;
-}
-
-
-
-
-
-
-
- /****************************************************
  * Footer
  ****************************************************/
 
@@ -274,12 +217,12 @@ body.MatcBody{
 
 
 .MatcHeaderActionContainer .MatcButton {
-    border-color: #3787f2;
+    border-color: $primary_color;
     box-shadow: none;
     background:none;
     color: #fff;
     font-size: 30px;
-    color:#3787f2;
+    color:$primary_color;
 }
 
 .MatcHeaderActionContainer .MatcButton:HOVER {
@@ -289,7 +232,7 @@ body.MatcBody{
 
 .MatcAbout .MatcSection:nth-child(odd) h2,
 .MatcAbout .MatcSection:nth-child(odd) h1{
-	color:#3787f2;
+	color:$primary_color;
 }
 
 
@@ -337,7 +280,7 @@ body.MatcBody{
 	padding-top: 200px;
 	min-height: 800px;
 	padding-bottom: 200px;
-	background: #3787f2;
+	background: $primary_color;
 }
 
 .MatcFeatureHeader .MatcLead{
@@ -927,7 +870,7 @@ textarea.MatcContentWidgetAbs{
 	font-size: 16px;
 	overflow: hidden;
 	text-align: center;
-	background:#3787f2;
+	background:$primary_color;
 }
 
 .MatcUserAdd{
@@ -989,7 +932,7 @@ textarea.MatcContentWidgetAbs{
 	overflow: hidden;
 	color:#fff;
 	font-size: 60px;
-	background: #3787f2;
+	background: $primary_color;
 	position: relative;
 }
 
@@ -1024,7 +967,7 @@ textarea.MatcContentWidgetAbs{
  .MatcSettings .MatcUserImageNone,
  .MatcSettings .MatcUserAdd{
  	font-size: 40px;
- 	background: #3787f2;
+ 	background: $primary_color;
  	color:#fff;
  }
 
@@ -1123,36 +1066,6 @@ textarea.MatcContentWidgetAbs{
  * User
  ****************************************************/
 
-.MatcUser{
-
-}
-
-.MatcUploadButton{
-	position: relative;
-	color: #337ab7;
-	cursor: pointer;
-}
-
-
-.MatcUploadButton:hover{
-	color: #23527c;
-    text-decoration: underline;
-}
-
-.MatcImageUploadFile{
-	position: absolute;
-	top:0px;
-	left:0px;
-	width: 100%;
-	height: 100%;
-	border:1px solid orange;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.MatcUserBody{
-
-}
 
 .MatcUserImageCntr{
 	height: 150px;
@@ -1279,7 +1192,7 @@ textarea.MatcContentWidgetAbs{
 }
 
 .MatcCommentPic .MatcUserImageNone{
-	background: none repeat scroll 0 0 #3787f2;
+	background: none repeat scroll 0 0 $primary_color;
   color: #fff;
   font-size: 36px;
 }
@@ -1307,8 +1220,7 @@ textarea.MatcContentWidgetAbs{
 }
 
 .MatcCommentTime{
-	color: #999;
-	font-weight: 200;
+	color: $text_color_passive;
 }
 
 .MatcCommentActions{

@@ -158,14 +158,14 @@
       }
   
       .MatcDesignRoboBubble {
-        border: 1px solid  #3787f2;
+        border: 1px solid  $primary_color;
         color: #333;
         padding: 8px;
         border-radius: 8px;
         border-bottom-right-radius: 0px;
         font-size: 14px;
         background: rgba(55, 136, 242, 0.2549019608);
-        color: #3787f2;
+        color: $primary_color;
       }
   
       .MatcDesignRoboIcon {

@@ -69,7 +69,7 @@
   }
 
   .MatchImportDialogDropZone {
-    border: 1px dashed $input_border;
+    border: 1px dashed $form_border;
     transition: 0.2s all;
     overflow: auto;
     cursor: pointer;
@@ -83,10 +83,10 @@
     }
 
     &:hover {
-      border-color: $input_border_focus;
+      border-color: $form_border_hover;
 
       .MatcHint {
-        color: $input_border_focus;
+        color: $form_border_hover;
       }
     }
 

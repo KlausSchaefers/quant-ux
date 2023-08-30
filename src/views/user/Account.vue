@@ -16,22 +16,22 @@
               <div data-dojo-type="de/vommond/Form">
                 <div class="form-group">
                   <label>Name</label>
-                  <input type="email" class="form-control input-lg" v-model="user.name" placeholder="Enter your name"  data-binding-required="true">
+                  <input type="email" class="form-control" v-model="user.name" placeholder="Enter your name"  data-binding-required="true">
                 </div>
 
                 <div class="form-group">
                   <label>Lastname</label>
-                  <input type="email" class="form-control input-lg" v-model="user.lastname"  placeholder="Enter your lastname" data-binding-required="true" >
+                  <input type="email" class="form-control" v-model="user.lastname"  placeholder="Enter your lastname" data-binding-required="true" >
                 </div>
 
                 <div class="form-group">
                   <label>Homepage</label>
-                  <input type="text"  class="form-control input-lg" v-model="user.homepage" placeholder="http://www.yourpage.com">
+                  <input type="text"  class="form-control" v-model="user.homepage" placeholder="http://www.yourpage.com">
               </div>
 
                 <div class="form-group">
                   <label>Password</label>
-                  <input type="password" class="form-control  input-lg" v-model="password" placeholder="To change, enter new password">
+                  <input type="password" class="form-control" v-model="password" placeholder="To change, enter new password">
                 </div>
 
 

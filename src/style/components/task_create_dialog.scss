@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 .TaskCreateDialog {
   width: 1200px;
 
@@ -26,7 +28,7 @@
       .StepDetails {
         padding: 4px 10px;
         font-size: 16px;
-        border: 1px solid #3787f2;
+        border: 1px solid $primary_color;
       }
     }
 
@@ -81,7 +83,7 @@
 
 
     .mdi {
-      color:#3787f2;
+      color:$primary_color;
       font-size: 14px;
     }
 
@@ -96,7 +98,7 @@
       position: relative;
       transition: all 0.2s;
       background: #3788f241; // rgb(242, 242, 242);
-      color:#3787f2;
+      color:$primary_color;
 
 
       &:hover{

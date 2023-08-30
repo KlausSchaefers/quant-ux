@@ -3,6 +3,10 @@ $main_color: #365fff;
 $primary_color: #365fff;
 $primary_color_hover: #123ef0;
 
+$text_color: #333;
+$text_color_passive: #777;
+$text_color_dark: #111;
+
 $toolbar_height: 48px;
 $toolbar_background: #25292F;
 $toolbar_color: #fff;
@@ -54,20 +58,13 @@ $dialog_table_border: rgba(0,0,0, .1);
 
 
 $form_border: #dbdbdb;
-$form_border_hover: #ccc;
+$form_border_hover: #b5b5b5;
 $form_border_focus: $primary_color;
 
-$text-color-passive: #ccc;
-$text-color-dark: #363636;
 $color-danger: #f94c4c;
 $color_danger_hover: #f83a3a;
 $color-passive: #777;
 
-$button-radius: 4px;
-$button-radius-input: 2px;
-$button-radius-l: 8px;
-
-$color-black: #000;
 $color-red: #f94c4c;
 $color-red-dark: #f83a3a;
 $color-red-light: #f7dddd;
@@ -75,8 +72,10 @@ $color-red-light: #f7dddd;
 $table-background:rgba(0,0,0, .05);
 $table-selected: #d6e5f8;
 
-$input_border: #dbdbdb;
-$input_border_focus: #b5b5b5;
+$button-radius: 4px;
+$button-radius-input: 2px;
+$button-radius-l: 8px;
+
 
 $form-height:34px;
 

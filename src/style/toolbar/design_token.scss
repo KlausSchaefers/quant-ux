@@ -11,7 +11,7 @@
 
 
 .MatcToolbarSectionDesignSystemCntr:hover span{
-	color: #3787f2;
+	color: $primary_color;
 }
 
 
@@ -254,7 +254,7 @@ label.MatcDesignTokenListPopupSection{
 
 .MatcDesignTokenDialog .MatcDesignTokenDialogList a:hover,
 .MatcDesignTokenDialog .MatcDesignTokenDialogList a.selected {
-	color: #3787f2;
+	color: $primary_color;
 }
 
 

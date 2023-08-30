@@ -531,18 +531,12 @@ export default {
 			let bar = db.div("MatcButtonBar MatcButtonBarRelative MatcMarginTop").build(popup);
 			let write = db.div("MatcButton", "Save").build(bar);
 			let cancel = db.a("MatcLinkButton", "Cancel").build(bar);
-			let anim = db.a("MatcLinkButton MatcButtonRight")
-				.span(" mdi mdi-video")
-				.up()
-				.span("", "Custom Animations")
-				.build(bar);
-
+		
 
 			let d = new Dialog({ overflow: true });
 
 			d.own(on(write, touch.press, lang.hitch(this, "setAnimation", d, settings, line)));
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
-			d.own(on(anim, touch.press, lang.hitch(this, "showScreenAnim", d, line)));
 			d.own(on(d, "close", () => {
 				settings.destroy();
 			}));

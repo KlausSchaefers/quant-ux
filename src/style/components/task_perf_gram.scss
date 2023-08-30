@@ -1,6 +1,4 @@
-/****************************************************
- * TaskPerfGram
- ****************************************************/
+@import '../variables.scss';
 
 .MatcDashTaskPerfGramDialog {
     width: 900px;
@@ -33,7 +31,7 @@
     }
 
     .MatcDashTaskPerfGram .MatcToolbarMatcScatterPlots a:hover {
-        color: #3787f2;
+        color: $primary_color;
     }
 
 
@@ -200,7 +198,7 @@
 
     .MatcDashTaskPerfGramBar {
         position: absolute;
-        background-color: #3787f2;
+        background-color: $primary_color;
         border-top-right-radius: 3px;
         border-bottom-right-radius: 3px;
         transition: all 0.2s;
