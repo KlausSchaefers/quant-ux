@@ -7,10 +7,12 @@
 .MatcToolbarTableSettings {
     width: 1200px;
     height: 500px;
+    display: flex;
+    flex-direction: column;
 
 
     .MatcToolbarTableSettingsCntr {
-        height: 400px;
+        height: 100%;
         margin-top: 10px;
     }
 

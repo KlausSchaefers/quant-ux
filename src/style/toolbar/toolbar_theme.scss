@@ -10,7 +10,7 @@
     }
 
     .MatcToolbarPopUpLine {
-        border-top: 1px solid $toolbar_border;
+        border-top: 1px solid $popup_line;
     }
 
     .MatcToolbarPopUpArrow {
@@ -19,7 +19,7 @@
 
     .MatcToolbarPopupFooter {
         color: $popup_color_passive;
-        border-top: 1px solid  $toolbar_border;
+        border-top: 1px solid  $popup_line;
 
         &:hover {
             color: $popup_color;
@@ -82,7 +82,7 @@
     }
     
     .MatcToolbarPopUpLine {
-        border-top: 1px solid $toolbar_border;
+        border-top: 1px solid $popup_line;
     }
 
     .MatcToolbarPopUpSubMenu {
@@ -412,4 +412,8 @@
 	}
    
 
+}
+
+div.MatcToolbarViewConfigCntrSpace {
+	border-bottom: 1px solid $popup_line;
 }

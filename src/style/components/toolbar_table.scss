@@ -32,7 +32,7 @@
 	}
 
 	.MatcToolbarTableBody{
-		height: 400px;
+		height: 450px;
 		overflow: auto;
 	}
 	
@@ -121,7 +121,18 @@
 	}
 }
 
+.MatcFormRow{
+	text-align: left;
+	margin-bottom: 20px;
+}
 
+.MatcFormRow label{
+	display: block;
+}
+
+.MatcFormRow input{
+	width: 300px;
+}
 
 .MatcFormRowDND{
 	display: flex;

@@ -13,6 +13,7 @@ $gray_1: #dbdbdb;
 $gray_2: #b5b5b5;
 $gray_3: #777;
 $gray_4: #555;
+$gray_5: #4a4a4a;
 $black: #111;
 
 $text_color: #333;
@@ -54,7 +55,7 @@ $popup_radius: 4px;
 $popup_font_size: 14px;
 $popup_padding: 4px 8px;
 $popup_shadow: none;
-$popup_line: 1px solid rgba(255, 255, 255, 0.08);
+$popup_line: rgba(255, 255, 255, 0.08);
 $popup_form_border: $toolbar_border;
 $popup_form_border_hover: $toolbar_border;
 $popup_form_border_focus: $toolbar_border;

@@ -27,7 +27,7 @@
     $popup_background: #fff;
     $popup_radius: 4px;
     $popup_shadow: 0 3px 25px rgba(0,0,0,.35);
-    $popup_line: 1px solid rgba(255, 255, 255, 0.08);
+    $popup_line: rgba(0, 0, 0, 0.08);
     $popup_form_border: rgba(0, 0, 0, 0.25);
     $popup_form_border_hover: rgba(0, 0, 0, 0.25);
     $popup_form_border_focus: rgba(0, 0, 0, 0.35);
@@ -45,6 +45,10 @@
 
     .MatcMultiActionDropDown .MatcToolbarItem.MatcToolbarIconButton .MatcToolbarItemLabel{
         color: #fff;
+    }
+
+    .MatcToolbarArrowDropDown .MatcToolbarPopUp{
+        border: none;
     }
 
     .MatcToolbarEditMode {

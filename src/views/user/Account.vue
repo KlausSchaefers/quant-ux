@@ -42,7 +42,7 @@
                   </div>
                 </div>
 
-                <div class="VommondFormErrorLabel">
+                <div class="MatcErrorLabel">
                     {{error}}
                 </div>
 

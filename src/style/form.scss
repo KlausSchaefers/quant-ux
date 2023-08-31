@@ -28,50 +28,12 @@ input:focus{
  * Forms
  ****************************************************/
 
- .MatcFormRow{
- 	text-align: left;
- 	margin-bottom: 20px;
- }
-
-.MatcFormRow label{
- 	display: block;
-}
-
-.MatcFormRow input{
- 	width: 300px;
-}
-
 .MatcErrorLabel{
-	color: #f83a3a;
-	height:20px;
+	color: $color_danger;
+	height:24px;
 	padding:5px;
+	font-size: $font-size-xs;
 	transition-duration: 0.2s;
-}
-
-.MatcHintLabel{
-
-}
-
-.MatcHintLabelHidden{
-	opacity:0,
-}
-
-.VommondFormErrorLabel {
-    font-style: italic;
-    color: $color_danger;
-    font-size:14px;
-}
-
-.VommondDialogContent .VommondFormErrorLabelBottom{
-	margin-top:-25px;
-	padding-bottom:10px;
-}
-
-.VommondFormInputError{
-	border-color: $color_danger;
-}
-.MatcErrorLabel.MatcErrorLabelEmpty{
-	opacity:0;
 }
 
 .MatcInlineEdit{
@@ -102,16 +64,15 @@ input:focus{
 	padding: 4px 16px;
 	display: inline-block;
 	cursor: pointer;
-	color:#4a4a4a;
+	color:$button_background;
 	font-size: $button_font_size;
 	text-decoration: underline;
 	border-radius:3px;
-}
-
-.MatcLinkButton:hover{
-	color:#000;
-	background: rgba(0,0,0,0.05);
-	text-decoration: underline;
+	&:hover{
+		color: $button_background_hover;
+		background: rgba(0,0,0,0.05);
+		text-decoration: underline;
+	}
 }
 
 .MatcButton{

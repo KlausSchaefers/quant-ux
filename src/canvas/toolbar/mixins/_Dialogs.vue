@@ -796,7 +796,7 @@ export default {
 		 * Save As
 		 **********************************************************************/
 
-		onSaveAs: function () {
+		onSaveAs  () {
 			this.logger.log(0, "onSaveAs", "entry");
 
 			var dialog = new Dialog();

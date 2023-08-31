@@ -628,17 +628,26 @@ tr:hover .VommondInputListRemove {
  * From
  ****************************************************/
 
+.VommondFormInputError {
+	border-color: $color_danger;
+}
+
 .VommondFormErrorLabel {
 	transition-duration: 0.5s;
 	transition-property: all;
 	opacity: 1;
-	color: red;
+	color: $color_danger;
+	font-size: 14px;
+}
+
+.VommondDialogContent .VommondFormErrorLabelBottom {
+	margin-top: -25px;
+	padding-bottom: 10px;
 }
 
 .VommondFormErrorLabelHidden {
 	opacity: 0;
 }
-
 
 .form-control-feedback.VommondFormFeedback {
 	width: auto;
@@ -1140,7 +1149,7 @@ tr:hover .VommondInputListRemove {
 	cursor: pointer;
 }
 
-.VommondCheckBoxWrapper:hover .VommondCheckBox{
+.VommondCheckBoxWrapper:hover .VommondCheckBox {
 	border-color: hsl(0deg, 0%, 71%);
 }
 

@@ -896,12 +896,9 @@ textarea.MatcContentWidgetAbs{
 .MatcTeamDialog{
 	width: 600px;
 	min-height: 200px;
-	background: #fff;
 	text-align: left;
-	font-size: 16px;
 	color:#333;
 	background: #fff;
-	padding: 40px 40px 50px;
 }
 
 .MatcTeamDialogEdit{
@@ -993,7 +990,8 @@ textarea.MatcContentWidgetAbs{
 
  .MatcDialog{
 	min-height: 200px;
-	padding: 40px 40px 50px;
+	padding: 40px 40px 64px;
+	border-radius: 12px;
 }
 
 .MatcOptionDialog {

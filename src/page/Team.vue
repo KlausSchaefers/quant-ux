@@ -87,7 +87,7 @@ export default {
     },
 
     async showAdd() {
-      var div = this.db.div("MatcTeamDialog MatcPadding").build();
+      var div = this.db.div("MatcTeamDialog MatcDialog MatcPadding").build();
 
       var cntr = this.db.div("container").build(div);
       var row = this.db.div("row").build(cntr);
@@ -102,10 +102,10 @@ export default {
       email.placeAt(right);
 
       var error = this.db
-        .div("MatcErrorLabel MatcErrorLabelEmpty")
+        .div("MatcErrorLabel")
         .build(right);
 
-      var bar = this.db.div("MatcButtonBar MatcMarginTop").build(cntr);
+      var bar = this.db.div("MatcButtonBar MatcMarginTopL").build(cntr);
       var write = this.db.div("MatcButton", "Add User").build(bar);
       var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
@@ -251,11 +251,11 @@ export default {
       // var result = this._doPost("/rest/apps/" +this.appID + "/team/", user);
       if (result.type == "error") {
         if (result.errors[0] == "apps.team.member.add.error.email") {
-          css.remove(error, "MatcErrorLabelEmpty");
+          css.remove(error, "");
           error.innerHTML = "No user is registered with the email!";
         }
         if (result.errors[0] == "apps.team.member.add.error.read") {
-          css.remove(error, "MatcErrorLabelEmpty");
+          css.remove(error, "");
           error.innerHTML = "You can only read the app!";
         }
         dialog.shake();
