@@ -137,7 +137,7 @@ export default {
 			}
 
 			const db = new DomBuilder();
-			const popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
+			const popup = db.div("MatcDialog MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
 			const cntr = db.div("container").build(popup);
 			let row = db.div("row").build(cntr);
 			let right = db.div("col-md-12").build(row);

@@ -271,7 +271,7 @@ export default {
     showShareDialog() {
       const db = new DomBuilder();
       const popup = db
-        .div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding")
+        .div("MatcDialog MatcInfitationDialog MatcInfitationDialogLarge MatcPadding")
         .build();
 
       let cntr = db.div("container").build(popup);
