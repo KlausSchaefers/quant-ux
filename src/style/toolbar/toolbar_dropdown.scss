@@ -102,14 +102,14 @@
 }
 
 .MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove {
-	background: $color-red-light;
-	border-color: $color-red;
-	color: $color-red;
+	background: $color_danger_light;
+	border-color: $color_danger;
+	color: $color_danger;
 }
 
 .MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove:hover {
-	background: $color-red;
-	border-color: $color-red-dark;
+	background: $color_danger;
+	border-color: $color_danger_hover;
 	color: #fff;
 }
 

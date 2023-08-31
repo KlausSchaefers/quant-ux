@@ -77,7 +77,7 @@
 
                            <tr class="MatcFormRow">
                                <td>
-                                   <span class="MatcButton MatcButtonActive" @click="addAction">Add Action</span>                                   
+                                   <span class="MatcButton" @click="addAction">Add Action</span>                                   
                                </td>
                                <td></td>
                                <td></td>
@@ -159,7 +159,7 @@
 
                            <tr>
                                <td>
-                                   <span class="MatcButton MatcButtonActive" @click="addColumn">Add Column</span>
+                                   <span class="MatcButton" @click="addColumn">Add Column</span>
                                </td>
                                <td></td>
                                <td></td>

@@ -9,19 +9,6 @@ $prompt-background-user: #f1f5fd;
     height: 720px;
     max-height: 90vh;
 
-  
-    .MatcToolbarTabs a {
-        border-bottom: 2px solid transparent;
-    
-        &.MatcToolbarTabActive {
-          border-bottom-width: 2px;
-          border-bottom: 2px solid $main_color;
-        }
-    }
-    
-    .MatcToolbarTabsBig {
-        margin-bottom: 20px;
-    }
     
     .MatchOpenAIChatDialogHint {
         padding: 16px;

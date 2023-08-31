@@ -399,7 +399,7 @@
 }
 
 .MatcToobarRemoveBtn:Hover {
-	color: $color-danger;
+	color: $color_danger;
 }
 
 .MatcToobarActionCntr:hover .MatcToobarRemoveBtn {
@@ -546,7 +546,7 @@
 	width: 16px;
 	vertical-align: middle;
 	background: none;
-	border-radius: $button-radius-input;
+	border-radius: $button_radius_input;
 
 }
 
@@ -1087,7 +1087,7 @@ input.MatcToobarInlineEditDisabled:focus {
 }
 
 .MatcToolbarPopUpIconDanger {
-	color: $color-danger;
+	color: $color_danger;
 }
 
 .MatcToolbarDropDownButtonLabel {

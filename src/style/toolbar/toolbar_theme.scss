@@ -100,7 +100,7 @@
 
     .MatcCreateSearch {
         background: none;
-        border-radius: $button-radius;
+        border-radius: $button_radius;
         border-color: $toolbar_border;
     }
 
@@ -110,7 +110,7 @@
     }
 
     .MatcCreateCatCntr li {
-        border-radius: $button-radius;
+        border-radius: $button_radius;
         padding: 8px;
     }
 
@@ -384,7 +384,7 @@
         }
 
         a.MatcToolbarTabActive {
-            border-bottom: 2px solid $primary_color;
+            border-bottom: 2px solid $tab_color_active;
         }
     }
 

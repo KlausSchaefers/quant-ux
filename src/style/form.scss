@@ -1,37 +1,30 @@
 @import './variables.scss';
 
-.form-control{
-	box-shadow:none;
-	border-radius:3px;
-	border-color: $form_border;
-
-	&:hover{
-		border-color: $form_border_hover;
-	}
- 
-	&:FOCUS {
-		box-shadow:none;
-		border-radius:3px;
-		box-shadow:none;
-		border-color: $form_border_focus;
-	}
-}
-
 input:focus{
 	outline:none;
 }
 
-.form-control-label{
-	display: block;
-	width: 100%;
-	height: 34px;
-	padding: 6px 0px;
-	font-size: 14px;
-	font-style: italic;
+.form-control{
+	box-shadow:$form_shadow;
+	border-radius:$form_radius;
+	border-color: $form_border;
+	padding: $form_padding;
+	height: auto;
+
+	&:hover{
+		border-color: $form_border_hover;
+		box-shadow:$form_shadow;
+	}
+ 
+	&:FOCUS {
+		border-color: $form_border_focus;
+		box-shadow:$form_shadow;
+	}
 }
 
 
- /****************************************************
+
+/****************************************************
  * Forms
  ****************************************************/
 
@@ -65,7 +58,7 @@ input:focus{
 
 .VommondFormErrorLabel {
     font-style: italic;
-    color: $color-red;
+    color: $color_danger;
     font-size:14px;
 }
 
@@ -75,7 +68,7 @@ input:focus{
 }
 
 .VommondFormInputError{
-	border-color: $color-red;
+	border-color: $color_danger;
 }
 .MatcErrorLabel.MatcErrorLabelEmpty{
 	opacity:0;
@@ -110,7 +103,7 @@ input:focus{
 	display: inline-block;
 	cursor: pointer;
 	color:#4a4a4a;
-	font-size: 18px;
+	font-size: $button_font_size;
 	text-decoration: underline;
 	border-radius:3px;
 }
@@ -123,23 +116,26 @@ input:focus{
 
 .MatcButton{
 	display: inline-block;
-	padding: 4px 16px;
-	border-radius:3px;
+	padding: $button_padding;
+	border-radius: $button_radius;
 	cursor: pointer;
 	transition: all 0.25s;
 	text-align: left;
-	font-size: 18px;
+	font-size: $button_font_size;
 	font-weight: 400;
-	background-color: $primary_color;
-	border-color: transparent;
-	color: #fff;
+	background-color: $button_background;
+	border: 1px solid $button_background;
+	color: $button_color;
+
+	&:HOVER{
+		background-color: $button_background_hover;
+		border: 1px solid $button_background_hover;
+		color: $button_color_hover;
+		text-decoration: none;
+   }
 }
 
-.MatcButton:HOVER{
- 	background: $primary_color;
-	text-decoration: none;
-	color:#fff;
-}
+
 
 .MatcButtonSecondary {
 	background: none;
@@ -154,9 +150,9 @@ input:focus{
 }
 
 .MatcButtonDanger {
-	background-color: $color-red;
+	background-color: $color_danger;
 	&:hover {
-		background-color: $color-red-dark;
+		background-color: $color_danger_hover;
 	}
 }
 
@@ -424,7 +420,7 @@ input:focus{
 
 .MatcDropDownButton.MatcButtonDanger{
 	border-color:transparent;
-	background: $color-danger;
+	background: $color_danger;
 }
 
 .MatcDropDownButton.MatcButtonDanger:HOVER{
@@ -609,7 +605,7 @@ input:focus{
  .MatcFormGroup{
     border: 1px solid #ccc;
  	border-radius: 6px;
-    font-size: 18px;
+    font-size: $button_font_size;
     line-height: 1.33;
     padding: 10px 16px;
 }

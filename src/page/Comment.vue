@@ -1,11 +1,14 @@
 <template>
   <div class="MatcComment">
     <div class="MatcCommentBar " data-dojo-attach-point="btnBar">
-   
+
     </div>
     <div class="MatcCommentContainer" data-dojo-attach-point="cntr"></div>
   </div>
 </template>
+<style lang="scss">
+@import '../style/components/comment.scss';
+</style>
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
@@ -20,7 +23,7 @@ export default {
   name: "Comment",
   mixins: [Util, DojoWidget],
   props: ["type", "reference", "appID", "contentID", "insertPosition"],
-  data: function() {
+  data: function () {
     return {
       collapsed: false
     };
@@ -38,20 +41,20 @@ export default {
       this.logger.log(4, "postCreate", "exit", this.user);
     },
 
-    setUserAndLoad: function(u) {
+    setUserAndLoad(u) {
       this.user = u;
       this.load();
     },
 
-    setType: function(t) {
+    setType(t) {
       this.type = t;
     },
 
-    setInsertPosition: function(p) {
+    setInsertPosition(p) {
       this.insertPosition = p;
     },
 
-    setCollapsed: function(c) {
+    setCollapsed(c) {
       this.collapsed = c;
       if (this.collapsed) {
         css.remove(this.btnBar, "hidden");
@@ -59,7 +62,7 @@ export default {
       }
     },
 
-    onToggleCollapse: function() {
+    onToggleCollapse() {
       this.collapsed = !this.collapsed;
       if (this.collapsed) {
         css.add(this.cntr, "MatcHidden");
@@ -69,19 +72,19 @@ export default {
       }
     },
 
-    setReference: function(r) {
+    setReference(r) {
       this.reference = r;
     },
 
-    setUser: function(u) {
+    setUser(u) {
       this.user = u;
     },
 
-    setApp: function(appID) {
+    setApp(appID) {
       this.appID = appID;
     },
 
-    setHash: function(hash) {
+    setHash(hash) {
       this.hash = hash;
     },
 
@@ -99,18 +102,18 @@ export default {
       this.setValue(comments);
     },
 
-    setValue: function(comments) {
+    setValue(comments) {
       this.comments = comments;
       this.render(comments);
     },
 
-    render: function(comments) {
+    render(comments) {
       if (this.insertPosition == "top") {
-        comments.sort(function(a, b) {
+        comments.sort(function (a, b) {
           return b.created - a.created;
         });
       } else {
-        comments.sort(function(a, b) {
+        comments.sort(function (a, b) {
           return a.created - b.created;
         });
       }
@@ -212,7 +215,7 @@ export default {
       );
     },
 
-    createInput: function(ul) {
+    createInput(ul) {
       if (this.user.role != "guest") {
         let txt = this.createItem(ul, this.user);
         let input = document.createElement("textarea");
@@ -233,7 +236,7 @@ export default {
       }
     },
 
-    showButtons: function(txt, input) {
+    showButtons(txt, input) {
       if (!this.buttonVisible) {
         var bar = document.createElement("div");
         css.add(bar, "MatcButtonBar ");
@@ -251,7 +254,7 @@ export default {
         this.buttonVisible = true;
       }
     },
-    createItem: function(ul, user) {
+    createItem(ul, user) {
       var li = document.createElement("li");
       css.add(li, "MatcMarginBottom");
       ul.appendChild(li);
@@ -301,6 +304,6 @@ export default {
       this.input = null;
     }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>

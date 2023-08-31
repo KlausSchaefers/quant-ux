@@ -3,16 +3,28 @@ $main_color: #365fff;
 $primary_color: #365fff;
 $primary_color_hover: #123ef0;
 
+$color_danger: #f94c4c;
+$color_danger_light: #f7dddd;
+$color_danger_hover: #f83a3a;
+$color_passive: #777;
+
+$white: #fff;
+$gray_1: #dbdbdb;
+$gray_2: #b5b5b5;
+$gray_3: #777;
+$gray_4: #555;
+$black: #111;
+
 $text_color: #333;
 $text_color_passive: #777;
 $text_color_dark: #111;
 
 $toolbar_height: 48px;
 $toolbar_background: #25292F;
-$toolbar_color: #fff;
-$toolbar_color_hover: #fff;
-$toolbar_color_passive: #777;
-$toolbar_color_disabled: #555;
+$toolbar_color: $white;
+$toolbar_color_hover: $white;
+$toolbar_color_passive: $gray_3;
+$toolbar_color_disabled: $gray_4;
 $toolbar_selected_background: #16191b;
 $toolbar_border: rgb(49, 55, 60);
 $toolbar_padding:8px;
@@ -29,14 +41,13 @@ $toolbar_form_radius: 2px;
 $color_picker_border: rgba(255,255,255, 0.25);
 $color_picker_border-hover: rgba(255,255,255, 0.35);
 
-
 $layerlist_background: red;
 $layerlist_selected: $toolbar_selected_background;
 
 $create_element_background: #485870;
 
-$popup_color: #fff;
-$popup_color_passive: #555;
+$popup_color: $white;
+$popup_color_passive: $color_passive;
 $popup_border: $toolbar_border;
 $popup_background: $toolbar_selected_background;
 $popup_radius: 4px;
@@ -51,33 +62,36 @@ $popup_form_background: $toolbar_form_background;
 $popup_form_background_hover: $toolbar_form_background_hover;
 $popup_form_background_focus: $toolbar_form_background_hover;
 
-$dialog_color: #333;
+$dialog_color: $text_color;
 $dialog_form_border: $toolbar_border;
 $dialog_table_background: rgba(0,0,0, .05);
 $dialog_table_border: rgba(0,0,0, .1);
 
+$form_radius: 4px;
+$form_border: $gray_1;
+$form_border_hover: $gray_2;
+$form_border_focus: #16191b;
+$form_shadow:none;
+$form_padding: 8px 8px;
+$form_height:34px;
 
-$form_border: #dbdbdb;
-$form_border_hover: #b5b5b5;
-$form_border_focus: $primary_color;
 
-$color-danger: #f94c4c;
-$color_danger_hover: #f83a3a;
-$color-passive: #777;
-
-$color-red: #f94c4c;
-$color-red-dark: #f83a3a;
-$color-red-light: #f7dddd;
 
 $table-background:rgba(0,0,0, .05);
-$table-selected: #d6e5f8;
+$table-selected: $gray_2;
 
-$button-radius: 4px;
-$button-radius-input: 2px;
-$button-radius-l: 8px;
+$button_background: #25292F;
+$button_background_hover: #16191b;
+$button_color: $white;
+$button_color_hover: $white;
+$button_font_size: 18px;
 
+$tab_color_active: $button_background_hover;
 
-$form-height:34px;
+$button_padding: 4px 16px;
+$button_radius: 4px;
+$button_radius-input: 2px;
+$button_radius-l: 8px;
 
 $spacing-xxxl:96px;
 $spacing-xxl:64px;

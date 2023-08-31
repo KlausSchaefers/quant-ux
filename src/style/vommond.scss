@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 /****************************************************
  * Bullet Graph
  *
@@ -572,13 +574,13 @@ tr:hover .VommondInputListRemove {
 	display: inline-block;
 	padding: 3px 10px;
 	margin: 0px 5px;
-	color: #3787f2;
+	color: $primary_color;
 	cursor: pointer;
 	border-radius: 3px;
 }
 
 .vommondTable .pagination ul li.active {
-	background: #3787f2;
+	background: $primary_color;
 	color: #fff;
 
 }
@@ -598,14 +600,14 @@ tr:hover .VommondInputListRemove {
 
 .vommondInlineEdit:hover,
 .VommondInputList input.vommondInlineEdit:hover {
-	border: 1px #3787f2 dashed;
+	border: 1px $primary_color dashed;
 }
 
 .vommondInlineEdit:focus,
 .VommondInputList input.vommondInlineEdit:focus {
 	background-color: #fff;
 	background-image: none;
-	border: 1px solid #3787f2;
+	border: 1px solid $primary_color;
 }
 
 .vommondLineInput {
@@ -719,7 +721,7 @@ tr:hover .VommondInputListRemove {
 .VommondSliderMarker .VommondSliderMarkPopup {
 	padding: 10px;
 	top: 15px;
-	background-color: #3787f2;
+	background-color: $primary_color;
 	color: #fff;
 	display: none;
 	position: absolute;
@@ -1047,7 +1049,7 @@ tr:hover .VommondInputListRemove {
 
 .VommondProgressBar {
 	height: 100%;
-	background: #3787f2;
+	background: $primary_color;
 	transition-duration: 0.5s;
 	transition-property: width;
 	position: relative;
@@ -1106,7 +1108,7 @@ tr:hover .VommondInputListRemove {
 	height: 100%;
 	width: 100%;
 
-	background: #3787f2;
+	background: $primary_color;
 	vertical-align: top;
 	border-radius: 50%;
 }
@@ -1153,8 +1155,8 @@ tr:hover .VommondInputListRemove {
 	opacity: 0;
 	transition-duration: 0.3s;
 	transition-property: opacity;
-	border-bottom: 3px solid #3787f2;
-	border-right: 2px solid #3787f2;
+	border-bottom: 3px solid $primary_color;
+	border-right: 2px solid $primary_color;
 	transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	/* IE 9 */
@@ -1204,9 +1206,9 @@ tr:hover .VommondInputListRemove {
 .VommondFileButton {
 	display: inline-block;
 	padding: 3px 20px;
-	border: 1px solid #3787f2;
+	border: 1px solid $primary_color;
 	border-radius: 3px;
-	color: #3787f2;
+	color: $primary_color;
 	cursor: pointer;
 	transition: all 0.25s;
 	text-align: left;
@@ -1217,7 +1219,7 @@ tr:hover .VommondInputListRemove {
 
 .VommondFileButton:hover,
 .VommondFileButtonSelected {
-	background: #3787f2;
+	background: $primary_color;
 	color: #fff;
 }
 
