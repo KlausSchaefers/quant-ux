@@ -129,22 +129,13 @@ input:focus{
 
 .MatcButtonDanger {
 	background-color: $color_danger;
+	border-color:  $color_danger;
 	&:hover {
 		background-color: $color_danger_hover;
+		border-color:  $color_danger_hover;
 	}
 }
 
-
-.MatcButtonSignUp{
-	background: $primary_color;
-	text-decoration: none;
-	color:#fff;
-}
-
-.MatcButtonSignUp:hover{
-	background: $primary_color;
-	border-color:$primary_color;
-}
 
 .MatcButtonFullWidth{
 	width: 100%;
@@ -392,10 +383,12 @@ input:focus{
 .MatcDropDownButton.MatcButtonDanger{
 	border-color:transparent;
 	background: $color_danger;
+	border-color: $color_danger;
 }
 
 .MatcDropDownButton.MatcButtonDanger:HOVER{
 	background:  $color_danger_hover;
+	border-color:  $color_danger_hover;
 	color:#fff;
 }
 

@@ -1,9 +1,9 @@
 @import './variables.scss';
 
-.MatcDarkHeaderPage .MatcMainMenu.MatcMainMenuPublic .MatcMainMenuItem {
-    color: #555;
+.MatcMainMenu.MatcMainMenuPublic .MatcMainMenuItem {
+    color: $text_color;
 }
 
-.MatcDarkHeaderPage .MatcMainMenu.MatcMainMenuPublic .MatcMainMenuItem:hover {
+.MatcMainMenu.MatcMainMenuPublic .MatcMainMenuItem:hover {
     color: $primary_color;
 }

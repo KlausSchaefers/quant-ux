@@ -854,7 +854,7 @@ export default {
 
 				this.stopEvent(e);
 
-				var popup = db.div(" MatcPadding").build();
+				var popup = db.div(" MatcDialog MatcPadding").build();
 
 				var cntr = db.div("").build(popup);
 

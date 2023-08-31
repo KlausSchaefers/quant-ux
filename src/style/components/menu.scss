@@ -12,8 +12,9 @@
 	top:0;
 	background: none;
 	border-bottom: none;
-	padding-top: 8px;
-
+	padding: 8px 0;
+	background: #fff;
+	border-bottom: 1px solid #dbdbdb;
 }
 
 .MatcMainMenuToolbar.MatcMainMenu{
@@ -73,10 +74,6 @@ a.is-logo{
 /********************************************
  * The main menu in dark
  ********************************************/
-.MatcMainMenuPublic.MatcMainMenu{
-	border-bottom: 0px solid transparent;
-	background: #fff;
-}
 
 
 .MatcMainMenuPublic .MatcMainMenuItem:HOVER,

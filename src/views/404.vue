@@ -31,7 +31,7 @@
 </template>
 
 <style lang="scss">
-  @import '../style/header.scss';
+  @import '../style/components/menu.scss';
 </style>
 
 <script>
