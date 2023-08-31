@@ -328,13 +328,13 @@ export default {
 
             const play = document.createElement("a");
             play.href = "#/" +  urlPrefix + "/" +  app.id + "/replay/" + row.session + ".html";
-            css.add(play, "MatcButton MatcButtonSecondary");
+            css.add(play, "MatcButton MatcButtonSecondary MatcButtonXS");
             play.innerHTML = '<span class="mdi mdi-play"></span>';
             group.appendChild(play);
 
             const remove = document.createElement("a");
             this.own(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
-            css.add(remove, "MatcButton MatcButtonDanger");
+            css.add(remove, "MatcButton MatcButtonDanger MatcButtonXS MatcButtonSecondary");
             remove.innerHTML = '<span class="mdi mdi-close"></span>';
             group.appendChild(remove);
 

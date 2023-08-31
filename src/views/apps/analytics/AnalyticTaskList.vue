@@ -14,7 +14,7 @@
           </h2>
         </div>
         <div class="level-right">
-          <a class="MatcButton MatcButtonSecondary level-item"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>
+          <a class="MatcButton MatcButtonOutline MatcButtonXS"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>
         </div>
       </div>
 

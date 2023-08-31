@@ -4,7 +4,7 @@
 }
 
 .MatcToolbarRestSettings .MatcButton span{
-    font-size: 18px;
+    font-size: $button_font_size
 }
 
 .MatcToolbarRestSettings label {
@@ -110,7 +110,7 @@
     border-color: $button_background;
     background: $button_background;
     color:#fff;
-    min-width: 110px;
+    min-width: 130px;
     margin: 0px;
 }
 
@@ -129,11 +129,10 @@
 }
 
 .MatcToolbarRestAuth .MatcButton.MatcDropDownButton{
-    width: 110px;
+    width: 130px;
     padding-top: 4px;
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
-    height: 100%;
     font-size: $form_font_size;
 }
 

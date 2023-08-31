@@ -4,7 +4,7 @@
 
       <label>Endpoint</label>
       <div class="MatcToolbarRestSettingsHeader">
-            <DropDownButton :options="methods" v-model="rest.method" style="width:50px" @change="onChange"/>
+            <DropDownButton :options="methods" v-model="rest.method" style="width:100px" @change="onChange"/>
 
             <input v-model="rest.url" class="form-control" @change="onChange" placeholder="https://server.com/${databinding}.json"/>
 
@@ -93,7 +93,7 @@
 
                     <div class="form-group"  v-if="rest.method === 'POST' || rest.method === 'PUT'" >
                         <label>{{ rest.method }} Type</label>
-                        <SegmentButton :options="inputTypes" v-model="rest.input.type" style="width:300px" @change="onChange"/>
+                        <SegmentButton :options="inputTypes" v-model="rest.input.type" style="width:400px" @change="onChange"/>
                     </div>
 
                     <div class="form-group" v-if="(rest.method === 'POST' || rest.method === 'PUT') && rest.input.type === 'JSON' " >

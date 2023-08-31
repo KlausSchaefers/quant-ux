@@ -31,8 +31,8 @@
                     <span class="MatcHint" v-else>No steps </span>
                   </td>
                   <td class=" action">
-                    <a class="MatcButton MatcButtonSecondary" @click="onEditTask(task, i, $event)">Edit</a>
-                    <a class="MatcButton MatcButtonDanger" @click="onDelete(task, i, $event)"><span class=" mdi mdi-close"></span></a>
+                    <a class="MatcButton MatcButtonXS MatcButtonSecondary" @click="onEditTask(task, i, $event)">Edit</a>
+                    <a class="MatcButton MatcButtonXS MatcButtonDanger MatcButtonSecondary" @click="onDelete(task, i, $event)"><span class=" mdi mdi-close"></span></a>
                   </td>
                 </tr>
             </tbody>

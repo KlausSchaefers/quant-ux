@@ -14,6 +14,11 @@
             </div>
 
             <div class="form-group">
+                <input v-model="url" class="form-control" placeholder="https://server.com/${databinding}.json" />
+
+            </div>
+
+            <div class="form-group">
 
                 <DropDownButton :options="methods" v-model="method" />
 
@@ -26,6 +31,15 @@
 
             </div>
 
+            <div class="col1">
+                <DropDownSelect
+                                    :options="tableOptions" :l="$t('survey.options')"
+             
+                 ></DropDownSelect>
+            </div>
+
+
+
 
 
             <div class="form-group MatcToolbarRestOutputHeaderType">
@@ -36,6 +50,7 @@
             <div class="MatcButtonBar">
                 <a class="MatcButton">Click</a>
                 <a class="MatcLinkButton">Click</a>
+                <a  class="MatcButton MatcButtonSecondary">Download Task Summary</a>
             </div>
 
             <div class="">
@@ -69,7 +84,7 @@
 import SegmentButton from 'page/SegmentButton'
 import DropDownButton from 'page/DropDownButton'
 import Input from 'common/Input'
-
+import DropDownSelect from 'page/DropDownSelect'
 
 export default {
     name: "FigmaTest",
@@ -101,31 +116,21 @@ export default {
     components: {
         'SegmentButton': SegmentButton,
         'DropDownButton': DropDownButton,
+        'DropDownSelect': DropDownSelect,
         'Combo': Input
     },
     computed: {
-        screens() {
-            if (this.model) {
-                let screens = Object.values(this.model.screens)
-                if (screens.length > 10) {
-                    screens = screens.slice(0, 10)
-                }
-                return screens
-            }
-            return []
-        },
-        width() {
-            if (this.model && this.model.screenSize) {
-                return this.model.screenSize.w + 'px'
-            }
-            return 0
-        },
-        height() {
-            if (this.model && this.model.screenSize) {
-                return this.model.screenSize.h + 'px'
-            }
-            return 0
-        }
+        tableOptions () {
+        return [
+            {value: 'showTasksSucess', label: this.$t('survey.taskSuccess'), check:true,},
+            {value: 'showVideo', label: this.$t('survey.showVideo'), check:true},
+            //{value: 'showId', label:this.$t('survey.ids'), check:true},
+            //{css:"MatcDropDownButtonLine"},
+            //{value: 'fullscreen', label: this.$t('survey.fullscreen'), event:'fullscreen', icon:' mdi mdi-chart-bar'},
+            {css:"MatcDropDownButtonLine"},
+            {value: 'download', label: this.$t('survey.download'), event:'download', icon:'mdi mdi-download-outline'}
+          ]
+      },
     },
     methods: {
         getPreview() {

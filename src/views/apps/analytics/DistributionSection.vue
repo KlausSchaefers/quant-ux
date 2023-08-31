@@ -12,22 +12,6 @@
           </h2>
         </div>
         <div class="level-right level-options">
-<!--        
-          <DropDownButton
-            class="MatcButtonTrans MatcDropDownRight"
-            :value="scatterMode"
-            @change="setScatterMode"
-            :options="scatterOptions"         
-          /> -->
-
-<!-- 
-          <DropDownButton
-            class="MatcButtonTrans MatcDropDownRight"       
-            ref="dropDown"
-            :value="viewMode"
-            @change="setViewMode"
-            :options="viewOptions"         
-          /> -->
 
           <CheckBox @change="onChangeNorm" :value="false" label="zScore" v-if="hasConfig"/>
 

@@ -1,25 +1,25 @@
 @import './variables.scss';
 
-input:focus{
-	outline:none;
+input:focus {
+	outline: none;
 }
 
-.form-control{
-	box-shadow:$form_shadow;
-	border-radius:$form_radius;
+.form-control {
+	box-shadow: $form_shadow;
+	border-radius: $form_radius;
 	border-color: $form_border;
 	padding: $form_padding;
 	font-size: $form_font_size;
 	height: $form_height;
 
-	&:hover{
+	&:hover {
 		border-color: $form_border_hover;
-		box-shadow:$form_shadow;
+		box-shadow: $form_shadow;
 	}
- 
+
 	&:FOCUS {
 		border-color: $form_border_focus;
-		box-shadow:$form_shadow;
+		box-shadow: $form_shadow;
 	}
 }
 
@@ -29,15 +29,15 @@ input:focus{
  * Forms
  ****************************************************/
 
-.MatcErrorLabel{
+.MatcErrorLabel {
 	color: $color_danger;
-	height:24px;
-	padding:5px;
+	height: 24px;
+	padding: 5px;
 	font-size: $font-size-xs;
 	transition-duration: 0.2s;
 }
 
-.MatcInlineEdit{
+.MatcInlineEdit {
 	border: 1px transparent solid;
 	width: 100%;
 	resize: none;
@@ -45,15 +45,15 @@ input:focus{
 	background: none;
 }
 
-.MatcInlineEdit.MatcBold{
+.MatcInlineEdit.MatcBold {
 	font-weight: bold;
 }
 
-.MatcInlineEdit:hover{
+.MatcInlineEdit:hover {
 	border: 1px #cecece dashed;
 }
 
-.MatcInlineEdit:focus{
+.MatcInlineEdit:focus {
 	border: 1px $primary_color dashed;
 }
 
@@ -61,31 +61,31 @@ input:focus{
  * Buttons
  ****************************************************/
 
-.MatcLinkButton{
+.MatcLinkButton {
 	padding: $button_padding;
 	display: inline-block;
 	cursor: pointer;
-	color:$button_background;
+	color: $button_background;
 	font-size: $button_font_size;
 	text-decoration: underline;
 	border-radius: $button_radius;
 
 	align-items: center;
-    line-height: 1;
-    display: inline-flex;
-    justify-content: center;
+	line-height: 1;
+	display: inline-flex;
+	justify-content: center;
 	line-height: 1;
 	height: $button_height;
-	
 
-	&:hover{
+
+	&:hover {
 		color: $button_background_hover;
-		background: rgba(0,0,0,0.05);
+		background: rgba(0, 0, 0, 0.05);
 		text-decoration: underline;
 	}
 }
 
-.MatcButton{
+.MatcButton {
 	display: inline-block;
 	padding: $button_padding;
 	border-radius: $button_radius;
@@ -97,114 +97,124 @@ input:focus{
 	background-color: $button_background;
 	border: 1px solid $button_background;
 	color: $button_color;
-	
-    display: inline-flex;
-    justify-content: center;
+
+	display: inline-flex;
+	justify-content: center;
 	align-items: center;
 	line-height: 1;
 	height: $button_height;
-	
 
-	&:HOVER{
+
+
+	&:HOVER {
 		background-color: $button_background_hover;
 		border: 1px solid $button_background_hover;
 		color: $button_color_hover;
 		text-decoration: none;
-   }
+	}
 }
 
+.MatcButtonXS {
+	height: 32px;
+	padding: 4px 8px;
+}
+
+
+.MatcButtonPrimary {
+	background-color: $primary_color;
+	border-color: $primary_color;
+
+	&:hover {
+		background-color: $primary_color_hover;
+		border-color: $primary_color_hover;
+	}
+}
+
+.MatcButtonOutline{
+	background: none;
+	border: 1px solid $button_background;
+	color: $button_background;
+
+	&:hover {
+		background-color: $button_background_hover;
+		border-color: $button_background_hover;
+		color: #fff;
+	}
+}
 
 
 .MatcButtonSecondary {
 	background: none;
-	border: 1px solid $primary_color;
-	color: $primary_color;
+	border: 1px solid transparent;
+	color: $button_background;
 
-	&:hover{
-		background: $primary_color_hover;
-		border: 1px solid $primary_color_hover;
+	&:hover {
+		background-color: $button_background_hover;
+		border-color: $button_background_hover;
 		color: #fff;
 	}
 }
 
 .MatcButtonDanger {
 	background-color: $color_danger;
-	border-color:  $color_danger;
+	border-color: $color_danger;
+
 	&:hover {
 		background-color: $color_danger_hover;
-		border-color:  $color_danger_hover;
+		border-color: $color_danger_hover;
 	}
 }
 
+.MatcButtonDanger.MatcButtonSecondary {
+	background-color: transparent;
+	border-color: transparent;
+	color: $color_danger;
+	&:hover {
+		background-color: $color_danger_hover;
+		border-color: $color_danger_hover;
+		color: #fff;
+	}
+}
 
-.MatcButtonFullWidth{
+.MatcButtonFullWidth {
 	width: 100%;
-	text-align:center;
+	text-align: center;
 }
 
 
-.MatcButtonIconLabel{
+.MatcButtonIconLabel {
 	margin-left: 3px;
 }
 
-.MatcButtonActive{
- 	background: $primary_color;
+.MatcButtonActive {
+	background: $primary_color;
 	text-decoration: none;
-	color:#fff;
+	color: #fff;
 }
 
-.MatcButtonActive:HOVER{
+.MatcButtonActive:HOVER {
 	background: $primary_color_hover
 }
 
-.MatcButtonPassive, .MatcButtonPassive:HOVER{
-    border: 1px solid #999999;
+.MatcButtonPassive,
+.MatcButtonPassive:HOVER {
+	border: 1px solid #999999;
 	cursor: pointer;
 	color: #999;
 	background: none;
 }
 
-.MatcButtonBlack{
-	background:#3e4149;
+
+.MatcButtonGreen {
+	background: #92c500;
+	border: 1px solid #92c500;
 	color: #fff;
 }
 
-.MatcButtonBlack:HOVER{
-	background: #333;
-
-}
-
-.MatcButtonTrans{
-	background:none;
-	border:1px solid #fff;
-	color:#fff;
-}
-
-.MatcButtonTrans:HOVER{
-	background:rgba(255,255,255,0.2);
-	border:1px solid #fff;
-}
-
-.MatcButtonGreen{
- 	background: #92c500;
- 	border:1px solid #92c500;
-	color:#fff;
-}
-
-.MatcButtonGreen:HOVER{
- 	background: #6da000;
- 	border:1px solid #6da000;
-	color:#fff;
-}
-
-.MatcButtonLarge{
-	padding: 8px 40px;
-	font-size: 21px;
-}
-
-.MatcButtonXXL{
-	padding: 10px 20px;
-	font-size: 30px;
+.MatcButtonGreen:HOVER {
+	background: #6da000;
+	border: 1px solid #6da000;
+	color: #fff;
 }
 
 
@@ -216,33 +226,52 @@ input:focus{
 
 .MatcSegmentButton {
 
-	.MatcSegmentButtonCntr{
+	.MatcSegmentButtonCntr {
 		display: flex;
 		flex-wrap: nowrap;
 		justify-content: flex-start;
 		align-content: stretch;
-		border-radius:3px;
-		overflow:hidden;
-		border:1px solid $button_background;
+		border-radius: $form_radius;
+
+		border: 1px solid $form_border;
 		height: $form_height;
 	}
-	
-	.MatcButton{
+
+	.MatcButton {
 		border: none;
 		height: 100%;
-		margin: 0px;		
-		border-left:0px;
-		border-radius:0px;
+		margin: 0px;
+		border-left: 0px;
+		border-radius: 0px;
 		flex-grow: 1;
 		text-align: center;
 		background: #fff;
 		color: $button_background;
+
+		&:hover {
+			color: $button_background_hover
+		}
+		&:first-child {
+			border-top-left-radius: $form_radius;
+			border-bottom-left-radius: $form_radius;
+		}
+
+		&:last-child {
+			border-top-right-radius: $form_radius;
+			border-bottom-right-radius: $form_radius;
+		}
 	}
 
 	.MatcButton.MatcDropDownButtonSelected,
-	.MatcButton.MatcButtonActive{
+	.MatcButton.MatcButtonActive {
 		background: $button_background;
-		color:#fff;
+		color: #fff;
+		height: calc(100% + 2px);
+		margin-top: -1px;
+
+		&:hover {
+			background: $button_background_hover
+		}
 	}
 
 }
@@ -257,16 +286,16 @@ input:focus{
 }
 
 
-.VommondDataBindingPassive.MatcButton{
-	cursor:auto;
+.VommondDataBindingPassive.MatcButton {
+	cursor: auto;
 	border: 1px solid #999999;
 	cursor: pointer;
 	color: #999;
 	background: none;
 }
 
-.VommondDataBindingPassive.MatcButton:HOVER{
-	cursor:auto;
+.VommondDataBindingPassive.MatcButton:HOVER {
+	cursor: auto;
 	border: 1px solid #999999;
 	cursor: pointer;
 	color: #999;
@@ -279,26 +308,26 @@ input:focus{
  * Upload
  ****************************************************/
 
- .MatcUploadButton {
+.MatcUploadButton {
 	position: relative;
- }
+}
 
-.MatcImageUploadFile{
+.MatcImageUploadFile {
 	position: absolute;
-	top:0px;
-	left:0px;
+	top: 0px;
+	left: 0px;
 	width: 100%;
 	height: 100%;
-	border:1px solid orange;
-    opacity: 0;
-    cursor: pointer;
+	border: 1px solid orange;
+	opacity: 0;
+	cursor: pointer;
 }
 
 /****************************************************
- * Vertical Button Group
+ * Action Bar
  ****************************************************/
 
-.MatcActionBar{
+.MatcActionBar {
 	font-size: 14px;
 	display: inline-flex;
 	justify-content: center;
@@ -307,6 +336,7 @@ input:focus{
 	.MatcActionBarBtn {
 		color: $text_color_passive;
 		cursor: pointer;
+
 		&:hover {
 			color: $text_color;
 			text-decoration: underline;
@@ -319,29 +349,31 @@ input:focus{
  * table
  ****************************************************/
 
- .vommondTable .action .MatcButton{
- 	margin-left: 10px;
- }
+.vommondTable .action .MatcButton {
+	margin-left: 10px;
+}
 
-.vommondTable .vommondInlineEdit{
-  margin-left:-16px;
+.vommondTable .vommondInlineEdit {
+	margin-left: -16px;
 }
 
 /****************************************************
  * DropDown Select
  ****************************************************/
- .MatcDropDownSelect.MatcDropDownSelect{
+.MatcDropDownSelect.MatcDropDownSelect {
 	display: inline-block;
 	position: relative;
-	color: $primary_color;
-	border:1px solid $primary_color;
+	color: $button_background;
+	border: 1px solid $button_background;
 }
 
-.MatcDropDownSelect.MatcDropDownSelect:hover{
+.MatcDropDownSelect.MatcDropDownSelect:hover {
+	background: $form_color;
+	border: 1px solid $button_background;
 	color: #fff;
 }
 
-.MatcDropDownSelect .MatcDropDownPopUp{
+.MatcDropDownSelect .MatcDropDownPopUp {
 	left: auto;
 	right: 0px;
 	width: 200px;
@@ -351,91 +383,95 @@ input:focus{
 	width: 100%;
 }
 
-.MatcDropDownSelectCheck {
-}
+.MatcDropDownSelectCheck {}
 
 .MatcDropDownButton.MatcDropDownSelect li:HOVER {
-    background: none;
+	background: none;
 }
 
 /****************************************************
  * DropDown
  ****************************************************/
 
-.MatcDropDownButton{
+.MatcDropDownButton {
 	display: inline-block;
 	position: relative;
 	background: #fff;
-	border:1px solid $primary_color;
+	border: 1px solid $primary_color;
+
+	.MatcDropDownLabel {
+		font-weight: 400;
+		margin: 0px;
+		cursor: pointer;
+		flex-grow: 1;
+	}
+
+	.caret {
+		right: 10px;
+		top: 45%;
+		border: none;
+		border-bottom: 1px solid;
+		border-left: 1px solid;
+		-webkit-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+		width: 5px;
+		height: 5px;
+		color: #dbdbdb;
+	}
+
+
+	&:HOVER {
+		border: 1px solid $form_border_hover;
+		background: #fff;
+
+		.caret {
+			color: $form_border_hover;
+		}
+
+	}
 }
 
-.MatcDropDownButtonLine {
-	padding-top: 4px;
-	border-bottom: 1px solid #ccc;
-	margin-bottom: 4px;
+
+.MatcDropDownButton.MatcButtonGreen {
+	border-color: #7cb342;
+	border-color: transparent;
 }
 
-.MatcDropDownButton.MatcButtonGreen{
-	border-color:#7cb342;
-	border-color:transparent;
-}
-
-.MatcDropDownButton.MatcButtonDanger{
-	border-color:transparent;
+.MatcDropDownButton.MatcButtonDanger {
+	border-color: transparent;
 	background: $color_danger;
 	border-color: $color_danger;
 }
 
-.MatcDropDownButton.MatcButtonDanger:HOVER{
-	background:  $color_danger_hover;
-	border-color:  $color_danger_hover;
-	color:#fff;
+.MatcDropDownButton.MatcButtonDanger:HOVER {
+	background: $color_danger_hover;
+	border-color: $color_danger_hover;
+	color: #fff;
 }
 
-.MatcDropDownButton.MatcButtonTrans{
-	border-color:$primary_color;
-	color: $primary_color;
+
+.MatcDropDownButtonWidth {
+	min-width: calc(100% + 2px);
 }
 
-.MatcDropDownButton .caret{ 
-	position: absolute;
-	right:10px;
-	top:45%;
-	border: none;
-    border-bottom: 1px solid;
-    border-left: 1px solid;
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    width: 5px;
-    height: 5px;
-}
-
-.MatcDropDownButtonWidth{
-	min-width:100%;
-}
-
-.MatcDropDownIcon{
+.MatcDropDownIcon {
 	vertical-align: middle;
 	margin-right: 10px;
 }
 
-.MatcDropDownLabel{
-	font-weight: 400;
-	margin: 0px;
-	cursor: pointer;
-}
 
-.MatcDropDownPopUp{
+
+.MatcDropDownPopUp {
 	display: none;
 	position: absolute;
 	top: 100%;
-	left:0px;
-	text-align:left;
+	left: -1px;
+	text-align: left;
 	z-index: 900000;
 	padding: 0px;
 	background: white;
-	box-shadow: 0px 3px 10px rgba(0,0,0,0.25);
-	border-radius:3px;
+	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
+	border-radius: 3px;
 }
 
 .MatcDropDownRight .MatcDropDownPopUp {
@@ -444,36 +480,46 @@ input:focus{
 }
 
 
-.MatcDropDownUp .MatcDropDownPopUp{
-	top:auto;
-	bottom:100%;
+.MatcDropDownUp .MatcDropDownPopUp {
+	top: auto;
+	bottom: 100%;
 }
 
-.MatcDropDownButtonOpen .MatcDropDownPopUp, .MatcDropDownButtonOpen.MatcDropDownPopUp{
+.MatcDropDownButtonOpen .MatcDropDownPopUp,
+.MatcDropDownButtonOpen.MatcDropDownPopUp {
 	display: block;
 }
 
 
-.MatcDropDownButton ul{
+.MatcDropDownButton ul {
 	padding-left: 0px;
 	min-width: 60px;
 	margin-bottom: 0px;
-	max-height:400px;
-	overflow:scroll;
+	max-height: 400px;
+	overflow: scroll;
 }
 
 
-.MatcDropDownButton li.MatcDropDownMenuItem{
+.MatcDropDownButton li.MatcDropDownMenuItem {
 	list-style: none;
 	cursor: pointer;
-	color:#333;
-	padding: 5px 10px;
+	color: #333;
+	padding: $button_padding;
 	cursor: pointer;
 	white-space: nowrap;
-	font-size: 14px;
+	font-size: $button_font_size;
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	height: $button_height;
+
+	&.MatcDropDownButtonLine {
+		padding-top: 4px;
+		border-bottom: 1px solid #ccc;
+		margin-bottom: 4px;
+		height: 1px;
+	}
+
 }
 
 .MatcDropDownButtonCntr {
@@ -483,11 +529,11 @@ input:focus{
 	height: 100%;
 }
 
-.MatcDropDownButton li:HOVER{
+.MatcDropDownButton li:HOVER {
 	background: #d6e5f8;
 }
 
-.MatcDropDownPopUp li.MatcDropDownButtonSelected{
+.MatcDropDownPopUp li.MatcDropDownButtonSelected {
 	background: $primary_color;
 	color: #fff;
 }
@@ -500,30 +546,23 @@ input:focus{
 
 .form-group {
 
-	.MatcDropDownButton{
-		display:block;
+	.MatcDropDownButton {
+		display: block;
 		width: 100%;
 		font-size: $form_font_size;
 		padding: 6px 8px;
 		border: 1px solid $form_border;
 		color: $form_color;
-		height: $form_height;
-
-		.caret{
-			color: $form_border;
-		}
+		height: $form_height;		
 	}
-	.MatcDropDownButton:HOVER{
-		border: 1px solid hsl(0deg, 0%, 71%);
-		background:none;
 
-		.caret{
+	.MatcDropDownButton:HOVER {
+		border: 1px solid $form_border_hover;
+		background: #fff;
+		.caret {
 			color: $form_border_hover;
 		}
-		
-   }
-   
-
+	}
 }
 
 .VommondInput:hover .VommondInputDropButton {
@@ -531,12 +570,12 @@ input:focus{
 	background: none;
 }
 
-.VommondInput .VommondInputDropButton .caret{
+.VommondInput .VommondInputDropButton .caret {
 	color: $form_border;
 }
 
 
-.VommondInput:hover .VommondInputDropButton .caret{
+.VommondInput:hover .VommondInputDropButton .caret {
 	color: $form_border_hover;
 }
 
@@ -546,85 +585,86 @@ input:focus{
  ****************************************************/
 
 
- .MatcFormCheckBox,  .form-group .VommondCheckBox,
- .MatcFormCheckBox .VommondCheckBox{
-	 height: 24px;
-	 width: 24px;
-	 border-radius: 3px;
- 
-	 background-color: #fff;
-	 background-image: none;
-	 border: 1px solid #ccc;
- }
- 
- .VommondRadioBox{
-	 height: 24px;
-	 width: 24px;
-	 background-color: #fff;
-	 background-image: none;
-	 border: 1px solid #ccc;
- }
- 
-  .MatcFormGroup{
-	 border: 1px solid #ccc;
-	  border-radius: 6px;
-	 font-size: $button_font_size;
-	 line-height: 1.33;
-	 padding: 10px 16px;
- }
- 
- textarea.form-control.MatcTextAreaSmall{
-	 height: 30px;
-	 overflow: hidden;
- }
- 
- textarea.MatcTextAreaMedium {
-	 height: 96px;
-	 overflow: hidden;
- }
- 
- /****************************************************
+.MatcFormCheckBox,
+.form-group .VommondCheckBox,
+.MatcFormCheckBox .VommondCheckBox {
+	height: 24px;
+	width: 24px;
+	border-radius: 3px;
+
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+}
+
+.VommondRadioBox {
+	height: 24px;
+	width: 24px;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+}
+
+.MatcFormGroup {
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	font-size: $button_font_size;
+	line-height: 1.33;
+	padding: 10px 16px;
+}
+
+textarea.form-control.MatcTextAreaSmall {
+	height: 30px;
+	overflow: hidden;
+}
+
+textarea.MatcTextAreaMedium {
+	height: 96px;
+	overflow: hidden;
+}
+
+/****************************************************
  * Slider & Co
  ****************************************************/
 
- .MatcForm .VommondSlider {
-	width:75%;
+.MatcForm .VommondSlider {
+	width: 75%;
 }
 
-.MatcForm .VommondSliderPos{
-   height: 30px;
+.MatcForm .VommondSliderPos {
+	height: 30px;
 }
 
-.MatcForm .VommondSliderContainer{
-   height: 10px;
-   background: #cecece;
+.MatcForm .VommondSliderContainer {
+	height: 10px;
+	background: #cecece;
 }
 
-.MatcForm .VommondSliderBar{
-   background: $primary_color;
+.MatcForm .VommondSliderBar {
+	background: $primary_color;
 }
 
-.MatcForm .VommondSliderHandle{
-   background: $primary_color;
-   border-radius: 2px;
-   height: 21px;
-   border-color:$primary_color;
+.MatcForm .VommondSliderHandle {
+	background: $primary_color;
+	border-radius: 2px;
+	height: 21px;
+	border-color: $primary_color;
 }
 
-.MatcForm .VommondSliderHandle:hover{
-   background: $primary_color;
-   border-color:$primary_color;
+.MatcForm .VommondSliderHandle:hover {
+	background: $primary_color;
+	border-color: $primary_color;
 }
 
-.MatcForm .vommondLegendBarItem{
-   border-right: 1px solid #cecece;
+.MatcForm .vommondLegendBarItem {
+	border-right: 1px solid #cecece;
 }
 
-.MatcForm .vommondLegendBarItemLabel{
-   color:#999;
+.MatcForm .vommondLegendBarItemLabel {
+	color: #999;
 }
 
 
-.MatcForm  .VommondRadioBoxMark{
-   background:$primary_color;
+.MatcForm .VommondRadioBoxMark {
+	background: $primary_color;
 }
