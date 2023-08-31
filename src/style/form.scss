@@ -69,6 +69,13 @@ input:focus{
 	font-size: $button_font_size;
 	text-decoration: underline;
 	border-radius: $button_radius;
+
+	align-items: center;
+    line-height: 1;
+    display: inline-flex;
+    justify-content: center;
+	line-height: 1;
+	height: $button_height;
 	
 
 	&:hover{
@@ -90,6 +97,13 @@ input:focus{
 	background-color: $button_background;
 	border: 1px solid $button_background;
 	color: $button_color;
+	
+    display: inline-flex;
+    justify-content: center;
+	align-items: center;
+	line-height: 1;
+	height: $button_height;
+	
 
 	&:HOVER{
 		background-color: $button_background_hover;
@@ -251,14 +265,6 @@ input:focus{
 	gap: 8px;
 }
 
-.MatcButtonBarRelative{
-	position: relative;
-}
-
-.MatcButtonBar a{
-	display: inline-block;
-}
-
 
 .VommondDataBindingPassive.MatcButton{
 	cursor:auto;
@@ -398,7 +404,7 @@ input:focus{
 	color: $primary_color;
 }
 
-.MatcDropDownButton .caret{
+.MatcDropDownButton .caret{ 
 	position: absolute;
 	right:10px;
 	top:45%;
@@ -422,8 +428,8 @@ input:focus{
 
 .MatcDropDownLabel{
 	font-weight: 400;
-	margin-right: 5px;
-	margin-bottom: 0px;
+	margin: 0px;
+	cursor: pointer;
 }
 
 .MatcDropDownPopUp{
@@ -463,9 +469,7 @@ input:focus{
 	overflow:scroll;
 }
 
-.MatcDropDownLabel{
-	cursor: pointer;
-}
+
 .MatcDropDownButton li.MatcDropDownMenuItem{
 	list-style: none;
 	cursor: pointer;
@@ -483,6 +487,7 @@ input:focus{
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	height: 100%;
 }
 
 .MatcDropDownButton li:HOVER{
@@ -495,95 +500,10 @@ input:focus{
 }
 
 
-
 /****************************************************
- * Slider & Co
+ * DropDown
  ****************************************************/
 
- .MatcForm .VommondSlider {
- 	width:75%;
- }
-
-.MatcForm .VommondSliderPos{
-	height: 30px;
-}
-
-.MatcForm .VommondSliderContainer{
-	height: 10px;
-	background: #cecece;
-}
-
-.MatcForm .VommondSliderBar{
-	background: $primary_color;
-}
-
-.MatcForm .VommondSliderHandle{
-	background: $primary_color;
-	border-radius: 2px;
-    height: 21px;
-    border-color:$primary_color;
-}
-
-.MatcForm .VommondSliderHandle:hover{
-	background: $primary_color;
-    border-color:$primary_color;
-}
-
-.MatcForm .vommondLegendBarItem{
-	border-right: 1px solid #cecece;
-}
-
-.MatcForm .vommondLegendBarItemLabel{
-	color:#999;
-}
-
-
-.MatcForm  .VommondRadioBoxMark{
-	background:$primary_color;
-}
-
-
-/****************************************************
- * CheckBoxes & Co
- ****************************************************/
-
-
-.MatcFormCheckBox,  .form-group .VommondCheckBox,
-.MatcFormCheckBox .VommondCheckBox{
-	height: 24px;
-	width: 24px;
-	border-radius: 3px;
-
-	background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-}
-
-.VommondRadioBox{
-	height: 24px;
-	width: 24px;
-	background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-}
-
- .MatcFormGroup{
-    border: 1px solid #ccc;
- 	border-radius: 6px;
-    font-size: $button_font_size;
-    line-height: 1.33;
-    padding: 10px 16px;
-}
-
-textarea.form-control.MatcTextAreaSmall{
-	height: 30px;
-	overflow: hidden;
-}
-
-textarea.MatcTextAreaMedium {
-	height: 96px;
-	overflow: hidden;
-}
 
 .form-group {
 
@@ -603,19 +523,115 @@ textarea.MatcTextAreaMedium {
 	.MatcDropDownButton:HOVER{
 		border: 1px solid hsl(0deg, 0%, 71%);
 		background:none;
+
+		.caret{
+			color: $form_border_hover;
+		}
+		
    }
    
-}
 
-/****************************************************
- * Combo
- ****************************************************/
+}
 
 .VommondInput:hover .VommondInputDropButton {
 	width: 30px;
-	background: $button_background_hover;
+	background: none;
 }
 
+.VommondInput .VommondInputDropButton .caret{
+	color: $form_border;
+}
+
+
 .VommondInput:hover .VommondInputDropButton .caret{
-	color: #fff;
+	color: $form_border_hover;
+}
+
+
+/****************************************************
+ * Checbox
+ ****************************************************/
+
+
+ .MatcFormCheckBox,  .form-group .VommondCheckBox,
+ .MatcFormCheckBox .VommondCheckBox{
+	 height: 24px;
+	 width: 24px;
+	 border-radius: 3px;
+ 
+	 background-color: #fff;
+	 background-image: none;
+	 border: 1px solid #ccc;
+ }
+ 
+ .VommondRadioBox{
+	 height: 24px;
+	 width: 24px;
+	 background-color: #fff;
+	 background-image: none;
+	 border: 1px solid #ccc;
+ }
+ 
+  .MatcFormGroup{
+	 border: 1px solid #ccc;
+	  border-radius: 6px;
+	 font-size: $button_font_size;
+	 line-height: 1.33;
+	 padding: 10px 16px;
+ }
+ 
+ textarea.form-control.MatcTextAreaSmall{
+	 height: 30px;
+	 overflow: hidden;
+ }
+ 
+ textarea.MatcTextAreaMedium {
+	 height: 96px;
+	 overflow: hidden;
+ }
+ 
+ /****************************************************
+ * Slider & Co
+ ****************************************************/
+
+ .MatcForm .VommondSlider {
+	width:75%;
+}
+
+.MatcForm .VommondSliderPos{
+   height: 30px;
+}
+
+.MatcForm .VommondSliderContainer{
+   height: 10px;
+   background: #cecece;
+}
+
+.MatcForm .VommondSliderBar{
+   background: $primary_color;
+}
+
+.MatcForm .VommondSliderHandle{
+   background: $primary_color;
+   border-radius: 2px;
+   height: 21px;
+   border-color:$primary_color;
+}
+
+.MatcForm .VommondSliderHandle:hover{
+   background: $primary_color;
+   border-color:$primary_color;
+}
+
+.MatcForm .vommondLegendBarItem{
+   border-right: 1px solid #cecece;
+}
+
+.MatcForm .vommondLegendBarItemLabel{
+   color:#999;
+}
+
+
+.MatcForm  .VommondRadioBoxMark{
+   background:$primary_color;
 }

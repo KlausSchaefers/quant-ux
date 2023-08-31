@@ -147,7 +147,7 @@
             "import": "Import",
             "export": "Export",
             "change-screen-size": "Change Screen Size",
-            "save-as": "Save As",
+            "save-as": "Duplicate",
             "exit": "Back to Prototypes"
         },
         "svgStop": "Stop Editing",

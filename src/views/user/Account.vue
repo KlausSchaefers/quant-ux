@@ -9,7 +9,7 @@
 
           <p class="MatcLead MatcMarginBottomXL">
             Change your personal settings here!
-          <p>
+          </p>
           <div class="row">
 
             <div class="col-md-6" v-if="isQuxAuth">

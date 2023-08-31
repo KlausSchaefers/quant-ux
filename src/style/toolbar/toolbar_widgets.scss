@@ -203,11 +203,11 @@
 
 .MatcActionSettingsAnimCntr {
 	width: 150px;
-	height: 130px;
+	height: 142px;
 	border: 1px solid $primary_color;
 	overflow: hidden;
 	position: relative;
-	border-radius: 3px;
+	border-radius: $form_radius;
 	cursor: pointer;
 }
 

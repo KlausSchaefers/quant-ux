@@ -188,6 +188,10 @@ export default new VueRouter({
     {
       path: '/test/Responsive.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/ResponsiveTest.vue')
+    },
+    {
+      path: '/test/Form.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/FormTest.vue')
     }
   ]
 })

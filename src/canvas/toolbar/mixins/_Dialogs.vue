@@ -808,7 +808,7 @@ export default {
 				 * FIXME: Show here the login screen?
 				 */
 				let cntr = db.div().build(popup);
-				db.h3("MatcDialogHeader", "Save as").build(cntr);
+				db.h3("MatcDialogHeader", "Duplicate").build(cntr);
 				db.div("MatcHint", "Register to create a copy of the prototype...").build(cntr);
 				dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 				let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
@@ -816,7 +816,7 @@ export default {
 				dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			} else {
 				let cntr = db.div().build(popup);
-				db.h3("MatcDialogHeader", "Save as").build(cntr);
+				db.h3("MatcDialogHeader", "Duplicate").build(cntr);
 				let inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", "Copy of " + this.model.name, "Name of the template").build(cntr);
 				dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 				let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);

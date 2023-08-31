@@ -1461,7 +1461,7 @@ export default {
 			settings.setWidget(this.widget);
 			settings.placeAt(cntr);
 
-			let bar = db.div("MatcButtonBar MatcButtonBarRelative MatcMarginTop").build(popup);
+			let bar = db.div("MatcButtonBar MatcMarginTop").build(popup);
 			let write = db.div("MatcButton", "Save").build(bar);
 			let cancel = db.a("MatcLinkButton", "Cancel").build(bar);
 			

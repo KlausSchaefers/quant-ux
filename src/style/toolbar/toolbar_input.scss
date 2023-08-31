@@ -34,12 +34,14 @@
 
 .MatcToolbarButton, 
 .MatcToolbar .MatcToolbarButton {
+	border: none;
 	width:100%;
 	text-align: center;
 	font-size: 14px;
 	background: $primary_color;
 	text-decoration: none;
 	color:#fff;
+	height: 34px;
 }
 
 .MatcButton.MatcToolbarCloseButton {
