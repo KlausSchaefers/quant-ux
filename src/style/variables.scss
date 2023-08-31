@@ -68,13 +68,15 @@ $dialog_form_border: $toolbar_border;
 $dialog_table_background: rgba(0,0,0, .05);
 $dialog_table_border: rgba(0,0,0, .1);
 
+$form_color: $text_color;
 $form_radius: 4px;
 $form_border: $gray_1;
 $form_border_hover: $gray_2;
 $form_border_focus: #16191b;
 $form_shadow:none;
 $form_padding: 8px 8px;
-$form_height:34px;
+$form_height:38px;
+$form_font_size:14px;
 
 
 
@@ -86,13 +88,13 @@ $button_background_hover: #16191b;
 $button_color: $white;
 $button_color_hover: $white;
 $button_font_size: 18px;
-
-$tab_color_active: $button_background_hover;
-
 $button_padding: 4px 16px;
 $button_radius: 4px;
 $button_radius-input: 2px;
 $button_radius-l: 8px;
+$button_height:32px;
+
+$tab_color_active: $button_background_hover;
 
 $spacing-xxxl:96px;
 $spacing-xxl:64px;

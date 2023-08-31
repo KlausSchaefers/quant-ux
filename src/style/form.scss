@@ -9,7 +9,8 @@ input:focus{
 	border-radius:$form_radius;
 	border-color: $form_border;
 	padding: $form_padding;
-	height: auto;
+	font-size: $form_font_size;
+	height: $form_height;
 
 	&:hover{
 		border-color: $form_border_hover;
@@ -61,13 +62,15 @@ input:focus{
  ****************************************************/
 
 .MatcLinkButton{
-	padding: 4px 16px;
+	padding: $button_padding;
 	display: inline-block;
 	cursor: pointer;
 	color:$button_background;
 	font-size: $button_font_size;
 	text-decoration: underline;
-	border-radius:3px;
+	border-radius: $button_radius;
+	
+
 	&:hover{
 		color: $button_background_hover;
 		background: rgba(0,0,0,0.05);
@@ -215,24 +218,26 @@ input:focus{
 		align-content: stretch;
 		border-radius:3px;
 		overflow:hidden;
-		border:1px solid $primary_color;
+		border:1px solid $button_background;
+		height: $form_height;
 	}
 	
 	.MatcButton{
+		border: none;
+		height: 100%;
 		margin: 0px;		
 		border-left:0px;
 		border-radius:0px;
-		padding:3px 5px;
 		flex-grow: 1;
 		text-align: center;
 		background: #fff;
-		color: $primary_color;
+		color: $button_background;
 	}
 
 	.MatcButton.MatcDropDownButtonSelected,
 	.MatcButton.MatcButtonActive{
-		background: $primary_color;
-		color:#FFF;
+		background: $button_background;
+		color:#fff;
 	}
 
 }
@@ -251,7 +256,6 @@ input:focus{
 }
 
 .MatcButtonBar a{
-	padding-top: 3px;
 	display: inline-block;
 }
 
@@ -581,26 +585,27 @@ textarea.MatcTextAreaMedium {
 	overflow: hidden;
 }
 
-.form-group .MatcDropDownButton{
-	display:block;
-	width: 100%;
-	font-size: 14px;
-    height: 34px;
-    line-height: 1.42857;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    color:#555;
-}
+.form-group {
 
-.form-group .MatcDropDownButton .caret{
-	color: #ccc;
-}
+	.MatcDropDownButton{
+		display:block;
+		width: 100%;
+		font-size: $form_font_size;
+		padding: 6px 8px;
+		border: 1px solid $form_border;
+		color: $form_color;
+		height: $form_height;
 
-.form-group .MatcDropDownButton:HOVER{
- 	border: 1px solid hsl(0deg, 0%, 71%);
- 	background:none;
+		.caret{
+			color: $form_border;
+		}
+	}
+	.MatcDropDownButton:HOVER{
+		border: 1px solid hsl(0deg, 0%, 71%);
+		background:none;
+   }
+   
 }
-
 
 /****************************************************
  * Combo
@@ -608,7 +613,7 @@ textarea.MatcTextAreaMedium {
 
 .VommondInput:hover .VommondInputDropButton {
 	width: 30px;
-	background: $primary_color;
+	background: $button_background_hover;
 }
 
 .VommondInput:hover .VommondInputDropButton .caret{

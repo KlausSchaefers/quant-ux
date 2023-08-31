@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <label>Auth Token</label>
                     <div class="MatcToolbarRestAuth">
-                        <DropDownButton :options="authMethods" v-model="rest.authType" style="width:40px"/>
+                        <DropDownButton :options="authMethods" v-model="rest.authType"/>
                         <input v-model="rest.token" class="form-control" @change="onChange" placeholder="Enter auth token if needed"/>
                     </div>
                 </div>
@@ -371,7 +371,6 @@ export default {
                 this.rest.headers = []
             }
             this.rest.headers.splice(i, 1);
-            console.debug(this.rest.headers)
         },
         onDataBingingFileChange (key, file) {
             this.$set(this.databingValues, key, file)

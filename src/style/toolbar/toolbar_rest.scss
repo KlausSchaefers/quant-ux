@@ -108,14 +108,12 @@
 .MatcToolbarRestSettingsHeader .MatcDropDownButton{
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
-    background: $primary_color;
+    border-color: $button_background;
+    background: $button_background;
     color:#fff;
     height: 36px;
-}
-
-.MatcToolbarRestSettingsHeader .MatcDropDownButtonWidth{
-    margin: 0px;
     min-width: 110px;
+    margin: 0px;
 }
 
 
@@ -132,16 +130,17 @@
     border-left: 0px;
 }
 
-.MatcToolbarRestAuth .MatcButton{
-    margin-left: 5px;
+.MatcToolbarRestAuth .MatcButton.MatcDropDownButton{
+    width: 110px;
     padding-top: 4px;
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
+    height: 100%;
+    font-size: $form_font_size;
 }
 
 .MatcToolbarRestAuth .MatcDropDownButtonWidth{
     margin: 0px;
-    min-width: 110px;
 }
 
 .MatcToolbarRestOutputHeader {
