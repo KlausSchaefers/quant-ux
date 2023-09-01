@@ -87,7 +87,7 @@
                         </div>
 
                         <div class=" MatcButtonBar MatcMarginTop">
-                            <a class="MatcButton"
+                            <a class="MatcButton MatcButtonPrimary"
                                 @click.stop="onContinueFigma">{{ getNLS('dialog.import.open-ai-generate')}}
                             </a>
                         </div>
@@ -111,8 +111,8 @@
         </div>
 
         <div class=" MatcButtonBar MatcMarginTop">
-            <a class=" MatcButton" v-if="hasContinue" @click.stop="onContinueFigma">{{ getNLS('btn.continue')}}</a>
-            <a class=" MatcButton" v-if="!isPublic && !hasContinue" @click.stop="onSave">{{ getNLS('btn.import')}}</a>
+            <a class=" MatcButton MatcButtonPrimary" v-if="hasContinue" @click.stop="onContinueFigma">{{ getNLS('btn.continue')}}</a>
+            <a class=" MatcButton MatcButtonPrimary" v-if="!isPublic && !hasContinue" @click.stop="onSave">{{ getNLS('btn.import')}}</a>
             <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel')}}</a>
         </div>
 

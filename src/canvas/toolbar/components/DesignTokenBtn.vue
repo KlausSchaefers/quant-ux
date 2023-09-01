@@ -133,7 +133,7 @@ export default {
         let inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", this.box.name , "Name of the design token").build(cntr);
 
         let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-        let write = db.div("MatcButton", "Create").build(bar);
+        let write = db.div("MatcButton MatcButtonPrimary", "Create").build(bar);
         let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
         dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
         dialog.own(on(inputName, 'keyup', e => {

@@ -97,8 +97,8 @@ export default {
 				}
 
 
-				var write = db.div("MatcButtonBar")
-					.div("MatcButton MatcMarginTop", "Close")
+				var write = db.div("MatcButtonBar MatcMarginTop")
+					.div("MatcButton MatcButtonPrimary ", "Close")
 					.build(popup);
 
 				var d = new Dialog();

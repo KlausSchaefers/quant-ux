@@ -87,7 +87,7 @@ export default {
 
 				var bar = db.div("MatcButtonBar MatcMarginTop").build(popup);
 
-				var write = db.div("MatcButton", "Ok").build(bar);
+				var write = db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 				var cancel = db.a("MatcLinkButton", "Cancel").build(bar);
 
 				var d = new Dialog({overflow:true});

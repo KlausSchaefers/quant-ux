@@ -109,7 +109,7 @@
             </div>
 
             <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'openai'">
-                <a class=" MatcButton" @click.stop="onCreatePreview"> {{getNLS('design-gpt.preview') }}</a>        
+                <a class=" MatcButton MatcButtonPrimary" @click.stop="onCreatePreview"> {{getNLS('design-gpt.preview') }}</a>        
                 <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
             </div>
 
@@ -118,12 +118,12 @@
             </div>
 
             <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'preview'">
-                <a class=" MatcButton" v-show="preview" @click.stop="onSave">{{ getNLS('btn.import') }} </a>       
+                <a class=" MatcButton MatcButtonPrimary" v-show="preview" @click.stop="onSave">{{ getNLS('btn.import') }} </a>       
                 <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
             </div>
 
             <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'settings'">
-                <a class=" MatcButton" @click.stop="saveSettings"> {{getNLS('btn.save') }}</a>
+                <a class=" MatcButton MatcButtonPrimary" @click.stop="saveSettings"> {{getNLS('btn.save') }}</a>
                 <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
             </div>
 

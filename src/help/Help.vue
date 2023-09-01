@@ -42,7 +42,7 @@ x
                     </div>
 
                     <div class="MatcButtonBar">
-                        <div class="MatcButton" @click="sendContact">Send</div>
+                        <div class="MatcButton MatcButtonPrimary" @click="sendContact">Send</div>
                         <span class="MatcError">
                             {{contactError}}
                         </span>

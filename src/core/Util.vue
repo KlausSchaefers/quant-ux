@@ -725,7 +725,7 @@ export default {
           /**
            * Create a save button that will only show if people start editing...
            */
-          var saveBtn = db.a("MatcButton ", "Update").build(bar);
+          var saveBtn = db.a("MatcButton MatcButtonPrimary", "Update").build(bar);
           this.tempOwn(on(saveBtn,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
 
           let close = db.a("MatcLinkButton", "Close").build(bar);
@@ -751,7 +751,7 @@ export default {
             }
           ]);
         } else {
-          let create = db.a("MatcButton", "Create").build(bar);
+          let create = db.a("MatcButton MatcButtonPrimary", "Create").build(bar);
           this.tempOwn(on(create,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
           let close = db.a("MatcLinkButton", "Close").build(bar);
           this.tempOwn(on(close,"mousedown",lang.hitch(this, "onCloseCommentPopup", comment)));

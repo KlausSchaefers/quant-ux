@@ -6,6 +6,7 @@
   @import "../style/simulator.scss";
   @import "../style/widgets/all.scss";
   @import "../style/canvas/all.scss";
+  @import "../style/components/preview.scss";
 </style>
 <script>
 import DojoWidget from "dojo/DojoWidget";

@@ -49,7 +49,7 @@ export default {
 			customFonts.setModel(this.model)
 			const row = db.div("row MatcMarginTop").build(popup);
 			const right = db.div("col-md-12 MatcButtonBar").build(row);
-			const save = db.div("MatcButton", "Save").build(right);
+			const save = db.div("MatcButton MatcButtonPrimary", "Save").build(right);
 			const close = db.div("MatcLinkButton", "Close").build(right);
 			const d = new Dialog();
 			d.own(on(close, touch.press, lang.hitch(d, "close")));
@@ -151,7 +151,7 @@ export default {
 			row = db.div("row MatcMarginTop").build(cntr);
 			right = db.div("col-md-12 MatcButtonBar").build(row);
 
-			const write = db.div("MatcButton", "Close").build(right);
+			const write = db.div("MatcButton MatcButtonPrimary", "Close").build(right);
 
 			const d = new Dialog();
 			d.own(on(write, touch.press, lang.hitch(d, "close")));
@@ -186,7 +186,7 @@ export default {
 
 			const bar = db.div(" MatcMarginTop row").build(div);
 			const left = db.div("col-md-6 MatcButtonBar").build(bar);
-			const change = db.a("MatcButton", "Change").build(left);
+			const change = db.a("MatcButton MatcButtonPrimary", "Change").build(left);
 			const cancel = db.a("MatcLinkButton", "Close").build(left);
 
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
@@ -210,7 +210,7 @@ export default {
 			const dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			const bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			const fix = db.div("MatcButton", "Keep local version").build(bar);
+			const fix = db.div("MatcButton MatcButtonPrimary", "Keep local version").build(bar);
 			const stay = db.a("MatcButton ", "Keep online version").build(bar);
 			dialog.own(on(fix, touch.press, () => {
 				dialog.close()
@@ -282,7 +282,7 @@ export default {
 			scroller.wrap(row);
 
 			const bar = db.div("MatcButtonBar MatcMarginTop").build(div);
-			const cancel = db.a("MatcButton", "Close").build(bar);
+			const cancel = db.a("MatcButton MatcButtonPrimary", "Close").build(bar);
 
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.popup(div, e.target);
@@ -313,7 +313,7 @@ export default {
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(div);
 
-			var save = db.a("MatcButton ", "Sign Up For Free").build(bar);
+			var save = db.a("MatcButton MatcButtonPrimary", "Sign Up For Free").build(bar);
 			var cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
 
 			d.own(on(d, "close", lang.hitch(this, "closeDialog")));
@@ -538,7 +538,7 @@ export default {
 			}
 
 			var bar = db.div("MatcButtonBar MatcMarginTop").build(div);
-			var cancel = db.a("MatcButton", "Close").build(bar);
+			var cancel = db.a("MatcButton MatcButtonPrimary", "Close").build(bar);
 			var d = new Dialog();
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.popup(div, e.target);
@@ -629,7 +629,7 @@ export default {
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 
-			var save = db.a("MatcButton ", "Save").build(bar);
+			var save = db.a("MatcButton MatcButtonPrimary", "Save").build(bar);
 			var cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
 
 			var dialog = new Dialog();
@@ -720,7 +720,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			var cancel = db.a("MatcButton ", "Close").build(bar);
+			var cancel = db.a("MatcButton MatcButtonPrimary", "Close").build(bar);
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 
 
@@ -754,7 +754,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			var write = db.div("MatcButton", "Create").build(bar);
+			var write = db.div("MatcButton MatcButtonPrimary", "Create").build(bar);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
@@ -820,7 +820,7 @@ export default {
 				let inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", "Copy of " + this.model.name, "Name of the template").build(cntr);
 				dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 				let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-				let write = db.div("MatcButton", "Save As").build(bar);
+				let write = db.div("MatcButton MatcButtonPrimary", "Save As").build(bar);
 				let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 				dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 				dialog.own(on(write, touch.press, lang.hitch(this, "_saveAs", inputName, dialog)));
@@ -1087,7 +1087,7 @@ export default {
 			//var right = db.div("col-md-9 MatcHint MatcPaddingTop", "* Only copied widgets and groups have the &quot;Transfrom&quot; animation").build(row);
 
 
-			var write = db.div("MatcButton", "Save").build(left);
+			var write = db.div("MatcButton MatcButtonPrimary", "Save").build(left);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(left);
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			d.own(on(write, touch.press, lang.hitch(this, "_setScreenAnimation", composer, d, screen, type)));

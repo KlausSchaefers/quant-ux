@@ -31,8 +31,8 @@
         </div>
 
         <div class=" MatcButtonBar MatcMarginTop">
-            <a class=" MatcButton" v-if="tab === 'github'" @click.stop="onExport">{{ getNLS('btn.export')}}</a>
-            <a class=" MatcButton" @click.stop="onCancel">{{ getNLS('btn.close')}}</a>
+            <a class=" MatcButton MatcButtonPrimary" v-if="tab === 'github'" @click.stop="onExport">{{ getNLS('btn.export')}}</a>
+            <a class=" MatcButton MatcButtonPrimary" @click.stop="onCancel">{{ getNLS('btn.close')}}</a>
         </div>
 
 

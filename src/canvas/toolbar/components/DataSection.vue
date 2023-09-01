@@ -1379,7 +1379,7 @@ export default {
 			const cntr = this.db.div("").build(popup);
 			const settings = this.$new(ScriptEdior);
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			const write = this.db.div("MatcButton", "Ok").build(bar);
+			const write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 			const d = this.canvas.createDialog();
@@ -1431,7 +1431,7 @@ export default {
 			editor.placeAt(cntr)
 
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			const write = this.db.div("MatcButton", "Ok").build(bar);
+			const write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 			const d = new Dialog();
@@ -1462,7 +1462,7 @@ export default {
 			settings.placeAt(cntr);
 
 			let bar = db.div("MatcButtonBar MatcMarginTop").build(popup);
-			let write = db.div("MatcButton", "Save").build(bar);
+			let write = db.div("MatcButton MatcButtonPrimary", "Save").build(bar);
 			let cancel = db.a("MatcLinkButton", "Cancel").build(bar);
 			
 			let d = new Dialog({overflow:true});
@@ -1494,7 +1494,7 @@ export default {
 			settings.setModel(this.model);
 			settings.placeAt(cntr);
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			const write = this.db.div("MatcButton", "Ok").build(bar);
+			const write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 			const d = this.canvas.createDialog();
 			d.own(on(write, touch.press, lang.hitch(this,"setRest", d, settings)));
@@ -1631,7 +1631,7 @@ export default {
 			dataBinding.placeAt(cntr)
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var write = this.db.div("MatcButton", "Ok").build(bar);
+			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 
@@ -1671,7 +1671,7 @@ export default {
 			table.setWidget(this.widget);
 			table.placeAt(cntr);
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var write = this.db.div("MatcButton", "Ok").build(bar);
+			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 			var d = this.canvas.createDialog();
@@ -1718,7 +1718,7 @@ export default {
 			const table = this.$new(Table, {columns: maxColumns});
 			table.placeAt(cntr);
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			const write = this.db.div("MatcButton", "Ok").build(bar);
+			const write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 			const d = this.canvas.createDialog();
@@ -1769,7 +1769,7 @@ export default {
 			scroller.wrap(list.domNode);
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var write = this.db.div("MatcButton", "Ok").build(bar);
+			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 			var d = new Dialog({overflow:true});
@@ -1880,7 +1880,7 @@ export default {
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
 
-			var write = this.db.div("MatcButton", "Ok").build(bar);
+			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 	
@@ -1969,7 +1969,7 @@ export default {
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
 
-			var write = this.db.div("MatcButton", "Ok").build(bar);
+			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 			var d = new Dialog();

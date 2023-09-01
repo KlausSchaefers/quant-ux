@@ -389,8 +389,9 @@ export default {
 			validation.placeAt(cntr);
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
-			var write = this.db.div("MatcButton", "Ok").build(bar);
+	
 
 			var d = new Dialog({overflow:true});
 
@@ -514,7 +515,7 @@ export default {
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
 	
-			var write = this.db.div("MatcButton", "Ok").build(bar);
+			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
 			var d = new Dialog({overflow:true});
@@ -662,7 +663,7 @@ export default {
 			validation.placeAt(cntr);
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+			var cancel = this.db.a("MatcLinkButton MatcButtonPrimary", "Cancel").build(bar);
 			var write = this.db.div("MatcButton", "Ok").build(bar);
 
 			var d = new Dialog({overflow:true});

@@ -22,7 +22,7 @@
 						<div class="MatcErrorLabel" v-html="error"></div>
 
 						<div class="MatcButtonBar">
-							<a class="MatcButton" @click="reset">Reset</a>
+							<a class="MatcButton MatcButtonPrimary" @click="reset">Reset</a>
 							<a class href="#/">Cancel</a>
 						</div>
 					</div> <!-- End page 1 -->
@@ -55,7 +55,7 @@
 						</div>
 
 						<div class="MatcButtonBar">
-							<a class="MatcButton" @click="send">Send</a>
+							<a class="MatcButton MatcButtonPrimary" @click="send">Send</a>
 							<a class href="#/">Cancel</a>
 						</div>
 					</div> <!-- End page 3 -->

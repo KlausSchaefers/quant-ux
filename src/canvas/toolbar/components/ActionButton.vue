@@ -529,7 +529,7 @@ export default {
 			settings.placeAt(cntr);
 
 			let bar = db.div("MatcButtonBar MatcMarginTop").build(popup);
-			let write = db.div("MatcButton", "Save").build(bar);
+			let write = db.div("MatcButton MatcButtonPrimary", "Save").build(bar);
 			let cancel = db.a("MatcLinkButton", "Cancel").build(bar);
 		
 
@@ -639,7 +639,7 @@ export default {
 
 
 			var bar = db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var write = db.div("MatcButton", "Save").build(bar);
+			var write = db.div("MatcButton MatcButtonPrimary", "Save").build(bar);
 			var cancel = db.a("MatcLinkButton", "Cancel").build(bar);
 
 			var d = new Dialog({ overflow: true });
@@ -866,7 +866,7 @@ export default {
 				rule.placeAt(cntr);
 
 				var bar = db.div("MatcButtonBar MatcMarginTop").build(popup);
-				var write = db.div("MatcButton", "Save").build(bar);
+				var write = db.div("MatcButton MatcButtonPrimary", "Save").build(bar);
 				var cancel = db.a("MatcLinkButton", "Cancel").build(bar);
 
 				var d = new Dialog({ overflow: true });

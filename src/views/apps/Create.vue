@@ -21,7 +21,7 @@
         </div>
 
         <div class="MatcButtonBar">
-          <a class="MatcButton" @click="create">Create</a>
+          <a class="MatcButton MatcButtonPrimary" @click="create">Create</a>
           <a href="#/apps/my-apps.html" class="MatcLinkButton">Cancel</a>
         </div>
 

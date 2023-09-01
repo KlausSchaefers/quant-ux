@@ -597,7 +597,7 @@ export default {
 
 			var dialog = this.createDialog();
 			var bar = db.div("container").div("row").div("col-md-12").div("MatcButtonBar MatcMarginTop").build(popup);
-			var write = db.div("MatcButton", "Save").build(bar);
+			var write = db.div("MatcButton MatcButtonPrimary", "Save").build(bar);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 
 			dialog.own(on(cancel, touch.press, lang.hitch(this, "closeDialog")));

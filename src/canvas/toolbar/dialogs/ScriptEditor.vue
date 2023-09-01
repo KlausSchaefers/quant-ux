@@ -31,7 +31,7 @@
                    Help is coming soon
                 </div>
                 <div class="MatcButtonBar"> 
-                    <div class="MatcButton" @click="run"> {{getNLS('script.run')}} </div> 
+                    <div class="MatcButton MatcButtonPrimary" @click="run"> {{getNLS('script.run')}} </div> 
                     <span class="MatcError">{{errorMsg}}</span>
                 </div>
         

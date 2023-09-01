@@ -24,7 +24,7 @@
                                 </div>
                                 <span class="MatcErrorLabel" v-show="errorMessage">{{errorMessage}}</span>
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton" @click="login">Login</a>
+                                    <a class="MatcButton MatcButtonPrimary" @click="login">Login</a>
                                     <a class="MatcLinkButton" @click="requestPasswordReset" v-if="hasLoginError">Reset Password</a>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                                 </div>
                                 <span class="MatcErrorLabel">{{errorMessage}}</span>
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton" @click="signup">SignUp</a> 
+                                    <a class="MatcButton MatcButtonPrimary" @click="signup">SignUp</a> 
                                 </div>
                             </div>
                         </div> <!-- new -->
@@ -70,7 +70,7 @@
                                 </div>
                                 <span class="MatcErrorLabel" >{{errorMessage}}</span>
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton" @click="resetPassword">Set new password</a>                                
+                                    <a class="MatcButton MatcButtonPrimary" @click="resetPassword">Set new password</a>                                
                                 </div>
                             </div> 
                         </div><!-- reset-->

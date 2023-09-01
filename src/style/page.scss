@@ -2,27 +2,27 @@
 
 
 body,
-body.MatcBody{
+body.MatcBody {
 	font-family: 'Inter', 'Helvetica Neue', -apple-system, 'BlinkMacSystemFont', "Segoe UI", 'Helvetica', sans-serif;
 }
 
 
 
-.Matc, .MatcContainer{
-	width:100%;
-	height:100%;
+.Matc,
+.MatcContainer {
+	width: 100%;
+	height: 100%;
 }
 
 .container,
 .container,
-.container-fluid
-{
-	width:100%;
-	max-width:1400px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 100px;
-    padding-right: 100px;
+.container-fluid {
+	width: 100%;
+	max-width: 1400px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 100px;
+	padding-right: 100px;
 }
 
 
@@ -30,1027 +30,223 @@ body.MatcBody{
 .VommondDialogContent .container,
 .VommondDialogContent .container-fluid,
 .MatcToolbarPopUp .container,
-.MatcToolbarPopUp .container-fluid
-{
-	width:100%;
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/****************************************************
- * Footer
- ****************************************************/
-
-.MatcFooter{
-	min-height: 100px;
-	background: #031a29;
-	color:#fff;
-	padding-top: 30px;
-	padding-bottom: 60px;
-}
-
-.MatcFooter ul{
-	padding: 0px;
-}
-
-.MatcFooter li{
-	list-style: none;
-	padding-bottom: 0 10px;
-}
-
-.MatcFooter a{
-	color: #ccc;
-	font-size: 14px;
-	display: block;
-	margin-bottom: 10px;
-}
-
-.MatcFooter a:HOVER{
-	color: #fff;
-	text-decoration: none;
-}
-
-.MatcFooter .MatcMobileFooter a{
-	display: inline-block;
-	padding: 10px;
-}
-
-.MatcFooterSocialCntr{
-	width: 200px;
-	margin-top:100px;
-	margin-bottom:50px;
-	display: inline-block;
-}
-
- /****************************************************
- * Share
- ****************************************************/
-
-.MatcInfitationDialog{
-	width:900px;
-}
-
-
-.MatcShareDialog {
-	position: relative;
-}
-
-.MatcShareDialog .MatcLanguagePicker{
-	position: absolute;
-	right: 6px;
-    top: -48px;
-}
-
- /****************************************************
- * Cookie
- ****************************************************/
-
-.MatcCookieWarning{
-	position: fixed;
-	height: 50px;
-	width:100%;
-	bottom: 0px;
-	left:0px;
-	background: rgba(0,0,0,0.5);
-	color:#fff;
-	padding: 10px;
-	text-align: center;
-	font-size: 14px;
-	color:#fefefe;
-	z-index:999999;
-}
-
-.MatcCookieWarning a{
-	color:#fefefe;
-	text-decoration: underline;
-}
-
-.MatcCookieWarning a.MatcCookieWarningAccept{
-	color:#fff;
-
-	font-weight: 800;
-	margin-left: 20px;
-}
-
-.MatcCookieWarning .MatcCookieWarningClose{
-	position: absolute;
-	top:10px;
-	right:30px;
-	cursor: pointer;
-	font-size: 24px;
-}
-
-.MatcCookieWarning .MatcCookieWarningClose:HOVER{
-
-}
-
- /****************************************************
- * About & Features
- ****************************************************/
-
-.MatcAbout{
-
-}
-
-
-
-
-@media (min-width: 991px){
-
-
-
-}
-
-@media (max-width: 991px){
-
-
-
-}
-
-
-
-
-
-.MatcHeaderActionContainer .MatcButton{
-	box-shadow:none;
-}
-
-
-
-.MatcAbout .MatcLeadBox,
-.MatcFeatures .MatcLeadBox{
-	text-align:left;
-	max-width: 500px;
-	display: inline-block;
-}
-
-
-.MatcAbout .MatcSection,
-.MatcFeatures .MatcSection{
-	padding-top: 80px;
-	padding-bottom: 90px;
-	min-height:600px;
-	overflow: hidden;
-	position: relative;
-}
-
-
-
-.MatcHeaderBackgroundContainer{
-	display: inline-block;
+.MatcToolbarPopUp .container-fluid {
 	width: 100%;
-	height: 400px;
-	position:relative;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: auto;
+	margin-right: auto;
 }
-
-.MactHeaderBackground{
-	perspective: 900px;
-	position:relative;
-	width: 100%;
-	height: 400px;
-	display: inline-block;
-	opacity:0.1;
-}
-
-
-
-.MatcHeaderActionContainer .MatcButton {
-    border-color: $primary_color;
-    box-shadow: none;
-    background:none;
-    color: #fff;
-    font-size: 30px;
-    color:$primary_color;
-}
-
-.MatcHeaderActionContainer .MatcButton:HOVER {
-    background: rgba(255,255,255,0.2);
-    border-color: #fff;
-}
-
-.MatcAbout .MatcSection:nth-child(odd) h2,
-.MatcAbout .MatcSection:nth-child(odd) h1{
-	color:$primary_color;
-}
-
-
-.MatcAbout .MatcSection:nth-child(even){
-	background: #e2e3e5;
-}
-
-
-.MatcAbout .MatcSection.MatcAboutFirstSection{
-	background: #839ea9;
-}
-
-.MatcAbout .MatcSection.MatcAboutFirstSection .MatcLeadBox{
-	color:#fff;
-}
-
-
-
-
-
-
-/**
- * Mobile page
- */
- .MatcAboutMobileHeader{
- 	height: 250px;
- }
-
-
-.MatcAboutMobileHeader .MactHeaderBackground{
-	height: 200px;
-	perspective: 500px;
-}
-
-
-
-
-
-
- /****************************************************
- * Features Header
- ****************************************************/
-
-.MatcFeatureHeader{
-	padding-top: 200px;
-	min-height: 800px;
-	padding-bottom: 200px;
-	background: $primary_color;
-}
-
-.MatcFeatureHeader .MatcLead{
-	color: #f2f2f2;
-}
-
-.MatcFeatureHeader .MatcLead h2{
-	font-size: 22px;
-    font-weight: 400;
-	color: #fff;
-	line-height: 2;
-	 height: auto;
-}
-
-
-
-
-
-/****************************************************
- * About Images
- ****************************************************/
-
-
-
-
- .MatcImageWrapperMobile{
- 	padding: 20px;
- 	padding-bottom: 30px;
-	border-radius:10px;
-	background: #000;
-
-}
-
-.MatcImageWrapperRounded{
-		 border-top-left-radius:2px;
-	 	border-top-right-radius:2px;
-	 	border-bottom-left-radius:2px;
-	 	border-bottom-right-radius:2px;
-	 	overflow:hidden;
-}
-
-.MatcImageWrapper300{
-	width:300px;
-}
-
- .MatcImageWrapperShadow{
-	box-shadow:0px 0px 20px rgba(0,0,0,0.3);
-}
-
-
- @media (max-width: 500px){
-
-  	.container,
-	.container-fluid {
-	    padding-left: 25px;
-    	padding-right: 25px;
-	}
-
- }
-
-
-
-@media (max-width: 991px) and (max-width:1199px) {
-
-
-
-	.MatcAboutProcess{
-		width:300px;
-		heigth:300px;
-	}
-
-	.MatcImageWrapper{
-		max-width: 750px;
-		margin-left: auto;
-	    margin-right: auto;
-	    padding-left: 15px;
-	    padding-right: 15px;
-	}
-
-	 .MatcImageWrapperShadow{
-	  	box-shadow:none;
-	 }
-
-	.MatcImageWrapperShadow .MatcAboutImage{
-		box-shadow:0px 0px 20px rgba(0,0,0,0.3);
-	}
-
-	 .MatcAbout .MatcSection,
-	.MatcFeatures .MatcSection{
-		padding-top: 20px;
-		padding-bottom: 30px;
-		min-height:400px;
-		overflow: hidden;
-		position: relative;
-	}
-
-	.MatcSection .container,
-	.MatcSection .container-fluid  {
-	    padding-bottom: 30px;
-	    padding-top: 20px;
-	}
-
-	.MatcFeatureHeader {
-		padding-top: 40px;
-		padding-bottom: 30px;
-	}
-}
-
-@media (min-width: 992px) and (max-width:1199px) {
-
-	 .MatcImageRight{
-	 	position: absolute;
-	 	right:-350px;
-	 	top:30px;
-
-	 }
-
-	  .MatcImageRightLanging{
-	 	position: absolute;
-	 	right:-250px;
-	 	top:100px;
-	 }
-
-
-	 .MatcImageLeft{
-	 	position: absolute;
-	 	left:-350px;
-	 	top:30px;
-
-	 }
-
-	 .MatcImageTop{
-	 	position: absolute;
-	 	top:30px;
-
-	 }
-
-
-	 .MatcAboutImage{
-		width: 800px;
-	 }
-
-
-
-
-
- 	.MatcImageWrapper300 .MatcAboutImage{
- 		width: 300px;
- 	}
-}
-
-
-@media (min-width:1200px) {
-
-	 .MatcImageRight{
-	 	position: absolute;
-	 	right:-250px;
-	 	top:30px;
-
-	 }
-
-	 .MatcImageRightLanging{
-	 	position: absolute;
-	 	right:-100px;
-	 	top:100px;
-	 }
-
-
-	 .MatcImageLeft{
-	 	position: absolute;
-	 	left:-250px;
-	 	top:30px;
-
-	 }
-
-	 .MatcImageTop{
-	 	position: absolute;
-	 	top:30px;
-
-	 }
-
-
-	 .MatcAboutImage{
-		width: 800px;
-	 }
-
-
-
-
-	 .MatcImageWrapper300 .MatcAboutImage{
- 		width: 300px;
- 	 }
-
-}
-
-
-
- .MatcAboutImage img{
- 	width: 100%;
- }
-
-
-
- .MatcAboutImageIntro{
-
- }
-
-
 
 
 /****************************************************
  * Preview
  ****************************************************/
 
-.MatcPreview{
-	overflow: hidden;
-}
-
-.MatcPreviewScreenAnimation{
- 	transition-duration: 0.03s;
-    transition-property: top;
-}
-
-
-.MatcPreviewPassiveOverlay{
-	background: none repeat scroll 0 0 #fff;
-    height: 100%;
-    opacity: 0.9;
-    position: absolute;
-    width: 100%;
-    z-index: 10005;
-}
-
-.MatcWidgetPreviewPassive{
-	opacity : 0.1;
-}
-
-.MatcWidgetPreviewActive{
-
-}
-
-.MatcPreviewMouseCntr{
-	position: absolute;
-	transition-duration: 0.200s;
-    transition-property: all;
-    z-index: 10011;
-}
-
-.MatcPreviewMouse{
-	position: absolute;
-	width: 30px;
-	height:30px;
-	top:-15px;
-	left:-15px;
-	background: rgba(0,0,0,0.25);
-	border:1px solid #333;
-	border-radius:50%;
-
-}
-
-.MatcPreviewMarker{
-	width: 1px;
- 	height: 1px;
- 	position: absolute;
- 	z-index: 100000;
-}
-
-.MatcPreviewMarkerCircle{
- 	width: 11px;
- 	height: 11px;
- 	border:3px solid red;
- 	position: absolute;
- 	border-radius:10px;
- 	top:-5px;
- 	left:-5px;
- 	transition-duration: 0.5s;
- }
-
- .MatcPreviewMarkerHidden .MatcPreviewMarkerCircle{
- 	width: 31px;
- 	height: 31px;
- 	opacity:0;
- 	top:-15px;
- 	left:-15px;
- 	border-radius:15px;
- }
-
-
-
-/****************************************************
- * Content Widget
- ****************************************************/
-
- .MatcContentListImage{
- 	height: 200px;
- 	background: #031a29;
- 	display: block;
- 	background-position: 50% 50%;
- 	background-size: 100% ;
- 	background-repeat: no-repeat;
- }
-
-.MatcContentListImage:HOVER{
-	text-decoration: none;
-}
-
-.MatcContentSectionWidthHiddenImage{
-	padding-top: 80px;
-	padding-bottom: 90px;
-	min-height:600px;
-	overflow: hidden;
-	position: relative;
-}
-
-
- .MatcContentListTitle{
- 	font-weight: 700;
- 	padding:20px;
- 	padding-top: 10px;
- 	padding-bottom: 0px;
- }
-
-.MatcContentListTitle:HOVER{
-	opacity:1;
-
-}
-
-.MatcContentListAbs{
-	height: 100px;
-	overflow: hidden;
-	padding-top: 10px;
-}
-
-.MatcContentWidget{
-
-}
-
-
-.MatcContentWidgetActionCntr{
-	position: fixed;
-	bottom:100px;
-	right:100px;
-}
-
-.MatcContentWidgetInlineEdit{
-
-}
-
-.MatcContentWidgetInlineEdit:HOVER{
-	outline:1px dashed orange;
-	cursor: pointer;
-}
-
-
-textarea.MatcContentWidgetAbs{
-	height: 200px;
-}
-
-.MatcCMSContent .container{
-
-}
-
-.MatcCMSContent .row{
-
-}
-
-.MatcCMSContentSectionTxt{
-	text-align: justify;
-}
-
-
-.MatcCMSContentSectionFloatingTextRight{
-	margin-bottom:50px;
-	margin-left:50px;
-	float: right;
-	width:400px;
-}
-
-
-
-.MatcCMSContentSectionFloatingTextLeft{
-	margin-bottom:50px;
-	margin-right:50px;
-	float: left;
-	width:400px;
-}
-
-.MatcCMSContentSectionTxt textarea{
-	width: 100%;
-	background: none;
-	border:1px dashed #ccc;
-	min-height:100px;
-
-}
-
-.MatcCMSContentSectionTxt textarea:HOVER,
-.MatcCMSContentSectionTxt textarea:FOCUS{
-	border:1px dashed #0099cc;
-	resize: vertical;
-}
-
-.MatcCMSContentSectionImage img{
-	width: 100%;
-	cursor: pointer;
-}
-
-
-.MatcCMSContentSectionTxt .mdi::after, .MatcCMSContentSectionTxt .mdi::before {
-    box-sizing: border-box;
-    margin-left: 0px;
-}
-
-.MatcCMSContentSectionImageLeft{
-	float: left;
-    margin-bottom: 30px;
-    margin-right: 60px;
-    width: 50%;
-}
-
-.MatcCMSContentSectionImageRight{
-	float: right;
-    margin-bottom: 30px;
-    margin-left: 60px;
-    width: 50%;
-}
-
-.MatcContentImageUploadContainer{
-	height: 500px;
-	overflow: auto;
-}
-
-.MatcImageUploadPreviewXXL.MatcImageUploadPreview {
-	height: 100px;
-	width:150px;
-}
-
-.MatcContentImageUploadContainerItem{
-	display: inline-block;
-	margin: 10px;
-	vertical-align: top;
-	cursor: pointer;
-}
-
-.MatcContentImageUploadContainerItem span{
-	display: block;
-	font-size: 12px;
-	text-align: center;
-}
-
-
-.MactBlog .MatcSection .container{
-	max-width: 768px;
-}
-
-/****************************************************
- * CrowdTesting Stuff
- ****************************************************/
-
- .MatcCrowdTestingBudget{
- 	display: inline-block;
- 	width:80%;
- 	text-align: left;
- 	height: 300px;
- }
-
- .MatcCrowdTestingBudgetRow{
- 	text-align: right;
-
- }
-
-.MatcCrowdTestingBudgetSum{
-	border-top: 1px solid #333;
-}
-
-
-/****************************************************
- * Phone Wrappers for List
- ****************************************************/
-
-.MatcPhone{
-	background: #333;
-	display: inline-block;
-	border-radius:3px;
-	vertical-align: top;
-}
-
-.MatcPreviewWrapper{
-	color:white;
-	overflow: hidden;
-	text-align: center;
-}
-
 
 /****************************************************
  * Uploader Button
  ****************************************************/
- .MatcUploader{
- 	height: 150px;
+.MatcUploader {
+	height: 150px;
 	width: 150px;
-	border-radius:50%;
+	border-radius: 50%;
 	background: #cecece;
 	position: relative;
 	display: inline-block;
-	transition:all;
-	transition-duration:0.25s;
-	display:inline-flex;
+	transition: all;
+	transition-duration: 0.25s;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 }
 
-.MatcUploader.MatcUploaderLoading{
+.MatcUploader.MatcUploaderLoading {
 	background: #fff;
 }
 
-.MatcUploader.MatcUploaderLoading  .MatcUploaderIcon.mdi{
-	color:#92c500;
+.MatcUploader.MatcUploaderLoading .MatcUploaderIcon.mdi {
+	color: #92c500;
 }
 
-.MatcUploader.MatcUploaderLoading:HOVER{
+.MatcUploader.MatcUploaderLoading:HOVER {
 	background: none;
 }
 
-.MatcUploader:hover,.MatcUploader.MatcUploaderDnD {
+.MatcUploader:hover,
+.MatcUploader.MatcUploaderDnD {
 	background-color: #92c500;
 }
 
-.MatcUploader .MatcQIcon{
-	color:#fff;
-    height: 48px;
-    width: 48px;
+.MatcUploader .MatcQIcon {
+	color: #fff;
+	height: 48px;
+	width: 48px;
 }
 
-.MatcUploader .MatcQIcon svg{
-	color:#fff;
-    height: 48px;
-    width: 48px;
+.MatcUploader .MatcQIcon svg {
+	color: #fff;
+	height: 48px;
+	width: 48px;
 }
 
-.MatcUploaderCanvas{
+.MatcUploaderCanvas {
 	position: absolute;
-	top:0px;
-	left:0px;
+	top: 0px;
+	left: 0px;
 	width: 100%;
-	height:100%;
+	height: 100%;
 }
 
 /****************************************************
  * Team
  ****************************************************/
 
-.MatcTeamItem{
+.MatcTeamItem {
 	display: inline-block;
 	margin-right: 10px;
-	vertical-align:top;
+	vertical-align: top;
 	text-align: center;
 	position: relative;
 	cursor: pointer;
-	border:1px solid transparent;
+	border: 1px solid transparent;
 	height: 40px;
 	width: 40px;
 }
 
-.MatcTeamItem .MatcUserImageCntr{
+.MatcTeamItem .MatcUserImageCntr {
 	height: 40px;
 	width: 40px;
 	overflow: hidden;
 	display: inline-block;
-	border-radius:50%;
+	border-radius: 50%;
 	position: relative;
 
 }
 
-.MatcTeamItem .MatcUserImageCntr:HOVER, .MatcUserAdd:HOVER{
-	box-shadow:0 0 3px #333;
+.MatcTeamItem .MatcUserImageCntr:HOVER,
+.MatcUserAdd:HOVER {
+	box-shadow: 0 0 3px #333;
 }
 
 
-.MatcUserImageNone{
+.MatcUserImageNone {
 	height: 100%;
 	color: #FFF;
 	font-size: 16px;
 	overflow: hidden;
 	text-align: center;
-	background:$primary_color;
+	background: $primary_color;
 }
 
-.MatcUserAdd{
+.MatcUserAdd {
 	height: 100%;
 	font-size: 36px;
 	background: #FFF;
-	width:100%;
+	width: 100%;
 	overflow: hidden;
 	text-align: center;
-	background:none;
-	color:fff;
+	background: none;
+	color: fff;
 	border: 1px solid #fff;
-    border-radius:50%;
-    transition:all 0.25s;
+	border-radius: 50%;
+	transition: all 0.25s;
 }
 
-.MatcUserAdd:hover{
-	background: rgba(255,255,255,0.2);
+.MatcUserAdd:hover {
+	background: rgba(255, 255, 255, 0.2);
 
 }
 
-
-.MatcTeamDialog{
+.MatcTeamDialog {
 	width: 600px;
 	min-height: 200px;
 	text-align: left;
-	color:#333;
+	color: #333;
 	background: #fff;
 }
 
-.MatcTeamDialogEdit{
+.MatcTeamDialogEdit {
 	width: 600px;
 }
 
-.MatcTeamDialog .container{
+.MatcTeamDialog .container {
 	padding: 0px;
 }
 
-.MatcTeamDialog .MatcUserImageCntr{
+.MatcTeamDialog .MatcUserImageCntr {
 	height: 100px;
 	width: 100px;
 	overflow: hidden;
 	display: inline-block;
-	border-radius:50px;
+	border-radius: 50px;
 	background: rgba(0, 153, 204, 1);
 
 }
 
-.MatcTeamDialog .MatcUserImageCntr.MatcUserImageCntrTrans{
+.MatcTeamDialog .MatcUserImageCntr.MatcUserImageCntrTrans {
 	background: none;
 }
 
-.MatcTeamDialog .MatcUserImageNone{
+.MatcTeamDialog .MatcUserImageNone {
 	height: 100px;
 	width: 100px;
 	overflow: hidden;
-	color:#fff;
+	color: #fff;
 	font-size: 60px;
 	background: $primary_color;
 	position: relative;
 }
 
-.MatcTeamDialog .MatcTeamItem{
+.MatcTeamDialog .MatcTeamItem {
 	height: 100px;
 	width: 100px;
 }
 
-.MatcTeamDialog .MatcUserAdd{
+.MatcTeamDialog .MatcUserAdd {
 	height: 100px;
 	width: 100px;
 	font-size: 70px;
 	background: rgba(0, 153, 204, 1);
 	overflow: hidden;
 	text-align: center;
-	color:#fff;
- 	font-size: 90px;
+	color: #fff;
+	font-size: 90px;
 }
 
-.MatcTeamDialog .MatcUserImageCntr:HOVER{
-	box-shadow:none;
+.MatcTeamDialog .MatcUserImageCntr:HOVER {
+	box-shadow: none;
 }
 
 /****************************************************
  * Team - Settings
  ****************************************************/
- .MatcSettings .MatcTeamItem .MatcUserImageCntr{
-	height: 80px;
-	width: 80px;
- }
-
- .MatcSettings .MatcUserImageNone,
- .MatcSettings .MatcUserAdd{
- 	font-size: 40px;
- 	background: $primary_color;
- 	color:#fff;
- }
-
-.MatcSettings .MatcTeamItem .MatcUserImageCntr:HOVER, .MatcSettings .MatcUserAdd:HOVER{
-	box-shadow:none;
-}
-
-
-.MatcSettings .MatcUserImage:HOVER{
-	opacity:0.9;
-}
-
-
-.MatcSettings .MatcTeamItem{
+.MatcSettings .MatcTeamItem .MatcUserImageCntr {
 	height: 80px;
 	width: 80px;
 }
 
-
-/****************************************************
- * Diaolog
- ****************************************************/
-
- .MatcDialog{
-	min-height: 200px;
-	padding: 32px 32px 40px;
-	border-radius: 12px;
+.MatcSettings .MatcUserImageNone,
+.MatcSettings .MatcUserAdd {
+	font-size: 40px;
+	background: $primary_color;
+	color: #fff;
 }
 
-.MatcOptionDialog {
-	width: 480px;
+.MatcSettings .MatcTeamItem .MatcUserImageCntr:HOVER,
+.MatcSettings .MatcUserAdd:HOVER {
+	box-shadow: none;
 }
 
- .MatcDialogMobile{
-	width: 100%;
-	min-width:320px;
-	padding: 20px 20px 30px;
+
+.MatcSettings .MatcUserImage:HOVER {
+	opacity: 0.9;
 }
 
-.MatcDialogM{
-	width: 600px;
-	min-height: 400px;
-}
 
- .MatcDialogXL{
-	width: 800px;
-	min-height: 400px;
-}
-
- .MatcDialogXXL{
-	width: 1200px;
-	min-height: 600px;
-}
-
-.MatcDialogXLLong {
-	width: 850px;
-	min-height: 600px;
-}
-
-.MatcTestDialog{
-	width: 800px;
-
-	background: #fff;
-	text-align: left;
-	font-size: 16px;
-	color:#333;
-	background: #fff;
-	padding: 40px 40px 50px;
-}
-
-.MatcTestDesktopDialog{
-	width: 90%;
-	width: 90%;
-}
-
-.MatchSimulatorDialog{
-	padding: 20px;
-}
-.MatchTaskRecorderDialog{
-	padding: 20px;
-}
-
-.MatcDialogHeader{
-	margin-bottom: 20px;
-    margin-top: 0;
-}
-
-.MatcDialogTitle{
-	font-size: 20px;
-	margin-bottom: 30px;
-	color: #999;
-    font-weight: 300;
+.MatcSettings .MatcTeamItem {
+	height: 80px;
+	width: 80px;
 }
 
 
@@ -1059,235 +255,126 @@ textarea.MatcContentWidgetAbs{
  ****************************************************/
 
 
-.MatcUserImageCntr{
+.MatcUserImageCntr {
 	height: 150px;
 	width: 150px;
 	overflow: hidden;
 	display: inline-block;
-    border-radius: 50%;
+	border-radius: 50%;
 }
 
-.MatcUserImageCntrSmall{
+.MatcUserImageCntrSmall {
 	height: 60px;
 	width: 60px;
 	overflow: hidden;
 	display: inline-block;
-	border-radius:3px;
+	border-radius: 3px;
 	position: relative;
 }
 
-.MatcUserImage{
+.MatcUserImage {
 	width: 100%;
 	height: auto;
 }
 
-.MatcUserNoImage{
-	color:#999;
+.MatcUserNoImage {
+	color: #999;
 }
 
-.MatcUser .MatcImageUploadAdd{
+.MatcUser .MatcImageUploadAdd {
 	font-size: 100px;
 	cursor: pointer;
 	position: relative;
 }
 
-.MatcUser .MatcImageUploadAdd{
+.MatcUser .MatcImageUploadAdd {
 	font-size: 100px;
 	cursor: pointer;
 	position: relative;
 }
+
 .MatcUser .MatcImageUploadAdd .mdi {
 	transition: all 0.2s;
 	cursor: pointer;
 	display: inline-block;
 }
-.MatcUser .MatcImageUploadAdd .mdi:hover{
-	color:#92c500;
+
+.MatcUser .MatcImageUploadAdd .mdi:hover {
+	color: #92c500;
 	transform: scale(1.1);
 }
 
 
-.MatcUserImageAnnotation{
+.MatcUserImageAnnotation {
 	position: absolute;
-	top:0px;
-	right:0px;
+	top: 0px;
+	right: 0px;
 	background: #fff;
 	padding: 3px;
-	opacity:0;
-	transition-duration:0.25s;
+	opacity: 0;
+	transition-duration: 0.25s;
 }
 
-.MatcUserImageCntrSmall:hover .MatcUserImageAnnotation{
-	opacity:0.7;
+.MatcUserImageCntrSmall:hover .MatcUserImageAnnotation {
+	opacity: 0.7;
 }
-/****************************************************
- * Comment
- ****************************************************/
+
 
 /****************************************************
- * Annoation Widget
- ****************************************************/
-.MatcAnnotation{
-
-}
-
-.MatcAnnotionBtn{
-	display: inline-block;
-	margin-left: 10px;
-}
-
- /****************************************************
  * Screen Size
  ****************************************************/
 
- .MatcScreenSizeItem{
- 	border:1px solid transparent;
-  	border-radius: 3px;
-    cursor: pointer;
-    display: inline-block;
-    margin-bottom: 10px;
-    margin-right: 5%;
-    padding: 10px 16px;
-    position: relative;
-    width: 45%;
-    height: 80px;
-    vertical-align: top;
- }
+.MatcScreenSizeItem {
+	border: 1px solid transparent;
+	border-radius: 3px;
+	cursor: pointer;
+	display: inline-block;
+	margin-bottom: 10px;
+	margin-right: 5%;
+	padding: 10px 16px;
+	position: relative;
+	width: 45%;
+	height: 80px;
+	vertical-align: top;
+}
 
- .MatcScreenSizeItem:hover{
- 	border:1px solid #cecece;
- }
+.MatcScreenSizeItem:hover {
+	border: 1px solid $form_border_hover;
+}
 
- .MatcScreenSizeItemSelected,  .MatcScreenSizeItemSelected:hover{
- 	border:1px solid #cecece;
- 	background: #fff;
- }
+.MatcScreenSizeItemSelected:hover,
+.MatcScreenSizeItemSelected{
+	border: 1px solid $form_border;
+	background: #fff;
+}
 
- .form-group .MatcAppTypeSelector .MatcScreenSizeItem .VommondCheckBoxWrapper{
- 	position: absolute;
- 	right:10px;
- 	background:none;
- }
+.form-group .MatcAppTypeSelector .MatcScreenSizeItem .VommondCheckBoxWrapper {
+	position: absolute;
+	right: 10px;
+	background: none;
+}
 
- .MatcScreenSizeItem .VommondCheckBoxWrapper .VommondCheckBox{
-	 background: none;
- }
+.MatcScreenSizeItem .VommondCheckBoxWrapper .VommondCheckBox {
+	background: none;
+}
 
- .MatcScreenSizeItem input {
- 	width:60px;
- 	display: inline-block;
- 	background:none;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    padding: 3px;
-    font-size: 16px;
-     color: #999;
-    font-weight: 300;
- }
+.MatcScreenSizeItem input {
+	width: 60px;
+	display: inline-block;
+	background: none;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	padding: 3px;
+	font-size: 16px;
+	color: #999;
+	font-weight: 300;
+}
 
- /****************************************************
+/****************************************************
  * AppType Selector
  ****************************************************/
- .MatcAppTypeSelector{
 
- }
-
-
-  .form-group .MatcAppTypeSelector .VommondCheckBox{
- 	border: none;
- 	box-shadow:none;
- }
-
- .MatcAppType{
- 	width: 150px;
- 	margin:10px;
- 	display: inline-block;
-    cursor: pointer;
- }
-
-
-
- .MatcAppTypeSelector .MatcFormGroup{
- 	text-align: center;
- }
-
-
- .MatcAppTypeIcon{
-  	width: 150px;
-  	height:150px;
-
-    border-radius: 6px;
-    cursor: pointer;
-    display: inline-block;
-    width: 150px;
-    position: relative;
-    text-align: center;
-  	opacity:0.5;
-  	transition-duration: 0.8s;
-    transition-property: opacity;
- }
-
-
-.MatcAppTypeIcon .mdi{
-   font-size: 100px;
- }
-
-
-.MatcAppTypeSelected .MatcAppTypeIcon{
-  	opacity:1;
-}
-
- .MatcAppTypeBar{
- 	padding: 5px;
- 	text-align: center;
- }
-
- .MatcAppTypeLabel{
- 	margin-left: 5px;
- }
-
- .MatcAppTypeIcon .VommondCheckBox {
- 	border:none;
- 	box-shadow:none;
- 	position: absolute;
- 	bottom: 0px;
- 	left:0px;
- 	height: 36px;
- 	width:36px;
- }
-
-
-
- .MatcAppTypeIcon .VommondCheckBoxHook{
-  	border-bottom: 6px solid #a5ce00;
-    border-right: 4px solid #a5ce00;
- }
-
-
- /****************************************************
- * Video
- ****************************************************/
-.MatcVideoDialog{
-	width:960px;
-	height:600px;
-}
-
-.MatcAccount{
-	margin-bottom: 40px;
-}
-
-.MatcAccount .form-group{
-	margin-bottom: 40px;
-}
-
- /****************************************************
- * Video
- ****************************************************/
-
-.MatcDeleteDialog {
-	width: 400px;
-}
-
-.MatcDeleteDialog p{
-	height: 80px;
+.form-group .MatcAppTypeSelector .VommondCheckBox {
+	border: none;
+	box-shadow: none;
 }

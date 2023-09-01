@@ -63,7 +63,7 @@ export default {
             .build(cntr);
 
         let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-        let send = db.div("MatcButton", "Send").build(bar);
+        let send = db.div("MatcButton MatcButtonPrimary", "Send").build(bar);
         let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
         dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
         dialog.own(on(send, touch.press, lang.hitch(this, "send", name, email, msg, dialog, hint)));

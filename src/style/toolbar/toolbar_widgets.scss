@@ -581,9 +581,9 @@
 	display: inline-block;
 	margin-right: 20px;
 	margin-bottom: 20px;
-	padding: 15px;
 	cursor: pointer;
 	border-color: $dialog_form_border;
+	overflow: hidden;
 }
 
 .MatcToolbarScreenListPreview {

@@ -8,6 +8,7 @@ $color_danger_light: #f7dddd;
 $color_danger_hover: #f83a3a;
 $color_passive: #777;
 
+
 $white: #fff;
 $gray_1: #dbdbdb;
 $gray_2: #b5b5b5;
@@ -63,10 +64,6 @@ $popup_form_background: $toolbar_form_background;
 $popup_form_background_hover: $toolbar_form_background_hover;
 $popup_form_background_focus: $toolbar_form_background_hover;
 
-$dialog_color: $text_color;
-$dialog_form_border: $toolbar_border;
-$dialog_table_background: rgba(0,0,0, .05);
-$dialog_table_border: rgba(0,0,0, .1);
 
 $form_color: $text_color;
 $form_radius: 4px;
@@ -78,6 +75,10 @@ $form_padding: 8px 8px;
 $form_height:38px;
 $form_font_size:14px;
 
+$dialog_color: $text_color;
+$dialog_form_border: $form_border;
+$dialog_table_background: rgba(0,0,0, .05);
+$dialog_table_border: rgba(0,0,0, .1);
 
 
 $table-background:rgba(0,0,0, .05);

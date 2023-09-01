@@ -261,7 +261,7 @@ export default {
 
 
 				var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-				var cancel = db.a(" MatcButton ", "Import as new").build(bar);
+				var cancel = db.a("MatcButton MatcButtonPrimary", "Import as new").build(bar);
 				var save = db.a("MatcButton ", "Update Elements").build(bar);
 
 

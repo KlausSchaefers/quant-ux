@@ -62,7 +62,7 @@
 
 
     <div class="MatcButtonBar">
-      <a class="MatcButton" @click="onSave">Save</a>
+      <a class="MatcButton MatcButtonPrimary" @click="onSave">Save</a>
       <a class="MatcLinkButton" @click="onCancel" >Cancel</a>
     </div>
 

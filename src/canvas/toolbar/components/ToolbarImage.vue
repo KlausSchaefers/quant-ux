@@ -254,10 +254,9 @@ export default {
 				var bar = document.createElement("div");
 				css.add(bar, "MatcButtonBar");
 
-
 				var save = document.createElement("span");
 				save.innerHTML = "Save";
-				css.add(save, "MatcButton");
+				css.add(save, "MatcButton MatcButtonPrimary");
 				bar.appendChild(save);
 
 				var cancel = document.createElement("span");

@@ -7,7 +7,108 @@
     width: 600px;
 }
 
-.MatcDataBindingDialogXXL{
-	width: 840px;
-	min-height: 660px;
+.MatcDataBindingDialogXXL {
+    width: 840px;
+    min-height: 660px;
+}
+
+
+.MatcDialog {
+    min-height: 200px;
+    padding: 32px 32px 40px;
+    border-radius: 12px;
+}
+
+.MatcOptionDialog {
+    width: 480px;
+}
+
+.MatcDialogMobile {
+    width: 100%;
+    min-width: 320px;
+    padding: 20px 20px 30px;
+}
+
+.MatcDialogM {
+    width: 600px;
+    min-height: 400px;
+}
+
+.MatcDialogXL {
+    width: 800px;
+    min-height: 400px;
+}
+
+.MatcDialogXXL {
+    width: 1200px;
+    min-height: 600px;
+}
+
+.MatcDialogXLLong {
+    width: 850px;
+    min-height: 600px;
+}
+
+.MatcTestDialog {
+    width: 800px;
+
+    background: #fff;
+    text-align: left;
+    font-size: 16px;
+    color: #333;
+    background: #fff;
+    padding: 40px 40px 50px;
+}
+
+.MatcTestDesktopDialog {
+    width: 90%;
+    width: 90%;
+}
+
+.MatchSimulatorDialog {
+    padding: 20px;
+}
+
+.MatchTaskRecorderDialog {
+    padding: 20px;
+}
+
+.MatcDialogHeader {
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.MatcDialogTitle {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #999;
+    font-weight: 300;
+}
+
+.MatcDeleteDialog {
+	width: 400px;
+}
+
+.MatcDeleteDialog p{
+	height: 80px;
+}
+
+.MatcVideoDialog{
+	width:960px;
+	height:600px;
+}
+
+.MatcInfitationDialog {
+	width: 900px;
+}
+
+
+.MatcShareDialog {
+	position: relative;
+}
+
+.MatcShareDialog .MatcLanguagePicker {
+	position: absolute;
+	right: 6px;
+	top: -48px;
 }

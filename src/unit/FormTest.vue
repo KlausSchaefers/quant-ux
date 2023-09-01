@@ -49,6 +49,8 @@
 
             <div class="MatcButtonBar">
                 <a class="MatcButton">Click</a>
+                <a class="MatcButton MatcButtonPrimary">Click</a>
+                
                 <a class="MatcLinkButton">Click</a>
                 <a  class="MatcButton MatcButtonSecondary">Download Task Summary</a>
             </div>

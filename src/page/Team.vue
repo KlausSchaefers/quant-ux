@@ -106,7 +106,7 @@ export default {
         .build(right);
 
       var bar = this.db.div("MatcButtonBar MatcMarginTopL").build(cntr);
-      var write = this.db.div("MatcButton", "Add User").build(bar);
+      var write = this.db.div("MatcButton MatcButtonPrimary", "Add User").build(bar);
       var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
       var d = new Dialog({ overflow: true });
@@ -202,7 +202,7 @@ export default {
       var d = new Dialog();
 
       if (user.permission != 3) {
-        let write = this.db.div("MatcButton", "Save").build(right);
+        let write = this.db.div("MatcButton MatcButtonPrimary", "Save").build(right);
         let cancel = this.db.a("MatcLinkButton", "Cancel").build(right);
         let remove = this.db.a("MatcLinkButton", "Remove").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
