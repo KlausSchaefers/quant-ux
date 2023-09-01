@@ -57,9 +57,11 @@ import CheckBox from 'common/CheckBox'
 import ModelUtil from 'core/ModelUtil'
 import QIcon from 'page/QIcon'
 import QSS from 'core/qss/QSS'
+import _Tooltip from 'common/_Tooltip'
+
 export default {
     name: 'CreateButton2',
-    mixins:[Util, DojoWidget, _DropDown],
+    mixins:[Util, DojoWidget, _DropDown, _Tooltip],
     data: function () {
         return {
         	screenWidth : 300,
@@ -1055,6 +1057,7 @@ export default {
 		}
     },
     mounted () {
+		this.addTooltip(this.$el, "Add interactive Widgets (W)")
     }
 }
 </script>

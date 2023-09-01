@@ -38,7 +38,7 @@ $toolbar_form_background_focus: #16191b;
 $toolbar_form_border: $toolbar_border;
 $toolbar_form_border_hover: $toolbar_border;
 $toolbar_form_border_focus: rgba(255,255,255,0.16);;
-$toolbar_form_radius: 2px;
+$toolbar_form_radius: 4px;
 
 $color_picker_border: rgba(255,255,255, 0.25);
 $color_picker_border-hover: rgba(255,255,255, 0.35);
@@ -53,7 +53,7 @@ $popup_color: $white;
 $popup_color_passive: $color_passive;
 $popup_border: $toolbar_border;
 $popup_background: $toolbar_selected_background;
-$popup_radius: 4px;
+$popup_radius: 8px;
 $popup_font_size: 14px;
 $popup_padding: 4px 8px;
 $popup_shadow: none;
@@ -67,7 +67,7 @@ $popup_form_background_focus: $toolbar_form_background_hover;
 
 
 $form_color: $text_color;
-$form_radius: 4px;
+$form_radius: 8px;
 $form_border: $gray_1;
 $form_border_hover: $gray_2;
 $form_border_focus: #16191b;
@@ -82,8 +82,9 @@ $dialog_table_background: rgba(0,0,0, .05);
 $dialog_table_border: rgba(0,0,0, .1);
 
 
-$table-background:rgba(0,0,0, .05);
-$table-selected: $gray_2;
+$table_background_header:rgb(230, 230, 230);
+$table_background:rgba(0,0,0, .05);
+$table_selected: $gray_2;
 
 $button_background: #25292F;
 $button_background_hover: #16191b;
@@ -91,7 +92,7 @@ $button_color: $white;
 $button_color_hover: $white;
 $button_font_size: 18px;
 $button_padding: 4px 16px;
-$button_radius: 4px;
+$button_radius: 8px;
 $button_radius-input: 2px;
 $button_radius-l: 8px;
 $button_height:38px;

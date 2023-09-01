@@ -7,6 +7,8 @@
             <!-- <span class="caret"></span> -->
 
 		</div>
+ 
+
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">
                 <ul class="" role="menu">
@@ -41,15 +43,16 @@
 
 </template>
 <script>
-import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import Util from 'core/Util'
 import QIcon from 'page/QIcon'
+import _Tooltip from 'common/_Tooltip'
 import _DropDown from './_DropDown'
+
 
 export default {
     name: 'CreateBasicButton',
-    mixins:[Util, DojoWidget, _DropDown],
+    mixins:[Util, _DropDown, _Tooltip],
     data: function () {
         return {
             selectedTool: null,
@@ -115,6 +118,7 @@ export default {
 
     },
     mounted () {
+        this.addTooltip(this.$el, "Add basic elements")
     }
 }
 </script>

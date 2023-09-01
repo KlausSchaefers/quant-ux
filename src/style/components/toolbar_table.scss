@@ -7,22 +7,31 @@
 	position: relative;
 	overflow: hidden;
 
-	thead .MatcToolbarTableLabel{
-		position: relative;
-		text-align: center;
-		color: #777;
-		display: flex;
+	thead {
+		background: $table_background_header; 
 
-		.vommondInlineEdit{
-			border: 1px solid transparent;
-			width: auto;
-			margin: 2px 24px;
-			height: auto;
-			padding: 2px;
-			box-sizing: border-box;
-			background: none;
-			flex-grow: 1;
-			text-align: center;
+		.MatcToolbarTableLabel{
+			position: relative;
+			text-align: left;
+			color: #777;
+			display: flex;
+			padding: 7px 0px;
+
+			.vommondInlineEdit{
+				border: 1px dashed transparent;
+				width: auto;
+				margin: 2px 2px;
+				height: auto;
+				padding: 2px;
+				box-sizing: border-box;
+				background: none;
+				flex-grow: 1;
+				text-align: left;
+
+				&:hover {
+					border: 1px dashed $primary_color
+				}
+			}
 		}
 	}
 
@@ -70,19 +79,18 @@
 	}
 	
 	.MatcToolbarTableInputFocus{
-		background: $table-selected;
+		background: $table_selected;
 	}
 
 	thead td{
 		text-align: center;
-		background: $table-background;
 		color:$gray_2;
 	}
 	
 	.MatcToolbarTableBody tr td:FIRST-CHILD,  
 	.MatcToolbarTableBody tr td:FIRST-CHILD{
 		text-align: center;
-		background: $table-background;
+		background: $table_background_header;
 		width: 30px;
 		vertical-align: inherit;
 		color: #777;

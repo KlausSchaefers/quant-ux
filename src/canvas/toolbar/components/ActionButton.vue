@@ -119,13 +119,15 @@ export default {
 									const lbl = this.getRuleLabel(line.rule);
 									const row = db.div("MatcToobarRow").build(parent);
 									const item = db.div("MatcToolbarItem  MatcToolbarDropDownButton MatcToolbarIconButton").build(row);
-									db.span("MatcActionRuleLabel", lbl).build(item);
+									item.appendChild(iconDOM("EditPencil"))
+									db.span("", lbl).build(item);
 									this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
 								} else {
 									const row = db.div("MatcToobarRow").build(parent);
 									const item = db.div("MatcToolbarItem  MatcToolbarDropDownButton MatcToolbarIconButton").build(row);
+							
+									item.appendChild(iconDOM("Plus"))
 									const span = db.label("MatcToolbarItemIcon").build(item);
-									db.span("mdi mdi-plus-circle MatcToolbarSmallIcon").build(span);
 									db.span("MatcToolbarDropDownButtonLabel", "Add Rule").build(span);
 									this.tempOwn(on(item, touch.press, lang.hitch(this, "onEditRule", line)));
 								}
@@ -198,8 +200,9 @@ export default {
 
 					let removeBtn = db.span("MatcToobarRemoveBtn ")
 						.tooltip("Remove Action", "vommondToolTipRightBottom")
-						.span("mdi mdi-close-circle")
 						.build(actionCntr);
+					
+					removeBtn.appendChild(iconDOM("DeleteX"))
 
 					this.tempOwn(on(removeBtn, touch.press, lang.hitch(this, "onRemoveAction", action)));
 

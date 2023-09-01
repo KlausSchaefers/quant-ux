@@ -29,8 +29,8 @@
 							<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
 								<QIcon icon="Edit" />
 							</div> -->
-							<div class="MatcToolbarArrowDropDown">
-								<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="addScreenBtn"  @click="onToolCreateScreen">
+							<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="addScreenBtn" >
+								<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']"  @click="onToolCreateScreen">
 									<QIcon icon="DevicesAdd" />
 									<span class="MatcToolbarResponsiveLabel">Screen</span>    						
 								</div>
@@ -88,10 +88,12 @@
 							<div class="MatcToolbarSection">
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
 							</div>							
-							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>					
-							<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="simulatorButton" @click="startSimilator">
-								<div class="">									
-									<QIcon icon="Play" />					
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>		
+							<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="simulatorButton" >			
+								<div class="MatcToolbarItem MatcToolbarPrimaryItem" @click="startSimilator">
+									<div class="">									
+										<QIcon icon="Play" />					
+									</div>
 								</div>
 							</div>
 							<div class="MatcToolbarItem" @click="showSharing">

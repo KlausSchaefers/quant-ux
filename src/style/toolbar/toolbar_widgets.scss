@@ -372,11 +372,6 @@
 	width: 100%;
 }
 
-.MatcActionRuleLabel {
-	padding-left: 30px;
-}
-
-
 
 .MatcToobarActionCntr {
 	position: relative;
@@ -460,7 +455,7 @@
 .MatcToobarActionSelector {
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 8px;
 }
 
 .MatcToobarActionSelector .MatcToolbarDropDownButton {
@@ -526,7 +521,7 @@
 	vertical-align: middle;
 	outline: none;
 	width: 100%;
-	padding: 3px;
+	padding: 3px 6px;
 	border: 1px solid transparent;
 }
 
@@ -546,8 +541,7 @@
 	width: 16px;
 	vertical-align: middle;
 	background: none;
-	border-radius: $button_radius_input;
-
+	border-radius: $toolbar_form_radius;
 }
 
 .MatcToolbar .VommondRadioBox {

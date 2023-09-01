@@ -35,7 +35,6 @@
     components: {},
     methods: {
       onMouseOver (e) {
-        console.debug('Mouse')
         this.$emit('mouseover', e)
       },
       onMouseOut (e) {

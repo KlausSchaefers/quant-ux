@@ -348,10 +348,10 @@ export default {
 		renderToolTips:function(){
 
 			// this.addTooltip(this.home, "Click here to exit");
-			// this.addTooltip(this.simulatorButton, "Start Simulation (No data will be stored)");
+			this.addTooltip(this.simulatorButton, "Start Simulation");
 
 
-			this.addTooltip(this.addScreenBtn, "Add Screens (S)", "vommondToolTipLeft");
+			this.addTooltip(this.addScreenBtn, "Add Screens (S)", "");
 			// this.addTooltip(this.addSection, "Add Widgets (W)", "vommondToolTipLeft");
 			// this.addTooltip(this.importSection, "Importing screens", "vommondToolTipLeft");
 			// this.addTooltip(this.editTool, "Edit mode", "vommondToolTipLeft");

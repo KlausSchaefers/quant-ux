@@ -26,11 +26,11 @@
 <script>
 
 import Logger from "common/Logger";
-
+import _Tooltip from 'common/_Tooltip'
 
 export default {
   name: "EditModeButton",
-  mixins: [],
+  mixins: [_Tooltip],
   props: ['value'],
   data: function() {
     return {
@@ -77,13 +77,13 @@ export default {
           return
         }
         if (this.canvasViewMode === 'prototype') {
-          this.setCode()
-          return
-        }
-        if (this.canvasViewMode === 'data') {
           this.setDesign()
           return
         }
+        // if (this.canvasViewMode === 'data') {
+        //   this.setDesign()
+        //   return
+        // }
     }
   },
   watch: {
@@ -94,6 +94,7 @@ export default {
    },
   async mounted() {
     this.log = new Logger("EditModeButton")
+    this.addTooltip(this.$el, "Change view mode (TAB)")
   }
 };
 </script>

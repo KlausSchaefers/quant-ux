@@ -334,28 +334,18 @@
 
 
     .MatcToolbarItem:hover {
-        color: #ccc;
+
         border: none;
     }
 
     .MatcToolbarItem.MatcToolbarItemActive {
-        background: $primary_color;
+        background: $primary_color_hover;
         color: #fff;
         
         .MatcToolbarItem.MatcToolbarItemActive:hover {
             background: $primary_color_hover;
-            color: #fff;
+            color: $toolbar_color_hover;
         }
-    }
-
-    .MatcToolbarItem.MatcToolbarItemActive {
-        background: $primary_color;
-        color: #fff;
-    }
-    
-    .MatcToolbarItem.MatcToolbarItemActive:hover {
-        background: $primary_color_hover;
-        color: #fff;
     }    
 }
 

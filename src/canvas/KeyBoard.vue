@@ -263,7 +263,7 @@ export default {
         } else if(k == 83){
           if(!this._inlineEditStarted){
             if(this.toolbar){
-              this.toolbar.showScreenSelector();
+              this.toolbar.onToolCreateScreen();
             }
           }
 
