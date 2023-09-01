@@ -116,8 +116,6 @@ export default {
 	  this._placeAt(this.fontSize, row1);
 	  this.addTooltip(this.fontSize.domNode, "Font Size");
 
-	  // this.createSpacer(content);
-
 	  this.fontWeight= this.$new(ToolbarToggleButton, {icon: 'TextBold'});
 	  this.fontWeight.setLabel("");
 	  this.own(on(this.fontWeight, "change", lang.hitch(this, "toggleStyle", "fontWeight", "bold")));
@@ -142,9 +140,6 @@ export default {
 	  this._placeAt(this.strikeThrough, row2);
 	  this.addTooltip(this.strikeThrough.domNode, "Strikethrough");
 
-	  //this.createSpacer(content);
-
-
 	  this.textAlign = this.$new(ToolbarSelector);
 	  this.textAlign.setOptions([
 		  { value:"left", icon:"TextAlignLeft"},
@@ -156,7 +151,6 @@ export default {
 	  this._placeAt(this.textAlign, row3);
 	  this.addTooltip(this.textAlign.domNode, "Text Alignment");
 
-	  //this.createSpacer(content);
 
 
 	  /**
@@ -211,18 +205,6 @@ export default {
 
   addTooltip () {
   // disable
-  },
-
-
-  createSpacer (parent){
-	  var span = document.createElement("span");
-	  css.add(span,"MatcToolbarSeperator");
-	  if(!parent){
-		  this.properties.appendChild(span);
-	  } else {
-		  parent.appendChild(span);
-	  }
-	  return span;
   },
 
   _placeAt (w, d) {

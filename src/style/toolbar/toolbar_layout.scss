@@ -68,6 +68,10 @@
 		border: 1px solid transparent;
 		padding: 1px 8px;
 	}
+
+	.MatcToolbarSection {
+		padding: 0px 16px;
+	}
 }
 
 .MatcToolbarNotificationSection {
@@ -78,10 +82,19 @@
 	text-align: right;
 }
 
+.MatcToolbarTopHome {
+	width: $layerlist_width;
+	border-right: 1px solid $toolbar_border;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding: 0px 16px;
+}
+
 .MatcToolbarTopCntr {
 	display: flex;
 	justify-content: space-between;
-	width: calc(100% - 40px);
+	width: calc(100% - $layerlist_width);
 	gap: 8px;
 }
 
@@ -484,6 +497,18 @@
 	}
 
 
+
+}
+
+@media (max-width: 1800px) {
+	.MatcCreateBtn .MatcToolbarPopUp {
+	
+		transform: translateX(-300px);
+	}
+
+	.MatcCreateBtnCntr {
+		width: 1000px;
+	}
 }
 
 textarea.MatcContentWidgetEditor {

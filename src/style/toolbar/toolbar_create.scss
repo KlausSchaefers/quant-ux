@@ -9,41 +9,54 @@
 
 .MatcToolbar .MatcCreateSearchBtn,
 .MatcCreateSearchBtn {
-	color: #ccc;
-	font-size: 24px;
-	padding: 5px;
+	font-size: 16px;
+	padding: 12px;
 	cursor: pointer;
 }
 
-.MatcCreateBtnLeft {}
+.MatcCreateBtnLeft {
+	height: 600px;	
+	display: flex;
+	flex-direction: column;
+}
+
+.MatcCreateBtnRight {
+	height: 600px;
+}
 
 .MatcCreateSubCategory {}
 
 .MatcCreateImportCntr {
-	height: 530px;
+	padding: 16px;
+	height: 540px;
 	overflow: auto;
 	font-size: 14px;
-	margin-bottom: 20px;
-	background: rgb(245, 245, 245);
-	border: 1px solid #cecece;
-	border-radius: 3px;
-	padding: 16px;
+	margin-bottom: 16px;
+	border: 1px solid transparent;
+	display: flex;
+    flex-wrap: wrap;
+
+	> div{
+		width: 400px;
+	}
 }
 
 .MatcCreateSubCategory h3 {
 	font-size: 18px;
 }
 
+
+
 .MatcCreateCatCntr {
-	height: 550px;
+	flex-grow: 1;
 	overflow: auto;
+	ul {
+		flex-grow: 1;
+	}
 }
 
 
-.MatcCreateBtnRight {
-	border-right: 0px solid #cecece;
-	height: 600px;
-}
+
 
 .MatcCreateBtnCntr .container {
 	padding-left: 0px;
@@ -90,13 +103,12 @@
 	position: relative;
 }
 
-
-
 .MatcToolbar .MatcToolbarDropDownButton .MatcCreateBtnCntr li {
 	margin-bottom: 4px;
 	border: none;
 	border-bottom: 1px solid transparent;
 	padding-left: 0px;
+	font-size: $popup_font_size;
 }
 
 .MatcToolbarDropDownButton .MatcCreateBtnCntr li a {
@@ -119,19 +131,15 @@
 	color: $primary_color;
 }
 
-.MatcToolbarDropDownButton .MatcCreateBtnCntr li:HOVER a,
-.MatcToolbarDropDownButton .MatcCreateBtnCntr li.MatcSelected a {}
-
 .MatcCreateBtnCntr a:HOVER {
 	text-decoration: none;
 }
 
 
-
 .MatcCreateBtnRemove {
 	position: absolute;
 	display: none;
-	color: #f83a3a;
+	color: $color_danger;
 	top: 5px;
 	right: 5px;
 }

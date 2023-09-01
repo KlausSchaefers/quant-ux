@@ -42,6 +42,20 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M7.904 17.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l4.907 4.907a1.067 1.067 0 0 0 1.509 0l1.047 -1.047a1.067 1.067 0 0 0 0 -1.509l-4.907 -4.907l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563z"></path>
     `,
+    'Devives': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M13 9a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1v-10z"></path>
+        <path d="M18 8v-3a1 1 0 0 0 -1 -1h-13a1 1 0 0 0 -1 1v12a1 1 0 0 0 1 1h9"></path>
+        <path d="M16 9h2"></path>
+    `,
+    'DevicesAdd': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M13 16.5v-7.5a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v3.5"></path>
+        <path d="M18 8v-3a1 1 0 0 0 -1 -1h-13a1 1 0 0 0 -1 1v12a1 1 0 0 0 1 1h8"></path>
+        <path d="M16 9h2"></path>
+        <path d="M16 19h6"></path>
+        <path d="M19 16v6"></path>
+    `,
     'DeviceMobile': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14z"></path>
@@ -67,7 +81,14 @@ export const icons = {
         <path d="M9 6l3 3l3 -3l-3 -3z"></path>
         <path d="M9 18l3 3l3 -3l-3 -3z"></path>
     `,
-
+    'AddWidget': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+        <path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+        <path d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+        <path d="M14 7l6 0"></path>
+        <path d="M17 4l0 6"></path>
+   `,
     'ComponentUpdate': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M10.09 4.01l.496 -.495a2 2 0 0 1 2.828 0l7.071 7.07a2 2 0 0 1 0 2.83l-7.07 7.07a2 2 0 0 1 -2.83 0l-7.07 -7.07a2 2 0 0 1 0 -2.83l3.535 -3.535h-3.988"></path>
@@ -233,6 +254,16 @@ export const icons = {
         <path d="M3 3l18 18"></path>
     `,
     'Replicate': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 14h16v5a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1v-5z"></path>
+        <path d="M4 9v.01"></path>
+        <path d="M4 4v.01"></path>
+        <path d="M9 4v.01"></path>
+        <path d="M15 4v.01"></path>
+        <path d="M20 4v.01"></path>
+        <path d="M20 9v.01"></path>
+    `,
+    'Replicate2': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
         <path d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
@@ -1048,6 +1079,12 @@ export const icons = {
         <path d="M15 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
         <path d="M15 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
     `,
-
+    'ScreenSegment': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 16m0 1a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1z"></path>
+        <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-6"></path>
+        <path d="M15 13h-4v-4"></path>
+        <path d="M11 13l5 -5"></path>
+    `
 }
 

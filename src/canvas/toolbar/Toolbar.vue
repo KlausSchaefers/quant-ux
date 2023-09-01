@@ -9,7 +9,10 @@
 
 
 		<div class="MatcToolbarTop">
-				<HomeMenu @select="onHomeMenu"/>
+				<div class="MatcToolbarTopHome">
+					<HomeMenu @select="onHomeMenu" :name="modelName"/>
+				</div>
+			
 
 				<div class="MatcToolbarTopCntr">
 
@@ -23,22 +26,24 @@
 						</div> 
 
 						<div class="MatcToolbarSection">				
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
+							<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
 								<QIcon icon="Edit" />
+							</div> -->
+							<div class="MatcToolbarArrowDropDown">
+								<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="addScreenBtn"  @click="onToolCreateScreen">
+									<QIcon icon="DevicesAdd" />
+									<span class="MatcToolbarResponsiveLabel">Screen</span>    						
+								</div>
 							</div>
 							<CreateBasicButton @add="onToolBasic" />
 							<CreateButton ref="createButton"/>
 							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
 							<CreateVectorButton @add="onToolSVG" v-if="false" />	
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentTool"  @click="onNewComment">
+							<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentTool"  @click="onNewComment">
 								<QIcon icon="Comment" />
-							</div>	
-							
-						
+							</div>						 -->
 						</div>
-					
-
-			
+							
 
 						<div class="MatcToolbarTopCenterCntr"  v-show="!svgEditorVisible" >
 							<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
@@ -78,40 +83,24 @@
 								</div>
 							</div>
 						</div>
-					
-
-
-				
+									
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
-							</div>
-							<div class="MatcToolbarSection" v-if="!svgEditorVisible">
-								
-							</div>
-
-					
-							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
-							
-					
+							</div>							
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>					
 							<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="simulatorButton" @click="startSimilator">
 								<div class="">									
 									<QIcon icon="Play" />					
 								</div>
 							</div>
-				
-						
 							<div class="MatcToolbarItem" @click="showSharing">
 								<div class="MatcToobarPrimaryButton">									
 									Share				
 								</div>
 							</div>
-	
-					
 							<HelpButton :hasNotifications="true" :hasToolbar="true" v-if="false"/>
 						</div>
-
-					
 
 				</div>
 			</div>
@@ -169,6 +158,7 @@ export default {
 	props:['pub'],
     data: function () {
         return {
+			modelName: "Loading...",
 			canvasViewMode: 'design',
 			value: false,
 			isPublic: false,
@@ -211,27 +201,6 @@ export default {
       postCreate (){
 			this.logger = new Logger("Toolbar");
 			this.logger.log(3, "constructor", "entry > " + this.pub);
-
-			// this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
-			// this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
-
-			// this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
-			// this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
-			// this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
-			// this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
-			// this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
-
-			//this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
-			// this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
-			// this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
-
-			// this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
-			// this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-			// this.own(on(this.ungroupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-			// this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
-		
-			// this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
-			// this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
 		},
 
 		onHomeMenu (option, e) {
@@ -274,6 +243,9 @@ export default {
 
 		setModel (m){
 			this.model = m;
+			if (m) {
+				this.modelName = m.name
+			}
 			this.renderToolbar();
 			this.renderProperties()
 		},
@@ -731,6 +703,12 @@ export default {
 		/**********************************************************************
 		 * Add & Remove Events
 		 **********************************************************************/
+
+		onToolCreateScreen(e) {
+			this.logger.log(-1,"onToolCreateScreen", "entry >", e);
+			let scrn = this.createEmptyScreen(0, 0, 'Screen')
+			this.emit("newThemedScreen", {"obj" : scrn, "event" : e});
+		},
 
 		onToolBasic (v, e) {
 			this.logger.log(-1,"onToolBasic", "entry >", v.value, e);

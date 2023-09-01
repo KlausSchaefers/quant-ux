@@ -68,6 +68,14 @@
     color:$popup_color
 }
 
+.MatcToolbarLayerListCntr{
+	border-right: 1px solid $toolbar_border;
+}
+
+.MatcToobarPropertiesSection {
+    border-left: 1px solid $toolbar_border;
+}
+
 
 .MatcToolbarArrowDropDown .MatcToolbarPopUp {
     background:$popup_background;
@@ -97,6 +105,12 @@
         }
     }
 
+    .MatcCreateImportCntr {
+        background: $toolbar_background;
+        border-radius: $button_radius;
+        border-color: $toolbar_border;
+    }
+
 
     .MatcCreateSearch {
         background: none;
@@ -107,20 +121,17 @@
     .MatcCreateSearch:focus {
         background: $toolbar_background;
         color: $popup_color;
+        border-color: $primary_color;
     }
 
     .MatcCreateCatCntr li {
         border-radius: $button_radius;
-        padding: 8px;
     }
 
     .MatcCreateCatCntr li a{
        color: $popup_color; 
     }
 
-    .MatcCreateCatCntr li.MatcSelected{
-       
-    }
     .MatcCreateCatCntr li.MatcSelected a{
         color: $primary_color;
     }

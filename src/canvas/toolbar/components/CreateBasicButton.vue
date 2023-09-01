@@ -2,10 +2,9 @@
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton">
 		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
-			<label data-dojo-attach-point="label" class="">
-                <QIcon icon="Plus" />               
-			</label>
-            <span class="caret"></span>
+            <QIcon icon="Plus" />
+            <span class="MatcToolbarResponsiveLabel">Insert</span>    
+            <!-- <span class="caret"></span> -->
 
 		</div>
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
@@ -55,7 +54,7 @@ export default {
         return {
             selectedTool: null,
             tools: [
-                {value: 'screen', icon: 'DeviceMobile', label: 'Screen', shortcut: 'S'},
+                // {value: 'screen', icon: 'DeviceMobile', label: 'Screen', shortcut: 'S'},
                 {value: 'box', icon: 'BoxWide', label: 'Rectangle', shortcut:'R'},
                 {value: 'text', icon: 'Text', label: 'Text', shortcut:'T'},
                 {value: 'hotspot', icon: 'Hotspot', label: 'Hotspot', shortcut:'H'},

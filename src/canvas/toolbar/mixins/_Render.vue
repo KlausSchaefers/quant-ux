@@ -351,7 +351,7 @@ export default {
 			// this.addTooltip(this.simulatorButton, "Start Simulation (No data will be stored)");
 
 
-			// this.addTooltip(this.addScreenSection, "Add / Import Screens (S)", "vommondToolTipLeft");
+			this.addTooltip(this.addScreenBtn, "Add Screens (S)", "vommondToolTipLeft");
 			// this.addTooltip(this.addSection, "Add Widgets (W)", "vommondToolTipLeft");
 			// this.addTooltip(this.importSection, "Importing screens", "vommondToolTipLeft");
 			// this.addTooltip(this.editTool, "Edit mode", "vommondToolTipLeft");
@@ -1592,17 +1592,6 @@ export default {
 			this.own(on(btn, "unlink", lang.hitch(this, "unlinkDesignToken")));
 			this.designTokenBtns.push(btn)
 			return btn
-		},
-
-		createSpacer (parent){
-			var span = document.createElement("span");
-			css.add(span,"MatcToolbarSeperator");
-			if(!parent){
-				this.properties.appendChild(span);
-			} else {
-				parent.appendChild(span);
-			}
-			return span;
 		},
 
 		createToolBarItem (label, callback, clazz, parent){

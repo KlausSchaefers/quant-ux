@@ -7,7 +7,21 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left: 8px;
+	width: 100%;
+
+	.MatcToolbarItem{
+		width: 100%;
+		justify-content: flex-start;
+	}
+
+	.MatcToobarHomeSectionAppNameLabel {
+		width: 220px;
+		overflow: hidden;
+		display: block;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		text-align: left;
+	}
 }
 
 .MatcToobarHomeSection.MatcToobarHomeSectionBlue {

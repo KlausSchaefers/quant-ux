@@ -87,7 +87,10 @@
               <TooltipSettings ref="tooltipSettings" @change="onTooltipChange" :isChildDropDown="true"/>
             </div>
              <div class="MatcDesignTokenListPopupSection">
-               <a class="MatcButton" @click="onSave">Save</a>    <a class="MatcLinkButton" @click="onCancel">Cancel</a>
+                <div class="MatcButtonBar">
+                  <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onSave">Save</a>    
+                  <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onCancel">Cancel</a>
+              </div>
             </div>
           </div>
         </div>

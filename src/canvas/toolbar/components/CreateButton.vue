@@ -1,10 +1,8 @@
 <template>
     <div class=" MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton">
-	<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarPrimaryItem">
-			<label data-dojo-attach-point="label" class="" style="margin-right: -3px;">
-				<QIcon icon="Component" />
-			</label>
-			<span class="caret"></span>
+	<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarPrimaryItem">	
+			<QIcon icon="AddWidget" />		
+			<!-- <span class="caret"></span> -->
 		</div>
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 				<div class="MatcCreateBtnCntr MatcPadding">
@@ -27,7 +25,8 @@
 									<div class="MatcHint">Loading Apps...</div>
 								</div>
 								<div class="MatcButtonBar">
-									<a class="MatcButton" @click="onSaveImports">Save</a> <a class="MatcLinkButton" @click="showWidgets()">Back</a>
+									<a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onSaveImports">Save</a> 
+									<a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="showWidgets()">Back</a>
 								</div>
 							</div>
 
@@ -406,7 +405,7 @@ export default {
 				importApps.forEach(appHash => {
 					const sharedLi = db.li().build(ul);
 					const a = db.a("", "importing...").build(sharedLi);
-					this._lis[appHash] = li;
+					this._lis[appHash] = sharedLi;
 					Services.getModelService().findAppByHash(appHash).then(app => {
 						this.own(on(sharedLi, touch.press, lang.hitch(this, "showImportedApp", app.id, true) ));
 						this.onImportedLoaded(app, a, '')
@@ -460,10 +459,9 @@ export default {
 					}
 				})
 			}
-
 		
-			const li = db.span().build(ul);
-			db.a("MatcButton MatcButtonFullWidth", "Import").build(li);
+			const li = db.li("MatcMarginTop").build(ul);
+			db.a("", "Import").build(li);
 			this._lis["Import"] = li;
 			this.own(on(li, touch.press, lang.hitch(this, "showImportSection") ));
 

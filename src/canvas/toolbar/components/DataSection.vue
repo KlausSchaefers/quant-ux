@@ -223,12 +223,14 @@ export default {
 				const screen = this.model.screens[widget.props.screenID]
 				if (screen) {
 					const div = this.db.div(" MatcToolbarItem MatcToobarActionCntr MatcToolbarIconButton" ).build(this.cntr);
-					this.db.span("MatcToolbarSmallIcon mdi mdi-content-duplicate").build(div);
+					div.appendChild(iconDOM("ScreenSegment"))
 					this.db.span("MatcToolbarItemLabel",  screen.name).build(div);
 					const btn = this.db.span("MatcToobarRemoveBtn ")
 						.tooltip("Remove Segment", "vommondToolTipRightBottom")
-						.span("mdi mdi-close-circle-outline")
 						.build(div);
+					
+						btn.appendChild(iconDOM("DeleteX"))
+
 					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onSegmentScreenSelected", '')));
 
 					//this._renderCheck("Snapp on scroll",widget.props.snapp, "snapp" );
@@ -236,7 +238,7 @@ export default {
 				}
 			} else {
 				const add = this.db.div(" MatcPointer  MatcToolbarItem MatcToolbarIconButton").build(this.cntr);
-				this.db.span("MatcToolbarSmallIcon mdi mdi-plus-circle").build(add);
+				add.appendChild(iconDOM("Plus"))
 				this.db.span("MatcToolbarItemLabel", "Select Segment Screen").build(add);
 				this.tempOwn(on(add, touch.press, lang.hitch(this, "_renderSegmentScreen")));
 			}
