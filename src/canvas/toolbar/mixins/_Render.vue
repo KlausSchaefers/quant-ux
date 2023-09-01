@@ -345,39 +345,15 @@ export default {
 		},
 
 
-		renderToolTips:function(){
+		renderToolTips (){
 
-			// this.addTooltip(this.home, "Click here to exit");
 			this.addTooltip(this.simulatorButton, "Start Simulation");
-
-
 			this.addTooltip(this.addScreenBtn, "Add Screens (S)", "");
-			// this.addTooltip(this.addSection, "Add Widgets (W)", "vommondToolTipLeft");
-			// this.addTooltip(this.importSection, "Importing screens", "vommondToolTipLeft");
-			// this.addTooltip(this.editTool, "Edit mode", "vommondToolTipLeft");
-			// this.addTooltip(this.moveTool, "Move Canvas (SPACE)", "vommondToolTipLeft");
+	
+			// this.addTooltip(this.editBtn, "Edit mode", "vommondToolTipLeft");
+			// this.addTooltip(this.moveBtn, "Move Canvas (SPACE)", "vommondToolTipLeft");
 			// this.addTooltip(this.commentBtn, "Add Comment", "vommondToolTipLeft");
-			// this.addTooltip(this.selectBtn, "Start Selection Tool (A)", "vommondToolTipLeft");
-			// this.addTooltip(this.hotspotTool, "Create Hotspot (H) over uploaded images", "vommondToolTipLeft");
-			// this.addTooltip(this.textTool, "Create Text (T)", "vommondToolTipLeft");
-			// this.addTooltip(this.rectangleTool, "Create Rectangle (R)", "vommondToolTipLeft");
-			// this.addTooltip(this.addLogicSection, "Create Logic Element to split links", "vommondToolTipLeft");
-			// this.addTooltip(this.addRestSection, "Web Service", "vommondToolTipLeft");
-			// this.addTooltip(this.addScriptSection, "Script (BETA)", "vommondToolTipLeft");
-			// this.addTooltip(this.addGPTSection, "Design GPT (BETA)", "vommondToolTipLeft");
-			
-			// this.addTooltip(this.addVectorSection, "Vector Tools (Beta)", "vommondToolTipLeft");
 			// this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
-
-			// this.addTooltip(this.undo, "Undo (CTRL+Z)");
-			// this.addTooltip(this.redo, "Redo (CTRL+Shift+Z)");
-
-			// this.addTooltip(this.copyBtn, "Copy (CTRL+C)");
-			// this.addTooltip(this.pasteBtn, "Paste (CTRL+V)");
-			// this.addTooltip(this.deleteBtn, "Remove (DELETE)");
-			// this.addTooltip(this.copyStyleBtn, "Copy Style");
-			// this.addTooltip(this.signupSection, "Sign Up for Free to save your changes...");
-
 
 
 			this.addTooltip(this.groupBTN, "Create group (CTRL-G)");

@@ -277,6 +277,37 @@
 }
 
 
+.MatcToolbarBottomActions {
+
+
+    .MatcToolbarBottomActionsCntr {
+        background: $toolbar_background;
+        border:1px solid $toolbar_border;
+        .MatcToolbarItem {     
+            border: none;
+            &:hover {
+                background: $toolbar_form_background_hover;         
+            }
+    
+            &.MatcToolbarItemSelected{
+                background: $primary_color;
+                border-color: $primary_color;
+                color:#fff;
+            }
+        }
+    }
+  
+
+
+    .MatcToolbarItem {
+        background: $toolbar_background;
+        border:1px solid $toolbar_border;
+
+        &:hover {
+            background: $toolbar_form_background_hover;         
+        }
+    }
+}
 
 
 .MatcToolbarLayerList{

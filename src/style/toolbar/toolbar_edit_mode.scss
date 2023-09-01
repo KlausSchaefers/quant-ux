@@ -18,12 +18,12 @@
 		height: auto;
 		transition: all 0.2s;
 		border: 1px solid transparent;
+		border-radius: 0px;
 	}
 
 	a.MatcToolbarEditModeActive {
 		background: $toolbar_form_background_focus;
 		color: #fff;
-		border-radius: $button_radius;
 		&:hover {
 			background: $toolbar_form_background_focus;
 			color: #fff;

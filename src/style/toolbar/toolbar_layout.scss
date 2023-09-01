@@ -27,13 +27,13 @@
 .MatcToolbarPrimaryItem {
 	border-radius: $button_radius;
     padding: 16px 4px;
-	overflow: hidden;
+	Xoverflow: hidden;
 }
 
 .MatcToolbarSecondaryItem {
 	border-radius: $button_radius;
     padding: 16px 4px;
-	overflow: hidden;
+	Xoverflow: hidden;
 }
 
 .MatcToolbarSpacer {
@@ -46,6 +46,43 @@
 	font-size: 12px;
 }
 
+/****************************************************
+ * Bottom Actions
+ ****************************************************/
+
+
+.MatcToolbarBottomActions {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	z-index: 900000;
+	display: flex;
+	gap: 16px;
+
+	.MatcToolbarBottomActionsCntr {
+		display: flex;
+		gap: 0px;
+		border-radius: $button_radius;
+		overflow: hidden;
+		.MatcToolbarItem{
+			border-radius: 0px;			
+		}
+	}
+
+
+	.MatcToolbarItem{
+		border-radius: $button_radius;
+		padding: 4px;
+		min-width: 32px;
+    	height: 32px;
+	}
+}
+
+.MatcToolbarTemplateMarkerVisible {
+	.MatcToolbarBottomActions { 
+		right: 254px;
+	}
+}
 
 /****************************************************
  * Sections

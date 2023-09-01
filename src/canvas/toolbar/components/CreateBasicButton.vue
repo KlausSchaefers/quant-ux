@@ -118,7 +118,7 @@ export default {
 
     },
     mounted () {
-        this.addTooltip(this.$el, "Add basic elements")
+        this.addTooltip(this.$el, "Add basic Elements")
     }
 }
 </script>

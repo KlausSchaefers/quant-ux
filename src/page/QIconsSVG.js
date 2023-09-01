@@ -362,9 +362,7 @@ export const icons = {
     `,
     'Comment': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M8 9h8"></path>
-        <path d="M8 13h6"></path>
-        <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"></path>
+        <path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1"></path>
     `,
     'TextBold': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -921,6 +919,20 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
         <path d="M13.5 6.5l4 4"></path>
+    `,
+    'EditScroll': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5"></path>
+        <path d="M17 11.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47"></path>
+        <path d="M14 10.5a1.5 1.5 0 0 1 3 0v1.5"></path>
+        <path d="M11 5.5v-2a1.5 1.5 0 1 1 3 0v8.5"></path>
+    `,
+    'EditMove': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5"></path>
+        <path d="M11 11.5v-2a1.5 1.5 0 1 1 3 0v2.5"></path>
+        <path d="M14 10.5a1.5 1.5 0 0 1 3 0v1.5"></path>
+        <path d="M17 11.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47"></path>
     `,
     'DataBinding': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
