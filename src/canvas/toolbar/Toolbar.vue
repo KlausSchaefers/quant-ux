@@ -117,7 +117,7 @@
 				
 			</div>
 
-			<div class="MatcToolbarBottomActions">
+			<div class="MatcToolbarBottomActions" v-if="false">
 					<div class="MatcToolbarBottomActionsCntr">
 						<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="editBtn" >			
 						<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
