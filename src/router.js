@@ -192,6 +192,10 @@ export default new VueRouter({
     {
       path: '/test/Form.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/FormTest.vue')
+    },
+    {
+      path: '/test/VSlider.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/VSliderTest.vue')
     }
   ]
 })

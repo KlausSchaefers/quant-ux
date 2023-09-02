@@ -4,7 +4,7 @@
 		<div type="button" data-dojo-attach-point="button">
 			<label data-dojo-attach-point="label" class="">F</label>
 			<span class="caret" data-dojo-attach-point="caret"></span>
-			</div>
+		</div>
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 		</div>
 	</div>
