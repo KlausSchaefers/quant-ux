@@ -177,14 +177,15 @@
 		vertical-align: middle;
 	}
 
+	.MatcDialogTableMaxRow {
+		width: 80%;
+	}
+
+
 	.MatcDialogTableFlexTD {
 		display: flex;
 		align-items: center;
 		gap:16px;
-
-		.VommondInput {
-			flex-grow: 1;
-		}
 	}
 
 

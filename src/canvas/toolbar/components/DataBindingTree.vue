@@ -20,7 +20,7 @@
                         <td class="MatcDialogTableSelectCntr">
                             <CheckBox :value="variable.selected" @change="onSelectVariable($event, variable.name)"/>
                         </td>                 
-                        <td>                
+                        <td class="MatcDialogTableMaxRow">                
                             <span class="MatcDataBindingVariableName">
                                 {{variable.name}}
                             </span>
@@ -37,20 +37,17 @@
                     <td class="MatcDialogTableSelectCntr">
                        
                     </td>
-                     <td class="MatcDataBindingNameCntr">
-                      
+                     <td class="MatcDialogTableMaxRow">
                             <Combo
-                                    :fireOnBlur="true"
-                                    :top="false"
-                                    placeholder="Create new variable"
-                                    :inline="true"
-                                    :hints="hints"
-                                    ref="combo"
-                                    @focus="hasNewTypeSelector = true"
-                                    @change="onNewVariable"
-                                    :formControl="true"/>
-
-                        
+                                :fireOnBlur="true"
+                                :top="false"
+                                placeholder="Create new variable"
+                                :inline="true"
+                                :hints="hints"
+                                ref="combo"
+                                @focus="hasNewTypeSelector = true"
+                                @change="onNewVariable"
+                                :formControl="true"/>
                     </td>
                     <td></td>
                  </tr>
@@ -68,6 +65,7 @@ import Logger from 'common/Logger'
 // import DropDownButton from 'page/DropDownButton'
 import CheckBox from 'common/CheckBox'
 import Input from 'common/Input'
+import lang from '../../../dojo/_base/lang'
 import DataBindingService from 'services/DataBindingService'
 
 export default {
@@ -144,8 +142,8 @@ export default {
         onSelectVariable (selected, variable) {      
             this.logger.log(-1, 'onSelectVariable', 'enter', selected, variable)     
             if (selected) {
-                this.databinding[this.selectedVaribaleType] = variable
-            } else {
+                this.$set(this.databinding, this.selectedVaribaleType,variable)
+             } else {
                 this.$delete(this.databinding, this.selectedVaribaleType)
             }
             this.onChange()
@@ -162,7 +160,7 @@ export default {
         setWidget (v) {
             this.widget = v
             if (this.widget.props && this.widget.props.databinding) {
-                this.databinding = this.widget.props.databinding               
+                this.databinding = lang.clone(this.widget.props.databinding)         
             }
             this.variableKeys = DataBindingService.getDefautlBindings(this.widget)
             if (this.variableKeys.length > 0) {
