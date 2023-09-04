@@ -6,18 +6,19 @@
 import DojoWidget from 'dojo/DojoWidget'
 import Util from 'core/Util'
 import ArrowDropDown from './ArrowDropDown'
+import _Tooltip from 'common/_Tooltip'
 
 export default {
     name: 'LayerButton',
-    mixins:[Util, DojoWidget],
+    mixins:[Util, DojoWidget, _Tooltip],
     data: function () {
         return {
             selectedTool: null,
             tools: [
-                {value: "front", label: "Bring to front", icon:"LayerTop", shortcut:"CTRL + &uarr;"},
-				{value: "forward", label: "Bring forward", icon:"LayerUp", shortcut:"CTRL + ]"},
-				{value: "backward", label: "Send backward", icon:"LayerDown", shortcut:"CTRL + ["},
-				{value: "back", label: "Send to back ", icon:"LayerBottom", shortcut:"CTRL + &darr;"}
+                {value: "front", label: this.getNLS("toolbar.layer.front"), icon:"LayerTop", shortcut:"CTRL + &uarr;"},
+				{value: "forward", label: this.getNLS("toolbar.layer.forward"), icon:"LayerUp", shortcut:"CTRL + ]"},
+				{value: "backward", label: this.getNLS("toolbar.layer.backward") , icon:"LayerDown", shortcut:"CTRL + ["},
+				{value: "back", label: this.getNLS("toolbar.layer.backward"), icon:"LayerBottom", shortcut:"CTRL + &darr;"}
             ]
         }
     },
@@ -30,6 +31,7 @@ export default {
         }		
     },
     mounted () {
+        this.addTooltip(this.$el, this.getNLS("tooltip.layer"))
     }
 }
 </script>

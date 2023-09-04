@@ -27,10 +27,11 @@
 
 import Logger from "common/Logger";
 import _Tooltip from 'common/_Tooltip'
+import NLS from 'common/NLS'
 
 export default {
   name: "EditModeButton",
-  mixins: [_Tooltip],
+  mixins: [_Tooltip, NLS],
   props: ['value'],
   data: function() {
     return {
@@ -94,7 +95,7 @@ export default {
    },
   async mounted() {
     this.log = new Logger("EditModeButton")
-    this.addTooltip(this.$el, "Change view mode (TAB)")
+    this.addTooltip(this.$el, this.getNLS("tooltip.editmode"))
   }
 };
 </script>

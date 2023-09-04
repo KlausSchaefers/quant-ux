@@ -1057,7 +1057,7 @@ export default {
 		}
     },
     mounted () {
-		this.addTooltip(this.$el, "Add interactive Widgets (W)")
+		this.addTooltip(this.$el, this.getNLS("tooltip.widget"))
     }
 }
 </script>

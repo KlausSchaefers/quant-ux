@@ -64,7 +64,7 @@
 
 .MatcCreateBtnElement, 
 .MatcToolbarDropDownButtonItem { 
-    background: $create_element_background;
+    background-color: $create_element_background;
     color:$popup_color
 }
 
@@ -236,6 +236,9 @@
 
     .MatcBoxBorderContainer {
         border: 1px solid $toolbar_form_border;
+        > .MatcToolbarPopUpCntr:hover {
+            background: $toolbar_background;
+        }
     }
 
     .MatcToolbarColor,

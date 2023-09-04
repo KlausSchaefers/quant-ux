@@ -12,33 +12,12 @@
             </div>
          <div v-if="model" class="MatcDialogTable">
           
-             <table>
-                  <tr >
-                    <td class="MatcDataBindingCheckCntr">
-                        <span class="mdi mdi-database-plus"></span>
-                    </td>
-                     <td class="MatcDataBindingNameCntr">
-                       <Combo
-                            :fireOnBlur="true"
-                            :top="false"
-                            placeholder="Create new variable"
-                            :inline="true"
-                            :hints="hints"
-                            ref="combo"
-                            @focus="hasNewTypeSelector = true"
-                            @change="onNewVariable"
-					        :formControl="true"/>
-                    </td>
-                     <td>
-                        <a class="MatcButton">Create</a>                       
-                    </td>
-                 </tr>
-             </table>
+    
      
               <table>                  
                  <tbody>
                     <tr class="" v-for="variable in modelVariables" :key="variable.name">
-                        <td class="MatcDataBindingCheckCntr">
+                        <td class="MatcDialogTableSelectCntr">
                             <CheckBox :value="variable.selected" @change="onSelectVariable($event, variable.name)"/>
                         </td>                 
                         <td>                
@@ -49,9 +28,32 @@
                         <td class="MatcDataBindingVariableDefault" v-if="hasDefaults">
                             <input class="MatcIgnoreOnKeyPress form-control" placeholder="default value" v-model="variable.defaultValue"        @keydown.stop=""/>
                         </td>
+                        <td></td>
                     </tr>
                  </tbody>
+           
+                
+                  <tr >
+                    <td class="MatcDialogTableSelectCntr">
+                       
+                    </td>
+                     <td class="MatcDataBindingNameCntr">
+                      
+                            <Combo
+                                    :fireOnBlur="true"
+                                    :top="false"
+                                    placeholder="Create new variable"
+                                    :inline="true"
+                                    :hints="hints"
+                                    ref="combo"
+                                    @focus="hasNewTypeSelector = true"
+                                    @change="onNewVariable"
+                                    :formControl="true"/>
 
+                        
+                    </td>
+                    <td></td>
+                 </tr>
              </table>
          </div>
 	</div>

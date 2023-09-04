@@ -16,6 +16,12 @@
         margin-top: 10px;
     }
 
+    .MatcToolbarTableSettingsTable th{
+        font-weight: 400;
+        padding-top: 15px;
+        font-size: 14px;
+    }
+
    .MatcToolbarItem.MatcToolbarColor{
         padding: 0px;
         margin: 0px;
@@ -23,62 +29,12 @@
         vertical-align: middle;
     }
 
-    .MatcFormRow .MatcToolbarColorIndicator {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        margin-top: 0px;
-    }
-
-     .MatcFormRow{
-        margin-top:10px;
-        margin-bottom: 10px;
-    }
-
-
     label {
         font-size: 14px;
         font-weight: 400;
         display: inline;
         vertical-align: middle;
     }
-
-
-    input.form-control{
-        display: inline-block;
-        vertical-align: middle;
-        width: 100%;
-    }
-
-
-    input.form-control.form-control-xs{
-        width: 40px;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    .VommondCheckBoxLabel{
-        font-size: 14px;
-    }
-
-    .MatcFormRowRemove {
-        opacity: 0;
-        text-align: right;
-    }
-
-    .MatcFormRowRemove .MatcQIcon{
-        cursor: pointer;
-    }
-
-    .MatcFormRowRemove .MatcQIcon:hover{
-        color: $color_danger
-    }
-
-    .MatcFormRow:hover .MatcFormRowRemove {
-        opacity: 1
-    }
-
-
 
    .MatcFormRow .MatcToolbarDropDownButton{
         margin: 0px;
@@ -89,19 +45,6 @@
     .MatcToolbarTableSettingsTable{
         width: 100%;
         font-size: 14px;
-
-    }
-
-    .MatcToolbarTableSettingsTable th{
-        font-weight: 400;
-        padding-top: 15px;
-        font-size: 14px;
-    }
-
-    .MatcFormRow > td{
-        padding-bottom: 10px;
-        vertical-align: middle;
-        font-size: 18px;
     }
 
     .MatcDataTable {

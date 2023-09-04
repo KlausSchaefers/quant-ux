@@ -2,7 +2,7 @@
   <div class="VommondContentContainer">
 
 
-    <div class="MatcContent MatcAbout ">
+    <div class="MatcContent MatcMarginTopXXL ">
       <div class="MatcSection">
         <div class="container" v-if="user">
           <h2>My Account</h2>

@@ -18,11 +18,11 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import touch from 'dojo/touch'
-import _DropDown from './_DropDown'
+import ToolbarDropDownButton from './ToolbarDropDownButton'
 
 export default {
     name: 'InputDropDownButton',
-	mixins:[_DropDown, DojoWidget],
+	mixins:[ToolbarDropDownButton, DojoWidget],
 	props: ['qIcon', 'qIsDropDown'],
     data: function () {
         return {
@@ -35,7 +35,6 @@ export default {
 		postCreate (){
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
 			this.own(on(this.inputBox, "change", lang.hitch(this,"onInputChange")));
-			this.reposition = true
 		},
 
 		setLabel (value){

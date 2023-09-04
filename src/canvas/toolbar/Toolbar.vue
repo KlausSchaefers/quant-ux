@@ -39,7 +39,7 @@
 							<CreateButton ref="createButton"/>
 							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
 							<CreateVectorButton @add="onToolSVG" v-if="false" />	
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentTool"  @click="onNewComment">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
 								<QIcon icon="Comment" />
 							</div>						
 						</div>
@@ -49,20 +49,14 @@
 							<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 							
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
-									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="groupBTN" @click="onToolGroup">
-										<div class="">									
-											<QIcon icon="Group" />					
-										</div>
+									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="groupBTN" @click="onToolGroup">						
+										<QIcon icon="Group" />					
 									</div>
-									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">
-										<div class="">									
-											<QIcon icon="UnGroup" />					
-										</div>
+									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">					
+										<QIcon icon="UnGroup" />					
 									</div>
 									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
-										<div class="">									
-											<QIcon icon="Distribute" />					
-										</div>
+										<QIcon icon="Distribute" />					
 									</div>
 								</div>
 

@@ -139,6 +139,12 @@
         }
     },
     "toolbar": {
+        "layer": {
+            "front": "Bring to front",
+            "forward": "Bring forward",
+            "backward": "Send backward",
+            "back": "Send to back "
+        },
         "menu": {
             "start": "Start Simulator",
             "settings": "Settings",
@@ -150,6 +156,21 @@
             "save-as": "Duplicate",
             "exit": "Back to Prototypes"
         },
+        "create": {
+            "rectangle": "Rectangle",
+            "text": "Text",
+            "hotspot": "Hotspot",
+            "logic": "Logic",
+            "rest": "Web Service",
+            "or": "Or Conenctor",
+            "ab": "AB Test",
+            "script": "Script",
+            "vector": "Vector",
+            "curve": "Curve",
+            "path": "Path",
+            "triangle": "Triangle",
+            "gpt": "Design GPT"
+        },
         "svgStop": "Stop Editing",
         "simulate": "Simulate",
         "group": "Group",
@@ -160,6 +181,20 @@
     },
     "table": {
         "action": "Action"
+    },
+    "tooltip": {
+        "simulate": "Start Simulation",
+        "screen": "Add Screens (S)",
+        "group": "Create group (CTRL-G)",
+        "ungroup": "Remove group (CTRL-G)",
+        "clone": "Clone selection (C)",
+        "distribute": "Distribute (D) object equally",
+        "template": "Create or edit component",
+        "basic": "Add basic Elements",
+        "widget": "Add interactive Widgets (W)",
+        "comment": "Add comment",
+        "layer": "Change Layer",
+        "editmode": "Change view mode (TAB)"
     },
     "table-action": "Action X",
     "btn": {

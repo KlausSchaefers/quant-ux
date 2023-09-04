@@ -1130,7 +1130,7 @@ input.MatcToobarInlineEditDisabled:focus {
 	padding: 8px;
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 8px;
 }
 
 .MatcBoxSize input {
@@ -1411,6 +1411,7 @@ input.MatcToobarInlineEditDisabled:focus {
 	display: flex;
 	align-items: center;
 	padding: 8px;
+	padding-top: 0px;
 	gap: 4px;
 
 	.MatcQIcon {

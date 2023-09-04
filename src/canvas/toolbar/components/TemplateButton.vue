@@ -14,10 +14,11 @@ import DojoWidget from 'dojo/DojoWidget'
 import Util from 'core/Util'
 import ArrowDropDown from './ArrowDropDown'
 import QIcon from 'page/QIcon'
+import _Tooltip from 'common/_Tooltip'
 
 export default {
     name: 'TemplateButton',
-    mixins: [Util, DojoWidget],
+    mixins: [Util, DojoWidget,_Tooltip],
     data: function () {
         return {
             widget: null,
@@ -57,6 +58,7 @@ export default {
         }
     },
     mounted() {
+        this.addTooltip(this.$el, this.getNLS("tooltip.template"))
     }
 }
 </script>

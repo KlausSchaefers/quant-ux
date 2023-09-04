@@ -58,25 +58,25 @@ export default {
             selectedTool: null,
             tools: [
                 // {value: 'screen', icon: 'DeviceMobile', label: 'Screen', shortcut: 'S'},
-                {value: 'box', icon: 'BoxWide', label: 'Rectangle', shortcut:'R'},
-                {value: 'text', icon: 'Text', label: 'Text', shortcut:'T'},
-                {value: 'hotspot', icon: 'Hotspot', label: 'Hotspot', shortcut:'H'},
+                {value: 'box', icon: 'BoxWide', label: this.getNLS('toolbar.create.rectangle'), shortcut:'R'},
+                {value: 'text', icon: 'Text', label:  this.getNLS('toolbar.create.text'), shortcut:'T'},
+                {value: 'hotspot', icon: 'Hotspot', label:  this.getNLS('toolbar.create.hotspot'), shortcut:'H'},
                 {value: 1, css:'MatcToolbarPopUpLine'},
-                {value: 'logic', icon: 'Cloud', label: 'Logic', children:[
-                    {value: 'rest', icon: 'Cloud', label: 'Rest'},
-                    {value: 'logic', icon: 'OR', label: 'OR'},
-                    {value: 'ab', icon: 'AB', label: 'AB'},
-                    {value: 'script', icon: 'JS', label: 'Script'}
+                {value: 'logic', icon: 'Cloud', label: this.getNLS('toolbar.create.logic'), children:[
+                    {value: 'rest', icon: 'Cloud', label: this.getNLS('toolbar.create.rest')},
+                    {value: 'logic', icon: 'OR', label: this.getNLS('toolbar.create.or')},
+                    {value: 'ab', icon: 'AB', label: this.getNLS('toolbar.create.ab')},
+                    {value: 'script', icon: 'JS', label: this.getNLS('toolbar.create.script')}
                 ]},
 
-                {value: 'vector', icon: 'VectorBezier', label: 'Vector', children:[
-                    {value: 'bezier', icon: 'VectorBezier2', label: 'Curve', type:'vector'},
-                    {value: 'path', icon: 'VectorPath', label: 'Path', type:'vector'},
-                    {value: 'rectangle', icon: 'VectorRectangle', label: 'Rectangle', type:'vector'},
-                    {value: 'triangle', icon: 'VectorTriangle', label: 'Triangle', type:'vector'}
+                {value: 'vector', icon: 'VectorBezier', label: this.getNLS('toolbar.create.vector'), children:[
+                    {value: 'bezier', icon: 'VectorBezier2', label: this.getNLS('toolbar.create.curve'), type:'vector'},
+                    {value: 'path', icon: 'VectorPath', label: this.getNLS('toolbar.create.path'), type:'vector'},
+                    {value: 'rectangle', icon: 'VectorRectangle', label: this.getNLS('toolbar.create.rectangle'), type:'vector'},
+                    {value: 'triangle', icon: 'VectorTriangle', label: this.getNLS('toolbar.create.triangle'), type:'vector'}
                 ]},
                 {value: 2, css:'MatcToolbarPopUpLine'},
-                {value: 'designgpt', icon: 'Robot', label: 'Design GPT'},
+                {value: 'designgpt', icon: 'Robot', label: this.getNLS('toolbar.create.gpt')},
             ]
         }
     },
@@ -118,7 +118,7 @@ export default {
 
     },
     mounted () {
-        this.addTooltip(this.$el, "Add basic Elements")
+        this.addTooltip(this.$el, this.getNLS("tooltip.basic"))
     }
 }
 </script>

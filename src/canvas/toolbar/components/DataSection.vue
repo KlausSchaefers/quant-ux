@@ -1623,7 +1623,7 @@ export default {
 
 		_showDataBindingDialog (widget, variable){
 
-			var popup = this.db.div("MatcDataBindingDialogXXL MatcPadding").build();
+			var popup = this.db.div("MatcDialog MatcDataBindingDialogXXL MatcPadding").build();
 			var cntr = this.db.div("").build(popup);
 
 			let dataBinding = this.$new(DataBinding)
@@ -1659,6 +1659,18 @@ export default {
 			this.emit("propertyChange", "databinding", value);
 			d.close();
 		},
+
+		// setDataBinding (d, dataBindingWidget){
+		// 	/**
+		// 	 * Since 2.1.2 We get a dict form the dataBinding Widgt
+		// 	 */
+		// 	const value = dataBindingWidget.getValue()
+		// 	const schema = dataBindingWidget.getSchema()
+		// 	const data = dataBindingWidget.getData()
+		// 	this.emit("dataBindingChange", value, schema, data);
+		// 	d.close();
+		// },
+
 
 		/**********************************************************************
 		 * Table

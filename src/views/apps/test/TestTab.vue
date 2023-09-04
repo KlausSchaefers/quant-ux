@@ -101,7 +101,7 @@
   </div>
 </template>
 <style lang="scss">
-  @import '../../../style/components/upload.scss';
+
   @import '../../../style/components/layout.scss';
 </style>
 <script>

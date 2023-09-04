@@ -38,66 +38,6 @@ body.MatcBody {
 	margin-right: auto;
 }
 
-
-/****************************************************
- * Preview
- ****************************************************/
-
-
-/****************************************************
- * Uploader Button
- ****************************************************/
-.MatcUploader {
-	height: 150px;
-	width: 150px;
-	border-radius: 50%;
-	background: #cecece;
-	position: relative;
-	display: inline-block;
-	transition: all;
-	transition-duration: 0.25s;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.MatcUploader.MatcUploaderLoading {
-	background: #fff;
-}
-
-.MatcUploader.MatcUploaderLoading .MatcUploaderIcon.mdi {
-	color: #92c500;
-}
-
-.MatcUploader.MatcUploaderLoading:HOVER {
-	background: none;
-}
-
-.MatcUploader:hover,
-.MatcUploader.MatcUploaderDnD {
-	background-color: #92c500;
-}
-
-.MatcUploader .MatcQIcon {
-	color: #fff;
-	height: 48px;
-	width: 48px;
-}
-
-.MatcUploader .MatcQIcon svg {
-	color: #fff;
-	height: 48px;
-	width: 48px;
-}
-
-.MatcUploaderCanvas {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-}
-
 /****************************************************
  * Team
  ****************************************************/
@@ -155,7 +95,6 @@ body.MatcBody {
 
 .MatcUserAdd:hover {
 	background: rgba(255, 255, 255, 0.2);
-
 }
 
 .MatcTeamDialog {

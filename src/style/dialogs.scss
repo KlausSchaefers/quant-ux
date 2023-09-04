@@ -1,3 +1,9 @@
+.MatcDialog {
+    min-height: 200px;
+    padding: 32px 32px 40px;
+    border-radius: 12px;
+}
+
 .MatcHelpDialog {
     width: 1000px;
     height: 700px;
@@ -10,13 +16,6 @@
 .MatcDataBindingDialogXXL {
     width: 840px;
     min-height: 660px;
-}
-
-
-.MatcDialog {
-    min-height: 200px;
-    padding: 32px 32px 40px;
-    border-radius: 12px;
 }
 
 .MatcOptionDialog {

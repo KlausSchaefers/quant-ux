@@ -347,18 +347,16 @@ export default {
 
 		renderToolTips (){
 
-			this.addTooltip(this.simulatorButton, "Start Simulation");
-			this.addTooltip(this.addScreenBtn, "Add Screens (S)", "");
+			this.addTooltip(this.simulatorButton, this.getNLS("tooltip.simulate"));
+			this.addTooltip(this.addScreenBtn, this.getNLS("tooltip.screen"));
 	
 			// this.addTooltip(this.editBtn, "Edit mode", "vommondToolTipLeft");
 			// this.addTooltip(this.moveBtn, "Move Canvas (SPACE)", "vommondToolTipLeft");
-			// this.addTooltip(this.commentBtn, "Add Comment", "vommondToolTipLeft");
-			// this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
-
-
-			this.addTooltip(this.groupBTN, "Create group (CTRL-G)");
-			this.addTooltip(this.ungroupBTN, "Remove group (CTRL-G)");
-			// this.addTooltip(this.replicateBtn, "Clone selection (C)");
+			this.addTooltip(this.commentBtn,this.getNLS("tooltip.comment"));
+			this.addTooltip(this.distributeBtn, this.getNLS("tooltip.distribute"));
+			this.addTooltip(this.groupBTN,this.getNLS("tooltip.group"));
+			this.addTooltip(this.ungroupBTN, this.getNLS("tooltip.ungroup"));
+			this.addTooltip(this.replicateBtn, this.getNLS("tooltip.clone"));
 		},
 
 

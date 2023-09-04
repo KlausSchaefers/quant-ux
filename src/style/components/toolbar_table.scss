@@ -1,6 +1,6 @@
 @import '../variables.scss';
 
-.MatcToolbarTable{
+.MatcToolbarTable {
 	width: 1030px;
 	font-size: 14px;
 	border-radius: 3px;
@@ -8,16 +8,16 @@
 	overflow: hidden;
 
 	thead {
-		background: $table_background_header; 
+		background: $table_background_header;
 
-		.MatcToolbarTableLabel{
+		.MatcToolbarTableLabel {
 			position: relative;
 			text-align: left;
 			color: #777;
 			display: flex;
 			padding: 7px 0px;
 
-			.vommondInlineEdit{
+			.vommondInlineEdit {
 				border: 1px dashed transparent;
 				width: auto;
 				margin: 2px 2px;
@@ -35,33 +35,34 @@
 		}
 	}
 
-	table{
+	table {
 		border-collapse: separate;
-		border-spacing: 0; /* remove border gaps */
+		border-spacing: 0;
+		/* remove border gaps */
 	}
 
-	.MatcToolbarTableBody{
+	.MatcToolbarTableBody {
 		height: 450px;
 		overflow: auto;
 	}
-	
-	.MatcToolbarTableReizeCol td{
+
+	.MatcToolbarTableReizeCol td {
 		cursor: col-resize;
 	}
 
-	.MatcToolbarTableBody td{
-		border-top:1px solid #cecece !important;
-		border-left:1px solid #cecece;
-		padding: 0px;
-	}
-	
-	.MatcToolbarTableBody table thead tr.MatcToolbarTableHead td{
-		border-top:0px !important;
+	.MatcToolbarTableBody td {
+		border-top: 1px solid #cecece !important;
+		border-left: 1px solid #cecece;
 		padding: 0px;
 	}
 
-	input{
-		border:none;
+	.MatcToolbarTableBody table thead tr.MatcToolbarTableHead td {
+		border-top: 0px !important;
+		padding: 0px;
+	}
+
+	input {
+		border: none;
 		width: 100%;
 		height: 100%;
 		outline: none;
@@ -70,25 +71,25 @@
 	.MatcToolbarTableLabelRow input {
 		font-weight: 700;
 	}
-	
+
 	input:focus {
 		border: medium none;
 		height: 100%;
 		width: 100%;
 		outline: none;
 	}
-	
-	.MatcToolbarTableInputFocus{
+
+	.MatcToolbarTableInputFocus {
 		background: $table_selected;
 	}
 
-	thead td{
+	thead td {
 		text-align: center;
-		color:$gray_2;
+		color: $gray_2;
 	}
-	
-	.MatcToolbarTableBody tr td:FIRST-CHILD,  
-	.MatcToolbarTableBody tr td:FIRST-CHILD{
+
+	.MatcToolbarTableBody tr td:FIRST-CHILD,
+	.MatcToolbarTableBody tr td:FIRST-CHILD {
 		text-align: center;
 		background: $table_background_header;
 		width: 30px;
@@ -98,58 +99,59 @@
 	}
 
 
-	.MatcToolbarTableHidden{
-		opacity:0;
+	.MatcToolbarTableHidden {
+		opacity: 0;
 		height: 0px;
 		padding: 0px;
 		overflow: hidden;
 	}
 
-	.MatcToolbarTableColumnHandle{
+	.MatcToolbarTableColumnHandle {
 		position: absolute;
 		height: 100%;
-		top:0px;
-		right:-4px;
+		top: 0px;
+		right: -4px;
 		width: 9px;
 		background: transparent;
 		cursor: col-resize;
 	}
-	
-	.MatcToolbarTableColumnHandle:HOVER, .MatcToolbarTableColumnHandle.MatcToolbarTableColumnHandleSelected{
+
+	.MatcToolbarTableColumnHandle:HOVER,
+	.MatcToolbarTableColumnHandle.MatcToolbarTableColumnHandleSelected {
 		background: $main_color;
 	}
-	
-	.MatcToolbarTableUpload{
+
+	.MatcToolbarTableUpload {
 		position: relative;
 		display: inline-block;
 	}
-	
-	.MatcToolbarTableUpload:hover a{
+
+	.MatcToolbarTableUpload:hover a {
 		text-decoration: underline;
 	}
 }
 
-.MatcFormRow{
+.MatcFormRow {
 	text-align: left;
 	margin-bottom: 20px;
 }
 
-.MatcFormRow label{
+.MatcFormRow label {
 	display: block;
 }
 
-.MatcFormRow input{
+.MatcFormRow input {
 	width: 300px;
 }
 
-.MatcFormRowDND{
+.MatcFormRowDND {
 	display: flex;
 	align-items: center;
 	gap: 4px;
 	height: 34px;
 }
 
-.MatcFormRowDND .MatcQIcon{
+.MatcFormRowDND .MatcQIcon {
 	margin-left: -5px;
 	margin-top: 2px;
 	font-size: 18px;
@@ -163,68 +165,106 @@
  * DialogTable
  ****************************************************/
 
- .MatcDialogTable{
+.MatcDialogTable {
 	overflow: hidden;
 	padding: 0px;
-   border-radius:3px;
-   height: 450px;
+	border-radius: 3px;
+	height: 450px;
+
+	td,
+	th {
+		padding: 8px;
+		vertical-align: middle;
+	}
+
+	.MatcDialogTableFlexTD {
+		display: flex;
+		align-items: center;
+		gap:16px;
+
+		.VommondInput {
+			flex-grow: 1;
+		}
+	}
+
+
+	&.MatcDialogTableScrollable {
+		overflow: scroll;
+	}
+	
+	.MatcDialogTableSelectCntr {
+		width: 32px;
+		padding: 8px 16px;
+	}
+
+	td.MatcDialogTableAction {
+		cursor: pointer;
+	}
+	
+	.MatcDialogTableInvalidRow {
+		text-decoration: line-through;
+	}
+
+
+	table {
+		width: 100%;
+		min-width: 250px;
+	}
+	
+	&.MatcDialogTableXL table {
+		min-width: 450px;
+	}
+	
+	thead {
+		font-weight: bold;
+		background: rgb(230, 230, 230);
+		border-bottom: 1px solid #cecece;
+	}
+
+	tr:HOVER {
+		background: rgb(230, 230, 230)
+	}
+
+
+    input.form-control{
+        display: inline-block;
+        vertical-align: middle;
+        width: 100%;
+    }
+
+	.MatcFormRow .MatcToolbarColorIndicator {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-top: 0px;
+    }
+
+    input.form-control.form-control-xs{
+        width: 40px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .VommondCheckBoxLabel{
+        font-size: 14px;
+    }
+
+    .MatcFormRowRemove {
+        opacity: 0;
+        text-align: right;
+    }
+
+    .MatcFormRowRemove .MatcQIcon{
+        cursor: pointer;
+    }
+
+    .MatcFormRowRemove .MatcQIcon:hover{
+        color: $color_danger
+    }
+
+    .MatcFormRow:hover .MatcFormRowRemove {
+        opacity: 1
+    }
+
 }
-
-.MatcDialogTable.MatcDialogTableScrollable{
-   overflow: scroll;
-}
-
-.MatcDialogTransTable{
-   border: 1px solid #cecece;
-   border-radius:3px;
-   height: 350px;
-   overflow:hidden;
-}
-
-.MatcDialogTable table{
-	width: 100%;
-	min-width: 250px;
-}
-
-.MatcDialogTableXL table{
-	 min-width: 450px;
-}
-
-.MatcDialogTable thead{
-   font-weight: bold;
-   background: rgb(230, 230, 230);
-   border-bottom: 1px solid #cecece;
-}
-
-
-.MatcDialogTable td.MatcDialogTableCheckBoxCntr{
-   padding: 10px 0 10px 10px;
-   width: 40px;
-}
-
-.MatcDialogTable td.MatcDialogTableCheckBoxLabel{
-   padding:10px;
-}
-
-
-
-.MatcDialogTable tr:HOVER{
-   background: rgb(230, 230, 230)
-}
-
-.MatcDialogTable td,
-.MatcDialogTable th {
-   padding: 10px 20px;
-}
-
-.MatcDialogTable td.MatcDialogTableAction {
-   cursor: pointer;
-}
-
-.MatcDialogTableInvalidRow{
-   text-decoration: line-through;
-}
-
-
-
 

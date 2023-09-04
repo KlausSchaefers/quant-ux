@@ -6,6 +6,9 @@
 		<input type="file" data-dojo-attach-point="file" class="MatcImageUploadFile" />
 	</div>
 </template>
+<style lang="scss">
+  @import '../style/components/upload.scss';
+</style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'

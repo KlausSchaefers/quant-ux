@@ -232,6 +232,15 @@
 	height: auto;
 }
 
+.MatcToobarPropertiesSectionCntr > .MatcToolbarSection{
+	padding-bottom: 8px;
+}
+
+.MatcToobarPropertiesSectionCntr > .MatcToolbarSection.MatcToolbarSectionCollabsed{
+	padding-bottom: 0px;
+}
+
+
 .MatcToobarPropertiesSection .MatcToolbarSeperator {
 	border: none;
 	display: block;

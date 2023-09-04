@@ -242,24 +242,8 @@
  ****************************************************/
 
 
-.VommondInputList {
-	width: 400px;
-}
-
-.VommondInputList td {
-	padding-bottom: 20px;
-}
-
-.MatcDialogTable td.VommondInputListCheckCntr {
-	width: 30px;
-}
-
-.VommondInputList td.VommondInputListCheckCntr {
-	padding-top: 17px;
-}
-
 .VommondInputListInputCntr {
-	width: 300px;
+	width: 80%;
 }
 
 .VommondInputList .VommondCheckBoxLabel {
@@ -268,7 +252,7 @@
 
 .VommondInputListRemove {
 	vertical-align: middle;
-	color: red;
+	color: $color_danger;
 	padding: 5px;
 	opacity: 0;
 	cursor: pointer;
@@ -583,44 +567,6 @@ tr:hover .VommondInputListRemove {
 	background: $primary_color;
 	color: #fff;
 
-}
-
-.vommondInlineEdit,
-.VommondInputList input.vommondInlineEdit {
-	border: 1px transparent solid;
-	width: 100%;
-	resize: none;
-	padding: 10px 16px;
-	background: none;
-	border-radius: 3px;
-	transition: border 0.25s;
-	box-shadow: none;
-}
-
-
-.vommondInlineEdit:hover,
-.VommondInputList input.vommondInlineEdit:hover {
-	border: 1px $primary_color dashed;
-}
-
-.vommondInlineEdit:focus,
-.VommondInputList input.vommondInlineEdit:focus {
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid $primary_color;
-}
-
-.vommondLineInput {
-	border: 1px transparent solid;
-	padding: 3px;
-	border-bottom: 1px solid #ccc;
-	background: none;
-	transition: border 0.25s;
-}
-
-.vommondLineInput:FOCUS,
-.vommondLineInput:HOVER {
-	border: 1px solid #ccc;
 }
 
 
@@ -1147,7 +1093,9 @@ tr:hover .VommondInputListRemove {
  ****************************************************/
 
 .VommondCheckBoxWrapper {
-	display: inline-block;
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
 }
 
 .VommondCheckBox {
@@ -1155,18 +1103,17 @@ tr:hover .VommondInputListRemove {
 	width: 16px;
 	height: 16px;
 	position: relative;
-	border: 1px solid #777;
+	border: 1px solid $form_border;
 	vertical-align: middle;
 	cursor: pointer;
 }
 
 .VommondCheckBoxWrapper:hover .VommondCheckBox {
-	border-color: hsl(0deg, 0%, 71%);
+	border-color: $form_border_hover
 }
 
 
 .VommondCheckBoxLabel {
-	margin-left: 10px;
 	vertical-align: middle;
 	cursor: pointer;
 }
@@ -1179,10 +1126,7 @@ tr:hover .VommondInputListRemove {
 	border-right: 2px solid $primary_color;
 	transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
-	/* IE 9 */
 	-webkit-transform: rotate(45deg);
-	/* Opera, Chrome, and Safari */
-
 	display: inline-block;
 	height: 90%;
 	width: 50%;
@@ -1190,13 +1134,10 @@ tr:hover .VommondInputListRemove {
 	position: absolute;
 	opacity: 0;
 	top: 0;
-
-
 }
 
 .VommondCheckBoxChecked .VommondCheckBoxHook {
 	opacity: 1;
-
 }
 
 .VommondLabelCheckBox {

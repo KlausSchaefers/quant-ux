@@ -88,12 +88,12 @@ export default {
 			this._checks = [];
 
 			var tbl = this.db.table("").build();
-			this.db.tbody().build(tbl);
+			var body = this.db.tbody().build(tbl);
 
 
 			for (let i = 0; i < this.options.length; i++) {
 				let option = this.options[i];
-				let row = this.db.tr().build(tbl);
+				let row = this.db.tr().build(body);
 				// make dragable
 				row.draggable = "true"
 				this.tempOwn(on(row, 'dragstart', e => this.onDragstart(e, i)))
@@ -101,7 +101,7 @@ export default {
 				this.tempOwn(on(row, 'dragover', e => this.onDragOver(e)))
 
 				if (this.check == "single") {
-					let checkTd = this.db.td("VommondInputListCheckCntr").build(row);
+					let checkTd = this.db.td("MatcDialogTableSelectCntr").build(row);
 					let chkBox = this.$new(CheckBox);
 					chkBox.setValue(this.isSelected(option));
 					chkBox.placeAt(checkTd);
@@ -138,16 +138,16 @@ export default {
 			}
 
 			if (this.add) {
-				let row = this.db.tr().build(tbl);
+				let row = this.db.tr().build(body);
 				if (this.check == "single") {
-					this.db.td("VommondInputListCheckCntr").build(row);
+					this.db.td("MatcDialogTableSelectCntr").build(row);
 				}
 
 				let td = this.db.td().build(row)
 				let input = this.$new(Input, {
 					fireOnBlur: true,
 					top: true,
-					placeholder: "Enter a value",
+					placeholder: "Create a new value",
 					inline: this.inline,
 					formControl: true
 				}) // this.db.td().input("MatcIgnoreOnKeyPress form-control", "", this.placeholder).build(row);
