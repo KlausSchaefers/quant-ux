@@ -13,6 +13,7 @@ import Dialog from 'common/Dialog'
 import DomBuilder from 'common/DomBuilder'
 import CheckBox from 'common/CheckBox'
 import InputList from 'common/InputList'
+import OptionsList from 'common/OptionsList'
 import ScrollContainer from 'common/ScrollContainer'
 import _Tooltip from 'common/_Tooltip'
 import Util from 'core/Util'
@@ -1770,7 +1771,7 @@ export default {
 		_showFormGroupDialog (e){
 			this.stopEvent(e);
 
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			var popup = this.db.div("MatcDialog MatcOptionDialog MatcPadding").build();
 			var cntr = this.db.div("MatcDialogTable").build(popup);
 			var scroller = this.$new(ScrollContainer);
 			scroller.placeAt(cntr);
@@ -1862,16 +1863,15 @@ export default {
 		},
 
 		_showRefDialog (model, refElement, refId, e){
-		
+			console.debug('_showRefDialog')
 			this.stopEvent(e);
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			var popup = this.db.div("MatcDialog MatcOptionDialog MatcPadding").build();
 
 			var cntr = this.db.div("MatcDialogTable MatcDialogTableXL").build(popup);
 			var widgetsWidthDistance = this._getSortedReferenceableWidgets(model);
 
 			var scroller = this.$new(ScrollContainer);
 			scroller.placeAt(cntr);
-
 
 			var list = this.$new(InputList,{"check" : "single", "add":false, "remove" : false, "edit":false});
 			list.setLabelFct(function(option){
@@ -1968,25 +1968,29 @@ export default {
 		_renderOptionDialog (e){
 			this.stopEvent(e);
 
-			var popup = this.db.div("MatcDialog MatcOptionDialog MatcPadding").build();
+			const popup = this.db
+				.div("MatcDialog MatcOptionDialog MatcPadding").build();
 
-			var cntr = this.db.div("MatcDialogTable").build(popup);
+			const cntr = this.db
+				.div("MatcDialogTable").build(popup);
 
-			var scroller = this.$new(ScrollContainer);
+			const scroller = this.$new(ScrollContainer);
 			scroller.placeAt(cntr);
 
-			var list = this.$new(InputList, {"check" : "single"});
+			const list = this.$new(OptionsList, {"check" : "single"});
 			list.setSelected(this.widget.props.selected);
 			list.setOptions(this.widget.props.options);
 
 			scroller.wrap(list.domNode);
 
-			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const bar = this.db
+				.div("MatcButtonBar MatcMarginTop").build(popup);
+			const write = this.db
+				.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
+			const cancel = this.db
+				.a("MatcLinkButton", "Cancel").build(bar);
 
-			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
-			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
-
-			var d = new Dialog();
+			const d = new Dialog();
 			d.own(on(write, touch.press, lang.hitch(this,"setOptions", d, scroller, list)));
 			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, scroller, list)));
 			d.popup(popup, e.target);

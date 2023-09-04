@@ -79,6 +79,12 @@
 		outline: none;
 	}
 
+	.VommondCheckBoxWrapper {
+		height: 16px;
+		padding: 0px;
+		margin: 0px;
+	}
+
 	.MatcToolbarTableInputFocus {
 		background: $table_selected;
 	}
@@ -148,15 +154,18 @@
 	display: flex;
 	align-items: center;
 	gap: 4px;
-	height: 34px;
+	height: 38px;
 }
 
 .MatcFormRowDND .MatcQIcon {
-	margin-left: -5px;
-	margin-top: 2px;
-	font-size: 18px;
+	font-size: 16px;
 	cursor: grab;
 	line-height: 1;
+	opacity: 0.5;
+}
+
+.MatcFormRowDND:hover .MatcQIcon{
+	opacity: 1;
 }
 
 
@@ -253,7 +262,17 @@
     .MatcFormRowRemove {
         opacity: 0;
         text-align: right;
+		text-align: right;
     }
+
+	.MatcFormRowRemove span:hover{
+        color: $color_danger;
+    }
+
+	tr:hover .MatcFormRowRemove {
+        opacity: 1
+    }
+
 
     .MatcFormRowRemove .MatcQIcon{
         cursor: pointer;

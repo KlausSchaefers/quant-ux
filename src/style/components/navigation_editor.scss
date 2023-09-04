@@ -6,21 +6,6 @@
     width: 800px;
     height: 450px;
 
-    .MatcFormRowRemove {
-        opacity: 0;
-        vertical-align: middle;
-        text-align: right;
-        font-size: 18px;
-    }
-
-    .MatcFormRowRemove span:hover{
-        color: $color_danger;
-    }
-    
-    tr:hover .MatcFormRowRemove {
-        opacity: 1
-    }
-
    
     .MatcFormRowRemove span{
         cursor: pointer;
