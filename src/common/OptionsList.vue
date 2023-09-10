@@ -5,9 +5,11 @@
 		<table>
 			<tbody>
                     <tr class="" v-for="(option,i) in options" :key="option"
+							:class="[{'MatcFormRowDNDHover': i === hoverRow}, {'MatcFormRowDNDSelect': i == dragRow}]"
 							:draggable="isDraggable"
 							@dragstart="onDragStart($event, i)"
 							@dragover="onDragOver($event, i)"
+							@dragleave="onDragLeave($event, i)"
 							@drop="onDrop($event, i)"
 						>
                         <td class="MatcDialogTableSelectCntr">
@@ -61,6 +63,8 @@ export default {
 	mixins: [DojoWidget],
 	data: function () {
 		return {
+			dragRow: -1,
+			hoverRow: -1,
 			selected: false,
 			isDraggable: false,
             newValue: '',
@@ -133,6 +137,7 @@ export default {
 
 		onDragStart(e, i) {
 			e.dataTransfer.setData("text", i);
+			this.dragRow = i
 		},
 
 		onDrop(e, i) {
@@ -144,10 +149,17 @@ export default {
 				this.options[i] = this.options[j]
 				this.options[j] = temp
 			}
+			this.dragRow = -1
+			this.hoverRow = -1
 		},
 
-		onDragOver(e) {
+		onDragOver(e, i) {
 			e.preventDefault();
+			this.hoverRow = i
+		},
+
+		onDragLeave () {
+			this.hoverRow = -1
 		},
 
 		setLabelFct(fct) {

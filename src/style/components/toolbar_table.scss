@@ -150,6 +150,14 @@
 	width: 300px;
 }
 
+.MatcFormRowDNDHover {
+	background: $gray_2;
+}
+
+.MatcFormRowDNDSelect {
+	opacity: 0.1;
+}
+
 .MatcFormRowDND {
 	display: flex;
 	align-items: center;

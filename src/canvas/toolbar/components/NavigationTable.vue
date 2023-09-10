@@ -25,10 +25,12 @@
 
 
 
-                <tr class="" v-for="(item, i) in items" :key="item.id" 
+                <tr v-for="(item, i) in items" :key="item.id" 
+                    :class="[{'MatcFormRowDNDHover': i === hoverRow}, {'MatcFormRowDNDSelect': i == dragRow}]"
                     :draggable="isDraggable"
                     @dragstart="onColDragStart($event, i)"
-                    @dragover="oColnDragOver($event, i)"
+                    @dragover="oColDragOver($event, i)"
+                    @dragleave="onColDragLeave($event, i)"
                     @drop="onColDrop($event, i)">
                 
                     <td>
@@ -101,6 +103,8 @@ export default {
     props: ["options", "value"],
     data: function () {
         return {
+            dragRow: -1,
+			hoverRow: -1,
             hasSelect: true,
             isDraggable: false,
             tab: 'settings',
@@ -145,10 +149,16 @@ export default {
         },
         onColDragStart(e, i) {
             e.dataTransfer.setData("text", i);
+            this.dragRow = i
         },
-        oColnDragOver(e) {
+        oColDragOver(e,i) {
             e.preventDefault();
+            this.hoverRow = i
         },
+
+		onColDragLeave () {
+			this.hoverRow = -1
+		},
         onColDrop(e, i) {
             e.preventDefault();
             const data = e.dataTransfer.getData("text");
@@ -159,6 +169,8 @@ export default {
                 this.items[j] = temp
                 this.$forceUpdate()
             }
+            this.dragRow = -1
+			this.hoverRow = -1
         },
         onChange() {
 
