@@ -270,9 +270,6 @@ export default {
       css.add(txt, "MatcCommentText");
       item.appendChild(txt);
 
-      var clear = document.createElement("div");
-      css.add(clear, "MatcFloatClear");
-      li.appendChild(clear);
       return txt;
     },
 
