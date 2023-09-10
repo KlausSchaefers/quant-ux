@@ -280,7 +280,7 @@ export default {
 
 		_showVerticalNavigation() {
 			this._setSectionLabel("Vertical Naigation");
-			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderButton("Values", "DataTable", "_renderTableDialog");
 		},
 
 		_showTree (model){
@@ -521,7 +521,7 @@ export default {
 		_showBarChart (model){
 			this._setSectionLabel("Chart");
 
-			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderButton("Values", "DataTable", "_renderTableDialog");
 
 			if (model?.props?.isLine) {
 				this._renderInputDropDown("Width",model, [0, 1, 2, 3, 4, 5, 8, 16, 24, 32], "lineWidth", false);
@@ -568,7 +568,7 @@ export default {
 		_showStackedRingChart(model) {
 			this._setSectionLabel("Chart");
 
-			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderButton("Values", "DataTable", "_renderTableDialog");
 			this._renderInputDropDown("Width",model, [0, 1, 2, 3, 4, 5, 8, 16, 24, 32], "lineWidth", false);
 
 			if (model.props.data && model.props.data[0]){
@@ -594,13 +594,13 @@ export default {
 		},
 
 		_renderChartAnimation() {
-			this._renderButton("Animation", "mdi mdi-video", "_renderChartAnimationDialog");		
+			this._renderButton("Animation", "Animation", "_renderChartAnimationDialog");		
 		},
 
 
 		_showPieChart (model){
 			this._setSectionLabel("Chart");
-			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderButton("Values", "DataTable", "_renderTableDialog");
 
 			if(model.props.data && model.props.data[0]){
 				const row = model.props.data[0];
@@ -615,7 +615,7 @@ export default {
 
 		_showMultiRingChart (model){
 			this._setSectionLabel("Chart");
-			this._renderButton("Values", "mdi mdi-table-large", "_renderTableDialog");
+			this._renderButton("Values", "DataTable", "_renderTableDialog");
 			this._renderInputDropDown("Width",model, [0, 4, 8, 12, 16, 24, 32, 40, 64], "lineWidth", false);
 
 			if(model.props.data && model.props.data[0]){

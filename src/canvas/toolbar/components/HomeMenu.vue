@@ -1,7 +1,7 @@
 
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton MatcToobarHomeSection MatcToobarHomeSectionBlueX">
-		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
+		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button" @dblclick.stop="onDoubleClick">
 			<img src="../../../style/img/QUXLogo5.svg">
             <span class="MatcToobarHomeSectionAppNameLabel">{{name}}</span>
             <!-- <span class="caret"></span> -->
@@ -40,6 +40,7 @@ export default {
                 {value: 'startSimilator', icon: '', label: this.getNLS('toolbar.menu.start')},
                 {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.settings')},
                 {value: 'showShortCuts', icon: '', label: this.getNLS('toolbar.menu.shortcuts')},
+                {value: 'showHelp', icon: '', label: this.getNLS('toolbar.menu.help')},
                 {value: 1, css:'MatcToolbarPopUpLine'},
                 {value: 'showSharing', icon: '', label: this.getNLS('toolbar.menu.share')},
                 {value: 'showImportDialog', icon: '', label: this.getNLS('toolbar.menu.import')},
@@ -62,6 +63,9 @@ export default {
     },
     methods: {
 
+        onDoubleClick () {
+            console.debug('onDoubleClick')
+        },
     
         onSelect (t, e) {        
             this.$emit('select', t, e)

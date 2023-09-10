@@ -154,7 +154,8 @@
             "export": "Export",
             "change-screen-size": "Change Screen Size",
             "save-as": "Duplicate",
-            "exit": "Back to Prototypes"
+            "exit": "Back to Prototypes",
+            "help": "Help"
         },
         "create": {
             "rectangle": "Rectangle",
