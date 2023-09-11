@@ -353,7 +353,7 @@ export default {
 					timerLbl = "Timer ( " + line.timer + "s )";
 				}
 				triggers.push({ value: "timer", label: timerLbl, icon: "EventTimer", callback2: lang.hitch(this, "onTimerSelected", btn, line) });
-				triggers.push({ value: "loaded", label: 'Loaded', icon: "mdi mdi mdi-progress-download" });
+				triggers.push({ value: "loaded", label: 'Loaded', icon: "EventLoaded" });
 			} else {
 				triggers.push({ value: "hover", label: "Hover", icon: "EventHover" });
 			}

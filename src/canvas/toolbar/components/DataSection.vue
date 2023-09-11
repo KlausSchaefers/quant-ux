@@ -252,8 +252,8 @@ export default {
 			this._setSectionLabel("Grid");
 
 			this._renderLabelDropDown("Normal", model,"layout",[
-				{ value: "rows", icon:"mdi mdi mdi-view-sequential", label : "Rows"},
-				{ value:"grid", icon:"mdi mdi-view-grid", label : "Grid"}
+				{ value: "rows", icon:"Rows", label : "Rows"},
+				{ value:"grid", icon:"Grid", label : "Grid"}
 			]);
 
 			this._renderCheck("Auto Fill",model.props.auto, "auto" );
@@ -484,9 +484,9 @@ export default {
 			this._renderButton("Configuration", "Settings", "_renderRestDialog");
 
 			this._renderLabelDropDown("Icon", model, "trigger",[
-				{ value:null, icon:"mdi mdi-cursor-default-click-outline", label : "Click Trigger"},
-				{ value:"load", icon:"mdi mdi mdi-progress-download", label : "Loaded Trigger"},
-				{ value:"repeat", icon:"mdi mdi-clock-fast", label : "Repeat Trigger"}
+				{ value:null, icon:"EventClick", label : "Click Trigger"},
+				{ value:"load", icon:"EventLoaded", label : "Loaded Trigger"},
+				{ value:"repeat", icon:"EventTimer", label : "Repeat Trigger"}
 			]);
 
 			if (model?.props?.trigger === 'repeat') {
@@ -501,10 +501,10 @@ export default {
 
 
 			this._renderLabelDropDown("Icon", model, "trigger",[
-				{ value:null, icon:"mdi mdi-cursor-default-click-outline", label : "Click Trigger"},
-				{ value:"databinding", icon:"mdi mdi-database-edit-outline", label : "Data Trigger"},
-				{ value:"load", icon:"mdi mdi mdi-progress-download", label : "Loaded Trigger"},
-				{ value:"repeat", icon:"mdi mdi-clock-fast", label : "Repeat Trigger"}
+				{ value:null, icon:"EventClick", label : "Click Trigger"},
+				{ value:"databinding", icon:"EventData", label : "Data Trigger"},
+				{ value:"load", icon:"EventLoaded", label : "Loaded Trigger"},
+				{ value:"repeat", icon:"EventTimer", label : "Repeat Trigger"}
 			]);
 
 			if (model?.props?.trigger === 'repeat') {
@@ -646,9 +646,9 @@ export default {
 			//this._renderCheck("Animate placeholder",model.props.animate, "animate" );
 			this._renderCheck("Focus on load",model.props.focus, "focus" );
 			this._renderLabelDropDown("Normal", model,"stringCase",[
-				{ value: null, icon:"mdi mdi-briefcase-check", label : "Normal"},
-				{ value:"UpperCase", icon:"mdi mdi-briefcase-upload", label : "Upper Case"},
-				{ value: "LowerCase", icon:"mdi mdi-briefcase-download", label : "Lower Case"}
+				{ value: null, icon:"LetterNormal", label : "Normal"},
+				{ value:"UpperCase", icon:"LetterUpper", label : "Upper Case"},
+				{ value: "LowerCase", icon:"LetterLower", label : "Lower Case"}
 			]);
 		},
 
@@ -713,11 +713,11 @@ export default {
 
 			this._renderImagesDropDown(model,"images");
 			this._renderDropDown(model,"vertical",[
-						{ value:false, icon:"mdi mdi-swap-horizontal", label : "Horizontal Scrolling"},
-						{ value:true, icon:"mdi mdi-swap-vertical", label : "Vertical Scrolling"}
+						{ value:false, icon:"ScrollHorizontal", label : "Horizontal Scrolling"},
+						{ value:true, icon:"ScrollVertical", label : "Vertical Scrolling"}
 				]);
-			this._renderReferenceButton(model,"backButton", "No Back Button", "mdi mdi-arrow-left-bold-circle");
-			this._renderReferenceButton(model,"nextButton", "No Next Button", "mdi mdi-arrow-right-bold-circle");
+			this._renderReferenceButton(model,"backButton", "No Back Button", "Reference", "ReferenceNone");
+			this._renderReferenceButton(model,"nextButton", "No Next Button", "Reference", "ReferenceNone");
 
 		},
 
@@ -860,7 +860,7 @@ export default {
 			this._renderInputDropDown("Start Value",model, [0,1,5,10,20,30,40,50,100], "value", true);
 			var refs = this.getRef(model, "valueLabel");
 			if(refs && refs.length > 0){
-				this._renderReferenceButton(model,"valueLabel", "No Label", "mdi mdi-label");
+				this._renderReferenceButton(model,"valueLabel", "No Label", "Reference");
 			}
 		},
 
@@ -1832,10 +1832,10 @@ export default {
 		 **********************************************************************/
 
 
-		_renderReferenceButton (model, refId,txt, refIcon ){
+		_renderReferenceButton (model, refId,txt, refIcon, noRefIcon = 'ReferenceNone'){
 			var refs = this.getRef(model, refId);
 
-			var icon = "mdi mdi-close";
+			var icon = noRefIcon
 			var refButton;
 			if(refs){
 				refButton = refs[0];
@@ -1848,16 +1848,10 @@ export default {
 				}
 
 			}
-
 			var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);
-
-			var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton ").build(row);
-			var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
-			this.db.span(icon).build(lbl);
-			this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
-
-
-			this.db.span("caret").build(cntr);
+			var cntr = this.db.div(" MatcToolbarItem MatcToolbarIconButton ").build(row);
+			cntr.appendChild(iconDOM(icon))
+			this.db.span("MatcToolbarDropDownButtonLabel", txt).build(cntr);
 			this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showRefDialog", model, refButton, refId)));
 
 		},

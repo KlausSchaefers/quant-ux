@@ -8,7 +8,7 @@
 		"y": 0,
 		"w": 360,
 		"h": 160,
-		"category": "WireFrame",
+		"category": "Advanced",
 		"subcategory": "Table",
 		"z": 0,
 		"props": {
@@ -89,7 +89,7 @@
 		"y": 0,
 		"w": 360,
 		"h": 160,
-		"category": "WireFrame",
+		"category": "Advanced",
 		"subcategory": "Table",
 		"z": 0,
 		"props": {
@@ -142,7 +142,7 @@
 		"y": 0,
 		"w": 360,
 		"h": 160,
-		"category": "WireFrame",
+		"category": "Advanced",
 		"subcategory": "Table",
 		"z": 0,
 		"props": {

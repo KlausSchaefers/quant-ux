@@ -274,6 +274,11 @@ export const icons = {
         <path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
         <path d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
     `,
+    'Rows': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+        <path d="M4 12l16 0"></path>
+    `,
     'Distribute': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M4 4l0 16"></path>
@@ -700,6 +705,14 @@ export const icons = {
         <path d="M7.8 16.2l-2.2 2.2"></path>
         <path d="M12 12l9 3l-4 2l-2 4l-3 -9"></path>
     `,
+    'EventData': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3"></path>
+        <path d="M4 6v6c0 1.657 3.582 3 8 3c.478 0 .947 -.016 1.402 -.046"></path>
+        <path d="M20 12v-6"></path>
+        <path d="M4 12v6c0 1.526 3.04 2.786 6.972 2.975"></path>
+        <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
+    `,
     'EventHover': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M7.904 17.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l4.907 4.907a1.067 1.067 0 0 0 1.509 0l1.047 -1.047a1.067 1.067 0 0 0 0 -1.509l-4.907 -4.907l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563z"></path>
@@ -740,6 +753,15 @@ export const icons = {
         <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
         <path d="M12 12l3 2"></path>
         <path d="M12 7v5"></path>
+    `,
+    'EventLoaded': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5"></path>
+        <path d="M5.63 7.16l0 .01"></path>
+        <path d="M4.06 11l0 .01"></path>
+        <path d="M4.63 15.1l0 .01"></path>
+        <path d="M7.16 18.37l0 .01"></path>
+        <path d="M11 19.94l0 .01"></path>
     `,
     'Animation': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -1111,6 +1133,52 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M8 5v10a1 1 0 0 0 1 1h10"></path>
         <path d="M5 8h10a1 1 0 0 1 1 1v10"></path>
-   `
+    `,
+    'LetterLower': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M6.5 15.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0"></path>
+        <path d="M10 12v7"></path>
+        <path d="M17.5 15.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0"></path>
+        <path d="M21 12v7"></path>
+    `,
+    'LetterUpper': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 19v-10.5a3.5 3.5 0 0 1 7 0v10.5"></path>
+        <path d="M3 13h7"></path>
+        <path d="M14 19v-10.5a3.5 3.5 0 0 1 7 0v10.5"></path>
+        <path d="M14 13h7"></path>
+    `,
+    'LetterNormal': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M17.5 15.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0"></path>
+        <path d="M3 19v-10.5a3.5 3.5 0 0 1 7 0v10.5"></path>
+        <path d="M3 13h7"></path>
+        <path d="M21 12v7"></path>
+    `,
+    'ScrollVertical': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+        <path d="M18 14v7"></path>
+        <path d="M18 3v7"></path>
+        <path d="M15 18l3 3l3 -3"></path>
+        <path d="M15 6l3 -3l3 3"></path>
+    `,
+    'ScrollHorizontal': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v6"></path>
+        <path d="M10 18h-7"></path>
+        <path d="M21 18h-7"></path>
+        <path d="M6 15l-3 3l3 3"></path>
+        <path d="M18 15l3 3l-3 3"></path>
+    `,
+    'Reference': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M9 4h6a2 2 0 0 1 2 2v14l-5 -3l-5 3v-14a2 2 0 0 1 2 -2"></path>
+    `,
+    'ReferenceNone': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 3l18 18"></path>
+        <path d="M17 17v3l-5 -3l-5 3v-13m1.178 -2.818c.252 -.113 .53 -.176 .822 -.176h6a2 2 0 0 1 2 2v7"></path>
+    `
 }
 

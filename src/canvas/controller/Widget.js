@@ -470,8 +470,7 @@ export default class Widget extends Snapp {
 	setWidgetName (id, value){
 
 		if (value === '') {
-			this.logger.warn("setWidgetName", "exit EMPYT name > " + id);
-			console.trace()
+			this.logger.info("setWidgetName", "exit EMPYT name > " + id);
 			return
 		}
 

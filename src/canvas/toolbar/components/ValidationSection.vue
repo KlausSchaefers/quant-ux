@@ -445,15 +445,14 @@ export default {
 			if(validation.required || (validation.type != null && validation.type !=undefined)){
 
 				const errorLabels = this.getErrorLabels(model);
-
 				const row = this.db
 					.div("MatcToobarRow MatcAction ")
 					.build(this.cntr);
 
 				let txt =  "No Label";
-				let icon = "mdi mdi-close";
-				if(errorLabels){
-					icon = "mdi mdi-label";
+				let icon = "ReferenceNone";
+				if(errorLabels && errorLabels.length > 0){
+					icon = "Reference";
 					txt = "Change Labels...";
 				}
 
