@@ -866,7 +866,7 @@ export default {
 
 			// background image
 			let row = document.createElement('div')
-			css.add(row, 'MatcToobarRowHover')
+		
 			content.append(row)
 			this.backgroundImage = this.$new(ToolbarImage, {mode:this.mode});
 			this.backgroundImage.setCanvas(this.canvas);
@@ -880,7 +880,7 @@ export default {
 			content.append(imageDetailsDiv)
 
 			row = document.createElement('div')
-			css.add(row, 'MatcToobarRowHover')
+
 			imageDetailsDiv.append(row)
 			this.imageFilter = this.$new(Filter)
 			//this.imageFilter.setModel(this.model)
@@ -892,7 +892,7 @@ export default {
 
 			// background image position
 			row = document.createElement('div')
-			css.add(row, 'MatcToobarRowHover')
+	
 			imageDetailsDiv.append(row)
 			this.backgroundImagePosition = this.$new(ToolbarImagePosition, {mode:this.mode});
 			this.backgroundImagePosition.setJwtToken(this.jwtToken);

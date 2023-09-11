@@ -46,11 +46,11 @@ export default {
   components: {},
   methods: {
 
-    getIcons: function() {
+    getIcons () {
       return this._matcIcons;
     },
 
-    fixGestures: function(events) {
+    fixGestures(events) {
       events.sort(function(a, b) {
         return a.time - b.time;
       });
@@ -114,7 +114,7 @@ export default {
     /**********************************************************************
      * Clone Tool
      **********************************************************************/
-    getClones: function(ids, target) {
+    getClones(ids, target) {
       var result = [];
       var previews = [];
 
@@ -203,7 +203,7 @@ export default {
     /**
      * Gets the new position for a group child
      */
-    _getGroupChildResizePosition: function(widget, oldGroup, newGroup, dif) {
+    _getGroupChildResizePosition(widget, oldGroup, newGroup, dif) {
       return ModelResizer.getGroupChildResizePosition(widget, oldGroup, newGroup, dif)
     },
 
@@ -213,7 +213,7 @@ export default {
     },
 
 
-    getWidgetsByDistanceAndType: function(widget, types) {
+    getWidgetsByDistanceAndType(widget, types) {
       var result = [];
 
       if (this.model) {
@@ -243,7 +243,7 @@ export default {
       return result;
     },
 
-    getObjectLength: function(o) {
+    getObjectLength (o) {
       if (o) {
         return Object.keys(o).length;
       } else {
@@ -251,7 +251,7 @@ export default {
       }
     },
 
-    getEventStateLabel: function(state) {
+    getEventStateLabel (state) {
       if (state.type == "hidden") {
         /**
          * A little hacky
@@ -296,7 +296,7 @@ export default {
       return "Change";
     },
 
-    getGestureLabel: function(type) {
+    getGestureLabel (type) {
       if (this.gestureLabels[type]) {
         return this.gestureLabels[type];
       }
@@ -322,7 +322,7 @@ export default {
     },
     
 
-    getWidgetName: function(widgetID) {
+    getWidgetName (widgetID) {
       if (this.model.widgets[widgetID] && this.model.widgets[widgetID].name) {
         return this.model.widgets[widgetID].name;
       }
@@ -332,7 +332,7 @@ export default {
     /**
      * Filters out bad sessions
      */
-    filterEvents: function(events, anno) {
+    filterEvents (events, anno) {
       var bad = {};
       for (let i = 0; i < anno.length; i++) {
         var a = anno[i];
@@ -377,7 +377,7 @@ export default {
     /**
      * Returns all click events
      */
-    getClickEvents: function(df) {
+    getClickEvents (df) {
       return df.select("type", "in", [
         "ScreenClick",
         "WidgetClick",
@@ -385,7 +385,7 @@ export default {
       ]);
     },
 
-    createEmptyImage: function(x, y, name) {
+    createEmptyImage (x, y, name) {
       return {
         type: "Image",
         name: name,
@@ -419,7 +419,7 @@ export default {
       };
     },
 
-    createEmptyScreen: function(x, y, name) {
+    createEmptyScreen (x, y, name) {
       return {
         x: x,
         y: y,
@@ -453,7 +453,7 @@ export default {
       return "mdi mdi-crop-landscape";
     },
 
-    getDomain: function() {
+    getDomain () {
       var host = window.location.hostname;
       if (host == "127.0.0.1" || host == "flowalytics.com") {
         return "flowalytics.com";
@@ -465,7 +465,7 @@ export default {
      * Render helper  functios
      ***************************************************************************/
 
-    ring: function(label, value, p, node, size, color) {
+    ring (label, value, p, node, size, color) {
       if (!size) {
         size = 200;
       }
@@ -487,24 +487,24 @@ export default {
       return ring;
     },
 
-    simpleStats: function(label, mean, std, node) {
-      var db = this.getDB();
-      var cntr = db.div("MatcDashNumberContainer").build(node);
-      db.div("MatcDashLabel", label).build(cntr);
-      db.div("MatcDashNumber", mean + " ").build(cntr);
-      db.div("MatcDashLabelHint", "+/- " + std).build(cntr);
+    // simpleStats (label, mean, std, node) {
+    //   var db = this.getDB();
+    //   var cntr = db.div("MatcDashNumberContainer").build(node);
+    //   db.div("MatcDashLabel", label).build(cntr);
+    //   db.div("MatcDashNumber", mean + " ").build(cntr);
+    //   db.div("MatcDashLabelHint", "+/- " + std).build(cntr);
 
-      //node.appendChild(cntr);
-    },
+    //   //node.appendChild(cntr);
+    // },
 
-    getDB: function() {
+    getDB () {
       if (!this.domBuilder) {
         this.domBuilder = new DomBuilder();
       }
       return this.domBuilder;
     },
 
-    progress: function(label, value, p, id) {
+    progress (label, value, p, id) {
       var node = document.getElementById(id);
 
       var row = document.createElement("div");
@@ -532,7 +532,7 @@ export default {
     },
 
 
-    bulletGraph: function(row, value, emptyMsg) {
+    bulletGraph (row, value, emptyMsg) {
       var db = this.getDB();
 
       for (var i = 0; i < value.length; i++) {
@@ -557,7 +557,7 @@ export default {
       }
     },
 
-    bulletGraphTable: function(row, value, emptyMsg) {
+    bulletGraphTable (row, value, emptyMsg) {
       var db = this.getDB();
 
       var tbody = db
@@ -586,7 +586,7 @@ export default {
       }
     },
 
-    createUserImage: function(user, parent) {
+    createUserImage (user, parent) {
       var imgCntr = document.createElement("div");
       css.add(imgCntr, "MatcUserImageCntr");
       parent.appendChild(imgCntr);
@@ -616,14 +616,14 @@ export default {
       return imgCntr;
     },
 
-    getCommentUserName: function(comment) {
+    getCommentUserName (comment) {
       if ((comment.user && comment.user.name) || comment.user.lastname) {
         return this.getUserName(comment.user);
       }
       return "Guest";
     },
 
-    getUserLetter: function(user) {
+    getUserLetter  (user) {
       let result = ''
       if (user.name) {
         result += user.name.substring(0, 1).toUpperCase();
@@ -642,7 +642,7 @@ export default {
       return result
     },
 
-    getUserName: function(user) {
+    getUserName (user) {
       var result = "";
       if (user.name) {
         result = user.name + " ";
@@ -657,8 +657,8 @@ export default {
       return result;
     },
 
-    resizeSimulatorContainer: function(model, container, factor) {
-      console.error('Util.resizeSimulatorContainer() > DEPRECATED')
+    resizeSimulatorContainer (model, container, factor) {
+
       css.add(container, "MatchSimulatorContainer");
 
       var pos;
@@ -687,7 +687,7 @@ export default {
     /**
      * TODO: Could go to canvas/Comment.vue
      */
-    renderCommentPopup: function(comment, user, cntr, db, canDelete) {
+    renderCommentPopup (comment, user, cntr, db, canDelete) {
       css.add(cntr, "MatcActionBox");
 
       var li = db.div("MatcMarginBottom").build(cntr);
@@ -698,8 +698,6 @@ export default {
       css.add(pic, "MatcUserImageCntrSmall MatcCommentPic");
 
       var txt = db.div("MatcCommentText").build(item);
-
-      db.div("MatcFloatClear").build(li);
 
       var meta = db.div("MatcCommentMeta").build(txt);
 
@@ -786,7 +784,7 @@ export default {
      * Model access and query functions
      ***************************************************************************/
 
-    getWidgets: function(screenID, filter) {
+    getWidgets (screenID, filter) {
       var result = [];
       if (screenID) {
         var screen = this.model.screens[screenID];
@@ -828,7 +826,7 @@ export default {
     /**
      * returns screen from left to right!
      */
-    getScreens: function(app) {
+    getScreens (app) {
       if (!app) {
         app = this.model;
       }
@@ -849,7 +847,7 @@ export default {
       return result;
     },
 
-    getClickableWidgets: function(screen) {
+    getClickableWidgets (screen) {
       var result = [];
       var children = screen.children;
       for (let i = 0; i < children.length; i++) {
@@ -867,7 +865,7 @@ export default {
       return result;
     },
 
-    getModelChildren: function(screen) {
+    getModelChildren (screen) {
       var result = [];
 
       for (let id in this.model.widgets) {
@@ -880,7 +878,7 @@ export default {
       return result;
     },
 
-    getWidgetsWithoutParent: function() {
+    getWidgetsWithoutParent () {
       var result = [];
 
       var temp = [];
@@ -899,7 +897,7 @@ export default {
       return this.getOrderedWidgets(result);
     },
 
-    getBoxById: function(id) {
+    getBoxById (id) {
       if (this.model.widgets[id]) {
         return this.model.widgets[id];
       }
@@ -965,7 +963,7 @@ export default {
      * Line helpers
      ***************************************************************************/
 
-    getToLines: function(box) {
+    getToLines (box) {
       var result = [];
 
       for (var id in this.model.lines) {
@@ -978,7 +976,7 @@ export default {
       return result;
     },
 
-    getLines: function(box, deep) {
+    getLines (box, deep) {
       var result = [];
 
       var _ids = {};
@@ -1008,7 +1006,7 @@ export default {
       return result;
     },
 
-    hasLine: function(widget) {
+    hasLine (widget) {
       for (let id in this.model.lines) {
         let line = this.model.lines[id];
         if (line.from == widget.id) {
@@ -1018,7 +1016,7 @@ export default {
       return false;
     },
 
-    getLine: function(widget) {
+    getLine (widget) {
       for (let id in this.model.lines) {
         let line = this.model.lines[id];
         if (line.from == widget.id) {
@@ -1130,7 +1128,7 @@ export default {
       return true;
     },
 
-    _isContainedInBox: function(obj, parent) {
+    _isContainedInBox (obj, parent) {
       if (parent) {
         if (
           obj.x >= parent.x &&
@@ -1148,7 +1146,7 @@ export default {
      * Object Compare and Change functios
      ***************************************************************************/
 
-    countProps: function(obj) {
+    countProps (obj) {
       var count = 0;
       for (let k in obj) {
         if (obj.hasOwnProperty(k)) {
@@ -1158,7 +1156,7 @@ export default {
       return count;
     },
 
-    objectEquals: function(v1, v2) {
+    objectEquals (v1, v2) {
       if (typeof v1 !== typeof v2) {
         return false;
       }
@@ -1192,16 +1190,16 @@ export default {
      * Helper functios
      ***************************************************************************/
 
-    round: function(value) {
+    round (value) {
       return Math.round(value * 100) / 100;
     },
 
-    formatTime: function(millis) {
+    formatTime (millis) {
       millis = Math.round(millis / 1000);
       return millis + "s";
     },
 
-    formatSTD: function(value) {
+    formatSTD (value) {
       return (
         '<span class="MatcDashTableTdHint">( +/- ' +
         this.formatNumber(value) +
@@ -1209,11 +1207,11 @@ export default {
       );
     },
 
-    formatRound: function(value) {
+    formatRound (value) {
       return Math.round(value * 100) / 100;
     },
 
-    formatNumber: function(value) {
+    formatNumber (value) {
       if (value > 1000000) {
         value = Math.floor(value / 1000000) + "M";
         return value;
@@ -1233,7 +1231,7 @@ export default {
       return value;
     },
 
-    formatPercent: function(value) {
+    formatPercent (value) {
       value = Math.round(value * 100);
       var cls = "MatchDashStatusFailure";
       if (value > 70) {
@@ -1244,7 +1242,7 @@ export default {
       return '<span class="' + cls + '">' + value + "%</span>";
     },
 
-    formatDate: function(t, justDate) {
+    formatDate (t, justDate) {
       var date = new Date(t);
       if (justDate) {
         return date.toLocaleDateString();
@@ -1252,7 +1250,7 @@ export default {
       return date.toLocaleString();
     },
 
-    formatString: function(s, l) {
+    formatString (s, l) {
       if (s.length > l) {
         s = s.substring(0, l - 3) + "...";
       }

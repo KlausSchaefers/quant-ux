@@ -67,10 +67,15 @@
 .MatcCanvasCommentOpen{
 	box-shadow: 0 0 25px 5px rgb(0 0 0 / 25%);
 	background: #fff;
-	border-radius:5px;
-	width: 350px;
-	height: 250px;
+	border-radius: $popup_radius;
+	width: 360px;
+	height: 256px;
 	z-index: 999991;
+
+	.MatcCommentRow {
+		display: flex;
+		gap: 24px;
+	}
 }
 
 .MatcCanvasComment .MatcCanvasCommentCntr{

@@ -2,14 +2,14 @@
  	{
 		 "id" : "Image",
 		 "type" : "Image",
-		 "category" : "Advanced",
+		 "category" : "WireFrame",
 		 "subcategory" : "FormImage",
 		 "_type" : "Widget",
 		 "name" : "Image",
 		 "x" : 0,
 	     "y" : 0,
 		 "w": "@box-width-xl",
-		 "h": "@box-height-xl",
+		 "h": "@box-width-xl",
 	     "z" : 0,
 	     "props" : {},
 	     "has" : {

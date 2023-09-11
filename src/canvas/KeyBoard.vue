@@ -322,7 +322,6 @@ export default {
               this.stopEvent(e);
             }
 
-            console.debug('K', k)
             if(k == 40){ // ctrl & down
               if(this.toolbar){
                 this.stopEvent(e);

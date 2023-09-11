@@ -672,16 +672,18 @@ export default {
 			 * a little bit hacky. we flush the screen name now!
 			 * FIXME; This can cause errors in case of undo and redo!
 			 */
-			if (this.screenName) {
-				this.setScreenName(this.stripHTML(this.screenName.value));
-			}
-			
-			if (this.widgetName) {
-				this.setWidgetName(this.stripHTML(this.widgetName.value));
-			}
+			if (this.isPrototypeView) {
+				if (this.screenName) {
+					this.setScreenName(this.stripHTML(this.screenName.value));
+				}
+				
+				if (this.widgetName) {
+					this.setWidgetName(this.stripHTML(this.widgetName.value));
+				}
 
-			if (this.groupName) {
-				this.setGroupName(this.stripHTML(this.groupName.value));
+				if (this.groupName) {
+					this.setGroupName(this.stripHTML(this.groupName.value));
+				}
 			}
 
 			if(this.widgetSize.isDirty()){

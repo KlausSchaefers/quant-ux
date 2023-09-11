@@ -86,6 +86,7 @@ export default {
     },
 
     render(widget, style, scaleX, scaleY, isUpdate = false) {
+
       /**
        * This is super slow for fast rendering, as we will redraw everzthing. We must
        * therefore reuse the items or have some kind of rerender() method if the
@@ -116,9 +117,11 @@ export default {
     },
 
     renderScreen(widget, screenID) {
-      if (this._screenID === screenID) {
-        return
-      }
+
+      // FIXME: we should somecheck how we can make this faster
+      // if (this._screenID === screenID) {
+      //   return
+      // }
       this._screenID = screenID
       this.domNode.innerHTML = ""
       this._childWidgets = []
