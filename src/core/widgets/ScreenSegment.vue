@@ -85,7 +85,7 @@ export default {
       }
     },
 
-    render(widget, style, scaleX, scaleY, isUpdate = false) {
+    render(widget, style, scaleX, scaleY) {
 
       /**
        * This is super slow for fast rendering, as we will redraw everzthing. We must
@@ -98,13 +98,7 @@ export default {
       this._scaleY = scaleY;
       this.setStyle(style, widget);
 
-      /**
-       * Try to avoid rerenders if not needed
-       */
-      if (isUpdate && widget.props.screenID === this._screenID) {
-        this.logger.log(2, 'render', 'exit update > ', widget.props)
-        return
-      }
+  
 
       if (!this.isSymbol && this.app && widget.props.screenID) {
         this.logger.log(2, 'render', 'enter > full render')
@@ -118,22 +112,27 @@ export default {
 
     renderScreen(widget, screenID) {
 
-      // FIXME: we should somecheck how we can make this faster
-      // if (this._screenID === screenID) {
-      //   return
-      // }
-      this._screenID = screenID
-      this.domNode.innerHTML = ""
-      this._childWidgets = []
-
-
       const db = new DomBuilder()
-
       const screen = this.app.screens[screenID]
       if (screen) {
 
         const core = new Core()
         core.model = this.app
+
+        /**
+         * Attention: The core.sortedList is somehow reversed... So, we
+         * prevent this by passing a new parameter.
+         */
+        const widgets = core.getSortedScreenChildren(this.app, screen, false)
+        if (this.childrenAreModified(widgets)) {
+          this.logger.log(-1, 'renderScreen', 'Exit because ne change')
+          return
+        }
+        this.logger.log(-1, 'renderScreen', 'Start rendering')
+       
+        this._screenID = screenID
+        this.domNode.innerHTML = ""
+        this._childWidgets = [] 
 
         const parentScreen = core.getParentScreen(widget, this.app)
 
@@ -143,14 +142,10 @@ export default {
           .h(screen.h)
           .build()
 
-        /**
-         * Attention: The core.sortedList is somehow reversed... So, we
-         * prevent this by passing a new parameter.
-         */
-        const widgets = core.getSortedScreenChildren(this.app, screen, false)
-
+        this._childLastModified = {}
         for (let i = 0; i < widgets.length; i++) {
           const childWidget = widgets[i];
+          this._childLastModified[childWidget.id] = childWidget.modified
           const copy = lang.clone(childWidget)
           copy.inherited = childWidget.id
           copy.id = childWidget.id + '@' + parentScreen?.name
@@ -173,6 +168,18 @@ export default {
       } else {
         db.div('MatcWidgetTypeScreenSegementHint', 'Screen segment does not exist').build(this.domNode)
       }
+    },
+
+    childrenAreModified (widgets) {
+        if (this._childLastModified) {
+          const modified = widgets.filter(w => {
+            return this._childLastModified[w.id] !== w.modified
+          })
+          if (modified.length === 0) {
+            return true
+          }
+        }
+      return false
     },
 
     renderWidget(widget, screen, db) {

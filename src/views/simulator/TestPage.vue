@@ -43,10 +43,10 @@
 									</p>
 								</div>
 								<div class="MatcMarginTop">
-									<div class="MatcButton MatcTestStartButton"	@click="renderTest()"	v-if="getUserTasks().length === 0">
+									<div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="renderTest()"	v-if="getUserTasks().length === 0">
 											{{getNLS("simulator.welcome.start")}}
 									</div>
-									<div class="MatcButton MatcTestStartButton"	@click="renderTasks()" v-else>
+									<div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="renderTasks()" v-else>
 											{{getNLS("simulator.welcome.showTasks")}}
 									</div>
 								</div>
@@ -66,7 +66,7 @@
 								</div>
 
 								<div class="MatcMarginTop">
-									<div class="MatcButton MatcTestStartButton" @click="renderTest()">
+									<div class="MatcButton MatcButtonPrimary MatcTestStartButton" @click="renderTest()">
 										{{getNLS("simulator.welcome.start")}}
 									</div>
 								</div>
