@@ -565,7 +565,7 @@ export default {
 
 		onWidgetDndClick (id, div, pos ,e ){
 			this.stopEvent(e);
-			this.logger.log(-1,"onWidgetDndClick", "enter > " + id);
+			this.logger.log(1,"onWidgetDndClick", "enter > " + id);
 			this.setState(0);
 			// var widget = this.model.widgets[id];
 			// if(widget){

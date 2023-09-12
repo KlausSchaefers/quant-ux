@@ -478,7 +478,7 @@ export default {
        * but widget B is moved.
        */
       if (!ids || ids.indexOf(id) === -1) {
-        this.logger.log(-1, "_addDnDChildren", "exit > Change : " + id, topGroup);
+        this.logger.log(1, "_addDnDChildren", "exit > Change : " + id, topGroup);
         /**
          * If there is a top group, we add it's children
          */
@@ -852,7 +852,7 @@ export default {
      *
      */
     onWidgetDndClick (id, div, pos, e) {
-      this.logger.log(-1, "onWidgetDndClick", "entry > " + id);
+      this.logger.log(1, "onWidgetDndClick", "entry > " + id);
       
       this.stopEvent(e);
 

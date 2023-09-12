@@ -873,8 +873,6 @@ export default {
         const inset = shadow.i ? "inset" : "";
         const value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
         parent.style.boxShadow = value;
-      } else {
-        console.debug('UIWidget._setShadow() > Error : Shadow is null', shadow)
       }
 
     },
