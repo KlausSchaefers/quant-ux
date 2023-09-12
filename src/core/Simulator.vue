@@ -74,7 +74,7 @@
 		<div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
 		 
 		</div>
-		<div class="MatcSimulatorVersion">v4.6.1</div>
+		<div class="MatcSimulatorVersion">v5.0.0</div>
 	  </div>
 	</div>
   </template>

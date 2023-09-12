@@ -1,9 +1,10 @@
 
 <template>
-    <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton MatcToobarHomeSection MatcToobarHomeSectionBlueX">
+    <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton MatcToobarHomeSection MatcToobarHomeSectionBlueX" @keyup.stop @keydown.stop>
 		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button" @dblclick.stop="onDoubleClick">
 			<img src="../../../style/img/QUXLogo5.svg">
-            <span class="MatcToobarHomeSectionAppNameLabel">{{name}}</span>
+            <span class="MatcToobarHomeSectionAppNameLabel" v-if="!isEdit">{{modelName}}</span>
+            <input class="MatcToobarHomeSectionAppNameInput" v-model="modelName" v-else @change="onBlur" ref="inputName" >
             <!-- <span class="caret"></span> -->
 		</div>
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
@@ -35,7 +36,8 @@ export default {
     mixins:[Util, DojoWidget, _DropDown],
     data: function () {
         return {
-            selectedTool: null,
+            isEdit: false,
+            modelName: "...",
             tools: [
                 {value: 'startSimilator', icon: '', label: this.getNLS('toolbar.menu.start')},
                 {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.settings')},
@@ -64,7 +66,18 @@ export default {
     methods: {
 
         onDoubleClick () {
-            console.debug('onDoubleClick')
+            this.isEdit = true
+            setTimeout(() =>{
+                this.$refs.inputName.focus();
+                this.$refs.inputName.select();
+            }, 100)
+
+        },
+
+        onBlur () {
+            const newName = this.$refs.inputName.value
+            this.isEdit = false
+            this.$emit("change", newName)
         },
     
         onSelect (t, e) {        
@@ -73,7 +86,6 @@ export default {
 
 		onHide (){   
 			css.remove(this.domNode,"MatcToolbarItemActive");
-            this.selectedTool = null
 		},
 
 		async init (){
@@ -81,7 +93,13 @@ export default {
 		},
 
     },
+    watch: {
+        name(v) {
+            this.modelName = v
+        }
+    },
     mounted () {
+        this.modelName = this.name
     }
 }
 </script>

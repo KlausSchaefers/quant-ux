@@ -6,6 +6,7 @@
 
             <div class="row" v-if="user && user.role !== 'guest'">
               <div class="col-md-7">
+                <img src="../style/img/QUXLogo5.svg" class="MatcMainMenuLogo" v-if="false">
                 <a class="MatcMainMenuItem" href="#/">{{$t('header.my-prototypes')}}</a>
                  <a class="MatcMainMenuItem" href="#/help.html">{{$t('header.documentation')}}</a>
               </div>

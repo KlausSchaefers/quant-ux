@@ -183,7 +183,7 @@ export default {
 						// this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
 						// this._removeCss(this.addVectorSection, "MatcToolbarSectionHidden");
 						
-						//this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
+						this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
 
 					} else {
 						this._addCss(this.simulatorButton, "MatcToolbarSectionHidden");
@@ -205,9 +205,9 @@ export default {
 						// 	this._addCss(this.undoSection, "MatcToolbarSectionHidden");
 						// }
 
-						this.screenCreateBtn.showDropDown();
+				
 
-						//this._addCss(this.layerListCntr, "MatcToolbarSectionHidden");
+						this._addCss(this.layerListCntr, "MatcToolbarSectionHidden");
 					}
 				} else {
 					this.logger.error('hideNotNeededButtons', 'No screens', this.model)

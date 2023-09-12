@@ -23,6 +23,19 @@
 		white-space: nowrap;
 		text-align: left;
 	}
+
+	.MatcToobarHomeSectionAppNameInput {
+		width: 220px;
+		overflow: hidden;
+		display: block;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		text-align: left;
+		border: 0px;
+		background: none;
+		outline: none;
+		padding: 0px;
+	}
 }
 
 .MatcToobarHomeSection.MatcToobarHomeSectionBlue {

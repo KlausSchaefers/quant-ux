@@ -15,6 +15,19 @@
 	padding: 8px 0;
 	background: #fff;
 	border-bottom: 1px solid #dbdbdb;
+
+	.MatcMainMenuLogo {
+		width: 24px;
+		height: 24px;
+		color: $primary_color;
+
+	}
+
+	svg{
+		stroke-width:2;
+		stroke:green;
+		fill : #ff0000
+	}
 }
 
 .MatcMainMenuToolbar.MatcMainMenu{

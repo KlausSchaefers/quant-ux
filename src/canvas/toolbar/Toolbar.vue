@@ -10,7 +10,7 @@
 
 		<div class="MatcToolbarTop">
 				<div class="MatcToolbarTopHome">
-					<HomeMenu @select="onHomeMenu" :name="modelName"/>
+					<HomeMenu @select="onHomeMenu" :name="modelName" @change="onChangeModelName"/>
 				</div>
 			
 
@@ -404,6 +404,11 @@ export default {
 			}
 		},
 
+
+		onChangeModelName (name) {
+			this.logger.log(-1, "onChangeModelName", "enter" , name);
+			this.controller.setModelName(name)
+		},
 
 
 		/********************************************************
