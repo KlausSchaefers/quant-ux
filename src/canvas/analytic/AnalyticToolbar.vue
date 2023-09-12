@@ -7,7 +7,9 @@
 		</div> -->
 
 		<div class="MatcToolbarTop ">
-			<HomeMenu @select="onHomeMenu"/>
+			<div class="MatcToolbarTopHome">
+				<HomeMenu @select="onHomeMenu"  :name="modelName" />
+			</div>
 
 			<div class="MatcToolbarTopCntr" >
 
@@ -65,13 +67,14 @@ import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import ToolbarPluginSection from '../../plugins/ToolbarPluginSection'
 import HelpButton from 'help/HelpButton'
 import HomeMenu from './AnalyticHomeMenu.vue'
-
+import Help from 'help/Help'
 
 export default {
     name: 'AnalyticToolbar',
     mixins:[Util,_Color,  _Tooltip, DojoWidget],
     data: function () {
         return {
+			modelName: 'Loading...',
 			events: null,
 			model: null,
 			user: null,
@@ -92,13 +95,14 @@ export default {
 			this.logger = new Logger("AnalyticToolbar");
 			this.logger.log(2,"constructor", "entry");
 
-			this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
-			this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
+			// this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
+			// this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
 
 
 			this.renderToolbar()
 		},
 
+	
 		showHelpDialog(helpID){
 			if (this.$refs.helpBtn) {
 				this.$refs.helpBtn.show('analytics.canvas', helpID)
@@ -110,6 +114,15 @@ export default {
 			if (this[option.value]) {
 				this[option.value](e)
 			}
+		},
+
+		showHelp(e) {
+			let dialog = new Dialog()
+			var db = new DomBuilder();
+			let popup = db.div("MatcDialog MatcHelpDialog MatcPadding").build();
+			dialog.popup(popup, e.target);
+			let help = this.$new(Help)
+			help.placeAt(popup)
 		},
 
 
@@ -348,7 +361,7 @@ export default {
 			this.addTooltip(this.viewBtnDwellTime, "How much time have the users spend on this page in average");
 
 
-			this.viewBtnScrollMap = this.createToolBarItem("Scroll Visibility", "showScrollHeatMap", "mdi mdi-swap-vertical",this.screenSection);
+			this.viewBtnScrollMap = this.createToolBarItem("Scroll", "showScrollHeatMap", "mdi mdi-swap-vertical",this.screenSection);
 			this.viewBtns.push(this.viewBtnScrollMap);
 			this.addTooltip(this.viewBtnScrollMap, "How often was the part of the screen visible");
 
@@ -1357,6 +1370,7 @@ export default {
 
 		setModel(m){
 			this.model = this.createInheritedModel(m);
+			this.modelName = m.name
 			this.renderToolbar();
 			this.render();
 		},
@@ -1434,10 +1448,10 @@ export default {
 				a.appendChild(i);
 			}
 
-			var lbl = document.createElement("label");
-			css.add(lbl, "MatcToolbarLabel");
-			lbl.innerHTML =label;
-			a.appendChild(lbl);
+			// var lbl = document.createElement("label");
+			// css.add(lbl, "MatcToolbarLabel");
+			// lbl.innerHTML =label;
+			// a.appendChild(lbl);
 
 
 			if(callback){

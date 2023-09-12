@@ -547,12 +547,12 @@
 	width:1200px;
 	height:600px;
 	padding: 0px; /*  keep in sync with VideoPlayer.layout() method*/
-	background-color: #1a1f23;
+	background-color: $toolbar_form_background_focus;
 }
 
 
 .MatcPlayer{
-	background: none repeat scroll 0 0 #1a1f23;
+	background: none repeat scroll 0 0 $toolbar_form_background_focus;
 	display: flex;
 	flex-direction:row;
 }

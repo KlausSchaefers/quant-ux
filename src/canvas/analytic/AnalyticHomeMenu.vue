@@ -3,7 +3,7 @@
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton MatcToobarHomeSection MatcToobarHomeSectionBlueX">
 		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
 			<img src="../../style/img/QUXLogo5.svg">
-            <span class="caret"></span>
+            <span class="MatcToobarHomeSectionAppNameLabel" >{{name}}</span>
 		</div>
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">
@@ -35,11 +35,13 @@ import _DropDown from '../toolbar/components/_DropDown'
 export default {
     name: 'CreateBasicButton',
     mixins:[Util, DojoWidget, _DropDown],
+    props:['name'],
     data: function () {
         return {
             selectedTool: null,
             tools: [               
-                {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.settings')},                
+                {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.settings')},       
+                {value: 'showHelp', icon: '', label: this.getNLS('toolbar.menu.help')},         
                 {value: 3, css:'MatcToolbarPopUpLine'},
                 {value: 'onExit', icon: '', label: this.getNLS('toolbar.menu.exit')},
             ]
