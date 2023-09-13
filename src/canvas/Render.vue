@@ -342,6 +342,12 @@ export default {
 				 */
 				this.updateSelection();
 				this.renderDistance();
+
+				/**
+				 * Since 5 we have absolute canvas positions and we need
+				 * to rescale
+				 */
+				this.updateCommentPositions();
 			}
 		},
 

@@ -98,9 +98,13 @@ export default {
 
 		_onCommentAdded(pos, e) {
 			this.logger.log(-2, "_onCommentAdded", "enter");
+
+			pos = this.getUnZoomedBox(pos, this.zoom, this.zoom);
 			pos = this._addCorrectOffset(pos);
 			pos.w = 10;
 			pos.h = 10;
+
+			console.debug('add', pos, this.zoom)
 
 			let count = 0;
 			for (let commentID in this.comments) {
@@ -114,7 +118,14 @@ export default {
 				message: "",
 				reference:"canvas",
 				type: "ScreenComment",
-				user: this.user,
+				user: {
+					"_id" : this.user.id,
+					"email" : this.user.email,
+					"name" : this.user.name,
+					"lastname" : this.user.lastname,
+					"image" :  this.user.image,
+					"id" : this.user.id
+				},
 				userID: this.user.id,
 				created: new Date().getTime(),
 				number: count,
@@ -148,6 +159,7 @@ export default {
 			
 				for (let commentID in this.comments) {
 					const comment = this.comments[commentID];
+		
 					const screenID = comment.reference;
 					if (this.model.screens[screenID]) {
 						if (this.screenDivs[screenID]) {
@@ -178,10 +190,12 @@ export default {
 							this.screenComments["canvas"] = [];
 						}
 
-						const box = {
+						let box = {
 							x: comment.x,
 							y: comment.y,
 						};
+
+						box = this.getZoomedBox(box, this.zoom, this.zoom);
 						const div = this.renderCommentIcon(box, comment);
 						div._commentID = comment.id
 						this.dndContainer.appendChild(div);
@@ -197,9 +211,41 @@ export default {
 			}
 		},
 
+		updateCommentPositions () {
+			if (this.showComments && this.comments) {
+				this.logger.log(-2, "updateCommentPositions", "enter > ");
+
+				if (this._commentWidget) {
+					this.onCloseCommentPopup()
+				}
+			
+				const canvasComments = this.screenComments["canvas"]
+				const id2Div = {}
+				canvasComments.forEach(pair => {
+					id2Div[pair.id] = pair.div
+				})
+
+				const w = Math.min(17, this.getZoomed(17, this.zoom))
+				for (let commentID in this.comments) {
+					const comment = this.comments[commentID];		
+					const div = id2Div[comment.id] 
+					if (div) {
+						let box = {
+							x: comment.x,
+							y: comment.y,
+							w: w,
+							h: w
+						};
+						box = this.getZoomedBox(box, this.zoom, this.zoom);
+						this.domUtil.setBox(div, box)
+					}
+				}
+			}
+		},
+
 		renderCommentIcon(box,) {
-			box.w = this.getZoomed(17, this.zoom);
-			box.h = this.getZoomed(17, this.zoom);
+			box.w = Math.min(17, this.getZoomed(17, this.zoom));
+			box.h = Math.min(17, this.getZoomed(17, this.zoom))
 			const div = this.createBox(box);
 			css.add(div, "MatcCanvasCommentIcon");
 			return div;
@@ -217,6 +263,7 @@ export default {
 			this.logger.log(10, 'onCommentDndEnd', 'enter', 'id', id, div)
 			const comment = this.comments[id];
 			if (comment) {			
+				pos = this.getUnZoomedBox(pos, this.zoom, this.zoom);
 				const x = pos.x
 				const y = pos.y
 				comment.x = x;
@@ -290,8 +337,13 @@ export default {
 				popup.style.top = Math.round(screen.y + screen.h * comment.y) + "px";
 				popup.style.left = Math.round(screen.x + screen.w * comment.x) + "px";				
 			} else {
-				popup.style.top = Math.round(comment.y) + "px";
-				popup.style.left = Math.round(comment.x) + "px";		
+				let box = {
+					x: comment.x,
+					y: comment.y
+				};
+				box = this.getZoomedBox(box, this.zoom, this.zoom);
+				popup.style.top = Math.round(box.y) + "px";
+				popup.style.left = Math.round(box.x) + "px";		
 			}
 
 		},
@@ -394,24 +446,24 @@ export default {
 			this.rerender();
 		},
 
-		updateCommentPosition(id, temp) {
-			if (this.screenComments && this.screenComments[id]) {
-				const list = this.screenComments[id];
-				for (let i = 0; i < list.length; i++) {
-					const item = list[i];
-					const comment = this.comments[item.id];
-					const box = {
-						x: Math.round(temp.x + temp.w * comment.x),
-						y: Math.round(temp.y + temp.h * comment.y),
-					};
-					this.addDragNDropRenderJob({
-						div: item.div,
-						pos: box,
-						id: item.id
-					});
-				}
-			}
-		},
+		// updateCommentPosition(id, temp) {
+		// 	if (this.screenComments && this.screenComments[id]) {
+		// 		const list = this.screenComments[id];
+		// 		for (let i = 0; i < list.length; i++) {
+		// 			const item = list[i];
+		// 			const comment = this.comments[item.id];
+		// 			const box = {
+		// 				x: Math.round(temp.x + temp.w * comment.x),
+		// 				y: Math.round(temp.y + temp.h * comment.y),
+		// 			};
+		// 			this.addDragNDropRenderJob({
+		// 				div: item.div,
+		// 				pos: box,
+		// 				id: item.id
+		// 			});
+		// 		}
+		// 	}
+		// },
 
 
 		updateCommentDnd(zoomedScreen) {

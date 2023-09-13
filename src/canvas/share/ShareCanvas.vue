@@ -276,6 +276,7 @@ export default {
 			this.addComment({ event: e, type: "comment" });
 		},
 
+		
 		/**
 		 * Overrides some behaviour from Canvas.Share.
 		 *
@@ -313,19 +314,20 @@ export default {
 		},
 
 
-		onSaveComment(txt, comment, e) {
-			this.stopEvent(e);
-			comment.message = txt.value;
+		onSaveComment(comment) {	
 			if (this.model.isTryOut) {
 				this.showSuccess("Register to comment...");
 			} else {
 				if (comment.id) {
-					this._doPost("/rest/comments/hash/" + this.hash + "/" + this.model.id + "/" + comment.id + ".json", comment, "onCommentSaved");
+					const old = this.comments[comment.id];
+					old.message = comment.message
+					old.modified = new Date().getTime()
+					old.edited = true
+					this._doPost("/rest/comments/hash/" + this.hash + "/" + this.model.id + "/" + old.id + ".json", old, "onCommentSaved");
 				} else {
 					this._doPost("/rest/comments/hash/" + this.hash + "/" + this.model.id, comment, "onCommentSaved");
 				}
 			}
-			this.stopEvent(e);
 			this.onCloseCommentPopup();
 		},
 

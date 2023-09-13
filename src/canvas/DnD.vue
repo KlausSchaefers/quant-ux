@@ -212,7 +212,7 @@ export default {
         /**
          * Do not forget to update comments. Implemented in Comment.js
          */
-        this.updateCommentPosition(id, temp);
+        //this.updateCommentPosition(id, temp);
 
         /**
          * also update all contained widgets
