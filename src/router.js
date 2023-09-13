@@ -196,6 +196,10 @@ export default new VueRouter({
     {
       path: '/test/VSlider.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/VSliderTest.vue')
+    },
+    {
+      path: '/test/CanvasComment.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/CanvasCommentTest.vue')
     }
   ]
 })

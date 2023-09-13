@@ -41,8 +41,10 @@
 	font-size: 18px;
 	margin-right: 20px;
     border-bottom: 2px solid transparent;
+	color: $dialog_color;
 }
 
 .MatcDialog .MatcToolbarTabs a.MatcToolbarTabActive {
     border-bottom-width: 2px;
+	border-color: $dialog_color;
 }

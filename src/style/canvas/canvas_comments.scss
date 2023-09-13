@@ -1,3 +1,4 @@
+@import '../variables.scss';
 
 .MatcCanvasComment{
     left: 0;
@@ -6,6 +7,69 @@
     width: 25px;
     height: 25px;
     z-index: 999990;
+}
+
+.MatcCanvasCommentDialog {
+
+	display: flex;
+	flex-direction: column;
+
+	.MatcCanvasCommentDialogList {
+		flex-grow: 1;
+		height: 180px;
+	}
+
+	.MatcUser {
+		height: 48px;
+		width: 48px;
+		font-size: 24px;
+	}
+
+	.MatcCanvasCommentDialogRow {
+		display: flex;
+		gap: 16px;
+
+		.MatcCanvasCommentContent {
+			gap: 4px;
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+		}
+
+		.MatcCanvasCommentDialogDetails {
+			font-size: 12px;
+			display: flex;
+			justify-content: space-between;
+			padding: 0px 9px;
+
+			.MatcCanvasCommentDialogDetailsEdited {
+				color: $gray_3;
+			}
+		}
+
+		.MatcCanvasCommentDialogMessage {
+			font-size: 14px;
+			height: 132px;
+			padding: 8px;
+			border: 1px solid transparent;
+		}
+
+		textarea.MatcCanvasCommentDialogMessage {
+
+			border-radius: $form_radius;
+			&.MatcCanvasCommentDialogMessageNew{
+				border: 1px dashed $form_border;
+			}
+			&:hover {
+				border: 1px dashed $form_border_hover;
+				outline: none;
+			}
+			&:focus {
+				border: 1px solid $form_border_focus;
+				outline: none;
+			}
+		}
+	}
 }
 
 .MatcCanvasComment textarea{

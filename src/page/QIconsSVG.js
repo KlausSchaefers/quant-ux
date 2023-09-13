@@ -177,11 +177,15 @@ export const icons = {
         <path d="M12 5l0 14"></path>
         <path d="M5 12l14 0"></path>
     `,
-    'Help': `
+    'HelpOutline': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
         <path d="M12 16v.01"></path>
         <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path>
+    `,
+    'Help': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 2c5.523 0 10 4.477 10 10a10 10 0 0 1 -19.995 .324l-.005 -.324l.004 -.28c.148 -5.393 4.566 -9.72 9.996 -9.72zm0 13a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm1.368 -6.673a2.98 2.98 0 0 0 -3.631 .728a1 1 0 0 0 1.44 1.383l.171 -.18a.98 .98 0 0 1 1.11 -.15a1 1 0 0 1 -.34 1.886l-.232 .012a1 1 0 0 0 .111 1.994a3 3 0 0 0 1.371 -5.673z" stroke-width="0" fill="currentColor"></path>
     `,
     'Artboard': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -1179,6 +1183,33 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M3 3l18 18"></path>
         <path d="M17 17v3l-5 -3l-5 3v-13m1.178 -2.818c.252 -.113 .53 -.176 .822 -.176h6a2 2 0 0 1 2 2v7"></path>
+    `,
+    'User': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+    `,
+    'Chart': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 3v18h18"></path>
+        <path d="M20 18v3"></path>
+        <path d="M16 16v5"></path>
+        <path d="M12 13v8"></path>
+        <path d="M8 16v5"></path>
+        <path d="M3 11c6 0 5 -5 9 -5s3 5 9 5"></path>
+    `,
+   'ChartBubble': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M6 16m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+        <path d="M16 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+        <path d="M14.5 7.5m-4.5 0a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0 -9 0"></path>
+    `,
+    'Analyze': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+        <path d="M9 17h6"></path>
+        <path d="M9 13h6"></path>
     `
 }
 

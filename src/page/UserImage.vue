@@ -1,189 +1,73 @@
 <template>
-  <div class="MatcUser">
-    <div class="MatcCenter MatcInline">
-      <div class="MatcUserImageCntr" data-dojo-attach-point="imageCntr"></div>
-      <div class="MatcActionBar" data-dojo-attach-point="imageActions"></div>
+    <div class="MatcUser">
+       
+                <div v-if="!user || user.role === 'guest'" class="MatcUserAvatar">
+                    <QIcon icon="User"/>
+                </div>
+                <template v-else>
+                    <img v-if="user.image"
+                        class="MatcUserImage"
+                        :src="'/rest/user/' + user.id + '/images/' + user.name + '_' + user.lastname + '/' + user.image" />
+        
+                    <div class="MatcUserAvatar" v-else>
+                        
+                        {{getUserLetter(user)}}
+                    
+                    </div>
+                </template>
+            
+            
+      
+
+     
+   
     </div>
-  </div>
 </template>
+<style lang="scss">
+@import '../style/components/user_image.scss';
+</style>
 <script>
-import DojoWidget from "dojo/DojoWidget";
-import css from "dojo/css";
-import lang from "dojo/_base/lang";
-import on from "dojo/on";
-import touch from "dojo/touch";
-import DomBuilder from "common/DomBuilder";
 import Logger from "common/Logger";
-import Services from 'services/Services'
+import QIcon from './QIcon'
 
 export default {
-  name: "UserImage",
-  mixins: [DojoWidget],
-  props: ["user"],
-  data: function() {
-    return {
-      value: {}
-    };
-  },
-  components: {},
-  methods: {
-    constructor () {
-      this.logger = new Logger({ className: "de.vommond.matc.page.User" });
-      this.logger.log(2, "constructor", "entry");
+    name: "UserImage",
+    mixins: [],
+    props: ["user"],
+    data: function () {
+        return {
+        };
     },
-
-    postCreate() {
-      this._initFileDnD(document.documentElement);
-      this.value = this.user;
-      this.render(this.value);
+    components: {
+        'QIcon': QIcon
     },
+    methods: {
+        getUserLetter(user) {
+            
+            let result = ''
+            if (user.name) {
+                result += user.name.substring(0, 1).toUpperCase();
+                if (user.lastname) {
+                    result += user.lastname.substring(0, 1).toUpperCase();
+                }
+            } else {
+                let parts = user.email.split('.')
+                if (parts.length > 0) {
+                    result += parts[0].substring(0, 1).toUpperCase();
+                }
+                if (parts.length > 1) {
+                    result += parts[1].substring(0, 1).toUpperCase();
+                }
+            }
+            return result
+        },
 
-    render (user) {
-      this.cleanUp();
-
-      var db = new DomBuilder();
-      if (user.image) {
-        db.img("rest/user/" + user.id + "/images/" + user.name + "_" + user.lastname + "/" + user.image, "MatcUserImage").build(this.imageCntr);
-
-        var upload = db
-          .div("MatcActionBarBtn MatcUploadButton", "Change")
-          .build(this.imageActions);
-        this.file = db.file("MatcImageUploadFile").build(upload);
-        this.tempOwn(on(this.file, "change", lang.hitch(this, "_onFileChange")));
-
-        var del = db.a("MatcActionBarBtn", "Remove").build(this.imageActions);
-        this.tempOwn(on(del, touch.press, lang.hitch(this, "_deleteImage")));
-      } else {
-        var plus = db
-          .span(" mdi mdi-plus-circle", "")
-          .build(this.imageCntr);
-        this.file = db.file("MatcImageUploadFile").build(plus);
-        this.tempOwn(on(this.file, "change", lang.hitch(this, "_onFileChange")));
-        css.add(this.imageCntr, "MatcImageUploadAdd");
-        db.span("MatcHint", "Click or Drop file to upload an image")
-          .build(this.imageActions);
-      }
     },
-
-    cleanUp () {
-      this.imageCntr.innerHTML = "";
-      this.imageActions.innerHTML = "";
-
-      css.remove(this.domNode, "MatcImageUploadDND");
-      css.remove(this.imageCntr, "MatcImageUploadAdd");
-      this.cleanUpTempListener();
-    },
-
-    /***************************************************
-     * File Upload Handling
-     ***************************************************/
-
-    _stop (leave, e) {
-      e.preventDefault;
-      e.preventDefault();
-      if (leave) {
-        css.remove(this.domNode, "MatcImageUploadDND");
-      } else {
-        css.add(this.domNode, "MatcImageUploadDND");
-      }
-      return false;
-    },
-
-    onFileDropped (e) {
-      e.preventDefault;
-      e.preventDefault();
-      this.stopEvent(e);
-      var dt = e.dataTransfer;
-      this._files = dt.files;
-      css.remove(this.domNode, "MatcImageUploadDND");
-      this._sendFiles();
-      return false;
-    },
-
-    _onFileChange (e) {
-      this.stopEvent(e);
-      this._files = this.file.files;
-      css.remove(this.domNode, "MatcImageUploadDND");
-      this._sendFiles();
-    },
-
-    _sendFiles: function() {
-      // here is some kind of stupid bug.
-
-      var me = this;
-      let token = Services.getUserService().getToken()
-      var formData = new FormData();
-      for (var i = 0; i < this._files.length; i++) {
-        formData.append("file", this._files[i]);
-      }
-
-      // now post a new XHR request
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "rest/user/" + this.user.id + "/images/");
-      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          me.onUploadDone();
-        } else {
-          me.onUploadError();
-        }
-      };
-      xhr.send(formData);
-    },
-
-    async _deleteImage (e) {
-      this.stopEvent(e);
-      await Services.getUserService().deleteImage(this.value)
-      this.load();
-    },
-
-    onUploadDone () {
-      this.load();
-    },
-
-    async load () {
-      let u = await Services.getUserService().loadById(this.value.id)
-      this.setUser(u)
-    },
-
-    setUser (u) {
-      this.value = u;
-      this.render(u);
-    },
-
-    onUploadError: function() {},
-
-    _initFileDnD (node) {
-      this._fileDnDListeners = [];
-
-      this._fileDnDListeners.push(
-        on(node, "dragenter", lang.hitch(this, "_stop", false))
-      );
-      this._fileDnDListeners.push(
-        on(node, "dragover", lang.hitch(this, "_stop", false))
-      );
-      this._fileDnDListeners.push(
-        on(node, "dragleave", lang.hitch(this, "_stop", true))
-      );
-      this._fileDnDListeners.push(
-        on(node, "drop", lang.hitch(this, "onFileDropped"))
-      );
-    },
-
-    _destroyFileDnD: function() {
-      if (this._fileDnDListeners) {
-        for (var i = 0; i < this._fileDnDListeners.length; i++) {
-          this._fileDnDListeners[i].remove();
-        }
-      }
-      delete this._fileDnDListeners;
-    },
-
-    destroy: function() {
-      this.cleanUpTempListener();
-      this._destroyFileDnD();
+    mounted() {
+        this.logger = new Logger("UserImage");
     }
-  },
-  mounted() {}
 };
 </script>
+
+
+

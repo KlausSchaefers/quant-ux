@@ -72,7 +72,7 @@
             </div>
             <div class="col-md-2 col-md-offset-1 visible-md-block visible-lg-block">
               <Label>Image</Label>
-              <UserImage :user="user" />
+              <UserImage :user="user" @change="onImageChanged"/>
             </div>
             <div class="col-md-1 col-md-offset-1">
               <a class="MatcButton MatcButtonDanger" @click="retire">Delete</a>
@@ -94,7 +94,7 @@ import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import Services from "services/Services";
 import CheckBox from "common/CheckBox.vue";
-import UserImage from "page/UserImage.vue";
+import UserImageUploader from "page/UserImageUploader.vue";
 
 export default {
   name: "Finish",
@@ -113,7 +113,7 @@ export default {
   watch: {},
   components: {
     'CheckBox': CheckBox,
-    'UserImage': UserImage
+    'UserImage': UserImageUploader
   },
   computed: {
     isQuxAuth() {
@@ -242,7 +242,12 @@ export default {
         this.$root.$emit("user", result);
         this.showSuccess("Account updated");
       }
-    }
+    },
+
+    onImageChanged () {
+      this.showSuccess("Image changed");
+      // fixme, we should actually update the user
+    },
   },
   async mounted() {
     this.logger = new Logger("Finish");

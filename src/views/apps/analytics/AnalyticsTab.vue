@@ -75,7 +75,7 @@
             type="overview_dash"
             reference
             contentID
-            insertPosition="top"
+            insertPosition="bottom"
           />
         </div>
       </div>

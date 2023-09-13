@@ -219,7 +219,7 @@ export default {
       if (this.user.role != "guest") {
         let txt = this.createItem(ul, this.user);
         let input = document.createElement("textarea");
-        css.add(input, "textarea");
+        css.add(input, "form-control");
         input.placeHolder = "Leave a comment";
         txt.appendChild(input);
         this.input = input;

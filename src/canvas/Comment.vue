@@ -1,10 +1,10 @@
 <script>
 import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
-import on from 'dojo/on'
 import topic from 'dojo/topic'
 import win from 'dojo/_base/win'
 import DomBuilder from 'common/DomBuilder'
+import CanvasCommet from '../page/CanvasComment.vue'
 // import CheckBox from 'common/CheckBox'
 
 export default {
@@ -197,39 +197,9 @@ export default {
 			}
 		},
 
-		/**
-		 * Wires all comments. Must be separate method as we
-		 * rewire shit all the time...
-		 */
-		wireComments() {
-			console.warn('Comment.wireComments() > deprecated')
-			try {
-				if (this.showComments && this.screenComments) {
-					this.logger.log(1, "wireComments", "enter > ");
-					for (let screenID in this.screenComments) {
-						const list = this.screenComments[screenID];
-						if (list) {
-							for (let i = 0; i < list.length; i++) {
-								const item = list[i];
-								const comment = this.comments[item.id];
-								if (comment) {
-									const div = item.div;
-									this.registerDragOnDrop(div, comment.id, "onCommentDndStart", "onCommntDndMove", "onCommentDndEnd", "onCommentDndClick");
-								}
-							}
-						}
-					}
-				}
-			} catch (e) {
-				this.logger.error("wireComments", "enter >Something is wrong ", e);
-				this.logger.sendError(e)
-			}
-		},
-
-
 		renderCommentIcon(box,) {
-			box.w = this.getZoomed(25, this.zoom);
-			box.h = this.getZoomed(25, this.zoom);
+			box.w = this.getZoomed(17, this.zoom);
+			box.h = this.getZoomed(17, this.zoom);
 			const div = this.createBox(box);
 			css.add(div, "MatcCanvasCommentIcon");
 			return div;
@@ -279,22 +249,13 @@ export default {
 		showCommentPopUp(comment, e) {
 			const db = new DomBuilder();
 
+			if (this._commentWidget) {
+				this.onCloseCommentPopup()
+			}
+
 			const popup = db
 					.div("MatcCanvasComment MatcCanvasCommentOpen")
 					.build(this.dndContainer);
-
-
-			this._commentTouchListner = on(popup, "mousedown", e => {
-				e.stopPropagation();
-			});
-
-			this._commentTouchListner = on(popup, "click", e => {
-				e.stopPropagation();
-			});
-
-			const cntr = db
-				.div("MatcCanvasCommentCntr MatcPadding")
-				.build(popup);
 
 			/**
 			 * Resize so its always in screen!
@@ -304,11 +265,25 @@ export default {
 			/**
 			 * register close on ESC and Canvas clicks
 			 */
-			this.addSelectionStartListener(lang.hitch(this, "onCloseCommentPopup"));
-			this._canvasClickLisenter = topic.subscribe("matc/canvas/click", lang.hitch(this, "onCloseCommentPopup"));
+			this.addSelectionStartListener(() => this.onCloseCommentPopup());
+			this._canvasClickLisenter = topic.subscribe("matc/canvas/click", () => this.onCloseCommentPopup());
 			this.setCanvasCancelCallback("onCloseCommentPopup");
-			this.renderCommentPopup(comment, this.user, cntr, db, this.canDeleteAllComments);
+
+
+			const widget = this.$new(CanvasCommet)
+			widget.placeAt(popup)
+			widget.setValue(comment)
+			widget.setUser(this.user)
+			widget.on("save", (comment) => {
+				this.onSaveComment(comment)
+			})
+			widget.on("delete", (comment) => {
+				this.onDeleteComment(comment)
+			})
+			widget.on("cancel", () => this.onCloseCommentPopup())
+
 			this._commentPopup = popup;
+			this._commentWidget = widget
 					
 			const screen = this.model.screens[comment.reference];
 			if (screen) {
@@ -318,8 +293,6 @@ export default {
 				popup.style.top = Math.round(comment.y) + "px";
 				popup.style.left = Math.round(comment.x) + "px";		
 			}
-
-		
 
 		},
 
@@ -339,10 +312,12 @@ export default {
 		},
 
 
-
 		onCloseCommentPopup(comment, e) {
 			if (e && e.preventDefault) {
 				this.stopEvent(e);
+			}
+			if (this._commentWidget) {
+				this._commentWidget.destroy()
 			}
 			if (this._commentTouchListner) {
 				this._commentTouchListner.remove();
@@ -358,31 +333,34 @@ export default {
 			delete this._commentTouchListner;
 			delete this._commentPopup;
 			delete this._canvasClickLisenter;
+			delete this._commentWidget;
 			return false;
 		},
 
 
 
-		async onSaveComment(txt, comment, e) {
-			this.stopEvent(e);
-			comment.message = txt.value;
+		async onSaveComment(comment) {
 			if (this.isPublic) {
 				this.showSuccess("Register to comment...");
 			} else {
 				if (comment.id) {
-					const res = await this.commentService.update(this.model.id, comment)
+					const old = this.comments[comment.id];
+					old.message = comment.message
+					old.modified = new Date().getTime()
+					old.edited = true
+					const res = await this.commentService.update(this.model.id, old)
 					this.onCommentSaved(res)
 				} else {
 					const res = await this.commentService.create(this.model.id, comment)
 					this.onCommentSaved(res)
 				}
 			}
-			this.stopEvent(e);
 			this.onCloseCommentPopup();
 		},
 
 
 		async onDeleteComment(comment, e) {
+			
 			if (this.isPublic) {
 				this.showSuccess("Register to comment...");
 			} else {

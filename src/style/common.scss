@@ -265,6 +265,12 @@ a:FOCUS {
 	margin-left: 10px;
 	color: #ccc;
 	cursor: pointer;
+	vertical-align: middle;
+
+	.MatcQIcon, svg {
+		height: 24px;
+		width: 24px;
+	}
 }
 
 .MatcHelpIcon:hover {

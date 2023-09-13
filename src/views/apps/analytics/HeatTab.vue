@@ -50,7 +50,7 @@
             type="overview_heat"
             reference
             contentID
-            insertPosition="top"
+            insertPosition="bottom"
           />
         </div>
       </div>

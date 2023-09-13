@@ -290,6 +290,14 @@ input:focus {
 	gap: 8px;
 }
 
+.MatcButtonBarCols {
+	justify-content: space-between;
+	
+	.MatcButtonBarCol{
+		display: flex;
+		gap: 8px;
+	}
+}
 
 .VommondDataBindingPassive.MatcButton {
 	cursor: auto;

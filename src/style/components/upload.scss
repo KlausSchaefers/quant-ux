@@ -5,7 +5,7 @@
 
     .MatcHint {
         color: $text_color_passive;
-        font-size: 1rem;
+        font-size: $form_font_size;
         display: block;
         padding-bottom: calc(0.5em - 1px);
         padding-left: calc(0.75em - 1px);
@@ -23,6 +23,8 @@
     height: 96px;
     position: relative;
     border-radius: 4px;
+
+
 
     &.MatUploaderHasFile {
       border: 0px;

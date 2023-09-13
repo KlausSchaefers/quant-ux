@@ -39,6 +39,7 @@ import TestSettings from "views/apps/test/TestSettings";
 import Analytics from "dash/Analytics";
 import HelpButton from "help/HelpButton";
 
+
 export default {
   name: "AnalyticsTaskList",
   mixins: [TestSettings, DojoWidget],
@@ -220,7 +221,7 @@ export default {
       tbl.setActions([
         {
           label: "",
-          icon: "mdi mdi-chart-bar",
+          icon: "Analyze",
           css: "MatcButton MatcButtonSecondary",
           callback: lang.hitch(me, "_showTaskPerf")
         }

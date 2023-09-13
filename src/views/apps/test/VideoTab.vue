@@ -55,7 +55,7 @@
             type="overview_test"
             :reference="sessionID"
             contentID
-            insertPosition="top"
+            insertPosition="bottom"
           />
         </div>
       </div>

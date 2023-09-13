@@ -93,7 +93,7 @@
             type="overview_test"
             reference
             contentID
-            insertPosition="top"
+            insertPosition="bottom"
           />
         </div>
       </div>
@@ -101,7 +101,7 @@
   </div>
 </template>
 <style lang="scss">
-
+  @import '../../../style/components/upload.scss';
   @import '../../../style/components/layout.scss';
 </style>
 <script>

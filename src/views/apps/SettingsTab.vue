@@ -76,7 +76,7 @@
             type="app_settings"
             :reference="sessionID"
             contentID
-            insertPosition="top"
+            insertPosition="bottom"
           />
         </div>
       </div>
