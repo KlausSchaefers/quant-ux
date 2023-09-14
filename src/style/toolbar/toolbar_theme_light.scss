@@ -57,8 +57,7 @@
         .MatcToolbarEditModeCntr {
             border: 1px solid transparent;
             background: $toolbar_form_background_hover;
-            border-radius: $button_radius;
-
+     
             &:hover {
                 background: $toolbar_form_background_focus;
             }
@@ -67,13 +66,14 @@
         a.MatcToolbarItem {
             
         }
-    
-        a.MatcToolbarEditModeActive {
+        .MatcToolbarEditModeHighlight {
             background: $primary_color;
-            color: #fff;
-            
+        }
+   
+    
+        a.MatcToolbarEditModeActive {            
+            color: #fff;            
             &:hover {
-                background: $primary_color_hover;
                 color: #fff;
             }
         }

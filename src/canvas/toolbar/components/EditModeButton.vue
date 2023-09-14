@@ -1,26 +1,29 @@
 
 <template>
   <div class="MatcToolbarEditMode">
-    <div class="MatcToolbarEditModeCntr">
-      <a @click="setDesign" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'design'  }]">
-        <span class="MatcToolbarResponsiveIcon mdi  mdi-file-edit-outline"/>
+  
+    <div class="MatcToolbarEditModeCntr" ref="cntr">
+      <div class="MatcToolbarEditModeHighlight" :style="{'width': highlightWidth + 'px', 'left': highlightX + 'px'}">
+
+      </div>
+      <a @click="setDesign" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'design'  }]" ref="btnEdit">     
         <span class="MatcToolbarResponsiveLabel">
           Design
         </span>
       </a>
-      <a @click="setPrototype" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'prototype' }]">
-          <span class="MatcToolbarResponsiveIcon mdi mdi-vector-line"/>
+      <a @click="setPrototype" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'prototype' }]" ref="btnProto">
           <span class="MatcToolbarResponsiveLabel">
             Prototype
           </span>
       </a>
-      <!-- <a @click="setCode" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'data'  }]">
+      <!-- <a @click="setCode" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'data'  }]" ref="btnCode">
           <span class="MatcToolbarResponsiveIcon mdi mdi-code-tags"/>
           <span class="MatcToolbarResponsiveLabel">
             LowCode
           </span>
       </a> -->
     </div>
+
   </div>
 </template>
 <script>
@@ -28,6 +31,7 @@
 import Logger from "common/Logger";
 import _Tooltip from 'common/_Tooltip'
 import NLS from 'common/NLS'
+import domGeom from 'dojo/domGeom'
 
 export default {
   name: "EditModeButton",
@@ -35,6 +39,8 @@ export default {
   props: ['value'],
   data: function() {
     return {
+      highlightWidth: 0,
+      highlightX: 0,
       canvasViewMode: 'design'
     };
   },
@@ -55,6 +61,7 @@ export default {
       this.$emit('canvasViewMode', this.canvasViewMode)
       this.$emit('change', 'hasDataView', false)
       this.$emit('change', 'renderLines', false)
+      this.setSelected(this.$refs.btnEdit)
     },
     setCode () {
       this.log.log(1, 'setCode', 'enter')
@@ -63,6 +70,7 @@ export default {
       this.$emit('canvasViewMode', this.canvasViewMode)
       this.$emit('change', 'hasDataView', true)
       this.$emit('change', 'renderLines', false)
+      this.setSelected(this.$refs.btnCode)
     },
     setPrototype () {
       this.log.log(1, 'setPrototype', 'enter')
@@ -71,6 +79,14 @@ export default {
       this.$emit('canvasViewMode', this.canvasViewMode)
       this.$emit('change', 'hasDataView', false)
       this.$emit('change', 'renderLines', true)
+      this.setSelected(this.$refs.btnProto)
+    },
+    setSelected (node) {
+      const pos = domGeom.position(node)
+      const cPos = domGeom.position(this.$refs.cntr)
+      this.highlightWidth = pos.w
+      this.highlightX = pos.x- cPos.x -1
+      console.debug(pos)
     },
     nextView() {
         if (this.canvasViewMode === 'design') {
@@ -96,6 +112,7 @@ export default {
   async mounted() {
     this.log = new Logger("EditModeButton")
     this.addTooltip(this.$el, this.getNLS("tooltip.editmode"))
+    this.setSelected(this.$refs.btnEdit)
   }
 };
 </script>
