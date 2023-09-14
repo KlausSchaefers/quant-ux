@@ -12,9 +12,18 @@
 			</div>
 
 			<div class="MatcToolbarTopCntr" >
-
-				<div class="MatcToolbarTopLeftCntr MatcToolbarSection" data-dojo-attach-point="screenSection">
+				<div class="MatcToolbarSection">
+					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
+						<QIcon icon="Comment" />
+					</div>	
 				</div>
+		
+				<div class="MatcToolbarTopCenterCntr">
+					<div class="MatcToolbarSection" data-dojo-attach-point="screenSection">
+						<AnalyticViewModeButton @change="onChangeViewMode" />
+					</div>
+				</div>
+			
 
 				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 					<ToolbarPluginSection :events="events" :user="user" :mode="model" />
@@ -26,12 +35,6 @@
 		</div>
 
 		<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
-		</div>
-
-		<div class=" MatcToobarCommentSection MatcToolbarSection">
-			<a class="MatcToolbarItem" data-dojo-attach-point="commentBtn">
-				<span class="mdi mdi-comment-outline"></span>
-			</a>
 		</div>
 
 	</div>
@@ -68,12 +71,15 @@ import ToolbarPluginSection from '../../plugins/ToolbarPluginSection'
 import HelpButton from 'help/HelpButton'
 import HomeMenu from './AnalyticHomeMenu.vue'
 import Help from 'help/Help'
+import QIcon from 'page/QIcon'
+import AnalyticViewModeButton from './AnalyticViewModeButton'
 
 export default {
     name: 'AnalyticToolbar',
     mixins:[Util,_Color,  _Tooltip, DojoWidget],
     data: function () {
         return {
+			mode:'',
 			modelName: 'Loading...',
 			events: null,
 			model: null,
@@ -88,17 +94,14 @@ export default {
 			'ViewConfig': ViewConfig,
 			'HelpButton': HelpButton,
 			'ToolbarPluginSection': ToolbarPluginSection,
-			'HomeMenu': HomeMenu
+			'HomeMenu': HomeMenu,
+			'QIcon': QIcon,
+			'AnalyticViewModeButton': AnalyticViewModeButton
 		},
     methods: {
         postCreate(){
 			this.logger = new Logger("AnalyticToolbar");
 			this.logger.log(2,"constructor", "entry");
-
-			// this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
-			// this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
-
-
 			this.renderToolbar()
 		},
 
@@ -113,6 +116,13 @@ export default {
 			this.logger.log(-1,"onHomeMenu", "entry", e);
 			if (this[option.value]) {
 				this[option.value](e)
+			}
+		},
+
+		onChangeViewMode (option) {
+			this.logger.log(-1,"onChangeViewMode", "entry", option);
+			if (this[option]) {
+				this[option]()
 			}
 		},
 
@@ -193,7 +203,6 @@ export default {
 
 		showClickHeatMap(){
 			this.logger.log(2,"showClickHeatMap", "entry > " + this.analyticHeatMapClicks);
-			this.setSelectedViewButton(this.viewBtnClickMap);
 			this.setAnalyticMode("HeatmapClick", {numberOfClicks : this.analyticHeatMapClicks} );
 			this.showHeatMapProperties();
 		},
@@ -213,8 +222,6 @@ export default {
 
 		showMouseHeatMap(){
 			this.logger.log(2,"showMouseHeatMap", "entry");
-			this.setSelectedViewButton(this.viewBtnMouseMap);
-
 			if(!this.mouseData){
 				this.canvas.showHint("Loading data...");
 				if(this.isPublic){
@@ -239,46 +246,37 @@ export default {
 
 		showScrollHeatMap(){
 			this.logger.log(2,"showScrollHeatMap", "entry");
-			this.setSelectedViewButton(this.viewBtnScrollMap);
 			this.setAnalyticMode("HeatmapScrollView");
 		},
 
 		showDwelTimeMap(){
 			this.logger.log(2,"showDwelTimeMap", "entry");
-			this.setSelectedViewButton(this.viewBtnDwellTime);
 			this.setAnalyticMode("HeatmapDwelTime");
 		},
 
-
 		showDiscoveryTimeMap(){
 			this.logger.log(2,"showDwelTimeMap", "entry");
-			this.setSelectedViewButton(this.viewBtnDiscoveryTime);
 			this.setAnalyticMode("HeatmapDiscoryTime");
-
 		},
 
 		showScrollTimeMap(){
 			this.logger.log(2,"showScrollHeatMap", "entry");
-			this.setSelectedViewButton(this.viewBtnScrollTime);
 			this.setAnalyticMode("HeatmapScrollTime");
 		},
 
 		showViewMap(){
 			this.logger.log(2,"showViewMap", "entry");
-			this.setSelectedViewButton(this.viewBtnView);
 			this.setAnalyticMode("HeatmapViews");
 		},
 
 		showDropOff () {
 			this.logger.log(-1,"showDropOff", "entry");
-			this.setSelectedViewButton(this.viewBtnDropOff);
 			this.showDropOffProperties()
 		},
 
 		showUserJourney(){
 			this.logger.log(-1,"showUserJourney", "entry > ");
-			this.setSelectedViewButton(this.viewBtnClickStream);
-
+	
 			const sessions = {};
 			for(var id in this.sessionCheckBoxes){
 				sessions[id] = this.sessionCheckBoxes[id].getValue();
@@ -298,13 +296,10 @@ export default {
 		},
 
 		showGestureMap(){
-			this.logger.log(2,"showGestureMap", "entry > ");
-			this.setSelectedViewButton(this.viewBtnGesture);
-
+			this.logger.log(2,"showGestureMap", "entry > ");	
 			var params = {
 				color: this.gestureLineColor.getValue()
 			};
-
 			this.setAnalyticMode("Gesture", params);
 			this.showGestureProperties();
 
@@ -318,60 +313,10 @@ export default {
 
 		renderToolbar(){
 			this.logger.log(3,"renderToolbar", "enter");
-
 			if (this.isRendered) {
 				return
 			}
-			this.viewBtns = [];
 			this.isRendered = true
-
-			/**
-			 * Views per screens
-			 */
-			this.viewBtnClickMap = this.createToolBarItem('Click Heatmap', "showClickHeatMap", "mdi mdi-cursor-default",this.screenSection);
-			this.viewBtns.push(this.viewBtnClickMap);
-			this.addTooltip(this.viewBtnClickMap, "Where did the users click?");
-
-			this.viewBtnMouseMap = this.createToolBarItem('Mouse Heatmap', "showMouseHeatMap", "mdi mdi-mouse",this.screenSection);
-			this.viewBtns.push(this.viewBtnMouseMap);
-			this.addTooltip(this.viewBtnMouseMap, "Howlong was cursor at some place?");
-
-			//this.viewBtnGesture = this.createToolBarItem('Gestures', "showGestureMap", "mdi mdi-cursor-pointer",this.screenSection);
-			//this.viewBtns.push(this.viewBtnGesture);
-			//this.addTooltip(this.viewBtnGesture, "Which gestures were done?");
-
-			this.viewBtnClickStream = this.createToolBarItem("User Journey", "showUserJourney", "mdi mdi-vector-polyline",this.screenSection);
-			this.viewBtns.push(this.viewBtnClickStream);
-			this.addTooltip(this.viewBtnClickStream, "See where the users have clicked in one session.");
-
-			this.viewBtnDropOff = this.createToolBarItem("Tasks & Drop Off", "showDropOff", "mdi mdi-chart-timeline-variant-shimmer",this.screenSection);
-			this.viewBtns.push(this.viewBtnDropOff);
-			this.addTooltip(this.viewBtnDropOff, "See whre users dropped of when performing tasks.");
-
-			/**
-			 * Global Distributions
-			 */
-			this.viewBtnView = this.createToolBarItem("Views", "showViewMap", "mdi mdi-eye",this.screenSection);
-			this.viewBtns.push(this.viewBtnView);
-			this.addTooltip(this.viewBtnView, "How often was the screen loaded");
-
-
-			this.viewBtnDwellTime = this.createToolBarItem("Dwell Time", "showDwelTimeMap", "mdi mdi-timelapse",this.screenSection);
-			this.viewBtns.push(this.viewBtnDwellTime);
-			this.addTooltip(this.viewBtnDwellTime, "How much time have the users spend on this page in average");
-
-
-			this.viewBtnScrollMap = this.createToolBarItem("Scroll", "showScrollHeatMap", "mdi mdi-swap-vertical",this.screenSection);
-			this.viewBtns.push(this.viewBtnScrollMap);
-			this.addTooltip(this.viewBtnScrollMap, "How often was the part of the screen visible");
-
-			this.viewBtnScrollTime = this.createToolBarItem("Scroll Time", "showScrollTimeMap", "mdi mdi-timer",this.screenSection);
-			this.viewBtns.push(this.viewBtnScrollTime);
-			this.addTooltip(this.viewBtnScrollTime, "How long was the part of the screen visible");
-
-		
-			this.setSelectedViewButton(this.viewBtnClickMap);
-
 			this.logger.log(3,"renderToolbar", "exit");
 		},
 
@@ -1406,11 +1351,7 @@ export default {
 		 * Helper
 		 ********************************************************/
 
-		setSelectedViewButton(btn){
-			for(var i=0; i < this.viewBtns.length; i++){
-				css.remove(this.viewBtns[i],"MatcToolbarItemActive");
-			}
-			css.add(btn,"MatcToolbarItemActive");
+		setSelectedViewButton(){
 		},
 
 		createRing(lbl, help, distCallBack){

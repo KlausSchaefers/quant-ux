@@ -17,6 +17,8 @@
     $toolbar_form_border_focus: rgba(0,0,0,0.15);
     $toolbar_form_radius: 2px;
 
+    $toolbar_help_background: #d6e5f8;
+
     $layerlist_background: #fff;
     $layerlist_selected: $toolbar_selected_background;
 
@@ -62,10 +64,7 @@
                 background: $toolbar_form_background_focus;
             }
         }
-    
-        a.MatcToolbarItem {
-            
-        }
+
         .MatcToolbarEditModeHighlight {
             background: $primary_color;
         }

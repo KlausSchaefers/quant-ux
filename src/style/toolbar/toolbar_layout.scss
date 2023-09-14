@@ -27,13 +27,12 @@
 .MatcToolbarPrimaryItem {
 	border-radius: $button_radius;
     padding: 16px 4px;
-	Xoverflow: hidden;
+	gap: 8px;
 }
 
 .MatcToolbarSecondaryItem {
 	border-radius: $button_radius;
     padding: 16px 4px;
-	Xoverflow: hidden;
 }
 
 .MatcToolbarSpacer {
@@ -42,8 +41,12 @@
 }
 
 
-.MatcToolbarHelpSection {
+.MatcToolbarHelpSection.MatcToolbarLabel{
 	font-size: 12px;
+	border-radius: $toolbar_form_radius;
+	padding: 4px 8px;
+	margin-left: 8px;
+	margin-right: 8px;
 }
 
 /****************************************************
@@ -343,7 +346,6 @@
 .MatcToobarPropertiesSection .VommondCheckBoxLabel,
 .MatcToobarPropertiesSection .VommondRadioBoxLabel {
 	font-size: 12px;
-	line-height: 1;
 }
 
 .MatcToobarPropertiesSection .MatcToolbarSubSection {
@@ -358,8 +360,6 @@
  .MatcToolbarSection {
 	padding: 0 8px;
 	display: inline-block;
-	transition-duration: 0.5s;
-	transition-property: opacity;
 	height: $toolbar_height;
 	display: flex;
 	align-items: center;

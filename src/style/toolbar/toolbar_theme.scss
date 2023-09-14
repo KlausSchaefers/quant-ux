@@ -171,6 +171,7 @@
     .MatcToolbarItemLabel,
     .VommondRadioBoxLabel {
         color: $toolbar_color;
+        vertical-align: super;
     }
 
     .MatcToobarRowHover {
@@ -231,6 +232,9 @@
     color:$toolbar_color;
 }
 
+.MatcToolbarHelpSection.MatcToolbarLabel{
+	background: $toolbar_help_background;
+}
 
 .MatcBoxBorder {
 
