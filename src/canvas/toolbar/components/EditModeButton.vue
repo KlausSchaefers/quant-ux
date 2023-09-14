@@ -86,7 +86,6 @@ export default {
       const cPos = domGeom.position(this.$refs.cntr)
       this.highlightWidth = pos.w
       this.highlightX = pos.x- cPos.x -1
-      console.debug(pos)
     },
     nextView() {
         if (this.canvasViewMode === 'design') {
@@ -112,7 +111,14 @@ export default {
   async mounted() {
     this.log = new Logger("EditModeButton")
     this.addTooltip(this.$el, this.getNLS("tooltip.editmode"))
-    this.setSelected(this.$refs.btnEdit)
+    // this.addTooltip(this.$refs.btnEdit, this.getNLS("tooltip.editmode"))
+    // this.addTooltip(this.$refs.btnProto, this.getNLS("tooltip.protomode"), "vommondToolTipRightBottom")
+    // some evil hack, because on startup, the
+    // flex because is not for sure correctly rendered
+    setTimeout(() => {
+      this.setSelected(this.$refs.btnEdit)
+    }, 300)
+
   }
 };
 </script>

@@ -195,7 +195,8 @@
         "widget": "Add interactive Widgets (W)",
         "comment": "Add comment",
         "layer": "Change Layer",
-        "editmode": "Change view mode (TAB)"
+        "editmode": "Toggle design and \nprototype mode (TAB)",
+        "protomode": "Define the interaction (Tab)"
     },
     "table-action": "Action X",
     "btn": {
