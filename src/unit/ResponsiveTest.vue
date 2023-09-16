@@ -23,7 +23,7 @@
   
   <script>
   import DojoWidget from 'dojo/DojoWidget'
-  import app from '../../tests/unit/data/responsiveApp.json'
+  import app from '../../tests/unit/data/responsiveAppFixed.json'
   import Simulator from 'core/Simulator'
   import DomBuilder from 'common/DomBuilder'
   import domGeom from 'dojo/domGeom'
@@ -46,11 +46,9 @@
     methods: {
         onResize () {
             const pos = domGeom.position(this.$refs.cntr)
-            console.debug('onResize', pos)
-         
+            console.debug(pos)
             const app = this.responsive.resize(pos.w, pos.h)
 
-            console.debug('onResize', app.screenSize)
             this.sim.destroy()
             this.$refs.cntr.innerHTML = ''
             this.createSim(app)

@@ -2,7 +2,7 @@ import * as Util from "./ExportUtil"
 import Logger from "../Logger"
 import * as Grid from "./GridLayouter"
 import {Layout} from './Const'
-// import * as Rows from "./RowLayouter"
+import * as Rows from "./RowLayouter"
 
 var cloneID = 0
 
@@ -74,7 +74,6 @@ export function transform(model, config) {
 	 * IN QUX we want to attach label nodes. In Figma this causes issues. with attachLabels we control for which elements we should use this
 	 */
 	let nodesWithLabelAttachment = config.css && config.css.attachLabels === true ? ["TextBox", "Password", "TextArea", "Box", "Button", "DropDown"] : ["TextBox", "Password", "TextArea", "DropDown"]
-	let hasRows = config.css && config.css.grid !== true	
 
 	for (let screenID in model.screens) {
 		let screen = model.screens[screenID]
@@ -87,7 +86,7 @@ export function transform(model, config) {
 		/**
 		 * Add rows and grid if needed
 		 */
-		screen = layoutTree(screen, hasRows)
+		screen = layoutTree(screen, config.useRows)
 
 		/**
 		 * Now we put the fixed stuff in the fixedChildren list
@@ -129,14 +128,17 @@ export function transform(model, config) {
 	return result
 }
 
-function layoutTree(screen) {
-  Logger.log('Flat2Tree.layoutTree() > ')
+function layoutTree(screen, useRows) {
+  Logger.log(-1, 'Flat2Tree.layoutTree() > ', useRows)
 
 	/**
 	 * We add lines, because for wrapped groups we need the rows!
 	 * Attention: In the UI we can not configure this anymore!
 	 */
-	//screen = Rows.addRows(screen)
+	if (useRows) {
+		screen = Rows.addRows(screen)
+		screen = Rows.addRowContainer(screen, true)
+	}
 
 	/**
 	 * First we determine the type of layout

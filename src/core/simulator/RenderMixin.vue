@@ -296,7 +296,7 @@
   
 					  const loadedLine = this.getLineForGesture(lines, "loaded");
 					  if (loadedLine) {
-						  this.logger.log(-1,"afterScreenCreated","Loaded line");
+						  this.logger.log(1,"afterScreenCreated","Loaded line");
 						  this._transitionTimer = setTimeout(() => {
 							  this.executeLine(screen.id, null, loadedLine);
 						  }, 1)

@@ -10,6 +10,7 @@ export default class ResponsiveLayout {
     constructor(model, config = Config.getDefault()) {
         this.model = model // remove style for faster copy???
         this.config = config
+        this.config.useRows = false
         this.init(model, config)
     }
 
@@ -25,7 +26,7 @@ export default class ResponsiveLayout {
         return this.resizeModel(width, height, newNestedPositions)
     }
 
-    resizePositions(width, height = this.model.screenSize.h) {
+    resizePositions(width, height) {
         const newNestedPositions = {}
         this.treeModel.screens.forEach(scrn => {
             this.resizeScreen(width, height, scrn, newNestedPositions)
@@ -81,7 +82,7 @@ export default class ResponsiveLayout {
         if (box.children.length === 0) {
             return 
         }
-        Logger.log(1, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.layout.type )
+        Logger.log(-1, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.layout.type )
 
         if (box.layout.type === 'row') {
             this.resizeChildrenRow(box, parent, newNestedPositions, indent)
@@ -95,19 +96,10 @@ export default class ResponsiveLayout {
 
     resizeChildenGrid(box, parent, newNestedPositions, indent) {
 
-
         const newParent = newNestedPositions[parent.id]
-        const factorWidth = newParent.w / parent.w
-        const factorHeight = newParent.h / parent.h
-
-        const sclaleGrid = this.sclaleGrid(box.grid, factorWidth, factorHeight)
-        console.debug(indent, 'resizeChildenGrid', box.name, factorWidth, box.grid.columns)
-        // console.debug(box.grid.columns.map(r => r.l))
-        // console.debug(sclaleGrid.cols)
-
-         
+        const sclaleGrid = this.sclaleGrid(box.grid, newParent)
+       
         box.children.forEach(child => {   
-            console.debug(indent, '  -', child.name, child)
      
             const startX = sclaleGrid.cols[child.gridColumnStart]
             const endX = sclaleGrid.cols[child.gridColumnEnd]
@@ -125,9 +117,6 @@ export default class ResponsiveLayout {
             )
 
             newNestedPositions[child.id] = newChildPos
-            //console.debug(indent, ' - ', child.name, gridPos.xStart, gridPos.xEnd - gridPos.xStart)
-            //console.debug(indent, ' ->> ', child.w,' :', newChildPos.w, ' / ', child.x ,' :',  newChildPos.x)
-
             this.resizeChildren(child, child, newNestedPositions, indent + '     ')
         })
 
@@ -155,9 +144,16 @@ export default class ResponsiveLayout {
     }
 
 
-    sclaleGrid (grid, factorWidth = 1, factorHeight = 1) {
+    sclaleGrid (grid, newParent) {
+        //grid = ExportUtil.clone(grid)
         const result = {}
-        // there is also something about hasMinMax?
+
+        const [flexWidth, fixedWith] = getFlexFixed(grid.columns)
+        const factorWidth = (newParent.w - fixedWith) / flexWidth
+        
+        //unFixMax(grid.columns)
+        
+
         let lastX = 0
         result.cols = grid.columns.map((col) => {
             return col.fixed  ? col.l : Math.round(col.l * factorWidth)            
@@ -167,6 +163,8 @@ export default class ResponsiveLayout {
         })
         result.cols.unshift(0)
 
+        const [flexHeight, fixedHeight] = getFlexFixed(grid.rows)
+        const factorHeight = (newParent.h - fixedHeight)/ flexHeight
         let lastY = 0
         result.rows = grid.rows.map((row) => {            
             return row.fixed ? row.l : Math.round(row.l * factorHeight)            
@@ -181,7 +179,7 @@ export default class ResponsiveLayout {
     
     resizeChildrenRow (box, parent, newNestedPositions, indent) {
         box.children.forEach(child => {             
-            this.resizeRowChild(child, parent, newNestedPositions, indent)           
+            this.resizeRowChild(child, parent, newNestedPositions, indent)   
         })
     }
 
@@ -189,13 +187,57 @@ export default class ResponsiveLayout {
         const newParent = newNestedPositions[parent.id]
         // FIXME add offet
         const result = createResult(child.x + newParent.x, child.y + newParent.y, child.w, child.h)     
-        this.resizeChildRowHorizontal(child, parent, newParent, result, indent)       
+        this.resizeChildRowHorizontal(child, parent, newParent, result, indent)
+        this.resizeChildRowVertical(child, parent, newParent, result, indent)     
         newNestedPositions[child.id] = result
         this.resizeChildren(child, child, newNestedPositions, indent + '     ')
     }
 
 
+    resizeChildRowVertical (child, parent, newParent, newChildPos) {
+        const parentH = parent.h
+        const distanceBottom = parentH - (child.y + child.h)
+        const factorHeight = newParent.h / parent.h
+
+        if (ExportUtil.isPinnedUp(child) && ExportUtil.isPinnedDown(child)) {    
+
+            const newWidth = newParent.h - distanceBottom - child.y
+            newChildPos.h = newWidth
+
+        } else if (ExportUtil.isFixedVertical(child)){
+
+            if (ExportUtil.isPinnedUp(child)) {
+                // nothing
+            } else if (ExportUtil.isPinnedDown(child)) {            
+                const newY = (newParent.h + newParent.h) - (child.h + distanceBottom)
+                newChildPos.y = newY
+                newChildPos.b = distanceBottom
+            } else {
+                newChildPos.y = Math.round(child.y* factorHeight) + newParent.y
+            }
+
+        } else {
+       
+            if (ExportUtil.isPinnedUp(child)) {
+                newChildPos.h = Math.round(child.h * factorHeight)
+            } else if (ExportUtil.isPinnedDown(child)) {          
+                    
+                const newHeight = Math.round(child.h * factorHeight)
+                const newY = (newParent.h + newParent.y) - (newHeight + distanceBottom)
+                newChildPos.h = newHeight
+                newChildPos.y = newY  
+                newChildPos.b = distanceBottom         
+            } else {
+                newChildPos.h = Math.round(child.h * factorHeight) 
+                newChildPos.y = Math.round(child.y * factorHeight) + newParent.y           
+            }             
+        }
+        //console.debug(indent,'  hor', parent.name, '-> ', child.name, child.id, child.w, parent.w, newParent.w, ' ==',newChildPos.w)
+       
+    }
+
     resizeChildRowHorizontal (child, parent, newParent, newChildPos) {
+     
         const parentW = parent.w
         const distanceRight = parentW - (child.x + child.w)
         const factorWidth = newParent.w / parent.w
@@ -236,11 +278,20 @@ export default class ResponsiveLayout {
         //console.debug(indent,'  hor', parent.name, '-> ', child.name, child.id, child.w, parent.w, newParent.w, ' ==',newChildPos.w)
        
     }
+}
 
+function getFlexFixed(list) {
 
-
-
-
+    let flex = 0
+    let fixed = 0
+    list.forEach((col) => {
+        if (col.fixed) {
+            fixed += col.l
+        } else {
+            flex += col.l
+        }
+    })
+    return [flex, fixed]
 }
 
 function createResult(x, y, w, h) {
@@ -250,4 +301,16 @@ function createResult(x, y, w, h) {
         y: Math.round(y),
         h: Math.round(h)
     }
+}
+
+export function unFixMax(list) {
+    const fixedCols = list.filter((col) => col.fixed)
+    if (fixedCols.length === list.length) {
+        const max = Math.max(...list.map(col => col.l))
+        list.forEach(col => {
+            if (col.l === max) {
+                col.fixed = false
+            }
+        })
+    } 
 }
