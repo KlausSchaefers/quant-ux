@@ -190,6 +190,7 @@ export default class Core extends Evented {
      * Gets the new position for a group child
      */
     _getGroupChildResizePosition(widget, oldGroup, newGroup, dif) {
+        console.warn("DEPRECATED! _getGroupChildResizePosition()")
         return ModelResizer.getGroupChildResizePosition(widget, oldGroup, newGroup, dif)
     }
 

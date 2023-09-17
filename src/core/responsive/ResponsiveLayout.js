@@ -8,20 +8,87 @@ import Config from './Config'
 export default class ResponsiveLayout {
 
     constructor(model, config = Config.getDefault()) {
-        this.model = model // remove style for faster copy???
+     
         this.config = config
         this.config.useRows = false
-        this.init(model, config)
+
+        //this.init(model, config)
     }
 
-    init(model, config) {
-        //const flatModel = Quant2Flat.transform(model, config)
-        const treeModel = Flat2Tree.transform(model, config)
+    initApp(model) {
+        this.model = model
+        const treeModel = Flat2Tree.transform(model, this.config)
+        treeModel.screens.forEach(scrn => {
+            this.unfixLongestElements(scrn)
+        })
         this.treeModel = treeModel
     }
 
-    resize(width, height = this.model.screenSize.h) {
-        Logger.log(-1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:' + height )
+    unfixLongestElements (element) {
+        if (!element.children) {
+            return
+        }
+        if (element.grid) {
+            if (isAllFixed(element.grid.columns)) {
+             
+                const max = getMaxChild(element.children, 'w')
+                console.debug('Grid', element.grid.columns, max)
+            }
+        }
+
+        // element.children.forEach(child => {
+        //     console.debug(element.name + "." + child.name, child.w, element.w )
+        //     if (ExportUtil.isFixedHorizontal(child) && child.w === element.w) {
+        //         child.props.resize.fixedHorizontal = false
+        //     }       
+        //     if (ExportUtil.isFixedVertical(child) && child.h === element.h) {
+        //         child.props.resize.fixedVertical = false
+        //     }
+        //     this.unfixLongestElements(child)
+        // })
+    }
+
+    initSelection(model, boundingBox, children) {
+        Logger.log(-1, 'ResponsiveLayout.initSelection()')
+        /**
+         * We want to make sure, that the selection is always
+         * in the crisp in the bounding box.
+         */
+        this.config.fixStartEnd = true
+        const responsiveSelection = {
+            id: model.id,
+            name: "Selecttion",
+            screenSize: {
+                w: boundingBox.w,
+                h: boundingBox.h
+            },
+            screens: {
+                "s": {
+                    id: 's',
+                    name: 'Selection',
+                    w: boundingBox.w,
+                    h: boundingBox.h,
+                    x: boundingBox.x,
+                    y: boundingBox.y,
+                    children: children,
+                    style: {},
+                    props: {}
+                }
+            },
+            widgets: {},
+            groups: model.groups
+        }
+
+        children.forEach(id => {
+            const widget = model.widgets[id]
+            responsiveSelection.widgets[id] = widget
+        })
+        this.initApp(responsiveSelection)
+
+    }
+
+    resize(width, height) {
+        Logger.log(1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:' + height )
         const newNestedPositions = this.resizePositions(width, height)
         return this.resizeModel(width, height, newNestedPositions)
     }
@@ -71,19 +138,18 @@ export default class ResponsiveLayout {
     }
 
     resizeScreen (width, height, scrn, newNestedPositions) {
-        Logger.log(-1, 'ResponsiveLayout.resizeScreen() > ' + scrn.name )
+        Logger.log(2, 'ResponsiveLayout.resizeScreen() > ' + scrn.name )
         newNestedPositions[scrn.id] = createResult(0,0, width, height)
         this.resizeChildren(scrn, scrn, newNestedPositions, '')
     }
 
 
     resizeChildren(box, parent, newNestedPositions, indent='') {
-
+        Logger.log(2, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.layout.type )
         if (box.children.length === 0) {
             return 
         }
-        Logger.log(-1, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.layout.type )
-
+      
         if (box.layout.type === 'row') {
             this.resizeChildrenRow(box, parent, newNestedPositions, indent)
         }
@@ -97,12 +163,14 @@ export default class ResponsiveLayout {
     resizeChildenGrid(box, parent, newNestedPositions, indent) {
 
         const newParent = newNestedPositions[parent.id]
-        const sclaleGrid = this.sclaleGrid(box.grid, newParent)
+        const sclaleGrid = this.sclaleGrid(box.grid, newParent, indent + box.name)
        
         box.children.forEach(child => {   
      
             const startX = sclaleGrid.cols[child.gridColumnStart]
             const endX = sclaleGrid.cols[child.gridColumnEnd]
+            // TODO: we should check that the with and height on
+            // fixed elements are really the same...
             const width = endX - startX
 
             const startY = sclaleGrid.rows[child.gridRowStart]
@@ -145,15 +213,16 @@ export default class ResponsiveLayout {
 
 
     sclaleGrid (grid, newParent) {
-        //grid = ExportUtil.clone(grid)
+
+        grid = ExportUtil.clone(grid)
         const result = {}
 
+        // unFixMax(grid.columns)
+        // unFixMax(grid.rows)
+   
         const [flexWidth, fixedWith] = getFlexFixed(grid.columns)
         const factorWidth = (newParent.w - fixedWith) / flexWidth
         
-        //unFixMax(grid.columns)
-        
-
         let lastX = 0
         result.cols = grid.columns.map((col) => {
             return col.fixed  ? col.l : Math.round(col.l * factorWidth)            
@@ -162,6 +231,7 @@ export default class ResponsiveLayout {
             return lastX
         })
         result.cols.unshift(0)
+        
 
         const [flexHeight, fixedHeight] = getFlexFixed(grid.rows)
         const factorHeight = (newParent.h - fixedHeight)/ flexHeight
@@ -173,6 +243,12 @@ export default class ResponsiveLayout {
             return lastY
         })
         result.rows.unshift(0)
+
+        if (this.config.fixStartEnd) {
+            result.cols[result.cols.length-1] = newParent.w
+            result.rows[result.rows.length-1] = newParent.h
+        }
+
         return result
     }
 
@@ -303,12 +379,41 @@ function createResult(x, y, w, h) {
     }
 }
 
+export function isAllFixed(list) {
+    const fixedCols = list.filter((col) => col.fixed)
+    return fixedCols.length === list.length
+}
+
+export function getMaxChild(children, type) {
+    let max = 0;
+    let maxChild = null
+    children.forEach(c => {
+        if (c[type] > max) {
+            maxChild = c
+            max = c[type]
+        }
+    })
+    return maxChild
+}
+
 export function unFixMax(list) {
     const fixedCols = list.filter((col) => col.fixed)
     if (fixedCols.length === list.length) {
         const max = Math.max(...list.map(col => col.l))
         list.forEach(col => {
             if (col.l === max) {
+                col.fixed = false
+            }
+        })
+    } 
+}
+
+export function unFixMin(list) {
+    const fixedCols = list.filter((col) => col.fixed)
+    if (fixedCols.length === list.length) {
+        const min = Math.min(...list.map(col => col.l))
+        list.forEach(col => {
+            if (col.l === min) {
                 col.fixed = false
             }
         })

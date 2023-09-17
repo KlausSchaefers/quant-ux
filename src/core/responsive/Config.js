@@ -8,6 +8,7 @@ class Config {
 
 	getDefault() {
 		return {
+			fixStartEnd: true,
 			debug: {
 				logLevel: 0,
 			},

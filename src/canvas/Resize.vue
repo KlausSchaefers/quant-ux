@@ -8,6 +8,7 @@ import topic from 'dojo/topic'
 import CoreUtil from 'core/CoreUtil'
 import ModelResizer from 'core/ModelResizer'
 import ModelUtil from 'core/ModelUtil'
+import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
 
 export default {
     name: 'Resize',
@@ -342,10 +343,24 @@ export default {
         this.alignmentStart(modelType, this._resizeModel, type, null, true);
 
         /**
+         * Since 5.0.0 we will use the grid layouter from 
+         * grousp and multi. Because of zooming, we need to
+         * init it on every DND, otherwise the model might be
+         * replaced.
+         */
+        if (modelType === 'group' || modelType === 'multi') {
+          this.startResponsiveLayouter()
+        }
+        /**
          * register mouse move and release listener, maybe also esc listener
          */
         this._resizeHandleMove = on(win.body(),"mousemove", lang.hitch(this,"onResizeDnDMove", modelType));
         this._resizeHandleUp = on(win.body(),"mouseup", lang.hitch(this,"onResizeDnDEnd", modelType));
+      },
+
+      startResponsiveLayouter () {  
+        this._responsiveLayouter = new ResponsiveLayout()
+        this._responsiveLayouter.initSelection(this.model, this._resizeModel, this._resizeModel.children)
       },
 
       getResizeModel (id) {
@@ -363,7 +378,6 @@ export default {
       },
 
       onResizeDnDMove (modelType, e){
-
 
         this.stopEvent(e);
         if(!this._resizeHandleDiv || !this._resizeModel){
@@ -398,37 +412,14 @@ export default {
             const dir = this.isHorinzontalDistribution()
             const temp = this._distributedPositions(dir, this._resizeModel.children, pos);
             const positions = temp.positions;
-            for(let id in positions){
-              const newPos = positions[id]
-              const div = this.widgetDivs[id];
-              this._resizeRenderJobs[id] = {
-                "pos" : newPos,
-                "div" : div
-              };
-            }
+            this._createMultiPositionRenderJobs(positions)
             this.alignmentShowDistribution(temp.distances);
           } else {
             /**
-             * Calculate relative changes in size.
+             * Responsive Layout
              */
-            const dif ={
-              x: pos.x *1.0 / this._resizeModel.x,
-              y: pos.y *1.0 / this._resizeModel.y,
-              w: pos.w *1.0 / this._resizeModel.w,
-              h: pos.h *1.0 / this._resizeModel.h
-            };
-
-            const children = this._resizeModel.children;
-            for(let i=0; i< children.length; i++){
-              const id = children[i];
-              const widget = this.model.widgets[id];
-              const div = this.widgetDivs[id];
-              const newPos = this._getGroupChildResizePosition(widget,this._resizeModel,pos, dif)
-              this._resizeRenderJobs[id] = {
-                "pos" : newPos,
-                "div" : div
-              };
-            }
+            const [positions] = this._resizeMultiChildren(pos)
+            this._createMultiPositionRenderJobs(positions)             
           }
 
           /**
@@ -459,6 +450,49 @@ export default {
             requestAnimationFrame(callback);
           }
         return false;
+      },
+
+      _createMultiPositionRenderJobs(positions) {
+        for(let id in positions){ 
+          const div = this.widgetDivs[id];
+          this._resizeRenderJobs[id] = {
+            "pos" : positions[id],
+            "div" : div
+          };
+        }
+      },
+
+      _resizeMultiChildren (pos) {
+
+          const responsivePositions = this._responsiveLayouter.resize(pos.w, pos.h)
+
+
+          // const dif ={
+          //   x: pos.x *1.0 / this._resizeModel.x,
+          //   y: pos.y *1.0 / this._resizeModel.y,
+          //   w: pos.w *1.0 / this._resizeModel.w,
+          //   h: pos.h *1.0 / this._resizeModel.h
+          // };
+   
+          let hasCopies = false;
+          let positions = {};
+          const children = this._resizeModel.children;
+          for(let i=0; i< children.length; i++){
+            const id = children[i];
+            const widget = this.model.widgets[id];        
+            hasCopies = hasCopies || this.isMasterWidget(widget);
+     
+            // const newPos = this._getGroupChildResizePosition(widget,this._resizeModel,pos, dif)
+            // positions[id] = newPos
+            const repositionWidget = responsivePositions.widgets[id]
+            positions[id] = {
+              x: repositionWidget.x,
+              y: repositionWidget.y,
+              w: repositionWidget.w,
+              h: repositionWidget.h
+            }         
+          }
+          return [positions,hasCopies]
       },
 
       onResizeDnDEnd (modelType, e){
@@ -547,28 +581,7 @@ export default {
             // to work on the unzoomed model and avoid rounding errors!
             this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
           } else {
-            /**
-             * Calculate relative changes in size.
-             */
-            let dif ={
-              x: pos.x *1.0 / this._resizeModel.x,
-              y: pos.y *1.0 / this._resizeModel.y,
-              w: pos.w *1.0 / this._resizeModel.w,
-              h: pos.h *1.0 / this._resizeModel.h
-            };
-            let positions = {};
-            let children = this._resizeModel.children;
-            let hasCopies = false;
-            for(let i=0; i< children.length; i++){
-              let id = children[i];
-              let widget = this.model.widgets[id];
-              hasCopies = hasCopies || this.isMasterWidget(widget);
-              // let div = this.widgetDivs[id];
-              let newPos = this._getGroupChildResizePosition(widget, this._resizeModel, pos, dif)
-              positions[id] = newPos;
-            }
-            // FIXME: Add here new API to to do the multi position calculation again in
-            // to avoid rounding issues.
+            const [positions,hasCopies] = this._resizeMultiChildren(pos)
             // Basically we have to move this entire method to the controller!!
             this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
           }
@@ -728,6 +741,7 @@ export default {
 			delete this._resizeDnDEndHandler
 			delete this._selectCloneIds;
 			delete this._resizeCopyJobs;
+      delete this._responsiveLayouter
 			this.cleanUpAlignment();
 			this.cleanUpReplicate();
 			this.cleanupDistribute();

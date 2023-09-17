@@ -23,7 +23,7 @@
   
   <script>
   import DojoWidget from 'dojo/DojoWidget'
-  import app from '../../tests/unit/data/responsiveAppFixed.json'
+  import app from '../../tests/unit/data/responsiveAppMax.json'
   import Simulator from 'core/Simulator'
   import DomBuilder from 'common/DomBuilder'
   import domGeom from 'dojo/domGeom'
@@ -81,7 +81,8 @@
 
         this.db = new DomBuilder()
         this.createSim(this.app)
-        this.responsive = new ResponsiveLayout(this.app)
+        this.responsive = new ResponsiveLayout()
+        this.responsive.initApp(this.app)
     }
   };
   </script>

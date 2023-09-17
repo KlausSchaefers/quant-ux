@@ -102,6 +102,7 @@ class ModelResizer {
     * Gets the new position for a group child
     */
     getGroupChildResizePosition (widget, oldBoundingBox, newBoundingBox, dif) {
+        console.warn('DEPRECATED! getGroupChildResizePosition()')
         if (widget.props && widget.props.resize && this.oneIsTrue(widget.props.resize)) {       
             return this.getResponsiveChildPosition(widget, oldBoundingBox, newBoundingBox, dif)
         } else {
