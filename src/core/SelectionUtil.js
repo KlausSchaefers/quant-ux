@@ -2,7 +2,7 @@ import Logger from './Logger'
 import Core from './Core'
 
 export function updateSelection(model, newId, selectedWidgetId, selectedGroupId) {
-    Logger.log(-1, 'SelectionUtil.updateSelection()', `${newId}, ${selectedWidgetId}, ${selectedGroupId}`)
+    Logger.log(1, 'SelectionUtil.updateSelection()', `${newId}, ${selectedWidgetId}, ${selectedGroupId}`)
     const util = new Core()
     util.model = model
 
@@ -12,7 +12,7 @@ export function updateSelection(model, newId, selectedWidgetId, selectedGroupId)
      */
     if (!selectedGroupId) {
         if (selectedWidgetId === newId) {
-            Logger.log(-1, 'SelectionUtil.updateSelection() > exit > Re-select widget', newId)
+            Logger.log(1, 'SelectionUtil.updateSelection() > exit > Re-select widget', newId)
             return [newId, null, false]
         }
 

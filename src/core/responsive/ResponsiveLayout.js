@@ -28,13 +28,11 @@ export default class ResponsiveLayout {
         if (!element.children) {
             return
         }
-        if (element.grid) {
-            if (isAllFixed(element.grid.columns)) {
-             
-                const max = getMaxChild(element.children, 'w')
-                console.debug('Grid', element.grid.columns, max)
-            }
-        }
+        // if (element.grid) {
+        //     if (isAllFixed(element.grid.columns)) {            
+        //         element.grid.columns.forEach(c => c.fixed = false)
+        //     }
+        // }
 
         // element.children.forEach(child => {
         //     console.debug(element.name + "." + child.name, child.w, element.w )
@@ -96,6 +94,12 @@ export default class ResponsiveLayout {
     resizePositions(width, height) {
         const newNestedPositions = {}
         this.treeModel.screens.forEach(scrn => {
+            if (height === -1) {
+                height = scrn.h
+            }
+            if (width === -1) {
+                width = scrn.w
+            }
             this.resizeScreen(width, height, scrn, newNestedPositions)
         })
         return newNestedPositions
@@ -213,12 +217,11 @@ export default class ResponsiveLayout {
 
 
     sclaleGrid (grid, newParent) {
-
         grid = ExportUtil.clone(grid)
         const result = {}
 
-        // unFixMax(grid.columns)
-        // unFixMax(grid.rows)
+        unFixMax(grid.columns)
+        unFixMax(grid.rows)
    
         const [flexWidth, fixedWith] = getFlexFixed(grid.columns)
         const factorWidth = (newParent.w - fixedWith) / flexWidth
@@ -398,12 +401,11 @@ export function getMaxChild(children, type) {
 
 export function unFixMax(list) {
     const fixedCols = list.filter((col) => col.fixed)
-    if (fixedCols.length === list.length) {
-        const max = Math.max(...list.map(col => col.l))
-        list.forEach(col => {
-            if (col.l === max) {
-                col.fixed = false
-            }
+     if (fixedCols.length === list.length) {
+        //console.debug('Make all flex')
+        //const max = Math.max(...list.map(col => col.l))
+        list.forEach(col => {   
+            col.fixed = false            
         })
     } 
 }

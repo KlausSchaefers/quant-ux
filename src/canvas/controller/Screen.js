@@ -2,6 +2,7 @@ import CopyPaste from './CopyPaste'
 import lang from '../../dojo/_base/lang'
 import Core from '../../core/Core'
 import ModelResizer from '../../core/ModelResizer'
+import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
 import * as ImportUtil from './ImportUtil'
 
 export default class Screen extends CopyPaste {
@@ -371,13 +372,27 @@ export default class Screen extends CopyPaste {
 	}
 
 	modelScreenSize (value, screenHeights = {}){
+		const layouter = new ResponsiveLayout()
+		layouter.initApp(lang.clone(this.model))
+		const responsivePositions = layouter.resize(value.screenSize.w, -1)
+
 		for(let id in this.model.screens){
-			const screen = this.model.screens[id];
-			this.modelScreenSizeWidgets(screen, value.screenSize.w, value.screenSize.h)
-			screen.w = value.screenSize.w;
-			screen.h = screenHeights[id] ? screenHeights[id] : value.screenSize.h
-			screen.min.h = value.screenSize.h
-			screen.min.w = value.screenSize.w
+			const scrn = this.model.screens[id];
+			scrn.w = value.screenSize.w;
+			scrn.h = screenHeights[id] ? screenHeights[id] : value.screenSize.h
+			scrn.min.h = value.screenSize.h
+			scrn.min.w = value.screenSize.w
+
+			scrn.children.forEach(id => {
+				const widget = this.model.widgets[id]
+				const newPos = responsivePositions.widgets[id]
+				if (widget && newPos) {
+					widget.x = newPos.x
+					widget.y = newPos.y
+					widget.h = newPos.h
+					widget.w = newPos.w
+				}
+			})
 	
 		}
 		this.model.screenSize.w = value.screenSize.w;
@@ -387,36 +402,7 @@ export default class Screen extends CopyPaste {
 		this.render();
 	}
 
-	/**
-	 * We simply scale...
-	 * FIXME: This is super buggy!
-	 */
-	modelScreenSizeWidgets (screen, newW) { // oldMinHeight
-		const difX = screen.w / newW;
-		
-		for(let i=0; i < screen.children.length; i++){
-			const widgetID = screen.children[i];
-			const widget = this.model.widgets[widgetID];
-			if(widget){
-				const left = widget.x - screen.x;
-				const screenRight = screen.x + screen.w
-				// store old distance to right border
-				const right = screenRight -  (widget.x  + widget.w)
-				// first resize width if needed
-				if (widget?.props?.resize?.fixedHorizontal !== true) {
-					widget.w = Math.round(widget.w / difX)
-				}
-				if (widget?.props?.resize?.left === true) {
-					// do nothing. just here for readiblity
-				} else if (widget?.props?.resize?.right === true) {
-					widget.x = screen.x + (newW - (right + widget.w))
-				} else {
-					widget.x = Math.round(widget.x - left + (left / difX))
-				}
-			}
-		}
-	}
-
+	
 	undoScreenSize (command){
 		this.modelScreenSize(command.o, command.oldScreenHeights);
 	}

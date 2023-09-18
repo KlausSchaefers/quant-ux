@@ -143,7 +143,7 @@ function layoutTree(screen, useRows) {
 	/**
 	 * First we determine the type of layout
 	 */
-	addLayoutType(screen)
+	addLayoutType(screen, useRows)
 
 
 	/**
@@ -155,7 +155,7 @@ function layoutTree(screen, useRows) {
 	return screen
 }
 
-function addLayoutType (element) {
+function addLayoutType (element, useRows) {
 
 	/**
 	 * We set here for each element how it should be rendered, if and only if,
@@ -183,7 +183,7 @@ function addLayoutType (element) {
 			element.layout = {type: Layout.Wrap, grow: grow}
 			setOrderInWrapper(element, element.children)
 
-		} else if (Util.hasRowLayout(element)) {
+		} else if (Util.hasRowLayout(element) && useRows) {
 
 			element.layout = {type: Layout.Row, grow: grow}
 			setOrderInRow(element, element.children, false)
