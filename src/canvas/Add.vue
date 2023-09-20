@@ -263,7 +263,7 @@ export default {
 				var zoomedModel = this.getZoomedBox(lang.clone(screen), this.getZoomFactor(), this.getZoomFactor());
 				this.alignmentStart("screen", zoomedModel, "All");
 			}
-			this.setMode("add");
+			this.setMode("addScreen");
 
 			var z = this.getZoomFactor();
 			var zoomedScreen = this.getZoomedBox(lang.clone(screen),z,z);

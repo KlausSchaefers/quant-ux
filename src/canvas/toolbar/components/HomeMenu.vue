@@ -5,7 +5,7 @@
 			<img src="../../../style/img/QUXLogo5.svg">
             <span class="MatcToobarHomeSectionAppNameLabel" v-if="!isEdit">{{modelName}}</span>
             <input class="MatcToobarHomeSectionAppNameInput" v-model="modelName" v-else @change="onBlur" ref="inputName" >
-            <!-- <span class="caret"></span> -->
+            <span class="caret"></span>
 		</div>
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">

@@ -350,8 +350,8 @@ export default {
 			this.addTooltip(this.simulatorButton, this.getNLS("tooltip.simulate"));
 			this.addTooltip(this.addScreenBtn, this.getNLS("tooltip.screen"));
 	
-			// this.addTooltip(this.editBtn, "Edit mode", "vommondToolTipLeft");
-			// this.addTooltip(this.moveBtn, "Move Canvas (SPACE)", "vommondToolTipLeft");
+			this.addTooltip(this.editBtn, this.getNLS("tooltip.edit"));
+			this.addTooltip(this.moveBtn, this.getNLS("tooltip.move"));
 			this.addTooltip(this.commentBtn,this.getNLS("tooltip.comment"));
 			this.addTooltip(this.distributeBtn, this.getNLS("tooltip.distribute"));
 			this.addTooltip(this.groupBTN,this.getNLS("tooltip.group"));

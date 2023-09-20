@@ -8,42 +8,14 @@ import Config from './Config'
 export default class ResponsiveLayout {
 
     constructor(model, config = Config.getDefault()) {
-     
         this.config = config
         this.config.useRows = false
-
-        //this.init(model, config)
     }
 
     initApp(model) {
         this.model = model
         const treeModel = Flat2Tree.transform(model, this.config)
-        treeModel.screens.forEach(scrn => {
-            this.unfixLongestElements(scrn)
-        })
         this.treeModel = treeModel
-    }
-
-    unfixLongestElements (element) {
-        if (!element.children) {
-            return
-        }
-        // if (element.grid) {
-        //     if (isAllFixed(element.grid.columns)) {            
-        //         element.grid.columns.forEach(c => c.fixed = false)
-        //     }
-        // }
-
-        // element.children.forEach(child => {
-        //     console.debug(element.name + "." + child.name, child.w, element.w )
-        //     if (ExportUtil.isFixedHorizontal(child) && child.w === element.w) {
-        //         child.props.resize.fixedHorizontal = false
-        //     }       
-        //     if (ExportUtil.isFixedVertical(child) && child.h === element.h) {
-        //         child.props.resize.fixedVertical = false
-        //     }
-        //     this.unfixLongestElements(child)
-        // })
     }
 
     initSelection(model, boundingBox, children) {

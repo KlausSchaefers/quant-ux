@@ -1,9 +1,12 @@
 
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton">
-		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
+		<div type="button" data-dojo-attach-point="button" :class="[
+            'MatcToolbarItem MatcToolbarPrimaryItem', 
+            {'MatcToolbarItemSelected': (mode === 'addBox'|| mode=== 'addText' || mode === 'hotspot' || mode === 'addRest' || mode === 'addLogic' || mode === 'addScript')}
+            ]" >
             <QIcon icon="Plus" />
-            <span class="MatcToolbarResponsiveLabel">Insert</span>    
+            <!-- <span class="MatcToolbarResponsiveLabel">Insert</span>     -->
             <!-- <span class="caret"></span> -->
 
 		</div>
@@ -16,6 +19,7 @@
                         <QIcon class="MatcToolbarPopUpIcon" :icon="i.icon" />
                         <label class="MatcToolbarPopUpLabel">{{i.label}}</label>
                         <label class="MatcToolbarPopUpLabelShortCut" v-if="i.shortcut">{{i.shortcut}}</label>
+                        <QIcon class="MatcToolbarPopUpLabelShortCut " v-if="i.icon2" :icon="i.icon2" />
 
                         <div v-if="i.value === selectedTool" class="MatcToolbarPopUpSubMenu">
                             <ul class="MatcToolbarPopUpWrapper" role="menu" >
@@ -52,6 +56,7 @@ import _DropDown from './_DropDown'
 
 export default {
     name: 'CreateBasicButton',
+    props:['mode'],
     mixins:[Util, _DropDown, _Tooltip],
     data: function () {
         return {
@@ -62,14 +67,14 @@ export default {
                 {value: 'text', icon: 'Text', label:  this.getNLS('toolbar.create.text'), shortcut:'T'},
                 {value: 'hotspot', icon: 'Hotspot', label:  this.getNLS('toolbar.create.hotspot'), shortcut:'H'},
                 {value: 1, css:'MatcToolbarPopUpLine'},
-                {value: 'logic', icon: 'Cloud', label: this.getNLS('toolbar.create.logic'), children:[
+                {value: 'logic', icon: 'Cloud', label: this.getNLS('toolbar.create.logic'), icon2:'SVGChevronRight', children:[
                     {value: 'rest', icon: 'Cloud', label: this.getNLS('toolbar.create.rest')},
                     {value: 'logic', icon: 'OR', label: this.getNLS('toolbar.create.or')},
                     {value: 'ab', icon: 'AB', label: this.getNLS('toolbar.create.ab')},
                     {value: 'script', icon: 'JS', label: this.getNLS('toolbar.create.script')}
                 ]},
 
-                {value: 'vector', icon: 'VectorBezier', label: this.getNLS('toolbar.create.vector'), children:[
+                {value: 'vector', icon: 'VectorBezier', label: this.getNLS('toolbar.create.vector'), icon2:'SVGChevronRight', children:[
                     {value: 'bezier', icon: 'VectorBezier2', label: this.getNLS('toolbar.create.curve'), type:'vector'},
                     {value: 'path', icon: 'VectorPath', label: this.getNLS('toolbar.create.path'), type:'vector'},
                     {value: 'rectangle', icon: 'VectorRectangle', label: this.getNLS('toolbar.create.rectangle'), type:'vector'},

@@ -145,6 +145,10 @@
 		flex-grow: 1;
 		font-size: 12px;
 		margin-left: 24px;
+
+		&.MatcQIcon {
+			margin-right: -8px;
+		}
 	}
 }
 

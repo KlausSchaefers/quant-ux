@@ -11,6 +11,14 @@
     .MatcToolbarPrimaryItem {
         color: $toolbar_color;
         border: 1px solid $toolbar_border;
+
+        &.MatcToolbarItemSelected {
+            background: $primary_color;
+
+            &:hover {
+                background: $primary_color;
+            }
+        }
     }
 
     .MatcToolbarItemActive{

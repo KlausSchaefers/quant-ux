@@ -184,6 +184,8 @@
         "action": "Action"
     },
     "tooltip": {
+        "edit": "Edit and Select",
+        "move": "Move Canvas (SPACE)",
         "simulate": "Start Simulation",
         "screen": "Add Screens (S)",
         "group": "Create group (CTRL-G)",

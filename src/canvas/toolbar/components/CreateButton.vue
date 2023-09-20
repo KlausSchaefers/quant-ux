@@ -1,6 +1,6 @@
 <template>
     <div class=" MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton">
-	<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarPrimaryItem">	
+	<div type="button" data-dojo-attach-point="button" :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'add'}]">	
 			<QIcon icon="AddWidget" />		
 			<!-- <span class="caret"></span> -->
 		</div>
@@ -62,6 +62,7 @@ import _Tooltip from 'common/_Tooltip'
 export default {
     name: 'CreateButton2',
     mixins:[Util, DojoWidget, _DropDown, _Tooltip],
+	props:['mode'],
     data: function () {
         return {
         	screenWidth : 300,

@@ -26,22 +26,29 @@
 						</div> 
 
 						<div class="MatcToolbarSection" v-show="!svgEditorVisible" >				
-							<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit">
 								<QIcon icon="Edit" />
-							</div> -->
+							</div> 
 						
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
 								<QIcon icon="DevicesAdd" />
-								<span class="MatcToolbarResponsiveLabel">Screen</span>    						
+								<!-- <span class="MatcToolbarResponsiveLabel">Screen</span>    						 -->
 							</div>
 						
-							<CreateBasicButton @add="onToolBasic" />
-							<CreateButton ref="createButton"/>
+							<CreateBasicButton @add="onToolBasic" :mode="mode"/>
+							<CreateButton ref="createButton" :mode="mode"/>
 							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
 							<CreateVectorButton @add="onToolSVG" v-if="false" />	
+
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove">
+								<QIcon icon="EditMove" />
+							</div>
+
 							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
 								<QIcon icon="Comment" />
-							</div>						
+							</div>		
+							
+							{{mode}}
 						</div>
 							
 
