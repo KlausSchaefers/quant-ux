@@ -881,6 +881,20 @@
 	transform: rotate(45deg);
 }
 
+.MatcPopupArrowLeft {
+
+	.MatcToolbarPopUpArrowCntr {
+		left: auto;
+		right: 100%;
+	}
+
+	.MatcToolbarPopUpArrow {
+		left: auto;
+		right: -10px;
+		top: 0px;
+	}
+}
+
 /****************************************************
  * Popup footer
  ****************************************************/
@@ -1448,6 +1462,8 @@ input.MatcToobarInlineEditDisabled:focus {
 
 	.MatcToolbarItemLabel{
 		margin: 0px;
+		flex-grow: 1;
+		text-align: left;
 	}
 }
 

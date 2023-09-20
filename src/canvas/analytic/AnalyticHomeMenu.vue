@@ -4,6 +4,7 @@
 		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
 			<img src="../../style/img/QUXLogo5.svg">
             <span class="MatcToobarHomeSectionAppNameLabel" >{{name}}</span>
+            <span class="caret"></span>
 		</div>
         <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">

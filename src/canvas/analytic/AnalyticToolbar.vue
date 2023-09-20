@@ -1,10 +1,13 @@
 
 <template>
-     <div class="MatcToolbar MatcAnalyticsToolbar">
-<!-- 
-		<div class="MatcToobarLeft MatcAnalyticsToolbarTestCntr MatcToobarPropertiesSection" data-dojo-attach-point="testListCntr">
+     <div class="MatcToolbar MatcAnalyticsToolbar MatcLayerListVisible">
 
-		</div> -->
+		<div class="MatcToolbarLayerList MatcToolbarAnalyticList MatcToobarPropertiesSection" >
+			<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="testListCntr">
+							
+			</div>
+			
+		</div>
 
 		<div class="MatcToolbarTop ">
 			<div class="MatcToolbarTopHome">
@@ -73,6 +76,7 @@ import HomeMenu from './AnalyticHomeMenu.vue'
 import Help from 'help/Help'
 import QIcon from 'page/QIcon'
 import AnalyticViewModeButton from './AnalyticViewModeButton'
+//import SessionList from './SessionList'
 
 export default {
     name: 'AnalyticToolbar',
@@ -96,7 +100,8 @@ export default {
 			'ToolbarPluginSection': ToolbarPluginSection,
 			'HomeMenu': HomeMenu,
 			'QIcon': QIcon,
-			'AnalyticViewModeButton': AnalyticViewModeButton
+			'AnalyticViewModeButton': AnalyticViewModeButton,
+			//'SessionList': SessionList
 		},
     methods: {
         postCreate(){
@@ -214,10 +219,15 @@ export default {
 		},
 
 		showFirstClickHeatMap(i){
-			this.logger.log(0,"showFirstClickHeatMap", "entry > "+ i);
+			this.logger.log(-1,"showFirstClickHeatMap", "entry > "+ i);
 			this.analyticHeatMapClicks = i;
 			this.setHeatMapLabel(i)
-			this.setAnalyticMode("HeatmapClick",{numberOfClicks : this.analyticHeatMapClicks} );
+			if (i === 'mouse') {
+				this.showMouseHeatMap()
+				this.showHeatMapProperties();
+			} else {		
+				this.setAnalyticMode("HeatmapClick",{numberOfClicks : this.analyticHeatMapClicks} );
+			}
 		},
 
 		showMouseHeatMap(){
@@ -338,6 +348,8 @@ export default {
 
 			this.renderSessionProperties();
 
+			this.renderSessionSection();
+
 			this.renderDropOffProperties()
 
 			this.renderHeatMapProperties();
@@ -369,7 +381,7 @@ export default {
 			/**
 			 * Name
 			 */
-			this.screenNameDiv = this.createSection("Screen Name");
+			this.screenNameDiv = this.createSection("Screen Name", this.properties);
 			var content = this.createContent(this.screenNameDiv);
 
 			this.screenName = this.createInput(content, "Screen Name");
@@ -425,7 +437,7 @@ export default {
 			/**
 			 * Name
 			 */
-			this.widgetNameDiv = this.createSection("Widget ");
+			this.widgetNameDiv = this.createSection("Widget ", this.properties);
 			var content = this.createContent(this.widgetNameDiv);
 			this.widgetName = this.createInput(content, "Screen");
 			this.widgetName.readOnly = true;
@@ -462,7 +474,7 @@ export default {
 
 			var db = new DomBuilder();
 
-			this.heatmapDiv = this.createSection("Heatmap");
+			this.heatmapDiv = this.createSection("Heatmap", this.properties);
 
 			let content = this.createContent(this.heatmapDiv);
 
@@ -474,7 +486,8 @@ export default {
 				{"value" : -1,label : "All Clicks"},
 				{"value" : 1, label : "First Click"},
 				{"value" : 3, label : "First three Clicks"},
-				{"value" : "missedClicks", label : "Missed Clicks"}
+				{"value" : "missedClicks", label : "Missed Clicks"},
+				{"value" : "mouse", label : "Mouse"}
 			]);
 			list.placeAt(db.div().build(row));
 			this.own(list.on("change", lang.hitch(this, "showFirstClickHeatMap")));
@@ -500,6 +513,10 @@ export default {
 			if (i === 'missedClicks') {
 				lbl = this.getNLS('analytics.canvas.heatamp.hintMissed')
 			}
+
+			if (i === 'mouse') {
+				lbl = this.getNLS('analytics.canvas.heatamp.hintMouse')
+			}
 			this.heatmapLabel.textContent = lbl
 		},
 
@@ -509,7 +526,7 @@ export default {
 			var db = new DomBuilder();
 
 
-			this.dropOffConfigDiv = this.createSection("Show");
+			this.dropOffConfigDiv = this.createSection("Show", this.properties);
 			var content = this.createContent(this.dropOffConfigDiv);
 			var row = db.div("MatcToobarRow MatcToolbarRadioList").build(content);
 
@@ -523,7 +540,7 @@ export default {
 			this.own(on(this.dropOffTimeCheckBox, "change", lang.hitch(this, "selectDropOffTask")));
 
 
-			this.dropOffOptionsDiv = this.createSection("Tasks");
+			this.dropOffOptionsDiv = this.createSection("Tasks", this.properties);
 			content = this.createContent(this.dropOffOptionsDiv);
 			row = db.div("MatcToobarRow ").build(content);
 
@@ -551,7 +568,7 @@ export default {
 			this.dropOffTaskBtn.placeAt(row);
 			this.own(on(this.dropOffTaskBtn, "change", lang.hitch(this, "selectDropOffTask")));
 
-			this.dropOffChartDivCntr = this.createSection("Insights");
+			this.dropOffChartDivCntr = this.createSection("Insights", this.properties);
 			content = this.createContent(this.dropOffChartDivCntr);
 
 			var ringCntr = db.div("MatcCenter ").build(content);
@@ -572,7 +589,7 @@ export default {
 			this.dropOffInteractionsLabel = nodes[1];
 
 
-			this.dropOffFunnelDivCntr = this.createSection("Drop Off");
+			this.dropOffFunnelDivCntr = this.createSection("Drop Off", this.properties);
 			content = this.createContent(this.dropOffFunnelDivCntr);
 
 			this.dropOffChartDiv = db.div('MatcToolbarDropOffChart', '').build(content)
@@ -584,7 +601,7 @@ export default {
 
 			const db = new DomBuilder();
 
-			this.sessionOptionsDiv = this.createSection("Show");
+			this.sessionOptionsDiv = this.createSection("Show", this.properties);
 			let content = this.createContent(this.sessionOptionsDiv);
 
 			let row = db.div("MatcToobarRow ").build(content);
@@ -603,7 +620,7 @@ export default {
 			this.own(on(this.sessionOutlierCheckbox, "change", lang.hitch(this, "showUserJourneyOutlier")));
 
 
-			this.sessionOutlierDiv = this.createSection("Colors");
+			this.sessionOutlierDiv = this.createSection("Colors", this.properties);
 		 	content = this.createContent(this.sessionOutlierDiv);
 			row = db.div("MatcToobarRow ").build(content);
 	
@@ -634,7 +651,7 @@ export default {
 			this.own(on(this.sessionOutlierColor, "change", lang.hitch(this, "showUserJourney")));
 		
 
-			this.sessionShowDiv = this.createSection("Options");
+			this.sessionShowDiv = this.createSection("Options", this.properties);
 			content = this.createContent(this.sessionShowDiv);
 			row = db.div("MatcToobarRow MatcToolbarRadioList").build(content);
 			this.sessionTimeCheckBox = this.$new(RadioBoxList, {maxLabelLength:20});
@@ -648,7 +665,7 @@ export default {
 			this.own(on(this.sessionTimeCheckBox, "change", lang.hitch(this, "showUserJourney")));
 
 	
-			this.sessionTaskCntr = this.createSection("Tasks");
+			this.sessionTaskCntr = this.createSection("Tasks", this.properties);
 			content = this.createContent(this.sessionTaskCntr);
 
 			row = db.div("MatcToobarRow ").build(content);
@@ -668,13 +685,17 @@ export default {
 			this.own(on(this.sessionTaskBtn, "change", lang.hitch(this, "selectUserJournyTask")));
 
 		
+		},
 
-			this.sessionDiv = this.createSection("Tests");
-			content = this.createContent(this.sessionDiv);
+		renderSessionSection () {
+
+
+			this.sessionDiv = this.db.div("MatcToolbarSection").build(this.testListCntr)
+			let content = this.createContent(this.sessionDiv);
 			css.add(content, "MatcMarginBottomXXL");
 
 
-			row = db.div("MatcToobarRow").build(content);
+			let row = this.db.div("MatcToobarRow").build(content);
 
 			this.sessionOrderBrn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
 			this.sessionOrderBrn.setOptions([
@@ -683,21 +704,20 @@ export default {
 				{value: 'date', label:"Sort by Date"},
 				{value: 'weirdness', label:"Sort by Outlier"}
 			]);
-			this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties");
+			this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
 			this.sessionOrderBrn.updateLabel = true;
 			this.sessionOrderBrn.reposition = true;
+			this.sessionOrderBrn.repositionPosition = 'right';
 			this.sessionOrderBrn.setValue('duration')
 			this.sessionOrderBrn.placeAt(row);
 			this.tempOwn(on(this.sessionOrderBrn, "change", (v) => {this.onSortSessionList(v)}));
 			this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
 
 
-			this.sessionListCntr = db.div("MatcToobarRow").build(content);
+			this.sessionListCntr = this.db.div("MatcToolbarSessionCntr").build(content);
 			this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
 			this.renderSessionList(this.sessionListCntr, this.sessionList, 'duration')
 
-
-		
 		},
 
 		onSortSessionList (value) {
@@ -733,11 +753,11 @@ export default {
 			})
 		
 
-
+			const cntr = db.div("MatcToolbarSessionList").build()
 
 			for(let i=0; i < list.length; i++){
 				const session = list[i];
-				const row = db.div("MatcToobarRow MatcToobarRowIconCntr").build(content);
+				const row = db.div("MatcToobarRow MatcToobarRowIconCntr").build(cntr);
 
 				const chk = this.$new(CheckBox);
 				css.add(chk.domNode, "MatcToolbarItem");
@@ -766,9 +786,16 @@ export default {
 				var play = db.div("MatcToobarRowRightIcon").span("mdi mdi-play").build(row)
 				this.own(on(play,"click", lang.hitch(this,"showSession", session)));
 			}
+
+			this.sessionScroller = this.$new(ScrollContainer);
+			this.sessionScroller.placeAt(content);
+			this.sessionScroller.wrap(cntr, 40);
 		},
 
 		hoverSession (session) {
+			if (this.analyticMode !== 'UserJourney') {
+				return
+			}
 			if(this.canvas){
 				this.canvas.highlightSession(session?.session)
 			}
@@ -933,7 +960,7 @@ export default {
 
 			var db = new DomBuilder();
 
-			this.gestureOptionsDiv = this.createSection("Options");
+			this.gestureOptionsDiv = this.createSection("Options", this.properties);
 
 			let content = this.createContent(this.gestureOptionsDiv);
 
@@ -1116,10 +1143,10 @@ export default {
 
 
 		showSessionProperties(){
-			this.logger.log(0,"showSessionProperties", "entry");
+			this.logger.log(-1,"showSessionProperties", "entry");
 			this.showProperties();
 
-			css.remove(this.sessionDiv, "MatcToolbarSectionHidden");
+			// css.remove(this.sessionDiv, "MatcToolbarSectionHidden");
 			css.remove(this.sessionOptionsDiv, "MatcToolbarSectionHidden");
 	
 
@@ -1432,24 +1459,25 @@ export default {
 			return content;
 		},
 
-		createSection(lbl, hasTemplateMarker){
+		createSection(lbl, parentNode, canBeHidden = true){
 
-			var parent = document.createElement("div");
+			const parent = document.createElement("div");
 			css.add(parent, "MatcToolbarSection");
 
-			var header = this.createSectionHeader( parent, lbl,hasTemplateMarker);
+			const header = this.createSectionHeader( parent, lbl);
 
 			/**
 			 * store the value somehow in a cookie? and use it during restore??
 			 */
-			this.own(on(header, touch.press, function(){
+			this.own(on(header, touch.press, () => {
 				css.toggle(parent, "MatcToolbarSectionCollabsed");
 				return false;
 			}));
 
-			this.sections.push(parent);
-
-			this.properties.appendChild(parent);
+			if (canBeHidden) {
+				this.sections.push(parent);
+			}
+			parentNode.appendChild(parent);
 			return parent;
 		},
 
@@ -1881,6 +1909,7 @@ export default {
 		}
     },
     mounted () {
+		this.db = new DomBuilder();
     }
 }
 </script>

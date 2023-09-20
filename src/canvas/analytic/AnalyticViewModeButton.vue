@@ -36,8 +36,8 @@ export default {
             highlightX: 0,
             selected: 'showClickHeatMap',
             modes: [
-                { label: 'Click Heatmap', value: "showClickHeatMap", icon: "mdi mdi-cursor-default" },
-                { label: 'Mouse Heatmap', value: "showMouseHeatMap", icon: "mdi mdi-mouse" },
+                { label: 'Heatmaps', value: "showClickHeatMap", icon: "mdi mdi-cursor-default" },
+                // { label: 'Mouse Heatmap', value: "showMouseHeatMap", icon: "mdi mdi-mouse" },
                 { label: 'User Journey', value: "showUserJourney", icon: "mdi mdi-vector-polyline" },
                 { label: 'Tasks & Drop Off', value: "showDropOff", icon: "mdi mdi-chart-timeline-variant-shimmer" },
                 //{ label: 'Views', value: "showViewMap", icon: "mdi mdi-eye" },

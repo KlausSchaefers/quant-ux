@@ -2,3 +2,28 @@
 	gap: 16px;
 	display: flex;
 }
+
+.MatcToolbarAnalyticList .MatcToolbarLayerListCntr {
+	padding: 16px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	.MatcToolbarSection {
+		height: 100%;		
+		.MatcToolbarSectionContent {
+			height: 100%;
+		}
+	}
+
+	.MatcToolbarSessionCntr {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		height: 60%;
+	}
+	.MatcToolbarSessionList {
+		flex-grow: 1;
+		overflow: auto;
+	}
+}

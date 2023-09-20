@@ -184,7 +184,7 @@
         "action": "Action"
     },
     "tooltip": {
-        "edit": "Edit and Select",
+        "edit": "Edit and Select (A)",
         "move": "Move Canvas (SPACE)",
         "simulate": "Start Simulation",
         "screen": "Add Screens (S)",
@@ -423,7 +423,8 @@
                 "hintAll": "Find the busy areas in your design where the users have clicked most.",
                 "hintFirst": "Uncover which elements draw the most attention from the users right after a screen was loaded.",
                 "hintFirstThree": "Elements that are not clicked withing three interactions, may be hard to discover for the user.",
-                "hintMissed": "Clicks on passive elements, such as backgrounds, can indicate that the users made an error and could not understand the intended interaction."
+                "hintMissed": "Clicks on passive elements, such as backgrounds, can indicate that the users made an error and could not understand the intended interaction.",
+                "hintMouse": "The mouse movement correlates strongly with the eye gaze. The mouse heatmap indicates areas that catch the users interest."
             }
         }
     },
