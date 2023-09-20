@@ -1068,10 +1068,10 @@ export default {
 
 
 		showScreenProperties(model){
-			this.logger.log(0,"showScreenProperties", "entry");
+			this.logger.log(-1,"showScreenProperties", "entry");
 			this.showProperties();
 
-			css.remove(this.screenShapeDiv, "MatcToolbarSectionHidden");
+			css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
 
 
 
