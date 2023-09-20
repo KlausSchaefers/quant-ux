@@ -48,7 +48,6 @@
 								<QIcon icon="Comment" />
 							</div>		
 							
-							{{mode}}
 						</div>
 							
 
