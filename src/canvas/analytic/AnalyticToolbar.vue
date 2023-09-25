@@ -16,6 +16,15 @@
 
 			<div class="MatcToolbarTopCntr" >
 				<div class="MatcToolbarSection">
+<!-- 
+					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit">
+						<QIcon icon="Edit" />
+					</div> 
+
+					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove">
+						<QIcon icon="EditMove" />
+					</div> -->
+
 					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
 						<QIcon icon="Comment" />
 					</div>	
@@ -23,7 +32,7 @@
 		
 				<div class="MatcToolbarTopCenterCntr">
 					<div class="MatcToolbarSection" data-dojo-attach-point="screenSection">
-						<AnalyticViewModeButton @change="onChangeViewMode" />
+						<AnalyticViewModeButton @change="onChangeViewMode" v-if="events"/>
 					</div>
 				</div>
 			
@@ -108,6 +117,16 @@ export default {
 			this.logger = new Logger("AnalyticToolbar");
 			this.logger.log(2,"constructor", "entry");
 			this.renderToolbar()
+		},
+
+		onMove (e){
+			this.stopEvent(e);
+			this.canvas.setMode("move");
+		},
+
+		onEdit (e){
+			this.stopEvent(e);
+			this.canvas.setMode("edit");
 		},
 
 	
@@ -254,26 +273,7 @@ export default {
 			this.setAnalyticMode("HeatmapMouse");
 		},
 
-		showScrollHeatMap(){
-			this.logger.log(2,"showScrollHeatMap", "entry");
-			this.setAnalyticMode("HeatmapScrollView");
-		},
-
-		showDwelTimeMap(){
-			this.logger.log(2,"showDwelTimeMap", "entry");
-			this.setAnalyticMode("HeatmapDwelTime");
-		},
-
-		showDiscoveryTimeMap(){
-			this.logger.log(2,"showDwelTimeMap", "entry");
-			this.setAnalyticMode("HeatmapDiscoryTime");
-		},
-
-		showScrollTimeMap(){
-			this.logger.log(2,"showScrollHeatMap", "entry");
-			this.setAnalyticMode("HeatmapScrollTime");
-		},
-
+	
 		showViewMap(){
 			this.logger.log(2,"showViewMap", "entry");
 			this.setAnalyticMode("HeatmapViews");
@@ -344,6 +344,8 @@ export default {
 
 			this.renderScreenProperties();
 
+			this.renderScreenModes();
+
 			this.renderWidgetProperties();
 
 			this.renderSessionProperties();
@@ -373,6 +375,9 @@ export default {
 			this.logger.log(3,"render", "exit");
 		},
 
+	
+
+
 		renderScreenProperties(){
 			this.logger.log(3,"renderScreenProperties", "entry");
 
@@ -381,7 +386,7 @@ export default {
 			/**
 			 * Name
 			 */
-			this.screenNameDiv = this.createSection("Screen Name", this.properties);
+			this.screenNameDiv = this.createSection("Screen", this.properties);
 			var content = this.createContent(this.screenNameDiv);
 
 			this.screenName = this.createInput(content, "Screen Name");
@@ -597,21 +602,30 @@ export default {
 
 
 		renderSessionProperties(){
-			this.logger.log(2,"renderSessionProperties", "entry");
+			this.logger.log(1,"renderSessionProperties", "entry");
 
 			const db = new DomBuilder();
 
 			this.sessionOptionsDiv = this.createSection("Show", this.properties);
 			let content = this.createContent(this.sessionOptionsDiv);
 
-			let row = db.div("MatcToobarRow ").build(content);
-			this.sessionTreeCheckBox = this.$new(CheckBox);
-			css.add(this.sessionTreeCheckBox.domNode, "MatcToolbarItem");
+			let row = db.div("MatcToobarRow MatcToolbarRadioList").build(content);
+
+			this.sessionTreeCheckBox = this.$new(RadioBoxList)
+			this.sessionTreeCheckBox.setOptions([
+				{value: true, label: "Merged Graph"},
+				{value: false, label: "Individual Tests"},
+			])
+
+			// this.sessionTreeCheckBox = this.$new(CheckBox);
+			// this.sessionTreeCheckBox.setLabel("Merge Graph");
+			//css.add(this.sessionTreeCheckBox.domNode, "MatcToolbarItem");
 			this.sessionTreeCheckBox.setValue(true);
-			this.sessionTreeCheckBox.setLabel("Merge Graph");
 			this.sessionTreeCheckBox.placeAt(row);
 			this.own(on(this.sessionTreeCheckBox, "change", lang.hitch(this, "showUserJourney")));
 
+
+			row = db.div("MatcToobarRow").build(content);
 			this.sessionOutlierCheckbox = this.$new(CheckBox);
 			css.add(this.sessionOutlierCheckbox.domNode, "MatcToolbarItem");
 			this.sessionOutlierCheckbox.setValue(false);
@@ -979,9 +993,69 @@ export default {
 
 
 		/*****************************************************************************************************
-		 * Dialogs
+		 * Screen Mode
 		 ****************************************************************************************************/
 
+
+		renderScreenModes () {
+			this.logger.log(3,"renderScreenModes", "entry");
+
+			this.screenModeDiv = this.createSection("Options", this.properties);
+
+			const content = this.createContent(this.screenModeDiv);
+
+			const row = this.db.div("MatcToobarRow MatcMarginBottom").build(content);
+
+			const list = this.$new(RadioBoxList);
+			css.add(list.domNode, "MatcToolbarRadioList");
+			list.setOptions([
+				{ label: 'Dwell Time', value: "HeatmapDwelTime", icon: "mdi mdi-timelapse" },
+                { label: 'Scroll', value: "HeatmapScrollView", icon: "mdi mdi-swap-vertical" },
+                { label: 'Scroll Time', value: "HeatmapScrollTime", icon: "mdi mdi-timer" },
+				//{ label: 'Discovery Time', value: "HeatmapDiscoryTime", icon: "mdi mdi-timer" }
+			]);
+			list.setValue("HeatmapDwelTime")
+
+			this.screenModeRadioList = list
+			list.placeAt(row);
+			this.own(list.on("change", lang.hitch(this, "showScreenMode")));
+		},
+
+		showScreenMode () {
+			const newMode = this.screenModeRadioList.getValue()
+			this.setAnalyticMode(newMode);
+			css.remove(this.screenModeDiv, "MatcToolbarSectionHidden")
+			this.logger.log(-1,"showScreenMode", "exit > ", newMode);
+		}, 
+		
+		changeScreenMode (m) {
+			this.logger.log(0,"changeScreenMode", "entry > ", m);
+		},
+
+		showScrollHeatMap(){
+			this.logger.log(2,"showScrollHeatMap", "entry");
+			this.setAnalyticMode("HeatmapScrollView");
+		},
+
+		showDwelTimeMap(){
+			this.logger.log(2,"showDwelTimeMap", "entry");
+			this.setAnalyticMode("HeatmapDwelTime");
+		},
+
+		showDiscoveryTimeMap(){
+			this.logger.log(2,"showDwelTimeMap", "entry");
+			this.setAnalyticMode("");
+		},
+
+		showScrollTimeMap(){
+			this.logger.log(2,"showScrollHeatMap", "entry");
+			this.setAnalyticMode("HeatmapScrollTime");
+		},
+
+
+		/*****************************************************************************************************
+		 * Dialogs
+		 ****************************************************************************************************/
 
 
 
@@ -1072,8 +1146,6 @@ export default {
 			this.showProperties();
 
 			css.remove(this.screenNameDiv, "MatcToolbarSectionHidden");
-
-
 
 			this.screenName.value = model.name;
 
@@ -1288,19 +1360,31 @@ export default {
 		},
 
 		hideProperties(){
+			console.debug("hideProperties() > enter")
 			if (this.analyticMode == "UserJourney"){
 				this.hideAllSections();
 				this.showSessionProperties();
-			} else if (this.analyticMode == "HeatmapClick"){
+				return
+			} 
+			
+			if (this.analyticMode == "HeatmapClick"){
 				this.hideAllSections();
 				this.showHeatMapProperties();
-			} else {
-				css.add(this.propertiesCntr, "MatcToolbarSectionHidden");
-				if(this.canvas){
-					css.remove(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
-				}
-				this.hideAllSections();
-			}
+				return
+			} 
+			
+			// if (this.analyticMode == "HeatmapClick"){
+			// 	this.hideAllSections();
+			// 	this.showHeatMapProperties();
+			// 	return
+			// } 
+			
+			// css.add(this.propertiesCntr, "MatcToolbarSectionHidden");
+			// if(this.canvas){
+			// 	css.remove(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
+			// }
+			this.hideAllSections();
+			
 		},
 
 
@@ -1388,7 +1472,7 @@ export default {
 			if(settings.canvasTheme == "MatcDark"){
 				bgColor = "#777";
 			}
-			var ring = this.$new(Ring, {size:100, width:5, backgroundColor: bgColor, color:"#0099cc", color2:"#83b600", color3:"#ffa713"});
+			var ring = this.$new(Ring, {size:100, width:5, backgroundColor: bgColor, color:"#365fff", color2:"#83b600", color3:"#ffa713"});
 			ring.setDomSize(120,120);
 			ring.setLabel(lbl);
 

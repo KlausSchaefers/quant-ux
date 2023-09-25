@@ -41,9 +41,7 @@ export default {
                 { label: 'User Journey', value: "showUserJourney", icon: "mdi mdi-vector-polyline" },
                 { label: 'Tasks & Drop Off', value: "showDropOff", icon: "mdi mdi-chart-timeline-variant-shimmer" },
                 //{ label: 'Views', value: "showViewMap", icon: "mdi mdi-eye" },
-                { label: 'Dwell Time', value: "showDwelTimeMap", icon: "mdi mdi-timelapse" },
-                { label: 'Scroll', value: "showScrollHeatMap", icon: "mdi mdi-swap-vertical" },
-                { label: 'Scroll Time', value: "showScrollTimeMa", icon: "mdi mdi-timer" },
+                { label: 'Screens', value: "showScreenMode", icon: "mdi mdi-chart-timeline-variant-shimmer" },
             ]
         };
     },
