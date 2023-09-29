@@ -15,7 +15,7 @@
 			</div>
 
 			<div class="MatcToolbarTopCntr" >
-				<div class="MatcToolbarSection">
+				<div class="MatcToolbarSection MatcToolbarTopLeft">
 <!-- 
 					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit">
 						<QIcon icon="Edit" />
@@ -37,7 +37,7 @@
 				</div>
 			
 
-				<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
+				<div class="MatcToolbarNotificationSection MatcToolbarTopRight MatcToolbarSection" data-dojo-attach-point="notificationSection">
 					<ToolbarPluginSection :events="events" :user="user" :mode="model" />
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
 					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn" v-if="false"/>

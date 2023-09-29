@@ -150,6 +150,14 @@
 	justify-content: center;
 }
 
+
+.MatcToolbarTopRight {
+	width: 300px;
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-end;
+}
+
 .MatcToobarPropertiesSection {
 	position: fixed;
 	height: 100%;
