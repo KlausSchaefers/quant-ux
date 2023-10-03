@@ -26,4 +26,16 @@
 		flex-grow: 1;
 		overflow: auto;
 	}
+
+	.MatcToolbarSessionListDetails{
+		padding-left: 36px;
+		opacity: 0.6;
+		display: flex;
+		gap: 16px;
+		div {
+			display: flex;
+			gap: 4px;
+			align-items: center;
+		}
+	}
 }

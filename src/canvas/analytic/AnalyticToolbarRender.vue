@@ -24,6 +24,7 @@ import Ring from 'common/Ring'
 import Analytics from 'dash/Analytics'
 import VideoPlayer from 'views/apps/test/VideoPlayer'
 import DataFrame from 'common/DataFrame'
+import {iconDOM} from '../../page/QIconUtil'
 
 export default {
     name: 'AnalyticToolbarRender',
@@ -426,16 +427,16 @@ export default {
 
             this.sessionOrderBrn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20 });
             this.sessionOrderBrn.setOptions([
-                { value: 'duration', label: "Sort by Duration" },
-                { value: 'events', label: "Sort by Events" },
                 { value: 'date', label: "Sort by Date" },
+                { value: 'duration', label: "Sort by Duration" },
+                { value: 'events', label: "Sort by Events" },   
                 { value: 'weirdness', label: "Sort by Outlier" }
             ]);
             this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
             this.sessionOrderBrn.updateLabel = true;
             this.sessionOrderBrn.reposition = true;
             this.sessionOrderBrn.repositionPosition = 'right';
-            this.sessionOrderBrn.setValue('duration')
+            this.sessionOrderBrn.setValue('date')
             this.sessionOrderBrn.placeAt(row);
             this.tempOwn(on(this.sessionOrderBrn, "change", (v) => { this.onSortSessionList(v) }));
             this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
@@ -443,7 +444,7 @@ export default {
 
             this.sessionListCntr = this.db.div("MatcToolbarSessionCntr").build(content);
             this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
-            this.renderSessionList(this.sessionListCntr, this.sessionList, 'duration')
+            this.renderSessionList(this.sessionListCntr, this.sessionList, 'date')
 
         },
 
@@ -490,20 +491,35 @@ export default {
                 css.add(chk.domNode, "MatcToolbarItem");
                 chk.setValue(true);
                 if (order === 'duration') {
-                    chk.setLabel("Test " + (session.id) + " (" + session.duration + "s )"); // + session.taskPerformance +" Tasks - "
+                    chk.setLabel("Test " + (session.id) + " - " + session.duration + "s"); // + session.taskPerformance +" Tasks - "
                 }
                 if (order === 'date') {
-                    chk.setLabel("Test " + (session.id) + " (" + session.date + ")"); // + session.taskPerformance +" Tasks - "
+                    chk.setLabel("Test " + (session.id) + " - " + session.date + ""); // + session.taskPerformance +" Tasks - "
                 }
                 if (order === 'events') {
-                    chk.setLabel("Test " + (session.id) + " (" + session.size + ")"); // + session.taskPerformance +" Tasks - "
+                    chk.setLabel("Test " + (session.id) + " - " + session.size + ""); // + session.taskPerformance +" Tasks - "
                 }
 
                 if (order === 'weirdness') {
-                    chk.setLabel("Test " + (session.id) + " (" + session.weirdness + ")"); // + session.taskPerformance +" Tasks - "
+                    chk.setLabel("Test " + (session.id) + " - " + session.weirdness * 100 + "%"); // + session.taskPerformance +" Tasks - "
+                }
+                chk.placeAt(db.div().build(row));
+
+                if (this.hasSessionDetails) {
+                    const details = db.div("MatcToolbarSessionListDetails").build(row)
+
+                    const duration = db.div().build(details)
+                    duration.appendChild(iconDOM("Clock"))
+                    db.span("",session.duration + 's').build(duration)
+
+                    const events = db.div().build(details)
+                    events.appendChild(iconDOM("Count"))
+                    db.span("",session.size).build(events)
                 }
 
-                chk.placeAt(db.div().build(row));
+
+
+          
 
                 this.sessionCheckBoxes[session.session] = chk;
                 this.own(on(chk, "change", lang.hitch(this, "selectSession")));
@@ -756,7 +772,6 @@ export default {
         },
 
         hideProperties() {
-            console.debug("hideProperties() > enter")
             if (this.analyticMode == "UserJourney") {
                 this.hideAllSections();
                 this.showSessionProperties();
@@ -768,19 +783,7 @@ export default {
                 this.showHeatMapProperties();
                 return
             }
-
-            // if (this.analyticMode == "HeatmapClick"){
-            // 	this.hideAllSections();
-            // 	this.showHeatMapProperties();
-            // 	return
-            // } 
-
-            // css.add(this.propertiesCntr, "MatcToolbarSectionHidden");
-            // if(this.canvas){
-            // 	css.remove(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
-            // }
             this.hideAllSections();
-
         },
 
 
@@ -1178,8 +1181,7 @@ export default {
                 /**
                  * This should not happen, but we have seen it happeing. We delete this now...
                  */
-                console.warn("Too many annotations!");
-                for (var i = 1; i < annotations.length; i++) {
+                for (let i = 1; i < annotations.length; i++) {
                     var a = annotations[i];
                     this._doDelete("rest/annotations/apps/" + appID + "/" + a.id + ".json");
                 }
