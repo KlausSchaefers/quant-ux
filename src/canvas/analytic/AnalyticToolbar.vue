@@ -65,14 +65,11 @@ import _Color from 'common/_Color'
 
 import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
-import ScrollContainer from 'common/ScrollContainer'
+
 import Dialog from 'common/Dialog'
 import _Tooltip from 'common/_Tooltip'
-import CheckBox from 'common/CheckBox'
 import RadioBoxList from 'common/RadioBoxList'
 import Form from 'common/Form'
-import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
-import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import Ring from 'common/Ring'
 import Histogram from 'dash/Histogram'
 import Analytics from 'dash/Analytics'
@@ -85,11 +82,12 @@ import HomeMenu from './AnalyticHomeMenu.vue'
 import Help from 'help/Help'
 import QIcon from 'page/QIcon'
 import AnalyticViewModeButton from './AnalyticViewModeButton'
+import AnalyticToolbarRender from './AnalyticToolbarRender'
 //import SessionList from './SessionList'
 
 export default {
     name: 'AnalyticToolbar',
-    mixins:[Util,_Color,  _Tooltip, DojoWidget],
+    mixins:[Util,_Color,  _Tooltip, DojoWidget, AnalyticToolbarRender],
     data: function () {
         return {
 			mode:'',
@@ -166,13 +164,30 @@ export default {
 			this.emit("newComment", {"type" : "comment", "event" : e});
 		},
 
-		setAnalyticMode(mode, params){
+		setAnalyticMode(mode, params, callback){
 			this.logger.log(2,"setAnalyticMode", "entry > mode: " + mode);
 			this.analyticMode = mode;
+			this.analyticModeCallback = callback
+			if (!callback) {
+				console.warn("setAnalyticMode() called with callback", this.mode)
+			}
 			if(this.canvas){
 				this.canvas.setAnalyticMode(mode, params);
 			}
 			this.hideProperties();
+		},
+
+		onCanvasSelected () {
+			this.logger.log(-2,"onCanvasSelected", "entry > mode: " + this.analyticMode);
+		},
+
+		reRenderAnalyticMode () {
+			this.logger.log(-2,"reRenderAnalyticMode", "entry > mode: " + this.analyticModeCallback);
+			if (this.analyticModeCallback){
+				this.analyticModeCallback()
+			} else {
+				this.logger.error("reRenderAnalyticMode", "No callback");
+			}
 		},
 
 		setModelService (s) {
@@ -227,13 +242,12 @@ export default {
 
 		showClickHeatMap(){
 			this.logger.log(2,"showClickHeatMap", "entry > " + this.analyticHeatMapClicks);
-			this.setAnalyticMode("HeatmapClick", {numberOfClicks : this.analyticHeatMapClicks} );
-			this.showHeatMapProperties();
-		},
-
-		reShowClickHeatMap () {
-			this.logger.log(0,"reShowClickHeatMap", "entry > " + this.analyticHeatMapClicks);
-			this.hideAllSections()
+			this.setAnalyticMode("HeatmapClick", {
+					numberOfClicks : this.analyticHeatMapClicks,
+					sessions: this.getSelectedSessions(),
+				}, 
+				() => this.showClickHeatMap()
+			);
 			this.showHeatMapProperties();
 		},
 
@@ -245,7 +259,10 @@ export default {
 				this.showMouseHeatMap()
 				this.showHeatMapProperties();
 			} else {		
-				this.setAnalyticMode("HeatmapClick",{numberOfClicks : this.analyticHeatMapClicks} );
+				this.setAnalyticMode("HeatmapClick",{
+					numberOfClicks : this.analyticHeatMapClicks,
+					sessions: this.getSelectedSessions()
+				} , () => this.showFirstClickHeatMap());
 			}
 		},
 
@@ -260,7 +277,9 @@ export default {
 				}
 			} else {
 				this.canvas.setMouseData(this.mouseData);
-				this.setAnalyticMode("HeatmapMouse");
+				this.setAnalyticMode("HeatmapMouse", {
+					sessions: this.getSelectedSessions()
+				}, () => this.showMouseHeatMap());
 			}
 
 		},
@@ -270,13 +289,17 @@ export default {
 			this.logger.log(2,"_onMouseDataLoaded", "entry >"  +data.length);
 			this.mouseData = data;
 			this.canvas.setMouseData(this.mouseData);
-			this.setAnalyticMode("HeatmapMouse");
+			this.setAnalyticMode("HeatmapMouse", {
+				sessions: this.getSelectedSessions()
+			}, () => this.showMouseHeatMap());
 		},
 
 	
 		showViewMap(){
 			this.logger.log(2,"showViewMap", "entry");
-			this.setAnalyticMode("HeatmapViews");
+			this.setAnalyticMode("HeatmapViews", {		
+				sessions: this.getSelectedSessions()
+			}, () => this.showViewMap());
 		},
 
 		showDropOff () {
@@ -285,14 +308,9 @@ export default {
 		},
 
 		showUserJourney(){
-			this.logger.log(-1,"showUserJourney", "entry > ");
-	
-			const sessions = {};
-			for(var id in this.sessionCheckBoxes){
-				sessions[id] = this.sessionCheckBoxes[id].getValue();
-			}
+			this.logger.log(-1,"showUserJourney", "entry > ");	
 			const params = {
-				sessions:sessions,
+				sessions: this.getSelectedSessions(),
 				time: this.sessionTimeCheckBox.getValue(),
 				color : this.sessionLineColor.getValue(),
 				tree: this.sessionTreeCheckBox.getValue(),
@@ -301,729 +319,27 @@ export default {
 				outlier: this.sessionOutlierCheckbox.getValue(),
 				outlierColor: this.sessionOutlierColor.getValue()
 			};
-			this.setAnalyticMode("UserJourney",params );
+			this.setAnalyticMode("UserJourney",params, () => this.showUserJourney());
 			this.showSessionProperties();
 		},
 
+
+
 		showGestureMap(){
 			this.logger.log(2,"showGestureMap", "entry > ");	
-			var params = {
-				color: this.gestureLineColor.getValue()
-			};
-			this.setAnalyticMode("Gesture", params);
+			this.setAnalyticMode("Gesture", {
+				color: this.gestureLineColor.getValue(),
+				sessions: this.getSelectedSessions()
+			}, () => this.showGestureMap());
 			this.showGestureProperties();
-
-
 		},
 
-
-		/**********************************************************************
-		 * Rending stuff
-		 **********************************************************************/
-
-		renderToolbar(){
-			this.logger.log(3,"renderToolbar", "enter");
-			if (this.isRendered) {
-				return
-			}
-			this.isRendered = true
-			this.logger.log(3,"renderToolbar", "exit");
-		},
-
-
-
-		render(){
-			this.logger.log(3,"render", "entry");
-
-			this.properties = document.createElement("div");
-			css.add(this.properties, "MatcToobarPropertiesSectionCntr")
-
-			this.sections = [];
-
-			this.propertiesStates = {};
-
-			this.renderScreenProperties();
-
-			this.renderScreenModes();
-
-			this.renderWidgetProperties();
-
-			this.renderSessionProperties();
-
-			this.renderSessionSection();
-
-			this.renderDropOffProperties()
-
-			this.renderHeatMapProperties();
-
-			this.renderGestureProperties();
-
-			this.propertiesCntr.appendChild(this.properties);
-
-
-			/**
-			 * Now assemble final ui. hook in properties panel and make toolSection Visible!
-			 */
-			this.scroller = this.$new(ScrollContainer);
-			this.scroller.placeAt(this.propertiesCntr);
-			this.scroller.wrap(this.properties, 40);
-
-			this.hideAllSections();
-
-			this.showHeatMapProperties();
-
-			this.logger.log(3,"render", "exit");
-		},
-
-	
-
-
-		renderScreenProperties(){
-			this.logger.log(3,"renderScreenProperties", "entry");
-
-
-			var db = new DomBuilder();
-			/**
-			 * Name
-			 */
-			this.screenNameDiv = this.createSection("Screen", this.properties);
-			var content = this.createContent(this.screenNameDiv);
-
-			this.screenName = this.createInput(content, "Screen Name");
-			this.screenName.readOnly = true;
-
-			var ringCntr = db.div("MatcCenter").build(content);
-
-			/**
-			 * Views total
-			 */
-			var cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenTestRing = this.createRing("Test Coverage", "analytics.canvas.kpi.coverage");
-			this.screenTestRing.placeAt(cntr);
-
-			/**
-			 * Dwell
-			 */
-			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenDwellRing = this.createRing("Dwell Time", "analytics.canvas.kpi.dwell");
-			this.screenDwellRing.placeAt(cntr);
-
-			/**
-			 * Views total
-			 */
-			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenTotalViewRing = this.createRing("Screen Views", "analytics.canvas.kpi.screen-views");
-			this.screenTotalViewRing.placeAt(cntr);
-
-
-			/**
-			 * CLicks
-			 */
-			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenClickRing = this.createRing("Screen Clicks", "analytics.canvas.kpi.screen-clicks");
-			this.screenClickRing.placeAt(cntr);
-
-
-			/**
-			 * CLicks
-			 */
-			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.screenWidgetClickRing = this.createRing("Widget Clicks", "analytics.canvas.kpi.screen-widget-clicks");
-			this.screenWidgetClickRing.placeAt(cntr);
-
-		},
-
-
-		renderWidgetProperties(){
-			this.logger.log(3,"renderWidgetProperties", "entry");
-
-			var db = new DomBuilder();
-
-			/**
-			 * Name
-			 */
-			this.widgetNameDiv = this.createSection("Widget ", this.properties);
-			var content = this.createContent(this.widgetNameDiv);
-			this.widgetName = this.createInput(content, "Screen");
-			this.widgetName.readOnly = true;
-			var ringCntr = db.div("MatcCenter").build(content);
-
-			/**
-			 * CLicks
-			 */
-			let cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.widgetClickRing = this.createRing("Widget Clicks", "analytics.canvas.kpi.clicks");
-			this.widgetClickRing.placeAt(cntr);
-
-
-			/**
-			 * First Clicks
-			 */
-			cntr = db.div("MatcMarginBottom").build(ringCntr)
-			this.widgetFirstClickRing = this.createRing("First Clicks", "analytics.canvas.kpi.first-clicks");
-			this.widgetFirstClickRing.placeAt(cntr);
-
-			/**
-			 * Discovery
-			 */
-			cntr = db.div("MatcMarginBottom").build(ringCntr);
-			var nodes =  this.createBigNumber(db, cntr, "Time before Click", "analytics.canvas.kpi.before-click");
-			this.widgetDiscoverLabel =nodes[0];
-			this.widgetDiscoverSTDLabel =nodes[1];
-
-		},
-
-
-		renderHeatMapProperties(){
-			this.logger.log(1,"renderHeatMapProperties", "entry");
-
-			var db = new DomBuilder();
-
-			this.heatmapDiv = this.createSection("Heatmap", this.properties);
-
-			let content = this.createContent(this.heatmapDiv);
-
-			var row = db.div("MatcToobarRow MatcMarginBottom").build(content);
-
-			var list = this.$new(RadioBoxList);
-			css.add(list.domNode, "MatcToolbarRadioList");
-			list.setOptions([
-				{"value" : -1,label : "All Clicks"},
-				{"value" : 1, label : "First Click"},
-				{"value" : 3, label : "First three Clicks"},
-				{"value" : "missedClicks", label : "Missed Clicks"},
-				{"value" : "mouse", label : "Mouse"}
-			]);
-			list.placeAt(db.div().build(row));
-			this.own(list.on("change", lang.hitch(this, "showFirstClickHeatMap")));
-
-
-			this.heatmapLabel = db.div('MatcToobarRow').label('MatcToolbarLabel MatcToolbarHelpSection').build(content)
-
-			this.heatmapClickList = list;
-			this.setHeatMapLabel(-1)
-		},
-
-		setHeatMapLabel (i) {
-			let lbl = ''
-			if (i === -1) {
-				lbl = this.getNLS('analytics.canvas.heatamp.hintAll')
-			}
-			if (i === 1) {
-				lbl = this.getNLS('analytics.canvas.heatamp.hintFirst')
-			}
-			if (i === 3) {
-				lbl = this.getNLS('analytics.canvas.heatamp.hintFirstThree')
-			}
-			if (i === 'missedClicks') {
-				lbl = this.getNLS('analytics.canvas.heatamp.hintMissed')
-			}
-
-			if (i === 'mouse') {
-				lbl = this.getNLS('analytics.canvas.heatamp.hintMouse')
-			}
-			this.heatmapLabel.textContent = lbl
-		},
-
-		renderDropOffProperties () {
-			this.logger.log(2,"renderSessionProperties", "entry");
-
-			var db = new DomBuilder();
-
-
-			this.dropOffConfigDiv = this.createSection("Show", this.properties);
-			var content = this.createContent(this.dropOffConfigDiv);
-			var row = db.div("MatcToobarRow MatcToolbarRadioList").build(content);
-
-			this.dropOffTimeCheckBox = this.$new(RadioBoxList, {maxLabelLength:20});
-			this.dropOffTimeCheckBox.setOptions([
-				{value: false, label: 'Drop Off'},
-				{value: true, label: 'Time'}
-			]);
-			this.dropOffTimeCheckBox.setValue(false);
-			this.dropOffTimeCheckBox.placeAt(row);
-			this.own(on(this.dropOffTimeCheckBox, "change", lang.hitch(this, "selectDropOffTask")));
-
-
-			this.dropOffOptionsDiv = this.createSection("Tasks", this.properties);
-			content = this.createContent(this.dropOffOptionsDiv);
-			row = db.div("MatcToobarRow ").build(content);
-
-
-			this.dropOffTaskBtn = this.$new(RadioBoxList, {maxLabelLength:20});
-
-			let tasks = []
-
-			if (this.testSettings.tasks && this.testSettings.tasks.length >= 1) {
-				tasks = this.testSettings.tasks.map((task,i) => {
-					return {value: i, label: task.name}
-				})	
-			} else {
-				this.dropOffOptionsLabel = db
-					.span(
-							"MatcToolbarLabel MatcToolbarHelpSection", 
-							this.getNLS("analytics.canvas.dropoff.hintNoTasksDefined")
-					)
-					.build(row)
-			}
-			
-			this.dropOffTaskBtn.setOptions(tasks);
-			this.dropOffTaskBtn.setValue(0);
-			css.add(this.dropOffTaskBtn.domNode ,"MatcToolbarRadioList");
-			this.dropOffTaskBtn.placeAt(row);
-			this.own(on(this.dropOffTaskBtn, "change", lang.hitch(this, "selectDropOffTask")));
-
-			this.dropOffChartDivCntr = this.createSection("Insights", this.properties);
-			content = this.createContent(this.dropOffChartDivCntr);
-
-			var ringCntr = db.div("MatcCenter ").build(content);
-			this.dropoffTaskSuccess = this.createRing("Success", "analytics.canvas.kpi.first-clicks");
-			css.add(this.dropoffTaskSuccess.domNode, 'MatcMarginBottom')
-			this.dropoffTaskSuccess.placeAt(ringCntr);
-
-
-			let cntr = db.div("MatcMarginBottom").build(ringCntr);
-			var nodes =  this.createBigNumber(db, cntr, "Duration", "analytics.canvas.kpi.before-click");
-			this.dropOffTaskDuration =nodes[0];
-			this.dropOffTaskDurationLabel = nodes[1];
-
-
-			cntr = db.div("MatcMarginBottom").build(ringCntr);
-			nodes =  this.createBigNumber(db, cntr, "Interactions", "analytics.canvas.kpi.before-click");
-			this.dropOffInteractions =nodes[0];
-			this.dropOffInteractionsLabel = nodes[1];
-
-
-			this.dropOffFunnelDivCntr = this.createSection("Drop Off", this.properties);
-			content = this.createContent(this.dropOffFunnelDivCntr);
-
-			this.dropOffChartDiv = db.div('MatcToolbarDropOffChart', '').build(content)
-		},
-
-
-		renderSessionProperties(){
-			this.logger.log(1,"renderSessionProperties", "entry");
-
-			const db = new DomBuilder();
-
-			this.sessionOptionsDiv = this.createSection("Show", this.properties);
-			let content = this.createContent(this.sessionOptionsDiv);
-
-			let row = db.div("MatcToobarRow MatcToolbarRadioList").build(content);
-
-			this.sessionTreeCheckBox = this.$new(RadioBoxList)
-			this.sessionTreeCheckBox.setOptions([
-				{value: true, label: "Merged Graph"},
-				{value: false, label: "Individual Tests"},
-			])
-
-			// this.sessionTreeCheckBox = this.$new(CheckBox);
-			// this.sessionTreeCheckBox.setLabel("Merge Graph");
-			//css.add(this.sessionTreeCheckBox.domNode, "MatcToolbarItem");
-			this.sessionTreeCheckBox.setValue(true);
-			this.sessionTreeCheckBox.placeAt(row);
-			this.own(on(this.sessionTreeCheckBox, "change", lang.hitch(this, "showUserJourney")));
-
-
-			row = db.div("MatcToobarRow").build(content);
-			this.sessionOutlierCheckbox = this.$new(CheckBox);
-			css.add(this.sessionOutlierCheckbox.domNode, "MatcToolbarItem");
-			this.sessionOutlierCheckbox.setValue(false);
-			this.sessionOutlierCheckbox.setLabel("Show Outlier");
-			this.sessionOutlierCheckbox.placeAt(row);
-			this.own(on(this.sessionOutlierCheckbox, "change", lang.hitch(this, "showUserJourneyOutlier")));
-
-
-			this.sessionOutlierDiv = this.createSection("Colors", this.properties);
-		 	content = this.createContent(this.sessionOutlierDiv);
-			row = db.div("MatcToobarRow ").build(content);
-	
-	
-			this.sessionLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
-			this.sessionLineColor.placeAt(row);
-			this.sessionLineColor.setLabel('Graph');
-			this.sessionLineColor.setModel(this.model);
-			this.sessionLineColor.setValue("#33b5e5");
-			css.add(this.sessionLineColor.domNode ," hidden");
-			this.own(on(this.sessionLineColor, "change", lang.hitch(this, "showUserJourney")));
-
-			this.sessionTaskLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
-			this.sessionTaskLineColor.placeAt(row);
-			this.sessionTaskLineColor.setLabel('Task');
-			this.sessionTaskLineColor.setModel(this.model);
-			this.sessionTaskLineColor.setValue("#92c500");
-			css.add(this.sessionTaskLineColor.domNode ,"");
-			this.own(on(this.sessionTaskLineColor, "change", lang.hitch(this, "showUserJourney")));
-
-
-			this.sessionOutlierColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
-			this.sessionOutlierColor.placeAt(row);
-			this.sessionOutlierColor.setLabel('Outlier');
-			this.sessionOutlierColor.setModel(this.model);
-			this.sessionOutlierColor.setValue("#ffb61c");
-			css.add(this.sessionOutlierColor.domNode ,"");
-			this.own(on(this.sessionOutlierColor, "change", lang.hitch(this, "showUserJourney")));
-		
-
-			this.sessionShowDiv = this.createSection("Options", this.properties);
-			content = this.createContent(this.sessionShowDiv);
-			row = db.div("MatcToobarRow MatcToolbarRadioList").build(content);
-			this.sessionTimeCheckBox = this.$new(RadioBoxList, {maxLabelLength:20});
-			this.sessionTimeCheckBox.setOptions([
-				{value: false, label: 'Navigation'},
-				{value: true, label: 'Time'}
-			]);
-		
-			this.sessionTimeCheckBox.setValue(false);
-			this.sessionTimeCheckBox.placeAt(row);
-			this.own(on(this.sessionTimeCheckBox, "change", lang.hitch(this, "showUserJourney")));
-
-	
-			this.sessionTaskCntr = this.createSection("Tasks", this.properties);
-			content = this.createContent(this.sessionTaskCntr);
-
-			row = db.div("MatcToobarRow ").build(content);
-
-			var tasks = [{value:-1, label: "No Task"}];
-			if (this.testSettings.tasks){
-				for (let i=0; i < this.testSettings.tasks.length; i++){
-					let task = this.testSettings.tasks[i];
-					tasks.push({value: i, label: task.name});
-				}
-			}
-			this.sessionTaskBtn = this.$new(RadioBoxList, {maxLabelLength:20});
-			this.sessionTaskBtn.setOptions(tasks);
-			this.sessionTaskBtn.setValue(-1);
-			css.add(this.sessionTaskBtn.domNode ,"MatcToolbarRadioList");
-			this.sessionTaskBtn.placeAt(row);
-			this.own(on(this.sessionTaskBtn, "change", lang.hitch(this, "selectUserJournyTask")));
-
-		
-		},
-
-		renderSessionSection () {
-
-
-			this.sessionDiv = this.db.div("MatcToolbarSection").build(this.testListCntr)
-			let content = this.createContent(this.sessionDiv);
-			css.add(content, "MatcMarginBottomXXL");
-
-
-			let row = this.db.div("MatcToobarRow").build(content);
-
-			this.sessionOrderBrn = this.$new(ToolbarDropDownButton,{maxLabelLength:20});
-			this.sessionOrderBrn.setOptions([
-				{value: 'duration', label:"Sort by Duration"},
-				{value: 'events', label:"Sort by Events"},
-				{value: 'date', label:"Sort by Date"},
-				{value: 'weirdness', label:"Sort by Outlier"}
-			]);
-			this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
-			this.sessionOrderBrn.updateLabel = true;
-			this.sessionOrderBrn.reposition = true;
-			this.sessionOrderBrn.repositionPosition = 'right';
-			this.sessionOrderBrn.setValue('duration')
-			this.sessionOrderBrn.placeAt(row);
-			this.tempOwn(on(this.sessionOrderBrn, "change", (v) => {this.onSortSessionList(v)}));
-			this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
-
-
-			this.sessionListCntr = this.db.div("MatcToolbarSessionCntr").build(content);
-			this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
-			this.renderSessionList(this.sessionListCntr, this.sessionList, 'duration')
-
-		},
-
-		onSortSessionList (value) {
-			this.renderSessionList(this.sessionListCntr, this.sessionList, value)
-			this.selectUserJournyTask(this.sessionTaskBtn.getValue())
-		},
-
-		renderSessionList (content, list, order) {
-
-			const db = new DomBuilder();
-
-			content.innerHTML = ""
-
-			this.sessionCheckBoxes = {};
-			this.sessionAllCheckBox = this.$new(CheckBox);
-			this.sessionAllCheckBox.setLabel("Show All");
-			this.sessionAllCheckBox.setValue(true);
-			css.add(this.sessionAllCheckBox.domNode, "MatcToolbarItem");
-			this.sessionAllCheckBox.placeAt(db.div("MatcToobarRow").build(content));
-			this.own(on(this.sessionAllCheckBox,"change", lang.hitch(this,"selectAllSessions")));
-
-			list.sort((a, b) => {
-				if (order === 'duration') {
-					return b.duration - a.duration
-				} 
-				if (order === 'date')  {
-					return a.start - b.start
-				}
-				if (order === 'weirdness') {
-					return b.weirdness - a.weirdness
-				}
-				return b.size - a.size
-			})
-		
-
-			const cntr = db.div("MatcToolbarSessionList").build()
-
-			for(let i=0; i < list.length; i++){
-				const session = list[i];
-				const row = db.div("MatcToobarRow MatcToobarRowIconCntr").build(cntr);
-
-				const chk = this.$new(CheckBox);
-				css.add(chk.domNode, "MatcToolbarItem");
-				chk.setValue(true);
-				if (order === 'duration') {
-					chk.setLabel("Test " + (session.id) + " ("  + session.duration + "s )"); // + session.taskPerformance +" Tasks - "
-				} 
-				if (order === 'date') {
-					chk.setLabel("Test " + (session.id) + " ("  + session.date + ")"); // + session.taskPerformance +" Tasks - "
-				}
-				if (order === 'events') {
-					chk.setLabel("Test " + (session.id) + " ("  + session.size + ")"); // + session.taskPerformance +" Tasks - "
-				}
-
-				if (order === 'weirdness') {
-					chk.setLabel("Test " + (session.id) + " ("  + session.weirdness + ")"); // + session.taskPerformance +" Tasks - "
-				}
-			
-				chk.placeAt(db.div().build(row));
-
-				this.sessionCheckBoxes[session.session] = chk;
-				this.own(on(chk,"change", lang.hitch(this,"selectSession")));
-				this.own(on(row, "mouseover", lang.hitch(this, "hoverSession", session)))
-				this.own(on(row, "mouseout", lang.hitch(this, "hoverSession", null)))
-
-				var play = db.div("MatcToobarRowRightIcon").span("mdi mdi-play").build(row)
-				this.own(on(play,"click", lang.hitch(this,"showSession", session)));
-			}
-
-			this.sessionScroller = this.$new(ScrollContainer);
-			this.sessionScroller.placeAt(content);
-			this.sessionScroller.wrap(cntr, 40);
-		},
-
-		hoverSession (session) {
-			if (this.analyticMode !== 'UserJourney') {
-				return
-			}
-			if(this.canvas){
-				this.canvas.highlightSession(session?.session)
-			}
-		},
-
-		showUserJourneyOutlier (showOutlier) {
-			if (showOutlier) {
-				let outliers = this.canvas.getOutlierScores();
-				for (let session in this.sessionCheckBoxes){
-					let chkBx = this.sessionCheckBoxes[session];
-					if (outliers[session]){
-						css.remove(chkBx.domNode, "MatcToolbarItemStrikeThrough");	
-					} else {		
-						css.add(chkBx.domNode, "MatcToolbarItemStrikeThrough");
-					}
-				}
-
-			} else {
-				for (let session in this.sessionCheckBoxes){
-					let chkBx = this.sessionCheckBoxes[session];
-					css.remove(chkBx.domNode, "MatcToolbarItemPassive");
-					css.remove(chkBx.domNode, "MatcToolbarItemStrikeThrough");
-				}
-			}
-			this.showUserJourney();
-		},
-		/**
-		 * Update the UI according the selected task. Show task color selector
-		 * and also fade out not matching sessions
-		 */
-		selectUserJournyTask(taskNumber){
-	
-			if (taskNumber >= 0) {
-				// css.remove(this.sessionTaskLineColor.domNode, "hidden");
-				// css.remove(this.sessionLineColor.domNode, "hidden")
-				let task = this.testSettings.tasks[taskNumber];
-				let taskPerformance = this.canvas.getTaskPerformance();
-				for (let session in this.sessionCheckBoxes){
-					let chkBx = this.sessionCheckBoxes[session];
-					if (taskPerformance[session] && taskPerformance[session][task.id]){
-						css.remove(chkBx.domNode, "MatcToolbarItemStrikeThrough");
-						//chkBx.setValue(true);
-					} else {
-						//chkBx.setValue(false);
-						css.add(chkBx.domNode, "MatcToolbarItemStrikeThrough");
-					}
-				}
-			} else {
-				// css.add(this.sessionTaskLineColor.domNode, "hidden");
-				// css.add(this.sessionLineColor.domNode, "hidden")
-				for (let session in this.sessionCheckBoxes){
-					let chkBx = this.sessionCheckBoxes[session];
-					css.remove(chkBx.domNode, "MatcToolbarItemPassive");
-					css.remove(chkBx.domNode, "MatcToolbarItemStrikeThrough");
-				}
-			}
-			this.showUserJourney();
-		},
-
-		selectAllSessions(value){
-			for(var id in this.sessionCheckBoxes){
-				this.sessionCheckBoxes[id].setValue(value);
-			}
-			this.showUserJourney();
-		},
-
-
-		setSelectSessions(ids){
-			if (this.sessionCheckBoxes){
-				for(var id in this.sessionCheckBoxes){
-					if (ids.indexOf(id) >= 0){
-						this.sessionCheckBoxes[id].setValue(true);
-					} else {
-						this.sessionCheckBoxes[id].setValue(false);
-					}
-				}
-				this.sessionAllCheckBox.setValue(false);
-				this.showUserJourney();
-			}
-		},
-
-
-		selectSession(){
-			this.showUserJourney();
-		},
-
-
-		_getTestList(events, annotatation, testSettings){
-
-			const list =[];
-			if(!testSettings.tasks){
-				testSettings.tasks = [];
-				console.warn("_getTestList() > Added missing task array")
-			}
-
-			const df = new DataFrame(events);
-			df.sortBy("time");
-			const sessionGroup = df.groupBy("session");
-			const sessions = sessionGroup.data;
-
-			const annoSession = new DataFrame(annotatation).groupBy("reference");
-			const analytics  = new Analytics();
-			const taskCount = testSettings.tasks.length;
-			const tasksPerformance = analytics.getMergedTaskPerformance(df, testSettings.tasks, annotatation );
-			const tasksBySession = tasksPerformance.count("session");
-
-			const outliers = this.canvas.getOutlierScores()
-
-			let id = 1;
-			for(let sessionID in sessions){
-
-				let session = sessions[sessionID];
-				let date = this.formatDate(session.min("time"), true);
-
-				let anno = annoSession.get(sessionID);
-				let status = '<span class="MatchDashStatusSuccess">Valid</span>';
-				let isValid = true;
-				if(anno){
-					isValid = anno.get(0).get("isValid");
-					if(!isValid){
-						status = '<span class="MatchDashStatusFailure">Failure</span>';
-					}
-				}
-
-				let taskSuccess = tasksBySession.get(sessionID);
-				if(!taskSuccess){
-					taskSuccess = 0;
-				}
-
-				const df = new DataFrame(session.data)
-   				//const actionsEvents = this.getActionEvents(df);
-				const clicks = df.select("type", "in",["ScreenClick","WidgetClick","WidgetChange", "ScreenGesture", "WidgetGesture"])
-
-
-				const item = {
-					session : sessionID,
-					taskPerformance : taskSuccess + " / " + taskCount,
-					weirdness: outliers[sessionID],
-					duration : (Math.ceil( (session.max("time") - session.min("time")) / 1000 )),
-					date : date,
-					start : session.min("time"),
-					size : clicks.size(),
-					status :status,
-					isValid : isValid,
-					id : id,
-					screens : session.unique("screen")
-				};
-
-				list.push(item);
-				id++;
-			}
-
-			list.sort((a,b) => {
-				return a.id - b.id;
-			});
-
-			return list;
-		},
-
-
-		renderGestureProperties(){
-
-			var db = new DomBuilder();
-
-			this.gestureOptionsDiv = this.createSection("Options", this.properties);
-
-			let content = this.createContent(this.gestureOptionsDiv);
-
-			var row = db.div("MatcToobarRow MatcMarginBottomXXL").build(content);
-			db.span("MatcToolbarItemLabel", "Gesture Color").build(row);
-
-			this.gestureLineColor = this.$new(ToolbarColor, {updateColor :true, hasCustomColor:false, hasPicker:false});
-			this.gestureLineColor.placeAt(row);
-			this.gestureLineColor.setLabel('Line Color');
-			this.gestureLineColor.setModel(this.model);
-			this.gestureLineColor.setValue("#0099cc");
-			this.own(on(this.gestureLineColor, "change", lang.hitch(this, "showGestureMap")));
-
-
-		},
-
-
-		/*****************************************************************************************************
-		 * Screen Mode
-		 ****************************************************************************************************/
-
-
-		renderScreenModes () {
-			this.logger.log(3,"renderScreenModes", "entry");
-
-			this.screenModeDiv = this.createSection("Options", this.properties);
-
-			const content = this.createContent(this.screenModeDiv);
-
-			const row = this.db.div("MatcToobarRow MatcMarginBottom").build(content);
-
-			const list = this.$new(RadioBoxList);
-			css.add(list.domNode, "MatcToolbarRadioList");
-			list.setOptions([
-				{ label: 'Dwell Time', value: "HeatmapDwelTime", icon: "mdi mdi-timelapse" },
-                { label: 'Scroll', value: "HeatmapScrollView", icon: "mdi mdi-swap-vertical" },
-                { label: 'Scroll Time', value: "HeatmapScrollTime", icon: "mdi mdi-timer" },
-				//{ label: 'Discovery Time', value: "HeatmapDiscoryTime", icon: "mdi mdi-timer" }
-			]);
-			list.setValue("HeatmapDwelTime")
-
-			this.screenModeRadioList = list
-			list.placeAt(row);
-			this.own(list.on("change", lang.hitch(this, "showScreenMode")));
-		},
 
 		showScreenMode () {
 			const newMode = this.screenModeRadioList.getValue()
-			this.setAnalyticMode(newMode);
+			this.setAnalyticMode(newMode, {
+				sessions: this.getSelectedSessions()
+			}, () => this.showScreenMode());
 			css.remove(this.screenModeDiv, "MatcToolbarSectionHidden")
 			this.logger.log(-1,"showScreenMode", "exit > ", newMode);
 		}, 
@@ -1031,27 +347,6 @@ export default {
 		changeScreenMode (m) {
 			this.logger.log(0,"changeScreenMode", "entry > ", m);
 		},
-
-		showScrollHeatMap(){
-			this.logger.log(2,"showScrollHeatMap", "entry");
-			this.setAnalyticMode("HeatmapScrollView");
-		},
-
-		showDwelTimeMap(){
-			this.logger.log(2,"showDwelTimeMap", "entry");
-			this.setAnalyticMode("HeatmapDwelTime");
-		},
-
-		showDiscoveryTimeMap(){
-			this.logger.log(2,"showDwelTimeMap", "entry");
-			this.setAnalyticMode("");
-		},
-
-		showScrollTimeMap(){
-			this.logger.log(2,"showScrollHeatMap", "entry");
-			this.setAnalyticMode("HeatmapScrollTime");
-		},
-
 
 		/*****************************************************************************************************
 		 * Dialogs
@@ -1117,11 +412,10 @@ export default {
 			css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
 			this.widgetName.value = model.name;
 
-			var data = this.canvas.getWidgetData(model);
+			const data = this.canvas.getWidgetData(model);
 
 			if(data[model.id]){
-				var widgetData = data[model.id];
-
+				const widgetData = data[model.id];
 
 				this.widgetClickRing.setPs(widgetData.clicksRel);
 				this.widgetClickRing.setValue(widgetData.clicksAbs);
@@ -1215,7 +509,7 @@ export default {
 
 
 		showSessionProperties(){
-			this.logger.log(-1,"showSessionProperties", "entry");
+			this.logger.log(1,"showSessionProperties", "entry");
 			this.showProperties();
 
 			// css.remove(this.sessionDiv, "MatcToolbarSectionHidden");
@@ -1263,7 +557,7 @@ export default {
 					time: this.dropOffTimeCheckBox.getValue(),
 					task: task,
 					color: '#ccc'
-				});
+				}, () => this.showDropOffProperties());
 				css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
 				css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden");
 				css.remove(this.dropOffChartDivCntr, "MatcToolbarSectionHidden")
@@ -1275,7 +569,7 @@ export default {
 					time: this.dropOffTimeCheckBox.getValue(),
 					task: null,
 					color: '#ccc'
-				});
+				}, () => this.showDropOffProperties());
 				css.remove(this.dropOffConfigDiv, "MatcToolbarSectionHidden")
 				css.remove(this.dropOffOptionsDiv, "MatcToolbarSectionHidden")
 				this.showProperties();
@@ -1340,9 +634,7 @@ export default {
 
 		showHeatMapProperties(){
 			this.showProperties();
-
 			css.remove(this.heatmapDiv,"MatcToolbarSectionHidden" );
-
 			this.heatmapClickList.setValue(this.analyticHeatMapClicks);
 		},
 
@@ -1694,10 +986,10 @@ export default {
 
 
 
-		onCanvasSelected(){
-			this.cleanUp();
-			this.hideProperties();
-		},
+		// onCanvasSelected(){
+		// 	this.cleanUp();
+		// 	this.hideProperties();
+		// },
 
 
 		/**

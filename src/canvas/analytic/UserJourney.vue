@@ -56,14 +56,14 @@
       },
     
   
-      _render_global_UserJourney(screenEvents, screen, ctx, div) {
+      _render_global_UserJourney() {
         this.logger.log(1, "_render_global_UserJourney", "entry > ");
         this.setBW(true);
         this.cleanUpAnalytics()
         if (!this.analyticParams.tree) {
-          this._renderUserSingleLines(screenEvents, screen, ctx, div);
+          this._renderUserSingleLines();
         } else {
-          this._renderUserTree(screenEvents, screen, ctx, div);
+          this._renderUserTree();
         }
       },
   

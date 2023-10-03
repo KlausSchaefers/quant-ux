@@ -38,13 +38,14 @@ export default class AnalyticController extends Core{
 		this.inheritedModel = this.createInheritedModel(m);
 		this.inheritedModel = Core.addContainerChildrenToModel(this.inheritedModel);
 		this.oldModel = lang.clone(m);
-		this.render(screenID);
-
-		if(this.toolbar){
-			this.toolbar.setModel(m);
-		} else {
-			console.debug("No toolbar in controller!");
-		}
+		this.render(screenID, () => {
+			if(this.toolbar){
+				this.toolbar.setModel(m);
+			} else {
+				console.debug("No toolbar in controller!");
+			}
+	
+		});
 
 		if (this._canvas) {
 			this._canvas.setFonts(m.fonts)
@@ -74,28 +75,23 @@ export default class AnalyticController extends Core{
 	 * Canvas Delegates
 	 **********************************************************************/
 
-	render(screenID){
+	render(screenID, afterRenderCallback){
 		this.logger.log(2,"render", "enter > screenID : " + screenID);
-
 		if(this._canvas){
-			/**
-			 * set correct zoom factor
-			 */
-			//this._zoomToScreen(screenID);
-
 			/**
 			 * resize the model
 			 */
-			let inheritedModel = CoreUtil.createInheritedModel(this.model)
+			const inheritedModel = CoreUtil.createInheritedModel(this.model)
 			requestAnimationFrame(() => {
 				this._canvas.render(inheritedModel);
 				if(screenID){
 					this._canvas.moveToScreen(screenID);
 				}
+				if (afterRenderCallback) {
+					afterRenderCallback()
+				}
 			})
 		}
-
-
 	}
 
 	_requestRendering(screenID){

@@ -481,9 +481,7 @@ export default {
       this.selectAnalyticDiv(null);
       if (this.toolbar) {
         this.toolbar.unselect();
-        if (this.analyticMode === "HeatmapClick") {
-          this.toolbar.reShowClickHeatMap();
-        }
+        this.toolbar.onCanvasSelected()
       }
     },
 
@@ -555,14 +553,14 @@ export default {
 
       this.logger.log(0,"onScreenRendered", "adjust radios to " + this.defaultRadius);
 
-      var screenGrouping = this.df.groupBy("screen");
+      const screenGrouping = this.df.groupBy("screen");
 
       this.heatmapDivs = {};
       for (var id in this.sourceModel.screens) {
-        var screen = this.sourceModel.screens[id];
+        const screen = this.sourceModel.screens[id];
 
-        var screenDF = screenGrouping.get(id);
-        var screenEvents = [];
+        const screenDF = screenGrouping.get(id);
+        let screenEvents = [];
         if (screenDF) {
           screenEvents = screenDF.as_array();
         }
@@ -571,12 +569,12 @@ export default {
           /**
            * create canvas
            */
-          var div = this.createBox(screen);
+          const div = this.createBox(screen);
           css.add(div, "MatcHeatMapScreen");
-          var cntr = this.db.div("MatcHeapMapContainer").build(div);
+          const cntr = this.db.div("MatcHeapMapContainer").build(div);
 
-          var canvas = this.db.canvas(screen.w, screen.h).build(cntr);
-          var ctx = canvas.getContext("2d");
+          const canvas = this.db.canvas(screen.w, screen.h).build(cntr);
+          const ctx = canvas.getContext("2d");
 
           this["_render_" + this.analyticMode](screenEvents, screen, ctx, div);
 
@@ -602,7 +600,7 @@ export default {
       }
 
       if (this["_render_global_" + this.analyticMode]) {
-        this["_render_global_" + this.analyticMode](screenEvents,screen, ctx, div);
+        this["_render_global_" + this.analyticMode]();
       }
     },
 

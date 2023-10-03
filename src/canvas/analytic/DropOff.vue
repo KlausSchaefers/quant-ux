@@ -28,21 +28,21 @@
        * DropOff
        **********************************************************************/
   
-      _render_global_DropOff(screenEvents, screen, ctx, div) {
+      _render_global_DropOff() {
         this.logger.log(1, "_render_global_DropOff", "entry > ", this.analyticParams.task);
         this.setBW(true);
         if (this.analyticParams.task) {
           if (this.analyticParams.time) {
-            this._render_dropoff_task_time(screenEvents, screen, ctx, div, this.analyticParams.task);
+            this._render_dropoff_task_time(this.analyticParams.task);
           } else {
-            this._render_dropoff_task_success(screenEvents, screen, ctx, div, this.analyticParams.task);
+            this._render_dropoff_task_success(this.analyticParams.task);
           }
         } else {
           this.showError('No task selected')
         }
       },
   
-       _render_dropoff_task_time (screenEvents, screen, ctx, div, task) {
+       _render_dropoff_task_time (task) {
   
         const db = new DomBuilder()
   
@@ -95,7 +95,7 @@
         }
       },
   
-      _render_dropoff_task_success (screenEvents, screen, ctx, div, task) {
+      _render_dropoff_task_success (task) {
   
         const db = new DomBuilder()
   
