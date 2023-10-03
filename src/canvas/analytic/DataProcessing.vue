@@ -280,17 +280,15 @@ export default {
     },
 
 
-    getScreenClicksOnBackground() {
-      if (!this.cache["screenClicksOnBackground"]) {
-        var screenClicks = this.df.select("type", "==", "ScreenClick");
-        this.cache["screenClicksOnBackground"] = screenClicks
-      }
+    getScreenClicksOnBackground(df) {
 
-      return this.cache["screenClicksOnBackground"];
+      const screenClicks = df.select("type", "==", "ScreenClick");
+      return screenClicks
+
     },
 
-    getMissedClicks() {
-      if (!this.cache["missedClicks"]) {
+    getMissedClicks(df) {
+     
         /** 
          * Get all screens that do not have a line
          */
@@ -322,7 +320,7 @@ export default {
         /**
          * Filter screenclicks for these screens
          */
-        let clickEvents = this.df
+        let clickEvents = df
           .select("type", "in", ["ScreenClick", "WidgetClick"])
           .as_array();
 
@@ -338,10 +336,10 @@ export default {
           return false
         })
 
-        this.cache["missedClicks"] = missedClicks;
-      }
+        return missedClicks;
 
-      return this.cache["missedClicks"];
+
+      
     },
 
 
@@ -469,13 +467,9 @@ export default {
       return this.cache["widgetData"];
     },
 
-    getFirstNClicksData(n) {
-      var key = "firstClicks" + n;
-      if (!this.cache[key]) {
-        var analytics = new Analytics();
-        this.cache[key] = analytics.getFirstNClicks(this.events, n);
-      }
-      return this.cache[key];
+    getFirstNClicksData(events, n) {
+      const analytics = new Analytics();
+      return analytics.getFirstNClicks(events, n);
     },
 
 

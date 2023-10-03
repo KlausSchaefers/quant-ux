@@ -611,6 +611,7 @@ export default {
        * or at least soft the events by screen
        */
       let mouseData = this.mouseData.filter((m) => m.screen === screen.id);
+      mouseData = this._filterSelectedSessions(mouseData)
       let data = this.computeMouseDistribution(mouseData, this.sourceModel);
       if (data[screen.id]) {
         let d = data[screen.id];
@@ -621,6 +622,8 @@ export default {
     _render_HeatmapClick(screenEvents, screen, ctx, div) {
       this.logger.log(2, "_render_HeatmapClick", "entry > ");
 
+      const events = this._filterSelectedSessions(this.events)
+      const df = new DataFrame(events)
       var numberOfClicks = -1;
       if (this.analyticParams) {
         numberOfClicks = this.analyticParams.numberOfClicks;
@@ -628,30 +631,37 @@ export default {
 
       if (numberOfClicks === "screenClicks") {
 
-        let screenClicks = this.getScreenClicksOnBackground();
+        let screenClicks = this.getScreenClicksOnBackground(df);
         screenClicks = screenClicks.as_array();
         this._render_pixel_screen_heatmap(screenClicks, screen, ctx, div);
 
       } else if (numberOfClicks === "missedClicks") {
 
-        let missedClicks = this.getMissedClicks();
+        let missedClicks = this.getMissedClicks(df);
         this._render_pixel_screen_heatmap(missedClicks, screen, ctx, div);
 
       } else if (numberOfClicks > 0) {
 
-        let firstNEvents = this.getFirstNClicksData(numberOfClicks);
+        let firstNEvents = this.getFirstNClicksData(events, numberOfClicks);
         this._render_pixel_screen_heatmap(firstNEvents, screen, ctx, div);
 
       } else {
 
-        /**
-         * Ignore Hover events...
-         */
-        let filtered = this.getClickEvents(new DataFrame(this.events));
+        let filtered = this.getClickEvents(new DataFrame(events));
         let actionEvents = filtered.as_array();
         this._render_pixel_screen_heatmap(actionEvents, screen, ctx, div);
         
       }
+    },
+
+    _filterSelectedSessions (events) {
+      if (this.analyticParams && this.analyticParams.sessions) {
+        const sessions = this.analyticParams.sessions
+        return events.filter(e => {
+          return sessions[e.session] === true
+        })
+      }
+      return events
     },
 
     _render_pixel_screen_heatmap(actionEvents, screen, ctx) {

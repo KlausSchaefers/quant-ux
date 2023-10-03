@@ -179,10 +179,15 @@ export default {
 
 		onCanvasSelected () {
 			this.logger.log(-2,"onCanvasSelected", "entry > mode: " + this.analyticMode);
+
+			if (this.analyticMode === "HeatmapClick") {
+				this.hideAllSections()
+				this.showHeatMapProperties()
+			}
 		},
 
 		reRenderAnalyticMode () {
-			this.logger.log(-2,"reRenderAnalyticMode", "entry > mode: " + this.analyticModeCallback);
+			this.logger.log(-2,"reRenderAnalyticMode", "entry", this.analyticMode);
 			if (this.analyticModeCallback){
 				this.analyticModeCallback()
 			} else {
@@ -241,7 +246,7 @@ export default {
 
 
 		showClickHeatMap(){
-			this.logger.log(2,"showClickHeatMap", "entry > " + this.analyticHeatMapClicks);
+			this.logger.log(-2,"showClickHeatMap", "entry > " + this.analyticHeatMapClicks);
 			this.setAnalyticMode("HeatmapClick", {
 					numberOfClicks : this.analyticHeatMapClicks,
 					sessions: this.getSelectedSessions(),
@@ -257,17 +262,16 @@ export default {
 			this.setHeatMapLabel(i)
 			if (i === 'mouse') {
 				this.showMouseHeatMap()
-				this.showHeatMapProperties();
 			} else {		
 				this.setAnalyticMode("HeatmapClick",{
 					numberOfClicks : this.analyticHeatMapClicks,
 					sessions: this.getSelectedSessions()
-				} , () => this.showFirstClickHeatMap());
+				} , () => this.showFirstClickHeatMap(i));
 			}
 		},
 
 		showMouseHeatMap(){
-			this.logger.log(2,"showMouseHeatMap", "entry");
+			this.logger.log(-2,"showMouseHeatMap", "entry");
 			if(!this.mouseData){
 				this.canvas.showHint("Loading data...");
 				if(this.isPublic){
@@ -281,7 +285,7 @@ export default {
 					sessions: this.getSelectedSessions()
 				}, () => this.showMouseHeatMap());
 			}
-
+			this.showHeatMapProperties();
 		},
 
 
