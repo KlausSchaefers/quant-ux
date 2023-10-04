@@ -623,6 +623,7 @@ export default {
       this.logger.log(2, "_render_HeatmapClick", "entry > ");
 
       const events = this._filterSelectedSessions(this.events)
+
       const df = new DataFrame(events)
       var numberOfClicks = -1;
       if (this.analyticParams) {

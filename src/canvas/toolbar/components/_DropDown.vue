@@ -221,13 +221,9 @@ export default {
 			if (this.repositionPosition === 'right') {
 				this.popup.style.left = "auto"
 				this.popup.style.left = pos.x + pos.w + this.arrowSize + "px";
-				console.debug(pos.x  + this.popupPos.w +this.arrowSize)
-				console.debug(pos, this.popupPos.w)
 			} else {
 				this.popup.style.right = "auto"
 				this.popup.style.left = pos.x - this.popupPos.w -this.arrowSize+ "px";
-
-
 			}
 
 			return true

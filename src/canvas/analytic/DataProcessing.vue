@@ -468,6 +468,7 @@ export default {
     },
 
     getFirstNClicksData(events, n) {
+      console.debug('getFirstNClicksData', events.length)
       const analytics = new Analytics();
       return analytics.getFirstNClicks(events, n);
     },

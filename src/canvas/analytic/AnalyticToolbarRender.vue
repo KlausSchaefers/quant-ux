@@ -31,6 +31,7 @@ export default {
     mixins: [],
     data: function () {
         return {
+            hasSelectAll: true
         }
     },
     components: {
@@ -442,15 +443,55 @@ export default {
             this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
 
 
+
+            
+            // row = this.db.div("MatcToobarRow").build(content);
+
+            // const selectOptions = [
+            //     { value: 'all', label: "Select All", callback: () => this.onSelectSesionAll()},
+            //     { value: 'invert', label: "Invert Selection", callback: () => this.onSelectSessionInvert()}
+            // ]
+            // if (this.testSettings && this.testSettings.tasks) {
+            //     this.testSettings.tasks.forEach(t => {
+            //         selectOptions.push({
+            //             value: t.id, label: "Select " + t.name, callback: () => this.onSelectSesionsTask(t)
+            //         })
+            //     })
+            // }
+       
+            // this.sessionSelectBtn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20 });
+            // this.sessionSelectBtn.setOptions(selectOptions);
+            // this.sessionSelectBtn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
+            // this.sessionSelectBtn.updateLabel = true;
+            // this.sessionSelectBtn.reposition = true;
+            // this.sessionSelectBtn.repositionPosition = 'right';
+            // this.sessionSelectBtn.setValue('all')
+            // this.sessionSelectBtn.placeAt(row);
+            // this.tempOwn(on(this.sessionSelectBtn, "change", (v) => { this.onSelectSesionsBy(v) }));
+            // this.addTooltip(this.sessionSelectBtn.domNode, "Select a subset of sessions");
+
+
             this.sessionListCntr = this.db.div("MatcToolbarSessionCntr").build(content);
             this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
             this.renderSessionList(this.sessionListCntr, this.sessionList, 'date')
 
         },
 
+        onSelectSessionInvert () {
+            console.debug('onSelectSesionAll')
+        },
+
+        onSelectSesionAll(v) {
+            console.debug('onSelectSesionAll', v)
+        },
+
+        onSelectSesionsTask(v) {
+            console.debug('onSelectSesionsTask', v)
+        },
+
         onSortSessionList(value) {
             this.renderSessionList(this.sessionListCntr, this.sessionList, value)
-            this.selectUserJournyTask(this.sessionTaskBtn.getValue())
+            
         },
 
         renderSessionList(content, list, order) {
@@ -459,13 +500,16 @@ export default {
 
             content.innerHTML = ""
 
-            this.sessionCheckBoxes = {};
-            this.sessionAllCheckBox = this.$new(CheckBox);
-            this.sessionAllCheckBox.setLabel("Show All");
-            this.sessionAllCheckBox.setValue(true);
-            css.add(this.sessionAllCheckBox.domNode, "MatcToolbarItem");
-            this.sessionAllCheckBox.placeAt(db.div("MatcToobarRow").build(content));
-            this.own(on(this.sessionAllCheckBox, "change", lang.hitch(this, "selectAllSessions")));
+           
+            if (this.hasSelectAll) {
+                this.sessionAllCheckBox = this.$new(CheckBox);
+                this.sessionAllCheckBox.setLabel("Show All");
+                this.sessionAllCheckBox.setValue(true);
+                css.add(this.sessionAllCheckBox.domNode, "MatcToolbarItem");
+                this.sessionAllCheckBox.placeAt(db.div("MatcToobarRow").build(content));
+                this.own(on(this.sessionAllCheckBox, "change", lang.hitch(this, "selectAllSessions")));
+            }
+
 
             list.sort((a, b) => {
                 if (order === 'duration') {
@@ -482,7 +526,7 @@ export default {
 
 
             const cntr = db.div("MatcToolbarSessionList").build()
-
+            this.sessionCheckBoxes = {};
             for (let i = 0; i < list.length; i++) {
                 const session = list[i];
                 const row = db.div("MatcToobarRow MatcToobarRowIconCntr").build(cntr);
@@ -607,8 +651,11 @@ export default {
                         this.sessionCheckBoxes[id].setValue(false);
                     }
                 }
-                this.sessionAllCheckBox.setValue(false);
-                this.showUserJourney();
+                if (this.sessionAllCheckBox) {
+                    this.sessionAllCheckBox.setValue(false);
+                }
+
+                this.onSessionSelectionChanged();
             }
         },
 

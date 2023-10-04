@@ -1494,7 +1494,7 @@ export default class BaseController extends Core {
 				this.toolbar.enbaleRedo();
 			}
 		} else {
-			this.logger.log(-1,"onUndoCompleted", "No command at position");
+			this.logger.log(-1,"onUndoCompleted", "No command at position" + this.commandStack.pos);
 		}
 	}
 
