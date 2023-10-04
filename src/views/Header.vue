@@ -1,36 +1,30 @@
 <template>
-      <div class="MatcMainMenu MatcMainMenuPublic" id="mainMenu">
-      <div class="MatcMainMenuHeader">
-        <div id="menuBar" class="MatcMenuBar">
-          <div class="container visible-md-block visible-lg-block">
+  <div class="MatcHeader" id="">
 
-            <div class="row" v-if="user && user.role !== 'guest'">
-              <div class="col-md-7">
-                <img src="../style/img/QUXLogo5.svg" class="MatcMainMenuLogo" v-if="false">
-                <a class="MatcMainMenuItem" href="#/">{{$t('header.my-prototypes')}}</a>
-                 <a class="MatcMainMenuItem" href="#/help.html">{{$t('header.documentation')}}</a>
-              </div>
-              <div class="col-md-5 MatcRight">
-                <a class="MatcMainMenuItem" href="#/my-account.html">{{$t('header.my-account')}}</a>
-                <a class="MatcMainMenuItem MatcRightMenuLast" @click="logout">{{$t('header.logout')}}</a>
-                <LanguagePicker @change="setLanguage"/>
-              </div>
-            </div> <!-- Logged in user -->
-          </div> <!-- Desktop -->
-          <div class="visible-sm-block visible-xs-block">
-             <div class="row" v-if="user && user.role !== 'guest'">
-                <div class="col-md-12">
-                  <a class="MatcMainMenuItem" href="#/apps/my-apps.html">{{$t('header.my-prototypes')}}</a>
-                </div>
-             </div>
-          </div>
-        </div>
+    <div class="MatcHeaderLeft">
+      <img src="../style/img/QUXLogo5.svg" class="MatcHeaderLogo">
+      <a href="#/">
+        Quant-UX
+      </a>
+
+    </div>
+    <div class="container MatcHeaderCenter">
+      <div class="MatcHeaderCenterLeft">
+        <a class="" href="#/">{{ $t('header.my-prototypes') }}</a>
+        <a class="" href="#/help.html">{{ $t('header.documentation') }}</a>
+      </div>
+      <div class="MatcHeaderCenterRight">
+        <LanguagePicker @change="setLanguage" />
       </div>
     </div>
+    <div class="MatcHeaderRight">
+      <a class="" href="#/my-account.html">{{ $t('header.my-account') }}</a>
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
-  @import "../style/components/menu.scss";
+@import "../style/components/menu.scss";
 </style>
 
 
@@ -45,12 +39,12 @@ export default {
   name: "Header",
   mixins: [],
   props: ['user'],
-  data: function() {
+  data: function () {
     return {
     }
   },
   watch: {
-    'user' (v) {
+    'user'(v) {
       this.logger.log(6, 'watch', 'user >> ' + v.email)
       this.user = v
     }
@@ -59,12 +53,12 @@ export default {
     'LanguagePicker': LanguagePicker
   },
   methods: {
-    setLanguage (language) {
+    setLanguage(language) {
       this.logger.log(-1, "setLanguage", "entry", language);
       Services.getUserService().setLanguage(language)
       this.$root.$i18n.locale = language
-      this.$root.$emit('Success',  this.$i18n.t('common.language-changed'))
-   
+      this.$root.$emit('Success', this.$i18n.t('common.language-changed'))
+
     },
 
     logout() {

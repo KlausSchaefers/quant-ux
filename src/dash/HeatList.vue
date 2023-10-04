@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcAppList">
+  <div class="MatcScreenList">
     <div class="MatcAppListContainer" data-dojo-attach-point="container"></div>
   </div>
 </template>

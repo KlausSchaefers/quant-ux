@@ -4,7 +4,7 @@
       <div class="container">
         <div class="level" style="margin-bottom:40px">
           <div class="level-left">
-            <h2 class="title">{{app.name}}</h2>
+            <h2 class="">{{app.name}}</h2>
           </div>
           <div class="level-right" v-if="!isPublic">
             <div class="level-item">

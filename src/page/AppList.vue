@@ -1,19 +1,36 @@
 <template>
   <div class="MatcAppList">
-    <div class="MatcListSearchCntr" data-dojo-attach-point="searchCntr">
-      <div class="MatcSearchForm">
-        <input
-          id="MatcAppListSearchField"
-          placeholder="Search"
-          data-dojo-attach-point="searchInput"
-        />
-        <span
-          class="mdi mdi-magnify MatcCreateSearchBtn"
-          aria-hidden="true"
-          data-dojo-attach-point="searchBtn"
-        ></span>
-      </div>
+    <div class="MatcPageHeader">
+      
+        <div class="MatcPageHeaderLeft">
+          <h1>
+            My Prototypes
+          </h1>
+          
+        </div>
+        
+        <div class="MatcPageHeaderRight">
+
+          <div class="MatcListSearchCntr" data-dojo-attach-point="searchCntr" v-if="hasSearch">
+                <div class="MatcSearchForm">
+                    <input
+                      id="MatcAppListSearchField"
+                      placeholder="Search"
+                      data-dojo-attach-point="searchInput"
+                    />
+                    <QIcon icon="Search" class="MatcCreateSearchBtn" @click="showSearch"/>
+                </div>
+           
+          </div>
+          <a href="#/apps/create-app.html" class="MatcButton MatcButtonPrimary  MatcButtonXS" v-if="canAdd">
+                  Create
+                </a>
+        </div>
+      
+      
+
     </div>
+    
     <div class="MatcAppListContainer" data-dojo-attach-point="container"></div>
   </div>
 </template>
@@ -26,11 +43,11 @@ import css from "dojo/css";
 import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import has from "dojo/has";
-import touch from "dojo/touch";
 import Logger from "common/Logger";
 import List from "page/List";
 import Plan from "page/Plan";
 import Preview from "page/Preview";
+import QIcon from "./QIcon";
 import Services from "services/Services";
 
 export default {
@@ -41,7 +58,7 @@ export default {
     return {
       columns: -1,
       spacing: -1,
-      colWidth: 252,
+      colWidth: 240,
       maxElementsToRender: 50,
       resizePreview: false,
       popoverButtonLabel: "View",
@@ -54,37 +71,33 @@ export default {
       isMobile: false
     };
   },
-  components: {},
+  components: {
+    'QIcon': QIcon
+  },
   methods: {
     postCreate() {
       this.jwtToken = Services.getUserService().getToken()
-
       this.isMobile = has("mobile");
-
       if (this.big) {
         this.colWidth = 352;
         css.add(this.domNode, "MatcAppListBig");
         this.columns = 3;
       }
-
       if (this.small) {
         this.colWidth = 180;
         css.add(this.domNode, "MatcAppListSmall");
         this.columns = 1;
       }
-
       if (this.isMobile) {
         css.add(this.domNode, "MatcAppListMobile");
       }
 
       this.initListeners();
-
       this.initLoading();
-
       this.initSearch();
     },
 
-    initLoading: function() {
+    initLoading () {
       try {
         this.container.innerHTML = "";
         var parent = document.createElement("div");
@@ -110,13 +123,12 @@ export default {
       this.cleanUp();
     },
 
-    initSearch: function() {
+    initSearch () {
       this.searchInput.value = "";
       if (!this.hasSearch) {
         css.add(this.searchCntr, "hidden");
       } else {
         css.remove(this.searchCntr, "hidden");
-        this.own(on(this.searchBtn, touch.press, lang.hitch(this, "showSearch")));
         this.own(on(this.searchInput, "keypress", function(e) {
               e.stopPropagation();
         }));
@@ -127,7 +139,7 @@ export default {
       }
     },
 
-    showSearch: function() {
+    showSearch () {
       css.add(this.searchCntr, "MatcListSearchVisible");
       var me = this;
       setTimeout(function() {
@@ -135,7 +147,7 @@ export default {
       }, 10);
     },
 
-    onSearch: function(e) {
+    onSearch (e) {
       e.stopPropagation();
 
       this.cleanUp();
@@ -251,56 +263,18 @@ export default {
       this.render(value, false);
     },
 
-    onRenderAdd (item) {
-      css.add(
-        item,
-        " MatcContentBox MatcShadowBox MatcAppListBox MatcAppListAddBox"
-      );
-
-      var phone = document.createElement("a");
-
-      css.add(phone, "MatcPointer");
-      item.appendChild(phone);
-
-      var wrapper = document.createElement("div");
-      css.add(wrapper, "MatcPreviewWrapper");
-      this.setPreviewWrapperSize(wrapper);
-      phone.appendChild(wrapper);
-
-      var add = document.createElement("div");
-      css.add(add, "MatcApplListAdd");
-      wrapper.appendChild(add);
-
-      var span = document.createElement("span");
-      css.add(span, "mdi mdi-plus-circle");
-      add.appendChild(span);
-
-      var p = document.createElement("p");
-      css.add(p, "MatcHint MatcCenter MatcListItemDescription");
-
-      if (this.pub) {
-        p.innerHTML = this.getNLS("applist.sign-in");
-        phone.href = "#/apps/signup-and-create-app.html";
-      } else {
-        p.innerHTML = this.getNLS("applist.add");
-        phone.href = "#/apps/create-app.html";
-      }
-
-      item.appendChild(p);
-    },
-
     renderItem (item, app, i) {
       if (!this.widgets) {
         this.widgets = {};
       }
 
-      var temp = document.createElement("a");
+      const temp = document.createElement("a");
       item.appendChild(temp);
       item = temp;
 
-      css.add(item, "MatcAppListItem MatcContentBox MatcShadowBox MatcAppListBox");
+      css.add(item, "MatcAppListItem MatcContentBox MatcAppListBox");
 
-      var widget = this.createScreenWidget(app);
+      const widget = this.createScreenWidget(app);
       if (widget) {
         if (this.hasStackView) {
           var stack = document.createElement("div");
@@ -308,15 +282,12 @@ export default {
           item.appendChild(stack);
         }
 
-        var wrapper = document.createElement("div");
+        const wrapper = document.createElement("div");
         css.add(wrapper, "MatcPreviewWrapper MatcPreviewWrapperLoadable");
         this.setPreviewWrapperSize(wrapper);
         widget.loadingMessage = "Loading...";
-
        
         item.appendChild(wrapper);
-        
-
         widget.placeAt(wrapper);
         this.widgets[i] = widget;
         this.setMethod(temp, app);
@@ -349,11 +320,28 @@ export default {
     },
 
     renderDescription (app, item) {
-      var des = this.getDescription(app);
-      var p = document.createElement("p");
-      p.innerHTML = des;
-      css.add(p, "MatcListItemDescription");
-      item.appendChild(p);
+
+      const cntr = document.createElement("div");
+      css.add(cntr, "MatcListItemDescription");
+
+      const name = document.createElement("h3")
+      name.innerHTML = this.getDescription(app);
+      cntr.appendChild(name)
+
+      const time = document.createElement("p")
+      time.innerHTML = "Last edit: " + this.formatDate(app.lastUpdate, true)
+      cntr.appendChild(time)
+
+      
+      item.appendChild(cntr);
+    },
+
+    formatDate (t, justDate) {
+      var date = new Date(t);
+      if (justDate) {
+        return date.toLocaleDateString();
+      }
+      return date.toLocaleString();
     },
 
     onBeforeResize () {

@@ -72,33 +72,44 @@
 
 .MatcListSearchCntr{
 	text-align: right;
-	margin-bottom: 30px;
+	width: 240px;
+
+	.MatcSearchForm {
+		display: inline-block;
+		border-bottom: 1px solid transparent;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;		
+	}
+
+
+	.MatcQIcon{
+		display: inline-flex;
+	}
+
+	input{
+		width: 0px;
+		opacity:0;
+		transition: all 0.3s;
+		margin-right: 10px;
+		border:0px;
+		padding:3px;
+		background: none;
+   }
+
 }
 
-.MatcSearchForm input{
- 	width: 0px;
- 	opacity:0;
- 	transition: all 0.3s;
- 	margin-right: 10px;
- 	border:0px;
-
- 	padding:3px;
- 	background: none;
+.MatcListSearchVisible{
+	.MatcSearchForm{
+		border-bottom: 1px solid #ccc;
+	}
+	input{
+		width: 200px;
+		opacity:1;
+	}
 }
 
-.MatcSearchForm{
-	display: inline-block;
-	border-bottom: 1px solid transparent;
-}
 
-.MatcListSearchVisible input{
-	width: 200px;
-	opacity:1;
-}
-
-.MatcListSearchVisible .MatcSearchForm{
-	border-bottom: 1px solid #ccc;
-}
 
 
 .MatcAppListMobile{
@@ -203,15 +214,6 @@
  * Screen List
  ****************************************************/
 
-.MatcScreenList .MatcPreviewWrapper{
-	width:250px;
-	opacity: 1;
-	transition-duration: 0.2s;
-}
-
-.MatcScreenList .MatcListItem:hover .MatcPreviewWrapper{
-	opacity: 0.8;
-}
 
 .MatcAppListLoading .MatcPreviewWrapperLoadable{
 	background: #f2f2f2;
@@ -227,13 +229,94 @@
  * App List
  ****************************************************/
 
-.MatcAppList .MatcListItem{
-	margin-bottom: 50px;
+ .MatcListItem{
+	margin-bottom: 48px;
 }
 
-.MatcAppList .MatcListItem:HOVER{
-	margin-bottom: 50px;
-}
+.MatcAppList {
+
+	.MatcContentBox {
+		background: #fff;
+		border-radius: $page_preview_radius;
+		box-shadow: none;
+		outline: 1px solid transparent;
+		border: none;
+
+		.MatcPreviewWrapper{
+			border-top-right-radius: $page_preview_radius;
+			border-top-left-radius: $page_preview_radius;
+			border:none;
+			height:180px;
+			position: relative;			
+		}
+		
+		&:hover {
+			outline: 1px solid $primary_color;
+		}
+
+		.MatcListItemDescription{
+			width: 240px;
+			height: 120px;
+			overflow:hidden;
+			font-size: 16px;
+			padding: 16px;
+			border-top: 1px solid $gray_1;
+			color: $text_color;
+
+			h3{
+				margin-bottom: 8px;
+				font-weight: 600;
+				font-size: 16px;
+			}
+
+			p {		
+				font-weight: 400px;
+				font-size: 14px;
+				color: $gray_3;
+			}
+		}
+
+		.MatcListItemName {
+			font-weight: 700;
+			font-size: 16px;
+		}
+	}
+} 
+
+.MatcScreenList {
+
+	.MatcContentBox {
+		box-shadow: none;
+		outline: 1px solid transparent;
+		border: none;
+		background: none;
+
+		.MatcPreviewWrapper{
+			border-radius: $page_preview_radius_xs;
+			border:none;
+			height:350px;
+			position: relative;			
+		}
+		
+		&:hover {
+			.MatcPreviewWrapper {
+				outline: 1px solid $primary_color;
+			}
+		}
+
+		.MatcListItemDescription{
+			width: 230px;
+			height: 32px;
+			overflow:hidden;
+			font-style: italic;
+			font-size: 16px;
+			font-weight: 300;
+			line-height: 1.4;
+			padding: 8px;
+			text-align: center;	
+		}
+	}
+} 
 
 .MatcListItem a:hover{
 	text-decoration: none;
@@ -248,141 +331,6 @@
 	margin-right: 0px;
 }
 
-.MatcListItemName{
-	margin-top:30px;
-	font-weight: 300;
-}
-
-.MatcListItemDescription{
-	height: 50px;
-	overflow:hidden;
-	font-style: italic;
-	font-size: 16px;
-    font-weight: 300;
-    line-height: 1.4;
-    padding: 10px;
-    color:#333;
-}
-
-.MatcAppList .MatcPreviewWrapper{
-	width:250px;
-	height:250px;
-	transition-duration: 0.5s;
-	box-shadow:none;
-}
-
-.MatcAppList.MatcAppListBig .MatcPreviewWrapper{
-	width:350px;
-	height:300px;
-}
-
-.MatcAppList.MatcAppListSmall .MatcPreviewWrapper{
-	width:178px;
-	height:160px;
-}
-
-
-.MatcAppListItemAdd{
-	border: 3px dashed #cecece;
-	 transition-property: all;
-    transition-duration: 0.5s;
-}
-
-.MatcAppListItemAdd:HOVER{
-	border: 3px dashed $primary_color;
-}
-
-.MatcApplListAdd{
-	font-size: 150px;
-	color: #cecece;
-	width:100%;
-	text-align: center;
-    display: inline-block;
-    border-radius:50%;
-    margin-top:30px;
-    transition-duration: 0.2s;
-}
-
-.MatcListItem:HOVER .MatcApplListAdd{
-	color:#92c500;
-}
-
-.MatcAppListItem p{
-	width: 230px;
-}
-
-.MatcAppListBig .MatcAppListItem p{
-	width: 330px;
-}
-
-.MatcAppListItem h3{
-	color:#333;
-	font-weight: bold;
-	margin: 0px;
-	margin-bottom: 30px;
-}
-
-
-.MatcAppListBox.MatcContentBox.MatcShadowBox{
-	background: none;
-	border:none;
-	box-shadow:none;
-	text-align: center;
-	border-radius:3px;
-}
-
-
-.MatcAppListBox.MatcContentBox.MatcShadowBox.MatcAppListAddBox .MatcPreviewWrapper{
-	background: #fff;
-}
-
-.MatcAppListBox .MatcPreviewWrapper{
-	transition-duration: 0.2s;
-    transition-property: all;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    border-radius:3px;
-    border:1px solid #ddd;
-}
-
-
-
-.MatcAppListBox:hover .MatcPreviewWrapper{
-	transition-duration: 0.2s;
-    transition-property: all;
-    box-shadow: 0 0px 5px rgba(0,0,0,0.20);
-    border:1px solid $primary_color;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.25);
-
-}
-
-.MatcAppListBox .MatcPreview{
-	transition-duration: 2.0s;
-    transition-property: transform;
-}
-
-.MatcAppListBox:hover .MatcPreview{
-
-}
-
-.MatcAppList .MatcAppListBox .MatcPreviewWrapper{
-	height:350px;
-	position: relative;
-}
-
-.MatcAppList.MatcAppListBig .MatcAppListBox .MatcPreviewWrapper{
-	height:450px;
-}
-
-.MatcAppListBox .MatcApplListAdd{
-    margin-top:50px;
-    transition-duration: 0.5s;
-    transition-property: all;
-}
-
-.MatcAppListBox.MatcListItem:HOVER .MatcApplListAdd{
-	color:$primary_color;
-	transform:scale(1.05, 1.05);
-}
 
 .MatcAppListStack{
 	width: 100%;

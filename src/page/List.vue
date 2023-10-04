@@ -36,28 +36,28 @@ export default {
   },
   components: {},
   methods: {
-    constructor: function() {
+    constructor() {
       this.log = new Logger("List");
       this.own(on(window, "resize", lang.hitch(this, "onResize")));
     },
 
-    setValue: function(value) {
+    setValue(value) {
       this.render(value, this.animate);
     },
 
-    setColumns: function(value) {
+    setColumns(value) {
       this.columns = value;
     },
 
-    setSpacing: function(value) {
+    setSpacing(value) {
       this.spacing = value;
     },
 
-    setItemFct: function(fct) {
+    setItemFct(fct) {
       this.itemRenderFct = fct;
     },
 
-    render: function(list, animate) {
+    render(list, animate) {
       this.log.log(0, "render", "enter > " + list.length);
 
       if (this.colWidth > 0) {
@@ -74,18 +74,7 @@ export default {
       var parent = document.createElement("div");
 
       var offSet = 0;
-      if (this.canAdd && !this.isMobile) {
-        this._renderRow(0, parent, width, spacing);
-
-        let item = document.createElement("div");
-        css.add(item, "MatcListItem");
-
-        this.onRenderAdd(item);
-
-        let col = this.cols[0 % this.columns];
-        col.appendChild(item);
-        offSet++;
-      }
+ 
 
       var end = this.getElementsToRender(list);
       for (let j = 0; j < end; j++) {
@@ -124,7 +113,7 @@ export default {
       this.log.log(0, "render", "exit > ");
     },
 
-    renderMore: function(list, parent) {
+    renderMore(list, parent) {
       this.log.log(
         2,
         "renderMore",
@@ -140,7 +129,7 @@ export default {
       }
     },
 
-    showMore: function(list) {
+    showMore(list) {
       this.maxElementsToRender = Math.min(
         list.length,
         this.maxElementsToRenderStep + this.maxElementsToRender
@@ -153,7 +142,7 @@ export default {
       this.onResize();
     },
 
-    getElementsToRender: function(list) {
+    getElementsToRender(list) {
       this.log.log(
         2,
         "getElementsToRender",
@@ -162,7 +151,7 @@ export default {
       return Math.min(list.length, this.maxElementsToRender);
     },
 
-    showItem: function(item, i) {
+    showItem(item, i) {
       setTimeout(function() {
         css.remove(item, "MatcListItemHidden");
       }, 100 + Math.min(i, 10) * 50);
@@ -171,25 +160,25 @@ export default {
     /**
      * Template methods for child classes to overwrite
      */
-    onRenderDone: function() {},
+    onRenderDone() {},
 
     /**
      * Template methods for child classes to overwrite
      */
-    onRenderAdd: function() {},
+    onRenderAdd() {},
 
     /**
      * Template methods for child classes to overwrite
      */
-    renderItem: function(node, element, i) {
+    renderItem(node, element, i) {
       if (this.itemRenderFct) {
         this.itemRenderFct(node, element, i);
       }
     },
 
-    onBeforeResize: function() {},
+    onBeforeResize() {},
 
-    _renderRow: function(i, parent, width, spacing) {
+    _renderRow(i, parent, width, spacing) {
       if (this.grid && i % this.columns == 0) {
         this._colsCreated = false;
       }
@@ -215,7 +204,7 @@ export default {
       }
     },
 
-    getColWidth: function() {
+    getColWidth() {
       if (this.colWidth < 0) {
         var width = domGeom.position(this.container).w;
         return Math.floor(
@@ -225,7 +214,7 @@ export default {
       return this.colWidth;
     },
 
-    getSpacing: function() {
+    getSpacing() {
       if (this.spacing < 0) {
         var width = domGeom.position(this.container).w;
         return Math.floor(
@@ -235,12 +224,12 @@ export default {
       return this.spacing;
     },
 
-    cleanUp: function() {
+    cleanUp() {
       this._colsCreated = false;
       this.cols = true;
     },
 
-    onResize: function() {
+    onResize() {
       this.log.log(0, "onResize", "enter");
 
       this.cleanUp();

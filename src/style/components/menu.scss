@@ -4,127 +4,64 @@
  /****************************************************
  * Menu
  ****************************************************/
+$menu_left_right_width: 200px;
 
+.MatcHeader {
+	width: 100%;
+	height: $toolbar_height;
 
-.MatcMainMenu{
-	border:none;
-	width:100%;
-	top:0;
-	background: none;
-	border-bottom: none;
-	padding: 8px 0;
-	background: #fff;
-	border-bottom: 1px solid #dbdbdb;
-
-	.MatcMainMenuLogo {
-		width: 24px;
-		height: 24px;
-		color: $primary_color;
-
-	}
-
-	svg{
-		stroke-width:2;
-		stroke:green;
-		fill : #ff0000
-	}
-}
-
-.MatcMainMenuToolbar.MatcMainMenu{
-	border:none;
-}
-
-a.is-logo{
-	font-weight: 900;
-	color: #fff!important;
-}
-
-
-.MatcMainMenuItem{
-	padding: 12px;
-	padding-bottom:12px;
- 	cursor: pointer;
-	display: inline-block;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	font-size: 14px;
-	letter-spacing: .5px;
-	color:#363636
 
+	a{
+		color: $text_color;
+		font-weight: 600;
+		&:hover {
+			color: $primary_color;
+		}
+	}
+
+	.MatcHeaderLogo {
+		height: 16px;
+		width: 16px;
+		filter: brightness(0.2);
+	}
+
+	.MatcHeaderRight {
+		display: flex;
+		align-items: center;
+
+		justify-content: flex-end;
+		height: 100%;
+		padding: 0px $spacing-xl;
+		gap: 16px;
+		width: $menu_left_right_width;
+	}
+
+	.MatcHeaderCenter {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		justify-content: space-between;
+
+		.MatcHeaderCenterLeft {
+			display: flex;
+			align-items: center;
+			height: 100%;
+			gap: 32px;
+			flex-grow: 1;
+		}
+
+	}
+
+	.MatcHeaderLeft {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		padding: 0px $spacing-xl;
+		gap: 8px;
+		width: $menu_left_right_width;
+	}
 }
-
-
- .MatcMainMenuItem:FIRST-CHILD{
- 	margin-left:-15px;
- }
-
-.MatcMainMenuItem:HOVER,
-.MatcMainMenuItem:FOCUS{
-	text-decoration: none;
-	color:#fff;
-
-}
-
-#mainMenuSignUpButton{
-	color:#fff;
-	background: rgba(255,255,255,0.2);
-	border-radius: 3px;
-	border:1px solid #fff;
-}
-
-#mainMenuSignUpButton:hover{
-	background: rgba(255,255,255,0.35);
-}
-
-#mainMenuLoginButton{
-	color:#fff!important;
-}
-
-.MatcMainMenuItemSelected{
-
-	color:#fff;
-}
-
-
-/********************************************
- * The main menu in dark
- ********************************************/
-
-
-.MatcMainMenuPublic .MatcMainMenuItem:HOVER,
-.MatcMainMenuPublic .MatcMainMenuItem:FOCUS,
-.MatcMainMenuPublic .MatcMainMenuItemSelected{
-	text-decoration: none;
-	color:$primary_color;
-	background: none;
-}
-
-
-
-/********************************************
- * Menu small
- ********************************************/
-
-.MatcMainMenuSmall .MatcMainMenuItem {
-	font-size: 11px;
-	color:rgba(255,255,255,0.6);
-}
-
-.MatcMainMenuSmall .MatcMainMenuItem:hover {
-	font-size: 11px;
-	color:rgba(255,255,255,1);
-}
-
-.MatcMainMenuSmall .MatcMainMenuItem:HOVER,
-.MatcMainMenuSmall .MatcMainMenuItem:FOCUS,
-.MatcMainMenuSmall .MatcMainMenuItemSelected{
-	text-decoration: none;
-	color:rgba(255,255,255,0.6);
-}
-
-
-
-/********************************************
- * Light Blue small
- ********************************************/
-.MatcMainMenuFeatures.MatcMainMenu{
-}
-

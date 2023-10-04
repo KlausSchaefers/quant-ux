@@ -6,7 +6,7 @@
           <div class="level-left"></div>
           <div class="level-right">
             <a
-              class="button is-success level-item"
+              class="MatcButton level-item"
               :href="`#/${urlPrefix}/${app.id}/analyze/workspace.html`"
             >Open Analytic Canvas</a>
           </div>

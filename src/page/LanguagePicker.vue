@@ -5,7 +5,7 @@
       <span v-if="hasLabel">
         {{selectedLanguage}}
       </span>
-      <span data-dojo-attach-point="label" class="mdi mdi-earth"></span>
+      <QIcon icon="World"></QIcon>
       <span class="caret" v-if="hasCarret"></span>
     </div>
     <div class="MatcDropDownPopUp" role="menu" data-dojo-attach-point="popup" v-if="isVisible">
@@ -24,6 +24,7 @@
 import on from "dojo/on";
 import win from "dojo/_base/win";
 import Logger from "common/Logger";
+import QIcon from "../page/QIcon";
 
 export default {
   name: "LangaugePicker",
@@ -55,6 +56,7 @@ export default {
     };
   },
   components: {
+    'QIcon': QIcon
   },
   computed: {
     selectedLanguage () {
