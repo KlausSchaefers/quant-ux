@@ -1,26 +1,27 @@
 <template>
   <div class="MatcHeader" id="">
-
-    <div class="MatcHeaderLeft">
-      <img src="../style/img/QUXLogo5.svg" class="MatcHeaderLogo">
-      <a href="#/">
-        Quant-UX
-      </a>
-
-    </div>
-    <div class="container MatcHeaderCenter">
-      <div class="MatcHeaderCenterLeft">
-        <a class="" href="#/">{{ $t('header.my-prototypes') }}</a>
-        <a class="" href="#/help.html">{{ $t('header.documentation') }}</a>
+ 
+      <div class="MatcHeaderLeft">
+        <img src="../style/img/QUXLogo5.svg" class="MatcHeaderLogo">
+        <a href="#/">
+          Quant-UX
+        </a>
       </div>
-      <div class="MatcHeaderCenterRight">
-        <LanguagePicker @change="setLanguage" />
+      <div class="container MatcHeaderCenter">
+        <div class="MatcHeaderCenterLeft">
+          <a class="" href="#/">{{ $t('header.my-prototypes') }}</a>
+          <a class="" href="#/help.html">{{ $t('header.documentation') }}</a>
+        </div>
+        <div class="MatcHeaderCenterRight">
+          <LanguagePicker @change="setLanguage" />
+        </div>
       </div>
-    </div>
-    <div class="MatcHeaderRight">
-      <a class="" href="#/my-account.html">{{ $t('header.my-account') }}</a>
-    </div>
-  </div>
+      <div class="MatcHeaderRight">
+        <a class="" href="#/logout.html">{{ $t('header.logout') }}</a>
+        <a class="" href="#/my-account.html">{{ $t('header.my-account') }}</a>
+      </div>
+
+</div>
 </template>
 
 <style lang="scss">

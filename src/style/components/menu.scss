@@ -64,4 +64,33 @@ $menu_left_right_width: 200px;
 		gap: 8px;
 		width: $menu_left_right_width;
 	}
+
+	
 }
+
+$mobile_gap: 24px;
+
+@media (max-width: 1600px) {
+
+	.MatcHeader {
+		max-width: 1152px;
+		margin-left: auto;
+		margin-right: auto;
+		gap: $mobile_gap;
+
+		.MatcHeaderLeft {
+			width: auto;
+			padding: 0;
+		}
+		.MatcHeaderRight,
+		.MatcHeaderCenter .MatcHeaderCenterLeft,
+		.MatcHeaderCenter .MatcHeaderCenterRight {
+			width: auto;
+			padding: 0;
+			gap: $mobile_gap;
+		}
+	}
+	
+
+}
+
