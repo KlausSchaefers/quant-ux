@@ -153,17 +153,17 @@ export default {
       this.cleanUp();
       this.onBeforeResize();
 
-      var filter = this.searchInput.value;
+      let filter = this.searchInput.value;
 
       if (filter && filter.length >= 2) {
         filter = filter.toLowerCase();
-        var filtered = [];
-        for (var i = 0; i < this.value.length; i++) {
-          var item = this.value[i];
-          var added = false;
-          for (var j = 0; j < this.searchFields.length; j++) {
-            var field = this.searchFields[j];
-            var fieldValue = item[field];
+        const filtered = [];
+        for (let i = 0; i < this.value.length; i++) {
+          const item = this.value[i];
+          let added = false;
+          for (let j = 0; j < this.searchFields.length; j++) {
+            const field = this.searchFields[j];
+            const fieldValue = item[field];
             if (
               !added &&
               fieldValue &&
@@ -207,7 +207,7 @@ export default {
 
     async setLoadingPreview(value) {
       this.log.log(0, "setLoadingPreview", "enter > " + value.length);
-      value.sort(function(a, b) {
+      value.sort((a, b) => {
         return b.lastUpdate - a.lastUpdate;
       });
       value = this.filterApps(value);
@@ -231,8 +231,8 @@ export default {
       });
       value = this.filterApps(value);
       this.value = value;
-      for (var i = 0; i < value.length; i++) {
-        var app = value[i];
+      for (let i = 0; i < value.length; i++) {
+        let app = value[i];
         if (this.widgets[i]) {
           this.widgets[i].loadingMessage = "No Start Screen!";
           this.widgets[i].setModel(app);
@@ -243,9 +243,9 @@ export default {
     },
 
     filterApps (apps) {
-      var result = [];
-      for (var i = 0; i < apps.length; i++) {
-        var app = apps[i];
+      const result = [];
+      for (let i = 0; i < apps.length; i++) {
+        let app = apps[i];
         if (!app.isDeleted) {
           result.push(app);
         } else {
@@ -256,7 +256,7 @@ export default {
     },
 
     setValue (value) {
-      value.sort(function(a, b) {
+      value.sort((a, b) => {
         return b.lastUpdate - a.lastUpdate;
       });
       this.value = value;
@@ -337,7 +337,7 @@ export default {
     },
 
     formatDate (t, justDate) {
-      var date = new Date(t);
+      let date = new Date(t);
       if (justDate) {
         return date.toLocaleDateString();
       }
@@ -347,7 +347,7 @@ export default {
     onBeforeResize () {
       this.log.log(4, "onBeforeResize", "enter");
       if (this.widgets) {
-        for (var i = 0; i < this.widgets.length; i++) {
+        for (let i = 0; i < this.widgets.length; i++) {
           this.widgets[i].destroy();
         }
       }
@@ -376,7 +376,7 @@ export default {
     },
 
     getDescription (app) {
-      var des = "";
+      let des = "";
       if (app.name) {
         des += this.stripHTML(app.name);
       }
@@ -384,8 +384,8 @@ export default {
     },
 
     onRenderDone (value) {
-      for (var i = 0; i < value.length; i++) {
-        var app = value[i];
+      for (let i = 0; i < value.length; i++) {
+        let app = value[i];
         if (this.widgets[i]) {
           this.widgets[i].setModel(app);
         }
