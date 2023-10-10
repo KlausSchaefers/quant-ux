@@ -9,7 +9,7 @@ export default class FigmaService {
     this.buttonTypes = ['RECTANGLE', 'TEXT', 'FRAME']
     this.ignoredTypes = ['GROUP', 'INSTANCE']
     this.allAsVecor = false
-    this.max_ids = 50
+    this.max_ids = 10
     this.pluginId = '858477504263032980',
     this.downloadVectors = true
   }
@@ -52,12 +52,13 @@ export default class FigmaService {
     return pages
   }
 
-  getImages (key, ids) {
+  getImages (key, ids, scale=2) {
+    Logger.log(1, 'getImages() > enter', scale)
     return new Promise ((resolve, reject) => {
       /**
        * Get in double resolution
        */
-      let url = this.baseURL + 'images/' + key + '?format=png&scale=2&ids=' + ids
+      let url = this.baseURL + 'images/' + key + '?format=png&scale=' + scale + '&ids=' + ids
       fetch(url, {
         method: 'get',
         credentials: "same-origin",
@@ -187,17 +188,27 @@ export default class FigmaService {
 
   async addBackgroundImages(id, model, importChildren) {
     if (this.downloadVectors) {
-      let vectorWidgets = this.getElementsWithBackgroundIMage(model, importChildren)
+      const vectorWidgets = this.getElementsWithBackgroundIMage(model, importChildren)
+      const maxWidth = Math.max(... vectorWidgets.map(v => v.w))
+      const maxHeight = Math.max(... vectorWidgets.map(v => v.h))
+      const scale = this.getScale(maxWidth, maxHeight)
       if (vectorWidgets.length > 0) {  
-        Logger.log(-1, 'addBackgroundImages() > vectors', vectorWidgets.length)
-        let batches = this.getChunks(vectorWidgets, this.max_ids)  
-        let promisses = batches.map((batch,i) => {
-          return this.addBackgroundImagesBatch(id, batch, i)
+        Logger.log(-1, `addBackgroundImages() > vectors ${vectorWidgets.length} , w: ${maxWidth}, h: ${maxHeight}, scale: ${scale}`)
+        const batches = this.getChunks(vectorWidgets, this.max_ids)  
+        const promisses = batches.map((batch,i) => {
+          return this.addBackgroundImagesBatch(id, batch, i, scale)
         })
         await Promise.all(promisses)
       }
       Logger.log(1, 'addBackgroundImages() > exit')
     }
+  }
+
+  getScale(width, height) {
+    if (width > 2000 || height > 3000) {
+      return 1
+    }
+    return 2
   }
 
   getElementsWithBackgroundIMage (model, importChildren) {
@@ -208,11 +219,11 @@ export default class FigmaService {
     }
   }
 
-  async addBackgroundImagesBatch(id, batch, i) {
-    Logger.log(3, 'addBackgroundImagesBatch() > start', i)
+  async addBackgroundImagesBatch(id, batch, i, scale = 2) {
+    Logger.log(-1, 'addBackgroundImagesBatch() > batch : ' + i + ' @ '+ scale)
     return new Promise((resolve, reject) => {
       let vectorWidgetIds = batch.map(w => w.figmaId).join(',')
-      this.getImages(id, vectorWidgetIds).then(imageResponse => {
+      this.getImages(id, vectorWidgetIds, scale).then(imageResponse => {
         if (imageResponse.err === null) {
           Logger.log(3, 'addBackgroundImagesBatch () > end', i)
           let images = imageResponse.images
