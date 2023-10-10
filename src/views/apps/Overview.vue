@@ -239,10 +239,25 @@ export default {
           this.events = events;
           this.loading = false
           this.logger.log(-1, "loadEvents", "Found " + events.length + " events");
+          this.checkEventCount()
         });
       } catch (e) {
           this.logger.error("loadEvents", "Some error");
           this.logger.sendError(e);
+      }
+    },
+    async checkEventCount () {
+      const loads = this.events.filter(e => e.type === 'SessionStart')
+      this.logger.log(-1, "checkEventCount", "Check " + this.app.sessionCount + " ?= " + loads.length);
+      if (this.app.sessionCount !== loads.length && this.app && this.app.id) {
+        const res = await this.modelService.updateAppProps(this.app.id, {
+          id: this.app.id,
+          sessionCount: loads.length
+        });
+        if (res.status !== "ok") {
+          this.logger.error("checkEventCount", "Could not update");
+          this.logger.sendError(new Error());
+        }
       }
     },
     loadRest() {

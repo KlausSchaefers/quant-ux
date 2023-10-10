@@ -338,7 +338,10 @@
             "team": "Team",
             "run-test": "Run Test",
             "share": "Share"
-        }
+        },
+        "lastEdit": "Last update",
+        "numberTests": "Tests",
+        "create": "Create"
     },
     "survey": {
         "video": "Video",

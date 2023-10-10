@@ -23,7 +23,7 @@
            
           </div>
           <a href="#/apps/create-app.html" class="MatcButton MatcButtonPrimary  MatcButtonXS" v-if="canAdd">
-                  Create
+            {{ $t('app.create')}}
                 </a>
         </div>
       
@@ -324,14 +324,25 @@ export default {
       const cntr = document.createElement("div");
       css.add(cntr, "MatcListItemDescription");
 
+      const top =  document.createElement("div");
+      css.add(top, "MatcListItemDescriptionTop");
+      cntr.appendChild(top)
+
       const name = document.createElement("h3")
-      name.innerHTML = this.getDescription(app);
-      cntr.appendChild(name)
+      name.innerText = this.getDescription(app);
+      top.appendChild(name)
 
       const time = document.createElement("p")
-      time.innerHTML = "Last edit: " + this.formatDate(app.lastUpdate, true)
-      cntr.appendChild(time)
+      time.innerText =  this.getNLS("app.lastEdit") +": " + this.formatDate(app.lastUpdate, true)
+      top.appendChild(time)
 
+      const bottom =  document.createElement("div");
+      css.add(bottom, "MatcListItemDescriptionBottom");
+      cntr.appendChild(bottom)
+
+      const sessions = document.createElement("p")
+      sessions.innerText = (app.sessionCount ? app.sessionCount : 0) + " " + this.getNLS("app.numberTests")
+      bottom.appendChild(sessions)
       
       item.appendChild(cntr);
     },
