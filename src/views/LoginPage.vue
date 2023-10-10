@@ -45,7 +45,10 @@
                                         <input class=" form-control" placeholder="Your password" type="password" v-model="password" @keyup.enter="signup">
                                     </div>
                                     <div class=" form-group has-feedback" >
-                                        <CheckBox v-model="tos" label="I accept the term of service"/>
+                                        <div class="MatcCheckboxRow">
+                                        <CheckBox v-model="tos" label=""/>
+                                        <span @click="tos=true">I accept the <a href="#/tos.html" target="_blank">terms of service</a></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <span class="MatcErrorLabel">{{errorMessage}}</span>
@@ -70,7 +73,7 @@
                                 </div>
                                 <span class="MatcErrorLabel" >{{errorMessage}}</span>
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton MatcButtonPrimary" @click="resetPassword">Set new password</a>                                
+                                    <a class="MatcButton MatcButtonDanger" @click="resetPassword">Set new password</a>                                
                                 </div>
                             </div> 
                         </div><!-- reset-->
@@ -84,7 +87,10 @@
             
           
         </div> <!-- Dialog -->
+
+       
     </div>
+
 </template>
 
 
@@ -99,7 +105,6 @@
 import Services from 'services/Services'
 import Logger from 'common/Logger'
 import CheckBox from '../common/CheckBox.vue'
-
 
 export default {
   name: "Header",

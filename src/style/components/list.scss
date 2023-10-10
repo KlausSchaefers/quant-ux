@@ -234,13 +234,15 @@
 	margin-bottom: 48px;
 }
 
+
+
 .MatcAppList {
 
 	.MatcContentBox {
 		background: #fff;
 		border-radius: $page_preview_radius;
-		box-shadow: none;
-		outline: 1px solid transparent;
+		box-shadow: $page_drop_shadow_soft;
+		outline: 1px solid $gray_1;
 		border: none;
 
 		.MatcPreviewWrapper{
@@ -294,6 +296,7 @@
 
 		.MatcPreviewWrapper{
 			border-radius: $page_preview_radius_xs;
+			box-shadow: $page_drop_shadow_soft;
 			border:none;
 			height:350px;
 			position: relative;			
