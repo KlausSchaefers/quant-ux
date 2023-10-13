@@ -22,31 +22,44 @@
                 <li :class="[{'is-active': tab == 'design'}]">
                   <a :href="`#/${urlPrefix}/${appID}/design.html`">{{ $t('app.overview.design')}}</a>
                 </li>
+                <span class="MatcOverviewChevron">
+                  >
+                </span>
+            
                 <li :class="[{'is-active': tab == 'test' || tab === 'video'}]">
                   <a :href="`#/${urlPrefix}/${appID}/test.html`">{{ $t('app.overview.test')}}</a>
                 </li>
+                <span class="MatcOverviewChevron">
+                  >
+                </span>
                 <li :class="[{'is-active': tab == 'analyze'}]">
                   <a :href="`#/${urlPrefix}/${appID}/analyze.html`">{{ $t('app.overview.dash')}}</a>
                 </li>
-                <li :class="[{'is-active': tab == 'heat'}]">
+                <!-- <li :class="[{'is-active': tab == 'heat'}]">
                   <a :href="`#/${urlPrefix}/${appID}/heat.html`">{{ $t('app.overview.heat')}}</a>
                 </li>
                 <li :class="[{'is-active': tab == 'settings'}]">
                   <a :href="`#/${urlPrefix}/${appID}/settings.html`" v-if="!isPublic">{{ $t('app.overview.settings')}}</a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
           <div class="level-right">
             <div class="level-item">
+            <a
+                class="MatcButton MatcButtonXS MatcButtonPrimary"
+                :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`"
+                id="overviewHeaderRunTest">{{ $t('app.overview.analytic-canvas')}}</a>
+            </div>
+            <div class="level-item">
               <a
-                class="MatcButton MatcButtonPrimary"
+                class="MatcButton MatcButtonXS MatcButtonPrimary"
                 target="test"
                 :href="'#/test.html?h=' + hash + '&log=' + !isPublic"
                 id="overviewHeaderRunTest">{{ $t('app.overview.run-test')}}</a>
             </div>
             <div class="level-item">
-              <a class="MatcButton MatcButtonPrimary" @click="showShareDialog" ref="shareButton">{{ $t('app.overview.share')}}</a>
+              <a class="MatcButton MatcButtonXS MatcButtonPrimary" @click="showShareDialog" ref="shareButton">{{ $t('app.overview.share')}}</a>
             </div>
           </div>
         </div>
@@ -247,6 +260,9 @@ export default {
       }
     },
     async checkEventCount () {
+      if (this.isPublic) {
+        return
+      }
       const loads = this.events.filter(e => e.type === 'SessionStart')
       this.logger.log(-1, "checkEventCount", "Check " + this.app.sessionCount + " ?= " + loads.length);
       if (this.app.sessionCount !== loads.length && this.app && this.app.id) {

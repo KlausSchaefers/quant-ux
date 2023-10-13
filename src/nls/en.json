@@ -105,9 +105,12 @@
     },
     "header": {
         "my-prototypes": "My Prototypes",
+        "examples": "Examples",
         "documentation": "Documentation",
         "my-account": "My Account",
-        "logout": "Logout"
+        "logout": "Logout",
+        "login": "Login",
+        "signup": "SignUp for Free"
     },
     "script": {
         "edit": "Edit",
@@ -332,10 +335,11 @@
         "overview": {
             "design": "Design",
             "test": "Test",
-            "dash": "Dashboard",
+            "dash": "Results",
             "heat": "Heat Maps",
             "settings": "Settings",
             "team": "Team",
+            "analytic-canvas": "Analytic Canvas",
             "run-test": "Run Test",
             "share": "Share"
         },

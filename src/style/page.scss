@@ -12,6 +12,18 @@ body {
 	font-family: 'Inter', 'Helvetica Neue', -apple-system, 'BlinkMacSystemFont', "Segoe UI", 'Helvetica', sans-serif;
 }
 
+.box.is-shadowless{
+	box-shadow: $page_drop_shadow_soft !important;
+	border-radius: $page_preview_radius;
+	border: 1px solid $page_border;
+}
+
+.MatcOverviewChevron {
+	color: $gray_3;
+	margin-left: 8px;
+	margin-right: 8px;
+	display: none;
+}
 
 .MatcPageHeader {
 	width: 100%;
