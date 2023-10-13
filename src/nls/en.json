@@ -215,7 +215,8 @@
         "post": "Post",
         "close": "Close",
         "import": "Import",
-        "export": "Export"
+        "export": "Export",
+        "rename": "Rename"
     },
     "dialog": {
         "import": {
