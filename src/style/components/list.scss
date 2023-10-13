@@ -253,9 +253,9 @@
 			position: relative;			
 		}
 		
-		// &:hover {
-		// 	outline: 1px solid $primary_color;
-		// }
+		&:hover {
+			outline: 1px solid $primary_color;
+		}
 
 		.MatcListItemDescription{
 			width: 240px;
@@ -278,7 +278,7 @@
 
 			.MatcListItemDescriptionMenu {
 				position: absolute;
-				background: #333;
+				background: $primary_color;
 				color: #fff;
 				top:0px;
 				left: 0px;
@@ -313,8 +313,8 @@
 			.MatcListItemDescriptionDots:hover {
 				.MatcListItemDescriptionMenu {
 					display: flex;
-					opacity: 0.9;
-					transition: opacity 0.5s;
+					opacity: 0.95;
+					transition: opacity 0.2s;
 					width: 100%;
 					height: 100%;
 					align-items: center;
