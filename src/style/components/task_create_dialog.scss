@@ -22,7 +22,7 @@
     .StepCntr {
       height: 200px;
       border: 1px solid #dbdbdb;
-      border-radius: 4px;
+      border-radius: $form_radius;
       padding: 8px;
 
       .StepDetails {
@@ -45,15 +45,24 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.95);
+        background: $primary_color;
+        opacity: 0.95;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        .button {
-          margin:16px;
-          display: inline;
+        gap: 16px;
+        border-radius: $page_preview_radius;
+
+        .MatcButton {
+     
           font-size: 20px;
+          background: none;
+          border:1px solid #fff;
+        }
+
+        .MatcButton:hover {
+          background: rgba(255, 255, 255, 0.15);
         }
       }
 

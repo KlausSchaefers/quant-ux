@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcScreenList">
+  <div :class="'MatcScreenList ' + screenType">
     <div class="MatcAppListContainer" data-dojo-attach-point="container"></div>
   </div>
 </template>
@@ -18,6 +18,7 @@ export default {
   props:['app', 'pub'],
   data: function() {
     return {
+      model: null,
       add: false,
       hasSearch:false,
       popoverButtonLabel: "Design",
@@ -28,6 +29,15 @@ export default {
     };
   },
   components: {},
+  computed: {
+    screenType () {
+
+      if (this.model) {
+        return this.model.type
+      }
+      return ""
+    },
+  },
   methods: {
     /**
      * Is called from parent mounted
@@ -43,6 +53,10 @@ export default {
     setValue (value) {
       this.model = value;
       this.value = this.getScreens();
+      // if (this.model.type === 'desktop') {
+      //   this.colWidth = 320;
+      // }
+    
       if (this.value.length == 0) {
         this.add = true;
       }

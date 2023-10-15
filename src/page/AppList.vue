@@ -336,9 +336,21 @@ export default {
         css.add(dots, "MatcListItemDescriptionDots");
         top.appendChild(dots)
 
+     
         const menu = document.createElement("div")
         css.add(menu, "MatcListItemDescriptionMenu");
         dots.appendChild(menu)
+
+        this.own(on(dots, "click", (e) => {
+          this.stopEvent(e)
+          css.add(menu, 'MatcListItemDescriptionMenuVisisble' )
+        }))
+
+        this.own(on(menu, "click", (e) => {
+          this.stopEvent(e)
+          css.remove(menu, 'MatcListItemDescriptionMenuVisisble' )
+        }))
+
 
         const delBtn = document.createElement("div")
         delBtn.innerHTML = "Delete"
