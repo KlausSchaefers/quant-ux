@@ -2,7 +2,7 @@
   <div class="MatcHeader" id="">
  
       <div class="MatcHeaderLeft">
-        <img src="../style/img/QUXLogo5.svg" class="MatcHeaderLogo">
+        <img src="../style/img/QUXLogo5Dark.svg" class="MatcHeaderLogo">
         <a href="#/">
           Quant-UX
         </a>
