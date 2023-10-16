@@ -216,7 +216,8 @@
         "close": "Close",
         "import": "Import",
         "export": "Export",
-        "rename": "Rename"
+        "rename": "Rename",
+        "share": "Share"
     },
     "dialog": {
         "import": {

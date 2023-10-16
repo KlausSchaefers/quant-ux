@@ -47,6 +47,7 @@ import QIcon from "./QIcon";
 import Services from "services/Services";
 import DomBuilder from "common/DomBuilder";
 import Dialog from "common/Dialog";
+import Share from "page/Share";
 
 export default {
   name: "AppList",
@@ -341,26 +342,32 @@ export default {
         css.add(menu, "MatcListItemDescriptionMenu");
         dots.appendChild(menu)
 
-        this.own(on(dots, "click", (e) => {
-          this.stopEvent(e)
-          css.add(menu, 'MatcListItemDescriptionMenuVisisble' )
-        }))
+        // this.own(on(dots, "click", (e) => {
+        //   this.stopEvent(e)
+        //   css.add(menu, 'MatcListItemDescriptionMenuVisisble' )
+        // }))
 
-        this.own(on(menu, "click", (e) => {
-          this.stopEvent(e)
-          css.remove(menu, 'MatcListItemDescriptionMenuVisisble' )
-        }))
+        // this.own(on(menu, "click", (e) => {
+        //   this.stopEvent(e)
+        //   css.remove(menu, 'MatcListItemDescriptionMenuVisisble' )
+        // }))
 
 
         const delBtn = document.createElement("div")
-        delBtn.innerHTML = "Delete"
+        delBtn.innerHTML = this.getNLS("btn.delete")
         menu.appendChild(delBtn)
         this.own(on(delBtn, "click", e => this.onDelete(e, app)))
 
         const renameBtn = document.createElement("div")
-        renameBtn.innerHTML = "Rename"
+        renameBtn.innerHTML = this.getNLS("btn.rename")
         menu.appendChild(renameBtn)
         this.own(on(renameBtn, "click", e => this.onRename(e, app)))
+
+
+        const shareBtn = document.createElement("div")
+        shareBtn.innerHTML =this.getNLS("btn.share")
+        menu.appendChild(shareBtn)
+        this.own(on(shareBtn, "click", e => this.onShare(e, app)))
       }
 
       const time = document.createElement("p")
@@ -375,12 +382,43 @@ export default {
       item.appendChild(cntr);
     },
 
+    async onShare (e, app) {
+      this.stopEvent(e) 
+
+      const invitations = await Services.getModelService().findInvitation(app.id)
+      const hash = Object.entries(invitations).find(p => p[1] === 1)[0]
+
+      const popup = this.db
+        .div("MatcDialog MatcInfitationDialog MatcInfitationDialogLarge MatcPadding")
+        .build();
+
+      let cntr = this.db.div("container").build(popup);
+      let row = this.db.div("row").build(cntr);
+      let right = this.db.div("col-md-12").build(row);
+
+      this.db.h3("", this.getNLS("share.Headline")).build(right);
+
+      const share = this.$new(Share);
+      share.placeAt(right);
+      share.setInvitation(hash);
+      share.setPublic(this.pub);
+
+      row = this.db.div("row MatcMarginTop").build(cntr);
+      right = this.db.div("col-md-12 MatcButtonBar").build(row);
+      let write = this.db.div("MatcButton", "Close").build(right);
+
+      const d = new Dialog();
+      d.own(on(write, "click", lang.hitch(d, "close")));
+
+      d.popup(popup, e.target);
+    },
+
     onDelete(e, app) {
       this.stopEvent(e) 
      
-      const div = this.db.div("box MatcDeleteDialog").build();
+      const div = this.db.div("MatcDeleteDialog").build();
       this.db.h3("title is-4", 'Delete Prototype').build(div);
-      this.db.p('', `Do you want to delete the '${app.name}' prototype?`).build(div)
+      this.db.p('MatcMarginBottomXL', `Do you want to delete the '${app.name}' prototype?`).build(div)
       const bar = this.db.div("MatcButtonBar").build(div);
       const write = this.db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
       const cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
@@ -404,11 +442,11 @@ export default {
     onRename(e, app) {
       this.stopEvent(e)
    
-      const div = this.db.div("box MatcDeleteDialog").build();
+      const div = this.db.div("MatcDeleteDialog").build();
       this.db.h3("title is-4", 'Rename Prototype').build(div);
 
       var inputName = this.db
-        .div("MatcMarginBottom")
+        .div("MatcMarginBottomXL")
         .input("form-control input-lg MatcIgnoreOnKeyPress", app.name, "Name of the prototype")
         .build(div);
 

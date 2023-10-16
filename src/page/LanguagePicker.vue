@@ -1,7 +1,7 @@
 
 <template>
   <div class="MatcLanguagePicker">
-    <div type="button" data-dojo-attach-point="button" @click.stop="open"  >
+    <div type="button" data-dojo-attach-point="button" @click.stop="open" class="MatcToolbarIconButton" >
       <span v-if="hasLabel">
         {{selectedLanguage}}
       </span>
