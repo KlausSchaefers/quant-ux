@@ -682,6 +682,34 @@ export default {
 		},
 
 
+		_showLabeledTextArea(model) {
+			this._setSectionLabel("Labeled Text Area");
+			this._renderCheck("Focus on load",model.props.focus, "focus" );
+			this._renderColor('Label Color','<span class="mdi mdi-border-color"></span>',model.style.labelColor, "labelColor" ,"onStyleChanged", true);
+			this._renderInputDropDown("Label Size",model, [
+				{value: -1, label: 'Auto'},
+				{value: 8, label: '8'},
+				{value: 12, label: '12'},
+				{value: 16, label: '16'},
+				{value: 18, label: '18'},
+				{value: 20, label: '20'},
+				{value: 24, label: '24'},
+				{value: 32, label: '32'},
+			], "labelFontSize", false);
+			this._renderInputDropDown("Input Size",model, [
+				{value: -1, label: 'Auto'},
+				{value: 48, label: '48'},
+				{value: 64, label: '64'},
+				{value: 96, label: '96'},
+				{value: 128, label: '128'},
+				{value: 256, label: '256'},
+				{value: 512, label: '512'}
+			], "inputHeight", false);
+			this._renderInputDropDown("Horizontal Offset",model, [0,4, 8, 12, 16, 20], "labelOffset", false);
+			this._renderInput(model.props, "placeholderLabel", "", 'Placeholder');
+		},
+
+
 		_showTypeAheadTextBox (model){
 			this._setSectionLabel("ComboBox");
 			this._renderCheck("Text is placeholder",model.props.placeholder, "placeholder" );

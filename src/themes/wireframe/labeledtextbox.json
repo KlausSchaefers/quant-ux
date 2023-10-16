@@ -4,7 +4,7 @@
 		"type": "LabeledTextBox",
 		"_type": "Widget",
 		"category": "WireFrame",
-		"subcategory": "AFormInput",
+		"subcategory": "BFormInput",
 		"name": "Labeled Text Box",
 		"x": 0,
 		"y": 0,

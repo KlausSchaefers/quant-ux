@@ -186,22 +186,22 @@
 .MatcTestDesktopCntr{
 	display: inline-block;
     margin-top: 32px;
-    border-radius: 3px;
+    border-radius: 8px;
     display: inline-block;
     padding: 0px;
     margin-top: 16px;
-    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+    box-shadow: $page_drop_shadow_more;
     overflow: auto;
 }
 
 .MatcTest .MatchSimulatorWrapper{
    background: #fff;
    border: none;
-   border-radius: 3px;
+   border-radius: 8px;
    display: inline-block;
    padding: 0px;
    margin-top: 48px;
-   box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+   box-shadow: $page_drop_shadow_more;
 }
 
 

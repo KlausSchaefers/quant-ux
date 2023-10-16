@@ -352,22 +352,21 @@ export default {
         //   css.remove(menu, 'MatcListItemDescriptionMenuVisisble' )
         // }))
 
-
-        const delBtn = document.createElement("div")
-        delBtn.innerHTML = this.getNLS("btn.delete")
-        menu.appendChild(delBtn)
-        this.own(on(delBtn, "click", e => this.onDelete(e, app)))
+        const shareBtn = document.createElement("div")
+        shareBtn.innerHTML =this.getNLS("btn.share")
+        menu.appendChild(shareBtn)
+        this.own(on(shareBtn, "click", e => this.onShare(e, app)))
 
         const renameBtn = document.createElement("div")
         renameBtn.innerHTML = this.getNLS("btn.rename")
         menu.appendChild(renameBtn)
         this.own(on(renameBtn, "click", e => this.onRename(e, app)))
 
+        const delBtn = document.createElement("div")
+        delBtn.innerHTML = this.getNLS("btn.delete")
+        menu.appendChild(delBtn)
+        this.own(on(delBtn, "click", e => this.onDelete(e, app)))
 
-        const shareBtn = document.createElement("div")
-        shareBtn.innerHTML =this.getNLS("btn.share")
-        menu.appendChild(shareBtn)
-        this.own(on(shareBtn, "click", e => this.onShare(e, app)))
       }
 
       const time = document.createElement("p")

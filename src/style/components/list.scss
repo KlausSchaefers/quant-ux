@@ -306,14 +306,14 @@
 			}
 
 			.MatcListItemDescriptionDots {
-				font-weight: 600;
-
+				font-weight: 700;
+				margin-top: -8px;
 			}
 
 			.MatcListItemDescriptionDots:hover {
 				.MatcListItemDescriptionMenu {
 					display: flex;
-					opacity: 0.95;
+					opacity: 1;
 					transition: opacity 0.2s;
 					width: 100%;
 					height: 100%;
