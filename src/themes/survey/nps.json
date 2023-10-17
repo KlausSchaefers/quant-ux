@@ -18,7 +18,8 @@
 		"onclick" : true,
 		"backgroundColor" : true,
 		"border" : true,
-		"label" : true
+		"label" : true,
+		"isSurveyElement": true
 	},
 	"style" : {
 		"borderTopWidth" : 1,

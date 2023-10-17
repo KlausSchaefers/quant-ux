@@ -481,14 +481,15 @@ export default {
 
 
 		_showSortableList(model){
-			this._setSectionLabel("Sortable List");
+			this._setSectionLabel("Preference List");
 
 			this._renderButton("Options", "SettingsList", "_renderNonSelectableOptionDialog");
 			this._renderColor('Arrow Color','<span class="Color"></span>',model.style.arrowColor, "arrowColor", "onStyleChanged",true );
 			this._renderColor('Arrow Color Hover','<span class="Color"></span>',model.style.arrowColorHover, "arrowColorHover", "onStyleChanged",true );
+			//this._renderInputDropDown("Arrow Width",model, [1, 2,4, 8], "arrowWidth", false);
+		
+
 			this._renderInputDropDown("Button Gap",model, [4, 8, 12, 16, 24, 32], "buttonGap", false);
-			// this._renderColor('Button Background','<span class="Color"></span>',model.style.arrowBackground, "arrowBackground", "onStyleChanged",true );
-			// this._renderColor('Button Border','<span class="Color"></span>',model.style.arrowBorderColor, "arrowBorderColor", "onStyleChanged",true );
 		},
 
 		_showRest (model){

@@ -16,7 +16,8 @@
 			"label": "Enter a value",
 			"value": "",
 			"placeholderLabel": "",
-			"animated": false
+			"animated": false,
+			"isSurveyElement": true
 		},
 		"has": {
 			"label": true,

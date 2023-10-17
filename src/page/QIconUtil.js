@@ -25,7 +25,7 @@ export function iconTXT(icon, clss = '', width = 18, height = 18) {
     }
 }
 
-export function iconDOM(icon, clss = '', width = 18, height = 18) {
+export function iconDOM(icon, clss = '', width = 18, height = 18, strokeWidth = 1.25) {
     if (icons[icon]) {
         const div = document.createElement("div")
         div.className = 'MatcQIcon ' + clss
@@ -35,7 +35,7 @@ export function iconDOM(icon, clss = '', width = 18, height = 18) {
                 width="${width}" 
                 height="${height}" 
                 viewBox="0 0 24 24" 
-                stroke-width="1.25" 
+                stroke-width="${strokeWidth}" 
                 stroke="currentColor" 
                 fill="none" 
                 stroke-linecap="round" 

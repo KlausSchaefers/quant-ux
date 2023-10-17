@@ -17,6 +17,7 @@
 .MatcWidgetTypeSortableListItem {
 	display: flex;
 	align-items: center;
+	transition: transform 0.33s;
 }
 
 .MatcWidgetTypeSortableListItemLabel {

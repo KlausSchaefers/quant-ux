@@ -256,10 +256,11 @@ export default {
 
 		},
 
+		_showSortableList(model){
+			this._renderDataBinding(model);
+		},
 
 		_showSwitch (model){
-
-			this._renderDataBinding(model);
 
 			var validation = this.getValidationModel(model);
 			this._renderRequired(validation);

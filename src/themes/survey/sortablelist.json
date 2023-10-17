@@ -2,7 +2,7 @@
     {
 		"id" : "SortList",
 		 "type" : "SortableList",
-		 "name" : "Sortable List",
+		 "name" : "Preference List",
 		 "category" : "Survey",
 		 "subcategory" : "FormCheckBox",
 		 "_type" : "Widget",
@@ -12,7 +12,8 @@
 		 "h": "@box-height-l",
 	     "z" : 0,
 	     "props" : {
-	    	"options" : ["Option 1", "Option 2",  "Option 3", "Option 4"]
+	    	"options" : ["Option 1", "Option 2",  "Option 3", "Option 4"],
+			"isSurveyElement": true
 		 },
 	     "has" : {
 			"backgroundColor" : true,
@@ -38,7 +39,9 @@
 	        "boxHeight": "@form-height",
 	        "boxMarginRight": "@spacing-s",
 			"arrowColor": "@form-color",
-			"arrowColorHover": "@form-color:hover"
+			"arrowColorHover": "@form-color:hover",
+			"padding": 4,
+			"arrowWidth": 2
 	    },
 		"hover" : {
 			"borderColor": "@form-border-color:hover",

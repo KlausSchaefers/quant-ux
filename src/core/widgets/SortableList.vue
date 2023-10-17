@@ -10,6 +10,7 @@ import {iconDOM} from 'page/QIconUtil'
 import DomBuilder from "common/DomBuilder";
 import touch from "dojo/touch";
 import on from "dojo/on";
+import domGeom from "dojo/domGeom";
 
 export default {
   name: "SortableList",
@@ -45,11 +46,13 @@ export default {
       this._labelNodes = [];
       this._upNodes = [];
       this._downNodes = [];
+      this._rowNodes = []
     },
 
-    moveDown (i, e) {
-      console.debug("moveDown", i, this.value.length-1)
+    async moveDown (i, e) {
+
       if (i < this.value.length-1) {
+        await this.animateTransition(i, i+1)
         const a = this.value[i]
         const b = this.value[i+1]
         this.value[i+1] = a
@@ -60,8 +63,28 @@ export default {
       this.onChange(e)
     },
 
-    moveUp (i, e) {
+    animateTransition(i,j) {
+      return new Promise(resolve => {
+        const a = this._rowNodes[i]
+        const b = this._rowNodes[j]
+        if (a && b) {
+          const posA = domGeom.position(a)
+          const posB = domGeom.position(b)
+          const dif = posA.y - posB.y
+          b.style.transform = `translateY(${dif}px)`;
+          a.style.transform = `translateY(${-1 * dif}px)`;
+          setTimeout(() => {
+            resolve()
+          }, 500) // keep in sync with widget.css
+        } else {
+          resolve()
+        }
+      })
+    },
+
+    async moveUp (i, e) {
       if (i > 0) {
+        await this.animateTransition(i, i-1)
         const a = this.value[i]
         const b = this.value[i-1]
         this.value[i-1] = a
@@ -148,11 +171,12 @@ export default {
 
     renderChild (option, i, cntr, db, style) {
 
-        const row = db.div("MatcWidgetTypeSortableListItem").build(cntr)
+        const stroke = style.arrowWidth ? this._getBorderWidth(style.arrowWidth): 2
+        const size = this._getBorderWidth(style.fontSize)
+        const gap = this._getBorderWidth(style.buttonGap ) + "px";
 
-        let size = this._getBorderWidth(style.fontSize)
-      
-        let gap = this._getBorderWidth(style.buttonGap ) + "px";
+        const row = db.div("MatcWidgetTypeSortableListItem").build(cntr)
+        this._rowNodes.push(row)
         row.style.gap = gap
 
         const label = db.div("MatcWidgetTypeSortableListItemLabel", option).build(row)
@@ -161,7 +185,7 @@ export default {
         const up = db.div('MatcWidgetTypeSortableListItemBtn').build(row)
         up.style.color = style.arrowColor;
 
-        const upIcon = iconDOM("SortableListUp", '', size, size)
+        const upIcon = iconDOM("SortableListUp", '', size, size, stroke)
         upIcon.style.width = size + 'px'
         upIcon.style.height = size + 'px'
         up.appendChild(upIcon);
@@ -174,7 +198,7 @@ export default {
         const down = db.div('MatcWidgetTypeSortableListItemBtn').build(row)
         down.style.color = style.arrowColor;
 
-        const downIcon = iconDOM("SortableListDown", '', size, size)
+        const downIcon = iconDOM("SortableListDown", '', size, size, stroke)
         downIcon.style.width = size + 'px'
         downIcon.style.height = size + 'px'
         down.appendChild(downIcon);
