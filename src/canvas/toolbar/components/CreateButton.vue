@@ -106,10 +106,11 @@ export default {
 			this.renderFactory = new RenderFactory();
 			this.renderFactory.setModel(m);
 			this.renderFactory.setSymbol(true);
-			this.categoriesList = ["WireFrame", "Advanced", "Material", "IOS", "Charts" ];
+			this.categoriesList = ["WireFrame", "Advanced", "Survey", "Material", "IOS", "Charts" ];
 			this.categoryToQSS = {
 				WireFrame: QSS.getTheme("wireframe"),
-				Advanced: QSS.getTheme("wireframe")
+				Advanced: QSS.getTheme("wireframe"),
+				Survey: QSS.getTheme("wireframe")
 			}
 			this._importedApps = {}
 			/**

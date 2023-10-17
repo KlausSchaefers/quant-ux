@@ -2,7 +2,7 @@
 	"id" : "NPSButton",
 	"type" : "SegmentButton",
 	"name" : "NPS Score",
-	"category" : "WireFrame",
+	"category" : "Survey",
 	"subcategory" : "FormSpecial",
 	"_type" : "Widget",
 	"x" : 0,

@@ -745,6 +745,13 @@ export default {
       }
     },
 
+    setBorderColorForNode (node, style) {
+      this._setBorderStyle("borderTopColor", node, style, this.model);
+      this._setBorderStyle( "borderBottomColor", node, style, this.model);
+      this._setBorderStyle( "borderRightColor", node, style, this.model);
+      this._setBorderStyle( "borderLeftColor", node, style, this.model);
+    },
+
     setBorderColor () {
       this._setBorderStyle("borderTopColor", this.domNode, this.style, this.model);
       this._setBorderStyle( "borderBottomColor", this.domNode, this.style, this.model);

@@ -479,6 +479,18 @@ export default {
 
 		},
 
+
+		_showSortableList(model){
+			this._setSectionLabel("Sortable List");
+
+			this._renderButton("Options", "SettingsList", "_renderNonSelectableOptionDialog");
+			this._renderColor('Arrow Color','<span class="Color"></span>',model.style.arrowColor, "arrowColor", "onStyleChanged",true );
+			this._renderColor('Arrow Color Hover','<span class="Color"></span>',model.style.arrowColorHover, "arrowColorHover", "onStyleChanged",true );
+			this._renderInputDropDown("Button Gap",model, [4, 8, 12, 16, 24, 32], "buttonGap", false);
+			// this._renderColor('Button Background','<span class="Color"></span>',model.style.arrowBackground, "arrowBackground", "onStyleChanged",true );
+			// this._renderColor('Button Border','<span class="Color"></span>',model.style.arrowBorderColor, "arrowBorderColor", "onStyleChanged",true );
+		},
+
 		_showRest (model){
 			this._setSectionLabel("Rest");
 			this._renderButton("Configuration", "Settings", "_renderRestDialog");
@@ -1987,7 +1999,11 @@ export default {
 		 * Options
 		 **********************************************************************/
 
-		_renderOptionDialog (e){
+		 _renderNonSelectableOptionDialog (e) {
+			this._renderOptionDialog(e, 'none')
+		 },
+
+		_renderOptionDialog (e, type = 'single'){
 			this.stopEvent(e);
 
 			const popup = this.db
@@ -1999,7 +2015,7 @@ export default {
 			const scroller = this.$new(ScrollContainer);
 			scroller.placeAt(cntr);
 
-			const list = this.$new(OptionsList, {"check" : "single"});
+			const list = this.$new(OptionsList, {"check" : type});
 			list.setSelected(this.widget.props.selected);
 			list.setOptions(this.widget.props.options);
 

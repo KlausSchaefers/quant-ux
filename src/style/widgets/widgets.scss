@@ -1,3 +1,28 @@
+.MatcWidgetTypeSortableList{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+}
+
+.MatcWidgetTypeSortableListCntr{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+	width: 100%;
+}
+
+.MatcWidgetTypeSortableListItem {
+	display: flex;
+	align-items: center;
+}
+
+.MatcWidgetTypeSortableListItemLabel {
+	flex-grow: 1;
+}
+
 
 /*******************************
  * Tooltip
@@ -280,6 +305,10 @@
 .MatcWidgetTypeTimeLineLabel{
 	display: inline-block;
   flex-grow: 1;
+}
+
+.MatcWidgetTypeSortableListItemBtn {
+	cursor: pointer;
 }
 
 /*******************************
@@ -1950,6 +1979,10 @@
 	align-items: center;
 	white-space:nowrap;
 	overflow: hidden;
+}
+
+.MatcWidgetTypeTextAreaPreview {
+	height: 100%;
 }
 
 .MatcWidgetTypeTextBox .MatcWidgetTypeTextBoxInput{

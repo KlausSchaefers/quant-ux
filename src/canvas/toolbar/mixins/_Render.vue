@@ -59,7 +59,7 @@ export default {
         return {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
 						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
-						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea'],
+						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 'SortableList'],
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
@@ -67,7 +67,7 @@ export default {
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'LockSlider', "StackedRingChart",
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
 						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'NavBar', 
-						'NavMenu', 'LabeledTextArea'],
+						'NavMenu', 'LabeledTextArea', 'SortableList'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
@@ -76,7 +76,7 @@ export default {
 							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging', 'Timeline', 'LabeledIconToggle', 'VisualPicker', 'LockSlider', 'IconToggleButton', 'ScreenSegment', 
-							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox','LabeledTextArea'],
+							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox','LabeledTextArea', 'SortableList'],
 
 			hasLogic2: ["LogicOr", "Rest", "Script"],
 
@@ -91,7 +91,7 @@ export default {
 			
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 
-								'DragNDropTarget', 'LabeledTextBox', 'NavBar', 'TextBox', 'LabeledTextBox', 'NavMenu', "DropDown", 'LabeledTextArea'],
+								'DragNDropTarget', 'LabeledTextBox', 'NavBar', 'TextBox', 'LabeledTextBox', 'NavMenu', "DropDown", 'LabeledTextArea', 'SortableList'],
 								
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown", 'NavMenu'],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", 

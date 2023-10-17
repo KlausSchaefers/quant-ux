@@ -33,8 +33,13 @@ export default {
 
             this.log = new Logger("LabeledTextBox");
 
-            this.input = document.createElement("textarea");        
-            css.add(this.input, "MatcWidgetTypeTextBoxInput");
+            if (this.mode == "simulator") {
+                this.input = document.createElement("textarea");        
+                css.add(this.input, "MatcWidgetTypeTextBoxInput");
+            } else {
+                this.input = document.createElement("div");
+                css.add(this.input, "MatcWidgetTypeTextAreaPreview");
+            }
 
             this.labelNode = this.$refs.labelNode
             this.inputNode = this.$refs.inputNode

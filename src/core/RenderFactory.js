@@ -69,6 +69,7 @@ import Timeline from 'core/widgets/Timeline'
 import SVGBox from 'core/widgets/SVGBox'
 import SVGPaths from 'core/widgets/SVGPaths'
 import VisualPicker from 'core/widgets/VisualPicker'
+import SortableList from 'core/widgets/SortableList'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -493,6 +494,12 @@ export default class RenderFactory extends Core {
 		this._uiWidgets[model.id] = widget;
 	}
 
+
+	_createSortableList(parent, model) {
+		const widget = this.$new(SortableList)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
 
 	_createLabeledTextArea(parent, model) {
 		const widget = this.$new(LabeledTextArea)

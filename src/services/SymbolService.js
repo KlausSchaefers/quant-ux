@@ -111,17 +111,21 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/paging.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/timeline.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/svg.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/wireframe/nps.json'),
+
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/lockslider.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/visualpicker.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/icontogglebutton.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/iframe.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/progesssegments.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/imagepaging.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/wireframe/labeledtextbox.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/wireframe/labeledtextarea.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/navbar.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/navmenu.json'),
+
+            import(/* webpackChunkName: "themes" */ 'themes/survey/labeledtextbox.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/survey/labeledtextarea.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/survey/nps.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/survey/sortablelist.json'),
+           
 
             // import(/* webpackChunkName: "themes" */ 'themes/OpenUI/button2.json'),
             // import(/* webpackChunkName: "themes" */ 'themes/OpenUI/calender.json'),

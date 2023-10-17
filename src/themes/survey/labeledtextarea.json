@@ -1,15 +1,15 @@
 [
 	{
-		"id": "LabeledTextBox",
-		"type": "LabeledTextBox",
+		"id": "LabeledTextArea",
+		"type": "LabeledTextArea",
 		"_type": "Widget",
-		"category": "WireFrame",
+		"category": "Survey",
 		"subcategory": "BFormInput",
-		"name": "Labeled Text Box",
+		"name": "Labeled Text Area",
 		"x": 0,
 		"y": 0,
-        "w": "@form-width",
-		"h": "@box-height-ms",
+		"w": "@form-width",
+		"h": "@box-height-l",
 		"z": 0,
 		"_extends": "TextBox",
 		"props": {
@@ -27,11 +27,11 @@
 			"padding": true
 		},
 		"style": {		
-			"inputHeight": "@form-height",
 			"labelColor": "@form-color",
 			"labelFontSize": "@font-size-m",
 			"labelFontWeight": "",
-			"labelOffset": 0
+			"labelOffset": 0,
+            "inputHeight": 96
 		}		
 	}
 ]

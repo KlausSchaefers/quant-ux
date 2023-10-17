@@ -15,7 +15,7 @@
                         <td class="MatcDialogTableSelectCntr">
                             <div class="MatcFormRowDND">    
                                 <QIcon icon="HandleDND"  @mouseover="isDraggable = true" @mouseout="isDraggable = false" ></QIcon>      
-                                <CheckBox :value="option === selected" @change="onCheckBoxChange(i, option)"/>
+                                <CheckBox :value="option === selected" @change="onCheckBoxChange(i, option)" v-if="hasSelection"/>
                             </div>
                         </td>                 
                        
@@ -84,6 +84,11 @@ export default {
 	components: {
 		'CheckBox': CheckBox,
 		'QIcon': QIcon
+	},
+	computed: {
+		hasSelection() {
+			return this.check !== 'none'
+		},
 	},
 	methods: {
 		postCreate() {
