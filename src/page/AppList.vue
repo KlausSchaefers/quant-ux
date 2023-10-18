@@ -18,7 +18,7 @@
           </div>
 
         </div>
-        <a href="#/apps/create-app.html" class="MatcButton MatcButtonPrimary  MatcButtonXS" v-if="canAdd">
+        <a @click="showNewDialog" class="MatcButton MatcButtonPrimary  MatcButtonXS" v-if="canAdd">
           {{ $t('app.create') }}
         </a>
       </div>
@@ -26,6 +26,7 @@
 
 
     </div>
+    <CreateAppDialog ref="dialog"></CreateAppDialog>
 
     <div class="MatcAppListContainer" data-dojo-attach-point="container"></div>
   </div>
@@ -48,6 +49,8 @@ import Services from "services/Services";
 import DomBuilder from "common/DomBuilder";
 import Dialog from "common/Dialog";
 import Share from "page/Share";
+import CreateAppDialog from "page/CreateAppDialog";
+
 
 export default {
   name: "AppList",
@@ -71,7 +74,8 @@ export default {
     };
   },
   components: {
-    'QIcon': QIcon
+    'QIcon': QIcon,
+    'CreateAppDialog': CreateAppDialog
   },
   methods: {
     postCreate() {
@@ -94,6 +98,10 @@ export default {
       this.initListeners();
       this.initLoading();
       this.initSearch();
+    },
+
+    showNewDialog (e) {
+      this.$refs.dialog.show(e)
     },
 
     initLoading() {

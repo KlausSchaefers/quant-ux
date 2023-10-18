@@ -68,7 +68,6 @@ export default {
                     node = document.getElementById(node)
                 }
                 const clientRect = node.getBoundingClientRect();
-                console.debug(clientRect.top)
                 const ret = {
                     x: clientRect.left, 
                     y: clientRect.top, 
@@ -79,7 +78,6 @@ export default {
                     ret.x += window.scrollX
                     ret.y += window.scrollY
                 }
-                console.debug(clientRect.top, ret.x)
                 return ret;
             }
             return {
@@ -87,8 +85,7 @@ export default {
             }	
         },
         shake () {
-            const wrapper = this.$refs.wrapper;
-         
+            const wrapper = this.$refs.wrapper;         
             setTimeout(() => {
                 wrapper.style.left = (50) + "px";
             }, 1);

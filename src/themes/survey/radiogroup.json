@@ -1,9 +1,9 @@
 [
 	{
-		"id": "RadioGroup",
+		"id": "SurveyRadioGroup",
 		"type": "RadioGroup",
 		"name": "RadioGroup",
-		"category": "WireFrame",
+		"category": "Survey",
 		"subcategory": "FormCheckBoxX",
 		"_type": "Widget",
 		"_extends": "CheckBoxGroup",
@@ -18,14 +18,16 @@
 				"Option 2",
 				"Option 3"
 			],
-			"selected": "Option 1"
+			"selected": "",
+			"isSurveyElement": true
 		},
 		"has": {
 			"backgroundColor": true,
 			"onclick": true,
 			"border": true,
 			"label": true,
-			"data": true
+			"data": true,
+			"random": true   
 		},
 		"style": {
 			"borderRadius": "@border-radius-round"

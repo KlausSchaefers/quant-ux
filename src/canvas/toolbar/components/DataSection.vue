@@ -417,6 +417,7 @@ export default {
 			this._setSectionLabel("CheckBox Group");
 
 			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
+			this._renderRandom(model)
 			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
 			if (!model.has?.backgroundColor) {
 				this._renderColor('Background','<span class="Color"></span>',model.style.background, "background", "onStyleChanged",true );
@@ -470,6 +471,8 @@ export default {
 			this._setSectionLabel("Radio Group");
 
 			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
+			
+			this._renderRandom(model)
 			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );
 		
 			if (!model.has?.backgroundColor) {
@@ -484,6 +487,8 @@ export default {
 			this._setSectionLabel("Preference List");
 
 			this._renderButton("Options", "SettingsList", "_renderNonSelectableOptionDialog");
+			
+			this._renderRandom(model)
 			this._renderColor('Arrow Color','<span class="Color"></span>',model.style.arrowColor, "arrowColor", "onStyleChanged",true );
 			this._renderColor('Arrow Color Hover','<span class="Color"></span>',model.style.arrowColorHover, "arrowColorHover", "onStyleChanged",true );
 			//this._renderInputDropDown("Arrow Width",model, [1, 2,4, 8], "arrowWidth", false);
@@ -2217,6 +2222,11 @@ export default {
 			this._addChildWidget(slider);
 		},
 
+		_renderRandom (model) {
+			if (model.has.random) {
+				this._renderCheck('Randomize Order', model.props.randomize, 'randomize')
+			}
+		},
 
 		_renderCheck (lbl, value, property, tt, callback = 'onProperyChanged'){
 

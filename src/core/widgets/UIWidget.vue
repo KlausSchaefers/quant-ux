@@ -112,6 +112,14 @@ export default {
       this.setStyle(style, model);
     },
 
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    },
 
     /*
      * should be called when the widget was scalled, e.g. by

@@ -1,6 +1,7 @@
+
 .MatcDialog {
     min-height: 200px;
-    padding: 32px 32px 40px;
+    padding: $dialog_padding;
     border-radius: 12px;
 }
 
@@ -61,7 +62,7 @@
     font-size: 16px;
     color: #333;
     background: #fff;
-    padding: 40px 40px 50px;
+    padding: 40px 40px 56px;
 }
 
 .MatcTestDesktopDialog {
@@ -91,10 +92,14 @@
 
 .MatcDeleteDialog {
 	width: 400px;
-    padding: 32px 32px 40px;
+    padding: $dialog_padding;
 }
 
-
+.MatcResizeDialog {
+	width: 600px;
+    padding: $dialog_padding-l;
+	height: auto;
+}
 
 .MatcVideoDialog{
 	width:960px;

@@ -86,7 +86,7 @@ export default class ModelFactory {
 			templates: {},
 			designtokens: {},
 			lastUUID: 10000,
-			lastUpdate: 0,
+			lastUpdate: new Date().getTime(),
 			created: 0,
 			startScreen: "",
 			grid: {

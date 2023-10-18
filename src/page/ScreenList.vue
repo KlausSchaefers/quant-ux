@@ -61,6 +61,7 @@ export default {
         this.add = true;
       }
       this.render(this.value, this.animate);
+      
     },
 
     setInvitation (h) {

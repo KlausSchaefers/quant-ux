@@ -72,7 +72,7 @@ export default {
             }
           });
         } else {
-          console.warn('initDomNodes', this.domNode)
+          console.warn('initDomNodes', this)
         }
       } else {
         console.warn('no domnode for', this.name)
