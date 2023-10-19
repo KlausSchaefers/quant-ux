@@ -12,11 +12,11 @@ textarea {
 a {
 	outline: none;
 	cursor: pointer;
-	color: #3787f2;
+	color: $primary_color;
 }
 
 a:hover {
-	color: #3787f2;
+	color: $primary_color_hover;
 }
 
 a:FOCUS {
@@ -290,21 +290,6 @@ a:FOCUS {
 	opacity: 0
 }
 
-
-
-
-/****************************************************
-   * Boxes
-   ****************************************************/
-
-.MatcSection h2,
-.MatcSection h1 {
-	font-size: 18px;
-	font-weight: bold;
-	margin-top: 0px;
-	margin-bottom: 20px;
-	color: #3787f2;
-}
 
 
 .MatcSection .container,

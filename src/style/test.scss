@@ -39,16 +39,22 @@
 }
 
 .MatcTestContent{
-	padding:15px 40px;
+	padding: $dialog_padding;
     width:400px;
     height:500px;
     text-align: left;
+
+    p{
+		margin-bottom: $spacing-l;
+	}
 }
 
 .MatcTestContentCntr{
     height: 380px;
     overflow: auto;
 }
+
+
 
 .MatcTestProgressCntr .MatcTestProgressBar{
     width: 0%;
@@ -109,7 +115,7 @@
 	background: none;
     border: none;
     padding-top:20px;
-    font-size: 16px;
+  
     font-weight:300;
 }
 
@@ -125,29 +131,6 @@
 }
 
 
-.MatcTestContent p{
-	margin-bottom: 24px;
-    font-size:16px;
-}
-
-
-.MatcTestContent h2{
-    font-weight: 700;
-	font-size:24px;
-    margin-bottom: 16px;
-}
-
-.MatcTestContent h3{
-    font-weight: 700;
-    font-size:16px;
-    margin:0px;
-}
-
-.MatcTestTaskDescription{
-    font-size:16px;
-    margin-bottom: 15px;
-}
-
 .MatcTestStartButton{
 	width:100%;
 	text-align: center;
@@ -158,30 +141,30 @@
 	display: inline-block;
 	position: static;
 	width:100%;
-	line-height: 2;
+
 	border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
     background: #eee;
 }
 
-.MatcTestTask{
-	margin-bottom: 10px;
-    margin-top: 10px;
-    font-size: 16px;
-    padding: 10px;
-}
+// .MatcTestTask{
+// 	margin-bottom: 10px;
+//     margin-top: 10px;
+//     font-size: 16px;
+//     padding: 10px;
+// }
 
-.MatcTestTask h3{
-	font-weight: 400;
-	font-size:16px;
-	display: inline;
-}
+// .MatcTestTask h3{
+// 	font-weight: 400;
+// 	font-size:16px;
+// 	display: inline;
+// }
 
-.MatcTestTask span{
-	font-weight: 300;
-	font-size:16px;
-}
+// .MatcTestTask span{
+// 	font-weight: 300;
+// 	font-size:16px;
+// }
 
 .MatcTestDesktopCntr{
 	display: inline-block;

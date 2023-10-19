@@ -16,7 +16,7 @@
 								  <input v-model="password" class="form-control MatcMarginTop" @keypress.enter="setPassword"/>
   
 								  <div class="MatcMarginTop">
-									  <div  class="MatcButton MatcSimulatorStartBtn" @click="setPassword()">
+									  <div  class="MatcButton MatcButtonPrimary MatcButtonFulLWidth" @click="setPassword()">
 										  {{getNLS("simulator.password.next")}}
 									  </div>
 									  <span class="MatcError" style="margin-left:20px">
@@ -36,10 +36,10 @@
 									  <p v-html="getNLS('simulator.welcome.privacy')"></p>
 								  </div>
 								  <div class="MatcMarginTop">
-									  <div  class="MatcButton MatcSimulatorStartBtn" @click="onStart()" v-if="getUserTasks().length === 0">
+									  <div  class="MatcButton MatcButtonPrimary MatcButtonFulLWidth" @click="onStart()" v-if="getUserTasks().length === 0">
 										  {{getNLS("simulator.welcome.start")}}
 									  </div>
-									  <div class="MatcButton MatcSimulatorStartBtn" @click="step = 3" v-else>
+									  <div class="MatcButton MatcButtonPrimary MatcButtonFulLWidth" @click="step = 3" v-else>
 										  {{getNLS("simulator.welcome.showTasks")}}
 									  </div>
 								  </div>
@@ -51,7 +51,7 @@
 									  {{getNLS("simulator.tasks.msg")}}
 								  </p>
 								  <div v-for="t in getUserTasks()" :key="t.id">
-									  <h3>{{t.name}}</h3>
+									  <h4>{{t.name}}</h4>
 									  <div class="MatcTestTaskDescription">
 										  {{t.description}}
 									  </div>
@@ -59,14 +59,14 @@
 							  </div>
   
 							  <div class="MatcMarginTop">
-							  <div class="MatcButton MatcSimulatorStartBtn" @click="onStart()">
+							  <div class="MatcButton MatcButtonPrimary MatcButtonFulLWidth" @click="onStart()">
 								  {{getNLS("simulator.welcome.start")}}
 							  </div>
 						  </div>
 					  </div>
 			   </transition>
   
-		  <div class="MatcSimulatorStartBtn" data-dojo-attach-point="startNode" v-show="step === 4">
+		  <div class="MatcButton MatcButtonPrimary MatcButtonFulLWidth" data-dojo-attach-point="startNode" v-show="step === 4">
 			  {{getNLS("simulator.welcome.start")}}
 		  </div>
   
@@ -74,7 +74,7 @@
 		<div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
 		 
 		</div>
-		<div class="MatcSimulatorVersion">v5.0.0</div>
+		<div class="MatcSimulatorVersion">v5.0.1</div>
 	  </div>
 	</div>
   </template>
@@ -368,7 +368,7 @@
 				  if(this.hash){
 					  this.preloadImages();
 				  }
-				  if(	this._splashTime > 0 && this.skipSplash !== true){
+				  if(this._splashTime > 0 && this.skipSplash !== true){
   
 					  this.logger.log(-1,"setModel","show splash");
 					  /**

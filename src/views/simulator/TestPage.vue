@@ -58,7 +58,7 @@
 										{{getNLS("simulator.tasks.msg")}}
 									</p>
 									<div v-for="t in getUserTasks()" :key="t.id">
-										<h3>{{t.name}}</h3>
+										<h4>{{t.name}}</h4>
 										<div class="MatcTestTaskDescription">
 											{{t.description}}
 										</div>

@@ -31,6 +31,7 @@ $page_preview_radius_xs:8px;
 $text_color: #333;
 $text_color_passive: #777;
 $text_color_dark: #111;
+$text_line_height: 1.5;
 
 $toolbar_height: 48px;
 $toolbar_background: #25292F;
@@ -123,6 +124,7 @@ $spacing-m:16px;
 $spacing-s:8px;
 $spacing-xs:4px;
 
+$font-weight-s: 300;
 $font-weight: 400;
 $font-weight-l: 500;
 $font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
@@ -131,7 +133,8 @@ $font-size-xxl: 1.8rem;
 $font-size-xl: 1.6rem;
 $font-size-l: 24px;
 $font-size-m: 24px;
-$font-size-default: 18px;
+$font-size-ms: 18px;
+$font-size-default: 16px;
 $font-size-s: 16px;
 $font-size-xs: 14px;
 $font-size-xxs: 12px;

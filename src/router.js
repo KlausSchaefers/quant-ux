@@ -37,6 +37,11 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "simulator" */ 'views/Tos.vue')
     },
     {
+      path: '/privacy.html',
+      name: 'Privacy',
+      component: () => import(/* webpackChunkName: "simulator" */ 'views/Privacy.vue')
+    },
+    {
       path: '/test.html',
       name: 'TestPage',
       component: () => import(/* webpackChunkName: "matc" */ 'views/simulator/TestPage.vue')

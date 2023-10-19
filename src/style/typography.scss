@@ -1,11 +1,34 @@
-.Matc {
+.Matc, .MatcPublic, .MatcTest {
 	h1 {
 		font-size: $font-size-m;
 		font-weight: 600;
+		margin: unset;
+		margin-top: 0;
+		margin-bottom: $spacing-m;
 	}
 	
     h2 {
 		font-size: $font-size-m;
 		font-weight: 600;
+		margin-top: 0;
+		margin-bottom: $spacing-m;
+	}
+
+	h3 {
+		font-size: $font-size-default;
+		font-weight: 600;
+		margin-top: 0;
+		margin-bottom: $spacing-m;
+	}
+
+	h4 {
+		font-size: $font-size-default;
+		font-weight: 600;
+		margin-top: 0;
+		margin-bottom: $spacing-xs;
+	}
+
+	p {
+		font-size: $font-size-default;
 	}
 }
