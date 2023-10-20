@@ -11,6 +11,7 @@ import DomBuilder from "common/DomBuilder";
 import touch from "dojo/touch";
 import on from "dojo/on";
 import domGeom from "dojo/domGeom";
+import lang from 'dojo/_base/lang'
 
 export default {
   name: "SortableList",
@@ -136,14 +137,6 @@ export default {
       //this.setChildSize(box, this.style, this.scaleX, this.scaleY);
     },
 
-    arraysEqual(arr1, arr2) {
-      if (arr1.length !== arr2.length) return false;
-      for (var i = arr1.length; i--; ) {
-        if (arr1[i] !== arr2[i]) return false;
-      }
-      return true;
-    },
-
     render(model, style, scaleX, scaleY) {
 
       this.model = model;
@@ -223,17 +216,55 @@ export default {
       if (!v) {
         v = [];
       }
-      this.setValue(v);
+      this.setValue(v, true);
     },
 
-    setValue(value) {
+    async setValue(value, animate = false) {
       if (!value) {
         value = [];
       }
 
-      this.value = value
+      if (this.arraysEqual(value, this.value)) {
+        return
+      }
+
+      if (this.animationRunning) {
+        return
+      }
+
+      if (animate) {
+       
+        const differentPositions = new Set()
+        this.value.forEach((v, i) => {
+          const j = value.indexOf(v)
+
+          if (j !== i) {
+            differentPositions.add(j)
+            differentPositions.add(i)
+          }
+
+        })
+        if (differentPositions.size === 2) {
+          const pos = [...differentPositions]
+           // a little buggy in the video player. Maybe it schedules too many changes??
+          this.animationRunning = true
+          await this.animateTransition(pos[0], pos[1])
+          this.animationRunning = false
+        }     
+      }
+      this.value = lang.clone(value)
       this.renderChildren(this.value)
-      this.wireEvents()
+      if (this.mode === 'simulator') {
+        this.wireEvents()
+      }
+    },
+
+    arraysEqual(arr1, arr2) {
+      if (arr1.length !== arr2.length) return false;
+      for (let i = arr1.length; i--; ) {
+        if (arr1[i] !== arr2[i]) return false;
+      }
+      return true;
     },
 
     getState() {
@@ -245,7 +276,7 @@ export default {
 
     setState(state) {
       if (state && state.type == "select") {
-        this.setValue(state.value);
+        this.setValue(state.value, true);
       }
     },
 
