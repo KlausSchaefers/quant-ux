@@ -63,21 +63,21 @@ export default {
       this.setValue(model.props.checked);
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       if (v !== true && v !== false && v >= 1) {
         v = true;
       }
       this.setValue(v);
     },
 
-    setValue: function(value) {
+    setValue (value) {
       this.value = value;
 
       if (value) {
@@ -93,26 +93,26 @@ export default {
       }
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "radiobox.checked",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       if (state && state.type == "radiobox.checked") {
         this.setValue(state.value);
       }
     },
 
-    getFormGroup: function(widget) {
+    getFormGroup (widget) {
       if (widget.props) {
         return widget.props.formGroup;
       }
     },
 
-    onChange: function(e) {
+    onChange (e) {
       if (!this.value) {
         this.emitDataBinding(true);
         this.setValue(true);

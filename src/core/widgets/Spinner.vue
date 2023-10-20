@@ -53,7 +53,7 @@ export default {
       return false;
     },
 
-    onDnDMove: function(e) {
+    onDnDMove (e) {
       this.stopEvent(e);
       var pos = this.getMouse(e);
       var difY = pos.y - this.dndStartPos.y;
@@ -63,7 +63,7 @@ export default {
       return false;
     },
 
-    onDndEnd: function(option, pos, e) {
+    onDndEnd (option, pos, e) {
       this.stopEvent(e);
       if (this.dndStartPos) {
         var mPos = this.getMouse(e);
@@ -105,7 +105,7 @@ export default {
       this.cleanUp();
     },
 
-    cleanUp: function() {
+    cleanUp () {
       if (this.moveListener) {
         this.moveListener.remove();
       }

@@ -350,9 +350,9 @@ export default {
     showDeleteSessionDialog (e, session) {
       this.logger.warn("showDeleteSessionDialog", "enter >", session.session);
       const db = new DomBuilder()
-      const div = db.div("box MatcDeleteDialog").build();
+      const div = db.div("MatcDeleteDialog").build();
       db.h3("title is-4", 'Delete Test').build(div);
-      db.p('', "Do you want to delete the test? You will loose all data related to this test!").build(div)
+      db.p('MatcMarginBottomXL', "Do you want to delete the test? You will loose all data related to this test!").build(div)
       const bar = db.div("MatcButtonBar").build(div);
       const write = db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
       const cancel = db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);

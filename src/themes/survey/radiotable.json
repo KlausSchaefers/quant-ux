@@ -1,18 +1,42 @@
 [
     {
-		"id" : "SortList",
-		 "type" : "SortableList",
-		 "name" : "Preference List",
+		"id" : "RadioTable",
+		 "type" : "RadioTable",
+		 "name" : "Radio Table",
 		 "category" : "Survey",
 		 "subcategory" : "FormCheckBox",
 		 "_type" : "Widget",
 		 "x" : 0,
 	     "y" : 0,
 		 "w": "300",
-		 "h": "160",
+		 "h": "212",
 	     "z" : 0,
 	     "props" : {
-	    	"options" : ["Option 1", "Option 2",  "Option 3", "Option 4"],
+            "data" : [
+                [
+                  "",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ],
+                [
+                  "Option 1"
+                ],
+                [
+                  "Option 2"
+                ],
+                [
+                  "Option 3"
+                ],
+                [
+                  "Option 4"
+                ],
+                [
+                  "Option 5"
+                ]
+              ],
 			"isSurveyElement": true
 		 },
 	     "has" : {
@@ -29,21 +53,16 @@
 			"textAlign": "left",
 			"letterSpacing": "@letterSpacing",
 			"lineHeight": "@lineHeight",
-			"borderRadius": "@border-radius",
+            "borderRadius": "@border-radius-round",
 			"borderWidth": "@border-width",
 			"borderStyle": "solid",
 			"borderColor": "@form-border-color",
 			"background": "@form-background",
 			"color": "@form-color",
 			"colorButton": "@background-active",
-			"buttonGap": 4,
-	        "boxHeight": "@form-height",
+	        "radioSize": 24,
 	        "boxMarginRight": "@spacing-s",
-			"arrowColor": "@form-color",
-			"arrowColorHover": "@form-color:hover",
-			"padding": 4,
-			"buttonSize": 24,
-			"arrowWidth": 2
+			"labelWidth": 96
 	    },
 		"hover" : {
 			"borderColor": "@form-border-color:hover",

@@ -70,6 +70,7 @@ import SVGBox from 'core/widgets/SVGBox'
 import SVGPaths from 'core/widgets/SVGPaths'
 import VisualPicker from 'core/widgets/VisualPicker'
 import SortableList from 'core/widgets/SortableList'
+import RadioTable from 'core/widgets/RadioTable'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -494,6 +495,11 @@ export default class RenderFactory extends Core {
 		this._uiWidgets[model.id] = widget;
 	}
 
+	_createRadioTable(parent, model) {
+		const widget = this.$new(RadioTable)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
 
 	_createSortableList(parent, model) {
 		const widget = this.$new(SortableList)

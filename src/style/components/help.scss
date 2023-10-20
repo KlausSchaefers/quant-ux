@@ -108,6 +108,11 @@
     }
 
 
+    .MatcHelpContentVideo {
+        display: flex;
+        justify-content: center;
+    }
+
     .MatcHelpContentCntr iframe {
         margin-top: 30px;
     }
@@ -122,6 +127,15 @@
         overflow: hidden;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
         margin: 16px 0px;
+    }
+
+    .MatcButton {
+        padding: 4px 4px;
+        font-size: 16px;
+        height: unset;
+        border-radius: 4px;
+        background: $primary_color;
+        border: none;
     }
 
 

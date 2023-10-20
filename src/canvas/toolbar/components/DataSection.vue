@@ -417,6 +417,7 @@ export default {
 			this._setSectionLabel("CheckBox Group");
 
 			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
+			
 			this._renderRandom(model)
 			this._renderColor('Hook Color','<span class="mdi mdi-check"></span>',model.style.colorButton, "colorButton" ,"onStyleChanged", true);
 			if (!model.has?.backgroundColor) {
@@ -467,21 +468,26 @@ export default {
 			this._renderInputDropDown("# Elements", model, [1, 2, 3, 4, 5, 10], "max", true)
 		},
 
+		_showRadioTable(model) {
+			this._setSectionLabel("Radio Table");
+			this._renderButton("Values", "DataTable", "_renderTableDialog");
+			this._renderRandom(model)
+			this._renderInputDropDown("Label Width",model, [64, 96, 128, 196, 256], "labelWidth", false);
+			this._renderInputDropDown("Radio Size",model, [8, 12, 16, 24, 32, 40], "radioSize", false);	
+			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );		
+		},
+
 		_showRadioGroup (model){
 			this._setSectionLabel("Radio Group");
 
-			this._renderButton("Options", "SettingsList", "_renderOptionDialog");
-			
+			this._renderButton("Options", "SettingsList", "_renderOptionDialog");			
 			this._renderRandom(model)
-			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );
-		
+			this._renderColor('Checked Button','<span class="MatcIconCircle"></span>',model.style.colorButton, "colorButton" );		
 			if (!model.has?.backgroundColor) {
 				this._renderColor('Background','<span class="Color"></span>',model.style.background, "background", "onStyleChanged",true );
 			}
-			this._renderInputDropDown("Height",model, [8, 12, 16, 24, 32, 40, 64, 80, 120], "boxHeight", false);
-
+			this._renderInputDropDown("Height",model, [8, 12, 16, 24, 32, 40], "boxHeight", false);
 		},
-
 
 		_showSortableList(model){
 			this._setSectionLabel("Preference List");
@@ -491,9 +497,7 @@ export default {
 			this._renderRandom(model)
 			this._renderColor('Arrow Color','<span class="Color"></span>',model.style.arrowColor, "arrowColor", "onStyleChanged",true );
 			this._renderColor('Arrow Color Hover','<span class="Color"></span>',model.style.arrowColorHover, "arrowColorHover", "onStyleChanged",true );
-			//this._renderInputDropDown("Arrow Width",model, [1, 2,4, 8], "arrowWidth", false);
-		
-
+			this._renderInputDropDown("Button Size",model, [8, 12, 16, 24, 32, 40], "buttonSize", false);	
 			this._renderInputDropDown("Button Gap",model, [4, 8, 12, 16, 24, 32], "buttonGap", false);
 		},
 
@@ -1772,9 +1776,9 @@ export default {
 			this._renderTableDialog(e, 26)
 		},
 
-		_renderTableDialog (e, maxColumns = 6){
+		_renderTableDialog (e, maxColumns = 8){
 		
-			const popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			const popup = this.db.div("MatcToolbarTableSettingsDialog MatcDialog MatcPadding").build();
 			const cntr = this.db.div("").build(popup);
 			const table = this.$new(Table, {columns: maxColumns});
 			table.placeAt(cntr);

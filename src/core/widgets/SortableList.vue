@@ -176,7 +176,8 @@ export default {
     renderChild (option, i, cntr, db, style) {
 
         const stroke = style.arrowWidth ? this._getBorderWidth(style.arrowWidth): 2
-        const size = this._getBorderWidth(style.fontSize)
+        const fontSize = this._getBorderWidth(style.fontSize)
+        const buttonSize = this._getBorderWidth(style.buttonSize)
         const gap = this._getBorderWidth(style.buttonGap ) + "px";
 
         const row = db.div("MatcWidgetTypeSortableListItem").build(cntr)
@@ -189,9 +190,9 @@ export default {
         const up = db.div('MatcWidgetTypeSortableListItemBtn').build(row)
         up.style.color = style.arrowColor;
 
-        const upIcon = iconDOM("SortableListUp", '', size, size, stroke)
-        upIcon.style.width = size + 'px'
-        upIcon.style.height = size + 'px'
+        const upIcon = iconDOM("SortableListUp", '', fontSize, fontSize, stroke)
+        upIcon.style.width = buttonSize + 'px'
+        upIcon.style.height = buttonSize + 'px'
         up.appendChild(upIcon);
 
         this._borderNodes.push(up)
@@ -202,9 +203,9 @@ export default {
         const down = db.div('MatcWidgetTypeSortableListItemBtn').build(row)
         down.style.color = style.arrowColor;
 
-        const downIcon = iconDOM("SortableListDown", '', size, size, stroke)
-        downIcon.style.width = size + 'px'
-        downIcon.style.height = size + 'px'
+        const downIcon = iconDOM("SortableListDown", '', fontSize, fontSize, stroke)
+        downIcon.style.width = buttonSize + 'px'
+        downIcon.style.height = buttonSize + 'px'
         down.appendChild(downIcon);
 
         this._borderNodes.push(down)

@@ -5,8 +5,8 @@ export default class DomBuilder {
 		this.current = null
 		this.root = null
 	}
-	tooltip(txt, customClass) {
 
+	tooltip(txt, customClass) {
 		if (this.current) {
 			var tooltip = document.createElement("div");
 			css.add(tooltip, "vommondToolTip");
@@ -28,34 +28,27 @@ export default class DomBuilder {
 		} else {
 			console.warn("tooltip() > Tooltips can only be attached to build nodes")
 		}
-
 		return this;
 	}
 
-
 	row(style, colWidths, colInners, colStyles) {
-		var cols = [];
-
+		const cols = [];
 		if (style) {
 			style = "row " + style;
 		} else {
 			style = "row";
 		}
-
 		this.div(style);
-		for (var i = 0; i < colWidths.length; i++) {
-
-			var colStyle = "col-md-" + colWidths[i];
+		for (let i = 0; i < colWidths.length; i++) {
+			let colStyle = "col-md-" + colWidths[i];
 			if (colStyles) {
 				colStyle += " " + colStyles[i];
 			}
-
 			if (colInners) {
 				this.div(colStyle, colInners[i]);
 			} else {
 				this.div(colStyle);
 			}
-
 			cols.push(this.current);
 			this.parent();
 		}
@@ -70,7 +63,6 @@ export default class DomBuilder {
 	pre(style, inner) {
 		return this.element("pre", style, inner);
 	}
-
 
 	img(href, style) {
 		this.element("img", style);
@@ -100,7 +92,6 @@ export default class DomBuilder {
 		return this;
 	}
 
-
 	b(style, lbl) {
 		this.element("b", style, lbl);
 		return this;
@@ -111,7 +102,6 @@ export default class DomBuilder {
 	}
 
 	formGroup(css, label, value, placeholder, type) {
-
 		this.div("form-group");
 		this.label("", label);
 		this.parent();
@@ -120,15 +110,10 @@ export default class DomBuilder {
 		} else {
 			this.input("form-control " + css, value, placeholder, type);
 		}
-
-
 		return this;
-
 	}
 
-
 	formGroupTextArea(css, label, value, placeholder, type) {
-
 		this.div("form-group");
 		this.label("", label);
 		this.parent();
@@ -137,10 +122,7 @@ export default class DomBuilder {
 		} else {
 			this.textarea("form-control " + css, value, placeholder, type);
 		}
-
-
 		return this;
-
 	}
 
 	span(css, inner) {
@@ -192,49 +174,38 @@ export default class DomBuilder {
 	}
 
 	thead(headers) {
-
-		var thead = this.element("thead")
-
+		const thead = this.element("thead")
 		if (headers) {
-			var tr = document.createElement("tr")
+			const tr = document.createElement("tr")
 			this.current.appendChild(tr);
-			for (var i = 0; i < headers.length; i++) {
-				var td = document.createElement("td")
+			for (let i = 0; i < headers.length; i++) {
+				const td = document.createElement("td")
 				td.innerHTML = headers[i];
 				tr.appendChild(td);
 			}
 		}
-
 		return thead;
 	}
-
-
 
 	tbody(css) {
 		return this.element("tbody", css);
 	}
 
-
-
 	tr(row) {
-
-		var tr = this.element("tr")
-
+		const tr = this.element("tr")
 		if (row) {
-			for (var i = 0; i < row.length; i++) {
-				var td = document.createElement("td")
+			for (let i = 0; i < row.length; i++) {
+				const td = document.createElement("td")
 				td.innerHTML = row[i];
 				this.current.appendChild(td);
 			}
 		}
 		return tr;
-
 	}
 
 	td(css, inner) {
 		return this.element("td", css, inner);
 	}
-
 
 	a(css, inner) {
 		return this.element("a", css, inner);
@@ -260,15 +231,13 @@ export default class DomBuilder {
 	}
 
 	element(type, style, inner, doNotStrip) {
-		var element = document.createElement(type);
+		const element = document.createElement(type);
 		if (this.current != null) {
 			this.current.appendChild(element);
 		}
-
 		if (style != null) {
 			css.add(element, style);
 		}
-
 		if (inner != null) {
 			if (doNotStrip) {
 				element.innerHTML = inner;
@@ -276,32 +245,26 @@ export default class DomBuilder {
 				element.innerHTML = this.stripHTML(inner);
 			}
 		}
-
 		this.current = element;
-
 		if (this.root == null) {
 			this.root = element;
 		}
-
 		return this;
 	}
 
 	child(type, style, inner) {
-		var element = document.createElement(type);
+		const element = document.createElement(type);
 		if (this.current != null) {
 			this.current.appendChild(element);
 		} else {
 			console.warn("No Parent node created. you cannot add a child");
 		}
-
 		if (style != null) {
 			css.add(element, style);
 		}
-
 		if (inner != null) {
 			element.innerHTML = this.stripHTML(inner);
 		}
-
 		return this;
 	}
 
@@ -322,7 +285,6 @@ export default class DomBuilder {
 	get() {
 		return this.current;
 	}
-
 
 	up() {
 		if (this.current) {
@@ -428,8 +390,6 @@ export default class DomBuilder {
 		}
 		return this;
 	}
-
-
 
 	stripHTML(s) {
 		if (s == null || s == undefined)

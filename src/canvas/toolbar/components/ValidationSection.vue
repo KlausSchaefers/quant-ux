@@ -260,6 +260,11 @@ export default {
 			this._renderDataBinding(model);
 		},
 
+
+		_showRadioTable(model) {
+			this._renderDataBinding(model);
+		},
+
 		_showSwitch (model){
 
 			var validation = this.getValidationModel(model);

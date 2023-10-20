@@ -1,3 +1,44 @@
+.MatcWidgetTypeRadioTable {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+
+	table {
+		height: 100%;
+		width: 100%;
+
+		.MatcWidgetTypeRadioTableLabel {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+
+			span{
+				display: block;
+				width: 100%;
+			}
+		}
+
+		.MatcWidgetTypeRadioCell {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+
+	table thead td{
+		text-align: center;
+	}
+}
+
+/*******************************
+ * Sortable List
+ *******************************/
+
 .MatcWidgetTypeSortableList{
 	position: absolute;
 	width:100%;
