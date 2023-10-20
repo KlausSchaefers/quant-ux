@@ -98,36 +98,42 @@ export default {
  
 
     wireEvents () {
+      const isOutline = this.style.borderModel === "outline"
       for (let i = 0; i < this._upNodes.length; i++) {
         const node = this._upNodes[i];
         this.tempOwn(this.addClickListener(node, e => this.moveUp(i, e)));
-        this.tempOwn(on(node, touch.over, () => this.hoveBtn(node)));
-        this.tempOwn(on(node, touch.out, () => this.hoveBtn()));
+        this.tempOwn(on(node, touch.over, () => this.hoveBtn(node, isOutline)));
+        this.tempOwn(on(node, touch.out, () => this.hoveBtn(null, isOutline)));
       }
      
       for (let i = 0; i < this._downNodes.length; i++) {
         const node = this._downNodes[i];
         this.tempOwn(this.addClickListener(node, e => this.moveDown(i, e)));
-        this.tempOwn(on(node, touch.over, () => this.hoveBtn(node)));
-        this.tempOwn(on(node, touch.out, () => this.hoveBtn()));
+        this.tempOwn(on(node, touch.over, () => this.hoveBtn(node, isOutline)));
+        this.tempOwn(on(node, touch.out, () => this.hoveBtn(null, isOutline)));
       }
     },
 
-    hoveBtn (node) {
+    hoveBtn (node, isOutline=false) {
 
       if (!this.model.hover) {
         return
       }
       if (this.currentHover) {
         this.currentHover.style.color = this.style.arrowColor
-        this.currentHover.style.background = this.style.background
-        this.setBorderColorForNode(this.currentHover, this.style)
+        if (!isOutline) {
+          this.currentHover.style.background = this.style.background
+          this.setBorderColorForNode(this.currentHover, this.style)
+        }
+
       }
       this.currentHover = node
       if (node) {
         this.currentHover.style.color = this.style.arrowColorHover
-        this.currentHover.style.background = this.model.hover.background
-        this.setBorderColorForNode(this.currentHover, this.model.hover)
+        if (!isOutline) {
+          this.currentHover.style.background = this.model.hover.background
+          this.setBorderColorForNode(this.currentHover, this.model.hover)
+        }
       }
 
     },
@@ -168,6 +174,7 @@ export default {
 
     renderChild (option, i, cntr, db, style) {
 
+        const isOutline = style.borderModel === "outline"
         const stroke = style.arrowWidth ? this._getBorderWidth(style.arrowWidth): 2
         const fontSize = this._getBorderWidth(style.fontSize)
         const buttonSize = this._getBorderWidth(style.buttonSize)
@@ -187,11 +194,11 @@ export default {
         upIcon.style.width = buttonSize + 'px'
         upIcon.style.height = buttonSize + 'px'
         up.appendChild(upIcon);
-
-        this._borderNodes.push(up)
-        this._paddingNodes.push(up)
-        this._backgroundNodes.push(up)
         this._upNodes.push(up);
+
+  
+
+   
 
         const down = db.div('MatcWidgetTypeSortableListItemBtn').build(row)
         down.style.color = style.arrowColor;
@@ -200,11 +207,25 @@ export default {
         downIcon.style.width = buttonSize + 'px'
         downIcon.style.height = buttonSize + 'px'
         down.appendChild(downIcon);
-
-        this._borderNodes.push(down)
-        this._paddingNodes.push(down)
-        this._backgroundNodes.push(down)
         this._downNodes.push(down)
+
+        if (isOutline) {
+          this._borderNodes.push(row)
+          this._paddingNodes.push(row)
+          this._backgroundNodes.push(row)
+          this._shadowNodes.push(row)
+        } else {
+
+          this._borderNodes.push(down)
+          this._paddingNodes.push(down)
+          this._backgroundNodes.push(down)
+          this._shadowNodes.push(down)
+
+          this._borderNodes.push(up)
+          this._paddingNodes.push(up)
+          this._backgroundNodes.push(up)
+          this._shadowNodes.push(up)
+        }
 
     },
 

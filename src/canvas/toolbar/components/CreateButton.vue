@@ -110,7 +110,7 @@ export default {
 			this.categoryToQSS = {
 				WireFrame: QSS.getTheme("wireframe"),
 				Advanced: QSS.getTheme("wireframe"),
-				Survey: QSS.getTheme("wireframe")
+				Survey: QSS.getTheme("survey")
 			}
 			this._importedApps = {}
 			/**

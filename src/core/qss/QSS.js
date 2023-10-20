@@ -1,5 +1,5 @@
 import wireframe from './themes/wireframe'
-// import clean from './qss/clean'
+import survey from './themes/survey'
 // import unter from './qss/unter'
 // import funky from './qss/funky'
 // import tabler from './qss/tabler'
@@ -9,6 +9,7 @@ class QSS {
     constructor () {
         this.themes =  {
             "wireframe": wireframe,
+            'survey': survey
         //     "clean": clean,
         //     "wireframe": wireframe,
         //     "unter": unter,
