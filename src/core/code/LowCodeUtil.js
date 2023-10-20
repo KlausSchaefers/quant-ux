@@ -2,7 +2,7 @@ import CoreUtil from '../CoreUtil'
 import JSONPath from '../JSONPath'
 
 export function getNPMTemplate (){
-  return 'npm i luisa-vue@2'
+  return 'npm i luisa-vue@3'
 }
 
 export function getRouterTemplate () {

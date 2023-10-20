@@ -243,8 +243,7 @@
 	padding-top: 8px;
 }
 
-.MatcToolbarPopUp .MatcToolbarTabContainer a,
-.MatcCode.MatcToolbarTabContainer a {
+.MatcToolbarPopUp .MatcToolbarTabContainer a{
 	color: #777;
 	margin: 0px;
 	border-bottom: 2px solid transparent;
@@ -261,8 +260,7 @@
 }
 
 
-.MatcToolbarPopUp .MatcToolbarTabContainer a.MatcToolbarTabActive,
-.MatcCode.MatcToolbarTabContainer a.MatcToolbarTabActive {
+.MatcToolbarPopUp .MatcToolbarTabContainer a.MatcToolbarTabActive{
 	border-bottom: 2px solid $primary_color;
 	color: $gray_3;
 }

@@ -34,6 +34,8 @@
 									  </p>
 									  <p v-else v-html="getNlSWithReplacement('simulator.welcome.msg', {'name': model.name})"></p>
 									  <p v-html="getNLS('simulator.welcome.privacy')"></p>
+									  <p v-html="getNLS('simulator.welcome.privacy1')"></p>
+									  <p v-html="getNLS('simulator.welcome.click-start')"></p>
 								  </div>
 								  <div class="MatcMarginTop">
 									  <div  class="MatcButton MatcButtonPrimary MatcButtonFulLWidth" @click="onStart()" v-if="getUserTasks().length === 0">
@@ -46,7 +48,7 @@
 						  </div>
 						  <div class="MatcSimulatorContent" v-if="step === 3">
 							  <div class="MatcSimulatorContentCntr">
-								  <h2>{{getNLS("simulator.tasks.title")}} !</h2>
+								  <h2>{{getNLS("simulator.tasks.title")}}</h2>
 								  <p>
 									  {{getNLS("simulator.tasks.msg")}}
 								  </p>

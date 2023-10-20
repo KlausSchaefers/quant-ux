@@ -77,7 +77,7 @@ export default {
 				this.logger.log(-1, "download", "enter > " + this.screen);
 
 				var db = new DomBuilder();
-				var popup = db.div("MatcCSSDialog ").build();
+				var popup = db.div("MatcCSSDialog MatcDialog").build();
 
 				var cntr = db.div("MatcCSSDialogCntr").build(popup);
 

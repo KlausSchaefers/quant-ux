@@ -28,12 +28,12 @@
 
 .MatcTestLogoCntrMax .MatcTestProgressCntr {
     transition-delay: 1s;
-    height: 500px;
+    height: 530px;
     width: 400px;
     background: #fefefe;
     border: 1px solid rgba(255,255,255,1);
-	color:#333;
-	border-radius:5px;
+	color:$text_color;
+	border-radius:8px;
     box-shadow:0px 0px 10px rgba(0,0,0, 0.15);
     transform: translateY(-200px);
 }
@@ -41,7 +41,7 @@
 .MatcTestContent{
 	padding: $dialog_padding;
     width:400px;
-    height:500px;
+    height:530px;
     text-align: left;
 
     p{
@@ -50,7 +50,7 @@
 }
 
 .MatcTestContentCntr{
-    height: 380px;
+    height: 400px;
     overflow: auto;
 }
 
@@ -285,6 +285,7 @@ body.MatcTestMobile{
 .MatcTestTaskCntr .MatcTestTaskDescription {
     font-size: 16px;
     margin-bottom: 40px;
+    font-weight: $font-weight-s;
 }
 
 .MatcTestTaskCntr span.mdi{

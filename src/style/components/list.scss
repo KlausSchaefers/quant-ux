@@ -358,7 +358,8 @@
 			box-shadow: $page_drop_shadow_soft;
 			border:none;
 			height:350px;
-			position: relative;			
+			position: relative;		
+			outline: 1px solid $page_border;
 		}
 		
 		&:hover {

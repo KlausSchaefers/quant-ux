@@ -224,7 +224,7 @@ export default {
 		}
 	},
     methods: {
-      postCreate (){
+      	postCreate (){
 			this.logger = new Logger("Toolbar");
 			this.logger.log(3, "constructor", "entry > " + this.pub);
 		},
@@ -274,6 +274,7 @@ export default {
 			}
 			this.renderToolbar();
 			this.renderProperties()
+			this.showCanvas()
 		},
 
 		setPublic (isPublic) {

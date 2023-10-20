@@ -119,4 +119,10 @@
 	position: absolute;
 	right: 6px;
 	top: -48px;
+
+    .MatcToolbarIconButton {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 }
