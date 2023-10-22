@@ -9,6 +9,7 @@ import CoreUtil from 'core/CoreUtil'
 import ModelResizer from 'core/ModelResizer'
 import ModelUtil from 'core/ModelUtil'
 import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
+import * as ResponsiveUtil from 'core/responsive/ResponsiveUtil'
 
 export default {
     name: 'Resize',
@@ -366,6 +367,7 @@ export default {
       getResizeModel (id) {
         if (this._resizeModelType == "screen"){
           this._resizeModel = this.model.screens[id];
+          this._resizeModelChildren = ResponsiveUtil.getPinnedScreenChildren(this._resizeModel, this.model);      
         } else if(this._resizeModelType == "widget"){
           this._resizeModel = this.model.widgets[id];
         } else if(this._resizeModelType == "group"){
@@ -398,12 +400,17 @@ export default {
 
         if (modelType !== "group" && modelType !== "multi"){
           /**
-           * Normal screen or widgedt. Now build the job
+           * Normal screen or widget. Now build the job
            */
           this._resizeRenderJobs[pos.id] = {
             "pos" : pos,
             "div" : this._resizeParentDiv
           };
+
+          if (modelType === 'screen') {
+            const childPositions = ResponsiveUtil.getPinnedScreenChildPositions(pos, this._resizeModelChildren)
+            this._createMultiPositionRenderJobs(childPositions)          
+          }
         } else {
           if (modelType === "multi" && this._distributeEnabled) {
             /**
@@ -455,10 +462,14 @@ export default {
       _createMultiPositionRenderJobs(positions) {
         for(let id in positions){ 
           const div = this.widgetDivs[id];
-          this._resizeRenderJobs[id] = {
-            "pos" : positions[id],
-            "div" : div
-          };
+          if (div) {
+            this._resizeRenderJobs[id] = {
+              "pos" : positions[id],
+              "div" : div
+            };
+          } else {
+            console.warn('_createMultiPositionRenderJobs() > no DIV for ' + id)
+          }
         }
       },
 
@@ -628,9 +639,11 @@ export default {
 					div.style.height = pos.h + "px";
 
 					/**
-					 * Also update the background things
+					 * Also update the background things. 
+           * 
+           * Since 5.0.0 we might have also the pinned children, so we must check what to do
 					 */
-					if (this._resizeModelType == "screen"){
+					if (this._resizeModelType == "screen" && this.screenBackgroundDivs[id]){
 						div = this.screenBackgroundDivs[id];
 						this.domUtil.setPos(div, sourcePos)
 						div.style.width = sourcePos.w + "px";
@@ -731,6 +744,7 @@ export default {
 			delete this._resizeHandleDiv;
 			delete this._resizeType;
 			delete this._resizeModel;
+      delete this._resizeModelChildren
 			delete this._resizeId;
 			delete this._resizeParentDiv;
 			delete this._resizeContainerDiv;

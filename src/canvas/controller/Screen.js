@@ -3,6 +3,7 @@ import lang from '../../dojo/_base/lang'
 import Core from '../../core/Core'
 import ModelResizer from '../../core/ModelResizer'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
+import * as ResponsiveUtil from 'core/responsive/ResponsiveUtil'
 import * as ImportUtil from './ImportUtil'
 
 export default class Screen extends CopyPaste {
@@ -575,20 +576,21 @@ export default class Screen extends CopyPaste {
 	}
 
 	modelScreenUpdate (id, pos, updateChildren){
-		this.logger.log(1,"modelScreenUpdate", "enter > id: " + id + " > updateChildren: " + updateChildren);
+		this.logger.log(-1,"modelScreenUpdate", "enter > id: " + id + " > updateChildren: " + updateChildren);
 
-		let modified = new Date().getTime()
-		var screen = this.model.screens[id];
+		const modified = new Date().getTime()
+		const screen = this.model.screens[id];
 		screen.modified = modified
+		const changes = [{type: 'screen', action:"change", id: id}]
 
 		/**
 		 * update all widgets too if there was
 		 * a screen move and no resize!
 		 */
 		if (updateChildren){
-			for (var i=0; i < screen.children.length; i++){
-				var widgetID = screen.children[i];
-				var widget = this.model.widgets[widgetID];
+			for (let i=0; i < screen.children.length; i++){
+				const widgetID = screen.children[i];
+				const widget = this.model.widgets[widgetID];
 				widget.modified = modified
 				if (widget){
 					if (pos.x){
@@ -599,13 +601,36 @@ export default class Screen extends CopyPaste {
 					}
 				}
 			}
+		} else {
+
+			/** 
+			 * Since 5.0.0 we will update pinned children. 
+			 * Attention, Undo and Redo do not provide full positions,
+			 * thus we have to construct the newScreenPos
+			 */
+			const pinnedChildren = ResponsiveUtil.getPinnedScreenChildren(screen, this.model)
+			const newScreenPos = {
+				x: pos.x ? pos.x : screen.x,
+				y: pos.y ? pos.y : screen.y,
+				h: pos.h ? pos.h : screen.h,
+				w: pos.w ? pos.w : screen.w
+			}
+			const childPositions = ResponsiveUtil.getPinnedScreenChildPositions(newScreenPos, pinnedChildren)
+			for (let childId in childPositions) {
+				const chidlPos = childPositions[childId]
+				const widget = this.model.widgets[childId]
+				if (widget) {
+					this.updateBox(chidlPos, widget)
+					changes.push({type: 'widget', action:"change", id: childId})
+				}
+			}
 		}
 
 		/**
 		 * update screen
 		 */
 		this.updateBox(pos, screen);
-		this.onModelChanged([{type: 'screen', action:"change", id: id}])
+		this.onModelChanged(changes)
 	}
 
 	undoScreenPosition (command){

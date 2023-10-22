@@ -26,25 +26,27 @@
 						</div> 
 
 						<div class="MatcToolbarSection" v-show="!svgEditorVisible" >				
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit" v-show="hasScreens">
 								<QIcon icon="Edit" />
 							</div> 
+
+
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove" v-show="hasScreens">
+								<QIcon icon="EditMove" />
+							</div>
 						
 							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
 								<QIcon icon="DevicesAdd" />
 								<!-- <span class="MatcToolbarResponsiveLabel">Screen</span>    						 -->
 							</div>
 						
-							<CreateBasicButton @add="onToolBasic" :mode="mode"/>
-							<CreateButton ref="createButton" :mode="mode"/>
+							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens"/>
+							<CreateButton ref="createButton" :mode="mode" v-show="hasScreens"/>
 							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
 							<CreateVectorButton @add="onToolSVG" v-if="false" />	
 
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove">
-								<QIcon icon="EditMove" />
-							</div>
 
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
 								<QIcon icon="Comment" />
 							</div>		
 							
@@ -87,10 +89,9 @@
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
 							</div>							
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>		
-							<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="simulatorButton" >			
+							<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="simulatorButton"  v-show="hasScreens">			
 								<div class="MatcToolbarItem MatcToolbarPrimaryItem" @click="startSimilator">																
-									<QIcon icon="Play" />					
-								
+									<QIcon icon="Play" />												
 								</div>
 							</div>
 							<div class="MatcToolbarItem" @click="showSharing">
@@ -198,7 +199,8 @@ export default {
 			collabUsers:[],
 			showLabels:false,
 			isDeveloperMode: false,
-			mode: 'edit'
+			mode: 'edit',
+			hasScreens: false
         }
     },
 	components: {

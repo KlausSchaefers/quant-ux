@@ -550,21 +550,22 @@ export default {
 		 * Settings
 		 **********************************************************************/
 
-		onShowSettings: function () {
+		onShowSettings  () {
 
-			var db = new DomBuilder();
-			var popup = db.div("MatcDialog  MatcDialogM MatcPadding").build();
-			var cntr = db.div("").build(popup);
-			var settings = this.canvas.getSettings();
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog  MatcDialogM MatcPadding").build();
+			const cntr = db.div("").build(popup);
+			const settings = this.canvas.getSettings();
 
 			/**
 			 * Themes
 			 */
 			db.label("", "Theme :").build(cntr);
-			var themeList = this.$new(RadioBoxList);
+			const themeList = this.$new(RadioBoxList);
 			themeList.setOptions([
 				{ value: "MatcLight", label: "Light" },
-				{ value: "MatcDark", label: "Dark" }
+				{ value: "MatcDark", label: "Dark" },
+				{ value: "MatcAuto", label: "Auto" },
 			]);
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
@@ -574,38 +575,38 @@ export default {
 			 */
 			db.label("MatcMarginTop", "Other:").build(cntr);
 
-			var selectMoveCntr = db.div("form-group").build(cntr);
-			var selectMoveBox = this.$new(CheckBox);
+			const selectMoveCntr = db.div("form-group").build(cntr);
+			const selectMoveBox = this.$new(CheckBox);
 			selectMoveBox.setLabel("Select to move");
 			selectMoveBox.setValue(settings.selectMove);
 			selectMoveBox.placeAt(selectMoveCntr);
 
-			var selectScreenCntr = db.div("form-group").build(cntr);
-			var selectScreenCheckBox = this.$new(CheckBox);
+			const selectScreenCntr = db.div("form-group").build(cntr);
+			const selectScreenCheckBox = this.$new(CheckBox);
 			selectScreenCheckBox.setLabel("Click on screen will select");
 			selectScreenCheckBox.setValue(settings.hasSelectOnScreen);
 			selectScreenCheckBox.placeAt(selectScreenCntr);
 
-			var qrCodeCheckBoxCntr = db.div("form-group").build(cntr);
-			var qrCodeCheckBox = this.$new(CheckBox);
+			const qrCodeCheckBoxCntr = db.div("form-group").build(cntr);
+			const qrCodeCheckBox = this.$new(CheckBox);
 			qrCodeCheckBox.setLabel("Show QR Code in simulator");
 			qrCodeCheckBox.setValue(settings.hasQRCode);
 			qrCodeCheckBox.placeAt(qrCodeCheckBoxCntr);
 
-			var colorCntr = db.div("form-group").build(cntr);
-			var colorPicker = this.$new(CheckBox);
+			const colorCntr = db.div("form-group").build(cntr);
+			const colorPicker = this.$new(CheckBox);
 			colorPicker.setLabel("Keep colorpicker open");
 			colorPicker.setValue(settings.keepColorWidgetOpen);
 			colorPicker.placeAt(colorCntr);
 
-			var zoomCntr = db.div("form-group").build(cntr);
-			var zoomChkBox = this.$new(CheckBox);
+			const zoomCntr = db.div("form-group").build(cntr);
+			const zoomChkBox = this.$new(CheckBox);
 			zoomChkBox.setLabel("Snapp on zoom");
 			zoomChkBox.setValue(settings.zoomSnapp);
 			zoomChkBox.placeAt(zoomCntr);
 
-			var designTokenCntr = db.div("form-group").build(cntr);
-			var designTokenCheckBox = this.$new(CheckBox);
+			const designTokenCntr = db.div("form-group").build(cntr);
+			const designTokenCheckBox = this.$new(CheckBox);
 			designTokenCheckBox.setLabel("Show Design Tokens");
 			designTokenCheckBox.setValue(settings.hasDesignToken);
 			designTokenCheckBox.placeAt(designTokenCntr);
@@ -614,25 +615,25 @@ export default {
 			/**
 			 * Since 3.0.43 we snapp by default to top left corner
 			 */
-			var gridSnapTopLeftCntr = db.div("form-group").build(cntr);
-			var gridSnapTopLeftChkBox = this.$new(CheckBox);
+			 const gridSnapTopLeftCntr = db.div("form-group").build(cntr);
+			 const gridSnapTopLeftChkBox = this.$new(CheckBox);
 			gridSnapTopLeftChkBox.setLabel("Snap grid to top left corner");
 			gridSnapTopLeftChkBox.setValue(settings.snapGridOnlyToTopLeft);
 			gridSnapTopLeftChkBox.placeAt(gridSnapTopLeftCntr);
 
 
-			var protoMotoCntr = db.div("form-group").build(cntr);
-			var protoMotoCheckBox = this.$new(CheckBox);
+			const protoMotoCntr = db.div("form-group").build(cntr);
+			const protoMotoCheckBox = this.$new(CheckBox);
 			protoMotoCheckBox.setLabel("Enable Beta Features");
 			protoMotoCheckBox.setValue(settings.hasProtoMoto);
 			protoMotoCheckBox.placeAt(protoMotoCntr);
 
-			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
+			const bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 
-			var save = db.a("MatcButton MatcButtonPrimary", "Save").build(bar);
-			var cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
+			const save = db.a("MatcButton MatcButtonPrimary", "Save").build(bar);
+			const cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
 
-			var dialog = new Dialog();
+			const dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(

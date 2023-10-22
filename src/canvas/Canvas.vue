@@ -439,8 +439,11 @@ export default {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
 			}
 			this.applySettings(this.settings);
+			this.initDarkModeListener()
+		
 
 		},
+
 
 		getSettings (){
 			return this.settings;
@@ -554,20 +557,7 @@ export default {
 			}
 
 			if (s.canvasTheme){
-				if(this._lastCanvasTheme){
-					css.remove(win.body(), this._lastCanvasTheme);
-				}
-				css.add(win.body(), s.canvasTheme)
-				this._lastCanvasTheme = s.canvasTheme;
-
-				/**
-				 * FIXME: Kind of hack
-				 */
-				if(s.canvasTheme=="MatcLight"){
-					this.defaultLineColor = "#49C0F0";
-				} else {
-					this.defaultLineColor = "#49C0F0";
-				}
+				this.setCanvasTheme(s.canvasTheme)
 			}
 
 			this.settings = s;
@@ -579,7 +569,52 @@ export default {
 			//console.debug("applySetztings() > exit > renderlines: ", this.renderLines, " > showSettings: ", this.showComments);
 		},
 
+		setCanvasTheme (canvasTheme) { 
 
+			if (canvasTheme === "MatcAuto") {
+				this.logger.log(-1, "setCanvasTheme","enter > auto: " + canvasTheme  + ' > OS: '+ this.isDarkModeOS())
+				if (this.isDarkModeOS()) {
+					canvasTheme = 'MatcDark'
+				} else {
+					canvasTheme = 'MatcLight'
+				}
+			}
+
+			if(this._lastCanvasTheme){
+				css.remove(win.body(), this._lastCanvasTheme);
+			}
+
+			css.add(win.body(), canvasTheme)
+			this._lastCanvasTheme = canvasTheme;
+		
+			if(canvasTheme=="MatcLight"){
+				this.defaultLineColor = "#49C0F0";
+			} else {
+				this.defaultLineColor = "#49C0F0";
+			}
+		},
+
+		initDarkModeListener () {
+			const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+			this.own(on(mediaQuery, 'change', () => {
+				this.logger.log(-1,"initDarkModeListener", "change");
+				if (this.settings.canvasTheme === 'MatcAuto') {
+					this.setCanvasTheme(this.settings.canvasTheme)
+				}
+			}))
+		},
+
+
+		isDarkModeOS () {
+			if (window.matchMedia) {
+				if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+					return true
+				} else {
+					return false
+				}
+			}
+			return true
+		},
 
 		/***************************************************************************
 		 * Grid
