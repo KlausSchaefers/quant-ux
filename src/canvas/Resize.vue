@@ -425,7 +425,7 @@ export default {
             /**
              * Responsive Layout
              */
-            const [positions] = this._resizeMultiChildren(pos)
+            const [positions] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
             this._createMultiPositionRenderJobs(positions)             
           }
 
@@ -473,10 +473,12 @@ export default {
         }
       },
 
-      _resizeMultiChildren (pos) {
-
+      _resizeMultiChildren (pos, oldPos, children) {
+    
           const responsivePositions = this._responsiveLayouter.resize(pos.w, pos.h)
 
+          const offsetX = pos.x - oldPos.x
+          const offsetY = pos.y - oldPos.y
 
           // const dif ={
           //   x: pos.x *1.0 / this._resizeModel.x,
@@ -487,7 +489,6 @@ export default {
    
           let hasCopies = false;
           let positions = {};
-          const children = this._resizeModel.children;
           for(let i=0; i< children.length; i++){
             const id = children[i];
             const widget = this.model.widgets[id];        
@@ -497,8 +498,8 @@ export default {
             // positions[id] = newPos
             const repositionWidget = responsivePositions.widgets[id]
             positions[id] = {
-              x: repositionWidget.x,
-              y: repositionWidget.y,
+              x: repositionWidget.x + offsetX,
+              y: repositionWidget.y + offsetY,
               w: repositionWidget.w,
               h: repositionWidget.h
             }         
@@ -592,7 +593,7 @@ export default {
             // to work on the unzoomed model and avoid rounding errors!
             this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
           } else {
-            const [positions,hasCopies] = this._resizeMultiChildren(pos)
+            const [positions,hasCopies] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
             // Basically we have to move this entire method to the controller!!
             this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
           }

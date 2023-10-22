@@ -84,6 +84,7 @@ import KeyBoard from 'canvas/KeyBoard'
 import Resize from 'canvas/Resize'
 import Replicate from 'canvas/Replicate'
 import Prototyping from 'canvas/Prototyping'
+import GridResize from 'canvas/GridResize'
 
 import FastDomUtil from 'core/FastDomUtil'
 import SVGEditor from '../svg/SVGEditor'
@@ -92,7 +93,7 @@ export default {
   name: 'Canvas',
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView,
-			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG],
+			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG, GridResize],
     data: function () {
         return {
 			mode: "edit",

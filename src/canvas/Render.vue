@@ -495,6 +495,7 @@ export default {
 			css.remove(this.container, "MatcCanvasFadeOut");
 			css.remove(this.container, "MatcCanvasModeAlign");
 			css.remove(this.container, "MatcCanvasModeReplicate");
+			css.remove(this.container, "MatcCanvasModeGridResize");
 
 			//this.screenContainer.innerHTML = "";
 			//this.widgetContainer.innerHTML = "";
@@ -529,6 +530,7 @@ export default {
 				delete this._hotspotToolPressListener;
 			}
 			this.cleanUpResizeHandles();
+			this.cleanUpGridResize()
 			this.cleanUpAddNDrop();
 		},
 

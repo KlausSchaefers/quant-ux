@@ -63,14 +63,17 @@
 									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">					
 										<QIcon icon="UnGroup" />					
 									</div>
-									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
+									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
 										<QIcon icon="Distribute" />					
+									</div>
+									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'selectionGridEditor'}]" data-dojo-attach-point="gridResizeBtn" @click="onToolbarGridResize">
+										<QIcon icon="ResiseGrid" />					
 									</div>
 								</div>
 
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
 									<TemplateButton ref="templateBTN" @create="onToolCreateTemplate"></TemplateButton>											
-									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
+									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
 											<QIcon icon="Replicate" />				
 									</div>										
 								</div>
@@ -1310,20 +1313,19 @@ export default {
 			this.stopEvent(e);
 			this.logger.log(1,"onToolbarReplicate", "entry : " + this._selectedWidget);
 			this.canvas.onReplicate();
-			if (this.replicateBtn){
-				css.toggle(this.replicateBtn, "MatcToolbarItemActive");
-			}
 		},
 
 		onToolbarDistribute (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onToolbarDistribute", "entry : " + this._selectedWidget);
 			this.canvas.onDistribute();
-			if (this.distributeBtn){
-				css.toggle(this.distributeBtn, "MatcToolbarItemActive");
-			}
 		},
 
+		onToolbarGridResize (e) {
+			this.stopEvent(e);
+			this.logger.log(-1,"onToolbarGridResize", "entry : " + this._selectedWidget);
+			this.canvas.onGridResize()
+		},
 
 		onToolCopyStyle (e){
 			this.stopEvent(e);

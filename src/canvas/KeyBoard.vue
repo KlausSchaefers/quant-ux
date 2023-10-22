@@ -223,12 +223,13 @@ export default {
          */
         } else if(k == 68 && !isMeta){
           if(!this._inlineEditStarted  && !this._selectionToolStart){
-            if (this.getMultiSelection()) {
-              this.onDistribute();
+            if (this.getMultiSelection() || this.getSelectedGroup()) {
+              this.onGridResize()
+              //this.onDistribute();
               this.stopEvent(e);
               e.cancelBubble = true
             } else {
-              this.showHint("Select multiple widgets to distribute equally...");
+              this.showHint("Select multiple widgets to to start grid resizing");
             }
           }
         /**

@@ -34,6 +34,14 @@
 
     .MatcToolbarSecondaryItem {
         border: 1px solid transparent;
+        &.MatcToolbarItemSelected {
+            background: $primary_color;
+
+            &:hover {
+                background: $primary_color;
+            }
+        }
+
     }
 
     .MatcToolbarSecondaryItem:hover {

@@ -360,6 +360,8 @@ export default {
 			this.addTooltip(this.groupBTN,this.getNLS("tooltip.group"));
 			this.addTooltip(this.ungroupBTN, this.getNLS("tooltip.ungroup"));
 			this.addTooltip(this.replicateBtn, this.getNLS("tooltip.clone"));
+			this.addTooltip(this.gridResizeBtn, this.getNLS("tooltip.resizeGrid"));
+
 		},
 
 

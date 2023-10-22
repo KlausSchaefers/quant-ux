@@ -2,25 +2,23 @@
 <template>
   <div class="MatcCanvas MatcAnalyticCanvas">
     <div class="MatcCanvasFrame" data-dojo-attach-point="frame">
-      <div class="MatcCanvasContainer MatcCanvasZoomable"  data-dojo-attach-point="container" >
+      <div class="MatcCanvasContainer MatcCanvasZoomable" data-dojo-attach-point="container">
         <div class="MatcCanvasContainer" data-dojo-attach-point="zoomContainer">
-          <div  data-dojo-attach-point="screenContainer" class="MatcCanvasLayer" ></div>
+          <div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div>
           <div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div>
-					<div data-dojo-attach-point="svgContainer" class="MatcCanvasLayer MatcCanvasSVGLayer"></div>
+          <div data-dojo-attach-point="svgContainer" class="MatcCanvasLayer MatcCanvasSVGLayer"></div>
         </div>
         <div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
       </div>
     </div>
     <div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
-      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr" >
-        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"
-        ></div>
+      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr">
+        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div>
       </div>
     </div>
-    <div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom" >
-      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr" >
-        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"
-        ></div>
+    <div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom">
+      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr">
+        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
       </div>
     </div>
     <div class="MatcMessage" data-dojo-attach-point="message"></div>
@@ -28,12 +26,12 @@
 </template>
 
 <style lang="css">
-  @import url("../../style/css/legacy.css");
+@import url("../../style/css/legacy.css");
 </style>
 <style lang="scss">
-  @import "../../style/matc.scss";
-  @import "../../style/canvas/all.scss";
-  @import '../../style/toolbar/all.scss';
+@import "../../style/matc.scss";
+@import "../../style/canvas/all.scss";
+@import '../../style/toolbar/all.scss';
 </style>
 
 <script>
@@ -59,6 +57,7 @@ import DnD from "canvas/DnD";
 import Add from "canvas/Add";
 import Select from "canvas/Select";
 import Distribute from "canvas/Distribute";
+import GridResize from "canvas/GridResize";
 import Tools from "canvas/Tools";
 import Zoom from "canvas/Zoom";
 import Util from "core/Util";
@@ -91,6 +90,7 @@ export default {
     Add,
     Select,
     Distribute,
+    GridResize,
     Tools,
     Zoom,
     InlineEdit,
@@ -130,7 +130,7 @@ export default {
       this.cache = {};
       this.moveMode = "classic";
       this.domUtil = new FastDomUtil();
-			this.analyticLines = {}
+      this.analyticLines = {}
       this.analyticCircles = {}
 
       this.logger.log(2, "postCreate", "entry");
@@ -153,7 +153,7 @@ export default {
        */
       this.initSelection()
       this.initRender();
-			this.initAnalyticSVG()
+      this.initAnalyticSVG()
       this.initZoom();
       this.initScrollBars();
       this.initComment();
@@ -161,6 +161,7 @@ export default {
       this.initWiring();
       this.initKeys();
       this.initMouseTracker()
+      this.initDarkModeListener()
 
       this.db = new DomBuilder();
 
@@ -179,18 +180,18 @@ export default {
       this.logger.log(2, "postCreate", "exit!!!");
     },
 
-    showError (msg){
-			if(this.message){
-				css.add(this.message, "MatcMessageError");
-				css.remove(this.message, "MatcMessageSuccess MatcMessageHint");
-				this.message.textContent = msg;
-				setTimeout(lang.hitch(this,"hideMessage"), 3000);
-			}
-		},
+    showError(msg) {
+      if (this.message) {
+        css.add(this.message, "MatcMessageError");
+        css.remove(this.message, "MatcMessageSuccess MatcMessageHint");
+        this.message.textContent = msg;
+        setTimeout(lang.hitch(this, "hideMessage"), 3000);
+      }
+    },
 
 
-    XlineFunction (line) {
-    	return this.straightLineFunction(line)
+    XlineFunction(line) {
+      return this.straightLineFunction(line)
     },
 
     setPublic(isPublic) {
@@ -210,9 +211,9 @@ export default {
       this.onChangeCanvasViewConfig();
     },
 
-		setMouseListener (callback) {
-			this.mouseListenerCallback = callback
-		},
+    setMouseListener(callback) {
+      this.mouseListenerCallback = callback
+    },
 
     inlineEditInit() {
       this.logger.log(2, "inlineEditInit", "enter");
@@ -267,25 +268,25 @@ export default {
       }
     },
 
-		/**********************************************************************
+    /**********************************************************************
      * Lines
      **********************************************************************/
 
-		initAnalyticSVG (){
-			this.logger.log(3, "initAnalyticSVG", "entry");
-			let bodySelection = d3.select(this.svgContainer);
-			this.analyticSVG = bodySelection.append("svg").attr("width", this.canvasPos.h).attr("height",this.canvasPos.w);
-	  },
+    initAnalyticSVG() {
+      this.logger.log(3, "initAnalyticSVG", "entry");
+      let bodySelection = d3.select(this.svgContainer);
+      this.analyticSVG = bodySelection.append("svg").attr("width", this.canvasPos.h).attr("height", this.canvasPos.w);
+    },
 
-		cleanUpAnalyticLines () {
-			if (this.analyticSVG) {
-				this.analyticSVG.selectAll("*").remove();
-			}
-			this.analyticLines = {}
+    cleanUpAnalyticLines() {
+      if (this.analyticSVG) {
+        this.analyticSVG.selectAll("*").remove();
+      }
+      this.analyticLines = {}
       this.analyticCircles = {}
-		},
+    },
 
-    drawLine (id, line){
+    drawLine(id, line) {
       let color = this.defaultLineColor
       let width = this.defaultLineWidth
       if (this.model && this.model.lines && this.model.lines[id]) {
@@ -298,33 +299,33 @@ export default {
           color = this.mixColor(p)
         }
       }
-			return this.drawSVGLine(id, line, color, width, 1);
-		},
+      return this.drawSVGLine(id, line, color, width, 1);
+    },
 
-		drawAnalyticLine(id, line, color, width, opacity) {
-			const svg = this.analyticSVG.append("path")
-							.attr("d", this.lineFunction(line))
-							.attr("stroke", color)
-							.attr("stroke-width", width )
-							.attr("fill", "none")
-							.style("opacity", opacity);
+    drawAnalyticLine(id, line, color, width, opacity) {
+      const svg = this.analyticSVG.append("path")
+        .attr("d", this.lineFunction(line))
+        .attr("stroke", color)
+        .attr("stroke-width", width)
+        .attr("fill", "none")
+        .style("opacity", opacity);
 
-			this.analyticLines[id] = svg
-		},
+      this.analyticLines[id] = svg
+    },
 
 
-		drawStraightAnalyticLine(id, line, color, width, opacity) {
-			const svg = this.analyticSVG.append("path")
-							.attr("d", this.straightLineFunction(line))
-							.attr("stroke", color)
-							.attr("stroke-width", width )
-							.attr("fill", "none")
-							.style("opacity", opacity);
+    drawStraightAnalyticLine(id, line, color, width, opacity) {
+      const svg = this.analyticSVG.append("path")
+        .attr("d", this.straightLineFunction(line))
+        .attr("stroke", color)
+        .attr("stroke-width", width)
+        .attr("fill", "none")
+        .style("opacity", opacity);
 
-			this.analyticLines[id] = svg
-		},
+      this.analyticLines[id] = svg
+    },
 
-    
+
 
     /**********************************************************************
      * Wiring
@@ -352,9 +353,9 @@ export default {
      * Settings
      **********************************************************************/
 
-		afterUpdateDnd (zoomedModel) {
+    afterUpdateDnd(zoomedModel) {
       this.logger.log(1, "afterUpdateDnd", "enter > ", zoomedModel);
-		},
+    },
 
     initSettings() {
       this.logger.log(1, "initSettings", "enter > ");
@@ -433,20 +434,7 @@ export default {
         this.defaultLineWidth = s.lineWidth;
       }
       if (s.canvasTheme) {
-        if (this._lastCanvasTheme) {
-          css.remove(win.body(), this._lastCanvasTheme);
-        }
-        css.add(win.body(), s.canvasTheme);
-        this._lastCanvasTheme = s.canvasTheme;
-
-        /**
-         * FIXME: Kind of hack
-         */
-        if (s.canvasTheme == "MatcLight") {
-          this.defaultLineColor = "#777";
-        } else {
-          this.defaultLineColor = "#333";
-        }
+        this.setCanvasTheme(s.canvasTheme)
       }
 
       if (s.mouseWheelMode) {
@@ -456,6 +444,53 @@ export default {
       this.settings = s;
     },
 
+
+    setCanvasTheme(canvasTheme) {
+
+      if (canvasTheme === "MatcAuto") {
+        this.logger.log(-1, "setCanvasTheme", "enter > auto: " + canvasTheme + ' > OS: ' + this.isDarkModeOS())
+        if (this.isDarkModeOS()) {
+          canvasTheme = 'MatcDark'
+        } else {
+          canvasTheme = 'MatcLight'
+        }
+      }
+
+      if (this._lastCanvasTheme) {
+        css.remove(win.body(), this._lastCanvasTheme);
+      }
+
+      css.add(win.body(), canvasTheme)
+      this._lastCanvasTheme = canvasTheme;
+
+      if (canvasTheme == "MatcLight") {
+        this.defaultLineColor = "#49C0F0";
+      } else {
+        this.defaultLineColor = "#49C0F0";
+      }
+    },
+
+    initDarkModeListener() {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+      this.own(on(mediaQuery, 'change', () => {
+        this.logger.log(-1, "initDarkModeListener", "change");
+        if (this.settings.canvasTheme === 'MatcAuto') {
+          this.setCanvasTheme(this.settings.canvasTheme)
+        }
+      }))
+    },
+
+
+    isDarkModeOS() {
+      if (window.matchMedia) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return true
+        } else {
+          return false
+        }
+      }
+      return true
+    },
     /**********************************************************************
      * DnD.js overwrites
      **********************************************************************/
@@ -514,7 +549,7 @@ export default {
     afterRender() {
       this.logger.log(1, "afterRender", "entry > " + this.analyticMode);
       this.cleanUpAnalytics();
- 
+
       try {
         this._renderHeatMap();
       } catch (e) {
@@ -551,7 +586,7 @@ export default {
         this.defaultBlur = this.sourceModel.screenSize.w / 100;
       }
 
-      this.logger.log(0,"onScreenRendered", "adjust radios to " + this.defaultRadius);
+      this.logger.log(0, "onScreenRendered", "adjust radios to " + this.defaultRadius);
 
       const screenGrouping = this.df.groupBy("screen");
 
@@ -579,7 +614,7 @@ export default {
           this["_render_" + this.analyticMode](screenEvents, screen, ctx, div);
 
           if (this.hasSelect()) {
-            this.tempOwn(on(div,touch.press,lang.hitch(this, "onScreenDndClick", screen.id, div, null)));
+            this.tempOwn(on(div, touch.press, lang.hitch(this, "onScreenDndClick", screen.id, div, null)));
           }
 
           this.widgetContainer.appendChild(div);
@@ -651,11 +686,11 @@ export default {
         let filtered = this.getClickEvents(new DataFrame(events));
         let actionEvents = filtered.as_array();
         this._render_pixel_screen_heatmap(actionEvents, screen, ctx, div);
-        
+
       }
     },
 
-    _filterSelectedSessions (events) {
+    _filterSelectedSessions(events) {
       if (this.analyticParams && this.analyticParams.sessions) {
         const sessions = this.analyticParams.sessions
         return events.filter(e => {
@@ -684,7 +719,7 @@ export default {
       } catch (err) {
         this.logger.error("_render_pixel_screen_heatmap", "Error > " + screen.name);
       }
-  
+
     },
 
     _render_HeatmapScrollView(screenEvents, screen, ctx) {
@@ -763,19 +798,19 @@ export default {
       }
     },
 
-   
 
-    drawDurationLine (session, line, defaultColor, maxDuration) {
-      for (let i = 0; i < line.length-1; i++) {
+
+    drawDurationLine(session, line, defaultColor, maxDuration) {
+      for (let i = 0; i < line.length - 1; i++) {
         let start = line[i]
-        let end = line[i+1]
+        let end = line[i + 1]
         let p = end.duration / maxDuration
         let width = Math.round(p * 6) + 2
         let color = defaultColor
         if (!defaultColor) {
           //color = this.mixColor(Math.min(1, p))
         }
-        this.drawStraightAnalyticLine(session,[start, end], color, width, this.taskLineOpacity);
+        this.drawStraightAnalyticLine(session, [start, end], color, width, this.taskLineOpacity);
       }
     },
 
@@ -847,13 +882,13 @@ export default {
 
 
     cleanUpAnalytics() {
-			this.cleanUpAnalyticLines()
+      this.cleanUpAnalyticLines()
 
-			this.cleanUpNode(this.widgetContainer)
+      this.cleanUpNode(this.widgetContainer)
       this.analyticsDivs = {};
     },
 
-   
+
 
     /**********************************************************************
      * DI
@@ -930,7 +965,7 @@ export default {
     },
 
     setMode(mode, forceRender) {
-      this.logger.log( 2, "setMode", "enter > " + mode + " != " + this.mode + " > " + forceRender);
+      this.logger.log(2, "setMode", "enter > " + mode + " != " + this.mode + " > " + forceRender);
       if (mode != this.mode) {
         this.mode = mode;
         if (this.toolbar) {
@@ -968,11 +1003,11 @@ export default {
 
         if (!this._inlineEditStarted) {
           this.stopEvent(e);
-          if(this.getMode() != "move"){
-              this.setMode("move");
-              this.showHint("Move the mouse to move canvas...");
-              this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, this._lastMouseMoveEvent, true);
-            }
+          if (this.getMode() != "move") {
+            this.setMode("move");
+            this.showHint("Move the mouse to move canvas...");
+            this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, this._lastMouseMoveEvent, true);
+          }
         }
 
         /**
@@ -1003,9 +1038,9 @@ export default {
       }
     },
 
-    getMode (){
-			return this.mode;
-		},
+    getMode() {
+      return this.mode;
+    },
 
     onKeyUp(e) {
       var k = e.keyCode ? e.keyCode : e.which;
@@ -1022,7 +1057,7 @@ export default {
      ***************************************************************************/
 
     initMouseTracker() {
-      this.own(on(win.body(),"mousemove", lang.hitch(this,"onMouseMove")));
+      this.own(on(win.body(), "mousemove", lang.hitch(this, "onMouseMove")));
     },
 
     onMouseMove(e) {
@@ -1040,6 +1075,6 @@ export default {
       this.logger.log(4, "logPageView", "enter", url);
     },
   },
-  mounted() {},
+  mounted() { },
 };
 </script>

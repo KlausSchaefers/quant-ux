@@ -203,7 +203,8 @@
         "comment": "Add comment",
         "layer": "Change Layer",
         "editmode": "Toggle design and \nprototype mode (TAB)",
-        "protomode": "Define the interaction (Tab)"
+        "protomode": "Define the interaction (Tab)",
+        "resizeGrid": "Change Selection Grid"
     },
     "table-action": "Action X",
     "btn": {

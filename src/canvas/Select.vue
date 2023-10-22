@@ -136,16 +136,16 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			const selectedWidget = this.getSelectedWidget()
 			const selectedGroup = this.getSelectedGroup()
 			const [selectedWidgetID, selectedGroupId] = SelectionUtil.updateSelection(
-			this.model, id, 
-			selectedWidget?.id, 
-			selectedGroup?.id
+				this.model, id, 
+				selectedWidget?.id, 
+				selectedGroup?.id
 			)
 			if (selectedWidgetID) {
 				this.onWidgetSelected(id);
 				this._dragNDropIgnoreGroup = true;
 			}
 			if (selectedGroupId) {
-			this.onGroupSelected(selectedGroupId, true);
+				this.onGroupSelected(selectedGroupId, true);
 			}
 		},
 
@@ -488,8 +488,10 @@ import * as SelectionUtil from 'core/SelectionUtil'
 		},
 
 		unSelect (){		
-			this.logger.log(3,"unSelect", "enter > ");
+			this.logger.log(-1,"unSelect", "enter > ");
 			this.cleanUpResizeHandles();
+			this.onDistributeEnd();
+			this.onGridResizeEnd();
 			this._selectWidget = null;
 			this._selectMulti = null;
 			this._selectGroup = null;
@@ -520,7 +522,7 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			delete this._selectedDnDDiv;
 			delete this._selectChangeListener;
 			delete this._selectStartListener;
-			this.onDistributeEnd();
+	
 		},
 
 		addSelectionChangeListener (listener){

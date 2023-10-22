@@ -58,9 +58,27 @@ export default class ResponsiveLayout {
     }
 
     resize(width, height) {
-        Logger.log(1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:' + height )
+        Logger.log(-1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:',  height )
         const newNestedPositions = this.resizePositions(width, height)
         return this.resizeModel(width, height, newNestedPositions)
+    }
+
+    updateScreenGrid (scrnNumber, grid) {
+        Logger.log(1, 'ResponsiveLayout.updateScreenGrid() > scrnNumber: ' + scrnNumber + ' > grid:',  grid )
+        const newNestedPositions = {}
+        const scrn = this.treeModel.screens[scrnNumber]
+        if (scrn) {
+            scrn.grid = grid
+            console.debug(grid.columns.map(c => c.v +":" +c.l))
+            const width = scrn.w
+            const height = scrn.h
+            newNestedPositions[scrn.id] = createResult(0,0, width, height)
+            const sclaleGrid = this.mapGrid(grid, scrn)
+            this.updateChildPositions(scrn, scrn, sclaleGrid, newNestedPositions, '')
+
+            return this.resizeModel(scrn.w, scrn.h, newNestedPositions)
+        }
+        return newNestedPositions
     }
 
     resizePositions(width, height) {
@@ -76,6 +94,14 @@ export default class ResponsiveLayout {
         })
         return newNestedPositions
     }
+
+
+    resizeScreen (width, height, scrn, newNestedPositions) {
+        Logger.log(2, 'ResponsiveLayout.resizeScreen() > ' + scrn.name )
+        newNestedPositions[scrn.id] = createResult(0,0, width, height)
+        this.resizeChildren(scrn, scrn, newNestedPositions, '')
+    }
+
 
     resizeModel (width, height, newNestedPositions) {
         const result = ExportUtil.clone(this.model)
@@ -113,12 +139,6 @@ export default class ResponsiveLayout {
         })
     }
 
-    resizeScreen (width, height, scrn, newNestedPositions) {
-        Logger.log(2, 'ResponsiveLayout.resizeScreen() > ' + scrn.name )
-        newNestedPositions[scrn.id] = createResult(0,0, width, height)
-        this.resizeChildren(scrn, scrn, newNestedPositions, '')
-    }
-
 
     resizeChildren(box, parent, newNestedPositions, indent='') {
         Logger.log(2, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.layout.type )
@@ -137,17 +157,24 @@ export default class ResponsiveLayout {
 
 
     resizeChildenGrid(box, parent, newNestedPositions, indent) {
-
+        Logger.log(-2, indent + 'ResponsiveLayout.resizeChildenGrid() > ' + box.name, box.layout.type )
         const newParent = newNestedPositions[parent.id]
         const sclaleGrid = this.sclaleGrid(box.grid, newParent, indent + box.name)
-       
+        this.updateChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)
+      
+    }
+
+    updateChildPositions (box, newParent, sclaleGrid, newNestedPositions, indent) {
         box.children.forEach(child => {   
      
             const startX = sclaleGrid.cols[child.gridColumnStart]
             const endX = sclaleGrid.cols[child.gridColumnEnd]
+            
+
             // TODO: we should check that the with and height on
             // fixed elements are really the same...
             const width = endX - startX
+      
 
             const startY = sclaleGrid.rows[child.gridRowStart]
             const endY = sclaleGrid.rows[child.gridRowEnd]
@@ -160,33 +187,60 @@ export default class ResponsiveLayout {
                 height
             )
 
+            console.debug(child.name, width)
+
             newNestedPositions[child.id] = newChildPos
             this.resizeChildren(child, child, newNestedPositions, indent + '     ')
         })
-
-
     }
 
-    getWidgetPositionInGrid (grid, scaledGrid) {
+    // getWidgetPositionInGrid (grid, scaledGrid) {
+    //     const result = {}
+    //     grid.columns.forEach((col, i) => {
+    //         const x = scaledGrid.cols[i]
+    //         col.start.forEach((wID) => {
+    //             if (!result[wID]) {
+    //                 result[wID]= {}
+    //             }
+    //             result[wID].xStart = x
+    //         })
+    //         col.end.forEach((wID) => {
+    //             if (!result[wID]) {
+    //                 result[wID]= {}
+    //             }
+    //             result[wID].xEnd = x
+    //         })
+    //     })
+    //     return result
+    // }
+
+    mapGrid (grid, newParent) {
         const result = {}
-        grid.columns.forEach((col, i) => {
-            const x = scaledGrid.cols[i]
-            col.start.forEach((wID) => {
-                if (!result[wID]) {
-                    result[wID]= {}
-                }
-                result[wID].xStart = x
-            })
-            col.end.forEach((wID) => {
-                if (!result[wID]) {
-                    result[wID]= {}
-                }
-                result[wID].xEnd = x
-            })
+        let lastX = 0
+        result.cols = grid.columns.map((col) => {
+            return col.l       
+        }).map(x => {         
+            lastX += x
+            return lastX
         })
+        result.cols.unshift(0)
+
+        let lastY = 0
+        result.rows = grid.rows.map((row) => {            
+            return row.l          
+        }).map(y => {         
+            lastY += y
+            return lastY
+        })
+        result.rows.unshift(0)
+
+        if (this.config.fixStartEnd) {
+            result.cols[result.cols.length-1] = newParent.w
+            result.rows[result.rows.length-1] = newParent.h
+        }
+
         return result
     }
-
 
     sclaleGrid (grid, newParent) {
         grid = ExportUtil.clone(grid)
