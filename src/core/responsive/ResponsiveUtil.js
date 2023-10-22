@@ -32,7 +32,10 @@ export function getPinnedScreenChildren(screen, model) {
     const children = []
     screen.children.forEach(id => {
       const widget = model.widgets[id]
-      if (widget && ExportUtil.isPinnedDown(widget)) {
+      /**
+       * We do not support widgets from a master screen
+       */
+      if (widget && !widget.inherited && ExportUtil.isPinnedDown(widget)) {
         children.push({
             id: widget.id,
             x: widget.x,
