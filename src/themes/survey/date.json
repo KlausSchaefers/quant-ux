@@ -1,8 +1,8 @@
 [ {
-	"id" : "wireFrameDate",
+	"id" : "SureveyDate",
 	"type" : "Date",
 	"name" : "Calendar",
-	"category" : "Advanced",
+	"category" : "Survey",
 	"subcategory" : "FormInputDate",
 	"_type" : "Widget",
 	"x" : 0,
@@ -17,7 +17,8 @@
 		"backgroundColor" : true,
 		"border" : true,
 		"label" : true,
-		"data" : true
+		"data" : true,
+        "isSurveyElement": true
 	},
 	"style" : {
 		"fontSize": "@font-size-m",
@@ -43,10 +44,10 @@
 		"itemBorderRadius": "@calendar-item-radius"
 	}
 }, {
-	"id" : "wireFrameDateRange",
+	"id" : "SurveyDateRange",
 	"type" : "Date",
 	"name" : "Date Range",
-	"category" : "Advanced",
+	"category" : "Survey",
 	"subcategory" : "FormInputDate",
 	"_type" : "Widget",
 	"x" : 0,
@@ -62,7 +63,8 @@
 		"backgroundColor" : true,
 		"border" : true,
 		"label" : true,
-		"data" : true
+		"data" : true,
+        "isSurveyElement": true
 	},
 	"style" : {
 		"fontSize": "@font-size-m",
@@ -91,10 +93,10 @@
 		"itemBorderRadius": "@calendar-item-radius"
 	}
 }, {
-	"id" : "DateDropDown",
+	"id" : "SurveyDateDropDown",
 	"type" : "DateDropDown",
 	"name" : "Date Picker",
-	"category" : "WireFrame",
+	"category" : "Survey",
 	"subcategory" : "FormInputDate",
 	"_type" : "Widget",
 	"x" : 0,
@@ -111,7 +113,8 @@
 		"border" : true,
 		"label" : true,
 		"data" : true,
-		"padding" : true
+		"padding" : true,
+        "isSurveyElement": true
 	},
 	"style" : {
 		"fontSize": "@font-size-m",
@@ -154,18 +157,19 @@
 	}
 },
 {
-	"id" : "dateRangeDropDown",
+	"id" : "SurveydateRangeDropDown",
 	"type" : "DateDropDown",
 	"name" : "Date Ranger Picker",
-	"category" : "WireFrame",
+	"category" : "Survey",
 	"subcategory" : "FormInputDate",
-	"_extends": "DateDropDown",
+	"_extends": "SurveyDateDropDown",
 	"_type" : "Widget",
 	"props" : {
 		"label" : "Select Range",
 		"icon" : "mdi mdi-calendar-week",
 		"range" : true,
-		"preselectRange" : true
+		"preselectRange" : true,
+        "isSurveyElement": true
 	},
 	"has" : {
 		"backgroundColor" : true,

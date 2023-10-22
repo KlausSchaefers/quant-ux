@@ -1,0 +1,72 @@
+[
+	{
+		"id" : "SurveyRadioBox",
+		 "type" : "RadioBox2",
+		 "name" : "RadioBox",
+		 "category" : "Survey",
+		 "subcategory" : "FormCheckBoxX",
+		 "_type" : "Widget",
+		 "_extends": "SurveyCheckBox",
+
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false,
+            "isSurveyElement": true
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	        "data" : true,
+			"backgroundColor" : true
+	     },
+	     "style" : { 
+			"borderRadius": "@border-radius-round"
+	     },
+		 "checked": {
+			"background": "@form-background"
+		}
+	},
+	{
+		"id" : "SurveyLabeledRadioBox",
+		 "type" : "LabeledRadioBox",
+		 "name" : "Label RadioBox",
+		 "category" : "Survey",
+		 "subcategory" : "FormCheckBoxX",
+		 "_extends": "SurveyCheckBox",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+		 "w": "@form-width",
+		 "h": "@form-height",
+	     "z" : 0,
+	     "props" : {
+	        "checked" : true,
+			"label": "Label",
+			"gap": 8,
+            "isSurveyElement": true
+	     },
+	     "has" : {
+			"label": true,
+	        "onclick" : true,
+	        "border" : true,
+	        "data" : true
+	     },
+	     "style" : { 
+			"borderRadius": "@border-radius-round",
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacin",
+			"lineHeight": "@lineHeight",
+			"padding": 0,	
+			"textShadow": null,
+			"verticalAlign": "middle"
+	     },
+		 "error": {
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"color": "@form-color:error",
+			"colorButton": "@form-border-color:error"		
+		}
+	}
+]

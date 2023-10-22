@@ -1,5 +1,5 @@
 [ {
-	"id" : "NPSButton",
+	"id" : "SurveyNPSButton",
 	"type" : "SegmentButton",
 	"name" : "NPS Score",
 	"category" : "Survey",
@@ -22,37 +22,25 @@
 		"isSurveyElement": true
 	},
 	"style" : {
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1,
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000",
-		"background" : "#ffffff",
-		"color" : "#000000",
-		"fontSize" : 14,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"textAlign" : "center",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"borderTopRightRadius" : 3,
-		"borderTopLeftRadius" : 3,
-		"borderBottomRightRadius" : 3,
-		"borderBottomLeftRadius" : 3,
-		"verticalAlign" : "middle"
+		"fontSize": "@font-size-m",
+		"fontFamily": "@font-family",
+		"textAlign": "center",
+		"letterSpacing": "@letterSpacing",
+		"lineHeight": "@lineHeight",
+		"background": "@form-background",
+		"color": "@form-color",
+		"borderRadius": "@border-radius",
+		"borderWidth": "@border-width",
+		"borderStyle": "solid",
+		"borderColor": "@form-border-color",
+		"paddingBottom": "@form-padding-vertical",
+		"paddingTop": "@form-padding-vertical",
+		"paddingLeft": "@form-padding-horizontal",
+		"paddingRight": "@form-padding-horizontal",
+		"verticalAlign": "middle"
 	},
 	"active" : {
-		"color" : "#ffffff",
-		"background" : "#000000",
-		"borderTopColor" : "#000000",
-		"borderBottomColor" : "#000000",
-		"borderRightColor" : "#000000",
-		"borderLeftColor" : "#000000",
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1
+		"color": "@color-active",
+		"background": "@background-active"
 	}
 } ]

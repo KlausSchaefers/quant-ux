@@ -1172,10 +1172,10 @@
 }
 
 .MatcWidgetTypeDateDropDownLabel{
-	height: 100%;
 	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	flex-grow: 1;
 }
 
 .MatcWidgetTypeDateDropDownDefaultLabel{
@@ -1183,7 +1183,7 @@
 }
 
 .MatcWidgetTypeDateDropDownIcon{
-	position: absolute;
+
 	right:0px;
 }
 
@@ -1476,16 +1476,13 @@
 	flex-grow: 1;
 }
 
-
-
 .MatcWidgetTypeDropDownLabelCntr{
-	position: relative;
+	flex-grow: 1;
 }
 
 .MatcWidgetTypeDropDownOptionLabel{
 
 }
-
 
 .MatcWidgetTypeDropDownPopUp{
 	display: none;
@@ -1530,11 +1527,7 @@
 }
 
 .MatcWidgetTypeDropDownCarretCntr{
-	position: absolute;
-	height: 100%;
-	top:0px;
-	right:0px;
-	width: 0%;
+	text-align: right;
 }
 
 .MatcWidgetTypeDropDownCarret{
@@ -1546,10 +1539,10 @@
     margin-left: 2px;
     vertical-align: middle;
     width: 0;
-    position: absolute;
-	right:50%;
-	top:50%;
-    transform: translateY(-50%) translateX(50%);
+    // position: absolute;
+	// right:50%;
+	// top:50%;
+    // transform: translateY(-50%) translateX(50%);
 	cursor: pointer;
 }
 

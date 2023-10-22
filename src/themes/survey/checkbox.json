@@ -1,0 +1,83 @@
+[
+	{
+		"id": "SurveyCheckBox",
+		"type": "CheckBox",
+		"name": "CheckBox",
+		"category": "Survey",
+		"subcategory": "FormCheckBox",
+		"_type": "Widget",
+		"x": 0,
+		"y": 0,
+        "w": "@form-height",
+        "h": "@form-height",
+		"z": 0,
+		"props": {
+			"checked": true,
+            "isSurveyElement": true
+		},
+		"has": {
+			"onclick": true,
+			"border": true,
+			"data": true,
+			"backgroundColor": true
+		},
+		"style": {			
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"background": "@form-background",
+			"color": "@form-color",
+			"colorButton": "@background-active"
+		},
+		"checked": {
+			"background": "@form-background"
+		},
+		"error": {
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"colorButton": "@form-border-color:error"
+		}
+	},
+	{
+		"id": "LabeledCheckBox",
+		"type": "LabeledCheckBox",
+		"name": "Label CheckBox",
+		"category": "Survey",
+		"subcategory": "FormCheckBox",
+		"_extends": "SurveyCheckBox",
+		"_type": "Widget",
+		"x": 0,
+		"y": 0,
+        "w": "@form-width",
+        "h": "@form-height",
+		"z": 0,
+		"props": {
+			"checked": true,
+			"label": "Label",
+			"gap": 8
+		},
+		"has": {
+			"label": true,
+			"onclick": true,
+			"border": true,
+			"data": true
+		},
+		"style": {	
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacin",
+			"lineHeight": "@lineHeight",
+			"padding": 0,	
+			"textShadow": null,
+			"verticalAlign": "middle"
+		},
+		"error": {
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"color": "@form-color:error",
+			"colorButton": "@form-border-color:error"		
+		}
+	}
+]

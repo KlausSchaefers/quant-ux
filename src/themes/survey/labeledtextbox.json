@@ -11,7 +11,7 @@
         "w": "@form-width",
 		"h": "@box-height-ms",
 		"z": 0,
-		"_extends": "TextBox",
+		"_extends": "SurveyTextBox",
 		"props": {
 			"label": "Enter a value",
 			"value": "",

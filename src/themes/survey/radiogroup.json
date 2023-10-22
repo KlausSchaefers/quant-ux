@@ -6,7 +6,7 @@
 		"category": "Survey",
 		"subcategory": "FormCheckBoxX",
 		"_type": "Widget",
-		"_extends": "CheckBoxGroup",
+		"_extends": "SurveyCheckBoxGroup",
 		"z": 0,
 		"x" : 0,
 		"y" : 0,
