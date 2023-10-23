@@ -135,7 +135,6 @@ You can deploy an instance of Quant UX with few clicks and minimal configuration
  
 [![Deploy](https://pub-da36157c854648669813f3f76c526c2b.r2.dev/deploy-on-elestio-black.png)](https://elest.io/open-source/quant-ux)
 
-
 ## Kubernets
 
 You can find a kubernets configuration here https://github.com/engmsilva/quant-ux-k8s/tree/master/k8s
