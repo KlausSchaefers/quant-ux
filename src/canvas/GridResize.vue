@@ -236,7 +236,7 @@ export default {
                     label.style.top = (this._gridResizeModel.y) + "px"
                     label.style.left = (this._gridResizeModel.x + col.v) + "px"
                     label.style.width = (col.l) + "px"
-                    label.innerText = col.l
+                    label.innerText = Math.round(col.l)
                 }
             }) 
 
@@ -270,7 +270,7 @@ export default {
                     label.style.top = (this._gridResizeModel.y + row.v) + "px"
                     label.style.left = (this._gridResizeModel.x) + "px"
                     label.style.height = (row.l) + "px"
-                    label.innerText = row.l
+                    label.innerText = Math.round(row.l)
                 }
             }) 
             
