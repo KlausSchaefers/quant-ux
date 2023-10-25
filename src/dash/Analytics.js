@@ -79,7 +79,7 @@ export default class {
 									result.cols.push({
 										hidden: false,
 										key: col,
-										label: col,
+										label: w.name + ' - ' +  col,
 										group: w.name,
 										type: 'data',
 										id: w.id

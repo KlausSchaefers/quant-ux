@@ -223,7 +223,7 @@ export default {
          */
         } else if(k == 68 && !isMeta){
           if(!this._inlineEditStarted  && !this._selectionToolStart){
-            if (this.getMultiSelection() || this.getSelectedGroup()) {
+            if (this.getMultiSelection() || this.getSelectedGroup() || this.getSelectedScreen()) {
               this.onGridResize()
               //this.onDistribute();
               this.stopEvent(e);

@@ -66,9 +66,11 @@
 									<!-- <div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
 										<QIcon icon="Distribute" />					
 									</div> -->
-									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'selectionGridEditor'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
+								
+								</div>
+
+								<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'selectionGridEditor'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
 										<QIcon icon="ResiseGrid" />					
-									</div>
 								</div>
 
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
@@ -520,6 +522,7 @@ export default {
 						this._selectionID = screen.id;
 						this._selectedScreen = screen;
 						this.showScreenProperties(screen);
+						this.showScreenTools();
 						this.showCopyPaste();
 						this.showDevTools()
 					} else {

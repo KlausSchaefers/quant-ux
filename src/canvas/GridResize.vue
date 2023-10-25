@@ -400,6 +400,15 @@ export default {
                 gridResizeModel.children = this.getMultiSelection();
                 return gridResizeModel
             }
+
+            if (this.getSelectedScreen()) {
+                const scrn = this.getSelectedScreen()
+                const gridResizeModel = scrn
+                console.debug(gridResizeModel)
+                gridResizeModel.children = scrn.children
+                return gridResizeModel
+            }
+
         },
 
         onGridResizeEnd () {

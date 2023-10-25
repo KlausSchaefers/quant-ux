@@ -74,6 +74,11 @@ export default {
 		* tool properties
 		****************************************************************************************************/
 
+		showScreenTools () {
+			css.remove(this.toolsCntrDiv, "MatcToolbarSectionHidden");
+			css.remove(this.distributeBtn, "hidden");
+		},
+
 		showTools (){
 
 			css.remove(this.toolsDiv, "MatcToolbarSectionHidden");
