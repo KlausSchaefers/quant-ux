@@ -117,6 +117,7 @@ import Table from "common/Table"
 import Services from "services/Services"
 import Analytics from "dash/Analytics"
 import Plan from "page/Plan"
+import {iconDOM} from "page/QIconUtil"
 import Util from "core/Util"
 import Comment from "page/Comment"
 import HelpButton from "help/HelpButton"
@@ -329,13 +330,13 @@ export default {
             const play = document.createElement("a");
             play.href = "#/" +  urlPrefix + "/" +  app.id + "/replay/" + row.session + ".html";
             css.add(play, "MatcButton MatcButtonSecondary MatcButtonXS");
-            play.innerHTML = '<span class="mdi mdi-play"></span>';
+            play.appendChild(iconDOM('Play'))
             group.appendChild(play);
 
             const remove = document.createElement("a");
             this.own(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
             css.add(remove, "MatcButton MatcButtonDanger MatcButtonXS MatcButtonSecondary");
-            remove.innerHTML = '<span class="mdi mdi-close"></span>';
+            remove.appendChild(iconDOM('DeleteX'))
             group.appendChild(remove);
 
           }

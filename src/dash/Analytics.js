@@ -3,6 +3,7 @@ import DataFrame from '../common/DataFrame'
 import Grouping from '../common/Grouping'
 import PerformanceMonitor from '../core/PerformanceMonitor'
 
+
 export default class {
 
 	filterEvents (events, anno) {
@@ -38,8 +39,7 @@ export default class {
 			ids: [],
 			rows: [],
 			cols: [],
-			tasks: [],
-			meta: {}
+			tasks: []
 		}
 
 		const eventsDF = new DataFrame(events);
@@ -59,7 +59,6 @@ export default class {
 
 		let widgetColumnNames = {}
 		let widgetTypes = {}
-		let dataColumns = []
 		let widgetColums = {}
 		Object.values(app.widgets).forEach(w => {
 
@@ -70,76 +69,78 @@ export default class {
 					if (w.type === 'RadioTable') {
 						const data = w.props.data
 						if (data) {
-							const temp = []
+				
 							widgetColums[w.id] = []
 							data.forEach((row, i) => {
 								if (i > 0 && row[0]) {
-									temp.push(row[0])
+									const col = row[0]
+									widgetColums[w.id].push(col)
+
+									result.cols.push({
+										hidden: false,
+										key: col,
+										label: col,
+										group: w.name,
+										type: 'data',
+										id: w.id
+									})
 								}
 							})
-							temp.sort((a, b) => {
-								return a.localeCompare(b)
-							})
-							dataColumns = dataColumns.concat(temp)
-
-							// this is used later to loop over the value
-							widgetColums[w.id] = temp
+					
 						}	
 					} else {
 						widgetColumnNames[w.id] = w.name
+						result.cols.push({
+							hidden: false,
+							key: w.name,
+							label: w.name,
+							group: w.name,
+							type: 'data',
+							id: w.id
+						})
 					}
 				}
 			}
 		})
 
-
-		result.cols = Array.from(new Set(Object.values(widgetColumnNames)))
-
-
-
-		result.cols.sort((a, b) => {
-			return a.localeCompare(b)
-		})
-		result.cols = result.cols.concat(dataColumns)
-		
-		result.cols.forEach(col => {
-			result.meta[col] = {
-				type: 'data'
-			}
-		}) 
-
 		if (showId) {
-			result.cols.unshift('id')
-			result.meta['id'] = {
+			result.cols.unshift({
+				key: 'id',
+				label: 'ID',
 				type: 'id',
 				hidden: true,
-			}
+			})			
 		}
 
 		if (test.tasks) {
 			test.tasks.forEach(task => {
 				if (showTasksSucess) {
-					result.cols.push(task.name)
-					result.meta[task.name] = {
+					result.cols.push({
+						key: task.name,
+						label: task.name,
 						type: 'task',
 						hidden: true,
-					}
+					})					
 				}
 				if (showTasksDuration) {
-					result.cols.push(task.name + '_Duration')
-					result.meta[task.name + '_Duration'] = {
+					const name = task.name + '_Duration'
+					result.cols.push({
+						key: name,
+						label: name,
 						type: 'task',
 						hidden: true,
-						header: false
-					}
+					})	
+				
 				}
 				if (showTasksInteraction) {
-					result.cols.push(task.name + '_Interactions')
-					result.meta[task.name + '_Interactions'] = {
+					const name = task.name + '_Interactions'
+					result.cols.push({
+						key: name,
+						label: name,
 						type: 'task',
 						hidden: true,
-						header: false
-					}
+					})	
+					result.cols.push(task.name + '_Interactions')
 				}
 			
 			})
@@ -184,7 +185,6 @@ export default class {
 							const keys = widgetColums[e.widget]
 							const value = e.state.value
 							keys.forEach(col => {
-								console.debug(col, value[col])
 								row[col] = value[col]
 							})
 						} 

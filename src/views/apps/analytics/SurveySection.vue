@@ -30,10 +30,11 @@
      <div class="MatcSurveySectionTableCntr">
 
       <SurveyTable 
-          v-if="table.rows.length > 0 && table.cols.length > 0" 
+          v-if="table && table.rows.length > 0 && table.cols.length > 0" 
           :app="app"
           :pub="pub"
           :events="events"
+          :table="table"
           :viewOptions="viewOptions"
           :annotation="annotation"
           :test="test"/>
@@ -67,6 +68,7 @@ export default {
     data: function () {
         return {
           isLoaded: false,
+          table: {rows: {}, cols:{}},
           viewOptions:{
             showTasksSucess: false,
             showTaskDetails: false,
@@ -83,7 +85,12 @@ export default {
     },
     computed: {
       tableOptions () {
-        return [
+        const cols = this.table.cols.map(c => {
+            return {value: 'toggleColumn', label: c.label, check:true, selected: !c.hidden, callback: (selected) => this.toggleColumn(c, selected)}
+        })
+        
+        return cols.concat([
+            {css:"MatcDropDownButtonLine"},
             {value: 'showTasksSucess', label: this.$t('survey.taskSuccess'), check:true, selected: this.viewOptions.showTasksSucess},
             {value: 'showVideo', label: this.$t('survey.showVideo'), check:true, selected: this.viewOptions.showVideo},
             //{value: 'showId', label:this.$t('survey.ids'), check:true},
@@ -91,7 +98,7 @@ export default {
             //{value: 'fullscreen', label: this.$t('survey.fullscreen'), event:'fullscreen', icon:' mdi mdi-chart-bar'},
             {css:"MatcDropDownButtonLine"},
             {value: 'download', label: this.$t('survey.download'), event:'download', icon:'mdi mdi-download-outline'}
-          ]
+          ])
       },
       hasID () {
         return this.viewOptions.showId
@@ -99,45 +106,8 @@ export default {
       hasTasks () {
         return this.viewOptions.showTasksSucess || this.viewOptions.showTaskDetails
       },
-      summary () {
-        const result = []
-        const data = this.table
-        data.cols.forEach(col => {
-          if (data.meta[col].hidden !== true) {
-              let sum = 0
-              let count = 0
-              data.rows.forEach(row  => {
-                let value = row[col]
-                if (value !== '-') {
-                  /**
-                   * FIXME: We could check table.types and check for
-                   * the data types,.g. boolean, categorical etc.
-                   */
-                  if (!isNaN(value * 1)) {
-                    sum += value * 1
-                    count++
-                  }
-
-                }
-              })
-              if (count > 0) {
-                result.push(Math.round((sum / count) * 100) / 100)
-              } else {
-                result.push('-')
-              }
-          }
-        })
-        return result
-      },
-      table () {
-        const analytics = new Analytics();
-        const events = analytics.filterEvents(lang.clone(this.events), this.annotation)
-        return analytics.getSurveyAnswers(events, 
-          this.app, 
-          this.test, 
-          this.viewOptions
-        )
-      },
+     
+     
       downloadFileName () {
         if (this.app) {
           return this.app.name + '_survey.csv'
@@ -146,10 +116,22 @@ export default {
       }
     },
     methods: {
+      getTable () {
+        const analytics = new Analytics();
+        const events = analytics.filterEvents(lang.clone(this.events), this.annotation)
+        return analytics.getSurveyAnswers(events, 
+          this.app, 
+          this.test, 
+          this.viewOptions
+        )
+      },
       onFullScreen () {
         if (this.$refs.dialog && this.$refs.dropDown) {
           this.$refs.dialog.show(this.$refs.dropDown.$el)
         }
+      },
+      toggleColumn (col, selected) {
+          col.hidden = !selected
       },
       onChangeView (selection) {
         for (let key in selection) {
@@ -159,9 +141,9 @@ export default {
        downloadCVS () {
 
           const table = this.table
-          let csvContent = '#,' + table.cols.join(',') + "\n";
+          let csvContent = '#,' + table.cols.map(c => c.label).join(',') + "\n";
           csvContent += table.rows.map((row, r) => {
-            return r+ ',' + table.cols.map(c => row[c]).join(',')
+            return r+ ',' + table.cols.map(c => row[c.key]).join(',')
           }).join("\n")
 
           const blob = new Blob([csvContent], {
@@ -184,6 +166,7 @@ export default {
       if (this.test && this.test.tasks.length > 0) {
         //this.viewOptions.showTasksSucess = true
       }
+      this.table = this.getTable()
       this.isLoaded = true
     }
 }

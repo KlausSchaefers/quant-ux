@@ -82,6 +82,10 @@ import touch from "dojo/touch";
             }
         },
         onSelect (option, selected) {
+            if (option.callback) {
+                option.callback(selected)
+                return
+            }
             this.selected[option.value] = selected
             this.$emit('select', this.selected)
         },

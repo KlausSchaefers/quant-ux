@@ -5,16 +5,15 @@
           <thead>
             <tr>
               <th class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">
-                #
-                
+                #                 
               </th>
               <th v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
                 {{$t('survey.id')}}
               </th>
-              <template v-for="(col, c) in table.cols">
-                <th  v-if="table.meta[col].hidden !== true" :key="c">
+              <template v-for="(col) in table.cols">
+                <th  v-if="col.hidden !== true" :key="col.key">
                   <span class="MatcSurveySectionTableColLabel">
-                    {{col}}
+                    {{col.label}}
                   </span>
                
                 </th>
@@ -39,11 +38,14 @@
                 </a>
             
               </td>
-              <template v-for="(col, c) in table.cols" >
-                <td :key="c"  v-if="table.meta[col].hidden !== true" >
-                  {{row[col]}}
+              <template v-for="col in table.cols" >
+
+                <td :key="col.key"  v-if="col.hidden !== true" >
+      
+                  {{row[col.key]}}
                 </td>
               </template>
+
               <td v-if="hasTasks" class="MatcSurveySectionTableBorderLeft  MatcTagCntr">
                  <span v-for="task in table.tasks[r]" :key="task.task" class="tag">
                     {{task.taskName}}
@@ -54,13 +56,13 @@
               </td>
 
               <td class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">
-                <a :href="getVideoURL(table.ids[r])" class="MatcButton" target="_QUXvideo">
-                  <span class="mdi mdi-play"></span>
+                <a :href="getVideoURL(table.ids[r])" class="MatcButton MatcButtonSecondary MatcButtonXS" target="_QUXvideo">
+                  <QIcon icon="Play" />
                 </a>
               </td>
             </tr>
             <tr class="MatcSurveySectionTableSummary">
-              <td class="MatcSurveySectionTableNumber">
+              <td class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">
                 AVG
               </td>
               <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
@@ -82,20 +84,21 @@
 </style>
 <script>
 import Logger from 'common/Logger'
-import Analytics from "dash/Analytics";
-import lang from 'dojo/_base/lang'
+// import Analytics from "dash/Analytics";
+// import lang from 'dojo/_base/lang'
+import QIcon from '../../../page/QIcon'
 
 
 export default {
     name: 'SurveyTable',
     mixins:[],
-    props: ['test', 'app', 'events', 'annotation', 'viewOptions', 'pub'],
+    props: ['test', 'app', 'events', 'annotation', 'viewOptions', 'pub', 'table'],
     data: function () {
         return {
         }
     },
     components: {
-    
+      QIcon
     },
     computed: {
       hasVideo () {
@@ -111,11 +114,11 @@ export default {
         const result = []
         const data = this.table
         data.cols.forEach(col => {
-          if (data.meta[col].hidden !== true) {
+          if (col.hidden !== true) {
               let sum = 0
               let count = 0
               data.rows.forEach(row  => {
-                let value = row[col]
+                let value = row[col.key]
                 if (value !== '-') {
                   /**
                    * FIXME: We could check table.types and check for
@@ -137,15 +140,6 @@ export default {
         })
         return result
       },
-      table () {
-        const analytics = new Analytics();
-        const events = analytics.filterEvents(lang.clone(this.events), this.annotation)
-        return analytics.getSurveyAnswers(events, 
-          this.app, 
-          this.test, 
-          this.viewOptions
-        )
-      },
       urlPrefix() {
         if (this.pub) {
           return "examples";
@@ -158,6 +152,12 @@ export default {
         return "#/" +  this.urlPrefix + "/" +  this.app.id + "/replay/" + id + ".html";
       },
     },
+    watch: {
+      table (v) {
+        this.table = v
+      }
+    },
+
     mounted () {
       this.logger = new Logger('SurveyTable')
     }

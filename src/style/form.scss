@@ -387,18 +387,39 @@ input:focus {
 	position: relative;
 	color: $button_background;
 	border: 1px solid $button_background;
+
+	.MatcDropDownSelectCheck {
+		width: 100%;
+
+		.VommondCheckBoxLabel {
+			text-overflow: ellipsis;
+			flex-grow: 1;
+			width: 70%;
+			overflow: hidden;
+		}
+	}
+
+	.caret{
+		border-color:$button_background;
+	}
 }
 
 .MatcDropDownSelect.MatcDropDownSelect:hover {
 	background: $form_color;
 	border: 1px solid $button_background;
 	color: #fff;
+
+	.caret{
+		border-color: #fff;
+	}
 }
 
 .MatcDropDownSelect .MatcDropDownPopUp {
 	left: auto;
 	right: 0px;
 	width: 200px;
+	max-height: 500px;
+	overflow: auto;
 }
 
 .MatcDropDownSelect .MatcDropDownSelectCheck .VommondCheckBoxWrapper {
