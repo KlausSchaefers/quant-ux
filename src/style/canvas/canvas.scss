@@ -881,6 +881,27 @@
 			}
 		}
 
+		.MatcCanvasModeGridResizeLabelColumn {
+			position: absolute;
+			top:0px;
+			left:0px;
+			transform: translateY(-32px);
+			color: $canvas_selection_grid_resize;
+			font-size: 12px;
+			text-align: center;
+		}
+
+		.MatcCanvasModeGridResizeLabelRow {
+			position: absolute;
+			top:0px;
+			left:0px;
+			transform: translateX(-32px);
+			color: $canvas_selection_grid_resize;
+			font-size: 12px;
+			text-align: center;
+			display: flex;
+			align-items: center;
+		}
 	
 }
 

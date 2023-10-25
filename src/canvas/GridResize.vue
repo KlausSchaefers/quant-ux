@@ -66,8 +66,10 @@ export default {
             this._gridResizeHandlersDivs= []
             this._gridResizeHandlersColumn = []
             this._gridResizeHandlersColumnDots = []
+            this._gridResizeHandlersColumnLabels= []
             this._gridResizeHandlersRow = []
             this._gridResizeHandlersRowDots = []
+            this._gridResizeHandlersRowLabels = []
             this._gridResizeHandlerListeners = []
 
             this._gridResponsiveLayouter = new ResponsiveLayout()
@@ -131,6 +133,11 @@ export default {
 
                     }
 
+                    const label = document.createElement("div")
+                    css.add(label, "MatcCanvasModeGridResizeLabel MatcCanvasModeGridResizeLabelColumn")
+                    this.dndContainer.appendChild(label);
+                    this._gridResizeHandlersColumnLabels[i] = label
+                    this._gridResizeHandlersDivs.push(label)
                 })
             }
   
@@ -184,6 +191,11 @@ export default {
 
                     }
 
+                    const label = document.createElement("div")
+                    css.add(label, "MatcCanvasModeGridResizeLabel MatcCanvasModeGridResizeLabelRow")
+                    this.dndContainer.appendChild(label);
+                    this._gridResizeHandlersRowLabels[i] = label
+                    this._gridResizeHandlersDivs.push(label)
                 })
             }
   
@@ -192,7 +204,7 @@ export default {
 
         },
 
-        _updateGridResizeHandler (grid) {
+        _updateGridResizeHandler (grid, showColLabels = false, showRowLabels = false) {
             // const s = this.resizeButtonSize
             // const l = (this.resizeButtonSize * 2) +1;
 
@@ -213,6 +225,19 @@ export default {
                     dot.style.top = (this._gridResizeModel.y) + "px"
                     dot.style.left = (this._gridResizeModel.x + col.v + (col.l / 2)) + "px"
                 }
+
+                const label = this._gridResizeHandlersColumnLabels[i]
+                if (label) {
+                    if (!showColLabels) {
+                        label.style.opacity=0
+                    } else {
+                        label.style.opacity=1
+                    }
+                    label.style.top = (this._gridResizeModel.y) + "px"
+                    label.style.left = (this._gridResizeModel.x + col.v) + "px"
+                    label.style.width = (col.l) + "px"
+                    label.innerText = col.l
+                }
             }) 
 
 
@@ -232,6 +257,20 @@ export default {
                     }
                     dot.style.top = (this._gridResizeModel.y + row.v + (row.l / 2)) + "px"
                     dot.style.left = (this._gridResizeModel.x) + "px"
+                }
+
+
+                const label = this._gridResizeHandlersRowLabels[i]
+                if (label) {
+                    if (!showRowLabels) {
+                        label.style.opacity=0
+                    } else {
+                        label.style.opacity=1
+                    }
+                    label.style.top = (this._gridResizeModel.y + row.v) + "px"
+                    label.style.left = (this._gridResizeModel.x) + "px"
+                    label.style.height = (row.l) + "px"
+                    label.innerText = row.l
                 }
             }) 
             
@@ -297,14 +336,13 @@ export default {
                     this._resizeGrid.rows[i].l = currentLength         
                 }        
             }
+            this._updateGridResizeHandler(this._resizeGrid, isColumn, !isColumn)
 
             //console.debug(this._resizeGrid.columns.map(c => c.v + ":"+ c.l))
       
             const [positions] = this._getGridResizePositions(this._resizeGrid)
             this._createMultiPositionRenderJobs(positions)    
-
-
-            this._updateGridResizeHandler(this._resizeGrid)
+    
             if(!window.requestAnimationFrame){
                 console.warn("No requestAnimationFrame()");
                 this._resizeDndUpDateUI();
@@ -336,6 +374,7 @@ export default {
 
         onGridResizeDNDEnd(e) {
             this.stopEvent(e)
+            this._updateGridResizeHandler(this._resizeGrid, false, false)
             this._gridResizeGrid = this._resizeGrid
             if (this._resizeHandleMove) {
                 this._resizeHandleMove.remove()
@@ -409,6 +448,8 @@ export default {
             delete this._gridResizeHandlersColumnDots
             delete this._gridResizeHandlersRowDots
             delete this._gridResponsiveLayouter 
+            delete this._gridResizeHandlersColumnLabels
+            delete this._gridResizeHandlersRowLabels
         }
  
     },
