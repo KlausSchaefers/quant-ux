@@ -18,12 +18,18 @@ export default class ResponsiveLayout {
         this.treeModel = treeModel
     }
 
-    initSelection(model, boundingBox, children) {
+    initSelection(model, boundingBox, children, round=true) {
         Logger.log(-1, 'ResponsiveLayout.initSelection()')
         /**
          * We want to make sure, that the selection is always
          * in the crisp in the bounding box.
          */
+        if (round) {
+            boundingBox.w = Math.round(boundingBox.w)
+            boundingBox.h = Math.round(boundingBox.h)
+            boundingBox.x = Math.round(boundingBox.x)
+            boundingBox.y = Math.round(boundingBox.y)       
+        }
         this.config.fixStartEnd = true
         const responsiveSelection = {
             id: model.id,
@@ -51,9 +57,19 @@ export default class ResponsiveLayout {
 
         children.forEach(id => {
             const widget = model.widgets[id]
-            responsiveSelection.widgets[id] = widget
+            if (!round) {
+                responsiveSelection.widgets[id] = widget
+            } else {
+                const cloned = ExportUtil.clone(widget)
+                cloned.x = Math.round(cloned.x)
+                cloned.y = Math.round(cloned.y)
+                cloned.w = Math.round(cloned.w)
+                cloned.h = Math.round(cloned.h)
+                responsiveSelection.widgets[id] = cloned
+            }
+
         })
-        this.initApp(responsiveSelection)
+        this.initApp(responsiveSelection, round)
 
     }
 

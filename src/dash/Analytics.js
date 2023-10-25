@@ -57,19 +57,50 @@ export default class {
 		}
 
 
-		let widgetDataBindings = {}
+		let widgetColumnNames = {}
 		let widgetTypes = {}
+		let dataColumns = []
+		let widgetColums = {}
 		Object.values(app.widgets).forEach(w => {
-			widgetTypes[w.id] = w.type
-			if (w.props && w.props.isSurveyElement && w.type !== 'Password') {
-				widgetDataBindings[w.id] = w.name
+
+			if (!widgetColumnNames[w.id]) {
+				widgetTypes[w.id] = w.type
+			
+				if (w.props && w.props.isSurveyElement && w.type !== 'Password') {
+					if (w.type === 'RadioTable') {
+						const data = w.props.data
+						if (data) {
+							const temp = []
+							widgetColums[w.id] = []
+							data.forEach((row, i) => {
+								if (i > 0 && row[0]) {
+									temp.push(row[0])
+								}
+							})
+							temp.sort((a, b) => {
+								return a.localeCompare(b)
+							})
+							dataColumns = dataColumns.concat(temp)
+
+							// this is used later to loop over the value
+							widgetColums[w.id] = temp
+						}	
+					} else {
+						widgetColumnNames[w.id] = w.name
+					}
+				}
 			}
 		})
 
-		result.cols = Array.from(new Set(Object.values(widgetDataBindings)))
+
+		result.cols = Array.from(new Set(Object.values(widgetColumnNames)))
+
+
+
 		result.cols.sort((a, b) => {
 			return a.localeCompare(b)
 		})
+		result.cols = result.cols.concat(dataColumns)
 		
 		result.cols.forEach(col => {
 			result.meta[col] = {
@@ -131,19 +162,32 @@ export default class {
 			sessionEvents.forEach(e => {
 				delete e.user
 				if (app.widgets[e.widget]) {
-					if (e.widget && e.state && widgetDataBindings[e.widget]) {
-						const col = widgetDataBindings[e.widget]
+					if (e.widget && e.state && widgetColumnNames[e.widget]) {
+						const col = widgetColumnNames[e.widget]
+						
 						if (widgetTypes[e.widget] === 'Rating') {
 							row[col] = (e.state.value * 1) + 1
 						} else {
-							const value = e.state.value
+							let value = e.state.value
+							if (this.isObject(value)) {
+								value = Object.entries(value).map((e) => `${e[0]}: ${e[1]}`)
+							}
 							if (Array.isArray(value)) {
 								row[col] = value.join(', ')
 							} else {
-								row[col] = value
-							}
+								row[col] = value					
+							}				
 							
 						}
+					} else {
+						if (widgetColums[e.widget]) {
+							const keys = widgetColums[e.widget]
+							const value = e.state.value
+							keys.forEach(col => {
+								console.debug(col, value[col])
+								row[col] = value[col]
+							})
+						} 
 					}
 				}
 			})
@@ -176,6 +220,10 @@ export default class {
 
 		PerformanceMonitor.end('Analytics.getSurveyAnswers()')
 		return result
+	}
+
+	isObject(obj) {	
+		return typeof obj === 'object' && obj !== null && ! Array.isArray(obj)
 	}
 
 	nornalizeContainerChildEvents (events) {

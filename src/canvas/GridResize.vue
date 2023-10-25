@@ -73,13 +73,14 @@ export default {
             this._gridResizeHandlerListeners = []
 
             this._gridResponsiveLayouter = new ResponsiveLayout()
-            this._gridResponsiveLayouter.initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children)
+            this._gridResponsiveLayouter.initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true)
             
             const tree = this._gridResponsiveLayouter.treeModel
             const root = tree.screens[0]
             const grid = lang.clone(root.grid)
 
             this._gridResizeGrid = grid
+            console.debug(this._gridResizeGrid.columns.map(c => c.v + ":"+ c.l))
 
             const l = (this.resizeButtonSize * 2) +1;
 
@@ -236,7 +237,8 @@ export default {
                     label.style.top = (this._gridResizeModel.y) + "px"
                     label.style.left = (this._gridResizeModel.x + col.v) + "px"
                     label.style.width = (col.l) + "px"
-                    label.innerText = Math.round(col.l)
+                    console.debug(this.zoom)
+                    label.innerText = Math.round(col.l / this.zoom)
                 }
             }) 
 
@@ -270,7 +272,7 @@ export default {
                     label.style.top = (this._gridResizeModel.y + row.v) + "px"
                     label.style.left = (this._gridResizeModel.x) + "px"
                     label.style.height = (row.l) + "px"
-                    label.innerText = Math.round(row.l)
+                    label.innerText = Math.round(row.l / this.zoom)
                 }
             }) 
             

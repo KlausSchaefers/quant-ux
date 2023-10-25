@@ -61,7 +61,7 @@
             </tr>
             <tr class="MatcSurveySectionTableSummary">
               <td class="MatcSurveySectionTableNumber">
-                =
+                AVG
               </td>
               <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
               </td>
