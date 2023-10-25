@@ -341,6 +341,7 @@ export default {
 				 * property panel. We just need to update the seelction handlers
 				 */
 				this.updateSelection();
+				this.updateGridRezise();
 				this.renderDistance();
 
 				/**

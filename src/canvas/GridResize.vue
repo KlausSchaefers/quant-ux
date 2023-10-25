@@ -49,19 +49,31 @@ export default {
 			}
         },
 
+        updateGridRezise () {
+            this.logger.log(-1,"onGridResize", "enter > ", this._gridResizeEnabled);
+
+            if (this._gridResizeEnabled) {
+                this.cleanUpGridResize()
+                this.onGridResizeStart()
+            }
+        },
+
         onGridResizeStart () {
 			css.add(this.container, "MatcCanvasModeGridResize");
 
             this._gridResizeEnabled = true
             this._gridResizeModel = this.getGridResizModel()
+            this._gridResizeHandlersDivs= []
             this._gridResizeHandlersColumn = []
+            this._gridResizeHandlersColumnDots = []
             this._gridResizeHandlersRow = []
+            this._gridResizeHandlersRowDots = []
             this._gridResizeHandlerListeners = []
 
-            this._responsiveLayouter = new ResponsiveLayout()
-            this._responsiveLayouter.initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children)
+            this._gridResponsiveLayouter = new ResponsiveLayout()
+            this._gridResponsiveLayouter.initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children)
             
-            const tree = this._responsiveLayouter.treeModel
+            const tree = this._gridResponsiveLayouter.treeModel
             const root = tree.screens[0]
             const grid = lang.clone(root.grid)
 
@@ -92,14 +104,90 @@ export default {
                         this.dndContainer.appendChild(handler);
                         this._addSizeHandlerTouch(handler);
 
-                        const listener = on(handler, "mousedown", (e) => this.onGridResizeDNDStart(e, col,i, true))
+                        const listener = on(handler, "mousedown", (e) => this.onGridResizeDNDStart(e, col,i, true, false))
                         this._gridResizeHandlerListeners.push(listener)
                         this._gridResizeHandlersColumn[i] = handler
+                        this._gridResizeHandlersDivs.push(handler)
+                    }
+
+                    if (i > 0 && i < grid.columns.length -1) {
+
+                        const handler = document.createElement("div")
+                        css.add(handler, "MatcCanvasModeGridResizeHandler MatcCanvasModeGridResizeHandlerColumn")
+
+                        const icon = document.createElement("div")
+                        css.add(icon, "MatcCanvasModeGridResizeHandlerDot")
+                        icon.style.width = l + "px";
+                        icon.style.height = l + "px";
+                        handler.append(icon)
+
+                        this.dndContainer.appendChild(handler);
+                        this._addSizeHandlerTouch(handler);
+
+                        const listener = on(handler, "mousedown", (e) => this.onGridResizeDNDStart(e, col,i, true, true))
+                        this._gridResizeHandlerListeners.push(listener)
+                        this._gridResizeHandlersColumnDots[i] = handler
+                        this._gridResizeHandlersDivs.push(handler)
+
                     }
 
                 })
             }
   
+            if (grid.rows.length > 2) {
+                grid.rows.forEach((row,i) => {
+
+                    if (i > 0 ) {
+                        const handler = document.createElement("div")
+                        css.add(handler, "MatcCanvasModeGridResizeHandler MatcCanvasModeGridResizeHandlerRow")
+
+                        const icon = document.createElement("div")
+                        css.add(icon, "MatcCanvasModeGridResizeHandlerIcon")
+                        icon.style.width = l + "px";
+                        icon.style.height = l + "px";
+                        handler.append(icon)
+
+                        const line = document.createElement("div")
+                        css.add(line, "MatcCanvasModeGridResizeHandlerLine")
+
+                        line.style.width = this._gridResizeModel.w + "px";
+                        handler.append(line)
+
+
+                        this.dndContainer.appendChild(handler);
+                        this._addSizeHandlerTouch(handler);
+
+                        const listener = on(handler, "mousedown", (e) => this.onGridResizeDNDStart(e, row,i, false, false))
+                        this._gridResizeHandlerListeners.push(listener)
+                        this._gridResizeHandlersRow[i] = handler
+                        this._gridResizeHandlersDivs.push(handler)
+                    }
+
+                    if (i > 0 && i < grid.rows.length -1) {
+
+                        const handler = document.createElement("div")
+                        css.add(handler, "MatcCanvasModeGridResizeHandler MatcCanvasModeGridResizeHandlerRow")
+
+                        const icon = document.createElement("div")
+                        css.add(icon, "MatcCanvasModeGridResizeHandlerDot")
+                        icon.style.width = l + "px";
+                        icon.style.height = l + "px";
+                        handler.append(icon)
+
+                        this.dndContainer.appendChild(handler);
+                        this._addSizeHandlerTouch(handler);
+
+                        const listener = on(handler, "mousedown", (e) => this.onGridResizeDNDStart(e, row,i, false, true))
+                        this._gridResizeHandlerListeners.push(listener)
+                        this._gridResizeHandlersRowDots[i] = handler
+                        this._gridResizeHandlersDivs.push(handler)
+
+                    }
+
+                })
+            }
+  
+
             this._updateGridResizeHandler(grid)
 
         },
@@ -114,60 +202,106 @@ export default {
                     node.style.top = (this._gridResizeModel.y) + "px"
                     node.style.left = (this._gridResizeModel.x + col.v) + "px"
                 }
+
+                const dot = this._gridResizeHandlersColumnDots[i]
+                if (dot) {
+                    if (col.l > 16) {
+                        dot.style.opacity=1
+                    } else {
+                        dot.style.opacity=0
+                    }
+                    dot.style.top = (this._gridResizeModel.y) + "px"
+                    dot.style.left = (this._gridResizeModel.x + col.v + (col.l / 2)) + "px"
+                }
+            }) 
+
+
+            grid.rows.forEach((row,i) => {
+                const node = this._gridResizeHandlersRow[i]
+                if (node) {
+                    node.style.top = (this._gridResizeModel.y + row.v) + "px"
+                    node.style.left = (this._gridResizeModel.x) + "px"
+                }
+
+                const dot = this._gridResizeHandlersRowDots[i]
+                if (dot) {
+                    if (row.l > 16) {
+                        dot.style.opacity=1
+                    } else {
+                        dot.style.opacity=0
+                    }
+                    dot.style.top = (this._gridResizeModel.y + row.v + (row.l / 2)) + "px"
+                    dot.style.left = (this._gridResizeModel.x) + "px"
+                }
             }) 
             
         },
 
-        onGridResizeDNDStart (e, col, i,isColumn) {
-            this.stopEvent(e)
-      
+        onGridResizeDNDStart (e, col, i,isColumn, isDot) {
+            this.stopEvent(e)      
             this._resizeGrid = lang.clone(this._gridResizeGrid)
             this._resizeStartPos = this.getCanvasMousePosition(e);
-            this._resizeHandleMove = on(win.body(),"mousemove", e => this.onGridResizeDNDMove(e, i, isColumn));
-            this._resizeHandleUp = on(win.body(),"mouseup", e => this.onGridResizeDNDEnd(e, i, isColumn));
-
+            this._resizeHandleMove = on(win.body(),"mousemove", e => this.onGridResizeDNDMove(e, i, isColumn, isDot));
+            this._resizeHandleUp = on(win.body(),"mouseup", e => this.onGridResizeDNDEnd(e, i, isColumn, isDot));
         },
 
-        onGridResizeDNDMove (e, i, isColumn) {
+        onGridResizeDNDMove (e, i, isColumn, isDot) {
             this.stopEvent(e)
-            this._resizeRenderJobs = {}
-            if (!this._resizeStartPos ||  !this._responsiveLayouter || !this._resizeGrid) {
-
+    
+            if (!this._resizeStartPos ||  !this._gridResponsiveLayouter || !this._resizeGrid) {
                 console.debug('onGridResizeDNDMove() > End illegal state',)
                 this.onGridResizeDNDEnd()
                 return
             }
+
+            this._gridResizeDirty = true
+            this._resizeRenderJobs = {}
             const pos =  this.getCanvasMousePosition(e);
             if (isColumn) {
-                const dif = pos.x - this._resizeStartPos.x
-          
-                const v = this._gridResizeGrid.columns[i].v + dif
-                const l = this._gridResizeGrid.columns[i].l - dif
-                const leBefore = this._gridResizeGrid.columns[i-1].l + dif
-                this._resizeGrid.columns[i].v = v
-                this._resizeGrid.columns[i].l = l
-                this._resizeGrid.columns[i-1].l = leBefore
+                // we have to update the length (l) of the col before,
+                // thew value and the length of the current one
+                // TODOD: DO SOME GRID STUFF
+                const dif = pos.x - this._resizeStartPos.x 
+
+                const currentValue = this._gridResizeGrid.columns[i].v + dif      
+                this._resizeGrid.columns[i].v = currentValue   
+                const lengthBefore = this._gridResizeGrid.columns[i-1].l + dif
+                this._resizeGrid.columns[i-1].l = lengthBefore    
+       
+                if (isDot && this._resizeGrid.columns[i+1]) {
+                    const valueAfter = this._gridResizeGrid.columns[i+1].v + dif
+                    const lengthAfter = this._gridResizeGrid.columns[i+1].l - dif
+                    this._resizeGrid.columns[i+1].l = lengthAfter
+                    this._resizeGrid.columns[i+1].v = valueAfter
+                } else {
+                    const currentLength = this._gridResizeGrid.columns[i].l - dif
+                    this._resizeGrid.columns[i].l = currentLength         
+                }        
             }
 
-            // console.debug(this._gridResizeGrid.columns.map(c => c.v))
-            // console.debug(this._resizeGrid.columns.map(c => c.v))
+            if (!isColumn) {
+                const dif = pos.y - this._resizeStartPos.y 
 
-            if (this._responsiveLayouter) {
-                const responsivePositions = this._responsiveLayouter.updateScreenGrid(0, this._resizeGrid)
-                const positions = {}
-                for(let i=0; i< this._gridResizeModel.children.length; i++){
-                    const id = this._gridResizeModel.children[i];                   
-                    const repositionWidget = responsivePositions.widgets[id]
-                    //console.debug(repositionWidget?.w, repositionWidget?.y)
-                    positions[id] = {
-                        x: repositionWidget.x,
-                        y: repositionWidget.y,
-                        w: repositionWidget.w,
-                        h: repositionWidget.h
-                    }         
-                }
-                this._createMultiPositionRenderJobs(positions)         
+                const currentValue = this._gridResizeGrid.rows[i].v + dif      
+                this._resizeGrid.rows[i].v = currentValue   
+                const lengthBefore = this._gridResizeGrid.rows[i-1].l + dif
+                this._resizeGrid.rows[i-1].l = lengthBefore    
+
+                if (isDot && this._resizeGrid.rows[i+1]) {
+                    const valueAfter = this._gridResizeGrid.rows[i+1].v + dif
+                    const lengthAfter = this._gridResizeGrid.rows[i+1].l - dif
+                    this._resizeGrid.rows[i+1].l = lengthAfter
+                    this._resizeGrid.rows[i+1].v = valueAfter
+                } else {
+                    const currentLength = this._gridResizeGrid.rows[i].l - dif
+                    this._resizeGrid.rows[i].l = currentLength         
+                }        
             }
+
+            //console.debug(this._resizeGrid.columns.map(c => c.v + ":"+ c.l))
+      
+            const [positions] = this._getGridResizePositions(this._resizeGrid)
+            this._createMultiPositionRenderJobs(positions)    
 
 
             this._updateGridResizeHandler(this._resizeGrid)
@@ -181,10 +315,28 @@ export default {
     
         },
 
-        onGridResizeDNDEnd(e, i, isColumn) {
+        _getGridResizePositions (grid) {
+            let hasCopies = false;
+            const responsivePositions = this._gridResponsiveLayouter.updateScreenGrid(0, grid)
+            const positions = {}
+            for(let i=0; i< this._gridResizeModel.children.length; i++){
+                const id = this._gridResizeModel.children[i];
+                const widget = this.model.widgets[id];        
+                hasCopies = hasCopies || this.isMasterWidget(widget);            
+                const repositionWidget = responsivePositions.widgets[id]
+                positions[id] = {
+                    x: repositionWidget.x,
+                    y: repositionWidget.y,
+                    w: repositionWidget.w,
+                    h: repositionWidget.h
+                }         
+            }
+            return [positions, hasCopies]
+        },
+
+        onGridResizeDNDEnd(e) {
             this.stopEvent(e)
             this._gridResizeGrid = this._resizeGrid
-            console.debug('onGridResizeDNDEnd', isColumn)
             if (this._resizeHandleMove) {
                 this._resizeHandleMove.remove()
             }
@@ -210,11 +362,19 @@ export default {
         },
 
         onGridResizeEnd () {
-            this.logger.log(-1,"onGridResizeEnd", "enter > ", this._gridResizeEnabled);
+            this.logger.log(-1,"onGridResizeEnd", "enter > dirty: ", this._gridResizeDirty);
+
+            if (this._gridResizeDirty && this._gridResizeGrid) {
+                const [positions, hasCopies] = this._getGridResizePositions(this._gridResizeGrid);           
+                this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
+            }
+
+
             this.cleanUpGridResize()
         },
 
         cleanUpGridResize () {
+            this.logger.log(-1,"cleanUpGridResize", "enter > ");
 
             css.remove(this.container, "MatcCanvasModeGridResize");
             this._gridResizeEnabled = false
@@ -225,15 +385,8 @@ export default {
                 this._resizeHandleUp.remove()
             }
 
-            if (this._gridResizeHandlersColumn) {
-                this._gridResizeHandlersColumn.forEach(node => {
-                    if (node && node.parentNode) {
-                        node.parentNode.removeChild(node)
-                    }
-                })
-            }
-            if (this._gridResizeHandlersRow) {
-                this._gridResizeHandlersRow.forEach(node => {
+            if (this._gridResizeHandlersDivs) {
+                this._gridResizeHandlersDivs.forEach(node => {
                     if (node && node.parentNode) {
                         node.parentNode.removeChild(node)
                     }
@@ -244,14 +397,18 @@ export default {
                     l.remove()
                 })
             }
+            delete this._gridResizeDirty
             delete this._resizeHandleMove
             delete this._resizeHandleUp
             delete this._gridResizeGrid
+            delete this._gridResizeHandlersDivs
             delete this._gridResizeHandlerListeners
             delete this._gridResizeHandlersColumn
             delete this._gridResizeHandlersRow
             delete this._gridResizeModel
-            delete this._responsiveLayouter 
+            delete this._gridResizeHandlersColumnDots
+            delete this._gridResizeHandlersRowDots
+            delete this._gridResponsiveLayouter 
         }
  
     },

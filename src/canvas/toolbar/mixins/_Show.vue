@@ -86,7 +86,6 @@ export default {
 				if(this._selectedGroup){
 					css.add(this.groupBTN, "hidden");
 					css.remove(this.ungroupBTN, "hidden");
-					css.add(this.distributeBtn, "hidden");
 				} else {
 					css.remove(this.groupBTN, "hidden");
 					css.add(this.ungroupBTN, "hidden");

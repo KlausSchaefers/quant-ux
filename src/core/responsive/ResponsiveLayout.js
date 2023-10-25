@@ -69,7 +69,6 @@ export default class ResponsiveLayout {
         const scrn = this.treeModel.screens[scrnNumber]
         if (scrn) {
             scrn.grid = grid
-            console.debug(grid.columns.map(c => c.v +":" +c.l))
             const width = scrn.w
             const height = scrn.h
             newNestedPositions[scrn.id] = createResult(0,0, width, height)
@@ -186,9 +185,6 @@ export default class ResponsiveLayout {
                 width,
                 height
             )
-
-            console.debug(child.name, width)
-
             newNestedPositions[child.id] = newChildPos
             this.resizeChildren(child, child, newNestedPositions, indent + '     ')
         })

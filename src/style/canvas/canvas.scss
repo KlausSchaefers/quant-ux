@@ -833,23 +833,55 @@
 			width: 1px;
 			height: 1px;
 			cursor: pointer;
+		}
+
+		.MatcCanvasModeGridResizeHandlerColumn {
+			.MatcCanvasModeGridResizeHandlerLine {
+				position: absolute;
+				top:0px;
+				left:0px;
+				width: 1px;
+				background: $canvas_selection_grid_resize;
+			}
 	
-			background-color: red;
+			.MatcCanvasModeGridResizeHandlerIcon {
+				position: absolute;
+				transform: translate(-50%, -9px) rotate(45deg);
+				background: $canvas_selection_grid_resize;
+			}
+	
+			.MatcCanvasModeGridResizeHandlerDot {
+				position: absolute;
+				border-radius: 50%;
+				transform: translate(-50%, -9px) rotate(45deg);
+				border: 1px solid $canvas_selection_grid_resize;
+			}
 		}
 
-		.MatcCanvasModeGridResizeHandlerLine {
-			position: absolute;
-			top:0px;
-			left:0px;
-			width: 1px;
-			background: $canvas_selection_grid_resize;
+		.MatcCanvasModeGridResizeHandlerRow {
+			.MatcCanvasModeGridResizeHandlerLine {
+				position: absolute;
+				top:0px;
+				left:0px;
+				height: 1px;
+				background: $canvas_selection_grid_resize;
+			}
+	
+			.MatcCanvasModeGridResizeHandlerIcon {
+				position: absolute;
+				transform: translate(-9px, -50%) rotate(45deg);
+				background: $canvas_selection_grid_resize;
+			}
+	
+			.MatcCanvasModeGridResizeHandlerDot {
+				position: absolute;
+				border-radius: 50%;
+				transform: translate(-9px, -50%) rotate(45deg);
+				border: 1px solid $canvas_selection_grid_resize;
+			}
 		}
 
-		.MatcCanvasModeGridResizeHandlerIcon {
-			position: absolute;
-			transform: translate(-50%, -100%) rotate(45deg);
-			background: $canvas_selection_grid_resize;
-		}
+	
 }
 
 

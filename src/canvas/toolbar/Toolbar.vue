@@ -63,10 +63,10 @@
 									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">					
 										<QIcon icon="UnGroup" />					
 									</div>
-									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
+									<!-- <div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
 										<QIcon icon="Distribute" />					
-									</div>
-									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'selectionGridEditor'}]" data-dojo-attach-point="gridResizeBtn" @click="onToolbarGridResize">
+									</div> -->
+									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'selectionGridEditor'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
 										<QIcon icon="ResiseGrid" />					
 									</div>
 								</div>
