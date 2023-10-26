@@ -70,6 +70,7 @@ import DataFrame from 'common/DataFrame'
 import ScatterPlotDetails from './ScatterPlotDetails'
 import * as Outlier from 'dash/Outlier'
 import PerformanceMonitor from 'core/PerformanceMonitor'
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
     name: 'ScatterPlot',
@@ -182,7 +183,7 @@ export default {
 
       
         onBackgroundClick () {
-            this.setHint(this.db.span("MatcHint", this.getNLS("analytics.distribution.hint")).build());
+            this.setHint(this.db.span("", this.getNLS("analytics.distribution.hint")).build());
             this.unSelectPoint()
         },
 
@@ -320,8 +321,9 @@ export default {
                 if (this.mode == "public") {
                     url = "#/examples/" + this.model.id + "/replay/" + id + ".html";
                 }
-                const hint = this.db.span("MatcHint", this.getNLS("analytics.distribution.play")).build();
-                const a = this.db.a("", this.getNLS("analytics.distribution.here")).build(hint);
+                const hint = this.db.span("").build();
+				this.db.span("", this.getNLS("analytics.distribution.play")).build(hint);
+				const a = this.db.a("", this.getNLS("analytics.distribution.here")).build(hint);
                 a.href = url
                 a.target = "_matcSessionReplay" + id
                 this.setHint(hint);
@@ -336,6 +338,7 @@ export default {
         setHint(hintNode) {
             this.hintCntr.innerHTML = "";
             if (hintNode) {
+                this.hintCntr.appendChild(iconDOM('PlayVideo'))
                 this.hintCntr.appendChild(hintNode);
             }
         },

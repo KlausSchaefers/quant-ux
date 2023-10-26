@@ -221,8 +221,8 @@ export default {
       tbl.setActions([
         {
           label: "",
-          icon: "Analyze",
-          css: "MatcButton MatcButtonSecondary",
+          icon: "AnalyseChart",
+          css: "MatcButton MatcButtonXXS MatcButtonSecondary",
           callback: lang.hitch(me, "_showTaskPerf")
         }
       ]);

@@ -1,44 +1,58 @@
 
 <template>
 
-       <table class="table" v-if="table.rows.length > 0 && table.cols.length > 0">
+       <table class="table" v-if="sortedTable.rows.length > 0 && sortedTable.cols.length > 0">
           <thead>
+            <tr v-if="showGroups">
+              <th class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">             
+              </th>
+              <th v-for="group in groups" :key="group.label" :colspan="group.count" class="MatcSurveySectionTableGroupLabel">
+                  <span class="MatcSurveySectionTableColLabel" v-if="group.count > 1">
+                    {{group.label}}
+                  </span>
+              </th>
+              <th v-if="hasTasks" class="MatcSurveySectionTableBorderLeft"></th>
+              <th  class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">X</th>
+           
+            </tr>
+
             <tr>
-              <th class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">
+              <th class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight MatcSurveySectionTableBorderBottom">
                 #                 
               </th>
-              <th v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
+              <th v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight MatcSurveySectionTableBorderBottom">
                 {{$t('survey.id')}}
               </th>
-              <template v-for="(col) in table.cols">
-                <th  v-if="col.hidden !== true" :key="col.key">
+              <template v-for="(col) in sortedTable.cols" >
+                <th  v-if="col.hidden !== true" :key="col.key" class="MatcSurveySectionTableBorderBottom">
                   <span class="MatcSurveySectionTableColLabel">
                     {{col.label}}
                   </span>
                
                 </th>
               </template>
-              <th v-if="hasTasks" class="MatcSurveySectionTableBorderLeft">
+              <th v-if="hasTasks" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderBottom">
                 {{$t('survey.tasks')}}
               </th>
-              <th  class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">
+              <th  class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction MatcSurveySectionTableBorderBottom" v-if="hasVideo">
                 {{$t('survey.video')}}
               </th>
             </tr>
           </thead>
+
           <tbody>
-            <tr v-for="(row, r) in table.rows" :key="r">
+            <tr v-for="(row, r) in sortedTable.rows" :key="r">
               <td class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">
                 {{r+1}}
               </td>
               <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
-                <a :href="getVideoURL(table.ids[r])" target="_QUXvideo">
-                  {{table.ids[r]}}
+                <a :href="getVideoURL(sortedTable.ids[r])" target="_QUXvideo">
+                  {{sortedTable.ids[r]}}
                   <span class="mdi mdi-play-circle-outline"></span>
                 </a>
             
               </td>
-              <template v-for="col in table.cols" >
+              <template v-for="col in sortedTable.cols" >
 
                 <td :key="col.key"  v-if="col.hidden !== true" >
       
@@ -46,24 +60,26 @@
                 </td>
               </template>
 
-              <td v-if="hasTasks" class="MatcSurveySectionTableBorderLeft  MatcTagCntr">
-                 <span v-for="task in table.tasks[r]" :key="task.task" class="tag">
+              <td v-if="hasTasks" class="MatcSurveySectionTableBorderLeft  ">
+                <div class="MatcTagCntr">
+                 <span v-for="task in sortedTable.tasks[r]" :key="task.task" class="tag">
                     {{task.taskName}}
                     <span v-if="viewOptions.showTaskDetails">
                       ({{Math.round(task.duration /1000)}}s  | #{{task.interactions}})
                     </span>
                   </span>
+                </div>
               </td>
 
               <td class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">
-                <a :href="getVideoURL(table.ids[r])" class="MatcButton MatcButtonSecondary MatcButtonXS" target="_QUXvideo">
+                <a :href="getVideoURL(sortedTable.ids[r])" class="MatcButton MatcButtonSecondary MatcButtonXS" target="_QUXvideo">
                   <QIcon icon="Play" />
                 </a>
               </td>
             </tr>
             <tr class="MatcSurveySectionTableSummary">
               <td class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">
-                AVG
+                <QIcon icon="AVG" />
               </td>
               <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
               </td>
@@ -95,12 +111,17 @@ export default {
     props: ['test', 'app', 'events', 'annotation', 'viewOptions', 'pub', 'table'],
     data: function () {
         return {
+          showGroups: false
         }
     },
     components: {
       QIcon
     },
     computed: {
+      sortedTable () {
+       
+        return this.table
+      },
       hasVideo () {
         return this.viewOptions.showVideo
       },
@@ -109,6 +130,26 @@ export default {
       },
       hasTasks () {
         return this.viewOptions.showTasksSucess || this.viewOptions.showTaskDetails
+      },
+      groups () {
+        const groups = []
+        if (this.table && this.table.cols) {
+          const cols = this.sortedTable.cols;
+
+          let lastGroup = {label:''}
+          cols.forEach(col => {
+            if (col.type === 'data') {
+              if (col.group !== lastGroup.label) {
+                lastGroup = {label: col.group, count:0}
+                groups.push(lastGroup)
+              }
+              lastGroup.count++
+            }
+          })
+
+        }
+      
+        return groups
       },
       summary () {
         const result = []
@@ -160,6 +201,7 @@ export default {
 
     mounted () {
       this.logger = new Logger('SurveyTable')
+      console.debug(this.table)
     }
 }
 </script>

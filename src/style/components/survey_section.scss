@@ -9,10 +9,16 @@
 
   table {
 
+    font-size: $font-size-s;
+
     thead > tr > th {
       color: $text_color_dark;
-      font-weight: 700;
-      border-bottom-width: 1px;
+      font-weight: 600;
+      border:0px
+    }
+
+    .MatcSurveySectionTableBorderBottom{
+      border-bottom: 1px solid #ddd;
     }
 
     .MatcSurveySectionTableAction {
@@ -20,10 +26,14 @@
       width: 80px;
     }
 
+    .MatcSurveySectionTableGroupLabel {
+      text-align: center;
+    }
   
 
     .MatcSurveySectionTableNumber{
       width: 40px;
+      text-align: center;
     }
 
     .MatcSurveySectionTableBorderLeft {

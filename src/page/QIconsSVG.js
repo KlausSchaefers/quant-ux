@@ -172,6 +172,11 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M7 4v16l13 -8z"></path>
     `,
+    'PlayVideo': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M15 10l4.553 -2.276a1 1 0 0 1 1.447 .894v6.764a1 1 0 0 1 -1.447 .894l-4.553 -2.276v-4z"></path>
+        <path d="M3 6m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
+    `,
     'Plus': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M12 5l0 14"></path>
@@ -943,6 +948,12 @@ export const icons = {
         <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
         <path d="M13.5 6.5l4 4"></path>
     `,
+    'EditSquare': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+        <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+        <path d="M16 5l3 3"></path>
+    `,
     'EditScroll': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5"></path>
@@ -1138,6 +1149,16 @@ export const icons = {
         <path d="M8 5v10a1 1 0 0 0 1 1h10"></path>
         <path d="M5 8h10a1 1 0 0 1 1 1v10"></path>
     `,
+    'ImageList': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M15 6l.01 0"></path>
+        <path d="M3 3m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"></path>
+        <path d="M3 13l4 -4a3 5 0 0 1 3 0l4 4"></path>
+        <path d="M13 12l2 -2a3 5 0 0 1 3 0l3 3"></path>
+        <path d="M8 21l.01 0"></path>
+        <path d="M12 21l.01 0"></path>
+        <path d="M16 21l.01 0"></path>
+    `,
     'LetterLower': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M6.5 15.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0"></path>
@@ -1211,6 +1232,23 @@ export const icons = {
         <path d="M9 17h6"></path>
         <path d="M9 13h6"></path>
     `,
+    'AnalzyeDots': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 7m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+        <path d="M16 15m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+        <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+        <path d="M6 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+        <path d="M9 17l5 -1.5"></path>
+        <path d="M6.5 8.5l7.81 5.37"></path>
+        <path d="M7 7l8 -1"></path>
+    `,
+    'AnalyseChart': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+        <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+        <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+        <path d="M4 20l14 0"></path>
+    `,
     'Calender': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
@@ -1259,9 +1297,43 @@ export const icons = {
     `,
     'ResiseGrid': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M18 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+        <path d="M6 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+        <path d="M6 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+        <path d="M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+        <path d="M8 18h8"></path>
+        <path d="M18 20v1"></path>
+        <path d="M18 3v1"></path>
+        <path d="M6 20v1"></path>
+        <path d="M6 10v-7"></path>
+        <path d="M12 3v18"></path>
+        <path d="M18 8v8"></path>
+        <path d="M8 12h13"></path>
+        <path d="M21 6h-1"></path>
+        <path d="M16 6h-13"></path>
+        <path d="M3 12h1"></path>
+        <path d="M20 18h1"></path>
+        <path d="M3 18h1"></path>
+        <path d="M6 14v2"></path>
+    `,
+    'ResiseGrid2': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
         <path d="M4 9h8"></path>
         <path d="M12 15h8"></path>
         <path d="M12 4v16"></path>
+    `,
+    'DeleteTrash': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 7l16 0"></path>
+        <path d="M10 11l0 6"></path>
+        <path d="M14 11l0 6"></path>
+        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+    `,
+    'AVG': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 21l18 -18"></path>
+        <path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0"></path>
     `
 }

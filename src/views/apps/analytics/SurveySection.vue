@@ -85,7 +85,7 @@ export default {
     },
     computed: {
       tableOptions () {
-        const cols = this.table.cols.map(c => {
+        const cols = this.table.cols.filter(c => c.type=== 'data').map(c => {
             return {value: 'toggleColumn', label: c.label, check:true, selected: !c.hidden, callback: (selected) => this.toggleColumn(c, selected)}
         })
         

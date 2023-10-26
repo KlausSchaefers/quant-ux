@@ -195,12 +195,12 @@
 
 .MatcToobarRowIconCntr {
 	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .MatcToobarRowRightIcon {
-	position: absolute;
-	right: 0px;
-	top: 9px;
 	color: #777;
 	cursor: pointer;
 }

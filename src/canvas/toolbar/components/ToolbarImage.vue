@@ -2,7 +2,8 @@
 <template>
 	<div class=" MatcToolbarPopUpCntr MatcToolbarImage ">
 		<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarIconButton">
-			<QIcon icon="Image"/>
+			<QIcon icon="Image" v-if="!multiSelection"/>
+			<QIcon icon="ImageList" v-else/>
 			<span class="MatcToolbarItemLabel">{{ btnLabel }}</span>
 		</div>
 		<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
@@ -56,6 +57,9 @@ export default {
 					return this.shorten(this.value.name, 20)
 				}
 				return 'Image'
+			}
+			if (this.multiSelection) {
+				return 'No Images'
 			}
 			return 'No  Image'
 		}

@@ -79,7 +79,7 @@ export default class {
 									result.cols.push({
 										hidden: false,
 										key: col,
-										label: w.name + ' - ' +  col,
+										label: col,
 										group: w.name,
 										type: 'data',
 										id: w.id
@@ -103,6 +103,10 @@ export default class {
 			}
 		})
 
+        result.cols.sort((a,b) => {
+          a.group.localeCompare(b.group)
+        })
+
 		if (showId) {
 			result.cols.unshift({
 				key: 'id',
@@ -118,6 +122,7 @@ export default class {
 					result.cols.push({
 						key: task.name,
 						label: task.name,
+						group: task.name,
 						type: 'task',
 						hidden: true,
 					})					
@@ -127,6 +132,7 @@ export default class {
 					result.cols.push({
 						key: name,
 						label: name,
+						group: task.name,
 						type: 'task',
 						hidden: true,
 					})	
@@ -137,6 +143,7 @@ export default class {
 					result.cols.push({
 						key: name,
 						label: name,
+						group: task.name,
 						type: 'task',
 						hidden: true,
 					})	

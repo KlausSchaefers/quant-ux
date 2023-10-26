@@ -31,8 +31,8 @@
                     <span class="MatcHint" v-else>No steps </span>
                   </td>
                   <td class=" action">
-                    <a class="MatcButton MatcButtonXS MatcButtonSecondary" @click="onEditTask(task, i, $event)">Edit</a>
-                    <a class="MatcButton MatcButtonXS MatcButtonDanger MatcButtonSecondary" @click="onDelete(task, i, $event)"><span class=" mdi mdi-close"></span></a>
+                    <a class="MatcButton MatcButtonXXS MatcButtonSecondary" @click="onEditTask(task, i, $event)"><QIcon icon="EditSquare"/></a>
+                    <a class="MatcButton MatcButtonXXS MatcButtonDanger MatcButtonSecondary" @click="onDelete(task, i, $event)"><QIcon icon="DeleteTrash"/></a>
                   </td>
                 </tr>
             </tbody>
@@ -67,6 +67,7 @@ import DomBuilder from "common/DomBuilder";
 import CheckBox from "common/CheckBox";
 import Util from "core/Util";
 import Plan from "page/Plan";
+import QIcon from "page/QIcon";
 import Services from "services/Services";
 import TaskRecorder from "views/apps/analytics/TaskCreateDialog";
 
@@ -83,7 +84,8 @@ export default {
     };
   },
   components: {
-    'CheckBox': CheckBox
+    'CheckBox': CheckBox,
+    'QIcon':QIcon
   },
   computed: {
     pub() {

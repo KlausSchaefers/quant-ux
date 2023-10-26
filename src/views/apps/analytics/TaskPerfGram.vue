@@ -70,7 +70,7 @@ import Util from 'core/Util'
 import Analytics from 'dash/Analytics'
 import * as d3 from "d3"
 import DataFrame from 'common/DataFrame'
-
+import {iconDOM} from 'page/QIconUtil'
 
 
 export default {
@@ -752,7 +752,7 @@ export default {
 			delete this._selectedScatterPoint;
 
 
-			this.setHint(db.span("MatcHint", this.getNLS("dash.perf.hint.scatter")).build());
+			this.setHint(db.span("", this.getNLS("dash.perf.hint.scatter")).build());
 			css.add(this.domNode, "MatcDashTaskPerfGramScatter");
 			this.xLabel.innerHTML = this.getNLS("dash.perf.scatter.xLabel");
 			this.yLabel.innerHTML = this.getNLS("dash.perf.scatter.yLabel");
@@ -886,7 +886,7 @@ export default {
 				if (this.mode == "public"){
 					url = "#/examples/" + this.model.id + "/replay/" + id + ".html";
 				}
-				const hint = this.db.span("MatcHint", this.getNLS("dash.perf.hint.session-msg")).build();
+				const hint = this.db.span("", this.getNLS("dash.perf.hint.session-msg")).build();
 				const a = this.db.a("", this.getNLS("dash.perf.hint.session-play")).build(hint);
 				a.href = url
 				a.target = "_matcSessionReplay" + id
@@ -1006,6 +1006,7 @@ export default {
 		setHint (hintNode){
 			this.hintCntr.innerHTML = "";
 			if(hintNode){
+				this.hintCntr.appendChild(iconDOM('PlayVideo'))
 				this.hintCntr.appendChild(hintNode);
 			}
 		},

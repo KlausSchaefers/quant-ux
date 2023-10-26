@@ -196,7 +196,7 @@
         "group": "Create group (CTRL-G)",
         "ungroup": "Remove group (CTRL-G)",
         "clone": "Clone selection (C)",
-        "distribute": "Distribute (D) object equally",
+        "distribute": "Change grid (D)",
         "template": "Create or edit component",
         "basic": "Add basic Elements",
         "widget": "Add interactive Widgets (W)",

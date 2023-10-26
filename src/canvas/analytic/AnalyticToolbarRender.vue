@@ -570,7 +570,9 @@ export default {
                 this.own(on(row, "mouseover", lang.hitch(this, "hoverSession", session)))
                 this.own(on(row, "mouseout", lang.hitch(this, "hoverSession", null)))
 
-                var play = db.div("MatcToobarRowRightIcon").span("mdi mdi-play").build(row)
+                var play = db.div("MatcToobarRowRightIcon").build(row)
+                play.appendChild(iconDOM('PlayVideo'))
+
                 this.own(on(play, "click", lang.hitch(this, "showSession", session)));
             }
 
