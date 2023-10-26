@@ -76,11 +76,12 @@ export default {
             this._gridResponsiveLayouter.initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true)
             
             const tree = this._gridResponsiveLayouter.treeModel
+            //console.debug(tree.screens[0].children)
             const root = tree.screens[0]
             const grid = lang.clone(root.grid)
 
             this._gridResizeGrid = grid
-            console.debug(this._gridResizeGrid.columns.map(c => c.v + ":"+ c.l))
+            //console.debug(this._gridResizeGrid.columns.map(c => c.v + ":"+ c.l))
 
             const l = (this.resizeButtonSize * 2) +1;
 

@@ -1,7 +1,7 @@
 import Logger from '../Logger'
 
 import * as Flat2Tree from './Flat2Tree'
-//import * as Quant2Flat from './Quant2Flat'
+import * as Quant2Flat from './Quant2Flat'
 import * as ExportUtil from './ExportUtil'
 import Config from './Config'
 
@@ -10,11 +10,13 @@ export default class ResponsiveLayout {
     constructor(model, config = Config.getDefault()) {
         this.config = config
         this.config.useRows = false
+        this.config.wrapGroups = true
     }
 
     initApp(model) {
         this.model = model
-        const treeModel = Flat2Tree.transform(model, this.config)
+        const flatModel = Quant2Flat.transform(model, this.config)
+        const treeModel = Flat2Tree.transform(flatModel, this.config)
         this.treeModel = treeModel
     }
 
@@ -52,11 +54,17 @@ export default class ResponsiveLayout {
                 }
             },
             widgets: {},
-            groups: model.groups
+            groups: {}
         }
+
 
         children.forEach(id => {
             const widget = model.widgets[id]
+            const group = ExportUtil.getParentGroup(widget.id, model)
+       
+            if (group && !responsiveSelection.groups[group.id]) {
+                responsiveSelection.groups[group.id] = group
+            }
             if (!round) {
                 responsiveSelection.widgets[id] = widget
             } else {
@@ -69,8 +77,41 @@ export default class ResponsiveLayout {
             }
 
         })
+
+
+        // add groups
         this.initApp(responsiveSelection, round)
 
+    }
+
+    createGroupWrapper (element, group, model) {
+
+        let boundingBox = ExportUtil.getBoundingBoxByIds(group.children, model)
+    
+        const wrapper = {
+            id: `w${element.id}`,
+            name: group.name + 'Wrapper',
+            groupId: group.id,
+            isGroup: true,
+            type: "Box",
+            x: 0,
+            y: 0,
+            w: boundingBox.w,
+            h: boundingBox.h,
+            style: element.style ? element.style : {},
+            props: {
+                resize: element.props && element.props.resize ? element.props.resize : {
+                    right: false,
+                    up: false,
+                    left: false,
+                    down: false,
+                    fixedHorizontal: false,
+                    fixedVertical: false,
+                }
+            }
+        }
+    
+        return wrapper
     }
 
     resize(width, height) {
@@ -137,7 +178,9 @@ export default class ResponsiveLayout {
     updateModel (newNestedPositions, app, box, offsetX = 0, offsetY = 0, indent = '') {
         //console.table(newNestedPositions)
         box.children.forEach(child => {        
-            const widget = app.widgets[child.id]
+            // not all children are real, we have for instance the grup wrappers.
+            // we do not want to return them in here
+            const widget = app.widgets[child.id]     
             if (widget) {
                 const newPos = newNestedPositions[child.id]
                 if (newPos) {
