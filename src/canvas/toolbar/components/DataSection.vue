@@ -497,6 +497,8 @@ export default {
 			this._renderRandom(model)
 			this._renderColor('Arrow Color','<span class="Color"></span>',model.style.arrowColor, "arrowColor", "onStyleChanged",true );
 			this._renderColor('Arrow Color Hover','<span class="Color"></span>',model.style.arrowColorHover, "arrowColorHover", "onStyleChanged",true );
+			this._renderColor('Arrow Color Disabled','<span class="Color"></span>',model.style.arrowColorPassive, "arrowColorPassive", "onStyleChanged",true );
+		
 			this._renderInputDropDown("Button Size",model, [8, 12, 16, 24, 32, 40], "buttonSize", false);	
 			this._renderInputDropDown("Button Gap",model, [4, 8, 12, 16, 24, 32], "buttonGap", false);
 		},

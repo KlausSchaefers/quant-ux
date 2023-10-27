@@ -61,6 +61,15 @@
 	transition: transform 0.33s;
 }
 
+.MatcWidgetTypeSortableListItemBtn {
+	cursor: pointer;
+}
+
+
+.MatcWidgetTypeSortableListItemBtnPassive {
+	cursor: auto;
+}
+
 .MatcWidgetTypeSortableListItemLabel {
 	flex-grow: 1;
 }
@@ -349,9 +358,6 @@
   flex-grow: 1;
 }
 
-.MatcWidgetTypeSortableListItemBtn {
-	cursor: pointer;
-}
 
 /*******************************
  * Paging

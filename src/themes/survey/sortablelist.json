@@ -9,7 +9,7 @@
 		 "x" : 0,
 	     "y" : 0,
 		 "w": "300",
-		 "h": "160",
+		 "h": "180",
 	     "z" : 0,
 	     "props" : {
 	    	"options" : ["Option 1", "Option 2",  "Option 3", "Option 4"],
@@ -41,6 +41,7 @@
 	        "boxMarginRight": "@spacing-s",
 			"arrowColor": "@form-color",
 			"arrowColorHover": "@form-color:hover",
+			"arrowColorPassive": "#fff",
 			"padding": 4,
 			"buttonSize": 24,
 			"arrowWidth": 2
@@ -60,10 +61,10 @@
 		 "x" : 0,
 	     "y" : 0,
 		 "w": "300",
-		 "h": "160",
+		 "h": "180",
 	     "z" : 0,
 	     "props" : {
-	    	"options" : ["Option 1", "Option 2",  "Option 3", "Option 4"],
+	    	"options" : ["Option 1", "Option 2",  "Option 3"],
 			"isSurveyElement": true
 		 },
 	     "has" : {
@@ -93,7 +94,8 @@
 	        "boxMarginRight": "@spacing-s",
 			"arrowColor": "@form-border-color",
 			"arrowColorHover": "@form-color:hover",
-			"padding": 4,
+			"arrowColorPassive": "#fff",
+			"padding": 8,
 			"buttonSize": 24,
 			"arrowWidth": 2
 	    },

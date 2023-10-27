@@ -1627,6 +1627,7 @@ export default {
 				{ value:"Arial, sans-serif", label:"Arial", css:"MatchFont MatchFontArial"},
 				{ value: 'Arial Black, Gadget, sans-serif', label : "Arial Black", css:"MatchFont MatchFontArialBlack"},
 
+				{ value: 'Inter, sans-serif', label: "Inter",  css:"MatchFont MatchSourceInter"},
 				{ value: 'Source Sans Pro, sans-serif', label: "Source Sans Pro",  css:"MatchFont MatchSourceSansPro"},
 				{ value: 'Roboto, sans-serif', label: "Roboto",  css:"MatchFont MatchFontRoboto"},
 

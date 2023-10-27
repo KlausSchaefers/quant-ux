@@ -12,6 +12,7 @@ import touch from "dojo/touch";
 import on from "dojo/on";
 import domGeom from "dojo/domGeom";
 import lang from 'dojo/_base/lang'
+import css from "dojo/css";
 
 export default {
   name: "SortableList",
@@ -102,15 +103,21 @@ export default {
       for (let i = 0; i < this._upNodes.length; i++) {
         const node = this._upNodes[i];
         this.tempOwn(this.addClickListener(node, e => this.moveUp(i, e)));
-        this.tempOwn(on(node, touch.over, () => this.hoveBtn(node, isOutline)));
-        this.tempOwn(on(node, touch.out, () => this.hoveBtn(null, isOutline)));
+        if (i > 0) {
+          this.tempOwn(on(node, touch.over, () => this.hoveBtn(node, isOutline)));
+          this.tempOwn(on(node, touch.out, () => this.hoveBtn(null, isOutline)));
+        }
+
       }
      
       for (let i = 0; i < this._downNodes.length; i++) {
         const node = this._downNodes[i];
         this.tempOwn(this.addClickListener(node, e => this.moveDown(i, e)));
-        this.tempOwn(on(node, touch.over, () => this.hoveBtn(node, isOutline)));
-        this.tempOwn(on(node, touch.out, () => this.hoveBtn(null, isOutline)));
+        if (i < this._downNodes.length -1 ) {
+          this.tempOwn(on(node, touch.over, () => this.hoveBtn(node, isOutline)));
+          this.tempOwn(on(node, touch.out, () => this.hoveBtn(null, isOutline)));
+        }
+
       }
     },
 
@@ -166,13 +173,13 @@ export default {
       const cntr = db.div("MatcWidgetTypeSortableListCntr").build()
       for (let i = 0; i < options.length; i++) {
         var o = options[i];
-        this.renderChild(o, i, cntr, db, this.style);
+        this.renderChild(o, i, options.length, cntr, db, this.style);
       }
       this.domNode.appendChild(cntr)
       this.setStyle(this.style, this.model);
     },
 
-    renderChild (option, i, cntr, db, style) {
+    renderChild (option, i, total, cntr, db, style) {
 
         const isOutline = style.borderModel === "outline"
         const stroke = style.arrowWidth ? this._getBorderWidth(style.arrowWidth): 2
@@ -189,6 +196,11 @@ export default {
 
         const up = db.div('MatcWidgetTypeSortableListItemBtn').build(row)
         up.style.color = style.arrowColor;
+        if (i === 0) {
+          css.add(up, 'MatcWidgetTypeSortableListItemBtnPassive')
+          up.style.color = style.arrowColorPassive
+        }
+    
 
         const upIcon = iconDOM("SortableListUp", '', fontSize, fontSize, stroke)
         upIcon.style.width = buttonSize + 'px'
@@ -196,12 +208,14 @@ export default {
         up.appendChild(upIcon);
         this._upNodes.push(up);
 
-  
-
    
 
         const down = db.div('MatcWidgetTypeSortableListItemBtn').build(row)
         down.style.color = style.arrowColor;
+        if (i === total-1) {
+          css.add(down, 'MatcWidgetTypeSortableListItemBtnPassive')
+          down.style.color = style.arrowColorPassive
+        }
 
         const downIcon = iconDOM("SortableListDown", '', fontSize, fontSize, stroke)
         downIcon.style.width = buttonSize + 'px'

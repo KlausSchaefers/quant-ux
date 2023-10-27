@@ -11,10 +11,10 @@ export default {
     "@font-size-xl": {"value": 24, "type": "fontSize"},
     "@font-size-xxl": {"value": 32, "type": "fontSize"},
  
-    "@font-family": {"value": "Roboto, sans-serif", "type": "fontFamily"},
+    "@font-family": {"value": "Inter, sans-serif", "type": "fontFamily"},
     "@font-weight": {"value": "", "type": "fontWeight"},
     "@letterSpacing": {"value": 0, "type": "letterSpacing"},
-    "@lineHeight": {"value": 1, "type": "lineHeight"},
+    "@lineHeight": {"value": 1.5, "type": "lineHeight"},
  
     "@border-width-none": {"value": 0, "type": "borderWidth"},
     "@border-width": {"value": 1, "type": "borderWidth"},
@@ -36,11 +36,11 @@ export default {
     // checkboxes and co
     "@background-passive": {"value": "#F4F4F5", "type": "color"},
     "@background-passive:hover": {"value": "#F4F4F5", "type": "color"},
-    "@color-passive": {"value": "#3787f2", "type": "color"},
-    "@color-passive:hover": {"value": "#3787f2", "type": "color"},
+    "@color-passive": {"value": "#365fff", "type": "color"},
+    "@color-passive:hover": {"value": "#365fff", "type": "color"},
  
-    "@background-active": {"value": "#3787f2", "type": "color"},
-    "@background-active:hover": {"value": "#1251a3", "type": "color"},
+    "@background-active": {"value": "#365fff", "type": "color"},
+    "@background-active:hover": {"value": "#123ef0", "type": "color"},
     "@color-active": {"value": "#FFFFFF", "type": "color"}, 
     "@color-active:hover": {"value": "#FFFFFF", "type": "color"},
  
@@ -85,44 +85,44 @@ export default {
     "@form-height": {"value": 32, "type": "height"},
     "@form-width": {"value": 196, "type": "width"},
  
-    "@form-border-color": {"value": "#6b7280", "type": "color"},
+    "@form-border-color": {"value": "#c9c9c9", "type": "color"},
     "@form-color": {"value": "#0A0A0B", "type": "color"},
     "@form-background": {"value": "#FFFFFF", "type": "color"},
  
-    "@form-border-color:hover": {"value": "#6b7280", "type": "color"},
+    "@form-border-color:hover": {"value": "#c9c9c9", "type": "color"},
     "@form-color:hover": {"value": "#0A0A0B", "type": "color"},
     "@form-background:hover": {"value": "#F4F4F5", "type": "color"},
  
-    "@form-border-color:focus": {"value": "#3787f2", "type": "color"},
-    "@form-color:focus": {"value": "#3787f2", "type": "color"},
+    "@form-border-color:focus": {"value": "#365fff", "type": "color"},
+    "@form-color:focus": {"value": "#365fff", "type": "color"},
     "@form-background:focus": {"value": "#F4F4F5", "type": "color"},
  
     "@form-border-color:error": {"value": "#f43535", "type": "color"},
     "@form-color:error": {"value": "#f43535", "type": "color"},
     "@form-background:error": {"value": "#efc5c5", "type": "color"},
  
-    "@form-popup-border-color": {"value": "#6b7280", "type": "color"},
+    "@form-popup-border-color": {"value": "#c9c9c9", "type": "color"},
     "@form-popup-color": {"value": "#0A0A0B", "type": "color"},
     "@form-popup-background": {"value": "#FFFFFF", "type": "color"},
     "@form-popup-backgrop": {"value": "rgba(0,0,0,0.8)", "type": "color"},
     "@form-popup-border-width": {"value": 1, "type": "borderWidth"},
     "@form-popup-color:hover": {"value": "#FFFFFF", "type": "color"},
-    "@form-popup-background:hover": {"value": "#3787f2", "type": "color"},
+    "@form-popup-background:hover": {"value": "#365fff", "type": "color"},
  
     // buttons
  
-    "@button-primary-border-color": {"value": "#3787f2", "type": "color"},
-    "@button-primary-background": {"value": "#3787f2", "type": "color"},
+    "@button-primary-border-color": {"value": "#365fff", "type": "color"},
+    "@button-primary-background": {"value": "#365fff", "type": "color"},
     "@button-primary-color": {"value": "#FFFFFF", "type": "color"},
-    "@button-primary-border-color:hover": {"value": "#1251a3", "type": "color"},
-    "@button-primary-background:hover": {"value": "#1251a3", "type": "color"},
+    "@button-primary-border-color:hover": {"value": "#123ef0", "type": "color"},
+    "@button-primary-background:hover": {"value": "#123ef0", "type": "color"},
     "@button-primary-color:hover": {"value": "#FFFFFF", "type": "color"},
  
-    "@button-secundary-border-color": {"value": "#3787f2", "type": "color"},
+    "@button-secundary-border-color": {"value": "#365fff", "type": "color"},
     "@button-secundary-background": {"value": "#FFFFFF", "type": "color"},
-    "@button-secundary-color": {"value": "#3787f2", "type": "color"},
-    "@button-secundary-border-color:hover": {"value": "#1251a3", "type": "color"},
-    "@button-secundary-background:hover": {"value": "#1251a3", "type": "color"},
+    "@button-secundary-color": {"value": "#365fff", "type": "color"},
+    "@button-secundary-border-color:hover": {"value": "#123ef0", "type": "color"},
+    "@button-secundary-background:hover": {"value": "#123ef0", "type": "color"},
     "@button-secundary-color:hover": {"value": "#FFFFFF", "type": "color"},
  
     "@button-danger-border-color": {"value": "#f43535", "type": "color"},

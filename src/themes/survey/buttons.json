@@ -1,0 +1,73 @@
+[
+	{
+		"id": "SurveyPrimaryButton",
+		"type": "Button",
+		"_type": "Widget",
+		"category": "Survey",
+		"subcategory": "AButtons",
+		"name": "Primary Button",
+		"x": 0,
+        "y": 0,
+        "w": "@box-width-l",
+        "h": "@form-height",
+        "z": 0,
+		"props": {
+			"label": "Next"
+		},
+		"has": {
+			"backgroundColor": true,
+            "border": true,
+			"onclick": true,
+			"label": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "center",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"verticalAlign": "middle",
+			"padding": 0,	
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+
+			"borderColor": "@button-primary-border-color",
+			"background": "@button-primary-background",
+			"color": "@button-primary-color"	
+		},
+		"hover": {
+			"borderColor": "@button-primary-border-color:hover",
+			"background": "@button-primary-background:hover",
+			"color": "@button-primary-color:hover"	
+		}
+	},
+	{
+		"id": "SurveySecondayButton",
+		"type": "Button",
+		"_type": "Widget",
+		"category": "Survey",
+		"subcategory": "AButtons",
+		"name": "Secondary Button",
+		"_extends": "SurveyPrimaryButton",
+		"props": {
+			"label": "Back"
+		},
+		"has": {
+			"onclick": true,
+			"label": true,
+			"padding": true
+		},
+		"style": {
+			"borderColor": "@button-secundary-border-color",
+			"background": "@button-secundary-background",
+			"color": "@button-secundary-color"	
+		},
+		"hover": {
+			"borderColor": "@button-secundary-border-color:hover",
+			"background": "@button-secundary-background:hover",
+			"color": "@button-secundary-color:hover"	
+		}
+	}
+]

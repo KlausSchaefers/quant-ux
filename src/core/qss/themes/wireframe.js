@@ -14,7 +14,7 @@ export default {
    "@font-family": {"value": "Helvetica Neue,Helvetica,Arial,sans-serif", "type": "fontFamily"},
    "@font-weight": {"value": "", "type": "fontWeight"},
    "@letterSpacing": {"value": 0, "type": "letterSpacing"},
-   "@lineHeight": {"value": 1, "type": "lineHeight"},
+   "@lineHeight": {"value": 1.5, "type": "lineHeight"},
 
    "@border-width-none": {"value": 0, "type": "borderWidth"},
    "@border-width": {"value": 1, "type": "borderWidth"},

@@ -132,6 +132,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/survey/checkboxgroup.json'),
             import(/* webpackChunkName: "themes" */ 'themes/survey/radiogroup.json'),
             import(/* webpackChunkName: "themes" */ 'themes/survey/radiotable.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/survey/buttons.json'),
 
             // import(/* webpackChunkName: "themes" */ 'themes/OpenUI/button2.json'),
             // import(/* webpackChunkName: "themes" */ 'themes/OpenUI/calender.json'),
