@@ -58,15 +58,15 @@ export function computeGrid(parent, fixSmallColumns = false) {
 		 * then all the children
 		 */
 		addGridColumns(columns, 0, parent, true)
-		addGridColumns(columns, parent.w, parent, false)
+		addGridColumns(columns, Util.round(parent.w), parent, false)
 		addGridRow(rows, 0, parent, true)
-		addGridRow(rows, parent.h, parent, false)
+		addGridRow(rows, Util.round(parent.h), parent, false)
 
 		parent.children.forEach((c) => {
-			addGridColumns(columns, c.x, c, true)
-			addGridColumns(columns, c.x + c.w, c, false)
-			addGridRow(rows, c.y, c, true)
-			addGridRow(rows, c.y + c.h, c, false)
+			addGridColumns(columns, Util.round(c.x), c, true)
+			addGridColumns(columns, Util.round(c.x + c.w), c, false)
+			addGridRow(rows, Util.round(c.y), c, true)
+			addGridRow(rows, Util.round(c.y + c.h), c, false)
 		})
 
 		/**
@@ -185,9 +185,9 @@ export function setGridColumnWidth(columns, parent) {
 	columns = Object.values(columns).sort((a, b) => a.v - b.v)
 	columns.forEach((column, i) => {
 		if (columns[i + 1]) {
-			column.l = columns[i + 1].v - column.v
+			column.l = Util.round(columns[i + 1].v - column.v)
 		} else {
-			column.l = parent.w - column.v
+			column.l = Util.round(parent.w - column.v)
 		}
 	})
 	return columns.filter((c) => c.l > 0)
@@ -197,9 +197,9 @@ export function setGridRowHeight(rows, parent) {
 	rows = Object.values(rows).sort((a, b) => a.v - b.v)
 	rows.forEach((row, i) => {
 		if (rows[i + 1]) {
-			row.l = rows[i + 1].v - row.v
+			row.l = Util.round(rows[i + 1].v - row.v)
 		} else {
-			row.l = parent.h - row.v
+			row.l = Util.round(parent.h - row.v)
 		}
 	})
 	return rows.filter((r) => r.l > 0)

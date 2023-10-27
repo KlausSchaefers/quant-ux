@@ -27,12 +27,23 @@ export default class ResponsiveLayout {
          * in the crisp in the bounding box.
          */
         if (round) {
-            boundingBox.w = Math.round(boundingBox.w)
-            boundingBox.h = Math.round(boundingBox.h)
-            boundingBox.x = Math.round(boundingBox.x)
-            boundingBox.y = Math.round(boundingBox.y)       
+            boundingBox.w = ExportUtil.round(boundingBox.w)
+            boundingBox.h = ExportUtil.round(boundingBox.h)
+            boundingBox.x = ExportUtil.round(boundingBox.x)
+            boundingBox.y = ExportUtil.round(boundingBox.y)       
         }
         this.config.fixStartEnd = true
+        const scrn = {
+            id: 's',
+            name: 'Selection',
+            w: boundingBox.w,
+            h: boundingBox.h,
+            x: boundingBox.x,
+            y: boundingBox.y,
+            children: children,
+            style: {},
+            props: {}
+        }
         const responsiveSelection = {
             id: model.id,
             name: "Selecttion",
@@ -41,23 +52,13 @@ export default class ResponsiveLayout {
                 h: boundingBox.h
             },
             screens: {
-                "s": {
-                    id: 's',
-                    name: 'Selection',
-                    w: boundingBox.w,
-                    h: boundingBox.h,
-                    x: boundingBox.x,
-                    y: boundingBox.y,
-                    children: children,
-                    style: {},
-                    props: {}
-                }
+               s: scrn
             },
             widgets: {},
             groups: {}
         }
 
-
+        const roundedBoxed = []
         children.forEach(id => {
             const widget = model.widgets[id]
             const group = ExportUtil.getParentGroup(widget.id, model)
@@ -69,14 +70,23 @@ export default class ResponsiveLayout {
                 responsiveSelection.widgets[id] = widget
             } else {
                 const cloned = ExportUtil.clone(widget)
-                cloned.x = Math.round(cloned.x)
-                cloned.y = Math.round(cloned.y)
-                cloned.w = Math.round(cloned.w)
-                cloned.h = Math.round(cloned.h)
+                cloned.x = ExportUtil.round(cloned.x)
+                cloned.y = ExportUtil.round(cloned.y)
+                cloned.w = ExportUtil.round(cloned.w)
+                cloned.h = ExportUtil.round(cloned.h)
                 responsiveSelection.widgets[id] = cloned
+                roundedBoxed.push(cloned)
             }
 
         })
+
+        if (round) {
+            const roundedBoundingBox = ExportUtil.getBoundingBoxByBoxes(roundedBoxed)
+            scrn.x = roundedBoundingBox.x
+            scrn.y = roundedBoundingBox.y
+            scrn.w = roundedBoundingBox.w
+            scrn.h = roundedBoundingBox.h
+        }
 
 
         // add groups
@@ -502,3 +512,4 @@ export function unFixMin(list) {
         })
     } 
 }
+

@@ -239,7 +239,6 @@ export default {
                     label.style.top = (this._gridResizeModel.y) + "px"
                     label.style.left = (this._gridResizeModel.x + col.v) + "px"
                     label.style.width = (col.l) + "px"
-                    console.debug(this.zoom)
                     label.innerText = Math.round(col.l / this.zoom)
                 }
             }) 

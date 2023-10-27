@@ -26,16 +26,16 @@
 						</div> 
 
 						<div class="MatcToolbarSection" v-show="!svgEditorVisible" >				
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit" v-show="hasScreens">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit" v-show="hasScreens">
 								<QIcon icon="Edit" />
 							</div> 
 
 
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove" v-show="hasScreens">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove" v-show="hasScreens">
 								<QIcon icon="EditMove" />
 							</div>
 						
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
 								<QIcon icon="DevicesAdd" />
 								<!-- <span class="MatcToolbarResponsiveLabel">Screen</span>    						 -->
 							</div>
@@ -46,7 +46,7 @@
 							<CreateVectorButton @add="onToolSVG" v-if="false" />	
 
 
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
 								<QIcon icon="Comment" />
 							</div>		
 							
@@ -63,19 +63,19 @@
 									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">					
 										<QIcon icon="UnGroup" />					
 									</div>
-									<!-- <div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
+									<!-- <div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': selectedButton === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
 										<QIcon icon="Distribute" />					
 									</div> -->
 								
 								</div>
 
-								<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'selectionGridEditor'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
+								<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': selectedButton === 'selectionGridEditor'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
 										<QIcon icon="ResiseGrid" />					
 								</div>
 
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
 									<TemplateButton ref="templateBTN" @create="onToolCreateTemplate"></TemplateButton>											
-									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': mode === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
+									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': selectedButton === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
 											<QIcon icon="Replicate" />				
 									</div>										
 								</div>
@@ -126,13 +126,13 @@
 			<div class="MatcToolbarBottomActions" v-if="false">
 					<div class="MatcToolbarBottomActionsCntr">
 						<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="editBtn" >			
-						<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
+						<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
 							<QIcon icon="Edit" />
 						</div>
 					</div>
 
 					<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="moveBtn" >			
-						<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'move'} ]" data-dojo-attach-point="editTool"  @click="onMove">
+						<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'move'} ]" data-dojo-attach-point="editTool"  @click="onMove">
 							<QIcon icon="EditMove" />
 						</div>
 					</div>
@@ -223,6 +223,9 @@ export default {
 		'QIcon': QIcon
 	},
 	computed: {
+		selectedButton () {
+			return this.mode
+		},
 		hasProtoMoto () {
 			return this.settings && this.settings.hasProtoMoto
 		},

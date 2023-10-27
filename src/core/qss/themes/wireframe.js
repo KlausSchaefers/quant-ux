@@ -73,7 +73,7 @@ export default {
    "@label-color": {"value": "#000000", "type": "red"},
    "@label-color:hover": {"value": "#2784b1", "type": "color"},
    "@label-color:error": {"value": "#f43535", "type": "color"},
-   "@label-color-secondary": {"value": "#000000", "type": "red"},
+   "@label-color-secondary": {"value": "#777", "type": "red"},
 
    "@label-font-weight-default": {"value": "", "type": "fontWeight"},
    "@label-font-weight-bold": {"value": "bold", "type": "fontWeight"},

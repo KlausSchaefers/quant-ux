@@ -34,10 +34,10 @@ export function transform(model, config) {
 		 */
 		screen = layoutTree(screen, config.useRows)
 
-		/**
-		 * Now we put the fixed stuff in the fixedChildren list
-		 */
-		screen = setFixedChildren(screen, model)
+		// /**
+		//  * Now we put the fixed stuff in the fixedChildren list
+		//  */
+		// screen = setFixedChildren(screen, model)
 
 		/**
 		 * Now we need to layout the shit again, because we have removed the fixed elements.
@@ -323,124 +323,124 @@ function transformScreenToTree(screen, model) {
 	/**
 	 * Padding messes with the grid :(
 	 */
-	resetPadding(result)
+	//resetPadding(result)
 	return result
 }
 
-function setFixedChildren(screen, model) {
-	if (screen.children) {
-		setFixedChildrenInElement(screen, screen, model)
-	}
-	return screen
-}
+// function setFixedChildren(screen, model) {
+// 	if (screen.children) {
+// 		setFixedChildrenInElement(screen, screen, model)
+// 	}
+// 	return screen
+// }
 
-function setFixedChildrenInElement(element, screen, model, fixBottomNodes = true) {
-	/**
-	 * Attention. Fixed elements must be set in the model as fixed. Otherwise
-	 * the oder in the tree method is not correct and the will be wrongly nested!
-	 */
-	if (element.children) {
-		let children = []
-		element.children.forEach((child) => {
-			if (child.style.fixed === true) {
-				child.x = child._x - screen.x
-				child.y = child._y - screen.y
-				// the first call if with the element being the screen
-				if (element.id !== screen.id) {
-					element.parent = screen
-				}
+// function setFixedChildrenInElement(element, screen, model, fixBottomNodes = true) {
+// 	/**
+// 	 * Attention. Fixed elements must be set in the model as fixed. Otherwise
+// 	 * the oder in the tree method is not correct and the will be wrongly nested!
+// 	 */
+// 	if (element.children) {
+// 		let children = []
+// 		element.children.forEach((child) => {
+// 			if (child.style.fixed === true) {
+// 				child.x = child._x - screen.x
+// 				child.y = child._y - screen.y
+// 				// the first call if with the element being the screen
+// 				if (element.id !== screen.id) {
+// 					element.parent = screen
+// 				}
 
-				setAllChildrenAsNotFixed(child)
-				if (fixBottomNodes) {
-					setFixedBottom(child, model, screen)
-				}
-				screen.fixedChildren.push(child)
-			} else {
-				setFixedChildrenInElement(child, screen, model)
-				children.push(child)
-			}
-		})
-		element.children = children
-	}
-}
+// 				setAllChildrenAsNotFixed(child)
+// 				if (fixBottomNodes) {
+// 					setFixedBottom(child, model, screen)
+// 				}
+// 				screen.fixedChildren.push(child)
+// 			} else {
+// 				setFixedChildrenInElement(child, screen, model)
+// 				children.push(child)
+// 			}
+// 		})
+// 		element.children = children
+// 	}
+// }
 
-function setFixedBottom(element, model, screen) {
+// function setFixedBottom(element, model, screen) {
 
-	/**
-	 * IF we have an pinned bottom
-	 */
-	if (Util.isPinnedDown(element)) {
-		element.bottom = Util.getDistanceFromScreenBottom(element, model, screen)
-	}
-}
+// 	/**
+// 	 * IF we have an pinned bottom
+// 	 */
+// 	if (Util.isPinnedDown(element)) {
+// 		element.bottom = Util.getDistanceFromScreenBottom(element, model, screen)
+// 	}
+// }
 
-function setAllChildrenAsNotFixed(element) {
-	if (element.children) {
-		element.children.forEach((child) => {
-			child.style.fixed = false
-			setAllChildrenAsNotFixed(child)
-		})
-	}
-}
+// function setAllChildrenAsNotFixed(element) {
+// 	if (element.children) {
+// 		element.children.forEach((child) => {
+// 			child.style.fixed = false
+// 			setAllChildrenAsNotFixed(child)
+// 		})
+// 	}
+// }
 
-function resetPadding(element) {
-	if (element.children) {
-		element.children.forEach((child) => {
-			/**
-			 * If we have more than one child, we have to set the padding to 0.
-			 * Also, we have to create an label element
-			 */
-			let labelToAdd = null
-			if (child.children && child.children.length > 0) {
-				let style = child.style
-				if (child.props.label) {
-					let style = child.style
-					let paddingLeft = style.paddingLeft ? style.paddingLeft : 0
-					let paddingRight = style.paddingRight ? style.paddingRight : 0
-					let paddingBottom = style.paddingBottom ? style.paddingBottom : 0
-					let paddingTop = style.paddingTop ? style.paddingTop : 0
-					// Logger.warn('Falt2Tree.resetPadding() > inline label!', child)
-					labelToAdd = {
-						id: child.id + "-label",
-						name: child.name + "-label",
-						type: "Label",
-						x: style.paddingRight,
-						y: style.paddingTop,
-						w: child.w - paddingLeft - paddingRight,
-						h: child.h - paddingBottom - paddingTop,
-						props: Util.clone(child.props),
-						style: {
-							color: style.color,
-							textAlign: style.textAlign,
-							fontFamily: style.fontFamily,
-							fontSize: style.fontSize,
-							fontStyle: style.fontStyle,
-							fontWeight: style.fontWeight,
-							letterSpacing: style.letterSpacing,
-							lineHeight: style.lineHeight,
-							verticalAlign: style.verticalAlign,
-						},
-						children: [],
-					}
-				}
+// function resetPadding(element) {
+// 	if (element.children) {
+// 		element.children.forEach((child) => {
+// 			/**
+// 			 * If we have more than one child, we have to set the padding to 0.
+// 			 * Also, we have to create an label element
+// 			 */
+// 			let labelToAdd = null
+// 			if (child.children && child.children.length > 0) {
+// 				let style = child.style
+// 				if (child.props.label) {
+// 					let style = child.style
+// 					let paddingLeft = style.paddingLeft ? style.paddingLeft : 0
+// 					let paddingRight = style.paddingRight ? style.paddingRight : 0
+// 					let paddingBottom = style.paddingBottom ? style.paddingBottom : 0
+// 					let paddingTop = style.paddingTop ? style.paddingTop : 0
+// 					// Logger.warn('Falt2Tree.resetPadding() > inline label!', child)
+// 					labelToAdd = {
+// 						id: child.id + "-label",
+// 						name: child.name + "-label",
+// 						type: "Label",
+// 						x: style.paddingRight,
+// 						y: style.paddingTop,
+// 						w: child.w - paddingLeft - paddingRight,
+// 						h: child.h - paddingBottom - paddingTop,
+// 						props: Util.clone(child.props),
+// 						style: {
+// 							color: style.color,
+// 							textAlign: style.textAlign,
+// 							fontFamily: style.fontFamily,
+// 							fontSize: style.fontSize,
+// 							fontStyle: style.fontStyle,
+// 							fontWeight: style.fontWeight,
+// 							letterSpacing: style.letterSpacing,
+// 							lineHeight: style.lineHeight,
+// 							verticalAlign: style.verticalAlign,
+// 						},
+// 						children: [],
+// 					}
+// 				}
 
-				style.paddingBottom = 0
-				style.paddingLeft = 0
-				style.paddingRight = 0
-				style.paddingTop = 0
+// 				style.paddingBottom = 0
+// 				style.paddingLeft = 0
+// 				style.paddingRight = 0
+// 				style.paddingTop = 0
 
-				resetPadding(child)
+// 				resetPadding(child)
 
-				if (labelToAdd) {
-					/**
-					 * Or add to fron?
-					 */
-					child.children.push(labelToAdd)
-				}
-			}
-		})
-	}
-}
+// 				if (labelToAdd) {
+// 					/**
+// 					 * Or add to fron?
+// 					 */
+// 					child.children.push(labelToAdd)
+// 				}
+// 			}
+// 		})
+// 	}
+// }
 
 /**
  * This method will try to find the parent widget. By default,
