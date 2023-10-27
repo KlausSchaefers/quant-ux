@@ -91,7 +91,7 @@ function mergeLines (model, importModel) {
    */
   let oldToNewIds = {}
   Object.values(importModel.lines).forEach(line => {
-    let oldId = screen.id
+    let oldId = line.from
     let newId = updateUUID('l', line, model)
     oldToNewIds[oldId] = newId
   })

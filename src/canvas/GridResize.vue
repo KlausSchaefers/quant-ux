@@ -42,6 +42,7 @@ export default {
         onGridResize() {
             this.logger.log(-1,"onGridResize", "enter > ", this._gridResizeEnabled);
 
+            // Maybe toggle between group and flat mode?
             if (this._gridResizeEnabled){
 				this.onGridResizeEnd()
 			} else {

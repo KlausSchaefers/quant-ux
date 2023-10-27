@@ -5,7 +5,7 @@ import Core from '../../core/Core'
 import CoreUtil from '../../core/CoreUtil'
 import Logger from '../../common/Logger'
 import PerformanceMonitor from '../../core/PerformanceMonitor'
-import ModelDB from './ModelDB'
+//import ModelDB from './ModelDB'
 import * as CollabUtil from './CollabUtil'
 import CollabService from './CollabService'
 import ModelFixer from './ModelFixer'
@@ -26,7 +26,7 @@ export default class BaseController extends Core {
 		this.transactions = {}
 		this._modelRenderJobs = {}
 		this._modelChanges = []
-		this.modelDB = new ModelDB()
+		//this.modelDB = new ModelDB()
 		this.collabService = new CollabService()
 		this.logger.log(1,"constructor", "entry > " + this.mode);
 		this.commandStack =  {stack : [], pos : 0, id:0};
@@ -552,9 +552,9 @@ export default class BaseController extends Core {
 	 ***************************************************************************************/
 
 
-	storeModel (model) {
+	storeModel () {
 		this.logger.log(3, "storeModel", "enter " );
-		this.modelDB.save(model)
+		//this.modelDB.save(model)
 	}
 
 	startTransaction (changes) {

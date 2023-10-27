@@ -3,7 +3,7 @@ import lang from '../../dojo/_base/lang'
 import Core from '../../core/Core'
 import ModelResizer from '../../core/ModelResizer'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
-import * as ResponsiveUtil from 'core/responsive/ResponsiveUtil'
+import * as ResponsiveUtil from '../../core/responsive/ResponsiveUtil'
 import * as ImportUtil from './ImportUtil'
 
 export default class Screen extends CopyPaste {

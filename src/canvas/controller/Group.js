@@ -643,7 +643,7 @@ export default class Group extends Layer {
 	}
 
 
-	modelAddGroup (group, ignoreModelUpdate, line){
+	modelAddGroup (group, ignoreModelUpdate, line, parentGroupId){
 
 		if(!this.model.groups){
 			this.model.groups = {};
@@ -652,6 +652,17 @@ export default class Group extends Layer {
 		this.model.groups[group.id] = group;
 		if(line){
 			this.model.lines[line.id] = line;
+		}
+		if (parentGroupId) {
+			const parentGroup = this.model.groups[parentGroupId]
+			if (parentGroup) {
+				parentGroup.groups.push(group.id)
+				parentGroup.children = parentGroup.children.filter( childID => {
+					return !group.children.includes(childID)
+				})
+			} else {
+				this.logger.error('modelAddGroup', 'error > No parent group with id' + parentGroupId)
+			}
 		}
 
 		if(!ignoreModelUpdate){
@@ -807,14 +818,18 @@ export default class Group extends Layer {
 	}
 
 	createRemoveGroupCommand (group){
-		var command = {
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "RemoveGroup",
 			model : group
 		};
-		var line = this.getLineFrom(group);
+		const line = this.getLineFrom(group);
 		if(line){
 			command.line = line;
+		}
+		const parentGroup = this.getParentGroup(group.id)
+		if (parentGroup) {
+			command.parentGroupId = parentGroup.id
 		}
 		return command;
 	}
@@ -825,6 +840,12 @@ export default class Group extends Layer {
 			delete this.model.groups[id];
 			if (line){
 				delete this.model.lines[line.id];
+			}
+
+			const parentGroup = this.getParentGroup(group.id)
+			if (parentGroup) {
+				parentGroup.groups = parentGroup.groups.filter(id => id !== group.id)
+				parentGroup.children = parentGroup.children.concat(group.children)
 			}
 
 			if(!doNotCallModelChanged){
@@ -838,7 +859,7 @@ export default class Group extends Layer {
 	}
 
 	undoRemoveGroup (command){
-		this.modelAddGroup(command.model, false, command.line);
+		this.modelAddGroup(command.model, false, command.line, command.parentGroupId);
 		this.render();
 	}
 
