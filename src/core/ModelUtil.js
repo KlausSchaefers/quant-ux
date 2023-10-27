@@ -321,7 +321,12 @@ class ModelUtil {
     } 
 
     /**
-     * Create a minimal scalled version
+     * Create a minimal scalled version.
+     * 
+     * FIXME: We could try to improve the rendering even more
+     * by utilizing some cache to avoid object creation.
+     * There are also some downstream bugs, where for instance the
+     * selection hold on to the old version if there was zooming.
      */
     createScalledModelFast(model, zoom, round = true) {
 

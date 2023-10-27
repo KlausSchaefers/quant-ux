@@ -43,9 +43,10 @@ export default {
             this.logger.log(-1,"onGridResize", "enter > ", this._gridResizeEnabled);
 
             // Maybe toggle between group and flat mode?
-            if (this._gridResizeEnabled){
+            if (this._gridResizeEnabled >=1){
 				this.onGridResizeEnd()
 			} else {
+     
 				this.onGridResizeStart();
 			}
         },
@@ -53,7 +54,7 @@ export default {
         updateGridRezise () {
             this.logger.log(-1,"onGridResize", "enter > ", this._gridResizeEnabled);
 
-            if (this._gridResizeEnabled) {
+            if (this._gridResizeEnabled) {   
                 this.cleanUpGridResize()
                 this.onGridResizeStart()
             }
@@ -62,7 +63,12 @@ export default {
         onGridResizeStart () {
 			css.add(this.container, "MatcCanvasModeGridResize");
 
-            this._gridResizeEnabled = true
+            this._gridResizeEnabled = 1
+        
+            // in principle we could still somehow toggle between
+            // different modes. Howver this is messsed up in zooming because is disbaled
+            // the _gridResizeEnabled
+
             this._gridResizeModel = this.getGridResizModel()
             this._gridResizeHandlersDivs= []
             this._gridResizeHandlersColumn = []
@@ -73,11 +79,13 @@ export default {
             this._gridResizeHandlersRowLabels = []
             this._gridResizeHandlerListeners = []
 
+            const wrapGroups = this._gridResizeEnabled === 1
+
             this._gridResponsiveLayouter = new ResponsiveLayout()
-            this._gridResponsiveLayouter.initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true)
+            this._gridResponsiveLayouter
+                .initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true, wrapGroups)
             
             const tree = this._gridResponsiveLayouter.treeModel
-            //console.debug(tree.screens[0].children)
             const root = tree.screens[0]
             const grid = lang.clone(root.grid)
 
@@ -403,9 +411,10 @@ export default {
             }
 
             if (this.getSelectedScreen()) {
-                const scrn = this.getSelectedScreen()
+                // get the latest updated verion. The getSelectedScreen() might hold a reference to the old
+                // element
+                const scrn = this.model.screens[this.getSelectedScreen().id]
                 const gridResizeModel = scrn
-                console.debug(gridResizeModel)
                 gridResizeModel.children = scrn.children
                 return gridResizeModel
             }
@@ -428,7 +437,7 @@ export default {
             this.logger.log(-1,"cleanUpGridResize", "enter > ");
 
             css.remove(this.container, "MatcCanvasModeGridResize");
-            this._gridResizeEnabled = false
+            this._gridResizeEnabled = 0
             if (this._resizeHandleMove) {
                 this._resizeHandleMove.remove()
             }

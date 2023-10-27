@@ -13,15 +13,17 @@ export default class ResponsiveLayout {
         this.config.wrapGroups = true
     }
 
-    initApp(model) {
+    initApp(model, wrapGroups) {
         this.model = model
-        const flatModel = Quant2Flat.transform(model, this.config)
-        const treeModel = Flat2Tree.transform(flatModel, this.config)
+        if (wrapGroups) {
+            model = Quant2Flat.transform(model, this.config)
+        }
+        const treeModel = Flat2Tree.transform(model, this.config)
         this.treeModel = treeModel
     }
 
-    initSelection(model, boundingBox, children, round=true) {
-        Logger.log(-1, 'ResponsiveLayout.initSelection()')
+    initSelection(model, boundingBox, children, round=true, wrapGroups = true) {
+        Logger.log(-1, 'ResponsiveLayout.initSelection() > wrapGroups: ' + wrapGroups)
         /**
          * We want to make sure, that the selection is always
          * in the crisp in the bounding box.
@@ -80,7 +82,13 @@ export default class ResponsiveLayout {
 
         })
 
-        if (round) {
+        /**
+         * To avoid stupid double cols and row at the end,
+         * we resize the bounding bix, however, if we have a screen,
+         * the bounding should no be changed
+         */
+        if (round && !this.isBoundingBoxScreen(boundingBox)) {
+          
             const roundedBoundingBox = ExportUtil.getBoundingBoxByBoxes(roundedBoxed)
             scrn.x = roundedBoundingBox.x
             scrn.y = roundedBoundingBox.y
@@ -90,8 +98,12 @@ export default class ResponsiveLayout {
 
 
         // add groups
-        this.initApp(responsiveSelection, round)
+        this.initApp(responsiveSelection, wrapGroups)
 
+    }
+
+    isBoundingBoxScreen(boundingBox) {
+        return boundingBox.style
     }
 
     createGroupWrapper (element, group, model) {

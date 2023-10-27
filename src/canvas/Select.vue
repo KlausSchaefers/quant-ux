@@ -113,6 +113,9 @@ import * as SelectionUtil from 'core/SelectionUtil'
 
 		getSelectedScreen () {
 			if (this._canvasSelection.screens.length === 1) {
+				/**
+				 * FIXME: After a zoom this might be the wrong object...
+				 */
 				return this._canvasSelection.screens[0]
 			}
 			return null
