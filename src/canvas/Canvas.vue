@@ -386,6 +386,12 @@ export default {
 			}
 		},
 
+		setSubMode (subMode) {
+			if(this.toolbar){
+				this.toolbar.setSubMode(subMode);
+			}
+		},
+
 		getMode (){
 			return this.mode;
 		},

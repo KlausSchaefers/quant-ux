@@ -69,7 +69,7 @@
 								
 								</div>
 
-								<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': selectedButton === 'selectionGridEditor'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
+								<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': selectedButton === 'gridResize'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
 										<QIcon icon="ResiseGrid" />					
 								</div>
 
@@ -205,7 +205,8 @@ export default {
 			showLabels:false,
 			isDeveloperMode: false,
 			mode: 'edit',
-			hasScreens: false
+			subMode: '',
+			hasScreens: false,
         }
     },
 	components: {
@@ -224,6 +225,9 @@ export default {
 	},
 	computed: {
 		selectedButton () {
+			if (this.mode === 'edit' && this.subMode) {
+				return this.subMode
+			}
 			return this.mode
 		},
 		hasProtoMoto () {
@@ -295,7 +299,13 @@ export default {
 		setMode (mode){
 			this.logger.log(3,"setMode", "entry > '" + mode + "'");
 			this.mode = mode;
+			this.subMode = ''
 			this.onModeChange();
+		},
+
+		setSubMode (subMode) {
+			this.logger.log(3,"setSubMode", "entry > '" + subMode + "'");
+			this.subMode = subMode
 		},
 
 		setLayerList (layerlist){

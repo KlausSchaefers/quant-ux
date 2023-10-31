@@ -36,8 +36,9 @@ export default {
           if (this.getMultiSelection()){
             this._selectCloneIds = this.getMultiSelection();
           }
-
+          this.setSubMode('replicate')
         } else {
+          this.setSubMode('')
           delete this._resizeDnDMoveHandler;
           delete this._resizeDnDEndHandler;
           css.remove(this.container, "MatcCanvasModeReplicate");
@@ -129,6 +130,7 @@ export default {
       },
 
       cleanUpReplicate (){
+        this.setSubMode('')
         //this.logger.log(0,"cleanUpReplicate", "enter");
         if (this._resizeCopyJobsDivs) {
           for(var i=0; i< this._resizeCopyJobsDivs.length; i++){

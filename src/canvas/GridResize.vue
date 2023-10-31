@@ -45,9 +45,10 @@ export default {
             // Maybe toggle between group and flat mode?
             if (this._gridResizeEnabled >=1){
 				this.onGridResizeEnd()
+            
 			} else {
-     
 				this.onGridResizeStart();
+                this.setSubMode('gridResize')
 			}
         },
 
@@ -90,7 +91,16 @@ export default {
             const grid = lang.clone(root.grid)
 
             this._gridResizeGrid = grid
-            //console.debug(this._gridResizeGrid.columns.map(c => c.v + ":"+ c.l))
+
+            // console.debug(this._gridResizeModel.w, this._gridResizeModel.h)
+            // console.debug(this._gridResizeGrid.columns.map(c => c.v + ":"+ c.l))
+            // console.debug(this._gridResizeGrid.rows.map(c => c.v + ":"+ c.l))
+            // this._gridResizeGrid.columns.forEach(c => {
+            //     console.debug(c.v, c.start, c.end)
+            // })
+            // this._gridResizeGrid.rows.forEach(c => {
+            //     console.debug(c.v, c.start, c.end)
+            // })
 
             const l = (this.resizeButtonSize * 2) +1;
 
@@ -347,11 +357,14 @@ export default {
                     this._resizeGrid.rows[i].l = currentLength         
                 }        
             }
+            this.fixOverflowsInGrid(this._resizeGrid, this._gridResizeModel)
             this._updateGridResizeHandler(this._resizeGrid, isColumn, !isColumn)
 
-            //console.debug(this._resizeGrid.columns.map(c => c.v + ":"+ c.l))
-      
+            // console.debug(this._resizeGrid.columns.map(c => c.v + ":"+ c.l))
+            //console.debug(this._resizeGrid.rows.map(c => c.v + ":"+ c.l))
+
             const [positions] = this._getGridResizePositions(this._resizeGrid)
+            //console.debug(positions)
             this._createMultiPositionRenderJobs(positions)    
     
             if(!window.requestAnimationFrame){
@@ -364,6 +377,40 @@ export default {
     
         },
 
+        fixOverflowsInGrid (grid, resizeModel) {
+            grid.rows.forEach((r,i) => {
+                this._fixOverflowInLine(r, i, grid.rows, resizeModel.h)
+            })
+            grid.columns.forEach((r,i) => {
+                this._fixOverflowInLine(r, i, grid.columns, resizeModel.w)
+            })
+
+            console.debug(grid.rows.map(c => c.v + ":"+ c.l))
+        },
+
+        _fixOverflowInLine(r, i, list, max) {
+            if (r.v < 0) {
+                r.v = 0
+                const next = list[i+1]
+                if (next) {
+                    r.l = next.v - r.v
+                }
+                const before = list[i-1]
+                if (before) {
+                    before.l = 0
+                    before.v = 0
+                }
+            }
+            if (r.v > max) {
+                r.v = max
+                r.l = 0
+                const before = list[i-1]
+                if (before) {
+                    before.l = r.v - before.v
+                }
+            }
+        },
+
         _getGridResizePositions (grid) {
             let hasCopies = false;
             const responsivePositions = this._gridResponsiveLayouter.updateScreenGrid(0, grid)
@@ -373,6 +420,7 @@ export default {
                 const widget = this.model.widgets[id];        
                 hasCopies = hasCopies || this.isMasterWidget(widget);            
                 const repositionWidget = responsivePositions.widgets[id]
+                //console.debug(widget.name, '>> ', repositionWidget.w, repositionWidget.h)
                 positions[id] = {
                     x: repositionWidget.x,
                     y: repositionWidget.y,
@@ -422,19 +470,19 @@ export default {
         },
 
         onGridResizeEnd () {
-            this.logger.log(-1,"onGridResizeEnd", "enter > dirty: ", this._gridResizeDirty);
+            this.logger.log(2,"onGridResizeEnd", "enter > dirty: ", this._gridResizeDirty);
 
             if (this._gridResizeDirty && this._gridResizeGrid) {
                 const [positions, hasCopies] = this._getGridResizePositions(this._gridResizeGrid);           
                 this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
             }
 
-
+            this.setSubMode('')
             this.cleanUpGridResize()
         },
 
         cleanUpGridResize () {
-            this.logger.log(-1,"cleanUpGridResize", "enter > ");
+            this.logger.log(4,"cleanUpGridResize", "enter > ");
 
             css.remove(this.container, "MatcCanvasModeGridResize");
             this._gridResizeEnabled = 0
