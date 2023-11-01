@@ -9,16 +9,26 @@
       </div>
       <div class="container MatcHeaderCenter">
         <div class="MatcHeaderCenterLeft">
-          <a class="" href="#/">{{ $t('header.my-prototypes') }}</a>
-          <a class="" href="#/help.html">{{ $t('header.documentation') }}</a>
+          <!-- <a class="" href="#/">{{ $t('header.my-prototypes') }}</a> -->
+      
         </div>
         <div class="MatcHeaderCenterRight">
+          <a class="" href="#/help.html">
+            <QIcon icon="Book"/>
+          </a>
           <LanguagePicker @change="setLanguage" />
         </div>
       </div>
       <div class="MatcHeaderRight">
-        <a class="" href="#/logout.html">{{ $t('header.logout') }}</a>
-        <a class="" href="#/my-account.html">{{ $t('header.my-account') }}</a>
+        <a class="" href="#/my-account.html">
+          <QIcon icon="Account"/>
+          <!-- {{ $t('header.my-account') }} -->
+        </a>
+        <!-- <a class="" href="#/logout.html">{{ $t('header.logout') }}</a> -->
+        <a class="" href="#/logout.html">
+          <QIcon icon="Logout"/>
+        </a>
+       
       </div>
 
 </div>
@@ -35,6 +45,7 @@ import Services from 'services/Services'
 import Logger from 'common/Logger'
 import hash from "dojo/hash";
 import LanguagePicker from "page/LanguagePicker";
+import QIcon from 'page/QIcon'
 
 export default {
   name: "Header",
@@ -51,7 +62,8 @@ export default {
     }
   },
   components: {
-    'LanguagePicker': LanguagePicker
+    'LanguagePicker': LanguagePicker,
+    'QIcon': QIcon
   },
   methods: {
     setLanguage(language) {

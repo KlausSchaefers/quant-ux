@@ -1,13 +1,13 @@
 
 <template>
   <div class="MatcLanguagePicker">
-    <div type="button" data-dojo-attach-point="button" @click.stop="open" class="MatcToolbarIconButton" >
+    <a type="button" data-dojo-attach-point="button" @click.stop="open" class="MatcToolbarIconButton" >
       <span v-if="hasLabel">
         {{selectedLanguage}}
       </span>
       <QIcon icon="World"></QIcon>
       <span class="caret" v-if="hasCarret"></span>
-    </div>
+    </a>
     <div class="MatcDropDownPopUp" role="menu" data-dojo-attach-point="popup" v-if="isVisible">
       <ul class role="menu" data-dojo-attach-point="ul">
         <li v-for="ln in languages" :key="ln.value" @click.stop="onChangeLanguage(ln.value)" ><a>{{ln.label}}</a>

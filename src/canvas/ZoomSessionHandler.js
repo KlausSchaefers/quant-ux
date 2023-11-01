@@ -43,7 +43,7 @@ export default class ZoomSessionHandler {
        * TODO: We could have something lire a logarithm ???
        */
       if (Math.abs(speed) > 20) {
-        return 0.5
+        return 0.4
       }
 
       if (Math.abs(speed) > 10) {

@@ -1335,5 +1335,24 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M3 21l18 -18"></path>
         <path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0"></path>
+    `,
+    'Book': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+        <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+        <path d="M3 6l0 13"></path>
+        <path d="M12 6l0 13"></path>
+        <path d="M21 6l0 13"></path>
+    `,
+    'Account': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+    `,
+    'Logout': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+        <path d="M9 12h12l-3 -3"></path>
+        <path d="M18 15l3 -3"></path>
     `
 }

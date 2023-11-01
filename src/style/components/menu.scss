@@ -54,6 +54,13 @@ $menu_left_right_width: 256px;
 			flex-grow: 1;
 		}
 
+		.MatcHeaderCenterRight {
+			display: flex;
+			align-items: center;
+			height: 100%;
+			gap: 32px;
+		}
+
 	}
 
 	.MatcHeaderLeft {

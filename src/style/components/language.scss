@@ -5,6 +5,10 @@
   position: relative;
   cursor: pointer;
 
+  a {
+    color: $text_color;
+  }
+
   .MatcDropDownPopUp{
     display: block;
     left: auto;
