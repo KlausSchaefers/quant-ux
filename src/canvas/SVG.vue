@@ -35,7 +35,7 @@ export default {
         },
 
         showSVGEditor() {
-            this.logger.log(-1,"showSVGEditor", "enter > ");
+            this.logger.log(1,"showSVGEditor", "enter > ");
             this.unSelect();
             this.cleanUpSelectionListener();
             this.showSVG = true

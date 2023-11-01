@@ -318,25 +318,16 @@ export default {
             this._resizeRenderJobs = {}
             const pos =  this.getCanvasMousePosition(e);
             if (isColumn) {
-                // we have to update the length (l) of the col before,
-                // thew value and the length of the current one
-                // TODOD: DO SOME GRID STUFF
+              
                 const dif = pos.x - this._resizeStartPos.x 
 
                 const currentValue = this._gridResizeGrid.columns[i].v + dif      
                 this._resizeGrid.columns[i].v = currentValue   
-                const lengthBefore = this._gridResizeGrid.columns[i-1].l + dif
-                this._resizeGrid.columns[i-1].l = lengthBefore    
-       
+            
                 if (isDot && this._resizeGrid.columns[i+1]) {
                     const valueAfter = this._gridResizeGrid.columns[i+1].v + dif
-                    const lengthAfter = this._gridResizeGrid.columns[i+1].l - dif
-                    this._resizeGrid.columns[i+1].l = lengthAfter
                     this._resizeGrid.columns[i+1].v = valueAfter
-                } else {
-                    const currentLength = this._gridResizeGrid.columns[i].l - dif
-                    this._resizeGrid.columns[i].l = currentLength         
-                }        
+                }     
             }
 
             if (!isColumn) {
@@ -344,20 +335,17 @@ export default {
 
                 const currentValue = this._gridResizeGrid.rows[i].v + dif      
                 this._resizeGrid.rows[i].v = currentValue   
-                const lengthBefore = this._gridResizeGrid.rows[i-1].l + dif
-                this._resizeGrid.rows[i-1].l = lengthBefore    
-
+      
                 if (isDot && this._resizeGrid.rows[i+1]) {
                     const valueAfter = this._gridResizeGrid.rows[i+1].v + dif
-                    const lengthAfter = this._gridResizeGrid.rows[i+1].l - dif
-                    this._resizeGrid.rows[i+1].l = lengthAfter
-                    this._resizeGrid.rows[i+1].v = valueAfter
-                } else {
-                    const currentLength = this._gridResizeGrid.rows[i].l - dif
-                    this._resizeGrid.rows[i].l = currentLength         
-                }        
+                    this._resizeGrid.rows[i+1].v = valueAfter    
+                }      
             }
-            this.fixOverflowsInGrid(this._resizeGrid, this._gridResizeModel)
+            // we have to update the length (l) of the col before,
+            // thew value and the length of the current one
+            this._alignGridInParent(this._resizeGrid, this._gridResizeModel)
+
+
             this._updateGridResizeHandler(this._resizeGrid, isColumn, !isColumn)
 
             // console.debug(this._resizeGrid.columns.map(c => c.v + ":"+ c.l))
@@ -377,37 +365,36 @@ export default {
     
         },
 
-        fixOverflowsInGrid (grid, resizeModel) {
+        _alignGridInParent (grid, resizeModel) {
             grid.rows.forEach((r,i) => {
                 this._fixOverflowInLine(r, i, grid.rows, resizeModel.h)
             })
+            this._setGridLength(grid.rows, resizeModel.h)
             grid.columns.forEach((r,i) => {
                 this._fixOverflowInLine(r, i, grid.columns, resizeModel.w)
             })
+            this._setGridLength(grid.columns, resizeModel.w)
 
-            console.debug(grid.rows.map(c => c.v + ":"+ c.l))
+            //console.debug(grid.rows.map(c => c.v + ":"+ c.l))
+            //console.debug(grid.columns.map(c => c.v + ":"+ c.l))
+        },
+
+        _setGridLength (items, max) {
+            items.forEach((item,i) => {
+                if (items[i + 1]) {
+                    item.l = Math.round(items[i + 1].v - item.v)
+                } else {
+                    item.l = Math.round(max - item.v)
+                }
+            })
         },
 
         _fixOverflowInLine(r, i, list, max) {
             if (r.v < 0) {
                 r.v = 0
-                const next = list[i+1]
-                if (next) {
-                    r.l = next.v - r.v
-                }
-                const before = list[i-1]
-                if (before) {
-                    before.l = 0
-                    before.v = 0
-                }
             }
             if (r.v > max) {
                 r.v = max
-                r.l = 0
-                const before = list[i-1]
-                if (before) {
-                    before.l = r.v - before.v
-                }
             }
         },
 
