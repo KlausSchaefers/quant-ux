@@ -927,6 +927,8 @@ export default {
       this.loadComments();
     },
 
+ 
+
     setEvents(events) {
       this.logger.log(1, "setEvents", "enter > # " + events.length);
       var analytics = new Analytics();
@@ -975,6 +977,10 @@ export default {
       } else if (forceRender) {
         this.rerender();
       }
+    },
+
+    setSubMode () {
+
     },
 
     /***************************************************************************

@@ -565,7 +565,7 @@ export default {
 			themeList.setOptions([
 				{ value: "MatcLight", label: "Light" },
 				{ value: "MatcDark", label: "Dark" },
-				{ value: "MatcAuto", label: "Auto" },
+				{ value: "MatcAuto", label: "Auto" }
 			]);
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);

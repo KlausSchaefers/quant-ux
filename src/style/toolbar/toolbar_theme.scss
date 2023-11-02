@@ -483,12 +483,22 @@ div.MatcToolbarViewConfigCntrSpace {
     }
 
     .VommondCheckBoxChecked .VommondCheckBox,
-    .VommondCheckBoxChecked:hover .VommondCheckBox,
-    .VommondRadioBoxChecked .VommondRadioBox
-    .VommondRadioBoxChecked:hover .VommondRadioBox {
+    .VommondCheckBoxChecked:hover .VommondCheckBox{
         background: $toolbar_checkbox_selected_background;
         border: 1px solid $toolbar_checkbox_selected_background;
     }
 
+    .VommondRadioBox {
+        &:hover {
+            background: $toolbar_checkbox_hover_background;
+            border: 1px solid $toolbar_checkbox_hover_background;
+        }
+        &.VommondRadioBoxChecked {
+            background: $toolbar_checkbox_selected_background;
+            border: 1px solid $toolbar_checkbox_selected_background;
+        }
+    }
+
+    
   
 }

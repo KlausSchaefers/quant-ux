@@ -196,7 +196,7 @@ export default {
 
             var db = new DomBuilder();
 
-            this.heatmapDiv = this.createSection("Heatmap", this.properties);
+            this.heatmapDiv = this.createSection("Show", this.properties);
 
             let content = this.createContent(this.heatmapDiv);
 
@@ -788,7 +788,7 @@ export default {
         renderScreenModes() {
             this.logger.log(3, "renderScreenModes", "entry");
 
-            this.screenModeDiv = this.createSection("Options", this.properties);
+            this.screenModeDiv = this.createSection("Show", this.properties);
 
             const content = this.createContent(this.screenModeDiv);
 

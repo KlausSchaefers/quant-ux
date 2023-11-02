@@ -1122,7 +1122,8 @@ export default {
 			var themeList = this.$new(RadioBoxList);
 			themeList.setOptions([
 				{value:"MatcDark", label:"Dark"},
-				{value:"MatcLight", label: "Light"}
+				{value:"MatcLight", label: "Light"},
+				{ value: "MatcAuto", label: "Auto" }
 			]);
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
