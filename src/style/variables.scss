@@ -54,6 +54,12 @@ $toolbar_form_border: $toolbar_border;
 $toolbar_form_border_hover: $toolbar_border;
 $toolbar_form_border_focus: rgba(255,255,255,0.16);;
 $toolbar_form_radius: 4px;
+$toolbar_checkbox_background: #484E53;
+$toolbar_checkbox_border: #484E53;
+$toolbar_checkbox_hover_background: #484E53;
+$toolbar_checkbox_hover_border: #484E53;
+$toolbar_checkbox_selected_background: $primary_color;
+$toolbar_checkbox_selected_hook: #fff;
 
 $toolbar_help_background: rgba(255,255,255, 0.1);
 

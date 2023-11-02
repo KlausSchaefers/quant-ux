@@ -1050,16 +1050,21 @@ tr:hover .VommondInputListRemove {
 	width: 16px;
 	height: 16px;
 	position: relative;
-	border: 1px solid #777;
+	border: 1px solid $form_border;
 	vertical-align: middle;
 	cursor: pointer;
 	border-radius: 50%;
-	padding: 5px;
+	padding: 6px;
 	position: relative;
+	background: #fff;
+
+	&:hover {
+		border: 1px solid $form_border_hover;
+	}
 }
 
 .VommondRadioBoxLabel {
-	margin-left: 10px;
+	margin-left: 8px;
 	vertical-align: middle;
 	display: inline-block;
 	cursor: pointer;
@@ -1075,14 +1080,29 @@ tr:hover .VommondInputListRemove {
 	height: 100%;
 	width: 100%;
 
-	background: $primary_color;
 	vertical-align: top;
 	border-radius: 50%;
 }
 
-.VommondRadioBoxChecked .VommondRadioBoxMark {
-	opacity: 1;
-}
+.VommondRadioBoxChecked {
+
+	.VommondRadioBoxMark {
+		opacity: 1;
+		background: #fff;
+	}
+
+	&.VommondRadioBox {
+		background: $primary_color;
+		border-color: $primary_color;
+
+		&:hover {
+			background: $primary_color_hover;
+			border-color: $primary_color_hover;
+		}
+	}
+
+
+} 
 
 .VommondRadioBoxListItem {
 	padding: 10px 0px;
@@ -1105,6 +1125,7 @@ tr:hover .VommondInputListRemove {
 	height: 16px;
 	position: relative;
 	border: 1px solid $form_border;
+	background: #fff;
 	vertical-align: middle;
 	cursor: pointer;
 }
@@ -1123,22 +1144,38 @@ tr:hover .VommondInputListRemove {
 	opacity: 0;
 	transition-duration: 0.3s;
 	transition-property: opacity;
-	border-bottom: 3px solid $primary_color;
-	border-right: 2px solid $primary_color;
+	border-bottom: 3px solid #fff;
+	border-right: 2px solid #fff;
 	transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	-webkit-transform: rotate(45deg);
 	display: inline-block;
-	height: 90%;
-	width: 50%;
-	left: 25%;
+	height: 80%;
+	width: 40%;
+	left: 30%;
+	top: 5%;
 	position: absolute;
 	opacity: 0;
-	top: 0;
+
 }
 
-.VommondCheckBoxChecked .VommondCheckBoxHook {
-	opacity: 1;
+.VommondCheckBoxChecked {
+
+	.VommondCheckBoxHook {
+		opacity: 1;
+	}
+
+	.VommondCheckBox {
+		background: $primary_color;
+		border-color: $primary_color;
+	}
+
+	&:hover {
+		.VommondCheckBox {
+			background: $primary_color_hover;
+			border-color: $primary_color_hover;
+		}
+	}
 }
 
 .VommondLabelCheckBox {

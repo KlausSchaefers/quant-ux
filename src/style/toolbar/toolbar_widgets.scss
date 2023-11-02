@@ -540,8 +540,11 @@
 	height: 16px;
 	width: 16px;
 	vertical-align: middle;
-	background: none;
+	background:none;
+	border: 1px border $form_border;
 }
+
+
 
 .MatcToolbar .VommondCheckBox {
 	border-radius: $toolbar_form_radius;
@@ -729,9 +732,9 @@
 	background: $primary_color;
 }
 
-.MatcSliderTable .VommondCheckBox {
-	border-color: #ccc;
-}
+// .MatcSliderTable .VommondCheckBox {
+// 	border-color: #ccc;
+// }
 
 
 .MatcSliderTable .VommondSliderHandle {

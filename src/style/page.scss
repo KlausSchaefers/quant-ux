@@ -333,6 +333,12 @@ body {
 	background: #fff;
 }
 
+.MatcScreenSizeItemSelected{
+	.VommondCheckBoxHook {
+		border-color: $primary_color;
+	}
+}
+
 .form-group .MatcAppTypeSelector .MatcScreenSizeItem .VommondCheckBoxWrapper {
 	position: absolute;
 	right: 10px;

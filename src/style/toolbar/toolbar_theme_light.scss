@@ -41,6 +41,12 @@
     $popup_form_background_hover: $toolbar_form_background_hover;
     $popup_form_background_focus: $toolbar_form_background_focus;
 
+    $toolbar_checkbox_background: $toolbar_form_background;
+    $toolbar_checkbox_border: $toolbar_form_border;
+
+    $toolbar_checkbox_hover_background: $toolbar_form_background_hover;
+    $toolbar_checkbox_hover_border: $toolbar_form_border_hover;
+
     @import './toolbar_theme.scss';
     @import './toolbar_edit_mode.scss';
 

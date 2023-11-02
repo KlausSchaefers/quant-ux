@@ -434,9 +434,7 @@
         border: 1px solid $dialog_table_border;
 
         .VommondCheckBox{
-            border: 1px solid #ccc;
             border-radius: $toolbar_form_radius;
-            background: #fff;
             vertical-align: baseline;
         }
     }
@@ -456,4 +454,41 @@
 
 div.MatcToolbarViewConfigCntrSpace {
 	border-bottom: 1px solid $popup_line;
+}
+
+.MatcToolbar  {
+    .VommondCheckBox,
+    .VommondRadioBox {
+        background: $toolbar_checkbox_background;
+        border: 1px solid $toolbar_checkbox_border;
+    }
+
+    .VommondCheckBoxWrapper:hover {
+
+        .VommondCheckBox {
+            background: $toolbar_checkbox_hover_background;
+            border: 1px solid $toolbar_checkbox_hover_border;
+        }
+    }
+
+    .VommondCheckBoxHook {
+        border-color: $toolbar_checkbox_selected_hook;
+        height: 80%;
+        width: 40%;
+        left: 30%;
+        top:5%;
+    }
+    .VommondRadioBoxMark {
+        background: $toolbar_checkbox_selected_hook;
+    }
+
+    .VommondCheckBoxChecked .VommondCheckBox,
+    .VommondCheckBoxChecked:hover .VommondCheckBox,
+    .VommondRadioBoxChecked .VommondRadioBox
+    .VommondRadioBoxChecked:hover .VommondRadioBox {
+        background: $toolbar_checkbox_selected_background;
+        border: 1px solid $toolbar_checkbox_selected_background;
+    }
+
+  
 }
