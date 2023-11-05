@@ -110,7 +110,13 @@
         "my-account": "My Account",
         "logout": "Logout",
         "login": "Login",
-        "signup": "SignUp for Free"
+        "signup": "SignUp for Free",
+        "tooltip": {
+            "language": "Change the language",
+            "my-prototypes": "Show your prototypes",
+            "documentation": "Read the Documentation",
+            "my-account": "Manage your Account or logout"
+        }
     },
     "script": {
         "edit": "Edit",

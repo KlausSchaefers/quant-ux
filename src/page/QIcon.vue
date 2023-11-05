@@ -22,11 +22,12 @@
 </style>
   <script>
   import DojoWidget from "dojo/DojoWidget";
+  import _Tooltip from "common/_Tooltip";
   import {icons} from './QIconsSVG'
   export default {
     name: "QIcon",
-    props:['icon'],
-    mixins: [DojoWidget],
+    props:['icon', 'tooltip'],
+    mixins: [DojoWidget, _Tooltip],
     data: function() {
       return {
         icons: icons
@@ -45,6 +46,10 @@
       }
     },
     mounted() {
+      if (this.tooltip) {
+        this.addTooltip(this.$el, this.tooltip)
+      }
+
     }
   };
   </script>

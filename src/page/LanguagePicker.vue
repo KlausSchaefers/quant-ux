@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcLanguagePicker">
+ <div :class="['MatcLanguagePicker', {'MatcToolbarPopUpVisible': isVisible}]">
     <a type="button" data-dojo-attach-point="button" @click.stop="open" class="MatcToolbarIconButton" >
       <span v-if="hasLabel">
         {{selectedLanguage}}
@@ -14,6 +14,7 @@
         </li>
       </ul>
     </div>
+    <div class="MatcDropDownPopUpBackdrop" v-if="isVisible"></div>
   </div>
 </template>
 <style lang="scss">
@@ -26,10 +27,12 @@ import win from "dojo/_base/win";
 import Logger from "common/Logger";
 import QIcon from "../page/QIcon";
 
+import _Tooltip from "common/_Tooltip";
+
 export default {
   name: "LangaugePicker",
   props:['hasLabel', 'value'],
-  mixins: [],
+  mixins: [_Tooltip],
   data: function() {
     return {
       isVisible: false,
@@ -89,6 +92,8 @@ export default {
     if (this.value) {
       this.language = this.value
     }
+
+    this.addTooltip(this.$el, "Change the language", "vommondToolTipRightBottom")
   }
 };
 </script>
