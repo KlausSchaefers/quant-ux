@@ -1354,5 +1354,12 @@ export const icons = {
         <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
         <path d="M9 12h12l-3 -3"></path>
         <path d="M18 15l3 -3"></path>
+    `,
+    'UserPlus': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+        <path d="M16 19h6"></path>
+        <path d="M19 16v6"></path>
+        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
     `
 }

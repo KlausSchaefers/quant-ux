@@ -48,6 +48,10 @@
 	transition-duration: 0.05s;
 	transition-property: all;
 	position: relative;
+
+	&.ZoomDialogWrapperOverflow{
+		overflow: visible;
+	}
 }
 
 

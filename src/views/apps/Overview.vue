@@ -7,9 +7,9 @@
             <h2 class="">{{app.name}}</h2>
           </div>
           <div class="level-right" v-if="!isPublic">
-            <div class="level-item">
+            <!-- <div class="level-item">
               <h6 class="title is-6 has-text-grey">{{ $t('app.overview.team')}}</h6>
-            </div>
+            </div> -->
             <div class="level-item">
               <Team v-if="app.id && user.id && !isPublic" :appID="app.id" :userID="user.id" />
             </div>

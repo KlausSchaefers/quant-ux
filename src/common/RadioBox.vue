@@ -15,6 +15,7 @@ import on from 'dojo/on'
 export default {
     name: 'RadioBox',
     mixins:[ DojoWidget],
+	props: ['selected'],
     data: function () {
         return {
             value: false
@@ -22,7 +23,7 @@ export default {
     },
     components: {},
     methods: {
-        postCreate: function(){		
+        postCreate (){		
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "onChange")));
 		},		
 
@@ -47,7 +48,15 @@ export default {
 			this.emit("change", this.value );
 		}
     }, 
+	watch: {
+		selected (v) {
+			this.setValue(v)
+		}
+	},
     mounted () {
+		if (this.selected) {
+			this.setValue(this.selected)
+		}
     }
 }
 </script>

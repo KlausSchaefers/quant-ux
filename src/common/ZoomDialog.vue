@@ -6,7 +6,7 @@
                 {'ZoomDialogAnimation': step >= 2}]" 
         @mousedown="close">
         <div class="ZoomDialogContainer" ref="container" @click.stop="" @mousedown.stop="">
-            <div class="ZoomDialogWrapper" ref="wrapper">
+            <div :class="['ZoomDialogWrapper', {'ZoomDialogWrapperOverflow': overflow === 'visible'}]" ref="wrapper">
                 <div class="ZoomDialogContent" ref="content">
                     <slot></slot>
                 </div>
@@ -20,6 +20,7 @@
 <script>
 export default {
     name: "ZoomDialog",
+    props: ['overflow'],
     data: function () {
       return {
         visible: false,

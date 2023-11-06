@@ -1,26 +1,15 @@
 <template>
     <div class="MatcUser">
-       
-                <div v-if="!user || user.role === 'guest'" class="MatcUserAvatar">
-                    <QIcon icon="User"/>
-                </div>
-                <template v-else>
-                    <img v-if="user.image"
-                        class="MatcUserImage"
-                        :src="'/rest/user/' + user.id + '/images/' + user.name + '_' + user.lastname + '/' + user.image" />
-        
-                    <div class="MatcUserAvatar" v-else>
-                        
-                        {{getUserLetter(user)}}
-                    
-                    </div>
-                </template>
-            
-            
-      
-
-     
-   
+        <div v-if="!user || user.role === 'guest'" class="MatcUserAvatar">
+            <QIcon icon="User" />
+        </div>
+        <template v-else>
+            <img v-if="user.image" class="MatcUserImage"
+                :src="'/rest/user/' + user.id + '/images/' + user.name + '_' + user.lastname + '/' + user.image" />
+            <div class="MatcUserAvatar" v-else>
+                {{ getUserLetter(user) }}
+            </div>
+        </template>
     </div>
 </template>
 <style lang="scss">
@@ -43,7 +32,7 @@ export default {
     },
     methods: {
         getUserLetter(user) {
-            
+
             let result = ''
             if (user.name) {
                 result += user.name.substring(0, 1).toUpperCase();

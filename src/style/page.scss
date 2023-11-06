@@ -83,10 +83,22 @@ body {
  * Team
  ****************************************************/
 
+ .MatcTeamContainer{
+	display: flex;
+	gap: 8px;
+	text-align: center;
+
+	.MatcQIcon .MatcQIconSVG{
+		stroke-width: 3px;
+	}
+
+	.MatcTeamItem:hover .MatcQIconSVG{
+		stroke: $primary_color;
+	}
+ }
+
 .MatcTeamItem {
-	display: inline-block;
-	margin-right: 10px;
-	vertical-align: top;
+
 	text-align: center;
 	position: relative;
 	cursor: pointer;
@@ -142,8 +154,17 @@ body {
 	width: 600px;
 	min-height: 200px;
 	text-align: left;
-	color: #333;
 	background: #fff;
+	overflow: visible;
+
+	table {
+		width: 100%;
+		td {
+			padding-top: 16px;
+			padding-bottom: 16px;
+			height: 32px;
+		}
+	}
 }
 
 .MatcTeamDialogEdit {
