@@ -189,10 +189,11 @@ export default {
             isToggleWireFrameAndCustom: false,
             hasRobo: true,
             openAITemperature: 2,
-            gptVersion: 'gpt3',
+            gptVersion: 'gpt4-turbo',
             gptModels: [
                 {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
-                {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')}   
+                {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')},
+                {value: 'gpt4-turbo', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo')}  
             ],
             robo: {
                 icon:'mdi mdi-robot-outline',
@@ -303,6 +304,9 @@ export default {
             const aiService = Services.getAIService()
             if (this.gptVersion === 'gpt4') {
                 return aiService.runGPT4(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+            }
+            if (this.gptVersion === 'gpt4-turbo') {
+                return aiService.runGPT4Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
             return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
         },

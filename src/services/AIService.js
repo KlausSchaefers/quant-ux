@@ -154,6 +154,10 @@ export default class AIService extends AbstractService {
         })
     }
 
+    async runGPT4Turbo (message, key, app, options) {
+        return this.runChat('gpt-4-1106-preview', message, key, app, options)       
+    }
+
     async runGPT4 (message, key, app, options) {
         return this.runChat('gpt-4', message, key, app, options)       
     }
@@ -206,12 +210,17 @@ export default class AIService extends AbstractService {
                 return this.extractHTML(content)
             }
             if (res.error) { 
+                this.logger.error('runChat() > Error from API', res)
                 if (res.error.code === 'invalid_api_key') {
                     return {
                         error: 'design-gpt.error-server-key'
                     }
                 }
-
+                if (res.error.code === 'insufficient_quota') {
+                    return {
+                        error: 'design-gpt.error-insufficient_quota'
+                    }
+                }
             }
         } catch (err){
             return {
