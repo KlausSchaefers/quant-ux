@@ -31,7 +31,8 @@ export default {
     mixins: [],
     data: function () {
         return {
-            hasSelectAll: true
+            hasSelectAll: true,
+            hasSessionDetails: true
         }
     },
     components: {
@@ -529,51 +530,69 @@ export default {
             this.sessionCheckBoxes = {};
             for (let i = 0; i < list.length; i++) {
                 const session = list[i];
-                const row = db.div("MatcToobarRow MatcToobarRowIconCntr").build(cntr);
+
+                //const sessionDIV = db.div('MatcToolbarSession MatcToolbarIconButton').build(cntr)
+
+                const row = db.div("MatcToobarRow MatcToolbarIconButton").build(cntr);
 
                 const chk = this.$new(CheckBox);
-                css.add(chk.domNode, "MatcToolbarItem");
+                //css.add(chk.domNode, "MatcToolbarItem");
                 chk.setValue(true);
-                if (order === 'duration') {
-                    chk.setLabel("Test " + (session.id) + " - " + session.duration + "s"); // + session.taskPerformance +" Tasks - "
-                }
-                if (order === 'date') {
-                    chk.setLabel("Test " + (session.id) + " - " + session.date + ""); // + session.taskPerformance +" Tasks - "
-                }
-                if (order === 'events') {
-                    chk.setLabel("Test " + (session.id) + " - " + session.size + ""); // + session.taskPerformance +" Tasks - "
-                }
-
-                if (order === 'weirdness') {
-                    chk.setLabel("Test " + (session.id) + " - " + session.weirdness * 100 + "%"); // + session.taskPerformance +" Tasks - "
-                }
+         
                 chk.placeAt(db.div().build(row));
 
                 if (this.hasSessionDetails) {
-                    const details = db.div("MatcToolbarSessionListDetails").build(row)
+
+                    //chk.setLabel("Test " + (session.id)); // + session.taskPerformance +" Tasks - "
+
+                    const labelCntr = db.div('MatcToolbarSessionLabels').build(row)
+
+                    db.span('', 'Test ' + (session.id)).build(labelCntr)
+              
+                    const details = db.div("MatcToolbarSessionListDetails").build(labelCntr)
+
+                    const start = db.div().build(details)
+                    db.span("",session.date).build(start)
 
                     const duration = db.div().build(details)
-                    duration.appendChild(iconDOM("Clock"))
                     db.span("",session.duration + 's').build(duration)
 
                     const events = db.div().build(details)
-                    events.appendChild(iconDOM("Count"))
-                    db.span("",session.size).build(events)
+                    db.span("",session.size + ' Events').build(events)
+                } else {
+                    if (order === 'duration') {
+                        chk.setLabel("Test " + (session.id) + " - " + session.duration + "s"); // + session.taskPerformance +" Tasks - "
+                    }
+                    if (order === 'date') {
+                        chk.setLabel("Test " + (session.id) + " - " + session.date + ""); // + session.taskPerformance +" Tasks - "
+                    }
+                    if (order === 'events') {
+                        chk.setLabel("Test " + (session.id) + " - " + session.size + ""); // + session.taskPerformance +" Tasks - "
+                    }
+
+                    if (order === 'weirdness') {
+                        chk.setLabel("Test " + (session.id) + " - " + session.weirdness * 100 + "%"); // + session.taskPerformance +" Tasks - "
+                    }
                 }
 
 
-
-          
-
                 this.sessionCheckBoxes[session.session] = chk;
                 this.own(on(chk, "change", lang.hitch(this, "selectSession")));
+                this.own(on(row, "mousedown",  (e) => {
+                    this.stopEvent(e)
+                    chk.setValue(!chk.getValue())
+                    this.selectSession()
+                }));
                 this.own(on(row, "mouseover", lang.hitch(this, "hoverSession", session)))
                 this.own(on(row, "mouseout", lang.hitch(this, "hoverSession", null)))
 
-                var play = db.div("MatcToobarRowRightIcon").build(row)
+                const play = db.div("MatcToobarRowRightIcon").build(row)
                 play.appendChild(iconDOM('PlayVideo'))
 
-                this.own(on(play, "click", lang.hitch(this, "showSession", session)));
+                this.own(on(play, "mousedown", e => {
+                    this.stopEvent(e)
+                    this.showSession(session,e)
+                }))
             }
 
             this.sessionScroller = this.$new(ScrollContainer);
@@ -1165,8 +1184,7 @@ export default {
          ********************************************************/
 
         showSession(session, e) {
-            //console.debug("showSession", session.session, this.events.length);
-
+          
             const sessionID = session.session;
             const dialog = new Dialog();
 

@@ -47,13 +47,13 @@
           <div class="level-right">
             <div class="level-item">
             <a
-                class="MatcButton MatcButtonXS MatcButtonPrimary"
+                :class="['MatcButton MatcButtonXS MatcButtonPrimary', {'MatcButtonPassive': tab=='X'}]"
                 :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`"
                 id="overviewHeaderRunTest">{{ $t('app.overview.analytic-canvas')}}</a>
             </div>
             <div class="level-item">
               <a
-                class="MatcButton MatcButtonXS MatcButtonPrimary"
+                :class="['MatcButton MatcButtonXS MatcButtonPrimary', {'MatcButtonPassive': tab=='X'}]"
                 target="test"
                 :href="'#/test.html?h=' + hash + '&log=' + !isPublic"
                 id="overviewHeaderRunTest">{{ $t('app.overview.run-test')}}</a>

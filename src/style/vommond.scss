@@ -1092,12 +1092,12 @@ tr:hover .VommondInputListRemove {
 
 	.VommondRadioBoxMark {
 		opacity: 1;
-		background: #fff;
+		background: $primary_color;
 	}
 
 	&.VommondRadioBox {
-		background: $primary_color;
-		border-color: $primary_color;
+		background: #fff;
+		//border-color: $primary_color;
 
 		&:hover {
 			background: $primary_color_hover;

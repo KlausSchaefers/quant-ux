@@ -1443,10 +1443,11 @@ input.MatcToobarInlineEditDisabled:focus {
 	.MatcToolbarItem.MatcToolbarDropDownButton.MatcToolbarInputDropDownButton{
 		padding: 0px;
 		height: auto;
+		width: 56px;
 	}
 
 	.MatcToolbarInputDropDownButton input{
-		width: 30px;
+		width: 40px;
 	}
 }
 

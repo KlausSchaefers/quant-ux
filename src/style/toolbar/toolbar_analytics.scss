@@ -25,10 +25,24 @@
 	.MatcToolbarSessionList {
 		flex-grow: 1;
 		overflow: auto;
+		//gap: 8px;
+		display: flex;
+		flex-direction: column;
+
+		.MatcToobarRow {
+			align-items: flex-start;
+			border-radius: 4px;
+			padding: 8px;
+			padding-right: 4px;
+			cursor: pointer;
+		}
+
+		.MatcToolbarSessionLabels {
+			flex-grow: 1;
+		}
 	}
 
 	.MatcToolbarSessionListDetails{
-		padding-left: 36px;
 		opacity: 0.6;
 		display: flex;
 		gap: 16px;

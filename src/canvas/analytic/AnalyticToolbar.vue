@@ -73,7 +73,6 @@ import Form from 'common/Form'
 import Ring from 'common/Ring'
 import Histogram from 'dash/Histogram'
 import Analytics from 'dash/Analytics'
-import VideoPlayer from 'views/apps/test/VideoPlayer'
 import DataFrame from 'common/DataFrame'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import ToolbarPluginSection from '../../plugins/ToolbarPluginSection'
@@ -1007,97 +1006,6 @@ export default {
 		},
 
 
-
-		/********************************************************
-		 * Player
-		 ********************************************************/
-
-		showSession(session,e){
-			//console.debug("showSession", session.session, this.events.length);
-
-			const sessionID = session.session;
-			const dialog = new Dialog();
-		
-			const db = new DomBuilder();
-
-			const div = db.div("MatcDialog MatcPlayerDialog ").build();
-			const cntr = db.div("").build(div);
-
-			dialog.onOpen(() => {
-				if (this.isPublic){
-					Promise.all([
-						this.modelService.findPublicTagAnnotations(this.model.id),
-						this.modelService.findPublicMouseBySession(this.model.id, sessionID)
-					]).then(values => {
-						this._showSession(sessionID, cntr, dialog, values);
-					});
-				} else {
-					Promise.all([
-						this.modelService.findTagAnnotations(this.model.id),
-						this.modelService.findMouseBySession(this.model.id, sessionID)
-					]).then(values => {
-						this._showSession(sessionID, cntr, dialog, values);
-					});
-				}
-			})
-
-			dialog.popup(div, e.target);
-		},
-
-		_showSession(sessionID, cntr, dialog, data) {
-
-			try {
-				const mouse = data[1];
-
-				const df = new DataFrame(this.events);
-				df.sortBy("time");
-				const sessionGroup = df.groupBy("session");
-				const events = sessionGroup.get(sessionID);
-
-				const player = this.$new(VideoPlayer);
-				player.setDialog(dialog)
-				player.placeAt(cntr);
-				player.setModel(this.model);
-				player.setTestSettings(this.testSettings)
-				player.setMouse(mouse);
-				player.setMouse(mouse);
-				player.setSession(events, sessionID);
-		
-
-				dialog.own(on(dialog, "close", function () {
-					player.destroy();
-				}));
-			} catch (e) {
-				console.error(e);
-			}
-		},
-
-		_getSessionAnnotation(annotations, appID){
-
-			if(annotations.length > 1){
-				/**
-				 * This should not happen, but we have seen it happeing. We delete this now...
-				 */
-				console.warn("Too many annotations!");
-				for(var i=1; i< annotations.length; i++){
-					var a = annotations[i];
-					this._doDelete("rest/annotations/apps/"+ appID + "/" + a.id + ".json");
-				}
-			}
-
-			if(annotations.length >= 1){
-				return  annotations[0];
-			}else {
-				//console.debug("Create Tag annotation...");
-				return {
-					appID : appID,
-					type : "tags",
-					reference : "",
-					sessions :{}
-				};
-			}
-		},
-
 		/********************************************************
 		 * Show Settings
 		 ********************************************************/
@@ -1121,14 +1029,12 @@ export default {
 			db.label("","Theme :").build(cntr);
 			var themeList = this.$new(RadioBoxList);
 			themeList.setOptions([
-				{value:"MatcDark", label:"Dark"},
 				{value:"MatcLight", label: "Light"},
-				{ value: "MatcAuto", label: "Auto" }
+				{value:"MatcDark", label:"Dark"},
+				{value: "MatcAuto", label: "Auto"}
 			]);
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
-
-
 
 			/**
 			 * Mouse Wheel
