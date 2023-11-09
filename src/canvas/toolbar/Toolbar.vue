@@ -92,7 +92,10 @@
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
-							</div>							
+							</div>		
+							<div class="MatcToolbarSection">
+								<HeatmapToggleButton :value="'Design'" @change="$emit('viewModeChange', $event)"/>		
+							</div>			
 							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>		
 							<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="simulatorButton"  v-show="hasScreens">			
 								<div class="MatcToolbarItem MatcToolbarPrimaryItem" @click="startSimilator">																
@@ -180,6 +183,7 @@ import CreateButton from './components/CreateButton.vue'
 import HomeMenu from './components/HomeMenu'
 import LayerButton from './components/LayerButton.vue'
 import TemplateButton from './components/TemplateButton.vue'
+import HeatmapToggleButton from './components/HeatmapToggleButton.vue'
 
 import QIcon from 'page/QIcon'
 
@@ -221,6 +225,7 @@ export default {
 		'HomeMenu': HomeMenu,
 		'LayerButton': LayerButton,
 		'TemplateButton': TemplateButton,
+		'HeatmapToggleButton': HeatmapToggleButton,
 		'QIcon': QIcon
 	},
 	computed: {

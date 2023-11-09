@@ -75,13 +75,14 @@ export default new VueRouter({
     {
       path: '/apps/:id/analyze/workspace.html',
       name: 'AnalyticCanvasPage',
-      component: () => import(/* webpackChunkName: "design" */ 'views/apps/Analyze.vue')
+      meta: {viewMode: 'Heatmap'},
+      component: () => import(/* webpackChunkName: "design" */ 'views/apps/Design.vue')
     },
     {
       path: '/examples/:id/analyze/workspace.html',
       name: 'ExampleAnalyticCanvasPage',
-      meta: {isPublic:true},
-      component: () => import(/* webpackChunkName: "design" */ 'views/apps/Analyze.vue')
+      meta: {isPublic:true, viewMode: 'Heatmap'},
+      component: () => import(/* webpackChunkName: "design" */ 'views/apps/Design.vue')
     },
     {
       path: '/',
@@ -208,6 +209,10 @@ export default new VueRouter({
     {
       path: '/test/CanvasComment.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/CanvasCommentTest.vue')
+    },
+    {
+      path: '/test/Chat.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/ChatHelpTest.vue')
     }
   ]
 })

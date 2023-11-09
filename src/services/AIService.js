@@ -285,4 +285,8 @@ export default class AIService extends AbstractService {
         }
     }
 
+    getAssistants () {
+        return this._get('/v1/assistants')
+    }
+
 }

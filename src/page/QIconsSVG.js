@@ -1361,5 +1361,14 @@ export const icons = {
         <path d="M16 19h6"></path>
         <path d="M19 16v6"></path>
         <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+    `,
+    'Heatmap' : `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z"></path>
+    `,
+    'Design': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
+        <path d="M13.5 6.5l4 4"></path>
     `
 }

@@ -6,6 +6,7 @@
 	align-items: center;
 	height: 48px;
 	transition: none;
+
 	
 	.MatcToolbarEditModeCntr {
 		position: relative;
@@ -15,6 +16,7 @@
 		align-items: center;
 		border-radius: $button_radius;
 		transition: none;
+		overflow: hidden;
 	}
 
 
@@ -34,19 +36,35 @@
 		transition: none;
 		font-size: 14px;
 		display: inline-block;
-		padding: 5px 16px;
+		padding: 3px 16px;
 		height: auto;
 		border: 1px solid transparent;
 		border-radius: 0px;
 		z-index: 2;
 		text-wrap: nowrap;
 		text-overflow: ellipsis;
+
+		&:hover {
+			background: $toolbar_selected_background;
+		}
+		
+	}
+
+	a.MatcToolbarItemIcon {
+		padding: 4px 8px;
+		display: flex;
+		justify-content: center;
+		.MatcQIcon {
+			width: 18px;
+			height: 18px;
+		}
 	}
 
 	a.MatcToolbarEditModeActive {
 		//background: $toolbar_form_background_focus;
 		color: #fff;
 		&:hover {
+			background: none;
 			//background: $toolbar_form_background_focus;
 			color: #fff;
 		}

@@ -46,9 +46,9 @@ export default {
     }
   },
   methods: {
-    loadData () {
+    loadAnlyticData () {
       let id = this.$route.params.id
-      this.logger.log(0, 'loadData', 'enter', id)
+      this.logger.log(0, 'loadAnlyticData', 'enter', id)
       Promise.all([
         this.modelService.findApp(id),
         this.modelService.findTest(id),
@@ -56,34 +56,34 @@ export default {
         this.modelService.findSessionAnnotations(id),
         this.modelService.findInvitation(id)
       ]).then(values => {
-        let invitations = values[4];
-        var temp = {};
-        for (var key in invitations) {
+        const invitations = values[4];
+        const temp = {};
+        for (const key in invitations) {
           temp[invitations[key]] = key;
         }
-        let hash = temp[1];
-        this.buildCanvas(values[0], values[1], values[2], values[3], hash)
+        const hash = temp[1];
+        this.buildAnalyticCanvas(values[0], values[1], values[2], values[3], hash)
       })
     },
-    buildCanvas (model, test, events, annotation, hash) {
-      this.logger.log(-1, 'buildCanvas', 'enter', hash)
+    buildAnalyticCanvas (model, test, events, annotation, hash) {
+      this.logger.log(-1, 'buildAnalyticCanvas', 'enter', hash)
 
-      let canvas = this.$refs.canvas
-      let toolbar = this.$refs.toolbar
+      const canvas = this.$refs.canvas
+      const toolbar = this.$refs.toolbar
 
-      let controller = new AnalyticController()
-      let service = Services.getModelService()
+      const controller = new AnalyticController()
+      const service = Services.getModelService()
 
       /**
        * model factory
        */
-      var factory = new ModelFactory();
+       const factory = new ModelFactory();
       factory.setModel(model);
 
       /**
        * render factory
        */
-      var renderFactory = new RenderFactory();
+       const renderFactory = new RenderFactory();
       renderFactory.setModel(model);
       renderFactory.setHash(hash)
 
@@ -118,9 +118,9 @@ export default {
       // wire shit together
       this.tempOwn(on(toolbar, "newComment", lang.hitch(canvas, "addComment")));
 
-      var startScreen = null;
-      for(var screenID in model.screens){
-        var screen = model.screens[screenID];
+      let startScreen = null;
+      for(let screenID in model.screens){
+        const screen = model.screens[screenID];
         if (screen.props && screen.props.start){
             startScreen = screenID;
             break;
@@ -137,7 +137,7 @@ export default {
     css.add(win.body(), 'MatcVisualEditor')
     this.user = await Services.getUserService().load()
     this.modelService = Services.getModelService(this.$route)
-    this.loadData()
+    this.loadAnlyticData()
     this.logger.log(3, 'mounted', 'exit')
   }
 };

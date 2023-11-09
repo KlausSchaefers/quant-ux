@@ -38,7 +38,9 @@
 			
 
 				<div class="MatcToolbarNotificationSection MatcToolbarTopRight MatcToolbarSection" data-dojo-attach-point="notificationSection">
-					<ToolbarPluginSection :events="events" :user="user" :mode="model" />
+					<div class="MatcToolbarSection">
+						<HeatmapToggleButton  :value="'Heatmap'" @change="$emit('viewModeChange', $event)"/>		
+					</div>	
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
 					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn" v-if="false"/>
 				</div>
@@ -75,13 +77,14 @@ import Histogram from 'dash/Histogram'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
-import ToolbarPluginSection from '../../plugins/ToolbarPluginSection'
 import HelpButton from 'help/HelpButton'
 import HomeMenu from './AnalyticHomeMenu.vue'
 import Help from 'help/Help'
 import QIcon from 'page/QIcon'
 import AnalyticViewModeButton from './AnalyticViewModeButton'
 import AnalyticToolbarRender from './AnalyticToolbarRender'
+
+import HeatmapToggleButton from '../toolbar/components/HeatmapToggleButton.vue'
 //import SessionList from './SessionList'
 
 export default {
@@ -103,10 +106,10 @@ export default {
     components: {
 			'ViewConfig': ViewConfig,
 			'HelpButton': HelpButton,
-			'ToolbarPluginSection': ToolbarPluginSection,
 			'HomeMenu': HomeMenu,
 			'QIcon': QIcon,
 			'AnalyticViewModeButton': AnalyticViewModeButton,
+			'HeatmapToggleButton': HeatmapToggleButton
 			//'SessionList': SessionList
 		},
     methods: {
