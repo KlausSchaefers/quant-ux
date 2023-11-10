@@ -7,10 +7,10 @@
             </div>
             <a v-for="(m, i) in modes" @click="setSelected(m, i)" ref="btns" :key="m.value"
                 :class="['MatcToolbarItem MatcToolbarItemIcon', { 'MatcToolbarEditModeActive': m.value === selected }]">
-                <QIcon :icon="m.icon"/>
-                <!-- <span class="MatcToolbarResponsiveLabel">
+                <QIcon :icon="m.icon" v-if="hasIcons"/>
+                <span class="MatcToolbarResponsiveLabel" v-else>
                     {{m.label}}
-                </span> -->
+                </span>
             </a>
         </div>
 
@@ -33,12 +33,14 @@ export default {
     props: ['value'],
     data: function () {
         return {
+            hasIcons: true,
             animated:false,
             highlightWidth: 0,
             highlightX: 0,
             selected: 'Design',
             modes: [
                 { label: 'Design', value: "Design", icon: "Design" },
+               // { label: 'Prototype', value: "Prototype", icon: "Prototype" },
                 { label: 'Heatmaps', value: "Heatmap", icon: "Heatmap" },
               ]
         };

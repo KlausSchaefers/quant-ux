@@ -7,21 +7,15 @@
 
       </div>
       <a @click="setDesign" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'design'  }]" ref="btnEdit">     
-
           Design
-
       </a>
       <a @click="setPrototype" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'prototype' }]" ref="btnProto">
-         
             Prototype
-    
       </a>
-      <!-- <a @click="setCode" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'data'  }]" ref="btnCode">
-          <span class="MatcToolbarResponsiveIcon mdi mdi-code-tags"/>
-          <span class="MatcToolbarResponsiveLabel">
-            LowCode
-          </span>
-      </a> -->
+      <!-- <a @click="setPrototype" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': canvasViewMode === 'analytics' }]" ref="btnProto">
+            Analytics
+      </a>
+      -->
     </div>
 
   </div>

@@ -3,7 +3,7 @@
     <div :class="['MatcToolbarDropDownButton MatcToolbarArrowDropDown MatcToolbarViewConfig', {'MatcToolbarItemActive':hasPopup}]"
        @mousedown.stop="showPopup" @mouseup.stop="">
        
-        <div class="MatcToolbarItem MatcToolbarSecondaryItem" type="button" data-dojo-attach-point="button">
+        <div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
             <label class="MatcToolbarLabel"> {{zoomFactor}} %</label>
             <span class="caret"></span>
 		</div>

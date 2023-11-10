@@ -38,12 +38,15 @@
 			
 
 				<div class="MatcToolbarNotificationSection MatcToolbarTopRight MatcToolbarSection" data-dojo-attach-point="notificationSection">
-					<div class="MatcToolbarSection">
+				
 					
-					</div>	
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
-					<HeatmapToggleButton  :value="'Heatmap'" @change="$emit('viewModeChange', $event)"/>		
-					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn" v-if="false"/>
+					<HeatmapToggleButton  :value="'Heatmap'" @change="$emit('viewModeChange', $event)"/>	
+					<div class="MatcToolbarItem" @click="showSharing">
+						<div class="MatcToobarPrimaryButton">									
+							Share						
+						</div>
+					</div> 
 				</div>
 				
 			</div>
@@ -76,9 +79,11 @@ import Form from 'common/Form'
 import Ring from 'common/Ring'
 import Histogram from 'dash/Histogram'
 import Analytics from 'dash/Analytics'
+import Share from 'page/Share'
+
 import DataFrame from 'common/DataFrame'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
-import HelpButton from 'help/HelpButton'
+// import HelpButton from 'help/HelpButton'
 import HomeMenu from './AnalyticHomeMenu.vue'
 import Help from 'help/Help'
 import QIcon from 'page/QIcon'
@@ -106,7 +111,7 @@ export default {
     },
     components: {
 			'ViewConfig': ViewConfig,
-			'HelpButton': HelpButton,
+			//'HelpButton': HelpButton,
 			'HomeMenu': HomeMenu,
 			'QIcon': QIcon,
 			'AnalyticViewModeButton': AnalyticViewModeButton,
@@ -242,6 +247,37 @@ export default {
 			this.mouseData = data;
 		},
 
+
+		async showSharing(e) {
+			this.logger.log(-1, "showSharing", "entry > ", this.isPublic);
+
+			const invitation = await this.modelService.findInvitation(this.model.id)
+			const temp = {};
+			for (let key in invitation) {
+				temp[invitation[key]] = key;
+			}
+
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
+			const cntr = db.div("container").build(popup);
+			let row = db.div("row").build(cntr);
+			let right = db.div("col-md-12").build(row);
+			db.h3("", this.getNLS("share.Headline")).build(right);
+
+			const share = this.$new(Share)
+			share.placeAt(right)
+			share.setInvitation(temp[1])
+			share.setPublic(this.isPublic)
+
+			row = db.div("row MatcMarginTop").build(cntr);
+			right = db.div("col-md-12 MatcButtonBar").build(row);
+
+			const write = db.div("MatcButton MatcButtonPrimary", "Close").build(right);
+
+			const d = new Dialog();
+			d.own(on(write, touch.press, lang.hitch(d, "close")));
+			d.popup(popup, e.target);
+		},
 
 		/**********************************************************************
 		 * Callbacks to canvas
