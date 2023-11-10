@@ -24,7 +24,6 @@
 		top: 0px;
 		left: 0px;
 		border-radius: $button_radius;
-		transition: all 0.25s;
 		z-index: 1;
 	}
 
@@ -32,12 +31,13 @@
 		transition: none;
 		font-size: 14px;
 		display: inline-block;
-		padding: 5px 16px;
+		//padding: 4px 16px;
 		height: auto;
 		transition: all 0.2s;
 		border: 1px solid transparent;
 		border-radius: 0px;
 		z-index: 2;
+		width: 88px;
 	}
 
 	a.MatcToolbarEditModeActive {

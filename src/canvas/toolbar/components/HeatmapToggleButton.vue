@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcToolbarNavButton">
+    <div :class="['MatcToolbarNavButton', {'MatcToolbarEditModeAnimated': animated}]">
 
         <div class="MatcToolbarEditModeCntr" ref="cntr">
             <div class="MatcToolbarEditModeHighlight" :style="{ 'width': highlightWidth + 'px', 'left': highlightX + 'px' }">
@@ -33,6 +33,7 @@ export default {
     props: ['value'],
     data: function () {
         return {
+            animated:false,
             highlightWidth: 0,
             highlightX: 0,
             selected: 'Design',
@@ -52,9 +53,9 @@ export default {
             this.log.log(1, 'setSelected', 'enter', m)
             this.selected = m.value
             this.setHighlight(i)
-            //setTimeout(() => {
+            setTimeout(() => {
                 this.$emit("change", m.value)
-           // }, 200)
+            }, 300)
         },
     
         setHighlight(i) {
@@ -75,7 +76,7 @@ export default {
     },
     async mounted() {
         this.log = new Logger("HeatmapToggleButton")
-        this.setHighlight(0)
+        // this.setHighlight(0)
         setTimeout(() => {
             this.modes.forEach((mode, i) => {
                 if (mode.value === this.value) {
@@ -84,6 +85,8 @@ export default {
                 }
             })
         }, 30)
+
+        setTimeout(() => this.animated = true, 500)
 
  
     }

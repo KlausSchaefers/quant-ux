@@ -28,7 +28,7 @@
 		top: 0px;
 		left: 0px;
 		border-radius: $button_radius;
-		transition: all 0.25s;
+		//transition: all 0.25s;
 		z-index: 1;
 	}
 
@@ -69,5 +69,11 @@
 			color: #fff;
 		}
 	}
+
 }
+
+.MatcToolbarEditModeAnimated .MatcToolbarEditModeHighlight{
+	transition: all 0.25s;
+}
+
 

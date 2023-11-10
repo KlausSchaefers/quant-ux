@@ -1,6 +1,6 @@
 
 <template>
-    <div class="MatcToolbarNavButton">
+   <div :class="['MatcToolbarNavButton', {'MatcToolbarEditModeAnimated': animated}]">
 
         <div class="MatcToolbarEditModeCntr" ref="cntr">
             <div class="MatcToolbarEditModeHighlight" :style="{ 'width': highlightWidth + 'px', 'left': highlightX + 'px' }">
@@ -32,6 +32,7 @@ export default {
     props: ['value'],
     data: function () {
         return {
+            animated:false,
             highlightWidth: 0,
             highlightX: 0,
             selected: 'showClickHeatMap',
@@ -89,6 +90,7 @@ export default {
         }, 100)
 
  
+        setTimeout(() => this.animated = true, 500)
     }
 };
 </script>

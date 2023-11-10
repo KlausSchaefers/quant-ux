@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcToolbarEditMode">
+   <div :class="['MatcToolbarEditMode', {'MatcToolbarEditModeAnimated': animated}]">
   
     <div class="MatcToolbarEditModeCntr" ref="cntr">
       <div class="MatcToolbarEditModeHighlight" :style="{'width': highlightWidth + 'px', 'left': highlightX + 'px'}">
@@ -39,6 +39,7 @@ export default {
   props: ['value'],
   data: function() {
     return {
+      animated: false,
       highlightWidth: 0,
       highlightX: 0,
       canvasViewMode: 'design'
@@ -119,6 +120,7 @@ export default {
       this.setSelected(this.$refs.btnEdit)
     }, 30)
 
+    setTimeout(() => this.animated = true, 500)
   }
 };
 </script>
