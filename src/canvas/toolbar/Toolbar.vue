@@ -93,20 +93,28 @@
 							<div class="MatcToolbarSection">
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
 							</div>		
-							<div class="MatcToolbarSection">
-								<HeatmapToggleButton :value="'Design'" @change="$emit('viewModeChange', $event)"/>		
-							</div>			
-							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>		
+										
 							<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="simulatorButton"  v-show="hasScreens">			
 								<div class="MatcToolbarItem MatcToolbarPrimaryItem" @click="startSimilator">																
 									<QIcon icon="Play" />												
 								</div>
 							</div>
-							<div class="MatcToolbarItem" @click="showSharing">
-								<div class="MatcToobarPrimaryButton">									
-									Share				
+
+							<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="simulatorButton"  v-show="hasScreens">			
+								<div class="MatcToolbarItem MatcToolbarPrimaryItem" @click="showSharing">																
+									<QIcon icon="Share" />												
 								</div>
 							</div>
+
+							<!-- <div class="MatcToolbarItem" @click="showSharing">
+								<div class="MatcToobarPrimaryButton">									
+									<QIcon icon="Sahre" />						
+								</div>
+							</div> -->
+
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>	
+							<HeatmapToggleButton :value="'Design'" @change="$emit('viewModeChange', $event)"/>		
+							
 							
 						</div>
 

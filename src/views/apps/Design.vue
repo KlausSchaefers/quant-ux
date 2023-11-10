@@ -91,10 +91,15 @@ export default {
       let id = this.$route.params.id;
       this.logger.log(3, "loadData", "enter", id);
       Promise.all([
-        this.modelService.findApp(id),
-        this.modelService.getCommands(id),
-        this.modelService.findInvitation(id)
+        this.loadApp(id),
+        this.loadCommands(id),
+        this.loadInvitations(id)
       ]).then(values => {
+
+        this.cache.app = values[0]
+        this.cache.commands = values[1]
+        this.cache.inivitations = values[2]
+
         const invitations = values[2];
         const temp = {};
         for (let key in invitations) {
@@ -104,8 +109,101 @@ export default {
         this.buildCanvas(values[0], values[1], hash);
       });
     },
+
+    loadAnlyticData () {
+      let id = this.$route.params.id
+      this.logger.log(0, 'loadAnlyticData', 'enter', id)
+      Promise.all([
+        this.loadApp(id),
+        this.loadTest(id),
+        this.loadEvents(id),
+        this.loadAnnotations(id),
+        this.loadInvitations(id)
+      ]).then(values => {
+
+        this.cache.app = values[0]
+        this.cache.test = values[1]
+        this.cache.events = values[2]
+        this.cache.annotation = values[3]
+        this.cache.inivitations = values[4]
+
+        const invitations = values[4];
+        const temp = {};
+        for (const key in invitations) {
+          temp[invitations[key]] = key;
+        }
+        const hash = temp[1];
+        this.buildAnalyticCanvas(values[0], values[1], values[2], values[3], hash)
+      })
+    },
+
+    loadAll () {
+      let id = this.$route.params.id
+      this.logger.log(-1, 'loadAll', 'enter', id)
+      Promise.all([
+        this.loadApp(id),
+        this.loadTest(id),
+        this.loadEvents(id),
+        this.loadAnnotations(id),
+        this.loadInvitations(id),
+        this.loadCommands(id)
+      ]).then(values => {
+
+        this.cache.app = values[0]
+        this.cache.test = values[1]
+        this.cache.events = values[2]
+        this.cache.annotation = values[3]
+        this.cache.inivitations = values[4]
+        this.cache.commands = values[5]
+      })
+    },
+    loadTest (id) {
+      if (this.cache.test) {
+        return this.cache.test
+      }
+      return this.modelService.findTest(id)
+    },
+
+    loadEvents (id) {
+      if (this.cache.events) {
+        return this.cache.events
+      }
+      return this.modelService.findEvents(id)
+    },
+
+    loadAnnotations (id) {
+      if (this.cache.annotation) {
+        return this.cache.annotation
+      }
+      return this.modelService.findSessionAnnotations(id)
+    },
+
+    loadApp (id) {
+      if (this.cache.app) {
+        return this.cache.app
+      }
+      return this.modelService.findApp(id)
+    },
+    loadCommands (id) {
+      if (this.cache.commands) {
+        return this.cache.commands
+      }
+      return this.modelService.getCommands(id)
+    },
+    loadInvitations (id) {
+      if (this.cache.inivitations) {
+        return this.cache.inivitations
+      }
+      return this.modelService.findInvitation(id)
+    },
+
+    setCache (key, value) {
+      this.cache[key] = value
+    },
+
     buildCanvas(model, stack, hash) {
       this.logger.log(3, "buildCanvas", "enter");
+
       const canvas = this.$refs.canvas;
       const toolbar = this.$refs.toolbar;
       const controller = new Controller();
@@ -198,25 +296,10 @@ export default {
       }
     },
 
-    loadAnlyticData () {
-      let id = this.$route.params.id
-      this.logger.log(0, 'loadAnlyticData', 'enter', id)
-      Promise.all([
-        this.modelService.findApp(id),
-        this.modelService.findTest(id),
-        this.modelService.findEvents(id),
-        this.modelService.findSessionAnnotations(id),
-        this.modelService.findInvitation(id)
-      ]).then(values => {
-        const invitations = values[4];
-        const temp = {};
-        for (const key in invitations) {
-          temp[invitations[key]] = key;
-        }
-        const hash = temp[1];
-        this.buildAnalyticCanvas(values[0], values[1], values[2], values[3], hash)
-      })
-    },
+
+
+
+
     buildAnalyticCanvas (model, test, events, annotation, hash) {
       this.logger.log(-1, 'buildAnalyticCanvas', 'enter', hash)
 
@@ -293,6 +376,7 @@ export default {
   },
   async mounted() {
     this.logger = new Logger("Design");
+    this.cache = {}
     if (this.$route.meta.viewMode === 'Heatmap') {
       this.selectedViewMode = 'Heatmap'
     } else {
@@ -303,6 +387,8 @@ export default {
     this.modelService = Services.getModelService(this.$route);
     this.load();
     this.logger.log(-1, "mounted", "exit > " + this.selectedViewMode);
+
+    setTimeout(() => this.loadAll(), 3000)
   }
 };
 </script>

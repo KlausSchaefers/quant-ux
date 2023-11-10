@@ -52,7 +52,9 @@ export default {
             this.log.log(1, 'setSelected', 'enter', m)
             this.selected = m.value
             this.setHighlight(i)
-            this.$emit("change", m.value)
+            //setTimeout(() => {
+                this.$emit("change", m.value)
+           // }, 200)
         },
     
         setHighlight(i) {
@@ -78,6 +80,7 @@ export default {
             this.modes.forEach((mode, i) => {
                 if (mode.value === this.value) {
                     this.setHighlight(i)
+                    this.selected = mode.value
                 }
             })
         }, 30)

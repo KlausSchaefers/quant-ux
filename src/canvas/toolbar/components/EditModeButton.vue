@@ -117,7 +117,7 @@ export default {
     // flex because is not for sure correctly rendered
     setTimeout(() => {
       this.setSelected(this.$refs.btnEdit)
-    }, 300)
+    }, 30)
 
   }
 };

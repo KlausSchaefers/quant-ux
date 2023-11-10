@@ -79,15 +79,20 @@ export default {
             this._gridResizeHandlersRowLabels = []
             this._gridResizeHandlerListeners = []
 
-            const wrapGroups = this._gridResizeEnabled === 1
+            //const wrapGroups = this._gridResizeEnabled === 1
 
+            // FIXME: here is some weird bug with nested groups and so. Some times 
+            // the groups the child groups are not attached...
+            
             this._gridResponsiveLayouter = new ResponsiveLayout()
             this._gridResponsiveLayouter
-                .initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true, wrapGroups)
+                .initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true, false)
             
             const tree = this._gridResponsiveLayouter.treeModel
             const root = tree.screens[0]
             const grid = lang.clone(root.grid)
+
+            console.debug(root)
 
             this._gridResizeGrid = grid
 

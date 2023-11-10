@@ -108,7 +108,7 @@ export default {
   data: function () {
     return {
       mode: "view",
-      zoom: 0.5,
+      zoom: 1,
       analyticMode: "HeatmapClick",
       resizeEnabled: false,
       renderDND: true,

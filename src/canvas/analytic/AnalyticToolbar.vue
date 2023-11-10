@@ -39,9 +39,10 @@
 
 				<div class="MatcToolbarNotificationSection MatcToolbarTopRight MatcToolbarSection" data-dojo-attach-point="notificationSection">
 					<div class="MatcToolbarSection">
-						<HeatmapToggleButton  :value="'Heatmap'" @change="$emit('viewModeChange', $event)"/>		
+					
 					</div>	
 					<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" :analytic="true"/>
+					<HeatmapToggleButton  :value="'Heatmap'" @change="$emit('viewModeChange', $event)"/>		
 					<HelpButton :hasNotifications="false" :hasToolbar="true" ref="helpBtn" v-if="false"/>
 				</div>
 				

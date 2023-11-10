@@ -1370,5 +1370,9 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
         <path d="M13.5 6.5l4 4"></path>
+    `,
+    'Share': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z"></path>
     `
 }
