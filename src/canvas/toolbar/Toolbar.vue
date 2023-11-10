@@ -57,27 +57,27 @@
 							<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 							
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
-									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="groupBTN" @click="onToolGroup">						
+									<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="groupBTN" @click="onToolGroup">						
 										<QIcon icon="Group" />					
 									</div>
-									<div class="MatcToolbarItem MatcToolbarSecondaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">					
+									<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">					
 										<QIcon icon="UnGroup" />					
 									</div>
-									<!-- <div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': selectedButton === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
+									<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
 										<QIcon icon="Distribute" />					
 									</div> -->
 								
 								</div>
 
-								<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': selectedButton === 'gridResize'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
+								<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'gridResize'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
 										<QIcon icon="ResiseGrid" />					
 								</div>
 
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
-									<TemplateButton ref="templateBTN" @create="onToolCreateTemplate"></TemplateButton>											
-									<div :class="['MatcToolbarItem MatcToolbarSecondaryItem', {'MatcToolbarItemSelected': selectedButton === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
+									<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
 											<QIcon icon="Replicate" />				
-									</div>										
+									</div>	
+									<TemplateButton ref="templateBTN" @create="onToolCreateTemplate"></TemplateButton>																		
 								</div>
 
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">

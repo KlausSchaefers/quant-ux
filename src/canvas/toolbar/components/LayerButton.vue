@@ -1,6 +1,6 @@
 
 <template>
-   <ArrowDropDown @select="onSelect" :options="tools" icon="Layer" css="MatcToolbarSecondaryItem"></ArrowDropDown>
+   <ArrowDropDown @select="onSelect" :options="tools" icon="Layer" css="MatcToolbarPrimaryItem"></ArrowDropDown>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
