@@ -59,9 +59,11 @@
 
 .MatcShareRow .MatcShareIcon{
 	position: absolute;
-	bottom:6px;
+	bottom:3px;
 	right:5px;
-	color:#333;
+	color: $form_color;
+	background: #fff;
+	padding: 4px;
 }
 
 .MatcShareRow .MatcShareIcon:hover{

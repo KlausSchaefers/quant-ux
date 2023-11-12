@@ -66,10 +66,9 @@ export default {
     }
   },
   methods: {
-    onVieModeChange (e) {
-      this.logger.log(-1, "onVieModeChange", "enter", e);
-      this.selectedViewMode = e
-      this.load()
+    onVieModeChange (mode) {
+      this.logger.log(-1, "onVieModeChange", "enter", mode);      
+      this.load(mode)
     },
     onMouseWheel (e) {
       /**
@@ -80,14 +79,14 @@ export default {
         e.preventDefault();
       }
     },
-    load () {
-      if (this.selectedViewMode === 'Design') {
-        this.loadData()
+    load (mode) {
+      if (mode === 'Design') {
+        this.loadData(mode)
       } else {
-        this.loadAnlyticData()
+      this.loadAnlyticData(mode)
       }
     },
-    loadData() {
+    loadData(mode) {
       let id = this.$route.params.id;
       this.logger.log(3, "loadData", "enter", id);
       Promise.all([
@@ -101,16 +100,16 @@ export default {
         this.cache.inivitations = values[2]
 
         const invitations = values[2];
-        const temp = {};
-        for (let key in invitations) {
-          temp[invitations[key]] = key;
-        }
-        const hash = temp[1];
-        this.buildCanvas(values[0], values[1], hash);
+        const hash = this.getHashFromInvitation(invitations)
+        // ste mode and render
+        this.selectedViewMode = mode
+        this.$nextTick( () => {
+          this.buildCanvas(values[0], values[1], hash);
+        })
       });
     },
 
-    loadAnlyticData () {
+    loadAnlyticData (mode) {
       let id = this.$route.params.id
       this.logger.log(0, 'loadAnlyticData', 'enter', id)
       Promise.all([
@@ -128,13 +127,23 @@ export default {
         this.cache.inivitations = values[4]
 
         const invitations = values[4];
-        const temp = {};
-        for (const key in invitations) {
-          temp[invitations[key]] = key;
-        }
-        const hash = temp[1];
-        this.buildAnalyticCanvas(values[0], values[1], values[2], values[3], hash)
+        const hash = this.getHashFromInvitation(invitations)
+        
+        this.selectedViewMode = mode
+        this.$nextTick( () => {
+          this.buildAnalyticCanvas(values[0], values[1], values[2], values[3], hash)
+        })
+
       })
+    },
+
+    getHashFromInvitation(invitations) {
+      const temp = {};
+      for (let key in invitations) {
+        temp[invitations[key]] = key;
+      }
+      const hash = temp[1];
+      return hash
     },
 
     loadAll () {
@@ -365,6 +374,13 @@ export default {
        * controller will render screen
        */
       controller.setModel(model, startScreen);
+    },
+    getModeFromRoute() {
+      if (this.$route.meta.viewMode === 'Heatmap') {
+        return 'Heatmap'
+      } else {
+        return'Design'
+      }
     }
 
   },
@@ -377,17 +393,16 @@ export default {
   async mounted() {
     this.logger = new Logger("Design");
     this.cache = {}
-    if (this.$route.meta.viewMode === 'Heatmap') {
-      this.selectedViewMode = 'Heatmap'
-    } else {
-      this.selectedViewMode = 'Design'
-    }
+
+
     css.add(win.body(), "MatcVisualEditor");
     this.user = await Services.getUserService().load();
     this.modelService = Services.getModelService(this.$route);
-    this.load();
-    this.logger.log(-1, "mounted", "exit > " + this.selectedViewMode);
 
+    const mode = this.getModeFromRoute()
+    this.load(mode);
+
+    this.logger.log(-1, "mounted", "exit > " + mode);
     setTimeout(() => this.loadAll(), 3000)
   }
 };

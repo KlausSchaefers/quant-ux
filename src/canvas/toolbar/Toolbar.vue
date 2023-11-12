@@ -134,32 +134,6 @@
 				
 			</div>
 
-			<div class="MatcToolbarBottomActions" v-if="false">
-					<div class="MatcToolbarBottomActionsCntr">
-						<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="editBtn" >			
-						<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'edit'} ]" data-dojo-attach-point="editTool"  @click="onEdit">
-							<QIcon icon="Edit" />
-						</div>
-					</div>
-
-					<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="moveBtn" >			
-						<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'move'} ]" data-dojo-attach-point="editTool"  @click="onMove">
-							<QIcon icon="EditMove" />
-						</div>
-					</div>
-				</div>
-
-				<HelpButton :hasNotifications="true" :hasToolbar="true"/>
-
-
-				<!-- <div class="MatcToolbarArrowDropDown" data-dojo-attach-point="commentBtn" >			
-					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" @click="onNewComment">
-						<QIcon icon="Comment" />
-					</div>
-				</div> -->
-
-				
-			</div>
 		</div>
 
 </template>
@@ -168,8 +142,6 @@
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
-//import on from 'dojo/on'
-//import touch from 'dojo/touch'
 import hash from 'dojo/hash'
 import Util from 'core/Util'
 import topic from 'dojo/topic'
@@ -178,12 +150,11 @@ import _Tools from 'canvas/toolbar/mixins/_Tools'
 import _Render from 'canvas/toolbar/mixins/_Render'
 import _Dialogs from 'canvas/toolbar/mixins/_Dialogs'
 import _Show from 'canvas/toolbar/mixins/_Show'
-//import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
 import CollabUser from "canvas/toolbar/components/CollabUser"
 import ModelUtil from '../../core/ModelUtil';
-import HelpButton from 'help/HelpButton'
+// import HelpButton from 'help/HelpButton'
 import CreateVectorButton from './components/CreateVectorButton'
 import CreateLogicButton from './components/CreateLogicButton'
 import CreateBasicButton from './components/CreateBasicButton'
@@ -223,7 +194,7 @@ export default {
     },
 	components: {
 		'ViewConfig': ViewConfig,
-		'HelpButton': HelpButton,
+		//'HelpButton': HelpButton,
 		'EditModeButton': EditModeButton,
 		'CollabUser': CollabUser,
 		'CreateVectorButton': CreateVectorButton,

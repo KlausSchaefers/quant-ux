@@ -86,7 +86,7 @@ export default {
                     this.selected = mode.value
                 }
             })
-        }, 30)
+        }, 0)
 
         setTimeout(() => this.animated = true, 500)
 

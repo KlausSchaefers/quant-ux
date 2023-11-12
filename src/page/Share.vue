@@ -6,7 +6,7 @@
       <label>Test</label>
       <input type="text" class="form-control" :value="testLink" @focus="select" />
       <a class="MatcShareIcon" :href="testLink" target="_QuantUXTest">
-        <span class="mdi mdi-share" />
+        <QIcon icon="Share"/>
       </a>
     </div>
 
@@ -14,7 +14,7 @@
       <label>Share and Comment</label>
       <input type="text" class="form-control" :value="shareLink" @focus="select" />
       <a class="MatcShareIcon" :href="shareLink" target="_QuantUXShare">
-        <span class="mdi mdi-share" />
+        <QIcon icon="Share"/>
       </a>
     </div>
 
@@ -22,7 +22,7 @@
       <label>Low-Code Token</label>
       <input type="text" class="form-control" :value="`${hash}`" @focus="select" ref="hashInput" />
       <a class="MatcShareIcon" @click="copy" target="_QuantUXShare">
-        <span class="mdi mdi-content-copy" />
+        <QIcon icon="Copy"/>
       </a>
     </div>
 
@@ -67,8 +67,8 @@
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import CheckBox from "common/CheckBox";
-//import DropDownButton from 'page/DropDownButton'
 import LanguagePicker from "page/LanguagePicker";
+import QIcon from "page/QIcon";
 
 export default {
   name: "ShareForm",
@@ -89,8 +89,9 @@ export default {
     };
   },
   components: {
-    CheckBox: CheckBox,
-    LanguagePicker: LanguagePicker
+    'CheckBox': CheckBox,
+    'LanguagePicker': LanguagePicker,
+    'QIcon': QIcon
   },
   computed: {
     base() {
