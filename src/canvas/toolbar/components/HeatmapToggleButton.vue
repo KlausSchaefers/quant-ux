@@ -3,15 +3,16 @@
     <div :class="['MatcToolbarNavButton', {'MatcToolbarEditModeAnimated': animated}]">
 
         <div class="MatcToolbarEditModeCntr" ref="cntr">
-            <div class="MatcToolbarEditModeHighlight" :style="{ 'width': highlightWidth + 'px', 'left': highlightX + 'px' }">
-            </div>
+           
             <a v-for="(m, i) in modes" @click="setSelected(m, i)" ref="btns" :key="m.value"
-                :class="['MatcToolbarItem MatcToolbarItemIcon', { 'MatcToolbarEditModeActive': m.value === selected }]">
+                :class="['MatcToolbarItem vommondToolTipCntr MatcToolbarItemIcon', { 'MatcToolbarEditModeActive': m.value === selected }]">
                 <QIcon :icon="m.icon" v-if="hasIcons"/>
                 <span class="MatcToolbarResponsiveLabel" v-else>
                     {{m.label}}
                 </span>
             </a>
+            <div class="MatcToolbarEditModeHighlight" :style="{ 'width': highlightWidth + 'px', 'left': highlightX + 'px' }">
+            </div>
         </div>
 
     </div>
@@ -39,9 +40,9 @@ export default {
             highlightX: 0,
             selected: 'Design',
             modes: [
-                { label: 'Design', value: "Design", icon: "Design" },
+                { label: 'Design', value: "Design", icon: "Design", tooltip: 'tooltip.toggle-design'},
                // { label: 'Prototype', value: "Prototype", icon: "Prototype" },
-                { label: 'Heatmaps', value: "Heatmap", icon: "Heatmap" },
+                { label: 'Heatmaps', value: "Heatmap", icon: "Heatmap", tooltip: 'tooltip.toggle-heatmap'},
               ]
         };
     },
@@ -78,19 +79,19 @@ export default {
     },
     async mounted() {
         this.log = new Logger("HeatmapToggleButton")
-        // this.setHighlight(0)
         setTimeout(() => {
             this.modes.forEach((mode, i) => {
+                this.addTooltip(this.$refs.btns[i], this.getNLS(mode.tooltip), 'vommondToolTipRightBottom')
                 if (mode.value === this.value) {
                     this.setHighlight(i)
                     this.selected = mode.value
                 }
             })
-        }, 0)
-
-        setTimeout(() => this.animated = true, 500)
-
- 
+        }, 0)      
+        setTimeout(() => {
+            this.animated = true
+        }, 500)
+   
     }
 };
 </script>

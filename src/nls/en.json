@@ -212,7 +212,13 @@
         "layer": "Change Layer",
         "editmode": "Toggle design and \nprototype mode (TAB)",
         "protomode": "Define the interaction (Tab)",
-        "resizeGrid": "Change Selection Grid"
+        "resizeGrid": "Change Selection Grid",
+        "toggle-design": "Change to Edit mode",
+        "toggle-heatmap": "Change to Heatmap mode",
+        "analyics-heatmaps": "Show different kind of heatmaps",
+        "analyics-user": "Show the user journey",
+        "analyics-task": "Show task completion, outliers and drop-offs",
+        "analyics-screen": "Show screen statstics such as scroll maps or dwell time"
     },
     "table-action": "Action X",
     "btn": {

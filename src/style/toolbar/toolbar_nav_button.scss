@@ -16,7 +16,6 @@
 		align-items: center;
 		border-radius: $button_radius;
 		transition: none;
-		overflow: hidden;
 	}
 
 
@@ -47,7 +46,16 @@
 		&:hover {
 			background: $toolbar_selected_background;
 		}
+
+		&:last-child {
+			border-top-right-radius: $button_radius;
+			border-bottom-right-radius: $button_radius;
+		}
 		
+		&:first-child {
+			border-top-left-radius: $button_radius;
+			border-bottom-left-radius: $button_radius;
+		}
 	}
 
 	a.MatcToolbarItemIcon {

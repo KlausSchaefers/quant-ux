@@ -3,15 +3,16 @@
    <div :class="['MatcToolbarNavButton', {'MatcToolbarEditModeAnimated': animated}]">
 
         <div class="MatcToolbarEditModeCntr" ref="cntr">
-            <div class="MatcToolbarEditModeHighlight" :style="{ 'width': highlightWidth + 'px', 'left': highlightX + 'px' }">
-            </div>
+           
             <a v-for="(m, i) in modes" @click="setSelected(m, i)" ref="btns" :key="m.value"
-                :class="['MatcToolbarItem', { 'MatcToolbarEditModeActive': m.value === selected }]">
+                :class="['MatcToolbarItem vommondToolTipCntr', { 'MatcToolbarEditModeActive': m.value === selected }]">
                 <span :class="'MatcToolbarResponsiveIcon ' + m.icon" ref="icons"/>
                 <span class="MatcToolbarResponsiveLabel">
                     {{m.label}}
                 </span>
             </a>
+            <div class="MatcToolbarEditModeHighlight" :style="{ 'width': highlightWidth + 'px', 'left': highlightX + 'px' }">
+            </div>
         </div>
 
     </div>
@@ -37,12 +38,10 @@ export default {
             highlightX: 0,
             selected: 'showClickHeatMap',
             modes: [
-                { label: 'Heatmaps', value: "showClickHeatMap", icon: "mdi mdi-cursor-default" },
-                // { label: 'Mouse Heatmap', value: "showMouseHeatMap", icon: "mdi mdi-mouse" },
-                { label: 'User Journey', value: "showUserJourney", icon: "mdi mdi-vector-polyline" },
-                { label: 'Tasks & Drop Off', value: "showDropOff", icon: "mdi mdi-chart-timeline-variant-shimmer" },
-                //{ label: 'Views', value: "showViewMap", icon: "mdi mdi-eye" },
-                { label: 'Screens', value: "showScreenMode", icon: "mdi mdi-chart-timeline-variant-shimmer" },
+                { label: 'Heatmaps', value: "showClickHeatMap", icon: "mdi mdi-cursor-default", tooltip: 'tooltip.analyics-heatmaps'},
+                { label: 'User Journey', value: "showUserJourney", icon: "mdi mdi-vector-polyline" , tooltip: 'tooltip.analyics-user'},
+                { label: 'Tasks & Drop Off', value: "showDropOff", icon: "mdi mdi-chart-timeline-variant-shimmer", tooltip: 'tooltip.analyics-task' },
+                { label: 'Screens', value: "showScreenMode", icon: "mdi mdi-chart-timeline-variant-shimmer", tooltip: 'tooltip.analyics-screen' },
             ]
         };
     },
@@ -84,8 +83,8 @@ export default {
         this.setHighlight(0)
         setTimeout(() => {
             this.modes.forEach((mode, i) => {
-                const icon = this.$refs.icons[i]
-                this.addTooltip(icon, mode.label)
+                const icon = this.$refs.btns[i]
+                this.addTooltip(icon, this.getNLS(mode.tooltip))
             })
         }, 100)
 
