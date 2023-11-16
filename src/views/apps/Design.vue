@@ -227,7 +227,7 @@ export default {
       /**
        * render factory
        */
-       const renderFactory = new RenderFactory();
+      const renderFactory = new RenderFactory();
       renderFactory.setModel(model);
       renderFactory.setHash(hash);
 
@@ -248,6 +248,8 @@ export default {
       toolbar.setUser(this.user);
       toolbar.setModelFactory(factory);
       toolbar.setContext(this.context);
+      toolbar.setModelService(service);
+      toolbar.setCommentService(Services.getCommentService());
       toolbar.setHash(hash);
 
       canvas.setController(controller);
@@ -347,6 +349,7 @@ export default {
       toolbar.setEvents(events);
       toolbar.setAnnotation(annotation);
       toolbar.setTest(test);
+      toolbar.setCommentService(Services.getCommentService());
       toolbar.setPublic(this.isPublic)
 
       canvas.setController(controller);

@@ -255,6 +255,16 @@ export default {
 			this.context = context;
 		},
 
+		setCommentService (s) {
+			this.logger.log(3,"setCommentService", "entry");
+			this.commentService = s
+		},
+
+		setModelService (s) {
+			this.logger.log(3,"setModelService", "entry");
+			this.modelService = s
+		},
+
 		setCurrentTool (t) {
 			this.logger.log(3,"setCurrentTool", "entry");
 			this.currentTool = t

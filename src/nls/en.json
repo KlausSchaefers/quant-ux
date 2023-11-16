@@ -277,6 +277,7 @@
         "export": {
             "tab-images": "Images",
             "tab-github": "Github",
+            "tab-comments": "Comments",
             "tab-zip": "Zip File",
             "github-token": "Github Access Token",
             "github-user": "User",

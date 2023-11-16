@@ -125,6 +125,12 @@ export default {
 			this.renderToolbar()
 		},
 
+		setCommentService (s) {
+			this.logger.log(3,"setCommentService", "entry");
+			this.commentService = s
+		},
+
+
 		onMove (e){
 			this.stopEvent(e);
 			this.canvas.setMode("move");

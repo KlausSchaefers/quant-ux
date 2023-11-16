@@ -164,6 +164,7 @@ export default {
 			const db = new DomBuilder();
 			const div = db.div("").build();
 			const exportDialog = this.$new(ExportDialog);
+			exportDialog.setCommentService(this.commentService)
 			exportDialog.setJwtToken(this.jwtToken);
 			exportDialog.placeAt(div);
 			setTimeout(() => {

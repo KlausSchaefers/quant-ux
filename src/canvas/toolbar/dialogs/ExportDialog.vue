@@ -6,6 +6,7 @@
             <a @click="showImageExport()" :class="{'MatcToolbarTabActive': tab === 'images'}">{{ getNLS('dialog.export.tab-images')}}</a>
             <a @click="tab='github'" v-if="hasGit" :class="{'MatcToolbarTabActive': tab === 'github'}">{{ getNLS('dialog.export.tab-github')}}</a>
             <a @click="tab='zip'" :class="{'MatcToolbarTabActive': tab === 'zip'}">{{ getNLS('dialog.export.tab-zip')}}</a>
+            <a @click="showComments()" :class="{'MatcToolbarTabActive': tab === 'comments'}">{{ getNLS('dialog.export.tab-comments')}}</a>
         </div>
         <div v-if="isPublic">
              <div class="MatchImportDialogCntr">
@@ -20,6 +21,10 @@
              <div v-show="tab=== 'github'">
                 <!-- <ExportGit :model="model" :jwtToken="jwtToken" ref="exportGit" /> -->
             </div>
+
+  
+            <ExportComments :model="model" :jwtToken="jwtToken" :comments="comments" ref="" v-if="comments" v-show="tab=== 'comments'"></ExportComments>
+      
 
             <div v-show="tab=== 'zip'">
                 <ExportZip :model="model" :jwtToken="jwtToken" ref="exportZip" />
@@ -49,6 +54,7 @@ import Logger from 'common/Logger'
 import Util from 'core/Util'
 import ExportImages from './ExportImages'
 import ExportZip from './ExportZip'
+import ExportComments from './ExportComments'
 
 export default {
     name: 'GitExport',
@@ -56,6 +62,7 @@ export default {
     data: function () {
         return {
             hasGit: false,
+            comments: false,
             tab: "images",
             zoom: 1,
             errorMSG: '',
@@ -69,7 +76,8 @@ export default {
     },
     components: {
       //'ExportGit': ExportGit,
-      'ExportZip': ExportZip
+      'ExportZip': ExportZip,
+      'ExportComments': ExportComments
     },
     computed: {
     },
@@ -99,12 +107,23 @@ export default {
           this.isPublic = isPublic
         },
 
+        setCommentService (s) {
+          this.commentService = s
+        },
+
         setJwtToken(t) {
           this.jwtToken = t
         },
 
         setZoom (z) {
           this.zoom = z
+        },
+
+        async showComments() {
+          this.tab='comments'
+          if (this.commentService) {
+            this.comments =  await this.commentService.find(this.model.id, 'ScreenComment')
+          }
         },
 
         onCancel () {

@@ -7,6 +7,8 @@
 	position: relative;
 	overflow: hidden;
 
+
+
 	thead {
 		background: $table_background_header;
 
@@ -187,6 +189,10 @@
 	padding: 0px;
 	border-radius: 3px;
 	height: 450px;
+
+	.MatcDialogTableCol60 {
+		width: 60%;
+	}
 
 	td,
 	th {
