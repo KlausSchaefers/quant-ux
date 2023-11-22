@@ -1,0 +1,53 @@
+@import '../variables.scss';
+
+.MatcSplitView {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    
+    .MatcSplitViewChild{
+        height: 100%;
+        overflow: scroll;
+
+    }
+
+    .MatcSplitViewChildBorder.MatcSplitViewLeft {
+        border-right: 1px solid $page_border;
+    }
+
+    .MatcSplitViewChildBorder.MatcSplitViewRight {
+        border-left: 1px solid $page_border;
+    }
+
+    .MatcSplitViewChildGrow {
+        flex-grow: 1;
+    }
+
+    .MatcSplitViewHandler {
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        height: 64px;
+        width: 4px;
+        background: $page_border;
+        border-radius: 50px;
+        cursor: ew-resize;
+
+        &:hover {
+            background: $primary_color;
+        }
+
+        &.MatcSplitViewHandlerRight{
+            left: auto;
+            right:8px
+        }
+    }
+    
+
+    .MatcSplitViewBorder {
+        width: 0px;
+        height: 100%;
+        position: relative;
+    }
+}

@@ -1,5 +1,12 @@
 class lang {
 
+    stopEvent(e) {        
+        if (e && e.stopPropagation) {
+            e.stopPropagation();
+            e.preventDefault();
+        }    
+    }
+
     hitch (scope, method){
         if(arguments.length > 2){
             return this._hitchArgs.apply(scope, arguments); // Function
