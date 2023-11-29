@@ -19,6 +19,7 @@
     "html-to-image": "^1.9.0",
     "http-proxy-middleware": "^2.0.6",
     "js-cookie": "^3.0.1",
+    "js-yaml": "^4.1.0",
     "jszip": "^3.10.0",
     "keycloak-js": "^16.1.1",
     "prando": "^6.0.1",

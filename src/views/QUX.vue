@@ -2,7 +2,7 @@
   <div class="Matc">
     <LoginPage v-if="isGuest" :user="user" @login="onLogin"/>
     <div class="MatcContainer" v-else>
-      <!-- <Header :user="user" @login="onLogin" @logout="onLogout"/> -->
+      <Header :user="user" @login="onLogin" @logout="onLogout"/>
       <router-view></router-view>
     </div>
   </div>
@@ -16,7 +16,7 @@
 </style>
 <script>
 import LoginPage from 'views/LoginPage'
-// import Header from 'views/Header'
+import Header from 'views/Header'
 import Services from 'services/Services'
 import Logger from 'common/Logger'
 import win from 'dojo/win'
@@ -41,7 +41,7 @@ export default {
     }
   },
   components: {
-    // 'Header': Header,
+    'Header': Header,
     'LoginPage': LoginPage
   },
   computed: {

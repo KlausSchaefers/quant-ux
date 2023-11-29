@@ -193,7 +193,8 @@ export default {
             gptModels: [
                 {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
                 {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')},
-                {value: 'gpt4-turbo', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo')}  
+                {value: 'gpt4-turbo', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo')},
+                {value: 'gpt4-turbo-yaml', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo-yaml')}  
             ],
             robo: {
                 icon:'mdi mdi-robot-outline',
@@ -308,6 +309,10 @@ export default {
             if (this.gptVersion === 'gpt4-turbo') {
                 return aiService.runGPT4Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
+            if (this.gptVersion === 'gpt4-turbo-yaml') {
+                return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+            }
+
             return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
         },
 

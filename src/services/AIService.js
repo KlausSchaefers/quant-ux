@@ -1,6 +1,7 @@
 import Logger from 'common/Logger'
 import AbstractService from './AbstractService'
 import * as StyleImporter from 'core/ai/StyleImporter'
+import yaml from 'js-yaml'
 
 export default class AIService extends AbstractService {
 
@@ -9,6 +10,7 @@ export default class AIService extends AbstractService {
         super()
         this.logger = new Logger('AIService')
         this.messages = []
+        this.language = 'YAML'
     }
 
     reset () {
@@ -166,6 +168,45 @@ export default class AIService extends AbstractService {
         return this.runChat('gpt-3.5-turbo', message, key, app, options)
     }
 
+    async runGPT4TurboYaml(message, key, app) {
+
+        const prompt =`
+            This is a UI language in YAML which has the following elements:
+
+            CONTAINER: An element that can have child elements. I container has an list of CHILDREN elements.
+            LABEL: An Element that can show text. It has a CONTENT element. A label has a TYPE element which can be "Headline", "LABEL" or "Paragraph"
+            INPUT: An element to render a text field. It can have a PLACEHOLDER ELEMENT and a TYPE element. The TYPE can be "Text", "Checkbox", "Switch", "Password" or "TEXTAREA".
+            
+            Please generate :
+
+            ${message}
+
+            
+            Return the result as YAML in the defined langauge.
+        `
+
+        const data = {
+            'openAIModel': '/v1/chat/completions',
+            'openAIToken': key,
+            'openAIOrgID': 'Klaus',
+            'openAIPayload': {
+                "model": 'gpt-4-1106-preview',
+                "messages": [
+                    {"role": "system", "content": `
+                        You are design GPT. You are really good at deisgn web sites and mobile apps.
+                    `},
+                    {"role": "system", "content": `
+                        The website you generate should run on a ${app.type} device.
+                        The screen with is ${app.screenSize.w} pixel
+                    `},
+                    //{"role": "system", "content": this.getStylePrompt(app, options)},
+                    {"role": "user", "content": prompt}
+                ]
+            }
+        }
+
+        return this.runPrompt(data, 'yaml')
+    }
 
 
     async runChat (model, message, key, app) {
@@ -187,9 +228,13 @@ export default class AIService extends AbstractService {
                 "model": model,
                 "messages": [
                     {"role": "system", "content": `
-                        You are HTMLGPT, a masterful webdeveloper skillful in HTML and CSS. 
-                        You have a great experiences designing beautiful websites that delight their users.
-                        Make sure that some CSS is included and the page is well styled.
+                        This is a UI language in YAML which has the following elements:
+
+                        CONTAINER: An element that can have child elements. I container has an list of CHILDREN elements.
+                        LABEL: An Element that can show text. It has a CONTENT element.
+                        INPUT: An element to render a text field. 
+                        
+                        Please generate a login form and output the result as YAML in the defined langauge.
                     `},
                     {"role": "system", "content": `
                         The website you generate should run on a ${app.type} device.
@@ -201,13 +246,22 @@ export default class AIService extends AbstractService {
             }
         }
 
-     
+        return this.runPrompt(data)
+    }
+
+    async runPrompt (data, returnType = 'html') {
+
         try {
             const res = await this._post('/ai/openai.json', data)
             if (res.choices && res.choices.length > 0) {
                 const choice = res.choices[0]
                 const content = choice?.message?.content
-                return this.extractHTML(content)
+                if (returnType === 'html') {
+                    return this.extractHTML(content)
+                } else {
+                    return this.extractYAML(content)
+                }
+
             }
             if (res.error) { 
                 this.logger.error('runChat() > Error from API', res)
@@ -230,7 +284,6 @@ export default class AIService extends AbstractService {
         return {
             error: 'design-gpt.error-no-idea'
         }
-       
     }
 
     getStylePrompt (app, options) {
@@ -262,6 +315,17 @@ export default class AIService extends AbstractService {
             return arr.join(', ')
         }
         return ''
+    }
+
+    extractYAML (content) {
+        try {
+            content = content.split('\n').slice(1, -1).join('\n')
+            console.debug(content)
+            console.debug('json', yaml.load(content))
+        } catch (e) {
+            console.error(e)
+        }
+
     }
 
     extractHTML (content) {
