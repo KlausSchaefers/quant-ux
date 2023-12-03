@@ -10,7 +10,6 @@
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
-import domGeom from "dojo/domGeom";
 import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import Logger from "common/Logger";
@@ -60,43 +59,28 @@ export default {
     render(list, animate) {
       this.log.log(0, "render", "enter > " + list.length);
 
-      if (this.colWidth > 0) {
-        let w = domGeom.position(this.container).w;
-        this.columns = Math.floor(w / (this.colWidth + this.minSpacing));
-        this.log.log(3, "render", "Set columns to " + this.columns);
-      }
-
-      var width = this.getColWidth();
-      var spacing = this.getSpacing();
-
       this.container.innerHTML = "";
+      const parent = this.db.div("MatcListFlexCntr").build()
+      const offSet = 0; 
 
-      var parent = document.createElement("div");
-
-      var offSet = 0;
- 
-
-      var end = this.getElementsToRender(list);
+      const end = this.getElementsToRender(list);
       for (let j = 0; j < end; j++) {
-        var i = j + offSet;
-        /**
-         * make sure there is a row
-         */
-        this._renderRow(i, parent, width, spacing);
-        let element = list[j];
-
-        let item = document.createElement("div");
+        let i = j + offSet;
+        const element = list[j];
+        const item = document.createElement("div");
         css.add(item, "MatcListItem");
-
         this.renderItem(item, element, j);
-
-        let col = this.cols[i % this.columns];
-        col.appendChild(item);
-
+        parent.appendChild(item)
         if (animate) {
           css.add(item, "MatcListItemHidden MatcListItemAnimated");
           this.showItem(item, i);
         }
+      }
+
+      for (let i=0; i < 10; i++) {
+        const item = document.createElement("div");
+        css.add(item, "MatcListItem");
+        parent.appendChild(item)
       }
 
       /**
@@ -114,14 +98,8 @@ export default {
     },
 
     renderMore(list, parent) {
-      this.log.log(
-        2,
-        "renderMore",
-        "enter " + this.maxElementsToRender + " < " + list.length
-      );
       if (this.maxElementsToRender < list.length) {
-        var db = new DomBuilder();
-        var more = db
+        var more = this.db
           .div("MatcCenter MatcMarginBottom")
           .a("MatcButton", "Show More...")
           .build(parent);
@@ -134,25 +112,15 @@ export default {
         list.length,
         this.maxElementsToRenderStep + this.maxElementsToRender
       );
-      this.log.log(
-        2,
-        "showMore",
-        "exit " + this.maxElementsToRender + " > " + list.length
-      );
       this.onResize();
     },
 
     getElementsToRender(list) {
-      this.log.log(
-        2,
-        "getElementsToRender",
-        "enter " + Math.min(list.length, this.maxElementsToRender)
-      );
       return Math.min(list.length, this.maxElementsToRender);
     },
 
     showItem(item, i) {
-      setTimeout(function() {
+      setTimeout(() => {
         css.remove(item, "MatcListItemHidden");
       }, 100 + Math.min(i, 10) * 50);
     },
@@ -178,51 +146,6 @@ export default {
 
     onBeforeResize() {},
 
-    _renderRow(i, parent, width, spacing) {
-      if (this.grid && i % this.columns == 0) {
-        this._colsCreated = false;
-      }
-
-      if (!this._colsCreated) {
-        var row = document.createElement("div");
-        css.add(row, "MatcListRow");
-        parent.appendChild(row);
-
-        this.cols = [];
-        for (var c = 0; c < this.columns; c++) {
-          var col = document.createElement("div");
-          css.add(col, "MatcListColumn");
-          col.style.width = width + "px";
-          if (c < this.columns - 1) {
-            col.style.marginRight = spacing + "px";
-          }
-          row.appendChild(col);
-          this.cols[c] = col;
-        }
-
-        this._colsCreated = true;
-      }
-    },
-
-    getColWidth() {
-      if (this.colWidth < 0) {
-        var width = domGeom.position(this.container).w;
-        return Math.floor(
-          (width - (this.columns - 1) * this.spacing) / this.columns
-        );
-      }
-      return this.colWidth;
-    },
-
-    getSpacing() {
-      if (this.spacing < 0) {
-        var width = domGeom.position(this.container).w;
-        return Math.floor(
-          (width - this.columns * this.colWidth) / (this.columns - 1)
-        );
-      }
-      return this.spacing;
-    },
 
     cleanUp() {
       this._colsCreated = false;
@@ -241,6 +164,8 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    this.db = new DomBuilder();
+  }
 };
 </script>

@@ -13,26 +13,26 @@ matcRoutes.push({path:'help.html', component: () => import(/* webpackChunkName: 
 matcRoutes.push({path:'help/:topic.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue')})
 matcRoutes.push({path:'help/:topic/:subtopic.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue')})
 
-// Apps
-// matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'),  meta: {isDarkHeader: true}})
-// matcRoutes.push({path:'apps/my-apps.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'), meta: {isDarkHeader: true}})
-// matcRoutes.push({path:'apps/logged_in.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'),  meta: {isDarkHeader: true}})
-// matcRoutes.push({path:'apps/:id.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
-// matcRoutes.push({path:'apps/:id/:tab.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
-// matcRoutes.push({path:'apps/:id/replay/:session.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
-// matcRoutes.push({path:'apps/create-app.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue')})
-// matcRoutes.push({path:'apps/tryout.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {isTryout:true}})
+// Studio
+matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'),  meta: {isDarkHeader: true}})
+matcRoutes.push({path:'apps/my-apps.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'), meta: {isDarkHeader: true}})
+matcRoutes.push({path:'apps/logged_in.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'),  meta: {isDarkHeader: true}})
+matcRoutes.push({path:'apps/:id.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
+matcRoutes.push({path:'apps/:id/:tab.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
+matcRoutes.push({path:'apps/:id/replay/:session.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
+matcRoutes.push({path:'apps/create-app.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue')})
+matcRoutes.push({path:'apps/tryout.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {isTryout:true}})
 
 
 // Apps
-matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue'),  meta: {isDarkHeader: true}})
-matcRoutes.push({path:'apps/my-apps.html', name: "apps_list", meta: {isHome:true, analytics:true}, component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
-matcRoutes.push({path:'apps/logged_in.html', meta: {isHome:true}, component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
-matcRoutes.push({path:'apps/create-app.html',  name: "apps_create",  meta: {isHome:false}, component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue')})
-matcRoutes.push({path:'apps/tryout.html',  name: "apps_tryout", component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {isTryout:true, isHome:false}})
-matcRoutes.push({path:'apps/:id.html',  name: "apps_overview", component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue'), meta: {analytics:true}})
-matcRoutes.push({path:'apps/:id/:tab.html', name: "apps_overview_tab", component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue'), meta: {analytics:true, analyticsKey:'tab'}})
-matcRoutes.push({path:'apps/:id/replay/:session.html', name: "apps_video", component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})
+// matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue'),  meta: {isDarkHeader: true}})
+// matcRoutes.push({path:'apps/my-apps.html', name: "apps_list", meta: {isHome:true, analytics:true}, component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
+// matcRoutes.push({path:'apps/logged_in.html', meta: {isHome:true}, component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Apps.vue')})
+// matcRoutes.push({path:'apps/create-app.html',  name: "apps_create",  meta: {isHome:false}, component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue')})
+// matcRoutes.push({path:'apps/tryout.html',  name: "apps_tryout", component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {isTryout:true, isHome:false}})
+// matcRoutes.push({path:'apps/:id.html',  name: "apps_overview", component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue'), meta: {analytics:true}})
+// matcRoutes.push({path:'apps/:id/:tab.html', name: "apps_overview_tab", component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue'), meta: {analytics:true, analyticsKey:'tab'}})
+// matcRoutes.push({path:'apps/:id/replay/:session.html', name: "apps_video", component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Overview.vue')})
 
 
 export default new VueRouter({

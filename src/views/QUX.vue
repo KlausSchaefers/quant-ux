@@ -2,7 +2,7 @@
   <div class="Matc">
     <LoginPage v-if="isGuest" :user="user" @login="onLogin"/>
     <div class="MatcContainer" v-else>
-      <Header :user="user" @login="onLogin" @logout="onLogout"/>
+      <Header :user="user" @login="onLogin" @logout="onLogout" v-if="false"/>
       <router-view></router-view>
     </div>
   </div>

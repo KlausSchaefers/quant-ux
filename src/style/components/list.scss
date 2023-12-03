@@ -22,6 +22,16 @@
 
 }
 
+
+
+.MatcListFlexCntr {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px;
+	justify-content: space-between;
+
+}
+
 .MatcListContainer{
 	clear: both;
 }

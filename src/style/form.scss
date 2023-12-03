@@ -151,14 +151,14 @@ input:focus {
 
 
 .MatcButtonSecondary {
-	background: none;
-	border: 1px solid transparent;
-	color: $button_background;
+	border: 1px solid $button_secondary_background;
+	color: $button_secondary_color;
+	background: $button_secondary_background;
 
 	&:hover {
-		background-color: $button_background_hover;
-		border-color: $button_background_hover;
-		color: #fff;
+		background-color: $button_secondary_background_hover;
+		color: $button_secondary_color_hover;
+		border: 1px solid $button_secondary_background_hover;
 	}
 }
 

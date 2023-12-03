@@ -366,7 +366,10 @@
         },
         "lastEdit": "Last update",
         "numberTests": "Tests",
-        "create": "Create"
+        "create": "Create",
+        "help": "Documentation",
+        "projects": "All Projects",
+        "more": "More..."
     },
     "survey": {
         "video": "Video",

@@ -1,4 +1,85 @@
+@import './variables.scss';
+
 .MatcStudio {
     width: 100vw;
     height: 100vh;
+
+
+    .MatcStudioRight {
+        height: 100vh;
+        width: 100%;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .MatcButtonSecondary {
+            justify-content: flex-start
+        }
+
+        .MatcQIcon {
+            justify-content: flex-start;
+        }
+
+
+        .MatcStudioLogo { 
+            display: flex;
+            gap: 8px;
+            font-weight: 600;
+            img{
+                height: 24px;
+                width: 24px;
+            }
+        }
+
+        .MatcButton {
+            width: 100%;
+            padding: 16px;
+        }
+
+        a{
+            color: $text_color;         
+            cursor: pointer;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .MatcStudioAppList{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+            overflow: scroll;
+            font-size: 14px;
+            padding-left: 4px;
+
+            .MatcStudioAppListSelected {
+                font-weight: 600;
+            }
+
+            a {
+      
+                .MatcStudioAppListLabel {
+                    text-overflow: ellipsis;
+                    text-wrap: nowrap;
+                    overflow: hidden;
+                    margin: 0;
+                    display: inline-block;
+                    width: calc(100% - 32px);
+                }
+
+                .MatcStudioAppListDot {
+                    display: block;
+                    width: 8px;
+                    height: 8px;
+                    background: $primary_color;
+                    border-radius: 50px;                
+                    flex-basis: 8px;
+                }
+            }
+
+
+        }
+    }
 }

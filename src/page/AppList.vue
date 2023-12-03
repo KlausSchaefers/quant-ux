@@ -4,7 +4,7 @@
 
       <div class="MatcPageHeaderLeft">
         <h1>
-          My Prototypes
+          {{ getNLS('app.projects') }}
         </h1>
 
       </div>
@@ -55,7 +55,7 @@ import CreateAppDialog from "page/CreateAppDialog";
 export default {
   name: "AppList",
   mixins: [DojoWidget, List, Plan],
-  props: ["small", "big", "pub", "canAdd", "size"],
+  props: ["small", "big", "pub", "canAdd", "size", "popover", "hasSelect"],
   data: function () {
     return {
       columns: -1,
@@ -100,7 +100,7 @@ export default {
       this.initSearch();
     },
 
-    showNewDialog (e) {
+    showNewDialog(e) {
       this.$refs.dialog.show(e)
     },
 
@@ -301,6 +301,12 @@ export default {
       }
 
       this.renderDescription(app, item);
+
+      if (this.hasSelect) {
+        this.tempOwn(on(temp, "click", () => {
+          this.$emit("select", app)
+        }))
+      }
     },
 
     setPreviewWrapperSize(wrapper) {
@@ -339,29 +345,19 @@ export default {
       name.innerText = this.getDescription(app);
       top.appendChild(name)
 
-      if (!this.pub) {
+      if (this.popover) {
         const dots = document.createElement("div")
         dots.innerText = "..."
         css.add(dots, "MatcListItemDescriptionDots");
         top.appendChild(dots)
 
-     
+
         const menu = document.createElement("div")
         css.add(menu, "MatcListItemDescriptionMenu");
         dots.appendChild(menu)
 
-        // this.own(on(dots, "click", (e) => {
-        //   this.stopEvent(e)
-        //   css.add(menu, 'MatcListItemDescriptionMenuVisisble' )
-        // }))
-
-        // this.own(on(menu, "click", (e) => {
-        //   this.stopEvent(e)
-        //   css.remove(menu, 'MatcListItemDescriptionMenuVisisble' )
-        // }))
-
         const shareBtn = document.createElement("div")
-        shareBtn.innerHTML =this.getNLS("btn.share")
+        shareBtn.innerHTML = this.getNLS("btn.share")
         menu.appendChild(shareBtn)
         this.own(on(shareBtn, "click", e => this.onShare(e, app)))
 
@@ -389,8 +385,8 @@ export default {
       item.appendChild(cntr);
     },
 
-    async onShare (e, app) {
-      this.stopEvent(e) 
+    async onShare(e, app) {
+      this.stopEvent(e)
 
       const invitations = await Services.getModelService().findInvitation(app.id)
       const hash = Object.entries(invitations).find(p => p[1] === 1)[0]
@@ -421,8 +417,8 @@ export default {
     },
 
     onDelete(e, app) {
-      this.stopEvent(e) 
-     
+      this.stopEvent(e)
+
       const div = this.db.div("MatcDeleteDialog").build();
       this.db.h3("title is-4", 'Delete Prototype').build(div);
       this.db.p('MatcMarginBottomXL', `Do you want to delete the '${app.name}' prototype?`).build(div)
@@ -448,7 +444,7 @@ export default {
 
     onRename(e, app) {
       this.stopEvent(e)
-   
+
       const div = this.db.div("MatcDeleteDialog").build();
       this.db.h3("title is-4", 'Rename Prototype').build(div);
 
@@ -467,7 +463,7 @@ export default {
       d.popup(div, e.target);
     },
 
-    async renameApp (d, app, input) {
+    async renameApp(d, app, input) {
       let res = await Services.getModelService().updateAppProps(app.id, {
         id: app.id,
         name: input.value
