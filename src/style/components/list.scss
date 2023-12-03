@@ -30,6 +30,10 @@
 	gap: 32px;
 	justify-content: space-between;
 
+	.MatcListPlaceHolder {
+		width: 100px;
+		height: 0px;
+	}
 }
 
 .MatcListContainer{

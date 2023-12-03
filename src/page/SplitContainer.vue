@@ -1,12 +1,14 @@
 <template>
     <div class="MatcSplitView">
-        <div :class="['MatcSplitViewChild MatcSplitViewLeft ', {'MatcSplitViewChildBorder' : left} , {'MatcSplitViewChildGrow' : right} ] " :style="leftWidth" ref="leftChild">
+
+        <div :class="['MatcSplitViewChild MatcSplitViewLeft ', {'MatcSplitViewChildBorder' : left} ] " :style="leftWidth" ref="leftChild">
             <slot name="left"></slot>
         </div>
         <div :class="['MatcSplitViewBorder']" >
             <div :class="['MatcSplitViewHandler', {'MatcSplitViewHandlerLeft' : left} , {'MatcSplitViewHandlerRight' : right} ]" @mousedown="onMousedown"></div>
         </div>
-        <div :class="['MatcSplitViewChild MatcSplitViewRight ', {'MatcSplitViewChildBorder' : right}, , {'MatcSplitViewChildGrow' : left} ]" :style="rightWidth" ref="rightChild">
+        <div :class="['MatcSplitViewChild MatcSplitViewRight ', {'MatcSplitViewChildBorder' : right} ]" :style="rightWidth" ref="rightChild">
+      
             <slot name="right"></slot>
         </div>    
     </div>
@@ -32,13 +34,13 @@
             if (this.left) {
                 return 'width:' + this.pos +'px'
             }
-            return ''
+            return `width: calc(100% - ${this.pos}px)`
         },
         rightWidth () {
             if (this.right) {
                 return 'width:' + this.pos +'px'
             }
-            return ''
+            return `width: calc(100% - ${this.pos}px)`
         }
     },
     components: {

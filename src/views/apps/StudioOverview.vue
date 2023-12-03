@@ -1,26 +1,33 @@
 <template>
   <div class="StudioOverview">
-    <!-- <SplitContainer :right="250">
-      <template v-slot:left> -->
+    <SplitContainer :right="250">
+      <template v-slot:left>
         <div class="StudioOverviewHeader">
 
           <div class="StudioOverviewHeaderRow MatcFlexColumns">
             <div class="MatcFlexColumn">
               <StudioColorDropDown></StudioColorDropDown>
-              <input class="" v-model="app.name" />
+              <input class="" v-model="app.name" @change="onNameChange"/>
             </div>
  
 
-            <div class="MatcFlexColumn">
-              <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]"
-              :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`" id="overviewHeaderRunTest">{{
-                $t('app.edit') }}</a>
+            <div class="MatcFlexColumn" v-if="appLoaded">
+              <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab === 'analyze'"
+                  :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`" id="overviewHeaderRunTest">{{
+                    $t('app.analyze') }}
+                </a>
+
+
+              <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab !== 'analyze'"
+                :href="`#/${urlPrefix}/${appID}/design/start.html`" id="overviewHeaderRunTest">
+                {{$t('app.edit') }}
+              </a>
 
               <a class="MatcButton MatcButtonXS MatcButtonSecondary MatcButtonIcon" @click="showShareDialog" ref="shareButton">
                 <QIcon icon="Share"></QIcon>
               </a>
 
-              <Team v-if="app.id && user.id && !isPublic" :appID="app.id" :userID="user.id" />
+              <Team v-if="app.id && user.id && appLoaded" :appID="app.id" :userID="user.id" />
             </div>
 
           </div>
@@ -79,12 +86,12 @@
               @change="onSettingsChange" />
           </div>
         </section>
-      <!-- </template>
+      </template>
       <template v-slot:right>
 
         Hello
       </template>
-    </SplitContainer> -->
+    </SplitContainer>
 
   </div>
 </template>
@@ -104,7 +111,7 @@ import AnalyticsTab from "views/apps/analytics/AnalyticsTab";
 import HeatTab from "views/apps/analytics/HeatTab";
 import VideoTab from "views/apps/test/VideoTab";
 import SettingsTab from "views/apps/SettingsTab";
-//import SplitContainer from "page/SplitContainer";
+import SplitContainer from "page/SplitContainer";
 import StudioColorDropDown from './StudioColorDropDown'
 
 import Team from "page/Team";
@@ -145,7 +152,7 @@ export default {
     StudioColorDropDown: StudioColorDropDown,
     QIcon: QIcon,
     // Comment: Comment,
-    //SplitContainer: SplitContainer
+    SplitContainer: SplitContainer
   },
   computed: {
     isPublic() {
@@ -312,6 +319,21 @@ export default {
       }
       return date.toLocaleString();
     },
+    async onNameChange () {
+      if (!this.app.name) {
+        this.showError("The name cannot be empty");
+      }
+      let res = await Services.getModelService().updateAppProps(this.app.id, {
+        id: this.app.id,
+        name: this.app.name
+      });
+      if (res.status === "ok") {
+        this.showSuccess("Name was saved...");
+        this.$emit('change', this.app)
+      } else {
+        this.showError("Oooppps, Could not change the name. Try again!");
+      }
+    }
   },
   watch: {
     $route() {

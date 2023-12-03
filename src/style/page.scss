@@ -15,10 +15,11 @@ body {
 }
 
 .box.is-shadowless{
-	box-shadow: $page_drop_shadow_soft !important;
+	//box-shadow: $page_drop_shadow_soft !important;
 	border-radius: $page_preview_radius;
 	border: 1px solid $page_border;
-	
+	border: none;
+	box-shadow: none;
 }
 
 .MatcOverviewChevron {
@@ -144,6 +145,8 @@ body {
 	border: 1px solid #fff;
 	border-radius: 50%;
 	transition: all 0.25s;
+	display: flex;
+	align-items: center;
 }
 
 .MatcUserAdd:hover {

@@ -9,7 +9,6 @@
     .MatcSplitViewChild{
         height: 100%;
         overflow: scroll;
-
     }
 
     .MatcSplitViewChildBorder.MatcSplitViewLeft {
@@ -20,9 +19,9 @@
         border-left: 1px solid $page_border;
     }
 
-    .MatcSplitViewChildGrow {
-        flex-grow: 1;
-    }
+    // .MatcSplitViewChildGrow {
+    //     flex-grow: 1;
+    // }
 
     .MatcSplitViewHandler {
         position: absolute;

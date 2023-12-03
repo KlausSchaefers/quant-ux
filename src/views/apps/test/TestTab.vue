@@ -1,6 +1,6 @@
 <template>
   <div class="MatcTest MatcLayout" >
-    <section class="section">
+    <section >
       <div class="container">
         <div class="box is-shadowless">
           <h2 class="title">Tests
@@ -17,7 +17,7 @@
         </div>
       </div>
     </section>
-    <section class="section" data-dojo-attach-point="sectionDes" >
+    <section data-dojo-attach-point="sectionDes" >
       <div class="container">
         <div class="box is-shadowless ">
 
@@ -60,7 +60,7 @@
     </section>
 
 
-    <section class="section" data-dojo-attach-point="sectionTask">
+    <section  data-dojo-attach-point="sectionTask">
       <div class="container">
         <div class="box is-shadowless">
           <h2 data-nls="testSettingsTasks" class="title">Tasks
@@ -74,7 +74,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section>
       <div class="container">
         <div class="box is-shadowless">
           <h2 class="title">Screen Recordings</h2>
@@ -83,7 +83,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section >
       <div class="container">
         <div class="box is-shadowless">
           <h2 class="title">Comments</h2>

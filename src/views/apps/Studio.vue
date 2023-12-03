@@ -1,6 +1,6 @@
 <template>
     <div class="MatcStudio">
-        <SplitContainer :left="192">
+        <SplitContainer :left="256">
             <template v-slot:left>
                 <div class="MatcStudioRight">
                     <div class="MatcStudioLogo">        
@@ -60,7 +60,7 @@
             </template>
 
             <template v-slot:right>
-                <StudioOverview v-if="selectedApp" :user="user"/>
+                <StudioOverview v-if="selectedApp" :user="user" @change="onChangeAppProps"/>
 
             </template>
 
@@ -130,6 +130,12 @@ export default {
         },
     },
     methods: {
+        onChangeAppProps (app) {
+            const found = this.apps.find(a => a.id === app.id)
+            if (found) {
+                found.name = app.name
+            }
+        },
         showAppsDialog (e) {
             this.$refs.appsDialog.show(this.apps, e)
         },

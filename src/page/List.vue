@@ -79,7 +79,8 @@ export default {
 
       for (let i=0; i < 10; i++) {
         const item = document.createElement("div");
-        css.add(item, "MatcListItem");
+        css.add(item, "MatcListPlaceHolder");
+        
         parent.appendChild(item)
       }
 
