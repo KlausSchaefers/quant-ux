@@ -2,13 +2,13 @@
 <template>
   <div class="MatcTeam">
     <div class="MatcTeamContainer" data-dojo-attach-point="cntr">
+
+        <TeamMember  v-for="user in team" :key="user.id" @click="showEdit(user, $event)" :user="user" />
         <div class="MatcTeamItem" @click="showAdd($event)">
             <div class="MatcUserAdd" >
               <QIcon icon="Plus"/>
             </div>
         </div>
-        <TeamMember  v-for="user in team" :key="user.id" @click="showEdit(user, $event)" :user="user" />
-       
     </div>
     <TeamDialog ref="dialog" :appID="appID"></TeamDialog>
   

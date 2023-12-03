@@ -390,3 +390,14 @@ body {
 	border: none;
 	box-shadow: none;
 }
+
+
+.MatcFlexColumns {
+	display: flex;
+	justify-content: space-between;
+
+	.MatcFlexColumn {
+		display: flex;
+		gap: 8px;
+	}
+}

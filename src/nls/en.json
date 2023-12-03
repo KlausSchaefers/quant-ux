@@ -369,7 +369,9 @@
         "create": "Create",
         "help": "Documentation",
         "projects": "All Projects",
-        "more": "More..."
+        "more": "More...",
+        "lastedit": "Last Edited:",
+        "edit": "Edit Design"
     },
     "survey": {
         "video": "Video",

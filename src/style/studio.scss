@@ -12,6 +12,7 @@
         display: flex;
         flex-direction: column;
         gap: 16px;
+        font-size: 14px;
 
         .MatcButtonSecondary {
             justify-content: flex-start
@@ -35,6 +36,7 @@
         .MatcButton {
             width: 100%;
             padding: 16px;
+            height: 40px;
         }
 
         a{
@@ -48,10 +50,10 @@
         .MatcStudioAppList{
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
             flex-grow: 1;
             overflow: scroll;
-            font-size: 14px;
+
             padding-left: 4px;
 
             .MatcStudioAppListSelected {
@@ -83,3 +85,82 @@
         }
     }
 }
+
+.StudioOverview {
+    width: 100%;
+
+    .MatcTeam {
+        border: 1px solid $page_border;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        padding: 0px 8px;
+        height: 32px;
+    }
+
+
+    .StudioOverviewHeader {
+        border-bottom: 1px solid $page_border;
+        gap: 16px;
+        display: flex;
+        flex-direction: column;
+        padding-top: 16px;
+        font-size: 14px;
+    }
+
+    .StudioOverviewHeaderRow {
+        padding: 0px 64px;
+        display: flex;
+        align-items: center;
+
+
+        .MatcFlexColumn {
+            position: relative;
+        }
+
+    
+        .StudioColorDropDown {
+            position: absolute;
+            left: -32px;
+            top:12px;
+            height: 16px;
+            width: 16px;
+            border-radius: 50px;
+            background: red;
+        }
+
+        input {
+            font-size: 24px;
+            padding: 0;
+            border: none;
+            font-weight: 600;
+        }
+    }
+
+    .StudioOverviewContent {
+        padding: 64px;
+    }
+
+    .MatcTabs {
+        display: flex;
+        font-size: 14px;
+        gap: 16px;
+        transform: translateY(1px);
+
+        a {
+            color: $text_color_passive;
+            font-weight: 600;
+            padding: 8px 0px;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+
+            &.MatcTabActive{
+                border-bottom: 2px solid $primary_color;
+                color: $text-color;
+            }
+        }
+
+
+    }
+}
+

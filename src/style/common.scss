@@ -158,13 +158,11 @@ a:FOCUS {
 }
 
 .MatcHint {
-	color: #999;
-	font-weight: 300;
+	color: $text_color_passive
 }
 
 .MatcLoading {
-	color: #999;
-	font-weight: 300;
+	color: $text_color_passive;
 	font-size: 24px;
 }
 

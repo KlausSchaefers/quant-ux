@@ -61,12 +61,7 @@
 
             <template v-slot:right>
                 <StudioOverview v-if="selectedApp" :user="user"/>
-                
-                io.vertx.core.Launcher
 
-                -Dvertx.disableFileCaching=true
-
-                run de.vommond.matc.MATC -conf matc.conf
             </template>
 
         </SplitContainer>
