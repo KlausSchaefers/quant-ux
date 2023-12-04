@@ -3,7 +3,7 @@
   <div class="MatcSurveySection">
       <div class="level">
       <div class="level-left">
-        <h2 class="title level-item">
+        <h3 class="title level-item">
           <span data-nls="testSettingsTasks">{{$t('survey.header')}}</span>
           <HelpButton
             topic="survey.intro"
@@ -11,7 +11,7 @@
           />
 
        
-        </h2>
+        </h3>
       </div>
       <div class="level-right">
        

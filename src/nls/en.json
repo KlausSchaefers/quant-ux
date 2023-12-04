@@ -219,7 +219,8 @@
         "analyics-heatmaps": "Show different kind of heatmaps",
         "analyics-user": "Show the user journey",
         "analyics-task": "Show task completion, outliers and drop-offs",
-        "analyics-screen": "Show screen statstics such as scroll maps or dwell time"
+        "analyics-screen": "Show screen statstics such as scroll maps or dwell time",
+        "app-color": "Change the app color"
     },
     "table-action": "Action X",
     "btn": {
@@ -372,6 +373,7 @@
         "more": "More...",
         "lastedit": "Last Edited:",
         "analyze": "Analytic Canvas",
+        "logout": "Logout",
         "edit": "Edit Design"
     },
     "survey": {

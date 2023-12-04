@@ -88,6 +88,7 @@
 
 .StudioOverview {
     width: 100%;
+    background-color: $page_color-secondary;
 
     .MatcTeam {
         border: 1px solid $page_border;
@@ -102,6 +103,10 @@
         }
     }
 
+    section {
+        margin-bottom: 64px;
+    }
+
 
     .StudioOverviewHeader {
         border-bottom: 1px solid $page_border;
@@ -110,6 +115,8 @@
         flex-direction: column;
         padding-top: 16px;
         font-size: 14px;
+        background: $page_color;
+        width: 100%;
     }
 
     .StudioOverviewHeaderRow {
@@ -127,14 +134,34 @@
             position: absolute;
             left: -32px;
             top:12px;
-            height: 16px;
-            width: 16px;
-            border-radius: 50px;
-            background: red;
+
+            .MatcDropDownPopUp {
+                left: 0px;
+                top: calc(100% + 4px);
+                right: auto;
+                width: auto;
+            }
+     
+            .StudioColorDropDownDot {
+                height: 16px;
+                width: 16px;
+                border-radius: 50px;
+                background: $primary_color;
+                cursor: pointer;
+            }
+
+            .StudioColorDropDownCntr {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                column-gap: 16px;
+                row-gap: 16px;
+                padding: 16px;
+                cursor: default;
+            }
         }
 
         input {
-            font-size: 24px;
+    		font-size: $font-size-m;
             padding: 0;
             border: none;
             font-weight: 600;
@@ -143,6 +170,7 @@
 
     .StudioOverviewContent {
         padding: 64px;
+        width: 100%;
     }
 
     .MatcTabs {
@@ -156,10 +184,10 @@
             font-weight: 600;
             padding: 8px 0px;
             display: inline-block;
-            border-bottom: 2px solid transparent;
+            border-bottom: 3px solid transparent;
 
             &.MatcTabActive{
-                border-bottom: 2px solid $primary_color;
+                border-bottom: 3px solid $primary_color;
                 color: $text-color;
             }
         }

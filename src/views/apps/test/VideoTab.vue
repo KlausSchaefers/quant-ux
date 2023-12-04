@@ -1,7 +1,7 @@
 <template>
   <div class="MatcTest">
-    <section class="section">
-      <div class="container">
+    <section class="">
+
         <div class="box is-shadowless">
           <h2 class="title">Screen Recording</h2>
           <VideoPlayer
@@ -41,11 +41,11 @@
           </div>
         </div>
         <!-- Player -->
-      </div>
+
     </section>
     <!-- Player & Annotations -->
 
-    <section class="section">
+    <section class="section" v-if="hasComments">
       <div class="container">
         <div class="box is-shadowless">
           <h2 class="title">Comments</h2>
@@ -79,6 +79,7 @@ export default {
   data: function() {
     return {
       sessionID: "",
+      hasComments: false,
       hasToManyEvents: false,
       eventsWithAnnimations: [],
       mouseEvents: []

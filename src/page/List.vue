@@ -77,12 +77,11 @@ export default {
         }
       }
 
-      for (let i=0; i < 10; i++) {
-        const item = document.createElement("div");
-        css.add(item, "MatcListPlaceHolder");
-        
-        parent.appendChild(item)
-      }
+      const item = document.createElement("div");
+      css.add(item, "MatcListPlaceHolder");
+      
+      parent.appendChild(item)
+      
 
       /**
        * Finalize rendering and attach to dom
@@ -93,7 +92,7 @@ export default {
 
       this.onRenderDone(list);
 
-      this.renderMore(list, parent);
+      this.renderMore(list, this.container);
 
       this.log.log(0, "render", "exit > ");
     },

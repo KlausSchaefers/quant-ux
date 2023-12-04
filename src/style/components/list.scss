@@ -31,7 +31,7 @@
 	justify-content: space-between;
 
 	.MatcListPlaceHolder {
-		width: 100px;
+		flex-grow: 1;
 		height: 0px;
 	}
 }

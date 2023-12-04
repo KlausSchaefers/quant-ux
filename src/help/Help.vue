@@ -148,7 +148,7 @@ export default {
             selectedParagraph: "",
             search: "",
             hasSideBar: true,
-            hasSearch: true,
+            hasSearch: false,
             hasNotifications: true,
             contactName: '',
             contactEmail: '',

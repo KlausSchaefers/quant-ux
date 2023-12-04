@@ -4,14 +4,14 @@
     <div class data-dojo-attach-point="sectionTask">
       <div class="level">
         <div class="level-left">
-          <h2 class="title level-item">
+          <h3 class="title level-item">
             <span data-nls="testSettingsTasks">{{$t('analytic-task-list.header')}}</span>
             <HelpButton
               topic="analytics.tasks"
               subtopic="analytics.tasks.create"
               :hasNotifications="false"
             />
-          </h2>
+          </h3>
         </div>
         <div class="level-right">
           <a class="MatcButton MatcButtonOutline MatcButtonXS"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>

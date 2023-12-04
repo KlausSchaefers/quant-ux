@@ -23,7 +23,7 @@
  
                     <div class="MatcStudioAppList MatcMarginBottom">
                         <a v-for="app in filteredAppList" :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" :class="{'MatcStudioAppListSelected' : selectedApp === app.id}">
-                            <span class="MatcStudioAppListDot"/>
+                            <span class="MatcStudioAppListDot" :style="{'background': app.previewColor}"/>
                             <span class="MatcStudioAppListLabel">
                                 {{app.name}}
                             </span>                                      
@@ -52,6 +52,14 @@
                             {{userName}}
                         </a>
                     </div>
+
+                    <div class="MatcStudioRightRow">
+                        <a class="" @click="onLogout">
+                            <QIcon icon="Logout"/>
+                            {{ $t('app.logout') }}
+                 
+                        </a>
+                    </div>       
           
                 </div>
    
@@ -134,6 +142,8 @@ export default {
             const found = this.apps.find(a => a.id === app.id)
             if (found) {
                 found.name = app.name
+                found.previewColor = app.previewColor
+                console.debug(found.previewColor)
             }
         },
         showAppsDialog (e) {
@@ -161,9 +171,28 @@ export default {
             this.apps = value
         },
         initRoute() {
-            this.logger.log(-1, "initRoute", "enter", this.$route.params.id);
-            this.selectedApp = this.$route.params.id
+            this.logger.log(-1, "initRoute", "enter > " + this.$route.params.id);
+            if (this.$route.params.id) {
+                this.selectedApp = this.$route.params.id
+            } else {
+                if (this.apps.length > 0 && !this.defaultDispatched) {
+                    const app = this.apps[0]
+                    if (this.pub) {
+                        this.$router.push(`/examples/${app.id}.html`)                   
+                    } else {
+                        this.$router.push(`/apps/${app.id}.html`)
+                    }      
+                    this.defaultDispatched = true      
+                }
+            }
+
         },
+        onLogout () {
+            Services.getUserService().logout()
+            this.$emit('logout', Services.getUserService().GUEST)
+            this.$router.push(`/`)                  
+        }
+
     },
     watch: {
         $route() {
@@ -174,7 +203,7 @@ export default {
     async mounted() {
         this.logger = new Logger("Studio");
         this.user = Services.getUserService().getUser();
-        this.load();
+        await this.load();
         this.initRoute();
         this.logger.log(2,"mounted", "exit > ", this.user);
     }

@@ -51,7 +51,7 @@
     },
     mounted() {
         if (this.user) {
-            this.addTooltip(this.$el, this.getUserName(this.user))
+            //this.addTooltip(this.$el, this.getUserName(this.user))
         }
     },
   };

@@ -25,7 +25,8 @@ export default {
       maxElementsToRender: 20,
       resizePreview: false,
       isPublic: false,
-      hasStackView: false
+      hasStackView: false,
+      animate: false
     };
   },
   components: {},

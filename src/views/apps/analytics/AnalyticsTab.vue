@@ -1,13 +1,13 @@
 <template>
   <div class="MatcTest">
-    <section class="section">
-      <div class="container">
+    <section class="">
+
         <div class="box is-shadowless">
           <div class="level">
             <div class="level-left">
-              <h2 class="level-item title">
+              <h3 class="level-item title">
                   Dashboard <HelpButton topic="analytics"  :hasNotifications="false"
-            /></h2>
+            /></h3>
             </div>
             <div class="level-right">
               <div class="level-item">
@@ -17,12 +17,12 @@
           </div>
           <AnalyticsHeader :value="summary" />
         </div>
-      </div>
+
     </section>
     <!-- header -->
 
-    <section class="section" data-dojo-attach-point="sectionTask">
-      <div class="container">
+    <section class="" data-dojo-attach-point="sectionTask">
+ 
         <div class="box is-shadowless">
           <AnalyticTaskList
             :hash="hash"
@@ -34,11 +34,11 @@
             @change="onTaskChange"
           />
         </div>
-      </div>
+
     </section>
 
-    <section class="section" data-dojo-attach-point="sectionScatter">
-      <div class="container">
+    <section class="" data-dojo-attach-point="sectionScatter">
+
         <div class="box is-shadowless">
           <DistributionSection
             :pub="pub"
@@ -47,12 +47,12 @@
             :events="events"
             :annotation="annotation"/>
         </div>
-      </div>
+
     </section>
 
 
-     <section class="section" data-dojo-attach-point="sectionTask">
-      <div class="container">
+     <section class="" data-dojo-attach-point="sectionTask">
+
         <div class="box is-shadowless">
           <SurveySection
             :pub="pub"
@@ -61,14 +61,14 @@
             :events="events"
             :annotation="annotation"/>
         </div>
-      </div>
+
     </section>
 
 
-    <section class="section">
-      <div class="container">
+    <section class="" v-if="hasComments">
+   
         <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
+          <h3 class="title">Comments</h3>
           <Comment
             v-if="app"
             :appID="app.id"
@@ -78,7 +78,6 @@
             insertPosition="bottom"
           />
         </div>
-      </div>
     </section>
   </div>
 </template>
@@ -104,7 +103,8 @@ export default {
   data: function() {
     return {
       MIN_REQUIERED_USERS: 40,
-      summary: {}
+      summary: {},
+      hasComments: false
     };
   },
   components: {

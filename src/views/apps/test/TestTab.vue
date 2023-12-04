@@ -1,30 +1,30 @@
 <template>
   <div class="MatcTest MatcLayout" >
-    <section >
-      <div class="container">
+    <section class="" v-if="false">
+   
         <div class="box is-shadowless">
-          <h2 class="title">Tests
+          <h3 class="title">Tests
             <HelpButton
               topic="testing"
               subtopic="testing.howmany"
               :hasNotifications="false"
             />
 
-          </h2>
+          </h3>
           <div class="MatcForm" id="testUserCountCntr">
             <BulletGraph :value="sessionCount" :sections="bulletGraphSection" />
           </div>
         </div>
-      </div>
+
     </section>
-    <section data-dojo-attach-point="sectionDes" >
-      <div class="container">
+    <section class="" data-dojo-attach-point="sectionDes" >
+
         <div class="box is-shadowless ">
 
-            <h2 class="title">
+            <h3 class="title">
               {{getNLS('testSettingsHeader')}}  
               <HelpButton topic="testing" subtopic="testing.landing" :hasNotifications="false"/>
-            </h2>
+            </h3>
 
           
             <div class="MatcLayoutCols mb-32">
@@ -55,38 +55,37 @@
           </div>
 
         
-        </div>
       </div>
     </section>
 
 
-    <section  data-dojo-attach-point="sectionTask">
-      <div class="container">
+    <section data-dojo-attach-point="sectionTask">
+
         <div class="box is-shadowless">
-          <h2 data-nls="testSettingsTasks" class="title">Tasks
+          <h3 data-nls="testSettingsTasks" class="title">Tasks
             <HelpButton
               topic="testing"
               subtopic="testing.tasks"
               :hasNotifications="false"
-            /></h2>
+            /></h3>
           <TestSettings :pub="pub" :test="test" :app="app" @change="onTaskChange" :hash="hash"/>
         </div>
-      </div>
+  
     </section>
 
-    <section>
-      <div class="container">
+    <section class="">
+ 
         <div class="box is-shadowless">
-          <h2 class="title">Screen Recordings</h2>
+          <h3 class="title">Screen Recordings</h3>
           <div ref="sessionCntr" class="MatcDashTable"></div>
         </div>
-      </div>
+
     </section>
 
-    <section >
-      <div class="container">
+    <section class="" v-if="hasComments">
+
         <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
+          <h3 class="title">Comments</h3>
           <Comment
             v-if="app"
             :appID="app.id"
@@ -96,7 +95,7 @@
             insertPosition="bottom"
           />
         </div>
-      </div>
+  
     </section>
   </div>
 </template>
@@ -135,6 +134,7 @@ export default {
       sessionCount: 10,
       hasDragOver: false,
       isUploading: false,
+      hasComments: false,
       bulletGraphSection: [
         {
           value: 5,

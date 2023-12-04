@@ -4,14 +4,14 @@
       <template v-slot:left>
         <div class="StudioOverviewHeader">
 
-          <div class="StudioOverviewHeaderRow MatcFlexColumns">
-            <div class="MatcFlexColumn">
-              <StudioColorDropDown></StudioColorDropDown>
+          <div class="StudioOverviewHeaderRow MatcFlexColumns" v-if="true">
+            <div class="MatcFlexColumn"  >
+              <StudioColorDropDown :color="app.previewColor" @change="onColorChange"></StudioColorDropDown>
               <input class="" v-model="app.name" @change="onNameChange"/>
             </div>
  
 
-            <div class="MatcFlexColumn" v-if="appLoaded">
+            <div class="MatcFlexColumn" >
               <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab === 'analyze'"
                   :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`" id="overviewHeaderRunTest">{{
                     $t('app.analyze') }}
@@ -318,6 +318,20 @@ export default {
         return date.toLocaleDateString();
       }
       return date.toLocaleString();
+    },
+    async onColorChange (c) {
+
+      let res = await Services.getModelService().updateAppProps(this.app.id, {
+        id: this.app.id,
+        previewColor: c
+      });
+      if (res.status === "ok") {
+        this.showSuccess("Color was saved...");
+        this.app.previewColor = c
+        this.$emit('change', this.app)
+      } else {
+        this.showError("Oooppps, Could not change the color. Try again!");
+      }
     },
     async onNameChange () {
       if (!this.app.name) {
