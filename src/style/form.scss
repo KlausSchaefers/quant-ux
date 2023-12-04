@@ -593,11 +593,12 @@ input:focus {
 
 
 /****************************************************
- * DropDown
+ * form group
  ****************************************************/
 
 
 .form-group {
+	margin-bottom: 24px;
 
 	.MatcDropDownButton {
 		display: block;

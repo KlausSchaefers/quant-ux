@@ -9,19 +9,24 @@
     color: $text_color;
   }
 
+  .MatcQIcon {
+    cursor: pointer;
+    height: 32px;
+  }
   .MatcDropDownPopUp{
     display: block;
     left: auto;
     right: 0px;
     width: 160px;
     overflow: hidden;
+    top: calc(100% + 8px);
 
     a {
-      padding: 8px;
-      display: block;
+      padding: 4px 8px;
+      display: flex;
       color: #363636;
       cursor: pointer;
-
+      align-items: center;
       &:hover{
         color: #fff;
         background: $primary_color;

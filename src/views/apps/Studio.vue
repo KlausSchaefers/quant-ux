@@ -68,7 +68,7 @@
             </template>
 
             <template v-slot:right>
-                <StudioOverview v-if="selectedApp" :user="user" @change="onChangeAppProps"/>
+                <StudioOverview v-if="selectedApp" :user="user" @change="onChangeAppProps" @delete="onDeleteApp"/>
 
             </template>
 
@@ -138,6 +138,10 @@ export default {
         },
     },
     methods: {
+        onDeleteApp (app) {
+            this.apps = this.apps.filter(a => a.id !== app.id)
+            this.setDefaultApp()
+        },
         onChangeAppProps (app) {
             const found = this.apps.find(a => a.id === app.id)
             if (found) {
@@ -175,17 +179,19 @@ export default {
             if (this.$route.params.id) {
                 this.selectedApp = this.$route.params.id
             } else {
-                if (this.apps.length > 0 && !this.defaultDispatched) {
-                    const app = this.apps[0]
-                    if (this.pub) {
-                        this.$router.push(`/examples/${app.id}.html`)                   
-                    } else {
-                        this.$router.push(`/apps/${app.id}.html`)
-                    }      
-                    this.defaultDispatched = true      
-                }
+               this.setDefaultApp()
             }
-
+        },
+        setDefaultApp () {
+            if (this.apps.length > 0 && !this.defaultDispatched) {
+                const app = this.apps[0]
+                if (this.pub) {
+                    this.$router.push(`/examples/${app.id}.html`)                   
+                } else {
+                    this.$router.push(`/apps/${app.id}.html`)
+                }      
+                this.defaultDispatched = true      
+            }
         },
         onLogout () {
             Services.getUserService().logout()

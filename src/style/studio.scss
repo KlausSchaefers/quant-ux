@@ -137,7 +137,6 @@
 
             .MatcDropDownPopUp {
                 left: 0px;
-                top: calc(100% + 4px);
                 right: auto;
                 width: auto;
             }
@@ -165,6 +164,7 @@
             padding: 0;
             border: none;
             font-weight: 600;
+            width: 400px;
         }
     }
 

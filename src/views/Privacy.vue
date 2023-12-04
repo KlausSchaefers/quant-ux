@@ -1,5 +1,5 @@
 <template>
-  <main class="Matc">
+  <main class="Matc MatcArticle">
     <section class="section">
       <div class="container">
         <div class="columns is-centered">

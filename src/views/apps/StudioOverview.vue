@@ -28,6 +28,8 @@
               </a>
 
               <Team v-if="app.id && user.id && appLoaded" :appID="app.id" :userID="user.id" />
+
+              <QIconDropDown icon="Dots" :options="dotOptions"/>
             </div>
 
           </div>
@@ -112,7 +114,9 @@ import HeatTab from "views/apps/analytics/HeatTab";
 import VideoTab from "views/apps/test/VideoTab";
 import SettingsTab from "views/apps/SettingsTab";
 import SplitContainer from "page/SplitContainer";
+import QIconDropDown from 'page/QIconDropDown'
 import StudioColorDropDown from './StudioColorDropDown'
+
 
 import Team from "page/Team";
 import Share from "page/Share";
@@ -130,6 +134,10 @@ export default {
       app: {
         name: "loading..."
       },
+      dotOptions: [
+        {label: 'Rename', callback: (o, e) => this.onRename(e), icon: "EventKeykoard"},
+        {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "DeleteX"}
+      ],
       testSettings: {},
       events: [],
       sessionAnnotations: [],
@@ -151,6 +159,7 @@ export default {
     HeatTab: HeatTab,
     StudioColorDropDown: StudioColorDropDown,
     QIcon: QIcon,
+    QIconDropDown: QIconDropDown,
     // Comment: Comment,
     SplitContainer: SplitContainer
   },
@@ -347,7 +356,57 @@ export default {
       } else {
         this.showError("Oooppps, Could not change the name. Try again!");
       }
-    }
+    },
+
+    onDelete(e) {
+      this.stopEvent(e)
+
+      const div = this.db.div("MatcDeleteDialog").build();
+      this.db.h3("title is-4", 'Delete Prototype').build(div);
+      this.db.p('MatcMarginBottomXL', `Do you want to delete the '${this.app.name}' prototype?`).build(div)
+      const bar = this.db.div("MatcButtonBar").build(div);
+      const write = this.db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
+      const cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
+
+      const d = new Dialog();
+      d.own(on(write, "click", () => this.deleteApp(d, this.app)));
+      d.own(on(cancel, "click", () => d.close()));
+      d.popup(div, e.target);
+
+    },
+
+    async deleteApp(d, app) {
+      await Services.getModelService().deleteApp(app);
+      d.close()
+      this.$emit("delete", app)
+    },
+
+    onRename(e) {
+      this.stopEvent(e)
+
+      const div = this.db.div("MatcDeleteDialog").build();
+      this.db.h3("title is-4", 'Rename Prototype').build(div);
+
+      var inputName = this.db
+        .div("MatcMarginBottomXL")
+        .input("form-control input-lg MatcIgnoreOnKeyPress", this.app.name, "Name of the prototype")
+        .build(div);
+
+      const bar = this.db.div("MatcButtonBar").build(div);
+      const write = this.db.a("MatcButton", this.getNLS("btn.rename")).build(bar);
+      const cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
+
+      const d = new Dialog();
+      d.own(on(write, "click", () => this.renameApp(d, this.app, inputName)));
+      d.own(on(cancel, "click", () => d.close()));
+      d.popup(div, e.target);
+    },
+
+    async renameApp(d, app, input) {
+      this.app.name = input.value
+      this.onNameChange()
+      d.close()
+    },
   },
   watch: {
     $route() {
@@ -357,6 +416,7 @@ export default {
   },
   async mounted() {
     this.logger = new Logger("Overview");
+    this.db = new DomBuilder();
     this.appID = this.$route.params.id;
     this.user = await Services.getUserService().load();
     this.modelService = Services.getModelService(this.$route);

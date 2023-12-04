@@ -26,6 +26,10 @@
         margin-bottom: 16px;
     }
 
+    .MatcHelpTopicsCntr a{
+        font-weight: 600;
+    }
+
     a.MatcHelpLink {
         display: inline;
         color: $primary_color;
@@ -114,7 +118,7 @@
     }
 
     .MatcHelpContentCntr iframe {
-        margin-top: 30px;
+        margin-top: 24px;
     }
 
     .MatcHelpCode {
@@ -122,7 +126,7 @@
         border: none;
         background: #333;
         color: #fff;
-        border-radius: 4px;
+        border-radius: 8px;
         width: 100%;
         overflow: hidden;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
@@ -140,7 +144,7 @@
 
 
     .MatcHelpContentParagraph {
-        margin-top: 32px;
+        margin-top: 24px;
     }
 
     .MatcHelpContentParagraphSpacer {
