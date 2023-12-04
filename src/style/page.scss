@@ -85,7 +85,7 @@ body {
 
  .MatcTeamContainer{
 	display: flex;
-	gap: 8px;
+	gap: 2px;
 	text-align: center;
 
 	.MatcQIcon .MatcQIconSVG{
@@ -103,30 +103,29 @@ body {
 	position: relative;
 	cursor: pointer;
 	border: 1px solid transparent;
-	height: 40px;
-	width: 40px;
+	height: 24px;
+	width: 24px;
 }
 
 .MatcTeamItem .MatcUserImageCntr {
-	height: 40px;
-	width: 40px;
+	height: 20px;
+	width: 20px;
 	overflow: hidden;
 	display: inline-block;
 	border-radius: 50%;
 	position: relative;
 
-}
+	&:hover {
+		opacity: 0.8;
+	}
 
-.MatcTeamItem .MatcUserImageCntr:HOVER,
-.MatcUserAdd:HOVER {
-	box-shadow: 0 0 3px #333;
 }
 
 
 .MatcUserImageNone {
 	height: 100%;
 	color: #FFF;
-	font-size: 16px;
+	font-size: 14px;
 	overflow: hidden;
 	text-align: center;
 	background: $primary_color;

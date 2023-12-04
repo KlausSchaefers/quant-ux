@@ -11,7 +11,7 @@
             </div>
  
 
-            <div class="MatcFlexColumn" >
+            <div class="MatcFlexColumn" v-if="appLoaded">
               <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab === 'analyze'"
                   :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`" id="overviewHeaderRunTest">{{
                     $t('app.analyze') }}
@@ -90,8 +90,7 @@
         </section>
       </template>
       <template v-slot:right>
-
-        Hello
+          <StudioDetails :loading="loading" :app="app" :test="testSettings" :annotation="sessionAnnotations" :events="events"></StudioDetails>
       </template>
     </SplitContainer>
 
@@ -116,6 +115,7 @@ import SettingsTab from "views/apps/SettingsTab";
 import SplitContainer from "page/SplitContainer";
 import QIconDropDown from 'page/QIconDropDown'
 import StudioColorDropDown from './StudioColorDropDown'
+import StudioDetails from './StudioDetails'
 
 
 import Team from "page/Team";
@@ -160,7 +160,7 @@ export default {
     StudioColorDropDown: StudioColorDropDown,
     QIcon: QIcon,
     QIconDropDown: QIconDropDown,
-    // Comment: Comment,
+    StudioDetails: StudioDetails,
     SplitContainer: SplitContainer
   },
   computed: {

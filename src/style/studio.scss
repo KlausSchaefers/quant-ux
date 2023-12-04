@@ -27,6 +27,7 @@
             display: flex;
             gap: 8px;
             font-weight: 600;
+            font-size: 16px;
             img{
                 height: 24px;
                 width: 24px;
@@ -113,7 +114,7 @@
         gap: 8px;
         display: flex;
         flex-direction: column;
-        padding-top: 8px;
+        padding-top: 16px;
         font-size: 14px;
         background: $page_color;
         width: 100%;
@@ -133,7 +134,7 @@
         .StudioColorDropDown {
             position: absolute;
             left: -32px;
-            top: 10px;
+            top: 4px;
 
             .MatcDropDownPopUp {
                 left: 0px;
@@ -147,6 +148,11 @@
                 border-radius: 50px;
                 background: $primary_color;
                 cursor: pointer;
+
+                &:hover {
+                    opacity: 0.8;
+                    box-shadow: 0px 0px 4px rgba($color: #000000, $alpha: 0.25);
+                }
             }
 
             .StudioColorDropDownCntr {
@@ -165,6 +171,9 @@
             border: none;
             font-weight: 600;
             width: 400px;
+
+            height: 32px;
+            padding-bottom: 10px;
         }
     }
 
@@ -193,6 +202,19 @@
         }
 
 
+    }
+}
+
+.StudioDetails {
+    height: 100vh;
+    background: $page_color;
+    padding: 16px;
+
+    .StudioDetailsSummary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 16px;
+        row-gap: 16px;
     }
 }
 

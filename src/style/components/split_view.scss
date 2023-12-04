@@ -19,22 +19,18 @@
         border-left: 1px solid $page_border;
     }
 
-    // .MatcSplitViewChildGrow {
-    //     flex-grow: 1;
-    // }
-
     .MatcSplitViewHandler {
         position: absolute;
         left: 8px;
         top: 50%;
-        height: 64px;
+        height: 32px;
         width: 4px;
         background: $page_border;
         border-radius: 50px;
         cursor: ew-resize;
 
         &:hover {
-            background: $primary_color;
+            background: $gray_3;
         }
 
         &.MatcSplitViewHandlerRight{
@@ -43,7 +39,6 @@
         }
     }
     
-
     .MatcSplitViewBorder {
         width: 0px;
         height: 100%;

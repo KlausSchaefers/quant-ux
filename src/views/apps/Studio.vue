@@ -13,7 +13,7 @@
                         </button>      
                     </div>
 
-                    <div class="MatcStudioRightRow MatcMarginTop">
+                    <div class="MatcStudioRightRow MatcMarginTop" v-if="filteredAppList.length > 0">
                         <button @click="showAppsDialog" class="MatcButton MatcButtonSecondary  MatcButtonXS">
                             <QIcon icon="Projects"></QIcon>
                             {{ $t('app.projects') }}
@@ -56,8 +56,7 @@
                     <div class="MatcStudioRightRow">
                         <a class="" @click="onLogout">
                             <QIcon icon="Logout"/>
-                            {{ $t('app.logout') }}
-                 
+                            {{ $t('app.logout') }}                 
                         </a>
                     </div>       
           
@@ -112,9 +111,13 @@ export default {
     },
     computed: {
         hasMore () {
+            if (this.filteredAppList.length === 0) {
+                return false
+            }
             return this.apps.length > 10
         },
         filteredAppList () {
+            //return []
             if (this.apps.length > 10) {
                 return this.apps.slice(0, 10) 
             }
@@ -147,7 +150,9 @@ export default {
             if (found) {
                 found.name = app.name
                 found.previewColor = app.previewColor
-                console.debug(found.previewColor)
+                this.$forceUpdate()  
+            } else {
+                console.error(found, app)
             }
         },
         showAppsDialog (e) {
@@ -172,6 +177,11 @@ export default {
             value.sort((a, b) => {
                 return b.lastUpdate - a.lastUpdate;
             });
+            value.forEach(a => {
+                if (!a.previewColor) {
+                    a.previewColor = ''
+                }
+            })
             this.apps = value
         },
         initRoute() {
