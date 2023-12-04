@@ -17,6 +17,7 @@
        
       
         <DropDownSelect
+          class="MatcButtonSecondary"
           v-if="isLoaded && table.rows.length > 0 && table.cols.length > 0"
           ref="dropDown"
           :options="tableOptions" :l="$t('survey.options')" 

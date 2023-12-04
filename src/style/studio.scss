@@ -110,10 +110,10 @@
 
     .StudioOverviewHeader {
         border-bottom: 1px solid $page_border;
-        gap: 16px;
+        gap: 8px;
         display: flex;
         flex-direction: column;
-        padding-top: 16px;
+        padding-top: 8px;
         font-size: 14px;
         background: $page_color;
         width: 100%;
@@ -133,7 +133,7 @@
         .StudioColorDropDown {
             position: absolute;
             left: -32px;
-            top:12px;
+            top: 10px;
 
             .MatcDropDownPopUp {
                 left: 0px;

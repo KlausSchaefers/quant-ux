@@ -47,7 +47,7 @@
           </p>
         </div>
 
-        <a data-nls="testSettingsAddTask" @click="showCreateDialog" class="MatcButton">Add task</a>
+        <a data-nls="testSettingsAddTask" @click="showCreateDialog" class="MatcButton MatcButtonXXS">Add task</a>
 
 
   </div>

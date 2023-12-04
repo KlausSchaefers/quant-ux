@@ -306,6 +306,7 @@ export default {
       if (this.$route.params.id && this.$route.params.id !== this.appID) {
         this.appID = this.$route.params.id;
         this.loadApp();
+        this.tab = "design";
         this.$forceUpdate()
       }
       this.scrollTop();

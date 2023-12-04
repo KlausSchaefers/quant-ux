@@ -530,7 +530,7 @@ export default class {
 			 * b: event from stream
 			 */
 			_match(a, b) {
-				if ((a.screen == b.screen && a.widget == b.widget && a.type == b.type)) {
+				if ((a && b && a.screen == b.screen && a.widget == b.widget && a.type == b.type)) {
 					if ((a.type == "ScreenGesture" && b.type == "ScreenGesture") ||
 						(a.type == "WidgetGesture" && b.type == "WidgetGesture")) {
 						if (a.gesture && b.gesture) {

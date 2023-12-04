@@ -62,7 +62,6 @@ export default {
   },
   async mounted() {
     this.addTooltip(this.$refs.button, this.$t('tooltip.app-color'))
-    console.debug(this.color)
     if (this.color) {
       this.value = this.color
     }

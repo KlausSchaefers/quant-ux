@@ -11,7 +11,7 @@
             </div>
             <div class="level-right">
               <div class="level-item">
-                <a class="MatcButton MatcButtonOutline MatcButtonXS" @click="downloadCSV">Download Test Data</a>
+                <a class="MatcButton MatcButtonSecondary MatcButtonXS" @click="downloadCSV">Download Test Data</a>
               </div>
             </div>
           </div>
