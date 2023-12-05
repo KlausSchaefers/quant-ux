@@ -55,7 +55,7 @@ import CreateAppDialog from "page/CreateAppDialog";
 export default {
   name: "AppList",
   mixins: [DojoWidget, List, Plan],
-  props: ["small", "big", "pub", "canAdd", "size", "popover", "hasSelect"],
+  props: ["small", "big", "pub", "canAdd", "size", "popover", "hasSelect", "hasFocus"],
   data: function () {
     return {
       columns: -1,
@@ -98,6 +98,10 @@ export default {
       this.initListeners();
       this.initLoading();
       this.initSearch();
+
+      if (this.hasFocus) {
+        this.showSearch()
+      }
     },
 
     showNewDialog(e) {

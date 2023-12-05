@@ -68,6 +68,17 @@
 
             <template v-slot:right>
                 <StudioOverview v-if="selectedApp" :user="user" @change="onChangeAppProps" @delete="onDeleteApp"/>
+                <div class="MatcStudioWelcome" v-else>
+
+                    <div class="">
+                        <h3>{{$t('app.welcome-headline')}}</h3>
+                        <div>
+                            {{$t('app.welcome-intro')}}
+                        </div>
+                    </div>
+              
+
+                </div>
 
             </template>
 

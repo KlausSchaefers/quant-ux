@@ -14,6 +14,10 @@
         gap: 16px;
         font-size: 14px;
 
+        .MatcQIcon .MatcQIconSVG {
+            stroke-width: 2.5;
+        }
+
         .MatcButtonSecondary {
             justify-content: flex-start
         }
@@ -44,7 +48,7 @@
             color: $text_color;         
             cursor: pointer;
             display: flex;
-            gap: 8px;
+            gap: 16px;
             align-items: center;
         }
 
@@ -55,7 +59,7 @@
             flex-grow: 1;
             overflow: scroll;
 
-            padding-left: 4px;
+            padding-left: 20px;
 
             .MatcStudioAppListSelected {
                 font-weight: 600;
@@ -202,6 +206,21 @@
         }
 
 
+    }
+}
+
+.MatcStudioWelcome {
+    height: 100vh;
+    padding: 48px;
+    background: $page_color_secondary;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $gray_3;
+
+    >div{
+        width: 240px;
     }
 }
 

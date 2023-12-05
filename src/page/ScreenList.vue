@@ -10,6 +10,7 @@ import css from "dojo/css";
 import Util from "core/Util";
 import AppList from "page/AppList";
 import Preview from "page/Preview";
+import {iconDOM} from "page/QIconUtil";
 import Services from "services/Services";
 
 export default {
@@ -82,33 +83,31 @@ export default {
       this.emit("test", id);
     },
 
-    onRenderAdd (item) {
-      css.add(item, " MatcContentBox MatcAppListBox ");
+    renderDefault () {
 
-      var phone = document.createElement("a");
+      const item = document.createElement("a");
+      css.add(item, "MatcAppListItem MatcContentBox MatcAppListBox");
+     
+      const wrapper = document.createElement("div");
+      css.add(wrapper, "MatcPreviewWrapper MatcPreviewWrapperLoadable");
+      item.appendChild(wrapper)
+      this.setPreviewWrapperSize(wrapper);
 
-      css.add(phone, "MatcPointer");
-      item.appendChild(phone);
-
-      var wrapper = document.createElement("div");
-      css.add(wrapper, " ");
-      phone.appendChild(wrapper);
-
-      var add = document.createElement("div");
-      css.add(add, "MatcApplListAdd");
+      const add = document.createElement("div");
+      css.add(add, "MatcAppListAdd");
       wrapper.appendChild(add);
 
-      var span = document.createElement("span");
-      css.add(span, "mdi mdi-border-colo");
-      add.appendChild(span);
+      const span = document.createElement("span");
+      css.add(span, "mdi mdi-border-color");
+      add.appendChild(iconDOM('Plus', '', 64, 64));
 
-      var p = document.createElement("p");
+      const p = document.createElement("p");
       css.add(p, "MatcHint MatcCenter MatcListItemDescription");
+      p.innerHTML = "Edit Design";
+      add.appendChild(p)
 
-      p.innerHTML = "Click here to edit the prototype ";
-      phone.href = "#/apps/" + this.model.id + "/design.html";
-
-      item.appendChild(p);
+      item.href = "#/apps/" + this.model.id + "/design/start.html";
+      return item
     },
 
     createScreenWidget () {

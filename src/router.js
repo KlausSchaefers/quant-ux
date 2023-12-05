@@ -6,22 +6,22 @@ Vue.use(VueRouter)
 
 let matcRoutes = []
 
-matcRoutes.push({path:'my-account.html', component: () => import(/* webpackChunkName: "about" */ 'views/user/Account.vue')})
-matcRoutes.push({path:'404.html', component: () => import(/* webpackChunkName: "about" */ 'views/404.vue')})
-matcRoutes.push({path:'logout.html', component: () => import(/* webpackChunkName: "about" */ 'views/LogoutPage.vue')})
-matcRoutes.push({path:'help.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue')})
-matcRoutes.push({path:'help/:topic.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue')})
-matcRoutes.push({path:'help/:topic/:subtopic.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue')})
+matcRoutes.push({path:'my-account.html', component: () => import(/* webpackChunkName: "about" */ 'views/user/Account.vue'), meta: {hasHeader: true}})
+matcRoutes.push({path:'404.html', component: () => import(/* webpackChunkName: "about" */ 'views/404.vue'), meta: {hasHeader: true}})
+matcRoutes.push({path:'logout.html', component: () => import(/* webpackChunkName: "about" */ 'views/LogoutPage.vue'), meta: {hasHeader: true}})
+matcRoutes.push({path:'help.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue'), meta: {hasHeader: true}})
+matcRoutes.push({path:'help/:topic.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue'), meta: {hasHeader: true}})
+matcRoutes.push({path:'help/:topic/:subtopic.html', component: () => import(/* webpackChunkName: "about" */ 'views/Help.vue'), meta: {hasHeader: true}})
 
 // Studio
-matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'),  meta: {isDarkHeader: true}})
-matcRoutes.push({path:'apps/my-apps.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'), meta: {isDarkHeader: true}})
-matcRoutes.push({path:'apps/logged_in.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'),  meta: {isDarkHeader: true}})
-matcRoutes.push({path:'apps/:id.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
-matcRoutes.push({path:'apps/:id/:tab.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
-matcRoutes.push({path:'apps/:id/replay/:session.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue')})
-matcRoutes.push({path:'apps/create-app.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue')})
-matcRoutes.push({path:'apps/tryout.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {isTryout:true}})
+matcRoutes.push({path:'', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'),  meta: {hideHeader: true}})
+matcRoutes.push({path:'apps/my-apps.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'), meta: {hideHeader: true}})
+matcRoutes.push({path:'apps/logged_in.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'),  meta: {hideHeader: true}})
+matcRoutes.push({path:'apps/:id.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'), meta: {hideHeader: true}})
+matcRoutes.push({path:'apps/:id/:tab.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'), meta: {hideHeader: true}})
+matcRoutes.push({path:'apps/:id/replay/:session.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Studio.vue'), meta: {hideHeader: true}})
+matcRoutes.push({path:'apps/create-app.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {hideHeader: true}})
+matcRoutes.push({path:'apps/tryout.html', component: () => import(/* webpackChunkName: "apps" */ 'views/apps/Create.vue'), meta: {hideHeader:true}})
 
 
 // Apps
@@ -45,12 +45,14 @@ export default new VueRouter({
     {
       path: '/tos.html',
       name: 'Tos',
-      component: () => import(/* webpackChunkName: "simulator" */ 'views/Tos.vue')
+      component: () => import(/* webpackChunkName: "simulator" */ 'views/Tos.vue'),
+      meta: {hasHeader: true}
     },
     {
       path: '/privacy.html',
       name: 'Privacy',
-      component: () => import(/* webpackChunkName: "simulator" */ 'views/Privacy.vue')
+      component: () => import(/* webpackChunkName: "simulator" */ 'views/Privacy.vue'),
+      meta: {hasHeader: true}
     },
     {
       path: '/test.html',
@@ -70,12 +72,6 @@ export default new VueRouter({
     {
       path: '/apps/:id/design/:sid.html',
       name: 'ScreenEditor',
-      component: () => import(/* webpackChunkName: "design" */ 'views/apps/Design.vue')
-    },
-    {
-      path: '/examples/:id/design/:sid.html',
-      name: 'ExampleEditor',
-      meta: {isPublic:true},
       component: () => import(/* webpackChunkName: "design" */ 'views/apps/Design.vue')
     },
     {

@@ -4,23 +4,25 @@
       <div class="MatcHeaderLeft">
      
         <a href="#/" ref="myPrototype">
-          <img src="../style/img/QUXLogo5Dark.svg" class="MatcHeaderLogo" ref="logo">
+          <img src="../style/img/QUXLogo5BlueWhite.svg" class="MatcHeaderLogo" ref="logo">
           Quant-UX
         </a>
+
       </div>
       <div class="container MatcHeaderCenter">
         <div class="MatcHeaderCenterLeft">
-          <!-- <a class="" href="#/">{{ $t('header.my-prototypes') }}</a> -->
+         
       
         </div>
         <div class="MatcHeaderCenterRight">
-          <a class="" href="#/help.html">
-            <QIcon icon="Book" :tooltip="$t('header.tooltip.documentation')"/>
-          </a>
-          <LanguagePicker @change="setLanguage" />
+       
         </div>
       </div>
       <div class="MatcHeaderRight">
+        <a class="" href="#/help.html">
+            <QIcon icon="Book" :tooltip="$t('header.tooltip.documentation')"/>
+          </a>
+          <LanguagePicker @change="setLanguage" />
         <AccountButton :user="user"/>
         <!-- <a class="" href="#/my-account.html">
           <QIcon icon="Account"/>

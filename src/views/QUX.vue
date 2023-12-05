@@ -2,7 +2,7 @@
   <div class="Matc">
     <LoginPage v-if="isGuest" :user="user" @login="onLogin"/>
     <div class="MatcContainer" v-else>
-      <Header :user="user" @login="onLogin" @logout="onLogout" v-if="false"/>
+      <QHeader :user="user" @login="onLogin" @logout="onLogout" v-if="hasHeader"/>
       <router-view ></router-view>
     </div>
   </div>
@@ -27,6 +27,7 @@ export default {
   mixins: [],
  data: function() {
     return {
+      hasHeader: false,
       user: {
         id: -1,
         name: "Guest",
@@ -41,7 +42,7 @@ export default {
     }
   },
   components: {
-    'Header': Header,
+    'QHeader': Header,
     'LoginPage': LoginPage
   },
   computed: {
@@ -61,22 +62,26 @@ export default {
     scrollTop () {
       window.scrollTo(0,0)
     },
-  },
-  watch :{
-    '$route' () {
+    initRoute() {
       css.remove(win.body(), 'MatcPublic')
       css.remove(win.body(), 'MatcVisualEditor')
       css.remove(win.body(), 'MatcLight')
       this.scrollTop()
-      if (this.$route.meta.isDarkHeader) {
-				css.add(win.body(), 'MatcDarkHeaderPage')
+      if (this.$route.meta.hasHeader === true) {
+        this.hasHeader = true
 			} else {
-				css.remove(win.body(), 'MatcDarkHeaderPage')
+        this.hasHeader = false
 			}
+    }
+  },
+  watch :{
+    '$route' () {
+      this.initRoute()
     }
   },
   async mounted() {
     this.logger = new Logger('QUX')
+    this.initRoute()
     this.user = await Services.getUserService().load()
     this.logger.log(-1, 'mounted', "locale: " + navigator.language)
     this.$root.$on('MatcLogout', (user) => {

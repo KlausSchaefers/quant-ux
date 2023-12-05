@@ -369,12 +369,14 @@
         "numberTests": "Tests",
         "create": "Create",
         "help": "Documentation",
-        "projects": "All Projects",
+        "projects": "All Prototypes",
         "more": "More...",
         "lastedit": "Last Edited:",
         "analyze": "Analytic Canvas",
         "logout": "Logout",
-        "edit": "Edit Design"
+        "edit": "Edit Design",
+        "welcome-headline": "Welcome to Quant-UX!",
+        "welcome-intro": "Click on the 'Create' button to create your first prototype."
     },
     "survey": {
         "video": "Video",

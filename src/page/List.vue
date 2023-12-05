@@ -77,24 +77,31 @@ export default {
         }
       }
 
-      const item = document.createElement("div");
-      css.add(item, "MatcListPlaceHolder");
-      
-      parent.appendChild(item)
-      
+      if (list.length === 0) {
+        const div = this.renderDefault()
+        if (div) {
+          parent.appendChild(div)
+        }
+      } else {
+        const item = document.createElement("div");
+        css.add(item, "MatcListPlaceHolder");      
+        parent.appendChild(item)      
+      }
+
+
 
       /**
        * Finalize rendering and attach to dom
        */
       this.container.appendChild(parent);
-
       this._list = list;
-
       this.onRenderDone(list);
-
       this.renderMore(list, this.container);
-
       this.log.log(0, "render", "exit > ");
+    },
+
+    renderDefault () {
+
     },
 
     renderMore(list, parent) {

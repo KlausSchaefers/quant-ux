@@ -80,7 +80,18 @@
 }
 
 .MatcAppListAdd{
-	background: blue;
+    width: 230px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: $gray_3;
+
+	.MatcQIcon {
+		width: 32px;
+		height: 32px;
+	}
 }
 
 

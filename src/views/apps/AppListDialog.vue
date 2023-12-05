@@ -1,7 +1,7 @@
 <template>
     <ZoomDialog ref="dialog">
         <div class="MatcAppsDialog MatcDialog">
-            <AppList :pub="false" :canAdd="false" @select="onSelected" hasSelect="true" v-if="isVisisble"/>
+            <AppList :pub="false" :canAdd="false" @select="onSelected" :hasSelect="true" :hasFocus="true" v-if="isVisisble" ref="appList"/>
 
         </div>
     </ZoomDialog>
@@ -37,6 +37,7 @@ export default {
             setTimeout(() => {
                 this.isVisisble = true
             }, 300)
+           
         },
         onSelected(app) {
             if (this.callback) {
