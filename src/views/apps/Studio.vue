@@ -196,7 +196,7 @@ export default {
             this.apps = value
         },
         initRoute() {
-            this.logger.log(-1, "initRoute", "enter > " + this.$route.params.id);
+            this.logger.log(3, "initRoute", "enter > " + this.$route.params.id);
             if (this.$route.params.id) {
                 this.selectedApp = this.$route.params.id
             } else {

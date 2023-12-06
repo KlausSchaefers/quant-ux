@@ -161,9 +161,22 @@ a:FOCUS {
 	color: $text_color_passive
 }
 
+.MatcHintXL {
+	color: $text_color_passive;
+	font-size: 24px;
+	height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .MatcLoading {
 	color: $text_color_passive;
 	font-size: 24px;
+	height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .MatcFontSmall {

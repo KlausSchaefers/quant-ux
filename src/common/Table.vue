@@ -183,7 +183,6 @@ export default {
             let a = db.a(action.css, action.label).build(td);
 
             if (action.icon) {
-              console.debug(action)
               a.appendChild(iconDOM(action.icon))
             }
             if (action.callback) {

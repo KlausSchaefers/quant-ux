@@ -1,10 +1,32 @@
 <template>
     <div class="StudioDetails" id="">
+        <template v-if="summary">
+            <div class="StudioDetailsKPICntr" >
+                <div class="StudioDetailsKPI" :style="{'background': getBackgroundColor(summary.sessionCount, 5, 30)}">
+                    <h4>{{ summary.sessionCount }}</h4>
+                    <label>{{$t('app.kpi-sessions')}}</label>
+                </div>
 
-        <div class="StudioDetailsSummary">
-
+                <div class="StudioDetailsKPI">
+                    <h4>{{ summary.sessionDurationMean}} {{summary.sessionDurationMeanLabel}}</h4>
+                    <label>{{$t('app.kpi-duration')}}</label>
+                </div>
+                <div class="StudioDetailsKPI" :style="{'background': getBackgroundColor(summary.taskSuccessMean, 33, 66)}">
+                    <h4>{{ summary.taskSuccessMean }} {{summary.taskSuccessMeanLabel}}</h4>
+                    <label>{{$t('app.kpi-task')}}</label>
+                </div>
+                <div class="StudioDetailsKPI">
+                    <h4>{{summary.expRate }} {{summary.expRateLabel}}</h4>
+                    <label>{{$t('app.kpi-coverage')}}</label>
+                </div>
+            </div>
+        </template>
+        <div v-else>
+            <div class="MatcLoading">
+                {{$t('common.loading')}}
+            </div>
+       
         </div>
-        {{ summary }}
     </div>
 </template>
 
@@ -14,11 +36,12 @@ import Logger from "common/Logger";
 import Util from "core/Util";
 import PerformanceMonitor from 'core/PerformanceMonitor'
 import DataFrame from "common/DataFrame";
+import Analytics from "dash/Analytics";
 
 export default {
     name: "StudioDetails",
     mixins: [Util],
-    props: ["app", "test", "annotation", "events", "pub", "hash"],
+    props: ["app", "test", "annotation", "events", "pub", "hash", "isLoaded"],
     data: function () {
         return {
             summary: false
@@ -30,26 +53,35 @@ export default {
 
     },
     methods: {
+        getBackgroundColor (v, low, high) {    
+            if (isNaN(v)) {
+                return ''
+            }
+            if (v <= low) {
+                return '#FFECF2'
+            }
+            if (v >= high) {
+                return '#D4F7D3'
+            }
+            return '#F7EFD3'
+        },
+        onChange () {
+            // This method gets called three times, if any of the props change,
+            // but we do not want to render 3 times...
+            if (!this.summary) {
+                setTimeout(() => {
+                    this.setSummary()
+                }, 30)
+            }
+        },
         setSummary() {
-            if (!this.app) {
+            if (!this.app || !this.isLoaded) {
                 return
             }
             PerformanceMonitor.start('StudioDetails.setSummary()')
-            
-            /**
-             * remove all sessions that are invalid!
-             */
-            let events = this.filterEvents(this.events, this.annotation);
-
-            /**
-             * Just use actionable events
-             */
-            const actionEvents = this.getActionEvents(new DataFrame(events));
-            events = actionEvents.as_array();
-
-            const df = new DataFrame(events);
+            const events = this.filterEvents(this.events, this.annotation);
+            const df = this.getActionEvents(new DataFrame(events));
             df.sortBy("time");
-
             this._addTestKPI(df, this.app);
 
             PerformanceMonitor.end('StudioDetails.setSummary()')
@@ -65,45 +97,73 @@ export default {
 
             const summary = {};
             summary.sessionCount = count.size();
-            summary.sessionCountMean = Math.round(count.mean());
-            summary.sessionCountStd = Math.round(count.std());
-            summary.sessionDurationMean = Math.round(max.mean() / 1000);
-            summary.sessionDurationStd = Math.round(max.std() / 1000);
-            summary.sessionMeanUser = summary.sessionCount / summary.userCount;
-            summary.sessionPercentage = Math.min(summary.sessionCount / this.MIN_REQUIERED_USERS, 1);
+            if (count.size() === 0) {
+                summary.sessionDurationMean = '-'
+                summary.expRate = '-'
+            } else {
+                summary.sessionCountMean = Math.round(count.mean());               
+                summary.sessionDurationMean = Math.round(max.mean() / 1000);             
+                if (isNaN(summary.sessionDurationMean)) {
+                    summary.sessionDurationMean = 0;
+                }
+                summary.sessionDurationMeanLabel = 's'
 
-            if (isNaN(summary.sessionDurationMean)) {
-                summary.sessionDurationMean = 0;
-                summary.sessionDurationStd = 0;
+                const screenCount = this.getObjectLength(app.screens);
+                const uniqueScreenPerSession = sessionGroup.unique("screen");
+                let expRate = uniqueScreenPerSession.mean() / screenCount;
+                if (isNaN(expRate)) {
+                    expRate = 0;
+                }
+                if (isNaN(expRate)) {
+                    expRate = 0;
+                }
+                summary.expRate = Math.round(expRate * 100)
+                summary.expRateLabel ='%';
             }
 
-            const screenCount = this.getObjectLength(app.screens);
-            const uniqueScreenPerSession = sessionGroup.unique("screen");
-            let expRate = uniqueScreenPerSession.mean() / screenCount;
-            if (isNaN(expRate)) {
-                expRate = 0;
+
+            const tasks = this.test.tasks;
+            if (tasks && tasks.length > 0) {
+                const analytics = new Analytics();
+                const taskSummaries = analytics.getTaskSummary(df, tasks, this.annotation);
+                let sumSuccess = 0
+                taskSummaries.forEach(s => {
+                    sumSuccess += s.success
+                })
+
+                summary.taskSuccessMean = Math.round(100* (sumSuccess / taskSummaries.length))
+                summary.taskSuccessMeanLabel = '%'
+            } else {
+                summary.taskSuccessMean = '-'
             }
-            if (isNaN(expRate)) {
-                expRate = 0;
-            }
-            summary.expRate = expRate;
+
+            console.debug(summary)
+
             this.summary = summary;
             PerformanceMonitor.end('AnalyticsTab._addTestKPI()')
         }
     },
     watch: {
+        isLoaded (v) {
+            this.isLoaded = v;
+            if (!v) {
+                this.summary = false
+            }
+        },
         app(v) {
             this.logger.info("watch", "app >", v);
             this.app = v;
+            this.onChange()
         },
         test(v) {
             this.logger.info("watch", "test >", v);
             this.test = v;
+            this.onChange()
         },
         events(v) {
             this.logger.info("watch", "events >", v);
             this.events = v;
-            this.setSummary()
+            this.onChange()
         }
     },
     async mounted() {

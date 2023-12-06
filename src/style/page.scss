@@ -16,7 +16,7 @@ body {
 
 .box.is-shadowless{
 	box-shadow: $page_drop_shadow_soft !important;
-	border-radius: $page_preview_radius;
+	border-radius: $page_radius;
 	border: 1px solid $page_border;
 	
 }
@@ -84,7 +84,7 @@ body {
 	// background: $page_color_secondary;
 	// border: 1px solid $page_border;
 	// padding: 32px;
-	// border-radius: $page_preview_radius;
+	// border-radius: $page_radius;
 }
 
 /****************************************************

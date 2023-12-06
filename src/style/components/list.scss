@@ -265,14 +265,14 @@
 
 	.MatcContentBox {
 		background: #fff;
-		border-radius: $page_preview_radius;
+		border-radius: $page_radius;
 		box-shadow: $page_drop_shadow_soft;
 		outline: 1px solid $page_border;
 		border: none;
 
 		.MatcPreviewWrapper{
-			border-top-right-radius: $page_preview_radius;
-			border-top-left-radius: $page_preview_radius;
+			border-top-right-radius: $page_radius;
+			border-top-left-radius: $page_radius;
 			border:none;
 			height:180px;
 			position: relative;			
@@ -309,7 +309,7 @@
 				left: 0px;
 				width: 0%;
 				height: 0%;
-				border-radius: $page_preview_radius;
+				border-radius: $page_radius;
 				opacity: 0;
 				padding: 32px;
 
@@ -379,7 +379,7 @@
 		background: none;
 
 		.MatcPreviewWrapper{
-			border-radius: $page_preview_radius_xs;
+			border-radius: $page_radius_xs;
 			box-shadow: $page_drop_shadow_soft;
 			border:none;
 			height:350px;

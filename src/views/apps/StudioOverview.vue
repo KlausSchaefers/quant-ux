@@ -1,6 +1,6 @@
 <template>
   <div class="StudioOverview">
-    <SplitContainer :right="250">
+    <SplitContainer :right="320">
       <template v-slot:left>
         <div class="StudioOverviewHeader">
 
@@ -90,7 +90,7 @@
         </section>
       </template>
       <template v-slot:right>
-          <StudioDetails :loading="loading" :app="app" :test="testSettings" :annotation="sessionAnnotations" :events="events"></StudioDetails>
+          <StudioDetails :isLoaded="appLoaded" :app="app" :test="testSettings" :annotation="sessionAnnotations" :events="events"></StudioDetails>
       </template>
     </SplitContainer>
 
@@ -203,7 +203,6 @@ export default {
       try {
         if (id) {
           this.app = await this.modelService.findApp(id);
-          this.appLoaded = true;
           this.loadRest();
           this.loadEvents();
         } else {
@@ -222,6 +221,7 @@ export default {
         this.modelService.findEvents(id).then(events => {
           this.events = events;
           this.loading = false
+          this.appLoaded = true;
           this.logger.log(-1, "loadEvents", "Found " + events.length + " events");
           this.checkEventCount()
         });
@@ -235,7 +235,7 @@ export default {
         return
       }
       const loads = this.events.filter(e => e.type === 'SessionStart')
-      this.logger.log(-1, "checkEventCount", "Check " + this.app.sessionCount + " ?= " + loads.length);
+      this.logger.log(4, "checkEventCount", "Check " + this.app.sessionCount + " ?= " + loads.length);
       if (this.app.sessionCount !== loads.length && this.app && this.app.id) {
         const res = await this.modelService.updateAppProps(this.app.id, {
           id: this.app.id,

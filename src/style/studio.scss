@@ -217,7 +217,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $gray_3;
+    color: $text_color_passive;
 
     >div{
         width: 240px;
@@ -229,11 +229,32 @@
     background: $page_color;
     padding: 16px;
 
-    .StudioDetailsSummary {
+    .StudioDetailsKPICntr {
         display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 16px;
         row-gap: 16px;
+
+        .StudioDetailsKPI {
+            background: $gray_2;
+            height: 102px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap:8px;
+            border-radius: $page_radius;
+
+            h4 {
+                font-size: 24px;
+            }
+
+            label {
+                font-size: 14px;
+                font-weight: 400;
+                text-align: center;
+            }
+        }
     }
 }
 

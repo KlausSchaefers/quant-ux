@@ -376,7 +376,11 @@
         "logout": "Logout",
         "edit": "Edit Design",
         "welcome-headline": "Welcome to Quant-UX!",
-        "welcome-intro": "Click on the 'Create' button to create your first prototype."
+        "welcome-intro": "Click on the 'Create' button to create your first prototype.",
+        "kpi-sessions": "Test(s)",
+        "kpi-coverage": "Total Coverage",
+        "kpi-duration": "Average Duration",
+        "kpi-task": "Task Success"
     },
     "survey": {
         "video": "Video",
