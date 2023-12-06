@@ -80,12 +80,14 @@ export default {
         onChange () {
             // This method gets called three times, if any of the props change,
             // but we do not want to render 3 times...
-            if (!this.summary) {
-                setTimeout(async () => {
-                    await this.loadComments()
-                    this.setSummary()
-                }, 30)
-            }
+
+            setTimeout(async () => {
+                if (!this.summary) {
+                await this.loadComments()
+                this.setSummary()
+                }
+            }, 30)
+            
         },
         async loadComments () {
             this.comments = await Services.getCommentService().findAll(
