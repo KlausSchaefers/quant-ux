@@ -13,38 +13,43 @@
                         </button>      
                     </div>
 
-                    <div class="MatcStudioRightRow MatcMarginTop" v-if="filteredAppList.length > 0">
+                    <!-- <div class="MatcStudioRightRow MatcMarginTop" v-if="filteredAppList.length > 0">
                         <button @click="showAppsDialog" class="MatcButton MatcButtonSecondary  MatcButtonXS">
                             <QIcon icon="Projects"></QIcon>
                             {{ $t('app.projects') }}
 
                         </button>
+                    </div> -->
+
+                    <div class="MatcStudioRightRow MatcMarginTop" v-if="filteredAppList.length > 0">
+                        <h4> {{ $t('app.recent-projects') }}</h4>
+                 
                     </div>
  
                     <div class="MatcStudioAppList MatcMarginBottom">
-                        <a v-for="app in filteredAppList" :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" :class="{'MatcStudioAppListSelected' : selectedApp === app.id}">
+                        <a v-for="app in filteredAppList" :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" :class="['MatcLink', {'MatcStudioAppListSelected' : selectedApp === app.id}]">
                             <span class="MatcStudioAppListDot" :style="{'background': app.previewColor}"/>
                             <span class="MatcStudioAppListLabel">
                                 {{app.name}}
                             </span>                                      
                         </a>
-                        <a v-if="hasMore" @click="showAppsDialog">
+                        <a v-if="hasMore" @click="showAppsDialog" class="MatcActionLink">
                             <span class="MatcStudioAppListDot" style="opacity: 0;"/>
-                            <span class="MatcStudioAppListLabel">
+                            <span class="MatcStudioAppListLabel ">
                                 {{$t('app.more')}}
                             </span>    
                         </a>
                     </div>
 
                     <div class="MatcStudioRightRow">
-                        <a class="" href="#/help.html">
+                        <a class="MatcLink" href="#/help.html">
                             <QIcon icon="Book"/>
                             {{ $t('app.help') }}
                         </a>
                     </div>
 
                     <div class="MatcStudioRightRow">
-                        <a class="" href="#/my-account.html">
+                        <a class="MatcLink" href="#/my-account.html" >
                             <QIcon icon="Account" v-if="!hasUserImage" ></QIcon>
                             <span class="MatcUserImageCntr" v-else>
                                 <img class="MatcUserImage" :src="userImage">
@@ -54,7 +59,7 @@
                     </div>
 
                     <div class="MatcStudioRightRow">
-                        <a class="" @click="onLogout">
+                        <a class="MatcLink" @click="onLogout">
                             <QIcon icon="Logout"/>
                             {{ $t('app.logout') }}                 
                         </a>

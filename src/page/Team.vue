@@ -37,11 +37,11 @@ import Services from "services/Services";
 export default {
   name: "Team",
   mixins: [Util, Plan, _Tooltip, DojoWidget],
-  props: ["appID", "userID"],
+  props: ["appID", "userID", "team"],
   data: function () {
     return {
       isSaving: false,
-      team: []
+      //team: []
     };
   },
   components: {
@@ -63,8 +63,14 @@ export default {
     },
 
     async load() {
-      let team = await Services.getModelService().findTeam(this.appID);
-      this.setTeamLoaded(team);
+      // if (this.qteam) {
+      //   this.setTeamLoaded(this.qteam);
+      // } else {
+      //   // let team = await Services.getModelService().findTeam(this.appID);
+      //   // this.setTeamLoaded(team);
+      // }
+
+
     },
 
     setTeamLoaded (team) {

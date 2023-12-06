@@ -11,7 +11,7 @@
         padding: 16px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 8px;
         font-size: 14px;
 
         .MatcQIcon .MatcQIconSVG {
@@ -44,8 +44,7 @@
             height: 40px;
         }
 
-        a{
-            color: $text_color;         
+        a{  
             cursor: pointer;
             display: flex;
             gap: 16px;
@@ -59,7 +58,7 @@
             flex-grow: 1;
             overflow: scroll;
 
-            padding-left: 20px;
+            padding-left: 8px;//20px;
 
             .MatcStudioAppListSelected {
                 font-weight: 600;

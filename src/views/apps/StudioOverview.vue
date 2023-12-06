@@ -27,7 +27,7 @@
                 <QIcon icon="Share"></QIcon>
               </a>
 
-              <Team v-if="app.id && user.id && appLoaded" :appID="app.id" :userID="user.id" />
+              <Team v-if="app.id && user.id && appLoaded" :appID="app.id" :userID="user.id" :team="team"/>
 
               <QIconDropDown icon="Dots" :options="dotOptions"/>
             </div>
@@ -131,6 +131,7 @@ export default {
   data: function () {
     return {
       loading: true,
+      team: [],
       tab: "design",
       appID: "",
       app: {
@@ -253,13 +254,15 @@ export default {
       Promise.all([
         this.modelService.findTest(id),
         this.modelService.findSessionAnnotations(id),
-        this.modelService.findInvitation(id)
+        this.modelService.findInvitation(id),
+        this.modelService.findTeam(id)
       ])
         .then(values => {
           this.testSettings = values[0];
           this.sessionAnnotations = values[1];
           this.restLoaded = true;
           this.invitations = values[2];
+          this.team = values[3]
           const temp = {};
           for (let key in this.invitations) {
             temp[this.invitations[key]] = key;

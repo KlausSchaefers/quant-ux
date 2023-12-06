@@ -61,6 +61,21 @@ input:focus {
  * Buttons
  ****************************************************/
 
+ .MatcLink {
+	color:$text-color;
+	&:hover {
+		color:$text_color_hover;
+	}
+ }
+
+ .MatcActionLink {
+	color:$primary_color;
+
+	&:hover {
+		color:$primary_color_hover;
+	}
+ }
+
 .MatcLinkButton {
 	padding: $button_padding;
 	display: inline-block;
