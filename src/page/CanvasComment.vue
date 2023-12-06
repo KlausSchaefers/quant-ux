@@ -46,7 +46,7 @@ import DojoWidget from "dojo/DojoWidget";
 import Logger from "common/Logger";
 import lang from 'dojo/_base/lang'
 import UserImage from './UserImage'
-
+import * as UIUtil from '../util/UIUtil'
 
 export default {
     name: "CanvasComment",
@@ -118,11 +118,7 @@ export default {
         },
 
         formatDate(t, justDate) {
-            var date = new Date(t);
-            if (justDate) {
-                return date.toLocaleDateString();
-            }
-            return date.toLocaleString();
+            UIUtil.formatDate(t, justDate)
         },
 
         getCommentUserName(comment) {

@@ -228,6 +228,9 @@
     height: 100vh;
     background: $page_color;
     padding: 16px;
+    display: flex;
+    gap: 32px;
+    flex-direction: column;
 
     .StudioDetailsKPICntr {
         display: grid;
@@ -236,7 +239,7 @@
         row-gap: 16px;
 
         .StudioDetailsKPI {
-            background: $gray_2;
+            background: $kpi_background;
             height: 102px;
             display: flex;
             align-items: center;
@@ -255,6 +258,35 @@
                 text-align: center;
             }
         }
+    }
+
+    .StudioDetailsComments {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+  
+        .StudioDetailsCommentsCntr {
+            flex-grow: 1;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;     
+            overflow: auto; 
+        }
+    }
+}
+
+.StudioComment{
+    background: $comment_background;
+    border: 1px solid $comment_border;
+    box-shadow: $comment-shadow;
+    padding: 16px;
+    font-size: 14px;
+
+    .StudioCommentFooter {
+        margin-top: 16px;
+        font-weight: 600;
     }
 }
 

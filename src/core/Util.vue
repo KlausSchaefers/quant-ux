@@ -13,7 +13,7 @@ import ModelUtil from 'core/ModelUtil'
 import PerformanceMonitor from 'core/PerformanceMonitor'
 import * as DistributeUtil from 'core/DistributionUtil'
 import SlideLeftButton from 'common/SlideLeftButton'
-
+import * as UIUtil from '../util/UIUtil'
 var Ring = {};
 var ProgressBar = {};
 export default {
@@ -1243,12 +1243,8 @@ export default {
       return '<span class="' + cls + '">' + value + "%</span>";
     },
 
-    formatDate (t, justDate) {
-      var date = new Date(t);
-      if (justDate) {
-        return date.toLocaleDateString();
-      }
-      return date.toLocaleString();
+    formatDate (ts, justDate) {
+      return UIUtil.formatDate(ts, justDate)
     },
 
     formatString (s, l) {

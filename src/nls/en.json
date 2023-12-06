@@ -130,7 +130,8 @@
         "register": "Please register to save changes...",
         "guest": "Guest",
         "loading": "Loading...",
-        "language-changed": "The language was changed"
+        "language-changed": "The language was changed",
+        "comments": "Comments"
     },
     "simulator": {
         "welcome": {

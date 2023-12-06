@@ -68,7 +68,7 @@
     <section class="" v-if="hasComments">
    
         <div class="box is-shadowless">
-          <h3 class="title">Comments</h3>
+          <h3 class="title">{{ $t('common.comments')}}</h3>
           <Comment
             v-if="app"
             :appID="app.id"
@@ -104,7 +104,7 @@ export default {
     return {
       MIN_REQUIERED_USERS: 40,
       summary: {},
-      hasComments: false
+      hasComments: true
     };
   },
   components: {

@@ -104,8 +104,6 @@ export default {
 			pos.w = 10;
 			pos.h = 10;
 
-			console.debug('add', pos, this.zoom)
-
 			let count = 0;
 			for (let commentID in this.comments) {
 				const c = this.comments[commentID];

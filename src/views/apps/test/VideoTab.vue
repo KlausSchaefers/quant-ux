@@ -45,10 +45,10 @@
     </section>
     <!-- Player & Annotations -->
 
-    <section class="section" v-if="hasComments">
-      <div class="container">
+    <section class="" v-if="hasComments">
+
         <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
+          <h3 class="title">{{ $t('common.comments')}}</h3>
           <Comment
             v-if="app"
             :appID="app.id"
@@ -58,7 +58,7 @@
             insertPosition="bottom"
           />
         </div>
-      </div>
+
     </section>
   </div>
 </template>
@@ -79,7 +79,7 @@ export default {
   data: function() {
     return {
       sessionID: "",
-      hasComments: false,
+      hasComments: true,
       hasToManyEvents: false,
       eventsWithAnnimations: [],
       mouseEvents: []

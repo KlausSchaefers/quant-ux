@@ -50,7 +50,7 @@ import DomBuilder from "common/DomBuilder";
 import Dialog from "common/Dialog";
 import Share from "page/Share";
 import CreateAppDialog from "page/CreateAppDialog";
-
+import * as UIUtil from '../util/UIUtil'
 
 export default {
   name: "AppList",
@@ -491,13 +491,9 @@ export default {
     },
 
     formatDate(t, justDate) {
-      let date = new Date(t);
-      if (justDate) {
-        return date.toLocaleDateString();
-      }
-      return date.toLocaleString();
+        return UIUtil.formatDate(t, justDate)
     },
-
+    
     onBeforeResize() {
       this.log.log(4, "onBeforeResize", "enter");
       if (this.widgets) {

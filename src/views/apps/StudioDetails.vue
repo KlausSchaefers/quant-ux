@@ -20,6 +20,15 @@
                     <label>{{$t('app.kpi-coverage')}}</label>
                 </div>
             </div>
+
+            <div class="StudioDetailsComments">
+                <div class="StudioDetailsCommentsHeader">
+                    <h4>Comments</h4>
+                </div>
+                <div class="StudioDetailsCommentsCntr">
+                    <StudioComment v-for="c in comments" :key="c.id" :user="user" :comment="c"/>
+                </div>
+            </div>
         </template>
         <div v-else>
             <div class="MatcLoading">
@@ -37,17 +46,20 @@ import Util from "core/Util";
 import PerformanceMonitor from 'core/PerformanceMonitor'
 import DataFrame from "common/DataFrame";
 import Analytics from "dash/Analytics";
-
+import Services from "services/Services";
+import StudioComment from './StudioComment'
 export default {
     name: "StudioDetails",
     mixins: [Util],
-    props: ["app", "test", "annotation", "events", "pub", "hash", "isLoaded"],
+    props: ["app", "test", "user", "annotation", "events", "pub", "hash", "isLoaded"],
     data: function () {
         return {
-            summary: false
+            summary: false,
+            comments: []
         };
     },
     components: {
+        'StudioComment': StudioComment
     },
     computed: {
 
@@ -63,18 +75,25 @@ export default {
             if (v >= high) {
                 return '#D4F7D3'
             }
-            return '#F7EFD3'
+            return //' '#F7EFD3'
         },
         onChange () {
             // This method gets called three times, if any of the props change,
             // but we do not want to render 3 times...
             if (!this.summary) {
-                setTimeout(() => {
+                setTimeout(async () => {
+                    await this.loadComments()
                     this.setSummary()
                 }, 30)
             }
         },
+        async loadComments () {
+            this.comments = await Services.getCommentService().findAll(
+                this.app.id
+            );
+        },
         setSummary() {
+            this.logger.log(-1, "setSummary", "ener");
             if (!this.app || !this.isLoaded) {
                 return
             }
@@ -137,8 +156,6 @@ export default {
                 summary.taskSuccessMean = '-'
             }
 
-            console.debug(summary)
-
             this.summary = summary;
             PerformanceMonitor.end('AnalyticsTab._addTestKPI()')
         }
@@ -147,6 +164,7 @@ export default {
         isLoaded (v) {
             this.isLoaded = v;
             if (!v) {
+                this.comments = []
                 this.summary = false
             }
         },

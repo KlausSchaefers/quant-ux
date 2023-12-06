@@ -16,8 +16,8 @@ $canvas_selection_grid_resize: #dd1787;
 
 $white: #fff;
 $gray_1: #dbdbdb;
-$gray_2: #F3F5F6;
-$gray_3: #777;
+$gray_2: #c4c3c3;
+$gray_3: #b4b3b3;
 $gray_4: #555;
 $gray_5: #4a4a4a;
 $black: #111;
@@ -31,10 +31,16 @@ $page_drop_shadow_more: 0 8px 24px rgba(0,0,0,0.12);
 $page_radius:8px;
 $page_radius_xs:8px;
 
+$kpi_background:#F3F5F6;
+
 $text_color: #333;
 $text_color_passive: #777;
 $text_color_dark: #111;
 $text_line_height: 1.5;
+
+$comment_background: #FFF7D0;
+$comment_border: #FFE34F;
+$comment-shadow: $page_drop_shadow_soft;
 
 $toolbar_height: 48px;
 $toolbar_background: #25292F;
@@ -52,7 +58,7 @@ $toolbar_form_background_hover: #202427;
 $toolbar_form_background_focus: #16191b;
 $toolbar_form_border: $toolbar_border;
 $toolbar_form_border_hover: $toolbar_border;
-$toolbar_form_border_focus: rgba(255,255,255,0.16);;
+$toolbar_form_border_focus: rgba(255,255,255,0.16);
 $toolbar_form_radius: 4px;
 $toolbar_checkbox_background: #484E53;
 $toolbar_checkbox_border: #484E53;
@@ -91,9 +97,9 @@ $popup_form_background_focus: $toolbar_form_background_hover;
 
 $form_color: $text_color;
 $form_radius: 8px;
-$form_border: $gray_1;
+$form_border: $page_border;
 $form_border_hover: $gray_2;
-$form_border_focus: $gray_2;
+$form_border_focus: $gray_3;
 $form_shadow:none;
 $form_padding: 8px 8px;
 $form_height:38px;

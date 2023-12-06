@@ -104,6 +104,7 @@ import on from "dojo/on";
 import lang from "dojo/_base/lang";
 import touch from "dojo/touch";
 import DomBuilder from "common/DomBuilder";
+import * as UIUtil from '../../util/UIUtil'
 
 import ScreenList from "page/ScreenList";
 import QIcon from "page/QIcon";
@@ -126,6 +127,7 @@ import Services from "services/Services";
 export default {
   name: "Overview",
   mixins: [DojoWidget],
+  props:['user'],
   data: function () {
     return {
       loading: true,
@@ -145,7 +147,6 @@ export default {
       hash: "",
       appLoaded: false,
       restLoaded: false,
-      user: {},
       modelService: Services.getModelService()
     };
   },
@@ -323,11 +324,7 @@ export default {
       window.addEventListener('focus', this._focusListner);
     },
     formatDate (t, justDate) {
-      var date = new Date(t);
-      if (justDate) {
-        return date.toLocaleDateString();
-      }
-      return date.toLocaleString();
+      return UIUtil.formatDate(t, justDate)
     },
     async onColorChange (c) {
 
@@ -416,10 +413,9 @@ export default {
     }
   },
   async mounted() {
-    this.logger = new Logger("Overview");
+    this.logger = new Logger("StudioOverview");
     this.db = new DomBuilder();
     this.appID = this.$route.params.id;
-    this.user = await Services.getUserService().load();
     this.modelService = Services.getModelService(this.$route);
     this.loadApp();
     this.initRoute();

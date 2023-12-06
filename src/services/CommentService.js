@@ -8,6 +8,12 @@ class CommentService extends AbstractService{
         this.logger = new Logger('CommentService')
     }
 
+    findAll (appID,) {
+ 
+        return this._get(`rest/comments/apps/${appID}.json`)
+        
+    }
+
     find (appID, type, reference) {
         if (!reference) {
             return this._get(`rest/comments/apps/${appID}/${type}.json`)
