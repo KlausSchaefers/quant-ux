@@ -281,11 +281,38 @@
     border: 1px solid $comment_border;
     box-shadow: $comment-shadow;
     padding: 16px;
+    padding-top: 0px;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
 
-    .StudioCommentFooter {
+    textarea {
+        border: 1px dashed $comment_border;
+        padding: 4px;
+        width: 100%;
+        height: 168px;
+        background: none;
+
+        &:focus {
+            border: 1px dashed $comment_border;
+            outline: none;
+        }
+    }
+
+    .StudioCommentHeader {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .StudioCommentMessage {
+        white-space: pre;
+    }
+    .StudioCommentUser {
         margin-top: 16px;
         font-weight: 600;
+    }
+    .StudioCommentFooter {
+        font-size: 12px;
+        font-weight: 400;
     }
 }
 

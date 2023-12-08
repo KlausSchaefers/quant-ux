@@ -1,6 +1,6 @@
 <template>
   <div class="StudioOverview">
-    <SplitContainer :right="320">
+    <SplitContainer :right="256">
       <template v-slot:left>
         <div class="StudioOverviewHeader">
 
@@ -90,7 +90,13 @@
         </section>
       </template>
       <template v-slot:right>
-          <StudioDetails :isLoaded="appLoaded" :app="app" :test="testSettings" :annotation="sessionAnnotations" :events="events"></StudioDetails>
+          <StudioDetails 
+            :isLoaded="appLoaded" 
+            :app="app" 
+            :user="user" 
+            :test="testSettings" 
+            :annotation="sessionAnnotations" 
+            :events="events"/>
       </template>
     </SplitContainer>
 

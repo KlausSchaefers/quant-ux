@@ -1055,6 +1055,7 @@ export default class {
 					sessionCount: sessionCount,
 					value: 0,
 					p: 0,
+					startCount:0,
 					success: 0,
 					successRel: 0,
 					successAbs: 0,

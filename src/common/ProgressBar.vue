@@ -26,15 +26,16 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {},
+    postCreate() {},
 
-    startup: function() {},
+    startup() {},
 
-    setMax: function(m) {
+    setMax (m) {
       this.max = m;
     },
 
-    setLabel: function(lbl) {
+    setLabel (lbl) {
+      console.debug('setL:abel', lbl)
       var l = document.createElement("div");
       css.add(l, "VommondProgressBarLabel");
       if (this.value < 0.1) {
@@ -45,14 +46,14 @@ export default {
       this.bar.appendChild(l);
     },
 
-    onDomPress: function(e) {
+    onDomPress (e) {
       this.stopEvent(e);
       this.onClick(e);
     },
 
-    cleanup: function() {},
+    cleanup () {},
 
-    setValue: function(value) {
+    setValue (value) {
       if (isNaN(value)) {
         value = 0;
       }

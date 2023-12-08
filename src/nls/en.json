@@ -380,9 +380,9 @@
         "welcome-headline": "Welcome to Quant-UX!",
         "welcome-intro": "Click on the 'Create' button to create your first prototype.",
         "kpi-sessions": "Test(s)",
-        "kpi-coverage": "Total Coverage",
-        "kpi-duration": "Average Duration",
-        "kpi-task": "Task Success"
+        "kpi-coverage": "Coverage",
+        "kpi-duration": "&#8960 Duration",
+        "kpi-task": "&#8960 Success"
     },
     "survey": {
         "video": "Video",

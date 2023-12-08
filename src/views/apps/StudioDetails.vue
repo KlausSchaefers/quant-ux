@@ -9,11 +9,11 @@
 
                 <div class="StudioDetailsKPI">
                     <h4>{{ summary.sessionDurationMean}} {{summary.sessionDurationMeanLabel}}</h4>
-                    <label>{{$t('app.kpi-duration')}}</label>
+                    <label v-html="$t('app.kpi-duration')"></label>
                 </div>
                 <div class="StudioDetailsKPI" :style="{'background': getBackgroundColor(summary.taskSuccessMean, 33, 66)}">
                     <h4>{{ summary.taskSuccessMean }} {{summary.taskSuccessMeanLabel}}</h4>
-                    <label>{{$t('app.kpi-task')}}</label>
+                    <label v-html="$t('app.kpi-task')"></label>
                 </div>
                 <div class="StudioDetailsKPI">
                     <h4>{{summary.expRate }} {{summary.expRateLabel}}</h4>
@@ -26,7 +26,12 @@
                     <h4>Comments</h4>
                 </div>
                 <div class="StudioDetailsCommentsCntr">
-                    <StudioComment v-for="c in comments" :key="c.id" :user="user" :comment="c"/>
+                    <StudioComment 
+                        v-for="c in comments" :key="c.id"
+                        @delete="onDeleteComment"
+                        @change="onChangeComment"
+                        :user="user" 
+                        :comment="c"/>
                 </div>
             </div>
         </template>
@@ -51,7 +56,7 @@ import StudioComment from './StudioComment'
 export default {
     name: "StudioDetails",
     mixins: [Util],
-    props: ["app", "test", "user", "annotation", "events", "pub", "hash", "isLoaded"],
+    props: ["app", "test", "user", "annotation", "events", "hash", "isLoaded"],
     data: function () {
         return {
             summary: false,
@@ -62,9 +67,33 @@ export default {
         'StudioComment': StudioComment
     },
     computed: {
-
+        pub() {
+            return this.$route.meta && this.$route.meta.isPublic === true;
+        }
     },
     methods: {
+        async onChangeComment (id, message) {
+            const found = this.comments.find(c => c.id === id)
+            if (found) {
+                found.message = message
+                found.modified = new Date().getTime()
+                found.edited = true
+				await Services.getCommentService().update(this.app.id, found)
+                this.showSuccess("Comment updated");
+            } else {
+                console.error('Cannot find comment', id)
+            }
+        },
+        async onDeleteComment(comment) {
+            this.comments = this.comments.filter(c => c.id !== comment.id)
+        
+            if (!this.pub) {
+                await Services.getCommentService().delete(this.app.id, comment)
+                this.showSuccess("Comment deleted");
+            }
+          
+					
+        },
         getBackgroundColor (v, low, high) {    
             if (isNaN(v)) {
                 return ''
@@ -80,14 +109,12 @@ export default {
         onChange () {
             // This method gets called three times, if any of the props change,
             // but we do not want to render 3 times...
-
             setTimeout(async () => {
                 if (!this.summary) {
-                await this.loadComments()
-                this.setSummary()
+                    await this.loadComments()
+                    this.setSummary()
                 }
-            }, 30)
-            
+            }, 200)
         },
         async loadComments () {
             this.comments = await Services.getCommentService().findAll(
