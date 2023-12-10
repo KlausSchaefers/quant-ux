@@ -94,6 +94,22 @@
     width: 100%;
     background-color: $page_color-secondary;
 
+    // .MatcScreenList .MatcContentBox .MatcPreviewWrapper {
+    //     border: none;
+    //     outline: none;
+    // }
+
+    .StudioOverviewTabContent {
+        display: flex;
+        gap: 32px;
+        flex-direction: column;
+
+        .MatcInlineEdit {
+            padding: 0px;
+            height: 80px;
+        }
+    }
+
     .MatcTeam {
         border: 1px solid $page_border;
         border-radius: 50px;
@@ -264,6 +280,16 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+
+        .StudioDetailsCommentsHeader {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            a{
+                font-size: 14px;
+            }
+        }
   
         .StudioDetailsCommentsCntr {
             flex-grow: 1;
@@ -299,9 +325,16 @@
         }
     }
 
+    .MatcButton {
+        font-size: 14px;
+        height: auto;
+        padding: 4px 8px;
+    }
+
     .StudioCommentHeader {
         display: flex;
         justify-content: flex-end;
+        min-height: 16px;
     }
     .StudioCommentMessage {
         white-space: pre;

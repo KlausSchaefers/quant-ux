@@ -60,8 +60,19 @@
 
 
           <div v-if="tab == 'design'">
+            <div class="StudioOverviewTabContent">
+              <div>
+                <h4>{{ $t('app.description')}}</h4>
+                <textarea v-model="app.description" @change="onChangeAppDescription" class=" MatcMarginTop MatcInlineEdit" ></textarea>
+              </div>
 
-            <ScreenList :app="app" v-if="appLoaded" :pub="isPublic" />
+              <div>
+                <h4 class="" >{{ $t('app.screen-list')}}</h4>
+                <ScreenList :app="app" v-if="appLoaded" :pub="isPublic" class="MatcMarginTop" />
+              </div>
+
+            </div>
+
 
           </div>
           <div v-if="tab == 'test'">
@@ -334,6 +345,17 @@ export default {
     },
     formatDate (t, justDate) {
       return UIUtil.formatDate(t, justDate)
+    },
+    async onChangeAppDescription () {
+      let res = await Services.getModelService().updateAppProps(this.app.id, {
+        id: this.app.id,
+        description: this.app.description
+      })
+      if (res.status === "ok") {
+        this.showSuccess("Description was saved...");
+      } else {
+        this.showError("Oooppps, Could not change the color. Try again!");
+      }
     },
     async onColorChange (c) {
 

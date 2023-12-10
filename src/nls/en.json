@@ -382,7 +382,11 @@
         "kpi-sessions": "Test(s)",
         "kpi-coverage": "Coverage",
         "kpi-duration": "&#8960 Duration",
-        "kpi-task": "&#8960 Success"
+        "kpi-task": "&#8960 Success",
+        "comments":"Comments",
+        "add-comment": "+ Add Comment",
+        "screen-list" : "Screens",
+        "description": "Description"
     },
     "survey": {
         "video": "Video",

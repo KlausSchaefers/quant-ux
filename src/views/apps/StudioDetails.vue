@@ -23,11 +23,19 @@
 
             <div class="StudioDetailsComments">
                 <div class="StudioDetailsCommentsHeader">
-                    <h4>Comments</h4>
+                <h4>{{$t('app.comments')}}</h4>
+                    <a class="MatcActionLink" @click="addComment">
+                        {{$t('app.add-comment')}}
+                    </a>
                 </div>
                 <div class="StudioDetailsCommentsCntr">
+                    <StudioComment v-if="hasNew"
+                        :isNew="true"
+                        :comment="{}"
+                        @create="onCreateComment"
+                        />
                     <StudioComment 
-                        v-for="c in comments" :key="c.id"
+                        v-for="c in filteredComments" :key="c.id"
                         @delete="onDeleteComment"
                         @change="onChangeComment"
                         :user="user" 
@@ -59,6 +67,7 @@ export default {
     props: ["app", "test", "user", "annotation", "events", "hash", "isLoaded"],
     data: function () {
         return {
+            hasNew: false,
             summary: false,
             comments: []
         };
@@ -69,9 +78,38 @@ export default {
     computed: {
         pub() {
             return this.$route.meta && this.$route.meta.isPublic === true;
+        },
+        filteredComments () {
+            return this.comments.toSorted((a,b) => {
+                return b.created - a.created
+            })
         }
     },
     methods: {
+        addComment () {
+            this.hasNew = true
+        },
+        async onCreateComment(m) {
+            const comment = {
+                message: m,
+				reference:"studio",
+				type: "ScreenComment",
+				user: {
+					"_id" : this.user.id,
+					"email" : this.user.email,
+					"name" : this.user.name,
+					"lastname" : this.user.lastname,
+					"image" :  this.user.image,
+					"id" : this.user.id
+				},
+				userID: this.user.id,
+				created: new Date().getTime()
+            }
+            await Services.getCommentService().create(this.app.id, comment)
+            this.showSuccess("Comment created");
+            this.comments.unshift(comment)
+            this.hasNew = false
+        },
         async onChangeComment (id, message) {
             const found = this.comments.find(c => c.id === id)
             if (found) {
@@ -194,6 +232,7 @@ export default {
             this.isLoaded = v;
             if (!v) {
                 this.comments = []
+                this.hasNew = false
                 this.summary = false
             }
         },

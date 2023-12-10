@@ -1,7 +1,7 @@
 <template>
     <div class="StudioComment">
         <div class="StudioCommentHeader">
-            <QIconDropDown icon="Dots" :options="dotOptions"/>
+            <QIconDropDown icon="Dots" :options="dotOptions" v-if="!isNew"/>
         </div>
         <div class="StudioCommentMessage" v-if="mode === 'view'">
             {{message}}
@@ -9,12 +9,17 @@
         <textarea v-model="message" v-else @blur="onBlur"></textarea>
       
 
-        <div class="StudioCommentUser">
-            {{getUserName(comment.user)}}
-        </div> 
-        <div class="StudioCommentFooter">
-            {{formatDate(comment.created)}} <span v-if="comment.edited">(edited)</span>
+        <div v-if="isNew">
+            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onSave">Save</button> 
         </div>
+        <template v-else>
+            <div class="StudioCommentUser">
+                {{getUserName(comment.user)}}
+            </div> 
+            <div class="StudioCommentFooter">
+                {{formatDate(comment.created)}} <span v-if="comment.edited">(edited)</span>
+            </div>
+        </template>
         
     </div>
 </template>
@@ -26,7 +31,7 @@ import Logger from "common/Logger";
 export default {
     name: "StudioDetails",
     mixins: [],
-    props: ["app", "user", "comment"],
+    props: ["app", "user", "comment", "isNew"],
     data: function () {
         return {
             isAuthor: false,
@@ -52,12 +57,17 @@ export default {
         }
     },
     methods: {
+        onSave () {
+            this.$emit("create",this.message);
+        },
         onEdit () {
             this.mode = 'edit'
         },
         onBlur () {
-            this.mode = 'view'
-            this.$emit("change", this.comment.id, this.message);
+            if (!this.isNew) {
+                this.mode = 'view'
+                this.$emit("change", this.comment.id, this.message);
+            }
         },
         onDelete() {
             this.$emit("delete", this.comment);
@@ -75,7 +85,10 @@ export default {
     async mounted() {
         this.logger = new Logger("StudioComment");
         this.message = this.comment.message
-        this.isAuthor = this?.user.id === this?.comment?.user.id
+        this.isAuthor = this?.user?.id === this?.comment?.user?.id
+        if (this.isNew) {
+            this.mode = 'edit'
+        }
     }
 };
 </script>
