@@ -63,7 +63,12 @@
             <div class="StudioOverviewTabContent">
               <div>
                 <h4>{{ $t('app.description')}}</h4>
-                <textarea v-model="app.description" @change="onChangeAppDescription" class=" MatcMarginTop MatcInlineEdit" ></textarea>
+                <div @blur="onChangeAppDescription" class="MatcMarginTop MatcInlineEdit" contenteditable="true" ref="inputDescription" >
+                  {{app.description}}
+                  <span v-if="!app.description && appLoaded" >
+                    {{ $t('app.description-hint')}}
+                  </span>
+                </div>
               </div>
 
               <div>
@@ -102,6 +107,7 @@
       </template>
       <template v-slot:right>
           <StudioDetails 
+            @change="onChangeAppDescription"
             :isLoaded="appLoaded" 
             :app="app" 
             :user="user" 
@@ -346,7 +352,8 @@ export default {
     formatDate (t, justDate) {
       return UIUtil.formatDate(t, justDate)
     },
-    async onChangeAppDescription () {
+    async onChangeAppDescription () {    
+      this.app.description = this.$refs.inputDescription.innerText    
       let res = await Services.getModelService().updateAppProps(this.app.id, {
         id: this.app.id,
         description: this.app.description

@@ -1,6 +1,13 @@
 <template>
     <div class="StudioDetails" id="">
         <template v-if="summary">
+            <!-- <div class="StudioDetailsDescription">
+                <h4>{{ $t('app.description')}}</h4>
+                <div @blur="onChangeAppDescription" class=" MatcMarginTop MatcInlineEdit" contenteditable="true" ref="inputDescription">
+                    {{app.description}}
+                </div>
+            </div> -->
+
             <div class="StudioDetailsKPICntr" >
                 <div class="StudioDetailsKPI" :style="{'background': getBackgroundColor(summary.sessionCount, 5, 30)}">
                     <h4>{{ summary.sessionCount }}</h4>
@@ -21,9 +28,11 @@
                 </div>
             </div>
 
+   
+
             <div class="StudioDetailsComments">
                 <div class="StudioDetailsCommentsHeader">
-                <h4>{{$t('app.comments')}}</h4>
+                     <h4>{{$t('app.comments')}}</h4>
                     <a class="MatcActionLink" @click="addComment">
                         {{$t('app.add-comment')}}
                     </a>
@@ -67,6 +76,7 @@ export default {
     props: ["app", "test", "user", "annotation", "events", "hash", "isLoaded"],
     data: function () {
         return {
+            hasCommentFilter: true,
             hasNew: false,
             summary: false,
             comments: []
@@ -80,20 +90,42 @@ export default {
             return this.$route.meta && this.$route.meta.isPublic === true;
         },
         filteredComments () {
-            return this.comments.toSorted((a,b) => {
+            const tab = this.$route.params.tab
+            const session = this.$route.params.session
+            let comments = this.comments
+            if (this.hasCommentFilter) {
+                if (tab === 'test') {
+                    comments = comments.filter(c => c.type === 'overview_test' && !c.reference)
+                }
+                if (tab === 'analyze') {
+                    comments = comments.filter(c => c.type === 'overview_dash')
+                }
+                if (tab === 'design') {
+                    comments = comments.filter(c => c.type === 'ScreenComment' || c.type === 'overview_edit')
+                }
+                if (session) {
+                    comments = comments.filter(c => c.type === 'overview_test' && c.reference === session)
+                }
+            }
+  
+            return comments.toSorted((a,b) => {
                 return b.created - a.created
             })
         }
     },
     methods: {
+        onChangeAppDescription () {
+            const txt = this.$refs.inputDescription.innerText
+            this.$emit("change", txt)
+        },
         addComment () {
             this.hasNew = true
         },
         async onCreateComment(m) {
             const comment = {
                 message: m,
-				reference:"studio",
-				type: "ScreenComment",
+				reference: '',
+				type: "overview_edit",
 				user: {
 					"_id" : this.user.id,
 					"email" : this.user.email,
@@ -105,6 +137,23 @@ export default {
 				userID: this.user.id,
 				created: new Date().getTime()
             }
+
+            const tab = this.$route.params.tab
+            const session = this.$route.params.session
+            if (tab === 'test') {
+                comment.type = 'overview_test'
+            }
+            if (tab === 'analyze') {
+                comment.type = 'overview_dash'
+            }
+            if (tab === 'design') {
+                comment.type = 'overview_edit'
+            }
+            if (session) {
+                comment.type = 'overview_test' 
+                comment.reference = session
+            }
+
             await Services.getCommentService().create(this.app.id, comment)
             this.showSuccess("Comment created");
             this.comments.unshift(comment)

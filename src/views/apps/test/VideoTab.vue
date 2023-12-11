@@ -79,7 +79,7 @@ export default {
   data: function() {
     return {
       sessionID: "",
-      hasComments: true,
+      hasComments: false,
       hasToManyEvents: false,
       eventsWithAnnimations: [],
       mouseEvents: []

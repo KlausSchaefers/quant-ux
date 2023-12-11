@@ -106,7 +106,6 @@
 
         .MatcInlineEdit {
             padding: 0px;
-            height: 80px;
         }
     }
 
@@ -246,6 +245,14 @@
     display: flex;
     gap: 32px;
     flex-direction: column;
+
+    .StudioDetailsDescription {
+        font-size: 14px;
+
+        .MatcInlineEdit{
+            padding: 0px;
+        }
+    }
 
     .StudioDetailsKPICntr {
         display: grid;

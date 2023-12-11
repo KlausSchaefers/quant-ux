@@ -386,7 +386,8 @@
         "comments":"Comments",
         "add-comment": "+ Add Comment",
         "screen-list" : "Screens",
-        "description": "Description"
+        "description": "Description",
+        "description-hint": "Add a description here"
     },
     "survey": {
         "video": "Video",

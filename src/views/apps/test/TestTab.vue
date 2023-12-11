@@ -134,7 +134,7 @@ export default {
       sessionCount: 10,
       hasDragOver: false,
       isUploading: false,
-      hasComments: true,
+      hasComments: false,
       bulletGraphSection: [
         {
           value: 5,

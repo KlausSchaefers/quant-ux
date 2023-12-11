@@ -104,7 +104,7 @@ export default {
     return {
       MIN_REQUIERED_USERS: 40,
       summary: {},
-      hasComments: true
+      hasComments: false
     };
   },
   components: {
