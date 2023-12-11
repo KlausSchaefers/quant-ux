@@ -37,7 +37,7 @@
                         {{$t('app.add-comment')}}
                     </a>
                 </div>
-                <div class="StudioDetailsCommentsCntr">
+                <div class="StudioDetailsCommentsList" ref="commentList">
                     <StudioComment v-if="hasNew"
                         :isNew="true"
                         :comment="{}"
@@ -70,6 +70,7 @@ import DataFrame from "common/DataFrame";
 import Analytics from "dash/Analytics";
 import Services from "services/Services";
 import StudioComment from './StudioComment'
+
 export default {
     name: "StudioDetails",
     mixins: [Util],
@@ -93,20 +94,26 @@ export default {
             const tab = this.$route.params.tab
             const session = this.$route.params.session
             let comments = this.comments
+            console.debug(tab, session)
             if (this.hasCommentFilter) {
                 if (tab === 'test') {
-                    comments = comments.filter(c => c.type === 'overview_test' && !c.reference)
+                    comments = this.comments.filter(c => c.type === 'overview_test' && !c.reference)
                 }
                 if (tab === 'analyze') {
-                    comments = comments.filter(c => c.type === 'overview_dash')
+                    comments = this.comments.filter(c => c.type === 'overview_dash')
                 }
-                if (tab === 'design') {
-                    comments = comments.filter(c => c.type === 'ScreenComment' || c.type === 'overview_edit')
+                if (!tab || tab === 'design') {
+                    comments = this.comments.filter(c => c.type === 'ScreenComment' || c.type === 'overview_edit')
                 }
                 if (session) {
-                    comments = comments.filter(c => c.type === 'overview_test' && c.reference === session)
+                    comments = this.comments.filter(c => c.type === 'overview_test' && c.reference === session)
                 }
             }
+
+            if (tab === 'comments') {
+                return []
+            }
+
   
             return comments.toSorted((a,b) => {
                 return b.created - a.created
@@ -153,7 +160,7 @@ export default {
                 comment.type = 'overview_test' 
                 comment.reference = session
             }
-
+       
             await Services.getCommentService().create(this.app.id, comment)
             this.showSuccess("Comment created");
             this.comments.unshift(comment)
@@ -172,14 +179,11 @@ export default {
             }
         },
         async onDeleteComment(comment) {
-            this.comments = this.comments.filter(c => c.id !== comment.id)
-        
+            this.comments = this.comments.filter(c => c.id !== comment.id)        
             if (!this.pub) {
                 await Services.getCommentService().delete(this.app.id, comment)
                 this.showSuccess("Comment deleted");
-            }
-          
-					
+            }       
         },
         getBackgroundColor (v, low, high) {    
             if (isNaN(v)) {

@@ -35,13 +35,11 @@ export default {
     },
 
     setLabel (lbl) {
-      console.debug('setL:abel', lbl)
-      var l = document.createElement("div");
+      const l = document.createElement("div");
       css.add(l, "VommondProgressBarLabel");
       if (this.value < 0.1) {
         css.add(l, "VommondProgressBarLabelRight");
       }
-
       l.innerHTML = lbl;
       this.bar.appendChild(l);
     },
@@ -57,16 +55,13 @@ export default {
       if (isNaN(value)) {
         value = 0;
       }
-
       this.bar.style.width = value * 100 + "%";
-
       if (this.color === true) {
         if (this.invertColors) {
           value = 1 - value;
         }
         this.bar.style.background = this.greenToRed(value);
       }
-
       this.value = value;
     }
   },

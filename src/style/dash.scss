@@ -562,6 +562,7 @@
 	display: inline-block;
 	vertical-align: top;
 	width: 860px;
+	flex-grow: 1;
 }
 
 .MatcPlayerView{
@@ -575,8 +576,7 @@
 
 
 .MatcPlayerEvents{
-	flex-grow: 1;
-	display: inline-block;
+	width: 320px;
 	vertical-align: top;
 	border-left: 1px solid #ffffff14;
 	overflow: auto;

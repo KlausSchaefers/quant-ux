@@ -106,6 +106,7 @@
 
         .MatcInlineEdit {
             padding: 0px;
+            white-space: pre;
         }
     }
 
@@ -298,14 +299,29 @@
             }
         }
   
-        .StudioDetailsCommentsCntr {
-            flex-grow: 1;
-            overflow: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;     
-            overflow: auto; 
-        }
+
+    }
+}
+
+.StudioDetailsCommentsList {
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;     
+    overflow: auto; 
+    padding-bottom: 32px;
+}
+
+.StudioDetailsCommentsGrid {
+    display: flex;
+    gap: 16px;     
+    overflow: auto; 
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .StudioComment {
+        width: 256px;
     }
 }
 

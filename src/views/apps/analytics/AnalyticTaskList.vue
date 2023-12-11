@@ -157,7 +157,6 @@ export default {
       var analytics = new Analytics();
 
       var summaries = analytics.getTaskSummary(this.df, tasks, this.annotation);
-      console.debug(summaries)
  
       var me = this;
       var tbl = this.$new(Table);

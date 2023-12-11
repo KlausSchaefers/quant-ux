@@ -1,6 +1,6 @@
 
 <template>
-  <div :class="'TaskCreateDialog ' + model.type">
+  <div :class="'MatcDialog TaskCreateDialog ' + model.type">
     <div class="TaskCreateDialogCntr">
       <div class="FormCntr" >
 

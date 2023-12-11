@@ -518,8 +518,12 @@ input:focus {
 
 
 .MatcDropDownButton.MatcButtonGreen {
-	border-color: #7cb342;
+	background: $color_success;
 	border-color: transparent;
+
+	&:hover{
+		background: $color_success_hover;
+	}
 }
 
 .MatcDropDownButton.MatcButtonDanger {

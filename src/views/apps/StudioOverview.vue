@@ -12,23 +12,23 @@
  
 
             <div class="MatcFlexColumn" v-if="appLoaded">
+              <Team
+                v-if="app.id && user.id && appLoaded" 
+                :appID="app.id" 
+                :userID="user.id" 
+                :team="team"/>
+                
               <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab === 'analyze'"
-                  :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`" id="overviewHeaderRunTest">{{
-                    $t('app.analyze') }}
-                </a>
-
-
+                  :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`" id="overviewHeaderRunTest">
+                  {{$t('app.analyze') }}
+              </a>
               <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab !== 'analyze'"
                 :href="`#/${urlPrefix}/${appID}/design/start.html`" id="overviewHeaderRunTest">
                 {{$t('app.edit') }}
               </a>
-
               <a class="MatcButton MatcButtonXS MatcButtonSecondary MatcButtonIcon" @click="showShareDialog" ref="shareButton">
                 <QIcon icon="Share"></QIcon>
               </a>
-
-              <Team v-if="app.id && user.id && appLoaded" :appID="app.id" :userID="user.id" :team="team"/>
-
               <QIconDropDown icon="Dots" :options="dotOptions"/>
             </div>
 
@@ -45,7 +45,7 @@
               <a :href="`#/${urlPrefix}/${appID}/design.html`" :class="{'MatcTabActive': tab === 'design'}">{{ $t('app.overview.design') }}</a>
               <a :href="`#/${urlPrefix}/${appID}/test.html`" :class="{'MatcTabActive': tab == 'test' || tab === 'video'}" >{{ $t('app.overview.test') }}</a>
               <a :href="`#/${urlPrefix}/${appID}/analyze.html`" :class="{'MatcTabActive': tab == 'analyze'}">{{ $t('app.overview.dash') }}</a>
-
+              <!-- <a :href="`#/${urlPrefix}/${appID}/comments.html`" :class="{'MatcTabActive': tab == 'comments'}">{{ $t('app.overview.comments') }}</a> -->
             </div>
  
         </div>
@@ -63,12 +63,7 @@
             <div class="StudioOverviewTabContent">
               <div>
                 <h4>{{ $t('app.description')}}</h4>
-                <div @blur="onChangeAppDescription" class="MatcMarginTop MatcInlineEdit" contenteditable="true" ref="inputDescription" >
-                  {{app.description}}
-                  <span v-if="!app.description && appLoaded" >
-                    {{ $t('app.description-hint')}}
-                  </span>
-                </div>
+                <div @blur="onChangeAppDescription" class="MatcMarginTop MatcInlineEdit" contenteditable="true" ref="inputDescription" >{{app.description}}</div>
               </div>
 
               <div>
@@ -103,6 +98,12 @@
             <SettingsTab :loading="loading" :app="app" :user="user" :invitations="invitations" v-if="restLoaded"
               @change="onSettingsChange" />
           </div>
+
+          <div v-if="tab == 'comments'">
+            <CommentsTab :loading="loading" :app="app" :user="user" :invitations="invitations" v-if="restLoaded"
+              @change="onSettingsChange" />
+          </div>
+
         </section>
       </template>
       <template v-slot:right>
@@ -135,6 +136,7 @@ import TestTab from "views/apps/test/TestTab";
 import AnalyticsTab from "views/apps/analytics/AnalyticsTab";
 import HeatTab from "views/apps/analytics/HeatTab";
 import VideoTab from "views/apps/test/VideoTab";
+import CommentsTab from 'views/apps/CommentsTab'
 import SettingsTab from "views/apps/SettingsTab";
 import SplitContainer from "page/SplitContainer";
 import QIconDropDown from 'page/QIconDropDown'
@@ -144,7 +146,6 @@ import StudioDetails from './StudioDetails'
 
 import Team from "page/Team";
 import Share from "page/Share";
-// import Comment from "page/Comment";
 import Services from "services/Services";
 
 export default {
@@ -186,8 +187,9 @@ export default {
     QIcon: QIcon,
     QIconDropDown: QIconDropDown,
     StudioDetails: StudioDetails,
-    SplitContainer: SplitContainer
-  },
+    SplitContainer: SplitContainer,
+    CommentsTab: CommentsTab
+},
   computed: {
     isPublic() {
       return this.$route.meta && this.$route.meta.isPublic;
@@ -353,7 +355,7 @@ export default {
       return UIUtil.formatDate(t, justDate)
     },
     async onChangeAppDescription () {    
-      this.app.description = this.$refs.inputDescription.innerText    
+      this.app.description = this.$refs.inputDescription.innerText.trim()
       let res = await Services.getModelService().updateAppProps(this.app.id, {
         id: this.app.id,
         description: this.app.description
