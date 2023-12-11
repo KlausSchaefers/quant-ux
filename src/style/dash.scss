@@ -101,25 +101,29 @@
     font-size: 12px;
 }
 
+.tag {
+	padding: 2px 8px;
+	border-radius : 8px;
+}
 .MatchDashStatusSuccess{
-	background: #92c500;
+	background: $color_success;
 	color:#fff;
-	padding: 2px 10px;
-	border-radius : 3px;
+	padding: 2px 8px;
+	border-radius : 8px;
 }
 
 .MatchDashStatusOK{
 	background:#ffae18;
 	color:#fff;
-	padding: 2px 10px;
-	border-radius : 3px;
+	padding: 2px 8px;
+	border-radius : 8px;
 }
 
 .MatchDashStatusFailure{
-	background:#f83a3a;
+	background:$color_danger;
 	color:#fff;
-	padding: 2px 10px;
-	border-radius : 3px;
+	padding: 2px 8px;
+	border-radius : 8px;
 }
 
 .MatchDashStatusDunno{

@@ -46,7 +46,8 @@
                     <StudioComment 
                         v-for="c in filteredComments" :key="c.id"
                         @delete="onDeleteComment"
-                        @change="onChangeComment"
+                        @change="onChangeCommentMessage"
+                        @status="onChangeCommentStatus"
                         :user="user" 
                         :comment="c"/>
                 </div>
@@ -94,7 +95,6 @@ export default {
             const tab = this.$route.params.tab
             const session = this.$route.params.session
             let comments = this.comments
-            console.debug(tab, session)
             if (this.hasCommentFilter) {
                 if (tab === 'test') {
                     comments = this.comments.filter(c => c.type === 'overview_test' && !c.reference)
@@ -109,12 +109,9 @@ export default {
                     comments = this.comments.filter(c => c.type === 'overview_test' && c.reference === session)
                 }
             }
-
             if (tab === 'comments') {
                 return []
-            }
-
-  
+            }  
             return comments.toSorted((a,b) => {
                 return b.created - a.created
             })
@@ -166,7 +163,19 @@ export default {
             this.comments.unshift(comment)
             this.hasNew = false
         },
-        async onChangeComment (id, message) {
+        async onChangeCommentStatus(id, status) {
+            const found = this.comments.find(c => c.id === id)
+            if (found) {
+                found.status = status
+                found.modified = new Date().getTime()
+                found.edited = true
+				await Services.getCommentService().update(this.app.id, found)
+                this.showSuccess("Status updated");
+            } else {
+                console.error('Cannot find comment', id)
+            }
+        },
+        async onChangeCommentMessage (id, message) {
             const found = this.comments.find(c => c.id === id)
             if (found) {
                 found.message = message

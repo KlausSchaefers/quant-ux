@@ -335,6 +335,10 @@
     display: flex;
     flex-direction: column;
 
+    &.Done {
+        text-decoration: line-through;
+    }
+
     textarea {
         border: 1px dashed $comment_border;
         padding: 4px;

@@ -1,5 +1,5 @@
 <template>
-    <div class="StudioComment">
+    <div :class="'StudioComment ' + status">
         <div class="StudioCommentHeader">
             <QIconDropDown icon="Dots" :options="dotOptions" v-if="!isNew"/>
         </div>
@@ -34,6 +34,7 @@ export default {
     props: ["app", "user", "comment", "isNew"],
     data: function () {
         return {
+            status: '',
             isAuthor: false,
             mode: 'view',
             message: '',
@@ -45,18 +46,26 @@ export default {
     },
     computed: {
         dotOptions () {
+            const isDoneLabel = this.status === 'Done' ? 'Set Active' : 'Set Done'
             if (this.isAuthor) {
                 return [
                     {label: 'Edit', callback: (o, e) => this.onEdit(e), icon: "EditPencil"},
+                    {label: isDoneLabel, callback: (o, e) => this.toggleDone(e), icon: "CheckBoxHook"},
                     {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "DeleteX"}
                 ]
             }
             return [
+                {label: isDoneLabel, callback: (o, e) => this.toggleDone(e), icon: "CheckBoxHook"},
                 {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "DeleteX"}
             ]
         }
     },
     methods: {
+        toggleDone () {
+            const status = this.status === 'Done' ? '' : 'Done'
+            this.status = status
+            this.$emit("status",this.comment.id, status);
+        },
         onSave () {
             this.$emit("create",this.message);
         },
@@ -85,6 +94,7 @@ export default {
     async mounted() {
         this.logger = new Logger("StudioComment");
         this.message = this.comment.message
+        this.status = this.comment.status 
         this.isAuthor = this?.user?.id === this?.comment?.user?.id
         if (this.isNew) {
             this.mode = 'edit'
