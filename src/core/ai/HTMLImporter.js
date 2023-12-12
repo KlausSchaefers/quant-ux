@@ -90,6 +90,7 @@ export default class HTMLImporter {
         this.defaultStyle = false
         this.isParseTable = true
         this.grid = false
+        this.z = 1
     }
 
     getUUID (){
@@ -132,7 +133,7 @@ export default class HTMLImporter {
      
         const scalledApp = this.scalledApp(app)
         const layedOutApp = this.layoutApp(scalledApp)
-        this.cleanUpModel(app)
+        this.cleanUpModel(layedOutApp)
         return layedOutApp
     }
 
@@ -338,6 +339,7 @@ export default class HTMLImporter {
         delete w.children
         delete w._tag
         delete w._className
+        delete w._flexDirection
     }
 
 

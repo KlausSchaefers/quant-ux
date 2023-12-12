@@ -159,6 +159,7 @@ import * as StyleImporter from 'core/ai/StyleImporter'
 import RadioBoxList from 'common/RadioBoxList'
 import CheckBox from 'common/CheckBox'
 import AnimatedLabel from 'common/AnimatedLabel'
+import YAMLImporter from '../../../core/ai/YAMLImporter'
 
 export default {
     name: 'OpenAIDialog',
@@ -294,9 +295,17 @@ export default {
                 this.hint = this.getNLS('design-gpt.no-preview'),
                 this.setError(result.error)
             } else {
-                this.html = result.html
-                console.debug(this.html)
-                this.buildApp(this.html)
+                if (result.html) {
+                    this.html = result.html
+                    this.yaml = ''
+                    this.buildAppHTML(this.html)
+                }
+                if (result.yaml) {
+                    this.yaml = result.yaml
+                    this.html = ''
+                    this.buildAppYAML(this.yaml)
+                }
+     
             }
         },
 
@@ -310,7 +319,9 @@ export default {
                 return aiService.runGPT4Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
             if (this.gptVersion === 'gpt4-turbo-yaml') {
-                return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+
+                return aiService.runFakeYaml()
+                //return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
 
             return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
@@ -354,8 +365,25 @@ export default {
             clearTimeout(this.updateTimeout)
         },
 
+        buildAppYAML (yaml) {
+            this.tab = 'preview'
+            const width = this.model.screenSize.w
+            const height = this.model.screenSize.h
+            const importer = new YAMLImporter(this.model.lastUUID)
+            const result = importer.yamlQuantUX(yaml, width, height , {
+                isRemoveContainers: this.isMinimal,
+                defaultStyle: this.getDefaultStyle()
+            })
 
-        async buildApp (html) {
+            if (result) {
+                this.preview = result
+                this.$nextTick(() => {
+                    this.buildPreview(result)
+                })              
+            }
+        },
+
+        async buildAppHTML (html) {
             this.tab = 'preview'
             const width = this.model.screenSize.w
             const height = this.model.screenSize.h
@@ -388,6 +416,7 @@ export default {
         },
 
         async buildPreview () {
+            console.debug('buildPreview', this.preview)
             if (!this.simulator) {
                 const sim = this.renderSimulator(this.$refs.simCntr);
                 sim.doNotRunOnLoadAnimation = true
@@ -480,7 +509,10 @@ export default {
             localStorage.setItem('quxOpenAIIsMinimal', this.isMinimal)
             localStorage.setItem('quxOpenAIIsCustomStyles', this.isCustomStyles)
             if (this.html) {
-                this.buildApp(this.html)
+                this.buildAppHTML(this.html)
+            }
+            if (this.yaml) {
+                this.buildAppYAML(this.yaml)
             }
         },
 
