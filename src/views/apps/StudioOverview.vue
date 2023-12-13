@@ -11,7 +11,7 @@
             </div>
  
 
-            <div class="MatcFlexColumn" v-if="appLoaded">
+            <div class="MatcFlexColumn">
               <Team
                 v-if="app.id && user.id && appLoaded" 
                 :appID="app.id" 

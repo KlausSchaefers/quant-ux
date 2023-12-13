@@ -18,6 +18,7 @@
 <script>
 import Logger from "common/Logger";
 import QIcon from './QIcon'
+import * as UIUtil from '../util/UIUtil'
 
 export default {
     name: "UserImage",
@@ -32,25 +33,8 @@ export default {
     },
     methods: {
         getUserLetter(user) {
-
-            let result = ''
-            if (user.name) {
-                result += user.name.substring(0, 1).toUpperCase();
-                if (user.lastname) {
-                    result += user.lastname.substring(0, 1).toUpperCase();
-                }
-            } else {
-                let parts = user.email.split('.')
-                if (parts.length > 0) {
-                    result += parts[0].substring(0, 1).toUpperCase();
-                }
-                if (parts.length > 1) {
-                    result += parts[1].substring(0, 1).toUpperCase();
-                }
-            }
-            return result
-        },
-
+            return UIUtil.getUserLetter(user)
+        }
     },
     mounted() {
         this.logger = new Logger("UserImage");

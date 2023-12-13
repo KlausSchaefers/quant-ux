@@ -4,7 +4,7 @@
         <div class="MatcUserImageCntr">
             <div v-if="user.image" class="MatcUserImageCntrTrans">
                 <img :src="getUserImage(user)" class="MatcUserImage"/>
-            </div>
+            </div> 
                 <div v-else class="MatcUserImageNone">
                     <span class="MatcMiddle MatcUserLetters">
                         {{getUserLetter(user)}}
@@ -15,6 +15,7 @@
   </template>
   <script>
   import _Tooltip from 'common/_Tooltip'
+  import * as UIUtil from '../util/UIUtil'
 
   export default {
     name: "Team",
@@ -29,6 +30,9 @@
     components: {
     },
     methods: {
+        getUserLetter (user) {
+            return UIUtil.getUserLetter(user)
+        },
         getUserImage (user) {
             if (user) {
                 return "/rest/user/" + user.id + "/images/" + user.name + "_" + user.lastname + "/" + user.image
