@@ -1,41 +1,51 @@
 <template>
-    <div class="MatcCanvasCommentDialog MatcPadding" @click.stop @mousedown.stop @keyup.stop @keydown.stop>
+    <div class="MatcCanvasCommentDialog" @click.stop @mousedown.stop @keyup.stop @keydown.stop>
 
         <div class="MatcCanvasCommentDialogList">
-            <div class="MatcCanvasCommentDialogRow" v-for="c in comments" :key="c.id">
-                <UserImage :user="c.user" />
+            <div :class="'MatcCanvasCommentDialogRow ' + c.status" v-for="c in comments" :key="c.id">
+
                 <div class="MatcCanvasCommentContent">
+               
                     <div class="MatcCanvasCommentDialogDetails">
-                        {{ formatDate(c.created) }} <span v-if="c.edited"
-                            class="MatcCanvasCommentDialogDetailsEdited">Edited</span>
+                        <div class="MatcCanvasCommentDialogDetailsMeta">
+                            <UserImage :user="c.user" v-if="false"/>
+                            <span class="MatcCanvasCommentDialogDetailsName">
+                            {{getCommentUserName(c)}}
+                            </span>
+                            - {{ formatDate(c.created) }} 
+                        </div>
+                  
+                        <QIconDropDown icon="Dots" :options="getOptions(c)" v-if="!isNew"/>
+                        <!-- <QIcon icon="Delete" @click.stop="onDelete" v-if="comment && comment.id"></QIcon> -->
+                         
+                         <!-- <span v-if="c.edited" class="MatcCanvasCommentDialogDetailsEdited">Edited</span> -->
                     </div>
                     <div class="MatcCanvasCommentDialogMessage" v-if="!isAuthor(c)">
                         {{ comment.message }}
                     </div>
-                    <textarea v-else v-model="c.message"
+                    <div v-else
+                        @focus="isDirty = true"
                         :class="['MatcCanvasCommentDialogMessage', { 'MatcCanvasCommentDialogMessageNew': isNew }]"
-                        @keyup="onChange(c, $event)" ref="textAreas">
+                        contenteditable="true"
+                        @blur="onChange(c, $event)"
+                        ref="textAreas">
 
-                    </textarea>
+                        {{c.message}}
+                    </div>
 
                 </div>
             </div>
         </div>
         <div class="MatcButtonBar MatcButtonBarCols">
             <div class="MatcButtonBarCol">
-                <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click.stop="onCancel" v-if="!isDirty">Close</a>
-                <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click.stop="onSave" v-if="isDirty">Save</a>
-                <a class="MatcLinkButton MatcButtonXS" @click.stop="onCancel" v-if="isDirty">Cancel</a>
+                <!-- <a class="MatcButton MatcButtonXS" @click.stop="onCancel" v-if="!isDirty">Close</a> -->
+                <a class="MatcButton MatcButtonXS" @click.stop="onSave" v-if="isDirty">Save</a>
+                <!-- <a class="MatcLinkButton MatcButtonXS" @click.stop="onCancel" v-if="isDirty">Cancel</a> -->
             </div>
-            <div class="MatcButtonBarCol">
+            <!-- <div class="MatcButtonBarCol">
                 <a class=" MatcLinkButton MatcButtonXS" @click.stop="onDelete" v-if="comment && comment.id">Delete</a>
-            </div>
+            </div> -->
         </div>
-
-
-
-
-
     </div>
 </template>
 <style lang="scss">
@@ -47,6 +57,8 @@ import Logger from "common/Logger";
 import lang from 'dojo/_base/lang'
 import UserImage from './UserImage'
 import * as UIUtil from '../util/UIUtil'
+// import QIcon from './QIcon'
+import QIconDropDown from './QIconDropDown'
 
 export default {
     name: "CanvasComment",
@@ -62,7 +74,8 @@ export default {
     },
     components: {
         'UserImage': UserImage,
-
+        // 'QIcon': QIcon,
+        'QIconDropDown': QIconDropDown
     },
     computed: {
         comments() {
@@ -75,6 +88,34 @@ export default {
     methods: {
         setUser(u) {
             this.user = u
+        },
+        getOptions (comment) {
+            const isDoneLabel = comment.status === 'Done' ? 'Set Active' : 'Set Done'
+            if (this.isAuthor) {
+                return [
+                    {label: 'Edit', callback: () => this.onEdit(comment), icon: "EditPencil"},
+                    {label: isDoneLabel, callback: () => this.toggleDone(comment), icon: "CheckBoxHook"},
+                    {label: 'Delete', callback: () => this.onDelete(comment), icon: "DeleteX"}
+                ]
+            }
+            return [
+                {label: isDoneLabel, callback: () => this.toggleDone(comment), icon: "CheckBoxHook"},
+                {label: 'Delete', callback: () => this.onDelete(comment), icon: "DeleteX"}
+            ]
+        },
+        onEdit () {
+            this.isDirty = true
+            setTimeout(() => {
+                let textAreas = this.$refs.textAreas
+                if (textAreas) {
+                    textAreas[0].focus()
+                }
+            }, 100)
+        },
+        toggleDone () {
+            const status = this.comment.status === 'Done' ? '' : 'Done'
+            this.comment.status = status
+            this.isDirty = true
         },
         setValue(c) {
             this.comment = lang.clone(c)
@@ -92,8 +133,8 @@ export default {
         },
 
         onChange(c, e) {
-            const newText = this.stripHTML(e.target.value)
-            if (newText == c.message) {
+            const newText = this.stripHTML(e.target.innerText)
+            if (newText !== c.message) {
                 c.message = newText
                 this.isDirty = true
             }
@@ -118,12 +159,12 @@ export default {
         },
 
         formatDate(t, justDate) {
-            UIUtil.formatDate(t, justDate)
+            return UIUtil.formatDate(t, justDate)
         },
 
         getCommentUserName(comment) {
             if ((comment.user && comment.user.name) || comment.user.lastname) {
-                return this.getUserName(comment.user);
+                return UIUtil.getUserName(comment.user);
             }
             return "Guest";
         },

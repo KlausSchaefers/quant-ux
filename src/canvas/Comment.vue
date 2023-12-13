@@ -154,6 +154,7 @@ export default {
 			if (this.showComments && this.comments) {
 				this.logger.log(-2, "renderComments", "enter > ");
 				this.screenComments = {};
+				this.commentDivs = {}
 			
 				for (let commentID in this.comments) {
 					const comment = this.comments[commentID];
@@ -172,7 +173,10 @@ export default {
 								y: Math.round(screen.y + screen.h * comment.y),
 							};
 							const div = this.renderCommentIcon(box, comment);
-							div._commentID = comment.id
+							if (comment.id) {
+								this.commentDivs[comment.id] = div
+								div._commentID = comment.id
+							}
 							this.dndContainer.appendChild(div);
 							this.screenComments[screenID].push({
 								div: div,
@@ -195,7 +199,11 @@ export default {
 
 						box = this.getZoomedBox(box, this.zoom, this.zoom);
 						const div = this.renderCommentIcon(box, comment);
-						div._commentID = comment.id
+						if (comment.id) {
+							this.commentDivs[comment.id] = div
+							div._commentID = comment.id
+						}
+					
 						this.dndContainer.appendChild(div);
 						this.screenComments["canvas"].push({
 							div: div,
@@ -241,11 +249,32 @@ export default {
 			}
 		},
 
-		renderCommentIcon(box,) {
+		renderCommentIcon(box, comment = {}) {
 			box.w = Math.min(17, this.getZoomed(17, this.zoom));
 			box.h = Math.min(17, this.getZoomed(17, this.zoom))
 			const div = this.createBox(box);
-			css.add(div, "MatcCanvasCommentIcon");
+			css.add(div, "MatcCanvasCommentIcon " + comment?.status);
+
+			if (comment.id) {
+				const content = document.createElement('div')
+				css.add(content, "MatcCanvasCommentPreview")
+				content._commentID = comment.id
+				div.appendChild(content)
+
+				const header = document.createElement('div')
+				css.add(header, "MatcCanvasCommentHeader")
+				header.innerText = this.getUserName(comment.user)
+				header._commentID = comment.id
+				content.append(header)
+
+				const message = document.createElement('div')
+				css.add(message, "MatcCanvasCommentMessage")
+				message.innerText = comment.message
+				message._commentID = comment.id
+				content.append(message)
+			}
+
+
 			return div;
 		},
 
@@ -258,6 +287,10 @@ export default {
 
 
 		onCommentDndEnd(id, div, pos) {
+			console.debug('end', id, pos)
+			if (isNaN(pos.x)) {
+				return
+			}
 			this.logger.log(10, 'onCommentDndEnd', 'enter', 'id', id, div)
 			const comment = this.comments[id];
 			if (comment) {			
@@ -299,8 +332,8 @@ export default {
 			}
 
 			const popup = db
-					.div("MatcCanvasComment MatcCanvasCommentOpen")
-					.build(this.dndContainer);
+				.div("MatcCanvasComment MatcCanvasCommentOpen")
+				.build(this.dndContainer);
 
 			/**
 			 * Resize so its always in screen!
@@ -396,6 +429,7 @@ export default {
 				if (comment.id) {
 					const old = this.comments[comment.id];
 					old.message = comment.message
+					old.status = comment.status
 					old.modified = new Date().getTime()
 					old.edited = true
 					const res = await this.commentService.update(this.model.id, old)

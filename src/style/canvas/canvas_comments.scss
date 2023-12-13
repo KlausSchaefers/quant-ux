@@ -13,21 +13,29 @@
 
 	display: flex;
 	flex-direction: column;
+	padding: 16px;
+	padding-top: 8px;
 
 	.MatcCanvasCommentDialogList {
 		flex-grow: 1;
-		height: 180px;
+		margin-bottom: 16px;
 	}
 
 	.MatcUser {
-		height: 48px;
-		width: 48px;
-		font-size: 24px;
+		height: 24px;
+		width: 24px;
+		font-size: 10px;
+		display: flex;
+		align-items: center;
+	}
+
+	.Done .MatcCanvasCommentDialogMessage {
+		text-decoration: line-through;
 	}
 
 	.MatcCanvasCommentDialogRow {
 		display: flex;
-		gap: 16px;
+		gap: 4px;
 
 		.MatcCanvasCommentContent {
 			gap: 4px;
@@ -40,7 +48,25 @@
 			font-size: 12px;
 			display: flex;
 			justify-content: space-between;
-			padding: 0px 9px;
+			//padding: 0px 9px;
+
+			.MatcQIcon {
+				cursor: pointer;
+				opacity: 0.6;
+				&:hover {
+					opacity: 1;
+				}
+			}
+
+			.MatcCanvasCommentDialogDetailsMeta {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+			}
+
+			.MatcCanvasCommentDialogDetailsName {
+				font-weight: 600;
+			}
 
 			.MatcCanvasCommentDialogDetailsEdited {
 				color: $gray_3;
@@ -49,16 +75,15 @@
 
 		.MatcCanvasCommentDialogMessage {
 			font-size: 14px;
-			height: 132px;
-			padding: 8px;
+			min-height: 96px;
+			//padding: 4px 8px;
 			border: 1px solid transparent;
-		}
-
-		textarea.MatcCanvasCommentDialogMessage {
-
+	
 			border-radius: $form_radius;
+		
 			&.MatcCanvasCommentDialogMessageNew{
 				border: 1px dashed $form_border;
+				outline: none;
 			}
 			&:hover {
 				border: 1px dashed $form_border_hover;
@@ -67,14 +92,15 @@
 			&:focus {
 				border: 1px solid $form_border_focus;
 				outline: none;
+				padding: 4px 8px;
 			}
 		}
 	}
 }
 
 .MatcCanvasComment textarea{
-	padding: 3px;
 	border: 1px solid transparent;
+	background: none;
 }
 
 
@@ -96,7 +122,7 @@
 }
 
 .MatcCanvasCommentIcon{
- 	background: #ffbd21 none repeat scroll 0 0;
+ 	background: #ffbd21;
   	border-radius:50%;
 	transition : box-shadow 0.3s, background 0.3s;
 	width: 25px;
@@ -105,7 +131,55 @@
 	font-size: 12px;
 	cursor: pointer;
 	z-index: 100000;
-	box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
+	box-shadow: $comment-shadow;
+
+
+
+	.MatcCanvasCommentPreview {
+		width: 0px;
+		height: 0px;
+		transition: opacity 0.2s;
+		overflow: hidden;
+		font-size: 12px;
+		opacity: 0;
+
+		.MatcCanvasCommentHeader {
+			font-weight: 600;
+		}
+	}
+
+	&:hover {
+		box-shadow: none;
+		.MatcCanvasCommentPreview{
+			opacity: 1;
+			width: 200px;
+			min-height: 48px;
+			max-height: 160px;
+			height: auto;
+			background: inherit;
+			padding: 8px;
+			border-radius: 8px;
+			box-shadow: $comment-shadow;
+			text-align: left;
+
+			> div {
+				width: 186px;
+				text-align: left;
+			}
+
+			.MatcCanvasCommentMessage {
+				overflow: hidden;
+				white-space: normal;
+				text-overflow: ellipsis;
+				max-height: 128px;
+				height: auto;
+			}
+		}
+	}
+
+	&.Done {
+		background: $color_success;
+	}
 }
 
 .MatcCanvasCommentIcon div{
@@ -118,23 +192,21 @@
 }
 
 
-
-.MatcCanvasCommentIcon:Hover{
-  	box-shadow: 0px 1px 5px #333;
-}
-
-
 .MatcCanvasCommentDnD .MatcCanvasCommentIcon{
 	box-shadow: 0 1px 7px #333;
 }
 
 .MatcCanvasCommentOpen{
-	box-shadow: 0 0 25px 5px rgb(0 0 0 / 25%);
+    box-shadow: $comment-shadow;
 	background: #fff;
 	border-radius: $popup_radius;
 	width: 360px;
-	height: 256px;
+	height: auto;
 	z-index: 999991;
+	background: #fff;
+	// border: 1px solid $comment_border;
+	border-radius: $button_radius;
+
 
 	.MatcCommentRow {
 		display: flex;

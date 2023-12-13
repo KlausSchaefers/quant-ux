@@ -210,6 +210,10 @@ export default {
 
 			dispatchMouseDownComment (e, id, div) {
 				this.logger.log(-1,"dispatchMouseDownComment", "enter", id);
+				// the venet might come from a comment child
+				if (this.commentDivs[id]) {
+					div = this.commentDivs[id];
+				}				
 				this.onDragStart(div, id, "onCommentDndStart", "onCommntDndMove", "onCommentDndEnd", "onCommentDndClick", e);
 			},
 
