@@ -1,12 +1,12 @@
 <template>
   <div class="MatcCanvasPage" id="CanvasNode" @wheel="onMouseWheel">
     <template v-if="selectedViewMode === 'Design'">
-        <DesignToolbar ref="toolbar" :pub="pub"  @viewModeChange="onVieModeChange"/>
-        <DesignCanvas ref="canvas" />
+        <DesignToolbar ref="toolbar" :pub="pub"  @viewModeChange="onVieModeChange" />
+        <DesignCanvas ref="canvas" @viewport="onViewPortChange" :viewport="viewport" />
     </template>
     <template v-if="selectedViewMode === 'Heatmap'">
-        <AnalyticToolbar ref="toolbar" @viewModeChange="onVieModeChange"/>
-        <AnalyticCanvas ref="canvas" />
+        <AnalyticToolbar ref="toolbar" @viewModeChange="onVieModeChange" />
+        <AnalyticCanvas ref="canvas" @viewport="onViewPortChange" :viewport="viewport"/>
     </template>
  
   </div>
@@ -45,7 +45,8 @@ export default {
   mixins: [DojoWidget],
   data: function() {
     return {
-      selectedViewMode: ''
+      selectedViewMode: '',
+      viewport: null
     };
   },
   components: {
@@ -66,6 +67,9 @@ export default {
     }
   },
   methods: {
+    onViewPortChange (viewport) {
+      this.viewport = viewport
+    },
     onVieModeChange (mode) {
       this.logger.log(-1, "onVieModeChange", "enter", mode);      
       this.load(mode)
@@ -252,6 +256,7 @@ export default {
       toolbar.setModelService(service);
       toolbar.setHash(hash);
       
+      //canvas.setViewport(this.viewport)
       canvas.setController(controller);
       canvas.setCommentService(Services.getCommentService());
       canvas.setToolbar(toolbar);

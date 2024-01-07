@@ -156,7 +156,7 @@ export default {
 		renderComments() {
 
 			if (this.showComments && this.comments) {
-				this.logger.log(-2, "renderComments", "enter > ");
+				this.logger.log(2, "renderComments", "enter > ");
 				this.screenComments = {};
 				this.commentDivs = {}
 			

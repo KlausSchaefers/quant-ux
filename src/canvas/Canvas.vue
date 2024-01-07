@@ -91,6 +91,7 @@ import SVGEditor from '../svg/SVGEditor'
 
 export default {
   name: 'Canvas',
+	props:['viewport'],
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView,
 			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG, GridResize],
@@ -127,6 +128,7 @@ export default {
 				w: this.canvasFlowWidth,
 				h: this.canvasFlowHeight
 			};
+			this.initViewport()
 			this.initContainerSize();
 			this.setContainerPos();
 
@@ -182,6 +184,8 @@ export default {
 			this.controller = c;
 			c.setCanvas(this);
 		},
+
+	
 
 		getController (){
 			if(this._controllerCallback){

@@ -185,6 +185,25 @@ export default {
 			}
 		},
 
+		initViewport () {
+			// console.debug("initViewport", this.viewport)
+			// if (this.viewport) {
+		
+			// 	this.canvasPos.x = this.viewport.x
+			// 	this.canvasPos.y = this.viewport.y
+			// 	this.zoom = this.viewport.zoom
+			// 	//this.$emit("viewport", viewport)
+			// }
+		},
+
+		onViewportChange () {
+			const viewport = {
+				zoom: this.zoom,
+				x: this.canvasPos.x,
+				y: this.canvasPos.y
+			}
+			this.$emit("viewport", viewport)
+		},
 
 		/**********************************************************************
 		 * Container Size
@@ -289,6 +308,8 @@ export default {
 			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
 			}
+
+			this.onViewportChange()
 		},
 
 		isInContainer (obj){

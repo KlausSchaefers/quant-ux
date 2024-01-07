@@ -160,6 +160,7 @@ export default {
 				this.renderZoom()
 			}
 			this._lastZoom = this.zoom;
+			this.onViewportChange()
 		},
 
 

@@ -79,6 +79,7 @@ import DataProcessing from './DataProcessing'
 
 export default {
   name: "AnalyticCanvas",
+  props:['viewport'],
   mixins: [
     DojoWidget,
     _DragNDrop,
@@ -145,6 +146,7 @@ export default {
         w: this.canvasFlowWidth,
         h: this.canvasFlowHeight,
       };
+      this.initViewport()
       this.initContainerSize();
       this.setContainerPos();
 
@@ -188,7 +190,6 @@ export default {
         setTimeout(lang.hitch(this, "hideMessage"), 3000);
       }
     },
-
 
     XlineFunction(line) {
       return this.straightLineFunction(line)
@@ -929,7 +930,7 @@ export default {
     },
 
     setEvents(events) {
-      this.logger.log(-1, "setEvents", "enter > # " + events.length);
+      this.logger.log(1, "setEvents", "enter > # " + events.length);
       var analytics = new Analytics();
       this.events = analytics.nornalizeContainerChildEvents(events);
       this.df = new DataFrame(events);

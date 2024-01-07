@@ -19,7 +19,7 @@ export default {
   components: {},
   methods: {
     setEvents (events) {
-        this.logger.log(0, "setEvents", "enter > " + events.length);
+        this.logger.log(1, "setEvents", "enter > " + events.length);
         this.value = events
     },
     /**

@@ -83,11 +83,12 @@ export default {
 
 			css.remove(this.toolsDiv, "MatcToolbarSectionHidden");
 			css.remove(this.toolsCntrDiv, "MatcToolbarSectionHidden");
-			css.remove(this.distributeBtn, "hidden");
+			
 			css.remove(this.replicateBtn, "hidden");
 
 			if (this._selectedMulti || this._selectedGroup ) {
 				css.remove(this.groupDIV, "MatcToolbarSectionHidden");
+				css.remove(this.distributeBtn, "hidden");
 				if(this._selectedGroup){
 					css.add(this.groupBTN, "hidden");
 					css.remove(this.ungroupBTN, "hidden");
@@ -96,6 +97,7 @@ export default {
 					css.add(this.ungroupBTN, "hidden");
 				}
 			} else {
+				css.add(this.distributeBtn, "hidden");
 				css.add(this.groupDIV, "MatcToolbarSectionHidden");
 			}
 		},
