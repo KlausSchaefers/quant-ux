@@ -4,7 +4,7 @@ import css from 'dojo/css'
 import topic from 'dojo/topic'
 import win from 'dojo/_base/win'
 import DomBuilder from 'common/DomBuilder'
-import CanvasCommet from '../page/CanvasComment.vue'
+import CanvasCommet from '../page/CanvasComment'
 // import CheckBox from 'common/CheckBox'
 
 export default {
@@ -12,7 +12,7 @@ export default {
 	mixins: [],
 	data: function () {
 		return {
-			showComments: false,
+			showComments: true,
 			canDeleteAllComments: true
 		}
 	},
@@ -37,13 +37,17 @@ export default {
 		},
 
 		async loadComments() {
-			this.logger.log(0, "loadComments", "enter > " + this.model);
-			if (this.model && this.model.isTryOut) {
+			this.logger.log(1, "loadComments", "enter > ", this.model);
+			if (!this.model) {
+				console.error("loadComments() > no model")
+				//console.trace()
+				return
+			}
+			if (this.model.isTryOut) {
 				this.onCommentsLoaded([]);
-			} else {
-				let comments = await this.commentService.find(this.model.id, 'ScreenComment')
+			} else {		
+				let comments = await this.commentService.find(this.model.id, 'ScreenComment')	
 				this.onCommentsLoaded(comments)
-				//this._doGet("/rest/comments/apps/" + this.model.id +"/ScreenComment.json", lang.hitch(this, "onCommentsLoaded"));
 			}
 		},
 
@@ -253,7 +257,7 @@ export default {
 			box.w = Math.min(17, this.getZoomed(17, this.zoom));
 			box.h = Math.min(17, this.getZoomed(17, this.zoom))
 			const div = this.createBox(box);
-			css.add(div, "MatcCanvasCommentIcon " + comment?.status);
+			css.add(div, "MatcCanvasCommentIcon " + comment.status);
 
 			if (comment.id) {
 				const content = document.createElement('div')
@@ -278,6 +282,24 @@ export default {
 			return div;
 		},
 
+		updateCommentIcon (comment) {
+
+			const div = this.commentDivs[comment.id]
+			if (div) {
+				console.debug(div, div.parentNode)
+				if (div.parentNode) {
+					div.parentNode.removeChild(div)
+				}
+			}
+			let box = {
+				x: comment.x,
+				y: comment.y,
+			}
+			box = this.getZoomedBox(box, this.zoom, this.zoom);
+			const newDiv = this.renderCommentIcon(box, comment)
+			this.dndContainer.appendChild(newDiv);
+			this.commentDivs[comment.id] = newDiv
+		},
 
 		onCommentDndStart() {
 		},
@@ -287,7 +309,6 @@ export default {
 
 
 		onCommentDndEnd(id, div, pos) {
-			console.debug('end', id, pos)
 			if (isNaN(pos.x)) {
 				return
 			}
@@ -433,6 +454,7 @@ export default {
 					old.modified = new Date().getTime()
 					old.edited = true
 					const res = await this.commentService.update(this.model.id, old)
+					this.updateCommentIcon(comment)
 					this.onCommentSaved(res)
 				} else {
 					const res = await this.commentService.create(this.model.id, comment)

@@ -244,20 +244,21 @@ export default {
       }
 
       toolbar.setController(controller);
+      toolbar.setCommentService(Services.getCommentService());
       toolbar.setCanvas(canvas);
       toolbar.setUser(this.user);
       toolbar.setModelFactory(factory);
       toolbar.setContext(this.context);
       toolbar.setModelService(service);
-      toolbar.setCommentService(Services.getCommentService());
       toolbar.setHash(hash);
-
+      
       canvas.setController(controller);
+      canvas.setCommentService(Services.getCommentService());
       canvas.setToolbar(toolbar);
       canvas.setRenderFactory(renderFactory);
       canvas.setModelFactory(factory);
       canvas.setModelService(service);
-      canvas.setCommentService(Services.getCommentService());
+   
       canvas.setUser(this.user);
 
       // wire shit together

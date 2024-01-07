@@ -258,12 +258,12 @@ export default {
 
 		removeUserMouse (userId) {
 			if (this.mouseDivs) {
-				let div = this.mouseDivs[userId]
+				const div = this.mouseDivs[userId]
 				if (div && div.parentNode) {
 					div.parentNode.removeChild(div)
 				}
+				delete this.mouseDivs[userId]
 			}
-			delete this.mouseDivs[userId]
 		},
 
 		renderUserMouse(user) {

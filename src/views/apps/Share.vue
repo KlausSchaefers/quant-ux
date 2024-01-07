@@ -89,10 +89,10 @@ export default {
       }
 
       canvas.setController(controller);
+      canvas.setCommentService(Services.getCommentService())
       canvas.setRenderFactory(renderFactory);
       canvas.setModelFactory(factory);
       canvas.setModelService(service);
-      canvas.setCommentService(Services.getCommentService())
       canvas.setUser(this.user)
       canvas.setHash(this.$route.query.h);
 

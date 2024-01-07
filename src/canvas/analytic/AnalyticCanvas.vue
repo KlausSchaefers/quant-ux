@@ -923,14 +923,13 @@ export default {
 
     setModel(model) {
       this.sourceModel = model;
+      this.model = model
       this.grid = this.sourceModel.grid;
-      this.loadComments();
+      this.setCommentView(this.showComments);
     },
 
- 
-
     setEvents(events) {
-      this.logger.log(1, "setEvents", "enter > # " + events.length);
+      this.logger.log(-1, "setEvents", "enter > # " + events.length);
       var analytics = new Analytics();
       this.events = analytics.nornalizeContainerChildEvents(events);
       this.df = new DataFrame(events);

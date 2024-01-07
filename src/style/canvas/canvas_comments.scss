@@ -75,24 +75,24 @@
 
 		.MatcCanvasCommentDialogMessage {
 			font-size: 14px;
-			min-height: 96px;
-			//padding: 4px 8px;
+			min-height: 96px;	
 			border: 1px solid transparent;
-	
 			border-radius: $form_radius;
-		
-			&.MatcCanvasCommentDialogMessageNew{
-				border: 1px dashed $form_border;
+
+			&.MatcCanvasCommentDialogMessageEditor {
+				border: 1px solid $form_border;
+				padding: 4px 8px;
 				outline: none;
 			}
-			&:hover {
-				border: 1px dashed $form_border_hover;
+	
+			&.MatcCanvasCommentDialogMessageEditor:hover {
+				border: 1px solid $form_border_hover;
 				outline: none;
 			}
-			&:focus {
+			&.MatcCanvasCommentDialogMessageEditor:focus {
 				border: 1px solid $form_border_focus;
 				outline: none;
-				padding: 4px 8px;
+				
 			}
 		}
 	}

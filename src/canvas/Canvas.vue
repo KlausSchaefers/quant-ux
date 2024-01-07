@@ -344,6 +344,7 @@ export default {
 		setModel (model){
 			this.model = model;
 			this.onChangeCanvasViewConfig()
+			this.setCommentView(this.showComments)	
 		},
 
 		setCanvasModeListener (listener) {

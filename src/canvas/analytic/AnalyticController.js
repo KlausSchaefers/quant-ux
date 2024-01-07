@@ -49,6 +49,7 @@ export default class AnalyticController extends Core{
 
 		if (this._canvas) {
 			this._canvas.setFonts(m.fonts)
+			this._canvas.setModel(this.model)
 		}
 
 		this.logger.log(3,"setModel", "entry > " + screenID);

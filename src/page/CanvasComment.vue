@@ -25,7 +25,7 @@
                     </div>
                     <div v-else
                         @focus="isDirty = true"
-                        :class="['MatcCanvasCommentDialogMessage', { 'MatcCanvasCommentDialogMessageNew': isNew }]"
+                        :class="['MatcCanvasCommentDialogMessage MatcCanvasCommentDialogMessageEditor', { 'MatcCanvasCommentDialogMessageNew': isNew }]"
                         contenteditable="true"
                         @blur="onChange(c, $event)"
                         ref="textAreas">
@@ -91,7 +91,7 @@ export default {
         },
         getOptions (comment) {
             const isDoneLabel = comment.status === 'Done' ? 'Set Active' : 'Set Done'
-            if (this.isAuthor) {
+            if (this.isAuthor(comment)) {
                 return [
                     {label: 'Edit', callback: () => this.onEdit(comment), icon: "EditPencil"},
                     {label: isDoneLabel, callback: () => this.toggleDone(comment), icon: "CheckBoxHook"},
