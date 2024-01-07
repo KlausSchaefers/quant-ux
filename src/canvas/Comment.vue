@@ -13,6 +13,8 @@ export default {
 	data: function () {
 		return {
 			showComments: true,
+			commentSize: 25,
+			commentFontSize: 10,
 			canDeleteAllComments: true
 		}
 	},
@@ -223,7 +225,7 @@ export default {
 
 		updateCommentPositions () {
 			if (this.showComments && this.comments) {
-				this.logger.log(-2, "updateCommentPositions", "enter > ");
+				this.logger.log(2, "updateCommentPositions", "enter > ");
 
 				if (this._commentWidget) {
 					this.onCloseCommentPopup()
@@ -235,7 +237,7 @@ export default {
 					id2Div[pair.id] = pair.div
 				})
 
-				const w = Math.min(17, this.getZoomed(17, this.zoom))
+				const w = Math.min(this.commentSize, this.getZoomed(this.commentSize, this.zoom))
 				for (let commentID in this.comments) {
 					const comment = this.comments[commentID];		
 					const div = id2Div[comment.id] 
@@ -246,6 +248,7 @@ export default {
 							w: w,
 							h: w
 						};
+						div.style.fontSize = this.getZoomed(this.commentFontSize, this.zoom) + 'px'
 						box = this.getZoomedBox(box, this.zoom, this.zoom);
 						this.domUtil.setBox(div, box)
 					}
@@ -254,28 +257,51 @@ export default {
 		},
 
 		renderCommentIcon(box, comment = {}) {
-			box.w = Math.min(17, this.getZoomed(17, this.zoom));
-			box.h = Math.min(17, this.getZoomed(17, this.zoom))
+			
+			box.w = Math.min(this.commentSize, this.getZoomed(this.commentSize, this.zoom));
+			box.h = Math.min(this.commentSize, this.getZoomed(this.commentSize, this.zoom))
 			const div = this.createBox(box);
 			css.add(div, "MatcCanvasCommentIcon " + comment.status);
+			div.style.fontSize = this.getZoomed(this.commentFontSize, this.zoom) + 'px'
 
 			if (comment.id) {
+
+				const letters = document.createElement('div')
+				css.add(letters, "MatcCanvasCommentLetters")
+				letters._commentID = comment.id
+				letters.innerText = this.getUserLetter(comment.user)
+				//
+				div.appendChild(letters)
+
 				const content = document.createElement('div')
 				css.add(content, "MatcCanvasCommentPreview")
+	
 				content._commentID = comment.id
 				div.appendChild(content)
-
-				const header = document.createElement('div')
-				css.add(header, "MatcCanvasCommentHeader")
-				header.innerText = this.getUserName(comment.user)
-				header._commentID = comment.id
-				content.append(header)
 
 				const message = document.createElement('div')
 				css.add(message, "MatcCanvasCommentMessage")
 				message.innerText = comment.message
 				message._commentID = comment.id
 				content.append(message)
+
+				const footer = document.createElement('div')
+				css.add(footer, "MatcCanvasCommentFooter")
+				footer._commentID = comment.id
+			
+				const user = document.createElement('div')
+				css.add(user, "MatcCanvasCommentUser")
+				user.innerText = this.getUserName(comment.user)
+				user._commentID = comment.id
+				footer.appendChild(user)
+
+				const date = document.createElement('div')
+				css.add(date, "MatcCanvasCommentDate")
+				date.innerText = this.formatDate(comment.created)
+				date._commentID = comment.id
+				footer.appendChild(date)
+			
+				content.append(footer)
 			}
 
 
@@ -286,7 +312,6 @@ export default {
 
 			const div = this.commentDivs[comment.id]
 			if (div) {
-				console.debug(div, div.parentNode)
 				if (div.parentNode) {
 					div.parentNode.removeChild(div)
 				}
@@ -299,6 +324,12 @@ export default {
 			const newDiv = this.renderCommentIcon(box, comment)
 			this.dndContainer.appendChild(newDiv);
 			this.commentDivs[comment.id] = newDiv
+
+			this.screenComments["canvas"] = this.screenComments["canvas"].filter(c => c.id != comment.id)
+			this.screenComments["canvas"].push({
+				div: newDiv,
+				id: comment.id
+			})
 		},
 
 		onCommentDndStart() {
@@ -454,7 +485,7 @@ export default {
 					old.modified = new Date().getTime()
 					old.edited = true
 					const res = await this.commentService.update(this.model.id, old)
-					this.updateCommentIcon(comment)
+					this.updateCommentIcon(old)
 					this.onCommentSaved(res)
 				} else {
 					const res = await this.commentService.create(this.model.id, comment)

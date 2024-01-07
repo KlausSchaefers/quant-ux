@@ -133,6 +133,13 @@
 	z-index: 100000;
 	box-shadow: $comment-shadow;
 
+	.MatcCanvasCommentLetters {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 
 
 	.MatcCanvasCommentPreview {
@@ -142,13 +149,32 @@
 		overflow: hidden;
 		font-size: 12px;
 		opacity: 0;
+		
 
-		.MatcCanvasCommentHeader {
+		.MatcCanvasCommentFooter {
+			margin-top: 8px;
+			// display: flex;
+			// align-items: center;
+			// justify-content: flex-start;
+			// flex-direction: column;
+			// text-align: left;
+		}
+
+		.MatcCanvasCommentUser {
 			font-weight: 600;
+		}
+
+		.MatcCanvasCommentDate {
+			font-size: 10px;
 		}
 	}
 
 	&:hover {
+
+		.MatcCanvasCommentLetters {
+			display: none;
+		}
+
 		box-shadow: none;
 		.MatcCanvasCommentPreview{
 			opacity: 1;
@@ -180,15 +206,6 @@
 	&.Done {
 		background: $color_success;
 	}
-}
-
-.MatcCanvasCommentIcon div{
-	width: 100%;
-	text-align: center;
-}
-
-.MatcCanvasCommentFooter{
-	padding: 10px;
 }
 
 

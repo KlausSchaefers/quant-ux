@@ -149,7 +149,7 @@ export default {
 		},
 
 		onHomeMenu (option, e) {
-			this.logger.log(-1,"onHomeMenu", "entry", e);
+			this.logger.log(1,"onHomeMenu", "entry", e);
 			if (this[option.value]) {
 				this[option.value](e)
 			}
