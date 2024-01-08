@@ -320,7 +320,7 @@ export default {
             }
             if (this.gptVersion === 'gpt4-turbo-yaml') {
 
-                return aiService.runFakeYaml()
+                return aiService.runFakeYaml2()
                 //return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
 

@@ -9,16 +9,19 @@ export default class YAMLImporter extends HTMLImporter {
         super(lastUUID)
         this.formWidth = "@form-width"
         this.containerPadding = 16
+        this.paddingX = 16
+        this.paddingY = 16
     }
 
     yamlQuantUX(content, width, height, options = {}) {
         Logger.log(-1, 'YAMLImporter.yamlQuantUX() > enter', options)
         
-        
+        this.isRemoveContainers = options.isRemoveContainers
         const nodes = yaml.load(content)
 
         const root = {
             name: 'Screen',
+            type: "Screen",
             id: 's' + this.getUUID(),
             min : {
                 w : width,
@@ -35,6 +38,7 @@ export default class YAMLImporter extends HTMLImporter {
             style: {
                 background: "#fff"
             },
+            _type: "CONTAINER",
             children: []
         }
   
@@ -57,56 +61,68 @@ export default class YAMLImporter extends HTMLImporter {
 
     layoutTree (node, width, offsetX = 0, offsetY = 0, gapX = 16, gapY = 32, indent= "") {
         // 
-        console.debug(indent, '- ', node._type, node.props.label, offsetY, node.y, node.h)
+      
         let tempOffsetY = offsetY
         let tempOffsetX = offsetX
+        let paddingX = 0
+        let paddingY = 0
+        if (!this.isRemoveContainers) {
+            paddingX = this.paddingX
+            paddingY = this.paddingX
+            width -= (2 * gapX)
+        }
+        console.debug(indent, '- ', node._type, node.props.label, width, offsetY)
+
         let totalHeigth = 0
-        if (node._flexDirection === "ROW") {
+        if (this.isRowContainer(node)) {
             const l = node.children.length 
             const childWidth = Math.floor((width - ((l-1) * gapX)) / l)
             
             node.children.forEach((child) => {
-                child.y = offsetY
-                //console.debug(indent, ' >> ', child._type, child.props.label, child.y)
-
+                child.y = tempOffsetY + paddingY
+                //console.debug(indent, ' >> ', child._type, child.props.label, paddingY)
                 child.x = tempOffsetX
                 child.w = childWidth
                 tempOffsetX = child.w + tempOffsetX + gapX
-                const offsets = this.layoutTree(child, width, tempOffsetX, tempOffsetY, gapX, gapY,indent + "   ")
+                const offsets = this.layoutTree(child, width, tempOffsetX, tempOffsetY + paddingY, gapX, gapY, indent + "   ")
                 tempOffsetX = offsets.x
-                tempOffsetY = offsets.y
+                //tempOffsetY = offsets.y
 
                 totalHeigth = Math.max(totalHeigth, child.h)
             })    
 
         } else {
+
+           
+           
             node.children.forEach((child) => {
                 child.y = tempOffsetY
-                //console.debug(indent, ' >> ', child._type, child.props.label, child.y)
-                child.x = offsetX
+                //console.debug(indent, ' >> ', child._type, child.props.label)
+                child.x = tempOffsetX 
                 child.w = width
-                tempOffsetY = child.h + tempOffsetY + gapY
-                const offsets = this.layoutTree(child, width, tempOffsetX, tempOffsetY, gapX, gapY, indent + "   ")
-                tempOffsetX = offsets.x
+                tempOffsetY = child.h + tempOffsetY
+                if (!this.isRowContainer(child)) {
+                    tempOffsetY += gapY
+                }
+                const offsets = this.layoutTree(child, width, tempOffsetX + paddingX, tempOffsetY, gapX, gapY, indent + "   ")
+                //tempOffsetX = offsets.x
                 tempOffsetY = offsets.y
-                totalHeigth += child.h + gapY
-
-     
+                if (this.isContainer(child)) {
+                    tempOffsetY +=  gapY
+                }
+                totalHeigth += child.h + gapY     
             })    
         }
 
         if (node._type === "CONTAINER") {
-
-            console.debug(indent, ' done', node._type, totalHeigth)
-
-            node.h = totalHeigth
+            console.debug(node.name, totalHeigth)
+            node.h = totalHeigth + paddingY * 2
         }
-
-
 
         return {x: tempOffsetX, y: tempOffsetY}
  
     }
+
 
     parseNode (node, parent = {children:[], type:"Screen"}) {
         if (Object.keys(node).length === 1) {
@@ -132,7 +148,7 @@ export default class YAMLImporter extends HTMLImporter {
     createWidget(type, node) {
         const widgetType = this.getWidgetType(type, node)
         const pos = this.getPosition(type, node)
-        const height = type === "CONTAINER" ? 0 : "@form-height"
+        const height = this.getHeight(type)
         const has = this.getHas(widgetType)
         const props = this.getProps(type, node)
 
@@ -168,6 +184,25 @@ export default class YAMLImporter extends HTMLImporter {
         QSS.replaceBorderVariables(widget)
  
         return widget
+    }
+
+    getHeight(type) {
+        if (type === "CONTAINER")  {
+            return 0
+        }
+        if (type === "IMAGE")  {
+            return "@box-height-l"
+        }
+        return  "@form-height"
+
+    }
+
+
+    isHiddenElement(widget) {
+        if (this.isRemoveContainers && widget._type === "CONTAINER") {
+            return true
+        }
+        return false
     }
 
     getActiveStyle (type) {
@@ -250,9 +285,16 @@ export default class YAMLImporter extends HTMLImporter {
         }
        
         if (type === 'CONTAINER') {
-            result.borderColor = "red"
+            result.colorButton = "@form-border-color"
             result.borderWidth = "@border-width"
-            result.borderStyle = "dashed"
+            result.borderStyle = "solid"
+        }
+
+        if (type === 'IMAGE') {
+            result.colorButton = "@form-border-color"
+            result.borderWidth = 0
+            result.borderStyle = "solid"
+            result.backgroundImage = null
         }
 
         if (type === 'INPUT') {
@@ -353,6 +395,10 @@ export default class YAMLImporter extends HTMLImporter {
         if (type === 'BUTTON') {
             return 'Button'
         }
+
+        if (type === 'IMAGE') {
+            return 'Image'
+        }
                
         if (type === 'INPUT') {
             if (node.TYPE === 'Text') {
@@ -378,4 +424,11 @@ export default class YAMLImporter extends HTMLImporter {
 
 
     
+    isRowContainer (node) {
+        return node._flexDirection === "ROW"
+    }
+
+    isContainer (node) {
+        return node._type === "CONTAINER"
+    }
 }

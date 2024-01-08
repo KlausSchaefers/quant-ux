@@ -73,8 +73,7 @@ export default class AIService extends AbstractService {
                 CONTAINER:
                     FLEX-DIRECTION: COLUMN
                     CHILDREN:
-                        - LABEL:
-                            TYPE: Headline
+                        - IMAGE:
                             CONTENT: "Join the Party!"
                         - LABEL:
                             TYPE: Paragraph
@@ -85,9 +84,6 @@ export default class AIService extends AbstractService {
                         - INPUT:
                             TYPE: Password
                             PLACEHOLDER: "Password"
-                        - INPUT:
-                            TYPE: Password
-                            PLACEHOLDER: "Confirm Password"
                         - INPUT:
                             TYPE: Text
                             PLACEHOLDER: "Email"
@@ -101,8 +97,81 @@ export default class AIService extends AbstractService {
                                 CONTENT: "Sign Up"
                             - BUTTON:
                                 CONTENT: "Login"
+                        - INPUT:
+                            TYPE: Checkbox
+                            PLACEHOLDER: "I agree to terms and conditions"
             ` })
         }, ms)
+        })
+    }
+
+    runFakeYaml2 (ms = 200) {
+
+        return new Promise(resolve => {
+            setTimeout(() => {
+            resolve({
+                yaml:`
+                CONTAINER:
+                    FLEX-DIRECTION: COLUMN
+                    CHILDREN:
+                        - CONTAINER:
+                            FLEX-DIRECTION: COLUMN
+                            CHILDREN:
+                            - LABEL:
+                                TYPE: Headline
+                                CONTENT: "Welcome to Our Startup"
+                            - LABEL:
+                                TYPE: Paragraph
+                                CONTENT: "Innovative solutions to streamline your business."
+                            - IMAGE:
+                                CONTENT: "img/welcome-image.png"
+
+                        - CONTAINER:
+                            FLEX-DIRECTION: ROW
+                            CHILDREN:
+                            - BUTTON:
+                                CONTENT: "Learn More"
+                            - BUTTON:
+                                CONTENT: "Contact Us"
+
+                        - CONTAINER:
+                            FLEX-DIRECTION: COLUMN
+                            CHILDREN:
+                            - LABEL:
+                                TYPE: Headline
+                                CONTENT: "Sign Up Now"
+                            - LABEL:
+                                TYPE: Label
+                                CONTENT: "Full Name"
+                            - INPUT:
+                                TYPE: Text
+                                PLACEHOLDER: "Enter your name"
+
+                            - LABEL:
+                                TYPE: Label
+                                CONTENT: "Email"
+                            - INPUT:
+                                TYPE: Text
+                                PLACEHOLDER: "Enter your email"
+
+                            - LABEL:
+                                TYPE: Label
+                                CONTENT: "Password"
+                            - INPUT:
+                                TYPE: Password
+                                PLACEHOLDER: "Enter a secure password"
+
+                            - LABEL:
+                                TYPE: Label
+                                CONTENT: "Confirm Password"
+                            - INPUT:
+                                TYPE: Password
+                                PLACEHOLDER: "Re-enter your password"
+                            
+                            - BUTTON:
+                                CONTENT: "Register Now"
+        ` })
+            }, ms)
         })
     }
     
@@ -223,6 +292,8 @@ export default class AIService extends AbstractService {
             
             INPUT: An element to render a text field. It can have a PLACEHOLDER ELEMENT and a TYPE element. The TYPE can be "Text", "Checkbox", "RadioBox", "Switch", "Password" or "TextArea".
             
+            IMAGE: An element to present an image. It has a CONTENT child element. Images are optional and should only be included if needed.
+
             Please generate :
 
             ${message}

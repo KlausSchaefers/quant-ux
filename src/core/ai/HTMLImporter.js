@@ -307,6 +307,7 @@ export default class HTMLImporter {
         s.w = app.screenSize.w
         s.x = 0
         s.y = 0
+        delete s._type
         if (this.defaultStyle) {
             s.style = {
                 background: this.defaultStyle['Screen'].background
@@ -358,7 +359,7 @@ export default class HTMLImporter {
     }
 
     isHiddenElement(widget) {
-
+        
         if (isInvisibleButton(widget)) {
             Logger.log(1, 'HTMLImporter.removeHiddenElements() > Invisble' , widget)
             return true
