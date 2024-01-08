@@ -338,6 +338,7 @@ export default class HTMLImporter {
         delete w._parent
         delete w.children
         delete w._tag
+        delete w._type
         delete w._className
         delete w._flexDirection
     }

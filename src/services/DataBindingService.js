@@ -37,7 +37,6 @@ class DataBindingService {
 	}
 
 	getDefautlBindings(widget) {
-		console.debug(widget.type)
 		if (widget && widget.type === "Table") {
 			return [
 				{ label: "Input", value: "default" },
@@ -58,12 +57,12 @@ class DataBindingService {
 				{ label: "Selected", value: "output" },
 			]
 		}
-		if ([widget && "TypeAheadTextBox", "DropDown", "MobileDropDown", "CheckBoxGroup", "RadioGroup", "Timeline"].indexOf(widget.type) >= 0) {
-			return [
-				{ label: "Input & Output", value: "default" },
-				{ label: "Options", value: "options" },
-			]
-		}
+		// if ([widget && "TypeAheadTextBox", "DropDown", "MobileDropDown", "CheckBoxGroup", "RadioGroup", "Timeline"].indexOf(widget.type) >= 0) {
+		// 	return [
+		// 		{ label: "Input & Output", value: "default" },
+		// 		{ label: "Options", value: "options" },
+		// 	]
+		// }
 
 		return [{ label: "Input & Output", value: "default" }]
 	}

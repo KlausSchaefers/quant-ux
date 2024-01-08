@@ -219,6 +219,11 @@
 	.MatcDialogTableSelectCntr {
 		width: 32px;
 		padding: 8px 16px;
+
+		.MatcVerticalCenter {
+			display: flex;
+			align-items: center;
+		}
 	}
 
 	td.MatcDialogTableAction {

@@ -18,7 +18,10 @@
                  <tbody>
                     <tr class="" v-for="variable in modelVariables" :key="variable.name">
                         <td class="MatcDialogTableSelectCntr">
-                            <CheckBox :value="variable.selected" @change="onSelectVariable($event, variable.name)"/>
+                            <div class="MatcVerticalCenter">
+                                <CheckBox :value="variable.selected" @change="onSelectVariable($event, variable.name)"/>
+                            </div>
+                         
                         </td>                 
                         <td class="MatcDialogTableMaxRow">                
                             <span class="MatcDataBindingVariableName">

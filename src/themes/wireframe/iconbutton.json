@@ -19,6 +19,7 @@
 		"textAlign" : "center",
         "verticalAlign" : "middle",
         "icon": "mdi mdi-heart",
-		"iconMargin": 8
+		"iconMargin": 8,
+		"color": "@button-primary-color"	
 	}
 } ]

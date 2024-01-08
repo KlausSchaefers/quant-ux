@@ -78,7 +78,7 @@ export default class AIService extends AbstractService {
                             CONTENT: "Join the Party!"
                         - LABEL:
                             TYPE: Paragraph
-                            CONTENT: "Come on in! The more the merrier. But first, we need some details. 😜"
+                            CONTENT: "Come on in! The more the merrier. But first, we need some details"
                         - INPUT:
                             TYPE: Text
                             PLACEHOLDER: "Username"
@@ -97,14 +97,10 @@ export default class AIService extends AbstractService {
                         - CONTAINER:
                             FLEX-DIRECTION: ROW
                             CHILDREN:
-                            - LABEL:
-                                TYPE: LABEL
-                                CONTENT: "Already have an account?"
-                            - LABEL:
-                                TYPE: LABEL
-                                CONTENT: "Log in!"
                             - BUTTON:
-                                CONTENT: "Sign Up and Start Laughing!"
+                                CONTENT: "Sign Up"
+                            - BUTTON:
+                                CONTENT: "Login"
             ` })
         }, ms)
         })
