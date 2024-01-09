@@ -13,10 +13,13 @@ export default class YAMLImporter extends HTMLImporter {
         this.paddingY = 16
     }
 
-    yamlQuantUX(content, width, height, options = {}) {
+    yamlQuantUX(content, domNode, width, height, options = {}) {
         Logger.log(-1, 'YAMLImporter.yamlQuantUX() > enter', options)
         
         this.isRemoveContainers = options.isRemoveContainers
+        this.isWireFrame = options.isWireFrame
+        this.customStyle = options.customStyle
+        this.domNode = domNode
         const nodes = yaml.load(content)
 
         const root = {
@@ -45,7 +48,6 @@ export default class YAMLImporter extends HTMLImporter {
         //console.debug(JSON.stringify(nodes, null, 2))
         const tree = this.parseNode(nodes, root)
      
-
         this.layoutTree(tree, width - this.containerPadding * 2, this.containerPadding)
 
 
@@ -59,9 +61,7 @@ export default class YAMLImporter extends HTMLImporter {
         return cleanedApp
     }
 
-    layoutTree (node, width, offsetX = 0, offsetY = 0, gapX = 16, gapY = 32, indent= "") {
-        // 
-      
+    layoutTree (node, width, offsetX = 0, offsetY = 0, gapX = 16, gapY = 16, indent= "") {
         let tempOffsetY = offsetY
         let tempOffsetX = offsetX
         let paddingX = 0
@@ -71,58 +71,62 @@ export default class YAMLImporter extends HTMLImporter {
             paddingY = this.paddingX
             width -= (2 * gapX)
         }
-        console.debug(indent, '- ', node._type, node.props.label, width, offsetY)
 
         let totalHeigth = 0
         if (this.isRowContainer(node)) {
             const l = node.children.length 
-            const childWidth = Math.floor((width - ((l-1) * gapX)) / l)
-            
+            const childWidth = Math.floor((width - ((l-1) * gapX)) / l)            
             node.children.forEach((child) => {
-                child.y = tempOffsetY + paddingY
-                //console.debug(indent, ' >> ', child._type, child.props.label, paddingY)
+                child.y = tempOffsetY
                 child.x = tempOffsetX
                 child.w = childWidth
                 tempOffsetX = child.w + tempOffsetX + gapX
                 const offsets = this.layoutTree(child, width, tempOffsetX, tempOffsetY + paddingY, gapX, gapY, indent + "   ")
-                tempOffsetX = offsets.x
-                //tempOffsetY = offsets.y
-
+                tempOffsetX = offsets.x             
                 totalHeigth = Math.max(totalHeigth, child.h)
             })    
-
-        } else {
-
-           
-           
+        } else {           
             node.children.forEach((child) => {
-                child.y = tempOffsetY
-                //console.debug(indent, ' >> ', child._type, child.props.label)
                 child.x = tempOffsetX 
                 child.w = width
-                tempOffsetY = child.h + tempOffsetY
-                if (!this.isRowContainer(child)) {
-                    tempOffsetY += gapY
-                }
-                const offsets = this.layoutTree(child, width, tempOffsetX + paddingX, tempOffsetY, gapX, gapY, indent + "   ")
-                //tempOffsetX = offsets.x
-                tempOffsetY = offsets.y
+                child.y = tempOffsetY
+
                 if (this.isContainer(child)) {
-                    tempOffsetY +=  gapY
+                    tempOffsetY += paddingY
+                } else {
+                    child.h = this.computeContentHeight(child, width)
                 }
-                totalHeigth += child.h + gapY     
+                this.layoutTree(child, width, tempOffsetX + paddingX, tempOffsetY, gapX, gapY, indent + "   ")
+                tempOffsetY += child.h + gapY
+                totalHeigth += child.h + gapY              
             })    
         }
 
         if (node._type === "CONTAINER") {
-            console.debug(node.name, totalHeigth)
-            node.h = totalHeigth + paddingY * 2
+            if (this.isRowContainer(node)) {
+                totalHeigth += paddingY
+            }        
+            node.h = totalHeigth + paddingY
         }
-
-        return {x: tempOffsetX, y: tempOffsetY}
- 
+        return {x: tempOffsetX, y: tempOffsetY} 
     }
 
+    computeContentHeight (node, width) {
+        let result = node.h
+        if (node.type === 'Label') {
+            let div =document.createElement('div')
+            div.innerText = node.props.label
+            div.style.width = width + 'px'
+            div.style.fontFamily = node.style.fontFamily
+            div.style.lineHeight = node.style.lineHeight
+
+            div.style.fontSize = node.style.fontSize + 'px'
+            this.domNode.appendChild(div)
+            result = div.offsetHeight
+            this.domNode.innerText = ""
+        }
+        return result
+    }
 
     parseNode (node, parent = {children:[], type:"Screen"}) {
         if (Object.keys(node).length === 1) {
@@ -146,9 +150,10 @@ export default class YAMLImporter extends HTMLImporter {
     }
 
     createWidget(type, node) {
+
         const widgetType = this.getWidgetType(type, node)
         const pos = this.getPosition(type, node)
-        const height = this.getHeight(type)
+        const height = this.getHeight(type, node)
         const has = this.getHas(widgetType)
         const props = this.getProps(type, node)
 
@@ -191,6 +196,9 @@ export default class YAMLImporter extends HTMLImporter {
             return 0
         }
         if (type === "IMAGE")  {
+            return "@box-height-l"
+        }
+        if (type === "TABLE")  {
             return "@box-height-l"
         }
         return  "@form-height"
@@ -283,6 +291,29 @@ export default class YAMLImporter extends HTMLImporter {
             result.textAlign = "center"
             result.verticalAlign = "middle"
         }
+
+        if (type === 'TABLE') {
+            result.background = "@form-background"
+            result.borderColor = "@form-border-color"
+            result.borderWidth = "@border-width"
+            result.borderStyle = "solid"
+            result.color = "@form-color"
+            result.borderRadius = "@border-radius"
+            result.paddingBottom = "@form-padding-vertical",
+			result.paddingTop = "@form-padding-vertical",
+			result.paddingLeft = "@form-padding-horizontal",
+			result.paddingRight = "@form-padding-horizontal"
+            result.headerFontWeight = 800
+            result.headerBackground = "@form-border-color"
+            result.headerColor = "@form-background"
+            result.headerSticky = true
+            result.checkBox = false
+            result.checkBoxHookColor = "#@background-active"
+            result.checkBoxBackground = "@form-background"
+            result.checkBoxBorderColor = "@form-border-color"
+            result.checkBoxBorderRadius = "@border-radius"
+            result.checkBoxBorderWidth = 1
+        }
        
         if (type === 'CONTAINER') {
             result.colorButton = "@form-border-color"
@@ -302,7 +333,8 @@ export default class YAMLImporter extends HTMLImporter {
             result.borderColor = "@form-border-color"
             result.borderWidth = "@border-width"
             result.borderStyle = "solid"
-            result.color = "@borderRadius"
+            result.borderRadius = "@border-radius"
+            result.color = "@form-color"
             result.paddingBottom = "@form-padding-vertical",
 			result.paddingTop = "@form-padding-vertical",
 			result.paddingLeft = "@form-padding-horizontal",
@@ -316,6 +348,22 @@ export default class YAMLImporter extends HTMLImporter {
                 result.colorButton = "@form-border-color"
                 result.verticalAlign = "middle"
             }          
+        }
+
+        if (node.TYPE === 'Headline') {
+            result.fontSize = "@font-size-xl"
+        }     
+
+        if (!this.isWireFrame) {
+            if (node.BACKGROUND) {
+                result.background = node.BACKGROUND
+            }
+            if (node.COLOR) {
+                result.color = node.COLOR
+            }
+            if (node.BORDER_COLOR) {
+                result.borderColor = node.BORDER_COLOR
+            }
         }
 
         return result
@@ -340,6 +388,24 @@ export default class YAMLImporter extends HTMLImporter {
         if (node.CONTENT) {
             result.label = node.CONTENT
         }            
+
+        if (type === 'TABLE') {
+            console.debug(node)
+            if (node.COLUMNS) {
+                result.columns = node.COLUMNS.map(c => {
+                    return {      
+                        "label": c,
+                        "width": 100,
+                        "isEditable": false,
+                        "isSortable": false,
+                        "isSearchable": false                        
+                    }
+                })
+            }
+            if (node.DATA) { 
+                result.data = node.DATA
+            }
+        }
 
         if (type === 'INPUT') {
             result.placeholder = true
@@ -388,8 +454,12 @@ export default class YAMLImporter extends HTMLImporter {
             return 'Box'
         }
 
+        if (type === 'TABLE') {
+            return 'Table'
+        }
+
         if (type === 'LABEL') {
-            return 'Button'
+            return 'Label'
         }
 
         if (type === 'BUTTON') {

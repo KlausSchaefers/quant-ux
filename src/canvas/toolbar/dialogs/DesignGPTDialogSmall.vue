@@ -190,12 +190,12 @@ export default {
             isToggleWireFrameAndCustom: false,
             hasRobo: true,
             openAITemperature: 2,
-            gptVersion: 'gpt4-turbo',
+            gptVersion: 'gpt4-turbo-yaml',
             gptModels: [
-                {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
-                {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')},
-                {value: 'gpt4-turbo', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo')},
-                {value: 'gpt4-turbo-yaml', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo-yaml')}  
+                // {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
+                // {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')},          
+                {value: 'gpt4-turbo-yaml', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo-yaml')},
+                {value: 'gpt4-turbo', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo')}     
             ],
             robo: {
                 icon:'mdi mdi-robot-outline',
@@ -320,8 +320,8 @@ export default {
             }
             if (this.gptVersion === 'gpt4-turbo-yaml') {
 
-                return aiService.runFakeYaml2()
-                //return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+                //return aiService.runFakeYaml2()
+                return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
 
             return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
@@ -370,9 +370,10 @@ export default {
             const width = this.model.screenSize.w
             const height = this.model.screenSize.h
             const importer = new YAMLImporter(this.model.lastUUID)
-            const result = importer.yamlQuantUX(yaml, width, height , {
+            const result = importer.yamlQuantUX(yaml, this.$refs.iframeCntr, width, height , {
                 isRemoveContainers: this.isMinimal,
-                defaultStyle: this.getDefaultStyle()
+                isWireFrame: this.isWireFrame,
+                customStyle: this.getCustomerStyles()
             })
 
             if (result) {
@@ -390,7 +391,7 @@ export default {
             const importer = new HTMLImporter(this.model.lastUUID)
             const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
                 isRemoveContainers: this.isMinimal,
-                customStyle: this.getCustomerStyles(html),
+                customStyle: this.getCustomerStyles(),
                 defaultStyle: this.getDefaultStyle()
             })
             if (result) {

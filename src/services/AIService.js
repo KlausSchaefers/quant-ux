@@ -77,6 +77,8 @@ export default class AIService extends AbstractService {
                             CONTENT: "Join the Party!"
                         - LABEL:
                             TYPE: Paragraph
+                            COLOR: 'red'
+                            BACKGROUND: 'blue'
                             CONTENT: "Come on in! The more the merrier. But first, we need some details"
                         - INPUT:
                             TYPE: Text
@@ -114,17 +116,28 @@ export default class AIService extends AbstractService {
                 CONTAINER:
                     FLEX-DIRECTION: COLUMN
                     CHILDREN:
+                        - TABLE:
+                            COLUMNS: ["ID", "Username", "Email", "Role"]
+                            DATA:
+                            - ["1", "johndoe", "john@example.com", "Member"]
+                            - ["2", "janedoe", "jane@example.com", "Admin"]
+                            - ["3", "stevesmith", "steve@example.com", "Member"]
+                            - ["4", "maryjohnson", "mary@example.com", "Moderator"]
+                            COLOR: "#000000"
+                            BACKGROUND: "#FAFAFA"
+                            BORDER_COLOR: "#E0E0E0"
                         - CONTAINER:
                             FLEX-DIRECTION: COLUMN
                             CHILDREN:
                             - LABEL:
                                 TYPE: Headline
                                 CONTENT: "Welcome to Our Startup"
-                            - LABEL:
-                                TYPE: Paragraph
-                                CONTENT: "Innovative solutions to streamline your business."
-                            - IMAGE:
-                                CONTENT: "img/welcome-image.png"
+                                COLOR: 'red'
+                                BACKGROUND: 'blue'
+                                BORDER_COLOR: 'yellow'
+                            - BUTTON:
+                                CONTENT: "MORE."
+                                BORDER_COLOR: 'yellow'
 
                         - CONTAINER:
                             FLEX-DIRECTION: ROW
@@ -288,11 +301,16 @@ export default class AIService extends AbstractService {
             
             LABEL: An Element that can show text. It has a CONTENT element. A label has a TYPE element which can be "Headline", "Label" or "Paragraph"
 
-            BUTTON: An Element that can show text. It has a CONTENT element.
+            BUTTON: An Element that can show text. It has a CONTENT element. 
             
             INPUT: An element to render a text field. It can have a PLACEHOLDER ELEMENT and a TYPE element. The TYPE can be "Text", "Checkbox", "RadioBox", "Switch", "Password" or "TextArea".
             
             IMAGE: An element to present an image. It has a CONTENT child element. Images are optional and should only be included if needed.
+
+            TABLE: An element to present a table. It has a COLUMNS element which is a list of column names. 
+            It also has a DATA element which is an ARRAY of ARRAY of string values.
+
+            Each element can have a COLOR, BACKGROUND and BORDER_COLOR element to describe the visual appearance. The values are hex color codes.
 
             Please generate :
 
