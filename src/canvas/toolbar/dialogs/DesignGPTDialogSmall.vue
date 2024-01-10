@@ -320,8 +320,8 @@ export default {
             }
             if (this.gptVersion === 'gpt4-turbo-yaml') {
 
-                //return aiService.runFakeYaml2()
-                return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+                return aiService.runFakeYaml3()
+                //return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
 
             return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
@@ -386,19 +386,24 @@ export default {
 
         async buildAppHTML (html) {
             this.tab = 'preview'
-            const width = this.model.screenSize.w
-            const height = this.model.screenSize.h
-            const importer = new HTMLImporter(this.model.lastUUID)
-            const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
-                isRemoveContainers: this.isMinimal,
-                customStyle: this.getCustomerStyles(),
-                defaultStyle: this.getDefaultStyle()
-            })
-            if (result) {
-                this.preview = result
-                this.$nextTick(() => {
-                    this.buildPreview(result)
-                })              
+            try {
+                const width = this.model.screenSize.w
+                const height = this.model.screenSize.h
+                const importer = new HTMLImporter(this.model.lastUUID)
+                const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
+                    isRemoveContainers: this.isMinimal,
+                    customStyle: this.getCustomerStyles(),
+                    defaultStyle: this.getDefaultStyle()
+                })
+                if (result) {
+                    this.preview = result
+                    this.$nextTick(() => {
+                        this.buildPreview(result)
+                    })              
+                } 
+            } catch (err) {
+                this.hint = this.getNLS('design-gpt.no-preview'),
+                this.setError('design-gpt.error-yaml')
             }
         },
 
@@ -417,7 +422,6 @@ export default {
         },
 
         async buildPreview () {
-            console.debug('buildPreview', this.preview)
             if (!this.simulator) {
                 const sim = this.renderSimulator(this.$refs.simCntr);
                 sim.doNotRunOnLoadAnimation = true

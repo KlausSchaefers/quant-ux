@@ -11,6 +11,7 @@ export default class YAMLImporter extends HTMLImporter {
         this.containerPadding = 16
         this.paddingX = 16
         this.paddingY = 16
+        this.isFlattenLabels = false
     }
 
     yamlQuantUX(content, domNode, width, height, options = {}) {
@@ -45,11 +46,8 @@ export default class YAMLImporter extends HTMLImporter {
             children: []
         }
   
-        //console.debug(JSON.stringify(nodes, null, 2))
         const tree = this.parseNode(nodes, root)
-     
         this.layoutTree(tree, width - this.containerPadding * 2, this.containerPadding)
-
 
         const app = this.flattenTree(tree, width, height, options)
      
@@ -62,6 +60,7 @@ export default class YAMLImporter extends HTMLImporter {
     }
 
     layoutTree (node, width, offsetX = 0, offsetY = 0, gapX = 16, gapY = 16, indent= "") {
+  
         let tempOffsetY = offsetY
         let tempOffsetX = offsetX
         let paddingX = 0
@@ -72,7 +71,7 @@ export default class YAMLImporter extends HTMLImporter {
             width -= (2 * gapX)
         }
 
-        let totalHeigth = 0
+
         if (this.isRowContainer(node)) {
             const l = node.children.length 
             const childWidth = Math.floor((width - ((l-1) * gapX)) / l)            
@@ -80,10 +79,12 @@ export default class YAMLImporter extends HTMLImporter {
                 child.y = tempOffsetY
                 child.x = tempOffsetX
                 child.w = childWidth
+                if (!this.isContainer(child)) {
+                    child.h = this.computeContentHeight(child, width)
+                }
                 tempOffsetX = child.w + tempOffsetX + gapX
                 const offsets = this.layoutTree(child, width, tempOffsetX, tempOffsetY + paddingY, gapX, gapY, indent + "   ")
                 tempOffsetX = offsets.x             
-                totalHeigth = Math.max(totalHeigth, child.h)
             })    
         } else {           
             node.children.forEach((child) => {
@@ -97,18 +98,26 @@ export default class YAMLImporter extends HTMLImporter {
                     child.h = this.computeContentHeight(child, width)
                 }
                 this.layoutTree(child, width, tempOffsetX + paddingX, tempOffsetY, gapX, gapY, indent + "   ")
-                tempOffsetY += child.h + gapY
-                totalHeigth += child.h + gapY              
+                tempOffsetY += child.h + gapY           
             })    
         }
 
-        if (node._type === "CONTAINER") {
-            if (this.isRowContainer(node)) {
-                totalHeigth += paddingY
-            }        
-            node.h = totalHeigth + paddingY
+        if (node._type === "CONTAINER") {          
+            node.h = this.computeChildHeight(node) + paddingY * 2
         }
+
+        //console.debug(indent, node.type, node.id, node.props.label, node.h, node.y)
         return {x: tempOffsetX, y: tempOffsetY} 
+    }
+
+    computeChildHeight(node) {
+        let top = 1000000
+        let bottom = 0
+        node.children.forEach(c => {
+            top = Math.min(top, c.y)
+            bottom = Math.max(bottom, c.y + c.h)
+        })
+        return bottom - top
     }
 
     computeContentHeight (node, width) {

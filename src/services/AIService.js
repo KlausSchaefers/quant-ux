@@ -24,6 +24,7 @@ export default class AIService extends AbstractService {
         return this.runCompletions(message, key, 'text-davinci-003')
     }
 
+
     async runCompletions (message, key, model, temperature = 0, maxTokens = 2000) {
 
         const prompt =`
@@ -185,6 +186,66 @@ export default class AIService extends AbstractService {
                                 CONTENT: "Register Now"
         ` })
             }, ms)
+        })
+    }
+
+    runFakeYaml3 (ms = 200) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+            resolve({
+                yaml:`
+                    CONTAINER:
+                        FLEX-DIRECTION: COLUMN
+                        CHILDREN:
+                            - CONTAINER:
+                                FLEX-DIRECTION: ROW
+                                BACKGROUND: "#FFFFFF"
+                                CHILDREN:
+                                    - LABEL:
+                                        TYPE: "Headline"
+                                        CONTENT: "Join the Fun!"
+                                        COLOR: "#333333"
+                            - CONTAINER:
+                                FLEX-DIRECTION: ROW
+                                CHILDREN:
+                                    - LABEL:
+                                        TYPE: "Paragraph"
+                                        CONTENT: "Did you hear about the mathematician who's afraid of negative numbers? He'll stop at nothing to avoid them!"
+                                        COLOR: "#555555"
+                            - CONTAINER:
+                                FLEX-DIRECTION: COLUMN
+                                CHILDREN:
+                                - INPUT:
+                                    PLACEHOLDER: "Username"
+                                    TYPE: "Text"
+                                    BORDER_COLOR: "#CCCCCC"
+                                - INPUT:
+                                    PLACEHOLDER: "Email"
+                                    TYPE: "Text"
+                                    BORDER_COLOR: "#CCCCCC"
+                                - INPUT:
+                                    PLACEHOLDER: "Password"
+                                    TYPE: "Password"
+                                    BORDER_COLOR: "#CCCCCC"
+                                - INPUT:
+                                    PLACEHOLDER: "Confirm Password"
+                                    TYPE: "Password"
+                                    BORDER_COLOR: "#CCCCCC"
+                            - CONTAINER:
+                                FLEX-DIRECTION: ROW
+                                CHILDREN:
+                                - BUTTON:
+                                    CONTENT: "Sign Up"
+                                    BACKGROUND: "#FFD700"
+                                    COLOR: "#FFFFFF"
+                                    BORDER_COLOR: "#FFD700"
+                                - BUTTON:
+                                    CONTENT: "Login"
+                                    BACKGROUND: "#FFD700"
+                                    COLOR: "#FFFFFF"
+                                    BORDER_COLOR: "#FFD700"
+            ` })
+        }, ms)
         })
     }
     

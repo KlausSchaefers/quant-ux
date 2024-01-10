@@ -4,7 +4,7 @@
       <div class="MatcHeaderLeft">
      
         <a href="#/" ref="myPrototype">
-          <img src="../style/img/QUXLogo5BlueWhite.svg" class="MatcHeaderLogo" ref="logo">
+          <img src="../style/img/QUXLogo5BlueWhite2.svg" class="MatcHeaderLogo" ref="logo">
           Quant-UX
         </a>
 

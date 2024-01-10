@@ -90,6 +90,7 @@ export default class HTMLImporter {
         this.defaultStyle = false
         this.isParseTable = true
         this.grid = false
+        this.isFlattenLabels = true
         this.z = 1
     }
 
@@ -396,15 +397,19 @@ export default class HTMLImporter {
             app.widgets[child.id] = child
             scrn.children.push(child.id)
        
-            if (child.children.length === 1 && child.children[0].type === 'Label') {
-                Logger.log(1, 'HTMLImporter.flattenNode()' , child.children[0].props.label)
-                child.props.label = child.children[0].props.label
-                child.children = []
+            if (child.children.length === 1 && child.children[0].type === 'Label' && this.isFlattenLabels) {
+                this.flattenLabelIntoParent(child)
             } else {
                 this.flattenNode(scrn, app, child , prefx + "   ")
             }
 
         })
+    }
+
+    flattenLabelIntoParent (child) {
+        Logger.log(1, 'HTMLImporter.flattenNode()' , child.children[0].props.label)
+        child.props.label = child.children[0].props.label
+        child.children = []
     }
 
     cleanTree(node) {
