@@ -7,8 +7,10 @@
 $menu_left_right_width: 256px;
 
 .MatcHeader {
-	width: 100%;
-	padding: 16px;
+	max-width: 1152px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 16px 0px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -80,27 +82,5 @@ $menu_left_right_width: 256px;
 
 $mobile_gap: 24px;
 
-@media (max-width: 1600px) {
 
-	.MatcHeader {
-		max-width: 1152px;
-		margin-left: auto;
-		margin-right: auto;
-		gap: $mobile_gap;
-
-		.MatcHeaderLeft {
-			width: auto;
-			padding: 0;
-		}
-		.MatcHeaderRight,
-		.MatcHeaderCenter .MatcHeaderCenterLeft,
-		.MatcHeaderCenter .MatcHeaderCenterRight {
-			width: auto;
-			padding: 0;
-			gap: $mobile_gap;
-		}
-	}
-	
-
-}
 

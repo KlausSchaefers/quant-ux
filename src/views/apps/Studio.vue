@@ -20,13 +20,13 @@
 
                     <div class="MatcStudioNavRow MatcMarginTop MatcCollapseViewMinVisible" @click="showNewDialog">
                         <a class="MatcLink">
-                            <QIcon icon="Plus"></QIcon>
+                            <QIcon icon="Plus" :tooltip="$t('app.create')"></QIcon>
                         </a>
                     </div>
 
                     <div class="MatcStudioNavRow MatcMarginTop MatcCollapseViewMinVisible">
                         <a class="MatcLink" @click="showAppsDialog">
-                            <QIcon icon="Projects"></QIcon>
+                            <QIcon icon="Projects" :tooltip="$t('app.recent-projects')"></QIcon>
                         </a>
                     </div>
 
@@ -46,6 +46,15 @@
                             <span class="MatcStudioAppListLabel MatcStudioAction ">
                                 {{$t('app.more')}}
                             </span>    
+                        </a>
+                    </div>
+
+                    <div class="MatcStudioNavRow">
+                        <a class="MatcLink" href="#/help.html">
+                            <QIcon icon="Notification"/>
+                            <span class="MatcCollapseViewMinHidden">
+                                {{ $t('app.notifications') }}
+                            </span>
                         </a>
                     </div>
 
@@ -110,6 +119,7 @@
     </div>
 </template>
 <style lang="scss">
+  @import "../../style/matc.scss";
 @import "../../style/studio.scss";
 </style>
 <script>

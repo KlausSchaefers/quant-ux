@@ -368,6 +368,7 @@
             "run-test": "Run Test",
             "share": "Share"
         },
+        "notifications": "Updates",
         "lastEdit": "Last update",
         "numberTests": "Tests",
         "create": "Create",
