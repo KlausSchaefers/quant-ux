@@ -1,15 +1,17 @@
 <template>
-    <div class="MatcSplitView">
+    <div :class="['MatcSplitView MatcCollapseView', {'MatcCollapseViewMin': this.collapsed}]">
 
         <div :class="['MatcSplitViewChild MatcSplitViewLeft ', {'MatcSplitViewChildBorder' : left} ] " :style="leftWidth" ref="leftChild">
             <slot name="left"></slot>
         </div>
         <div :class="['MatcSplitViewBorder']" >
-            <div :class="['MatcSplitViewHandler', {'MatcSplitViewHandlerLeft' : left} , {'MatcSplitViewHandlerRight' : right} ]" @mousedown="onMousedown"></div>
+            <div :class="['MatcCollapseViewHandler', {'MatcSplitViewHandlerLeft' : left} , {'MatcSplitViewHandlerRight' : right} ]" @click="onClick">
+              <div class="MatcCollapseViewHandlerTop"></div>
+              <div class="MatcCollapseViewHandlerBottom"></div>
+            </div>
         </div>
         <div :class="['MatcSplitViewChild MatcSplitViewRight ', {'MatcSplitViewChildBorder' : right} ]" :style="rightWidth" ref="rightChild">
-      
-            <slot name="right"></slot>
+           <slot name="right"></slot>
         </div>    
     </div>
   </template>
@@ -17,15 +19,15 @@
     @import "../style/components/split_view.scss";
   </style>
   <script>
-  import {onStartDND} from '../util/DND'
   import * as ScrollUtil from '../util/ScrollUtil'
   export default {
-    name: "SplitContainer",
+    name: "CollapseContainer",
     mixins: [],
-    props: ['left', 'right', 'qid'],
+    props: ['left', 'right', 'min', 'qid'],
     data: function() {
       return {
         pos:0,
+        collapsed: false
       };
     },
     watch: {},
@@ -46,31 +48,35 @@
     components: {
     },
     methods: {
-        onMousedown (e) {
-            const pos = this.pos
-            onStartDND(e, d => {
-                if (this.left) {
-                    this.pos = pos + d.x
-                } else {
-                    this.pos = pos - d.x
-                }
-                localStorage.setItem('quxSplitContainer' + this.qid, this.pos)
-            })
+        onClick () {
+            this.setCollapsed(!this.collapsed)
+        },
+        setCollapsed (v) {
+            if (v) {
+                this.collapsed = true
+                this.pos = this.min
+            } else {
+                this.pos = this.max
+                this.collapsed = false
+            }
+            localStorage.setItem('quxCollapseContainer'+this.qid, this.collapsed)
         }
-        
     },
     async mounted() {
       if (this.left) {
         this.pos = this.left
+        this.max = this.left
       } 
       if (this.right) {
         this.pos = this.right
+        this.max = this.right
       }
       ScrollUtil.addScrollIfNeeded(this.$refs.leftChild, false)
       ScrollUtil.addScrollIfNeeded(this.$refs.rightChild, false)
-      const old = localStorage.getItem('quxSplitContainer' + this.qid)
-      if (old) {
-        this.pos = old * 1
+      let old = localStorage.getItem('quxCollapseContainer'+this.qid)
+      console.debug(old)
+      if (old === 'true') {
+        this.setCollapsed(true)
       }
     }
   };

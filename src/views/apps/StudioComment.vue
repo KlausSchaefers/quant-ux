@@ -3,9 +3,7 @@
         <div class="StudioCommentHeader">
             <QIconDropDown icon="Dots" :options="dotOptions" v-if="!isNew"/>
         </div>
-        <div class="StudioCommentMessage" v-if="mode === 'view'">
-            {{message}}
-        </div>
+        <div class="StudioCommentMessage" v-if="mode === 'view'">{{message}}</div>
         <textarea v-model="message" v-else @blur="onBlur"></textarea>
       
 

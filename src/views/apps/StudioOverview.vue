@@ -1,6 +1,6 @@
 <template>
   <div class="StudioOverview">
-    <SplitContainer :right="256">
+    <SplitContainer :right="256" qid="StudioOverView">
       <template v-slot:left>
         <div class="StudioOverviewHeader">
 

@@ -4,8 +4,38 @@
     width: 100vw;
     height: 100vh;
 
+    .MatcStudioAction {
+        font-weight: 600;
+    }
 
-    .MatcStudioRight {
+    .MatcCollapseViewMin {
+        .MatcStudioNav {
+            padding: 16px 8px;
+            justify-content: center;
+
+            .MatcQIcon {
+                justify-content: center;
+            }
+        }
+
+        .MatcStudioLogo {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .MatcStudioNavRow {
+            display: flex;
+            justify-content: center;
+
+            a {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+
+    .MatcStudioNav {
         height: 100vh;
         width: 100%;
         padding: 16px;
@@ -13,6 +43,8 @@
         flex-direction: column;
         gap: 8px;
         font-size: 14px;
+
+
 
         .MatcQIcon .MatcQIconSVG {
             stroke-width: 2.5;

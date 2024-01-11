@@ -44,4 +44,76 @@
         height: 100%;
         position: relative;
     }
+
+    .MatcCollapseViewMinVisible {
+        display: none;
+    }
 }
+
+.MatcCollapseView {
+
+    .MatcCollapseViewHandler {
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        height: 32px;
+        width: 16px;
+        cursor: pointer;
+
+
+        .MatcCollapseViewHandlerTop {
+            position: absolute;
+            height: 17px;
+            background: $page_border;
+            border-radius: 50px;
+            width: 4px;
+            top:0px;
+            transition: transform 0.2s;
+        }
+
+        .MatcCollapseViewHandlerBottom {
+            position: absolute;
+            height: 17px;
+            background: $page_border;
+            border-radius: 50px;
+            width: 4px;
+            top:12px;
+            transition: transform 0.2s;
+        }
+
+        &:hover {
+            .MatcCollapseViewHandlerTop {
+                transform: rotate(20deg);
+                background: $gray_3;
+            }
+            .MatcCollapseViewHandlerBottom {
+                transform: rotate(-20deg);
+                background: $gray_3;
+            }
+        }
+       
+    }
+
+    &.MatcCollapseViewMin {
+
+        .MatcCollapseViewHandler:hover {
+          
+            .MatcCollapseViewHandlerTop {
+                transform: rotate(-20deg);
+                background: $gray_3;
+            }
+            .MatcCollapseViewHandlerBottom {
+                transform: rotate(20deg);
+                background: $gray_3;
+            }
+        }
+
+        .MatcCollapseViewMinVisible {
+            display: block;
+        }
+        .MatcCollapseViewMinHidden {
+            display: none;
+        }
+    }
+}
+

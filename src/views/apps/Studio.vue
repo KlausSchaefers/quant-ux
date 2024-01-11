@@ -1,67 +1,83 @@
 <template>
     <div class="MatcStudio">
-        <SplitContainer :left="256">
+        <SplitContainer :left="256" :min="48" qui="Studio">
             <template v-slot:left>
-                <div class="MatcStudioRight">
+                <div class="MatcStudioNav">
                     <div class="MatcStudioLogo">        
-                        <img src="../../style/img/QUXLogo5BlueWhite2.svg" class="MatcStudioLogo" ref="logo"> Quant-UX                
+                        <img src="../../style/img/QUXLogo5BlueWhite2.svg" class="MatcStudioLogo" ref="logo"> 
+                        <span class="MatcCollapseViewMinHidden">Quant-UX</span>               
                     </div>
+                    
 
-                    <div class="MatcMarginTop">        
+                    <div class="MatcMarginTop MatcCollapseViewMinHidden">        
                         <button @click="showNewDialog" class="MatcButton MatcButtonPrimary  MatcButtonXS">
-                            <QIcon icon="Plus"/> {{ $t('app.create') }}
+                            <QIcon icon="Plus"/>
+                            <span class="MatcCollapseViewMinHidden"> 
+                                {{ $t('app.create') }}
+                            </span>
                         </button>      
                     </div>
 
-                    <!-- <div class="MatcStudioRightRow MatcMarginTop" v-if="filteredAppList.length > 0">
-                        <button @click="showAppsDialog" class="MatcButton MatcButtonSecondary  MatcButtonXS">
+                    <div class="MatcStudioNavRow MatcMarginTop MatcCollapseViewMinVisible" @click="showNewDialog">
+                        <a class="MatcLink">
+                            <QIcon icon="Plus"></QIcon>
+                        </a>
+                    </div>
+
+                    <div class="MatcStudioNavRow MatcMarginTop MatcCollapseViewMinVisible">
+                        <a class="MatcLink" @click="showAppsDialog">
                             <QIcon icon="Projects"></QIcon>
-                            {{ $t('app.projects') }}
+                        </a>
+                    </div>
 
-                        </button>
-                    </div> -->
-
-                    <div class="MatcStudioRightRow MatcMarginTop" v-if="filteredAppList.length > 0">
-                        <h4> {{ $t('app.recent-projects') }}</h4>
-                 
+                    <div class="MatcStudioNavRow MatcMarginTop" v-if="filteredAppList.length > 0">
+                        <h4 class="MatcCollapseViewMinHidden"> {{ $t('app.recent-projects') }}</h4>                 
                     </div>
  
-                    <div class="MatcStudioAppList MatcMarginBottom">
-                        <a v-for="app in filteredAppList" :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" :class="['MatcLink', {'MatcStudioAppListSelected' : selectedApp === app.id}]">
+                    <div class="MatcStudioAppList MatcMarginBottom ">
+                        <a v-for="app in filteredAppList" :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" :class="['MatcLink MatcCollapseViewMinHidden', {'MatcStudioAppListSelected' : selectedApp === app.id}]">
                             <span class="MatcStudioAppListDot" :style="{'background': app.previewColor}"/>
                             <span class="MatcStudioAppListLabel">
                                 {{app.name}}
                             </span>                                      
                         </a>
-                        <a v-if="hasMore" @click="showAppsDialog" class="MatcActionLink">
+                        <a v-if="hasMore" @click="showAppsDialog" class="MatcActionLink MatcCollapseViewMinHidden">
                             <span class="MatcStudioAppListDot" style="opacity: 0;"/>
-                            <span class="MatcStudioAppListLabel ">
+                            <span class="MatcStudioAppListLabel MatcStudioAction ">
                                 {{$t('app.more')}}
                             </span>    
                         </a>
                     </div>
 
-                    <div class="MatcStudioRightRow">
+                    <div class="MatcStudioNavRow">
                         <a class="MatcLink" href="#/help.html">
                             <QIcon icon="Book"/>
-                            {{ $t('app.help') }}
+                            <span class="MatcCollapseViewMinHidden">
+                                {{ $t('app.help') }}
+                            </span>
                         </a>
                     </div>
 
-                    <div class="MatcStudioRightRow">
+                    <div class="MatcStudioNavRow">
                         <a class="MatcLink" href="#/my-account.html" >
                             <QIcon icon="Account" v-if="!hasUserImage" ></QIcon>
-                            <span class="MatcUserImageCntr" v-else>
+                            <span class="MatcUserImageCntr " v-else>
                                 <img class="MatcUserImage" :src="userImage">
                             </span>
-                            {{userName}}
+                            <span class="MatcCollapseViewMinHidden">
+                                {{userName}}
+                            </span>
+
                         </a>
                     </div>
 
-                    <div class="MatcStudioRightRow">
+                    <div class="MatcStudioNavRow">
                         <a class="MatcLink" @click="onLogout">
                             <QIcon icon="Logout"/>
-                            {{ $t('app.logout') }}                 
+                            <span class="MatcCollapseViewMinHidden">
+                                {{ $t('app.logout') }}       
+                            </span>
+                              
                         </a>
                     </div>       
           
@@ -100,7 +116,7 @@
 import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import Services from "services/Services";
-import SplitContainer from "page/SplitContainer";
+import SplitContainer from "page/CollapseContainer";
 import StudioOverview from './StudioOverview'
 import CreateAppDialog from "page/CreateAppDialog";
 import QIcon from "page/QIcon";

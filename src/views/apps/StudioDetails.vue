@@ -33,7 +33,7 @@
             <div class="StudioDetailsComments">
                 <div class="StudioDetailsCommentsHeader">
                      <h4>{{$t('app.comments')}}</h4>
-                    <a class="MatcActionLink" @click="addComment">
+                    <a class="MatcActionLink MatcStudioAction" @click="addComment">
                         {{$t('app.add-comment')}}
                     </a>
                 </div>
