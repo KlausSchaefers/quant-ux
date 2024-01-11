@@ -94,7 +94,6 @@ export default {
     this.$root.$on('MatcLogout', (user) => {
         this.onLogout(user)
     })
-    this.logger.sendError(new Error("Boots"))
   }
 };
 </script>
